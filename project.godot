@@ -11,7 +11,22 @@ config_version=3
 [application]
 
 config/name="retour-client"
+run/main_scene="res://Scenes/main.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+logger="*res://addons/logger/logger.gd"
+
+[gdnative]
+
+singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib" ]
+
+[layer_names]
+
+3d_render/layer_1="Both"
+3d_render/layer_2="Only Desktop"
+3d_render/layer_3="Only VR"
 
 [rendering]
 

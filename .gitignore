@@ -8,3 +8,4 @@ export_presets.cfg
 
 #Project-specific ignores
 /Assets
+log.txt
