@@ -10,7 +10,7 @@ subdivide_width = 0
 subdivide_height = 0
 subdivide_depth = 0
 
-[node name="root" type="Spatial"]
+[node name="root" type="Spatial" index="0"]
 
 script = ExtResource( 1 )
 

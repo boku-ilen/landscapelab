@@ -36,6 +36,7 @@ func _on_VRToggled(turned_on):
 		
 		#remove VRPlayer
 		var VRPlayer = get_node("VRViewport")
-		VRPlayer.queue_free();
+		if VRPlayer:
+			VRPlayer.queue_free()
 	
 	pass # replace with function body
