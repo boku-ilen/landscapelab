@@ -16,8 +16,6 @@ func _ready():
 	logger.set_filename("log.txt")
 	pass
 
-
-
 func _process(delta):
 	pass
 

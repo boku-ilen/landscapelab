@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/VRPlayer.gd" type="Script" id=1]
 
-[node name="VRViewport" type="Viewport" index="0"]
+[node name="VRViewport" type="Viewport"]
 
 arvr = true
 size = Vector2( 100, 100 )
