@@ -13,6 +13,8 @@ func _ready():
 	update_preview_size()
 	get_tree().get_root().connect("size_changed", self, "update_preview_size")
 	
+	
+	
 	logger.set_filename("log.txt")
 	pass
 
@@ -29,6 +31,9 @@ func _on_VRToggled(turned_on):
 		#instantiate VRPlayer
 		var VRPlayer = preload("res://Scenes/VRPlayer.tscn").instance()
 		add_child(VRPlayer)
+		
+		#disable mouselook
+		get_node("ViewportContainer/DesktopViewport/Camera").vr_on = true
 	else:
 		logger.info("turning VR off")
 		
@@ -36,5 +41,7 @@ func _on_VRToggled(turned_on):
 		var VRPlayer = get_node("VRViewport")
 		if VRPlayer:
 			VRPlayer.queue_free()
+		
+		get_node("ViewportContainer/DesktopViewport/Camera").vr_on = false
 	
 	pass # replace with function body
