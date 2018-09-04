@@ -10,6 +10,8 @@ export(int, "Visible", "Hidden", "Caputered, Confined") var mouse_mode = 2
 
 # Mouslook settings
 export var mouselook = true
+export var controllerlook = true
+export var lock_verical_look = false
 export (float, 0.0, 1.0) var sensitivity = 0.5
 export (float, 0.0, 0.999, 0.001) var smoothness = 0.5 setget set_smoothness
 export(NodePath) var privot setget set_privot
@@ -24,6 +26,7 @@ export var movement = true
 export (float, 0.0, 1.0) var acceleration = 1.0
 export (float, 0.0, 0.0, 1.0) var deceleration = 0.1
 export var max_speed = Vector3(1.0, 1.0, 1.0)
+export var sprint_multiplier = 5
 export var local = true
 export var forward_action = "ui_up"
 export var backward_action = "ui_down"
@@ -31,6 +34,11 @@ export var left_action = "ui_left"
 export var right_action = "ui_right"
 export var up_action = "ui_page_up"
 export var down_action = "ui_page_down"
+export var look_up = "ui_look_up"
+export var look_down = "ui_look_down"
+export var look_left = "ui_look_left"
+export var look_right = "ui_look_right"
+export var sprint_action = "ui_sprint"
 
 # Gui settings
 export var use_gui = true
@@ -38,6 +46,7 @@ export var gui_action = "ui_cancel"
 
 # Intern variables.
 var _mouse_position = Vector2(0.0, 0.0)
+var _controller_position = Vector2(0.0, 0.0)
 var _yaw = 0.0
 var _pitch = 0.0
 var _total_yaw = 0.0
@@ -46,8 +55,11 @@ var _total_pitch = 0.0
 var _direction = Vector3(0.0, 0.0, 0.0)
 var _speed = Vector3(0.0, 0.0, 0.0)
 var _gui
+var sprinting = false
 
 var vr_on = false
+var vrcamera = null
+var vrorigin = null
 
 func _ready():
 	_check_actions([forward_action, backward_action, left_action, right_action, gui_action, up_action, down_action])
@@ -76,15 +88,33 @@ func _input(event):
 	if mouselook:
 		if event is InputEventMouseMotion:
 			_mouse_position = event.relative
-
-	if movement:
+			if lock_verical_look:
+				_mouse_position.y = 0
+	if controllerlook:
+		if not lock_verical_look:
+			if event.is_action_pressed(look_up):
+				_controller_position.y = -1
+			elif event.is_action_pressed(look_down):
+				_controller_position.y = 1
+			elif not Input.is_action_pressed(look_up) and not Input.is_action_pressed(look_down):
+				_controller_position.y = 0
+		else:
+			_controller_position.y = 0
+		if event.is_action_pressed(look_left):
+			_controller_position.x = -1
+		elif event.is_action_pressed(look_right):
+			_controller_position.x = 1
+		elif not Input.is_action_pressed(look_left) and not Input.is_action_pressed(look_right):
+			_controller_position.x = 0
+	
+	if movement:  #TODO rewrite once get_action_strength() is introduced in godot 3.1
 		if event.is_action_pressed(forward_action):
 			_direction.z = -1
 		elif event.is_action_pressed(backward_action):
 			_direction.z = 1
 		elif not Input.is_action_pressed(forward_action) and not Input.is_action_pressed(backward_action):
 			_direction.z = 0
-
+		
 		if event.is_action_pressed(left_action):
 			_direction.x = -1
 		elif event.is_action_pressed(right_action):
@@ -98,22 +128,26 @@ func _input(event):
 			_direction.y = -1
 		elif not Input.is_action_pressed(up_action) and not Input.is_action_pressed(down_action):
 			_direction.y = 0
+		
+		if event.is_action_pressed(sprint_action):
+			max_speed *= sprint_multiplier
+		elif event.is_action_released(sprint_action):
+			max_speed /= sprint_multiplier
 
 func _process(delta):
-	if vr_on:
-		pass
-	else:
-		if privot:
-			_update_distance()
-		if mouselook:
-			_update_mouselook()
-		if movement:
-			_update_movement(delta)
+	if privot:
+		_update_distance()
+	if vr_on and vrcamera!=null and vrcamera.is_inside_tree():
+		transform = vrcamera.global_transform
+	if mouselook or controllerlook:
+		_update_mouselook()
+	if movement:
+		_update_movement(delta)
 
 func _physics_process(delta):
 	# Called when collision are enabled
 	_update_distance()
-	if mouselook:
+	if mouselook or controllerlook:
 		_update_mouselook()
 
 	var space_state = get_world().get_direct_space_state()
@@ -136,12 +170,27 @@ func _update_movement(delta):
 	if _direction.z == 0:
 		_speed.z *= (1.0 - deceleration)
 
-	if local:
-		translate(_speed * delta)
+	if vr_on:
+		if not vrorigin == null:
+			if local:
+				#vrorigin.translate(_speed * delta)
+				vrorigin.transform.origin += vrcamera.transform.translated(_speed * delta).origin - vrcamera.transform.origin
+				
+				#this is probably wrong as it would move the origin relative to origins transform and not vrcameras
+			else:
+				vrorigin.global_translate(_speed * delta)
+		else:
+			logger.error("vrorigin is null")
+			getVRNodes()
+			pass
 	else:
-		global_translate(_speed * delta)
+		if local:
+			translate(_speed * delta)
+		else:
+			global_translate(_speed * delta)
 
 func _update_mouselook():
+	_mouse_position += _controller_position
 	_mouse_position *= sensitivity
 	_yaw = _yaw * smoothness + _mouse_position.x * (1.0 - smoothness)
 	_pitch = _pitch * smoothness + _mouse_position.y * (1.0 - smoothness)
@@ -167,8 +216,19 @@ func _update_mouselook():
 		if rotate_privot:
 			privot.rotate_y(deg2rad(-_yaw))
 	else:
-		rotate_y(deg2rad(-_yaw))
-		rotate_object_local(Vector3(1,0,0), deg2rad(-_pitch))
+		if vr_on:
+			if (vrcamera!=null and vrcamera.is_inside_tree()
+			and vrorigin!=null and vrorigin.is_inside_tree()):
+				#var nt = vrorigin.transform
+				#nt.origin = -vrcamera.transform.origin
+				#nt = nt.rotated(Vector3(0,1,0),deg2rad(-_yaw))
+				#nt = nt.translated(-vrcamera.transform.origin)
+				
+				#vrorigin.transform = nt
+				pass
+		else:
+			rotate_y(deg2rad(-_yaw))
+			rotate_object_local(Vector3(1,0,0), deg2rad(-_pitch))
 
 func _update_distance():
 	var t = privot.get_translation()
@@ -219,3 +279,18 @@ func set_smoothness(value):
 
 func set_distance(value):
 	distance = max(0, value)
+
+func set_vrmode(vrmode):
+	vr_on = vrmode
+	mouselook = !vr_on
+	lock_verical_look = vr_on
+	if vr_on:
+		getVRNodes()
+	else:
+		vrcamera = null
+		vrorigin = null
+		set_rotation(Vector3(0,0,0))
+
+func getVRNodes():
+	vrcamera = get_tree().get_root().get_node("main/VRViewport/ARVROrigin/ARVRCamera")
+	vrorigin = get_tree().get_root().get_node("main/VRViewport/ARVROrigin")

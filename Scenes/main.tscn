@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/main.gd" type="Script" id=1]
 [ext_resource path="res://addons/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=2]
@@ -12,7 +12,19 @@ subdivide_width = 0
 subdivide_height = 0
 subdivide_depth = 0
 
-[node name="root" type="Spatial" index="0"]
+[sub_resource type="CubeMesh" id=2]
+
+custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
+size = Vector3( 2, 2, 2 )
+subdivide_width = 0
+subdivide_height = 0
+subdivide_depth = 0
+
+[sub_resource type="BoxShape" id=3]
+
+extents = Vector3( 1, 1, 1 )
+
+[node name="main" type="Spatial" index="0"]
 
 script = ExtResource( 1 )
 
@@ -77,6 +89,8 @@ script = ExtResource( 2 )
 enabled = true
 mouse_mode = 2
 mouselook = true
+controllerlook = true
+lock_verical_look = false
 sensitivity = 0.5
 smoothness = 0.5
 privot = null
@@ -89,6 +103,7 @@ movement = true
 acceleration = 1.0
 deceleration = 0.1
 max_speed = Vector3( 1, 1, 1 )
+sprint_multiplier = 5
 local = true
 forward_action = "ui_up"
 backward_action = "ui_down"
@@ -96,6 +111,11 @@ left_action = "ui_left"
 right_action = "ui_right"
 up_action = "ui_page_up"
 down_action = "ui_page_down"
+look_up = "ui_look_up"
+look_down = "ui_look_down"
+look_left = "ui_look_left"
+look_right = "ui_look_right"
+sprint_action = "ui_sprint"
 use_gui = false
 gui_action = "ui_cancel"
 
@@ -132,8 +152,6 @@ script = ExtResource( 3 )
 
 [node name="world" type="Spatial" parent="." index="2"]
 
-editor/display_folded = true
-
 [node name="MeshInstance" type="MeshInstance" parent="world" index="0"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.29194 )
@@ -149,6 +167,39 @@ lod_max_hysteresis = 0.0
 mesh = SubResource( 1 )
 skeleton = NodePath("..")
 material/0 = null
+
+[node name="test floor" type="MeshInstance" parent="world" index="1"]
+
+transform = Transform( 9.41154, 0, 0, 0, 0.31921, 0, 0, 0, 9.41154, 0, -0.937649, 0 )
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 2 )
+skeleton = NodePath("..")
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="world/test floor" index="0"]
+
+editor/display_folded = true
+input_ray_pickable = true
+input_capture_on_drag = false
+collision_layer = 1
+collision_mask = 1
+friction = 1.0
+bounce = 0.0
+constant_linear_velocity = Vector3( 0, 0, 0 )
+constant_angular_velocity = Vector3( 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="world/test floor/StaticBody" index="0"]
+
+shape = SubResource( 3 )
+disabled = false
 
 [connection signal="toggled" from="ViewportContainer/DesktopViewport/VRToggle" to="." method="_on_VRToggled"]
 

@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/VRPlayer.gd" type="Script" id=1]
+[ext_resource path="res://addons/godot-openvr/scenes/ovr_controller.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/vr-common/functions/Function_Teleport.tscn" type="PackedScene" id=3]
 
 [node name="VRViewport" type="Viewport"]
 
@@ -48,5 +50,17 @@ fov = 70.0
 size = 1.0
 near = 0.05
 far = 100.0
+
+[node name="OVRController" parent="ARVROrigin" index="1" instance=ExtResource( 2 )]
+
+editor/display_folded = true
+
+[node name="Function_Teleport" parent="ARVROrigin/OVRController" index="1" instance=ExtResource( 3 )]
+
+origin = NodePath("../..")
+
+[node name="OVRController2" parent="ARVROrigin" index="2" instance=ExtResource( 2 )]
+
+controller_id = 2
 
 

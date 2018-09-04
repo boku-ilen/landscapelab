@@ -32,16 +32,16 @@ func _on_VRToggled(turned_on):
 		var VRPlayer = preload("res://Scenes/VRPlayer.tscn").instance()
 		add_child(VRPlayer)
 		
-		#disable mouselook
-		get_node("ViewportContainer/DesktopViewport/Camera").vr_on = true
+		#set vr camera mimicing on
+		get_node("ViewportContainer/DesktopViewport/Camera").set_vrmode(true)
 	else:
 		logger.info("turning VR off")
 		
-		#remove VRPlayer
+		#set vr camera mimicing off
 		var VRPlayer = get_node("VRViewport")
 		if VRPlayer:
 			VRPlayer.queue_free()
 		
-		get_node("ViewportContainer/DesktopViewport/Camera").vr_on = false
+		get_node("ViewportContainer/DesktopViewport/Camera").set_vrmode(false)
 	
 	pass # replace with function body
