@@ -4,9 +4,9 @@ extends HTTPRequest
 # var a = 2
 # var b = "textvar"
 
-func _ready():
+#func _ready():
 	#this function call does nothing besides demonstratign how requestJson() works, remove if no longer needed
-	requestJson("http://127.0.0.1:8000/dhm/test",self,"jsonReturn");
+	#requestJson("http://127.0.0.1:8000/dhm/test",self,"jsonReturn");
 
 	#request: url
 	#callObj: object to connect the response signal to (self in most cases)
@@ -14,8 +14,8 @@ func _ready():
 func requestJson(request,callOBJ,funcname):
 	request(request)
 	self.connect("request_completed",callOBJ,funcname)
-
-
+	
+	
 #this is just an example function on how to access the result
 func jsonReturn(result, response_code, headers, body):
 	var json = JSON.parse(body.get_string_from_utf8())
