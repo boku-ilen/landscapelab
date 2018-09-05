@@ -137,8 +137,8 @@ func _input(event):
 func _process(delta):
 	if privot:
 		_update_distance()
-	if vr_on and vrcamera!=null and vrcamera.is_inside_tree():
-		transform = vrcamera.global_transform
+	if vr_on and vrcamera!=null and vrcamera.get_ref():
+		transform = vrcamera.get_ref().global_transform
 	if mouselook or controllerlook:
 		_update_mouselook()
 	if movement:
@@ -171,15 +171,15 @@ func _update_movement(delta):
 		_speed.z *= (1.0 - deceleration)
 
 	if vr_on:
-		if (vrcamera!=null and vrcamera.is_inside_tree()
-		and vrorigin!=null and vrorigin.is_inside_tree()):
+		if (vrcamera!=null and vrcamera.get_ref()
+		and vrorigin!=null and vrorigin.get_ref()):
 			if local:
 				#vrorigin.translate(_speed * delta)
-				vrorigin.transform.origin += vrcamera.global_transform.translated(_speed * delta).origin - vrcamera.global_transform.origin
+				vrorigin.get_ref().transform.origin += vrcamera.get_ref().global_transform.translated(_speed * delta).origin - vrcamera.global_transform.origin
 				
 				#this is probably wrong as it would move the origin relative to origins transform and not vrcameras
 			else:
-				vrorigin.global_translate(_speed * delta)
+				vrorigin.get_ref().global_translate(_speed * delta)
 		else:
 			logger.error("vrorigin or vrcamera is null or not in tree")
 			getVRNodes()
@@ -218,14 +218,14 @@ func _update_mouselook():
 			privot.rotate_y(deg2rad(-_yaw))
 	else:
 		if vr_on:
-			if (vrcamera!=null and vrcamera.is_inside_tree()
-			and vrorigin!=null and vrorigin.is_inside_tree()):
+			if (vrcamera!=null and vrcamera.get_ref()
+			and vrorigin!=null and vrorigin.get_ref()):
 				var t1 = Transform()
 				var t2 = Transform()
 				var rot = Transform()
 				
-				t1.origin = -vrcamera.transform.origin
-				t2.origin = vrcamera.transform.origin
+				t1.origin = -vrcamera.get_ref().transform.origin
+				t2.origin = vrcamera.get_ref().transform.origin
 				
 				# Rotating
 				
@@ -235,7 +235,7 @@ func _update_mouselook():
 				else:
 					rot = rot.rotated(Vector3(0.0,1.0,0.0),-_yaw * PI / 180.0)
 				
-				vrorigin.transform *= t2 * rot * t1
+				vrorigin.get_ref().transform *= t2 * rot * t1
 				pass
 			else:
 				logger.error("vrorigin or vrcamera is null or not in tree")
@@ -307,5 +307,5 @@ func set_vrmode(vrmode):
 		set_rotation(Vector3(0,0,0))
 
 func getVRNodes():
-	vrcamera = get_tree().get_root().get_node("main/VRViewport/ARVROrigin/ARVRCamera")
-	vrorigin = get_tree().get_root().get_node("main/VRViewport/ARVROrigin")
+	vrcamera = weakref(get_tree().get_root().get_node("main/VRViewport/ARVROrigin/ARVRCamera"))
+	vrorigin = weakref(get_tree().get_root().get_node("main/VRViewport/ARVROrigin"))
