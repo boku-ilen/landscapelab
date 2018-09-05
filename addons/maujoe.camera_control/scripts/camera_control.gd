@@ -171,16 +171,17 @@ func _update_movement(delta):
 		_speed.z *= (1.0 - deceleration)
 
 	if vr_on:
-		if not vrorigin == null:
+		if (vrcamera!=null and vrcamera.is_inside_tree()
+		and vrorigin!=null and vrorigin.is_inside_tree()):
 			if local:
 				#vrorigin.translate(_speed * delta)
-				vrorigin.transform.origin += vrcamera.transform.translated(_speed * delta).origin - vrcamera.transform.origin
+				vrorigin.transform.origin += vrcamera.global_transform.translated(_speed * delta).origin - vrcamera.global_transform.origin
 				
 				#this is probably wrong as it would move the origin relative to origins transform and not vrcameras
 			else:
 				vrorigin.global_translate(_speed * delta)
 		else:
-			logger.error("vrorigin is null")
+			logger.error("vrorigin or vrcamera is null or not in tree")
 			getVRNodes()
 			pass
 	else:
@@ -219,12 +220,26 @@ func _update_mouselook():
 		if vr_on:
 			if (vrcamera!=null and vrcamera.is_inside_tree()
 			and vrorigin!=null and vrorigin.is_inside_tree()):
-				#var nt = vrorigin.transform
-				#nt.origin = -vrcamera.transform.origin
-				#nt = nt.rotated(Vector3(0,1,0),deg2rad(-_yaw))
-				#nt = nt.translated(-vrcamera.transform.origin)
+				var t1 = Transform()
+				var t2 = Transform()
+				var rot = Transform()
 				
-				#vrorigin.transform = nt
+				t1.origin = -vrcamera.transform.origin
+				t2.origin = vrcamera.transform.origin
+				
+				# Rotating
+				
+				if (_yaw > 0.0):
+					rot = rot.rotated(Vector3(0.0,-1.0,0.0),_yaw * PI / 180.0)
+					
+				else:
+					rot = rot.rotated(Vector3(0.0,1.0,0.0),-_yaw * PI / 180.0)
+				
+				vrorigin.transform *= t2 * rot * t1
+				pass
+			else:
+				logger.error("vrorigin or vrcamera is null or not in tree")
+				getVRNodes()
 				pass
 		else:
 			rotate_y(deg2rad(-_yaw))
