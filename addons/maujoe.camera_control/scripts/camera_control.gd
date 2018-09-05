@@ -175,7 +175,7 @@ func _update_movement(delta):
 		and vrorigin!=null and vrorigin.get_ref()):
 			if local:
 				#vrorigin.translate(_speed * delta)
-				vrorigin.get_ref().transform.origin += vrcamera.get_ref().global_transform.translated(_speed * delta).origin - vrcamera.global_transform.origin
+				vrorigin.get_ref().transform.origin += vrcamera.get_ref().global_transform.translated(_speed * delta).origin - vrcamera.get_ref().global_transform.origin
 				
 				#this is probably wrong as it would move the origin relative to origins transform and not vrcameras
 			else:
