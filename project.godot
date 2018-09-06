@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 logger="*res://addons/logger/logger.gd"
+ServerConnection="*res://Scripts/ServerConnection.gd"
 
 [gdnative]
 
@@ -72,6 +73,10 @@ ui_sprint=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_name"
 3d_render/layer_1="Both"
 3d_render/layer_2="Only Desktop"
 3d_render/layer_3="Only VR"
+
+[memory]
+
+limits/message_queue/max_size_kb=1048576
 
 [rendering]
 

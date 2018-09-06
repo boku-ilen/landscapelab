@@ -16,6 +16,8 @@ func _ready():
 	
 	
 	logger.set_filename("log.txt")
+	#logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/DTM_10x10_UTM_30km.tif",8000).result))
+	logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/bisamberg_klein.png",8000).result))
 	pass
 
 func _process(delta):
