@@ -18,6 +18,7 @@ config/icon="res://icon.png"
 
 logger="*res://addons/logger/logger.gd"
 ServerConnection="*res://Scripts/ServerConnection.gd"
+global="*res://Scripts/global.gd"
 
 [gdnative]
 

@@ -1,4 +1,7 @@
+tool
 extends Spatial
+
+onready var world = get_node("World")
 
 # class member variables go here, for example:
 # var a = 2
@@ -12,18 +15,18 @@ func _ready():
 	# init our viewport size and register resize 
 	update_preview_size()
 	get_tree().get_root().connect("size_changed", self, "update_preview_size")
-	
-	
-	
+		
 	logger.set_filename("log.txt")
-	#logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/DTM_10x10_UTM_30km.tif",8000).result))
-	logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/bisamberg_klein.png",8000).result))
+	#logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/300.tif/10/0",8000).result))
+	#logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/bisamberg_klein.png",8000).result))
+	
+	var jsonTerrain = ServerConnection.getJson("http://127.0.0.1","/dhm/300.tif",8000)
+	world.createWorld(jsonTerrain, 300, 300) #300px -> 301x301 height-points json-data
+	
 	pass
 
 func _process(delta):
 	pass
-
-
 
 
 func _on_VRToggled(turned_on):

@@ -76,11 +76,13 @@ func getJson(host,url,port):
 				OS.delay_usec(1000)
 			else:
 				rll += chunk.size()
-				logger.info(str(round((rll/rl)*100)) + "% finished")
+				#logger.info(str(round((rll/rl)*100)) + "% finished")
 				rb = rb + chunk # Append to read buffer
 		
 		# Done!
 		
 		logger.info("bytes got: " + str(rb.size()))
 		var text = rb.get_string_from_ascii()
-		return JSON.parse(text)
+				
+		#return JSON.parse(text)
+		return(text)

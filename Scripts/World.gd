@@ -6,7 +6,7 @@ onready var terrain = get_node("Terrain")
 #onready var multimesh = get_node("MultiMeshInstance")
 #var testMesh = preload("res://Objects/cube.tres")
 
-func _ready():
+func createWorld(jsonTerrain, size, resolution):
 
 	#load data and create surface
 	#var terrainPath = "res://dhm_3000.json"
@@ -15,14 +15,19 @@ func _ready():
 	#var resolution = 300
 	
 	#var terrainPath = "res://300.json"
-	var originSize = 3000
-	var size = 300
-	var resolution = 30
-	var terrainMesh = terrain.createTerrain(size, resolution, originSize/resolution)
+	#var originSize = 3000
+
+	var dataset = []
+	dataset = terrain.jsonTerrain(jsonTerrain)
+		
+	#TODO: normalize dataset height-data: data/((max-min)/(real.max-real.min))
+	#for now scale = 1000 (dependent on dataset)
+	var scale = 1000
+	var terrainMesh = terrain.createTerrain(dataset, size, resolution, scale)
 
 	#save surface for placing objects
-	#var meshPosition = terrain.get_terrain(terrainMesh)
-	#print(meshPosition)
+	var meshPosition = terrain.get_terrain(terrainMesh)
+	#print("mesh: ", meshPosition)
 
 	#place a mesh object
 	#mesh.set_translation(meshPosition[randi() % meshPosition.size()])
