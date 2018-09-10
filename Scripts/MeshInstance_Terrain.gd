@@ -22,9 +22,14 @@ func createTerrain(dataset, size, resolution, height_scale):
 	var mesh = Mesh.new()
 	var surfTool = SurfaceTool.new()
 	var material = SpatialMaterial.new()
-
-	surfTool.set_material(material)
+	
+	#TODO: to load from server (should also work with jpg/png)
+	#material.flags_unshaded = true;
+	#material.albedo_texture = load("res://Images/ortofoto.tres")
+	
 	surfTool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	surfTool.set_material(material)
+
 	surfTool.add_smooth_group(true)
 	surfTool.add_color(Color(1, 0, 0, 1))
 

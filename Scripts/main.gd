@@ -3,9 +3,7 @@ extends Spatial
 
 onready var world = get_node("World")
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+#TODO: load objects from server (jpg/png/tres)
 
 func update_preview_size():
 	var new_size = OS.window_size
@@ -20,7 +18,7 @@ func _ready():
 	#logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/300.tif/10/0",8000).result))
 	#logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/bisamberg_klein.png",8000).result))
 	
-	var jsonTerrain = ServerConnection.getJson("http://127.0.0.1","/dhm/300.tif",8000)
+	var jsonTerrain = ServerConnection.getJson("http://127.0.0.1","/dhm/DTM_10x10_UTM_30km.tif/10/0",8000)
 	world.createWorld(jsonTerrain, 300, 300) #300px -> 301x301 height-points json-data
 	
 	pass

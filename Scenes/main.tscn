@@ -34,6 +34,7 @@ extents = Vector3( 1, 1, 1 )
 [node name="main" type="Spatial" index="0"]
 
 script = ExtResource( 1 )
+_sections_unfolded = [ "Pause", "Transform", "Visibility" ]
 
 [node name="ViewportContainer" type="ViewportContainer" parent="." index="0"]
 

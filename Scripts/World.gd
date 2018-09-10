@@ -7,22 +7,14 @@ onready var terrain = get_node("Terrain")
 #var testMesh = preload("res://Objects/cube.tres")
 
 func createWorld(jsonTerrain, size, resolution):
-
-	#load data and create surface
-	#var terrainPath = "res://dhm_3000.json"
-	#var originSize = 30000
-	#var size = 3000
-	#var resolution = 300
 	
-	#var terrainPath = "res://300.json"
-	#var originSize = 3000
+	#TODO: load PixelSize from .py
+	#TODO: load originRange from .py
 
 	var dataset = []
 	dataset = terrain.jsonTerrain(jsonTerrain)
 		
-	#TODO: normalize dataset height-data: data/((max-min)/(real.max-real.min))
-	#for now scale = 1000 (dependent on dataset)
-	var scale = 1000
+	var scale = 100 #TODO: check if scale=pixelSize*res_size and set properly
 	var terrainMesh = terrain.createTerrain(dataset, size, resolution, scale)
 
 	#save surface for placing objects
