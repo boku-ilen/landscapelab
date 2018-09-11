@@ -137,7 +137,7 @@ func _input(event):
 func _process(delta):
 	if privot:
 		_update_distance()
-	if vr_on and vrcamera!=null and vrcamera.get_ref():
+	if vr_on and VRNodesValid():
 		transform = vrcamera.get_ref().global_transform
 	if mouselook or controllerlook:
 		_update_mouselook()
@@ -155,6 +155,8 @@ func _physics_process(delta):
 	if not obstacle.empty():
 		set_translation(obstacle.position)
 
+# TODO might have to check vr movement, I think there could be a bug where you tend to drift lightly upwards while trying to move forward
+# could also be my imagination though
 func _update_movement(delta):
 	var offset = max_speed * acceleration * _direction
 	
@@ -171,8 +173,7 @@ func _update_movement(delta):
 		_speed.z *= (1.0 - deceleration)
 
 	if vr_on:
-		if (vrcamera!=null and vrcamera.get_ref()
-		and vrorigin!=null and vrorigin.get_ref()):
+		if VRNodesValid():
 			if local:
 				#vrorigin.translate(_speed * delta)
 				vrorigin.get_ref().transform.origin += vrcamera.get_ref().global_transform.translated(_speed * delta).origin - vrcamera.get_ref().global_transform.origin
@@ -218,8 +219,7 @@ func _update_mouselook():
 			privot.rotate_y(deg2rad(-_yaw))
 	else:
 		if vr_on:
-			if (vrcamera!=null and vrcamera.get_ref()
-			and vrorigin!=null and vrorigin.get_ref()):
+			if VRNodesValid():
 				var t1 = Transform()
 				var t2 = Transform()
 				var rot = Transform()
@@ -301,6 +301,10 @@ func set_vrmode(vrmode):
 	lock_verical_look = vr_on
 	if vr_on:
 		getVRNodes()
+		if VRNodesValid():
+			#teleport vr headset to camera
+			vrorigin.get_ref().global_transform.origin = global_transform.origin - vrcamera.get_ref().transform.origin
+		
 	else:
 		vrcamera = null
 		vrorigin = null
@@ -309,3 +313,9 @@ func set_vrmode(vrmode):
 func getVRNodes():
 	vrcamera = weakref(get_tree().get_root().get_node("main/VRViewport/ARVROrigin/ARVRCamera"))
 	vrorigin = weakref(get_tree().get_root().get_node("main/VRViewport/ARVROrigin"))
+
+func VRNodesValid():
+	if (vrcamera!=null and vrcamera.get_ref()
+	and vrorigin!=null and vrorigin.get_ref()):
+			return true
+	return false

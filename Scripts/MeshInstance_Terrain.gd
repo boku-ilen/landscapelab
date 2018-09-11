@@ -81,6 +81,9 @@ func createTerrain(dataset, size, resolution, height_scale):
 	surfTool.commit(mesh)	
 	set_mesh(mesh)
 	
+	#create collider for camera control and vr teleport
+	create_trimesh_collision()
+	
 	return(mesh)
 	
 func get_terrain(mesh):

@@ -78,6 +78,7 @@ shadow_atlas_quad_0 = 2
 shadow_atlas_quad_1 = 2
 shadow_atlas_quad_2 = 3
 shadow_atlas_quad_3 = 4
+_sections_unfolded = [ "Audio Listener", "GUI", "Physics", "Render Target", "Rendering", "Shadow Atlas" ]
 
 [node name="Camera" type="Camera" parent="ViewportContainer/DesktopViewport" index="0"]
 
@@ -228,7 +229,6 @@ _sections_unfolded = [ "Geometry", "Pause", "Transform", "Visibility" ]
 [node name="MeshInstance" type="MeshInstance" parent="World" index="3"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.29194 )
-visible = false
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -245,7 +245,6 @@ material/0 = null
 [node name="test floor" type="MeshInstance" parent="World" index="4"]
 
 transform = Transform( 9.41154, 0, 0, 0, 0.31921, 0, 0, 0, 9.41154, 0, -0.937649, 0 )
-visible = false
 layers = 1
 material_override = null
 cast_shadow = 1
