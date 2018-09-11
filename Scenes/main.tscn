@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/main.gd" type="Script" id=1]
 [ext_resource path="res://addons/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=2]
@@ -11,26 +11,6 @@
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 
-[sub_resource type="CubeMesh" id=2]
-
-custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
-size = Vector3( 2, 2, 2 )
-subdivide_width = 0
-subdivide_height = 0
-subdivide_depth = 0
-
-[sub_resource type="CubeMesh" id=3]
-
-custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
-size = Vector3( 2, 2, 2 )
-subdivide_width = 0
-subdivide_height = 0
-subdivide_depth = 0
-
-[sub_resource type="BoxShape" id=4]
-
-extents = Vector3( 1, 1, 1 )
-
 [node name="main" type="Spatial" index="0"]
 
 script = ExtResource( 1 )
@@ -38,6 +18,7 @@ _sections_unfolded = [ "Pause", "Transform", "Visibility" ]
 
 [node name="ViewportContainer" type="ViewportContainer" parent="." index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -55,6 +36,7 @@ stretch_shrink = 1
 
 [node name="DesktopViewport" type="Viewport" parent="ViewportContainer" index="0"]
 
+editor/display_folded = true
 arvr = false
 size = Vector2( 0, 0 )
 own_world = false
@@ -162,6 +144,7 @@ script = ExtResource( 3 )
 
 [node name="World" type="Spatial" parent="." index="1"]
 
+editor/display_folded = true
 script = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
@@ -225,55 +208,6 @@ mesh = SubResource( 1 )
 skeleton = NodePath("..")
 script = ExtResource( 5 )
 _sections_unfolded = [ "Geometry", "Pause", "Transform", "Visibility" ]
-
-[node name="MeshInstance" type="MeshInstance" parent="World" index="3"]
-
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.29194 )
-layers = 1
-material_override = null
-cast_shadow = 1
-extra_cull_margin = 0.0
-use_in_baked_light = false
-lod_min_distance = 0.0
-lod_min_hysteresis = 0.0
-lod_max_distance = 0.0
-lod_max_hysteresis = 0.0
-mesh = SubResource( 2 )
-skeleton = NodePath("..")
-material/0 = null
-
-[node name="test floor" type="MeshInstance" parent="World" index="4"]
-
-transform = Transform( 9.41154, 0, 0, 0, 0.31921, 0, 0, 0, 9.41154, 0, -0.937649, 0 )
-layers = 1
-material_override = null
-cast_shadow = 1
-extra_cull_margin = 0.0
-use_in_baked_light = false
-lod_min_distance = 0.0
-lod_min_hysteresis = 0.0
-lod_max_distance = 0.0
-lod_max_hysteresis = 0.0
-mesh = SubResource( 3 )
-skeleton = NodePath("..")
-material/0 = null
-
-[node name="StaticBody" type="StaticBody" parent="World/test floor" index="0"]
-
-editor/display_folded = true
-input_ray_pickable = true
-input_capture_on_drag = false
-collision_layer = 1
-collision_mask = 1
-friction = 1.0
-bounce = 0.0
-constant_linear_velocity = Vector3( 0, 0, 0 )
-constant_angular_velocity = Vector3( 0, 0, 0 )
-
-[node name="CollisionShape" type="CollisionShape" parent="World/test floor/StaticBody" index="0"]
-
-shape = SubResource( 4 )
-disabled = false
 
 [connection signal="toggled" from="ViewportContainer/DesktopViewport/VRToggle" to="." method="_on_VRToggled"]
 
