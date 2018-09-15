@@ -19,7 +19,7 @@ func createForestShape(path, size, resolution, scale):
 	jsonForest(data_text, res_size, size)
 	
 func jsonForest(text, res_size, size):
-	res_size = 10 #testing
+	var scale = 100 #testing (pixelSize x res_size)
 	var dict = {}
 	var dataset = []
 	var originRange = Vector2(567591.2158745397, 5405800.576539006)#TODO: to load from .py
@@ -38,8 +38,8 @@ func jsonForest(text, res_size, size):
 					for j in dict["features"][i]["geometry"]["coordinates"][0].size():
 						vector.x = dict["features"][i]["geometry"]["coordinates"][0][j][0]
 						vector.y = dict["features"][i]["geometry"]["coordinates"][0][j][1]
-						vector.x = (vector.x-originRange.x)/res_size-size/2
-						vector.y = (originRange.y-vector.y)/res_size-size/2
+						vector.x = (vector.x-originRange.x)/scale-size/2
+						vector.y = (originRange.y-vector.y)/scale-size/2
 						dataset.append(vector)
 					#TODO: call function which build a shape with trees
 					createShape(dataset)

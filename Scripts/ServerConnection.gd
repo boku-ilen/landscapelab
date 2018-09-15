@@ -83,6 +83,9 @@ func getJson(host,url,port):
 		
 		logger.info("bytes got: " + str(rb.size()))
 		var text = rb.get_string_from_ascii()
-				
-		#return JSON.parse(text)
-		return(text)
+		
+		var json = JSON.parse(text)
+		if json.error == OK:  # If parse OK
+			return json.result
+		else:  # If parse has errors
+			print("Error: ", json.error)

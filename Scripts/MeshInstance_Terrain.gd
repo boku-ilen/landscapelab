@@ -35,8 +35,6 @@ func createTerrain(dataset, size, resolution, height_scale):
 
 	var uvarray = []
 	var varray = []
-	uvarray.clear()
-	varray.clear()
 	var i = 0
 	var height_idx = 0
 	for z in range(resolution):
@@ -100,20 +98,14 @@ func get_terrain(mesh):
 	
 	return meshPosition
 	
-func jsonTerrain(text):
-	var dict = {}
-	var dataset = []
-	var json = JSON.parse(text)
-	if typeof(json.result) == TYPE_ARRAY:
-		dataset = json.result[0]
-	else:
-		if json.error == OK:  # If parse OK
-			dict = json.result
-			if dict.keys()[0] == "Data":
-				dataset = (dict.values()[0])[0]
-		else:  # If parse has errors
-			print("Error: ", json.error)
-			print("Error Line: ", json.error_line)
-			print("Error String: ", json.error_string)
-	return dataset
+func jsonTerrain(dict):
+	return dict["Data"][0]
+			
+func jsonTerrainOrigin(dict):
+	return dict["Metadata"]["OriginRange"]
+	
+func jsonTerrainPixel(dict):
+	return dict["Metadata"]["PixelSize"]
+	
+	
 	

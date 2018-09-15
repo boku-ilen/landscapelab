@@ -18,8 +18,11 @@ func _ready():
 	#logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/300.tif/10/0",8000).result))
 	#logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/bisamberg_klein.png",8000).result))
 	
-	var jsonTerrain = ServerConnection.getJson("http://127.0.0.1","/dhm/DTM_10x10_UTM_30km.tif/10/0",8000)
-	world.createWorld(jsonTerrain, 300, 300) #300px -> 301x301 height-points json-data
+	#TODO: if picture split, load all parts and set properly parameters: size, resolution, scale
+	var jsonTerrain = ServerConnection.getJson("http://127.0.0.1","/dhm/?filename=DTM_10x10_UTM_30km.tif&splits=10&part=0",8000)
+	var jsonForestTrees = ServerConnection.getJson("http://127.0.0.1","/assetpos?filename=forest_areas&tree_multiplier=0.00001&recalc=true",8000)
+	
+	world.createWorld(jsonTerrain, 300, 300, jsonForestTrees) #300px -> 301x301 height-points json-data
 	
 	pass
 
