@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/main.gd" type="Script" id=1]
 [ext_resource path="res://addons/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=2]
-[ext_resource path="res://Scripts/HTTPRequest.gd" type="Script" id=3]
-[ext_resource path="res://Scripts/World.gd" type="Script" id=4]
-[ext_resource path="res://Scripts/MeshInstance_Terrain.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/World.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/MeshInstance_Terrain.gd" type="Script" id=4]
 
 [sub_resource type="ArrayMesh" id=1]
 
@@ -62,7 +61,7 @@ _sections_unfolded = [ "Audio Listener", "GUI", "Physics", "Render Target", "Ren
 
 [node name="Camera" type="Camera" parent="ViewportContainer/DesktopViewport" index="0"]
 
-transform = Transform( 1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573577, 0.819152, 100, 6, 110 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.79, -29.3079 )
 keep_aspect = 1
 cull_mask = 1048571
 environment = null
@@ -76,7 +75,6 @@ size = 1.0
 near = 0.05
 far = 100.0
 script = ExtResource( 2 )
-_sections_unfolded = [ "Transform" ]
 enabled = true
 mouse_mode = 2
 mouselook = true
@@ -94,7 +92,7 @@ movement = true
 acceleration = 1.0
 deceleration = 0.1
 max_speed = Vector3( 1, 1, 1 )
-sprint_multiplier = 5
+sprint_multiplier = 20
 local = true
 forward_action = "ui_up"
 backward_action = "ui_down"
@@ -133,38 +131,14 @@ text = "VR"
 flat = false
 align = 0
 
-[node name="HTTPRequest" type="HTTPRequest" parent="ViewportContainer/DesktopViewport" index="2"]
-
-download_file = ""
-use_threads = false
-body_size_limit = -1
-max_redirects = 8
-script = ExtResource( 3 )
-
 [node name="World" type="Spatial" parent="." index="1"]
 
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Terrain" type="MeshInstance" parent="World" index="0"]
+[node name="DirectionalLight" type="DirectionalLight" parent="World" index="0"]
 
-layers = 1
-material_override = null
-cast_shadow = 1
-extra_cull_margin = 0.0
-use_in_baked_light = false
-lod_min_distance = 0.0
-lod_min_hysteresis = 0.0
-lod_max_distance = 0.0
-lod_max_hysteresis = 0.0
-mesh = SubResource( 1 )
-skeleton = NodePath("..")
-script = ExtResource( 5 )
-_sections_unfolded = [ "Geometry", "Pause", "Transform", "Visibility" ]
-
-[node name="DirectionalLight" type="DirectionalLight" parent="World" index="1"]
-
-transform = Transform( 0.925654, 0.0519377, -0.37479, -0.313256, 0.660753, -0.682112, 0.212216, 0.748805, 0.627898, 7.43743, 15.84, 40.8395 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.01902, 15.84, 40.8395 )
 layers = 1
 light_color = Color( 1, 1, 1, 1 )
 light_energy = 1.0
@@ -188,7 +162,40 @@ directional_shadow_normal_bias = 0.8
 directional_shadow_bias_split_scale = 0.25
 directional_shadow_depth_range = 0
 directional_shadow_max_distance = 200.0
-_sections_unfolded = [ "Transform" ]
+
+[node name="Camera" type="Camera" parent="World" index="1"]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18.263, -29.5493 )
+visible = false
+keep_aspect = 1
+cull_mask = 1048575
+environment = null
+h_offset = 0.0
+v_offset = 0.0
+doppler_tracking = 0
+projection = 0
+current = false
+fov = 70.0
+size = 1.0
+near = 0.05
+far = 100.0
+
+[node name="Terrain" type="MeshInstance" parent="World" index="2"]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.46234, 0 )
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 1 )
+skeleton = NodePath("..")
+script = ExtResource( 4 )
+_sections_unfolded = [ "Geometry", "Pause", "Transform", "Visibility" ]
 
 [connection signal="toggled" from="ViewportContainer/DesktopViewport/VRToggle" to="." method="_on_VRToggled"]
 
