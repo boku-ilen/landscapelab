@@ -22,7 +22,7 @@ func _ready():
 	
 	var jsonForestTrees = ServerConnection.getJson("http://127.0.0.1","/assetpos?filename=forest_areas&tree_multiplier=0.01&recalc=true",8000)
 	
-	world.createWorld("DTM_10x10_UTM_30km.tif", 10, 300, 300, jsonForestTrees) #300px -> 301x301 height-points json-data
+	world.createWorld("DTM_10x10_UTM_30km.tif", 5, jsonForestTrees) #300px -> 301x301 height-points json-data
 	
 	pass
 

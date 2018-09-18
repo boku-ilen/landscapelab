@@ -4,7 +4,7 @@
 [ext_resource path="res://addons/godot-openvr/scenes/ovr_controller.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/vr-common/functions/Function_Teleport.tscn" type="PackedScene" id=3]
 
-[node name="VRViewport" type="Viewport" index="0"]
+[node name="VRViewport" type="Viewport"]
 
 arvr = true
 size = Vector2( 100, 100 )

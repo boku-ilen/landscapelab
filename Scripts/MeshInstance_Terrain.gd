@@ -112,5 +112,7 @@ func jsonTerrainOrigin(dict):
 func jsonTerrainPixel(dict):
 	return dict["Metadata"]["PixelSize"]
 	
+func jsonTerrainDimensions(dict):
+	return dict["Metadata"]["ArrayDimensions"]
 	
 	
