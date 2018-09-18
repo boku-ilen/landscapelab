@@ -10,7 +10,7 @@
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 
-[node name="main" type="Spatial" index="0"]
+[node name="main" type="Spatial"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pause", "Transform", "Visibility" ]
@@ -73,7 +73,7 @@ current = true
 fov = 70.0
 size = 1.0
 near = 0.05
-far = 100.0
+far = 10000.0
 script = ExtResource( 2 )
 enabled = true
 mouse_mode = 2
@@ -92,7 +92,7 @@ movement = true
 acceleration = 1.0
 deceleration = 0.1
 max_speed = Vector3( 1, 1, 1 )
-sprint_multiplier = 20
+sprint_multiplier = 80
 local = true
 forward_action = "ui_up"
 backward_action = "ui_down"

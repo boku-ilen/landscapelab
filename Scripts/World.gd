@@ -6,21 +6,28 @@ onready var terrain = get_node("Terrain")
 #onready var multimesh = get_node("MultiMeshInstance")
 #var testMesh = preload("res://Objects/cube.tres")
 
-func createWorld(jsonTerrain, size, resolution, jsonForestTrees):
-
-	var dataset = terrain.jsonTerrain(jsonTerrain)
-	var originRange = terrain.jsonTerrainOrigin(jsonTerrain)
-	var pixelSize = terrain.jsonTerrainPixel(jsonTerrain)
+func createWorld(dhmName, splits, size, resolution, jsonForestTrees):
+	var meshPosition = []
+	var originRange = []
+	var pixelSize = []
+	
+	for p in range(0,splits * splits):
+		#if p in [0,1,2,10,11,12,20,21,22]: #uncomment this and indent everything else in the for loop to only load a 3x3 raster
+		var jsonTerrain = ServerConnection.getJson("http://127.0.0.1","/dhm/?filename=%s&splits=%d&part=%d" % [dhmName, splits, p],8000)
 		
-	var scale = 100 #TODO: check if scale=pixelSize*res_size and set properly
-	var terrainMesh = terrain.createTerrain(dataset, size, resolution, scale)
-
-	#save surface for placing objects
-	var meshPosition = terrain.get_terrain(terrainMesh)
+		var dataset = terrain.jsonTerrain(jsonTerrain)
+		originRange.append(terrain.jsonTerrainOrigin(jsonTerrain))
+		pixelSize.append(terrain.jsonTerrainPixel(jsonTerrain))
+		
+		var scale = 10 #TODO: check if scale=pixelSize*res_size and set properly
+		var terrainMesh = terrain.createTerrain(dataset, size, resolution, scale, splits, p)
+		
+		#save surface for placing objects
+		meshPosition.append(terrain.get_terrain(terrainMesh))
 	#print("mesh: ", meshPosition)
 
 	#create new nodes (mesh)
-	createTrees(meshPosition, size, jsonForestTrees, originRange, pixelSize)
+	createTrees(meshPosition, size, jsonForestTrees, originRange[0], pixelSize[0], splits)
 
 	#place a mesh object
 	#mesh.set_translation(meshPosition[randi() % meshPosition.size()])
@@ -33,9 +40,9 @@ func createWorld(jsonTerrain, size, resolution, jsonForestTrees):
 #	# Update game logic here.
 #	pass
 
-func createTrees(surface, size, dict, originRange, pixelSize): # + textures
+func createTrees(surface, size, dict, originRange, pixelSize, splits): # + textures
 	
-	var scale = 100 #testing (pixelSize x res_size)
+	var scale = 10 #testing (pixelSize x res_size)
 	#var mesh = load("res://Pine.tres") # for 3D
 	
 	#create billboard meshes with texture on both sides
@@ -55,10 +62,19 @@ func createTrees(surface, size, dict, originRange, pixelSize): # + textures
 		#TODO:
 			#check if XZ included on surface (in case some polygons are bigger then dhm)
 			#find real position.y on the surface for XZ coordinates!
-		position.y = surface[randi() % surface.size()].y #random Y from the surface
 		
-		if (position.x > 150): #testing, all cases for current suface should be checked
-			position.x = 150
+		#var sx = floor(position.x / size)
+		#var sy = floor(position.y / size)
+		#var sID = sx * splits + sy
+		#position.y = surface[sID][randi() % surface.size()].y #random Y from the surface
+		position.y = 0
+		var space_state = get_world().direct_space_state
+		var result = space_state.intersect_ray(position, position + Vector3(0,100,0))
+		if not result.empty():
+			position = result.position
+		
+		#if (position.x > 150): #testing, all cases for current suface should be checked
+		#	position.x = 150
 		
 		#TODO: if possible - merge following meshes (now there are two meshes for two billboard sides)
 		var newMesh = MeshInstance.new()

@@ -1,8 +1,8 @@
 tool
 extends MeshInstance
 
-func createTerrain(dataset, size, resolution, height_scale):
-	var origin = Vector3(-size/2, 0, -size/2)
+func createTerrain(dataset, size, resolution, height_scale, splits, part):
+	var origin = Vector3(-size/2, 0, -size/2) + Vector3(size * floor(part / splits),0,size * (part % splits))
 	var res_size = size/resolution
 	var arr_height = []
 		
@@ -77,10 +77,15 @@ func createTerrain(dataset, size, resolution, height_scale):
 	surfTool.generate_normals()
 	surfTool.index()
 	surfTool.commit(mesh)	
-	set_mesh(mesh)
-	
+	#set_mesh(mesh)
+	var node = MeshInstance.new()
+	var nname = "Part%d" % part
+	#node.name = nname
+	node.set_mesh(mesh)
 	#create collider for camera control and vr teleport
-	create_trimesh_collision()
+	node.create_trimesh_collision()
+	add_child(node)
+	
 	
 	return(mesh)
 	
