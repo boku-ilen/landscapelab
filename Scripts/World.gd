@@ -13,20 +13,20 @@ func createWorld(dhmName, splits, jsonForestTrees):
 	var size
 	
 	for p in range(0,splits * splits):
-		#if p in [0,1,2,10,11,12,20,21,22]: #uncomment this and indent everything else in the for loop to only load a 3x3 raster
-		var jsonTerrain = ServerConnection.getJson("http://127.0.0.1","/dhm/?filename=%s&splits=%d&part=%d" % [dhmName, splits, p],8000)
-		
-		var dataset = terrain.jsonTerrain(jsonTerrain)
-		originRange.append(terrain.jsonTerrainOrigin(jsonTerrain))
-		pixelSize.append(terrain.jsonTerrainPixel(jsonTerrain))
-		size = terrain.jsonTerrainDimensions(jsonTerrain)[0]
-		var resolution = size
-		
-		var scale = 10 #TODO: check if scale=pixelSize*res_size and set properly
-		var terrainMesh = terrain.createTerrain(dataset, size, resolution, scale, splits, p)
-		
-		#save surface for placing objects
-		meshPosition.append(terrain.get_terrain(terrainMesh))
+		if p in loadLimiter(splits): #adding a second parameter which is lower than splits (e.g. loadLimiter(splits,2)) will prompt the program to only load part of the raster (which is useful in test cases)
+			var jsonTerrain = ServerConnection.getJson("http://127.0.0.1","/dhm/?filename=%s&splits=%d&part=%d" % [dhmName, splits, p],8000)
+			
+			var dataset = terrain.jsonTerrain(jsonTerrain)
+			originRange.append(terrain.jsonTerrainOrigin(jsonTerrain))
+			pixelSize.append(terrain.jsonTerrainPixel(jsonTerrain))
+			size = terrain.jsonTerrainDimensions(jsonTerrain)[0]
+			var resolution = size
+			
+			var scale = 10 #TODO: check if scale=pixelSize*res_size and set properly
+			var terrainMesh = terrain.createTerrain(dataset, size, resolution, scale, splits, p)
+			
+			#save surface for placing objects
+			meshPosition.append(terrain.get_terrain(terrainMesh))
 	#print("mesh: ", meshPosition)
 
 	#create new nodes (mesh)
@@ -38,6 +38,19 @@ func createWorld(dhmName, splits, jsonForestTrees):
 	#place multiMesh objects
 	#multimesh.createMultiMesh(testMesh, meshPosition, 10) #meshToCopy, surface, count
 
+# this function is just for testing purposes
+# it returns an array of split-indices that includes only a fraction of all indices
+# that way loading time is reduced when testing
+#TODO definately remove in final release
+func loadLimiter(splits, include = splits):
+	if include >= splits or splits < 0:
+		return range(splits * splits)
+	
+	var ret = []
+	for z in range(include):
+		for x in range(include):
+			ret.append(x + z * splits)
+	return ret
 
 func createTrees(size, dict, originRange, pixelSize, splits): # + textures
 	

@@ -15,6 +15,7 @@ func _ready():
 	get_tree().get_root().connect("size_changed", self, "update_preview_size")
 		
 	logger.set_filename("log.txt")
+	logger.set_level(0)
 	#logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/300.tif/10/0",8000).result))
 	#logger.info(str(ServerConnection.getJson("http://127.0.0.1","/dhm/bisamberg_klein.png",8000).result))
 	
