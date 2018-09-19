@@ -61,7 +61,7 @@ _sections_unfolded = [ "Audio Listener", "GUI", "Physics", "Render Target", "Ren
 
 [node name="Camera" type="Camera" parent="ViewportContainer/DesktopViewport" index="0"]
 
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.79, -29.3079 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1500, 60.8517, 500 )
 keep_aspect = 1
 cull_mask = 1048571
 environment = null
@@ -75,6 +75,7 @@ size = 1.0
 near = 0.05
 far = 10000.0
 script = ExtResource( 2 )
+_sections_unfolded = [ "Transform" ]
 enabled = true
 mouse_mode = 2
 mouselook = true

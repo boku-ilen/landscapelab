@@ -2,39 +2,45 @@ tool
 extends Spatial
 
 onready var terrain = get_node("Terrain")
-#onready var mesh = get_node("MeshInstance")
-#onready var multimesh = get_node("MultiMeshInstance")
-#var testMesh = preload("res://Objects/cube.tres")
 
 func createWorld(dhmName, splits, jsonForestTrees):
 	var meshPosition = []
 	var originRange = []
 	var pixelSize = []
 	var size
+	var scale
+	var metadata = 0 #set 1 when metadata loaded
 	
 	for p in range(0,splits * splits):
 		if p in loadLimiter(splits): #adding a second parameter which is lower than splits (e.g. loadLimiter(splits,2)) will prompt the program to only load part of the raster (which is useful in test cases)
 			var jsonTerrain = ServerConnection.getJson("http://127.0.0.1","/dhm/?filename=%s&splits=%d&part=%d" % [dhmName, splits, p],8000)
 			
 			var dataset = terrain.jsonTerrain(jsonTerrain)
-			originRange.append(terrain.jsonTerrainOrigin(jsonTerrain))
-			pixelSize.append(terrain.jsonTerrainPixel(jsonTerrain))
-			size = terrain.jsonTerrainDimensions(jsonTerrain)[0]
-			var resolution = size
 			
-			var scale = 10 #TODO: check if scale=pixelSize*res_size and set properly
-			var terrainMesh = terrain.createTerrain(dataset, size, resolution, scale, splits, p)
+			if (metadata != 1): #if not loaded yet
+				originRange.append(terrain.jsonTerrainOrigin(jsonTerrain))
+				pixelSize.append(terrain.jsonTerrainPixel(jsonTerrain))
+				size = terrain.jsonTerrainDimensions(jsonTerrain)[0]
+				
+				scale = pixelSize[0][0] #TODO: check if set properly
+				metadata = 1
+			
+			#set res_size > 1 if not all data should be used in mesh, mesh will have the same size but will be less detaild
+			#res_size must be int, e.g. res_size = 2 -> mesh will have only a half of available data
+			var res_size = 1 #int
+				
+			var terrainMesh = terrain.createTerrain(dataset, size, res_size, scale, splits, p)
 			
 			#save surface for placing objects
-			meshPosition.append(terrain.get_terrain(terrainMesh))
-	#print("mesh: ", meshPosition)
-
+			meshPosition.append(terrain.get_terrain(terrainMesh))	
+	#print(meshPosition)
+	
 	#create new nodes (mesh)
-	createTrees(size, jsonForestTrees, originRange[0], pixelSize[0], splits)
-
+	createTrees(size, jsonForestTrees, originRange[0], scale, splits)
+	
+	#Object placing - testing (scripts: https://drive.boku.ac.at/ ILEN-Retour /Barbara/ReTour/Terrain30km)
 	#place a mesh object
 	#mesh.set_translation(meshPosition[randi() % meshPosition.size()])
-
 	#place multiMesh objects
 	#multimesh.createMultiMesh(testMesh, meshPosition, 10) #meshToCopy, surface, count
 
@@ -52,9 +58,8 @@ func loadLimiter(splits, include = splits):
 			ret.append(x + z * splits)
 	return ret
 
-func createTrees(size, dict, originRange, pixelSize, splits): # + textures
-	
-	var scale = 10 #testing (pixelSize x res_size)
+func createTrees(size, dict, originRange, scale, splits): # + textures
+
 	#var mesh = load("res://Pine.tres") # for 3D
 	
 	#create billboard meshes with texture on both sides
@@ -68,8 +73,9 @@ func createTrees(size, dict, originRange, pixelSize, splits): # + textures
 		model = dict["Data"][i]["model"] 
 		position.x = dict["Data"][i]["coord"][0]
 		position.z = dict["Data"][i]["coord"][1]
-		position.x = (position.x-originRange[0])/scale-size/2
-		position.z = (originRange[1]-position.z)/scale-size/2
+		
+		position.x = (position.x-originRange[0])/scale-size*splits/2
+		position.z = (originRange[1]-position.z)/scale-size*splits/2
 		
 		position.y = 0
 		var space_state = get_world().direct_space_state

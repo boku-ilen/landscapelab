@@ -1,23 +1,21 @@
 tool
 extends MeshInstance
 
-func createTerrain(dataset, size, resolution, height_scale, splits, part):
-	var origin = Vector3(-size/2, 0, -size/2) + Vector3(size * floor(part / splits),0,size * (part % splits))
-	var res_size = size/resolution
+func createTerrain(dataset, size, res_size, height_scale, splits, part):
+	var origin = Vector3(-size * splits/2, 0, -size * splits/2) + Vector3(size * floor(part / splits),0,size * (part % splits))
+	var resolution = size/res_size
 	var arr_height = []
-		
+	
 	var offset = size + 1 
 	if (res_size != 1):
 		offset = (offset-1) / res_size + 1
 		var dim = size + 1
 		var multipleDim = res_size * dim
-		for i in range(dataset.size()):
-			if (i % res_size == 0 && i % multipleDim < dim):
-				arr_height.append(dataset[i])
-		#print(arr_height)		
+		for i in range(0, dataset.size()):
+			if (fmod(i, res_size) == 0 && fmod(i, multipleDim) < dim):
+				arr_height.append(dataset[i])	
 	else:
 		arr_height = dataset
-		#print(arr_height)
 
 	var mesh = Mesh.new()
 	var surfTool = SurfaceTool.new()
@@ -35,7 +33,7 @@ func createTerrain(dataset, size, resolution, height_scale, splits, part):
 
 	var uvarray = []
 	var varray = []
-	var i = 0
+	
 	var height_idx = 0
 	for z in range(resolution):
 		for x in range(resolution):
