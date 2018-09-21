@@ -21,9 +21,9 @@ func _ready():
 	
 	#TODO: if picture split, load all parts and set properly parameters: size, resolution, scale
 	
-	var jsonForestTrees = ServerConnection.getJson("http://127.0.0.1","/assetpos?filename=forest_areas&tree_multiplier=0.00001&recalc=true",8000)
+	var jsonForestTrees = ServerConnection.getJson("http://127.0.0.1","/assetpos?filename=forest_areas&tree_multiplier=0.001&recalc=true",8000)
 	
-	world.createWorld("DTM_10x10_UTM_30km.tif", 5, jsonForestTrees) #300px -> 301x301 height-points json-data
+	world.createWorld("DTM_10x10_UTM_30km.tif", 5, 9, jsonForestTrees) #300px -> 301x301 height-points json-data
 	
 	pass
 

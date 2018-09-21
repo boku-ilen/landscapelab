@@ -1,21 +1,13 @@
 tool
 extends MeshInstance
 
-func createTerrain(dataset, size, res_size, height_scale, splits, part):
-	var origin = Vector3(-size * splits/2, 0, -size * splits/2) + Vector3(size * floor(part / splits),0,size * (part % splits))
-	var resolution = size/res_size
+func createTerrain(dataset, img_res,  height_scale, pixel_size, splits, part):
+	var origin = (Vector3(-img_res * splits/2, 0, -img_res * splits/2) + Vector3(img_res * floor(part / splits),0,img_res * (part % splits))) * pixel_size
 	var arr_height = []
 	
-	var offset = size + 1 
-	if (res_size != 1):
-		offset = (offset-1) / res_size + 1
-		var dim = size + 1
-		var multipleDim = res_size * dim
-		for i in range(0, dataset.size()):
-			if (fmod(i, res_size) == 0 && fmod(i, multipleDim) < dim):
-				arr_height.append(dataset[i])	
-	else:
-		arr_height = dataset
+	var offset = img_res + 1 
+	
+	arr_height = dataset
 
 	var mesh = Mesh.new()
 	var surfTool = SurfaceTool.new()
@@ -35,15 +27,15 @@ func createTerrain(dataset, size, res_size, height_scale, splits, part):
 	var varray = []
 	
 	var height_idx = 0
-	for z in range(resolution):
-		for x in range(resolution):
+	for z in range(img_res):
+		for x in range(img_res):
 				
-			uvarray.append(Vector2(x, z)/resolution)
-			varray.append(Vector3(x*res_size, float(arr_height[(height_idx)]/height_scale), z*res_size) + origin)
-			uvarray.append(Vector2(x+1, z)/resolution)
-			varray.append(Vector3((x+1)*res_size, float(arr_height[(height_idx+1)]/height_scale), z*res_size) + origin)
-			uvarray.append(Vector2(x+1, z+1)/resolution)
-			varray.append(Vector3((x+1)*res_size, float(arr_height[((height_idx+1)+offset)]/height_scale), (z+1)*res_size) + origin)
+			uvarray.append(Vector2(x, z)/img_res)
+			varray.append(Vector3(x * pixel_size, float(arr_height[(height_idx)]/height_scale), z * pixel_size) + origin)
+			uvarray.append(Vector2(x+1, z)/img_res)
+			varray.append(Vector3((x+1) * pixel_size, float(arr_height[(height_idx+1)]/height_scale), z * pixel_size) + origin)
+			uvarray.append(Vector2(x+1, z+1)/img_res)
+			varray.append(Vector3((x+1) * pixel_size, float(arr_height[((height_idx+1)+offset)]/height_scale), (z+1) * pixel_size) + origin)
 
 			surfTool.add_triangle_fan(varray,uvarray)
 			#print(varray)
@@ -53,12 +45,12 @@ func createTerrain(dataset, size, res_size, height_scale, splits, part):
 			#print("remove:")
 			#print(varray)
 			
-			uvarray.append(Vector2(x, z)/resolution)
-			varray.append(Vector3(x*res_size, float(arr_height[(height_idx)]/height_scale), z*res_size) + origin)
-			uvarray.append(Vector2(x+1, z+1)/resolution)
-			varray.append(Vector3((x+1)*res_size, float(arr_height[((height_idx+1)+offset)]/height_scale), (z+1)*res_size) + origin)
-			uvarray.append(Vector2(x, z+1)/resolution)
-			varray.append(Vector3(x*res_size, float(arr_height[((height_idx)+offset)]/height_scale), (z+1)*res_size) + origin)
+			uvarray.append(Vector2(x, z)/img_res)
+			varray.append(Vector3(x * pixel_size, float(arr_height[(height_idx)]/height_scale), z * pixel_size) + origin)
+			uvarray.append(Vector2(x+1, z+1)/img_res)
+			varray.append(Vector3((x+1) * pixel_size, float(arr_height[((height_idx+1)+offset)]/height_scale), (z+1) * pixel_size) + origin)
+			uvarray.append(Vector2(x, z+1)/img_res)
+			varray.append(Vector3(x * pixel_size, float(arr_height[((height_idx)+offset)]/height_scale), (z+1) * pixel_size) + origin)
 			
 			surfTool.add_triangle_fan(varray,uvarray)
 			#print(varray)

@@ -3,17 +3,19 @@ extends Spatial
 
 onready var terrain = get_node("Terrain")
 
-func createWorld(dhmName, splits, jsonForestTrees):
+# will have to add height scale somehow
+# also only works for 10m at the moment
+func createWorld(dhmName, splits, skip, jsonForestTrees):
 	var meshPosition = []
 	var originRange = []
 	var pixelSize = []
 	var size
-	var scale
+	var pixel_scale
 	var metadata = 0 #set 1 when metadata loaded
 	
 	for p in range(0,splits * splits):
 		if p in loadLimiter(splits): #adding a second parameter which is lower than splits (e.g. loadLimiter(splits,2)) will prompt the program to only load part of the raster (which is useful in test cases)
-			var jsonTerrain = ServerConnection.getJson("http://127.0.0.1","/dhm/?filename=%s&splits=%d&part=%d" % [dhmName, splits, p],8000)
+			var jsonTerrain = ServerConnection.getJson("http://127.0.0.1","/dhm/?filename=%s&splits=%d&skip=%d&part=%d" % [dhmName, splits, skip, p],8000)
 			
 			var dataset = terrain.jsonTerrain(jsonTerrain)
 			
@@ -22,21 +24,21 @@ func createWorld(dhmName, splits, jsonForestTrees):
 				pixelSize.append(terrain.jsonTerrainPixel(jsonTerrain))
 				size = terrain.jsonTerrainDimensions(jsonTerrain)[0]
 				
-				scale = pixelSize[0][0] #TODO: check if set properly
+				pixel_scale = pixelSize[0][0] #TODO: check if set properly
 				metadata = 1
 			
 			#set res_size > 1 if not all data should be used in mesh, mesh will have the same size but will be less detaild
 			#res_size must be int, e.g. res_size = 2 -> mesh will have only a half of available data
 			var res_size = 1 #int
 				
-			var terrainMesh = terrain.createTerrain(dataset, size, res_size, scale, splits, p)
+			var terrainMesh = terrain.createTerrain(dataset, size, 10, pixel_scale/10, splits, p)
 			
 			#save surface for placing objects
 			meshPosition.append(terrain.get_terrain(terrainMesh))	
 	#print(meshPosition)
 	
 	#create new nodes (mesh)
-	createTrees(size, jsonForestTrees, originRange[0], scale, splits)
+	createTrees(size, jsonForestTrees, originRange[0], pixel_scale, splits)
 	
 	#Object placing - testing (scripts: https://drive.boku.ac.at/ ILEN-Retour /Barbara/ReTour/Terrain30km)
 	#place a mesh object
@@ -58,7 +60,7 @@ func loadLimiter(splits, include = splits):
 			ret.append(x + z * splits)
 	return ret
 
-func createTrees(size, dict, originRange, scale, splits): # + textures
+func createTrees(size, dict, originRange, pixel_scale, splits): # + textures
 
 	#var mesh = load("res://Pine.tres") # for 3D
 	
@@ -74,8 +76,8 @@ func createTrees(size, dict, originRange, scale, splits): # + textures
 		position.x = dict["Data"][i]["coord"][0]
 		position.z = dict["Data"][i]["coord"][1]
 		
-		position.x = (position.x-originRange[0])/scale-size*splits/2
-		position.z = (originRange[1]-position.z)/scale-size*splits/2
+		position.x = (position.x-originRange[0])/10-(pixel_scale/10)*size*splits/2
+		position.z = (originRange[1]-position.z)/10-(pixel_scale/10)*size*splits/2
 		
 		position.y = 0
 		var space_state = get_world().direct_space_state
