@@ -1,11 +1,30 @@
 tool
 extends MeshInstance
 
-func createTerrain(dataset, img_res,  height_scale, pixel_size, splits, part):
+func createTerrain(dataset, img_res,  height_scale, pixel_size, splits, part, dhmName):
 	var origin = (Vector3(-img_res * splits/2, 0, -img_res * splits/2) + Vector3(img_res * floor(part / splits),0,img_res * (part % splits))) * pixel_size
+	
+	var ret = create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, part)
+	var mesh = ret[0]
+	var outer_borders = ret[1]
+	
+	#set_mesh(mesh)
+	var TerrainPart = preload("res://Scenes/TerrainPart.tscn").instance()
+	add_child(TerrainPart)
+	var nname = "TerrainPart%d" % part
+	TerrainPart.name = nname
+	TerrainPart.set_mesh(mesh)
+	TerrainPart.set_data(origin, outer_borders, dhmName, height_scale, splits, part)
+	#create collider for camera control and vr teleport
+	TerrainPart.create_trimesh_collision()
+	
+	return(mesh)
+
+
+func create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, part):
 	var arr_height = []
 	
-	var offset = img_res + 1 
+	var offset = img_res + 1
 	
 	arr_height = dataset
 
@@ -25,6 +44,7 @@ func createTerrain(dataset, img_res,  height_scale, pixel_size, splits, part):
 
 	var uvarray = []
 	var varray = []
+	var outer_borders = 0
 	
 	var height_idx = 0
 	for z in range(img_res):
@@ -54,7 +74,11 @@ func createTerrain(dataset, img_res,  height_scale, pixel_size, splits, part):
 			
 			surfTool.add_triangle_fan(varray,uvarray)
 			#print(varray)
-		
+			
+			var ob = Vector2(varray[0].x - origin.x, varray[0].z - origin.z)
+			if ob.length() > outer_borders:
+				outer_borders = ob.length()
+			
 			uvarray.clear()
 			varray.clear()
 			#print("remove:")
@@ -66,19 +90,11 @@ func createTerrain(dataset, img_res,  height_scale, pixel_size, splits, part):
 
 	surfTool.generate_normals()
 	surfTool.index()
-	surfTool.commit(mesh)	
-	#set_mesh(mesh)
-	var node = MeshInstance.new()
-	var nname = "Part%d" % part
-	#node.name = nname
-	node.set_mesh(mesh)
-	#create collider for camera control and vr teleport
-	node.create_trimesh_collision()
-	add_child(node)
+	surfTool.commit(mesh)
 	
-	
-	return(mesh)
-	
+	return [mesh, outer_borders]
+
+
 func get_terrain(mesh):
 	var tool = MeshDataTool.new()
 	var meshPosition = []
@@ -92,7 +108,8 @@ func get_terrain(mesh):
 	#tool.free() #attempted to free a reference
 	
 	return meshPosition
-	
+
+
 func jsonTerrain(dict):
 	return dict["Data"][0]
 			

@@ -31,7 +31,7 @@ func createWorld(dhmName, splits, skip, jsonForestTrees):
 			#res_size must be int, e.g. res_size = 2 -> mesh will have only a half of available data
 			var res_size = 1 #int
 				
-			var terrainMesh = terrain.createTerrain(dataset, size, 10, pixel_scale/10, splits, p)
+			var terrainMesh = terrain.createTerrain(dataset, size, 10, pixel_scale/10, splits, p, dhmName)
 			
 			#save surface for placing objects
 			meshPosition.append(terrain.get_terrain(terrainMesh))	
@@ -39,7 +39,7 @@ func createWorld(dhmName, splits, skip, jsonForestTrees):
 	
 	#create new nodes (mesh)
 	createTrees(size, jsonForestTrees, originRange[0], pixel_scale, splits)
-	
+	#print_tree_pretty()
 	#Object placing - testing (scripts: https://drive.boku.ac.at/ ILEN-Retour /Barbara/ReTour/Terrain30km)
 	#place a mesh object
 	#mesh.set_translation(meshPosition[randi() % meshPosition.size()])
@@ -83,20 +83,29 @@ func createTrees(size, dict, originRange, pixel_scale, splits): # + textures
 		var space_state = get_world().direct_space_state
 		var result = space_state.intersect_ray(position, position + Vector3(0,100,0))
 		#TODO might want to scale the up vector to max height so that no trees are left out in higher terrain
+		var parent = self
 		if not result.empty():
 			position = result.position
+			parent = result.collider.get_parent()
 		
 		
 		#TODO: if possible - merge following meshes (now there are two meshes for two billboard sides)
+		"""
+		#I don't think this is necessary since the billboard always faces the user
 		var newMesh = MeshInstance.new()
-		add_child(newMesh)
+		newMesh.name = "TreeB%d" % i
+		parent.add_child(newMesh)
 		newMesh.set_mesh(mesh1)
 		newMesh.set("translation", position)
+		"""
 		
 		var newMesh2 = MeshInstance.new()
-		add_child(newMesh2)
+		newMesh2.name = "TreeF%d" % i
+		parent.add_child(newMesh2)
 		newMesh2.set_mesh(mesh2)
-		newMesh2.set("translation", position)
+		#newMesh2.set("translation", position)
+		newMesh2.global_transform.origin = position
+		
 
 func createBillboardMesh(count):
 	var surfTool = SurfaceTool.new()
