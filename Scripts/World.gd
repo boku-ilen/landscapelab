@@ -31,7 +31,7 @@ func createWorld(dhmName, splits, skip, jsonForestTrees):
 			#res_size must be int, e.g. res_size = 2 -> mesh will have only a half of available data
 			var res_size = 1 #int
 				
-			var terrainMesh = terrain.createTerrain(dataset, size, 10, pixel_scale/10, splits, p, dhmName)
+			var terrainMesh = terrain.createTerrain(dataset, size, 1, pixel_scale, splits, p, dhmName)
 			
 			#save surface for placing objects
 			meshPosition.append(terrain.get_terrain(terrainMesh))	
@@ -76,12 +76,12 @@ func createTrees(size, dict, originRange, pixel_scale, splits): # + textures
 		position.x = dict["Data"][i]["coord"][0]
 		position.z = dict["Data"][i]["coord"][1]
 		
-		position.x = (position.x-originRange[0])/10-(pixel_scale/10)*size*splits/2
-		position.z = (originRange[1]-position.z)/10-(pixel_scale/10)*size*splits/2
+		position.x = (position.x-originRange[0])-(pixel_scale)*size*splits/2
+		position.z = (originRange[1]-position.z)-(pixel_scale)*size*splits/2
 		
 		position.y = 0
 		var space_state = get_world().direct_space_state
-		var result = space_state.intersect_ray(position, position + Vector3(0,100,0))
+		var result = space_state.intersect_ray(position, position + Vector3(0,1000,0))
 		#TODO might want to scale the up vector to max height so that no trees are left out in higher terrain
 		var parent = self
 		if not result.empty():

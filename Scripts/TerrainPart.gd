@@ -8,12 +8,12 @@ var player
 var origin
 var outer_borders
 var lod_lv
-var waiting = false
 
 var dhmName
 var height_scale
 var splits
 var part
+var waiting = false
 
 var thread
 
@@ -33,22 +33,21 @@ func set_data(orig, ob, dhm, h_scale, spl, p):
 
 
 func _process(delta):
-	var change = waiting
-	
-	while (lod_lv < lod_steps.size() and lod_lv < lod_distances.size()
-	and origin.distance_to(player.global_transform.origin) < lod_distances[lod_lv] + outer_borders):
-		change = true
-		lod_lv += 1
-	
-	if change:
-		if thread == null:
-			thread = Thread.new()
-		if not thread.is_active():
-			waiting = false
-			thread.start(self, "update_mesh", null, 1)
-		else:
+	if not waiting:
+		var change = false
+		
+		while (lod_lv < lod_steps.size() and lod_lv < lod_distances.size()
+		and origin.distance_to(player.global_transform.origin) < lod_distances[lod_lv] + outer_borders):
+			change = true
+			lod_lv += 1
+		
+		if change:
+			if thread == null:
+				thread = Thread.new()
+			if thread.is_active():
+				thread.wait_to_finish()
 			waiting = true
-	pass
+			thread.start(self, "update_mesh", null, 1)
 
 
 func update_mesh(userdata):
@@ -57,7 +56,7 @@ func update_mesh(userdata):
 	
 	var jsonMeshData = get_parent().jsonTerrain(jsonTerrainData)
 	var img_res = get_parent().jsonTerrainDimensions(jsonTerrainData)[0]
-	var pixel_scale = get_parent().jsonTerrainPixel(jsonTerrainData)[0] / 10
+	var pixel_scale = get_parent().jsonTerrainPixel(jsonTerrainData)[0]
 	
 	var newMesh = get_parent().create_mesh(jsonMeshData, origin, img_res,  height_scale, pixel_scale, splits, part)[0]
 	set_mesh(newMesh)
@@ -65,3 +64,5 @@ func update_mesh(userdata):
 	create_trimesh_collision()
 	#TODO update tree position after updating mesh
 	logger.info("Successfully updated %s to lod_lv %d" % [name,lod_lv])
+	waiting = false
+	

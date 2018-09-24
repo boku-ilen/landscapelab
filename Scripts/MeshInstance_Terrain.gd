@@ -49,7 +49,7 @@ func create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, pa
 	var height_idx = 0
 	for z in range(img_res):
 		for x in range(img_res):
-				
+			
 			uvarray.append(Vector2(x, z)/img_res)
 			varray.append(Vector3(x * pixel_size, float(arr_height[(height_idx)]/height_scale), z * pixel_size) + origin)
 			uvarray.append(Vector2(x+1, z)/img_res)
