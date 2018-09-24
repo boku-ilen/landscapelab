@@ -1,8 +1,9 @@
 extends MeshInstance
 
-
 export var lod_steps = [4,1,0]
 export var lod_distances = [100,50,10]
+
+signal update_tree_pos
 
 var player
 var origin
@@ -62,7 +63,12 @@ func update_mesh(userdata):
 	set_mesh(newMesh)
 	remove_child(get_node("%s_col" % name))
 	create_trimesh_collision()
-	#TODO update tree position after updating mesh
-	logger.info("Successfully updated %s to lod_lv %d" % [name,lod_lv])
+	
+	for i in range(get_child_count()):
+		if get_child(i).has_method("update_position"):
+			get_child(i).update_position()
+	#maybe use signals instead
+	
+	logger.info("Successfully updated %s to lod_lv %d" % [name, lod_lv])
 	waiting = false
 	

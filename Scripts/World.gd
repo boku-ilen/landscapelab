@@ -99,12 +99,17 @@ func createTrees(size, dict, originRange, pixel_scale, splits): # + textures
 		newMesh.set("translation", position)
 		"""
 		
-		var newMesh2 = MeshInstance.new()
-		newMesh2.name = "TreeF%d" % i
-		parent.add_child(newMesh2)
-		newMesh2.set_mesh(mesh2)
-		#newMesh2.set("translation", position)
-		newMesh2.global_transform.origin = position
+		var tree = preload("res://Scenes/Tree.tscn").instance()
+		tree.name = "Trere%d" % i
+		parent.add_child(tree)
+		tree.set_model(mesh2)
+		tree.global_transform.origin = position
+		#var newMesh2 = MeshInstance.new()
+		#newMesh2.name = "TreeF%d" % i
+		#parent.add_child(newMesh2)
+		#newMesh2.set_mesh(mesh2)
+		##newMesh2.set("translation", position)
+		#newMesh2.global_transform.origin = position
 		
 
 func createBillboardMesh(count):
