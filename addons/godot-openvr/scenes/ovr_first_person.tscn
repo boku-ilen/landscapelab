@@ -22,7 +22,7 @@ func _physics_process(delta):
 		# we're looking straight up or down, ignore this
 		pass"
 
-[node name="OVRFirstPerson" type="ARVROrigin" index="0"]
+[node name="OVRFirstPerson" type="ARVROrigin"]
 
 world_scale = 1.0
 

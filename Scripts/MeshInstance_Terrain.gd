@@ -22,6 +22,8 @@ func createTerrain(dataset, img_res,  height_scale, pixel_size, splits, part, dh
 
 
 func create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, part):
+	var uv_origin = Vector2(int(part / splits), part % splits) / splits
+	
 	var arr_height = []
 	
 	var offset = img_res + 1
@@ -33,8 +35,8 @@ func create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, pa
 	var material = SpatialMaterial.new()
 	
 	#TODO: to load from server (should also work with jpg/png)
-	#material.flags_unshaded = true;
-	#material.albedo_texture = load("res://Images/ortofoto.tres")
+	material.flags_unshaded = true;
+	material.albedo_texture = preload("res://Assets/basemap18_UTM.png")
 	
 	surfTool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	surfTool.set_material(material)
@@ -50,27 +52,30 @@ func create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, pa
 	for z in range(img_res):
 		for x in range(img_res):
 			
-			uvarray.append(Vector2(x, z)/img_res)
 			varray.append(Vector3(x * pixel_size, float(arr_height[(height_idx)]/height_scale), z * pixel_size) + origin)
-			uvarray.append(Vector2(x+1, z)/img_res)
 			varray.append(Vector3((x+1) * pixel_size, float(arr_height[(height_idx+1)]/height_scale), z * pixel_size) + origin)
-			uvarray.append(Vector2(x+1, z+1)/img_res)
 			varray.append(Vector3((x+1) * pixel_size, float(arr_height[((height_idx+1)+offset)]/height_scale), (z+1) * pixel_size) + origin)
-
+			
+			uvarray.append(uv_origin + Vector2(x, z) / (img_res * splits))
+			uvarray.append(uv_origin + Vector2(x+1, z) / (img_res * splits))
+			uvarray.append(uv_origin + Vector2(x+1, z+1) / (img_res * splits))
+			
 			surfTool.add_triangle_fan(varray,uvarray)
 			#print(varray)
-		
+			
 			uvarray.clear()
 			varray.clear()
 			#print("remove:")
 			#print(varray)
 			
-			uvarray.append(Vector2(x, z)/img_res)
+			
 			varray.append(Vector3(x * pixel_size, float(arr_height[(height_idx)]/height_scale), z * pixel_size) + origin)
-			uvarray.append(Vector2(x+1, z+1)/img_res)
 			varray.append(Vector3((x+1) * pixel_size, float(arr_height[((height_idx+1)+offset)]/height_scale), (z+1) * pixel_size) + origin)
-			uvarray.append(Vector2(x, z+1)/img_res)
 			varray.append(Vector3(x * pixel_size, float(arr_height[((height_idx)+offset)]/height_scale), (z+1) * pixel_size) + origin)
+			
+			uvarray.append(uv_origin + Vector2(x, z) / (img_res * splits))
+			uvarray.append(uv_origin + Vector2(x+1, z+1) / (img_res * splits))
+			uvarray.append(uv_origin + Vector2(x, z+1) / (img_res * splits))
 			
 			surfTool.add_triangle_fan(varray,uvarray)
 			#print(varray)

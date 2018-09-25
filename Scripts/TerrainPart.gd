@@ -66,7 +66,7 @@ func update_mesh(userdata):
 	
 	for i in range(get_child_count()):
 		if get_child(i).has_method("update_position"):
-			get_child(i).update_position()
+			get_child(i).call_deferred("update_position")
 	#maybe use signals instead
 	
 	logger.info("Successfully updated %s to lod_lv %d" % [name, lod_lv])
