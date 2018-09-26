@@ -50,7 +50,6 @@ func _process(delta):
 			waiting = true
 			thread.start(self, "update_mesh", null, 1)
 
-
 func update_mesh(userdata):
 	logger.info("Updating %s to lod_lv %d" % [name, lod_lv])
 	var jsonTerrainData = ServerConnection.getJson("http://127.0.0.1","/dhm/?filename=%s&splits=%d&skip=%d&part=%d" % [dhmName, splits, lod_steps[lod_lv - 1], part],8000)

@@ -26,25 +26,13 @@ func createWorld(dhmName, splits, skip, jsonForestTrees):
 				
 				pixel_scale = pixelSize[0][0] #TODO: check if set properly
 				metadata = 1
-			
-			#set res_size > 1 if not all data should be used in mesh, mesh will have the same size but will be less detaild
-			#res_size must be int, e.g. res_size = 2 -> mesh will have only a half of available data
-			var res_size = 1 #int
 				
 			var terrainMesh = terrain.createTerrain(dataset, size, 1, pixel_scale, splits, p, dhmName)
 			
 			#save surface for placing objects
 			meshPosition.append(terrain.get_terrain(terrainMesh))	
-	#print(meshPosition)
 	
-	#create new nodes (mesh)
 	createTrees(size, jsonForestTrees, originRange[0], pixel_scale, splits)
-	#print_tree_pretty()
-	#Object placing - testing (scripts: https://drive.boku.ac.at/ ILEN-Retour /Barbara/ReTour/Terrain30km)
-	#place a mesh object
-	#mesh.set_translation(meshPosition[randi() % meshPosition.size()])
-	#place multiMesh objects
-	#multimesh.createMultiMesh(testMesh, meshPosition, 10) #meshToCopy, surface, count
 
 # this function is just for testing purposes
 # it returns an array of split-indices that includes only a fraction of all indices
@@ -65,8 +53,7 @@ func createTrees(size, dict, originRange, pixel_scale, splits): # + textures
 	#var mesh = load("res://Pine.tres") # for 3D
 	
 	#create billboard meshes with texture on both sides
-	var mesh1 = createBillboardMesh(1)
-	var mesh2 = createBillboardMesh(2)
+	var mesh = createBillboardMesh()
 	
 	var model #art of a tree
 	var position = Vector3()
@@ -89,30 +76,13 @@ func createTrees(size, dict, originRange, pixel_scale, splits): # + textures
 			parent = result.collider.get_parent()
 		
 		
-		#TODO: if possible - merge following meshes (now there are two meshes for two billboard sides)
-		"""
-		#I don't think this is necessary since the billboard always faces the user
-		var newMesh = MeshInstance.new()
-		newMesh.name = "TreeB%d" % i
-		parent.add_child(newMesh)
-		newMesh.set_mesh(mesh1)
-		newMesh.set("translation", position)
-		"""
-		
 		var tree = preload("res://Scenes/Tree.tscn").instance()
-		tree.name = "Trere%d" % i
+		tree.name = "Tree%d" % i
 		parent.add_child(tree)
-		tree.set_model(mesh2)
+		tree.set_model(mesh)
 		tree.global_transform.origin = position
-		#var newMesh2 = MeshInstance.new()
-		#newMesh2.name = "TreeF%d" % i
-		#parent.add_child(newMesh2)
-		#newMesh2.set_mesh(mesh2)
-		##newMesh2.set("translation", position)
-		#newMesh2.global_transform.origin = position
-		
 
-func createBillboardMesh(count):
+func createBillboardMesh():
 	var surfTool = SurfaceTool.new()
 	var material = SpatialMaterial.new()
 	surfTool.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -124,30 +94,15 @@ func createBillboardMesh(count):
 	material.params_billboard_mode = 2;
 	material.albedo_texture = load("res://Tree.tres") #art of a tree should be set by model
 	
-	var size = 2;
-	if (count == 1):
-		billboard1site(surfTool, size)
-	elif (count == 2):
-		billboard2site(surfTool, size)
+	var size = 10;
+	
+	billboardsite(surfTool, size)
 	
 	var mesh = surfTool.commit()
 	return(mesh)
-	
-func billboard1site(surfTool, size):
-	surfTool.add_uv(Vector2(0, 0));
-	surfTool.add_vertex(Vector3(0, 2*size,  0))
-	surfTool.add_uv(Vector2(1, 1));
-	surfTool.add_vertex(Vector3( 2*size,  0,  0))
-	surfTool.add_uv(Vector2(1, 0));
-	surfTool.add_vertex(Vector3( 2*size, 2*size,  0))
-	surfTool.add_uv(Vector2(0, 0));
-	surfTool.add_vertex(Vector3(0, 2*size,  0))
-	surfTool.add_uv(Vector2(0, 1));
-	surfTool.add_vertex(Vector3(0,  0,  0))
-	surfTool.add_uv(Vector2(1, 1));
-	surfTool.add_vertex(Vector3( 2*size,  0,  0))
-	
-func billboard2site(surfTool, size):
+
+
+func billboardsite(surfTool, size):
 	surfTool.add_uv(Vector2(0, 0));
 	surfTool.add_vertex(Vector3(2*size, 2*size,  0))
 	surfTool.add_uv(Vector2(1, 1));

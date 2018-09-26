@@ -49,15 +49,14 @@ current = true
 fov = 70.0
 size = 1.0
 near = 0.05
-far = 10000.0
+far = 50000.0
 
 [node name="OVRController" parent="ARVROrigin" index="1" instance=ExtResource( 2 )]
-
-editor/display_folded = true
 
 [node name="Function_Teleport" parent="ARVROrigin/OVRController" index="1" instance=ExtResource( 3 )]
 
 origin = NodePath("../..")
+floor_threshold = 0.75
 
 [node name="OVRController2" parent="ARVROrigin" index="2" instance=ExtResource( 2 )]
 

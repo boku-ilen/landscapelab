@@ -35,7 +35,9 @@ func create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, pa
 	var material = SpatialMaterial.new()
 	
 	#TODO: to load from server (should also work with jpg/png)
-	material.flags_unshaded = true;
+	material.flags_unshaded = false;
+	material.metallic = 0
+	material.roughness = 1
 	material.albedo_texture = preload("res://Assets/basemap18_UTM.png")
 	
 	surfTool.begin(Mesh.PRIMITIVE_TRIANGLES)

@@ -8,6 +8,7 @@ export (NodePath) var origin = null
 export (Color) var can_teleport_color = Color(0.0, 1.0, 0.0, 1.0)
 export (Color) var cant_teleport_color = Color(1.0, 0.0, 0.0, 1.0)
 export (Color) var no_collision_color = Color(45.0 / 255.0, 80.0 / 255.0, 220.0 / 255.0, 1.0)
+export (float) var floor_threshold = 0.9
 export var player_height = 1.8 setget set_player_height, get_player_height
 export var player_radius = 0.4 setget set_player_radius, get_player_radius
 export var strength = 5.0
@@ -155,15 +156,15 @@ func _physics_process(delta):
 				else:
 					# now we cast a ray downwards to see if we're on a surface
 					var up = Vector3(0.0, 1.0, 0.0)
-					var end_pos = target_global_origin - (up * 0.1)
-					var intersects = state.intersect_ray(target_global_origin, end_pos)
+					var end_pos = target_global_origin - (up * 1)
+					var intersects = state.intersect_ray(target_global_origin + (up * 0.1), end_pos)
 					if intersects.empty():
 						is_on_floor = false
 					else:
 						# did we collide with a floor or a wall?
 						floor_normal = intersects["normal"]
 						var dot = floor_normal.dot(up)
-						if dot > 0.9:
+						if dot > floor_threshold:
 							is_on_floor = true
 						else:
 							is_on_floor = false
