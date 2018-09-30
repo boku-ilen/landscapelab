@@ -1,15 +1,24 @@
 tool
 extends MeshInstance
 
-func createTerrain(dataset, img_res,  height_scale, pixel_size, splits, part, dhmName):
-	var origin = (Vector3(-img_res * splits/2, 0, -img_res * splits/2) + Vector3(img_res * floor(part / splits),0,img_res * (part % splits))) * pixel_size
+onready var terrainPart = preload("res://Scenes/TerrainPart.tscn")
+onready var ortofoto = preload("res://Assets/basemap18_UTM.png")
+
+# build a mesh (single part of terrain)
+func createTerrain(dataset, size,  height_scale, pixel_size, splits, part, dhmName):
+	# calculate XZ origin (upper left corner)
+	# set (0,0,0) in the middle
+	var setMiddle = Vector3(-size * splits/2, 0, -size * splits/2)
+	# set single part of terrain on the right possition
+	var terrainPartPosition = Vector3(size * floor(part / splits),0,size * (part % splits))
+	var origin = (setMiddle + terrainPartPosition) * pixel_size
 	
-	var ret = create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, part)
+	# call function to build a mesh
+	var ret = create_mesh(dataset, origin, size,  height_scale, pixel_size, splits, part)
 	var mesh = ret[0]
 	var outer_borders = ret[1]
 	
-	#set_mesh(mesh)
-	var TerrainPart = preload("res://Scenes/TerrainPart.tscn").instance()
+	var TerrainPart = terrainPart.instance()
 	add_child(TerrainPart)
 	var nname = "TerrainPart%d" % part
 	TerrainPart.name = nname
@@ -21,24 +30,23 @@ func createTerrain(dataset, img_res,  height_scale, pixel_size, splits, part, dh
 	return(mesh)
 
 
-func create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, part):
+func create_mesh(arr_height, origin, size,  height_scale, pixel_size, splits, part):
+	# calculate origin for ortofoto-part
 	var uv_origin = Vector2(int(part / splits), part % splits) / splits
 	
-	var arr_height = []
-	
-	var offset = img_res + 1
-	
-	arr_height = dataset
+	# to build x pixels, it is x+1 points in a row needed
+	# with +offset it is possible to 'jump' to the point below
+	var offset = size + 1
 
 	var mesh = Mesh.new()
 	var surfTool = SurfaceTool.new()
 	var material = SpatialMaterial.new()
 	
-	#TODO: to load from server (should also work with jpg/png)
+	# material settings
 	material.flags_unshaded = false;
 	material.metallic = 0
 	material.roughness = 1
-	material.albedo_texture = preload("res://Assets/basemap18_UTM.png")
+	material.albedo_texture = ortofoto
 	
 	surfTool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	surfTool.set_material(material)
@@ -50,37 +58,55 @@ func create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, pa
 	var varray = []
 	var outer_borders = 0
 	
+	var xLeft
+	var xRight
+	var zUp
+	var zDown
+	var yUpLeft
+	var yUpRight
+	var yDownRight
+	var yDownLeft
+	
 	var height_idx = 0
-	for z in range(img_res):
-		for x in range(img_res):
+	for z in range(size):
+		for x in range(size):
 			
-			varray.append(Vector3(x * pixel_size, float(arr_height[(height_idx)]/height_scale), z * pixel_size) + origin)
-			varray.append(Vector3((x+1) * pixel_size, float(arr_height[(height_idx+1)]/height_scale), z * pixel_size) + origin)
-			varray.append(Vector3((x+1) * pixel_size, float(arr_height[((height_idx+1)+offset)]/height_scale), (z+1) * pixel_size) + origin)
+			# calculate coordinates for triangles
+			xLeft = x * pixel_size
+			xRight = (x+1) * pixel_size
+			zUp = z * pixel_size
+			zDown = (z+1) * pixel_size
+			yUpLeft = float(arr_height[(height_idx)]/height_scale)
+			yUpRight = float(arr_height[(height_idx+1)]/height_scale)
+			yDownRight = float(arr_height[((height_idx+1)+offset)]/height_scale)
+			yDownLeft = float(arr_height[((height_idx)+offset)]/height_scale)
 			
-			uvarray.append(uv_origin + Vector2(x, z) / (img_res * splits))
-			uvarray.append(uv_origin + Vector2(x+1, z) / (img_res * splits))
-			uvarray.append(uv_origin + Vector2(x+1, z+1) / (img_res * splits))
+			# add coordinates for the first triangle
+			varray.append(Vector3(xLeft, yUpLeft, zUp) + origin)
+			varray.append(Vector3(xRight, yUpRight, zUp) + origin)
+			varray.append(Vector3(xRight, yDownRight, zDown) + origin)
+			
+			# calculate coordinates for ortofoto-part
+			uvarray.append(uv_origin + Vector2(x, z) / (size * splits))
+			uvarray.append(uv_origin + Vector2(x+1, z) / (size * splits))
+			uvarray.append(uv_origin + Vector2(x+1, z+1) / (size * splits))
 			
 			surfTool.add_triangle_fan(varray,uvarray)
-			#print(varray)
 			
 			uvarray.clear()
 			varray.clear()
-			#print("remove:")
-			#print(varray)
 			
+			# add coordinates for the second triangle
+			varray.append(Vector3(xLeft, yUpLeft, zUp) + origin)
+			varray.append(Vector3(xRight, yDownRight, zDown) + origin)
+			varray.append(Vector3(xLeft, yDownLeft, zDown) + origin)
 			
-			varray.append(Vector3(x * pixel_size, float(arr_height[(height_idx)]/height_scale), z * pixel_size) + origin)
-			varray.append(Vector3((x+1) * pixel_size, float(arr_height[((height_idx+1)+offset)]/height_scale), (z+1) * pixel_size) + origin)
-			varray.append(Vector3(x * pixel_size, float(arr_height[((height_idx)+offset)]/height_scale), (z+1) * pixel_size) + origin)
-			
-			uvarray.append(uv_origin + Vector2(x, z) / (img_res * splits))
-			uvarray.append(uv_origin + Vector2(x+1, z+1) / (img_res * splits))
-			uvarray.append(uv_origin + Vector2(x, z+1) / (img_res * splits))
+			# calculate coordinates for ortofoto-part
+			uvarray.append(uv_origin + Vector2(x, z) / (size * splits))
+			uvarray.append(uv_origin + Vector2(x+1, z+1) / (size * splits))
+			uvarray.append(uv_origin + Vector2(x, z+1) / (size * splits))
 			
 			surfTool.add_triangle_fan(varray,uvarray)
-			#print(varray)
 			
 			var ob = Vector2(varray[0].x - origin.x, varray[0].z - origin.z)
 			if ob.length() > outer_borders:
@@ -88,12 +114,8 @@ func create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, pa
 			
 			uvarray.clear()
 			varray.clear()
-			#print("remove:")
-			#print(varray)
 			height_idx = height_idx + 1
 		height_idx = height_idx + 1
-		#print("height_idx:")
-		#print(height_idx)
 
 	surfTool.generate_normals()
 	surfTool.index()
@@ -101,7 +123,7 @@ func create_mesh(dataset, origin, img_res,  height_scale, pixel_size, splits, pa
 	
 	return [mesh, outer_borders]
 
-
+# save mesh coordinates as 1-dimetional array with XYZ data
 func get_terrain(mesh):
 	var tool = MeshDataTool.new()
 	var meshPosition = []
@@ -109,14 +131,10 @@ func get_terrain(mesh):
 
 	for i in range(0, tool.get_vertex_count()):
 		var position = tool.get_vertex(i)		
-		meshPosition.append(position)
-		
-    #Should be the tool deleted?
-	#tool.free() #attempted to free a reference
-	
+		meshPosition.append(position)	
 	return meshPosition
 
-
+# save data from json
 func jsonTerrain(dict):
 	return dict["Data"][0]
 			
