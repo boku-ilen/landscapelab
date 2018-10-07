@@ -24,7 +24,7 @@ func createWorld(dhmName, splits, skip, jsonForestTrees):
 	for p in range(0,splits * splits):
 		# option for test cases: loading only part of the raster
 		# add a second parameter (lower than splits, e.g. loadLimiter(splits,2))
-		if p in loadLimiter(splits): 
+		if p in loadLimiter(splits, 1): 
 			# load json with data for single part of terrain
 			# examples of json fragments: 
 				# "{"Data": [[447.6022644042969, 451.6047668457031,..."

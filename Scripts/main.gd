@@ -8,6 +8,7 @@ func update_preview_size():
 	$ViewportContainer/DesktopViewport.size = new_size
 
 func _ready():
+	logger.info("main initialize")
 	# init our viewport size and register resize 
 	update_preview_size()
 	get_tree().get_root().connect("size_changed", self, "update_preview_size")

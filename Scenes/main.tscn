@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/main.gd" type="Script" id=1]
 [ext_resource path="res://addons/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=2]
-[ext_resource path="res://Scripts/World.gd" type="Script" id=3]
-[ext_resource path="res://Scripts/MeshInstance_Terrain.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/UI.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/World.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/MeshInstance_Terrain.gd" type="Script" id=5]
 
 [sub_resource type="ProceduralSky" id=1]
 
@@ -214,32 +215,11 @@ sprint_action = "ui_sprint"
 use_gui = false
 gui_action = "ui_cancel"
 
-[node name="VRToggle" type="CheckButton" parent="ViewportContainer/DesktopViewport" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 76.0
-margin_bottom = 40.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = true
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "VR"
-flat = false
-align = 0
+[node name="UI" parent="ViewportContainer/DesktopViewport" index="1" instance=ExtResource( 3 )]
 
 [node name="World" type="Spatial" parent="." index="2"]
 
-script = ExtResource( 3 )
+script = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="World" index="0"]
@@ -301,9 +281,7 @@ lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
 mesh = SubResource( 3 )
 skeleton = NodePath("..")
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 _sections_unfolded = [ "Geometry", "Pause", "Transform", "Visibility" ]
-
-[connection signal="toggled" from="ViewportContainer/DesktopViewport/VRToggle" to="." method="_on_VRToggled"]
 
 
