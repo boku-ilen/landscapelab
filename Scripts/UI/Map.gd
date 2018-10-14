@@ -2,6 +2,10 @@ extends TextureRect
 
 var tex
 
+onready var player = get_tree().get_root().get_node("main/ViewportContainer/DesktopViewport/Camera")
+onready var world = get_tree().get_root().get_node("main/World")
+onready var map_cursor = get_node("MapCursor")
+
 var focus
 var zoom_lv
 export var zoom_step = [1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24, 32]
@@ -16,7 +20,7 @@ func _ready():
 	zoom_lv = 0
 
 func _process(delta):
-	pass
+	set_cursor()
 
 func _input(event):
 	event = make_input_local(event)
@@ -34,6 +38,7 @@ func _input(event):
 				var map_point = get_map_point()
 				if not map_point == null:
 					logger.info("Selected point %s on Map" % str(map_point))
+					player_tp(map_point)
 			
 			map_dragged = false
 			pass
@@ -83,3 +88,31 @@ func get_texture_area_start():
 
 func get_texture_area():
 	return tex.get_size() / zoom_step[zoom_lv]
+
+func player_tp(mp):
+	var t = player.transform
+	t.origin = Vector3(
+	  lerp(world.world_min.x, world.world_max.x, mp.x),
+	  t.origin.y,
+	  lerp(world.world_min.z, world.world_max.z, mp.y)
+	)
+	player.teleport(t)
+
+
+func set_cursor():
+	var t = player.transform
+	var o = t.origin - world.world_min
+	var wm = world.world_max - world.world_min
+	o = Vector2(o.x / wm.x, o.z / wm.z)
+	
+	var p1 = get_texture_area_start()
+	var p2 = p1 + get_texture_area()
+	p1 /= tex.get_size()
+	p2 /= tex.get_size()
+	
+	
+	o = Vector2(clamp(o.x,p1.x,p2.x), clamp(o.y, p1.y, p2.y))
+	o -= p1
+	o *= zoom_step[zoom_lv] * rect_size
+	
+	map_cursor.transform = Transform2D(deg2rad(player._total_yaw), o)

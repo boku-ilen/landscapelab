@@ -6,12 +6,7 @@ onready var ortofoto = preload("res://Assets/basemap18_UTM.png")
 
 # build a mesh (single part of terrain)
 func createTerrain(dataset, size,  height_scale, pixel_size, splits, part, dhmName):
-	# calculate XZ origin (upper left corner)
-	# set (0,0,0) in the middle
-	var setMiddle = Vector3(-size * splits/2, 0, -size * splits/2)
-	# set single part of terrain on the right possition
-	var terrainPartPosition = Vector3(size * floor(part / splits),0,size * (part % splits))
-	var origin = (setMiddle + terrainPartPosition) * pixel_size
+	var origin = calculate_origin(size, splits, part, pixel_size)
 	
 	# call function to build a mesh
 	var ret = create_mesh(dataset, origin, size,  height_scale, pixel_size, splits, part)
@@ -146,5 +141,13 @@ func jsonTerrainPixel(dict):
 	
 func jsonTerrainDimensions(dict):
 	return dict["Metadata"]["ArrayDimensions"]
-	
-	
+
+# calculates the origin of a terrain part based on the given data
+func calculate_origin(size, splits, part, pixel_size):
+	# calculate XZ origin (upper left corner)
+	# set (0,0,0) in the middle
+	var setMiddle = Vector3(-size * splits/2, 0, -size * splits/2)
+	# set single part of terrain on the right possition
+	var terrainPartPosition = Vector3(size * floor(part / splits),0,size * (part % splits))
+	var origin = (setMiddle + terrainPartPosition) * pixel_size
+	return origin

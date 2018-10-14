@@ -319,3 +319,22 @@ func VRNodesValid():
 	and vrorigin!=null and vrorigin.get_ref()):
 			return true
 	return false
+
+func teleport(t):
+	logger.info("teleporting")
+	
+	transform = t
+
+func get_height_above_ground():
+	var position = transform.origin
+	var vert = Vector3(0,1000,0)
+	#TODO scale vert properly so that it works in every situation
+	
+	var space_state = get_world().direct_space_state
+	var resultUp = space_state.intersect_ray(position, position + vert)
+	var resultDown = space_state.intersect_ray(position, position - vert)
+	if not resultUp.empty():
+		return position.y - resultUp.position.y
+	elif not resultDown.empty():
+		return position.y - resultDown.position.y
+	return null

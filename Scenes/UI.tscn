@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/UI/VRToggle.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/UI/Map.gd" type="Script" id=3]
+[ext_resource path="res://Assets/MapCursor.png" type="Texture" id=4]
 
-[node name="UI" type="Control"]
+[node name="UI" type="Control" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -173,5 +174,11 @@ stretch_mode = 0
 script = ExtResource( 3 )
 _sections_unfolded = [ "Anchor", "Margin", "Rect", "Size Flags" ]
 zoom_step = [ 1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24, 32 ]
+
+[node name="MapCursor" type="Sprite" parent="MarginContainer/VSplitContainer/HBoxContainer/VBoxContainer/Map" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform" ]
 
 
