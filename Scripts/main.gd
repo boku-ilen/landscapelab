@@ -1,7 +1,13 @@
 tool
 extends Spatial
 
+export var server = "http://127.0.0.1"
+export var port = 8000
+
+var areas
+
 onready var world = get_node("World")
+
 
 func update_preview_size():
 	var new_size = OS.window_size
@@ -15,30 +21,48 @@ func _ready():
 		
 	logger.set_filename("log.txt")
 	logger.set_level(0)
-
-	# load json with XZ coordinates for single tree
-	# settings: 
-		# filename - name of shp
-		# multiplier - 1 (all data) or less than 1 (part of all data)
-		#recalc - true if trees placed also on the boarder of shp
-	# example of json fragment: 
-		# "{"model": "eiche1", "coord": [597599.9999999994, 5385567.762951786]}"
-	# example for showing json in browser: 
-		# http://127.0.0.1:8000/assetpos?filename=forest_areas&tree_multiplier=0.00001&recalc=true
-	var jsonForestTrees = ServerConnection.getJson("http://127.0.0.1","/assetpos?filename=forest_areas&tree_multiplier=0.001&recalc=true",8000)
 	
-	# call function to create 'world'
-	# settings: 
-		# name of DHM with ending (.tif)
-		# split parameter for surface - 5 means 25 parts
-		# lod parameter - 9 means every 9th pixel is loaded
-		# json with trees coordinates
-	world.createWorld("DTM_10x10_UTM_30km.tif", 5, 9, jsonForestTrees)
 	
+	areas = ServerConnection.getJson(server, "/areas/", port)
+	if areas.has("Error"):
+		ErrorPrompt.show("can not load areas")
+	else:
+		areas = areas["Areas"]
+		create_choose_area_list()
 	pass
 
 func _process(delta):
 	pass
+
+
+func create_choose_area_list():
+	#creating startup list
+	var startupUI = preload("res://Scenes/StartupUI.tscn").instance()
+	get_node("ViewportContainer/DesktopViewport").add_child(startupUI)
+	var list = get_node("ViewportContainer/DesktopViewport/StartupUI/CenterContainer/ItemList")
+	for i in areas:
+		list.add_item(i)
+
+
+
+func init_world(index):
+	logger.info("loading area %s" % areas[index])
+	var settings = ServerConnection.getJson(server,"/areas/?filename=%s" % areas[index], port)
+	if settings.has("Error"):
+		ErrorPrompt.show("could not load %s" % areas[index])
+	else:
+		
+		# call function to create 'world'
+		# settings: 
+			# name of DHM with ending (.tif)
+			# split parameter for surface - 5 means 25 parts
+			# lod parameter - 9 means every 9th pixel is loaded
+			# json with trees coordinates
+		world.createWorld(server, port, settings)
+		
+		var UI = preload("res://Scenes/UI.tscn").instance()
+		get_node("ViewportContainer/DesktopViewport").add_child(UI)
+
 
 
 func _on_VRToggled(turned_on):

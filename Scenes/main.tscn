@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/main.gd" type="Script" id=1]
 [ext_resource path="res://addons/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/UI.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scripts/World.gd" type="Script" id=4]
-[ext_resource path="res://Scripts/MeshInstance_Terrain.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/World.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/MeshInstance_Terrain.gd" type="Script" id=4]
 
 [sub_resource type="ProceduralSky" id=1]
 
@@ -215,11 +214,9 @@ sprint_action = "ui_sprint"
 use_gui = false
 gui_action = "ui_cancel"
 
-[node name="UI" parent="ViewportContainer/DesktopViewport" index="1" instance=ExtResource( 3 )]
-
 [node name="World" type="Spatial" parent="." index="2"]
 
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="World" index="0"]
@@ -250,24 +247,7 @@ directional_shadow_depth_range = 0
 directional_shadow_max_distance = 200.0
 _sections_unfolded = [ "Light", "Shadow" ]
 
-[node name="Camera" type="Camera" parent="World" index="1"]
-
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18.263, -29.5493 )
-visible = false
-keep_aspect = 1
-cull_mask = 1048575
-environment = null
-h_offset = 0.0
-v_offset = 0.0
-doppler_tracking = 0
-projection = 0
-current = false
-fov = 70.0
-size = 1.0
-near = 0.05
-far = 100.0
-
-[node name="Terrain" type="MeshInstance" parent="World" index="2"]
+[node name="Terrain" type="MeshInstance" parent="World" index="1"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.46234, 0 )
 layers = 1
@@ -281,7 +261,7 @@ lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
 mesh = SubResource( 3 )
 skeleton = NodePath("..")
-script = ExtResource( 5 )
+script = ExtResource( 4 )
 _sections_unfolded = [ "Geometry", "Pause", "Transform", "Visibility" ]
 
 

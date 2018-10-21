@@ -2,10 +2,12 @@ tool
 extends MeshInstance
 
 onready var terrainPart = preload("res://Scenes/TerrainPart.tscn")
-onready var ortofoto = preload("res://Assets/basemap18_UTM.png")
+onready var ortofoto
 
 # build a mesh (single part of terrain)
-func createTerrain(dataset, size,  height_scale, pixel_size, splits, part, dhmName):
+func createTerrain(dataset, size,  height_scale, pixel_size, splits, part, dhmName, dhm_settings):
+	if ortofoto == null and dhm_settings.has("texture"):
+		ortofoto = load(dhm_settings["texture"])
 	var origin = calculate_origin(size, splits, part, pixel_size)
 	
 	# call function to build a mesh

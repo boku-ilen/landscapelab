@@ -5,7 +5,7 @@
 [ext_resource path="res://Scripts/UI/Map.gd" type="Script" id=3]
 [ext_resource path="res://Assets/MapCursor.png" type="Texture" id=4]
 
-[node name="UI" type="Control" index="0"]
+[node name="UI" type="Control"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -17,7 +17,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-_sections_unfolded = [ "Size Flags" ]
+_sections_unfolded = [ "Anchor", "Focus", "Hint", "Mouse", "Rect", "Size Flags" ]
 
 [node name="MarginContainer" type="MarginContainer" parent="." index="0"]
 
