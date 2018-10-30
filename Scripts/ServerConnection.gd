@@ -10,7 +10,7 @@ func getJson(host,url,port):
 
 	err = http.connect_to_host(host,port) # Connect to host/port
 	if not err == OK:
-		return JSON.parse('{"Error":"Could not connect to Host"}')
+		return JSON.parse('{"Error":"Could not connect to Host"}').result
 	
 	# Wait until resolved and connected
 	while http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING:
@@ -19,7 +19,7 @@ func getJson(host,url,port):
 		OS.delay_msec(500)
 	
 	if http.get_status() != HTTPClient.STATUS_CONNECTED:
-		return JSON.parse('{"Error":"Could not connect to Host"}')
+		return JSON.parse('{"Error":"Could not connect to Host"}').result
 	
 	# Some headers
 	var headers = [
@@ -29,7 +29,7 @@ func getJson(host,url,port):
 	
 	err = http.request(HTTPClient.METHOD_GET, url, headers) # Request a page from the site (this one was chunked..)
 	if err != OK:
-		return JSON.parse('{"Error":"HTTP Request flawed"}')
+		return JSON.parse('{"Error":"HTTP Request flawed"}').result
 	
 	while http.get_status() == HTTPClient.STATUS_REQUESTING:
 		# Keep polling until the request is going on
@@ -38,7 +38,7 @@ func getJson(host,url,port):
 		OS.delay_msec(500)
 	
 	if not http.get_status() == HTTPClient.STATUS_BODY and not http.get_status() == HTTPClient.STATUS_CONNECTED:
-		return JSON.parse('{"Error":"HTTP Request failed"}')
+		return JSON.parse('{"Error":"HTTP Request failed"}').result
 	
 	logger.info("response? " + str(http.has_response())) # Site might not have a response.
 	

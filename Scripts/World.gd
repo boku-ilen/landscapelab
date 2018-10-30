@@ -72,7 +72,7 @@ func create_terrain(server, port, settings):
 				# call funtion to build a mesh (single part of terrain)
 				terrain.createTerrain(dataset, size, 1, pixel_scale, splits, p, dhmName, dhm_settings)
 			else:
-				ErrorPrompt.show("could not load part of the terrain")
+				ErrorPrompt.show("could not load part of the terrain", jsonTerrain["Error"])
 				logger.warning("could not load part %d" % p)
 	return {"size": size, "originRange": originRange, "pixelScale": pixel_scale, "splits": splits}
 
@@ -96,46 +96,50 @@ func createTrees(server, port, settings, terrain_data):
 		# "{"model": "eiche1", "coord": [597599.9999999994, 5385567.762951786]}"
 	# example for showing json in browser: 
 		# http://127.0.0.1:8000/assetpos?filename=forest_areas&tree_multiplier=0.00001&recalc=true
-	var dict = ServerConnection.getJson(server,"/assetpos?filename=%s&tree_multiplier=%f&recalc=true" % [filename,multiplier],port)
-	
-	
-	#var mesh = 3DModel  # for using 3D mesh
-	
-	# create billboard mesh
-	var mesh = createBillboardMesh()
-	
-	var model
-	var position = Vector3()
-	
-	# read json data
-	for i in range(dict["Data"].size()):
-		# read art of tree
-		model = dict["Data"][i]["model"] 
-
-		# read XZ coordinates
-		position.x = dict["Data"][i]["coord"][0]
-		position.z = dict["Data"][i]["coord"][1]
+	var dict = ServerConnection.getJson(server,"/assetpos/?filename=%s&tree_multiplier=%f&recalc=true" % [filename,multiplier],port)
+	if dict == null:
+		ErrorPrompt.show("Could not load tree data")
+	elif dict.has("Error"):
+		ErrorPrompt.show("Could not load tree data", dict["Error"])
+	else:
 		
-		# recalculate for Godot coordinates
-		position.x = (position.x-originRange[0])-(pixel_scale)*size*splits/2
-		position.z = (originRange[1]-position.z)-(pixel_scale)*size*splits/2
+		#var mesh = 3DModel  # for using 3D mesh
 		
-		# find the Y coordinate on the surface
-		position.y = 0
-		var space_state = get_world().direct_space_state
-		var result = space_state.intersect_ray(position, position + Vector3(0,1000,0))
-		#TODO might want to scale the up vector to max height so that no trees are left out in higher terrain
-		var parent = self
-		if not result.empty():
-			position = result.position
-			parent = result.collider.get_parent()
+		# create billboard mesh
+		var mesh = createBillboardMesh()
 		
-		# TODO: add different models/textures
-		var tree = billboardModel.instance()
-		tree.name = "Tree%d" % i
-		parent.add_child(tree)
-		tree.set_model(mesh)
-		tree.global_transform.origin = position
+		var model
+		var position = Vector3()
+		
+		# read json data
+		for i in range(dict["Data"].size()):
+			# read art of tree
+			model = dict["Data"][i]["model"] 
+	
+			# read XZ coordinates
+			position.x = dict["Data"][i]["coord"][0]
+			position.z = dict["Data"][i]["coord"][1]
+			
+			# recalculate for Godot coordinates
+			position.x = (position.x-originRange[0])-(pixel_scale)*size*splits/2
+			position.z = (originRange[1]-position.z)-(pixel_scale)*size*splits/2
+			
+			# find the Y coordinate on the surface
+			position.y = 0
+			var space_state = get_world().direct_space_state
+			var result = space_state.intersect_ray(position, position + Vector3(0,1000,0))
+			#TODO might want to scale the up vector to max height so that no trees are left out in higher terrain
+			var parent = self
+			if not result.empty():
+				position = result.position
+				parent = result.collider.get_parent()
+			
+			# TODO: add different models/textures
+			var tree = billboardModel.instance()
+			tree.name = "Tree%d" % i
+			parent.add_child(tree)
+			tree.set_model(mesh)
+			tree.global_transform.origin = position
 
 func createBuildings(server, port, settings, terrain_data):
 	pass
