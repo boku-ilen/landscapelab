@@ -6,6 +6,7 @@
 
 [sub_resource type="PlaneMesh" id=1]
 
+custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 size = Vector2( 0.05, 1 )
 subdivide_width = 0
 subdivide_depth = 40
@@ -15,9 +16,9 @@ subdivide_depth = 40
 code = "shader_type spatial;
 render_mode unshaded, cull_disabled, skip_vertex_transform;
 
-uniform float scale_t = 0.2;
+uniform float scale_t = 1.2;
 uniform float length = 20.0;
-uniform float ws = 1.0;
+uniform float ws = 2.0;
 uniform vec4 mix_color : hint_color;
 uniform sampler2D arrow_texture : hint_albedo;
 
@@ -66,6 +67,7 @@ _sections_unfolded = [ "shader_param" ]
 
 [sub_resource type="PlaneMesh" id=4]
 
+custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 size = Vector2( 1, 1 )
 subdivide_width = 0
 subdivide_depth = 0
@@ -125,6 +127,7 @@ _sections_unfolded = [ "Albedo", "Flags", "Parameters" ]
 
 [sub_resource type="CapsuleMesh" id=6]
 
+custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 radius = 0.3
 mid_height = 1.2
 radial_segments = 64
@@ -182,7 +185,7 @@ proximity_fade_enable = false
 distance_fade_enable = false
 _sections_unfolded = [ "Albedo", "Flags" ]
 
-[node name="Function_Teleport" type="KinematicBody" index="0"]
+[node name="Function_Teleport" type="KinematicBody"]
 
 input_ray_pickable = false
 input_capture_on_drag = false
@@ -201,6 +204,7 @@ origin = null
 can_teleport_color = Color( 0, 1, 0, 1 )
 cant_teleport_color = Color( 1, 0, 0, 1 )
 no_collision_color = Color( 0.176471, 0.313726, 0.862745, 1 )
+floor_threshold = 0.9
 player_height = 1.8
 player_radius = 0.4
 strength = 5.0
@@ -241,7 +245,7 @@ _sections_unfolded = [ "material" ]
 
 [node name="Capsule" type="MeshInstance" parent="Target/Player_figure" index="0"]
 
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.9, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0.9, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1

@@ -24,7 +24,8 @@ var teleport_rotation = 0.0;
 var floor_normal = Vector3(0.0, 1.0, 0.0)
 var last_target_transform = Transform()
 var collision_shape = null
-var step_size = 0.5
+var step_size = 1
+var joystick_pos = Vector2()
 
 # By default we show a capsule to indicate where the player lands.
 # Turn on editable children,
@@ -68,7 +69,7 @@ func _ready():
 	$Target.visible = false
 	
 	# Scale to our world scale
-	$Teleport.mesh.size = Vector2(0.05 * ws, 1.0)
+	$Teleport.mesh.size = Vector2(0.5 * ws, 1.0)
 	$Target.mesh.size = Vector2(ws, ws)
 	
 	# create shape object
@@ -89,9 +90,15 @@ func _physics_process(delta):
 		ws = new_ws
 		$Teleport.mesh.size = Vector2(0.05 * ws, 1.0)
 		$Target.mesh.size = Vector2(ws, ws)
+		
+	# Make the arc more straight
+	ws *= 10
 	
-	# button 15 is mapped to our trigger
-	if controller and controller.get_is_active() and controller.is_button_pressed(15):
+	# The left stick is used for teleportation.
+	# Whenever the stick is moved, the teleportation line appears, and the angle is based on the joystick angle.
+	joystick_pos = Vector2(controller.get_joystick_axis(0), controller.get_joystick_axis(1))
+			
+	if controller and controller.get_is_active() and joystick_pos.length_squared() > 0.3: # Don't react to very subtle joystick movements
 		if !is_teleporting:
 			is_teleporting = true
 			$Teleport.visible = true
@@ -122,9 +129,10 @@ func _physics_process(delta):
 		# This can be optimised loads by determining the lenght based on the angle between sections extending the length when we're in a flat part of the arch
 		# Where we do get a collission we may want to fine tune the collision
 		var cast_length = 0.0
+		var step_number = 150
 		var fine_tune = 1.0
 		var hit_something = false
-		for i in range(1,26):
+		for i in range(1, step_number):
 			var new_cast_length = cast_length + (step_size / fine_tune)
 			var global_target = Vector3(0.0, 0.0, -new_cast_length)
 			
@@ -193,8 +201,13 @@ func _physics_process(delta):
 				can_teleport = false
 				color = cant_teleport_color
 			
-			# check our axis to see if we need to rotate
-			teleport_rotation += (delta * controller.get_joystick_axis(0) * -4.0)
+			# Get the rotation based on the current joystick, but relative to where the player is looking (so when pressing forward, the player will look in the same direction as before)
+			var player_look_rotation = origin_node.global_transform.basis.get_euler()
+			teleport_rotation = player_look_rotation.z + joystick_pos.angle() - PI/2 # subtract 80° so forward matches up with the controller sticks' forward
+			
+			# Slightly snap to forward in order to make moving straight forward easier
+			if abs(teleport_rotation - player_look_rotation.z) < PI/8:
+				teleport_rotation = player_look_rotation.z
 			
 			# update target and colour
 			var target_basis = Basis()
