@@ -21,6 +21,7 @@ ServerConnection="*res://Scripts/ServerConnection.gd"
 global="*res://Scripts/global.gd"
 debug="*res://Scripts/debug.gd"
 ErrorPrompt="*res://Scripts/ErrorPrompt.gd"
+GlobalSignal="*res://Scripts/GlobalSignal.gd"
 
 [gdnative]
 
