@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Scenes/Testing/water_test_watermap.png" type="Texture" id=1]
-[ext_resource path="res://Assets/water_normal.png" type="Texture" id=2]
-[ext_resource path="res://Scripts/SplatmapWater.gd" type="Script" id=3]
+[ext_resource path="res://Assets/water_normal.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/SplatmapWater.gd" type="Script" id=2]
 
 [sub_resource type="PlaneMesh" id=1]
 
@@ -61,11 +60,10 @@ shader_param/normal_scale = null
 shader_param/time_scale = null
 shader_param/uv_scale = 33
 shader_param/height_scale = 1
-shader_param/water_map = ExtResource( 1 )
-shader_param/water_normal = ExtResource( 2 )
+shader_param/water_normal = ExtResource( 1 )
 _sections_unfolded = [ "shader_param" ]
 
-[node name="SplatmapWater" type="MeshInstance" index="0"]
+[node name="SplatmapWater" type="MeshInstance"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48318, 0 )
 layers = 1
@@ -80,10 +78,7 @@ lod_max_hysteresis = 0.0
 mesh = SubResource( 1 )
 skeleton = NodePath("..")
 material/0 = SubResource( 3 )
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "material" ]
-splatmap = null
-size = 10
-height_scale = 10
 
 

@@ -1,14 +1,10 @@
 tool
 extends MeshInstance
 
-export(Texture) var splatmap
-export var size = 100
-export var height_scale = 10
-
 onready var shader = get_surface_material(0)
 
-func _ready():
-	shader.set_shader_param("water_map", splatmap)
+func set_splatmap(map, size, height_scale):
+	shader.set_shader_param("water_map", map)
 	shader.set_shader_param("uv_scale", size/3)
 	shader.set_shader_param("height_scale", height_scale)
 	
