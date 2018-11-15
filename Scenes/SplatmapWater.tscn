@@ -1,7 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Assets/water_normal.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/SplatmapWater.gd" type="Script" id=2]
+[ext_resource path="res://Shaders/SplatmapWater.shader" type="Shader" id=1]
+[ext_resource path="res://Assets/water_normal.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/SplatmapWater.gd" type="Script" id=3]
 
 [sub_resource type="PlaneMesh" id=1]
 
@@ -10,57 +11,19 @@ size = Vector2( 100, 100 )
 subdivide_width = 100
 subdivide_depth = 100
 
-[sub_resource type="Shader" id=2]
-
-code = "shader_type spatial;
-
-uniform sampler2D water_map;
-uniform sampler2D water_normal;
-
-uniform vec3 color = vec3(0, 0.4, 0.6);
-uniform float transparency = 0.6;
-uniform float normal_scale = 10;
-
-uniform float time_scale = 0.05;
-uniform float uv_scale = 10;
-uniform float height_scale = 1;
-
-void vertex () {
-	float height = texture(water_map, UV).b * height_scale;
-	VERTEX.y = height;
-}
-
-void fragment () {
-    float water_at_location = texture(water_map, UV).a;
-	
-	ALPHA = transparency * water_at_location;
-	
-	ALBEDO = color;
-	
-	vec3 normalmap = texture(water_normal, UV * uv_scale + vec2(TIME * time_scale, 1)).xyz * normal_scale - vec3(1.0,1.0,1.0);
-	vec3 normal = normalize(TANGENT * normalmap.y + BINORMAL * normalmap.x + NORMAL * normalmap.z);
-	NORMAL = normal;
-	
-	METALLIC = 0.5;
-	ROUGHNESS = 0.2;
-	
-	vec3 ref_normal = normalize( mix(NORMAL,TANGENT * NORMALMAP.x + BINORMAL * NORMALMAP.y + NORMAL * NORMALMAP.z,NORMALMAP_DEPTH) );
-	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * water_at_location * 0.1;
-	EMISSION += textureLod(SCREEN_TEXTURE,ref_ofs,ROUGHNESS * 8.0).rgb * (1.0 - ALPHA);
-
-}"
-
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=2]
 
 render_priority = 0
-shader = SubResource( 2 )
+shader = ExtResource( 1 )
+shader_param/curv_middle = null
+shader_param/curv_factor = null
+shader_param/height_scale = 1
 shader_param/color = null
 shader_param/transparency = null
 shader_param/normal_scale = null
 shader_param/time_scale = null
 shader_param/uv_scale = 33
-shader_param/height_scale = 1
-shader_param/water_normal = ExtResource( 1 )
+shader_param/water_normal = ExtResource( 2 )
 _sections_unfolded = [ "shader_param" ]
 
 [node name="SplatmapWater" type="MeshInstance"]
@@ -77,8 +40,8 @@ lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
 mesh = SubResource( 1 )
 skeleton = NodePath("..")
-material/0 = SubResource( 3 )
-script = ExtResource( 2 )
+material/0 = SubResource( 2 )
+script = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "material" ]
 
 

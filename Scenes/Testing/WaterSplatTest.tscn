@@ -3,8 +3,9 @@
 [ext_resource path="res://Scenes/Testing/WaterSplatTest.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/SplatmapWater.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scripts/TimeSlider.gd" type="Script" id=4]
-[ext_resource path="res://Scripts/SeasonSlider.gd" type="Script" id=5]
+[ext_resource path="res://Shaders/HeightmapMesh.shader" type="Shader" id=4]
+[ext_resource path="res://Scripts/TimeSlider.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/SeasonSlider.gd" type="Script" id=6]
 
 [sub_resource type="PlaneMesh" id=1]
 
@@ -13,27 +14,12 @@ size = Vector2( 100, 100 )
 subdivide_width = 100
 subdivide_depth = 100
 
-[sub_resource type="Shader" id=2]
-
-code = "shader_type spatial;
-
-uniform sampler2D heightmap;
-uniform sampler2D tex;
-uniform float height_range = 15;
-
-void vertex() {
-	float h = texture(heightmap, UV).g * height_range;
-	VERTEX.y = h;
-}
-
-void fragment(){
-  ALBEDO = texture(tex, UV).rgb;
-}"
-
 [sub_resource type="ShaderMaterial" id=3]
 
 render_priority = 0
-shader = SubResource( 2 )
+shader = ExtResource( 4 )
+shader_param/curv_middle = null
+shader_param/curv_factor = 0.2
 shader_param/height_range = null
 _sections_unfolded = [ "shader_param" ]
 
@@ -230,7 +216,7 @@ editable = true
 tick_count = 0
 ticks_on_borders = false
 focus_mode = 2
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 _sections_unfolded = [ "Anchor", "Margin", "Size Flags" ]
 
 [node name="SeasonSetting" type="HBoxContainer" parent="UI/MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer" index="1"]
@@ -302,7 +288,7 @@ editable = true
 tick_count = 0
 ticks_on_borders = false
 focus_mode = 2
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 _sections_unfolded = [ "Anchor", "Margin", "Size Flags" ]
 
 
