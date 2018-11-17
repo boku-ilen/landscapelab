@@ -3,6 +3,21 @@ extends Node
 # HTTPClient demo
 # This simple class can do HTTP requests, it will not block but it needs to be polled
 
+export var default_server = "http://127.0.0.1"
+export var default_port = 8000
+
+func get_texture_from_server(host, port, filename):
+	var texData = ServerConnection.getJson(host,"/maps/?filename=%s" % [filename], port).values()
+	var texBytes = PoolByteArray(texData)
+    
+	var img = Image.new()
+	var tex = ImageTexture.new()
+	
+	img.load_png_from_buffer(texBytes)
+	tex.create_from_image(img)
+	
+	return tex
+
 func getJson(host,url,port):
 	logger.info("Trying to connect to: "+host+":"+str(port)+url)
 	var err = 0

@@ -14,7 +14,11 @@ var map_drag = false
 var map_dragged = false
 
 func _ready():
-	tex = preload("res://Assets/basemap18_UTM.png")
+	var time_before = OS.get_system_time_secs()
+	tex = ServerConnection.get_texture_from_server(ServerConnection.default_server, ServerConnection.default_port, "basemap18_UTM_small.png")
+	var time_after = OS.get_system_time_secs()
+	
+	logger.info("Loading the texture from server took " + String(time_after - time_before) + " seconds")
 	
 	focus = tex.get_size() / 2
 	zoom_lv = 0
