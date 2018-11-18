@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://Shaders/HeightmapMesh.shader" type="Shader" id=1]
+
+[resource]
+
+render_priority = 0
+shader = ExtResource( 1 )
+shader_param/curv_middle = null
+shader_param/curv_factor = null
+shader_param/height_range = null
+_sections_unfolded = [ "shader_param" ]
+

@@ -6,7 +6,7 @@ uniform sampler2D water_normal;
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0); // This should be current position of the camera
 
 // Global parameters - will need to be the same in all shaders:
-uniform float curv_factor = 0.2;
+uniform float curv_factor = 0.01;
 uniform float height_scale = 1;
 
 // Other variables:
