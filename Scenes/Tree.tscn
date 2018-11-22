@@ -2,9 +2,7 @@
 
 [ext_resource path="res://Scripts/Tree.gd" type="Script" id=1]
 
-
-
-[node name="Tree" type="Spatial" index="0"]
+[node name="Tree" type="Spatial"]
 
 script = ExtResource( 1 )
 
