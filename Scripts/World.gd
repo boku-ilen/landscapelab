@@ -13,6 +13,12 @@ onready var billboardSize = 20
 var world_min
 var world_max
 
+var originRange
+var pixelSize
+var size
+var pixel_scale
+var splits
+
 # will have to add height scale somehow
 # also only works for 10m at the moment
 func createWorld(server, port, settings):
@@ -23,24 +29,22 @@ func createWorld(server, port, settings):
 		
 		if settings.has('trees'):
 			# place trees with json coordinates (XZ), on the surface (Y)
-			createTrees(server, port, settings, terrain_data)
+			createTrees(server, port, settings)
 		
 		if settings.has('buildings'):
-			createBuildings(server, port, settings, terrain_data)
+			createBuildings(server, port, settings)
 	else:
 		ErrorPrompt.show("no digital height map")
 
 
 func create_terrain(server, port, settings):
-	var originRange
-	var pixelSize
-	var size
-	var pixel_scale
 	var metadata = 0
 	
 	var dhm_settings = settings["DHM"]
 	var dhmName = dhm_settings["filename"]
-	var splits = 5
+	splits = 5
+	if dhm_settings.has("splits"):
+		splits = int(dhm_settings["splits"])
 	var skip = 9
 		
 	for p in range(0,splits * splits):
@@ -76,11 +80,7 @@ func create_terrain(server, port, settings):
 				logger.warning("could not load part %d" % p)
 	return {"size": size, "originRange": originRange, "pixelScale": pixel_scale, "splits": splits}
 
-func createTrees(server, port, settings, terrain_data):
-	var size = terrain_data["size"]
-	var originRange = terrain_data["originRange"]
-	var pixel_scale = terrain_data["pixelScale"]
-	var splits = terrain_data["splits"]
+func createTrees(server, port, settings):
 	
 	var terrain_settings = settings["trees"]
 	var multiplier = 1
@@ -115,14 +115,8 @@ func createTrees(server, port, settings, terrain_data):
 		for i in range(dict["Data"].size()):
 			# read art of tree
 			model = dict["Data"][i]["model"] 
-	
-			# read XZ coordinates
-			position.x = dict["Data"][i]["coord"][0]
-			position.z = dict["Data"][i]["coord"][1]
 			
-			# recalculate for Godot coordinates
-			position.x = (position.x-originRange[0])-(pixel_scale)*size*splits/2
-			position.z = (originRange[1]-position.z)-(pixel_scale)*size*splits/2
+			position = realWorldToLocalWorld(dict["Data"][i]["coord"])
 			
 			# find the Y coordinate on the surface
 			position.y = 0
@@ -141,7 +135,28 @@ func createTrees(server, port, settings, terrain_data):
 			tree.set_model(mesh)
 			tree.global_transform.origin = position
 
-func createBuildings(server, port, settings, terrain_data):
+func createBuildings(server, port, settings):
+	var building_settings = settings["buildings"]
+	
+	var dict = ServerConnection.getJson(server, "/buildings/?filename=%s" % building_settings['filename'],port)
+	if dict == null:
+		ErrorPrompt.show("Could not load building data")
+	elif dict.has("Error"):
+		ErrorPrompt.show("Could not load building data", dict["Error"])
+	else:
+		
+		for b in dict['Data']:
+			
+			for i in range(b['coordinates'].size()):
+				for j in range(b['coordinates'][i].size()):
+					#logger.debug(b['coordinates'][i][j])
+					b['coordinates'][i][j] = realWorldToLocalWorld(b['coordinates'][i][j])
+			
+			var building = load("res://Scenes/Building.tscn")
+			building = building.instance()
+			add_child(building)
+			building.init(b)
+			
 	pass
 
 func createBillboardMesh():
@@ -194,3 +209,17 @@ func loadLimiter(splits, include = splits):
 		for x in range(include):
 			ret.append(x + z * splits)
 	return ret
+
+func realWorldToLocalWorld(coord):
+	var v = Vector3()
+	
+	# read XZ coordinates
+	v.x = coord[0]
+	v.z = coord[1]
+	
+	# recalculate for Godot coordinates
+	v.x = (v.x-originRange[0])-(pixel_scale)*size*splits/2
+	v.z = (originRange[1]-v.z)-(pixel_scale)*size*splits/2
+	v.y = 0
+	
+	return v
