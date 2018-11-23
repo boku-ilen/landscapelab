@@ -6,11 +6,35 @@ uniform sampler2D tex;
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
 
 // Global parameters - will need to be the same in all shaders:
-uniform float curv_factor = 0.01;
-uniform float height_range = 15;
+uniform float curv_factor = 0;
+uniform float height_range = 50;
+
+uniform float subdiv;
+uniform float size;
+uniform float size_without_skirt;
+
+vec2 get_relative_pos(vec2 raw_pos) {
+	float offset_for_subdiv = ((size_without_skirt/(subdiv+1.0))/size_without_skirt);// + 0.01;
+	float factor = (size / size_without_skirt);
+	
+	vec2 pos = raw_pos * factor;// * 0.99; //* (size_without_skirt/size);
+
+	pos.x -= offset_for_subdiv;// * 0.93;
+	pos.y -= offset_for_subdiv;// * 0.93;
+	
+	pos.x = clamp(pos.x, 0.005, 0.995);
+	pos.y = clamp(pos.y, 0.005, 0.995);
+	
+	return pos;
+}
 
 float get_height(vec2 pos) {
-	return texture(heightmap, pos).g * height_range;
+	float falloff = 1.0/(10000.0);
+	
+	if (pos.x > 1.0 - falloff || pos.y > 1.0 - falloff || pos.x < falloff || pos.y < falloff) {
+		return 0.0;
+	}
+	return texture(heightmap, get_relative_pos(pos)).g * height_range;
 }
 
 void vertex() {
@@ -31,6 +55,6 @@ void vertex() {
 }
 
 void fragment(){
-	// Just apply the texture
-	ALBEDO = texture(tex, UV).rgb;
+	// TODO: These values work perfectly for 4 subdivisions - figure out why!
+	ALBEDO = texture(tex, get_relative_pos(UV)).rgb;
 }

@@ -23,6 +23,11 @@ debug="*res://Scripts/debug.gd"
 ErrorPrompt="*res://Scripts/ErrorPrompt.gd"
 GlobalSignal="*res://Scripts/GlobalSignal.gd"
 
+[display]
+
+window/size/width=1920
+window/size/height=1080
+
 [gdnative]
 
 singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib" ]
@@ -84,4 +89,5 @@ limits/message_queue/max_size_kb=1048576
 
 [rendering]
 
+quality/shadows/filter_mode=2
 environment/default_environment="res://default_env.tres"

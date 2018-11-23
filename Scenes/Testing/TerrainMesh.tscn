@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/Testing/WorldMesh.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Testing/TerrainMesh.gd" type="Script" id=2]
+[ext_resource path="res://Shaders/HeightmapMesh.shader" type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=1]
+
+render_priority = 0
+shader = ExtResource( 3 )
+shader_param/curv_middle = null
+shader_param/curv_factor = null
+shader_param/height_range = null
+_sections_unfolded = [ "shader_param" ]
+
+[node name="TerrainMesh" instance=ExtResource( 1 )]
+
+script = ExtResource( 2 )
+
+[node name="Mesh" parent="." index="0"]
+
+material_override = SubResource( 1 )
+mesh = null
+_sections_unfolded = [ "Geometry", "material" ]
+
+

@@ -1,17 +1,18 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/main.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=3]
-[ext_resource path="res://Scripts/World.gd" type="Script" id=4]
-[ext_resource path="res://Scripts/MeshInstance_Terrain.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/SplatmapWater.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/World.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/MeshInstance_Terrain.gd" type="Script" id=6]
 
 [sub_resource type="ArrayMesh" id=1]
 
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 
-[node name="main" type="Spatial" index="0"]
+[node name="main" type="Spatial"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pause", "Transform", "Visibility" ]
@@ -112,9 +113,11 @@ sprint_action = "ui_sprint"
 use_gui = false
 gui_action = "ui_cancel"
 
-[node name="World" type="Spatial" parent="." index="2"]
+[node name="SplatmapWater" parent="." index="2" instance=ExtResource( 4 )]
 
-script = ExtResource( 4 )
+[node name="World" type="Spatial" parent="." index="3"]
+
+script = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Terrain" type="MeshInstance" parent="World" index="0"]
@@ -131,7 +134,7 @@ lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
 mesh = SubResource( 1 )
 skeleton = NodePath("..")
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 _sections_unfolded = [ "Geometry", "Pause", "Transform", "Visibility" ]
 
 
