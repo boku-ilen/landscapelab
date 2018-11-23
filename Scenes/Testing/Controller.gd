@@ -57,5 +57,3 @@ func fly(delta):
 	
 	# move
 	move_and_slide(velocity)
-	
-	print(velocity)
