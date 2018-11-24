@@ -12,7 +12,7 @@
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 
-[node name="main" type="Spatial"]
+[node name="main" type="Spatial" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pause", "Transform", "Visibility" ]

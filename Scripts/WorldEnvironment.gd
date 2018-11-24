@@ -1,8 +1,8 @@
 tool
 extends WorldEnvironment
 
-export var server = "http://127.0.0.1"
-export var port = 8000
+var server = global.server
+var port = global.port
 
 onready var light = get_node("DirectionalLight")
 

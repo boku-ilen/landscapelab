@@ -74,7 +74,7 @@ func _draw():
 
 func get_map_point():
 	var mouse = get_local_mouse_position()
-	if rect_size.x > 0 && rect_size.y > 0:
+	if rect_size.x > 0 && rect_size.y > 0 && tex.get_width() > 0 && tex.get_height() > 0:
 		if mouse.x >= 0 && mouse.y >= 0 && mouse.x <= rect_size.x && mouse.y <= rect_size.y:
 			var map_aim = Vector2(mouse.x / rect_size.x, mouse.y / rect_size.y)
 			

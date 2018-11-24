@@ -26,7 +26,7 @@ func init(bData):
 	var mean = Vector3(0,0,0)
 	var b_points = [[],[]]
 	for p in bData['coordinates'][0]:
-		b_points[0].append(p - buildingData['coordinates'][0][0])
+		b_points[0].append(p - Vector3(0,floor_height, 0) - buildingData['coordinates'][0][0])
 		b_points[1].append(p + Vector3(0,floor_height * bData['floors'], 0) - buildingData['coordinates'][0][0])
 		mean += p - buildingData['coordinates'][0][0]
 	
@@ -59,9 +59,9 @@ func init(bData):
 		surfTool.add_vertex(b_points[1][e])
 		#surfTool.add_uv(Vector2(0,1))
 	
+	surfTool.generate_normals()
 	var mesh = surfTool.commit()
 	get_child(0).mesh = mesh
-	
 	
 	translate(buildingData['coordinates'][0][0])
 	update_position()
