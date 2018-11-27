@@ -6,7 +6,6 @@ onready var terrain = get_node("Terrain")
 # for loading 3D mesh
 #onready var 3DModel = preload("res://Assets/Pine.tres")
 onready var billboardModel = preload("res://Scenes/Tree.tscn")
-onready var billboardTexture = preload("res://Tree.tres")
 # TODO: load size from json
 onready var billboardSize = 20
 
@@ -102,12 +101,6 @@ func createTrees(server, port, settings):
 	elif dict.has("Error"):
 		ErrorPrompt.show("Could not load tree data", dict["Error"])
 	else:
-		
-		#var mesh = 3DModel  # for using 3D mesh
-		
-		# create billboard mesh
-		var mesh = createBillboardMesh()
-		
 		var model
 		var position = Vector3()
 		
@@ -132,7 +125,6 @@ func createTrees(server, port, settings):
 			var tree = billboardModel.instance()
 			tree.name = "Tree%d" % i
 			parent.add_child(tree)
-			tree.set_model(mesh)
 			tree.global_transform.origin = position
 
 func createBuildings(server, port, settings):
@@ -158,42 +150,6 @@ func createBuildings(server, port, settings):
 			building.init(b)
 			
 	pass
-
-func createBillboardMesh():
-	var surfTool = SurfaceTool.new()
-	var material = SpatialMaterial.new()
-	surfTool.begin(Mesh.PRIMITIVE_TRIANGLES)
-	surfTool.set_material(material)
-
-	material.flags_unshaded = true;
-	material.flags_transparent = true;
-	material.flags_albedo_tex_force_srgb = true;
-	material.params_billboard_mode = 2;
-	
-	# TODO: add different models/textures
-	material.albedo_texture = billboardTexture
-	# TODO: load size from json
-	var size = billboardSize;
-	
-	billboardsite(surfTool, size)
-	
-	var mesh = surfTool.commit()
-	return(mesh)
-
-# build a mesh (two triangles)
-func billboardsite(surfTool, size):
-	surfTool.add_uv(Vector2(0, 0));
-	surfTool.add_vertex(Vector3(size, size,  0))
-	surfTool.add_uv(Vector2(1, 1));
-	surfTool.add_vertex(Vector3( 0,  0,  0))
-	surfTool.add_uv(Vector2(1, 0));
-	surfTool.add_vertex(Vector3( 0, size,  0))
-	surfTool.add_uv(Vector2(0, 0));
-	surfTool.add_vertex(Vector3(size, size,  0))
-	surfTool.add_uv(Vector2(0, 1));
-	surfTool.add_vertex(Vector3(size,  0,  0))
-	surfTool.add_uv(Vector2(1, 1));
-	surfTool.add_vertex(Vector3( 0,  0,  0))
 
 	
 # this function is just for testing purposes
