@@ -12,6 +12,8 @@ var current_season = 0
 var base_horizon_color = Color(142.0 / 255.0, 209.0 / 255.0, 232.0 / 255.0, 1.0) # Godot's default values - they look pretty good
 var base_top_color = Color(12.0 / 255.0, 116.0 / 255.0, 249.0 / 255.0, 1)
 
+var sun_change_thread = Thread.new()
+
 func get_middle_of_season(season): # 0 = winter, 1 = spring, 2 = summer, 3 = fall
 	return {day = 1, month = 2 + season * 3, year = 2018}
 	# Example: Spring -> 1.5.2018
@@ -96,9 +98,15 @@ func _on_season_changed(season):
 func update_time_season():
 	# Run this in a thread to prevent stutter while waiting for HTTP request
 	
-	# TODO: Kill old thread on new request
-	var sun_change_thread = Thread.new()
+	if sun_change_thread.is_active():
+		logger.warning("Attempt to change time/season, but last change hasn't finished - aborting")
+		return
+	
 	sun_change_thread.start(self, "_bg_set_sun_position_for_seasontime", [current_season, current_time])
 	
 func _bg_set_sun_position_for_seasontime(data): # Threads can only take one argument, so we need this helper function
 	set_sun_position_for_seasontime(data[0], data[1])
+	call_deferred("end_thread")
+	
+func end_thread():
+	sun_change_thread.wait_to_finish()
