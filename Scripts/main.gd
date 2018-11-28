@@ -1,4 +1,3 @@
-tool
 extends Spatial
 
 var server = global.server

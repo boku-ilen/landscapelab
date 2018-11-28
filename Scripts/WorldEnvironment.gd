@@ -1,4 +1,3 @@
-tool
 extends WorldEnvironment
 
 var server = global.server

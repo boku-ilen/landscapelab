@@ -1,4 +1,3 @@
-tool
 extends Spatial
 
 onready var terrain = get_node("Terrain")
