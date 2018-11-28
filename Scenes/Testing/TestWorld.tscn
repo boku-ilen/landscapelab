@@ -1,15 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Testing/TestWorld.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Testing/TileSpawner.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Testing/Viewport.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Testing/Controller.gd" type="Script" id=5]
-
-[sub_resource type="CapsuleShape" id=1]
-
-radius = 1.0
-height = 1.0
 
 [node name="TestWorld" type="Spatial" index="0"]
 
@@ -26,7 +21,7 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="DirectionalLight" parent="WorldEnvironment" index="0"]
 
-transform = Transform( -0.664444, 0.518196, -0.538504, -0.212159, 0.560125, 0.800779, 0.716591, 0.646321, -0.262232, 0, 8.25474, 0 )
+transform = Transform( -0.636953, 0.691893, -0.33996, -0.48699, -0.0192777, 0.873195, 0.597605, 0.721741, 0.349224, 0, 525.18, 0 )
 light_cull_mask = -1
 shadow_bias = 0.65
 directional_shadow_blend_splits = true
@@ -80,7 +75,7 @@ _sections_unfolded = [ "Audio Listener", "Render Target", "Rendering" ]
 
 [node name="Controller" type="KinematicBody" parent="ViewportContainer/Viewport" index="0"]
 
-transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 40, 92.0722, 117.704 )
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -364, 955.072, -554.296 )
 input_ray_pickable = true
 input_capture_on_drag = false
 collision_layer = 1
@@ -94,6 +89,8 @@ axis_lock_angular_z = false
 collision/safe_margin = 0.001
 script = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
+FLY_SPEED = 1000
+FLY_ACCEL = 50
 
 [node name="Head" type="Spatial" parent="ViewportContainer/Viewport/Controller" index="0"]
 
@@ -101,6 +98,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Camera" type="Camera" parent="ViewportContainer/Viewport/Controller/Head" index="0"]
 
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 keep_aspect = 1
 cull_mask = 1048575
 environment = null
@@ -112,13 +110,8 @@ current = true
 fov = 70.0
 size = 1.0
 near = 0.05
-far = 5000.0
+far = 50000.0
 _sections_unfolded = [ "Transform" ]
-
-[node name="CollisionShape" type="CollisionShape" parent="ViewportContainer/Viewport/Controller" index="1"]
-
-shape = SubResource( 1 )
-disabled = false
 
 
 [editable path="WorldEnvironment"]

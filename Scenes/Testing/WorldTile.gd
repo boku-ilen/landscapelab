@@ -18,13 +18,14 @@ var split_all = false
 
 var tile_scene = preload("res://Scenes/Testing/WorldTile.tscn")
 
-var near_sphere_mult = 2
 var max_lod = 3
 
 var activated = false
-var player_bounding_radius = 100
+var player_bounding_radius = 750
+var near_factor = 2
 var last_player_pos
-	
+
+# This seems to be the real problem for performance... try running things in threads!
 func init(s, hm, tex, img, lod_level): # water map, ... will go here
 	size = s
 	heightmap = hm
@@ -32,7 +33,7 @@ func init(s, hm, tex, img, lod_level): # water map, ... will go here
 	image = img # TODO testing only
 	lod = lod_level
 	
-	size = terrain.create(size, heightmap, texture)
+	terrain.call_deferred("create", size, heightmap, texture) # This makes things slightly better than calling it directly, investigate this further
 	
 	initialized = true
 	
@@ -60,6 +61,8 @@ func activate(player_pos):
 	for child in children.get_children():
 		if child.has_method("activate"):
 			child.activate(last_player_pos)
+			
+var split_thread = Thread.new()
 	
 func _process(delta):
 	if !activated: return
@@ -67,9 +70,18 @@ func _process(delta):
 	# Check which tiles collide with player bounds
 	if player_collide_with_bounds():
 		split()
+#		if !split_thread.is_active():
+#			split_thread.start(self, "split_in_thread")
 	else:
 		set_meshes_visible()
 		activated = false
+		
+func split_in_thread(data): # This has worse performance than without threads...
+	call_deferred("split")
+	call_deferred("end_thread")
+	
+func end_thread():
+	split_thread.wait_to_finish()
 	
 func split():
 	if lod == max_lod: return # Don't split more often than max_lod
@@ -102,7 +114,7 @@ func split():
 			new_tex_texture.create_from_image(new_tex, 8)
 			
 			# Apply
-			var unique_name = randi() # TODO: not necessarily unique!
+			var unique_name = randi()*randi() # TODO: not necessarily unique!
 			child.name = String(unique_name)
 			
 			children.add_child(child)
@@ -113,7 +125,7 @@ func split():
 	
 	has_split = true
 	
-func player_collide_with_bounds():
+func player_collide_with_bounds(factor = 1):
 	# Get closest point within rectangle to circle
 	var clamped = Vector2()
 	
@@ -126,4 +138,4 @@ func player_collide_with_bounds():
 	
 	var dist = last_player_pos.distance_to(clamped)
 	
-	return dist < player_bounding_radius
+	return dist < player_bounding_radius / factor

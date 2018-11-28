@@ -8,8 +8,8 @@ var mouse_sensitivity = 0.1
 var camera_angle = 0
 var velocity = Vector3()
 
-var FLY_SPEED = 100
-var FLY_ACCEL = 10
+export var FLY_SPEED = 1000
+export var FLY_ACCEL = 50
 
 onready var head = get_node("Head")
 onready var camera = head.get_node("Camera")

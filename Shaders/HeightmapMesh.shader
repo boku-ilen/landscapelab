@@ -7,7 +7,7 @@ uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
 
 // Global parameters - will need to be the same in all shaders:
 uniform float curv_factor = 0;
-uniform float height_range = 50;
+uniform float height_range = 600;
 
 uniform float subdiv;
 uniform float size;
@@ -49,9 +49,9 @@ void vertex() {
 	VERTEX.y -= dist_to_middle;
 	
 	// Calculate normal
-	float e = 0.002;
+	float e = size / 20000.0;
 
-	NORMAL = normalize(vec3(get_height(UV - vec2(e, 0)) - get_height(UV + vec2(e, 0)), 2.0 , get_height(UV - vec2(0, e)) - get_height(UV + vec2(0, e))));
+	//NORMAL = normalize(vec3(get_height(UV - vec2(e, 0)) - get_height(UV + vec2(e, 0)), 2.0 , get_height(UV - vec2(0, e)) - get_height(UV + vec2(0, e))));
 }
 
 void fragment(){

@@ -2,7 +2,7 @@ tool
 extends Spatial
 
 var tile = preload("res://Scenes/Testing/WorldTile.tscn")
-var gridsize = 100
+var gridsize = 1000
 
 onready var player = get_tree().get_root().get_node("TestWorld/ViewportContainer/Viewport/Controller")
 var player_bound_radius = 50
@@ -44,7 +44,6 @@ func _process(delta):
 		for x in range(player_tile.x - 2, player_tile.x + 3):
 			for y in range(player_tile.y - 2, player_tile.y + 3):
 				if has_node("%d,%d" % [x, y]):
-					print("At node %d,%d" % [x, y])
 					get_node("%d,%d" % [x, y]).activate(Vector2(player.translation.x, player.translation.z))
 		
 func get_tile_at_player():
