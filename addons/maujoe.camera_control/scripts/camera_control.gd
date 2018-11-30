@@ -60,6 +60,10 @@ var sprinting = false
 var vr_on = false
 var vrcamera = null
 var vrorigin = null
+var player_height = 1.7
+var walk_mode = false
+
+signal position_updated
 
 func _ready():
 	_check_actions([forward_action, backward_action, left_action, right_action, gui_action, up_action, down_action])
@@ -181,6 +185,11 @@ func _update_movement(delta):
 				#this is probably wrong as it would move the origin relative to origins transform and not vrcameras
 			else:
 				vrorigin.get_ref().global_translate(_speed * delta)
+			if walk_mode:
+				transform = vrcamera.get_ref().global_transform
+				var hght = get_height_above_ground()
+				if hght != null :
+					vrorigin.get_ref().global_translate(Vector3(0,player_height - hght, 0))
 		else:
 			logger.error("vrorigin or vrcamera is null or not in tree")
 			getVRNodes()
@@ -190,6 +199,11 @@ func _update_movement(delta):
 			translate(_speed * delta)
 		else:
 			global_translate(_speed * delta)
+		if walk_mode:
+			var hght = get_height_above_ground()
+			if hght != null:
+				global_translate(Vector3(0,player_height - hght, 0))
+	emit_signal("position_updated")
 
 func _update_mouselook():
 	_mouse_position += _controller_position
@@ -324,6 +338,10 @@ func teleport(t):
 	logger.info("teleporting")
 	
 	transform = t
+
+func set_walk_mode(new_val):
+	walk_mode = new_val
+	logger.info("walk mode toggled " + ("on" if walk_mode else "off"))
 
 func get_height_above_ground():
 	var position = transform.origin
