@@ -21,7 +21,7 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="DirectionalLight" parent="WorldEnvironment" index="0"]
 
-transform = Transform( -0.636953, 0.691893, -0.33996, -0.48699, -0.0192777, 0.873195, 0.597605, 0.721741, 0.349224, 0, 525.18, 0 )
+transform = Transform( 0.36983, -0.76694, 0.524429, -0.809914, 0.0104613, 0.586455, -0.455263, -0.641632, -0.617288, 52.5922, 572.21, 23.3714 )
 light_cull_mask = -1
 shadow_bias = 0.65
 directional_shadow_blend_splits = true

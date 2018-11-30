@@ -48,10 +48,11 @@ void vertex() {
 	
 	VERTEX.y -= dist_to_middle;
 	
-	// Calculate normal
-	float e = size / 20000.0;
+	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
+	// e is the offset factor. Note: This might be dependent on the picture resolution! The current value works for my test images.
+	float e = 1.0 / 50.0;
 
-	//NORMAL = normalize(vec3(get_height(UV - vec2(e, 0)) - get_height(UV + vec2(e, 0)), 2.0 , get_height(UV - vec2(0, e)) - get_height(UV + vec2(0, e))));
+	NORMAL = normalize(vec3(-get_height(UV - vec2(e, 0)) + get_height(UV + vec2(e, 0)), 2.0 , -get_height(UV - vec2(0, e)) + get_height(UV + vec2(0, e))));
 }
 
 void fragment(){
