@@ -3,7 +3,7 @@
 [ext_resource path="res://Materials/BillboardMaterial.tres" type="Material" id=1]
 [ext_resource path="res://Tree.png" type="Texture" id=2]
 
-[node name="Tree" type="Spatial" index="0"]
+[node name="Tree" type="Spatial"]
 
 [node name="Sprite3D" type="Sprite3D" parent="." index="0"]
 

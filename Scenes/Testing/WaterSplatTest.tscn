@@ -14,13 +14,16 @@ size = Vector2( 100, 100 )
 subdivide_width = 100
 subdivide_depth = 100
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=2]
 
 render_priority = 0
 shader = ExtResource( 4 )
 shader_param/curv_middle = null
 shader_param/curv_factor = 0.2
 shader_param/height_range = null
+shader_param/subdiv = null
+shader_param/size = null
+shader_param/size_without_skirt = null
 _sections_unfolded = [ "shader_param" ]
 
 [node name="main" type="Spatial" index="0"]
@@ -63,7 +66,7 @@ lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
 mesh = SubResource( 1 )
 skeleton = NodePath("..")
-material/0 = SubResource( 3 )
+material/0 = SubResource( 2 )
 _sections_unfolded = [ "material" ]
 
 [node name="UI" type="Control" parent="." index="4"]
@@ -101,8 +104,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_right = 1920.0
+margin_bottom = 1080.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -119,8 +122,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1016.0
-margin_bottom = 600.0
+margin_right = 1912.0
+margin_bottom = 1080.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -135,9 +138,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 839.0
-margin_right = 1016.0
-margin_bottom = 600.0
+margin_left = 1735.0
+margin_right = 1912.0
+margin_bottom = 1080.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -153,9 +156,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 266.0
+margin_top = 506.0
 margin_right = 177.0
-margin_bottom = 298.0
+margin_bottom = 538.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -225,9 +228,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 302.0
+margin_top = 542.0
 margin_right = 177.0
-margin_bottom = 334.0
+margin_bottom = 574.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
