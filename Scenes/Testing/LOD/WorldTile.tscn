@@ -1,7 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scenes/Testing/WorldTile.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Testing/TerrainMesh.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Testing/LOD/WorldTile.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Testing/LOD/TerrainMesh.tscn" type="PackedScene" id=2]
+
+
 
 [node name="WorldTile" type="Spatial"]
 

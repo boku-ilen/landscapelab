@@ -1,11 +1,11 @@
 tool
 extends Spatial
 
-var tile = preload("res://Scenes/Testing/WorldTile.tscn")
-var gridsize = 1000
+var tile = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
+var gridsize = 5000
 
 onready var player = get_tree().get_root().get_node("TestWorld/ViewportContainer/Viewport/Controller")
-var player_bound_radius = 50
+var player_bound_radius = 100
 
 var update_interval = 0.2
 var time_to_interval = 0
@@ -17,7 +17,7 @@ func _ready():
 		for x in range(0, 20):
 			#var map = load("res://Scenes/Testing/testlandia/test_%d.png" % [num])
 			var map_img = Image.new() # TODO testing only
-			map_img.load("res://Scenes/Testing/testlandia/test_%d.png" % [num])
+			map_img.load("res://Scenes/Testing/LOD/testlandia/test_%d.png" % [num])
 			var map = ImageTexture.new()
 			map.create_from_image(map_img, 8)
 	

@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Scenes/Testing/TileSpawner.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Testing/LOD/TileSpawner.gd" type="Script" id=1]
+
 
 [node name="TileSpawner" type="Spatial"]
 

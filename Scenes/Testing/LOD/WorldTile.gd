@@ -16,17 +16,24 @@ var initialized = false
 
 var split_all = false
 
-var tile_scene = preload("res://Scenes/Testing/WorldTile.tscn")
+var tile_scene = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
 
-var max_lod = 3
+var max_lod = 5
 
 var activated = false
 var player_bounding_radius = 750
 var near_factor = 2
 var last_player_pos
 
-# This seems to be the real problem for performance... try running things in threads!
 func init(s, hm, tex, img, lod_level): # water map, ... will go here
+	# Currently, this function receives img and tex paramters.
+	# This is only for testing - in the future, this init function will get all textures from the middleware
+		# using the position and size variables.
+	
+	# Of course, getting things from the middleware can take a bit, so this must not be blocking!
+	# Therefore, it will spawn a thread to get everything it needs and then create the terrain there.
+	# This means that the 'initialized' variable will have to be set there and checked whenever dealing with tiles - there
+		# will be a good chance that tiles which are being dealt with aren't initialized yet!
 	size = s
 	heightmap = hm
 	texture = tex
@@ -83,6 +90,8 @@ func split_in_thread(data): # This has worse performance than without threads...
 func end_thread():
 	split_thread.wait_to_finish()
 	
+# This function seems to hinder performance *sometimes* - Most of the time, it takes 0-2ms, but often, it's around 16ms.
+# Or possibly, this is because of other reasons?
 func split():
 	if lod == max_lod: return # Don't split more often than max_lod
 	if !initialized: return
@@ -92,8 +101,6 @@ func split():
 	
 	var my_tex = image
 	var current_tex_size = my_tex.get_size()
-	
-	print("Splitting at LOD %d" % [lod])
 	
 	# Add 4 children
 	for x in range(0, 2):
@@ -107,6 +114,7 @@ func split():
 			child.translation = offset.rotated(Vector3(0, 1, 0), PI) # Need to rotate in order to match up with get_rect image part
 			
 			# Get appropriate maps
+			# This is what takes ~15ms often, and causes stutters!
 			var rec_size = current_tex_size/2.0
 			var new_tex = my_tex.get_rect(Rect2(rec_size * xy_vec, rec_size))
 			

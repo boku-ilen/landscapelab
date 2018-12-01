@@ -8,8 +8,7 @@ var mouse_sensitivity = 0.1
 var camera_angle = 0
 var velocity = Vector3()
 
-export var FLY_SPEED = 1000
-export var FLY_ACCEL = 50
+var FLY_SPEED = 5000
 
 onready var head = get_node("Head")
 onready var camera = head.get_node("Camera")
@@ -52,8 +51,5 @@ func fly(delta):
 	# where would the player go at max speed
 	var target = direction * FLY_SPEED
 	
-	# calculate a portion of the distance to go
-	velocity = velocity.linear_interpolate(target, FLY_ACCEL * delta)
-	
 	# move
-	move_and_slide(velocity)
+	translation += target * delta
