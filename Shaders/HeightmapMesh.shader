@@ -6,8 +6,8 @@ uniform sampler2D tex;
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
 
 // Global parameters - will need to be the same in all shaders:
-uniform float curv_factor = 0;
-uniform float height_range = 600;
+uniform float curv_factor = 0.01;
+uniform float height_range = 2000;
 
 uniform float subdiv;
 uniform float size;
@@ -28,13 +28,18 @@ vec2 get_relative_pos(vec2 raw_pos) {
 	return pos;
 }
 
+float get_height_no_falloff(vec2 pos) {
+	return texture(heightmap, get_relative_pos(pos)).g * height_range;
+}
+
 float get_height(vec2 pos) {
 	float falloff = 1.0/(10000.0);
 	
 	if (pos.x > 1.0 - falloff || pos.y > 1.0 - falloff || pos.x < falloff || pos.y < falloff) {
 		return 0.0;
 	}
-	return texture(heightmap, get_relative_pos(pos)).g * height_range;
+	
+	return get_height_no_falloff(pos);
 }
 
 void vertex() {
@@ -50,9 +55,10 @@ void vertex() {
 	
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor. Note: This might be dependent on the picture resolution! The current value works for my test images.
-	float e = 1.0 / 50.0;
+	// It still causes some artifacts, especially on small tiles :/
+	float e = 5.0 / 50.0;
 
-	NORMAL = normalize(vec3(-get_height(UV - vec2(e, 0)) + get_height(UV + vec2(e, 0)), 2.0 , -get_height(UV - vec2(0, e)) + get_height(UV + vec2(0, e))));
+	NORMAL = normalize(vec3(-get_height_no_falloff(UV - vec2(e, 0)) + get_height_no_falloff(UV + vec2(e, 0)), 2.0 , -get_height_no_falloff(UV - vec2(0, e)) + get_height_no_falloff(UV + vec2(0, e))));
 }
 
 void fragment(){
