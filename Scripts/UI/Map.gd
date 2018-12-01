@@ -13,6 +13,8 @@ export var zoom_step = [1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24, 32]
 var map_drag = false
 var map_dragged = false
 
+var map_follow = true
+
 func _ready():
 	var time_before = OS.get_system_time_secs()
 	tex = ServerConnection.get_texture_from_server(ServerConnection.default_server, ServerConnection.default_port, "basemap18_UTM_small.png")
@@ -24,17 +26,18 @@ func _ready():
 	zoom_lv = 0
 
 func _process(delta):
+	if map_follow:
+		follow_player()
+		pass
 	set_cursor()
 
 func _input(event):
 	event = make_input_local(event)
 	if event is InputEventMouseMotion:
-		#logger.info(event.relative)
-		if map_drag:
-			map_dragged = true
-			focus -= event.relative * tex.get_size() / (rect_size * zoom_step[zoom_lv])
-		else:
-			pass
+		if !map_follow:
+			if map_drag:
+				map_dragged = true
+				focus -= event.relative * tex.get_size() / (rect_size * zoom_step[zoom_lv])
 	elif event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			map_drag = event.pressed
@@ -45,13 +48,23 @@ func _input(event):
 					player_tp(map_point)
 			
 			map_dragged = false
-			pass
 		elif event.button_index == BUTTON_WHEEL_UP:
 			zoom_lv = min(zoom_step.size() - 1, zoom_lv + 1)
 		elif event.button_index == BUTTON_WHEEL_DOWN:
 			zoom_lv = max(0, zoom_lv - 1)
 	
+	update_map()
+
+func follow_player():
+	var t = player.transform
+	var o = t.origin - world.world_min
+	var wm = world.world_max - world.world_min
 	
+	focus = Vector2(o.x / wm.x, o.z / wm.z) * tex.get_size()
+	update_map()
+	pass
+
+func update_map():
 	# enforcing edge boundaries
 	var p1 = get_texture_area_start()
 	var p2 = p1 + get_texture_area()
@@ -102,6 +115,8 @@ func player_tp(mp):
 	)
 	player.teleport(t)
 
+func set_map_mode(follow):
+	map_follow = follow
 
 func set_cursor():
 	var t = player.transform
