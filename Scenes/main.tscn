@@ -12,7 +12,7 @@
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 
-[node name="main" type="Spatial"]
+[node name="main" type="Spatial" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pause", "Transform", "Visibility" ]
@@ -110,6 +110,7 @@ look_down = "ui_look_down"
 look_left = "ui_look_left"
 look_right = "ui_look_right"
 sprint_action = "ui_sprint"
+toggle_wireframe_action = "toggle_wireframe"
 use_gui = false
 gui_action = "ui_cancel"
 
