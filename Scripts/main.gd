@@ -22,7 +22,7 @@ func _ready():
 	logger.set_level(0)
 	
 	
-	areas = ServerConnection.getJson(server, "/areas/", port)
+	areas = ServerConnection.getJson(server, "/location/areas/", port)
 	if areas.has("Error"):
 		ErrorPrompt.show("can not load areas", areas["Error"])
 	else:
@@ -46,7 +46,7 @@ func create_choose_area_list():
 
 func init_world(index):
 	logger.info("loading area %s" % areas[index])
-	var settings = ServerConnection.getJson(server,"/areas/?filename=%s" % areas[index], port)
+	var settings = ServerConnection.getJson(server,"/location/areas/?filename=%s" % areas[index], port)
 	if settings.has("Error"):
 		ErrorPrompt.show("could not load %s" % areas[index], settings["Error"])
 	else:

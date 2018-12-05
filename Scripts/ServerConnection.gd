@@ -7,7 +7,7 @@ var default_server = global.server
 var default_port = global.port
 
 func get_texture_from_server(host, port, filename):
-	var texData = ServerConnection.getJson(host,"/maps/?filename=%s" % [filename], port).values()
+	var texData = ServerConnection.getJson(host,"/raster/%s" % [filename], port).values()
 	var texBytes = PoolByteArray(texData)
     
 	var img = Image.new()

@@ -4,7 +4,7 @@ onready var mesh_shader = get_node("GroundMesh").get_surface_material(0)
 onready var water = get_node("WaterMesh")
 
 func get_texture_from_server(filename):
-	var texData = ServerConnection.getJson("http://127.0.0.1","/maps/?filename=%s" % [filename], 8000).values()
+	var texData = ServerConnection.getJson("http://127.0.0.1","/raster/%s" % [filename], 8000).values()  #FIXME: make host and port configurable
 	var texBytes = PoolByteArray(texData)
     
 	var img = Image.new()
