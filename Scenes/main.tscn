@@ -110,6 +110,7 @@ look_down = "ui_look_down"
 look_left = "ui_look_left"
 look_right = "ui_look_right"
 sprint_action = "ui_sprint"
+toggle_wireframe_action = "toggle_wireframe"
 use_gui = false
 gui_action = "ui_cancel"
 

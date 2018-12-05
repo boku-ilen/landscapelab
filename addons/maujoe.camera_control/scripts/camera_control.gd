@@ -39,10 +39,14 @@ export var look_down = "ui_look_down"
 export var look_left = "ui_look_left"
 export var look_right = "ui_look_right"
 export var sprint_action = "ui_sprint"
+export var toggle_wireframe_action = "toggle_wireframe"
 
 # Gui settings
 export var use_gui = true
 export var gui_action = "ui_cancel"
+
+# Nodes
+onready var viewport = get_parent()
 
 # Intern variables.
 var _mouse_position = Vector2(0.0, 0.0)
@@ -64,6 +68,14 @@ var player_height = 1.7
 var walk_mode = false
 
 signal position_updated
+
+func _init():
+	# This line is necessary for getting wireframes to work - see https://github.com/godotengine/godot/issues/15149, where I requested clarification.
+	# I did not notice a performance drop, but I suspect it is possible that this can cause performance issues. (unforuntately it is not documented at all)
+	# Putting this in the same block as 'viewport.debug_draw = Viewport.DEBUG_DRAW_WIREFRAME' did not work - afaik, this is because
+		# it needs to be on all the time since wireframes are only created as soon as an object is created.
+	# In the future, we might consider implementing a global debug mode which needs to be turned on or off before running the program?
+	VisualServer.set_debug_generate_wireframes(true)
 
 func _ready():
 	_check_actions([forward_action, backward_action, left_action, right_action, gui_action, up_action, down_action])
@@ -137,6 +149,15 @@ func _input(event):
 			max_speed *= sprint_multiplier
 		elif event.is_action_released(sprint_action):
 			max_speed /= sprint_multiplier
+	
+	# Toggle wireframe mode or normal mode
+	if event.is_action_pressed(toggle_wireframe_action):
+		if viewport.debug_draw == Viewport.DEBUG_DRAW_DISABLED: # If debug draw is currently off, change to wireframe
+			logger.info("Turning wireframes on")
+			viewport.debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
+		else: # Else (if there currently is a debug draw mode turned on), change to normal
+			logger.info("Turning wireframes off")
+			viewport.debug_draw = Viewport.DEBUG_DRAW_DISABLED
 
 func _process(delta):
 	if privot:
