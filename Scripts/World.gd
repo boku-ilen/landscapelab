@@ -55,7 +55,7 @@ func create_terrain(server, port, settings):
 				# ""Metadata": {"PixelSize": [10.0, -10.0], "OriginRange":..."
 			# example for showing json in browser: 
 				# http://127.0.0.1:8000/dhm/?filename=DTM_10x10_UTM_30km.tif&splits=5&skip=9&part=0
-			var jsonTerrain = ServerConnection.getJson(server,"/dhm/?filename=%s&splits=%d&skip=%d&part=%d" % [dhmName, splits, skip, p], port)
+			var jsonTerrain = ServerConnection.getJson(server,"/raster/dhm/?filename=%s&splits=%d&skip=%d&part=%d" % [dhmName, splits, skip, p], port)
 			if not jsonTerrain.has("Error"):
 				# height (Y) data saved row after row in 1-dimentional array
 				var dataset = terrain.jsonTerrain(jsonTerrain)
