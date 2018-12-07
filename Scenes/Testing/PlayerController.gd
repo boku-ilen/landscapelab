@@ -16,7 +16,7 @@ onready var camera = head.get_node("Camera")
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-func _process(delta):
+func _physics_process(delta):
 	fly(delta)
 
 func _input(event):
@@ -47,6 +47,9 @@ func fly(delta):
 		direction += aim.x
 	
 	direction = direction.normalized()
+	
+	if Input.is_action_pressed("ui_sprint"):
+		direction /= 10
 	
 	# where would the player go at max speed
 	var target = direction * FLY_SPEED

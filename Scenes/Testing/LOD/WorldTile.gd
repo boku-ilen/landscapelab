@@ -18,14 +18,36 @@ var split_all = false
 
 var tile_scene = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
 
-var max_lod = 5
+var max_lod = 3
 
 var activated = false
-var player_bounding_radius = 750
+var created = false
+var player_bounding_radius = 3000
 var near_factor = 2
 var last_player_pos
 
-func init(s, hm, tex, img, lod_level): # water map, ... will go here
+var will_activate_at_pos
+var create_thread = Thread.new()
+
+func _ready():
+#	create_thread.start(self, "create")
+	create([])
+
+func create(data):
+	if initialized:
+		terrain.call_deferred("create", size, heightmap, texture) # This makes things slightly better than calling it directly
+		if will_activate_at_pos:
+			activate(will_activate_at_pos)
+	else:
+		print("Warning: Uninitialized WorldTile created")
+		
+	call_deferred("end_create_thread")
+	created = true
+		
+func end_create_thread():
+	create_thread.wait_to_finish()
+
+func init(s, hm, tex, img, lod_level, activate_pos=null): # water map, ... will go here
 	# Currently, this function receives img and tex paramters.
 	# This is only for testing - in the future, this init function will get all textures from the middleware
 		# using the position and size variables.
@@ -40,9 +62,9 @@ func init(s, hm, tex, img, lod_level): # water map, ... will go here
 	image = img # TODO testing only
 	lod = lod_level
 	
-	terrain.call_deferred("create", size, heightmap, texture) # This makes things slightly better than calling it directly, investigate this further
-	
 	initialized = true
+	
+	will_activate_at_pos = activate_pos
 	
 func clear_meshes():
 	for child in meshes.get_children():
@@ -68,8 +90,6 @@ func activate(player_pos):
 	for child in children.get_children():
 		if child.has_method("activate"):
 			child.activate(last_player_pos)
-			
-var split_thread = Thread.new()
 	
 func _process(delta):
 	if !activated: return
@@ -77,18 +97,9 @@ func _process(delta):
 	# Check which tiles collide with player bounds
 	if player_collide_with_bounds():
 		split()
-#		if !split_thread.is_active():
-#			split_thread.start(self, "split_in_thread")
 	else:
 		set_meshes_visible()
 		activated = false
-		
-func split_in_thread(data): # This has worse performance than without threads...
-	call_deferred("split")
-	call_deferred("end_thread")
-	
-func end_thread():
-	split_thread.wait_to_finish()
 	
 # This function seems to hinder performance *sometimes* - Most of the time, it takes 0-2ms, but often, it's around 16ms.
 # Or possibly, this is because of other reasons?
@@ -98,6 +109,8 @@ func split():
 	
 	if has_split:
 		return
+		
+	has_split = true
 	
 	var my_tex = image
 	var current_tex_size = my_tex.get_size()
@@ -124,14 +137,12 @@ func split():
 			# Apply
 			var unique_name = randi()*randi() # TODO: not necessarily unique!
 			child.name = String(unique_name)
-			
+		
+			child.init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1, last_player_pos)
+
 			children.add_child(child)
-			children.get_node(String(unique_name)).init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1)
-			children.get_node(String(unique_name)).activate(last_player_pos)
 	
 	set_meshes_invisible()
-	
-	has_split = true
 	
 func player_collide_with_bounds(factor = 1):
 	# Get closest point within rectangle to circle
@@ -142,8 +153,12 @@ func player_collide_with_bounds(factor = 1):
 	var end = Vector2(gtranslation.x + size/2, gtranslation.z + size/2)
 	
 	clamped.x = clamp(last_player_pos.x, origin.x, end.x)
-	clamped.y = clamp(last_player_pos.y, origin.y, end.y)
+	clamped.y = clamp(last_player_pos.z, origin.y, end.y)
 	
-	var dist = last_player_pos.distance_to(clamped)
+	var dist = Vector2(last_player_pos.x, last_player_pos.z).distance_to(clamped)
 	
-	return dist < player_bounding_radius / factor
+	# Also check height - I think this is actually a cone at the moment, not a sphere
+	var ydist = abs(gtranslation.y - last_player_pos.y + 700) # 700 must be replaced by the actual height
+	var cur_radius = max(0, player_bounding_radius - ydist)
+		
+	return dist < cur_radius / factor
