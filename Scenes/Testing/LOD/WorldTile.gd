@@ -27,7 +27,6 @@ var near_factor = 2
 var last_player_pos
 
 var will_activate_at_pos
-var create_thread = Thread.new()
 
 func _ready():
 #	create_thread.start(self, "create")
@@ -40,12 +39,8 @@ func create(data):
 			activate(will_activate_at_pos)
 	else:
 		print("Warning: Uninitialized WorldTile created")
-		
-	call_deferred("end_create_thread")
+	
 	created = true
-		
-func end_create_thread():
-	create_thread.wait_to_finish()
 
 func init(s, hm, tex, img, lod_level, activate_pos=null): # water map, ... will go here
 	# Currently, this function receives img and tex paramters.
@@ -65,11 +60,8 @@ func init(s, hm, tex, img, lod_level, activate_pos=null): # water map, ... will 
 	initialized = true
 	
 	will_activate_at_pos = activate_pos
-	
-func clear_meshes():
-	for child in meshes.get_children():
-		child.queue_free()
-		
+
+# Removes all 
 func clear_children():
 	for child in children.get_children():
 		child.queue_free()
@@ -101,8 +93,7 @@ func _process(delta):
 		set_meshes_visible()
 		activated = false
 	
-# This function seems to hinder performance *sometimes* - Most of the time, it takes 0-2ms, but often, it's around 16ms.
-# Or possibly, this is because of other reasons?
+# Split the tile into 4 smaller tiles with a higher LOD
 func split():
 	if lod == max_lod: return # Don't split more often than max_lod
 	if !initialized: return
@@ -112,8 +103,14 @@ func split():
 		
 	has_split = true
 	
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "instantiate_children", []))
+
+# Here, the actual splitting happens - this function is run in a thread
+func instantiate_children(data):
 	var my_tex = image
 	var current_tex_size = my_tex.get_size()
+	
+	children.visible = false
 	
 	# Add 4 children
 	for x in range(0, 2):
@@ -127,7 +124,6 @@ func split():
 			child.translation = offset.rotated(Vector3(0, 1, 0), PI) # Need to rotate in order to match up with get_rect image part
 			
 			# Get appropriate maps
-			# This is what takes ~15ms often, and causes stutters!
 			var rec_size = current_tex_size/2.0
 			var new_tex = my_tex.get_rect(Rect2(rec_size * xy_vec, rec_size))
 			
@@ -139,11 +135,15 @@ func split():
 			child.name = String(unique_name)
 		
 			child.init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1, last_player_pos)
+			
+			OS.delay_msec(100) # Apparently something is not thread safe - this is required!
 
-			children.add_child(child)
-	
+			children.call_deferred("add_child", child)
+			
+	children.visible = true
 	set_meshes_invisible()
-	
+
+# Returns true if the player bounds are within the tile's bounds
 func player_collide_with_bounds(factor = 1):
 	# Get closest point within rectangle to circle
 	var clamped = Vector2()
