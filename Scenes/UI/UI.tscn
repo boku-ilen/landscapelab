@@ -25,11 +25,10 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-_sections_unfolded = [ "Anchor", "Focus", "Hint", "Mouse", "Rect", "Size Flags" ]
+_sections_unfolded = [ "Theme" ]
 
 [node name="MarginContainer" type="MarginContainer" parent="." index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -40,11 +39,10 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-_sections_unfolded = [ "Grow Direction", "Size Flags" ]
+_sections_unfolded = [ "Grow Direction", "Size Flags", "Theme" ]
 
 [node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -60,7 +58,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 split_offset = 0
 collapsed = false
-dragger_visibility = 0
+dragger_visibility = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VSplitContainer" index="0"]
 
@@ -371,12 +369,11 @@ _sections_unfolded = [ "Anchor", "Margin", "Size Flags" ]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VSplitContainer" index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 168.0
+margin_top = 156.0
 margin_right = 1912.0
 margin_bottom = 1080.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -394,7 +391,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1608.0
-margin_bottom = 912.0
+margin_bottom = 924.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -413,7 +410,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 1612.0
 margin_right = 1912.0
-margin_bottom = 912.0
+margin_bottom = 924.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -428,9 +425,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 568.0
+margin_top = 580.0
 margin_right = 300.0
-margin_bottom = 608.0
+margin_bottom = 620.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -453,9 +450,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 612.0
+margin_top = 624.0
 margin_right = 300.0
-margin_bottom = 912.0
+margin_bottom = 924.0
 rect_min_size = Vector2( 300, 300 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
