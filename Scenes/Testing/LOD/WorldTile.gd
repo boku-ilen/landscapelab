@@ -109,6 +109,7 @@ func split():
 func instantiate_children(data):
 	var my_tex = image
 	var current_tex_size = my_tex.get_size()
+	var cur_name = 0
 	
 	children.visible = false
 	
@@ -131,12 +132,10 @@ func instantiate_children(data):
 			new_tex_texture.create_from_image(new_tex, 8)
 			
 			# Apply
-			var unique_name = randi()*randi() # TODO: not necessarily unique!
-			child.name = String(unique_name)
+			child.name = String(cur_name)
+			cur_name += 1
 		
 			child.init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1, last_player_pos)
-			
-			OS.delay_msec(100) # Apparently something is not thread safe - this is required!
 
 			children.call_deferred("add_child", child)
 			
