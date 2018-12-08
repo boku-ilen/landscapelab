@@ -19,6 +19,17 @@ func get_texture_from_server(host, port, filename):
 	return tex
 
 func getJson(host,url,port):
+	var ret = try_to_get_json(host,url,port)
+	var i = 0
+	var timeout = [10,30,60]
+	while(ret.has("Error") && ret.Error == "Could not connect to Host" && i < 3):
+		logger.info("Could not connect to server retrying in %d seconds" % timeout[i])
+		OS.delay_msec(1000 * timeout[i])
+		ret = try_to_get_json(host,url,port)
+		i+=1
+	return ret
+
+func try_to_get_json(host,url,port):
 	logger.info("Trying to connect to: "+host+":"+str(port)+url)
 	var err = 0
 	var http = HTTPClient.new() # Create the Client
