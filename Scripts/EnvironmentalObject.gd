@@ -17,7 +17,7 @@ func _ready():
 
 func update_position():
 	var position = transform.origin
-	var vert = Vector3(0,1000,0)
+	var vert = Vector3(0,100000,0)
 	#TODO might want to scale the up vert to max height so that no trees are left out in higher terrain
 	
 	var space_state = get_world().direct_space_state

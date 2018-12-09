@@ -61,6 +61,7 @@ func init_world(index):
 		
 		var UI = preload("res://Scenes/UI/UI.tscn").instance()
 		get_node("ViewportContainer/DesktopViewport").add_child(UI)
+		get_node("ViewportContainer/DesktopViewport/Camera/LocationTracker").go()
 
 
 
