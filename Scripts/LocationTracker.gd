@@ -36,7 +36,7 @@ func send_position(userdata):
 	if not result.empty():
 		la = result.position
 	
-	var url = "/location/impression/%f/%f/%f/%f/%f/%f" % [p.x, p.z ,p.y, la.x, la.z, la.y]
+	var url = "/location/impression/%f/%f/%f/%f/%f/%f/%d" % [p.x, p.z ,p.y, la.x, la.z, la.y, global.session_id]
 	#logger.debug("accessing: "+ url)
 	ServerConnection.get_http(ServerConnection.default_server, url, ServerConnection.default_port)
 	waiting = false

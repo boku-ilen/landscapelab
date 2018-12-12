@@ -61,7 +61,14 @@ func init_world(index):
 		
 		var UI = preload("res://Scenes/UI/UI.tscn").instance()
 		get_node("ViewportContainer/DesktopViewport").add_child(UI)
-		get_node("ViewportContainer/DesktopViewport/Camera/LocationTracker").go()
+		
+		var session_id = ServerConnection.getJson(server,"/location/session/asdf", port)
+		if session_id.has("Error"):
+			logger.error("Could not get the session id")
+		else:
+			global.session_id = session_id.Data
+			logger.info("The session id is: %d" % global.session_id)
+			get_node("ViewportContainer/DesktopViewport/Camera/LocationTracker").go()
 
 
 
