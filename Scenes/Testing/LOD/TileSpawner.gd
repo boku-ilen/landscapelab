@@ -39,6 +39,24 @@ func _process(delta):
 		var player_tile = get_tile_at_player()
 		if !player_tile: return
 		
+		# Spawn tiles around the player
+		for x in range(player_tile.x - 10, player_tile.x + 11):
+			for y in range(player_tile.y - 10, player_tile.y + 11):
+				if not has_node("%d,%d" % [x, y]):
+					# Spawn the proper tile
+					var map_img = Image.new() # TODO testing only
+					map_img.load("res://Scenes/Testing/LOD/testlandia/test_1.png")
+					var map = ImageTexture.new()
+					map.create_from_image(map_img, 8)
+			
+					var tile_instance = tile.instance()
+					tile_instance.name = "%d,%d" % [x, y]
+					tile_instance.translation = translation + Vector3(x * -gridsize, 0, y * -gridsize)
+					
+					tile_instance.init(gridsize, map, map, map_img, 0)
+					
+					add_child(tile_instance)
+		
 		# Activate 9 tiles closest to player
 		for x in range(player_tile.x - 2, player_tile.x + 3):
 			for y in range(player_tile.y - 2, player_tile.y + 3):
