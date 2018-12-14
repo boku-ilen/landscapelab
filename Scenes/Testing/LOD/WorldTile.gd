@@ -18,13 +18,23 @@ var split_all = false
 
 var tile_scene = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
 
-var max_lod = 3
+# [max lod, distance at which this max_lod starts applying, subdivision count modifier]
+# Must be ordered desc
+var max_lods = [
+	[1, 8000, 1],
+	[2, 5000, 1],
+	[3, 2000, 1],
+	[4, 800, 2]
+]
+# Example: [2, 5000, 1] means that the maximum number of split()s within a 5000km radius (unless the player is within another, smaller radius)
+# is 2 - one tile becomes 16. The subdivision count modifier is 1, so the default subdivision count is used. 
 
 var activated = false
 var created = false
 var player_bounding_radius = 3000
 var near_factor = 2
 var last_player_pos
+var subdiv_mod = 1
 
 var will_activate_at_pos
 
@@ -34,7 +44,7 @@ func _ready():
 
 func create(data):
 	if initialized:
-		terrain.call_deferred("create", size, heightmap, texture) # This makes things slightly better than calling it directly
+		terrain.call_deferred("create", size, heightmap, texture, subdiv_mod)
 		if will_activate_at_pos:
 			activate(will_activate_at_pos)
 	else:
@@ -42,7 +52,7 @@ func create(data):
 	
 	created = true
 
-func init(s, hm, tex, img, lod_level, activate_pos=null): # water map, ... will go here
+func init(s, hm, tex, img, lod_level, activate_pos=null, _subdiv_mod=1): # water map, ... will go here
 	# Currently, this function receives img and tex paramters.
 	# This is only for testing - in the future, this init function will get all textures from the middleware
 		# using the position and size variables.
@@ -56,6 +66,7 @@ func init(s, hm, tex, img, lod_level, activate_pos=null): # water map, ... will 
 	texture = tex
 	image = img # TODO testing only
 	lod = lod_level
+	subdiv_mod = _subdiv_mod
 	
 	initialized = true
 	
@@ -68,9 +79,9 @@ func clear_children():
 		
 func set_meshes_invisible():
 	meshes.visible = false
-	
-func set_meshes_visible():
-	# Make this mesh visible, and delete children meshes
+
+# Make this mesh visible, and delete children meshes
+func use_this_tile():
 	meshes.visible = true
 	clear_children()
 	has_split = false
@@ -86,16 +97,26 @@ func activate(player_pos):
 func _process(delta):
 	if !activated: return
 	
-	# Check which tiles collide with player bounds
-	if player_collide_with_bounds():
-		split()
+	var dist_to_player = get_dist_to_player()
+	
+	if dist_to_player < max_lods[0][1]:
+		split(dist_to_player)
 	else:
-		set_meshes_visible()
+		use_this_tile()
 		activated = false
 	
 # Split the tile into 4 smaller tiles with a higher LOD
-func split():
-	if lod == max_lod: return # Don't split more often than max_lod
+func split(dist_to_player):
+	# Check what the max_lod should be given the distance
+	var _max_lod = max_lods[0][1]
+	var _subdiv_mod = 1
+	
+	for lod_item in max_lods:
+		if dist_to_player < lod_item[1]:
+			_max_lod = lod_item[0]
+			_subdiv_mod = lod_item[2]
+	
+	if lod >= _max_lod: return # Don't split more often than max_lod
 	if !initialized: return
 	
 	if has_split:
@@ -103,7 +124,7 @@ func split():
 		
 	has_split = true
 	
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "instantiate_children", []))
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "instantiate_children", [_subdiv_mod]))
 
 # Here, the actual splitting happens - this function is run in a thread
 func instantiate_children(data):
@@ -135,29 +156,24 @@ func instantiate_children(data):
 			child.name = String(cur_name)
 			cur_name += 1
 		
-			child.init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1, last_player_pos)
+			child.init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1, last_player_pos, data[0])
 
 			children.call_deferred("add_child", child)
 			
 	children.visible = true
 	set_meshes_invisible()
-
-# Returns true if the player bounds are within the tile's bounds
-func player_collide_with_bounds(factor = 1):
+	
+# Gets the distance of the center of the tile to the last known player location
+func get_dist_to_player():
 	# Get closest point within rectangle to circle
-	var clamped = Vector2()
+	var clamped = Vector3()
 	
 	var gtranslation = global_transform.origin # coordinates are hard in Godot... it HAS to be global_transform, weird behaviour otherwise!
 	var origin = Vector2(gtranslation.x - size/2, gtranslation.z - size/2)
 	var end = Vector2(gtranslation.x + size/2, gtranslation.z + size/2)
 	
 	clamped.x = clamp(last_player_pos.x, origin.x, end.x)
-	clamped.y = clamp(last_player_pos.z, origin.y, end.y)
+	clamped.z = clamp(last_player_pos.z, origin.y, end.y)
+	clamped.y = 700 # Must be replaced with actual height!
 	
-	var dist = Vector2(last_player_pos.x, last_player_pos.z).distance_to(clamped)
-	
-	# Also check height - I think this is actually a cone at the moment, not a sphere
-	var ydist = abs(gtranslation.y - last_player_pos.y + 700) # 700 must be replaced by the actual height
-	var cur_radius = max(0, player_bounding_radius - ydist)
-		
-	return dist < cur_radius / factor
+	return last_player_pos.distance_to(clamped)
