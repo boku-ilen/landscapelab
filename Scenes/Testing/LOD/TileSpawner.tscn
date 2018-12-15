@@ -2,9 +2,11 @@
 
 [ext_resource path="res://Scenes/Testing/LOD/TileSpawner.gd" type="Script" id=1]
 
-
 [node name="TileSpawner" type="Spatial"]
 
 script = ExtResource( 1 )
+update_interval = 0.1
+
+[node name="Tiles" type="Spatial" parent="." index="0"]
 
 
