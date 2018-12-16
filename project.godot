@@ -14,7 +14,7 @@ config_version=3
 
 [application]
 
-config/name="retour-client"
+config/name="LandscapeLab!"
 run/main_scene="res://Scenes/main.tscn"
 config/icon="res://icon.png"
 
