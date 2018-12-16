@@ -36,7 +36,7 @@ func _process(delta):
 
 func create_choose_area_list():
 	#creating startup list
-	var startupUI = preload("res://Scenes/StartupUI.tscn").instance()
+	var startupUI = preload("res://Scenes/UI/StartupUI.tscn").instance()
 	get_node("ViewportContainer/DesktopViewport").add_child(startupUI)
 	var list = get_node("ViewportContainer/DesktopViewport/StartupUI/CenterContainer/ItemList")
 	for i in areas:
@@ -59,8 +59,16 @@ func init_world(index):
 			# json with trees coordinates
 		world.createWorld(server, port, settings)
 		
-		var UI = preload("res://Scenes/UI.tscn").instance()
+		var UI = preload("res://Scenes/UI/UI.tscn").instance()
 		get_node("ViewportContainer/DesktopViewport").add_child(UI)
+		
+		var session_id = ServerConnection.getJson(server,"/location/session/asdf", port)
+		if session_id.has("Error"):
+			logger.error("Could not get the session id")
+		else:
+			global.session_id = session_id.Data
+			logger.info("The session id is: %d" % global.session_id)
+			get_node("ViewportContainer/DesktopViewport/Camera/LocationTracker").go()
 
 
 

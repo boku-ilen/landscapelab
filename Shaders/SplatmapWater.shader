@@ -10,12 +10,11 @@ uniform float curv_factor = 0.01;
 uniform float height_scale = 1;
 
 // Other variables:
-uniform vec3 color = vec3(0, 0.4, 0.6); // Nice shade of blue for the water
-uniform float transparency = 0.6; // Base transparency - alpha 1 means this transparency is used
-uniform float normal_scale = 10; // Bigger number means higher waves
+uniform vec3 color = vec3(0.0, 0.05, 0.05); // Shade of blue/green for the water - can be modified based on data in the future
+uniform float transparency = 0.5; // Base transparency - alpha 1 means this transparency is used
 
-uniform float time_scale = 0.05; // Bigger number means faster waves
-uniform float uv_scale = 10; // Bigger number means larger waves
+uniform float time_scale = 0.07; // Bigger number means faster waves
+uniform float uv_scale = 10.0; // Bigger number means larger waves
 
 void vertex () {
 	// Apply height to the vertex depending on the blue value in splatmap
@@ -39,17 +38,19 @@ void fragment () {
 	ALBEDO = color;
 	
 	// Apply the normal map texture, constantly offset it based on time to create a wave effect
-	vec3 normalmap = texture(water_normal, UV * uv_scale + vec2(TIME * time_scale, 1)).xyz * normal_scale - vec3(1.0,1.0,1.0);
-	vec3 normal = normalize(TANGENT * normalmap.y + BINORMAL * normalmap.x + NORMAL * normalmap.z);
-	NORMAL = normal;
+	
+	// These values make a nice 'stationary' water. By modifying the multipliers and values, flowing water could be created as well
+	NORMALMAP = normalize(texture(water_normal, UV * uv_scale + vec2(-TIME * time_scale, 1)).rgb
+		+ texture(water_normal, UV * uv_scale + vec2(TIME * time_scale, 0.5)).rgb) * 0.7;
 	
 	// Material params
-	METALLIC = 0.5;
-	ROUGHNESS = 0.2;
+	METALLIC = 0.2;
+	ROUGHNESS = 0.1;
 	
 	// Add a refraction effect
 	vec3 ref_normal = normalize( mix(NORMAL,TANGENT * NORMALMAP.x + BINORMAL * NORMALMAP.y + NORMAL * NORMALMAP.z,NORMALMAP_DEPTH) );
-	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * water_at_location * 0.1;
-	EMISSION += textureLod(SCREEN_TEXTURE,ref_ofs,ROUGHNESS * 8.0).rgb * (1.0 - ALPHA);
-
+	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * 0.05;
+	EMISSION += textureLod(SCREEN_TEXTURE,ref_ofs,ROUGHNESS * 10.0).rgb * (1.0 - ALPHA);
+	ALBEDO *= ALPHA;
+	ALPHA = 1.0;
 }

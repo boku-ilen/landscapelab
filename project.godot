@@ -26,6 +26,7 @@ debug="*res://Scripts/debug.gd"
 ErrorPrompt="*res://Scripts/ErrorPrompt.gd"
 GlobalSignal="*res://Scripts/GlobalSignal.gd"
 ServerConnection="*res://Scripts/ServerConnection.gd"
+ThreadPool="*res://Scripts/ThreadPool.gd"
 
 [display]
 
@@ -95,5 +96,6 @@ limits/message_queue/max_size_kb=1048576
 
 [rendering]
 
+threads/thread_model=2
 quality/shadows/filter_mode=2
 environment/default_environment="res://default_env.tres"

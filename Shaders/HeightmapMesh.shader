@@ -67,11 +67,12 @@ void vertex() {
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor. Note: This might be dependent on the picture resolution! The current value works for my test images.
 	// It still causes some artifacts, especially on small tiles :/
-	float e = 1.0/250.0;
+	float e = 1.0/25.0;
 
 	NORMAL = normalize(vec3(-get_height_no_falloff(UV - vec2(e, 0)) + get_height_no_falloff(UV + vec2(e, 0)), 0.0 , -get_height_no_falloff(UV - vec2(0, e)) + get_height_no_falloff(UV + vec2(0, e))));
 }
 
 void fragment(){
-	ALBEDO = texture(tex, get_relative_pos(UV)).rgb;
+	vec3 color = texture(tex, get_relative_pos(UV)).rgb;
+	ALBEDO = color;
 }

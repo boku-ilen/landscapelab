@@ -18,14 +18,41 @@ var split_all = false
 
 var tile_scene = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
 
-var max_lod = 5
+# [max lod, distance at which this max_lod starts applying, subdivision count modifier]
+# Must be ordered desc
+var max_lods = [
+	[1, 8000, 1],
+	[2, 5000, 1],
+	[3, 2000, 1],
+	[4, 800, 2]
+]
+# Example: [2, 5000, 1] means that the maximum number of split()s within a 5000km radius (unless the player is within another, smaller radius)
+# is 2 - one tile becomes 16. The subdivision count modifier is 1, so the default subdivision count is used. 
 
 var activated = false
-var player_bounding_radius = 750
+var created = false
+var player_bounding_radius = 3000
 var near_factor = 2
 var last_player_pos
+var subdiv_mod = 1
 
-func init(s, hm, tex, img, lod_level): # water map, ... will go here
+var will_activate_at_pos
+
+func _ready():
+#	create_thread.start(self, "create")
+	create([])
+
+func create(data):
+	if initialized:
+		terrain.call_deferred("create", size, heightmap, texture, subdiv_mod)
+		if will_activate_at_pos:
+			activate(will_activate_at_pos)
+	else:
+		print("Warning: Uninitialized WorldTile created")
+	
+	created = true
+
+func init(s, hm, tex, img, lod_level, activate_pos=null, _subdiv_mod=1): # water map, ... will go here
 	# Currently, this function receives img and tex paramters.
 	# This is only for testing - in the future, this init function will get all textures from the middleware
 		# using the position and size variables.
@@ -39,24 +66,22 @@ func init(s, hm, tex, img, lod_level): # water map, ... will go here
 	texture = tex
 	image = img # TODO testing only
 	lod = lod_level
-	
-	terrain.call_deferred("create", size, heightmap, texture) # This makes things slightly better than calling it directly, investigate this further
+	subdiv_mod = _subdiv_mod
 	
 	initialized = true
 	
-func clear_meshes():
-	for child in meshes.get_children():
-		child.queue_free()
-		
+	will_activate_at_pos = activate_pos
+
+# Removes all 
 func clear_children():
 	for child in children.get_children():
 		child.queue_free()
 		
 func set_meshes_invisible():
 	meshes.visible = false
-	
-func set_meshes_visible():
-	# Make this mesh visible, and delete children meshes
+
+# Make this mesh visible, and delete children meshes
+func use_this_tile():
 	meshes.visible = true
 	clear_children()
 	has_split = false
@@ -68,39 +93,46 @@ func activate(player_pos):
 	for child in children.get_children():
 		if child.has_method("activate"):
 			child.activate(last_player_pos)
-			
-var split_thread = Thread.new()
 	
 func _process(delta):
 	if !activated: return
 	
-	# Check which tiles collide with player bounds
-	if player_collide_with_bounds():
-		split()
-#		if !split_thread.is_active():
-#			split_thread.start(self, "split_in_thread")
+	var dist_to_player = get_dist_to_player()
+	
+	if dist_to_player < max_lods[0][1]:
+		split(dist_to_player)
 	else:
-		set_meshes_visible()
+		use_this_tile()
 		activated = false
-		
-func split_in_thread(data): # This has worse performance than without threads...
-	call_deferred("split")
-	call_deferred("end_thread")
 	
-func end_thread():
-	split_thread.wait_to_finish()
+# Split the tile into 4 smaller tiles with a higher LOD
+func split(dist_to_player):
+	# Check what the max_lod should be given the distance
+	var _max_lod = max_lods[0][1]
+	var _subdiv_mod = 1
 	
-# This function seems to hinder performance *sometimes* - Most of the time, it takes 0-2ms, but often, it's around 16ms.
-# Or possibly, this is because of other reasons?
-func split():
-	if lod == max_lod: return # Don't split more often than max_lod
+	for lod_item in max_lods:
+		if dist_to_player < lod_item[1]:
+			_max_lod = lod_item[0]
+			_subdiv_mod = lod_item[2]
+	
+	if lod >= _max_lod: return # Don't split more often than max_lod
 	if !initialized: return
 	
 	if has_split:
 		return
+		
+	has_split = true
 	
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "instantiate_children", [_subdiv_mod]))
+
+# Here, the actual splitting happens - this function is run in a thread
+func instantiate_children(data):
 	var my_tex = image
 	var current_tex_size = my_tex.get_size()
+	var cur_name = 0
+	
+	children.visible = false
 	
 	# Add 4 children
 	for x in range(0, 2):
@@ -114,7 +146,6 @@ func split():
 			child.translation = offset.rotated(Vector3(0, 1, 0), PI) # Need to rotate in order to match up with get_rect image part
 			
 			# Get appropriate maps
-			# This is what takes ~15ms often, and causes stutters!
 			var rec_size = current_tex_size/2.0
 			var new_tex = my_tex.get_rect(Rect2(rec_size * xy_vec, rec_size))
 			
@@ -122,28 +153,27 @@ func split():
 			new_tex_texture.create_from_image(new_tex, 8)
 			
 			# Apply
-			var unique_name = randi()*randi() # TODO: not necessarily unique!
-			child.name = String(unique_name)
+			child.name = String(cur_name)
+			cur_name += 1
+		
+			child.init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1, last_player_pos, data[0])
+
+			children.call_deferred("add_child", child)
 			
-			children.add_child(child)
-			children.get_node(String(unique_name)).init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1)
-			children.get_node(String(unique_name)).activate(last_player_pos)
-	
+	children.visible = true
 	set_meshes_invisible()
 	
-	has_split = true
-	
-func player_collide_with_bounds(factor = 1):
+# Gets the distance of the center of the tile to the last known player location
+func get_dist_to_player():
 	# Get closest point within rectangle to circle
-	var clamped = Vector2()
+	var clamped = Vector3()
 	
 	var gtranslation = global_transform.origin # coordinates are hard in Godot... it HAS to be global_transform, weird behaviour otherwise!
 	var origin = Vector2(gtranslation.x - size/2, gtranslation.z - size/2)
 	var end = Vector2(gtranslation.x + size/2, gtranslation.z + size/2)
 	
 	clamped.x = clamp(last_player_pos.x, origin.x, end.x)
-	clamped.y = clamp(last_player_pos.y, origin.y, end.y)
+	clamped.z = clamp(last_player_pos.z, origin.y, end.y)
+	clamped.y = 700 # Must be replaced with actual height!
 	
-	var dist = last_player_pos.distance_to(clamped)
-	
-	return dist < player_bounding_radius / factor
+	return last_player_pos.distance_to(clamped)

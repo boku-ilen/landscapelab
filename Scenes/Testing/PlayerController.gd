@@ -1,22 +1,34 @@
 extends KinematicBody
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+var origin_offset_x = int(0)
+var origin_offset_z = int(0)
 
 var mouse_sensitivity = 0.1
 var camera_angle = 0
 var velocity = Vector3()
 
-var FLY_SPEED = 5000
+var FLY_SPEED = 50000
 
 onready var head = get_node("Head")
 onready var camera = head.get_node("Camera")
 
+# To prevent floating point errors, the player.translation does not reflect the player's actual position in the whole world.
+# This function returns the true world position of the player in int.
+func get_true_position():
+	return [int(translation.x) - origin_offset_x, int(translation.z) - origin_offset_z]
+
+# Shift the player's in-engine translation by a certain offset, but not the player's true coordinates.
+func shift(delta):
+	origin_offset_x += int(delta.x)
+	origin_offset_z += int(delta.z)
+	
+	translation.x += delta.x
+	translation.z += delta.z
+
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-func _process(delta):
+func _physics_process(delta):
 	fly(delta)
 
 func _input(event):
@@ -47,6 +59,9 @@ func fly(delta):
 		direction += aim.x
 	
 	direction = direction.normalized()
+	
+	if Input.is_action_pressed("ui_sprint"):
+		direction /= 10
 	
 	# where would the player go at max speed
 	var target = direction * FLY_SPEED

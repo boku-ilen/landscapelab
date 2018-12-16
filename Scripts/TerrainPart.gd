@@ -70,4 +70,11 @@ func update_mesh(userdata):
 	
 	logger.info("Successfully updated %s to lod_lv %d" % [name, lod_lv])
 	waiting = false
-	
+
+func _exit_tree():
+	if not thread == null:
+		if thread.is_active():
+			logger.info("waiting for terrain part %d thread to finish" % part)
+			thread.wait_to_finish()
+			logger.info("terrain part %d thread finished" % part)
+		thread = null
