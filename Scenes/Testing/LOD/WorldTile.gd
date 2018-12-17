@@ -29,7 +29,6 @@ var max_lods = [
 # Example: [2, 5000, 1] means that the maximum number of split()s within a 5000km radius (unless the player is within another, smaller radius)
 # is 2 - one tile becomes 16. The subdivision count modifier is 1, so the default subdivision count is used. 
 
-var activated = false
 var created = false
 var player_bounding_radius = 3000
 var near_factor = 2
@@ -42,6 +41,7 @@ func _ready():
 #	create_thread.start(self, "create")
 	create([])
 
+# Creates the terrain for this tile
 func create(data):
 	if initialized:
 		terrain.call_deferred("create", size, heightmap, texture, subdiv_mod)
@@ -52,6 +52,7 @@ func create(data):
 	
 	created = true
 
+# Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be called before _ready()!)
 func init(s, hm, tex, img, lod_level, activate_pos=null, _subdiv_mod=1): # water map, ... will go here
 	# Currently, this function receives img and tex paramters.
 	# This is only for testing - in the future, this init function will get all textures from the middleware
@@ -72,40 +73,49 @@ func init(s, hm, tex, img, lod_level, activate_pos=null, _subdiv_mod=1): # water
 	
 	will_activate_at_pos = activate_pos
 
-# Removes all 
+# Removes all the higher LOD children
 func clear_children():
 	for child in children.get_children():
-		child.queue_free()
-		
+		child.free()
+
+# Hides the mesh at this LOD - used when higher LOD children are shown instead
 func set_meshes_invisible():
 	meshes.visible = false
 
-# Make this mesh visible, and delete children meshes
-func use_this_tile():
+# Use the LOD at this tile (Make this mesh visible, and delete children meshes) - for example, converge from 4 tiles to 1
+func converge():
 	meshes.visible = true
 	clear_children()
 	has_split = false
 
+# Called when the player is nearby - this makes the tile check whether it needs to split or converge, and do so if required.
 func activate(player_pos):
-	activated = true
+	if !created: return
+	
 	last_player_pos = player_pos
 	
 	for child in children.get_children():
 		if child.has_method("activate"):
 			child.activate(last_player_pos)
-	
-func _process(delta):
-	if !activated: return
-	
+			
 	var dist_to_player = get_dist_to_player()
 	
 	if dist_to_player < max_lods[0][1]:
 		split(dist_to_player)
 	else:
-		use_this_tile()
-		activated = false
+		converge()
+
+	for lod_item in max_lods:
+		if lod == lod_item[0] and dist_to_player > lod_item[1]:
+			#get_parent().get_parent().converge()
+			pass
+			
+func move(delta):
+	if !initialized: return
 	
-# Split the tile into 4 smaller tiles with a higher LOD
+	translation += delta
+	
+# Increase the LOD on this tile (Split the tile into 4 smaller tiles)
 func split(dist_to_player):
 	# Check what the max_lod should be given the distance
 	var _max_lod = max_lods[0][1]
