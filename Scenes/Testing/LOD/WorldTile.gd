@@ -134,7 +134,8 @@ func split(dist_to_player):
 		
 	has_split = true
 	
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "instantiate_children", [_subdiv_mod]))
+	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "instantiate_children", [_subdiv_mod]))
+	instantiate_children([_subdiv_mod])
 
 # Here, the actual splitting happens - this function is run in a thread
 func instantiate_children(data):
@@ -154,18 +155,18 @@ func instantiate_children(data):
 			# Set location
 			var offset = Vector3(x - 0.5, 0, y - 0.5)  * size/2.0
 			child.translation = offset.rotated(Vector3(0, 1, 0), PI) # Need to rotate in order to match up with get_rect image part
-			
+
 			# Get appropriate maps
 			var rec_size = current_tex_size/2.0
 			var new_tex = my_tex.get_rect(Rect2(rec_size * xy_vec, rec_size))
-			
+
 			var new_tex_texture = ImageTexture.new()
 			new_tex_texture.create_from_image(new_tex, 8)
-			
+
 			# Apply
 			child.name = String(cur_name)
 			cur_name += 1
-		
+
 			child.init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1, last_player_pos, data[0])
 
 			children.call_deferred("add_child", child)
