@@ -55,18 +55,15 @@ void vertex() {
 	// Apply the height of the heightmap at this pixel
 	VERTEX.y = get_height(UV);
 	
-	// Apply the curvature based on the distance from the current point to the origin point
-	// Note: This can and should probably use the location of the camera instead of a passed parameter like curv_middle (CAMERA_MATRIX might be relevant here!)
-	vec3 world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	// Apply the curvature based on the position of the current camera
+	vec3 world_pos = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	
-	vec3 vector_to_middle = world_pos - curv_middle;
-	float dist_to_middle = pow(vector_to_middle.x, 2.0) + pow(vector_to_middle.y, 2.0) + pow(vector_to_middle.z, 2.0);
+	float dist_to_middle = pow(world_pos.x, 2.0) + pow(world_pos.y, 2.0) + pow(world_pos.z, 2.0);
 	
 	VERTEX.y -= get_curve_offset(dist_to_middle);
 	
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor. Note: This might be dependent on the picture resolution! The current value works for my test images.
-	// It still causes some artifacts, especially on small tiles :/
 	float e = 1.0/25.0;
 
 	NORMAL = normalize(vec3(-get_height_no_falloff(UV - vec2(e, 0)) + get_height_no_falloff(UV + vec2(e, 0)), 0.0 , -get_height_no_falloff(UV - vec2(0, e)) + get_height_no_falloff(UV + vec2(0, e))));
