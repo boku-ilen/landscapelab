@@ -1,10 +1,21 @@
 tool
 extends Spatial
 
+#
+# This is a general world tile which can hold multiple meshes or other information.
+# To increase the LOD, it can split into 4 new tiles.
+# The tiles are controlled via the TileSpawner.
+#
+
+# Scenes
+var tile_scene = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
+
+# Nodes
 onready var meshes = get_node("Meshes")
 onready var children = get_node("Children")
 onready var terrain = meshes.get_node("TerrainMesh")
 
+# Variables
 var size = 0
 var lod
 var heightmap
@@ -15,20 +26,6 @@ var has_split = false
 var initialized = false
 
 var split_all = false
-
-var tile_scene = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
-
-# [max lod, distance at which this max_lod starts applying, subdivision count modifier]
-# Must be ordered desc
-var max_lods = [
-	[1, 8000, 1],
-	[2, 5000, 1],
-	[3, 2000, 1],
-	[4, 800, 2]
-]
-# Example: [2, 5000, 1] means that the maximum number of split()s within a 5000km radius (unless the player is within another, smaller radius)
-# is 2 - one tile becomes 16. The subdivision count modifier is 1, so the default subdivision count is used. 
-
 var created = false
 var player_bounding_radius = 3000
 var near_factor = 2
@@ -37,8 +34,18 @@ var subdiv_mod = 1
 
 var will_activate_at_pos
 
+# [max lod, distance at which this max_lod starts applying, subdivision count modifier]
+# Must be ordered desc
+var max_lods = [
+	[1, 8000, 1],
+	[2, 5000, 1],
+	[3, 2000, 1],
+	[4, 800, 3]
+]
+# Example: [2, 5000, 1] means that the maximum number of split()s within a 5000km radius (unless the player is within another, smaller radius)
+# is 2 - one tile becomes 16. The subdivision count modifier is 1, so the default subdivision count is used. 
+
 func _ready():
-#	create_thread.start(self, "create")
 	create([])
 
 # Creates the terrain for this tile
@@ -94,22 +101,29 @@ func activate(player_pos):
 	
 	last_player_pos = player_pos
 	
+	# Activate children with same pos
 	for child in children.get_children():
 		if child.has_method("activate"):
 			child.activate(last_player_pos)
 			
 	var dist_to_player = get_dist_to_player()
 	
+	# Check if we need to split or converge
 	if dist_to_player < max_lods[0][1]:
-		split(dist_to_player)
+		var conv = false
+		
+		# Check whether this is a high LOD tile which needs to converge
+		for lod_item in max_lods:
+			if lod == lod_item[0] and dist_to_player > lod_item[1]:
+				converge()
+				conv = true
+				
+		if not conv:
+			split(dist_to_player)
 	else:
 		converge()
 
-	for lod_item in max_lods:
-		if lod == lod_item[0] and dist_to_player > lod_item[1]:
-			#get_parent().get_parent().converge()
-			pass
-			
+# Move the tile in the world (used for offsetting)		
 func move(delta):
 	if !initialized: return
 	

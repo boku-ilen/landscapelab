@@ -51,7 +51,7 @@ _sections_unfolded = [ "Audio Listener", "GUI", "Physics", "Render Target", "Ren
 
 [node name="Controller" type="KinematicBody" parent="Viewport" index="0"]
 
-transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0 )
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 10000, 0 )
 input_ray_pickable = true
 input_capture_on_drag = false
 collision_layer = 1
