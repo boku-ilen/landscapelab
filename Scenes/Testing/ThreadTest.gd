@@ -11,14 +11,8 @@ func _process(delta):
 	
 	if time > 1:
 		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "add_and_print", [1, 2]))
+		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "add_and_print", [1, 3]))
+		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "add_and_print", [1, 4]))
 
 func add_and_print(data):
-	var t = Timer.new()
-	t.set_wait_time(rand_range(0.5, 1.5))
-	t.set_one_shot(true)
-	self.add_child(t)
-	t.start()
-	yield(t, "timeout")
-	t.queue_free()
-	
 	print(data[0] + data[1])

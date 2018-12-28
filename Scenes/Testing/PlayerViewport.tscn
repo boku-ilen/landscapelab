@@ -83,7 +83,7 @@ current = true
 fov = 90.0
 size = 1.0
 near = 0.01
-far = 1.67772e+007
+far = 100000.0
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 

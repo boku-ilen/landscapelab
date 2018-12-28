@@ -1,12 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Testing/LOD/TestWorld.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Testing/LOD/TileSpawner.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Testing/PlayerViewport.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/Testing/Minimap/MiniMap.tscn" type="PackedScene" id=5]
 
-[node name="TestWorld" type="Spatial" index="0"]
+[node name="TestWorld" type="Spatial"]
 
 script = ExtResource( 1 )
 
@@ -29,8 +28,6 @@ directional_shadow_blend_splits = true
 _sections_unfolded = [ "Directional Shadow", "Editor", "Shadow", "Transform" ]
 
 [node name="ViewportContainer" parent="." index="2" instance=ExtResource( 4 )]
-
-[node name="MiniMap" parent="." index="3" instance=ExtResource( 5 )]
 
 
 [editable path="WorldEnvironment"]

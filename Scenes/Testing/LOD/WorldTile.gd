@@ -2,18 +2,15 @@ tool
 extends Spatial
 
 #
-# This is a general world tile which can hold multiple meshes or other information.
+# This is a general world tile which can hold multiple meshes or other information (modules).
 # To increase the LOD, it can split into 4 new tiles.
 # The tiles are controlled via the TileSpawner.
 #
 
-# Scenes
-var tile_scene = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
-
 # Nodes
-onready var meshes = get_node("Meshes")
+onready var modules = get_node("Modules")
 onready var children = get_node("Children")
-onready var terrain = meshes.get_node("TerrainMesh")
+onready var terrain = modules.get_node("TerrainMesh")
 
 # Variables
 var size = 0
@@ -36,22 +33,31 @@ var will_activate_at_pos
 
 # [max lod, distance at which this max_lod starts applying, subdivision count modifier]
 # Must be ordered desc
-var max_lods = [
+var max_lods = [ # TODO: Move subdivision count modifier to terrain
 	[1, 8000, 1],
 	[2, 5000, 1],
 	[3, 2000, 1],
-	[4, 800, 3]
+	[4, 800, 1],
+	[5, 500, 2],
+	[6, 300, 1],
 ]
 # Example: [2, 5000, 1] means that the maximum number of split()s within a 5000km radius (unless the player is within another, smaller radius)
-# is 2 - one tile becomes 16. The subdivision count modifier is 1, so the default subdivision count is used. 
+# is 2 - one tile becomes 16. The subdivision count modifier is 1, so the default subdivision count is used.
+
+# Modules that will be spawned, in the format: Start-LOD, module scenes
+onready var module_scenes = { # TODO: Actually use these
+	0: [preload("res://Scenes/Testing/LOD/TerrainMesh.tscn")],
+	6: [preload("res://Scenes/Testing/LOD/Grass.tscn")]
+}
+# Modules are always passed their position, size and lod-level 
 
 func _ready():
 	create([])
 
 # Creates the terrain for this tile
-func create(data):
+func create(data): # Receives a 'data' array so it's able to be run in a thread
 	if initialized:
-		terrain.call_deferred("create", size, heightmap, texture, subdiv_mod)
+		terrain.call_deferred("create", size, heightmap, texture, subdiv_mod, lod)
 		if will_activate_at_pos:
 			activate(will_activate_at_pos)
 	else:
@@ -61,14 +67,6 @@ func create(data):
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be called before _ready()!)
 func init(s, hm, tex, img, lod_level, activate_pos=null, _subdiv_mod=1): # water map, ... will go here
-	# Currently, this function receives img and tex paramters.
-	# This is only for testing - in the future, this init function will get all textures from the middleware
-		# using the position and size variables.
-	
-	# Of course, getting things from the middleware can take a bit, so this must not be blocking!
-	# Therefore, it will spawn a thread to get everything it needs and then create the terrain there.
-	# This means that the 'initialized' variable will have to be set there and checked whenever dealing with tiles - there
-		# will be a good chance that tiles which are being dealt with aren't initialized yet!
 	size = s
 	heightmap = hm
 	texture = tex
@@ -86,12 +84,12 @@ func clear_children():
 		child.free()
 
 # Hides the mesh at this LOD - used when higher LOD children are shown instead
-func set_meshes_invisible():
-	meshes.visible = false
+func set_modules_invisible():
+	modules.visible = false
 
-# Use the LOD at this tile (Make this mesh visible, and delete children meshes) - for example, converge from 4 tiles to 1
+# Use the LOD at this tile (Make this mesh visible, and delete children modules) - for example, converge from 4 tiles to 1
 func converge():
-	meshes.visible = true
+	modules.visible = true
 	clear_children()
 	has_split = false
 
@@ -131,6 +129,8 @@ func move(delta):
 	
 # Increase the LOD on this tile (Split the tile into 4 smaller tiles)
 func split(dist_to_player):
+	if !initialized: return
+	
 	# Check what the max_lod should be given the distance
 	var _max_lod = max_lods[0][1]
 	var _subdiv_mod = 1
@@ -141,7 +141,6 @@ func split(dist_to_player):
 			_subdiv_mod = lod_item[2]
 	
 	if lod >= _max_lod: return # Don't split more often than max_lod
-	if !initialized: return
 	
 	if has_split:
 		return
@@ -164,7 +163,7 @@ func instantiate_children(data):
 		for y in range(0, 2):
 			var xy_vec = Vector2(x, y)
 			
-			var child = tile_scene.instance()
+			var child = duplicate(4)
 			
 			# Set location
 			var offset = Vector3(x - 0.5, 0, y - 0.5)  * size/2.0
@@ -186,7 +185,7 @@ func instantiate_children(data):
 			children.call_deferred("add_child", child)
 			
 	children.visible = true
-	set_meshes_invisible()
+	set_modules_invisible()
 	
 # Gets the distance of the center of the tile to the last known player location
 func get_dist_to_player():

@@ -11,7 +11,7 @@ export var update_interval = 0.1
 var time_to_interval = 0
 
 # When a player coordinate gets bigger than this, the world will be shifted to get the player back to the world origin
-var shift_limit = 3000
+var shift_limit = 1000
 
 var world_offset_x = int(0)
 var world_offset_z = int(0)
@@ -20,6 +20,12 @@ var world_offset_z = int(0)
 # Actually not really radii atm - currently rectangles
 var tiles_radius = 10
 var removal_radius_summand = 4
+
+func _ready():
+	# When scenarios are fully implemented, we might want to spawn all tiles within the scenario bounding box here.
+	# That way, we would start with the bare minimum for the scenario (lowest LOD for tiles which can be travelled to)
+	# Of course, tiles outside the scenario will still be spawned in over time, since those will be seen close to the edge and from high up.
+	pass
 			
 func _process(delta):
 	time_to_interval += delta
