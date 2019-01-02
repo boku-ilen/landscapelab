@@ -1,0 +1,271 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://addons/shader_procedural_textures/Worley_texture.gd" type="Script" id=1]
+
+[sub_resource type="World" id=1]
+
+
+[sub_resource type="Shader" id=2]
+
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform vec3 texture_size = vec3(128.0, 128.0, 1.0);
+uniform float max_distance = 0.5;
+
+// Godot doesn't seem to have uniform arrays so we go the icky route...
+uniform vec3 worley_point_01 = vec3(0.2, 0.4, 0.5);
+uniform vec3 worley_point_02 = vec3(0.3, 0.1, 0.8);
+uniform vec3 worley_point_03 = vec3(0.8, 0.6, 0.3);
+uniform vec3 worley_point_04 = vec3(0.7, 0.3, 0.4);
+uniform vec3 worley_point_05 = vec3(0.5, 0.9, 0.6);
+uniform vec3 worley_point_06 = vec3(0.5, 0.9, 0.7);
+uniform vec3 worley_point_07 = vec3(0.9, 0.3, 0.4);
+uniform vec3 worley_point_08 = vec3(0.6, 0.4, 0.7);
+uniform vec3 worley_point_09 = vec3(0.3, 0.7, 0.2);
+uniform vec3 worley_point_10 = vec3(0.1, 0.4, 0.1);
+uniform vec3 worley_point_11 = vec3(0.4, 0.2, 0.4);
+uniform vec3 worley_point_12 = vec3(0.1, 0.5, 0.7);
+uniform vec3 worley_point_13 = vec3(0.3, 0.3, 0.2);
+uniform vec3 worley_point_14 = vec3(0.8, 0.1, 0.4);
+uniform vec3 worley_point_15 = vec3(0.2, 0.9, 0.8);
+uniform vec3 worley_point_16 = vec3(0.2, 0.4, 0.5);
+uniform vec3 worley_point_17 = vec3(0.3, 0.1, 0.8);
+uniform vec3 worley_point_18 = vec3(0.8, 0.6, 0.3);
+uniform vec3 worley_point_19 = vec3(0.7, 0.3, 0.4);
+uniform vec3 worley_point_20 = vec3(0.5, 0.9, 0.6);
+uniform vec3 worley_point_21 = vec3(0.5, 0.9, 0.7);
+uniform vec3 worley_point_22 = vec3(0.2, 0.9, 0.8);
+uniform vec3 worley_point_23 = vec3(0.9, 0.3, 0.4);
+uniform vec3 worley_point_24 = vec3(0.6, 0.4, 0.7);
+uniform vec3 worley_point_25 = vec3(0.3, 0.7, 0.2);
+uniform vec3 worley_point_26 = vec3(0.1, 0.4, 0.1);
+uniform vec3 worley_point_27 = vec3(0.4, 0.2, 0.4);
+uniform vec3 worley_point_28 = vec3(0.1, 0.5, 0.7);
+uniform vec3 worley_point_29 = vec3(0.3, 0.3, 0.2);
+uniform vec3 worley_point_30 = vec3(0.8, 0.1, 0.4);
+
+float worley_dist(vec3 pos, vec3 worley_point, float p_max) {
+	float value = p_max;
+	
+	for (float z = -1.0; z < 1.5; z += 1.0) {
+		for (float y = -1.0; y < 1.5; y += 1.0) {
+			for (float x = -1.0; x < 1.5; x += 1.0) {
+				vec3 delta = worley_point - pos + vec3(x, y, z);
+				float distance = length(delta);
+				if (distance < value) {
+					value = distance;
+				}
+			}
+		}
+	}
+	
+	return value;
+}
+
+float worley_value(vec3 pos) {
+	float value = max_distance;
+	vec3 fpos = mod(pos, 1.0);
+	value = worley_dist(fpos, worley_point_01, value);
+	value = worley_dist(fpos, worley_point_02, value);
+	value = worley_dist(fpos, worley_point_03, value);
+	value = worley_dist(fpos, worley_point_04, value);
+	value = worley_dist(fpos, worley_point_05, value);
+	value = worley_dist(fpos, worley_point_06, value);
+	value = worley_dist(fpos, worley_point_07, value);
+	value = worley_dist(fpos, worley_point_08, value);
+	value = worley_dist(fpos, worley_point_09, value);
+	value = worley_dist(fpos, worley_point_10, value);
+	value = worley_dist(fpos, worley_point_11, value);
+	value = worley_dist(fpos, worley_point_12, value);
+	value = worley_dist(fpos, worley_point_13, value);
+	value = worley_dist(fpos, worley_point_14, value);
+	value = worley_dist(fpos, worley_point_15, value);
+	
+	return clamp(value / max_distance, 0.0, 1.0);
+}
+
+void fragment() {
+	float z = floor(UV.y * texture_size.z);
+	float y = (UV.y * texture_size.z) - z;
+	vec3 pos = vec3(UV.x, y, z / texture_size.z);
+	vec4 result = vec4(0.0, 0.0, 0.0, 1.0);
+	
+	result.x = worley_value(pos); // octave 1
+	result.y = worley_value(pos * 2.0); // octave 2
+	result.z = worley_value(pos * 4.0); // octave 4
+//	result.a = worley_value(pos * 8.0); // octave 8
+	
+	COLOR = result;
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+
+render_priority = 0
+shader = SubResource( 2 )
+shader_param/texture_size = Vector3( 128, 128, 128 )
+shader_param/max_distance = 1.0
+shader_param/worley_point_01 = null
+shader_param/worley_point_02 = null
+shader_param/worley_point_03 = null
+shader_param/worley_point_04 = null
+shader_param/worley_point_05 = null
+shader_param/worley_point_06 = null
+shader_param/worley_point_07 = null
+shader_param/worley_point_08 = null
+shader_param/worley_point_09 = null
+shader_param/worley_point_10 = null
+shader_param/worley_point_11 = null
+shader_param/worley_point_12 = null
+shader_param/worley_point_13 = null
+shader_param/worley_point_14 = null
+shader_param/worley_point_15 = null
+shader_param/worley_point_16 = null
+shader_param/worley_point_17 = null
+shader_param/worley_point_18 = null
+shader_param/worley_point_19 = null
+shader_param/worley_point_20 = null
+shader_param/worley_point_21 = null
+shader_param/worley_point_22 = null
+shader_param/worley_point_23 = null
+shader_param/worley_point_24 = null
+shader_param/worley_point_25 = null
+shader_param/worley_point_26 = null
+shader_param/worley_point_27 = null
+shader_param/worley_point_28 = null
+shader_param/worley_point_29 = null
+shader_param/worley_point_30 = null
+_sections_unfolded = [ "Resource", "shader_param" ]
+
+[sub_resource type="Environment" id=4]
+
+background_mode = 1
+background_sky_custom_fov = 0.0
+background_color = Color( 0, 0, 0, 1 )
+background_energy = 1.0
+background_canvas_max_layer = 0
+ambient_light_color = Color( 0, 0, 0, 1 )
+ambient_light_energy = 1.0
+ambient_light_sky_contribution = 1.0
+fog_enabled = false
+fog_color = Color( 0.5, 0.6, 0.7, 1 )
+fog_sun_color = Color( 1, 0.9, 0.7, 1 )
+fog_sun_amount = 0.0
+fog_depth_enabled = true
+fog_depth_begin = 10.0
+fog_depth_curve = 1.0
+fog_transmit_enabled = false
+fog_transmit_curve = 1.0
+fog_height_enabled = false
+fog_height_min = 0.0
+fog_height_max = 100.0
+fog_height_curve = 1.0
+tonemap_mode = 0
+tonemap_exposure = 1.0
+tonemap_white = 1.0
+auto_exposure_enabled = false
+auto_exposure_scale = 0.4
+auto_exposure_min_luma = 0.05
+auto_exposure_max_luma = 8.0
+auto_exposure_speed = 0.5
+ss_reflections_enabled = false
+ss_reflections_max_steps = 64
+ss_reflections_fade_in = 0.15
+ss_reflections_fade_out = 2.0
+ss_reflections_depth_tolerance = 0.2
+ss_reflections_roughness = true
+ssao_enabled = false
+ssao_radius = 1.0
+ssao_intensity = 1.0
+ssao_radius2 = 0.0
+ssao_intensity2 = 1.0
+ssao_bias = 0.01
+ssao_light_affect = 0.0
+ssao_color = Color( 0, 0, 0, 1 )
+ssao_quality = 0
+ssao_blur = 3
+ssao_edge_sharpness = 4.0
+dof_blur_far_enabled = false
+dof_blur_far_distance = 10.0
+dof_blur_far_transition = 5.0
+dof_blur_far_amount = 0.1
+dof_blur_far_quality = 1
+dof_blur_near_enabled = false
+dof_blur_near_distance = 2.0
+dof_blur_near_transition = 1.0
+dof_blur_near_amount = 0.1
+dof_blur_near_quality = 1
+glow_enabled = false
+glow_levels/1 = false
+glow_levels/2 = false
+glow_levels/3 = true
+glow_levels/4 = false
+glow_levels/5 = true
+glow_levels/6 = false
+glow_levels/7 = false
+glow_intensity = 0.8
+glow_strength = 1.0
+glow_bloom = 0.0
+glow_blend_mode = 2
+glow_hdr_threshold = 1.0
+glow_hdr_scale = 2.0
+glow_bicubic_upscale = false
+adjustment_enabled = false
+adjustment_brightness = 1.0
+adjustment_contrast = 1.0
+adjustment_saturation = 1.0
+_sections_unfolded = [ "Background" ]
+
+[node name="Worley_texture" type="Viewport"]
+
+arvr = false
+size = Vector2( 128, 128 )
+own_world = true
+world = SubResource( 1 )
+transparent_bg = false
+msaa = 0
+hdr = true
+disable_3d = false
+usage = 0
+debug_draw = 0
+render_target_v_flip = false
+render_target_clear_mode = 0
+render_target_update_mode = 1
+audio_listener_enable_2d = false
+audio_listener_enable_3d = false
+physics_object_picking = false
+gui_disable_input = false
+gui_snap_controls_to_pixels = true
+shadow_atlas_size = 0
+shadow_atlas_quad_0 = 2
+shadow_atlas_quad_1 = 2
+shadow_atlas_quad_2 = 3
+shadow_atlas_quad_3 = 4
+script = ExtResource( 1 )
+_sections_unfolded = [ "Render Target", "Rendering" ]
+texture_size = Vector3( 128, 128, 1 )
+max_distance = 0.5
+
+[node name="ColorRect" type="ColorRect" parent="." index="0"]
+
+material = SubResource( 3 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 128.0
+margin_bottom = 128.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 1, 1, 1, 1 )
+_sections_unfolded = [ "Material", "Visibility" ]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="1"]
+
+environment = SubResource( 4 )
+
+

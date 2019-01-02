@@ -3,7 +3,8 @@ extends Spatial
 var tile = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
 var gridsize = 5000
 
-onready var player = get_tree().get_root().get_node("TestWorld/ViewportContainer/Viewport/Controller")
+onready var player = get_tree().get_root().get_node("TestWorld/PlayerViewport/Viewport/Controller")
+onready var skycube = get_tree().get_root().get_node("TestWorld/WorldEnvironment/SkyCube")
 onready var tiles = get_node("Tiles")
 
 # Every update_interval seconds, the world will check what tiles to spawn/activate
@@ -60,6 +61,9 @@ func _process(delta):
 		
 		# Offset world
 		shift_world()
+		
+	# Update skycube pos
+	skycube.reposition(player.translation, player.get_true_position())
 
 # Shift the world if the player exceeds the bounds, in order to prevent coordinates from getting too big (floating point issues)
 func shift_world():
