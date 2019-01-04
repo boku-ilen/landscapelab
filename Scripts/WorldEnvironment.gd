@@ -4,6 +4,7 @@ var server = global.server
 var port = global.port
 
 onready var light = get_node("DirectionalLight")
+onready var clouds = get_node("SkyCube")
 
 var current_time = 0
 var current_season = 0
@@ -45,7 +46,14 @@ func set_sun_position(altitude, azimuth):
 	# Change the directional light to reflect sun change
 	light.rotation_degrees = Vector3(-altitude, 180 - azimuth, 0)
 	
+	# Also pass the direction as a parameter to the clouds - they require it as the vector the light is pointing at, which is the forward (x) vector
+	clouds.set_sun_dir(light.transform.basis.x)
+	
 	update_colors(altitude, azimuth)
+	
+func set_light_energy(new_energy):
+	light.light_energy = new_energy
+	clouds.set_sun_energy(new_energy)
 	
 func update_colors(altitude, azimuth):
 	var new_horizon_color = base_horizon_color
@@ -69,9 +77,11 @@ func update_colors(altitude, azimuth):
 	if altitude < 0 and altitude > -30:
 		var distance_to_black_point = abs(altitude) / 30
 		new_top_color = base_top_color.darkened(distance_to_black_point)
+		set_light_energy(1 - distance_to_black_point)
 		
 	elif altitude <= -30:
 		new_top_color = Color(0, 0, 0, 0)
+		set_light_energy(0)
 	
 	# Apply the colors to the sky
 	environment.background_sky.ground_horizon_color = new_horizon_color

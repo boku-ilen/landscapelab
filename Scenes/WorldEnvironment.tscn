@@ -111,7 +111,7 @@ script = ExtResource( 1 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="." index="0"]
 
-transform = Transform( -0.173648, 0.238247, -0.955554, -1.69349e-008, 0.970295, 0.241922, 0.984808, 0.0420093, -0.16849, 0, 0, 0 )
+transform = Transform( -0.173648, 0.238247, -0.955554, -1.69349e-08, 0.970295, 0.241922, 0.984808, 0.0420093, -0.16849, 0, 0, 0 )
 layers = 1
 light_color = Color( 1, 1, 1, 1 )
 light_energy = 1.0
@@ -135,7 +135,7 @@ directional_shadow_normal_bias = 0.8
 directional_shadow_bias_split_scale = 0.25
 directional_shadow_depth_range = 0
 directional_shadow_max_distance = 200.0
-_sections_unfolded = [ "Directional Shadow", "Transform" ]
+_sections_unfolded = [ "Directional Shadow", "Light", "Transform" ]
 
 [node name="SkyCube" parent="." index="1" instance=ExtResource( 2 )]
 

@@ -4,6 +4,7 @@ render_mode unshaded, skip_vertex_transform;
 uniform sampler2D albedo_texture : hint_albedo;
 uniform float depth = 128.0;
 uniform vec3 light_dir = vec3(0.0, 1.0, -1.0);
+uniform float light_intensity = 1.0;
 
 uniform float cloud_density_factor = 5.0;
 uniform float cloud_steps = 128.0;
@@ -12,7 +13,7 @@ uniform float light_density_factor = 5.0;
 uniform float light_steps = 32.0;
 
 uniform float cube_extent = 10000.0; // half width/height of the cube which this is rendered in
-uniform float step_constant = 50000.0; // used for calculating the step length of one raymarch iteration - lower means better visuals, but more performance draw (very GPU-heavy!)
+uniform float step_constant = 25000.0; // used for calculating the step length of one raymarch iteration - lower means better visuals, but more performance draw (very GPU-heavy!)
 uniform float uv_scale = 0.0002; // Scale of the texture (worley)
 
 uniform vec3 player_uv_offset = vec3(0.0, 0.0, 0.0);
@@ -130,6 +131,9 @@ void fragment() {
 		// alpha will be applied to our color so reverse apply it
 		color = color / alpha;
 	}
+	
+	// Apply the light intensity
+	color -= vec3(1.0 - light_intensity);
 	
 	ALBEDO = clamp(color, 0.0, 1.0);
 	ALPHA = alpha;
