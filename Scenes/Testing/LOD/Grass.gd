@@ -1,5 +1,9 @@
 extends Particles
 
+#
+# This script sets up the grass particle shader. 
+#
+
 export var rows = 100 setget set_rows, get_rows
 export var spacing = 10.0 setget set_spacing, get_spacing
 
@@ -32,12 +36,3 @@ func _ready():
 	# now that our material has been constructed, re-issue these
 	set_rows(rows)
 	process_material = mat.duplicate()
-
-#func _process(delta):
-#	# Center our particles on our cameras position
-#	var viewport = get_viewport()
-#	var camera = viewport.get_camera()
-#
-#	var pos = camera.global_transform.origin
-#	pos.y = 0.0
-#	global_transform.origin = pos

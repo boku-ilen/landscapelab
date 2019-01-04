@@ -2,7 +2,7 @@ tool
 extends MeshInstance
 
 #
-# This is a basic scene for any mesh which a WorldTile might hold.
+# This is a basic scene for any shaded plane mesh which a WorldTile might hold.
 # It should be instantiated as a child of a node which controls a more specific mesh via calling these functions.
 # The most obvious wrapper is the TerrainMesh, which displays heightmap terrain.
 # However, it can be used for any shaded plane mesh (e.g. water).

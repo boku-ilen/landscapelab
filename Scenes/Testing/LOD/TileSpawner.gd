@@ -1,7 +1,13 @@
 extends Spatial
 
+#
+# This is the node that actually controls the whole LOD terrain.
+# It spawns and handles tiles and also handles related tasks such as world shifting.
+# In scenes with LOD terrain, this is what's placed in the scene tree.
+#
+
 var tile = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
-var gridsize = 5000
+var gridsize = 5000 # Width and height of a tile (the biggest possible LOD terrain chunk, which then splits accordinly)
 
 onready var player = get_tree().get_root().get_node("TestWorld/PlayerViewport/Viewport/Controller")
 onready var skycube = get_tree().get_root().get_node("TestWorld/WorldEnvironment/SkyCube")
@@ -33,6 +39,7 @@ func _process(delta):
 	
 	if time_to_interval >= update_interval: # Update
 		time_to_interval -= update_interval
+		
 		var player_tile = get_tile_at_player()
 		if player_tile == null: return
 		
@@ -75,14 +82,15 @@ func shift_world():
 	elif player.translation.x < -shift_limit:
 		delta_vec.x = shift_limit
 		
-	# (Height (y) doesn't matter, height differences won't be that big
+	# (Height (y) probably doesn't matter, height differences won't be that big
 	
 	# Check z coordinate
 	if player.translation.z > shift_limit:
 		delta_vec.z = -shift_limit
 	elif player.translation.z < -shift_limit:
 		delta_vec.z = shift_limit
-		
+	
+	# Apply
 	player.shift(delta_vec)
 	move_world(delta_vec)
 
