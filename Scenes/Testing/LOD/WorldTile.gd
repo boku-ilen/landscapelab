@@ -8,9 +8,9 @@ extends Spatial
 #
 
 # Nodes
+onready var this_scene = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
 onready var modules = get_node("Modules")
 onready var children = get_node("Children")
-onready var terrain = modules.get_node("TerrainMesh")
 
 # Variables
 var size = 0
@@ -52,10 +52,6 @@ onready var module_scenes = [ # TODO: Actually use these
 # Modules are always passed their position, size and lod-level 
 
 func _ready():
-	create([])
-
-# Creates the terrain for this tile
-func create(data): # Receives a 'data' array so it's able to be run in a thread
 	if initialized:
 		# Spawn all required modules
 		for mds in module_scenes:
@@ -170,7 +166,7 @@ func instantiate_children(data):
 		for y in range(0, 2):
 			var xy_vec = Vector2(x, y)
 			
-			var child = duplicate(4)
+			var child = this_scene.instance()
 			
 			# Set location
 			var offset = Vector3(x - 0.5, 0, y - 0.5)  * size/2.0

@@ -1,16 +1,21 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Shaders/HeightmapMesh.shader" type="Shader" id=1]
-[ext_resource path="res://Scenes/Testing/LOD/WorldMesh.gd" type="Script" id=2]
-
+[ext_resource path="res://Scenes/Testing/LOD/testlandia/test_0.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Testing/LOD/WorldMesh.gd" type="Script" id=3]
 
 [sub_resource type="ShaderMaterial" id=1]
 
 render_priority = 0
 shader = ExtResource( 1 )
 shader_param/curv_middle = null
-shader_param/curv_factor = null
-shader_param/height_range = null
+shader_param/height_range = 2000.0
+shader_param/subdiv = 16.0
+shader_param/size = 16.0
+shader_param/size_without_skirt = 16.0
+shader_param/RADIUS = null
+shader_param/heightmap = ExtResource( 2 )
+shader_param/tex = ExtResource( 2 )
 _sections_unfolded = [ "shader_param" ]
 
 [sub_resource type="PlaneMesh" id=2]
@@ -36,6 +41,6 @@ lod_max_hysteresis = 0.0
 mesh = SubResource( 2 )
 skeleton = NodePath("..")
 material/0 = null
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 

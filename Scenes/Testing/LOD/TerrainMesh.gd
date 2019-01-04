@@ -33,4 +33,3 @@ func set_params(obj, size, heightmap, texture, subdiv_mod):
 	obj.set_shader_param("subdiv", mesh.default_subdiv * subdiv_mod)
 	obj.set_shader_param("size", mesh.mesh_size)
 	obj.set_shader_param("size_without_skirt", mesh.size_without_skirt)
-	
