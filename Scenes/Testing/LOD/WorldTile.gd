@@ -45,10 +45,10 @@ var max_lods = [ # TODO: Move subdivision count modifier to terrain
 # is 2 - one tile becomes 16. The subdivision count modifier is 1, so the default subdivision count is used.
 
 # Modules that will be spawned, in the format: Start-LOD, module scenes
-onready var module_scenes = { # TODO: Actually use these
-	0: [preload("res://Scenes/Testing/LOD/TerrainMesh.tscn")],
-	6: [preload("res://Scenes/Testing/LOD/Grass.tscn")]
-}
+onready var module_scenes = [ # TODO: Actually use these
+	[0, [preload("res://Scenes/Testing/LOD/TerrainMesh.tscn")]],
+	[6, [preload("res://Scenes/Testing/LOD/Grass.tscn")]]
+]
 # Modules are always passed their position, size and lod-level 
 
 func _ready():
@@ -57,7 +57,14 @@ func _ready():
 # Creates the terrain for this tile
 func create(data): # Receives a 'data' array so it's able to be run in a thread
 	if initialized:
-		terrain.call_deferred("create", size, heightmap, texture, subdiv_mod, lod)
+		# Spawn all required modules
+		for mds in module_scenes:
+			if mds[0] <= lod: # This tile's lod is equal to or greater than the module's requirement -> spawn it
+				for md in mds[1]:
+					modules.add_child(md.instance())
+			else:
+				break;
+
 		if will_activate_at_pos:
 			activate(will_activate_at_pos)
 	else:

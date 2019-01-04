@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/Testing/LOD/WorldTile.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Testing/LOD/TerrainMesh.tscn" type="PackedScene" id=2]
 
-[node name="WorldTile" type="Spatial" index="0"]
+[node name="WorldTile" type="Spatial"]
 
 script = ExtResource( 1 )
 
