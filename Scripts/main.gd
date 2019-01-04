@@ -63,7 +63,9 @@ func init_world(index):
 		get_node("ViewportContainer/DesktopViewport").add_child(UI)
 		
 		var session_id = ServerConnection.getJson(server,"/location/session/asdf", port)
-		if session_id.has("Error"):
+		if !session_id:
+			logger.error("Error getting the session")
+		elif session_id.has("Error"):
 			logger.error("Could not get the session id")
 		else:
 			global.session_id = session_id.Data
