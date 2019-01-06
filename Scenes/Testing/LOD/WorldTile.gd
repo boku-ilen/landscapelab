@@ -194,14 +194,18 @@ func instantiate_children(data):
 # Gets the distance of the center of the tile to the last known player location
 func get_dist_to_player():
 	# Get closest point within rectangle to circle
-	var clamped = Vector3()
+	var clamped_low = Vector3()
+	var clamped_high = Vector3()
 	
 	var gtranslation = global_transform.origin # coordinates are hard in Godot... it HAS to be global_transform, weird behaviour otherwise!
 	var origin = Vector2(gtranslation.x - size/2, gtranslation.z - size/2)
 	var end = Vector2(gtranslation.x + size/2, gtranslation.z + size/2)
 	
-	clamped.x = clamp(last_player_pos.x, origin.x, end.x)
-	clamped.z = clamp(last_player_pos.z, origin.y, end.y)
-	clamped.y = 700 # Must be replaced with actual height!
+	clamped_low.x = clamp(last_player_pos.x, origin.x, end.x)
+	clamped_low.z = clamp(last_player_pos.z, origin.y, end.y)
+	clamped_low.y = 500 # Must be replaced with actual height!
 	
-	return last_player_pos.distance_to(clamped)
+	clamped_high = clamped_low
+	clamped_high.y = 800
+	
+	return min(last_player_pos.distance_to(clamped_low), last_player_pos.distance_to(clamped_high))

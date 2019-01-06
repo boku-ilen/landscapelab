@@ -18,7 +18,6 @@ func _ready():
 	var subdiv_mod = tile.subdiv_mod
 	var lod = tile.lod
 	
-	# TODO: This currently receives a heightmap and texture. In reality, it will instead get a position, and then fetch the heightmap on its own.
 	mesh.set_size(size, subdiv_mod)
 	set_params(mesh, size, heightmap, texture, subdiv_mod)
 	
