@@ -4,7 +4,7 @@
 [ext_resource path="res://Materials/GrassParticles.tres" type="Material" id=2]
 [ext_resource path="res://Scenes/Testing/LOD/Grass.gd" type="Script" id=3]
 
-[sub_resource type="QuadMesh" id=4]
+[sub_resource type="QuadMesh" id=1]
 
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 size = Vector2( 3, 2 )
@@ -35,7 +35,7 @@ local_coords = true
 draw_order = 0
 process_material = ExtResource( 2 )
 draw_passes = 1
-draw_pass_1 = SubResource( 4 )
+draw_pass_1 = SubResource( 1 )
 script = ExtResource( 3 )
 _sections_unfolded = [ "Draw Passes", "Drawing", "Geometry", "Process Material", "Time" ]
 rows = 100

@@ -38,16 +38,17 @@ var max_lods = [ # TODO: Move subdivision count modifier to terrain
 	[2, 5000, 1],
 	[3, 2000, 1],
 	[4, 800, 1],
-	[5, 500, 2],
+	[5, 500, 1],
 	[6, 300, 1],
+	[7, 100, 1],
 ]
 # Example: [2, 5000, 1] means that the maximum number of split()s within a 5000km radius (unless the player is within another, smaller radius)
 # is 2 - one tile becomes 16. The subdivision count modifier is 1, so the default subdivision count is used.
 
 # Modules that will be spawned, in the format: Start-LOD, module scenes
-onready var module_scenes = [ # TODO: Actually use these
-	[0, [preload("res://Scenes/Testing/LOD/TerrainMesh.tscn")]],
-	[6, [preload("res://Scenes/Testing/LOD/Grass.tscn")]]
+onready var module_scenes = [
+	[0, [preload("res://Scenes/Testing/LOD/TerrainMesh.tscn")]]
+#	[6, [preload("res://Scenes/Testing/LOD/Grass.tscn")]]
 ]
 # Modules are always passed their position, size and lod-level 
 

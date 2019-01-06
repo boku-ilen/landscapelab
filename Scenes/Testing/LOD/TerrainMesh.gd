@@ -22,9 +22,13 @@ func _ready():
 	mesh.set_size(size, subdiv_mod)
 	set_params(mesh, size, heightmap, texture, subdiv_mod)
 	
-	if lod > 5:
-		grass.set_rows(150)
-		grass.set_spacing(size / 100)
+	if lod > 4:
+		if lod > 6:
+			grass.set_rows(100)
+			grass.set_spacing(size / 100)
+		else:
+			grass.set_rows(50)
+			grass.set_spacing(size / 50)
 		set_params(grass.process_material, size, heightmap, texture, subdiv_mod)
 	
 func set_params(obj, size, heightmap, texture, subdiv_mod):
