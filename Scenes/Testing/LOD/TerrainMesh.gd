@@ -6,7 +6,7 @@ extends Spatial
 #
 
 onready var mesh = get_node("Mesh")
-onready var grass = get_node("Grass")
+onready var vegetation = get_node("Vegetation")
 
 onready var tile = get_parent().get_parent()
 
@@ -21,14 +21,17 @@ func _ready():
 	mesh.set_size(size, subdiv_mod)
 	set_params(mesh, size, heightmap, texture, subdiv_mod)
 	
-	if lod > 4:
-		if lod > 6:
-			grass.set_rows(100)
-			grass.set_spacing(size / 100)
-		else:
-			grass.set_rows(50)
-			grass.set_spacing(size / 50)
-		set_params(grass.process_material, size, heightmap, texture, subdiv_mod)
+	var num_children = vegetation.get_children().size()
+	
+	for grass in vegetation.get_children():
+		if lod > 4:
+			if lod > 6:
+				grass.set_rows(70 / num_children)
+				grass.set_spacing(size / 70 * num_children)
+			else:
+				grass.set_rows(50 / num_children)
+				grass.set_spacing(size / 50 * num_children)
+			set_params(grass.process_material, size, heightmap, texture, subdiv_mod)
 	
 func set_params(obj, size, heightmap, texture, subdiv_mod):
 	obj.set_shader_param("tex", texture)

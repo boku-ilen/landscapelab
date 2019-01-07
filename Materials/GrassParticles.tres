@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Materials/noise_texture.png" type="Texture" id=1]
 
-[sub_resource type="Shader" id=2]
+[sub_resource type="Shader" id=1]
 
 code = "shader_type particles;
 
@@ -98,7 +98,7 @@ void vertex ()
 [resource]
 
 render_priority = 0
-shader = SubResource( 2 )
+shader = SubResource( 1 )
 shader_param/rows = 100.0
 shader_param/spacing = 1.0
 shader_param/curv_middle = null
@@ -106,7 +106,7 @@ shader_param/height_range = 2000.0
 shader_param/subdiv = null
 shader_param/size = null
 shader_param/size_without_skirt = null
-shader_param/RADIUS = 6.371e+006
+shader_param/RADIUS = 6.371e+06
 shader_param/noisemap = ExtResource( 1 )
 _sections_unfolded = [ "shader_param" ]
 

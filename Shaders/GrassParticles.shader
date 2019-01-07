@@ -2,6 +2,7 @@ shader_type particles;
 
 uniform float rows = 20;
 uniform float spacing = 0.1;
+uniform float random_offset = 0;
 
 uniform sampler2D heightmap;
 uniform sampler2D noisemap;
@@ -73,7 +74,7 @@ void vertex ()
 	//pos.y = get_height(vec2(0.5, 0.5));
 	
 	// rotate our transform
-	vec3 noise = texture(noisemap, abs(pos.xz) / size).rgb;
+	vec3 noise = texture(noisemap, abs(pos.xz) / size + vec2(random_offset)).rgb;
 
 	pos.x += noise.x * (spacing / 2.0 - spacing);
 	pos.z += noise.y * (spacing / 2.0 - spacing);

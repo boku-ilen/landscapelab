@@ -25,7 +25,7 @@ var world_offset_z = int(0)
 
 # Radii for spawning and removing tiles
 # Actually not really radii atm - currently rectangles
-var tiles_radius = 10
+var tiles_radius = 6
 var removal_radius_summand = 4
 
 func _ready():

@@ -40,5 +40,6 @@ script = ExtResource( 3 )
 _sections_unfolded = [ "Draw Passes", "Drawing", "Geometry", "Process Material", "Time" ]
 rows = 100
 spacing = 10.0
+grass_mat = ExtResource( 1 )
 
 
