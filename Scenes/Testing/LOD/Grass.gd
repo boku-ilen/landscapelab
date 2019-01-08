@@ -8,7 +8,6 @@ export var rows = 100 setget set_rows, get_rows
 export var spacing = 10.0 setget set_spacing, get_spacing
 
 var mat = preload("res://Materials/GrassParticles.tres")
-
 export(Material) var grass_mat = preload("res://Materials/GrassMaterial.tres")
 
 # Set alternative material
@@ -47,4 +46,6 @@ func _ready():
 	set_rows(rows)
 	process_material = mat.duplicate()
 	material_override = grass_mat.duplicate()
-	set_noise_offset(randf())
+	
+	var rand_off = randf()
+	set_noise_offset(rand_off)

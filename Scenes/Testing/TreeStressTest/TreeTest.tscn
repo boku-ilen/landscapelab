@@ -11,7 +11,7 @@ size = Vector2( 10000, 1000 )
 subdivide_width = 0
 subdivide_depth = 0
 
-[node name="TreeTest" type="Spatial"]
+[node name="TreeTest" type="Spatial" index="0"]
 
 script = ExtResource( 1 )
 

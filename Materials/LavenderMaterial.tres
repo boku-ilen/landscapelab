@@ -19,7 +19,7 @@ params_diffuse_mode = 0
 params_specular_mode = 0
 params_blend_mode = 0
 params_cull_mode = 2
-params_depth_draw_mode = 0
+params_depth_draw_mode = 3
 params_line_width = 1.0
 params_point_size = 1.0
 params_billboard_mode = 0
@@ -53,5 +53,5 @@ uv2_triplanar = false
 uv2_triplanar_sharpness = 1.0
 proximity_fade_enable = false
 distance_fade_enable = false
-_sections_unfolded = [ "Albedo", "Roughness" ]
+_sections_unfolded = [ "Albedo", "Parameters", "Roughness" ]
 
