@@ -16,5 +16,7 @@ lod_max_hysteresis = 0.0
 mesh = null
 skeleton = NodePath("..")
 script = ExtResource( 1 )
+lod_steps = [ 4, 1, 0 ]
+lod_distances = [ 100, 50, 10 ]
 
 

@@ -26,12 +26,13 @@ func _ready():
 	for grass in vegetation.get_children():
 		if lod > 4:
 			if lod > 6:
-				grass.set_rows(70 / num_children)
-				grass.set_spacing(size / 70 * num_children)
+				grass.set_rows(40 / num_children)
+				grass.set_spacing(size / 40 * num_children)
 			else:
-				grass.set_rows(50 / num_children)
-				grass.set_spacing(size / 50 * num_children)
+				grass.set_rows(30 / num_children)
+				grass.set_spacing(size / 30 * num_children)
 			set_params(grass.process_material, size, heightmap, texture, subdiv_mod)
+			set_params(grass.material_override, size, heightmap, texture, subdiv_mod)
 	
 func set_params(obj, size, heightmap, texture, subdiv_mod):
 	obj.set_shader_param("tex", texture)
@@ -39,3 +40,4 @@ func set_params(obj, size, heightmap, texture, subdiv_mod):
 	obj.set_shader_param("subdiv", mesh.default_subdiv * subdiv_mod)
 	obj.set_shader_param("size", mesh.mesh_size)
 	obj.set_shader_param("size_without_skirt", mesh.size_without_skirt)
+	obj.set_shader_param("pos", transform.origin)

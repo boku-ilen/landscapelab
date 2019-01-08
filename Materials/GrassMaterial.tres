@@ -53,5 +53,5 @@ uv2_triplanar = false
 uv2_triplanar_sharpness = 1.0
 proximity_fade_enable = false
 distance_fade_enable = false
-_sections_unfolded = [ "Albedo", "Flags", "Parameters", "Roughness" ]
+_sections_unfolded = [ "Albedo", "Depth", "Flags", "Parameters", "Roughness" ]
 
