@@ -4,23 +4,19 @@
 [ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Testing/PlayerViewport.tscn" type="PackedScene" id=3]
 
-[node name="TestWorld" type="Spatial" index="0"]
+[node name="TestWorld" type="Spatial"]
 
-[node name="TileSpawner" parent="." index="0" instance=ExtResource( 1 )]
+[node name="TileSpawner" parent="." instance=ExtResource( 1 )]
 
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="WorldEnvironment" parent="." index="1" instance=ExtResource( 2 )]
+[node name="WorldEnvironment" parent="." instance=ExtResource( 2 )]
 
 [node name="DirectionalLight" parent="WorldEnvironment" index="0"]
-
 transform = Transform( 0.36983, -0.76694, 0.524429, -0.809914, 0.0104613, 0.586455, -0.455263, -0.641632, -0.617288, 52.5922, 572.21, 23.3714 )
 light_cull_mask = -1
 shadow_bias = 0.65
 directional_shadow_blend_splits = true
-_sections_unfolded = [ "Directional Shadow", "Editor", "Light", "Shadow", "Transform" ]
 
-[node name="PlayerViewport" parent="." index="2" instance=ExtResource( 3 )]
+[node name="PlayerViewport" parent="." instance=ExtResource( 3 )]
 
 
 [editable path="WorldEnvironment"]

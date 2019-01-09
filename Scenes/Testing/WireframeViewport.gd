@@ -5,5 +5,7 @@ extends Viewport
 # var b = "textvar"
 
 func _init():
+	# Wireframe rendering
 	#debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
 	#VisualServer.set_debug_generate_wireframes(true) # this
+	pass

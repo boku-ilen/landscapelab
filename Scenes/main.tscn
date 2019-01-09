@@ -10,139 +10,42 @@
 
 [sub_resource type="ArrayMesh" id=1]
 
-blend_shape_mode = 1
-custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 
 [node name="main" type="Spatial"]
-
 script = ExtResource( 1 )
-_sections_unfolded = [ "Pause", "Transform", "Visibility" ]
 
-[node name="WorldEnvironment" parent="." index="0" instance=ExtResource( 2 )]
+[node name="WorldEnvironment" parent="." instance=ExtResource( 2 )]
 
-[node name="ViewportContainer" type="ViewportContainer" parent="." index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
 margin_right = 32.0
 margin_bottom = 33.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-stretch = false
-stretch_shrink = 1
 
-[node name="DesktopViewport" type="Viewport" parent="ViewportContainer" index="0"]
-
-arvr = false
-size = Vector2( 0, 0 )
-own_world = false
-world = null
-transparent_bg = false
-msaa = 0
-hdr = true
-disable_3d = false
-usage = 2
-debug_draw = 0
-render_target_v_flip = false
-render_target_clear_mode = 0
+[node name="DesktopViewport" type="Viewport" parent="ViewportContainer"]
+handle_input_locally = false
 render_target_update_mode = 3
-audio_listener_enable_2d = false
-audio_listener_enable_3d = false
-physics_object_picking = false
-gui_disable_input = false
-gui_snap_controls_to_pixels = true
-shadow_atlas_size = 0
-shadow_atlas_quad_0 = 2
-shadow_atlas_quad_1 = 2
-shadow_atlas_quad_2 = 3
-shadow_atlas_quad_3 = 4
-_sections_unfolded = [ "Audio Listener", "GUI", "Physics", "Render Target", "Rendering", "Shadow Atlas" ]
 
-[node name="Camera" type="Camera" parent="ViewportContainer/DesktopViewport" index="0"]
-
+[node name="Camera" type="Camera" parent="ViewportContainer/DesktopViewport"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 500, 0 )
-keep_aspect = 1
 cull_mask = 1048571
-environment = null
-h_offset = 0.0
-v_offset = 0.0
-doppler_tracking = 0
-projection = 0
 current = true
-fov = 70.0
-size = 1.0
-near = 0.05
 far = 50000.0
 script = ExtResource( 3 )
-_sections_unfolded = [ "Transform" ]
-enabled = true
-mouse_mode = 2
-mouselook = true
-controllerlook = true
-lock_verical_look = false
-sensitivity = 0.5
-smoothness = 0.5
-privot = null
-distance = 5.0
-rotate_privot = false
-collisions = true
-yaw_limit = 360
 pitch_limit = 90
-movement = true
-acceleration = 1.0
-deceleration = 0.1
 max_speed = Vector3( 10, 10, 10 )
 sprint_multiplier = 80
-local = true
-forward_action = "ui_up"
-backward_action = "ui_down"
-left_action = "ui_left"
-right_action = "ui_right"
-up_action = "ui_page_up"
-down_action = "ui_page_down"
-look_up = "ui_look_up"
-look_down = "ui_look_down"
-look_left = "ui_look_left"
-look_right = "ui_look_right"
-sprint_action = "ui_sprint"
-toggle_wireframe_action = "toggle_wireframe"
 use_gui = false
-gui_action = "ui_cancel"
 
-[node name="LocationTracker" type="Spatial" parent="ViewportContainer/DesktopViewport/Camera" index="0"]
-
+[node name="LocationTracker" type="Spatial" parent="ViewportContainer/DesktopViewport/Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
 script = ExtResource( 4 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="SplatmapWater" parent="." index="2" instance=ExtResource( 5 )]
+[node name="SplatmapWater" parent="." instance=ExtResource( 5 )]
 
-[node name="World" type="Spatial" parent="." index="3"]
-
+[node name="World" type="Spatial" parent="."]
 script = ExtResource( 6 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Terrain" type="MeshInstance" parent="World" index="0"]
-
+[node name="Terrain" type="MeshInstance" parent="World"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.46234, 0 )
-layers = 1
-material_override = null
-cast_shadow = 1
-extra_cull_margin = 0.0
-use_in_baked_light = false
-lod_min_distance = 0.0
-lod_min_hysteresis = 0.0
-lod_max_distance = 0.0
-lod_max_hysteresis = 0.0
 mesh = SubResource( 1 )
-skeleton = NodePath("..")
 script = ExtResource( 7 )
-_sections_unfolded = [ "Geometry", "Pause", "Transform", "Visibility" ]
-
 

@@ -9,7 +9,6 @@
 
 [resource]
 
-render_priority = 0
 shader = ExtResource( 1 )
 shader_param/pos = null
 shader_param/size = null
@@ -20,5 +19,4 @@ shader_param/sprite3 = ExtResource( 5 )
 shader_param/sprite4 = ExtResource( 6 )
 shader_param/sprite5 = ExtResource( 3 )
 shader_param/sprite6 = ExtResource( 4 )
-_sections_unfolded = [ "shader_param" ]
 

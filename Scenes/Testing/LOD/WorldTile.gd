@@ -171,7 +171,7 @@ func instantiate_children(data):
 			
 			# Set location
 			var offset = Vector3(x - 0.5, 0, y - 0.5)  * size/2.0
-			child.translation = offset.rotated(Vector3(0, 1, 0), PI) # Need to rotate in order to match up with get_rect image part
+			child.translation = offset#.rotated(Vector3(0, 1, 0), PI) # Need to rotate in order to match up with get_rect image part
 
 			# Get appropriate maps
 			var rec_size = current_tex_size/2.0

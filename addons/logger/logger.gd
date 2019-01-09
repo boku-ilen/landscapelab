@@ -152,9 +152,9 @@ func _format_time():
 
     return "%02d:%02d:%02d.%03d" % [time["hour"], time["minute"], time["second"], ms]
 
-func _format_elapsed(time):
+func _format_elapsed():
     """Not used directly, but might come in useful"""
-    time = OS.get_ticks_msec()
+    var time = OS.get_ticks_msec()
     var ms = time % 1000
     var s = int(time / 1000) % 60
     var m = int(time / 60000) % 60

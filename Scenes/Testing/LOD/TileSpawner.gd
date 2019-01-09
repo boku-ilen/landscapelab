@@ -98,8 +98,10 @@ func shift_world():
 func spawn_tile(pos):
 	var map_img = Image.new() # TODO testing only
 	map_img.load("res://Scenes/Testing/LOD/testlandia/test_1.png")
-	var map = ImageTexture.new()
-	map.create_from_image(map_img, 8)
+#	var map = ImageTexture.new()
+#	map.create_from_image(map_img, 8)
+	
+	var map = load("res://Scenes/Testing/LOD/testlandia/test_1.png")
 
 	var tile_instance = tile.instance()
 	tile_instance.name = "%d,%d" % [pos[0], pos[1]]
