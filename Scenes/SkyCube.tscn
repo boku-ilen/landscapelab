@@ -9,7 +9,6 @@
 
 [sub_resource type="CubeMesh" id=2]
 
-custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 size = Vector3( 20000, 4000, 20000 )
 subdivide_width = 10
 subdivide_height = 10
@@ -17,55 +16,36 @@ subdivide_depth = 10
 
 [sub_resource type="ViewportTexture" id=3]
 
-resource_local_to_scene = true
-flags = 0
 viewport_path = NodePath("Worley_texture")
-_sections_unfolded = [ "Resource" ]
 
 [sub_resource type="ShaderMaterial" id=4]
 
 resource_local_to_scene = true
-render_priority = 0
 shader = ExtResource( 3 )
 shader_param/depth = 128.0
 shader_param/light_dir = Vector3( 0, 1, -1 )
-shader_param/light_intensity = null
+shader_param/light_intensity = 1.0
 shader_param/cloud_density_factor = 10.0
 shader_param/cloud_steps = 128.0
 shader_param/light_density_factor = 10.0
 shader_param/light_steps = 30.0
-shader_param/cube_extent = null
-shader_param/step_constant = null
-shader_param/uv_scale = null
-shader_param/player_uv_offset = null
+shader_param/cube_extent = 10000.0
+shader_param/step_constant = 25000.0
+shader_param/uv_scale = 0.0002
+shader_param/player_uv_offset = Vector3( 0, 0, 0 )
 shader_param/albedo_texture = SubResource( 3 )
-_sections_unfolded = [ "Resource", "shader_param" ]
 
 [node name="SkyCube" type="Spatial"]
-
 script = ExtResource( 1 )
 
-[node name="Worley_texture" parent="." index="0" instance=ExtResource( 2 )]
-
+[node name="Worley_texture" parent="." instance=ExtResource( 2 )]
 world = SubResource( 1 )
 texture_size = Vector3( 128, 128, 128 )
 max_distance = 100.0
 
-[node name="SkyCube" type="MeshInstance" parent="." index="1"]
-
+[node name="SkyCube" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3700, 0 )
-layers = 1
-material_override = null
 cast_shadow = 0
-extra_cull_margin = 0.0
-use_in_baked_light = false
-lod_min_distance = 0.0
-lod_min_hysteresis = 0.0
-lod_max_distance = 0.0
-lod_max_hysteresis = 0.0
 mesh = SubResource( 2 )
-skeleton = NodePath("..")
 material/0 = SubResource( 4 )
-_sections_unfolded = [ "Transform", "Visibility", "material" ]
-
 

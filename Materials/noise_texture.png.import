@@ -2,28 +2,31 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/noise_texture.png-356e90990d8858c9caa59a20c76c7cd4.stex"
+path.s3tc="res://.import/noise_texture.png-356e90990d8858c9caa59a20c76c7cd4.s3tc.stex"
+path.etc2="res://.import/noise_texture.png-356e90990d8858c9caa59a20c76c7cd4.etc2.stex"
 
 [deps]
 
 source_file="res://Materials/noise_texture.png"
-dest_files=[ "res://.import/noise_texture.png-356e90990d8858c9caa59a20c76c7cd4.stex" ]
+dest_files=[ "res://.import/noise_texture.png-356e90990d8858c9caa59a20c76c7cd4.s3tc.stex", "res://.import/noise_texture.png-356e90990d8858c9caa59a20c76c7cd4.etc2.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=1
-flags/filter=false
-flags/mipmaps=false
+flags/repeat=true
+flags/filter=true
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

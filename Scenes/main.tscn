@@ -4,9 +4,9 @@
 [ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/LocationTracker.gd" type="Script" id=4]
-[ext_resource path="res://Scenes/SplatmapWater.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Scripts/World.gd" type="Script" id=6]
-[ext_resource path="res://Scripts/MeshInstance_Terrain.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/World.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/MeshInstance_Terrain.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/SplatmapWater.tscn" type="PackedScene" id=7]
 
 [sub_resource type="ArrayMesh" id=1]
 
@@ -39,13 +39,14 @@ use_gui = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
 script = ExtResource( 4 )
 
-[node name="SplatmapWater" parent="." instance=ExtResource( 5 )]
-
 [node name="World" type="Spatial" parent="."]
-script = ExtResource( 6 )
+script = ExtResource( 5 )
 
 [node name="Terrain" type="MeshInstance" parent="World"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.46234, 0 )
 mesh = SubResource( 1 )
-script = ExtResource( 7 )
+script = ExtResource( 6 )
+
+[node name="SplatmapWater" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
