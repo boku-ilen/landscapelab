@@ -10,7 +10,7 @@ uniform sampler2D noisemap;
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
 
 // Global parameters - will need to be the same in all shaders:
-uniform float height_range = 2000;
+uniform float height_range = 1500;
 
 uniform float subdiv;
 uniform float size;
@@ -47,7 +47,7 @@ float get_height(vec2 pos) {
 		return 0.0;
 	}
 	
-	return get_height_no_falloff(pos);
+	return get_height_no_falloff(vec2(1) - pos); // Interestingly, for the grass, we need to 'reverse' the position.
 }
 
 void vertex ()
@@ -69,15 +69,15 @@ void vertex ()
 	pos.x += EMISSION_TRANSFORM[3][0] - mod(EMISSION_TRANSFORM[3][0], spacing) + 0.5;
 	pos.z += EMISSION_TRANSFORM[3][2] - mod(EMISSION_TRANSFORM[3][2], spacing) + 0.5;
 	
-	// apply our height
-	pos.y = get_height((pos.xz / size) * -1.0 + vec2(0.5));
-	//pos.y = get_height(vec2(0.5, 0.5));
-	
 	// rotate our transform
 	vec3 noise = texture(noisemap, abs(pos.xz) / size + vec2(random_offset)).rgb;
 
-	pos.x += noise.x * (spacing / 2.0 - spacing);
-	pos.z += noise.y * (spacing / 2.0 - spacing);
+	pos.x += noise.x * (spacing / 2.0 - spacing) * 2.0;
+	pos.y += noise.y - 1.0;
+	pos.z += noise.y * (spacing / 2.0 - spacing) * 2.0;
+	
+	// apply our height
+	pos.y += get_height((pos.xz / size) * -1.0 + vec2(0.5));
 
 	TRANSFORM[0][0] = cos(noise.z * 3.0);
 	TRANSFORM[0][2] = -sin(noise.z * 3.0);
