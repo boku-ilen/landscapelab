@@ -2,11 +2,11 @@ shader_type spatial;
 
 // Parameters to be passed in GDscript:
 uniform sampler2D heightmap;
-uniform sampler2D tex;
+uniform sampler2D tex : hint_albedo;
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
 
 // Global parameters - will need to be the same in all shaders:
-uniform float height_range = 2000;
+uniform float height_range = 1500;
 
 uniform float subdiv;
 uniform float size;

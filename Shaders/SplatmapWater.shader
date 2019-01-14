@@ -45,18 +45,18 @@ void fragment () {
 	
 	// Apply the normal map texture, constantly offset it based on time to create a wave effect
 	vec2 uv1 = UV * uv_scale + vec2(-TIME * time_scale, 1);
-	vec2 uv_small1 = UV * 40.0 + vec2(-TIME * time_scale/2.0, 1);
+	vec2 uv_small1 = UV * uv_scale * 5.0 + vec2(-TIME * time_scale/2.0, 1);
 	vec3 part1 = texture(small_noise, uv_small1).rgb * 0.3 + texture(water_normal, uv1).rgb;
 	
 	vec2 uv2 = UV * uv_scale + vec2(TIME * time_scale, 0.5);
-	vec2 uv_small2 = UV * 40.0 + vec2(TIME * time_scale/2.0, 0.5);
-	vec3 part2 = texture(small_noise, uv_small2).rgb * 0.3 + texture(water_normal, uv2).rgb;
+	vec2 uv_small2 = UV * uv_scale * 5.0 + vec2(TIME * time_scale/2.0, 0.5);
+	vec3 part2 = texture(small_noise, uv_small2).rgb + texture(water_normal, uv2).rgb;
 	
-	NORMALMAP = normalize(part1 + part2) * 1.1; // This multiplier changes depending on textures and device...
-	NORMALMAP_DEPTH = 0.5;
+	NORMALMAP = normalize(part1 + part2); // This multiplier changes depending on textures and device...
+	NORMALMAP_DEPTH = 0.4;
 	
 	// Material params
-	METALLIC = 0.9;
+	METALLIC = 0.7;
 	ROUGHNESS = 0.0;
 	
 	// Add a refraction effect
@@ -68,7 +68,7 @@ void fragment () {
 	
 	// Add reflection
 //	vec2 uv = SCREEN_UV;
-//    float y = height + 0.3 - uv.y;
+//  float y = (CAMERA_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).y * height - uv.y;
 //
-//    ALBEDO += vec4(texture(SCREEN_TEXTURE, vec2(uv.x, y))).xyz * reflection_factor; 
+//  ALBEDO += vec4(texture(SCREEN_TEXTURE, vec2(uv.x, y))).xyz * reflection_factor; 
 }
