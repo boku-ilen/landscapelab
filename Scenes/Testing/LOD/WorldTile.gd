@@ -203,9 +203,9 @@ func get_dist_to_player():
 	
 	clamped_low.x = clamp(last_player_pos.x, origin.x, end.x)
 	clamped_low.z = clamp(last_player_pos.z, origin.y, end.y)
-	clamped_low.y = 500 # Must be replaced with actual height!
+	clamped_low.y = 100 # Must be replaced with actual height!
 	
 	clamped_high = clamped_low
-	clamped_high.y = 800
+	clamped_high.y = 300
 	
 	return min(last_player_pos.distance_to(clamped_low), last_player_pos.distance_to(clamped_high))

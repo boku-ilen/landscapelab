@@ -7,17 +7,15 @@
 
 [sub_resource type="PlaneMesh" id=1]
 
-size = Vector2( 100, 100 )
-subdivide_width = 100
-subdivide_depth = 100
+size = Vector2( 10000, 10000 )
 
 [sub_resource type="ShaderMaterial" id=2]
 
 shader = ExtResource( 1 )
 shader_param/color = Vector3( 0, 0.05, 0.05 )
-shader_param/transparency = 0.1
+shader_param/transparency = 0.5
 shader_param/time_scale = 0.07
-shader_param/uv_scale = 10.0
+shader_param/uv_scale = 1000
 shader_param/beer_factor = 0.2
 shader_param/reflection_factor = 0.3
 shader_param/water_normal = ExtResource( 3 )

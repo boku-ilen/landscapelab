@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Testing/LOD/TileSpawner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Testing/PlayerViewport.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/SplatmapWater.tscn" type="PackedScene" id=4]
 
 [node name="TestWorld" type="Spatial"]
 
@@ -12,11 +13,14 @@
 
 [node name="DirectionalLight" parent="WorldEnvironment" index="0"]
 transform = Transform( 0.36983, -0.76694, 0.524429, -0.809914, 0.0104613, 0.586455, -0.455263, -0.641632, -0.617288, 52.5922, 572.21, 23.3714 )
-light_cull_mask = -1
 shadow_bias = 0.65
 directional_shadow_blend_splits = true
 
 [node name="PlayerViewport" parent="." instance=ExtResource( 3 )]
+
+[node name="SplatmapWater" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 199, 0 )
+cast_shadow = 0
 
 
 [editable path="WorldEnvironment"]

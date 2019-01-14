@@ -1,3 +1,4 @@
+tool
 extends Spatial
 
 #
@@ -7,7 +8,7 @@ extends Spatial
 #
 
 var tile = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
-var gridsize = 5000 # Width and height of a tile (the biggest possible LOD terrain chunk, which then splits accordinly)
+var gridsize = 7000 # Width and height of a tile (the biggest possible LOD terrain chunk, which then splits accordingly)
 
 onready var player = get_tree().get_root().get_node("TestWorld/PlayerViewport/Viewport/Controller")
 onready var skycube = get_tree().get_root().get_node("TestWorld/WorldEnvironment/SkyCube")
@@ -28,13 +29,22 @@ var world_offset_z = int(0)
 var tiles_radius = 6
 var removal_radius_summand = 4
 
+# Global options
+export(bool) var update_terrain = true
+
 func _ready():
 	# When scenarios are fully implemented, we might want to spawn all tiles within the scenario bounding box here.
 	# That way, we would start with the bare minimum for the scenario (lowest LOD for tiles which can be travelled to)
 	# Of course, tiles outside the scenario will still be spawned in over time, since those will be seen close to the edge and from high up.
 	pass
-			
+
+func _input(event):
+	if event.is_action_pressed("toggle_lod_update"):
+		update_terrain = not update_terrain
+
 func _process(delta):
+	if not update_terrain: return
+	
 	time_to_interval += delta
 	
 	if time_to_interval >= update_interval: # Update
@@ -61,16 +71,19 @@ func _process(delta):
 						tiles.get_node("%d,%d" % [x, y]).queue_free()
 		
 		# Activate 9 tiles closest to player
-		for x in range(player_tile.x - 2, player_tile.x + 3):
-			for y in range(player_tile.y - 2, player_tile.y + 3):
-				if tiles.has_node("%d,%d" % [x, y]):
-					tiles.get_node("%d,%d" % [x, y]).activate(player.translation)
+		if player:
+			for x in range(player_tile.x - 2, player_tile.x + 3):
+				for y in range(player_tile.y - 2, player_tile.y + 3):
+					if tiles.has_node("%d,%d" % [x, y]):
+						tiles.get_node("%d,%d" % [x, y]).activate(player.translation)
 		
 		# Offset world
-		shift_world()
+		if player:
+			shift_world()
 		
 	# Update skycube pos
-	skycube.reposition(player.translation, player.get_true_position())
+	if player:
+		skycube.reposition(player.translation, player.get_true_position())
 
 # Shift the world if the player exceeds the bounds, in order to prevent coordinates from getting too big (floating point issues)
 func shift_world():
@@ -97,11 +110,11 @@ func shift_world():
 # Spawn a tile at the given __tilegrid coordinate__ position
 func spawn_tile(pos):
 	var map_img = Image.new() # TODO testing only
-	map_img.load("res://Scenes/Testing/LOD/testlandia/test_1.png")
+	map_img.load("res://Scenes/Testing/LOD/test-tile.png")
 #	var map = ImageTexture.new()
 #	map.create_from_image(map_img, 8)
 	
-	var map = load("res://Scenes/Testing/LOD/testlandia/test_1.png")
+	var map = load("res://Scenes/Testing/LOD/test-tile.png")
 
 	var tile_instance = tile.instance()
 	tile_instance.name = "%d,%d" % [pos[0], pos[1]]
@@ -121,10 +134,9 @@ func move_world(delta_vec):
 
 # Get the tilegrid coordinates of the tile the player is currently standing on
 func get_tile_at_player():
-	var true_player = player.get_true_position()
-	
 	if player != null:
+		var true_player = player.get_true_position()
 		var grid_vec = Vector2(-round((true_player[0]) / int(gridsize)), -round((true_player[1]) / int(gridsize)))
 		return grid_vec
 	else:
-		return null
+		return Vector2(0, 0)

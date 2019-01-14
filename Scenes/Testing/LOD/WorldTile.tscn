@@ -3,11 +3,9 @@
 [ext_resource path="res://Scenes/Testing/LOD/WorldTile.gd" type="Script" id=1]
 
 [node name="WorldTile" type="Spatial"]
-
 script = ExtResource( 1 )
 
-[node name="Modules" type="Spatial" parent="." index="0"]
+[node name="Modules" type="Spatial" parent="."]
 
-[node name="Children" type="Spatial" parent="." index="1"]
-
+[node name="Children" type="Spatial" parent="."]
 
