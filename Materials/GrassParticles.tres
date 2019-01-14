@@ -5,17 +5,15 @@
 
 [resource]
 
-render_priority = 0
 shader = ExtResource( 1 )
 shader_param/rows = 100.0
 shader_param/spacing = 1.0
-shader_param/random_offset = null
-shader_param/curv_middle = null
-shader_param/height_range = 2000.0
+shader_param/random_offset = 0.0
+shader_param/curv_middle = Vector3( 0, 0, 0 )
+shader_param/height_range = 500.0
 shader_param/subdiv = null
 shader_param/size = null
 shader_param/size_without_skirt = null
 shader_param/RADIUS = 6.371e+06
 shader_param/noisemap = ExtResource( 2 )
-_sections_unfolded = [ "shader_param" ]
 
