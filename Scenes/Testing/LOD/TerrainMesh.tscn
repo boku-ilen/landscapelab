@@ -42,9 +42,9 @@ shader_param/sprite6 = ExtResource( 9 )
 [sub_resource type="ShaderMaterial" id=3]
 
 shader = ExtResource( 12 )
-shader_param/rows = 100.0
+shader_param/rows = 100
 shader_param/spacing = 1.0
-shader_param/random_offset = 0.135591
+shader_param/random_offset = 0.0957583
 shader_param/curv_middle = Vector3( 0, 0, 0 )
 shader_param/height_range = 500.0
 shader_param/subdiv = null
@@ -68,5 +68,7 @@ material_override = SubResource( 2 )
 extra_cull_margin = 1000.0
 process_material = SubResource( 3 )
 
-[node name="CollisionShape" type="CollisionShape" parent="." index="2"]
+[node name="StaticBody" type="StaticBody" parent="." index="2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody" index="0"]
 

@@ -6,7 +6,7 @@ flags_albedo_tex_force_srgb = true
 params_cull_mode = 2
 params_billboard_mode = 2
 params_use_alpha_scissor = true
-params_alpha_scissor_threshold = 0.98
+params_alpha_scissor_threshold = 0.9
 metallic_specular = 0.3
 roughness = 0.9
 

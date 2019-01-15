@@ -1,21 +1,23 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/MovableObject.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Materials/WindmillMaterial.tres" type="Material" id=2]
-[ext_resource path="res://Assets/Windmills/vestas_anim.obj" type="ArrayMesh" id=3]
+[ext_resource path="res://Scripts/Windmill.gd" type="Script" id=2]
+[ext_resource path="res://Materials/WindmillMaterial.tres" type="Material" id=3]
+[ext_resource path="res://Assets/Windmills/vestas_base.obj" type="ArrayMesh" id=4]
+[ext_resource path="res://Assets/Windmills/vestas_blades.obj" type="ArrayMesh" id=5]
 
 [node name="Windmill" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
 
-[node name="MeshInstance" type="MeshInstance" parent="." index="0"]
+[node name="Base" type="MeshInstance" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
-material_override = ExtResource( 2 )
-mesh = ExtResource( 3 )
+material_override = ExtResource( 3 )
+mesh = ExtResource( 4 )
 material/0 = null
-material/1 = null
-material/2 = null
-material/3 = null
-material/4 = null
-material/5 = null
-material/6 = null
-material/7 = null
+
+[node name="Blades" type="MeshInstance" parent="." index="1"]
+transform = Transform( 1, -1.12852e-06, -3.89574e-10, -3.89574e-10, -0.000690416, 1, -1.12852e-06, -1, -0.000690416, 0, 140, 0 )
+material_override = ExtResource( 3 )
+mesh = ExtResource( 5 )
+material/0 = null
 

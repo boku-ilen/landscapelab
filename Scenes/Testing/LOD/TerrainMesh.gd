@@ -10,24 +10,61 @@ var grass_tex = preload("res://Assets/Textures/grass-ground.jpg")
 
 onready var mesh = get_node("Mesh")
 onready var vegetation = get_node("Vegetation")
-onready var col = get_node("CollisionShape")
+onready var col = get_node("StaticBody/CollisionShape")
 
 onready var tile = get_parent().get_parent()
 
 var trees_spawned = false
+
+var collider_step_size : int = 10
 
 func get_height_at_position(var pos):
 	var img = tile.heightmap.get_data()
 	img.lock()
 	var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(translation.x, translation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
 	var pix_pos = pos_scaled * img.get_size()
+	
+	# Clamp to max values
+	pix_pos.x = clamp(pix_pos.x, 0, img.get_size().x - 1)
+	pix_pos.y = clamp(pix_pos.y, 0, img.get_size().y - 1)
+	
 	var height = img.get_pixel(pix_pos.x, pix_pos.y).g * 500 # TODO: Centralize height range and use here
 	img.unlock()	
-	
-	print(pos_scaled)
-	print(pix_pos)
-	print(height)
+
 	return height
+	
+func create_collision_shape(size):
+#	var shape = ConcavePolygonShape.new()
+#	var vecs = PoolVector3Array()
+#
+#	for x in range(translation.x - size/2, translation.x + size/2, collider_step_size):
+#		for z in range(translation.z - size/2, translation.z + size/2, collider_step_size):
+#			# calculate coordinates for triangles
+#			var xLeft = x
+#			var xRight = x + collider_step_size
+#			var zUp = z
+#			var zDown = z + collider_step_size
+#			var yUpLeft = get_height_at_position(Vector3(xLeft, 0, zUp))
+#			var yUpRight = get_height_at_position(Vector3(xRight, 0, zUp))
+#			var yDownRight = get_height_at_position(Vector3(xRight, 0, zDown))
+#			var yDownLeft = get_height_at_position(Vector3(xLeft, 0, zDown))
+#
+#			# add coordinates for the first triangle
+#			vecs.append(Vector3(xLeft, yUpLeft, zUp))
+#			vecs.append(Vector3(xRight, yUpRight, zUp))
+#			vecs.append(Vector3(xRight, yDownRight, zDown))
+
+	var shape = ConvexPolygonShape.new()
+	var vecs = PoolVector3Array()
+	
+	vecs.append(Vector3(size/2, get_height_at_position(translation + Vector3(size/2, 0, size/2)), size/2))
+	vecs.append(Vector3(-size/2, get_height_at_position(translation + Vector3(-size/2, 0, size/2)), size/2))
+	vecs.append(Vector3(-size/2, get_height_at_position(translation + Vector3(-size/2, 0, -size/2)), -size/2))
+	vecs.append(Vector3(size/2, get_height_at_position(translation + Vector3(size/2, 0, -size/2)), -size/2))
+			
+	shape.points = vecs
+	
+	return shape
 
 # Create the terrain mesh
 func _ready():
@@ -55,18 +92,21 @@ func _ready():
 				grass.set_spacing(size / 40 * num_children)
 			set_params(grass.process_material, size, heightmap, texture, subdiv_mod)
 			set_params(grass.material_override, size, heightmap, texture, subdiv_mod)
+		
+	if lod > 4:
+		col.shape = create_collision_shape(size)
 			
 	# Plant a windmill in the middle
-	if lod > 2 and not trees_spawned:
-		trees_spawned = true
-		
-		for z in range(-tile.size/2, tile.size/2, tile.size / 3):
-			for x in range(-tile.size/2, tile.size/2, 50):
-				if randf() > 0.3:
-					var tree = tree_scene.instance()
-			
-					tree.translation = Vector3(translation.x + x + (0.5 - randf()) * 50, get_height_at_position(translation), translation.z + z + (0.5 - randf()) * 50)
-					add_child(tree)
+#	if lod > 2 and not trees_spawned:
+#		trees_spawned = true
+#
+#		for z in range(-tile.size/2, tile.size/2, tile.size / 3):
+#			for x in range(-tile.size/2, tile.size/2, 50):
+#				if randf() > 0.3:
+#					var tree = tree_scene.instance()
+#
+#					tree.translation = Vector3(translation.x + x + (0.5 - randf()) * 50, get_height_at_position(translation), translation.z + z + (0.5 - randf()) * 50)
+#					add_child(tree)
 	
 func set_params(obj, size, heightmap, texture, subdiv_mod):
 	obj.set_shader_param("tex", grass_tex) # SCREENSHOTS obj.set_shader_param("tex", texture)
