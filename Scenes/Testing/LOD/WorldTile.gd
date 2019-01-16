@@ -96,6 +96,23 @@ func converge():
 	modules.visible = true
 	clear_children()
 	has_split = false
+	
+# Returns the height on the tile at a certain position (the y coordinate of the passed vector is ignored)
+# TODO: Maybe change into get_position_on_ground and return whole position for ease of use?
+func get_height_at_position(var pos):
+	var img = heightmap.get_data()
+	img.lock()
+	var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(translation.x, translation.z) + Vector2(size / 2, size / 2)) / size
+	var pix_pos = pos_scaled * img.get_size()
+	
+	# Clamp to max values
+	pix_pos.x = clamp(pix_pos.x, 0, img.get_size().x - 1)
+	pix_pos.y = clamp(pix_pos.y, 0, img.get_size().y - 1)
+	
+	var height = img.get_pixel(pix_pos.x, pix_pos.y).g * 500 # TODO: Centralize height range and use here
+	img.unlock()	
+
+	return height
 
 # Called when the player is nearby - this makes the tile check whether it needs to split or converge, and do so if required.
 func activate(player_pos):

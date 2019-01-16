@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scenes/Testing/WireframeViewport.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Testing/PlayerController.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/Testing/Head.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Testing/ItemSpawner.gd" type="Script" id=3]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -24,7 +24,6 @@ transform = Transform( 0.866, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866, 0, 5000, 0 )
 script = ExtResource( 2 )
 
 [node name="Head" type="Spatial" parent="Viewport/Controller"]
-script = ExtResource( 3 )
 
 [node name="Camera" type="Camera" parent="Viewport/Controller/Head"]
 doppler_tracking = 2
@@ -32,6 +31,9 @@ current = true
 fov = 90.0
 near = 0.01
 far = 100000.0
+
+[node name="ItemSpawner" type="Spatial" parent="Viewport/Controller/Head/Camera"]
+script = ExtResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Viewport/Controller"]
 shape = SubResource( 1 )

@@ -17,21 +17,6 @@ onready var tile = get_parent().get_parent()
 var trees_spawned = false
 
 var collider_step_size : int = 10
-
-func get_height_at_position(var pos):
-	var img = tile.heightmap.get_data()
-	img.lock()
-	var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(translation.x, translation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
-	var pix_pos = pos_scaled * img.get_size()
-	
-	# Clamp to max values
-	pix_pos.x = clamp(pix_pos.x, 0, img.get_size().x - 1)
-	pix_pos.y = clamp(pix_pos.y, 0, img.get_size().y - 1)
-	
-	var height = img.get_pixel(pix_pos.x, pix_pos.y).g * 500 # TODO: Centralize height range and use here
-	img.unlock()	
-
-	return height
 	
 func create_collision_shape(size):
 #	var shape = ConcavePolygonShape.new()
@@ -44,10 +29,10 @@ func create_collision_shape(size):
 #			var xRight = x + collider_step_size
 #			var zUp = z
 #			var zDown = z + collider_step_size
-#			var yUpLeft = get_height_at_position(Vector3(xLeft, 0, zUp))
-#			var yUpRight = get_height_at_position(Vector3(xRight, 0, zUp))
-#			var yDownRight = get_height_at_position(Vector3(xRight, 0, zDown))
-#			var yDownLeft = get_height_at_position(Vector3(xLeft, 0, zDown))
+#			var yUpLeft = tile.get_height_at_position(Vector3(xLeft, 0, zUp))
+#			var yUpRight = tile.get_height_at_position(Vector3(xRight, 0, zUp))
+#			var yDownRight = tile.get_height_at_position(Vector3(xRight, 0, zDown))
+#			var yDownLeft = tile.get_height_at_position(Vector3(xLeft, 0, zDown))
 #
 #			# add coordinates for the first triangle
 #			vecs.append(Vector3(xLeft, yUpLeft, zUp))
@@ -57,10 +42,10 @@ func create_collision_shape(size):
 	var shape = ConvexPolygonShape.new()
 	var vecs = PoolVector3Array()
 	
-	vecs.append(Vector3(size/2, get_height_at_position(translation + Vector3(size/2, 0, size/2)), size/2))
-	vecs.append(Vector3(-size/2, get_height_at_position(translation + Vector3(-size/2, 0, size/2)), size/2))
-	vecs.append(Vector3(-size/2, get_height_at_position(translation + Vector3(-size/2, 0, -size/2)), -size/2))
-	vecs.append(Vector3(size/2, get_height_at_position(translation + Vector3(size/2, 0, -size/2)), -size/2))
+	vecs.append(Vector3(size/2, tile.get_height_at_position(translation + Vector3(size/2, 0, size/2)), size/2))
+	vecs.append(Vector3(-size/2, tile.get_height_at_position(translation + Vector3(-size/2, 0, size/2)), size/2))
+	vecs.append(Vector3(-size/2, tile.get_height_at_position(translation + Vector3(-size/2, 0, -size/2)), -size/2))
+	vecs.append(Vector3(size/2, tile.get_height_at_position(translation + Vector3(size/2, 0, -size/2)), -size/2))
 			
 	shape.points = vecs
 	
@@ -105,7 +90,7 @@ func _ready():
 #				if randf() > 0.3:
 #					var tree = tree_scene.instance()
 #
-#					tree.translation = Vector3(translation.x + x + (0.5 - randf()) * 50, get_height_at_position(translation), translation.z + z + (0.5 - randf()) * 50)
+#					tree.translation = Vector3(translation.x + x + (0.5 - randf()) * 50, tile.get_height_at_position(translation), translation.z + z + (0.5 - randf()) * 50)
 #					add_child(tree)
 	
 func set_params(obj, size, heightmap, texture, subdiv_mod):

@@ -132,11 +132,25 @@ func move_world(delta_vec):
 	for child in tiles.get_children():
 		child.move(delta_vec)
 
+# Returns the grid coordinates of the tile at a certain absolute position (passed as an array for int accuracy)
+func absolute_to_grid(var abs_pos):
+	return Vector2(-round((abs_pos[0]) / int(gridsize)), -round((abs_pos[1]) / int(gridsize)))
+
 # Get the tilegrid coordinates of the tile the player is currently standing on
 func get_tile_at_player():
 	if player != null:
 		var true_player = player.get_true_position()
-		var grid_vec = Vector2(-round((true_player[0]) / int(gridsize)), -round((true_player[1]) / int(gridsize)))
+		var grid_vec = absolute_to_grid(true_player)
 		return grid_vec
 	else:
 		return Vector2(0, 0)
+
+# Puts an instanced scene on the ground at a certain position using the heightmap of that tile
+func put_on_ground(instanced_scene, pos):
+	var grid_pos = absolute_to_grid([world_offset_x + pos.x, world_offset_z + pos.z])
+	
+	# TODO: Properly handle offset - things get strange when the world offsets currently!
+	
+	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
+		instanced_scene.translation = Vector3(pos.x, tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_height_at_position(pos), pos.z)
+		add_child(instanced_scene)
