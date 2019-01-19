@@ -17,6 +17,7 @@ size = Vector2( 1920, 1080 )
 handle_input_locally = false
 debug_draw = 3
 render_target_update_mode = 3
+shadow_atlas_size = 10
 script = ExtResource( 1 )
 
 [node name="Controller" type="KinematicBody" parent="Viewport"]
@@ -30,7 +31,7 @@ doppler_tracking = 2
 current = true
 fov = 90.0
 near = 0.01
-far = 100000.0
+far = 50000.0
 
 [node name="ItemSpawner" type="Spatial" parent="Viewport/Controller/Head/Camera"]
 script = ExtResource( 3 )

@@ -30,7 +30,7 @@ transform = Transform( -0.173648, 0.238247, -0.955554, -1.69349e-08, 0.970296, 0
 shadow_enabled = true
 shadow_bias = 8.0
 directional_shadow_blend_splits = true
-directional_shadow_max_distance = 1958.4
+directional_shadow_max_distance = 1000.0
 
 [node name="SkyCube" parent="." instance=ExtResource( 2 )]
 

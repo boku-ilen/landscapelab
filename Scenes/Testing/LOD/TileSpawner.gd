@@ -12,7 +12,9 @@ var gridsize = 7000 # Width and height of a tile (the biggest possible LOD terra
 
 onready var player = get_tree().get_root().get_node("TestWorld/PlayerViewport/Viewport/Controller")
 onready var skycube = get_tree().get_root().get_node("TestWorld/WorldEnvironment/SkyCube")
+onready var light = get_tree().get_root().get_node("TestWorld/WorldEnvironment/DirectionalLight")
 onready var tiles = get_node("Tiles")
+onready var assets = get_node("Assets")
 
 # Every update_interval seconds, the world will check what tiles to spawn/activate
 export var update_interval = 0.1
@@ -84,6 +86,7 @@ func _process(delta):
 	# Update skycube pos
 	if player:
 		skycube.reposition(player.translation, player.get_true_position())
+		light.translation = player.translation
 
 # Shift the world if the player exceeds the bounds, in order to prevent coordinates from getting too big (floating point issues)
 func shift_world():
@@ -109,6 +112,7 @@ func shift_world():
 
 # Spawn a tile at the given __tilegrid coordinate__ position
 func spawn_tile(pos):
+	print("Spawning %d,%d" % [pos[0], pos[1]])
 	var map_img = Image.new() # TODO testing only
 	map_img.load("res://Scenes/Testing/LOD/test-tile.png")
 #	var map = ImageTexture.new()
@@ -131,6 +135,9 @@ func move_world(delta_vec):
 	
 	for child in tiles.get_children():
 		child.move(delta_vec)
+		
+	for child in assets.get_children():
+		child.translation += delta_vec
 
 # Returns the grid coordinates of the tile at a certain absolute position (passed as an array for int accuracy)
 func absolute_to_grid(var abs_pos):
@@ -147,10 +154,12 @@ func get_tile_at_player():
 
 # Puts an instanced scene on the ground at a certain position using the heightmap of that tile
 func put_on_ground(instanced_scene, pos):
-	var grid_pos = absolute_to_grid([world_offset_x + pos.x, world_offset_z + pos.z])
+	var grid_pos = -1 * absolute_to_grid([world_offset_x + pos.x, world_offset_z + pos.z])
 	
 	# TODO: Properly handle offset - things get strange when the world offsets currently!
 	
+	print("Node: %d,%d" % [grid_pos.x, grid_pos.y])
+	
 	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
 		instanced_scene.translation = Vector3(pos.x, tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_height_at_position(pos), pos.z)
-		add_child(instanced_scene)
+		assets.add_child(instanced_scene)

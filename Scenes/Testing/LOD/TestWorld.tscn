@@ -11,15 +11,10 @@
 
 [node name="WorldEnvironment" parent="." instance=ExtResource( 2 )]
 
-[node name="DirectionalLight" parent="WorldEnvironment" index="0"]
-transform = Transform( -0.578358, -0.180749, -0.795507, -0.809914, 0.0104622, 0.586455, -0.0976783, 0.983474, -0.152442, 52.5922, 572.21, 23.3714 )
-shadow_bias = 0.65
-
 [node name="PlayerViewport" parent="." instance=ExtResource( 3 )]
+editor/display_folded = true
 
 [node name="SplatmapWater" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 199, 0 )
 cast_shadow = 0
 
-
-[editable path="WorldEnvironment"]
