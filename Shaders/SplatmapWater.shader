@@ -7,12 +7,12 @@ uniform sampler2D small_noise;
 
 // Other variables:
 uniform vec3 color = vec3(0.0, 0.05, 0.05); // Shade of blue/green for the water - can be modified based on data in the future
-uniform float transparency = 0.1; // Base transparency - alpha 1 means this transparency is used
+uniform float transparency = 0.3; // Base transparency - alpha 1 means this transparency is used
 
 uniform float time_scale = 0.07; // Bigger number means faster waves
 uniform float uv_scale = 10.0; // Bigger number means larger waves
 
-uniform float beer_factor = 0.2;
+uniform float beer_factor = 0.5;
 uniform float reflection_factor = 0.3;
 
 varying float height;
@@ -57,11 +57,11 @@ void fragment () {
 	
 	// Material params
 	METALLIC = 0.7;
-	ROUGHNESS = 0.0;
+	ROUGHNESS = 0.12;
 	
 	// Add a refraction effect
 	vec3 ref_normal = normalize( mix(NORMAL,TANGENT * NORMALMAP.x + BINORMAL * NORMALMAP.y + NORMAL * NORMALMAP.z,NORMALMAP_DEPTH) );
-	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * 0.05;
+	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * 0.02;
 	EMISSION += textureLod(SCREEN_TEXTURE,ref_ofs,ROUGHNESS * 10.0).rgb * (1.0 - ALPHA);
 	ALBEDO *= ALPHA;
 	ALPHA = 1.0;

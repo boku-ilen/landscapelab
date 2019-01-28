@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://Shaders/SplatmapWater.shader" type="Shader" id=1]
+[ext_resource path="res://Materials/noise_texture.png" type="Texture" id=2]
+[ext_resource path="res://Assets/water_normal.png" type="Texture" id=3]
+
+[resource]
+
+shader = ExtResource( 1 )
+shader_param/color = Vector3( 0, 0.1, 0.05 )
+shader_param/transparency = 0.3
+shader_param/time_scale = 0.07
+shader_param/uv_scale = 1000
+shader_param/beer_factor = 0.1
+shader_param/reflection_factor = 0.3
+shader_param/water_normal = ExtResource( 3 )
+shader_param/small_noise = ExtResource( 2 )
+

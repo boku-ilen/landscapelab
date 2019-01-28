@@ -1,29 +1,15 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Shaders/SplatmapWater.shader" type="Shader" id=1]
-[ext_resource path="res://Materials/noise_texture.png" type="Texture" id=2]
-[ext_resource path="res://Assets/water_normal.png" type="Texture" id=3]
-[ext_resource path="res://Scripts/SplatmapWater.gd" type="Script" id=4]
+[ext_resource path="res://Materials/SplatmapWater.tres" type="Material" id=1]
+[ext_resource path="res://Scripts/SplatmapWater.gd" type="Script" id=2]
 
 [sub_resource type="PlaneMesh" id=1]
 
 size = Vector2( 10000, 10000 )
 
-[sub_resource type="ShaderMaterial" id=2]
-
-shader = ExtResource( 1 )
-shader_param/color = Vector3( 0, 0.05, 0.05 )
-shader_param/transparency = 0.5
-shader_param/time_scale = 0.07
-shader_param/uv_scale = 1000
-shader_param/beer_factor = 0.2
-shader_param/reflection_factor = 0.3
-shader_param/water_normal = ExtResource( 3 )
-shader_param/small_noise = ExtResource( 2 )
-
 [node name="SplatmapWater" type="MeshInstance"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48318, 0 )
 mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
-script = ExtResource( 4 )
+material/0 = ExtResource( 1 )
+script = ExtResource( 2 )
 
