@@ -1,0 +1,57 @@
+{
+    "server": {
+        "ip": "",
+        "port": ""
+    },
+    
+    "filesystem": {
+        "grid-graphics-path": ""
+    },
+    
+    "lod": {
+    
+        "level-0-tile-size": 7000,
+        "default-tile-subdivision": 16,
+        "update-interval-seconds": 0.1,
+        "world-shift-distance": 1000,
+        "tile-spawn-radius": 6,
+        "tile-removal-check-radius-summand": 4,
+        "distances": [
+            8000,
+            5000,
+            2000,
+            800,
+            500,
+            300,
+            100
+        ],
+        "create-collider-at-lod": 5,
+        "player-bounding-radius": 3000,
+            
+    },
+    
+    "item-spawner": {
+        "camera-ray-length": 2000
+    },
+    
+    "grass": {
+        "rows-at-lod": {
+            3: 40,
+            4: 50,
+            5: 60
+        }
+    },
+    
+    "player": {
+        "ground-speed":10,
+        "fly-speed": 500,
+        "fly-speed-sprint": 5000
+    },
+    
+    "sky": {
+        
+    },
+    
+    "water": {
+    }
+}
