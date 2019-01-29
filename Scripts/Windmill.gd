@@ -1,4 +1,3 @@
-tool
 extends Spatial
 
 #
@@ -8,7 +7,7 @@ extends Spatial
 onready var Blades = get_node("Blades")
 
 export(float) var speed = 1 # Rotation speed in radians
-export(Vector2) var wind_direction = Vector2(1, 1) setget set_wind_direction, get_wind_direction
+export(Vector2) var wind_direction = Vector2(-1, -1) setget set_wind_direction, get_wind_direction
 
 # Saves the specified wind direction and updates the model's rotation - called whenever the exported wind_direction is changed
 func set_wind_direction(var dir):

@@ -29,6 +29,7 @@ func _input(event):
 			if event.button_index == 1: # Left click
 				world.put_on_ground(windmill_scene.instance(), result.position)
 			elif event.button_index == 2: # Right click
+				#lotsOfTrees(result.position)
 				world.put_on_ground(tree_scene.instance(), result.position)
 			elif event.button_index == 3: # Middle click
 				world.put_on_ground(createBuilding("127.0.0.1", 8000, settings), result.position)
@@ -45,6 +46,15 @@ func _ready():
 	settings = ServerConnection.getJson("127.0.0.1" ,"/location/areas/?filename=wullersdorf", 8000)
 	building_settings = settings["buildings"]
 	dict = ServerConnection.getJson("127.0.0.1", "/buildings/?filename=%s" % building_settings['filename'], 8000)
+
+func lotsOfTrees(pos):
+	for x in range(-10, 10):
+		for y in range(-10, 10):
+			var add = 0.5 - randf()
+			
+			var vec = Vector3(x + add, 0, y + add) * 50
+			
+			world.put_on_ground(tree_scene.instance(), pos + vec)
 	
 func createBuilding(server, port, settings):
 	if dict == null:
