@@ -5,27 +5,13 @@
 [ext_resource path="res://Materials/WindmillMaterial.tres" type="Material" id=3]
 [ext_resource path="res://Assets/Windmills/vestas_base.obj" type="ArrayMesh" id=4]
 [ext_resource path="res://Assets/Windmills/vestas_blades.obj" type="ArrayMesh" id=5]
-
-[sub_resource type="SpatialMaterial" id=2]
-
-flags_unshaded = true
-flags_no_depth_test = true
-flags_fixed_size = true
-params_blend_mode = 1
-params_billboard_mode = 1
-params_use_alpha_scissor = true
-params_alpha_scissor_threshold = 0.1
-distance_fade_mode = 2
-distance_fade_min_distance = 300.0
-distance_fade_max_distance = 200.0
-
-[sub_resource type="ViewportTexture" id=1]
-
-viewport_path = NodePath("ViewportContainer/Viewport")
+[ext_resource path="res://Scenes/Tooltip3D.tscn" type="PackedScene" id=6]
+[ext_resource path="res://icon.png" type="Texture" id=7]
 
 [node name="Windmill" instance=ExtResource( 1 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 0, 0 )
 script = ExtResource( 2 )
+wind_direction = Vector2( 1, 1 )
 
 [node name="Base" type="MeshInstance" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
@@ -34,46 +20,13 @@ mesh = ExtResource( 4 )
 material/0 = null
 
 [node name="Blades" type="MeshInstance" parent="." index="1"]
-transform = Transform( -0.768723, 0.000443643, -0.641339, 0.641339, 0.000530001, -0.768723, -1.12852e-06, -1, -0.000690416, 0, 140, 0 )
+transform = Transform( 0.573798, -0.000567178, 0.820599, -0.820599, -0.000395217, 0.573798, -1.12852e-06, -1, -0.000690416, 0, 140, 0 )
 material_override = ExtResource( 3 )
 mesh = ExtResource( 5 )
 material/0 = null
 
-[node name="ViewportContainer" type="ViewportContainer" parent="." index="2"]
-margin_right = 40.0
-margin_bottom = 40.0
-stretch = true
-
-[node name="Viewport" type="Viewport" parent="ViewportContainer" index="0"]
-size = Vector2( 300, 100 )
-transparent_bg = true
-handle_input_locally = false
-hdr = false
-disable_3d = true
-render_target_v_flip = true
-render_target_update_mode = 3
-
-[node name="CenterContainer" type="CenterContainer" parent="ViewportContainer/Viewport" index="0"]
-margin_right = 300.0
-margin_bottom = 100.0
-
-[node name="Label" type="Label" parent="ViewportContainer/Viewport/CenterContainer" index="0"]
-margin_left = 121.0
-margin_top = 43.0
-margin_right = 179.0
-margin_bottom = 57.0
-text = "Windmill"
-align = 1
-valign = 1
-
-[node name="Camera" type="Camera" parent="ViewportContainer/Viewport" index="1"]
-
-[node name="Tooltip3D" type="Spatial" parent="." index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 60, 0 )
-
-[node name="Sprite3D" type="Sprite3D" parent="Tooltip3D" index="0"]
-material_override = SubResource( 2 )
-cast_shadow = 0
-pixel_size = 0.005
-texture = SubResource( 1 )
+[node name="Tooltip3D" parent="." index="2" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, 0 )
+label = "0.0 kWh"
+icon = ExtResource( 7 )
 
