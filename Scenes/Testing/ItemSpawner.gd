@@ -12,7 +12,7 @@ var tree_scene = preload("res://Scenes/Tree.tscn")
 onready var world = get_tree().get_root().get_node("TestWorld/TileSpawner") # Required for getting exact ground positions
 onready var camera = get_parent()
 
-const ray_length = 2000 # Distance that will be checked for collision with the ground
+var ray_length = Settings.get_setting("item-spawner", "camera-ray-length") # Distance that will be checked for collision with the ground
 
 # This callback is called whenever any input is registered
 # TODO: use actions instead of hard-coded mouse buttons

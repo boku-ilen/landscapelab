@@ -32,6 +32,7 @@ ErrorPrompt="*res://Scripts/ErrorPrompt.gd"
 GlobalSignal="*res://Scripts/GlobalSignal.gd"
 ServerConnection="*res://Scripts/ServerConnection.gd"
 ThreadPool="*res://Scripts/ThreadPool.gd"
+Settings="*res://Scripts/Settings.gd"
 
 [display]
 
