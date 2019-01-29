@@ -20,6 +20,9 @@ func init(bData):
 	
 	material.flags_unshaded = false
 	
+	# This is required for buildings to be displayed properly in the LOD terrain scene - why only there?
+	material.params_cull_mode = SpatialMaterial.CULL_DISABLED
+	
 	surfTool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	surfTool.set_material(material)
 	

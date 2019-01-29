@@ -6,7 +6,7 @@ var port = global.port
 onready var light = get_node("DirectionalLight")
 onready var clouds = get_node("SkyCube")
 
-var current_time = 0
+var current_time = 12
 var current_season = 0
 
 var base_horizon_color = Color(142.0 / 255.0, 209.0 / 255.0, 232.0 / 255.0, 1.0) # Godot's default values - they look pretty good

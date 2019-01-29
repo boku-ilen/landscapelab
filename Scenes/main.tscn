@@ -48,5 +48,5 @@ mesh = SubResource( 1 )
 script = ExtResource( 6 )
 
 [node name="SplatmapWater" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0172501, 0.0804529, -0.0175686 )
 

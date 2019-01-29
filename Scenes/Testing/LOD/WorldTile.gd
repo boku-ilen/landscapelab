@@ -25,7 +25,6 @@ var initialized = false
 var split_all = false
 var created = false
 var player_bounding_radius = 3000
-var near_factor = 2
 var last_player_pos
 var subdiv_mod = 1
 
