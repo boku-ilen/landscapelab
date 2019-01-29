@@ -8,7 +8,7 @@ extends Spatial
 #
 
 var tile = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
-var gridsize = 7000 # Width and height of a tile (the biggest possible LOD terrain chunk, which then splits accordingly)
+var GRIDSIZE = Settings.get_setting("lod", "level-0-tile-size") # Width and height of a tile (the biggest possible LOD terrain chunk, which then splits accordingly)
 
 onready var player = get_tree().get_root().get_node("TestWorld/PlayerViewport/Viewport/Controller")
 onready var skycube = get_tree().get_root().get_node("TestWorld/WorldEnvironment/SkyCube")
@@ -16,20 +16,20 @@ onready var light = get_tree().get_root().get_node("TestWorld/WorldEnvironment/D
 onready var tiles = get_node("Tiles")
 onready var assets = get_node("Assets")
 
-# Every update_interval seconds, the world will check what tiles to spawn/activate
-export var update_interval = 0.1
+# Every UPDATE_INTERVAL seconds, the world will check what tiles to spawn/activate
+var UPDATE_INTERVAL = Settings.get_setting("lod", "update-interval-seconds")
 var time_to_interval = 0
 
 # When a player coordinate gets bigger than this, the world will be shifted to get the player back to the world origin
-var shift_limit = 1000
+var shift_limit = Settings.get_setting("lod", "world-shift-distance")
 
 var world_offset_x = int(0)
 var world_offset_z = int(0)
 
 # Radii for spawning and removing tiles
 # Actually not really radii atm - currently rectangles
-var tiles_radius = 6
-var removal_radius_summand = 4
+var TILE_RADIUS = Settings.get_setting("lod", "tile-spawn-radius")
+var REMOVAL_RADIUS_SUMMAND = Settings.get_setting("lod", "tile-removal-check-radius-summand")
 
 # Global options
 export(bool) var update_terrain = true
@@ -49,18 +49,18 @@ func _process(delta):
 	
 	time_to_interval += delta
 	
-	if time_to_interval >= update_interval: # Update
-		time_to_interval -= update_interval
+	if time_to_interval >= UPDATE_INTERVAL: # Update
+		time_to_interval -= UPDATE_INTERVAL
 		
 		var player_tile = get_tile_at_player()
 		if player_tile == null: return
 		
-		# Loop through the entire rectangle (tiles_radius + removal_radius_summand)
-		for x in range(player_tile.x - tiles_radius - removal_radius_summand, player_tile.x + tiles_radius + 1 + removal_radius_summand):
-			for y in range(player_tile.y - tiles_radius - removal_radius_summand, player_tile.y + tiles_radius + 1 + removal_radius_summand):
+		# Loop through the entire rectangle (TILE_RADIUS + REMOVAL_RADIUS_SUMMAND)
+		for x in range(player_tile.x - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, player_tile.x + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
+			for y in range(player_tile.y - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, player_tile.y + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
 				
-				if (x in range(player_tile.x - tiles_radius, player_tile.x + tiles_radius + 1)
-				and y in range(player_tile.y - tiles_radius, player_tile.y + tiles_radius + 1)):
+				if (x in range(player_tile.x - TILE_RADIUS, player_tile.x + TILE_RADIUS + 1)
+				and y in range(player_tile.y - TILE_RADIUS, player_tile.y + TILE_RADIUS + 1)):
 					# We're in the smaller, spawning radius -> Spawn tiles in here which don't yet exist
 					if not tiles.has_node("%d,%d" % [x, y]):
 						# There is no tile here yet -> spawn the proper tile
@@ -122,9 +122,9 @@ func spawn_tile(pos):
 
 	var tile_instance = tile.instance()
 	tile_instance.name = "%d,%d" % [pos[0], pos[1]]
-	tile_instance.translation = Vector3(pos[0] * -gridsize + world_offset_x, 0, pos[1] * -gridsize + world_offset_z)
+	tile_instance.translation = Vector3(pos[0] * -GRIDSIZE + world_offset_x, 0, pos[1] * -GRIDSIZE + world_offset_z)
 	
-	tile_instance.init(gridsize, map, map, map_img, 0)
+	tile_instance.init(GRIDSIZE, map, map, map_img, 0)
 	
 	tiles.add_child(tile_instance)
 
@@ -141,7 +141,7 @@ func move_world(delta_vec):
 
 # Returns the grid coordinates of the tile at a certain absolute position (passed as an array for int accuracy)
 func absolute_to_grid(var abs_pos):
-	return Vector2(-round((abs_pos[0]) / int(gridsize)), -round((abs_pos[1]) / int(gridsize)))
+	return Vector2(-round((abs_pos[0]) / int(GRIDSIZE)), -round((abs_pos[1]) / int(GRIDSIZE)))
 
 # Get the tilegrid coordinates of the tile the player is currently standing on
 func get_tile_at_player():

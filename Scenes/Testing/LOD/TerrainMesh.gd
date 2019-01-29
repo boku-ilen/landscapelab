@@ -14,31 +14,10 @@ onready var col = get_node("StaticBody/CollisionShape")
 
 onready var tile = get_parent().get_parent()
 
-var trees_spawned = false
-
-var collider_step_size : int = 10
+var COLLIDER_LOD = Settings.get_setting("lod", "create-collider-at-lod")
+var GRASS_LODS = Settings.get_setting("grass", "rows-at-lod")
 	
 func create_collision_shape(size):
-#	var shape = ConcavePolygonShape.new()
-#	var vecs = PoolVector3Array()
-#
-#	for x in range(translation.x - size/2, translation.x + size/2, collider_step_size):
-#		for z in range(translation.z - size/2, translation.z + size/2, collider_step_size):
-#			# calculate coordinates for triangles
-#			var xLeft = x
-#			var xRight = x + collider_step_size
-#			var zUp = z
-#			var zDown = z + collider_step_size
-#			var yUpLeft = tile.get_height_at_position(Vector3(xLeft, 0, zUp))
-#			var yUpRight = tile.get_height_at_position(Vector3(xRight, 0, zUp))
-#			var yDownRight = tile.get_height_at_position(Vector3(xRight, 0, zDown))
-#			var yDownLeft = tile.get_height_at_position(Vector3(xLeft, 0, zDown))
-#
-#			# add coordinates for the first triangle
-#			vecs.append(Vector3(xLeft, yUpLeft, zUp))
-#			vecs.append(Vector3(xRight, yUpRight, zUp))
-#			vecs.append(Vector3(xRight, yDownRight, zDown))
-
 	var shape = ConvexPolygonShape.new()
 	var vecs = PoolVector3Array()
 	
@@ -65,33 +44,15 @@ func _ready():
 	var num_children = vegetation.get_children().size()
 	
 	for grass in vegetation.get_children():
-		if lod > 3:
-			if lod > 5:
-				grass.set_rows(60 / num_children)
-				grass.set_spacing(size / 60 * num_children)
-			elif lod > 4:
-				grass.set_rows(50 / num_children)
-				grass.set_spacing(size / 50 * num_children)
-			else:
-				grass.set_rows(40 / num_children)
-				grass.set_spacing(size / 40 * num_children)
+		if GRASS_LODS.has(String(lod)):
+			grass.set_rows(GRASS_LODS[String(lod)] / num_children)
+			grass.set_spacing(size / GRASS_LODS[String(lod)] * num_children)
+
 			set_params(grass.process_material, size, heightmap, texture, subdiv_mod)
 			set_params(grass.material_override, size, heightmap, texture, subdiv_mod)
 		
-	if lod > 4:
+	if lod >= COLLIDER_LOD:
 		col.shape = create_collision_shape(size)
-			
-	# Plant a windmill in the middle
-#	if lod > 2 and not trees_spawned:
-#		trees_spawned = true
-#
-#		for z in range(-tile.size/2, tile.size/2, tile.size / 3):
-#			for x in range(-tile.size/2, tile.size/2, 50):
-#				if randf() > 0.3:
-#					var tree = tree_scene.instance()
-#
-#					tree.translation = Vector3(translation.x + x + (0.5 - randf()) * 50, tile.get_height_at_position(translation), translation.z + z + (0.5 - randf()) * 50)
-#					add_child(tree)
 	
 func set_params(obj, size, heightmap, texture, subdiv_mod):
 	obj.set_shader_param("tex", grass_tex) # SCREENSHOTS obj.set_shader_param("tex", texture)

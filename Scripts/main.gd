@@ -1,7 +1,7 @@
 extends Spatial
 
-var server = global.server
-var port = global.port
+var server = Settings.get_setting("server", "ip")
+var port = Settings.get_setting("server", "port")
 
 var areas
 

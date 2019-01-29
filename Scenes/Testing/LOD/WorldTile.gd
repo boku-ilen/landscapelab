@@ -24,7 +24,7 @@ var initialized = false
 
 var split_all = false
 var created = false
-var player_bounding_radius = 3000
+var player_bounding_radius = Settings.get_setting("lod", "player-bounding-radius")
 var last_player_pos
 var subdiv_mod = 1
 

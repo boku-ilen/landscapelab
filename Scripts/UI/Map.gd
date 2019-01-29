@@ -15,9 +15,12 @@ var map_dragged = false
 
 var map_follow = true
 
+var server = Settings.get_setting("server", "ip")
+var port = Settings.get_setting("server", "port")
+
 func _ready():
 	var time_before = OS.get_system_time_secs()
-	tex = ServerConnection.get_texture_from_server(ServerConnection.default_server, ServerConnection.default_port, "basemap18_UTM_small.png")
+	tex = ServerConnection.get_texture_from_server(server, port, "basemap18_UTM_small.png")
 	var time_after = OS.get_system_time_secs()
 	
 	logger.info("Loading the texture from server took " + String(time_after - time_before) + " seconds")

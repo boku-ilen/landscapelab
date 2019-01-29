@@ -7,7 +7,8 @@ var mouse_sensitivity = 0.1
 var camera_angle = 0
 var velocity = Vector3()
 
-var FLY_SPEED = 10000
+var FLY_SPEED = Settings.get_setting("player", "fly-speed")
+var SPRINT_SPEED = Settings.get_setting("player", "fly-speed-sprint")
 
 onready var head = get_node("Head")
 onready var camera = head.get_node("Camera")
@@ -61,7 +62,7 @@ func fly(delta):
 	direction = direction.normalized()
 	
 	if Input.is_action_pressed("ui_sprint"):
-		direction /= 100
+		direction *= SPRINT_SPEED / FLY_SPEED
 	
 	# where would the player go at max speed
 	var target = direction * FLY_SPEED

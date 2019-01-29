@@ -10,7 +10,7 @@ extends MeshInstance
 
 var mat = preload("res://Materials/HeightmapMaterial.tres")
 
-const default_subdiv = 16
+var default_subdiv = Settings.get_setting("lod", "default-tile-subdivision")
 
 var true_subdiv
 var size_without_skirt

@@ -1,7 +1,7 @@
 {
     "server": {
-        "ip": "",
-        "port": ""
+        "ip": "127.0.0.1",
+        "port": 8000
     },
     
     "filesystem": {
@@ -26,7 +26,7 @@
             100
         ],
         "create-collider-at-lod": 5,
-        "player-bounding-radius": 3000
+        "player-bounding-radius": 3000,
             
     },
     
@@ -36,9 +36,12 @@
     
     "grass": {
         "rows-at-lod": {
-            "3": 40,
-            "4": 50,
-            "5": 60
+            "3": 100,
+            "4": 90,
+            "5": 80,
+            "6": 70,
+            "7": 60
+            
         }
     },
     

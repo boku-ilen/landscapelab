@@ -1,7 +1,7 @@
 extends WorldEnvironment
 
-var server = global.server
-var port = global.port
+var server = Settings.get_setting("server", "ip")
+var port = Settings.get_setting("server", "port")
 
 onready var light = get_node("DirectionalLight")
 onready var clouds = get_node("SkyCube")
