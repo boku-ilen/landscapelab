@@ -1,5 +1,10 @@
 [gd_scene format=2]
 
-[node name="MovableObject" type="Spatial" index="0"]
+[node name="MovableObject" type="Spatial"]
 
+[node name="StaticBody" type="StaticBody" parent="." groups=[
+"Movable",
+]]
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
 

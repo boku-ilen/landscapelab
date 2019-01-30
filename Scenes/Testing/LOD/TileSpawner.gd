@@ -150,13 +150,19 @@ func get_tile_at_player():
 		return grid_vec
 	else:
 		return Vector2(0, 0)
+		
+func get_ground_coords(pos):
+	var grid_pos = -1 * absolute_to_grid([world_offset_x + pos.x, world_offset_z + pos.z])
+	
+	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
+		return Vector3(pos.x, tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_height_at_position(pos), pos.z)
+	else:
+		return false
 
 # Puts an instanced scene on the ground at a certain position using the heightmap of that tile
 func put_on_ground(instanced_scene, pos):
-	var grid_pos = -1 * absolute_to_grid([world_offset_x + pos.x, world_offset_z + pos.z])
-	
 	# TODO: The offset seems not to be handled completely properly, it seems slightly off sometimes
-	
-	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
-		instanced_scene.translation = Vector3(pos.x, tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_height_at_position(pos), pos.z)
+	var coords = get_ground_coords(pos)
+	if coords:
+		instanced_scene.translation = coords
 		assets.add_child(instanced_scene)

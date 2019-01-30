@@ -14,6 +14,20 @@ onready var camera = get_parent()
 
 var ray_length = Settings.get_setting("item-spawner", "camera-ray-length") # Distance that will be checked for collision with the ground
 
+var locked_item = null
+var last_mouse_pos = Vector3(0, 0, 0)
+
+func _process(delta):
+	if locked_item:
+		var from = camera.project_ray_origin(last_mouse_pos)
+		var to = from + camera.project_ray_normal(last_mouse_pos) * ray_length
+		
+		var space_state = get_world().direct_space_state
+		var result = space_state.intersect_ray(from, to, [locked_item.get_node("StaticBody")]) # TODO: This exception is ugly and will break!
+		
+		if result: # We have a collision with the ground -> spawn a windmill (can be generified to any scene!)
+			locked_item.translation = world.get_ground_coords(result.position)
+
 # This callback is called whenever any input is registered
 # TODO: use actions instead of hard-coded mouse buttons
 func _input(event):
@@ -27,7 +41,10 @@ func _input(event):
 		
 		if result: # We have a collision with the ground -> spawn a windmill (can be generified to any scene!)
 			if event.button_index == 1: # Left click
-				world.put_on_ground(windmill_scene.instance(), result.position)
+				if result.collider.is_in_group("Movable"):
+					locked_item = result.collider.get_parent()
+				else:
+					world.put_on_ground(windmill_scene.instance(), result.position)
 			elif event.button_index == 2: # Right click
 				#lotsOfTrees(result.position)
 				world.put_on_ground(tree_scene.instance(), result.position)
@@ -35,6 +52,8 @@ func _input(event):
 				world.put_on_ground(createBuilding("127.0.0.1", 8000, settings), result.position)
 		else:
 			print("No result!")
+	elif event is InputEventMouseMotion:
+		last_mouse_pos = event.position
 
 # The following code will likely be moved to LOD terrain tiles later, since buildings will be spawned there, not by mouse clicks.
 # It's currently here to test arbitrary building placement on LOD terrain.
