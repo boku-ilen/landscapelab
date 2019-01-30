@@ -26,5 +26,3 @@ func _ready():
 		tile.set_heightmap_params_for_obj(grass.material_override)
 		
 		grass.material_override.set_shader_param("pos", translation)
-		
-		add_child(grass)
