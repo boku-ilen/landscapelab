@@ -20,7 +20,7 @@ func getJson(host,url,port):
 	var i = 0
 	var timeout = [10,30,60]
 	
-	while((!ret || (ret.has("Error") && ret.Error == "Could not connect to Host")) && i < 3):
+	while((!ret || (ret.has("Error") && ret.Error == "Could not connect to Host")) && i < timeout.size()):
 		logger.info("Could not connect to server retrying in %d seconds" % timeout[i])
 		OS.delay_msec(1000 * timeout[i])
 		ret = try_to_get_json(host,url,port)
@@ -36,13 +36,14 @@ func try_to_get_json(host,url,port):
 	if not err == OK:
 		return JSON.parse('{"Error":"Could not connect to Host"}').result
 	
-	var tries = 0;
+	var waiting_time = 0
+	var delay = 500
 	# Wait until resolved and connected
-	while (http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING) and tries < 30 :
+	while (http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING) and waiting_time < 15 * 1000 :
 		http.poll()
 		logger.info("Connecting..")
-		OS.delay_msec(500)
-		tries += 1
+		OS.delay_msec(delay)
+		waiting_time += delay
 	
 	if http.get_status() != HTTPClient.STATUS_CONNECTED:
 		return JSON.parse('{"Error":"Could not connect to Host"}').result
