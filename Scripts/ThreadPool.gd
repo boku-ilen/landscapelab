@@ -5,7 +5,7 @@ extends Node
 
 const BlockingQueue = preload("res://Scripts/BlockingQueue.gd")
 
-const THREAD_COUNT = 1
+const THREAD_COUNT : int = 1
 var task_queue = BlockingQueue.new()
 var threads = []
 

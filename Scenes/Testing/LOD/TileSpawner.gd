@@ -23,8 +23,8 @@ var time_to_interval = 0
 # When a player coordinate gets bigger than this, the world will be shifted to get the player back to the world origin
 var shift_limit = Settings.get_setting("lod", "world-shift-distance")
 
-var world_offset_x = int(0)
-var world_offset_z = int(0)
+var world_offset_x : int = 0
+var world_offset_z : int = 0
 
 # Radii for spawning and removing tiles
 # Actually not really radii atm - currently rectangles

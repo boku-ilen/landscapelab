@@ -1,3 +1,3 @@
 extends Node
 
-var id
+var id : int
