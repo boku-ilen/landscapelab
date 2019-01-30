@@ -42,9 +42,9 @@ shader_param/sprite6 = ExtResource( 9 )
 [sub_resource type="ShaderMaterial" id=3]
 
 shader = ExtResource( 12 )
-shader_param/rows = 100
+shader_param/rows = 100.0
 shader_param/spacing = 1.0
-shader_param/random_offset = 0.992904
+shader_param/random_offset = 0.135591
 shader_param/curv_middle = Vector3( 0, 0, 0 )
 shader_param/height_range = 500.0
 shader_param/subdiv = null

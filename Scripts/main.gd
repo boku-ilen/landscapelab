@@ -68,8 +68,8 @@ func init_world(index):
 		elif session_id.has("Error"):
 			logger.error("Could not get the session id")
 		else:
-			global.session_id = session_id.Data
-			logger.info("The session id is: %d" % global.session_id)
+			Session.id = session_id.Data
+			logger.info("The session id is: %d" % Session.id)
 			get_node("ViewportContainer/DesktopViewport/Camera/LocationTracker").go()
 
 

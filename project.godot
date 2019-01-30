@@ -32,6 +32,7 @@ GlobalSignal="*res://Scripts/GlobalSignal.gd"
 ServerConnection="*res://Scripts/ServerConnection.gd"
 ThreadPool="*res://Scripts/ThreadPool.gd"
 Settings="*res://Scripts/Settings.gd"
+Session="*res://Scripts/Session.gd"
 
 [display]
 
