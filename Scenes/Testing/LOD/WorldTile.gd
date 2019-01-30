@@ -13,8 +13,8 @@ onready var modules = get_node("Modules")
 onready var children = get_node("Children")
 
 # Variables
-var size = 0
-var lod
+var size
+var lod : int
 var heightmap
 var texture
 var image # TODO testing only
@@ -30,19 +30,7 @@ var subdiv_mod = 1
 
 var will_activate_at_pos
 
-# [max lod, distance at which this max_lod starts applying, subdivision count modifier]
-# Must be ordered desc
-var max_lods = [ # TODO: Move subdivision count modifier to terrain
-	[1, 8000, 1],
-	[2, 5000, 1],
-	[3, 2000, 1],
-	[4, 800, 1],
-	[5, 500, 1],
-	[6, 300, 1],
-	[7, 100, 1],
-]
-# Example: [2, 5000, 1] means that the maximum number of split()s within a 5000km radius (unless the player is within another, smaller radius)
-# is 2 - one tile becomes 16. The subdivision count modifier is 1, so the default subdivision count is used.
+var max_lods = Settings.get_setting("lod", "distances")
 
 # Modules that will be spawned, in the format: Start-LOD, module scenes
 onready var module_scenes = [
@@ -126,20 +114,11 @@ func activate(player_pos):
 			
 	var dist_to_player = get_dist_to_player()
 	
-	# Check if we need to split or converge
-	if dist_to_player < max_lods[0][1]:
-		var conv = false
-		
-		# Check whether this is a high LOD tile which needs to converge
-		for lod_item in max_lods:
-			if lod == lod_item[0] and dist_to_player > lod_item[1]:
-				converge()
-				conv = true
-				
-		if not conv:
-			split(dist_to_player)
-	else:
+	# Check whether this is a high LOD tile which needs to converge
+	if dist_to_player > max_lods[lod]:
 		converge()
+	elif lod < max_lods.size() - 1 and dist_to_player < max_lods[lod+1]:
+		split(dist_to_player)
 
 # Move the tile in the world (used for offsetting)		
 func move(delta):
@@ -151,16 +130,7 @@ func move(delta):
 func split(dist_to_player):
 	if !initialized: return
 	
-	# Check what the max_lod should be given the distance
-	var _max_lod = max_lods[0][1]
-	var _subdiv_mod = 1
-	
-	for lod_item in max_lods:
-		if dist_to_player < lod_item[1]:
-			_max_lod = lod_item[0]
-			_subdiv_mod = lod_item[2]
-	
-	if lod >= _max_lod: return # Don't split more often than max_lod
+	if lod >= max_lods.size(): return # Don't split if we're already at the last max_lods item
 	
 	if has_split:
 		return
@@ -168,14 +138,15 @@ func split(dist_to_player):
 	has_split = true
 	
 	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "instantiate_children", [_subdiv_mod]))
-	instantiate_children([_subdiv_mod])
+	instantiate_children([1])
 
-# Here, the actual splitting happens - this function is run in a thread
+# Here, the actual splitting happens - this function can be run in a thread
 func instantiate_children(data):
 	var my_tex = image
 	var current_tex_size = my_tex.get_size()
-	var cur_name = 0
+	var cur_name = 0 # The children are simply named from 0 to 3
 	
+	# Hide children while they're being built
 	children.visible = false
 	
 	# Add 4 children
@@ -203,7 +174,8 @@ func instantiate_children(data):
 			child.init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1, last_player_pos, data[0])
 
 			children.call_deferred("add_child", child)
-			
+	
+	# Now that we're done, make the children visible instead of the old tile
 	children.visible = true
 	set_modules_invisible()
 	
