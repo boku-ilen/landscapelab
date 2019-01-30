@@ -36,11 +36,13 @@ func try_to_get_json(host,url,port):
 	if not err == OK:
 		return JSON.parse('{"Error":"Could not connect to Host"}').result
 	
+	var tries = 0;
 	# Wait until resolved and connected
-	while http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING:
+	while (http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING) and tries < 30 :
 		http.poll()
 		logger.info("Connecting..")
 		OS.delay_msec(500)
+		tries += 1
 	
 	if http.get_status() != HTTPClient.STATUS_CONNECTED:
 		return JSON.parse('{"Error":"Could not connect to Host"}').result

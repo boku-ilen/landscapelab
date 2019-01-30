@@ -32,8 +32,10 @@ func set_sun_position_for_datetime(hours, day, month, year):
 	var url = "/location/sunposition/%04d/%02d/%02d/%02d/%02d/%f/%f/%f.json" % [year, month, day, floor(hours), floor((hours - floor(hours)) * 60), position_longitude, position_latitude, elevation]
 	
 	var result = ServerConnection.getJson(server, url, port)
-	
-	set_sun_position(result.altitude, result.azimuth)
+	if result.has("Error"):
+		logger.error("could not set sun position: %s" % result["Error"]);
+	else:
+		set_sun_position(result.altitude, result.azimuth)
 
 func set_sun_position(altitude, azimuth):
 	# Godot calls the values latitude and longitude for some reason, but they are actually equivalent to altitude and azimuth
