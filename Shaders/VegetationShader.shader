@@ -30,7 +30,7 @@ void fragment () {
 	obj_pos.x = obj_pos.x - floor(obj_pos.x);
 	obj_pos.z = obj_pos.z - floor(obj_pos.z);
 	
-	float density_at_pos = texture(density_map, obj_pos.xz * 0.3).b;
+	float density_at_pos = texture(density_map, obj_pos.xz * 0.1).b;
 	vec4 col;
 	
 	if (density_at_pos < 1.0/6.0) {

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/Testing/LOD/Modules/HerbageModule.gd" type="Script" id=1]
+
+[node name="HerbageModule" type="Spatial"]
+script = ExtResource( 1 )
+

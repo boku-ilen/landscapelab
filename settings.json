@@ -25,7 +25,16 @@
             300,
             100
         ],
-        "create-collider-at-lod": 5,
+        "module-path": "res://Scenes/Testing/LOD/Modules/",
+        "modules": [
+            ["TerrainModule.tscn"],
+            [],
+            ["HerbageModule.tscn"],
+            ["TerrainColliderModule.tscn"],
+            [],
+            [],
+            []
+        ],
         "player-bounding-radius": 3000,
             
     },
@@ -34,13 +43,11 @@
         "camera-ray-length": 2000
     },
     
-    "grass": {
+    "herbage": {
         "rows-at-lod": {
-            "3": 100,
-            "4": 90,
-            "5": 80,
-            "6": 70,
-            "7": 60
+            "5": 100,
+            "6": 80,
+            "7": 80
             
         }
     },

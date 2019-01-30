@@ -24,30 +24,32 @@ var initialized = false
 
 var split_all = false
 var created = false
-var player_bounding_radius = Settings.get_setting("lod", "player-bounding-radius")
 var last_player_pos
 var subdiv_mod = 1
 
+var subdiv = 16
+var size_with_skirt
+
 var will_activate_at_pos
 
+var player_bounding_radius = Settings.get_setting("lod", "player-bounding-radius")
 var max_lods = Settings.get_setting("lod", "distances")
-
-# Modules that will be spawned, in the format: Start-LOD, module scenes
-onready var module_scenes = [
-	[0, [preload("res://Scenes/Testing/LOD/TerrainMesh.tscn")]]
-#	[6, [preload("res://Scenes/Testing/LOD/Grass.tscn")]]
-]
-# Modules are always passed their position, size and lod-level 
+var module_path = Settings.get_setting("lod", "module-path")
+var module_scenes = Settings.get_setting("lod", "modules")
 
 func _ready():
 	if initialized:
 		# Spawn all required modules
+		var index = 0
+		
 		for mds in module_scenes:
-			if mds[0] <= lod: # This tile's lod is equal to or greater than the module's requirement -> spawn it
-				for md in mds[1]:
-					modules.add_child(md.instance())
+			if index <= lod: # This tile's lod is equal to or greater than the module's requirement -> spawn it
+				for md in mds:
+					modules.add_child(load(module_path + md).instance() as Module)
 			else:
-				break;
+				break; # We arrived at the higher LODs, which means we can stop now
+				
+			index += 1
 
 		if will_activate_at_pos:
 			activate(will_activate_at_pos)
@@ -68,6 +70,25 @@ func init(s, hm, tex, img, lod_level, activate_pos=null, _subdiv_mod=1): # water
 	initialized = true
 	
 	will_activate_at_pos = activate_pos
+	
+# Creates a PlaneMesh which corresponds to the current size and subdivision
+func create_tile_plane_mesh():
+	var mesh = PlaneMesh.new()
+	
+	# We add 2 to subdiv and increase the size by the added squares for the skirt around the mesh (which fills gaps where things don't match up)
+	size_with_skirt = size + (2.0/(subdiv + 1.0)) * size
+	mesh.size = Vector2(size_with_skirt, size_with_skirt)
+	
+	mesh.subdivide_depth = subdiv + 2 # Add 1 left and 1 right for the skirt
+	mesh.subdivide_width = subdiv + 2
+	
+	return mesh
+	
+func set_heightmap_params_for_obj(obj):
+	obj.set_shader_param("heightmap", heightmap)
+	obj.set_shader_param("subdiv", subdiv)
+	obj.set_shader_param("size", size_with_skirt)
+	obj.set_shader_param("size_without_skirt", size)
 
 # Removes all the higher LOD children
 func clear_children():

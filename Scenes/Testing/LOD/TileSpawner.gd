@@ -112,7 +112,6 @@ func shift_world():
 
 # Spawn a tile at the given __tilegrid coordinate__ position
 func spawn_tile(pos):
-	print("Spawning %d,%d" % [pos[0], pos[1]])
 	var map_img = Image.new() # TODO testing only
 	map_img.load("res://Scenes/Testing/LOD/test-tile.png")
 #	var map = ImageTexture.new()
@@ -156,9 +155,7 @@ func get_tile_at_player():
 func put_on_ground(instanced_scene, pos):
 	var grid_pos = -1 * absolute_to_grid([world_offset_x + pos.x, world_offset_z + pos.z])
 	
-	# TODO: Properly handle offset - things get strange when the world offsets currently!
-	
-	print("Node: %d,%d" % [grid_pos.x, grid_pos.y])
+	# TODO: The offset seems not to be handled completely properly, it seems slightly off sometimes
 	
 	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
 		instanced_scene.translation = Vector3(pos.x, tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_height_at_position(pos), pos.z)
