@@ -6,54 +6,51 @@ extends Spatial
 # Currently, the spawned scenes are hardcoded, but this can be generified when needed.
 #
 
-var windmill_scene = preload("res://Scenes/Windmill.tscn")
+var spawned_scene = preload("res://Scenes/Windmill.tscn")
 var tree_scene = preload("res://Scenes/Tree.tscn")
 
 onready var world = get_tree().get_root().get_node("TestWorld/TileSpawner") # Required for getting exact ground positions
 onready var camera = get_parent()
+onready var cursor = get_node("InteractRay")
 
 var ray_length = Settings.get_setting("item-spawner", "camera-ray-length") # Distance that will be checked for collision with the ground
 
-var locked_item = null
-var last_mouse_pos = Vector3(0, 0, 0)
+var locked_object = null
+
+func _ready():
+	cursor.cast_to = Vector3(0, 0, -ray_length)
 
 func _process(delta):
-	if locked_item:
-		var from = camera.project_ray_origin(last_mouse_pos)
-		var to = from + camera.project_ray_normal(last_mouse_pos) * ray_length
-		
-		var space_state = get_world().direct_space_state
-		var result = space_state.intersect_ray(from, to, [locked_item.get_node("StaticBody")]) # TODO: This exception is ugly and will break!
-		
-		if result: # We have a collision with the ground -> spawn a windmill (can be generified to any scene!)
-			locked_item.translation = world.get_ground_coords(result.position)
-
+	if has_grabbed_object():
+		update_grabbed_object()
+			
 # This callback is called whenever any input is registered
-# TODO: use actions instead of hard-coded mouse buttons
 func _input(event):
-	if event is InputEventMouseButton and event.pressed:
-		# Cast a ray to where the player is looking at
-		var from = camera.project_ray_origin(event.position)
-		var to = from + camera.project_ray_normal(event.position) * ray_length
-		
-		var space_state = get_world().direct_space_state
-		var result = space_state.intersect_ray(from, to)
-		
-		if result: # We have a collision with the ground -> spawn a windmill (can be generified to any scene!)
-			if event.button_index == 1: # Left click
-				if result.collider.is_in_group("Movable"):
-					locked_item = result.collider.get_parent()
-				else:
-					world.put_on_ground(windmill_scene.instance(), result.position)
-			elif event.button_index == 2: # Right click
-				#lotsOfTrees(result.position)
-				world.put_on_ground(tree_scene.instance(), result.position)
-			elif event.button_index == 3: # Middle click
-				world.put_on_ground(createBuilding("127.0.0.1", 8000, settings), result.position)
-		else:
-			print("No result!")
-	elif event is InputEventMouseMotion:
-		last_mouse_pos = event.position
+	if event.is_action_pressed("object_interact"):
+		if cursor.is_colliding():
+			if has_grabbed_object(): # We have a locked item -> release it to make it stationary and free the cursor
+				release_object()
+			
+			elif cursor.get_collider().is_in_group("Movable"): # Player clicked on a movable object -> lock it to the cursor
+				grab_object_at_cursor()
+			
+			else:
+				world.put_on_ground(spawned_scene.instance(), cursor.get_collision_point())
+
+func grab_object_at_cursor():
+	locked_object = cursor.get_collider().get_parent() # TODO: Would be great to make this more generic... perhaps add a script in the StaticBody to get the main object?
+	cursor.add_exception(cursor.get_collider())
+	
+func update_grabbed_object():
+	if cursor.is_colliding(): # Reposition the grabbed object to the spot on the ground the cursor points at
+		locked_object.translation = world.get_ground_coords(cursor.get_collision_point())
+	
+func release_object():
+	locked_object = null
+	cursor.clear_exceptions()
+	
+func has_grabbed_object():
+	return locked_object != null
 
 # The following code will likely be moved to LOD terrain tiles later, since buildings will be spawned there, not by mouse clicks.
 # It's currently here to test arbitrary building placement on LOD terrain.
@@ -61,10 +58,10 @@ var settings
 var building_settings
 var dict
 
-func _ready():
-	settings = ServerConnection.getJson("127.0.0.1" ,"/location/areas/?filename=wullersdorf", 8000)
-	building_settings = settings["buildings"]
-	dict = ServerConnection.getJson("127.0.0.1", "/buildings/?filename=%s" % building_settings['filename'], 8000)
+#func _ready():
+#	settings = ServerConnection.getJson("127.0.0.1" ,"/location/areas/?filename=wullersdorf", 8000)
+#	building_settings = settings["buildings"]
+#	dict = ServerConnection.getJson("127.0.0.1", "/buildings/?filename=%s" % building_settings['filename'], 8000)
 
 func lotsOfTrees(pos):
 	for x in range(-10, 10):

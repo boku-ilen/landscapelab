@@ -36,6 +36,11 @@ far = 50000.0
 [node name="ItemSpawner" type="Spatial" parent="Viewport/Controller/Head/Camera"]
 script = ExtResource( 3 )
 
+[node name="InteractRay" type="RayCast" parent="Viewport/Controller/Head/Camera/ItemSpawner"]
+enabled = true
+cast_to = Vector3( 0, 0, -5 )
+collision_mask = 16385
+
 [node name="CollisionShape" type="CollisionShape" parent="Viewport/Controller"]
 shape = SubResource( 1 )
 
