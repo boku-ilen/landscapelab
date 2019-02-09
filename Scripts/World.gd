@@ -55,7 +55,7 @@ func create_terrain(server, port, settings):
 				# ""Metadata": {"PixelSize": [10.0, -10.0], "OriginRange":..."
 			# example for showing json in browser: 
 				# http://127.0.0.1:8000/dhm/?filename=DTM_10x10_UTM_30km.tif&splits=5&skip=9&part=0
-			var jsonTerrain = ServerConnection.getJson(server,"/raster/dhm/?filename=%s&splits=%d&skip=%d&part=%d" % [dhmName, splits, skip, p], port)
+			var jsonTerrain = ServerConnection.getJson("/raster/dhm/?filename=%s&splits=%d&skip=%d&part=%d" % [dhmName, splits, skip, p])
 			if not jsonTerrain.has("Error"):
 				# height (Y) data saved row after row in 1-dimentional array
 				var dataset = terrain.jsonTerrain(jsonTerrain)
@@ -94,7 +94,7 @@ func createTrees(server, port, settings):
 		# "{"model": "eiche1", "coord": [597599.9999999994, 5385567.762951786]}"
 	# example for showing json in browser: 
 		# http://127.0.0.1:8000/assetpos?filename=forest_areas&tree_multiplier=0.00001&recalc=true
-	var dict = ServerConnection.getJson(server,"/assetpos/?filename=%s&tree_multiplier=%f&recalc=true" % [filename,multiplier],port)
+	var dict = ServerConnection.getJson("/assetpos/?filename=%s&tree_multiplier=%f&recalc=true" % [filename,multiplier])
 	if dict == null:
 		ErrorPrompt.show("Could not load tree data")
 	elif dict.has("Error"):
@@ -129,7 +129,7 @@ func createTrees(server, port, settings):
 func createBuildings(server, port, settings):
 	var building_settings = settings["buildings"]
 	
-	var dict = ServerConnection.getJson(server, "/buildings/?filename=%s" % building_settings['filename'],port)
+	var dict = ServerConnection.getJson("/buildings/?filename=%s" % building_settings['filename'])
 	if dict == null:
 		ErrorPrompt.show("Could not load building data")
 	elif dict.has("Error"):

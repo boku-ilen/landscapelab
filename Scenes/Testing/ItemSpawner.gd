@@ -9,8 +9,7 @@ extends Spatial
 var spawned_scene = preload("res://Scenes/Windmill.tscn")
 var tree_scene = preload("res://Scenes/Tree.tscn")
 
-onready var world = get_tree().get_root().get_node("TestWorld/TileSpawner") # Required for getting exact ground positions
-onready var camera = get_parent()
+onready var world = get_tree().get_root().get_node("Main/TileHandler") # Required for getting exact ground positions
 onready var cursor = get_node("InteractRay")
 
 var ray_length = Settings.get_setting("item-spawner", "camera-ray-length") # Distance that will be checked for collision with the ground

@@ -8,7 +8,7 @@ extends Spatial
 #
 
 # Nodes
-onready var this_scene = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
+onready var this_scene = preload("res://World/LODTerrain/WorldTile.tscn")
 onready var modules = get_node("Modules")
 onready var children = get_node("Children")
 

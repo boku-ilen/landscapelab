@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Scripts/WorldEnvironment.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/SkyCube.tscn" type="PackedScene" id=2]
+[ext_resource path="res://World/Environment/WorldEnvironment.gd" type="Script" id=1]
 
 [sub_resource type="ProceduralSky" id=1]
 
@@ -31,6 +30,4 @@ shadow_enabled = true
 shadow_bias = 8.0
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 1000.0
-
-[node name="SkyCube" parent="." instance=ExtResource( 2 )]
 

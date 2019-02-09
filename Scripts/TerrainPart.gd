@@ -52,7 +52,7 @@ func _process(delta):
 
 func update_mesh(userdata):
 	logger.info("Updating %s to lod_lv %d" % [name, lod_lv])
-	var jsonTerrainData = ServerConnection.getJson(ServerConnection.default_server, "/raster/dhm/?filename=%s&splits=%d&skip=%d&part=%d" % [dhmName, splits, lod_steps[lod_lv - 1], part], ServerConnection.default_port)
+	var jsonTerrainData = ServerConnection.getJson("/raster/dhm/?filename=%s&splits=%d&skip=%d&part=%d" % [dhmName, splits, lod_steps[lod_lv - 1], part])
 	
 	var jsonMeshData = get_parent().jsonTerrain(jsonTerrainData)
 	var img_res = get_parent().jsonTerrainDimensions(jsonTerrainData)[0]

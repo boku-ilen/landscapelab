@@ -1,4 +1,3 @@
-tool
 extends Spatial
 
 #
@@ -7,12 +6,12 @@ extends Spatial
 # In scenes with LOD terrain, this is what's placed in the scene tree.
 #
 
-var tile = preload("res://Scenes/Testing/LOD/WorldTile.tscn")
+var tile = preload("res://World/LODTerrain/WorldTile.tscn")
 var GRIDSIZE = Settings.get_setting("lod", "level-0-tile-size") # Width and height of a tile (the biggest possible LOD terrain chunk, which then splits accordingly)
 
-onready var player = get_tree().get_root().get_node("TestWorld/PlayerViewport/Viewport/Controller")
-onready var skycube = get_tree().get_root().get_node("TestWorld/WorldEnvironment/SkyCube")
-onready var light = get_tree().get_root().get_node("TestWorld/WorldEnvironment/DirectionalLight")
+onready var player = get_tree().get_root().get_node("Main/PlayerViewport/Viewport/Controller")
+onready var skycube = get_tree().get_root().get_node("Main/WorldEnvironment/SkyCube")
+onready var light = get_tree().get_root().get_node("Main/WorldEnvironment/DirectionalLight")
 onready var tiles = get_node("Tiles")
 onready var assets = get_node("Assets")
 
@@ -35,9 +34,8 @@ var REMOVAL_RADIUS_SUMMAND = Settings.get_setting("lod", "tile-removal-check-rad
 export(bool) var update_terrain = true
 
 func _ready():
-	# When scenarios are fully implemented, we might want to spawn all tiles within the scenario bounding box here.
-	# That way, we would start with the bare minimum for the scenario (lowest LOD for tiles which can be travelled to)
-	# Of course, tiles outside the scenario will still be spawned in over time, since those will be seen close to the edge and from high up.
+	# Set world_offset to start values using Session
+	# Spawn the bare minimum of tiles
 	pass
 
 func _input(event):

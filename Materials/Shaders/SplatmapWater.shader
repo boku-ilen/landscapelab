@@ -65,10 +65,4 @@ void fragment () {
 	EMISSION += textureLod(SCREEN_TEXTURE,ref_ofs,ROUGHNESS * 10.0).rgb * (1.0 - ALPHA);
 	ALBEDO *= ALPHA;
 	ALPHA = 1.0;
-	
-	// Add reflection
-//	vec2 uv = SCREEN_UV;
-//  float y = (CAMERA_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).y * height - uv.y;
-//
-//  ALBEDO += vec4(texture(SCREEN_TEXTURE, vec2(uv.x, y))).xyz * reflection_factor; 
 }

@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://World/MainScene/MainScene.gd" type="Script" id=1]
+[ext_resource path="res://World/LODTerrain/TileHandler.tscn" type="PackedScene" id=2]
+[ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Perspectives/PerspectiveHandler.tscn" type="PackedScene" id=4]
+
+[node name="Main" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="TileHandler" parent="." instance=ExtResource( 2 )]
+
+[node name="WorldEnvironment" parent="." instance=ExtResource( 3 )]
+
+[node name="PerspectiveHandler" parent="." instance=ExtResource( 4 )]
+

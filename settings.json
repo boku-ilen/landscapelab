@@ -25,7 +25,7 @@
             300,
             100
         ],
-        "module-path": "res://Scenes/Testing/LOD/Modules/",
+        "module-path": "res://World/LODTerrain/Modules/",
         "modules": [
             ["TerrainModule.tscn"],
             [],
@@ -51,15 +51,15 @@
             
         }
     },
+
+    "sky": {
+    	"clouds": false
+    },
     
     "player": {
         "ground-speed":10,
         "fly-speed": 500,
         "fly-speed-sprint": 5000
-    },
-    
-    "sky": {
-        
     },
     
     "water": {

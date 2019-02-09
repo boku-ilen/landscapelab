@@ -1,7 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Scripts/Tooltip3D.gd" type="Script" id=1]
+[ext_resource path="res://Util/Tooltip3D.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+
 
 [sub_resource type="SpatialMaterial" id=1]
 

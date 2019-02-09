@@ -6,6 +6,7 @@ extends Viewport
 
 func _ready():
 	VisualServer.set_debug_generate_wireframes(true) # this
+	debug_draw = Viewport.DEBUG_DRAW_DISABLED # disable wireframes at the start
 
 func _input(event):
 	# Toggle wireframe mode or normal mode

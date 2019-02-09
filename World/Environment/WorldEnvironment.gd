@@ -1,10 +1,11 @@
 extends WorldEnvironment
 
-var server = Settings.get_setting("server", "ip")
-var port = Settings.get_setting("server", "port")
-
 onready var light = get_node("DirectionalLight")
 onready var clouds = get_node("SkyCube")
+
+onready var sky_cube_scene = preload("res://World/Environment/SkyCube.tscn")
+
+var SKYCUBE_ENABLED = Settings.get_setting("sky", "clouds")
 
 var current_time = 12
 var current_season = 0
@@ -13,6 +14,18 @@ var base_horizon_color = Color(142.0 / 255.0, 209.0 / 255.0, 232.0 / 255.0, 1.0)
 var base_top_color = Color(12.0 / 255.0, 116.0 / 255.0, 249.0 / 255.0, 1)
 
 var sun_change_thread = Thread.new()
+
+func _ready():
+	# React to time_changed events
+	GlobalSignal.connect("time_changed", self, "_on_time_changed")
+	GlobalSignal.connect("season_changed", self, "_on_season_changed")
+	
+	# Set time and season with default values
+	update_time_season()
+	
+	# Spawn Skycube if setting is on
+	if SKYCUBE_ENABLED:
+		add_child(sky_cube_scene.instance())
 
 func get_middle_of_season(season): # 0 = winter, 1 = spring, 2 = summer, 3 = fall
 	return {day = 1, month = 2 + season * 3, year = 2018}
@@ -31,7 +44,7 @@ func set_sun_position_for_datetime(hours, day, month, year):
 	
 	var url = "/location/sunposition/%04d/%02d/%02d/%02d/%02d/%f/%f/%f.json" % [year, month, day, floor(hours), floor((hours - floor(hours)) * 60), position_longitude, position_latitude, elevation]
 	
-	var result = ServerConnection.getJson(server, url, port)
+	var result = ServerConnection.getJson(url)
 	if result.has("Error"):
 		logger.error("could not set sun position: %s" % result["Error"]);
 	else:
@@ -89,14 +102,6 @@ func update_colors(altitude, azimuth):
 	environment.background_sky.ground_horizon_color = new_horizon_color
 	environment.background_sky.sky_horizon_color = new_horizon_color
 	environment.background_sky.sky_top_color = new_top_color
-
-func _ready():
-	# React to time_changed events
-	GlobalSignal.connect("time_changed", self, "_on_time_changed")
-	GlobalSignal.connect("season_changed", self, "_on_season_changed")
-	
-	# Set time and season with default values
-	update_time_season()
 	
 func _on_time_changed(time):
 	current_time = time

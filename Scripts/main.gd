@@ -22,7 +22,7 @@ func _ready():
 	logger.set_level(0)
 	
 	
-	areas = ServerConnection.getJson(server, "/location/areas/", port)
+	areas = ServerConnection.getJson("/location/areas/")
 	if areas.has("Error"):
 		ErrorPrompt.show("can not load areas", areas["Error"])
 	else:
@@ -46,7 +46,7 @@ func create_choose_area_list():
 
 func init_world(index):
 	logger.info("loading area %s" % areas[index])
-	var settings = ServerConnection.getJson(server,"/location/areas/?filename=%s" % areas[index], port)
+	var settings = ServerConnection.getJson("/location/areas/?filename=%s" % areas[index])
 	if settings.has("Error"):
 		ErrorPrompt.show("could not load %s" % areas[index], settings["Error"])
 	else:
@@ -62,7 +62,7 @@ func init_world(index):
 		var UI = preload("res://Scenes/UI/UI.tscn").instance()
 		get_node("ViewportContainer/DesktopViewport").add_child(UI)
 		
-		var session_id = ServerConnection.getJson(server,"/location/session/asdf", port)
+		var session_id = ServerConnection.getJson("/location/session/asdf")
 		if !session_id:
 			logger.error("Error getting the session")
 		elif session_id.has("Error"):

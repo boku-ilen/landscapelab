@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/main.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=2]
+[ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/LocationTracker.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/World.gd" type="Script" id=5]

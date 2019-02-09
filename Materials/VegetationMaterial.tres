@@ -1,11 +1,12 @@
 [gd_resource type="ShaderMaterial" load_steps=7 format=2]
 
-[ext_resource path="res://Shaders/VegetationShader.shader" type="Shader" id=1]
+[ext_resource path="res://Materials/Shaders/VegetationShader.shader" type="Shader" id=1]
 [ext_resource path="res://Materials/simplex_noise.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Textures/Grass/grass2.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Textures/Grass/grass3.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Textures/Grass/grass4.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Textures/Grass/grass1.png" type="Texture" id=6]
+
 
 [resource]
 

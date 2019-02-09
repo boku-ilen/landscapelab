@@ -3,8 +3,11 @@ extends Node
 # HTTPClient demo
 # This simple class can do HTTP requests, it will not block but it needs to be polled
 
-func get_texture_from_server(host, port, filename):
-	var texData = ServerConnection.getJson(host,"/raster/%s" % [filename], port).values()
+var host = Settings.get_setting("server", "ip")
+var port = Settings.get_setting("server", "port")
+
+func get_texture_from_server(filename):
+	var texData = ServerConnection.getJson("/raster/%s" % [filename]).values()
 	var texBytes = PoolByteArray(texData)
     
 	var img = Image.new()
@@ -15,19 +18,19 @@ func get_texture_from_server(host, port, filename):
 	
 	return tex
 
-func getJson(host,url,port):
-	var ret = try_to_get_json(host,url,port)
+func getJson(url):
+	var ret = try_to_get_json(url)
 	var i = 0
 	var timeout = [10,30,60]
 	
 	while((!ret || (ret.has("Error") && ret.Error == "Could not connect to Host")) && i < timeout.size()):
 		logger.info("Could not connect to server retrying in %d seconds" % timeout[i])
 		OS.delay_msec(1000 * timeout[i])
-		ret = try_to_get_json(host,url,port)
+		ret = try_to_get_json(url)
 		i+=1
 	return ret
 
-func try_to_get_json(host,url,port):
+func try_to_get_json(url):
 	logger.info("Trying to connect to: "+host+":"+str(port)+url)
 	var err = 0
 	var http = HTTPClient.new() # Create the Client
@@ -117,18 +120,18 @@ func try_to_get_json(host,url,port):
 		else:  # If parse has errors
 			print("Error: ", json.error)
 
-func get_http(host,url,port):
-	var ret = try_to_get_json(host,url,port)
+func get_http(url):
+	var ret = try_to_get_json(url)
 	var i = 0
 	var timeout = [10,30,60]
 	while(ret == "Error: Could not connect to Host" && i < 3):
 		logger.info("Could not connect to server retrying in %d seconds" % timeout[i])
 		OS.delay_msec(1000 * timeout[i])
-		ret = try_to_get_http(host,url,port)
+		ret = try_to_get_http(url)
 		i+=1
 	return ret
 
-func try_to_get_http(host,url,port):
+func try_to_get_http(url):
 	logger.info("Trying to connect to: "+host+":"+str(port)+url)
 	var err = 0
 	var http = HTTPClient.new() # Create the Client

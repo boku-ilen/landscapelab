@@ -5,8 +5,9 @@
 [ext_resource path="res://Materials/WindmillMaterial.tres" type="Material" id=3]
 [ext_resource path="res://Assets/Windmills/vestas_base.obj" type="ArrayMesh" id=4]
 [ext_resource path="res://Assets/Windmills/vestas_blades.obj" type="ArrayMesh" id=5]
-[ext_resource path="res://Scenes/Tooltip3D.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Util/Tooltip3D.tscn" type="PackedScene" id=6]
 [ext_resource path="res://icon.png" type="Texture" id=7]
+
 
 [sub_resource type="CapsuleShape" id=1]
 

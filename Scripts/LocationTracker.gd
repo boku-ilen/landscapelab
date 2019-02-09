@@ -38,7 +38,7 @@ func send_position(userdata):
 	
 	var url = "/location/impression/%f/%f/%f/%f/%f/%f/%d" % [p.x, p.z ,p.y, la.x, la.z, la.y, Session.id]
 	#logger.debug("accessing: "+ url)
-	ServerConnection.get_http(ServerConnection.default_server, url, ServerConnection.default_port)
+	ServerConnection.get_http(url)
 	waiting = false
 
 func _exit_tree():
