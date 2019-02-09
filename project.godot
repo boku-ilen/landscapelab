@@ -30,14 +30,14 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Settings="*res://Scripts/Settings.gd"
-logger="*res://addons/logger/logger.gd"
+Settings="*res://Global/Settings.gd"
+logger="*res://Global/Debug/logger.gd"
 debug="*res://Scripts/debug.gd"
-ErrorPrompt="*res://Scripts/ErrorPrompt.gd"
-GlobalSignal="*res://Scripts/GlobalSignal.gd"
-ServerConnection="*res://Scripts/ServerConnection.gd"
-ThreadPool="*res://Scripts/ThreadPool.gd"
-Session="*res://Scripts/Session.gd"
+ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
+GlobalSignal="*res://Global/GlobalSignal.gd"
+ServerConnection="*res://Global/ServerConnection.gd"
+ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
+Session="*res://Global/Session.gd"
 
 [display]
 

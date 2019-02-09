@@ -3,7 +3,7 @@ extends Node
 # Since starting a thread is expensive (it causes noticeable stutters), this singleton provides pre-started threads which you can delegate work to.
 # Starting a function in one of these pooled threads is non-blocking.
 
-const BlockingQueue = preload("res://Scripts/BlockingQueue.gd")
+const BlockingQueue = preload("res://Global/ThreadPool/BlockingQueue.gd")
 
 const THREAD_COUNT : int = 1
 var task_queue = BlockingQueue.new()
