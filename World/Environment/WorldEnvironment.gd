@@ -26,6 +26,10 @@ func _ready():
 	# Spawn Skycube if setting is on
 	if SKYCUBE_ENABLED:
 		add_child(sky_cube_scene.instance())
+		
+func _physics_process(delta):
+	# Make the light stick to the player in order to always show highest detail shadows next to them
+	light.translation = PlayerInfo.get_engine_player_position()
 
 func get_middle_of_season(season): # 0 = winter, 1 = spring, 2 = summer, 3 = fall
 	return {day = 1, month = 2 + season * 3, year = 2018}

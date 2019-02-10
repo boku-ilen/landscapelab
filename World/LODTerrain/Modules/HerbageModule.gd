@@ -5,7 +5,7 @@ extends Module
 # The area can be filled with multiple different plants using a distribution image.
 #
 
-var grass_scene = preload("res://Scenes/Testing/LOD/Modules/Util/Grass.tscn")
+var grass_scene = preload("res://World/LODTerrain/Modules/Util/Grass.tscn")
 
 var LODS = Settings.get_setting("herbage", "rows-at-lod")
 

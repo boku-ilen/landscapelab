@@ -9,7 +9,6 @@ extends Spatial
 var tile = preload("res://World/LODTerrain/WorldTile.tscn")
 var GRIDSIZE = Settings.get_setting("lod", "level-0-tile-size") # Width and height of a tile (the biggest possible LOD terrain chunk, which then splits accordingly)
 
-onready var player = get_tree().get_root().get_node("Main/PlayerViewport/Viewport/Controller")
 onready var skycube = get_tree().get_root().get_node("Main/WorldEnvironment/SkyCube")
 onready var light = get_tree().get_root().get_node("Main/WorldEnvironment/DirectionalLight")
 onready var tiles = get_node("Tiles")
@@ -36,7 +35,7 @@ export(bool) var update_terrain = true
 func _ready():
 	# Set world_offset to start values using Session
 	# Spawn the bare minimum of tiles
-	pass
+	PlayerInfo.connect("shift_world", self, "move_world")
 
 func _input(event):
 	if event.is_action_pressed("toggle_lod_update"):
@@ -52,6 +51,9 @@ func _process(delta):
 		
 		var player_tile = get_tile_at_player()
 		if player_tile == null: return
+		
+		var player_pos = PlayerInfo.get_engine_player_position()
+		var true_player_pos = PlayerInfo.get_true_player_position()
 		
 		# Loop through the entire rectangle (TILE_RADIUS + REMOVAL_RADIUS_SUMMAND)
 		for x in range(player_tile.x - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, player_tile.x + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
@@ -71,42 +73,36 @@ func _process(delta):
 						tiles.get_node("%d,%d" % [x, y]).queue_free()
 		
 		# Activate 9 tiles closest to player
-		if player:
-			for x in range(player_tile.x - 2, player_tile.x + 3):
-				for y in range(player_tile.y - 2, player_tile.y + 3):
-					if tiles.has_node("%d,%d" % [x, y]):
-						tiles.get_node("%d,%d" % [x, y]).activate(player.translation)
+		for x in range(player_tile.x - 2, player_tile.x + 3):
+			for y in range(player_tile.y - 2, player_tile.y + 3):
+				if tiles.has_node("%d,%d" % [x, y]):
+					tiles.get_node("%d,%d" % [x, y]).activate(player_pos)
 		
 		# Offset world
-		if player:
-			shift_world()
-		
-	# Update skycube pos
-	if player:
-		skycube.reposition(player.translation, player.get_true_position())
-		light.translation = player.translation
+		check_for_world_shift()
 
 # Shift the world if the player exceeds the bounds, in order to prevent coordinates from getting too big (floating point issues)
-func shift_world():
+func check_for_world_shift():
 	var delta_vec = Vector3(0, 0, 0)
+	var player_pos = PlayerInfo.get_engine_player_position()
 	
 	# Check x coordinate
-	if player.translation.x > shift_limit:
+	if player_pos.x > shift_limit:
 		delta_vec.x = -shift_limit
-	elif player.translation.x < -shift_limit:
+	elif player_pos.x < -shift_limit:
 		delta_vec.x = shift_limit
 		
 	# (Height (y) probably doesn't matter, height differences won't be that big
 	
 	# Check z coordinate
-	if player.translation.z > shift_limit:
+	if player_pos.z > shift_limit:
 		delta_vec.z = -shift_limit
-	elif player.translation.z < -shift_limit:
+	elif player_pos.z < -shift_limit:
 		delta_vec.z = shift_limit
 	
 	# Apply
-	player.shift(delta_vec)
-	move_world(delta_vec)
+	if delta_vec != Vector3(0, 0, 0):
+		PlayerInfo.emit_signal("shift_world", delta_vec)
 
 # Spawn a tile at the given __tilegrid coordinate__ position
 func spawn_tile(pos):
@@ -134,20 +130,18 @@ func move_world(delta_vec):
 		child.move(delta_vec)
 		
 	for child in assets.get_children():
+		# TODO: Implement a proper way of storing the offset for assets - they might require absolute positions too!
 		child.translation += delta_vec
 
 # Returns the grid coordinates of the tile at a certain absolute position (passed as an array for int accuracy)
-func absolute_to_grid(var abs_pos):
-	return Vector2(-round((abs_pos[0]) / int(GRIDSIZE)), -round((abs_pos[1]) / int(GRIDSIZE)))
+func absolute_to_grid(abs_pos):
+	return Vector2(-round((abs_pos[0]) / int(GRIDSIZE)), -round((abs_pos[2]) / int(GRIDSIZE)))
 
 # Get the tilegrid coordinates of the tile the player is currently standing on
 func get_tile_at_player():
-	if player != null:
-		var true_player = player.get_true_position()
-		var grid_vec = absolute_to_grid(true_player)
-		return grid_vec
-	else:
-		return Vector2(0, 0)
+	var true_player = PlayerInfo.get_true_player_position()
+	var grid_vec = absolute_to_grid(true_player)
+	return grid_vec
 		
 func get_ground_coords(pos):
 	var grid_pos = -1 * absolute_to_grid([world_offset_x + pos.x, world_offset_z + pos.z])

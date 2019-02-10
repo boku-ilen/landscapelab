@@ -20,17 +20,21 @@ func get_true_position():
 
 # Shift the player's in-engine translation by a certain offset, but not the player's true coordinates.
 func shift(delta):
-	origin_offset_x += int(delta.x)
-	origin_offset_z += int(delta.z)
+	PlayerInfo.add_player_offset(delta.x, delta.z)
+	PlayerInfo.add_player_pos(delta)
 	
 	translation.x += delta.x
 	translation.z += delta.z
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	PlayerInfo.connect("shift_world", self, "shift")
 
 func _physics_process(delta):
 	fly(delta)
+	
+	# Reflect new position in global PlayerInfo
+	PlayerInfo.update_player_pos(translation)
 
 func _input(event):
 	if event is InputEventMouseMotion:

@@ -38,6 +38,7 @@ GlobalSignal="*res://Global/GlobalSignal.gd"
 ServerConnection="*res://Global/ServerConnection.gd"
 ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
 Session="*res://Global/Session.gd"
+PlayerInfo="*res://Global/PlayerInfo.gd"
 
 [display]
 
