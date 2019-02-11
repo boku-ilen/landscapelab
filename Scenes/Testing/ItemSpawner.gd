@@ -6,7 +6,7 @@ extends Spatial
 # Currently, the spawned scenes are hardcoded, but this can be generified when needed.
 #
 
-var spawned_scene = preload("res://Scenes/Windmill.tscn")
+var spawned_scene = preload("res://Assets/Movable/Windmill/Windmill.tscn")
 var tree_scene = preload("res://Scenes/Tree.tscn")
 
 onready var world = get_tree().get_root().get_node("Main/TileHandler") # Required for getting exact ground positions

@@ -2,14 +2,15 @@
 
 [ext_resource path="res://Materials/Shaders/VegetationShader.shader" type="Shader" id=1]
 [ext_resource path="res://Materials/simplex_noise.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Textures/Grass/grass2.png" type="Texture" id=3]
-[ext_resource path="res://Assets/Textures/Grass/grass3.png" type="Texture" id=4]
-[ext_resource path="res://Assets/Textures/Grass/grass4.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Textures/Grass/grass1.png" type="Texture" id=6]
+[ext_resource path="res://Resources/Textures/Grass/grass2.png" type="Texture" id=3]
+[ext_resource path="res://Resources/Textures/Grass/grass3.png" type="Texture" id=4]
+[ext_resource path="res://Resources/Textures/Grass/grass4.png" type="Texture" id=5]
+[ext_resource path="res://Resources/Textures/Grass/grass1.png" type="Texture" id=6]
 [ext_resource path="res://Materials/Shaders/GrassParticles.shader" type="Shader" id=7]
 [ext_resource path="res://Materials/noise_texture.png" type="Texture" id=8]
-[ext_resource path="res://Assets/Meshes/grass_mesh.obj" type="ArrayMesh" id=9]
+[ext_resource path="res://Resources/Meshes/grass_mesh.obj" type="ArrayMesh" id=9]
 [ext_resource path="res://World/LODTerrain/Modules/Util/Grass.gd" type="Script" id=10]
+
 
 
 

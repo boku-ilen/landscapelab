@@ -14,9 +14,11 @@ arvr = true
 size = Vector2( 1920, 1080 )
 handle_input_locally = false
 render_target_update_mode = 3
+shadow_atlas_size = 64
 
 [node name="PCViewport" type="Viewport" parent="ViewportContainer"]
 size = Vector2( 1920, 1080 )
 handle_input_locally = false
 render_target_update_mode = 3
+shadow_atlas_size = 64
 

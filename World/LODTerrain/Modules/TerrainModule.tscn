@@ -3,7 +3,6 @@
 [ext_resource path="res://World/LODTerrain/Modules/TerrainModule.gd" type="Script" id=1]
 [ext_resource path="res://Materials/HeightmapMaterial.tres" type="Material" id=2]
 
-
 [node name="TerrainModule" type="Spatial"]
 script = ExtResource( 1 )
 

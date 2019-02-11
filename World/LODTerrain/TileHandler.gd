@@ -144,7 +144,7 @@ func get_tile_at_player():
 	return grid_vec
 		
 func get_ground_coords(pos):
-	var grid_pos = -1 * absolute_to_grid([world_offset_x + pos.x, world_offset_z + pos.z])
+	var grid_pos = -1 * absolute_to_grid([world_offset_x + pos.x, 0, world_offset_z + pos.z])
 	
 	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
 		return Vector3(pos.x, tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_height_at_position(pos), pos.z)

@@ -3,7 +3,6 @@
 [ext_resource path="res://Materials/Shaders/HeightmapMesh.shader" type="Shader" id=1]
 [ext_resource path="res://Scenes/Testing/LOD/testlandia/test_0.png" type="Texture" id=2]
 
-
 [resource]
 
 resource_local_to_scene = true
