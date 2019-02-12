@@ -25,9 +25,14 @@ func shift(delta):
 	
 	translation.x += delta.x
 	translation.z += delta.z
+	
+func _enter_tree():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+func _exit_tree():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	PlayerInfo.connect("shift_world", self, "shift")
 
 func _physics_process(delta):

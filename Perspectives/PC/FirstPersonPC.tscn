@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Scenes/Testing/PlayerController.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Testing/ItemSpawner.gd" type="Script" id=2]
+[ext_resource path="res://Perspectives/PC/PlayerController.gd" type="Script" id=1]
+[ext_resource path="res://Perspectives/PC/ItemSpawner.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
 

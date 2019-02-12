@@ -35,7 +35,7 @@
             [],
             []
         ],
-        "player-bounding-radius": 3000,
+        "player-bounding-radius": 10000,
             
     },
     
@@ -57,9 +57,14 @@
     },
     
     "player": {
-        "ground-speed":10,
+        "ground-speed": 10,
         "fly-speed": 500,
         "fly-speed-sprint": 5000
+    },
+
+    "third-person": {
+    	"max-distance-to-ground": 5000,
+    	"mouse-zoom-speed": 50
     },
     
     "water": {
