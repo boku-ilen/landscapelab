@@ -13,465 +13,162 @@
 [ext_resource path="res://Scripts/UI/Map.gd" type="Script" id=11]
 [ext_resource path="res://Resources/MapCursor.png" type="Texture" id=12]
 
-
-[node name="UI" type="Control" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
+[node name="UI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Theme" ]
 
-[node name="MarginContainer" type="MarginContainer" parent="." index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
+[node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Grow Direction", "Size Flags", "Theme" ]
 
-[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 8.0
+[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer"]
 margin_right = 1920.0
 margin_bottom = 1080.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-split_offset = 0
-collapsed = false
 dragger_visibility = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VSplitContainer" index="0"]
-
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VSplitContainer"]
 editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 1912.0
+margin_right = 1920.0
 margin_bottom = 156.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 alignment = 2
 
-[node name="DebugInfo" type="VBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer2" index="0"]
-
+[node name="DebugInfo" type="VBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer2"]
 editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 1731.0
+margin_right = 1739.0
 margin_bottom = 156.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
-size_flags_vertical = 1
-alignment = 0
-_sections_unfolded = [ "Size Flags" ]
 
-[node name="Position" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer2/DebugInfo" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 1731.0
+[node name="Position" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer2/DebugInfo"]
+margin_right = 1739.0
 margin_bottom = 14.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 script = ExtResource( 1 )
 
-[node name="FPS" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer2/DebugInfo" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="FPS" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer2/DebugInfo"]
 margin_top = 18.0
-margin_right = 1731.0
+margin_right = 1739.0
 margin_bottom = 32.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 script = ExtResource( 2 )
 
-[node name="ObjectCount" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer2/DebugInfo" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ObjectCount" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer2/DebugInfo"]
 margin_top = 36.0
-margin_right = 1731.0
+margin_right = 1739.0
 margin_bottom = 50.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 script = ExtResource( 3 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer2" index="1"]
-
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer2"]
 editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 1735.0
-margin_right = 1912.0
+margin_left = 1743.0
+margin_right = 1920.0
 margin_bottom = 156.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 0
-size_flags_vertical = 1
 alignment = 1
-_sections_unfolded = [ "Anchor", "Margin", "Mouse", "Size Flags" ]
 
-[node name="VRToggle" type="CheckButton" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="VRToggle" type="CheckButton" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer"]
 margin_right = 177.0
 margin_bottom = 40.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = true
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "VR"
-flat = false
 align = 2
 script = ExtResource( 4 )
 
-[node name="WalkModeToggle" type="CheckButton" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="WalkModeToggle" type="CheckButton" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer"]
 margin_top = 44.0
 margin_right = 177.0
 margin_bottom = 84.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = true
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Walk-Mode"
-flat = false
 align = 2
 script = ExtResource( 5 )
-_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Size Flags" ]
 
-[node name="TimeSetting" type="HBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer" index="2"]
-
+[node name="TimeSetting" type="HBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer"]
 editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_top = 88.0
 margin_right = 177.0
 margin_bottom = 120.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 alignment = 1
-_sections_unfolded = [ "Anchor", "Margin" ]
 
-[node name="Label" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer/TimeSetting" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Label" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer/TimeSetting"]
 margin_top = 9.0
 margin_right = 32.0
 margin_bottom = 23.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 text = "Time"
 align = 2
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Anchor", "Margin" ]
 
-[node name="TimeSlider" type="HSlider" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer/TimeSetting" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="TimeSlider" type="HSlider" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer/TimeSetting"]
 margin_left = 36.0
 margin_right = 177.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 128, 32 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 hint_tooltip = "Time"
-mouse_filter = 0
-mouse_default_cursor_shape = 0
+focus_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-min_value = 0.0
 max_value = 24.0
 step = 0.5
-page = 0.0
-value = 0.0
-exp_edit = false
-rounded = false
-editable = true
-tick_count = 0
-ticks_on_borders = false
 focus_mode = 0
 script = ExtResource( 6 )
-_sections_unfolded = [ "Anchor", "Margin", "Size Flags" ]
 
-[node name="SeasonSetting" type="HBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer" index="3"]
-
+[node name="SeasonSetting" type="HBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer"]
 editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_top = 124.0
 margin_right = 177.0
 margin_bottom = 156.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 alignment = 1
-_sections_unfolded = [ "Anchor", "Margin" ]
 
-[node name="Label" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer/SeasonSetting" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Label" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer/SeasonSetting"]
 margin_top = 9.0
 margin_right = 45.0
 margin_bottom = 23.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 text = "Season"
 align = 2
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Anchor", "Margin" ]
 
-[node name="SeasonSlider" type="HSlider" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer/SeasonSetting" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="SeasonSlider" type="HSlider" parent="MarginContainer/VSplitContainer/HBoxContainer2/VBoxContainer/SeasonSetting"]
 margin_left = 49.0
 margin_right = 177.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 128, 32 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 hint_tooltip = "Time"
-mouse_filter = 0
-mouse_default_cursor_shape = 0
+focus_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-min_value = 0.0
 max_value = 3.0
-step = 1.0
-page = 0.0
-value = 0.0
-exp_edit = false
-rounded = false
-editable = true
-tick_count = 0
-ticks_on_borders = false
 focus_mode = 0
 script = ExtResource( 7 )
-_sections_unfolded = [ "Anchor", "Margin", "Size Flags" ]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VSplitContainer" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VSplitContainer"]
 margin_top = 156.0
-margin_right = 1912.0
+margin_right = 1920.0
 margin_bottom = 1080.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 alignment = 2
 
-[node name="Log" type="VBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 1608.0
+[node name="Log" type="VBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer"]
+margin_right = 1616.0
 margin_bottom = 924.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
-size_flags_vertical = 1
-alignment = 0
 script = ExtResource( 8 )
-_sections_unfolded = [ "Size Flags" ]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 1612.0
-margin_right = 1912.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer"]
+margin_left = 1620.0
+margin_right = 1920.0
 margin_bottom = 924.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 alignment = 2
 
-[node name="ToggleMapFollow" type="CheckButton" parent="MarginContainer/VSplitContainer/HBoxContainer/VBoxContainer" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ToggleMapFollow" type="CheckButton" parent="MarginContainer/VSplitContainer/HBoxContainer/VBoxContainer"]
 margin_top = 580.0
 margin_right = 300.0
 margin_bottom = 620.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = true
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Follow Player"
-flat = false
 align = 2
 script = ExtResource( 9 )
 
-[node name="Map" type="TextureRect" parent="MarginContainer/VSplitContainer/HBoxContainer/VBoxContainer" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Map" type="TextureRect" parent="MarginContainer/VSplitContainer/HBoxContainer/VBoxContainer"]
 margin_top = 624.0
 margin_right = 300.0
 margin_bottom = 924.0
 rect_min_size = Vector2( 300, 300 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 texture = ExtResource( 10 )
 expand = true
-stretch_mode = 0
 script = ExtResource( 11 )
-_sections_unfolded = [ "Anchor", "Margin", "Rect", "Size Flags" ]
-zoom_step = [ 1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24, 32 ]
 
-[node name="MapCursor" type="Sprite" parent="MarginContainer/VSplitContainer/HBoxContainer/VBoxContainer/Map" index="0"]
-
+[node name="MapCursor" type="Sprite" parent="MarginContainer/VSplitContainer/HBoxContainer/VBoxContainer/Map"]
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 12 )
-_sections_unfolded = [ "Transform" ]
-
 
