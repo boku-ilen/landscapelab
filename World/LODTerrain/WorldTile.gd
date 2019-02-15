@@ -197,6 +197,7 @@ func instantiate_children(data):
 			children.call_deferred("add_child", child)
 	
 	# Now that we're done, make the children visible instead of the old tile
+	# TODO: Wait for the new chilren to be completely done loading (implement signals for this?), meaning they also fetched everything they need from the server
 	children.visible = true
 	set_modules_invisible()
 	

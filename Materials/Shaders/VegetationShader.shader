@@ -1,14 +1,9 @@
 shader_type spatial;
 render_mode cull_disabled;
 
-uniform sampler2D density_map;
-
-uniform sampler2D sprite1 : hint_albedo;
-uniform sampler2D sprite2 : hint_albedo;
-uniform sampler2D sprite3 : hint_albedo;
-uniform sampler2D sprite4 : hint_albedo;
-uniform sampler2D sprite5 : hint_albedo;
-uniform sampler2D sprite6 : hint_albedo;
+uniform sampler2D distribution;
+uniform sampler2D spritesheet : hint_albedo;
+uniform int sprite_count;
 
 uniform vec3 pos;
 uniform float size;
@@ -16,38 +11,50 @@ uniform float size;
 varying vec3 v_obj_pos;
 
 void vertex () {
+	// Calculate the in-engine position of this object
 	v_obj_pos = ((WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz - pos) / size;
 }
 
 void fragment () {
-	ALPHA_SCISSOR = 0.6;
+	// Material parameters
+	ALPHA_SCISSOR = 0.3;
 	ROUGHNESS = 0.9;
 	METALLIC = 0.1;
 	SPECULAR = 0.4;
 	
+	// Turn the engine position of this object into a whole number
 	vec3 obj_pos = v_obj_pos;
 
 	obj_pos.x = obj_pos.x - floor(obj_pos.x);
 	obj_pos.z = obj_pos.z - floor(obj_pos.z);
 	
-	float density_at_pos = texture(density_map, obj_pos.xz * 0.1).b;
-	vec4 col;
+	// Check the distribution for what sprite to draw here
+	int sprite_at_pos = int(texture(distribution, obj_pos.xz).r * 255.0); // The distribution can be scaled by multiplying obj_pos.xz with a factor!
 	
-	if (density_at_pos < 1.0/6.0) {
-		col = texture(sprite1, UV);
-	} else if (density_at_pos < 2.0/6.0) {
-		col = texture(sprite2, UV);
-	} else if (density_at_pos < 3.0/6.0) {
-		col = texture(sprite3, UV);
-	} else if (density_at_pos < 4.0/6.0) {
-		col = texture(sprite4, UV);
-	} else if (density_at_pos < 5.0/6.0) {
-		col = texture(sprite5, UV);
+	// Calculate the columns and rows in this spritesheet
+	int cols = min(sprite_count, 16);
+	int rows = int(ceil(float(sprite_count) / 16.0));
+	
+	// Calculate the row and column of the sprite we need to draw here
+	int col = (sprite_at_pos - 1) % 16;
+	int row = ((sprite_at_pos - 1) / 16);
+	
+	// The spritesheet is square in the shader, therefore we need a multiplier in order to make each individual sprite square instead
+	vec2 ratio_mult = vec2(1.0 / float(cols), 1.0 / float(rows));
+	
+	// Calculate the offset vector as a value between (0, 0) and (1, 1)
+	vec2 offset_vec = vec2(float(col) / float(cols), float(row) / float(rows));
+	
+	// The color the sprite will have
+	vec4 color;
+	
+	if (sprite_at_pos == 0) {
+		color = vec4(0.0); // Nothing should be here -> 0 color and opacity
 	} else {
-		col = texture(sprite6, UV);
+		color = texture(spritesheet, UV * ratio_mult + offset_vec);
 	}
 	
-	ALPHA = col.a * COLOR.a;// - clamp(1.4 - UV.y, 0.0, 1.0);//* 0.5 + 0.5*cos(2.0*TIME);
+	ALPHA = color.a * COLOR.a;// - clamp(1.4 - UV.y, 0.0, 1.0);//* 0.5 + 0.5*cos(2.0*TIME);
 	
-	ALBEDO = col.rgb;
+	ALBEDO = color.rgb;
 }

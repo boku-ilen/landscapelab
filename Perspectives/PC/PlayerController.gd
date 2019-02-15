@@ -9,6 +9,7 @@ var velocity = Vector3()
 
 var FLY_SPEED = Settings.get_setting("player", "fly-speed")
 var SPRINT_SPEED = Settings.get_setting("player", "fly-speed-sprint")
+var SNEAK_SPEED = Settings.get_setting("player", "fly-speed-sneak")
 
 onready var head = get_node("Head")
 onready var camera = head.get_node("Camera")
@@ -72,6 +73,8 @@ func fly(delta):
 	
 	if Input.is_action_pressed("ui_sprint"):
 		direction *= SPRINT_SPEED / FLY_SPEED
+	elif Input.is_action_pressed("ui_sneak"):
+		direction *= SNEAK_SPEED / FLY_SPEED
 	
 	# where would the player go at max speed
 	var target = direction * FLY_SPEED

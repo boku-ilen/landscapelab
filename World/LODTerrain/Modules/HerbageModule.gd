@@ -11,7 +11,6 @@ var LODS = Settings.get_setting("herbage", "rows-at-lod")
 
 func _ready():
 	# Get required herbage for this scene + textures etc
-	
 	if LODS.has(String(tile.lod)):
 		var instance = grass_scene.instance()
 		instance.name = "Herbage"
@@ -21,8 +20,32 @@ func _ready():
 		
 		grass.set_rows(LODS[String(tile.lod)])
 		grass.set_spacing(tile.size / LODS[String(tile.lod)])
-
-		tile.set_heightmap_params_for_obj(grass.process_material)
-		tile.set_heightmap_params_for_obj(grass.material_override)
 		
-		grass.material_override.set_shader_param("pos", translation)
+		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_parameters", [grass]))
+		
+func set_parameters(data):
+	var result = ServerConnection.getJson("/vegetation/1/1")
+	
+	if result.has("Error"):
+		logger.error("Could not get vegetation!");
+		return
+		
+	var distribution_img = Image.new()
+	distribution_img.load(result.get("path_to_distribution"))
+	var distribution = ImageTexture.new()
+	distribution.create_from_image(distribution_img, 8)
+	
+	var spritesheet_img = Image.new()
+	spritesheet_img.load(result.get("path_to_spritesheet"))
+	var spritesheet = ImageTexture.new()
+	spritesheet.create_from_image(spritesheet_img, 8)
+	
+	var sprite_count = result.get("number_of_sprites")
+	
+	data[0].material_override.set_shader_param("pos", translation)
+	data[0].material_override.set_shader_param("spritesheet", spritesheet)
+	data[0].material_override.set_shader_param("distribution", distribution)
+	data[0].material_override.set_shader_param("sprite_count", sprite_count)
+	
+	tile.set_heightmap_params_for_obj(data[0].process_material)
+	tile.set_heightmap_params_for_obj(data[0].material_override)

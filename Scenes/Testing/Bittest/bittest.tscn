@@ -23,32 +23,14 @@ void fragment () {
 
 [sub_resource type="ShaderMaterial" id=2]
 
-render_priority = 0
 shader = SubResource( 1 )
 shader_param/tex = ExtResource( 1 )
-_sections_unfolded = [ "shader_param" ]
 
 [sub_resource type="PlaneMesh" id=3]
 
 material = SubResource( 2 )
-custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
-size = Vector2( 2, 2 )
-subdivide_width = 0
-subdivide_depth = 0
 
-[node name="MeshInstance" type="MeshInstance" index="0"]
-
-layers = 1
-material_override = null
-cast_shadow = 1
-extra_cull_margin = 0.0
-use_in_baked_light = false
-lod_min_distance = 0.0
-lod_min_hysteresis = 0.0
-lod_max_distance = 0.0
-lod_max_hysteresis = 0.0
+[node name="MeshInstance" type="MeshInstance"]
 mesh = SubResource( 3 )
-skeleton = NodePath("..")
 material/0 = null
-
 

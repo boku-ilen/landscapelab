@@ -59,7 +59,8 @@
     "player": {
         "ground-speed": 10,
         "fly-speed": 500,
-        "fly-speed-sprint": 5000
+        "fly-speed-sprint": 5000,
+        "fly-speed-sneak": 100
     },
 
     "third-person": {
