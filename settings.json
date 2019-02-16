@@ -29,10 +29,10 @@
         "modules": [
             ["TerrainModule.tscn"],
             [],
-            ["HerbageModule.tscn"],
+            [],
             ["TerrainColliderModule.tscn"],
             [],
-            [],
+            ["HerbageModule.tscn"],
             []
         ],
         "player-bounding-radius": 10000,

@@ -2,7 +2,6 @@
 
 [ext_resource path="res://World/LODTerrain/Modules/HerbageModule.gd" type="Script" id=1]
 
-
 [node name="HerbageModule" type="Spatial"]
 script = ExtResource( 1 )
 

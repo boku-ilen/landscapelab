@@ -7,6 +7,9 @@ uniform float random_offset = 0;
 uniform sampler2D heightmap;
 uniform sampler2D noisemap;
 
+uniform int id;
+uniform sampler2D splatmap;
+
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
 
 // Global parameters - will need to be the same in all shaders:
@@ -68,6 +71,15 @@ void vertex ()
 	// Transform spacing
 	pos.x += EMISSION_TRANSFORM[3][0] - mod(EMISSION_TRANSFORM[3][0], spacing) + 0.5;
 	pos.z += EMISSION_TRANSFORM[3][2] - mod(EMISSION_TRANSFORM[3][2], spacing) + 0.5;
+	
+	// Check the splatmap for whether we need to do draw something and exit if not
+	// TODO: The actual divisor will likely include size_without_skirt and depend on the format we use for the splatmap!
+	int splat_id_at_pos = int(texture(splatmap, pos.xz / 1000.0).r * 255.0);
+	
+	if (!(splat_id_at_pos == id)) {
+		ACTIVE = false;
+		return;
+	}
 	
 	// rotate our transform
 	vec3 noise = texture(noisemap, abs(pos.xz) / size + vec2(random_offset)).rgb;
