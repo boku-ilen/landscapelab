@@ -39,6 +39,7 @@ ServerConnection="*res://Global/ServerConnection.gd"
 ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
 Session="*res://Global/Session.gd"
 PlayerInfo="*res://Global/PlayerInfo.gd"
+CachingImageTexture="*res://Global/CachingImageTexture.gd"
 
 [display]
 
@@ -173,6 +174,7 @@ ui_sneak={
 
 [memory]
 
+limits/multithreaded_server/rid_pool_prealloc=320
 limits/message_queue/max_size_kb=1048576
 
 [rendering]

@@ -48,22 +48,9 @@ func set_parameters(data):
 		logger.error("Could not get vegetation!");
 		return
 	
-	# TODO: Cache those images!
-	# -> CachingImg: Load image from path and save in dictionary; access by checking dictionary for path first
-	var distribution_img = Image.new()
-	distribution_img.load(result.get("path_to_distribution"))
-	var distribution = ImageTexture.new()
-	distribution.create_from_image(distribution_img, 8)
-	
-	var spritesheet_img = Image.new()
-	spritesheet_img.load(result.get("path_to_spritesheet"))
-	var spritesheet = ImageTexture.new()
-	spritesheet.create_from_image(spritesheet_img, 8)
-	
-	var splatmap_img = Image.new()
-	splatmap_img.load(data[1])
-	var splatmap = ImageTexture.new()
-	splatmap.create_from_image(splatmap_img, 8)
+	var distribution = CachingImageTexture.get(result.get("path_to_distribution"))
+	var spritesheet = CachingImageTexture.get(result.get("path_to_spritesheet"))
+	var splatmap = CachingImageTexture.get(data[1])
 	
 	var sprite_count = result.get("number_of_sprites")
 	
