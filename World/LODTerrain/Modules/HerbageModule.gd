@@ -64,3 +64,5 @@ func set_parameters(data):
 	
 	tile.set_heightmap_params_for_obj(data[0].process_material)
 	tile.set_heightmap_params_for_obj(data[0].material_override)
+	
+	done_loading()

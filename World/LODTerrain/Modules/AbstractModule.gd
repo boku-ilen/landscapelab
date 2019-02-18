@@ -14,3 +14,8 @@ func _ready():
 		print("ERROR: Module is not correctly placed - grandparent must be a WorldTile! (WorldTile -> Modules -> This")
 	else:
 		tile = get_parent().get_parent()
+
+# This function must be called when the module has finished loading! Otherwise, it is never considered ready to be
+# displayed.
+func done_loading():
+	tile.emit_signal("module_done_loading")

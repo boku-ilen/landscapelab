@@ -8,7 +8,7 @@ extends Spatial
 #
 
 # Nodes
-onready var this_scene = preload("res://World/LODTerrain/WorldTile.tscn")
+onready var this_scene = load("res://World/LODTerrain/WorldTile.tscn")
 onready var modules = get_node("Modules")
 onready var children = get_node("Children")
 
@@ -22,7 +22,6 @@ var image # TODO testing only
 var has_split = false
 var initialized = false
 
-var split_all = false
 var created = false
 var last_player_pos
 var subdiv_mod = 1
@@ -30,35 +29,54 @@ var subdiv_mod = 1
 var subdiv = 16
 var size_with_skirt
 
-var will_activate_at_pos
+var num_modules : int = 0 # Number of modules this tile has
+var num_modules_loaded : int = 0 # Incremented when a module finishes loading
 
-var player_bounding_radius = Settings.get_setting("lod", "player-bounding-radius")
+const NUM_CHILDREN = 4 # Number of children, will likely always stay 4 because it's a quadtree
+var num_children_loaded : int = 0 # Incremented when a child finishes loading
+
+var will_activate_with_last_player_pos # Can be set in init() to immediately activate the tile with a last_player_pos
+
+# Settings
 var max_lods = Settings.get_setting("lod", "distances")
 var module_path = Settings.get_setting("lod", "module-path")
 var module_scenes = Settings.get_setting("lod", "modules")
 
+# Signals
+signal module_done_loading # Emitted by modules once they've finished loading and are ready to be displayed
+signal tile_done_loading # Emitted by the tile once all modules have finished loading -> the tile is ready
+
 func _ready():
+	connect("module_done_loading", self, "_on_module_done_loading")
+	
 	if initialized:
-		# Spawn all required modules
 		var index = 0
+		var modules_to_spawn = []
 		
+		# Get the number of modules and select the modules we will want to spawn
 		for mds in module_scenes:
 			if index <= lod: # This tile's lod is equal to or greater than the module's requirement -> spawn it
 				for md in mds:
-					modules.add_child(load(module_path + md).instance() as Module)
+					num_modules += 1
+					modules_to_spawn.append(load(module_path + md).instance() as Module)
 			else:
 				break; # We arrived at the higher LODs, which means we can stop now
 				
 			index += 1
+		
+		# Spawn the modules we selected previously
+		for module in modules_to_spawn:
+			modules.add_child(module)
 
-		if will_activate_at_pos:
-			activate(will_activate_at_pos)
+		if will_activate_with_last_player_pos:
+			activate(will_activate_with_last_player_pos)
 	else:
 		print("Warning: Uninitialized WorldTile created")
 	
 	created = true
 
-# Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be called before _ready()!)
+# Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
+# called before _ready()!)
 func init(s, hm, tex, img, lod_level, activate_pos=null, _subdiv_mod=1): # water map, ... will go here
 	size = s
 	heightmap = hm
@@ -69,13 +87,35 @@ func init(s, hm, tex, img, lod_level, activate_pos=null, _subdiv_mod=1): # water
 	
 	initialized = true
 	
-	will_activate_at_pos = activate_pos
+	will_activate_with_last_player_pos = activate_pos
+
+# Called when the module_done_loading signal is emitted.
+# If all modules are now done, emits tile_done_loading
+func _on_module_done_loading():
+	num_modules_loaded += 1
+	
+	if num_modules_loaded == num_modules:
+		emit_signal("tile_done_loading")
+
+# Called when a child tile is done loading.
+# If all children are done loading, they are displayed instead of this tile.
+func _on_child_tile_finished():
+	num_children_loaded += 1
+	
+	if num_children_loaded == NUM_CHILDREN:
+		display_children_instead_of_self()
+
+# Make all children tiles visible, and all of this tile's modules invisible
+func display_children_instead_of_self():
+	children.visible = true
+	set_modules_invisible()
 	
 # Creates a PlaneMesh which corresponds to the current size and subdivision
 func create_tile_plane_mesh():
 	var mesh = PlaneMesh.new()
 	
-	# We add 2 to subdiv and increase the size by the added squares for the skirt around the mesh (which fills gaps where things don't match up)
+	# We add 2 to subdiv and increase the size by the added squares for the skirt around the mesh (which fills gaps
+	# where things don't match up)
 	size_with_skirt = size + (2.0/(subdiv + 1.0)) * size
 	mesh.size = Vector2(size_with_skirt, size_with_skirt)
 	
@@ -83,7 +123,8 @@ func create_tile_plane_mesh():
 	mesh.subdivide_width = subdiv + 2
 	
 	return mesh
-	
+
+# Sets the basic shader parameters which are required for getting positions or heights in the shader
 func set_heightmap_params_for_obj(obj):
 	obj.set_shader_param("heightmap", heightmap)
 	obj.set_shader_param("subdiv", subdiv)
@@ -94,12 +135,15 @@ func set_heightmap_params_for_obj(obj):
 func clear_children():
 	for child in children.get_children():
 		child.free()
+		
+	num_children_loaded = 0
 
 # Hides the mesh at this LOD - used when higher LOD children are shown instead
 func set_modules_invisible():
 	modules.visible = false
 
-# Use the LOD at this tile (Make this mesh visible, and delete children modules) - for example, converge from 4 tiles to 1
+# Use the LOD at this tile (Make this mesh visible, and delete children modules) - for example, converge from 4 tiles
+# to 1
 func converge():
 	modules.visible = true
 	clear_children()
@@ -122,7 +166,8 @@ func get_height_at_position(var pos):
 
 	return height
 
-# Called when the player is nearby - this makes the tile check whether it needs to split or converge, and do so if required.
+# Called when the player is nearby - this makes the tile check whether it needs to split or converge, and do so if
+# required.
 func activate(player_pos):
 	if !created: return
 	
@@ -141,7 +186,7 @@ func activate(player_pos):
 	elif lod < max_lods.size() - 1 and dist_to_player < max_lods[lod+1]:
 		split(dist_to_player)
 
-# Move the tile in the world (used for offsetting)		
+# Move the tile in the world (used for offsetting)
 func move(delta):
 	if !initialized: return
 	
@@ -179,7 +224,7 @@ func instantiate_children(data):
 			
 			# Set location
 			var offset = Vector3(x - 0.5, 0, y - 0.5)  * size/2.0
-			child.translation = offset#.rotated(Vector3(0, 1, 0), PI) # Need to rotate in order to match up with get_rect image part
+			child.translation = offset
 
 			# Get appropriate maps
 			var rec_size = current_tex_size/2.0
@@ -193,13 +238,9 @@ func instantiate_children(data):
 			cur_name += 1
 
 			child.init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1, last_player_pos, data[0])
+			child.connect("tile_done_loading", self, "_on_child_tile_finished")
 
 			children.call_deferred("add_child", child)
-	
-	# Now that we're done, make the children visible instead of the old tile
-	# TODO: Wait for the new chilren to be completely done loading (implement signals for this?), meaning they also fetched everything they need from the server
-	children.visible = true
-	set_modules_invisible()
 	
 # Gets the distance of the center of the tile to the last known player location
 func get_dist_to_player():
@@ -211,9 +252,10 @@ func get_dist_to_player():
 	var origin = Vector2(gtranslation.x - size/2, gtranslation.z - size/2)
 	var end = Vector2(gtranslation.x + size/2, gtranslation.z + size/2)
 	
+	# TODO: Height is hardcoded at 100-300, we need to get the actual height in the future!
 	clamped_low.x = clamp(last_player_pos.x, origin.x, end.x)
 	clamped_low.z = clamp(last_player_pos.z, origin.y, end.y)
-	clamped_low.y = 100 # Must be replaced with actual height!
+	clamped_low.y = 100
 	
 	clamped_high = clamped_low
 	clamped_high.y = 300

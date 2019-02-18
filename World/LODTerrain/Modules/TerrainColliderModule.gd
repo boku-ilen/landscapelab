@@ -10,6 +10,8 @@ onready var col_shape = get_node("StaticBody/CollisionShape")
 func _ready():
 	col_shape.shape = create_tile_collision_shape()
 	
+	done_loading()
+	
 # Creates a simple 4-vertices polygon which roughly corresponds to the heightmap, for use as a collider.
 func create_tile_collision_shape():
 	var shape = ConvexPolygonShape.new()

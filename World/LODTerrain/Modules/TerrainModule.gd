@@ -15,3 +15,5 @@ func _ready():
 	
 	# TODO: Actually fetch the right texture
 	mesh.material_override.set_shader_param("tex", grass_tex)
+	
+	done_loading()
