@@ -1,7 +1,6 @@
 [gd_resource type="SpatialMaterial" format=2]
 
 [resource]
-
 flags_albedo_tex_force_srgb = true
 params_cull_mode = 2
 params_billboard_mode = 2
