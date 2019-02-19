@@ -40,6 +40,7 @@ ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
 Session="*res://Global/Session.gd"
 PlayerInfo="*res://Global/PlayerInfo.gd"
 CachingImageTexture="*res://Global/CachingImageTexture.gd"
+Offset="*res://Global/Offset.gd"
 
 [display]
 

@@ -17,15 +17,14 @@ onready var camera = head.get_node("Camera")
 # To prevent floating point errors, the player.translation does not reflect the player's actual position in the whole world.
 # This function returns the true world position of the player in int.
 func get_true_position():
-	return [int(translation.x) - origin_offset_x, int(translation.z) - origin_offset_z]
+	return Offset.to_world_coordinates(translation)
 
 # Shift the player's in-engine translation by a certain offset, but not the player's true coordinates.
-func shift(delta):
-	PlayerInfo.add_player_offset(delta.x, delta.z)
-	PlayerInfo.add_player_pos(delta)
+func shift(delta_x, delta_z):
+	PlayerInfo.add_player_pos(Vector3(delta_x, 0, delta_z))
 	
-	translation.x += delta.x
-	translation.z += delta.z
+	translation.x += delta_x
+	translation.z += delta_z
 	
 func _enter_tree():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -34,7 +33,7 @@ func _exit_tree():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 
 func _ready():
-	PlayerInfo.connect("shift_world", self, "shift")
+	Offset.connect("shift_world", self, "shift")
 
 func _physics_process(delta):
 	fly(delta)

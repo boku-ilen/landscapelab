@@ -11,11 +11,11 @@ func _ready():
 	$SkyCube.get_surface_material(0).set_shader_param("cloud_density_factor", 15)
 	$SkyCube.get_surface_material(0).set_shader_param("light_density_factor", 15)
 	
-	PlayerInfo.connect("shift_world", self, "reposition")
+	Offset.connect("shift_world", self, "reposition")
 
 # Repositions the cube's UV map in order to correspond to the world/player position shifting
-func reposition(delta):
-	uv_offset -= delta
+func reposition(delta_x, delta_z):
+	uv_offset -= Vector3(delta_x, 0, delta_z)
 	$SkyCube.get_surface_material(0).set_shader_param("player_uv_offset", uv_offset)
 	
 func set_sun_params(dir, energy):

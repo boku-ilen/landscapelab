@@ -21,9 +21,6 @@ var time_to_interval = 0
 # When a player coordinate gets bigger than this, the world will be shifted to get the player back to the world origin
 var shift_limit = Settings.get_setting("lod", "world-shift-distance")
 
-var world_offset_x : int = 0
-var world_offset_z : int = 0
-
 # Radii for spawning and removing tiles
 # Actually not really radii atm - currently rectangles
 var TILE_RADIUS = Settings.get_setting("lod", "tile-spawn-radius")
@@ -34,8 +31,14 @@ export(bool) var update_terrain = true
 
 func _ready():
 	# Set world_offset to start values using Session
+	var world_offset_x = 1770625
+	var world_offset_z = 6155445
+	
+	Offset.set_offset(world_offset_x, world_offset_z)
+	
 	# Spawn the bare minimum of tiles
-	PlayerInfo.connect("shift_world", self, "move_world")
+	
+	Offset.connect("shift_world", self, "move_world")
 
 func _input(event):
 	if event.is_action_pressed("toggle_lod_update"):
@@ -67,6 +70,7 @@ func _process(delta):
 						# TODO: Concurrency issues with offset position
 						#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "spawn_tile", [x, y]))
 						spawn_tile([x, y])
+						print("Spawned %d,%d" % [x, y])
 				else:
 					# We're outside the spawning radius -> Despawn any tiles left here
 					if tiles.has_node("%d,%d" % [x, y]):
@@ -86,23 +90,14 @@ func check_for_world_shift():
 	var delta_vec = Vector3(0, 0, 0)
 	var player_pos = PlayerInfo.get_engine_player_position()
 	
-	# Check x coordinate
-	if player_pos.x > shift_limit:
-		delta_vec.x = -shift_limit
-	elif player_pos.x < -shift_limit:
-		delta_vec.x = shift_limit
-		
+	# Check x, y coordinates
+	delta_vec.x = -shift_limit * floor(player_pos.x / shift_limit)
+	delta_vec.z = -shift_limit * floor(player_pos.z / shift_limit)
 	# (Height (y) probably doesn't matter, height differences won't be that big
-	
-	# Check z coordinate
-	if player_pos.z > shift_limit:
-		delta_vec.z = -shift_limit
-	elif player_pos.z < -shift_limit:
-		delta_vec.z = shift_limit
 	
 	# Apply
 	if delta_vec != Vector3(0, 0, 0):
-		PlayerInfo.emit_signal("shift_world", delta_vec)
+		Offset.emit_signal("shift_world", delta_vec.x, delta_vec.z)
 
 # Spawn a tile at the given __tilegrid coordinate__ position
 func spawn_tile(pos):
@@ -115,16 +110,15 @@ func spawn_tile(pos):
 
 	var tile_instance = tile.instance()
 	tile_instance.name = "%d,%d" % [pos[0], pos[1]]
-	tile_instance.translation = Vector3(pos[0] * -GRIDSIZE + world_offset_x, 0, pos[1] * -GRIDSIZE + world_offset_z)
+	tile_instance.translation = Vector3(pos[0] * -GRIDSIZE + Offset.x, 0, pos[1] * -GRIDSIZE + Offset.z)
 	
 	tile_instance.init(GRIDSIZE, map, map, map_img, 0)
 	
 	tiles.add_child(tile_instance)
 
 # Move all world tiles by delta_vec (in true coordinates) and remember the total offset caused by using this function
-func move_world(delta_vec):
-	world_offset_x += delta_vec.x
-	world_offset_z += delta_vec.z
+func move_world(delta_x, delta_z):
+	var delta_vec = Vector3(delta_x, 0, delta_z)
 	
 	for child in tiles.get_children():
 		child.move(delta_vec)
@@ -135,7 +129,7 @@ func move_world(delta_vec):
 
 # Returns the grid coordinates of the tile at a certain absolute position (passed as an array for int accuracy)
 func absolute_to_grid(abs_pos):
-	return Vector2(-round((abs_pos[0]) / int(GRIDSIZE)), -round((abs_pos[2]) / int(GRIDSIZE)))
+	return Vector2(round((abs_pos[0]) / int(GRIDSIZE)), round((abs_pos[2]) / int(GRIDSIZE)))
 
 # Get the tilegrid coordinates of the tile the player is currently standing on
 func get_tile_at_player():
@@ -144,7 +138,7 @@ func get_tile_at_player():
 	return grid_vec
 		
 func get_ground_coords(pos):
-	var grid_pos = -1 * absolute_to_grid([world_offset_x + pos.x, 0, world_offset_z + pos.z])
+	var grid_pos = absolute_to_grid(Offset.to_world_coordinates(pos))
 	
 	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
 		return Vector3(pos.x, tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_height_at_position(pos), pos.z)

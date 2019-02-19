@@ -9,7 +9,7 @@ var current_distance_to_ground
 onready var ground_check_ray = get_node("GroundCheckRay")
 	
 func _ready():
-	PlayerInfo.connect("shift_world", self, "shift")
+	Offset.connect("shift_world", self, "shift")
 	
 	current_distance_to_ground = MAX_DISTANCE_TO_GROUND
 
@@ -37,9 +37,8 @@ func _process(delta):
 	translation.y = current_distance_to_ground
 	PlayerInfo.update_player_pos(translation)
 	
-func shift(delta):
-	PlayerInfo.add_player_offset(delta.x, delta.z)
-	PlayerInfo.add_player_pos(delta)
+func shift(delta_x, delta_z):
+	PlayerInfo.add_player_pos(Vector3(delta_x, 0, delta_z))
 	
-	translation.x += delta.x
-	translation.z += delta.z
+	translation.x += delta_x
+	translation.z += delta_z
