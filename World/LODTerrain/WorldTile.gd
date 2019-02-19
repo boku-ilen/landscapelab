@@ -41,6 +41,7 @@ var will_activate_with_last_player_pos # Can be set in init() to immediately act
 var max_lods = Settings.get_setting("lod", "distances")
 var module_path = Settings.get_setting("lod", "module-path")
 var module_scenes = Settings.get_setting("lod", "modules")
+var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
 
 # Signals
 signal module_done_loading # Emitted by modules once they've finished loading and are ready to be displayed
@@ -165,6 +166,12 @@ func get_height_at_position(var pos):
 	img.unlock()	
 
 	return height
+	
+func get_true_position():
+	return Offset.to_world_coordinates(translation)
+	
+func get_osm_zoom():
+	return lod + osm_start
 
 # Called when the player is nearby - this makes the tile check whether it needs to split or converge, and do so if
 # required.
