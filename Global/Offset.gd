@@ -26,3 +26,12 @@ func to_world_coordinates(pos):
 	else:
 		logger.warning("Invalid type for to_world_coordinates: %s;"\
 			+ "supported types: Vector2, Vector3" % [typeof(pos)])
+			
+func to_engine_coordinates(pos):
+	if pos is Array and pos.size() == 2:
+		return Vector2(x - pos[0], -pos[1] + z)
+	elif pos is Array and pos.size() == 3:
+		return Vector3(x - pos[0], pos[1], -pos[2] + z)
+	else:
+		logger.warning("Invalid type for to_engine_coordinates: %s;"\
+			+ "Needs to be Array with length of 2 or 3" % [String(typeof(pos))])

@@ -18,8 +18,8 @@
         "tile-spawn-radius": 1,
         "tile-removal-check-radius-summand": 3,
         "distances": [
-            8000,
-            5000,
+            6000,
+            4000,
             2000,
             800,
             500,

@@ -20,7 +20,7 @@ func set_texture(data):
 	var zoom = tile.get_osm_zoom()
 	
 	var result = ServerConnection.getJson("/raster/%d.0/%d.0/%d.json"\
-		% [true_pos[0], true_pos[2], zoom])
+		% [-true_pos[0], true_pos[2], zoom])
 		
 	if result.has("Error"):
 		# TODO: Use the previous orthophoto and split it like in WorldTile's split!

@@ -168,7 +168,7 @@ func get_height_at_position(var pos):
 	return height
 	
 func get_true_position():
-	return Offset.to_world_coordinates(to_global(translation))
+	return Offset.to_world_coordinates(global_transform.origin)
 	
 func get_osm_zoom():
 	return lod + osm_start
