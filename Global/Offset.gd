@@ -20,9 +20,9 @@ func set_offset(new_x, new_z):
 	
 func to_world_coordinates(pos):
 	if pos is Vector2:
-		return [x + int(pos.x), z + int(pos.y)]
+		return [x - int(pos.x), z - int(pos.y)]
 	elif pos is Vector3:
-		return [x + int(pos.x), int(pos.y), z + int(pos.z)]
+		return [x - int(pos.x), int(pos.y), z - int(pos.z)]
 	else:
 		logger.warning("Invalid type for to_world_coordinates: %s;"\
 			+ "supported types: Vector2, Vector3" % [typeof(pos)])

@@ -9,8 +9,6 @@ extends Spatial
 var tile = preload("res://World/LODTerrain/WorldTile.tscn")
 var GRIDSIZE = Settings.get_setting("lod", "level-0-tile-size") # Width and height of a tile (the biggest possible LOD terrain chunk, which then splits accordingly)
 
-onready var skycube = get_tree().get_root().get_node("Main/WorldEnvironment/SkyCube")
-onready var light = get_tree().get_root().get_node("Main/WorldEnvironment/DirectionalLight")
 onready var tiles = get_node("Tiles")
 onready var assets = get_node("Assets")
 
@@ -31,8 +29,8 @@ export(bool) var update_terrain = true
 
 func _ready():
 	# Set world_offset to start values using Session
-	var world_offset_x = 1770625
-	var world_offset_z = 6155445
+	var world_offset_x = 1770725
+	var world_offset_z = 6155545
 	
 	Offset.set_offset(world_offset_x, world_offset_z)
 	
@@ -56,7 +54,6 @@ func _process(delta):
 		if player_tile == null: return
 		
 		var player_pos = PlayerInfo.get_engine_player_position()
-		var true_player_pos = PlayerInfo.get_true_player_position()
 		
 		# Loop through the entire rectangle (TILE_RADIUS + REMOVAL_RADIUS_SUMMAND)
 		for x in range(player_tile.x - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, player_tile.x + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
@@ -90,7 +87,7 @@ func check_for_world_shift():
 	var delta_vec = Vector3(0, 0, 0)
 	var player_pos = PlayerInfo.get_engine_player_position()
 	
-	# Check x, y coordinates
+	# Check x, z coordinates
 	delta_vec.x = -shift_limit * floor(player_pos.x / shift_limit)
 	delta_vec.z = -shift_limit * floor(player_pos.z / shift_limit)
 	# (Height (y) probably doesn't matter, height differences won't be that big
@@ -124,17 +121,17 @@ func move_world(delta_x, delta_z):
 		child.move(delta_vec)
 		
 	for child in assets.get_children():
-		# TODO: Implement a proper way of storing the offset for assets - they might require absolute positions too!
 		child.translation += delta_vec
 
 # Returns the grid coordinates of the tile at a certain absolute position (passed as an array for int accuracy)
 func absolute_to_grid(abs_pos):
-	return Vector2(round((abs_pos[0]) / int(GRIDSIZE)), round((abs_pos[2]) / int(GRIDSIZE)))
+	return Vector2(round((abs_pos[0]) / GRIDSIZE), round((abs_pos[2]) / GRIDSIZE))
 
 # Get the tilegrid coordinates of the tile the player is currently standing on
-func get_tile_at_player():
+func get_tile_at_player(): # TODO: Value is off!
 	var true_player = PlayerInfo.get_true_player_position()
 	var grid_vec = absolute_to_grid(true_player)
+
 	return grid_vec
 		
 func get_ground_coords(pos):
