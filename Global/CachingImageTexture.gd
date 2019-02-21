@@ -13,7 +13,25 @@ func get(path):
 	if !_is_in_dict(path):
 		_load_into_dict(path)
 		
-	return _get_from_dict(path)
+	return _get_texture_from_dict(path)
+
+# Returs a part of the ImageTexture at the given path. Origin and size are Vector2 with fields between 0 and 1.
+# Example: Get the bottom left quarter of an image: Origin = (0, 0.5); Size = (0.5, 0.5)
+func get_cropped(path, origin, size):
+	if !_is_in_dict(path):
+		_load_into_dict(path)
+	
+	var img = _get_image_from_dict(path)
+	
+	var rec_origin = Vector2(img.get_size().x * origin.x, img.get_size().y * origin.y)
+	var rec_size = Vector2(img.get_size().x * size.x, img.get_size().y * size.y)
+	
+	var new_tex = img.get_rect(Rect2(rec_origin, rec_size))
+
+	var new_tex_texture = ImageTexture.new()
+	new_tex_texture.create_from_image(new_tex, 8)
+	
+	return new_tex_texture
 
 # Adds the image at the given path to the cache dictionary as an ImageTexture.
 func _load_into_dict(path):
@@ -24,11 +42,14 @@ func _load_into_dict(path):
 	img_tex.create_from_image(img, 8)
 	
 	# Add to dictionary and return
-	_path_imagetexture_dict[path] = img_tex
+	_path_imagetexture_dict[path] = [img_tex, img]
 
 # Gets an ImageTexture from the cache dictionary using the given path.
-func _get_from_dict(path):
-	return _path_imagetexture_dict[path]
+func _get_texture_from_dict(path):
+	return _path_imagetexture_dict[path][0]
+	
+func _get_image_from_dict(path):
+	return _path_imagetexture_dict[path][1]
 
 # Returns true if the image at the path is already in the cache dictionary.
 func _is_in_dict(path):

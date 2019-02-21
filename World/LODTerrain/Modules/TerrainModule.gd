@@ -16,19 +16,36 @@ func _ready():
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_texture", []))
 	
 func set_texture(data):
-	var true_pos = tile.get_true_position()
 	var zoom = tile.get_osm_zoom()
+	
+	get_orthophoto_recursive(zoom, 0)
+	
+func get_orthophoto_recursive(zoom, steps):
+	var true_pos = tile.get_true_position()
 	
 	var result = ServerConnection.getJson("/raster/%d.0/%d.0/%d.json"\
 		% [-true_pos[0], true_pos[2], zoom])
 		
 	if result.has("Error"):
-		# TODO: Use the previous orthophoto and split it like in WorldTile's split!
-		logger.error("Could not get orthophoto!")
-		done_loading()
+		# TODO: How to react to this? Currently no done_loading() is sent, so if there ever is an error, the client is
+		# stuck here
 		return
 	
+	# If there is no orthophoto at this zoom level, go back recursively
+	if result.get("ortho") == "None":
+		get_orthophoto_recursive(zoom - 1, steps + 1)
+		return
+		
 	var ortho = CachingImageTexture.get(result.get("ortho"))
+	
+	# If we went back, get the cropped image
+	if steps > 0:
+		var size = 1.0 / (steps + 1.0)
+		# TODO: How to get the correct origin? We need to remember which quarter in the quadtree we're in...
+		# Perhaps we can save this offset in the WorldTile?
+		var origin = Vector2(0, 0)
+		
+		ortho = CachingImageTexture.get_cropped(result.get("ortho"), origin, Vector2(size, size))
 	
 	mesh.material_override.set_shader_param("tex", ortho)
 	done_loading()
