@@ -10,7 +10,7 @@
     
     "lod": {
     
-        "level-0-tile-size": 6521,
+        "level-0-tile-size": 9784,
         "level-0-osm-zoom": 12,
         "default-tile-subdivision": 16,
         "update-interval-seconds": 0.1,

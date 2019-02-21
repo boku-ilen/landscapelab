@@ -29,8 +29,8 @@ export(bool) var update_terrain = true
 
 func _ready():
 	# Set world_offset to start values using Session
-	var world_offset_x = -1770725
-	var world_offset_z = 6155545
+	var world_offset_x = -1765982
+	var world_offset_z = 6159002
 	
 	Offset.set_offset(world_offset_x, world_offset_z)
 	
@@ -107,7 +107,7 @@ func spawn_tile(pos):
 
 	var tile_instance = tile.instance()
 	tile_instance.name = "%d,%d" % [pos[0], pos[1]]
-	tile_instance.translation = Offset.to_engine_coordinates([pos[0] * GRIDSIZE, 0, pos[1] * GRIDSIZE])
+	tile_instance.translation = Offset.to_engine_coordinates([pos[0] * GRIDSIZE + GRIDSIZE/2, 0, pos[1] * GRIDSIZE + GRIDSIZE/2])
 	
 	tile_instance.init(GRIDSIZE, map, map, map_img, 0)
 	
@@ -125,7 +125,7 @@ func move_world(delta_x, delta_z):
 
 # Returns the grid coordinates of the tile at a certain absolute position (passed as an array for int accuracy)
 func absolute_to_grid(abs_pos):
-	return Vector2(round((abs_pos[0]) / GRIDSIZE), round((abs_pos[2]) / GRIDSIZE))
+	return Vector2(round((abs_pos[0] - GRIDSIZE/2) / GRIDSIZE), round((abs_pos[2] - GRIDSIZE/2) / GRIDSIZE))
 
 # Get the tilegrid coordinates of the tile the player is currently standing on
 func get_tile_at_player():
