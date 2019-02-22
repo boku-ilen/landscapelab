@@ -40,10 +40,8 @@ func get_orthophoto_recursive(zoom, steps):
 	
 	# If we went back, get the cropped image
 	if steps > 0:
-		var size = 1.0 / (steps + 1.0)
-		# TODO: How to get the correct origin? We need to remember which quarter in the quadtree we're in...
-		# Perhaps we can save this offset in the WorldTile?
-		var origin = Vector2(0, 0)
+		var size = 1.0 / pow(2, steps)
+		var origin = tile.get_offset_from_parents(steps)
 		
 		ortho = CachingImageTexture.get_cropped(result.get("ortho"), origin, Vector2(size, size))
 	

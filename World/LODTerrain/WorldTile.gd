@@ -13,11 +13,13 @@ onready var modules = get_node("Modules")
 onready var children = get_node("Children")
 
 # Variables
-var size
+var size : float
+var size_with_skirt : float
 var lod : int
 var heightmap
 var texture
 var image # TODO testing only
+var offset_from_parent : Vector2
 
 var has_split = false
 var initialized = false
@@ -26,8 +28,7 @@ var created = false
 var last_player_pos
 var subdiv_mod = 1
 
-var subdiv = 16
-var size_with_skirt
+var subdiv : int = 16
 
 var num_modules : int = 0 # Number of modules this tile has
 var num_modules_loaded : int = 0 # Incremented when a module finishes loading
@@ -105,6 +106,13 @@ func _on_child_tile_finished():
 	
 	if num_children_loaded == NUM_CHILDREN:
 		display_children_instead_of_self()
+		
+func has_parent_tile():
+	return get_parent().get_parent().is_in_group("WorldTile")
+	
+func get_parent_tile():
+	if has_parent_tile():
+		return get_parent().get_parent()
 
 # Make all children tiles visible, and all of this tile's modules invisible
 func display_children_instead_of_self():
@@ -167,9 +175,12 @@ func get_height_at_position(var pos):
 
 	return height
 	
+# Returns the world position of the tile - used for server requests
+# TODO: Actual server requests require -z because coordinates are stored differently in Godot -> separate function?
 func get_true_position():
 	return Offset.to_world_coordinates(global_transform.origin)
-	
+
+# Returns the OSM zoom level that corresponds to this tile - used for server requests
 func get_osm_zoom():
 	return lod + osm_start
 
@@ -198,6 +209,21 @@ func move(delta):
 	if !initialized: return
 	
 	translation += delta
+
+# Returns the offset of the top left corner of this tile from the tile which is 'steps' above this one, as a Vector2
+# with values between 0 and 1.
+# Example: Bottom right tile (1 step) -> (0.5, 0.5)
+# Example 2: Bottom right tile, top left tile (2 steps) -> (0.25, 0,25)
+func get_offset_from_parents(steps):
+	var offset = Vector2(0, 0)
+	
+	var current_node = self
+	
+	for walk_up in range(0, steps):
+		offset = offset / 2 + current_node.offset_from_parent
+		current_node = current_node.get_parent_tile()
+		
+	return offset
 	
 # Increase the LOD on this tile (Split the tile into 4 smaller tiles)
 func split(dist_to_player):
@@ -232,6 +258,8 @@ func instantiate_children(data):
 			# Set location
 			var offset = Vector3(x - 0.5, 0, y - 0.5)  * size/2.0
 			child.translation = offset
+			
+			child.offset_from_parent = xy_vec / 2 # fields are 0 or 0.5
 
 			# Get appropriate maps
 			var rec_size = current_tex_size/2.0
