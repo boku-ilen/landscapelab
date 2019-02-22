@@ -52,23 +52,7 @@ func _ready():
 	connect("module_done_loading", self, "_on_module_done_loading")
 	
 	if initialized:
-		var index = 0
-		var modules_to_spawn = []
-		
-		# Get the number of modules and select the modules we will want to spawn
-		for mds in module_scenes:
-			if index <= lod: # This tile's lod is equal to or greater than the module's requirement -> spawn it
-				for md in mds:
-					num_modules += 1
-					modules_to_spawn.append(load(module_path + md).instance() as Module)
-			else:
-				break; # We arrived at the higher LODs, which means we can stop now
-				
-			index += 1
-		
-		# Spawn the modules we selected previously
-		for module in modules_to_spawn:
-			modules.add_child(module)
+		spawn_modules()
 
 		if will_activate_with_last_player_pos:
 			activate(will_activate_with_last_player_pos)
@@ -76,10 +60,29 @@ func _ready():
 		print("Warning: Uninitialized WorldTile created")
 	
 	created = true
+	
+func spawn_modules():
+	var index = 0
+	var modules_to_spawn = []
+	
+	# Get the number of modules and select the modules we will want to spawn
+	for mds in module_scenes:
+		if index <= lod: # This tile's lod is equal to or greater than the module's requirement -> spawn it
+			for md in mds:
+				num_modules += 1
+				modules_to_spawn.append(load(module_path + md).instance() as Module)
+		else:
+			break; # We arrived at the higher LODs, which means we can stop now
+			
+		index += 1
+	
+	# Spawn the modules we selected previously
+	for module in modules_to_spawn:
+		modules.add_child(module)
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
-func init(s, hm, tex, img, lod_level, activate_pos=null, _subdiv_mod=1): # water map, ... will go here
+func init(s, hm, tex, img, lod_level, activate_pos=null, _subdiv_mod=1):
 	size = s
 	heightmap = hm
 	texture = tex
@@ -106,10 +109,12 @@ func _on_child_tile_finished():
 	
 	if num_children_loaded == NUM_CHILDREN:
 		display_children_instead_of_self()
-		
+
+# Returns true if there is a layer of WorldTiles above this current one
 func has_parent_tile():
 	return get_parent().get_parent().is_in_group("WorldTile")
-	
+
+# Returns the parent WorldTile of this one, or null if there is none
 func get_parent_tile():
 	if has_parent_tile():
 		return get_parent().get_parent()
@@ -236,11 +241,11 @@ func split(dist_to_player):
 		
 	has_split = true
 	
-	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "instantiate_children", [_subdiv_mod]))
-	instantiate_children([1])
+	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_instantiate_children", [_subdiv_mod]))
+	_instantiate_children([1])
 
 # Here, the actual splitting happens - this function can be run in a thread
-func instantiate_children(data):
+func _instantiate_children(data):
 	var my_tex = image
 	var current_tex_size = my_tex.get_size()
 	var cur_name = 0 # The children are simply named from 0 to 3
