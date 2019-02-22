@@ -54,7 +54,7 @@
     },
 
     "sky": {
-    	"clouds": false
+    	"clouds": true
     },
     
     "player": {
