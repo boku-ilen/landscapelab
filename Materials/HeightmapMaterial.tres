@@ -1,10 +1,9 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
 [ext_resource path="res://Materials/Shaders/HeightmapMesh.shader" type="Shader" id=1]
-[ext_resource path="res://Scenes/Testing/LOD/testlandia/test_0.png" type="Texture" id=2]
+[ext_resource path="res://Materials/heightmap.png" type="Texture" id=2]
 
 [resource]
-
 resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/curv_middle = Vector3( 0, 0, 0 )
@@ -14,5 +13,4 @@ shader_param/size = 16.0
 shader_param/size_without_skirt = 16.0
 shader_param/RADIUS = 6.371e+06
 shader_param/heightmap = ExtResource( 2 )
-shader_param/tex = ExtResource( 2 )
 
