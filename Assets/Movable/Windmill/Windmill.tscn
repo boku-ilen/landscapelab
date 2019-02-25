@@ -1,0 +1,45 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Assets/Movable/MovableObject.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Movable/Windmill/Windmill.gd" type="Script" id=2]
+[ext_resource path="res://Materials/WindmillMaterial.tres" type="Material" id=3]
+[ext_resource path="res://Resources/Windmills/vestas_base.obj" type="ArrayMesh" id=4]
+[ext_resource path="res://Resources/Windmills/vestas_blades.obj" type="ArrayMesh" id=5]
+[ext_resource path="res://Util/Tooltip3D.tscn" type="PackedScene" id=6]
+[ext_resource path="res://icon.png" type="Texture" id=7]
+
+[sub_resource type="CapsuleShape" id=1]
+
+radius = 50.0
+height = 140.0
+
+[node name="Windmill" instance=ExtResource( 1 )]
+transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 0, 0 )
+script = ExtResource( 2 )
+wind_direction = Vector2( 1, 1 )
+
+[node name="Base" type="MeshInstance" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+material_override = ExtResource( 3 )
+mesh = ExtResource( 4 )
+material/0 = null
+
+[node name="Blades" type="MeshInstance" parent="." index="1"]
+transform = Transform( 0.573798, -0.000567178, 0.820599, -0.820599, -0.000395217, 0.573798, -1.12852e-06, -1, -0.000690416, 0, 140, 0 )
+material_override = ExtResource( 3 )
+mesh = ExtResource( 5 )
+material/0 = null
+
+[node name="Tooltip3D" parent="." index="2" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, 0 )
+label = "0.0 kWh"
+icon = ExtResource( 7 )
+
+[node name="StaticBody" parent="." index="3"]
+collision_layer = 16384
+collision_mask = 0
+
+[node name="CollisionShape" parent="StaticBody" index="0"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 100, 0 )
+shape = SubResource( 1 )
+

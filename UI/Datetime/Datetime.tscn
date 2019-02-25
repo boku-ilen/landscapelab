@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/Datetime/TimeSlider.gd" type="Script" id=1]
+[ext_resource path="res://UI/Datetime/SeasonSlider.gd" type="Script" id=2]
+
+[node name="Datetime" type="VBoxContainer"]
+margin_top = 88.0
+margin_right = 177.0
+margin_bottom = 156.0
+
+[node name="TimeSetting" type="HBoxContainer" parent="."]
+editor/display_folded = true
+margin_right = 177.0
+margin_bottom = 32.0
+alignment = 1
+
+[node name="Label" type="Label" parent="TimeSetting"]
+margin_top = 9.0
+margin_right = 32.0
+margin_bottom = 23.0
+text = "Time"
+align = 2
+
+[node name="TimeSlider" type="HSlider" parent="TimeSetting"]
+margin_left = 36.0
+margin_right = 177.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+hint_tooltip = "Time"
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 24.0
+step = 0.5
+focus_mode = 0
+script = ExtResource( 1 )
+
+[node name="SeasonSetting" type="HBoxContainer" parent="."]
+editor/display_folded = true
+margin_top = 36.0
+margin_right = 177.0
+margin_bottom = 68.0
+alignment = 1
+
+[node name="Label" type="Label" parent="SeasonSetting"]
+margin_top = 9.0
+margin_right = 45.0
+margin_bottom = 23.0
+text = "Season"
+align = 2
+
+[node name="SeasonSlider" type="HSlider" parent="SeasonSetting"]
+margin_left = 49.0
+margin_right = 177.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+hint_tooltip = "Time"
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 3.0
+focus_mode = 0
+script = ExtResource( 2 )
+

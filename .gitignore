@@ -7,7 +7,7 @@ export_presets.cfg
 .mono/
 
 #Project-specific ignores
-/Assets
+/Resources
 log.txt
 .vs/retour-client/v15/.suo
 .vs/slnx.sqlite

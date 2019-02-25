@@ -10,32 +10,33 @@
     
     "lod": {
     
-        "level-0-tile-size": 7000,
+        "level-0-tile-size": 9784,
+        "level-0-osm-zoom": 12,
         "default-tile-subdivision": 16,
         "update-interval-seconds": 0.1,
         "world-shift-distance": 1000,
-        "tile-spawn-radius": 6,
-        "tile-removal-check-radius-summand": 4,
+        "tile-spawn-radius": 1,
+        "tile-removal-check-radius-summand": 3,
         "distances": [
-            8000,
-            5000,
+            6000,
+            4000,
             2000,
             800,
             500,
             300,
             100
         ],
-        "module-path": "res://Scenes/Testing/LOD/Modules/",
+        "module-path": "res://World/LODTerrain/Modules/",
         "modules": [
             ["TerrainModule.tscn"],
             [],
-            ["HerbageModule.tscn"],
+            [],
             ["TerrainColliderModule.tscn"],
             [],
-            [],
+            ["HerbageModule.tscn"],
             []
         ],
-        "player-bounding-radius": 3000,
+        "player-bounding-radius": 10000,
             
     },
     
@@ -51,15 +52,21 @@
             
         }
     },
-    
-    "player": {
-        "ground-speed":10,
-        "fly-speed": 500,
-        "fly-speed-sprint": 5000
+
+    "sky": {
+    	"clouds": true
     },
     
-    "sky": {
-        
+    "player": {
+        "ground-speed": 10,
+        "fly-speed": 500,
+        "fly-speed-sprint": 5000,
+        "fly-speed-sneak": 100
+    },
+
+    "third-person": {
+    	"max-distance-to-ground": 5000,
+    	"mouse-zoom-speed": 50
     },
     
     "water": {

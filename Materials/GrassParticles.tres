@@ -1,14 +1,14 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
-[ext_resource path="res://Shaders/GrassParticles.shader" type="Shader" id=1]
+[ext_resource path="res://Materials/Shaders/GrassParticles.shader" type="Shader" id=1]
 [ext_resource path="res://Materials/noise_texture.png" type="Texture" id=2]
 
 [resource]
-
 shader = ExtResource( 1 )
 shader_param/rows = 100.0
 shader_param/spacing = 1.0
 shader_param/random_offset = 0.0
+shader_param/id = null
 shader_param/curv_middle = Vector3( 0, 0, 0 )
 shader_param/height_range = 500.0
 shader_param/subdiv = null

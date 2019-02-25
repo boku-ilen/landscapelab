@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://World/Environment/SkyCube.gd" type="Script" id=1]
+[ext_resource path="res://addons/shader_procedural_textures/Worley_texture.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Materials/Shaders/raymarch.shader" type="Shader" id=3]
+
+[sub_resource type="World" id=1]
+
+
+[sub_resource type="CubeMesh" id=2]
+
+size = Vector3( 20000, 4000, 20000 )
+subdivide_width = 10
+subdivide_height = 10
+subdivide_depth = 10
+
+[sub_resource type="ViewportTexture" id=3]
+
+viewport_path = NodePath("Worley_texture")
+
+[sub_resource type="ShaderMaterial" id=4]
+
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/depth = 128.0
+shader_param/light_dir = Vector3( 0, 1, -1 )
+shader_param/light_intensity = 1.0
+shader_param/cloud_density_factor = 15
+shader_param/cloud_steps = 128.0
+shader_param/light_density_factor = 15
+shader_param/light_steps = 30.0
+shader_param/cube_extent = 10000.0
+shader_param/step_constant = 25000.0
+shader_param/uv_scale = 0.0002
+shader_param/player_uv_offset = Vector3( 0, 0, 0 )
+shader_param/albedo_texture = SubResource( 3 )
+
+[node name="SkyCube" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Worley_texture" parent="." instance=ExtResource( 2 )]
+world = SubResource( 1 )
+texture_size = Vector3( 128, 128, 128 )
+max_distance = 0.3
+
+[node name="SkyCube" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3700, 0 )
+cast_shadow = 0
+mesh = SubResource( 2 )
+material/0 = SubResource( 4 )
+
