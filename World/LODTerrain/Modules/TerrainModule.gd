@@ -5,9 +5,8 @@ extends Module
 # This module fetches the heightmap from its tile and a texture to create terrain using a shader.
 #
 
-var height_tex = preload("res://Materials/heightmap.png") # TODO: Testing only! In the future, this texture will be fetched from the server.
-
 onready var mesh = get_node("MeshInstance")
+var textures = {}
 
 func _ready():
 	mesh.mesh = tile.create_tile_plane_mesh()
@@ -18,12 +17,13 @@ func _ready():
 func set_texture(data):
 	var zoom = tile.get_osm_zoom()
 	
-	get_orthophoto_recursive(zoom, 0)
+	# Orthophoto and heightmap
+	get_texture_recursive("ortho", "tex", zoom, 0)
+	get_texture_recursive("dhm", "heightmap", zoom, 0)
 	
-	# TODO: Also request this!
-	mesh.material_override.set_shader_param("heightmap", height_tex)
+	done_loading()
 	
-func get_orthophoto_recursive(zoom, steps):
+func get_texture_recursive(tex_name, shader_param, zoom, steps):
 	var true_pos = tile.get_true_position()
 	
 	var result = ServerConnection.getJson("/raster/%d.0/%d.0/%d.json"\
@@ -35,26 +35,31 @@ func get_orthophoto_recursive(zoom, steps):
 		return
 	
 	# If there is no orthophoto at this zoom level, go back recursively
-	if result.get("ortho") == "None":
-		get_orthophoto_recursive(zoom - 1, steps + 1)
+	if result.get(tex_name) == "None":
+		get_texture_recursive(tex_name, shader_param, zoom - 1, steps + 1)
 		return
 		
-	var ortho = CachingImageTexture.get(result.get("ortho"))
+	var tex = CachingImageTexture.get(result.get(tex_name))
 	
 	# If we went back, get the cropped image
 	if steps > 0:
 		var size = 1.0 / pow(2, steps)
 		var origin = tile.get_offset_from_parents(steps)
 		
-		ortho = CachingImageTexture.get_cropped(result.get("ortho"), origin, Vector2(size, size))
+		tex = CachingImageTexture.get_cropped(result.get(tex_name), origin, Vector2(size, size))
 	
-	mesh.material_override.set_shader_param("tex", ortho)
-	done_loading()
+	textures[tex_name] = tex
+	mesh.material_override.set_shader_param(shader_param, tex)
 	
 # Returns the height on the tile at a certain position (the y coordinate of the passed vector is ignored)
 # TODO: Maybe change into get_position_on_ground and return whole position for ease of use?
 func get_height_at_position(var pos):
-	var img = height_tex.get_data()
+	# TODO: Need to find a nice solution to make this work while keeping the module's modularity, this current solution
+	# can make things break and get out of sync easily
+	if not textures.has("dhm"):
+		return 0
+	
+	var img = textures["dhm"].get_data()
 	img.lock()
 	var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(translation.x, translation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
 	var pix_pos = pos_scaled * img.get_size()
