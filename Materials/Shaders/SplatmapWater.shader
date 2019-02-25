@@ -44,8 +44,8 @@ void fragment () {
 	ALBEDO = color *  transparency * water_at_location;
 	
 	// Apply the normal map texture, constantly offset it based on time to create a wave effect
-	vec2 uv1 = UV * uv_scale + vec2(-TIME * time_scale, 1);
-	vec2 uv_small1 = UV * uv_scale * 5.0 + vec2(-TIME * time_scale/2.0, 1);
+	vec2 uv1 = UV * uv_scale + vec2(-TIME * time_scale, 1.0);
+	vec2 uv_small1 = UV * uv_scale * 5.0 + vec2(-TIME * time_scale/2.0, 1.0);
 	vec3 part1 = texture(small_noise, uv_small1).rgb * 0.3 + texture(water_normal, uv1).rgb;
 	
 	vec2 uv2 = UV * uv_scale + vec2(TIME * time_scale, 0.5);

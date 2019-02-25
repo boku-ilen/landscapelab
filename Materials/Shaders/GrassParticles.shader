@@ -50,7 +50,7 @@ float get_height(vec2 pos) {
 		return 0.0;
 	}
 	
-	return get_height_no_falloff(vec2(1) - pos); // Interestingly, for the grass, we need to 'reverse' the position.
+	return get_height_no_falloff(vec2(1.0) - pos); // Interestingly, for the grass, we need to 'reverse' the position.
 }
 
 void vertex ()

@@ -4,7 +4,6 @@
 [ext_resource path="res://Scripts/SplatmapWater.gd" type="Script" id=2]
 
 [sub_resource type="PlaneMesh" id=1]
-
 size = Vector2( 10000, 10000 )
 
 [node name="SplatmapWater" type="MeshInstance"]
