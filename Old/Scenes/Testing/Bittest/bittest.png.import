@@ -2,24 +2,24 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/test-tile.png-ae24b171093c7d1ddbf2a74b815cd239.stex"
+path="res://.import/bittest.png-e10df7d22653a27bc78deba6b5d5a06e.stex"
 
 [deps]
 
-source_file="res://Scenes/Testing/LOD/test-tile.png"
-dest_files=[ "res://.import/test-tile.png-ae24b171093c7d1ddbf2a74b815cd239.stex" ]
+source_file="res://Old/Scenes/Testing/Bittest/bittest.png"
+dest_files=[ "res://.import/bittest.png-e10df7d22653a27bc78deba6b5d5a06e.stex" ]
 
 [params]
 
-compress/mode=3
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=true
-flags/filter=true
-flags/mipmaps=true
-flags/anisotropic=true
+flags/filter=false
+flags/mipmaps=false
+flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false

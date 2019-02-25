@@ -5,7 +5,7 @@ extends Module
 # This module fetches the heightmap from its tile and a texture to create terrain using a shader.
 #
 
-var grass_tex = preload("res://Resources/Textures/grass-ground.jpg") # TODO: Testing only! In the future, this texture will be fetched from the server.
+var height_tex = preload("res://Materials/heightmap.png") # TODO: Testing only! In the future, this texture will be fetched from the server.
 
 onready var mesh = get_node("MeshInstance")
 
@@ -19,6 +19,9 @@ func set_texture(data):
 	var zoom = tile.get_osm_zoom()
 	
 	get_orthophoto_recursive(zoom, 0)
+	
+	# TODO: Also request this!
+	mesh.material_override.set_shader_param("heightmap", height_tex)
 	
 func get_orthophoto_recursive(zoom, steps):
 	var true_pos = tile.get_true_position()
@@ -47,3 +50,20 @@ func get_orthophoto_recursive(zoom, steps):
 	
 	mesh.material_override.set_shader_param("tex", ortho)
 	done_loading()
+	
+# Returns the height on the tile at a certain position (the y coordinate of the passed vector is ignored)
+# TODO: Maybe change into get_position_on_ground and return whole position for ease of use?
+func get_height_at_position(var pos):
+	var img = height_tex.get_data()
+	img.lock()
+	var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(translation.x, translation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
+	var pix_pos = pos_scaled * img.get_size()
+	
+	# Clamp to max values
+	pix_pos.x = clamp(pix_pos.x, 0, img.get_size().x - 1)
+	pix_pos.y = clamp(pix_pos.y, 0, img.get_size().y - 1)
+	
+	var height = img.get_pixel(pix_pos.x, pix_pos.y).g * 500 # TODO: Centralize height range and use here
+	img.unlock()	
+
+	return height

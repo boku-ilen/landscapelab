@@ -98,18 +98,11 @@ func check_for_world_shift():
 
 # Spawn a tile at the given __tilegrid coordinate__ position
 func spawn_tile(pos):
-	var map_img = Image.new() # TODO testing only
-	map_img.load("res://Scenes/Testing/LOD/test-tile.png")
-#	var map = ImageTexture.new()
-#	map.create_from_image(map_img, 8)
-	
-	var map = load("res://Scenes/Testing/LOD/test-tile.png")
-
 	var tile_instance = tile.instance()
 	tile_instance.name = "%d,%d" % [pos[0], pos[1]]
 	tile_instance.translation = Offset.to_engine_coordinates([pos[0] * GRIDSIZE + GRIDSIZE/2, 0, pos[1] * GRIDSIZE + GRIDSIZE/2])
 	
-	tile_instance.init(GRIDSIZE, map, map, map_img, 0)
+	tile_instance.init(GRIDSIZE, 0)
 	
 	tiles.add_child(tile_instance)
 

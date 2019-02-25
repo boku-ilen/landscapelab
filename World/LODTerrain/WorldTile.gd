@@ -16,9 +16,6 @@ onready var children = get_node("Children")
 var size : float
 var size_with_skirt : float
 var lod : int
-var heightmap
-var texture
-var image # TODO testing only
 var offset_from_parent : Vector2
 
 var has_split = false
@@ -82,11 +79,8 @@ func spawn_modules():
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
-func init(s, hm, tex, img, lod_level, activate_pos=null, _subdiv_mod=1):
+func init(s, lod_level, activate_pos=null, _subdiv_mod=1):
 	size = s
-	heightmap = hm
-	texture = tex
-	image = img # TODO testing only
 	lod = lod_level
 	subdiv_mod = _subdiv_mod
 	
@@ -140,7 +134,6 @@ func create_tile_plane_mesh():
 
 # Sets the basic shader parameters which are required for getting positions or heights in the shader
 func set_heightmap_params_for_obj(obj):
-	obj.set_shader_param("heightmap", heightmap)
 	obj.set_shader_param("subdiv", subdiv)
 	obj.set_shader_param("size", size_with_skirt)
 	obj.set_shader_param("size_without_skirt", size)
@@ -166,19 +159,11 @@ func converge():
 # Returns the height on the tile at a certain position (the y coordinate of the passed vector is ignored)
 # TODO: Maybe change into get_position_on_ground and return whole position for ease of use?
 func get_height_at_position(var pos):
-	var img = heightmap.get_data()
-	img.lock()
-	var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(translation.x, translation.z) + Vector2(size / 2, size / 2)) / size
-	var pix_pos = pos_scaled * img.get_size()
+	# TODO: This causes stutter and is very dependent, change this asap
+	while not modules.has_node("TerrainModule"):
+		pass
 	
-	# Clamp to max values
-	pix_pos.x = clamp(pix_pos.x, 0, img.get_size().x - 1)
-	pix_pos.y = clamp(pix_pos.y, 0, img.get_size().y - 1)
-	
-	var height = img.get_pixel(pix_pos.x, pix_pos.y).g * 500 # TODO: Centralize height range and use here
-	img.unlock()	
-
-	return height
+	return modules.get_node("TerrainModule").get_height_at_position(pos)
 	
 # Returns the world position of the tile - used for server requests
 # TODO: Actual server requests require -z because coordinates are stored differently in Godot -> separate function?
@@ -246,8 +231,6 @@ func split(dist_to_player):
 
 # Here, the actual splitting happens - this function can be run in a thread
 func _instantiate_children(data):
-	var my_tex = image
-	var current_tex_size = my_tex.get_size()
 	var cur_name = 0 # The children are simply named from 0 to 3
 	
 	# Hide children while they're being built
@@ -266,18 +249,11 @@ func _instantiate_children(data):
 			
 			child.offset_from_parent = xy_vec / 2 # fields are 0 or 0.5
 
-			# Get appropriate maps
-			var rec_size = current_tex_size/2.0
-			var new_tex = my_tex.get_rect(Rect2(rec_size * xy_vec, rec_size))
-
-			var new_tex_texture = ImageTexture.new()
-			new_tex_texture.create_from_image(new_tex, 8)
-
 			# Apply
 			child.name = String(cur_name)
 			cur_name += 1
 
-			child.init((size / 2.0), new_tex_texture, new_tex_texture, new_tex, lod + 1, last_player_pos, data[0])
+			child.init((size / 2.0), lod + 1, last_player_pos, data[0])
 			child.connect("tile_done_loading", self, "_on_child_tile_finished")
 
 			children.call_deferred("add_child", child)

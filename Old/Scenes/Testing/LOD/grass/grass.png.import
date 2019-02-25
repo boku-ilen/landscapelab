@@ -2,27 +2,29 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bittest.png-d873998d3bb05b349c60673cbb0a23fe.stex"
+path="res://.import/grass.png-986ccbfd2ccc23d3930a962ac6fef7d2.stex"
 
 [deps]
 
-source_file="res://Scenes/Testing/Bittest/bittest.png"
-dest_files=[ "res://.import/bittest.png-d873998d3bb05b349c60673cbb0a23fe.stex" ]
+source_file="res://Old/Scenes/Testing/LOD/grass/grass.png"
+dest_files=[ "res://.import/grass.png-986ccbfd2ccc23d3930a962ac6fef7d2.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=3
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=true
-flags/filter=false
-flags/mipmaps=false
+flags/filter=true
+flags/mipmaps=true
 flags/anisotropic=false
-flags/srgb=2
+flags/srgb=1
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=false

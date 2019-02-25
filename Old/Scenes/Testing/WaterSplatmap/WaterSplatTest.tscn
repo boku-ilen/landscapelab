@@ -1,11 +1,15 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Scenes/Testing/WaterSplatmap/WaterSplatTest.gd" type="Script" id=1]
+[ext_resource path="res://Old/Scenes/Testing/WaterSplatmap/WaterSplatTest.gd" type="Script" id=1]
 [ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/SplatmapWater.tscn" type="PackedScene" id=3]
+[ext_resource path="res://World/LODTerrain/Modules/WaterModule.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Materials/Shaders/HeightmapMesh.shader" type="Shader" id=4]
-[ext_resource path="res://Scripts/TimeSlider.gd" type="Script" id=5]
-[ext_resource path="res://Scripts/SeasonSlider.gd" type="Script" id=6]
+[ext_resource path="res://UI/Datetime/TimeSlider.gd" type="Script" id=5]
+[ext_resource path="res://UI/Datetime/SeasonSlider.gd" type="Script" id=6]
+
+
+
+
 
 
 

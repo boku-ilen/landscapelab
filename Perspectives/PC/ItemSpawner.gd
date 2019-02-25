@@ -7,7 +7,6 @@ extends Spatial
 #
 
 var spawned_scene = preload("res://Assets/Movable/Windmill/Windmill.tscn")
-var tree_scene = preload("res://Scenes/Tree.tscn")
 
 onready var world = get_tree().get_root().get_node("Main/TileHandler") # Required for getting exact ground positions
 onready var cursor = get_node("InteractRay")
@@ -62,14 +61,14 @@ var dict
 #	building_settings = settings["buildings"]
 #	dict = ServerConnection.getJson("127.0.0.1", "/buildings/?filename=%s" % building_settings['filename'], 8000)
 
-func lotsOfTrees(pos):
-	for x in range(-10, 10):
-		for y in range(-10, 10):
-			var add = 0.5 - randf()
-			
-			var vec = Vector3(x + add, 0, y + add) * 50
-			
-			world.put_on_ground(tree_scene.instance(), pos + vec)
+#func lotsOfTrees(pos):
+#	for x in range(-10, 10):
+#		for y in range(-10, 10):
+#			var add = 0.5 - randf()
+#
+#			var vec = Vector3(x + add, 0, y + add) * 50
+#
+#			world.put_on_ground(tree_scene.instance(), pos + vec)
 	
 func createBuilding(server, port, settings):
 	if dict == null:
