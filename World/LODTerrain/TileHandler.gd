@@ -131,7 +131,7 @@ func get_ground_coords(pos):
 	var grid_pos = absolute_to_grid(Offset.to_world_coordinates(pos))
 	
 	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
-		return Vector3(pos.x, tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_height_at_position(pos), pos.z)
+		return tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_position_on_ground(pos)
 	else:
 		return false
 

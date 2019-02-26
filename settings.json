@@ -30,8 +30,8 @@
         "modules": [
             ["TerrainModule.tscn"],
             [],
-            [],
             ["TerrainColliderModule.tscn"],
+            [],
             [],
             ["HerbageModule.tscn"],
             []

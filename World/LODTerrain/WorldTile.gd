@@ -45,6 +45,7 @@ var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
 signal module_done_loading # Emitted by modules once they've finished loading and are ready to be displayed
 signal tile_done_loading # Emitted by the tile once all modules have finished loading -> the tile is ready
 
+
 func _ready():
 	connect("module_done_loading", self, "_on_module_done_loading")
 	
@@ -57,7 +58,8 @@ func _ready():
 		print("Warning: Uninitialized WorldTile created")
 	
 	created = true
-	
+
+
 func spawn_modules():
 	var index = 0
 	var modules_to_spawn = []
@@ -77,6 +79,7 @@ func spawn_modules():
 	for module in modules_to_spawn:
 		modules.add_child(module)
 
+
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
 func init(s, lod_level, activate_pos=null, _subdiv_mod=1):
@@ -88,6 +91,7 @@ func init(s, lod_level, activate_pos=null, _subdiv_mod=1):
 	
 	will_activate_with_last_player_pos = activate_pos
 
+
 # Called when the module_done_loading signal is emitted.
 # If all modules are now done, emits tile_done_loading
 func _on_module_done_loading():
@@ -95,6 +99,7 @@ func _on_module_done_loading():
 	
 	if num_modules_loaded == num_modules:
 		emit_signal("tile_done_loading")
+
 
 # Called when a child tile is done loading.
 # If all children are done loading, they are displayed instead of this tile.
@@ -104,20 +109,24 @@ func _on_child_tile_finished():
 	if num_children_loaded == NUM_CHILDREN:
 		display_children_instead_of_self()
 
+
 # Returns true if there is a layer of WorldTiles above this current one
 func has_parent_tile():
 	return get_parent().get_parent().is_in_group("WorldTile")
+
 
 # Returns the parent WorldTile of this one, or null if there is none
 func get_parent_tile():
 	if has_parent_tile():
 		return get_parent().get_parent()
 
+
 # Make all children tiles visible, and all of this tile's modules invisible
 func display_children_instead_of_self():
 	children.visible = true
 	set_modules_invisible()
-	
+
+
 # Creates a PlaneMesh which corresponds to the current size and subdivision
 func create_tile_plane_mesh():
 	var mesh = PlaneMesh.new()
@@ -132,22 +141,31 @@ func create_tile_plane_mesh():
 	
 	return mesh
 
+
 # Sets the basic shader parameters which are required for getting positions or heights in the shader
 func set_heightmap_params_for_obj(obj):
 	obj.set_shader_param("subdiv", subdiv)
 	obj.set_shader_param("size", size_with_skirt)
 	obj.set_shader_param("size_without_skirt", size)
 
+
 # Removes all the higher LOD children
 func clear_children():
 	for child in children.get_children():
-		child.free()
+		child.queue_free()
 		
 	num_children_loaded = 0
+
 
 # Hides the mesh at this LOD - used when higher LOD children are shown instead
 func set_modules_invisible():
 	modules.visible = false
+	
+	
+# Returns true if this is a leaf tile - it is being displayed and has no higher LOD children.
+func is_leaf_tile():
+	return modules.visible
+
 
 # Use the LOD at this tile (Make this mesh visible, and delete children modules) - for example, converge from 4 tiles
 # to 1
@@ -155,24 +173,64 @@ func converge():
 	modules.visible = true
 	clear_children()
 	has_split = false
-	
+
+
 # Returns the height on the tile at a certain position (the y coordinate of the passed vector is ignored)
-# TODO: Maybe change into get_position_on_ground and return whole position for ease of use?
-func get_height_at_position(var pos):
-	# TODO: This causes stutter and is very dependent, change this asap
-	while not modules.has_node("TerrainModule"):
-		pass
+func get_height_at_position(var pos : Vector3):
+	var used_tile = get_leaf_tile(pos)
+		
+	if not used_tile.modules.has_node("TerrainColliderModule"):
+		# TODO: What to do if it is impossible to get a height at that position?
+		return -200
 	
-	return modules.get_node("TerrainModule").get_height_at_position(pos)
+	return used_tile.modules.get_node("TerrainColliderModule").get_height_at_position(pos)
 	
+
+# Returns the given position, but with the y-coordinate set to be on the ground of the terrain.
+func get_position_on_ground(var pos : Vector3):
+	return Vector3(pos.x, get_height_at_position(pos), pos.z)
+
+
+# Returns the child closest to the given position, or null if this is already a leaf tile, by going a step down the
+# quad-tree.
+func get_child_for_position(var pos : Vector3):
+	if not is_leaf_tile():
+		var gtranslation = global_transform.origin
+		
+		if pos.x > gtranslation.x:
+			if pos.z > gtranslation.z:
+				return children.get_node("3")
+			else:
+				return children.get_node("2")
+		else:
+			if pos.z > gtranslation.z:
+				return children.get_node("1")
+			else:
+				return children.get_node("0")
+	else:
+		return null
+		
+
+# Returns the leaf tile that is most appropriate for a given position
+func get_leaf_tile(var pos : Vector3):
+	var tile = self
+	
+	while not tile.is_leaf_tile():
+		tile = tile.get_child_for_position(pos)
+		
+	return tile
+
+
 # Returns the world position of the tile - used for server requests
 # TODO: Actual server requests require -z because coordinates are stored differently in Godot -> separate function?
 func get_true_position():
 	return Offset.to_world_coordinates(global_transform.origin)
 
+
 # Returns the OSM zoom level that corresponds to this tile - used for server requests
 func get_osm_zoom():
 	return lod + osm_start
+
 
 # Called when the player is nearby - this makes the tile check whether it needs to split or converge, and do so if
 # required.
@@ -194,11 +252,13 @@ func activate(player_pos):
 	elif lod < max_lods.size() - 1 and dist_to_player < max_lods[lod+1]:
 		split(dist_to_player)
 
+
 # Move the tile in the world (used for offsetting)
 func move(delta):
 	if !initialized: return
 	
 	translation += delta
+
 
 # Returns the offset of the top left corner of this tile from the tile which is 'steps' above this one, as a Vector2
 # with values between 0 and 1.
@@ -214,7 +274,8 @@ func get_offset_from_parents(steps):
 		current_node = current_node.get_parent_tile()
 		
 	return offset
-	
+
+
 # Increase the LOD on this tile (Split the tile into 4 smaller tiles)
 func split(dist_to_player):
 	if !initialized: return
@@ -229,9 +290,15 @@ func split(dist_to_player):
 	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_instantiate_children", [_subdiv_mod]))
 	_instantiate_children([1])
 
+
 # Here, the actual splitting happens - this function can be run in a thread
 func _instantiate_children(data):
-	var cur_name = 0 # The children are simply named from 0 to 3
+	# The children are simply named from 0 to 3:
+	#  ----> x
+	# | 0 2
+	# | 1 3
+	# v y
+	var cur_name = 0
 	
 	# Hide children while they're being built
 	children.visible = false
@@ -257,7 +324,8 @@ func _instantiate_children(data):
 			child.connect("tile_done_loading", self, "_on_child_tile_finished")
 
 			children.call_deferred("add_child", child)
-	
+
+
 # Gets the distance of the center of the tile to the last known player location
 func get_dist_to_player():
 	# Get closest point within rectangle to circle
@@ -277,3 +345,31 @@ func get_dist_to_player():
 	clamped_high.y = 300
 	
 	return min(last_player_pos.distance_to(clamped_low), last_player_pos.distance_to(clamped_high))
+
+
+# Recursively tries getting textures, starting at the current LOD, going down one LOD each step and cropping the result accordingly
+func get_texture_recursive(tex_name, zoom, steps):
+	var true_pos = get_true_position()
+	
+	var result = ServerConnection.getJson("/raster/%d.0/%d.0/%d.json"\
+		% [-true_pos[0], true_pos[2], zoom])
+		
+	if result.has("Error"):
+		# TODO: How to react to this? Currently no done_loading() is sent, so if there ever is an error, the client is
+		# stuck here
+		return
+	
+	# If there is no orthophoto at this zoom level, go back recursively
+	if result.get(tex_name) == "None":
+		return get_texture_recursive(tex_name, zoom - 1, steps + 1)
+		
+	var tex = CachingImageTexture.get(result.get(tex_name))
+	
+	# If we went back, get the cropped image
+	if steps > 0:
+		var size = 1.0 / pow(2, steps)
+		var origin = get_offset_from_parents(steps)
+
+		tex = CachingImageTexture.get_cropped(result.get(tex_name), origin, Vector2(size, size))
+	
+	return tex
