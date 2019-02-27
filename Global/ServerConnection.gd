@@ -6,6 +6,9 @@ extends Node
 var host = Settings.get_setting("server", "ip")
 var port = Settings.get_setting("server", "port")
 
+var json_cache = {}  # TODO: Manage/clear this cache appropriately!
+var cache_mutex = Mutex.new()
+
 func get_texture_from_server(filename):
 	var texData = ServerConnection.getJson("/raster/%s" % [filename]).values()
 	var texBytes = PoolByteArray(texData)
@@ -18,17 +21,38 @@ func get_texture_from_server(filename):
 	
 	return tex
 
-func getJson(url):
-	var ret = try_to_get_json(url)
-	var i = 0
-	var timeout = [10,30,60]
-	
-	while((!ret || (ret.has("Error") && ret.Error == "Could not connect to Host")) && i < timeout.size()):
-		logger.info("Could not connect to server retrying in %d seconds" % timeout[i])
-		OS.delay_msec(1000 * timeout[i])
-		ret = try_to_get_json(url)
-		i+=1
-	return ret
+func getJson(url, use_cache=true):
+	cache_mutex.lock()
+	if not use_cache or not json_cache.has(url):
+		json_cache[url] = [false, null]
+		cache_mutex.unlock()
+		
+		var ret = try_to_get_json(url)
+		var i = 0
+		var timeout = [10,30,60]
+		
+		while((!ret || (ret.has("Error") && ret.Error == "Could not connect to Host")) && i < timeout.size()):
+			logger.info("Could not connect to server retrying in %d seconds" % timeout[i])
+			OS.delay_msec(1000 * timeout[i])
+			ret = try_to_get_json(url)
+			i+=1
+		
+		# Add result to cache
+		cache_mutex.lock()
+		json_cache[url] = [true, ret]
+		cache_mutex.unlock()
+		
+		return ret
+	else:
+		cache_mutex.unlock()
+		while not json_cache[url][0]:
+			# Waiting here sometimes causes the game to crash with fatal engine error messages.
+			# Presumably, this is due to the error which we've already had problems with, where threads crash the game
+			# if they take too long.
+			# Will create another, more precise issue for this
+			pass # Wait if this request is currently being handled
+		logger.info("Using cache")
+		return json_cache[url][1]
 
 func try_to_get_json(url):
 	logger.info("Trying to connect to: "+host+":"+str(port)+url)
