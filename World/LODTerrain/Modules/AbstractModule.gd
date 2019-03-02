@@ -8,6 +8,7 @@ class_name Module
 #
 
 var tile
+var done = false
 
 func _ready():
 	if not get_parent() or not get_parent().get_parent():
@@ -19,3 +20,4 @@ func _ready():
 # displayed.
 func done_loading():
 	tile.emit_signal("module_done_loading")
+	done = true

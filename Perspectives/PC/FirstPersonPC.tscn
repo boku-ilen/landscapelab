@@ -5,7 +5,6 @@
 
 [sub_resource type="CapsuleShape" id=1]
 
-
 [node name="FirstPersonPC" type="KinematicBody"]
 transform = Transform( 0.866, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866, 0, 5000, 0 )
 script = ExtResource( 1 )
@@ -17,7 +16,7 @@ doppler_tracking = 2
 current = true
 fov = 90.0
 near = 0.01
-far = 50000.0
+far = 70000.0
 
 [node name="ItemSpawner" type="Spatial" parent="Head/Camera"]
 script = ExtResource( 2 )

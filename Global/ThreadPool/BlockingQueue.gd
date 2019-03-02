@@ -7,13 +7,16 @@ var _queue = []
 
 func enqueue(val):
 	while _mutex.try_lock() == ERR_BUSY:
+		print("it's busy")
 		continue
 	_queue.push_back(val)
 	_mutex.unlock()
 	_sem.post()
 
 func dequeue():
-	_sem.wait()
+	if _sem.wait() == ERR_BUSY:
+		return null
+	
 	while _mutex.try_lock() == ERR_BUSY:
 		continue
 	var val = _queue.pop_front()
