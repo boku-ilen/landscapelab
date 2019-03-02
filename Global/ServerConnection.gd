@@ -21,7 +21,9 @@ func get_texture_from_server(filename):
 	
 	return tex
 
-func getJson(url, use_cache=true):
+# use_cache currently makes this method significantly slower and causes crashes.
+# Perhaps it will not be necesasry anyways. If it is, we should revisit this issue.
+func getJson(url, use_cache=false):
 	cache_mutex.lock()
 	if not use_cache or not json_cache.has(url):
 		json_cache[url] = [false, null]
@@ -46,12 +48,7 @@ func getJson(url, use_cache=true):
 	else:
 		cache_mutex.unlock()
 		while not json_cache[url][0]:
-			# Waiting here sometimes causes the game to crash with fatal engine error messages.
-			# Presumably, this is due to the error which we've already had problems with, where threads crash the game
-			# if they take too long.
-			# Will create another, more precise issue for this
 			pass # Wait if this request is currently being handled
-		logger.info("Using cache")
 		return json_cache[url][1]
 
 func try_to_get_json(url):
@@ -62,15 +59,10 @@ func try_to_get_json(url):
 	err = http.connect_to_host(host,port) # Connect to host/port
 	if not err == OK:
 		return JSON.parse('{"Error":"Could not connect to Host"}').result
-	
-	var waiting_time = 0
-	var delay = 500
+
 	# Wait until resolved and connected
-	while (http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING) and waiting_time < 15 * 1000 :
+	while (http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING):
 		http.poll()
-		logger.info("Connecting..")
-		OS.delay_msec(delay)
-		waiting_time += delay
 	
 	if http.get_status() != HTTPClient.STATUS_CONNECTED:
 		return JSON.parse('{"Error":"Could not connect to Host"}').result
@@ -88,8 +80,7 @@ func try_to_get_json(url):
 	while http.get_status() == HTTPClient.STATUS_REQUESTING:
 		# Keep polling until the request is going on
 		http.poll()
-		logger.info("Requesting..")
-		OS.delay_msec(500)
+		#OS.delay_msec(500)
 	
 	if not http.get_status() == HTTPClient.STATUS_BODY and not http.get_status() == HTTPClient.STATUS_CONNECTED:
 		return JSON.parse('{"Error":"HTTP Request failed"}').result
@@ -97,15 +88,13 @@ func try_to_get_json(url):
 	logger.info("response? " + str(http.has_response())) # Site might not have a response.
 	
 	if http.has_response():
-		# If there is a response..
-		
 		headers = http.get_response_headers_as_dictionary() # Get response headers
 		logger.info("code: " + str(http.get_response_code())) # Show response code
 		logger.info("**headers:\\n" + str(headers)) # Show headers
 		
 		# Getting the HTTP Body
 		
-		var rl = float(0)
+		var rl: float = 0
 		if http.is_response_chunked():
 			# Does it use chunks?
 			logger.info("Response is Chunked!")
@@ -117,7 +106,7 @@ func try_to_get_json(url):
 			
 		
 		# This method works for both anyway
-		var rll = float(0)
+		var rll: float = 0
 		var rb = PoolByteArray() # Array that will hold the data
 		
 		while http.get_status() == HTTPClient.STATUS_BODY:
@@ -126,11 +115,10 @@ func try_to_get_json(url):
 			#logger.info("getting a chunk")
 			var chunk = http.read_response_body_chunk() # Get a chunk
 			if chunk.size() == 0:
+				pass
 				# Got nothing, wait for buffers to fill a bit
-				OS.delay_usec(1000)
 			else:
 				rll += chunk.size()
-				#logger.info(str(round((rll/rl)*100)) + "% finished")
 				rb = rb + chunk # Append to read buffer
 		
 		# Done!
@@ -150,7 +138,7 @@ func get_http(url):
 	var timeout = [10,30,60]
 	while(ret == "Error: Could not connect to Host" && i < 3):
 		logger.info("Could not connect to server retrying in %d seconds" % timeout[i])
-		OS.delay_msec(1000 * timeout[i])
+		#OS.delay_msec(1000 * timeout[i])
 		ret = try_to_get_http(url)
 		i+=1
 	return ret
@@ -167,8 +155,6 @@ func try_to_get_http(url):
 	# Wait until resolved and connected
 	while http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING:
 		http.poll()
-		logger.info("Connecting..")
-		OS.delay_msec(500)
 	
 	if http.get_status() != HTTPClient.STATUS_CONNECTED:
 		return 'Error: Could not connect to Host'
@@ -186,8 +172,6 @@ func try_to_get_http(url):
 	while http.get_status() == HTTPClient.STATUS_REQUESTING:
 		# Keep polling until the request is going on
 		http.poll()
-		logger.info("Requesting..")
-		OS.delay_msec(500)
 	
 	if not http.get_status() == HTTPClient.STATUS_BODY and not http.get_status() == HTTPClient.STATUS_CONNECTED:
 		return 'Error: HTTP Request failed'
@@ -195,8 +179,6 @@ func try_to_get_http(url):
 	logger.info("response? " + str(http.has_response())) # Site might not have a response.
 	
 	if http.has_response():
-		# If there is a response..
-		
 		headers = http.get_response_headers_as_dictionary() # Get response headers
 		logger.info("code: " + str(http.get_response_code())) # Show response code
 		logger.info("**headers:\\n" + str(headers)) # Show headers
@@ -224,8 +206,8 @@ func try_to_get_http(url):
 			#logger.info("getting a chunk")
 			var chunk = http.read_response_body_chunk() # Get a chunk
 			if chunk.size() == 0:
+				pass
 				# Got nothing, wait for buffers to fill a bit
-				OS.delay_usec(1000)
 			else:
 				rll += chunk.size()
 				#logger.info(str(round((rll/rl)*100)) + "% finished")
