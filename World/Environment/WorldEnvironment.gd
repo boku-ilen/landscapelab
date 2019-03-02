@@ -1,11 +1,12 @@
 extends WorldEnvironment
 
 onready var light = get_node("DirectionalLight")
-onready var clouds = get_node("SkyCube")
 
 onready var sky_cube_scene = preload("res://World/Environment/SkyCube.tscn")
 
 var SKYCUBE_ENABLED = Settings.get_setting("sky", "clouds")
+
+var clouds
 
 var current_time = 12
 var current_season = 0
@@ -26,6 +27,7 @@ func _ready():
 	# Spawn Skycube if setting is on
 	if SKYCUBE_ENABLED:
 		add_child(sky_cube_scene.instance())
+		clouds = get_node("SkyCube")
 		
 func _physics_process(delta):
 	# Make the light stick to the player in order to always show highest detail shadows next to them

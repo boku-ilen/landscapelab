@@ -48,4 +48,5 @@ class Task:
 		self.params = params
 	
 	func execute():
-		obj.call(method, params)
+		if obj:
+			obj.call(method, params)

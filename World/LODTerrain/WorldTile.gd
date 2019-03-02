@@ -20,6 +20,8 @@ var offset_from_parent : Vector2
 
 var has_split = false
 var initialized = false
+var done_loading = false
+var to_be_deleted = false
 
 var created = false
 var last_player_pos
@@ -99,6 +101,7 @@ func _on_module_done_loading():
 	
 	if num_modules_loaded == num_modules:
 		emit_signal("tile_done_loading")
+		done_loading = true
 
 
 # Called when a child tile is done loading.
@@ -152,9 +155,17 @@ func set_heightmap_params_for_obj(obj):
 # Removes all the higher LOD children
 func clear_children():
 	for child in children.get_children():
-		child.queue_free()
+		child.delete()
 		
 	num_children_loaded = 0
+
+
+func delete():
+	to_be_deleted = true
+	visible = false
+	# We want to actually free this node if it's done_loading and to_be_deleted, as in tell the engine to delete it.
+	# However, doing this here leads to crashes when multithreading.
+	# As a temporary solution, making it invisible seems to be fine - it doesn't seem to introduce any framerate issues.
 
 
 # Hides the mesh at this LOD - used when higher LOD children are shown instead
@@ -303,27 +314,31 @@ func _instantiate_children(data):
 	# Hide children while they're being built
 	children.visible = false
 	
-	# Add 4 children
-	for x in range(0, 2):
-		for y in range(0, 2):
-			var xy_vec = Vector2(x, y)
-			
-			var child = this_scene.instance()
-			
-			# Set location
-			var offset = Vector3(x - 0.5, 0, y - 0.5)  * size/2.0
-			child.translation = offset
-			
-			child.offset_from_parent = xy_vec / 2 # fields are 0 or 0.5
-
-			# Apply
-			child.name = String(cur_name)
-			cur_name += 1
-
-			child.init((size / 2.0), lod + 1, last_player_pos, data[0])
-			child.connect("tile_done_loading", self, "_on_child_tile_finished")
-
-			children.call_deferred("add_child", child)
+	if children.has_node("0"): # The nodes are already there, but invisible
+		for i in range(0, 3):
+			children.get_node(str(i)).visible = true
+	else:
+		# Add 4 children
+		for x in range(0, 2):
+			for y in range(0, 2):
+				var xy_vec = Vector2(x, y)
+				
+				var child = this_scene.instance()
+				
+				# Set location
+				var offset = Vector3(x - 0.5, 0, y - 0.5)  * size/2.0
+				child.translation = offset
+				
+				child.offset_from_parent = xy_vec / 2 # fields are 0 or 0.5
+	
+				# Apply
+				child.name = String(cur_name)
+				cur_name += 1
+	
+				child.init((size / 2.0), lod + 1, last_player_pos, data[0])
+				child.connect("tile_done_loading", self, "_on_child_tile_finished")
+	
+				children.call_deferred("add_child", child)
 
 
 # Gets the distance of the center of the tile to the last known player location
@@ -349,14 +364,15 @@ func get_dist_to_player():
 
 # Recursively tries getting textures, starting at the current LOD, going down one LOD each step and cropping the result accordingly
 func get_texture_recursive(tex_name, zoom, steps):
+	if steps > 12: # Limit recursion to 12 steps
+		return null
+		
 	var true_pos = get_true_position()
 	
 	var result = ServerConnection.getJson("/raster/%d.0/%d.0/%d.json"\
 		% [-true_pos[0], true_pos[2], zoom])
 		
 	if result.has("Error"):
-		# TODO: How to react to this? Currently no done_loading() is sent, so if there ever is an error, the client is
-		# stuck here
 		return
 	
 	# If there is no orthophoto at this zoom level, go back recursively

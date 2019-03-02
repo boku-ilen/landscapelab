@@ -17,7 +17,11 @@ func set_texture(data):
 	
 	# Orthophoto and heightmap
 	heightmap = tile.get_texture_recursive("dhm", zoom, 0)
-	col_shape.shape = create_tile_collision_shape()
+	
+	if heightmap:
+		col_shape.shape = create_tile_collision_shape()
+	else:
+		logger.info("Couldn't get heightmap for tile at zoom %d!" % [zoom])
 	
 	done_loading()
 

@@ -15,7 +15,7 @@
         "default-tile-subdivision": 16,
         "update-interval-seconds": 0.1,
         "world-shift-distance": 1000,
-        "tile-spawn-radius": 6,
+        "tile-spawn-radius": 3,
         "tile-removal-check-radius-summand": 3,
         "distances": [
             10000,

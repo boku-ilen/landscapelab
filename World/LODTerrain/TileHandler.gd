@@ -64,14 +64,14 @@ func _process(delta):
 					# We're in the smaller, spawning radius -> Spawn tiles in here which don't yet exist
 					if not tiles.has_node("%d,%d" % [x, y]):
 						# There is no tile here yet -> spawn the proper tile
-						# TODO: Concurrency issues with offset position
-						#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "spawn_tile", [x, y]))
 						spawn_tile([x, y])
-						print("Spawned %d,%d" % [x, y])
+					else: # TODO: This block will not be necessary anymore once tiles are actually deleted
+						if tiles.get_node("%d,%d" % [x, y]).visible == false:
+							tiles.get_node("%d,%d" % [x, y]).visible = true
 				else:
 					# We're outside the spawning radius -> Despawn any tiles left here
 					if tiles.has_node("%d,%d" % [x, y]):
-						tiles.get_node("%d,%d" % [x, y]).queue_free()
+						tiles.get_node("%d,%d" % [x, y]).delete()
 		
 		# Activate 9 tiles closest to player
 		for x in range(player_tile.x - 2, player_tile.x + 3):

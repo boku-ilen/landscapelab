@@ -103,8 +103,7 @@ func try_to_get_json(url):
 			var bl = http.get_response_body_length()
 			logger.info("Response Length: " + str(bl))
 			rl = bl
-			
-		
+
 		# This method works for both anyway
 		var rll: float = 0
 		var rb = PoolByteArray() # Array that will hold the data
