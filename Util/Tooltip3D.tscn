@@ -3,9 +3,7 @@
 [ext_resource path="res://Util/Tooltip3D.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
-
 [sub_resource type="SpatialMaterial" id=1]
-
 flags_unshaded = true
 flags_no_depth_test = true
 flags_fixed_size = true
@@ -19,7 +17,6 @@ distance_fade_min_distance = 300.0
 distance_fade_max_distance = 200.0
 
 [sub_resource type="ViewportTexture" id=2]
-
 viewport_path = NodePath("ViewportContainer/Viewport")
 
 [node name="Tooltip3D" type="Spatial"]

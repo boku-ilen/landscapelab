@@ -9,7 +9,6 @@
 [ext_resource path="res://icon.png" type="Texture" id=7]
 
 [sub_resource type="CapsuleShape" id=1]
-
 radius = 50.0
 height = 140.0
 

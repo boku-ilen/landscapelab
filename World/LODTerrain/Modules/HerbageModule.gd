@@ -51,6 +51,7 @@ func set_parameters(data):
 	var distribution = CachingImageTexture.get(result.get("path_to_distribution"))
 	var spritesheet = CachingImageTexture.get(result.get("path_to_spritesheet"))
 	var splatmap = CachingImageTexture.get(data[1])
+	var heightmap = tile.get_texture_recursive("dhm", tile.get_osm_zoom(), 0)
 	
 	var sprite_count = result.get("number_of_sprites")
 	
@@ -60,6 +61,7 @@ func set_parameters(data):
 	data[0].material_override.set_shader_param("sprite_count", sprite_count)
 	
 	data[0].process_material.set_shader_param("splatmap", splatmap)
+	data[0].process_material.set_shader_param("heightmap", heightmap)
 	data[0].process_material.set_shader_param("id", data[2])
 	
 	tile.set_heightmap_params_for_obj(data[0].process_material)

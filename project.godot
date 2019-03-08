@@ -32,7 +32,6 @@ config/icon="res://icon.png"
 
 Settings="*res://Global/Settings.gd"
 logger="*res://Global/Debug/logger.gd"
-debug="*res://Scripts/debug.gd"
 ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
 GlobalSignal="*res://Global/GlobalSignal.gd"
 ServerConnection="*res://Global/ServerConnection.gd"
