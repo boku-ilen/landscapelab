@@ -3,6 +3,10 @@ shader_type spatial;
 // Parameters to be passed in GDscript:
 uniform sampler2D heightmap;
 uniform sampler2D tex : hint_albedo;
+uniform sampler2D splat;
+
+uniform sampler2D vegetation_tex1 : hint_albedo;
+
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
 
 // Global parameters - will need to be the same in all shaders:
@@ -70,6 +74,13 @@ void vertex() {
 }
 
 void fragment(){
-	vec3 color = texture(tex, get_relative_pos(UV)).rgb;
+	vec3 color;
+	
+	if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == 1) {
+		color = texture(vegetation_tex1, UV * size - vec2(floor(UV.x * size), floor(UV.y * size))).rgb;
+	} else {
+		color = texture(tex, get_relative_pos(UV)).rgb;
+	}
+	
 	ALBEDO = color;
 }

@@ -39,7 +39,9 @@ func construct_vegetation(splat_path, splat_ids):
 		
 		var id = 1 # TODO: Replace with splat_id in the for loop mentioned above once it's working
 		
-		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_parameters", [grass, splat_path, id]))
+		#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_parameters", [grass, splat_path, id]))
+		# Big crash improvement:
+		set_parameters([grass, splat_path, id])
 		
 func set_parameters(data):
 	var result = ServerConnection.getJson("/vegetation/1/1")
@@ -60,6 +62,7 @@ func set_parameters(data):
 	data[0].material_override.set_shader_param("distribution", distribution)
 	data[0].material_override.set_shader_param("sprite_count", sprite_count)
 	
+	data[0].process_material.set_shader_param("tile_pos", translation)
 	data[0].process_material.set_shader_param("splatmap", splatmap)
 	data[0].process_material.set_shader_param("heightmap", heightmap)
 	data[0].process_material.set_shader_param("id", data[2])

@@ -11,6 +11,7 @@ uniform int id;
 uniform sampler2D splatmap;
 
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
+uniform vec3 tile_pos;
 
 // Global parameters - will need to be the same in all shaders:
 uniform float height_range = 1500;
@@ -53,6 +54,17 @@ float get_height(vec2 pos) {
 	return get_height_no_falloff(vec2(1.0) - pos); // Interestingly, for the grass, we need to 'reverse' the position.
 }
 
+vec2 get_uv_position(vec2 global_pos) {
+	vec2 size_vec = vec2(size_without_skirt, size_without_skirt);
+	
+	vec2 upper_left = tile_pos.xz - size_vec / 2.0;
+	
+	vec2 pos_from_upper_left = global_pos - upper_left;
+	vec2 pos_scaled = pos_from_upper_left / size_vec;
+	
+	return pos_scaled;
+}
+
 void vertex ()
 {
 	// Get position
@@ -74,7 +86,7 @@ void vertex ()
 	
 	// Check the splatmap for whether we need to do draw something and exit if not
 	// TODO: The actual divisor will likely include size_without_skirt and depend on the format we use for the splatmap!
-	int splat_id_at_pos = int(texture(splatmap, pos.xz / 1000.0).r * 255.0);
+	int splat_id_at_pos = int(texture(splatmap, get_uv_position(pos.xz)).r * 255.0);
 	
 	if (!(splat_id_at_pos == id)) {
 		ACTIVE = false;
