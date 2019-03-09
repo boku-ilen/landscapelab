@@ -13,6 +13,8 @@ export(Resource) var icon setget set_icon, get_icon
 var ready = false
 
 func _ready():
+	visible = TooltipHandler.are_tooltips_enabled()
+	TooltipHandler.connect("display_tooltip", self, "_on_display_tooltip")
 	ready = true
 	update()
 	
@@ -37,3 +39,6 @@ func set_icon(img):
 	
 func get_icon():
 	return icon_node.texture
+	
+func _on_display_tooltip(should_display):
+	visible = should_display
