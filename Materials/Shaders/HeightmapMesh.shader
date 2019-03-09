@@ -15,6 +15,7 @@ uniform float height_range = 1500;
 uniform float subdiv;
 uniform float size;
 uniform float size_without_skirt;
+uniform float tex_factor = 0.5; // 0.5 means one Godot meter will have half the texture
 
 uniform float RADIUS = 6371000; // average earth radius in meters
 
@@ -77,7 +78,7 @@ void fragment(){
 	vec3 color;
 	
 	if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == 1) {
-		color = texture(vegetation_tex1, UV * size - vec2(floor(UV.x * size), floor(UV.y * size))).rgb;
+		color = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 	} else {
 		color = texture(tex, get_relative_pos(UV)).rgb;
 	}

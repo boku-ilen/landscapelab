@@ -13,9 +13,9 @@
         "level-0-tile-size": 9784,
         "level-0-osm-zoom": 12,
         "default-tile-subdivision": 16,
-        "update-interval-seconds": 0.1,
+        "update-interval-seconds": 0.2,
         "world-shift-distance": 1000,
-        "tile-spawn-radius": 3,
+        "tile-spawn-radius": 1,
         "tile-removal-check-radius-summand": 3,
         "distances": [
             10000,
@@ -47,8 +47,7 @@
     "herbage": {
         "rows-at-lod": {
             "5": 100,
-            "6": 80,
-            "7": 80
+            "6": 150
             
         }
     },

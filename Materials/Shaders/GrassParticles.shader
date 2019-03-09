@@ -97,7 +97,7 @@ void vertex ()
 	vec3 noise = texture(noisemap, abs(pos.xz) / size + vec2(random_offset)).rgb;
 
 	pos.x += noise.x * (spacing / 2.0 - spacing) * 2.0;
-	pos.y += noise.y - 1.0;
+	//pos.y += noise.y - 1.0;
 	pos.z += noise.y * (spacing / 2.0 - spacing) * 2.0;
 	
 	// apply our height
