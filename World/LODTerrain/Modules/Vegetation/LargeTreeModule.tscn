@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://World/LODTerrain/Modules/Vegetation/AbstractVegetationModule.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Resources/Meshes/40m_vegetation_mesh.obj" type="ArrayMesh" id=2]
+
+[node name="LargeTreeModule" instance=ExtResource( 1 )]
+my_vegetation_layer = 5
+particle_mesh_scene = ExtResource( 2 )
+

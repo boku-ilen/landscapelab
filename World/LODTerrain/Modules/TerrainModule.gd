@@ -5,8 +5,6 @@ extends Module
 # This module fetches the heightmap from its tile and a texture to create terrain using a shader.
 #
 
-var detail_pass = preload("res://Materials/HeightmapDetailTexture.tres")
-
 onready var mesh = get_node("MeshInstance")
 
 func _ready():
@@ -25,7 +23,7 @@ func set_texture(data):
 	mesh.material_override.set_shader_param("tex", ortho)
 	mesh.material_override.set_shader_param("heightmap", dhm)
 	
-	var result = ServerConnection.getJson("/vegetation/4/1")
+	var result = ServerConnection.getJson("/vegetation/1/1")
 	var splat_result = ServerConnection.getJson("/vegetation/1.0/1.0")
 	
 	if result.has("Error") or splat_result.has("Error"):

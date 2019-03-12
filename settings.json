@@ -31,10 +31,10 @@
             ["TerrainModule.tscn"],
             [],
             ["TerrainColliderModule.tscn"],
-            [],
-            [],
-            ["HerbageModule.tscn"],
-            []
+            ["Vegetation/LargeTreeModule.tscn"],
+            ["Vegetation/SmallTreeModule.tscn"],
+            ["Vegetation/LargeBushModule.tscn"],
+            ["Vegetation/SmallBushModule.tscn", "Vegetation/HerbageModule.tscn"]
         ],
         "player-bounding-radius": 10000,
             
@@ -46,8 +46,8 @@
     
     "herbage": {
         "rows-at-lod": {
-            "5": 100,
-            "6": 150
+            "5": 50,
+            "6": 70
             
         }
     },

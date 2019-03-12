@@ -1,50 +1,56 @@
 extends Module
 
 #
-# This module can be used for any small vegetation such as grass, flowers and herbs. It efficiently renders this using a
-# particle shader.
+# This module can be used for any vegetation. It efficiently renders this using a particle shader.
 # The area can be filled with multiple different plants using a distribution image.
 #
 
-var grass_scene = preload("res://World/LODTerrain/Modules/Util/Grass.tscn")
-var LODS = Settings.get_setting("herbage", "rows-at-lod")
+export var num_layers = 2
+export var my_vegetation_layer = 4
+export(Mesh) var particle_mesh_scene
 
-signal got_splat_data
+var particles_scene = preload("res://World/LODTerrain/Modules/Util/HeightmapParticles.tscn")
+var LODS = Settings.get_setting("herbage", "rows-at-lod")
 
 func _ready():
 	# TODO: Doing this in a function that has anything to do with threads causes crashes...
-	var instance = grass_scene.instance()
-	instance.name = "Herbage"
-	add_child(instance)
+	# This is we we instance a predefined amount at the start.
+	for i in range(0, num_layers):
+		var instance = particles_scene.instance()
+		instance.name = String(i)
+		instance.set_mesh(particle_mesh_scene)
+		add_child(instance)
 	
 	# First, get the splatmap
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_splat_data", []))
 	
-	connect("got_splat_data", self, "construct_vegetation")
-	
 func get_splat_data(d):
 	var result = ServerConnection.getJson("/vegetation/1.0/1.0")
-	
-	emit_signal("got_splat_data", result.get("path_to_splatmap"), result.get("ids"))
+
+	construct_vegetation(result.get("path_to_splatmap"), result.get("ids"))
 	
 func construct_vegetation(splat_path, splat_ids):
-	# For each splat_id, instance a grass_scene - unfortunately, instancing here causes crashes, so we will have to get
+	# For each splat_id, instance a particles_scene - unfortunately, instancing here causes crashes, so we will have to get
 	# this fixed or find a different solution
 	
 	if LODS.has(String(tile.lod)):
-		var grass = get_node("Herbage")
+		var node = 0
+		for id in splat_ids:
+			var nd = get_node(String(node))
 		
-		grass.set_rows(LODS[String(tile.lod)])
-		grass.set_spacing(tile.size / LODS[String(tile.lod)])
-		
-		var id = 1 # TODO: Replace with splat_id in the for loop mentioned above once it's working
-		
-		#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_parameters", [grass, splat_path, id]))
-		# Big crash improvement:
-		set_parameters([grass, splat_path, id])
+			nd.set_rows(LODS[String(tile.lod)])
+			nd.set_spacing(tile.size / LODS[String(tile.lod)])
+			
+			if node > num_layers - 1: break
+			ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_parameters", [nd, splat_path, id, node]))
+			node += 1
+			# Big crash improvement:
+			#set_parameters([grass, splat_path, id])
+			
+	done_loading()
 		
 func set_parameters(data):
-	var result = ServerConnection.getJson("/vegetation/1/1")
+	var result = ServerConnection.getJson("/vegetation/%d/%d" % [data[2], my_vegetation_layer])
 	
 	if result.has("Error"):
 		logger.error("Could not get vegetation!");
@@ -54,6 +60,8 @@ func set_parameters(data):
 	var spritesheet = CachingImageTexture.get(result.get("path_to_spritesheet"))
 	var splatmap = CachingImageTexture.get(data[1])
 	var heightmap = tile.get_texture_recursive("dhm", tile.get_osm_zoom(), 0)
+	
+	heightmap.flags = 4  # Enable filtering for smooth slopes
 	
 	var sprite_count = result.get("number_of_sprites")
 	
@@ -69,5 +77,3 @@ func set_parameters(data):
 	
 	tile.set_heightmap_params_for_obj(data[0].process_material)
 	tile.set_heightmap_params_for_obj(data[0].material_override)
-	
-	done_loading()

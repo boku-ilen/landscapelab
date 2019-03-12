@@ -38,6 +38,9 @@ func set_spacing(new_spacing):
 
 func get_spacing():
 	return spacing
+	
+func set_mesh(mesh):
+	draw_pass_1 = mesh
 
 func _ready():
 	# now that our material has been constructed, re-issue these
