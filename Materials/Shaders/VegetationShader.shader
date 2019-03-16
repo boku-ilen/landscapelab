@@ -8,7 +8,7 @@ uniform int sprite_count;
 uniform vec3 pos;
 uniform float size;
 
-varying vec3 v_obj_pos;
+varying flat vec3 v_obj_pos;
 
 void vertex () {
 	// Calculate the in-engine position of this object
