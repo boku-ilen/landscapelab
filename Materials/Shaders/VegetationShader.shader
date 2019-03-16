@@ -4,6 +4,7 @@ render_mode cull_disabled;
 uniform sampler2D distribution;
 uniform sampler2D spritesheet : hint_albedo;
 uniform int sprite_count;
+uniform float distribution_pixels_per_meter;
 
 uniform vec3 pos;
 uniform float size;
@@ -22,8 +23,8 @@ void fragment () {
 	METALLIC = 0.1;
 	SPECULAR = 0.4;
 	
-	// Turn the engine position of this object into a whole number
-	vec3 obj_pos = v_obj_pos;
+	// Convert global position to according position on distribution map (between 0,0 and 1,1)
+	vec3 obj_pos = v_obj_pos * distribution_pixels_per_meter;
 
 	obj_pos.x = obj_pos.x - floor(obj_pos.x);
 	obj_pos.z = obj_pos.z - floor(obj_pos.z);
