@@ -6,6 +6,7 @@ extends Node
 #
 
 var _path_imagetexture_dict: Dictionary = {}
+var _flags = 0
 
 # Returns the image at the given path as an ImageTexture.
 # If the image has been loaded before, it is returned from the cache dictionary.
@@ -23,13 +24,13 @@ func get_cropped(path, origin, size):
 	
 	var img = _get_image_from_dict(path)
 	
-	var rec_origin = Vector2(img.get_size().x * origin.x, img.get_size().y * origin.y)
-	var rec_size = Vector2(img.get_size().x * size.x, img.get_size().y * size.y)
+	var rec_origin = Vector2(int(img.get_size().x * origin.x), int(img.get_size().y * origin.y))
+	var rec_size = Vector2(int(img.get_size().x * size.x), int(img.get_size().y * size.y))
 	
 	var new_tex = img.get_rect(Rect2(rec_origin, rec_size))
 
 	var new_tex_texture = ImageTexture.new()
-	new_tex_texture.create_from_image(new_tex, 8)
+	new_tex_texture.create_from_image(new_tex, _flags)
 	
 	return new_tex_texture
 
@@ -39,7 +40,7 @@ func _load_into_dict(path):
 	var img = Image.new()
 	img.load(path)
 	var img_tex = ImageTexture.new()
-	img_tex.create_from_image(img, 8)
+	img_tex.create_from_image(img, _flags)
 	
 	# Add to dictionary and return
 	_path_imagetexture_dict[path] = [img_tex, img]

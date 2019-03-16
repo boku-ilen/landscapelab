@@ -176,6 +176,16 @@ func set_modules_invisible():
 # Returns true if this is a leaf tile - it is being displayed and has no higher LOD children.
 func is_leaf_tile():
 	return modules.visible
+	
+
+# Returns the x and z position in a 2D vector
+func get_pos_vector2d() -> Vector2:
+	return Vector2(translation.x, translation.z)
+	
+	
+# Returns a 2D vector with the tile size in both the x and the y field (since it is a square)
+func get_size_vector2d() -> Vector2:
+	return Vector2(size, size)
 
 
 # Use the LOD at this tile (Make this mesh visible, and delete children modules) - for example, converge from 4 tiles

@@ -13,9 +13,9 @@ func _ready():
 	# Start THREAD_COUNT threads
 	threads.resize(THREAD_COUNT)
 
-	for th in threads:
-		th = Thread.new()
-		th.start(self, "thread_worker")
+	for i in range(0, THREAD_COUNT):
+		threads[i] = Thread.new()
+		threads[i].start(self, "thread_worker")
 
 # This is the function which the thread workers are constantly running
 func thread_worker(data):
