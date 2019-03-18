@@ -24,17 +24,19 @@
             1000,
             600,
             200,
-            100
+            100,
+            60
         ],
         "module-path": "res://World/LODTerrain/Modules/",
         "modules": [
             ["TerrainModule.tscn"],
             [],
             ["TerrainColliderModule.tscn"],
-            ["Vegetation/LargeTreeModule.tscn"],
+            [],
+            [],
             ["Vegetation/SmallTreeModule.tscn"],
-            ["Vegetation/LargeBushModule.tscn"],
-            ["Vegetation/SmallBushModule.tscn", "Vegetation/HerbageModule.tscn"]
+            [],
+            ["Vegetation/HerbageModule.tscn"],
         ],
         "player-bounding-radius": 10000,
             
@@ -46,9 +48,11 @@
     
     "herbage": {
         "rows-at-lod": {
-            "5": 50,
-            "6": 70
-            
+            "3": 10,
+            "4": 20,
+            "5": 30,
+            "6": 40,
+            "7": 50
         }
     },
 

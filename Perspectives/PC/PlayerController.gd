@@ -7,6 +7,9 @@ var mouse_sensitivity = 0.1
 var camera_angle = 0
 var velocity = Vector3()
 
+var walking = false
+
+var WALK_SPEED = Settings.get_setting("player", "ground-speed")
 var FLY_SPEED = Settings.get_setting("player", "fly-speed")
 var SPRINT_SPEED = Settings.get_setting("player", "fly-speed-sprint")
 var SNEAK_SPEED = Settings.get_setting("player", "fly-speed-sneak")
@@ -51,6 +54,9 @@ func _input(event):
 			camera.rotate_x(deg2rad(change))
 			camera_angle += change
 			
+	elif event.is_action_pressed("pc_toggle_walk"):
+		walking = not walking
+
 func fly(delta):
 	# reset the direction of the player
 	var direction = Vector3()
@@ -76,7 +82,15 @@ func fly(delta):
 		direction *= SNEAK_SPEED / FLY_SPEED
 	
 	# where would the player go at max speed
-	var target = direction * FLY_SPEED
+	var target
+	
+	if walking:
+		target = direction * WALK_SPEED
+	else:
+		target = direction * FLY_SPEED
 	
 	# move
-	translation += target * delta
+	move_and_slide(target)
+	
+	if walking:
+		translation = WorldPosition.get_position_on_ground(translation)
