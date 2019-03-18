@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Perspectives/PC/ThirdPersonController.gd" type="Script" id=1]
+[ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=2]
 
 [node name="ThirdPersonPC" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2000, 0 )
@@ -40,4 +41,9 @@ margin_top = 18.0
 margin_right = 300.0
 margin_bottom = 32.0
 text = "In UI elements such as these"
+
+[node name="Datetime" parent="InfoUI/HBoxContainer/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 36.0
+margin_right = 300.0
+margin_bottom = 104.0
 
