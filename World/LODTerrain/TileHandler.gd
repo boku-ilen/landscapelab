@@ -6,7 +6,7 @@ extends Spatial
 # In scenes with LOD terrain, this is what's placed in the scene tree.
 #
 
-var tile = preload("res://World/LODTerrain/WorldTile.tscn")
+var tile = preload("res://World/LODTerrain/WorldTile/WorldTile.tscn")
 var GRIDSIZE = Settings.get_setting("lod", "level-0-tile-size") # Width and height of a tile (the biggest possible LOD terrain chunk, which then splits accordingly)
 
 onready var tiles = get_node("Tiles")

@@ -8,7 +8,6 @@ extends Spatial
 #
 
 # Nodes
-onready var this_scene = load("res://World/LODTerrain/WorldTile.tscn")
 onready var modules = get_node("Modules")
 onready var children = get_node("Children")
 
@@ -29,9 +28,6 @@ var subdiv_mod = 1
 
 var subdiv : int = 16
 
-var num_modules : int = 0 # Number of modules this tile has
-var num_modules_loaded : int = 0 # Incremented when a module finishes loading
-
 const NUM_CHILDREN = 4 # Number of children, will likely always stay 4 because it's a quadtree
 var num_children_loaded : int = 0 # Incremented when a child finishes loading
 
@@ -39,20 +35,14 @@ var will_activate_with_last_player_pos # Can be set in init() to immediately act
 
 # Settings
 var max_lods = Settings.get_setting("lod", "distances")
-var module_path = Settings.get_setting("lod", "module-path")
-var module_scenes = Settings.get_setting("lod", "modules")
 var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
 
 # Signals
-signal module_done_loading # Emitted by modules once they've finished loading and are ready to be displayed
 signal tile_done_loading # Emitted by the tile once all modules have finished loading -> the tile is ready
 
 
 func _ready():
-	connect("module_done_loading", self, "_on_module_done_loading")
-	
 	if initialized:
-		spawn_modules()
 
 		if will_activate_with_last_player_pos:
 			activate(will_activate_with_last_player_pos)
@@ -60,26 +50,6 @@ func _ready():
 		print("Warning: Uninitialized WorldTile created")
 	
 	created = true
-
-
-func spawn_modules():
-	var index = 0
-	var modules_to_spawn = []
-	
-	# Get the number of modules and select the modules we will want to spawn
-	for mds in module_scenes:
-		if index <= lod: # This tile's lod is equal to or greater than the module's requirement -> spawn it
-			for md in mds:
-				num_modules += 1
-				modules_to_spawn.append(load(module_path + md).instance() as Module)
-		else:
-			break; # We arrived at the higher LODs, which means we can stop now
-			
-		index += 1
-	
-	# Spawn the modules we selected previously
-	for module in modules_to_spawn:
-		modules.add_child(module)
 
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
@@ -92,16 +62,6 @@ func init(s, lod_level, activate_pos=null, _subdiv_mod=1):
 	initialized = true
 	
 	will_activate_with_last_player_pos = activate_pos
-
-
-# Called when the module_done_loading signal is emitted.
-# If all modules are now done, emits tile_done_loading
-func _on_module_done_loading():
-	num_modules_loaded += 1
-	
-	if num_modules_loaded == num_modules:
-		emit_signal("tile_done_loading")
-		done_loading = true
 
 
 # Called when a child tile is done loading.
@@ -152,14 +112,6 @@ func set_heightmap_params_for_obj(obj):
 	obj.set_shader_param("size_without_skirt", size)
 
 
-# Removes all the higher LOD children
-func clear_children():
-	for child in children.get_children():
-		child.delete()
-		
-	num_children_loaded = 0
-
-
 func delete():
 	to_be_deleted = true
 	visible = false
@@ -192,7 +144,7 @@ func get_size_vector2d() -> Vector2:
 # to 1
 func converge():
 	modules.visible = true
-	clear_children()
+	children.clear_children()
 	has_split = false
 
 
@@ -309,46 +261,7 @@ func split(dist_to_player):
 	has_split = true
 	
 	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_instantiate_children", [_subdiv_mod]))
-	_instantiate_children([1])
-
-
-# Here, the actual splitting happens - this function can be run in a thread
-func _instantiate_children(data):
-	# The children are simply named from 0 to 3:
-	#  ----> x
-	# | 0 2
-	# | 1 3
-	# v y
-	var cur_name = 0
-	
-	# Hide children while they're being built
-	children.visible = false
-	
-	if children.has_node("0"): # The nodes are already there, but invisible
-		for i in range(0, 3):
-			children.get_node(str(i)).visible = true
-	else:
-		# Add 4 children
-		for x in range(0, 2):
-			for y in range(0, 2):
-				var xy_vec = Vector2(x, y)
-				
-				var child = this_scene.instance()
-				
-				# Set location
-				var offset = Vector3(x - 0.5, 0, y - 0.5)  * size/2.0
-				child.translation = offset
-				
-				child.offset_from_parent = xy_vec / 2 # fields are 0 or 0.5
-	
-				# Apply
-				child.name = String(cur_name)
-				cur_name += 1
-	
-				child.init((size / 2.0), lod + 1, last_player_pos, data[0])
-				child.connect("tile_done_loading", self, "_on_child_tile_finished")
-	
-				children.call_deferred("add_child", child)
+	children.instantiate_children([1])
 
 
 # Gets the distance of the center of the tile to the last known player location
