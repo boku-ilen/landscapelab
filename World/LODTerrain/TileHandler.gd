@@ -37,6 +37,8 @@ func _ready():
 	# Spawn the bare minimum of tiles
 	
 	Offset.connect("shift_world", self, "move_world")
+	
+	WorldPosition.set_handler(self)
 
 func _input(event):
 	if event.is_action_pressed("toggle_lod_update"):
