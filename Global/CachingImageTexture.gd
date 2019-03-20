@@ -6,33 +6,41 @@ extends Node
 #
 
 var _path_imagetexture_dict: Dictionary = {}
+var _load_mutex = Mutex.new()
 var _flags = 0
 
 # Returns the image at the given path as an ImageTexture.
 # If the image has been loaded before, it is returned from the cache dictionary.
 func get(path):
-	if !_is_in_dict(path):
-		_load_into_dict(path)
+	_load_into_dict_if_needed(path)
 		
 	return _get_texture_from_dict(path)
 
 # Returs a part of the ImageTexture at the given path. Origin and size are Vector2 with fields between 0 and 1.
 # Example: Get the bottom left quarter of an image: Origin = (0, 0.5); Size = (0.5, 0.5)
 func get_cropped(path, origin, size):
-	if !_is_in_dict(path):
-		_load_into_dict(path)
+	_load_into_dict_if_needed(path)
 	
 	var img = _get_image_from_dict(path)
+	img.lock()
 	
 	var rec_origin = Vector2(int(img.get_size().x * origin.x), int(img.get_size().y * origin.y))
 	var rec_size = Vector2(int(img.get_size().x * size.x), int(img.get_size().y * size.y))
 	
 	var new_tex = img.get_rect(Rect2(rec_origin, rec_size))
+	img.unlock()
 
 	var new_tex_texture = ImageTexture.new()
 	new_tex_texture.create_from_image(new_tex, _flags)
 	
 	return new_tex_texture
+
+# Adds the image at the given path to the cache dictionary if it is not there yet.
+func _load_into_dict_if_needed(path):
+	_load_mutex.lock()
+	if !_is_in_dict(path):
+		_load_into_dict(path)
+	_load_mutex.unlock()
 
 # Adds the image at the given path to the cache dictionary as an ImageTexture.
 func _load_into_dict(path):
