@@ -25,18 +25,18 @@
             600,
             200,
             100,
-            60
+            60,
         ],
         "module-path": "res://World/LODTerrain/Modules/",
         "modules": [
             ["TerrainModule.tscn"],
             [],
             ["TerrainColliderModule.tscn"],
-            [],
-            [],
+            ["Vegetation/LargeTreeModule.tscn"],
             ["Vegetation/SmallTreeModule.tscn"],
-            [],
-            ["Vegetation/HerbageModule.tscn"],
+            ["Vegetation/LargeBushModule.tscn"],
+            ["Vegetation/SmallBushModule.tscn", "Vegetation/HerbageModule.tscn"],
+
         ],
         "player-bounding-radius": 10000,
             
@@ -52,7 +52,7 @@
             "4": 20,
             "5": 30,
             "6": 40,
-            "7": 50
+            "7": 70,
         }
     },
 

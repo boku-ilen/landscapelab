@@ -6,6 +6,7 @@ uniform sampler2D tex : hint_albedo;
 uniform sampler2D splat;
 
 uniform sampler2D vegetation_tex1 : hint_albedo;
+uniform int vegetation_id1;
 
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
 
@@ -77,7 +78,7 @@ void vertex() {
 void fragment(){
 	vec3 color;
 	
-	if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == 1) {
+	if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id1) {
 		color = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 	} else {
 		color = texture(tex, get_relative_pos(UV)).rgb;

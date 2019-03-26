@@ -24,25 +24,29 @@ func get_texture_from_server(filename):
 # use_cache currently makes this method significantly slower and causes crashes.
 # Perhaps it will not be necesasry anyways. If it is, we should revisit this issue.
 func getJson(url, use_cache=false):
-	cache_mutex.lock()
+#	cache_mutex.lock()
 	if not use_cache or not json_cache.has(url):
-		json_cache[url] = [false, null]
-		cache_mutex.unlock()
+#		json_cache[url] = [false, null]
+#		cache_mutex.unlock()
 		
 		var ret = try_to_get_json(url)
-		var i = 0
-		var timeout = [10,30,60]
+#		var i = 0
+#		var timeout = [10,30,60]
+#		
+		# TODO: Comment this back in
+		# It has currently been disabled because ret can be null if the server responds with 404, and thus this will get
+		# stuck in a useless loop. Need to differentiate!
 		
-		while((!ret || (ret.has("Error") && ret.Error == "Could not connect to Host")) && i < timeout.size()):
-			logger.info("Could not connect to server retrying in %d seconds" % timeout[i])
-			OS.delay_msec(1000 * timeout[i])
-			ret = try_to_get_json(url)
-			i+=1
+#		while((!ret || (ret.has("Error") && ret.Error == "Could not connect to Host")) && i < timeout.size()):
+#			logger.info("Could not connect to server retrying in %d seconds" % timeout[i])
+#			OS.delay_msec(1000 * timeout[i])
+#			ret = try_to_get_json(url)
+#			i+=1
 		
 		# Add result to cache
-		cache_mutex.lock()
-		json_cache[url] = [true, ret]
-		cache_mutex.unlock()
+#		cache_mutex.lock()
+#		json_cache[url] = [true, ret]
+#		cache_mutex.unlock()
 		
 		return ret
 	else:
@@ -130,6 +134,7 @@ func try_to_get_json(url):
 			return json.result
 		else:  # If parse has errors
 			print("Error: ", json.error)
+			return null
 
 func get_http(url):
 	var ret = try_to_get_json(url)

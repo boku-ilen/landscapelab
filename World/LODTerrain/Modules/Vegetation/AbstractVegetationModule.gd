@@ -5,7 +5,7 @@ extends Module
 # The area can be filled with multiple different plants using a distribution image.
 #
 
-export var num_layers = 2
+export var num_layers = 1
 export var my_vegetation_layer = 4
 export(Mesh) var particle_mesh_scene
 
@@ -23,9 +23,13 @@ func _ready():
 	
 	# First, get the splatmap
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_splat_data", []))
+	#get_splat_data([])
 	
 func get_splat_data(d):
-	var result = ServerConnection.getJson("/vegetation/1.0/1.0")
+	var true_pos = tile.get_true_position()
+	
+	var result = ServerConnection.getJson("/%s/%d.0/%d.0/%d"\
+		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()])
 
 	construct_vegetation(result.get("path_to_splatmap"), result.get("ids"))
 	
@@ -35,24 +39,31 @@ func construct_vegetation(splat_path, splat_ids):
 	
 	if LODS.has(String(tile.lod)):
 		var node = 0
+		var steps = 0
+		
 		for id in splat_ids:
+			if steps >= num_layers:
+				break
+			
 			var nd = get_node(String(node))
 		
 			nd.set_rows(LODS[String(tile.lod)])
 			nd.set_spacing(tile.size / LODS[String(tile.lod)])
 			
 			if node > num_layers - 1: break
-			ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_parameters", [nd, splat_path, id, node]))
+			set_parameters([nd, splat_path, id, node])
 			node += 1
 			# Big crash improvement:
 			#set_parameters([grass, splat_path, id])
+			
+			steps += 1
 			
 	done_loading()
 		
 func set_parameters(data):
 	var result = ServerConnection.getJson("/vegetation/%d/%d" % [data[2], my_vegetation_layer])
 	
-	if result.has("Error"):
+	if not result or result.has("Error") or not result.get("path_to_spritesheet"):
 		logger.error("Could not get vegetation!");
 		return
 	

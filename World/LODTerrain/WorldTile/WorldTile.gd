@@ -286,20 +286,20 @@ func get_dist_to_player():
 
 
 # Recursively tries getting textures, starting at the current LOD, going down one LOD each step and cropping the result accordingly
-func get_texture_recursive(tex_name, zoom, steps):
+func get_texture_recursive(tex_name, zoom, steps, folder="raster"):
 	if steps > 12: # Limit recursion to 12 steps
 		return null
 		
 	var true_pos = get_true_position()
 	
-	var result = ServerConnection.getJson("/raster/%d.0/%d.0/%d.json"\
-		% [-true_pos[0], true_pos[2], zoom])
+	var result = ServerConnection.getJson("/%s/%d.0/%d.0/%d.json"\
+		% [folder, -true_pos[0], true_pos[2], zoom])
 		
 	if result.has("Error"):
 		return
 	
 	# If there is no orthophoto at this zoom level, go back recursively
-	if result.get(tex_name) == "None":
+	if result.get(tex_name) == "None" or result.get(tex_name) == null:
 		return get_texture_recursive(tex_name, zoom - 1, steps + 1)
 		
 	var tex = CachingImageTexture.get(result.get(tex_name))
