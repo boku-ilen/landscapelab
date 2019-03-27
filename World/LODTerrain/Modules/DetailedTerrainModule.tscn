@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://World/LODTerrain/Modules/TerrainModule.tscn" type="PackedScene" id=1]
+[ext_resource path="res://World/LODTerrain/Modules/DetailedTerrainModule.gd" type="Script" id=2]
+
+[node name="TerrainModule" index="0" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+

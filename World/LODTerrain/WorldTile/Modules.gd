@@ -24,8 +24,12 @@ func spawn_modules():
 	for mds in module_scenes:
 		if index <= tile.lod: # This tile's lod is equal to or greater than the module's requirement -> spawn it
 			for md in mds:
-				num_modules += 1
-				modules_to_spawn.append(load(module_path + md).instance() as Module)
+				if md.begins_with("-"):
+					modules_to_spawn.erase(md.substr(1, md.length() - 1))
+					num_modules -= 1
+				else:
+					modules_to_spawn.append(md)
+					num_modules += 1
 		else:
 			break; # We arrived at the higher LODs, which means we can stop now
 			
@@ -33,7 +37,7 @@ func spawn_modules():
 	
 	# Spawn the modules we selected previously
 	for module in modules_to_spawn:
-		add_child(module)
+		add_child(load(module_path + module).instance() as Module)
 
 
 # Called when the module_done_loading signal is emitted.

@@ -20,34 +20,13 @@ func _on_ready():
 	mesh.material_override.set_shader_param("tex", ortho)
 	mesh.material_override.set_shader_param("heightmap", dhm)
 	
-func get_textures(data):
+func get_ortho_dhm():
 	var zoom = tile.get_osm_zoom()
 	
 	ortho = tile.get_texture_recursive("ortho", zoom, 0)
 	dhm = tile.get_texture_recursive("dhm", zoom, 0)
 	
-	make_ready()
+func get_textures(data):
+	get_ortho_dhm()
 	
-#	if tile.lod > 2:
-#		var true_pos = tile.get_true_position()
-#
-#		var splat_result = ServerConnection.get_json("/%s/%d.0/%d.0/%d"\
-#			% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()])
-#
-#		if not splat_result or splat_result.has("Error") or not splat_result.has("ids"):
-#			done_loading()
-#			return
-#
-#		var result = ServerConnection.get_json("/vegetation/%d/1" % [splat_result.ids[0]])
-#
-#		if not result or result.has("Error"):
-#			done_loading()
-#			return
-#
-#		if result.has("albedo_path") and splat_result.has("path_to_splatmap"):
-#			var albedo = CachingImageTexture.get(result.get("albedo_path"))
-#			var splat = CachingImageTexture.get(splat_result.get("path_to_splatmap"))
-#
-#			mesh.material_override.set_shader_param("splat", splat)
-#			mesh.material_override.set_shader_param("vegetation_tex1", albedo)
-#			mesh.material_override.set_shader_param("vegetation_id1", splat_result.ids[0])
+	make_ready()

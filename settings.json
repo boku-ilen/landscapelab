@@ -32,7 +32,7 @@
             ["TerrainModule.tscn"],
             [],
             ["TerrainColliderModule.tscn"],
-            ["Vegetation/LargeTreeModule.tscn"],
+            ["-TerrainModule.tscn", "DetailedTerrainModule.tscn", "Vegetation/LargeTreeModule.tscn"],
             ["Vegetation/SmallTreeModule.tscn"],
             ["Vegetation/LargeBushModule.tscn"],
             ["Vegetation/SmallBushModule.tscn", "Vegetation/HerbageModule.tscn"],
