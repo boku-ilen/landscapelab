@@ -10,21 +10,21 @@ onready var col_shape = get_node("StaticBody/CollisionShape")
 var heightmap
 
 func _ready():
-	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_texture", []))
-	set_texture([])
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_textures", []))
 	
-func set_texture(data):
+func _on_ready():
+	if heightmap:
+		col_shape.shape = create_tile_collision_shape()
+	else:
+		logger.info("Couldn't get heightmap for tile!")
+	
+func get_textures(data):
 	var zoom = tile.get_osm_zoom()
 	
 	# Orthophoto and heightmap
 	heightmap = tile.get_texture_recursive("dhm", zoom, 0)
 	
-	if heightmap:
-		col_shape.shape = create_tile_collision_shape()
-	else:
-		logger.info("Couldn't get heightmap for tile at zoom %d!" % [zoom])
-	
-	done_loading()
+	make_ready()
 
 # Returns the exact height at the given position using the heightmap image
 func get_height_at_position(var pos):
