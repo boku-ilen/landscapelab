@@ -5,7 +5,7 @@ extends Module
 # The area can be filled with multiple different plants using a distribution image.
 #
 
-export var num_layers = 1
+export var num_layers = 4
 export var my_vegetation_layer = 4
 export(Mesh) var particle_mesh_scene
 

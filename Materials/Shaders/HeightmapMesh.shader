@@ -7,6 +7,12 @@ uniform sampler2D splat;
 
 uniform sampler2D vegetation_tex1 : hint_albedo;
 uniform int vegetation_id1;
+uniform sampler2D vegetation_tex2 : hint_albedo;
+uniform int vegetation_id2;
+uniform sampler2D vegetation_tex3 : hint_albedo;
+uniform int vegetation_id3;
+uniform sampler2D vegetation_tex4 : hint_albedo;
+uniform int vegetation_id4;
 
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
 
@@ -80,6 +86,12 @@ void fragment(){
 	
 	if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id1) {
 		color = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+	} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id2) {
+		color = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+	} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id3) {
+		color = texture(vegetation_tex3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+	} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id4) {
+		color = texture(vegetation_tex4, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 	} else {
 		color = texture(tex, get_relative_pos(UV)).rgb;
 	}
