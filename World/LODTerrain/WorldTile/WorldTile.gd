@@ -260,7 +260,6 @@ func split(dist_to_player):
 		
 	has_split = true
 	
-	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_instantiate_children", [_subdiv_mod]))
 	children.instantiate_children([1])
 
 
@@ -292,7 +291,7 @@ func get_texture_recursive(tex_name, zoom, steps, folder="raster"):
 		
 	var true_pos = get_true_position()
 	
-	var result = ServerConnection.getJson("/%s/%d.0/%d.0/%d.json"\
+	var result = ServerConnection.get_json("/%s/%d.0/%d.0/%d.json"\
 		% [folder, -true_pos[0], true_pos[2], zoom])
 		
 	if result.has("Error"):

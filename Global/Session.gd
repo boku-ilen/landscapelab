@@ -7,7 +7,7 @@ var scenario_url = "/location/areas/"
 
 # Returns all scenarios available on the server
 func get_scenarios():
-	var scenarios = ServerConnection.getJson(scenario_url)
+	var scenarios = ServerConnection.get_json(scenario_url)
 
 	if scenarios.has("Error"):
 		ErrorPrompt.show("Cannot load areas", scenarios["Error"])
@@ -19,7 +19,7 @@ func get_scenarios():
 func load_scenario(area):
 	logger.info("loading area %s" % area)
 	
-	var scen = ServerConnection.getJson("/location/areas/?filename=%s" % area)
+	var scen = ServerConnection.get_json("/location/areas/?filename=%s" % area)
 	
 	if scen.has("Error"):
 		ErrorPrompt.show("could not load %s" % area, scen["Error"])

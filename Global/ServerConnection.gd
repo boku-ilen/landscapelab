@@ -1,225 +1,119 @@
 extends Node
 
-# HTTPClient demo
-# This simple class can do HTTP requests, it will not block but it needs to be polled
 
-var host = Settings.get_setting("server", "ip")
-var port = Settings.get_setting("server", "port")
-
-var json_cache = {}  # TODO: Manage/clear this cache appropriately!
-var cache_mutex = Mutex.new()
-
-func get_texture_from_server(filename):
-	var texData = ServerConnection.getJson("/raster/%s" % [filename]).values()
-	var texBytes = PoolByteArray(texData)
-    
-	var img = Image.new()
-	var tex = ImageTexture.new()
+class Connection:
+	"""This Connection class wraps Godot's HTTPClient. It establishes a connection on creation and allows for requests
+	to be made to any URL on the preconfigured host and port."""
 	
-	img.load_png_from_buffer(texBytes)
-	tex.create_from_image(img)
+	var host = Settings.get_setting("server", "ip")
+	var port = Settings.get_setting("server", "port")
 	
-	return tex
-
-# use_cache currently makes this method significantly slower and causes crashes.
-# Perhaps it will not be necesasry anyways. If it is, we should revisit this issue.
-func getJson(url, use_cache=false):
-#	cache_mutex.lock()
-	if not use_cache or not json_cache.has(url):
-#		json_cache[url] = [false, null]
-#		cache_mutex.unlock()
-		
-		var ret = try_to_get_json(url)
-#		var i = 0
-#		var timeout = [10,30,60]
-#		
-		# TODO: Comment this back in
-		# It has currently been disabled because ret can be null if the server responds with 404, and thus this will get
-		# stuck in a useless loop. Need to differentiate!
-		
-#		while((!ret || (ret.has("Error") && ret.Error == "Could not connect to Host")) && i < timeout.size()):
-#			logger.info("Could not connect to server retrying in %d seconds" % timeout[i])
-#			OS.delay_msec(1000 * timeout[i])
-#			ret = try_to_get_json(url)
-#			i+=1
-		
-		# Add result to cache
-#		cache_mutex.lock()
-#		json_cache[url] = [true, ret]
-#		cache_mutex.unlock()
-		
-		return ret
-	else:
-		cache_mutex.unlock()
-		while not json_cache[url][0]:
-			pass # Wait if this request is currently being handled
-		return json_cache[url][1]
-
-func try_to_get_json(url):
-	logger.info("Trying to connect to: "+host+":"+str(port)+url)
-	var err = 0
-	var http = HTTPClient.new() # Create the Client
-
-	err = http.connect_to_host(host,port) # Connect to host/port
-	if not err == OK:
-		return JSON.parse('{"Error":"Could not connect to Host"}').result
-
-	# Wait until resolved and connected
-	while (http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING):
-		http.poll()
+	var retry = true
+	var timeout_interval = 5
 	
-	if http.get_status() != HTTPClient.STATUS_CONNECTED:
-		return JSON.parse('{"Error":"Could not connect to Host"}').result
-	
-	# Some headers
-	var headers = [
+	var _http
+	var _headers = [
 		"User-Agent: Pirulo/1.0 (Godot)",
 		"Accept: */*"
 	]
 	
-	err = http.request(HTTPClient.METHOD_GET, url, headers) # Request a page from the site (this one was chunked..)
-	if err != OK:
-		return JSON.parse('{"Error":"HTTP Request flawed"}').result
-	
-	while http.get_status() == HTTPClient.STATUS_REQUESTING:
-		# Keep polling until the request is going on
-		http.poll()
-		#OS.delay_msec(500)
-	
-	if not http.get_status() == HTTPClient.STATUS_BODY and not http.get_status() == HTTPClient.STATUS_CONNECTED:
-		return JSON.parse('{"Error":"HTTP Request failed"}').result
-	
-	logger.info("response? " + str(http.has_response())) # Site might not have a response.
-	
-	if http.has_response():
-		headers = http.get_response_headers_as_dictionary() # Get response headers
-		logger.info("code: " + str(http.get_response_code())) # Show response code
-		logger.info("**headers:\\n" + str(headers)) # Show headers
+	func _try_to_establish_connection():
+		"""Establishes an HTTP connection. If retry is enabled and the connection could not be established, it is
+		retried every timeout_interval seconds"""
 		
-		# Getting the HTTP Body
+		_http = HTTPClient.new() # Create the Client
 		
-		var rl: float = 0
-		if http.is_response_chunked():
-			# Does it use chunks?
-			logger.info("Response is Chunked!")
-		else:
-			# Or just plain Content-Length
-			var bl = http.get_response_body_length()
-			logger.info("Response Length: " + str(bl))
-			rl = bl
-
-		# This method works for both anyway
-		var rll: float = 0
-		var rb = PoolByteArray() # Array that will hold the data
-		
-		while http.get_status() == HTTPClient.STATUS_BODY:
-			# While there is body left to be read
-			http.poll()
-			#logger.info("getting a chunk")
-			var chunk = http.read_response_body_chunk() # Get a chunk
-			if chunk.size() == 0:
-				pass
-				# Got nothing, wait for buffers to fill a bit
+		var err
+		while true:
+			err = _http.connect_to_host(host,port)
+			_wait_until_resolved_and_connected()
+			
+			if retry and (err != OK or _http.get_status() != HTTPClient.STATUS_CONNECTED):
+				logger.error("Could not establish HTTP connection! Retrying...")
+				OS.delay_msec(1000 * timeout_interval)
 			else:
-				rll += chunk.size()
-				rb = rb + chunk # Append to read buffer
+				break
+	
+	func _wait_until_resolved_and_connected():
+		"""Waits for the HTTP client to connect and resolve its status."""
 		
-		# Done!
+		while (_http.get_status() == HTTPClient.STATUS_CONNECTING or _http.get_status() == HTTPClient.STATUS_RESOLVING):
+			_http.poll()
 		
-		logger.info("bytes got: " + str(rb.size()))
-		var text = rb.get_string_from_ascii()
+	func _wait_until_request_done():
+		"""Waits for the HTTP client's request to be done."""
 		
-		var json = JSON.parse(text)
-		if json.error == OK:  # If parse OK
-			return json.result
-		else:  # If parse has errors
-			print("Error: ", json.error)
+		while _http.get_status() == HTTPClient.STATUS_REQUESTING:
+			_http.poll()
+			
+	func _get_response_body():
+		"""Parses the HTTP client's response, concatenating several chunks if necessary. Returns the whole reponse as a
+		string.
+		This function presumes that a request has been sent and a response is available."""
+		
+		var response_body = PoolByteArray() # Array that will hold the data
+			
+		while _http.get_status() == HTTPClient.STATUS_BODY:
+			_http.poll()
+
+			var chunk = _http.read_response_body_chunk()
+			
+			if chunk.size() == 0:
+				pass # Got nothing, wait for buffers to fill a bit
+			else:
+				response_body += chunk
+				
+		return response_body.get_string_from_ascii()
+		
+	func _get_response_headers():
+		"""Returns the headers of the HTTP client's response.
+		This function presumes that a request has been sent and a response is available."""
+		
+		return _http.get_response_headers_as_dictionary()
+	
+	func request(url):
+		"""Requests the given url using the HTTP client. If an error occurs, it is logged, and null is returned."""
+		
+		_try_to_establish_connection()
+		
+		var err = _http.request(HTTPClient.METHOD_GET, url, _headers)
+	
+		if err != OK:
+			logger.error("HTTP client encountered an error while making the request to %s; the request if flawed."
+				% [url])
+			
+			return null
+		
+		_wait_until_request_done()
+		
+		if not _http.get_status() == HTTPClient.STATUS_BODY and not _http.get_status() == HTTPClient.STATUS_CONNECTED:
+			logger.error("HTTP client lost connection while making the request to %s; the request failed." % [url])
+			return null
+		
+		if not _http.has_response():
+			logger.error("HTTP client did not receive a response for the given request to %s." % [url])
 			return null
 
-func get_http(url):
-	var ret = try_to_get_json(url)
-	var i = 0
-	var timeout = [10,30,60]
-	while(ret == "Error: Could not connect to Host" && i < 3):
-		logger.info("Could not connect to server retrying in %d seconds" % timeout[i])
-		#OS.delay_msec(1000 * timeout[i])
-		ret = try_to_get_http(url)
-		i+=1
-	return ret
+		var response_headers = _get_response_headers()
+		var response_body = _get_response_body()
 
-func try_to_get_http(url):
-	logger.info("Trying to connect to: "+host+":"+str(port)+url)
-	var err = 0
-	var http = HTTPClient.new() # Create the Client
+		logger.info("HTTP client successfully requested %s and received a valid response." % [url])
+		
+		return response_body
 
-	err = http.connect_to_host(host,port) # Connect to host/port
-	if not err == OK:
-		return 'Error: Could not connect to Host'
-	
-	# Wait until resolved and connected
-	while http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING:
-		http.poll()
-	
-	if http.get_status() != HTTPClient.STATUS_CONNECTED:
-		return 'Error: Could not connect to Host'
-	
-	# Some headers
-	var headers = [
-		"User-Agent: Pirulo/1.0 (Godot)",
-		"Accept: */*"
-	]
-	
-	err = http.request(HTTPClient.METHOD_GET, url, headers) # Request a page from the site (this one was chunked..)
-	if err != OK:
-		return 'Error: HTTP Request flawed'
-	
-	while http.get_status() == HTTPClient.STATUS_REQUESTING:
-		# Keep polling until the request is going on
-		http.poll()
-	
-	if not http.get_status() == HTTPClient.STATUS_BODY and not http.get_status() == HTTPClient.STATUS_CONNECTED:
-		return 'Error: HTTP Request failed'
-	
-	logger.info("response? " + str(http.has_response())) # Site might not have a response.
-	
-	if http.has_response():
-		headers = http.get_response_headers_as_dictionary() # Get response headers
-		logger.info("code: " + str(http.get_response_code())) # Show response code
-		logger.info("**headers:\\n" + str(headers)) # Show headers
-		
-		# Getting the HTTP Body
-		
-		var rl = float(0)
-		if http.is_response_chunked():
-			# Does it use chunks?
-			logger.info("Response is Chunked!")
-		else:
-			# Or just plain Content-Length
-			var bl = http.get_response_body_length()
-			logger.info("Response Length: " + str(bl))
-			rl = bl
+
+func get_json(url, use_cache=false):
+	var connection = Connection.new()
+
+	var json = JSON.parse(connection.request(url))
 			
-		
-		# This method works for both anyway
-		var rll = float(0)
-		var rb = PoolByteArray() # Array that will hold the data
-		
-		while http.get_status() == HTTPClient.STATUS_BODY:
-			# While there is body left to be read
-			http.poll()
-			#logger.info("getting a chunk")
-			var chunk = http.read_response_body_chunk() # Get a chunk
-			if chunk.size() == 0:
-				pass
-				# Got nothing, wait for buffers to fill a bit
-			else:
-				rll += chunk.size()
-				#logger.info(str(round((rll/rl)*100)) + "% finished")
-				rb = rb + chunk # Append to read buffer
-		
-		# Done!
-		
-		logger.info("bytes got: " + str(rb.size()))
-		var text = rb.get_string_from_ascii()
-		
-		return text
+	if json.error == OK:
+		return json.result
+	else:
+		logger.error("Encountered Error %s while parsing JSON." % [json.error])
+		return null
+
+func get_http(url):
+	var connection = Connection.new()
+
+	return connection.request(url)

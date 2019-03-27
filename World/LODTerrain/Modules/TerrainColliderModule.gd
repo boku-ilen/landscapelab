@@ -10,7 +10,8 @@ onready var col_shape = get_node("StaticBody/CollisionShape")
 var heightmap
 
 func _ready():
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_texture", []))
+	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_texture", []))
+	set_texture([])
 	
 func set_texture(data):
 	var zoom = tile.get_osm_zoom()

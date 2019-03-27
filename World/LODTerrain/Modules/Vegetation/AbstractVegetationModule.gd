@@ -22,13 +22,13 @@ func _ready():
 		add_child(instance)
 	
 	# First, get the splatmap
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_splat_data", []))
-	#get_splat_data([])
+	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_splat_data", []))
+	get_splat_data([])
 	
 func get_splat_data(d):
 	var true_pos = tile.get_true_position()
 	
-	var result = ServerConnection.getJson("/%s/%d.0/%d.0/%d"\
+	var result = ServerConnection.get_json("/%s/%d.0/%d.0/%d"\
 		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()])
 
 	construct_vegetation(result.get("path_to_splatmap"), result.get("ids"))
@@ -61,7 +61,7 @@ func construct_vegetation(splat_path, splat_ids):
 	done_loading()
 		
 func set_parameters(data):
-	var result = ServerConnection.getJson("/vegetation/%d/%d" % [data[2], my_vegetation_layer])
+	var result = ServerConnection.get_json("/vegetation/%d/%d" % [data[2], my_vegetation_layer])
 	
 	if not result or result.has("Error") or not result.get("path_to_spritesheet"):
 		logger.error("Could not get vegetation!");

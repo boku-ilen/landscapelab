@@ -11,8 +11,8 @@ func _ready():
 	mesh.mesh = tile.create_tile_plane_mesh()
 	tile.set_heightmap_params_for_obj(mesh.material_override)
 	
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_texture", []))
-	#set_texture([])
+	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "set_texture", []))
+	set_texture([])
 	
 func set_texture(data):
 	var zoom = tile.get_osm_zoom()
@@ -27,14 +27,14 @@ func set_texture(data):
 	if tile.lod > 2:
 		var true_pos = tile.get_true_position()
 
-		var splat_result = ServerConnection.getJson("/%s/%d.0/%d.0/%d"\
+		var splat_result = ServerConnection.get_json("/%s/%d.0/%d.0/%d"\
 			% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()])
 			
 		if not splat_result or splat_result.has("Error") or not splat_result.has("ids"):
 			done_loading()
 			return
 		
-		var result = ServerConnection.getJson("/vegetation/%d/1" % [splat_result.ids[0]])
+		var result = ServerConnection.get_json("/vegetation/%d/1" % [splat_result.ids[0]])
 		
 		if not result or result.has("Error"):
 			done_loading()

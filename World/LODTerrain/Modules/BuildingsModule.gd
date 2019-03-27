@@ -18,7 +18,7 @@ func get_building_data_from_server(d):
 	var tile_pos = tile.get_true_position()
 	var osm_z = tile.get_osm_zoom()
 	
-	var result = ServerConnection.getJson("/assetpos/get/1/%d/%d/%d.json" % [-tile_pos[0], tile_pos[2], osm_z])
+	var result = ServerConnection.get_json("/assetpos/get/1/%d/%d/%d.json" % [-tile_pos[0], tile_pos[2], osm_z])
 	
 	for obj in result:
 		# TODO: Instantiate buildings here
