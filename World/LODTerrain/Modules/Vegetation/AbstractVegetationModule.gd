@@ -5,7 +5,7 @@ extends Module
 # The area can be filled with multiple different plants using a distribution image.
 #
 
-export var num_layers = 4
+export var num_layers = 1
 export var my_vegetation_layer = 4
 export(Mesh) var particle_mesh_scene
 
@@ -13,7 +13,8 @@ var particles_scene = preload("res://World/LODTerrain/Modules/Util/HeightmapPart
 var LODS = Settings.get_setting("herbage", "rows-at-lod")
 
 var result
-var vegetation_layer_data
+var vegetation_layer_data = {}
+var heightmap
 
 func _ready():
 	for i in range(0, num_layers):
@@ -30,9 +31,13 @@ func get_splat_data(d):
 
 	result = ServerConnection.get_json("/%s/%d.0/%d.0/%d"\
 		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()])
+		
+	heightmap = tile.get_texture_recursive("dhm", tile.get_osm_zoom(), 0)
 
 	if result and result.has("ids"):
-		vegetation_layer_data = ServerConnection.get_json("/vegetation/%d/%d" % [result.get("ids")[0], my_vegetation_layer])
+		for current_index in range(0, min(result.get("ids").size(), num_layers)):
+			vegetation_layer_data[result.get("ids")[current_index]] = ServerConnection.get_json("/vegetation/%d/%d"
+				% [result.get("ids")[current_index], my_vegetation_layer])
 		
 	make_ready()
 
@@ -61,19 +66,18 @@ func construct_vegetation(splat_path, splat_ids):
 			steps += 1
 		
 func set_parameters(data):
-	if not vegetation_layer_data or vegetation_layer_data.has("Error") or not vegetation_layer_data.get("path_to_spritesheet"):
+	if not vegetation_layer_data[data[2]] or vegetation_layer_data[data[2]].has("Error") or not vegetation_layer_data[data[2]].get("path_to_spritesheet"):
 		logger.error("Could not get vegetation!");
 		return
 	
-	var distribution = CachingImageTexture.get(vegetation_layer_data.get("path_to_distribution"))
-	var spritesheet = CachingImageTexture.get(vegetation_layer_data.get("path_to_spritesheet"))
-	var distribution_pixels_per_meter = vegetation_layer_data.get("distribution_pixels_per_meter")
+	var distribution = CachingImageTexture.get(vegetation_layer_data[data[2]].get("path_to_distribution"))
+	var spritesheet = CachingImageTexture.get(vegetation_layer_data[data[2]].get("path_to_spritesheet"))
+	var distribution_pixels_per_meter = vegetation_layer_data[data[2]].get("distribution_pixels_per_meter")
 	var splatmap = CachingImageTexture.get(data[1])
-	var heightmap = tile.get_texture_recursive("dhm", tile.get_osm_zoom(), 0)
 	
 	heightmap.flags = 4  # Enable filtering for smooth slopes
 	
-	var sprite_count = vegetation_layer_data.get("number_of_sprites")
+	var sprite_count = vegetation_layer_data[data[2]].get("number_of_sprites")
 	
 	data[0].material_override.set_shader_param("pos", translation)
 	data[0].material_override.set_shader_param("spritesheet", spritesheet)
