@@ -48,6 +48,10 @@ WorldPosition="*res://Global/WorldPosition.gd"
 window/size/width=1920
 window/size/height=1080
 
+[editor_plugins]
+
+enabled=PoolStringArray( "dscn_io" )
+
 [gdnative]
 
 singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib" ]
