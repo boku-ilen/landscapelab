@@ -102,14 +102,22 @@ class Connection:
 		return response_body
 
 
-func get_json(url, use_cache=false):
+var json_cache = {}
+
+
+func get_json(url, use_cache=true):
+	if use_cache and json_cache.has(url):
+		return json_cache.get(url)
+			
 	var connection = Connection.new()
 
 	var json = JSON.parse(connection.request(url))
-			
+	
 	if json.error == OK:
+		json_cache[url] = json.result
 		return json.result
 	else:
+		json_cache[url] = 0
 		logger.error("Encountered Error %s while parsing JSON." % [json.error])
 		return null
 
