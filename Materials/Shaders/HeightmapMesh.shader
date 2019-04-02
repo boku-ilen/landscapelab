@@ -6,12 +6,16 @@ uniform sampler2D tex : hint_albedo;
 uniform sampler2D splat;
 
 uniform sampler2D vegetation_tex1 : hint_albedo;
+uniform sampler2D vegetation_normal1 : hint_normal;
 uniform int vegetation_id1;
 uniform sampler2D vegetation_tex2 : hint_albedo;
+uniform sampler2D vegetation_normal2 : hint_normal;
 uniform int vegetation_id2;
 uniform sampler2D vegetation_tex3 : hint_albedo;
+uniform sampler2D vegetation_normal3 : hint_normal;
 uniform int vegetation_id3;
 uniform sampler2D vegetation_tex4 : hint_albedo;
+uniform sampler2D vegetation_normal4 : hint_normal;
 uniform int vegetation_id4;
 
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
@@ -22,9 +26,11 @@ uniform float height_range = 1500;
 uniform float subdiv;
 uniform float size;
 uniform float size_without_skirt;
-uniform float tex_factor = 0.5; // 0.5 means one Godot meter will have half the texture
+uniform float tex_factor = 0.25; // 0.5 means one Godot meter will have half the texture
 
 uniform float RADIUS = 6371000; // average earth radius in meters
+
+varying vec3 normal;
 
 // Get the value by which vertex at given point must be lowered to simulate the earth's curvature 
 float get_curve_offset(float distance_squared) {
@@ -78,23 +84,30 @@ void vertex() {
 	// e is the offset factor. Note: This might be dependent on the picture resolution! The current value works for my test images.
 	float e = 1.0/20.0;
 
-	NORMAL = normalize(vec3(-get_height_no_falloff(UV + vec2(e, 0.0)) + get_height_no_falloff(UV - vec2(e, 0.0)), 10.0 , -get_height_no_falloff(UV + vec2(0.0, e)) + get_height_no_falloff(UV - vec2(0.0, e))));
+	normal = normalize(vec3(-get_height_no_falloff(UV + vec2(e, 0.0)) + get_height_no_falloff(UV - vec2(e, 0.0)), 10.0 , -get_height_no_falloff(UV + vec2(0.0, e)) + get_height_no_falloff(UV - vec2(0.0, e))));
 }
 
 void fragment(){
 	vec3 color;
+	vec3 current_normal = normal;
 	
 	if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id1) {
 		color = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+		current_normal = texture(vegetation_normal1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 	} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id2) {
 		color = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+		current_normal = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 	} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id3) {
 		color = texture(vegetation_tex3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+		current_normal = texture(vegetation_normal3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 	} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id4) {
 		color = texture(vegetation_tex4, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+		current_normal = texture(vegetation_normal4, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 	} else {
 		color = texture(tex, get_relative_pos(UV)).rgb;
 	}
 	
+	// TODO: Still also use the terrain normal, not only the texture, here!
+	NORMALMAP = current_normal * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
 	ALBEDO = color;
 }

@@ -5,6 +5,8 @@ var splatmap
 
 var vegetations = []
 var albedos = []
+var normals = []
+
 var vegetation_max = 4
 
 func get_splat_data():
@@ -23,6 +25,7 @@ func get_splat_data():
 		var result = ServerConnection.get_json("/vegetation/%d/1" % [splat_result.ids[i]])
 		vegetations.append(result)
 		albedos.append(CachingImageTexture.get(result.get("albedo_path")))
+		normals.append(CachingImageTexture.get(result.get("normal_path")))
 
 func get_textures(data):
 	get_ortho_dhm()
@@ -45,5 +48,9 @@ func _on_ready():
 				mesh.material_override.set_shader_param("splat", splatmap)
 				mesh.material_override.set_shader_param("vegetation_tex%d" % [current_index + 1], albedo)
 				mesh.material_override.set_shader_param("vegetation_id%d" % [current_index + 1], splat_result.ids[current_index])
+				
+				if result.has("normal_path"):
+					var normal = normals[current_index]
+					mesh.material_override.set_shader_param("vegetation_normal%d" % [current_index + 1], normal)
 				
 			current_index += 1
