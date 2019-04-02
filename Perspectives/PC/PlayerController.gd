@@ -21,6 +21,10 @@ onready var camera = head.get_node("Camera")
 # This function returns the true world position of the player in int.
 func get_true_position():
 	return Offset.to_world_coordinates(translation)
+	
+func get_look_direction():
+	# TODO: The x-coordinate seems right, but the z-coordinate acts strangely...
+	return camera.global_transform.basis.x
 
 # Shift the player's in-engine translation by a certain offset, but not the player's true coordinates.
 func shift(delta_x, delta_z):
@@ -43,6 +47,7 @@ func _physics_process(delta):
 	
 	# Reflect new position in global PlayerInfo
 	PlayerInfo.update_player_pos(translation)
+	PlayerInfo.update_player_look_direction(get_look_direction())
 
 func _input(event):
 	if event is InputEventMouseMotion:
