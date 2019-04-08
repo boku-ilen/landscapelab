@@ -106,10 +106,12 @@ class Connection:
 
 
 var json_cache = {}
-
+var cache_mutex = Mutex.new()
 
 func get_json(url, use_cache=true):
+	cache_mutex.lock()
 	if use_cache and json_cache.has(url):
+		cache_mutex.unlock()
 		while not json_cache[url][0]:
 			OS.delay_msec(50) # Wait for the current request to finish
 			# TODO: Not delaying here causes Godot to crash. Is this safe?
@@ -117,16 +119,20 @@ func get_json(url, use_cache=true):
 		return json_cache.get(url)[1]
 		
 	json_cache[url] = [false, null]
+	cache_mutex.unlock()
 			
 	var connection = Connection.new()
 
 	var json = JSON.parse(connection.request(url))
 	
+	cache_mutex.lock()
 	if json.error == OK:
 		json_cache[url] = [true, json.result]
+		cache_mutex.unlock()
 		return json.result
 	else:
 		json_cache[url] = [true, 0]
+		cache_mutex.unlock()
 		logger.error("Encountered Error %s while parsing JSON." % [json.error])
 		return null
 
