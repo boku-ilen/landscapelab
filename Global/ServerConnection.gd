@@ -10,6 +10,7 @@ class Connection:
 	
 	var retry = true
 	var timeout_interval = 5
+	var delay_interval_msec = 50
 	
 	var _http
 	var _headers = [
@@ -39,12 +40,14 @@ class Connection:
 		
 		while (_http.get_status() == HTTPClient.STATUS_CONNECTING or _http.get_status() == HTTPClient.STATUS_RESOLVING):
 			_http.poll()
+			OS.delay_msec(delay_interval_msec)
 		
 	func _wait_until_request_done():
 		"""Waits for the HTTP client's request to be done."""
 		
 		while _http.get_status() == HTTPClient.STATUS_REQUESTING:
 			_http.poll()
+			OS.delay_msec(delay_interval_msec)
 			
 	func _get_response_body():
 		"""Parses the HTTP client's response, concatenating several chunks if necessary. Returns the whole reponse as a
@@ -107,17 +110,23 @@ var json_cache = {}
 
 func get_json(url, use_cache=true):
 	if use_cache and json_cache.has(url):
-		return json_cache.get(url)
+		while not json_cache[url][0]:
+			OS.delay_msec(50) # Wait for the current request to finish
+			# TODO: Not delaying here causes Godot to crash. Is this safe?
+			
+		return json_cache.get(url)[1]
+		
+	json_cache[url] = [false, null]
 			
 	var connection = Connection.new()
 
 	var json = JSON.parse(connection.request(url))
 	
 	if json.error == OK:
-		json_cache[url] = json.result
+		json_cache[url] = [true, json.result]
 		return json.result
 	else:
-		json_cache[url] = 0
+		json_cache[url] = [true, 0]
 		logger.error("Encountered Error %s while parsing JSON." % [json.error])
 		return null
 
