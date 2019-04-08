@@ -4,6 +4,7 @@ shader_type spatial;
 uniform sampler2D heightmap;
 uniform sampler2D tex : hint_albedo;
 uniform sampler2D splat;
+uniform int water_splat_id;
 
 uniform sampler2D vegetation_tex1 : hint_albedo;
 uniform sampler2D vegetation_normal1 : hint_normal;
@@ -18,19 +19,17 @@ uniform sampler2D vegetation_tex4 : hint_albedo;
 uniform sampler2D vegetation_normal4 : hint_normal;
 uniform int vegetation_id4;
 
-uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
+varying vec3 normal;
+uniform float tex_factor = 0.25; // 0.5 means one Godot meter will have half the texture
 
 // Global parameters - will need to be the same in all shaders:
-uniform float height_range = 1500;
+uniform float height_range = 500;
 
 uniform float subdiv;
 uniform float size;
 uniform float size_without_skirt;
-uniform float tex_factor = 0.25; // 0.5 means one Godot meter will have half the texture
 
 uniform float RADIUS = 6371000; // average earth radius in meters
-
-varying vec3 normal;
 
 // Get the value by which vertex at given point must be lowered to simulate the earth's curvature 
 float get_curve_offset(float distance_squared) {
@@ -72,6 +71,10 @@ float get_height(vec2 pos) {
 void vertex() {
 	// Apply the height of the heightmap at this pixel
 	VERTEX.y = get_height(UV);
+	
+	if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == water_splat_id) {
+		VERTEX.y -= 50.0; // TODO: This will become deprecated once water is precalculated into the heightmap!
+	}
 	
 	// Apply the curvature based on the position of the current camera
 	vec3 world_pos = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;

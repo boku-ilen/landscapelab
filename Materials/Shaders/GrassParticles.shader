@@ -14,7 +14,7 @@ uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
 uniform vec3 tile_pos;
 
 // Global parameters - will need to be the same in all shaders:
-uniform float height_range = 1500;
+uniform float height_range = 500;
 
 uniform float subdiv;
 uniform float size;

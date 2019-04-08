@@ -9,6 +9,8 @@ var normals = []
 
 var vegetation_max = 4
 
+var WATER_SPLAT_ID = Settings.get_setting("water", "water-splat-id")
+
 func get_splat_data():
 	var true_pos = tile.get_true_position()
 
@@ -39,11 +41,13 @@ func _on_ready():
 	if splat_result and splat_result.has("path_to_splatmap"):
 		var current_index = 0
 		
+		mesh.material_override.set_shader_param("water_splat_id", WATER_SPLAT_ID)
+		mesh.material_override.set_shader_param("splat", splatmap)
+		
 		for result in vegetations:
 			if result and result.has("albedo_path"):
 				var albedo = albedos[current_index]
 
-				mesh.material_override.set_shader_param("splat", splatmap)
 				mesh.material_override.set_shader_param("vegetation_tex%d" % [current_index + 1], albedo)
 				mesh.material_override.set_shader_param("vegetation_id%d" % [current_index + 1], splat_result.ids[current_index])
 				
