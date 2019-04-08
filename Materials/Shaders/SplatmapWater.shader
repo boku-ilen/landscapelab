@@ -80,11 +80,13 @@ void vertex() {
 }
 
 void fragment () {
+	float water_check_lenience = 0.03; // Used to get slightly more water than the splatmap is telling us to make sure it reaches the shores
+	
 	if (!(int(texture(splatmap, UV).r * 255.0) == water_id)
-		&& !(int(texture(splatmap, UV + vec2(0.1, 0.1)).r * 255.0) == water_id)
-		&& !(int(texture(splatmap, UV - vec2(0.1, 0.1)).r * 255.0) == water_id)
-		&& !(int(texture(splatmap, UV + vec2(0.1, -0.1)).r * 255.0) == water_id)
-		&& !(int(texture(splatmap, UV + vec2(-0.1, 0.1)).r * 255.0) == water_id)) {
+		&& !(int(texture(splatmap, UV + vec2(water_check_lenience, water_check_lenience)).r * 255.0) == water_id)
+		&& !(int(texture(splatmap, UV - vec2(water_check_lenience, water_check_lenience)).r * 255.0) == water_id)
+		&& !(int(texture(splatmap, UV + vec2(water_check_lenience, -water_check_lenience)).r * 255.0) == water_id)
+		&& !(int(texture(splatmap, UV + vec2(-water_check_lenience, water_check_lenience)).r * 255.0) == water_id)) {
 		ALPHA = 0.0;
 		return;
 	}
