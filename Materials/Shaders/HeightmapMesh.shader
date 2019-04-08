@@ -84,8 +84,8 @@ void vertex() {
 	VERTEX.y -= get_curve_offset(dist_to_middle);
 	
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
-	// e is the offset factor. Note: This might be dependent on the picture resolution! The current value works for my test images.
-	float e = 1.0/20.0;
+	// e is the offset factor. (Not quite sure about those values yet, but they work nicely!)
+	float e = 1.0/(size/250.0);
 
 	normal = normalize(vec3(-get_height_no_falloff(UV + vec2(e, 0.0)) + get_height_no_falloff(UV - vec2(e, 0.0)), 10.0 , -get_height_no_falloff(UV + vec2(0.0, e)) + get_height_no_falloff(UV - vec2(0.0, e))));
 }
@@ -111,6 +111,6 @@ void fragment(){
 	}
 	
 	// TODO: Still also use the terrain normal, not only the texture, here!
-	NORMALMAP = current_normal * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
+	NORMALMAP = normalize(normal + current_normal * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0));
 	ALBEDO = color;
 }
