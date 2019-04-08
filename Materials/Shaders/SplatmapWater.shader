@@ -1,7 +1,9 @@
 shader_type spatial;
 
 // Parameters to be passed in GDscript:
-uniform sampler2D water_map;
+uniform sampler2D splatmap;
+uniform int water_id;
+
 uniform sampler2D water_normal;
 uniform sampler2D small_noise;
 
@@ -19,14 +21,17 @@ varying float height;
 
 void vertex () {
 	// Apply height to the vertex depending on the blue value in splatmap
-	height = texture(water_map, UV).b;
-	VERTEX.y = height;
+	// TODO: Where to get height from?
+	// height = texture(water_map, UV).b;
+	// VERTEX.y = height;
 }
 
 void fragment () {
-	// Amount of water at this pixel - alpha value of 0 means no water
-    float water_at_location = texture(water_map, UV).a;
-	ALPHA = transparency * water_at_location;
+	if (!(int(texture(splatmap, UV).r * 255.0) == water_id)) {
+		ALPHA = 0.0;
+		return;
+	}
+	ALPHA = transparency;
 	
 	// sample our depth buffer
 	float depth = texture(DEPTH_TEXTURE, SCREEN_UV).r;
@@ -41,7 +46,7 @@ void fragment () {
 	ALPHA = clamp(1.0 - att, 0.0, 1.0);
 	
 	// Apply a shade of blue to the material
-	ALBEDO = color *  transparency * water_at_location;
+	ALBEDO = color *  transparency;
 	
 	// Apply the normal map texture, constantly offset it based on time to create a wave effect
 	vec2 uv1 = UV * uv_scale + vec2(-TIME * time_scale, 1.0);

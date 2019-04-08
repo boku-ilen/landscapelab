@@ -41,10 +41,8 @@ func _on_ready():
 		
 		for result in vegetations:
 			if result and result.has("albedo_path"):
-				var time0 = OS.get_system_time_msecs()
 				var albedo = albedos[current_index]
-				print("Loading took %d" % [OS.get_system_time_msecs() - time0])
-		
+
 				mesh.material_override.set_shader_param("splat", splatmap)
 				mesh.material_override.set_shader_param("vegetation_tex%d" % [current_index + 1], albedo)
 				mesh.material_override.set_shader_param("vegetation_id%d" % [current_index + 1], splat_result.ids[current_index])
