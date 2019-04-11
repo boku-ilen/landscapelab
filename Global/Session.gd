@@ -5,6 +5,7 @@ var scenario
 
 var scenario_url = "/location/areas/"
 
+
 # Returns all scenarios available on the server
 func get_scenarios():
 	var scenarios = ServerConnection.get_json(scenario_url)
@@ -15,10 +16,12 @@ func get_scenarios():
 	
 	return scenarios["Areas"]
 
+
 # Set the scenario variable to the scenario corresponding to the passed area
 func load_scenario(area):
 	logger.info("loading area %s" % area)
 	
+	# FIXME: this URL does not exist anymore - the scenario is retrieved different now...
 	var scen = ServerConnection.get_json("/location/areas/?filename=%s" % area)
 	
 	if scen.has("Error"):
@@ -27,8 +30,10 @@ func load_scenario(area):
 		
 	set_scenario(scen)
 
+
 func set_scenario(sc):
 	scenario = sc
-	
+
+
 func get_scenario():
 	return scenario

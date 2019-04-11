@@ -16,6 +16,7 @@ var result
 var vegetation_layer_data = {}
 var heightmap
 
+
 func _ready():
 	for i in range(0, num_layers):
 		var instance = particles_scene.instance()
@@ -25,7 +26,8 @@ func _ready():
 	
 	# First, get the splatmap
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_splat_data", []))
-	
+
+
 func get_splat_data(d):
 	var true_pos = tile.get_true_position()
 
@@ -41,10 +43,12 @@ func get_splat_data(d):
 		
 	make_ready()
 
+
 func _on_ready():
 	if result:
 		construct_vegetation(result.get("path_to_splatmap"), result.get("ids"))
-	
+
+
 func construct_vegetation(splat_path, splat_ids):
 	if LODS.has(String(tile.lod)):
 		var node = 0
@@ -64,7 +68,8 @@ func construct_vegetation(splat_path, splat_ids):
 			
 			node += 1
 			steps += 1
-		
+
+
 func set_parameters(data):
 	if not vegetation_layer_data[data[2]] or vegetation_layer_data[data[2]].has("Error") or not vegetation_layer_data[data[2]].get("path_to_spritesheet"):
 		logger.error("Could not get vegetation!");

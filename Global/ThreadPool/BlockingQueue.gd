@@ -5,6 +5,7 @@ var _mutex = Mutex.new()
 
 var _queue = []
 
+
 func enqueue(val):
 	while _mutex.try_lock() == ERR_BUSY:
 		continue
@@ -12,6 +13,7 @@ func enqueue(val):
 	_queue.push_back(val)
 	_mutex.unlock()
 	_sem.post()
+
 
 func dequeue():
 	if _sem.wait() == ERR_BUSY:

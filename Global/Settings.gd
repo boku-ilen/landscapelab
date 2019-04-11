@@ -7,6 +7,7 @@ extends Node
 
 var data = parse_data()
 
+
 func parse_data():
 	var data_file = File.new()
 	if data_file.open("res://settings.json", File.READ) != OK:
@@ -21,6 +22,7 @@ func parse_data():
 	    logger.error("Settings could not be parsed from json! Is the syntax correct?")
 		
 	return data_parse.result
+
 
 # Get a specific setting by category and label (for example: category 'server', label 'ip')
 func get_setting(category, label):

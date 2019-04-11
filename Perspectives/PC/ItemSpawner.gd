@@ -56,10 +56,6 @@ var settings
 var building_settings
 var dict
 
-#func _ready():
-#	settings = ServerConnection.get_json("127.0.0.1" ,"/location/areas/?filename=wullersdorf", 8000)
-#	building_settings = settings["buildings"]
-#	dict = ServerConnection.get_json("127.0.0.1", "/buildings/?filename=%s" % building_settings['filename'], 8000)
 
 #func lotsOfTrees(pos):
 #	for x in range(-10, 10):

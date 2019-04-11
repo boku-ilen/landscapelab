@@ -7,7 +7,8 @@ extends Spatial
 #
 
 var tile = preload("res://World/LODTerrain/WorldTile/WorldTile.tscn")
-var GRIDSIZE = Settings.get_setting("lod", "level-0-tile-size") # Width and height of a tile (the biggest possible LOD terrain chunk, which then splits accordingly)
+# Width and height of a tile (the biggest possible LOD terrain chunk, which then splits accordingly)
+var GRIDSIZE = Settings.get_setting("lod", "level-0-tile-size") 
 
 onready var tiles = get_node("Tiles")
 onready var assets = get_node("Assets")
@@ -27,6 +28,7 @@ var REMOVAL_RADIUS_SUMMAND = Settings.get_setting("lod", "tile-removal-check-rad
 # Global options
 export(bool) var update_terrain = true
 
+
 func _ready():
 	# Set world_offset to start values using Session
 	var world_offset_x = -1765982
@@ -40,9 +42,11 @@ func _ready():
 	
 	WorldPosition.set_handler(self)
 
+
 func _input(event):
 	if event.is_action_pressed("toggle_lod_update"):
 		update_terrain = not update_terrain
+
 
 func _process(delta):
 	if not update_terrain: return
@@ -84,6 +88,7 @@ func _process(delta):
 		# Offset world
 		check_for_world_shift()
 
+
 # Shift the world if the player exceeds the bounds, in order to prevent coordinates from getting too big (floating point issues)
 func check_for_world_shift():
 	var delta_vec = Vector3(0, 0, 0)
@@ -98,6 +103,7 @@ func check_for_world_shift():
 	if delta_vec != Vector3(0, 0, 0):
 		Offset.emit_signal("shift_world", delta_vec.x, delta_vec.z)
 
+
 # Spawn a tile at the given __tilegrid coordinate__ position
 func spawn_tile(pos):
 	var tile_instance = tile.instance()
@@ -107,6 +113,7 @@ func spawn_tile(pos):
 	tile_instance.init(GRIDSIZE, 0)
 	
 	tiles.add_child(tile_instance)
+
 
 # Move all world tiles by delta_vec (in true coordinates) and remember the total offset caused by using this function
 func move_world(delta_x, delta_z):
@@ -118,9 +125,11 @@ func move_world(delta_x, delta_z):
 	for child in assets.get_children():
 		child.translation += delta_vec
 
+
 # Returns the grid coordinates of the tile at a certain absolute position (passed as an array for int accuracy)
 func absolute_to_grid(abs_pos):
 	return Vector2(round((abs_pos[0] - GRIDSIZE/2) / GRIDSIZE), round((abs_pos[2] - GRIDSIZE/2) / GRIDSIZE))
+
 
 # Get the tilegrid coordinates of the tile the player is currently standing on
 func get_tile_at_player():
@@ -128,7 +137,8 @@ func get_tile_at_player():
 	var grid_vec = absolute_to_grid(true_player)
 
 	return grid_vec
-		
+
+
 func get_ground_coords(pos):
 	var grid_pos = absolute_to_grid(Offset.to_world_coordinates(pos))
 	
@@ -136,6 +146,7 @@ func get_ground_coords(pos):
 		return tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_position_on_ground(pos)
 	else:
 		return false
+
 
 # Puts an instanced scene on the ground at a certain position using the heightmap of that tile
 func put_on_ground(instanced_scene, pos):

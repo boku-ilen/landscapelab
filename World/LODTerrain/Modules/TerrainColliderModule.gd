@@ -9,15 +9,18 @@ onready var col_shape = get_node("StaticBody/CollisionShape")
 
 var heightmap
 
+
 func _ready():
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_textures", []))
-	
+
+
 func _on_ready():
 	if heightmap:
 		col_shape.shape = create_tile_collision_shape()
 	else:
 		logger.info("Couldn't get heightmap for tile!")
-	
+
+
 func get_textures(data):
 	var zoom = tile.get_osm_zoom()
 	
@@ -25,6 +28,7 @@ func get_textures(data):
 	heightmap = tile.get_texture_recursive("dhm", zoom, 0)
 	
 	make_ready()
+
 
 # Returns the exact height at the given position using the heightmap image
 func get_height_at_position(var pos):
@@ -43,7 +47,8 @@ func get_height_at_position(var pos):
 	img.unlock()
 
 	return height
-	
+
+
 # Creates a simple 4-vertices polygon which roughly corresponds to the heightmap, for use as a collider.
 func create_tile_collision_shape():
 	var shape = ConvexPolygonShape.new()

@@ -11,6 +11,7 @@ var vegetation_max = 4
 
 var WATER_SPLAT_ID = Settings.get_setting("water", "water-splat-id")
 
+
 func get_splat_data():
 	var true_pos = tile.get_true_position()
 
@@ -29,12 +30,14 @@ func get_splat_data():
 		albedos.append(CachingImageTexture.get(result.get("albedo_path")))
 		normals.append(CachingImageTexture.get(result.get("normal_path")))
 
+
 func get_textures(data):
 	get_ortho_dhm()
 	get_splat_data()
 
 	make_ready()
-	
+
+
 func _on_ready():
 	._on_ready()
 	

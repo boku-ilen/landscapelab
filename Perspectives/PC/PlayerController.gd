@@ -17,14 +17,18 @@ var SNEAK_SPEED = Settings.get_setting("player", "fly-speed-sneak")
 onready var head = get_node("Head")
 onready var camera = head.get_node("Camera")
 
-# To prevent floating point errors, the player.translation does not reflect the player's actual position in the whole world.
-# This function returns the true world position of the player in int.
+
+# To prevent floating point errors, the player.translation does not reflect the player's 
+# actual position in the whole world. This function returns the true world position of 
+# the player in int. TODO: is this in meters?
 func get_true_position():
 	return Offset.to_world_coordinates(translation)
-	
+
+
 func get_look_direction():
 	# TODO: The x-coordinate seems right, but the z-coordinate acts strangely...
 	return camera.global_transform.basis.x
+
 
 # Shift the player's in-engine translation by a certain offset, but not the player's true coordinates.
 func shift(delta_x, delta_z):
@@ -32,15 +36,19 @@ func shift(delta_x, delta_z):
 	
 	translation.x += delta_x
 	translation.z += delta_z
-	
+
+
 func _enter_tree():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
+
+
 func _exit_tree():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 
+
 func _ready():
 	Offset.connect("shift_world", self, "shift")
+
 
 func _physics_process(delta):
 	fly(delta)
@@ -48,6 +56,7 @@ func _physics_process(delta):
 	# Reflect new position in global PlayerInfo
 	PlayerInfo.update_player_pos(translation)
 	PlayerInfo.update_player_look_direction(get_look_direction())
+
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -61,6 +70,7 @@ func _input(event):
 			
 	elif event.is_action_pressed("pc_toggle_walk"):
 		walking = not walking
+
 
 func fly(delta):
 	# reset the direction of the player

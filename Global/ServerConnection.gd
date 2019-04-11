@@ -17,6 +17,7 @@ class Connection:
 		"User-Agent: Pirulo/1.0 (Godot)",
 		"Accept: */*"
 	]
+
 	
 	func _try_to_establish_connection():
 		"""Establishes an HTTP connection. If retry is enabled and the connection could not be established, it is
@@ -34,6 +35,7 @@ class Connection:
 				OS.delay_msec(1000 * timeout_interval)
 			else:
 				break
+
 	
 	func _wait_until_resolved_and_connected():
 		"""Waits for the HTTP client to connect and resolve its status."""
@@ -41,6 +43,7 @@ class Connection:
 		while (_http.get_status() == HTTPClient.STATUS_CONNECTING or _http.get_status() == HTTPClient.STATUS_RESOLVING):
 			_http.poll()
 			OS.delay_msec(delay_interval_msec)
+
 		
 	func _wait_until_request_done():
 		"""Waits for the HTTP client's request to be done."""
@@ -48,6 +51,7 @@ class Connection:
 		while _http.get_status() == HTTPClient.STATUS_REQUESTING:
 			_http.poll()
 			OS.delay_msec(delay_interval_msec)
+
 			
 	func _get_response_body():
 		"""Parses the HTTP client's response, concatenating several chunks if necessary. Returns the whole reponse as a
@@ -67,12 +71,14 @@ class Connection:
 				response_body += chunk
 				
 		return response_body.get_string_from_ascii()
+
 		
 	func _get_response_headers():
 		"""Returns the headers of the HTTP client's response.
 		This function presumes that a request has been sent and a response is available."""
 		
 		return _http.get_response_headers_as_dictionary()
+
 	
 	func request(url):
 		"""Requests the given url using the HTTP client. If an error occurs, it is logged, and null is returned."""
@@ -108,6 +114,7 @@ class Connection:
 var json_cache = {}
 var cache_mutex = Mutex.new()
 
+
 func get_json(url, use_cache=true):
 	cache_mutex.lock()
 	if use_cache and json_cache.has(url):
@@ -136,7 +143,9 @@ func get_json(url, use_cache=true):
 		logger.error("Encountered Error %s while parsing JSON." % [json.error])
 		return null
 
+
 func get_http(url):
 	var connection = Connection.new()
 
 	return connection.request(url)
+

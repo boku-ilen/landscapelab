@@ -3,16 +3,19 @@ extends Module
 var spawn_buildings = false
 var buildings = []
 
+
 func _ready() -> void:
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_building_data_from_server", []))
-	
+
+
 func _process(delta: float) -> void:
 	if spawn_buildings:
 		for b in buildings:
 			add_child(b)
 		
-		done_loading()
+		done_loading()  # FIXME: this method is not declared in the current class (ERROR in Godot Editor)
 		spawn_buildings = false
+
 
 func get_building_data_from_server(d):
 	var tile_pos = tile.get_true_position()

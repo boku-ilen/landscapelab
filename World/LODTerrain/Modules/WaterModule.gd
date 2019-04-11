@@ -9,6 +9,7 @@ var dhm
 
 var WATER_SPLAT_ID = Settings.get_setting("water", "water-splat-id")
 
+
 func get_splat_data():
 	var true_pos = tile.get_true_position()
 
@@ -17,10 +18,12 @@ func get_splat_data():
 		
 	dhm = tile.get_texture_recursive("dhm", tile.get_osm_zoom(), 0)
 
+
 func get_textures(data):
 	get_splat_data()
 
 	make_ready()
+
 
 func set_splatmap():
 	water_mesh.mesh = tile.create_tile_plane_mesh()
@@ -29,9 +32,11 @@ func set_splatmap():
 	water_mesh.material_override.set_shader_param("splatmap", splatmap)
 	water_mesh.material_override.set_shader_param("water_id", WATER_SPLAT_ID)
 	water_mesh.material_override.set_shader_param("heightmap", dhm)
-	
+
+
 func _ready():
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_textures", []))
+
 
 func _on_ready():
 	if not splat_result or not splat_result.has("path_to_splatmap"):
