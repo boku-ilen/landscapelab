@@ -10,6 +10,7 @@ var scenario_url = "/location/areas/"
 func get_scenarios():
 	var scenarios = ServerConnection.get_json(scenario_url)
 
+	# FIXME: missing null check
 	if scenarios.has("Error"):
 		ErrorPrompt.show("Cannot load areas", scenarios["Error"])
 		return false
@@ -24,6 +25,7 @@ func load_scenario(area):
 	# FIXME: this URL does not exist anymore - the scenario is retrieved different now...
 	var scen = ServerConnection.get_json("/location/areas/?filename=%s" % area)
 	
+	# FIXME: missing null check
 	if scen.has("Error"):
 		ErrorPrompt.show("could not load %s" % area, scen["Error"])
 		return false
