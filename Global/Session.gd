@@ -12,8 +12,8 @@ func _ready():
 	load_scenarios()
 
 
-# Loads all available scenarios from the server into the 'scenarios' variable 
 func load_scenarios():
+	"""Loads all available scenarios from the server into the 'scenarios' variable."""
 	var scenario_result = ServerConnection.get_json(scenario_url)
 
 	if not scenario_result or scenario_result.has("Error"):
@@ -23,21 +23,34 @@ func load_scenarios():
 	scenarios = scenario_result
 	
 	
-# Returns all available (previously loaded) scenarios
 func get_scenarios():
+	"""Returns all available (previously loaded) scenarios"""
 	return scenarios
 	
-	
+
 func get_scenario(scenario_id):
+	"""Returns a specific scenario by its ID
+	Fields: name, locations, bounding_polygon"""
 	return scenarios[scenario_id]
 	
-	
+
 func load_scenario(scenario_id):
+	"""Starts a new session for the scenario with the given ID.
+	Sets the world offset to the starting position in that scenario."""
+	
 	_start_session(scenario_id)
 
-	# TODO: Replace with real coordinates
-	var world_offset_x = -1765982
-	var world_offset_z = 6159002
+	var scen = get_scenario(scenario_id)
+	
+	# Get starting location (usually first element in dictionary)
+	var start_loc
+	for loc in scen.locations:
+		if scen.locations[loc].starting_location == true:
+			start_loc = scen.locations[loc].location
+			break
+
+	var world_offset_x = -start_loc[0]
+	var world_offset_z = start_loc[1]
 	
 	Offset.set_offset(world_offset_x, world_offset_z)
 
