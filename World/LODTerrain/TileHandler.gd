@@ -30,13 +30,7 @@ export(bool) var update_terrain = true
 
 
 func _ready():
-	# Set world_offset to start values using Session
-	var world_offset_x = -1765982
-	var world_offset_z = 6159002
-	
-	Offset.set_offset(world_offset_x, world_offset_z)
-	
-	# Spawn the bare minimum of tiles
+	# TODO: Spawn the bare minimum of tiles
 	
 	Offset.connect("shift_world", self, "move_world")
 	
