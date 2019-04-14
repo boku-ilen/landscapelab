@@ -7,6 +7,7 @@ class Connection:
 	
 	var host = Settings.get_setting("server", "ip")
 	var port = Settings.get_setting("server", "port")
+	var url_prefix = Settings.get_setting("server", "prefix", "")
 	
 	var retry = true
 	var timeout_interval = 5
@@ -27,7 +28,7 @@ class Connection:
 		
 		var err
 		while true:
-			err = _http.connect_to_host(host,port)
+			err = _http.connect_to_host(host, port)
 			_wait_until_resolved_and_connected()
 			
 			if retry and (err != OK or _http.get_status() != HTTPClient.STATUS_CONNECTED):
@@ -85,7 +86,7 @@ class Connection:
 		
 		_try_to_establish_connection()
 		
-		var err = _http.request(HTTPClient.METHOD_GET, url, _headers)
+		var err = _http.request(HTTPClient.METHOD_GET, url_prefix + url, _headers)
 	
 		if err != OK:
 			logger.error("HTTP client encountered an error while making the request to %s; the request if flawed."
@@ -103,7 +104,7 @@ class Connection:
 			logger.error("HTTP client did not receive a response for the given request to %s." % [url])
 			return null
 
-		var response_headers = _get_response_headers()
+		var response_headers = _get_response_headers()  # FIXME: currently never used
 		var response_body = _get_response_body()
 
 		logger.info("HTTP client successfully requested %s and received a valid response." % [url])
@@ -130,7 +131,7 @@ func get_json(url, use_cache=true):
 			
 	var connection = Connection.new()
 
-	var json = JSON.parse(connection.request(url))
+	var json = JSON.parse(connection.request(connection.url_prefix + url))
 	
 	cache_mutex.lock()
 	if json.error == OK:
@@ -147,5 +148,4 @@ func get_json(url, use_cache=true):
 func get_http(url):
 	var connection = Connection.new()
 
-	return connection.request(url)
-
+	return connection.request(connection.url_prefix + url)
