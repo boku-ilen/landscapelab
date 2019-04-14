@@ -16,10 +16,11 @@ func build_item_list():
 	item_list.clear()
 	
 	var id = 0
-	for i in scenarios:
-		item_list.add_item(scenarios[i].name)
-		item_list.set_item_metadata(id, i)  # Save the scenario ID in the metadata
-		id += 1
+	if scenarios:  # check for null
+		for i in scenarios:
+			item_list.add_item(scenarios[i].name)
+			item_list.set_item_metadata(id, i)  # Save the scenario ID in the metadata
+			id += 1
 
 
 # Called when an item is clicked on
