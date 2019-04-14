@@ -49,10 +49,15 @@ func load_scenario(scenario_id):
 			start_loc = scen.locations[loc].location
 			break
 
-	var world_offset_x = -start_loc[0]
-	var world_offset_z = start_loc[1]
-	
-	Offset.set_offset(world_offset_x, world_offset_z)
+	# if we found a starting location set the offset accordingly
+	if start_loc:
+		var world_offset_x = -start_loc[0]
+		var world_offset_z = start_loc[1]
+		
+		Offset.set_offset(world_offset_x, world_offset_z)
+	else:
+		logger.error("Could not initialize starting location")
+		# FIXME: what to do? is it possible to start at a random or calculated starting location based on the bounding polygon geometry
 
 
 func _start_session(scenario_id):
