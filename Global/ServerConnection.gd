@@ -130,7 +130,7 @@ func get_json(url, use_cache=true):
 	cache_mutex.unlock()
 			
 	var connection = Connection.new()
-	var answer = connection.request(connection.url_prefix + url)
+	var answer = connection.request(url)
 	var json = JSON.parse(answer)
 	
 	cache_mutex.lock()
@@ -142,7 +142,7 @@ func get_json(url, use_cache=true):
 		json_cache[url] = [true, 0]
 		cache_mutex.unlock()
 		logger.error("Encountered Error %s while parsing JSON: %s" % [json.error, json.error_string])
-		logger.debug("Content was: %s" % [answer])
+		logger.info("Content was: %s" % [answer])  # FIXME: should be debug, but this is not displayed currently
 		return null
 
 

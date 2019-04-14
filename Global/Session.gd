@@ -32,7 +32,7 @@ func get_scenario(scenario_id):
 	"""Returns a specific scenario by its ID
 	Fields: name, locations, bounding_polygon"""
 	return scenarios[scenario_id]
-	
+
 
 func load_scenario(scenario_id):
 	"""Starts a new session for the scenario with the given ID.
