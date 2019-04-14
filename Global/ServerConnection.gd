@@ -130,8 +130,8 @@ func get_json(url, use_cache=true):
 	cache_mutex.unlock()
 			
 	var connection = Connection.new()
-
-	var json = JSON.parse(connection.request(connection.url_prefix + url))
+	var answer = connection.request(connection.url_prefix + url)
+	var json = JSON.parse(answer)
 	
 	cache_mutex.lock()
 	if json.error == OK:
@@ -141,7 +141,8 @@ func get_json(url, use_cache=true):
 	else:
 		json_cache[url] = [true, 0]
 		cache_mutex.unlock()
-		logger.error("Encountered Error %s while parsing JSON." % [json.error])
+		logger.error("Encountered Error %s while parsing JSON: %s" % [json.error, json.error_string])
+		logger.debug("Content was: %s" % [answer])
 		return null
 
 
