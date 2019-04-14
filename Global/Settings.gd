@@ -26,6 +26,7 @@ func parse_data():
 
 # Get a specific setting by category and label (for example: category 'server', label 'ip')
 func get_setting(category, label):
+	
 	if not data.has(category):
 		logger.error("Invalid setting category: %s" % [category])
 	elif not data[category].has(label):

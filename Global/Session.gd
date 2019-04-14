@@ -17,7 +17,7 @@ func load_scenarios():
 	var scenario_result = ServerConnection.get_json(scenario_url)
 
 	if not scenario_result or scenario_result.has("Error"):
-		ErrorPrompt.show("Cannot load areas")
+		ErrorPrompt.show("Could not fetch scenarios from server")
 		return false
 	
 	scenarios = scenario_result
