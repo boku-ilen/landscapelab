@@ -35,18 +35,21 @@ func get_height_at_position(var pos):
 	var img = heightmap.get_data()
 	var gtranslation = tile.global_transform.origin
 	
-	img.lock()
-	var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(gtranslation.x, gtranslation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
-	var pix_pos = pos_scaled * img.get_size()
+	if img:
+		img.lock()
+		var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(gtranslation.x, gtranslation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
+		var pix_pos = pos_scaled * img.get_size()
+		
+		# Clamp to max values
+		pix_pos.x = clamp(pix_pos.x, 0, img.get_size().x - 1)
+		pix_pos.y = clamp(pix_pos.y, 0, img.get_size().y - 1)
+		
+		var height = img.get_pixel(pix_pos.x, pix_pos.y).g * 500 # TODO: Centralize height range and use here
+		img.unlock()
 	
-	# Clamp to max values
-	pix_pos.x = clamp(pix_pos.x, 0, img.get_size().x - 1)
-	pix_pos.y = clamp(pix_pos.y, 0, img.get_size().y - 1)
-	
-	var height = img.get_pixel(pix_pos.x, pix_pos.y).g * 500 # TODO: Centralize height range and use here
-	img.unlock()
-
-	return height
+		return height
+	else:
+		return null
 
 
 # Creates a simple 4-vertices polygon which roughly corresponds to the heightmap, for use as a collider.
