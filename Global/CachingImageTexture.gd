@@ -51,6 +51,9 @@ func _load_into_dict(path):
 	# Load the image from the path and create an ImageTexture from it
 	var img = Image.new()
 	img.load(path)
+	if img.is_empty():  # check if the file was loaded correctly
+		logger.warning("image %s could not be loaded - does it exist?" % [path])
+	
 	var img_tex = ImageTexture.new()
 	img_tex.create_from_image(img, _flags)
 	
