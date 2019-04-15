@@ -48,8 +48,10 @@ func get_height_at_position(var pos):
 		img.unlock()
 	
 		return height
+		
+	# if we do not have a valid height information we return 0   - TODO: error handling
 	else:
-		return null
+		return 0
 
 
 # Creates a simple 4-vertices polygon which roughly corresponds to the heightmap, for use as a collider.
