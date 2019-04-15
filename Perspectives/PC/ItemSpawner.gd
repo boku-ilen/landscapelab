@@ -15,13 +15,16 @@ var ray_length = Settings.get_setting("item-spawner", "camera-ray-length") # Dis
 
 var locked_object = null
 
+
 func _ready():
 	cursor.cast_to = Vector3(0, 0, -ray_length)
+
 
 func _process(delta):
 	if has_grabbed_object():
 		update_grabbed_object()
-			
+
+
 # This callback is called whenever any input is registered
 func _input(event):
 	if event.is_action_pressed("object_interact"):
@@ -35,20 +38,25 @@ func _input(event):
 			else:
 				world.put_on_ground(spawned_scene.instance(), cursor.get_collision_point())
 
+
 func grab_object_at_cursor():
 	locked_object = cursor.get_collider().get_parent() # TODO: Would be great to make this more generic... perhaps add a script in the StaticBody to get the main object?
 	cursor.add_exception(cursor.get_collider())
-	
+
+
 func update_grabbed_object():
 	if cursor.is_colliding(): # Reposition the grabbed object to the spot on the ground the cursor points at
 		locked_object.translation = world.get_ground_coords(cursor.get_collision_point())
-	
+
+
 func release_object():
 	locked_object = null
 	cursor.clear_exceptions()
-	
+
+
 func has_grabbed_object():
 	return locked_object != null
+
 
 # The following code will likely be moved to LOD terrain tiles later, since buildings will be spawned there, not by mouse clicks.
 # It's currently here to test arbitrary building placement on LOD terrain.
@@ -65,7 +73,8 @@ var dict
 #			var vec = Vector3(x + add, 0, y + add) * 50
 #
 #			world.put_on_ground(tree_scene.instance(), pos + vec)
-	
+
+
 func createBuilding(server, port, settings):
 	if dict == null:
 		ErrorPrompt.show("Could not load building data")
