@@ -47,7 +47,7 @@ func _ready():
 		if will_activate_with_last_player_pos:
 			activate(will_activate_with_last_player_pos)
 	else:
-		print("Warning: Uninitialized WorldTile created")
+		print("Warning: Uninitialized WorldTile created")  # FIXME: change into a meaningful LOG message
 	
 	created = true
 
@@ -299,7 +299,7 @@ func get_texture_recursive(tex_name, zoom, steps, folder="raster"):
 	
 	# If there is no orthophoto at this zoom level, go back recursively
 	if result.get(tex_name) == "None" or result.get(tex_name) == null:
-		return get_texture_recursive(tex_name, zoom - 1, steps + 1)
+		return get_texture_recursive(tex_name, zoom - 1, steps + 1)  # FIXME: got Attempt to call function 'get_texture_recursive' in base 'previously freed instance' on a null instance.
 		
 	var tex = CachingImageTexture.get(result.get(tex_name))
 	
