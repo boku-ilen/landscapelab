@@ -11,7 +11,7 @@ var WATER_SPLAT_ID = Settings.get_setting("water", "water-splat-id")
 
 
 func get_splat_data():
-	var true_pos = tile.get_true_position()
+	var true_pos = tile.get_true_position()  # FIXME: gives me a nonexisting function in base 'Viewport'
 
 	splat_result = ServerConnection.get_json("/%s/%d.0/%d.0/%d"\
 		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()])

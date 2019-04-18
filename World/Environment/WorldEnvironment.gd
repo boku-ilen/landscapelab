@@ -77,7 +77,7 @@ func set_sun_position(altitude, azimuth):
 	
 	# Also pass the direction as a parameter to the clouds - they require it as 
 	# the vector the light is pointing at, which is the forward (x) vector
-	clouds.set_sun_dir(light.transform.basis.x)
+	clouds.set_sun_dir(light.transform.basis.x)  # FIXME: gives me an error the clouds is Nil?
 	
 	update_colors(altitude, azimuth)
 
