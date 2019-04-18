@@ -107,7 +107,7 @@ class Connection:
 		var response_headers = _get_response_headers()  # FIXME: currently never used
 		var response_body = _get_response_body()
 
-		logger.info("HTTP client successfully requested %s and received a valid response." % [url])
+		logger.debug("HTTP client successfully requested %s and received a valid response." % [url])
 		
 		return response_body
 

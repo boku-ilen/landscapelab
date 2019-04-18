@@ -14,7 +14,7 @@ func _on_shift_world(delta_x : int, delta_z : int):
 	x += delta_x
 	z += delta_z
 	
-	print("New offset: %d, %d" % [x, z])
+	logger.info("New offset: %d, %d" % [x, z])
 
 
 func set_offset(new_x, new_z):
