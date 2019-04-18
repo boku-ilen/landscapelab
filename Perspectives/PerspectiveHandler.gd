@@ -4,6 +4,8 @@ onready var pc_viewport = get_node("ViewportContainer/PCViewport")
 onready var vr_viewport = get_node("ViewportContainer/VRViewport")
 
 var vr_activated : bool = false
+var minimap_activated : bool = false
+var mouse_captured : bool = false
 
 # These scenes contain the movement and rendering logic for their perspectives
 var first_person_pc_scene = preload("res://Perspectives/PC/FirstPersonPC.tscn")
@@ -11,9 +13,18 @@ var third_person_pc_scene = preload("res://Perspectives/PC/ThirdPersonPC.tscn")
 
 var first_person_vr_scene = preload("res://Perspectives/VR/FirstPersonVR.tscn")
 
+var minimap_scene = preload("res://UI/Minimap/Minimap.tscn")
+
+
 func _ready():
-	# Start with PC first person view
-	pc_activate_first_person()
+	# get the actual window dimensions and sets the PC Viewport to the maximum
+	var screen_size = OS.get_screen_size()
+	pc_viewport.size = screen_size
+	# Start with PC 3rd person view
+	pc_activate_third_person()
+	# Start with the minimap enabled
+	# toggle_minimap()  
+
 
 # Check for perspective-related input and react accordingly
 func _input(event):
@@ -23,6 +34,11 @@ func _input(event):
 		pc_activate_third_person()
 	elif event.is_action_pressed("toggle_vr"):
 		toggle_vr()
+	elif event.is_action_pressed("toggle_minimap"):
+		toggle_minimap()
+	elif event.is_action_pressed("toggle_mouse_capture"):
+		toggle_mouse_capture()
+
 
 # Instance the first person controller for the PC viewport
 func pc_activate_first_person():
@@ -34,10 +50,29 @@ func pc_activate_first_person():
 	else:
 		pass # Set PC movement free
 
+
 # Instance the third person controller for the PC viewport
 func pc_activate_third_person():
 	clear_pc()
 	add_pc(third_person_pc_scene.instance())
+
+
+# toggle the display of the minimap
+func toggle_minimap():
+	minimap_activated = !minimap_activated	
+	if minimap_activated:
+		pc_viewport.add_child(minimap_scene.instance())
+
+
+func toggle_mouse_capture():
+	if mouse_captured:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+		
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	mouse_captured = !mouse_captured
+
 
 # Add the VR controller to the VR viewport
 func toggle_vr():
@@ -51,18 +86,22 @@ func toggle_vr():
 	# Reload PC viewport
 	pc_activate_first_person()
 
+
 # Adds any scene to the viewport which renders to the PC's monitor
 func add_pc(scene):
 	pc_viewport.add_child(scene)
+
 
 # Adds any scene to the viewport which renders to the VR headset
 func add_vr(scene):
 	vr_viewport.add_child(scene)
 
+
 # Remove all scenes which render to the PC's monitor
 func clear_pc():
 	for child in pc_viewport.get_children():
 		child.free()
+
 
 # Remove all scenes which render to the VR headset
 func clear_vr():
