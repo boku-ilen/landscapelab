@@ -2,7 +2,9 @@ tool
 extends Particles
 
 #
-# This script sets up the grass particle shader.  # FIXME: why is it called HeightmapParticles then?
+# This script sets up the HeightmapParticles shader which renders rows and columns of particles,
+# the height of which depends on a heightmap.
+# It is used for the vegetation.
 #
 
 export var rows = 100 setget set_rows, get_rows
