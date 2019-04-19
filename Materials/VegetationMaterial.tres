@@ -1,24 +1,11 @@
-[gd_resource type="ShaderMaterial" load_steps=7 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
 
 [ext_resource path="res://Materials/Shaders/VegetationShader.shader" type="Shader" id=1]
-[ext_resource path="res://Materials/simplex_noise.png" type="Texture" id=2]
-[ext_resource path="res://Resources/Textures/Grass/grass2.png" type="Texture" id=3]
-[ext_resource path="res://Resources/Textures/Grass/grass3.png" type="Texture" id=4]
-[ext_resource path="res://Resources/Textures/Grass/grass4.png" type="Texture" id=5]
-[ext_resource path="res://Resources/Textures/Grass/grass1.png" type="Texture" id=6]
-
-
 
 [resource]
-
 shader = ExtResource( 1 )
+shader_param/sprite_count = null
+shader_param/distribution_pixels_per_meter = null
 shader_param/pos = null
 shader_param/size = null
-shader_param/density_map = ExtResource( 2 )
-shader_param/sprite1 = ExtResource( 3 )
-shader_param/sprite2 = ExtResource( 4 )
-shader_param/sprite3 = ExtResource( 5 )
-shader_param/sprite4 = ExtResource( 6 )
-shader_param/sprite5 = ExtResource( 3 )
-shader_param/sprite6 = ExtResource( 4 )
 

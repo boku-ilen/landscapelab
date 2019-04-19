@@ -1,15 +1,15 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Materials/Shaders/VegetationShader.shader" type="Shader" id=1]
-[ext_resource path="res://Materials/Shaders/GrassParticles.shader" type="Shader" id=2]
-[ext_resource path="res://Materials/noise_texture.png" type="Texture" id=3]
-[ext_resource path="res://Resources/Meshes/grass_mesh.obj" type="ArrayMesh" id=4]
-[ext_resource path="res://World/LODTerrain/Modules/Util/HeightmapParticles.gd" type="Script" id=5]
+[ext_resource path="res://Materials/Shaders/HeightmapParticles.shader" type="Shader" id=2]
+[ext_resource path="res://Resources/Images/MaterialUtil/noise_texture.png" type="Texture" id=3]
+[ext_resource path="res://World/LODTerrain/Modules/Util/HeightmapParticles.gd" type="Script" id=4]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/sprite_count = null
+shader_param/distribution_pixels_per_meter = null
 shader_param/pos = null
 shader_param/size = null
 
@@ -33,9 +33,8 @@ shader_param/noisemap = ExtResource( 3 )
 material_override = SubResource( 1 )
 extra_cull_margin = 500.0
 amount = 10000
-explosiveness = 1.0
+explosiveness = 0.5
 visibility_aabb = AABB( -500, 0, -500, 1000, 20, 1000 )
 process_material = SubResource( 2 )
-draw_pass_1 = ExtResource( 4 )
-script = ExtResource( 5 )
+script = ExtResource( 4 )
 

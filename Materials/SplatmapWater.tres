@@ -1,8 +1,8 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=2]
 
 [ext_resource path="res://Materials/Shaders/SplatmapWater.shader" type="Shader" id=1]
-[ext_resource path="res://Materials/noise_texture.png" type="Texture" id=2]
-[ext_resource path="res://Resources/water_normal.png" type="Texture" id=3]
+[ext_resource path="res://Resources/Images/MaterialUtil/noise_texture.png" type="Texture" id=2]
+[ext_resource path="res://Resources/Images/MaterialUtil/water_normal.png" type="Texture" id=3]
 
 [resource]
 resource_local_to_scene = true

@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://UI/StartMenu/StartMenuUI.tscn" type="PackedScene" id=1]
 [ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/dscn_io/DSCN_Runtime_Node.gd" type="Script" id=3]
-[ext_resource path="res://addons/dscn_io/DSCN_Node_Icon.png" type="Texture" id=4]
 
 [node name="StartScene" type="Node"]
 
@@ -13,16 +11,4 @@
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 
 [node name="WorldEnvironment" parent="." instance=ExtResource( 2 )]
-
-[node name="DSCN_Runtime_Node" type="Node" parent="."]
-script = ExtResource( 3 )
-__meta__ = {
-"_editor_icon": ExtResource( 4 )
-}
-path_to_node = NodePath("../ImportTest")
-filepath = "/home/karl/Data/BOKU/retour-middleware/buildings/out/importable/Test Scenario_103423.dae.dscn"
-execute_in_ready = true
-
-[node name="ImportTest" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 26 )
 
