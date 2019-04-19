@@ -25,7 +25,9 @@ func get_splat_data():
 	splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"))
 
 	for i in range(0, min(splat_result.ids.size(), vegetation_max)):
-		var result = ServerConnection.get_json("/vegetation/%d/1" % [splat_result.ids[i]])  # FIXME: hardcoded layer!
+		# We use the layer 1 here, but the layer doesn't matter - the detail textures are the
+		# same on all layers (since all layers are on the same ground)
+		var result = ServerConnection.get_json("/vegetation/%d/1" % [splat_result.ids[i]])
 		vegetations.append(result)
 		albedos.append(CachingImageTexture.get(result.get("albedo_path")))
 		normals.append(CachingImageTexture.get(result.get("normal_path")))
