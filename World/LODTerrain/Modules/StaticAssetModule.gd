@@ -1,5 +1,13 @@
 extends Module
 
+#
+# This module instantiates static assets by getting their information from the server
+# and loading and placing them at the desired position.
+# Static assets are assets which are spawned at a certain position and stay there, with
+# no interaction with the client other than perhaps collisions. As opposed to other assets,
+# they are not known to the client before, and instead loaded from DSCN files.
+#
+
 var asset_result
 var dscn_node = preload("res://addons/dscn_io/DSCN_Runtime_Node.gd")
 
@@ -22,7 +30,8 @@ func get_building_data_from_server(d):
 	var tile_pos = tile.get_true_position()
 	var osm_z = tile.get_osm_zoom()
 	
-	asset_result = ServerConnection.get_json("/assetpos/get/%d/%d/%d/%d.json" % [asset_id, -tile_pos[0], tile_pos[2], osm_z])
+	asset_result = ServerConnection.get_json("/assetpos/get/%d/%d/%d/%d.json" % \
+		[asset_id, -tile_pos[0], tile_pos[2], osm_z])
 	
 	make_ready()
 
