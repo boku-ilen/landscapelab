@@ -53,7 +53,15 @@ vec2 get_relative_pos(vec2 raw_pos) {
 
 // Gets the absolute height at a given pos without taking the skirt into account
 float get_height_no_falloff(vec2 pos) {
-	return texture(heightmap, get_relative_pos(pos)).g * height_range;
+	int r_int = int(texture(heightmap, get_relative_pos(pos)).r * 255.0);
+	int g_int = int(texture(heightmap, get_relative_pos(pos)).g * 255.0);
+	int b_int = int(texture(heightmap, get_relative_pos(pos)).b * 255.0);
+	
+	float r_conv = float(r_int) * 65536.0;
+	float g_conv = float(g_int) * 256.0;
+	float b_conv = float(b_int);
+	
+	return (r_conv + g_conv + b_conv) / 100.0;
 }
 
 // Gets the required height of the vertex, including the skirt around the edges (the outermost vertices are set to y=0 to allow seamless transitions between tiles)
