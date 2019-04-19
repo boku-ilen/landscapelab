@@ -44,7 +44,14 @@ func get_height_at_position(var pos):
 		pix_pos.x = clamp(pix_pos.x, 0, img.get_size().x - 1)
 		pix_pos.y = clamp(pix_pos.y, 0, img.get_size().y - 1)
 		
-		var height = img.get_pixel(pix_pos.x, pix_pos.y).g * 500 # TODO: Centralize height range and use here
+		# Get height according to the specification of our heightmaps
+		var height = img.get_pixel(pix_pos.x, pix_pos.y).r * 255 * pow(2, 16) \
+			+ img.get_pixel(pix_pos.x, pix_pos.y).g * 255 * pow(2, 8) \
+			+ img.get_pixel(pix_pos.x, pix_pos.y).b * 255
+		
+		# Millimeters to meters
+		height /= 100
+		
 		img.unlock()
 	
 		return height
