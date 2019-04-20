@@ -10,7 +10,7 @@ export var my_vegetation_layer = 4
 export(Mesh) var particle_mesh_scene
 
 var particles_scene = preload("res://World/LODTerrain/Modules/Util/HeightmapParticles.tscn")
-var LODS = Settings.get_setting("herbage", "rows-at-lod")
+var LODS = Settings.get_setting("herbage", "density-at-lod")
 
 var result
 var vegetation_layer_data = {}
@@ -28,6 +28,7 @@ func _ready():
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_splat_data", []))
 
 
+# Fetches all required data from the server
 func get_splat_data(d):
 	var true_pos = tile.get_true_position()
 
@@ -49,6 +50,7 @@ func _on_ready():
 		construct_vegetation(result.get("path_to_splatmap"), result.get("ids"))
 
 
+# Readies all required HeightmapParticles instances
 func construct_vegetation(splat_path, splat_ids):
 	if LODS.has(String(tile.lod)):
 		var node = 0
@@ -60,8 +62,8 @@ func construct_vegetation(splat_path, splat_ids):
 			
 			var nd = get_node(String(node))
 		
-			nd.set_rows(LODS[String(tile.lod)])
-			nd.set_spacing(tile.size / LODS[String(tile.lod)])
+			nd.set_rows(tile.size * LODS[String(tile.lod)])
+			nd.set_spacing(1 / LODS[String(tile.lod)])
 			
 			if node > num_layers - 1: break
 			set_parameters([nd, splat_path, id, node])
@@ -70,8 +72,9 @@ func construct_vegetation(splat_path, splat_ids):
 			steps += 1
 
 
+# Sets all shader parameters for both the particle shader and the texture shader of a HeightmapParticles instance
 func set_parameters(data):
-	if not vegetation_layer_data[data[2]] or vegetation_layer_data[data[2]].has("Error") or not vegetation_layer_data[data[2]].get("path_to_spritesheet"):
+	if not heightmap or not vegetation_layer_data[data[2]] or vegetation_layer_data[data[2]].has("Error") or not vegetation_layer_data[data[2]].get("path_to_spritesheet"):
 		logger.error("Could not get vegetation!");
 		return
 	
