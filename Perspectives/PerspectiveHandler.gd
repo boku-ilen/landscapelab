@@ -15,7 +15,7 @@ var third_person_pc_scene = preload("res://Perspectives/PC/ThirdPersonPC.tscn")
 
 var first_person_vr_scene = preload("res://Perspectives/VR/FirstPersonVR.tscn")
 
-var minimap_scene = preload("res://UI/Minimap/Minimap.tscn")
+var minimap_scene = preload("res://Perspectives/PC/Minimap/Minimap.tscn")
 
 
 func _ready():
@@ -53,7 +53,7 @@ func _input(event):
 func pc_activate_first_person():
 	clear_pc()
 	add_pc(first_person_pc_scene.instance()) # TODO: This causes Error "Condition ' !is_inside_tree() ' is true. returned: Transform()", which has no apparent implication
-	add_pc_mini(third_person_pc_scene.instance())
+	add_pc_mini(minimap_scene.instance())
 	
 	if vr_activated:
 		pass # Set PC movement false, stick to VR player
