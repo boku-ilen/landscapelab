@@ -18,8 +18,10 @@ var minimap_scene = preload("res://UI/Minimap/Minimap.tscn")
 
 func _ready():
 	# get the actual window dimensions and sets the PC Viewport to the maximum
-	var screen_size = OS.get_screen_size()
+	# TODO: If the window is resizeable, we may need to do this again if that happens!
+	var screen_size = OS.get_window_size()
 	pc_viewport.size = screen_size
+	
 	# Start with PC 3rd person view
 	pc_activate_third_person()
 	# Start with the minimap enabled
