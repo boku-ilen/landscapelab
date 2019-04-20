@@ -22,3 +22,16 @@ handle_input_locally = false
 render_target_update_mode = 3
 shadow_atlas_size = 64
 
+[node name="MiniViewportContainer" type="ViewportContainer" parent="ViewportContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1440.0
+margin_top = 810.0
+
+[node name="PCMiniViewport" type="Viewport" parent="ViewportContainer/MiniViewportContainer"]
+size = Vector2( 480, 270 )
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+shadow_atlas_size = 64
+

@@ -2,6 +2,8 @@ extends Node
 
 onready var pc_viewport = get_node("ViewportContainer/PCViewport")
 onready var vr_viewport = get_node("ViewportContainer/VRViewport")
+onready var pc_mini_viewport = get_node("ViewportContainer/MiniViewportContainer/PCMiniViewport")
+onready var pc_mini_container = get_node("ViewportContainer/MiniViewportContainer")
 
 var vr_activated : bool = false
 var minimap_activated : bool = false
@@ -17,10 +19,15 @@ var minimap_scene = preload("res://UI/Minimap/Minimap.tscn")
 
 
 func _ready():
-	# get the actual window dimensions and sets the PC Viewport to the maximum
+	# get the actual window dimensions and scale the PC viewports accordingly
 	# TODO: If the window is resizeable, we may need to do this again if that happens!
 	var screen_size = OS.get_window_size()
+	var mini_size = screen_size / 3
+	
 	pc_viewport.size = screen_size
+	pc_mini_viewport.size = mini_size
+	pc_mini_container.rect_size = mini_size
+	pc_mini_container.rect_position = screen_size - mini_size
 	
 	# Start with PC 3rd person view
 	pc_activate_third_person()
@@ -46,6 +53,7 @@ func _input(event):
 func pc_activate_first_person():
 	clear_pc()
 	add_pc(first_person_pc_scene.instance()) # TODO: This causes Error "Condition ' !is_inside_tree() ' is true. returned: Transform()", which has no apparent implication
+	add_pc_mini(third_person_pc_scene.instance())
 	
 	if vr_activated:
 		pass # Set PC movement false, stick to VR player
@@ -92,6 +100,11 @@ func toggle_vr():
 # Adds any scene to the viewport which renders to the PC's monitor
 func add_pc(scene):
 	pc_viewport.add_child(scene)
+	
+
+# Adds any scene to the secondary, smaller viewport on the PC's monitor (e.g. minimap)
+func add_pc_mini(scene):
+	pc_mini_viewport.add_child(scene)
 
 
 # Adds any scene to the viewport which renders to the VR headset
@@ -102,6 +115,12 @@ func add_vr(scene):
 # Remove all scenes which render to the PC's monitor
 func clear_pc():
 	for child in pc_viewport.get_children():
+		child.free()
+		
+		
+# Remove all scenes which render to the PC's secondary view
+func clear_pc_mini():
+	for child in pc_mini_viewport.get_children():
 		child.free()
 
 
