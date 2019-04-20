@@ -14,8 +14,9 @@ anchor_bottom = 1.0
 
 [node name="VRViewport" type="Viewport" parent="ViewportContainer"]
 arvr = true
-size = Vector2( 1920, 1080 )
+size = Vector2( 1440, 1440 )
 handle_input_locally = false
+hdr = false
 render_target_update_mode = 3
 shadow_atlas_size = 64
 

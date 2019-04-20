@@ -90,7 +90,6 @@ func toggle_vr():
 	vr_activated = !vr_activated
 	
 	if vr_activated:
-		pass
 		add_vr(first_person_vr_scene.instance())
 	
 	# Reload PC viewport
