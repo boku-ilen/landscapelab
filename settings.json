@@ -53,7 +53,9 @@
             "5": 0.2,
             "6": 0.5,
             "7": 0.8,
-        }
+        },
+        
+        "detail-texture-start-distance": 100.0
     },
 
     "sky": {

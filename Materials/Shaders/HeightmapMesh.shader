@@ -6,6 +6,8 @@ uniform sampler2D tex : hint_albedo;
 uniform sampler2D splat;
 uniform int water_splat_id;
 
+uniform float detail_start_dist;
+
 uniform sampler2D vegetation_tex1 : hint_albedo;
 uniform sampler2D vegetation_normal1 : hint_normal;
 uniform int vegetation_id1;
@@ -18,9 +20,11 @@ uniform int vegetation_id3;
 uniform sampler2D vegetation_tex4 : hint_albedo;
 uniform sampler2D vegetation_normal4 : hint_normal;
 uniform int vegetation_id4;
+uniform float tex_factor = 0.15; // 0.5 means one Godot meter will have half the texture
 
 varying vec3 normal;
-uniform float tex_factor = 0.25; // 0.5 means one Godot meter will have half the texture
+varying vec3 world_pos;
+varying vec3 v_obj_pos;
 
 // Global parameters - will need to be the same in all shaders:
 uniform float height_range = 500;
@@ -84,41 +88,58 @@ void vertex() {
 		VERTEX.y -= 50.0; // TODO: This will become deprecated once water is precalculated into the heightmap!
 	}
 	
+	// Calculate the engine position of this vertex
+	v_obj_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz / size;
+	
+	// Calculate the engine position of the camera
+	world_pos = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	
 	// Apply the curvature based on the position of the current camera
-	vec3 world_pos = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	
 	float dist_to_middle = pow(world_pos.x, 2.0) + pow(world_pos.y, 2.0) + pow(world_pos.z, 2.0);
-	
 	VERTEX.y -= get_curve_offset(dist_to_middle);
 	
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor. (Not quite sure about those values yet, but they work nicely!)
-	float e = 1.0/(size/250.0);
+	float e = 1.0/(size/20.0);
 
 	normal = normalize(vec3(-get_height_no_falloff(UV + vec2(e, 0.0)) + get_height_no_falloff(UV - vec2(e, 0.0)), 10.0 , -get_height_no_falloff(UV + vec2(0.0, e)) + get_height_no_falloff(UV - vec2(0.0, e))));
 }
 
 void fragment(){
-	vec3 color;
-	vec3 current_normal = normal;
+	vec3 base_color = texture(tex, get_relative_pos(UV)).rgb;
+	vec3 detail_color = vec3(0.0);
+	vec3 total_color;
+	vec3 current_normal = vec3(0.0);
 	
-	if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id1) {
-		color = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		current_normal = texture(vegetation_normal1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-	} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id2) {
-		color = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		current_normal = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-	} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id3) {
-		color = texture(vegetation_tex3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		current_normal = texture(vegetation_normal3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-	} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id4) {
-		color = texture(vegetation_tex4, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		current_normal = texture(vegetation_normal4, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-	} else {
-		color = texture(tex, get_relative_pos(UV)).rgb;
+	// Calculate the factor by which the detail texture should be shown
+	// The factor is between 0 and 1: 0 when the camera is more than detail_start_dist away; 1 when the camera is right here.
+	float detail_factor = distance(v_obj_pos, world_pos);
+	detail_factor = clamp(1.0 - (detail_factor / detail_start_dist), 0.0, 1.0);
+	
+	// If the player is too far away, don't do all the detail calculation
+	if (detail_factor > 0.0) {
+		if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id1) {
+			detail_color = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+			current_normal = texture(vegetation_normal1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+		} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id2) {
+			detail_color = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+			current_normal = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+		} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id3) {
+			detail_color = texture(vegetation_tex3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+			current_normal = texture(vegetation_normal3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+		} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id4) {
+			detail_color = texture(vegetation_tex4, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+			current_normal = texture(vegetation_normal4, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+		}
 	}
 	
-	// TODO: Still also use the terrain normal, not only the texture, here!
-	NORMALMAP = normalize(normal + current_normal * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0));
-	ALBEDO = color;
+	if (detail_color != vec3(0.0)) {
+		total_color = detail_color * detail_factor + base_color * (1.0 - detail_factor);
+	} else {
+		total_color = base_color;
+	}
+	
+	ALBEDO = total_color;
+
+	NORMALMAP = normalize((normal + current_normal) * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0));
 }
