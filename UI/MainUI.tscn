@@ -1,33 +1,60 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/CustomElements/ShowHideChildrenButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=2]
 
 [node name="MainUI" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxLeft" type="HBoxContainer" parent="."]
 margin_right = 1920.0
 margin_bottom = 1080.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBox" type="VBoxContainer" parent="HBoxLeft"]
 margin_right = 300.0
 margin_bottom = 1080.0
 rect_min_size = Vector2( 300, 0 )
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxLeft/VBox"]
 margin_right = 300.0
 margin_bottom = 14.0
-text = "Information will be shown here"
+text = "Watermark"
 
-[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer"]
-margin_top = 18.0
-margin_right = 300.0
-margin_bottom = 32.0
-text = "In UI elements such as these"
+[node name="HBoxRight" type="HBoxContainer" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+alignment = 2
 
-[node name="Datetime" type="VBoxContainer" parent="HBoxContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 36.0
-margin_right = 300.0
-margin_bottom = 104.0
+[node name="VBox" type="VBoxContainer" parent="HBoxRight"]
+margin_left = 1575.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+
+[node name="Top" type="HBoxContainer" parent="HBoxRight/VBox"]
+margin_right = 345.0
+margin_bottom = 40.0
+
+[node name="VRSwitch" type="CheckButton" parent="HBoxRight/VBox/Top"]
+margin_right = 96.0
+margin_bottom = 40.0
+text = "VR"
+
+[node name="DebugSwitch" type="CheckButton" parent="HBoxRight/VBox/Top"]
+margin_left = 100.0
+margin_right = 221.0
+margin_bottom = 40.0
+text = "Debug"
+
+[node name="ShowHideChildrenButton" parent="HBoxRight/VBox/Top" instance=ExtResource( 1 )]
+margin_left = 225.0
+margin_right = 345.0
+margin_bottom = 40.0
+text = "Season and Time"
+
+[node name="Datetime" parent="HBoxRight/VBox/Top/ShowHideChildrenButton" instance=ExtResource( 2 )]
+margin_left = -211.446
+margin_top = 77.775
+margin_right = 88.554
+margin_bottom = 145.775
 
