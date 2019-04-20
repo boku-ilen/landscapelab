@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://Perspectives/PC/ThirdPersonController.gd" type="Script" id=1]
-[ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=2]
 
 [node name="ThirdPersonPC" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2000, 0 )
@@ -17,33 +16,4 @@ far = 50000.0
 enabled = true
 cast_to = Vector3( 0, -10000, 0 )
 collision_mask = 16385
-
-[node name="InfoUI" type="MarginContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="InfoUI"]
-margin_right = 1920.0
-margin_bottom = 1080.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="InfoUI/HBoxContainer"]
-margin_right = 300.0
-margin_bottom = 1080.0
-rect_min_size = Vector2( 300, 0 )
-
-[node name="Label" type="Label" parent="InfoUI/HBoxContainer/VBoxContainer"]
-margin_right = 300.0
-margin_bottom = 14.0
-text = "Information will be shown here"
-
-[node name="Label2" type="Label" parent="InfoUI/HBoxContainer/VBoxContainer"]
-margin_top = 18.0
-margin_right = 300.0
-margin_bottom = 32.0
-text = "In UI elements such as these"
-
-[node name="Datetime" parent="InfoUI/HBoxContainer/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 36.0
-margin_right = 300.0
-margin_bottom = 104.0
 
