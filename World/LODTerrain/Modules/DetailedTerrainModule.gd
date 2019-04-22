@@ -22,16 +22,25 @@ func get_splat_data():
 	if not splat_result or not splat_result.has("ids"):
 		make_ready()
 		return
-		
-	splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"))
 
-	for i in range(0, min(splat_result.ids.size(), vegetation_max)):
+	splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"))
+	
+	var added_vegetations = 0
+	# Add as many vegetations as available on server / possible on client
+	for i in range(0, splat_result.ids.size()):
+		if added_vegetations >= vegetation_max:
+			break
+		
 		# We use the layer 1 here, but the layer doesn't matter - the detail textures are the
 		# same on all layers (since all layers are on the same ground)
 		var result = ServerConnection.get_json("/vegetation/%d/1" % [splat_result.ids[i]])
-		vegetations.append(result)
-		albedos.append(CachingImageTexture.get(result.get("albedo_path")))
-		normals.append(CachingImageTexture.get(result.get("normal_path")))
+		
+		if result:
+			vegetations.append(result)
+			albedos.append(CachingImageTexture.get(result.get("albedo_path")))
+			normals.append(CachingImageTexture.get(result.get("normal_path")))
+			
+			added_vegetations += 1
 
 
 func get_textures(data):
