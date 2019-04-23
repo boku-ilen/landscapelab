@@ -50,7 +50,8 @@ WorldPosition="*res://Global/WorldPosition.gd"
 
 window/size/width=1920
 window/size/height=1080
-window/stretch/aspect="expand"
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
 
 [editor_plugins]
 
