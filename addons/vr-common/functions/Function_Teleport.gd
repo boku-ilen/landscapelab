@@ -78,6 +78,10 @@ func _ready():
 	# call set player to ensure our collision shape is sized
 	set_player_height(player_height)
 	set_player_radius(player_radius)
+	
+	
+func _to_ground():
+	origin_node.translation = WorldPosition.get_position_on_ground(origin_node.translation)
 
 
 func _physics_process(delta):
@@ -246,4 +250,7 @@ func _physics_process(delta):
 		is_teleporting = false;
 		$Teleport.visible = false
 		$Target.visible = false
+		
+	# Always keep the player on the ground
+	_to_ground()
 
