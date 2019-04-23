@@ -7,11 +7,13 @@ var dragging : bool = false
 var current_distance_to_ground
 
 onready var ground_check_ray = get_node("GroundCheckRay")
-	
+
+
 func _ready():
 	Offset.connect("shift_world", self, "shift")
 	
 	current_distance_to_ground = MAX_DISTANCE_TO_GROUND
+
 
 func _input(event):
 	if event is InputEventMouseButton:
@@ -32,11 +34,13 @@ func _input(event):
 	elif event is InputEventMouseMotion:
 		if dragging:
 			translation -= Vector3(event.relative.x, 0, event.relative.y) * current_distance_to_ground / 600
-			
+
+
 func _process(delta):
 	translation.y = current_distance_to_ground
 	PlayerInfo.update_player_pos(translation)
-	
+
+
 func shift(delta_x, delta_z):
 	PlayerInfo.add_player_pos(Vector3(delta_x, 0, delta_z))
 	
