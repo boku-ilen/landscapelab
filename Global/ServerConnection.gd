@@ -149,4 +149,4 @@ func get_json(url, use_cache=true):
 func get_http(url):
 	var connection = Connection.new()
 
-	return connection.request(connection.url_prefix + url)
+	return connection.request(url)
