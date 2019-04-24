@@ -47,3 +47,4 @@ func _on_module_done_loading():
 	
 	if num_modules_loaded == num_modules:
 		tile.emit_signal("tile_done_loading")
+		tile.done_loading = true

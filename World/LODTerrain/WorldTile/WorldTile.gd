@@ -50,7 +50,14 @@ func _ready():
 		print("Warning: Uninitialized WorldTile created")  # FIXME: change into a meaningful LOG message
 	
 	created = true
-
+	
+	
+func _process(delta):
+	# If this tile is flagged to be deleted, all threads are done and all children are done deleting
+	# as well, delete this tile!
+	if done_loading and to_be_deleted and children.get_child_count() == 0:
+		free()
+		
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
@@ -86,8 +93,14 @@ func get_parent_tile():
 
 # Make all children tiles visible, and all of this tile's modules invisible
 func display_children_instead_of_self():
-	children.visible = true
+	set_children_visible()
 	set_modules_invisible()
+	
+	
+# Make this tile visible instead of its children
+func display_self_instead_of_children():
+	set_children_invisible()
+	set_modules_visible()
 
 
 # Creates a PlaneMesh which corresponds to the current size and subdivision
@@ -112,17 +125,30 @@ func set_heightmap_params_for_obj(obj):
 	obj.set_shader_param("size_without_skirt", size)
 
 
+# Mark this tile (and thus its children) to be deleted as soon as it is safe to do so
 func delete():
+	children.clear_children()
 	to_be_deleted = true
-	visible = false
-	# We want to actually free this node if it's done_loading and to_be_deleted, as in tell the engine to delete it.
-	# However, doing this here leads to crashes when multithreading.
-	# As a temporary solution, making it invisible seems to be fine - it doesn't seem to introduce any framerate issues.
+	
+	
+# Shows the modules at this LOD - used for when this tile is a leaf
+func set_modules_visible():
+	modules.visible = true
 
 
 # Hides the mesh at this LOD - used when higher LOD children are shown instead
 func set_modules_invisible():
 	modules.visible = false
+	
+
+# Shows the children (higher LOD) tiles
+func set_children_visible():
+	children.visible = true
+	
+
+# Hides the children (higher LOD) tiles
+func set_children_invisible():
+	children.visible = false
 	
 	
 # Returns true if this is a leaf tile - it is being displayed and has no higher LOD children.
@@ -143,7 +169,9 @@ func get_size_vector2d() -> Vector2:
 # Use the LOD at this tile (Make this mesh visible, and delete children modules) - for example, converge from 4 tiles
 # to 1
 func converge():
-	modules.visible = true
+	# Since the children are going to be deleted, show this one instead
+	display_self_instead_of_children()
+	
 	children.clear_children()
 	has_split = false
 
@@ -253,13 +281,15 @@ func get_offset_from_parents(steps):
 func split(dist_to_player):
 	if !initialized: return
 	
-	if lod >= max_lods.size(): return # Don't split if we're already at the last max_lods item
+	if lod >= max_lods.size():
+		return # Don't split if we're already at the last max_lods item
 	
 	if has_split:
 		return
 		
 	has_split = true
 	
+	set_children_invisible() # Hide children while they're being built
 	children.instantiate_children([1])
 
 

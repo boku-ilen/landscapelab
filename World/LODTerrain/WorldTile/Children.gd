@@ -11,15 +11,9 @@ func instantiate_children(data):
 	# | 1 3
 	# v y
 	var cur_name = 0
-	
-	# Hide children while they're being built
-	visible = false
-	
-	if has_node("0"): # The nodes are already there, but invisible
-		for i in range(0, 3):
-			get_node(str(i)).visible = true
-	else:
-		# Add 4 children
+
+	# Add 4 children if there are none yet
+	if get_child_count() == 0:
 		for x in range(0, 2):
 			for y in range(0, 2):
 				var xy_vec = Vector2(x, y)

@@ -65,9 +65,6 @@ func _process(delta):
 					if not tiles.has_node("%d,%d" % [x, y]):
 						# There is no tile here yet -> spawn the proper tile
 						spawn_tile([x, y])
-					else: # TODO: This block will not be necessary anymore once tiles are actually deleted
-						if tiles.get_node("%d,%d" % [x, y]).visible == false:
-							tiles.get_node("%d,%d" % [x, y]).visible = true
 				else:
 					# We're outside the spawning radius -> Despawn any tiles left here
 					if tiles.has_node("%d,%d" % [x, y]):
