@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Util/Tooltip3D.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_unshaded = true
@@ -61,7 +60,6 @@ rect_min_size = Vector2( 32, 32 )
 [node name="TextureRect" type="TextureRect" parent="ViewportContainer/Viewport/CenterContainer/VBoxContainer/MarginContainer"]
 margin_right = 52.0
 margin_bottom = 32.0
-texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 
@@ -70,4 +68,3 @@ margin_top = 36.0
 margin_right = 52.0
 margin_bottom = 50.0
 text = "0.0 kWh"
-
