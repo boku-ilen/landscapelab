@@ -1,5 +1,7 @@
 extends Spatial
 
+var tilescene = load("res://World/LODTerrain/WorldTile/WorldTile.tscn")
+
 onready var tile = get_parent()
 
 
@@ -18,7 +20,7 @@ func instantiate_children(data):
 			for y in range(0, 2):
 				var xy_vec = Vector2(x, y)
 				
-				var child = load("res://World/LODTerrain/WorldTile/WorldTile.tscn").instance()
+				var child = tilescene.instance()
 				
 				# Set location
 				var offset = Vector3(x - 0.5, 0, y - 0.5)  * tile.size/2.0
