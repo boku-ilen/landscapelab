@@ -127,7 +127,8 @@ func get_json(url, use_cache=true):
 		return json_cache.get(url)[1]
 		
 	# Make it known that this request is being worked on
-	json_cache[url] = [false, null]
+	if use_cache:
+		json_cache[url] = [false, null]
 	cache_mutex.unlock()
 			
 	var connection = Connection.new()
@@ -136,13 +137,15 @@ func get_json(url, use_cache=true):
 	
 	cache_mutex.lock()
 	if json.error == OK:
-		json_cache[url] = [true, json.result]
+		if use_cache:
+			json_cache[url] = [true, json.result]
 		cache_mutex.unlock()
 		return json.result
 	else:
 		# This request has been done, but resulted in an error; save this in the cache
 		# so that the request is known to not yield any data
-		json_cache[url] = [true, null]
+		if use_cache:
+			json_cache[url] = [true, null]
 		cache_mutex.unlock()
 		logger.error("Encountered Error %s while parsing JSON: %s" % [json.error, json.error_string])
 		logger.info("Content was: %s" % [answer])  # FIXME: should be debug, but this is not displayed currently
