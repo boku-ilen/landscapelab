@@ -45,6 +45,7 @@ CachingImageTexture="*res://Global/CachingImageTexture.gd"
 Offset="*res://Global/Offset.gd"
 TooltipHandler="*res://Global/TooltipHandler.gd"
 WorldPosition="*res://Global/WorldPosition.gd"
+PerformanceTracker="*res://Global/Debug/PerformanceTracker.gd"
 
 [display]
 

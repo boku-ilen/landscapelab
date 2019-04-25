@@ -40,8 +40,9 @@ var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
 # Signals
 signal tile_done_loading # Emitted by the tile once all modules have finished loading -> the tile is ready
 
-
 func _ready():
+	PerformanceTracker.number_of_tiles += 1
+	
 	if initialized:
 
 		if will_activate_with_last_player_pos:
@@ -56,8 +57,8 @@ func _process(delta):
 	# If this tile is flagged to be deleted, all threads are done and all children are done deleting
 	# as well, delete this tile!
 	if done_loading and to_be_deleted and children.get_child_count() == 0:
-		free()
-		
+		PerformanceTracker.number_of_tiles -= 1
+		queue_free()
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
@@ -248,10 +249,11 @@ func activate(player_pos):
 	var dist_to_player = get_dist_to_player()
 	
 	# Check whether this is a high LOD tile which needs to converge
-	if dist_to_player > max_lods[lod]:
-		converge()
-	elif lod < max_lods.size() - 1 and dist_to_player < max_lods[lod+1]:
-		split(dist_to_player)
+	if done_loading:
+		if dist_to_player > max_lods[lod]:
+			converge()
+		elif lod < max_lods.size() - 1 and dist_to_player < max_lods[lod+1]:
+			split(dist_to_player)
 
 
 # Move the tile in the world (used for offsetting)
