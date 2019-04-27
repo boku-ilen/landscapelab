@@ -76,5 +76,9 @@
     
     "water": {
         "water-splat-id": 60
+    },
+    
+    "minimap": {
+        "height": 4000
     }
 }
