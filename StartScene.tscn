@@ -30,4 +30,3 @@ margin_bottom = -184.063
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 
 [node name="WorldEnvironment" parent="." instance=ExtResource( 4 )]
-

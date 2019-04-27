@@ -62,10 +62,13 @@ func _load_into_dict(path):
 
 
 # Gets an ImageTexture from the cache dictionary using the given path.
+# This means it can be used to texture objects.
 func _get_texture_from_dict(path):
 	return _path_imagetexture_dict[path][0]
 
 
+# Gets an Image from the cache dictionary using the given path.
+# This means it can be manipulated (cropped, flipped, etc).
 func _get_image_from_dict(path):
 	return _path_imagetexture_dict[path][1]
 

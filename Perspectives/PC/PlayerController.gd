@@ -1,5 +1,10 @@
 extends KinematicBody
 
+#
+# This scene handles a basic first person controller with a flying mode
+# and a walking mode.
+#
+
 var origin_offset_x : int = 0
 var origin_offset_z : int = 0
 

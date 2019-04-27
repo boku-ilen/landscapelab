@@ -43,7 +43,7 @@ func get_middle_of_season(season): # 0 = winter, 1 = spring, 2 = summer, 3 = fal
 
 
 func set_sun_position_for_seasontime(season, hours):
-	logger.info("setting sun position to season: %s and time: %s" % [season, hours])  # FIXME: this might be loglevel debug
+	logger.debug("setting sun position to season: %s and time: %s" % [season, hours])
 	var date = get_middle_of_season(season)
 	set_sun_position_for_datetime(hours, date.day, date.month, date.year)
 

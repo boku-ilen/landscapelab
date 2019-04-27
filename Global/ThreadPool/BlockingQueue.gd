@@ -6,6 +6,8 @@ var _mutex = Mutex.new()
 var _queue = []
 
 
+# Place an element at the back of the queue.
+# This function is blocking if the queue is currently locked (being accessed).
 func enqueue(val):
 	while _mutex.try_lock() == ERR_BUSY:
 		continue
@@ -15,6 +17,9 @@ func enqueue(val):
 	_sem.post()
 
 
+# Removes and returns the element at the front of the queue.
+# This function is blocking if the queue is currently locked (being accessed) or empty.
+# It may return null if there was an error with decrementing the Semaphore.
 func dequeue():
 	if _sem.wait() == ERR_BUSY:
 		return null

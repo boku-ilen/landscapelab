@@ -48,7 +48,8 @@ func _ready():
 		if will_activate_with_last_player_pos:
 			activate(will_activate_with_last_player_pos)
 	else:
-		print("Warning: Uninitialized WorldTile created")  # FIXME: change into a meaningful LOG message
+		logger.warning("WorldTile.init() wasn't called to fill this tile with its information before creating it. " +
+		"This result in a broken tile!")
 	
 	created = true
 	
@@ -312,6 +313,7 @@ func get_dist_to_player():
 
 
 # Recursively tries getting textures, starting at the current LOD, going down one LOD each step and cropping the result accordingly
+# TODO: This function should become obsolete, as the server should handle all cropping!
 func get_texture_recursive(tex_name, zoom, steps, folder="raster"):
 	if steps > 12: # Limit recursion to 12 steps
 		return null

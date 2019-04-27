@@ -1,5 +1,10 @@
 extends "res://World/LODTerrain/Modules/TerrainModule.gd"
 
+#
+# This module extends the TerrainModule to replace the orthophoto with detailed
+# ground textures based on the vegetation splatmap when the player gets close.
+#
+
 var splat_result
 var splatmap
 

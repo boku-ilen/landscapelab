@@ -14,4 +14,3 @@ script = ExtResource( 2 )
 
 [node name="Children" type="Spatial" parent="."]
 script = ExtResource( 3 )
-

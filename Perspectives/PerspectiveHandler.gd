@@ -1,5 +1,15 @@
 extends Node
 
+#
+# This node handles the different viewports and what's being displayed there.
+# The available viewports are the PC main viewport, the PC mini viewport, and the
+# VR viewport.
+# By instantiating a scene into one of those viewports, the camera of that scene
+# renders into this viewport.
+# Thus, any perspective (scene with a camera) can be displayed in any viewport.
+# Note that VR perspectives need to be built according to Godot's ARVR nodes.
+#
+
 onready var pc_viewport = get_node("ViewportContainer/PCViewport")
 onready var vr_viewport = get_node("ViewportContainer/VRViewport")
 onready var pc_mini_viewport = get_node("ViewportContainer/MiniViewportContainer/PCMiniViewport")

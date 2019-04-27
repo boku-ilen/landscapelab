@@ -1,5 +1,10 @@
 extends Spatial
 
+#
+# This scene is part of the WorldTile. It is responsible for spawning
+# the modules that this WorldTile should have based on the settings.
+#
+
 onready var tile = get_parent()
 
 var num_modules : int = 0 # Number of modules this tile has
@@ -15,7 +20,8 @@ func _ready():
 	connect("module_done_loading", self, "_on_module_done_loading")
 	spawn_modules()
 	
-	
+
+# Loads all modules defined for (up to) this LOD in the settings and instances them as children.
 func spawn_modules():
 	var index = 0
 	var modules_to_spawn = []
@@ -37,7 +43,8 @@ func spawn_modules():
 	
 	# Spawn the modules we selected previously
 	for module in modules_to_spawn:
-		add_child(load(module_path + module).instance() as Module)
+		var instance = load(module_path + module).instance()
+		add_child(instance)
 
 
 # Called when the module_done_loading signal is emitted.
