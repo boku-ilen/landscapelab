@@ -51,6 +51,7 @@ func _load_into_dict(path):
 	# Verify if there really is a file at that path
 	if not Directory.new().file_exists(path):
 		logger.warning("An image was supposed to be loaded from %s, but this file does not exist!" % [path])
+		return
 	
 	# Load the image from the path and create an ImageTexture from it
 	var img = Image.new()
