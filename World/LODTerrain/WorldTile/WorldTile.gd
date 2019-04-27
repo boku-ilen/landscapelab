@@ -60,6 +60,11 @@ func _process(delta):
 	if done_loading and to_be_deleted and children.get_child_count() == 0:
 		PerformanceTracker.number_of_tiles -= 1
 		queue_free()
+		
+	# TODO: This is required due to a race condition in displaying children/self.
+	# This is a temporary fix, it should be properly solved, not checked every frame!
+	if not has_split:
+		display_self_instead_of_children()
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
