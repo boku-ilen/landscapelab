@@ -1,32 +1,35 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Resources/Images/UI/StartScreen/startscreen.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/StartScreen/austria.png" type="Texture" id=2]
 [ext_resource path="res://UI/StartMenu/StartMenuUI.tscn" type="PackedScene" id=3]
-[ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=4]
 
 [node name="StartScene" type="Node"]
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-polygon = PoolVector2Array( -34.3418, -45.4923, 2017.35, -77.1378, 1999.77, 1188.68, -162.682, 1151.77 )
+[node name="GraphicContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="startscreen" type="Sprite" parent="."]
-position = Vector2( -0.00774993, 70 )
-scale = Vector2( 0.468752, 0.467585 )
+[node name="BackgroundTexture" type="TextureRect" parent="GraphicContainer"]
+margin_right = 1920.0
+margin_bottom = 1080.0
 texture = ExtResource( 1 )
-centered = false
+expand = true
+stretch_mode = 1
 
-[node name="austria" type="Sprite" parent="startscreen"]
-position = Vector2( 1988.03, 1091.26 )
+[node name="AustriaTexture" type="TextureRect" parent="GraphicContainer"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_vertical = 3
 texture = ExtResource( 2 )
+expand = true
 
 [node name="StartMenuUI" parent="." instance=ExtResource( 3 )]
 margin_left = 654.783
 margin_top = -184.063
 margin_right = 654.783
 margin_bottom = -184.063
-
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
-
-[node name="WorldEnvironment" parent="." instance=ExtResource( 4 )]
