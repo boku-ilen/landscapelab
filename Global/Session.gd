@@ -17,7 +17,8 @@ func load_scenarios():
 	var scenario_result = ServerConnection.get_json(scenario_url)
 
 	if not scenario_result or scenario_result.has("Error"):
-		ErrorPrompt.show("Could not fetch scenarios from server")
+		logger.error("Could not load the scenarios from the server")
+		ErrorPrompt.show("ERROR", "Could not fetch scenarios from server - is the server up and connected?")
 		return false
 	
 	scenarios = scenario_result
@@ -35,11 +36,8 @@ func get_scenario(scenario_id):
 
 
 func load_scenario(scenario_id):
-	"""Starts a new session for the scenario with the given ID.
-	Sets the world offset to the starting position in that scenario."""
+	"""Sets the world offset to the starting position in that scenario."""
 	
-	_start_session(scenario_id)
-
 	var scen = get_scenario(scenario_id)
 	
 	# Get starting location (usually first element in dictionary)
@@ -60,10 +58,15 @@ func load_scenario(scenario_id):
 		# FIXME: what to do? is it possible to start at a random or calculated starting location based on the bounding polygon geometry
 
 
-func _start_session(scenario_id):
+# we want to get a new session id from the server thus ending the old session
+func start_session(scenario_id):
+	
+	# try to get a new session id for this scenario
 	var session = ServerConnection.get_json(session_url % [scenario_id])
 	
 	if not session or session.has("Error"):
-		ErrorPrompt.show("Cannot start session")
+		logger.warning("Could not fetch a new session id from %s" % session_url)
+		ErrorPrompt.show("WARNING", "Could not start a new session")
 		
-	id = session.session
+	# sets the new session id
+	id = session.session  
