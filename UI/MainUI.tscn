@@ -80,16 +80,16 @@ texture_normal = ExtResource( 1 )
 
 [node name="Energy Sum Icon" type="TextureButton" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
 margin_left = 154.0
-margin_right = 230.0
+margin_right = 231.0
 margin_bottom = 58.0
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 3 )
 texture_hover = ExtResource( 4 )
 
 [node name="Energy Value" type="Label" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
-margin_left = 234.0
+margin_left = 235.0
 margin_top = 22.0
-margin_right = 271.0
+margin_right = 272.0
 margin_bottom = 36.0
 text = "0 MW"
 
@@ -101,20 +101,20 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 545.0
-margin_right = 658.0
+margin_left = 544.0
+margin_right = 659.0
 margin_bottom = 1030.0
 
 [node name="Lego" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
-margin_right = 52.0
+margin_right = 54.0
 margin_bottom = 1030.0
 texture_normal = ExtResource( 5 )
 texture_pressed = ExtResource( 6 )
 texture_hover = ExtResource( 7 )
 
 [node name="Controller" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
-margin_left = 56.0
-margin_right = 113.0
+margin_left = 58.0
+margin_right = 115.0
 margin_bottom = 1030.0
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 9 )
