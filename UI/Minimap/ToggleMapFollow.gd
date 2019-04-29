@@ -1,4 +1,4 @@
-extends CheckButton
+extends TextureButton
 
 
 func _ready():

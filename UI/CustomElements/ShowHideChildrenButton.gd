@@ -1,4 +1,4 @@
-extends Button
+extends TextureButton
 
 #
 # This button shows/hides its child elements when pressed.
