@@ -147,7 +147,7 @@ func get_json(url, use_cache=true):
 		if use_cache:
 			json_cache[url] = [true, null]
 		cache_mutex.unlock()
-		logger.error("Encountered Error %s while parsing JSON: %s" % [json.error, json.error_string])
+		logger.error("Encountered Error %s while parsing JSON: %s (URL: http://%s:%s/%s%s)" % [json.error, json.error_string, connection.host, connection.port, connection.url_prefix, url])
 		logger.info("Content was: %s" % [answer])  # FIXME: should be debug, but this is not displayed currently
 		return null
 
