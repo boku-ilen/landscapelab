@@ -1,6 +1,10 @@
 extends Node
 
 
+# creates a new AcceptDialog and shows it
 func show(title, msg = ""):
-	logger.error("%s : %s" % [title, msg])
-	#FIXME later this should pop up an alert window that displays the message to the user
+	
+	var accept_dialog = AcceptDialog.new()
+	accept_dialog.set_text(msg)
+	accept_dialog.set_title(title)
+	accept_dialog.popup_centered()
