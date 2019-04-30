@@ -79,6 +79,7 @@
     },
     
     "minimap": {
-        "height": 4000
+        "height": 4000,
+        "size": 9000
     }
 }
