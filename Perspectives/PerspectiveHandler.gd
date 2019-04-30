@@ -12,8 +12,7 @@ extends Node
 
 onready var pc_viewport = get_node("ViewportContainer/PCViewport")
 onready var vr_viewport = get_node("ViewportContainer/VRViewport")
-onready var pc_mini_viewport = get_node("ViewportContainer/MiniViewportContainer/PCMiniViewport")
-onready var pc_mini_container = get_node("ViewportContainer/MiniViewportContainer")
+onready var pc_mini_viewport = get_node("UIMargin/MiniView/Border/Margin/ViewportContainer/Viewport")
 
 var vr_activated : bool = false
 var minimap_activated : bool = false
@@ -35,9 +34,6 @@ func _ready():
 	var mini_size = screen_size / 3
 	
 	pc_viewport.size = screen_size
-	pc_mini_viewport.size = mini_size
-	pc_mini_container.rect_size = mini_size
-	pc_mini_container.rect_position = screen_size - mini_size
 	
 	# Start with PC 3rd person view
 	pc_activate_third_person()
