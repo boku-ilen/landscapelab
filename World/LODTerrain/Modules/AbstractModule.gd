@@ -15,7 +15,7 @@ var ready = false
 
 func _ready():
 	if not get_parent() or not get_parent().get_parent():
-		print("ERROR: Module is not correctly placed - grandparent must be a WorldTile! (WorldTile -> Modules -> This")
+		logger.warning("Module is not correctly placed - grandparent must be a WorldTile! (WorldTile -> Modules -> This)")
 	else:
 		tile = get_parent().get_parent()
 		modules = get_parent()

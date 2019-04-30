@@ -33,5 +33,4 @@ func set_sun_dir(dir):
 
 func set_sun_energy(energy):
 	$SkyCube.get_surface_material(0).set_shader_param("light_intensity", energy)
-	print("Setting energy to ")
-	print(energy)
+	logger.debug("Setting sun energy to %s" % [energy])
