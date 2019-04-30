@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://World/MainScene/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://World/LODTerrain/TileHandler.tscn" type="PackedScene" id=2]
 [ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Perspectives/PerspectiveHandler.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Tracking/LocationTracker.tscn" type="PackedScene" id=5]
+[ext_resource path="res://World/DynamicAssetHandler/SpecificHandlers/VestasWindmillHandler.tscn" type="PackedScene" id=6]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 1 )
@@ -16,4 +17,6 @@ script = ExtResource( 1 )
 [node name="PerspectiveHandler" parent="." instance=ExtResource( 4 )]
 
 [node name="LocationTracker" parent="." instance=ExtResource( 5 )]
+
+[node name="VestasWindmillHandler" parent="." instance=ExtResource( 6 )]
 
