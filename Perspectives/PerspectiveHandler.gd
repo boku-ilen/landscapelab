@@ -41,8 +41,9 @@ func _ready():
 	
 	# Start with PC 3rd person view
 	pc_activate_third_person()
+	
 	# Start with the minimap enabled
-	# toggle_minimap()  
+	toggle_minimap()
 
 
 # Check for perspective-related input and react accordingly
@@ -63,7 +64,6 @@ func _input(event):
 func pc_activate_first_person():
 	clear_pc()
 	add_pc(first_person_pc_scene.instance()) # TODO: This causes Error "Condition ' !is_inside_tree() ' is true. returned: Transform()", which has no apparent implication
-	add_pc_mini(minimap_scene.instance())
 	
 	if vr_activated:
 		pass # Set PC movement false, stick to VR player
@@ -79,9 +79,12 @@ func pc_activate_third_person():
 
 # toggle the display of the minimap
 func toggle_minimap():
-	minimap_activated = !minimap_activated	
+	minimap_activated = !minimap_activated
+	
 	if minimap_activated:
-		pc_viewport.add_child(minimap_scene.instance())
+		add_pc_mini(minimap_scene.instance())
+	else:
+		clear_pc_mini()
 
 
 func toggle_mouse_capture():
