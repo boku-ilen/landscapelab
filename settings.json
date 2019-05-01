@@ -1,7 +1,8 @@
 {
     "server": {
-        "ip": "127.0.0.1",
-        "port": 8000
+        "ip": "141.244.151.53",
+        "port": 80,
+        "prefix": "/landscapelab"
     },
     
     "filesystem": {
@@ -32,10 +33,7 @@
             ["TerrainModule.tscn"],
             [],
             ["TerrainColliderModule.tscn"],
-            ["-TerrainModule.tscn", "DetailedTerrainModule.tscn", "Vegetation/LargeTreeModule.tscn", "WaterModule.tscn"],
-            ["Vegetation/SmallTreeModule.tscn"],
-            ["Vegetation/LargeBushModule.tscn"],
-            ["Vegetation/SmallBushModule.tscn", "Vegetation/HerbageModule.tscn"],
+            ["-TerrainModule.tscn", "DetailedTerrainModule.tscn", "WaterModule.tscn"],
 
         ],
         "player-bounding-radius": 10000,
@@ -70,7 +68,8 @@
     },
 
     "third-person": {
-    	"max-distance-to-ground": 5000,
+    	"max-distance-to-ground": 15000,
+    	"start_height": 5000,
     	"mouse-zoom-speed": 50
     },
     
@@ -80,6 +79,9 @@
     
     "minimap": {
         "height": 4000,
-        "size": 9000
+        "size": 9000,
+        "zoom_step": 50,
+        "zoom_max": 20000,
+        "zoom_min": 100
     }
 }
