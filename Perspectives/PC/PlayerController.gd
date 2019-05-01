@@ -43,14 +43,6 @@ func shift(delta_x, delta_z):
 	translation.z += delta_z
 
 
-func _enter_tree():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-
-func _exit_tree():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-
-
 func _ready():
 	Offset.connect("shift_world", self, "shift")
 

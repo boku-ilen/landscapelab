@@ -1,6 +1,7 @@
 extends Spatial
 
 var MAX_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "max-distance-to-ground")
+var START_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "start_height")
 var MOUSE_ZOOM_SPEED = Settings.get_setting("third-person", "mouse-zoom-speed")
 
 var dragging : bool = false
@@ -12,7 +13,7 @@ onready var ground_check_ray = get_node("GroundCheckRay")
 func _ready():
 	Offset.connect("shift_world", self, "shift")
 	
-	current_distance_to_ground = MAX_DISTANCE_TO_GROUND
+	current_distance_to_ground = START_DISTANCE_TO_GROUND
 
 
 func _input(event):
