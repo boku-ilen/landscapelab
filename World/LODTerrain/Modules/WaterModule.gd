@@ -20,8 +20,8 @@ func get_splat_data():
 
 
 func get_textures(data):
+	
 	get_splat_data()
-
 	make_ready()
 
 

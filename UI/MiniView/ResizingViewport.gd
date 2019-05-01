@@ -12,7 +12,7 @@ func _ready():
 	
 	# Set the correct size for the start (since 'resized' is not emitted when first instancing)
 	_on_size_changed()
-	
+
 
 func _on_size_changed():
 	# Make the viewport as large as this container

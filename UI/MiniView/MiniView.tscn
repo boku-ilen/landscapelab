@@ -1,33 +1,42 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/follow_mode.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/s_follow_mode.png" type="Texture" id=2]
 [ext_resource path="res://Resources/Images/UI/UI/h_follow_mode.png" type="Texture" id=3]
-[ext_resource path="res://Resources/Images/UI/UI/teleport.png" type="Texture" id=4]
-[ext_resource path="res://Resources/Images/UI/UI/s_teleport.png" type="Texture" id=5]
-[ext_resource path="res://Resources/Images/UI/UI/h_teleport.png" type="Texture" id=6]
-[ext_resource path="res://Resources/Images/UI/UI/zoom_in.png" type="Texture" id=7]
-[ext_resource path="res://Resources/Images/UI/UI/s_zoom_in.png" type="Texture" id=8]
-[ext_resource path="res://Resources/Images/UI/UI/h_zoom_in.png" type="Texture" id=9]
-[ext_resource path="res://Resources/Images/UI/UI/zoom_out.png" type="Texture" id=10]
-[ext_resource path="res://Resources/Images/UI/UI/s_zoom_out.png" type="Texture" id=11]
-[ext_resource path="res://Resources/Images/UI/UI/h_zoom_out.png" type="Texture" id=12]
-[ext_resource path="res://Resources/Images/UI/UI/3rd_person.png" type="Texture" id=13]
-[ext_resource path="res://Resources/Images/UI/UI/s_3rd_person.png" type="Texture" id=14]
-[ext_resource path="res://Resources/Images/UI/UI/h_3rd_person.png" type="Texture" id=15]
-[ext_resource path="res://Resources/Images/UI/UI/map_mode.png" type="Texture" id=16]
-[ext_resource path="res://Resources/Images/UI/UI/s_map_mode.png" type="Texture" id=17]
-[ext_resource path="res://Resources/Images/UI/UI/h_map_mode.png" type="Texture" id=18]
-[ext_resource path="res://Resources/Images/UI/UI/first_person.png" type="Texture" id=19]
-[ext_resource path="res://Resources/Images/UI/UI/s_first_person.png" type="Texture" id=20]
-[ext_resource path="res://Resources/Images/UI/UI/h_first_person.png" type="Texture" id=21]
-[ext_resource path="res://Resources/Images/UI/UI/switch.png" type="Texture" id=22]
-[ext_resource path="res://Resources/Images/UI/UI/s_switch.png" type="Texture" id=23]
-[ext_resource path="res://Resources/Images/UI/UI/h_switch.png" type="Texture" id=24]
-[ext_resource path="res://Resources/Images/UI/UI/close.png" type="Texture" id=25]
-[ext_resource path="res://Resources/Images/UI/UI/s_close.png" type="Texture" id=26]
-[ext_resource path="res://Resources/Images/UI/UI/h_close.png" type="Texture" id=27]
-[ext_resource path="res://UI/MiniView/ResizingViewport.gd" type="Script" id=28]
+[ext_resource path="res://UI/MiniView/ui_follow_mode.gd" type="Script" id=4]
+[ext_resource path="res://Resources/Images/UI/UI/teleport.png" type="Texture" id=5]
+[ext_resource path="res://Resources/Images/UI/UI/s_teleport.png" type="Texture" id=6]
+[ext_resource path="res://Resources/Images/UI/UI/h_teleport.png" type="Texture" id=7]
+[ext_resource path="res://Resources/Images/UI/UI/zoom_in.png" type="Texture" id=8]
+[ext_resource path="res://Resources/Images/UI/UI/s_zoom_in.png" type="Texture" id=9]
+[ext_resource path="res://Resources/Images/UI/UI/h_zoom_in.png" type="Texture" id=10]
+[ext_resource path="res://UI/MiniView/ui_zoom_in.gd" type="Script" id=11]
+[ext_resource path="res://Resources/Images/UI/UI/zoom_out.png" type="Texture" id=12]
+[ext_resource path="res://Resources/Images/UI/UI/s_zoom_out.png" type="Texture" id=13]
+[ext_resource path="res://Resources/Images/UI/UI/h_zoom_out.png" type="Texture" id=14]
+[ext_resource path="res://UI/MiniView/ui_zoom_out.gd" type="Script" id=15]
+[ext_resource path="res://Resources/Images/UI/UI/3rd_person.png" type="Texture" id=16]
+[ext_resource path="res://Resources/Images/UI/UI/s_3rd_person.png" type="Texture" id=17]
+[ext_resource path="res://Resources/Images/UI/UI/h_3rd_person.png" type="Texture" id=18]
+[ext_resource path="res://UI/MiniView/ui_3rd_mode.gd" type="Script" id=19]
+[ext_resource path="res://Resources/Images/UI/UI/map_mode.png" type="Texture" id=20]
+[ext_resource path="res://Resources/Images/UI/UI/s_map_mode.png" type="Texture" id=21]
+[ext_resource path="res://Resources/Images/UI/UI/h_map_mode.png" type="Texture" id=22]
+[ext_resource path="res://UI/MiniView/ui_map_mode.gd" type="Script" id=23]
+[ext_resource path="res://Resources/Images/UI/UI/first_person.png" type="Texture" id=24]
+[ext_resource path="res://Resources/Images/UI/UI/s_first_person.png" type="Texture" id=25]
+[ext_resource path="res://Resources/Images/UI/UI/h_first_person.png" type="Texture" id=26]
+[ext_resource path="res://UI/MiniView/ui_1st_mode.gd" type="Script" id=27]
+[ext_resource path="res://Resources/Images/UI/UI/switch.png" type="Texture" id=28]
+[ext_resource path="res://Resources/Images/UI/UI/s_switch.png" type="Texture" id=29]
+[ext_resource path="res://Resources/Images/UI/UI/h_switch.png" type="Texture" id=30]
+[ext_resource path="res://UI/MiniView/ui_switch.gd" type="Script" id=31]
+[ext_resource path="res://Resources/Images/UI/UI/close.png" type="Texture" id=32]
+[ext_resource path="res://Resources/Images/UI/UI/s_close.png" type="Texture" id=33]
+[ext_resource path="res://Resources/Images/UI/UI/h_close.png" type="Texture" id=34]
+[ext_resource path="res://UI/MiniView/ui_close.gd" type="Script" id=35]
+[ext_resource path="res://UI/MiniView/ui_border.gd" type="Script" id=36]
+[ext_resource path="res://UI/MiniView/ResizingViewport.gd" type="Script" id=37]
 
 [node name="MiniView" type="VBoxContainer"]
 anchor_left = 1.0
@@ -40,54 +49,58 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 alignment = 2
 
-[node name="Minimap Menu" type="HBoxContainer" parent="."]
+[node name="Miniview Menu" type="HBoxContainer" parent="."]
 margin_right = 650.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 650, 50 )
 size_flags_horizontal = 2
 size_flags_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Minimap Menu"]
+[node name="Map Commands" type="HBoxContainer" parent="Miniview Menu"]
 margin_top = 1.0
-margin_right = 460.0
+margin_right = 541.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 8
 
-[node name="Follow me flag" type="TextureButton" parent="Minimap Menu/HBoxContainer"]
+[node name="Follow me flag" type="TextureButton" parent="Miniview Menu/Map Commands"]
 margin_right = 37.0
 margin_bottom = 49.0
 toggle_mode = true
+pressed = true
 texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 2 )
 texture_hover = ExtResource( 3 )
+script = ExtResource( 4 )
 
-[node name="Teleport" type="TextureButton" parent="Minimap Menu/HBoxContainer"]
+[node name="Teleport" type="TextureButton" parent="Miniview Menu/Map Commands"]
 margin_left = 41.0
 margin_right = 86.0
 margin_bottom = 49.0
-texture_normal = ExtResource( 4 )
-texture_pressed = ExtResource( 5 )
-texture_hover = ExtResource( 6 )
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 6 )
+texture_hover = ExtResource( 7 )
 
-[node name="Zoom IN" type="TextureButton" parent="Minimap Menu/HBoxContainer"]
+[node name="Zoom IN" type="TextureButton" parent="Miniview Menu/Map Commands"]
 margin_left = 90.0
 margin_right = 132.0
 margin_bottom = 49.0
-texture_normal = ExtResource( 7 )
-texture_pressed = ExtResource( 8 )
-texture_hover = ExtResource( 9 )
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 9 )
+texture_hover = ExtResource( 10 )
+script = ExtResource( 11 )
 
-[node name="Zoom OUT" type="TextureButton" parent="Minimap Menu/HBoxContainer"]
+[node name="Zoom OUT" type="TextureButton" parent="Miniview Menu/Map Commands"]
 margin_left = 136.0
 margin_right = 178.0
 margin_bottom = 49.0
-texture_normal = ExtResource( 10 )
-texture_pressed = ExtResource( 11 )
-texture_hover = ExtResource( 12 )
+texture_normal = ExtResource( 12 )
+texture_pressed = ExtResource( 13 )
+texture_hover = ExtResource( 14 )
+script = ExtResource( 15 )
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Minimap Menu"]
-margin_left = 464.0
+[node name="View Commands" type="HBoxContainer" parent="Miniview Menu"]
+margin_left = 545.0
 margin_top = 1.0
 margin_right = 650.0
 margin_bottom = 50.0
@@ -95,50 +108,56 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 alignment = 2
 
-[node name="Third Person Mode" type="TextureButton" parent="Minimap Menu/HBoxContainer2"]
+[node name="Third Person Mode" type="TextureButton" parent="Miniview Menu/View Commands"]
+visible = false
 margin_right = 38.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 13 )
-texture_pressed = ExtResource( 14 )
-texture_hover = ExtResource( 15 )
-
-[node name="Map Mode" type="TextureButton" parent="Minimap Menu/HBoxContainer2"]
-margin_left = 42.0
-margin_right = 77.0
 margin_bottom = 49.0
 texture_normal = ExtResource( 16 )
 texture_pressed = ExtResource( 17 )
 texture_hover = ExtResource( 18 )
+script = ExtResource( 19 )
 
-[node name="First Person Mode" type="TextureButton" parent="Minimap Menu/HBoxContainer2"]
-margin_left = 81.0
-margin_right = 110.0
+[node name="Map Mode" type="TextureButton" parent="Miniview Menu/View Commands"]
+visible = false
+margin_left = 42.0
+margin_right = 77.0
+margin_bottom = 49.0
+texture_normal = ExtResource( 20 )
+texture_pressed = ExtResource( 21 )
+texture_hover = ExtResource( 22 )
+script = ExtResource( 23 )
+
+[node name="First Person Mode" type="TextureButton" parent="Miniview Menu/View Commands"]
+margin_right = 29.0
 margin_bottom = 49.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-texture_normal = ExtResource( 19 )
-texture_pressed = ExtResource( 20 )
-texture_hover = ExtResource( 21 )
+texture_normal = ExtResource( 24 )
+texture_pressed = ExtResource( 25 )
+texture_hover = ExtResource( 26 )
+script = ExtResource( 27 )
 
-[node name="Switch" type="TextureButton" parent="Minimap Menu/HBoxContainer2"]
-margin_left = 114.0
-margin_right = 149.0
+[node name="Switch" type="TextureButton" parent="Miniview Menu/View Commands"]
+margin_left = 33.0
+margin_right = 68.0
 margin_bottom = 36.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-texture_normal = ExtResource( 22 )
-texture_pressed = ExtResource( 23 )
-texture_hover = ExtResource( 24 )
+texture_normal = ExtResource( 28 )
+texture_pressed = ExtResource( 29 )
+texture_hover = ExtResource( 30 )
+script = ExtResource( 31 )
 
-[node name="Close" type="TextureButton" parent="Minimap Menu/HBoxContainer2"]
-margin_left = 153.0
-margin_right = 186.0
+[node name="Close" type="TextureButton" parent="Miniview Menu/View Commands"]
+margin_left = 72.0
+margin_right = 105.0
 margin_bottom = 32.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-texture_normal = ExtResource( 25 )
-texture_pressed = ExtResource( 26 )
-texture_hover = ExtResource( 27 )
+texture_normal = ExtResource( 32 )
+texture_pressed = ExtResource( 33 )
+texture_hover = ExtResource( 34 )
+script = ExtResource( 35 )
 
 [node name="Border" type="ColorRect" parent="."]
 margin_top = 54.0
@@ -148,6 +167,7 @@ rect_min_size = Vector2( 650, 450 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 color = Color( 0, 0, 0, 1 )
+script = ExtResource( 36 )
 
 [node name="Margin" type="MarginContainer" parent="Border"]
 anchor_right = 1.0
@@ -160,9 +180,8 @@ margin_bottom = -10.0
 [node name="ViewportContainer" type="ViewportContainer" parent="Border/Margin"]
 margin_right = 630.0
 margin_bottom = 430.0
-script = ExtResource( 28 )
+script = ExtResource( 37 )
 
 [node name="Viewport" type="Viewport" parent="Border/Margin/ViewportContainer"]
 handle_input_locally = false
 render_target_update_mode = 3
-
