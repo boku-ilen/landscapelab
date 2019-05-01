@@ -2,7 +2,7 @@
 
 (First: Setup the [retour-middleware](https://github.com/boku-ilen/retour-middleware))
 
-* Folder `Assets` goes into `retour-client\` (same folder as `Scenes`, `Scripts`, ...)
-* Open the Godot project (importing can take a long time and seem like it's stuck, but it'll finish eventually)
+* Folder `ClientResources` goes as `Resources` into the root folder of this project
+* Open the Godot project 
 * Run the retour-middleware
 * Run the main scene
