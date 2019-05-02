@@ -11,6 +11,6 @@ func _ready():
 		child.visible = false
 	
 	
-func _pressed() -> void:
+func _toggled(button_pressed) -> void:
 	for child in get_children():
 		child.visible = !child.visible
