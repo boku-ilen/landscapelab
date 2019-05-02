@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Perspectives/PC/ThirdPersonController.gd" type="Script" id=1]
+[ext_resource path="res://Perspectives/PC/MousePoint.gd" type="Script" id=2]
+[ext_resource path="res://Perspectives/PC/ItemSpawner/ItemSpawner.tscn" type="PackedScene" id=3]
 
 [node name="ThirdPersonPC" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2000, 0 )
@@ -11,6 +13,13 @@ transform = Transform( 1, 0, 0, 0, 0.642788, 0.766045, 0, -0.766045, 0.642788, 0
 current = true
 fov = 55.0
 far = 50000.0
+
+[node name="MousePoint" type="Spatial" parent="ThirdPersonCamera"]
+transform = Transform( 1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
+script = ExtResource( 2 )
+
+[node name="ItemSpawner" parent="ThirdPersonCamera/MousePoint" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
 
 [node name="GroundCheckRay" type="RayCast" parent="."]
 enabled = true
