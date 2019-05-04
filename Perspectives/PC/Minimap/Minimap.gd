@@ -23,14 +23,14 @@ func _ready():
 	GlobalSignal.connect("minimap_zoom_out", self, "zoom_out")
 	GlobalSignal.connect("toggle_follow_mode", self, "toggle_follow_mode")
 	GlobalSignal.connect("initiate_minimap_icon_resize", self, "relay_minimap_icon_resize")
-
+	GlobalSignal.connect("request_minimap_icon_resize", self, "respond_to_minimap_icon_update_request")
 
 # Changes the size of the minimap camera to the given 'size'.
 # Size refers to the width/height of the camera making the orthographic projection.
 # e.g. a size of 2000 results in a visible area of roughly 4000x3000.
 func change_size(size):
 	cam.size = size
-	GlobalSignal.emit_signal("initiate_minimap_icon_resize", size, self)
+	GlobalSignal.emit_signal("initiate_minimap_icon_resize", size, filename)
 
 
 func _process(delta):
@@ -59,5 +59,9 @@ func toggle_follow_mode():
 
 # sends signal with minimap size and status so that minimap icons can rescale accordingly
 func relay_minimap_icon_resize(value, initiator):
-	if initiator != self:
+	if initiator != filename:
 		GlobalSignal.emit_signal("minimap_icon_resize", cam.size, value)
+
+
+func respond_to_minimap_icon_update_request():
+	GlobalSignal.emit_signal("initiate_minimap_icon_resize", cam.size, filename)

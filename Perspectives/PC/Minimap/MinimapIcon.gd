@@ -14,6 +14,7 @@ var mat
 
 func _ready():
 	update_icon(icon)
+	GlobalSignal.emit_signal("request_minimap_icon_resize")
 
 
 func _process(delta):

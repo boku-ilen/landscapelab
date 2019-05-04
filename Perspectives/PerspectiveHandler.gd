@@ -99,7 +99,7 @@ func change_pc_mini_scene(scene):
 	pc_mini_viewport.add_child(scene.instance())
 	current_pc_mini_scene = scene
 	emit_missing_viewports()
-	GlobalSignal.emit_signal("initiate_minimap_icon_resize", get_minimap_status() ,self)
+	GlobalSignal.emit_signal("initiate_minimap_icon_resize", get_minimap_status() , filename)
 	
 
 # change the scene of the pc fullscreen to given scene
@@ -109,7 +109,7 @@ func change_pc_scene(scene):
 	pc_viewport.add_child(scene.instance())
 	current_pc_scene = scene
 	emit_missing_viewports()
-	GlobalSignal.emit_signal("initiate_minimap_icon_resize", get_minimap_status(), self)
+	GlobalSignal.emit_signal("initiate_minimap_icon_resize", get_minimap_status(), filename)
 
 
 # this clears the miniview
@@ -138,7 +138,7 @@ func emit_missing_viewports():
 
 # sends signal with minimap size and status so that minimap icons can rescale accordingly
 func relay_minimap_icon_resize(value, initiator):
-	if initiator != self:
+	if initiator != filename:
 		GlobalSignal.emit_signal("minimap_icon_resize", value, get_minimap_status())
 
 
