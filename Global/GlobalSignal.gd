@@ -26,3 +26,21 @@ signal missing_1st
 
 # signal the ui to show the miniview again
 signal miniview_show
+
+# control source of input of new items
+signal input_lego
+signal input_controller
+signal input_disabled
+
+# enable and disable debug mode
+signal debug_enable
+signal debug_disable
+
+# enable and disable vr mode
+signal vr_enable
+signal vr_disable
+
+# set the tracking modes
+signal tracking_start
+signal tracking_pause
+signal tracking_stop

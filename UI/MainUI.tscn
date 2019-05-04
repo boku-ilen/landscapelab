@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/watermark.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/energy_sum.png" type="Texture" id=2]
@@ -7,28 +7,35 @@
 [ext_resource path="res://Resources/Images/UI/UI/lego_brick.png" type="Texture" id=5]
 [ext_resource path="res://Resources/Images/UI/UI/s_lego_brick.png" type="Texture" id=6]
 [ext_resource path="res://Resources/Images/UI/UI/h_lego_brick.png" type="Texture" id=7]
-[ext_resource path="res://Resources/Images/UI/UI/input_controller.png" type="Texture" id=8]
-[ext_resource path="res://Resources/Images/UI/UI/s_input_controller.png" type="Texture" id=9]
-[ext_resource path="res://Resources/Images/UI/UI/h_input_controller.png" type="Texture" id=10]
-[ext_resource path="res://Resources/Images/UI/UI/play.png" type="Texture" id=11]
-[ext_resource path="res://Resources/Images/UI/UI/s_play.png" type="Texture" id=12]
-[ext_resource path="res://Resources/Images/UI/UI/h_play.png" type="Texture" id=13]
-[ext_resource path="res://Resources/Images/UI/UI/pause.png" type="Texture" id=14]
-[ext_resource path="res://Resources/Images/UI/UI/h_pause.png" type="Texture" id=15]
-[ext_resource path="res://Resources/Images/UI/UI/stop.png" type="Texture" id=16]
-[ext_resource path="res://Resources/Images/UI/UI/s_stop.png" type="Texture" id=17]
-[ext_resource path="res://Resources/Images/UI/UI/h_stop.png" type="Texture" id=18]
-[ext_resource path="res://Resources/Images/UI/UI/vr.png" type="Texture" id=19]
-[ext_resource path="res://Resources/Images/UI/UI/s_vr.png" type="Texture" id=20]
-[ext_resource path="res://Resources/Images/UI/UI/h_vr.png" type="Texture" id=21]
-[ext_resource path="res://Resources/Images/UI/UI/season_time.png" type="Texture" id=22]
-[ext_resource path="res://Resources/Images/UI/UI/s_season_time.png" type="Texture" id=23]
-[ext_resource path="res://Resources/Images/UI/UI/h_season_time.png" type="Texture" id=24]
-[ext_resource path="res://UI/CustomElements/ShowHideChildrenButton.gd" type="Script" id=25]
-[ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=26]
-[ext_resource path="res://Resources/Images/UI/UI/bug.png" type="Texture" id=27]
-[ext_resource path="res://Resources/Images/UI/UI/s_bug.png" type="Texture" id=28]
-[ext_resource path="res://Resources/Images/UI/UI/h_bug.png" type="Texture" id=29]
+[ext_resource path="res://UI/ui_lego.gd" type="Script" id=8]
+[ext_resource path="res://Resources/Images/UI/UI/input_controller.png" type="Texture" id=9]
+[ext_resource path="res://Resources/Images/UI/UI/s_input_controller.png" type="Texture" id=10]
+[ext_resource path="res://Resources/Images/UI/UI/h_input_controller.png" type="Texture" id=11]
+[ext_resource path="res://UI/ui_controller.gd" type="Script" id=12]
+[ext_resource path="res://Resources/Images/UI/UI/play.png" type="Texture" id=13]
+[ext_resource path="res://Resources/Images/UI/UI/s_play.png" type="Texture" id=14]
+[ext_resource path="res://Resources/Images/UI/UI/h_play.png" type="Texture" id=15]
+[ext_resource path="res://UI/ui_tracking_play.gd" type="Script" id=16]
+[ext_resource path="res://Resources/Images/UI/UI/pause.png" type="Texture" id=17]
+[ext_resource path="res://Resources/Images/UI/UI/h_pause.png" type="Texture" id=18]
+[ext_resource path="res://UI/ui_tracking_pause.gd" type="Script" id=19]
+[ext_resource path="res://Resources/Images/UI/UI/stop.png" type="Texture" id=20]
+[ext_resource path="res://Resources/Images/UI/UI/s_stop.png" type="Texture" id=21]
+[ext_resource path="res://Resources/Images/UI/UI/h_stop.png" type="Texture" id=22]
+[ext_resource path="res://UI/ui_tracking_stop.gd" type="Script" id=23]
+[ext_resource path="res://Resources/Images/UI/UI/vr.png" type="Texture" id=24]
+[ext_resource path="res://Resources/Images/UI/UI/s_vr.png" type="Texture" id=25]
+[ext_resource path="res://Resources/Images/UI/UI/h_vr.png" type="Texture" id=26]
+[ext_resource path="res://UI/ui_vr.gd" type="Script" id=27]
+[ext_resource path="res://Resources/Images/UI/UI/season_time.png" type="Texture" id=28]
+[ext_resource path="res://Resources/Images/UI/UI/s_season_time.png" type="Texture" id=29]
+[ext_resource path="res://Resources/Images/UI/UI/h_season_time.png" type="Texture" id=30]
+[ext_resource path="res://UI/CustomElements/ShowHideChildrenButton.gd" type="Script" id=31]
+[ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Resources/Images/UI/UI/bug.png" type="Texture" id=33]
+[ext_resource path="res://Resources/Images/UI/UI/s_bug.png" type="Texture" id=34]
+[ext_resource path="res://Resources/Images/UI/UI/h_bug.png" type="Texture" id=35]
+[ext_resource path="res://UI/ui_debug.gd" type="Script" id=36]
 
 [node name="MainUI" type="MarginContainer"]
 anchor_right = 1.0
@@ -82,15 +89,15 @@ text = "0 MW"
 
 [node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
 margin_left = 304.0
-margin_right = 1508.0
+margin_right = 1559.0
 margin_bottom = 48.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 544.0
-margin_right = 659.0
+margin_left = 570.0
+margin_right = 685.0
 margin_bottom = 48.0
 
 [node name="Lego" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
@@ -102,6 +109,7 @@ toggle_mode = true
 texture_normal = ExtResource( 5 )
 texture_pressed = ExtResource( 6 )
 texture_hover = ExtResource( 7 )
+script = ExtResource( 8 )
 
 [node name="Controller" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
 margin_left = 58.0
@@ -110,79 +118,93 @@ margin_bottom = 39.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 toggle_mode = true
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 9 )
-texture_hover = ExtResource( 10 )
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 10 )
+texture_hover = ExtResource( 11 )
+script = ExtResource( 12 )
 
 [node name="HBoxRight" type="HBoxContainer" parent="Top Menu Bar"]
-margin_left = 1512.0
+margin_left = 1563.0
 margin_right = 1870.0
 margin_bottom = 1030.0
 alignment = 2
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxRight"]
-margin_right = 358.0
+margin_right = 307.0
 margin_bottom = 49.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Top" type="HBoxContainer" parent="Top Menu Bar/HBoxRight/VBox"]
-margin_right = 358.0
+margin_right = 307.0
 margin_bottom = 49.0
 
 [node name="Tracking Play" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
 margin_right = 47.0
 margin_bottom = 49.0
-texture_normal = ExtResource( 11 )
-texture_pressed = ExtResource( 12 )
-texture_hover = ExtResource( 13 )
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 14 )
+texture_hover = ExtResource( 15 )
+script = ExtResource( 16 )
 
 [node name="Tracking Pause" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
+visible = false
 margin_left = 51.0
 margin_right = 98.0
 margin_bottom = 49.0
-texture_normal = ExtResource( 14 )
-texture_hover = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_hover = ExtResource( 18 )
+script = ExtResource( 19 )
 
 [node name="Tracking Stop" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
-margin_left = 102.0
-margin_right = 202.0
+visible = false
+margin_left = 51.0
+margin_right = 98.0
+margin_bottom = 49.0
+texture_normal = ExtResource( 20 )
+texture_pressed = ExtResource( 21 )
+texture_hover = ExtResource( 22 )
+script = ExtResource( 23 )
+
+[node name="Placeholder" type="ColorRect" parent="Top Menu Bar/HBoxRight/VBox/Top"]
+margin_left = 51.0
+margin_right = 151.0
 margin_bottom = 49.0
 rect_min_size = Vector2( 100, 0 )
-texture_normal = ExtResource( 16 )
-texture_pressed = ExtResource( 17 )
-texture_hover = ExtResource( 18 )
+color = Color( 1, 1, 1, 0 )
 
 [node name="VR" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
-margin_left = 206.0
-margin_right = 252.0
+margin_left = 155.0
+margin_right = 201.0
 margin_bottom = 49.0
 toggle_mode = true
-texture_normal = ExtResource( 19 )
-texture_pressed = ExtResource( 20 )
-texture_hover = ExtResource( 21 )
+texture_normal = ExtResource( 24 )
+texture_pressed = ExtResource( 25 )
+texture_hover = ExtResource( 26 )
+script = ExtResource( 27 )
 
 [node name="Season" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
-margin_left = 256.0
-margin_right = 304.0
+margin_left = 205.0
+margin_right = 253.0
 margin_bottom = 49.0
 toggle_mode = true
-texture_normal = ExtResource( 22 )
-texture_pressed = ExtResource( 23 )
-texture_hover = ExtResource( 24 )
-script = ExtResource( 25 )
+texture_normal = ExtResource( 28 )
+texture_pressed = ExtResource( 29 )
+texture_hover = ExtResource( 30 )
+script = ExtResource( 31 )
 
-[node name="Datetime" parent="Top Menu Bar/HBoxRight/VBox/Top/Season" instance=ExtResource( 26 )]
+[node name="Datetime" parent="Top Menu Bar/HBoxRight/VBox/Top/Season" instance=ExtResource( 32 )]
 margin_left = -197.746
 margin_top = 71.125
 margin_right = 102.254
 margin_bottom = 139.125
 
 [node name="Debug" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
-margin_left = 308.0
-margin_right = 358.0
+margin_left = 257.0
+margin_right = 307.0
 margin_bottom = 49.0
 toggle_mode = true
-texture_normal = ExtResource( 27 )
-texture_pressed = ExtResource( 28 )
-texture_hover = ExtResource( 29 )
+texture_normal = ExtResource( 33 )
+texture_pressed = ExtResource( 34 )
+texture_hover = ExtResource( 35 )
+script = ExtResource( 36 )
