@@ -2,7 +2,7 @@
     "server": {
         "ip": "141.244.151.53",
         "port": 80,
-        "prefix": ""
+        "prefix": "/landscapelab"
     },
     
     "filesystem": {
@@ -81,7 +81,6 @@
         "height": 4000,
         "size": 9000,
 		"zoom_start": 4500,
-        "zoom_step": 50,
         "zoom_max": 20000,
         "zoom_min": 100
     },
