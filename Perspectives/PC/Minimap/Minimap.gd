@@ -13,6 +13,8 @@ var ZOOM_MAX = Settings.get_setting("minimap", "zoom_max")
 var ZOOM_MIN = Settings.get_setting("minimap", "zoom_min")
 var CAMERA_HEIGHT = Settings.get_setting("minimap", "height")
 
+signal minimap_icon_resize(new_zoom)
+
 
 func _ready():
 	follow_mode = true
@@ -20,6 +22,7 @@ func _ready():
 	GlobalSignal.connect("minimap_zoom_in", self, "zoom_in")
 	GlobalSignal.connect("minimap_zoom_out", self, "zoom_out")
 	GlobalSignal.connect("toggle_follow_mode", self, "toggle_follow_mode")
+	GlobalSignal.connect("initiate_minimap_icon_resize", self, "relay_minimap_icon_resize")
 
 
 # Changes the size of the minimap camera to the given 'size'.
@@ -27,6 +30,7 @@ func _ready():
 # e.g. a size of 2000 results in a visible area of roughly 4000x3000.
 func change_size(size):
 	cam.size = size
+	GlobalSignal.emit_signal("initiate_minimap_icon_resize", size, self)
 
 
 func _process(delta):
@@ -51,3 +55,9 @@ func zoom_out():
 # change the state of the follow mode
 func toggle_follow_mode():
 	follow_mode = !follow_mode
+
+
+# sends signal with minimap size and status so that minimap icons can rescale accordingly
+func relay_minimap_icon_resize(value, initiator):
+	if initiator != self:
+		GlobalSignal.emit_signal("minimap_icon_resize", cam.size, value)

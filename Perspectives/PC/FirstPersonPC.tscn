@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Perspectives/PC/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/PC/ItemSpawner/ItemSpawner.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Resources/Images/UI/MapIcons/MapCursor.png" type="Texture" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -14,6 +16,7 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 
 [node name="Camera" type="Camera" parent="Head"]
+cull_mask = 1
 doppler_tracking = 2
 current = true
 fov = 90.0
@@ -22,8 +25,12 @@ far = 70000.0
 
 [node name="ItemSpawner" parent="Head/Camera" instance=ExtResource( 2 )]
 
+[node name="MinimapIcon" parent="Head" instance=ExtResource( 3 )]
+transform = Transform( 1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0 )
+icon = ExtResource( 4 )
+rotate = true
+
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 1, 0 )
 shape = SubResource( 1 )
 disabled = true
-

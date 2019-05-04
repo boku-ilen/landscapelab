@@ -1,0 +1,8 @@
+[gd_resource type="SpatialMaterial" format=2]
+
+[resource]
+resource_local_to_scene = true
+flags_transparent = true
+flags_unshaded = true
+flags_no_depth_test = true
+flags_do_not_receive_shadows = true

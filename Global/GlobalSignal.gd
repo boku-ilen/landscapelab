@@ -19,6 +19,10 @@ signal miniview_switch
 signal miniview_3rd
 signal miniview_1st
 
+# MinimapIcon resize notification
+signal minimap_icon_resize(new_zoom, minimap_status)
+signal initiate_minimap_icon_resize(new_zoom, initiator)
+
 # special signals to notify the UI what the missing scene is now
 signal missing_map
 signal missing_3rd

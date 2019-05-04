@@ -6,20 +6,16 @@
 
 [sub_resource type="World" id=1]
 
-
 [sub_resource type="CubeMesh" id=2]
-
 size = Vector3( 20000, 4000, 20000 )
 subdivide_width = 10
 subdivide_height = 10
 subdivide_depth = 10
 
 [sub_resource type="ViewportTexture" id=3]
-
 viewport_path = NodePath("Worley_texture")
 
 [sub_resource type="ShaderMaterial" id=4]
-
 resource_local_to_scene = true
 shader = ExtResource( 3 )
 shader_param/depth = 128.0
@@ -45,7 +41,7 @@ max_distance = 0.3
 
 [node name="SkyCube" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3700, 0 )
+layers = 7
 cast_shadow = 0
 mesh = SubResource( 2 )
 material/0 = SubResource( 4 )
-

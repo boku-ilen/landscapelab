@@ -43,6 +43,9 @@ func _ready():
 	GlobalSignal.connect("miniview_3rd", self, "change_pc_mini_scene", [third_person_pc_scene])
 	GlobalSignal.connect("miniview_switch", self, "exchange_viewports")
 	
+	# register minimap icon resize signal and bind to method
+	GlobalSignal.connect("initiate_minimap_icon_resize", self, "relay_minimap_icon_resize")
+	
 	# Start with PC 3rd person view
 	change_pc_scene(third_person_pc_scene)
 	
@@ -96,6 +99,7 @@ func change_pc_mini_scene(scene):
 	pc_mini_viewport.add_child(scene.instance())
 	current_pc_mini_scene = scene
 	emit_missing_viewports()
+	GlobalSignal.emit_signal("initiate_minimap_icon_resize", get_minimap_status() ,self)
 	
 
 # change the scene of the pc fullscreen to given scene
@@ -105,6 +109,7 @@ func change_pc_scene(scene):
 	pc_viewport.add_child(scene.instance())
 	current_pc_scene = scene
 	emit_missing_viewports()
+	GlobalSignal.emit_signal("initiate_minimap_icon_resize", get_minimap_status(), self)
 
 
 # this clears the miniview
@@ -129,3 +134,18 @@ func emit_missing_viewports():
 		GlobalSignal.emit_signal("missing_1st")
 	if (third_person_pc_scene != current_pc_mini_scene and third_person_pc_scene != current_pc_scene):
 		GlobalSignal.emit_signal("missing_3rd")
+
+
+# sends signal with minimap size and status so that minimap icons can rescale accordingly
+func relay_minimap_icon_resize(value, initiator):
+	if initiator != self:
+		GlobalSignal.emit_signal("minimap_icon_resize", value, get_minimap_status())
+
+
+func get_minimap_status():
+	var status = 'none'
+	if current_pc_mini_scene == minimap_scene:
+		status = 'small'
+	if current_pc_scene == minimap_scene:
+		status = 'big'
+	return status
