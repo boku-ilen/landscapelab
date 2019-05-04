@@ -3,7 +3,7 @@ extends TextureButton
 
 # change the toggle based on the UI signals
 func _ready():
-	GlobalSignal.connect("tracking_play", self, "set_visible", [true])
+	GlobalSignal.connect("tracking_start", self, "set_visible", [true])
 	GlobalSignal.connect("tracking_stop", self, "set_visible", [false])
 
 
