@@ -40,7 +40,7 @@ func load_scenario(scenario_id):
 	
 	# store the current active scenario
 	var scen = get_scenario(scenario_id)
-	self.scenario_id = scenario_id
+	self.scenario_id = int(scenario_id)
 	
 	# Get starting location (usually first element in dictionary)
 	var start_loc
