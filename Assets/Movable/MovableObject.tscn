@@ -7,4 +7,3 @@
 ]]
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
-

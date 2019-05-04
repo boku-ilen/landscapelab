@@ -80,17 +80,17 @@
     "minimap": {
         "height": 4000,
         "size": 9000,
-		"zoom_start": 4500,
+        "zoom_start": 4500,
         "zoom_max": 20000,
         "zoom_min": 100
     },
-	
-	"minimap-icons": {
-		"scale_factor_small": 0.05,
-		"scale_factor_big": 0.025
-	},
-
-	"tracking": {
-		"interval": 1
-	}
+    
+    "minimap-icons": {
+        "scale_factor_small": 0.05,
+        "scale_factor_big": 0.025
+    },
+    
+    "tracking": {
+        "interval": 1
+    }
 }
