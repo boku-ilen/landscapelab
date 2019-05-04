@@ -51,7 +51,8 @@ func save_screenshot(userdata):
 	# get screen capture
 	var capture = get_viewport().get_screen_capture()
 	# save to a file
-	capture.save_png("user://screenshot.png")
+	var timestamp = OS.get_datetime()
+	capture.save_png("user://screenshot-%d%d%d-%d%d%d-%d.png" % [timestamp["year"], timestamp["month"], timestamp["day"], timestamp["hour"], timestamp["minute"], timestamp["secound"], Session.id])
 
 
 func send_position(userdata):
