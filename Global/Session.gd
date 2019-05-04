@@ -1,7 +1,7 @@
 extends Node
 
-var id : int
-var scenario
+var session_id : int
+var scenario_id : int
 
 var scenario_url = "/location/scenario/list.json"
 var session_url = "/location/start_session/%s"  # Fill with scenario ID
@@ -38,7 +38,9 @@ func get_scenario(scenario_id):
 func load_scenario(scenario_id):
 	"""Sets the world offset to the starting position in that scenario."""
 	
+	# store the current active scenario
 	var scen = get_scenario(scenario_id)
+	self.scenario_id = scenario_id
 	
 	# Get starting location (usually first element in dictionary)
 	var start_loc
@@ -69,4 +71,4 @@ func start_session(scenario_id):
 		ErrorPrompt.show("WARNING", "Could not start a new session")
 		
 	# sets the new session id
-	id = session.session  
+	self.session_id = session.session  

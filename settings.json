@@ -88,5 +88,9 @@
 	"minimap-icons": {
 		"scale_factor_small": 0.05,
 		"scale_factor_big": 0.025
+	},
+
+	"tracking": {
+		"interval": 1
 	}
 }

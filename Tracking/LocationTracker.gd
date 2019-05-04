@@ -1,12 +1,18 @@
 extends Spatial
 
-export var interval = 1  # in seconds  FIXME: make this configurable
-
+var interval = Settings.get_setting("tracking", "interval", 1)  # in seconds 
 var timer
 
 
 # initialize the internal timer but don't start it yet
 func _ready():
+	
+	# register the ui signals to start/pause/stop the tracking
+	GlobalSignal.connect("tracking_start", self, "start_tracking")
+	GlobalSignal.connect("tracking_pause", self, "toggle_pause_tracking")
+	GlobalSignal.connect("tracking_stop", self, "stop_tracking")
+	
+	# initialize the timer for frequently sending location and storing screenshot
 	timer = Timer.new()
 	timer.set_one_shot(false)
 	timer.set_timer_process_mode(0)
@@ -21,16 +27,14 @@ func start_tracking():
 	timer.start()
 
 
-func toggle_pause_tracking():
-	if timer.paused:
-		timer.start()
-	else:
-		timer.stop()
+func pause_tracking():
+	timer.stop()
 
 
 # this function stops the tracking - it is called by the stop button
 func stop_tracking():
-	timer.stop()
+	pause_tracking()
+	Session.start_session(Session.scenario_id)
 
 
 # we start a thread which takes a screenshot and a thread which sends 
