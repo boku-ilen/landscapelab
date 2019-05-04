@@ -11,13 +11,13 @@ var spawned_scene = preload("res://Assets/Movable/Windmill/Windmill.tscn")
 onready var world = get_tree().get_root().get_node("Main/TileHandler") # Required for getting exact ground positions
 onready var cursor = get_node("InteractRay")
 
-var ray_length = Settings.get_setting("item-spawner", "camera-ray-length") # Distance that will be checked for collision with the ground
+var RAY_LENGTH = Settings.get_setting("item-spawner", "camera-ray-length") # Distance that will be checked for collision with the ground
 
 var locked_object = null
 
 
 func _ready():
-	cursor.cast_to = Vector3(0, 0, -ray_length)
+	cursor.cast_to = Vector3(0, 0, -RAY_LENGTH)
 
 
 func _process(delta):
@@ -39,20 +39,24 @@ func _input(event):
 				world.put_on_ground(spawned_scene.instance(), cursor.get_collision_point())
 
 
+# Bind an object to the cursor (the mouse position)
 func grab_object_at_cursor():
 	locked_object = cursor.get_collider().get_parent() # TODO: Would be great to make this more generic... perhaps add a script in the StaticBody to get the main object?
 	cursor.add_exception(cursor.get_collider())
 
 
+# Update the position of the grabbed object based on the cursor
 func update_grabbed_object():
 	if cursor.is_colliding(): # Reposition the grabbed object to the spot on the ground the cursor points at
 		locked_object.translation = world.get_ground_coords(cursor.get_collision_point())
 
 
+# Place the grabbed object (making it stationary again)
 func release_object():
 	locked_object = null
 	cursor.clear_exceptions()
 
 
+# Returns true if the cursor is currently grabbing an object (moving it with its movement)
 func has_grabbed_object():
 	return locked_object != null
