@@ -58,5 +58,6 @@ class Task:
 
 
 	func execute():
-		if obj:
-			obj.call(method, params)
+		if obj:  # FIXME: even if this check is performed it got me a null instance in the next line sometimes
+			obj.call(method, params)  # FIXME: if framerate drops the method sometimes does not exist anymore 
+			# e.g. SCRIPT ERROR: Task.execute: Invalid call. Nonexistent function 'get_textures (via call)' in base 'Spatial (Modules.gd)'.

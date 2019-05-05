@@ -43,7 +43,7 @@ class Connection:
 		
 		while (_http.get_status() == HTTPClient.STATUS_CONNECTING or _http.get_status() == HTTPClient.STATUS_RESOLVING):
 			_http.poll()
-			OS.delay_msec(delay_interval_msec)
+			OS.delay_msec(delay_interval_msec)  # FIXME: sometimes gets me a: Attempt to call function 'delay_msec' in base 'previously freed instance' on a null instance.
 
 		
 	func _wait_until_request_done():

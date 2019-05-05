@@ -1,6 +1,6 @@
 extends Node
 
-var session_id : int
+var session_id : int = -1  # start with an invalid session_id
 var scenario_id : int
 
 var scenario_url = "/location/scenario/list.json"
@@ -71,4 +71,4 @@ func start_session(scenario_id):
 		ErrorPrompt.show("WARNING", "Could not start a new session")
 		
 	# sets the new session id
-	self.session_id = session.session  
+	self.session_id = int(session.session)
