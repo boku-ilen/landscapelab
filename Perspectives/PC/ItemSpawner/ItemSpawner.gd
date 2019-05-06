@@ -6,7 +6,7 @@ extends Spatial
 # Currently, the spawned scenes are hardcoded, but this can be generified when needed.
 #
 
-var spawned_scene = preload("res://Assets/Movable/Windmill/Windmill.tscn")
+export(int) var spawned_id = 1
 
 onready var world = get_tree().get_root().get_node("Main/TileHandler") # Required for getting exact ground positions
 onready var cursor = get_node("InteractRay")
@@ -36,11 +36,28 @@ func _input(event):
 				grab_object_at_cursor()
 			
 			else:
-				world.put_on_ground(spawned_scene.instance(), cursor.get_collision_point())
+				var collision_point = cursor.get_collision_point()
+				var global_collision_point = Offset.to_world_coordinates(collision_point)
+				
+				# TODO: It might take a while until the object is added on the server and instanced by the
+				# DynamicAssetHandler. Thus, we might want to instance a scene here, which is replaced by
+				# the real asset once the request is done (since the request will likely succeed - if not,
+				# the placeholder asset will simply be removed and not replaced)
+				
+				ThreadPool.enqueue_task(ThreadPool.Task.new(self, "add_object_on_server",
+					[global_collision_point[0], global_collision_point[2]]))
+				
+
+# Registers a new asset instance at the position data[0], data[1] on the server (to be called from a thread)
+func add_object_on_server(data):
+	ServerConnection.get_json("/assetpos/create/%d/%d.0/%d.0" % [spawned_id, -data[0], data[1]])
 
 
 # Bind an object to the cursor (the mouse position)
 func grab_object_at_cursor():
+	# TODO: Make this asset not put itself at the server position while it's being dragged!
+	# (Likely also requires a change in DynamicAssetHandler)
+	
 	locked_object = cursor.get_collider().get_parent() # TODO: Would be great to make this more generic... perhaps add a script in the StaticBody to get the main object?
 	cursor.add_exception(cursor.get_collider())
 
@@ -53,6 +70,8 @@ func update_grabbed_object():
 
 # Place the grabbed object (making it stationary again)
 func release_object():
+	# TODO: Update position on server!
+	
 	locked_object = null
 	cursor.clear_exceptions()
 

@@ -9,4 +9,3 @@ script = ExtResource( 1 )
 enabled = true
 cast_to = Vector3( 0, 0, -5 )
 collision_mask = 16385
-
