@@ -4,5 +4,5 @@
 
 * Folder `ClientResources` goes as `Resources` into the root folder of this project
 * Open the Godot project 
-* Run the retour-middleware
+* Run the landscapelab-server
 * Run the main scene
