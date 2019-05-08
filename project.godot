@@ -33,8 +33,8 @@ config/icon="res://Resources/Images/UI/Meta/icon.png"
 [autoload]
 
 Startup="*res://Global/Startup.gd"
-Settings="*res://Global/Settings.gd"
 logger="*res://Global/Debug/logger.gd"
+Settings="*res://Global/Settings.gd"
 ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
 GlobalSignal="*res://Global/GlobalSignal.gd"
 ServerConnection="*res://Global/ServerConnection.gd"
