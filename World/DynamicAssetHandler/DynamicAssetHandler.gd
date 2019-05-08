@@ -33,7 +33,7 @@ func _process(delta):
 			for instance_id in _result["assets"]:
 				var instance_name = String(instance_id)
 	
-				if not get_node(instance_name):
+				if not has_node(instance_name):
 					var new_instance = asset_scene.instance()
 					new_instance.name = instance_name
 					add_child(new_instance)
