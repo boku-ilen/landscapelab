@@ -29,7 +29,7 @@ var subdiv_mod = 1
 var subdiv : int = 16
 
 const NUM_CHILDREN = 4 # Number of children, will likely always stay 4 because it's a quadtree
-var num_children_loaded : int = 0 # Incremented when a child finishes loading
+var num_children_active : int = 0 # The number of children which are actually active and supposed to be active
 
 var will_activate_with_last_player_pos # Can be set in init() to immediately activate the tile with a last_player_pos
 
@@ -44,7 +44,6 @@ func _ready():
 	PerformanceTracker.number_of_tiles += 1
 	
 	if initialized:
-
 		if will_activate_with_last_player_pos:
 			activate(will_activate_with_last_player_pos)
 	else:
@@ -61,10 +60,20 @@ func _process(delta):
 		PerformanceTracker.number_of_tiles -= 1
 		queue_free()
 		
-	# TODO: This is required due to a race condition in displaying children/self.
-	# This is a temporary fix, it should be properly solved, not checked every frame!
-	if not has_split:
-		display_self_instead_of_children()
+	# Apply the visibility accordingly (this is done centrally here to avoid race conditions)
+	# TODO: We don't really need to check this every frame, perhaps we can only do this after
+	#  certain events (such as children having loaded, child tiles being deleted, etc) happened?
+	#  If so, we need to be careful not to re-introduce race conditions!
+	if not done_loading:
+		modules.visible = false
+		children.visible = false
+	else:
+		if is_leaf_tile():
+			modules.visible = true
+			children.visible = false
+		else:
+			modules.visible = false
+			children.visible = true
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
@@ -81,10 +90,8 @@ func init(s, lod_level, activate_pos=null, _subdiv_mod=1):
 # Called when a child tile is done loading.
 # If all children are done loading, they are displayed instead of this tile.
 func _on_child_tile_finished():
-	num_children_loaded += 1
-	
-	if num_children_loaded == NUM_CHILDREN:
-		display_children_instead_of_self()
+	if has_split: # We're still trying to split, not already converging
+		num_children_active += 1
 
 
 # Returns true if there is a layer of WorldTiles above this current one
@@ -96,18 +103,6 @@ func has_parent_tile():
 func get_parent_tile():
 	if has_parent_tile():
 		return get_parent().get_parent()
-
-
-# Make all children tiles visible, and all of this tile's modules invisible
-func display_children_instead_of_self():
-	set_children_visible()
-	set_modules_invisible()
-	
-	
-# Make this tile visible instead of its children
-func display_self_instead_of_children():
-	set_children_invisible()
-	set_modules_visible()
 
 
 # Creates a PlaneMesh which corresponds to the current size and subdivision
@@ -138,29 +133,12 @@ func delete():
 	to_be_deleted = true
 	
 	
-# Shows the modules at this LOD - used for when this tile is a leaf
-func set_modules_visible():
-	modules.visible = true
-
-
-# Hides the mesh at this LOD - used when higher LOD children are shown instead
-func set_modules_invisible():
-	modules.visible = false
-	
-
-# Shows the children (higher LOD) tiles
-func set_children_visible():
-	children.visible = true
-	
-
-# Hides the children (higher LOD) tiles
-func set_children_invisible():
-	children.visible = false
-	
-	
 # Returns true if this is a leaf tile - it is being displayed and has no higher LOD children.
 func is_leaf_tile():
-	return modules.visible
+	# TODO: There seem to be possible scenarios where this is a leaf tile even if there are 4 children active!
+	#  Checking whether children are done_loading and not to_be_deleted helped with collisions, perhaps
+	#  something similar needs to be done here
+	return num_children_active != NUM_CHILDREN
 	
 
 # Returns the x and z position in a 2D vector
@@ -176,9 +154,6 @@ func get_size_vector2d() -> Vector2:
 # Use the LOD at this tile (Make this mesh visible, and delete children modules) - for example, converge from 4 tiles
 # to 1
 func converge():
-	# Since the children are going to be deleted, show this one instead
-	display_self_instead_of_children()
-	
 	children.clear_children()
 	has_split = false
 
@@ -223,10 +198,18 @@ func get_child_for_position(var pos : Vector3):
 func get_leaf_tile(var pos : Vector3):
 	var tile = self
 	
-	while not tile.is_leaf_tile():
-		tile = tile.get_child_for_position(pos)
-		
-	return tile
+	if is_leaf_tile():
+		return self
+	else:
+		var child = get_child_for_position(pos)
+		# TODO: We need to check for to_be_deleted and done_loading in order not to access
+		#  tiles which are actually not considered valid (e.g. they're just being built).
+		#  however, is_leaf_tile() should already check for this! This fixes errors when
+		#  getting the position, but not some visibility bugs!
+		if child and not child.to_be_deleted and child.done_loading:
+			return child.get_leaf_tile(pos)
+		else:
+			return self
 
 
 # Returns the world position of the tile - used for server requests
@@ -256,7 +239,7 @@ func activate(player_pos):
 	
 	# Check whether this is a high LOD tile which needs to converge
 	if done_loading:
-		if dist_to_player > max_lods[lod]:
+		if lod > 0 and dist_to_player > max_lods[lod]:
 			converge()
 		elif lod < max_lods.size() - 1 and dist_to_player < max_lods[lod+1]:
 			split(dist_to_player)
@@ -289,16 +272,13 @@ func get_offset_from_parents(steps):
 func split(dist_to_player):
 	if !initialized: return
 	
-	if lod >= max_lods.size():
-		return # Don't split if we're already at the last max_lods item
-	
-	if has_split:
+	# Don't split if we're already at the last max_lods item or have already split
+	if lod >= max_lods.size() or has_split:
 		return
-		
-	has_split = true
 	
-	set_children_invisible() # Hide children while they're being built
-	children.instantiate_children([1])
+	if is_leaf_tile():
+		has_split = true
+		children.instantiate_children([1])
 
 
 # Gets the distance of the center of the tile to the last known player location
