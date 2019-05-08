@@ -35,7 +35,9 @@ func get_splat_data(d):
 	result = ServerConnection.get_json("/%s/%d.0/%d.0/%d"\
 		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()])
 		
-	heightmap = tile.get_texture_recursive("dhm", tile.get_osm_zoom(), 0)
+	var dhm_response = tile.get_texture_result("raster")
+	if dhm_response and dhm_response.has("dhm"):
+		heightmap = CachingImageTexture.get(dhm_response.get("dhm"))
 
 	if result and result.has("ids"):
 		for current_index in range(0, min(result.get("ids").size(), num_layers)):

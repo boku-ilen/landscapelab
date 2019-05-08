@@ -19,15 +19,21 @@ func _ready():
 
 
 func _on_ready():
-	mesh.material_override.set_shader_param("tex", ortho)
-	mesh.material_override.set_shader_param("heightmap", dhm)
+	if ortho:
+		mesh.material_override.set_shader_param("tex", ortho)
+	
+	if dhm:
+		mesh.material_override.set_shader_param("heightmap", dhm)
 
 
 func get_ortho_dhm():
-	var zoom = tile.get_osm_zoom()
+	var response = tile.get_texture_result("raster")
 	
-	ortho = tile.get_texture_recursive("ortho", zoom, 0)
-	dhm = tile.get_texture_recursive("dhm", zoom, 0)
+	if response:
+		if response.has("ortho"):
+			ortho = CachingImageTexture.get(response.get("ortho"))
+		if response.has("dhm"):
+			dhm = CachingImageTexture.get(response.get("dhm"))
 
 
 func get_textures(data):

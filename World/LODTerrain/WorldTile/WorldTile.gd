@@ -315,33 +315,16 @@ func get_dist_to_player():
 	clamped.z = clamp(last_player_pos.z, origin.y, end.y)
 
 	return Vector2(last_player_pos.x, last_player_pos.z).distance_to(Vector2(clamped.x, clamped.z))
+	
 
-
-# Recursively tries getting textures, starting at the current LOD, going down one LOD each step and cropping the result accordingly
-# TODO: This function should become obsolete, as the server should handle all cropping!
-func get_texture_recursive(tex_name, zoom, steps, folder="raster"):
-	if steps > 12: # Limit recursion to 12 steps
-		return null
-		
+# Builds a request in the form of "/url_start/meter_x/meter_y/zoom.json" and returns the result, if it is valid.
+func get_texture_result(url_start):
 	var true_pos = get_true_position()
 	
 	var result = ServerConnection.get_json("/%s/%d.0/%d.0/%d.json"\
-		% [folder, -true_pos[0], true_pos[2], zoom])
+		% [url_start, -true_pos[0], true_pos[2], get_osm_zoom()])
 		
-	if result.has("Error"):
-		return
-	
-	# If there is no orthophoto at this zoom level, go back recursively
-	if result.get(tex_name) == "None" or result.get(tex_name) == null:
-		return get_texture_recursive(tex_name, zoom - 1, steps + 1)  # FIXME: got Attempt to call function 'get_texture_recursive' in base 'previously freed instance' on a null instance.
+	if not result or result.has("Error"):
+		return null
 		
-	var tex = CachingImageTexture.get(result.get(tex_name))
-	
-	# If we went back, get the cropped image
-	if steps > 0:
-		var size = 1.0 / pow(2, steps)
-		var origin = get_offset_from_parents(steps)
-
-		tex = CachingImageTexture.get_cropped(result.get(tex_name), origin, Vector2(size, size))
-	
-	return tex
+	return result

@@ -16,7 +16,9 @@ func get_splat_data():
 	splat_result = ServerConnection.get_json("/%s/%d.0/%d.0/%d"\
 		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()])
 		
-	dhm = tile.get_texture_recursive("dhm", tile.get_osm_zoom(), 0)
+	var dhm_response = tile.get_texture_result("raster")
+	if dhm_response and dhm_response.has("dhm"):
+		dhm = CachingImageTexture.get(dhm_response.get("dhm"))
 
 
 func get_textures(data):

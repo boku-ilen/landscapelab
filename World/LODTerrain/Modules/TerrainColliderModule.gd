@@ -22,10 +22,9 @@ func _on_ready():
 
 
 func get_textures(data):
-	var zoom = tile.get_osm_zoom()
-	
-	# Orthophoto and heightmap
-	heightmap = tile.get_texture_recursive("dhm", zoom, 0)
+	var dhm_response = tile.get_texture_result("raster")
+	if dhm_response and dhm_response.has("dhm"):
+		heightmap = CachingImageTexture.get(dhm_response.get("dhm"))
 	
 	make_ready()
 
