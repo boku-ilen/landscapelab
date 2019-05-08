@@ -58,10 +58,8 @@ func start_send_position():
 # https://github.com/godotengine/godot-demo-projects/blob/master/viewport/screen_capture/screen_capture.gd
 func save_screenshot(session_id):
 	
-	get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
-	# Let two frames pass to make sure the screen was captured
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
+	# not sure if this is required
+	# get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
 
 	# Retrieve the captured image
 	var img = get_viewport().get_texture().get_data()
