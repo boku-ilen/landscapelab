@@ -8,8 +8,8 @@ func _ready():
 
 
 # if the status is changed to pressed emit the controller signal
-func _pressed():
-	if pressed:
+func _toggled(button_pressed) -> void:
+	if self.is_pressed():
 		GlobalSignal.emit_signal("input_controller")
 	else:
 		GlobalSignal.emit_signal("input_disabled")

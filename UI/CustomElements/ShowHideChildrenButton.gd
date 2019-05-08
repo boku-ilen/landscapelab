@@ -9,8 +9,8 @@ extends TextureButton
 func _ready():
 	for child in get_children():
 		child.visible = false
-	
-	
+
+
 func _toggled(button_pressed) -> void:
 	for child in get_children():
 		child.visible = !child.visible
