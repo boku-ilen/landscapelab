@@ -36,6 +36,7 @@ signal miniview_show
 signal input_lego
 signal input_controller
 signal input_disabled
+signal changed_asset(asset_id)  # notify the energy details, tooltips etc of a changed asset position
 
 # enable and disable debug mode
 signal debug_enable
@@ -49,3 +50,7 @@ signal vr_disable
 signal tracking_start
 signal tracking_pause
 signal tracking_stop
+
+# energy details mode (incl. tooltips)
+signal energy_details_enabled
+signal energy_details_disabled

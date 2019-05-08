@@ -2,6 +2,7 @@ extends Node
 
 var tooltips_enabled = false
 
+# FIXME: this should be replaced with the energy_details signals from the UI
 signal display_tooltip # Sent with a boolean for whether to show the tooltip or not
 
 
