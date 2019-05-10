@@ -44,3 +44,15 @@ func clear_children():
 	for child in get_children():
 		child.name += "-deleting"
 		child.delete()
+		
+
+# Returns true if all children are instanced and active
+func are_all_active():
+	if get_child_count() != tile.NUM_CHILDREN:
+		return false
+	
+	for child in get_children():
+		if (not child.done_loading) or (child.to_be_deleted):
+			return false
+	
+	return true

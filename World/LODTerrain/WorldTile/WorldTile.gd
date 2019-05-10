@@ -138,7 +138,7 @@ func is_leaf_tile():
 	# TODO: There seem to be possible scenarios where this is a leaf tile even if there are 4 children active!
 	#  Checking whether children are done_loading and not to_be_deleted helped with collisions, perhaps
 	#  something similar needs to be done here
-	return num_children_active != NUM_CHILDREN
+	return !children.are_all_active()
 	
 
 # Returns the x and z position in a 2D vector
