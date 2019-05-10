@@ -135,9 +135,6 @@ func delete():
 	
 # Returns true if this is a leaf tile - it is being displayed and has no higher LOD children.
 func is_leaf_tile():
-	# TODO: There seem to be possible scenarios where this is a leaf tile even if there are 4 children active!
-	#  Checking whether children are done_loading and not to_be_deleted helped with collisions, perhaps
-	#  something similar needs to be done here
 	return !children.are_all_active()
 	
 
@@ -196,20 +193,12 @@ func get_child_for_position(var pos : Vector3):
 
 # Returns the leaf tile that is most appropriate for a given position
 func get_leaf_tile(var pos : Vector3):
-	var tile = self
-	
-	if is_leaf_tile():
-		return self
+	var child = get_child_for_position(pos)
+
+	if child:
+		return child.get_leaf_tile(pos)
 	else:
-		var child = get_child_for_position(pos)
-		# TODO: We need to check for to_be_deleted and done_loading in order not to access
-		#  tiles which are actually not considered valid (e.g. they're just being built).
-		#  however, is_leaf_tile() should already check for this! This fixes errors when
-		#  getting the position, but not some visibility bugs!
-		if child and not child.to_be_deleted and child.done_loading:
-			return child.get_leaf_tile(pos)
-		else:
-			return self
+		return self
 
 
 # Returns the world position of the tile - used for server requests
