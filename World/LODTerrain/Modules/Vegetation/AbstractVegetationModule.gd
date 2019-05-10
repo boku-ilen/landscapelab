@@ -50,6 +50,8 @@ func get_splat_data(d):
 func _on_ready():
 	if result:
 		construct_vegetation(result.get("path_to_splatmap"), result.get("ids"))
+	else:
+		logger.warn("Vegetation module did not receive a response!")
 
 
 # Readies all required HeightmapParticles instances
@@ -76,8 +78,9 @@ func construct_vegetation(splat_path, splat_ids):
 
 # Sets all shader parameters for both the particle shader and the texture shader of a HeightmapParticles instance
 func set_parameters(data):
-	if not heightmap or not vegetation_layer_data[data[2]] or vegetation_layer_data[data[2]].has("Error") or not vegetation_layer_data[data[2]].get("path_to_spritesheet"):
-		logger.error("Could not get vegetation!");
+	if not heightmap or not vegetation_layer_data[data[2]] or vegetation_layer_data[data[2]].has("Error") \
+			or not vegetation_layer_data[data[2]].get("path_to_spritesheet"):
+		logger.warning("Vegetation module received a response, but the response contained invalid or incomplete data!");
 		return
 	
 	var distribution = CachingImageTexture.get(vegetation_layer_data[data[2]].get("path_to_distribution"))

@@ -275,11 +275,11 @@ func get_dist_to_player():
 	# Get closest point within rectangle to circle
 	var clamped = Vector3()
 	
-	var gtranslation = global_transform.origin # coordinates are hard in Godot... it HAS to be global_transform, weird behaviour otherwise!
+	# Has to be global_transform.origin! Weird behaviour otherwise
+	var gtranslation = global_transform.origin
 	var origin = Vector2(gtranslation.x - size/2, gtranslation.z - size/2)
 	var end = Vector2(gtranslation.x + size/2, gtranslation.z + size/2)
 	
-	# TODO: Height is hardcoded at 100-300, we need to get the actual height in the future!
 	clamped.x = clamp(last_player_pos.x, origin.x, end.x)
 	clamped.z = clamp(last_player_pos.z, origin.y, end.y)
 

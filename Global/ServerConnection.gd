@@ -121,8 +121,9 @@ func get_json(url, use_cache=true):
 	if use_cache and json_cache.has(url):
 		cache_mutex.unlock()
 		while not json_cache[url][0]:
-			OS.delay_msec(50) # Wait for the current request to finish
-			# TODO: Not delaying here causes Godot to crash. Is this safe?
+			OS.delay_msec(100) # Wait for the current request to finish
+			# TODO: Not delaying here causes Godot to crash with "Condition '!success' is true." and
+			# "Condition '!_fp' is true.". What's happening here, is this not safe?
 			
 		return json_cache.get(url)[1]
 		

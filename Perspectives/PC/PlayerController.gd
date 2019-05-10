@@ -25,7 +25,7 @@ onready var camera = head.get_node("Camera")
 
 # To prevent floating point errors, the player.translation does not reflect the player's 
 # actual position in the whole world. This function returns the true world position of 
-# the player in int. TODO: is this in meters?
+# the player (in webmercator meters) as integers.
 func get_true_position():
 	return Offset.to_world_coordinates(translation)
 

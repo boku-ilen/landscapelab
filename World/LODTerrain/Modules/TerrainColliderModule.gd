@@ -57,6 +57,7 @@ func get_height_at_position(var pos):
 		
 	# if we do not have a valid height information we return 0   - TODO: error handling
 	else:
+		logger.warning("get_height_at_position was called, but the heightmap is not valid (it has no data)!")
 		return 0
 
 
