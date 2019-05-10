@@ -51,7 +51,7 @@ func _on_ready():
 	if result:
 		construct_vegetation(result.get("path_to_splatmap"), result.get("ids"))
 	else:
-		logger.warn("Vegetation module did not receive a response!")
+		logger.warning("Vegetation module did not receive a response!")
 
 
 # Readies all required HeightmapParticles instances
