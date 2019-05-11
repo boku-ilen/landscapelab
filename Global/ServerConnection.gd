@@ -103,6 +103,10 @@ class Connection:
 		if not _http.has_response():
 			logger.error("HTTP client did not receive a response for the given request to %s." % [url])
 			return null
+		
+		if not _http.get_response_code() < 400:
+			logger.error("HTTP client: got %s as http status which indicates missing data or a bug in the request url: %s" % [_http.get_response_code(), url])
+			return null
 
 		var response_headers = _get_response_headers()  # FIXME: currently never used
 		var response_body = _get_response_body()
@@ -134,22 +138,28 @@ func get_json(url, use_cache=true):
 			
 	var connection = Connection.new()
 	var answer = connection.request(url)
-	var json = JSON.parse(answer)
-	
-	cache_mutex.lock()
-	if json.error == OK:
-		if use_cache:
-			json_cache[url] = [true, json.result]
-		cache_mutex.unlock()
-		return json.result
+	if answer:
+
+		var json = JSON.parse(answer)
+		cache_mutex.lock()
+		
+		if json.error == OK:
+			if use_cache:
+				json_cache[url] = [true, json.result]
+			cache_mutex.unlock()
+			return json.result
+		else:
+			# This request has been done, but resulted in an error; save this in the cache
+			# so that the request is known to not yield any data
+			if use_cache:
+				json_cache[url] = [true, null]
+			cache_mutex.unlock()
+			logger.error("Encountered Error %s while parsing JSON: %s (URL: http://%s:%s/%s%s)" % [json.error, json.error_string, connection.host, connection.port, connection.url_prefix, url])
+			logger.info("Content was: %s" % [answer])  # FIXME: should be debug, but this is not displayed currently
+			return null
+			
 	else:
-		# This request has been done, but resulted in an error; save this in the cache
-		# so that the request is known to not yield any data
-		if use_cache:
-			json_cache[url] = [true, null]
-		cache_mutex.unlock()
-		logger.error("Encountered Error %s while parsing JSON: %s (URL: http://%s:%s/%s%s)" % [json.error, json.error_string, connection.host, connection.port, connection.url_prefix, url])
-		logger.info("Content was: %s" % [answer])  # FIXME: should be debug, but this is not displayed currently
+		logger.debug("got no valid response from server which could be parsed to JSON")
 		return null
 
 
