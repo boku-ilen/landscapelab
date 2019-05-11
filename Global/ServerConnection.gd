@@ -138,29 +138,30 @@ func get_json(url, use_cache=true):
 			
 	var connection = Connection.new()
 	var answer = connection.request(url)
+	
 	if answer:
-
 		var json = JSON.parse(answer)
-		cache_mutex.lock()
 		
 		if json.error == OK:
 			if use_cache:
+				cache_mutex.lock()
 				json_cache[url] = [true, json.result]
-			cache_mutex.unlock()
+				cache_mutex.unlock()
 			return json.result
 		else:
-			# This request has been done, but resulted in an error; save this in the cache
-			# so that the request is known to not yield any data
-			if use_cache:
-				json_cache[url] = [true, null]
-			cache_mutex.unlock()
-			logger.error("Encountered Error %s while parsing JSON: %s (URL: http://%s:%s/%s%s)" % [json.error, json.error_string, connection.host, connection.port, connection.url_prefix, url])
+			logger.warning("Encountered Error %s while parsing JSON: %s (URL: http://%s:%s/%s%s)" % [json.error, json.error_string, connection.host, connection.port, connection.url_prefix, url])
 			logger.info("Content was: %s" % [answer])  # FIXME: should be debug, but this is not displayed currently
-			return null
 			
-	else:
-		logger.debug("got no valid response from server which could be parsed to JSON")
-		return null
+	# If we arrived here, this request has been done, but resulted in an error; save this in the cache
+	# so that the request is known to not yield any data.
+	# Since we previously proclaimed that we're working on this request, we must do this - otherwise
+	# the threads waiting for this request to be done are stuck! 
+	if use_cache:
+		cache_mutex.lock()
+		json_cache[url] = [true, null]
+		cache_mutex.unlock()
+	
+	return null
 
 
 func get_http(url):
