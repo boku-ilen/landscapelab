@@ -69,13 +69,19 @@ func _load_into_dict(path):
 # Gets an ImageTexture from the cache dictionary using the given path.
 # This means it can be used to texture objects.
 func _get_texture_from_dict(path):
-	return _path_imagetexture_dict[path][0]  # FIXME: sometimes gets me an invalid index
+	if _is_in_dict(path):
+		return _path_imagetexture_dict[path][0]
+	else:
+		return null
 
 
 # Gets an Image from the cache dictionary using the given path.
 # This means it can be manipulated (cropped, flipped, etc).
 func _get_image_from_dict(path):
-	return _path_imagetexture_dict[path][1]
+	if _is_in_dict(path):
+		return _path_imagetexture_dict[path][1]
+	else:
+		return null
 
 
 # Returns true if the image at the path is already in the cache dictionary.
