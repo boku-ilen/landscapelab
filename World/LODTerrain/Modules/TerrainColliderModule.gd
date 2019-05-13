@@ -31,8 +31,15 @@ func get_textures(data):
 
 # Returns the exact height at the given position using the heightmap image
 func get_height_at_position(var pos):
-	var img = heightmap.get_data()
+	
 	var gtranslation = tile.global_transform.origin
+	var img
+	
+	if heightmap:
+		img = heightmap.get_data()		
+	else:
+		logger.warning("get_height_at_position was called, but the heightmap was null")
+		return 0
 	
 	if img:
 		img.lock()
