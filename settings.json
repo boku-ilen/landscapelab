@@ -65,6 +65,7 @@
     
     "player": {
         "ground-speed": 10,
+	"start-walking-enabled": true,
         "fly-speed": 500,
         "fly-speed-sprint": 5000,
         "fly-speed-sneak": 100

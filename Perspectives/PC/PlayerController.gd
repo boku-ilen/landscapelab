@@ -12,7 +12,7 @@ var mouse_sensitivity = 0.1
 var camera_angle = 0
 var velocity = Vector3()
 
-var walking = false
+var walking = Settings.get_setting("player", "start-walking-enabled")
 
 var WALK_SPEED = Settings.get_setting("player", "ground-speed")
 var FLY_SPEED = Settings.get_setting("player", "fly-speed")
