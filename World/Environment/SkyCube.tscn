@@ -40,8 +40,8 @@ texture_size = Vector3( 128, 128, 128 )
 max_distance = 0.3
 
 [node name="SkyCube" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3700, 0 )
-layers = 7
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5000, 0 )
+layers = 3
 cast_shadow = 0
 mesh = SubResource( 2 )
 material/0 = SubResource( 4 )
