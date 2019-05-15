@@ -4,6 +4,7 @@
 
 [sub_resource type="SpatialMaterial" id=1]
 resource_local_to_scene = true
+flags_unshaded = true
 
 [node name="TopomapModule" type="Spatial"]
 script = ExtResource( 1 )
