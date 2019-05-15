@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/Movable/MovableObject.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Movable/Windmill/Windmill.gd" type="Script" id=2]
@@ -12,6 +12,10 @@
 [sub_resource type="CapsuleShape" id=1]
 radius = 45.3642
 height = 106.981
+
+[sub_resource type="CylinderShape" id=2]
+radius = 5.0287
+height = 139.116
 
 [node name="Windmill" instance=ExtResource( 1 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 0, 0 )
@@ -42,3 +46,9 @@ shape = SubResource( 1 )
 
 [node name="MinimapIcon" parent="." index="4" instance=ExtResource( 7 )]
 icon = ExtResource( 8 )
+
+[node name="CollisionBody" type="StaticBody" parent="." index="5"]
+
+[node name="CollisionShape" type="CollisionShape" parent="CollisionBody" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70.8122, 0 )
+shape = SubResource( 2 )
