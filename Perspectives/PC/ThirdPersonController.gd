@@ -8,6 +8,7 @@ var dragging : bool = false
 var current_distance_to_ground
 
 onready var ground_check_ray = get_node("GroundCheckRay")
+onready var mousepoint = get_node("ThirdPersonCamera/MousePoint")
 
 
 func _ready():
@@ -25,16 +26,22 @@ func _input(event):
 				dragging = false
 				
 		elif event.button_index == BUTTON_WHEEL_UP: # Move down when scrolling up
-			move_and_collide(Vector3(0, -MOUSE_ZOOM_SPEED, 0))
+			move_and_collide(get_forward() * -MOUSE_ZOOM_SPEED)
 			
 		elif event.button_index == BUTTON_WHEEL_DOWN: # Move up when scrolling down
-			move_and_collide(Vector3(0, MOUSE_ZOOM_SPEED, 0))
+			move_and_collide(get_forward() * MOUSE_ZOOM_SPEED)
 		
 		current_distance_to_ground = clamp(current_distance_to_ground, 0, MAX_DISTANCE_TO_GROUND)
 		
 	elif event is InputEventMouseMotion:
 		if dragging:
 			move_and_collide(-Vector3(event.relative.x, 0, event.relative.y) * current_distance_to_ground / 600)
+			
+
+# Returns the vector which is used as 'forward' for movement. It is an anverage of where the mouse is pointing
+# and where 'down' is for this node.
+func get_forward():
+	return (transform.basis.y + mousepoint.transform.basis.z).normalized()
 
 
 func _process(delta):
