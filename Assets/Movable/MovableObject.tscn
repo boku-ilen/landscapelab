@@ -2,8 +2,10 @@
 
 [node name="MovableObject" type="Spatial"]
 
-[node name="StaticBody" type="StaticBody" parent="." groups=[
+[node name="PickupBody" type="StaticBody" parent="." groups=[
 "Movable",
 ]]
+collision_layer = 16384
+collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="PickupBody"]
