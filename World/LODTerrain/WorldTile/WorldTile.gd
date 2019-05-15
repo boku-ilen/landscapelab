@@ -82,6 +82,10 @@ func init(s, lod_level, activate_pos=null, _subdiv_mod=1):
 	lod = lod_level
 	subdiv_mod = _subdiv_mod
 	
+	# We add 2 to subdiv and increase the size by the added squares for the skirt around the mesh (which fills gaps
+	# where things don't match up)
+	size_with_skirt = size + (2.0/(subdiv + 1.0)) * size
+	
 	initialized = true
 	
 	will_activate_with_last_player_pos = activate_pos
@@ -106,16 +110,22 @@ func get_parent_tile():
 
 
 # Creates a PlaneMesh which corresponds to the current size and subdivision
-func create_tile_plane_mesh():
+func create_tile_plane_mesh(add_skirt=true):
 	var mesh = PlaneMesh.new()
 	
-	# We add 2 to subdiv and increase the size by the added squares for the skirt around the mesh (which fills gaps
-	# where things don't match up)
-	size_with_skirt = size + (2.0/(subdiv + 1.0)) * size
-	mesh.size = Vector2(size_with_skirt, size_with_skirt)
+	var mesh_size
+	var mesh_subdiv = subdiv
 	
-	mesh.subdivide_depth = subdiv + 2 # Add 1 left and 1 right for the skirt
-	mesh.subdivide_width = subdiv + 2
+	if add_skirt:
+		mesh_size = size_with_skirt
+		mesh_subdiv += 2 # Add 1 left and 1 right for the skirt
+	else:
+		mesh_size = size
+	
+	mesh.size = Vector2(mesh_size, mesh_size)
+	
+	mesh.subdivide_depth = mesh_subdiv
+	mesh.subdivide_width = mesh_subdiv
 	
 	return mesh
 
