@@ -6,6 +6,7 @@
     },
     
     "filesystem": {
+	"local-resources-path": "~/landscapelab-server/landscapelab/resources",
         "grid-graphics-path": ""
     },
     
@@ -26,7 +27,7 @@
             600,
             200,
             100,
-            60,
+            60
         ],
         "module-path": "res://World/LODTerrain/Modules/",
 	"modules": [
@@ -39,8 +40,7 @@
             ["Vegetation/HerbageModule.tscn"]
 
         ],	
-        "player-bounding-radius": 10000,
-            
+        "player-bounding-radius": 10000
     },
     
     "item-spawner": {
@@ -53,9 +53,8 @@
             "4": 0.1,
             "5": 0.2,
             "6": 0.5,
-            "7": 0.8,
+            "7": 0.8
         },
-        
         "detail-texture-start-distance": 100.0
     },
 
