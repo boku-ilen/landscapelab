@@ -6,4 +6,3 @@
 [node name="HerbageModule" instance=ExtResource( 1 )]
 my_vegetation_layer = 1
 particle_mesh_scene = ExtResource( 2 )
-
