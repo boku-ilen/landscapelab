@@ -30,7 +30,7 @@
         ],
         "module-path": "res://World/LODTerrain/Modules/",
 	"modules": [
-            ["TerrainModule.tscn"],
+            ["TerrainModule.tscn", "TopomapModule.tscn"],
             ["TerrainColliderModule.tscn"],
             [],
             ["-TerrainModule.tscn", "DetailedTerrainModule.tscn", "WaterModule.tscn"],
