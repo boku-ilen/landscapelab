@@ -57,11 +57,14 @@ func get_splat_data(d):
 			
 			# Load all images (distribution, spritesheet) and corresponding data
 			# We do this here because doing it in the main thread causes big stutters
-			phyto_data[result.get("ids")[current_index]] = VegetationData.new(
-				CachingImageTexture.get(this_result.get("path_to_distribution")),
-				CachingImageTexture.get(this_result.get("path_to_spritesheet")),
-				this_result.get("distribution_pixels_per_meter"),
-				this_result.get("number_of_sprites"))
+			if CachingImageTexture and this_result:
+				phyto_data[result.get("ids")[current_index]] = VegetationData.new(
+					CachingImageTexture.get(this_result.get("path_to_distribution")),
+					CachingImageTexture.get(this_result.get("path_to_spritesheet")),
+					this_result.get("distribution_pixels_per_meter"),
+					this_result.get("number_of_sprites"))
+			else:
+				logger.error("AbstractVegetationModule.gd:get_splat_data(): CachingImageTexture ({}) or server_result ({}) is null".format(CachingImageTexture, this_result))
 		
 	make_ready()
 
