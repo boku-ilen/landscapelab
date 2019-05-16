@@ -34,10 +34,11 @@ func _ready():
 # Fetches all required data from the server
 func get_splat_data(d):
 	var true_pos = tile.get_true_position()
+	var url = "/%s/%d.0/%d.0/%d"\
+		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()]
 
 	# Vegetation result for this tile
-	result = ServerConnection.get_json("/%s/%d.0/%d.0/%d"\
-		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()])
+	result = ServerConnection.get_json(url)
 		
 	# Load splatmap
 	if result and result.has("path_to_splatmap"):
@@ -58,11 +59,20 @@ func get_splat_data(d):
 			# Load all images (distribution, spritesheet) and corresponding data
 			# We do this here because doing it in the main thread causes big stutters
 			if CachingImageTexture and this_result:
-				phyto_data[result.get("ids")[current_index]] = VegetationData.new(
-					CachingImageTexture.get(this_result.get("path_to_distribution")),
-					CachingImageTexture.get(this_result.get("path_to_spritesheet")),
-					this_result.get("distribution_pixels_per_meter"),
-					this_result.get("number_of_sprites"))
+				var dist = this_result.get("path_to_distribution")
+				var sprite = this_result.get("path_to_spritesheet")
+				var dist_ppm = this_result.get("distribution_pixels_per_meter")
+				var sprite_num = this_result.get("number_of_sprites")
+				
+				# If all those variables are valid, we can insert the images/data into phyto_data
+				if dist and sprite and dist_ppm and sprite_num:
+					phyto_data[result.get("ids")[current_index]] = VegetationData.new(
+						CachingImageTexture.get(dist),
+						CachingImageTexture.get(sprite),
+						dist_ppm,
+						sprite_num)
+				else:
+					logger.warning("At least one of the returned values of %s was invalid!" % [url])
 			else:
 				logger.error("AbstractVegetationModule.gd:get_splat_data(): CachingImageTexture ({}) or server_result ({}) is null".format(CachingImageTexture, this_result))
 		
