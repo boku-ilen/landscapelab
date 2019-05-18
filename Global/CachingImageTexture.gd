@@ -8,6 +8,7 @@ extends Node
 var _path_imagetexture_dict: Dictionary = {}
 var _load_mutex = Mutex.new()
 var _flags = 0
+var _full_path_prefix = Settings.get_setting("filesystem", "local-resources-path")
 
 
 # Returns the image at the given path as an ImageTexture.
@@ -54,15 +55,18 @@ func _load_into_dict(path):
 		logger.error("BUG: CachingImageTexture.gd:_load_into_dict was called with null as parameter")
 		return
 	
-	if not Directory.new().file_exists(path):
-		logger.warning("An image was supposed to be loaded from %s, but this file does not exist!" % [path])
+	# add the prefix to get the local full path
+	var full_path = _full_path_prefix + path
+	
+	if not Directory.new().file_exists(full_path):
+		logger.warning("An image was supposed to be loaded from %s, but this file does not exist!" % [full_path])
 		return
 	
 	# Load the image from the path and create an ImageTexture from it
 	var img = Image.new()
-	img.load(path)
+	img.load(full_path)
 	if img.is_empty():  # check if the file was loaded correctly
-		logger.warning("image %s could not be loaded - does it exist?" % [path])
+		logger.warning("image %s could not be loaded - does it exist?" % [full_path])
 	
 	var img_tex = ImageTexture.new()
 	img_tex.create_from_image(img, _flags)
