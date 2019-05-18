@@ -6,15 +6,15 @@
 [ext_resource path="res://Resources/Images/UI/UI/h_energy_sum.png" type="Texture" id=4]
 [ext_resource path="res://UI/ui_energy.gd" type="Script" id=5]
 [ext_resource path="res://UI/EnergyUI/EnergyDetails.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Resources/Images/UI/UI/lego_brick.png" type="Texture" id=7]
-[ext_resource path="res://Resources/Images/UI/UI/s_lego_brick.png" type="Texture" id=8]
-[ext_resource path="res://Resources/Images/UI/UI/h_lego_brick.png" type="Texture" id=9]
-[ext_resource path="res://UI/ui_lego.gd" type="Script" id=10]
+[ext_resource path="res://Resources/Images/UI/UI/input_controller.png" type="Texture" id=7]
+[ext_resource path="res://Resources/Images/UI/UI/s_input_controller.png" type="Texture" id=8]
+[ext_resource path="res://Resources/Images/UI/UI/h_input_controller.png" type="Texture" id=9]
+[ext_resource path="res://UI/ui_controller.gd" type="Script" id=10]
 [ext_resource path="res://UI/EditableAssets/Editable Asset Type List.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Resources/Images/UI/UI/input_controller.png" type="Texture" id=12]
-[ext_resource path="res://Resources/Images/UI/UI/s_input_controller.png" type="Texture" id=13]
-[ext_resource path="res://Resources/Images/UI/UI/h_input_controller.png" type="Texture" id=14]
-[ext_resource path="res://UI/ui_controller.gd" type="Script" id=15]
+[ext_resource path="res://Resources/Images/UI/UI/lego_brick.png" type="Texture" id=12]
+[ext_resource path="res://Resources/Images/UI/UI/s_lego_brick.png" type="Texture" id=13]
+[ext_resource path="res://Resources/Images/UI/UI/h_lego_brick.png" type="Texture" id=14]
+[ext_resource path="res://UI/ui_lego.gd" type="Script" id=15]
 [ext_resource path="res://Resources/Images/UI/UI/play.png" type="Texture" id=16]
 [ext_resource path="res://Resources/Images/UI/UI/s_play.png" type="Texture" id=17]
 [ext_resource path="res://Resources/Images/UI/UI/h_play.png" type="Texture" id=18]
@@ -107,9 +107,9 @@ margin_left = 570.0
 margin_right = 685.0
 margin_bottom = 48.0
 
-[node name="Lego" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
-margin_right = 54.0
-margin_bottom = 48.0
+[node name="Controller" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
+margin_right = 57.0
+margin_bottom = 39.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 toggle_mode = true
@@ -118,13 +118,15 @@ texture_pressed = ExtResource( 8 )
 texture_hover = ExtResource( 9 )
 script = ExtResource( 10 )
 
-[node name="Editable Asset Type List" parent="Top Menu Bar/HBoxCenter/HBoxContainer/Lego" instance=ExtResource( 11 )]
+[node name="Editable Asset Type List" parent="Top Menu Bar/HBoxCenter/HBoxContainer/Controller" instance=ExtResource( 11 )]
 visible = false
+margin_left = 51.0
+margin_right = 365.0
 
-[node name="Controller" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
-margin_left = 58.0
+[node name="Lego" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
+margin_left = 61.0
 margin_right = 115.0
-margin_bottom = 39.0
+margin_bottom = 48.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 toggle_mode = true
@@ -218,4 +220,3 @@ texture_normal = ExtResource( 36 )
 texture_pressed = ExtResource( 37 )
 texture_hover = ExtResource( 38 )
 script = ExtResource( 39 )
-
