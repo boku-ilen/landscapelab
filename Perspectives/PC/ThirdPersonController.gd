@@ -45,7 +45,13 @@ func _input(event):
 		
 	elif event is InputEventMouseMotion:
 		if dragging:
-			move_and_collide(-Vector3(event.relative.x, 0, event.relative.y) * current_distance_to_ground / 600)
+			var mouseMovement = Vector3(event.relative.x, 0, event.relative.y)
+			
+			# The movement should be relative to our current rotation around the UP axis, otherwise dragging left
+			#  always makes us move towards the global left vector, which doesn't feel like dragging anymore
+			mouseMovement = mouseMovement.rotated(UP, rotation.y)
+			
+			move_and_collide(-mouseMovement * current_distance_to_ground / 600)
 		if rotating:
 			# For the left/right rotation, we use the global 'up' vector, as this should be consistent regardless
 			#  of the rotation of the node. For up/down however, we use the local 'right' vector, since we always
