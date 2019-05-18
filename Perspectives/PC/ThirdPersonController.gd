@@ -3,8 +3,10 @@ extends KinematicBody
 var MAX_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "max-distance-to-ground")
 var START_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "start_height")
 var MOUSE_ZOOM_SPEED = Settings.get_setting("third-person", "mouse-zoom-speed")
+var mouse_sensitivity = Settings.get_setting("third-person", "mouse-sensitivity")
 
 var dragging : bool = false
+var rotating : bool = false
 var current_distance_to_ground
 
 onready var ground_check_ray = get_node("GroundCheckRay")
@@ -19,11 +21,16 @@ func _ready():
 
 func _input(event):
 	if event is InputEventMouseButton:
-		if event.button_index == 1: # Left click
+		if event.button_index == BUTTON_LEFT: 
 			if event.pressed:
 				dragging = true
 			else:
 				dragging = false
+		elif event.button_index == BUTTON_RIGHT:
+			if event.pressed:
+				rotating = true
+			else: 
+				rotating = false
 				
 		elif event.button_index == BUTTON_WHEEL_UP: # Move down when scrolling up
 			move_and_collide(get_forward() * -MOUSE_ZOOM_SPEED)
@@ -36,6 +43,9 @@ func _input(event):
 	elif event is InputEventMouseMotion:
 		if dragging:
 			move_and_collide(-Vector3(event.relative.x, 0, event.relative.y) * current_distance_to_ground / 600)
+		if rotating:
+			rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
+			rotate_x(deg2rad(-event.relative.y * mouse_sensitivity))
 			
 
 # Returns the vector which is used as 'forward' for movement. It is an anverage of where the mouse is pointing
