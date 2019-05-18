@@ -57,12 +57,15 @@ alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
 margin_right = 300.0
-margin_bottom = 1030.0
+margin_bottom = 58.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
 margin_right = 300.0
 margin_bottom = 58.0
 rect_min_size = Vector2( 300, 0 )
+size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox"]
@@ -79,6 +82,7 @@ texture_normal = ExtResource( 1 )
 margin_left = 154.0
 margin_right = 231.0
 margin_bottom = 58.0
+mouse_default_cursor_shape = 2
 toggle_mode = true
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 3 )

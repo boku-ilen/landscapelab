@@ -13,12 +13,11 @@ func _ready():
 
 
 func _toggled(button_pressed) -> void:
+
 	for child in get_children():
 		child.visible = !child.visible
 
-
-func _pressed():
-	if pressed:
+	if self.pressed:
 		GlobalSignal.emit_signal("energy_details_enabled")
 	else:
 		GlobalSignal.emit_signal("energy_details_disabled")
