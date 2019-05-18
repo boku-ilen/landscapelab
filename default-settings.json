@@ -6,7 +6,7 @@
     },
     
     "filesystem": {
-	"local-resources-path": "~/landscapelab-server/landscapelab/resources",
+	"local-resources-path": "/landscapelab/landscapelab/resources",
         "grid-graphics-path": ""
     },
     
