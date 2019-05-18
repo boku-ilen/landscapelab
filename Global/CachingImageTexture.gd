@@ -56,7 +56,7 @@ func _load_into_dict(path):
 		return
 	
 	# add the prefix to get the local full path
-	var full_path = _full_path_prefix + path
+	var full_path = _full_path_prefix + "/" + path
 	
 	if not Directory.new().file_exists(full_path):
 		logger.warning("An image was supposed to be loaded from %s, but this file does not exist!" % [full_path])
