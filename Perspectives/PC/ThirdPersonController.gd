@@ -3,12 +3,17 @@ extends KinematicBody
 var MAX_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "max-distance-to-ground")
 var START_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "start_height")
 var MOUSE_ZOOM_SPEED = Settings.get_setting("third-person", "mouse-zoom-speed")
+var mouse_sensitivity = Settings.get_setting("third-person", "mouse-sensitivity")
 
 var dragging : bool = false
+var rotating : bool = false
 var current_distance_to_ground
 
 onready var ground_check_ray = get_node("GroundCheckRay")
 onready var mousepoint = get_node("ThirdPersonCamera/MousePoint")
+
+const UP = Vector3(0, 1, 0)
+const RIGHT = Vector3(1, 0, 0)
 
 
 func _ready():
@@ -19,11 +24,16 @@ func _ready():
 
 func _input(event):
 	if event is InputEventMouseButton:
-		if event.button_index == 1: # Left click
+		if event.button_index == BUTTON_LEFT: 
 			if event.pressed:
 				dragging = true
 			else:
 				dragging = false
+		elif event.button_index == BUTTON_RIGHT:
+			if event.pressed:
+				rotating = true
+			else: 
+				rotating = false
 				
 		elif event.button_index == BUTTON_WHEEL_UP: # Move down when scrolling up
 			move_and_collide(get_forward() * -MOUSE_ZOOM_SPEED)
@@ -35,7 +45,21 @@ func _input(event):
 		
 	elif event is InputEventMouseMotion:
 		if dragging:
-			move_and_collide(-Vector3(event.relative.x, 0, event.relative.y) * current_distance_to_ground / 600)
+			var mouseMovement = Vector3(event.relative.x, 0, event.relative.y)
+			
+			# The movement should be relative to our current rotation around the UP axis, otherwise dragging left
+			#  always makes us move towards the global left vector, which doesn't feel like dragging anymore
+			mouseMovement = mouseMovement.rotated(UP, rotation.y)
+			
+			move_and_collide(-mouseMovement * current_distance_to_ground / 600)
+		if rotating:
+			# For the left/right rotation, we use the global 'up' vector, as this should be consistent regardless
+			#  of the rotation of the node. For up/down however, we use the local 'right' vector, since we always
+			#  want to go up or down relative to our current rotation.
+			# Imagine a real tripod - the big pole in the middle is the global 'up' vector, the part with the handle
+			#  is our local 'right' vector.
+			global_rotate(UP, deg2rad(-event.relative.x * mouse_sensitivity))
+			global_rotate(transform.basis.x, deg2rad(-event.relative.y * mouse_sensitivity))
 			
 
 # Returns the vector which is used as 'forward' for movement. It is an anverage of where the mouse is pointing

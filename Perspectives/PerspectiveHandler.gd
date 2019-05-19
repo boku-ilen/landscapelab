@@ -64,7 +64,7 @@ func _input(event):
 
 func toggle_mouse_capture():
 	if mouse_captured:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

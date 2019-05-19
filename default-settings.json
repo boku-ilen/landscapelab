@@ -67,13 +67,15 @@
 	"start-walking-enabled": true,
         "fly-speed": 500,
         "fly-speed-sprint": 5000,
-        "fly-speed-sneak": 100
+        "fly-speed-sneak": 100,
+	"mouse-sensitivity": 0.1
     },
 
     "third-person": {
     	"max-distance-to-ground": 15000,
     	"start_height": 5000,
-    	"mouse-zoom-speed": 50
+    	"mouse-zoom-speed": 50,
+	"mouse-sensitivity": 0.1
     },
     
     "water": {

@@ -8,7 +8,7 @@ extends KinematicBody
 var origin_offset_x : int = 0
 var origin_offset_z : int = 0
 
-var mouse_sensitivity = 0.1
+var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 var camera_angle = 0
 var velocity = Vector3()
 
