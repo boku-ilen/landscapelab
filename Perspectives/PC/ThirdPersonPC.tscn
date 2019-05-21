@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Perspectives/PC/ThirdPersonController.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/PC/SettingsCamera.gd" type="Script" id=2]
-[ext_resource path="res://Perspectives/PC/MousePoint.gd" type="Script" id=3]
-[ext_resource path="res://Perspectives/PC/ItemSpawner/ItemSpawner.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Resources/Images/UI/MapIcons/MapCursor.png" type="Texture" id=6]
+[ext_resource path="res://Perspectives/PC/MousePoint.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Resources/Images/UI/MapIcons/MapCursor.png" type="Texture" id=5]
 
 [sub_resource type="SphereShape" id=1]
 radius = 10.0
@@ -21,12 +20,7 @@ far = 50000.0
 script = ExtResource( 2 )
 setting_title = "third-person"
 
-[node name="MousePoint" type="Spatial" parent="ThirdPersonCamera"]
-transform = Transform( 1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
-script = ExtResource( 3 )
-
-[node name="ItemSpawner" parent="ThirdPersonCamera/MousePoint" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
+[node name="MousePoint" parent="ThirdPersonCamera" instance=ExtResource( 3 )]
 
 [node name="GroundCheckRay" type="RayCast" parent="."]
 enabled = true
@@ -36,7 +30,7 @@ collision_mask = 16385
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
 
-[node name="MinimapIcon" parent="." instance=ExtResource( 5 )]
+[node name="MinimapIcon" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 5.36442e-07, 0, -5.36442e-07, 1, 0, 0, 0 )
-icon = ExtResource( 6 )
+icon = ExtResource( 5 )
 rotate = true

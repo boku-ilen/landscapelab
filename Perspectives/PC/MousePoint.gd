@@ -15,11 +15,8 @@ onready var camera = get_parent()
 func _input(event):
 	if event is InputEventMouseMotion:
 		# Direct the mouse position on the screen along the camera
-		var mouse_point_vector = camera.project_ray_normal(event.position)
-		
-		# FIXME: We need to do this in order to keep in mind the rotation of the parent (the
-		# 3rd person camera). However, this should obviously be dynamic, not hardcoded!
-		mouse_point_vector = mouse_point_vector.rotated(Vector3(1, 0, 0), 0.87266)
+		# We use a local ray since it should be relative to the rotation of any parent node
+		var mouse_point_vector = camera.project_local_ray_normal(event.position)
 		
 		# Transform the forward vector to this projected vector (-z is forward)
 		transform.basis.z = -mouse_point_vector

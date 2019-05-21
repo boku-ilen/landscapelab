@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Perspectives/PC/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/PC/SettingsCamera.gd" type="Script" id=2]
-[ext_resource path="res://Perspectives/PC/ItemSpawner/ItemSpawner.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Perspectives/PC/MousePoint.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Resources/Images/UI/MapIcons/MapCursor.png" type="Texture" id=5]
 
@@ -26,7 +26,7 @@ far = 70000.0
 script = ExtResource( 2 )
 setting_title = "player"
 
-[node name="ItemSpawner" parent="Head/Camera" instance=ExtResource( 3 )]
+[node name="MousePoint" parent="Head/Camera" instance=ExtResource( 3 )]
 
 [node name="MinimapIcon" parent="Head" instance=ExtResource( 4 )]
 transform = Transform( 1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0 )
