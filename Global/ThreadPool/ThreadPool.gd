@@ -1,8 +1,14 @@
 extends Node
 
+#
 # Since starting a thread is expensive (it causes noticeable stutters), this
 # singleton provides pre-started threads which you can delegate work to.
 # Starting a function in one of these pooled threads is non-blocking.
+#
+# Note that nodes which have active enqueued tasks in the ThreadPool may not be
+# freed until all these functions are done - otherwise, they may be freed while
+# the method is still being executed in a thread, causing a crash!
+#
 
 const BlockingQueue = preload("res://Global/ThreadPool/BlockingQueue.gd")
 
@@ -47,17 +53,24 @@ func dequeue_task():
 class Task:
 
 	var obj
+	var ref
 	var method
 	var params
 
 
 	func _init(obj, method, params):
 		self.obj = obj
+		self.ref = weakref(obj)
 		self.method = method
 		self.params = params
 
 
 	func execute():
-		if obj:  # FIXME: even if this check is performed it got me a null instance in the next line sometimes
-			obj.call(method, params)  # FIXME: if framerate drops the method sometimes does not exist anymore 
-			# e.g. SCRIPT ERROR: Task.execute: Invalid call. Nonexistent function 'get_textures (via call)' in base 'Spatial (Modules.gd)'.
+		# A simple null check is not enough here, as the node might still hold something, but be freed already.
+		# Thus, we check the validity of the node by testing whether a weak reference to the object is still valid.
+		# As proposed here: https://godotengine.org/qa/10085/how-to-know-a-node-is-freed-or-deleted
+		# Note that this should always succeed if all usages of the ThreadPool are correctly programmed!
+		if ref.get_ref():
+			obj.call(method, params) 
+		else:
+			logger.error("Thread was supposed to call %s, but the object didn't exist anymore!" % [method])
