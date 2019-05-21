@@ -5,9 +5,14 @@ extends Spatial
 #
 
 onready var Blades = get_node("Blades")
+onready var tooltip = get_node("Tooltip3D")
 
 export(float) var speed = 1 # Rotation speed in radians
 export(Vector2) var wind_direction = Vector2(-1, -1) setget set_wind_direction, get_wind_direction
+
+func _ready():
+	# TODO: Random label for testing - remove once we get real energy data!
+	tooltip.set_label_text(str(rand_range(0, 100)))
 
 # Saves the specified wind direction and updates the model's rotation - called whenever the exported wind_direction is changed
 func set_wind_direction(var dir):

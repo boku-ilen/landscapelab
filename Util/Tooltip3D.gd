@@ -4,8 +4,8 @@ extends Spatial
 # This scene can be added to any node in order to display a tooltip for it when the player is nearby.
 #
 
-onready var label_node = get_node("ViewportContainer/Viewport/CenterContainer/VBoxContainer/Label")
-onready var icon_node = get_node("ViewportContainer/Viewport/CenterContainer/VBoxContainer/MarginContainer/TextureRect")
+onready var label_node = get_node("Viewport/CenterContainer/VBoxContainer/Label")
+onready var icon_node = get_node("Viewport/CenterContainer/VBoxContainer/MarginContainer/TextureRect")
 
 export(String) var label setget set_label_text, get_label_text
 export(Resource) var icon setget set_icon, get_icon
@@ -17,6 +17,10 @@ func _ready():
 	visible = TooltipHandler.are_tooltips_enabled()
 	TooltipHandler.connect("energy_details_enabled", self, "_on_display_tooltip", [true])
 	TooltipHandler.connect("energy_details_disabled", self, "_on_display_tooltip", [false])
+	
+	# TODO: Will be removed once different signal is emitted
+	TooltipHandler.connect("display_tooltip", self, "_on_display_tooltip")
+	
 	ready = true
 	update()
 
