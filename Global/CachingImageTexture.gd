@@ -13,14 +13,29 @@ var _full_path_prefix = Settings.get_setting("filesystem", "local-resources-path
 
 # Returns the image at the given path as an ImageTexture.
 # If the image has been loaded before, it is returned from the cache dictionary.
+# The flags of the image should not be changed (it will also change in all other
+# places the image is used since it's a reference!) - use get_new for this!
 func get(path):
 	_load_into_dict_if_needed(path)
 		
 	return _get_texture_from_dict(path)
+	
+	
+# Get a fresh instance of an Image as an ImageTexture, which is not saved to the cache.
+# This can be used to e.g. modify the flags in the new ImageTexture without affecting
+# all other usages.
+func get_new(path):
+	_load_into_dict_if_needed(path)
+	
+	var img = ImageTexture.new()
+	img.create_from_image(_get_image_from_dict(path))
+	
+	return img
 
 
 # Returs a part of the ImageTexture at the given path. Origin and size are Vector2 with fields between 0 and 1.
 # Example: Get the bottom left quarter of an image: Origin = (0, 0.5); Size = (0.5, 0.5)
+# Note: This is apparently quite inefficient in Godot and should be avoided!
 func get_cropped(path, origin, size):
 	_load_into_dict_if_needed(path)
 	

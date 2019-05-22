@@ -47,7 +47,9 @@ func get_splat_data(d):
 	# Get heightmap
 	var dhm_response = tile.get_texture_result("raster")
 	if dhm_response and dhm_response.has("dhm"):
-		heightmap = CachingImageTexture.get(dhm_response.get("dhm"))
+		# We need to use get_new since the vegetation uses different flags
+		# than the default! (set in set_parameters)
+		heightmap = CachingImageTexture.get_new(dhm_response.get("dhm"))
 
 	if result and result.has("ids"):
 		# Iterate over all phytocoenosis IDs on this tile (but don't exceed num_layers)
