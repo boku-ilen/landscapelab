@@ -53,8 +53,8 @@ func get_splat_data(d):
 		# Iterate over all phytocoenosis IDs on this tile (but don't exceed num_layers)
 		for current_index in range(0, min(result.get("ids").size(), num_layers)):
 			# Data for the phytocoenosis with this ID
-			var this_result = ServerConnection.get_json("/vegetation/%d/%d"
-				% [result.get("ids")[current_index], my_vegetation_layer])
+			var pytho_c_url = "/vegetation/%d/%d" % [result.get("ids")[current_index], my_vegetation_layer]
+			var this_result = ServerConnection.get_json(pytho_c_url)
 			
 			# Load all images (distribution, spritesheet) and corresponding data
 			# We do this here because doing it in the main thread causes big stutters
@@ -72,7 +72,7 @@ func get_splat_data(d):
 						dist_ppm,
 						sprite_num)
 				else:
-					logger.warning("At least one of the returned values of %s was invalid!" % [url])
+					logger.warning("At least one of the returned values of %s was invalid!" % [pytho_c_url])
 			else:
 				logger.error("AbstractVegetationModule.gd:get_splat_data(): CachingImageTexture ({}) or server_result ({}) is null".format(CachingImageTexture, this_result))
 		
