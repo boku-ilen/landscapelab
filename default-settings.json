@@ -103,5 +103,10 @@
     
     "tracking": {
         "interval": 1
+    },
+    
+    "logger": {
+        "max-messages-in-stream": 20,
+        "default-level": 0
     }
 }
