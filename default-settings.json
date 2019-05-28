@@ -59,7 +59,9 @@
     },
 
     "sky": {
-        "clouds": true
+        "clouds": true,
+	"fog-begin": 800,
+	"fog-end": 20000
     },
     
     "player": {

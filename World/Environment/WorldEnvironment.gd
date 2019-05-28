@@ -5,6 +5,8 @@ onready var light = get_node("DirectionalLight")
 onready var sky_cube_scene = preload("res://World/Environment/SkyCube.tscn")
 
 var SKYCUBE_ENABLED = Settings.get_setting("sky", "clouds")
+var FOG_BEGIN = Settings.get_setting("sky", "fog-begin")
+var FOG_END = Settings.get_setting("sky", "fog-end")
 
 var clouds
 
@@ -30,6 +32,9 @@ func _ready():
 	if SKYCUBE_ENABLED:
 		add_child(sky_cube_scene.instance())
 		clouds = get_node("SkyCube")
+		
+	environment.fog_depth_begin = FOG_BEGIN
+	environment.fog_depth_end = FOG_END
 
 
 func _physics_process(delta):
