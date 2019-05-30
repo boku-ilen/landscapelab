@@ -1,4 +1,4 @@
-extends ViewportContainer
+extends "res://UI/MouseControlViewport.gd"
 
 #
 # When added to a ViewportContainer which has a Viewport (named 'Viewport') as a child, this
@@ -9,7 +9,6 @@ extends ViewportContainer
 func _ready():
 	# TODO: Is 'resized' the correct signal to use here?
 	connect("resized", self, "_on_size_changed")
-	
 	# Set the correct size for the start (since 'resized' is not emitted when first instancing)
 	_on_size_changed()
 
