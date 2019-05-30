@@ -6,8 +6,8 @@
 [ext_resource path="res://Resources/Meshes/Windmills/Vestas/vestas_base.obj" type="ArrayMesh" id=4]
 [ext_resource path="res://Resources/Meshes/Windmills/Vestas/vestas_blades.obj" type="ArrayMesh" id=5]
 [ext_resource path="res://Util/Tooltip3D.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Resources/Images/UI/MapIcons/windmill_icon.png" type="Texture" id=8]
+[ext_resource path="res://Resources/Images/UI/MapIcons/windmill_icon.png" type="Texture" id=7]
+[ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=8]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 45.3642
@@ -39,13 +39,14 @@ material/0 = null
 [node name="Tooltip3D" parent="." index="2" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, 0 )
 label = "0.0 kWh"
+icon = ExtResource( 7 )
 
 [node name="CollisionShape" parent="PickupBody" index="0"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 74.118, 0 )
 shape = SubResource( 1 )
 
-[node name="MinimapIcon" parent="." index="4" instance=ExtResource( 7 )]
-icon = ExtResource( 8 )
+[node name="MinimapIcon" parent="." index="4" instance=ExtResource( 8 )]
+icon = ExtResource( 7 )
 
 [node name="CollisionBody" type="StaticBody" parent="." index="5"]
 

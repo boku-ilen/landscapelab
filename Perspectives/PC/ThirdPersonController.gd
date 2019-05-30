@@ -65,7 +65,7 @@ func _input(event):
 # Returns the vector which is used as 'forward' for movement. It is an anverage of where the mouse is pointing
 # and where 'down' is for this node.
 func get_forward():
-	return (transform.basis.y + mousepoint.transform.basis.z).normalized()
+	return (UP).normalized()
 
 
 func _process(delta):

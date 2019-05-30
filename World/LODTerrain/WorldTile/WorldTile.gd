@@ -26,8 +26,6 @@ var created = false
 var last_player_pos
 var subdiv_mod = 1
 
-var subdiv : int = 16
-
 const NUM_CHILDREN = 4 # Number of children, will likely always stay 4 because it's a quadtree
 var num_children_active : int = 0 # The number of children which are actually active and supposed to be active
 
@@ -36,6 +34,7 @@ var will_activate_with_last_player_pos # Can be set in init() to immediately act
 # Settings
 var max_lods = Settings.get_setting("lod", "distances")
 var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
+var subdiv : int = Settings.get_setting("lod", "default-tile-subdivision")
 
 # Signals
 signal tile_done_loading # Emitted by the tile once all modules have finished loading -> the tile is ready
@@ -59,6 +58,7 @@ func _process(delta):
 	if done_loading and to_be_deleted and children.get_child_count() == 0:
 		PerformanceTracker.number_of_tiles -= 1
 		queue_free()
+		return
 		
 	# Apply the visibility accordingly (this is done centrally here to avoid race conditions)
 	# TODO: We don't really need to check this every frame, perhaps we can only do this after

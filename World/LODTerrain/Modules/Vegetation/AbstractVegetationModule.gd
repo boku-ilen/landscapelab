@@ -47,14 +47,16 @@ func get_splat_data(d):
 	# Get heightmap
 	var dhm_response = tile.get_texture_result("raster")
 	if dhm_response and dhm_response.has("dhm"):
-		heightmap = CachingImageTexture.get(dhm_response.get("dhm"))
+		# We need to use get_new since the vegetation uses different flags
+		# than the default! (set in set_parameters)
+		heightmap = CachingImageTexture.get_new(dhm_response.get("dhm"))
 
 	if result and result.has("ids"):
 		# Iterate over all phytocoenosis IDs on this tile (but don't exceed num_layers)
 		for current_index in range(0, min(result.get("ids").size(), num_layers)):
 			# Data for the phytocoenosis with this ID
-			var this_result = ServerConnection.get_json("/vegetation/%d/%d"
-				% [result.get("ids")[current_index], my_vegetation_layer])
+			var pytho_c_url = "/vegetation/%d/%d" % [result.get("ids")[current_index], my_vegetation_layer]
+			var this_result = ServerConnection.get_json(pytho_c_url)
 			
 			# Load all images (distribution, spritesheet) and corresponding data
 			# We do this here because doing it in the main thread causes big stutters
@@ -72,7 +74,7 @@ func get_splat_data(d):
 						dist_ppm,
 						sprite_num)
 				else:
-					logger.warning("At least one of the returned values of %s was invalid!" % [url])
+					logger.warning("At least one of the returned values of %s was invalid!" % [pytho_c_url])
 			else:
 				logger.error("AbstractVegetationModule.gd:get_splat_data(): CachingImageTexture ({}) or server_result ({}) is null".format(CachingImageTexture, this_result))
 		
@@ -143,6 +145,8 @@ func set_parameters(data):
 	
 	tile.set_heightmap_params_for_obj(data[0].process_material)
 	tile.set_heightmap_params_for_obj(data[0].material_override)
+	
+	data[0].emit()
 	
 
 # Basic data structure for the data of one phytocoenosis

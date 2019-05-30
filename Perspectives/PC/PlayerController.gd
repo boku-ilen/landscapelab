@@ -56,7 +56,8 @@ func _physics_process(delta):
 
 
 func _input(event):
-	if event is InputEventMouseMotion:
+	# Rotate the camera if the event is mouse motion and the mouse is currently captured
+	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
 		
 		var change = -event.relative.y * mouse_sensitivity

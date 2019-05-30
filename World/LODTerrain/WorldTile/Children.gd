@@ -34,7 +34,7 @@ func instantiate_children(data):
 			child.init((tile.size / 2.0), tile.lod + 1, tile.last_player_pos, data[0])
 			child.connect("tile_done_loading", tile, "_on_child_tile_finished")
 
-			call_deferred("add_child", child)
+			add_child(child)
 				
 				
 # Removes all the higher LOD children
