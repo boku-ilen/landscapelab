@@ -20,7 +20,9 @@ uniform int vegetation_id3;
 uniform sampler2D vegetation_tex4 : hint_albedo;
 uniform sampler2D vegetation_normal4 : hint_normal;
 uniform int vegetation_id4;
-uniform float tex_factor = 0.15; // 0.5 means one Godot meter will have half the texture
+uniform float tex_factor = 1.0; // 0.5 means one Godot meter will have half the texture
+
+uniform bool blend_only_similar_colors = false;
 
 varying vec3 normal;
 varying vec3 world_pos;
@@ -131,6 +133,10 @@ void fragment(){
 		}
 	}
 	
+	if (blend_only_similar_colors) {
+		detail_factor *= max(0.0, (1.0 - length(detail_color - base_color)));
+	}
+
 	if (detail_color != vec3(0.0)) {
 		total_color = detail_color * detail_factor + base_color * (1.0 - detail_factor);
 		NORMALMAP += detail_factor * (current_normal * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0));
