@@ -59,7 +59,9 @@
     },
 
     "sky": {
-        "clouds": true
+        "clouds": true,
+	"fog-begin": 800,
+	"fog-end": 20000
     },
     
     "player": {
@@ -101,5 +103,10 @@
     
     "tracking": {
         "interval": 1
+    },
+    
+    "logger": {
+        "max-messages-in-stream": 20,
+        "default-level": 0
     }
 }

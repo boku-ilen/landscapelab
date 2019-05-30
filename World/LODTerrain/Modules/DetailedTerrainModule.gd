@@ -25,7 +25,6 @@ func get_splat_data():
 		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()])
 
 	if not splat_result or not splat_result.has("ids"):
-		make_ready()
 		return
 
 	splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"))
