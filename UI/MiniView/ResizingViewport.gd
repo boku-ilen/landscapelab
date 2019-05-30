@@ -1,4 +1,4 @@
-extends "res://UI/MouseControlViewport.gd"
+extends ViewportContainer
 
 #
 # When added to a ViewportContainer which has a Viewport (named 'Viewport') as a child, this
