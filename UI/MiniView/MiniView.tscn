@@ -180,6 +180,7 @@ margin_bottom = -10.0
 [node name="MiniViewportContainer" type="ViewportContainer" parent="Border/Margin"]
 margin_right = 630.0
 margin_bottom = 430.0
+focus_mode = 2
 script = ExtResource( 37 )
 
 [node name="Viewport" type="Viewport" parent="Border/Margin/MiniViewportContainer"]

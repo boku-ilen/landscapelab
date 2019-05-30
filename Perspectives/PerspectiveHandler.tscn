@@ -11,13 +11,17 @@ script = ExtResource( 1 )
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+focus_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
 script = ExtResource( 2 )
 
 [node name="MainUI" parent="ViewportContainer" instance=ExtResource( 3 )]
 
 [node name="VRViewport" type="Viewport" parent="ViewportContainer"]
 arvr = true
-size = Vector2( 1440, 1440 )
+size = Vector2( 1920, 1080 )
 handle_input_locally = false
 hdr = false
 render_target_update_mode = 3
