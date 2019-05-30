@@ -177,11 +177,11 @@ margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
 
-[node name="ViewportContainer" type="ViewportContainer" parent="Border/Margin"]
+[node name="MiniViewportContainer" type="ViewportContainer" parent="Border/Margin"]
 margin_right = 630.0
 margin_bottom = 430.0
 script = ExtResource( 37 )
 
-[node name="Viewport" type="Viewport" parent="Border/Margin/ViewportContainer"]
+[node name="Viewport" type="Viewport" parent="Border/Margin/MiniViewportContainer"]
 handle_input_locally = false
 render_target_update_mode = 3

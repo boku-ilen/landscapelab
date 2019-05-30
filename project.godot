@@ -46,6 +46,7 @@ Offset="*res://Global/Offset.gd"
 TooltipHandler="*res://Global/TooltipHandler.gd"
 WorldPosition="*res://Global/WorldPosition.gd"
 PerformanceTracker="*res://Global/Debug/PerformanceTracker.gd"
+Controls="*res://Global/Controls.gd"
 
 [display]
 
