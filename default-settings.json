@@ -89,7 +89,7 @@
     },
     
     "minimap": {
-        "height": 4000,
+        "height": 20000,
         "size": 9000,
         "zoom_start": 4500,
         "zoom_max": 20000,
