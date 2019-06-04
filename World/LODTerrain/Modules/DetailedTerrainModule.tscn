@@ -14,13 +14,13 @@ shader_param/vegetation_id2 = null
 shader_param/vegetation_id3 = null
 shader_param/vegetation_id4 = null
 shader_param/tex_factor = 0.5
-shader_param/height_range = 500.0
+shader_param/blend_only_similar_colors = false
 shader_param/subdiv = 16.0
 shader_param/size = 16.0
 shader_param/size_without_skirt = 16.0
-shader_param/RADIUS = 6.371e+006
+shader_param/RADIUS = 6.371e+06
 
-[node name="TerrainModule" instance=ExtResource( 1 )]
+[node name="TerrainModule" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="MeshInstance" parent="." index="0"]

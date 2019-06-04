@@ -19,6 +19,8 @@ func _on_ready():
 		col_shape.shape = create_tile_collision_shape()
 	else:
 		logger.info("Couldn't get heightmap for tile!")
+		
+	ready_to_be_displayed()
 
 
 func get_textures(data):

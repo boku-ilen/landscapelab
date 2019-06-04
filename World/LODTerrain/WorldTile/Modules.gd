@@ -9,15 +9,18 @@ onready var tile = get_parent()
 
 var num_modules : int = 0 # Number of modules this tile has
 var num_modules_loaded : int = 0 # Incremented when a module finishes loading
+var num_modules_to_be_displayed : int = 0 # Incremented when a module wants to be displayed
 
 var module_path = Settings.get_setting("lod", "module-path")
 var module_scenes = Settings.get_setting("lod", "modules")
 
-signal module_done_loading # Emitted by modules once they've finished loading and are ready to be displayed
+signal module_done_loading # Emitted by modules once they've finished loading
+signal module_to_be_displayed # Emitted by modules once they want to be displayed
 
 
 func _ready():
 	connect("module_done_loading", self, "_on_module_done_loading")
+	connect("module_to_be_displayed", self, "_on_module_to_be_displayed")
 	spawn_modules()
 	
 
@@ -55,3 +58,12 @@ func _on_module_done_loading():
 	if num_modules_loaded == num_modules:
 		tile.emit_signal("tile_done_loading")
 		tile.done_loading = true
+		
+		
+# Called when the module_to_be_displayed signal is emitted.
+# If all modules are now done, emits tile_to_be_displayed
+func _on_module_to_be_displayed():
+	num_modules_to_be_displayed += 1
+	
+	if num_modules_to_be_displayed == num_modules:
+		tile.emit_signal("tile_to_be_displayed")

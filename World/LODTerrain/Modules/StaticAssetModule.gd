@@ -37,6 +37,8 @@ func _on_ready():
 			dscn_node.import_dscn()
 			
 			add_child(dscn_node)
+			
+	ready_to_be_displayed()
 
 
 func get_asset_data_from_server(d):

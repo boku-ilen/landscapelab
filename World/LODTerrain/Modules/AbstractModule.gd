@@ -21,12 +21,10 @@ func _ready():
 		modules = get_parent()
 
 
+# This function is called as soon as the ready flag is set by calling make_ready().
+# It is run in the main thread, which means that it can manipulate resources, instance scenes, etc.
+# By default, it is empty. It should be implemented by the derived modules.
 func _on_ready():
-	"""This function is called as soon as the ready flag is set by calling make_ready().
-	It is run in the main thread, which means that it can manipulate resources, instance scenes, etc.
-	
-	By default, it is empty. It should be implemented by the derived modules.
-	"""
 	pass
 
 
@@ -39,13 +37,17 @@ func _process(delta):
 func _done_loading():
 	modules.emit_signal("module_done_loading")
 	done = true
-
-
-func make_ready():
-	"""Once this function is called, _on_ready() will be run in the main thread.
-	This function can be called in a thread to signify that all required resources have been loaded from the server.
 	
-	Example:
-	Load texture from the server in a thread -> call make_ready() -> textures are applied to nodes in _on_ready()
-	"""
+
+# When the tile is successfully loaded and should be displayed, this function should be called.
+# Note: If there is a module which never calls it, the tile will never be displayed!
+func ready_to_be_displayed():
+	modules.emit_signal("module_to_be_displayed")
+
+
+# Once this function is called, _on_ready() will be run in the main thread.
+# This function can be called in a thread to signify that all required resources have been loaded from the server.
+# Example:
+# Load texture from the server in a thread -> call make_ready() -> textures are applied to nodes in _on_ready()
+func make_ready():
 	ready = true

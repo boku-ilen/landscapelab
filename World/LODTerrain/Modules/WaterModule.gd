@@ -50,3 +50,5 @@ func _on_ready():
 	splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"))
 	
 	set_splatmap()
+	
+	ready_to_be_displayed()

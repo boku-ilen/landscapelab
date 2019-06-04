@@ -24,6 +24,8 @@ func _on_ready():
 	
 	if dhm:
 		mesh.material_override.set_shader_param("heightmap", dhm)
+		
+	ready_to_be_displayed()
 
 
 func get_ortho_dhm():

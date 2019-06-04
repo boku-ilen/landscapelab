@@ -56,3 +56,15 @@ func are_all_active():
 			return false
 	
 	return true
+	
+
+# Returns true if all children are ready to be displayed
+func are_all_to_be_displayed():
+	if get_child_count() != tile.NUM_CHILDREN:
+		return false
+	
+	for child in get_children():
+		if (not child.to_be_displayed) or (not child.done_loading) or (child.to_be_deleted):
+			return false
+	
+	return true

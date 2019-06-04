@@ -152,6 +152,8 @@ func set_parameters(data):
 	
 	data[0].emit()
 	
+	ready_to_be_displayed()
+	
 
 # Basic data structure for the data of one phytocoenosis
 class VegetationData:

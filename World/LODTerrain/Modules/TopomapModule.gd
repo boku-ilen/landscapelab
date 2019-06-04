@@ -18,6 +18,8 @@ func _ready():
 func _on_ready():
 	if topo:
 		mesh.material_override.albedo_texture = topo
+		
+	ready_to_be_displayed()
 
 
 func get_topo():
