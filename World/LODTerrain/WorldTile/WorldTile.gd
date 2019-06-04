@@ -70,16 +70,12 @@ func _process(delta):
 	# TODO: We don't really need to check this every frame, perhaps we can only do this after
 	#  certain events (such as children having loaded, child tiles being deleted, etc) happened?
 	#  If so, we need to be careful not to re-introduce race conditions!
-	if not done_loading:
-		modules.visible = false
+	if to_be_displayed and not children.are_all_to_be_displayed():
+		modules.visible = true
 		children.visible = false
 	else:
-		if not children.are_all_to_be_displayed():
-			modules.visible = true
-			children.visible = false
-		else:
-			modules.visible = false
-			children.visible = true
+		modules.visible = false
+		children.visible = true
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
