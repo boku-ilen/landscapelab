@@ -19,13 +19,12 @@ func _ready():
 
 
 func _on_ready():
-	if ortho:
+	if ortho and dhm:
 		mesh.material_override.set_shader_param("tex", ortho)
-	
-	if dhm:
 		mesh.material_override.set_shader_param("heightmap", dhm)
 		
-	ready_to_be_displayed()
+		# Display only if both textures are here and valid
+		ready_to_be_displayed()
 
 
 func get_ortho_dhm():

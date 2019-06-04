@@ -114,6 +114,8 @@ func construct_vegetation(splat_ids):
 			
 			node += 1
 			steps += 1
+	
+	ready_to_be_displayed()
 
 
 # Sets all shader parameters for both the particle shader and the texture shader of a HeightmapParticles instance
@@ -148,9 +150,7 @@ func set_parameters(data):
 	tile.set_heightmap_params_for_obj(data[0].material_override)
 	
 	data[0].emit()
-	
-	ready_to_be_displayed()
-	
+
 
 # Basic data structure for the data of one phytocoenosis
 class VegetationData:

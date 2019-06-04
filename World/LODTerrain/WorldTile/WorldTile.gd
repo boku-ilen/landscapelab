@@ -40,6 +40,10 @@ signal tile_done_loading # Emitted once all modules have finished loading -> the
 signal tile_to_be_displayed # Emitted once all modules want to be displayed -> this tile is shown 
 
 func _ready():
+	# Set everything to invisible at the start to prevent flickering
+	modules.visible = false
+	children.visible = false
+	
 	connect("tile_to_be_displayed", self, "_on_tile_to_be_displayed")
 	
 	PerformanceTracker.number_of_tiles += 1
@@ -70,7 +74,7 @@ func _process(delta):
 		modules.visible = false
 		children.visible = false
 	else:
-		if is_leaf_tile() or not children.are_all_to_be_displayed():
+		if not children.are_all_to_be_displayed():
 			modules.visible = true
 			children.visible = false
 		else:

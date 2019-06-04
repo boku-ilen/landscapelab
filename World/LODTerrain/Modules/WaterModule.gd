@@ -22,7 +22,6 @@ func get_splat_data():
 
 
 func get_textures(data):
-	
 	get_splat_data()
 	make_ready()
 
@@ -44,11 +43,11 @@ func _on_ready():
 	if not splat_result or not splat_result.has("path_to_splatmap"):
 		return
 		
-	if not splat_result["ids"].has(WATER_SPLAT_ID):
-		return
-	
-	splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"))
-	
-	set_splatmap()
-	
+	if splat_result["ids"].has(WATER_SPLAT_ID):
+		splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"))
+		
+		set_splatmap()
+		
+	# If the water ID isn't present in the splatmap, we're also ready to be displayed;
+	# we're just not displaying anything, but that's correct in that case.
 	ready_to_be_displayed()

@@ -11,7 +11,7 @@ onready var tile = get_parent()
 
 
 # Here, the actual splitting happens - this function can be run in a thread
-func instantiate_children(data):
+func instantiate_children():
 	# The children are simply named from 0 to 3:
 	#  ----> x
 	# | 0 2
@@ -36,7 +36,7 @@ func instantiate_children(data):
 			child.name = String(cur_name)
 			cur_name += 1
 
-			child.init((tile.size / 2.0), tile.lod + 1, tile.last_player_pos, data[0])
+			child.init((tile.size / 2.0), tile.lod + 1, tile.last_player_pos)
 			child.connect("tile_done_loading", tile, "_on_child_tile_finished")
 
 			add_child(child)
