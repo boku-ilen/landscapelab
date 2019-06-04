@@ -14,8 +14,11 @@ var num_modules_to_be_displayed : int = 0 # Incremented when a module wants to b
 var module_path = Settings.get_setting("lod", "module-path")
 var module_scenes = Settings.get_setting("lod", "modules")
 
-signal module_done_loading # Emitted by modules once they've finished loading
-signal module_to_be_displayed # Emitted by modules once they want to be displayed
+# Emitted by modules once they've finished loading
+signal module_done_loading
+
+# Emitted by modules once they want to be displayed (usually a short time after they're done loading)
+signal module_to_be_displayed
 
 
 func _ready():

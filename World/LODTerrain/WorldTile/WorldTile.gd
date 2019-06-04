@@ -4,7 +4,7 @@ extends Spatial
 #
 # This is a general world tile which can hold multiple meshes or other information (modules).
 # To increase the LOD, it can split into 4 new tiles.
-# The tiles are controlled via the TileSpawner.
+# The tiles are controlled via the TileHandler.
 #
 
 # Nodes
@@ -16,19 +16,17 @@ var size : float
 var size_with_skirt : float
 var lod : int
 var offset_from_parent : Vector2
-
-var has_split = false
-var initialized = false
-var done_loading = false
-var to_be_displayed = false
-var to_be_deleted = false
-
-var created = false
 var last_player_pos
-var subdiv_mod = 1
+
+var initialized = false # True when init() was called
+var created = false # True when _ready() is done
+
+var has_split = false # True when children are starting to be loaded
+var done_loading = false # True when all modules in this tile have been loaded
+var to_be_displayed = false # True when all modules in this tile want to be displayed
+var to_be_deleted = false # True when this tile is waiting to be deleted
 
 const NUM_CHILDREN = 4 # Number of children, will likely always stay 4 because it's a quadtree
-var num_children_active : int = 0 # The number of children which are actually active and supposed to be active
 
 var will_activate_with_last_player_pos # Can be set in init() to immediately activate the tile with a last_player_pos
 
@@ -81,29 +79,20 @@ func _process(delta):
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
-func init(s, lod_level, activate_pos=null, _subdiv_mod=1):
+func init(s, lod_level, activate_pos=null):
 	size = s
 	lod = lod_level
-	subdiv_mod = _subdiv_mod
 	
 	# We add 2 to subdiv and increase the size by the added squares for the skirt around the mesh (which fills gaps
 	# where things don't match up)
 	size_with_skirt = size + (2.0/(subdiv + 1.0)) * size
+	will_activate_with_last_player_pos = activate_pos
 	
 	initialized = true
-	
-	will_activate_with_last_player_pos = activate_pos
 	
 	
 func _on_tile_to_be_displayed():
 	to_be_displayed = true
-
-
-# Called when a child tile is done loading.
-# If all children are done loading, they are displayed instead of this tile.
-func _on_child_tile_finished():
-	if has_split: # We're still trying to split, not already converging
-		num_children_active += 1
 
 
 # Returns true if there is a layer of WorldTiles above this current one
@@ -285,7 +274,7 @@ func split(dist_to_player):
 	
 	if is_leaf_tile():
 		has_split = true
-		children.instantiate_children([1])
+		children.instantiate_children()
 
 
 # Gets the distance of the center of the tile to the last known player location

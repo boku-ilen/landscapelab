@@ -100,9 +100,6 @@ func construct_vegetation(splat_ids):
 		var steps = 0
 		
 		for id in splat_ids:
-			# TODO: We might want to check here whether we have all required data for the
-			# phytocoenosis with this ID
-			
 			if steps >= num_layers:
 				break
 			

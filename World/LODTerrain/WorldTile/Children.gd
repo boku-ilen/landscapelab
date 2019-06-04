@@ -1,5 +1,10 @@
 extends Spatial
 
+#
+# This node must be a child of a WorldTile. It handles splitting and
+# managing the child tiles according to the quadtree.
+#
+
 var tilescene = load("res://World/LODTerrain/WorldTile/WorldTile.tscn")
 
 onready var tile = get_parent()
@@ -35,16 +40,14 @@ func instantiate_children(data):
 			child.connect("tile_done_loading", tile, "_on_child_tile_finished")
 
 			add_child(child)
-				
-				
+
+
 # Removes all the higher LOD children
 func clear_children():
-	tile.num_children_active = 0
-	
 	for child in get_children():
 		child.name += "-deleting"
 		child.delete()
-		
+
 
 # Returns true if all children are instanced and active
 func are_all_active():
@@ -56,7 +59,7 @@ func are_all_active():
 			return false
 	
 	return true
-	
+
 
 # Returns true if all children are ready to be displayed
 func are_all_to_be_displayed():
