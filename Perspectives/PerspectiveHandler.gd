@@ -13,7 +13,7 @@ extends Node
 # the available viewports
 onready var pc_viewport = get_node("ViewportContainer/PCViewport")
 onready var vr_viewport = get_node("ViewportContainer/VRViewport")
-onready var pc_mini_viewport = get_node("UIMargin/MiniView/Border/Margin/ViewportContainer/Viewport")
+onready var pc_mini_viewport = get_node("UIMargin/MiniView/Border/Margin/MiniViewportContainer/Viewport")
 
 var vr_activated : bool = false
 var mouse_captured : bool = false

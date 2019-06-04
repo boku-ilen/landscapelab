@@ -7,36 +7,28 @@ extends Spatial
 
 export(Texture) var icon
 export(bool) var rotate = false
-onready var child_mesh = get_node("IconMesh")
-onready var forward = get_node("Forward")
+export(float) var size = 0.25
+onready var icon_sprite = get_node("IconSprite")
 
-var mat
 
 func _ready():
+	if not rotate: 
+		# 1 equals BILLBOARD_ENABLED
+		icon_sprite.material_override.params_billboard_mode = 1
+	else:
+		# 0 equals DISABLED
+		# TODO: in godot 3.2 billboard rotation will be added so the icon will only rotate around z-axis
+		icon_sprite.material_override.params_billboard_mode = 0
+		
 	update_icon(icon)
-	GlobalSignal.emit_signal("request_minimap_icon_resize")
-
-
-func _process(delta):
-	if not rotate:
-		reset_rotation()
-	move_to_zero()
-
-
-# translate to height 0 to make sure it is below the minimap height
-func move_to_zero():
-	var h = get_global_transform().origin.y
-	global_translate(Vector3(0,-h,0))
-	
-
-# calculates the y rotation in world 
-func reset_rotation():
-	var angle = Vector3(1,0,0).angle_to(forward.get_global_transform().origin - get_global_transform().origin)
-	rotate(Vector3(0,1,0),-angle)
 
 
 # updates the icon with a new texture
 func update_icon(var texture):
+	# to properly scale the icons a little tricking is needed, a new export variable size will do the trick
+	var texture_width = texture.get_width()
+	icon_sprite.pixel_size = size / texture_width
 	
-	if child_mesh.material_override:
-		child_mesh.material_override.albedo_texture = texture  
+	icon_sprite.texture = texture  
+	
+	

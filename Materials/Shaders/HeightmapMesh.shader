@@ -20,15 +20,15 @@ uniform int vegetation_id3;
 uniform sampler2D vegetation_tex4 : hint_albedo;
 uniform sampler2D vegetation_normal4 : hint_normal;
 uniform int vegetation_id4;
-uniform float tex_factor = 0.15; // 0.5 means one Godot meter will have half the texture
+uniform float tex_factor = 1.0; // 0.5 means one Godot meter will have half the texture
+
+uniform bool blend_only_similar_colors = false;
 
 varying vec3 normal;
 varying vec3 world_pos;
 varying vec3 v_obj_pos;
 
 // Global parameters - will need to be the same in all shaders:
-uniform float height_range = 500;
-
 uniform float subdiv;
 uniform float size;
 uniform float size_without_skirt;
@@ -100,7 +100,7 @@ void vertex() {
 	
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor. (Not quite sure about those values yet, but they work nicely!)
-	float e = 1.0/(size/20.0);
+	float e = 1.0/(size/50.0);
 
 	normal = normalize(vec3(-get_height_no_falloff(UV + vec2(e, 0.0)) + get_height_no_falloff(UV - vec2(e, 0.0)), 10.0 , -get_height_no_falloff(UV + vec2(0.0, e)) + get_height_no_falloff(UV - vec2(0.0, e))));
 }
@@ -133,13 +133,17 @@ void fragment(){
 		}
 	}
 	
+	if (blend_only_similar_colors) {
+		detail_factor *= max(0.0, (1.0 - length(detail_color - base_color)));
+	}
+
 	if (detail_color != vec3(0.0)) {
 		total_color = detail_color * detail_factor + base_color * (1.0 - detail_factor);
+		NORMALMAP += detail_factor * (current_normal * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0));
 	} else {
 		total_color = base_color;
 	}
 	
 	ALBEDO = total_color;
-
-	NORMALMAP = normalize((normal + current_normal) * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0));
+	NORMAL = (INV_CAMERA_MATRIX * vec4(normalize(normal), 0.0)).xyz;
 }

@@ -48,6 +48,7 @@ margin_left = 25.0
 margin_top = 25.0
 margin_right = -25.0
 margin_bottom = -25.0
+mouse_filter = 1
 
 [node name="Top Menu Bar" type="HBoxContainer" parent="."]
 margin_right = 1870.0

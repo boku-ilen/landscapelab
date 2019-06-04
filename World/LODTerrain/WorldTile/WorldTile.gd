@@ -58,6 +58,7 @@ func _process(delta):
 	if done_loading and to_be_deleted and children.get_child_count() == 0:
 		PerformanceTracker.number_of_tiles -= 1
 		queue_free()
+		return
 		
 	# Apply the visibility accordingly (this is done centrally here to avoid race conditions)
 	# TODO: We don't really need to check this every frame, perhaps we can only do this after

@@ -11,6 +11,7 @@ export(Mesh) var particle_mesh_scene
 
 var particles_scene = preload("res://World/LODTerrain/Modules/Util/HeightmapParticles.tscn")
 var LODS = Settings.get_setting("herbage", "density-at-lod")
+var density_modifiers = Settings.get_setting("herbage", "density-modifiers-for-layers")
 
 var result
 var heightmap
@@ -107,8 +108,9 @@ func construct_vegetation(splat_ids):
 			
 			# Initialize the particle emitter
 			var nd = get_node(String(node))
-			nd.set_rows(tile.size * LODS[String(tile.lod)])
-			nd.set_spacing(1 / LODS[String(tile.lod)])
+			var mod = density_modifiers[String(my_vegetation_layer)]
+			nd.set_rows(tile.size * LODS[String(tile.lod)] * mod)
+			nd.set_spacing(1 / (LODS[String(tile.lod)] * mod))
 			
 			if node > num_layers - 1: break
 			set_parameters([nd, id])
@@ -128,6 +130,8 @@ func set_parameters(data):
 	var distribution_pixels_per_meter = phyto_data[data[1]].distribution_pixels_per_meter
 	var sprite_count = phyto_data[data[1]].number_of_sprites
 	
+	if sprite_count == 0: return
+	
 	heightmap.flags = 4  # Enable filtering for smooth slopes
 	
 	# Values for the material of the particles themselves
@@ -145,6 +149,8 @@ func set_parameters(data):
 	
 	tile.set_heightmap_params_for_obj(data[0].process_material)
 	tile.set_heightmap_params_for_obj(data[0].material_override)
+	
+	data[0].emit()
 	
 
 # Basic data structure for the data of one phytocoenosis
