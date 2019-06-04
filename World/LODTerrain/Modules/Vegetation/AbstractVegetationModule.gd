@@ -76,7 +76,7 @@ func get_splat_data(d):
 				else:
 					logger.warning("At least one of the returned values of %s was invalid!" % [pytho_c_url])
 			else:
-				logger.error("AbstractVegetationModule.gd:get_splat_data(): CachingImageTexture ({}) or server_result ({}) is null".format(CachingImageTexture, this_result))
+				logger.error("AbstractVegetationModule.gd:get_splat_data(): CachingImageTexture (%s) or server_result (%s) is null" % [CachingImageTexture, this_result])
 		
 	make_ready()
 
