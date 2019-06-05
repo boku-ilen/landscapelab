@@ -38,6 +38,7 @@ var subdiv : int = Settings.get_setting("lod", "default-tile-subdivision")
 # Signals
 signal tile_done_loading # Emitted once all modules have finished loading -> the tile is ready
 signal tile_to_be_displayed # Emitted once all modules want to be displayed -> this tile is shown 
+signal all_children_to_be_displayed # Emitted once all children want to be displayed
 
 func _ready():
 	# Set everything to invisible at the start to prevent flickering
@@ -45,6 +46,7 @@ func _ready():
 	children.visible = false
 	
 	connect("tile_to_be_displayed", self, "_on_tile_to_be_displayed")
+	connect("all_children_to_be_displayed", self, "_on_all_children_to_be_displayed")
 	
 	PerformanceTracker.number_of_tiles += 1
 	
@@ -89,6 +91,14 @@ func init(s, lod_level, activate_pos=null):
 	will_activate_with_last_player_pos = activate_pos
 	
 	initialized = true
+	
+
+# Called when all children are ready to be displayed.
+# Actually, exactly this would happen in the next _process() call anyways. However,
+# we also react immediately to the signal to prevent flickering.
+func _on_all_children_to_be_displayed():
+	modules.visible = false
+	children.visible = true
 	
 	
 func _on_tile_to_be_displayed():

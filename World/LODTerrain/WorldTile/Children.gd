@@ -49,7 +49,7 @@ func clear_children():
 		child.delete()
 
 
-# Returns true if all children are instanced and active
+# Returns true if all children are instanced and active.
 func are_all_active():
 	if get_child_count() != tile.NUM_CHILDREN:
 		return false
@@ -61,7 +61,8 @@ func are_all_active():
 	return true
 
 
-# Returns true if all children are ready to be displayed
+# Returns true if all children are ready to be displayed.
+# Similar to are_all_active(), but with the additional check of to_be_displayed.
 func are_all_to_be_displayed():
 	if get_child_count() != tile.NUM_CHILDREN:
 		return false
@@ -70,4 +71,5 @@ func are_all_to_be_displayed():
 		if (not child.to_be_displayed) or (not child.done_loading) or (child.to_be_deleted):
 			return false
 	
+	tile.emit_signal("all_children_to_be_displayed")
 	return true
