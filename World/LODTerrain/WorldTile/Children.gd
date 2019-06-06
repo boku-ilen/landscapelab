@@ -37,7 +37,6 @@ func instantiate_children():
 			cur_name += 1
 
 			child.init((tile.size / 2.0), tile.lod + 1, tile.last_player_pos)
-			child.connect("tile_done_loading", tile, "_on_child_tile_finished")
 
 			add_child(child)
 
