@@ -186,3 +186,4 @@ script = ExtResource( 37 )
 [node name="Viewport" type="Viewport" parent="Border/Margin/MiniViewportContainer"]
 handle_input_locally = false
 render_target_update_mode = 3
+[connection signal="pressed" from="Miniview Menu/Map Commands/Follow me flag" to="Miniview Menu/Map Commands/Follow me flag" method="_pressed"]

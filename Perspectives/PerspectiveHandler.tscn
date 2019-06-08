@@ -27,6 +27,7 @@ var mouse_captured : bool = false
 # These scenes contain the movement and rendering logic for their perspectives
 var first_person_pc_scene = preload(\"res://Perspectives/PC/FirstPersonPC.tscn\")
 var third_person_pc_scene = preload(\"res://Perspectives/PC/ThirdPersonPC.tscn\")
+var third_person_pc_scene_2 = preload(\"res://Perspectives/PC/ThirdPersonPC.tscn\")
 var first_person_vr_scene = preload(\"res://Perspectives/VR/FirstPersonVR.tscn\")
 var minimap_scene = preload(\"res://Perspectives/PC/Minimap/Minimap.tscn\")
 
@@ -48,6 +49,7 @@ func _ready():
 	GlobalSignal.connect(\"miniview_1st\", self, \"change_pc_mini_scene\", [first_person_pc_scene])
 	GlobalSignal.connect(\"miniview_3rd\", self, \"change_pc_mini_scene\", [third_person_pc_scene])
 	GlobalSignal.connect(\"miniview_switch\", self, \"exchange_viewports\")
+	GlobalSignal.connect(\"toggle_follow_mode\", self, \"switch_follow_mode\")
 	
 	# register minimap icon resize signal and bind to method
 	GlobalSignal.connect(\"initiate_minimap_icon_resize\", self, \"relay_minimap_icon_resize\")
@@ -94,6 +96,8 @@ func toggle_vr():
 
 # change the scene of the miniview to given scene
 func change_pc_mini_scene(scene):
+	if scene == current_pc_scene:
+		scene = third_person_pc_scene_2
 	
 	# notify the ui about reenabeling the miniview 
 	if current_pc_mini_scene == null:
@@ -154,7 +158,11 @@ func get_minimap_status():
 		status = 'small'
 	if current_pc_scene == minimap_scene:
 		status = 'big'
-	return status"
+	return status
+
+
+func switch_follow_mode():
+	PlayerInfo.is_follow_enabled = !PlayerInfo.is_follow_enabled"
 
 [node name="PerspectiveHandler" type="Node"]
 script = SubResource( 1 )
