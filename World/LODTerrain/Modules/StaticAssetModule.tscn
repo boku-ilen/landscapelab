@@ -2,8 +2,5 @@
 
 [ext_resource path="res://World/LODTerrain/Modules/StaticAssetModule.gd" type="Script" id=1]
 
-
-
-[node name="BuildingsModule" type="Spatial"]
+[node name="StaticAssetModule" type="Spatial"]
 script = ExtResource( 1 )
-

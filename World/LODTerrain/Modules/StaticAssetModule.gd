@@ -9,7 +9,6 @@ extends Module
 #
 
 var asset_result
-var dscn_node = preload("res://addons/dscn_io/DSCN_Runtime_Node.gd")
 
 export(int) var asset_type_id
 
@@ -21,22 +20,34 @@ func _ready() -> void:
 func _on_ready():
 	if asset_result:
 		for obj in asset_result:
-			# TODO: We only get the names, so we'll need to build the full path here somehow
-			var name_path = "/path/to/asset/" + obj.asset + ".dae.dscn"
-			var dscn_node = dscn_node.new()
+			# TODO: Remove absolute path once landscapelab-server issue #4 is fixed
+			var name_path = "/home/karl/Data/BOKU/retour-middleware/buildings/importable/" + obj.asset + ".dae.dscn"
+			var dscn_node = load("res://addons/dscn_io/DSCN_Runtime_Node.gd").new()
 			
-			# TODO: Untested! Variable names and formats in the 'obj' might not be correct
-			var abs_pos = obj.position
+			add_child(dscn_node)
+			
+			var abs_pos = [-obj.x, obj.y]
 			var local_pos = Offset.to_engine_coordinates(abs_pos)
 			var ground_pos = WorldPosition.get_position_on_ground(Vector3(local_pos.x, 0, local_pos.y))
 			
-			dscn_node.transform.origin = ground_pos
+			if not ground_pos:
+				logger.warning("No ground position could be obtained for asset of ID %d with position %d, %d"
+					 % [asset_type_id, abs_pos[0], abs_pos[1]])
+				continue
+			
+			# Create a new root node for this asset
+			var asset_root = Spatial.new()
+			add_child(asset_root)
+			
+			# Set the position of this root node
+			asset_root.transform.origin = ground_pos
 			
 			# Load the scene
 			dscn_node.filepath = name_path
+			dscn_node.path_to_node = asset_root.get_path()
 			dscn_node.import_dscn()
-			
-			add_child(dscn_node)
+	else:
+		logger.warning("Couldn't get assets for ID %d!" % [asset_type_id])
 			
 	ready_to_be_displayed()
 
