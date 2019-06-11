@@ -25,3 +25,4 @@ allow_reselect = true
 max_columns = 50
 same_column_width = true
 fixed_icon_size = Vector2( 25, 25 )
+[connection signal="item_activated" from="ItemList" to="ItemList" method="_item_activated"]

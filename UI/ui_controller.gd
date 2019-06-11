@@ -7,17 +7,22 @@ extends TextureButton
 #
 
 var assets
-var dict
-# has a different set of asset_type_elements which include the title of the assettypes (e.g. wind turbines, pv plants)
-var asset_type_list
-# includes an ItemList-node in which all the subtypes are stored (e.g. vestas wind  turbine)
-var asset_type_element
+# the provided space to load the ui-elements (lists) into
+var list_container
+# includes a heading and an ItemList-node in which the types are stored (e.g. wind turbines, photovoltaic)
+var asset_types_list_view = load("res://UI/EditableAssets/AssetTypeList.tscn").instance()
+# stores the assets for a given type
+var assets_list_view
+# to differentiate between pv/windmill, etc
+var item_type_name
+# to set the id of the item in the item spawner
+var item_id = null
 
 
 # change the toggle based on the UI signals
 func _ready():
 	
-	asset_type_list = get_child(0)
+	list_container = get_child(0)
 	
 	# initialize the input scene invisible
 	for child in get_children():
@@ -25,7 +30,9 @@ func _ready():
 	
 	GlobalSignal.connect("input_lego", self, "_setpressedfalse")
 	GlobalSignal.connect("input_disabled", self, "_setpressedfalse")
-	load_assets()
+	GlobalSignal.connect("changed_item_to_spawn", self, "set_item_id")
+	GlobalSignal.connect("selected_asset_type", self, "load_assets_for_type")
+	load_asset_types()
 
 
 # if the status is changed to pressed emit the controller signal
@@ -46,35 +53,72 @@ func _setpressedfalse():
 	for child in get_children():
 		child.visible = false
 
+
 # load the assets and create the ui element
-func load_assets():
+func load_asset_types():
 	assets = ServerConnection.get_json("/assetpos/get_all_editable_assettypes.json")
+		
+	# needed to write metadata into given index
+	var index = 0
 	
 	for asset_type in assets:
-		# create new list element instance
-		asset_type_element = load("res://UI/EditableAssets/ListElement.tscn").instance()
-		
-		# set the title of the current chosen type of asset
+		var heading = asset_types_list_view.get_child(0)
+		var type_list = asset_types_list_view.get_child(1)
+		heading.text = "Types:"
+
+		# get asset type name and according texture to add to list
 		var asset_type_name = assets[asset_type]["name"]
-		var asset_type_node = asset_type_element.get_child(0)
-		asset_type_node.text = asset_type_name
-		asset_type_element.add_child(asset_type_node)
+		var texture
 		
-		asset_type_list.add_spacer(false)
-		
-		var subtyp_item_list = asset_type_element.get_child(1)
-		
-		# create a ItemList entry for every specific asset of the type
 		# TODO: rename the icons or json file so we can load the images nicely
-		for specific_asset in assets[asset_type]["assets"]:
-			var texture
-			var text
-			if assets[asset_type]["name"] == "wind turbine":
-				texture = load("res://Resources/Images/UI/MapIcons/windmill_icon.png")
-			else:
-				texture = load("res://Resources/Images/UI/MapIcons/pv_icon_dummy.png")
+		if asset_type_name == "wind turbine":
+			texture = load("res://Resources/Images/UI/MapIcons/windmill_icon.png")
+		else:
+			texture = load("res://Resources/Images/UI/MapIcons/pv_icon_dummy.png")
 			
-			text = assets[asset_type]["assets"][specific_asset]["name"]
-			subtyp_item_list.add_item(text, texture)
-			
-		asset_type_list.add_child(asset_type_element)
+		type_list.add_item(asset_type_name, texture)
+		# we will need this for the next layer of the list, to properly load the specific assets out of the json
+		type_list.set_item_metadata(index, asset_type)
+		index += 1
+		
+	list_container.add_child(asset_types_list_view)
+
+
+func set_item_id(id):
+	# id 0 is the back button, we once again load the types
+	if id == 0:
+		# removes the items list
+		clear_list_container()
+		list_container.add_child(asset_types_list_view)
+	else:
+		item_id = id
+
+
+func load_assets_for_type(id):
+	assets_list_view = load("res://UI/EditableAssets/AssetItemList.tscn").instance()
+	
+	# removes the types list
+	clear_list_container()
+	
+	# get the metadata for the entry to get according data from json
+	var asset_type_json_tag = asset_types_list_view.get_child(1).get_item_metadata(id)
+	var asset_type_name = asset_types_list_view.get_child(1).get_item_text(id)
+	
+	var heading = assets_list_view.get_child(0)
+	var asset_list = assets_list_view.get_child(1)
+	heading.text = asset_type_name
+	
+	# add a back button with id 0
+	asset_list.add_item("back")
+	
+	# create an ItemList entry for every specific asset of the type
+	for specific_asset in assets[asset_type_json_tag]["assets"]:
+		var text = assets[asset_type_json_tag]["assets"][specific_asset]["name"]
+		asset_list.add_item(text)
+	
+	list_container.add_child(assets_list_view)
+
+
+func clear_list_container():
+	for list in list_container.get_children():
+		list_container.remove_child(list)

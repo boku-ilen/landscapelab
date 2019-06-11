@@ -54,3 +54,9 @@ signal tracking_stop
 # energy details mode (incl. tooltips)
 signal energy_details_enabled
 signal energy_details_disabled
+
+# signal to set the itemID for the itemSpawner
+signal changed_item_to_spawn(item_id)
+
+# signal for the ui_controller, when in the list a typ is selected the accoding editable assets should be loaded
+signal selected_asset_type(type)
