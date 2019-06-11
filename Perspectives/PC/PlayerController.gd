@@ -14,7 +14,6 @@ var velocity = Vector3()
 
 var walking = Settings.get_setting("player", "start-walking-enabled")
 
-var WALK_SPEED = Settings.get_setting("player", "ground-speed")
 var FLY_SPEED = Settings.get_setting("player", "fly-speed")
 var SPRINT_SPEED = Settings.get_setting("player", "fly-speed-sprint")
 var SNEAK_SPEED = Settings.get_setting("player", "fly-speed-sneak")
@@ -98,7 +97,7 @@ func fly(delta):
 	var target
 	
 	if walking:
-		target = direction * WALK_SPEED
+		target = direction * PlayerInfo.walk_speed
 	else:
 		target = direction * FLY_SPEED
 	

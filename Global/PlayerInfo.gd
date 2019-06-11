@@ -8,8 +8,9 @@ extends Node
 var last_player_pos = Vector3(0, 0, 0)
 var last_player_look_direction = Vector3(0, 0, 0)
 
-# boolean for the follow mode
-var is_follow_enabled = true
+var is_follow_enabled: bool = true
+
+var walk_speed: float = 10
 
 
 # Set the engine player position to a new Vector3
