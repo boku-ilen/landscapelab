@@ -57,7 +57,7 @@ func get_height_at_position(var pos):
 		img.lock()
 		
 		var img_size = img.get_size()
-		var subdiv = max(1, int(round(img_size.x / tile.subdiv)))
+		var subdiv = max(1, img_size.x / (tile.subdiv + 1))
 		
 		# Scale the position to a pixel position on the image
 		var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(gtranslation.x, gtranslation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
@@ -67,8 +67,8 @@ func get_height_at_position(var pos):
 		#  and holes here which are not visible. So e.g. if we have a subdivision of 8 and 256 pixels,
 		#  we clamp the values to 0, 32, 64, ... (256/8)
 		var scaled_pix_pos = Vector2()
-		scaled_pix_pos.x = int(pix_pos.x) - int(pix_pos.x) % subdiv
-		scaled_pix_pos.y = int(pix_pos.y) - int(pix_pos.y) % subdiv
+		scaled_pix_pos.x = int(pix_pos.x / subdiv) * subdiv
+		scaled_pix_pos.y = int(pix_pos.y / subdiv) * subdiv
 		
 		# The factor by which the point we want is offset from the closest actual pixel
 		# Used for interpolation later
