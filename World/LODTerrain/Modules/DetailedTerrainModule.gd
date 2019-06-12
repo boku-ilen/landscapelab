@@ -28,7 +28,7 @@ func get_splat_data():
 	if not splat_result or not splat_result.has("ids"):
 		return
 
-	splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"))
+	splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"), 0)
 	
 	var added_vegetations = 0
 	# Add as many vegetations as available on server / possible on client

@@ -43,14 +43,14 @@ func get_splat_data(d):
 		
 	# Load splatmap
 	if result and result.has("path_to_splatmap"):
-		splatmap = CachingImageTexture.get(result.get("path_to_splatmap"))
+		splatmap = CachingImageTexture.get(result.get("path_to_splatmap"), 0)
 		
 	# Get heightmap
 	var dhm_response = tile.get_texture_result("raster")
 	if dhm_response and dhm_response.has("dhm"):
 		# We need to use get_new since the vegetation uses different flags
 		# than the default! (set in set_parameters)
-		heightmap = CachingImageTexture.get_new(dhm_response.get("dhm"))
+		heightmap = CachingImageTexture.get(dhm_response.get("dhm"), 0)
 
 	if result and result.has("ids"):
 		# Iterate over all phytocoenosis IDs on this tile (but don't exceed num_layers)
@@ -74,7 +74,7 @@ func get_splat_data(d):
 				# If all those variables are valid, we can insert the images/data into phyto_data
 				if dist and sprite and dist_ppm and sprite_num:
 					phyto_data[result.get("ids")[current_index]] = VegetationData.new(
-						CachingImageTexture.get(dist),
+						CachingImageTexture.get(dist, 0),
 						CachingImageTexture.get(sprite),
 						dist_ppm,
 						sprite_num)
@@ -136,8 +136,6 @@ func set_parameters(data):
 	var sprite_count = phyto_data[data[1]].number_of_sprites
 	
 	if sprite_count == 0: return
-	
-	heightmap.flags = 4  # Enable filtering for smooth slopes
 	
 	# Values for the material of the particles themselves
 	data[0].material_override.set_shader_param("pos", translation)

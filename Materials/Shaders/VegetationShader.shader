@@ -18,7 +18,7 @@ void vertex () {
 
 void fragment () {
 	// Material parameters
-	ALPHA_SCISSOR = 0.3;
+	ALPHA_SCISSOR = 0.7;
 	ROUGHNESS = 0.9;
 	METALLIC = 0.1;
 	SPECULAR = 0.4;

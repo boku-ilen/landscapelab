@@ -28,7 +28,7 @@ func _on_ready():
 func get_textures(data):
 	var dhm_response = tile.get_texture_result("raster")
 	if dhm_response and dhm_response.has("dhm"):
-		heightmap = CachingImageTexture.get(dhm_response.get("dhm"))
+		heightmap = CachingImageTexture.get(dhm_response.get("dhm"), 0)
 	
 	make_ready()
 

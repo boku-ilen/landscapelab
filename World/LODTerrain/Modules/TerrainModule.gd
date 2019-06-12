@@ -34,7 +34,7 @@ func get_ortho_dhm():
 		if response.has("ortho"):
 			ortho = CachingImageTexture.get(response.get("ortho"))
 		if response.has("dhm"):
-			dhm = CachingImageTexture.get(response.get("dhm"))
+			dhm = CachingImageTexture.get(response.get("dhm"), 0)
 
 
 func get_textures(data):
