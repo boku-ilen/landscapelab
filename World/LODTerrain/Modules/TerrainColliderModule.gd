@@ -9,6 +9,8 @@ onready var col_shape = get_node("StaticBody/CollisionShape")
 
 var heightmap
 
+var collider_subdivision = Settings.get_setting("terrain-collider", "collision-mesh-subdivision")
+
 
 func _ready():
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_textures", []))
@@ -45,12 +47,15 @@ func get_height_at_position(var pos):
 	
 	if img:
 		img.lock()
+		
+		var img_size = img.get_size()
+		
 		var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(gtranslation.x, gtranslation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
-		var pix_pos = pos_scaled * img.get_size()
+		var pix_pos = pos_scaled * img_size
 		
 		# Clamp to max values
-		pix_pos.x = clamp(pix_pos.x, 0, img.get_size().x - 1)
-		pix_pos.y = clamp(pix_pos.y, 0, img.get_size().y - 1)
+		pix_pos.x = clamp(pix_pos.x, 0, img_size.x - 1)
+		pix_pos.y = clamp(pix_pos.y, 0, img_size.y - 1)
 		
 		# Get height according to the specification of our heightmaps
 		var height = img.get_pixel(pix_pos.x, pix_pos.y).r * 255 * pow(2, 16) \
@@ -76,10 +81,27 @@ func create_tile_collision_shape():
 	var vecs = PoolVector3Array()
 	var size = tile.size
 	
-	vecs.append(Vector3(size/2, get_height_at_position(translation + Vector3(size/2, 0, size/2)), size/2))
-	vecs.append(Vector3(-size/2, get_height_at_position(translation + Vector3(-size/2, 0, size/2)), size/2))
-	vecs.append(Vector3(-size/2, get_height_at_position(translation + Vector3(-size/2, 0, -size/2)), -size/2))
-	vecs.append(Vector3(size/2, get_height_at_position(translation + Vector3(size/2, 0, -size/2)), -size/2))
+	# Build a mesh with collider_subdivision * collider_subdivision vectors with the height
+	#  at each position from the heightmap
+	for x in range(0, collider_subdivision + 1):
+		var start = 0
+		var end = collider_subdivision + 1
+		var step = 1
+		
+		# We alternate between going up and down every row, like this:
+		# 1 2 3 4
+		# 8 7 6 5
+		# ...
+		if x % 2 == 1:
+			start = collider_subdivision + 1
+			end = 0
+			step = -1
+			
+		for y in range(start, end, step):
+			var local_pos = Vector3(-size/2 + (x/collider_subdivision) * size, 0, -size/2 + (y/collider_subdivision) * size)
+			var local_pos_correct_height = Vector3(local_pos.x, get_height_at_position(translation + local_pos), local_pos.z)
+			
+			vecs.append(local_pos_correct_height)
 	
 	shape.points = vecs
 	
