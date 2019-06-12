@@ -20,7 +20,7 @@ func _ready():
 	cursor.cast_to = Vector3(0, 0, -RAY_LENGTH)
 	
 	# Connect signal to set the according itemID
-	GlobalSignal.connect("set_item_id", self, "set_spawned_id")
+	GlobalSignal.connect("changed_asset_id", self, "set_spawned_id")
 
 func _process(delta):
 	if has_grabbed_object():

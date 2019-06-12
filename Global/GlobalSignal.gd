@@ -36,7 +36,13 @@ signal miniview_show
 signal input_lego
 signal input_controller
 signal input_disabled
-signal changed_asset(asset_id)  # notify the energy details, tooltips etc of a changed asset position
+# signal for the ui_controller, when in the list a typ is selected the accoding editable assets should be loaded
+signal selected_asset_type(type)
+# signals to set the itemID for the itemSpawner
+# first one is needed to get the item id in the godot itemList
+signal changed_item_to_spawn(item_id)
+# second one is the saved according id in the json-file saved as metadata of the listitem
+signal changed_asset_id(json_item_id)
 
 # enable and disable debug mode
 signal debug_enable
@@ -54,12 +60,3 @@ signal tracking_stop
 # energy details mode (incl. tooltips)
 signal energy_details_enabled
 signal energy_details_disabled
-
-# signals to set the itemID for the itemSpawner
-# first one is needed to get the item id in the godot itemList
-signal changed_item_to_spawn(item_id)
-# second one is the saved according id in the json-file saved as metadata of the listitem
-signal set_item_id(json_item_id)
-
-# signal for the ui_controller, when in the list a typ is selected the accoding editable assets should be loaded
-signal selected_asset_type(type)
