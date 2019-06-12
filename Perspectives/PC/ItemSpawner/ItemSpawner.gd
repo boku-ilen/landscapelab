@@ -18,7 +18,9 @@ var locked_object = null
 
 func _ready():
 	cursor.cast_to = Vector3(0, 0, -RAY_LENGTH)
-
+	
+	# Connect signal to set the according itemID
+	GlobalSignal.connect("set_item_id", self, "set_spawned_id")
 
 func _process(delta):
 	if has_grabbed_object():
@@ -79,3 +81,8 @@ func release_object():
 # Returns true if the cursor is currently grabbing an object (moving it with its movement)
 func has_grabbed_object():
 	return locked_object != null
+
+
+# Sets the id for the spawned item which is clicked in the ui controller
+func set_spawned_id(id):
+	spawned_id = id

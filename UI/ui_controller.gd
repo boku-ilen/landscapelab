@@ -91,7 +91,9 @@ func set_item_id(id):
 		clear_list_container()
 		list_container.add_child(asset_types_list_view)
 	else:
-		item_id = id
+		item_id = assets_list_view.get_child(1).get_item_metadata(id)
+		# fires a signal which is caught in the itemSpawner
+		GlobalSignal.emit_signal(set_item_id(item_id))
 
 
 func load_assets_for_type(id):
@@ -111,10 +113,16 @@ func load_assets_for_type(id):
 	# add a back button with id 0
 	asset_list.add_item("back")
 	
+	var index = 1
 	# create an ItemList entry for every specific asset of the type
 	for specific_asset in assets[asset_type_json_tag]["assets"]:
 		var text = assets[asset_type_json_tag]["assets"][specific_asset]["name"]
 		asset_list.add_item(text)
+		# The ID in the list is not necessarily the same as the id in the json-file thus we have to
+		# set the asset id in the metadata
+		asset_list.set_item_metadata(index, specific_asset)
+		
+		index += 1
 	
 	list_container.add_child(assets_list_view)
 
