@@ -55,13 +55,13 @@ alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
 margin_right = 272.0
-margin_bottom = 586.0
+margin_bottom = 644.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
 margin_right = 272.0
-margin_bottom = 586.0
+margin_bottom = 644.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
@@ -100,7 +100,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 62.0
 margin_right = 272.0
-margin_bottom = 586.0
+margin_bottom = 644.0
 
 [node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
 margin_left = 276.0
