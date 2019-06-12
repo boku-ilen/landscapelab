@@ -5,7 +5,7 @@ extends Module
 # The area can be filled with multiple different plants using a distribution image.
 #
 
-export var num_layers = 1
+export var num_layers = 2
 export var my_vegetation_layer = 4
 export(Mesh) var particle_mesh_scene
 
@@ -54,14 +54,18 @@ func get_splat_data(d):
 
 	if result and result.has("ids"):
 		# Iterate over all phytocoenosis IDs on this tile (but don't exceed num_layers)
-		for current_index in range(0, min(result.get("ids").size(), num_layers)):
+		var valid_vegetations = 0
+		
+		for current_index in range(0, result.get("ids").size()):
+			if valid_vegetations > num_layers: break
+			
 			# Data for the phytocoenosis with this ID
 			var pytho_c_url = "/vegetation/%d/%d" % [result.get("ids")[current_index], my_vegetation_layer]
 			var this_result = ServerConnection.get_json(pytho_c_url)
 			
 			# Load all images (distribution, spritesheet) and corresponding data
 			# We do this here because doing it in the main thread causes big stutters
-			if CachingImageTexture and this_result:
+			if this_result:
 				var dist = this_result.get("path_to_distribution")
 				var sprite = this_result.get("path_to_spritesheet")
 				var dist_ppm = this_result.get("distribution_pixels_per_meter")
@@ -74,6 +78,8 @@ func get_splat_data(d):
 						CachingImageTexture.get(sprite),
 						dist_ppm,
 						sprite_num)
+						
+					valid_vegetations += 1
 				else:
 					logger.warning("At least one of the returned values of %s was invalid!" % [pytho_c_url])
 			else:

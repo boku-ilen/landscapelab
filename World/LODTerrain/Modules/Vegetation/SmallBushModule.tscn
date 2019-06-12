@@ -6,4 +6,3 @@
 [node name="SmallBushModule" index="0" instance=ExtResource( 1 )]
 my_vegetation_layer = 2
 particle_mesh_scene = ExtResource( 2 )
-
