@@ -93,7 +93,7 @@ func set_item_id(id):
 	else:
 		item_id = assets_list_view.get_child(1).get_item_metadata(id)
 		# fires a signal which is caught in the itemSpawner
-		GlobalSignal.emit_signal("changed_asset_id", item_id)
+		GlobalSignal.emit_signal("changed_asset_id", int(item_id))
 
 
 func load_assets_for_type(id):
