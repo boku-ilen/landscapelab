@@ -13,7 +13,7 @@ var collider_subdivision = Settings.get_setting("terrain-collider", "collision-m
 
 
 func _ready():
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_textures", []))
+	tile.thread_task(self, "get_textures", [])
 
 
 func _on_ready():

@@ -29,7 +29,7 @@ func _ready():
 		add_child(instance)
 	
 	# First, get the splatmap
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_splat_data", []))
+	tile.thread_task(self, "get_splat_data", [])
 
 
 # Fetches all required data from the server

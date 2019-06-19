@@ -289,6 +289,11 @@ func split(dist_to_player):
 
 # Gets the distance of the center of the tile to the last known player location
 func get_dist_to_player():
+	# TODO: We can get the player_pos either like this, or via the last_player_pos variable.
+	#  I believe the last_player_pos variable is actually not needed anymore, but it may be good for performance.
+	#  This should be evaluated!
+	var player_pos = PlayerInfo.get_engine_player_position()
+	
 	# Get closest point within rectangle to circle
 	var clamped = Vector3()
 	
@@ -297,10 +302,10 @@ func get_dist_to_player():
 	var origin = Vector2(gtranslation.x - size/2, gtranslation.z - size/2)
 	var end = Vector2(gtranslation.x + size/2, gtranslation.z + size/2)
 	
-	clamped.x = clamp(last_player_pos.x, origin.x, end.x)
-	clamped.z = clamp(last_player_pos.z, origin.y, end.y)
+	clamped.x = clamp(player_pos.x, origin.x, end.x)
+	clamped.z = clamp(player_pos.z, origin.y, end.y)
 
-	return Vector2(last_player_pos.x, last_player_pos.z).distance_to(Vector2(clamped.x, clamped.z))
+	return Vector2(player_pos.x, player_pos.z).distance_to(Vector2(clamped.x, clamped.z))
 	
 
 # Builds a request in the form of "/url_start/meter_x/meter_y/zoom.json" and returns the result, if it is valid.
@@ -314,3 +319,22 @@ func get_texture_result(url_start):
 		return null
 		
 	return result
+	
+
+# Add a function call to the ThreadPool at an appropriate priority based on the distance of
+#  this tile to the player.
+# Modules should use this function when using the ThreadPool to ensure that all modules of a
+#  tile have the same priority.
+func thread_task(object, function, arguments):
+	var priority
+	var dist_to_player = get_dist_to_player()
+	
+	if dist_to_player == 0:
+		priority = 100.0 # FIXME
+	else:
+		# TODO: Temporary calculation: The closer this tile is to the player, the higher the priority.
+		priority = (10000.0 / get_dist_to_player())
+		
+	print(priority)
+	
+	ThreadPool.enqueue_task(ThreadPool.Task.new(object, function, arguments), priority)

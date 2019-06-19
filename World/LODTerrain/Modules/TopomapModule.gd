@@ -12,7 +12,7 @@ var topo
 func _ready():
 	mesh.mesh = tile.create_tile_plane_mesh(false)
 	
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_textures", []))
+	tile.thread_task(self, "get_textures", [])
 
 
 func _on_ready():
