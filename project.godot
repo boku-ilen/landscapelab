@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "KinematicBody",
+"class": "AbstractPlayer",
+"language": "GDScript",
+"path": "res://Perspectives/AbstractPlayer/AbstractPlayer.gd"
+}, {
 "base": "Spatial",
 "class": "Module",
 "language": "GDScript",
 "path": "res://World/LODTerrain/Modules/AbstractModule.gd"
 } ]
 _global_script_class_icons={
+"AbstractPlayer": "",
 "Module": ""
 }
 

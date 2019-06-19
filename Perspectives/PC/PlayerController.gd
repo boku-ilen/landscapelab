@@ -1,4 +1,4 @@
-extends KinematicBody
+extends AbstractPlayer
 
 #
 # This scene handles a basic first person controller with a flying mode
@@ -31,26 +31,11 @@ func get_true_position():
 
 func get_look_direction():
 	# TODO: The x-coordinate seems right, but the z-coordinate acts strangely...
-	return camera.global_transform.basis.x
-
-
-# Shift the player's in-engine translation by a certain offset, but not the player's true coordinates.
-func shift(delta_x, delta_z):
-	PlayerInfo.add_player_pos(Vector3(delta_x, 0, delta_z))
-	
-	translation.x += delta_x
-	translation.z += delta_z
-
-
-func _ready():
-	Offset.connect("shift_world", self, "shift")
+	return camera.global_transform.basis.x	
 
 
 func _physics_process(delta):
 	fly(delta)
-	
-	# Reflect new position in global PlayerInfo
-	PlayerInfo.update_player_pos(translation)
 	PlayerInfo.update_player_look_direction(get_look_direction())
 
 
@@ -79,12 +64,16 @@ func fly(delta):
 	# check input and change direction
 	if Input.is_action_pressed("ui_up"):
 		direction -= aim.z
+		has_moved = true
 	if Input.is_action_pressed("ui_down"):
 		direction += aim.z
+		has_moved = true
 	if Input.is_action_pressed("ui_left"):
 		direction -= aim.x
+		has_moved = true
 	if Input.is_action_pressed("ui_right"):
 		direction += aim.x
+		has_moved = true
 	
 	direction = direction.normalized()
 	
@@ -106,3 +95,8 @@ func fly(delta):
 	
 	if walking:
 		translation = WorldPosition.get_position_on_ground(translation)
+
+
+func switch_follow_mode():
+	PlayerInfo.update_player_pos(translation)
+	PlayerInfo.is_follow_enabled = !PlayerInfo.is_follow_enabled
