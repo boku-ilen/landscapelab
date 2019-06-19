@@ -8,6 +8,7 @@
 [node name="DebugInfo" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 0
 script = ExtResource( 1 )
 
 [node name="DebugPanel" type="Panel" parent="."]
@@ -27,6 +28,7 @@ scroll_following = true
 margin_top = 1060.0
 margin_right = 1920.0
 margin_bottom = 1076.0
+mouse_filter = 0
 
 [node name="Label" type="Label" parent="LogLevelInfo"]
 margin_top = 1.0

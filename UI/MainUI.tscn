@@ -44,24 +44,26 @@ margin_left = 25.0
 margin_top = 25.0
 margin_right = -25.0
 margin_bottom = -25.0
-mouse_filter = 1
 
 [node name="Top Menu Bar" type="HBoxContainer" parent="."]
 margin_right = 1870.0
 margin_bottom = 1030.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
 margin_right = 272.0
 margin_bottom = 586.0
+mouse_filter = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
 margin_right = 272.0
 margin_bottom = 586.0
+mouse_filter = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
@@ -127,10 +129,10 @@ texture_hover = ExtResource( 10 )
 script = ExtResource( 11 )
 
 [node name="EditableAssetTypeList" type="VBoxContainer" parent="Top Menu Bar/HBoxCenter/HBoxContainer/Controller"]
-margin_left = 42.8416
-margin_top = 56.0219
-margin_right = 509.842
-margin_bottom = 454.022
+margin_left = 43.0
+margin_top = 56.0
+margin_right = 269.0
+margin_bottom = 165.0
 grow_horizontal = 0
 grow_vertical = 0
 alignment = 2
