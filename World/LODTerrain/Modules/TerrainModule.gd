@@ -15,7 +15,7 @@ func _ready():
 	mesh.mesh = tile.create_tile_plane_mesh()
 	tile.set_heightmap_params_for_obj(mesh.material_override)
 	
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_textures", []))
+	tile.thread_task(self, "get_textures", [])
 
 
 func _on_ready():
@@ -34,7 +34,7 @@ func get_ortho_dhm():
 		if response.has("ortho"):
 			ortho = CachingImageTexture.get(response.get("ortho"))
 		if response.has("dhm"):
-			dhm = CachingImageTexture.get(response.get("dhm"))
+			dhm = CachingImageTexture.get(response.get("dhm"), 0)
 
 
 func get_textures(data):

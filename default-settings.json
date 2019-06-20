@@ -35,12 +35,16 @@
             ["TerrainColliderModule.tscn"],
             ["-TerrainModule.tscn", "DetailedTerrainModule.tscn"],
             ["WaterModule.tscn", "Vegetation/LargeTreeModule.tscn", "Vegetation/SmallTreeModule.tscn"],
-            ["Vegetation/LargeBushModule.tscn"],
-            ["Vegetation/SmallBushModule.tscn"],
+            ["Vegetation/LargeBushModule.tscn", "Vegetation/SmallBushModule.tscn"],
+            [],
             ["Vegetation/HerbageModule.tscn"]
 
         ],	
         "player-bounding-radius": 10000
+    },
+
+    "terrain-collider": {
+        "collision-mesh-subdivision": 8
     },
     
     "item-spawner": {
@@ -56,13 +60,13 @@
             "7": 0.5
         },
         "density-modifiers-for-layers": {
-            "1": 1,
-            "2": 0.5,
-            "3": 0.4,
-            "4": 0.3,
-            "5": 0.2
+            "1": 1.5,
+            "2": 1.4,
+            "3": 0.3,
+            "4": 0.2,
+            "5": 0.1
         },
-        "detail-texture-start-distance": 100.0
+        "detail-texture-start-distance": 300.0
     },
 
     "sky": {
@@ -95,6 +99,10 @@
     
     "water": {
         "water-splat-id": 60
+    },
+
+    "caching-images": {
+        "default-flags": 12
     },
     
     "minimap": {

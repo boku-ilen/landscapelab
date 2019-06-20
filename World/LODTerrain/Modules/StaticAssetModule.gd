@@ -14,7 +14,7 @@ export(int) var asset_type_id
 
 
 func _ready() -> void:
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_asset_data_from_server", []))
+	tile.thread_task(self, "get_asset_data_from_server", [])
 
 
 func _on_ready():

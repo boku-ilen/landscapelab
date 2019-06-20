@@ -48,6 +48,9 @@ signal changed_asset_id(json_item_id)
 signal debug_enable
 signal debug_disable
 
+# enable and disable wireframe drawing
+signal wireframe_toggle
+
 # enable and disable vr mode
 signal vr_enable
 signal vr_disable

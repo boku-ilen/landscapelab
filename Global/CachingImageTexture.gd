@@ -7,16 +7,17 @@ extends Node
 
 var _path_imagetexture_dict: Dictionary = {}
 var _load_mutex = Mutex.new()
-var _flags = 0
+var _flags = Settings.get_setting("caching-images", "default-flags")
 var _full_path_prefix = Settings.get_setting("filesystem", "local-resources-path")
 
 
 # Returns the image at the given path as an ImageTexture.
 # If the image has been loaded before, it is returned from the cache dictionary.
-# The flags of the image should not be changed (it will also change in all other
-# places the image is used since it's a reference!) - use get_new for this!
-func get(path):
-	_load_into_dict_if_needed(path)
+# Optionally, different flags than the default can be given, e.g. to prevent filtering.
+# The flags of the image should not be changed afterwards (it will also change in all
+# other places the image is used since it's a reference!) - use get_new for this!
+func get(path, flags=_flags):
+	_load_into_dict_if_needed(path, flags)
 		
 	return _get_texture_from_dict(path)
 	
@@ -33,37 +34,16 @@ func get_new(path):
 	return img
 
 
-# Returs a part of the ImageTexture at the given path. Origin and size are Vector2 with fields between 0 and 1.
-# Example: Get the bottom left quarter of an image: Origin = (0, 0.5); Size = (0.5, 0.5)
-# Note: This is apparently quite inefficient in Godot and should be avoided!
-func get_cropped(path, origin, size):
-	_load_into_dict_if_needed(path)
-	
-	var img = _get_image_from_dict(path)
-	img.lock()
-	
-	var rec_origin = Vector2(int(img.get_size().x * origin.x), int(img.get_size().y * origin.y))
-	var rec_size = Vector2(int(img.get_size().x * size.x), int(img.get_size().y * size.y))
-	
-	var new_tex = img.get_rect(Rect2(rec_origin, rec_size))
-	img.unlock()
-
-	var new_tex_texture = ImageTexture.new()
-	new_tex_texture.create_from_image(new_tex, _flags)
-	
-	return new_tex_texture
-
-
 # Adds the image at the given path to the cache dictionary if it is not there yet.
-func _load_into_dict_if_needed(path):
+func _load_into_dict_if_needed(path, flags=_flags):
 	_load_mutex.lock()
 	if !_is_in_dict(path):
-		_load_into_dict(path)
+		_load_into_dict(path, flags)
 	_load_mutex.unlock()
 
 
 # Adds the image at the given path to the cache dictionary as an ImageTexture.
-func _load_into_dict(path):
+func _load_into_dict(path, flags):
 	
 	# Verify if there really is a file at that path
 	if not path:
@@ -84,7 +64,7 @@ func _load_into_dict(path):
 		logger.warning("image %s could not be loaded - does it exist?" % [full_path])
 	
 	var img_tex = ImageTexture.new()
-	img_tex.create_from_image(img, _flags)
+	img_tex.create_from_image(img, flags)
 	
 	# Add to dictionary and return
 	_path_imagetexture_dict[path] = [img_tex, img]

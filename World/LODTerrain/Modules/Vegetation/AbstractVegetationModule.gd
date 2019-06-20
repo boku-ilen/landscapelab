@@ -5,7 +5,7 @@ extends Module
 # The area can be filled with multiple different plants using a distribution image.
 #
 
-export var num_layers = 1
+export var num_layers = 2
 export var my_vegetation_layer = 4
 export(Mesh) var particle_mesh_scene
 
@@ -29,7 +29,7 @@ func _ready():
 		add_child(instance)
 	
 	# First, get the splatmap
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_splat_data", []))
+	tile.thread_task(self, "get_splat_data", [])
 
 
 # Fetches all required data from the server
@@ -43,25 +43,29 @@ func get_splat_data(d):
 		
 	# Load splatmap
 	if result and result.has("path_to_splatmap"):
-		splatmap = CachingImageTexture.get(result.get("path_to_splatmap"))
+		splatmap = CachingImageTexture.get(result.get("path_to_splatmap"), 0)
 		
 	# Get heightmap
 	var dhm_response = tile.get_texture_result("raster")
 	if dhm_response and dhm_response.has("dhm"):
 		# We need to use get_new since the vegetation uses different flags
 		# than the default! (set in set_parameters)
-		heightmap = CachingImageTexture.get_new(dhm_response.get("dhm"))
+		heightmap = CachingImageTexture.get(dhm_response.get("dhm"), 0)
 
 	if result and result.has("ids"):
 		# Iterate over all phytocoenosis IDs on this tile (but don't exceed num_layers)
-		for current_index in range(0, min(result.get("ids").size(), num_layers)):
+		var valid_vegetations = 0
+		
+		for current_index in range(0, result.get("ids").size()):
+			if valid_vegetations > num_layers: break
+			
 			# Data for the phytocoenosis with this ID
 			var pytho_c_url = "/vegetation/%d/%d" % [result.get("ids")[current_index], my_vegetation_layer]
 			var this_result = ServerConnection.get_json(pytho_c_url)
 			
 			# Load all images (distribution, spritesheet) and corresponding data
 			# We do this here because doing it in the main thread causes big stutters
-			if CachingImageTexture and this_result:
+			if this_result:
 				var dist = this_result.get("path_to_distribution")
 				var sprite = this_result.get("path_to_spritesheet")
 				var dist_ppm = this_result.get("distribution_pixels_per_meter")
@@ -70,10 +74,12 @@ func get_splat_data(d):
 				# If all those variables are valid, we can insert the images/data into phyto_data
 				if dist and sprite and dist_ppm and sprite_num:
 					phyto_data[result.get("ids")[current_index]] = VegetationData.new(
-						CachingImageTexture.get(dist),
+						CachingImageTexture.get(dist, 0),
 						CachingImageTexture.get(sprite),
 						dist_ppm,
 						sprite_num)
+						
+					valid_vegetations += 1
 				else:
 					logger.warning("At least one of the returned values of %s was invalid!" % [pytho_c_url])
 			else:
@@ -130,8 +136,6 @@ func set_parameters(data):
 	var sprite_count = phyto_data[data[1]].number_of_sprites
 	
 	if sprite_count == 0: return
-	
-	heightmap.flags = 4  # Enable filtering for smooth slopes
 	
 	# Values for the material of the particles themselves
 	data[0].material_override.set_shader_param("pos", translation)

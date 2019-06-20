@@ -1,6 +1,6 @@
-extends Control
+extends HBoxContainer
 
-onready var label = get_node("HBoxContainer/Data")
+onready var label = get_node("Data")
 
 
 func _process(delta: float) -> void:

@@ -18,7 +18,7 @@ func get_splat_data():
 		
 	var dhm_response = tile.get_texture_result("raster")
 	if dhm_response and dhm_response.has("dhm"):
-		dhm = CachingImageTexture.get(dhm_response.get("dhm"))
+		dhm = CachingImageTexture.get(dhm_response.get("dhm"), 0)
 
 
 func get_textures(data):
@@ -36,7 +36,7 @@ func set_splatmap():
 
 
 func _ready():
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "get_textures", []))
+	tile.thread_task(self, "get_textures", [])
 
 
 func _on_ready():
@@ -44,7 +44,7 @@ func _on_ready():
 		return
 		
 	if splat_result["ids"].has(WATER_SPLAT_ID):
-		splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"))
+		splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"), 0)
 		
 		set_splatmap()
 		

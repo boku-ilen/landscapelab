@@ -12,7 +12,7 @@ extends Node
 
 const BlockingQueue = preload("res://Global/ThreadPool/BlockingQueue.gd")
 
-const THREAD_COUNT : int = 16
+const THREAD_COUNT : int = 4
 var task_queue = BlockingQueue.new()
 var threads = []
 
@@ -36,9 +36,10 @@ func thread_worker(data):
 			task.execute()
 
 
-# Puts a task (obj + method) into the task queue
-func enqueue_task(task):
-	task_queue.enqueue(task)
+# Puts a task (obj + method) into the task queue.
+# Optionally, a priority can be given. It should be scaled between 0 (very low) and 100 (very high).
+func enqueue_task(task, priority=0):
+	task_queue.enqueue(task, priority)
 
 
 # Returns the item in the task queue which has been there the longest
