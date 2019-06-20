@@ -5,7 +5,6 @@ var has_moved : bool = false
 
 func _ready():
 	Offset.connect("shift_world", self, "shift")
-	GlobalSignal.connect("toggle_follow_mode", self, "switch_follow_mode")
 
 
 func _physics_process(delta):

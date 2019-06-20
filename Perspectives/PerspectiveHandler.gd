@@ -46,6 +46,9 @@ func _ready():
 	# register minimap icon resize signal and bind to method
 	GlobalSignal.connect("initiate_minimap_icon_resize", self, "relay_minimap_icon_resize")
 	
+	# register follow enabled
+	GlobalSignal.connect("toggle_follow_mode", self, "switch_follow_mode")
+	
 	# Start with PC 3rd person view
 	change_pc_scene(third_person_pc_scene)
 	
@@ -149,3 +152,8 @@ func get_minimap_status():
 	if current_pc_scene == minimap_scene:
 		status = 'big'
 	return status
+
+
+# switch the boolean accordingly
+func switch_follow_mode():
+	PlayerInfo.is_follow_enabled = !PlayerInfo.is_follow_enabled
