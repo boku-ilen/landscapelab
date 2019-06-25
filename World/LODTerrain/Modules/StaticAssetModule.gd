@@ -23,12 +23,19 @@ func _on_ready():
 			var obj = asset_result["assets"][id]
 			
 			# TODO: Remove absolute path once landscapelab-server issue #4 is fixed
-			# var name_path = "/home/karl/Data/BOKU/retour-middleware/buildings/importable/" + obj.modelpath + ".dae.dscn"
-			var name_path = "/home/karl/Data/BOKU/retour-middleware/buildings/importable/Nockberge Testregion_0.dae.dscn"
+			var name_path = "/home/karl/Data/BOKU/retour-middleware/buildings/importable/" + obj.modelpath + ".dae.dscn"
+			
+#			# For testing if not all buildings are available on the server:
+#			var name_path = "/home/karl/Data/BOKU/retour-middleware/buildings/importable/Nockberge Testregion_1.dae.dscn"
+
 			var dscn_node = load("res://addons/dscn_io/DSCN_Runtime_Node.gd").new()
 			
-			var test_node = load("res://PleaseDelete.tscn").instance()
+			# Add a node which will be the root of the new asset 
+			var asset_root = Spatial.new()
+			add_child(asset_root)
 			
+			# Turn the absolute webmercator position from the server response into a relative local
+			#  position at the correct height
 			var abs_pos = [-obj.position[0], obj.position[1]]
 			var local_pos = Offset.to_engine_coordinates(abs_pos)
 			var ground_pos = WorldPosition.get_position_on_ground(Vector3(local_pos.x, 0, local_pos.y))
@@ -38,21 +45,15 @@ func _on_ready():
 					 % [asset_type_id, abs_pos[0], abs_pos[1]])
 				continue
 			
-			# Create a new root node for this asset
-			var asset_root = Spatial.new()
+			# 'translation' is relative to the parent nodes. However, our ground_pos is in absolute coordinates.
+			# Thus, we need to turn the ground_pos into a local position by subtracting the global origin.
+			asset_root.translation = ground_pos - global_transform.origin
 			
-			add_child(test_node)
-			test_node.translation = ground_pos - global_transform.origin
-			
-			add_child(asset_root)
-			
-			# Set the position of this root node
-			#dscn_node.global_transform.origin = ground_pos
-			
-			# Load the scene
+			# Load the DSCN file into the asset_root
+			add_child(dscn_node)
 			dscn_node.filepath = name_path
 			dscn_node.path_to_node = asset_root.get_path()
-			#dscn_node.import_dscn()
+			dscn_node.import_dscn()
 	else:
 		logger.warning("Couldn't get assets for ID %d!" % [asset_type_id])
 			

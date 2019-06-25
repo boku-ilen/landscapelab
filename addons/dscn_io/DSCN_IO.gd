@@ -351,13 +351,13 @@ func _load_dscn(file):
 	# Get all of the nodes in the saved DSCN file (using nodes_in_list)
 	# and place those nodes in node_list.
 	for i in range(0, nodes_in_list):
-		var stored_node = file.get_var();
+		var stored_node = file.get_var(true);
 		node_list.append(stored_node);
 	
 	# Get all of the resources in the saved DSCN file (using resources_in_list)
 	# and place those resources in resource_list.
 	for i in range(0, resources_in_list):
-		var stored_resource = file.get_var();
+		var stored_resource = file.get_var(true);
 		resource_list.append(stored_resource);
 	
 	# Add resources to all of the nodes in node_list
