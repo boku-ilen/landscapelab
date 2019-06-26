@@ -21,8 +21,6 @@ const RIGHT = Vector3(1, 0, 0)
 
 
 func _ready():
-	._ready()
-	
 	translation.y = START_DISTANCE_TO_GROUND
 	current_distance_to_ground = translation.y
 
