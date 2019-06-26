@@ -22,14 +22,14 @@ var threads = []
 
 
 func _ready():
-	# 
-	for i in range(0, THREAD_COUNT_AT_PRIORITY.size()):
+	# For each priority, instance as many threads as that priority calls for, and one blocking queue
+	for priority in range(0, THREAD_COUNT_AT_PRIORITY.size()):
 		task_queues.append(BlockingQueue.new())
 		threads.append([])
 		
-		for thread_num in range(0, THREAD_COUNT_AT_PRIORITY[i]):
-			threads[i].append(Thread.new())
-			threads[i][thread_num].start(self, "thread_worker", task_queues[i])
+		for thread_num in range(0, THREAD_COUNT_AT_PRIORITY[priority]):
+			threads[priority].append(Thread.new())
+			threads[priority][thread_num].start(self, "thread_worker", task_queues[priority])
 
 
 # This is the function which the thread workers are constantly running

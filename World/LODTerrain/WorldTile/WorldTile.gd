@@ -330,9 +330,12 @@ func thread_task(object, function, arguments):
 	var dist_to_player = get_dist_to_player()
 	
 	if dist_to_player == 0:
-		priority = 100.0 # FIXME
+		priority = 99.0 # FIXME
 	else:
 		# TODO: Temporary calculation: The closer this tile is to the player, the higher the priority.
-		priority = (100.0 / get_dist_to_player())
+		priority = (100000.0 / get_dist_to_player())
+		
+		# Also decrease priority by LOD
+		priority /= (lod + 1)
 	
 	ThreadPool.enqueue_task(ThreadPool.Task.new(object, function, arguments), priority)
