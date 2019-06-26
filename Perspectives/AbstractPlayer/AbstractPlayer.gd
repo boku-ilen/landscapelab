@@ -23,7 +23,3 @@ func shift(delta_x, delta_z):
 	
 	translation.x += delta_x
 	translation.z += delta_z
-
-
-func switch_follow_mode():
-	print("switcheroo")
