@@ -175,10 +175,10 @@ func converge():
 # Returns the height on the tile at a certain position (the y coordinate of the passed vector is ignored)
 func get_height_at_position(var pos : Vector3):
 	var used_tile = get_leaf_tile(pos)
-		
+	
+	# If there is no TerrainColliderModule here, return 0
 	if not used_tile.modules.has_node("TerrainColliderModule"):
-		# TODO: What to do if it is impossible to get a height at that position?
-		return -200
+		return 0
 	
 	return used_tile.modules.get_node("TerrainColliderModule").get_height_at_position(pos)
 	
@@ -333,8 +333,6 @@ func thread_task(object, function, arguments):
 		priority = 100.0 # FIXME
 	else:
 		# TODO: Temporary calculation: The closer this tile is to the player, the higher the priority.
-		priority = (10000.0 / get_dist_to_player())
-		
-	print(priority)
+		priority = (100.0 / get_dist_to_player())
 	
 	ThreadPool.enqueue_task(ThreadPool.Task.new(object, function, arguments), priority)

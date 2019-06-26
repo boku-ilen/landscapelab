@@ -12,39 +12,46 @@ extends Node
 
 const BlockingQueue = preload("res://Global/ThreadPool/BlockingQueue.gd")
 
-const THREAD_COUNT : int = 4
-var task_queue = BlockingQueue.new()
+const THREAD_COUNT_AT_PRIORITY = [
+	5,
+	3,
+	2]
+
+var task_queues = []
 var threads = []
 
 
 func _ready():
-	# Start THREAD_COUNT threads
-	threads.resize(THREAD_COUNT)
-
-	for i in range(0, THREAD_COUNT):
-		threads[i] = Thread.new()
-		threads[i].start(self, "thread_worker")
+	# 
+	for i in range(0, THREAD_COUNT_AT_PRIORITY.size()):
+		task_queues.append(BlockingQueue.new())
+		threads.append([])
+		
+		for thread_num in range(0, THREAD_COUNT_AT_PRIORITY[i]):
+			threads[i].append(Thread.new())
+			threads[i][thread_num].start(self, "thread_worker", task_queues[i])
 
 
 # This is the function which the thread workers are constantly running
-func thread_worker(data):
+func thread_worker(task_queue):
 	while true:
 		# If there are tasks in the queue: Fetch one and execute it
-		var task = dequeue_task()
+		var task = task_queue.dequeue()
 		
 		if task is Task:
 			task.execute()
 
 
 # Puts a task (obj + method) into the task queue.
-# Optionally, a priority can be given. It should be scaled between 0 (very low) and 100 (very high).
+# Optionally, a priority can be given. It should be scaled between 0 (very low) and 99 (very high).
 func enqueue_task(task, priority=0):
-	task_queue.enqueue(task, priority)
-
-
-# Returns the item in the task queue which has been there the longest
-func dequeue_task():
-	return task_queue.dequeue()
+	# Clamp priority between 0 and 99 to be safe
+	priority = clamp(priority, 0, 99)
+	
+	# Get the task_queues index which corresponds to the priority (scale the priority to the number of threads)
+	var index = THREAD_COUNT_AT_PRIORITY.size() - 1 - int((priority / 100.0) * THREAD_COUNT_AT_PRIORITY.size())
+	
+	task_queues[index].enqueue(task)
 
 
 # This class groups an object, a method and parameters for the method. It provides 
