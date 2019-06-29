@@ -71,8 +71,9 @@
 
     "sky": {
         "clouds": true,
-	"fog-begin": 800,
-	"fog-end": 20000
+        "fog-begin": 800,
+        "fog-end": 20000,
+        "sun-intensity-factor": 1.8
     },
     
     "player": {

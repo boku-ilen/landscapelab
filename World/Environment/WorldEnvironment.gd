@@ -7,6 +7,7 @@ onready var sky_cube_scene = preload("res://World/Environment/SkyCube.tscn")
 var SKYCUBE_ENABLED = Settings.get_setting("sky", "clouds")
 var FOG_BEGIN = Settings.get_setting("sky", "fog-begin")
 var FOG_END = Settings.get_setting("sky", "fog-end")
+var SUN_INTENSITY_FACTOR = Settings.get_setting("sky", "sun_intensity_factor")
 
 var clouds
 
@@ -115,7 +116,7 @@ func update_colors(altitude, azimuth):
 	if altitude < 0 and altitude > -30:
 		var distance_to_black_point = abs(altitude) / 30
 		new_top_color = base_top_color.darkened(distance_to_black_point)
-		set_light_energy(1 - distance_to_black_point)
+		set_light_energy(SUN_INTENSITY_FACTOR - distance_to_black_point * SUN_INTENSITY_FACTOR)
 		
 	elif altitude <= -30:
 		new_top_color = Color(0, 0, 0, 0)
