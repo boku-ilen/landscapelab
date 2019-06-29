@@ -2,7 +2,8 @@
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
-albedo_color = Color( 1, 0.643137, 0.0862745, 0.701961 )
+albedo_color = Color( 0.607843, 0.0862745, 1, 0.729412 )
 
 [node name="Polygon" type="MeshInstance"]
+layers = 15
 material_override = SubResource( 1 )

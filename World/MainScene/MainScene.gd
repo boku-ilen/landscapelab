@@ -8,6 +8,8 @@ var instanced_polygon = null
 
 
 func _ready():
+	#Offset.connect("shift_world", self, "shift")
+	
 	# Connect the signals to show the editable-asset polygons or hide them
 	GlobalSignal.connect("changed_asset_id", self, "instance_polygon") 
 	GlobalSignal.connect("input_disabled", self, "remove_polygon")
@@ -17,8 +19,7 @@ func _ready():
 # Instace a polygon with the by searching the wished coordinates in a GeoJSON with the given id of the siganl
 func instance_polygon(id):
 	# Remove the instanced polygon of the clicked asset from before
-	if instanced_polygon != null:
-		self.remove_child(instanced_polygon)
+	if self.has_node(instanced_polygon):
 		instanced_polygon.queue_free()
 		
 	instanced_polygon = instanced_drawer.build(id)
@@ -29,4 +30,10 @@ func instance_polygon(id):
 func remove_polygon():
 	self.remove_child(instanced_polygon)
 	instanced_polygon.queue_free()
-	#polygon_mesh = null
+	instanced_polygon = null
+	
+	
+# Shift the the polygon in-engine translation by a certain offset, but not the player's true coordinates.
+func shift(delta_x, delta_z):
+	translation.x += delta_x
+	translation.z += delta_z
