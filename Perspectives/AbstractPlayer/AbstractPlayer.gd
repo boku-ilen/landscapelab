@@ -2,13 +2,14 @@ extends KinematicBody
 class_name AbstractPlayer
 
 var has_moved : bool = false
+export var is_main_perspective : bool
 
 func _ready():
 	Offset.connect("shift_world", self, "shift")
 
 
 func _physics_process(delta):
-	if has_moved:
+	if has_moved and is_main_perspective:
 		PlayerInfo.update_player_pos(translation)
 		has_moved = false
 	else:

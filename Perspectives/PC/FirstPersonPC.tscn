@@ -13,6 +13,7 @@ transform = Transform( 0.866, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866, 0, 0, 0 )
 collision_layer = 16387
 collision_mask = 16385
 script = ExtResource( 1 )
+is_main_perspective = true
 
 [node name="Head" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )

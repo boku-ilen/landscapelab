@@ -6,6 +6,7 @@ extends Spatial
 
 
 export(Texture) var icon
+export(Color) var color_modulate
 export(bool) var rotate = false
 export(float) var size = 0.25
 onready var icon_sprite = get_node("IconSprite")
@@ -29,6 +30,6 @@ func update_icon(var texture):
 	var texture_width = texture.get_width()
 	icon_sprite.pixel_size = size / texture_width
 	
-	icon_sprite.texture = texture  
+	icon_sprite.texture = texture
 	
-	
+	icon_sprite.modulate = color_modulate
