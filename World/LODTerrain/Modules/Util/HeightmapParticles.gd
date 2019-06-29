@@ -26,7 +26,7 @@ func set_noise_offset(offset):
 # Update the visilibity bounding box depending on the size
 func update_aabb():
 	var size = rows * spacing
-	visibility_aabb = AABB(Vector3(-0.5 * size, 0.0, -0.5 * size), Vector3(size, 20.0, size))
+	visibility_aabb = AABB(Vector3(-0.5 * size, 500.0, -0.5 * size), Vector3(0.5 * size, 3000.0, 0.5 * size))
 
 
 # Specify how many rows and columns of particles there should be

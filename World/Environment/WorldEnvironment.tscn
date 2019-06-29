@@ -15,7 +15,6 @@ sun_longitude = -80.0
 [sub_resource type="Environment" id=2]
 background_mode = 2
 background_sky = SubResource( 1 )
-ambient_light_color = Color( 0, 0.0117647, 0.160784, 1 )
 fog_enabled = true
 fog_depth_begin = 1000.0
 fog_depth_end = 20000.0
@@ -37,6 +36,5 @@ transform = Transform( -0.173648, 0.238247, -0.955554, -1.69349e-08, 0.970296, 0
 layers = 15
 light_energy = 2.0
 shadow_enabled = true
-shadow_bias = 8.0
 directional_shadow_blend_splits = true
-directional_shadow_max_distance = 1000.0
+directional_shadow_max_distance = 500.0
