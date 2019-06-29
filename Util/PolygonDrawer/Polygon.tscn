@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Util/PolygonDrawer/Polygon.gd" type="Script" id=1]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
@@ -7,3 +9,4 @@ albedo_color = Color( 0.607843, 0.0862745, 1, 0.729412 )
 [node name="Polygon" type="MeshInstance"]
 layers = 15
 material_override = SubResource( 1 )
+script = ExtResource( 1 )
