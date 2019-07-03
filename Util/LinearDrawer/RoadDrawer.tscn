@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Util/LinearDrawer/LinearDrawer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Resources/Images/Textures/Asphalt/Asphalt15_col.jpg" type="Texture" id=2]
+[ext_resource path="res://Resources/Images/Textures/Asphalt/Asphalt15_nrm.jpg" type="Texture" id=3]
+[ext_resource path="res://Resources/Images/Textures/Asphalt/Asphalt15_rgh.jpg" type="Texture" id=4]
+[ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=5]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_texture = ExtResource( 2 )
+metallic = 0.09
+metallic_specular = 0.14
+roughness_texture = ExtResource( 4 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 3 )
+
+[node name="RoadDrawer" index="0" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Path" index="0"]
+invert_faces = true
+polygon = PoolVector2Array( -3, 0, 3, 0, 3, 0, 3, 0 )
+mode = 2
+path_node = NodePath("..")
+path_interval = 2.0
+path_rotation = 2
+path_local = false
+path_continuous_u = false
+path_joined = true
+material = SubResource( 1 )
+
+[node name="WorldEnvironment" parent="." index="1" instance=ExtResource( 5 )]
