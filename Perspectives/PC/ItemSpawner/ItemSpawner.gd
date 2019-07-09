@@ -14,6 +14,7 @@ onready var cursor = get_node("InteractRay")
 var RAY_LENGTH = Settings.get_setting("item-spawner", "camera-ray-length") # Distance that will be checked for collision with the ground
 
 var locked_object = null
+var enabled_input_controller = false
 
 
 func _ready():
@@ -21,6 +22,10 @@ func _ready():
 	
 	# Connect signal to set the according itemID
 	GlobalSignal.connect("changed_asset_id", self, "set_spawned_id")
+	GlobalSignal.connect("input_controller", self, "set_input_controller_mode", [true])
+	GlobalSignal.connect("input_disabled", self, "set_input_controller_mode", [false])
+	GlobalSignal.connect("input_lego", self, "set_input_controller_mode", [false])
+
 
 func _process(delta):
 	if has_grabbed_object():
@@ -29,26 +34,29 @@ func _process(delta):
 
 # This callback is called whenever any input is registered
 func _input(event):
-	if event.is_action_pressed("object_interact"):
-		if cursor.is_colliding():
-			if has_grabbed_object(): # We have a locked item -> release it to make it stationary and free the cursor
-				release_object()
-			
-			elif cursor.get_collider().is_in_group("Movable"): # Player clicked on a movable object -> lock it to the cursor
-				grab_object_at_cursor()
-			
-			else:
-				var collision_point = cursor.get_collision_point()
-				var global_collision_point = Offset.to_world_coordinates(collision_point)
+	
+	# just perform any action if the input mode is set to controller
+	if enabled_input_controller:
+		if event.is_action_pressed("object_interact"):
+			if cursor.is_colliding():
+				if has_grabbed_object(): # We have a locked item -> release it to make it stationary and free the cursor
+					release_object()
 				
-				# TODO: It might take a while until the object is added on the server and instanced by the
-				# DynamicAssetHandler. Thus, we might want to instance a scene here, which is replaced by
-				# the real asset once the request is done (since the request will likely succeed - if not,
-				# the placeholder asset will simply be removed and not replaced)
+				elif cursor.get_collider().is_in_group("Movable"): # Player clicked on a movable object -> lock it to the cursor
+					grab_object_at_cursor()
 				
-				ThreadPool.enqueue_task(ThreadPool.Task.new(self, "add_object_on_server",
-					[global_collision_point[0], global_collision_point[2]]))
-				
+				else:
+					var collision_point = cursor.get_collision_point()
+					var global_collision_point = Offset.to_world_coordinates(collision_point)
+					
+					# TODO: It might take a while until the object is added on the server and instanced by the
+					# DynamicAssetHandler. Thus, we might want to instance a scene here, which is replaced by
+					# the real asset once the request is done (since the request will likely succeed - if not,
+					# the placeholder asset will simply be removed and not replaced)
+					
+					ThreadPool.enqueue_task(ThreadPool.Task.new(self, "add_object_on_server",
+						[global_collision_point[0], global_collision_point[2]]))
+
 
 # Registers a new asset instance at the position data[0], data[1] on the server (to be called from a thread)
 func add_object_on_server(data):
@@ -86,3 +94,9 @@ func has_grabbed_object():
 # Sets the id for the spawned item which is clicked in the ui controller
 func set_spawned_id(id):
 	spawned_id = id
+
+
+# sets the mode of the input controller
+func set_input_controller_mode(enabled):
+	enabled_input_controller = enabled
+	logger.debug("set controller input mode to %s" % [enabled_input_controller])
