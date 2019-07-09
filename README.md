@@ -5,7 +5,7 @@
 Development Stup
 
 * Folder `ClientResources` goes as `Resources` into the root folder of this project
-* copy settings.ini-default to settings.ini and adapt the resources path
+* copy settings.ini-default to settings.ini, put it into the user:// path and adapt the resources path
 * Open the Godot project 
 * Run the landscapelab-server
 * Run the main scene
