@@ -11,6 +11,8 @@ var origin_offset_z : int = 0
 var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 var camera_angle = 0
 var velocity = Vector3()
+var dragging : bool = false
+var rotating : bool = false
 
 var walking = Settings.get_setting("player", "start-walking-enabled")
 
@@ -40,18 +42,36 @@ func _physics_process(delta):
 
 
 func _input(event):
-	# Rotate the camera if the event is mouse motion and the mouse is currently captured
-	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
+	
+	# checks if the mouse is over the associated viewport
+	# FIXME: if the viewport is covered by another viewport the event is still propagated down
+	# TODO: input could be generalized in AbstractPlayer?	
+	if get_viewport().get_visible_rect().has_point(get_viewport().get_mouse_position()):
 		
-		var change = -event.relative.y * mouse_sensitivity
+		if event is InputEventMouseButton:
+			if event.button_index == BUTTON_LEFT: 
+				if event.pressed:
+					dragging = true
+				else:
+					dragging = false
+			elif event.button_index == BUTTON_RIGHT:
+				if event.pressed:
+					rotating = true
+				else: 
+					rotating = false
 		
-		if change + camera_angle < 90 and change + camera_angle > -90:
-			camera.rotate_x(deg2rad(change))
-			camera_angle += change
+		# Rotate the camera if the event is mouse motion and the mouse is currently captured or right mouse button is pressed
+		if event is InputEventMouseMotion and (Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED or rotating):
+			head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
 			
-	elif event.is_action_pressed("pc_toggle_walk"):
-		walking = not walking
+			var change = -event.relative.y * mouse_sensitivity
+			
+			if change + camera_angle < 90 and change + camera_angle > -90:
+				camera.rotate_x(deg2rad(change))
+				camera_angle += change
+				
+		elif event.is_action_pressed("pc_toggle_walk"):
+			walking = not walking
 
 
 func fly(delta):
