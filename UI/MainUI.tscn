@@ -54,14 +54,14 @@ alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
 margin_right = 272.0
-margin_bottom = 586.0
+margin_bottom = 748.0
 mouse_filter = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
 margin_right = 272.0
-margin_bottom = 586.0
+margin_bottom = 748.0
 mouse_filter = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -227,3 +227,4 @@ margin_bottom = 130.0
 [node name="Debug" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 27 )]
 signal_pressed = "debug_enable"
 signal_released = "debug_disable"
+
