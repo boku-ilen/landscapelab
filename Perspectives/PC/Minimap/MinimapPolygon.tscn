@@ -19,3 +19,4 @@ script = ExtResource( 3 )
 [node name="PolygonFace" type="MeshInstance" parent="."]
 layers = 8
 script = ExtResource( 4 )
+

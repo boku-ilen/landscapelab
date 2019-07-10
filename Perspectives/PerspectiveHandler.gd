@@ -42,18 +42,17 @@ func _ready():
 	GlobalSignal.connect("miniview_1st", self, "change_pc_mini_scene", [first_person_pc_scene])
 	GlobalSignal.connect("miniview_3rd", self, "change_pc_mini_scene", [third_person_pc_scene])
 	GlobalSignal.connect("miniview_switch", self, "exchange_viewports")
+	GlobalSignal.connect("toggle_follow_mode", self, "switch_follow_mode")
 	
 	# register minimap icon resize signal and bind to method
 	GlobalSignal.connect("initiate_minimap_icon_resize", self, "relay_minimap_icon_resize")
 	
-	# register follow enabled
-	GlobalSignal.connect("toggle_follow_mode", self, "switch_follow_mode")
+	# Start with the minimap enabled
+	current_pc_scene = third_person_pc_scene  # this is necessairy so no double signals are emitted by accident
+	change_pc_mini_scene(minimap_scene)
 	
 	# Start with PC 3rd person view
 	change_pc_scene(third_person_pc_scene)
-	
-	# Start with the minimap enabled
-	change_pc_mini_scene(minimap_scene)
 
 
 # Check for perspective-related input and react accordingly
@@ -90,7 +89,7 @@ func toggle_vr():
 
 
 # change the scene of the miniview to given scene
-func change_pc_mini_scene(scene):
+func change_pc_mini_scene(scene, emit=true):
 	
 	# notify the ui about reenabeling the miniview 
 	if current_pc_mini_scene == null:
@@ -101,7 +100,8 @@ func change_pc_mini_scene(scene):
 		child.free()
 	pc_mini_viewport.add_child(scene.instance())
 	current_pc_mini_scene = scene
-	emit_missing_viewports()
+	if emit:
+		emit_missing_viewports()
 	GlobalSignal.emit_signal("initiate_minimap_icon_resize", get_minimap_status() , filename)
 	
 
@@ -124,10 +124,11 @@ func close_pc_mini_scene():
 
 
 # switch the scenes of the two pc viewports (fullscreen and miniview)
-func exchange_viewports():
-	var exchange = current_pc_mini_scene
-	change_pc_mini_scene(current_pc_scene)
-	change_pc_scene(exchange)
+func exchange_viewports():	
+	var new_pc = current_pc_mini_scene
+	var new_mini = current_pc_scene
+	change_pc_mini_scene(new_mini, false)
+	change_pc_scene(new_pc)
 
 
 func emit_missing_viewports():
@@ -154,6 +155,5 @@ func get_minimap_status():
 	return status
 
 
-# switch the boolean accordingly
 func switch_follow_mode():
 	PlayerInfo.is_follow_enabled = !PlayerInfo.is_follow_enabled

@@ -25,6 +25,7 @@ func _ready():
 	GlobalSignal.connect("initiate_minimap_icon_resize", self, "relay_minimap_icon_resize")
 	GlobalSignal.connect("request_minimap_icon_resize", self, "respond_to_minimap_icon_update_request")
 
+
 # Changes the size of the minimap camera to the given 'size'.
 # Size refers to the width/height of the camera making the orthographic projection.
 # e.g. a size of 2000 results in a visible area of roughly 4000x3000.
