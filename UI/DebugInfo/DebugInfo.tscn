@@ -2,7 +2,7 @@
 
 [ext_resource path="res://UI/DebugInfo/DebugInfo.gd" type="Script" id=1]
 [ext_resource path="res://UI/DebugInfo/PositionDisplay.gd" type="Script" id=2]
-[ext_resource path="res://UI/DebugInfo/WireframeToggle.gd" type="Script" id=3]
+[ext_resource path="res://UI/CustomElements/SignalToggle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://UI/MoveSpeed/MoveSpeed.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Theme" id=1]
@@ -29,7 +29,7 @@ scroll_following = true
 [node name="LogLevelInfo" type="HBoxContainer" parent="."]
 margin_top = 898.0
 margin_right = 1920.0
-margin_bottom = 1076.0
+margin_bottom = 914.0
 mouse_filter = 0
 
 [node name="Label" type="Label" parent="LogLevelInfo"]
@@ -80,21 +80,9 @@ margin_top = 978.0
 margin_right = 1920.0
 margin_bottom = 1018.0
 
-[node name="WireframeToggle" type="HBoxContainer" parent="MarginContainer2"]
-margin_right = 1920.0
-margin_bottom = 40.0
-script = ExtResource( 3 )
-
-[node name="Name" type="Label" parent="MarginContainer2/WireframeToggle"]
-margin_top = 13.0
-margin_right = 78.0
-margin_bottom = 27.0
-text = "Wireframes:"
-
-[node name="CheckButton" type="CheckButton" parent="MarginContainer2/WireframeToggle"]
-margin_left = 82.0
-margin_right = 158.0
-margin_bottom = 40.0
+[node name="WireframeToggle" parent="MarginContainer2" instance=ExtResource( 3 )]
+label_text = "Wireframes:"
+signal_to_emit = "wireframe_toggle"
 
 [node name="Spacer2" type="MarginContainer" parent="."]
 margin_top = 1022.0
