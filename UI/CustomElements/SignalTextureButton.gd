@@ -1,4 +1,4 @@
-extends Button
+extends TextureButton
 
 #
 # A button which emits GlobalSignals when it's pressed / released. 

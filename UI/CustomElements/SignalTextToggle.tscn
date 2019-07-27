@@ -1,14 +1,11 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://UI/CustomElements/SignalToggle.gd" type="Script" id=1]
-
-
+[ext_resource path="res://UI/CustomElements/SignalTextToggle.gd" type="Script" id=1]
 
 [node name="SignalToggle" type="HBoxContainer"]
 margin_right = 1920.0
 margin_bottom = 40.0
 script = ExtResource( 1 )
-label_text = null
 
 [node name="Name" type="Label" parent="."]
 margin_top = 13.0
