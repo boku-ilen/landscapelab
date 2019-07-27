@@ -5,12 +5,8 @@ extends Button
 #
 
 export(String) var signal_pressed
-export(String) var signal_released
 
 
 # emit the switch of the debug button
-func _toggled(button_pressed: bool) -> void:
-	if button_pressed:
+func _pressed() -> void:
 		GlobalSignal.emit_signal(signal_pressed)
-	else:
-		GlobalSignal.emit_signal(signal_released)

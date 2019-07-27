@@ -134,4 +134,4 @@ margin_top = 1060.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 text = "Reset all tiles"
-signal_released = "reset_tiles"
+signal_pressed = "reset_tiles"
