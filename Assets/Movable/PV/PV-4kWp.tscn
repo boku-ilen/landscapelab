@@ -5,7 +5,7 @@
 [ext_resource path="res://Resources/Meshes/PV/material.material" type="Material" id=3]
 [ext_resource path="res://Resources/Meshes/PV/4kWp_groundmount_system/pv-texture.jpg" type="Texture" id=4]
 
-[sub_resource type="ArrayMesh" id=3]
+[sub_resource type="ArrayMesh" id=1]
 resource_name = "Steher_Paar"
 surfaces/0 = {
 "aabb": AABB( 97.7384, 0, -1.5748, 2.36226, 75.3956, 1.5748 ),
@@ -20,7 +20,7 @@ surfaces/0 = {
 "vertex_count": 24
 }
 
-[sub_resource type="ArrayMesh" id=4]
+[sub_resource type="ArrayMesh" id=2]
 resource_name = "Steher_Paar.001"
 surfaces/0 = {
 "aabb": AABB( 0, 1.86096e-16, -1.5748, 2.36222, 23.4272, 1.57481 ),
@@ -35,7 +35,7 @@ surfaces/0 = {
 "vertex_count": 20
 }
 
-[sub_resource type="ArrayMesh" id=5]
+[sub_resource type="ArrayMesh" id=3]
 resource_name = "Steher_Paar.002"
 surfaces/0 = {
 "aabb": AABB( 0, 1.86096e-16, -1.5748, 2.36222, 1e-05, 1.57481 ),
@@ -50,7 +50,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=6]
+[sub_resource type="ArrayMesh" id=4]
 resource_name = "Steher_Paar.003"
 surfaces/0 = {
 "aabb": AABB( 97.7384, 74.1396, -1.5748, 2.36226, 1.25602, 1.5748 ),
@@ -65,7 +65,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=7]
+[sub_resource type="ArrayMesh" id=5]
 resource_name = "Steher_Paar.004"
 surfaces/0 = {
 "aabb": AABB( 0, 22.1712, -1.5748, 2.36222, 1.25602, 1.5748 ),
@@ -80,7 +80,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=8]
+[sub_resource type="ArrayMesh" id=6]
 resource_name = "Steher_Paar.005"
 surfaces/0 = {
 "aabb": AABB( 97.7384, 0, -1.5748, 2.36226, 75.3956, 1.5748 ),
@@ -95,7 +95,7 @@ surfaces/0 = {
 "vertex_count": 24
 }
 
-[sub_resource type="ArrayMesh" id=9]
+[sub_resource type="ArrayMesh" id=7]
 resource_name = "Steher_Paar.006"
 surfaces/0 = {
 "aabb": AABB( 0, 1.86096e-16, -1.5748, 2.36222, 23.4272, 1.57481 ),
@@ -110,7 +110,7 @@ surfaces/0 = {
 "vertex_count": 20
 }
 
-[sub_resource type="ArrayMesh" id=10]
+[sub_resource type="ArrayMesh" id=8]
 resource_name = "Steher_Paar.007"
 surfaces/0 = {
 "aabb": AABB( 0, 1.86096e-16, -1.5748, 2.36222, 1e-05, 1.57481 ),
@@ -125,7 +125,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=11]
+[sub_resource type="ArrayMesh" id=9]
 resource_name = "Steher_Paar.008"
 surfaces/0 = {
 "aabb": AABB( 97.7384, 74.1396, -1.5748, 2.36226, 1.25602, 1.5748 ),
@@ -140,7 +140,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=12]
+[sub_resource type="ArrayMesh" id=10]
 resource_name = "Steher_Paar.009"
 surfaces/0 = {
 "aabb": AABB( 0, 22.1712, -1.5748, 2.36222, 1.25602, 1.5748 ),
@@ -155,7 +155,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=13]
+[sub_resource type="ArrayMesh" id=11]
 resource_name = "Steher_Paar.010"
 surfaces/0 = {
 "aabb": AABB( 97.7384, 0, -1.5748, 2.36226, 75.3956, 1.5748 ),
@@ -170,7 +170,7 @@ surfaces/0 = {
 "vertex_count": 24
 }
 
-[sub_resource type="ArrayMesh" id=14]
+[sub_resource type="ArrayMesh" id=12]
 resource_name = "Steher_Paar.011"
 surfaces/0 = {
 "aabb": AABB( 0, 1.86096e-16, -1.5748, 2.36222, 23.4272, 1.57481 ),
@@ -185,7 +185,7 @@ surfaces/0 = {
 "vertex_count": 20
 }
 
-[sub_resource type="ArrayMesh" id=15]
+[sub_resource type="ArrayMesh" id=13]
 resource_name = "Steher_Paar.012"
 surfaces/0 = {
 "aabb": AABB( 0, 1.86096e-16, -1.5748, 2.36222, 1e-05, 1.57481 ),
@@ -200,7 +200,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=16]
+[sub_resource type="ArrayMesh" id=14]
 resource_name = "Steher_Paar.013"
 surfaces/0 = {
 "aabb": AABB( 97.7384, 74.1396, -1.5748, 2.36226, 1.25602, 1.5748 ),
@@ -215,7 +215,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=17]
+[sub_resource type="ArrayMesh" id=15]
 resource_name = "Steher_Paar.014"
 surfaces/0 = {
 "aabb": AABB( 0, 22.1712, -1.5748, 2.36222, 1.25602, 1.5748 ),
@@ -230,7 +230,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=18]
+[sub_resource type="ArrayMesh" id=16]
 resource_name = "Steher_Paar.015"
 surfaces/0 = {
 "aabb": AABB( 97.7384, 0, -1.5748, 2.36226, 75.3956, 1.5748 ),
@@ -245,7 +245,7 @@ surfaces/0 = {
 "vertex_count": 24
 }
 
-[sub_resource type="ArrayMesh" id=19]
+[sub_resource type="ArrayMesh" id=17]
 resource_name = "Steher_Paar.016"
 surfaces/0 = {
 "aabb": AABB( 0, 1.86096e-16, -1.5748, 2.36222, 23.4272, 1.57481 ),
@@ -260,7 +260,7 @@ surfaces/0 = {
 "vertex_count": 20
 }
 
-[sub_resource type="ArrayMesh" id=20]
+[sub_resource type="ArrayMesh" id=18]
 resource_name = "Steher_Paar.017"
 surfaces/0 = {
 "aabb": AABB( 0, 1.86096e-16, -1.5748, 2.36222, 1e-05, 1.57481 ),
@@ -275,7 +275,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=21]
+[sub_resource type="ArrayMesh" id=19]
 resource_name = "Steher_Paar.018"
 surfaces/0 = {
 "aabb": AABB( 97.7384, 74.1396, -1.5748, 2.36226, 1.25602, 1.5748 ),
@@ -290,7 +290,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=22]
+[sub_resource type="ArrayMesh" id=20]
 resource_name = "Steher_Paar.019"
 surfaces/0 = {
 "aabb": AABB( 0, 22.1712, -1.5748, 2.36222, 1.25602, 1.5748 ),
@@ -305,8 +305,7 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="ArrayMesh" id=1]
-resource_name = "instance_0"
+[sub_resource type="ArrayMesh" id=21]
 surfaces/0 = {
 "aabb": AABB( 0, 0, -39.3701, 64.5669, 1.5748, 39.3701 ),
 "array_data": PoolByteArray( 68, 34, 129, 66, 0, 0, 128, 39, 246, 122, 29, 194, 127, 0, 0, 0, 0, 0, 129, 127, 120, 69, 0, 60, 68, 34, 129, 66, 37, 147, 201, 63, 0, 0, 0, 128, 127, 0, 0, 0, 0, 0, 129, 127, 208, 68, 202, 59, 68, 34, 129, 66, 0, 0, 128, 39, 0, 0, 0, 128, 127, 0, 0, 0, 0, 0, 129, 127, 208, 68, 0, 60, 68, 34, 129, 66, 37, 147, 201, 63, 246, 122, 29, 194, 127, 0, 0, 0, 0, 0, 129, 127, 120, 69, 202, 59, 68, 34, 129, 66, 0, 0, 128, 39, 246, 122, 29, 194, 0, 129, 0, 0, 129, 0, 0, 127, 246, 189, 120, 196, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 0, 129, 0, 0, 129, 0, 0, 127, 163, 182, 160, 195, 0, 0, 0, 0, 0, 0, 0, 0, 246, 122, 29, 194, 0, 129, 0, 0, 129, 0, 0, 127, 163, 182, 120, 196, 68, 34, 129, 66, 0, 0, 128, 39, 0, 0, 0, 128, 0, 129, 0, 0, 129, 0, 0, 127, 246, 189, 160, 195, 0, 0, 0, 0, 37, 147, 201, 63, 246, 122, 29, 194, 0, 0, 129, 0, 129, 0, 0, 127, 163, 182, 202, 59, 68, 34, 129, 66, 0, 0, 128, 39, 246, 122, 29, 194, 0, 0, 129, 0, 129, 0, 0, 127, 246, 189, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 246, 122, 29, 194, 0, 0, 129, 0, 129, 0, 0, 127, 163, 182, 0, 60, 68, 34, 129, 66, 37, 147, 201, 63, 246, 122, 29, 194, 0, 0, 129, 0, 129, 0, 0, 127, 246, 189, 202, 59, 68, 34, 129, 66, 0, 0, 128, 39, 0, 0, 0, 128, 0, 0, 127, 0, 127, 0, 0, 127, 246, 61, 0, 60, 0, 0, 0, 0, 37, 147, 201, 63, 0, 0, 0, 128, 0, 0, 127, 0, 127, 0, 0, 127, 163, 54, 202, 59, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 127, 0, 127, 0, 0, 127, 163, 54, 0, 60, 0, 0, 0, 0, 37, 147, 201, 63, 0, 0, 0, 128, 0, 0, 127, 0, 127, 0, 0, 127, 163, 54, 202, 59, 68, 34, 129, 66, 0, 0, 128, 39, 0, 0, 0, 128, 0, 0, 127, 0, 127, 0, 0, 127, 246, 61, 0, 60, 68, 34, 129, 66, 37, 147, 201, 63, 0, 0, 0, 128, 0, 0, 127, 0, 127, 0, 0, 127, 246, 61, 202, 59, 0, 0, 0, 0, 37, 147, 201, 63, 246, 122, 29, 194, 129, 0, 0, 0, 0, 0, 127, 127, 120, 197, 202, 59, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 129, 0, 0, 0, 0, 0, 127, 127, 208, 196, 0, 60, 0, 0, 0, 0, 37, 147, 201, 63, 0, 0, 0, 128, 129, 0, 0, 0, 0, 0, 127, 127, 208, 196, 202, 59, 0, 0, 0, 0, 0, 0, 0, 0, 246, 122, 29, 194, 129, 0, 0, 0, 0, 0, 127, 127, 120, 197, 0, 60 ),
@@ -319,8 +318,7 @@ surfaces/0 = {
 "vertex_count": 22
 }
 
-[sub_resource type="ArrayMesh" id=2]
-resource_name = "instance_0.001"
+[sub_resource type="ArrayMesh" id=22]
 surfaces/0 = {
 "aabb": AABB( 0, 1.5748, -39.3701, 64.5669, 1.00136e-05, 39.3701 ),
 "array_data": PoolByteArray( 68, 34, 129, 66, 37, 147, 201, 63, 0, 0, 0, 128, 0, 127, 0, 0, 0, 0, 127, 127, 0, 60, 0, 0, 0, 0, 0, 0, 37, 147, 201, 63, 246, 122, 29, 194, 0, 127, 0, 0, 0, 0, 127, 127, 0, 0, 0, 60, 0, 0, 0, 0, 37, 147, 201, 63, 0, 0, 0, 128, 0, 127, 0, 0, 0, 0, 127, 127, 0, 60, 0, 60, 68, 34, 129, 66, 37, 147, 201, 63, 246, 122, 29, 194, 0, 127, 0, 0, 0, 0, 127, 127, 0, 0, 0, 0 ),
@@ -355,266 +353,318 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0, 3.612 )
 
 [node name="Steher_Paar" type="MeshInstance" parent="Mesh/Stands" index="0"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0 )
-mesh = SubResource( 3 )
+layers = 7
+mesh = SubResource( 1 )
 material/0 = null
 
 [node name="Steher_Paar001" type="MeshInstance" parent="Mesh/Stands" index="1"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0 )
-mesh = SubResource( 4 )
+layers = 7
+mesh = SubResource( 2 )
 material/0 = null
 
 [node name="Steher_Paar002" type="MeshInstance" parent="Mesh/Stands" index="2"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0 )
-mesh = SubResource( 5 )
+layers = 7
+mesh = SubResource( 3 )
 material/0 = null
 
 [node name="Steher_Paar003" type="MeshInstance" parent="Mesh/Stands" index="3"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0 )
-mesh = SubResource( 6 )
+layers = 7
+mesh = SubResource( 4 )
 material/0 = null
 
 [node name="Steher_Paar004" type="MeshInstance" parent="Mesh/Stands" index="4"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0 )
-mesh = SubResource( 7 )
+layers = 7
+mesh = SubResource( 5 )
 material/0 = null
 
 [node name="Steher_Paar005" type="MeshInstance" parent="Mesh/Stands" index="5"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -2.39886 )
-mesh = SubResource( 8 )
+layers = 7
+mesh = SubResource( 6 )
 material/0 = null
 
 [node name="Steher_Paar006" type="MeshInstance" parent="Mesh/Stands" index="6"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -2.39886 )
-mesh = SubResource( 9 )
+layers = 7
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="Steher_Paar007" type="MeshInstance" parent="Mesh/Stands" index="7"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -2.39886 )
-mesh = SubResource( 10 )
+layers = 7
+mesh = SubResource( 8 )
 material/0 = null
 
 [node name="Steher_Paar008" type="MeshInstance" parent="Mesh/Stands" index="8"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -2.39886 )
-mesh = SubResource( 11 )
+layers = 7
+mesh = SubResource( 9 )
 material/0 = null
 
 [node name="Steher_Paar009" type="MeshInstance" parent="Mesh/Stands" index="9"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -2.39886 )
-mesh = SubResource( 12 )
+layers = 7
+mesh = SubResource( 10 )
 material/0 = null
 
 [node name="Steher_Paar010" type="MeshInstance" parent="Mesh/Stands" index="10"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -4.79772 )
-mesh = SubResource( 13 )
+layers = 7
+mesh = SubResource( 11 )
 material/0 = null
 
 [node name="Steher_Paar011" type="MeshInstance" parent="Mesh/Stands" index="11"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -4.79772 )
-mesh = SubResource( 14 )
+layers = 7
+mesh = SubResource( 12 )
 material/0 = null
 
 [node name="Steher_Paar012" type="MeshInstance" parent="Mesh/Stands" index="12"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -4.79772 )
-mesh = SubResource( 15 )
+layers = 7
+mesh = SubResource( 13 )
 material/0 = null
 
 [node name="Steher_Paar013" type="MeshInstance" parent="Mesh/Stands" index="13"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -4.79772 )
-mesh = SubResource( 16 )
+layers = 7
+mesh = SubResource( 14 )
 material/0 = null
 
 [node name="Steher_Paar014" type="MeshInstance" parent="Mesh/Stands" index="14"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -4.79772 )
-mesh = SubResource( 17 )
+layers = 7
+mesh = SubResource( 15 )
 material/0 = null
 
 [node name="Steher_Paar015" type="MeshInstance" parent="Mesh/Stands" index="15"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -7.19658 )
-mesh = SubResource( 18 )
+layers = 7
+mesh = SubResource( 16 )
 material/0 = null
 
 [node name="Steher_Paar016" type="MeshInstance" parent="Mesh/Stands" index="16"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -7.19658 )
-mesh = SubResource( 19 )
+layers = 7
+mesh = SubResource( 17 )
 material/0 = null
 
 [node name="Steher_Paar017" type="MeshInstance" parent="Mesh/Stands" index="17"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -7.19658 )
-mesh = SubResource( 20 )
+layers = 7
+mesh = SubResource( 18 )
 material/0 = null
 
 [node name="Steher_Paar018" type="MeshInstance" parent="Mesh/Stands" index="18"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -7.19658 )
-mesh = SubResource( 21 )
+layers = 7
+mesh = SubResource( 19 )
 material/0 = null
 
 [node name="Steher_Paar019" type="MeshInstance" parent="Mesh/Stands" index="19"]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, -7.19658 )
-mesh = SubResource( 22 )
+layers = 7
+mesh = SubResource( 20 )
 material/0 = null
 
 [node name="Aluminium" type="Spatial" parent="Mesh" index="1"]
 
 [node name="instance_0" type="MeshInstance" parent="Mesh/Aluminium" index="0"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -6.71659 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_1" type="MeshInstance" parent="Mesh/Aluminium" index="1"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -4.65658 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_10" type="MeshInstance" parent="Mesh/Aluminium" index="2"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -0.536584 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_11" type="MeshInstance" parent="Mesh/Aluminium" index="3"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -4.65658 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_12" type="MeshInstance" parent="Mesh/Aluminium" index="4"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -0.536584 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_13" type="MeshInstance" parent="Mesh/Aluminium" index="5"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -1.56658 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_14" type="MeshInstance" parent="Mesh/Aluminium" index="6"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -6.71659 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_15" type="MeshInstance" parent="Mesh/Aluminium" index="7"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -5.68658 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_2" type="MeshInstance" parent="Mesh/Aluminium" index="8"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, 0.493415 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_3" type="MeshInstance" parent="Mesh/Aluminium" index="9"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -2.59658 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_4" type="MeshInstance" parent="Mesh/Aluminium" index="10"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, 0.493415 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_5" type="MeshInstance" parent="Mesh/Aluminium" index="11"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -3.62658 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_6" type="MeshInstance" parent="Mesh/Aluminium" index="12"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -1.56658 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_7" type="MeshInstance" parent="Mesh/Aluminium" index="13"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -5.68658 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_8" type="MeshInstance" parent="Mesh/Aluminium" index="14"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -3.62658 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_9" type="MeshInstance" parent="Mesh/Aluminium" index="15"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -2.59658 )
-mesh = SubResource( 1 )
+layers = 7
+mesh = SubResource( 21 )
 material/0 = ExtResource( 2 )
 
 [node name="PV" type="Spatial" parent="Mesh" index="2"]
 
 [node name="instance_0001" type="MeshInstance" parent="Mesh/PV" index="0"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -6.71659 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_1001" type="MeshInstance" parent="Mesh/PV" index="1"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -4.65658 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_10001" type="MeshInstance" parent="Mesh/PV" index="2"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -0.536584 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_11001" type="MeshInstance" parent="Mesh/PV" index="3"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -4.65658 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_12001" type="MeshInstance" parent="Mesh/PV" index="4"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -0.536584 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_13001" type="MeshInstance" parent="Mesh/PV" index="5"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -1.56658 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_14001" type="MeshInstance" parent="Mesh/PV" index="6"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -6.71659 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_15001" type="MeshInstance" parent="Mesh/PV" index="7"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -5.68658 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_2001" type="MeshInstance" parent="Mesh/PV" index="8"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, 0.493415 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_3001" type="MeshInstance" parent="Mesh/PV" index="9"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -2.59658 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_4001" type="MeshInstance" parent="Mesh/PV" index="10"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, 0.493415 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_5001" type="MeshInstance" parent="Mesh/PV" index="11"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -3.62658 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_6001" type="MeshInstance" parent="Mesh/PV" index="12"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -1.56658 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_7001" type="MeshInstance" parent="Mesh/PV" index="13"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, 1.27452, 1.24082, -5.68658 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_8001" type="MeshInstance" parent="Mesh/PV" index="14"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -3.62658 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="instance_9001" type="MeshInstance" parent="Mesh/PV" index="15"]
 transform = Transform( 0.0224269, -0.0119246, 0, 0.0119246, 0.0224269, 0, 0, 0, 0.0254, -0.2, 0.456805, -2.59658 )
-mesh = SubResource( 2 )
+layers = 7
+mesh = SubResource( 22 )
 material/0 = SubResource( 23 )
 
 [node name="CollisionShape" parent="PickupBody" index="0"]
