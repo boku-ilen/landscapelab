@@ -51,6 +51,12 @@ signal debug_disable
 # enable and disable wireframe drawing
 signal wireframe_toggle
 
+# enable and disable tile updates
+signal tile_update_toggle
+
+# reset (delete) all tiles
+signal reset_tiles
+
 # enable and disable vr mode
 signal vr_enable
 signal vr_disable
