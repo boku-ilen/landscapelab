@@ -4,7 +4,7 @@ extends Spatial
 # A windmill which acts according to a specified wind direction and speed.
 #
 
-onready var Blades = get_node("Blades")
+onready var rotor = get_node("Mesh/RotorPivot")
 onready var tooltip = get_node("Tooltip3D")
 
 export(float) var speed = 1 # Rotation speed in radians
@@ -28,8 +28,8 @@ func update_rotation():
 	var direction = get_wind_direction()
 	look_at(Vector3(direction.x, 0, direction.y), transform.basis.y) # Makes the model face the wind direction (model forward direction is the opposite of the wind forward direction)
 
-# Updates the rotation of the blades to make them rotate with the exported speed variable
+# Updates the rotation of the rotor to make them rotate with the exported speed variable
 func _physics_process(delta):
-	Blades.transform.basis = Blades.transform.basis.rotated(Vector3(0, 0, 1), speed * delta)
+	rotor.transform.basis = rotor.transform.basis.rotated(Vector3(1, 0, 0), speed * delta)
 	
 # TODO: The wind_direction could be automatically set using signals at some point
