@@ -30,6 +30,6 @@ func update_rotation():
 
 # Updates the rotation of the rotor to make them rotate with the exported speed variable
 func _physics_process(delta):
-	rotor.transform.basis = rotor.transform.basis.rotated(Vector3(1, 0, 0), speed * delta)
+	rotor.transform.basis = rotor.transform.basis.rotated(Vector3(1, 0, 0), -speed * delta)
 	
 # TODO: The wind_direction could be automatically set using signals at some point
