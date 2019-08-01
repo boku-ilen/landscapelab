@@ -56,8 +56,13 @@ func _process(delta):
 			if not has_node(instance_name):
 				var new_instance = asset_scene.instance()
 				new_instance.name = instance_name
-				new_instance.translation = _get_position_for_asset(_result, instance_id)
-				add_child(new_instance)
+				
+				var pos = _get_position_for_asset(_result, instance_id)
+				
+				if pos.length() < 5000:
+					new_instance.translation = pos
+				
+					add_child(new_instance)
 			
 		# Start getting the next result
 		_new_result = false
@@ -83,6 +88,9 @@ func _get_position_for_asset(result, instance_id):
 func _get_asset_instances(data):
 	# Don't cache this since the result regularly changes
 	_result = ServerConnection.get_json("/assetpos/get_all/%d.json" % [asset_id], false)
+	
+	# TODO: Compare with previous result and only save updated fields
+	
 	_new_result = true
 	
 	
