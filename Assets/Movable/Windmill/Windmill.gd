@@ -4,7 +4,7 @@ extends Spatial
 # A windmill which acts according to a specified wind direction and speed.
 #
 
-onready var rotor = get_node("Mesh/RotorPivot")
+onready var rotor = get_node("Mesh/Rotor")
 onready var tooltip = get_node("Tooltip3D")
 
 export(float) var speed = 1 # Rotation speed in radians
