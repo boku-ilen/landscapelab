@@ -69,6 +69,10 @@
         "detail-texture-start-distance": 300.0
     },
 
+    "assets": {
+        "dynamic-update-interval": 1
+    },
+
     "sky": {
         "clouds": true,
         "fog-begin": 700,
@@ -78,8 +82,8 @@
     
     "player": {
         "walk-speed-min": 1,
-	"walk-speed-max": 120,
-	"walk-speed-default": 20,
+        "walk-speed-max": 120,
+        "walk-speed-default": 20,
         "start-walking-enabled": true,
         "fly-speed": 500,
         "fly-speed-sprint": 5000,

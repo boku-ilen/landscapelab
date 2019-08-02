@@ -16,7 +16,7 @@ var _assets = {}
 var _result
 var _new_result = false
 
-var update_interval = 1
+var update_interval = Settings.get_setting("assets", "dynamic-update-interval")
 var time_to_update = 0
 
 
