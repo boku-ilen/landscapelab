@@ -54,12 +54,13 @@ func _process(delta):
 			var instance_name = String(instance_id)
 
 			if not has_node(instance_name):
-				var new_instance = asset_scene.instance()
-				new_instance.name = instance_name
-				
 				var pos = _get_position_for_asset(_result, instance_id)
 				
+				# TODO: Get the required length from the asset type
 				if pos.length() < 5000:
+					var new_instance = asset_scene.instance()
+					
+					new_instance.name = instance_name
 					new_instance.translation = pos
 				
 					add_child(new_instance)
@@ -91,7 +92,9 @@ func _get_asset_instances(data):
 	
 	# TODO: Compare with previous result and only save updated fields
 	
-	_new_result = true
+	# If the result is valid, set the flag
+	if _result and _result.has("assets"):
+		_new_result = true
 	
 	
 # React to a world shift by moving all child nodes (asset instances) accordingly
