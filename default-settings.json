@@ -12,31 +12,30 @@
     
     "lod": {
     
-        "level-0-tile-size": 9784,
+        "level-0-tile-size": 9783.93962,
         "level-0-osm-zoom": 12,
-        "default-tile-subdivision": 16,
+        "default-tile-subdivision": 32,
         "update-interval-seconds": 0.2,
         "world-shift-distance": 1000,
         "tile-spawn-radius": 1,
-        "tile-removal-check-radius-summand": 3,
+        "tile-removal-check-radius-summand": 2,
         "distances": [
             10000,
-            6000,
-            3000,
+            4000,
             1000,
-            600,
+            500,
             200,
             100,
-            60
+            70,
+            30
         ],
         "module-path": "res://World/LODTerrain/Modules/",
     "modules": [
-            ["TerrainModule.tscn", "TopomapModule.tscn"],
-            ["TerrainColliderModule.tscn"],
+            ["TerrainModule.tscn", "TopomapModule.tscn", "TerrainColliderModule.tscn"],
+            [],
             ["-TerrainModule.tscn", "DetailedTerrainModule.tscn"],
             ["WaterModule.tscn", "Vegetation/LargeTreeModule.tscn", "Vegetation/SmallTreeModule.tscn"],
-            ["Vegetation/LargeBushModule.tscn", "Vegetation/SmallBushModule.tscn"],
-            [],
+            ["Vegetation/LargeBushModule.tscn", "Vegetation/SmallBushModule.tscn", "StaticAssets/BuildingsModule.tscn"],
             ["Vegetation/HerbageModule.tscn"]
 
         ],	
@@ -44,7 +43,7 @@
     },
 
     "terrain-collider": {
-        "collision-mesh-subdivision": 8
+        "collision-mesh-subdivision": 16
     },
     
     "item-spawner": {
@@ -53,16 +52,17 @@
     
     "herbage": {
         "density-at-lod": {
-            "3": 0.25,
-            "4": 0.3,
-            "5": 0.35,
-            "6": 0.4,
-            "7": 0.5
+            "3": 0.1,
+            "4": 0.18,
+            "5": 0.26,
+            "6": 0.34,
+            "7": 0.44,
+            "8": 0.54
         },
         "density-modifiers-for-layers": {
-            "1": 1.5,
-            "2": 1.4,
-            "3": 0.3,
+            "1": 1.8,
+            "2": 1.5,
+            "3": 0.5,
             "4": 0.2,
             "5": 0.1
         },
@@ -71,7 +71,7 @@
 
     "sky": {
         "clouds": true,
-        "fog-begin": 800,
+        "fog-begin": 700,
         "fog-end": 20000,
         "sun-intensity-factor": 1.8
     },
