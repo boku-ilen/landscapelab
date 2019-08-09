@@ -8,7 +8,7 @@ onready var rotor = get_node("Mesh/Rotor")
 onready var tooltip = get_node("Tooltip3D")
 
 export(float) var speed = 1 # Rotation speed in radians
-export(Vector2) var wind_direction = Vector2(-1, -1) setget set_wind_direction, get_wind_direction
+export(float) var wind_direction = 0 setget set_wind_direction, get_wind_direction # Rotation of wind in degrees
 
 
 func _ready():
@@ -37,7 +37,7 @@ func get_wind_direction():
 # Correctly orients the model depending on the public wind_direction - automatically called when the wind direction is changed
 func update_rotation():
 	var direction = get_wind_direction()
-	look_at(Vector3(direction.x, 0, direction.y), transform.basis.y) # Makes the model face the wind direction (model forward direction is the opposite of the wind forward direction)
+	rotation_degrees.y = direction
 
 
 # Updates the rotation of the rotor to make them rotate with the exported speed variable
