@@ -11,10 +11,12 @@ extends Spatial
 
 export(int) var asset_id
 export(PackedScene) var asset_scene
+export(bool) var only_lego_active
 
 var _assets = {}
 var _result
 var _new_result = false
+var _active = false
 
 var update_interval = Settings.get_setting("assets", "dynamic-update-interval")
 var time_to_update = 0
@@ -23,11 +25,33 @@ var time_to_update = 0
 func _ready():
 	Offset.connect("shift_world", self, "_on_shift_world")
 	
+	# When only_lego_active is true, the asset handler only becomes active
+	#  when input_lego is emitted, otherwise it's inactive because then we
+	#  work with local input instead.
+	if only_lego_active:
+		GlobalSignal.connect("input_controller", self, "_set_inactive")
+		GlobalSignal.connect("input_disabled", self, "_set_inactive")
+		GlobalSignal.connect("input_lego", self, "_set_active")
+	
 	# Get the first result
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_get_asset_instances", []))
-	
-	
+
+
+# Update assets from now on
+func _set_active():
+	_active = true
+
+
+# Stop updating assets
+func set_inactive():
+	_active = false
+
+
 func _process(delta):
+	# If we're inactive, we shouldn't do anything
+	if not _active:
+		return
+	
 	# Increment the time to the next update; if a new update should now be done, do that in a thread
 	time_to_update += delta
 	
