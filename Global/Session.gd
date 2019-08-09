@@ -12,8 +12,8 @@ func _ready():
 	load_scenarios()
 
 
+# Loads all available scenarios from the server into the 'scenarios' variable.
 func load_scenarios():
-	"""Loads all available scenarios from the server into the 'scenarios' variable."""
 	var scenario_result = ServerConnection.get_json(scenario_url)
 
 	if not scenario_result or scenario_result.has("Error"):
@@ -22,17 +22,25 @@ func load_scenarios():
 		return false
 	
 	scenarios = scenario_result
-	
-	
-func get_scenarios():
-	"""Returns all available (previously loaded) scenarios"""
-	return scenarios
-	
 
+
+# Returns all available (previously loaded) scenarios
+func get_scenarios():
+	return scenarios
+
+
+# Returns a specific scenario by its ID
+# Fields: name, locations, bounding_polygon
 func get_scenario(scenario_id):
-	"""Returns a specific scenario by its ID
-	Fields: name, locations, bounding_polygon"""
 	return scenarios[scenario_id]
+
+
+# Returns the current scenario or null if it's not set
+func get_current_scenario():
+	if scenario_id:
+		return scenarios[scenario_id]
+	else:
+		return null
 
 
 func load_scenario(scenario_id):
