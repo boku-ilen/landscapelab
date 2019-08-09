@@ -43,7 +43,7 @@ func _set_active():
 
 
 # Stop updating assets
-func set_inactive():
+func _set_inactive():
 	_active = false
 
 
