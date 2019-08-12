@@ -5,6 +5,10 @@ extends Node
 # The main player controller must update this node with the latest player position regularly.
 #
 
+# Emitted whenever the global player position is updated.
+# Also emits the new engine position.
+signal player_position_changed
+
 var last_player_pos = Vector3(0, 0, 0)
 var last_player_look_direction = Vector3(0, 0, 0)
 
@@ -16,6 +20,7 @@ var walk_speed: float = 10
 # Set the engine player position to a new Vector3
 func update_player_pos(new_pos):
 	last_player_pos = new_pos
+	emit_signal("player_position_changed", last_player_pos)
 
 
 # Set the player look direction to a new Vector3
