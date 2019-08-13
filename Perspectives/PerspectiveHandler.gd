@@ -33,7 +33,7 @@ func _ready():
 	# get the actual window dimensions and scale the PC viewports accordingly
 	# TODO: If the window is resizeable, we may need to do this again if that happens!
 	var screen_size = OS.get_window_size()
-	var mini_size = screen_size / 3	
+	var mini_size = screen_size / 3
 	pc_viewport.size = screen_size
 	
 	# register the ui signals and bind them to the methods
@@ -43,6 +43,8 @@ func _ready():
 	GlobalSignal.connect("miniview_3rd", self, "change_pc_mini_scene", [third_person_pc_scene])
 	GlobalSignal.connect("miniview_switch", self, "exchange_viewports")
 	GlobalSignal.connect("toggle_follow_mode", self, "switch_follow_mode")
+	GlobalSignal.connect("vr_enable", self, "toggle_vr", [true])
+	GlobalSignal.connect("vr_disable", self, "toggle_vr", [false])
 	
 	# register minimap icon resize signal and bind to method
 	GlobalSignal.connect("initiate_minimap_icon_resize", self, "relay_minimap_icon_resize")
@@ -57,40 +59,32 @@ func _ready():
 
 # Check for perspective-related input and react accordingly
 func _input(event):
-	# TODO: this later has to be reworked 
-	if event.is_action_pressed("toggle_vr"):
-		toggle_vr()
-	elif event.is_action_pressed("toggle_mouse_capture"):
+	if event.is_action_pressed("toggle_mouse_capture"):
 		toggle_mouse_capture()
 
 
 func toggle_mouse_capture():
 	if mouse_captured:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	mouse_captured = !mouse_captured
 
 
-# Add the VR controller to the VR viewport
-func toggle_vr():
-	vr_activated = !vr_activated
+# Remove the current VR controller and (re-)add it if it's activated
+func toggle_vr(enabled):
+	vr_activated = enabled
 	
 	for child in vr_viewport.get_children():
-		child.free()		
+		child.free()
 	
 	if vr_activated:
 		vr_viewport.add_child(first_person_vr_scene.instance())
-	
-	# Reload PC viewport
-	# pc_activate_first_person()  # FIXME: why is this required? 
 
 
 # change the scene of the miniview to given scene
 func change_pc_mini_scene(scene, emit=true):
-	
 	# notify the ui about reenabeling the miniview 
 	if current_pc_mini_scene == null:
 		GlobalSignal.emit_signal("miniview_show")	
