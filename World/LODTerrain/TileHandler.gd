@@ -33,13 +33,21 @@ func _ready():
 	# TODO: Spawn the bare minimum of tiles
 	
 	Offset.connect("shift_world", self, "move_world")
+	GlobalSignal.connect("tile_update_toggle", self, "_toggle_tile_update")
+	GlobalSignal.connect("reset_tiles", self, "reset")
 	
 	WorldPosition.set_handler(self)
 
 
-func _input(event):
-	if event.is_action_pressed("toggle_lod_update"):
-		update_terrain = not update_terrain
+# Toggle whether the tiles are splitting (increasing their LOD) and fetched/deleted based on the position
+func _toggle_tile_update(update):
+	update_terrain = update
+	
+
+# Resets by deleting all tiles
+func reset():
+	for child in tiles.get_children():
+		child.delete()
 
 
 func _process(delta):

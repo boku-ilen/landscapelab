@@ -11,59 +11,114 @@ extends Spatial
 
 export(int) var asset_id
 export(PackedScene) var asset_scene
+export(bool) var only_lego_active
 
 var _assets = {}
 var _result
 var _new_result = false
+var _active = false
+
+var update_interval = Settings.get_setting("assets", "dynamic-update-interval")
+var time_to_update = 0
 
 
 func _ready():
 	Offset.connect("shift_world", self, "_on_shift_world")
 	
+	# When only_lego_active is true, the asset handler only becomes active
+	#  when input_lego is emitted, otherwise it's inactive because then we
+	#  work with local input instead.
+	if only_lego_active:
+		GlobalSignal.connect("input_controller", self, "_set_inactive")
+		GlobalSignal.connect("input_disabled", self, "_set_inactive")
+		GlobalSignal.connect("input_lego", self, "_set_active")
+	
 	# Get the first result
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_get_asset_instances", []))
-	
-	
+
+
+# Update assets from now on
+func _set_active():
+	_active = true
+
+
+# Stop updating assets
+func _set_inactive():
+	_active = false
+
+
 func _process(delta):
-	# If there is a fresh result from the server, instantiate missing assets and update
-	# all positions
-	if _new_result:
-		# If the result was valid, handle it
-		if _result:
-			for instance_id in _result["assets"]:
-				var instance_name = String(instance_id)
+	# If we're inactive, we shouldn't do anything
+	if not _active:
+		return
 	
-				if not has_node(instance_name):
+	# Increment the time to the next update; if a new update should now be done, do that in a thread
+	time_to_update += delta
+	
+	if time_to_update >= update_interval:
+		time_to_update = 0
+		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_get_asset_instances", []), 80.0)
+		
+	# If there is a fresh valid result from the server, instantiate missing assets
+	# and update all positions
+	if _new_result and _result:
+		# First: Iterate over all assets currently spawned.
+		for spawned_asset in get_children():
+			var asset_id = spawned_asset.name
+
+			if _result["assets"].has(asset_id):
+				# If this asset is in the response, update it
+				spawned_asset.translation = _get_position_for_asset(_result, asset_id)
+			else:
+				# If it's not in the response, it was deleted -> delete it
+				spawned_asset.queue_free()
+		
+		# Second: Iterate over all assets in the response. If it's not in the current assets, it is new -> spawn it
+		for instance_id in _result["assets"]:
+			var instance_name = String(instance_id)
+
+			if not has_node(instance_name):
+				var pos = _get_position_for_asset(_result, instance_id)
+				
+				# TODO: Get the required length from the asset type
+				if pos.length() < 5000:
 					var new_instance = asset_scene.instance()
-					new_instance.name = instance_name
-					add_child(new_instance)
 					
-				var instance = get_node(instance_name)
-	
-				# FIXME: It seems like we need to correct this value with GRIDSIZE / 2 below.
-				# This should be tested more, and possibly adjusted in the Offset.to_engine_coordinates function!
-				var instance_pos_2d = Offset.to_engine_coordinates([-_result["assets"][instance_id]["position"][0],
-					_result["assets"][instance_id]["position"][1]])
+					new_instance.name = instance_name
+					new_instance.translation = pos
 				
-				# Place the instance on the ground if possible
-				var instance_pos_3d = Vector3(instance_pos_2d.x, 1500, instance_pos_2d.y)
-				var ground_pos = WorldPosition.get_position_on_ground(instance_pos_3d)
-				
-				if ground_pos: # There may not be a ground_pos if there is no valid collider at that position
-					instance.translation = ground_pos
-				else:
-					instance.translation = instance_pos_3d
+					add_child(new_instance)
 			
 		# Start getting the next result
 		_new_result = false
-		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_get_asset_instances", []))
+		
+		
+func _get_position_for_asset(result, instance_id):
+	# Convert the 2D world position received from the server to in-engine 2D coordinates
+	var instance_pos_2d = Offset.to_engine_coordinates([-_result["assets"][instance_id]["position"][0],
+				_result["assets"][instance_id]["position"][1]])
+			
+	# Convert to a 3D position by placing the asset on the ground
+	var instance_pos_3d = Vector3(instance_pos_2d.x, 0, instance_pos_2d.y)
+	var ground_pos = WorldPosition.get_position_on_ground(instance_pos_3d)
 	
+	# There may not be a ground_pos if there is no valid collider at that position
+	if ground_pos:
+		return ground_pos
+	else:
+		return instance_pos_3d
+
 
 # Loads a new asset instance result from the server (to be called from a thread)
 func _get_asset_instances(data):
 	# Don't cache this since the result regularly changes
 	_result = ServerConnection.get_json("/assetpos/get_all/%d.json" % [asset_id], false)
-	_new_result = true
+	
+	# TODO: Compare with previous result and only save updated fields
+	
+	# If the result is valid, set the flag
+	if _result and _result.has("assets"):
+		_new_result = true
 	
 	
 # React to a world shift by moving all child nodes (asset instances) accordingly
