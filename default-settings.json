@@ -1,8 +1,8 @@
 {
     "server": {
-        "ip": "141.244.151.53",
+        "ip": "141.244.151.130",
         "port": 80,
-        "prefix": "/landscapelab"
+        "prefix": "/landscapelab-dev"
     },
     
     "filesystem": {
