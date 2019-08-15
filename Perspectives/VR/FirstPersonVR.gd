@@ -17,3 +17,7 @@ func _ready():
 	
 		# make sure HDR rendering is off (not applicable for GLES2 renderer)
 		get_viewport().hdr = false
+		
+		logger.info("Successfully initialized VR")
+	else:
+		logger.error("Couldn't initialize VR headset! Is it connected and SteamVR running for OpenVR?")

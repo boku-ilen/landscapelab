@@ -23,7 +23,7 @@ func _on_ready():
 			var obj = asset_result["assets"][id]
 			
 			# TODO: Remove absolute path once landscapelab-server issue #4 is fixed
-			var name_path = "/home/karl/Data/BOKU/retour-middleware/buildings/importable/" + obj.modelpath + ".gltf.glb.dscn"
+			var name_path = "/home/karl/Data/BOKU/retour-middleware/buildings/importable/" + obj.modelpath + ".glb.dscn"
 			
 #			# For testing if not all buildings are available on the server:
 #			var name_path = "/home/karl/Data/BOKU/retour-middleware/buildings/importable/Nockberge Testregion_0.gltf.glb.dscn"

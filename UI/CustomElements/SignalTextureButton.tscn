@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Resources/Images/UI/UI/bug.png" type="Texture" id=1]
+[ext_resource path="res://Resources/Images/UI/UI/s_bug.png" type="Texture" id=2]
+[ext_resource path="res://Resources/Images/UI/UI/h_bug.png" type="Texture" id=3]
+[ext_resource path="res://UI/CustomElements/SignalTextureButton.gd" type="Script" id=4]
+
+[node name="SignalTextureButton" type="TextureButton"]
+margin_left = 257.0
+margin_right = 307.0
+margin_bottom = 49.0
+toggle_mode = true
+texture_normal = ExtResource( 1 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 3 )
+script = ExtResource( 4 )

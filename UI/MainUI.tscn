@@ -26,7 +26,7 @@
 [ext_resource path="res://Resources/Images/UI/UI/s_stop.png" type="Texture" id=24]
 [ext_resource path="res://Resources/Images/UI/UI/h_stop.png" type="Texture" id=25]
 [ext_resource path="res://UI/ui_tracking_stop.gd" type="Script" id=26]
-[ext_resource path="res://UI/CustomElements/SignalButton.tscn" type="PackedScene" id=27]
+[ext_resource path="res://UI/CustomElements/SignalTextureButton.tscn" type="PackedScene" id=27]
 [ext_resource path="res://Resources/Images/UI/UI/vr.png" type="Texture" id=28]
 [ext_resource path="res://Resources/Images/UI/UI/s_vr.png" type="Texture" id=29]
 [ext_resource path="res://Resources/Images/UI/UI/h_vr.png" type="Texture" id=30]
@@ -35,6 +35,8 @@
 [ext_resource path="res://Resources/Images/UI/UI/h_season_time.png" type="Texture" id=33]
 [ext_resource path="res://UI/CustomElements/ShowHideChildrenButton.gd" type="Script" id=34]
 [ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=35]
+
+
 
 [node name="MainUI" type="MarginContainer"]
 anchor_right = 1.0
@@ -54,14 +56,14 @@ alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
 margin_right = 272.0
-margin_bottom = 586.0
+margin_bottom = 748.0
 mouse_filter = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
 margin_right = 272.0
-margin_bottom = 586.0
+margin_bottom = 748.0
 mouse_filter = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -227,3 +229,4 @@ margin_bottom = 130.0
 [node name="Debug" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 27 )]
 signal_pressed = "debug_enable"
 signal_released = "debug_disable"
+

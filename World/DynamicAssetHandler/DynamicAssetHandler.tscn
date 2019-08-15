@@ -4,4 +4,3 @@
 
 [node name="DynamicAssetHandler" type="Spatial"]
 script = ExtResource( 1 )
-

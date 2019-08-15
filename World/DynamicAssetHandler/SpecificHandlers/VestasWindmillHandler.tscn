@@ -6,3 +6,4 @@
 [node name="VestasWindmillHandler" index="0" instance=ExtResource( 1 )]
 asset_id = 1
 asset_scene = ExtResource( 2 )
+only_lego_active = true

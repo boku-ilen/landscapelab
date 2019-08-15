@@ -97,8 +97,12 @@ void vertex() {
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor. (Not quite sure about those values yet, but they work nicely!)
 	float e = 1.0/(size/50.0);
+	
+	float x = -get_height_no_falloff(UV + vec2(e, 0.0)) + get_height_no_falloff(UV - vec2(e, 0.0));
+	float y = get_height_no_falloff(UV + vec2(0.0, e)) - get_height_no_falloff(UV - vec2(0.0, e));
+	float z = 10.0;
 
-	normal = normalize(vec3(-get_height_no_falloff(UV + vec2(e, 0.0)) + get_height_no_falloff(UV - vec2(e, 0.0)), 10.0 , -get_height_no_falloff(UV + vec2(0.0, e)) + get_height_no_falloff(UV - vec2(0.0, e))));
+	normal = normalize(vec3(x, y, z));
 }
 
 void fragment(){
@@ -134,12 +138,11 @@ void fragment(){
 	}
 
 	if (detail_color != vec3(0.0)) {
-		total_color = detail_color * detail_factor + base_color * (1.0 - detail_factor);
-		NORMALMAP += detail_factor * (current_normal * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0));
+		total_color = mix(base_color, detail_color, detail_factor);
 	} else {
 		total_color = base_color;
 	}
 	
+	NORMALMAP = normalize(normal + current_normal) * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
 	ALBEDO = total_color;
-	NORMAL = (INV_CAMERA_MATRIX * vec4(normalize(normal), 0.0)).xyz;
 }

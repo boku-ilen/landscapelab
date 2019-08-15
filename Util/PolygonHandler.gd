@@ -16,8 +16,7 @@ func _ready():
 # Instace a polygon with the by searching the wished coordinates in a GeoJSON with the given id of the siganl
 func instance_polygon(id):
 	# Remove the instanced polygon of the clicked asset from before
-	if has_node("PlacementPolygon"):
-		instanced_polygon.queue_free()
+	remove_polygon()
 		
 	instanced_polygon = instanced_drawer.build(id)
 	instanced_polygon.name = "PlacementPolygon"
@@ -26,5 +25,7 @@ func instance_polygon(id):
 
 # Remove the polygon when leaving the asset-mode
 func remove_polygon():
-	instanced_polygon.queue_free()
+	for child in get_children():
+		child.queue_free()
+		
 	instanced_polygon = null
