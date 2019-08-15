@@ -32,6 +32,8 @@ func _ready():
 		GlobalSignal.connect("input_controller", self, "_set_inactive")
 		GlobalSignal.connect("input_disabled", self, "_set_inactive")
 		GlobalSignal.connect("input_lego", self, "_set_active")
+	else:
+		_active = true
 	
 	# Get the first result
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_get_asset_instances", []))
