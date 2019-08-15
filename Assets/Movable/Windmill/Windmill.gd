@@ -15,6 +15,10 @@ func _ready():
 	# TODO: Random label for testing - remove once we get real energy data!
 	tooltip.set_label_text(str(rand_range(0, 100)))
 	
+	# Orient the windmill according to the scenario's wind direction
+	# This assumes that a wind direction of 90° means that the wind is blowing from west to east.
+	set_wind_direction(Session.get_current_scenario().default_wind_direction)
+	
 	# If is_inside_tree() in set_wind_direction() returned false, we need to catch up on
 	#  setting the wind direction now.
 	update_rotation()
