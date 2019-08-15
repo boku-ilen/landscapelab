@@ -18,6 +18,7 @@ signal miniview_map
 signal miniview_switch
 signal miniview_3rd
 signal miniview_1st
+signal teleport
 
 # MinimapIcon resize notification
 signal minimap_icon_resize(new_zoom, minimap_status)
