@@ -11,7 +11,7 @@ extends Spatial
 
 export(int) var asset_id
 export(PackedScene) var asset_scene
-export(bool) var only_lego_active
+export(bool) var only_lego_active = true
 
 var _assets = {}
 var _result
@@ -19,7 +19,7 @@ var _new_result = false
 var _active = false
 
 var update_interval = Settings.get_setting("assets", "dynamic-update-interval")
-var time_to_update = 0
+var time_to_update = 1
 
 
 func _ready():
@@ -41,11 +41,13 @@ func _ready():
 
 # Update assets from now on
 func _set_active():
+	logger.debug("Dynamic asset handler %s got active!" % [name])
 	_active = true
 
 
 # Stop updating assets
 func _set_inactive():
+	logger.debug("Dynamic asset handler %s got inactive!" % [name])
 	_active = false
 
 
@@ -73,6 +75,8 @@ func _process(delta):
 				spawned_asset.translation = _get_position_for_asset(_result, asset_id)
 			else:
 				# If it's not in the response, it was deleted -> delete it
+				logger.debug("Removed asset instance with ID %s" % [asset_id])
+				
 				spawned_asset.queue_free()
 		
 		# Second: Iterate over all assets in the response. If it's not in the current assets, it is new -> spawn it
@@ -90,6 +94,8 @@ func _process(delta):
 					new_instance.translation = pos
 				
 					add_child(new_instance)
+					
+					logger.debug("Spawned new asset instance with ID %s" % [instance_name])
 			
 		# Start getting the next result
 		_new_result = false
@@ -114,7 +120,7 @@ func _get_position_for_asset(result, instance_id):
 # Loads a new asset instance result from the server (to be called from a thread)
 func _get_asset_instances(data):
 	# Don't cache this since the result regularly changes
-	_result = ServerConnection.get_json("/assetpos/get_all/%d.json" % [asset_id], false)
+	_result = ServerConnection.get_json("/assetpos/get_all/%s.json" % [asset_id], false)
 	
 	# TODO: Compare with previous result and only save updated fields
 	

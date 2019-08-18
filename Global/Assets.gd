@@ -1,5 +1,9 @@
 extends Node
 
+#
+# Centralized access to all information regarding assets and asset types.
+#
+
 
 var _types_assets = {}
 var _assets = {}
@@ -40,6 +44,14 @@ func _ready():
 	logger.info("Found %d asset types and a total of %d assets" % [_types_assets.size(), _assets.size()])
 
 
+# Returns all assets in a dictionary indexed by their ID.
+func get_assets():
+	if _assets.size() == 0:
+		logger.info("get_assets() was called, but there are no assets!")
+	
+	return _assets
+
+
 # Returns any asset by its ID or null if the asset does not exist.
 func get_asset(id):
 	id = String(id)
@@ -71,3 +83,18 @@ func get_asset_scene_path(id):
 		
 		# Build the path by concatenating prefix, type name and asset name and removing spaces
 		return (asset_path_prefix + asset_type["name"] + "/" + asset["name"] + ".tscn").replace(" ", "")
+
+
+# Returns an instance of the scene of the asset with the given ID.
+func get_asset_instance(id):
+	# TODO: In the future, this function could unify dynamic and static assets by either instancing a local scene,
+	#  or loading it from a DSCN file from somewhere else, e.g. if a 'path' field is set.
+	var path = get_asset_scene_path(id)
+	
+	if path:
+		if not Directory.new().file_exists(path):
+			logger.error("The asset of ID %d should be at path %s, but it isn't! Check the naming of the path." \
+			% [id, path])
+			return null
+		
+		return load(path).instance()
