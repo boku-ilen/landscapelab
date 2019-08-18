@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://Assets/Movable/MovableObject.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Assets/Movable/Windmill/Windmill.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Superclasses/MovableObject.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/WindTurbine/GenericWindTurbine.gd" type="Script" id=2]
 [ext_resource path="res://Resources/Meshes/Windmills/Enercon/enercon-white_001.material" type="Material" id=3]
 [ext_resource path="res://Resources/Meshes/Windmills/Enercon/enercon-green1_001.material" type="Material" id=4]
 [ext_resource path="res://Resources/Meshes/Windmills/Enercon/enercon-green2_001.material" type="Material" id=5]
