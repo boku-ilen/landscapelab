@@ -33,7 +33,6 @@ shader_param/noisemap = ExtResource( 3 )
 [node name="HeightmapParticles" type="Particles"]
 layers = 7
 material_override = SubResource( 1 )
-cast_shadow = 2
 extra_cull_margin = 1500.0
 emitting = false
 amount = 10000

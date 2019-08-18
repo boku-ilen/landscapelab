@@ -37,4 +37,4 @@ layers = 15
 light_energy = 2.0
 shadow_enabled = true
 directional_shadow_blend_splits = true
-directional_shadow_max_distance = 500.0
+directional_shadow_max_distance = 300.0
