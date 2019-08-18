@@ -20,7 +20,7 @@ uniform int vegetation_id3;
 uniform sampler2D vegetation_tex4 : hint_albedo;
 uniform sampler2D vegetation_normal4 : hint_normal;
 uniform int vegetation_id4;
-uniform float tex_factor = 1.0; // 0.5 means one Godot meter will have half the texture
+uniform float tex_factor = 0.5; // 0.5 means one Godot meter will have half the texture
 
 uniform bool blend_only_similar_colors = false;
 
@@ -106,6 +106,10 @@ void vertex() {
 }
 
 void fragment(){
+	// Material parameters
+	ROUGHNESS = 0.95;
+	METALLIC = 0.0;
+	
 	vec3 base_color = texture(tex, get_relative_pos(UV)).rgb;
 	vec3 detail_color = vec3(0.0);
 	vec3 total_color;
