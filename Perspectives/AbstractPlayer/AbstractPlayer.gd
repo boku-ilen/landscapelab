@@ -1,7 +1,7 @@
 extends KinematicBody
 class_name AbstractPlayer
 
-var has_moved : bool = false
+var has_moved : bool = true
 export var is_main_perspective : bool
 
 func _ready():

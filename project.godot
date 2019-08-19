@@ -52,6 +52,7 @@ Offset="*res://Global/Offset.gd"
 TooltipHandler="*res://Global/TooltipHandler.gd"
 WorldPosition="*res://Global/WorldPosition.gd"
 PerformanceTracker="*res://Global/Debug/PerformanceTracker.gd"
+Assets="*res://Global/Assets.gd"
 
 [display]
 

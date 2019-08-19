@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode cull_disabled;
+render_mode cull_disabled, depth_draw_alpha_prepass;
 
 uniform sampler2D distribution;
 uniform sampler2D spritesheet : hint_albedo;
@@ -19,9 +19,8 @@ void vertex () {
 void fragment () {
 	// Material parameters
 	ALPHA_SCISSOR = 0.7;
-	ROUGHNESS = 0.9;
+	ROUGHNESS = 0.95;
 	METALLIC = 0.1;
-	SPECULAR = 0.4;
 
 	// Convert global position to according position on distribution map (between 0,0 and 1,1)
 	vec3 obj_pos = v_obj_pos * distribution_pixels_per_meter;

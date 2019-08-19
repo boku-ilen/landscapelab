@@ -7,7 +7,11 @@ extends Module
 
 export var num_layers = 2
 export var my_vegetation_layer = 4
-export(Mesh) var particle_mesh_scene
+export(Mesh) var plant_mesh_scene  # The mesh that plants are rendered on - must be scaled to 1m!
+export(float) var max_plant_size  # The maximal plant size which is used as the size of the particle mesh
+# TODO: The max_plant_size must be kept in sync with the server - it would be good to automatically fetch it
+#  instead of having to set it manually! (Requires a new server request)
+export(bool) var cast_shadow = false
 
 var particles_scene = preload("res://World/LODTerrain/Modules/Util/HeightmapParticles.tscn")
 var LODS = Settings.get_setting("herbage", "density-at-lod")
@@ -25,7 +29,8 @@ func _ready():
 	for i in range(0, num_layers):
 		var instance = particles_scene.instance()
 		instance.name = String(i)
-		instance.set_mesh(particle_mesh_scene)
+		instance.set_mesh(plant_mesh_scene)
+		instance.cast_shadow = cast_shadow
 		add_child(instance)
 	
 	# First, get the splatmap
@@ -148,6 +153,7 @@ func set_parameters(data):
 	data[0].process_material.set_shader_param("tile_pos", translation)
 	data[0].process_material.set_shader_param("splatmap", splatmap)
 	data[0].process_material.set_shader_param("heightmap", heightmap)
+	data[0].process_material.set_shader_param("scale", max_plant_size)
 	data[0].process_material.set_shader_param("id", data[1])
 	
 	tile.set_heightmap_params_for_obj(data[0].process_material)

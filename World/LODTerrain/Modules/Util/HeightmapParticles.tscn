@@ -20,6 +20,7 @@ shader_param/rows = 100
 shader_param/spacing = 10.0
 shader_param/random_offset = 0.405263
 shader_param/id = null
+shader_param/scale = null
 shader_param/curv_middle = Vector3( 0, 0, 0 )
 shader_param/tile_pos = null
 shader_param/height_range = 500.0
@@ -32,7 +33,6 @@ shader_param/noisemap = ExtResource( 3 )
 [node name="HeightmapParticles" type="Particles"]
 layers = 7
 material_override = SubResource( 1 )
-cast_shadow = 2
 extra_cull_margin = 1500.0
 emitting = false
 amount = 10000

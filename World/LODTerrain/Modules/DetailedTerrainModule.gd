@@ -17,6 +17,7 @@ var vegetation_max = 4
 
 var WATER_SPLAT_ID = Settings.get_setting("water", "water-splat-id")
 var DETAIL_START_DIST = Settings.get_setting("herbage", "detail-texture-start-distance")
+var DETAIL_SCALE = Settings.get_setting("herbage", "detail-texture-scale")
 
 
 func get_splat_data():
@@ -65,6 +66,7 @@ func _on_ready():
 		mesh.material_override.set_shader_param("water_splat_id", WATER_SPLAT_ID)
 		mesh.material_override.set_shader_param("splat", splatmap)
 		mesh.material_override.set_shader_param("detail_start_dist", DETAIL_START_DIST)
+		mesh.material_override.set_shader_param("tex_factor", DETAIL_SCALE)
 		
 		for result in vegetations:
 			if result and result.has("albedo_path"):

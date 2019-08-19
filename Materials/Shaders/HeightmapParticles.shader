@@ -10,6 +10,8 @@ uniform sampler2D noisemap;
 uniform int id;
 uniform sampler2D splatmap;
 
+uniform float scale;
+
 uniform vec3 curv_middle = vec3(0.0, 0.0, 0.0);
 uniform vec3 tile_pos;
 
@@ -110,11 +112,16 @@ void vertex ()
 	
 	// apply our height
 	pos.y += get_height((pos.xz / size) * -1.0 + vec2(0.5));
+	
+	// Scale
+	TRANSFORM[0][0] = scale;
+	TRANSFORM[1][1] = scale;
+	TRANSFORM[2][2] = scale;
 
-	TRANSFORM[0][0] = cos(noise.z * 3.0);
+	TRANSFORM[0][0] += cos(noise.z * 3.0);
 	TRANSFORM[0][2] = -sin(noise.z * 3.0);
 	TRANSFORM[2][0] = sin(noise.z * 3.0);
-	TRANSFORM[2][2] = cos(noise.z * 3.0);
+	TRANSFORM[2][2] += cos(noise.z * 3.0);
 	
 	// Update position
 	TRANSFORM[3][0] = pos.x;

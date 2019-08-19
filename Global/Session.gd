@@ -30,15 +30,17 @@ func get_scenarios():
 
 
 # Returns a specific scenario by its ID
-# Fields: name, locations, bounding_polygon
+# Fields: name, locations, bounding_polygon, energy_requirement_total,
+#  energy_requirement_summer, energy_requirement_winter, default_wind_direction
 func get_scenario(scenario_id):
-	return scenarios[scenario_id]
+	# Since this is a string-indiced dictionary, make sure to convert the id to a string
+	return scenarios[String(scenario_id)]
 
 
 # Returns the current scenario or null if it's not set
 func get_current_scenario():
 	if scenario_id:
-		return scenarios[scenario_id]
+		return get_scenario(scenario_id)
 	else:
 		return null
 
