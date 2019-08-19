@@ -11,8 +11,6 @@ onready var player = get_tree().get_root().get_node("Main/Perspectives/FirstPers
 
 var RAY_LENGTH = Settings.get_setting("item-spawner", "camera-ray-length") # Distance that will be checked for collision with the ground
 
-export(Mesh) var particle_highlight_position
-export(Mesh) var particle_teleport_to
 var particle = preload("res://Perspectives/PC/MouseFeedback/Particle.tscn")
 
 var teleport_mode : bool = false
@@ -36,6 +34,7 @@ func _input(event):
 	if teleport_mode:
 		if event.is_action_pressed("teleport"):
 			_teleport_player()
+			teleport_mode = false
 
 
 func _set_teleport_mode():
