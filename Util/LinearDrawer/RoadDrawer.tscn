@@ -4,7 +4,13 @@
 [ext_resource path="res://Resources/Images/Textures/Asphalt/Asphalt15_col.jpg" type="Texture" id=2]
 [ext_resource path="res://Resources/Images/Textures/Asphalt/Asphalt15_nrm.jpg" type="Texture" id=3]
 [ext_resource path="res://Resources/Images/Textures/Asphalt/Asphalt15_rgh.jpg" type="Texture" id=4]
-[ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=5]
+
+[sub_resource type="Curve3D" id=2]
+resource_local_to_scene = true
+_data = {
+"points": PoolVector3Array(  ),
+"tilts": PoolRealArray(  )
+}
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 2 )
@@ -18,6 +24,9 @@ normal_texture = ExtResource( 3 )
 [node name="RoadDrawer" index="0" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 
+[node name="Path" parent="." index="0"]
+curve = SubResource( 2 )
+
 [node name="CSGPolygon" type="CSGPolygon" parent="Path" index="0"]
 invert_faces = true
 polygon = PoolVector2Array( -3, 0, 3, 0, 3, 0, 3, 0 )
@@ -29,5 +38,3 @@ path_local = false
 path_continuous_u = false
 path_joined = true
 material = SubResource( 1 )
-
-[node name="WorldEnvironment" parent="." index="1" instance=ExtResource( 5 )]
