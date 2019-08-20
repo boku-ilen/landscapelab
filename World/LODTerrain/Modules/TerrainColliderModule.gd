@@ -104,9 +104,15 @@ func get_height_from_image(img, pix_pos):
 		+ img.get_pixel(pix_pos.x, pix_pos.y).b * 255) / 100
 
 
+# Helper function for create_tile_collision_shape - turns x and y coordinates from the loop to a real position.
+func _local_grid_to_coordinates(x, y, size, collider_subdivision):
+	var local_pos = Vector3(-size/2 + (x/collider_subdivision) * size, 0, -size/2 + (y/collider_subdivision) * size)
+	return Vector3(local_pos.x, get_height_at_position(global_transform * local_pos), local_pos.z)
+
+
 # Creates a simple 4-vertices polygon which roughly corresponds to the heightmap, for use as a collider.
 func create_tile_collision_shape():
-	var shape = ConvexPolygonShape.new()
+	var shape = ConcavePolygonShape.new()
 	var vecs = PoolVector3Array()
 	var size = tile.size
 	
@@ -115,26 +121,21 @@ func create_tile_collision_shape():
 	
 	# TODO: It seems like the creation of the mesh isn't completely correct... There are some
 	#  inaccuracies
-	for x in range(0, collider_subdivision + 1):
-		var start = 0
-		var end = collider_subdivision + 1
-		var step = 1
-		
-		# We alternate between going up and down every row, like this:
-		# 1 2 3 4
-		# 8 7 6 5
-		# ...
-		if x % 2 == 1:
-			start = collider_subdivision + 1
-			end = 0
-			step = -1
+	for x in range(0, collider_subdivision):
+		for y in range(0, collider_subdivision):
+			var top_left = _local_grid_to_coordinates(x, y, size, collider_subdivision)
+			var top_right = _local_grid_to_coordinates(x + 1, y, size, collider_subdivision)
+			var bottom_left = _local_grid_to_coordinates(x, y + 1, size, collider_subdivision)
+			var bottom_right = _local_grid_to_coordinates(x + 1, y + 1, size, collider_subdivision)
 			
-		for y in range(start, end, step):
-			var local_pos = Vector3(-size/2 + (x/collider_subdivision) * size, 0, -size/2 + (y/collider_subdivision) * size)
-			var local_pos_correct_height = Vector3(local_pos.x, get_height_at_position(translation + local_pos), local_pos.z)
+			vecs.append(bottom_left)
+			vecs.append(top_left)
+			vecs.append(top_right)
 			
-			vecs.append(local_pos_correct_height)
+			vecs.append(top_right)
+			vecs.append(bottom_right)
+			vecs.append(bottom_left)
 	
-	shape.points = vecs
+	shape.set_faces(vecs)
 	
 	return shape
