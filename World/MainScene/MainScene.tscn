@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://World/MainScene/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://World/LODTerrain/TileHandler.tscn" type="PackedScene" id=2]
@@ -6,7 +6,10 @@
 [ext_resource path="res://Perspectives/PerspectiveHandler.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Tracking/LocationTracker.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Util/PolygonHandler.tscn" type="PackedScene" id=6]
-[ext_resource path="res://World/DynamicAssetHandler/AssetHandlerSpawner.tscn" type="PackedScene" id=7]
+[ext_resource path="res://World/AssetHandler/AssetHandlerSpawner.tscn" type="PackedScene" id=7]
+[ext_resource path="res://World/AssetHandler/DynamicAssetHandler.tscn" type="PackedScene" id=8]
+[ext_resource path="res://World/AssetHandler/LinearAssetHandler.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Util/LinearDrawer/RoadDrawer.tscn" type="PackedScene" id=10]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 1 )
@@ -22,3 +25,7 @@ script = ExtResource( 1 )
 [node name="PolygonHandler" parent="." instance=ExtResource( 6 )]
 
 [node name="AssetHandlerSpawner" parent="." instance=ExtResource( 7 )]
+asset_handler_scene = ExtResource( 8 )
+
+[node name="LinearAssetHandler" parent="." instance=ExtResource( 9 )]
+linear_drawer = ExtResource( 10 )

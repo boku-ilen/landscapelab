@@ -4,7 +4,7 @@ extends Spatial
 # Spawns asset handlers for all dynamic assets as its children.
 #
 
-var asset_handler_scene = preload("res://World/DynamicAssetHandler/DynamicAssetHandler.tscn")
+export(PackedScene) var asset_handler_scene
 
 
 func _ready():
