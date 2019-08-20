@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/EditableAssets/AssetItemList.gd" type="Script" id=1]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 440, 160 )
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1706.0
+margin_bottom = -1066.0
+text = "Points of Interest"
+
+[node name="ItemList" type="ItemList" parent="."]
+margin_left = 1.0
+margin_top = 20.0
+margin_right = 254.0
+margin_bottom = 134.0
+allow_reselect = true
+max_columns = 50
+same_column_width = true
+fixed_icon_size = Vector2( 25, 25 )
+script = ExtResource( 1 )

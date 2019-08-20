@@ -60,7 +60,7 @@ size_flags_vertical = 0
 
 [node name="Map Commands" type="HBoxContainer" parent="Miniview Menu"]
 margin_top = 1.0
-margin_right = 574.0
+margin_right = 541.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 8
@@ -84,6 +84,12 @@ texture_pressed = ExtResource( 6 )
 texture_hover = ExtResource( 7 )
 script = ExtResource( 8 )
 
+[node name="PointsOfInterestList" type="VBoxContainer" parent="Miniview Menu/Map Commands/Teleport"]
+margin_left = 8.0
+margin_top = -201.0
+margin_right = 401.0
+margin_bottom = -21.0
+
 [node name="Zoom IN" type="TextureButton" parent="Miniview Menu/Map Commands"]
 margin_left = 90.0
 margin_right = 132.0
@@ -103,8 +109,8 @@ texture_hover = ExtResource( 15 )
 script = ExtResource( 16 )
 
 [node name="View Commands" type="HBoxContainer" parent="Miniview Menu"]
-margin_left = 578.0
-margin_top = 14.0
+margin_left = 545.0
+margin_top = 1.0
 margin_right = 650.0
 margin_bottom = 50.0
 size_flags_horizontal = 8
@@ -122,7 +128,8 @@ script = ExtResource( 20 )
 
 [node name="Map Mode" type="TextureButton" parent="Miniview Menu/View Commands"]
 visible = false
-margin_right = 35.0
+margin_left = 42.0
+margin_right = 77.0
 margin_bottom = 49.0
 texture_normal = ExtResource( 21 )
 texture_pressed = ExtResource( 22 )
@@ -130,7 +137,6 @@ texture_hover = ExtResource( 23 )
 script = ExtResource( 24 )
 
 [node name="First Person Mode" type="TextureButton" parent="Miniview Menu/View Commands"]
-visible = false
 margin_right = 29.0
 margin_bottom = 49.0
 size_flags_horizontal = 0
@@ -141,7 +147,8 @@ texture_hover = ExtResource( 27 )
 script = ExtResource( 28 )
 
 [node name="Switch" type="TextureButton" parent="Miniview Menu/View Commands"]
-margin_right = 35.0
+margin_left = 33.0
+margin_right = 68.0
 margin_bottom = 36.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -151,8 +158,8 @@ texture_hover = ExtResource( 31 )
 script = ExtResource( 32 )
 
 [node name="Close" type="TextureButton" parent="Miniview Menu/View Commands"]
-margin_left = 39.0
-margin_right = 72.0
+margin_left = 72.0
+margin_right = 105.0
 margin_bottom = 32.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -188,6 +195,5 @@ script = ExtResource( 38 )
 [node name="Viewport" type="Viewport" parent="Border/Margin/MiniViewportContainer"]
 handle_input_locally = false
 render_target_update_mode = 3
-
 [connection signal="pressed" from="Miniview Menu/Map Commands/Follow me flag" to="Miniview Menu/Map Commands/Follow me flag" method="_pressed"]
 [connection signal="pressed" from="Miniview Menu/Map Commands/Teleport" to="Miniview Menu/Map Commands/Teleport" method="_pressed"]
