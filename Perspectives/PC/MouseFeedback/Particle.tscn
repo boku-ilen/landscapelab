@@ -1,8 +1,10 @@
 [gd_scene load_steps=3 format=2]
 
 [sub_resource type="SphereMesh" id=1]
-radius = 10.0
-height = 20.0
+radius = 8.0
+height = 16.0
+radial_segments = 32
+rings = 24
 
 [sub_resource type="SpatialMaterial" id=2]
 emission_enabled = true
@@ -10,8 +12,11 @@ emission = Color( 0.588235, 1, 0.901961, 1 )
 emission_energy = 2.5
 emission_operator = 0
 emission_on_uv2 = false
+proximity_fade_enable = true
+proximity_fade_distance = 10.0
 
 [node name="Spatial" type="MeshInstance"]
-layers = 32799
+layers = 5
+cast_shadow = 0
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
