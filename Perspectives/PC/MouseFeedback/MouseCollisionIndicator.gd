@@ -5,7 +5,6 @@ extends Spatial
 # mouse cursor in the world is currently placed. 
 #
 
-onready var world = get_tree().get_root().get_node("Main/TileHandler") # Required for getting exact ground positions
 onready var cursor = get_node("RayCast")
 onready var player = get_tree().get_root().get_node("Main/Perspectives/FirstPersonPC")
 
@@ -26,7 +25,7 @@ func _ready():
 
 func _process(delta):
 	if cursor.is_colliding():
-		particle.translation = world.get_ground_coords(cursor.get_collision_point())
+		particle.translation = WorldPosition.get_position_on_ground(cursor.get_collision_point())
 
 
 # This callback is called whenever any input is registered
@@ -42,4 +41,4 @@ func _set_teleport_mode():
 
 
 func _teleport_player():
-	PlayerInfo.update_player_pos(world.get_ground_coords(cursor.get_collision_point()))
+	PlayerInfo.update_player_pos(WorldPosition.get_position_on_ground(cursor.get_collision_point()))
