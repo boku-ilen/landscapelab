@@ -36,5 +36,5 @@ path_interval = 2.0
 path_rotation = 2
 path_local = false
 path_continuous_u = false
-path_joined = true
+path_joined = false
 material = SubResource( 1 )
