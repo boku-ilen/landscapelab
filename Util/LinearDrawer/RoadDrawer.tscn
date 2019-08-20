@@ -5,14 +5,14 @@
 [ext_resource path="res://Resources/Images/Textures/Street/Asphalt15_nrm.jpg" type="Texture" id=3]
 [ext_resource path="res://Resources/Images/Textures/Street/Asphalt15_rgh.jpg" type="Texture" id=4]
 
-[sub_resource type="Curve3D" id=2]
+[sub_resource type="Curve3D" id=1]
 resource_local_to_scene = true
 _data = {
 "points": PoolVector3Array(  ),
 "tilts": PoolRealArray(  )
 }
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="SpatialMaterial" id=2]
 albedo_texture = ExtResource( 2 )
 metallic = 0.2
 roughness = 0.9
@@ -24,7 +24,7 @@ normal_texture = ExtResource( 3 )
 [node name="RoadDrawer" index="0" instance=ExtResource( 1 )]
 
 [node name="Path" parent="." index="0"]
-curve = SubResource( 2 )
+curve = SubResource( 1 )
 
 [node name="Road" type="CSGPolygon" parent="Path" index="0"]
 invert_faces = true
@@ -36,4 +36,4 @@ path_rotation = 2
 path_local = false
 path_continuous_u = false
 path_joined = false
-material = SubResource( 1 )
+material = SubResource( 2 )
