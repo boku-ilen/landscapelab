@@ -32,14 +32,14 @@ func _process(delta):
 # This callback is called whenever any input is registered
 func _input(event):
 	if teleport_mode:
-		if event.is_action_pressed("teleport"):
+		if event.is_action_pressed("teleport_player"):
 			_teleport_player()
 			teleport_mode = false
 
 
 func _set_teleport_mode():
-	teleport_mode = !teleport_mode
+	teleport_mode = true#!teleport_mode
 
 
 func _teleport_player():
-	player.translation = world.get_ground_coords(cursor.get_collision_point())
+	PlayerInfo.update_player_pos(world.get_ground_coords(cursor.get_collision_point()))
