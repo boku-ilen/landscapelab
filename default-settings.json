@@ -71,7 +71,9 @@
     },
 
     "assets": {
-        "dynamic-update-interval": 1
+        "moving-update-interval": 1,
+	"linear-update-interval": 4,
+	"linear-max-distance": 8.0
     },
 
     "sky": {

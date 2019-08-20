@@ -12,7 +12,7 @@ export(int) var asset_id
 
 func _ready():
 	# Use the update interval from the settings
-	update_interval = Settings.get_setting("assets", "dynamic-update-interval")
+	update_interval = Settings.get_setting("assets", "moving-update-interval")
 	
 	# When only_lego_active is true, the asset handler only becomes active
 	#  when input_lego is emitted, otherwise it's inactive because then we

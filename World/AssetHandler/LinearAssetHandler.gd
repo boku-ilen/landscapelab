@@ -8,7 +8,11 @@ extends "res://World/AssetHandler/AbstractAssetHandler.gd"
 export(PackedScene) var linear_drawer
 export(int) var line_type
 
-var maximum_distance_between_points = 10.0  # TODO: Setting?
+var maximum_distance_between_points = Settings.get_setting("assets", "linear-max-distance")
+
+
+func _ready():
+	update_interval = Settings.get_setting("assets", "linear-update-interval")
 
 
 # Abstract function which returns the result (a list of assets) of the specific request being implemented.
