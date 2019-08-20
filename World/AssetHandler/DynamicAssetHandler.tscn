@@ -2,6 +2,6 @@
 
 [ext_resource path="res://World/AssetHandler/DynamicAssetHandler.gd" type="Script" id=1]
 
-
 [node name="DynamicAssetHandler" type="Spatial"]
 script = ExtResource( 1 )
+moving = true
