@@ -5,6 +5,7 @@
 
 [node name="LinearAssetHandler" type="Spatial"]
 script = ExtResource( 1 )
-update_interval = 4.0
+update_interval = 3.0
+initial_update_delay = 8.0
 linear_drawer = ExtResource( 2 )
 line_type = 1

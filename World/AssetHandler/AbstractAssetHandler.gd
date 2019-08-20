@@ -13,19 +13,20 @@ extends Spatial
 export(PackedScene) var asset_scene
 export(bool) var moving = false  # If true, asset positions are updated continuously
 export(float) var update_interval
+export(float) var initial_update_delay = 0  # Wait for some time before making the first update
 
 var _result
 var _new_result = false
 var _active = true
 
-var time_to_update = 1
+var time_to_update = 0
 
 
 func _ready():
-	Offset.connect("shift_world", self, "_on_shift_world")
+	# Start right now with the first update, or wait for initial_update_delay seconds
+	time_to_update = update_interval - initial_update_delay
 	
-	# Get the first result
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_get_asset_instances", []))
+	Offset.connect("shift_world", self, "_on_shift_world")
 
 
 # Update assets from now on
