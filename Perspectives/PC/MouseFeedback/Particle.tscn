@@ -14,6 +14,9 @@ emission_operator = 0
 emission_on_uv2 = false
 proximity_fade_enable = true
 proximity_fade_distance = 10.0
+distance_fade_mode = 1
+distance_fade_min_distance = 50.0
+distance_fade_max_distance = 200.0
 
 [node name="Spatial" type="MeshInstance"]
 layers = 5
