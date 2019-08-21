@@ -104,7 +104,7 @@ void vertex ()
 	}
 	
 	// rotate our transform
-	vec3 noise = texture(noisemap, abs(pos.xz) / size + vec2(random_offset)).rgb;
+	vec3 noise = texture(noisemap, get_uv_position(pos.xz)).rgb;
 
 	pos.x += noise.x * (spacing / 2.0 - spacing) * 2.0;
 	//pos.y += noise.y - 1.0;
@@ -118,10 +118,10 @@ void vertex ()
 	TRANSFORM[1][1] = scale;
 	TRANSFORM[2][2] = scale;
 
-	TRANSFORM[0][0] += cos(noise.z * 3.0);
-	TRANSFORM[0][2] = -sin(noise.z * 3.0);
-	TRANSFORM[2][0] = sin(noise.z * 3.0);
-	TRANSFORM[2][2] += cos(noise.z * 3.0);
+	TRANSFORM[0][0] += cos(noise.x * 7.0);
+	TRANSFORM[0][2] = -sin(noise.x * 7.0);
+	TRANSFORM[2][0] = sin(noise.x * 7.0);
+	TRANSFORM[2][2] += cos(noise.x * 7.0);
 	
 	// Update position
 	TRANSFORM[3][0] = pos.x;
