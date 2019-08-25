@@ -57,9 +57,9 @@ func _unhandled_input(event):
 	if not _vr_mode:
 		# Check if the mouse is over the viewport
 		if get_viewport().get_visible_rect().has_point(get_viewport().get_mouse_position()):
-			get_tree().set_input_as_handled()
-			
 			if event is InputEventMouseButton:
+				get_tree().set_input_as_handled()
+				
 				if event.button_index == BUTTON_LEFT: 
 					if event.pressed:
 						dragging = true
@@ -73,6 +73,8 @@ func _unhandled_input(event):
 			
 			# Rotate the camera if the event is mouse motion and the mouse is currently captured or right mouse button is pressed
 			if event is InputEventMouseMotion and (Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED or rotating):
+				get_tree().set_input_as_handled()
+				
 				head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
 				
 				var change = -event.relative.y * mouse_sensitivity

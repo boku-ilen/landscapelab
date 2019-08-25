@@ -29,9 +29,9 @@ func _unhandled_input(event):
 	# checks if the mouse is over the associated viewport
 	# TODO: input could be generalized in AbstractPlayer?
 	if get_viewport().get_visible_rect().has_point(get_viewport().get_mouse_position()):
-		get_tree().set_input_as_handled()
-	
 		if event is InputEventMouseButton:
+			get_tree().set_input_as_handled()
+			
 			if event.button_index == BUTTON_LEFT: 
 				if event.pressed:
 					dragging = true
@@ -54,6 +54,8 @@ func _unhandled_input(event):
 			
 		elif event is InputEventMouseMotion:
 			if dragging:
+				get_tree().set_input_as_handled()
+				
 				var mouseMovement = Vector3(event.relative.x, 0, event.relative.y)
 				
 				# The movement should be relative to our current rotation around the UP axis, otherwise dragging left
@@ -62,6 +64,8 @@ func _unhandled_input(event):
 				
 				move_and_collide(-mouseMovement * current_distance_to_ground / 600)  # FIXME: hardcoded value
 			if rotating:
+				get_tree().set_input_as_handled()
+				
 				# For the left/right rotation, we use the global 'up' vector, as this should be consistent regardless
 				#  of the rotation of the node. For up/down however, we use the local 'right' vector, since we always
 				#  want to go up or down relative to our current rotation.
