@@ -43,32 +43,34 @@ margin_left = 25.0
 margin_top = 25.0
 margin_right = -25.0
 margin_bottom = -25.0
+mouse_filter = 2
 
 [node name="Top Menu Bar" type="HBoxContainer" parent="."]
 margin_right = 1870.0
 margin_bottom = 1030.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
+mouse_filter = 2
 alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
 margin_right = 272.0
 margin_bottom = 928.0
-mouse_filter = 0
+mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
 margin_right = 272.0
 margin_bottom = 928.0
-mouse_filter = 0
+mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox"]
 margin_right = 272.0
 margin_bottom = 58.0
+mouse_filter = 2
 
 [node name="Watermark" type="TextureButton" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
 margin_right = 150.0
@@ -102,11 +104,13 @@ anchor_bottom = 0.0
 margin_top = 62.0
 margin_right = 272.0
 margin_bottom = 928.0
+mouse_filter = 2
 
 [node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
 margin_left = 276.0
 margin_right = 1559.0
 margin_bottom = 48.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 alignment = 1
@@ -115,6 +119,7 @@ alignment = 1
 margin_left = 584.0
 margin_right = 699.0
 margin_bottom = 48.0
+mouse_filter = 2
 
 [node name="Controller" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
 margin_right = 57.0
@@ -134,6 +139,7 @@ margin_right = 269.0
 margin_bottom = 165.0
 grow_horizontal = 0
 grow_vertical = 0
+mouse_filter = 2
 alignment = 2
 
 [node name="Lego" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
@@ -152,11 +158,13 @@ script = ExtResource( 15 )
 margin_left = 1563.0
 margin_right = 1870.0
 margin_bottom = 1030.0
+mouse_filter = 2
 alignment = 2
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxRight"]
 margin_right = 307.0
 margin_bottom = 49.0
+mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 

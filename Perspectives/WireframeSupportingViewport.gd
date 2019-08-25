@@ -20,3 +20,6 @@ func _on_wireframe_toggle(toggled):
 		debug_draw = DEBUG_DRAW_WIREFRAME
 	else:
 		debug_draw = DEBUG_DRAW_DISABLED
+
+func _unhandled_input(event):
+	print(event)

@@ -40,7 +40,7 @@ func _process(delta):
 
 
 # This callback is called whenever any input is registered
-func _input(event):
+func _unhandled_input(event):
 	if teleport_mode:
 		if event.is_action_pressed("teleport_player"):
 			_teleport_player()

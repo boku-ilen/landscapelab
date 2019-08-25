@@ -33,7 +33,7 @@ func _process(delta):
 
 
 # This callback is called whenever any input is registered
-func _input(event):
+func _unhandled_input(event):
 	
 	# just perform any action if the input mode is set to controller
 	if enabled_input_controller:

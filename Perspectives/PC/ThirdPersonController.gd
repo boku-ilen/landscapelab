@@ -25,12 +25,11 @@ func _ready():
 	current_distance_to_ground = translation.y
 
 
-func _input(event):
-	
+func _unhandled_input(event):
 	# checks if the mouse is over the associated viewport
-	# FIXME: if the viewport is covered by another viewport the event is still propagated down
 	# TODO: input could be generalized in AbstractPlayer?
 	if get_viewport().get_visible_rect().has_point(get_viewport().get_mouse_position()):
+		get_tree().set_input_as_handled()
 	
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT: 

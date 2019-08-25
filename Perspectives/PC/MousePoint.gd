@@ -12,7 +12,7 @@ onready var camera = get_parent()
 
 
 # Whenever the mouse moves, align the rotation again
-func _input(event):
+func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		# Direct the mouse position on the screen along the camera
 		# We use a local ray since it should be relative to the rotation of any parent node
