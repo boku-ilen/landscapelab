@@ -19,6 +19,7 @@ current = true
 far = 50000.0
 script = ExtResource( 2 )
 setting_title = "third-person"
+signal_title = "third_person"
 
 [node name="MousePoint" parent="ThirdPersonCamera" instance=ExtResource( 3 )]
 
