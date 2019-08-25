@@ -12,11 +12,10 @@ color = Color( 1, 0.670588, 0.670588, 1 )
 face_alpha = 0.389
 
 [node name="PolygonEdge" type="MeshInstance" parent="."]
-layers = 8
+layers = 128
 material_override = ExtResource( 2 )
 script = ExtResource( 3 )
 
 [node name="PolygonFace" type="MeshInstance" parent="."]
-layers = 8
+layers = 128
 script = ExtResource( 4 )
-

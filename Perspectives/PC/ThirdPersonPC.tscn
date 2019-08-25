@@ -14,7 +14,7 @@ script = ExtResource( 1 )
 
 [node name="ThirdPersonCamera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.642788, 0.766045, 0, -0.766045, 0.642788, 0, 0, 0 )
-cull_mask = 4
+cull_mask = 337
 current = true
 far = 50000.0
 script = ExtResource( 2 )

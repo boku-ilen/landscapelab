@@ -222,10 +222,15 @@ teleport_player={
 
 [layer_names]
 
-3d_render/layer_1="FirstPersonPC"
-3d_render/layer_2="FirstPersonVR"
-3d_render/layer_3="ThirdPerson"
-3d_render/layer_4="Minimap"
+3d_render/layer_1="3D Base"
+3d_render/layer_2="3D Vegetation"
+3d_render/layer_3="3D Detail Mesh"
+3d_render/layer_4="2D Base"
+3d_render/layer_5="3D Dynamic Asset"
+3d_render/layer_6="3D Water"
+3d_render/layer_7="3D Symbols"
+3d_render/layer_8="2D Symbols"
+3d_render/layer_9="3D Secondary View UI"
 
 [memory]
 
