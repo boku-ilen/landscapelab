@@ -48,7 +48,7 @@ func _load_pois():
 
 func _clear_list_container():
 	for list in list_container.get_children():
-		list_container.remove_child(list)
+		list.queue_free()
 		poi_list_view = null
 
 
