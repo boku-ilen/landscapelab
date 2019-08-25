@@ -73,3 +73,8 @@ signal energy_details_disabled
 
 # visual settings
 signal third_person_toggle_render_layer(layer_id)
+
+# Points of Interest signals
+signal poi_clicked(index)
+signal poi_teleport(location_coordinates)
+signal teleported

@@ -26,7 +26,6 @@ func _ready():
 	# Add a delay after clicking teleport mode so the input does not affect the actual
 	# activation click. (Teleport button click goes through and teleports instantly) issue #89
 	timer = Timer.new()
-	timer.set_wait_time(0.3)
 	timer.connect("timeout",self,"_on_timer_timeout") 
 	#timeout is what says in docs, in signals
 	#self is who respond to the callback
@@ -44,12 +43,12 @@ func _input(event):
 	if teleport_mode:
 		if event.is_action_pressed("teleport_player"):
 			_teleport_player()
+			GlobalSignal.emit_signal("teleported")
 			teleport_mode = false
 
 
-
 func _set_teleport_mode():
-	timer.start()
+	timer.start(0.5)
 
 
 # gets called after timer.start()-event is over
@@ -59,8 +58,9 @@ func _on_timer_timeout():
 
 func _teleport_player():
 	PlayerInfo.update_player_pos(WorldPosition.get_position_on_ground(cursor.get_collision_point()))
-	
 
-func _poi_teleport(coordinates): 
-	PlayerInfo.update_player_pos(WorldPosition.get_position_on_ground(coordinates))
+
+func _poi_teleport(coordinates):
+	PlayerInfo.update_player_pos(WorldPosition.get_position_on_ground(Vector3(coordinates.x, 0, coordinates.y)))
+	GlobalSignal.emit_signal("teleported")
 	teleport_mode = false

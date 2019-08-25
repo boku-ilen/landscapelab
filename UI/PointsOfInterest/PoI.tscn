@@ -24,3 +24,4 @@ max_columns = 50
 same_column_width = true
 fixed_icon_size = Vector2( 25, 25 )
 script = ExtResource( 1 )
+[connection signal="item_selected" from="ItemList" to="ItemList" method="_on_ItemList_item_selected"]
