@@ -47,9 +47,8 @@ func _load_pois():
 
 
 func _clear_list_container():
-	for list in list_container.get_children():
-		list.queue_free()
-		poi_list_view = null
+	for child in list_container.get_children():
+		child.queue_free()
 
 
 # We saved the location coordinates in the metadata of the list items, if one is clicked emit a signal with this 
