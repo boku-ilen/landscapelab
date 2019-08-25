@@ -78,7 +78,7 @@ float get_height(vec2 pos) {
 
 void vertex() {
 	// Apply the height of the heightmap at this pixel
-	VERTEX.y = get_height_no_falloff(UV);
+	VERTEX.y = get_height_no_falloff(UV) - 0.8;  // Moved down slightly so it doesn't look as if almost overflowing
 
 	// Apply the curvature based on the position of the current camera
 	vec3 world_pos = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
