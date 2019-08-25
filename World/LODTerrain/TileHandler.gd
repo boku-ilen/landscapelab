@@ -144,7 +144,7 @@ func get_ground_coords(pos):
 	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
 		return tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_position_on_ground(pos)
 	else:
-		return 0  # When no height is available, 0 is returned
+		return pos
 
 
 # Puts an instanced scene on the ground at a certain position using the heightmap of that tile
