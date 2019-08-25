@@ -166,13 +166,13 @@ transform = Transform( -1.11027e-09, 0, 0.0254, 0, 0.0254, 0, -0.0254, 0, -1.110
 
 [node name="Hub" type="MeshInstance" parent="Mesh" index="0"]
 transform = Transform( 8.11934e-08, -1.3622, 0, 1.3622, 8.11934e-08, 0, 0, 0, 1.3622, 208.615, 5169.76, 134.15 )
-layers = 7
+layers = 16
 mesh = SubResource( 3 )
 material/0 = null
 
 [node name="Mast_135" type="MeshInstance" parent="Mesh" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -231.239, 0, 231.239 )
-layers = 7
+layers = 16
 mesh = SubResource( 4 )
 material/0 = null
 material/1 = null
@@ -183,7 +183,7 @@ material/5 = null
 
 [node name="Rotor" type="MeshInstance" parent="Mesh" index="2"]
 transform = Transform( 8.11935e-08, -1.3622, 0, 1.3622, 8.11935e-08, 0, 0, 0, 1.3622, 447.478, 5303.9, -0.230225 )
-layers = 7
+layers = 16
 mesh = SubResource( 5 )
 material/0 = null
 material/1 = null

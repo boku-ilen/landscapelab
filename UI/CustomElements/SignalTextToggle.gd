@@ -11,6 +11,7 @@ onready var name_label = get_node("Name")
 
 export(String) var label_text setget _set_label_text, _get_label_text
 export(String) var signal_to_emit
+export(int) var optional_signal_parameter
 export(bool) var default_toggled setget _set_default_toggled, _get_default_toggled
 
 
@@ -24,7 +25,10 @@ func _ready() -> void:
 
 
 func _on_toggled(button_pressed):
-	GlobalSignal.emit_signal(signal_to_emit, button_pressed)
+	if optional_signal_parameter:
+		GlobalSignal.emit_signal(signal_to_emit, button_pressed, optional_signal_parameter)
+	else:
+		GlobalSignal.emit_signal(signal_to_emit, button_pressed)
 
 
 func _set_label_text(new_text: String):

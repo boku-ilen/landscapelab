@@ -56,7 +56,7 @@ func _setpressedfalse():
 
 # load the assets and create the ui element
 func load_asset_types():
-	assets = ServerConnection.get_json("/assetpos/get_all_editable_assettypes.json")
+	assets = Assets.get_asset_types_with_assets()
 		
 	# needed to write metadata into given index
 	var index = 0

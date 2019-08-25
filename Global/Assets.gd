@@ -63,6 +63,15 @@ func get_asset(id):
 	return _assets[id]
 
 
+# Returns a dictionary which contains all asset types, with each asset type containing
+#  all its assets.
+func get_asset_types_with_assets():
+	if _types_assets.size() == 0:
+		logger.info("get_asset_types() was called, but there are no assets!")
+	
+	return _types_assets
+
+
 # Returns any asset type by its ID or null if the asset type does not exist.
 func get_asset_type(id):
 	id = String(id)

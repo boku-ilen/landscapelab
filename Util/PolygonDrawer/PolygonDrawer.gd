@@ -32,7 +32,8 @@ func build(asset_id):
 # Extracts the wanted coordinates to draw the polygon from the json file
 # TODO: change this accordingly for the real json data
 func exctract_geo_data():
-	var assets = ServerConnection.get_json("/assetpos/get_all_editable_assettypes.json")
+	var assets = Assets.get_asset_types_with_assets()
+	
 	for asset_type in assets:
 		if asset_type["assets"][id] != null:
 			for geo_data in asset_type["placement_arreas"]:

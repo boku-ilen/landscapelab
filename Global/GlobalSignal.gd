@@ -70,3 +70,6 @@ signal tracking_stop
 # energy details mode (incl. tooltips)
 signal energy_details_enabled
 signal energy_details_disabled
+
+# visual settings
+signal third_person_toggle_render_layer(layer_id)

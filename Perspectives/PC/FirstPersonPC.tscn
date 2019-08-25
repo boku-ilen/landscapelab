@@ -19,7 +19,7 @@ is_main_perspective = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 
 [node name="Camera" type="Camera" parent="Head"]
-cull_mask = 1
+cull_mask = 119
 doppler_tracking = 2
 current = true
 fov = 90.0

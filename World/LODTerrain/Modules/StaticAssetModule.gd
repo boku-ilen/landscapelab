@@ -54,6 +54,8 @@ func _on_ready():
 			dscn_node.filepath = name_path
 			dscn_node.path_to_node = asset_root.get_path()
 			dscn_node.import_dscn()
+			
+			# TODO: Set the VisualLayer of the newly imported Asset
 	else:
 		logger.warning("Couldn't get assets for ID %d!" % [asset_type_id])
 			
