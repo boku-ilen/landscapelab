@@ -15,7 +15,7 @@ margin_bottom = 18.0
 text = "test"
 uppercase = true
 
-[node name="AssetsContainer" type="VBoxContainer" parent="."]
+[node name="Details" type="VBoxContainer" parent="."]
 margin_top = 22.0
 margin_right = 28.0
 margin_bottom = 22.0
