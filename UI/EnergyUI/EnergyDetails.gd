@@ -1,8 +1,12 @@
 extends VBoxContainer
 
+#
+# This script loads asset_types and their according energy into the gui
+#
+
 var assets
 var assets_list
-var instanced_assets
+# The dictionaries hold the the values for a type so they can be changed easily with an update
 var type_energy_dict : Dictionary
 var type_amount_dict : Dictionary
 
@@ -12,6 +16,7 @@ func _ready():
 	_update()
 
 
+# An update should be called whenever the value changes (new asset spawned, asset removed, etc.)
 func _update():
 	for asset_type in assets:
 		var asset_type_name = assets[asset_type]["name"]
@@ -24,7 +29,7 @@ func _update():
 		type_amount_dict[asset_type_name].text = String(asset_type_amount)
 
 
-func _setup():	
+func _setup():
 	# Load all possible assets from the server
 	assets = Assets.get_asset_types_with_assets()
 	
