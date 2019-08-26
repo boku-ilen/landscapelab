@@ -42,13 +42,13 @@ func _toggled(button_pressed) -> void:
 		for child in get_children():
 			child.visible = true
 	else:
-		GlobalSignal.emit_signal("input_disabled")
+		_setpressedfalse()
 
 
 # if we set the pressed status to false also hide the editing menu
 func _setpressedfalse():
 
-	self.set_pressed(false)
+	set_pressed(false)
 	
 	for child in get_children():
 		child.visible = false

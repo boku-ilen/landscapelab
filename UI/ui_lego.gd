@@ -8,7 +8,6 @@ func _ready():
 	for child in get_children():
 		child.visible = false	
 
-	GlobalSignal.connect("input_controller", self, "_setpressedfalse")
 	GlobalSignal.connect("input_disabled", self, "_setpressedfalse")
 
 

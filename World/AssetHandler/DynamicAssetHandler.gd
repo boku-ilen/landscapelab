@@ -19,7 +19,6 @@ func _ready():
 	#  work with local input instead.
 	if only_lego_active:
 		_active = false
-		GlobalSignal.connect("input_controller", self, "_set_inactive")
 		GlobalSignal.connect("input_disabled", self, "_set_inactive")
 		GlobalSignal.connect("input_lego", self, "_set_active")
 	else:
