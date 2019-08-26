@@ -2,7 +2,7 @@ shader_type particles;
 
 uniform float rows = 20;
 uniform float spacing = 0.1;
-uniform float random_offset = 0;
+uniform float vertical_offset = 0;
 
 uniform sampler2D heightmap;
 uniform sampler2D noisemap;
@@ -102,17 +102,17 @@ void vertex ()
 		return;
 	}
 	
-	// Apply the height from the heightmap
-	pos.y += get_height((pos.xz / size) * -1.0 + vec2(0.5));
-	
 	// Apply noise to prevent visible repetitive patterns
 	// The multiplicator 0.0123 is chosen to get a good variety of pixels from the noise map - a clean
 	//  value like 0.01 might overlap with a setting such as '0.1 plants per m²', causing patterns again
 	vec3 noise = texture(noisemap, pos.xz * 0.0123).rgb;
 
 	// Apply random offset
-	pos.x += noise.x * (spacing / 2.0 - spacing) * 2.0;
-	pos.z += noise.y * (spacing / 2.0 - spacing) * 2.0;
+	pos.x += (0.5 - noise.x) * (spacing / 2.0);
+	pos.z += (0.5 - noise.y) * (spacing / 2.0);
+	
+	// Apply the height from the heightmap, plus the vertical offset (used for making sure it doesn't float at low LODs)
+	pos.y += get_height((pos.xz / size) * -1.0 + vec2(0.5)) + vertical_offset;
 	
 	// Initialize the TRANSFORM matrix with the identity (needs to be done since otherwise, the previous
 	//  TRANSFORM is calculated on each frame)
