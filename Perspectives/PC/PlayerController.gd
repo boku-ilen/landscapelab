@@ -8,11 +8,8 @@ extends AbstractPlayer
 var origin_offset_x : int = 0
 var origin_offset_z : int = 0
 
-var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 var camera_angle = 0
 var velocity = Vector3()
-var dragging : bool = false
-var rotating : bool = false
 var _vr_mode : bool = false
 
 var walking = Settings.get_setting("player", "start-walking-enabled")
@@ -50,42 +47,30 @@ func _physics_process(delta):
 		PlayerInfo.update_player_look_direction(get_look_direction())
 
 
-func _unhandled_input(event):
-	# TODO: input could be generalized in AbstractPlayer?
-	
+func _handle_general_input(event):
 	# only accept input if vr mode is disabled
 	if not _vr_mode:
-		# Check if the mouse is over the viewport
-		if get_viewport().get_visible_rect().has_point(get_viewport().get_mouse_position()):
-			if event is InputEventMouseButton:
-				get_tree().set_input_as_handled()
-				
-				if event.button_index == BUTTON_LEFT: 
-					if event.pressed:
-						dragging = true
-					else:
-						dragging = false
-				elif event.button_index == BUTTON_RIGHT:
-					if event.pressed:
-						rotating = true
-					else: 
-						rotating = false
+		# Rotate the camera if the event is mouse motion and the mouse is currently captured or right mouse button is pressed
+		if event is InputEventMouseMotion and (Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED or rotating):
+			head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
 			
-			# Rotate the camera if the event is mouse motion and the mouse is currently captured or right mouse button is pressed
-			if event is InputEventMouseMotion and (Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED or rotating):
-				get_tree().set_input_as_handled()
-				
-				head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
-				
-				var change = -event.relative.y * mouse_sensitivity
-				
-				if change + camera_angle < 90 and change + camera_angle > -90:
-					camera.rotate_x(deg2rad(change))
-					camera_angle += change
-					
-			elif event.is_action_pressed("pc_toggle_walk"):
-				walking = not walking
-	
+			var change = -event.relative.y * mouse_sensitivity
+			
+			if change + camera_angle < 90 and change + camera_angle > -90:
+				camera.rotate_x(deg2rad(change))
+				camera_angle += change
+			
+			get_tree().set_input_as_handled()
+			return true
+
+
+func _handle_viewport_input(event):
+	if event.is_action_pressed("pc_toggle_walk"):
+			walking = not walking
+			
+			get_tree().set_input_as_handled()
+			return true
+
 
 func fly(delta):
 	# reset the direction of the player
