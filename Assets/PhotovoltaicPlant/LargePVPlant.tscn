@@ -1,253 +1,130 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Assets/PhotovoltaicPlant/SmallPVPlant.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Superclasses/MovableObject.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Util/PVMesh.tscn" type="PackedScene" id=2]
 
-[node name="ManyPV" type="Spatial"]
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 22.4564, 1.76459, 17.5852 )
 
-[node name="MiddleRow" type="Spatial" parent="."]
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 22.1902, 1, 1.48003 )
 
-[node name="PV" parent="MiddleRow" instance=ExtResource( 1 )]
+[node name="LargePVPlant" index="0" instance=ExtResource( 1 )]
 
-[node name="PV10" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0, 0 )
+[node name="CollisionShape" parent="PickupBody" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+shape = SubResource( 1 )
 
-[node name="PV20" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 0 )
+[node name="Row1" type="Spatial" parent="." index="1"]
 
-[node name="PV2" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 0 )
+[node name="PVMesh" parent="Row1" index="0" instance=ExtResource( 2 )]
 
-[node name="PV15" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 0 )
+[node name="PVMesh2" parent="Row1" index="1" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 12.607, 0, 1.249 )
 
-[node name="PV23" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 0 )
+[node name="PVMesh3" parent="Row1" index="2" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 21.607, 0, 1.249 )
 
-[node name="PV3" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0 )
+[node name="PVMesh4" parent="Row1" index="3" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, -5.393, 0, 1.249 )
 
-[node name="PV11" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 0 )
+[node name="PVMesh5" parent="Row1" index="4" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, -14.393, 0, 1.249 )
 
-[node name="PV24" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 0 )
+[node name="StaticBody" type="StaticBody" parent="Row1" index="5"]
 
-[node name="PV4" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 6 )
+[node name="CollisionShape" type="CollisionShape" parent="Row1/StaticBody" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 2 )
 
-[node name="PV18" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 6 )
+[node name="Row2" type="Spatial" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8 )
 
-[node name="PV27" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 6 )
+[node name="PVMesh" parent="Row2" index="0" instance=ExtResource( 2 )]
 
-[node name="PV5" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6 )
+[node name="PVMesh2" parent="Row2" index="1" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 12.607, 0, 1.249 )
 
-[node name="PV12" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0, 6 )
+[node name="PVMesh3" parent="Row2" index="2" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 21.607, 0, 1.249 )
 
-[node name="PV21" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 6 )
+[node name="PVMesh4" parent="Row2" index="3" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, -5.393, 0, 1.249 )
 
-[node name="PV6" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 6 )
+[node name="PVMesh5" parent="Row2" index="4" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, -14.393, 0, 1.249 )
 
-[node name="PV14" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 6 )
+[node name="StaticBody" type="StaticBody" parent="Row2" index="5"]
 
-[node name="PV22" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 6 )
+[node name="CollisionShape" type="CollisionShape" parent="Row2/StaticBody" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 2 )
 
-[node name="PV7" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -6 )
+[node name="Row3" type="Spatial" parent="." index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16 )
 
-[node name="PV13" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, -6 )
+[node name="PVMesh" parent="Row3" index="0" instance=ExtResource( 2 )]
 
-[node name="PV19" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -6 )
+[node name="PVMesh2" parent="Row3" index="1" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 12.607, 0, 1.249 )
 
-[node name="PV8" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6 )
+[node name="PVMesh3" parent="Row3" index="2" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 21.607, 0, 1.249 )
 
-[node name="PV17" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0, -6 )
+[node name="PVMesh4" parent="Row3" index="3" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, -5.393, 0, 1.249 )
 
-[node name="PV26" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, -6 )
+[node name="PVMesh5" parent="Row3" index="4" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, -14.393, 0, 1.249 )
 
-[node name="PV9" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -6 )
+[node name="StaticBody" type="StaticBody" parent="Row3" index="5"]
 
-[node name="PV16" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -6 )
+[node name="CollisionShape" type="CollisionShape" parent="Row3/StaticBody" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 2 )
 
-[node name="PV25" parent="MiddleRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -6 )
+[node name="Row4" type="Spatial" parent="." index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8 )
 
-[node name="FrontRow" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18 )
+[node name="PVMesh" parent="Row4" index="0" instance=ExtResource( 2 )]
 
-[node name="PV" parent="FrontRow" instance=ExtResource( 1 )]
+[node name="PVMesh2" parent="Row4" index="1" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 12.607, 0, 1.249 )
 
-[node name="PV10" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0, 0 )
+[node name="PVMesh3" parent="Row4" index="2" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 21.607, 0, 1.249 )
 
-[node name="PV20" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 0 )
+[node name="PVMesh4" parent="Row4" index="3" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, -5.393, 0, 1.249 )
 
-[node name="PV2" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 0 )
+[node name="PVMesh5" parent="Row4" index="4" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, -14.393, 0, 1.249 )
 
-[node name="PV15" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 0 )
+[node name="StaticBody" type="StaticBody" parent="Row4" index="5"]
 
-[node name="PV23" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 0 )
+[node name="CollisionShape" type="CollisionShape" parent="Row4/StaticBody" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 2 )
 
-[node name="PV3" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0 )
+[node name="Row5" type="Spatial" parent="." index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16 )
 
-[node name="PV11" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 0 )
+[node name="PVMesh" parent="Row5" index="0" instance=ExtResource( 2 )]
 
-[node name="PV24" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 0 )
+[node name="PVMesh2" parent="Row5" index="1" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 12.607, 0, 1.249 )
 
-[node name="PV4" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 6 )
+[node name="PVMesh3" parent="Row5" index="2" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 21.607, 0, 1.249 )
 
-[node name="PV18" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 6 )
+[node name="PVMesh4" parent="Row5" index="3" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, -5.393, 0, 1.249 )
 
-[node name="PV27" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 6 )
+[node name="PVMesh5" parent="Row5" index="4" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, -14.393, 0, 1.249 )
 
-[node name="PV5" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6 )
+[node name="StaticBody" type="StaticBody" parent="Row5" index="5"]
 
-[node name="PV12" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0, 6 )
-
-[node name="PV21" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 6 )
-
-[node name="PV6" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 6 )
-
-[node name="PV14" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 6 )
-
-[node name="PV22" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 6 )
-
-[node name="PV7" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -6 )
-
-[node name="PV13" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, -6 )
-
-[node name="PV19" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -6 )
-
-[node name="PV8" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6 )
-
-[node name="PV17" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0, -6 )
-
-[node name="PV26" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, -6 )
-
-[node name="PV9" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -6 )
-
-[node name="PV16" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -6 )
-
-[node name="PV25" parent="FrontRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -6 )
-
-[node name="BackRow" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18 )
-
-[node name="PV" parent="BackRow" instance=ExtResource( 1 )]
-
-[node name="PV10" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0, 0 )
-
-[node name="PV20" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 0 )
-
-[node name="PV2" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 0 )
-
-[node name="PV15" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 0 )
-
-[node name="PV23" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 0 )
-
-[node name="PV3" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0 )
-
-[node name="PV11" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 0 )
-
-[node name="PV24" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 0 )
-
-[node name="PV4" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 6 )
-
-[node name="PV18" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 6 )
-
-[node name="PV27" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 6 )
-
-[node name="PV5" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6 )
-
-[node name="PV12" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0, 6 )
-
-[node name="PV21" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 6 )
-
-[node name="PV6" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 6 )
-
-[node name="PV14" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 6 )
-
-[node name="PV22" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 6 )
-
-[node name="PV7" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -6 )
-
-[node name="PV13" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, -6 )
-
-[node name="PV19" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -6 )
-
-[node name="PV8" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6 )
-
-[node name="PV17" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0, -6 )
-
-[node name="PV26" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, -6 )
-
-[node name="PV9" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -6 )
-
-[node name="PV16" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -6 )
-
-[node name="PV25" parent="BackRow" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -6 )
+[node name="CollisionShape" type="CollisionShape" parent="Row5/StaticBody" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 2 )
