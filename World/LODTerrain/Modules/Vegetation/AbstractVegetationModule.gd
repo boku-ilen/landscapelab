@@ -65,8 +65,8 @@ func get_splat_data(d):
 			if valid_vegetations > num_layers: break
 			
 			# Data for the phytocoenosis with this ID
-			var pytho_c_url = "/vegetation/%d/%d" % [result.get("ids")[current_index], my_vegetation_layer]
-			var this_result = ServerConnection.get_json(pytho_c_url)
+			var phyto_c_url = "/vegetation/%d/%d" % [result.get("ids")[current_index], my_vegetation_layer]
+			var this_result = ServerConnection.get_json(phyto_c_url)
 			
 			# Load all images (distribution, spritesheet) and corresponding data
 			# We do this here because doing it in the main thread causes big stutters
@@ -85,10 +85,8 @@ func get_splat_data(d):
 						sprite_num)
 						
 					valid_vegetations += 1
-				else:
-					logger.warning("At least one of the returned values of %s was invalid!" % [pytho_c_url])
 			else:
-				logger.error("AbstractVegetationModule.gd:get_splat_data(): CachingImageTexture (%s) or server_result (%s) is null" % [CachingImageTexture, this_result])
+				logger.warning("Vegetation result with url %s was null - is the phytocoenosis not defined in the server?" % [phyto_c_url])
 		
 	make_ready()
 
@@ -131,8 +129,12 @@ func construct_vegetation(splat_ids):
 
 # Sets all shader parameters for both the particle shader and the texture shader of a HeightmapParticles instance
 func set_parameters(data):
-	if not heightmap or not phyto_data.has(data[1]):
-		logger.warning("Vegetation module received a response, but the response contained invalid or incomplete data!");
+	if not heightmap:
+		logger.error("Vegetation module did not receive a valid heightmap!")
+		return
+	
+	if not phyto_data.has(data[1]):
+		logger.debug("Phytocoenosis with ID %d has incomplete plant data - not an issue if it's intended to have no plants" % [data[1]])
 		return
 	
 	var distribution = phyto_data[data[1]].distribution
