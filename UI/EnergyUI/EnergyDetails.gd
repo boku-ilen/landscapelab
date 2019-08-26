@@ -12,6 +12,9 @@ var type_amount_dict : Dictionary
 
 
 func _ready():
+	GlobalSignal.connect("asset_removed", self, "_update")
+	GlobalSignal.connect("asset_spawned", self, "_update")
+	
 	_setup()
 	_update()
 

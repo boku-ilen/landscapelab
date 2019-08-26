@@ -99,22 +99,21 @@ custom_constants/separation = 5
 script = ExtResource( 6 )
 
 [node name="Energy" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
-margin_left = 234.3
-margin_top = 9.01
-margin_right = 346.3
-margin_bottom = 49.01
+margin_left = 235.0
+margin_right = 347.0
+margin_bottom = 58.0
 alignment = 1
 
 [node name="Energy Value" type="Label" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy"]
-margin_top = 3.0
+margin_top = 13.0
 margin_right = 112.0
-margin_bottom = 17.0
+margin_bottom = 27.0
 text = "0 MW"
 
 [node name="Amount of Assets" type="Label" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy"]
-margin_top = 21.0
+margin_top = 31.0
 margin_right = 112.0
-margin_bottom = 35.0
+margin_bottom = 45.0
 text = "Amount of assets"
 
 [node name="DebugInfo" parent="Top Menu Bar/HBoxLeft/VBox" instance=ExtResource( 7 )]

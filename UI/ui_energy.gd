@@ -12,6 +12,9 @@ var amount
 
 
 func _ready():
+	GlobalSignal.connect("asset_removed", self, "_update")
+	GlobalSignal.connect("asset_spawned", self, "_update")
+	
 	energy_value = get_parent().get_node("Energy").get_node("Energy Value")
 	amount = get_parent().get_node("Energy").get_node("Amount of Assets")
 	
