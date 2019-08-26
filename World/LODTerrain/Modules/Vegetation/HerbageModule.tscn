@@ -6,4 +6,4 @@
 [node name="HerbageModule" instance=ExtResource( 1 )]
 my_vegetation_layer = 1
 plant_mesh_scene = ExtResource( 2 )
-max_plant_size = 0.5
+max_plant_size = 1.0

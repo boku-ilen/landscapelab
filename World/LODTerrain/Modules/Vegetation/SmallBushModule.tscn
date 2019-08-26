@@ -6,4 +6,4 @@
 [node name="SmallBushModule" instance=ExtResource( 1 )]
 my_vegetation_layer = 2
 plant_mesh_scene = ExtResource( 2 )
-max_plant_size = 2.0
+max_plant_size = 2.5
