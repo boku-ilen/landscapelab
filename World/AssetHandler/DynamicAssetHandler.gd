@@ -54,3 +54,5 @@ func _spawn_asset(instance_id):
 		new_instance.translation = pos
 	
 		add_child(new_instance)
+	
+	GlobalSignal.emit_signal("asset_spawned")

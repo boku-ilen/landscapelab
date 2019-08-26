@@ -78,3 +78,7 @@ signal third_person_toggle_render_layer(layer_id)
 signal poi_clicked(index)
 signal poi_teleport(location_coordinates)
 signal teleported
+
+# Assets
+signal asset_spawned
+signal asset_removed
