@@ -23,8 +23,8 @@ func _ready():
 	# Connect signal to set the according itemID
 	GlobalSignal.connect("changed_asset_id", self, "set_spawned_id")
 	GlobalSignal.connect("input_controller", self, "set_input_controller_mode", [true])
-	GlobalSignal.connect("input_disabled", self, "set_input_controller_mode", [false])
-	GlobalSignal.connect("input_lego", self, "set_input_controller_mode", [false])
+	GlobalSignal.connect("stop_sync_moving_assets", self, "set_input_controller_mode", [false])
+	GlobalSignal.connect("sync_moving_assets", self, "set_input_controller_mode", [false])
 
 
 func _process(delta):

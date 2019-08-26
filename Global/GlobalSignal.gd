@@ -34,9 +34,9 @@ signal missing_1st
 signal miniview_show
 
 # control source of input of new items
-signal input_lego
+signal sync_moving_assets
 signal input_controller
-signal input_disabled
+signal stop_sync_moving_assets
 # signal for the ui_controller, when in the list a typ is selected the accoding editable assets should be loaded
 signal selected_asset_type(type)
 # signals to set the itemID for the itemSpawner

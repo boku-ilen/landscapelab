@@ -9,7 +9,7 @@ var instanced_polygon = null
 func _ready():
 	# Connect the signals to show the editable-asset polygons or hide them
 	GlobalSignal.connect("changed_asset_id", self, "instance_polygon") 
-	GlobalSignal.connect("input_disabled", self, "remove_polygon")
+	GlobalSignal.connect("stop_sync_moving_assets", self, "remove_polygon")
 	instanced_drawer = polygon_drawer.new()
 
 

@@ -15,12 +15,12 @@ func _ready():
 	update_interval = Settings.get_setting("assets", "moving-update-interval")
 	
 	# When only_lego_active is true, the asset handler only becomes active
-	#  when input_lego is emitted, otherwise it's inactive because then we
+	#  when sync_moving_assets is emitted, otherwise it's inactive because then we
 	#  work with local input instead.
 	if only_lego_active:
 		_active = false
-		GlobalSignal.connect("input_disabled", self, "_set_inactive")
-		GlobalSignal.connect("input_lego", self, "_set_active")
+		GlobalSignal.connect("stop_sync_moving_assets", self, "_set_inactive")
+		GlobalSignal.connect("sync_moving_assets", self, "_set_active")
 	else:
 		_active = true
 

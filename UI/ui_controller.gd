@@ -28,8 +28,8 @@ func _ready():
 	for child in get_children():
 		child.visible = false	
 	
-	GlobalSignal.connect("input_lego", self, "_setpressedfalse")
-	GlobalSignal.connect("input_disabled", self, "_setpressedfalse")
+	GlobalSignal.connect("sync_moving_assets", self, "_setpressedfalse")
+	GlobalSignal.connect("stop_sync_moving_assets", self, "_setpressedfalse")
 	GlobalSignal.connect("changed_item_to_spawn", self, "set_item_id")
 	GlobalSignal.connect("selected_asset_type", self, "load_assets_for_type")
 	load_asset_types()
