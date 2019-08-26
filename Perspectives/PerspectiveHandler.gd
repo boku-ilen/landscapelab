@@ -58,7 +58,7 @@ func _ready():
 
 
 # Check for perspective-related input and react accordingly
-func _input(event):
+func _unhandled_input(event):
 	if event.is_action_pressed("toggle_mouse_capture"):
 		toggle_mouse_capture()
 

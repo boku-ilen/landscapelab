@@ -9,3 +9,4 @@ script = ExtResource( 1 )
 [node name="MeshInstance" type="MeshInstance" parent="."]
 layers = 32
 material_override = ExtResource( 2 )
+extra_cull_margin = 1500.0

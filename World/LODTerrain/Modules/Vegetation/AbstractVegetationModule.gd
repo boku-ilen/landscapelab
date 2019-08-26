@@ -5,7 +5,6 @@ extends Module
 # The area can be filled with multiple different plants using a distribution image.
 #
 
-export var num_layers = 2
 export var my_vegetation_layer = 4
 export(Mesh) var plant_mesh_scene  # The mesh that plants are rendered on - must be scaled to 1m!
 export(float) var max_plant_size  # The maximal plant size which is used as the size of the particle mesh
@@ -16,6 +15,7 @@ export(bool) var cast_shadow = false
 var particles_scene = preload("res://World/LODTerrain/Modules/Util/HeightmapParticles.tscn")
 var LODS = Settings.get_setting("herbage", "density-at-lod")
 var density_modifiers = Settings.get_setting("herbage", "density-modifiers-for-layers")
+var num_layers = Settings.get_setting("herbage", "max-vegetations-per-tile")
 
 var result
 var heightmap

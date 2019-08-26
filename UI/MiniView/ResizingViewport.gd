@@ -16,3 +16,9 @@ func _ready():
 func _on_size_changed():
 	# Make the viewport as large as this container
 	$Viewport.size = rect_size
+
+
+# TODO: Issue #48
+func _unhandled_input(event):
+	if event is InputEvent:
+		pass

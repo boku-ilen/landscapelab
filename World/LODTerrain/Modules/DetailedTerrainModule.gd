@@ -13,7 +13,7 @@ var albedos = []
 var normals = []
 var ids = []
 
-var vegetation_max = 4
+var vegetation_max = Settings.get_setting("herbage", "max-vegetations-per-tile")
 
 var WATER_SPLAT_ID = Settings.get_setting("water", "water-splat-id")
 var DETAIL_START_DIST = Settings.get_setting("herbage", "detail-texture-start-distance")

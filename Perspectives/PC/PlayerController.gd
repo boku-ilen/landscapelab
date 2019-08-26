@@ -50,17 +50,16 @@ func _physics_process(delta):
 		PlayerInfo.update_player_look_direction(get_look_direction())
 
 
-func _input(event):
+func _unhandled_input(event):
+	# TODO: input could be generalized in AbstractPlayer?
 	
 	# only accept input if vr mode is disabled
 	if not _vr_mode:
-		
-		# checks if the mouse is over the associated viewport
-		# FIXME: if the viewport is covered by another viewport the event is still propagated down
-		# TODO: input could be generalized in AbstractPlayer?	
+		# Check if the mouse is over the viewport
 		if get_viewport().get_visible_rect().has_point(get_viewport().get_mouse_position()):
-			
 			if event is InputEventMouseButton:
+				get_tree().set_input_as_handled()
+				
 				if event.button_index == BUTTON_LEFT: 
 					if event.pressed:
 						dragging = true
@@ -74,6 +73,8 @@ func _input(event):
 			
 			# Rotate the camera if the event is mouse motion and the mouse is currently captured or right mouse button is pressed
 			if event is InputEventMouseMotion and (Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED or rotating):
+				get_tree().set_input_as_handled()
+				
 				head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
 				
 				var change = -event.relative.y * mouse_sensitivity
@@ -94,16 +95,16 @@ func fly(delta):
 	var aim = camera.get_global_transform().basis
 	
 	# check input and change direction
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed("pc_move_up"):
 		direction -= aim.z
 		has_moved = true
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("pc_move_down"):
 		direction += aim.z
 		has_moved = true
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("pc_move_left"):
 		direction -= aim.x
 		has_moved = true
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("pc_move_right"):
 		direction += aim.x
 		has_moved = true
 	

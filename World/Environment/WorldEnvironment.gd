@@ -7,7 +7,7 @@ onready var sky_cube_scene = preload("res://World/Environment/SkyCube.tscn")
 var SKYCUBE_ENABLED = Settings.get_setting("sky", "clouds")
 var FOG_BEGIN = Settings.get_setting("sky", "fog-begin")
 var FOG_END = Settings.get_setting("sky", "fog-end")
-var SUN_INTENSITY_FACTOR = Settings.get_setting("sky", "sun_intensity_factor")
+var SUN_INTENSITY_FACTOR = Settings.get_setting("sky", "sun-intensity-factor")
 
 var clouds
 

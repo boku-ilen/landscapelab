@@ -67,7 +67,8 @@
             "5": 0.25
         },
         "detail-texture-start-distance": 300.0,
-	"detail-texture-scale": 0.4
+	"detail-texture-scale": 0.4,
+        "max-vegetations-per-tile": 3
     },
 
     "assets": {

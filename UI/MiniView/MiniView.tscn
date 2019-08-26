@@ -46,7 +46,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -650.0
 margin_top = -504.0
-mouse_filter = 0
+mouse_filter = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 alignment = 2
@@ -173,6 +173,7 @@ margin_top = 54.0
 margin_right = 650.0
 margin_bottom = 504.0
 rect_min_size = Vector2( 650, 450 )
+mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 color = Color( 0, 0, 0, 1 )
@@ -185,11 +186,13 @@ margin_left = 10.0
 margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
+mouse_filter = 2
 
 [node name="MiniViewportContainer" type="ViewportContainer" parent="Border/Margin"]
 margin_right = 630.0
 margin_bottom = 430.0
 focus_mode = 2
+mouse_filter = 2
 script = ExtResource( 38 )
 
 [node name="Viewport" type="Viewport" parent="Border/Margin/MiniViewportContainer"]

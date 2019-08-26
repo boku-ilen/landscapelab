@@ -26,6 +26,7 @@ func _ready():
 	# Add a delay after clicking teleport mode so the input does not affect the actual
 	# activation click. (Teleport button click goes through and teleports instantly) issue #89
 	timer = Timer.new()
+	timer.one_shot = true
 	timer.connect("timeout",self,"_on_timer_timeout") 
 	#timeout is what says in docs, in signals
 	#self is who respond to the callback
@@ -39,7 +40,7 @@ func _process(delta):
 
 
 # This callback is called whenever any input is registered
-func _input(event):
+func _unhandled_input(event):
 	if teleport_mode:
 		if event.is_action_pressed("teleport_player"):
 			_teleport_player()

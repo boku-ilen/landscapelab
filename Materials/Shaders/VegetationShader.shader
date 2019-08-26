@@ -6,6 +6,9 @@ uniform sampler2D spritesheet : hint_albedo;
 uniform int sprite_count;
 uniform float distribution_pixels_per_meter;
 
+uniform float base_light = 0.5; // Base value which vegetation is lit by any light, regardless of diretion
+uniform float light_factor = 2.0; // Changes how much of an effect lighting has
+
 uniform vec3 pos;
 uniform float size;
 
@@ -14,6 +17,14 @@ varying flat vec3 v_obj_pos;
 void vertex () {
 	// Calculate the in-engine position of this object
 	v_obj_pos = ((WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz - pos) / size;
+}
+
+void light() {
+	// Vegetation lets a lot of light through and thus shouldn't really be dark on the back.
+	// That's why every light adds a base value, regardless of direction.
+	float custom_light = base_light + dot(NORMAL, LIGHT) * (1.0 - base_light);
+	
+	DIFFUSE_LIGHT += light_factor * custom_light * ATTENUATION * ALBEDO;
 }
 
 void fragment () {

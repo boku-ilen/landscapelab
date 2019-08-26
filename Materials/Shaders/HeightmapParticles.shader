@@ -77,7 +77,7 @@ vec2 get_uv_position(vec2 global_pos) {
 
 void vertex ()
 {
-	// Get position
+	// Get the world position of this particle
 	vec3 pos = vec3(0.0, 0.0, 0.0);
 	pos.z = float(INDEX);
 	pos.x = mod(pos.z, rows);
@@ -90,12 +90,11 @@ void vertex ()
 	// Apply spacing
 	pos *= spacing;
 	
-	// Transform spacing
+	// Transform by the position of this particular particle
 	pos.x += EMISSION_TRANSFORM[3][0] - mod(EMISSION_TRANSFORM[3][0], spacing) + 0.5;
 	pos.z += EMISSION_TRANSFORM[3][2] - mod(EMISSION_TRANSFORM[3][2], spacing) + 0.5;
 	
 	// Check the splatmap for whether we need to do draw something and exit if not
-	// TODO: The actual divisor will likely include size_without_skirt and depend on the format we use for the splatmap!
 	int splat_id_at_pos = int(texture(splatmap, get_uv_position(pos.xz)).r * 255.0);
 	
 	if (!(splat_id_at_pos == id)) {
@@ -103,28 +102,38 @@ void vertex ()
 		return;
 	}
 	
-	// rotate our transform
-	vec3 noise = texture(noisemap, get_uv_position(pos.xz)).rgb;
-
-	pos.x += noise.x * (spacing / 2.0 - spacing) * 2.0;
-	//pos.y += noise.y - 1.0;
-	pos.z += noise.y * (spacing / 2.0 - spacing) * 2.0;
-	
-	// apply our height
+	// Apply the height from the heightmap
 	pos.y += get_height((pos.xz / size) * -1.0 + vec2(0.5));
 	
-	// Scale
+	// Apply noise to prevent visible repetitive patterns
+	// The multiplicator 0.0123 is chosen to get a good variety of pixels from the noise map - a clean
+	//  value like 0.01 might overlap with a setting such as '0.1 plants per m²', causing patterns again
+	vec3 noise = texture(noisemap, pos.xz * 0.0123).rgb;
+
+	// Apply random offset
+	pos.x += noise.x * (spacing / 2.0 - spacing) * 2.0;
+	pos.z += noise.y * (spacing / 2.0 - spacing) * 2.0;
+	
+	// Initialize the TRANSFORM matrix with the identity (needs to be done since otherwise, the previous
+	//  TRANSFORM is calculated on each frame)
+	TRANSFORM = mat4(1.0);
+	
+	// Apply the scale of this vegetation layer
+	// This is done here because it's easier than procedurally generating and assigning meshes in the CPU
 	TRANSFORM[0][0] = scale;
 	TRANSFORM[1][1] = scale;
 	TRANSFORM[2][2] = scale;
-
-	TRANSFORM[0][0] += cos(noise.x * 7.0);
-	TRANSFORM[0][2] = -sin(noise.x * 7.0);
-	TRANSFORM[2][0] = sin(noise.x * 7.0);
-	TRANSFORM[2][2] += cos(noise.x * 7.0);
 	
-	// Update position
+	// Apply the position
 	TRANSFORM[3][0] = pos.x;
 	TRANSFORM[3][1] = pos.y;
 	TRANSFORM[3][2] = pos.z;
+	
+	// Apply random rotation
+	mat4 rot = mat4(	vec4(cos(noise.x * 7.0), 0.0, sin(noise.x * 7.0), 0.0),
+						vec4(0.0, 1.0, 0.0, 0.0),
+						vec4(-sin(noise.x * 7.0), 0.0, cos(noise.x * 7.0), 0.0),
+						vec4(0.0, 0.0, 0.0, 1.0));
+	
+	TRANSFORM *= rot;
 }
