@@ -36,3 +36,4 @@ transform = Transform( 1, 0, 0, 0, 1, 5.36442e-07, 0, -5.36442e-07, 1, 0, 0, 0 )
 icon = ExtResource( 5 )
 color_modulate = Color( 0.25, 0.25, 0.25, 1 )
 rotate = true
+size = 0.15
