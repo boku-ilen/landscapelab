@@ -6,11 +6,14 @@ uniform sampler2D spritesheet : hint_albedo;
 uniform int sprite_count;
 uniform float distribution_pixels_per_meter;
 
-uniform float base_light = 0.5; // Base value which vegetation is lit by any light, regardless of diretion
-uniform float light_factor = 2.0; // Changes how much of an effect lighting has
+uniform float base_light = 0.5;  // Base value which vegetation is lit by any light, regardless of diretion
+uniform float light_factor = 2.0;  // Changes how much of an effect lighting has
+uniform float opacity_cutoff = 0.75;  // Opacity starts decreasing at uv.y > opacity_cutoff
+uniform float max_opacity_cutoff_scale = 1.0;  // Maximum scale (in meters) of plants where the opacity cutoff occurs
 
 uniform vec3 pos;
 uniform float size;
+uniform float scale;
 
 varying flat vec3 v_obj_pos;
 
@@ -29,7 +32,6 @@ void light() {
 
 void fragment () {
 	// Material parameters
-	ALPHA_SCISSOR = 0.7;
 	ROUGHNESS = 0.95;
 	METALLIC = 0.1;
 
@@ -62,10 +64,22 @@ void fragment () {
 	if (sprite_at_pos == 0) {
 		color = vec4(0.0); // Nothing should be here -> 0 color and opacity
 	} else {
-		color = texture(spritesheet, UV * ratio_mult + offset_vec);
+		vec2 uv = UV * ratio_mult + offset_vec;
+		color = texture(spritesheet, uv);
+		
+		// Decrease the opacity further down the sprite if it's a small plant to prevent a harsh color
+		//  difference between it and the ground, causing it to instead blend in more
+		if ((scale < max_opacity_cutoff_scale) && (uv.y >= opacity_cutoff)) {
+			// Opacity factor will be between 0.0 (when uv.y == opaxity_cutoff) and 1.0 (when uv.y == 1.0)
+			float opacity_factor = 1.0 - (1.0 - (uv.y)) / (1.0 - opacity_cutoff);
+			color.a -= opacity_factor;
+			
+			// Clamp the opacity to 0
+			color.a = max(0, color.a);
+		}
 	}
 
-	ALPHA = color.a * COLOR.a;// - clamp(1.4 - UV.y, 0.0, 1.0);//* 0.5 + 0.5*cos(2.0*TIME);
+	ALPHA = color.a;// - clamp(1.4 - UV.y, 0.0, 1.0);//* 0.5 + 0.5*cos(2.0*TIME);
 
 	ALBEDO = color.rgb;
 }
