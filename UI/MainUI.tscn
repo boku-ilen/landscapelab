@@ -54,14 +54,14 @@ mouse_filter = 2
 alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
-margin_right = 347.0
+margin_right = 235.0
 margin_bottom = 928.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
-margin_right = 347.0
+margin_right = 235.0
 margin_bottom = 928.0
 mouse_filter = 2
 size_flags_horizontal = 0
@@ -69,7 +69,7 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox"]
-margin_right = 347.0
+margin_right = 235.0
 margin_bottom = 58.0
 mouse_filter = 2
 
@@ -100,32 +100,20 @@ script = ExtResource( 6 )
 
 [node name="Energy" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
 margin_left = 235.0
-margin_right = 347.0
+margin_right = 235.0
 margin_bottom = 58.0
 alignment = 1
-
-[node name="Energy Value" type="Label" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy"]
-margin_top = 13.0
-margin_right = 112.0
-margin_bottom = 27.0
-text = "0 MW"
-
-[node name="Amount of Assets" type="Label" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy"]
-margin_top = 31.0
-margin_right = 112.0
-margin_bottom = 45.0
-text = "Amount of assets"
 
 [node name="DebugInfo" parent="Top Menu Bar/HBoxLeft/VBox" instance=ExtResource( 7 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 62.0
-margin_right = 347.0
+margin_right = 235.0
 margin_bottom = 928.0
 mouse_filter = 2
 
 [node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
-margin_left = 351.0
+margin_left = 239.0
 margin_right = 1559.0
 margin_bottom = 48.0
 mouse_filter = 2
@@ -134,8 +122,8 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 546.0
-margin_right = 661.0
+margin_left = 602.0
+margin_right = 717.0
 margin_bottom = 48.0
 mouse_filter = 2
 
