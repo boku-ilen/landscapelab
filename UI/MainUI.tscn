@@ -5,7 +5,7 @@
 [ext_resource path="res://Resources/Images/UI/UI/s_energy_sum.png" type="Texture" id=3]
 [ext_resource path="res://Resources/Images/UI/UI/h_energy_sum.png" type="Texture" id=4]
 [ext_resource path="res://UI/ui_energy.gd" type="Script" id=5]
-[ext_resource path="res://UI/EnergyUI/EnergyDetails.tscn" type="PackedScene" id=6]
+[ext_resource path="res://UI/EnergyUI/EnergyDetails.gd" type="Script" id=6]
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Resources/Images/UI/UI/input_controller.png" type="Texture" id=8]
 [ext_resource path="res://Resources/Images/UI/UI/s_input_controller.png" type="Texture" id=9]
@@ -87,7 +87,13 @@ texture_pressed = ExtResource( 3 )
 texture_hover = ExtResource( 4 )
 script = ExtResource( 5 )
 
-[node name="Energy Details" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon" instance=ExtResource( 6 )]
+[node name="Energy Details" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon"]
+margin_left = -0.26
+margin_top = 51.75
+margin_right = 422.74
+margin_bottom = 278.75
+custom_constants/separation = 5
+script = ExtResource( 6 )
 
 [node name="Energy Value" type="Label" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
 margin_left = 235.0

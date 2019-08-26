@@ -71,7 +71,7 @@ func load_asset_types():
 		var texture
 		
 		# TODO: rename the icons or json file so we can load the images nicely
-		if asset_type_name == "wind turbine":
+		if asset_type_name == "Wind Turbine":
 			texture = load("res://Resources/Images/UI/MapIcons/windmill_icon.png")
 			
 		type_list.add_item(asset_type_name, texture)

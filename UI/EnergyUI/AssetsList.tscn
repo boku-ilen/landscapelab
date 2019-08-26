@@ -1,0 +1,21 @@
+[gd_scene format=2]
+
+[node name="Control" type="GridContainer"]
+margin_right = 501.0
+margin_bottom = 153.0
+
+[node name="Image" type="TextureRect" parent="."]
+margin_right = 28.0
+stretch_mode = 1
+
+[node name="AssetType" type="Label" parent="."]
+margin_top = 4.0
+margin_right = 28.0
+margin_bottom = 18.0
+text = "test"
+uppercase = true
+
+[node name="AssetsContainer" type="VBoxContainer" parent="."]
+margin_top = 22.0
+margin_right = 28.0
+margin_bottom = 22.0
