@@ -26,6 +26,7 @@ script = ExtResource( 2 )
 arvr = true
 size = Vector2( 1920, 1080 )
 handle_input_locally = false
+msaa = 4
 hdr = false
 render_target_update_mode = 3
 shadow_atlas_size = 64
