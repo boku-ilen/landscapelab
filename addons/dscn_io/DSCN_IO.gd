@@ -151,12 +151,6 @@ func _save_dscn(node, file):
 	# Store resources
 	for resource_to_store in resource_list:
 		file.store_var(resource_to_store);
-	
-	# Print success!
-	print ("**** DSCN_IO ****");
-	print ("Saved the following node tree: ")
-	print (duplicate_node.print_tree_pretty());
-	print ("*****************");
 
 
 # This function will add all of the data into json_tree, node_list, resource_list
@@ -340,8 +334,7 @@ func _load_dscn(file):
 	
 	# Make sure the version of the DSCN file is the same version as this plugin.
 	if (file_export_version != "0.1.0"):
-		print ("ERROR: Cannot import DSCN file with version: ", file_export_version);
-		print ("Can only import DSCN files with version: 0.1.0");
+		logger.error("Cannot import DSCN file with version: %s, only with version 0.1.0!" % [file_export_version]);
 		return null;
 	
 	# Make a empty node list and resource list.
@@ -381,12 +374,6 @@ func _load_dscn(file):
 	# Rebuild the node tree, and then get and assign the root of the loaded DSCN file
 	# to a new variable called final_scene.
 	var final_scene = _rebuild_node_tree(node_list[0], file_JSON_node_tree, node_list);
-	
-	# (Optional) print what we imported.
-	print ("**** DSCN_IO ****");
-	print ("Added the following node tree: ")
-	print (final_scene.print_tree_pretty());
-	print ("*****************");
 	
 	# Return the root node of the imported DSCN file.
 	return final_scene;

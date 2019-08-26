@@ -43,7 +43,7 @@ func export_dscn():
 	
 	# Based on the result of the export, print to the console saying what happened.
 	if (result == DSCN_IO.DSCN_IO_STATUS.EXPORT_SUCCESS):
-		print ("DSCN file exported successfully to file: " + filepath);
+		logger.info("DSCN file exported successfully to file: " + filepath);
 	else:
 		var reason = "";
 		
@@ -56,7 +56,7 @@ func export_dscn():
 		elif (result == DSCN_IO.DSCN_IO_STATUS.FILE_NOT_FOUND):
 			reason = "Could not find file!";
 		
-		print ("DSCN file export failed. Reason: " + reason);
+		logger.error("DSCN file export failed. Reason: " + reason);
 
 
 func import_dscn():
@@ -71,7 +71,7 @@ func import_dscn():
 	
 	# Based on the result of the import, print to the console saying what happened.
 	if (result == DSCN_IO.DSCN_IO_STATUS.IMPORT_SUCCESS):
-		print ("DSCN file imported successfully from file: " + filepath);
+		logger.debug("DSCN file imported successfully from file: " + filepath);
 	else:
 		var reason = "";
 		
@@ -84,5 +84,5 @@ func import_dscn():
 		elif (result == DSCN_IO.DSCN_IO_STATUS.FILE_NOT_FOUND):
 			reason = "Could not find file!";
 		
-		print ("DSCN file export failed. Reason: " + reason);
+		logger.error("DSCN file import failed. Reason: " + reason);
 

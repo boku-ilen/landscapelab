@@ -75,7 +75,7 @@ func show_popup(status_text):
 func export_get_select_nodepath():
 	
 	if (editor_interface == null):
-		print ("Error: No editor interface found!");
+		logger.error("No editor interface found!");
 		return;
 	
 	var selection = editor_interface.get_selection();
@@ -125,7 +125,7 @@ func export_dscn(filepath):
 func import_get_select_nodepath():
 	
 	if (editor_interface == null):
-		print ("Error: No editor interface found!");
+		logger.error("No editor interface found!");
 		return;
 	
 	var selection = editor_interface.get_selection();
