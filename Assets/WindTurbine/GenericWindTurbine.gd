@@ -13,7 +13,7 @@ export(float) var wind_direction = 0 setget set_wind_direction, get_wind_directi
 
 func _ready():
 	# TODO: Random label for testing - remove once we get real energy data!
-	tooltip.set_label_text(str(rand_range(0, 100)))
+	tooltip.set_label_text(str(stepify(rand_range(0, 100), 0.1)) + " MW")
 	
 	# Orient the windmill according to the scenario's wind direction
 	# This assumes that a wind direction of 90° means that the wind is blowing from west to east.
