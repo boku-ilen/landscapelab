@@ -59,17 +59,17 @@ func _update_threaded(data):
 # Changes the target value depending on the season
 func _update_target_value(season):
 	if season == "summer":
-		target_energy_label.text = String(target_energy_value["summer"])
+		target_energy_label.text = String(target_energy_value["summer"]) + " MW"
 	elif season == "winter": 
-		target_energy_label.text = String(target_energy_value["winter"])
+		target_energy_label.text = String(target_energy_value["winter"]) + " MW"
 	else:
-		target_energy_label.text = String(target_energy_value["general"])
+		target_energy_label.text = String(target_energy_value["general"]) + " MW"
 
 
 func _load_target_values():
 	target_energy_value["general"] = Session.get_current_scenario()["energy_requirement_total"]
 	target_energy_value["summer"] = Session.get_current_scenario()["energy_requirement_summer"]
-	target_energy_value["winter"] = Session.get_current_scenario()["energy_requirement_winter"]	
+	target_energy_value["winter"] = Session.get_current_scenario()["energy_requirement_winter"]
 
 
 func _setup_gui():
