@@ -15,6 +15,8 @@ func _ready():
 	GlobalSignal.connect("asset_removed", self, "_update")
 	GlobalSignal.connect("asset_spawned", self, "_update")
 	
+	draw_rect(get_viewport_rect(), Color.aliceblue, true)
+	
 	_setup()
 	_update()
 
@@ -52,7 +54,7 @@ func _setup():
 		
 		_setup_type_details(asset_type_details, asset_type_name)
 		
-		self.add_child(assets_list)
+		add_child(assets_list)
 
 
 func _setup_type_details(asset_type_details, asset_type_name):

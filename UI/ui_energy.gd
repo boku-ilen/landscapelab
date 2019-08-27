@@ -78,5 +78,5 @@ func _setup_gui():
 	container.add_child(unit)
 	container.add_child(target_energy_label)
 	
-	get_parent().get_node("Energy").add_child(container)
-	get_parent().get_node("Energy").add_child(assets_amount_label)
+	get_parent().get_node("Energy Panel").get_node("Energy").add_child(container)
+	get_parent().get_node("Energy Panel").get_node("Energy").add_child(assets_amount_label)
