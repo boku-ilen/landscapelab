@@ -23,6 +23,11 @@ func _ready():
 
 # An update should be called whenever the value changes (new asset spawned, asset removed, etc.)
 func _update():
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_update_threaded", []), 80.0)
+
+
+# Thread the server request
+func _update_threaded(data):
 	for asset_type in assets:
 		var asset_type_name = assets[asset_type]["name"]
 		var asset_type_details = ServerConnection.get_json("/assetpos/energy_contribution/" + asset_type + ".json")

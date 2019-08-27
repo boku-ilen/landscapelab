@@ -46,6 +46,11 @@ func _toggled(button_pressed) -> void:
 
 # An update should be called whenever the value changes (new asset spawned, asset removed, etc.)
 func _update():
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_update_threaded", []), 80.0)
+
+
+# Thread the server request
+func _update_threaded(data):
 	var asset_details = ServerConnection.get_json("/assetpos/energy_contribution/all.json")
 	energy_value_label.text = String(asset_details["total_energy_contribution"])
 	assets_amount_label.text = "Total placed assets: " + String(asset_details["number_of_assets"])
