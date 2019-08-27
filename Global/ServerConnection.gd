@@ -105,7 +105,7 @@ class Connection:
 			return null
 		
 		if not _http.get_response_code() < 400:
-			logger.warn("HTTP client: got %s as http status which indicates missing data or a bug in the request url: %s" % [_http.get_response_code(), url])
+			logger.warning("HTTP client: got %s as http status which indicates missing data or a bug in the request url: %s" % [_http.get_response_code(), url])
 			return null
 
 		var response_headers = _get_response_headers()  # FIXME: currently never used
