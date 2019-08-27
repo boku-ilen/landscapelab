@@ -8,7 +8,7 @@ uniform float distribution_pixels_per_meter;
 
 uniform float base_light = 0.5;  // Base value which vegetation is lit by any light, regardless of diretion
 uniform float light_factor = 2.0;  // Changes how much of an effect lighting has
-uniform float opacity_cutoff = 0.75;  // Opacity starts decreasing at uv.y > opacity_cutoff
+uniform float opacity_cutoff = 0.9;  // Opacity starts decreasing at uv.y > opacity_cutoff
 uniform float max_opacity_cutoff_scale = 1.0;  // Maximum scale (in meters) of plants where the opacity cutoff occurs
 
 uniform vec3 pos;

@@ -81,7 +81,7 @@ void vertex() {
 	VERTEX.y = get_height(UV);
 	
 	if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == water_splat_id) {
-		VERTEX.y -= 50.0; // TODO: This will become deprecated once water is precalculated into the heightmap!
+		VERTEX.y -= 2.0; // TODO: This will become deprecated once water is precalculated into the heightmap!
 	}
 	
 	// Calculate the engine position of this vertex
