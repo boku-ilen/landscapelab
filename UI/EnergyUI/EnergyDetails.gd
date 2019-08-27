@@ -15,21 +15,28 @@ func _ready():
 	GlobalSignal.connect("asset_removed", self, "_update")
 	GlobalSignal.connect("asset_spawned", self, "_update")
 	
+	draw_rect(get_viewport_rect(), Color.aliceblue, true)
+	
 	_setup()
 	_update()
 
 
 # An update should be called whenever the value changes (new asset spawned, asset removed, etc.)
 func _update():
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_update_threaded", []), 100.0)
+
+
+# Thread the server request
+func _update_threaded(data):
 	for asset_type in assets:
 		var asset_type_name = assets[asset_type]["name"]
 		var asset_type_details = ServerConnection.get_json("/assetpos/energy_contribution/" + asset_type + ".json")
 		
-		var asset_type_energy = asset_type_details["total_energy_contribution"]
-		var asset_type_amount = asset_type_details["number_of_assets"]
+		var asset_type_energy = "Current energy value: " + String(asset_type_details["total_energy_contribution"]) + " MW"
+		var asset_type_amount = "Placed amount: " + String(asset_type_details["number_of_assets"])
 		
-		type_energy_dict[asset_type_name].text = String(asset_type_energy)
-		type_amount_dict[asset_type_name].text = String(asset_type_amount)
+		type_energy_dict[asset_type_name].text = asset_type_energy
+		type_amount_dict[asset_type_name].text = asset_type_amount
 
 
 func _setup():
@@ -52,32 +59,17 @@ func _setup():
 		
 		_setup_type_details(asset_type_details, asset_type_name)
 		
-		self.add_child(assets_list)
+		add_child(assets_list)
 
 
 func _setup_type_details(asset_type_details, asset_type_name):
 	# Set the values for the details in an own label so they can be manipulated easily later
-	var amount_container = HBoxContainer.new()
-	var energy_container = HBoxContainer.new()
 	var asset_type_amount = Label.new()
-	var asset_type_amount_label = Label.new()
 	var asset_type_energy = Label.new()
-	var asset_type_energy_label = Label.new()
-	
-	asset_type_amount_label.text = "Placed amount: "
-	asset_type_energy_label.text = "Current energy value: "
-	# These values will get changed with _update() function
-	asset_type_amount.text = "0"
-	asset_type_energy.text = "0"
 	
 	# Set the value into the dictionary so they can easily be accessed later and updated
 	type_amount_dict[asset_type_name] = asset_type_amount
 	type_energy_dict[asset_type_name] = asset_type_energy
 	
-	amount_container.add_child(asset_type_amount_label)
-	amount_container.add_child(asset_type_amount)
-	energy_container.add_child(asset_type_energy_label)
-	energy_container.add_child(asset_type_energy)
-	
-	asset_type_details.add_child(amount_container)
-	asset_type_details.add_child(energy_container)
+	asset_type_details.add_child(asset_type_amount)
+	asset_type_details.add_child(asset_type_energy)

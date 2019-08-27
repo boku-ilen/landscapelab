@@ -33,24 +33,30 @@ margin_bottom = 100.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Viewport/CenterContainer"]
-margin_left = 124.0
-margin_top = 25.0
-margin_right = 176.0
-margin_bottom = 75.0
+[node name="PanelContainer" type="PanelContainer" parent="Viewport/CenterContainer"]
+margin_left = 117.0
+margin_top = 18.0
+margin_right = 183.0
+margin_bottom = 82.0
 
-[node name="MarginContainer" type="MarginContainer" parent="Viewport/CenterContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Viewport/CenterContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 59.0
+margin_bottom = 57.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Viewport/CenterContainer/PanelContainer/VBoxContainer"]
 margin_right = 52.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 
-[node name="TextureRect" type="TextureRect" parent="Viewport/CenterContainer/VBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="Viewport/CenterContainer/PanelContainer/VBoxContainer/MarginContainer"]
 margin_right = 52.0
 margin_bottom = 32.0
 expand = true
 stretch_mode = 6
 
-[node name="Label" type="Label" parent="Viewport/CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Viewport/CenterContainer/PanelContainer/VBoxContainer"]
 margin_top = 36.0
 margin_right = 52.0
 margin_bottom = 50.0

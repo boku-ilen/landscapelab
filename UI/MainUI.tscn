@@ -54,14 +54,14 @@ mouse_filter = 2
 alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
-margin_right = 235.0
+margin_right = 249.0
 margin_bottom = 928.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
-margin_right = 235.0
+margin_right = 249.0
 margin_bottom = 928.0
 mouse_filter = 2
 size_flags_horizontal = 0
@@ -69,7 +69,7 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox"]
-margin_right = 235.0
+margin_right = 249.0
 margin_bottom = 58.0
 mouse_filter = 2
 
@@ -90,30 +90,43 @@ texture_pressed = ExtResource( 3 )
 texture_hover = ExtResource( 4 )
 script = ExtResource( 5 )
 
-[node name="Energy Details" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon"]
-margin_left = -0.26
-margin_top = 51.75
-margin_right = 422.74
-margin_bottom = 278.75
+[node name="Panel" type="PanelContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon"]
+margin_left = 4.2959
+margin_top = 57.2789
+margin_right = 44.2959
+margin_bottom = 97.2789
+
+[node name="Energy Details" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 33.0
+margin_bottom = 33.0
 custom_constants/separation = 5
 script = ExtResource( 6 )
 
-[node name="Energy" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
+[node name="Energy Panel" type="PanelContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
 margin_left = 235.0
-margin_right = 235.0
-margin_bottom = 58.0
+margin_top = 6.75
+margin_right = 249.0
+margin_bottom = 38.75
+
+[node name="Energy" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 7.0
+margin_bottom = 25.0
 alignment = 1
 
 [node name="DebugInfo" parent="Top Menu Bar/HBoxLeft/VBox" instance=ExtResource( 7 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 62.0
-margin_right = 235.0
+margin_right = 249.0
 margin_bottom = 928.0
 mouse_filter = 2
 
 [node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
-margin_left = 239.0
+margin_left = 253.0
 margin_right = 1559.0
 margin_bottom = 48.0
 mouse_filter = 2
@@ -122,8 +135,8 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 602.0
-margin_right = 717.0
+margin_left = 595.0
+margin_right = 710.0
 margin_bottom = 48.0
 mouse_filter = 2
 
