@@ -10,10 +10,10 @@ onready var tooltip = get_node("Tooltip3D")
 export(float) var speed = 1 # Rotation speed in radians
 export(float) var wind_direction = 0 setget set_wind_direction, get_wind_direction # Rotation of wind in degrees
 
-
 func _ready():
-	# TODO: Random label for testing - remove once we get real energy data!
-	tooltip.set_label_text(str(stepify(rand_range(0, 100), 0.1)) + " MW")
+	# As this is a threaded task and the tooltip needs a text set on creation, a temporary string will be given
+	tooltip.set_label_text("loading ...")
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_request_energy_value", name), 30.0)
 	
 	# Orient the windmill according to the scenario's wind direction
 	# This assumes that a wind direction of 90° means that the wind is blowing from west to east.
@@ -22,6 +22,15 @@ func _ready():
 	# If is_inside_tree() in set_wind_direction() returned false, we need to catch up on
 	#  setting the wind direction now.
 	update_rotation()
+
+
+func _request_energy_value(id):
+	var energy_value = ServerConnection.get_json("assetpos/energy_contribution/" + id + "/asset.json")
+	
+	if energy_value != null:
+		tooltip.set_label_text(energy_value + " MW")
+	else:
+		tooltip.set_label_text("unknown MW")
 
 
 # Saves the specified wind direction and updates the model's rotation

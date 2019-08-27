@@ -4,8 +4,8 @@ extends Spatial
 # This scene can be added to any node in order to display a tooltip for it when the player is nearby.
 #
 
-onready var label_node = get_node("Viewport/CenterContainer/VBoxContainer/Label")
-onready var icon_node = get_node("Viewport/CenterContainer/VBoxContainer/MarginContainer/TextureRect")
+onready var label_node = get_node("Viewport/CenterContainer/PanelContainer/VBoxContainer/Label")
+onready var icon_node = get_node("Viewport/CenterContainer/PanelContainer/VBoxContainer/MarginContainer/TextureRect")
 
 export(String) var label setget set_label_text, get_label_text
 export(Resource) var icon setget set_icon, get_icon
