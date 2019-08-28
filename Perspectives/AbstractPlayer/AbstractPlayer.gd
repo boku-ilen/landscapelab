@@ -12,6 +12,16 @@ var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 
 func _ready():
 	Offset.connect("shift_world", self, "shift")
+	
+	if is_main_perspective:
+		PlayerInfo.is_main_active = true
+
+
+# This is a function that can handle notification, we will use it for "destructor"-purposes
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		if is_main_perspective:
+        	PlayerInfo.is_main_active = false
 
 
 func _physics_process(delta):
@@ -88,7 +98,8 @@ func _handle_general_input(event):
 
 # Shift the player's in-engine translation by a certain offset, but not the player's true coordinates.
 func shift(delta_x, delta_z):
-	PlayerInfo.add_player_pos(Vector3(delta_x, 0, delta_z))
+	if is_main_perspective or not PlayerInfo.is_main_active:
+		PlayerInfo.add_player_pos(Vector3(delta_x, 0, delta_z))
 	
 	translation.x += delta_x
 	translation.z += delta_z

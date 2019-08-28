@@ -14,20 +14,21 @@
     
         "level-0-tile-size": 9783.93962,
         "level-0-osm-zoom": 12,
-        "default-tile-subdivision": 32,
+        "default-tile-subdivision": 16,
         "update-interval-seconds": 0.2,
         "world-shift-distance": 1000,
-        "tile-spawn-radius": 1,
+        "tile-spawn-radius": 3,
         "tile-removal-check-radius-summand": 2,
         "distances": [
-            10000,
-            4000,
-            1000,
-            500,
+            5000,
+            2000,
+            700,
+            400,
             200,
             100,
             70,
-            30
+            40,
+            20
         ],
         "module-path": "res://World/LODTerrain/Modules/",
     "modules": [
@@ -36,8 +37,7 @@
             ["-TerrainModule.tscn", "DetailedTerrainModule.tscn"],
             ["WaterModule.tscn", "Vegetation/LargeTreeModule.tscn", "Vegetation/SmallTreeModule.tscn"],
             ["Vegetation/LargeBushModule.tscn", "Vegetation/SmallBushModule.tscn", "StaticAssets/BuildingsModule.tscn"],
-            ["Vegetation/HerbageModule.tscn"]
-
+            ["Vegetation/HerbageModule.tscn", "-StaticAssets/BuildingsModule.tscn"]
         ],	
         "player-bounding-radius": 10000
     },
@@ -47,24 +47,24 @@
     },
     
     "item-spawner": {
-        "camera-ray-length": 2000
+        "camera-ray-length": 5000
     },
     
     "herbage": {
         "density-at-lod": {
             "3": 0.15,
-            "4": 0.25,
-            "5": 0.35,
-            "6": 0.5,
-            "7": 0.55,
-            "8": 0.6
+            "4": 0.3,
+            "5": 0.55,
+            "6": 0.6,
+            "7": 0.7,
+            "8": 1.0
         },
         "density-modifiers-for-layers": {
             "1": 2.2,
-            "2": 1,
-            "3": 0.7,
-            "4": 0.33,
-            "5": 0.25
+            "2": 0.8,
+            "3": 0.3,
+            "4": 0.25,
+            "5": 0.1
         },
         "detail-texture-start-distance": 300.0,
 	"detail-texture-scale": 0.4,

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Perspectives/VR/FirstPersonVR.gd" type="Script" id=1]
-[ext_resource path="res://addons/godot-openvr/scenes/ovr_controller.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/vr-common/functions/Function_Teleport.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Perspectives/VR/ARVROrigin.gd" type="Script" id=2]
+[ext_resource path="res://addons/godot-openvr/scenes/ovr_controller.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/vr-common/functions/Function_Teleport.tscn" type="PackedScene" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends ARVRController
@@ -62,19 +63,20 @@ func _process(delta):
 script = ExtResource( 1 )
 
 [node name="ARVROrigin" type="ARVROrigin" parent="."]
+script = ExtResource( 2 )
 
 [node name="ARVRCamera" type="ARVRCamera" parent="ARVROrigin"]
 cull_mask = 119
 current = true
-far = 50000.0
+far = 20000.0
 
-[node name="OVRController" parent="ARVROrigin" instance=ExtResource( 2 )]
+[node name="OVRController" parent="ARVROrigin" instance=ExtResource( 3 )]
 script = SubResource( 1 )
 
-[node name="Function_Teleport" parent="ARVROrigin/OVRController" instance=ExtResource( 3 )]
+[node name="Function_Teleport" parent="ARVROrigin/OVRController" instance=ExtResource( 4 )]
 origin = NodePath("../..")
 floor_threshold = 0.75
 
-[node name="OVRController2" parent="ARVROrigin" instance=ExtResource( 2 )]
+[node name="OVRController2" parent="ARVROrigin" instance=ExtResource( 3 )]
 controller_id = 2
 script = SubResource( 1 )

@@ -36,7 +36,6 @@ func _load_pois():
 		var fixed_pos = [-pois[poi]["location"][0], pois[poi]["location"][1]]
 		# With Offset.to_engine_coordinates change webmercator to the according in-game coordinates
 		var location_coordinates = Offset.to_engine_coordinates(fixed_pos)
-		var test = WorldPosition.get_position_on_ground(Vector3(location_coordinates.x, 0, location_coordinates.y))
 		# The ID in the list is not necessarily the same as the id in the json-file thus we have to
 		# set the poi-id in the metadata
 		poi_list.set_item_metadata(index, location_coordinates)
