@@ -13,7 +13,16 @@ var collider_subdivision = Settings.get_setting("terrain-collider", "collision-m
 
 
 func _ready():
+	connect("visibility_changed", self, "_on_visibility_changed")
 	tile.thread_task(self, "get_textures", [])
+
+
+# When this node becomes invisible due to higher LOD terrain being active, disable the collider
+func _on_visibility_changed():
+	if is_visible_in_tree():
+		col_shape.disabled = true
+	else:
+		col_shape.disabled = false
 
 
 func _on_ready():
