@@ -69,6 +69,8 @@ func _process(delta):
 				logger.debug("Removed asset instance with ID %s" % [asset_id])
 				
 				spawned_asset.queue_free()
+				
+				_handle_deleted_asset()
 		
 		# Second: Iterate over all assets in the response. If it's not in the current assets, it is new -> spawn it
 		for instance_id in _result:
@@ -123,6 +125,11 @@ func _get_asset_position_from_response(asset_id):
 
 # Abstract function which instances the asset with the given asset_id.
 func _spawn_asset(instance_id):
+	pass
+
+
+# Can be implemented if we need to react to an asset being deleted
+func _handle_deleted_asset():
 	pass
 
 

@@ -55,3 +55,8 @@ func _spawn_asset(instance_id):
 		add_child(new_instance)
 	
 	GlobalSignal.emit_signal("asset_spawned")
+
+
+# This function handles the delete of an asset and emits the signal so the ui can be updated
+func _handle_deleted_asset():
+	GlobalSignal.emit_signal("asset_removed")
