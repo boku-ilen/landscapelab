@@ -30,6 +30,9 @@ signal missing_map
 signal missing_3rd
 signal missing_1st
 
+# Perspective handling
+signal main_perspective_active(is_active)
+
 # signal the ui to show the miniview again
 signal miniview_show
 

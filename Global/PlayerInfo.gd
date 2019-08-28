@@ -13,6 +13,7 @@ var last_player_pos = Vector3(0, 0, 0)
 var last_player_look_direction = Vector3(0, 0, 0)
 
 var is_follow_enabled: bool = true
+var is_main_active: bool = false
 
 var walk_speed: float = 10
 
