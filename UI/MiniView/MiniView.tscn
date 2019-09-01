@@ -55,6 +55,7 @@ alignment = 2
 margin_right = 650.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 650, 50 )
+mouse_filter = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 
@@ -62,6 +63,7 @@ size_flags_vertical = 0
 margin_top = 1.0
 margin_right = 541.0
 margin_bottom = 50.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
 
@@ -89,6 +91,7 @@ margin_left = 8.0
 margin_top = -201.0
 margin_right = 401.0
 margin_bottom = -21.0
+mouse_filter = 2
 
 [node name="Zoom IN" type="TextureButton" parent="Miniview Menu/Map Commands"]
 margin_left = 90.0
@@ -113,6 +116,7 @@ margin_left = 545.0
 margin_top = 1.0
 margin_right = 650.0
 margin_bottom = 50.0
+mouse_filter = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 alignment = 2
