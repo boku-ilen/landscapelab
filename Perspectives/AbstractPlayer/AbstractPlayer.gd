@@ -98,8 +98,5 @@ func _handle_general_input(event):
 
 # Shift the player's in-engine translation by a certain offset, but not the player's true coordinates.
 func shift(delta_x, delta_z):
-	if is_main_perspective or not PlayerInfo.is_main_active:
-		PlayerInfo.add_player_pos(Vector3(delta_x, 0, delta_z))
-	
 	translation.x += delta_x
 	translation.z += delta_z
