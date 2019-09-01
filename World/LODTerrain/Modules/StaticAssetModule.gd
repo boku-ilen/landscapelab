@@ -11,6 +11,7 @@ extends Module
 var asset_result
 
 export(int) var asset_type_id
+export(int) var render_layers
 
 
 func _ready() -> void:
@@ -23,7 +24,7 @@ func _on_ready():
 			var obj = asset_result["assets"][id]
 			
 			# TODO: Remove absolute path once landscapelab-server issue #4 is fixed
-			var name_path = "/home/karl/Data/BOKU/retour-middleware/buildings/importable/" + obj.modelpath + ".glb.dscn"
+			var name_path = "/media/boku/resources/buildings/importable/" + obj.modelpath + ".glb.dscn"
 			
 #			# For testing if not all buildings are available on the server:
 #			var name_path = "/home/karl/Data/BOKU/retour-middleware/buildings/importable/Nockberge Testregion_0.gltf.glb.dscn"
@@ -55,11 +56,22 @@ func _on_ready():
 			dscn_node.path_to_node = asset_root.get_path()
 			dscn_node.import_dscn()
 			
-			# TODO: Set the VisualLayer of the newly imported Asset
+			# Set the VisualLayer of the newly imported Asset
+			set_render_layers(asset_root, render_layers)
 	else:
 		logger.warning("Couldn't get assets for ID %d!" % [asset_type_id])
 			
 	ready_to_be_displayed()
+
+
+# Set the render layers of a node and all its children to the specified layer
+# TODO: Is there a faster / more elegant way to do this?
+func set_render_layers(node, layer):
+	if node is VisualInstance:
+		node.layers = layer
+	
+	for child in node.get_children():
+		set_render_layers(child, layer)
 
 
 func get_asset_data_from_server(d):

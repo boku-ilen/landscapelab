@@ -4,3 +4,4 @@
 
 [node name="BuildingsModule" index="0" instance=ExtResource( 1 )]
 asset_type_id = 1
+render_layers = 4
