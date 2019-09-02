@@ -51,7 +51,7 @@ func stop_tracking():
 
 # Make a screenshot and save it in a thread
 # https://github.com/godotengine/godot-demo-projects/blob/master/viewport/screen_capture/screen_capture.gd
-func make_screenshot(session_id):
+func make_screenshot():
 	# Retrieve the captured image
 	var img = get_viewport().get_texture().get_data()
   
@@ -60,7 +60,8 @@ func make_screenshot(session_id):
 	
 	# Save to a file, use the current time for naming
 	var timestamp = OS.get_datetime()
-	var screenshot_filename = "user://screenshot-%d%d%d-%d%d%d-%d.png" % [timestamp["year"], timestamp["month"], timestamp["day"], timestamp["hour"], timestamp["minute"], timestamp["second"], session_id]
+	var screenshot_filename = "user://screenshot-%d%d%d-%d%d%d-%d.png" % [timestamp["year"], timestamp["month"],
+	 timestamp["day"], timestamp["hour"], timestamp["minute"], timestamp["second"], Session.session_id]
 	
 	# Medium priority - we do want it to save sometime soon, but doesn't have to be immediate
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "save_screenshot", [img, screenshot_filename]), 40)
@@ -73,14 +74,14 @@ func save_screenshot(img_filename_array):
 
 
 # Send the current player position to the server
-func send_position(session_id):
+func send_position():
 	# We get the current player position here and do the request in a thread in order
 	#  to get the immediate player position with no delay.
 	var player_position = PlayerInfo.get_true_player_position()
 	var look_at = PlayerInfo.get_player_look_direction()
 	
 	var url = "/location/impression/%f/%f/%f/%f/%f/%f/%d"\
-		% [player_position[0], player_position[2], player_position[1], look_at.x, look_at.z, look_at.y, session_id]
+		% [player_position[0], player_position[2], player_position[1], look_at.x, look_at.z, look_at.y, Session.session_id]
 	
 	# Medium priority - we do want it to arrive sometime soon, but doesn't have to be immediate
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "make_position_request", url), 40)
