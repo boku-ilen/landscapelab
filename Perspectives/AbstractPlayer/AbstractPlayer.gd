@@ -3,6 +3,7 @@ class_name AbstractPlayer
 
 var has_moved : bool = true
 export var is_main_perspective : bool
+export var is_vr_perspective : bool = false
 
 var dragging : bool = false
 var rotating : bool = false
@@ -17,11 +18,25 @@ func _ready():
 		PlayerInfo.is_main_active = true
 
 
-# This is a function that can handle notification, we will use it for "destructor"-purposes
+# Handles notifications sent by the engine
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
+		# Destructor-like
 		if is_main_perspective:
         	PlayerInfo.is_main_active = false
+	elif what == NOTIFICATION_PATH_CHANGED or what == NOTIFICATION_READY:
+		# If the node path has changed or it has just been instanced, we may be in a
+		#  new viewport - make sure it's setup correctly
+		if is_vr_perspective:
+			logger.debug("Setting up viewport for VR")
+			
+			get_viewport().hdr = false
+			get_viewport().arvr = true
+		else:
+			logger.debug("Setting up viewport for PC")
+			
+			get_viewport().hdr = true
+			get_viewport().arvr = false
 
 
 func _physics_process(delta):

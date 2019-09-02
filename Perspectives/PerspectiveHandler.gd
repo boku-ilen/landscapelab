@@ -78,11 +78,6 @@ func toggle_vr(enabled):
 	
 	if vr_activated:
 		change_pc_mini_scene(first_person_vr_scene)
-		pc_mini_viewport.arvr = true
-		pc_mini_viewport.hdr = false
-	else:
-		pc_mini_viewport.arvr = false
-		pc_mini_viewport.hdr = true
 
 
 # change the scene of the miniview to given scene
