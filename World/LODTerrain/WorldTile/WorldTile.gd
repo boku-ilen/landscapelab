@@ -168,8 +168,11 @@ func get_size_vector2d() -> Vector2:
 # Use the LOD at this tile (Make this mesh visible, and delete children modules) - for example, converge from 4 tiles
 # to 1
 func converge():
-	children.clear_children()
-	has_split = false
+	if has_split:
+		logger.debug("Tile converging to LOD %d" % [lod])
+		
+		children.clear_children()
+		has_split = false
 
 
 # Returns the height on the tile at a certain position (the y coordinate of the passed vector is ignored)
@@ -283,6 +286,8 @@ func split(dist_to_player):
 		return
 	
 	if is_leaf_tile():
+		logger.debug("Tile splitting to LOD %d" % [lod + 1])
+		
 		has_split = true
 		children.instantiate_children()
 
