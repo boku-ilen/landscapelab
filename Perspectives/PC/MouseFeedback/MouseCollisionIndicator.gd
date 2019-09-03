@@ -46,6 +46,7 @@ func _unhandled_input(event):
 			_teleport_player()
 			GlobalSignal.emit_signal("teleported")
 			teleport_mode = false
+			get_tree().set_input_as_handled()
 
 
 func _set_teleport_mode():
