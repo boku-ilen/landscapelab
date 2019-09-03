@@ -17,7 +17,7 @@
         "default-tile-subdivision": 16,
         "update-interval-seconds": 0.2,
         "world-shift-distance": 1000,
-        "tile-spawn-radius": 3,
+        "tile-spawn-radius": 9,
         "tile-removal-check-radius-summand": 2,
         "distances": [
             5000,
@@ -47,7 +47,7 @@
     },
     
     "item-spawner": {
-        "camera-ray-length": 5000
+        "camera-ray-length": 20000
     },
     
     "herbage": {
@@ -79,7 +79,7 @@
 
     "sky": {
         "clouds": true,
-        "fog-begin": 700,
+        "fog-begin": 1000,
         "fog-end": 20000,
         "sun-intensity-factor": 1.8
     },
@@ -93,7 +93,7 @@
         "fly-speed-sprint": 5000,
         "fly-speed-sneak": 100,
         "mouse-sensitivity": 0.1,
-        "view-distance": 50000,
+        "view-distance": 40000,
         "fov": 85
     },
 
@@ -102,7 +102,7 @@
         "start_height": 5000,
         "mouse-zoom-speed": 50,
         "mouse-sensitivity": 0.1,
-        "view-distance": 40000,
+        "view-distance": 50000,
         "fov": 70
     },
     
