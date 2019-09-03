@@ -5,8 +5,12 @@ extends Spatial
 # https://github.com/GodotVR/godot-openvr-asset.
 #
 
+
+var interface
+
+
 func _ready():
-	var interface = ARVRServer.find_interface("OpenVR")
+	interface = ARVRServer.find_interface("OpenVR")
 	
 	if interface and interface.initialize():
 		# turn off vsync, we'll be using the headsets vsync
@@ -25,3 +29,9 @@ func _ready():
 		logger.info("Successfully initialized VR")
 	else:
 		logger.error("Couldn't initialize VR headset! Is it connected and SteamVR running for OpenVR?")
+
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		# Destructor: Uninitialize the VR interface
+		interface.uninitialize()
