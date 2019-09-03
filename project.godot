@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Module",
 "language": "GDScript",
 "path": "res://World/LODTerrain/Modules/AbstractModule.gd"
+}, {
+"base": "Spatial",
+"class": "MoveableObject",
+"language": "GDScript",
+"path": "res://Assets/Superclasses/MovableObject.gd"
 } ]
 _global_script_class_icons={
 "AbstractPlayer": "",
-"Module": ""
+"Module": "",
+"MoveableObject": ""
 }
 
 [ServerConnection]
@@ -243,6 +249,7 @@ pc_move_right={
 3d_render/layer_7="3D Symbols"
 3d_render/layer_8="2D Symbols"
 3d_render/layer_9="3D Secondary View UI"
+3d_render/layer_10="3D VR"
 
 [memory]
 
