@@ -1,11 +1,55 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Perspectives/VR/FirstPersonVR.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/VR/ARVROrigin.gd" type="Script" id=2]
-[ext_resource path="res://addons/godot-openvr/scenes/ovr_controller.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/vr-common/functions/Function_Teleport.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Perspectives/VR/FadeMesh.gd" type="Script" id=3]
+[ext_resource path="res://addons/godot-openvr/scenes/ovr_controller.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/vr-common/functions/Function_Teleport.tscn" type="PackedScene" id=5]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="Animation" id=4]
+resource_name = "Fade"
+length = 2.0
+
+[sub_resource type="Animation" id=5]
+resource_name = "FadeIn"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimationPlayer/FadeMesh:material/0:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "FadeOut"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimationPlayer/FadeMesh:material/0:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="PlaneMesh" id=1]
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_transparent = true
+flags_unshaded = true
+albedo_color = Color( 0, 0, 0, 0 )
+
+[sub_resource type="GDScript" id=3]
 script/source = "extends ARVRController
 
 signal controller_activated(controller)
@@ -66,17 +110,32 @@ script = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="ARVRCamera" type="ARVRCamera" parent="ARVROrigin"]
-cull_mask = 119
+cull_mask = 631
 current = true
 far = 20000.0
 
-[node name="OVRController" parent="ARVROrigin" instance=ExtResource( 3 )]
-script = SubResource( 1 )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ARVROrigin/ARVRCamera"]
+playback_speed = 2.0
+anims/Fade = SubResource( 4 )
+anims/FadeIn = SubResource( 5 )
+anims/FadeOut = SubResource( 6 )
+script = ExtResource( 3 )
+below_threshold = 15
+above_threshold = 20
 
-[node name="Function_Teleport" parent="ARVROrigin/OVRController" instance=ExtResource( 4 )]
+[node name="FadeMesh" type="MeshInstance" parent="ARVROrigin/ARVRCamera/AnimationPlayer"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -1.86861 )
+layers = 512
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="OVRController" parent="ARVROrigin" instance=ExtResource( 4 )]
+script = SubResource( 3 )
+
+[node name="Function_Teleport" parent="ARVROrigin/OVRController" instance=ExtResource( 5 )]
 origin = NodePath("../..")
 floor_threshold = 0.75
 
-[node name="OVRController2" parent="ARVROrigin" instance=ExtResource( 3 )]
+[node name="OVRController2" parent="ARVROrigin" instance=ExtResource( 4 )]
 controller_id = 2
-script = SubResource( 1 )
+script = SubResource( 3 )
