@@ -27,23 +27,22 @@ func _ready():
 	GlobalSignal.connect("sync_moving_assets", self, "set_input_controller_mode", [false])
 
 
-func _process(delta):
-	if has_grabbed_object():
-		update_grabbed_object()
-
-
 # This callback is called whenever any input is registered
 func _unhandled_input(event):
-	
 	# just perform any action if the input mode is set to controller
 	if enabled_input_controller:
 		if event.is_action_pressed("object_interact"):
 			if cursor.is_colliding():
-				if has_grabbed_object(): # We have a locked item -> release it to make it stationary and free the cursor
-					release_object()
-				
-				elif cursor.get_collider().is_in_group("Movable"): # Player clicked on a movable object -> lock it to the cursor
-					grab_object_at_cursor()
+				if cursor.get_collider().is_in_group("Movable"): # Player clicked on a movable object -> delete it
+					# MovableObjects always have the root one layer above the StaticBody which is collided with,
+					#  and that root has the ID of itself as its name
+					var movable_object = cursor.get_collider().get_parent()
+					var collided_id = int(movable_object.name)
+					
+					if collided_id != 0:
+						delete_asset(collided_id)
+					else:
+						logger.warning("Asset %s has an invalid name, couldn't be cast to int!" % [movable_object.name])
 				
 				else:
 					var collision_point = cursor.get_collision_point()
@@ -54,6 +53,7 @@ func _unhandled_input(event):
 					# the real asset once the request is done (since the request will likely succeed - if not,
 					# the placeholder asset will simply be removed and not replaced)
 					
+					logger.info("Adding asset instance with ID %d" % [spawned_id])
 					ThreadPool.enqueue_task(ThreadPool.Task.new(self, "add_object_on_server",
 						[global_collision_point[0], global_collision_point[2]]))
 
@@ -63,32 +63,15 @@ func add_object_on_server(data):
 	ServerConnection.get_json("/assetpos/create/%d/%d.0/%d.0" % [spawned_id, -data[0], data[1]])
 
 
-# Bind an object to the cursor (the mouse position)
-func grab_object_at_cursor():
-	# TODO: Make this asset not put itself at the server position while it's being dragged!
-	# (Likely also requires a change in DynamicAssetHandler)
-	
-	locked_object = cursor.get_collider().get_parent() # TODO: Would be great to make this more generic... perhaps add a script in the StaticBody to get the main object?
-	cursor.add_exception(cursor.get_collider())
+# Enqueues the server request for deleting the object with the given ID.
+func delete_asset(id):
+	logger.info("Removing asset instance with ID %d" % [id])
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "delete_object_on_server", [id]))
 
 
-# Update the position of the grabbed object based on the cursor
-func update_grabbed_object():
-	if cursor.is_colliding(): # Reposition the grabbed object to the spot on the ground the cursor points at
-		locked_object.translation = world.get_ground_coords(cursor.get_collision_point())
-
-
-# Place the grabbed object (making it stationary again)
-func release_object():
-	# TODO: Update position on server!
-	
-	locked_object = null
-	cursor.clear_exceptions()
-
-
-# Returns true if the cursor is currently grabbing an object (moving it with its movement)
-func has_grabbed_object():
-	return locked_object != null
+# Actually sends the server request for deleting an object (to be called from a thread)
+func delete_object_on_server(data):
+	ServerConnection.get_json("/assetpos/remove/%d" % [data[0]])
 
 
 # Sets the id for the spawned item which is clicked in the ui controller
