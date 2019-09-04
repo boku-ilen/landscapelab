@@ -78,6 +78,8 @@ func toggle_vr(enabled):
 	
 	if vr_activated:
 		change_pc_mini_scene(first_person_vr_scene)
+	else:
+		close_pc_mini_scene()
 
 
 # change the scene of the miniview to given scene
@@ -88,6 +90,7 @@ func change_pc_mini_scene(scene, emit=true):
 	
 	# replace the current scene with the new one
 	for child in pc_mini_viewport.get_children():
+		child.cleanup()
 		child.free()
 	pc_mini_viewport.add_child(scene.instance())
 	current_pc_mini_scene = scene
@@ -99,6 +102,7 @@ func change_pc_mini_scene(scene, emit=true):
 # change the scene of the pc fullscreen to given scene
 func change_pc_scene(scene):
 	for child in pc_viewport.get_children():
+		child.cleanup()
 		child.free()
 	pc_viewport.add_child(scene.instance())
 	current_pc_scene = scene
@@ -109,7 +113,8 @@ func change_pc_scene(scene):
 # this clears the miniview
 func close_pc_mini_scene():
 	for child in pc_mini_viewport.get_children():
-		child.free()	
+		child.cleanup()
+		child.free()
 	current_pc_mini_scene = null
 	emit_missing_viewports()
 

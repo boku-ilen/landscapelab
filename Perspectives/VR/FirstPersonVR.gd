@@ -1,4 +1,4 @@
-extends Spatial
+extends Perspective
 
 #
 # This script sets up the VR player, as described in
@@ -23,15 +23,20 @@ func _ready():
 		# TODO: Ideally the VR player inherits from AbstractPlayer, which already handles this!
 		logger.debug("Setting up viewport for VR")
 		
-		get_viewport().hdr = false
+		# Required viewport settings
 		get_viewport().arvr = true
+		get_viewport().render_target_clear_mode = Viewport.CLEAR_MODE_ALWAYS
+		get_viewport().render_target_update_mode = Viewport.UPDATE_ALWAYS
+		get_viewport().keep_3d_linear = true
 		
 		logger.info("Successfully initialized VR")
 	else:
 		logger.error("Couldn't initialize VR headset! Is it connected and SteamVR running for OpenVR?")
 
 
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		# Destructor: Uninitialize the VR interface
-		interface.uninitialize()
+func cleanup():
+	interface.uninitialize()
+	
+	get_viewport().arvr = false
+	get_viewport().keep_3d_linear = false
+	get_viewport().set_size_override(false)

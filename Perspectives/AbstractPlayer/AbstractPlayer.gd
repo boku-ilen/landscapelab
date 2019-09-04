@@ -111,6 +111,12 @@ func _handle_general_input(event):
 	pass
 
 
+# FIXME: Should inherit from Perspective and get that function from there! Currently not possible
+#  since this inherits from KinematicBody
+func cleanup():
+	pass
+
+
 # Shift the player's in-engine translation by a certain offset, but not the player's true coordinates.
 func shift(delta_x, delta_z):
 	translation.x += delta_x

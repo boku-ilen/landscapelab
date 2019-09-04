@@ -1,4 +1,4 @@
-extends Spatial
+extends Perspective
 
 #
 # Basic minimap implementation which uses an orthographic camera placed above the player.
