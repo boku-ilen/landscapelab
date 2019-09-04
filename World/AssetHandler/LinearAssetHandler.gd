@@ -24,12 +24,14 @@ func _get_server_result():
 # Abstract function which instances the asset with the given asset_id.
 func _spawn_asset(instance_id):
 	var line = _result[instance_id]["line"]
+	var width = _result[instance_id]["width"]
 	var vectored_line = _vectorize_points(line)
 		
 	var drawer = linear_drawer.instance()
 	drawer.name = String(instance_id)
 	add_child(drawer)
 	
+	drawer.set_width(width)
 	drawer.add_points(vectored_line)
 
 
