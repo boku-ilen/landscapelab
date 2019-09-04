@@ -30,6 +30,10 @@ signal missing_map
 signal missing_3rd
 signal missing_1st
 
+# hide/show all perspective switching and handling buttons
+signal hide_perspective_controls
+signal show_perspective_controls
+
 # Perspective handling
 signal main_perspective_active(is_active)
 

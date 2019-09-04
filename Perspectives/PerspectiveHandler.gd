@@ -24,6 +24,10 @@ var third_person_pc_scene = preload("res://Perspectives/PC/ThirdPersonPC.tscn")
 var first_person_vr_scene = preload("res://Perspectives/VR/FirstPersonVR.tscn")
 var minimap_scene = preload("res://Perspectives/PC/Minimap/Minimap.tscn")
 
+# Points to the scene which should be shown in the main viewport while VR mode is active
+# Set to third person PC scene because it's the most practical for controlling the VR player
+var pc_main_scene_when_vr_active = third_person_pc_scene
+
 # here we remember what is shown in the full screen and miniview modes
 var current_pc_scene
 var current_pc_mini_scene
@@ -78,15 +82,25 @@ func toggle_vr(enabled):
 	
 	if vr_activated:
 		change_pc_mini_scene(first_person_vr_scene)
+		
+		# Load the scene to show on the PC when VR is active into the main viewport
+		#  since it can't be switched while VR is active 
+		change_pc_scene(pc_main_scene_when_vr_active)
+		
+		# Since the VR viewport must always stay in that viewport (issue #87),
+		#  hide all switching-related buttons
+		hide_perspective_controls()
 	else:
 		close_pc_mini_scene()
+		
+		show_perspective_controls()
 
 
 # change the scene of the miniview to given scene
 func change_pc_mini_scene(scene, emit=true):
 	# notify the ui about reenabeling the miniview 
 	if current_pc_mini_scene == null:
-		GlobalSignal.emit_signal("miniview_show")	
+		GlobalSignal.emit_signal("miniview_show")
 	
 	# replace the current scene with the new one
 	for child in pc_mini_viewport.get_children():
@@ -120,11 +134,21 @@ func close_pc_mini_scene():
 
 
 # switch the scenes of the two pc viewports (fullscreen and miniview)
-func exchange_viewports():	
+func exchange_viewports():
 	var new_pc = current_pc_mini_scene
 	var new_mini = current_pc_scene
 	change_pc_mini_scene(new_mini, false)
 	change_pc_scene(new_pc)
+
+
+# Hide all controls related to perspective switching and handling
+func hide_perspective_controls():
+	GlobalSignal.emit_signal("hide_perspective_controls")
+
+
+# Show all controls related to perspective switching and handling
+func show_perspective_controls():
+	GlobalSignal.emit_signal("show_perspective_controls")
 
 
 func emit_missing_viewports():
