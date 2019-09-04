@@ -77,9 +77,8 @@ func _process(delta):
 			var instance_name = String(instance_id)
 
 			if not has_node(instance_name):
-				_spawn_asset(instance_id)
-					
-				logger.debug("Spawned new asset instance with ID %s" % [instance_name])
+				if _spawn_asset(instance_id):
+					logger.debug("Spawned new asset instance with ID %s" % [instance_name])
 			
 		# Start getting the next result
 		_new_result = false

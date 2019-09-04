@@ -53,8 +53,10 @@ func _spawn_asset(instance_id):
 		new_instance.translation = pos
 	
 		add_child(new_instance)
-	
-	GlobalSignal.emit_signal("asset_spawned")
+		
+		GlobalSignal.emit_signal("asset_spawned")
+		
+		return true
 
 
 # This function handles the delete of an asset and emits the signal so the ui can be updated
