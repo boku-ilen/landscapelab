@@ -17,7 +17,7 @@
         "default-tile-subdivision": 16,
         "update-interval-seconds": 0.2,
         "world-shift-distance": 1000,
-        "tile-spawn-radius": 9,
+        "tile-spawn-radius": 6,
         "tile-removal-check-radius-summand": 2,
         "distances": [
             5000,
@@ -93,7 +93,7 @@
         "fly-speed-sprint": 5000,
         "fly-speed-sneak": 100,
         "mouse-sensitivity": 0.1,
-        "view-distance": 40000,
+        "view-distance": 60000,
         "fov": 85
     },
 
@@ -102,7 +102,7 @@
         "start_height": 5000,
         "mouse-zoom-speed": 50,
         "mouse-sensitivity": 0.1,
-        "view-distance": 50000,
+        "view-distance": 30000,
         "fov": 70
     },
     
