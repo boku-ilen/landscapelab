@@ -27,7 +27,9 @@ func _ready():
 
 # Abstract function which returns the result (a list of assets) of the specific request being implemented.
 func _get_server_result():
-	var result = ServerConnection.get_json("/assetpos/get_all/%s.json" % [asset_id], false)
+	var player_pos = PlayerInfo.get_true_player_position()
+	var result = ServerConnection.get_json("/assetpos/get_near/by_asset/%s/%d.0/%d.0.json"
+	 % [asset_id, -player_pos[0], player_pos[2]], false)
 	
 	if result and result.has("assets"):
 		return result["assets"]
@@ -45,8 +47,9 @@ func _get_asset_position_from_response(asset_id):
 func _spawn_asset(instance_id):
 	var pos = _get_engine_position_for_asset(instance_id)
 	
-	# To be safe, we check whether the asset is within a reasonable distance
-	if pos.length() < 20000:
+	# Our request should only return nearby assets, but this is a failsafe to prevent #78 from causing crashes if
+	#  for some reason, we get assets which are very far away.
+	if pos.length() < 30000:
 		var new_instance = asset_scene.instance()
 		
 		new_instance.name = String(instance_id)
@@ -57,6 +60,8 @@ func _spawn_asset(instance_id):
 		GlobalSignal.emit_signal("asset_spawned")
 		
 		return true
+	else:
+		logger.warning("Got AssetPosition with ID %d which is very far away, it won't be instanced!" % [instance_id])
 
 
 # This function handles the delete of an asset and emits the signal so the ui can be updated
