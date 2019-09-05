@@ -67,9 +67,10 @@ func _update_target_value(season):
 
 
 func _load_target_values():
+	# TODO: We don't have separate values for summer and winter anymore!
 	target_energy_value["general"] = Session.get_current_scenario()["energy_requirement_total"]
-	target_energy_value["summer"] = Session.get_current_scenario()["energy_requirement_summer"]
-	target_energy_value["winter"] = Session.get_current_scenario()["energy_requirement_winter"]
+	target_energy_value["summer"] = Session.get_current_scenario()["energy_requirement_total"]
+	target_energy_value["winter"] = Session.get_current_scenario()["energy_requirement_total"]
 
 
 func _setup_gui():
