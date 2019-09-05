@@ -9,7 +9,7 @@
 [ext_resource path="res://World/AssetHandler/AssetHandlerSpawner.tscn" type="PackedScene" id=7]
 [ext_resource path="res://World/AssetHandler/DynamicAssetHandler.tscn" type="PackedScene" id=8]
 [ext_resource path="res://World/AssetHandler/LinearAssetHandler.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Util/LinearDrawer/RoadDrawer.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Util/PlayerTeleportListener.tscn" type="PackedScene" id=10]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 1 )
@@ -28,4 +28,5 @@ script = ExtResource( 1 )
 asset_handler_scene = ExtResource( 8 )
 
 [node name="LinearAssetHandler" parent="." instance=ExtResource( 9 )]
-linear_drawer = ExtResource( 10 )
+
+[node name="PlayerTeleportListener" parent="." instance=ExtResource( 10 )]
