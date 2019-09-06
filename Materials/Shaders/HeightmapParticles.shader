@@ -108,8 +108,8 @@ void vertex ()
 	vec3 noise = texture(noisemap, pos.xz * 0.0123).rgb;
 
 	// Apply random offset
-	pos.x += (0.5 - noise.x) * (spacing / 2.0);
-	pos.z += (0.5 - noise.y) * (spacing / 2.0);
+	pos.x += (0.5 - noise.x) * spacing * 2.0;
+	pos.z += (0.5 - noise.y) * spacing * 2.0;
 	
 	// Apply the height from the heightmap, plus the vertical offset (used for making sure it doesn't float at low LODs)
 	pos.y += get_height((pos.xz / size) * -1.0 + vec2(0.5)) + vertical_offset;
