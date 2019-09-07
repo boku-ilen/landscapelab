@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Util/PlayerMarkerUpdater.gd" type="Script" id=1]
+[ext_resource path="res://Util/RegularServerRequest.tscn" type="PackedScene" id=2]
+
+[node name="PlayerMarkerUpdater" type="Spatial"]
+script = ExtResource( 1 )
+player_marker_asset_id = 13
+
+[node name="RegularServerRequest" parent="." instance=ExtResource( 2 )]
