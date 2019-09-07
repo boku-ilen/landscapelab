@@ -105,9 +105,8 @@ margin_bottom = 33.0
 custom_constants/separation = 5
 script = ExtResource( 6 )
 
-[node name="RegularServerRequest" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/Panel/Energy Details" instance=ExtResource( 7 )]
-
 [node name="RegularServerRequest" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon" instance=ExtResource( 7 )]
+interval = 2.0
 
 [node name="Energy Panel" type="PanelContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
 margin_left = 235.0

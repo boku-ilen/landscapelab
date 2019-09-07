@@ -19,18 +19,19 @@ func _ready():
 	# Make the the interval for the assets request in intervals of 2 seconds
 	requester.interval = 2 
 	requester.set_request("/energy/contribution/" + String(Session.scenario_id) + "/all.json")
-	
+	requester.connect("new_response", self, "_on_new_response")
 	_setup_gui()
 	
 	energy_details.visible = false
 
 
-func _process(delta):
-	var asset_details = requester.get_latest_response()
+func _on_new_response(response):
+	var asset_details = response
 	
 	if not asset_details == null:
 		energy_value_label.text = String(asset_details["total_energy_contribution"])
 		assets_amount_label.text = "Total placed assets: " + String(asset_details["number_of_assets"])
+
 
 
 func _toggled(button_pressed) -> void:
