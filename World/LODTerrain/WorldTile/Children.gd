@@ -31,6 +31,8 @@ func instantiate_children():
 			child.translation = offset
 			
 			child.offset_from_parent = xy_vec / 2 # fields are 0 or 0.5
+			
+			child.top_level = tile.top_level
 
 			# Apply
 			child.name = String(cur_name)

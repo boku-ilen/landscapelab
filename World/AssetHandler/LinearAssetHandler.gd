@@ -33,6 +33,8 @@ func _spawn_asset(instance_id):
 	
 	drawer.set_width(width)
 	drawer.add_points(vectored_line)
+	
+	return true
 
 
 # Takes a list of 2-dimensional WebMercator points from the server response and turns them into in-engine 3D points.

@@ -8,6 +8,7 @@ extends Node
 # Emitted whenever the global player position is updated.
 # Also emits the new engine position.
 signal player_position_changed
+signal player_look_direction_changed
 
 var last_player_pos = Vector3(0, 0, 0)
 var last_player_look_direction = Vector3(0, 0, 0)
@@ -27,6 +28,7 @@ func update_player_pos(new_pos):
 # Set the player look direction to a new Vector3
 func update_player_look_direction(new_dir):
 	last_player_look_direction = new_dir
+	emit_signal("player_look_direction_changed", last_player_look_direction)
 
 
 # Adds a Vector3 to the last engine player position

@@ -42,7 +42,7 @@ func _get_server_result():
 func _get_asset_position_from_response(asset_id):
 	return [_result[asset_id]["position"][0], _result[asset_id]["position"][1]]
 
-
+ 
 # Abstract function which instances the asset with the given asset_id.
 func _spawn_asset(instance_id):
 	var pos = _get_engine_position_for_asset(instance_id)
@@ -53,7 +53,7 @@ func _spawn_asset(instance_id):
 		var new_instance = asset_scene.instance()
 		
 		new_instance.name = String(instance_id)
-		new_instance.translation = pos
+		new_instance.global_transform.origin = pos
 	
 		add_child(new_instance)
 		

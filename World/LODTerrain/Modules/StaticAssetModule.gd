@@ -32,23 +32,18 @@ func _on_ready():
 			var dscn_node = load("res://addons/dscn_io/DSCN_Runtime_Node.gd").new()
 			
 			# Add a node which will be the root of the new asset 
-			var asset_root = Spatial.new()
+			var asset_root = GroundedSpatial.new()
 			add_child(asset_root)
 			
 			# Turn the absolute webmercator position from the server response into a relative local
 			#  position at the correct height
 			var abs_pos = [-obj.position[0], obj.position[1]]
 			var local_pos = Offset.to_engine_coordinates(abs_pos)
-			var ground_pos = WorldPosition.get_position_on_ground(Vector3(local_pos.x, 0, local_pos.y))
+			var local_pos_3d = Vector3(local_pos.x, 0, local_pos.y)
 			
-			if not ground_pos:
-				logger.warning("No ground position could be obtained for asset of ID %d with position %d, %d"
-					 % [asset_type_id, abs_pos[0], abs_pos[1]])
-				continue
-			
-			# 'translation' is relative to the parent nodes. However, our ground_pos is in absolute coordinates.
-			# Thus, we need to turn the ground_pos into a local position by subtracting the global origin.
-			asset_root.translation = ground_pos - global_transform.origin
+			# 'translation' is relative to the parent nodes. However, our local_pos_3d is in absolute coordinates.
+			# Thus, we need to turn the local_pos_3d into a local position by subtracting the global origin.
+			asset_root.transform.origin = local_pos_3d - global_transform.origin
 			
 			# Load the DSCN file into the asset_root
 			add_child(dscn_node)
