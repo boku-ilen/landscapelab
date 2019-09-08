@@ -11,6 +11,7 @@ extents = Vector3( 72, 1.76459, 56 )
 
 [node name="LargePVPlant" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+update_interval = 1.97476
 rows = 16
 cols = 16
 row_spacing = 7.0

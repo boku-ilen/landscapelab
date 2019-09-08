@@ -1,4 +1,4 @@
-extends Spatial
+extends GroundedSpatial
 
 #
 # Draws a road with a given width along the given points.
@@ -15,6 +15,19 @@ var height = 0
 
 func _ready():
 	set_height(0.5)
+
+
+# Overwritten since we need to update the individual points, not just this node
+func _place_on_ground():
+	# FIXME: Workaround for order of execution not making curve available since the GroundedSpatial's _ready() is
+	#  called before this one's
+	if not curve:
+		curve = get_node("Path").curve
+	
+	for point_index in range(0, curve.get_point_count()):
+		var new_pos = WorldPosition.get_position_on_ground(curve.get_point_position(point_index))
+		
+		curve.set_point_position(point_index, new_pos)
 
 
 # Modifies the road polygon to have a given width

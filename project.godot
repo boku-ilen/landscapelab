@@ -15,19 +15,37 @@ _global_script_classes=[ {
 "path": "res://Perspectives/AbstractPlayer/AbstractPlayer.gd"
 }, {
 "base": "Spatial",
+"class": "GroundedSpatial",
+"language": "GDScript",
+"path": "res://Util/GroundedSpatial.gd"
+}, {
+"base": "Spatial",
 "class": "Module",
 "language": "GDScript",
 "path": "res://World/LODTerrain/Modules/AbstractModule.gd"
 }, {
-"base": "Spatial",
+"base": "GroundedSpatial",
 "class": "MoveableObject",
 "language": "GDScript",
 "path": "res://Assets/Superclasses/MovableObject.gd"
+}, {
+"base": "Spatial",
+"class": "Perspective",
+"language": "GDScript",
+"path": "res://Perspectives/AbstractPerspective.gd"
+}, {
+"base": "Spatial",
+"class": "WorldTile",
+"language": "GDScript",
+"path": "res://World/LODTerrain/WorldTile/WorldTile.gd"
 } ]
 _global_script_class_icons={
 "AbstractPlayer": "",
+"GroundedSpatial": "",
 "Module": "",
-"MoveableObject": ""
+"MoveableObject": "",
+"Perspective": "",
+"WorldTile": ""
 }
 
 [ServerConnection]
