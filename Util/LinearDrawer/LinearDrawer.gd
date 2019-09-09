@@ -19,6 +19,8 @@ func _ready():
 
 # Overwritten since we need to update the individual points, not just this node
 func _place_on_ground():
+	_just_placed_on_ground = true
+	
 	# FIXME: Workaround for order of execution not making curve available since the GroundedSpatial's _ready() is
 	#  called before this one's
 	if not curve:
@@ -28,7 +30,13 @@ func _place_on_ground():
 	global_transform.origin.y = 0
 	
 	for point_index in range(0, curve.get_point_count()):
-		var new_pos = WorldPosition.get_position_on_ground(curve.get_point_position(point_index))
+		var old_pos = curve.get_point_position(point_index)
+		
+		# For the new height, we need to add the global_transform.origin since we need the global position,
+		#  but the position of the point should stay relative, so we only apply the y-coordinate
+		var new_pos_y = WorldPosition.get_position_on_ground(global_transform.origin + old_pos).y
+		
+		var new_pos = Vector3(old_pos.x, new_pos_y, old_pos.z)
 		
 		curve.set_point_position(point_index, new_pos)
 

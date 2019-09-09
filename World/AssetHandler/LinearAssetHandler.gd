@@ -25,11 +25,20 @@ func _get_server_result():
 func _spawn_asset(instance_id):
 	var line = _result[instance_id]["line"]
 	var width = _result[instance_id]["width"]
-	var vectored_line = _vectorize_points(line)
+	var middle_point_and_vectored_line = _vectorize_points(line)
+	
+	var middle_point = middle_point_and_vectored_line[0]
+	var vectored_line = middle_point_and_vectored_line[1]
 		
 	var drawer = linear_drawer.instance()
+	
 	drawer.name = String(instance_id)
+	
 	add_child(drawer)
+	
+	# We want the global origin of the drawer to be approximately in the center of the road.
+	# This is e.g. so that the tile which the GroundedSpatial is bound to is accurate.
+	drawer.global_transform.origin = middle_point
 	
 	drawer.set_width(width)
 	drawer.add_points(vectored_line)
@@ -41,12 +50,16 @@ func _spawn_asset(instance_id):
 func _vectorize_points(line_array):
 	var vectored_line = []
 	
+	var middle_index = floor(line_array.size() / 2)
+	var middle_point = _server_point_to_engine_pos(line_array[middle_index][0], line_array[middle_index][1])
+	
 	for point in line_array:
-		vectored_line.append(_server_point_to_engine_pos(point[0], point[1]))
+		# These positions are relative to the point approximately in the middle of the road (the middle_point)
+		vectored_line.append(_server_point_to_engine_pos(point[0], point[1]) - middle_point)
 		
 	_interpolate_points(vectored_line)
 	
-	return vectored_line
+	return [middle_point, vectored_line]
 
 
 # Adds points between points which are more than maximum_distance_between_points from each other.
