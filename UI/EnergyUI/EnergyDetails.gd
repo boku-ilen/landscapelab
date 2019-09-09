@@ -58,7 +58,7 @@ func _setup():
 		var asset_type_name = assets[asset_type]["name"]
 		
 		# Store the target energy value for the type in a dictionary
-		type_target_energy_dict[asset_type_name] = assets[asset_type]["energy_target"]
+		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_request_energy_value", name), 70.0)
 		
 		#if asset_type_name == "Wind Turbine":
 		#	asset_type_image.texture = load("res://Resources/Images/UI/MapIcons/windmill_icon.png")
@@ -68,6 +68,10 @@ func _setup():
 		_setup_type_details(asset_type_details, asset_type_name)
 		
 		add_child(assets_list)
+
+
+func _request_type_target_value(asset_name : String, asset_id : String):
+	type_target_energy_dict[asset_name] = ServerConnection.get_json("/energy/target/" + String(Session.scenario_id) + "/" + asset_id + ".json")
 
 
 func _setup_type_details(asset_type_details, asset_type_name):
