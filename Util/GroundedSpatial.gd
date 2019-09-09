@@ -39,7 +39,7 @@ func _update_tile_underneath():
 		tile_underneath.disconnect("split", self, "_place_on_ground")
 	
 	# Get the new tile
-	tile_underneath = WorldPosition.get_tile_at_position(global_transform.origin)
+	tile_underneath = WorldPosition.get_tile_at_position(Offset.to_world_coordinates(global_transform.origin))
 	
 	# Connect to the new tile
 	if tile_underneath:  # We may not have a tile, e.g. if it's not loaded (due to small view distance)
