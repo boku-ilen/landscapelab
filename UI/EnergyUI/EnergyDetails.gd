@@ -10,39 +10,44 @@ var assets_list
 var type_energy_dict : Dictionary
 var type_target_energy_dict : Dictionary
 var type_amount_dict : Dictionary
+var type_requester_dict : Dictionary
+
+onready var requester = preload("res://Util/RegularServerRequest.tscn")
 
 
 func _ready():
-	GlobalSignal.connect("asset_removed", self, "_update")
-	GlobalSignal.connect("asset_spawned", self, "_update")
-	
-	_setup()
-	_update()
-
-
-# An update should be called whenever the value changes (new asset spawned, asset removed, etc.)
-func _update():
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_update_threaded", []), 100.0)
-
-
-# Thread the server request
-func _update_threaded(data):
-	for asset_type in assets:
-		var asset_type_name = assets[asset_type]["name"]
-		var asset_type_details = ServerConnection.get_json("/energy/contribution/" + String(Session.scenario_id) + "/" + asset_type + ".json", false)
-		
-		var asset_type_energy = "Current energy value: " + String(asset_type_details["total_energy_contribution"]) + " MW / " + String(type_target_energy_dict[asset_type_name]) + " MW" 
-		var asset_type_amount = "Placed amount: " + String(asset_type_details["number_of_assets"])
-		
-		type_energy_dict[asset_type_name].text = asset_type_energy
-		type_amount_dict[asset_type_name].text = asset_type_amount
-
-
-func _setup():
 	# Load all possible assets from the server 
 	# Url: assetpos/get_all_editable_assettypes.json
 	assets = Assets.get_asset_types_with_assets()
+	_setup()
 	
+	_create_regular_requests()
+
+
+func _create_regular_requests():
+	for asset_type in assets:
+		var asset_type_name = assets[asset_type]["name"]
+		var asset_type_requester = requester.instance()
+		add_child(asset_type_requester)
+		
+		asset_type_requester.set_request("/energy/contribution/" + String(Session.scenario_id) + "/" + asset_type + ".json")
+		asset_type_requester.connect("new_response", self, "_update_values")
+		# Make the the interval for the assets request in intervals of 2 seconds
+		asset_type_requester.interval = 2 
+		
+		# Save the specific regular requester in a dict to easily access is later
+		type_requester_dict[asset_type_name] = asset_type_requester
+
+
+func _update_values(response):
+	var res = response 
+	for asset_type in assets:
+		var asset_type_name = assets[asset_type]["name"]
+		type_energy_dict[asset_type_name].text = "Current energy value: " + type_requester_dict[asset_type_name].get_latest_response()["total_energy_contribution"] + " MW / " + String(type_target_energy_dict[asset_type_name]) + " MW" 
+		type_amount_dict[asset_type_name].text = "Placed amount: " + type_requester_dict[asset_type_name].get_latest_response()["number_of_assets"]
+
+
+func _setup():
 	for asset_type in assets:
 		assets_list = load("res://UI/EnergyUI/AssetsList.tscn").instance()
 		
