@@ -19,7 +19,7 @@ func set_handler(ref):
 
 # Returns the top-level tile (no tile parent) which is at the given position, or null
 #  if there is no tile for that position.
-func get_tile_at_position(engine_pos: Vector3):
+func get_tile_at_position(engine_pos: Array):
 	return _handler.get_tile_at_position(engine_pos)
 
 
