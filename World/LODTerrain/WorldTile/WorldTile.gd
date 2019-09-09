@@ -97,13 +97,8 @@ func init(s, lod_level, activate_pos=null):
 	initialized = true
 	
 
-# Called when all children are ready to be displayed.
-# Actually, exactly this would happen in the next _process() call anyways. However,
-# we also react immediately to the signal to prevent flickering.
+# Called when all children are ready to be displayed
 func _on_all_children_to_be_displayed():
-	modules.visible = false
-	children.visible = true
-	
 	# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
 	#  (which has no other tile parent)
 	_emit_split_in_toplevel_tile()
