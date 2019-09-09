@@ -134,4 +134,4 @@ func _get_engine_position_for_asset(instance_id):
 # React to a world shift by moving all child nodes (asset instances) accordingly
 func _on_shift_world(delta_x : int, delta_z : int):
 	for child in get_children():
-		child.translation += Vector3(delta_x, 0, delta_z)
+		child.shift(delta_x, delta_z)

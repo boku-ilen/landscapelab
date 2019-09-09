@@ -51,3 +51,11 @@ func _place_on_ground():
 	global_transform.origin = WorldPosition.get_position_on_ground(global_transform.origin)
 	
 	_just_placed_on_ground = true
+
+
+# React to a world shift
+func shift(delta_x, delta_z):
+	global_transform.origin += Vector3(delta_x, 0, delta_z)
+	
+	# Since this was a world shift, we don't need to get a new height
+	_just_placed_on_ground = true
