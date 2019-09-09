@@ -103,6 +103,10 @@ func init(s, lod_level, activate_pos=null):
 func _on_all_children_to_be_displayed():
 	modules.visible = false
 	children.visible = true
+	
+	# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
+	#  (which has no other tile parent)
+	_emit_split_in_toplevel_tile()
 
 
 # Emit the 'split' signal in the top-level tile (which has no tile parent)
@@ -112,11 +116,6 @@ func _emit_split_in_toplevel_tile():
 
 func _on_tile_to_be_displayed():
 	to_be_displayed = true
-	
-	# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
-	#  (which has no other tile parent)
-	# TODO: Actually, this should be done when all 4 new children are to be displayed
-	_emit_split_in_toplevel_tile()
 
 
 # Returns true if there is a layer of WorldTiles above this current one
