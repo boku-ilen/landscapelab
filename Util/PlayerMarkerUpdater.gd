@@ -9,7 +9,6 @@ onready var requester = get_node("RegularServerRequest")
 func _ready():
 	requester.set_interval(interval)
 	requester.set_custom_request_getter(self, "_get_request_string_with_latest_position")
-	requester.connect("new_response", self, "_on_new_response")
 
 
 func _get_request_string_with_latest_position():

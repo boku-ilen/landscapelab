@@ -63,7 +63,7 @@ func _process(delta):
 			if _result.has(asset_id):
 				# If this asset is in the response, update it
 				if moving:
-					spawned_asset.translation = _get_engine_position_for_asset(asset_id)
+					spawned_asset.transform.origin = _get_engine_position_for_asset(asset_id)
 			else:
 				# If it's not in the response, it was deleted or is out of bounds -> remove it
 				logger.debug("Removed asset instance with ID %s" % [asset_id])
@@ -87,16 +87,9 @@ func _process(delta):
 func _server_point_to_engine_pos(server_x, server_y):
 	# Convert the 2D world position received from the server to in-engine 2D coordinates
 	var instance_pos_2d = Offset.to_engine_coordinates([-server_x, server_y])
-			
-	# Convert to a 3D position by placing the point on the ground
-	var instance_pos_3d = Vector3(instance_pos_2d.x, 0, instance_pos_2d.y)
-	var ground_pos = WorldPosition.get_position_on_ground(instance_pos_3d)
 	
-	# There may not be a ground_pos if there is no valid collider at that position
-	if ground_pos:
-		return ground_pos
-	else:
-		return instance_pos_3d
+	# Return as 3D position
+	return Vector3(instance_pos_2d.x, 0, instance_pos_2d.y)
 
 
 # Loads a new asset instance result from the server (to be called from a thread)
@@ -141,4 +134,4 @@ func _get_engine_position_for_asset(instance_id):
 # React to a world shift by moving all child nodes (asset instances) accordingly
 func _on_shift_world(delta_x : int, delta_z : int):
 	for child in get_children():
-		child.translation += Vector3(delta_x, 0, delta_z)
+		child.shift(delta_x, delta_z)

@@ -1,5 +1,6 @@
 tool
 extends Spatial
+class_name WorldTile
 
 #
 # This is a general world tile which can hold multiple meshes or other information (modules).
@@ -30,6 +31,8 @@ const NUM_CHILDREN = 4 # Number of children, will likely always stay 4 because i
 
 var will_activate_with_last_player_pos # Can be set in init() to immediately activate the tile with a last_player_pos
 
+var top_level: WorldTile = self # The top-level-tile of the tree this tile is in
+
 # Settings
 var max_lods = Settings.get_setting("lod", "distances")
 var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
@@ -39,6 +42,7 @@ var subdiv : int = Settings.get_setting("lod", "default-tile-subdivision")
 signal tile_done_loading # Emitted once all modules have finished loading -> the tile is ready
 signal tile_to_be_displayed # Emitted once all modules want to be displayed -> this tile is shown 
 signal all_children_to_be_displayed # Emitted once all children want to be displayed
+signal split # Emitted by the top-level tile when a child finished splitting, e.g. so the ground position can be updated
 
 func _ready():
 	# Set everything to invisible at the start to prevent flickering
@@ -93,14 +97,18 @@ func init(s, lod_level, activate_pos=null):
 	initialized = true
 	
 
-# Called when all children are ready to be displayed.
-# Actually, exactly this would happen in the next _process() call anyways. However,
-# we also react immediately to the signal to prevent flickering.
+# Called when all children are ready to be displayed
 func _on_all_children_to_be_displayed():
-	modules.visible = false
-	children.visible = true
-	
-	
+	# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
+	#  (which has no other tile parent)
+	_emit_split_in_toplevel_tile()
+
+
+# Emit the 'split' signal in the top-level tile (which has no tile parent)
+func _emit_split_in_toplevel_tile():
+	top_level.emit_signal("split")
+
+
 func _on_tile_to_be_displayed():
 	to_be_displayed = true
 

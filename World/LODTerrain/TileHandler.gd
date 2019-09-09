@@ -105,16 +105,25 @@ func move_world(delta_x, delta_z):
 
 
 # Returns the grid coordinates of the tile at a certain absolute position (passed as an array for int accuracy)
-func absolute_to_grid(abs_pos):
+func absolute_to_grid(abs_pos: Array):
 	return Vector2(round((abs_pos[0] - GRIDSIZE/2) / GRIDSIZE), round((abs_pos[2] - GRIDSIZE/2) / GRIDSIZE))
 
 
 # Get the tilegrid coordinates of the tile the player is currently standing on
 func get_tile_at_player():
 	var true_player = PlayerInfo.get_true_player_position()
-	var grid_vec = absolute_to_grid(true_player)
+	return absolute_to_grid(true_player)
 
-	return grid_vec
+
+# Returns the top-level tile (no tile parent) which is at the given position, or null
+#  if there is no tile for that position.
+func get_tile_at_position(position: Array):
+	var grid_pos = absolute_to_grid(position)
+	
+	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
+		return tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y])
+	
+	return null
 
 
 func get_ground_coords(pos):
