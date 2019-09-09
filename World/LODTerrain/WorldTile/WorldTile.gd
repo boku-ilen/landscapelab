@@ -104,7 +104,8 @@ func _on_all_children_to_be_displayed():
 	modules.visible = false
 	children.visible = true
 	
-	# We now want to emit the 'split' signal in the topmost tile (which has no other tile parent)
+	# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
+	#  (which has no other tile parent)
 	_emit_split_in_toplevel_tile()
 
 
