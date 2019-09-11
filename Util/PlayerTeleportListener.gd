@@ -29,7 +29,7 @@ func _ready():
 # Extracts the teleport point (2-dimensional array) from a properly formatted server response
 func _get_teleport_point_from_response(response):
 	# There may not be any latest teleport point, return 0, 0 if so
-	if response["assets"].size() == 0:
+	if not response or response["assets"].size() == 0:
 		return [0, 0]
 	
 	var id = response["assets"].keys()[0]
