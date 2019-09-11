@@ -56,8 +56,9 @@ func _vectorize_points(line_array):
 	for point in line_array:
 		# These positions are relative to the point approximately in the middle of the road (the middle_point)
 		vectored_line.append(_server_point_to_engine_pos(point[0], point[1]) - middle_point)
-		
-	_interpolate_points(vectored_line)
+	
+	# FIXME: Issue #134
+	# _interpolate_points(vectored_line)
 	
 	return [middle_point, vectored_line]
 
