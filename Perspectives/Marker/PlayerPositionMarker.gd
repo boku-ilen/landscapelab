@@ -6,6 +6,7 @@ extends Spatial
 #
 
 onready var sprite = get_node("Sprite3D")
+var direction : float
 
 
 func _ready():
@@ -21,4 +22,6 @@ func _on_new_player_position(new_pos):
 
 
 func _on_new_player_look_direction(new_dir):
-	sprite.rotation_degrees.y = new_dir.y
+	direction = global_transform.basis.y.angle_to(new_dir)
+	print("ANGLE OF FACING DIRECTION: " + String(direction))
+	sprite.rotation_degrees.y = direction
