@@ -21,6 +21,8 @@ func _ready():
 	assets = Assets.get_asset_types_with_assets()
 	_setup()
 	
+	GlobalSignal.connect("energy_details_enabled", self, "_update_values")
+	
 	_create_regular_requests()
 
 
@@ -34,17 +36,19 @@ func _create_regular_requests():
 		asset_type_requester.connect("new_response", self, "_update_values")
 		# Make the the interval for the assets request in intervals of 2 seconds
 		asset_type_requester.interval = 2 
+		asset_type_requester.start()
 		
 		# Save the specific regular requester in a dict to easily access is later
 		type_requester_dict[asset_type_name] = asset_type_requester
 
 
-func _update_values(response):
-	var res = response 
+func _update_values():
+	#var res = response 
 	for asset_type in assets:
 		var asset_type_name = assets[asset_type]["name"]
-		type_energy_dict[asset_type_name].text = "Current energy value: " + type_requester_dict[asset_type_name].get_latest_response()["total_energy_contribution"] + " MW / " + String(type_target_energy_dict[asset_type_name]) + " MW" 
-		type_amount_dict[asset_type_name].text = "Placed amount: " + type_requester_dict[asset_type_name].get_latest_response()["number_of_assets"]
+		if type_target_energy_dict.size() < 0:
+			type_energy_dict[asset_type_name].text = "Current energy value: " + String(type_requester_dict[asset_type_name].get_latest_response()["total_energy_contribution"]) + " MW / " + String(type_target_energy_dict[asset_type_name]) + " MW" 
+			type_amount_dict[asset_type_name].text = "Placed amount: " + String(type_requester_dict[asset_type_name].get_latest_response()["number_of_assets"])
 
 
 func _setup():
@@ -58,7 +62,7 @@ func _setup():
 		var asset_type_name = assets[asset_type]["name"]
 		
 		# Store the target energy value for the type in a dictionary
-		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_request_energy_value", name), 70.0)
+		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_request_type_target_value", [asset_type_name, asset_type]), 95.0)
 		
 		#if asset_type_name == "Wind Turbine":
 		#	asset_type_image.texture = load("res://Resources/Images/UI/MapIcons/windmill_icon.png")
@@ -70,8 +74,10 @@ func _setup():
 		add_child(assets_list)
 
 
-func _request_type_target_value(asset_name : String, asset_id : String):
-	type_target_energy_dict[asset_name] = ServerConnection.get_json("/energy/target/" + String(Session.scenario_id) + "/" + asset_id + ".json")
+# The first object in the array has to be a string of the name of the type, the second one needs to be the id 
+func _request_type_target_value(asset_information : Array):
+	var response = ServerConnection.get_json("/energy/target/" + String(Session.scenario_id) + "/" + asset_information[1] + ".json")
+	type_target_energy_dict[asset_information[0]] = response["energy_target"]
 
 
 func _setup_type_details(asset_type_details, asset_type_name):
