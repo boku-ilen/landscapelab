@@ -21,6 +21,11 @@ uniform sampler2D vegetation_tex4 : hint_albedo;
 uniform sampler2D vegetation_normal4 : hint_normal;
 uniform int vegetation_id4;
 uniform float tex_factor = 0.5; // 0.5 means one Godot meter will have half the texture
+uniform float texture_blending_amount = 40.0; // 1.0 means the transition between two textures will be maximally 1m wide
+                                              // (I think something is off with this, it's way smaller - probably depends on the texture?)
+uniform float random_offset_vectors_scale = 2.0; // 2.0 means the random offset vectors texture will repeat every 2m
+
+uniform sampler2D random_offset_vectors : hint_normal;
 
 uniform bool blend_only_similar_colors = false;
 
@@ -54,6 +59,11 @@ vec2 get_relative_pos(vec2 raw_pos) {
 	pos.y = clamp(pos.y, 0.0005, 0.9995);
 	
 	return pos;
+}
+
+vec2 get_relative_pos_with_blending(vec2 raw_pos) {
+	// Add a random offset to the relative pos, so that a different color could be chosen if one is nearby
+	return get_relative_pos(raw_pos) + texture(random_offset_vectors, raw_pos * (size / random_offset_vectors_scale)).rg * (texture_blending_amount / size);
 }
 
 // Gets the absolute height at a given pos without taking the skirt into account
@@ -122,16 +132,16 @@ void fragment(){
 	
 	// If the player is too far away, don't do all the detail calculation
 	if (detail_factor > 0.0) {
-		if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id1) {
+		if (int(texture(splat, get_relative_pos_with_blending(UV)).r * 255.0) == vegetation_id1) {
 			detail_color = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 			current_normal = texture(vegetation_normal1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id2) {
+		} else if (int(texture(splat, get_relative_pos_with_blending(UV)).r * 255.0) == vegetation_id2) {
 			detail_color = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 			current_normal = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id3) {
+		} else if (int(texture(splat, get_relative_pos_with_blending(UV)).r * 255.0) == vegetation_id3) {
 			detail_color = texture(vegetation_tex3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 			current_normal = texture(vegetation_normal3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		} else if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == vegetation_id4) {
+		} else if (int(texture(splat, get_relative_pos_with_blending(UV)).r * 255.0) == vegetation_id4) {
 			detail_color = texture(vegetation_tex4, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 			current_normal = texture(vegetation_normal4, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 		}
