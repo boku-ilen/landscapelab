@@ -21,7 +21,7 @@ uniform sampler2D vegetation_tex4 : hint_albedo;
 uniform sampler2D vegetation_normal4 : hint_normal;
 uniform int vegetation_id4;
 uniform float tex_factor = 0.5; // 0.5 means one Godot meter will have half the texture
-uniform float texture_blending_amount = 40.0; // 1.0 means the transition between two textures will be maximally 1m wide
+uniform float texture_blending_amount = 5.0; // 1.0 means the transition between two textures will be maximally 1m wide
                                               // (I think something is off with this, it's way smaller - probably depends on the texture?)
 uniform float random_offset_vectors_scale = 2.0; // 2.0 means the random offset vectors texture will repeat every 2m
 
@@ -63,7 +63,7 @@ vec2 get_relative_pos(vec2 raw_pos) {
 
 vec2 get_relative_pos_with_blending(vec2 raw_pos) {
 	// Add a random offset to the relative pos, so that a different color could be chosen if one is nearby
-	return get_relative_pos(raw_pos) + texture(random_offset_vectors, raw_pos * (size / random_offset_vectors_scale)).rg * (texture_blending_amount / size);
+	return get_relative_pos(raw_pos + texture(random_offset_vectors, raw_pos * (size / random_offset_vectors_scale)).rg * (texture_blending_amount / size));
 }
 
 // Gets the absolute height at a given pos without taking the skirt into account
