@@ -69,7 +69,7 @@ void fragment () {
 		
 		// Decrease the opacity further down the sprite if it's a small plant to prevent a harsh color
 		//  difference between it and the ground, causing it to instead blend in more
-		if ((scale < max_opacity_cutoff_scale) && (uv.y >= opacity_cutoff)) {
+		if ((scale <= max_opacity_cutoff_scale) && (uv.y >= opacity_cutoff)) {
 			// Opacity factor will be between 0.0 (when uv.y == opaxity_cutoff) and 1.0 (when uv.y == 1.0)
 			float opacity_factor = 1.0 - (1.0 - (uv.y)) / (1.0 - opacity_cutoff);
 			color.a -= opacity_factor;

@@ -150,6 +150,7 @@ func set_parameters(data):
 	data[0].material_override.set_shader_param("distribution", distribution)
 	data[0].material_override.set_shader_param("sprite_count", sprite_count)
 	data[0].material_override.set_shader_param("distribution_pixels_per_meter", distribution_pixels_per_meter)
+	data[0].material_override.set_shader_param("scale", max_plant_size)
 	
 	# Values for the material which places the particles
 	data[0].process_material.set_shader_param("tile_pos", translation)
