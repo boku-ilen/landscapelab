@@ -61,7 +61,20 @@ float get_height(vec2 pos) {
 		return 0.0;
 	}
 	
-	return get_height_no_falloff(vec2(1.0) - pos); // Interestingly, for the grass, we need to 'reverse' the position.
+	// Interpolation
+	vec2 scaled_pos = pos * subdiv;
+	vec2 scaled_pos_clamped = vec2(floor(scaled_pos.x), floor(scaled_pos.y));
+	vec2 pos_clamped = scaled_pos_clamped / subdiv;
+	
+	vec2 factor = scaled_pos - scaled_pos_clamped;
+	
+	// Interestingly, for the grass, we need to 'reverse' the position, that's why we subtract from vec2(1.0)
+	float height1 = get_height_no_falloff(vec2(1.0) - (pos_clamped + vec2(0, 0) * (1.0 / subdiv)));
+	float height2 = get_height_no_falloff(vec2(1.0) - (pos_clamped + vec2(1, 0) * (1.0 / subdiv)));
+	float height3 = get_height_no_falloff(vec2(1.0) - (pos_clamped + vec2(0, 1) * (1.0 / subdiv)));
+	float height4 = get_height_no_falloff(vec2(1.0) - (pos_clamped + vec2(1, 1) * (1.0 / subdiv)));
+	
+	return mix(mix(height1, height2, factor.x), mix(height3, height4, factor.x), factor.y); 
 }
 
 vec2 get_uv_position(vec2 global_pos) {
