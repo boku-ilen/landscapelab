@@ -17,9 +17,6 @@ uniform int vegetation_id2;
 uniform sampler2D vegetation_tex3 : hint_albedo;
 uniform sampler2D vegetation_normal3 : hint_normal;
 uniform int vegetation_id3;
-uniform sampler2D vegetation_tex4 : hint_albedo;
-uniform sampler2D vegetation_normal4 : hint_normal;
-uniform int vegetation_id4;
 uniform float tex_factor = 0.5; // 0.5 means one Godot meter will have half the texture
 uniform float texture_blending_amount = 5.0; // 1.0 means the transition between two textures will be maximally 1m wide
                                               // (I think something is off with this, it's way smaller - probably depends on the texture?)
@@ -141,9 +138,6 @@ void fragment(){
 		} else if (int(texture(splat, get_relative_pos_with_blending(UV)).r * 255.0) == vegetation_id3) {
 			detail_color = texture(vegetation_tex3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 			current_normal = texture(vegetation_normal3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		} else if (int(texture(splat, get_relative_pos_with_blending(UV)).r * 255.0) == vegetation_id4) {
-			detail_color = texture(vegetation_tex4, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-			current_normal = texture(vegetation_normal4, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 		}
 	}
 	
