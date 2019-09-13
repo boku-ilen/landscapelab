@@ -15,4 +15,4 @@ func _get_request_string_with_latest_position():
 	var pos = PlayerInfo.get_true_player_position()
 	pos[0] = -pos[0]  # TODO: Generalize
 	
-	return "/assetpos/create/%d/%d.0/%d.0" % [player_marker_asset_id, pos[0], pos[2]]
+	return "/assetpos/create/%d/%d/%d.0/%d.0" % [Session.scenario_id, player_marker_asset_id, pos[0], pos[2]]

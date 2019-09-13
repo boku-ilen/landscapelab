@@ -60,7 +60,7 @@ func _unhandled_input(event):
 
 # Registers a new asset instance at the position data[0], data[1] on the server (to be called from a thread)
 func add_object_on_server(data):
-	ServerConnection.get_json("/assetpos/create/%d/%d.0/%d.0" % [spawned_id, -data[0], data[1]])
+	ServerConnection.get_json("/assetpos/create/%d/%d/%d.0/%d.0" % [Session.scenario_id, spawned_id, -data[0], data[1]])
 
 
 # Enqueues the server request for deleting the object with the given ID.
