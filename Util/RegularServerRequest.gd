@@ -61,7 +61,7 @@ func _on_timer_timeout():
 	
 	# We give this task a medium to high priority, since the regular results should arrive
 	#  approximately with the given interval.
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_do_server_request", []), 70.0)
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_do_server_request", []), 50.0)
 
 
 func _do_server_request(args):

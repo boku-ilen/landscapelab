@@ -21,7 +21,7 @@ normal_enabled = true
 normal_scale = 2.0
 normal_texture = ExtResource( 3 )
 
-[node name="RoadDrawer" index="0" instance=ExtResource( 1 )]
+[node name="RoadDrawer" instance=ExtResource( 1 )]
 
 [node name="Path" parent="." index="0"]
 curve = SubResource( 1 )

@@ -32,6 +32,7 @@ layers = 128
 material = SubResource( 3 )
 
 [node name="Inside" type="CSGBox" parent="LegoExtentSymbol"]
+layers = 128
 operation = 2
 width = 1.8
 height = 3.0
