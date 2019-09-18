@@ -22,7 +22,7 @@ func _ready():
 func _notification(what):
 	# If the global position of this node has changed, get the tile this node is now on and
 	#  place the node on the ground
-	if what == NOTIFICATION_TRANSFORM_CHANGED:
+	if what == NOTIFICATION_TRANSFORM_CHANGED and is_inside_tree():
 		# Without this flag, we would loop infinitely since we cause a NOTIFICATION_TRANSFORM_CHANGED
 		#  inside _place_on_ground()!
 		if _just_placed_on_ground:
