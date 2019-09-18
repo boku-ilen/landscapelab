@@ -1,28 +1,23 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
 
-[node name="ListElement" type="Control"]
-margin_right = 222.0
-margin_bottom = 126.0
-grow_horizontal = 0
-grow_vertical = 0
-mouse_filter = 1
-size_flags_horizontal = 2
-size_flags_vertical = 2
+[ext_resource path="res://UI/EditableAssets/ItemList.gd" type="Script" id=1]
 
-[node name="AssetType" type="Label" parent="."]
+[node name="ItemList" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -8.0
-margin_bottom = -110.0
-text = "wind turbines"
+margin_top = -137.46
+margin_right = -1920.0
+margin_bottom = -1217.46
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "Assets:"
 
 [node name="ItemList" type="ItemList" parent="."]
-margin_left = 1.0
-margin_top = 20.0
-margin_right = 254.0
-margin_bottom = 134.0
-allow_reselect = true
-max_columns = 50
-same_column_width = true
+margin_top = 16.9812
+margin_right = 250.0
+margin_bottom = 136.981
 fixed_icon_size = Vector2( 25, 25 )
-[connection signal="item_activated" from="ItemList" to="ItemList" method="_item_activated"]
+script = ExtResource( 1 )
+[connection signal="item_activated" from="ItemList" to="ItemList" method="_on_ItemList_item_activated"]

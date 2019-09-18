@@ -9,7 +9,7 @@ extends TextureButton
 var assets_json
 # the provided space to load the ui-elements (lists) into
 onready var list_container = get_node("EditableAssetTypeList")
-var assets_list_view = load("res://UI/EditableAssets/AssetTypeList.tscn").instance()
+var assets_list_view = load("res://UI/EditableAssets/ItemList.tscn").instance()
 # to differentiate between pv/windmill, etc
 var item_type_name
 # to set the id of the item in the item spawner
@@ -56,7 +56,7 @@ func _load_assets():
 	var index = 0
 	for asset_type_id in assets_json:
 		
-		assets_list_view.get_node("AssetType").text = "Assets:"
+		assets_list_view.get_node("Label").text = "Assets:"
 		
 		var list = assets_list_view.get_node("ItemList")
 		var assets = assets_json[asset_type_id]["assets"]
