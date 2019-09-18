@@ -21,8 +21,6 @@ func _ready():
 	assets = Assets.get_asset_types_with_assets()
 	_setup()
 	
-	GlobalSignal.connect("energy_details_enabled", self, "_update_values")
-	
 	_create_regular_requests()
 
 
@@ -42,11 +40,10 @@ func _create_regular_requests():
 		type_requester_dict[asset_type_name] = asset_type_requester
 
 
-func _update_values():
-	#var res = response 
+func _update_values(response):
 	for asset_type in assets:
 		var asset_type_name = assets[asset_type]["name"]
-		if type_target_energy_dict.size() < 0:
+		if type_target_energy_dict.size() > 0:
 			type_energy_dict[asset_type_name].text = "Current energy value: " + String(type_requester_dict[asset_type_name].get_latest_response()["total_energy_contribution"]) + " MW / " + String(type_target_energy_dict[asset_type_name]) + " MW" 
 			type_amount_dict[asset_type_name].text = "Placed amount: " + String(type_requester_dict[asset_type_name].get_latest_response()["number_of_assets"])
 

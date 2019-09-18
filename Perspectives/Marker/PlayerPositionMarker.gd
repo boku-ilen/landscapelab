@@ -23,5 +23,5 @@ func _on_new_player_position(new_pos):
 
 func _on_new_player_look_direction(new_dir):
 	direction = global_transform.basis.y.angle_to(new_dir)
-	print("ANGLE OF FACING DIRECTION: " + String(direction))
+	#print("ANGLE OF FACING DIRECTION: " + String(direction))
 	sprite.rotation_degrees.y = direction
