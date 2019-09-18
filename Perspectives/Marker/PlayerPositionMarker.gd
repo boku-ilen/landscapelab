@@ -5,7 +5,7 @@ extends Spatial
 # at the latest global player position from PlayerInfo.
 #
 
-onready var sprite = get_node("Sprite3D")
+onready var sprite = get_node("Sprite")
 var direction : float
 
 
