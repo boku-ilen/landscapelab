@@ -32,6 +32,7 @@ var pc_main_scene_when_vr_active = third_person_pc_scene
 var current_pc_scene
 var current_pc_mini_scene
 
+var no_instance : bool
 
 func _ready():
 	# get the actual window dimensions and scale the PC viewports accordingly
@@ -154,10 +155,19 @@ func show_perspective_controls():
 func emit_missing_viewports():
 	if (minimap_scene != current_pc_mini_scene and minimap_scene != current_pc_scene):
 		GlobalSignal.emit_signal("missing_map")
+		
+		if get_node("FirstPersonPC") != null:
+			get_node("FirstPersonPC").queue_free()
 	if (first_person_pc_scene != current_pc_mini_scene and first_person_pc_scene != current_pc_scene):
 		GlobalSignal.emit_signal("missing_1st")
+		
+		if get_node("FirstPersonPC") == null:
+			add_child(first_person_pc_scene.instance())
 	if (third_person_pc_scene != current_pc_mini_scene and third_person_pc_scene != current_pc_scene):
 		GlobalSignal.emit_signal("missing_3rd")
+		
+		if get_node("FirstPersonPC") != null:
+			get_node("FirstPersonPC").queue_free()
 
 
 # sends signal with minimap size and status so that minimap icons can rescale accordingly
