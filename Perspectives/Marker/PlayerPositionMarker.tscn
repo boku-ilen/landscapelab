@@ -14,14 +14,16 @@ params_depth_draw_mode = 1
 [node name="PlayerPositionMarker" type="Spatial"]
 script = ExtResource( 1 )
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="Sprite" type="Spatial" parent="."]
+
+[node name="Sprite3D" type="Sprite3D" parent="Sprite"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
 layers = 256
 material_override = SubResource( 1 )
 pixel_size = 0.001
 texture = ExtResource( 2 )
 
-[node name="SpriteMinimap" type="Sprite3D" parent="."]
+[node name="SpriteMinimap" type="Sprite3D" parent="Sprite"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
 layers = 128
 material_override = SubResource( 1 )
