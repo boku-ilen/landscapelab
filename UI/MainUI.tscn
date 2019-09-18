@@ -155,10 +155,10 @@ texture_hover = ExtResource( 11 )
 script = ExtResource( 12 )
 
 [node name="EditableAssetTypeList" type="VBoxContainer" parent="Top Menu Bar/HBoxCenter/HBoxContainer/Controller"]
-margin_left = 43.0
-margin_top = 56.0
-margin_right = 269.0
-margin_bottom = 165.0
+margin_left = 44.8907
+margin_top = -36.6467
+margin_right = 270.891
+margin_bottom = 72.3533
 grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
