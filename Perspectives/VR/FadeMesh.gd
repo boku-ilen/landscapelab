@@ -22,8 +22,10 @@ func _process(delta):
 
 
 func _fade_in():
+	stop()
 	play("FadeIn")
 
 
 func _fade_out():
+	stop()
 	play("FadeOut")
