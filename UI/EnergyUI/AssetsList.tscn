@@ -44,6 +44,7 @@ margin_bottom = 29.0
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 margin_top = 33.0
+margin_right = 57.0
 margin_bottom = 47.0
 custom_styles/fg = SubResource( 1 )
 allow_greater = true

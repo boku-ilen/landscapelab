@@ -47,8 +47,13 @@ func _update_values(response):
 	for asset_type in assets:
 		var asset_type_name = assets[asset_type]["name"]
 		if type_target_energy_dict.size() > 0:
-			type_energy_dict[asset_type_name].text = "Current energy value: " + String(type_requester_dict[asset_type_name].get_latest_response()["total_energy_contribution"]) + " MW / " + String(type_target_energy_dict[asset_type_name]) + " MW" 
-			type_amount_dict[asset_type_name].text = "Placed amount: " + String(type_requester_dict[asset_type_name].get_latest_response()["number_of_assets"])
+			# TODO: Add translation file's value
+			var energy_level = String(int(round(type_requester_dict[asset_type_name].get_latest_response()["total_energy_contribution"])))
+			var energy_target = String(type_target_energy_dict[asset_type_name])
+			var placed_amount = String(type_requester_dict[asset_type_name].get_latest_response()["number_of_assets"])
+			
+			type_energy_dict[asset_type_name].text = "Energieproduktion: " +  energy_level + " MWh/a von " +  energy_target + " MWh/a" 
+			type_amount_dict[asset_type_name].text = "Anzahl:  " + placed_amount
 			
 			type_progress_bar_dict[asset_type_name].max_value = float(type_target_energy_dict[asset_type_name])
 			type_progress_bar_dict[asset_type_name].value = float(type_requester_dict[asset_type_name].get_latest_response()["total_energy_contribution"])
@@ -70,15 +75,17 @@ func _setup():
 		
 		var icon : Texture
 		if asset_type_name == "Wind Turbine":
+			# TODO: rename the icons for easy dynamic loading
+			# TODO: use translation file for names
 			icon = load("res://Resources/Images/UI/MapIcons/windmill_icon.png")
+			asset_type_label.text = "Windräder"
 		elif asset_type_name == "Photovoltaic Plant":
 			icon = load("res://Resources/Images/UI/MapIcons/pv_icon.png")
+			asset_type_label.text = "PV Freiflächenanlagen"
 		
 		asset_type_image.set_texture(icon)
 		
 		type_progress_bar_dict[asset_type_name] = progress_bar
-		
-		asset_type_label.text = asset_type_name + "s"
 		
 		_setup_type_details(asset_type_details, asset_type_name)
 		
