@@ -36,7 +36,7 @@ func _on_new_response(response):
 	
 	if not asset_details == null:
 		energy_value_label.text = String(int(round(asset_details["total_energy_contribution"])))
-		assets_amount_label.text = "Anzahl aller Anlagen: " + String(asset_details["number_of_assets"])		
+		assets_amount_label.text = "Anzahl aller Anlagen: " + String(asset_details["number_of_assets"])
 
 
 
@@ -55,9 +55,9 @@ func _setup_gui():
 	container.visible = true
 	var unit = Label.new()
 	
-	unit.text = "MW /"
+	unit.text = "MWh/a von "
 	
-	target_energy_label.text = String(Session.get_current_scenario()["energy_requirement_total"])
+	target_energy_label.text = String(Session.get_current_scenario()["energy_requirement_total"]) + "MWh/a"
 	
 	container.add_child(energy_value_label)
 	container.add_child(unit)
