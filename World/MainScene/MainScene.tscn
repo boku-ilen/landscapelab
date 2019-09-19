@@ -11,7 +11,7 @@
 [ext_resource path="res://World/AssetHandler/LinearAssetHandler.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Util/PlayerTeleportListener.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Util/PlayerMarkerUpdater.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Util/LegoExtentDrawer.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Util/LegoExtentUpdater.tscn" type="PackedScene" id=12]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 1 )
@@ -30,9 +30,10 @@ script = ExtResource( 1 )
 asset_handler_scene = ExtResource( 8 )
 
 [node name="LinearAssetHandler" parent="." instance=ExtResource( 9 )]
+update_interval = 6.0
 
 [node name="PlayerTeleportListener" parent="." instance=ExtResource( 10 )]
 
 [node name="PlayerMarkerUpdater" parent="." instance=ExtResource( 11 )]
 
-[node name="LegoExtentDrawer" parent="." instance=ExtResource( 12 )]
+[node name="LegoExtentUpdater" parent="." instance=ExtResource( 12 )]
