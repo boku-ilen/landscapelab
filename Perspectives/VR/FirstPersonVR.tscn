@@ -122,11 +122,11 @@ anims/Fade = SubResource( 1 )
 anims/FadeIn = SubResource( 2 )
 anims/FadeOut = SubResource( 3 )
 script = ExtResource( 4 )
-below_threshold = 15
-above_threshold = 20
+below_threshold = 4
+above_threshold = 6
 
 [node name="FadeMesh" type="MeshInstance" parent="ARVROrigin/SettingsARVRCamera"]
-transform = Transform( 5, 0, 0, 0, -2.18557e-07, -5, 0, 5, -2.18557e-07, 0, 0, -3.86861 )
+transform = Transform( 5, 0, 0, 0, -2.18557e-007, -5, 0, 5, -2.18557e-007, 0, 0, -3.86861 )
 layers = 512
 mesh = SubResource( 4 )
 material/0 = SubResource( 5 )
