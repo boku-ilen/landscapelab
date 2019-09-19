@@ -36,7 +36,7 @@ func get_true_position():
 
 func get_look_direction():
 	# TODO: The x-coordinate seems right, but the z-coordinate acts strangely...
-	return camera.global_transform.basis.x	
+	return -camera.global_transform.basis.z
 
 
 func _physics_process(delta):

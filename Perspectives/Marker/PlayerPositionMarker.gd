@@ -22,6 +22,10 @@ func _on_new_player_position(new_pos):
 
 
 func _on_new_player_look_direction(new_dir):
-	direction = global_transform.basis.y.angle_to(new_dir)
-	#print("ANGLE OF FACING DIRECTION: " + String(direction))
-	sprite.rotation_degrees.y = direction
+	var player_look = Vector2(new_dir.x, new_dir.z)
+	
+	# look at https://stackoverflow.com/questions/14066933/direct-way-of-computing-clockwise-angle-between-2-vectors
+	# this link for further information, as the global forward is (0, -1) the result looks like:
+	direction = atan2(-player_look.x, -player_look.y)
+	
+	sprite.rotation.y = direction

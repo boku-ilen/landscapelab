@@ -42,7 +42,7 @@ func _notification(what):
 func _physics_process(delta):
 	if has_moved and is_main_perspective:
 		PlayerInfo.update_player_pos(translation)
-		PlayerInfo.update_player_look_direction(get_node("Head/Camera").global_transform.basis.y)
+		PlayerInfo.update_player_look_direction(-(get_node("Head/Camera").global_transform.basis.z))
 		has_moved = false
 	else:
 		if PlayerInfo.is_follow_enabled:
