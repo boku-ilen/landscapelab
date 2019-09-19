@@ -44,8 +44,9 @@ func _process(delta):
 		var new_teleport_point = _get_teleport_point_from_response(data)
 		
 		# If the new teleport point is different, teleport there
-		if new_teleport_point[0] != previous_teleport_point[0] \
-			or new_teleport_point[1] != previous_teleport_point[1]:
+		if (new_teleport_point[0] != previous_teleport_point[0] \
+			or new_teleport_point[1] != previous_teleport_point[1]) \
+			and not (new_teleport_point[0] == 0 or new_teleport_point[1] == 0):
 			_teleport_player(new_teleport_point)
 			previous_teleport_point = new_teleport_point
 	
