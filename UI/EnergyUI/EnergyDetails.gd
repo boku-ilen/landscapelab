@@ -21,6 +21,9 @@ func _ready():
 	# Load all possible assets from the server 
 	# Url: assetpos/get_all_editable_assettypes.json
 	assets = Assets.get_asset_types_with_assets()
+	# Init the dictionaries size for thread-safety
+	_init_dict()
+	
 	_setup()
 	
 	_create_regular_requests()
@@ -96,6 +99,12 @@ func _setup():
 func _request_type_target_value(asset_information : Array):
 	var response = ServerConnection.get_json("/energy/target/" + String(Session.scenario_id) + "/" + asset_information[1] + ".json")
 	type_target_energy_dict[asset_information[0]] = response["energy_target"]
+
+
+func _init_dict():
+	for asset_type_id in assets:
+		var asset_type_name = assets[asset_type_id]["name"]
+		type_target_energy_dict[asset_type_name] = "loading ..."
 
 
 func _setup_type_details(asset_type_details, asset_type_name):
