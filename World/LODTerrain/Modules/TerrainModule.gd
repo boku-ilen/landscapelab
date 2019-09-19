@@ -20,6 +20,10 @@ func _ready():
 
 func _on_ready():
 	if ortho and dhm:
+		# Don't let the subdivision get higher than the texture resolution, steep walls otherwise
+		if dhm.get_width() < tile.subdiv:
+			tile.subdiv = dhm.get_width()
+
 		mesh.material_override.set_shader_param("tex", ortho)
 		mesh.material_override.set_shader_param("heightmap", dhm)
 		

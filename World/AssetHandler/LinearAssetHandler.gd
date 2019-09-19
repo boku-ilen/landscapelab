@@ -57,8 +57,8 @@ func _vectorize_points(line_array):
 		# These positions are relative to the point approximately in the middle of the road (the middle_point)
 		vectored_line.append(_server_point_to_engine_pos(point[0], point[1]) - middle_point)
 	
-	# FIXME: Issue #134
-	# _interpolate_points(vectored_line)
+	# Commented out for now because it's inefficient
+	# _interpolate_points(vectored_line, 0)
 	
 	return [middle_point, vectored_line]
 
@@ -66,7 +66,10 @@ func _vectorize_points(line_array):
 # Adds points between points which are more than maximum_distance_between_points from each other.
 # Example situation where this is necessary: A very long and straight road which goes over a hill: We need
 #  to add points so that the road goes neatly along the curve of the hill, instead of straight through it.
-func _interpolate_points(line):
+func _interpolate_points(line, depth):
+	if depth > 10:
+		logger.warning("Deep recursion when inserting points to street! (Depth %s)" % [depth])
+	
 	# FIXME: This function is inefficient (many iterations and recursions) and not very clean (inserting
 	#  into a list while iterating over it). It works, but should be improved!
 	var done = true
@@ -88,4 +91,4 @@ func _interpolate_points(line):
 			break
 	
 	# If we inserted a point, there may be more that we need to insert. Recurse!
-	if not done: _interpolate_points(line)
+	if not done: _interpolate_points(line, depth + 1)
