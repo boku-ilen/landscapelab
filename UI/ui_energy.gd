@@ -13,6 +13,7 @@ var target_energy_label : Label = Label.new()
 
 onready var energy_details = get_node("Panel")
 onready var requester = get_node("RegularServerRequest")
+onready var progress_bar = get_node("ProgressBar")
 
 
 func _ready():
@@ -20,6 +21,9 @@ func _ready():
 	requester.interval = 2 
 	requester.set_request("/energy/contribution/" + String(Session.scenario_id) + "/all.json")
 	requester.connect("new_response", self, "_on_new_response")
+	
+	progress_bar.max_value = Session.get_current_scenario()["energy_requirement_total"]
+	
 	_setup_gui()
 	
 	energy_details.visible = false
@@ -28,9 +32,11 @@ func _ready():
 func _on_new_response(response):
 	var asset_details = response
 	
+	progress_bar.value = float(asset_details["total_energy_contribution"])
+	
 	if not asset_details == null:
 		energy_value_label.text = String(asset_details["total_energy_contribution"])
-		assets_amount_label.text = "Total placed assets: " + String(asset_details["number_of_assets"])
+		assets_amount_label.text = "Total placed assets: " + String(asset_details["number_of_assets"])		
 
 
 
