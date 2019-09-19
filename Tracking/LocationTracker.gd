@@ -63,8 +63,8 @@ func make_screenshot():
 	var screenshot_filename = "user://screenshot-%d%d%d-%d%d%d-%d.png" % [timestamp["year"], timestamp["month"],
 	 timestamp["day"], timestamp["hour"], timestamp["minute"], timestamp["second"], Session.session_id]
 	
-	# Medium priority - we do want it to save sometime soon, but doesn't have to be immediate
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "save_screenshot", [img, screenshot_filename]), 40)
+	# Medium to low priority - we do want it to save sometime soon, but doesn't have to be immediate
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "save_screenshot", [img, screenshot_filename]), 15)
 
 
 # Actually save a screenshot - to be run in a thread
@@ -83,8 +83,8 @@ func send_position():
 	var url = "/location/impression/%f/%f/%f/%f/%f/%f/%d"\
 		% [player_position[0], player_position[2], player_position[1], look_at.x, look_at.z, look_at.y, Session.session_id]
 	
-	# Medium priority - we do want it to arrive sometime soon, but doesn't have to be immediate
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "make_position_request", url), 40)
+	# Medium to low priority - we do want it to arrive sometime soon, but doesn't have to be immediate
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "make_position_request", url), 15)
 
 
 # Send the position data (via premade url) to the server - to be run in a thread
