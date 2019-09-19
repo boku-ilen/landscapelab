@@ -35,8 +35,8 @@ func _on_new_response(response):
 	progress_bar.value = float(asset_details["total_energy_contribution"])
 	
 	if not asset_details == null:
-		energy_value_label.text = String(asset_details["total_energy_contribution"])
-		assets_amount_label.text = "Insgesamte anzahl platzierter Anlagen: " + String(asset_details["number_of_assets"])		
+		energy_value_label.text = String(int(round(asset_details["total_energy_contribution"])))
+		assets_amount_label.text = "Anzahl aller Anlagen: " + String(asset_details["number_of_assets"])		
 
 
 
