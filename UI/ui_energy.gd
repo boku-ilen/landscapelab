@@ -55,9 +55,9 @@ func _setup_gui():
 	container.visible = true
 	var unit = Label.new()
 	
-	unit.text = "MWh/a von "
+	unit.text = "MWh/a von"
 	
-	target_energy_label.text = String(Session.get_current_scenario()["energy_requirement_total"]) + "MWh/a"
+	target_energy_label.text = String(Session.get_current_scenario()["energy_requirement_total"]) + " MWh/a"
 	
 	container.add_child(energy_value_label)
 	container.add_child(unit)
