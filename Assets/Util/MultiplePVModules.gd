@@ -35,3 +35,8 @@ func _ready():
 	# Change the size of the PickupBody accordingly
 	pickup_shape.shape.extents.x = cols / 2 * col_spacing
 	pickup_shape.shape.extents.z = rows / 2 * row_spacing
+
+
+# Here we don't need to handle positioning, the individual PV meshes do that themselves
+func _place_on_ground():
+	pass

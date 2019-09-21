@@ -33,13 +33,13 @@ surfaces/0 = {
 "vertex_count": 64
 }
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="SpatialMaterial" id=3]
 albedo_texture = ExtResource( 3 )
 metallic = 0.9
 metallic_specular = 0.7
 roughness = 0.3
 
-[sub_resource type="ArrayMesh" id=3]
+[sub_resource type="ArrayMesh" id=4]
 resource_name = "Steher_Paar.010"
 surfaces/0 = {
 "aabb": AABB( 0, -96.0182, -75.3956, 100.101, 284.905, 75.3956 ),
@@ -67,10 +67,10 @@ surfaces/1 = {
 }
 
 [node name="PVMesh" type="Spatial"]
+script = ExtResource( 1 )
 
 [node name="MeshOrigin" type="Spatial" parent="."]
 transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 3.607, 0, 1.249 )
-script = ExtResource( 1 )
 
 [node name="instance_0" type="MeshInstance" parent="MeshOrigin"]
 transform = Transform( 0.0224269, 0, 0.0119246, 0.0119246, -3.02792e-09, -0.0224269, 1.42152e-09, 0.0254, -2.67349e-09, -0.2, 0.456806, -6.71659 )
@@ -80,10 +80,10 @@ material/0 = ExtResource( 2 )
 [node name="instance_9001" type="MeshInstance" parent="MeshOrigin"]
 transform = Transform( 0.0224269, 0, 0.0119246, 0.0119246, -3.02792e-09, -0.0224269, 1.42152e-09, 0.0254, -2.67349e-09, -0.2, 0.456806, -2.59658 )
 mesh = SubResource( 2 )
-material/0 = SubResource( 4 )
+material/0 = SubResource( 3 )
 
 [node name="Steher_Paar010" type="MeshInstance" parent="MeshOrigin"]
 transform = Transform( 0.0254, 0, 0, 0, -3.02792e-09, -0.0254, 0, 0.0254, -3.02792e-09, 0, 5.71933e-07, -4.79772 )
-mesh = SubResource( 3 )
+mesh = SubResource( 4 )
 material/0 = null
 material/1 = null
