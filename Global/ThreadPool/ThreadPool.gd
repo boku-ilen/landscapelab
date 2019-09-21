@@ -13,9 +13,11 @@ extends Node
 const BlockingQueue = preload("res://Global/ThreadPool/BlockingQueue.gd")
 
 const THREAD_COUNT_AT_PRIORITY = [
-	5,
-	3,
-	2]
+	2,
+	2,
+	2,
+	1
+]
 
 var task_queues = []
 var threads = []
@@ -50,7 +52,6 @@ func enqueue_task(task, priority=0):
 	
 	# Get the task_queues index which corresponds to the priority (scale the priority to the number of threads)
 	var index = THREAD_COUNT_AT_PRIORITY.size() - 1 - int((priority / 100.0) * THREAD_COUNT_AT_PRIORITY.size())
-	
 	task_queues[index].enqueue(task)
 
 

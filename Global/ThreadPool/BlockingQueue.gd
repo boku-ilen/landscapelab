@@ -30,3 +30,7 @@ func dequeue():
 	_mutex.unlock()
 	return val
 
+
+# Returns the number of elements currently in the queue
+func get_size():
+	return _queue.size()
