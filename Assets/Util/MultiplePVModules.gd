@@ -37,6 +37,13 @@ func _ready():
 	pickup_shape.shape.extents.z = rows / 2 * row_spacing
 
 
-# Here we don't need to handle positioning, the individual PV meshes do that themselves
+# Just reposition the tooltip and StaticBody when there's a new ground position,
+#  since the individual PV meshes get their position themselves
 func _place_on_ground():
-	pass
+	if is_inside_tree():
+		var ground_pos = WorldPosition.get_position_on_ground(global_transform.origin)
+		
+		get_node("Tooltip3D").global_transform.origin = ground_pos
+		get_node("PickupBody").global_transform.origin = ground_pos
+		
+		_just_placed_on_ground = true

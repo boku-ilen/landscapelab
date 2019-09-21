@@ -63,7 +63,10 @@ func _process(delta):
 			if _result.has(asset_id):
 				# If this asset is in the response, update it
 				if moving:
-					spawned_asset.transform.origin = _get_engine_position_for_asset(asset_id)
+					var engine_pos = _get_engine_position_for_asset(asset_id)
+					
+					if spawned_asset.transform.origin != engine_pos:
+						spawned_asset.transform.origin = engine_pos
 			else:
 				# If it's not in the response, it was deleted or is out of bounds -> remove it
 				logger.debug("Removed asset instance with ID %s" % [asset_id])
