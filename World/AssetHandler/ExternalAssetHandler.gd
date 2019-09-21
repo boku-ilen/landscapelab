@@ -13,7 +13,7 @@ var dscn_scene = preload("res://addons/dscn_io/DSCN_Runtime_Node.gd")
 
 
 func _ready():
-	update_interval = 2.5  # TODO: Setting
+	update_interval = 2  # TODO: Setting
 
 
 # Abstract function which returns the result (a list of assets) of the specific request being implemented.
@@ -46,13 +46,16 @@ func _spawn_asset(instance_id):
 	# Add a node which will be the root of the new asset 
 	var asset_root = GroundedSpatial.new()
 	asset_root.name = instance_id
-	add_child(asset_root)
 	
 	# Turn the absolute webmercator position from the server response into a relative local
 	#  position at the correct height
 	var abs_pos = [-asset["position"][0], asset["position"][1]]
 	var local_pos = Offset.to_engine_coordinates(abs_pos)
 	var local_pos_3d = Vector3(local_pos.x, 0, local_pos.y)
+	
+	asset_root.global_transform.origin = local_pos_3d
+	
+	add_child(asset_root)
 	
 	# Load the DSCN file into the asset_root
 	add_child(dscn_node)
@@ -62,8 +65,6 @@ func _spawn_asset(instance_id):
 	
 	# Set the VisualLayer of the newly imported Asset
 	set_render_layers(asset_root, render_layers)
-	
-	asset_root.global_transform.origin = local_pos_3d
 	
 	return true
 

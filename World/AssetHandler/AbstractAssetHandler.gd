@@ -14,10 +14,13 @@ export(PackedScene) var asset_scene
 export(bool) var moving = false  # If true, asset positions are updated continuously
 export(float) var update_interval
 export(float) var initial_update_delay = 0  # Wait for some time before making the first update
+export(int) var max_assets_per_tick = 1 # Maximum amount of assets to spawn per frame to prevent long stutters
 
 var _result
+var _fresh_result
 var _new_result = false
 var _active = true
+var _all_assets_spawned = true
 
 var time_to_update = 0
 
@@ -55,7 +58,11 @@ func _process(delta):
 		
 	# If there is a fresh valid result from the server, instantiate missing assets
 	# and update all positions
-	if _new_result and _result:
+	if _new_result and _fresh_result:
+		# We update the _result here, on the main thread, to prevent it from being overwritten
+		#  from the server request thread while _spawn_new_assets() is working.
+		_result = _fresh_result
+		
 		# First: Iterate over all assets currently spawned.
 		for spawned_asset in get_children():
 			var asset_id = spawned_asset.name
@@ -76,17 +83,36 @@ func _process(delta):
 				_handle_deleted_asset()
 		
 		# Second: Iterate over all assets in the response. If it's not in the current assets, it is new -> spawn it
-		for instance_id in _result:
-			var instance_name = String(instance_id)
-
-			if not has_node(instance_name):
-				if _spawn_asset(instance_id):
-					logger.debug("Spawned new asset instance with ID %s" % [instance_name])
+		_spawn_new_assets()
 			
 		# Start getting the next result
 		_new_result = false
+	else:
+		# If we still have assets left to spawn, do that
+		if not _all_assets_spawned:
+			_spawn_new_assets()
+
+
+func _spawn_new_assets():
+	var assets_spawned = 0
+	
+	
+	for instance_id in _result:
+		var instance_name = String(instance_id)
 		
-		
+		if not has_node(instance_name):
+			if _spawn_asset(instance_id):
+				logger.debug("Spawned new asset instance with ID %s" % [instance_name])
+				assets_spawned += 1
+				
+				# If we have spawned enough assets, for this frame, jump out of the loop
+				if assets_spawned >= max_assets_per_tick:
+					_all_assets_spawned = false
+					return
+	
+	_all_assets_spawned = true
+
+
 func _server_point_to_engine_pos(server_x, server_y):
 	# Convert the 2D world position received from the server to in-engine 2D coordinates
 	var instance_pos_2d = Offset.to_engine_coordinates([-server_x, server_y])
@@ -98,12 +124,12 @@ func _server_point_to_engine_pos(server_x, server_y):
 # Loads a new asset instance result from the server (to be called from a thread)
 func _get_asset_instances(data):
 	# Don't cache this since the result regularly changes
-	_result = _get_server_result()
+	_fresh_result = _get_server_result()
 	
 	# TODO: Compare with previous result and only save updated fields for better efficiency
 	
 	# If the result is valid, set the flag
-	if _result:
+	if _fresh_result:
 		_new_result = true
 
 
