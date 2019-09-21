@@ -36,7 +36,7 @@ func _create_regular_requests():
 		add_child(asset_type_requester)
 		
 		asset_type_requester.set_request("/energy/contribution/" + String(Session.scenario_id) + "/" + asset_type + ".json")
-		asset_type_requester.connect("new_response", self, "_update_values")
+		asset_type_requester.connect("new_response", self, "_update_values", [], CONNECT_DEFERRED)
 		# Make the the interval for the assets request in intervals of 2 seconds
 		asset_type_requester.interval = 2
 		asset_type_requester.start()
@@ -51,15 +51,15 @@ func _update_values(response):
 		var asset_type_name = assets[asset_type]["name"]
 		if type_target_energy_dict.size() > 0:
 			# TODO: Add translation file's value
-			var energy_level = String(int(round(type_requester_dict[asset_type_name].get_latest_response()["total_energy_contribution"])))
+			var energy_level = String(int(round(response["total_energy_contribution"])))
 			var energy_target = String(type_target_energy_dict[asset_type_name])
-			var placed_amount = String(type_requester_dict[asset_type_name].get_latest_response()["number_of_assets"])
+			var placed_amount = String(response["number_of_assets"])
 			
 			type_energy_dict[asset_type_name].text = "Energieproduktion: " +  energy_level + " MWh/a von " +  energy_target + " MWh/a" 
 			type_amount_dict[asset_type_name].text = "Anzahl:  " + placed_amount
 			
 			type_progress_bar_dict[asset_type_name].max_value = float(type_target_energy_dict[asset_type_name])
-			type_progress_bar_dict[asset_type_name].value = float(type_requester_dict[asset_type_name].get_latest_response()["total_energy_contribution"])
+			type_progress_bar_dict[asset_type_name].value = float(response["total_energy_contribution"])
 
 
 func _setup():
