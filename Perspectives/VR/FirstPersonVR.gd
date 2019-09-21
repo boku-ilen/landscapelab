@@ -27,7 +27,8 @@ func _ready():
 		get_viewport().arvr = true
 		get_viewport().render_target_clear_mode = Viewport.CLEAR_MODE_ALWAYS
 		get_viewport().render_target_update_mode = Viewport.UPDATE_ALWAYS
-		get_viewport().keep_3d_linear = true
+		get_viewport().keep_3d_linear = true  # OpenVR handles sRGB conversion for us
+		get_viewport().msaa = get_viewport().MSAA_2X  # The VR display needs good anti-aliasing
 		
 		logger.info("Successfully initialized VR")
 	else:
