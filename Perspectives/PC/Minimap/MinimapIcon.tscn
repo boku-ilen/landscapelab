@@ -10,4 +10,5 @@ script = ExtResource( 1 )
 transform = Transform( 0.829163, 0.559006, 2.44349e-008, 0, -4.37114e-008, 1, 0.559006, -0.829163, -3.62439e-008, 0, 0, 0 )
 layers = 128
 material_override = ExtResource( 2 )
+cast_shadow = 0
 region_rect = Rect2( 0, 0, 100, 100 )
