@@ -36,8 +36,8 @@
             [],
             ["-TerrainModule.tscn", "DetailedTerrainModule.tscn"],
             ["WaterModule.tscn", "Vegetation/LargeTreeModule.tscn", "Vegetation/SmallTreeModule.tscn"],
-            ["Vegetation/LargeBushModule.tscn", "Vegetation/SmallBushModule.tscn", "StaticAssets/BuildingsModule.tscn"],
-            ["Vegetation/HerbageModule.tscn", "-StaticAssets/BuildingsModule.tscn"]
+            ["Vegetation/LargeBushModule.tscn", "Vegetation/SmallBushModule.tscn"],
+            ["Vegetation/HerbageModule.tscn"]
         ],	
         "player-bounding-radius": 10000
     },

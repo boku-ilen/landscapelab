@@ -9,6 +9,8 @@ extends "res://World/AssetHandler/AbstractAssetHandler.gd"
 export(int) var asset_type_id
 export(int) var render_layers = 4
 
+var dscn_scene = preload("res://addons/dscn_io/DSCN_Runtime_Node.gd")
+
 
 func _ready():
 	update_interval = 2.5  # TODO: Setting
@@ -37,9 +39,9 @@ func _spawn_asset(instance_id):
 	var asset = _result[instance_id]
 	
 	# TODO: Remove absolute path once landscapelab-server issue #4 is fixed
-	var name_path = "/media/boku/resources/buildings/importable/" + asset["asset_name"] + ".glb.dscn"
+	var name_path = "C:/landscapelab-dev/landscapelab-server/buildings/importable/" + asset["asset_name"] + ".glb.dscn"
 
-	var dscn_node = load("res://addons/dscn_io/DSCN_Runtime_Node.gd").new()
+	var dscn_node = dscn_scene.new()
 	
 	# Add a node which will be the root of the new asset 
 	var asset_root = GroundedSpatial.new()
@@ -48,13 +50,9 @@ func _spawn_asset(instance_id):
 	
 	# Turn the absolute webmercator position from the server response into a relative local
 	#  position at the correct height
-	var abs_pos = [asset["position"][0], asset["position"][1]]
+	var abs_pos = [-asset["position"][0], asset["position"][1]]
 	var local_pos = Offset.to_engine_coordinates(abs_pos)
 	var local_pos_3d = Vector3(local_pos.x, 0, local_pos.y)
-	
-	# 'translation' is relative to the parent nodes. However, our local_pos_3d is in absolute coordinates.
-	# Thus, we need to turn the local_pos_3d into a local position by subtracting the global origin.
-	asset_root.transform.origin = local_pos_3d - global_transform.origin
 	
 	# Load the DSCN file into the asset_root
 	add_child(dscn_node)
@@ -64,6 +62,8 @@ func _spawn_asset(instance_id):
 	
 	# Set the VisualLayer of the newly imported Asset
 	set_render_layers(asset_root, render_layers)
+	
+	asset_root.global_transform.origin = local_pos_3d
 	
 	return true
 

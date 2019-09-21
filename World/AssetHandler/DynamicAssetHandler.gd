@@ -53,11 +53,12 @@ func _spawn_asset(instance_id):
 		var new_instance = asset_scene.instance()
 		
 		new_instance.name = String(instance_id)
-		new_instance.global_transform.origin = pos
+		new_instance.transform.origin = pos
 	
 		add_child(new_instance)
 		
-		GlobalSignal.emit_signal("asset_spawned")
+		# TODO: Removed for now due to spamming server requests
+		# GlobalSignal.emit_signal("asset_spawned")
 		
 		return true
 	else:

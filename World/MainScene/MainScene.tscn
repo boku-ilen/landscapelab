@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://World/MainScene/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://World/LODTerrain/TileHandler.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Util/PlayerTeleportListener.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Util/PlayerMarkerUpdater.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Util/LegoExtentUpdater.tscn" type="PackedScene" id=12]
+[ext_resource path="res://World/AssetHandler/ExternalAssetHandler.tscn" type="PackedScene" id=13]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 1 )
@@ -37,3 +38,8 @@ update_interval = 6.0
 [node name="PlayerMarkerUpdater" parent="." instance=ExtResource( 11 )]
 
 [node name="LegoExtentUpdater" parent="." instance=ExtResource( 12 )]
+
+[node name="BuildingsHandler" parent="." instance=ExtResource( 13 )]
+update_interval = 2.5
+initial_update_delay = 6.0
+asset_type_id = 1

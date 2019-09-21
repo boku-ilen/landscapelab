@@ -137,4 +137,5 @@ func _get_engine_position_for_asset(instance_id):
 # React to a world shift by moving all child nodes (asset instances) accordingly
 func _on_shift_world(delta_x : int, delta_z : int):
 	for child in get_children():
-		child.shift(delta_x, delta_z)
+		if child is GroundedSpatial:
+			child.shift(delta_x, delta_z)
