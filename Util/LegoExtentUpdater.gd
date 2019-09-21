@@ -19,7 +19,7 @@ func _ready():
 	# TODO: There's currently no display radius for this asset type, so we can use the position 0.0, 0.0
 	#  But maybe it would make sense to have a display radius?
 	requester.set_request("/assetpos/get_near/by_assettype/%d/0.0/0.0.json" % [lego_board_assettype_id])
-	requester.connect("new_response", self, "_on_new_response")
+	requester.connect("new_response", self, "_on_new_response", [], CONNECT_DEFERRED)
 
 
 func _on_new_response(response):

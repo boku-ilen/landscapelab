@@ -20,7 +20,7 @@ func _ready():
 	# Make the the interval for the assets request in intervals of 2 seconds
 	requester.interval = 2 
 	requester.set_request("/energy/contribution/" + String(Session.scenario_id) + "/all.json")
-	requester.connect("new_response", self, "_on_new_response")
+	requester.connect("new_response", self, "_on_new_response", [], CONNECT_DEFERRED)
 	
 	progress_bar.max_value = Session.get_current_scenario()["energy_requirement_total"]
 	

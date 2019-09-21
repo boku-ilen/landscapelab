@@ -43,7 +43,7 @@ func _update_tile_underneath():
 	
 	# Connect to the new tile
 	if tile_underneath:  # We may not have a tile, e.g. if it's not loaded (due to small view distance)
-		tile_underneath.connect("split", self, "_place_on_ground")
+		tile_underneath.connect("split", self, "_place_on_ground", [], CONNECT_DEFERRED)
 
 
 # Puts the origin of the node on the ground.
