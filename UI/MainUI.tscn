@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/watermark.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/energy_sum.png" type="Texture" id=2]
@@ -8,34 +8,35 @@
 [ext_resource path="res://UI/EnergyUI/EnergyDetails.gd" type="Script" id=6]
 [ext_resource path="res://Util/RegularServerRequest.tscn" type="PackedScene" id=7]
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Resources/Images/UI/UI/input_controller.png" type="Texture" id=9]
-[ext_resource path="res://Resources/Images/UI/UI/s_input_controller.png" type="Texture" id=10]
-[ext_resource path="res://Resources/Images/UI/UI/h_input_controller.png" type="Texture" id=11]
-[ext_resource path="res://UI/ui_controller.gd" type="Script" id=12]
-[ext_resource path="res://Resources/Images/UI/UI/lego_brick.png" type="Texture" id=13]
-[ext_resource path="res://Resources/Images/UI/UI/s_lego_brick.png" type="Texture" id=14]
-[ext_resource path="res://Resources/Images/UI/UI/h_lego_brick.png" type="Texture" id=15]
-[ext_resource path="res://UI/ui_lego.gd" type="Script" id=16]
-[ext_resource path="res://Resources/Images/UI/UI/play.png" type="Texture" id=17]
-[ext_resource path="res://Resources/Images/UI/UI/s_play.png" type="Texture" id=18]
-[ext_resource path="res://Resources/Images/UI/UI/h_play.png" type="Texture" id=19]
-[ext_resource path="res://UI/ui_tracking_play.gd" type="Script" id=20]
-[ext_resource path="res://Resources/Images/UI/UI/pause.png" type="Texture" id=21]
-[ext_resource path="res://Resources/Images/UI/UI/h_pause.png" type="Texture" id=22]
-[ext_resource path="res://UI/ui_tracking_pause.gd" type="Script" id=23]
-[ext_resource path="res://Resources/Images/UI/UI/stop.png" type="Texture" id=24]
-[ext_resource path="res://Resources/Images/UI/UI/s_stop.png" type="Texture" id=25]
-[ext_resource path="res://Resources/Images/UI/UI/h_stop.png" type="Texture" id=26]
-[ext_resource path="res://UI/ui_tracking_stop.gd" type="Script" id=27]
-[ext_resource path="res://UI/CustomElements/SignalTextureButton.tscn" type="PackedScene" id=28]
-[ext_resource path="res://Resources/Images/UI/UI/vr.png" type="Texture" id=29]
-[ext_resource path="res://Resources/Images/UI/UI/s_vr.png" type="Texture" id=30]
-[ext_resource path="res://Resources/Images/UI/UI/h_vr.png" type="Texture" id=31]
-[ext_resource path="res://Resources/Images/UI/UI/season_time.png" type="Texture" id=32]
-[ext_resource path="res://Resources/Images/UI/UI/s_season_time.png" type="Texture" id=33]
-[ext_resource path="res://Resources/Images/UI/UI/h_season_time.png" type="Texture" id=34]
-[ext_resource path="res://UI/CustomElements/ShowHideChildrenButton.gd" type="Script" id=35]
-[ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=36]
+[ext_resource path="res://UI/UIRooftopPhotovoltaicCheckbox.gd" type="Script" id=9]
+[ext_resource path="res://Resources/Images/UI/UI/input_controller.png" type="Texture" id=10]
+[ext_resource path="res://Resources/Images/UI/UI/s_input_controller.png" type="Texture" id=11]
+[ext_resource path="res://Resources/Images/UI/UI/h_input_controller.png" type="Texture" id=12]
+[ext_resource path="res://UI/ui_controller.gd" type="Script" id=13]
+[ext_resource path="res://Resources/Images/UI/UI/lego_brick.png" type="Texture" id=14]
+[ext_resource path="res://Resources/Images/UI/UI/s_lego_brick.png" type="Texture" id=15]
+[ext_resource path="res://Resources/Images/UI/UI/h_lego_brick.png" type="Texture" id=16]
+[ext_resource path="res://UI/ui_lego.gd" type="Script" id=17]
+[ext_resource path="res://Resources/Images/UI/UI/play.png" type="Texture" id=18]
+[ext_resource path="res://Resources/Images/UI/UI/s_play.png" type="Texture" id=19]
+[ext_resource path="res://Resources/Images/UI/UI/h_play.png" type="Texture" id=20]
+[ext_resource path="res://UI/ui_tracking_play.gd" type="Script" id=21]
+[ext_resource path="res://Resources/Images/UI/UI/pause.png" type="Texture" id=22]
+[ext_resource path="res://Resources/Images/UI/UI/h_pause.png" type="Texture" id=23]
+[ext_resource path="res://UI/ui_tracking_pause.gd" type="Script" id=24]
+[ext_resource path="res://Resources/Images/UI/UI/stop.png" type="Texture" id=25]
+[ext_resource path="res://Resources/Images/UI/UI/s_stop.png" type="Texture" id=26]
+[ext_resource path="res://Resources/Images/UI/UI/h_stop.png" type="Texture" id=27]
+[ext_resource path="res://UI/ui_tracking_stop.gd" type="Script" id=28]
+[ext_resource path="res://UI/CustomElements/SignalTextureButton.tscn" type="PackedScene" id=29]
+[ext_resource path="res://Resources/Images/UI/UI/vr.png" type="Texture" id=30]
+[ext_resource path="res://Resources/Images/UI/UI/s_vr.png" type="Texture" id=31]
+[ext_resource path="res://Resources/Images/UI/UI/h_vr.png" type="Texture" id=32]
+[ext_resource path="res://Resources/Images/UI/UI/season_time.png" type="Texture" id=33]
+[ext_resource path="res://Resources/Images/UI/UI/s_season_time.png" type="Texture" id=34]
+[ext_resource path="res://Resources/Images/UI/UI/h_season_time.png" type="Texture" id=35]
+[ext_resource path="res://UI/CustomElements/ShowHideChildrenButton.gd" type="Script" id=36]
+[ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=37]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0.835294, 0.207843, 1 )
@@ -63,15 +64,15 @@ mouse_filter = 2
 alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
-margin_right = 249.0
-margin_bottom = 946.0
+margin_right = 418.0
+margin_bottom = 964.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
 margin_right = 249.0
-margin_bottom = 946.0
+margin_bottom = 964.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -141,11 +142,27 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 62.0
 margin_right = 249.0
-margin_bottom = 946.0
+margin_bottom = 964.0
 mouse_filter = 2
 
-[node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
 margin_left = 253.0
+margin_right = 418.0
+margin_bottom = 964.0
+
+[node name="Label" type="Label" parent="Top Menu Bar/HBoxLeft/VBoxContainer"]
+margin_right = 165.0
+margin_bottom = 14.0
+text = "Dachflächen Photovoltaic:"
+
+[node name="RooftopPhotovoltaicCheckbox" type="CheckBox" parent="Top Menu Bar/HBoxLeft/VBoxContainer"]
+margin_top = 18.0
+margin_right = 165.0
+margin_bottom = 42.0
+script = ExtResource( 9 )
+
+[node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
+margin_left = 422.0
 margin_right = 1559.0
 margin_bottom = 48.0
 mouse_filter = 2
@@ -154,8 +171,8 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 595.0
-margin_right = 710.0
+margin_left = 511.0
+margin_right = 626.0
 margin_bottom = 48.0
 mouse_filter = 2
 
@@ -165,10 +182,10 @@ margin_bottom = 39.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 toggle_mode = true
-texture_normal = ExtResource( 9 )
-texture_pressed = ExtResource( 10 )
-texture_hover = ExtResource( 11 )
-script = ExtResource( 12 )
+texture_normal = ExtResource( 10 )
+texture_pressed = ExtResource( 11 )
+texture_hover = ExtResource( 12 )
+script = ExtResource( 13 )
 
 [node name="EditableAssetTypeList" type="VBoxContainer" parent="Top Menu Bar/HBoxCenter/HBoxContainer/Controller"]
 margin_left = 44.8907
@@ -187,10 +204,10 @@ margin_bottom = 48.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 toggle_mode = true
-texture_normal = ExtResource( 13 )
-texture_pressed = ExtResource( 14 )
-texture_hover = ExtResource( 15 )
-script = ExtResource( 16 )
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 15 )
+texture_hover = ExtResource( 16 )
+script = ExtResource( 17 )
 
 [node name="HBoxRight" type="HBoxContainer" parent="Top Menu Bar"]
 margin_left = 1563.0
@@ -213,29 +230,29 @@ margin_bottom = 49.0
 [node name="Tracking Play" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
 margin_right = 47.0
 margin_bottom = 49.0
-texture_normal = ExtResource( 17 )
-texture_pressed = ExtResource( 18 )
-texture_hover = ExtResource( 19 )
-script = ExtResource( 20 )
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 19 )
+texture_hover = ExtResource( 20 )
+script = ExtResource( 21 )
 
 [node name="Tracking Pause" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
 visible = false
 margin_left = 51.0
 margin_right = 98.0
 margin_bottom = 49.0
-texture_normal = ExtResource( 21 )
-texture_hover = ExtResource( 22 )
-script = ExtResource( 23 )
+texture_normal = ExtResource( 22 )
+texture_hover = ExtResource( 23 )
+script = ExtResource( 24 )
 
 [node name="Tracking Stop" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
 visible = false
 margin_left = 51.0
 margin_right = 98.0
 margin_bottom = 49.0
-texture_normal = ExtResource( 24 )
-texture_pressed = ExtResource( 25 )
-texture_hover = ExtResource( 26 )
-script = ExtResource( 27 )
+texture_normal = ExtResource( 25 )
+texture_pressed = ExtResource( 26 )
+texture_hover = ExtResource( 27 )
+script = ExtResource( 28 )
 
 [node name="Placeholder" type="ColorRect" parent="Top Menu Bar/HBoxRight/VBox/Top"]
 margin_left = 51.0
@@ -244,12 +261,12 @@ margin_bottom = 49.0
 rect_min_size = Vector2( 100, 0 )
 color = Color( 1, 1, 1, 0 )
 
-[node name="VR" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 28 )]
+[node name="VR" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 29 )]
 margin_left = 155.0
 margin_right = 201.0
-texture_normal = ExtResource( 29 )
-texture_pressed = ExtResource( 30 )
-texture_hover = ExtResource( 31 )
+texture_normal = ExtResource( 30 )
+texture_pressed = ExtResource( 31 )
+texture_hover = ExtResource( 32 )
 signal_pressed = "vr_enable"
 signal_released = "vr_disable"
 
@@ -258,18 +275,19 @@ margin_left = 205.0
 margin_right = 253.0
 margin_bottom = 49.0
 toggle_mode = true
-texture_normal = ExtResource( 32 )
-texture_pressed = ExtResource( 33 )
-texture_hover = ExtResource( 34 )
-script = ExtResource( 35 )
+texture_normal = ExtResource( 33 )
+texture_pressed = ExtResource( 34 )
+texture_hover = ExtResource( 35 )
+script = ExtResource( 36 )
 
-[node name="Datetime" parent="Top Menu Bar/HBoxRight/VBox/Top/Season" instance=ExtResource( 36 )]
+[node name="Datetime" parent="Top Menu Bar/HBoxRight/VBox/Top/Season" instance=ExtResource( 37 )]
 visible = false
 margin_left = -213.0
 margin_top = 62.0
 margin_right = 87.0
 margin_bottom = 130.0
 
-[node name="Debug" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 28 )]
+[node name="Debug" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 29 )]
 signal_pressed = "debug_enable"
 signal_released = "debug_disable"
+[connection signal="toggled" from="Top Menu Bar/HBoxLeft/VBoxContainer/RooftopPhotovoltaicCheckbox" to="Top Menu Bar/HBoxLeft/VBoxContainer/RooftopPhotovoltaicCheckbox" method="_on_toggled"]
