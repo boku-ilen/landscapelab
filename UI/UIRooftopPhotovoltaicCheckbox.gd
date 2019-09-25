@@ -6,7 +6,8 @@ extends CheckBox
 #
 
 # save the id of the created asset so we can remove it
-var id
+var asset_id = 7
+var assetpos_id
 # wait for the enqueued task to be done, initalize as true so the checkbox won't be disabled
 var task_done : bool =  true
 
@@ -19,18 +20,21 @@ func _process(delta):
 func _on_toggled(button_pressed):
 	if button_pressed:
 		task_done = false
-		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_manage_rooftop_pv", []), 16)
+		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_create_rooftop_pv", []), 90)
 	else:
-		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_remove_rooftop_pv", []), 15)
+		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_remove_rooftop_pv", []), 90)
 
 
-func _create_rooftop_pv():
-	#var response = ServerConnection.get_json("/assetpos/create/%d/7/0/0" % [Session.scenario_id])
-	#id = response["assetpos_id"]
+func _create_rooftop_pv(data):
+	var pos = PlayerInfo.get_true_player_position()
+	pos[0] = -pos[0]  # TODO: Generalize
+	
+	# No caching
+	var response = ServerConnection.get_json("/assetpos/create/%d/%d/%d.0/%d.0" % [Session.scenario_id, asset_id, pos[0], pos[2]], false)
+	assetpos_id = response["assetpos_id"]
 	task_done = true
-	pass
 
 
-func _remove_rooftop_pv():
-	#ServerConnection.get_json("/assetpos/remove/%d" % id)
-	pass
+func _remove_rooftop_pv(data):
+	if assetpos_id:
+		ServerConnection.get_json("/assetpos/remove/%d" % assetpos_id)
