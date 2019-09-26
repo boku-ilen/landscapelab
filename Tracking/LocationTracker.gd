@@ -81,7 +81,7 @@ func send_position():
 	var look_at = PlayerInfo.get_player_look_direction()
 	
 	var url = "/location/impression/%f/%f/%f/%f/%f/%f/%d"\
-		% [player_position[0], player_position[2], player_position[1], look_at.x, look_at.z, look_at.y, Session.session_id]
+		% [-player_position[0], player_position[2], player_position[1], look_at.x, look_at.z, look_at.y, Session.session_id]
 	
 	# Medium to low priority - we do want it to arrive sometime soon, but doesn't have to be immediate
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "make_position_request", url), 15)
