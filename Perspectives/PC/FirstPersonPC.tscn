@@ -28,7 +28,7 @@ far = 70000.0
 script = ExtResource( 2 )
 setting_title = "player"
 
-[node name="Control" parent="Head/Camera" instance=ExtResource( 3 )]
+[node name="Compass" parent="Head/Camera" instance=ExtResource( 3 )]
 
 [node name="MinimapIcon" parent="Head" instance=ExtResource( 4 )]
 transform = Transform( 1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0 )

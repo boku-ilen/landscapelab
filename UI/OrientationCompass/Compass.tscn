@@ -7,5 +7,6 @@
 
 [node name="Compass" type="Sprite3D" parent="."]
 transform = Transform( 0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -6.5, 3.5, -7 )
+layers = 513
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
