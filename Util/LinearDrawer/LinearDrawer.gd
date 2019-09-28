@@ -52,14 +52,14 @@ func set_width(new_width):
 
 
 # Modifies the road polygon to have a given height
-# That height is also extruded downwards as a safeguard against floating roads
+# That height * 2 is also extruded downwards as a safeguard against floating roads
 func set_height(new_height):
 	height = new_height
 	
-	csg_road.polygon[0].y = -height
+	csg_road.polygon[0].y = -height * 2
 	csg_road.polygon[1].y = height
 	csg_road.polygon[2].y = height
-	csg_road.polygon[3].y = -height
+	csg_road.polygon[3].y = -height * 2
 
 
 # Adds the given array of Vector3 points to the road's curve
