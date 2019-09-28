@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Perspectives/PC/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/PC/SettingsCamera.gd" type="Script" id=2]
-[ext_resource path="res://UI/OrientationCompass/Compass.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Resources/Images/UI/MapIcons/MapCursor.png" type="Texture" id=5]
+[ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Resources/Images/UI/MapIcons/MapCursor.png" type="Texture" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -28,11 +27,9 @@ far = 70000.0
 script = ExtResource( 2 )
 setting_title = "player"
 
-[node name="Compass" parent="Head/Camera" instance=ExtResource( 3 )]
-
-[node name="MinimapIcon" parent="Head" instance=ExtResource( 4 )]
+[node name="MinimapIcon" parent="Head" instance=ExtResource( 3 )]
 transform = Transform( 1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0 )
-icon = ExtResource( 5 )
+icon = ExtResource( 4 )
 rotate = true
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
