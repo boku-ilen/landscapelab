@@ -47,7 +47,6 @@ corner_radius_bottom_left = 5
 corner_detail = 14
 
 [node name="MainUI" type="MarginContainer"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 25.0
@@ -147,7 +146,6 @@ margin_bottom = 964.0
 mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
-editor/display_folded = true
 margin_left = 253.0
 margin_right = 418.0
 margin_bottom = 964.0
@@ -155,7 +153,7 @@ margin_bottom = 964.0
 [node name="Label" type="Label" parent="Top Menu Bar/HBoxLeft/VBoxContainer"]
 margin_right = 165.0
 margin_bottom = 14.0
-text = "Dachflächen Photovoltaic:"
+text = "Dachflächen Photovoltaik:"
 
 [node name="RooftopPhotovoltaicCheckbox" type="CheckBox" parent="Top Menu Bar/HBoxLeft/VBoxContainer"]
 margin_top = 18.0
