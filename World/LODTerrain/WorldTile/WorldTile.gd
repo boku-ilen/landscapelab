@@ -44,6 +44,8 @@ signal tile_to_be_displayed # Emitted once all modules want to be displayed -> t
 signal all_children_to_be_displayed # Emitted once all children want to be displayed
 signal split # Emitted by the top-level tile when a child finished splitting, e.g. so the ground position can be updated
 
+
+
 func _ready():
 	# Set everything to invisible at the start to prevent flickering
 	modules.visible = false

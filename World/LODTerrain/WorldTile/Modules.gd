@@ -22,6 +22,19 @@ signal module_to_be_displayed
 
 
 func _ready():
+	# FIXME: This doesn't belong here, it's logic for the WorldTile. However, it needs
+	#  to be done before spawn_modules() happens. We might want to do spawn_modules after
+	#  WorldTile is done initializing using a signal.
+	#  (_ready() are called from the childmost tile upwards)
+	# Adapt the subdivision so that detail increases more gradually (not 2x per split)
+	#  because the DHM isn't detailed enough to show that much detail, and we get steps
+	#  if the subdivision gets too high on high LOD tiles.
+	tile.subdiv = int(tile.subdiv / pow(2, (tile.lod / 4)))
+	
+	# We add 2 to subdiv and increase the size by the added squares for the skirt around the mesh (which fills gaps
+	# where things don't match up)
+	tile.size_with_skirt = tile.size + (2.0/(tile.subdiv + 1.0)) * tile.size
+	
 	connect("module_done_loading", self, "_on_module_done_loading")
 	connect("module_to_be_displayed", self, "_on_module_to_be_displayed")
 	spawn_modules()
