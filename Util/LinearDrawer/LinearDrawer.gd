@@ -5,7 +5,8 @@ extends GroundedSpatial
 #
 
 
-onready var curve = get_node("Path").curve
+onready var path = get_node("Path")
+onready var curve = path.curve
 onready var csg_road = get_node("Path/Road")
 
 
@@ -14,7 +15,7 @@ var height = 0
 
 
 func _ready():
-	set_height(0.5)
+	set_height(1)
 
 
 # Overwritten since we need to update the individual points, not just this node
@@ -43,23 +44,23 @@ func _place_on_ground():
 
 # Modifies the road polygon to have a given width
 func set_width(new_width):
-	width = new_width
+	for child in path.get_children():
+		if child is LinearCSGPolygon:
+			child.set_width(new_width)
+		else:
+			logger.warning("Children of the path of a LinearDrawer should all be LinearCSGPolygons!")
 	
-	csg_road.polygon[0].x = -width / 2
-	csg_road.polygon[1].x = -width / 2
-	csg_road.polygon[2].x = width / 2
-	csg_road.polygon[3].x = width / 2
+	set_height(new_width / 5)
 
 
 # Modifies the road polygon to have a given height
 # That height * 2 is also extruded downwards as a safeguard against floating roads
 func set_height(new_height):
-	height = new_height
-	
-	csg_road.polygon[0].y = -height * 2
-	csg_road.polygon[1].y = height
-	csg_road.polygon[2].y = height
-	csg_road.polygon[3].y = -height * 2
+	for child in path.get_children():
+		if child is LinearCSGPolygon:
+			child.set_height(new_height)
+		else:
+			logger.warning("Children of the path of a LinearDrawer should all be LinearCSGPolygons!")
 
 
 # Adds the given array of Vector3 points to the road's curve
