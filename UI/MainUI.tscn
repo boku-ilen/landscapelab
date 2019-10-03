@@ -110,13 +110,13 @@ margin_bottom = 97.2789
 [node name="Energy Details" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/Panel"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 205.0
+margin_right = 291.0
 margin_bottom = 33.0
 custom_constants/separation = 5
 script = ExtResource( 6 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/Panel/Energy Details"]
-margin_right = 198.0
+margin_right = 284.0
 margin_bottom = 24.0
 
 [node name="Label" type="Label" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/Panel/Energy Details/HBoxContainer"]

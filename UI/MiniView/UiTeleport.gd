@@ -1,30 +1,32 @@
 extends TextureButton
 
 # Load the point of interests listview
-var poi_list_view
-var list_container
+onready var poi_list_view = preload("res://UI/PointsOfInterest/PoI.tscn").instance()
+onready var list_container = get_node("PointsOfInterestList")
 
 
 func _ready():
-	list_container = get_child(0)
 	GlobalSignal.connect("poi_clicked", self, "_extract_poi_metadata")
-	GlobalSignal.connect("teleported", self, "_clear_list_container")
+	# Either one of those options will be clicked => teleport is done
+	GlobalSignal.connect("poi_clicked", self, "_hide_list_view")
+	GlobalSignal.connect("teleported", self, "_hide_list_view")
+	
+	# Should only be displayed when teleport is clicked
+	poi_list_view.visible = false
+	_load_pois()
 
 
 # Emit a global signal for using the pc-perspective onclick teleport.
 func _pressed():
 	GlobalSignal.emit_signal("teleport")
-	# If accidently clicked twice, the points of interest do not get loaded twice
-	_clear_list_container()
-	_load_pois()
+	
+	poi_list_view.visible = true
 
 
 # Loads all Points of Interests from the server
 func _load_pois():
 	var pois = Session.get_current_scenario()["locations"]
-	
-	poi_list_view = load("res://UI/PointsOfInterest/PoI.tscn").instance()
-	var poi_list = poi_list_view.get_child(1)
+	var poi_list = poi_list_view.get_node("ItemList")
 	
 	var index = 0
 	# create a Point of Interest for each entry in the locations
@@ -34,24 +36,22 @@ func _load_pois():
 		# Create a vector for the locations data (only contains "x" and "z"-axis)
 		# As the coordinates from the server are responded in a different type we have to use a "-" on the x-axis
 		var fixed_pos = [-pois[poi]["location"][0], pois[poi]["location"][1]]
-		# With Offset.to_engine_coordinates change webmercator to the according in-game coordinates
-		var location_coordinates = Offset.to_engine_coordinates(fixed_pos)
+		
 		# The ID in the list is not necessarily the same as the id in the json-file thus we have to
 		# set the poi-id in the metadata
-		poi_list.set_item_metadata(index, location_coordinates)
+		poi_list.set_item_metadata(index, fixed_pos)
 		
 		index += 1
 	
 	list_container.add_child(poi_list_view)
 
 
-func _clear_list_container():
-	for child in list_container.get_children():
-		child.queue_free()
-
-
 # We saved the location coordinates in the metadata of the list items, if one is clicked emit a signal with this 
 # data that can be handled in another script
 func _extract_poi_metadata(index):
-	var location_coordinates = poi_list_view.get_child(1).get_item_metadata(index)
-	GlobalSignal.emit_signal("poi_teleport", location_coordinates)
+	var fixed_pos = poi_list_view.get_node("ItemList").get_item_metadata(index)
+	GlobalSignal.emit_signal("poi_teleport",  Offset.to_engine_coordinates(fixed_pos))
+
+
+func _hide_list_view(index=null):
+	poi_list_view.visible = false
