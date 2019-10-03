@@ -89,3 +89,5 @@ signal teleported
 # Assets
 signal asset_spawned
 signal asset_removed
+signal asset_show_tooltip
+signal asset_hide_tooltip
