@@ -58,7 +58,7 @@ func _spawn_asset(instance_id):
 	add_child(asset_root)
 	
 	# Load the DSCN file into the asset_root
-	add_child(dscn_node)
+	asset_root.add_child(dscn_node)
 	dscn_node.filepath = name_path
 	dscn_node.path_to_node = asset_root.get_path()
 	dscn_node.import_dscn()
