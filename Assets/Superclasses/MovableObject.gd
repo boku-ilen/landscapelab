@@ -19,6 +19,8 @@ func _request_energy_value(data):
 	var energy_value = ServerConnection.get_json("/energy/location/%s.json" % [data[0]])
 	
 	if energy_value and energy_value.has("energy_production"):
-		tooltip.set_label_text("%s MW" % [energy_value["energy_production"]])
+		# rounded energy value of asset 
+		var energy_production = String(int(round(energy_value["energy_production"])))
+		tooltip.set_label_text("%s MW" % energy_production)
 	else:
 		tooltip.set_label_text("unknown MW")
