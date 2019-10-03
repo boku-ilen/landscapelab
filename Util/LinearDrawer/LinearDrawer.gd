@@ -50,7 +50,7 @@ func set_width(new_width):
 		else:
 			logger.warning("Children of the path of a LinearDrawer should all be LinearCSGPolygons!")
 	
-	set_height(new_width / 5)
+	set_height(0.5 + min(new_width / 20, 0.5))
 
 
 # Modifies the road polygon to have a given height
