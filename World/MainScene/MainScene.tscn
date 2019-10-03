@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://World/MainScene/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://World/LODTerrain/TileHandler.tscn" type="PackedScene" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Util/PlayerMarkerUpdater.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Util/LegoExtentUpdater.tscn" type="PackedScene" id=13]
 [ext_resource path="res://World/AssetHandler/ExternalAssetHandler.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Assets/ExistingWindTurbine/ExistingGenericWindTurbine.tscn" type="PackedScene" id=15]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 1 )
@@ -45,3 +46,10 @@ linear_drawer = ExtResource( 10 )
 update_interval = 2.5
 initial_update_delay = 6.0
 asset_type_id = 1
+
+[node name="ExistingWindTurbineHandler" parent="." instance=ExtResource( 8 )]
+asset_scene = ExtResource( 15 )
+moving = false
+update_interval = 10.0
+initial_update_delay = 5.0
+asset_id = 30
