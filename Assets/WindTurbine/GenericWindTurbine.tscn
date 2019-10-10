@@ -148,7 +148,7 @@ surfaces/2 = {
 "vertex_count": 10
 }
 
-[node name="Windmill" instance=ExtResource( 1 )]
+[node name="Windmill" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="CollisionShape" parent="PickupBody" index="0"]
@@ -182,7 +182,7 @@ material/4 = null
 material/5 = null
 
 [node name="Rotor" type="MeshInstance" parent="Mesh" index="2"]
-transform = Transform( 8.11935e-08, -1.3622, 0, 1.3622, 8.11935e-08, 0, 0, 0, 1.3622, 447.478, 5303.9, -0.230225 )
+transform = Transform( 8.11935e-08, -1.3622, 0, -1.31016, -7.80916e-08, -0.37313, 0.37313, 2.22404e-08, -1.31016, 447.478, 5303.9, -0.230225 )
 layers = 16
 mesh = SubResource( 5 )
 material/0 = null
