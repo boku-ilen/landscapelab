@@ -9,6 +9,7 @@ onready var rotor = get_node("Mesh/Rotor")
 export(float) var speed = 1 # Rotation speed in radians
 export(float) var wind_direction = 0 setget set_wind_direction, get_wind_direction # Rotation of wind in degrees
 
+export(Vector3) var forward_for_rotation = Vector3(1, 0, 0)
 
 func _ready():
 	# Orient the windmill according to the scenario's wind direction
@@ -42,7 +43,7 @@ func update_rotation():
 
 # Updates the rotation of the rotor to make them rotate with the exported speed variable
 func _physics_process(delta):
-	rotor.transform.basis = rotor.transform.basis.rotated(Vector3(1, 0, 0), -speed * delta)
+	rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)
 
 
 # TODO: The wind_direction could be automatically set using signals at some point
