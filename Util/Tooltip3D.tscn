@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Util/Tooltip3D.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Images/UI/MapIcons/pv_icon.png" type="Texture" id=2]
+[ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=3]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_unshaded = true
@@ -35,24 +36,24 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="Viewport/CenterContainer"]
-margin_left = 117.0
-margin_top = 18.0
-margin_right = 183.0
-margin_bottom = 82.0
+margin_left = 111.0
+margin_top = 13.0
+margin_right = 189.0
+margin_bottom = 86.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Viewport/CenterContainer/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 59.0
-margin_bottom = 57.0
+margin_right = 71.0
+margin_bottom = 66.0
 
 [node name="MarginContainer" type="MarginContainer" parent="Viewport/CenterContainer/PanelContainer/VBoxContainer"]
-margin_right = 52.0
+margin_right = 64.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 
 [node name="TextureRect" type="TextureRect" parent="Viewport/CenterContainer/PanelContainer/VBoxContainer/MarginContainer"]
-margin_right = 52.0
+margin_right = 64.0
 margin_bottom = 32.0
 texture = ExtResource( 2 )
 expand = true
@@ -60,8 +61,9 @@ stretch_mode = 6
 
 [node name="Label" type="Label" parent="Viewport/CenterContainer/PanelContainer/VBoxContainer"]
 margin_top = 36.0
-margin_right = 52.0
-margin_bottom = 50.0
+margin_right = 64.0
+margin_bottom = 59.0
+custom_fonts/font = ExtResource( 3 )
 text = "0.0 kWh"
 
 [node name="TooltipSprite" type="Spatial" parent="."]

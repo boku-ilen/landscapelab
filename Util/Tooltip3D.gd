@@ -15,8 +15,8 @@ var ready = false
 
 func _ready():
 	visible = TooltipHandler.are_tooltips_enabled()
-	GlobalSignal.connect("energy_details_enabled", self, "_on_display_tooltip", [true])
-	GlobalSignal.connect("energy_details_disabled", self, "_on_display_tooltip", [false])
+	GlobalSignal.connect("asset_show_tooltip", self, "_on_display_tooltip", [true])
+	GlobalSignal.connect("asset_hide_tooltip", self, "_on_display_tooltip", [false])
 	ready = true
 	update()
 
