@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://UI/PointsOfInterest/PoI.gd" type="Script" id=1]
+[ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=1]
+[ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=2]
+[ext_resource path="res://UI/PointsOfInterest/PoI.gd" type="Script" id=3]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -12,6 +14,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -1706.0
 margin_bottom = -1066.0
+custom_fonts/font = ExtResource( 1 )
 text = "Points of Interest"
 
 [node name="ItemList" type="ItemList" parent="."]
@@ -19,9 +22,11 @@ margin_left = 1.0
 margin_top = 20.0
 margin_right = 254.0
 margin_bottom = 134.0
+custom_fonts/font = ExtResource( 2 )
 allow_reselect = true
 max_columns = 50
 same_column_width = true
 fixed_icon_size = Vector2( 25, 25 )
-script = ExtResource( 1 )
+script = ExtResource( 3 )
+[connection signal="item_activated" from="ItemList" to="ItemList" method="_on_ItemList_item_activated"]
 [connection signal="item_selected" from="ItemList" to="ItemList" method="_on_ItemList_item_selected"]
