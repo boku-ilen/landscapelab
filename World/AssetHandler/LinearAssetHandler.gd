@@ -57,8 +57,7 @@ func _vectorize_points(line_array):
 		# These positions are relative to the point approximately in the middle of the road (the middle_point)
 		vectored_line.append(_server_point_to_engine_pos(point[0], point[1]) - middle_point)
 	
-	# Commented out for now because it's inefficient
-	# _interpolate_points(vectored_line, 0)
+	_interpolate_points(vectored_line)
 	
 	return [middle_point, vectored_line]
 
@@ -66,29 +65,22 @@ func _vectorize_points(line_array):
 # Adds points between points which are more than maximum_distance_between_points from each other.
 # Example situation where this is necessary: A very long and straight road which goes over a hill: We need
 #  to add points so that the road goes neatly along the curve of the hill, instead of straight through it.
-func _interpolate_points(line, depth):
-	if depth > 10:
-		logger.warning("Deep recursion when inserting points to street! (Depth %s)" % [depth])
-	
-	# FIXME: This function is inefficient (many iterations and recursions) and not very clean (inserting
-	#  into a list while iterating over it). It works, but should be improved!
+func _interpolate_points(line):
 	var done = true
 	
-	for point_id in range(0, line.size() - 1):
-		# If this point is too far away from the next point, add one inbetween
-		# The squared distance is used for efficiency. 1 is added to the minimum distance to prevent floating
-		#  point errors from making this loop forever, since the minimum distance is never actually reached.
+	var point_id = 0
+	
+	while true:
+		# If this point has no next point, we're done
+		if point_id > line.size() - 2:
+			break
+		
+		# If the distance is too large, interpolate a point
 		if line[point_id].distance_squared_to(line[point_id + 1]) > pow(maximum_distance_between_points + 1, 2):
 			# The direction is the vector from this point to the next one.
 			var direction = (line[point_id + 1] - line[point_id]).normalized()
 			var new_point = line[point_id] + direction * maximum_distance_between_points
+			
 			line.insert(point_id + 1, new_point)
 			
-			done = false
-			
-			# We're done for this recursion - we need to break here since we're inserting into a list which we're
-			#  iterating over.
-			break
-	
-	# If we inserted a point, there may be more that we need to insert. Recurse!
-	if not done: _interpolate_points(line, depth + 1)
+		point_id += 1
