@@ -5,7 +5,7 @@ extends PanelContainer
 #
 
 onready var requester = get_node("RegularServerRequest")
-onready var progress_bar = get_node("Control/ProgressBar")
+onready var progress_bar = get_parent().get_node("ProgressBar")
 # Load the labels so we can update them regularly with the requested energy contributions
 onready var energy_value = get_node("Energy/EnergySum/EnergyValue")
 onready var target_energy = get_node("Energy/EnergySum/TargetEnergy")

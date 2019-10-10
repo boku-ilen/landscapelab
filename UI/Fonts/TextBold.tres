@@ -3,5 +3,4 @@
 [ext_resource path="res://Resources/Fonts/NunitoSans-Black.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 10
 font_data = ExtResource( 1 )
