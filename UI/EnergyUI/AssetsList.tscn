@@ -17,7 +17,7 @@ margin_right = 117.0
 margin_bottom = 47.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 459.0
+margin_right = 460.0
 margin_bottom = 40.0
 
 [node name="Image" type="TextureRect" parent="HBoxContainer"]
@@ -41,11 +41,11 @@ text = "test"
 
 [node name="Details" type="VBoxContainer" parent="."]
 margin_top = 44.0
-margin_right = 459.0
+margin_right = 460.0
 margin_bottom = 94.0
 
 [node name="ValueHBox" type="HBoxContainer" parent="Details"]
-margin_right = 459.0
+margin_right = 460.0
 margin_bottom = 23.0
 
 [node name="ValueText" type="Label" parent="Details/ValueHBox"]
@@ -84,7 +84,7 @@ text = "MWh/a"
 
 [node name="AmountHBox" type="HBoxContainer" parent="Details"]
 margin_top = 27.0
-margin_right = 459.0
+margin_right = 460.0
 margin_bottom = 50.0
 
 [node name="AmountText" type="Label" parent="Details/AmountHBox"]
@@ -102,9 +102,9 @@ text = "Loading ..."
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 margin_top = 98.0
-margin_right = 459.0
+margin_right = 460.0
 margin_bottom = 123.0
-rect_min_size = Vector2( 410, 25 )
+rect_min_size = Vector2( 460, 25 )
 custom_styles/fg = SubResource( 1 )
 custom_fonts/font = ExtResource( 3 )
 allow_greater = true
