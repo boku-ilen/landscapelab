@@ -15,6 +15,7 @@ params_use_alpha_scissor = true
 params_alpha_scissor_threshold = 0.1
 
 [sub_resource type="ViewportTexture" id=2]
+flags = 4
 viewport_path = NodePath("Viewport")
 
 [node name="Tooltip3D" type="Spatial"]

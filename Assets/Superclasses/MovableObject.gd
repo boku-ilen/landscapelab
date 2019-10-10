@@ -21,6 +21,6 @@ func _request_energy_value(data):
 	if energy_value and energy_value.has("energy_production"):
 		# rounded energy value of asset 
 		var energy_production = String(int(round(energy_value["energy_production"])))
-		tooltip.set_label_text("%s MW" % energy_production)
+		tooltip.set_label_text("%s MWh/a" % energy_production)
 	else:
-		tooltip.set_label_text("unknown MW")
+		tooltip.set_label_text("unknown MWh/a")
