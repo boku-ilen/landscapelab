@@ -69,14 +69,14 @@ mouse_filter = 2
 alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
-margin_right = 756.0
+margin_right = 792.0
 margin_bottom = 98.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
-margin_right = 756.0
+margin_right = 792.0
 margin_bottom = 98.0
 mouse_filter = 2
 size_flags_horizontal = 0
@@ -84,7 +84,7 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox"]
-margin_right = 756.0
+margin_right = 792.0
 margin_bottom = 98.0
 mouse_filter = 2
 
@@ -106,8 +106,6 @@ texture_hover = ExtResource( 4 )
 script = ExtResource( 5 )
 
 [node name="EnergyDetailsPanel" type="PanelContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon"]
-editor/display_folded = true
-visible = false
 margin_left = -151.847
 margin_top = 106.371
 margin_right = 80.1535
@@ -122,7 +120,6 @@ custom_constants/separation = 5
 script = ExtResource( 6 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details"]
-editor/display_folded = true
 margin_right = 218.0
 margin_bottom = 24.0
 
@@ -140,17 +137,18 @@ script = ExtResource( 8 )
 
 [node name="EnergySumHBox" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
 margin_left = 235.0
-margin_right = 756.0
+margin_right = 792.0
 margin_bottom = 98.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox"]
-margin_right = 324.0
+margin_right = 360.0
 margin_bottom = 98.0
 
 [node name="EnergyPanel" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/VBoxContainer" instance=ExtResource( 9 )]
 margin_left = 0.0
-margin_right = 324.0
+margin_right = 360.0
 margin_bottom = 64.0
+rect_min_size = Vector2( 360, 0 )
 script = ExtResource( 10 )
 
 [node name="RegularServerRequest" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/VBoxContainer/EnergyPanel" instance=ExtResource( 11 )]
@@ -158,15 +156,15 @@ interval = 2.0
 
 [node name="ProgressBar" type="ProgressBar" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/VBoxContainer"]
 margin_top = 68.0
-margin_right = 324.0
+margin_right = 360.0
 margin_bottom = 98.0
-rect_min_size = Vector2( 33.7, 30 )
+rect_min_size = Vector2( 360, 30 )
 custom_styles/fg = SubResource( 1 )
 allow_greater = true
 
 [node name="RooftopPV" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox"]
-margin_left = 328.0
-margin_right = 521.0
+margin_left = 364.0
+margin_right = 557.0
 margin_bottom = 98.0
 
 [node name="Label" type="Label" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV"]
@@ -192,7 +190,7 @@ mouse_filter = 2
 
 [node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
 editor/display_folded = true
-margin_left = 760.0
+margin_left = 796.0
 margin_right = 1559.0
 margin_bottom = 48.0
 mouse_filter = 2
@@ -201,8 +199,8 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 342.0
-margin_right = 457.0
+margin_left = 324.0
+margin_right = 439.0
 margin_bottom = 48.0
 mouse_filter = 2
 
