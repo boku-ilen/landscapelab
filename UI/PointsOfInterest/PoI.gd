@@ -19,14 +19,20 @@ func _on_Save_pressed():
 	input_field.visible = false
 	save_button.visible = false
 	
-	var name = input_field.text
-	PlayerInfo.get_true_player_position()
+	# Create an array for the locations data (only contains "x" and "z"-axis)
+	var fixed_pos = [PlayerInfo.get_true_player_position()[0], PlayerInfo.get_true_player_position()[2]]
 	
+	item_list.add_item(input_field.text)
+	# The item will be added as the last element in the list
+	item_list.set_item_metadata(item_list.get_item_count() - 1, fixed_pos)
+	
+	# As the coordinates on the server are responded in a different type,
+	# we have to use a "-" on the x-axis to properly save it
 	# TODO: Request on server for adding current position to PoIs
 
 
 func _on_Delete_pressed():
 	# select mode is set to single, so only one item can be selected
-	var current_item = item_list.get_selected_items()
+	var current_item = item_list.remove_item(item_list.get_selected_items()[0])
 	
 	# TODO: Request for deleting a PoI by giving the name to the server
