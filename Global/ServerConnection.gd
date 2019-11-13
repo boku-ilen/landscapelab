@@ -5,15 +5,15 @@ class Connection:
 	"""This Connection class wraps Godot's HTTPClient. It establishes a connection on creation and allows for requests
 	to be made to any URL on the preconfigured host and port."""
 	
-	var host = Settings.get_setting("server", "ip")
-	var port = Settings.get_setting("server", "port")
-	var url_prefix = Settings.get_setting("server", "prefix", "")
+	var host: String = Settings.get_setting("server", "ip")
+	var port: int = Settings.get_setting("server", "port")
+	var url_prefix: String = Settings.get_setting("server", "prefix", "")
 	
-	var retry = true
-	var timeout_interval = 5
-	var delay_interval_msec = 50
+	var retry: bool = true
+	var timeout_interval: int = 5
+	var delay_interval_msec: int = 50
 	
-	var _http
+	var _http: HTTPClient
 	var _headers = [
 		"User-Agent: Pirulo/1.0 (Godot)",
 		"Accept: */*"

@@ -7,14 +7,14 @@ extends Node
 # need to react to this shift (e.g. to keep their position at the correct location).
 #
 
-var x : int = 0
-var z : int = 0
+var x: int = 0
+var z: int = 0
 
-var world_shift_check_period = 1
-var world_shift_timer = 0
+var world_shift_check_period: float = 1
+var world_shift_timer: float = 0
 
 # When a player coordinate gets bigger than this, the world will be shifted to get the player back to the world origin
-var shift_limit = Settings.get_setting("lod", "world-shift-distance")
+var shift_limit: float = Settings.get_setting("lod", "world-shift-distance")
 
 signal shift_world
 

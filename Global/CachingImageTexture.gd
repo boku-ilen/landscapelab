@@ -6,9 +6,9 @@ extends Node
 #
 
 var _path_imagetexture_dict: Dictionary = {}
-var _load_mutex = Mutex.new()
-var _flags = Settings.get_setting("caching-images", "default-flags")
-var _full_path_prefix = Settings.get_setting("filesystem", "local-resources-path")
+var _load_mutex: Mutex = Mutex.new()
+var _flags: int = Settings.get_setting("caching-images", "default-flags")
+var _full_path_prefix: String = Settings.get_setting("filesystem", "local-resources-path")
 
 
 # Returns the image at the given path as an ImageTexture.

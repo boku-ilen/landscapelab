@@ -1,6 +1,6 @@
 extends Control
 
-var scenarios = []
+var scenarios: Dictionary = {}
 
 onready var item_list = get_node("MarginContainer/HBoxContainer/VBoxContainer/ItemList")
 
@@ -21,6 +21,8 @@ func build_item_list():
 			item_list.add_item(scenarios[i].name)
 			item_list.set_item_metadata(id, i)  # Save the scenario ID in the metadata
 			id += 1
+	else:
+		logger.error("Couldn't get scenarios!'")
 
 
 # Called when an item is clicked on

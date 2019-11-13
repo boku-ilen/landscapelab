@@ -6,8 +6,8 @@ extends Node
 # TODO: an optional settings.json in the working directory can overwrite the default settings
 #
 
-var user_config = parse_user_data()
-var default_data = parse_default_data()
+var user_config: JSONParseResult = parse_user_data()
+var default_data: JSONParseResult = parse_default_data()
 
 
 func parse_user_data():

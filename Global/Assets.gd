@@ -5,8 +5,8 @@ extends Node
 #
 
 
-var _types_assets = {}
-var _assets = {}
+var _types_assets: Dictionary = {}
+var _assets: Dictionary = {}
 
 var url = "/assetpos/get_all_editable_assettypes.json"
 
