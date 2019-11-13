@@ -23,7 +23,7 @@ func parse_user_data():
 func parse_default_data():
 	var default_data_file = File.new()
 	if default_data_file.open("res://default-settings.json", File.READ) != OK:
-	    logger.error("BUG: default settings could not be read from json!")
+		logger.error("BUG: default settings could not be read from json!")
 		
 	var default_data_text = default_data_file.get_as_text()
 	default_data_file.close()
@@ -31,7 +31,7 @@ func parse_default_data():
 	var default_data_parse = JSON.parse(default_data_text)
 	
 	if default_data_parse.error != OK:
-	    logger.error("BUG: default settings could not be parsed from json! Is the syntax correct?")
+		logger.error("BUG: default settings could not be parsed from json! Is the syntax correct?")
 		
 	return default_data_parse.result
 

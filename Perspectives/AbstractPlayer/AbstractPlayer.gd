@@ -23,7 +23,7 @@ func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		# Destructor-like
 		if is_main_perspective:
-        	PlayerInfo.is_main_active = false
+			PlayerInfo.is_main_active = false
 	elif what == NOTIFICATION_PATH_CHANGED or what == NOTIFICATION_READY:
 		# If the node path has changed or it has just been instanced, we may be in a
 		#  new viewport - make sure it's setup correctly
