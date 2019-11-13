@@ -292,7 +292,7 @@ surfaces/0 = {
 
 [node name="ExistingGenericWindTurbine" type="Spatial"]
 script = ExtResource( 1 )
-forward_for_rotation = Vector3( 0, 0, 1 )
+forward_for_rotation = Vector3( 0, 0, -1 )
 
 [node name="Mesh" type="Spatial" parent="."]
 transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, -2.67115, 0, 1.36252 )
@@ -321,7 +321,7 @@ material/7 = null
 material/8 = null
 
 [node name="Rotor" type="Spatial" parent="Mesh"]
-transform = Transform( 1.00001, 0, 0, 0, 1.00003, 0, 0, 0, 1.00003, 104.939, 2015.86, 0 )
+transform = Transform( 0.0461518, -0.998978, 4.03497e-009, -0.998958, -0.0461524, -8.73331e-008, 8.74237e-008, 0, -1.00003, 104.939, 2015.86, -112.1 )
 
 [node name="instance_0003" type="MeshInstance" parent="Mesh/Rotor"]
 transform = Transform( 0.550481, 0, -0.834848, 0, 1, 0, 0.834848, 0, 0.550481, 17.466, -2004.97, 176.971 )
