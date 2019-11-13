@@ -1,4 +1,5 @@
 extends Spatial
+class_name TileHandler
 
 #
 # This is the node that actually controls the whole LOD terrain.
