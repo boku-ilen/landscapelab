@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/follow_mode.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/s_follow_mode.png" type="Texture" id=2]
@@ -38,6 +38,7 @@
 [ext_resource path="res://UI/MiniView/ui_close.gd" type="Script" id=36]
 [ext_resource path="res://UI/MiniView/ui_border.gd" type="Script" id=37]
 [ext_resource path="res://UI/MiniView/ResizingViewport.gd" type="Script" id=38]
+[ext_resource path="res://UI/VisibilityToggleUI.gd" type="Script" id=39]
 
 [node name="MiniView" type="VBoxContainer"]
 anchor_left = 1.0
@@ -50,6 +51,10 @@ mouse_filter = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 alignment = 2
+script = ExtResource( 39 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Miniview Menu" type="HBoxContainer" parent="."]
 margin_right = 650.0

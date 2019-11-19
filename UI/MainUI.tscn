@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/watermark.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/energy_sum.png" type="Texture" id=2]
@@ -42,6 +42,7 @@
 [ext_resource path="res://Resources/Images/UI/UI/h_season_time.png" type="Texture" id=40]
 [ext_resource path="res://UI/CustomElements/ShowHideChildrenButton.gd" type="Script" id=41]
 [ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=42]
+[ext_resource path="res://UI/VisibilityToggleUI.gd" type="Script" id=43]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0.835294, 0.207843, 1 )
@@ -59,6 +60,10 @@ margin_top = 25.0
 margin_right = -25.0
 margin_bottom = -25.0
 mouse_filter = 2
+script = ExtResource( 43 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Top Menu Bar" type="HBoxContainer" parent="."]
 margin_right = 1870.0
@@ -69,7 +74,6 @@ mouse_filter = 2
 alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
-editor/display_folded = true
 margin_right = 792.0
 margin_bottom = 101.0
 mouse_filter = 2
@@ -138,7 +142,6 @@ margin_bottom = 24.0
 script = ExtResource( 8 )
 
 [node name="EnergySumHBox" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
-editor/display_folded = true
 margin_left = 235.0
 margin_right = 792.0
 margin_bottom = 101.0
@@ -193,7 +196,6 @@ margin_bottom = 964.0
 mouse_filter = 2
 
 [node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
-editor/display_folded = true
 margin_left = 796.0
 margin_right = 1559.0
 margin_bottom = 48.0
@@ -242,7 +244,6 @@ texture_hover = ExtResource( 21 )
 script = ExtResource( 22 )
 
 [node name="HBoxRight" type="HBoxContainer" parent="Top Menu Bar"]
-editor/display_folded = true
 margin_left = 1563.0
 margin_right = 1870.0
 margin_bottom = 1030.0
