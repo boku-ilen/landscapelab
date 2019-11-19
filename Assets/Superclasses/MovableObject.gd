@@ -10,9 +10,10 @@ onready var tooltip = get_node("Tooltip3D")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# As this is a threaded task and the tooltip needs a text set on creation, a temporary string will be given
-	tooltip.set_label_text("loading ...")
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_request_energy_value", [name]), 70.0)
+	if tooltip:
+		# As this is a threaded task and the tooltip needs a text set on creation, a temporary string will be given
+		tooltip.set_label_text("loading ...")
+		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_request_energy_value", [name]), 70.0)
 
 
 func _request_energy_value(data):
