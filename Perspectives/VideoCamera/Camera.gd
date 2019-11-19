@@ -1,9 +1,9 @@
 extends Camera
 
 
-onready var inner: Spatial = get_parent()
-onready var outer: Spatial = inner.get_parent()
-onready var mesh: MeshInstance = outer.get_node("MeshInstance")
+# TODO: Remove this node and the reference to it, set this from outside
+onready var view_target: MeshInstance = get_node("Node/MeshInstance")
+
 # movement speed
 var translate_forward: float = 0.0
 var translate_backward: float = 0.0
@@ -15,10 +15,10 @@ var translate_down: float = 0.0
 export var move_speed: float
 export var move_speed_decay: float
 
-var zoom = 1.5    
 
 func _process(delta):
-	look_at(mesh.global_transform.origin, Vector3.UP)
+	# Keep the view towards the object
+	look_at(view_target.global_transform.origin, Vector3.UP)
 	
 	if Input.is_action_pressed("camera_move_forward"):
 		translate_forward += move_speed * delta

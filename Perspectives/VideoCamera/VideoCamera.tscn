@@ -4,16 +4,15 @@
 
 [sub_resource type="CapsuleMesh" id=1]
 
-[node name="Outer" type="Spatial"]
-
-[node name="Inner" type="Spatial" parent="."]
-
-[node name="Camera" type="Camera" parent="Inner"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.8651 )
+[node name="Camera" type="Camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1349 )
 script = ExtResource( 1 )
 move_speed = 0.1
 move_speed_decay = 0.9
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="Node" type="Node" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="Node"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.8651 )
 mesh = SubResource( 1 )
 material/0 = null
