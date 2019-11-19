@@ -5,12 +5,12 @@ extends Node
 # the path to the tile handler.
 #
 
-var _handler = null
+var _handler: TileHandler = null
 
 
 # Set the reference to the tile handler.
 # The node at the reference must implement the function 'get_ground_coords'.
-func set_handler(ref):
+func set_handler(ref: TileHandler):
 	if not ref.has_method("get_ground_coords"):
 		logger.error("Handler passed to WorldPosition does not implement get_ground_coords, this is required!")
 	

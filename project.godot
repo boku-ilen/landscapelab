@@ -40,6 +40,11 @@ _global_script_classes=[ {
 "path": "res://Perspectives/AbstractPerspective.gd"
 }, {
 "base": "Spatial",
+"class": "TileHandler",
+"language": "GDScript",
+"path": "res://World/LODTerrain/TileHandler.gd"
+}, {
+"base": "Spatial",
 "class": "WorldTile",
 "language": "GDScript",
 "path": "res://World/LODTerrain/WorldTile/WorldTile.gd"
@@ -51,6 +56,7 @@ _global_script_class_icons={
 "Module": "",
 "MoveableObject": "",
 "Perspective": "",
+"TileHandler": "",
 "WorldTile": ""
 }
 

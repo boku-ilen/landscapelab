@@ -5,7 +5,7 @@ var scenario_id : int
 
 var scenario_url = "/location/scenario/list.json"
 var session_url = "/location/start_session/%s"  # Fill with scenario ID
-var scenarios
+var scenarios: Dictionary
 
 
 func _ready():

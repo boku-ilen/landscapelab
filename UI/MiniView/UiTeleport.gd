@@ -26,7 +26,7 @@ func _pressed():
 # Loads all Points of Interests from the server
 func _load_pois():
 	var pois = Session.get_current_scenario()["locations"]
-	var poi_list = poi_list_view.get_node("ItemList")
+	var poi_list = poi_list_view.get_node("VBoxContainer/ItemList")
 	
 	var index = 0
 	# create a Point of Interest for each entry in the locations
@@ -49,7 +49,7 @@ func _load_pois():
 # We saved the location coordinates in the metadata of the list items, if one is clicked emit a signal with this 
 # data that can be handled in another script
 func _extract_poi_metadata(index):
-	var fixed_pos = poi_list_view.get_node("ItemList").get_item_metadata(index)
+	var fixed_pos = poi_list_view.get_node("VBoxContainer/ItemList").get_item_metadata(index)
 	GlobalSignal.emit_signal("poi_teleport",  Offset.to_engine_coordinates(fixed_pos))
 
 
