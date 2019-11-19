@@ -6,7 +6,6 @@ extends Perspective
 
 onready var cam = get_node("Camera")
 
-var follow_mode
 var ZOOM_STEP = 1000 # Settings.get_setting("minimap", "zoom_step")
 var ZOOM_START = Settings.get_setting("minimap", "zoom_start")
 var ZOOM_MAX = Settings.get_setting("minimap", "zoom_max")
@@ -17,11 +16,9 @@ signal minimap_icon_resize(new_zoom)
 
 
 func _ready():
-	follow_mode = true
 	change_size(ZOOM_START)
 	GlobalSignal.connect("minimap_zoom_in", self, "zoom_in")
 	GlobalSignal.connect("minimap_zoom_out", self, "zoom_out")
-	GlobalSignal.connect("toggle_follow_mode", self, "toggle_follow_mode")
 	GlobalSignal.connect("initiate_minimap_icon_resize", self, "relay_minimap_icon_resize")
 	GlobalSignal.connect("request_minimap_icon_resize", self, "respond_to_minimap_icon_update_request")
 
@@ -51,11 +48,6 @@ func zoom_in():
 func zoom_out():
 	if cam.size + ZOOM_STEP < ZOOM_MAX:
 		change_size(cam.size + ZOOM_STEP)
-
-
-# change the state of the follow mode
-func toggle_follow_mode():
-	follow_mode = !follow_mode
 
 
 # sends signal with minimap size and status so that minimap icons can rescale accordingly
