@@ -23,13 +23,16 @@ func _ready():
 
 
 func _handle_viewport_input(event):
-	if event is InputEventMouseButton and event.pressed:
+	if event.is_action_pressed("zoom_out"): # Move down when scrolling up
 		get_tree().set_input_as_handled()
+		move_and_collide(get_forward() * -MOUSE_ZOOM_SPEED)
 		
-		if event.is_action_pressed("zoom_out"): # Move down when scrolling up
-			move_and_collide(get_forward() * -MOUSE_ZOOM_SPEED)
-		elif event.is_action_pressed("zoom_in"): # Move up when scrolling down
-			move_and_collide(get_forward() * MOUSE_ZOOM_SPEED)
+		current_distance_to_ground = clamp(current_distance_to_ground, 0, MAX_DISTANCE_TO_GROUND)
+		has_moved = true
+		
+	elif event.is_action_pressed("zoom_in"): # Move up when scrolling down
+		get_tree().set_input_as_handled()
+		move_and_collide(get_forward() * MOUSE_ZOOM_SPEED)
 		
 		current_distance_to_ground = clamp(current_distance_to_ground, 0, MAX_DISTANCE_TO_GROUND)
 		has_moved = true
