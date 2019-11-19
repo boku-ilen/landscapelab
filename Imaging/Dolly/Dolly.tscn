@@ -1,20 +1,20 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Imaging/Dolly/DollyCamera/DollyCamera.tscn" type="PackedScene" id=1]
 
 [sub_resource type="Curve3D" id=1]
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -5.52101, 0, 1.26088, -3.76642, -0.540319, 2.51808, 3.76642, 0.540319, -2.51808, -5, 0, -8, -3.78902, -0.252338, -1.86244, 3.78902, 0.252338, 1.86244, 4.49798, 0, -9.05742, -0.796088, 0.015358, -1.4235, 0.796088, -0.015358, 1.4235, 14.1805, 0, -0.105092, 0, 0, 0, 0, 0, 0, 13.9031, 0, 2.74356 ),
-"tilts": PoolRealArray( 0, 0, 0, 0, 0 )
+"points": PoolVector3Array( 7.34952, 0, 1.80964, -7.34952, 0, -1.80964, 0, 0, 8, -3.76642, -0.540319, 2.51808, 3.76642, 0.540319, -2.51808, -5, 0, -8, -3.78902, -0.252338, -1.86244, 3.78902, 0.252338, 1.86244, 4.49798, 0, -9.05742, -0.796088, 0.015358, -1.4235, 0.796088, -0.015358, 1.4235, 14.1805, 0, -0.105092, 1.64294, 0, -2.02872, -1.64294, 0, 2.02872, 3.53086, 0, 1.51901, 8.67318, 0, 0.751406, -8.67318, 0, -0.751406, 0, 0, 8 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0 )
 }
 
 [node name="Dolly" type="Spatial"]
 
-[node name="Viewport" type="Viewport" parent="."]
-
-[node name="Path" type="Path" parent="Viewport"]
+[node name="Path" type="Path" parent="."]
 curve = SubResource( 1 )
 
-[node name="PathFollow" type="PathFollow" parent="Viewport/Path"]
-transform = Transform( 0.999678, 0, 0.0253839, 0, 1, 0, -0.0253839, 0, 0.999678, -5.52101, 0, 1.26088 )
+[node name="PathFollow" type="PathFollow" parent="Path"]
+transform = Transform( 0.999678, 0, 0.0253839, 0, 1, 0, -0.0253839, 0, 0.999678, 0, 0, 8 )
 rotation_mode = 0
 
-[node name="Camera" type="Camera" parent="Viewport/Path/PathFollow"]
+[node name="DollyCamera" parent="Path/PathFollow" instance=ExtResource( 1 )]
