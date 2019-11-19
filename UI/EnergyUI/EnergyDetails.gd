@@ -51,6 +51,10 @@ func _create_regular_requests():
 
 # This gets called every time a new response comes from one of the requesters
 func _update_values(response, asset_type_name):
+	if not response:
+		logger.warning("Invalid server response for %s" % [asset_type_name])
+		return
+	
 	# TODO: Add translation file's value
 	var energy_level = String(int(round(response["total_energy_contribution"])))
 	var energy_target = String(requested_target_energy_dict[asset_type_name])
