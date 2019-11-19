@@ -19,7 +19,7 @@ varying flat vec3 v_obj_pos;
 
 void vertex () {
 	// Calculate the in-engine position of this object
-	v_obj_pos = ((WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz - pos) / size;
+	v_obj_pos = ((WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz - pos);
 }
 
 void light() {
@@ -36,7 +36,7 @@ void fragment () {
 	METALLIC = 0.1;
 
 	// Convert global position to according position on distribution map (between 0,0 and 1,1)
-	vec3 obj_pos = v_obj_pos * distribution_pixels_per_meter;
+	vec3 obj_pos = v_obj_pos / 20.0;
 
 	obj_pos.x = obj_pos.x - floor(obj_pos.x);
 	obj_pos.z = obj_pos.z - floor(obj_pos.z);
