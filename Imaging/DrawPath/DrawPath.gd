@@ -22,8 +22,6 @@ func _input(event):
 		elif event.is_action_pressed("imaging_set_focus"):
 			var position = WorldPosition.get_position_on_ground(cursor.get_collision_point())
 			GlobalSignal.emit_signal("imaging_set_focus", position)
-	
-	#get_tree().set_input_as_handled()
 
 
 func _switch_imaging_mode():

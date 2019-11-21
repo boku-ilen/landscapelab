@@ -16,7 +16,7 @@ script = ExtResource( 3 )
 height_above_ground = 300.0
 path_mesh_size = 20.0
 
-[node name="Foucs" type="Position3D" parent="."]
+[node name="Focus" type="Position3D" parent="."]
 
 [node name="Path" type="Path" parent="."]
 curve = SubResource( 1 )

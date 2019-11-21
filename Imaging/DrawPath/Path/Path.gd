@@ -19,7 +19,7 @@ func _ready():
 	
 	GlobalSignal.connect("imaging_add_path_point", self, "_add_path_point")
 	GlobalSignal.connect("imaging_set_focus", self, "_set_focus_position")
-
+	GlobalSignal.connect("shift_world", self, "")
 
 func _add_path_point(position):
 	path.curve.add_point(position + height_correction)
