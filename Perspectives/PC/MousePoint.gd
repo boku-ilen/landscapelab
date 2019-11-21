@@ -8,7 +8,14 @@ extends Spatial
 #
 
 
-onready var camera = get_parent()
+onready var camera: Camera = get_parent()
+onready var cursor: RayCast = get_node("InteractRay")
+
+var RAY_LENGTH = Settings.get_setting("mouse-point", "camera-ray-length") # Distance that will be checked for collision with the ground
+
+
+func _ready():
+	cursor.cast_to = Vector3(0, 0, -RAY_LENGTH)
 
 
 # Whenever the mouse moves, align the rotation again

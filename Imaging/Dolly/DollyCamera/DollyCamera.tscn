@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Imaging/Dolly/DollyCamera/DollyCamera.gd" type="Script" id=1]
+
+[sub_resource type="CapsuleMesh" id=1]
+
+[node name="DollyCamera" type="Camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1349 )
+script = ExtResource( 1 )
+move_speed = 0.5
+move_speed_decay = 0.97
+
+[node name="Node" type="Node" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="Node"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.8651 )
+mesh = SubResource( 1 )
+material/0 = null
