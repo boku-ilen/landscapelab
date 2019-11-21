@@ -1,26 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://Imaging/DrawPath/DrawPath.gd" type="Script" id=1]
-[ext_resource path="res://Imaging/DrawPath/PathTexture.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Imaging/DrawPath/PathTexture.gd" type="Script" id=3]
-
-[sub_resource type="Curve3D" id=1]
-_data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 41.9931, -1.58097, 23.9251 ),
-"tilts": PoolRealArray( 0 )
-}
 
 [node name="DrawPath" type="Spatial"]
 script = ExtResource( 1 )
-height_above_ground = 500.0
-
-[node name="Focus" type="Spatial" parent="."]
-
-[node name="Path" type="Path" parent="."]
-curve = SubResource( 1 )
-
-[node name="PathFollow" type="PathFollow" parent="Path"]
-
-[node name="PathTexture" parent="Path/PathFollow" instance=ExtResource( 2 )]
-path_node = NodePath("../..")
-script = ExtResource( 3 )
