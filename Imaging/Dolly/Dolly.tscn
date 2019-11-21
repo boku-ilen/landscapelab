@@ -30,7 +30,9 @@ __meta__ = {
 [node name="RecordingViewport" type="Viewport" parent="PathFollow/ViewportContainer"]
 size = Vector2( 1920, 1080 )
 handle_input_locally = false
-render_target_update_mode = 0
+msaa = 2
+render_target_update_mode = 3
+shadow_atlas_size = 4
 script = ExtResource( 4 )
 
 [node name="DollyCamera" parent="PathFollow/ViewportContainer/RecordingViewport" instance=ExtResource( 1 )]
