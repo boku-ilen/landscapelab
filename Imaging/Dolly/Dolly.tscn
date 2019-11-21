@@ -1,20 +1,52 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Imaging/Dolly/DollyCamera/DollyCamera.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Imaging/DrawPath/Path/PathTexture.tscn" type="PackedScene" id=2]
 
 [sub_resource type="Curve3D" id=1]
 _data = {
-"points": PoolVector3Array( 7.34952, 0, 1.80964, -7.34952, 0, -1.80964, 0, 0, 8, -3.76642, -0.540319, 2.51808, 3.76642, 0.540319, -2.51808, -5, 0, -8, -3.78902, -0.252338, -1.86244, 3.78902, 0.252338, 1.86244, 4.49798, 0, -9.05742, -0.796088, 0.015358, -1.4235, 0.796088, -0.015358, 1.4235, 14.1805, 0, -0.105092, 1.64294, 0, -2.02872, -1.64294, 0, 2.02872, 3.53086, 0, 1.51901, 8.67318, 0, 0.751406, -8.67318, 0, -0.751406, 0, 0, 8 ),
-"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0 )
+"points": PoolVector3Array(  ),
+"tilts": PoolRealArray(  )
 }
 
-[node name="Dolly" type="Spatial"]
+[sub_resource type="PrismMesh" id=2]
+size = Vector3( 8, 8, 8 )
 
-[node name="Path" type="Path" parent="."]
+[node name="Dolly" type="Path"]
 curve = SubResource( 1 )
 
-[node name="PathFollow" type="PathFollow" parent="Path"]
+[node name="PathFollow" type="PathFollow" parent="."]
 transform = Transform( 0.999678, 0, 0.0253839, 0, 1, 0, -0.0253839, 0, 0.999678, 0, 0, 8 )
 rotation_mode = 0
 
-[node name="DollyCamera" parent="Path/PathFollow" instance=ExtResource( 1 )]
+[node name="ViewportContainer" type="ViewportContainer" parent="PathFollow"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="PathFollow/ViewportContainer"]
+size = Vector2( 800, 600 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="DollyCamera" parent="PathFollow/ViewportContainer/Viewport" instance=ExtResource( 1 )]
+transform = Transform( 0.999678, 0, 0.0253839, 0, 1, 0, -0.0253839, 0, 0.999678, 0, 0, 8 )
+cull_mask = 55
+fov = 60.0
+far = 50000.0
+path_follow_nodepath = NodePath("../../..")
+
+[node name="MeshInstance" type="MeshInstance" parent="PathFollow/ViewportContainer/Viewport/DollyCamera"]
+transform = Transform( 0.999356, -0.0253839, 0.0253757, 0.0253839, -4.37114e-08, -0.999678, 0.0253757, 0.999678, 0.000644298, 0, 0, 0 )
+layers = 64
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="RemoteTransform" type="RemoteTransform" parent="PathFollow"]
+remote_path = NodePath("../ViewportContainer/Viewport/DollyCamera")
+
+[node name="Visualizer" parent="." instance=ExtResource( 2 )]
+transform = Transform( 0.999678, 0, 0.0253839, 0, 1, 0, -0.0253839, 0, 0.999678, 0, 0, 8 )
+layers = 64

@@ -6,8 +6,11 @@ extends Camera
 #
 
 
-# TODO: Remove this node and the reference to it, set this from outside
-onready var view_target: Spatial = get_node("Node/MeshInstance")
+export(NodePath) var path_follow_nodepath
+
+
+# TODO: Remove this ugly path hacking
+onready var view_target: Spatial = get_node("../../../../../Focus")
 onready var path_follow: PathFollow
 
 # movement speed
@@ -18,7 +21,7 @@ export(float, 0.0, 1.0) var move_speed_decay: float
 
 
 func _ready():
-	path_follow = get_parent() as PathFollow
+	path_follow = get_node(path_follow_nodepath) as PathFollow
 	
 	if not path_follow:
 		logger.error("Parent node of VideoCamera must be a PathFollow which the camera can go along!")
