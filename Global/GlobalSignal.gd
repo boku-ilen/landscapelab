@@ -34,6 +34,10 @@ signal missing_1st
 signal hide_perspective_controls
 signal show_perspective_controls
 
+# Imaging
+signal imaging_add_path_point(position)
+signal imaging_set_focus(position)
+
 # Perspective handling
 signal main_perspective_active(is_active)
 

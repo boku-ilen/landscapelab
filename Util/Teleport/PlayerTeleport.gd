@@ -23,6 +23,7 @@ func _unhandled_input(event):
 			teleport_mode = false
 			get_tree().set_input_as_handled()
 
+
 func _set_teleport_mode():
 	teleport_mode = true
 
