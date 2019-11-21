@@ -47,8 +47,9 @@ func _process(delta):
 	if Input.is_action_pressed("camera_move_down"):
 		velocity.y -= move_speed * delta
 	
-	# Make all velocities decay over time
-	velocity *= move_speed_decay
+	# Make x and y velocity decay over time, z (forward/backward) velocity stays the same
+	velocity.x *= move_speed_decay
+	velocity.y *= move_speed_decay
 	
 	# Movement along rails
 	path_follow.offset += velocity.z
