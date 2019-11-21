@@ -1,5 +1,11 @@
 extends Node
 
+#
+# Attach this scene to the MousePoint scene. With this an input mapped to 
+# "teleport_player" will teleport the player to the cursor position in the
+# World. Also the Points of Interest Menu will open.
+#
+
 var teleport_mode: bool = false
 onready var cursor = get_parent().get_node("InteractRay")
 

@@ -6,6 +6,7 @@ extends Spatial
 # Currently, the spawned scenes are hardcoded, but this can be generified when needed.
 #
 
+
 export(int) var spawned_id = 1
 
 onready var cursor: RayCast = get_parent().get_node("InteractRay")
