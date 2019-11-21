@@ -11,7 +11,7 @@ extends Spatial
 onready var camera: Camera = get_parent()
 onready var cursor: RayCast = get_node("InteractRay")
 
-var RAY_LENGTH = Settings.get_setting("item-spawner", "camera-ray-length") # Distance that will be checked for collision with the ground
+var RAY_LENGTH = Settings.get_setting("mouse-point", "camera-ray-length") # Distance that will be checked for collision with the ground
 
 
 func _ready():

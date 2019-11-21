@@ -46,7 +46,7 @@
         "collision-mesh-subdivision": 16
     },
     
-    "item-spawner": {
+    "mouse-point": {
         "camera-ray-length": 20000
     },
     
