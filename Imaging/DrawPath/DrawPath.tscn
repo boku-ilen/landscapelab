@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Imaging/DrawPath/DrawPath.gd" type="Script" id=1]
+
+[sub_resource type="CurveTexture" id=2]
 
 [sub_resource type="Curve3D" id=1]
 _data = {
@@ -10,6 +12,7 @@ _data = {
 
 [node name="DrawPath" type="Spatial"]
 script = ExtResource( 1 )
+path_texture = SubResource( 2 )
 
 [node name="Focus" type="Spatial" parent="."]
 
