@@ -6,7 +6,7 @@ extends MoveableObject
 
 onready var rotor = get_node("Mesh/Rotor")
 
-export(float) var speed = 1 # Rotation speed in radians
+export(float) var speed = 0.05 # Rotation speed in radians
 export(float) var wind_direction = 0 setget set_wind_direction, get_wind_direction # Rotation of wind in degrees
 
 export(Vector3) var forward_for_rotation = Vector3(1, 0, 0)
@@ -42,7 +42,8 @@ func update_rotation():
 
 
 # Updates the rotation of the rotor to make them rotate with the exported speed variable
-func _physics_process(delta):
+func _process(delta):
+	if delta > 0.8: return  # Avoid skipping
 	rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)
 
 
