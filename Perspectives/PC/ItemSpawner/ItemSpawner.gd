@@ -8,18 +8,14 @@ extends Spatial
 
 export(int) var spawned_id = 1
 
+onready var cursor: RayCast = get_parent().get_node("InteractRay")
 onready var world = get_tree().get_root().get_node("Main/TileHandler") # Required for getting exact ground positions
-onready var cursor = get_node("InteractRay")
-
-var RAY_LENGTH = Settings.get_setting("item-spawner", "camera-ray-length") # Distance that will be checked for collision with the ground
 
 var locked_object = null
 var enabled_input_controller = false
 
 
 func _ready():
-	cursor.cast_to = Vector3(0, 0, -RAY_LENGTH)
-	
 	# Connect signal to set the according itemID
 	GlobalSignal.connect("changed_asset_id", self, "set_spawned_id")
 	GlobalSignal.connect("input_controller", self, "set_input_controller_mode", [true])
