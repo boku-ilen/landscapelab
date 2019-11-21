@@ -12,7 +12,7 @@ onready var focus: Spatial = get_node("Focus")
 onready var path: Path = get_node("Path")
 onready var cursor: RayCast = get_parent().get_node("InteractRay")
 
-var setting_path: bool = false
+var currently_imaging: bool = false
 
 
 func _ready():
@@ -21,16 +21,16 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("imaging"):
-		_switch_path_mode()
-	elif setting_path:
+		_switch_imaging_mode()
+	elif currently_imaging:
 		if event.is_action_pressed("imaging_set_path"):
 			_add_path_point(WorldPosition.get_position_on_ground(cursor.get_collision_point()))
 		elif event.is_action_pressed("imaging_set_focus"):
 			_set_focus_position(WorldPosition.get_position_on_ground(cursor.get_collision_point()))
 
 
-func _switch_path_mode():
-	setting_path = !setting_path
+func _switch_imaging_mode():
+	currently_imaging = !currently_imaging
 
 
 func _add_path_point(position):
