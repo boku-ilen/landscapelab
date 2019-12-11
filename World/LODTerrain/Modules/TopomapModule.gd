@@ -11,9 +11,10 @@ func init(tile):
 	
 	mesh.mesh = tile.create_tile_plane_mesh()
 	
-	if get_textures(tile, mesh):
-		_ready_to_be_displayed()
+	get_textures(tile, mesh)
 	
+	# TODO: Only if get_textures was successful, or do we ignore this here?
+	_ready_to_be_displayed()
 	_done_loading()
 
 

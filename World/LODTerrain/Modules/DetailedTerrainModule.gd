@@ -57,6 +57,8 @@ func get_vegetation_data(tile, mesh):
 			added_vegetations += 1
 	
 	apply_vegetation_data(tile, mesh)
+	
+	return true
 
 
 func apply_vegetation_data(tile, mesh):

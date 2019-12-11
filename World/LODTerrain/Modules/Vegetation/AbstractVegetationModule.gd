@@ -37,12 +37,14 @@ func init(tile):
 		instance.cast_shadow = cast_shadow
 		add_child(instance)
 	
-	# First, get the splatmap
-	tile.thread_task(self, "get_splat_data", [])
+	get_splat_data()
+	
+	_done_loading()
+	_ready_to_be_displayed()
 
 
 # Fetches all required data from the server
-func get_splat_data(d):
+func get_splat_data():
 	var true_pos = tile.get_true_position()
 	var url = "/%s/%d.0/%d.0/%d"\
 		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()]
@@ -122,9 +124,6 @@ func construct_vegetation(splat_ids):
 			
 			node += 1
 			steps += 1
-	
-	_done_loading()
-	_ready_to_be_displayed()
 
 
 # Sets all shader parameters for both the particle shader and the texture shader of a HeightmapParticles instance
