@@ -10,7 +10,7 @@ var dhm
 var WATER_SPLAT_ID = Settings.get_setting("water", "water-splat-id")
 
 
-func get_splat_data():
+func get_textures(tile):
 	var true_pos = tile.get_true_position()  # FIXME: gives me a nonexisting function in base 'Viewport'
 
 	splat_result = ServerConnection.get_json("/%s/%d.0/%d.0/%d"\
@@ -19,11 +19,6 @@ func get_splat_data():
 	var dhm_response = tile.get_texture_result("raster")
 	if dhm_response and dhm_response.has("dhm"):
 		dhm = CachingImageTexture.get(dhm_response.get("dhm"), 0)
-
-
-func get_textures(data):
-	get_splat_data()
-	make_ready()
 
 
 func set_splatmap():
@@ -35,11 +30,16 @@ func set_splatmap():
 	water_mesh.material_override.set_shader_param("heightmap", dhm)
 
 
-func _ready():
-	tile.thread_task(self, "get_textures", [])
+func init(tile):
+	.init(tile)
+	
+	get_textures(tile)
+	apply_textures()
+	
+	_done_loading()
 
 
-func _on_ready():
+func apply_textures():
 	if not splat_result or not splat_result.has("path_to_splatmap"):
 		return
 		
@@ -50,4 +50,4 @@ func _on_ready():
 		
 	# If the water ID isn't present in the splatmap, we're also ready to be displayed;
 	# we're just not displaying anything, but that's correct in that case.
-	ready_to_be_displayed()
+	_ready_to_be_displayed()

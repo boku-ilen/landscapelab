@@ -25,7 +25,11 @@ var splatmap
 var phyto_data = {}
 
 
-func _ready():
+func init(tile):
+	.init(tile)
+	
+	self.tile = tile
+	
 	for i in range(0, num_layers):
 		var instance = particles_scene.instance()
 		instance.name = String(i)
@@ -88,11 +92,6 @@ func get_splat_data(d):
 			else:
 				logger.warning("Vegetation result with url %s was null - is the phytocoenosis not defined in the server?" % [phyto_c_url])
 		
-	make_ready()
-
-
-func _on_ready():
-	if result:
 		construct_vegetation(result.get("ids"))
 	else:
 		logger.warning("Vegetation module did not receive a response! Deleting particle scenes...")
@@ -124,7 +123,8 @@ func construct_vegetation(splat_ids):
 			node += 1
 			steps += 1
 	
-	ready_to_be_displayed()
+	_done_loading()
+	_ready_to_be_displayed()
 
 
 # Sets all shader parameters for both the particle shader and the texture shader of a HeightmapParticles instance

@@ -12,9 +12,11 @@ var heightmap
 var collider_subdivision = Settings.get_setting("terrain-collider", "collision-mesh-subdivision")
 
 
-func _ready():
+func init(tile):
+	.init(tile)
+	
 	connect("visibility_changed", self, "_on_visibility_changed")
-	tile.thread_task(self, "get_textures", [])
+	get_textures(tile)
 
 
 # When this node becomes invisible due to higher LOD terrain being active, disable the collider
@@ -25,21 +27,18 @@ func _on_visibility_changed():
 		col_shape.disabled = false
 
 
-func _on_ready():
-	if heightmap:
-		col_shape.shape = create_tile_collision_shape()
-	else:
-		logger.info("Couldn't get heightmap for tile!")
-		
-	ready_to_be_displayed()
-
-
-func get_textures(data):
+func get_textures(tile):
 	var dhm_response = tile.get_texture_result("raster")
 	if dhm_response and dhm_response.has("dhm"):
 		heightmap = CachingImageTexture.get(dhm_response.get("dhm"), 0)
+		
+		if heightmap:
+			col_shape.shape = create_tile_collision_shape()
+		else:
+			logger.warning("Couldn't get heightmap for tile!")
 	
-	make_ready()
+	_done_loading()
+	_ready_to_be_displayed()
 
 
 # Returns the exact height at the given position using the heightmap image

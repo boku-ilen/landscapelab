@@ -14,7 +14,7 @@ signal module_to_be_displayed
 
 
 func init(tile):
-	pass
+	self.tile = tile
 
 
 func _done_loading():

@@ -26,6 +26,8 @@ func init(data_with_tile):
 
 # Loads all modules defined for (up to) this LOD in the settings and instances them as children.
 func spawn_modules():
+	visible = false
+	
 	var index = 0
 	var modules_to_spawn = []
 	
@@ -46,8 +48,7 @@ func spawn_modules():
 	
 	# Spawn the modules we selected previously
 	for module in modules_to_spawn:
-		var instance = ModuleLoader.get(module).instance() as Module
-		instance.visible = false
+		var instance = ModuleLoader.get_instance(module) as Module
 		
 		instance.connect("module_done_loading", self, "_on_module_done_loading", [instance])
 		instance.connect("module_to_be_displayed", self, "_on_module_to_be_displayed", [instance])
@@ -73,5 +74,5 @@ func _on_module_to_be_displayed(array_with_module):
 	num_modules_to_be_displayed += 1
 	
 	if num_modules_to_be_displayed == num_modules:
-		array_with_module.visible = true
+		visible = true
 		tile.emit_signal("tile_to_be_displayed")

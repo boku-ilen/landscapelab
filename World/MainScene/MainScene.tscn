@@ -1,21 +1,9 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://World/MainScene/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://World/LODTerrain/TileHandler.tscn" type="PackedScene" id=2]
 [ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Perspectives/PerspectiveHandler.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Tracking/LocationTracker.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Util/PolygonHandler.tscn" type="PackedScene" id=6]
-[ext_resource path="res://World/AssetHandler/AssetHandlerSpawner.tscn" type="PackedScene" id=7]
-[ext_resource path="res://World/AssetHandler/DynamicAssetHandler.tscn" type="PackedScene" id=8]
-[ext_resource path="res://World/AssetHandler/LinearAssetHandler.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Util/LinearDrawer/DetailedRoadDrawer.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Util/Teleport/PlayerTeleportListener.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Util/PlayerMarkerUpdater.tscn" type="PackedScene" id=12]
-[ext_resource path="res://Util/LegoExtentUpdater.tscn" type="PackedScene" id=13]
-[ext_resource path="res://World/AssetHandler/ExternalAssetHandler.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Assets/ExistingWindTurbine/ExistingGenericWindTurbine.tscn" type="PackedScene" id=15]
-[ext_resource path="res://Imaging/DrawPath/Path/Path.tscn" type="PackedScene" id=16]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 1 )
@@ -25,34 +13,3 @@ script = ExtResource( 1 )
 [node name="WorldEnvironment" parent="." instance=ExtResource( 3 )]
 
 [node name="PerspectiveHandler" parent="." instance=ExtResource( 4 )]
-
-[node name="LocationTracker" parent="." instance=ExtResource( 5 )]
-
-[node name="PolygonHandler" parent="." instance=ExtResource( 6 )]
-
-[node name="AssetHandlerSpawner" parent="." instance=ExtResource( 7 )]
-asset_handler_scene = ExtResource( 8 )
-
-[node name="LinearAssetHandler" parent="." instance=ExtResource( 9 )]
-update_interval = 6.0
-linear_drawer = ExtResource( 10 )
-
-[node name="PlayerTeleportListener" parent="." instance=ExtResource( 11 )]
-
-[node name="PlayerMarkerUpdater" parent="." instance=ExtResource( 12 )]
-
-[node name="LegoExtentUpdater" parent="." instance=ExtResource( 13 )]
-
-[node name="BuildingsHandler" parent="." instance=ExtResource( 14 )]
-update_interval = 2.5
-initial_update_delay = 6.0
-asset_type_id = 1
-
-[node name="ExistingWindTurbineHandler" parent="." instance=ExtResource( 8 )]
-asset_scene = ExtResource( 15 )
-moving = false
-update_interval = 10.0
-initial_update_delay = 5.0
-asset_id = 30
-
-[node name="PathScene" parent="." instance=ExtResource( 16 )]

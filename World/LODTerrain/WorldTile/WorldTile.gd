@@ -70,8 +70,7 @@ func _ready():
 	
 	module_handler.connect("all_modules_done_loading", self, "_on_module_handler_done", [module_handler], CONNECT_DEFERRED)
 	
-	module_handler.init([self])
-	#thread_task(module_handler, "init", [self])
+	thread_task(module_handler, "init", [self])
 
 
 func _on_module_handler_done(array_with_handler):
