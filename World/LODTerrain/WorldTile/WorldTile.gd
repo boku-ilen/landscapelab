@@ -91,8 +91,14 @@ func _process(delta):
 	#  If so, we need to be careful not to re-introduce race conditions!
 	if to_be_displayed and not children.are_all_to_be_displayed():
 		children.visible = false
+		
+		if has_node("ModuleHandler"):
+			get_node("ModuleHandler").visible = true
 	else:
 		children.visible = true
+		
+		if has_node("ModuleHandler"):
+			get_node("ModuleHandler").visible = false
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
