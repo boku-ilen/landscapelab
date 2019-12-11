@@ -12,7 +12,6 @@ export(float) var max_plant_size  # The maximal plant size which is used as the 
 #  instead of having to set it manually! (Requires a new server request)
 export(bool) var cast_shadow = false
 
-var particles_scene = preload("res://World/LODTerrain/Modules/Util/HeightmapParticles.tscn")
 var LODS = Settings.get_setting("herbage", "density-at-lod")
 var density_modifiers = Settings.get_setting("herbage", "density-modifiers-for-layers")
 var num_layers = Settings.get_setting("herbage", "max-vegetations-per-tile")
@@ -31,7 +30,7 @@ func init(tile):
 	self.tile = tile
 	
 	for i in range(0, num_layers):
-		var instance = particles_scene.instance()
+		var instance = ModuleLoader.get_instance("Util/HeightmapParticles.tscn")
 		instance.name = String(i)
 		instance.set_mesh(plant_mesh_scene)
 		instance.cast_shadow = cast_shadow
@@ -97,10 +96,6 @@ func get_splat_data():
 		construct_vegetation(result.get("ids"))
 	else:
 		logger.warning("Vegetation module did not receive a response! Deleting particle scenes...")
-		
-		# Delete the particle emitters since they will not be needed
-		for child in get_children():
-			child.queue_free()
 
 
 # Readies all required HeightmapParticles instances
