@@ -8,8 +8,10 @@ class_name WorldTile
 # The tiles are controlled via the TileHandler.
 #
 
+# Scenes
+var module_handler_scene = preload("res://World/LODTerrain/WorldTile/ModuleHandler.tscn")
+
 # Nodes
-onready var modules = get_node("Modules")
 onready var children = get_node("Children")
 
 # Variables
@@ -48,7 +50,6 @@ signal split # Emitted by the top-level tile when a child finished splitting, e.
 
 func _ready():
 	# Set everything to invisible at the start to prevent flickering
-	modules.visible = false
 	children.visible = false
 	
 	connect("tile_to_be_displayed", self, "_on_tile_to_be_displayed")
@@ -65,7 +66,18 @@ func _ready():
 	
 	created = true
 	
+	var module_handler = module_handler_scene.instance()
 	
+	module_handler.connect("all_modules_done_loading", self, "_on_module_handler_done", [module_handler], CONNECT_DEFERRED)
+	
+	module_handler.init([self])
+	#thread_task(module_handler, "init", [self])
+
+
+func _on_module_handler_done(array_with_handler):
+	add_child(array_with_handler)
+
+
 func _process(delta):
 	# If this tile is flagged to be deleted, all threads are done and all children are done deleting
 	# as well, delete this tile!
@@ -79,10 +91,8 @@ func _process(delta):
 	#  certain events (such as children having loaded, child tiles being deleted, etc) happened?
 	#  If so, we need to be careful not to re-introduce race conditions!
 	if to_be_displayed and not children.are_all_to_be_displayed():
-		modules.visible = true
 		children.visible = false
 	else:
-		modules.visible = false
 		children.visible = true
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
@@ -95,6 +105,15 @@ func init(s, lod_level, activate_pos=null):
 	# where things don't match up)
 	size_with_skirt = size + (2.0/(subdiv + 1.0)) * size
 	will_activate_with_last_player_pos = activate_pos
+	
+	# Adapt the subdivision so that detail increases more gradually (not 2x per split)
+	#  because the DHM isn't detailed enough to show that much detail, and we get steps
+	#  if the subdivision gets too high on high LOD tiles.
+	subdiv = int(subdiv / pow(2, (lod / 4)))
+	
+	# We add 2 to subdiv and increase the size by the added squares for the skirt around the mesh (which fills gaps
+	# where things don't match up)
+	size_with_skirt = size + (2.0/(subdiv + 1.0)) * size
 	
 	initialized = true
 	
@@ -190,10 +209,10 @@ func get_height_at_position(var pos : Vector3):
 	var used_tile = get_leaf_tile(pos)
 	
 	# If there is no TerrainColliderModule here, return 0
-	if not used_tile.modules.has_node("TerrainColliderModule"):
+	if not used_tile.has_node("ModuleHandler/TerrainColliderModule"):
 		return 0
 	
-	return used_tile.modules.get_node("TerrainColliderModule").get_height_at_position(pos)
+	return used_tile.get_node("ModuleHandler/TerrainColliderModule").get_height_at_position(pos)
 	
 
 # Returns the given position, but with the y-coordinate set to be on the ground of the terrain.

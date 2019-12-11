@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://World/LODTerrain/Modules/AbstractModule.gd"
 }, {
+"base": "Spatial",
+"class": "ModuleHandler",
+"language": "GDScript",
+"path": "res://World/LODTerrain/WorldTile/ModuleHandler.gd"
+}, {
 "base": "GroundedSpatial",
 "class": "MoveableObject",
 "language": "GDScript",
@@ -54,6 +59,7 @@ _global_script_class_icons={
 "GroundedSpatial": "",
 "LinearCSGPolygon": "",
 "Module": "",
+"ModuleHandler": "",
 "MoveableObject": "",
 "Perspective": "",
 "TileHandler": "",
@@ -89,6 +95,7 @@ TooltipHandler="*res://Global/TooltipHandler.gd"
 WorldPosition="*res://Global/WorldPosition.gd"
 PerformanceTracker="*res://Global/Debug/PerformanceTracker.gd"
 Assets="*res://Global/Assets.gd"
+ModuleLoader="*res://Global/ModuleLoader.gd"
 
 [display]
 

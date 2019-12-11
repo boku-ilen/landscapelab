@@ -44,8 +44,6 @@ func instantiate_children():
 			
 			child.connect("tile_to_be_displayed", self, "_on_child_to_be_displayed")
 
-			add_child(child)
-
 
 # Removes all the higher LOD children
 func clear_children():

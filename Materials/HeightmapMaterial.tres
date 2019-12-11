@@ -6,14 +6,15 @@
 resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/water_splat_id = null
+shader_param/detail_start_dist = null
 shader_param/vegetation_id1 = null
 shader_param/vegetation_id2 = null
 shader_param/vegetation_id3 = null
-shader_param/vegetation_id4 = null
 shader_param/tex_factor = 0.5
-shader_param/height_range = 500.0
+shader_param/texture_blending_amount = 25.0
+shader_param/random_offset_vectors_scale = 2.5
+shader_param/blend_only_similar_colors = false
 shader_param/subdiv = 16.0
 shader_param/size = 16.0
 shader_param/size_without_skirt = 16.0
 shader_param/RADIUS = 6.371e+06
-
