@@ -10,7 +10,6 @@ func init(tile):
 	var mesh = get_node("MeshInstance")
 	
 	mesh.mesh = tile.create_tile_plane_mesh()
-	tile.set_heightmap_params_for_obj(mesh.material_override)
 	
 	if get_textures(tile, mesh):
 		_ready_to_be_displayed()
