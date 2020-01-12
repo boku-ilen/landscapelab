@@ -12,7 +12,6 @@ export(float) var max_plant_size  # The maximal plant size which is used as the 
 #  instead of having to set it manually! (Requires a new server request)
 export(bool) var cast_shadow = false
 
-var particles_scene = preload("res://World/LODTerrain/Modules/Util/HeightmapParticles.tscn")
 var LODS = Settings.get_setting("herbage", "density-at-lod")
 var density_modifiers = Settings.get_setting("herbage", "density-modifiers-for-layers")
 var num_layers = Settings.get_setting("herbage", "max-vegetations-per-tile")
@@ -25,20 +24,26 @@ var splatmap
 var phyto_data = {}
 
 
-func _ready():
+func init(tile):
+	.init(tile)
+	
+	self.tile = tile
+	
 	for i in range(0, num_layers):
-		var instance = particles_scene.instance()
+		var instance = ModuleLoader.get_instance("Util/HeightmapParticles.tscn")
 		instance.name = String(i)
 		instance.set_mesh(plant_mesh_scene)
 		instance.cast_shadow = cast_shadow
 		add_child(instance)
 	
-	# First, get the splatmap
-	tile.thread_task(self, "get_splat_data", [])
+	get_splat_data()
+	
+	_done_loading()
+	_ready_to_be_displayed()
 
 
 # Fetches all required data from the server
-func get_splat_data(d):
+func get_splat_data():
 	var true_pos = tile.get_true_position()
 	var url = "/%s/%d.0/%d.0/%d"\
 		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()]
@@ -88,18 +93,9 @@ func get_splat_data(d):
 			else:
 				logger.warning("Vegetation result with url %s was null - is the phytocoenosis not defined in the server?" % [phyto_c_url])
 		
-	make_ready()
-
-
-func _on_ready():
-	if result:
 		construct_vegetation(result.get("ids"))
 	else:
 		logger.warning("Vegetation module did not receive a response! Deleting particle scenes...")
-		
-		# Delete the particle emitters since they will not be needed
-		for child in get_children():
-			child.queue_free()
 
 
 # Readies all required HeightmapParticles instances
@@ -123,8 +119,6 @@ func construct_vegetation(splat_ids):
 			
 			node += 1
 			steps += 1
-	
-	ready_to_be_displayed()
 
 
 # Sets all shader parameters for both the particle shader and the texture shader of a HeightmapParticles instance

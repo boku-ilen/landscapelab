@@ -4,33 +4,30 @@ extends Module
 # This module fetches the topomap for its tile, to be displayed on the minimap.
 #
 
-onready var mesh = get_node("MeshInstance")
-
-var topo
-
-
-func _ready():
-	mesh.mesh = tile.create_tile_plane_mesh(false)
+func init(tile):
+	.init(tile)
 	
-	tile.thread_task(self, "get_textures", [])
+	var mesh = get_node("MeshInstance")
+	
+	mesh.mesh = tile.create_tile_plane_mesh()
+	
+	get_textures(tile, mesh)
+	
+	# TODO: Only if get_textures was successful, or do we ignore this here?
+	_ready_to_be_displayed()
+	_done_loading()
 
 
-func _on_ready():
-	if topo:
-		mesh.material_override.albedo_texture = topo
-		
-	ready_to_be_displayed()
-
-
-func get_topo():
+func get_textures(tile, mesh) -> bool:
 	var response = tile.get_texture_result("raster")
 	
 	if response:
 		if response.has("map"):
-			topo = CachingImageTexture.get(response.get("map"))
-
-
-func get_textures(data):
-	get_topo()
+			var topo = CachingImageTexture.get(response.get("map"))
+			
+			if topo:
+				mesh.material_override.albedo_texture = topo
+				
+				return true
 	
-	make_ready()
+	return false

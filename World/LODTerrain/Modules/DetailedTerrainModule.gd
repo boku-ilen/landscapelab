@@ -20,7 +20,14 @@ var DETAIL_START_DIST = Settings.get_setting("herbage", "detail-texture-start-di
 var DETAIL_SCALE = Settings.get_setting("herbage", "detail-texture-scale")
 
 
-func get_splat_data():
+func get_textures(tile, mesh):
+	var super_textures = .get_textures(tile, mesh)
+	var new_textures = get_vegetation_data(tile, mesh)
+	
+	return super_textures and new_textures
+
+
+func get_vegetation_data(tile, mesh):
 	var true_pos = tile.get_true_position()
 
 	splat_result = ServerConnection.get_json("/%s/%d.0/%d.0/%d"\
@@ -48,18 +55,13 @@ func get_splat_data():
 			ids.append(splat_result.ids[i])
 			
 			added_vegetations += 1
-
-
-func get_textures(data):
-	get_ortho_dhm()
-	get_splat_data()
-
-	make_ready()
-
-
-func _on_ready():
-	._on_ready()
 	
+	apply_vegetation_data(tile, mesh)
+	
+	return true
+
+
+func apply_vegetation_data(tile, mesh):
 	if splat_result and splat_result.has("path_to_splatmap"):
 		var current_index = 0
 		

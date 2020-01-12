@@ -1,47 +1,33 @@
 extends Spatial
+class_name ModuleHandler
 
 #
 # This scene is part of the WorldTile. It is responsible for spawning
 # the modules that this WorldTile should have based on the settings.
 #
 
-onready var tile = get_parent()
+var tile
 
 var num_modules : int = 0 # Number of modules this tile has
 var num_modules_loaded : int = 0 # Incremented when a module finishes loading
 var num_modules_to_be_displayed : int = 0 # Incremented when a module wants to be displayed
 
-var module_path = Settings.get_setting("lod", "module-path")
 var module_scenes = Settings.get_setting("lod", "modules")
 
-# Emitted by modules once they've finished loading
-signal module_done_loading
-
-# Emitted by modules once they want to be displayed (usually a short time after they're done loading)
-signal module_to_be_displayed
+# Emitted once all modules have emitted module_done_loading
+signal all_modules_done_loading
 
 
-func _ready():
-	# FIXME: This doesn't belong here, it's logic for the WorldTile. However, it needs
-	#  to be done before spawn_modules() happens. We might want to do spawn_modules after
-	#  WorldTile is done initializing using a signal.
-	#  (_ready() are called from the childmost tile upwards)
-	# Adapt the subdivision so that detail increases more gradually (not 2x per split)
-	#  because the DHM isn't detailed enough to show that much detail, and we get steps
-	#  if the subdivision gets too high on high LOD tiles.
-	tile.subdiv = int(tile.subdiv / pow(2, (tile.lod / 4)))
-	
-	# We add 2 to subdiv and increase the size by the added squares for the skirt around the mesh (which fills gaps
-	# where things don't match up)
-	tile.size_with_skirt = tile.size + (2.0/(tile.subdiv + 1.0)) * tile.size
-	
-	connect("module_done_loading", self, "_on_module_done_loading")
-	connect("module_to_be_displayed", self, "_on_module_to_be_displayed")
+func init(data_with_tile):
+	self.tile = data_with_tile[0]
+
 	spawn_modules()
 	
 
 # Loads all modules defined for (up to) this LOD in the settings and instances them as children.
 func spawn_modules():
+	visible = false
+	
 	var index = 0
 	var modules_to_spawn = []
 	
@@ -62,24 +48,31 @@ func spawn_modules():
 	
 	# Spawn the modules we selected previously
 	for module in modules_to_spawn:
-		var instance = load(module_path + module).instance()
-		add_child(instance)
+		var instance = ModuleLoader.get_instance(module) as Module
+		
+		instance.connect("module_done_loading", self, "_on_module_done_loading", [instance])
+		instance.connect("module_to_be_displayed", self, "_on_module_to_be_displayed", [instance])
+		
+		instance.init(tile)
 
 
 # Called when the module_done_loading signal is emitted.
 # If all modules are now done, emits tile_done_loading
-func _on_module_done_loading():
+func _on_module_done_loading(array_with_module):
 	num_modules_loaded += 1
 	
+	add_child(array_with_module)
+	
 	if num_modules_loaded == num_modules:
-		tile.emit_signal("tile_done_loading")
+		emit_signal("all_modules_done_loading")
 		tile.done_loading = true
 		
 		
 # Called when the module_to_be_displayed signal is emitted.
 # If all modules are now done, emits tile_to_be_displayed
-func _on_module_to_be_displayed():
+func _on_module_to_be_displayed(array_with_module):
 	num_modules_to_be_displayed += 1
 	
 	if num_modules_to_be_displayed == num_modules:
+		visible = true
 		tile.emit_signal("tile_to_be_displayed")

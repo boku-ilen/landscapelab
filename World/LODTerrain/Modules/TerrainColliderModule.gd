@@ -5,16 +5,22 @@ extends Module
 # For precise collisions at specific points, the WorldTile's get_height_at_position() should be used. This mesh serves only as an estimate.
 #
 
-onready var col_shape = get_node("StaticBody/CollisionShape")
-
+var col_shape
 var heightmap
 
 var collider_subdivision = Settings.get_setting("terrain-collider", "collision-mesh-subdivision")
 
 
-func _ready():
+func init(tile):
+	.init(tile)
+	
+	col_shape = get_node("StaticBody/CollisionShape")
+	
 	connect("visibility_changed", self, "_on_visibility_changed")
-	tile.thread_task(self, "get_textures", [])
+	get_textures(tile)
+	
+	_done_loading()
+	_ready_to_be_displayed()
 
 
 # When this node becomes invisible due to higher LOD terrain being active, disable the collider
@@ -25,27 +31,22 @@ func _on_visibility_changed():
 		col_shape.disabled = false
 
 
-func _on_ready():
-	if heightmap:
-		col_shape.shape = create_tile_collision_shape()
-	else:
-		logger.info("Couldn't get heightmap for tile!")
-		
-	ready_to_be_displayed()
-
-
-func get_textures(data):
+func get_textures(tile):
 	var dhm_response = tile.get_texture_result("raster")
 	if dhm_response and dhm_response.has("dhm"):
 		heightmap = CachingImageTexture.get(dhm_response.get("dhm"), 0)
-	
-	make_ready()
+		
+		if heightmap:
+			col_shape.shape = create_tile_collision_shape()
+	else:
+		logger.warning("Couldn't get heightmap for tile!")
 
 
 # Returns the exact height at the given position using the heightmap image
 func get_height_at_position(var pos):
 	
 	var gtranslation = tile.global_transform.origin
+	
 	var img
 	
 	if heightmap:
@@ -116,7 +117,7 @@ func get_height_from_image(img, pix_pos):
 # Helper function for create_tile_collision_shape - turns x and y coordinates from the loop to a real position.
 func _local_grid_to_coordinates(x, y, size, collider_subdivision):
 	var local_pos = Vector3(-size/2 + (x/collider_subdivision) * size, 0, -size/2 + (y/collider_subdivision) * size)
-	return Vector3(local_pos.x, get_height_at_position(global_transform * local_pos), local_pos.z)
+	return Vector3(local_pos.x, get_height_at_position(tile.global_transform * local_pos), local_pos.z)
 
 
 # Creates a simple 4-vertices polygon which roughly corresponds to the heightmap, for use as a collider.

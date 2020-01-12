@@ -43,7 +43,7 @@ func instantiate_children():
 			child.init((tile.size / 2.0), tile.lod + 1, tile.last_player_pos)
 			
 			child.connect("tile_to_be_displayed", self, "_on_child_to_be_displayed")
-
+			
 			add_child(child)
 
 
