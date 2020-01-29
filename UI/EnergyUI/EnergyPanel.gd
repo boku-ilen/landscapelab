@@ -10,6 +10,8 @@ onready var progress_bar = get_parent().get_node("ProgressBar")
 onready var energy_value = get_node("Energy/EnergySum/EnergyValue")
 onready var target_energy = get_node("Energy/EnergySum/TargetEnergy")
 onready var assets_amount = get_node("Energy/Amount/AssetsAmount")
+onready var placed = get_node("Energy/Amount/Description")
+onready var unit = get_node("Energy/EnergySum/Unit")
 
 
 func _ready():
@@ -22,6 +24,9 @@ func _ready():
 	
 	# Change the value for the target_energy according to the current scenario
 	target_energy.text = String(Session.get_current_scenario()["energy_requirement_total"])
+	
+	# Translatable text
+	unit.text = unit.text % tr("OF")
 
 
 func _on_new_response(response):
@@ -32,3 +37,6 @@ func _on_new_response(response):
 	if not asset_details == null:
 		energy_value.text = String(int(round(asset_details["total_energy_contribution"])))
 		assets_amount.text = String(asset_details["number_of_assets"])
+		
+		# Translatable text
+		placed.text = tr("PLACED")

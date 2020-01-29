@@ -27,21 +27,21 @@ text = "loading ..."
 
 [node name="Unit" type="Label" parent="Energy/EnergySum"]
 margin_left = 80.0
-margin_right = 172.0
+margin_right = 165.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 2 )
-text = " MWh/a von "
+text = " MWh/a %s"
 
 [node name="TargetEnergy" type="Label" parent="Energy/EnergySum"]
-margin_left = 176.0
-margin_right = 252.0
+margin_left = 169.0
+margin_right = 245.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
 text = "loading ..."
 
 [node name="Unit2" type="Label" parent="Energy/EnergySum"]
-margin_left = 256.0
-margin_right = 310.0
+margin_left = 249.0
+margin_right = 303.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 2 )
 text = "MWh/a"
@@ -52,14 +52,12 @@ margin_right = 310.0
 margin_bottom = 50.0
 
 [node name="Description" type="Label" parent="Energy/Amount"]
-margin_right = 202.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 2 )
-text = "Anzahl platzierter Anlagen:"
 
 [node name="AssetsAmount" type="Label" parent="Energy/Amount"]
-margin_left = 206.0
-margin_right = 282.0
+margin_left = 4.0
+margin_right = 80.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
 text = "loading ..."
