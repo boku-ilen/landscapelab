@@ -11,12 +11,12 @@ margin_bottom = 58.0
 [node name="Energy" type="VBoxContainer" parent="."]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 317.0
+margin_right = 346.0
 margin_bottom = 57.0
 alignment = 1
 
 [node name="EnergySum" type="HBoxContainer" parent="Energy"]
-margin_right = 310.0
+margin_right = 339.0
 margin_bottom = 23.0
 
 [node name="EnergyValue" type="Label" parent="Energy/EnergySum"]
@@ -27,28 +27,34 @@ text = "loading ..."
 
 [node name="Unit" type="Label" parent="Energy/EnergySum"]
 margin_left = 80.0
-margin_right = 165.0
+margin_right = 138.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 2 )
-text = " MWh/a %s"
+text = " MWh/a"
+
+[node name="Of" type="Label" parent="Energy/EnergySum"]
+margin_left = 142.0
+margin_right = 142.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 2 )
 
 [node name="TargetEnergy" type="Label" parent="Energy/EnergySum"]
-margin_left = 169.0
-margin_right = 245.0
+margin_left = 146.0
+margin_right = 222.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
 text = "loading ..."
 
 [node name="Unit2" type="Label" parent="Energy/EnergySum"]
-margin_left = 249.0
-margin_right = 303.0
+margin_left = 226.0
+margin_right = 280.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 2 )
 text = "MWh/a"
 
 [node name="Amount" type="HBoxContainer" parent="Energy"]
 margin_top = 27.0
-margin_right = 310.0
+margin_right = 339.0
 margin_bottom = 50.0
 
 [node name="Description" type="Label" parent="Energy/Amount"]

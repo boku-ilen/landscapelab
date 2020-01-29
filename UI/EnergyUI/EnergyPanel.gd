@@ -11,7 +11,7 @@ onready var energy_value = get_node("Energy/EnergySum/EnergyValue")
 onready var target_energy = get_node("Energy/EnergySum/TargetEnergy")
 onready var assets_amount = get_node("Energy/Amount/AssetsAmount")
 onready var placed = get_node("Energy/Amount/Description")
-onready var unit = get_node("Energy/EnergySum/Unit")
+onready var of = get_node("Energy/EnergySum/Of")
 
 
 func _ready():
@@ -26,7 +26,7 @@ func _ready():
 	target_energy.text = String(Session.get_current_scenario()["energy_requirement_total"])
 	
 	# Translatable text
-	unit.text = unit.text % tr("OF")
+	of.set_text(tr("OF"))
 
 
 func _on_new_response(response):
@@ -39,4 +39,4 @@ func _on_new_response(response):
 		assets_amount.text = String(asset_details["number_of_assets"])
 		
 		# Translatable text
-		placed.text = tr("PLACED")
+		placed.set_text(tr("PLACED"))

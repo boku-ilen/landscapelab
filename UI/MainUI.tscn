@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/watermark.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/energy_sum.png" type="Texture" id=2]
@@ -42,7 +42,8 @@
 [ext_resource path="res://Resources/Images/UI/UI/h_season_time.png" type="Texture" id=40]
 [ext_resource path="res://UI/CustomElements/ShowHideChildrenButton.gd" type="Script" id=41]
 [ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=42]
-[ext_resource path="res://UI/VisibilityToggleUI.gd" type="Script" id=43]
+[ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
+[ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0.835294, 0.207843, 1 )
@@ -197,7 +198,7 @@ mouse_filter = 2
 
 [node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
 margin_left = 796.0
-margin_right = 1559.0
+margin_right = 1463.0
 margin_bottom = 48.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -205,8 +206,8 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 324.0
-margin_right = 439.0
+margin_left = 276.0
+margin_right = 391.0
 margin_bottom = 48.0
 mouse_filter = 2
 
@@ -230,6 +231,9 @@ grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
 alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Lego" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
 margin_left = 61.0
@@ -244,26 +248,26 @@ texture_hover = ExtResource( 21 )
 script = ExtResource( 22 )
 
 [node name="HBoxRight" type="HBoxContainer" parent="Top Menu Bar"]
-margin_left = 1563.0
+margin_left = 1467.0
 margin_right = 1870.0
 margin_bottom = 1030.0
 mouse_filter = 2
 alignment = 2
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxRight"]
-margin_right = 307.0
-margin_bottom = 49.0
+margin_right = 403.0
+margin_bottom = 92.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Top" type="HBoxContainer" parent="Top Menu Bar/HBoxRight/VBox"]
-margin_right = 307.0
-margin_bottom = 49.0
+margin_right = 403.0
+margin_bottom = 92.0
 
 [node name="Tracking Play" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
 margin_right = 47.0
-margin_bottom = 49.0
+margin_bottom = 92.0
 texture_normal = ExtResource( 23 )
 texture_pressed = ExtResource( 24 )
 texture_hover = ExtResource( 25 )
@@ -291,13 +295,14 @@ script = ExtResource( 33 )
 [node name="Placeholder" type="ColorRect" parent="Top Menu Bar/HBoxRight/VBox/Top"]
 margin_left = 51.0
 margin_right = 151.0
-margin_bottom = 49.0
+margin_bottom = 92.0
 rect_min_size = Vector2( 100, 0 )
 color = Color( 1, 1, 1, 0 )
 
 [node name="VR" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 34 )]
 margin_left = 155.0
 margin_right = 201.0
+margin_bottom = 92.0
 texture_normal = ExtResource( 35 )
 texture_pressed = ExtResource( 36 )
 texture_hover = ExtResource( 37 )
@@ -307,7 +312,7 @@ signal_released = "vr_disable"
 [node name="Season" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
 margin_left = 205.0
 margin_right = 253.0
-margin_bottom = 49.0
+margin_bottom = 92.0
 toggle_mode = true
 texture_normal = ExtResource( 38 )
 texture_pressed = ExtResource( 39 )
@@ -322,7 +327,17 @@ margin_right = 87.0
 margin_bottom = 130.0
 
 [node name="Debug" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 34 )]
+margin_bottom = 92.0
 signal_pressed = "debug_enable"
 signal_released = "debug_disable"
+
+[node name="Settings" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 44 )]
+margin_left = 311.0
+margin_top = 0.0
+margin_right = 403.0
+margin_bottom = 92.0
+size_flags_horizontal = 0
+size_flags_stretch_ratio = 0.0
+stretch_mode = 0
 [connection signal="toggled" from="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer/CheckBox" to="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer/CheckBox" method="_on_toggled"]
 [connection signal="toggled" from="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV/RooftopPhotovoltaicCheckbox" to="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV/RooftopPhotovoltaicCheckbox" method="_on_toggled"]

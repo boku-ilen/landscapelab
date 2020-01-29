@@ -1,0 +1,18 @@
+extends OptionButton
+
+#
+# This Node manages all the possible language configurations.
+#
+
+func _ready():
+	for item in TranslationServer.get_loaded_locales(): 
+		add_item(String(item))
+	
+	# Select the startup language
+	var current_language_id : int = TranslationServer.get_loaded_locales().find(TranslationServer.get_locale())
+	select(current_language_id)
+
+
+func _on_OptionButton_item_selected(id):
+	TranslationServer.set_locale(TranslationServer.get_loaded_locales()[id])
+	GlobalSignal.emit_signal("retranslate")
