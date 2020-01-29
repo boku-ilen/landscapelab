@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/watermark.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/energy_sum.png" type="Texture" id=2]
@@ -44,6 +44,7 @@
 [ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=42]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
 [ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
+[ext_resource path="res://UI/RooftopLabel.gd" type="Script" id=45]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0.835294, 0.207843, 1 )
@@ -75,14 +76,14 @@ mouse_filter = 2
 alignment = 1
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
-margin_right = 792.0
+margin_right = 623.0
 margin_bottom = 101.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
-margin_right = 792.0
+margin_right = 623.0
 margin_bottom = 101.0
 mouse_filter = 2
 size_flags_horizontal = 0
@@ -90,7 +91,7 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox"]
-margin_right = 792.0
+margin_right = 623.0
 margin_bottom = 101.0
 mouse_filter = 2
 
@@ -144,7 +145,7 @@ script = ExtResource( 8 )
 
 [node name="EnergySumHBox" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
 margin_left = 235.0
-margin_right = 792.0
+margin_right = 623.0
 margin_bottom = 101.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox"]
@@ -172,18 +173,18 @@ allow_greater = true
 
 [node name="RooftopPV" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox"]
 margin_left = 364.0
-margin_right = 557.0
+margin_right = 388.0
 margin_bottom = 101.0
 
 [node name="Label" type="Label" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV"]
-margin_right = 193.0
+margin_right = 24.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 12 )
-text = "Dachflächen Photovoltaik:"
+script = ExtResource( 45 )
 
 [node name="RooftopPhotovoltaicCheckbox" type="CheckBox" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV"]
 margin_top = 27.0
-margin_right = 193.0
+margin_right = 24.0
 margin_bottom = 51.0
 script = ExtResource( 13 )
 
@@ -197,7 +198,7 @@ margin_bottom = 964.0
 mouse_filter = 2
 
 [node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
-margin_left = 796.0
+margin_left = 627.0
 margin_right = 1463.0
 margin_bottom = 48.0
 mouse_filter = 2
@@ -206,8 +207,8 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 276.0
-margin_right = 391.0
+margin_left = 360.0
+margin_right = 475.0
 margin_bottom = 48.0
 mouse_filter = 2
 

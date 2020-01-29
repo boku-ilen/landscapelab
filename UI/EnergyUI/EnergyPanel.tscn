@@ -11,12 +11,12 @@ margin_bottom = 58.0
 [node name="Energy" type="VBoxContainer" parent="."]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 346.0
+margin_right = 287.0
 margin_bottom = 57.0
 alignment = 1
 
 [node name="EnergySum" type="HBoxContainer" parent="Energy"]
-margin_right = 339.0
+margin_right = 280.0
 margin_bottom = 23.0
 
 [node name="EnergyValue" type="Label" parent="Energy/EnergySum"]
@@ -54,7 +54,7 @@ text = "MWh/a"
 
 [node name="Amount" type="HBoxContainer" parent="Energy"]
 margin_top = 27.0
-margin_right = 339.0
+margin_right = 280.0
 margin_bottom = 50.0
 
 [node name="Description" type="Label" parent="Energy/Amount"]

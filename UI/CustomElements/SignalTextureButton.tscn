@@ -14,3 +14,6 @@ texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 2 )
 texture_hover = ExtResource( 3 )
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
