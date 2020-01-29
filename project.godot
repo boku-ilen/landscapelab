@@ -346,6 +346,7 @@ toggle_imaging_recording={
 }
 
 
+
 [layer_names]
 
 3d_render/layer_1="3D Base"
@@ -361,7 +362,7 @@ toggle_imaging_recording={
 
 [locale]
 
-translations=PoolStringArray( "res://Resources/Translations/energy.de.translation", "res://Resources/Translations/energy.en.translation" )
+translations=PoolStringArray( "res://UI/Translations/energy.de.translation", "res://UI/Translations/energy.en.translation" )
 translation_remaps={
 
 }
