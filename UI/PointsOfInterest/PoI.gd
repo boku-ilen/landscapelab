@@ -51,13 +51,17 @@ func _on_Delete_pressed():
 
 func _on_ArrowUp_pressed():
 	var current_item : int = item_list.get_selected_items()[0]
+	var item_text : String = item_list.get_item_text(current_item)
 	
-	var result = ServerConnection.get_json("/location/remove/%s/%d" % [item_text, Session.scenario_id], false)
+	#var result = ServerConnection.get_json("/location/increase_order/%s/%d" % [item_text, Session.scenario_id], false)
 	
 	item_list.move_item(current_item, current_item - 1)
 
 
 func _on_ArrowDown_pressed():
 	var current_item : int = item_list.get_selected_items()[0]
+	var item_text : String = item_list.get_item_text(current_item)
+	
+	#var result = ServerConnection.get_json("/location/increase_order/%s/%d" % [item_text, Session.scenario_id], false)
 	
 	item_list.move_item(current_item, current_item + 1)
