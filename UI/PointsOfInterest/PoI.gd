@@ -1,4 +1,8 @@
-extends Control
+extends HBoxContainer
+
+#
+# This script handles the UI-Element of the points of interest.
+#
 
 
 onready var input_field = get_node("VBoxContainer/TextEdit")
@@ -43,3 +47,17 @@ func _on_Delete_pressed():
 	# Only store on client if it was also successfully stored on server
 	if result.removal_success:
 		item_list.remove_item(current_item)
+
+
+func _on_ArrowUp_pressed():
+	var current_item : int = item_list.get_selected_items()[0]
+	
+	var result = ServerConnection.get_json("/location/remove/%s/%d" % [item_text, Session.scenario_id], false)
+	
+	item_list.move_item(current_item, current_item - 1)
+
+
+func _on_ArrowDown_pressed():
+	var current_item : int = item_list.get_selected_items()[0]
+	
+	item_list.move_item(current_item, current_item + 1)

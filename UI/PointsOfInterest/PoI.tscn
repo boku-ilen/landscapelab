@@ -1,12 +1,20 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://UI/PointsOfInterest/PoI.gd" type="Script" id=1]
 [ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=2]
 [ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Resources/Images/UI/UI/arrow-up.svg" type="Texture" id=4]
+[ext_resource path="res://Resources/Images/UI/UI/s_arrow-up.svg" type="Texture" id=5]
+[ext_resource path="res://Resources/Images/UI/UI/h_arrow-up.svg" type="Texture" id=6]
+[ext_resource path="res://Resources/Images/UI/UI/h_arrow-down.svg" type="Texture" id=7]
+[ext_resource path="res://Resources/Images/UI/UI/arrow-down.svg" type="Texture" id=8]
+[ext_resource path="res://Resources/Images/UI/UI/s_arrow-down.svg" type="Texture" id=9]
 
-[node name="Control" type="Control"]
+[node name="Container" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 0.263519
+margin_bottom = 0.26355
 rect_pivot_offset = Vector2( 440, 160 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -14,8 +22,11 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 254.0
+margin_bottom = 1080.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 margin_right = 254.0
@@ -69,8 +80,42 @@ margin_right = 254.0
 margin_bottom = 189.0
 custom_fonts/font = ExtResource( 3 )
 text = "Speichern"
+
+[node name="Arrows" type="VBoxContainer" parent="."]
+margin_left = 258.0
+margin_right = 294.0
+margin_bottom = 130.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/separation = 10
+
+[node name="Tabs" type="Tabs" parent="Arrows"]
+margin_right = 36.0
+margin_bottom = 24.0
+
+[node name="ArrowUp" type="TextureButton" parent="Arrows"]
+margin_top = 34.0
+margin_right = 36.0
+margin_bottom = 70.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 6 )
+
+[node name="HSeparator" type="HSeparator" parent="Arrows"]
+margin_top = 80.0
+margin_right = 36.0
+margin_bottom = 84.0
+
+[node name="ArrowDown" type="TextureButton" parent="Arrows"]
+margin_top = 94.0
+margin_right = 36.0
+margin_bottom = 130.0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 9 )
+texture_hover = ExtResource( 7 )
 [connection signal="item_activated" from="VBoxContainer/ItemList" to="." method="_on_ItemList_item_activated"]
-[connection signal="item_selected" from="VBoxContainer/ItemList" to="." method="_on_ItemList_item_selected"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Add" to="." method="_on_Add_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Delete" to="." method="_on_Delete_pressed"]
 [connection signal="pressed" from="VBoxContainer/Save" to="." method="_on_Save_pressed"]
+[connection signal="pressed" from="Arrows/ArrowUp" to="." method="_on_ArrowUp_pressed"]
+[connection signal="pressed" from="Arrows/ArrowDown" to="." method="_on_ArrowDown_pressed"]
