@@ -28,11 +28,15 @@ func _on_Save_pressed():
 	
 	# As the coordinates on the server are responded in a different type,
 	# we have to use a "-" on the x-axis to properly save it
-	# TODO: Request on server for adding current position to PoIs
+	var result = ServerConnection.get_json("/location/create/%s/%d.0/%d.0/%d" % [input_field.text, -fixed_pos[0], fixed_pos[1], Session.scenario_id], false)
+	var test = 10
 
 
 func _on_Delete_pressed():
 	# select mode is set to single, so only one item can be selected
-	var current_item = item_list.remove_item(item_list.get_selected_items()[0])
+	var current_item = item_list.get_selected_items()[0]
+	var item_text = item_list.get_item_text(current_item)
+	item_list.remove_item(current_item)
 	
-	# TODO: Request for deleting a PoI by giving the name to the server
+	var result = ServerConnection.get_json("/location/remove/%s/%d" % [item_text, Session.scenario_id], false)
+	var test = 10
