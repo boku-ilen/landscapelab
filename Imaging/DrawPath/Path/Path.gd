@@ -7,12 +7,10 @@ export var height_above_ground: float
 onready var focus: Spatial = get_node("Focus")
 onready var path: Path = get_node("Path")
 
-var height_correction: Vector3
+var height_correction = Vector3(0, height_above_ground, 0)
 
 
 func _ready():
-	height_correction = Vector3(0, height_above_ground, 0)
-	
 	GlobalSignal.connect("imaging_add_path_point", self, "_add_path_point")
 	GlobalSignal.connect("imaging_set_focus", self, "_set_focus_position")
 
