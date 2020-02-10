@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Resources/Images/UI/MapIcons/pv_icon.png" type="Texture" id=1]
 [ext_resource path="res://UI/Fonts/TextBold.tres" type="DynamicFont" id=2]
 [ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=3]
+[ext_resource path="res://UI/EnergyUI/AssetsList.gd" type="Script" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0.835294, 0.207843, 1 )
@@ -15,6 +16,10 @@ corner_detail = 14
 [node name="Container" type="GridContainer"]
 margin_right = 117.0
 margin_bottom = 47.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_right = 460.0
@@ -63,21 +68,27 @@ text = "Loading ..."
 
 [node name="Unit" type="Label" parent="Details/ValueHBox"]
 margin_left = 233.0
-margin_right = 317.0
+margin_right = 287.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 3 )
-text = "MWh/a von"
+text = "MWh/a"
+
+[node name="Of" type="Label" parent="Details/ValueHBox"]
+margin_left = 291.0
+margin_right = 291.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 3 )
 
 [node name="TargetValue" type="Label" parent="Details/ValueHBox"]
-margin_left = 321.0
-margin_right = 401.0
+margin_left = 295.0
+margin_right = 375.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 2 )
 text = "Loading ..."
 
 [node name="Unit2" type="Label" parent="Details/ValueHBox"]
-margin_left = 405.0
-margin_right = 459.0
+margin_left = 379.0
+margin_right = 433.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 3 )
 text = "MWh/a"

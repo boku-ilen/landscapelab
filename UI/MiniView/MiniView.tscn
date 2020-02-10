@@ -38,7 +38,8 @@
 [ext_resource path="res://UI/MiniView/ui_close.gd" type="Script" id=36]
 [ext_resource path="res://UI/MiniView/ui_border.gd" type="Script" id=37]
 [ext_resource path="res://UI/MiniView/ResizingViewport.gd" type="Script" id=38]
-[ext_resource path="res://UI/VisibilityToggleUI.gd" type="Script" id=39]
+[ext_resource path="res://UI/MainUI.gd" type="Script" id=39]
+
 
 [node name="MiniView" type="VBoxContainer"]
 anchor_left = 1.0

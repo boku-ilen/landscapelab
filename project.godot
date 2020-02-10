@@ -345,6 +345,9 @@ toggle_imaging_recording={
  ]
 }
 
+
+
+
 [layer_names]
 
 3d_render/layer_1="3D Base"
@@ -357,6 +360,15 @@ toggle_imaging_recording={
 3d_render/layer_8="2D Symbols"
 3d_render/layer_9="3D Secondary View UI"
 3d_render/layer_10="3D VR"
+
+[locale]
+
+test="en"
+translations=PoolStringArray( "res://UI/Translations/energy.de.translation", "res://UI/Translations/energy.en.translation" )
+translation_remaps={
+
+}
+locale_filter=[ 0, [ "de", "en" ] ]
 
 [memory]
 
