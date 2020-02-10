@@ -24,7 +24,7 @@ export(float, 0.0, 1.0) var move_speed_decay: float
 
 func _ready():
 	#Offset.connect("shift_world", self, "on_shift_world")
-	GlobalSignal.connect("toggle_imaging_view", self, "_toggle_imaging_view")
+	InputSignal.connect("toggle_imaging_view", self, "_toggle_imaging_view")
 	
 	path_follow = get_node(path_follow_nodepath) as PathFollow
 	
