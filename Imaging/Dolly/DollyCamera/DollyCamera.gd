@@ -21,13 +21,12 @@ export(float, 0.0, 1.0) var move_speed_decay: float
 
 
 func _ready():
+	#Offset.connect("shift_world", self, "on_shift_world")
+	
 	path_follow = get_node(path_follow_nodepath) as PathFollow
 	
 	if not path_follow:
 		logger.error("Parent node of VideoCamera must be a PathFollow which the camera can go along!")
-	
-	# FIXME: Ugly... but 0 doesn't move it to the beginning of the path
-	path_follow.offset = 0.0001
 
 
 func _process(delta):
@@ -56,3 +55,10 @@ func _process(delta):
 	
 	# Free movement relative to position on rails
 	translation += Vector3(velocity.x, velocity.y, 0.0)
+	
+	if velocity.length_squared() > 0.2:
+		PlayerInfo.update_player_pos(translation)
+
+
+func on_shift_world(delta_x, delta_z):
+	translation += Vector3(delta_x, 0, delta_z)

@@ -2,7 +2,7 @@ extends Viewport
 
 
 var timer: Timer
-var fps: float = 10
+var fps: float = 4
 
 
 func _ready():
@@ -33,7 +33,13 @@ func make_screenshot():
 	
 	# Save to a file, use the current time for naming
 	var timestamp = OS.get_datetime()
-	var screenshot_filename = "user://videoframe-%d%d%d-%d%d%d-%d-%d.png" % [timestamp["year"], timestamp["month"],
-	 timestamp["day"], timestamp["hour"], timestamp["minute"], timestamp["second"], randi(), Session.session_id]
+	var screenshot_filename = "user://videoframe-%d-%d.png" % [OS.get_system_time_msecs(), Session.session_id]
 	
-	img.save_png(screenshot_filename)
+	# Medium to low priority - we do want it to save sometime soon, but doesn't have to be immediate
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "save_screenshot", [img, screenshot_filename]), 15)
+
+
+# Actually save a screenshot - to be run in a thread
+func save_screenshot(img_filename_array):
+	img_filename_array[0].save_png(img_filename_array[1])
+	logger.info("captured screenshot in %s " % [img_filename_array[1]])

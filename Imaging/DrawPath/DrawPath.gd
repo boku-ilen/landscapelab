@@ -6,7 +6,7 @@ extends Spatial
 # "imaging_set_focus" a path and a focussed point can be set.
 #
 
-onready var cursor: RayCast = get_parent().get_node("InteractRay")
+onready var cursor : RayCast = get_parent().get_node("InteractRay")
 
 var currently_imaging: bool = false
 
@@ -19,6 +19,7 @@ func _input(event):
 		if event.is_action_pressed("imaging_set_path"):
 			var position = WorldPosition.get_position_on_ground(cursor.get_collision_point())
 			GlobalSignal.emit_signal("imaging_add_path_point", position)
+			GlobalSignal.emit_signal("test")
 		elif event.is_action_pressed("imaging_set_focus"):
 			var position = WorldPosition.get_position_on_ground(cursor.get_collision_point())
 			GlobalSignal.emit_signal("imaging_set_focus", position)
