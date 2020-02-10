@@ -16,12 +16,15 @@ onready var path_follow: PathFollow
 # movement speed
 var velocity: Vector3
 
+var _using_dolly: bool = false
+
 export(float) var move_speed: float
 export(float, 0.0, 1.0) var move_speed_decay: float
 
 
 func _ready():
 	#Offset.connect("shift_world", self, "on_shift_world")
+	GlobalSignal.connect("toggle_imaging_view", self, "_toggle_imaging_view")
 	
 	path_follow = get_node(path_follow_nodepath) as PathFollow
 	
@@ -56,9 +59,13 @@ func _process(delta):
 	# Free movement relative to position on rails
 	translation += Vector3(velocity.x, velocity.y, 0.0)
 	
-	if velocity.length_squared() > 0.2:
+	if velocity.length_squared() > 0.2 and _using_dolly:
 		PlayerInfo.update_player_pos(translation)
 
 
 func on_shift_world(delta_x, delta_z):
 	translation += Vector3(delta_x, 0, delta_z)
+
+
+func _toggle_imaging_view():
+	_using_dolly = !_using_dolly

@@ -5,7 +5,7 @@
 
 [node name="PathScene" type="Spatial"]
 script = ExtResource( 3 )
-height_above_ground = 500.0
+height_above_ground = 300.0
 
 [node name="Focus" type="Position3D" parent="."]
 
