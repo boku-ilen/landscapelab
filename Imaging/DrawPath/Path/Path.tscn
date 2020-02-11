@@ -4,7 +4,7 @@
 [ext_resource path="res://Resources/Images/UI/UI/s_arrow-down.svg" type="Texture" id=2]
 [ext_resource path="res://Imaging/DrawPath/Path/Path.gd" type="Script" id=3]
 
-[sub_resource type="SphereMesh" id=3]
+[sub_resource type="SphereMesh" id=1]
 radius = 10.0
 height = 20.0
 
@@ -18,7 +18,7 @@ emission_energy = 4.4
 emission_operator = 0
 emission_on_uv2 = false
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="SpatialMaterial" id=3]
 flags_unshaded = true
 params_blend_mode = 1
 params_billboard_mode = 1
@@ -30,14 +30,14 @@ script = ExtResource( 3 )
 height_above_ground = 300.0
 
 [node name="Focus" type="CSGMesh" parent="."]
-mesh = SubResource( 3 )
+mesh = SubResource( 1 )
 material = SubResource( 2 )
 
 [node name="Sprite3D" type="Sprite3D" parent="Focus"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 42.5536, 0 )
-material_override = SubResource( 4 )
+material_override = SubResource( 3 )
 modulate = Color( 0.831373, 0.913725, 0.992157, 1 )
-pixel_size = 1.0
+pixel_size = 0.2
 texture = ExtResource( 2 )
 
 [node name="Path" parent="." instance=ExtResource( 1 )]
