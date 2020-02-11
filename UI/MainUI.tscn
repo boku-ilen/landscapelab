@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/watermark.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/energy_sum.png" type="Texture" id=2]
@@ -45,6 +45,7 @@
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
 [ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
 [ext_resource path="res://UI/RooftopLabel.gd" type="Script" id=45]
+[ext_resource path="res://UI/ToolsBar/ToolsBar.tscn" type="PackedScene" id=46]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0.835294, 0.207843, 1 )
@@ -207,38 +208,13 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 360.0
-margin_right = 475.0
+margin_left = 391.0
+margin_right = 445.0
 margin_bottom = 48.0
 mouse_filter = 2
 
-[node name="Controller" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
-margin_right = 57.0
-margin_bottom = 39.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-toggle_mode = true
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 16 )
-texture_hover = ExtResource( 17 )
-script = ExtResource( 18 )
-
-[node name="EditableAssetTypeList" type="VBoxContainer" parent="Top Menu Bar/HBoxCenter/HBoxContainer/Controller"]
-margin_left = 44.8907
-margin_top = -36.6467
-margin_right = 270.891
-margin_bottom = 72.3533
-grow_horizontal = 0
-grow_vertical = 0
-mouse_filter = 2
-alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Lego" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
-margin_left = 61.0
-margin_right = 115.0
+margin_right = 54.0
 margin_bottom = 48.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -340,5 +316,55 @@ margin_bottom = 92.0
 size_flags_horizontal = 0
 size_flags_stretch_ratio = 0.0
 stretch_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 1870.0
+margin_bottom = 1030.0
+mouse_filter = 2
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 994.0
+margin_right = 1870.0
+margin_bottom = 1030.0
+mouse_filter = 2
+
+[node name="ToolsBar" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 46 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 36.0
+margin_bottom = 36.0
+
+[node name="Controller" type="TextureButton" parent="VBoxContainer/HBoxContainer/ToolsBar"]
+visible = false
+margin_left = 40.0
+margin_right = 97.0
+margin_bottom = 39.0
+mouse_filter = 1
+size_flags_horizontal = 0
+size_flags_vertical = 0
+toggle_mode = true
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 16 )
+texture_hover = ExtResource( 17 )
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EditableAssetTypeList" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/ToolsBar/Controller"]
+margin_left = 154.907
+margin_top = -235.154
+margin_right = 380.907
+margin_bottom = -126.154
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="toggled" from="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer/CheckBox" to="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer/CheckBox" method="_on_toggled"]
 [connection signal="toggled" from="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV/RooftopPhotovoltaicCheckbox" to="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV/RooftopPhotovoltaicCheckbox" method="_on_toggled"]
+
+[editable path="VBoxContainer/HBoxContainer/ToolsBar"]
