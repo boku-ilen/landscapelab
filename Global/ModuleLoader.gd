@@ -1,5 +1,10 @@
 extends Node
 
+#
+# Preloads all WorldTile modules and provides a thread-safe way to get instances
+#  of them.
+#
+
 
 var module_path = Settings.get_setting("lod", "module-path")
 
@@ -9,10 +14,13 @@ var usage_lock = Mutex.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	for module in list_files_in_directory(module_path):
+	for module in _list_files_in_directory(module_path):
 		modules[module] = load(module)
 
 
+# Thread-safe method for getting an instance of a module.
+# The module_name is the name of the scene file, without the leading path.
+# Example: "TerrainModule.tscn"
 func get_instance(module_name):
 	usage_lock.lock()
 	var instance = modules[module_path + "/" + module_name].instance()
@@ -21,7 +29,7 @@ func get_instance(module_name):
 	return instance
 
 
-func list_files_in_directory(path):
+func _list_files_in_directory(path):
 	var my_files : Array = []
 	var dir := Directory.new()
 	
@@ -37,7 +45,7 @@ func list_files_in_directory(path):
 	
 	while file_name != "":
 		if dir.current_is_dir():
-			my_files += list_files_in_directory(dir.get_current_dir() + "/" + file_name)
+			my_files += _list_files_in_directory(dir.get_current_dir() + "/" + file_name)
 		else:
 			my_files.append(dir.get_current_dir() + "/" + file_name)
 	
