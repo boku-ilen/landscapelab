@@ -4,25 +4,29 @@
 [ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=2]
 [ext_resource path="res://UI/EditableAssets/ItemList.gd" type="Script" id=3]
 
-[node name="ItemList" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -137.46
-margin_right = -1920.0
-margin_bottom = -1217.46
+[node name="List" type="VBoxContainer"]
+anchor_right = 0.107
+anchor_bottom = 0.123
+margin_right = 17.56
+margin_bottom = 44.16
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label" type="Label" parent="."]
-margin_top = -5.0
-margin_right = 55.0
-margin_bottom = 18.0
+margin_right = 223.0
+margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
 text = "Assets:"
 
 [node name="ItemList" type="ItemList" parent="."]
-margin_top = 16.9812
-margin_right = 250.0
-margin_bottom = 136.981
+margin_top = 27.0
+margin_right = 223.0
+margin_bottom = 177.0
+rect_min_size = Vector2( 200, 150 )
 custom_fonts/font = ExtResource( 2 )
 fixed_icon_size = Vector2( 25, 25 )
 script = ExtResource( 3 )
-[connection signal="item_activated" from="ItemList" to="ItemList" method="_on_ItemList_item_activated"]
+__meta__ = {
+"_edit_use_anchors_": false
+}

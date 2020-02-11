@@ -16,4 +16,5 @@ __meta__ = {
 [node name="Hoverable" type="TextureRect" parent="."]
 margin_right = 36.0
 margin_bottom = 36.0
+rect_pivot_offset = Vector2( 31.4172, -30.6421 )
 texture = ExtResource( 2 )

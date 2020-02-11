@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/watermark.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/energy_sum.png" type="Texture" id=2]
@@ -17,7 +17,7 @@
 [ext_resource path="res://Resources/Images/UI/UI/input_controller.png" type="Texture" id=15]
 [ext_resource path="res://Resources/Images/UI/UI/s_input_controller.png" type="Texture" id=16]
 [ext_resource path="res://Resources/Images/UI/UI/h_input_controller.png" type="Texture" id=17]
-[ext_resource path="res://UI/ui_controller.gd" type="Script" id=18]
+[ext_resource path="res://UI/ToolsBar/Buttons/Assets.gd" type="Script" id=18]
 [ext_resource path="res://Resources/Images/UI/UI/lego_brick.png" type="Texture" id=19]
 [ext_resource path="res://Resources/Images/UI/UI/s_lego_brick.png" type="Texture" id=20]
 [ext_resource path="res://Resources/Images/UI/UI/h_lego_brick.png" type="Texture" id=21]
@@ -38,14 +38,16 @@
 [ext_resource path="res://Resources/Images/UI/UI/s_vr.png" type="Texture" id=36]
 [ext_resource path="res://Resources/Images/UI/UI/h_vr.png" type="Texture" id=37]
 [ext_resource path="res://Resources/Images/UI/UI/season_time.png" type="Texture" id=38]
-[ext_resource path="res://Resources/Images/UI/UI/s_season_time.png" type="Texture" id=39]
+[ext_resource path="res://UI/ToolsBar/Buttons/Season.gd" type="Script" id=39]
 [ext_resource path="res://Resources/Images/UI/UI/h_season_time.png" type="Texture" id=40]
-[ext_resource path="res://UI/CustomElements/ShowHideChildrenButton.gd" type="Script" id=41]
+[ext_resource path="res://UI/ToolsBar/Buttons/DollyCam.gd" type="Script" id=41]
 [ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=42]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
 [ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
 [ext_resource path="res://UI/RooftopLabel.gd" type="Script" id=45]
 [ext_resource path="res://UI/ToolsBar/ToolsBar.tscn" type="PackedScene" id=46]
+[ext_resource path="res://UI/EditableAssets/ItemList.tscn" type="PackedScene" id=47]
+[ext_resource path="res://UI/ToolsBar/Tools.gd" type="Script" id=48]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0.835294, 0.207843, 1 )
@@ -200,7 +202,7 @@ mouse_filter = 2
 
 [node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
 margin_left = 627.0
-margin_right = 1463.0
+margin_right = 1515.0
 margin_bottom = 48.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -208,8 +210,8 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 391.0
-margin_right = 445.0
+margin_left = 417.0
+margin_right = 471.0
 margin_bottom = 48.0
 mouse_filter = 2
 
@@ -225,21 +227,21 @@ texture_hover = ExtResource( 21 )
 script = ExtResource( 22 )
 
 [node name="HBoxRight" type="HBoxContainer" parent="Top Menu Bar"]
-margin_left = 1467.0
+margin_left = 1519.0
 margin_right = 1870.0
 margin_bottom = 1030.0
 mouse_filter = 2
 alignment = 2
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxRight"]
-margin_right = 403.0
+margin_right = 351.0
 margin_bottom = 92.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Top" type="HBoxContainer" parent="Top Menu Bar/HBoxRight/VBox"]
-margin_right = 403.0
+margin_right = 351.0
 margin_bottom = 92.0
 
 [node name="Tracking Play" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
@@ -286,59 +288,69 @@ texture_hover = ExtResource( 37 )
 signal_pressed = "vr_enable"
 signal_released = "vr_disable"
 
-[node name="Season" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
-margin_left = 205.0
-margin_right = 253.0
-margin_bottom = 92.0
-toggle_mode = true
-texture_normal = ExtResource( 38 )
-texture_pressed = ExtResource( 39 )
-texture_hover = ExtResource( 40 )
-script = ExtResource( 41 )
-
-[node name="Datetime" parent="Top Menu Bar/HBoxRight/VBox/Top/Season" instance=ExtResource( 42 )]
-visible = false
-margin_left = -213.0
-margin_top = 62.0
-margin_right = 87.0
-margin_bottom = 130.0
-
 [node name="Debug" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 34 )]
+margin_left = 205.0
+margin_right = 255.0
 margin_bottom = 92.0
 signal_pressed = "debug_enable"
 signal_released = "debug_disable"
 
 [node name="Settings" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 44 )]
-margin_left = 311.0
+margin_left = 259.0
 margin_top = 0.0
-margin_right = 403.0
+margin_right = 351.0
 margin_bottom = 92.0
 size_flags_horizontal = 0
 size_flags_stretch_ratio = 0.0
 stretch_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Tools" type="VBoxContainer" parent="."]
 margin_right = 1870.0
 margin_bottom = 1030.0
 mouse_filter = 2
 alignment = 2
+script = ExtResource( 48 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Popups" type="HBoxContainer" parent="Tools"]
+margin_top = 990.0
+margin_right = 1870.0
+margin_bottom = 990.0
+
+[node name="ToolsBar" parent="Tools" instance=ExtResource( 46 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 994.0
 margin_right = 1870.0
 margin_bottom = 1030.0
-mouse_filter = 2
+grow_horizontal = 2
+grow_vertical = 2
+rect_pivot_offset = Vector2( 267.054, 79.83 )
+custom_constants/separation = 15
 
-[node name="ToolsBar" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 46 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 36.0
-margin_bottom = 36.0
-
-[node name="Controller" type="TextureButton" parent="VBoxContainer/HBoxContainer/ToolsBar"]
+[node name="Season" type="TextureButton" parent="Tools/ToolsBar"]
 visible = false
-margin_left = 40.0
-margin_right = 97.0
+margin_left = 51.0
+margin_right = 99.0
+margin_bottom = 48.0
+mouse_filter = 1
+toggle_mode = true
+texture_normal = ExtResource( 38 )
+texture_pressed = ExtResource( 38 )
+texture_hover = ExtResource( 40 )
+script = ExtResource( 39 )
+
+[node name="Datetime" parent="Tools/ToolsBar/Season" instance=ExtResource( 42 )]
+visible = false
+margin_left = -38.6104
+margin_top = -115.666
+margin_right = 261.39
+margin_bottom = -47.6664
+rect_pivot_offset = Vector2( 138.325, 30.0336 )
+
+[node name="Assets" type="TextureButton" parent="Tools/ToolsBar"]
+visible = false
+margin_left = 51.0
+margin_right = 108.0
 margin_bottom = 39.0
 mouse_filter = 1
 size_flags_horizontal = 0
@@ -352,19 +364,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EditableAssetTypeList" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/ToolsBar/Controller"]
-margin_left = 154.907
-margin_top = -235.154
-margin_right = 380.907
-margin_bottom = -126.154
-grow_horizontal = 0
-grow_vertical = 0
-mouse_filter = 2
-alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="List" parent="Tools/ToolsBar/Assets" instance=ExtResource( 47 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -98.1332
+margin_top = -410.215
+margin_right = 281.867
+margin_bottom = -83.215
+
+[node name="DollyCam" type="TextureButton" parent="Tools/ToolsBar"]
+visible = false
+margin_left = 51.0
+margin_right = 98.0
+margin_bottom = 47.0
+texture_normal = ExtResource( 23 )
+script = ExtResource( 41 )
 [connection signal="toggled" from="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer/CheckBox" to="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer/CheckBox" method="_on_toggled"]
 [connection signal="toggled" from="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV/RooftopPhotovoltaicCheckbox" to="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV/RooftopPhotovoltaicCheckbox" method="_on_toggled"]
-
-[editable path="VBoxContainer/HBoxContainer/ToolsBar"]
