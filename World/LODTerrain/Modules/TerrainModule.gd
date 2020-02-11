@@ -7,16 +7,14 @@ extends Module
 #
 
 
-func init(tile):
-	.init(tile)
-	
+func init():
 	var mesh = get_node("MeshInstance")
 	
 	mesh.mesh = tile.create_tile_plane_mesh()
 	tile.set_heightmap_params_for_obj(mesh.material_override)
 	
-	if get_textures(tile, mesh):
-		_ready_to_be_displayed()
+	if not get_textures(tile, mesh):
+		logger.error("get_textures failed!")
 	
 	_done_loading()
 

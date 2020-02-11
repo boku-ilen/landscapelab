@@ -10,18 +10,21 @@ var tile
 var modules
 
 signal module_done_loading
-signal module_to_be_displayed
 
 
-func init(tile):
+# Override with the functionality to setup the module.
+# Called in a thread, so blocking tasks can be performed here.
+func init():
+	pass
+
+
+# To be called by the ModuleHandler which this module belongs to, giving it a
+#  reference to the tile.
+func set_tile(tile):
+	assert(tile != null)
+	
 	self.tile = tile
 
-
+# Call this function when the tile has fetched all its data.
 func _done_loading():
 	emit_signal("module_done_loading")
-	
-
-# When the tile is successfully loaded and should be displayed, this function should be called.
-# Note: If there is a module which never calls it, the tile will never be displayed!
-func _ready_to_be_displayed():
-	emit_signal("module_to_be_displayed")

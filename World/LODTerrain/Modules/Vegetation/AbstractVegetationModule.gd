@@ -24,11 +24,7 @@ var splatmap
 var phyto_data = {}
 
 
-func init(tile):
-	.init(tile)
-	
-	self.tile = tile
-	
+func init():
 	for i in range(0, num_layers):
 		var instance = ModuleLoader.get_instance("Util/HeightmapParticles.tscn")
 		instance.name = String(i)
@@ -39,7 +35,6 @@ func init(tile):
 	get_splat_data()
 	
 	_done_loading()
-	_ready_to_be_displayed()
 
 
 # Fetches all required data from the server

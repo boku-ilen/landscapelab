@@ -30,9 +30,7 @@ func set_splatmap():
 	water_mesh.material_override.set_shader_param("heightmap", dhm)
 
 
-func init(tile):
-	.init(tile)
-	
+func init():
 	get_textures(tile)
 	apply_textures()
 	
@@ -47,7 +45,3 @@ func apply_textures():
 		splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"), 0)
 		
 		set_splatmap()
-		
-	# If the water ID isn't present in the splatmap, we're also ready to be displayed;
-	# we're just not displaying anything, but that's correct in that case.
-	_ready_to_be_displayed()

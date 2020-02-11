@@ -6,10 +6,11 @@ extends Spatial
 #
 
 var tilescene = load("res://World/LODTerrain/WorldTile/WorldTile.tscn")
+var _children_done_loading = 0
 
 onready var tile = get_parent()
 
-var _children_to_be_displayed = 0
+signal all_children_done_loading
 
 
 # Here, the actual splitting happens - this function can be run in a thread
@@ -42,7 +43,7 @@ func instantiate_children():
 
 			child.init((tile.size / 2.0), tile.lod + 1, tile.last_player_pos)
 			
-			child.connect("tile_to_be_displayed", self, "_on_child_to_be_displayed")
+			child.connect("tile_done_loading", self, "_on_child_done_loading")
 			
 			add_child(child)
 
@@ -54,33 +55,20 @@ func clear_children():
 		child.delete()
 
 
-# Returns true if all children are instanced and active.
-func are_all_active():
+func _on_child_done_loading():
+	_children_done_loading += 1
+	
+	if _children_done_loading == tile.NUM_CHILDREN:
+		emit_signal("all_children_done_loading")
+
+
+# Returns true if all children are ready to be displayed.
+func are_all_done():
 	if get_child_count() != tile.NUM_CHILDREN:
 		return false
 	
 	for child in get_children():
 		if (not child.done_loading) or (child.to_be_deleted):
-			return false
-	
-	return true
-
-
-func _on_child_to_be_displayed():
-	_children_to_be_displayed += 1
-	
-	if _children_to_be_displayed == tile.NUM_CHILDREN:
-		tile.emit_signal("all_children_to_be_displayed")
-
-
-# Returns true if all children are ready to be displayed.
-# Similar to are_all_active(), but with the additional check of to_be_displayed.
-func are_all_to_be_displayed():
-	if get_child_count() != tile.NUM_CHILDREN:
-		return false
-	
-	for child in get_children():
-		if (not child.to_be_displayed) or (not child.done_loading) or (child.to_be_deleted):
 			return false
 	
 	return true

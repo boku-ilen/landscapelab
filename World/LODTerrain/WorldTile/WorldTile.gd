@@ -26,7 +26,6 @@ var created = false # True when _ready() is done
 
 var has_split = false # True when children are starting to be loaded
 var done_loading = false # True when all modules in this tile have been loaded
-var to_be_displayed = false # True when all modules in this tile want to be displayed
 var to_be_deleted = false # True when this tile is waiting to be deleted
 
 const NUM_CHILDREN = 4 # Number of children, will likely always stay 4 because it's a quadtree
@@ -42,18 +41,12 @@ var subdiv : int = Settings.get_setting("lod", "default-tile-subdivision")
 
 # Signals
 signal tile_done_loading # Emitted once all modules have finished loading -> the tile is ready
-signal tile_to_be_displayed # Emitted once all modules want to be displayed -> this tile is shown 
-signal all_children_to_be_displayed # Emitted once all children want to be displayed
 signal split # Emitted by the top-level tile when a child finished splitting, e.g. so the ground position can be updated
-
 
 
 func _ready():
 	# Set everything to invisible at the start to prevent flickering
 	children.visible = false
-	
-	connect("tile_to_be_displayed", self, "_on_tile_to_be_displayed")
-	connect("all_children_to_be_displayed", self, "_on_all_children_to_be_displayed")
 	
 	PerformanceTracker.number_of_tiles += 1
 	
@@ -76,6 +69,10 @@ func _ready():
 
 func _on_module_handler_done(array_with_handler):
 	add_child(array_with_handler)
+	
+	# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
+	#  (which has no other tile parent)
+	_emit_split_in_toplevel_tile()
 
 
 func _process(delta):
@@ -90,7 +87,7 @@ func _process(delta):
 	# TODO: We don't really need to check this every frame, perhaps we can only do this after
 	#  certain events (such as children having loaded, child tiles being deleted, etc) happened?
 	#  If so, we need to be careful not to re-introduce race conditions!
-	if to_be_displayed and not children.are_all_to_be_displayed():
+	if done_loading and not children.are_all_done():
 		children.visible = false
 		
 		if has_node("ModuleHandler"):
@@ -122,22 +119,11 @@ func init(s, lod_level, activate_pos=null):
 	size_with_skirt = size + (2.0/(subdiv + 1.0)) * size
 	
 	initialized = true
-	
-
-# Called when all children are ready to be displayed
-func _on_all_children_to_be_displayed():
-	# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
-	#  (which has no other tile parent)
-	_emit_split_in_toplevel_tile()
 
 
 # Emit the 'split' signal in the top-level tile (which has no tile parent)
 func _emit_split_in_toplevel_tile():
 	top_level.emit_signal("split")
-
-
-func _on_tile_to_be_displayed():
-	to_be_displayed = true
 
 
 # Returns true if there is a layer of WorldTiles above this current one
@@ -187,7 +173,7 @@ func delete():
 	
 # Returns true if this is a leaf tile - it is being displayed and has no higher LOD children.
 func is_leaf_tile():
-	return !children.are_all_active()
+	return !children.are_all_done()
 	
 
 # Returns the x and z position in a 2D vector

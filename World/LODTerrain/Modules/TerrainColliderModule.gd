@@ -11,16 +11,13 @@ var heightmap
 var collider_subdivision = Settings.get_setting("terrain-collider", "collision-mesh-subdivision")
 
 
-func init(tile):
-	.init(tile)
-	
+func init():
 	col_shape = get_node("StaticBody/CollisionShape")
 	
 	connect("visibility_changed", self, "_on_visibility_changed")
 	get_textures(tile)
 	
 	_done_loading()
-	_ready_to_be_displayed()
 
 
 # When this node becomes invisible due to higher LOD terrain being active, disable the collider
@@ -128,9 +125,6 @@ func create_tile_collision_shape():
 	
 	# Build a mesh with collider_subdivision * collider_subdivision vectors with the height
 	#  at each position from the heightmap
-	
-	# TODO: It seems like the creation of the mesh isn't completely correct... There are some
-	#  inaccuracies
 	for x in range(0, collider_subdivision):
 		for y in range(0, collider_subdivision):
 			var top_left = _local_grid_to_coordinates(x, y, size, collider_subdivision)

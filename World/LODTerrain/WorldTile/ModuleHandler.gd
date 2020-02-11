@@ -10,7 +10,6 @@ var tile
 
 var num_modules : int = 0 # Number of modules this tile has
 var num_modules_loaded : int = 0 # Incremented when a module finishes loading
-var num_modules_to_be_displayed : int = 0 # Incremented when a module wants to be displayed
 
 var module_scenes = Settings.get_setting("lod", "modules")
 
@@ -19,7 +18,7 @@ signal all_modules_done_loading
 
 
 func init(data_with_tile):
-	self.tile = data_with_tile[0]
+	tile = data_with_tile[0]
 
 	spawn_modules()
 	
@@ -51,9 +50,8 @@ func spawn_modules():
 		var instance = ModuleLoader.get_instance(module) as Module
 		
 		instance.connect("module_done_loading", self, "_on_module_done_loading", [instance])
-		instance.connect("module_to_be_displayed", self, "_on_module_to_be_displayed", [instance])
-		
-		instance.init(tile)
+		instance.set_tile(tile)
+		instance.init()
 
 
 # Called when the module_done_loading signal is emitted.
@@ -66,13 +64,3 @@ func _on_module_done_loading(array_with_module):
 	if num_modules_loaded == num_modules:
 		emit_signal("all_modules_done_loading")
 		tile.done_loading = true
-		
-		
-# Called when the module_to_be_displayed signal is emitted.
-# If all modules are now done, emits tile_to_be_displayed
-func _on_module_to_be_displayed(array_with_module):
-	num_modules_to_be_displayed += 1
-	
-	if num_modules_to_be_displayed == num_modules:
-		visible = true
-		tile.emit_signal("tile_to_be_displayed")
