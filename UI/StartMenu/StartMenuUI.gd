@@ -27,5 +27,5 @@ func build_item_list():
 
 # Called when an item is clicked on
 func _on_item_activated(index):
-	Session.load_scenario(item_list.get_item_metadata(index))
+	Session.set_start_offset_for_scenario(item_list.get_item_metadata(index))
 	get_tree().change_scene("res://World/MainScene/MainScene.tscn")
