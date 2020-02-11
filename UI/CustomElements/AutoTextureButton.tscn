@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.gd" type="Script" id=1]
+[ext_resource path="res://Resources/Images/UI/UI/arrow-up.svg" type="Texture" id=2]
+
+[node name="Button" type="TextureButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1882.0
+margin_bottom = -1040.0
+texture_normal = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
