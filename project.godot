@@ -102,8 +102,7 @@ WorldPosition="*res://Global/WorldPosition.gd"
 PerformanceTracker="*res://Global/Debug/PerformanceTracker.gd"
 Assets="*res://Global/Assets.gd"
 ModuleLoader="*res://Global/ModuleLoader.gd"
-InputHandler="*res://Global/InputHandler.gd"
-InputSignal="*res://Global/InputSignal.gd"
+UISignal="*res://Global/UISignal.gd"
 
 [display]
 
