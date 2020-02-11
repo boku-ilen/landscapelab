@@ -5,6 +5,7 @@ extends TextureButton
 # Instead of using a separate texture for each state (default, pressed, ...),
 # only colors have to be defined for this AutoTextureButton. The texture is
 # then automatically colored accordingly.
+# Also provides additional functionality for styling buttons such as rotating.
 #
 
 
@@ -13,6 +14,16 @@ export(Color) var pressed_color
 export(Color) var hover_color
 export(Color) var disabled_color
 export(Color) var focused_color
+
+
+# Rotate the sprite clockwise around its center by the given radians.
+func set_rotation_radians(radians: float):
+	material.set_shader_param("rotation_radians", radians)
+
+
+# Rotate the sprite clockwise around its center by the given degrees.
+func set_rotation_degrees(degrees: float):
+	set_rotation_radians(deg2rad(degrees))
 
 
 # Called when the node enters the scene tree for the first time.
