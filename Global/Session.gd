@@ -1,5 +1,10 @@
 extends Node
 
+#
+# Provides access to the server's scenario data, as well as starting sessions
+# for a given scenario.
+#
+
 var session_id : int = -1  # start with an invalid session_id
 var scenario_id : int
 
@@ -9,11 +14,11 @@ var scenarios: Dictionary
 
 
 func _ready():
-	load_scenarios()
+	_load_scenarios_from_server()
 
 
 # Loads all available scenarios from the server into the 'scenarios' variable.
-func load_scenarios():
+func _load_scenarios_from_server():
 	var scenario_result = ServerConnection.get_json(scenario_url)
 
 	if not scenario_result or scenario_result.has("Error"):
@@ -45,9 +50,8 @@ func get_current_scenario():
 		return null
 
 
-func load_scenario(scenario_id):
-	"""Sets the world offset to the starting position in that scenario."""
-	
+# Sets the world offset to the starting position in that scenario.
+func set_start_offset_for_scenario(scenario_id):
 	# store the current active scenario
 	var scen = get_scenario(scenario_id)
 	self.scenario_id = int(scenario_id)
@@ -72,7 +76,6 @@ func load_scenario(scenario_id):
 
 # we want to get a new session id from the server thus ending the old session
 func start_session(scenario_id):
-	
 	# try to get a new session id for this scenario
 	var session = ServerConnection.get_json(session_url % [scenario_id])
 	
