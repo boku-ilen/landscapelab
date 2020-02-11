@@ -15,6 +15,11 @@ onready var pc_viewport = get_node("ViewportContainer/PCViewport")
 onready var vr_viewport = get_node("ViewportContainer/VRViewport")
 onready var pc_mini_viewport = get_node("UIMargin/MiniView/Border/Margin/MiniViewportContainer/Viewport")
 
+# required variables for reloading the UI on translate
+onready var ui = get_node("ViewportContainer/MainUI")
+onready var ui_viewport = get_node("ViewportContainer")
+var _unitialized_ui =  preload("res://UI/MainUI.tscn")
+
 var vr_activated : bool = false
 var mouse_captured : bool = false
 
@@ -52,6 +57,9 @@ func _ready():
 	
 	# register minimap icon resize signal and bind to method
 	GlobalSignal.connect("initiate_minimap_icon_resize", self, "relay_minimap_icon_resize")
+	
+	# register signal for a new chosen language (retralsnate)
+	GlobalSignal.connect("retranslate", self, "_reload_ui")
 	
 	# Start with the minimap enabled
 	current_pc_scene = third_person_pc_scene  # this is necessairy so no double signals are emitted by accident
@@ -173,6 +181,12 @@ func get_minimap_status():
 	if current_pc_scene == minimap_scene:
 		status = 'big'
 	return status
+
+
+func _reload_ui():
+	ui.queue_free()
+	ui = _unitialized_ui.instance()
+	ui_viewport.add_child(ui)
 
 
 func switch_follow_mode():
