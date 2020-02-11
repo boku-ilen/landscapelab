@@ -15,8 +15,7 @@ func _ready():
 
 func _on_mouse_entered():
 	for child in get_children():
-		child.visible = true
-	
+		child.visible = true	
 
 
 func _on_mouse_exited():
