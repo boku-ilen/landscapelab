@@ -10,7 +10,6 @@ var MOUSE_ZOOM_SPEED = Settings.get_setting("third-person", "mouse-zoom-speed")
 
 var current_distance_to_ground
 
-onready var ground_check_ray = get_node("GroundCheckRay")
 onready var mousepoint = get_node("ThirdPersonCamera/MousePoint")
 
 const UP = Vector3(0, 1, 0)
