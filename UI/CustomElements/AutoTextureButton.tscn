@@ -4,13 +4,14 @@
 [ext_resource path="res://Resources/Images/UI/UI/arrow-up.svg" type="Texture" id=2]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=3]
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
 shader = ExtResource( 3 )
 shader_param/color = null
 shader_param/rotation_radians = null
 
 [node name="Button" type="TextureButton"]
-material = SubResource( 2 )
+material = SubResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -1882.0
