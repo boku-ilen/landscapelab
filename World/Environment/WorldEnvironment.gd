@@ -2,9 +2,9 @@ extends WorldEnvironment
 
 onready var light = get_node("DirectionalLight")
 
-onready var sky_cube_scene = preload("res://World/Environment/SkyCube.tscn")
+var clouds_scene = preload("res://addons/volumetric-clouds/CloudRenderer.tscn")
 
-var SKYCUBE_ENABLED = Settings.get_setting("sky", "clouds")
+var CLOUDS_ENABLED = Settings.get_setting("sky", "clouds")
 var FOG_BEGIN = Settings.get_setting("sky", "fog-begin")
 var FOG_END = Settings.get_setting("sky", "fog-end")
 var SUN_INTENSITY_FACTOR = Settings.get_setting("sky", "sun-intensity-factor")
@@ -30,9 +30,9 @@ func _ready():
 	update_time_season()
 	
 	# Spawn Skycube if setting is on
-	if SKYCUBE_ENABLED:
-		add_child(sky_cube_scene.instance())
-		clouds = get_node("SkyCube")
+	if CLOUDS_ENABLED:
+		clouds = clouds_scene.instance()
+		add_child(clouds)
 		
 	environment.fog_depth_begin = FOG_BEGIN
 	environment.fog_depth_end = FOG_END
@@ -82,21 +82,25 @@ func set_sun_position(altitude, azimuth):
 	light.rotation_degrees = Vector3(-altitude, 180 - azimuth, 0)
 	
 	# Also pass the direction as a parameter to the clouds - they require it as 
-	# the vector the light is pointing at, which is the forward (x) vector
+	# the vector the light is pointing at, which is the forward (-z) vector
 	if clouds:
-		clouds.set_sun_dir(light.transform.basis.x)
+		clouds.set_sun_direction(-light.transform.basis.z)
 	
 	update_colors(altitude, azimuth)
 
 
 func set_light_energy(new_energy):
 	light.light_energy = new_energy
-	clouds.set_sun_energy(new_energy)
+	
+	if clouds:
+		clouds.set_sun_energy(new_energy / SUN_INTENSITY_FACTOR)
 
 
 func update_colors(altitude, azimuth):
 	var new_horizon_color = base_horizon_color
 	var new_top_color = base_top_color
+	
+	var new_light_energy = 1.0
 	
 	if altitude < 20 and altitude > -20: # Sun is close to the horizon
 		# Make the horizon red/yellow-ish the closer the sun is to the horizon
@@ -116,16 +120,18 @@ func update_colors(altitude, azimuth):
 	if altitude < 0 and altitude > -30:
 		var distance_to_black_point = abs(altitude) / 30
 		new_top_color = base_top_color.darkened(distance_to_black_point)
-		set_light_energy(SUN_INTENSITY_FACTOR - distance_to_black_point * SUN_INTENSITY_FACTOR)
+		new_light_energy = SUN_INTENSITY_FACTOR - distance_to_black_point * SUN_INTENSITY_FACTOR
 		
 	elif altitude <= -30:
 		new_top_color = Color(0, 0, 0, 0)
-		set_light_energy(0)
+		new_light_energy = 0
 	
 	# Apply the colors to the sky
 	environment.background_sky.ground_horizon_color = new_horizon_color
 	environment.background_sky.sky_horizon_color = new_horizon_color
 	environment.background_sky.sky_top_color = new_top_color
+	
+	set_light_energy(new_light_energy)
 
 
 func _on_time_changed(time):
@@ -140,12 +146,12 @@ func _on_season_changed(season):
 
 func update_time_season():
 	# Run this in a thread to prevent stutter while waiting for HTTP request
-	
 	if sun_change_thread.is_active():
 		logger.warning("Attempt to change time/season, but last change hasn't finished - aborting")
 		return
 	
-	sun_change_thread.start(self, "_bg_set_sun_position_for_seasontime", [current_season, current_time])
+	#sun_change_thread.start(self, "_bg_set_sun_position_for_seasontime", [current_season, current_time])
+	_bg_set_sun_position_for_seasontime([current_season, current_time])
 
 
 func _bg_set_sun_position_for_seasontime(data): # Threads can only take one argument, so we need this helper function
