@@ -150,8 +150,8 @@ func update_time_season():
 		logger.warning("Attempt to change time/season, but last change hasn't finished - aborting")
 		return
 	
-	#sun_change_thread.start(self, "_bg_set_sun_position_for_seasontime", [current_season, current_time])
-	_bg_set_sun_position_for_seasontime([current_season, current_time])
+	sun_change_thread.start(self, "_bg_set_sun_position_for_seasontime", [current_season, current_time])
+	#_bg_set_sun_position_for_seasontime([current_season, current_time])
 
 
 func _bg_set_sun_position_for_seasontime(data): # Threads can only take one argument, so we need this helper function

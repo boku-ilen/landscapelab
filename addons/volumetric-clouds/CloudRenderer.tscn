@@ -13,12 +13,16 @@ viewport_path = NodePath("Worley")
 
 [sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
+render_priority = -1
 shader = ExtResource( 4 )
 shader_param/depth = 128.0
+shader_param/random_vector_offset_amount = 2000.0
+shader_param/max_step_length = 5000.0
 shader_param/num_steps = 48
 shader_param/cloud_begin = 1500.0
 shader_param/cloud_end = 10000.0
 shader_param/sun_march_distance = 2000.0
+shader_param/cloud_definition_factor = 0.0006
 shader_param/min_rain_absorption = 0.5
 shader_param/max_rain_absorption = 4.3
 shader_param/min_density = 0.1
@@ -27,6 +31,7 @@ shader_param/min_scale = 2e-05
 shader_param/max_scale = 6e-05
 shader_param/eccentricity = 0.15
 shader_param/earth_radius = 6.37e+06
+shader_param/lowest_march_limit = -5000.0
 shader_param/sun_energy = 1.0
 shader_param/sun_direction = Vector3( 0, -0.7, 0.7 )
 shader_param/worley = SubResource( 2 )
