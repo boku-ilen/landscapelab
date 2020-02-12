@@ -13,6 +13,11 @@ var height_correction = Vector3(0, height_above_ground, 0)
 func _ready():
 	GlobalSignal.connect("imaging_add_path_point", self, "_add_path_point")
 	GlobalSignal.connect("imaging_set_focus", self, "_set_focus_position")
+	Offset.connect("shift_world", self, "on_shift_world")
+
+
+func on_shift_world(delta_x, delta_z):
+	global_transform.origin += Vector3(delta_x, 0, delta_z)
 
 
 func _add_path_point(position):
