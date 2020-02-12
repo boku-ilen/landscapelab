@@ -18,6 +18,7 @@ func _ready():
 
 
 func _on_mouse_entered():
+	print("entered")
 	for child in get_children():
 		child.visible = true
 	
@@ -25,6 +26,7 @@ func _on_mouse_entered():
 
 
 func _on_mouse_exited():
+	print("exited")
 	for child in get_children():
 		if child.name != "Hoverable" and not child.pressed:
 			child.visible = false 
