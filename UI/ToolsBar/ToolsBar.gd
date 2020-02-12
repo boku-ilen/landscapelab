@@ -1,4 +1,5 @@
 extends HBoxContainer
+tool
 
 #
 # A hover menu for all the tools that are to follow so the GUI does not look 
@@ -7,7 +8,8 @@ extends HBoxContainer
 #
 
 
-onready var hoverable = get_node("Hoverable")
+onready var _hoverable = get_node("Hoverable")
+const _required_button = preload("res://UI/ToolsBar/ToolsButton.gd")
 
 
 func _ready():
@@ -19,7 +21,7 @@ func _on_mouse_entered():
 	for child in get_children():
 		child.visible = true
 	
-	hoverable.set_rotation_degrees(90)
+	_hoverable.set_rotation_degrees(90)
 
 
 func _on_mouse_exited():
@@ -27,4 +29,15 @@ func _on_mouse_exited():
 		if child.name != "Hoverable" and not child.pressed:
 			child.visible = false 
 	
-	hoverable.set_rotation_degrees(0)
+	_hoverable.set_rotation_degrees(0)
+
+
+# Tool specific tool for showing errors in the editor
+func _get_configuration_warning():
+	for child in get_children():
+		var is_required_type = child is _required_button
+		
+		if child.name != "Hoverable" and not is_required_type:
+			return "One or more child(ren) do not extend the required ToolsButton"
+	
+	return ""
