@@ -5,6 +5,8 @@ extends Perspective
 #
 
 onready var cam = get_node("Camera")
+onready var zoom_in_button = get_node("ViewportContainer/HBoxContainer/ZoomIn")
+onready var zoom_out_button = get_node("ViewportContainer/HBoxContainer/ZoomOut")
 
 var ZOOM_STEP = 1000 # Settings.get_setting("minimap", "zoom_step")
 var ZOOM_START = Settings.get_setting("minimap", "zoom_start")
@@ -17,8 +19,8 @@ signal minimap_icon_resize(new_zoom)
 
 func _ready():
 	change_size(ZOOM_START)
-	GlobalSignal.connect("minimap_zoom_in", self, "zoom_in")
-	GlobalSignal.connect("minimap_zoom_out", self, "zoom_out")
+	zoom_in_button.connect("pressed", self, "_zoom_in")
+	zoom_out_button.connect("pressed", self, "_zoom_out")
 	GlobalSignal.connect("initiate_minimap_icon_resize", self, "relay_minimap_icon_resize")
 	GlobalSignal.connect("request_minimap_icon_resize", self, "respond_to_minimap_icon_update_request")
 
@@ -39,13 +41,13 @@ func _process(delta):
 
 
 # zoom in by ZOOM_STEP, typically triggered by the gui zoom in symbol
-func zoom_in():
+func _zoom_in():
 	if cam.size - ZOOM_STEP > ZOOM_MIN:
 		change_size(cam.size - ZOOM_STEP)
 
 
 # zoom out by ZOOM_STEP, typically triggered by the gui zoom out symbol 	
-func zoom_out():
+func _zoom_out():
 	if cam.size + ZOOM_STEP < ZOOM_MAX:
 		change_size(cam.size + ZOOM_STEP)
 

@@ -4,8 +4,11 @@ extends ViewportContainer
 onready var camera = get_node("RecordingViewport/DollyCamera")
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("toggle_imaging_view"):
+func _ready():
+	UISignal.connect("toggle_imaging_view", self, "toggle_camera")
+
+
+func toggle_camera():
 		visible = !visible
 		
 		if visible:

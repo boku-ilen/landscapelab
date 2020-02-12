@@ -10,8 +10,6 @@ signal time_changed
 signal season_changed
 
 # Minimap control
-signal minimap_zoom_in
-signal minimap_zoom_out
 signal toggle_follow_mode
 signal miniview_close
 signal miniview_map

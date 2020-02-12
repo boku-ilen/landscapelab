@@ -12,7 +12,7 @@ var currently_imaging: bool = false
 
 
 func _ready():
-	InputSignal.connect("imaging", self, "_imaging")
+	UISignal.connect("imaging", self, "_imaging")
 
 
 func _input(event):

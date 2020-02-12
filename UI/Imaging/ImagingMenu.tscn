@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/Imaging/ImagingMenu.gd" type="Script" id=1]
+
+[node name="ImagingMenu" type="HBoxContainer"]
+margin_right = 76.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ImagingButton" type="Button" parent="."]
+margin_right = 60.0
+margin_bottom = 40.0
+text = "SetPath"
+
+[node name="FilimgButton" type="Button" parent="."]
+margin_left = 64.0
+margin_right = 104.0
+margin_bottom = 40.0
+text = "Film"

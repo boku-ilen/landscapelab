@@ -10,6 +10,11 @@ onready var my_popups = get_children()
 var popups_container : HBoxContainer = null
 
 
+func _ready():
+	set_mouse_filter(MOUSE_FILTER_PASS) 
+	set_toggle_mode(true)
+
+
 func set_popups_container(container : HBoxContainer):
 	popups_container = container
 	
