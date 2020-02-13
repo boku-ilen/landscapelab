@@ -242,7 +242,7 @@ mouse_filter = 2
 
 [node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
 margin_left = 627.0
-margin_right = 1515.0
+margin_right = 1569.0
 margin_bottom = 48.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -250,8 +250,8 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 417.0
-margin_right = 471.0
+margin_left = 444.0
+margin_right = 498.0
 margin_bottom = 48.0
 mouse_filter = 2
 
@@ -267,21 +267,21 @@ texture_hover = ExtResource( 21 )
 script = ExtResource( 22 )
 
 [node name="HBoxRight" type="HBoxContainer" parent="Top Menu Bar"]
-margin_left = 1519.0
+margin_left = 1573.0
 margin_right = 1870.0
 margin_bottom = 1030.0
 mouse_filter = 2
 alignment = 2
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxRight"]
-margin_right = 351.0
+margin_right = 297.0
 margin_bottom = 92.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Top" type="HBoxContainer" parent="Top Menu Bar/HBoxRight/VBox"]
-margin_right = 351.0
+margin_right = 297.0
 margin_bottom = 92.0
 
 [node name="Tracking Play" type="TextureButton" parent="Top Menu Bar/HBoxRight/VBox/Top"]
@@ -328,17 +328,10 @@ texture_hover = ExtResource( 37 )
 signal_pressed = "vr_enable"
 signal_released = "vr_disable"
 
-[node name="Debug" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 34 )]
-margin_left = 205.0
-margin_right = 255.0
-margin_bottom = 92.0
-signal_pressed = "debug_enable"
-signal_released = "debug_disable"
-
 [node name="Settings" parent="Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 44 )]
-margin_left = 259.0
+margin_left = 205.0
 margin_top = 0.0
-margin_right = 351.0
+margin_right = 297.0
 margin_bottom = 92.0
 size_flags_horizontal = 0
 size_flags_stretch_ratio = 0.0

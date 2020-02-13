@@ -5,6 +5,8 @@ extends OptionButton
 #
 
 func _ready():
+	connect("item_selected", self, "_on_item_selected") 
+	
 	for item in TranslationServer.get_loaded_locales(): 
 		add_item(String(item))
 	
@@ -13,6 +15,6 @@ func _ready():
 	select(current_language_id)
 
 
-func _on_OptionButton_item_selected(id):
+func _on_item_selected(id):
 	TranslationServer.set_locale(TranslationServer.get_loaded_locales()[id])
 	GlobalSignal.emit_signal("retranslate")
