@@ -61,6 +61,10 @@ func _on_module_done_loading(array_with_module):
 	
 	add_child(array_with_module)
 	
+	# Reset the translation because it could have changed due to the world
+	#  shifting while the module was being built
+	array_with_module.translation = Vector3(0.0, 0.0, 0.0)
+	
 	if num_modules_loaded == num_modules:
 		emit_signal("all_modules_done_loading")
 		tile.done_loading = true
