@@ -11,28 +11,28 @@ onready var cursor = get_parent().get_node("InteractRay")
 
 
 func _ready():
-	GlobalSignal.connect("teleport", self, "_set_teleport_mode")
-	GlobalSignal.connect("poi_teleport", self, "_poi_teleport")
+	UISignal.connect("set_teleport_mode", self, "set_teleport_mode")
+	UISignal.connect("poi_teleport", self, "_poi_teleport")
+
+
+func set_teleport_mode(mode: bool):
+	teleport_mode = mode
+
+
+func teleport_player(coordinates: Vector3):
+	PlayerInfo.update_player_pos(coordinates)
 
 
 func _unhandled_input(event):
 	if teleport_mode:
 		if event.is_action_pressed("teleport_player"):
-			_teleport_player()
+			teleport_player(WorldPosition.get_position_on_ground(cursor.get_collision_point()))
 			GlobalSignal.emit_signal("teleported")
-			teleport_mode = false
 			get_tree().set_input_as_handled()
-
-
-func _set_teleport_mode():
-	teleport_mode = true
-
-
-func _teleport_player():
-	PlayerInfo.update_player_pos(WorldPosition.get_position_on_ground(cursor.get_collision_point()))
+			set_teleport_mode(false)
 
 
 func _poi_teleport(coordinates):
-	PlayerInfo.update_player_pos(WorldPosition.get_position_on_ground(Vector3(coordinates.x, 0, coordinates.y)))
+	teleport_player(WorldPosition.get_position_on_ground(Vector3(coordinates.x, 0, coordinates.y)))
 	GlobalSignal.emit_signal("teleported")
-	teleport_mode = false
+	set_teleport_mode(false)

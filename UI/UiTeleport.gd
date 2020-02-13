@@ -8,9 +8,9 @@ func _ready():
 
 func _on_toggle(toggled: bool):
 	if toggled:
-		GlobalSignal.emit_signal("teleport")
+		UISignal.emit_signal("set_teleport_mode", true)
 	else:
-		GlobalSignal.emit_signal("teleported")
+		UISignal.emit_signal("set_teleport_mode", false)
 
 
 func _on_teleported():

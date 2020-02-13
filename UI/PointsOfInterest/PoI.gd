@@ -52,7 +52,7 @@ func _load_pois():
 # in another script
 func _on_poi_activated(index):
 	var fixed_pos = item_list.get_item_metadata(index)
-	GlobalSignal.emit_signal("poi_teleport",  Offset.to_engine_coordinates(fixed_pos))
+	UISignal.emit_signal("poi_teleport",  Offset.to_engine_coordinates(fixed_pos))
 
 
 func _on_add_pressed():
