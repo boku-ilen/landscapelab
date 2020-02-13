@@ -1,12 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://UI/Imaging/ImagingMenu.gd" type="Script" id=1]
-
-[sub_resource type="InputEventAction" id=1]
-action = "toggle_imaging_view"
-
-[sub_resource type="ShortCut" id=2]
-shortcut = SubResource( 1 )
 
 [node name="ImagingMenu" type="HBoxContainer"]
 margin_right = 76.0
@@ -28,7 +22,6 @@ text = "SetPath"
 margin_left = 64.0
 margin_right = 104.0
 margin_bottom = 40.0
-shortcut = SubResource( 2 )
 text = "Film"
 
 [node name="Clear" type="Button" parent="."]
