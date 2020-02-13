@@ -13,7 +13,7 @@ func _on_Settings_pressed():
 	settings.visible = !settings.visible
 
 
-func _on_CheckButton_toggled(button_pressed):
+func _on_debug(button_pressed):
 	if button_pressed:
 		UISignal.emit_signal("debug_enable")
 	else:
