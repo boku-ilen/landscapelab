@@ -1,6 +1,13 @@
 extends Viewport
 
-export var texture_size = Vector3(128.0, 128.0, 1.0) setget set_texture_size, get_texture_size
+
+#
+# Worley texture generator for ViewportTextures
+# Adapted from Bastiaan Olij: https://github.com/BastiaanOlij/godot-worley-shader
+# 
+
+
+export var texture_size = Vector3(128.0, 128.0, 16.0) setget set_texture_size, get_texture_size
 export var max_distance = 0.5 setget set_max_distance, get_max_distance
 
 var color_rect = null
@@ -53,8 +60,21 @@ func _random():
 func make_random_points():
 	# should make a seed optional
 	if material:
-		for i in range(1, 31):
-			material.set_shader_param("worley_point_%2d" % [i], _random())
+		material.set_shader_param("worley_point_01", _random())
+		material.set_shader_param("worley_point_02", _random())
+		material.set_shader_param("worley_point_03", _random())
+		material.set_shader_param("worley_point_04", _random())
+		material.set_shader_param("worley_point_05", _random())
+		material.set_shader_param("worley_point_06", _random())
+		material.set_shader_param("worley_point_07", _random())
+		material.set_shader_param("worley_point_08", _random())
+		material.set_shader_param("worley_point_09", _random())
+		material.set_shader_param("worley_point_10", _random())
+		material.set_shader_param("worley_point_11", _random())
+		material.set_shader_param("worley_point_12", _random())
+		material.set_shader_param("worley_point_13", _random())
+		material.set_shader_param("worley_point_14", _random())
+		material.set_shader_param("worley_point_15", _random())
 
 func _ready():
 	color_rect = get_node("ColorRect")

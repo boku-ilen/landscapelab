@@ -1,12 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://addons/shader_procedural_textures/Worley_texture.gd" type="Script" id=1]
+[ext_resource path="res://addons/volumetric-clouds/WorleyTexture.gd" type="Script" id=1]
+
+
+
+
+
 
 [sub_resource type="World" id=1]
 
-
 [sub_resource type="Shader" id=2]
-
 code = "shader_type canvas_item;
 render_mode unshaded;
 
@@ -29,21 +32,6 @@ uniform vec3 worley_point_12 = vec3(0.1, 0.5, 0.7);
 uniform vec3 worley_point_13 = vec3(0.3, 0.3, 0.2);
 uniform vec3 worley_point_14 = vec3(0.8, 0.1, 0.4);
 uniform vec3 worley_point_15 = vec3(0.2, 0.9, 0.8);
-uniform vec3 worley_point_16 = vec3(0.2, 0.4, 0.5);
-uniform vec3 worley_point_17 = vec3(0.3, 0.1, 0.8);
-uniform vec3 worley_point_18 = vec3(0.8, 0.6, 0.3);
-uniform vec3 worley_point_19 = vec3(0.7, 0.3, 0.4);
-uniform vec3 worley_point_20 = vec3(0.5, 0.9, 0.6);
-uniform vec3 worley_point_21 = vec3(0.5, 0.9, 0.7);
-uniform vec3 worley_point_22 = vec3(0.2, 0.9, 0.8);
-uniform vec3 worley_point_23 = vec3(0.9, 0.3, 0.4);
-uniform vec3 worley_point_24 = vec3(0.6, 0.4, 0.7);
-uniform vec3 worley_point_25 = vec3(0.3, 0.7, 0.2);
-uniform vec3 worley_point_26 = vec3(0.1, 0.4, 0.1);
-uniform vec3 worley_point_27 = vec3(0.4, 0.2, 0.4);
-uniform vec3 worley_point_28 = vec3(0.1, 0.5, 0.7);
-uniform vec3 worley_point_29 = vec3(0.3, 0.3, 0.2);
-uniform vec3 worley_point_30 = vec3(0.8, 0.1, 0.4);
 
 float worley_dist(vec3 pos, vec3 worley_point, float p_max) {
 	float value = p_max;
@@ -76,11 +64,6 @@ float worley_value(vec3 pos) {
 	value = worley_dist(fpos, worley_point_08, value);
 	value = worley_dist(fpos, worley_point_09, value);
 	value = worley_dist(fpos, worley_point_10, value);
-	value = worley_dist(fpos, worley_point_11, value);
-	value = worley_dist(fpos, worley_point_12, value);
-	value = worley_dist(fpos, worley_point_13, value);
-	value = worley_dist(fpos, worley_point_14, value);
-	value = worley_dist(fpos, worley_point_15, value);
 	
 	return clamp(value / max_distance, 0.0, 1.0);
 }
@@ -100,7 +83,6 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id=3]
-
 shader = SubResource( 2 )
 shader_param/texture_size = Vector3( 128, 128, 128 )
 shader_param/max_distance = 1.0
@@ -119,30 +101,12 @@ shader_param/worley_point_12 = Vector3( 0.1, 0.5, 0.7 )
 shader_param/worley_point_13 = Vector3( 0.3, 0.3, 0.2 )
 shader_param/worley_point_14 = Vector3( 0.8, 0.1, 0.4 )
 shader_param/worley_point_15 = Vector3( 0.2, 0.9, 0.8 )
-shader_param/worley_point_16 = Vector3( 0.2, 0.4, 0.5 )
-shader_param/worley_point_17 = Vector3( 0.3, 0.1, 0.8 )
-shader_param/worley_point_18 = Vector3( 0.8, 0.6, 0.3 )
-shader_param/worley_point_19 = Vector3( 0.7, 0.3, 0.4 )
-shader_param/worley_point_20 = Vector3( 0.5, 0.9, 0.6 )
-shader_param/worley_point_21 = Vector3( 0.5, 0.9, 0.7 )
-shader_param/worley_point_22 = Vector3( 0.2, 0.9, 0.8 )
-shader_param/worley_point_23 = Vector3( 0.9, 0.3, 0.4 )
-shader_param/worley_point_24 = Vector3( 0.6, 0.4, 0.7 )
-shader_param/worley_point_25 = Vector3( 0.3, 0.7, 0.2 )
-shader_param/worley_point_26 = Vector3( 0.1, 0.4, 0.1 )
-shader_param/worley_point_27 = Vector3( 0.4, 0.2, 0.4 )
-shader_param/worley_point_28 = Vector3( 0.1, 0.5, 0.7 )
-shader_param/worley_point_29 = Vector3( 0.3, 0.3, 0.2 )
-shader_param/worley_point_30 = Vector3( 0.8, 0.1, 0.4 )
-
-[sub_resource type="Environment" id=4]
-
-background_mode = 1
 
 [node name="Worley_texture" type="Viewport"]
 size = Vector2( 128, 128 )
 own_world = true
 world = SubResource( 1 )
+handle_input_locally = false
 usage = 0
 render_target_update_mode = 1
 script = ExtResource( 1 )
@@ -151,7 +115,4 @@ script = ExtResource( 1 )
 material = SubResource( 3 )
 margin_right = 128.0
 margin_bottom = 128.0
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 4 )
-
+mouse_filter = 2
