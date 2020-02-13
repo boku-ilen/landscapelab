@@ -144,9 +144,11 @@ void fragment(){
 	}
 	
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
-	// e is the offset factor. (Not quite sure about those values yet, but they work nicely!)
-	// This would be "correct", but results in bad visuals... float e = 1.0/float(textureSize(heightmap, 0).x);
-	float e = 1.0/(size/50.0);
+	// e is the offset factor.
+	// TODO: The calculation of e is not correct, we should not need the ' * (9783.93962 / size)' part.
+	//  I believe we need it due to our heightmap images being low res with doubled pixels at small scales.
+	float texture_size = float(textureSize(heightmap, 0).x);
+	float e = ((size / size_without_skirt) / texture_size) * (9783.93962 / size);
 	
 	vec2 normal_uv_pos = UV;
 	
@@ -165,11 +167,11 @@ void fragment(){
 	
 	vec3 long_normal;
 	
-	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left);
-	long_normal.y = (top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right);
+	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left) / (size_without_skirt / texture_size);
+	long_normal.y = (top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right) / (size_without_skirt / texture_size);
 	long_normal.z = 1.0;
 
-	vec3 normal = normalize(long_normal + current_normal);
+	vec3 normal = normalize(long_normal);
 	
 	NORMALMAP = normal;
 	// To test the normals: total_color = NORMALMAP;

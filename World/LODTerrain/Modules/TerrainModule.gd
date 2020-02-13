@@ -29,7 +29,7 @@ func get_textures(tile, mesh) -> bool:
 		if response.has("ortho"):
 			ortho = CachingImageTexture.get(response.get("ortho"))
 		if response.has("dhm"):
-			dhm = CachingImageTexture.get(response.get("dhm"), 0)
+			dhm = CachingImageTexture.get(response.get("dhm"))  # TODO: Disable filtering?
 		
 		if ortho and dhm:
 			# Don't let the subdivision get higher than the texture resolution, steep walls otherwise
