@@ -2,13 +2,14 @@
 
 [ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=1]
 [ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=2]
-[ext_resource path="res://UI/EditableAssets/ItemList.gd" type="Script" id=3]
+[ext_resource path="res://UI/EditableAssets/Assets.gd" type="Script" id=4]
 
 [node name="List" type="VBoxContainer"]
 anchor_right = 0.107
 anchor_bottom = 0.123
 margin_right = 17.56
 margin_bottom = 44.16
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -26,7 +27,6 @@ margin_bottom = 177.0
 rect_min_size = Vector2( 200, 150 )
 custom_fonts/font = ExtResource( 2 )
 fixed_icon_size = Vector2( 25, 25 )
-script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

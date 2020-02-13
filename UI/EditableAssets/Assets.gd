@@ -1,4 +1,4 @@
-extends ToolsButton
+extends VBoxContainer
 
 #
 # This module is for creating new assets in the map.
@@ -9,8 +9,8 @@ extends ToolsButton
 
 var assets_json
 # the provided space to load the ui-elements (lists) into
-onready var label = get_node("List/Label")
-onready var items = get_node("List/ItemList")
+onready var label = get_node("Label")
+onready var items = get_node("ItemList")
 
 # to set the id of the item in the item spawner
 var item_id = null
@@ -22,13 +22,18 @@ func _ready():
 	GlobalSignal.connect("sync_moving_assets", self, "_setpressedfalse")
 	GlobalSignal.connect("stop_sync_moving_assets", self, "_setpressedfalse")
 	GlobalSignal.connect("changed_item_to_spawn", self, "set_asset_id")
+	items.connect("item_activated", self, "_on_item_activated")
+	
 	_load_assets()
 
 
-# if the status is changed to pressed emit the controller signal
-func _on_toggled(button_pressed):
-	if is_pressed():
-		GlobalSignal.emit_signal("input_controller")
+# Emit the index of the wanted item
+func _on_item_activated(index):
+	#GlobalSignal.emit_signal("changed_item_to_spawn", index)
+	
+	var item_id = items.get_item_metadata(index)
+	GlobalSignal.emit_signal("input_controller")
+	GlobalSignal.emit_signal("changed_asset_id", int(item_id))
 
 
 func _load_assets():

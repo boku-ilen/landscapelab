@@ -16,7 +16,6 @@ signal miniview_map
 signal miniview_switch
 signal miniview_3rd
 signal miniview_1st
-signal teleport
 
 # MinimapIcon resize notification
 signal minimap_icon_resize(new_zoom, minimap_status)
@@ -88,9 +87,7 @@ signal retranslate
 signal third_person_toggle_render_layer(layer_id)
 
 
-# Points of Interest signals
-signal poi_clicked(index)
-signal poi_teleport(location_coordinates)
+# Teleportation
 signal teleported
 
 # Assets

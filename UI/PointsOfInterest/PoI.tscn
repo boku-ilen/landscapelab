@@ -113,9 +113,3 @@ margin_bottom = 130.0
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 9 )
 texture_hover = ExtResource( 7 )
-[connection signal="item_activated" from="VBoxContainer/ItemList" to="." method="_on_ItemList_item_activated"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Add" to="." method="_on_Add_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Delete" to="." method="_on_Delete_pressed"]
-[connection signal="pressed" from="VBoxContainer/Save" to="." method="_on_Save_pressed"]
-[connection signal="pressed" from="Arrows/ArrowUp" to="." method="_on_ArrowUp_pressed"]
-[connection signal="pressed" from="Arrows/ArrowDown" to="." method="_on_ArrowDown_pressed"]

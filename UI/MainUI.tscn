@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/watermark.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/energy_sum.png" type="Texture" id=2]
@@ -15,9 +15,9 @@
 [ext_resource path="res://UI/UIRooftopPhotovoltaicCheckbox.gd" type="Script" id=13]
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Resources/Images/UI/UI/input_controller.png" type="Texture" id=15]
-[ext_resource path="res://Resources/Images/UI/UI/s_input_controller.png" type="Texture" id=16]
-[ext_resource path="res://Resources/Images/UI/UI/h_input_controller.png" type="Texture" id=17]
-[ext_resource path="res://UI/ToolsBar/Buttons/Assets.gd" type="Script" id=18]
+[ext_resource path="res://UI/ToolsBar/ToolsButton.tscn" type="PackedScene" id=16]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=17]
+[ext_resource path="res://Resources/Images/UI/UI/teleport.png" type="Texture" id=18]
 [ext_resource path="res://Resources/Images/UI/UI/lego_brick.png" type="Texture" id=19]
 [ext_resource path="res://Resources/Images/UI/UI/s_lego_brick.png" type="Texture" id=20]
 [ext_resource path="res://Resources/Images/UI/UI/h_lego_brick.png" type="Texture" id=21]
@@ -38,9 +38,8 @@
 [ext_resource path="res://Resources/Images/UI/UI/s_vr.png" type="Texture" id=36]
 [ext_resource path="res://Resources/Images/UI/UI/h_vr.png" type="Texture" id=37]
 [ext_resource path="res://Resources/Images/UI/UI/season_time.png" type="Texture" id=38]
-[ext_resource path="res://UI/ToolsBar/Buttons/Season.gd" type="Script" id=39]
-[ext_resource path="res://Resources/Images/UI/UI/h_season_time.png" type="Texture" id=40]
-[ext_resource path="res://UI/ToolsBar/Buttons/DollyCam.gd" type="Script" id=41]
+[ext_resource path="res://UI/PointsOfInterest/PoI.tscn" type="PackedScene" id=39]
+[ext_resource path="res://UI/UiTeleport.gd" type="Script" id=40]
 [ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=42]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
 [ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
@@ -57,6 +56,46 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 14
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 17 )
+shader_param/color = null
+shader_param/rotation_radians = null
+
+[sub_resource type="StreamTexture" id=3]
+resource_local_to_scene = true
+flags = 4
+load_path = "res://.import/arrow-down.svg-05c5bdbea91545af0a01cbb833d9f67f.stex"
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 17 )
+shader_param/color = null
+shader_param/rotation_radians = null
+
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = ExtResource( 17 )
+shader_param/color = null
+shader_param/rotation_radians = null
+
+[sub_resource type="ShaderMaterial" id=6]
+resource_local_to_scene = true
+shader = ExtResource( 17 )
+shader_param/color = null
+shader_param/rotation_radians = null
+
+[sub_resource type="ShaderMaterial" id=7]
+resource_local_to_scene = true
+shader = ExtResource( 17 )
+shader_param/color = null
+shader_param/rotation_radians = null
+
+[sub_resource type="StreamTexture" id=8]
+resource_local_to_scene = true
+flags = 4
+load_path = "res://.import/arrow-down.svg-05c5bdbea91545af0a01cbb833d9f67f.stex"
 
 [node name="MainUI" type="MarginContainer"]
 anchor_right = 1.0
@@ -313,78 +352,103 @@ alignment = 2
 script = ExtResource( 48 )
 
 [node name="Popups" type="HBoxContainer" parent="Tools"]
-margin_top = 990.0
-margin_right = 1870.0
-margin_bottom = 990.0
+margin_top = 977.0
+margin_bottom = 977.0
+size_flags_horizontal = 0
 
 [node name="ToolsBar" parent="Tools" instance=ExtResource( 46 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 994.0
-margin_right = 1870.0
+margin_top = 981.0
+margin_right = 293.0
 margin_bottom = 1030.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_pivot_offset = Vector2( 267.054, 79.83 )
+mouse_filter = 1
+size_flags_horizontal = 0
 custom_constants/separation = 15
 
-[node name="Season" type="TextureButton" parent="Tools/ToolsBar"]
-visible = false
+[node name="Hoverable" parent="Tools/ToolsBar" index="0"]
+material = SubResource( 2 )
+margin_bottom = 49.0
+texture_normal = SubResource( 3 )
+
+[node name="Season" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
+material = SubResource( 4 )
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 51.0
 margin_right = 99.0
-margin_bottom = 48.0
-mouse_filter = 1
-toggle_mode = true
+margin_bottom = 49.0
 texture_normal = ExtResource( 38 )
-texture_pressed = ExtResource( 38 )
-texture_hover = ExtResource( 40 )
-script = ExtResource( 39 )
 
 [node name="Datetime" parent="Tools/ToolsBar/Season" instance=ExtResource( 42 )]
 visible = false
 margin_left = -38.6104
 margin_top = -115.666
 margin_right = 261.39
-margin_bottom = -47.6664
+margin_bottom = -47.666
 rect_pivot_offset = Vector2( 138.325, 30.0336 )
 
-[node name="Assets" type="TextureButton" parent="Tools/ToolsBar"]
+[node name="Imaging" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
+material = SubResource( 5 )
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 114.0
+margin_right = 161.0
+margin_bottom = 49.0
+texture_normal = ExtResource( 23 )
+
+[node name="ImagingMenu" parent="Tools/ToolsBar/Imaging" instance=ExtResource( 49 )]
 visible = false
-margin_left = 51.0
-margin_right = 108.0
-margin_bottom = 39.0
-mouse_filter = 1
-size_flags_horizontal = 0
-size_flags_vertical = 0
-toggle_mode = true
+margin_left = -51.0
+margin_right = 53.0
+
+[node name="Assets" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
+material = SubResource( 6 )
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 176.0
+margin_right = 233.0
+margin_bottom = 49.0
 texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 16 )
-texture_hover = ExtResource( 17 )
-script = ExtResource( 18 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="List" parent="Tools/ToolsBar/Assets" instance=ExtResource( 47 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -98.1332
+margin_left = -200.133
 margin_top = -410.215
-margin_right = 281.867
+margin_right = 179.867
 margin_bottom = -83.215
 
-[node name="Imaging" type="TextureButton" parent="Tools/ToolsBar"]
-visible = false
-margin_left = 51.0
-margin_right = 98.0
-margin_bottom = 47.0
-mouse_filter = 1
-texture_normal = ExtResource( 23 )
-texture_pressed = ExtResource( 25 )
-script = ExtResource( 41 )
+[node name="Teleport" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
+material = SubResource( 7 )
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 248.0
+margin_right = 293.0
+margin_bottom = 49.0
+texture_normal = ExtResource( 18 )
+script = ExtResource( 40 )
+pressed_color = Color( 0.4, 0.196078, 0.196078, 1 )
+focused_color = Color( 0.588235, 0.498039, 0.498039, 1 )
 
-[node name="ImagingMenu" parent="Tools/ToolsBar/Imaging" instance=ExtResource( 49 )]
+[node name="Container" parent="Tools/ToolsBar/Teleport" instance=ExtResource( 39 )]
 visible = false
+margin_left = -151.093
+margin_top = -252.278
+margin_right = 97.907
+margin_bottom = -136.278
+
+[node name="VBoxContainer" parent="Tools/ToolsBar/Teleport/Container" index="0"]
+margin_bottom = 165.0
+
+[node name="ArrowUp" parent="Tools/ToolsBar/Teleport/Container/Arrows" index="1"]
+texture_normal = SubResource( 8 )
 [connection signal="toggled" from="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer/CheckBox" to="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer/CheckBox" method="_on_toggled"]
 [connection signal="toggled" from="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV/RooftopPhotovoltaicCheckbox" to="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV/RooftopPhotovoltaicCheckbox" method="_on_toggled"]
+
+[editable path="Tools/ToolsBar"]
+
+[editable path="Tools/ToolsBar/Teleport/Container"]
