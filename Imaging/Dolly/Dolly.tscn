@@ -50,3 +50,4 @@ remote_path = NodePath("../ViewportContainer/RecordingViewport/DollyCamera")
 [node name="Visualizer" parent="." instance=ExtResource( 2 )]
 transform = Transform( 0.999678, 0, 0.0253839, 0, 1, 0, -0.0253839, 0, 0.999678, 0, 0, 8 )
 layers = 64
+cast_shadow = 0

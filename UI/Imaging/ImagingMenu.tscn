@@ -5,6 +5,9 @@
 [node name="ImagingMenu" type="HBoxContainer"]
 margin_right = 76.0
 margin_bottom = 40.0
+mouse_filter = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -20,3 +23,9 @@ margin_left = 64.0
 margin_right = 104.0
 margin_bottom = 40.0
 text = "Film"
+
+[node name="Clear" type="Button" parent="."]
+margin_left = 108.0
+margin_right = 152.0
+margin_bottom = 40.0
+text = "Clear"

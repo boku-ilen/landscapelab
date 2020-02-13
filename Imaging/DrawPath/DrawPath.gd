@@ -15,7 +15,7 @@ func _ready():
 	UISignal.connect("imaging", self, "_imaging")
 
 
-func _input(event):
+func _unhandled_input(event):
 	if currently_imaging:
 		if event.is_action_pressed("imaging_set_path"):
 			var position = WorldPosition.get_position_on_ground(cursor.get_collision_point())
@@ -26,4 +26,4 @@ func _input(event):
 
 
 func _imaging():
-	currently_imaging = !currently_imaging
+	currently_imaging = !currently_imaging	

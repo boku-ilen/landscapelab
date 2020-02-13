@@ -30,6 +30,7 @@ script = ExtResource( 3 )
 height_above_ground = 300.0
 
 [node name="Focus" type="CSGMesh" parent="."]
+layers = 64
 mesh = SubResource( 1 )
 material = SubResource( 2 )
 
