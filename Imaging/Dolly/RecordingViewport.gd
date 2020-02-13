@@ -33,7 +33,7 @@ func make_screenshot():
 	
 	# Save to a file, use the current time for naming
 	var timestamp = OS.get_datetime()
-	var screenshot_filename = "user://videoframe-%d-%d.png" % [OS.get_system_time_msecs(), Session.session_id]
+	var screenshot_filename = "user://videoframe-%d-%d.png" % [Session.session_id, OS.get_system_time_msecs()]
 	
 	# Medium to low priority - we do want it to save sometime soon, but doesn't have to be immediate
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "save_screenshot", [img, screenshot_filename]), 15)
