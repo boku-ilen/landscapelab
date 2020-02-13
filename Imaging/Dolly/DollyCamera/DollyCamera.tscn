@@ -2,17 +2,19 @@
 
 [ext_resource path="res://Imaging/Dolly/DollyCamera/DollyCamera.gd" type="Script" id=1]
 
-[sub_resource type="CapsuleMesh" id=1]
+[sub_resource type="PrismMesh" id=1]
+size = Vector3( 15, 20, 8 )
 
 [node name="DollyCamera" type="Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1349 )
+cull_mask = 55
 script = ExtResource( 1 )
 move_speed = 0.7
 move_speed_decay = 0.97
 
-[node name="Node" type="Node" parent="."]
-
-[node name="MeshInstance" type="MeshInstance" parent="Node"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.8651 )
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+layers = 64
+cast_shadow = 0
 mesh = SubResource( 1 )
 material/0 = null

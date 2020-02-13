@@ -15,6 +15,7 @@ func _ready():
 		var handler = asset_handler_scene.instance()
 		
 		handler.asset_id = asset_id
+		handler.asset_type_id = int(assets[asset_id]["type_id"])
 		handler.asset_scene = load(Assets.get_asset_scene_path(asset_id))
 		
 		if handler.asset_scene == null:

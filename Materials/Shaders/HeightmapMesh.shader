@@ -25,8 +25,6 @@ uniform float random_offset_vectors_scale = 2.5; // 2.0 means the random offset 
 uniform sampler2D random_offset_vectors : hint_normal;
 
 uniform bool blend_only_similar_colors = false;
-
-varying vec3 normal;
 varying vec3 world_pos;
 varying vec3 v_obj_pos;
 
@@ -104,16 +102,6 @@ void vertex() {
 	// Apply the curvature based on the position of the current camera
 	float dist_to_middle = pow(world_pos.x, 2.0) + pow(world_pos.y, 2.0) + pow(world_pos.z, 2.0);
 	VERTEX.y -= get_curve_offset(dist_to_middle);
-	
-	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
-	// e is the offset factor. (Not quite sure about those values yet, but they work nicely!)
-	float e = 1.0/(size/50.0);
-	
-	float x = -get_height_no_falloff(UV + vec2(e, 0.0)) + get_height_no_falloff(UV - vec2(e, 0.0));
-	float y = get_height_no_falloff(UV + vec2(0.0, e)) - get_height_no_falloff(UV - vec2(0.0, e));
-	float z = 10.0;
-
-	normal = normalize(vec3(x, y, z));
 }
 
 void fragment(){
@@ -155,6 +143,35 @@ void fragment(){
 		total_color = base_color;
 	}
 	
-	NORMALMAP = normalize(normal + current_normal) * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
+	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
+	// e is the offset factor. (Not quite sure about those values yet, but they work nicely!)
+	// This would be "correct", but results in bad visuals... float e = 1.0/float(textureSize(heightmap, 0).x);
+	float e = 1.0/(size/50.0);
+	
+	vec2 normal_uv_pos = UV;
+	
+	// Sobel filter for getting the normal at this position
+	float bottom_left = get_height_no_falloff(normal_uv_pos + vec2(-e, -e));
+	float bottom_center = get_height_no_falloff(normal_uv_pos + vec2(0, -e));
+	float bottom_right = get_height_no_falloff(normal_uv_pos + vec2(e, -e));
+	
+	float center_left = get_height_no_falloff(normal_uv_pos + vec2(-e, 0));
+	float center_center = get_height_no_falloff(normal_uv_pos + vec2(0, 0));
+	float center_right = get_height_no_falloff(normal_uv_pos + vec2(e, 0));
+	
+	float top_left = get_height_no_falloff(normal_uv_pos + vec2(-e, e));
+	float top_center = get_height_no_falloff(normal_uv_pos + vec2(0, e));
+	float top_right = get_height_no_falloff(normal_uv_pos + vec2(e, e));
+	
+	vec3 long_normal;
+	
+	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left);
+	long_normal.y = (top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right);
+	long_normal.z = 1.0;
+
+	vec3 normal = normalize(long_normal + current_normal);
+	
+	NORMALMAP = normal;
+	// To test the normals: total_color = NORMALMAP;
 	ALBEDO = total_color;
 }

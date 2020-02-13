@@ -6,7 +6,6 @@ extends "res://World/AssetHandler/AbstractAssetHandler.gd"
 #
 
 
-export(int) var asset_type_id
 export(int) var render_layers = 4
 
 var dscn_scene = preload("res://addons/dscn_io/DSCN_Runtime_Node.gd")

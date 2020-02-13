@@ -15,6 +15,9 @@ export(bool) var moving = false  # If true, asset positions are updated continuo
 export(float) var update_interval
 export(float) var initial_update_delay = 0  # Wait for some time before making the first update
 export(int) var max_assets_per_tick = 1 # Maximum amount of assets to spawn per frame to prevent long stutters
+export(int) var asset_type_id
+
+var debug_material = preload("res://Materials/DebugPink.tres")
 
 var _result
 var _fresh_result
@@ -30,6 +33,7 @@ func _ready():
 	time_to_update = update_interval - initial_update_delay
 	
 	Offset.connect("shift_world", self, "_on_shift_world")
+	GlobalSignal.connect("toggle_asset_debug_color", self, "_on_toggle_debug_color")
 
 
 # Update assets from now on
@@ -152,6 +156,28 @@ func _spawn_asset(instance_id):
 # Can be implemented if we need to react to an asset being deleted
 func _handle_deleted_asset():
 	pass
+
+
+func _on_toggle_debug_color(asset_type_id_to_color, to_color):
+	if asset_type_id == asset_type_id_to_color:
+		if to_color:
+			set_asset_material(debug_material)
+		else:
+			set_asset_material(null)
+
+
+# Set the material override of all child VisualInstances to a certain material
+func set_asset_material(material: Material):
+	_set_child_material(self, material)
+
+
+# Recursively set the material of a node and its children VisualInstances
+func _set_child_material(node: Node, material: Material):
+	if node is VisualInstance:
+		node.material_override = material
+	
+	for child in node.get_children():
+		_set_child_material(child, material)
 
 
 # Shortcut for _get_asset_position_from_response + _server_point_to_engine_pos
