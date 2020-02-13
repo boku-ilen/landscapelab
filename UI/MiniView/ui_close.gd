@@ -14,8 +14,6 @@ func _pressed():
 
 	# make sure to set this icon invisible
 	self.set_visible(false)
-	get_parent().get_parent().get_node("Map Commands/Zoom IN").set_visible(false)
-	get_parent().get_parent().get_node("Map Commands/Zoom OUT").set_visible(false)
 
 	# close the miniview viewport
 	GlobalSignal.emit_signal("miniview_close")
