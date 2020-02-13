@@ -145,24 +145,33 @@ void fragment(){
 	
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor. (Not quite sure about those values yet, but they work nicely!)
+	// This would be "correct", but results in bad visuals... float e = 1.0/float(textureSize(heightmap, 0).x);
 	float e = 1.0/(size/50.0);
 	
 	vec2 normal_uv_pos = UV;
 	
-	vec4 h;
-	h.x = get_height_no_falloff(normal_uv_pos - vec2(0.0, e));
-	h.y = get_height_no_falloff(normal_uv_pos - vec2(e, 0.0));
-	h.z = get_height_no_falloff(normal_uv_pos + vec2(e, 0.0));
-	h.w = get_height_no_falloff(normal_uv_pos + vec2(0.0, e));
+	// Sobel filter for getting the normal at this position
+	float bottom_left = get_height_no_falloff(normal_uv_pos + vec2(-e, -e));
+	float bottom_center = get_height_no_falloff(normal_uv_pos + vec2(0, -e));
+	float bottom_right = get_height_no_falloff(normal_uv_pos + vec2(e, -e));
+	
+	float center_left = get_height_no_falloff(normal_uv_pos + vec2(-e, 0));
+	float center_center = get_height_no_falloff(normal_uv_pos + vec2(0, 0));
+	float center_right = get_height_no_falloff(normal_uv_pos + vec2(e, 0));
+	
+	float top_left = get_height_no_falloff(normal_uv_pos + vec2(-e, e));
+	float top_center = get_height_no_falloff(normal_uv_pos + vec2(0, e));
+	float top_right = get_height_no_falloff(normal_uv_pos + vec2(e, e));
 	
 	vec3 long_normal;
-	long_normal.z = h.x - h.w;
-	long_normal.x = h.y - h.z;
-	long_normal.y = 5.0;
+	
+	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left);
+	long_normal.y = (top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right);
+	long_normal.z = 1.0;
 
-	vec3 normal = normalize(long_normal);
+	vec3 normal = normalize(long_normal + current_normal);
 	
 	NORMALMAP = normal;
-	//total_color = NORMALMAP;
+	// To test the normals: total_color = NORMALMAP;
 	ALBEDO = total_color;
 }
