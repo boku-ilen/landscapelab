@@ -95,3 +95,4 @@ signal asset_spawned
 signal asset_removed
 signal asset_show_tooltip
 signal asset_hide_tooltip
+signal toggle_asset_debug_color(asset_type_id, should_color)

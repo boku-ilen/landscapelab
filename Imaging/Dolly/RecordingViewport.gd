@@ -2,7 +2,8 @@ extends Viewport
 
 
 var timer: Timer
-var fps: float = 4
+export(int) var fps: float = 4
+export(float) var asset_type_to_color: int = 2
 
 
 func _ready():
@@ -11,7 +12,7 @@ func _ready():
 	timer.set_timer_process_mode(0)
 	timer.set_wait_time(1.0 / fps)
 	timer.set_autostart(false)
-	timer.connect("timeout", self, "make_screenshot")
+	timer.connect("timeout", self, "make_training_screenshot_pair")
 	
 	self.add_child(timer)
 
@@ -46,14 +47,19 @@ func make_screenshot():
 
 # Captures two screenshots: One normal, one with a selected asset highlighted in pink.
 # Used for machine learning training data.
-func make_training_screenshot_pair(asset_type_to_color: int):
+func make_training_screenshot_pair():
 	var normal_img = _get_screenshot_from_viewport()
 	
-	# TODO: Emit signal to color all assets of asset_type_to_color pink
+	# Emit signal to color all assets of asset_type_to_color pink
+	GlobalSignal.emit_signal("toggle_asset_debug_color", asset_type_to_color, true)
+	
+	# Wait for a frame so that the new material is definitely applied
+	VisualServer.force_draw()
 	
 	var colored_img = _get_screenshot_from_viewport()
 	
-	# TODO: Remove color overwrite from above
+	# Remove color overwrite from above
+	GlobalSignal.emit_signal("toggle_asset_debug_color", asset_type_to_color, false)
 	
 	# Save to a file, use the current time for naming
 	var normal_screenshot_filename = _get_screenshot_filename_with_additional_flag(1)
