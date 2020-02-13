@@ -14,3 +14,9 @@ signal clear_imaging_path
 
 signal set_teleport_mode(boolean)
 signal poi_teleport(location_coordinates)
+
+# Settings
+
+# enable and disable debug mode
+signal debug_enable
+signal debug_disable

@@ -21,7 +21,6 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="."]
-visible = false
 anchor_left = 0.099
 anchor_top = 0.831
 anchor_right = 3.299
@@ -46,11 +45,11 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/ScrollContainer"]
-margin_right = 104.0
-margin_bottom = 20.0
+margin_right = 211.0
+margin_bottom = 64.0
 
 [node name="LanguageContainer" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
-margin_right = 104.0
+margin_right = 211.0
 margin_bottom = 20.0
 
 [node name="Label" type="Label" parent="Panel/ScrollContainer/VBoxContainer/LanguageContainer"]
@@ -61,8 +60,22 @@ text = "Language"
 
 [node name="OptionButton" type="OptionButton" parent="Panel/ScrollContainer/VBoxContainer/LanguageContainer"]
 margin_left = 63.0
-margin_right = 104.0
+margin_right = 92.0
 margin_bottom = 20.0
 script = ExtResource( 5 )
-[connection signal="pressed" from="." to="." method="_on_Settings_pressed"]
-[connection signal="item_selected" from="Panel/ScrollContainer/VBoxContainer/LanguageContainer/OptionButton" to="Panel/ScrollContainer/VBoxContainer/LanguageContainer/OptionButton" method="_on_OptionButton_item_selected"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 211.0
+margin_bottom = 64.0
+
+[node name="Label" type="Label" parent="Panel/ScrollContainer/VBoxContainer/HBoxContainer"]
+margin_top = 13.0
+margin_right = 131.0
+margin_bottom = 27.0
+text = "Show debug settings"
+
+[node name="CheckButton" type="CheckButton" parent="Panel/ScrollContainer/VBoxContainer/HBoxContainer"]
+margin_left = 135.0
+margin_right = 211.0
+margin_bottom = 40.0

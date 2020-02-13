@@ -53,10 +53,6 @@ signal changed_item_to_spawn(item_id)
 # second one is the saved according id in the json-file saved as metadata of the listitem
 signal changed_asset_id(json_item_id)
 
-# enable and disable debug mode
-signal debug_enable
-signal debug_disable
-
 # enable and disable wireframe drawing
 signal wireframe_toggle
 
