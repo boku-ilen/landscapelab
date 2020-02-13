@@ -32,7 +32,6 @@ func _get_screenshot_from_viewport():
 	img.flip_y()
 	
 	return img
-	
 
 
 func make_screenshot():
@@ -45,6 +44,26 @@ func make_screenshot():
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "save_screenshot", [img, screenshot_filename]), 15)
 
 
+# Captures two screenshots: One normal, one with a selected asset highlighted in pink.
+# Used for machine learning training data.
+func make_training_screenshot_pair(asset_type_to_color: int):
+	var normal_img = _get_screenshot_from_viewport()
+	
+	# TODO: Emit signal to color all assets of asset_type_to_color pink
+	
+	var colored_img = _get_screenshot_from_viewport()
+	
+	# TODO: Remove color overwrite from above
+	
+	# Save to a file, use the current time for naming
+	var normal_screenshot_filename = _get_screenshot_filename_with_additional_flag(1)
+	var colored_screenshot_filename = _get_screenshot_filename_with_additional_flag(2)
+	
+	# Medium to low priority - we do want it to save sometime soon, but doesn't have to be immediate
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "save_screenshot", [normal_img, normal_screenshot_filename]), 15)
+	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "save_screenshot", [colored_img, colored_screenshot_filename]), 15)
+
+
 # Actually save a screenshot - to be run in a thread
 func save_screenshot(img_filename_array):
 	img_filename_array[0].save_png(img_filename_array[1])
@@ -53,3 +72,7 @@ func save_screenshot(img_filename_array):
 
 func _get_screenshot_filename():
 	return "user://videoframe-%d-%d.png" % [Session.session_id, OS.get_system_time_msecs()]
+
+
+func _get_screenshot_filename_with_additional_flag(flag: int):
+	return "user://videoframe-%d-%d-%d.png" % [Session.session_id, OS.get_system_time_msecs(), flag]
