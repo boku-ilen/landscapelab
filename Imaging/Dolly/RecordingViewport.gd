@@ -2,7 +2,7 @@ extends Viewport
 
 
 var timer: Timer
-export(int) var fps: float = 4
+export(float) var fps: float = 4.0
 export(float) var asset_type_to_color: int = 2
 
 
