@@ -20,18 +20,6 @@ var current_time = 0
 var done = false
 
 
-
-func _ready():
-	Offset.connect("shift_world", self, "_on_shift_world")
-
-
-
-func _on_shift_world(delta_x : int, delta_z : int):
-	for child in get_children():
-		child.translation += Vector3(delta_x, 0, delta_z)
-
-
-
 func _process(delta):
 	current_time += delta
 	

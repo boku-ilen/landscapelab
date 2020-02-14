@@ -32,7 +32,6 @@ func _ready():
 	# Start right now with the first update, or wait for initial_update_delay seconds
 	time_to_update = update_interval - initial_update_delay
 	
-	Offset.connect("shift_world", self, "_on_shift_world")
 	GlobalSignal.connect("toggle_asset_debug_color", self, "_on_toggle_debug_color")
 
 
@@ -184,10 +183,3 @@ func _set_child_material(node: Node, material: Material):
 func _get_engine_position_for_asset(instance_id):
 	var pos = _get_asset_position_from_response(instance_id)
 	return _server_point_to_engine_pos(pos[0], pos[1])
-	
-	
-# React to a world shift by moving all child nodes (asset instances) accordingly
-func _on_shift_world(delta_x : int, delta_z : int):
-	for child in get_children():
-		if child is GroundedSpatial:
-			child.shift(delta_x, delta_z)

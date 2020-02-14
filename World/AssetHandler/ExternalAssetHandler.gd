@@ -53,6 +53,7 @@ func _spawn_asset(instance_id):
 	var local_pos_3d = Vector3(local_pos.x, 0, local_pos.y)
 	
 	asset_root.transform.origin = local_pos_3d
+	asset_root.add_to_group("SpatialShifting")
 	
 	add_child(asset_root)
 	

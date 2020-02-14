@@ -9,7 +9,9 @@
 [sub_resource type="SphereShape" id=1]
 radius = 10.0
 
-[node name="ThirdPersonPC" type="KinematicBody"]
+[node name="ThirdPersonPC" type="KinematicBody" groups=[
+"ShiftingSpatial",
+]]
 script = ExtResource( 1 )
 
 [node name="ThirdPersonCamera" type="Camera" parent="."]

@@ -13,7 +13,9 @@ emission_energy = 10.0
 emission_operator = 0
 emission_on_uv2 = false
 
-[node name="DebugMarker" type="Spatial"]
+[node name="DebugMarker" type="Spatial" groups=[
+"SpatialShifting",
+]]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )

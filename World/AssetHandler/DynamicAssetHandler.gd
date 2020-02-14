@@ -54,6 +54,7 @@ func _spawn_asset(instance_id):
 		
 		new_instance.name = String(instance_id)
 		new_instance.transform.origin = pos
+		new_instance.add_to_group("SpatialShifting")
 	
 		add_child(new_instance)
 		
