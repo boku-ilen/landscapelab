@@ -13,16 +13,16 @@ func _ready():
 	timer.set_wait_time(1.0 / fps)
 	timer.set_autostart(false)
 	timer.connect("timeout", self, "make_training_screenshot_pair")
+	UISignal.connect("toggle_imaging_recording", self, "_on_record")
 	
 	self.add_child(timer)
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_released("toggle_imaging_recording"):
-		if timer.is_stopped():
-			timer.start(0.0)
-		else:
-			timer.stop()
+func _on_record():
+	if timer.is_stopped():
+		timer.start(0.0)
+	else:
+		timer.stop()
 
 
 func _get_screenshot_from_viewport():
