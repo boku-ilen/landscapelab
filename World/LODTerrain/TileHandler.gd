@@ -30,7 +30,6 @@ export(bool) var update_terrain = true
 func _ready():
 	# TODO: Spawn the bare minimum of tiles
 	
-	Offset.connect("shift_world", self, "move_world")
 	GlobalSignal.connect("tile_update_toggle", self, "_toggle_tile_update")
 	GlobalSignal.connect("reset_tiles", self, "reset")
 	
@@ -91,18 +90,12 @@ func spawn_tile(pos):
 	
 	tile_instance.init(GRIDSIZE, 0)
 	
-	tiles.add_child(tile_instance)
-
-
-# Move all world tiles by delta_vec (in true coordinates) and remember the total offset caused by using this function
-func move_world(delta_x, delta_z):
-	var delta_vec = Vector3(delta_x, 0, delta_z)
+	# These root tiles need to react to world shifting since they are
+	#  responsible for the global position; their children are simply relative
+	#  to them
+	tile_instance.add_to_group("SpatialShifting")
 	
-	for child in tiles.get_children():
-		child.move(delta_vec)
-		
-	for child in assets.get_children():
-		child.translation += delta_vec
+	tiles.add_child(tile_instance)
 
 
 # Returns the grid coordinates of the tile at a certain absolute position (passed as an array for int accuracy)

@@ -29,7 +29,9 @@ params_alpha_scissor_threshold = 0.1
 script = ExtResource( 3 )
 height_above_ground = 300.0
 
-[node name="Focus" type="CSGMesh" parent="."]
+[node name="Focus" type="CSGMesh" parent="." groups=[
+"SpatialShifting",
+]]
 layers = 64
 mesh = SubResource( 1 )
 material = SubResource( 2 )
@@ -42,4 +44,3 @@ pixel_size = 0.2
 texture = ExtResource( 2 )
 
 [node name="Path" parent="." instance=ExtResource( 1 )]
-script = null

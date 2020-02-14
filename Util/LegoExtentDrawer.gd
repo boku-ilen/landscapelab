@@ -18,8 +18,6 @@ onready var lego_extent_symbol_inside = get_node("LegoExtentSymbol/Inside") as C
 
 func _ready():
 	visible = false
-	
-	Offset.connect("shift_world", self, "_shift")
 
 
 # Set the extent of the mesh which displays the Lego extent.
@@ -45,9 +43,3 @@ func set_mesh_extent(top_left: Vector3, bottom_right: Vector3):
 	lego_extent_symbol_inside.width = size.x - SYMBOL_THICKNESS
 	lego_extent_symbol_inside.height = size.y + 100
 	lego_extent_symbol_inside.depth = size.z - SYMBOL_THICKNESS
-
-
-# Move self accordingly when a world shift happens
-func _shift(delta_x, delta_z):
-	transform.origin.x += delta_x
-	transform.origin.z += delta_z

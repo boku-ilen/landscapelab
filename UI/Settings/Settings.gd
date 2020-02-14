@@ -2,19 +2,21 @@ extends TextureButton
 
 
 onready var settings = get_node("Panel")
+onready var debug = get_node("Panel/ScrollContainer2/VBoxContainer/Debug")
+onready var lego = get_node("Panel/ScrollContainer/VBoxContainer/Lego")
 
 
 func _ready():
-	get_node("Panel/ScrollContainer/VBoxContainer/HBoxContainer/CheckButton").connect("toggled", self, "_on_debug")
+	lego.get_node("EnableLego").connect("toggled", self, "_on_lego")
 	connect("pressed", self, "_on_Settings_pressed")
 
 
 func _on_Settings_pressed():
-	settings.visible = !settings.visible
+	settings.popup()
 
 
-func _on_debug(button_pressed):
+func _on_lego(button_pressed):
 	if button_pressed:
-		UISignal.emit_signal("debug_enable")
+		GlobalSignal.emit_signal("sync_moving_assets")
 	else:
-		UISignal.emit_signal("debug_disable")
+		GlobalSignal.emit_signal("stop_sync_moving_assets")

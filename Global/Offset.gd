@@ -16,7 +16,7 @@ var world_shift_timer: float = 0
 # When a player coordinate gets bigger than this, the world will be shifted to get the player back to the world origin
 var shift_limit: float = Settings.get_setting("lod", "world-shift-distance")
 
-signal shift_world
+signal shift_world(delta_x, delta_z)
 
 
 func _ready():

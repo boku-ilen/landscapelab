@@ -12,6 +12,9 @@ var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 
 
 func _ready():
+	# TODO: We should not need this here, the new ShiftingSpatial group should
+	#  take care of that. However, for some reason, it doesn't work for the
+	#  player...
 	Offset.connect("shift_world", self, "shift")
 	
 	if is_main_perspective:
