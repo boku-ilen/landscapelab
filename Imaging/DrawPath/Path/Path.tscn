@@ -38,6 +38,7 @@ material = SubResource( 2 )
 
 [node name="Sprite3D" type="Sprite3D" parent="Focus"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 42.5536, 0 )
+layers = 64
 material_override = SubResource( 3 )
 modulate = Color( 0.831373, 0.913725, 0.992157, 1 )
 pixel_size = 0.2
