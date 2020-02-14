@@ -26,9 +26,9 @@ func _ready() -> void:
 
 func _on_toggled(button_pressed):
 	if optional_signal_parameter:
-		GlobalSignal.emit_signal(signal_to_emit, button_pressed, optional_signal_parameter)
+		UISignal.emit_signal(signal_to_emit, button_pressed, optional_signal_parameter)
 	else:
-		GlobalSignal.emit_signal(signal_to_emit, button_pressed)
+		UISignal.emit_signal(signal_to_emit, button_pressed)
 
 
 func _set_label_text(new_text: String):
