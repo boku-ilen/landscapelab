@@ -8,8 +8,7 @@ onready var log_level_slider = get_node("LogLevelInfo/LogLevelSlider")
 func _ready() -> void:
 	visible = false
 	
-	UISignal.connect("debug_enable", self, "_on_debug_toggle", [true]) 
-	UISignal.connect("debug_disable", self, "_on_debug_toggle", [false])
+	UISignal.connect("toggle_debug", self, "_on_debug_toggle")
 	
 	log_level_slider.connect("value_changed", self, "_on_log_level_change")
 	

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/settings.svg" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/s_settings.svg" type="Texture" id=2]
 [ext_resource path="res://Resources/Images/UI/UI/h_settings.svg" type="Texture" id=3]
 [ext_resource path="res://UI/Settings/Settings.gd" type="Script" id=4]
 [ext_resource path="res://UI/Settings/OptionButton.gd" type="Script" id=5]
+[ext_resource path="res://UI/CustomElements/SignalTextToggle.tscn" type="PackedScene" id=6]
 
 [node name="Settings" type="TextureButton"]
 margin_left = 662.073
@@ -20,16 +21,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="."]
-visible = false
-anchor_left = 0.099
-anchor_top = 0.831
-anchor_right = 3.299
-anchor_bottom = 3.244
-margin_left = -368.671
-margin_top = 77.5731
-margin_right = -379.071
-margin_bottom = 77.577
+[node name="Panel" type="WindowDialog" parent="."]
+visible = true
+margin_left = -385.0
+margin_top = 441.0
+margin_right = -141.0
+margin_bottom = 636.0
+mouse_filter = 1
+popup_exclusive = true
+resizable = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -37,46 +37,56 @@ __meta__ = {
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.90247
-margin_top = 10.8051
-margin_right = -7.09753
-margin_bottom = -10.1949
+margin_left = 11.0
+margin_top = 13.0
+margin_right = -9.0
+margin_bottom = -14.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/ScrollContainer"]
-margin_right = 211.0
-margin_bottom = 64.0
+margin_right = 213.0
+margin_bottom = 108.0
 
-[node name="LanguageContainer" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
-margin_right = 211.0
+[node name="Language" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
+margin_right = 213.0
 margin_bottom = 20.0
 
-[node name="Label" type="Label" parent="Panel/ScrollContainer/VBoxContainer/LanguageContainer"]
+[node name="Label" type="Label" parent="Panel/ScrollContainer/VBoxContainer/Language"]
 margin_top = 3.0
 margin_right = 59.0
 margin_bottom = 17.0
 text = "Language"
 
-[node name="OptionButton" type="OptionButton" parent="Panel/ScrollContainer/VBoxContainer/LanguageContainer"]
+[node name="Languages" type="OptionButton" parent="Panel/ScrollContainer/VBoxContainer/Language"]
 margin_left = 63.0
 margin_right = 92.0
 margin_bottom = 20.0
 script = ExtResource( 5 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
+[node name="Lego" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
 margin_top = 24.0
-margin_right = 211.0
+margin_right = 213.0
 margin_bottom = 64.0
 
-[node name="Label" type="Label" parent="Panel/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="Panel/ScrollContainer/VBoxContainer/Lego"]
 margin_top = 13.0
-margin_right = 131.0
+margin_right = 116.0
 margin_bottom = 27.0
-text = "Show debug settings"
+text = "Enable Lego Mode"
 
-[node name="CheckButton" type="CheckButton" parent="Panel/ScrollContainer/VBoxContainer/HBoxContainer"]
-margin_left = 135.0
-margin_right = 211.0
+[node name="EnableLego" type="CheckButton" parent="Panel/ScrollContainer/VBoxContainer/Lego"]
+margin_left = 120.0
+margin_right = 196.0
 margin_bottom = 40.0
+pressed = true
+
+[node name="Debug" parent="Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 6 )]
+margin_top = 68.0
+margin_right = 213.0
+margin_bottom = 108.0
+label_text = "Show Debug Settings"
+signal_to_emit = "toggle_debug"
