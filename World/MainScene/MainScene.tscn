@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://World/MainScene/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://World/LODTerrain/TileHandler.tscn" type="PackedScene" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://Util/Teleport/PlayerTeleportListener.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Util/LegoExtentUpdater.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Assets/ExistingWindTurbine/ExistingGenericWindTurbine.tscn" type="PackedScene" id=14]
+[ext_resource path="res://World/WorldShifting/SpatialShiftingHandler.tscn" type="PackedScene" id=15]
+[ext_resource path="res://World/WorldShifting/PathShiftingHandler.tscn" type="PackedScene" id=16]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 1 )
@@ -54,3 +56,7 @@ moving = false
 update_interval = 10.0
 initial_update_delay = 5.0
 asset_id = 30
+
+[node name="PathShiftingHandler" parent="." instance=ExtResource( 16 )]
+
+[node name="SpatialShiftingHandler" parent="." instance=ExtResource( 15 )]
