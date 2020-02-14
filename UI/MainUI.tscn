@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/watermark.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/energy_sum.png" type="Texture" id=2]
@@ -21,7 +21,6 @@
 [ext_resource path="res://Resources/Images/UI/UI/lego_brick.png" type="Texture" id=19]
 [ext_resource path="res://Resources/Images/UI/UI/s_lego_brick.png" type="Texture" id=20]
 [ext_resource path="res://Resources/Images/UI/UI/h_lego_brick.png" type="Texture" id=21]
-[ext_resource path="res://UI/ui_lego.gd" type="Script" id=22]
 [ext_resource path="res://Resources/Images/UI/UI/play.png" type="Texture" id=23]
 [ext_resource path="res://Resources/Images/UI/UI/s_play.png" type="Texture" id=24]
 [ext_resource path="res://Resources/Images/UI/UI/h_play.png" type="Texture" id=25]
@@ -264,7 +263,6 @@ toggle_mode = true
 texture_normal = ExtResource( 19 )
 texture_pressed = ExtResource( 20 )
 texture_hover = ExtResource( 21 )
-script = ExtResource( 22 )
 
 [node name="HBoxRight" type="HBoxContainer" parent="Top Menu Bar"]
 margin_left = 1573.0
