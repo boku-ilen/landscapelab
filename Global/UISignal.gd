@@ -9,6 +9,7 @@ extends Node
 signal imaging
 signal toggle_imaging_view
 signal clear_imaging_path
+signal toggle_imaging_recording
 
 # Teleportation
 
