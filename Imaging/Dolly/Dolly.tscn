@@ -43,6 +43,8 @@ transform = Transform( 0.999678, 0, 0.0253839, 0, 1, 0, -0.0253839, 0, 0.999678,
 fov = 60.0
 far = 50000.0
 path_follow_nodepath = NodePath("../../..")
+_using_shakiness = true
+_shakiness = 100.0
 
 [node name="RemoteTransform" type="RemoteTransform" parent="PathFollow"]
 remote_path = NodePath("../ViewportContainer/RecordingViewport/DollyCamera")
