@@ -81,4 +81,4 @@ func _get_screenshot_filename():
 
 
 func _get_screenshot_filename_with_additional_flag(flag: int):
-	return "user://videoframe-%d-%d-%d.png" % [Session.session_id, OS.get_system_time_msecs(), flag]
+	return "user://%d-videoframe-%d-%d.png" % [flag, Session.session_id, OS.get_system_time_msecs()]
