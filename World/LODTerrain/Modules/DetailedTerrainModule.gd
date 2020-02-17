@@ -20,6 +20,15 @@ var DETAIL_START_DIST = Settings.get_setting("herbage", "detail-texture-start-di
 var DETAIL_SCALE = Settings.get_setting("herbage", "detail-texture-scale")
 
 
+func init():
+	.init()
+	
+	# Setup the overlay texture camera
+	var camera = get_node("OverlayTextureViewport/Pivot/Camera")
+	
+	camera.size = tile.size
+
+
 func get_textures(tile, mesh):
 	var super_textures = .get_textures(tile, mesh)
 	var new_textures = get_vegetation_data(tile, mesh)

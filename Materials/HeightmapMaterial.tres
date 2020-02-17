@@ -18,3 +18,4 @@ shader_param/subdiv = 16.0
 shader_param/size = 16.0
 shader_param/size_without_skirt = 16.0
 shader_param/RADIUS = 6.371e+06
+shader_param/clay_rendering = false

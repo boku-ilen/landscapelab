@@ -24,6 +24,8 @@ uniform float random_offset_vectors_scale = 2.5; // 2.0 means the random offset 
 
 uniform sampler2D random_offset_vectors : hint_normal;
 
+uniform sampler2D overlay_texture;
+
 uniform bool blend_only_similar_colors = false;
 varying vec3 world_pos;
 varying vec3 v_obj_pos;
@@ -177,6 +179,14 @@ void fragment(){
 	
 	NORMALMAP = normal;
 	// To test the normals: total_color = NORMALMAP;
+	
+	vec4 overlay = texture(overlay_texture, UV);
+	
+	if (overlay.a > 0.9) {
+		total_color = vec3(1.0);
+	} else {
+		total_color = vec3(0.0);
+	}
 	
 	if (clay_rendering) {
 		ALBEDO = vec3(0.6 + (get_height(UV) - 1000.0) * (1.0/1500.0));

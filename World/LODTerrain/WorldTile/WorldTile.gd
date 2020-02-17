@@ -63,6 +63,7 @@ func _ready():
 	
 	module_handler.connect("all_modules_done_loading", self, "_on_module_handler_done", [module_handler], CONNECT_DEFERRED)
 	
+	# Uncomment/comment to toggle threaded loading
 	#module_handler.init([self])
 	thread_task(module_handler, "init", [self])
 
@@ -179,8 +180,8 @@ func is_leaf_tile():
 # Returns the x and z position in a 2D vector
 func get_pos_vector2d() -> Vector2:
 	return Vector2(translation.x, translation.z)
-	
-	
+
+
 # Returns a 2D vector with the tile size in both the x and the y field (since it is a square)
 func get_size_vector2d() -> Vector2:
 	return Vector2(size, size)

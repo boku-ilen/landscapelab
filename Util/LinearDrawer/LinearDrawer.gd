@@ -5,6 +5,9 @@ extends GroundedSpatial
 #
 
 
+export(bool) var grounded
+
+
 onready var path = get_node("Path")
 onready var curve = path.curve
 onready var csg_road = get_node("Path/Road")
@@ -20,6 +23,8 @@ func _ready():
 
 # Overwritten since we need to update the individual points, not just this node
 func _place_on_ground():
+	if not grounded: return
+	
 	_just_placed_on_ground = true
 	
 	# FIXME: Workaround for order of execution not making curve available since the GroundedSpatial's _ready() is
@@ -44,7 +49,7 @@ func _place_on_ground():
 
 # Modifies the road polygon to have a given width
 func set_width(new_width):
-	for child in path.get_children():
+	for child in get_node("Path").get_children():
 		if child is LinearCSGPolygon:
 			child.set_width(new_width)
 		else:
@@ -56,7 +61,7 @@ func set_width(new_width):
 # Modifies the road polygon to have a given height
 # That height * 2 is also extruded downwards as a safeguard against floating roads
 func set_height(new_height):
-	for child in path.get_children():
+	for child in get_node("Path").get_children():
 		if child is LinearCSGPolygon:
 			child.set_height(new_height)
 		else:
@@ -69,9 +74,10 @@ func add_points(points: Array):
 		add_point(point)
 	
 	# Put the points on the ground
-	_place_on_ground()
+	if grounded:
+		_place_on_ground()
 
 
 # Adds one Vector3 point to the road's curve
 func add_point(point: Vector3):
-	curve.add_point(point)
+	get_node("Path").curve.add_point(point)

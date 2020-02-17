@@ -16,3 +16,4 @@ _data = {
 curve = SubResource( 1 )
 
 [node name="Road" parent="Path" index="0" instance=ExtResource( 2 )]
+layers = 32768
