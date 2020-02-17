@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode cull_disabled, depth_draw_alpha_prepass;
+render_mode cull_disabled;
 
 uniform sampler2D distribution;
 uniform sampler2D spritesheet : hint_albedo;
@@ -80,12 +80,15 @@ void fragment () {
 			color.a = max(0, color.a);
 		}
 	}
-
-	ALPHA = color.a;// - clamp(1.4 - UV.y, 0.0, 1.0);//* 0.5 + 0.5*cos(2.0*TIME);
 	
+	ALPHA = color.a;// - clamp(1.4 - UV.y, 0.0, 1.0);//* 0.5 + 0.5*cos(2.0*TIME);
+	ALPHA_SCISSOR = 0.8;
+
 	if (clay_rendering) {
 		ALBEDO = vec3(0.95, 0.95, 0.95);
 	} else {
 		ALBEDO = color.rgb;
 	}
+	
+	ALBEDO = color.rgb;
 }

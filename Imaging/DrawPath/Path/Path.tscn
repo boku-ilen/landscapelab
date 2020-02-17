@@ -33,6 +33,7 @@ height_above_ground = 300.0
 "SpatialShifting",
 ]]
 layers = 64
+cast_shadow = 0
 mesh = SubResource( 1 )
 material = SubResource( 2 )
 
