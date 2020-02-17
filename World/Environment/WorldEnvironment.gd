@@ -15,8 +15,8 @@ var current_time = 12
 var current_season = 0
 
 # Godot's default values - they look pretty good
-var base_horizon_color = Color(142.0 / 255.0, 209.0 / 255.0, 232.0 / 255.0, 1.0) 
-var base_top_color = Color(12.0 / 255.0, 116.0 / 255.0, 249.0 / 255.0, 1)
+var base_horizon_color = Color(139.0 / 255.0, 175.0 / 255.0, 207.0 / 255.0, 1.0) 
+var base_top_color = Color(54.0 / 255.0, 80.0 / 255.0, 141.0 / 255.0, 1)
 
 var sun_change_thread = Thread.new()
 
