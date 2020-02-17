@@ -35,6 +35,8 @@ uniform float size_without_skirt;
 
 uniform float RADIUS = 6371000; // average earth radius in meters
 
+uniform bool clay_rendering = false;
+
 // Get the value by which vertex at given point must be lowered to simulate the earth's curvature 
 float get_curve_offset(float distance_squared) {
 	return sqrt(RADIUS * RADIUS + distance_squared) - RADIUS;
@@ -175,5 +177,10 @@ void fragment(){
 	
 	NORMALMAP = normal;
 	// To test the normals: total_color = NORMALMAP;
-	ALBEDO = total_color;
+	
+	if (clay_rendering) {
+		ALBEDO = vec3(0.6 + (get_height(UV) - 1000.0) * (1.0/1500.0));
+	} else {
+		ALBEDO = total_color;
+	}
 }

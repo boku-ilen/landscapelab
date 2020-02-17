@@ -15,6 +15,8 @@ uniform vec3 pos;
 uniform float size;
 uniform float scale;
 
+uniform bool clay_rendering = false;
+
 varying flat vec3 v_obj_pos;
 
 void vertex () {
@@ -80,6 +82,10 @@ void fragment () {
 	}
 
 	ALPHA = color.a;// - clamp(1.4 - UV.y, 0.0, 1.0);//* 0.5 + 0.5*cos(2.0*TIME);
-
-	ALBEDO = color.rgb;
+	
+	if (clay_rendering) {
+		ALBEDO = vec3(0.95, 0.95, 0.95);
+	} else {
+		ALBEDO = color.rgb;
+	}
 }
