@@ -1,6 +1,7 @@
 [gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://UI/ToolsBar/ToolsPanel/PanelContainer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Resources/Images/UI/UI/input_controller.png" type="Texture" id=15]
 [ext_resource path="res://UI/ToolsBar/ToolsButton.tscn" type="PackedScene" id=16]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=17]
@@ -22,25 +23,19 @@
 [ext_resource path="res://UI/ToolsBar/Tools.gd" type="Script" id=48]
 [ext_resource path="res://UI/Imaging/ImagingMenu.tscn" type="PackedScene" id=49]
 
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 17 )
+shader_param/color = null
+shader_param/rotation_radians = null
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 17 )
+shader_param/color = null
+shader_param/rotation_radians = null
+
 [sub_resource type="ShaderMaterial" id=3]
-resource_local_to_scene = true
-shader = ExtResource( 17 )
-shader_param/color = null
-shader_param/rotation_radians = null
-
-[sub_resource type="ShaderMaterial" id=4]
-resource_local_to_scene = true
-shader = ExtResource( 17 )
-shader_param/color = null
-shader_param/rotation_radians = null
-
-[sub_resource type="ShaderMaterial" id=5]
-resource_local_to_scene = true
-shader = ExtResource( 17 )
-shader_param/color = null
-shader_param/rotation_radians = null
-
-[sub_resource type="ShaderMaterial" id=6]
 resource_local_to_scene = true
 shader = ExtResource( 17 )
 shader_param/color = null
@@ -131,10 +126,12 @@ margin_bottom = 735.0
 size_flags_vertical = 6
 
 [node name="ToolsBar" parent="Tools" instance=ExtResource( 46 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 464.0
-margin_top = 397.0
-margin_right = 521.0
-margin_bottom = 632.0
+margin_top = 490.0
+margin_right = 713.0
+margin_bottom = 539.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
@@ -142,12 +139,12 @@ size_flags_horizontal = 0
 size_flags_vertical = 4
 
 [node name="Season" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
-material = SubResource( 3 )
+material = null
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 40.0
-margin_right = 57.0
-margin_bottom = 88.0
+margin_left = 40.0
+margin_right = 88.0
+margin_bottom = 49.0
 texture_normal = ExtResource( 38 )
 
 [node name="Datetime" parent="Tools/ToolsBar/Season" instance=ExtResource( 42 )]
@@ -159,12 +156,12 @@ margin_bottom = -47.666
 rect_pivot_offset = Vector2( 138.325, 30.0336 )
 
 [node name="Imaging" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
-material = SubResource( 4 )
+material = SubResource( 1 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 92.0
-margin_right = 57.0
-margin_bottom = 139.0
+margin_left = 92.0
+margin_right = 139.0
+margin_bottom = 49.0
 texture_normal = ExtResource( 23 )
 
 [node name="ImagingMenu" parent="Tools/ToolsBar/Imaging" instance=ExtResource( 49 )]
@@ -173,12 +170,12 @@ margin_left = -51.0
 margin_right = 53.0
 
 [node name="Assets" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
-material = SubResource( 5 )
+material = SubResource( 2 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 143.0
-margin_right = 57.0
-margin_bottom = 182.0
+margin_left = 143.0
+margin_right = 200.0
+margin_bottom = 49.0
 texture_normal = ExtResource( 15 )
 
 [node name="List" parent="Tools/ToolsBar/Assets" instance=ExtResource( 47 )]
@@ -191,12 +188,12 @@ margin_right = 179.867
 margin_bottom = -83.215
 
 [node name="Teleport" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
-material = SubResource( 6 )
+material = SubResource( 3 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 186.0
-margin_right = 57.0
-margin_bottom = 235.0
+margin_left = 204.0
+margin_right = 249.0
+margin_bottom = 49.0
 texture_normal = ExtResource( 18 )
 script = ExtResource( 40 )
 pressed_color = Color( 0.4, 0.196078, 0.196078, 1 )
@@ -210,9 +207,21 @@ margin_right = 97.907
 margin_bottom = -136.278
 
 [node name="Popups" type="HBoxContainer" parent="Tools"]
-margin_left = 525.0
+margin_left = 717.0
 margin_top = 515.0
-margin_right = 525.0
+margin_right = 717.0
 margin_bottom = 515.0
 size_flags_horizontal = 0
 size_flags_vertical = 4
+
+[node name="DebugSettings" type="VBoxContainer" parent="."]
+margin_right = 300.0
+margin_bottom = 1030.0
+size_flags_horizontal = 2
+
+[node name="DebugInfo" parent="DebugSettings" instance=ExtResource( 14 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 300.0
+margin_bottom = 902.0
+rect_min_size = Vector2( 300, 0 )
