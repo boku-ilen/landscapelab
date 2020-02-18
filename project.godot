@@ -109,6 +109,7 @@ PerformanceTracker="*res://Global/Debug/PerformanceTracker.gd"
 Assets="*res://Global/Assets.gd"
 ModuleLoader="*res://Global/ModuleLoader.gd"
 UISignal="*res://Global/UISignal.gd"
+ValuesLoader="*res://Global/ValuesLoader.gd"
 
 [display]
 

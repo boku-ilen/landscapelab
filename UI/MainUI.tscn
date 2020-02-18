@@ -1,26 +1,10 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=35 format=2]
 
-[ext_resource path="res://Resources/Images/UI/UI/watermark.png" type="Texture" id=1]
-[ext_resource path="res://Resources/Images/UI/UI/energy_sum.png" type="Texture" id=2]
-[ext_resource path="res://Resources/Images/UI/UI/s_energy_sum.png" type="Texture" id=3]
-[ext_resource path="res://Resources/Images/UI/UI/h_energy_sum.png" type="Texture" id=4]
-[ext_resource path="res://UI/ui_energy.gd" type="Script" id=5]
-[ext_resource path="res://UI/EnergyUI/EnergyDetails.gd" type="Script" id=6]
-[ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=7]
-[ext_resource path="res://UI/UITooltipCheckbox.gd" type="Script" id=8]
-[ext_resource path="res://UI/EnergyUI/EnergyPanel.tscn" type="PackedScene" id=9]
-[ext_resource path="res://UI/EnergyUI/EnergyPanel.gd" type="Script" id=10]
-[ext_resource path="res://Util/RegularServerRequest.tscn" type="PackedScene" id=11]
-[ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=12]
-[ext_resource path="res://UI/UIRooftopPhotovoltaicCheckbox.gd" type="Script" id=13]
-[ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Resources/Images/UI/UI/input_controller.png" type="Texture" id=15]
 [ext_resource path="res://UI/ToolsBar/ToolsButton.tscn" type="PackedScene" id=16]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=17]
 [ext_resource path="res://Resources/Images/UI/UI/teleport.png" type="Texture" id=18]
-[ext_resource path="res://Resources/Images/UI/UI/lego_brick.png" type="Texture" id=19]
-[ext_resource path="res://Resources/Images/UI/UI/s_lego_brick.png" type="Texture" id=20]
-[ext_resource path="res://Resources/Images/UI/UI/h_lego_brick.png" type="Texture" id=21]
+[ext_resource path="res://UI/ValuesMenu/ValuesMenu.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Resources/Images/UI/UI/play.png" type="Texture" id=23]
 [ext_resource path="res://Resources/Images/UI/UI/s_play.png" type="Texture" id=24]
 [ext_resource path="res://Resources/Images/UI/UI/h_play.png" type="Texture" id=25]
@@ -42,30 +26,16 @@
 [ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=42]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
 [ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
-[ext_resource path="res://UI/RooftopLabel.gd" type="Script" id=45]
 [ext_resource path="res://UI/ToolsBar/ToolsBar.tscn" type="PackedScene" id=46]
 [ext_resource path="res://UI/EditableAssets/ItemList.tscn" type="PackedScene" id=47]
 [ext_resource path="res://UI/ToolsBar/Tools.gd" type="Script" id=48]
 [ext_resource path="res://UI/Imaging/ImagingMenu.tscn" type="PackedScene" id=49]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0, 0.835294, 0.207843, 1 )
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 14
-
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 17 )
 shader_param/color = null
 shader_param/rotation_radians = null
-
-[sub_resource type="StreamTexture" id=3]
-resource_local_to_scene = true
-flags = 4
-load_path = "res://.import/arrow-down.svg-05c5bdbea91545af0a01cbb833d9f67f.stex"
 
 [sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
@@ -84,17 +54,6 @@ resource_local_to_scene = true
 shader = ExtResource( 17 )
 shader_param/color = null
 shader_param/rotation_radians = null
-
-[sub_resource type="ShaderMaterial" id=7]
-resource_local_to_scene = true
-shader = ExtResource( 17 )
-shader_param/color = null
-shader_param/rotation_radians = null
-
-[sub_resource type="StreamTexture" id=8]
-resource_local_to_scene = true
-flags = 4
-load_path = "res://.import/arrow-down.svg-05c5bdbea91545af0a01cbb833d9f67f.stex"
 
 [node name="MainUI" type="MarginContainer"]
 anchor_right = 1.0
@@ -117,158 +76,13 @@ grow_vertical = 2
 mouse_filter = 2
 alignment = 1
 
-[node name="HBoxLeft" type="HBoxContainer" parent="Top Menu Bar"]
-margin_right = 623.0
-margin_bottom = 101.0
-mouse_filter = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft"]
-margin_right = 623.0
-margin_bottom = 101.0
-mouse_filter = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox"]
-margin_right = 623.0
-margin_bottom = 101.0
-mouse_filter = 2
-
-[node name="Watermark" type="TextureButton" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
-margin_right = 150.0
-margin_bottom = 101.0
-rect_min_size = Vector2( 150, 0 )
-texture_normal = ExtResource( 1 )
-
-[node name="Energy Sum Icon" type="TextureButton" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
-margin_left = 154.0
-margin_right = 231.0
-margin_bottom = 101.0
-mouse_default_cursor_shape = 2
-toggle_mode = true
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 3 )
-texture_hover = ExtResource( 4 )
-script = ExtResource( 5 )
-
-[node name="EnergyDetailsPanel" type="PanelContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon"]
-visible = false
-margin_left = -151.847
-margin_top = 106.371
-margin_right = 80.1535
-margin_bottom = 170.371
-
-[node name="Energy Details" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 225.001
-margin_bottom = 57.0
-custom_constants/separation = 5
-script = ExtResource( 6 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details"]
-margin_right = 218.0
-margin_bottom = 24.0
-
-[node name="Label" type="Label" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer"]
-margin_right = 190.0
-margin_bottom = 23.0
-custom_fonts/font = ExtResource( 7 )
-text = "Energie-Details anzeigen:"
-
-[node name="CheckBox" type="CheckBox" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer"]
-margin_left = 194.0
-margin_right = 218.0
-margin_bottom = 24.0
-script = ExtResource( 8 )
-
-[node name="EnergySumHBox" type="HBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer"]
-margin_left = 235.0
-margin_right = 623.0
-margin_bottom = 101.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox"]
-margin_right = 360.0
-margin_bottom = 101.0
-
-[node name="EnergyPanel" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/VBoxContainer" instance=ExtResource( 9 )]
-margin_left = 0.0
-margin_right = 360.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 360, 0 )
-script = ExtResource( 10 )
-
-[node name="RegularServerRequest" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/VBoxContainer/EnergyPanel" instance=ExtResource( 11 )]
-interval = 2.0
-
-[node name="ProgressBar" type="ProgressBar" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/VBoxContainer"]
-margin_top = 68.0
-margin_right = 360.0
-margin_bottom = 101.0
-rect_min_size = Vector2( 360, 33 )
-custom_styles/fg = SubResource( 1 )
-custom_fonts/font = ExtResource( 7 )
-allow_greater = true
-
-[node name="RooftopPV" type="VBoxContainer" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox"]
-margin_left = 364.0
-margin_right = 388.0
-margin_bottom = 101.0
-
-[node name="Label" type="Label" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV"]
-margin_right = 24.0
-margin_bottom = 23.0
-custom_fonts/font = ExtResource( 12 )
-script = ExtResource( 45 )
-
-[node name="RooftopPhotovoltaicCheckbox" type="CheckBox" parent="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV"]
-margin_top = 27.0
-margin_right = 24.0
-margin_bottom = 51.0
-script = ExtResource( 13 )
-
-[node name="DebugInfo" parent="Top Menu Bar/HBoxLeft/VBox" instance=ExtResource( 14 )]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 62.0
-margin_right = 249.0
-margin_bottom = 964.0
-mouse_filter = 2
-
-[node name="HBoxCenter" type="HBoxContainer" parent="Top Menu Bar"]
-margin_left = 627.0
-margin_right = 1569.0
-margin_bottom = 48.0
-mouse_filter = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Top Menu Bar/HBoxCenter"]
-margin_left = 444.0
-margin_right = 498.0
-margin_bottom = 48.0
-mouse_filter = 2
-
-[node name="Lego" type="TextureButton" parent="Top Menu Bar/HBoxCenter/HBoxContainer"]
-margin_right = 54.0
-margin_bottom = 48.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-toggle_mode = true
-texture_normal = ExtResource( 19 )
-texture_pressed = ExtResource( 20 )
-texture_hover = ExtResource( 21 )
-
 [node name="HBoxRight" type="HBoxContainer" parent="Top Menu Bar"]
 margin_left = 1573.0
 margin_right = 1870.0
-margin_bottom = 1030.0
+margin_bottom = 92.0
 mouse_filter = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
 alignment = 2
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu Bar/HBoxRight"]
@@ -335,42 +149,46 @@ size_flags_horizontal = 0
 size_flags_stretch_ratio = 0.0
 stretch_mode = 0
 
-[node name="Tools" type="VBoxContainer" parent="."]
+[node name="Values" type="VBoxContainer" parent="."]
 margin_right = 1870.0
 margin_bottom = 1030.0
 mouse_filter = 2
 alignment = 2
-script = ExtResource( 48 )
 
-[node name="Popups" type="HBoxContainer" parent="Tools"]
-margin_top = 977.0
-margin_bottom = 977.0
+[node name="HBoxContainer" parent="Values" instance=ExtResource( 19 )]
+margin_top = 730.0
+margin_right = 594.0
+margin_bottom = 1030.0
+mouse_filter = 2
 size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Tools" type="HBoxContainer" parent="."]
+margin_right = 1870.0
+margin_bottom = 1030.0
+mouse_filter = 2
+script = ExtResource( 48 )
 
 [node name="ToolsBar" parent="Tools" instance=ExtResource( 46 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 981.0
-margin_right = 293.0
-margin_bottom = 1030.0
+margin_top = 375.0
+margin_right = 57.0
+margin_bottom = 654.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 size_flags_horizontal = 0
+size_flags_vertical = 4
 custom_constants/separation = 15
 
-[node name="Hoverable" parent="Tools/ToolsBar" index="0"]
-material = SubResource( 2 )
-margin_bottom = 49.0
-texture_normal = SubResource( 3 )
-
 [node name="Season" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
-material = SubResource( 4 )
+material = SubResource( 3 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 51.0
-margin_right = 99.0
-margin_bottom = 49.0
+margin_top = 51.0
+margin_right = 57.0
+margin_bottom = 99.0
 texture_normal = ExtResource( 38 )
 
 [node name="Datetime" parent="Tools/ToolsBar/Season" instance=ExtResource( 42 )]
@@ -382,12 +200,12 @@ margin_bottom = -47.666
 rect_pivot_offset = Vector2( 138.325, 30.0336 )
 
 [node name="Imaging" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
-material = SubResource( 5 )
+material = SubResource( 4 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 114.0
-margin_right = 161.0
-margin_bottom = 49.0
+margin_top = 114.0
+margin_right = 57.0
+margin_bottom = 161.0
 texture_normal = ExtResource( 23 )
 
 [node name="ImagingMenu" parent="Tools/ToolsBar/Imaging" instance=ExtResource( 49 )]
@@ -396,12 +214,12 @@ margin_left = -51.0
 margin_right = 53.0
 
 [node name="Assets" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
-material = SubResource( 6 )
+material = SubResource( 5 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 176.0
-margin_right = 233.0
-margin_bottom = 49.0
+margin_top = 176.0
+margin_right = 57.0
+margin_bottom = 215.0
 texture_normal = ExtResource( 15 )
 
 [node name="List" parent="Tools/ToolsBar/Assets" instance=ExtResource( 47 )]
@@ -414,12 +232,12 @@ margin_right = 179.867
 margin_bottom = -83.215
 
 [node name="Teleport" parent="Tools/ToolsBar" instance=ExtResource( 16 )]
-material = SubResource( 7 )
+material = SubResource( 6 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 248.0
-margin_right = 293.0
-margin_bottom = 49.0
+margin_top = 230.0
+margin_right = 57.0
+margin_bottom = 279.0
 texture_normal = ExtResource( 18 )
 script = ExtResource( 40 )
 pressed_color = Color( 0.4, 0.196078, 0.196078, 1 )
@@ -432,14 +250,10 @@ margin_top = -252.278
 margin_right = 97.907
 margin_bottom = -136.278
 
-[node name="VBoxContainer" parent="Tools/ToolsBar/Teleport/Container" index="0"]
-margin_bottom = 165.0
-
-[node name="ArrowUp" parent="Tools/ToolsBar/Teleport/Container/Arrows" index="1"]
-texture_normal = SubResource( 8 )
-[connection signal="toggled" from="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer/CheckBox" to="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/Energy Sum Icon/EnergyDetailsPanel/Energy Details/HBoxContainer/CheckBox" method="_on_toggled"]
-[connection signal="toggled" from="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV/RooftopPhotovoltaicCheckbox" to="Top Menu Bar/HBoxLeft/VBox/HBoxContainer/EnergySumHBox/RooftopPV/RooftopPhotovoltaicCheckbox" method="_on_toggled"]
-
-[editable path="Tools/ToolsBar"]
-
-[editable path="Tools/ToolsBar/Teleport/Container"]
+[node name="Popups" type="HBoxContainer" parent="Tools"]
+margin_left = 61.0
+margin_top = 515.0
+margin_right = 61.0
+margin_bottom = 515.0
+size_flags_horizontal = 0
+size_flags_vertical = 4

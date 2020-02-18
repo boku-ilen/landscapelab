@@ -15,16 +15,13 @@ resource_local_to_scene = true
 flags = 4
 load_path = "res://.import/arrow-down.svg-05c5bdbea91545af0a01cbb833d9f67f.stex"
 
-[node name="ToolsBar" type="HBoxContainer"]
+[node name="ToolsBar" type="VBoxContainer"]
 anchor_right = 0.075
 anchor_bottom = 0.033
 margin_right = -108.0
 margin_bottom = 0.360001
 mouse_filter = 0
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Hoverable" parent="." instance=ExtResource( 1 )]
 material = SubResource( 1 )

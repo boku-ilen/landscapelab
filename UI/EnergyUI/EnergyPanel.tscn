@@ -7,6 +7,9 @@
 margin_left = 235.0
 margin_right = 261.0
 margin_bottom = 58.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Energy" type="VBoxContainer" parent="."]
 margin_left = 7.0
