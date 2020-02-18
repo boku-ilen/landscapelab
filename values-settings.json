@@ -1,0 +1,13 @@
+{
+	"path-prefix": "res://UI/ValuesMenu/Values",
+	"values": {
+		"energy-contribution": {
+			"path": "EnergyValue.tscn",
+			"modes": [0, 1]
+		},
+		"test": {
+			"path": "Test.tscn",
+			"modes": [0, 1]
+		}
+	}	
+}

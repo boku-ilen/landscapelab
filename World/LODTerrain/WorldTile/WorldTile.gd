@@ -340,7 +340,7 @@ func get_texture_result(url_start):
 	var true_pos = get_true_position()
 	
 	var result = ServerConnection.get_json("/%s/%d.0/%d.0/%d.json"\
-		% [url_start, -true_pos[0], true_pos[2], get_osm_zoom()])
+		% [url_start, -true_pos[0], true_pos[2], get_osm_zoom()], false)
 		
 	if not result or result.has("Error"):
 		return null
