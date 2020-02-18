@@ -9,7 +9,7 @@ func _parse_values_settings():
 	var values_settings_file = File.new()
 	var ok: bool = true
 	if values_settings_file.open("res://values-settings.json", File.READ) != OK:
-		logger.error("BUG: default settings could not be read from json!")
+		logger.error("BUG: values settings could not be read from json!")
 	
 	var values_settings_text = values_settings_file.get_as_text()
 	values_settings_file.close()
@@ -17,7 +17,7 @@ func _parse_values_settings():
 	var values_settings_parse = JSON.parse(values_settings_text)
 	
 	if values_settings_parse.error != OK:
-		logger.error("BUG: default settings could not be parsed from json! Is the syntax correct?")
+		logger.error("BUG: values settings could not be parsed from json! Is the syntax correct?")
 		ok = false
 	
 	assert(ok)
