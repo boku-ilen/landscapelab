@@ -3,7 +3,7 @@ extends BoxContainer
 
 onready var tools_bar = get_node("ToolsBar")
 onready var popups = get_node("Popups")
-onready var values_panel = get_node("Values/HBoxContainer/PanelContainer")
+onready var tools_panel = get_node("PanelContainer")
 
 
 # Called when the node enters the scene tree for the first time.
