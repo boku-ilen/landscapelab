@@ -1,14 +1,15 @@
 {
+	"game-mode": 0,
 	"values": {
 		"path-prefix": "res://UI/ValuesMenu/Values",
 		"modules": {
 			"energy-contribution": {
 				"path": "EnergyValue.tscn",
-				"modes": [0, 1]
+				"modes": [0]
 			},
 			"test": {
 				"path": "Test.tscn",
-				"modes": [0, 1]
+				"modes": [1]
 			}
 		}	
 	},
@@ -23,7 +24,7 @@
 			"modes": [0]
 		},
 		"Imaging": {
-			"modes": [1]
+			"modes": [0]
 		}
 	}
 }
