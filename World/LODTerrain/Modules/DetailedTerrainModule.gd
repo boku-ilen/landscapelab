@@ -35,8 +35,10 @@ func init():
 	# TODO: Scale this more nicely
 	if tile.lod > 5:
 		viewport.size = Vector2(1024, 1024)
-	
-	get_node("MeshInstance").material_override.set_shader_param("has_overlay", true)
+		get_node("MeshInstance").material_override.set_shader_param("has_overlay", true)
+	elif tile.lod > 4:
+		viewport.size = Vector2(256, 256)
+		get_node("MeshInstance").material_override.set_shader_param("has_overlay", true)
 	
 	GlobalSignal.connect("overlay_updated", self, "_render_overlay")
 
