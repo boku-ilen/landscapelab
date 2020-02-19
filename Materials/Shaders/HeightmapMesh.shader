@@ -189,7 +189,7 @@ void fragment(){
 	}
 	
 	if (clay_rendering) {
-		ALBEDO = vec3(0.6 + (get_height(UV) - 1000.0) * (1.0/1500.0));
+		ALBEDO = vec3(0.6 + (get_height(get_relative_pos(UV)) - 1000.0) * (1.0/1500.0));
 	} else {
 		ALBEDO = total_color;
 	}
