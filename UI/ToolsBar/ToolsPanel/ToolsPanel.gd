@@ -1,8 +1,8 @@
-extends BoxContainer
+extends VBoxContainer
 
 
-onready var tools_bar = get_node("ToolsBar")
-onready var popups = get_node("Popups")
+onready var tools_bar = get_node("HBoxContainer/PanelContainer/ScrollContainer/VBoxContainer")
+onready var popups = get_node("HBoxContainer/PopupsContainer")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -16,3 +16,8 @@ func _ready():
 			assert(has_required_property)
 			
 			child.set_popups_container(popups)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
