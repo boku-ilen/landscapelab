@@ -1,7 +1,7 @@
 extends Node
 
 
-var _values_settings: JSONParseResult = _parse_values_settings()
+var _values_settings: JSONParseResult = _parse_values_settings()["values"]
 var _path_prefix = _values_settings["path-prefix"]
 
 
@@ -27,8 +27,8 @@ func _parse_values_settings():
 
 func get_all_values_for_mode(mode: int):
 	var all_values_for_mode: Dictionary
-	for value in _values_settings["values"]:
-		if _values_settings["values"][value]["modes"].has(float(mode)):
-			all_values_for_mode[value] = String(_path_prefix + "/" + _values_settings["values"][value]["path"])
+	for value in _values_settings["modules"]:
+		if _values_settings["modules"][value]["modes"].has(float(mode)):
+			all_values_for_mode[value] = String(_path_prefix + "/" + _values_settings["modules"][value]["path"])
 	
 	return all_values_for_mode

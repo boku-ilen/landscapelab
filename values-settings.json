@@ -1,13 +1,23 @@
 {
-	"path-prefix": "res://UI/ValuesMenu/Values",
 	"values": {
-		"energy-contribution": {
-			"path": "EnergyValue.tscn",
-			"modes": [0, 1]
-		},
-		"test": {
-			"path": "Test.tscn",
-			"modes": [0, 1]
+		"path-prefix": "res://UI/ValuesMenu/Values",
+		"modules": {
+			"energy-contribution": {
+				"path": "EnergyValue.tscn",
+				"modes": [0, 1]
+			},
+			"test": {
+				"path": "Test.tscn",
+				"modes": [0, 1]
+			}
+		}	
+	},
+	"tools": {
+		"path-prefix": "res://UI/ToolsMenu/Tools",
+		"modules": {
+			"teleport": {
+				"path": "Teleport.tscn"
+			}
 		}
-	}	
+	}
 }

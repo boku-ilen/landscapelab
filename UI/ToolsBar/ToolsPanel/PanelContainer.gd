@@ -7,7 +7,7 @@ export(int) var hovered_pos_diff
 onready var panel_toggled_pos = rect_position
 onready var panel_hovered_pos = Vector2(rect_position.x - hovered_pos_diff, rect_position.y)
 onready var panel_start_pos = Vector2(rect_position.x - start_pos_diff, rect_position.y)
-onready var arrow = get_node("../Button")
+onready var arrow = get_node("../../Button")
 
 var arrow_toggle: bool = false
 
