@@ -6,6 +6,10 @@
 shader = ExtResource( 1 )
 shader_param/sprite_count = null
 shader_param/distribution_pixels_per_meter = null
+shader_param/base_light = 0.5
+shader_param/light_factor = 2.0
+shader_param/opacity_cutoff = 0.9
+shader_param/max_opacity_cutoff_scale = 1.0
 shader_param/pos = null
 shader_param/size = null
-
+shader_param/scale = null

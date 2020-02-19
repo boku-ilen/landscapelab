@@ -25,6 +25,7 @@ uniform float random_offset_vectors_scale = 2.5; // 2.0 means the random offset 
 uniform sampler2D random_offset_vectors : hint_normal;
 
 uniform sampler2D overlay_texture;
+uniform bool has_overlay;
 
 uniform bool blend_only_similar_colors = false;
 varying vec3 world_pos;
@@ -182,10 +183,9 @@ void fragment(){
 	
 	vec4 overlay = texture(overlay_texture, UV);
 	
-	if (overlay.a > 0.9) {
-		total_color = vec3(1.0);
-	} else {
-		total_color = vec3(0.0);
+	// If the overlay texture has data at this pixel, it is used instead of the normal color
+	if (has_overlay && overlay.a > 0.5) {
+		total_color = overlay.rgb;
 	}
 	
 	if (clay_rendering) {

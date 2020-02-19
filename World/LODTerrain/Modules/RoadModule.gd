@@ -40,7 +40,7 @@ func _spawn_asset(result, instance_id):
 	drawer.set_width(width)
 	drawer.add_points(vectored_line)
 	
-	add_child(drawer)
+	get_node("TransformReset").add_child(drawer)
 	
 	return true
 

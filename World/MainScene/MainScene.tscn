@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://World/MainScene/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://World/LODTerrain/TileHandler.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Perspectives/PerspectiveHandler.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Imaging/DrawPath/Path/Path.tscn" type="PackedScene" id=5]
 [ext_resource path="res://World/AssetHandler/AssetHandlerSpawner.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Util/LinearDrawer/RoadDrawer.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Tracking/LocationTracker.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Util/PolygonHandler.tscn" type="PackedScene" id=9]
 [ext_resource path="res://World/AssetHandler/DynamicAssetHandler.tscn" type="PackedScene" id=10]
@@ -15,6 +16,7 @@
 [ext_resource path="res://Assets/ExistingWindTurbine/ExistingGenericWindTurbine.tscn" type="PackedScene" id=14]
 [ext_resource path="res://World/WorldShifting/SpatialShiftingHandler.tscn" type="PackedScene" id=15]
 [ext_resource path="res://World/WorldShifting/PathShiftingHandler.tscn" type="PackedScene" id=16]
+[ext_resource path="res://World/AssetHandler/LinearAssetHandler.tscn" type="PackedScene" id=17]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 1 )
@@ -57,3 +59,7 @@ asset_id = 30
 [node name="PathShiftingHandler" parent="." instance=ExtResource( 16 )]
 
 [node name="SpatialShiftingHandler" parent="." instance=ExtResource( 15 )]
+
+[node name="LinearAssetHandler" parent="." instance=ExtResource( 17 )]
+asset_scene = ExtResource( 7 )
+asset_type_id = 1

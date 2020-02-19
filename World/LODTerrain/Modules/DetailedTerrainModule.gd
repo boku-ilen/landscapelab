@@ -3,6 +3,9 @@ extends "res://World/LODTerrain/Modules/TerrainModule.gd"
 #
 # This module extends the TerrainModule to replace the orthophoto with detailed
 # ground textures based on the vegetation splatmap when the player gets close.
+# 
+# In addition, everything in the 'Overlay' render layer is projected onto the
+# terrain using the OverlayTextureViewport.
 #
 
 var splat_result
@@ -24,9 +27,31 @@ func init():
 	.init()
 	
 	# Setup the overlay texture camera
-	var camera = get_node("OverlayTextureViewport/Pivot/Camera")
+	var viewport = get_node("OverlayTextureViewport")
+	var camera = viewport.get_node("Pivot/Camera")
 	
 	camera.size = tile.size
+	
+	# TODO: Scale this more nicely
+	if tile.lod > 5:
+		viewport.size = Vector2(1024, 1024)
+	
+	get_node("MeshInstance").material_override.set_shader_param("has_overlay", true)
+	
+	GlobalSignal.connect("overlay_updated", self, "_render_overlay")
+
+
+func _ready():
+	# Render the overlay data that's currently here
+	_render_overlay()
+
+
+# Since the overlay camera doesn't need to render every frame, this function
+# is provided to render a new frame. It is called e.g. when the 'overlay_updated'
+# signal is emitted.
+func _render_overlay():
+	var viewport = get_node("OverlayTextureViewport")
+	viewport.render_target_update_mode = viewport.UPDATE_ONCE
 
 
 func get_textures(tile, mesh):

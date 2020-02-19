@@ -7,3 +7,5 @@
 script = ExtResource( 1 )
 linear_drawer = ExtResource( 2 )
 line_type = 1
+
+[node name="TransformReset" type="Node" parent="."]

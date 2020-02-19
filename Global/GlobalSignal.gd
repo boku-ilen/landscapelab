@@ -53,14 +53,18 @@ signal changed_item_to_spawn(item_id)
 # second one is the saved according id in the json-file saved as metadata of the listitem
 signal changed_asset_id(json_item_id)
 
-# enable and disable wireframe drawing
+# Tiles
+## enable and disable wireframe drawing
 signal wireframe_toggle
 
-# enable and disable tile updates
+## enable and disable tile updates
 signal tile_update_toggle
 
-# reset (delete) all tiles
+## reset (delete) all tiles
 signal reset_tiles
+
+## something in the overlay render layer changed so it should be redrawn
+signal overlay_updated
 
 # enable and disable vr mode
 signal vr_enable

@@ -43,6 +43,8 @@ func _spawn_asset(instance_id):
 	drawer.set_width(width)
 	drawer.add_points(vectored_line)
 	
+	GlobalSignal.emit_signal("overlay_updated")
+	
 	return true
 
 
