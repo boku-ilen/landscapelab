@@ -57,7 +57,7 @@ _global_script_classes=[ {
 "base": "TextureButton",
 "class": "ToolsButton",
 "language": "GDScript",
-"path": "res://UI/ToolsBar/ToolsButton.gd"
+"path": "res://UI/Tools/ToolsButton.gd"
 }, {
 "base": "Spatial",
 "class": "WorldTile",
