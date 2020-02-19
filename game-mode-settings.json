@@ -13,11 +13,17 @@
 		}	
 	},
 	"tools": {
-		"path-prefix": "res://UI/ToolsMenu/Tools",
-		"modules": {
-			"teleport": {
-				"path": "Teleport.tscn"
-			}
+		"Teleport": {
+			"modes": [0]
+		},
+		"Assets": {
+			"modes": [0]
+		},
+		"Season": {
+			"modes": [0]
+		},
+		"Imaging": {
+			"modes": [1]
 		}
 	}
 }

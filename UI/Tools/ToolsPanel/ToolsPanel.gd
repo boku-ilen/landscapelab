@@ -39,6 +39,9 @@ func _ready():
 	UISignal.connect("ui_loaded", self, "_on_ui_loaded")
 	set_position(panel_start_pos)
 	
+	# TODO: Fix hardcoding for mode
+	var tools: Array = GameModeLoader.get_all_tools_for_mode(0)
+	
 	for child in tools_bar.get_children():
 		var has_required_property = true
 		if not "popups_container" in child:
@@ -47,6 +50,9 @@ func _ready():
 		assert(has_required_property)
 			
 		child.set_popups_container(popups)
+		
+		if not tools.has(child.name):
+			child.set_disabled(true)
 
 
 func _on_mouse_entered():
