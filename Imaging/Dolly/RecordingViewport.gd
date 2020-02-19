@@ -61,9 +61,13 @@ func make_training_screenshot_pair():
 	# Remove color overwrite from above
 	GlobalSignal.emit_signal("toggle_asset_debug_color", asset_type_to_color, false)
 	
+	# Get the time here and pass it as an argument to prevent tiny differences, causing
+	#  different screenshot filenames
+	var time = OS.get_system_time_msecs()
+	
 	# Save to a file, use the current time for naming
-	var normal_screenshot_filename = _get_screenshot_filename_with_additional_flag(1)
-	var colored_screenshot_filename = _get_screenshot_filename_with_additional_flag(2)
+	var normal_screenshot_filename = _get_screenshot_filename_with_additional_flag(1, time)
+	var colored_screenshot_filename = _get_screenshot_filename_with_additional_flag(2, time)
 	
 	# Medium to low priority - we do want it to save sometime soon, but doesn't have to be immediate
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "save_screenshot", [normal_img, normal_screenshot_filename]), 15)
@@ -80,5 +84,5 @@ func _get_screenshot_filename():
 	return "user://videoframe-%d-%d.png" % [Session.session_id, OS.get_system_time_msecs()]
 
 
-func _get_screenshot_filename_with_additional_flag(flag: int):
-	return "user://%d-videoframe-%d-%d.png" % [flag, Session.session_id, OS.get_system_time_msecs()]
+func _get_screenshot_filename_with_additional_flag(flag: int, time: int):
+	return "user://%d-videoframe-%d-%d.png" % [flag, Session.session_id, time]
