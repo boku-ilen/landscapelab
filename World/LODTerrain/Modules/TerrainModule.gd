@@ -20,26 +20,37 @@ func init():
 
 
 func get_textures(tile, mesh) -> bool:
-	var response = tile.get_texture_result("raster")
+	var response
+	var max_iterations = 10
+	var iteration = 0
 	
-	if response:
-		var ortho
-		var dhm
+	while true:
+		# FIXME: Temporary fix for image sometimes not getting generated on first try
+		if iteration > max_iterations:
+			return false
 		
-		if response.has("ortho"):
-			ortho = CachingImageTexture.get(response.get("ortho"))
-		if response.has("dhm"):
-			dhm = CachingImageTexture.get(response.get("dhm"))  # TODO: Disable filtering?
+		iteration += 1
 		
-		if ortho and dhm:
-			# Don't let the subdivision get higher than the texture resolution, steep walls otherwise
-			if dhm.get_width() < tile.subdiv:
-				tile.subdiv = dhm.get_width()
-	
-			mesh.material_override.set_shader_param("tex", ortho)
-			mesh.material_override.set_shader_param("heightmap", dhm)
+		response = tile.get_texture_result("raster")
+		
+		if response:
+			var ortho
+			var dhm
 			
-			# Display only if both textures are here and valid
-			return true
+			if response.has("ortho"):
+				ortho = CachingImageTexture.get(response.get("ortho"))
+			if response.has("dhm"):
+				dhm = CachingImageTexture.get(response.get("dhm"))  # TODO: Disable filtering?
+			
+			if ortho and dhm:
+				# Don't let the subdivision get higher than the texture resolution, steep walls otherwise
+				if dhm.get_width() < tile.subdiv:
+					tile.subdiv = dhm.get_width()
+		
+				mesh.material_override.set_shader_param("tex", ortho)
+				mesh.material_override.set_shader_param("heightmap", dhm)
+				
+				# Display only if both textures are here and valid
+				return true
 	
 	return false
