@@ -4,6 +4,10 @@ extends Node
 # All the signals that are mapped from an input event to a signal
 #
 
+# General
+
+signal ui_loaded
+
 # Imaging
 
 signal imaging

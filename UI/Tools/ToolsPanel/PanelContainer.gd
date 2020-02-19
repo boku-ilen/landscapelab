@@ -1,4 +1,4 @@
-extends PanelContainer
+extends Container
 
 
 export(int) var start_pos_diff
@@ -7,7 +7,8 @@ export(int) var hovered_pos_diff
 onready var panel_toggled_pos = rect_position
 onready var panel_hovered_pos = Vector2(rect_position.x - hovered_pos_diff, rect_position.y)
 onready var panel_start_pos = Vector2(rect_position.x - start_pos_diff, rect_position.y)
-onready var arrow = get_node("../../Button")
+onready var arrow = get_node("../Button")
+onready var panel = get_node("PanelContainer")
 
 var arrow_toggle: bool = false
 
