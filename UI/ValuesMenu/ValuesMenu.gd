@@ -11,7 +11,7 @@ var panel_start_pos: Vector2
 var _panel_unfolded: bool = false
 
 # TODO: Fix hardcoding for mode, for now we only have mode 0
-var all_values: Dictionary = ValuesLoader.get_all_values_for_mode(0)
+var all_values: Dictionary = GameModeLoader.get_all_values_for_mode(0)
 
 
 func _ready():
