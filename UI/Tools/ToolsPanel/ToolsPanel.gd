@@ -39,9 +39,6 @@ func _ready():
 	UISignal.connect("ui_loaded", self, "_on_ui_loaded")
 	set_position(panel_start_pos)
 	
-	# TODO: Fix hardcoding for mode
-	var tools: Array = GameModeLoader.get_all_tools_for_mode(0)
-	
 	for child in tools_bar.get_children():
 		var has_required_property = true
 		if not "popups_container" in child:
@@ -50,7 +47,17 @@ func _ready():
 		assert(has_required_property)
 			
 		child.set_popups_container(popups)
-		
+	
+	apply_tool_settings(GameModeLoader.get_startup_mode())
+
+
+# If the current game mode is changed, the new mode will be applied according to 
+# the game-mode-settings.json-file.
+func apply_tool_settings(mode: int):
+	# TODO: Fix hardcoding for mode
+	var tools: Array = GameModeLoader.get_all_tools_for_mode(mode)
+	
+	for child in tools_bar.get_children():
 		if not tools.has(child.name):
 			child.set_disabled(true)
 
@@ -83,7 +90,7 @@ func _on_ui_loaded():
 
 # Tool specific tool for showing errors in the editor
 func _get_configuration_warning():
-	for child in tools_bar.get_children():
+	for child in get_node("HBoxContainer/PanelContainer/ScrollContainer/ToolsBar").get_children():
 		var is_required_type = child is _required_button
 		
 		if not is_required_type:

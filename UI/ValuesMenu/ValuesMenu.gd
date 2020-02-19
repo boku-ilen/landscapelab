@@ -10,8 +10,9 @@ onready var panel_pos_x = panel.rect_position.x
 var panel_start_pos: Vector2
 var _panel_unfolded: bool = false
 
-# TODO: Fix hardcoding for mode, for now we only have mode 0
-var all_values: Dictionary = GameModeLoader.get_all_values_for_mode(0)
+# A dictionary of the instance paths of all available values mapped to their name
+# only the values for the current mode will be loaded
+var values: Dictionary
 
 
 func _ready():
@@ -19,12 +20,23 @@ func _ready():
 	dropdown.connect("item_selected", self, "_on_value_changed")
 	panel.connect("resized", self, "_on_panel_resize")
 	
-	_fill_dropdown()
+	apply_value_settings(GameModeLoader.get_startup_mode())
 	# Load the default selected (index 0) energy-ui
 	_on_value_changed(0)
 	
 	# To have the panel folded in on startup we have to call for the pressed method
 	_on_button_pressed()
+
+
+
+# If the current game mode is changed, the new mode will be applied according to 
+# the game-mode-settings.json-file.
+func apply_value_settings(mode: int):
+	values = GameModeLoader.get_all_values_for_mode(mode)
+	
+	# Fill in each label of the values
+	for value in values:
+		dropdown.add_item(value)
 
 
 func _on_button_pressed():
@@ -50,7 +62,7 @@ func _on_value_changed(id: int):
 		child.queue_free()
 	
 	# Load the data from the values-settings.json
-	var path_to_scene = all_values[dropdown.get_item_text(id)]
+	var path_to_scene = values[dropdown.get_item_text(id)]
 	var value_ui = load(path_to_scene)
 	panel.add_child(value_ui.instance())
 	
@@ -67,9 +79,3 @@ func _move_panel(vec_to: Vector2):
 		panel.rect_position, vec_to, 0.1,
 		Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	tween.start()
-
-
-func _fill_dropdown():
-	# Fill in each label of the values
-	for value in all_values:
-		dropdown.add_item(value)

@@ -23,3 +23,7 @@ func get_all_tools_for_mode(mode: int):
 			all_tools_for_mode.append(_tool)
 	
 	return all_tools_for_mode
+
+
+func get_startup_mode():
+	return _settings["game-mode"]
