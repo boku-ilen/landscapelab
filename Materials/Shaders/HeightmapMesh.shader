@@ -14,9 +14,6 @@ uniform int vegetation_id1;
 uniform sampler2D vegetation_tex2 : hint_albedo;
 uniform sampler2D vegetation_normal2 : hint_normal;
 uniform int vegetation_id2;
-uniform sampler2D vegetation_tex3 : hint_albedo;
-uniform sampler2D vegetation_normal3 : hint_normal;
-uniform int vegetation_id3;
 uniform float tex_factor = 0.5; // 0.5 means one Godot meter will have half the texture
 uniform float texture_blending_amount = 25.0; // 1.0 means the transition between two textures will be maximally 1m wide
                                               // (Also depends greatly on the random_offset_vectors texture used!)
@@ -132,9 +129,6 @@ void fragment(){
 		} else if (int(texture(splat, get_relative_pos_with_blending(UV)).r * 255.0) == vegetation_id2) {
 			detail_color = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 			current_normal = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		} else if (int(texture(splat, get_relative_pos_with_blending(UV)).r * 255.0) == vegetation_id3) {
-			detail_color = texture(vegetation_tex3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-			current_normal = texture(vegetation_normal3, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 		}
 	}
 	
@@ -181,7 +175,7 @@ void fragment(){
 	NORMALMAP = normal;
 	// To test the normals: total_color = NORMALMAP;
 	
-	vec4 overlay = texture(overlay_texture, UV);
+	vec4 overlay = texture(overlay_texture, get_relative_pos(UV));
 	
 	// If the overlay texture has data at this pixel, it is used instead of the normal color
 	if (has_overlay && overlay.a > 0.5) {
