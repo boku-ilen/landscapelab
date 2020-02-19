@@ -63,7 +63,7 @@ func _process(delta):
 	# Free movement relative to position on rails
 	translation += Vector3(velocity.x, velocity.y, 0.0)
 	
-	if velocity.length_squared() > 0.2 and _using_dolly:
+	if _using_dolly:
 		PlayerInfo.update_player_pos(translation)
 
 
