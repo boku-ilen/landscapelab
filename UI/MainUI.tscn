@@ -14,6 +14,7 @@
 margin_right = 1895.0
 margin_bottom = 1030.0
 mouse_filter = 2
+script = ExtResource( 43 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -26,7 +27,6 @@ margin_top = 25.0
 margin_right = -25.0
 margin_bottom = -25.0
 mouse_filter = 2
-script = ExtResource( 43 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -106,14 +106,14 @@ rect_min_size = Vector2( 300, 0 )
 
 [node name="ToolsOffset" type="MarginContainer" parent="."]
 margin_left = -430.0
-margin_top = 25.0
+margin_top = 433.0
 margin_right = 34.0
 margin_bottom = 1024.0
 mouse_filter = 2
 
 [node name="ToolsPanel" parent="ToolsOffset" instance=ExtResource( 1 )]
 margin_left = 0.0
-margin_top = 297.0
+margin_top = 93.0
 margin_right = 464.0
-margin_bottom = 701.0
+margin_bottom = 497.0
 size_flags_vertical = 4
