@@ -37,7 +37,6 @@ margin_top = 441.0
 margin_right = 452.0
 margin_bottom = 972.0
 mouse_filter = 1
-popup_exclusive = true
 resizable = true
 __meta__ = {
 "_edit_use_anchors_": false
