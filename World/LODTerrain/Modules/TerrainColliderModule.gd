@@ -7,6 +7,9 @@ extends Module
 
 var col_shape
 var heightmap
+var heightmap_img
+var heightmap_data
+var heightmap_size
 
 var collider_subdivision = Settings.get_setting("terrain-collider", "collision-mesh-subdivision")
 
@@ -35,24 +38,22 @@ func get_textures(tile):
 		
 		if heightmap:
 			col_shape.shape = create_tile_collision_shape()
+			heightmap_img = heightmap.get_data()
+			heightmap_data = heightmap_img.get_data()
+			heightmap_size = heightmap_img.get_size()
 	else:
 		logger.warning("Couldn't get heightmap for tile!")
 
 
 # Returns the exact height at the given position using the heightmap image
 func get_height_at_position(var pos):
-	
 	var gtranslation = tile.global_transform.origin
 	
-	var img
-	
-	if heightmap:
-		img = heightmap.get_data()
-	else:
+	if not heightmap:
 		logger.warning("get_height_at_position was called, but the heightmap was null")
 		return 0
 	
-	if img:
+	if heightmap_data:
 		# TODO: There is still a slight inconsistency with how the mesh actually looks here.
 		# I believe that this might be because Godot's plane mesh has the triangles like this:
 		#  ___
@@ -61,14 +62,12 @@ func get_height_at_position(var pos):
 		# |/__|
 		# 
 		# This makes them fold in a particular way which the linear interpolation can't predict.
-		img.lock()
 		
-		var img_size = img.get_size()
-		var subdiv = max(1, img_size.x / (tile.subdiv + 1))
+		var subdiv = max(1, heightmap_size.x / (tile.subdiv + 1))
 		
 		# Scale the position to a pixel position on the image
 		var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(gtranslation.x, gtranslation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
-		var pix_pos = pos_scaled * img_size
+		var pix_pos = pos_scaled * heightmap_size
 		
 		# We want to limit the accuracy here to what is actually displayed - otherwise, there are bumps
 		#  and holes here which are not visible. So e.g. if we have a subdivision of 8 and 256 pixels,
@@ -83,12 +82,10 @@ func get_height_at_position(var pos):
 		var yf = (pix_pos.y - scaled_pix_pos.y) / subdiv
 		
 		# Get multiple height samples, offset by the accuracy of our visible mesh
-		var height1 = get_height_from_image(img, scaled_pix_pos + Vector2(0, 0) * subdiv)
-		var height2 = get_height_from_image(img, scaled_pix_pos + Vector2(1, 0) * subdiv)
-		var height3 = get_height_from_image(img, scaled_pix_pos + Vector2(0, 1) * subdiv)
-		var height4 = get_height_from_image(img, scaled_pix_pos + Vector2(1, 1) * subdiv)
-		
-		img.unlock()
+		var height1 = get_height_from_image(scaled_pix_pos + Vector2(0, 0) * subdiv)
+		var height2 = get_height_from_image(scaled_pix_pos + Vector2(1, 0) * subdiv)
+		var height3 = get_height_from_image(scaled_pix_pos + Vector2(0, 1) * subdiv)
+		var height4 = get_height_from_image(scaled_pix_pos + Vector2(1, 1) * subdiv)
 	
 		# Bilinear interpolation of the height samples by the previous factors
 		return lerp(lerp(height1, height2, xf), lerp(height3, height4, xf), yf)
@@ -100,15 +97,21 @@ func get_height_at_position(var pos):
 		
 
 # Returns the height on the image at the given pixel position in meters.
-func get_height_from_image(img, pix_pos):
-	var img_size = img.get_size()
+func get_height_from_image(pix_pos):
+	pix_pos.x = clamp(pix_pos.x, 0, heightmap_size.x - 1)
+	pix_pos.y = clamp(pix_pos.y, 0, heightmap_size.y - 1)
 	
-	pix_pos.x = clamp(pix_pos.x, 0, img_size.x - 1)
-	pix_pos.y = clamp(pix_pos.y, 0, img_size.y - 1)
+	# Reimplemented from https://github.com/godotengine/godot/blob/master/core/image.cpp
+	# The reason is that with this reimplementation, we can directly use the PoolByteArray
+	#  image data instead of having to lock the image to call get_pixel. This results in a
+	#  noticeable performance increase.
+	var offset = int(pix_pos.y) * heightmap_size.x + int(pix_pos.x)
 	
-	return (img.get_pixel(pix_pos.x, pix_pos.y).r * 255 * pow(2, 16) \
-		+ img.get_pixel(pix_pos.x, pix_pos.y).g * 255 * pow(2, 8) \
-		+ img.get_pixel(pix_pos.x, pix_pos.y).b * 255) / 100
+	var r = float(heightmap_data[offset * 4 + 0] * pow(2, 16)) / 100
+	var g = float(heightmap_data[offset * 4 + 1] * pow(2, 8)) / 100
+	var b = float(heightmap_data[offset * 4 + 2]) / 100
+	
+	return r + g + b
 
 
 # Helper function for create_tile_collision_shape - turns x and y coordinates from the loop to a real position.
