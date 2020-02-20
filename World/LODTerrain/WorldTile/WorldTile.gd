@@ -19,7 +19,6 @@ var size : float
 var size_with_skirt : float
 var lod : int
 var offset_from_parent : Vector2
-var last_player_pos
 
 var initialized = false # True when init() was called
 var created = false # True when _ready() is done
@@ -29,8 +28,6 @@ var done_loading = false # True when all modules in this tile have been loaded
 var to_be_deleted = false # True when this tile is waiting to be deleted
 
 const NUM_CHILDREN = 4 # Number of children, will likely always stay 4 because it's a quadtree
-
-var will_activate_with_last_player_pos # Can be set in init() to immediately activate the tile with a last_player_pos
 
 var top_level: WorldTile = self # The top-level-tile of the tree this tile is in
 
@@ -51,8 +48,7 @@ func _ready():
 	PerformanceTracker.number_of_tiles += 1
 	
 	if initialized:
-		if will_activate_with_last_player_pos:
-			activate(will_activate_with_last_player_pos)
+		activate()
 	else:
 		logger.warning("WorldTile.init() wasn't called to fill this tile with its information before creating it. " +
 		"This result in a broken tile!")
@@ -101,14 +97,13 @@ func _process(delta):
 
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
-func init(s, lod_level, activate_pos=null):
+func init(s, lod_level):
 	size = s
 	lod = lod_level
 	
 	# We add 2 to subdiv and increase the size by the added squares for the skirt around the mesh (which fills gaps
 	# where things don't match up)
 	size_with_skirt = size + (2.0/(subdiv + 1.0)) * size
-	will_activate_with_last_player_pos = activate_pos
 	
 	# Adapt the subdivision so that detail increases more gradually (not 2x per split)
 	#  because the DHM isn't detailed enough to show that much detail, and we get steps
@@ -256,15 +251,13 @@ func get_osm_zoom():
 
 # Called when the player is nearby - this makes the tile check whether it needs to split or converge, and do so if
 # required.
-func activate(player_pos):
+func activate():
 	if !created: return
-	
-	last_player_pos = player_pos
 	
 	# Activate children with same pos
 	for child in children.get_children():
 		if child.has_method("activate"):
-			child.activate(last_player_pos)
+			child.activate()
 			
 	var dist_to_player = get_dist_to_player()
 	
@@ -316,9 +309,6 @@ func split(dist_to_player):
 
 # Gets the distance of the center of the tile to the last known player location
 func get_dist_to_player():
-	# TODO: We can get the player_pos either like this, or via the last_player_pos variable.
-	#  I believe the last_player_pos variable is actually not needed anymore, but it may be good for performance.
-	#  This should be evaluated!
 	var player_pos = PlayerInfo.get_engine_player_position()
 	
 	# Get closest point within rectangle to circle

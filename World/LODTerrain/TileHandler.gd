@@ -79,7 +79,7 @@ func _process(delta):
 		for x in range(player_tile.x - 2, player_tile.x + 3):
 			for y in range(player_tile.y - 2, player_tile.y + 3):
 				if tiles.has_node("%d,%d" % [x, y]):
-					tiles.get_node("%d,%d" % [x, y]).activate(player_pos)
+					tiles.get_node("%d,%d" % [x, y]).activate()
 
 
 # Spawn a tile at the given __tilegrid coordinate__ position
