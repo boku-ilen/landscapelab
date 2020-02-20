@@ -33,6 +33,7 @@ __meta__ = {
 size = Vector2( 630, 430 )
 handle_input_locally = false
 hdr = false
+keep_3d_linear = true
 render_target_update_mode = 0
 shadow_atlas_size = 4
 script = ExtResource( 4 )
