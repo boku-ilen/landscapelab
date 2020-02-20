@@ -36,7 +36,12 @@ func _ready():
 
 func _process(delta):
 	# Keep the view towards the object
-	look_at(view_target.global_transform.origin, Vector3.UP)
+	if _using_shakiness:
+		var rand = rand_range(-_shakiness_pitch, _shakiness_pitch)
+		var pitch_shakiness_offset = Vector3(0, rand, 0)
+		look_at(view_target.global_transform.origin + pitch_shakiness_offset, Vector3.UP) 
+	else:
+		look_at(view_target.global_transform.origin, Vector3.UP) 
 	
 	if Input.is_action_pressed("camera_move_forward"):
 		velocity.z += move_speed * delta
@@ -53,7 +58,7 @@ func _process(delta):
 	
 	if _using_shakiness:
 		rotation_degrees.z += rand_range(-_shakiness, _shakiness) * delta
-		rotation_degrees.x += rand_range(-_shakiness_pitch, _shakiness_pitch) * delta
+		#rotation_degrees.x += rand_range(-_shakiness_pitch, _shakiness_pitch) * delta
 	
 	# Make x and y velocity decay over time, z (forward/backward) velocity stays the same
 	velocity.x *= move_speed_decay
