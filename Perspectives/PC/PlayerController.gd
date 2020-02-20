@@ -70,6 +70,11 @@ func _handle_viewport_input(event):
 			
 			get_tree().set_input_as_handled()
 			return true
+	elif event.is_action_pressed("toggle_asset_only_view"):
+		if camera.cull_mask == 16:
+			camera.cull_mask = 23+32+64
+		else:
+			camera.cull_mask = 16
 
 
 func fly(delta):
