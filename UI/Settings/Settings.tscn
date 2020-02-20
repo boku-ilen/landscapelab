@@ -99,6 +99,8 @@ margin_right = 213.0
 margin_bottom = 108.0
 label_text = "Show Debug Settings"
 signal_to_emit = "toggle_debug"
+optional_signal_parameter = 0
+default_toggled = false
 
 [node name="Record" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
 margin_top = 112.0
