@@ -33,8 +33,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -650.0
+margin_left = -632.0
 margin_top = -504.0
+margin_right = 0.00012207
 mouse_filter = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
@@ -45,16 +46,17 @@ __meta__ = {
 }
 
 [node name="Miniview Menu" type="HBoxContainer" parent="."]
-margin_right = 650.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 650, 50 )
+margin_top = 18.0
+margin_right = 630.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 630, 50 )
 mouse_filter = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 
 [node name="Map Commands" type="HBoxContainer" parent="Miniview Menu"]
 margin_top = 16.0
-margin_right = 541.0
+margin_right = 521.0
 margin_bottom = 50.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -71,9 +73,9 @@ texture_hover = ExtResource( 3 )
 script = ExtResource( 4 )
 
 [node name="View Commands" type="HBoxContainer" parent="Miniview Menu"]
-margin_left = 545.0
+margin_left = 525.0
 margin_top = 1.0
-margin_right = 650.0
+margin_right = 630.0
 margin_bottom = 50.0
 mouse_filter = 2
 size_flags_horizontal = 8
@@ -132,10 +134,10 @@ texture_hover = ExtResource( 35 )
 script = ExtResource( 36 )
 
 [node name="Border" type="ColorRect" parent="."]
-margin_top = 54.0
-margin_right = 650.0
+margin_top = 72.0
+margin_right = 632.0
 margin_bottom = 504.0
-rect_min_size = Vector2( 650, 450 )
+rect_min_size = Vector2( 632, 432 )
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -145,16 +147,18 @@ script = ExtResource( 37 )
 [node name="Margin" type="MarginContainer" parent="Border"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 3.0
-margin_top = 3.0
+margin_left = 5.0
+margin_top = 5.0
+margin_bottom = -2.0
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MiniViewportContainer" type="ViewportContainer" parent="Border/Margin"]
-margin_right = 647.0
-margin_bottom = 447.0
+margin_right = 630.0
+margin_bottom = 430.0
+rect_min_size = Vector2( 630, 430 )
 focus_mode = 2
 mouse_filter = 2
 script = ExtResource( 38 )
