@@ -50,8 +50,6 @@ func _on_new_response(response):
 		var top_left_vector_3d = Vector3(top_left_vector.x, 0, top_left_vector.y)
 		var bottom_right_vector_3d = Vector3(bottom_right_vector.x, 0, bottom_right_vector.y)
 		
-		print(top_left_vector_3d, bottom_right_vector_3d)
-		
 		drawer.set_mesh_extent(top_left_vector_3d, bottom_right_vector_3d)
 		drawer.visible = true
 	else:
