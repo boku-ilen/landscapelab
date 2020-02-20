@@ -20,6 +20,7 @@ var _using_dolly: bool = false
 
 export(bool) var _using_shakiness: bool
 export (float) var _shakiness: float
+export (float) var _shakiness_pitch: float
 export(float) var move_speed: float
 export(float, 0.0, 1.0) var move_speed_decay: float
 
@@ -52,6 +53,7 @@ func _process(delta):
 	
 	if _using_shakiness:
 		rotation_degrees.z += rand_range(-_shakiness, _shakiness) * delta
+		rotation_degrees.x += rand_range(-_shakiness_pitch, _shakiness_pitch) * delta
 	
 	# Make x and y velocity decay over time, z (forward/backward) velocity stays the same
 	velocity.x *= move_speed_decay
