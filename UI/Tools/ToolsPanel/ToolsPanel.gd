@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends BoxContainer
 tool
 
 #
@@ -13,18 +13,18 @@ tool
 
 onready var tools_bar = get_node("HBoxContainer/PanelContainer/ScrollContainer/ToolsBar")
 onready var popups = get_node("HBoxContainer/PopupsContainer")
-onready var arrow = get_node("Button")
+onready var arrow = get_node("Node/Button")
 onready var panel = get_node("HBoxContainer/PanelContainer")
 onready var window = get_node("HBoxContainer")
 
 # Define the offset of the window
-export(int) var start_pos_diff
+export(int) var toggled_pos_diff
 export(int) var hovered_pos_diff
 
 # The specific positions on where the windows should be when toggled, hovered and default
-onready var panel_toggled_pos = window.rect_position
-onready var panel_hovered_pos = Vector2(window.rect_position.x - hovered_pos_diff, window.rect_position.y)
-onready var panel_start_pos = Vector2(window.rect_position.x - start_pos_diff, window.rect_position.y)
+onready var panel_toggled_pos = Vector2(window.rect_position.x + toggled_pos_diff, window.rect_position.y)
+onready var panel_hovered_pos = Vector2(window.rect_position.x + hovered_pos_diff, window.rect_position.y)
+onready var panel_start_pos: Vector2 = window.rect_position
 
 # Giving a configuration warning if a wrong item has been attached
 const _required_button = preload("res://UI/Tools/ToolsButton.gd")
@@ -36,25 +36,26 @@ func _ready():
 	panel.connect("mouse_exited", self, "_on_mouse_exited")
 	panel.connect("mouse_entered", self, "_on_mouse_entered")
 	arrow.connect("toggled", self, "_on_arrow_toggle")
-	UISignal.connect("ui_loaded", self, "_on_ui_loaded")
-	set_position(panel_start_pos)
 	
 	for child in tools_bar.get_children():
-		var has_required_property = true
-		if not "popups_container" in child:
-			has_required_property = false
-				
-		assert(has_required_property)
-			
+		assert("popups_container" in child)
 		child.set_popups_container(popups)
+		
+		child.connect("pressed", self, "_on_tool_pressed")
 	
 	apply_tool_settings(GameModeLoader.get_startup_mode())
+
+
+# TODO: Untoggle
+func _on_tool_pressed():
+	if arrow_toggle:
+		arrow.set_rotation_degrees(-90)
+		arrow.set_pressed(false)
 
 
 # If the current game mode is changed, the new mode will be applied according to 
 # the game-mode-settings.json-file.
 func apply_tool_settings(mode: int):
-	# TODO: Fix hardcoding for mode
 	var tools: Array = GameModeLoader.get_all_tools_for_mode(mode)
 	
 	for child in tools_bar.get_children():
@@ -77,15 +78,11 @@ func _on_mouse_exited():
 func _on_arrow_toggle(toggled):
 	arrow_toggle = toggled
 	if toggled:
-		window.set_position(panel_toggled_pos)
 		arrow.set_rotation_degrees(90)
+		window.set_position(panel_toggled_pos)
 	else:
-		window.set_position(panel_start_pos)
 		arrow.set_rotation_degrees(-90)
-
-
-func _on_ui_loaded():
-	window.set_position(panel_start_pos)
+		window.set_position(panel_start_pos)
 
 
 # Tool specific tool for showing errors in the editor

@@ -14,7 +14,6 @@ func _on_toggle(toggled: bool):
 
 
 func _on_teleported():
-	set_visible(false)
 	set_pressed(false)
 	
 	for popup in my_popups:
