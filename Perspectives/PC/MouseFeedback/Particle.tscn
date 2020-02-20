@@ -18,7 +18,7 @@ distance_fade_mode = 1
 distance_fade_min_distance = 50.0
 distance_fade_max_distance = 200.0
 
-[node name="Spatial" type="MeshInstance"]
+[node name="Particle" type="MeshInstance"]
 layers = 192
 cast_shadow = 0
 mesh = SubResource( 1 )

@@ -7,14 +7,9 @@ extends Spatial
 
 
 onready var cursor: RayCast = get_parent().get_node("InteractRay")
-var particle = preload("res://Perspectives/PC/MouseFeedback/Particle.tscn")
-
-
-func _ready():
-	particle = particle.instance()
-	add_child(particle)
-
+onready var particle = get_node("Particle")
 
 func _process(delta):
 	if cursor.is_colliding():
+		print(cursor.get_collision_point())
 		particle.global_transform.origin = WorldPosition.get_position_on_ground(cursor.get_collision_point())
