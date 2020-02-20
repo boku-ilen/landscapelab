@@ -37,10 +37,11 @@ func get_textures(tile):
 		heightmap = CachingImageTexture.get(dhm_response.get("dhm"), 0)
 		
 		if heightmap:
-			col_shape.shape = create_tile_collision_shape()
 			heightmap_img = heightmap.get_data()
 			heightmap_data = heightmap_img.get_data()
 			heightmap_size = heightmap_img.get_size()
+			
+			col_shape.shape = create_tile_collision_shape()
 	else:
 		logger.warning("Couldn't get heightmap for tile!")
 
@@ -86,9 +87,11 @@ func get_height_at_position(var pos):
 		var height2 = get_height_from_image(scaled_pix_pos + Vector2(1, 0) * subdiv)
 		var height3 = get_height_from_image(scaled_pix_pos + Vector2(0, 1) * subdiv)
 		var height4 = get_height_from_image(scaled_pix_pos + Vector2(1, 1) * subdiv)
+		
+		var final_height = lerp(lerp(height1, height2, xf), lerp(height3, height4, xf), yf)
 	
 		# Bilinear interpolation of the height samples by the previous factors
-		return lerp(lerp(height1, height2, xf), lerp(height3, height4, xf), yf)
+		return final_height
 		
 	# if we do not have a valid height information we return 0   - TODO: error handling
 	else:
@@ -117,7 +120,9 @@ func get_height_from_image(pix_pos):
 # Helper function for create_tile_collision_shape - turns x and y coordinates from the loop to a real position.
 func _local_grid_to_coordinates(x, y, size, collider_subdivision):
 	var local_pos = Vector3(-size/2 + (x/collider_subdivision) * size, 0, -size/2 + (y/collider_subdivision) * size)
-	return Vector3(local_pos.x, get_height_at_position(tile.global_transform * local_pos), local_pos.z)
+	var height = get_height_at_position(tile.global_transform * local_pos)
+	
+	return Vector3(local_pos.x, height, local_pos.z)
 
 
 # Creates a simple 4-vertices polygon which roughly corresponds to the heightmap, for use as a collider.
