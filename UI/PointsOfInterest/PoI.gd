@@ -61,21 +61,34 @@ func _on_add_pressed():
 
 
 func _on_save_pressed():
-	input_field.visible = false
-	save_button.visible = false
-	
 	# Create an array for the locations data (only contains "x" and "z"-axis)
 	var fixed_pos = [PlayerInfo.get_true_player_position()[0], PlayerInfo.get_true_player_position()[2]]
 	
+	# Search for bad url characters
+	var regex = RegEx.new()
+	regex.compile("[!@#$%^&*(),.?\":{}|<>\/\\]")
+	var has_bad_chars = regex.search(input_field.text)
+	
+	if has_bad_chars:
+		logger.warning("New PoI name must not contain special characters")
+		input_field.set_text("No special characters!")
+		return
+	
+	# To escape whitespaces use ``.percent_encode()``
+	var url_escaped_input = input_field.text.percent_encode()
+	
 	# As the coordinates on the server are responded in a different type,
 	# we have to use a "-" on the x-axis to properly save it
-	var result = ServerConnection.get_json("/location/create/%s/%d.0/%d.0/%d" % [input_field.text, -fixed_pos[0], fixed_pos[1], Session.scenario_id], false)
+	var result = ServerConnection.get_json("/location/create/%s/%d.0/%d.0/%d" % [url_escaped_input, -fixed_pos[0], fixed_pos[1], Session.scenario_id], false)
 	
 	# Only store on client if it was also successfully stored on server
 	if result.creation_success:
 		item_list.add_item(input_field.text)
 		# The item will be added as the last element in the list
 		item_list.set_item_metadata(item_list.get_item_count() - 1, fixed_pos)
+	
+	input_field.visible = false
+	save_button.visible = false
 
 
 func _on_delete_pressed():
