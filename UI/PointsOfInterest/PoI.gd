@@ -27,6 +27,10 @@ func _ready():
 
 
 func _load_pois():
+	if not Session.get_current_scenario():
+		logger.warning("_load_pois() was called, but there is no active scenario!")
+		return
+	
 	var pois = Session.get_current_scenario()["locations"]
 	
 	var index = 0
