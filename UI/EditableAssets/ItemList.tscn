@@ -26,6 +26,7 @@ margin_right = 223.0
 margin_bottom = 177.0
 rect_min_size = Vector2( 200, 150 )
 custom_fonts/font = ExtResource( 2 )
+allow_reselect = true
 fixed_icon_size = Vector2( 25, 25 )
 __meta__ = {
 "_edit_use_anchors_": false

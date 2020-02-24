@@ -40,7 +40,11 @@ func _load_assets():
 	
 	label.text = tr("ASSETS")
 	
-	var index = 0
+	# To be able to unchoose an asset add an item with invalid asset id
+	items.add_item("No asset")
+	items.set_item_metadata(0, -1)
+	
+	var index = 1
 	for asset_type_id in assets_json:
 		var assets = assets_json[asset_type_id]["assets"]
 		
