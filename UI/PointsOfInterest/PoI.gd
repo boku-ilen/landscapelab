@@ -70,7 +70,7 @@ func _on_save_pressed():
 	
 	# Search for bad url characters
 	var regex = RegEx.new()
-	regex.compile("[!@#$%^&*(),.?\":{}|<>\/\\]")
+	regex.compile(".*[!@#$%^&*(),.?\"\/\\\\:{}|<>].*")
 	var has_bad_chars = regex.search(input_field.text)
 	
 	if has_bad_chars:
@@ -91,6 +91,7 @@ func _on_save_pressed():
 		# The item will be added as the last element in the list
 		item_list.set_item_metadata(item_list.get_item_count() - 1, fixed_pos)
 	
+	input_field.set_text("")
 	input_field.visible = false
 	save_button.visible = false
 
