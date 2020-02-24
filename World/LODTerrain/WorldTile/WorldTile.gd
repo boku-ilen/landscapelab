@@ -265,7 +265,7 @@ func activate():
 	if done_loading:
 		if lod > 0 and dist_to_player > max_lods[lod]:
 			converge()
-		elif lod < max_lods.size() - 1 and dist_to_player < max_lods[lod+1]:
+		elif lod < max_lods.size() - 1 and dist_to_player < max_lods[lod]:
 			split(dist_to_player)
 
 
@@ -301,7 +301,7 @@ func split(dist_to_player):
 		return
 	
 	if is_leaf_tile():
-		logger.debug("Tile splitting to LOD %d" % [lod + 1])
+		logger.info("Tile splitting to LOD %d due to distance %f" % [lod + 1, dist_to_player])
 		
 		has_split = true
 		children.instantiate_children()
