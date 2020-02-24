@@ -9,7 +9,7 @@
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 45, 1.76459, 49 )
 
-[node name="MultiplePVModules" index="0" instance=ExtResource( 1 )]
+[node name="MultiplePVModules" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 rows = 14
 cols = 10
