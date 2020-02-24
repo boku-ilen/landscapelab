@@ -15,7 +15,6 @@ shader_param/water_splat_id = null
 shader_param/detail_start_dist = null
 shader_param/vegetation_id1 = null
 shader_param/vegetation_id2 = null
-shader_param/vegetation_id3 = null
 shader_param/tex_factor = 0.5
 shader_param/texture_blending_amount = 25.0
 shader_param/random_offset_vectors_scale = 2.5
