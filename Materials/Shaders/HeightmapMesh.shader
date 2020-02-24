@@ -24,6 +24,9 @@ uniform sampler2D random_offset_vectors : hint_normal;
 uniform sampler2D overlay_texture;
 uniform bool has_overlay;
 
+uniform bool fake_forests;
+uniform float forest_height;
+
 uniform bool blend_only_similar_colors = false;
 varying vec3 world_pos;
 varying vec3 v_obj_pos;
@@ -92,7 +95,13 @@ void vertex() {
 	VERTEX.y = get_height(UV);
 	
 	if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == water_splat_id) {
-		VERTEX.y -= 2.0; // TODO: This will become deprecated once water is precalculated into the heightmap!
+		VERTEX.y -= 2.0;
+	}
+	
+	if (fake_forests &&
+		(int(texture(splat, get_relative_pos(UV)).r * 255.0) == 91
+		|| int(texture(splat, get_relative_pos(UV)).r * 255.0) == 93)) {
+		VERTEX.y += forest_height;
 	}
 	
 	// Calculate the engine position of this vertex
