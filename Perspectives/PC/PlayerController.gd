@@ -40,7 +40,6 @@ func get_look_direction():
 
 
 func _physics_process(delta):
-	
 	# only change position if vr_mode is disabled
 	if not _vr_mode:
 		fly(delta)
@@ -70,11 +69,31 @@ func _handle_viewport_input(event):
 			
 			get_tree().set_input_as_handled()
 			return true
-	elif event.is_action_pressed("toggle_asset_only_view"):
-		if camera.cull_mask == 16:
-			camera.cull_mask = 23+32+64
-		else:
-			camera.cull_mask = 16
+	elif event.is_action_pressed("make_asset_only_screenshot"):
+		# TODO: This doesn't really belong here and should be generalized.
+		# Here we make a high-res screenshot with only the assets, the rest is
+		#  transparent, for overlaying on top of real photos.
+		var previous_viewport_size = get_viewport().size
+		
+		camera.cull_mask = 16
+		get_viewport().transparent_bg = true
+		get_viewport().size = Vector2(3888, 2592)
+		
+		VisualServer.force_draw()
+		
+		# Retrieve the captured image
+		var img = get_viewport().get_texture().get_data()
+		
+		# Flip it on the y-axis (because it's flipped)
+		img.flip_y()
+		
+		img.save_png("user://photo-%d" % [OS.get_system_time_msecs()])
+		
+		camera.cull_mask = 23+32+64
+		get_viewport().transparent_bg = false
+		get_viewport().size = previous_viewport_size
+		
+		VisualServer.force_draw()
 
 
 func fly(delta):
