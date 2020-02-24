@@ -8,6 +8,7 @@ extends "res://World/AssetHandler/AbstractAssetHandler.gd"
 
 export(bool) var only_lego_active = true
 export(int) var asset_id
+export(Material) var temporary_material
 
 
 func _ready():

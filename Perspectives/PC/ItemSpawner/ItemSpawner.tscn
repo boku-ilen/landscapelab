@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Perspectives/PC/ItemSpawner/ItemSpawner.gd" type="Script" id=1]
+[ext_resource path="res://Materials/DebugPink.tres" type="Material" id=2]
 
 [node name="ItemSpawner" type="Spatial"]
 script = ExtResource( 1 )
+until_response_material = ExtResource( 2 )

@@ -77,7 +77,7 @@ func _process(delta):
 					
 					if spawned_asset.transform.origin != engine_pos:
 						spawned_asset.transform.origin = engine_pos
-			else:
+			elif not spawned_asset.is_in_group("UnhandledNode"):
 				# If it's not in the response, it was deleted or is out of bounds -> remove it
 				logger.debug("Removed asset instance with ID %s" % [asset_id])
 				

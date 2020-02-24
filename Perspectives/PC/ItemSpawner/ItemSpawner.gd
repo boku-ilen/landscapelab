@@ -8,9 +8,11 @@ extends Spatial
 
 
 export(int) var spawned_id = 1
+export(Material) var until_response_material
 
 onready var cursor: RayCast = get_parent().get_node("InteractRay")
 onready var world = get_tree().get_root().get_node("Main/TileHandler") # Required for getting exact ground positions
+onready var asset_handler_parent = get_tree().get_root().get_node("Main/AssetHandlerSpawner")
 
 var locked_object = null
 var enabled_input_controller = false
@@ -50,14 +52,13 @@ func _unhandled_input(event):
 					# the real asset once the request is done (since the request will likely succeed - if not,
 					# the placeholder asset will simply be removed and not replaced)
 					
+					var asset_scene = load("res://Perspectives/PC/ItemSpawner/SpawnedAssetScene.tscn").instance()
+					asset_scene.asset_id = spawned_id
+					asset_scene.global_collision_point = global_collision_point
+					asset_scene.translation = collision_point
+					asset_handler_parent.get_node(String(spawned_id)).add_child(asset_scene)
+					
 					logger.info("Adding asset instance with ID %d" % [spawned_id])
-					ThreadPool.enqueue_task(ThreadPool.Task.new(self, "add_object_on_server",
-						[global_collision_point[0], global_collision_point[2]]))
-
-
-# Registers a new asset instance at the position data[0], data[1] on the server (to be called from a thread)
-func add_object_on_server(data):
-	ServerConnection.get_json("/assetpos/create/%d/%d/%d.0/%d.0" % [Session.scenario_id, spawned_id, -data[0], data[1]])
 
 
 # Enqueues the server request for deleting the object with the given ID.
