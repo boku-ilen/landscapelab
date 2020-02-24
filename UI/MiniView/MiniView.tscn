@@ -33,9 +33,8 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -632.0
-margin_top = -504.0
-margin_right = 0.00012207
+margin_left = -635.0
+margin_top = -493.0
 mouse_filter = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
@@ -46,9 +45,9 @@ __meta__ = {
 }
 
 [node name="Miniview Menu" type="HBoxContainer" parent="."]
-margin_top = 18.0
+margin_top = 7.0
 margin_right = 630.0
-margin_bottom = 68.0
+margin_bottom = 57.0
 rect_min_size = Vector2( 630, 50 )
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -134,9 +133,11 @@ texture_hover = ExtResource( 35 )
 script = ExtResource( 36 )
 
 [node name="Border" type="ColorRect" parent="."]
-margin_top = 72.0
+margin_top = 61.0
 margin_right = 632.0
-margin_bottom = 504.0
+margin_bottom = 493.0
+grow_horizontal = 0
+grow_vertical = 0
 rect_min_size = Vector2( 632, 432 )
 mouse_filter = 2
 size_flags_horizontal = 0
@@ -147,9 +148,10 @@ script = ExtResource( 37 )
 [node name="Margin" type="MarginContainer" parent="Border"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 5.0
-margin_bottom = -2.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 2.0
+margin_bottom = 1.99997
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false

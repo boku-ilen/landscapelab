@@ -74,16 +74,19 @@ transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 3.607, 
 
 [node name="instance_0" type="MeshInstance" parent="MeshOrigin"]
 transform = Transform( 0.0224269, 0, 0.0119246, 0.0119246, -3.02792e-09, -0.0224269, 1.42152e-09, 0.0254, -2.67349e-09, -0.2, 0.456806, -6.71659 )
+layers = 16
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 
 [node name="instance_9001" type="MeshInstance" parent="MeshOrigin"]
 transform = Transform( 0.0224269, 0, 0.0119246, 0.0119246, -3.02792e-09, -0.0224269, 1.42152e-09, 0.0254, -2.67349e-09, -0.2, 0.456806, -2.59658 )
+layers = 16
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
 [node name="Steher_Paar010" type="MeshInstance" parent="MeshOrigin"]
 transform = Transform( 0.0254, 0, 0, 0, -3.02792e-09, -0.0254, 0, 0.0254, -3.02792e-09, 0, 5.71933e-07, -4.79772 )
+layers = 16
 mesh = SubResource( 4 )
 material/0 = null
 material/1 = null

@@ -18,19 +18,16 @@ var item_id = null
 
 # change the toggle based on the UI signals
 func _ready():
-	connect("toggled", self, "_on_toggled")
 	GlobalSignal.connect("sync_moving_assets", self, "_setpressedfalse")
 	GlobalSignal.connect("stop_sync_moving_assets", self, "_setpressedfalse")
 	GlobalSignal.connect("changed_item_to_spawn", self, "set_asset_id")
-	items.connect("item_activated", self, "_on_item_activated")
+	items.connect("item_selected", self, "_on_item_activated")
 	
 	_load_assets()
 
 
 # Emit the index of the wanted item
 func _on_item_activated(index):
-	#GlobalSignal.emit_signal("changed_item_to_spawn", index)
-	
 	var item_id = items.get_item_metadata(index)
 	GlobalSignal.emit_signal("input_controller")
 	GlobalSignal.emit_signal("changed_asset_id", int(item_id))

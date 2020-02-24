@@ -78,7 +78,7 @@
     },
 
     "sky": {
-        "clouds": true,
+        "clouds": false,
         "fog-begin": 1000,
         "fog-end": 20000,
         "sun-intensity-factor": 1.8
@@ -93,8 +93,8 @@
         "fly-speed-sprint": 5000,
         "fly-speed-sneak": 100,
         "mouse-sensitivity": 0.1,
-        "view-distance": 60000,
-        "fov": 85
+        "view-distance": 10000,
+        "fov": 25
     },
 
     "third-person": {
