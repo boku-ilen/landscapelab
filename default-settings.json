@@ -14,36 +14,39 @@
     
         "level-0-tile-size": 9783.93962,
         "level-0-osm-zoom": 12,
-        "default-tile-subdivision": 16,
+        "default-tile-subdivision": 32,
         "update-interval-seconds": 0.2,
         "world-shift-distance": 1000,
         "tile-spawn-radius": 6,
         "tile-removal-check-radius-summand": 2,
         "distances": [
-            5000,
+            7000,
             2000,
-            700,
-            400,
+            500,
             200,
             100,
-            70,
-            40,
-            20
+            50,
+            20,
+            10,
+            5
         ],
         "module-path": "res://World/LODTerrain/Modules",
     "modules": [
             ["TerrainModule.tscn", "TerrainColliderModule.tscn", "Debug/DebugInfoModule.tscn"],
+            ["-TerrainModule.tscn", "MediumTerrainModule.tscn"],
             [],
-            ["-TerrainModule.tscn", "DetailedTerrainModule.tscn"],
-            ["WaterModule.tscn", "Vegetation/LargeTreeModule.tscn", "Vegetation/SmallTreeModule.tscn"],
-            ["Vegetation/LargeBushModule.tscn", "Vegetation/SmallBushModule.tscn"],
+            [],
+            ["WaterModule.tscn", "Vegetation/LargeTreeModule.tscn", "-MediumTerrainModule.tscn", "DetailedTerrainModule.tscn"],
+            ["Vegetation/SmallTreeModule.tscn"],
+            ["Vegetation/LargeBushModule.tscn"],
+            ["Vegetation/SmallBushModule.tscn"],
             ["Vegetation/HerbageModule.tscn"]
         ],	
         "player-bounding-radius": 10000
     },
 
     "terrain-collider": {
-        "collision-mesh-subdivision": 16
+        "collision-mesh-subdivision": 32
     },
     
     "mouse-point": {

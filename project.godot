@@ -387,6 +387,7 @@ world_cursor_activated={
 3d_render/layer_8="2D Symbols"
 3d_render/layer_9="3D Secondary View UI"
 3d_render/layer_10="3D VR"
+3d_render/layer_16="3D Terrain Overlay"
 
 [locale]
 
