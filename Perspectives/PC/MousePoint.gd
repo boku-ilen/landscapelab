@@ -27,3 +27,6 @@ func _unhandled_input(event):
 		
 		# Transform the forward vector to this projected vector (-z is forward)
 		transform.basis.z = -mouse_point_vector
+	elif Input.is_action_pressed("world_cursor_activated"):
+		GlobalSignal.emit_signal("cursor_click", 
+			WorldPosition.get_position_on_ground(cursor.get_collision_point()))

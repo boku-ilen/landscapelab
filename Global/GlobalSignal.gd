@@ -1,5 +1,8 @@
 extends Node
 
+# World
+signal cursor_click(world_position)
+
 #
 # GUI emitted signals
 # 
