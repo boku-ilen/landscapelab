@@ -23,7 +23,6 @@ func _enter_tree():
 	assert(asset_id != null)
 	
 	instance = Assets.get_asset_instance(asset_id)
-	set_asset_material(instance, temporary_material)
 	add_child(instance)
 	
 	global_transform.origin = collision_point
@@ -31,6 +30,12 @@ func _enter_tree():
 	# Give the thread a higher priority for a quicker response if asset is valid
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "add_object_on_server",
 		[global_collision_point[0], global_collision_point[2]]), 99)
+
+
+# Set the material in the ready function to make sure all the child nodes (possible meshes)
+# are set aleady.
+func _ready():
+	set_asset_material(instance, temporary_material)
 
 
 func _process(_delta):
