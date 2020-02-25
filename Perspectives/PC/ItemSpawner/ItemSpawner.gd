@@ -47,15 +47,17 @@ func _unhandled_input(event):
 					var collision_point = cursor.get_collision_point()
 					var global_collision_point = Offset.to_world_coordinates(collision_point)
 					
-					# TODO: It might take a while until the object is added on the server and instanced by the
-					# DynamicAssetHandler. Thus, we might want to instance a scene here, which is replaced by
-					# the real asset once the request is done (since the request will likely succeed - if not,
-					# the placeholder asset will simply be removed and not replaced)
+					# As the server request takes some time we instance a scene for the time we are waiting for a result
+					# - Sucessful: the node will be renamed with the given id of the server
+					# 		which was sent in the json. Thus the assethandler will 
+					# 		not instanciate a second asset at the given position.
+					# - Unsucessful: The attached node with the temporary asset will be removed.
 					
 					var asset_scene = load("res://Perspectives/PC/ItemSpawner/SpawnedAssetScene.tscn").instance()
 					asset_scene.asset_id = spawned_id
 					asset_scene.global_collision_point = global_collision_point
-					asset_scene.translation = collision_point
+					asset_scene.collision_point = WorldPosition.get_position_on_ground(collision_point)
+					# The asset handler's name for a given asset is a string of the assets id 
 					asset_handler_parent.get_node(String(spawned_id)).add_child(asset_scene)
 					
 					logger.info("Adding asset instance with ID %d" % [spawned_id])
