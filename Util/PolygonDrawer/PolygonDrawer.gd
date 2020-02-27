@@ -7,7 +7,7 @@ extends Node
 #
 
 
-var id
+var id: int
 
 var coordinates = Array()
 var polygon_mesh = preload("res://Util/PolygonDrawer/Polygon.tscn")
