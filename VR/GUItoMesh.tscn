@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=1]
+[ext_resource path="res://VR/MeshInstance.gd" type="Script" id=2]
+[ext_resource path="res://UI/DebugInfo/DebugInfo.gd" type="Script" id=3]
+
+[sub_resource type="ViewportTexture" id=7]
+viewport_path = NodePath("MeshInstance/Viewport")
+
+[sub_resource type="SpatialMaterial" id=8]
+resource_local_to_scene = true
+albedo_texture = SubResource( 7 )
+
+[sub_resource type="PlaneMesh" id=9]
+
+[node name="MeshInstance" type="MeshInstance"]
+transform = Transform( -5, -1.94707e-06, -8.51092e-14, 0, -2.18557e-07, 5, -1.94707e-06, 5, 2.18557e-07, 0.0115308, -1.78814e-07, -5.34304 )
+visible = false
+layers = 513
+material_override = SubResource( 8 )
+mesh = SubResource( 9 )
+material/0 = null
+script = ExtResource( 2 )
+gui_viewport_path = NodePath("Viewport")
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 152, 540 )
+hdr = false
+disable_3d = true
+usage = 0
+
+[node name="DebugInfo" type="VBoxContainer" parent="Viewport" instance=ExtResource( 1 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1615.0
+mouse_filter = 0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
