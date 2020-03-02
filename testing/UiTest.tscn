@@ -1,0 +1,22 @@
+[gd_scene format=2]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="CheckButton" parent="."]
+margin_right = 76.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 80.0
+margin_top = 13.0
+margin_right = 206.0
+margin_bottom = 27.0
+text = "DIIIIIIIIIIIIIIIIIIIICK"

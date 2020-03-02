@@ -1,0 +1,14 @@
+[gd_scene format=2]
+
+[node name="Camera" type="Camera"]
+transform = Transform( -0.2, -1.74846e-08, -3.49691e-08, 1.74846e-08, -0.2, -1.74846e-08, -3.49691e-08, -1.74846e-08, 0.2, -9.37376e-07, 2.40708, -1.19209e-07 )
+cull_mask = 119
+doppler_tracking = 2
+projection = 1
+current = true
+fov = 90.0
+near = 0.01
+far = 70000.0
+__meta__ = {
+"_editor_description_": ""
+}
