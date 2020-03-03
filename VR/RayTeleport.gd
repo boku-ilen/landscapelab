@@ -6,15 +6,22 @@ export(float) var min_pitch = -80
 export(float) var max_pitch = 90
 export(float) var max_distance = 5000
 export(float) var cast_height = 6
-export(bool) var testing = false
+export(bool) var testing
 
 onready var horizontal_ray = get_node("HorizontalRay")
 # Remote transform does not work
 onready var tall_ray = origin.get_node("TallRay")
 onready var position_indicator = get_node("PositionIndicator")
+onready var visualizer = get_node("ImmediateGeometry")
 
 var horizontal_point: Vector3
 var tall_ray_collision: Vector3
+
+
+func _ready():
+	testing = origin.testing
+	tall_ray.enabled = true
+	horizontal_ray.enabled = true
 
 
 func _on_button_pressed(id):
@@ -33,6 +40,8 @@ func _process(delta):
 	
 	tall_ray_collision = tall_ray.get_collision_point()
 	position_indicator.global_transform.origin = tall_ray_collision
+	
+	_visualize()
 
 
 # Finds the maximum distance along the horizontal ray
@@ -56,3 +65,23 @@ func _find_cast_position():
 	
 	tall_ray.global_transform.origin = cast_position
 	tall_ray.cast_to = cast_direction
+
+
+func _visualize():
+	visualizer.clear()
+	visualizer.begin(Mesh.PRIMITIVE_LINE_STRIP)
+	
+	var start_pos = controller.get_global_transform().origin
+	# end_pos = tall_ray_collision
+	var normal = (start_pos - tall_ray_collision).cross(Vector3.UP)
+	var mid_vertex = (tall_ray_collision + controller.get_global_transform().origin) / 2 + normal
+	
+	visualizer.set_uv(Vector2(0, 1))
+	visualizer.set_normal(Vector3(0, 0, 1))
+	visualizer.add_vertex(start_pos)
+	visualizer.set_uv(Vector2(1, 1))
+	visualizer.set_normal(Vector3(0, 0, 1))
+	visualizer.add_vertex(mid_vertex)
+	visualizer.set_uv(Vector2(0, 0))
+	visualizer.set_normal(Vector3(0, 0, 1))
+	visualizer.add_vertex(tall_ray_collision)

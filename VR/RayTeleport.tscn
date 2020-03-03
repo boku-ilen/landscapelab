@@ -24,3 +24,5 @@ collide_with_areas = true
 [node name="PositionIndicator" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
+
+[node name="ImmediateGeometry" type="ImmediateGeometry" parent="."]
