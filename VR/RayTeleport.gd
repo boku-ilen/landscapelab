@@ -7,12 +7,14 @@ export(float) var max_pitch = 90
 export(float) var max_distance = 5000
 export(float) var cast_height = 6
 export(bool) var testing
+export(SpatialMaterial) var visualizer_material = SpatialMaterial.new()
 
 onready var horizontal_ray = get_node("HorizontalRay")
 # Remote transform does not work
 onready var tall_ray = origin.get_node("TallRay")
 onready var position_indicator = get_node("PositionIndicator")
-onready var visualizer = get_node("ImmediateGeometry")
+onready var visualizer = get_node("Node/ImmediateGeometry")
+onready var bezier = preload("res://testing/Bezier.tscn")
 
 var horizontal_point: Vector3
 var tall_ray_collision: Vector3
@@ -72,16 +74,16 @@ func _visualize():
 	visualizer.begin(Mesh.PRIMITIVE_LINE_STRIP)
 	
 	var start_pos = controller.get_global_transform().origin
-	# end_pos = tall_ray_collision
-	var normal = (start_pos - tall_ray_collision).cross(Vector3.UP)
-	var mid_vertex = (tall_ray_collision + controller.get_global_transform().origin) / 2 + normal
+	var end_pos
+	if tall_ray.is_colliding():
+		end_pos = tall_ray_collision
+	else:
+		end_pos = tall_ray.cast_to
 	
-	visualizer.set_uv(Vector2(0, 1))
-	visualizer.set_normal(Vector3(0, 0, 1))
+	var mid_vertex = (end_pos + start_pos) / 2 + Vector3.UP * cast_height
+	
+	visualizer.set_material_override(visualizer_material)
 	visualizer.add_vertex(start_pos)
-	visualizer.set_uv(Vector2(1, 1))
-	visualizer.set_normal(Vector3(0, 0, 1))
 	visualizer.add_vertex(mid_vertex)
-	visualizer.set_uv(Vector2(0, 0))
-	visualizer.set_normal(Vector3(0, 0, 1))
-	visualizer.add_vertex(tall_ray_collision)
+	visualizer.add_vertex(end_pos)
+	visualizer.end()

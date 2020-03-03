@@ -25,4 +25,6 @@ collide_with_areas = true
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 
-[node name="ImmediateGeometry" type="ImmediateGeometry" parent="."]
+[node name="Node" type="Node" parent="."]
+
+[node name="ImmediateGeometry" type="ImmediateGeometry" parent="Node"]
