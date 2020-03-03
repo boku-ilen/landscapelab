@@ -1,20 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Perspectives/VR/FirstPersonVR.tscn" type="PackedScene" id=1]
 [ext_resource path="res://VR/GuiToMesh.tscn" type="PackedScene" id=2]
-[ext_resource path="res://testing/CameraTest.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CubeMesh" id=1]
 
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 5.02755, 1, 4.93471 )
-
-[sub_resource type="ViewportTexture" id=3]
-viewport_path = NodePath("Viewport")
-
-[sub_resource type="SpatialMaterial" id=4]
-resource_local_to_scene = true
-albedo_texture = SubResource( 3 )
 
 [node name="Viewport" type="Spatial"]
 
@@ -77,34 +68,8 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0.418256, 0 )
 shape = SubResource( 2 )
 
-[node name="FirstPersonVR" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.589472, 0 )
-visible = false
-
-[node name="ARVROrigin" parent="FirstPersonVR" index="0"]
-testing = true
-
-[node name="ARVRControllerExtension" parent="FirstPersonVR/ARVROrigin/RightHand" index="1"]
-testing = true
-
-[node name="HorizontalRay" parent="FirstPersonVR/ARVROrigin/RightHand/ARVRControllerExtension" index="0"]
-enabled = true
-
-[node name="TallRay" parent="FirstPersonVR/ARVROrigin" index="3"]
-enabled = true
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.999223, 0, -0.0394168, 0, 1, 0, 0.0394168, 0, 0.999223, 0, 3.38006, 8.06657 )
 
 [node name="GuiToMesh" parent="." instance=ExtResource( 2 )]
-transform = Transform( 5, 0, 0, 0, -2.18557e-07, -5, 0, 5, -2.18557e-07, 0, 6.35587, -5.11846 )
-material_override = SubResource( 4 )
-viewport_texture = ExtResource( 4 )
-
-[node name="GuiToMesh2" parent="." instance=ExtResource( 2 )]
-transform = Transform( 3.68267, -3.382, 1.47832e-07, 0, -2.18557e-07, -5, 3.382, 3.68267, -1.60975e-07, 13.1597, 6.35587, -3.0646 )
-material_override = SubResource( 4 )
-
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.949677, 0, -0.31323, 0, 1, 0, 0.31323, 0, 0.949677, 0, 3.38006, 8.06657 )
-
-[editable path="FirstPersonVR"]
-
-[editable path="FirstPersonVR/ARVROrigin/RightHand/ARVRControllerExtension"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.56671, -4.03641 )

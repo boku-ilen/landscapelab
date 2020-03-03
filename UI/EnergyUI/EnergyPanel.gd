@@ -36,9 +36,9 @@ func _ready():
 func _on_new_response(response):
 	var asset_details = response
 	
-	progress_bar.value = float(asset_details["total_energy_contribution"])
-	
 	if not asset_details == null:
+		progress_bar.value = float(asset_details["total_energy_contribution"])
+	
 		energy_value.text = String(int(round(asset_details["total_energy_contribution"])))
 		assets_amount.text = String(asset_details["number_of_assets"])
 		
