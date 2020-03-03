@@ -45,7 +45,7 @@ func pause_tracking():
 # this function stops the tracking - it is called by the stop button
 func stop_tracking():
 	pause_tracking()
-	logger.info("stopping tracking and invalidating session id: %s" % [Session.scenario_id])
+	logger.info("stopping tracking and invalidating session id: %s" % [Session.session_id])
 	Session.session_id = -1  # flag the session as invalid
 
 
