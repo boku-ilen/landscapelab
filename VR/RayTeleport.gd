@@ -14,7 +14,7 @@ onready var horizontal_ray = get_node("HorizontalRay")
 onready var tall_ray = origin.get_node("TallRay")
 onready var position_indicator = get_node("PositionIndicator")
 onready var visualizer = get_node("Node/ImmediateGeometry")
-onready var bezier = preload("res://testing/Bezier.tscn")
+onready var bezier = preload("res://VR/Bezier.tscn").instance().curve
 
 var horizontal_point: Vector3
 var tall_ray_collision: Vector3
@@ -43,6 +43,7 @@ func _process(delta):
 	tall_ray_collision = tall_ray.get_collision_point()
 	position_indicator.global_transform.origin = tall_ray_collision
 	
+	_draw_bezier()
 	_visualize()
 
 
@@ -69,10 +70,7 @@ func _find_cast_position():
 	tall_ray.cast_to = cast_direction
 
 
-func _visualize():
-	visualizer.clear()
-	visualizer.begin(Mesh.PRIMITIVE_LINE_STRIP)
-	
+func _draw_bezier():
 	var start_pos = controller.get_global_transform().origin
 	var end_pos
 	if tall_ray.is_colliding():
@@ -80,10 +78,19 @@ func _visualize():
 	else:
 		end_pos = tall_ray.cast_to
 	
-	var mid_vertex = (end_pos + start_pos) / 2 + Vector3.UP * cast_height
+	var mid_pos = (end_pos + start_pos) / 2 + Vector3.UP * cast_height
+	
+	bezier.set_point_position(0, start_pos)
+	bezier.set_point_position(1, mid_pos)
+	bezier.set_point_position(2, end_pos)
+
+
+func _visualize():
+	visualizer.clear()
+	visualizer.begin(Mesh.PRIMITIVE_LINE_STRIP)
 	
 	visualizer.set_material_override(visualizer_material)
-	visualizer.add_vertex(start_pos)
-	visualizer.add_vertex(mid_vertex)
-	visualizer.add_vertex(end_pos)
+	for vertex in bezier.get_baked_points():
+		visualizer.add_vertex(vertex)
+	
 	visualizer.end()
