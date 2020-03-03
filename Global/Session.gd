@@ -77,7 +77,8 @@ func set_start_offset_for_scenario(scenario_id):
 # we want to get a new session id from the server thus ending the old session
 func start_session(scenario_id):
 	# try to get a new session id for this scenario
-	var session = ServerConnection.get_json(session_url % [scenario_id])
+	# don't cache - we want a different ID every time
+	var session = ServerConnection.get_json(session_url % [scenario_id], false)
 	
 	if not session or session.has("Error"):
 		logger.warning("Could not fetch a new session id from %s" % session_url)
