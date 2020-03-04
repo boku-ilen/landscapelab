@@ -89,6 +89,7 @@ script = SubResource( 1 )
 
 [node name="PositionIndicator" parent="ARVROrigin/RightHand/ARVRControllerExtension" index="1"]
 transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0 )
+material/0 = null
 
 [node name="LeftHand" parent="ARVROrigin" instance=ExtResource( 4 )]
 controller_id = 2
@@ -96,7 +97,5 @@ script = SubResource( 1 )
 
 [node name="Compass" parent="ARVROrigin/LeftHand" instance=ExtResource( 6 )]
 transform = Transform( 0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0 )
-
-[node name="TallRay" type="RayCast" parent="ARVROrigin"]
 
 [editable path="ARVROrigin/RightHand/ARVRControllerExtension"]

@@ -7,23 +7,27 @@ export(float) var max_pitch = 90
 export(float) var max_distance = 5000
 export(float) var cast_height = 6
 export(bool) var testing
-export(SpatialMaterial) var visualizer_material = SpatialMaterial.new()
+export(Color) var can_teleport = Color.green
+export(Color) var cannot_teleport = Color.red
 
 onready var horizontal_ray = get_node("HorizontalRay")
-# Remote transform does not work
-onready var tall_ray = origin.get_node("TallRay")
+# Remote transform does not work, thus we make a node to undock it from the controller.
+# Then we set the position each frame.
+onready var tall_ray = get_node("Node/TallRay")
 onready var position_indicator = get_node("PositionIndicator")
-onready var visualizer = get_node("Node/ImmediateGeometry")
+onready var visualizer = get_node("Node/Visualizer")
 onready var bezier = Curve3D.new()
 
 var horizontal_point: Vector3
-var tall_ray_collision: Vector3
+export(SpatialMaterial) var visualizer_material = SpatialMaterial.new()
 
 
 func _ready():
 	testing = origin.testing
 	tall_ray.enabled = true
 	horizontal_ray.enabled = true
+	visualizer.set_material_override(visualizer_material)
+	position_indicator.set_material_override(visualizer_material)
 	_init_bezier()
 
 
@@ -38,19 +42,27 @@ func _init_bezier():
 func _on_button_pressed(id):
 	# 1 equals Y on rift
 	if id == 1:
-		if not tall_ray_collision == null:
+		if tall_ray.is_colliding():
 			if not testing: 
-				PlayerInfo.update_player_pos(tall_ray_collision)
+				PlayerInfo.update_player_pos(tall_ray.get_collision_point())
 			else:
-				origin.get_parent().translation = tall_ray_collision
+				origin.get_parent().translation = tall_ray.get_collision_point()
 
 
 func _process(delta):
+	tall_ray.global_transform.origin = origin.global_transform.origin + Vector3.UP * cast_height
 	_find_horizontal_point()
 	_find_cast_position()
 	
-	tall_ray_collision = tall_ray.get_collision_point()
-	position_indicator.global_transform.origin = tall_ray_collision
+	if tall_ray.is_colliding():
+		position_indicator.visible = true
+		position_indicator.global_transform.origin = tall_ray.get_collision_point()
+		visualizer_material.albedo_color = can_teleport
+		visualizer_material.emission = can_teleport
+	else:
+		position_indicator.visible = false
+		visualizer_material.albedo_color = cannot_teleport
+		visualizer_material.emission = cannot_teleport
 	
 	_draw_bezier()
 	_visualize()
@@ -83,9 +95,9 @@ func _draw_bezier():
 	var start_pos = controller.get_global_transform().origin
 	var end_pos
 	if tall_ray.is_colliding():
-		end_pos = tall_ray_collision
+		end_pos = tall_ray.get_collision_point()
 	else:
-		end_pos = tall_ray.cast_to
+		end_pos = tall_ray.to_global(tall_ray.cast_to)
 	
 	var mid_pos = (end_pos + start_pos) / 2 + Vector3.UP * cast_height
 	
@@ -102,7 +114,6 @@ func _visualize():
 	visualizer.clear()
 	visualizer.begin(Mesh.PRIMITIVE_LINE_STRIP)
 	
-	visualizer.set_material_override(visualizer_material)
 	for vertex in bezier.get_baked_points():
 		visualizer.add_vertex(vertex)
 	
