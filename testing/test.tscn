@@ -86,11 +86,6 @@ cast_height = 3.0
 [node name="HorizontalRay" parent="FirstPersonVR/ARVROrigin/RightHand/ARVRControllerExtension" index="0"]
 enabled = true
 
-[node name="TallRay" parent="FirstPersonVR/ARVROrigin" index="3"]
-enabled = true
-
-[node name="ImmediateGeometry" type="ImmediateGeometry" parent="FirstPersonVR/ARVROrigin" index="4"]
-
 [editable path="FirstPersonVR"]
 
 [editable path="FirstPersonVR/ARVROrigin/RightHand/ARVRControllerExtension"]
