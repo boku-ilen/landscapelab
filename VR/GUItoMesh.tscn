@@ -1,24 +1,19 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://VR/GuiToMesh.gd" type="Script" id=1]
-[ext_resource path="res://testing/UiTest.tscn" type="PackedScene" id=2]
+[ext_resource path="res://VR/ViewportToMesh.gd" type="Script" id=1]
 
-[sub_resource type="PlaneMesh" id=5]
+[sub_resource type="PlaneMesh" id=1]
 
 [node name="GuiToMesh" type="MeshInstance"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
-mesh = SubResource( 5 )
+mesh = SubResource( 1 )
 material/0 = null
 script = ExtResource( 1 )
-viewport_texture = ExtResource( 2 )
 
 [node name="Viewport" type="Viewport" parent="."]
-size = Vector2( 100, 200 )
+size = Vector2( 800, 800 )
+transparent_bg = true
 hdr = false
-disable_3d = true
 usage = 1
 render_target_v_flip = true
 render_target_update_mode = 3
-
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5.74627, -2.51178e-07 )
