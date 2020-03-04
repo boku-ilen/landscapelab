@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Perspectives/VR/FirstPersonVR.tscn" type="PackedScene" id=1]
 [ext_resource path="res://VR/GuiToMesh.tscn" type="PackedScene" id=2]
 [ext_resource path="res://VR/CamToMesh.tscn" type="PackedScene" id=3]
 [ext_resource path="res://testing/UiTest.tscn" type="PackedScene" id=4]
+[ext_resource path="res://VR/InteractableObjects/Ball.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -76,15 +77,6 @@ shape = SubResource( 2 )
 [node name="ARVROrigin" parent="FirstPersonVR" index="0"]
 testing = true
 
-[node name="ARVRControllerExtension" parent="FirstPersonVR/ARVROrigin/RightHand" index="1"]
-min_pitch = -120.0
-max_pitch = 50.0
-max_distance = 500.0
-cast_height = 3.0
-
-[node name="HorizontalRay" parent="FirstPersonVR/ARVROrigin/RightHand/ARVRControllerExtension" index="0"]
-enabled = true
-
 [node name="CamToMesh" parent="." instance=ExtResource( 3 )]
 
 [node name="Viewport" parent="CamToMesh" index="0"]
@@ -95,8 +87,12 @@ render_direct_to_screen = true
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.85211, -5.13991 )
 viewport_element = ExtResource( 4 )
 
-[editable path="FirstPersonVR"]
+[node name="Spatial" parent="." groups=[
+"Interactable",
+] instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41443, 0 )
+collision_layer = 33
 
-[editable path="FirstPersonVR/ARVROrigin/RightHand/ARVRControllerExtension"]
+[editable path="FirstPersonVR"]
 
 [editable path="CamToMesh"]
