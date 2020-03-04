@@ -20,11 +20,11 @@ __meta__ = {
 }
 
 [node name="MainUI" type="MarginContainer" parent="."]
-anchor_right = 1.0
+anchor_right = 0.987
 anchor_bottom = 1.0
 margin_left = 25.0
 margin_top = 25.0
-margin_right = -25.0
+margin_right = -0.365112
 margin_bottom = -25.0
 mouse_filter = 2
 __meta__ = {
@@ -110,6 +110,9 @@ margin_top = 433.0
 margin_right = 34.0
 margin_bottom = 1024.0
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ToolsPanel" parent="ToolsOffset" instance=ExtResource( 1 )]
 margin_left = 0.0
