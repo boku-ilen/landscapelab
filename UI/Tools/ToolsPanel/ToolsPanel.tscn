@@ -13,6 +13,7 @@
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.gd" type="Script" id=11]
 [ext_resource path="res://UI/PointsOfInterest/PoI.tscn" type="PackedScene" id=12]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=13]
+[ext_resource path="res://resources/Images/UI/UI/arrow-up.svg" type="Texture" id=14]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -44,11 +45,6 @@ shader = ExtResource( 9 )
 shader_param/color = null
 shader_param/rotation_radians = null
 
-[sub_resource type="StreamTexture" id=6]
-resource_local_to_scene = true
-flags = 4
-load_path = "res://.import/arrow-up.svg-0f9af2aaf18e9da3c6a6f6c13a02dd08.stex"
-
 [node name="ToolsPanel" type="VBoxContainer"]
 margin_left = -435.0
 margin_top = 40.0
@@ -65,7 +61,7 @@ toggled_pos_diff = 435
 hovered_pos_diff = 45
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 464.0
+margin_right = 468.0
 margin_bottom = 400.0
 mouse_filter = 2
 size_flags_horizontal = 0
@@ -83,17 +79,17 @@ __meta__ = {
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/PanelContainer"]
-margin_left = 396.0
-margin_top = 7.0
-margin_right = 453.0
-margin_bottom = 393.0
+margin_left = 389.0
+margin_top = 14.0
+margin_right = 446.0
+margin_bottom = 386.0
 mouse_filter = 1
 size_flags_horizontal = 8
 scroll_horizontal_enabled = false
 
 [node name="ToolsBar" type="VBoxContainer" parent="HBoxContainer/PanelContainer/ScrollContainer"]
 margin_right = 57.0
-margin_bottom = 195.0
+margin_bottom = 207.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
@@ -113,9 +109,9 @@ visible = false
 material = SubResource( 2 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 53.0
+margin_top = 57.0
 margin_right = 57.0
-margin_bottom = 101.0
+margin_bottom = 105.0
 texture_normal = ExtResource( 2 )
 
 [node name="Datetime" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Season" instance=ExtResource( 6 )]
@@ -125,9 +121,9 @@ visible = false
 material = SubResource( 3 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 105.0
+margin_top = 113.0
 margin_right = 57.0
-margin_bottom = 144.0
+margin_bottom = 152.0
 texture_normal = ExtResource( 4 )
 
 [node name="List" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Assets" instance=ExtResource( 8 )]
@@ -137,9 +133,9 @@ visible = false
 material = SubResource( 4 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 148.0
+margin_top = 160.0
 margin_right = 57.0
-margin_bottom = 195.0
+margin_bottom = 207.0
 texture_normal = ExtResource( 1 )
 pressed_color = Color( 0.301961, 0.521569, 0.776471, 1 )
 
@@ -147,14 +143,14 @@ pressed_color = Color( 0.301961, 0.521569, 0.776471, 1 )
 visible = false
 
 [node name="PopupsContainer" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 464.0
-margin_right = 464.0
+margin_left = 468.0
+margin_right = 468.0
 margin_bottom = 400.0
 
 [node name="Node" type="Control" parent="."]
-margin_top = 404.0
-margin_right = 464.0
-margin_bottom = 404.0
+margin_top = 408.0
+margin_right = 468.0
+margin_bottom = 408.0
 
 [node name="Button" parent="Node" instance=ExtResource( 13 )]
 material = SubResource( 5 )
@@ -167,4 +163,4 @@ margin_bottom = -403.755
 mouse_filter = 1
 size_flags_horizontal = 8
 toggle_mode = true
-texture_normal = SubResource( 6 )
+texture_normal = ExtResource( 14 )

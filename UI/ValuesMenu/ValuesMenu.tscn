@@ -20,7 +20,7 @@ __meta__ = {
 }
 
 [node name="Control" type="OptionButton" parent="."]
-margin_top = 270.0
+margin_top = 263.0
 margin_right = 200.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 200, 30 )
@@ -32,18 +32,16 @@ text = "Select Value"
 material = SubResource( 1 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 204.0
+margin_left = 208.0
 margin_top = 264.0
-margin_right = 240.0
+margin_right = 244.0
 margin_bottom = 300.0
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="Tween" type="Tween" parent="."]
-
 [node name="PanelContainer" type="PanelContainer" parent="."]
-margin_left = 244.0
-margin_right = 594.0
+margin_left = 252.0
+margin_right = 602.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 350, 300 )
 mouse_filter = 1
@@ -52,3 +50,5 @@ size_flags_vertical = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Tween" type="Tween" parent="."]

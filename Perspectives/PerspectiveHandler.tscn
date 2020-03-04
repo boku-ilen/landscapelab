@@ -19,8 +19,40 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="MainUI" parent="ViewportContainer" instance=ExtResource( 3 )]
+[node name="MarginContainer" type="MarginContainer" parent="ViewportContainer"]
+anchor_right = 0.95
+anchor_bottom = 0.95
+margin_right = 40.0
+margin_bottom = 40.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="MainUI" parent="ViewportContainer/MarginContainer" instance=ExtResource( 3 )]
+margin_right = 1864.0
+margin_bottom = 1066.0
+
+[node name="Top Menu Bar" parent="ViewportContainer/MarginContainer/MainUI/MainUI" index="0"]
+margin_right = 1814.0
+margin_bottom = 1016.0
+
+[node name="HBoxRight" parent="ViewportContainer/MarginContainer/MainUI/MainUI/Top Menu Bar" index="0"]
+margin_left = 1672.0
+margin_right = 1814.0
+
+[node name="ValuesOffset" parent="ViewportContainer/MarginContainer/MainUI/MainUI" index="1"]
+margin_right = 1814.0
+margin_bottom = 1016.0
+
+[node name="Values" parent="ViewportContainer/MarginContainer/MainUI/MainUI/ValuesOffset" index="0"]
+margin_top = 716.0
+margin_bottom = 1016.0
+
+[node name="DebugSettings" parent="ViewportContainer/MarginContainer/MainUI/MainUI" index="2"]
+margin_bottom = 1016.0
 
 [node name="PCViewport" type="Viewport" parent="ViewportContainer"]
 size = Vector2( 1920, 1080 )
@@ -45,9 +77,11 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 1260.0
-margin_top = 566.0
+margin_left = 1278.0
+margin_top = 584.0
 margin_right = 1910.0
 margin_bottom = 1070.0
 
 [node name="PlayerPositionMarker" parent="." instance=ExtResource( 6 )]
+
+[editable path="ViewportContainer/MarginContainer/MainUI"]
