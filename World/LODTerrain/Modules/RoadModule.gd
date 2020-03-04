@@ -9,7 +9,7 @@ export(PackedScene) var linear_drawer
 export(int) var line_type
 
 
-func init():
+func init(data=null):
 	var roads = _get_server_result()
 	
 	if roads:

@@ -30,7 +30,7 @@ func set_splatmap():
 	water_mesh.material_override.set_shader_param("heightmap", dhm)
 
 
-func init():
+func init(data=null):
 	get_textures(tile)
 	apply_textures()
 	

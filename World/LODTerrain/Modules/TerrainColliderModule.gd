@@ -14,7 +14,7 @@ var heightmap_size
 var collider_subdivision = Settings.get_setting("terrain-collider", "collision-mesh-subdivision")
 
 
-func init():
+func init(data=null):
 	col_shape = get_node("StaticBody/CollisionShape")
 	
 	connect("visibility_changed", self, "_on_visibility_changed")

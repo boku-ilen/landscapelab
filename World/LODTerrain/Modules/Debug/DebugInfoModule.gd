@@ -5,7 +5,7 @@ onready var label = get_node("Viewport/MarginContainer/CenterContainer/Label")
 onready var sprite_anchor = get_node("SpriteAnchor")
 
 
-func init():
+func init(data=null):
 	_done_loading()
 
 

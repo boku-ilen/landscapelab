@@ -36,6 +36,8 @@ var max_lods = Settings.get_setting("lod", "distances")
 var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
 var subdiv : int = Settings.get_setting("lod", "default-tile-subdivision")
 
+var load_thread = Thread.new()
+
 # Signals
 signal tile_done_loading # Emitted once all modules have finished loading -> the tile is ready
 signal split # Emitted by the top-level tile when a child finished splitting, e.g. so the ground position can be updated
@@ -60,12 +62,12 @@ func _ready():
 	module_handler.connect("all_modules_done_loading", self, "_on_module_handler_done", [module_handler], CONNECT_DEFERRED)
 	
 	# Uncomment/comment to toggle threaded loading
-	#module_handler.init([self])
-	thread_task(module_handler, "init", [self])
+	module_handler.init([self])
+	#thread_task(module_handler, "init", [self])
 
 
 func _on_module_handler_done(array_with_handler):
-	add_child(array_with_handler)
+	call_deferred("add_child", array_with_handler)
 	
 	# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
 	#  (which has no other tile parent)
@@ -336,7 +338,24 @@ func get_texture_result(url_start):
 		return null
 		
 	return result
+
+
+func get_raster_from_pyramid(path, ending):
+	var true_pos = get_true_position()
+	var zoom = get_osm_zoom()
 	
+	var norm_x = 0.5 + (float(-true_pos[0]) / 20037508.0) * 0.5
+	var norm_y = 1.0 - (0.5 + (float(true_pos[2]) / 20037508.0) * 0.5)
+	
+	var num_tiles = pow(2, zoom)
+	
+	var tile_x = floor(norm_x * num_tiles)
+	var tile_y = floor(norm_y * num_tiles)
+	
+	var full_path = path.plus_file(zoom).plus_file(tile_x).plus_file(tile_y) + "." + ending
+	
+	return CachingImageTexture.get(full_path)
+
 
 # Add a function call to the ThreadPool at an appropriate priority based on the distance of
 #  this tile to the player.
@@ -360,4 +379,4 @@ func thread_task(object, function, arguments):
 	else:
 		priority = 0.0
 	
-	ThreadPool.enqueue_task(ThreadPool.Task.new(object, function, arguments), priority)
+	ThreadPool.enqueue_task(ThreadPool.Task.new(object, function, arguments), 100.0)

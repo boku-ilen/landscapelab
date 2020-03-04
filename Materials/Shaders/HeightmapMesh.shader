@@ -72,11 +72,7 @@ vec2 get_relative_pos_with_blending(vec2 raw_pos) {
 
 // Gets the absolute height at a given pos without taking the skirt into account
 float get_height_no_falloff(vec2 pos) {
-	float r = texture(heightmap, get_relative_pos(pos)).r * 255.0 * 65536.0;
-	float g = texture(heightmap, get_relative_pos(pos)).g * 255.0 * 256.0;
-	float b = texture(heightmap, get_relative_pos(pos)).b * 255.0;
-	
-	return (r + g + b) / 100.0;
+	return texture(heightmap, get_relative_pos(pos)).r;
 }
 
 // Gets the required height of the vertex, including the skirt around the edges (the outermost vertices are set to y=0 to allow seamless transitions between tiles)
@@ -156,7 +152,7 @@ void fragment(){
 	// TODO: The calculation of e is not correct, we should not need the ' * (9783.93962 / size)' part.
 	//  I believe we need it due to our heightmap images being low res with doubled pixels at small scales.
 	float texture_size = float(textureSize(heightmap, 0).x);
-	float e = ((size / size_without_skirt) / texture_size) * (9783.93962 / size);
+	float e = ((size / size_without_skirt) / texture_size);
 	
 	vec2 normal_uv_pos = UV;
 	

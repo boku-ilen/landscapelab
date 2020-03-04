@@ -24,7 +24,7 @@ var splatmap
 var phyto_data = {}
 
 
-func init():
+func init(data=null):
 	for i in range(0, num_layers):
 		var instance = ModuleLoader.get_instance("Util/HeightmapParticles.tscn")
 		instance.name = String(i)
