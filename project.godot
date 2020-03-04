@@ -127,7 +127,8 @@ GameModeLoader="*res://Global/GameModeLoader.gd"
 
 window/size/width=1920
 window/size/height=1080
-window/stretch/aspect="keep"
+window/dpi/allow_hidpi=true
+window/stretch/aspect="expand"
 
 [editor_plugins]
 
@@ -136,6 +137,10 @@ enabled=PoolStringArray( "dscn_io", "vr-extensions" )
 [gdnative]
 
 singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib" ]
+
+[gui]
+
+theme/use_hidpi=true
 
 [input]
 
