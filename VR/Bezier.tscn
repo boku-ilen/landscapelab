@@ -2,10 +2,10 @@
 
 [sub_resource type="Curve3D" id=1]
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -6.04511, 1.33091, 4.33594, -2, 0, 0, 2, 0, 0, -3.21163, 5.03876, 5.91107, 0, 0, 0, 0, 0, 0, 10.2348, -0.1961, -19.658 ),
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -6, 0, 0, -2, 0, -0.4, 2, 0, 0.4, -1, 1, 1, 0, 0, 0, 0, 0, 0, 3, 0, 2 ),
 "tilts": PoolRealArray( 0, 0, 0 )
 }
 
 [node name="Spatial" type="Path"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.123763, 0.0541315, -0.404966 )
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 0, 0, 6 )
 curve = SubResource( 1 )

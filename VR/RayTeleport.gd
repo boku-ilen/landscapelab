@@ -14,7 +14,7 @@ onready var horizontal_ray = get_node("HorizontalRay")
 onready var tall_ray = origin.get_node("TallRay")
 onready var position_indicator = get_node("PositionIndicator")
 onready var visualizer = get_node("Node/ImmediateGeometry")
-onready var bezier = preload("res://VR/Bezier.tscn").instance().curve
+onready var bezier = Curve3D.new()
 
 var horizontal_point: Vector3
 var tall_ray_collision: Vector3
@@ -24,6 +24,15 @@ func _ready():
 	testing = origin.testing
 	tall_ray.enabled = true
 	horizontal_ray.enabled = true
+	_init_bezier()
+
+
+# Because we need to have 3 points to draw the bezier we have to initialize them
+# with a value
+func _init_bezier():
+	bezier.add_point(Vector3.ZERO)
+	bezier.add_point(Vector3.ZERO)
+	bezier.add_point(Vector3.ZERO)
 
 
 func _on_button_pressed(id):
@@ -83,6 +92,10 @@ func _draw_bezier():
 	bezier.set_point_position(0, start_pos)
 	bezier.set_point_position(1, mid_pos)
 	bezier.set_point_position(2, end_pos)
+	# Also set the in- and out-point (this makes the bezier effect)
+	var direction = (end_pos - start_pos).normalized()
+	bezier.set_point_in(1, direction * -2)
+	bezier.set_point_out(1, direction * 2)
 
 
 func _visualize():

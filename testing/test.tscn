@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
+[ext_resource path="res://Perspectives/VR/FirstPersonVR.tscn" type="PackedScene" id=1]
 [ext_resource path="res://VR/GuiToMesh.tscn" type="PackedScene" id=2]
 
 [sub_resource type="CubeMesh" id=1]
@@ -68,8 +69,28 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0.418256, 0 )
 shape = SubResource( 2 )
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.999223, 0, -0.0394168, 0, 1, 0, 0.0394168, 0, 0.999223, 0, 3.38006, 8.06657 )
-
 [node name="GuiToMesh" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.56671, -4.03641 )
+
+[node name="FirstPersonVR" parent="." instance=ExtResource( 1 )]
+
+[node name="ARVROrigin" parent="FirstPersonVR" index="0"]
+testing = true
+
+[node name="ARVRControllerExtension" parent="FirstPersonVR/ARVROrigin/RightHand" index="1"]
+min_pitch = -120.0
+max_pitch = 50.0
+max_distance = 500.0
+cast_height = 3.0
+
+[node name="HorizontalRay" parent="FirstPersonVR/ARVROrigin/RightHand/ARVRControllerExtension" index="0"]
+enabled = true
+
+[node name="TallRay" parent="FirstPersonVR/ARVROrigin" index="3"]
+enabled = true
+
+[node name="ImmediateGeometry" type="ImmediateGeometry" parent="FirstPersonVR/ARVROrigin" index="4"]
+
+[editable path="FirstPersonVR"]
+
+[editable path="FirstPersonVR/ARVROrigin/RightHand/ARVRControllerExtension"]
