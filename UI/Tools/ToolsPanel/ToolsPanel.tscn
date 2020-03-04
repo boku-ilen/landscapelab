@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Resources/Images/UI/UI/play.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Images/UI/UI/s_season_time.png" type="Texture" id=2]
@@ -13,7 +13,6 @@
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.gd" type="Script" id=11]
 [ext_resource path="res://UI/PointsOfInterest/PoI.tscn" type="PackedScene" id=12]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=13]
-[ext_resource path="res://resources/Images/UI/UI/arrow-up.svg" type="Texture" id=14]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -163,4 +162,3 @@ margin_bottom = -403.755
 mouse_filter = 1
 size_flags_horizontal = 8
 toggle_mode = true
-texture_normal = ExtResource( 14 )

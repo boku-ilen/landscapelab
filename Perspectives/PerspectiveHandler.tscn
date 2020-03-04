@@ -28,6 +28,7 @@ anchor_right = 0.95
 anchor_bottom = 0.95
 margin_right = 40.0
 margin_bottom = 40.0
+mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
@@ -40,7 +41,7 @@ margin_right = 1814.0
 margin_bottom = 1016.0
 
 [node name="HBoxRight" parent="ViewportContainer/MarginContainer/MainUI/MainUI/Top Menu Bar" index="0"]
-margin_left = 1672.0
+margin_left = 1668.0
 margin_right = 1814.0
 
 [node name="ValuesOffset" parent="ViewportContainer/MarginContainer/MainUI/MainUI" index="1"]
@@ -78,7 +79,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 1278.0
-margin_top = 584.0
+margin_top = 580.0
 margin_right = 1910.0
 margin_bottom = 1070.0
 
