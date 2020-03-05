@@ -52,8 +52,8 @@ func spawn_modules():
 		instance.connect("module_done_loading", self, "_on_module_done_loading", [instance])
 		instance.set_tile(tile)
 		
-		#tile.thread_task(instance, "init", null)
-		instance.init()
+		tile.thread_task(instance, "init", null)
+		#instance.init()
 
 
 # Called when the module_done_loading signal is emitted.
