@@ -1,11 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Perspectives/VR/FirstPersonVR.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/VR/ARVROrigin.gd" type="Script" id=2]
 [ext_resource path="res://Perspectives/VR/SettingsARVRCamera.gd" type="Script" id=3]
 [ext_resource path="res://addons/godot-openvr/scenes/ovr_controller.tscn" type="PackedScene" id=4]
 [ext_resource path="res://VR/RayTeleport.tscn" type="PackedScene" id=5]
-[ext_resource path="res://VR/OrientationCompass/Compass.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Perspectives/VR/ParentTracker.gd" type="Script" id=7]
 [ext_resource path="res://VR/ObjectInteraction.tscn" type="PackedScene" id=8]
 
@@ -94,5 +93,4 @@ script = SubResource( 1 )
 controller_id = 2
 script = SubResource( 1 )
 
-[node name="Compass" parent="ARVROrigin/LeftHand" instance=ExtResource( 6 )]
-transform = Transform( 0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0 )
+[node name="ObjectInteraction" parent="ARVROrigin/LeftHand" instance=ExtResource( 8 )]
