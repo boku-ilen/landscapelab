@@ -31,6 +31,10 @@ const NUM_CHILDREN = 4 # Number of children, will likely always stay 4 because i
 
 var top_level: WorldTile = self # The top-level-tile of the tree this tile is in
 
+# Allows caching textures so they can easily be used my multiple modules (e.g. heightmap)
+var texture_cache = {}
+var texture_cache_mutex = Mutex.new()
+
 # Settings
 var max_lods = Settings.get_setting("lod", "distances")
 var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
@@ -325,7 +329,29 @@ func get_dist_to_player():
 	clamped.z = clamp(player_pos.z, origin.y, end.y)
 
 	return Vector2(player_pos.x, player_pos.z).distance_to(Vector2(clamped.x, clamped.z))
+
+
+func get_texture(name):
+	# First, check the raster tile pyramid with this name. (Get static pre-tiled data)
+	# If it doesn't exist, check for a geotiff with this name. (Get dynamic data directl from geotiff)
+	# If it also doesn't exist, throw an error.
+	pass
+
+
+func get_texture_from_geodata(name):
+	var true_pos = get_true_position()
 	
+	var img = Geodot.save_tile_from_heightmap(
+		name,
+		"",
+		-true_pos[0] - size / 2,
+		true_pos[2] + size / 2,
+		size,
+		256
+	)
+	
+	return img
+
 
 # Builds a request in the form of "/url_start/meter_x/meter_y/zoom.json" and returns the result, if it is valid.
 func get_texture_result(url_start):

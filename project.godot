@@ -122,6 +122,7 @@ Assets="*res://Global/Assets.gd"
 ModuleLoader="*res://Global/ModuleLoader.gd"
 UISignal="*res://Global/UISignal.gd"
 GameModeLoader="*res://Global/GameModeLoader.gd"
+Geodot="*res://addons/geodot/geodot.gdns"
 
 [display]
 

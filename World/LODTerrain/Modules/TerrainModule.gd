@@ -20,25 +20,10 @@ func init(data=null):
 
 
 func get_textures(tile, mesh) -> bool:
-	var response
-	var max_iterations = 10
-	var iteration = 0
-	
-	var true_pos = tile.get_true_position()
-	
-	var img = Geodot.save_tile_from_heightmap(
-		"/home/retour/LandscapeLab/testdata/webm.tif",
-		"/home/retour/LandscapeLab/testdata/tile.tif",
-		-true_pos[0] - tile.size / 2,
-		true_pos[2] + tile.size / 2,
-		tile.size,
-		256
-	)
-	
+	var img = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/webm.tif")
 	mesh.material_override.set_shader_param("heightmap", img)
 	
 	var ortho = tile.get_raster_from_pyramid("raster/bmaporthofoto30cm/", "jpg")
-	
 	mesh.material_override.set_shader_param("tex", ortho)
 	
 	return true
