@@ -339,18 +339,27 @@ func get_texture(name):
 
 
 func get_texture_from_geodata(name):
-	var true_pos = get_true_position()
+	texture_cache_mutex.lock()
 	
-	var img = Geodot.save_tile_from_heightmap(
-		name,
-		"",
-		-true_pos[0] - size / 2,
-		true_pos[2] + size / 2,
-		size,
-		256
-	)
-	
-	return img
+	if texture_cache.has(name):
+		texture_cache_mutex.unlock()
+		return texture_cache.get(name)
+	else:
+		var true_pos = get_true_position()
+		
+		var img = Geodot.save_tile_from_heightmap(
+			name,
+			"",
+			-true_pos[0] - size / 2,
+			true_pos[2] + size / 2,
+			size,
+			256
+		)
+		
+		texture_cache[name] = img
+		texture_cache_mutex.unlock()
+		
+		return img
 
 
 # Builds a request in the form of "/url_start/meter_x/meter_y/zoom.json" and returns the result, if it is valid.

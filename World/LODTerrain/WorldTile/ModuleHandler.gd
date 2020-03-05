@@ -47,11 +47,7 @@ func spawn_modules():
 	
 	# Spawn the modules we selected previously
 	for module in modules_to_spawn:
-		var before_time = OS.get_ticks_usec()
 		var instance = ModuleLoader.get_instance(module) as Module
-		var after_time = OS.get_ticks_usec()
-		
-		print("Took %d usecs" % [after_time - before_time])
 		
 		instance.connect("module_done_loading", self, "_on_module_done_loading", [instance])
 		instance.set_tile(tile)

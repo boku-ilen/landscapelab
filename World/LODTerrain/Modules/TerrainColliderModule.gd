@@ -8,7 +8,6 @@ extends Module
 var col_shape
 var heightmap
 var heightmap_img
-var heightmap_data
 var heightmap_size
 
 var collider_subdivision = Settings.get_setting("terrain-collider", "collision-mesh-subdivision")
@@ -30,18 +29,14 @@ func _on_visibility_changed():
 	else:
 		col_shape.disabled = false
 
-
 func get_textures(tile):
-	var dhm_response = tile.get_texture_result("raster")
-	if dhm_response and dhm_response.has("dhm"):
-		heightmap = CachingImageTexture.get(dhm_response.get("dhm"), 0)
+	heightmap = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/webm.tif")
+
+	if heightmap:
+		heightmap_img = heightmap.get_data()
+		heightmap_size = heightmap_img.get_size()
 		
-		if heightmap:
-			heightmap_img = heightmap.get_data()
-			heightmap_data = heightmap_img.get_data()
-			heightmap_size = heightmap_img.get_size()
-			
-			col_shape.shape = create_tile_collision_shape()
+		col_shape.shape = create_tile_collision_shape()
 	else:
 		logger.warning("Couldn't get heightmap for tile!")
 
@@ -54,7 +49,7 @@ func get_height_at_position(var pos):
 		logger.warning("get_height_at_position was called, but the heightmap was null")
 		return 0
 	
-	if heightmap_data:
+	if heightmap_img:
 		# TODO: There is still a slight inconsistency with how the mesh actually looks here.
 		# I believe that this might be because Godot's plane mesh has the triangles like this:
 		#  ___
@@ -104,17 +99,14 @@ func get_height_from_image(pix_pos):
 	pix_pos.x = clamp(pix_pos.x, 0, heightmap_size.x - 1)
 	pix_pos.y = clamp(pix_pos.y, 0, heightmap_size.y - 1)
 	
-	# Reimplemented from https://github.com/godotengine/godot/blob/master/core/image.cpp
-	# The reason is that with this reimplementation, we can directly use the PoolByteArray
-	#  image data instead of having to lock the image to call get_pixel. This results in a
-	#  noticeable performance increase.
-	var offset = int(pix_pos.y) * heightmap_size.x + int(pix_pos.x)
+	# Locking the image and using get_pixel takes about as long as manually
+	#  getting the height from the PoolByteArray data, so this more intuitive
+	#  way is used instead of a custom implementation, as previously.
+	heightmap_img.lock()
+	var height = heightmap_img.get_pixel(pix_pos.x, pix_pos.y).r
+	heightmap_img.unlock()
 	
-	var r = float(heightmap_data[offset * 4 + 0] * pow(2, 16)) / 100
-	var g = float(heightmap_data[offset * 4 + 1] * pow(2, 8)) / 100
-	var b = float(heightmap_data[offset * 4 + 2]) / 100
-	
-	return r + g + b
+	return height
 
 
 # Helper function for create_tile_collision_shape - turns x and y coordinates from the loop to a real position.
