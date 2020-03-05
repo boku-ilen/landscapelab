@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Perspectives/VR/FirstPersonVR.tscn" type="PackedScene" id=1]
 [ext_resource path="res://VR/GuiToMesh.tscn" type="PackedScene" id=2]
 [ext_resource path="res://VR/CamToMesh.tscn" type="PackedScene" id=3]
 [ext_resource path="res://testing/UiTest.tscn" type="PackedScene" id=4]
 [ext_resource path="res://VR/InteractableObjects/Ball.tscn" type="PackedScene" id=5]
+[ext_resource path="res://VR/InteractableObjects/OrientationCompass/Compass.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -87,11 +88,12 @@ render_direct_to_screen = true
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.85211, -5.13991 )
 viewport_element = ExtResource( 4 )
 
-[node name="Spatial" parent="." groups=[
-"Interactable",
-] instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41443, 0 )
+[node name="Spatial" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00461, 0.784847, -1.86169 )
 collision_layer = 33
+
+[node name="Control" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6652, -1.03467 )
 
 [editable path="FirstPersonVR"]
 
