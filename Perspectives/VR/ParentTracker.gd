@@ -5,6 +5,9 @@ extends Node
 # The parent must be a Spatial or derived.
 #
 
+var version = Settings.get_setting("meta", "version")
+var usage = Settings.get_setting("meta", "usage")
+
 onready var tracking_timer = get_node("TrackingTimer")
 
 var file = File.new()
@@ -19,7 +22,7 @@ func _ready():
 
 # Start saving data with the current Session id
 func start_tracking():
-	var filename = "user://tracking%d.csv" % [Session.session_id]
+	var filename = "user://tracking-%s-%s-session%d.csv" % [usage, version, Session.session_id]
 	
 	open_tracking_file(filename)
 
