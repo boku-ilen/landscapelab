@@ -11,7 +11,7 @@
 				"path": "Test.tscn",
 				"modes": [1]
 			}
-		}	
+		}
 	},
 	"tools": {
 		"Teleport": {
@@ -24,6 +24,9 @@
 			"modes": [0]
 		},
 		"Imaging": {
+			"modes": [0]
+		},
+		"Tracking": {
 			"modes": [0]
 		}
 	}
