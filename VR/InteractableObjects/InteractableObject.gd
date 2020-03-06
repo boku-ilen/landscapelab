@@ -17,4 +17,4 @@ func picked_up(my_controller: ARVRController):
 
 
 func dropped():
-	pass
+	controller = null
