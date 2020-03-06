@@ -39,7 +39,7 @@ func _init_bezier():
 	bezier.add_point(Vector3.ZERO)
 
 
-func _on_button_pressed(id):
+func on_button_pressed(id):
 	# 1 equals Y on rift
 	if id == 1:
 		if tall_ray.is_colliding():
