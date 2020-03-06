@@ -72,7 +72,7 @@ func get_vegetation_data(tile, mesh):
 	if not splat_result or not splat_result.has("ids"):
 		return
 
-	splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"), 0)
+	splatmap = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/sentinel-invekos-bytes.tif", 6)
 	
 	var added_vegetations = 0
 	# Add as many vegetations as available on server / possible on client

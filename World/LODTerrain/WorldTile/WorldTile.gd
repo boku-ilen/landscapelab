@@ -337,8 +337,10 @@ func get_texture(name):
 	# If it also doesn't exist, throw an error.
 	pass
 
-
-func get_texture_from_geodata(name):
+ 
+# Get a texture cutout from a geoimage corresponding to the location and size of this tile.
+# A custom inteprolation can be chosen, the default is bilinear.
+func get_texture_from_geodata(name, interpolation=1):
 	texture_cache_mutex.lock()
 	
 	if texture_cache.has(name):
@@ -349,11 +351,11 @@ func get_texture_from_geodata(name):
 		
 		var img = Geodot.save_tile_from_heightmap(
 			name,
-			"",
 			-true_pos[0] - size / 2,
 			true_pos[2] + size / 2,
 			size,
-			256
+			256,
+			interpolation
 		)
 		
 		texture_cache[name] = img
