@@ -39,23 +39,15 @@ func init(data=null):
 
 # Fetches all required data from the server
 func get_splat_data():
+	splatmap = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/sentinel-invekos-bytes.tif", 6)
+	heightmap = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/webm.tif")
+	
 	var true_pos = tile.get_true_position()
 	var url = "/%s/%d.0/%d.0/%d"\
 		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()]
 
 	# Vegetation result for this tile
 	result = ServerConnection.get_json(url)
-		
-	# Load splatmap
-	if result and result.has("path_to_splatmap"):
-		splatmap = CachingImageTexture.get(result.get("path_to_splatmap"), 0)
-		
-	# Get heightmap
-	var dhm_response = tile.get_texture_result("raster")
-	if dhm_response and dhm_response.has("dhm"):
-		# We need to use get_new since the vegetation uses different flags
-		# than the default! (set in set_parameters)
-		heightmap = CachingImageTexture.get(dhm_response.get("dhm"), 0)
 
 	if result and result.has("ids"):
 		# Iterate over all phytocoenosis IDs on this tile (but don't exceed num_layers)
