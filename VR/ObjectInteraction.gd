@@ -15,8 +15,9 @@ func _process(delta):
 
 func on_button_released(id: int):
 	if id == pick_up_button_id:
-		current_object.dropped()
-		current_object = null
+		if current_object:
+			current_object.dropped()
+			current_object = null
 
 
 func on_button_pressed(id: int):

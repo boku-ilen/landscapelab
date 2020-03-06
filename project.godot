@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/GroundedSpatial.gd"
 }, {
-"base": "Spatial",
+"base": "RigidBody",
 "class": "InteractableObject",
 "language": "GDScript",
 "path": "res://VR/InteractableObjects/InteractableObject.gd"
