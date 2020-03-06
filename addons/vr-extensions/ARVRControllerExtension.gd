@@ -16,8 +16,8 @@ var joystick_pos = Vector2()
 
 
 func _ready():
-	controller.connect("button_pressed", self, "_on_button_pressed")
-	controller.connect("button_released", self, "_on_button_released")
+	controller.connect("button_pressed", self, "on_button_pressed")
+	controller.connect("button_release", self, "on_button_released")
 
 
 func _process(delta):
