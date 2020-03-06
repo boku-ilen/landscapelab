@@ -90,13 +90,13 @@ void vertex() {
 	// Apply the height of the heightmap at this pixel
 	VERTEX.y = get_height(UV);
 	
-	if (int(texture(splat, get_relative_pos(UV)).r * 255.0) == water_splat_id) {
+	if (int(texture(splat, get_relative_pos(UV)).r) == water_splat_id) {
 		VERTEX.y -= 2.0;
 	}
 	
 	if (fake_forests &&
-		(int(texture(splat, get_relative_pos(UV)).r * 255.0) == 91
-		|| int(texture(splat, get_relative_pos(UV)).r * 255.0) == 93)) {
+		(int(texture(splat, get_relative_pos(UV)).r) == 91
+		|| int(texture(splat, get_relative_pos(UV)).r) == 93)) {
 		VERTEX.y += forest_height;
 	}
 	
@@ -128,10 +128,10 @@ void fragment(){
 	
 	// If the player is too far away, don't do all the detail calculation
 	if (detail_factor > 0.0) {
-		if (int(texture(splat, get_relative_pos_with_blending(UV)).r * 255.0) == vegetation_id1) {
+		if (int(texture(splat, get_relative_pos_with_blending(UV)).r) == vegetation_id1) {
 			detail_color = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 			current_normal = texture(vegetation_normal1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		} else if (int(texture(splat, get_relative_pos_with_blending(UV)).r * 255.0) == vegetation_id2) {
+		} else if (int(texture(splat, get_relative_pos_with_blending(UV)).r) == vegetation_id2) {
 			detail_color = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 			current_normal = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 		}
