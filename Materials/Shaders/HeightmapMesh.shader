@@ -86,75 +86,11 @@ float get_height(vec2 pos) {
 	return get_height_no_falloff(pos);
 }
 
-void vertex() {
-	// Apply the height of the heightmap at this pixel
-	VERTEX.y = get_height(UV);
-	
-	if (int(texture(splat, get_relative_pos(UV)).r) == water_splat_id) {
-		VERTEX.y -= 2.0;
-	}
-	
-	if (fake_forests &&
-		(int(texture(splat, get_relative_pos(UV)).r) == 91
-		|| int(texture(splat, get_relative_pos(UV)).r) == 93)) {
-		VERTEX.y += forest_height;
-	}
-	
-	// Calculate the engine position of this vertex
-	v_obj_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz / size;
-	
-	// Calculate the engine position of the camera
-	world_pos = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	
-	// Apply the curvature based on the position of the current camera
-	float dist_to_middle = pow(world_pos.x, 2.0) + pow(world_pos.y, 2.0) + pow(world_pos.z, 2.0);
-	VERTEX.y -= get_curve_offset(dist_to_middle);
-}
-
-void fragment(){
-	// Material parameters
-	ROUGHNESS = 0.95;
-	METALLIC = 0.0;
-	
-	vec3 base_color = texture(tex, get_relative_pos(UV)).rgb;
-	vec3 detail_color = vec3(0.0);
-	vec3 total_color;
-	vec3 current_normal = vec3(0.0);
-	
-	// Calculate the factor by which the detail texture should be shown
-	// The factor is between 0 and 1: 0 when the camera is more than detail_start_dist away; 1 when the camera is right here.
-	float detail_factor = distance(v_obj_pos, world_pos);
-	detail_factor = clamp(1.0 - (detail_factor / detail_start_dist), 0.0, 1.0);
-	
-	// If the player is too far away, don't do all the detail calculation
-	if (detail_factor > 0.0) {
-		if (int(texture(splat, get_relative_pos_with_blending(UV)).r) == vegetation_id1) {
-			detail_color = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-			current_normal = texture(vegetation_normal1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		} else if (int(texture(splat, get_relative_pos_with_blending(UV)).r) == vegetation_id2) {
-			detail_color = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-			current_normal = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-		}
-	}
-	
-	if (blend_only_similar_colors) {
-		detail_factor *= max(0.0, (1.0 - length(detail_color - base_color)));
-	}
-
-	if (detail_color != vec3(0.0)) {
-		total_color = mix(base_color, detail_color, detail_factor);
-	} else {
-		total_color = base_color;
-	}
-	
+vec3 get_normal(vec2 normal_uv_pos) {
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor.
-	// TODO: The calculation of e is not correct, we should not need the ' * (9783.93962 / size)' part.
-	//  I believe we need it due to our heightmap images being low res with doubled pixels at small scales.
 	float texture_size = float(textureSize(heightmap, 0).x);
 	float e = ((size / size_without_skirt) / texture_size);
-	
-	vec2 normal_uv_pos = UV;
 	
 	// Sobel filter for getting the normal at this position
 	float bottom_left = get_height_no_falloff(normal_uv_pos + vec2(-e, -e));
@@ -175,21 +111,100 @@ void fragment(){
 	long_normal.y = (top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right) / (size_without_skirt / texture_size);
 	long_normal.z = 1.0;
 
-	vec3 normal = normalize(long_normal);
+	return normalize(long_normal);
+}
+
+void vertex() {
+	// Apply the height of the heightmap at this pixel
+	VERTEX.y = get_height(UV);
+	int splat_id = int(texture(splat, get_relative_pos(UV)).r);
 	
+	if (splat_id == water_splat_id) {
+		VERTEX.y -= 2.0;
+	}
+	
+	if (fake_forests &&
+		(splat_id == 91
+		|| splat_id == 93)) {
+		VERTEX.y += forest_height;
+	}
+	
+	// Calculate the engine position of this vertex
+	v_obj_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz / size;
+	
+	// Calculate the engine position of the camera
+	world_pos = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	
+	// Apply the curvature based on the position of the current camera
+	float dist_to_middle = pow(world_pos.x, 2.0) + pow(world_pos.y, 2.0) + pow(world_pos.z, 2.0);
+	VERTEX.y -= get_curve_offset(dist_to_middle);
+}
+
+void fragment(){
+	// Material parameters
+	ROUGHNESS = 0.95;
+	METALLIC = 0.0;
+	
+	int splat_id = int(texture(splat, get_relative_pos(UV)).r);
+	
+	vec3 total_color;
+	vec3 normal;
+	
+	if (clay_rendering) { // Early exit?
+		// For clay rendering, simply display the land-use splatmap.
+		total_color = vec3(float(splat_id) / 255.0);
+		normal = get_normal(UV);
+	} else {
+		// Early exit due to overlay texture?
+		bool done = false;
+		
+		if (has_overlay) {
+			vec4 overlay = texture(overlay_texture, get_relative_pos(UV));
+			
+			if (overlay.a > 0.5) {
+				total_color = overlay.rgb;
+				normal = get_normal(UV);
+				done = true;
+			}
+		}
+		
+		if (!done) {
+			vec3 base_color = texture(tex, get_relative_pos(UV)).rgb;
+			vec3 detail_color = vec3(0.0);
+			vec3 current_normal = vec3(0.0);
+			
+			// Calculate the factor by which the detail texture should be shown
+			// The factor is between 0 and 1: 0 when the camera is more than detail_start_dist away; 1 when the camera is right here.
+			float detail_factor = distance(v_obj_pos, world_pos);
+			detail_factor = clamp(1.0 - (detail_factor / detail_start_dist), 0.0, 1.0);
+			
+			// If the player is too far away, don't do all the detail calculation
+			if (detail_factor > 0.0) {
+				if (splat_id == vegetation_id1) {
+					detail_color = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+					current_normal = texture(vegetation_normal1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+				} else if (splat_id == vegetation_id2) {
+					detail_color = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+					current_normal = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+				}
+			}
+			
+			if (blend_only_similar_colors) {
+				detail_factor *= max(0.0, (1.0 - length(detail_color - base_color)));
+			}
+		
+			if (detail_color != vec3(0.0)) {
+				total_color = mix(base_color, detail_color, detail_factor);
+			} else {
+				total_color = base_color;
+			}
+			
+			normal = get_normal(UV);
+		}
+	}
+
 	NORMALMAP = normal;
 	// To test the normals: total_color = NORMALMAP;
 	
-	vec4 overlay = texture(overlay_texture, get_relative_pos(UV));
-	
-	// If the overlay texture has data at this pixel, it is used instead of the normal color
-	if (has_overlay && overlay.a > 0.5) {
-		total_color = overlay.rgb;
-	}
-	
-	if (clay_rendering) {
-		ALBEDO = vec3(0.6 + (get_height(get_relative_pos(UV)) - 1000.0) * (1.0/1500.0));
-	} else {
-		ALBEDO = total_color;
-	}
+	ALBEDO = total_color;
 }
