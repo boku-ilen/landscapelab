@@ -28,6 +28,7 @@ material/0 = SubResource( 2 )
 shape = SubResource( 3 )
 
 [node name="Spatial" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0171114, 0 )
 
 [node name="CompassSymbol" type="Sprite3D" parent="Spatial"]
 transform = Transform( 0.045, 0, 0, 0, -1.96701e-09, 1, 0, -0.045, -4.37114e-08, 0, 0.03, 0 )

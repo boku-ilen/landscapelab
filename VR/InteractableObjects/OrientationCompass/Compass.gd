@@ -10,11 +10,21 @@ onready var compass_symbol = get_node("Spatial")
 
 
 func _process(delta):
-	var compass_direction = Vector3(transform.origin.x, transform.origin.y, transform.origin.z - 100)
 	if _is_picked_up:
-		compass_symbol.look_at(compass_direction, controller.transform.basis.y)
+		var compass_plate_plane = Plane(controller.global_transform.basis.y, 0)
+		
+		var new_forward = compass_plate_plane.project(Vector3.FORWARD).normalized()
+		var new_up = controller.global_transform.basis.y
+		var new_right = new_forward.cross(new_up)
+		
+		compass_symbol.global_transform.basis = Basis(new_right, new_up, -new_forward)
 
 
 func picked_up(my_controller: ARVRController):
-	controller = my_controller
+	.picked_up(my_controller)
 	_is_picked_up = true
+
+
+func dropped():
+	.dropped()
+	_is_picked_up = false

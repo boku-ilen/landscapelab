@@ -4,7 +4,7 @@
 [ext_resource path="res://VR/GuiToMesh.tscn" type="PackedScene" id=2]
 [ext_resource path="res://VR/CamToMesh.tscn" type="PackedScene" id=3]
 [ext_resource path="res://testing/UiTest.tscn" type="PackedScene" id=4]
-[ext_resource path="res://VR/InteractableObjects/Ball.tscn" type="PackedScene" id=5]
+[ext_resource path="res://VR/InteractableObjects/Ball/Ball.tscn" type="PackedScene" id=5]
 [ext_resource path="res://VR/InteractableObjects/OrientationCompass/Compass.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CubeMesh" id=1]
@@ -92,7 +92,7 @@ viewport_element = ExtResource( 4 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00461, 0.784847, -1.86169 )
 collision_layer = 33
 
-[node name="Control" parent="." instance=ExtResource( 6 )]
+[node name="Compass" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6652, -1.03467 )
 
 [editable path="FirstPersonVR"]
