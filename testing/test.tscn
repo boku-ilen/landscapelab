@@ -1,11 +1,12 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Perspectives/VR/FirstPersonVR.tscn" type="PackedScene" id=1]
-[ext_resource path="res://VR/GuiToMesh.tscn" type="PackedScene" id=2]
+[ext_resource path="res://VR/Gui/GuiToMesh.tscn" type="PackedScene" id=2]
 [ext_resource path="res://VR/CamToMesh.tscn" type="PackedScene" id=3]
 [ext_resource path="res://testing/UiTest.tscn" type="PackedScene" id=4]
 [ext_resource path="res://VR/InteractableObjects/Ball/Ball.tscn" type="PackedScene" id=5]
 [ext_resource path="res://VR/InteractableObjects/OrientationCompass/Compass.tscn" type="PackedScene" id=6]
+[ext_resource path="res://VR/Gui/GuiInteractionRay.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -78,7 +79,20 @@ shape = SubResource( 2 )
 [node name="ARVROrigin" parent="FirstPersonVR" index="0"]
 testing = true
 
+[node name="HorizontalRay" parent="FirstPersonVR/ARVROrigin/RightHand/RayTeleport" index="0"]
+enabled = true
+
+[node name="TallRay" parent="FirstPersonVR/ARVROrigin/RightHand/RayTeleport/Node" index="1"]
+enabled = true
+
+[node name="ARVRControllerExtension" parent="FirstPersonVR/ARVROrigin/RightHand" index="3" instance=ExtResource( 7 )]
+_origin_path = NodePath("../..")
+
+[node name="RayCast" parent="FirstPersonVR/ARVROrigin/RightHand/ARVRControllerExtension" index="0"]
+collide_with_areas = true
+
 [node name="CamToMesh" parent="." instance=ExtResource( 3 )]
+script = null
 
 [node name="Viewport" parent="CamToMesh" index="0"]
 hdr = true
@@ -87,6 +101,10 @@ render_direct_to_screen = true
 [node name="GuiToMesh2" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.85211, -5.13991 )
 viewport_element = ExtResource( 4 )
+create_collision_areas = true
+
+[node name="Viewport" parent="GuiToMesh2" index="0"]
+size = Vector2( 424, 424 )
 
 [node name="Spatial" parent="." instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00461, 0.784847, -1.86169 )
@@ -95,6 +113,20 @@ collision_layer = 33
 [node name="Compass" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6652, -1.03467 )
 
+[node name="Spatial2" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.04158, 0.748388, 0 )
+
+[node name="Spatial3" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.894279, 1.08513, 0 )
+
 [editable path="FirstPersonVR"]
 
+[editable path="FirstPersonVR/ARVROrigin/RightHand/RayTeleport"]
+
+[editable path="FirstPersonVR/ARVROrigin/RightHand/ARVRControllerExtension"]
+
 [editable path="CamToMesh"]
+
+[editable path="GuiToMesh2"]
+
+[editable path="Spatial3"]

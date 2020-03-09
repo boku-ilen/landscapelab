@@ -1,23 +1,29 @@
 [gd_scene format=2]
 
 [node name="HBoxContainer" type="HBoxContainer"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 424.0
+margin_bottom = 424.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Button" type="Button" parent="."]
+margin_right = 180.0
+margin_bottom = 424.0
+text = "TEEEEEEEEEST"
+
 [node name="Control" type="CheckButton" parent="."]
-margin_right = 152.0
-margin_bottom = 80.0
+margin_left = 188.0
+margin_right = 340.0
+margin_bottom = 424.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = 160.0
-margin_top = 12.0
-margin_right = 236.0
-margin_bottom = 68.0
+margin_left = 348.0
+margin_top = 184.0
+margin_right = 424.0
+margin_bottom = 240.0
 text = ":))))))))))
 "
