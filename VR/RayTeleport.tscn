@@ -2,7 +2,7 @@
 
 [ext_resource path="res://VR/RayTeleport.gd" type="Script" id=1]
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=1]
 vertex_color_use_as_albedo = true
 emission_enabled = true
 emission = Color( 0, 0, 0, 1 )
@@ -10,11 +10,11 @@ emission_energy = 1.0
 emission_operator = 0
 emission_on_uv2 = false
 
-[sub_resource type="SphereMesh" id=1]
+[sub_resource type="SphereMesh" id=2]
 radius = 0.2
 height = 0.4
 
-[sub_resource type="SpatialMaterial" id=2]
+[sub_resource type="SpatialMaterial" id=3]
 emission_enabled = true
 emission = Color( 1, 0.627451, 0.882353, 1 )
 emission_energy = 1.0
@@ -26,15 +26,15 @@ transmission = Color( 1, 0, 0.984314, 1 )
 [node name="ARVRControllerExtension" type="Spatial"]
 script = ExtResource( 1 )
 _origin_path = NodePath("../..")
-visualizer_material = SubResource( 3 )
+visualizer_material = SubResource( 1 )
 
 [node name="HorizontalRay" type="RayCast" parent="."]
 cast_to = Vector3( 0, 0, -500 )
 collide_with_areas = true
 
 [node name="PositionIndicator" type="MeshInstance" parent="."]
-mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
 
 [node name="Node" type="Node" parent="."]
 

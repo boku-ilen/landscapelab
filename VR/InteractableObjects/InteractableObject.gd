@@ -20,7 +20,8 @@ func dropped():
 	if not controller == null:
 		var position_before = controller.global_transform.origin
 		yield(get_tree(), "physics_frame")
+		yield(get_tree(), "physics_frame")
 		var direction = controller.global_transform.origin - position_before
-		apply_impulse(transform.origin, direction * 60)
+		apply_impulse(transform.origin, direction * 100)
 		controller = null
 
