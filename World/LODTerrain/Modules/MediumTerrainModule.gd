@@ -14,7 +14,7 @@ func get_textures(tile, mesh):
 
 
 func get_splatmap(tile, mesh):
-	var splatmap = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/sentinel-invekos-bytes.tif", 6)
+	var splatmap = tile.get_texture("sentinel-invekos-bytes", "tif", 6)
 	
 	mesh.material_override.set_shader_param("splat", splatmap)
 	mesh.material_override.set_shader_param("fake_forests", true)

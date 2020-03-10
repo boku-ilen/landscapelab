@@ -8,8 +8,8 @@ var WATER_SPLAT_ID = Settings.get_setting("water", "water-splat-id")
 
 
 func get_textures(tile):
-	splatmap = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/sentinel-invekos-bytes.tif", 6)
-	dhm = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/webm.tif")
+	splatmap = tile.get_texture("sentinel-invekos-bytes", "tif", 6)
+	dhm = tile.get_texture("webm", "tif")
 
 
 func set_splatmap():

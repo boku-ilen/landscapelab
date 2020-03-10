@@ -5,10 +5,10 @@
 [ext_resource path="res://Materials/Shaders/HeightmapMesh.shader" type="Shader" id=3]
 [ext_resource path="res://Resources/Images/MaterialUtil/noise_normal.png" type="Texture" id=4]
 
-[sub_resource type="ViewportTexture" id=3]
+[sub_resource type="ViewportTexture" id=1]
 viewport_path = NodePath("OverlayTextureViewport")
 
-[sub_resource type="ShaderMaterial" id=1]
+[sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = ExtResource( 3 )
 shader_param/water_splat_id = null
@@ -28,18 +28,18 @@ shader_param/size_without_skirt = 16.0
 shader_param/RADIUS = 6.371e+06
 shader_param/clay_rendering = false
 shader_param/random_offset_vectors = ExtResource( 4 )
-shader_param/overlay_texture = SubResource( 3 )
+shader_param/overlay_texture = SubResource( 1 )
 
-[sub_resource type="World" id=2]
+[sub_resource type="World" id=3]
 
 [node name="DetailedTerrainModule" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="MeshInstance" parent="." index="0"]
-material_override = SubResource( 1 )
+material_override = SubResource( 2 )
 
 [node name="OverlayTextureViewport" type="Viewport" parent="." index="1"]
-world = SubResource( 2 )
+world = SubResource( 3 )
 transparent_bg = true
 hdr = false
 keep_3d_linear = true

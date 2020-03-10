@@ -39,8 +39,8 @@ func init(data=null):
 
 # Fetches all required data from the server
 func get_splat_data():
-	splatmap = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/sentinel-invekos-bytes.tif", 6)
-	heightmap = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/webm.tif")
+	splatmap = tile.get_texture("sentinel-invekos-bytes", "tif", 6)
+	heightmap = tile.get_texture("webm", "tif")
 	
 	var true_pos = tile.get_true_position()
 	var url = "/%s/%d.0/%d.0/%d"\

@@ -30,7 +30,7 @@ func _on_visibility_changed():
 		col_shape.disabled = false
 
 func get_textures(tile):
-	heightmap = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/webm.tif")
+	heightmap = tile.get_texture("webm", "tif")
 
 	if heightmap:
 		heightmap_img = heightmap.get_data()

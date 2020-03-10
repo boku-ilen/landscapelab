@@ -8,6 +8,9 @@ class_name WorldTile
 # The tiles are controlled via the TileHandler.
 #
 
+# TODO: Move
+var base_path = "/home/retour/LandscapeLab/testdata"
+
 # Scenes
 var module_handler_scene = preload("res://World/LODTerrain/WorldTile/ModuleHandler.tscn")
 
@@ -331,16 +334,7 @@ func get_dist_to_player():
 	return Vector2(player_pos.x, player_pos.z).distance_to(Vector2(clamped.x, clamped.z))
 
 
-func get_texture(name):
-	# First, check the raster tile pyramid with this name. (Get static pre-tiled data)
-	# If it doesn't exist, check for a geotiff with this name. (Get dynamic data directl from geotiff)
-	# If it also doesn't exist, throw an error.
-	pass
-
- 
-# Get a texture cutout from a geoimage corresponding to the location and size of this tile.
-# A custom inteprolation can be chosen, the default is bilinear.
-func get_texture_from_geodata(name, interpolation=1):
+func get_texture(name, ending, interpolation=1):
 	texture_cache_mutex.lock()
 	
 	if texture_cache.has(name):
@@ -349,8 +343,9 @@ func get_texture_from_geodata(name, interpolation=1):
 	else:
 		var true_pos = get_true_position()
 		
-		var img = Geodot.save_tile_from_heightmap(
-			name,
+		var geoimg = Geodot.get_image(
+			base_path.plus_file(name),
+			ending,
 			-true_pos[0] - size / 2,
 			true_pos[2] + size / 2,
 			size,
@@ -358,10 +353,12 @@ func get_texture_from_geodata(name, interpolation=1):
 			interpolation
 		)
 		
-		texture_cache[name] = img
+		var tex = geoimg.get_image_texture()
+		
+		texture_cache[name] = tex
 		texture_cache_mutex.unlock()
 		
-		return img
+		return tex
 
 
 # Builds a request in the form of "/url_start/meter_x/meter_y/zoom.json" and returns the result, if it is valid.
@@ -375,23 +372,6 @@ func get_texture_result(url_start):
 		return null
 		
 	return result
-
-
-func get_raster_from_pyramid(path, ending):
-	var true_pos = get_true_position()
-	var zoom = get_osm_zoom()
-	
-	var norm_x = 0.5 + (float(-true_pos[0]) / 20037508.0) * 0.5
-	var norm_y = 1.0 - (0.5 + (float(true_pos[2]) / 20037508.0) * 0.5)
-	
-	var num_tiles = pow(2, zoom)
-	
-	var tile_x = floor(norm_x * num_tiles)
-	var tile_y = floor(norm_y * num_tiles)
-	
-	var full_path = path.plus_file(zoom).plus_file(tile_x).plus_file(tile_y) + "." + ending
-	
-	return CachingImageTexture.get(full_path)
 
 
 # Add a function call to the ThreadPool at an appropriate priority based on the distance of

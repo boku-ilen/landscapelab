@@ -20,10 +20,10 @@ func init(data=null):
 
 
 func get_textures(tile, mesh) -> bool:
-	var img = tile.get_texture_from_geodata("/home/retour/LandscapeLab/testdata/webm.tif")
-	mesh.material_override.set_shader_param("heightmap", img)
+	var dhm = tile.get_texture("webm", "tif")
+	mesh.material_override.set_shader_param("heightmap", dhm)
 	
-	var ortho = tile.get_raster_from_pyramid("raster/bmaporthofoto30cm/", "jpg")
+	var ortho = tile.get_texture("webm", "tif") # TODO: tile.get_texture("bmaporthofoto30cm", "jpg")
 	mesh.material_override.set_shader_param("tex", ortho)
 	
 	return true
