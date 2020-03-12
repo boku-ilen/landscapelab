@@ -117,7 +117,7 @@ vec3 get_normal(vec2 normal_uv_pos) {
 void vertex() {
 	// Apply the height of the heightmap at this pixel
 	VERTEX.y = get_height(UV);
-	int splat_id = int(texture(splat, get_relative_pos(UV)).r);
+	int splat_id = int(texture(splat, get_relative_pos(UV)).r * 255.0);
 	
 	if (splat_id == water_splat_id) {
 		VERTEX.y -= 2.0;
@@ -145,7 +145,7 @@ void fragment(){
 	ROUGHNESS = 0.95;
 	METALLIC = 0.0;
 	
-	int splat_id = int(texture(splat, get_relative_pos(UV)).r);
+	int splat_id = int(texture(splat, get_relative_pos(UV)).r * 255.0);
 	
 	vec3 total_color;
 	vec3 normal;
