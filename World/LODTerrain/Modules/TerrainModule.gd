@@ -23,7 +23,7 @@ func get_textures(tile, mesh) -> bool:
 	var dhm = tile.get_texture("webm", "tif")
 	mesh.material_override.set_shader_param("heightmap", dhm)
 	
-	var ortho = tile.get_texture("webm", "tif") # TODO: tile.get_texture("bmaporthofoto30cm", "jpg")
+	var ortho = tile.get_texture("bmaporthophoto30cm", "jpg")
 	mesh.material_override.set_shader_param("tex", ortho)
 	
 	return true
