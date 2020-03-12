@@ -334,6 +334,23 @@ func get_dist_to_player():
 	return Vector2(player_pos.x, player_pos.z).distance_to(Vector2(clamped.x, clamped.z))
 
 
+func get_geoimage(name, ending, interpolation=1):
+	var true_pos = get_true_position()
+	var full_path = base_path.plus_file(name)
+	
+	var geoimg = Geodot.get_image(
+		full_path,
+		ending,
+		-true_pos[0] - size / 2,
+		true_pos[2] + size / 2,
+		size,
+		256,
+		interpolation
+	)
+	
+	return geoimg
+
+
 func get_texture(name, ending, interpolation=1):
 	texture_cache_mutex.lock()
 	
@@ -342,9 +359,10 @@ func get_texture(name, ending, interpolation=1):
 		return texture_cache.get(name)
 	else:
 		var true_pos = get_true_position()
+		var full_path = base_path.plus_file(name)
 		
 		var geoimg = Geodot.get_image(
-			base_path.plus_file(name),
+			full_path,
 			ending,
 			-true_pos[0] - size / 2,
 			true_pos[2] + size / 2,

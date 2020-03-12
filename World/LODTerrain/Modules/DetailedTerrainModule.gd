@@ -66,55 +66,32 @@ func get_textures(tile, mesh):
 func get_vegetation_data(tile, mesh):
 	var true_pos = tile.get_true_position()
 
-	splat_result = ServerConnection.get_json("/%s/%d.0/%d.0/%d"\
-		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()])
-
-	if not splat_result or not splat_result.has("ids"):
-		return
-
-	splatmap = tile.get_texture("sentinel-invekos-bytes", "tif", 6)
+	splatmap = tile.get_geoimage("sentinel-invekos-bytes", "tif", 6)
 	
-	var added_vegetations = 0
+	# Set the basic parameters
+	mesh.material_override.set_shader_param("water_splat_id", WATER_SPLAT_ID)
+	mesh.material_override.set_shader_param("splat", splatmap.get_image_texture())
+	mesh.material_override.set_shader_param("detail_start_dist", DETAIL_START_DIST)
+	mesh.material_override.set_shader_param("tex_factor", DETAIL_SCALE)
+	
+	# Get the most common splat IDs and use them to set the detail textures
+	var splat_ids = splatmap.get_most_common(vegetation_max)
+	
 	# Add as many vegetations as available on server / possible on client
-	for i in range(0, splat_result.ids.size()):
-		if added_vegetations >= vegetation_max:
-			break
-		
+	for i in range(0, vegetation_max):
 		# We use the layer 1 here, but the layer doesn't matter - the detail textures are the
 		# same on all layers (since all layers are on the same ground)
-		var result = ServerConnection.get_json("/vegetation/%d/1" % [splat_result.ids[i]])
+		var result = ServerConnection.get_json("/vegetation/%d/1" % [splat_ids[i]])
 		
 		if result:
-			vegetations.append(result)
-			albedos.append(CachingImageTexture.get(result.get("albedo_path")))
-			normals.append(CachingImageTexture.get(result.get("normal_path")))
-			ids.append(splat_result.ids[i])
+			var albedo = CachingImageTexture.get(result.get("albedo_path"))
+			var normal = CachingImageTexture.get(result.get("normal_path"))
 			
-			added_vegetations += 1
-	
-	apply_vegetation_data(tile, mesh)
+			if albedo:
+				mesh.material_override.set_shader_param("vegetation_tex%d" % [i + 1], albedo)
+				mesh.material_override.set_shader_param("vegetation_id%d" % [i + 1], splat_ids[i])
+				
+				if normal:
+					mesh.material_override.set_shader_param("vegetation_normal%d" % [i + 1], normal)
 	
 	return true
-
-
-func apply_vegetation_data(tile, mesh):
-	if splat_result and splat_result.has("path_to_splatmap"):
-		var current_index = 0
-		
-		mesh.material_override.set_shader_param("water_splat_id", WATER_SPLAT_ID)
-		mesh.material_override.set_shader_param("splat", splatmap)
-		mesh.material_override.set_shader_param("detail_start_dist", DETAIL_START_DIST)
-		mesh.material_override.set_shader_param("tex_factor", DETAIL_SCALE)
-		
-		for result in vegetations:
-			if result and result.has("albedo_path"):
-				var albedo = albedos[current_index]
-
-				mesh.material_override.set_shader_param("vegetation_tex%d" % [current_index + 1], albedo)
-				mesh.material_override.set_shader_param("vegetation_id%d" % [current_index + 1], ids[current_index])
-				
-				if result.has("normal_path"):
-					var normal = normals[current_index]
-					mesh.material_override.set_shader_param("vegetation_normal%d" % [current_index + 1], normal)
-				
-			current_index += 1
