@@ -1,3 +1,4 @@
+tool
 extends TextureButton
 
 
@@ -8,12 +9,36 @@ extends TextureButton
 # Also provides additional functionality for styling buttons such as rotating.
 #
 
+var icon_folder = "ColorOpenMoji" # TODO: Global setting
+
+export(String) var texture_name setget set_texture_name, get_texture_name
 
 export(Color) var default_color
 export(Color) var pressed_color
 export(Color) var hover_color
 export(Color) var disabled_color
 export(Color) var focused_color
+
+
+func _enter_tree() -> void:
+	_update_texture()
+
+
+# Update the button's base texture
+func _update_texture():
+	var full_path = "res://Resources/Icons".plus_file(icon_folder).plus_file(texture_name) + ".svg"
+	assert(File.new().file_exists(full_path), "No icon with name '%s' found in icon folder '%s'!" % [texture_name, icon_folder])
+	
+	texture_normal = load(full_path)
+
+
+func set_texture_name(new_name: String):
+	texture_name = new_name
+	_update_texture()
+
+
+func get_texture_name():
+	return texture_name
 
 
 # Rotate the sprite clockwise around its center by the given radians.

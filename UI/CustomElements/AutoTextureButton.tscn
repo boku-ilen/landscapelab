@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.gd" type="Script" id=1]
-[ext_resource path="res://Resources/Images/UI/UI/arrow-up.svg" type="Texture" id=2]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=3]
 
 [sub_resource type="ShaderMaterial" id=1]
@@ -10,13 +9,12 @@ shader = ExtResource( 3 )
 shader_param/color = null
 shader_param/rotation_radians = null
 
-[node name="Button" type="TextureButton"]
+[node name="AutoTextureButton" type="TextureButton"]
 material = SubResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -1882.0
 margin_bottom = -1040.0
-texture_normal = ExtResource( 2 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
