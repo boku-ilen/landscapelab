@@ -26,10 +26,11 @@ func _enter_tree() -> void:
 
 # Update the button's base texture
 func _update_texture():
-	var full_path = "res://Resources/Icons".plus_file(icon_folder).plus_file(texture_name) + ".svg"
-	assert(File.new().file_exists(full_path), "No icon with name '%s' found in icon folder '%s'!" % [texture_name, icon_folder])
-	
-	texture_normal = load(full_path)
+	if not texture_name.empty():
+		var full_path = "res://Resources/Icons".plus_file(icon_folder).plus_file(texture_name) + ".svg"
+		assert(File.new().file_exists(full_path), "%s: No icon with name '%s' found in icon folder '%s'!" % [name, texture_name, icon_folder])
+		
+		texture_normal = load(full_path)
 
 
 func set_texture_name(new_name: String):
