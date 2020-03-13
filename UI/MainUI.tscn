@@ -86,7 +86,7 @@ alignment = 2
 
 [node name="Values" parent="MainUI/ValuesOffset" instance=ExtResource( 19 )]
 margin_top = 680.0
-margin_right = 602.0
+margin_right = 623.0
 margin_bottom = 980.0
 mouse_filter = 2
 size_flags_horizontal = 0

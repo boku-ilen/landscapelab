@@ -8,6 +8,7 @@ resource_local_to_scene = true
 shader = ExtResource( 3 )
 shader_param/color = null
 shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
 [node name="AutoTextureButton" type="TextureButton"]
 material = SubResource( 1 )
