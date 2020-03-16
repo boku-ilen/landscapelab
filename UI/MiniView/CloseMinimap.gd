@@ -1,4 +1,5 @@
-extends TextureButton
+tool
+extends AutoTextureButton
 
 
 # change the visibility based on the UI signals
