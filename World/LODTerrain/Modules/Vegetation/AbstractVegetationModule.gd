@@ -25,12 +25,11 @@ var phyto_data = {}
 
 
 func init(data=null):
+	# Set the mesh and cast_shadow parameters of the heightmap particle children
 	for i in range(0, num_layers):
-		var instance = ModuleLoader.get_instance("Util/HeightmapParticles.tscn")
-		instance.name = String(i)
-		instance.set_mesh(plant_mesh_scene)
-		instance.cast_shadow = cast_shadow
-		add_child(instance)
+		var particles = get_node(String(i))
+		particles.set_mesh(plant_mesh_scene)
+		particles.cast_shadow = cast_shadow
 	
 	get_splat_data()
 	
