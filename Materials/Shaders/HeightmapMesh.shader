@@ -205,6 +205,7 @@ void fragment(){
 
 	NORMALMAP = normal;
 	// To test the normals: total_color = NORMALMAP;
+	// To test the land-use map: total_color = vec3(float(splat_id) / 255.0);
 	
 	ALBEDO = total_color;
 }

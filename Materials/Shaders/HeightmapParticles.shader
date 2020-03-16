@@ -100,7 +100,7 @@ void vertex ()
 	pos.z += EMISSION_TRANSFORM[3][2] - mod(EMISSION_TRANSFORM[3][2], spacing) + 0.5;
 	
 	// Check the splatmap for whether we need to do draw something and exit if not
-	int splat_id_at_pos = int(texture(splatmap, get_uv_position(pos.xz)).r);
+	int splat_id_at_pos = int(texture(splatmap, get_uv_position(pos.xz)).r * 255.0);
 	
 	if (!(splat_id_at_pos == id)) {
 		ACTIVE = false;
