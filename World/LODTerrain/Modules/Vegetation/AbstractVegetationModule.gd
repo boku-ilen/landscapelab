@@ -38,50 +38,42 @@ func init(data=null):
 
 # Fetches all required data from the server
 func get_splat_data():
-	splatmap = tile.get_texture("sentinel-invekos-bytes", "tif", 6)
+	splatmap = tile.get_geoimage("sentinel-invekos-bytes", "tif", 6)
 	heightmap = tile.get_texture("webm", "tif")
 	
-	var true_pos = tile.get_true_position()
-	var url = "/%s/%d.0/%d.0/%d"\
-		% ["vegetation", -true_pos[0], true_pos[2], tile.get_osm_zoom()]
+	var splat_ids = splatmap.get_most_common(num_layers)
 
-	# Vegetation result for this tile
-	result = ServerConnection.get_json(url)
-
-	if result and result.has("ids"):
-		# Iterate over all phytocoenosis IDs on this tile (but don't exceed num_layers)
-		var valid_vegetations = 0
+	# Iterate over all phytocoenosis IDs on this tile (but don't exceed num_layers)
+	var valid_vegetations = 0
+	
+	for current_index in range(0, splat_ids.size()):
+		if valid_vegetations > num_layers: break
 		
-		for current_index in range(0, result.get("ids").size()):
-			if valid_vegetations > num_layers: break
-			
-			# Data for the phytocoenosis with this ID
-			var phyto_c_url = "/vegetation/%d/%d" % [result.get("ids")[current_index], my_vegetation_layer]
-			var this_result = ServerConnection.get_json(phyto_c_url)
-			
-			# Load all images (distribution, spritesheet) and corresponding data
-			# We do this here because doing it in the main thread causes big stutters
-			if this_result:
-				var dist = this_result.get("path_to_distribution")
-				var sprite = this_result.get("path_to_spritesheet")
-				var dist_ppm = this_result.get("distribution_pixels_per_meter")
-				var sprite_num = this_result.get("number_of_sprites")
-				
-				# If all those variables are valid, we can insert the images/data into phyto_data
-				if dist and sprite and dist_ppm and sprite_num:
-					phyto_data[result.get("ids")[current_index]] = VegetationData.new(
-						CachingImageTexture.get(dist, 0),
-						CachingImageTexture.get(sprite),
-						dist_ppm,
-						sprite_num)
-						
-					valid_vegetations += 1
-			else:
-				logger.warning("Vegetation result with url %s was null - is the phytocoenosis not defined in the server?" % [phyto_c_url])
+		# Data for the phytocoenosis with this ID
+		var phyto_c_url = "/vegetation/%d/%d" % [splat_ids[current_index], my_vegetation_layer]
+		var this_result = ServerConnection.get_json(phyto_c_url)
 		
-		construct_vegetation(result.get("ids"))
-	else:
-		logger.warning("Vegetation module did not receive a response! Deleting particle scenes...")
+		# Load all images (distribution, spritesheet) and corresponding data
+		# We do this here because doing it in the main thread causes big stutters
+		if this_result:
+			var dist = this_result.get("path_to_distribution")
+			var sprite = this_result.get("path_to_spritesheet")
+			var dist_ppm = this_result.get("distribution_pixels_per_meter")
+			var sprite_num = this_result.get("number_of_sprites")
+			
+			# If all those variables are valid, we can insert the images/data into phyto_data
+			if dist and sprite and dist_ppm and sprite_num:
+				phyto_data[splat_ids[current_index]] = VegetationData.new(
+					CachingImageTexture.get(dist, 0),
+					CachingImageTexture.get(sprite),
+					dist_ppm,
+					sprite_num)
+					
+				valid_vegetations += 1
+		else:
+			logger.warning("Vegetation result with url %s was null - is the phytocoenosis not defined in the server?" % [phyto_c_url])
+	
+	construct_vegetation(splat_ids)
 
 
 # Readies all required HeightmapParticles instances
@@ -134,7 +126,7 @@ func set_parameters(data):
 	
 	# Values for the material which places the particles
 	data[0].process_material.set_shader_param("tile_pos", translation)
-	data[0].process_material.set_shader_param("splatmap", splatmap)
+	data[0].process_material.set_shader_param("splatmap", splatmap.get_image_texture())
 	data[0].process_material.set_shader_param("heightmap", heightmap)
 	data[0].process_material.set_shader_param("scale", max_plant_size)
 	data[0].process_material.set_shader_param("id", data[1])
