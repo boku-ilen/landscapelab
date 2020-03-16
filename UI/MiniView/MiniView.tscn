@@ -45,9 +45,9 @@ __meta__ = {
 }
 
 [node name="Miniview Menu" type="HBoxContainer" parent="."]
-margin_top = 7.0
+margin_top = 3.0
 margin_right = 630.0
-margin_bottom = 57.0
+margin_bottom = 53.0
 rect_min_size = Vector2( 630, 50 )
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -55,7 +55,7 @@ size_flags_vertical = 0
 
 [node name="Map Commands" type="HBoxContainer" parent="Miniview Menu"]
 margin_top = 16.0
-margin_right = 521.0
+margin_right = 509.0
 margin_bottom = 50.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -72,7 +72,7 @@ texture_hover = ExtResource( 3 )
 script = ExtResource( 4 )
 
 [node name="View Commands" type="HBoxContainer" parent="Miniview Menu"]
-margin_left = 525.0
+margin_left = 517.0
 margin_top = 1.0
 margin_right = 630.0
 margin_bottom = 50.0
@@ -111,8 +111,8 @@ texture_hover = ExtResource( 27 )
 script = ExtResource( 28 )
 
 [node name="Switch" type="TextureButton" parent="Miniview Menu/View Commands"]
-margin_left = 33.0
-margin_right = 68.0
+margin_left = 37.0
+margin_right = 72.0
 margin_bottom = 36.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -122,8 +122,8 @@ texture_hover = ExtResource( 31 )
 script = ExtResource( 32 )
 
 [node name="Close" type="TextureButton" parent="Miniview Menu/View Commands"]
-margin_left = 72.0
-margin_right = 105.0
+margin_left = 80.0
+margin_right = 113.0
 margin_bottom = 32.0
 size_flags_horizontal = 0
 size_flags_vertical = 0

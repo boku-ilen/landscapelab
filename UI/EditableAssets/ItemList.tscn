@@ -21,9 +21,9 @@ custom_fonts/font = ExtResource( 1 )
 text = "Assets:"
 
 [node name="ItemList" type="ItemList" parent="."]
-margin_top = 27.0
+margin_top = 31.0
 margin_right = 223.0
-margin_bottom = 177.0
+margin_bottom = 181.0
 rect_min_size = Vector2( 200, 150 )
 custom_fonts/font = ExtResource( 2 )
 allow_reselect = true

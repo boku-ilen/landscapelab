@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=1]
-[ext_resource path="res://SignalAutoTextureButton.gd" type="Script" id=2]
+[ext_resource path="res://UI/CustomElements/SignalAutoTextureButton.gd" type="Script" id=2]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=3]
 
 [sub_resource type="ShaderMaterial" id=1]
@@ -14,3 +14,7 @@ shader_param/color_length_modulate_threshold = 1.5
 [node name="SignalAutoTextureButton" instance=ExtResource( 1 )]
 material = SubResource( 1 )
 script = ExtResource( 2 )
+texture_name = ""
+default_color = Color( 0, 0, 0, 1 )
+signal_pressed = ""
+signal_released = ""

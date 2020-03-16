@@ -1,5 +1,4 @@
 extends BoxContainer
-tool
 
 #
 # This node handels all the logic of the ToolsPanel. 

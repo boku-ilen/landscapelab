@@ -1,16 +1,21 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/clock.svg" type="Texture" id=1]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/helicopter.svg" type="Texture" id=2]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/footprint.svg" type="Texture" id=2]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/locomotion.svg" type="Texture" id=3]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/camera.svg" type="Texture" id=4]
+[ext_resource path="res://UI/EditableAssets/ItemList.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Tracking/Record.tscn" type="PackedScene" id=6]
 [ext_resource path="res://UI/Tools/ToolsButton.tscn" type="PackedScene" id=7]
+[ext_resource path="res://UI/Imaging/ImagingMenu.tscn" type="PackedScene" id=8]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=9]
 [ext_resource path="res://UI/UiTeleport.gd" type="Script" id=10]
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.gd" type="Script" id=11]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/construction.svg" type="Texture" id=12]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=13]
+[ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/up.svg" type="Texture" id=15]
+[ext_resource path="res://UI/PointsOfInterest/PoI.tscn" type="PackedScene" id=16]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -118,6 +123,9 @@ texture_normal = ExtResource( 3 )
 script = ExtResource( 10 )
 texture_name = "locomotion"
 
+[node name="Container" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Teleport" instance=ExtResource( 16 )]
+visible = false
+
 [node name="Tracking" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 2 )
 anchor_right = 0.0
@@ -127,7 +135,10 @@ margin_right = 57.0
 margin_bottom = 122.0
 shortcut = SubResource( 4 )
 texture_normal = ExtResource( 2 )
-texture_name = "helicopter"
+texture_name = "footprint"
+
+[node name="Record" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Tracking" instance=ExtResource( 6 )]
+visible = false
 
 [node name="Season" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 5 )
@@ -139,6 +150,9 @@ margin_bottom = 187.0
 texture_normal = ExtResource( 1 )
 texture_name = "clock"
 
+[node name="Datetime" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Season" instance=ExtResource( 14 )]
+visible = false
+
 [node name="Assets" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 6 )
 anchor_right = 0.0
@@ -149,6 +163,9 @@ margin_bottom = 252.0
 texture_normal = ExtResource( 12 )
 texture_name = "construction"
 
+[node name="List" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Assets" instance=ExtResource( 5 )]
+visible = false
+
 [node name="Imaging" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 7 )
 anchor_right = 0.0
@@ -158,6 +175,9 @@ margin_right = 57.0
 margin_bottom = 317.0
 texture_normal = ExtResource( 4 )
 texture_name = "camera"
+
+[node name="ImagingMenu" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Imaging" instance=ExtResource( 8 )]
+visible = false
 
 [node name="PopupsContainer" type="HBoxContainer" parent="HBoxContainer"]
 margin_left = 468.0
