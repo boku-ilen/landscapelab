@@ -1,14 +1,20 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
+[ext_resource path="res://UI/CustomElements/SignalAutoTextureButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/vr.svg" type="Texture" id=4]
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://UI/ValuesMenu/ValuesMenu.tscn" type="PackedScene" id=19]
-[ext_resource path="res://UI/CustomElements/SignalTextureButton.tscn" type="PackedScene" id=34]
-[ext_resource path="res://Resources/Images/UI/UI/vr.png" type="Texture" id=35]
-[ext_resource path="res://Resources/Images/UI/UI/s_vr.png" type="Texture" id=36]
-[ext_resource path="res://Resources/Images/UI/UI/h_vr.png" type="Texture" id=37]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
 [ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
 [node name="Control" type="Control"]
 margin_right = 1895.0
@@ -40,43 +46,42 @@ mouse_filter = 2
 alignment = 1
 
 [node name="HBoxRight" type="HBoxContainer" parent="MainUI/Top Menu Bar"]
-margin_left = 1698.0
+margin_left = 1779.0
 margin_right = 1844.0
-margin_bottom = 92.0
+margin_bottom = 57.0
 mouse_filter = 2
 size_flags_horizontal = 10
 size_flags_vertical = 0
 alignment = 2
 
 [node name="VBox" type="VBoxContainer" parent="MainUI/Top Menu Bar/HBoxRight"]
-margin_right = 146.0
-margin_bottom = 92.0
+margin_right = 65.0
+margin_bottom = 57.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Top" type="HBoxContainer" parent="MainUI/Top Menu Bar/HBoxRight/VBox"]
-margin_right = 146.0
-margin_bottom = 92.0
+margin_right = 65.0
+margin_bottom = 57.0
 
-[node name="VR" parent="MainUI/Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 34 )]
-margin_left = 0.0
-margin_right = 46.0
-margin_bottom = 92.0
-texture_normal = ExtResource( 35 )
-texture_pressed = ExtResource( 36 )
-texture_hover = ExtResource( 37 )
+[node name="VR" parent="MainUI/Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 3 )]
+material = SubResource( 1 )
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 57.0
+margin_bottom = 57.0
+texture_normal = ExtResource( 4 )
+texture_name = "vr"
 signal_pressed = "vr_enable"
 signal_released = "vr_disable"
 
 [node name="Settings" parent="MainUI/Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 44 )]
-margin_left = 54.0
-margin_top = 0.0
-margin_right = 146.0
-margin_bottom = 92.0
-size_flags_horizontal = 0
-size_flags_stretch_ratio = 0.0
-stretch_mode = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 65.0
+margin_right = 65.0
+margin_bottom = 57.0
 
 [node name="ValuesOffset" type="VBoxContainer" parent="MainUI"]
 margin_right = 1844.0
