@@ -1,14 +1,14 @@
-extends TextureButton
+extends Control
 
 
-onready var settings = get_node("Panel")
-onready var debug = get_node("Panel/ScrollContainer2/VBoxContainer/Debug")
-onready var lego = get_node("Panel/ScrollContainer/VBoxContainer/Lego")
-
+onready var settings = get_node("SettingsWindow")
+onready var debug = get_node("SettingsWindow/ScrollContainer2/VBoxContainer/Debug")
+onready var lego = get_node("SettingsWindow/ScrollContainer/VBoxContainer/Lego")
+onready var button = get_node("ShowSettingsButton")
 
 func _ready():
 	lego.get_node("EnableLego").connect("toggled", self, "_on_lego")
-	connect("pressed", self, "_on_Settings_pressed")
+	button.connect("pressed", self, "_on_Settings_pressed")
 
 
 func _on_Settings_pressed():

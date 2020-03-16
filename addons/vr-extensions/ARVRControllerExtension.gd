@@ -16,13 +16,12 @@ var joystick_pos = Vector2()
 
 
 func _ready():
-	controller.connect("button_pressed", self, "_on_button_pressed")
-	controller.connect("button_released", self, "_on_button_released")
+	controller.connect("button_pressed", self, "on_button_pressed")
+	controller.connect("button_release", self, "on_button_released")
 
 
 func _process(delta):
-	if not controller == null:
-		joystick_pos = Vector2(controller.get_joystick_axis(0), controller.get_joystick_axis(1))
+	joystick_pos = Vector2(controller.get_joystick_axis(0), controller.get_joystick_axis(1))
 
 
 func _get_configuration_warning():
@@ -35,10 +34,10 @@ func _get_configuration_warning():
 
 
 # Virtual function for button pressed
-func _on_button_pressed(id: int):
+func on_button_pressed(id: int):
 	pass
 
 
 # Virtual function for button released
-func _on_button_released(id: int):
+func on_button_released(id: int):
 	pass

@@ -37,17 +37,17 @@ expand = true
 stretch_mode = 7
 
 [node name="AssetType" type="Label" parent="HBoxContainer"]
-margin_left = 44.0
+margin_left = 48.0
 margin_top = 8.0
-margin_right = 73.0
+margin_right = 77.0
 margin_bottom = 31.0
 custom_fonts/font = ExtResource( 2 )
 text = "test"
 
 [node name="Details" type="VBoxContainer" parent="."]
-margin_top = 44.0
+margin_top = 48.0
 margin_right = 460.0
-margin_bottom = 94.0
+margin_bottom = 102.0
 
 [node name="ValueHBox" type="HBoxContainer" parent="Details"]
 margin_right = 460.0
@@ -60,43 +60,43 @@ custom_fonts/font = ExtResource( 3 )
 text = "Energieproduktion: "
 
 [node name="TypeValue" type="Label" parent="Details/ValueHBox"]
-margin_left = 149.0
-margin_right = 229.0
+margin_left = 153.0
+margin_right = 233.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 2 )
 text = "Loading ..."
 
 [node name="Unit" type="Label" parent="Details/ValueHBox"]
-margin_left = 233.0
-margin_right = 287.0
+margin_left = 241.0
+margin_right = 295.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 3 )
 text = "MWh/a"
 
 [node name="Of" type="Label" parent="Details/ValueHBox"]
-margin_left = 291.0
-margin_right = 291.0
+margin_left = 303.0
+margin_right = 303.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 3 )
 
 [node name="TargetValue" type="Label" parent="Details/ValueHBox"]
-margin_left = 295.0
-margin_right = 375.0
+margin_left = 311.0
+margin_right = 391.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 2 )
 text = "Loading ..."
 
 [node name="Unit2" type="Label" parent="Details/ValueHBox"]
-margin_left = 379.0
-margin_right = 433.0
+margin_left = 399.0
+margin_right = 453.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 3 )
 text = "MWh/a"
 
 [node name="AmountHBox" type="HBoxContainer" parent="Details"]
-margin_top = 27.0
+margin_top = 31.0
 margin_right = 460.0
-margin_bottom = 50.0
+margin_bottom = 54.0
 
 [node name="AmountText" type="Label" parent="Details/AmountHBox"]
 margin_right = 55.0
@@ -105,16 +105,16 @@ custom_fonts/font = ExtResource( 3 )
 text = "Anzahl:"
 
 [node name="TypeAmount" type="Label" parent="Details/AmountHBox"]
-margin_left = 59.0
-margin_right = 139.0
+margin_left = 63.0
+margin_right = 143.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 2 )
 text = "Loading ..."
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-margin_top = 98.0
+margin_top = 110.0
 margin_right = 460.0
-margin_bottom = 123.0
+margin_bottom = 135.0
 rect_min_size = Vector2( 460, 25 )
 custom_styles/fg = SubResource( 1 )
 custom_fonts/font = ExtResource( 3 )

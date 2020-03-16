@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Imaging/Dolly/Dolly.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Resources/Images/UI/UI/s_arrow-down.svg" type="Texture" id=2]
+[ext_resource path="res://Resources/Icons/SimpleOpenMoji/down.svg" type="Texture" id=2]
 [ext_resource path="res://Imaging/DrawPath/Path/Path.gd" type="Script" id=3]
 
 [sub_resource type="SphereMesh" id=1]
@@ -20,8 +20,7 @@ emission_on_uv2 = false
 
 [sub_resource type="SpatialMaterial" id=3]
 flags_unshaded = true
-params_blend_mode = 1
-params_billboard_mode = 1
+params_billboard_mode = 2
 params_use_alpha_scissor = true
 params_alpha_scissor_threshold = 0.1
 
@@ -42,7 +41,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 42.5536, 0 )
 layers = 64
 material_override = SubResource( 3 )
 modulate = Color( 0.831373, 0.913725, 0.992157, 1 )
-pixel_size = 0.2
+pixel_size = 0.4
 texture = ExtResource( 2 )
 
 [node name="Path" parent="." instance=ExtResource( 1 )]

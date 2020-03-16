@@ -11,29 +11,29 @@ __meta__ = {
 
 [node name="Heading" type="Label" parent="."]
 margin_right = 1920.0
-margin_bottom = 14.0
+margin_bottom = 25.0
 text = "Visual Settings for Third Person View"
 uppercase = true
 
 [node name="Vegetation" parent="." instance=ExtResource( 1 )]
-margin_top = 18.0
-margin_bottom = 58.0
+margin_top = 33.0
+margin_bottom = 113.0
 label_text = "Vegetation"
 signal_to_emit = "third_person_toggle_render_layer"
 optional_signal_parameter = 1
 default_toggled = false
 
 [node name="DetailMesh" parent="." instance=ExtResource( 1 )]
-margin_top = 62.0
-margin_bottom = 102.0
+margin_top = 121.0
+margin_bottom = 201.0
 label_text = "Buildings & Roads"
 signal_to_emit = "third_person_toggle_render_layer"
 optional_signal_parameter = 2
 default_toggled = false
 
 [node name="Water" parent="." instance=ExtResource( 1 )]
-margin_top = 106.0
-margin_bottom = 146.0
+margin_top = 209.0
+margin_bottom = 289.0
 label_text = "Water"
 signal_to_emit = "third_person_toggle_render_layer"
 optional_signal_parameter = 5

@@ -1,48 +1,46 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Resources/Images/UI/UI/settings.svg" type="Texture" id=1]
-[ext_resource path="res://Resources/Images/UI/UI/s_settings.svg" type="Texture" id=2]
-[ext_resource path="res://Resources/Images/UI/UI/h_settings.svg" type="Texture" id=3]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/settings.svg" type="Texture" id=1]
 [ext_resource path="res://UI/Settings/Settings.gd" type="Script" id=4]
 [ext_resource path="res://UI/Settings/OptionButton.gd" type="Script" id=5]
 [ext_resource path="res://UI/CustomElements/SignalTextToggle.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Resources/Images/UI/UI/s_play.png" type="Texture" id=7]
-[ext_resource path="res://Resources/Images/UI/UI/play.png" type="Texture" id=8]
-[ext_resource path="res://Resources/Images/UI/UI/h_play.png" type="Texture" id=9]
-[ext_resource path="res://UI/Settings/Record.gd" type="Script" id=10]
-[ext_resource path="res://Resources/Images/UI/UI/pause.png" type="Texture" id=11]
-[ext_resource path="res://Resources/Images/UI/UI/h_pause.png" type="Texture" id=12]
-[ext_resource path="res://Resources/Images/UI/UI/stop.png" type="Texture" id=13]
-[ext_resource path="res://Resources/Images/UI/UI/s_stop.png" type="Texture" id=14]
-[ext_resource path="res://Resources/Images/UI/UI/h_stop.png" type="Texture" id=15]
+[ext_resource path="res://Tracking/Record.tscn" type="PackedScene" id=7]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=8]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=9]
 
-[node name="Settings" type="TextureButton"]
-margin_left = 662.073
-margin_top = 10.83
-margin_right = 754.073
-margin_bottom = 102.83
-texture_normal = ExtResource( 1 )
-texture_pressed = ExtResource( 2 )
-texture_hover = ExtResource( 3 )
-stretch_mode = 5
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 8 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[node name="Settings" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="WindowDialog" parent="."]
+[node name="ShowSettingsButton" parent="." instance=ExtResource( 9 )]
+material = SubResource( 1 )
+texture_normal = ExtResource( 1 )
+texture_name = "settings"
+
+[node name="SettingsWindow" type="WindowDialog" parent="."]
 visible = true
-margin_left = -385.0
-margin_top = 441.0
-margin_right = 452.0
-margin_bottom = 972.0
+margin_left = 277.073
+margin_top = 451.83
+margin_right = 1114.07
+margin_bottom = 982.83
 mouse_filter = 1
 resizable = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="SettingsWindow"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 11.0
@@ -55,94 +53,51 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/ScrollContainer"]
-margin_right = 213.0
-margin_bottom = 159.0
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsWindow/ScrollContainer"]
+margin_right = 387.0
+margin_bottom = 278.0
 
-[node name="Language" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
-margin_right = 213.0
-margin_bottom = 20.0
+[node name="Language" type="HBoxContainer" parent="SettingsWindow/ScrollContainer/VBoxContainer"]
+margin_right = 387.0
+margin_bottom = 37.0
 
-[node name="Label" type="Label" parent="Panel/ScrollContainer/VBoxContainer/Language"]
-margin_top = 3.0
-margin_right = 59.0
-margin_bottom = 17.0
+[node name="Label" type="Label" parent="SettingsWindow/ScrollContainer/VBoxContainer/Language"]
+margin_top = 6.0
+margin_right = 105.0
+margin_bottom = 31.0
 text = "Language"
 
-[node name="Languages" type="OptionButton" parent="Panel/ScrollContainer/VBoxContainer/Language"]
-margin_left = 63.0
-margin_right = 92.0
-margin_bottom = 20.0
+[node name="Languages" type="OptionButton" parent="SettingsWindow/ScrollContainer/VBoxContainer/Language"]
+margin_left = 113.0
+margin_right = 171.0
+margin_bottom = 37.0
 script = ExtResource( 5 )
 
-[node name="Lego" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
-margin_top = 24.0
-margin_right = 213.0
-margin_bottom = 64.0
+[node name="Lego" type="HBoxContainer" parent="SettingsWindow/ScrollContainer/VBoxContainer"]
+margin_top = 45.0
+margin_right = 387.0
+margin_bottom = 125.0
 
-[node name="Label" type="Label" parent="Panel/ScrollContainer/VBoxContainer/Lego"]
-margin_top = 13.0
-margin_right = 116.0
-margin_bottom = 27.0
+[node name="Label" type="Label" parent="SettingsWindow/ScrollContainer/VBoxContainer/Lego"]
+margin_top = 27.0
+margin_right = 199.0
+margin_bottom = 52.0
 text = "Enable Lego Mode"
 
-[node name="EnableLego" type="CheckButton" parent="Panel/ScrollContainer/VBoxContainer/Lego"]
-margin_left = 120.0
-margin_right = 196.0
-margin_bottom = 40.0
+[node name="EnableLego" type="CheckButton" parent="SettingsWindow/ScrollContainer/VBoxContainer/Lego"]
+margin_left = 207.0
+margin_right = 359.0
+margin_bottom = 80.0
 pressed = true
 
-[node name="Debug" parent="Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 6 )]
-margin_top = 68.0
-margin_right = 213.0
-margin_bottom = 108.0
+[node name="Debug" parent="SettingsWindow/ScrollContainer/VBoxContainer" instance=ExtResource( 6 )]
+margin_top = 133.0
+margin_right = 387.0
+margin_bottom = 213.0
 label_text = "Show Debug Settings"
 signal_to_emit = "toggle_debug"
 optional_signal_parameter = 0
 default_toggled = false
 
-[node name="Record" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
-margin_top = 112.0
-margin_right = 213.0
-margin_bottom = 159.0
-script = ExtResource( 10 )
-
-[node name="Label" type="Label" parent="Panel/ScrollContainer/VBoxContainer/Record"]
-margin_top = 16.0
-margin_right = 44.0
-margin_bottom = 30.0
-text = "Record"
-
-[node name="Play" type="TextureButton" parent="Panel/ScrollContainer/VBoxContainer/Record"]
-margin_left = 48.0
-margin_right = 95.0
-margin_bottom = 47.0
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 7 )
-texture_hover = ExtResource( 9 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Pause" type="TextureButton" parent="Panel/ScrollContainer/VBoxContainer/Record"]
-visible = false
-margin_left = 51.0
-margin_right = 98.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 11 )
-texture_hover = ExtResource( 12 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Stop" type="TextureButton" parent="Panel/ScrollContainer/VBoxContainer/Record"]
-visible = false
-margin_left = 51.0
-margin_right = 98.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 13 )
-texture_pressed = ExtResource( 14 )
-texture_hover = ExtResource( 15 )
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="Record" parent="SettingsWindow/ScrollContainer/VBoxContainer" instance=ExtResource( 7 )]
+margin_bottom = 278.0

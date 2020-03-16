@@ -1,14 +1,19 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://UI/PointsOfInterest/PoI.gd" type="Script" id=1]
 [ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=2]
 [ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=3]
-[ext_resource path="res://Resources/Images/UI/UI/arrow-up.svg" type="Texture" id=4]
-[ext_resource path="res://Resources/Images/UI/UI/s_arrow-up.svg" type="Texture" id=5]
-[ext_resource path="res://Resources/Images/UI/UI/h_arrow-up.svg" type="Texture" id=6]
-[ext_resource path="res://Resources/Images/UI/UI/h_arrow-down.svg" type="Texture" id=7]
-[ext_resource path="res://Resources/Images/UI/UI/arrow-down.svg" type="Texture" id=8]
-[ext_resource path="res://Resources/Images/UI/UI/s_arrow-down.svg" type="Texture" id=9]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=10]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/up.svg" type="Texture" id=12]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/down.svg" type="Texture" id=13]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 10 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
 [node name="Container" type="HBoxContainer"]
 anchor_right = 1.0
@@ -22,22 +27,22 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_right = 254.0
+margin_right = 261.0
 margin_bottom = 1080.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_right = 254.0
+margin_right = 261.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 2 )
 text = "Points of Interest"
 
 [node name="ItemList" type="ItemList" parent="VBoxContainer"]
-margin_top = 27.0
-margin_right = 254.0
-margin_bottom = 132.0
+margin_top = 31.0
+margin_right = 261.0
+margin_bottom = 136.0
 rect_min_size = Vector2( 253, 105 )
 custom_fonts/font = ExtResource( 3 )
 allow_reselect = true
@@ -46,21 +51,21 @@ same_column_width = true
 fixed_icon_size = Vector2( 25, 25 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 136.0
-margin_right = 254.0
-margin_bottom = 165.0
+margin_top = 144.0
+margin_right = 261.0
+margin_bottom = 179.0
 
 [node name="Add" type="Button" parent="VBoxContainer/HBoxContainer"]
 margin_right = 125.0
-margin_bottom = 29.0
+margin_bottom = 35.0
 rect_min_size = Vector2( 125, 0 )
 custom_fonts/font = ExtResource( 3 )
 text = "Hinzufügen"
 
 [node name="Delete" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 129.0
-margin_right = 254.0
-margin_bottom = 29.0
+margin_left = 133.0
+margin_right = 261.0
+margin_bottom = 35.0
 rect_min_size = Vector2( 125, 0 )
 custom_fonts/font = ExtResource( 3 )
 text = "Punkt löschen"
@@ -82,34 +87,38 @@ custom_fonts/font = ExtResource( 3 )
 text = "Speichern"
 
 [node name="Arrows" type="VBoxContainer" parent="."]
-margin_left = 258.0
-margin_right = 294.0
-margin_bottom = 130.0
+margin_left = 269.0
+margin_right = 326.0
+margin_bottom = 197.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_constants/separation = 10
 
 [node name="Tabs" type="Tabs" parent="Arrows"]
-margin_right = 36.0
-margin_bottom = 24.0
+margin_right = 57.0
+margin_bottom = 45.0
 
-[node name="ArrowUp" type="TextureButton" parent="Arrows"]
-margin_top = 34.0
-margin_right = 36.0
-margin_bottom = 70.0
-texture_normal = ExtResource( 4 )
-texture_pressed = ExtResource( 5 )
-texture_hover = ExtResource( 6 )
+[node name="ArrowUp" parent="Arrows" instance=ExtResource( 11 )]
+material = SubResource( 1 )
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 55.0
+margin_right = 57.0
+margin_bottom = 112.0
+texture_normal = ExtResource( 12 )
+texture_name = "up"
 
 [node name="HSeparator" type="HSeparator" parent="Arrows"]
-margin_top = 80.0
-margin_right = 36.0
-margin_bottom = 84.0
-
-[node name="ArrowDown" type="TextureButton" parent="Arrows"]
-margin_top = 94.0
-margin_right = 36.0
+margin_top = 122.0
+margin_right = 57.0
 margin_bottom = 130.0
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 9 )
-texture_hover = ExtResource( 7 )
+
+[node name="ArrowDown" parent="Arrows" instance=ExtResource( 11 )]
+material = SubResource( 1 )
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 140.0
+margin_right = 57.0
+margin_bottom = 197.0
+texture_normal = ExtResource( 13 )
+texture_name = "down"

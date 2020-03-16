@@ -7,21 +7,24 @@ margin_left = -111.0
 margin_top = 71.125
 margin_right = 191.0
 margin_bottom = 162.125
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_right = 302.0
-margin_bottom = 16.0
+margin_bottom = 32.0
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_top = 1.0
-margin_right = 78.0
-margin_bottom = 15.0
+margin_top = 3.0
+margin_right = 129.0
+margin_bottom = 28.0
 text = "Walk speed:"
 
 [node name="WalkSpeedSlider" type="HSlider" parent="HBoxContainer"]
-margin_left = 82.0
+margin_left = 137.0
 margin_right = 302.0
-margin_bottom = 16.0
+margin_bottom = 32.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 min_value = 1.0
@@ -29,4 +32,3 @@ max_value = 70.0
 value = 10.0
 ticks_on_borders = true
 script = ExtResource( 1 )
-

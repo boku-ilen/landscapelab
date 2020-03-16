@@ -1,32 +1,74 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=24 format=2]
 
-[ext_resource path="res://Resources/Images/UI/UI/follow_mode.png" type="Texture" id=1]
-[ext_resource path="res://Resources/Images/UI/UI/s_follow_mode.png" type="Texture" id=2]
-[ext_resource path="res://Resources/Images/UI/UI/h_follow_mode.png" type="Texture" id=3]
-[ext_resource path="res://UI/MiniView/ui_follow_mode.gd" type="Script" id=4]
-[ext_resource path="res://Resources/Images/UI/UI/3rd_person.png" type="Texture" id=17]
-[ext_resource path="res://Resources/Images/UI/UI/s_3rd_person.png" type="Texture" id=18]
-[ext_resource path="res://Resources/Images/UI/UI/h_3rd_person.png" type="Texture" id=19]
-[ext_resource path="res://UI/MiniView/ui_3rd_mode.gd" type="Script" id=20]
-[ext_resource path="res://Resources/Images/UI/UI/map_mode.png" type="Texture" id=21]
-[ext_resource path="res://Resources/Images/UI/UI/s_map_mode.png" type="Texture" id=22]
-[ext_resource path="res://Resources/Images/UI/UI/h_map_mode.png" type="Texture" id=23]
-[ext_resource path="res://UI/MiniView/ui_map_mode.gd" type="Script" id=24]
-[ext_resource path="res://Resources/Images/UI/UI/first_person.png" type="Texture" id=25]
-[ext_resource path="res://Resources/Images/UI/UI/s_first_person.png" type="Texture" id=26]
-[ext_resource path="res://Resources/Images/UI/UI/h_first_person.png" type="Texture" id=27]
-[ext_resource path="res://UI/MiniView/ui_1st_mode.gd" type="Script" id=28]
-[ext_resource path="res://Resources/Images/UI/UI/switch.png" type="Texture" id=29]
-[ext_resource path="res://Resources/Images/UI/UI/s_switch.png" type="Texture" id=30]
-[ext_resource path="res://Resources/Images/UI/UI/h_switch.png" type="Texture" id=31]
-[ext_resource path="res://UI/MiniView/ui_switch.gd" type="Script" id=32]
-[ext_resource path="res://Resources/Images/UI/UI/close.png" type="Texture" id=33]
-[ext_resource path="res://Resources/Images/UI/UI/s_close.png" type="Texture" id=34]
-[ext_resource path="res://Resources/Images/UI/UI/h_close.png" type="Texture" id=35]
-[ext_resource path="res://UI/MiniView/ui_close.gd" type="Script" id=36]
-[ext_resource path="res://UI/MiniView/ui_border.gd" type="Script" id=37]
+[ext_resource path="res://UI/MiniView/ThirdPerson.gd" type="Script" id=1]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/helicopter.svg" type="Texture" id=3]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/swap.svg" type="Texture" id=4]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=5]
+[ext_resource path="res://UI/CustomElements/SignalAutoTextureButton.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/together.svg" type="Texture" id=7]
+[ext_resource path="res://UI/MiniView/FirstPerson.gd" type="Script" id=8]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/map.svg" type="Texture" id=9]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/eye.svg" type="Texture" id=10]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/close.svg" type="Texture" id=11]
+[ext_resource path="res://UI/MiniView/Map.gd" type="Script" id=12]
+[ext_resource path="res://UI/MiniView/CloseMinimap.gd" type="Script" id=13]
+[ext_resource path="res://UI/MiniView/SwapPerspectives.gd" type="Script" id=14]
 [ext_resource path="res://UI/MiniView/ResizingViewport.gd" type="Script" id=38]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=39]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = Vector3( 0, 0.0392157, 1 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=6]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=7]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=8]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends ColorRect
+
+
+# change the visibility based on the UI signals
+func _ready():
+	
+	GlobalSignal.connect(\"miniview_close\", self, \"set_visible\", [false])
+	GlobalSignal.connect(\"miniview_show\", self, \"set_visible\", [true])
+"
 
 [node name="MiniView" type="VBoxContainer"]
 anchor_left = 1.0
@@ -45,7 +87,6 @@ __meta__ = {
 }
 
 [node name="Miniview Menu" type="HBoxContainer" parent="."]
-margin_top = 7.0
 margin_right = 630.0
 margin_bottom = 57.0
 rect_min_size = Vector2( 630, 50 )
@@ -54,88 +95,80 @@ size_flags_horizontal = 2
 size_flags_vertical = 0
 
 [node name="Map Commands" type="HBoxContainer" parent="Miniview Menu"]
-margin_top = 16.0
-margin_right = 521.0
-margin_bottom = 50.0
+margin_right = 305.0
+margin_bottom = 57.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
 
-[node name="Follow me flag" type="TextureButton" parent="Miniview Menu/Map Commands"]
-margin_right = 37.0
-margin_bottom = 34.0
+[node name="FollowToggle" parent="Miniview Menu/Map Commands" instance=ExtResource( 6 )]
+material = SubResource( 1 )
+margin_right = 57.0
+margin_bottom = 57.0
 toggle_mode = true
 pressed = true
-texture_normal = ExtResource( 1 )
-texture_pressed = ExtResource( 2 )
-texture_hover = ExtResource( 3 )
-script = ExtResource( 4 )
+texture_normal = ExtResource( 7 )
+texture_name = "together"
+signal_pressed = "toggle_follow_mode"
+signal_released = "toggle_follow_mode"
 
 [node name="View Commands" type="HBoxContainer" parent="Miniview Menu"]
-margin_left = 525.0
-margin_top = 1.0
+margin_left = 313.0
 margin_right = 630.0
-margin_bottom = 50.0
+margin_bottom = 57.0
 mouse_filter = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 alignment = 2
 
-[node name="Third Person Mode" type="TextureButton" parent="Miniview Menu/View Commands"]
-visible = false
-margin_right = 38.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 17 )
-texture_pressed = ExtResource( 18 )
-texture_hover = ExtResource( 19 )
-script = ExtResource( 20 )
+[node name="ThirdPerosn" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
+material = SubResource( 5 )
+margin_right = 57.0
+margin_bottom = 57.0
+texture_normal = ExtResource( 3 )
+script = ExtResource( 1 )
+texture_name = "helicopter"
 
-[node name="Map Mode" type="TextureButton" parent="Miniview Menu/View Commands"]
-visible = false
-margin_left = 42.0
-margin_right = 77.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 21 )
-texture_pressed = ExtResource( 22 )
-texture_hover = ExtResource( 23 )
-script = ExtResource( 24 )
+[node name="Map" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
+material = SubResource( 6 )
+margin_left = 65.0
+margin_right = 122.0
+margin_bottom = 57.0
+texture_normal = ExtResource( 9 )
+script = ExtResource( 12 )
+texture_name = "map"
 
-[node name="First Person Mode" type="TextureButton" parent="Miniview Menu/View Commands"]
-margin_right = 29.0
-margin_bottom = 49.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-texture_normal = ExtResource( 25 )
-texture_pressed = ExtResource( 26 )
-texture_hover = ExtResource( 27 )
-script = ExtResource( 28 )
+[node name="FirstPerson" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
+material = SubResource( 7 )
+margin_left = 130.0
+margin_right = 187.0
+margin_bottom = 57.0
+texture_normal = ExtResource( 10 )
+script = ExtResource( 8 )
+texture_name = "eye"
 
-[node name="Switch" type="TextureButton" parent="Miniview Menu/View Commands"]
-margin_left = 33.0
-margin_right = 68.0
-margin_bottom = 36.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-texture_normal = ExtResource( 29 )
-texture_pressed = ExtResource( 30 )
-texture_hover = ExtResource( 31 )
-script = ExtResource( 32 )
+[node name="SwapPerspectives" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
+material = SubResource( 8 )
+margin_left = 195.0
+margin_right = 252.0
+margin_bottom = 57.0
+texture_normal = ExtResource( 4 )
+script = ExtResource( 14 )
+texture_name = "swap"
 
-[node name="Close" type="TextureButton" parent="Miniview Menu/View Commands"]
-margin_left = 72.0
-margin_right = 105.0
-margin_bottom = 32.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-texture_normal = ExtResource( 33 )
-texture_pressed = ExtResource( 34 )
-texture_hover = ExtResource( 35 )
-script = ExtResource( 36 )
+[node name="Close" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
+material = SubResource( 4 )
+margin_left = 260.0
+margin_right = 317.0
+margin_bottom = 57.0
+texture_normal = ExtResource( 11 )
+script = ExtResource( 13 )
+texture_name = "close"
 
 [node name="Border" type="ColorRect" parent="."]
-margin_top = 61.0
+margin_top = 65.0
 margin_right = 632.0
-margin_bottom = 493.0
+margin_bottom = 497.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_min_size = Vector2( 632, 432 )
@@ -143,7 +176,7 @@ mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 color = Color( 0.0196078, 0.101961, 0.360784, 0.286275 )
-script = ExtResource( 37 )
+script = SubResource( 3 )
 
 [node name="Margin" type="MarginContainer" parent="Border"]
 anchor_right = 1.0
@@ -168,4 +201,3 @@ script = ExtResource( 38 )
 [node name="Viewport" type="Viewport" parent="Border/Margin/MiniViewportContainer"]
 handle_input_locally = false
 render_target_update_mode = 3
-[connection signal="pressed" from="Miniview Menu/Map Commands/Follow me flag" to="Miniview Menu/Map Commands/Follow me flag" method="_pressed"]

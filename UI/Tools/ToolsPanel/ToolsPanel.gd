@@ -1,5 +1,4 @@
 extends BoxContainer
-tool
 
 #
 # This node handels all the logic of the ToolsPanel. 
@@ -39,7 +38,8 @@ func _ready():
 	
 	for child in tools_bar.get_children():
 		assert("popups_container" in child)
-		child.set_popups_container(popups)
+		if "popups_container" in child:
+			child.set_popups_container(popups)
 		
 		child.connect("pressed", self, "_on_tool_pressed")
 	

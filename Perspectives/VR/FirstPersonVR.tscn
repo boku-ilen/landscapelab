@@ -5,8 +5,8 @@
 [ext_resource path="res://Perspectives/VR/SettingsARVRCamera.gd" type="Script" id=3]
 [ext_resource path="res://addons/godot-openvr/scenes/ovr_controller.tscn" type="PackedScene" id=4]
 [ext_resource path="res://VR/RayTeleport.tscn" type="PackedScene" id=5]
-[ext_resource path="res://VR/OrientationCompass/Compass.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Perspectives/VR/ParentTracker.gd" type="Script" id=7]
+[ext_resource path="res://VR/ObjectInteraction.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends ARVRController
@@ -85,17 +85,12 @@ autostart = true
 [node name="RightHand" parent="ARVROrigin" instance=ExtResource( 4 )]
 script = SubResource( 1 )
 
-[node name="ARVRControllerExtension" parent="ARVROrigin/RightHand" instance=ExtResource( 5 )]
+[node name="RayTeleport" parent="ARVROrigin/RightHand" instance=ExtResource( 5 )]
 
-[node name="PositionIndicator" parent="ARVROrigin/RightHand/ARVRControllerExtension" index="1"]
-transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0 )
-material/0 = null
+[node name="ObjectInteraction" parent="ARVROrigin/RightHand" instance=ExtResource( 8 )]
 
 [node name="LeftHand" parent="ARVROrigin" instance=ExtResource( 4 )]
 controller_id = 2
 script = SubResource( 1 )
 
-[node name="Compass" parent="ARVROrigin/LeftHand" instance=ExtResource( 6 )]
-transform = Transform( 0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0 )
-
-[editable path="ARVROrigin/RightHand/ARVRControllerExtension"]
+[node name="ObjectInteraction" parent="ARVROrigin/LeftHand" instance=ExtResource( 8 )]

@@ -32,29 +32,29 @@ __meta__ = {
 }
 
 [node name="Imaging" type="Button" parent="."]
-margin_right = 60.0
+margin_right = 107.0
 margin_bottom = 40.0
 toggle_mode = true
 shortcut = SubResource( 2 )
 text = "SetPath"
 
 [node name="Filming" type="Button" parent="."]
-margin_left = 64.0
-margin_right = 104.0
+margin_left = 115.0
+margin_right = 185.0
 margin_bottom = 40.0
 toggle_mode = true
 shortcut = SubResource( 4 )
 text = "Film"
 
 [node name="Clear" type="Button" parent="."]
-margin_left = 108.0
-margin_right = 152.0
+margin_left = 193.0
+margin_right = 273.0
 margin_bottom = 40.0
 text = "Clear"
 
 [node name="Record" type="Button" parent="."]
-margin_left = 156.0
-margin_right = 212.0
+margin_left = 281.0
+margin_right = 381.0
 margin_bottom = 40.0
 toggle_mode = true
 shortcut = SubResource( 6 )

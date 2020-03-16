@@ -4,17 +4,15 @@
 [ext_resource path="res://UI/Tools/ToolsButton.gd" type="Script" id=2]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=3]
 
-
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 3 )
 shader_param/color = null
 shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
 [node name="ToolsButton" instance=ExtResource( 1 )]
 material = SubResource( 1 )
+mouse_filter = 1
+toggle_mode = true
 script = ExtResource( 2 )
-pressed_color = Color( 0, 0, 0, 1 )
-hover_color = Color( 0, 0, 0, 1 )
-disabled_color = Color( 0, 0, 0, 1 )
-focused_color = Color( 0, 0, 0, 1 )

@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://UI/ValuesMenu/ValuesMenu.gd" type="Script" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=3]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/up.svg" type="Texture" id=4]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 3 )
 shader_param/color = null
 shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
 [node name="HBoxContainer" type="HBoxContainer"]
 margin_right = 501.0
@@ -33,15 +35,17 @@ material = SubResource( 1 )
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 208.0
-margin_top = 264.0
-margin_right = 244.0
+margin_top = 243.0
+margin_right = 265.0
 margin_bottom = 300.0
 size_flags_horizontal = 0
 size_flags_vertical = 8
+texture_normal = ExtResource( 4 )
+texture_name = "up"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-margin_left = 252.0
-margin_right = 602.0
+margin_left = 273.0
+margin_right = 623.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 350, 300 )
 mouse_filter = 1

@@ -1,3 +1,4 @@
+tool
 extends "res://UI/CustomElements/AutoTextureButton.gd"
 class_name ToolsButton
 

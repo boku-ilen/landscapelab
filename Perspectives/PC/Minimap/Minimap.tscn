@@ -3,24 +3,22 @@
 [ext_resource path="res://Perspectives/PC/Minimap/Minimap.gd" type="Script" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Resources/Images/UI/UI/zoom_in.png" type="Texture" id=4]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/minus.svg" type="Texture" id=4]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/plus.svg" type="Texture" id=5]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/color = null
 shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/color = null
 shader_param/rotation_radians = null
-
-[sub_resource type="StreamTexture" id=3]
-resource_local_to_scene = true
-flags = 4
-load_path = "res://.import/zoom_out.png-35b707476d75cf32500e93d79a43060d.stex"
+shader_param/color_length_modulate_threshold = 1.5
 
 [node name="MiniMap" type="Spatial"]
 script = ExtResource( 1 )
@@ -48,17 +46,15 @@ margin_bottom = 40.0
 
 [node name="ZoomOut" parent="ViewportContainer/HBoxContainer" instance=ExtResource( 3 )]
 material = SubResource( 1 )
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 42.0
-margin_bottom = 42.0
+margin_right = 57.0
+margin_bottom = 57.0
 texture_normal = ExtResource( 4 )
+texture_name = "minus"
 
 [node name="ZoomIn" parent="ViewportContainer/HBoxContainer" instance=ExtResource( 3 )]
 material = SubResource( 2 )
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 46.0
-margin_right = 88.0
-margin_bottom = 42.0
-texture_normal = SubResource( 3 )
+margin_left = 65.0
+margin_right = 122.0
+margin_bottom = 57.0
+texture_normal = ExtResource( 5 )
+texture_name = "plus"
