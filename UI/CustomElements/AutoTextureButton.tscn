@@ -12,10 +12,8 @@ shader_param/color_length_modulate_threshold = 1.5
 
 [node name="AutoTextureButton" type="TextureButton"]
 material = SubResource( 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = -1882.0
-margin_bottom = -1040.0
+margin_right = -1920.0
+margin_bottom = -1080.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

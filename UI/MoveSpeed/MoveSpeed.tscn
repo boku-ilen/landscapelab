@@ -7,6 +7,9 @@ margin_left = -111.0
 margin_top = 71.125
 margin_right = 191.0
 margin_bottom = 162.125
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_right = 302.0

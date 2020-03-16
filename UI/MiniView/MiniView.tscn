@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://UI/MiniView/ThirdPerson.gd" type="Script" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=2]
@@ -24,7 +24,35 @@ shader_param/color = Vector3( 0, 0.0392157, 1 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=6]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=7]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=8]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
 shader = ExtResource( 5 )
 shader_param/color = null
@@ -75,8 +103,6 @@ size_flags_vertical = 8
 
 [node name="FollowToggle" parent="Miniview Menu/Map Commands" instance=ExtResource( 6 )]
 material = SubResource( 1 )
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_right = 57.0
 margin_bottom = 57.0
 toggle_mode = true
@@ -95,10 +121,8 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 alignment = 2
 
-[node name="ThirdPerson" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 2 )
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ThirdPerosn" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
+material = SubResource( 5 )
 margin_right = 57.0
 margin_bottom = 57.0
 texture_normal = ExtResource( 3 )
@@ -106,9 +130,7 @@ script = ExtResource( 1 )
 texture_name = "helicopter"
 
 [node name="Map" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 2 )
-anchor_right = 0.0
-anchor_bottom = 0.0
+material = SubResource( 6 )
 margin_left = 65.0
 margin_right = 122.0
 margin_bottom = 57.0
@@ -117,9 +139,7 @@ script = ExtResource( 12 )
 texture_name = "map"
 
 [node name="FirstPerson" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 2 )
-anchor_right = 0.0
-anchor_bottom = 0.0
+material = SubResource( 7 )
 margin_left = 130.0
 margin_right = 187.0
 margin_bottom = 57.0
@@ -128,9 +148,7 @@ script = ExtResource( 8 )
 texture_name = "eye"
 
 [node name="SwapPerspectives" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 2 )
-anchor_right = 0.0
-anchor_bottom = 0.0
+material = SubResource( 8 )
 margin_left = 195.0
 margin_right = 252.0
 margin_bottom = 57.0
@@ -138,10 +156,8 @@ texture_normal = ExtResource( 4 )
 script = ExtResource( 14 )
 texture_name = "swap"
 
-[node name="CloseMinimap" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 2 )
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Close" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
+material = SubResource( 4 )
 margin_left = 260.0
 margin_right = 317.0
 margin_bottom = 57.0

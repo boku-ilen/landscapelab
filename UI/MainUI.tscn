@@ -67,8 +67,6 @@ margin_bottom = 57.0
 
 [node name="VR" parent="MainUI/Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 3 )]
 material = SubResource( 1 )
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_right = 57.0
 margin_bottom = 57.0
 texture_normal = ExtResource( 4 )
