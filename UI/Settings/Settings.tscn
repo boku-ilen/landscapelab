@@ -55,7 +55,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsWindow/ScrollContainer"]
 margin_right = 387.0
-margin_bottom = 268.0
+margin_bottom = 278.0
 
 [node name="Language" type="HBoxContainer" parent="SettingsWindow/ScrollContainer/VBoxContainer"]
 margin_right = 387.0
@@ -100,3 +100,4 @@ optional_signal_parameter = 0
 default_toggled = false
 
 [node name="Record" parent="SettingsWindow/ScrollContainer/VBoxContainer" instance=ExtResource( 7 )]
+margin_bottom = 278.0

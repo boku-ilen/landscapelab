@@ -14,7 +14,3 @@ shader_param/color_length_modulate_threshold = 1.5
 [node name="SignalAutoTextureButton" instance=ExtResource( 1 )]
 material = SubResource( 1 )
 script = ExtResource( 2 )
-texture_name = ""
-default_color = Color( 0, 0, 0, 1 )
-signal_pressed = ""
-signal_released = ""
