@@ -1,14 +1,18 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://UI/Settings/Record.gd" type="Script" id=1]
-[ext_resource path="res://Resources/Images/UI/UI/play.png" type="Texture" id=2]
-[ext_resource path="res://Resources/Images/UI/UI/s_play.png" type="Texture" id=3]
-[ext_resource path="res://Resources/Images/UI/UI/h_play.png" type="Texture" id=4]
-[ext_resource path="res://Resources/Images/UI/UI/h_stop.png" type="Texture" id=5]
-[ext_resource path="res://Resources/Images/UI/UI/s_stop.png" type="Texture" id=6]
-[ext_resource path="res://Resources/Images/UI/UI/pause.png" type="Texture" id=7]
-[ext_resource path="res://Resources/Images/UI/UI/stop.png" type="Texture" id=8]
-[ext_resource path="res://Resources/Images/UI/UI/h_pause.png" type="Texture" id=9]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/pause.svg" type="Texture" id=3]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/stop.svg" type="Texture" id=5]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/play.svg" type="Texture" id=6]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
 [node name="Record" type="HBoxContainer"]
 margin_top = 221.0
@@ -19,35 +23,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Play" type="TextureButton" parent="."]
-margin_right = 47.0
-margin_bottom = 47.0
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 3 )
-texture_hover = ExtResource( 4 )
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="Play" parent="." instance=ExtResource( 4 )]
+material = SubResource( 1 )
+margin_right = 57.0
+margin_bottom = 57.0
+texture_normal = ExtResource( 6 )
+texture_name = "play"
 
-[node name="Pause" type="TextureButton" parent="."]
+[node name="Pause" parent="." instance=ExtResource( 4 )]
 visible = false
-margin_left = 51.0
-margin_right = 98.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 7 )
-texture_hover = ExtResource( 9 )
-__meta__ = {
-"_editor_description_": ""
-}
+material = SubResource( 1 )
+margin_left = 65.0
+margin_right = 122.0
+margin_bottom = 57.0
+texture_normal = ExtResource( 3 )
+texture_name = "pause"
 
-[node name="Stop" type="TextureButton" parent="."]
+[node name="Stop" parent="." instance=ExtResource( 4 )]
 visible = false
-margin_left = 51.0
-margin_right = 98.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 6 )
-texture_hover = ExtResource( 5 )
-__meta__ = {
-"_editor_description_": ""
-}
+material = SubResource( 1 )
+margin_left = 65.0
+margin_right = 122.0
+margin_bottom = 57.0
+texture_normal = ExtResource( 5 )
+texture_name = "stop"
