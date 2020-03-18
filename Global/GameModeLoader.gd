@@ -1,9 +1,26 @@
 extends JSONParser
 
 
-var _settings: JSONParseResult = _parse_json("res://game-mode-settings.json")
+var _settings: Dictionary = _parse_json("res://game-mode-settings.json")
 var _values_settings = _settings["values"]
 var _tool_settings = _settings["tools"]
+
+var _modes_json: Array = _parse_json("res://game-modes.json")
+
+
+# Returns an Array mapping a mode ID to all its data.
+func get_modes() -> Array:
+	return _modes_json
+
+
+# Returns an Array mapping a mode ID to its name.
+func get_mode_names() -> Array:
+	var modes = []
+	
+	for gamemode in _modes_json:
+		modes.append(gamemode["name"])
+	
+	return modes
 
 
 func get_all_values_for_mode(mode: int):

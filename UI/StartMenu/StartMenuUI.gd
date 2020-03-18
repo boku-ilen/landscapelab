@@ -34,7 +34,12 @@ func build_area_list():
 func build_gamemode_list():
 	gamemode_list.clear()
 	
-	gamemode_list.add_item("Test")
+	var id = 0
+	for mode in GameModeLoader.get_modes():
+		gamemode_list.add_item(mode["name"])
+		gamemode_list.set_item_metadata(id, mode["scene"])
+		
+		id += 1
 	
 	# Select the first item by default
 	gamemode_list.select(0)
@@ -53,4 +58,4 @@ func start_game():
 	var selected_gamemode = gamemode_list.get_selected_items()[0]
 	
 	Session.set_start_offset_for_scenario(area_list.get_item_metadata(selected_area))
-	get_tree().change_scene("res://GameModes/RetourWorkshop/RetourWorkshopMode.tscn")
+	get_tree().change_scene(gamemode_list.get_item_metadata(selected_gamemode))

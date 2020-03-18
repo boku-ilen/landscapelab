@@ -1,0 +1,9 @@
+[
+    {
+        "name": "ReTour Workshop",
+        "scene": "res://GameModes/RetourWorkshop/RetourWorkshopMode.tscn",
+        "tools": [
+
+        ]
+    }
+]
