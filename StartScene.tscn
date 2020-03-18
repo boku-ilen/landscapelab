@@ -29,7 +29,7 @@ texture = ExtResource( 2 )
 expand = true
 
 [node name="StartMenuUI" parent="." instance=ExtResource( 3 )]
-margin_left = 654.783
-margin_top = -184.063
-margin_right = 654.783
-margin_bottom = -184.063
+margin_left = 737.413
+margin_top = -59.2388
+margin_right = 737.413
+margin_bottom = -59.2388
