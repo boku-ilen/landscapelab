@@ -129,6 +129,7 @@ ModuleLoader="*res://Global/ModuleLoader.gd"
 UISignal="*res://Global/UISignal.gd"
 GameModeLoader="*res://Global/GameModeLoader.gd"
 Geodot="*res://addons/geodot/geodot.gdns"
+GlobalTerrain="*res://Global/GlobalTerrain.tscn"
 
 [display]
 
