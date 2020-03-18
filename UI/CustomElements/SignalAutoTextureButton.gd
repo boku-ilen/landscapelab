@@ -11,7 +11,8 @@ export(String) var signal_released
 
 # emit the switch of the debug button
 func _toggled(button_pressed: bool) -> void:
-	if button_pressed:
-		GlobalSignal.emit_signal(signal_pressed)
-	else:
-		GlobalSignal.emit_signal(signal_released)
+	if is_inside_tree(): # This check prevents errors in the editor due to script being a tool
+		if button_pressed:
+			GlobalSignal.emit_signal(signal_pressed)
+		else:
+			GlobalSignal.emit_signal(signal_released)
