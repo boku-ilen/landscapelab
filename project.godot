@@ -139,7 +139,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "dscn_io", "vr-extensions" )
+enabled=PoolStringArray( "dscn_io", "gameflow", "vr-extensions" )
 
 [gdnative]
 

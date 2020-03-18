@@ -1,0 +1,35 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://addons/gameflow/GameState.gd" type="Script" id=1]
+[ext_resource path="res://World/LODTerrain/TerrainScene/Terrain.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Perspectives/PerspectiveHandler.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/ExistingWindTurbine/ExistingGenericWindTurbine.tscn" type="PackedScene" id=4]
+[ext_resource path="res://World/AssetHandler/AssetHandlerSpawner.tscn" type="PackedScene" id=5]
+[ext_resource path="res://World/AssetHandler/DynamicAssetHandler.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Imaging/DrawPath/Path/Path.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Util/LegoExtentUpdater.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Util/Teleport/PlayerTeleportListener.tscn" type="PackedScene" id=9]
+
+[node name="WorkshopOverviewState" type="Node"]
+script = ExtResource( 1 )
+
+[node name="Terrain" parent="." instance=ExtResource( 2 )]
+
+[node name="PerspectiveHandler" parent="." instance=ExtResource( 3 )]
+
+[node name="PathScene" parent="." instance=ExtResource( 7 )]
+height_above_ground = 3.0
+
+[node name="AssetHandlerSpawner" parent="." instance=ExtResource( 5 )]
+asset_handler_scene = ExtResource( 6 )
+
+[node name="PlayerTeleportListener" parent="." instance=ExtResource( 9 )]
+
+[node name="LegoExtentUpdater" parent="." instance=ExtResource( 8 )]
+
+[node name="ExistingWindTurbineHandler" parent="." instance=ExtResource( 6 )]
+asset_scene = ExtResource( 4 )
+moving = false
+update_interval = 10.0
+initial_update_delay = 5.0
+asset_id = 30

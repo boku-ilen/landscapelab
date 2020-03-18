@@ -53,4 +53,4 @@ func start_game():
 	var selected_gamemode = gamemode_list.get_selected_items()[0]
 	
 	Session.set_start_offset_for_scenario(area_list.get_item_metadata(selected_area))
-	get_tree().change_scene("res://World/MainScene/MainScene.tscn")
+	get_tree().change_scene("res://GameModes/RetourWorkshop/RetourWorkshopMode.tscn")
