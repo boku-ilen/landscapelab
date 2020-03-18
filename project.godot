@@ -24,11 +24,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/GroundedSpatial.gd"
 }, {
-"base": "RigidBody",
-"class": "InteractableObject",
-"language": "GDScript",
-"path": "res://VR/InteractableObjects/InteractableObject.gd"
-}, {
 "base": "Node",
 "class": "JSONParser",
 "language": "GDScript",
@@ -83,7 +78,6 @@ _global_script_class_icons={
 "AbstractPlayer": "",
 "AutoTextureButton": "",
 "GroundedSpatial": "",
-"InteractableObject": "",
 "JSONParser": "",
 "LinearCSGPolygon": "",
 "Module": "",
