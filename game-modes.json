@@ -5,5 +5,12 @@
         "tools": [
 
         ]
+    },
+    {
+        "name": "VR Study",
+        "scene": "res://GameModes/VRStudy/VRStudyMode.tscn",
+        "tools": [
+            
+        ]
     }
 ]
