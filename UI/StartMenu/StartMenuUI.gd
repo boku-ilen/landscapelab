@@ -59,3 +59,5 @@ func start_game():
 	
 	Session.set_start_offset_for_scenario(area_list.get_item_metadata(selected_area))
 	get_tree().change_scene(gamemode_list.get_item_metadata(selected_gamemode))
+	
+	GlobalSignal.emit_signal("game_started")

@@ -2,6 +2,7 @@ extends Node
 
 # World
 signal cursor_click(world_position)
+signal game_started
 
 #
 # GUI emitted signals
