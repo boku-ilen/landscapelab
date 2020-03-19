@@ -12,4 +12,4 @@ func _ready() -> void:
 
 
 func _on_item_activated(id: int):
-	RenderStyle.emit_signal("change_style", id)
+	RenderStyle.emit_signal("change_style", RenderStyle.styles[id])

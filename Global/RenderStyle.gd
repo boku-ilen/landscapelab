@@ -7,16 +7,17 @@ var styles = [
 ]
 
 
-signal change_style(style_id)
+signal change_style(style)
+
+var current_style: Style
 
 
 func _ready():
 	connect("change_style", self, "_on_change_style")
 
 
-func _on_change_style(id: int):
-	# TODO: This is just a proof of concept of the functionality. Will be removed
-	print(styles[id].name)
+func _on_change_style(style: Style):
+	current_style = style
 
 
 class Style:
