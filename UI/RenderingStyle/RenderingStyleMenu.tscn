@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/RenderingStyle/RenderingStyleSelect.gd" type="Script" id=1]
+
+[node name="RenderingStyleMenu" type="PanelContainer"]
+margin_right = 277.0
+margin_bottom = 61.0
+mouse_filter = 1
+size_flags_horizontal = 12
+size_flags_vertical = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 263.0
+margin_bottom = 147.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 249.0
+margin_bottom = 25.0
+mouse_filter = 1
+text = "Select Rendering Mode"
+
+[node name="RenderingStyleSelect" type="ItemList" parent="VBoxContainer"]
+margin_top = 33.0
+margin_right = 249.0
+margin_bottom = 133.0
+rect_min_size = Vector2( 0, 100 )
+size_flags_vertical = 2
+script = ExtResource( 1 )
