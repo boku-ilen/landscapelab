@@ -188,8 +188,6 @@ texture_name = "paintbrush"
 
 [node name="RenderingStyleMenu" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Style" instance=ExtResource( 18 )]
 visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_top = -61.0
 margin_right = 84.0
 margin_bottom = -8.0
