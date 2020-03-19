@@ -25,8 +25,6 @@ func init(data_with_tile):
 
 # Loads all modules defined for (up to) this LOD in the settings and instances them as children.
 func spawn_modules():
-	visible = false
-	
 	var index = 0
 	var modules_to_spawn = []
 	
