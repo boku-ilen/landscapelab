@@ -24,6 +24,27 @@ shader_param/color = Vector3( 0, 0.0392157, 1 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=8]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=9]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
 [sub_resource type="ShaderMaterial" id=5]
 resource_local_to_scene = true
 shader = ExtResource( 5 )
@@ -38,28 +59,7 @@ shader_param/color = null
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="ShaderMaterial" id=7]
-resource_local_to_scene = true
-shader = ExtResource( 5 )
-shader_param/color = null
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[sub_resource type="ShaderMaterial" id=8]
-resource_local_to_scene = true
-shader = ExtResource( 5 )
-shader_param/color = null
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[sub_resource type="ShaderMaterial" id=4]
-resource_local_to_scene = true
-shader = ExtResource( 5 )
-shader_param/color = null
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=7]
 script/source = "extends ColorRect
 
 
@@ -122,48 +122,53 @@ size_flags_vertical = 8
 alignment = 2
 
 [node name="ThirdPerosn" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 5 )
+material = SubResource( 2 )
 margin_right = 57.0
 margin_bottom = 57.0
 texture_normal = ExtResource( 3 )
 script = ExtResource( 1 )
 texture_name = "helicopter"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="Map" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 6 )
+material = SubResource( 8 )
 margin_left = 65.0
 margin_right = 122.0
 margin_bottom = 57.0
 texture_normal = ExtResource( 9 )
 script = ExtResource( 12 )
 texture_name = "map"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="FirstPerson" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 7 )
+material = SubResource( 9 )
 margin_left = 130.0
 margin_right = 187.0
 margin_bottom = 57.0
 texture_normal = ExtResource( 10 )
 script = ExtResource( 8 )
 texture_name = "eye"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="SwapPerspectives" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 8 )
+material = SubResource( 5 )
 margin_left = 195.0
 margin_right = 252.0
 margin_bottom = 57.0
 texture_normal = ExtResource( 4 )
 script = ExtResource( 14 )
 texture_name = "swap"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="Close" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 4 )
+material = SubResource( 6 )
 margin_left = 260.0
 margin_right = 317.0
 margin_bottom = 57.0
 texture_normal = ExtResource( 11 )
 script = ExtResource( 13 )
 texture_name = "close"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="Border" type="ColorRect" parent="."]
 margin_top = 65.0
@@ -176,7 +181,7 @@ mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 color = Color( 0.0196078, 0.101961, 0.360784, 0.286275 )
-script = SubResource( 3 )
+script = SubResource( 7 )
 
 [node name="Margin" type="MarginContainer" parent="Border"]
 anchor_right = 1.0

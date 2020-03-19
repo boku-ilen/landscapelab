@@ -108,7 +108,7 @@ margin_bottom = 902.0
 rect_min_size = Vector2( 300, 0 )
 
 [node name="ToolsOffset" type="MarginContainer" parent="."]
-margin_left = -430.0
+margin_left = -385.0
 margin_top = 433.0
 margin_right = 34.0
 margin_bottom = 1024.0
