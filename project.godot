@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/GroundedSpatial.gd"
 }, {
+"base": "RigidBody",
+"class": "InteractableObject",
+"language": "GDScript",
+"path": "res://addons/vr-toolkit/Objects/InteractableObject.gd"
+}, {
 "base": "Node",
 "class": "JSONParser",
 "language": "GDScript",
@@ -69,6 +74,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UI/Tools/ToolsButton.gd"
 }, {
+"base": "Control",
+"class": "VRGuiElement",
+"language": "GDScript",
+"path": "res://addons/vr-toolkit/Gui/GuiElement.gd"
+}, {
 "base": "Spatial",
 "class": "WorldTile",
 "language": "GDScript",
@@ -78,6 +88,7 @@ _global_script_class_icons={
 "AbstractPlayer": "",
 "AutoTextureButton": "",
 "GroundedSpatial": "",
+"InteractableObject": "",
 "JSONParser": "",
 "LinearCSGPolygon": "",
 "Module": "",
@@ -87,6 +98,7 @@ _global_script_class_icons={
 "ShiftingHandler": "",
 "TileHandler": "",
 "ToolsButton": "",
+"VRGuiElement": "",
 "WorldTile": ""
 }
 
@@ -122,6 +134,7 @@ Assets="*res://Global/Assets.gd"
 ModuleLoader="*res://Global/ModuleLoader.gd"
 UISignal="*res://Global/UISignal.gd"
 GameModeLoader="*res://Global/GameModeLoader.gd"
+GlobalVRAccess="*res://addons/vr-toolkit/GlobalVRAccess.gd"
 
 [display]
 
@@ -132,7 +145,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "dscn_io", "vr-extensions" )
+enabled=PoolStringArray( "dscn_io", "vr-toolkit" )
 
 [gdnative]
 

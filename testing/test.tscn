@@ -1,0 +1,126 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://testing/PlayerVR.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/vr-toolkit/Gui/GuiToMesh.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/vr-toolkit/Gui/CamToMesh.tscn" type="PackedScene" id=3]
+[ext_resource path="res://testing/ViewportToMesh/UiTest.tscn" type="PackedScene" id=4]
+[ext_resource path="res://testing/InteractableObjects/Ball/Ball.tscn" type="PackedScene" id=5]
+[ext_resource path="res://testing/InteractableObjects/GuiObject/Map.tscn" type="PackedScene" id=6]
+[ext_resource path="res://testing/InteractableObjects/PewPew/PewPew.tscn" type="PackedScene" id=7]
+[ext_resource path="res://testing/InteractableObjects/OrientationCompass/Compass.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/vr-toolkit/Gui/GuiToCurved.tscn" type="PackedScene" id=9]
+[ext_resource path="res://testing/ViewportToMesh/CameraTest.tscn" type="PackedScene" id=10]
+
+[sub_resource type="CubeMesh" id=1]
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 5.02755, 1, 4.93471 )
+
+[sub_resource type="PlaneMesh" id=3]
+resource_local_to_scene = true
+
+[node name="Viewport" type="Spatial"]
+
+[node name="Platforms" type="Spatial" parent="."]
+
+[node name="StaticBody" type="StaticBody" parent="Platforms"]
+
+[node name="MeshInstance" type="MeshInstance" parent="Platforms/StaticBody"]
+transform = Transform( 5, 0, 0, 0, 0.5, 0, 0, 0, 5, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Platforms/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0.418256, 0 )
+shape = SubResource( 2 )
+
+[node name="StaticBody2" type="StaticBody" parent="Platforms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -63.0983, 19.1779, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Platforms/StaticBody2"]
+transform = Transform( 5, 0, 0, 0, 0.5, 0, 0, 0, 5, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Platforms/StaticBody2"]
+transform = Transform( 1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0.418256, 0 )
+shape = SubResource( 2 )
+
+[node name="StaticBody4" type="StaticBody" parent="Platforms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.2144, 13.2244, 36.7103 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Platforms/StaticBody4"]
+transform = Transform( 5, 0, 0, 0, 0.5, 0, 0, 0, 5, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Platforms/StaticBody4"]
+transform = Transform( 1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0.418256, 0 )
+shape = SubResource( 2 )
+
+[node name="StaticBody5" type="StaticBody" parent="Platforms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.2144, 17.6026, -87.2491 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Platforms/StaticBody5"]
+transform = Transform( 5, 0, 0, 0, 0.5, 0, 0, 0, 5, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Platforms/StaticBody5"]
+transform = Transform( 1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0.418256, 0 )
+shape = SubResource( 2 )
+
+[node name="StaticBody3" type="StaticBody" parent="Platforms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 65.4453, 42.4233, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Platforms/StaticBody3"]
+transform = Transform( 5, 0, 0, 0, 0.5, 0, 0, 0, 5, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Platforms/StaticBody3"]
+transform = Transform( 1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0.418256, 0 )
+shape = SubResource( 2 )
+
+[node name="GuiToCurved" parent="." instance=ExtResource( 9 )]
+transform = Transform( 0.869667, 0.493638, -2.15776e-08, 0, -4.37114e-08, -1, -0.493638, 0.869667, -3.80144e-08, -4.28138, 1.8061, -5.5926 )
+viewport_element = ExtResource( 4 )
+
+[node name="CamToMesh" parent="." instance=ExtResource( 3 )]
+viewport_element = ExtResource( 10 )
+
+[node name="Viewport" parent="CamToMesh" index="0"]
+hdr = true
+render_direct_to_screen = true
+
+[node name="GuiToMesh2" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.85211, -5.13991 )
+mesh = SubResource( 3 )
+viewport_element = ExtResource( 4 )
+
+[node name="Viewport" parent="GuiToMesh2" index="0"]
+size = Vector2( 700, 700 )
+
+[node name="PlayerVR" parent="." instance=ExtResource( 1 )]
+vr_menu = ExtResource( 4 )
+
+[node name="ARVRControllerExtension" parent="PlayerVR/ARVROrigin/OVRController2" index="2"]
+enabled = false
+
+[node name="Compass" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00404, -1.5636 )
+
+[node name="Spatial" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.66576, 1.0027, 0 )
+
+[node name="PewPew" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8739, -0.83972 )
+
+[node name="Spatial2" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 0.806094, 0.591788, 0, -0.591788, 0.806094, 0.568637, 1.15292, -2.09512 )
+
+[editable path="CamToMesh"]
+
+[editable path="GuiToMesh2"]
+
+[editable path="PlayerVR"]
