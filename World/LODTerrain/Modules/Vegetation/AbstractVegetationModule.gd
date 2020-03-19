@@ -25,6 +25,10 @@ var phyto_data = {}
 
 
 func init(data=null):
+	RenderStyle.connect("change_style", self, "update_render_style")
+	
+	update_render_style(RenderStyle.current_style)
+	
 	# Set the mesh and cast_shadow parameters of the heightmap particle children
 	for i in range(0, num_layers):
 		var particles = get_node(String(i))
@@ -34,6 +38,17 @@ func init(data=null):
 	get_splat_data()
 	
 	_done_loading()
+
+
+func update_render_style(new_style):
+	if new_style.name == "Realistic":
+		for i in range(0, num_layers):
+			var particles = get_node(String(i))
+			particles.material_override.set_shader_param("clay_rendering", false)
+	elif new_style.name == "Abstract":
+		for i in range(0, num_layers):
+			var particles = get_node(String(i))
+			particles.material_override.set_shader_param("clay_rendering", true)
 
 
 # Fetches all required data from the server

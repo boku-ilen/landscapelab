@@ -85,9 +85,7 @@ void fragment () {
 	ALPHA_SCISSOR = 0.8;
 
 	if (clay_rendering) {
-		ALBEDO = vec3(0.95, 0.95, 0.95);
-	} else {
-		ALBEDO = color.rgb;
+		color.rgb = vec3(0.95, 0.95, 0.95);
 	}
 	
 	ALBEDO = color.rgb;
