@@ -28,6 +28,9 @@
 		},
 		"Tracking": {
 			"modes": [0]
-		}
+		},
+        "Style": {
+            "modes": [0]
+        }
 	}
 }
