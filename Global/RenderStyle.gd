@@ -9,7 +9,7 @@ var styles = [
 
 signal change_style(style)
 
-var current_style: Style
+var current_style: Style = styles[0]
 
 
 func _ready():
