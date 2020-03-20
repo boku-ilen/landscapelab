@@ -33,10 +33,10 @@ func update_render_style(new_style):
 
 
 func get_textures(tile, mesh) -> bool:
-	var dhm = tile.get_texture("webm", "tif")
+	var dhm = tile.get_texture("heightmap")
 	mesh.material_override.set_shader_param("heightmap", dhm)
 	
-	var ortho = tile.get_texture("bmaporthophoto30cm", "jpg")
+	var ortho = tile.get_texture("orthophoto")
 	mesh.material_override.set_shader_param("tex", ortho)
 	
 	return true

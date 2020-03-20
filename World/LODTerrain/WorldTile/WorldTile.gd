@@ -8,8 +8,6 @@ class_name WorldTile
 # The tiles are controlled via the TileHandler.
 #
 
-# TODO: Move
-var base_path = "/home/retour/LandscapeLab/testdata"
 
 # Scenes
 var module_handler_scene = preload("res://World/LODTerrain/WorldTile/ModuleHandler.tscn")
@@ -334,9 +332,10 @@ func get_dist_to_player():
 	return Vector2(player_pos.x, player_pos.z).distance_to(Vector2(clamped.x, clamped.z))
 
 
-func get_geoimage(name, ending, interpolation=1):
+func get_geoimage(name, interpolation=1):
 	var true_pos = get_true_position()
-	var full_path = base_path.plus_file(name)
+	var full_path = GeodataPaths.get_absolute(name)
+	var ending = GeodataPaths.get_type(name)
 	
 	var geoimg = Geodot.get_image(
 		full_path,
@@ -351,7 +350,7 @@ func get_geoimage(name, ending, interpolation=1):
 	return geoimg
 
 
-func get_texture(name, ending, interpolation=1):
+func get_texture(name, interpolation=1):
 	texture_cache_mutex.lock()
 	
 	if texture_cache.has(name):
@@ -359,7 +358,8 @@ func get_texture(name, ending, interpolation=1):
 		return texture_cache.get(name)
 	else:
 		var true_pos = get_true_position()
-		var full_path = base_path.plus_file(name)
+		var full_path = GeodataPaths.get_absolute(name)
+		var ending = GeodataPaths.get_type(name)
 		
 		var geoimg = Geodot.get_image(
 			full_path,

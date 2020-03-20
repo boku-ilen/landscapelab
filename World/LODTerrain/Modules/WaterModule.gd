@@ -8,8 +8,8 @@ var WATER_SPLAT_ID = Settings.get_setting("water", "water-splat-id")
 
 
 func get_textures(tile):
-	splatmap = tile.get_texture("sentinel-invekos-bytes", "tif", 6)
-	dhm = tile.get_texture("webm", "tif")
+	splatmap = tile.get_texture("land-use", 6)
+	dhm = tile.get_texture("heightmap")
 
 
 func set_splatmap():

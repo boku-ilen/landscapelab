@@ -53,8 +53,8 @@ func update_render_style(new_style):
 
 # Fetches all required data from the server
 func get_splat_data():
-	splatmap = tile.get_geoimage("sentinel-invekos-bytes", "tif", 6)
-	heightmap = tile.get_texture("webm", "tif")
+	splatmap = tile.get_geoimage("land-use", 6)
+	heightmap = tile.get_texture("heightmap")
 	
 	var splat_ids = splatmap.get_most_common(num_layers)
 

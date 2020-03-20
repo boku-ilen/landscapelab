@@ -66,7 +66,7 @@ func get_textures(tile, mesh):
 func get_vegetation_data(tile, mesh):
 	var true_pos = tile.get_true_position()
 
-	splatmap = tile.get_geoimage("sentinel-invekos-bytes", "tif", 6)
+	splatmap = tile.get_geoimage("land-use", 6)
 	
 	# Set the basic parameters
 	mesh.material_override.set_shader_param("water_splat_id", WATER_SPLAT_ID)

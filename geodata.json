@@ -1,0 +1,15 @@
+{
+    "base-directory": "/home/karl/BOKU/geodata",
+    "orthophoto": {
+        "name": "bmaporthophoto30cm",
+        "type": "jpg"
+    },
+    "heightmap": {
+        "name": "webm",
+        "type": "tif"
+    },
+    "land-use": {
+        "name": "sentinel-invekos-bytes",
+        "type": "tif"
+    }
+}

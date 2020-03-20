@@ -30,7 +30,7 @@ func _on_visibility_changed():
 		col_shape.disabled = false
 
 func get_textures(tile):
-	heightmap = tile.get_texture("webm", "tif")
+	heightmap = tile.get_texture("heightmap")
 
 	if heightmap:
 		heightmap_img = heightmap.get_data()
