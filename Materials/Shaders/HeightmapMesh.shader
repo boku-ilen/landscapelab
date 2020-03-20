@@ -27,7 +27,7 @@ uniform bool has_overlay;
 uniform bool fake_forests;
 uniform float forest_height;
 
-uniform bool blend_only_similar_colors = false;
+uniform bool blend_only_similar_colors = true;
 varying vec3 world_pos;
 varying vec3 v_obj_pos;
 
@@ -140,6 +140,43 @@ void vertex() {
 	VERTEX.y -= get_curve_offset(dist_to_middle);
 }
 
+// Adapted from https://stackoverflow.com/questions/9234724/how-to-change-hue-of-a-texture-with-glsl
+const vec3  kRGBToYPrime = vec3 (0.299, 0.587, 0.114);
+const vec3  kRGBToI      = vec3 (0.596, -0.275, -0.321);
+const vec3  kRGBToQ      = vec3 (0.212, -0.523, 0.311);
+
+const vec3  kYIQToR   = vec3 (1.0, 0.956, 0.621);
+const vec3  kYIQToG   = vec3 (1.0, -0.272, -0.647);
+const vec3  kYIQToB   = vec3 (1.0, -1.107, 1.704);
+
+vec3 RGBtoHCY(vec3 color) {
+    // Convert to YIQ
+    float   YPrime  = dot (color, kRGBToYPrime);
+    float   I      = dot (color, kRGBToI);
+    float   Q      = dot (color, kRGBToQ);
+
+    // Calculate the hue and chroma
+    float   hue     = atan (Q, I);
+    float   chroma  = sqrt (I * I + Q * Q);
+	
+	return vec3(hue, chroma, YPrime);
+}
+
+vec3 HCYtoRGB(vec3 hcy) {
+	// Convert back to YIQ
+    float Q = hcy.y * sin (hcy.x);
+    float I = hcy.y * cos (hcy.x);
+
+    // Convert back to RGB
+    vec3 yIQ = vec3 (hcy.z, I, Q);
+	vec3 color;
+    color.r = dot (yIQ, kYIQToR);
+    color.g = dot (yIQ, kYIQToG);
+    color.b = dot (yIQ, kYIQToB);
+	
+	return color;
+}
+
 void fragment(){
 	// Material parameters
 	ROUGHNESS = 0.95;
@@ -173,27 +210,73 @@ void fragment(){
 			vec3 detail_color = vec3(0.0);
 			vec3 current_normal = vec3(0.0);
 			
-			// Calculate the factor by which the detail texture should be shown
-			// The factor is between 0 and 1: 0 when the camera is more than detail_start_dist away; 1 when the camera is right here.
-			float detail_factor = distance(v_obj_pos, world_pos);
-			detail_factor = clamp(1.0 - (detail_factor / detail_start_dist), 0.0, 1.0);
+			float dist = distance(v_obj_pos, world_pos);
+			float detail_factor = 1.0;
+			
+			// Starting at a certain distance, we blend a larger version of the texture
+			//  to the normal one. This reduces tiling and increases detail.
+			float larger_texture_factor = clamp(pow(dist / 50.0, 2.0), 0.0, 1.0);
+			
+			vec3 detail_color_near;
+			vec3 current_normal_near;
+			
+			vec3 detail_color_far;
+			vec3 current_normal_far;
+			
+			float uv_large_scale = 0.2;
 			
 			// If the player is too far away, don't do all the detail calculation
 			if (detail_factor > 0.0) {
 				if (splat_id == vegetation_id1) {
-					detail_color = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-					current_normal = texture(vegetation_normal1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+					detail_color_near = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+					current_normal_near = texture(vegetation_normal1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+					
+					detail_color_far = texture(vegetation_tex1, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
+					current_normal_far = texture(vegetation_normal1, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
 				} else if (splat_id == vegetation_id2) {
-					detail_color = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-					current_normal = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+					detail_color_near = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+					current_normal_near = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+					
+					detail_color_far = texture(vegetation_tex2, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
+					current_normal_far = texture(vegetation_normal2, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
 				}
 			}
 			
+			vec3 raw_detail_color = mix(detail_color_near, detail_color_far, larger_texture_factor);
+			vec3 raw_current_normal = mix(current_normal_near, current_normal_far, larger_texture_factor);
+			
+			vec3 base_hcy = RGBtoHCY(base_color);
+			vec3 detail_hcy = RGBtoHCY(raw_detail_color);
+			
+			float hue_difference = abs(base_hcy.x - detail_hcy.x);
+			
+			// Adapt the detail texture hue and chroma to the orthophoto
+			// TODO: Would be neat if we could only adapt the hue slightly, but that
+			//  can get us to completely different colors inbetween
+			detail_hcy.x = base_hcy.x;
+			detail_hcy.y = mix(detail_hcy.y, base_hcy.y, 0.5);
+			
+			detail_color = HCYtoRGB(detail_hcy);
+			
 			if (blend_only_similar_colors) {
-				detail_factor *= max(0.0, (1.0 - length(detail_color - base_color)));
+				// If the hue difference is too large, don't use the detail texture at all.
+				// Otherwise, the amount of the detail texture depends on the difference.
+				if (hue_difference > 2.8) {
+					detail_factor = 0.0;
+				} else {
+					detail_factor = (1.0 - hue_difference / 2.8);
+				}
 			}
-		
-			if (detail_color != vec3(0.0)) {
+			
+			// Detail factor gets higher when player is close
+			float dist_factor = clamp(dist / detail_start_dist, 0.0, 1.0);  // 0.0 if very close, 1.0 if very far
+			detail_factor = clamp(detail_factor * (2.0 - dist_factor), 0.0, 1.0);
+			
+			// If there was a detail texture here, mix it with the base color
+			// Otherwise, just use the base color
+			// TODO: we could check for this earlier, but I don't think it
+			// makes a difference in shaders, it might actually cause bugs...
+			if (raw_detail_color != vec3(0.0)) {
 				total_color = mix(base_color, detail_color, detail_factor);
 			} else {
 				total_color = base_color;
