@@ -10,15 +10,21 @@ resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/sprite_count = null
 shader_param/distribution_pixels_per_meter = null
+shader_param/base_light = 0.5
+shader_param/light_factor = 2.0
+shader_param/opacity_cutoff = 0.9
+shader_param/max_opacity_cutoff_scale = 1.0
 shader_param/pos = null
 shader_param/size = null
+shader_param/scale = null
+shader_param/clay_rendering = false
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/rows = 100
 shader_param/spacing = 10.0
-shader_param/random_offset = 0.405263
+shader_param/vertical_offset = 0.0
 shader_param/id = null
 shader_param/scale = null
 shader_param/curv_middle = Vector3( 0, 0, 0 )
@@ -30,7 +36,9 @@ shader_param/size_without_skirt = null
 shader_param/RADIUS = 6.371e+06
 shader_param/noisemap = ExtResource( 3 )
 
-[node name="HeightmapParticles" type="Particles"]
+[node name="HeightmapParticles" type="Particles" groups=[
+"ClayRenderingShader",
+]]
 layers = 2
 material_override = SubResource( 1 )
 extra_cull_margin = 1500.0
