@@ -65,9 +65,9 @@ vec2 get_relative_pos_with_blending(vec2 raw_pos, float dist) {
 	// Add a random offset to the relative pos, so that a different color could be chosen if one is nearby
 	// Subtract 0.5, 0.5 and multiply by 2 to level out vectors around 0 (between -1 and 1), not around 0.5 (between 0 and 1)
 	// Otherwise we get an offset since random vectors always tend towards a certain direction
-	vec2 random_offset = (texture(random_offset_vectors, raw_pos * (size / random_offset_vectors_scale)).rg - vec2(0.5, 0.5)) * 2.0;
+	vec2 random_offset = (texture(random_offset_vectors, raw_pos * size_without_skirt * 0.1).rg - vec2(0.5, 0.5)) * 2.0;
 	
-	return get_relative_pos(raw_pos + random_offset * (texture_blending_amount / size) * (dist / 10.0));
+	return get_relative_pos(raw_pos + random_offset * (1000.0 / size_without_skirt) * (dist / 1000.0));
 }
 
 // Gets the absolute height at a given pos without taking the skirt into account
