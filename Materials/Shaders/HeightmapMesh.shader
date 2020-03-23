@@ -61,13 +61,13 @@ vec2 get_relative_pos(vec2 raw_pos) {
 	return pos;
 }
 
-vec2 get_relative_pos_with_blending(vec2 raw_pos) {
+vec2 get_relative_pos_with_blending(vec2 raw_pos, float dist) {
 	// Add a random offset to the relative pos, so that a different color could be chosen if one is nearby
 	// Subtract 0.5, 0.5 and multiply by 2 to level out vectors around 0 (between -1 and 1), not around 0.5 (between 0 and 1)
 	// Otherwise we get an offset since random vectors always tend towards a certain direction
 	vec2 random_offset = (texture(random_offset_vectors, raw_pos * (size / random_offset_vectors_scale)).rg - vec2(0.5, 0.5)) * 2.0;
 	
-	return get_relative_pos(raw_pos + random_offset * (texture_blending_amount / size));
+	return get_relative_pos(raw_pos + random_offset * (texture_blending_amount / size) * (dist / 10.0));
 }
 
 // Gets the absolute height at a given pos without taking the skirt into account
@@ -117,17 +117,6 @@ vec3 get_normal(vec2 normal_uv_pos) {
 void vertex() {
 	// Apply the height of the heightmap at this pixel
 	VERTEX.y = get_height(UV);
-	int splat_id = int(texture(splat, get_relative_pos(UV)).r * 255.0);
-	
-	if (splat_id == water_splat_id) {
-		VERTEX.y -= 2.0;
-	}
-	
-	if (fake_forests &&
-		(splat_id == 91
-		|| splat_id == 93)) {
-		VERTEX.y += forest_height;
-	}
 	
 	// Calculate the engine position of this vertex
 	v_obj_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz / size;
@@ -138,6 +127,18 @@ void vertex() {
 	// Apply the curvature based on the position of the current camera
 	float dist_to_middle = pow(world_pos.x, 2.0) + pow(world_pos.y, 2.0) + pow(world_pos.z, 2.0);
 	VERTEX.y -= get_curve_offset(dist_to_middle);
+	
+	int splat_id = int(texture(splat, get_relative_pos_with_blending(UV, distance(v_obj_pos, world_pos))).r * 255.0);
+	
+	if (splat_id == water_splat_id) {
+		VERTEX.y -= 2.0;
+	}
+	
+	if (fake_forests &&
+		(splat_id == 91
+		|| splat_id == 93)) {
+		VERTEX.y += forest_height;
+	}
 }
 
 // Adapted from https://stackoverflow.com/questions/9234724/how-to-change-hue-of-a-texture-with-glsl
@@ -182,7 +183,7 @@ void fragment(){
 	ROUGHNESS = 0.95;
 	METALLIC = 0.0;
 	
-	int splat_id = int(texture(splat, get_relative_pos(UV)).r * 255.0);
+	int splat_id = int(texture(splat, get_relative_pos_with_blending(UV, distance(v_obj_pos, world_pos))).r * 255.0);
 	
 	vec3 total_color;
 	vec3 normal;
