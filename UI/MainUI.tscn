@@ -47,17 +47,14 @@ mouse_filter = 2
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainUI/Top Menu Bar"]
-margin_right = 62.0
 margin_bottom = 980.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainUI/Top Menu Bar/HBoxContainer"]
-margin_right = 62.0
 margin_bottom = 980.0
 
 [node name="DebugOverlay" type="Label" parent="MainUI/Top Menu Bar/HBoxContainer/VBoxContainer"]
-margin_right = 62.0
+visible = false
 margin_bottom = 25.0
-text = "Hallo!"
 script = ExtResource( 5 )
 
 [node name="HBoxRight" type="HBoxContainer" parent="MainUI/Top Menu Bar"]
@@ -86,6 +83,7 @@ margin_right = 57.0
 margin_bottom = 57.0
 texture_normal = ExtResource( 4 )
 texture_name = "vr"
+default_color = Color( 0, 0, 0, 1 )
 signal_pressed = "vr_enable"
 signal_released = "vr_disable"
 
