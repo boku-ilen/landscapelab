@@ -3,6 +3,7 @@ shader_type spatial;
 // Parameters to be passed in GDscript:
 uniform sampler2D heightmap;
 uniform sampler2D tex : hint_albedo;
+uniform sampler2D normalmap : hint_normal;
 uniform sampler2D splat;
 uniform int water_splat_id;
 
@@ -186,79 +187,78 @@ void fragment(){
 	int splat_id = int(texture(splat, get_relative_pos_with_blending(UV, distance(v_obj_pos, world_pos))).r * 255.0);
 	
 	vec3 total_color;
-	vec3 normal;
+	vec3 normal = texture(normalmap, get_relative_pos(UV)).rgb;
 	
 	if (clay_rendering) { // Early exit?
 		// For clay rendering, simply display the land-use splatmap.
 		total_color = vec3(float(splat_id) / 255.0);
-		normal = get_normal(UV);
 	} else {
 		// Early exit due to overlay texture?
 		bool done = false;
-		
+
 		if (has_overlay) {
 			vec4 overlay = texture(overlay_texture, get_relative_pos(UV));
-			
+
 			if (overlay.a > 0.5) {
 				total_color = overlay.rgb;
 				normal = get_normal(UV);
 				done = true;
 			}
 		}
-		
+
 		if (!done) {
 			vec3 base_color = texture(tex, get_relative_pos(UV)).rgb;
 			vec3 detail_color = vec3(0.0);
 			vec3 current_normal = vec3(0.0);
-			
+
 			float dist = distance(v_obj_pos, world_pos);
 			float detail_factor = 1.0;
-			
+
 			// Starting at a certain distance, we blend a larger version of the texture
 			//  to the normal one. This reduces tiling and increases detail.
 			float larger_texture_factor = clamp(pow(dist / 50.0, 2.0), 0.0, 1.0);
-			
+
 			vec3 detail_color_near;
 			vec3 current_normal_near;
-			
+
 			vec3 detail_color_far;
 			vec3 current_normal_far;
-			
+
 			float uv_large_scale = 0.2;
-			
+
 			// If the player is too far away, don't do all the detail calculation
 			if (detail_factor > 0.0) {
 				if (splat_id == vegetation_id1) {
 					detail_color_near = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 					current_normal_near = texture(vegetation_normal1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-					
+
 					detail_color_far = texture(vegetation_tex1, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
 					current_normal_far = texture(vegetation_normal1, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
 				} else if (splat_id == vegetation_id2) {
 					detail_color_near = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
 					current_normal_near = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-					
+
 					detail_color_far = texture(vegetation_tex2, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
 					current_normal_far = texture(vegetation_normal2, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
 				}
 			}
-			
+
 			vec3 raw_detail_color = mix(detail_color_near, detail_color_far, larger_texture_factor);
 			vec3 raw_current_normal = mix(current_normal_near, current_normal_far, larger_texture_factor);
-			
+
 			vec3 base_hcy = RGBtoHCY(base_color);
 			vec3 detail_hcy = RGBtoHCY(raw_detail_color);
-			
+
 			float hue_difference = abs(base_hcy.x - detail_hcy.x);
-			
+
 			// Adapt the detail texture hue and chroma to the orthophoto
 			// TODO: Would be neat if we could only adapt the hue slightly, but that
 			//  can get us to completely different colors inbetween
 			detail_hcy.x = base_hcy.x;
 			detail_hcy.y = mix(detail_hcy.y, base_hcy.y, 0.5);
-			
+
 			detail_color = HCYtoRGB(detail_hcy);
-			
+
 			if (blend_only_similar_colors) {
 				// If the hue difference is too large, don't use the detail texture at all.
 				// Otherwise, the amount of the detail texture depends on the difference.
@@ -268,11 +268,11 @@ void fragment(){
 					detail_factor = (1.0 - hue_difference / 2.8);
 				}
 			}
-			
+
 			// Detail factor gets higher when player is close
 			float dist_factor = clamp(dist / detail_start_dist, 0.0, 1.0);  // 0.0 if very close, 1.0 if very far
 			detail_factor = clamp(detail_factor * (2.0 - dist_factor), 0.0, 1.0);
-			
+
 			// If there was a detail texture here, mix it with the base color
 			// Otherwise, just use the base color
 			// TODO: we could check for this earlier, but I don't think it
@@ -282,8 +282,6 @@ void fragment(){
 			} else {
 				total_color = base_color;
 			}
-			
-			normal = get_normal(UV);
 		}
 	}
 
