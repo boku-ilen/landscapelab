@@ -1,4 +1,5 @@
 extends GroundedSpatial
+class_name LinearDrawer
 
 #
 # Draws a road with a given width along the given points.
@@ -66,6 +67,11 @@ func set_height(new_height):
 			child.set_height(new_height)
 		else:
 			logger.warning("Children of the path of a LinearDrawer should all be LinearCSGPolygons!")
+
+
+# Set the Curve3D of this drawer's path to a given new Curve3D directly
+func set_curve(curve: Curve3D):
+	get_node("Path").curve = curve
 
 
 # Adds the given array of Vector3 points to the road's curve
