@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Resources/Images/UI/StartScreen/startscreen.png" type="Texture" id=1]
-[ext_resource path="res://Resources/Images/UI/StartScreen/austria.png" type="Texture" id=2]
+[ext_resource path="res://Resources/Textures/StartScreen/startscreen.png" type="Texture" id=1]
+[ext_resource path="res://Resources/Textures/StartScreen/austria.png" type="Texture" id=2]
 [ext_resource path="res://UI/StartMenu/StartMenuUI.tscn" type="PackedScene" id=3]
 
 [node name="StartScene" type="Node"]

@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Materials/Shaders/VegetationShader.shader" type="Shader" id=1]
-[ext_resource path="res://Materials/Shaders/HeightmapParticles.shader" type="Shader" id=2]
-[ext_resource path="res://Resources/Images/MaterialUtil/noise_texture.png" type="Texture" id=3]
+[ext_resource path="res://Materials/GrassParticles.tres" type="Material" id=2]
 [ext_resource path="res://World/LODTerrain/Modules/Util/HeightmapParticles.gd" type="Script" id=4]
 
 [sub_resource type="ShaderMaterial" id=1]
@@ -19,23 +18,6 @@ shader_param/size = null
 shader_param/scale = null
 shader_param/clay_rendering = false
 
-[sub_resource type="ShaderMaterial" id=2]
-resource_local_to_scene = true
-shader = ExtResource( 2 )
-shader_param/rows = 100
-shader_param/spacing = 10.0
-shader_param/vertical_offset = 0.0
-shader_param/id = null
-shader_param/scale = null
-shader_param/curv_middle = Vector3( 0, 0, 0 )
-shader_param/tile_pos = null
-shader_param/height_range = 500.0
-shader_param/subdiv = null
-shader_param/size = null
-shader_param/size_without_skirt = null
-shader_param/RADIUS = 6.371e+06
-shader_param/noisemap = ExtResource( 3 )
-
 [node name="HeightmapParticles" type="Particles" groups=[
 "ClayRenderingShader",
 ]]
@@ -48,5 +30,5 @@ lifetime = 1.66199e+09
 one_shot = true
 explosiveness = 1.0
 visibility_aabb = AABB( -500, 500, -500, 500, 3000, 500 )
-process_material = SubResource( 2 )
+process_material = ExtResource( 2 )
 script = ExtResource( 4 )
