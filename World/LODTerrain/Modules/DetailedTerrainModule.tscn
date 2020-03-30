@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://World/LODTerrain/Modules/TerrainModule.tscn" type="PackedScene" id=1]
 [ext_resource path="res://World/LODTerrain/Modules/DetailedTerrainModule.gd" type="Script" id=2]
 [ext_resource path="res://Materials/Shaders/HeightmapMesh.shader" type="Shader" id=3]
 [ext_resource path="res://Resources/Textures/ShaderUtil/noise_normal.png" type="Texture" id=4]
-
 
 [sub_resource type="ViewportTexture" id=1]
 viewport_path = NodePath("OverlayTextureViewport")
@@ -31,8 +30,6 @@ shader_param/clay_rendering = false
 shader_param/random_offset_vectors = ExtResource( 4 )
 shader_param/overlay_texture = SubResource( 1 )
 
-[sub_resource type="World" id=3]
-
 [node name="DetailedTerrainModule" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
@@ -40,7 +37,6 @@ script = ExtResource( 2 )
 material_override = SubResource( 2 )
 
 [node name="OverlayTextureViewport" type="Viewport" parent="." index="1"]
-world = SubResource( 3 )
 transparent_bg = true
 hdr = false
 keep_3d_linear = true
