@@ -51,9 +51,9 @@ func _load_assets():
 		for asset_id in assets:
 			var icon: Texture
 			if asset_type_id == "2":
-				icon = load("res://Resources/Images/UI/MapIcons/windmill_icon.png")
+				icon = load("res://Resources/Icons/ClassicLandscapeLab/windmill_icon.png")
 			elif asset_type_id == "3":
-				icon = load("res://Resources/Images/UI/MapIcons/pv_icon.png")
+				icon = load("res://Resources/Icons/ClassicLandscapeLab/pv_icon.png")
 			
 			items.add_item(assets[asset_id]["name"], icon)
 			
