@@ -3,7 +3,7 @@
 [ext_resource path="res://Perspectives/PC/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/PC/SettingsCamera.gd" type="Script" id=2]
 [ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Resources/Images/UI/MapIcons/MapCursor.png" type="Texture" id=4]
+[ext_resource path="res://Resources/Icons/ClassicLandscapeLab/map_cursor.svg" type="Texture" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 

@@ -1,9 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Resources/Images/UI/MapIcons/pv_icon.png" type="Texture" id=1]
+[ext_resource path="res://Resources/Icons/ClassicLandscapeLab/pv_icon.png" type="Texture" id=1]
 [ext_resource path="res://UI/Fonts/TextBold.tres" type="DynamicFont" id=2]
 [ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=3]
 [ext_resource path="res://UI/EnergyUI/AssetsList.gd" type="Script" id=4]
+
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0.835294, 0.207843, 1 )
