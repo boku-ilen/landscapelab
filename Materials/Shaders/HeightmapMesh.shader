@@ -135,6 +135,18 @@ void vertex() {
 		VERTEX.y -= 2.0;
 	}
 	
+	// Experiment: If there is an overlay texture here, smooth the terrain out by
+	//  using the minimal height in the vinicity
+	if (has_overlay) {
+		vec4 overlay = texture(overlay_texture, get_relative_pos(UV));
+
+		if (overlay.a > 0.5) {
+			// TODO: The value that makes sense here is related to the resolutin of the overlay texture, maybe we should pass it
+			float e = 2.0 / 128.0;
+			VERTEX.y = min(min(get_height(UV + vec2(e, 0)), get_height(UV + vec2(-e, 0))), min(get_height(UV + vec2(0, e)), get_height(UV + vec2(0, -e))));
+		}
+	}
+	
 	if (fake_forests &&
 		(splat_id == 91
 		|| splat_id == 93)) {
