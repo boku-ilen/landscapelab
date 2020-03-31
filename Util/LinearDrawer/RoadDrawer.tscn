@@ -11,10 +11,11 @@ _data = {
 }
 
 [node name="RoadDrawer" instance=ExtResource( 1 )]
+grounded = true
 
 [node name="Path" parent="." index="0"]
 curve = SubResource( 1 )
 
 [node name="Road" parent="Path" index="0" instance=ExtResource( 2 )]
-layers = 32768
+layers = 32769
 cast_shadow = 0

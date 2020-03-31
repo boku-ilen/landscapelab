@@ -11,12 +11,15 @@ _data = {
 "tilts": PoolRealArray(  )
 }
 
-[node name="RoadDrawer" index="0" instance=ExtResource( 1 )]
+[node name="RoadDrawer" instance=ExtResource( 1 )]
+grounded = true
 
 [node name="Path" parent="." index="0"]
 curve = SubResource( 1 )
 
 [node name="Road" parent="Path" index="0" instance=ExtResource( 2 )]
+layers = 32769
 path_interval = 4.0
 
 [node name="Ground" parent="Path" index="1" instance=ExtResource( 3 )]
+layers = 32769

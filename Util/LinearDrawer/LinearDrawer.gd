@@ -19,7 +19,7 @@ var height = 0
 
 
 func _ready():
-	set_height(1)
+	set_height(0.2)
 
 
 # Overwritten since we need to update the individual points, not just this node
@@ -72,6 +72,9 @@ func set_height(new_height):
 # Set the Curve3D of this drawer's path to a given new Curve3D directly
 func set_curve(curve: Curve3D):
 	get_node("Path").curve = curve
+	
+	if grounded:
+		_place_on_ground()
 
 
 # Adds the given array of Vector3 points to the road's curve
