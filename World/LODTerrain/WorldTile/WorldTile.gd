@@ -36,6 +36,9 @@ var top_level: WorldTile = self # The top-level-tile of the tree this tile is in
 var texture_cache = {}
 var texture_cache_mutex = Mutex.new()
 
+var geoimage_cache = {}
+var geoimage_cache_mutex = Mutex.new()
+
 # Settings
 var max_lods = Settings.get_setting("lod", "distances")
 var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
@@ -333,21 +336,30 @@ func get_dist_to_player():
 
 
 func get_geoimage(name, interpolation=1):
-	var true_pos = get_true_position()
-	var full_path = GeodataPaths.get_absolute(name)
-	var ending = GeodataPaths.get_type(name)
+	geoimage_cache_mutex.lock()
 	
-	var geoimg = Geodot.get_image(
-		full_path,
-		ending,
-		-true_pos[0] - size / 2,
-		true_pos[2] + size / 2,
-		size,
-		256,
-		interpolation
-	)
-	
-	return geoimg
+	if geoimage_cache.has(name):
+		geoimage_cache_mutex.unlock()
+		return geoimage_cache.get(name)
+	else:
+		var true_pos = get_true_position()
+		var full_path = GeodataPaths.get_absolute(name)
+		var ending = GeodataPaths.get_type(name)
+		
+		var geoimg = Geodot.get_image(
+			full_path,
+			ending,
+			-true_pos[0] - size / 2,
+			true_pos[2] + size / 2,
+			size,
+			256,
+			interpolation
+		)
+		
+		geoimage_cache[name] = geoimg
+		geoimage_cache_mutex.unlock()
+		
+		return geoimg
 
 
 func get_texture(name, interpolation=1):
