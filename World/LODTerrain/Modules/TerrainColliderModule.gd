@@ -9,6 +9,7 @@ var col_shape
 var heightmap
 var heightmap_img
 var heightmap_size
+var normalmap
 
 var collider_subdivision = Settings.get_setting("terrain-collider", "collision-mesh-subdivision")
 
@@ -30,15 +31,31 @@ func _on_visibility_changed():
 		col_shape.disabled = false
 
 func get_textures(tile):
-	heightmap = tile.get_texture("heightmap")
+	heightmap = tile.get_geoimage("heightmap")
 
 	if heightmap:
-		heightmap_img = heightmap.get_data()
+		heightmap_img = heightmap.get_image()
 		heightmap_size = heightmap_img.get_size()
+		normalmap = heightmap.get_normalmap_for_heightmap(0.1)
 		
 		col_shape.shape = create_tile_collision_shape()
 	else:
 		logger.warning("Couldn't get heightmap for tile!")
+
+
+func get_normal_at_position(var pos) -> Vector3:
+	var subdiv = max(1, heightmap_size.x / (tile.subdiv + 1))
+		
+	# Scale the position to a pixel position on the image
+	var gtranslation = tile.global_transform.origin
+	var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(gtranslation.x, gtranslation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
+	var pix_pos = pos_scaled * heightmap_size
+	
+	var index = int(pix_pos.y) * normalmap.get_width() + int(pix_pos.x)
+	var normal = Color(normalmap.get_data()[index * 4 + 0], normalmap.get_data()[index * 4 + 1], normalmap.get_data()[index * 4 + 2])
+	
+	# Normal map format according to https://en.wikipedia.org/wiki/Normal_mapping#Interpreting_Tangent_Space_Maps
+	return Vector3(normal.r - 127.5, normal.b - 127.5, normal.g - 127.5) / 127.5
 
 
 # Returns the exact height at the given position using the heightmap image

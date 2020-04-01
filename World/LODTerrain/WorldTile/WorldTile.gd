@@ -218,6 +218,16 @@ func get_position_on_ground(var pos : Vector3):
 	return Vector3(pos.x, get_height_at_position(pos), pos.z)
 
 
+func get_normal_on_ground(pos):
+	var used_tile = get_leaf_tile(pos)
+	
+	# If there is no TerrainColliderModule here, return 0
+	if not used_tile.has_node("ModuleHandler/TerrainColliderModule"):
+		return Vector3.UP
+	
+	return used_tile.get_node("ModuleHandler/TerrainColliderModule").get_normal_at_position(pos)
+
+
 # Returns the child closest to the given position, or null if this is already a leaf tile, by going a step down the
 # quad-tree.
 func get_child_for_position(var pos : Vector3):
