@@ -44,8 +44,28 @@ func _place_on_ground():
 		var new_pos_y = WorldPosition.get_position_on_ground(global_transform.origin + old_pos).y
 		
 		var new_pos = Vector3(old_pos.x, new_pos_y, old_pos.z)
-		
 		curve.set_point_position(point_index, new_pos)
+	
+	for point_index in range(0, curve.get_point_count()):
+		# Calculate the tilt at this position
+		var point = curve.interpolate(point_index, 0.0)
+		var point2 = curve.interpolate(point_index, 0.01)
+		var dir = (point2 - point).normalized()
+		
+		var normal = WorldPosition.get_normal_on_ground(point)
+		
+		var dir_up_plane = Plane(dir.cross(Vector3.UP), 0.0)
+		var dist = dir_up_plane.distance_to(normal)
+		
+		# TODO: Aside from obviously not being the mathematically correct way,
+		#  the tilt sometimes seems reversed, so the is_point_over call doesn't
+		#  quite seem to be doing what I think it should...
+		if (not dir_up_plane.is_point_over(normal)):
+			dist = -dist
+		
+		dist *= 0.5
+		
+		curve.set_point_tilt(point_index, dist)
 
 
 # Modifies the road polygon to have a given width
