@@ -46,7 +46,9 @@ func _place_on_ground():
 		
 		var new_pos = Vector3(old_pos.x, new_pos_y, old_pos.z)
 		curve.set_point_position(point_index, new_pos)
-	
+
+
+func _set_tilts():
 	for point_index in range(0, curve.get_point_count()):
 		# Calculate the tilt at this position
 		var point = curve.interpolate(point_index, 0.0)
@@ -98,6 +100,7 @@ func set_curve(curve: Curve3D):
 	if grounded:
 		_interpolate_points(get_node("Path").curve)
 		_place_on_ground()
+		_set_tilts()
 
 
 # Adds the given array of Vector3 points to the road's curve
