@@ -20,12 +20,9 @@ func init(data=null):
 
 
 func get_textures(tile, mesh) -> bool:
-	var dhm = tile.get_texture("heightmap")
-	mesh.material_override.set_shader_param("heightmap", dhm)
-	
-	var normal = tile.get_geoimage("heightmap")
-	normal.get_image().bumpmap_to_normalmap(10)
-	mesh.material_override.set_shader_param("normalmap", normal.get_image_texture())
+	var dhm = tile.get_geoimage("heightmap")
+	mesh.material_override.set_shader_param("heightmap", dhm.get_image_texture())
+	mesh.material_override.set_shader_param("normalmap", dhm.get_normalmap_texture_for_heightmap(0.1))
 	
 	var ortho = tile.get_texture("orthophoto")
 	mesh.material_override.set_shader_param("tex", ortho)
