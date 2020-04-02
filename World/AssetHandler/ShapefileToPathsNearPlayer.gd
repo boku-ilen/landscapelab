@@ -18,7 +18,6 @@ var load_thread: Thread = Thread.new()
 
 func _get_line_array():
 	var player_pos = PlayerInfo.get_true_player_position()
-	print(-player_pos[0], " ", player_pos[2])
 	return Geodot.get_lines(shapefile_path, -player_pos[0], player_pos[2], radius, max_lines)
 
 
