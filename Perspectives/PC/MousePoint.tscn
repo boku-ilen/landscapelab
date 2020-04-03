@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Perspectives/PC/MousePoint.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/PC/ItemSpawner/ItemSpawner.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Perspectives/PC/MouseFeedback/MouseCollisionIndicator.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Imaging/DrawPath/DrawPath.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Util/Teleport/PlayerTeleport.gd" type="Script" id=5]
+[ext_resource path="res://Perspectives/PC/Physics/PhysicsObjectThrower.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Perspectives/PC/Physics/PhysicsBall.tscn" type="PackedScene" id=7]
 
 [node name="MousePoint" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
@@ -24,3 +26,6 @@ transform = Transform( 1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
 
 [node name="TeleportPlayer" type="Spatial" parent="."]
 script = ExtResource( 5 )
+
+[node name="PhysicsBallThrower" parent="." instance=ExtResource( 6 )]
+object_to_throw_scene = ExtResource( 7 )

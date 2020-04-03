@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="SphereShape" id=1]
+radius = 8.0
+
+[sub_resource type="SphereMesh" id=2]
+radius = 8.0
+height = 16.0
+
+[node name="PhysicsBall" type="RigidBody"]
+mass = 100.0
+gravity_scale = 20.0
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = null
