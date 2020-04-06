@@ -204,7 +204,7 @@ void fragment(){
 	int splat_id = int(texture(splat, get_relative_pos_with_blending(UV, distance(v_obj_pos, world_pos))).r * 255.0);
 	
 	vec3 total_color;
-	vec3 normal = texture(normalmap, get_relative_pos(UV)).rgb;
+	vec3 normal = texture(normalmap, get_relative_pos(UV)).rgb * 2.0 - vec3(1.0, 1.0, 1.0);
 	
 	if (clay_rendering) { // Early exit?
 		// For clay rendering, simply display the land-use splatmap.
@@ -244,7 +244,7 @@ void fragment(){
 			float uv_large_scale = 0.2;
 
 			// If the player is too far away, don't do all the detail calculation
-			if (detail_factor > 0.0) {
+			if (detail_factor > 0.0 && (splat_id == vegetation_id1 || splat_id == vegetation_id2)) {
 				vec2 near_uv = UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor));
 				vec2 far_uv = UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor));
 				
@@ -297,10 +297,27 @@ void fragment(){
 					detail_color_far = texture(vegetation_tex2, far_uv).rgb;
 					current_normal_far = texture(vegetation_normal2, far_uv).rgb;
 				}
+				
+				vec3 raw_current_normal = mix(current_normal_near, current_normal_far, larger_texture_factor);
+				raw_current_normal = raw_current_normal * 2.0 - vec3(1.0, 1.0, 1.0);
+			
+				// Blend the normals
+				// Adapted from https://math.stackexchange.com/questions/35005/rotate-vector-relative-to-xz-plane-to-be-relative-to-a-new-plane-defined-by-give/35053
+				vec3 z = vec3(0.0, 0.0, 1.0);
+				vec3 tangent = cross(normal, vec3(1.0, 0.0, 0.0));
+				
+				vec3 a = cross(tangent, z);
+				vec3 b = cross(tangent, normal);
+				
+				mat3 A = mat3(z, tangent, a);
+				mat3 B = mat3(normal, tangent, b);
+				
+				mat3 R = B * transpose(A);
+				
+				normal = R * raw_current_normal;
 			}
 
 			vec3 raw_detail_color = mix(detail_color_near, detail_color_far, larger_texture_factor);
-			vec3 raw_current_normal = mix(current_normal_near, current_normal_far, larger_texture_factor);
 
 			vec3 base_hcy = RGBtoHCY(base_color);
 			vec3 detail_hcy = RGBtoHCY(raw_detail_color);
@@ -340,8 +357,11 @@ void fragment(){
 			}
 		}
 	}
-
-	NORMALMAP = normal;
+	
+	// We previously put the normal into a range of -1, 1 for proper calculations.
+	// We revert this here because NORMALMAP expects raw values from the texture.
+	NORMALMAP = (normal + vec3(1.0, 1.0, 1.0)) * 0.5;
+	
 	// To test the normals: total_color = NORMALMAP;
 	// To test the land-use map: total_color = vec3(float(splat_id) / 255.0);
 	
