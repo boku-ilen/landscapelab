@@ -81,8 +81,9 @@ func get_vegetation_data(tile, mesh):
 		var result = ServerConnection.get_json("/vegetation/%d/1" % [splat_ids[i]])
 		
 		if result:
-			var albedo = CachingImageTexture.get(result.get("albedo_path"))
-			var normal = CachingImageTexture.get(result.get("normal_path"))
+			var albedo = CachingImageTexture.get(result.get("albedo_path"), Texture.FLAGS_DEFAULT)
+			var normal = CachingImageTexture.get(result.get("normal_path"), Texture.FLAGS_DEFAULT)
+			var depth = CachingImageTexture.get(result.get("displacement_path"), Texture.FLAGS_DEFAULT)
 			
 			if albedo:
 				mesh.material_override.set_shader_param("vegetation_tex%d" % [i + 1], albedo)
@@ -90,5 +91,8 @@ func get_vegetation_data(tile, mesh):
 				
 				if normal:
 					mesh.material_override.set_shader_param("vegetation_normal%d" % [i + 1], normal)
+				
+				if depth:
+					mesh.material_override.set_shader_param("vegetation_depth%d" % [i + 1], depth)
 	
 	return true

@@ -11,9 +11,11 @@ uniform float detail_start_dist;
 
 uniform sampler2D vegetation_tex1 : hint_albedo;
 uniform sampler2D vegetation_normal1 : hint_normal;
+uniform sampler2D vegetation_depth1 : hint_black;
 uniform int vegetation_id1;
 uniform sampler2D vegetation_tex2 : hint_albedo;
 uniform sampler2D vegetation_normal2 : hint_normal;
+uniform sampler2D vegetation_depth2 : hint_black;
 uniform int vegetation_id2;
 uniform float tex_factor = 0.5; // 0.5 means one Godot meter will have half the texture
 uniform float texture_blending_amount = 25.0; // 1.0 means the transition between two textures will be maximally 1m wide
@@ -24,6 +26,10 @@ uniform sampler2D random_offset_vectors : hint_normal;
 
 uniform sampler2D overlay_texture;
 uniform bool has_overlay;
+
+uniform float depth_scale = 0.07;
+uniform int depth_min_layers = 4;
+uniform int depth_max_layers = 16;
 
 uniform bool fake_forests;
 uniform float forest_height;
@@ -135,17 +141,16 @@ void vertex() {
 		VERTEX.y -= 2.0;
 	}
 	
-	// Experiment: If there is an overlay texture here, smooth the terrain out by
-	//  using the minimal height in the vinicity
-	if (has_overlay) {
-		vec4 overlay = texture(overlay_texture, get_relative_pos(UV));
-
-		if (overlay.a > 0.5) {
-			// TODO: The value that makes sense here is related to the resolutin of the overlay texture, maybe we should pass it
-			float e = 2.0 / 128.0;
-			VERTEX.y = min(min(get_height(UV + vec2(e, 0)), get_height(UV + vec2(-e, 0))), min(get_height(UV + vec2(0, e)), get_height(UV + vec2(0, -e))));
-		}
-	}
+//	// Experiment: If there is an overlay texture here, smooth the terrain out
+//	if (has_overlay) {
+//		vec4 overlay = texture(overlay_texture, get_relative_pos(UV));
+//
+//		if (overlay.a > 0.5) {
+//			// TODO: The value that makes sense here is related to the resolutin of the overlay texture, maybe we should pass it
+//			float e = 2.0 / 128.0;
+//			VERTEX.y = (get_height(UV + vec2(e, 0)) + get_height(UV + vec2(-e, 0)) + get_height(UV + vec2(0, e)) + get_height(UV + vec2(0, -e))) / 4.0;
+//		}
+//	}
 	
 	if (fake_forests &&
 		(splat_id == 91
@@ -208,15 +213,15 @@ void fragment(){
 		// Early exit due to overlay texture?
 		bool done = false;
 
-		if (has_overlay) {
-			vec4 overlay = texture(overlay_texture, get_relative_pos(UV));
-
-			if (overlay.a > 0.5) {
-				total_color = overlay.rgb;
-				normal = get_normal(UV);
-				done = true;
-			}
-		}
+//		if (has_overlay) {
+//			vec4 overlay = texture(overlay_texture, get_relative_pos(UV));
+//
+//			if (overlay.a > 0.5) {
+//				total_color = overlay.rgb;
+//				normal = get_normal(UV);
+//				done = true;
+//			}
+//		}
 
 		if (!done) {
 			vec3 base_color = texture(tex, get_relative_pos(UV)).rgb;
@@ -240,18 +245,57 @@ void fragment(){
 
 			// If the player is too far away, don't do all the detail calculation
 			if (detail_factor > 0.0) {
+				vec2 near_uv = UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor));
+				vec2 far_uv = UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor));
+				
+				vec3 view_dir = normalize(normalize(-VERTEX)*mat3(TANGENT,-BINORMAL,NORMAL));
+				float num_layers = mix(float(depth_max_layers),float(depth_min_layers), abs(dot(vec3(0.0, 0.0, 1.0), view_dir)));
+				float layer_depth = 1.0 / num_layers;
+				float current_layer_depth = 0.0;
+				vec2 P = view_dir.xy * depth_scale;
+				vec2 delta = P / num_layers;
+				vec2  ofs = near_uv;
+				
 				if (splat_id == vegetation_id1) {
-					detail_color_near = texture(vegetation_tex1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-					current_normal_near = texture(vegetation_normal1, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+					float depth = 1.0 - textureLod(vegetation_depth1, ofs,0.0).r;
+					float current_depth = 0.0;
+					while(current_depth < depth) {
+						ofs -= delta;
+						depth = 1.0 - textureLod(vegetation_depth1, ofs,0.0).r;
+						current_depth += layer_depth;
+					}
+					vec2 prev_ofs = ofs + delta;
+					float after_depth  = depth - current_depth;
+					float before_depth = 1.0 - textureLod(vegetation_depth1, prev_ofs, 0.0).r - current_depth + layer_depth;
+					float weight = after_depth / (after_depth - before_depth);
+					ofs = mix(ofs,prev_ofs,weight);
+					near_uv=ofs;
+					
+					detail_color_near = texture(vegetation_tex1, near_uv).rgb;
+					current_normal_near = texture(vegetation_normal1, near_uv).rgb;
 
-					detail_color_far = texture(vegetation_tex1, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
-					current_normal_far = texture(vegetation_normal1, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
+					detail_color_far = texture(vegetation_tex1, far_uv).rgb;
+					current_normal_far = texture(vegetation_normal1, far_uv).rgb;
 				} else if (splat_id == vegetation_id2) {
-					detail_color_near = texture(vegetation_tex2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
-					current_normal_near = texture(vegetation_normal2, UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor))).rgb;
+					float depth = 1.0 - textureLod(vegetation_depth2, ofs,0.0).r;
+					float current_depth = 0.0;
+					while(current_depth < depth) {
+						ofs -= delta;
+						depth = 1.0 - textureLod(vegetation_depth2, ofs,0.0).r;
+						current_depth += layer_depth;
+					}
+					vec2 prev_ofs = ofs + delta;
+					float after_depth  = depth - current_depth;
+					float before_depth = 1.0 - textureLod(vegetation_depth2, prev_ofs, 0.0).r - current_depth + layer_depth;
+					float weight = after_depth / (after_depth - before_depth);
+					ofs = mix(ofs,prev_ofs,weight);
+					near_uv=ofs;
+					
+					detail_color_near = texture(vegetation_tex2, near_uv).rgb;
+					current_normal_near = texture(vegetation_normal2, near_uv).rgb;
 
-					detail_color_far = texture(vegetation_tex2, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
-					current_normal_far = texture(vegetation_normal2, UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor))).rgb;
+					detail_color_far = texture(vegetation_tex2, far_uv).rgb;
+					current_normal_far = texture(vegetation_normal2, far_uv).rgb;
 				}
 			}
 
