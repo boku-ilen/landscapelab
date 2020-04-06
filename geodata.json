@@ -4,12 +4,20 @@
         "name": "bmaporthophoto30cm",
         "type": "jpg"
     },
+    "topomap": {
+        "name": "opentopomap",
+        "type": "png"
+    },
     "heightmap": {
-        "name": "webm",
+        "name": "austria-heights",
         "type": "tif"
     },
     "land-use": {
         "name": "sentinel-invekos-bytes",
         "type": "tif"
+    },
+    "infrastructure": {
+        "name": "streets/2_linknetz_ogd_WM",
+        "type": "shp"
     }
 }

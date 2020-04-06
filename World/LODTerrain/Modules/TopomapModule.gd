@@ -9,21 +9,7 @@ func init(data=null):
 	
 	mesh.mesh = tile.create_tile_plane_mesh()
 	
-	get_textures(tile, mesh)
+	var topo = tile.get_texture("topomap")
+	mesh.material_override.albedo_texture = topo
 	
 	_done_loading()
-
-
-func get_textures(tile, mesh) -> bool:
-	var response = tile.get_texture_result("raster")
-	
-	if response:
-		if response.has("map"):
-			var topo = CachingImageTexture.get(response.get("map"))
-			
-			if topo:
-				mesh.material_override.albedo_texture = topo
-				
-				return true
-	
-	return false
