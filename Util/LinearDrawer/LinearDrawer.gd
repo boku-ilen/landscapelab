@@ -21,6 +21,10 @@ var height = 0
 
 func _ready():
 	set_height(0.5)
+	
+	if grounded:
+		_place_on_ground()
+		_set_tilts()
 
 
 # Overwritten since we need to update the individual points, not just this node
@@ -99,8 +103,10 @@ func set_curve(curve: Curve3D):
 	
 	if grounded:
 		_interpolate_points(get_node("Path").curve)
-		_place_on_ground()
-		_set_tilts()
+	
+		if is_inside_tree():
+			_place_on_ground()
+			_set_tilts()
 
 
 # Adds the given array of Vector3 points to the road's curve
