@@ -18,7 +18,7 @@ var load_thread: Thread = Thread.new()
 
 func _get_line_array():
 	var player_pos = PlayerInfo.get_true_player_position()
-	return Geodot.get_lines(shapefile_path, -player_pos[0], player_pos[2], radius, max_lines)
+	return Geodot.get_lines_near_position(shapefile_path, -player_pos[0], player_pos[2], radius, max_lines)
 
 
 # Called when the node enters the scene tree for the first time.
