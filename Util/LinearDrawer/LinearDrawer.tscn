@@ -13,6 +13,7 @@ _data = {
 script = ExtResource( 1 )
 
 [node name="Path" type="Path" parent="." groups=[
+"PathGrounded",
 "PathShifting",
 ]]
 curve = SubResource( 1 )

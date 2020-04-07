@@ -20,8 +20,6 @@ var height = 0
 
 
 func _ready():
-	set_height(0.5)
-	
 	if grounded:
 		_place_on_ground()
 		_set_tilts()
@@ -33,13 +31,19 @@ func _place_on_ground():
 	
 	_just_placed_on_ground = true
 	
+	# Keep this node at y = 0 because the individual points are responsible for the height
+	global_transform.origin.y = 0
+	
+	put_points_on_ground()
+
+
+# Actually places the individual points on the ground.
+# Called by _place_on_ground, but can also be called from outside.
+func put_points_on_ground():
 	# FIXME: Workaround for order of execution not making curve available since the GroundedSpatial's _ready() is
 	#  called before this one's
 	if not curve:
 		curve = get_node("Path").curve
-	
-	# Keep this node at y = 0 because the individual points are responsible for the height
-	global_transform.origin.y = 0
 	
 	for point_index in range(0, curve.get_point_count()):
 		var old_pos = curve.get_point_position(point_index)
