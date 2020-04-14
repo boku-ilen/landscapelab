@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Util/GroundedSpatial.gd" type="Script" id=1]
+
+[sub_resource type="CylinderMesh" id=1]
+top_radius = 1.676
+bottom_radius = 7.449
+height = 98.039
+
+[node name="HighVoltagePowerLine" type="Spatial" groups=[
+"SpatialShifting",
+]]
+script = ExtResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 0 )
+mesh = SubResource( 1 )
+material/0 = null
