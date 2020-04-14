@@ -32,6 +32,11 @@ func _notification(what):
 			_place_on_ground()
 
 
+func _process(delta: float) -> void:
+	if not tile_underneath:
+		_update_tile_underneath()
+
+
 # Gets the WorldTile which is at the position of this node and sets it to the tile_underneath variable.
 func _update_tile_underneath():
 	# Disconnect from the previous tile
