@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://World/LODTerrain/TileHandler.tscn" type="PackedScene" id=1]
 [ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=2]
-[ext_resource path="res://World/AssetHandler/AssetsFromShapefile.tscn" type="PackedScene" id=3]
+[ext_resource path="res://World/AssetHandler/AssetsFromShapefileByAttributeValue.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World/WorldShifting/SpatialShiftingHandler.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Power/LowVoltagePowerPole.tscn" type="PackedScene" id=5]
 [ext_resource path="res://World/WorldShifting/PathShiftingHandler.tscn" type="PackedScene" id=6]
 [ext_resource path="res://World/Grounding/PathGroundedHandler.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Assets/Power/HighVoltagePowerLine.tscn" type="PackedScene" id=8]
 
 [node name="Terrain" type="Spatial"]
 
@@ -20,6 +21,11 @@
 
 [node name="PathGroundedHandler" parent="." instance=ExtResource( 7 )]
 
-[node name="AssetsFromShapefile" parent="." instance=ExtResource( 3 )]
-asset_scene = ExtResource( 5 )
-shapefile_path = "/home/karl/BOKU/geodata/power/power_poles_and_towers_level_code.shp"
+[node name="PowerLineLoader" parent="." instance=ExtResource( 3 )]
+shapefile_name = "power-poles"
+attribute_name = "level_code"
+attribute_values_to_assets = {
+"1": ExtResource( 8 ),
+"2": ExtResource( 8 )
+}
+default_asset = ExtResource( 5 )

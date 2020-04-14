@@ -19,5 +19,9 @@
     "infrastructure": {
         "name": "streets/2_linknetz_ogd_WM",
         "type": "shp"
+    },
+    "power-poles": {
+        "name": "power/power_poles_and_towers_level_code",
+        "type": "shp"
     }
 }
