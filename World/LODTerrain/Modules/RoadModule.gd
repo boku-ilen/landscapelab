@@ -27,6 +27,10 @@ func init(data=null):
 	_done_loading()
 
 
+func _ready():
+	get_node("TransformReset").global_transform.origin = Vector3.ZERO
+
+
 func _process(delta: float) -> void:
 	instance_timer += delta
 	

@@ -7,4 +7,4 @@
 script = ExtResource( 1 )
 path_scene = ExtResource( 2 )
 
-[node name="TransformReset" type="Node" parent="."]
+[node name="TransformReset" type="Spatial" parent="."]
