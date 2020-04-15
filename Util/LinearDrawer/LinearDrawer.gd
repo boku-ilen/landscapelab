@@ -7,7 +7,7 @@ class_name LinearDrawer
 
 
 export(bool) var grounded
-export(float) var maximum_distance_between_points = 3.0
+export(float) var maximum_distance_between_points = 10.0
 
 
 onready var path = get_node("Path")
@@ -111,6 +111,8 @@ func set_curve(curve: Curve3D):
 		if is_inside_tree():
 			_place_on_ground()
 			_set_tilts()
+		
+		curve.bake_interval = maximum_distance_between_points
 
 
 # Adds the given array of Vector3 points to the road's curve

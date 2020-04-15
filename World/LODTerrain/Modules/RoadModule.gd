@@ -9,6 +9,9 @@ export(PackedScene) var path_scene
 
 var shapefile_path = GeodataPaths.get_absolute_with_ending("infrastructure")
 var max_lines = 100
+var instanced_path_nodes: Node = Node.new()
+var instance_timer = 0
+var instance_wait_time = 0.1
 
 
 func _get_line_array():
@@ -24,12 +27,22 @@ func init(data=null):
 	_done_loading()
 
 
+func _process(delta: float) -> void:
+	instance_timer += delta
+	
+	if instance_timer > instance_wait_time and instanced_path_nodes.get_child_count() > 0:
+		var child = instanced_path_nodes.get_child(0)
+		instanced_path_nodes.remove_child(child)
+		get_node("TransformReset").add_child(child)
+		instance_timer = 0
+
+
 func _get_all_lines():
 	var lines = _get_line_array()
 	var reset = get_node("TransformReset")
 	
 	for line in lines:
-		reset.add_child(_get_path_node_for_line(line))
+		instanced_path_nodes.add_child(_get_path_node_for_line(line))
 
 
 func _get_path_node_for_line(line):
