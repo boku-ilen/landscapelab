@@ -32,13 +32,16 @@ func _ready():
 
 
 func _process(delta: float) -> void:
-	instance_timer += delta
-	
-	if instance_timer > instance_wait_time and instanced_path_nodes.get_child_count() > 0:
-		var child = instanced_path_nodes.get_child(0)
-		instanced_path_nodes.remove_child(child)
-		get_node("TransformReset").add_child(child)
-		instance_timer = 0
+	# Only continue spawning streets if this node is visible - if it's hidden,
+	#  we don't want to waste performance spawning invisible streets
+	if is_visible_in_tree():
+		instance_timer += delta
+		
+		if instance_timer > instance_wait_time and instanced_path_nodes.get_child_count() > 0:
+			var child = instanced_path_nodes.get_child(0)
+			instanced_path_nodes.remove_child(child)
+			get_node("TransformReset").add_child(child)
+			instance_timer = 0
 
 
 func _get_all_lines():
