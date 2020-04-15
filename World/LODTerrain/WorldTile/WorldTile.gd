@@ -44,8 +44,6 @@ var max_lods = Settings.get_setting("lod", "distances")
 var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
 var subdiv : int = Settings.get_setting("lod", "default-tile-subdivision")
 
-var load_thread = Thread.new()
-
 # Signals
 signal tile_done_loading # Emitted once all modules have finished loading -> the tile is ready
 signal split # Emitted by the top-level tile when a child finished splitting, e.g. so the ground position can be updated
@@ -379,20 +377,7 @@ func get_texture(name, interpolation=1):
 		texture_cache_mutex.unlock()
 		return texture_cache.get(name)
 	else:
-		var true_pos = get_true_position()
-		var full_path = GeodataPaths.get_absolute(name)
-		var ending = GeodataPaths.get_type(name)
-		
-		var geoimg = Geodot.get_image(
-			full_path,
-			ending,
-			-true_pos[0] - size / 2,
-			true_pos[2] + size / 2,
-			size,
-			256,
-			interpolation
-		)
-		
+		var geoimg = get_geoimage(name, interpolation)
 		var tex = geoimg.get_image_texture()
 		
 		texture_cache[name] = tex
