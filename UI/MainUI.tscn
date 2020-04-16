@@ -81,9 +81,9 @@ margin_bottom = 57.0
 material = SubResource( 1 )
 margin_right = 57.0
 margin_bottom = 57.0
+toggle_mode = true
 texture_normal = ExtResource( 4 )
 texture_name = "vr"
-default_color = Color( 0, 0, 0, 1 )
 signal_pressed = "vr_enable"
 signal_released = "vr_disable"
 
