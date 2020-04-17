@@ -3,10 +3,9 @@
 [ext_resource path="res://Vegetation/VegetationFileLoader.gd" type="Script" id=1]
 
 [sub_resource type="SpatialMaterial" id=1]
-flags_transparent = true
 
 [sub_resource type="PlaneMesh" id=2]
-size = Vector2( 8, 2 )
+size = Vector2( 8, 4 )
 
 [node name="VegetationFileLoader" type="Node"]
 script = ExtResource( 1 )

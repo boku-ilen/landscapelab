@@ -25,12 +25,34 @@ const sprite_size = 1024
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var phyto = load_phytocoenosis("grass")
 	var tex = ImageTexture.new()
-	
-	tex.create_from_image(phyto.get_spritesheet_row())
+	tex.create_from_image(get_billboard_sheet(["grass", "grass"]))
 	
 	get_node("MeshInstance").material_override.albedo_texture = tex
+
+
+func get_billboard_sheet(vegetation_names: Array):
+	# Array holding the rows of vegetation - each vegetation loaded from the 
+	#  given vegetation_names becomes a row in this table
+	var billboard_table = Array()
+	billboard_table.resize(vegetation_names.size())
+	
+	var row = 0
+	
+	for vegetation_name in vegetation_names:
+		billboard_table[row] = []
+		
+		var phytocoenosis = load_phytocoenosis(vegetation_name)
+		
+		for plant in phytocoenosis.plants:
+			var billboard = plant.get_billboard()
+			billboard_table[row].append(billboard)
+			
+		row += 1
+		
+	return SpritesheetHelper.create_spritesheet(
+			Vector2(sprite_size, sprite_size),
+			billboard_table)
 
 
 # Get a Phytocoenosis object from the data at base_path/name.phyto.
@@ -69,22 +91,6 @@ class Phytocoenosis:
 	
 	func add_plant(plant: Plant):
 		plants.append(plant)
-	
-	# Get an image containing the billboards of all plants in this phytocoenosis.
-	# The image is always 1024px high; the width is 1024px multiplied by the number of plants.
-	# The order of the billboards is preserved from their order in the CSV.
-	func get_spritesheet_row():
-		var plant_count = plants.size()
-		
-		var billboard_array = [[]]
-		
-		for plant in plants:
-			var billboard = plant.get_billboard()
-			billboard_array.front().append(billboard)
-		
-		return SpritesheetHelper.create_spritesheet(
-				Vector2(sprite_size, sprite_size),
-				billboard_array)
 
 
 class Plant:
