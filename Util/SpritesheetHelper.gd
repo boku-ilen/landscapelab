@@ -61,9 +61,10 @@ static func create_spritesheet(sprite_size: Vector2, images: Array):
 					current_offset + centering_offset)
 			
 			# Increment column position on spritesheet
-			current_offset += sprite_size * Vector2(1, 0)
+			current_offset.x += sprite_size.x
 		
-		# Increment row position on spritesheet
-		current_offset += sprite_size * Vector2(0, 1)
+		# Increment row position on spritesheet; reset column
+		current_offset.x = 0
+		current_offset.y += sprite_size.y
 	
 	return sheet
