@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://addons/vr-toolkit/Objects/ObjectInteraction.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Perspectives/VR/SettingsHandler.gd" type="Script" id=1]
 [ext_resource path="res://addons/vr-toolkit/Controller/Hand/Gestures.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Perspectives/VR/SettingsARVRCamera.gd" type="Script" id=3]
 [ext_resource path="res://addons/godot-openvr/scenes/ovr_controller.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/vr-toolkit/Locomotion/RayTeleport.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Perspectives/VR/ParentTracker.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/vr-toolkit/Controller/ARVRController.tscn" type="PackedScene" id=7]
 
@@ -22,7 +21,9 @@ export(PackedScene) var objects_menu
 export(bool) var show_controller_left #setget set_show_controller_left
 export(bool) var show_controller_right #setget set_show_controller_right
 export(bool) var show_hand_left #setget set_show_hand_left
-export(bool) var show_hand_right #setget set_show_hand_right
+export(bool) var show_hand_right# setget set_show_hand_right
+export(bool) var gui_finger_left #setget set_gui_finger_left
+export(bool) var gui_finger_right# setget set_gui_finger_right
 
 onready var controller_left = get_node(\"LeftVisual\")
 onready var controller_right = get_node(\"RightVisual\")
@@ -54,6 +55,16 @@ func set_show_hand_right(is_visible):
 	get_node(\"Right/Tip/Gestures\").visible = show_hand_right
 
 
+func set_gui_finger_left(is_enabled):
+	gui_finger_left = is_enabled
+	get_node(\"Left/Tip/Gestures\").gui_finger = is_enabled
+
+
+func set_gui_finger_right(is_enabled):
+	gui_finger_right = is_enabled
+	get_node(\"Right/Tip/Gestures\").gui_finger = is_enabled
+
+
 func set_show_meshes(side: int, show_controller: bool, show_hand: bool):
 	if side == 1:
 		set_show_controller_left(show_controller)
@@ -71,11 +82,15 @@ func get_show_meshes(side: int):
 
 
 func _ready():
-	global_transform.origin.y = 1000
-#	set_show_controller_left(show_hand_left)
-#	set_show_controller_right(show_hand_right)
-#	set_show_hand_left(show_hand_left)
-#	set_show_hand_right(show_hand_right)
+	#set_show_controller_left(show_hand_left)
+	#set_show_controller_right(show_hand_right)
+	#set_show_hand_left(show_hand_left)
+	#set_show_hand_right(show_hand_right)
+	controller_left.show_controller_mesh = show_controller_left
+	controller_right.show_controller_mesh = show_controller_right
+	hand_left.visible = show_hand_left
+	hand_right.visible = show_hand_right
+	
 	GlobalVRAccess.controller_id_dict[controller_left.controller_id] = controller_left
 	GlobalVRAccess.controller_id_dict[controller_right.controller_id] = controller_right
 	
@@ -86,7 +101,7 @@ func _ready():
 func _process(delta):
 	# Keep the VR player at the global player position
 	if WorldPosition.has_handler():
-		pass#translation = WorldPosition.get_position_on_ground(PlayerInfo.get_engine_player_position())
+		translation = WorldPosition.get_position_on_ground(PlayerInfo.get_engine_player_position())
 	
 	PlayerInfo.update_player_look_direction(-(camera.global_transform.basis.z))
 
@@ -115,6 +130,8 @@ show_controller_left = true
 show_controller_right = true
 show_hand_left = true
 show_hand_right = true
+gui_finger_left = true
+gui_finger_right = true
 
 [node name="ARVRCamera" type="ARVRCamera" parent="."]
 transform = Transform( 0.835603, -0.152514, -0.527738, 0.00346618, 0.962132, -0.272563, 0.549323, 0.225925, 0.804488, 0.283994, 1.25431, -0.0914008 )
@@ -128,13 +145,8 @@ controller_side = 1
 [node name="Base" parent="Left" index="0"]
 on_hand = 2
 
-[node name="RayTeleport" parent="Left/Tip" index="0" instance=ExtResource( 5 )]
-max_distance = 1000.0
-
-[node name="Gestures" parent="Left/Tip" index="1" instance=ExtResource( 2 )]
-controller_side = 1
-
-[node name="ObjectInteraction" parent="Left/Tip" index="2" instance=ExtResource( 1 )]
+[node name="Gestures" parent="Left/Tip" index="0" instance=ExtResource( 2 )]
+on_hand = 1
 
 [node name="Right" parent="." instance=ExtResource( 7 )]
 controller_side = 2
@@ -149,8 +161,7 @@ on_hand = 2
 on_hand = 2
 
 [node name="Gestures" parent="Right/Tip" index="0" instance=ExtResource( 2 )]
-
-[node name="ObjectInteraction" parent="Right/Tip" index="1" instance=ExtResource( 1 )]
+on_hand = 2
 
 [node name="LeftVisual" parent="." instance=ExtResource( 4 )]
 transform = Transform( -0.827234, 0.454567, -0.330244, -0.0758034, 0.492097, 0.867235, 0.556728, 0.742436, -0.372624, 0.377803, 0.644683, -0.171194 )
@@ -158,6 +169,9 @@ transform = Transform( -0.827234, 0.454567, -0.330244, -0.0758034, 0.492097, 0.8
 [node name="RightVisual" parent="." instance=ExtResource( 4 )]
 transform = Transform( 0.414081, -0.819101, 0.397004, 0.169413, 0.497882, 0.850538, -0.894337, -0.284935, 0.34493, 0.355576, 0.670598, -0.118187 )
 controller_id = 2
+
+[node name="SettingsHandler" type="Node" parent="."]
+script = ExtResource( 1 )
 
 [editable path="Left"]
 
