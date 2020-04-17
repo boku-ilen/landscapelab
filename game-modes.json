@@ -7,10 +7,33 @@
         ]
     },
     {
-        "name": "VR Study",
+        "name": "VRStudy",
         "scene": "res://GameModes/VRStudy/VRStudyMode.tscn",
         "tools": [
-            
-        ]
+        ],
+        "vr": {
+          "landscape-base-dir": "res://VR",
+          "native-base-dir": "res://addons/vr-toolkit",
+          "left": {
+            "hand-mesh": true,
+            "gui-finger": true,
+            "controller-mesh": false,
+            "native-tools": [
+              "Locomotion/Rayteleport.tscn"
+            ],
+            "landscape-tools": [
+            ]
+          },
+          "right": {
+            "hand-mesh": false,
+            "gui-finger": false,
+            "controller-mesh": false,
+            "native-tools": [
+            ],
+            "landscape-tools": [
+              "VRMinimap.tscn"
+            ]
+          }
+        }
     }
 ]
