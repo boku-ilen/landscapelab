@@ -1,7 +1,8 @@
 extends Spatial
 
 
-export(int, "any", "left", "right") var controller_side setget set_controller_side
+export(int, "any", "left", "right") var on_hand setget set_controller_side
+export(bool) var gui_finger setget toggle_gui_finger 
 
 onready var anim = get_node("HandDefault/AnimationPlayer")
 onready var hand = get_node("HandDefault")
@@ -17,6 +18,11 @@ enum FINGERS{
 	index,
 	middleRingPinky
 }
+
+
+func toggle_gui_finger(value):
+	gui_finger = value
+	get_node("HandDefault/Armature/Skeleton/Index/GuiFinger").enabled = value
 
 
 func _ready():
@@ -51,7 +57,7 @@ func apply_gesture(finger_id: int, finger_position: int):
 
 # If left, mirror scene
 func set_controller_side(id):
-	yield(self, "ready")
+	on_hand = id
 	if id == 1:
-		hand.scale.y = -1
-		translation.x *= -1
+		get_node("HandDefault").scale.y = -1
+		transform.origin.x *= -1

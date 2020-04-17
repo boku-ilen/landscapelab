@@ -28,12 +28,12 @@ func set_mesh_size(size):
 
 
 func _ready():
-	if self.mesh.has_method("get_size"):
-		if not mesh_size == Vector2(0,0):
-			mesh.size = mesh_size
-		quad_mesh_size = mesh.size
-	else:
-		quad_mesh_size = mesh_size
+#	if self.mesh.has_method("get_size"):
+#		if not mesh_size == Vector2(0,0):
+#			mesh.size = mesh_size
+#		quad_mesh_size = mesh.size
+#	else:
+#		quad_mesh_size = mesh_size
 	
 	if interactable:
 		collision_shape.shape = BoxShape.new()
