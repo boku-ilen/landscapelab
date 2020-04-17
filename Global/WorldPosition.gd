@@ -30,8 +30,14 @@ func get_tile_at_position(engine_pos: Array):
 
 # Get the passed position with the y-coordinate set to be on the ground of the terrain.
 func get_position_on_ground(vec : Vector3):
-	return _handler.get_ground_coords(vec)
+	if _handler:
+		return _handler.get_ground_coords(vec)
+	else:
+		return vec
 
 
 func get_normal_on_ground(pos : Vector3):
-	return _handler.get_ground_normal(pos)
+	if _handler:
+		return _handler.get_ground_normal(pos)
+	else:
+		return Vector3.ZERO

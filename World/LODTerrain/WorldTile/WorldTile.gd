@@ -44,6 +44,8 @@ var max_lods = Settings.get_setting("lod", "distances")
 var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
 var subdiv : int = Settings.get_setting("lod", "default-tile-subdivision")
 
+var handler_node
+
 # Signals
 signal tile_done_loading # Emitted once all modules have finished loading -> the tile is ready
 signal split # Emitted by the top-level tile when a child finished splitting, e.g. so the ground position can be updated
@@ -63,24 +65,27 @@ func _ready():
 	
 	created = true
 	
-	var module_handler = module_handler_scene.instance()
+	handler_node = module_handler_scene.instance()
 	
-	module_handler.connect("all_modules_done_loading", self, "_on_module_handler_done", [module_handler], CONNECT_DEFERRED)
+	handler_node.connect("all_modules_done_loading", self, "_on_module_handler_done")
 	
 	# Uncomment/comment to toggle threaded loading
-	module_handler.init([self])
+	handler_node.init([self])
 	#thread_task(module_handler, "init", [self])
 
 
-func _on_module_handler_done(array_with_handler):
-	call_deferred("add_child", array_with_handler)
-	
-	# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
-	#  (which has no other tile parent)
-	_emit_split_in_toplevel_tile()
+func _on_module_handler_done():
+	done_loading = true
 
 
 func _process(delta):
+	if done_loading and not has_node("ModuleHandler"):
+		add_child(handler_node)
+		
+		# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
+		#  (which has no other tile parent)
+		_emit_split_in_toplevel_tile()
+	
 	# If this tile is flagged to be deleted, all threads are done and all children are done deleting
 	# as well, delete this tile!
 	if done_loading and to_be_deleted and children.get_child_count() == 0:
