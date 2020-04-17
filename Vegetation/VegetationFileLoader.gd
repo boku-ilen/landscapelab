@@ -76,41 +76,15 @@ class Phytocoenosis:
 	func get_spritesheet_row():
 		var plant_count = plants.size()
 		
-		# Create the image which will be filled with data.
-		# The height is always 1024, while the width is a multiple of 1024.
-		# For example, if there are 3 plants, the image will be 3072x1024.
-		var row = Image.new()
-		row.create(sprite_size * plant_count, sprite_size, false, Image.FORMAT_RGBA8)
-		
-		# Will be 0, 1024, 2048, ...
-		var current_offset = 0
+		var billboard_array = [[]]
 		
 		for plant in plants:
 			var billboard = plant.get_billboard()
-			var billboard_size = billboard.get_size()
-			
-			# Ratio of width to height of the billboard
-			var aspect = billboard_size.x / billboard_size.y
-			
-			var current_height = billboard_size.y
-			var desired_height = sprite_size  # TODO: Take the size parameter of the plant into account
-			var desired_width = int(aspect * desired_height)
-			
-			# Scale the billboard to the desired size
-			billboard.resize(desired_width, desired_height)
-			
-			# We want the billboards to always be centered, so check how big the offset has to be
-			var centering_offset = (sprite_size - desired_width) / 2
-			
-			# Add the scaled billboard to the spritesheet
-			row.blit_rect(billboard, Rect2(Vector2(0, 0),
-					Vector2(desired_width, desired_height)),
-					Vector2(current_offset + centering_offset,
-					0))
-			
-			current_offset += sprite_size
+			billboard_array.front().append(billboard)
 		
-		return row
+		return SpritesheetHelper.create_spritesheet(
+				Vector2(sprite_size, sprite_size),
+				billboard_array)
 
 
 class Plant:
