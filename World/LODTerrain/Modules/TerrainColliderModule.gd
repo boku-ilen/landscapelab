@@ -58,9 +58,28 @@ func get_normal_at_position(var pos) -> Vector3:
 	return Vector3(normal.r - 127.5, normal.b - 127.5, normal.g - 127.5) / 127.5
 
 
-# Returns the exact height at the given position using the heightmap image
-func get_height_at_position(var pos):
+# Returns the raw height from the image at the given global position.
+# Raw means that it is the direct pixel value without further modification, like
+#  get_height_at_position does for syncing the returned height with the visible
+#  mesh.
+func _get_raw_height(var pos):
 	var gtranslation = tile.global_transform.origin
+	
+	var subdiv = max(1, heightmap_size.x / (tile.subdiv + 1))
+		
+	# Scale the position to a pixel position on the image
+	var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(gtranslation.x, gtranslation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
+	var pix_pos = pos_scaled * heightmap_size
+	
+	return get_height_from_image(pix_pos)
+
+
+# Returns the height at the given position using the heightmap image, which
+#  corresponds to the visible height as closely as possible.
+func get_height_at_position(var pos):
+	# If this module isn't visible, act as if it does not exist and return 0
+	if not is_visible_in_tree():
+		return 0
 	
 	if not heightmap:
 		logger.warning("get_height_at_position was called, but the heightmap was null")
@@ -76,6 +95,7 @@ func get_height_at_position(var pos):
 		# 
 		# This makes them fold in a particular way which the linear interpolation can't predict.
 		
+		var gtranslation = tile.global_transform.origin
 		var subdiv = max(1, heightmap_size.x / (tile.subdiv + 1))
 		
 		# Scale the position to a pixel position on the image
@@ -129,7 +149,7 @@ func get_height_from_image(pix_pos):
 # Helper function for create_tile_collision_shape - turns x and y coordinates from the loop to a real position.
 func _local_grid_to_coordinates(x, y, size, collider_subdivision):
 	var local_pos = Vector3(-size/2 + (x/collider_subdivision) * size, 0, -size/2 + (y/collider_subdivision) * size)
-	var height = get_height_at_position(tile.global_transform * local_pos)
+	var height = _get_raw_height(tile.global_transform * local_pos)
 	
 	return Vector3(local_pos.x, height, local_pos.z)
 
