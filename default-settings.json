@@ -51,7 +51,7 @@
     },
 
     "terrain-collider": {
-        "collision-mesh-subdivision": 32
+        "collision-mesh-subdivision": 8
     },
     
     "mouse-point": {
