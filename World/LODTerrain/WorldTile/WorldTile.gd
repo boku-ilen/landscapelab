@@ -286,9 +286,9 @@ func activate():
 	
 	# Check whether this is a high LOD tile which needs to converge
 	if done_loading:
-		if lod > 0 and dist_to_player > max_lods[lod]:
+		if lod > 0 and dist_to_player > max_lods[lod - 1]:
 			converge()
-		elif lod < max_lods.size() - 1 and dist_to_player < max_lods[lod]:
+		elif lod < max_lods.size() and dist_to_player < max_lods[lod]:
 			split(dist_to_player)
 
 
