@@ -102,7 +102,7 @@
         "fly-speed-sneak": 100,
         "mouse-sensitivity": 0.1,
         "view-distance": 10000,
-        "fov": 25
+        "fov": 70
     },
 
     "third-person": {
