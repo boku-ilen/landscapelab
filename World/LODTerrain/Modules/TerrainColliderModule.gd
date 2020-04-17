@@ -26,9 +26,9 @@ func init(data=null):
 # When this node becomes invisible due to higher LOD terrain being active, disable the collider
 func _on_visibility_changed():
 	if is_visible_in_tree():
-		col_shape.disabled = true
+		get_node("StaticBody/CollisionShape").disabled = false
 	else:
-		col_shape.disabled = false
+		get_node("StaticBody/CollisionShape").disabled = true
 
 func get_textures(tile):
 	heightmap = tile.get_geoimage("heightmap")
