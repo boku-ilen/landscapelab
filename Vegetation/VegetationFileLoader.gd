@@ -26,7 +26,7 @@ const sprite_size = 1024
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var tex = ImageTexture.new()
-	tex.create_from_image(get_billboard_sheet(["grass", "grass"]))
+	tex.create_from_image(get_billboard_sheet(["grass", "field"]))
 	
 	get_node("MeshInstance").material_override.albedo_texture = tex
 

@@ -9,7 +9,15 @@ static func create_spritesheet(sprite_size: Vector2, images: Array):
 	# The number of rows and columns is given by the amount of images in the
 	#  array
 	var num_rows = images.size()
-	var num_cols = images.front().size()
+	
+	# Get the largest row (the row with the most columns) and use it as the
+	#  number of columns in the spritesheet - if we chose an arbitrary one, the
+	#  largest row might not fit
+	var num_cols = 0
+	for row in images:
+		var num_cols_in_row = row.size()
+		if num_cols_in_row > num_cols:
+			num_cols = num_cols_in_row
 	
 	# Create the image which will be filled with data, large enough to hold all
 	#  rows and columns.
@@ -23,6 +31,11 @@ static func create_spritesheet(sprite_size: Vector2, images: Array):
 	
 	for y in num_rows:
 		for x in num_cols:
+			# It's possible that some rows don't fill all columns. If we're done
+			#  with the columns for this row, break out of the inner loop
+			if not x < images[y].size():
+				break
+			
 			var sprite = images[y][x] as Image
 			var original_size = sprite.get_size()
 			
