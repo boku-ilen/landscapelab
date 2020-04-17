@@ -1,0 +1,131 @@
+{
+  "action_set": [
+    {
+      "name": "/actions/godot_ingame",
+      "usage": "leftright"
+    }
+  ],
+  "actions": [
+    {
+      "name": "/actions/godot_ingame/in/trigger",
+      "requirement": "mandatory",
+      "type": "boolean"
+    },
+    {
+			"name" : "/actions/godot_ingame/in/grip",
+			"requirement" : "mandatory",
+			"type" : "boolean"
+		},
+    {
+			"name" : "/actions/godot_ingame/in/button_ax",
+			"requirement" : "mandatory",
+			"type" : "boolean"
+		},
+		{
+			"name" : "/actions/godot_ingame/in/button_by",
+			"requirement" : "mandatory",
+			"type" : "boolean"
+		},
+    {
+      "name" : "/actions/godot_ingame/in/analog",
+      "requirement" : "mandatory",
+      "type" : "vector2"
+    },
+    {
+      "name" : "/actions/godot_ingame/in/menu",
+      "requirement" : "mandatory",
+      "type" : "boolean"
+    },
+    {
+			"name" : "/actions/godot_ingame/in/analog_trigger",
+			"requirement" : "suggested",
+			"type" : "vector1"
+		},
+    {
+      "name" : "/actions/godot_ingame/in/analog_grip",
+      "requirement" : "suggested",
+      "type" : "vector1"
+    },
+    {
+      "name" : "/actions/godot_ingame/in/touch_grip",
+      "requirement" : "suggested",
+      "type" : "boolean"
+    },
+    {
+      "name" : "/actions/godot_ingame/in/touch_trigger",
+      "requirement" : "suggested",
+      "type" : "boolean"
+    },
+    {
+      "name" : "/actions/godot_ingame/in/touch_ax",
+      "requirement" : "suggested",
+      "type" : "boolean"
+    },
+    {
+      "name" : "/actions/godot_ingame/in/touch_by",
+      "requirement" : "suggested",
+      "type" : "boolean"
+    },
+    {
+      "name" : "/actions/godot_ingame/in/touch_analog",
+      "requirement" : "suggested",
+      "type" : "boolean"
+    },
+    {
+			"name": "/actions/godot_ingame/in/raw_pose",
+			"requirement" : "suggested",
+			"type": "pose"
+		},
+		{
+			"name": "/actions/godot_ingame/in/base_pose",
+			"requirement" : "suggested",
+			"type": "pose"
+		},
+		{
+			"name": "/actions/godot_ingame/in/grip_pose",
+			"requirement" : "suggested",
+			"type": "pose"
+		},
+		{
+			"name": "/actions/godot_ingame/in/tip_pose",
+			"requirement" : "suggested",
+			"type": "pose"
+		},
+    {
+      "name": "/actions/godot_ingame/out/haptic",
+      "requirement" : "suggested",
+      "type": "vibration"
+    }
+  ],
+  "default_bindings" : [
+    {
+			"binding_url" : "bindings_oculus_touch.json",
+			"controller_type" : "oculus_touch"
+		}
+	],
+	"localization" : [
+		{
+			"/actions/godot_ingame" : "Godot vr-toolkit actions",
+      "/actions/godot_ingame/in/pose": "Ingame pose",
+      "/actions/godot_ingame/in/trigger" : "Trigger",
+      "/actions/godot_ingame/in/grip": "Grip",
+      "/actions/godot_ingame/in/button_ax": "A or X button",
+      "/actions/godot_ingame/in/button_by": "B or Y button",
+      "/actions/godot_ingame/in/analog_trigger": "Analog Trigger (0.0 - 1.0)",
+      "/actions/godot_ingame/in/analog_grip": "Analog Grip (0.0 - 1.0)",
+      "/actions/godot_ingame/in/grip_pose": "Where the grip position of the controller is",
+      "/actions/godot_ingame/in/tip_pose": "Where the controller is pointing to",
+      "/actions/godot_ingame/in/base_pose": "Base of controller",
+      "/actions/godot_ingame/in/raw_pose": "The raw pose describes an unspecific position above the controller",
+      "/actions/godot/out/haptic": "Vibration of the controller",
+      "/actions/godot_ingame/in/menu": "Opening the menu",
+      "/actions/godot_ingame/in/analog": "Gamepad or Joystick",
+      "/actions/godot_ingame/in/touch_grip": "Touch grip",
+      "/actions/godot_ingame/in/touch_trigger": "Touch trigger",
+      "/actions/godot_ingame/in/touch_ax": "Touch A or X button",
+      "/actions/godot_ingame/in/touch_by": "Touch B or Y button",
+      "/actions/godot_ingame/in/touch_analog": "Touch joystick or gamepad",
+			"language_tag" : "en_US"
+		}
+	]
+}
