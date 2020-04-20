@@ -8,4 +8,12 @@ onready var timer = get_node("Timer")
 func _ready() -> void:
 	# This phase has a fixed duration, so the only way it emits completed is a
 	#  timer timeout
-	timer.connect("timeout", self, "emit_completed")
+	timer.connect("timeout", self, "done")
+	
+	# Start tracking
+	GlobalSignal.emit_signal("tracking_start", "freelook")
+
+
+func done():
+	GlobalSignal.emit_signal("tracking_stop")
+	emit_completed()

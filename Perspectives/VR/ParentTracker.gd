@@ -21,8 +21,13 @@ func _ready():
 
 
 # Start saving data with the current Session id
-func start_tracking():
-	var filename = "user://tracking-%s-%s-session%d.csv" % [usage, version, Session.session_id]
+func start_tracking(additional_flag: String = ""):
+	var filename
+	
+	if additional_flag == "":
+		filename = "user://tracking-%s-%s-session%d.csv" % [usage, version, Session.session_id]
+	else:
+		filename = "user://tracking-%s-%s-session%d-%s.csv" % [usage, version, Session.session_id, additional_flag]
 	
 	open_tracking_file(filename)
 
