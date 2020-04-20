@@ -5,8 +5,11 @@ export(int) var random_offset_range = 10000
 
 
 func _ready() -> void:
+	# Hide the terrain during this state to avoid spoiling the location
 	GlobalTerrain.hide_terrain()
-	get_node("GuiToMesh").viewport_texture.get_node("Button").connect("pressed", self, "setup_done")
+	
+	# Pressing the button means that the orientation game state can begin
+	get_node("GuiToMesh").viewport_texture.get_node("Button").connect("pressed", self, "emit_completed")
 	
 	# Add a random offset
 	var rng = RandomNumberGenerator.new()
@@ -19,7 +22,3 @@ func _ready() -> void:
 	var offset_addition_z = rng.randi_range(-random_offset_range, random_offset_range)
 	
 	Offset.set_offset(current_offset_x + offset_addition_x, current_offset_z + offset_addition_z)
-
-
-func setup_done():
-	GlobalTerrain.show_terrain()
