@@ -34,11 +34,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/GroundedSpatial.gd"
 }, {
-"base": "RigidBody",
-"class": "InteractableObject",
-"language": "GDScript",
-"path": "res://VR/InteractableObjects/InteractableObject.gd"
-}, {
 "base": "Node",
 "class": "JSONParser",
 "language": "GDScript",
@@ -120,7 +115,6 @@ _global_script_class_icons={
 "AutoTextureButton": "",
 "ControllerTool": "",
 "GroundedSpatial": "",
-"InteractableObject": "",
 "JSONParser": "",
 "LinearCSGPolygon": "",
 "LinearDrawer": "",
@@ -175,6 +169,7 @@ GlobalTerrain="*res://Global/GlobalTerrain.tscn"
 RenderStyle="*res://Global/RenderStyle.gd"
 GeodataPaths="*res://Global/GeodataPaths.gd"
 GlobalVRAccess="*res://addons/vr-toolkit/GlobalVRAccess.gd"
+Vegetation="*res://Global/Vegetation.gd"
 
 [display]
 
