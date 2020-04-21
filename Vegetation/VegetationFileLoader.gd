@@ -1,20 +1,5 @@
 extends Node
 
-#
-# Loads vegetation data and provides it wrapped in Godot classes with
-# functionality such as generating spritesheets.
-# 
-# The data is expected to be laid out like this:
-# vegetation-data-base-path
-# 	- name1.phytocoenosis
-# 		- name1.csv
-# 		- billboard1.png
-# 		- billboard2.png
-# 	- name2.phytocoenosis
-# 		- name2.csv
-# ...
-#
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

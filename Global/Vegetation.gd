@@ -1,5 +1,32 @@
 extends Node
 
+#
+# Loads vegetation data and provides it wrapped in Godot classes with
+# functionality such as generating spritesheets.
+# 
+# The data is expected to be laid out like this:
+# plants.csv
+# phytocoenosis.csv
+# plant-texutres
+# 	billboard1.png
+# 	billboard2.png
+# ground-textures
+# 	Grass
+# 		albedo.jpg
+# 		normal.jpg
+# 		displacement.jpg
+#
+# phytocoenosis.csv must have the columns:
+# Name, ID, Ground texture
+# For example:
+# Meadow, 1, Grass
+#
+# plants.csv must have the columns:
+# Phytocoenosis Name, Avg height, sigma height, density, billboard
+# For example:
+# Meadow, 0.8, 0.1, 0.9, billboard1.png
+# 
+
 
 const sprite_size = 1024
 
@@ -7,19 +34,25 @@ var base_path = GeodataPaths.get_absolute("vegetation-data")
 var phytocoenosis_by_name = {}
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	_load_data_from_csv()
+
+
+# Read the CSV files at the path provided by GeodataPaths and save the
+#  metadata of all phytocoenosis with their plants.
+func _load_data_from_csv() -> void:
 	# Load phytocoenosis data
-	var path = base_path.plus_file("phytocoenosis.csv")
+	var phytocoenosis_path = base_path.plus_file("phytocoenosis.csv")
 	
 	var phyto_csv = File.new()
-	phyto_csv.open(path, phyto_csv.READ)
+	phyto_csv.open(phytocoenosis_path, phyto_csv.READ)
 	
 	if not phyto_csv.is_open():
-		logger.error("Phytocoenosis CSV file does not exist, expected it at %s" % [path])
+		logger.error("Phytocoenosis CSV file does not exist, expected it at %s"
+				 % [phytocoenosis_path])
 		return
 	
-	var headings = phyto_csv.get_csv_line()
+	var phytocoenosis_headings = phyto_csv.get_csv_line()
 	
 	while !phyto_csv.eof_reached():
 		# Format: Name, ID, Ground texture
@@ -33,17 +66,18 @@ func _ready() -> void:
 	plant_csv.open(plant_path, phyto_csv.READ)
 	
 	if not plant_csv.is_open():
-		logger.error("Phytocoenosis CSV file does not exist, expected it at %s" % [plant_path])
+		logger.error("Plants CSV file does not exist, expected it at %s"
+				 % [plant_path])
 		return
 	
 	var plant_headings = plant_csv.get_csv_line()
 	
-	var plant_by_name = {}
-	
 	while !plant_csv.eof_reached():
 		# Format: Phytocoenosis Name, Avg height, sigma height, density, billboard
 		var csv = plant_csv.get_csv_line()
-		phytocoenosis_by_name[csv[0].to_lower()].plants.append(Plant.new("", csv[1], csv[2], csv[3], csv[4], base_path.plus_file("plant-textures")))
+		phytocoenosis_by_name[csv[0].to_lower()].plants.append(
+				Plant.new("", csv[1], csv[2], csv[3], csv[4],
+				base_path.plus_file("plant-textures")))
 
 
 func get_billboard_sheet(phytocoenosis_array):
@@ -113,7 +147,8 @@ class Plant:
 		img.load(full_path)
 		
 		if img.is_empty():
-			logger.error("Invalid billboard path in CSV of phytocoenosis %s: %s" % [name, full_path])
+			logger.error("Invalid billboard path in CSV of phytocoenosis %s: %s"
+					 % [name, full_path])
 		
 		return img
 
