@@ -135,6 +135,7 @@ gui_finger_right = true
 
 [node name="ARVRCamera" type="ARVRCamera" parent="."]
 transform = Transform( 0.835603, -0.152514, -0.527738, 0.00346618, 0.962132, -0.272563, 0.549323, 0.225925, 0.804488, 0.283994, 1.25431, -0.0914008 )
+cull_mask = 1048439
 script = ExtResource( 3 )
 
 [node name="ParentTracker" parent="ARVRCamera" instance=ExtResource( 6 )]
