@@ -19,7 +19,7 @@
             "gui-finger": true,
             "controller-mesh": false,
             "native-tools": [
-              "Locomotion/Rayteleport.tscn"
+              "Locomotion/RayTeleport.tscn"
             ],
             "landscape-tools": [
             ]
