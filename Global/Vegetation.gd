@@ -31,7 +31,9 @@ extends Node
 const sprite_size = 1024
 
 var base_path = GeodataPaths.get_absolute("vegetation-data")
+
 var phytocoenosis_by_name = {}
+var phytocoenosis_by_id = {}
 
 
 func _ready() -> void:
@@ -78,6 +80,10 @@ func _load_data_from_csv() -> void:
 		phytocoenosis_by_name[csv[0].to_lower()].plants.append(
 				Plant.new("", csv[1], csv[2], csv[3], csv[4],
 				base_path.plus_file("plant-textures")))
+	
+	# Add a map of ID to phytocoenosis as well, since that is frequently required
+	for phytocoenosis in phytocoenosis_by_name.values():
+		phytocoenosis_by_id[phytocoenosis.id] = phytocoenosis
 
 
 # Get a spritesheet with all billboards of the phytocoenosis in the given phytocoenosis_array.
