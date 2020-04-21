@@ -22,69 +22,90 @@ const phytocoenosis_ending = ".phytocoenosis"
 const csv_ending = ".csv"
 const sprite_size = 1024
 
+var phytocoenosis_by_name = {}
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var tex = ImageTexture.new()
-	tex.create_from_image(get_billboard_sheet(["grass", "field"]))
-	
-	get_node("MeshInstance").material_override.albedo_texture = tex
-
-
-func get_billboard_sheet(vegetation_names: Array):
-	# Array holding the rows of vegetation - each vegetation loaded from the 
-	#  given vegetation_names becomes a row in this table
-	var billboard_table = Array()
-	billboard_table.resize(vegetation_names.size())
-	
-	var row = 0
-	
-	for vegetation_name in vegetation_names:
-		billboard_table[row] = []
-		
-		var phytocoenosis = load_phytocoenosis(vegetation_name)
-		
-		for plant in phytocoenosis.plants:
-			var billboard = plant.get_billboard()
-			billboard_table[row].append(billboard)
-			
-		row += 1
-		
-	return SpritesheetHelper.create_spritesheet(
-			Vector2(sprite_size, sprite_size),
-			billboard_table)
-
-
-# Get a Phytocoenosis object from the data at base_path/name.phyto.
-func load_phytocoenosis(name) -> Phytocoenosis:
-	var folder_path = base_path.plus_file(name) + phytocoenosis_ending
-	var path = folder_path.plus_file(name) + csv_ending
-	var phyto = Phytocoenosis.new(name)
+	# Load phytocoenosis data
+	var path = base_path.plus_file("phytocoenosis.csv")
 	
 	var phyto_csv = File.new()
 	phyto_csv.open(path, phyto_csv.READ)
 	
 	if not phyto_csv.is_open():
 		logger.error("Phytocoenosis CSV file does not exist, expected it at %s" % [path])
-		return phyto
+		return
 	
 	var headings = phyto_csv.get_csv_line()
 	
 	while !phyto_csv.eof_reached():
+		# Format: Name, ID, Ground texture
 		var csv = phyto_csv.get_csv_line()
-		
-		if csv.size() == 5:
-			phyto.add_plant(Plant.new(csv[0], csv[1], csv[2], csv[3], csv[4], folder_path))
+		phytocoenosis_by_name[csv[0].to_lower()] = Phytocoenosis.new(csv[1], csv[0], csv[2])
 	
-	return phyto
+	# Load plant data
+	var plant_path = base_path.plus_file("plants.csv")
+	
+	var plant_csv = File.new()
+	plant_csv.open(plant_path, phyto_csv.READ)
+	
+	if not plant_csv.is_open():
+		logger.error("Phytocoenosis CSV file does not exist, expected it at %s" % [plant_path])
+		return
+	
+	var plant_headings = plant_csv.get_csv_line()
+	
+	var plant_by_name = {}
+	
+	while !plant_csv.eof_reached():
+		# Format: Phytocoenosis Name, Avg height, sigma height, density, billboard
+		var csv = plant_csv.get_csv_line()
+		phytocoenosis_by_name[csv[0].to_lower()].plants.append(Plant.new("", csv[1], csv[2], csv[3], csv[4], base_path.plus_file("plant-textures")))
+	
+	var tex = ImageTexture.new()
+	
+	print(phytocoenosis_by_name.values()[10].plants.size())
+	tex.create_from_image(get_billboard_sheet([phytocoenosis_by_name.values()[10], phytocoenosis_by_name.values()[11]]))
+	
+	get_node("MeshInstance").material_override.albedo_texture = tex
+
+
+func get_billboard_sheet(phytocoenosis_array):
+	# Array holding the rows of vegetation - each vegetation loaded from the 
+	#  given vegetation_names becomes a row in this table
+	var billboard_table = Array()
+	billboard_table.resize(phytocoenosis_array.size())
+	
+	var row = 0
+	
+	for phytocoenosis in phytocoenosis_array:
+		billboard_table[row] = []
+		
+		if phytocoenosis.plants.size() > 0:
+			for plant in phytocoenosis.plants:
+				var billboard = plant.get_billboard()
+				billboard_table[row].append(billboard)
+				
+			row += 1
+		
+	return SpritesheetHelper.create_spritesheet(
+			Vector2(sprite_size, sprite_size),
+			billboard_table)
 
 
 class Phytocoenosis:
+	var id
 	var name
 	var plants: Array
+	var ground_texture_path
 	
-	func _init(name, plants = null):
+	func _init(id, name, ground_texture_path = null, plants = null):
+		self.id = id
 		self.name = name
+		
+		if ground_texture_path:
+			self.ground_texture_path = ground_texture_path
 		
 		if plants:
 			self.plants = plants
