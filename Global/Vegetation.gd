@@ -80,6 +80,8 @@ func _load_data_from_csv() -> void:
 				base_path.plus_file("plant-textures")))
 
 
+# Get a spritesheet with all billboards of the phytocoenosis in the given phytocoenosis_array.
+# Each phytocoenosis gets a row, with the individual plant billboards in the columns.
 func get_billboard_sheet(phytocoenosis_array):
 	# Array holding the rows of vegetation - each vegetation loaded from the 
 	#  given vegetation_names becomes a row in this table
@@ -101,6 +103,16 @@ func get_billboard_sheet(phytocoenosis_array):
 	return SpritesheetHelper.create_spritesheet(
 			Vector2(sprite_size, sprite_size),
 			billboard_table)
+
+
+# Wrapper for get_billboard_sheet, but returns an ImageTexture instead of an
+#   Image for direct use in materials.
+func get_billboard_texture(phytocoenosis_array):
+	var tex = ImageTexture.new()
+	tex.create_from_image(Vegetation.get_billboard_sheet(phytocoenosis_array))
+	
+	return tex
+
 
 
 class Phytocoenosis:
