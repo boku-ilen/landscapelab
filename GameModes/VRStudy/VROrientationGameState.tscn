@@ -5,6 +5,7 @@
 
 [node name="VROrientationGameState" type="Node"]
 script = ExtResource( 1 )
+next_state_path = "res://GameModes/VRStudy/VRStationaryViewState.tscn"
 
 [node name="FirstPersonVR" parent="." instance=ExtResource( 2 )]
 
