@@ -10,9 +10,6 @@ func _ready() -> void:
 	#  timer timeout
 	timer.connect("timeout", self, "done")
 	
-	for i in range(100):
-		print("Last state")
-	
 	# Start tracking
 	GlobalSignal.emit_signal("tracking_start", "freelook")
 
