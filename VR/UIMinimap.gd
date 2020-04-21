@@ -34,8 +34,7 @@ func save_position_to_file():
 	var file = File.new()
 	var filename = "user://distance-session%d.txt" % [Session.session_id]
 	file.open(filename, File.WRITE)
-	
-	file.store_string("Marked position in engine: %s \n" % )
+	file.store_string("Marked position in engine: %s \n" % [marker.global_transform.origin])
 	file.store_string("Marked position in world: %s \n" % [Offset.to_world_coordinates(marker.global_transform.origin)])
 	file.store_string("Actual position in engine: %s \n" % [PlayerInfo.get_engine_player_position()])
 	file.store_string("Actual position in world: %s \n" % [PlayerInfo.get_true_player_position()])
