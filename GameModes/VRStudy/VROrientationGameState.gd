@@ -15,6 +15,7 @@ func _ready() -> void:
 		minimap.map_ui.done_button.connect("pressed", self, "done", [], CONNECT_DEFERRED)
 	
 	# Start tracking
+	Session.start_session(Session.scenario_id)
 	GlobalSignal.emit_signal("tracking_start", "orientation")
 
 
