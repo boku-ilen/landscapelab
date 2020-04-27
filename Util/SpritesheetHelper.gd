@@ -10,6 +10,10 @@ static func create_spritesheet(sprite_size: Vector2, images: Array):
 	#  array
 	var num_rows = images.size()
 	
+	# All images are assumed to be of the same format for now.
+	# TODO: We could convert all images to a set format?
+	var format = images.front().front().get_format()
+	
 	# Get the largest row (the row with the most columns) and use it as the
 	#  number of columns in the spritesheet - if we chose an arbitrary one, the
 	#  largest row might not fit
@@ -24,7 +28,7 @@ static func create_spritesheet(sprite_size: Vector2, images: Array):
 	var sheet = Image.new()
 	sheet.create(sprite_size.x * num_cols,
 			sprite_size.y * num_rows,
-			false, Image.FORMAT_RGBA8)
+			false, format)
 	
 	# The current position on the sheet
 	var current_offset = Vector2(0, 0)
