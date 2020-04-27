@@ -11,8 +11,7 @@
     },
     
     "filesystem": {
-	"local-resources-path": "",
-        "grid-graphics-path": ""
+        "geodata-path": ""
     },
     
     "lod": {

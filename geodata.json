@@ -1,5 +1,4 @@
 {
-    "base-directory": "/media/boku/geodata",
     "orthophoto": {
         "name": "austria/orthophoto",
         "type": "jpg"

@@ -5,7 +5,7 @@ var _paths: Dictionary = _parse_json("res://geodata.json")
 
 
 func get_base() -> String:
-	return _paths["base-directory"]
+	return Settings.get_setting("filesystem", "geodata-path")
 
 
 func get_relative(geodata_name: String) -> String:
