@@ -264,7 +264,14 @@ func get_leaf_tile(var pos : Vector3):
 # Returns the world position of the tile - used for server requests
 # TODO: Actual server requests require -z because coordinates are stored differently in Godot -> separate function?
 func get_true_position():
-	return Offset.to_world_coordinates(global_transform.origin)
+	var node = self
+	var t = transform
+	
+	while node != top_level:
+		node = node.get_parent()
+		t *= node.transform
+	
+	return Offset.to_world_coordinates(t.origin)
 
 
 # Returns the OSM zoom level that corresponds to this tile - used for server requests
