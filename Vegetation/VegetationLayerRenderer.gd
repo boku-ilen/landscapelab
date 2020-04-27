@@ -34,8 +34,8 @@ func _ready() -> void:
 	var position = Offset.to_world_coordinates(global_transform.origin)
 	
 	var dhm = Geodot.get_image(
-		"/home/karl/BOKU/geodata/austria-heights",
-		"tif",
+		GeodataPaths.get_absolute("heightmap"),
+		GeodataPaths.get_type("heightmap"),
 		-position[0] - rows / 2,
 		position[2] + rows / 2,
 		rows,
@@ -44,8 +44,8 @@ func _ready() -> void:
 	)
 	
 	var splat = Geodot.get_image(
-		"/home/karl/BOKU/geodata/sentinel-invekos-bytes",
-		"tif",
+		GeodataPaths.get_absolute("splatmap"),
+		GeodataPaths.get_type("splatmap"),
 		-position[0] - rows / 2,
 		position[2] + rows / 2,
 		rows,
