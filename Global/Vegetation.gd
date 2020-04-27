@@ -29,6 +29,7 @@ extends Node
 
 
 const sprite_size = 1024
+const texture_size = 1024
 
 var base_path = GeodataPaths.get_absolute("vegetation-data")
 
@@ -86,6 +87,15 @@ func _load_data_from_csv() -> void:
 		phytocoenosis_by_id[phytocoenosis.id] = phytocoenosis
 
 
+func get_billboard_sheet_for_ids(id_array):
+	var phytocoenosis_array = []
+	
+	for id in id_array:
+		phytocoenosis_array.append(phytocoenosis_by_id[id])
+	
+	return get_billboard_sheet(phytocoenosis_array)
+
+
 # Get a spritesheet with all billboards of the phytocoenosis in the given phytocoenosis_array.
 # Each phytocoenosis gets a row, with the individual plant billboards in the columns.
 func get_billboard_sheet(phytocoenosis_array):
@@ -111,11 +121,34 @@ func get_billboard_sheet(phytocoenosis_array):
 			billboard_table)
 
 
+func get_ground_albedo_sheet(phytocoenosis_array):
+	var texture_table = Array()
+	texture_table.resize(phytocoenosis_array.size())
+	
+	var row = 0
+	
+	for phytocoenosis in phytocoenosis_array:
+		texture_table[row] = [phytocoenosis.get_ground_albedo_image()]
+		
+		row += 1
+	
+	return SpritesheetHelper.create_spritesheet(
+			Vector2(texture_size, texture_size),
+			texture_table)
+
+
+func get_ground_albedo_sheet_texture(phytocoenosis_array):
+	var tex = ImageTexture.new()
+	tex.create_from_image(get_ground_albedo_sheet(phytocoenosis_array))
+	
+	return tex
+
+
 # Wrapper for get_billboard_sheet, but returns an ImageTexture instead of an
 #   Image for direct use in materials.
 func get_billboard_texture(phytocoenosis_array):
 	var tex = ImageTexture.new()
-	tex.create_from_image(Vegetation.get_billboard_sheet(phytocoenosis_array))
+	tex.create_from_image(get_billboard_sheet(phytocoenosis_array))
 	
 	return tex
 
@@ -139,6 +172,18 @@ class Phytocoenosis:
 	
 	func add_plant(plant: Plant):
 		plants.append(plant)
+	
+	func get_ground_albedo_image():
+		var full_path = Vegetation.base_path.plus_file("ground-textures").plus_file(ground_texture_path).plus_file("albedo.jpg")
+		
+		var img = Image.new()
+		img.load(full_path)
+		
+		if img.is_empty():
+			logger.error("Invalid ground texture path in CSV of phytocoenosis %s: %s"
+					 % [name, full_path])
+		
+		return img
 
 
 class Plant:
