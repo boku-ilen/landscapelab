@@ -27,6 +27,7 @@ extends Node
 # Meadow, 0.8, 0.1, 0.9, billboard1.png
 # 
 
+const distribution_size = 16
 
 const sprite_size = 1024
 const texture_size = 1024
@@ -78,13 +79,45 @@ func _load_data_from_csv() -> void:
 	while !plant_csv.eof_reached():
 		# Format: Phytocoenosis Name, Avg height, sigma height, density, billboard
 		var csv = plant_csv.get_csv_line()
-		phytocoenosis_by_name[csv[0].to_lower()].plants.append(
-				Plant.new("", csv[1], csv[2], csv[3], csv[4],
+		var p = phytocoenosis_by_name[csv[0].to_lower()]
+		
+		p.plants.append(
+				Plant.new(p.plants.size(), "", float(csv[1]), float(csv[2]),
+				float(csv[3]), csv[4],
 				base_path.plus_file("plant-textures")))
 	
 	# Add a map of ID to phytocoenosis as well, since that is frequently required
 	for phytocoenosis in phytocoenosis_by_name.values():
-		phytocoenosis_by_id[phytocoenosis.id] = phytocoenosis
+		phytocoenosis_by_id[int(phytocoenosis.id)] = phytocoenosis
+
+
+func get_phytocoenosis_array_for_ids(id_array):
+	var phytocoenosis_array = []
+	
+	for id in id_array:
+		phytocoenosis_array.append(phytocoenosis_by_id[id])
+	
+	return phytocoenosis_array
+
+
+func filter_phytocoenosis_array_by_height(phytocoenosis_array, min_height: float, max_height: float):
+	var new_array = []
+	
+	for phytocoenosis in phytocoenosis_array:
+		var plants = []
+		
+		for plant in phytocoenosis.plants:
+			if plant.avg_height > min_height and plant.avg_height < max_height:
+				plants.append(plant)
+		
+		# Append a new Phytocoenosis which is identical to the one in the passed
+		#  array, but with the filtered plants
+		new_array.append(Phytocoenosis.new(phytocoenosis.id,
+				phytocoenosis.name,
+				phytocoenosis.ground_texture_path,
+				plants))
+	
+	return new_array
 
 
 func get_billboard_sheet_for_ids(id_array):
@@ -109,12 +142,11 @@ func get_billboard_sheet(phytocoenosis_array):
 	for phytocoenosis in phytocoenosis_array:
 		billboard_table[row] = []
 		
-		if phytocoenosis.plants.size() > 0:
-			for plant in phytocoenosis.plants:
-				var billboard = plant.get_billboard()
-				billboard_table[row].append(billboard)
-				
-			row += 1
+		for plant in phytocoenosis.plants:
+			var billboard = plant.get_billboard()
+			billboard_table[row].append(billboard)
+			
+		row += 1
 		
 	return SpritesheetHelper.create_spritesheet(
 			Vector2(sprite_size, sprite_size),
@@ -137,6 +169,22 @@ func get_ground_albedo_sheet(phytocoenosis_array):
 			texture_table)
 
 
+func get_distribution_sheet(phytocoenosis_array):
+	var texture_table = Array()
+	texture_table.resize(phytocoenosis_array.size())
+	
+	var row = 0
+	
+	for phytocoenosis in phytocoenosis_array:
+		texture_table[row] = [generate_distribution(phytocoenosis)] if phytocoenosis.plants.size() > 0 else null
+		
+		row += 1
+	
+	return SpritesheetHelper.create_spritesheet(
+			Vector2(distribution_size, distribution_size),
+			texture_table)
+
+
 func get_ground_albedo_sheet_texture(phytocoenosis_array):
 	var tex = ImageTexture.new()
 	tex.create_from_image(get_ground_albedo_sheet(phytocoenosis_array))
@@ -151,6 +199,36 @@ func get_billboard_texture(phytocoenosis_array):
 	tex.create_from_image(get_billboard_sheet(phytocoenosis_array))
 	
 	return tex
+
+
+func generate_distribution(phytocoenosis: Phytocoenosis):
+	var distribution = Image.new()
+	distribution.create(distribution_size, distribution_size, false, Image.FORMAT_R8)
+	
+	var dice = RandomNumberGenerator.new()
+	dice.randomize()
+	
+	distribution.lock()
+	
+	for y in range(0, distribution_size):
+		for x in range(0, distribution_size):
+			var highest_roll = 0
+			var highest_roll_plant
+			
+			for plant in phytocoenosis.plants:
+				var roll = dice.randf_range(0.0, 1.0)#plant.density)
+				
+				if roll > highest_roll:
+					highest_roll_plant = plant
+					highest_roll = roll
+			
+			# TODO: Edge case with highest_roll_plant being null due to no plants or all densities being 0?
+			distribution.set_pixel(x, y, Color((highest_roll_plant.id + 1) / 256.0, 0.0, 0.0))
+	
+	distribution.unlock()
+	
+	return distribution
+
 
 
 
@@ -187,6 +265,7 @@ class Phytocoenosis:
 
 
 class Plant:
+	var id
 	var name
 	var avg_height
 	var sigma_height
@@ -194,7 +273,8 @@ class Plant:
 	var billboard_path: String
 	var base_path: String
 	
-	func _init(name, avg_height, sigma_height, density, billboard_path, base_path):
+	func _init(id, name, avg_height, sigma_height, density, billboard_path, base_path):
+		self.id = id
 		self.name = name
 		self.avg_height = avg_height
 		self.sigma_height = sigma_height

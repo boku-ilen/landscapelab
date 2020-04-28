@@ -39,22 +39,63 @@ func _ready() -> void:
 		-position[0] - rows / 2,
 		position[2] + rows / 2,
 		rows,
-		100,
+		32,
 		1
 	)
 	
 	var splat = Geodot.get_image(
-		GeodataPaths.get_absolute("splatmap"),
-		GeodataPaths.get_type("splatmap"),
+		GeodataPaths.get_absolute("land-use"),
+		GeodataPaths.get_type("land-use"),
 		-position[0] - rows / 2,
 		position[2] + rows / 2,
 		rows,
-		100,
-		1
+		128,
+		6
 	)
+	
+	# Get the most common splatmap values here
+	var ids = splat.get_most_common(8)
+	
+	for id in ids:
+		print(id)
+	
+	var phytocoenosis = Vegetation.get_phytocoenosis_array_for_ids(ids)
+	
+	var filtered_phytocoenosis = Vegetation.filter_phytocoenosis_array_by_height(phytocoenosis, 0.0, 2.0)
+	
+	var billboards = Vegetation.get_billboard_sheet(filtered_phytocoenosis)
+	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_phytocoenosis)
+	
+	# The rows correspond to the passed IDs.
+	# The columns correspond to IDs in the distribution map.
+	# TODO: Load a sheet of distribution maps
 	
 	# TODO: Don't equate rows with size - this way, only spacing 1 is possible
 	
 	process_material.set_shader_param("heightmap_size", Vector2(rows, rows))
 	process_material.set_shader_param("heightmap", dhm.get_image_texture())
 	material_override.set_shader_param("splatmap", splat.get_image_texture())
+	
+	# Create map from ID to row
+	var id_row_map = Image.new()
+	id_row_map.create(256, 1, false, Image.FORMAT_R8)
+	id_row_map.lock()
+	
+	var row = 0
+	for id in ids:
+		id_row_map.set_pixel(id, 0, Color((row + 1) / 256.0, 0.0, 0.0))
+		row += 1
+	
+	id_row_map.unlock()
+	
+	var id_row_map_tex = ImageTexture.new()
+	id_row_map_tex.create_from_image(id_row_map, 0)
+	material_override.set_shader_param("id_to_row", id_row_map_tex)
+	
+	var tex = ImageTexture.new()
+	tex.create_from_image(billboards)
+	material_override.set_shader_param("texture_map", tex)
+	
+	var dist = ImageTexture.new()
+	dist.create_from_image(distribution_sheet, ImageTexture.FLAG_REPEAT)
+	material_override.set_shader_param("distribution_map", dist)

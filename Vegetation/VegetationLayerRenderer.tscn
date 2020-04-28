@@ -12,6 +12,7 @@ shader = ExtResource( 2 )
 shader_param/amplitude = 0.1
 shader_param/speed = Vector2( 2, 1.5 )
 shader_param/scale = Vector2( 0.1, 0.2 )
+shader_param/heightmap_size = Vector2( 300, 300 )
 shader_param/texture_map = ExtResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=2]

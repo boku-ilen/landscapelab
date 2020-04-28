@@ -5,22 +5,59 @@ uniform sampler2D texture_map : hint_albedo;
 uniform sampler2D normal_map : hint_normal;
 uniform sampler2D specular_map : hint_black;
 
+uniform sampler2D distribution_map : hint_black;
+uniform sampler2D id_to_row;
+
 uniform sampler2D splatmap;
 
 uniform float amplitude = 0.1;
 uniform vec2 speed = vec2(2.0, 1.5);
 uniform vec2 scale = vec2(0.1, 0.2);
 
+uniform vec2 heightmap_size = vec2(300.0, 300.0);
+
+varying float splat_id;
+varying float row;
+varying float dist_id;
+
 void vertex() {
-	if (VERTEX.y > 0.0) {
-		vec3 worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	vec3 worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	
+	// Move the upper vertices around for a wind wave effect
+	if (VERTEX.y > 0.3) {
 		VERTEX.x += amplitude * sin(worldpos.x * scale.x * 0.75 + TIME * speed.x) * cos(worldpos.z * scale.x + TIME * speed.x * 0.25);
 		VERTEX.z += amplitude * sin(worldpos.x * scale.y + TIME * speed.y * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed.y);
 	}
+	
+	// TODO: Pass the offset to the world origin and add it here
+	vec2 pos = worldpos.xz;
+	pos -= 0.5 * heightmap_size;
+	pos /= heightmap_size;
+	
+	pos += vec2(1.0, 1.0);
+	
+	// Splatmap ID at this position
+	splat_id = texture(splatmap, pos).r * 256.0;
+	
+	// The row in the spritesheets which corresponds to this splatmap ID
+	row = texelFetch(id_to_row, ivec2(int(round(splat_id)), 0), 0).r * 256.0;
+	
+	// Using the row, we can get the ID (the column) of the plant which should be here
+	ivec2 dist_pos = ivec2(int(pos.x * 3.0) % 16, int(pos.y * 3.0) % 16);
+	dist_id = texelFetch(distribution_map, ivec2(int(row) * 16, 0) + dist_pos, 0).r * 256.0;
 }
 
 void fragment() {
-	vec4 color = texture(texture_map, UV);
+	ivec2 sheet_size = textureSize(texture_map, 0);
+	
+	vec2 scaled_uv = UV / (vec2(sheet_size) / 1024.0);
+	
+	vec2 offset = vec2(dist_id / 16.0, row / 16.0);
+	
+	vec4 color = texture(texture_map, scaled_uv + offset);
+	
+	//color = vec4(splat_id / 256.0, 0.0, 0.0, 1.0);
+	
 	ALBEDO = color.rgb;
 	if (color.a < 0.3) {
 		discard;
