@@ -36,11 +36,6 @@ func add_player_pos(add_pos):
 	update_player_pos(last_player_pos + add_pos)
 
 
-# Returns the last known player position in absolute webmercator world coordinates
-func get_true_player_position():
-	return Offset.to_world_coordinates(last_player_pos)
-
-
 # Returns the last known player position in engine coordinates
 func get_engine_player_position():
 	return last_player_pos
