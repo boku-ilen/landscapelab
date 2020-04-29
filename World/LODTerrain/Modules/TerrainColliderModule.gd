@@ -10,6 +10,7 @@ var heightmap
 var heightmap_img
 var heightmap_size
 var normalmap
+var terrain_node: Node
 
 var collider_subdivision = Settings.get_setting("terrain-collider", "collision-mesh-subdivision")
 
