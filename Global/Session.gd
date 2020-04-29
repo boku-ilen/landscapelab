@@ -12,6 +12,8 @@ var scenario_url = "/location/scenario/list.json"
 var session_url = "/location/start_session/%s"  # Fill with scenario ID
 var scenarios: Dictionary
 
+var current_world_offset: Vector2
+
 
 func _ready():
 	_load_scenarios_from_server()
@@ -65,13 +67,15 @@ func set_start_offset_for_scenario(scenario_id):
 
 	# if we found a starting location set the offset accordingly
 	if start_loc:
-		var world_offset_x = -start_loc[0]
-		var world_offset_z = start_loc[1]
-		
-		Offset.set_offset(world_offset_x, world_offset_z)
+		current_world_offset.x = -start_loc[0]
+		current_world_offset.y = start_loc[1]
 	else:
 		logger.error("Could not initialize starting location")
 		# FIXME: what to do? is it possible to start at a random or calculated starting location based on the bounding polygon geometry
+
+
+func get_current_start_offset():
+	return current_world_offset
 
 
 # we want to get a new session id from the server thus ending the old session
