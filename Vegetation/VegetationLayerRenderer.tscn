@@ -8,6 +8,7 @@
 [ext_resource path="res://Vegetation/154-pasture.png" type="Texture" id=6]
 
 [sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/amplitude = 0.1
 shader_param/speed = Vector2( 2, 1.5 )
@@ -39,3 +40,4 @@ process_material = SubResource( 2 )
 draw_pass_1 = ExtResource( 5 )
 script = ExtResource( 1 )
 rows = 300
+spacing = 0.5

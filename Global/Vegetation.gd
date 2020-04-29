@@ -97,7 +97,8 @@ func get_phytocoenosis_array_for_ids(id_array):
 	var phytocoenosis_array = []
 	
 	for id in id_array:
-		phytocoenosis_array.append(phytocoenosis_by_id[id])
+		if phytocoenosis_by_id.has(id):
+			phytocoenosis_array.append(phytocoenosis_by_id[id])
 	
 	return phytocoenosis_array
 

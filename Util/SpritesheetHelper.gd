@@ -21,6 +21,10 @@ static func create_spritesheet(sprite_size: Vector2, images: Array):
 					format = col.get_format()
 					break
 	
+	if not format:
+		# No valid images...
+		return null
+	
 	# Get the largest row (the row with the most columns) and use it as the
 	#  number of columns in the spritesheet - if we chose an arbitrary one, the
 	#  largest row might not fit

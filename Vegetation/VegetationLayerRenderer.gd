@@ -4,6 +4,9 @@ extends Particles
 export var rows = 4 setget set_rows, get_rows
 export var spacing = 1.0 setget set_spacing, get_spacing
 
+export(float) var min_size
+export(float) var max_size
+
 var time_passed = 0
 
 var load_thread = Thread.new()
@@ -36,6 +39,7 @@ func get_spacing():
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	set_rows(rows)
+	set_spacing(spacing)
 	
 	previous_origin = global_transform.origin
 	var position = Offset.to_world_coordinates(global_transform.origin)
@@ -57,24 +61,26 @@ func _process(delta):
 
 
 func update_textures(position):
+	var map_size =  rows * spacing * 2
+	
 	var dhm = Geodot.get_image(
 		GeodataPaths.get_absolute("heightmap"),
 		GeodataPaths.get_type("heightmap"),
-		-position[0] - rows / 2,
-		position[2] + rows / 2,
-		rows,
-		1024,
+		-position[0] - map_size / 2,
+		position[2] + map_size / 2,
+		map_size,
+		map_size / 2.0,
 		1
 	)
 	
 	var splat = Geodot.get_image(
 		GeodataPaths.get_absolute("land-use"),
 		GeodataPaths.get_type("land-use"),
-		-position[0] - rows / 2,
-		position[2] + rows / 2,
-		rows,
-		128,
-		6
+		-position[0] - map_size / 2,
+		position[2] + map_size / 2,
+		map_size,
+		map_size / 10.0,
+		0
 	)
 	
 	# Get the most common splatmap values here
@@ -82,7 +88,7 @@ func update_textures(position):
 	
 	var phytocoenosis = Vegetation.get_phytocoenosis_array_for_ids(ids)
 	
-	var filtered_phytocoenosis = Vegetation.filter_phytocoenosis_array_by_height(phytocoenosis, 0.0, 2.0)
+	var filtered_phytocoenosis = Vegetation.filter_phytocoenosis_array_by_height(phytocoenosis, min_size, max_size)
 
 	var time_before = OS.get_ticks_msec()
 	
@@ -90,20 +96,14 @@ func update_textures(position):
 	
 	print("Billboard sheet took %d" % [OS.get_ticks_msec() - time_before])
 	
+	if not billboards:
+		amount = 0
+		return
+	
 	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_phytocoenosis)
 	
 	# The rows correspond to the passed IDs.
 	# The columns correspond to IDs in the distribution map.
-	# TODO: Load a sheet of distribution maps
-	
-	# TODO: Don't equate rows with size - this way, only spacing 1 is possible
-	
-	process_material.set_shader_param("heightmap_size", Vector2(rows, rows))
-	process_material.set_shader_param("heightmap", dhm.get_image_texture())
-	material_override.set_shader_param("splatmap", splat.get_image_texture())
-	
-	process_material.set_shader_param("offset", Vector2(-global_transform.origin.x, -global_transform.origin.z))
-	material_override.set_shader_param("offset", Vector2(-global_transform.origin.x, -global_transform.origin.z))
 	
 	# Create map from ID to row
 	var id_row_map = Image.new()
@@ -117,7 +117,6 @@ func update_textures(position):
 	
 	var row = 0
 	for id in ids:
-		print(id, " ", row)
 		id_row_map.set_pixel(id, 0, Color(row / 255.0, 0.0, 0.0))
 		row += 1
 	
@@ -134,6 +133,15 @@ func update_textures(position):
 	var dist = ImageTexture.new()
 	dist.create_from_image(distribution_sheet, ImageTexture.FLAG_REPEAT)
 	material_override.set_shader_param("distribution_map", dist)
+	
+	process_material.set_shader_param("heightmap_size", Vector2(map_size, map_size))
+	material_override.set_shader_param("heightmap_size", Vector2(map_size, map_size))
+	
+	process_material.set_shader_param("heightmap", dhm.get_image_texture())
+	material_override.set_shader_param("splatmap", splat.get_image_texture())
+	
+	process_material.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z))
+	material_override.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z))
 	
 	call_deferred("_update_done")
 

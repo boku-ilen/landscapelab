@@ -17,9 +17,9 @@ uniform vec2 scale = vec2(0.1, 0.2);
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
 uniform vec2 offset;
 
-varying float splat_id;
-varying float row;
-varying float dist_id;
+varying flat float splat_id;
+varying flat float row;
+varying flat float dist_id;
 
 void vertex() {
 	vec3 worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -56,10 +56,11 @@ void fragment() {
 	}
 	
 	ivec2 sheet_size = textureSize(texture_map, 0);
+	ivec2 cols_rows = sheet_size / 1024;
 	
 	vec2 scaled_uv = UV / (vec2(sheet_size) / 1024.0);
 	
-	vec2 uv_offset = vec2(dist_id / 7.0, row / 8.0);
+	vec2 uv_offset = vec2(dist_id / float(cols_rows.x), row / float(cols_rows.y));
 	
 	vec4 color = texture(texture_map, scaled_uv + uv_offset);
 	
