@@ -4,8 +4,6 @@ export(String) var attribute_name
 export(Dictionary) var attribute_values_to_assets
 export(PackedScene) var default_asset
 
-var terrain_node: Node
-
 
 func _create_asset_for_geopoint(geopoint):
 	var geopoint_value = geopoint.get_attribute(attribute_name)

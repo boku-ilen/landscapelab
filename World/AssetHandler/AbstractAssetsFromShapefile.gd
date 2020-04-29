@@ -13,25 +13,28 @@ var radius = 5000
 var max_assets = 100
 
 var load_thread: Thread = Thread.new()
-var previous_load_player_pos = [0, 0, 0]
+var previous_load_center_pos = [0, 0, 0]
+
+var terrain_node: Spatial
 
 
 func _get_points():
-	var player_pos = PlayerInfo.get_true_player_position()
-	return Geodot.get_points_near_position(GeodataPaths.get_absolute_with_ending(shapefile_name), -player_pos[0], player_pos[2], radius, max_assets)
+	var center_pos = terrain_node.get_center_position()
+	return Geodot.get_points_near_position(GeodataPaths.get_absolute_with_ending(shapefile_name), -center_pos[0], center_pos[2], radius, max_assets)
 
 
 func _process(delta: float) -> void:
-	var player_pos = PlayerInfo.get_true_player_position()
-	
-	# If the player has moved by a quarter of the radius since last update,
-	#  do a new update
-	if abs(player_pos[0] - previous_load_player_pos[0]) > radius / 4 \
-			or abs(player_pos[2] - previous_load_player_pos[2]) > radius / 4 \
-			and not load_thread.is_active():
+	if terrain_node:
+		var center_pos = terrain_node.get_center_position()
 		
-		previous_load_player_pos = player_pos
-		load_thread.start(self, "_reload_assets")
+		# If the player has moved by a quarter of the radius since last update,
+		#  do a new update
+		if abs(center_pos[0] - previous_load_center_pos[0]) > center_pos / 4 \
+				or abs(center_pos[2] - previous_load_center_pos[2]) > radius / 4 \
+				and not load_thread.is_active():
+			
+			previous_load_center_pos = center_pos
+			load_thread.start(self, "_reload_assets")
 
 
 func _reload_assets(data):
