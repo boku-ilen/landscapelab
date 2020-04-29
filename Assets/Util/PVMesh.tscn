@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Assets/Util/PVMesh.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Meshes/PV/Aluminum.material" type="Material" id=2]
 [ext_resource path="res://Resources/Meshes/PV/4kWp_groundmount_system/pv-texture.jpg" type="Texture" id=3]
 [ext_resource path="res://Resources/Meshes/PV/material.material" type="Material" id=4]
+[ext_resource path="res://Util/GroundPosition.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "instance_0"
@@ -67,7 +67,6 @@ surfaces/1 = {
 }
 
 [node name="PVMesh" type="Spatial"]
-script = ExtResource( 1 )
 
 [node name="MeshOrigin" type="Spatial" parent="."]
 transform = Transform( -2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 3.607, 0, 1.249 )
@@ -90,3 +89,5 @@ layers = 16
 mesh = SubResource( 4 )
 material/0 = null
 material/1 = null
+
+[node name="GroundPosition" parent="." instance=ExtResource( 5 )]

@@ -16,6 +16,8 @@ export(float) var col_spacing
 
 var mesh = load("res://Assets/Util/PVMesh.tscn")
 
+var terrain: Spatial
+
 onready var pickup_shape = get_node("PickupBody/CollisionShape")
 
 
@@ -35,15 +37,3 @@ func _ready():
 	# Change the size of the PickupBody accordingly
 	pickup_shape.shape.extents.x = cols / 2 * col_spacing
 	pickup_shape.shape.extents.z = rows / 2 * row_spacing
-
-
-# Just reposition the tooltip and StaticBody when there's a new ground position,
-#  since the individual PV meshes get their position themselves
-func _place_on_ground():
-	if is_inside_tree():
-		var ground_pos = WorldPosition.get_position_on_ground(global_transform.origin)
-		
-		get_node("Tooltip3D").global_transform.origin = ground_pos
-		get_node("PickupBody").global_transform.origin = ground_pos
-		
-		_just_placed_on_ground = true
