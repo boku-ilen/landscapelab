@@ -29,11 +29,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/vr-toolkit/Controller/ControllerTool.gd"
 }, {
-"base": "Spatial",
-"class": "GroundedSpatial",
-"language": "GDScript",
-"path": "res://Util/GroundedSpatial.gd"
-}, {
 "base": "Node",
 "class": "JSONParser",
 "language": "GDScript",
@@ -44,7 +39,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/LinearDrawer/LinearCSGPolygon.gd"
 }, {
-"base": "GroundedSpatial",
+"base": "Spatial",
 "class": "LinearDrawer",
 "language": "GDScript",
 "path": "res://Util/LinearDrawer/LinearDrawer.gd"
@@ -59,7 +54,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://World/LODTerrain/WorldTile/ModuleHandler.gd"
 }, {
-"base": "GroundedSpatial",
+"base": "Spatial",
 "class": "MoveableObject",
 "language": "GDScript",
 "path": "res://Assets/Superclasses/MovableObject.gd"
@@ -78,6 +73,11 @@ _global_script_classes=[ {
 "class": "SpritesheetHelper",
 "language": "GDScript",
 "path": "res://Util/SpritesheetHelper.gd"
+}, {
+"base": "Spatial",
+"class": "TerrayCast",
+"language": "GDScript",
+"path": "res://Global/TerrayCast.gd"
 }, {
 "base": "Spatial",
 "class": "TileHandler",
@@ -114,7 +114,6 @@ _global_script_class_icons={
 "AbstractPlayer": "",
 "AutoTextureButton": "",
 "ControllerTool": "",
-"GroundedSpatial": "",
 "JSONParser": "",
 "LinearCSGPolygon": "",
 "LinearDrawer": "",
@@ -124,6 +123,7 @@ _global_script_class_icons={
 "Perspective": "",
 "ShiftingHandler": "",
 "SpritesheetHelper": "",
+"TerrayCast": "",
 "TileHandler": "",
 "ToolsButton": "",
 "VRGuiElement": "",
@@ -156,7 +156,6 @@ ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
 Session="*res://Global/Session.gd"
 PlayerInfo="*res://Global/PlayerInfo.gd"
 CachingImageTexture="*res://Global/CachingImageTexture.gd"
-Offset="*res://Global/Offset.gd"
 TooltipHandler="*res://Global/TooltipHandler.gd"
 WorldPosition="*res://Global/WorldPosition.gd"
 PerformanceTracker="*res://Global/Debug/PerformanceTracker.gd"
@@ -165,7 +164,6 @@ ModuleLoader="*res://Global/ModuleLoader.gd"
 UISignal="*res://Global/UISignal.gd"
 GameModeLoader="*res://Global/GameModeLoader.gd"
 Geodot="*res://addons/geodot/geodot.gdns"
-GlobalTerrain="*res://Global/GlobalTerrain.tscn"
 RenderStyle="*res://Global/RenderStyle.gd"
 GeodataPaths="*res://Global/GeodataPaths.gd"
 GlobalVRAccess="*res://addons/vr-toolkit/GlobalVRAccess.gd"

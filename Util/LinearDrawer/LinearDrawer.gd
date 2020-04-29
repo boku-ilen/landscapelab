@@ -1,4 +1,4 @@
-extends GroundedSpatial
+extends Spatial
 class_name LinearDrawer
 
 #
@@ -29,8 +29,6 @@ func _ready():
 func _place_on_ground():
 	if not grounded: return
 	
-	_just_placed_on_ground = true
-	
 	# Keep this node at y = 0 because the individual points are responsible for the height
 	global_transform.origin.y = 0
 	
@@ -50,7 +48,7 @@ func put_points_on_ground():
 		
 		# For the new height, we need to add the global_transform.origin since we need the global position,
 		#  but the position of the point should stay relative, so we only apply the y-coordinate
-		var new_pos_y = WorldPosition.get_position_on_ground(global_transform.origin + old_pos).y
+		var new_pos_y = TerrayCast.get_ground_pos(transform.origin + old_pos, get_world().direct_space_state).y
 		
 		var new_pos = Vector3(old_pos.x, new_pos_y, old_pos.z)
 		curve.set_point_position(point_index, new_pos)

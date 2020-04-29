@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Assets/Superclasses/MovableObject.gd" type="Script" id=1]
+[ext_resource path="res://Util/GroundPosition.tscn" type="PackedScene" id=2]
 
 [node name="MovableObject" type="Spatial" groups=[
 "SpatialShifting",
@@ -14,3 +15,5 @@ collision_layer = 16384
 collision_mask = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="PickupBody"]
+
+[node name="GroundPosition" parent="." instance=ExtResource( 2 )]

@@ -1,4 +1,4 @@
-extends GroundedSpatial
+extends Spatial
 class_name MoveableObject
 
 #
