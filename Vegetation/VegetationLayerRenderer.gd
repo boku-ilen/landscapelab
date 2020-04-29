@@ -13,6 +13,8 @@ var load_thread = Thread.new()
 
 var previous_origin
 
+var current_offset_from_shifting = Vector2.ZERO
+
 func update_aabb():
 	var size = rows * spacing
 	visibility_aabb = AABB(Vector3(-0.5 * size, -1000.0, -0.5 * size), Vector3(size, 10000.0, size))
@@ -38,13 +40,23 @@ func get_spacing():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Offset.connect("shift_world", self, "_on_shift_world")
+	
 	set_rows(rows)
 	set_spacing(spacing)
 	
 	previous_origin = global_transform.origin
 	var position = Offset.to_world_coordinates(global_transform.origin)
 	update_textures(position)
+
+
+func _on_shift_world(delta_x, delta_z):
+	current_offset_from_shifting -= Vector2(delta_x, delta_z)
 	
+	process_material.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
+	material_override.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
+
+
 func _process(delta):
 	global_transform.origin = PlayerInfo.get_engine_player_position()
 	
@@ -142,6 +154,8 @@ func update_textures(position):
 	
 	process_material.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z))
 	material_override.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z))
+	
+	current_offset_from_shifting = Vector2.ZERO
 	
 	call_deferred("_update_done")
 
