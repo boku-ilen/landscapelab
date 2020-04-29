@@ -15,6 +15,7 @@ uniform vec2 speed = vec2(2.0, 1.5);
 uniform vec2 scale = vec2(0.1, 0.2);
 
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
+uniform vec2 offset;
 
 varying float splat_id;
 varying float row;
@@ -31,32 +32,36 @@ void vertex() {
 	
 	// TODO: Pass the offset to the world origin and add it here
 	vec2 pos = worldpos.xz;
+	pos += offset;
+	
 	pos -= 0.5 * heightmap_size;
 	pos /= heightmap_size;
 	
 	pos += vec2(1.0, 1.0);
 	
 	// Splatmap ID at this position
-	splat_id = texture(splatmap, pos).r * 256.0;
+	splat_id = texture(splatmap, pos).r * 255.0;
 	
 	// The row in the spritesheets which corresponds to this splatmap ID
-	row = texelFetch(id_to_row, ivec2(int(round(splat_id)), 0), 0).r * 256.0;
+	row = texelFetch(id_to_row, ivec2(int(round(splat_id)), 0), 0).r * 255.0;
 	
 	// Using the row, we can get the ID (the column) of the plant which should be here
-	ivec2 dist_pos = ivec2(int(pos.x * 3.0) % 16, int(pos.y * 3.0) % 16);
-	dist_id = texelFetch(distribution_map, ivec2(int(row) * 16, 0) + dist_pos, 0).r * 256.0;
+	ivec2 dist_pos = ivec2(int(pos.x * 1000.0) % 16, int(pos.y * 1000.0) % 16);
+	dist_id = texelFetch(distribution_map, ivec2(0, int(row) * 16) + dist_pos, 0).r * 255.0;
 }
 
 void fragment() {
+	if (abs(row - 255.0) < 0.1) {
+		discard;
+	}
+	
 	ivec2 sheet_size = textureSize(texture_map, 0);
 	
 	vec2 scaled_uv = UV / (vec2(sheet_size) / 1024.0);
 	
-	vec2 offset = vec2(dist_id / 16.0, row / 16.0);
+	vec2 uv_offset = vec2(dist_id / 7.0, row / 8.0);
 	
-	vec4 color = texture(texture_map, scaled_uv + offset);
-	
-	//color = vec4(splat_id / 256.0, 0.0, 0.0, 1.0);
+	vec4 color = texture(texture_map, scaled_uv + uv_offset);
 	
 	ALBEDO = color.rgb;
 	if (color.a < 0.3) {

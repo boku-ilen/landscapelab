@@ -37,6 +37,8 @@ var base_path = GeodataPaths.get_absolute("vegetation-data")
 var phytocoenosis_by_name = {}
 var phytocoenosis_by_id = {}
 
+var plant_image_cache = {}
+
 
 func _ready() -> void:
 	_load_data_from_csv()
@@ -223,7 +225,7 @@ func generate_distribution(phytocoenosis: Phytocoenosis):
 					highest_roll = roll
 			
 			# TODO: Edge case with highest_roll_plant being null due to no plants or all densities being 0?
-			distribution.set_pixel(x, y, Color((highest_roll_plant.id + 1) / 256.0, 0.0, 0.0))
+			distribution.set_pixel(x, y, Color(highest_roll_plant.id / 255.0, 0.0, 0.0))
 	
 	distribution.unlock()
 	
@@ -272,6 +274,7 @@ class Plant:
 	var density
 	var billboard_path: String
 	var base_path: String
+	var billboard_image: Image
 	
 	func _init(id, name, avg_height, sigma_height, density, billboard_path, base_path):
 		self.id = id
@@ -286,12 +289,15 @@ class Plant:
 	func get_billboard():
 		var full_path = base_path.plus_file(billboard_path)
 		
-		var img = Image.new()
-		img.load(full_path)
+		if not Vegetation.plant_image_cache.has(full_path):
+			var img = Image.new()
+			img.load(full_path)
+			
+			if img.is_empty():
+				logger.error("Invalid billboard path in CSV of phytocoenosis %s: %s"
+						 % [name, full_path])
+			
+			Vegetation.plant_image_cache[full_path] = img
 		
-		if img.is_empty():
-			logger.error("Invalid billboard path in CSV of phytocoenosis %s: %s"
-					 % [name, full_path])
-		
-		return img
+		return Vegetation.plant_image_cache[full_path]
 

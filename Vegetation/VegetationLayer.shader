@@ -7,9 +7,13 @@ uniform sampler2D heightmap;
 uniform float amplitude = 1.0;
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
 
+uniform vec2 offset;
+
 uniform sampler2D noisemap;
 
 float get_height(vec2 pos) {
+	pos += offset;
+	
 	pos -= 0.5 * heightmap_size;
 	pos /= heightmap_size;
 	

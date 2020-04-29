@@ -13,6 +13,7 @@ shader_param/amplitude = 0.1
 shader_param/speed = Vector2( 2, 1.5 )
 shader_param/scale = Vector2( 0.1, 0.2 )
 shader_param/heightmap_size = Vector2( 300, 300 )
+shader_param/offset = null
 shader_param/texture_map = ExtResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=2]
@@ -22,15 +23,18 @@ shader_param/rows = 300.0
 shader_param/spacing = 1.0
 shader_param/amplitude = 1.0
 shader_param/heightmap_size = Vector2( 300, 300 )
+shader_param/offset = null
 shader_param/noisemap = ExtResource( 4 )
 
-[node name="VegetationLayer" type="Particles"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.108178 )
+[node name="VegetationLayer" type="Particles" groups=[
+"SpatialShifting",
+]]
 material_override = SubResource( 1 )
 cast_shadow = 0
 amount = 90000
 explosiveness = 1.0
 visibility_aabb = AABB( -150, -150, -150, 300, 300, 300 )
+local_coords = false
 process_material = SubResource( 2 )
 draw_pass_1 = ExtResource( 5 )
 script = ExtResource( 1 )
