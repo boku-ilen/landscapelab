@@ -15,10 +15,11 @@ func _ready():
 
 
 func _process(delta):
-	if enabled:
-		if current_gui:
-			current_gui.ray_interaction_input(
-					finger_tip.global_transform.origin, InputEventMouseMotion, on_hand)
+#	if enabled:
+#		if current_gui:
+#			current_gui.ray_interaction_input(
+#					finger_tip.global_transform.origin, InputEventMouseMotion, on_hand)
+	pass
 
 
 func _on_touching(body=null):
@@ -31,5 +32,6 @@ func _on_touching(body=null):
 
 func _on_left(body=null):
 	if enabled:
-		current_gui.ray_interaction_input(
-				finger_tip.global_transform.origin, InputEventMouseButton, on_hand, false)
+		if current_gui:
+			current_gui.ray_interaction_input(
+					finger_tip.global_transform.origin, InputEventMouseButton, on_hand, false)

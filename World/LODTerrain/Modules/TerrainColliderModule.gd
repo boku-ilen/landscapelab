@@ -31,7 +31,7 @@ func _on_visibility_changed():
 		get_node("StaticBody/CollisionShape").disabled = true
 
 func get_textures(tile):
-	heightmap = tile.get_geoimage("heightmap")
+	heightmap = tile.get_geoimage("heightmap2")
 
 	if heightmap:
 		heightmap_img = heightmap.get_image()

@@ -59,3 +59,7 @@ func _ready():
 		# up our physics to 90fps to get in sync with our rendering
 		Engine.iterations_per_second = 90
 
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		arvr_interface.uninitialize()

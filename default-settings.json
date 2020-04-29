@@ -3,25 +3,25 @@
         "version": "v0.5.0-dev",
         "usage": "debug"
     },
-    
+
     "server": {
         "ip": "141.244.151.130",
         "port": 80,
         "prefix": "/landscapelab-dev"
     },
-    
+
     "filesystem": {
         "geodata-path": ""
     },
-    
+
     "lod": {
-    
+
         "level-0-tile-size": 9783.93962,
         "level-0-osm-zoom": 12,
         "default-tile-subdivision": 32,
         "update-interval-seconds": 0.2,
         "world-shift-distance": 1000,
-        "tile-spawn-radius": 6,
+        "tile-spawn-radius": 2,
         "tile-removal-check-radius-summand": 2,
         "distances": [
             7000,
@@ -36,27 +36,27 @@
         ],
         "module-path": "res://World/LODTerrain/Modules",
     "modules": [
-            ["TerrainModule.tscn", "TerrainColliderModule.tscn", "Debug/DebugInfoModule.tscn"],
-            ["-TerrainModule.tscn", "MediumTerrainModule.tscn"],
+            ["TerrainModule.tscn", "TerrainColliderModule.tscn", "Debug/DebugInfoModule.tscn", "TopomapModule.tscn"],
+            ["Vegetation/LargeTreeModule.tscn"],
             [],
             [],
-            ["WaterModule.tscn", "Vegetation/LargeTreeModule.tscn", "-MediumTerrainModule.tscn", "DetailedTerrainModule.tscn"],
+            ["WaterModule.tscn", "-TerrainModule.tscn", "DetailedTerrainModule.tscn"],
             ["Vegetation/SmallTreeModule.tscn"],
             ["Vegetation/LargeBushModule.tscn"],
             ["Vegetation/SmallBushModule.tscn"],
             ["Vegetation/HerbageModule.tscn"]
-        ],	
+        ],
         "player-bounding-radius": 10000
     },
 
     "terrain-collider": {
         "collision-mesh-subdivision": 8
     },
-    
+
     "mouse-point": {
         "camera-ray-length": 20000
     },
-    
+
     "herbage": {
         "density-at-lod": {
             "3": 0.15,
@@ -90,7 +90,7 @@
         "fog-end": 20000,
         "sun-intensity-factor": 1.8
     },
-    
+
     "player": {
         "walk-speed-min": 1,
         "walk-speed-max": 120,
@@ -112,7 +112,7 @@
         "view-distance": 30000,
         "fov": 70
     },
-    
+
     "water": {
         "water-splat-id": 60
     },
@@ -120,7 +120,7 @@
     "caching-images": {
         "default-flags": 12
     },
-    
+
     "minimap": {
         "height": 20000,
         "size": 9000,
@@ -128,16 +128,16 @@
         "zoom_max": 20000,
         "zoom_min": 100
     },
-    
+
     "minimap-icons": {
         "scale_factor_small": 0.05,
         "scale_factor_big": 0.025
     },
-    
+
     "tracking": {
         "interval": 1
     },
-    
+
     "logger": {
         "max-messages-in-stream": 20,
         "default-level": 0

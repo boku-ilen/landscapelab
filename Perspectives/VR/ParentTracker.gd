@@ -18,6 +18,11 @@ func _ready():
 	GlobalSignal.connect("tracking_start", self, "start_tracking", [], CONNECT_DEFERRED)
 	GlobalSignal.connect("tracking_pause", self, "toggle_pause_tracking", [], CONNECT_DEFERRED)
 	GlobalSignal.connect("tracking_stop", self, "stop_tracking", [], CONNECT_DEFERRED)
+	
+	tracking_timer.set_autostart(true)
+	tracking_timer.set_one_shot(false)
+	tracking_timer.set_wait_time(0.1)
+	tracking_timer.process_mode = 1
 
 
 # Start saving data with the current Session id
@@ -72,15 +77,15 @@ func open_tracking_file(filename):
 	line.append("Roll")
 	
 	file.store_csv_line(line)
-	
-	tracking_timer.connect("timeout", self, "write_to_tracking_file")
+
+	get_node("TrackingTimer").connect("timeout", self, "write_to_tracking_file")
 
 
 # Close the CSV file and stop saving data into it
 func close_tracking_file():
 	file.close()
 	
-	tracking_timer.disconnect("timeout", self, "write_to_tracking_file")
+	get_node("TrackingTimer").disconnect("timeout", self, "write_to_tracking_file")
 
 
 # Write a line of tracking data into the CSV

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Perspectives/PerspectiveHandler.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/ViewportContainer.gd" type="Script" id=2]
@@ -6,6 +6,14 @@
 [ext_resource path="res://Perspectives/WireframeSupportingViewport.gd" type="Script" id=4]
 [ext_resource path="res://UI/MiniView/MiniView.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Perspectives/Marker/PlayerPositionMarker.tscn" type="PackedScene" id=6]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=7]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
 [node name="PerspectiveHandler" type="Node"]
 script = ExtResource( 1 )
@@ -40,9 +48,35 @@ margin_bottom = 1066.0
 margin_right = 1814.0
 margin_bottom = 1016.0
 
-[node name="HBoxRight" parent="ViewportContainer/MarginContainer/MainUI/MainUI/Top Menu Bar" index="0"]
-margin_left = 1668.0
+[node name="HBoxContainer" parent="ViewportContainer/MarginContainer/MainUI/MainUI/Top Menu Bar" index="0"]
+margin_bottom = 1016.0
+
+[node name="VBoxContainer" parent="ViewportContainer/MarginContainer/MainUI/MainUI/Top Menu Bar/HBoxContainer" index="0"]
+margin_bottom = 1016.0
+
+[node name="HBoxRight" parent="ViewportContainer/MarginContainer/MainUI/MainUI/Top Menu Bar" index="1"]
+margin_left = 1734.0
 margin_right = 1814.0
+margin_bottom = 72.0
+
+[node name="VBox" parent="ViewportContainer/MarginContainer/MainUI/MainUI/Top Menu Bar/HBoxRight" index="0"]
+margin_right = 80.0
+margin_bottom = 72.0
+
+[node name="Top" parent="ViewportContainer/MarginContainer/MainUI/MainUI/Top Menu Bar/HBoxRight/VBox" index="0"]
+margin_right = 80.0
+margin_bottom = 72.0
+
+[node name="VR" parent="ViewportContainer/MarginContainer/MainUI/MainUI/Top Menu Bar/HBoxRight/VBox/Top" index="0"]
+material = SubResource( 1 )
+margin_right = 72.0
+margin_bottom = 72.0
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Settings" parent="ViewportContainer/MarginContainer/MainUI/MainUI/Top Menu Bar/HBoxRight/VBox/Top" index="1"]
+margin_left = 80.0
+margin_right = 80.0
+margin_bottom = 72.0
 
 [node name="ValuesOffset" parent="ViewportContainer/MarginContainer/MainUI/MainUI" index="1"]
 margin_right = 1814.0
@@ -50,6 +84,7 @@ margin_bottom = 1016.0
 
 [node name="Values" parent="ViewportContainer/MarginContainer/MainUI/MainUI/ValuesOffset" index="0"]
 margin_top = 716.0
+margin_right = 638.0
 margin_bottom = 1016.0
 
 [node name="DebugSettings" parent="ViewportContainer/MarginContainer/MainUI/MainUI" index="2"]
@@ -79,7 +114,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 1278.0
-margin_top = 580.0
+margin_top = 558.0
 margin_right = 1910.0
 margin_bottom = 1070.0
 

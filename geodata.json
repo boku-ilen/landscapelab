@@ -1,26 +1,31 @@
 {
+    "base-directory": "",
     "orthophoto": {
-        "name": "austria/orthophoto",
+      "name": "C:/boku/landscapelab-server/landscapelab/geodata/orthofoto",
         "type": "jpg"
     },
     "topomap": {
-        "name": "austria/opentopomap",
+        "name": "C:/boku/landscapelab-server/landscapelab/geodata/opentopomap",
         "type": "png"
     },
     "heightmap": {
-        "name": "austria/austria-heights",
+        "name": "C:/boku/landscapelab-server/landscapelab/geodata/austria_heights",
+        "type": "tif"
+    },
+    "heightmap2": {
+        "name": "C:/boku/landscapelab-server/landscapelab/geodata/austria_heights2",
         "type": "tif"
     },
     "land-use": {
-        "name": "austria/sentinel-invekos-bytes",
+        "name": "C:/boku/landscapelab-server/landscapelab/geodata/sentinel-invekos-bytes",
         "type": "tif"
     },
     "infrastructure": {
-        "name": "austria/streets/2_linknetz_ogd_WM",
+        "name": "C:/boku/landscapelab-server/landscapelab/geodata/streets/2_linknetz_ogd_WM",
         "type": "shp"
     },
     "power-poles": {
-        "name": "austria/power/power_poles_and_towers_level_code",
+        "name": "C:/boku/landscapelab-server/landscapelab/geodata/power-poles/power_poles_and_towers_level_code",
         "type": "shp"
     },
     "vegetation-data": {

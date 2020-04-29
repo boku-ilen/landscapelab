@@ -46,15 +46,17 @@ margin_bottom = 40.0
 
 [node name="ZoomOut" parent="ViewportContainer/HBoxContainer" instance=ExtResource( 3 )]
 material = SubResource( 1 )
-margin_right = 57.0
-margin_bottom = 57.0
+margin_right = 72.0
+margin_bottom = 72.0
 texture_normal = ExtResource( 4 )
 texture_name = "minus"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="ZoomIn" parent="ViewportContainer/HBoxContainer" instance=ExtResource( 3 )]
 material = SubResource( 2 )
-margin_left = 65.0
-margin_right = 122.0
-margin_bottom = 57.0
+margin_left = 80.0
+margin_right = 152.0
+margin_bottom = 72.0
 texture_normal = ExtResource( 5 )
 texture_name = "plus"
+default_color = Color( 0, 0, 0, 1 )

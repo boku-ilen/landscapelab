@@ -10,7 +10,9 @@ func _ready() -> void:
 	# If the timer times out, this phase ends, even if no selection was made
 	timer.connect("timeout", self, "done")
 	
-	var minimap = get_node("FirstPersonVR/Right/Tip/MinimapVR")
+	var parent = get_parent()
+	var minimap = get_parent().get_node("PlayerVR/Right/Tip/MinimapVR")
+	assert(minimap != null)
 	if minimap:
 		minimap.map_ui.done_button.connect("pressed", self, "done", [], CONNECT_DEFERRED)
 	

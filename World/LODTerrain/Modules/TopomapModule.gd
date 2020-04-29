@@ -9,7 +9,7 @@ func init(data=null):
 	
 	mesh.mesh = tile.create_tile_plane_mesh()
 	
-	var topo = tile.get_texture("topomap")
+	var topo = tile.get_texture("orthophoto")
 	mesh.material_override.albedo_texture = topo
 	
 	_done_loading()
