@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://World/LODTerrain/TileHandler.tscn" type="PackedScene" id=1]
 [ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=2]
@@ -6,9 +6,11 @@
 [ext_resource path="res://World/WorldShifting/SpatialShiftingHandler.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Power/LowVoltagePowerPole.tscn" type="PackedScene" id=5]
 [ext_resource path="res://World/WorldShifting/PathShiftingHandler.tscn" type="PackedScene" id=6]
+[ext_resource path="res://World/LODTerrain/TerrainScene/Terrain.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Power/HighVoltagePowerLine.tscn" type="PackedScene" id=8]
 
 [node name="Terrain" type="Spatial"]
+script = ExtResource( 7 )
 
 [node name="TileHandler" parent="." instance=ExtResource( 1 )]
 
