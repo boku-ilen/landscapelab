@@ -79,7 +79,7 @@ vec2 get_relative_pos_with_blending(vec2 raw_pos, float dist) {
 
 // Gets the absolute height at a given pos without taking the skirt into account
 float get_height_no_falloff(vec2 pos) {
-	return texture(heightmap, get_relative_pos(pos)).r;
+	return texture(heightmap, get_relative_pos(pos)).r * 1.3;
 }
 
 // Gets the required height of the vertex, including the skirt around the edges (the outermost vertices are set to y=0 to allow seamless transitions between tiles)
