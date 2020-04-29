@@ -2,55 +2,64 @@ extends KinematicBody
 class_name AbstractPlayer
 
 var has_moved : bool = true
-export var is_main_perspective : bool
 export var is_vr_perspective : bool = false
 
 var dragging : bool = false
 var rotating : bool = false
 
 var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
+var terrain_node: Node setget set_terrain_node
 
 
-func _ready():
+func set_terrain_node(node):
 	# TODO: We should not need this here, the new ShiftingSpatial group should
 	#  take care of that. However, for some reason, it doesn't work for the
 	#  player...
-	Offset.connect("shift_world", self, "shift")
-	
-	if is_main_perspective:
-		PlayerInfo.is_main_active = true
 
+	terrain_node = node
+	terrain_node.connect("shift_world", self, "shift")
 
-# Handles notifications sent by the engine
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		# Destructor-like
-		if is_main_perspective:
-			PlayerInfo.is_main_active = false
-	elif what == NOTIFICATION_PATH_CHANGED or what == NOTIFICATION_READY:
-		# If the node path has changed or it has just been instanced, we may be in a
-		#  new viewport - make sure it's setup correctly
-		if is_vr_perspective:
-			logger.debug("Setting up viewport for VR")
-			
-			get_viewport().hdr = false
-			get_viewport().arvr = true
-		else:
-			logger.debug("Setting up viewport for PC")
-			
-			get_viewport().hdr = true
-			get_viewport().arvr = false
+func _ready():
+	if is_vr_perspective:
+		logger.debug("Setting up viewport for VR")
 
-
-func _physics_process(delta):
-	if has_moved and is_main_perspective:
-		PlayerInfo.update_player_pos(translation)
-		PlayerInfo.update_player_look_direction(-(get_node("Head/Camera").global_transform.basis.z))
-		has_moved = false
+		get_viewport().hdr = false
+		get_viewport().arvr = true
 	else:
-		if PlayerInfo.is_follow_enabled:
-			translation.x = PlayerInfo.get_engine_player_position().x
-			translation.z = PlayerInfo.get_engine_player_position().z
+		logger.debug("Setting up viewport for PC")
+		
+		var test = get_viewport()
+		
+		get_viewport().hdr = true
+		get_viewport().arvr = false
+
+
+## Handles notifications sent by the engine
+#func _notification(what):
+#	if what == NOTIFICATION_PATH_CHANGED or what == NOTIFICATION_READY:
+#		# If the node path has changed or it has just been instanced, we may be in a
+#		#  new viewport - make sure it's setup correctly
+#		if is_vr_perspective:
+#			logger.debug("Setting up viewport for VR")
+#
+#			get_viewport().hdr = false
+#			get_viewport().arvr = true
+#		else:
+#			logger.debug("Setting up viewport for PC")
+#
+#			get_viewport().hdr = true
+#			get_viewport().arvr = false
+
+
+#func _physics_process(delta):
+#	if has_moved:
+#		PlayerInfo.update_player_pos(translation)
+#		PlayerInfo.update_player_look_direction(-(get_node("Head/Camera").global_transform.basis.z))
+#		has_moved = false
+#	else:
+#		if PlayerInfo.is_follow_enabled:
+#			translation.x = PlayerInfo.get_engine_player_position().x
+#			translation.z = PlayerInfo.get_engine_player_position().z
 
 
 func _unhandled_input(event):
