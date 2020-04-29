@@ -51,7 +51,7 @@ func _process(delta):
 	time_passed += delta
 	
 	if time_passed > 2.0 and not load_thread.is_active() \
-			and (previous_origin - global_transform.origin).length() > 100.0:
+			and (previous_origin - global_transform.origin).length() > rows * spacing / 2.0:
 		time_passed = 0.0
 		previous_origin = global_transform.origin
 		
