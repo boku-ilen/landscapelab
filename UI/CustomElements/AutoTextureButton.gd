@@ -53,6 +53,16 @@ func set_rotation_degrees(degrees: float):
 	set_rotation_radians(deg2rad(degrees))
 
 
+# Overwritten default set_disabled function to also set the corresponding color
+func set_disabled(new_disabled: bool):
+	.set_disabled(new_disabled)
+	
+	if new_disabled:
+		_set_color(disabled_color)
+	else:
+		_set_color(default_color)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	connect("mouse_entered", self, "_mouse_entered")

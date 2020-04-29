@@ -8,6 +8,7 @@ class_name WorldTile
 # The tiles are controlled via the TileHandler.
 #
 
+
 # Scenes
 var module_handler_scene = preload("res://World/LODTerrain/WorldTile/ModuleHandler.tscn")
 
@@ -31,10 +32,19 @@ const NUM_CHILDREN = 4 # Number of children, will likely always stay 4 because i
 
 var top_level: WorldTile = self # The top-level-tile of the tree this tile is in
 
+# Allows caching textures so they can easily be used my multiple modules (e.g. heightmap)
+var texture_cache = {}
+var texture_cache_mutex = Mutex.new()
+
+var geoimage_cache = {}
+var geoimage_cache_mutex = Mutex.new()
+
 # Settings
 var max_lods = Settings.get_setting("lod", "distances")
 var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
 var subdiv : int = Settings.get_setting("lod", "default-tile-subdivision")
+
+var handler_node
 
 # Signals
 signal tile_done_loading # Emitted once all modules have finished loading -> the tile is ready
@@ -55,24 +65,27 @@ func _ready():
 	
 	created = true
 	
-	var module_handler = module_handler_scene.instance()
+	handler_node = module_handler_scene.instance()
 	
-	module_handler.connect("all_modules_done_loading", self, "_on_module_handler_done", [module_handler], CONNECT_DEFERRED)
+	handler_node.connect("all_modules_done_loading", self, "_on_module_handler_done")
 	
 	# Uncomment/comment to toggle threaded loading
-	#module_handler.init([self])
-	thread_task(module_handler, "init", [self])
+	handler_node.init([self])
+	#thread_task(module_handler, "init", [self])
 
 
-func _on_module_handler_done(array_with_handler):
-	add_child(array_with_handler)
-	
-	# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
-	#  (which has no other tile parent)
-	_emit_split_in_toplevel_tile()
+func _on_module_handler_done():
+	done_loading = true
 
 
 func _process(delta):
+	if done_loading and not has_node("ModuleHandler"):
+		add_child(handler_node)
+		
+		# Since new terrain is now displayed, we want to emit the 'split' signal in the topmost tile
+		#  (which has no other tile parent)
+		_emit_split_in_toplevel_tile()
+	
 	# If this tile is flagged to be deleted, all threads are done and all children are done deleting
 	# as well, delete this tile!
 	if done_loading and to_be_deleted and children.get_child_count() == 0:
@@ -208,6 +221,16 @@ func get_position_on_ground(var pos : Vector3):
 	return Vector3(pos.x, get_height_at_position(pos), pos.z)
 
 
+func get_normal_on_ground(pos):
+	var used_tile = get_leaf_tile(pos)
+	
+	# If there is no TerrainColliderModule here, return 0
+	if not used_tile.has_node("ModuleHandler/TerrainColliderModule"):
+		return Vector3.UP
+	
+	return used_tile.get_node("ModuleHandler/TerrainColliderModule").get_normal_at_position(pos)
+
+
 # Returns the child closest to the given position, or null if this is already a leaf tile, by going a step down the
 # quad-tree.
 func get_child_for_position(var pos : Vector3):
@@ -241,7 +264,14 @@ func get_leaf_tile(var pos : Vector3):
 # Returns the world position of the tile - used for server requests
 # TODO: Actual server requests require -z because coordinates are stored differently in Godot -> separate function?
 func get_true_position():
-	return Offset.to_world_coordinates(global_transform.origin)
+	var node = self
+	var t = transform
+	
+	while node != top_level:
+		node = node.get_parent()
+		t *= node.transform
+	
+	return Offset.to_world_coordinates(t.origin)
 
 
 # Returns the OSM zoom level that corresponds to this tile - used for server requests
@@ -263,9 +293,9 @@ func activate():
 	
 	# Check whether this is a high LOD tile which needs to converge
 	if done_loading:
-		if lod > 0 and dist_to_player > max_lods[lod]:
+		if lod > 0 and dist_to_player > max_lods[lod - 1]:
 			converge()
-		elif lod < max_lods.size() - 1 and dist_to_player < max_lods[lod]:
+		elif lod < max_lods.size() and dist_to_player < max_lods[lod]:
 			split(dist_to_player)
 
 
@@ -323,7 +353,50 @@ func get_dist_to_player():
 	clamped.z = clamp(player_pos.z, origin.y, end.y)
 
 	return Vector2(player_pos.x, player_pos.z).distance_to(Vector2(clamped.x, clamped.z))
+
+
+func get_geoimage(name, interpolation=1):
+	geoimage_cache_mutex.lock()
 	
+	if geoimage_cache.has(name):
+		geoimage_cache_mutex.unlock()
+		return geoimage_cache.get(name)
+	else:
+		var true_pos = get_true_position()
+		var full_path = GeodataPaths.get_absolute(name)
+		var ending = GeodataPaths.get_type(name)
+		
+		var geoimg = Geodot.get_image(
+			full_path,
+			ending,
+			-true_pos[0] - size / 2,
+			true_pos[2] + size / 2,
+			size,
+			256,
+			interpolation
+		)
+		
+		geoimage_cache[name] = geoimg
+		geoimage_cache_mutex.unlock()
+		
+		return geoimg
+
+
+func get_texture(name, interpolation=1):
+	texture_cache_mutex.lock()
+	
+	if texture_cache.has(name):
+		texture_cache_mutex.unlock()
+		return texture_cache.get(name)
+	else:
+		var geoimg = get_geoimage(name, interpolation)
+		var tex = geoimg.get_image_texture()
+		
+		texture_cache[name] = tex
+		texture_cache_mutex.unlock()
+		
+		return tex
+
 
 # Builds a request in the form of "/url_start/meter_x/meter_y/zoom.json" and returns the result, if it is valid.
 func get_texture_result(url_start):
@@ -336,7 +409,7 @@ func get_texture_result(url_start):
 		return null
 		
 	return result
-	
+
 
 # Add a function call to the ThreadPool at an appropriate priority based on the distance of
 #  this tile to the player.
@@ -360,4 +433,4 @@ func thread_task(object, function, arguments):
 	else:
 		priority = 0.0
 	
-	ThreadPool.enqueue_task(ThreadPool.Task.new(object, function, arguments), priority)
+	ThreadPool.enqueue_task(ThreadPool.Task.new(object, function, arguments), 100.0)

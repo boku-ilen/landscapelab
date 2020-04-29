@@ -1,8 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Util/Tooltip3D.gd" type="Script" id=1]
-[ext_resource path="res://Resources/Images/UI/MapIcons/pv_icon.png" type="Texture" id=2]
+[ext_resource path="res://Resources/Icons/ClassicLandscapeLab/pv_icon.png" type="Texture" id=2]
 [ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=3]
+
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_unshaded = true

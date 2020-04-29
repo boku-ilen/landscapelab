@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
 [ext_resource path="res://UI/CustomElements/SignalAutoTextureButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/vr.svg" type="Texture" id=4]
+[ext_resource path="res://UI/DebugInfo/DebugOverlay.gd" type="Script" id=5]
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://UI/ValuesMenu/ValuesMenu.tscn" type="PackedScene" id=19]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
@@ -45,6 +46,17 @@ grow_vertical = 2
 mouse_filter = 2
 alignment = 1
 
+[node name="HBoxContainer" type="HBoxContainer" parent="MainUI/Top Menu Bar"]
+margin_bottom = 980.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainUI/Top Menu Bar/HBoxContainer"]
+margin_bottom = 980.0
+
+[node name="DebugOverlay" type="Label" parent="MainUI/Top Menu Bar/HBoxContainer/VBoxContainer"]
+visible = false
+margin_bottom = 25.0
+script = ExtResource( 5 )
+
 [node name="HBoxRight" type="HBoxContainer" parent="MainUI/Top Menu Bar"]
 margin_left = 1779.0
 margin_right = 1844.0
@@ -69,6 +81,7 @@ margin_bottom = 57.0
 material = SubResource( 1 )
 margin_right = 57.0
 margin_bottom = 57.0
+toggle_mode = true
 texture_normal = ExtResource( 4 )
 texture_name = "vr"
 signal_pressed = "vr_enable"
@@ -108,7 +121,7 @@ margin_bottom = 902.0
 rect_min_size = Vector2( 300, 0 )
 
 [node name="ToolsOffset" type="MarginContainer" parent="."]
-margin_left = -430.0
+margin_left = -385.0
 margin_top = 433.0
 margin_right = 34.0
 margin_bottom = 1024.0

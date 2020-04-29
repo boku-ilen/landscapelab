@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/godot-openvr/OpenVRPose.gdns" type="Script" id=1]
+[ext_resource path="res://addons/vr-toolkit/Controller/ARVRController.gd" type="Script" id=2]
+
+[node name="Controller1" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="Base" type="Spatial" parent="."]
+script = ExtResource( 1 )
+action = "/actions/godot_ingame/in/base_pose"
+on_hand = 1
+
+[node name="Raw" type="Spatial" parent="."]
+script = ExtResource( 1 )
+action = "/actions/godot_ingame/in/raw_pose"
+on_hand = 1
+
+[node name="Grip" type="Spatial" parent="."]
+script = ExtResource( 1 )
+action = "/actions/godot_ingame/in/grip_pose"
+on_hand = 1
+
+[node name="Tip" type="Spatial" parent="."]
+script = ExtResource( 1 )
+action = "/actions/godot_ingame/in/tip_pose"
+on_hand = 1

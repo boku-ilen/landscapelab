@@ -85,10 +85,10 @@ func _setup():
 		var icon : Texture
 		if asset_type_name == "Wind Turbine":
 			# TODO: rename the icons for easy dynamic loading
-			icon = load("res://Resources/Images/UI/MapIcons/windmill_icon.png")
+			icon = load("res://Resources/Icons/ClassicLandscapeLab/windmill_icon.png")
 			asset_type_label.set_text(tr("WINDTURBINE"))
 		elif asset_type_name == "Photovoltaic Plant":
-			icon = load("res://Resources/Images/UI/MapIcons/pv_icon.png")
+			icon = load("res://Resources/Icons/ClassicLandscapeLab/pv_icon.png")
 			asset_type_label.set_text(tr("PV"))
 		
 		asset_type_image.set_texture(icon)

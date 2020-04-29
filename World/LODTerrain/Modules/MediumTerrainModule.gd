@@ -14,8 +14,7 @@ func get_textures(tile, mesh):
 
 
 func get_splatmap(tile, mesh):
-	var splat_result = tile.get_texture_result("vegetation")
-	var splatmap = CachingImageTexture.get(splat_result.get("path_to_splatmap"), 0)
+	var splatmap = tile.get_texture("land-use", 6)
 	
 	mesh.material_override.set_shader_param("splat", splatmap)
 	mesh.material_override.set_shader_param("fake_forests", true)

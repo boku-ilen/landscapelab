@@ -4,7 +4,7 @@
 [ext_resource path="res://Perspectives/PC/SettingsCamera.gd" type="Script" id=2]
 [ext_resource path="res://Perspectives/PC/MousePoint.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Resources/Images/UI/MapIcons/MapCursor.png" type="Texture" id=5]
+[ext_resource path="res://Resources/Icons/ClassicLandscapeLab/map_cursor.svg" type="Texture" id=5]
 
 [sub_resource type="SphereShape" id=1]
 radius = 10.0

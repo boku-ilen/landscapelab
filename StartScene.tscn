@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Resources/Images/UI/StartScreen/startscreen.png" type="Texture" id=1]
-[ext_resource path="res://Resources/Images/UI/StartScreen/austria.png" type="Texture" id=2]
+[ext_resource path="res://Resources/Textures/StartScreen/startscreen.png" type="Texture" id=1]
+[ext_resource path="res://Resources/Textures/StartScreen/austria.png" type="Texture" id=2]
 [ext_resource path="res://UI/StartMenu/StartMenuUI.tscn" type="PackedScene" id=3]
 
 [node name="StartScene" type="Node"]
@@ -29,7 +29,7 @@ texture = ExtResource( 2 )
 expand = true
 
 [node name="StartMenuUI" parent="." instance=ExtResource( 3 )]
-margin_left = 654.783
-margin_top = -184.063
-margin_right = 654.783
-margin_bottom = -184.063
+margin_left = 737.413
+margin_top = -59.2388
+margin_right = 737.413
+margin_bottom = -59.2388

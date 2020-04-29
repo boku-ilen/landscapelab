@@ -1,22 +1,25 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
 [ext_resource path="res://Materials/Shaders/HeightmapMesh.shader" type="Shader" id=1]
+[ext_resource path="res://Resources/Textures/ShaderUtil/rgb_noise.png" type="Texture" id=2]
 
 [resource]
 resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/water_splat_id = null
-shader_param/detail_start_dist = null
+shader_param/detail_start_dist = 2000.0
 shader_param/vegetation_id1 = null
 shader_param/vegetation_id2 = null
-shader_param/vegetation_id3 = null
 shader_param/tex_factor = 0.5
 shader_param/texture_blending_amount = 25.0
 shader_param/random_offset_vectors_scale = 2.5
 shader_param/has_overlay = null
-shader_param/blend_only_similar_colors = false
+shader_param/fake_forests = null
+shader_param/forest_height = null
+shader_param/blend_only_similar_colors = true
 shader_param/subdiv = 16.0
 shader_param/size = 16.0
 shader_param/size_without_skirt = 16.0
 shader_param/RADIUS = 6.371e+06
 shader_param/clay_rendering = false
+shader_param/random_offset_vectors = ExtResource( 2 )

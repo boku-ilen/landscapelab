@@ -11,3 +11,7 @@ Development Setup
 * Run the main scene
 
 we currently dont provide a executable runtime package
+
+## Credits
+
+A build of our [Geodot plugin](https://github.com/boku-ilen/geodot-plugin) is included, along with the required GDAL library. All credits for GDAL go to [OSGeo/gdal](https://github.com/OSGeo/gdal/) ([license](https://raw.githubusercontent.com/OSGeo/gdal/master/gdal/LICENSE.TXT)).

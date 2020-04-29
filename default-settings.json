@@ -11,18 +11,17 @@
     },
     
     "filesystem": {
-	"local-resources-path": "",
-        "grid-graphics-path": ""
+        "geodata-path": ""
     },
     
     "lod": {
     
         "level-0-tile-size": 9783.93962,
         "level-0-osm-zoom": 12,
-        "default-tile-subdivision": 32,
+        "default-tile-subdivision": 128,
         "update-interval-seconds": 0.2,
         "world-shift-distance": 1000,
-        "tile-spawn-radius": 6,
+        "tile-spawn-radius": 1,
         "tile-removal-check-radius-summand": 2,
         "distances": [
             7000,
@@ -37,21 +36,21 @@
         ],
         "module-path": "res://World/LODTerrain/Modules",
     "modules": [
-            ["TerrainModule.tscn", "TerrainColliderModule.tscn", "Debug/DebugInfoModule.tscn"],
-            ["-TerrainModule.tscn", "MediumTerrainModule.tscn"],
+            ["TerrainModule.tscn"],
+            ["TerrainColliderModule.tscn"],
             [],
             [],
-            ["WaterModule.tscn", "Vegetation/LargeTreeModule.tscn", "-MediumTerrainModule.tscn", "DetailedTerrainModule.tscn"],
-            ["Vegetation/SmallTreeModule.tscn"],
-            ["Vegetation/LargeBushModule.tscn"],
-            ["Vegetation/SmallBushModule.tscn"],
-            ["Vegetation/HerbageModule.tscn"]
+            ["WaterModule.tscn", "-TerrainModule.tscn", "DetailedTerrainModule.tscn"],
+            [],
+            [],
+            [],
+            []
         ],	
         "player-bounding-radius": 10000
     },
 
     "terrain-collider": {
-        "collision-mesh-subdivision": 32
+        "collision-mesh-subdivision": 8
     },
     
     "mouse-point": {
@@ -102,7 +101,7 @@
         "fly-speed-sneak": 100,
         "mouse-sensitivity": 0.1,
         "view-distance": 10000,
-        "fov": 25
+        "fov": 70
     },
 
     "third-person": {

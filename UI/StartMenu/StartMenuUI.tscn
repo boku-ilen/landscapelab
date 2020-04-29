@@ -7,53 +7,80 @@
 [node name="StartMenuUI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -1.16626
-margin_top = 2.27197
-margin_right = -1.16626
-margin_bottom = 2.27197
+margin_right = -1920.0
+margin_bottom = -1080.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -960.0
-margin_top = -100.0
-margin_right = 960.0
-margin_bottom = 100.0
-mouse_filter = 2
-custom_constants/margin_right = 700
-custom_constants/margin_top = 0
-custom_constants/margin_left = 700
-custom_constants/margin_bottom = 0
+margin_left = -137.5
+margin_top = -290.5
+margin_right = 137.5
+margin_bottom = 290.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-margin_left = 700.0
-margin_right = 1220.0
-margin_bottom = 242.0
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 261.0
+margin_bottom = 567.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-margin_right = 520.0
-margin_bottom = 242.0
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+margin_right = 247.0
+margin_bottom = 553.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_right = 520.0
+[node name="AreaLabel" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+margin_right = 247.0
 margin_bottom = 34.0
 custom_fonts/font = ExtResource( 2 )
 text = "Choose an area:"
 
-[node name="ItemList" type="ItemList" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="AreaList" type="ItemList" parent="PanelContainer/HBoxContainer/VBoxContainer"]
 margin_top = 42.0
-margin_right = 520.0
+margin_right = 247.0
 margin_bottom = 242.0
 rect_min_size = Vector2( 0, 200 )
 custom_fonts/font = ExtResource( 3 )
 allow_reselect = true
 max_text_lines = 2
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+margin_top = 250.0
+margin_right = 247.0
+margin_bottom = 258.0
+
+[node name="GameModeLabel" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+margin_top = 266.0
+margin_right = 247.0
+margin_bottom = 300.0
+custom_fonts/font = ExtResource( 2 )
+text = "Choose a game mode:"
+
+[node name="GameModeList" type="ItemList" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+margin_top = 308.0
+margin_right = 247.0
+margin_bottom = 508.0
+rect_min_size = Vector2( 0, 200 )
+custom_fonts/font = ExtResource( 3 )
+allow_reselect = true
+max_text_lines = 2
+
+[node name="Button" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+margin_top = 516.0
+margin_right = 247.0
+margin_bottom = 553.0
+text = "Enter LandscapeLab"

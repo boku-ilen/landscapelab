@@ -129,6 +129,15 @@ func get_ground_coords(pos):
 		return pos
 
 
+func get_ground_normal(pos):
+	var grid_pos = absolute_to_grid(Offset.to_world_coordinates(pos))
+	
+	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
+		return tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_normal_on_ground(pos)
+	else:
+		return Vector3.UP
+
+
 # Puts an instanced scene on the ground at a certain position using the heightmap of that tile
 func put_on_ground(instanced_scene, pos):
 	# TODO: The offset seems not to be handled completely properly, it seems slightly off sometimes

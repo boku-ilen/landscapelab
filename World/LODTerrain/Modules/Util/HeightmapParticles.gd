@@ -63,6 +63,7 @@ func set_mesh(mesh):
 # Emit the particles. Since this particle system is one-shot, this needs to be done
 #  after all parameters have been set.
 func emit():
+	PerformanceTracker.number_of_particles += amount
 	emitting = true
 
 

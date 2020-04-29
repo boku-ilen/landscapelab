@@ -8,13 +8,13 @@ extends Module
 var col_shape
 var heightmap
 var heightmap_img
-var heightmap_data
 var heightmap_size
+var normalmap
 
 var collider_subdivision = Settings.get_setting("terrain-collider", "collision-mesh-subdivision")
 
 
-func init():
+func init(data=null):
 	col_shape = get_node("StaticBody/CollisionShape")
 	
 	connect("visibility_changed", self, "_on_visibility_changed")
@@ -26,35 +26,66 @@ func init():
 # When this node becomes invisible due to higher LOD terrain being active, disable the collider
 func _on_visibility_changed():
 	if is_visible_in_tree():
-		col_shape.disabled = true
+		get_node("StaticBody/CollisionShape").disabled = false
 	else:
-		col_shape.disabled = false
-
+		get_node("StaticBody/CollisionShape").disabled = true
 
 func get_textures(tile):
-	var dhm_response = tile.get_texture_result("raster")
-	if dhm_response and dhm_response.has("dhm"):
-		heightmap = CachingImageTexture.get(dhm_response.get("dhm"), 0)
+	heightmap = tile.get_geoimage("heightmap")
+
+	if heightmap:
+		heightmap_img = heightmap.get_image()
+		heightmap_size = heightmap_img.get_size()
+		normalmap = heightmap.get_normalmap_for_heightmap(0.1)
 		
-		if heightmap:
-			heightmap_img = heightmap.get_data()
-			heightmap_data = heightmap_img.get_data()
-			heightmap_size = heightmap_img.get_size()
-			
-			col_shape.shape = create_tile_collision_shape()
+		col_shape.shape = create_tile_collision_shape()
 	else:
 		logger.warning("Couldn't get heightmap for tile!")
 
 
-# Returns the exact height at the given position using the heightmap image
-func get_height_at_position(var pos):
+func get_normal_at_position(var pos) -> Vector3:
+	var subdiv = max(1, heightmap_size.x / (tile.subdiv + 1))
+		
+	# Scale the position to a pixel position on the image
 	var gtranslation = tile.global_transform.origin
+	var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(gtranslation.x, gtranslation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
+	var pix_pos = pos_scaled * heightmap_size
+	
+	var index = int(pix_pos.y) * normalmap.get_width() + int(pix_pos.x)
+	var normal = Color(normalmap.get_data()[index * 4 + 0], normalmap.get_data()[index * 4 + 1], normalmap.get_data()[index * 4 + 2])
+	
+	# Normal map format according to https://en.wikipedia.org/wiki/Normal_mapping#Interpreting_Tangent_Space_Maps
+	return Vector3(normal.r - 127.5, normal.b - 127.5, normal.g - 127.5) / 127.5
+
+
+# Returns the raw height from the image at the given global position.
+# Raw means that it is the direct pixel value without further modification, like
+#  get_height_at_position does for syncing the returned height with the visible
+#  mesh.
+func _get_raw_height(var pos):
+	var gtranslation = tile.global_transform.origin
+	
+	var subdiv = max(1, heightmap_size.x / (tile.subdiv + 1))
+		
+	# Scale the position to a pixel position on the image
+	var pos_scaled = (Vector2(pos.x, pos.z) - Vector2(gtranslation.x, gtranslation.z) + Vector2(tile.size / 2, tile.size / 2)) / tile.size
+	var pix_pos = pos_scaled * heightmap_size
+	
+	return get_height_from_image(pix_pos)
+
+
+# Returns the height at the given position using the heightmap image, which
+#  corresponds to the visible height as closely as possible.
+func get_height_at_position(var pos):
+	# If this module isn't visible, act as if it does not exist and return 0
+	if not is_visible_in_tree():
+		return 0
 	
 	if not heightmap:
 		logger.warning("get_height_at_position was called, but the heightmap was null")
 		return 0
 	
-	if heightmap_data:
+	if heightmap_img:
 		# TODO: There is still a slight inconsistency with how the mesh actually looks here.
 		# I believe that this might be because Godot's plane mesh has the triangles like this:
 		#  ___
@@ -64,6 +95,7 @@ func get_height_at_position(var pos):
 		# 
 		# This makes them fold in a particular way which the linear interpolation can't predict.
 		
+		var gtranslation = tile.global_transform.origin
 		var subdiv = max(1, heightmap_size.x / (tile.subdiv + 1))
 		
 		# Scale the position to a pixel position on the image
@@ -104,23 +136,20 @@ func get_height_from_image(pix_pos):
 	pix_pos.x = clamp(pix_pos.x, 0, heightmap_size.x - 1)
 	pix_pos.y = clamp(pix_pos.y, 0, heightmap_size.y - 1)
 	
-	# Reimplemented from https://github.com/godotengine/godot/blob/master/core/image.cpp
-	# The reason is that with this reimplementation, we can directly use the PoolByteArray
-	#  image data instead of having to lock the image to call get_pixel. This results in a
-	#  noticeable performance increase.
-	var offset = int(pix_pos.y) * heightmap_size.x + int(pix_pos.x)
+	# Locking the image and using get_pixel takes about as long as manually
+	#  getting the height from the PoolByteArray data, so this more intuitive
+	#  way is used instead of a custom implementation, as previously.
+	heightmap_img.lock()
+	var height = heightmap_img.get_pixel(pix_pos.x, pix_pos.y).r
+	heightmap_img.unlock()
 	
-	var r = float(heightmap_data[offset * 4 + 0] * pow(2, 16)) / 100
-	var g = float(heightmap_data[offset * 4 + 1] * pow(2, 8)) / 100
-	var b = float(heightmap_data[offset * 4 + 2]) / 100
-	
-	return r + g + b
+	return height * 1.3
 
 
 # Helper function for create_tile_collision_shape - turns x and y coordinates from the loop to a real position.
 func _local_grid_to_coordinates(x, y, size, collider_subdivision):
 	var local_pos = Vector3(-size/2 + (x/collider_subdivision) * size, 0, -size/2 + (y/collider_subdivision) * size)
-	var height = get_height_at_position(tile.global_transform * local_pos)
+	var height = _get_raw_height(tile.global_transform * local_pos)
 	
 	return Vector3(local_pos.x, height, local_pos.z)
 

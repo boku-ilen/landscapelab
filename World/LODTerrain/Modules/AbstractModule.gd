@@ -14,7 +14,7 @@ signal module_done_loading
 
 # Override with the functionality to setup the module.
 # Called in a thread, so blocking tasks can be performed here.
-func init():
+func init(data=null):
 	pass
 
 
