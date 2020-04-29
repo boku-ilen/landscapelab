@@ -12,11 +12,12 @@ class_name ShiftingHandler
 #
 
 export(String) var group_name
+var terrain_node: Node setget set_terrain_node
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	Offset.connect("shift_world", self, "_on_shift_world")
+func set_terrain_node(node) -> void:
+	terrain_node = node
+	terrain_node.connect("shift_world", self, "_on_shift_world")
 
 
 # Implement with this group's shifting behavior.

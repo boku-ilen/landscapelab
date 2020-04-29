@@ -10,8 +10,3 @@ func _handle_shift(spatial, delta_x, delta_z):
 	
 	spatial.translation.x += delta_x
 	spatial.translation.z += delta_z
-	
-	# GroundedSpatials need to know that they were just moved, but don't
-	# need to get a new ground position
-	if spatial is GroundedSpatial:
-		spatial._just_placed_on_ground = true
