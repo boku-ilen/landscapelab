@@ -45,7 +45,8 @@ func _unhandled_input(event):
 				
 				else:
 					var collision_point = cursor.get_collision_point()
-					var global_collision_point = Offset.to_world_coordinates(collision_point)
+					var terrain_node = cursor.get_collider().get_terrain()
+					var global_collision_point = terrain_node.to_world_coordinates(collision_point)
 					
 					# As the server request takes some time we instance a scene for the time we are waiting for a result
 					# - Sucessful: the node will be renamed with the given id of the server
@@ -56,7 +57,7 @@ func _unhandled_input(event):
 					var asset_scene = load("res://Perspectives/PC/ItemSpawner/SpawnedAssetScene.tscn").instance()
 					asset_scene.asset_id = spawned_id
 					asset_scene.global_collision_point = global_collision_point
-					asset_scene.collision_point = WorldPosition.get_position_on_ground(collision_point)
+					asset_scene.collision_point = collision_point
 					# The asset handler's name for a given asset is a string of the assets id 
 					asset_handler_parent.get_node(String(spawned_id)).add_child(asset_scene)
 					
