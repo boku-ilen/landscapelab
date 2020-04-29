@@ -41,7 +41,7 @@ func instantiate_children():
 			child.name = String(cur_name)
 			cur_name += 1
 
-			child.init((tile.size / 2.0), tile.lod + 1)
+			child.init((tile.size / 2.0), tile.lod + 1, tile.terrain_node)
 			
 			child.connect("tile_done_loading", self, "_on_child_done_loading")
 			

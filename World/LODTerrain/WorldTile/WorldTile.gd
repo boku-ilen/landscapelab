@@ -20,9 +20,9 @@ var size : float
 var size_with_skirt : float
 var lod : int
 var offset_from_parent : Vector2
-
 var initialized = false # True when init() was called
 var created = false # True when _ready() is done
+var terrain_node: Node
 
 var has_split = false # True when children are starting to be loaded
 var done_loading = false # True when all modules in this tile have been loaded
@@ -108,9 +108,13 @@ func _process(delta):
 		if has_node("ModuleHandler"):
 			get_node("ModuleHandler").visible = false
 
+
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
-func init(s, lod_level):
+func init(s, lod_level, terrain: Node):
+	# Has to know the terrain in order to get the centered position for LODs
+	terrain_node = terrain
+	
 	size = s
 	lod = lod_level
 	
@@ -235,7 +239,7 @@ func get_normal_on_ground(pos):
 # quad-tree.
 func get_child_for_position(var pos : Vector3):
 	if not is_leaf_tile():
-		var gtranslation = global_transform.origin
+		var gtranslation = get_engine_position()
 		
 		if pos.x > gtranslation.x:
 			if pos.z > gtranslation.z:
@@ -264,6 +268,14 @@ func get_leaf_tile(var pos : Vector3):
 # Returns the world position of the tile - used for server requests
 # TODO: Actual server requests require -z because coordinates are stored differently in Godot -> separate function?
 func get_true_position():
+	return terrain_node.to_world_coordinates(get_engine_position())
+
+
+func get_engine_position():
+	return get_engine_tramsform().origin
+
+
+func get_engine_tramsform():
 	var node = self
 	var t = transform
 	
@@ -271,7 +283,7 @@ func get_true_position():
 		node = node.get_parent()
 		t *= node.transform
 	
-	return Offset.to_world_coordinates(t.origin)
+	return t
 
 
 # Returns the OSM zoom level that corresponds to this tile - used for server requests
@@ -338,21 +350,19 @@ func split(dist_to_player):
 
 
 # Gets the distance of the center of the tile to the last known player location
-func get_dist_to_player():
-	var player_pos = PlayerInfo.get_engine_player_position()
-	
+func get_dist_to_player():	
 	# Get closest point within rectangle to circle
 	var clamped = Vector3()
 	
-	# Has to be global_transform.origin! Weird behaviour otherwise
-	var gtranslation = global_transform.origin
+	# Has to be relative position as in the function
+	var gtranslation = get_engine_position()
 	var origin = Vector2(gtranslation.x - size/2, gtranslation.z - size/2)
 	var end = Vector2(gtranslation.x + size/2, gtranslation.z + size/2)
 	
-	clamped.x = clamp(player_pos.x, origin.x, end.x)
-	clamped.z = clamp(player_pos.z, origin.y, end.y)
+	clamped.x = clamp(terrain_node.center_position.translation.x, origin.x, end.x)
+	clamped.z = clamp(terrain_node.center_position.translation.z, origin.y, end.y)
 
-	return Vector2(player_pos.x, player_pos.z).distance_to(Vector2(clamped.x, clamped.z))
+	return Vector2(terrain_node.center_position.translation.x, terrain_node.center_position.translation.z).distance_to(Vector2(clamped.x, clamped.z))
 
 
 func get_geoimage(name, interpolation=1):
