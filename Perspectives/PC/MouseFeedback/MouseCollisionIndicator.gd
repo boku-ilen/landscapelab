@@ -11,4 +11,4 @@ onready var particle = get_node("Particle")
 
 func _process(delta):
 	if cursor.is_colliding():
-		particle.global_transform.origin = WorldPosition.get_position_on_ground(cursor.get_collision_point())
+		particle.global_transform.origin = cursor.get_collision_point()
