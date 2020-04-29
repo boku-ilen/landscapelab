@@ -13,6 +13,7 @@ var GRIDSIZE = Settings.get_setting("lod", "level-0-tile-size")
 
 onready var tiles = get_node("Tiles")
 onready var assets = get_node("Assets")
+onready var terrain_node = get_parent()
 
 # Every UPDATE_INTERVAL seconds, the world will check what tiles to spawn/activate
 var UPDATE_INTERVAL = Settings.get_setting("lod", "update-interval-seconds")
@@ -55,17 +56,16 @@ func _process(delta):
 	if time_to_interval >= UPDATE_INTERVAL: # Update
 		time_to_interval -= UPDATE_INTERVAL
 		
-		var player_tile = get_tile_at_player()
-		if player_tile == null: return
+		var center_tile = get_tile_at_center()
+		if center_tile == null: return
 		
-		var player_pos = PlayerInfo.get_engine_player_position()
 		
 		# Loop through the entire rectangle (TILE_RADIUS + REMOVAL_RADIUS_SUMMAND)
-		for x in range(player_tile.x - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, player_tile.x + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
-			for y in range(player_tile.y - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, player_tile.y + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
+		for x in range(center_tile.x - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, center_tile.x + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
+			for y in range(center_tile.y - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, center_tile.y + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
 				
-				if (x in range(player_tile.x - TILE_RADIUS, player_tile.x + TILE_RADIUS + 1)
-				and y in range(player_tile.y - TILE_RADIUS, player_tile.y + TILE_RADIUS + 1)):
+				if (x in range(center_tile.x - TILE_RADIUS, center_tile.x + TILE_RADIUS + 1)
+				and y in range(center_tile.y - TILE_RADIUS, center_tile.y + TILE_RADIUS + 1)):
 					# We're in the smaller, spawning radius -> Spawn tiles in here which don't yet exist
 					if not tiles.has_node("%d,%d" % [x, y]):
 						# There is no tile here yet -> spawn the proper tile
@@ -76,8 +76,8 @@ func _process(delta):
 						tiles.get_node("%d,%d" % [x, y]).delete()
 		
 		# Activate 9 tiles closest to player
-		for x in range(player_tile.x - 2, player_tile.x + 3):
-			for y in range(player_tile.y - 2, player_tile.y + 3):
+		for x in range(center_tile.x - 2, center_tile.x + 3):
+			for y in range(center_tile.y - 2, center_tile.y + 3):
 				if tiles.has_node("%d,%d" % [x, y]):
 					tiles.get_node("%d,%d" % [x, y]).activate()
 
@@ -86,9 +86,9 @@ func _process(delta):
 func spawn_tile(pos):
 	var tile_instance = tile.instance()
 	tile_instance.name = "%d,%d" % [pos[0], pos[1]]
-	tile_instance.translation = Offset.to_engine_coordinates([pos[0] * GRIDSIZE + GRIDSIZE/2, 0, pos[1] * GRIDSIZE + GRIDSIZE/2])
+	tile_instance.translation = terrain_node.to_engine_coordinates([pos[0] * GRIDSIZE + GRIDSIZE/2, 0, pos[1] * GRIDSIZE + GRIDSIZE/2])
 	
-	tile_instance.init(GRIDSIZE, 0)
+	tile_instance.init(GRIDSIZE, 0, terrain_node)
 	
 	# These root tiles need to react to world shifting since they are
 	#  responsible for the global position; their children are simply relative
@@ -104,9 +104,9 @@ func absolute_to_grid(abs_pos: Array):
 
 
 # Get the tilegrid coordinates of the tile the player is currently standing on
-func get_tile_at_player():
-	var true_player = PlayerInfo.get_true_player_position()
-	return absolute_to_grid(true_player)
+func get_tile_at_center():
+	var true_center = terrain_node.get_center_position_world()
+	return absolute_to_grid(true_center)
 
 
 # Returns the top-level tile (no tile parent) which is at the given position, or null
@@ -121,7 +121,7 @@ func get_tile_at_position(position: Array):
 
 
 func get_ground_coords(pos):
-	var grid_pos = absolute_to_grid(Offset.to_world_coordinates(pos))
+	var grid_pos = absolute_to_grid(terrain_node.to_world_coordinates(pos))
 	
 	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
 		return tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_position_on_ground(pos)
@@ -130,7 +130,7 @@ func get_ground_coords(pos):
 
 
 func get_ground_normal(pos):
-	var grid_pos = absolute_to_grid(Offset.to_world_coordinates(pos))
+	var grid_pos = absolute_to_grid(terrain_node.to_world_coordinates(pos))
 	
 	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):
 		return tiles.get_node("%d,%d" % [grid_pos.x, grid_pos.y]).get_normal_on_ground(pos)
