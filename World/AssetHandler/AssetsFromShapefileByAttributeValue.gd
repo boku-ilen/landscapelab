@@ -4,6 +4,8 @@ export(String) var attribute_name
 export(Dictionary) var attribute_values_to_assets
 export(PackedScene) var default_asset
 
+var terrain_node: Node
+
 
 func _create_asset_for_geopoint(geopoint):
 	var geopoint_value = geopoint.get_attribute(attribute_name)
@@ -15,7 +17,7 @@ func _create_asset_for_geopoint(geopoint):
 	
 	if asset_to_spawn:
 		var instance = asset_to_spawn.instance()
-		instance.transform.origin = geopoint.get_offset_vector3(Offset.x, 0, -Offset.z)
+		instance.transform.origin = geopoint.get_offset_vector3(terrain_node.x, 0, -terrain_node.z)
 		
 		return instance
 	else:

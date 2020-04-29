@@ -27,6 +27,8 @@ var _all_assets_spawned = true
 
 var time_to_update = 0
 
+var terrain_node: Node
+
 
 func _ready():
 	# Start right now with the first update, or wait for initial_update_delay seconds
@@ -118,7 +120,7 @@ func _spawn_new_assets():
 
 func _server_point_to_engine_pos(server_x, server_y):
 	# Convert the 2D world position received from the server to in-engine 2D coordinates
-	var instance_pos_2d = Offset.to_engine_coordinates([-server_x, server_y])
+	var instance_pos_2d = terrain_node.to_engine_coordinates([-server_x, server_y])
 	
 	# Return as 3D position
 	return Vector3(instance_pos_2d.x, 0, instance_pos_2d.y)
