@@ -6,6 +6,10 @@ export var spacing = 1.0 setget set_spacing, get_spacing
 
 var time_passed = 0
 
+var load_thread = Thread.new()
+
+var previous_origin
+
 func update_aabb():
 	var size = rows * spacing
 	visibility_aabb = AABB(Vector3(-0.5 * size, -1000.0, -0.5 * size), Vector3(size, 10000.0, size))
@@ -33,6 +37,7 @@ func get_spacing():
 func _ready() -> void:
 	set_rows(rows)
 	
+	previous_origin = global_transform.origin
 	var position = Offset.to_world_coordinates(global_transform.origin)
 	update_textures(position)
 	
@@ -41,11 +46,15 @@ func _process(delta):
 	
 	time_passed += delta
 	
-	if time_passed > 5.0:
+	if time_passed > 2.0 and not load_thread.is_active() \
+			and (previous_origin - global_transform.origin).length() > 100.0:
 		time_passed = 0.0
+		previous_origin = global_transform.origin
 		
 		var position = Offset.to_world_coordinates(global_transform.origin)
-		update_textures(position)
+		
+		load_thread.start(self, "update_textures", position)
+
 
 func update_textures(position):
 	var dhm = Geodot.get_image(
@@ -54,7 +63,7 @@ func update_textures(position):
 		-position[0] - rows / 2,
 		position[2] + rows / 2,
 		rows,
-		256,
+		1024,
 		1
 	)
 	
@@ -125,3 +134,9 @@ func update_textures(position):
 	var dist = ImageTexture.new()
 	dist.create_from_image(distribution_sheet, ImageTexture.FLAG_REPEAT)
 	material_override.set_shader_param("distribution_map", dist)
+	
+	call_deferred("_update_done")
+
+
+func _update_done():
+	load_thread.wait_to_finish()
