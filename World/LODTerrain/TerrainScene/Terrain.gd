@@ -1,4 +1,5 @@
 extends Spatial
+class_name Terrain
 
 #
 # This script handles the conversion between engine coordinates (what Godot is using in the game world)
@@ -35,7 +36,7 @@ func _ready():
 	connect("shift_world", self, "_on_shift_world")
 	
 	for child in get_children():
-		if child.get("terrain_node"):
+		if "terrain_node" in child:
 			child.terrain_node = self
 
 
@@ -67,8 +68,6 @@ func check_for_world_shift():
 func _on_shift_world(delta_x : int, delta_z : int):
 	x += delta_x
 	z += delta_z
-	
-	center_position.translation += Vector3(delta_x, 0, delta_z)
 	
 	logger.debug("New offset: %d, %d" % [x, z])
 

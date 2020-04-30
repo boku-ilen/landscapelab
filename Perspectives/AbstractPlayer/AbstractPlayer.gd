@@ -19,6 +19,7 @@ func set_terrain_node(node):
 	terrain_node = node
 	terrain_node.connect("shift_world", self, "shift")
 
+
 func _ready():
 	if is_vr_perspective:
 		logger.debug("Setting up viewport for VR")
@@ -27,8 +28,6 @@ func _ready():
 		get_viewport().arvr = true
 	else:
 		logger.debug("Setting up viewport for PC")
-		
-		var test = get_viewport()
 		
 		get_viewport().hdr = true
 		get_viewport().arvr = false

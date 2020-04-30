@@ -75,6 +75,11 @@ _global_script_classes=[ {
 "path": "res://Util/SpritesheetHelper.gd"
 }, {
 "base": "Spatial",
+"class": "Terrain",
+"language": "GDScript",
+"path": "res://World/LODTerrain/TerrainScene/Terrain.gd"
+}, {
+"base": "Spatial",
 "class": "TerrayCast",
 "language": "GDScript",
 "path": "res://Global/TerrayCast.gd"
@@ -123,6 +128,7 @@ _global_script_class_icons={
 "Perspective": "",
 "ShiftingHandler": "",
 "SpritesheetHelper": "",
+"Terrain": "",
 "TerrayCast": "",
 "TileHandler": "",
 "ToolsButton": "",

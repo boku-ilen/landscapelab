@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 		
 		# If the player has moved by a quarter of the radius since last update,
 		#  do a new update
-		if abs(center_pos[0] - previous_load_center_pos[0]) > center_pos / 4 \
+		if abs(center_pos[0] - previous_load_center_pos[0]) > radius / 4 \
 				or abs(center_pos[2] - previous_load_center_pos[2]) > radius / 4 \
 				and not load_thread.is_active():
 			
