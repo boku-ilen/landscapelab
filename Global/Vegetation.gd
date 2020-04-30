@@ -93,6 +93,7 @@ func _load_data_from_csv() -> void:
 		phytocoenosis_by_id[int(phytocoenosis.id)] = phytocoenosis
 
 
+# Returns the Phytocoenosis objects which correspond to the given IDs.
 func get_phytocoenosis_array_for_ids(id_array):
 	var phytocoenosis_array = []
 	
@@ -103,6 +104,9 @@ func get_phytocoenosis_array_for_ids(id_array):
 	return phytocoenosis_array
 
 
+# Returns an array with the same phytocoenosis as were given to the function,
+#  but with each phytocoenosis' plant array only consisting of plants within the
+#  given height range.
 func filter_phytocoenosis_array_by_height(phytocoenosis_array, min_height: float, max_height: float):
 	var new_array = []
 	
@@ -123,6 +127,7 @@ func filter_phytocoenosis_array_by_height(phytocoenosis_array, min_height: float
 	return new_array
 
 
+# Shortcut for get_phytocoenosis_array_for_ids + get_billboard_sheet
 func get_billboard_sheet_for_ids(id_array):
 	var phytocoenosis_array = []
 	
@@ -132,8 +137,10 @@ func get_billboard_sheet_for_ids(id_array):
 	return get_billboard_sheet(phytocoenosis_array)
 
 
-# Get a spritesheet with all billboards of the phytocoenosis in the given phytocoenosis_array.
-# Each phytocoenosis gets a row, with the individual plant billboards in the columns.
+# Get a spritesheet with all billboards of the phytocoenosis in the given
+#  phytocoenosis_array.
+# A row of the spritesheet corresponds to one phytocoenosis, with its plants in
+#  the columns.
 func get_billboard_sheet(phytocoenosis_array):
 	# Array holding the rows of vegetation - each vegetation loaded from the 
 	#  given vegetation_names becomes a row in this table
@@ -156,6 +163,7 @@ func get_billboard_sheet(phytocoenosis_array):
 			billboard_table)
 
 
+# Returns a 1x? spritesheet with each phytocoenosis' ground texture in the rows.
 func get_ground_albedo_sheet(phytocoenosis_array):
 	var texture_table = Array()
 	texture_table.resize(phytocoenosis_array.size())
@@ -172,6 +180,8 @@ func get_ground_albedo_sheet(phytocoenosis_array):
 			texture_table)
 
 
+# Returns a 1x? spritesheet with each phytocoenosis' distribution texture in the
+#  rows.
 func get_distribution_sheet(phytocoenosis_array):
 	var texture_table = Array()
 	texture_table.resize(phytocoenosis_array.size())
@@ -179,7 +189,8 @@ func get_distribution_sheet(phytocoenosis_array):
 	var row = 0
 	
 	for phytocoenosis in phytocoenosis_array:
-		texture_table[row] = [generate_distribution(phytocoenosis)] if phytocoenosis.plants.size() > 0 else null
+		texture_table[row] = [generate_distribution(phytocoenosis)] \
+				if phytocoenosis.plants.size() > 0 else null
 		
 		row += 1
 	
@@ -188,6 +199,7 @@ func get_distribution_sheet(phytocoenosis_array):
 			texture_table)
 
 
+# Wraps the result of get_ground_albedo_sheet in an ImageTexture.
 func get_ground_albedo_sheet_texture(phytocoenosis_array):
 	var tex = ImageTexture.new()
 	tex.create_from_image(get_ground_albedo_sheet(phytocoenosis_array))
@@ -204,9 +216,13 @@ func get_billboard_texture(phytocoenosis_array):
 	return tex
 
 
+# Returns a newly generated distribution map for the plants in the given
+#  phytocoenosis.
+# This map is a 16x16 images whose values correspond to the IDs of the plants.
 func generate_distribution(phytocoenosis: Phytocoenosis):
 	var distribution = Image.new()
-	distribution.create(distribution_size, distribution_size, false, Image.FORMAT_R8)
+	distribution.create(distribution_size, distribution_size,
+			false, Image.FORMAT_R8)
 	
 	var dice = RandomNumberGenerator.new()
 	dice.randomize()
@@ -219,7 +235,7 @@ func generate_distribution(phytocoenosis: Phytocoenosis):
 			var highest_roll_plant
 			
 			for plant in phytocoenosis.plants:
-				var roll = dice.randf_range(0.0, 1.0)#plant.density)
+				var roll = dice.randf_range(0.0, plant.density)
 				
 				if roll > highest_roll:
 					highest_roll_plant = plant

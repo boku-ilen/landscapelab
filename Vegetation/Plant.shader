@@ -30,7 +30,6 @@ void vertex() {
 		VERTEX.z += amplitude * sin(worldpos.x * scale.y + TIME * speed.y * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed.y);
 	}
 	
-	// TODO: Pass the offset to the world origin and add it here
 	vec2 pos = worldpos.xz;
 	pos += offset;
 	

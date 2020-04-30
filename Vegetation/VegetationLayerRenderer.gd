@@ -1,11 +1,20 @@
 extends Particles
 
 
+# With 4 rows and a spacing of 0.5, plants are drawn within a 2x2 area.
 export var rows = 4 setget set_rows, get_rows
 export var spacing = 1.0 setget set_spacing, get_spacing
 
+# Min and max size of plants which this layer should render.
+# Should usually correspond to the mesh which is used to draw the plants.
 export(float) var min_size
 export(float) var max_size
+
+# To allow some movement without having to load new data, not only the area
+#  given by rows * spacing is loaded, but this additional map size is added.
+# Thus, there's no need to load new data immediately, and it's not a problem if
+#  it takes a while to load.
+export(float) var additional_map_size = 1000
 
 var time_passed = 0
 
@@ -15,6 +24,7 @@ var previous_origin
 
 var current_offset_from_shifting = Vector2.ZERO
 
+# Updates the visibility aabb which is used for culling.
 func update_aabb():
 	var size = rows * spacing
 	visibility_aabb = AABB(Vector3(-0.5 * size, -1000.0, -0.5 * size), Vector3(size, 10000.0, size))
@@ -50,6 +60,8 @@ func _ready() -> void:
 	update_textures(position)
 
 
+# When the world is shifted, this offset needs to be remembered and passed to
+#  the shader so that the world -> UV calculation remains correct.
 func _on_shift_world(delta_x, delta_z):
 	current_offset_from_shifting -= Vector2(delta_x, delta_z)
 	
@@ -62,14 +74,21 @@ func _process(delta):
 	
 	time_passed += delta
 	
-	if time_passed > 2.0 and not load_thread.is_active() \
-			and (previous_origin - global_transform.origin).length() > rows * spacing / 2.0:
-		time_passed = 0.0
+	# If no data is currently loading and we've moved 1/2 of the distance we can
+	#  move within the available data, start getting some new data.
+	if not load_thread.is_active() \
+			and (previous_origin - global_transform.origin).length() \
+			> additional_map_size / 4.0:
 		previous_origin = global_transform.origin
 		
 		var position = Offset.to_world_coordinates(global_transform.origin)
 		
 		load_thread.start(self, "update_textures", position)
+
+
+func _input(event):
+	if event.is_action("toggle_vegetation") and event.pressed:
+		visible = not visible
 
 
 func update_textures(position):
@@ -98,26 +117,28 @@ func update_textures(position):
 	# Get the most common splatmap values here
 	var ids = splat.get_most_common(8)
 	
+	# Loat the phytocoenosis for these IDs and filter them by the given size
+	#  parameters
 	var phytocoenosis = Vegetation.get_phytocoenosis_array_for_ids(ids)
-	
 	var filtered_phytocoenosis = Vegetation.filter_phytocoenosis_array_by_height(phytocoenosis, min_size, max_size)
-
-	var time_before = OS.get_ticks_msec()
 	
 	var billboards = Vegetation.get_billboard_sheet(filtered_phytocoenosis)
 	
-	print("Billboard sheet took %d" % [OS.get_ticks_msec() - time_before])
-	
+	# If billboards is null, this means that there were 0 plants in all of the
+	#  phytocoenosis. Then, we don't need to render anything.
 	if not billboards:
 		amount = 0
 		return
 	
 	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_phytocoenosis)
 	
-	# The rows correspond to the passed IDs.
-	# The columns correspond to IDs in the distribution map.
+	# All spritesheets are organized like this:
+	# The rows correspond to land-use values
+	# The columns correspond to distribution values
 	
-	# Create map from ID to row
+	# To map land-use values to a row from 0-7, we create another texture.
+	# An array would be more straightforward, but shaders don't accept these as
+	#  uniform parameters.
 	var id_row_map = Image.new()
 	id_row_map.create(256, 1, false, Image.FORMAT_R8)
 	id_row_map.lock()
@@ -127,6 +148,7 @@ func update_textures(position):
 	for i in range(0, 255):
 		id_row_map.set_pixel(i, 0, Color(1.0, 0.0, 0.0))
 	
+	# The pixel at x=id (0-255) is set to the row value (0-7).
 	var row = 0
 	for id in ids:
 		id_row_map.set_pixel(id, 0, Color(row / 255.0, 0.0, 0.0))
@@ -134,6 +156,7 @@ func update_textures(position):
 	
 	id_row_map.unlock()
 	
+	# Fill all parameters into the shader
 	var id_row_map_tex = ImageTexture.new()
 	id_row_map_tex.create_from_image(id_row_map, 0)
 	material_override.set_shader_param("id_to_row", id_row_map_tex)
@@ -157,6 +180,7 @@ func update_textures(position):
 	
 	current_offset_from_shifting = Vector2.ZERO
 	
+	# Finish the shader so that it can accept new loading requests again
 	call_deferred("_update_done")
 
 
