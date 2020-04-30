@@ -57,7 +57,7 @@ func _ready() -> void:
 	
 	previous_origin = global_transform.origin
 	var position = Offset.to_world_coordinates(global_transform.origin)
-	update_textures(position)
+	update_textures(previous_origin, position, current_offset_from_shifting)
 
 
 # When the world is shifted, this offset needs to be remembered and passed to
@@ -79,11 +79,12 @@ func _process(delta):
 	if not load_thread.is_active() \
 			and (previous_origin - global_transform.origin).length() \
 			> additional_map_size / 4.0:
-		previous_origin = global_transform.origin
 		
-		var position = Offset.to_world_coordinates(global_transform.origin)
+		var position = global_transform.origin
+		var world_position = Offset.to_world_coordinates(position)
+		var offset = current_offset_from_shifting
 		
-		load_thread.start(self, "update_textures", position)
+		load_thread.start(self, "_threaded_update_textures", [position, world_position, offset])
 
 
 func _input(event):
@@ -91,14 +92,18 @@ func _input(event):
 		visible = not visible
 
 
-func update_textures(position):
+func _threaded_update_textures(userdata):
+	update_textures(userdata[0], userdata[1], userdata[2])
+
+
+func update_textures(position, world_position, current_offset_from_shifting_before_load):
 	var map_size =  rows * spacing * 2
 	
 	var dhm = Geodot.get_image(
 		GeodataPaths.get_absolute("heightmap"),
 		GeodataPaths.get_type("heightmap"),
-		-position[0] - map_size / 2,
-		position[2] + map_size / 2,
+		-world_position[0] - map_size / 2,
+		world_position[2] + map_size / 2,
 		map_size,
 		map_size / 2.0,
 		1
@@ -107,8 +112,8 @@ func update_textures(position):
 	var splat = Geodot.get_image(
 		GeodataPaths.get_absolute("land-use"),
 		GeodataPaths.get_type("land-use"),
-		-position[0] - map_size / 2,
-		position[2] + map_size / 2,
+		-world_position[0] - map_size / 2,
+		world_position[2] + map_size / 2,
 		map_size,
 		map_size / 10.0,
 		0
@@ -159,30 +164,52 @@ func update_textures(position):
 	# Fill all parameters into the shader
 	var id_row_map_tex = ImageTexture.new()
 	id_row_map_tex.create_from_image(id_row_map, 0)
-	material_override.set_shader_param("id_to_row", id_row_map_tex)
 	
-	var tex = ImageTexture.new()
-	tex.create_from_image(billboards)
-	material_override.set_shader_param("texture_map", tex)
+	var billboard_tex = ImageTexture.new()
+	billboard_tex.create_from_image(billboards)
 	
-	var dist = ImageTexture.new()
-	dist.create_from_image(distribution_sheet, ImageTexture.FLAG_REPEAT)
-	material_override.set_shader_param("distribution_map", dist)
+	var distribution_tex = ImageTexture.new()
+	distribution_tex.create_from_image(distribution_sheet, ImageTexture.FLAG_REPEAT)
 	
-	process_material.set_shader_param("heightmap_size", Vector2(map_size, map_size))
-	material_override.set_shader_param("heightmap_size", Vector2(map_size, map_size))
-	
-	process_material.set_shader_param("heightmap", dhm.get_image_texture())
-	material_override.set_shader_param("splatmap", splat.get_image_texture())
-	
-	process_material.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z))
-	material_override.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z))
-	
-	current_offset_from_shifting = Vector2.ZERO
+	var heightmap_size = Vector2(map_size, map_size)
 	
 	# Finish the shader so that it can accept new loading requests again
-	call_deferred("_update_done")
+	call_deferred("_update_done",
+			id_row_map_tex,
+			billboard_tex,
+			distribution_tex,
+			heightmap_size,
+			dhm.get_image_texture(),
+			splat.get_image_texture(),
+			position,
+			current_offset_from_shifting_before_load)
 
 
-func _update_done():
+func _update_done(
+		id_row_map_tex,
+		billboard_tex,
+		distribution_tex,
+		heightmap_size,
+		heightmap,
+		splatmap,
+		position,
+		offset_before_load):
+	var new_offset = current_offset_from_shifting - offset_before_load
+	
+	material_override.set_shader_param("id_to_row", id_row_map_tex)
+	material_override.set_shader_param("texture_map", billboard_tex)
+	material_override.set_shader_param("distribution_map", distribution_tex)
+	
+	process_material.set_shader_param("heightmap_size", heightmap_size)
+	material_override.set_shader_param("heightmap_size", heightmap_size)
+	
+	process_material.set_shader_param("heightmap", heightmap)
+	material_override.set_shader_param("splatmap", splatmap)
+	
+	previous_origin = position
+	current_offset_from_shifting = new_offset
+	
+	process_material.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
+	material_override.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
+	
 	load_thread.wait_to_finish()
