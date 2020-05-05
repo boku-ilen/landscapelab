@@ -11,11 +11,6 @@ extends "res://World/LODTerrain/Modules/TerrainModule.gd"
 var splat_result
 var splatmap
 
-var vegetations = []
-var albedos = []
-var normals = []
-var ids = []
-
 var vegetation_max = Settings.get_setting("herbage", "max-vegetations-per-tile")
 
 var WATER_SPLAT_ID = Settings.get_setting("water", "water-splat-id")
@@ -72,27 +67,21 @@ func get_vegetation_data(tile, mesh):
 	mesh.material_override.set_shader_param("tex_factor", DETAIL_SCALE)
 	
 	# Get the most common splat IDs and use them to set the detail textures
-	var splat_ids = splatmap.get_most_common(vegetation_max)
+	var splat_ids = splatmap.get_most_common(8)
 	
-	# Add as many vegetations as available on server / possible on client
-	for i in range(0, vegetation_max):
-		# We use the layer 1 here, but the layer doesn't matter - the detail textures are the
-		# same on all layers (since all layers are on the same ground)
-		var result = ServerConnection.get_json("/vegetation/%d/1" % [splat_ids[i]])
-		
-		if result:
-			var albedo = CachingImageTexture.get(result.get("albedo_path"), Texture.FLAGS_DEFAULT)
-			var normal = CachingImageTexture.get(result.get("normal_path"), Texture.FLAGS_DEFAULT)
-			var depth = CachingImageTexture.get(result.get("displacement_path"), Texture.FLAGS_DEFAULT)
-			
-			if albedo:
-				mesh.material_override.set_shader_param("vegetation_tex%d" % [i + 1], albedo)
-				mesh.material_override.set_shader_param("vegetation_id%d" % [i + 1], splat_ids[i])
-				
-				if normal:
-					mesh.material_override.set_shader_param("vegetation_normal%d" % [i + 1], normal)
-				
-				if depth:
-					mesh.material_override.set_shader_param("vegetation_depth%d" % [i + 1], depth)
+	# Map splatmap IDs to rows in these spritesheets
+	var id_row_map_tex = Vegetation.get_id_row_map_texture(splat_ids)
+	mesh.material_override.set_shader_param("id_to_row", id_row_map_tex)
+	
+	# Load spritesheets
+	var phytocoenosis = Vegetation.get_phytocoenosis_array_for_ids(splat_ids)
+	
+	var detail_albedo_sheet = Vegetation.get_ground_sheet_texture(phytocoenosis, "albedo")
+	var detail_normal_sheet = Vegetation.get_ground_sheet_texture(phytocoenosis, "normal")
+	var detail_depth_sheet = Vegetation.get_ground_sheet_texture(phytocoenosis, "displacement")
+	
+	mesh.material_override.set_shader_param("detail_albedo_sheet", detail_albedo_sheet)
+	mesh.material_override.set_shader_param("detail_normal_sheet", detail_normal_sheet)
+	mesh.material_override.set_shader_param("detail_depth_sheet", detail_depth_sheet)
 	
 	return true

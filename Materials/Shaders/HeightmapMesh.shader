@@ -9,20 +9,16 @@ uniform int water_splat_id;
 
 uniform float detail_start_dist;
 
-uniform sampler2D vegetation_tex1 : hint_albedo;
-uniform sampler2D vegetation_normal1 : hint_normal;
-uniform sampler2D vegetation_depth1 : hint_black;
-uniform int vegetation_id1;
-uniform sampler2D vegetation_tex2 : hint_albedo;
-uniform sampler2D vegetation_normal2 : hint_normal;
-uniform sampler2D vegetation_depth2 : hint_black;
-uniform int vegetation_id2;
 uniform float tex_factor = 0.5; // 0.5 means one Godot meter will have half the texture
 uniform float texture_blending_amount = 25.0; // 1.0 means the transition between two textures will be maximally 1m wide
                                               // (Also depends greatly on the random_offset_vectors texture used!)
 uniform float random_offset_vectors_scale = 2.5; // 2.0 means the random offset vectors texture will repeat every 2m
-
 uniform sampler2D random_offset_vectors : hint_normal;
+
+uniform sampler2D detail_albedo_sheet : hint_albedo;
+uniform sampler2D detail_normal_sheet : hint_normal;
+uniform sampler2D detail_depth_sheet : hint_black;
+uniform sampler2D id_to_row;
 
 uniform sampler2D overlay_texture;
 uniform bool has_overlay;
@@ -205,7 +201,7 @@ void fragment(){
 	
 	vec3 total_color;
 	vec3 normal = texture(normalmap, get_relative_pos(UV)).rgb * 2.0 - vec3(1.0, 1.0, 1.0);
-	
+
 	if (clay_rendering) { // Early exit?
 		// For clay rendering, simply display the land-use splatmap.
 		total_color = vec3(float(splat_id) / 255.0);
@@ -235,19 +231,18 @@ void fragment(){
 			//  to the normal one. This reduces tiling and increases detail.
 			float larger_texture_factor = clamp(pow(dist / 50.0, 2.0), 0.0, 1.0);
 
-			vec3 detail_color_near;
-			vec3 current_normal_near;
-
-			vec3 detail_color_far;
-			vec3 current_normal_far;
-
 			float uv_large_scale = 0.2;
 
 			// If the player is too far away, don't do all the detail calculation
-			if (detail_factor > 0.0 && (splat_id == vegetation_id1 || splat_id == vegetation_id2)) {
+			if (detail_factor > 0.0) {
 				vec2 near_uv = UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor));
 				vec2 far_uv = UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor));
-				
+
+				// Calculate the UV offset in the spritesheet
+				float row = texelFetch(id_to_row, ivec2(splat_id, 0), 0).r * 255.0;
+				vec2 uv_scale = vec2(1.0, 1.0/8.0);
+				vec2 uv_offset = vec2(0.0, row / 8.0);
+
 				vec3 view_dir = normalize(normalize(-VERTEX)*mat3(TANGENT,-BINORMAL,NORMAL));
 				float num_layers = mix(float(depth_max_layers),float(depth_min_layers), abs(dot(vec3(0.0, 0.0, 1.0), view_dir)));
 				float layer_depth = 1.0 / num_layers;
@@ -255,69 +250,46 @@ void fragment(){
 				vec2 P = view_dir.xy * depth_scale;
 				vec2 delta = P / num_layers;
 				vec2  ofs = near_uv;
-				
-				if (splat_id == vegetation_id1) {
-					float depth = 1.0 - textureLod(vegetation_depth1, ofs,0.0).r;
-					float current_depth = 0.0;
-					while(current_depth < depth) {
-						ofs -= delta;
-						depth = 1.0 - textureLod(vegetation_depth1, ofs,0.0).r;
-						current_depth += layer_depth;
-					}
-					vec2 prev_ofs = ofs + delta;
-					float after_depth  = depth - current_depth;
-					float before_depth = 1.0 - textureLod(vegetation_depth1, prev_ofs, 0.0).r - current_depth + layer_depth;
-					float weight = after_depth / (after_depth - before_depth);
-					ofs = mix(ofs,prev_ofs,weight);
-					near_uv=ofs;
-					
-					detail_color_near = texture(vegetation_tex1, near_uv).rgb;
-					current_normal_near = texture(vegetation_normal1, near_uv).rgb;
 
-					detail_color_far = texture(vegetation_tex1, far_uv).rgb;
-					current_normal_far = texture(vegetation_normal1, far_uv).rgb;
-				} else if (splat_id == vegetation_id2) {
-					float depth = 1.0 - textureLod(vegetation_depth2, ofs,0.0).r;
-					float current_depth = 0.0;
-					while(current_depth < depth) {
-						ofs -= delta;
-						depth = 1.0 - textureLod(vegetation_depth2, ofs,0.0).r;
-						current_depth += layer_depth;
-					}
-					vec2 prev_ofs = ofs + delta;
-					float after_depth  = depth - current_depth;
-					float before_depth = 1.0 - textureLod(vegetation_depth2, prev_ofs, 0.0).r - current_depth + layer_depth;
-					float weight = after_depth / (after_depth - before_depth);
-					ofs = mix(ofs,prev_ofs,weight);
-					near_uv=ofs;
-					
-					detail_color_near = texture(vegetation_tex2, near_uv).rgb;
-					current_normal_near = texture(vegetation_normal2, near_uv).rgb;
+				float depth = 1.0 - textureLod(detail_depth_sheet, ofs * uv_scale + uv_offset,0.0).r;
+				float current_depth = 0.0;
 
-					detail_color_far = texture(vegetation_tex2, far_uv).rgb;
-					current_normal_far = texture(vegetation_normal2, far_uv).rgb;
+				while(current_depth < depth) {
+					ofs -= delta;
+					depth = 1.0 - textureLod(detail_depth_sheet, ofs * uv_scale + uv_offset,0.0).r;
+					current_depth += layer_depth;
 				}
-				
-				vec3 raw_current_normal = mix(current_normal_near, current_normal_far, larger_texture_factor);
-				raw_current_normal = raw_current_normal * 2.0 - vec3(1.0, 1.0, 1.0);
-			
+
+				vec2 prev_ofs = ofs + delta;
+				float after_depth  = depth - current_depth;
+				float before_depth = 1.0 - textureLod(detail_depth_sheet, prev_ofs * uv_scale + uv_offset, 0.0).r - current_depth + layer_depth;
+				float weight = after_depth / (after_depth - before_depth);
+				ofs = mix(ofs,prev_ofs,weight);
+				near_uv=ofs;
+
+				// Sample textures
+				detail_color = texture(detail_albedo_sheet, near_uv * uv_scale + uv_offset).rgb;
+				current_normal = texture(detail_normal_sheet, near_uv * uv_scale + uv_offset).rgb;
+
+				vec3 raw_current_normal = current_normal* 2.0 - vec3(1.0, 1.0, 1.0);
+
 				// Blend the normals
 				// Adapted from https://math.stackexchange.com/questions/35005/rotate-vector-relative-to-xz-plane-to-be-relative-to-a-new-plane-defined-by-give/35053
 				vec3 z = vec3(0.0, 0.0, 1.0);
 				vec3 tangent = cross(normal, vec3(1.0, 0.0, 0.0));
-				
+
 				vec3 a = cross(tangent, z);
 				vec3 b = cross(tangent, normal);
-				
+
 				mat3 A = mat3(z, tangent, a);
 				mat3 B = mat3(normal, tangent, b);
-				
+
 				mat3 R = B * transpose(A);
-				
+
 				normal = R * raw_current_normal;
 			}
 
-			vec3 raw_detail_color = mix(detail_color_near, detail_color_far, larger_texture_factor);
+			vec3 raw_detail_color = detail_color;
 
 			vec3 base_hcy = RGBtoHCY(base_color);
 			vec3 detail_hcy = RGBtoHCY(raw_detail_color);
@@ -357,13 +329,13 @@ void fragment(){
 			}
 		}
 	}
-	
+
 	// We previously put the normal into a range of -1, 1 for proper calculations.
 	// We revert this here because NORMALMAP expects raw values from the texture.
 	NORMALMAP = (normal + vec3(1.0, 1.0, 1.0)) * 0.5;
-	
+
 	// To test the normals: total_color = NORMALMAP;
 	// To test the land-use map: total_color = vec3(float(splat_id) / 255.0);
-	
+
 	ALBEDO = total_color;
 }
