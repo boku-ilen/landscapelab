@@ -2,10 +2,16 @@ extends Object
 class_name SpritesheetHelper
 
 
+enum SCALING {
+	STRETCH,
+	KEEP_ASPECT
+}
+
+
 # Turn the images in the given array into a spritesheet.
 # The array is expected to be a 2-dimensional array with the first index being
 #  the row, and the second index being the column.
-static func create_spritesheet(sprite_size: Vector2, images: Array):
+static func create_spritesheet(sprite_size: Vector2, images: Array, scaling_method = SCALING.KEEP_ASPECT):
 	# The number of rows and columns is given by the amount of images in the
 	#  array
 	var num_rows = images.size()
@@ -58,30 +64,33 @@ static func create_spritesheet(sprite_size: Vector2, images: Array):
 				break
 			
 			var sprite = images[y][x] as Image
-			var original_size = sprite.get_size()
-			
-			# Ratio of width to height -> Greater than 1 means the image is
-			#  wider than it is high ("landscape")
-			var current_aspect = original_size.x / original_size.y
-			var desired_aspect = sprite_size.x / sprite_size.y
-			
 			var desired_size = Vector2()
 			
-			if current_aspect == desired_aspect:
-				# The aspect matches -> Direct downscale
+			if scaling_method == SCALING.STRETCH:
 				desired_size = sprite_size
-			elif current_aspect > desired_aspect:
-				# The current image is too wide -> Maximize width, smaller height
-				var current_width = original_size.x
+			elif scaling_method == SCALING.KEEP_ASPECT:
+				var original_size = sprite.get_size()
 				
-				desired_size.x = sprite_size.x
-				desired_size.y = int(desired_size.x / current_aspect)
-			else:
-				# The current image is too high -> Maximize height, smaller width
-				var current_height = original_size.y
+				# Ratio of width to height -> Greater than 1 means the image is
+				#  wider than it is high ("landscape")
+				var current_aspect = original_size.x / original_size.y
+				var desired_aspect = sprite_size.x / sprite_size.y
 				
-				desired_size.y = sprite_size.y
-				desired_size.x = int(desired_size.y * current_aspect)
+				if current_aspect == desired_aspect:
+					# The aspect matches -> Direct downscale
+					desired_size = sprite_size
+				elif current_aspect > desired_aspect:
+					# The current image is too wide -> Maximize width, smaller height
+					var current_width = original_size.x
+					
+					desired_size.x = sprite_size.x
+					desired_size.y = int(desired_size.x / current_aspect)
+				else:
+					# The current image is too high -> Maximize height, smaller width
+					var current_height = original_size.y
+					
+					desired_size.y = sprite_size.y
+					desired_size.x = int(desired_size.y * current_aspect)
 			
 			# Scale the sprite to the desired size
 			sprite.resize(desired_size.x, desired_size.y)

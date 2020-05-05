@@ -177,7 +177,8 @@ func get_ground_sheet(phytocoenosis_array, texture_name):
 	
 	return SpritesheetHelper.create_spritesheet(
 			Vector2(texture_size, texture_size),
-			texture_table)
+			texture_table,
+			SpritesheetHelper.SCALING.STRETCH)
 
 
 # Returns a 1x? spritesheet with each phytocoenosis' distribution texture in the
