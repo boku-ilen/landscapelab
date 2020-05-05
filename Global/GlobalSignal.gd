@@ -58,9 +58,6 @@ signal changed_item_to_spawn(item_id)
 signal changed_asset_id(json_item_id)
 
 # Tiles
-## enable and disable wireframe drawing
-signal wireframe_toggle
-
 ## enable and disable tile updates
 signal tile_update_toggle
 

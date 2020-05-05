@@ -11,7 +11,7 @@ func _ready():
 	# See https://github.com/godotengine/godot/issues/15149
 	VisualServer.set_debug_generate_wireframes(true)
 	
-	GlobalSignal.connect("wireframe_toggle", self, "_on_wireframe_toggle")
+	UISignal.connect("wireframe_toggle", self, "_on_wireframe_toggle")
 	
 
 # Emitted by e.g. the wireframe toggle - sets DEBUG_DRAW to Wireframe or Disabled.

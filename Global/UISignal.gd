@@ -24,3 +24,9 @@ signal poi_teleport(location_coordinates)
 
 # enable and disable debug mode
 signal toggle_debug(boolean)
+
+
+# Tiles
+
+# enable and disable wireframe drawing
+signal wireframe_toggle
