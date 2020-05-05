@@ -164,14 +164,14 @@ func get_billboard_sheet(phytocoenosis_array):
 
 
 # Returns a 1x? spritesheet with each phytocoenosis' ground texture in the rows.
-func get_ground_albedo_sheet(phytocoenosis_array):
+func get_ground_sheet(phytocoenosis_array, texture_name):
 	var texture_table = Array()
 	texture_table.resize(phytocoenosis_array.size())
 	
 	var row = 0
 	
 	for phytocoenosis in phytocoenosis_array:
-		texture_table[row] = [phytocoenosis.get_ground_albedo_image()]
+		texture_table[row] = [phytocoenosis.get_ground_image(texture_name)]
 		
 		row += 1
 	
@@ -199,10 +199,38 @@ func get_distribution_sheet(phytocoenosis_array):
 			texture_table)
 
 
+# To map land-use values to a row from 0-7, we use a 256x1 texture.
+# An array would be more straightforward, but shaders don't accept these as
+#  uniform parameters.
+func get_id_row_map_texture(ids):
+	var id_row_map = Image.new()
+	id_row_map.create(256, 1, false, Image.FORMAT_R8)
+	id_row_map.lock()
+	
+	# id_row_map.fill doesn't work here - if that is used, the set_pixel calls
+	#  later have no effect...
+	for i in range(0, 256):
+		id_row_map.set_pixel(i, 0, Color(1.0, 0.0, 0.0))
+	
+	# The pixel at x=id (0-255) is set to the row value (0-7).
+	var row = 0
+	for id in ids:
+		id_row_map.set_pixel(id, 0, Color(row / 255.0, 0.0, 0.0))
+		row += 1
+	
+	id_row_map.unlock()
+	
+	# Fill all parameters into the shader
+	var id_row_map_tex = ImageTexture.new()
+	id_row_map_tex.create_from_image(id_row_map, 0)
+	
+	return id_row_map_tex
+
+
 # Wraps the result of get_ground_albedo_sheet in an ImageTexture.
-func get_ground_albedo_sheet_texture(phytocoenosis_array):
+func get_ground_sheet_texture(phytocoenosis_array, texture_name):
 	var tex = ImageTexture.new()
-	tex.create_from_image(get_ground_albedo_sheet(phytocoenosis_array))
+	tex.create_from_image(get_ground_sheet(phytocoenosis_array, texture_name))
 	
 	return tex
 
@@ -270,8 +298,8 @@ class Phytocoenosis:
 	func add_plant(plant: Plant):
 		plants.append(plant)
 	
-	func get_ground_albedo_image():
-		var full_path = Vegetation.base_path.plus_file("ground-textures").plus_file(ground_texture_path).plus_file("albedo.jpg")
+	func get_ground_image(image_name):
+		var full_path = Vegetation.base_path.plus_file("ground-textures").plus_file(ground_texture_path).plus_file(image_name + ".jpg")
 		
 		var img = Image.new()
 		img.load(full_path)

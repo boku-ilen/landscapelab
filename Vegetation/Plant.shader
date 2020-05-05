@@ -17,12 +17,14 @@ uniform vec2 scale = vec2(0.1, 0.2);
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
 uniform vec2 offset;
 
+varying vec3 worldpos;
+
 varying flat float splat_id;
 varying flat float row;
 varying flat float dist_id;
 
 void vertex() {
-	vec3 worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	
 	// Move the upper vertices around for a wind wave effect
 	if (VERTEX.y > 0.3) {

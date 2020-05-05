@@ -5,6 +5,6 @@ extends Node
 func _ready() -> void:
 	# Just for testing Vegetation spritesheet functionality
 	get_node("MeshInstance").material_override.albedo_texture = \
-			Vegetation.get_billboard_texture(
+			Vegetation.get_ground_sheet_texture(
 					[Vegetation.phytocoenosis_by_name["grünland intensiv"],
-					Vegetation.phytocoenosis_by_name["weizen"]])
+					Vegetation.phytocoenosis_by_name["weizen"]], "albedo")

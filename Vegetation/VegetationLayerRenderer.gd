@@ -141,29 +141,7 @@ func update_textures(position, world_position, current_offset_from_shifting_befo
 	# The rows correspond to land-use values
 	# The columns correspond to distribution values
 	
-	# To map land-use values to a row from 0-7, we create another texture.
-	# An array would be more straightforward, but shaders don't accept these as
-	#  uniform parameters.
-	var id_row_map = Image.new()
-	id_row_map.create(256, 1, false, Image.FORMAT_R8)
-	id_row_map.lock()
-	
-	# id_row_map.fill doesn't work here - if that is used, the set_pixel calls
-	#  later have no effect...
-	for i in range(0, 255):
-		id_row_map.set_pixel(i, 0, Color(1.0, 0.0, 0.0))
-	
-	# The pixel at x=id (0-255) is set to the row value (0-7).
-	var row = 0
-	for id in ids:
-		id_row_map.set_pixel(id, 0, Color(row / 255.0, 0.0, 0.0))
-		row += 1
-	
-	id_row_map.unlock()
-	
-	# Fill all parameters into the shader
-	var id_row_map_tex = ImageTexture.new()
-	id_row_map_tex.create_from_image(id_row_map, 0)
+	var id_row_map_tex = Vegetation.get_id_row_map_texture(ids)
 	
 	var billboard_tex = ImageTexture.new()
 	billboard_tex.create_from_image(billboards)
