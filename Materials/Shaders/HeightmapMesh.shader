@@ -266,10 +266,19 @@ void fragment(){
 				float weight = after_depth / (after_depth - before_depth);
 				ofs = mix(ofs,prev_ofs,weight);
 				near_uv=ofs;
+				
+				vec2 uv = near_uv * uv_scale + uv_offset;
+				
+				// Fix for UV going to a different texture in the spritesheet
+				if (uv.y < row / 8.0) {
+					uv.y += 1.0 / 8.0;
+				} else if (uv.y > (row + 1.0) / 8.0) {
+					uv.y -= 1.0 / 8.0;
+				}
 
 				// Sample textures
-				detail_color = texture(detail_albedo_sheet, near_uv * uv_scale + uv_offset).rgb;
-				current_normal = texture(detail_normal_sheet, near_uv * uv_scale + uv_offset).rgb;
+				detail_color = texture(detail_albedo_sheet, uv).rgb;
+				current_normal = texture(detail_normal_sheet, uv).rgb;
 
 				vec3 raw_current_normal = current_normal* 2.0 - vec3(1.0, 1.0, 1.0);
 
