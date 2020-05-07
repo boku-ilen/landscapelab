@@ -38,6 +38,9 @@ var phytocoenosis_by_name = {}
 var phytocoenosis_by_id = {}
 
 var plant_image_cache = {}
+var ground_image_cache = {}
+
+var ground_image_mutex = Mutex.new()
 
 
 func _ready() -> void:
@@ -309,14 +312,19 @@ class Phytocoenosis:
 	func get_ground_image(image_name):
 		var full_path = Vegetation.base_path.plus_file("ground-textures").plus_file(ground_texture_path).plus_file(image_name + ".jpg")
 		
-		var img = Image.new()
-		img.load(full_path)
+		Vegetation.ground_image_mutex.lock()
+		if not Vegetation.ground_image_cache.has(full_path):
+			var img = Image.new()
+			img.load(full_path)
+			
+			if img.is_empty():
+				logger.error("Invalid ground texture path in CSV of phytocoenosis %s: %s"
+						 % [name, full_path])
+			
+			Vegetation.ground_image_cache[full_path] = img
+		Vegetation.ground_image_mutex.unlock()
 		
-		if img.is_empty():
-			logger.error("Invalid ground texture path in CSV of phytocoenosis %s: %s"
-					 % [name, full_path])
-		
-		return img
+		return Vegetation.ground_image_cache[full_path]
 
 
 class Plant:
