@@ -65,6 +65,7 @@ func get_vegetation_data(tile, mesh):
 	mesh.material_override.set_shader_param("splat", splatmap.get_image_texture())
 	mesh.material_override.set_shader_param("detail_start_dist", DETAIL_START_DIST)
 	mesh.material_override.set_shader_param("tex_factor", DETAIL_SCALE)
+	mesh.material_override.set_shader_param("is_detailed", true)
 	
 	# Get the most common splat IDs and use them to set the detail textures
 	var splat_ids = splatmap.get_most_common(8)
