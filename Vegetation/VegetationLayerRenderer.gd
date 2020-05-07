@@ -101,7 +101,7 @@ func _threaded_update_textures(userdata):
 
 
 func update_textures(position, world_position, current_offset_from_shifting_before_load):
-	var map_size =  rows * spacing * 2
+	var map_size =  rows * spacing * 2 + additional_map_size
 	
 	var dhm = Geodot.get_image(
 		GeodataPaths.get_absolute("heightmap"),
@@ -136,8 +136,10 @@ func update_textures(position, world_position, current_offset_from_shifting_befo
 	# If billboards is null, this means that there were 0 plants in all of the
 	#  phytocoenosis. Then, we don't need to render anything.
 	if not billboards:
-		amount = 0
+		visible = false
 		return
+	else:
+		visible = true
 	
 	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_phytocoenosis)
 	
@@ -194,4 +196,5 @@ func _update_done(
 	process_material.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
 	material_override.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
 	
-	load_thread.wait_to_finish()
+	if load_thread.is_active():
+		load_thread.wait_to_finish()
