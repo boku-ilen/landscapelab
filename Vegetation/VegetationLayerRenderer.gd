@@ -16,6 +16,8 @@ export(float) var max_size
 #  it takes a while to load.
 export(float) var additional_map_size = 1000
 
+export(Vector2) var offset = Vector2.ZERO
+
 var time_passed = 0
 
 var load_thread = Thread.new()
@@ -35,6 +37,7 @@ func set_rows(new_rows):
 	update_aabb()
 	if process_material:
 		process_material.set_shader_param("rows", rows)
+		material_override.set_shader_param("max_distance", rows * spacing / 2.0)
 
 func get_rows():
 	return rows
@@ -44,6 +47,7 @@ func set_spacing(new_spacing):
 	update_aabb()
 	if process_material:
 		process_material.set_shader_param("spacing", spacing)
+		material_override.set_shader_param("max_distance", rows * spacing / 2.0)
 
 func get_spacing():
 	return spacing
@@ -70,7 +74,7 @@ func _on_shift_world(delta_x, delta_z):
 
 
 func _process(delta):
-	global_transform.origin = PlayerInfo.get_engine_player_position()
+	global_transform.origin = PlayerInfo.get_engine_player_position() + Vector3(offset.x, 0.0, offset.y)
 	
 	time_passed += delta
 	

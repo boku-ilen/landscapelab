@@ -17,7 +17,10 @@ uniform vec2 scale = vec2(0.1, 0.2);
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
 uniform vec2 offset;
 
+uniform float max_distance;
+
 varying vec3 worldpos;
+varying vec3 camera_pos;
 
 varying flat float splat_id;
 varying flat float row;
@@ -25,6 +28,7 @@ varying flat float dist_id;
 
 void vertex() {
 	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	camera_pos = (CAMERA_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 	
 	// Move the upper vertices around for a wind wave effect
 	if (VERTEX.y > 0.3) {
@@ -52,10 +56,38 @@ void vertex() {
 }
 
 void fragment() {
+	// If the row value is 255, this means that no data is available for this
+	// land-use ID in this shader, so discard this pixel.
 	if (abs(row - 255.0) < 0.1) {
 		discard;
 	}
 	
+	// Make the plant transparent if it's between 3/4 and 4/4 of the possible
+	//  distance from the camera, to prevent a harsh cutoff from full vegetation
+	//  to no vegetation.
+	// Checkerboard transparency is used to prevent issues with depth sorting.
+	// The matrix was adapted from:
+	// https://digitalrune.github.io/DigitalRune-Documentation/html/fa431d48-b457-4c70-a590-d44b0840ab1e.htm
+	float thresholdMatrix[16] = {
+		1.0 / 17.0,  9.0 / 17.0,  3.0 / 17.0, 11.0 / 17.0,
+		13.0 / 17.0,  5.0 / 17.0, 15.0 / 17.0,  7.0 / 17.0,
+		4.0 / 17.0, 12.0 / 17.0,  2.0 / 17.0, 10.0 / 17.0,
+		16.0 / 17.0,  8.0 / 17.0, 14.0 / 17.0,  6.0 / 17.0
+	};
+	
+	int x_index = int(SCREEN_UV.x * VIEWPORT_SIZE.x) % 4;
+	int y_index = int(SCREEN_UV.y * VIEWPORT_SIZE.y) % 4;
+	
+	float blend_start_distance = max_distance - max_distance / 4.0;
+	float dist = length(camera_pos - worldpos);
+
+	float dist_alpha = (max_distance - dist) / (max_distance - blend_start_distance);
+
+	if (dist_alpha - thresholdMatrix[y_index * 4 + x_index] < 0.0) {
+		discard;
+	}
+	
+	// Get the color from the right sprite in the spritesheet
 	ivec2 sheet_size = textureSize(texture_map, 0);
 	ivec2 cols_rows = sheet_size / 1024;
 	
@@ -66,7 +98,7 @@ void fragment() {
 	vec4 color = texture(texture_map, scaled_uv + uv_offset);
 	
 	ALBEDO = color.rgb;
-	if (color.a < 0.3) {
+	if (color.a < 0.5) {
 		discard;
 	}
 	
