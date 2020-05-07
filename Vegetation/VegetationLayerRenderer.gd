@@ -127,7 +127,7 @@ func update_textures(position, world_position, current_offset_from_shifting_befo
 	var phytocoenosis = Vegetation.get_phytocoenosis_array_for_ids(ids)
 	var filtered_phytocoenosis = Vegetation.filter_phytocoenosis_array_by_height(phytocoenosis, min_size, max_size)
 	
-	var billboards = Vegetation.get_billboard_sheet(filtered_phytocoenosis)
+	var billboards = Vegetation.get_billboard_sheet(filtered_phytocoenosis, max_size)
 	
 	# If billboards is null, this means that there were 0 plants in all of the
 	#  phytocoenosis. Then, we don't need to render anything.

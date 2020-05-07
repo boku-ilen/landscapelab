@@ -128,39 +128,46 @@ func filter_phytocoenosis_array_by_height(phytocoenosis_array, min_height: float
 
 
 # Shortcut for get_phytocoenosis_array_for_ids + get_billboard_sheet
-func get_billboard_sheet_for_ids(id_array):
+func get_billboard_sheet_for_ids(id_array, max_size):
 	var phytocoenosis_array = []
 	
 	for id in id_array:
 		phytocoenosis_array.append(phytocoenosis_by_id[id])
 	
-	return get_billboard_sheet(phytocoenosis_array)
+	return get_billboard_sheet(phytocoenosis_array, max_size)
 
 
 # Get a spritesheet with all billboards of the phytocoenosis in the given
 #  phytocoenosis_array.
 # A row of the spritesheet corresponds to one phytocoenosis, with its plants in
 #  the columns.
-func get_billboard_sheet(phytocoenosis_array):
+func get_billboard_sheet(phytocoenosis_array, max_size):
 	# Array holding the rows of vegetation - each vegetation loaded from the 
 	#  given vegetation_names becomes a row in this table
 	var billboard_table = Array()
 	billboard_table.resize(phytocoenosis_array.size())
 	
+	var scale_table = Array()
+	scale_table.resize(phytocoenosis_array.size())
+	
 	var row = 0
 	
 	for phytocoenosis in phytocoenosis_array:
 		billboard_table[row] = []
+		scale_table[row] = []
 		
 		for plant in phytocoenosis.plants:
 			var billboard = plant.get_billboard()
 			billboard_table[row].append(billboard)
+			scale_table[row].append(plant.avg_height / max_size)
 			
 		row += 1
 		
 	return SpritesheetHelper.create_spritesheet(
 			Vector2(sprite_size, sprite_size),
-			billboard_table)
+			billboard_table,
+			SpritesheetHelper.SCALING.KEEP_ASPECT,
+			scale_table)
 
 
 # Returns a 1x? spritesheet with each phytocoenosis' ground texture in the rows.
@@ -238,9 +245,9 @@ func get_ground_sheet_texture(phytocoenosis_array, texture_name):
 
 # Wrapper for get_billboard_sheet, but returns an ImageTexture instead of an
 #   Image for direct use in materials.
-func get_billboard_texture(phytocoenosis_array):
+func get_billboard_texture(phytocoenosis_array, max_size):
 	var tex = ImageTexture.new()
-	tex.create_from_image(get_billboard_sheet(phytocoenosis_array))
+	tex.create_from_image(get_billboard_sheet(phytocoenosis_array, max_size))
 	
 	return tex
 

@@ -11,7 +11,16 @@ enum SCALING {
 # Turn the images in the given array into a spritesheet.
 # The array is expected to be a 2-dimensional array with the first index being
 #  the row, and the second index being the column.
-static func create_spritesheet(sprite_size: Vector2, images: Array, scaling_method = SCALING.KEEP_ASPECT):
+# Possible scaling methods are KEEP_ASPECT (default), where the images are
+#  rescaled to at most the given sprite_size (with the rest being transparency),
+#  or STRETCH, where they get exactly the given sprite_size.
+# An array of scale_factors, laid out identically to the images array, can be
+#  given optionally. Each image is then scaled down by its corresponding factor.
+static func create_spritesheet(
+		sprite_size: Vector2,
+		images: Array,
+		scaling_method = SCALING.KEEP_ASPECT,
+		scale_factors = null):
 	# The number of rows and columns is given by the amount of images in the
 	#  array
 	var num_rows = images.size()
@@ -92,11 +101,17 @@ static func create_spritesheet(sprite_size: Vector2, images: Array, scaling_meth
 					desired_size.y = sprite_size.y
 					desired_size.x = int(desired_size.y * current_aspect)
 			
+			if scale_factors:
+				desired_size *= scale_factors[y][x]
+			
 			# Scale the sprite to the desired size
 			sprite.resize(desired_size.x, desired_size.y)
 	
 			# We want the sprites to always be centered, so check how big the offset has to be
 			var centering_offset = (sprite_size - desired_size) / 2
+			
+			# Place it at the bottom middle, not the center
+			centering_offset.y *= 2
 			
 			# Add the scaled sprite to the spritesheet
 			sheet.blit_rect(sprite, Rect2(Vector2(0, 0),
