@@ -27,7 +27,7 @@ static func create_spritesheet(
 	
 	# All images are assumed to be of the same format for now.
 	# TODO: We could convert all images to a set format?
-	var format
+	var format = null
 	
 	for row in images:
 		if row:
@@ -36,8 +36,9 @@ static func create_spritesheet(
 					format = col.get_format()
 					break
 	
-	if not format:
+	if format == null:
 		# No valid images...
+		logger.error("No valid images in the array given to create_spritesheet")
 		return null
 	
 	# Get the largest row (the row with the most columns) and use it as the
