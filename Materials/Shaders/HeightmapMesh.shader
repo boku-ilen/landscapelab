@@ -45,7 +45,9 @@ uniform bool clay_rendering = false;
 
 // Get the value by which vertex at given point must be lowered to simulate the earth's curvature 
 float get_curve_offset(float distance_squared) {
-	return sqrt(RADIUS * RADIUS + distance_squared) - RADIUS;
+	// Necessary to be 100% safe, but when using the earth's radius, it'll never happen:
+	if (distance_squared > RADIUS * RADIUS) { return 100000.0; }
+	return RADIUS - sqrt(RADIUS * RADIUS - distance_squared);
 }
 
 // Shrinks and centers UV coordinates to compensate for the skirt around the edges
