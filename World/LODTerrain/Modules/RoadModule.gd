@@ -18,7 +18,7 @@ func _get_line_array():
 	var true_pos = tile.get_true_position()
 	var size = tile.size
 	
-	return Geodot.get_lines_near_position(shapefile_path, -true_pos[0] - size / 2, true_pos[2] + size / 2, size, max_lines)
+	return Geodot.crop_lines_to_square(shapefile_path, -true_pos[0] - size / 2, true_pos[2] + size / 2, size, max_lines)
 
 
 func init(data=null):
