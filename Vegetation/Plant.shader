@@ -17,6 +17,8 @@ uniform vec2 scale = vec2(0.1, 0.2);
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
 uniform vec2 offset;
 
+uniform float dist_scale = 5000.0;
+
 uniform float max_distance;
 
 varying vec3 worldpos;
@@ -51,7 +53,7 @@ void vertex() {
 	row = texelFetch(id_to_row, ivec2(int(round(splat_id)), 0), 0).r * 255.0;
 	
 	// Using the row, we can get the ID (the column) of the plant which should be here
-	ivec2 dist_pos = ivec2(int(pos.x * 1000.0) % 16, int(pos.y * 1000.0) % 16);
+	ivec2 dist_pos = ivec2(int(pos.x * dist_scale) % 16, int(pos.y * dist_scale) % 16);
 	dist_id = texelFetch(distribution_map, ivec2(0, int(row) * 16) + dist_pos, 0).r * 255.0;
 }
 
@@ -98,7 +100,7 @@ void fragment() {
 	vec4 color = texture(texture_map, scaled_uv + uv_offset);
 	
 	ALBEDO = color.rgb;
-	if (color.a < 0.5) {
+	if (color.a < 0.7) {
 		discard;
 	}
 	

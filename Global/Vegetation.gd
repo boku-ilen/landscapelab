@@ -84,6 +84,9 @@ func _load_data_from_csv() -> void:
 	while !plant_csv.eof_reached():
 		# Format: Phytocoenosis Name, Avg height, sigma height, density, billboard
 		var csv = plant_csv.get_csv_line()
+		
+		if csv[0] == "": break
+		
 		var p = phytocoenosis_by_name[csv[0].to_lower()]
 		
 		p.plants.append(
@@ -274,7 +277,9 @@ func generate_distribution(phytocoenosis: Phytocoenosis):
 			var highest_roll_plant
 			
 			for plant in phytocoenosis.plants:
-				var roll = dice.randf_range(0.0, plant.density)
+				# Roll the dice weighed by the plant density. A small factor is
+				#  added because some plants never show up otherwise.
+				var roll = dice.randf_range(0.0, plant.density + 0.3)
 				
 				if roll > highest_roll:
 					highest_roll_plant = plant
