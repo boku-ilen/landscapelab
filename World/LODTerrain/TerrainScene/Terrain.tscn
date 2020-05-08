@@ -11,9 +11,9 @@
 [ext_resource path="res://Vegetation/Plant.shader" type="Shader" id=9]
 [ext_resource path="res://Resources/Textures/ShaderUtil/rgb_noise.png" type="Texture" id=10]
 [ext_resource path="res://Vegetation/VegetationLayerRenderer.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Resources/Meshes/VegetationBillboard/2m_billboard.obj" type="ArrayMesh" id=12]
-[ext_resource path="res://Resources/Meshes/VegetationBillboard/40m_billboard.obj" type="ArrayMesh" id=13]
-[ext_resource path="res://Resources/Meshes/VegetationBillboard/10m_billboard.obj" type="ArrayMesh" id=14]
+[ext_resource path="res://Resources/Meshes/VegetationBillboard/10m_billboard_webm.obj" type="ArrayMesh" id=12]
+[ext_resource path="res://Resources/Meshes/VegetationBillboard/2m_billboard_webm.obj" type="ArrayMesh" id=13]
+[ext_resource path="res://Resources/Meshes/VegetationBillboard/40m_billboard_webm.obj" type="ArrayMesh" id=14]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -23,6 +23,8 @@ shader_param/speed = Vector2( 2, 1.5 )
 shader_param/scale = Vector2( 0.1, 0.2 )
 shader_param/heightmap_size = Vector2( 300, 300 )
 shader_param/offset = null
+shader_param/dist_scale = 5000.0
+shader_param/max_distance = null
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
@@ -34,7 +36,7 @@ shader_param/heightmap_size = Vector2( 300, 300 )
 shader_param/offset = null
 shader_param/noisemap = ExtResource( 10 )
 
-[sub_resource type="ShaderMaterial" id=7]
+[sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 9 )
 shader_param/amplitude = 0.1
@@ -42,8 +44,10 @@ shader_param/speed = Vector2( 2, 1.5 )
 shader_param/scale = Vector2( 0.1, 0.2 )
 shader_param/heightmap_size = Vector2( 300, 300 )
 shader_param/offset = null
+shader_param/dist_scale = 5000.0
+shader_param/max_distance = null
 
-[sub_resource type="ShaderMaterial" id=8]
+[sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
 shader = ExtResource( 7 )
 shader_param/rows = 300.0
@@ -61,6 +65,8 @@ shader_param/speed = Vector2( 2, 1.5 )
 shader_param/scale = Vector2( 0.1, 0.2 )
 shader_param/heightmap_size = Vector2( 300, 300 )
 shader_param/offset = null
+shader_param/dist_scale = 5000.0
+shader_param/max_distance = null
 
 [sub_resource type="ShaderMaterial" id=6]
 resource_local_to_scene = true
@@ -94,15 +100,15 @@ default_asset = ExtResource( 5 )
 [node name="GrassLayer" parent="." instance=ExtResource( 11 )]
 material_override = SubResource( 1 )
 process_material = SubResource( 2 )
-draw_pass_1 = ExtResource( 12 )
+draw_pass_1 = ExtResource( 13 )
 rows = 160
 spacing = 0.4
 max_size = 2.0
 
 [node name="BushLayer" parent="." instance=ExtResource( 11 )]
-material_override = SubResource( 7 )
-process_material = SubResource( 8 )
-draw_pass_1 = ExtResource( 14 )
+material_override = SubResource( 3 )
+process_material = SubResource( 4 )
+draw_pass_1 = ExtResource( 12 )
 rows = 100
 spacing = 6.0
 min_size = 2.0
@@ -111,7 +117,7 @@ max_size = 10.0
 [node name="TreeLayer" parent="." instance=ExtResource( 11 )]
 material_override = SubResource( 5 )
 process_material = SubResource( 6 )
-draw_pass_1 = ExtResource( 13 )
+draw_pass_1 = ExtResource( 14 )
 rows = 200
 spacing = 10.0
 min_size = 10.0
