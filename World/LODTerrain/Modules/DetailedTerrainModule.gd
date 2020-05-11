@@ -22,30 +22,30 @@ func init(data=null):
 	.init(data)
 	
 	# Setup the overlay texture camera
-	var viewport = get_node("OverlayTextureViewport")
-	var camera = viewport.get_node("Pivot/Camera")
+#	var viewport = get_node("OverlayTextureViewport")
+#	var camera = viewport.get_node("Pivot/Camera")
+#
+#	camera.size = tile.size
+#
+#	# TODO: Scale this more nicely
+#	if tile.lod > 2:
+#		viewport.size = Vector2(128, 128)
+#		get_node("MeshInstance").material_override.set_shader_param("has_overlay", true)
 	
-	camera.size = tile.size
-	
-	# TODO: Scale this more nicely
-	if tile.lod > 2:
-		viewport.size = Vector2(128, 128)
-		get_node("MeshInstance").material_override.set_shader_param("has_overlay", true)
-	
-	GlobalSignal.connect("overlay_updated", self, "_render_overlay")
+#	GlobalSignal.connect("overlay_updated", self, "_render_overlay")
 
 
-func _ready():
-	# Render the overlay data that's currently here
-	_render_overlay()
+#func _ready():
+#	# Render the overlay data that's currently here
+#	_render_overlay()
 
 
-# Since the overlay camera doesn't need to render every frame, this function
-# is provided to render a new frame. It is called e.g. when the 'overlay_updated'
-# signal is emitted.
-func _render_overlay():
-	var viewport = get_node("OverlayTextureViewport")
-	viewport.render_target_update_mode = viewport.UPDATE_ONCE
+## Since the overlay camera doesn't need to render every frame, this function
+## is provided to render a new frame. It is called e.g. when the 'overlay_updated'
+## signal is emitted.
+#func _render_overlay():
+#	var viewport = get_node("OverlayTextureViewport")
+#	viewport.render_target_update_mode = viewport.UPDATE_ONCE
 
 
 func get_textures(tile, mesh):
