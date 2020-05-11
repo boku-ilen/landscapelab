@@ -11,3 +11,5 @@ export_presets.cfg
 log.txt
 settings.ini
 
+# IDE specific ignores
+*.iml
