@@ -71,6 +71,9 @@ func delete_asset(id):
 
 # Actually sends the server request for deleting an object (to be called from a thread)
 func delete_object_on_server(data):
+    #FIXME: it is currently unresolved how we can get rid of a connection like this as
+    #FIXME: we need to syncronize the asset positions with the lego table and maybe other
+    #FIXME: external displays like QGIS
 	ServerConnection.get_json("/assetpos/remove/%d" % [data[0]])
 
 

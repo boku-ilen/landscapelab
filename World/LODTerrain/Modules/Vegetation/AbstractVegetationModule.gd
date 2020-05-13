@@ -51,6 +51,7 @@ func get_splat_data():
 		
 		# Data for the phytocoenosis with this ID
 		var phyto_c_url = "/vegetation/%d/%d" % [splat_ids[current_index], my_vegetation_layer]
+		# FIXME: this should come from the geopackage in the future
 		var this_result = ServerConnection.get_json(phyto_c_url)
 		
 		# Load all images (distribution, spritesheet) and corresponding data

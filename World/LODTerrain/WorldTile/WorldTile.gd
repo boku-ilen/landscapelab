@@ -401,7 +401,8 @@ func get_texture(name, interpolation=1):
 # Builds a request in the form of "/url_start/meter_x/meter_y/zoom.json" and returns the result, if it is valid.
 func get_texture_result(url_start):
 	var true_pos = get_true_position()
-	
+
+	# FIXME: this requests should be handled by geodot and no usages could be found
 	var result = ServerConnection.get_json("/%s/%d.0/%d.0/%d.json"\
 		% [url_start, -true_pos[0], true_pos[2], get_osm_zoom()], false)
 		

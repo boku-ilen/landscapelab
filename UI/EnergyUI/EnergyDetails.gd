@@ -38,7 +38,8 @@ func _create_regular_requests():
 		var asset_type_name = assets[asset_type]["name"]
 		var asset_type_requester = requester.instance()
 		add_child(asset_type_requester)
-		
+
+		# FIXME: game logic
 		asset_type_requester.set_request("/energy/contribution/%s/%s.json" % [String(Session.scenario_id), asset_type])
 		asset_type_requester.connect("new_response", self, "_update_values", [asset_type_name], CONNECT_DEFERRED)
 		# Make the the interval for the assets request in intervals of 2 seconds
@@ -100,6 +101,7 @@ func _setup():
 
 # The first object in the array has to be a string of the name of the type, the second one needs to be the id 
 func _request_type_target_value(asset_information : Array):
+    #FIXME: this is specific game logic?
 	var response = ServerConnection.get_json("/energy/target/%s/%s.json" % [String(Session.scenario_id), asset_information[1]])
 	requested_target_energy_dict[asset_information[0]] = response["energy_target"]
 

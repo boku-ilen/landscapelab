@@ -24,6 +24,8 @@ func _ready():
 	#   "assets"
 	#     [asset_id]
 	#       [... asset fields]
+	# TODO: we want to get rid of this server connection. This kind of setting should come
+	# TODO: from the game logic or the geo data
 	var result = ServerConnection.get_json(url)
 	
 	if not result:

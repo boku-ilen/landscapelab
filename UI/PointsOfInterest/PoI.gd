@@ -83,6 +83,8 @@ func _on_save_pressed():
 	
 	# As the coordinates on the server are responded in a different type,
 	# we have to use a "-" on the x-axis to properly save it
+	#FIXME: we have to decide how we want to provide this functionallity after
+	#FIXME: the locations come from a (should be readonly) geopackage
 	var result = ServerConnection.get_json("/location/create/%s/%d.0/%d.0/%d" % [url_escaped_input, -fixed_pos[0], fixed_pos[1], Session.scenario_id], false)
 	
 	# Only store on client if it was also successfully stored on server
@@ -100,7 +102,9 @@ func _on_delete_pressed():
 	# select mode is set to single, so only one item can be selected
 	var current_item : int = item_list.get_selected_items()[0]
 	var item_text : String = item_list.get_item_text(current_item)
-	
+
+    #FIXME: we have to decide how we want to provide this functionallity after
+    #FIXME: the locations come from a (should be readonly) geopackage
 	var result = ServerConnection.get_json("/location/remove/%s/%d" % [item_text, Session.scenario_id], false)
 	
 	# Only store on client if it was also successfully stored on server

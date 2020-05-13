@@ -18,6 +18,7 @@ func _ready():
 # Abstract function which returns the result (a list of assets) of the specific request being implemented.
 func _get_server_result():
 	var player_pos = PlayerInfo.get_true_player_position()
+	# FIXME: this should be handled by geodot in the future
 	return ServerConnection.get_json("/linear/%d.0/%d.0/%d.json" % [-player_pos[0], player_pos[2], line_type], false)
 
 
