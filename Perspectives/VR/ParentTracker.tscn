@@ -5,7 +5,12 @@
 [node name="ParentTracker" type="Node"]
 script = ExtResource( 1 )
 
-[node name="TrackingTimer" type="Timer" parent="."]
+[node name="PositionTrackingTimer" type="Timer" parent="."]
 process_mode = 0
 wait_time = 0.1
+autostart = true
+
+[node name="ScreenshotTimer" type="Timer" parent="."]
+process_mode = 0
+wait_time = 0.5
 autostart = true
