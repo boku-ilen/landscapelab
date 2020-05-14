@@ -5,7 +5,6 @@
 [ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=3]
 [ext_resource path="res://UI/EnergyUI/AssetsList.gd" type="Script" id=4]
 
-
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0.835294, 0.207843, 1 )
 corner_radius_top_left = 5
