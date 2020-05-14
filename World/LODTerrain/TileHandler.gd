@@ -30,7 +30,7 @@ export(bool) var update_terrain = true
 func _ready():
 	# TODO: Spawn the bare minimum of tiles
 	
-	GlobalSignal.connect("tile_update_toggle", self, "_toggle_tile_update")
+	UISignal.connect("tile_update_toggle", self, "_toggle_tile_update")
 	GlobalSignal.connect("reset_tiles", self, "reset")
 	
 	WorldPosition.set_handler(self)

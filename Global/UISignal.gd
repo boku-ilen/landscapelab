@@ -28,5 +28,8 @@ signal toggle_debug(boolean)
 
 # Tiles
 
+# enable and disable tile updates
+signal tile_update_toggle
+
 # enable and disable wireframe drawing
 signal wireframe_toggle

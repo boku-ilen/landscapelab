@@ -57,10 +57,6 @@ signal changed_item_to_spawn(item_id)
 # second one is the saved according id in the json-file saved as metadata of the listitem
 signal changed_asset_id(json_item_id)
 
-# Tiles
-## enable and disable tile updates
-signal tile_update_toggle
-
 ## reset (delete) all tiles
 signal reset_tiles
 
