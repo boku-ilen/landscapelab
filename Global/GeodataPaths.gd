@@ -12,6 +12,10 @@ func get_relative(geodata_name: String) -> String:
 	return _paths[geodata_name]["name"]
 
 
+func get_raw(geodata_name: String):
+	return _paths[geodata_name]
+
+
 func get_relative_with_ending(geodata_name: String) -> String:
 	return get_relative(geodata_name) + "." + get_type(geodata_name)
 

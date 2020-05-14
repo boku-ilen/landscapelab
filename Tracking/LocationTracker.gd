@@ -89,6 +89,6 @@ func send_position():
 
 # Send the position data (via premade url) to the server - to be run in a thread
 func make_position_request(url):
-    # FIXME: this should no longer be required as we store the impressions now locally to a file
+	# FIXME: this should no longer be required as we store the impressions now locally to a file
 	ServerConnection.get_http(url)
 	logger.info("sent position to server at url %s" % [url])

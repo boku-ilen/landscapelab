@@ -31,16 +31,16 @@ func _load_pois():
 		logger.warning("_load_pois() was called, but there is no active scenario!")
 		return
 	
-	var pois = Session.get_current_scenario()["locations"]
+	var pois = Session.get_current_scenario().locations
 	
 	var index = 0
 	# create a Point of Interest for each entry in the locations
 	for poi in pois:
-		var text = pois[poi]["name"]
+		var text = poi.get_attribute("id")
 		item_list.add_item(text)
 		# Create a vector for the locations data (only contains "x" and "z"-axis)
 		# As the coordinates from the server are responded in a different type we have to use a "-" on the x-axis
-		var fixed_pos = [-pois[poi]["location"][0], pois[poi]["location"][1]]
+		var fixed_pos = [-poi.get_vector3().x, -poi.get_vector3().z]
 		
 		# The ID in the list is not necessarily the same as the id in the json-file thus we have to
 		# set the poi-id in the metadata
@@ -103,8 +103,8 @@ func _on_delete_pressed():
 	var current_item : int = item_list.get_selected_items()[0]
 	var item_text : String = item_list.get_item_text(current_item)
 
-    #FIXME: we have to decide how we want to provide this functionallity after
-    #FIXME: the locations come from a (should be readonly) geopackage
+	#FIXME: we have to decide how we want to provide this functionallity after
+	#FIXME: the locations come from a (should be readonly) geopackage
 	var result = ServerConnection.get_json("/location/remove/%s/%d" % [item_text, Session.scenario_id], false)
 	
 	# Only store on client if it was also successfully stored on server
