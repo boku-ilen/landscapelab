@@ -57,7 +57,7 @@ func set_custom_request_getter(object, function_name):
 
 
 func _on_timer_timeout():
-	logger.debug("Regular requester %s enqueueing new regular server request" % [name])
+	logger.debug("Regular requester (child of %s) enqueueing new regular server request" % [get_parent().name])
 	
 	# We give this task a medium to high priority, since the regular results should arrive
 	#  approximately with the given interval.
