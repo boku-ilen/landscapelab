@@ -86,7 +86,7 @@
         "clouds": false,
         "fog-begin": 1000,
         "fog-end": 20000,
-        "sun-intensity-factor": 1.8
+        "max-sun-intensity": 1.8
     },
     
     "player": {

@@ -7,7 +7,7 @@ var clouds_scene = preload("res://addons/volumetric-clouds/CloudRenderer.tscn")
 var CLOUDS_ENABLED = Settings.get_setting("sky", "clouds")
 var FOG_BEGIN = Settings.get_setting("sky", "fog-begin")
 var FOG_END = Settings.get_setting("sky", "fog-end")
-var SUN_INTENSITY_FACTOR = Settings.get_setting("sky", "sun-intensity-factor")
+var MAX_SUN_INTENSITY = Settings.get_setting("sky", "max-sun-intensity")
 
 var clouds
 
@@ -94,14 +94,14 @@ func set_light_energy(new_energy):
 	light.light_energy = new_energy
 	
 	if clouds:
-		clouds.set_sun_energy(new_energy / SUN_INTENSITY_FACTOR)
+		clouds.set_sun_energy(new_energy / MAX_SUN_INTENSITY)
 
 
 func update_colors(altitude, azimuth):
 	var new_horizon_color = base_horizon_color
 	var new_top_color = base_top_color
 	
-	var new_light_energy = 1.0
+	var new_light_energy = MAX_SUN_INTENSITY
 	
 	if altitude < 20 and altitude > -20: # Sun is close to the horizon
 		# Make the horizon red/yellow-ish the closer the sun is to the horizon
@@ -121,7 +121,7 @@ func update_colors(altitude, azimuth):
 	if altitude < 0 and altitude > -30:
 		var distance_to_black_point = abs(altitude) / 30
 		new_top_color = base_top_color.darkened(distance_to_black_point)
-		new_light_energy = SUN_INTENSITY_FACTOR - distance_to_black_point * SUN_INTENSITY_FACTOR
+		new_light_energy = MAX_SUN_INTENSITY - distance_to_black_point * MAX_SUN_INTENSITY
 		
 	elif altitude <= -30:
 		new_top_color = Color(0, 0, 0, 0)
