@@ -1,4 +1,4 @@
-extends Node
+extends Object
 
 var _sem = Semaphore.new()
 var _mutex = Mutex.new()

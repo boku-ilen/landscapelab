@@ -408,16 +408,11 @@ func thread_task(object, function, arguments):
 	
 	# Choose the thread priority based on distance and LOD so that the tasks always spread out over
 	#  the lower priorities
-	# TODO: These values work relatively well with current settings (max lod 8, 4 thread queues),
-	#  but we should generalize them
-	var high_priority_dist = 700 - lod * 86
-	var medium_priority_dist = 10000 - lod * 1230
-	
-	if dist_to_player < high_priority_dist:
-		priority = 70.0
-	elif dist_to_player < medium_priority_dist:
-		priority = 30.0
+	if dist_to_player < 1.0:
+		priority = 99.0
+	elif dist_to_player < 500.0:
+		priority = 50.0
 	else:
 		priority = 0.0
 	
-	ThreadPool.enqueue_task(ThreadPool.Task.new(object, function, arguments), 100.0)
+	ThreadPool.enqueue_task(ThreadPool.Task.new(object, function, arguments), priority)
