@@ -20,7 +20,8 @@ func _ready():
 		return
 	
 	# Make the the interval for the assets request in intervals of 2 seconds
-	requester.interval = 2 
+	requester.interval = 2
+	# FIXME: game logic
 	requester.set_request("/energy/contribution/" + String(Session.scenario_id) + "/all.json")
 	requester.connect("new_response", self, "_on_new_response", [], CONNECT_DEFERRED)
 	

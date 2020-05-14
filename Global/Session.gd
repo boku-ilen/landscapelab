@@ -19,6 +19,9 @@ func _ready():
 
 # Loads all available scenarios from the server into the 'scenarios' variable.
 func _load_scenarios_from_server():
+    # TODO: we have to discuss if we continue to have a concept like 'scenario' in the future
+    # TODO: anyhow we want to get rid of this server connection so this data could come from
+    # TODO: the geopackage if necessairy
 	var scenario_result = ServerConnection.get_json(scenario_url)
 
 	if not scenario_result or scenario_result.has("Error"):
@@ -72,12 +75,17 @@ func set_start_offset_for_scenario(scenario_id):
 	else:
 		logger.error("Could not initialize starting location")
 		# FIXME: what to do? is it possible to start at a random or calculated starting location based on the bounding polygon geometry
+		# FIXME: we should provide a default setting for this in the client configuration which is overwritten by
+		# FIXME: the geodata configuration
 
 
 # we want to get a new session id from the server thus ending the old session
 func start_session(scenario_id):
 	# try to get a new session id for this scenario
 	# don't cache - we want a different ID every time
+	# TODO: a session is only required for recording so the session should now be handled
+	# TODO: by the client alone. If we really plan a multi'player' option we may need to
+	# TODO: make sure uniqueness by using the connection_id or something like that
 	var session = ServerConnection.get_json(session_url % [scenario_id], false)
 	
 	if not session or session.has("Error"):

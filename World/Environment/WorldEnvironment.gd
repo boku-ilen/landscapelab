@@ -61,7 +61,8 @@ func set_sun_position_for_datetime(hours, day, month, year):
 	var elevation = 100.1
 	
 	var url = "/location/sunposition/%04d/%02d/%02d/%02d/%02d/%f/%f/%f.json" % [year, month, day, floor(hours), floor((hours - floor(hours)) * 60), position_longitude, position_latitude, elevation]
-	
+
+	# FIXME: pysolar will be included with a direct python call in a subprocess of via godot-python
 	var result = ServerConnection.get_json(url)
 	if not result or result.has("Error"):
 		logger.error("could not set sun position: %s" % result["Error"]);
