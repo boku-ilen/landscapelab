@@ -295,7 +295,10 @@ void fragment(){
 				mat3 A = mat3(z, tangent, a);
 				mat3 B = mat3(normal, tangent, b);
 
-				mat3 R = B * transpose(A);
+				// TODO: According to the stackexchange post linked above, transpose(A)
+				//  should be usable instead of inverse(A) here. However, it is not true
+				//  for us that z and tangent are always normal. Why?
+				mat3 R = B * inverse(A);
 
 				normal = R * raw_current_normal;
 			}
