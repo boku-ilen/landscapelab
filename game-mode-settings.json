@@ -14,6 +14,9 @@
 		}
 	},
 	"tools": {
+		"Viewshed": {
+			"modes": [0]
+		},
 		"Teleport": {
 			"modes": [0]
 		},
