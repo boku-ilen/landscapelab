@@ -31,5 +31,13 @@
     "vegetation-data": {
         "name": "vegetation",
         "type": ""
+    },
+    "avg_temperature": {
+        "name": "C:/boku/landscapelab-server/landscapelab/geodata/styria_temperature",
+        "type": "tif"
+    },
+    "avg_precipitation": {
+      "name": "C:/boku/landscapelab-server/landscapelab/geodata/styria_precipitation",
+      "type": "tif"
     }
 }

@@ -22,6 +22,7 @@ var _unitialized_ui =  preload("res://UI/MainUI.tscn")
 
 var vr_activated : bool = false
 var mouse_captured : bool = false
+var world: Node
 
 # These scenes contain the movement and rendering logic for their perspectives
 var first_person_pc_scene = preload("res://Perspectives/PC/FirstPersonPC.tscn")

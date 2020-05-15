@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://World/LODTerrain/Modules/DataModule.gd" type="Script" id=1]
+[ext_resource path="res://Materials/Shaders/DataMesh.shader" type="Shader" id=2]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/height_multiplicator = null
+shader_param/startcolor = null
+shader_param/endcolor = null
+shader_param/should_clip = null
+shader_param/table_pos = null
+shader_param/table_radius = null
+shader_param/random_offset_vectors_scale = 2.5
+shader_param/has_overlay = null
+shader_param/depth_scale = 0.07
+shader_param/depth_min_layers = 4
+shader_param/depth_max_layers = 16
+shader_param/blend_only_similar_colors = true
+shader_param/subdiv = null
+shader_param/size = null
+shader_param/size_without_skirt = null
+shader_param/RADIUS = 6.371e+06
+shader_param/clay_rendering = false
+
+[node name="DataModule" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="." groups=[
+"DataRendering",
+]]
+material_override = SubResource( 1 )

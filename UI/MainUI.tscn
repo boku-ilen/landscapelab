@@ -58,41 +58,42 @@ margin_bottom = 25.0
 script = ExtResource( 5 )
 
 [node name="HBoxRight" type="HBoxContainer" parent="MainUI/Top Menu Bar"]
-margin_left = 1779.0
+margin_left = 1764.0
 margin_right = 1844.0
-margin_bottom = 57.0
+margin_bottom = 72.0
 mouse_filter = 2
 size_flags_horizontal = 10
 size_flags_vertical = 0
 alignment = 2
 
 [node name="VBox" type="VBoxContainer" parent="MainUI/Top Menu Bar/HBoxRight"]
-margin_right = 65.0
-margin_bottom = 57.0
+margin_right = 80.0
+margin_bottom = 72.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Top" type="HBoxContainer" parent="MainUI/Top Menu Bar/HBoxRight/VBox"]
-margin_right = 65.0
-margin_bottom = 57.0
+margin_right = 80.0
+margin_bottom = 72.0
 
 [node name="VR" parent="MainUI/Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 3 )]
 material = SubResource( 1 )
-margin_right = 57.0
-margin_bottom = 57.0
+margin_right = 72.0
+margin_bottom = 72.0
 toggle_mode = true
 texture_normal = ExtResource( 4 )
 texture_name = "vr"
+default_color = Color( 0, 0, 0, 1 )
 signal_pressed = "vr_enable"
 signal_released = "vr_disable"
 
 [node name="Settings" parent="MainUI/Top Menu Bar/HBoxRight/VBox/Top" instance=ExtResource( 44 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 65.0
-margin_right = 65.0
-margin_bottom = 57.0
+margin_left = 80.0
+margin_right = 80.0
+margin_bottom = 72.0
 
 [node name="ValuesOffset" type="VBoxContainer" parent="MainUI"]
 margin_right = 1844.0
@@ -102,7 +103,7 @@ alignment = 2
 
 [node name="Values" parent="MainUI/ValuesOffset" instance=ExtResource( 19 )]
 margin_top = 680.0
-margin_right = 623.0
+margin_right = 638.0
 margin_bottom = 980.0
 mouse_filter = 2
 size_flags_horizontal = 0

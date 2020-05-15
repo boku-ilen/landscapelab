@@ -5,7 +5,6 @@ onready var timer = get_node("Timer")
 
 
 func _ready() -> void:
-	GlobalTerrain.show_terrain()
 	
 	# If the timer times out, this phase ends, even if no selection was made
 	timer.connect("timeout", self, "done")

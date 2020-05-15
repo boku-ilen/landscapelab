@@ -9,13 +9,14 @@ var START_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "start_heigh
 var MOUSE_ZOOM_SPEED = Settings.get_setting("third-person", "mouse-zoom-speed")
 
 onready var mousepoint = get_node("ThirdPersonCamera/MousePoint")
+onready var ground_pos = get_node("GroundPosition")
 
 const UP = Vector3(0, 1, 0)
 const RIGHT = Vector3(1, 0, 0)
 
 
 func _ready():
-	translation.y = START_DISTANCE_TO_GROUND
+	pass#translation.y = START_DISTANCE_TO_GROUND
 
 
 func _handle_viewport_input(event):
@@ -65,7 +66,8 @@ func get_forward():
 
 
 func _process(delta):
-	var on_ground = WorldPosition.get_position_on_ground(translation)
-	if translation.y < on_ground.y:
-		var distance = on_ground.y - translation.y
-		translation.y += distance + 30
+	var on_ground = TerrayCast.get_ground_pos(global_transform.origin, get_world().direct_space_state, [self])
+	if on_ground:
+		if global_transform.origin.y < on_ground.y:
+			var distance = on_ground.y - global_transform.origin.y
+			global_transform.origin.y += distance + 30

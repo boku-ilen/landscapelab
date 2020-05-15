@@ -13,6 +13,8 @@ export(int) var bottom_right_id = 15
 onready var drawer = get_node("LegoExtentDrawer")
 onready var requester = get_node("RegularServerRequest")
 
+var terrain_node: Node
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,11 +40,11 @@ func _on_new_response(response):
 		
 		if assetpos["asset_id"] == top_left_id:
 			var pos = [-assetpos["position"][0], assetpos["position"][1]]
-			top_left_vector = Offset.to_engine_coordinates(pos)
+			top_left_vector = terrain_node.to_engine_coordinates(pos)
 			done += 1
 		elif assetpos["asset_id"] == bottom_right_id:
 			var pos = [-assetpos["position"][0], assetpos["position"][1]]
-			bottom_right_vector = Offset.to_engine_coordinates(pos)
+			bottom_right_vector = terrain_node.to_engine_coordinates(pos)
 			done += 1
 	
 	# Convert the vectors to 3D vectors

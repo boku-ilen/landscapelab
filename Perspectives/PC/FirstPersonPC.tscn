@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Perspectives/PC/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/PC/SettingsCamera.gd" type="Script" id=2]
 [ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Resources/Icons/ClassicLandscapeLab/map_cursor.svg" type="Texture" id=4]
+[ext_resource path="res://Util/GroundPosition.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -14,7 +15,6 @@ transform = Transform( 0.866, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866, 0, 0, 0 )
 collision_layer = 16387
 collision_mask = 16385
 script = ExtResource( 1 )
-is_main_perspective = true
 
 [node name="Head" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
@@ -38,3 +38,5 @@ rotate = true
 transform = Transform( 1, 0, 1.77636e-15, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.65595, 0 )
 shape = SubResource( 1 )
 disabled = true
+
+[node name="GroundPosition" parent="." instance=ExtResource( 5 )]

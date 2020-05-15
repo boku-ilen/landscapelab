@@ -20,6 +20,7 @@ var SNEAK_SPEED = Settings.get_setting("player", "fly-speed-sneak")
 
 onready var head = get_node("Head")
 onready var camera = head.get_node("Camera")
+onready var ground_pos = get_node("GroundPosition")
 
 
 func _ready():
@@ -31,7 +32,7 @@ func _ready():
 # actual position in the whole world. This function returns the true world position of 
 # the player (in webmercator meters) as integers.
 func get_true_position():
-	return Offset.to_world_coordinates(translation)
+	return translation
 
 
 func get_look_direction():
@@ -135,8 +136,7 @@ func fly(delta):
 	# move
 	move_and_slide(target)
 	
-	if walking:
-		translation = WorldPosition.get_position_on_ground(translation)
+	translation = ground_pos.position_on_ground
 
 
 func switch_follow_mode():

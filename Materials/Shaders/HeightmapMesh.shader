@@ -2,10 +2,17 @@ shader_type spatial;
 
 // Parameters to be passed in GDscript:
 uniform sampler2D heightmap;
+uniform float height_multiplicator;
 uniform sampler2D tex : hint_albedo;
 uniform sampler2D normalmap : hint_normal;
 uniform sampler2D splat;
 uniform int water_splat_id;
+
+// Clipping logic
+uniform bool should_clip;
+uniform vec3 table_pos;
+varying vec3 global_pixel_pos;
+uniform float table_radius;
 
 uniform float detail_start_dist;
 
@@ -123,7 +130,10 @@ vec3 get_normal(vec2 normal_uv_pos) {
 
 void vertex() {
 	// Apply the height of the heightmap at this pixel
-	VERTEX.y = get_height(UV);
+	VERTEX.y = get_height(UV) * height_multiplicator;
+	
+	// Vertex engine pos ..?
+	global_pixel_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	
 	// Calculate the engine position of this vertex
 	v_obj_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz / size;
@@ -197,6 +207,15 @@ vec3 HCYtoRGB(vec3 hcy) {
 }
 
 void fragment(){
+	if (should_clip) {
+		vec2 delta_pos = vec2(table_pos.x, table_pos.z) - vec2(global_pixel_pos.x, global_pixel_pos.z);
+		float delta_height = table_pos.y - global_pixel_pos.y;
+		
+		if (length(delta_pos) > table_radius || delta_height > 0.0) {
+			discard;
+		}
+	}
+		
 	// Material parameters
 	ROUGHNESS = 0.95;
 	METALLIC = 0.0;

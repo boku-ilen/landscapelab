@@ -17,6 +17,7 @@ var has_new_data = false  # Set to true when the server request is done so we ca
 var previous_request_done = false  # Used to prevent enqueueing tasks even though the previous one isn't done yet
 var data  # The server response
 var previous_teleport_point  # The previous teleport point - if equal to the new one, we don't need to do anything
+var terrain_node: Node
 
 
 func _ready():
@@ -74,7 +75,7 @@ func _request_data(args):
 func _teleport_player(point):
 	# TODO: Add this to a global function - confusing negations because of different coordinate systems
 	var point_fixed_coordinate = [-point[0], point[1]]
-	var local_point = Offset.to_engine_coordinates(point_fixed_coordinate)
+	var local_point = terrain_node.to_engine_coordinates(point_fixed_coordinate)
 	var local_point_3d = Vector3(local_point.x, 0, local_point.y)
 	
 	PlayerInfo.update_player_pos(WorldPosition.get_position_on_ground(local_point_3d))

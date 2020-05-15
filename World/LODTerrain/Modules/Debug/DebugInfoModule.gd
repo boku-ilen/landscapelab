@@ -10,4 +10,5 @@ func init(data=null):
 
 
 func _process(delta):
-	label.text = "Distance: " + str(tile.get_dist_to_player()) + "\nLOD: " + str(tile.lod)
+	if tile.get_dist_to_player():
+		label.text = "Distance: " + str(tile.get_dist_to_player()) + "\nLOD: " + str(tile.lod)
