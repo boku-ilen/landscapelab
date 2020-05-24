@@ -3,7 +3,7 @@ extends JSONParser
 
 #
 # Parses default-settings.json in order to allow any script to access any setting
-# TODO: an optional settings.json in the working directory can overwrite the default settings
+# TODO: an optional readout of the LL_settings table in the geopackage can overwrite the default settings
 #
 
 var user_config: JSONParseResult = parse_user_data()
@@ -11,12 +11,8 @@ var default_data: JSONParseResult = _parse_json("res://default-settings.json")
 
 
 func parse_user_data():
-	var config = ConfigFile.new()
-	var err = config.load("user://settings.ini")
-	if err == OK: 
-		return config
-	else:
-		logger.info("Could not find a user configuration file so working with the defaults")
+	# TODO: implement reading the geopackage table LL_settings
+	pass
 
 
 # Get a specific setting by category and label (for example: category 'server', label 'ip')
