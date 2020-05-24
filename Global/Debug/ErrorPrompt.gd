@@ -1,5 +1,6 @@
 extends Node
 
+#FIXME: we should move this to a util class
 
 # creates a new AcceptDialog and shows it
 func show(title, msg = ""):

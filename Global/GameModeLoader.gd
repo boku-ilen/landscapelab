@@ -71,6 +71,7 @@ func get_vr_tools(mode, side) -> Array:
 
 
 func get_vr_show_meshes(mode: String, side: String) -> Dictionary:
+	# FIXME:this throws an error when VR is not available
 	var show_hand = get_vr_settings_for_mode(mode)[side]["hand-mesh"]
 	var show_controller = get_vr_settings_for_mode(mode)[side]["controller-mesh"]
 	

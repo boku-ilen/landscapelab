@@ -8,6 +8,7 @@ extends Node
 var _path_imagetexture_dict: Dictionary = {}
 var _load_mutex: Mutex = Mutex.new()
 var _flags: int = Settings.get_setting("caching-images", "default-flags")
+# FIXME: this setting does not exist anymore. This request is resulting in an error message
 var _full_path_prefix: String = Settings.get_setting("filesystem", "local-resources-path")
 
 
