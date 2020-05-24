@@ -11,7 +11,11 @@ export(int) var spawned_id = 1
 export(Material) var until_response_material
 
 onready var cursor: RayCast = get_parent().get_node("InteractRay")
-onready var world = get_tree().get_root().get_node("Main/TileHandler") # Required for getting exact ground positions
+
+# FIXME: These do not exist at that path anymore, and hard-coded paths like these are bad.
+#  We will likely be able to remove them once we restructured the asset handling without
+#  the server.
+onready var world = get_tree().get_root().get_node("Main/TileHandler")
 onready var asset_handler_parent = get_tree().get_root().get_node("Main/AssetHandlerSpawner")
 
 var locked_object = null
@@ -71,9 +75,9 @@ func delete_asset(id):
 
 # Actually sends the server request for deleting an object (to be called from a thread)
 func delete_object_on_server(data):
-    #FIXME: it is currently unresolved how we can get rid of a connection like this as
-    #FIXME: we need to syncronize the asset positions with the lego table and maybe other
-    #FIXME: external displays like QGIS
+	#FIXME: it is currently unresolved how we can get rid of a connection like this as
+	#FIXME: we need to syncronize the asset positions with the lego table and maybe other
+	#FIXME: external displays like QGIS
 	ServerConnection.get_json("/assetpos/remove/%d" % [data[0]])
 
 

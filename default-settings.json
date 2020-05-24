@@ -18,8 +18,8 @@
     
         "level-0-tile-size": 9783.93962,
         "level-0-osm-zoom": 12,
-        "default-tile-subdivision": 128,
-        "update-interval-seconds": 0.2,
+        "default-tile-subdivision": 64,
+        "update-interval-seconds": 0.5,
         "world-shift-distance": 1000,
         "tile-spawn-radius": 1,
         "tile-removal-check-radius-summand": 2,
@@ -27,10 +27,7 @@
             7000,
             2000,
             500,
-            200,
-            100,
-            50,
-            20
+            200
         ],
         "module-path": "res://World/LODTerrain/Modules",
     "modules": [
@@ -38,7 +35,7 @@
             ["TerrainColliderModule.tscn"],
             [],
             [],
-            ["WaterModule.tscn", "-TerrainModule.tscn", "DetailedTerrainModule.tscn"],
+            ["-TerrainModule.tscn", "DetailedTerrainModule.tscn", "RoadModule.tscn"],
             [],
             [],
             [],
@@ -72,7 +69,7 @@
             "5": 0.1
         },
         "detail-texture-start-distance": 300.0,
-	"detail-texture-scale": 0.4,
+	"detail-texture-scale": 0.2,
         "max-vegetations-per-tile": 3
     },
 
@@ -86,7 +83,7 @@
         "clouds": false,
         "fog-begin": 1000,
         "fog-end": 20000,
-        "sun-intensity-factor": 1.8
+        "max-sun-intensity": 1.8
     },
     
     "player": {

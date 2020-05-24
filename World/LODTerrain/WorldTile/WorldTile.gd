@@ -398,20 +398,6 @@ func get_texture(name, interpolation=1):
 		return tex
 
 
-# Builds a request in the form of "/url_start/meter_x/meter_y/zoom.json" and returns the result, if it is valid.
-func get_texture_result(url_start):
-	var true_pos = get_true_position()
-
-	# FIXME: this requests should be handled by geodot and no usages could be found
-	var result = ServerConnection.get_json("/%s/%d.0/%d.0/%d.json"\
-		% [url_start, -true_pos[0], true_pos[2], get_osm_zoom()], false)
-		
-	if not result or result.has("Error"):
-		return null
-		
-	return result
-
-
 # Add a function call to the ThreadPool at an appropriate priority based on the distance of
 #  this tile to the player.
 # Modules should use this function when using the ThreadPool to ensure that all modules of a
@@ -422,16 +408,11 @@ func thread_task(object, function, arguments):
 	
 	# Choose the thread priority based on distance and LOD so that the tasks always spread out over
 	#  the lower priorities
-	# TODO: These values work relatively well with current settings (max lod 8, 4 thread queues),
-	#  but we should generalize them
-	var high_priority_dist = 700 - lod * 86
-	var medium_priority_dist = 10000 - lod * 1230
-	
-	if dist_to_player < high_priority_dist:
-		priority = 70.0
-	elif dist_to_player < medium_priority_dist:
-		priority = 30.0
+	if dist_to_player < 1.0:
+		priority = 99.0
+	elif dist_to_player < 500.0:
+		priority = 50.0
 	else:
 		priority = 0.0
 	
-	ThreadPool.enqueue_task(ThreadPool.Task.new(object, function, arguments), 100.0)
+	ThreadPool.enqueue_task(ThreadPool.Task.new(object, function, arguments), priority)

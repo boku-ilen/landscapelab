@@ -14,7 +14,9 @@ export(Vector3) var forward_for_rotation = Vector3(1, 0, 0)
 func _ready():
 	# Orient the windmill according to the scenario's wind direction
 	# This assumes that a wind direction of 90° means that the wind is blowing from west to east.
-	set_wind_direction(Session.get_current_scenario().default_wind_direction)
+	# FIXME: Since this was removed from the scenario, we need an alternative
+	#  (maybe game mode specific) way to get the wind direction!
+	set_wind_direction(315.0)
 	
 	# If is_inside_tree() in set_wind_direction() returned false, we need to catch up on
 	#  setting the wind direction now.

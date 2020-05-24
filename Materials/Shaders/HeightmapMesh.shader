@@ -9,7 +9,7 @@ uniform int water_splat_id;
 
 uniform float detail_start_dist;
 
-uniform float tex_factor = 0.5; // 0.5 means one Godot meter will have half the texture
+uniform float tex_factor = 0.2; // 0.5 means one Godot meter will have half the texture
 uniform float texture_blending_amount = 25.0; // 1.0 means the transition between two textures will be maximally 1m wide
                                               // (Also depends greatly on the random_offset_vectors texture used!)
 uniform float random_offset_vectors_scale = 2.5; // 2.0 means the random offset vectors texture will repeat every 2m
@@ -19,11 +19,12 @@ uniform sampler2D detail_albedo_sheet : hint_albedo;
 uniform sampler2D detail_normal_sheet : hint_normal;
 uniform sampler2D detail_depth_sheet : hint_black;
 uniform sampler2D id_to_row;
+uniform bool is_detailed = false;
 
 uniform sampler2D overlay_texture;
 uniform bool has_overlay;
 
-uniform float depth_scale = 0.07;
+uniform float depth_scale = 0.8;
 uniform int depth_min_layers = 4;
 uniform int depth_max_layers = 16;
 
@@ -42,6 +43,7 @@ uniform float size_without_skirt;
 uniform float RADIUS = 6371000; // average earth radius in meters
 
 uniform bool clay_rendering = false;
+uniform bool simple_rendering = false;
 
 // Get the value by which vertex at given point must be lowered to simulate the earth's curvature 
 float get_curve_offset(float distance_squared) {
@@ -77,7 +79,7 @@ vec2 get_relative_pos_with_blending(vec2 raw_pos, float dist) {
 
 // Gets the absolute height at a given pos without taking the skirt into account
 float get_height_no_falloff(vec2 pos) {
-	return texture(heightmap, get_relative_pos(pos)).r * 1.3;
+	return texture(heightmap, get_relative_pos(pos)).r * 1.45;
 }
 
 // Gets the required height of the vertex, including the skirt around the edges (the outermost vertices are set to y=0 to allow seamless transitions between tiles)
@@ -204,7 +206,7 @@ void fragment(){
 	vec3 total_color;
 	vec3 normal = texture(normalmap, get_relative_pos(UV)).rgb * 2.0 - vec3(1.0, 1.0, 1.0);
 
-	if (clay_rendering) { // Early exit?
+	if (false) { // Early exit?
 		// For clay rendering, simply display the land-use splatmap.
 		total_color = vec3(float(splat_id) / 255.0);
 	} else {
@@ -236,7 +238,7 @@ void fragment(){
 			float uv_large_scale = 0.2;
 
 			// If the player is too far away, don't do all the detail calculation
-			if (detail_factor > 0.0) {
+			if (is_detailed && detail_factor > 0.0) {
 				vec2 near_uv = UV * size * tex_factor - vec2(floor(UV.x * size * tex_factor), floor(UV.y * size * tex_factor));
 				vec2 far_uv = UV * uv_large_scale * size * tex_factor - vec2(floor(UV.x * uv_large_scale * size * tex_factor), floor(UV.y * uv_large_scale * size * tex_factor));
 
@@ -295,48 +297,57 @@ void fragment(){
 				mat3 A = mat3(z, tangent, a);
 				mat3 B = mat3(normal, tangent, b);
 
-				mat3 R = B * transpose(A);
+				// TODO: According to the stackexchange post linked above, transpose(A)
+				//  should be usable instead of inverse(A) here. However, it is not true
+				//  for us that z and tangent are always normal. Why?
+				mat3 R = B * inverse(A);
 
 				normal = R * raw_current_normal;
 			}
-
-			vec3 raw_detail_color = detail_color;
-
-			vec3 base_hcy = RGBtoHCY(base_color);
-			vec3 detail_hcy = RGBtoHCY(raw_detail_color);
-
-			float hue_difference = abs(base_hcy.x - detail_hcy.x);
-
-			// Adapt the detail texture hue and chroma to the orthophoto
-			// TODO: Would be neat if we could only adapt the hue slightly, but that
-			//  can get us to completely different colors inbetween
-			detail_hcy.x = base_hcy.x;
-			detail_hcy.y = mix(detail_hcy.y, base_hcy.y, 0.5);
-
-			detail_color = HCYtoRGB(detail_hcy);
-
-			if (blend_only_similar_colors) {
-				// If the hue difference is too large, don't use the detail texture at all.
-				// Otherwise, the amount of the detail texture depends on the difference.
-				if (hue_difference > 2.8) {
-					detail_factor = 0.0;
-				} else {
-					detail_factor = (1.0 - hue_difference / 2.8);
-				}
-			}
-
-			// Detail factor gets higher when player is close
-			float dist_factor = clamp(dist / detail_start_dist, 0.0, 1.0);  // 0.0 if very close, 1.0 if very far
-			detail_factor = clamp(detail_factor * (2.0 - dist_factor), 0.0, 1.0);
-
-			// If there was a detail texture here, mix it with the base color
-			// Otherwise, just use the base color
-			// TODO: we could check for this earlier, but I don't think it
-			// makes a difference in shaders, it might actually cause bugs...
-			if (raw_detail_color != vec3(0.0)) {
-				total_color = mix(base_color, detail_color, detail_factor);
-			} else {
+			
+			if (simple_rendering) {
+				total_color = detail_color;
+			} else if (clay_rendering) {
 				total_color = base_color;
+			} else {
+				vec3 raw_detail_color = detail_color;
+				
+				vec3 base_hcy = RGBtoHCY(base_color);
+				vec3 detail_hcy = RGBtoHCY(raw_detail_color);
+	
+				float hue_difference = abs(base_hcy.x - detail_hcy.x);
+	
+				// Adapt the detail texture hue and chroma to the orthophoto
+				// TODO: Would be neat if we could only adapt the hue slightly, but that
+				//  can get us to completely different colors inbetween
+				detail_hcy.x = base_hcy.x;
+				detail_hcy.y = mix(detail_hcy.y, base_hcy.y, 0.5);
+	
+				detail_color = HCYtoRGB(detail_hcy);
+	
+				if (blend_only_similar_colors) {
+					// If the hue difference is too large, don't use the detail texture at all.
+					// Otherwise, the amount of the detail texture depends on the difference.
+					if (hue_difference > 2.8) {
+						detail_factor = 0.0;
+					} else {
+						detail_factor = (1.0 - hue_difference / 2.8);
+					}
+				}
+				
+				// Detail factor gets higher when player is close
+				float dist_factor = clamp(dist / detail_start_dist, 0.0, 1.0);  // 0.0 if very close, 1.0 if very far
+				detail_factor = clamp(detail_factor * (2.0 - dist_factor), 0.0, 1.0);
+	
+				// If there was a detail texture here, mix it with the base color
+				// Otherwise, just use the base color
+				// TODO: we could check for this earlier, but I don't think it
+				// makes a difference in shaders, it might actually cause bugs...
+				if (raw_detail_color != vec3(0.0)) {
+					total_color = mix(base_color, detail_color, detail_factor);
+				} else {
+					total_color = base_color;
+				}
 			}
 		}
 	}
@@ -344,6 +355,7 @@ void fragment(){
 	// We previously put the normal into a range of -1, 1 for proper calculations.
 	// We revert this here because NORMALMAP expects raw values from the texture.
 	NORMALMAP = (normal + vec3(1.0, 1.0, 1.0)) * 0.5;
+	NORMALMAP_DEPTH = 10.0;
 
 	// To test the normals: total_color = NORMALMAP;
 	// To test the land-use map: total_color = vec3(float(splat_id) / 255.0);

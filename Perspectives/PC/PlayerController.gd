@@ -73,6 +73,17 @@ func _handle_viewport_input(event):
 		# TODO: This doesn't really belong here and should be generalized.
 		# Here we make a high-res screenshot with only the assets, the rest is
 		#  transparent, for overlaying on top of real photos.
+		
+		# First, make a raw photo
+		# Retrieve the captured image
+		var img = get_viewport().get_texture().get_data()
+		
+		# Flip it on the y-axis (because it's flipped)
+		img.flip_y()
+		
+		img.save_png("user://photo-raw-%d" % [OS.get_system_time_msecs()])
+		
+		
 		var previous_viewport_size = get_viewport().size
 		
 		camera.cull_mask = 16
@@ -82,7 +93,7 @@ func _handle_viewport_input(event):
 		VisualServer.force_draw()
 		
 		# Retrieve the captured image
-		var img = get_viewport().get_texture().get_data()
+		img = get_viewport().get_texture().get_data()
 		
 		# Flip it on the y-axis (because it's flipped)
 		img.flip_y()

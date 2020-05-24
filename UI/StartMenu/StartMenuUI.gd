@@ -1,6 +1,6 @@
 extends Control
 
-var scenarios: Dictionary = {}
+var scenarios: Array = []
 
 onready var area_list = get_node("PanelContainer/HBoxContainer/VBoxContainer/AreaList")
 onready var gamemode_list = get_node("PanelContainer/HBoxContainer/VBoxContainer/GameModeList")
@@ -20,9 +20,9 @@ func build_area_list():
 	
 	var id = 0
 	if scenarios:  # check for null
-		for i in scenarios:
-			area_list.add_item(scenarios[i].name)
-			area_list.set_item_metadata(id, i)  # Save the scenario ID in the metadata
+		for scenario in scenarios:
+			area_list.add_item(scenario.name)
+			area_list.set_item_metadata(id, scenario)  # Save the scenario ID in the metadata
 			id += 1
 	else:
 		logger.error("Couldn't get scenarios!'")

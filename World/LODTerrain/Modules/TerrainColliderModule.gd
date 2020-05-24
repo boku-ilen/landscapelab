@@ -143,7 +143,7 @@ func get_height_from_image(pix_pos):
 	var height = heightmap_img.get_pixel(pix_pos.x, pix_pos.y).r
 	heightmap_img.unlock()
 	
-	return height * 1.3
+	return height * 1.45
 
 
 # Helper function for create_tile_collision_shape - turns x and y coordinates from the loop to a real position.

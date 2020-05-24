@@ -4,7 +4,6 @@ extends PanelContainer
 # This scene is handling the update of the energy values using a regular server request.
 #
 
-onready var requester = get_node("RegularServerRequest")
 onready var progress_bar = get_parent().get_node("ProgressBar")
 # Load the labels so we can update them regularly with the requested energy contributions
 onready var energy_value = get_node("Energy/EnergySum/EnergyValue")
@@ -20,15 +19,17 @@ func _ready():
 		return
 	
 	# Make the the interval for the assets request in intervals of 2 seconds
-	requester.interval = 2
+	#requester.interval = 2
 	# FIXME: game logic
-	requester.set_request("/energy/contribution/" + String(Session.scenario_id) + "/all.json")
-	requester.connect("new_response", self, "_on_new_response", [], CONNECT_DEFERRED)
+	#requester.set_request("/energy/contribution/" + String(Session.scenario_id) + "/all.json")
+	#requester.connect("new_response", self, "_on_new_response", [], CONNECT_DEFERRED)
 	
-	progress_bar.max_value = Session.get_current_scenario()["energy_requirement_total"]
-	
+	# TODO: Currently disabled because the energy stuff was removed from the Session.
+	#  This game mode specific stuff will be moved somewhere else, so when this is done,
+	#  this reference must be updated accordingly.
+	#progress_bar.max_value = Session.get_current_scenario()["energy_requirement_total"]
 	# Change the value for the target_energy according to the current scenario
-	target_energy.text = String(Session.get_current_scenario()["energy_requirement_total"])
+	#target_energy.text = String(Session.get_current_scenario()["energy_requirement_total"])
 	
 	# Translatable text
 	of.set_text(tr("OF"))

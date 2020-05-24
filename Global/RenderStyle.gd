@@ -3,6 +3,7 @@ extends Node
 
 var styles = [
 	Style.new("Realistic"),
+	Style.new("Simple"),
 	Style.new("Abstract")
 ]
 
@@ -40,8 +41,12 @@ func update_clay_renderers(new_style):
 func update_clay_node(node, new_style):
 	if new_style.name == "Realistic":
 		node.material_override.set_shader_param("clay_rendering", false)
+		node.material_override.set_shader_param("simple_rendering", false)
 	elif new_style.name == "Abstract":
 		node.material_override.set_shader_param("clay_rendering", true)
+		node.material_override.set_shader_param("simple_rendering", false)
+	elif new_style.name == "Simple":
+		node.material_override.set_shader_param("simple_rendering", true)
 
 
 class Style:

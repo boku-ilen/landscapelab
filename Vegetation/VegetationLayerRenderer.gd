@@ -119,7 +119,7 @@ func update_textures(position, world_position, current_offset_from_shifting_befo
 		-world_position[0] - map_size / 2,
 		world_position[2] + map_size / 2,
 		map_size,
-		map_size / 10.0,
+		map_size / 2.0,
 		0
 	)
 	

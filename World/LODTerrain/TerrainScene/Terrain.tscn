@@ -101,16 +101,16 @@ default_asset = ExtResource( 5 )
 material_override = SubResource( 1 )
 process_material = SubResource( 2 )
 draw_pass_1 = ExtResource( 13 )
-rows = 160
-spacing = 0.4
+rows = 100
+spacing = 0.7
 max_size = 2.0
 
 [node name="BushLayer" parent="." instance=ExtResource( 11 )]
 material_override = SubResource( 3 )
 process_material = SubResource( 4 )
 draw_pass_1 = ExtResource( 12 )
-rows = 100
-spacing = 6.0
+rows = 60
+spacing = 10.0
 min_size = 2.0
 max_size = 10.0
 
@@ -118,7 +118,7 @@ max_size = 10.0
 material_override = SubResource( 5 )
 process_material = SubResource( 6 )
 draw_pass_1 = ExtResource( 14 )
-rows = 200
-spacing = 10.0
+rows = 120
+spacing = 14.0
 min_size = 10.0
 max_size = 40.0

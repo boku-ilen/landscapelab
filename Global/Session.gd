@@ -8,28 +8,25 @@ extends Node
 var session_id : int = -1  # start with an invalid session_id
 var scenario_id : int
 
-var scenario_url = "/location/scenario/list.json"
-var session_url = "/location/start_session/%s"  # Fill with scenario ID
-var scenarios: Dictionary
+var scenarios: Array = []
+var current_scenario
 
 
 func _ready():
-	_load_scenarios_from_server()
+	_load_scenarios()
 
 
-# Loads all available scenarios from the server into the 'scenarios' variable.
-func _load_scenarios_from_server():
-    # TODO: we have to discuss if we continue to have a concept like 'scenario' in the future
-    # TODO: anyhow we want to get rid of this server connection so this data could come from
-    # TODO: the geopackage if necessairy
-	var scenario_result = ServerConnection.get_json(scenario_url)
-
-	if not scenario_result or scenario_result.has("Error"):
-		logger.error("Could not load the scenarios from the server")
-		ErrorPrompt.show("ERROR", "Could not fetch scenarios from server - is the server up and connected?")
-		return false
+# Loads all available scenarios into the 'scenarios' variable.
+func _load_scenarios():
+	var raw_scenarios = GeodataPaths.get_raw("scenarios")
 	
-	scenarios = scenario_result
+	for raw_scenario in raw_scenarios:
+		scenarios.append(get_scenario_from_geodata(raw_scenario))
+
+	if scenarios.size() == 0:
+		logger.error("Could not get any valid scenarios")
+		ErrorPrompt.show("ERROR", "Could not get any valid scenarios! Check the geodata.json and the referenced data")
+		return false
 
 
 # Returns all available (previously loaded) scenarios
@@ -42,55 +39,50 @@ func get_scenarios():
 #  energy_requirement_summer, energy_requirement_winter, default_wind_direction
 func get_scenario(scenario_id):
 	# Since this is a string-indiced dictionary, make sure to convert the id to a string
-	return scenarios[String(scenario_id)]
+	return scenarios[scenario_id]
 
 
 # Returns the current scenario or null if it's not set
 func get_current_scenario():
-	if scenario_id:
-		return get_scenario(scenario_id)
-	else:
-		return null
+	return current_scenario
 
 
 # Sets the world offset to the starting position in that scenario.
-func set_start_offset_for_scenario(scenario_id):
-	# store the current active scenario
-	var scen = get_scenario(scenario_id)
-	self.scenario_id = int(scenario_id)
+func set_start_offset_for_scenario(scen):
+	current_scenario = scen
 	
-	# Get starting location (usually first element in dictionary)
-	var start_loc
-	for loc in scen.locations:
-		if scen.locations[loc].starting_location == true:
-			start_loc = scen.locations[loc].location
-			break
+	# Get starting location
+	var start_loc = scen.locations.front().get_vector3()
 
-	# if we found a starting location set the offset accordingly
-	if start_loc:
-		var world_offset_x = -start_loc[0]
-		var world_offset_z = start_loc[1]
-		
-		Offset.set_offset(world_offset_x, world_offset_z)
-	else:
-		logger.error("Could not initialize starting location")
-		# FIXME: what to do? is it possible to start at a random or calculated starting location based on the bounding polygon geometry
-		# FIXME: we should provide a default setting for this in the client configuration which is overwritten by
-		# FIXME: the geodata configuration
+	var world_offset_x = -start_loc.x
+	var world_offset_z = -start_loc.z
+	
+	Offset.set_offset(world_offset_x, world_offset_z)
 
 
 # we want to get a new session id from the server thus ending the old session
 func start_session(scenario_id):
-	# try to get a new session id for this scenario
-	# don't cache - we want a different ID every time
 	# TODO: a session is only required for recording so the session should now be handled
 	# TODO: by the client alone. If we really plan a multi'player' option we may need to
 	# TODO: make sure uniqueness by using the connection_id or something like that
-	var session = ServerConnection.get_json(session_url % [scenario_id], false)
+	self.session_id = 7020 # FIXME: Increment somehow - maybe save last used session_id
+
+
+func get_scenario_from_geodata(raw_scenario):
+	var scenario = Scenario.new()
+
+	scenario.name = raw_scenario.name
 	
-	if not session or session.has("Error"):
-		logger.warning("Could not fetch a new session id from %s" % session_url)
-		ErrorPrompt.show("WARNING", "Could not start a new session")
-		
-	# sets the new session id
-	self.session_id = int(session.session)
+	var location = raw_scenario.locations
+	var path = GeodataPaths.get_base().plus_file(location.name) + "." + location.type
+	
+	# TODO: We need all points and this is a bit of a hacky way to get them - should
+	#  probably be added to Geodot
+	scenario.locations = Geodot.get_points_near_position(path, 0, 0, 10000000000, 100)
+	
+	return scenario
+
+
+class Scenario:
+	var name
+	var locations

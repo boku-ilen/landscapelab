@@ -25,8 +25,8 @@ __meta__ = {
 
 [node name="Play" parent="." instance=ExtResource( 4 )]
 material = SubResource( 1 )
-margin_right = 57.0
-margin_bottom = 57.0
+margin_right = 72.0
+margin_bottom = 72.0
 texture_normal = ExtResource( 6 )
 texture_name = "play"
 

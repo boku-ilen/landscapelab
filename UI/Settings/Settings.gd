@@ -2,7 +2,6 @@ extends Control
 
 
 onready var settings = get_node("SettingsWindow")
-onready var debug = get_node("SettingsWindow/ScrollContainer2/VBoxContainer/Debug")
 onready var lego = get_node("SettingsWindow/ScrollContainer/VBoxContainer/Lego")
 onready var button = get_node("ShowSettingsButton")
 

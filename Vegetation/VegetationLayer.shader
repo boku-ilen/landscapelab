@@ -19,7 +19,7 @@ float get_height(vec2 pos) {
 	
 	pos += vec2(1.0, 1.0);
 	
-	return texture(heightmap, pos).r * 1.3;
+	return texture(heightmap, pos).r * 1.45;
 }
 
 void vertex() {
@@ -49,10 +49,10 @@ void vertex() {
 	pos.y = get_height(pos.xz);
 	
 	// rotate our transform
-	TRANSFORM[0][0] = cos(noise.z * 3.0);
-	TRANSFORM[0][2] = -sin(noise.z * 3.0);
-	TRANSFORM[2][0] = sin(noise.z * 3.0);
-	TRANSFORM[2][2] = cos(noise.z * 3.0);
+	TRANSFORM[0][0] = cos(noise.x * 3.0);
+	TRANSFORM[0][2] = -sin(noise.x * 3.0);
+	TRANSFORM[2][0] = sin(noise.x * 3.0);
+	TRANSFORM[2][2] = cos(noise.x * 3.0);
 	
 	// update our transform to place
 	TRANSFORM[3][0] = pos.x;
