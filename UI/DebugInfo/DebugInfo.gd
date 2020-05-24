@@ -29,6 +29,6 @@ func _process(delta: float) -> void:
 	#  could we make this nicer?
 	logger_output.text = ""
 	
-	for message in logger.stream:
+	for message in logger.get_memory():
 		if message:
 			logger_output.text += message + "\n"
