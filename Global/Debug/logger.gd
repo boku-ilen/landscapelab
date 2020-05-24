@@ -318,6 +318,10 @@ func warn(message, module = "main"):
 	"""Log a message in the given module with level WARN."""
 	put(WARN, message, module)
 
+func warning(message, module = "main"):
+	"""Log a message in the fiven module with level WARN."""
+	put(WARN, message, module)
+
 func error(message, module = "main"):
 	"""Log a message in the given module with level ERROR."""
 	put(ERROR, message, module)
