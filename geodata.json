@@ -1,31 +1,31 @@
 {
-    "base-directory": "",
+    "base-directory": "C:/boku/landscapelab-server/landscapelab/geodata/austria",
     "orthophoto": {
-      "name": "C:/boku/landscapelab-server/landscapelab/geodata/orthofoto",
+      "name": "orthophoto",
         "type": "jpg"
     },
     "topomap": {
-        "name": "C:/boku/landscapelab-server/landscapelab/geodata/opentopomap",
+        "name": "opentopomap",
         "type": "png"
     },
     "heightmap": {
-        "name": "C:/boku/landscapelab-server/landscapelab/geodata/austria_heights",
+        "name": "austria-heights",
         "type": "tif"
     },
     "heightmap2": {
-        "name": "C:/boku/landscapelab-server/landscapelab/geodata/austria_heights2",
+        "name": "austria-heights2",
         "type": "tif"
     },
     "land-use": {
-        "name": "C:/boku/landscapelab-server/landscapelab/geodata/sentinel-invekos-bytes",
+        "name": "sentinel-invekos-bytes",
         "type": "tif"
     },
     "infrastructure": {
-        "name": "C:/boku/landscapelab-server/landscapelab/geodata/streets/2_linknetz_ogd_WM",
+        "name": "2_linknetz_ogd_WM",
         "type": "shp"
     },
     "power-poles": {
-        "name": "C:/boku/landscapelab-server/landscapelab/geodata/power-poles/power_poles_and_towers_level_code",
+        "name": "power_poles_and_towers_level_code",
         "type": "shp"
     },
     "vegetation-data": {
@@ -33,11 +33,11 @@
         "type": ""
     },
     "avg_temperature": {
-        "name": "C:/boku/landscapelab-server/landscapelab/geodata/styria_temperature",
+        "name": "styria_temperature",
         "type": "tif"
     },
     "avg_precipitation": {
-      "name": "C:/boku/landscapelab-server/landscapelab/geodata/styria_precipitation",
+      "name": "styria_precipitation",
       "type": "tif"
     }
 }

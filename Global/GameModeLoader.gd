@@ -71,13 +71,11 @@ func get_vr_tools(mode, side) -> Array:
 
 
 func get_vr_show_meshes(mode: String, side: String) -> Dictionary:
-	var show_hand = get_vr_settings_for_mode(mode)[side]["hand-mesh"]
-	var show_controller = get_vr_settings_for_mode(mode)[side]["controller-mesh"]
+	var gui_finger = false
 	
-	var gui_finger 
+	var show_hand = get_vr_settings_for_mode(mode)[side]["hand-mesh"]
+	var show_controller = get_vr_settings_for_mode(mode)[side]["controller-mesh"] 
 	if show_hand:
 		gui_finger = get_vr_settings_for_mode(mode)[side]["gui-finger"]
-	else:
-		gui_finger = false
 	
 	return {"hand": show_hand, "controller": show_controller, "gui_finger": gui_finger}

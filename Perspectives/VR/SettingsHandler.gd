@@ -1,5 +1,7 @@
 extends Node
 
+const game_state = preload("res://addons/gameflow/GameState.gd")
+const game_mode = preload("res://addons/gameflow/GameMode.gd")
 
 func _update_meshes(current_mode):
 	var show = GameModeLoader.get_vr_show_meshes(current_mode, "left")
@@ -30,8 +32,9 @@ func _ready():
 
 
 func update():
-	var current_mode = get_tree().get_current_scene().name
-	_update_meshes(current_mode)
-	_update_tools(current_mode)
-	get_parent().get_node("Left").update()
-	get_parent().get_node("Right").update()
+	var current_mode = get_tree().get_current_scene()
+	if current_mode is game_mode or current_mode is game_state:
+		_update_meshes(current_mode.name)
+		_update_tools(current_mode.name)
+		get_parent().get_node("Left").update()
+		get_parent().get_node("Right").update()

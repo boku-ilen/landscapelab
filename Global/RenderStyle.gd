@@ -30,7 +30,7 @@ func _check_and_set_new_node(node: Node):
 	if node.is_in_group("ClayRenderingShader"):
 		update_clay_node(node, current_style)
 		node.visible = !data_module_enabled
-	elif node.is_in_group("DataRendering"):
+	elif node.is_in_group("DataRendering") and table != null:
 		node.material_override.set_shader_param("should_clip", true)
 		node.material_override.set_shader_param("table_pos", table.plate.global_transform.origin)
 		node.material_override.set_shader_param("table_radius", table.plate.mesh.top_radius)
