@@ -25,7 +25,7 @@ func build_area_list():
 			area_list.set_item_metadata(id, scenario)  # Save the scenario ID in the metadata
 			id += 1
 	else:
-		logger.error("Couldn't get scenarios!'")
+		logger.error("Couldn't get scenarios!'", "StartMenuUI")
 	
 	# Select the first item by default
 	area_list.select(0)
