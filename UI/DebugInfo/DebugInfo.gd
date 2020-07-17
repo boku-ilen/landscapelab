@@ -28,7 +28,8 @@ func _process(delta: float) -> void:
 	# TODO: Unnecessarily inefficient, but Godot doesn't have streams...
 	#  could we make this nicer?
 	logger_output.text = ""
-	
-	for message in logger.get_memory():
-		if message:
-			logger_output.text += message + "\n"
+
+	if visible:
+		for message in logger.get_memory():
+			if message:
+				logger_output.text += message + "\n"
