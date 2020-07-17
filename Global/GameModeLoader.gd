@@ -1,5 +1,6 @@
 extends JSONParser
 
+# FIXME: this is going to be replaced by the "GameEngine"
 
 var _settings: Dictionary = _parse_json("res://game-mode-settings.json")
 var _values_settings = _settings["values"]

@@ -1,5 +1,8 @@
 extends JSONParser
 
+# FIXME: this needs to be completely overthrown to read the geodata from the geopackage
+# FIXME: in the future - this is going to be replaced by the new Geodot API and Configuration
+# FIXME: management
 
 var _paths: Dictionary = _parse_json("res://geodata.json")
 
