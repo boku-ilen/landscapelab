@@ -22,5 +22,6 @@ func _unhandled_input(event):
 		
 		instance.global_transform.origin = instance_position + direction * 20.0
 		instance.apply_central_impulse(direction * 10000.0)
-		
-		print(instance.global_transform.origin)
+
+		# FIXME: this seems to randomly outputs numbers in the console
+		# print(instance.global_transform.origin)
