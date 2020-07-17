@@ -139,7 +139,7 @@ _global_script_class_icons={
 [application]
 
 config/name="LandscapeLab!"
-run/main_scene="res://StartScene.tscn"
+run/main_scene="res://UI/MainUI.tscn"
 boot_splash/image="res://Resources/Icons/Meta/splash.png"
 boot_splash/fullsize=false
 config/icon="res://Resources/Icons/Meta/icon.png"
@@ -172,9 +172,12 @@ Vegetation="*res://Global/Vegetation.gd"
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
+window/size/height=576
+window/size/borderless=true
 window/dpi/allow_hidpi=true
+window/per_pixel_transparency/allowed=true
+window/per_pixel_transparency/enabled=true
+window/energy_saving/keep_screen_on=false
 window/stretch/aspect="expand"
 
 [editor_plugins]

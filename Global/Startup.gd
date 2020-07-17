@@ -10,13 +10,11 @@ var geopackage: String = ""
 # of the auto loader configuration - no logging is available
 func _ready():
 
-	# start with maximized window
-	OS.set_window_maximized(true)
 	# preliminary set the window title
 	OS.set_window_title("LandscapeLab!")
 
 	# TODO: check the runtime parameters
-	var argv = OS.get_cmdline_args()
+	# var argv = OS.get_cmdline_args()
 
 	# find the landscapelab geopackage
 	base_path = OS.get_executable_path().get_base_dir()
@@ -36,3 +34,11 @@ func _ready():
 	if geopackage == "":
 		print("Could not find a valid geopackage! It has to be in the format of LL_<name>.gpkg[x]")
 		get_tree().quit()
+
+	# change the pixel transparency
+	ProjectSettings.set_setting("display/window/per_pixel_transparency/enabled", false)
+	ProjectSettings.set_setting("display/window/per_pixel_transparency/allowed", false)
+	# start with maximized window with borders
+	OS.set_window_maximized(true)
+	OS.set_borderless_window(false)
+	OS.set_window_always_on_top(false)
