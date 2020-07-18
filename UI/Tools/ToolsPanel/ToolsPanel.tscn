@@ -84,31 +84,29 @@ shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [node name="ToolsPanel" type="VBoxContainer"]
-margin_left = -385.0
-margin_top = 40.0
-margin_right = 29.0
-margin_bottom = 440.0
+anchor_bottom = 1.0
+margin_right = 132.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+alignment = 1
 script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-toggled_pos_diff = 385
-hovered_pos_diff = 35
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 468.0
-margin_bottom = 400.0
+margin_right = 132.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 0, 600 )
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
-margin_right = 460.0
+margin_right = 124.0
 margin_bottom = 400.0
-rect_min_size = Vector2( 460, 400 )
+rect_min_size = Vector2( 80, 400 )
 mouse_filter = 1
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -117,10 +115,11 @@ __meta__ = {
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/PanelContainer"]
-margin_left = 350.0
+margin_left = 14.0
 margin_top = 14.0
-margin_right = 446.0
+margin_right = 110.0
 margin_bottom = 386.0
+rect_min_size = Vector2( 0, 370 )
 mouse_filter = 1
 size_flags_horizontal = 8
 scroll_horizontal_enabled = false
@@ -137,6 +136,8 @@ margin_right = 72.0
 margin_bottom = 72.0
 texture_normal = ExtResource( 19 )
 script = ExtResource( 20 )
+texture_name = ""
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="Teleport" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 2 )
@@ -146,6 +147,7 @@ margin_bottom = 152.0
 texture_normal = ExtResource( 3 )
 script = ExtResource( 10 )
 texture_name = "locomotion"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="Container" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Teleport" instance=ExtResource( 16 )]
 visible = false
@@ -158,6 +160,7 @@ margin_bottom = 232.0
 shortcut = SubResource( 5 )
 texture_normal = ExtResource( 2 )
 texture_name = "footprint"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="Record" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Tracking" instance=ExtResource( 6 )]
 visible = false
@@ -169,6 +172,7 @@ margin_right = 72.0
 margin_bottom = 312.0
 texture_normal = ExtResource( 1 )
 texture_name = "clock"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="Datetime" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Season" instance=ExtResource( 14 )]
 visible = false
@@ -180,6 +184,7 @@ margin_right = 72.0
 margin_bottom = 392.0
 texture_normal = ExtResource( 12 )
 texture_name = "construction"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="List" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Assets" instance=ExtResource( 5 )]
 visible = false
@@ -191,6 +196,7 @@ margin_right = 72.0
 margin_bottom = 472.0
 texture_normal = ExtResource( 4 )
 texture_name = "camera"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="ImagingMenu" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Imaging" instance=ExtResource( 8 )]
 visible = false
@@ -202,6 +208,7 @@ margin_right = 72.0
 margin_bottom = 552.0
 texture_normal = ExtResource( 17 )
 texture_name = "paintbrush"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="RenderingStyleMenu" parent="HBoxContainer/PanelContainer/ScrollContainer/ToolsBar/Style" instance=ExtResource( 18 )]
 visible = false
@@ -210,23 +217,24 @@ margin_right = 84.0
 margin_bottom = -8.0
 
 [node name="PopupsContainer" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 468.0
-margin_right = 468.0
-margin_bottom = 400.0
+margin_left = 132.0
+margin_right = 132.0
+margin_bottom = 600.0
 
 [node name="Node" type="Control" parent="."]
-margin_top = 408.0
-margin_right = 468.0
-margin_bottom = 408.0
+margin_top = 608.0
+margin_right = 132.0
+margin_bottom = 608.0
 
 [node name="Button" parent="Node" instance=ExtResource( 13 )]
 material = SubResource( 10 )
-margin_left = 430.863
-margin_top = -439.755
-margin_right = 466.863
-margin_bottom = -403.755
+margin_left = 130.456
+margin_top = -595.811
+margin_right = 202.456
+margin_bottom = -523.811
 mouse_filter = 1
 size_flags_horizontal = 8
 toggle_mode = true
 texture_normal = ExtResource( 15 )
 texture_name = "up"
+default_color = Color( 0, 0, 0, 1 )

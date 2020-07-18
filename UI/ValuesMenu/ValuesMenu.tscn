@@ -32,20 +32,19 @@ text = "Select Value"
 
 [node name="Button" parent="." instance=ExtResource( 2 )]
 material = SubResource( 1 )
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = 208.0
-margin_top = 243.0
-margin_right = 265.0
+margin_top = 228.0
+margin_right = 280.0
 margin_bottom = 300.0
 size_flags_horizontal = 0
 size_flags_vertical = 8
 texture_normal = ExtResource( 4 )
 texture_name = "up"
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-margin_left = 273.0
-margin_right = 623.0
+margin_left = 288.0
+margin_right = 638.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 350, 300 )
 mouse_filter = 1
