@@ -28,26 +28,5 @@
         "type": ""
     },
     "scenarios": [
-        {
-            "name": "Photopoints Nockberge",
-            "locations": {
-                "name": "scenarios/photopoints_nockberge",
-                "type": "shp"
-            }
-        },
-        {
-            "name": "Photopoints Joglland",
-            "locations": {
-                "name": "scenarios/photopoints_joglland",
-                "type": "shp"
-            }
-        },
-        {
-            "name": "Photopoints Kamptal",
-            "locations": {
-                "name": "scenarios/photopoints_kamptal",
-                "type": "shp"
-            }
-        }
     ]
 }
