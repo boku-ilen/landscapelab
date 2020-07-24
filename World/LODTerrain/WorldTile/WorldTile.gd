@@ -1,4 +1,3 @@
-tool
 extends Spatial
 class_name WorldTile
 
@@ -45,6 +44,10 @@ var osm_start = Settings.get_setting("lod", "level-0-osm-zoom")
 var subdiv : int = Settings.get_setting("lod", "default-tile-subdivision")
 
 var handler_node
+
+# Get's injected from a node above
+var center_node: Spatial
+var position_manager: Node
 
 # Signals
 signal tile_done_loading # Emitted once all modules have finished loading -> the tile is ready
@@ -108,9 +111,10 @@ func _process(delta):
 		if has_node("ModuleHandler"):
 			get_node("ModuleHandler").visible = false
 
+
 # Sets the parameters needed to actually create the tile (must be called before adding to the scene tree = must be
 # called before _ready()!)
-func init(s, lod_level):
+func init(s, lod_level, pos_manager, center):
 	size = s
 	lod = lod_level
 	
@@ -126,6 +130,9 @@ func init(s, lod_level):
 	# We add 2 to subdiv and increase the size by the added squares for the skirt around the mesh (which fills gaps
 	# where things don't match up)
 	size_with_skirt = size + (2.0/(subdiv + 1.0)) * size
+	
+	position_manager = pos_manager
+	center_node = center
 	
 	initialized = true
 
@@ -271,7 +278,7 @@ func get_true_position():
 		node = node.get_parent()
 		t *= node.transform
 	
-	return Offset.to_world_coordinates(t.origin)
+	return position_manager.to_world_coordinates(t.origin)
 
 
 # Returns the OSM zoom level that corresponds to this tile - used for server requests
@@ -334,12 +341,12 @@ func split(dist_to_player):
 		logger.info("Tile splitting to LOD %d due to distance %f" % [lod + 1, dist_to_player])
 		
 		has_split = true
-		children.instantiate_children()
+		children.instantiate_children(position_manager, center_node)
 
 
 # Gets the distance of the center of the tile to the last known player location
 func get_dist_to_player():
-	var player_pos = PlayerInfo.get_engine_player_position()
+	var center_pos = center_node.translation
 	
 	# Get closest point within rectangle to circle
 	var clamped = Vector3()
@@ -349,10 +356,10 @@ func get_dist_to_player():
 	var origin = Vector2(gtranslation.x - size/2, gtranslation.z - size/2)
 	var end = Vector2(gtranslation.x + size/2, gtranslation.z + size/2)
 	
-	clamped.x = clamp(player_pos.x, origin.x, end.x)
-	clamped.z = clamp(player_pos.z, origin.y, end.y)
-
-	return Vector2(player_pos.x, player_pos.z).distance_to(Vector2(clamped.x, clamped.z))
+	clamped.x = clamp(center_pos.x, origin.x, end.x)
+	clamped.z = clamp(center_pos.z, origin.y, end.y)
+	
+	return Vector2(center_pos.x, center_pos.z).distance_to(Vector2(clamped.x, clamped.z))
 
 
 func get_geoimage(name, interpolation=1):

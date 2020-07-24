@@ -14,7 +14,7 @@ signal all_children_done_loading
 
 
 # Here, the actual splitting happens - this function can be run in a thread
-func instantiate_children():
+func instantiate_children(position_man, center_node):
 	# The children are simply named from 0 to 3:
 	#  ----> x
 	# | 0 2
@@ -41,7 +41,7 @@ func instantiate_children():
 			child.name = String(cur_name)
 			cur_name += 1
 
-			child.init((tile.size / 2.0), tile.lod + 1)
+			child.init((tile.size / 2.0), tile.lod + 1, position_man, center_node)
 			
 			child.connect("tile_done_loading", self, "_on_child_done_loading")
 			
