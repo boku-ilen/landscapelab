@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://World/World.tscn" type="PackedScene" id=1]
+[ext_resource path="res://test/test.gd" type="Script" id=2]
+
+[node name="Spatial" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="C3PO" parent="." instance=ExtResource( 1 )]
+center_node_path = NodePath("Camera")
+
+[node name="Camera" type="Camera" parent="C3PO"]
+transform = Transform( 1, 0, 0, 0, 0.0925096, 0.995712, 0, -0.995712, 0.0925096, 0, 1000, 1.879 )
