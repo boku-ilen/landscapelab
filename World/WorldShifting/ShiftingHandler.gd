@@ -14,17 +14,13 @@ class_name ShiftingHandler
 export(String) var group_name
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	Offset.connect("shift_world", self, "_on_shift_world")
-
-
 # Implement with this group's shifting behavior.
 func _handle_shift(node: Node, delta_x : int, delta_z : int):
 	pass
 
 
-func _on_shift_world(delta_x : int, delta_z : int):
+# To be called from a position managing node!
+func on_shift_world(delta_x : int, delta_z : int):
 	for node in _get_nodes():
 		_handle_shift(node, delta_x, delta_z)
 

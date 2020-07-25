@@ -15,6 +15,8 @@ LayerContainer. This can for instance be raster-data, such as vegetation
 export(NodePath) var center_node_path
 
 onready var terrain = get_node("Terrain")
+onready var path_shifter = get_node("Terrain/PathShiftingHandler")
+onready var spatial_shifter = get_node("Terrain/SpatialShiftingHandler")
 onready var center_node = get_node(center_node_path)
 
 # TODO: all these will come from the configuration
@@ -61,6 +63,8 @@ func shift_world(delta_x, delta_z):
 	z += delta_z
 	
 	center_node.translation += Vector3(delta_x, 0, delta_z)
+	path_shifter.on_shift_world(delta_x, delta_z)
+	spatial_shifter.on_shift_world(delta_x, delta_z)
 	
 	logger.debug("New offset: %d, %d" % [x, z])
 
