@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://World/World.tscn" type="PackedScene" id=1]
 [ext_resource path="res://test/test.gd" type="Script" id=2]
 [ext_resource path="res://Perspectives/PC/ThirdPersonPC.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/MainUI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/MiniView/MiniView.tscn" type="PackedScene" id=5]
 
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 2 )
@@ -11,3 +13,9 @@ script = ExtResource( 2 )
 center_node_path = NodePath("ThirdPersonPC")
 
 [node name="ThirdPersonPC" parent="C3PO" instance=ExtResource( 3 )]
+
+[node name="MainUI" parent="." instance=ExtResource( 4 )]
+
+[node name="MiniView" parent="." instance=ExtResource( 5 )]
+margin_left = -632.0
+margin_bottom = 19.0
