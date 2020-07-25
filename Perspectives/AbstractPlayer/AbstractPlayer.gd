@@ -12,13 +12,14 @@ var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 
 
 func _ready():
+	pass
 	# TODO: We should not need this here, the new ShiftingSpatial group should
 	#  take care of that. However, for some reason, it doesn't work for the
 	#  player...
-	Offset.connect("shift_world", self, "shift")
-	
-	if is_main_perspective:
-		PlayerInfo.is_main_active = true
+#	Offset.connect("shift_world", self, "shift")
+#
+#	if is_main_perspective:
+#		PlayerInfo.is_main_active = true
 
 
 # Handles notifications sent by the engine
@@ -43,14 +44,15 @@ func _notification(what):
 
 
 func _physics_process(delta):
-	if has_moved and is_main_perspective:
-		PlayerInfo.update_player_pos(translation)
-		PlayerInfo.update_player_look_direction(-(get_node("Head/Camera").global_transform.basis.z))
-		has_moved = false
-	else:
-		if PlayerInfo.is_follow_enabled:
-			translation.x = PlayerInfo.get_engine_player_position().x
-			translation.z = PlayerInfo.get_engine_player_position().z
+	pass
+#	if has_moved and is_main_perspective:
+#		PlayerInfo.update_player_pos(translation)
+#		PlayerInfo.update_player_look_direction(-(get_node("Head/Camera").global_transform.basis.z))
+#		has_moved = false
+#	else:
+#		if PlayerInfo.is_follow_enabled:
+#			translation.x = PlayerInfo.get_engine_player_position().x
+#			translation.z = PlayerInfo.get_engine_player_position().z
 
 
 func _unhandled_input(event):
