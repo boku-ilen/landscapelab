@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://UI/StartMenu/StartMenuUI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://StartScene.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/eye.svg" type="Texture" id=8]
+[ext_resource path="res://UI/Theme/LandscapeLab.tres" type="Theme" id=9]
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://UI/ValuesMenu/ValuesMenu.tscn" type="PackedScene" id=19]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
@@ -26,6 +27,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource( 9 )
 script = ExtResource( 43 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -48,8 +50,8 @@ margin_bottom = 72.0
 texture_normal = ExtResource( 8 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TopLeftUI/HBoxContainer"]
-margin_left = 80.0
-margin_right = 80.0
+margin_left = 76.0
+margin_right = 76.0
 margin_bottom = 72.0
 
 [node name="DebugOverlay" type="Label" parent="TopLeftUI/HBoxContainer/VBoxContainer"]
@@ -68,7 +70,7 @@ __meta__ = {
 }
 
 [node name="Top" type="HBoxContainer" parent="TopRightUI"]
-margin_right = 168.0
+margin_right = 164.0
 margin_bottom = 80.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -89,8 +91,8 @@ signal_released = "vr_disable"
 [node name="Settings" parent="TopRightUI/Top" instance=ExtResource( 44 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 88.0
-margin_right = 168.0
+margin_left = 84.0
+margin_right = 164.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 80, 80 )
 
@@ -115,10 +117,9 @@ __meta__ = {
 }
 
 [node name="ToolsPanel" parent="ToolsOffset" instance=ExtResource( 1 )]
-margin_left = 0.0
-margin_top = 84.0
-margin_right = 468.0
-margin_bottom = 492.0
+anchor_bottom = 0.0
+margin_right = 100.0
+margin_bottom = 604.0
 size_flags_vertical = 4
 
 [node name="Bottom UI" type="MarginContainer" parent="."]
@@ -140,7 +141,7 @@ __meta__ = {
 }
 
 [node name="Values" parent="Bottom UI/ValuesOffset" instance=ExtResource( 19 )]
-margin_right = 638.0
+margin_right = 630.0
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
