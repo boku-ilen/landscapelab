@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Buildings/GeodataDemo.gd" type="Script" id=1]
+
+[node name="GeodataDemo" type="Spatial"]
+script = ExtResource( 1 )
+geodata_path = "/media/karl/loda/geodata/steiermark/ALS_Gebaeudemaske/buildings.shp"
+building_layer_name = "buildings"
+height_attribute_name = "HOEHE"
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.840633, 0.167257, -0.515132, 0, 0.951121, 0.308818, 0.541605, -0.259602, 0.799544, -120.426, 72.4184, 114.155 )
+far = 3000.0
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.786159, 0.485565, -0.382336, 0, 0.618642, 0.785673, 0.618024, -0.617664, 0.486351, 0, 0, 0 )
