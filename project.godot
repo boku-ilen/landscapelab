@@ -44,11 +44,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Global/JSONParser.gd"
 }, {
-"base": "Spatial",
-"class": "Layer",
-"language": "GDScript",
-"path": "res://World/Layers/Layer.gd"
-}, {
 "base": "CSGPolygon",
 "class": "LinearCSGPolygon",
 "language": "GDScript",
@@ -94,11 +89,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/SpritesheetHelper.gd"
 }, {
-"base": "Spatial",
-"class": "TileHandler",
-"language": "GDScript",
-"path": "res://World/LODTerrain/TileHandler.gd"
-}, {
 "base": "TextureButton",
 "class": "ToolsButton",
 "language": "GDScript",
@@ -132,7 +122,6 @@ _global_script_class_icons={
 "ControllerTool": "",
 "GroundedSpatial": "",
 "JSONParser": "",
-"Layer": "",
 "LinearCSGPolygon": "",
 "LinearDrawer": "",
 "Module": "",
@@ -142,7 +131,6 @@ _global_script_class_icons={
 "PositionManager": "",
 "ShiftingHandler": "",
 "SpritesheetHelper": "",
-"TileHandler": "",
 "ToolsButton": "",
 "VRGuiElement": "",
 "VRInteractable": "",
