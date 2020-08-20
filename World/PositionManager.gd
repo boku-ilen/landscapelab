@@ -1,4 +1,5 @@
 extends Spatial
+class_name PositionManager
 
 
 """This scene offers the possibility to use of the world of the LandscapeLab 

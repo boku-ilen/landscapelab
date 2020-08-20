@@ -25,7 +25,7 @@ var REMOVAL_RADIUS_SUMMAND = Settings.get_setting("lod", "tile-removal-check-rad
 
 # Get's injected from a node above
 var center_node: Spatial
-var position_manager: Node
+var position_manager: PositionManager
 
 # Global options
 export(bool) var update_terrain = true

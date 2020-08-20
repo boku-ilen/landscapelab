@@ -47,7 +47,7 @@ var handler_node
 
 # Get's injected from a node above
 var center_node: Spatial
-var position_manager: Node
+var position_manager: PositionManager
 
 # Signals
 signal tile_done_loading # Emitted once all modules have finished loading -> the tile is ready

@@ -10,6 +10,8 @@ var rotating : bool = false
 
 var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 
+var position_manager: PositionManager
+
 
 func _ready():
 	pass
