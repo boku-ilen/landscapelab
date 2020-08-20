@@ -73,8 +73,8 @@ func _ready():
 	handler_node.connect("all_modules_done_loading", self, "_on_module_handler_done")
 	
 	# Uncomment/comment to toggle threaded loading
-	handler_node.init([self])
-	#thread_task(module_handler, "init", [self])
+	#handler_node.init([self])
+	thread_task(handler_node, "init", [self])
 
 
 func _on_module_handler_done():
