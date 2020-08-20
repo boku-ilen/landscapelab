@@ -1,9 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Imaging/Dolly/DollyCamera/DollyCamera.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Imaging/DrawPath/Path/PathTexture.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Imaging/Dolly/ViewportContainer.gd" type="Script" id=3]
-[ext_resource path="res://Imaging/Dolly/RecordingViewport.gd" type="Script" id=4]
+[ext_resource path="res://Util/Imaging/Dolly/DollyCamera/DollyCamera.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Util/Imaging/DrawPath/Path/PathTexture.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Util/Imaging/Dolly/ViewportContainer.gd" type="Script" id=3]
+[ext_resource path="res://Util/Imaging/Dolly/RecordingViewport.gd" type="Script" id=4]
+
 
 [sub_resource type="Curve3D" id=1]
 _data = {

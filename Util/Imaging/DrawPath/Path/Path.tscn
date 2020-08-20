@@ -1,8 +1,9 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Imaging/Dolly/Dolly.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Util/Imaging/Dolly/Dolly.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Resources/Icons/SimpleOpenMoji/down.svg" type="Texture" id=2]
-[ext_resource path="res://Imaging/DrawPath/Path/Path.gd" type="Script" id=3]
+[ext_resource path="res://Util/Imaging/DrawPath/Path/Path.gd" type="Script" id=3]
+
 
 [sub_resource type="SphereMesh" id=1]
 radius = 10.0
