@@ -15,7 +15,7 @@ func _ready() -> void:
 
 # Change the log level of the logger when the level slider has been moved
 func _on_log_level_change(level):
-	logger.level = level
+	logger.set_default_output_level(level)
 	
 
 # Make this node visible or invisible when the debug mode is toggled
