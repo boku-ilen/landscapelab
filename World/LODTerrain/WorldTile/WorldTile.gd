@@ -296,21 +296,14 @@ func activate():
 		if child.has_method("activate"):
 			child.activate()
 			
-	var dist_to_player = get_dist_to_player()
+	var dist_to_center = get_dist_to_center()
 	
 	# Check whether this is a high LOD tile which needs to converge
 	if done_loading:
-		if lod > 0 and dist_to_player > max_lods[lod - 1]:
+		if lod > 0 and dist_to_center > max_lods[lod - 1]:
 			converge()
-		elif lod < max_lods.size() and dist_to_player < max_lods[lod]:
-			split(dist_to_player)
-
-
-# Move the tile in the world (used for offsetting)
-func move(delta):
-	if !initialized: return
-	
-	translation += delta
+		elif lod < max_lods.size() and dist_to_center < max_lods[lod]:
+			split(dist_to_center)
 
 
 # Returns the offset of the top left corner of this tile from the tile which is 'steps' above this one, as a Vector2
@@ -345,7 +338,7 @@ func split(dist_to_player):
 
 
 # Gets the distance of the center of the tile to the last known player location
-func get_dist_to_player():
+func get_dist_to_center():
 	var center_pos = center_node.translation
 	
 	# Get closest point within rectangle to circle
@@ -411,7 +404,7 @@ func get_texture(name, interpolation=1):
 #  tile have the same priority.
 func thread_task(object, function, arguments):
 	var priority
-	var dist_to_player = get_dist_to_player()
+	var dist_to_player = get_dist_to_center()
 	
 	# Choose the thread priority based on distance and LOD so that the tasks always spread out over
 	#  the lower priorities

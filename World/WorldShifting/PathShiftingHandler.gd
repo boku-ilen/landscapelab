@@ -15,3 +15,5 @@ func _handle_shift(path, delta_x, delta_z):
 		position.z += delta_z
 		
 		path.curve.set_point_position(point_id, position)
+	
+	logger.debug("Paths are being shifted.")

@@ -85,34 +85,36 @@ func _process(delta):
 # Spawn a tile at the given __tilegrid coordinate__ position
 func spawn_tile(pos):
 	var tile_instance = tile.instance()
-	#tile_instance.center_node = center_node
-	#tile_instance.position_manager = position_manager
+	logger.debug("%d,%d instanced" % [pos[0], pos[1]])
 	tile_instance.name = "%d,%d" % [pos[0], pos[1]]
-	tile_instance.translation = Offset.to_engine_coordinates([pos[0] * GRIDSIZE + GRIDSIZE/2, 0, pos[1] * GRIDSIZE + GRIDSIZE/2])
+	var absolute_translation = [pos[0] * GRIDSIZE + GRIDSIZE/2, 0, pos[1] * GRIDSIZE + GRIDSIZE/2]
+	tile_instance.translation = position_manager.to_engine_coordinates(absolute_translation)
 	
 	tile_instance.init(GRIDSIZE, 0, position_manager, center_node)
+	logger.debug("%d,%d init" % [pos[0], pos[1]])
 	
 	# These root tiles need to react to world shifting since they are
 	#  responsible for the global position; their children are simply relative
 	#  to them
 	tile_instance.add_to_group("SpatialShifting")
+	logger.debug("%d,%d added to shifting" % [pos[0], pos[1]])
 	
 	tiles.add_child(tile_instance)
 
 
 # Returns the grid coordinates of the tile at a certain absolute position (passed as an array for int accuracy)
-func absolute_to_grid(abs_pos: Vector3):
+func absolute_to_grid(abs_pos: Array):
 	return Vector2(round((abs_pos[0] - GRIDSIZE/2) / GRIDSIZE), round((abs_pos[2] - GRIDSIZE/2) / GRIDSIZE))
 
 
 # Get the tilegrid coordinates of the tile the player is currently standing on
 func get_tile_at_center():
-	return absolute_to_grid(center_node.translation)
+	return absolute_to_grid(position_manager.to_world_coordinates(center_node.translation))
 
 
 # Returns the top-level tile (no tile parent) which is at the given position, or null
 #  if there is no tile for that position.
-func get_tile_at_position(position: Vector3):
+func get_tile_at_position(position: Array):
 	var grid_pos = absolute_to_grid(position)
 	
 	if tiles.has_node("%d,%d" % [grid_pos.x, grid_pos.y]):

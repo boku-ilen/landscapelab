@@ -55,17 +55,17 @@ func _process(delta):
 	if time_to_interval >= UPDATE_INTERVAL: # Update
 		time_to_interval -= UPDATE_INTERVAL
 		
-		var player_tile = get_tile_at_player()
-		if player_tile == null: return
+		var center_tile = get_tile_at_player()
+		if center_tile == null: return
 		
 		var player_pos = PlayerInfo.get_engine_player_position()
 		
 		# Loop through the entire rectangle (TILE_RADIUS + REMOVAL_RADIUS_SUMMAND)
-		for x in range(player_tile.x - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, player_tile.x + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
-			for y in range(player_tile.y - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, player_tile.y + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
+		for x in range(center_tile.x - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, center_tile.x + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
+			for y in range(center_tile.y - TILE_RADIUS - REMOVAL_RADIUS_SUMMAND, center_tile.y + TILE_RADIUS + 1 + REMOVAL_RADIUS_SUMMAND):
 				
-				if (x in range(player_tile.x - TILE_RADIUS, player_tile.x + TILE_RADIUS + 1)
-				and y in range(player_tile.y - TILE_RADIUS, player_tile.y + TILE_RADIUS + 1)):
+				if (x in range(center_tile.x - TILE_RADIUS, center_tile.x + TILE_RADIUS + 1)
+				and y in range(center_tile.y - TILE_RADIUS, center_tile.y + TILE_RADIUS + 1)):
 					# We're in the smaller, spawning radius -> Spawn tiles in here which don't yet exist
 					if not tiles.has_node("%d,%d" % [x, y]):
 						# There is no tile here yet -> spawn the proper tile
@@ -76,8 +76,8 @@ func _process(delta):
 						tiles.get_node("%d,%d" % [x, y]).delete()
 		
 		# Activate 9 tiles closest to player
-		for x in range(player_tile.x - 2, player_tile.x + 3):
-			for y in range(player_tile.y - 2, player_tile.y + 3):
+		for x in range(center_tile.x - 2, center_tile.x + 3):
+			for y in range(center_tile.y - 2, center_tile.y + 3):
 				if tiles.has_node("%d,%d" % [x, y]):
 					tiles.get_node("%d,%d" % [x, y]).activate()
 

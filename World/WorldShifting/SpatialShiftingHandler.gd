@@ -15,3 +15,5 @@ func _handle_shift(spatial, delta_x, delta_z):
 	# need to get a new ground position
 	if spatial is GroundedSpatial:
 		spatial._just_placed_on_ground = true
+	
+	logger.debug("Spatials are being shifted.")

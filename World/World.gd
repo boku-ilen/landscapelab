@@ -62,7 +62,8 @@ func shift_world(delta_x, delta_z):
 	x += delta_x
 	z += delta_z
 	
-	center_node.translation += Vector3(delta_x, 0, delta_z)
+	center_node.translation.x += delta_x
+	center_node.translation.z += delta_z
 	path_shifter.on_shift_world(delta_x, delta_z)
 	spatial_shifter.on_shift_world(delta_x, delta_z)
 	
@@ -107,3 +108,15 @@ func to_engine_coordinates(pos):
 	else:
 		logger.warning("Invalid type for to_engine_coordinates: %s; Needs to be Array with length of 2 or 3"
 		 % [String(typeof(pos))])
+
+
+# Converts any position from array to vector of vice versa
+func change_position_format(pos):
+	if pos is Array and pos.size() == 2:
+		return Vector2(pos[0], pos[1])
+	elif pos is Array and pos.size() == 3:
+		return Vector3(pos[0], pos[1], pos[2])
+	elif pos is Vector2:
+		return [pos[0], pos[1]]
+	elif pos is Vector3:
+		return [pos[0], pos[1], pos[2]]
