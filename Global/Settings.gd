@@ -6,13 +6,14 @@ extends JSONParser
 # TODO: an optional readout of the LL_settings table in the geopackage can overwrite the default settings
 #
 
-var user_config: JSONParseResult = parse_user_data()
-var default_data: JSONParseResult = _parse_json("res://default-settings.json")
+const default_settings_path: String = "res://default-settings.json"
+const scenario_config_path: String = "res://sample1_2.gpkg"
+const user_config_path: String = "res://"
 
-
-func parse_user_data():
-	# TODO: implement reading the geopackage table LL_settings
-	pass
+var default_data: JSONParseResult = _parse_json(default_settings_path)
+var cl_args = Array(OS.get_cmdline_args())
+#var scenario_config: Array = Geodot.get_dataset(scenario_settings_path).get_feature_layer(feature_layer)
+var user_config: JSONParseResult #= _parse_json(user_config_path)
 
 
 # Get a specific setting by category and label (for example: category 'server', label 'ip')
@@ -32,3 +33,7 @@ func get_setting(category, label, default=null):
 		# if not we provide the default settings
 		else:
 			return default_data[category][label]
+
+
+func get_setting_block(category):
+	return default_data[category]
