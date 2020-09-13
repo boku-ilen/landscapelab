@@ -2,7 +2,7 @@ extends Node
 class_name Configurator
 
 
-var category: String setget set_category
+export(String) var category: String setget set_category
 var setting_block
 
 
