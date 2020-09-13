@@ -21,6 +21,8 @@ onready var asset_handler_parent = get_tree().get_root().get_node("Main/AssetHan
 var locked_object = null
 var enabled_input_controller = false
 
+var pos_manager: PositionManager
+
 
 func _ready():
 	# Connect signal to set the according itemID
@@ -49,7 +51,7 @@ func _unhandled_input(event):
 				
 				else:
 					var collision_point = cursor.get_collision_point()
-					var global_collision_point = Offset.to_world_coordinates(collision_point)
+					var global_collision_point = pos_manager.to_world_coordinates(collision_point)
 					
 					# As the server request takes some time we instance a scene for the time we are waiting for a result
 					# - Sucessful: the node will be renamed with the given id of the server

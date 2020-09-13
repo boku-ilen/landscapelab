@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.gd" type="Script" id=1]
-[ext_resource path="res://Materials/MinimapIconMaterial.tres" type="Material" id=2]
+[ext_resource path="res://Resources/Materials/MinimapIconMaterial.tres" type="Material" id=2]
+
 
 [node name="MinimapIcon" type="Spatial"]
 script = ExtResource( 1 )
