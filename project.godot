@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://World/BaseTiles/BaseTiles.gd"
 }, {
+"base": "Node",
+"class": "Configurator",
+"language": "GDScript",
+"path": "res://Config/Configurator.gd"
+}, {
 "base": "Spatial",
 "class": "ControllerTool",
 "language": "GDScript",
@@ -43,6 +48,11 @@ _global_script_classes=[ {
 "class": "JSONParser",
 "language": "GDScript",
 "path": "res://Global/JSONParser.gd"
+}, {
+"base": "Resource",
+"class": "Layer",
+"language": "GDScript",
+"path": "res://Layers/Layer.gd"
 }, {
 "base": "CSGPolygon",
 "class": "LinearCSGPolygon",
@@ -68,11 +78,6 @@ _global_script_classes=[ {
 "class": "MoveableObject",
 "language": "GDScript",
 "path": "res://Assets/Superclasses/MovableObject.gd"
-}, {
-"base": "Spatial",
-"class": "Perspective",
-"language": "GDScript",
-"path": "res://Perspectives/AbstractPerspective.gd"
 }, {
 "base": "Spatial",
 "class": "PositionManager",
@@ -119,15 +124,16 @@ _global_script_class_icons={
 "AbstractPlayer": "",
 "AutoTextureButton": "",
 "BaseTiles": "",
+"Configurator": "",
 "ControllerTool": "",
 "GroundedSpatial": "",
 "JSONParser": "",
+"Layer": "",
 "LinearCSGPolygon": "",
 "LinearDrawer": "",
 "Module": "",
 "ModuleHandler": "",
 "MoveableObject": "",
-"Perspective": "",
 "PositionManager": "",
 "ShiftingHandler": "",
 "SpritesheetHelper": "",
@@ -154,14 +160,13 @@ config/icon="res://Resources/Icons/Meta/icon.png"
 
 Startup="*res://Global/Startup.gd"
 logger="*res://Global/Debug/logger.gd"
-Settings="*res://Global/Settings.gd"
+Settings="*res://Config/Settings.gd"
 ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
 GlobalSignal="*res://Global/GlobalSignal.gd"
 ServerConnection="*res://Global/ServerConnection.gd"
 ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
 Session="*res://Global/Session.gd"
 PlayerInfo="*res://Global/PlayerInfo.gd"
-Offset="*res://Global/Offset.gd"
 TooltipHandler="*res://Global/TooltipHandler.gd"
 WorldPosition="*res://Global/WorldPosition.gd"
 PerformanceTracker="*res://Global/Debug/PerformanceTracker.gd"
@@ -175,7 +180,7 @@ RenderStyle="*res://Global/RenderStyle.gd"
 GeodataPaths="*res://Global/GeodataPaths.gd"
 GlobalVRAccess="*res://addons/vr-toolkit/GlobalVRAccess.gd"
 Vegetation="*res://Global/Vegetation.gd"
-dbg="*res://Global/Debug/dbg.gd"
+Layers="*res://Layers/Singletons/Layers.gd"
 
 [display]
 
