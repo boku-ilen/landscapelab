@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/Layers/LayerUI.gd" type="Script" id=1]
+
+[node name="LayerUI" type="VBoxContainer"]
+margin_right = 454.0
+margin_bottom = 212.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LayerUIConfig" type="Node" parent="."]
+script = ExtResource( 1 )
