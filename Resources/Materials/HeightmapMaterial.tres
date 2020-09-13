@@ -1,7 +1,8 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
-[ext_resource path="res://Materials/Shaders/HeightmapMesh.shader" type="Shader" id=1]
+[ext_resource path="res://Resources/Materials/Shaders/HeightmapMesh.shader" type="Shader" id=1]
 [ext_resource path="res://Resources/Textures/ShaderUtil/rgb_noise.png" type="Texture" id=2]
+
 
 [resource]
 resource_local_to_scene = true
