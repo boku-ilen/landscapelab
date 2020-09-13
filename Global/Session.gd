@@ -57,7 +57,7 @@ func set_start_offset_for_scenario(scen):
 	var world_offset_x = -start_loc.x
 	var world_offset_z = -start_loc.z
 	
-	Offset.set_offset(world_offset_x, world_offset_z)
+	#Offset.set_offset(world_offset_x, world_offset_z)
 
 
 # we want to get a new session id from the server thus ending the old session
