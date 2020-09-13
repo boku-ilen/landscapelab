@@ -14,6 +14,8 @@ onready var delete_button = get_node("VBoxContainer/HBoxContainer/Delete")
 onready var arrow_up = get_node("Arrows/ArrowUp")
 onready var arrow_down = get_node("Arrows/ArrowDown")
 
+var pos_manager: PositionManager
+
 
 func _ready():
 	item_list.connect("item_activated", self, "_on_poi_activated")
@@ -56,7 +58,7 @@ func _load_pois():
 # in another script
 func _on_poi_activated(index):
 	var fixed_pos = item_list.get_item_metadata(index)
-	UISignal.emit_signal("poi_teleport",  Offset.to_engine_coordinates(fixed_pos))
+	UISignal.emit_signal("poi_teleport",  pos_manager.to_engine_coordinates(fixed_pos))
 
 
 func _on_add_pressed():

@@ -13,6 +13,8 @@ var instanced_path_nodes: Node = Node.new()
 var instance_timer = 0
 var instance_wait_time = 0.1
 
+var pos_manager: PositionManager
+
 
 func _get_line_array():
 	var true_pos = tile.get_true_position()
@@ -53,7 +55,7 @@ func _get_all_lines():
 
 
 func _get_path_node_for_line(line):
-	var curve = line.get_offset_curve3d(Offset.x, 0, -Offset.z) as Curve3D
+	var curve = line.get_offset_curve3d(pos_manager.x, 0, -pos_manager.z) as Curve3D
 	var drawer = path_scene.instance() as LinearDrawer
 	
 	drawer.set_curve(curve)

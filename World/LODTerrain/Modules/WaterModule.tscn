@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://World/LODTerrain/Modules/WaterModule.gd" type="Script" id=1]
-[ext_resource path="res://Materials/SplatmapWater.tres" type="Material" id=2]
+[ext_resource path="res://Resources/Materials/SplatmapWater.tres" type="Material" id=2]
+
 
 [node name="WaterModule" type="Spatial"]
 script = ExtResource( 1 )

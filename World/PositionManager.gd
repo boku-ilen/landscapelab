@@ -6,7 +6,7 @@ class_name PositionManager
 encapsulated. The general idea is to have a node which determines the current 
 center position (in the graphic the VRTable/Player). 
 
-The node above (C3PO) then forwards this position to the Terrain nodes and
+The node above (PositionManager) then forwards this position to the Terrain nodes and
 also manages Offset/Shifting-behaviour. Via the BaseTiles a very basic version 
 of the world will be rendered. Additional geo-information are added in the 
 LayerContainer. This can for instance be raster-data, such as vegetation 

@@ -26,6 +26,8 @@ var previous_origin
 
 var current_offset_from_shifting = Vector2.ZERO
 
+var pos_manager: PositionManager
+
 # Updates the visibility aabb which is used for culling.
 func update_aabb():
 	var size = rows * spacing
@@ -54,13 +56,14 @@ func get_spacing():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Offset.connect("shift_world", self, "_on_shift_world")
+	# TODO: Fixme
+	#Offset.connect("shift_world", self, "_on_shift_world")
 	
 	set_rows(rows)
 	set_spacing(spacing)
 	
 	previous_origin = global_transform.origin
-	var position = Offset.to_world_coordinates(global_transform.origin)
+	var position = pos_manager.to_world_coordinates(global_transform.origin)
 	update_textures(previous_origin, position, current_offset_from_shifting)
 
 
@@ -85,7 +88,7 @@ func _process(delta):
 			> additional_map_size / 4.0:
 		
 		var position = global_transform.origin
-		var world_position = Offset.to_world_coordinates(position)
+		var world_position = pos_manager.to_world_coordinates(position)
 		var offset = current_offset_from_shifting
 		
 		load_thread.start(self, "_threaded_update_textures", [position, world_position, offset])

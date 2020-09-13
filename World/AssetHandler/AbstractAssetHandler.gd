@@ -17,7 +17,7 @@ export(float) var initial_update_delay = 0  # Wait for some time before making t
 export(int) var max_assets_per_tick = 1 # Maximum amount of assets to spawn per frame to prevent long stutters
 export(int) var asset_type_id
 
-var debug_material = preload("res://Materials/DebugPink.tres")
+var debug_material = preload("res://Resources/Materials/DebugPink.tres")
 
 var _result
 var _fresh_result
