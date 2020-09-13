@@ -9,10 +9,10 @@
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 2 )
 
-[node name="C3PO" parent="." instance=ExtResource( 1 )]
-center_node_path = NodePath("ThirdPersonPC")
+[node name="World" parent="." instance=ExtResource( 1 )]
+center_node_path = NodePath("../World/ThirdPersonPC")
 
-[node name="ThirdPersonPC" parent="C3PO" instance=ExtResource( 3 )]
+[node name="ThirdPersonPC" parent="World" instance=ExtResource( 3 )]
 
 [node name="MainUI" parent="." instance=ExtResource( 4 )]
 margin_right = -8.0
