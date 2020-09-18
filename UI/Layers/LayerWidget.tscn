@@ -1,11 +1,111 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://UI/Layers/LayerWidget.gd" type="Script" id=1]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/eye.svg" type="Texture" id=2]
+[ext_resource path="res://UI/Layers/EditWindow.gd" type="Script" id=3]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/three_points.svg" type="Texture" id=4]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/raster.svg" type="Texture" id=5]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/eye_crossed.svg" type="Texture" id=6]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=7]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=8]
 
-[node name="LayerWidget" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/color = null
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[node name="LayerWidget" type="HBoxContainer"]
+margin_right = 480.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 480, 75 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="RightContainer" type="HBoxContainer" parent="."]
+margin_right = 406.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 400, 0 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VisibilityBox" type="MarginContainer" parent="RightContainer"]
+margin_right = 72.0
+margin_bottom = 72.0
+
+[node name="ColorRect" type="ColorRect" parent="RightContainer/VisibilityBox"]
+margin_right = 72.0
+margin_bottom = 72.0
+color = Color( 1, 1, 1, 0 )
+
+[node name="VisibilityButton" parent="RightContainer/VisibilityBox" instance=ExtResource( 8 )]
+material = SubResource( 1 )
+margin_right = 72.0
+margin_bottom = 72.0
+toggle_mode = true
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 6 )
+
+[node name="VSeparator" type="VSeparator" parent="RightContainer"]
+margin_left = 80.0
+margin_right = 88.0
+margin_bottom = 72.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="RightContainer"]
+margin_left = 96.0
+margin_right = 168.0
+margin_bottom = 72.0
+texture = ExtResource( 5 )
+
+[node name="Name" type="Label" parent="RightContainer"]
+margin_left = 176.0
+margin_top = 23.0
+margin_right = 406.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 230, 0 )
+size_flags_horizontal = 8
+text = "test "
+valign = 1
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeftContainer" type="HBoxContainer" parent="."]
+margin_left = 414.0
+margin_right = 486.0
+margin_bottom = 75.0
+alignment = 2
+
+[node name="Edit" parent="LeftContainer" instance=ExtResource( 8 )]
+material = SubResource( 2 )
+margin_right = 72.0
+margin_bottom = 75.0
+texture_normal = ExtResource( 4 )
+
+[node name="EditWindow" type="PopupMenu" parent="."]
+margin_left = 545.07
+margin_top = 7.73784
+margin_right = 823.07
+margin_bottom = 204.738
+script = ExtResource( 3 )
+
+[node name="ColorMenu" type="PopupMenu" parent="EditWindow"]
+margin_right = 40.0
+margin_bottom = 40.0

@@ -5,12 +5,28 @@ extends Control
 
 # Dependency comes from the LayerRenderers-Node which should always be above in the tree
 var layer: Layer
+var raster_icon = preload("res://Resources/Icons/ColorOpenMoji/raster.svg")
+var feature_icon = preload("res://Resources/Icons/ColorOpenMoji/vector.svg")
 
-# Called when the node enters the scene tree for the first time.
+onready var icon = get_node("RightContainer/Icon")
+onready var visibility_button = get_node("RightContainer/VisibilityBox/VisibilityButton")
+onready var color_tag = get_node("RightContainer/VisibilityBox/ColorRect")
+onready var edit_button = get_node("LeftContainer/Edit")
+onready var edit_window = get_node("EditWindow")
+
+
 func _ready():
-	pass # Replace with function body.
+#	if layer.type == layer.types.raster:
+#		icon.texture = raster_icon
+#	elif layer.type == layer.types.feature:
+#		icon.texture = feature_icon
+	edit_button.connect("pressed", self, "_pop_edit")
+	edit_window.connect("change_color_tag", self, "_change_color_tag")
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _pop_edit():
+	edit_window.popup()
+
+
+func _change_color_tag(color: Color):
+	color_tag.color = color
