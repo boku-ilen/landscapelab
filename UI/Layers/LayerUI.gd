@@ -3,7 +3,7 @@ extends Configurator
 
 var layer_widget = preload("res://UI/Layers/LayerWidget.tscn")
 
-onready var layer_container = get_parent()
+onready var layer_container = get_parent().get_node("ScrollContainer/LayerContainer")
 
 
 # Called when the node enters the scene tree for the first time.

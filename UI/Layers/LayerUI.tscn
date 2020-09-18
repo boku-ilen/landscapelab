@@ -1,13 +1,36 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://UI/Layers/LayerUI.gd" type="Script" id=1]
+[ext_resource path="res://UI/Layers/LayerWidget.tscn" type="PackedScene" id=2]
 
-[node name="LayerUI" type="VBoxContainer"]
-margin_right = 454.0
-margin_bottom = 212.0
+[node name="LayerUI" type="PanelContainer"]
+margin_right = 514.0
+margin_bottom = 332.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LayerUIConfig" type="Node" parent="."]
 script = ExtResource( 1 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 500.0
+margin_bottom = 318.0
+
+[node name="LayerContainer" type="VBoxContainer" parent="ScrollContainer"]
+margin_right = 486.0
+margin_bottom = 158.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LayerWidget2" parent="ScrollContainer/LayerContainer" instance=ExtResource( 2 )]
+margin_right = 486.0
+margin_bottom = 75.0
+
+[node name="LayerWidget" parent="ScrollContainer/LayerContainer" instance=ExtResource( 2 )]
+margin_top = 83.0
+margin_right = 486.0
+margin_bottom = 158.0
