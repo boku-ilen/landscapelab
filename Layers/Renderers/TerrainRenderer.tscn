@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Layers/LayerRenderer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Layers/Renderers/TerrainRenderer.gd" type="Script" id=2]
+[ext_resource path="res://Layers/Renderers/TerrainShader.tres" type="Material" id=4]
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 1000, 1000 )
+subdivide_width = 500
+subdivide_depth = 500
+
+[node name="TerrainRenderer" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="TerrainMesh" type="MeshInstance" parent="." index="0"]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 4 )

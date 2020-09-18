@@ -1,4 +1,5 @@
 extends Spatial
+class_name LayerRenderer
 
 
 # Dependency comes from the LayerRenderers-Node which should always be above in the tree

@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Layers/Layer.gd"
 }, {
+"base": "Spatial",
+"class": "LayerRenderer",
+"language": "GDScript",
+"path": "res://Layers/LayerRenderer.gd"
+}, {
 "base": "CSGPolygon",
 "class": "LinearCSGPolygon",
 "language": "GDScript",
@@ -83,6 +88,11 @@ _global_script_classes=[ {
 "class": "PositionManager",
 "language": "GDScript",
 "path": "res://World/PositionManager.gd"
+}, {
+"base": "Layer",
+"class": "RasterLayer",
+"language": "GDScript",
+"path": "res://Layers/RasterLayer.gd"
 }, {
 "base": "Node",
 "class": "ShiftingHandler",
@@ -129,12 +139,14 @@ _global_script_class_icons={
 "GroundedSpatial": "",
 "JSONParser": "",
 "Layer": "",
+"LayerRenderer": "",
 "LinearCSGPolygon": "",
 "LinearDrawer": "",
 "Module": "",
 "ModuleHandler": "",
 "MoveableObject": "",
 "PositionManager": "",
+"RasterLayer": "",
 "ShiftingHandler": "",
 "SpritesheetHelper": "",
 "ToolsButton": "",
@@ -168,7 +180,6 @@ ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
 Session="*res://Global/Session.gd"
 PlayerInfo="*res://Global/PlayerInfo.gd"
 TooltipHandler="*res://Global/TooltipHandler.gd"
-WorldPosition="*res://Global/WorldPosition.gd"
 PerformanceTracker="*res://Global/Debug/PerformanceTracker.gd"
 Assets="*res://Global/Assets.gd"
 ModuleLoader="*res://Global/ModuleLoader.gd"
@@ -181,6 +192,7 @@ GeodataPaths="*res://Global/GeodataPaths.gd"
 GlobalVRAccess="*res://addons/vr-toolkit/GlobalVRAccess.gd"
 Vegetation="*res://Global/Vegetation.gd"
 Layers="*res://Layers/Singletons/Layers.gd"
+WorldPosition="*res://Global/WorldPosition.gd"
 
 [display]
 

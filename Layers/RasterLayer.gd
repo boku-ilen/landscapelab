@@ -1,4 +1,5 @@
 extends Layer
+class_name RasterLayer
 
 # is of type Geodot.GeoRasterLayer
 # TODO: look up how to access classes from gdnative for typing

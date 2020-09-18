@@ -11,3 +11,5 @@ var is_scored: bool = false
 var is_visible: bool = true
 
 var name: String
+
+var fields: Dictionary = {}
