@@ -31,7 +31,7 @@ func _ready():
 # actual position in the whole world. This function returns the true world position of 
 # the player (in webmercator meters) as integers.
 func get_true_position():
-	return Offset.to_world_coordinates(translation)
+	return translation
 
 
 func get_look_direction():

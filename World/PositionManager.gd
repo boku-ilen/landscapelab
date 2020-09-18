@@ -36,10 +36,13 @@ var z: int = 0
 func _ready():
 	inject_offset_properties()
 	
-	WorldPosition.set_handler(base_tiles)
+	if base_tiles:
+		WorldPosition.set_handler(base_tiles)
 
 
 func _process(delta):
+	return  # FIXME: Disabled for now
+	
 	world_shift_timer += delta
 	
 	if world_shift_timer > world_shift_check_period:
