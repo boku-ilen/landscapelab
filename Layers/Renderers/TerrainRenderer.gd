@@ -1,39 +1,40 @@
 extends LayerRenderer
 
 
-# TODO:
-# Instead of heightmap dataset, use `layer` variable.
-# Instead of ortho dataset, use reference to other layer - coming from the `layer`.
-# Get position from somewhere else
-
-onready var mesh = get_node("TerrainMesh")
-
-var tile_size_meters = 1000
-var tile_size_pixels = 2000
+var update_thread = Thread.new()
+var done = false
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
+	update_thread.start(self, "update_lods")
+
+
+func _process(delta):
+	if done:
+		# Now that all data is loaded, apply all new tetures at once
+		for lod in get_children():
+			lod.call_deferred("apply_textures")
+		
+		done = false
+
+
+func update_lods(data):
+	# TODO: Move this position out, pass it from the World node down to here
 	var pos_x = 420776.711
 	var pos_y = 453197.501
 	
-	var heightmap_data = layer.render_info.height_layer
-	var ortho_data = layer.render_info.texture_layer
-	
-	var img = heightmap_data.get_image(
-		pos_x,
-		pos_y,
-		tile_size_meters,
-		500,
-		1
-	)
-	var ortho = ortho_data.get_image(
-		pos_x,
-		pos_y,
-		tile_size_meters,
-		2000,
-		1
-	)
-	
-	mesh.get_surface_material(0).set_shader_param("heights", img.get_image_texture())
-	mesh.get_surface_material(0).set_shader_param("tex", ortho.get_image_texture())
+	while true:
+		for lod in get_children():
+			lod.position_x = pos_x
+			lod.position_y = pos_y
+		
+			lod.height_layer = layer.render_info.height_layer
+			lod.texture_layer = layer.render_info.texture_layer
+			
+			lod.build()
+		
+		done = true
+		
+		# FIXME: Just for testing the update cycles
+		pos_x += 10
+		pos_y += 10

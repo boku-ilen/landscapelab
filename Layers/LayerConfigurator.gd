@@ -1,6 +1,8 @@
 extends Configurator
 
 
+export(String) var geopackage_path
+
 var geodataset
 
 
@@ -14,7 +16,7 @@ func _ready():
 
 # Adds static test data; will be removed as soon as we have a valid GeoPackage.
 func add_test_data():
-	var geopackage = Geodot.get_dataset("GPKG:/home/karl/Downloads/LL_base.gpkg")
+	var geopackage = Geodot.get_dataset(geopackage_path)
 
 	# Heightmap
 	var height_layer = RasterLayer.new()
