@@ -35,3 +35,6 @@ class TerrainRenderInfo extends RenderInfo:
 
 class ParticlesRenderInfo extends RenderInfo:
 	pass
+
+class ObjectRenderInfo extends RenderInfo:
+	var object: PackedScene

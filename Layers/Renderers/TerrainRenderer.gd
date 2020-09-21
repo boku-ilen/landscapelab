@@ -8,17 +8,14 @@ extends LayerRenderer
 
 onready var mesh = get_node("TerrainMesh")
 
-var heightmap_data_path = "/media/karl/loda1/geodata/wien/test_dhm.tif"
-var ortho_data_path = "/media/karl/loda1/geodata/wien/test_ortho.jpg"
-
 var tile_size_meters = 1000
 var tile_size_pixels = 2000
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var pos_x = -6131.50
-	var pos_y = 336222.39
+	var pos_x = 420776.711
+	var pos_y = 453197.501
 	
 	var heightmap_data = layer.render_info.height_layer
 	var ortho_data = layer.render_info.texture_layer

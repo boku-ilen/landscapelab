@@ -14,16 +14,15 @@ func _ready():
 
 # Adds static test data; will be removed as soon as we have a valid GeoPackage.
 func add_test_data():
-	var heightmap_data_path = "/media/karl/loda1/geodata/wien/test_dhm.tif"
-	var ortho_data_path = "/media/karl/loda1/geodata/wien/test_ortho.jpg"
+	var geopackage = Geodot.get_dataset("GPKG:/home/karl/Downloads/LL_base.gpkg")
 
 	# Heightmap
 	var height_layer = RasterLayer.new()
-	height_layer.geo_raster_layer = Geodot.get_dataset(heightmap_data_path).get_raster_layer("")
+	height_layer.geo_raster_layer = geopackage.get_raster_layer("dhm")
 	
 	# Orthophoto
 	var ortho_layer = RasterLayer.new()
-	ortho_layer.geo_raster_layer = Geodot.get_dataset(ortho_data_path).get_raster_layer("")
+	ortho_layer.geo_raster_layer = geopackage.get_raster_layer("ortho")
 	
 	# Terrain layer
 	var terrain_layer = Layer.new()
