@@ -26,6 +26,9 @@ func _ready():
 	#       [... asset fields]
 	# TODO: we want to get rid of this server connection. This kind of setting should come
 	# TODO: from the game logic or the geo data
+	
+	return # FIXME: Phasing out the server
+	
 	var result = ServerConnection.get_json(url)
 	
 	if not result:
