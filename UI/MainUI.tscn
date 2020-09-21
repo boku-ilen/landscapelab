@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/eye.svg" type="Texture" id=8]
 [ext_resource path="res://UI/Theme/LandscapeLab.tres" type="Theme" id=9]
 [ext_resource path="res://UI/Layers/LayerUI.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Layers/LayerConfigurator.tscn" type="PackedScene" id=11]
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://UI/ValuesMenu/ValuesMenu.tscn" type="PackedScene" id=19]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
@@ -181,7 +180,5 @@ margin_left = 501.392
 margin_top = 134.868
 margin_right = 1015.39
 margin_bottom = 466.868
-
-[node name="LayerConfigurator" parent="." instance=ExtResource( 11 )]
 
 [editable path="CenterContainer/StartScene"]
