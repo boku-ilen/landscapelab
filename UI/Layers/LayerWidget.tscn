@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://UI/Layers/LayerWidget.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/eye.svg" type="Texture" id=2]
 [ext_resource path="res://UI/Layers/EditWindow.gd" type="Script" id=3]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/three_points.svg" type="Texture" id=4]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/raster.svg" type="Texture" id=5]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/eye_crossed.svg" type="Texture" id=6]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=7]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=8]
@@ -33,7 +32,7 @@ __meta__ = {
 }
 
 [node name="RightContainer" type="HBoxContainer" parent="."]
-margin_right = 406.0
+margin_right = 400.0
 margin_bottom = 72.0
 rect_min_size = Vector2( 400, 0 )
 size_flags_horizontal = 0
@@ -69,14 +68,13 @@ __meta__ = {
 
 [node name="Icon" type="TextureRect" parent="RightContainer"]
 margin_left = 96.0
-margin_right = 168.0
+margin_right = 96.0
 margin_bottom = 72.0
-texture = ExtResource( 5 )
 
 [node name="Name" type="Label" parent="RightContainer"]
-margin_left = 176.0
+margin_left = 104.0
 margin_top = 23.0
-margin_right = 406.0
+margin_right = 334.0
 margin_bottom = 48.0
 rect_min_size = Vector2( 230, 0 )
 size_flags_horizontal = 8
@@ -88,8 +86,8 @@ __meta__ = {
 }
 
 [node name="LeftContainer" type="HBoxContainer" parent="."]
-margin_left = 414.0
-margin_right = 486.0
+margin_left = 408.0
+margin_right = 480.0
 margin_bottom = 75.0
 alignment = 2
 
