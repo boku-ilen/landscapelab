@@ -20,13 +20,11 @@ func _ready():
 func add_layer(layer: Layer):
 	var new_layer
 	
-	if "render_as" in layer.fields:
-		if layer.fields["render_as"] == "terrain":
-			new_layer = terrain_renderer.instance()
-	else:		
+	if layer.render_type == Layer.RenderType.TERRAIN:
+		new_layer = terrain_renderer.instance()
+	else:
+		# TODO
 		new_layer = layer_renderer.instance()
 	
 	new_layer.layer = layer
 	layer_renderers.add_child(new_layer)
-	
-	return true

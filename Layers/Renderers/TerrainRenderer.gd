@@ -20,8 +20,8 @@ func _ready():
 	var pos_x = -6131.50
 	var pos_y = 336222.39
 	
-	var heightmap_data = layer.fields["heights"]
-	var ortho_data = layer.fields["texture"]
+	var heightmap_data = layer.render_info.height_layer
+	var ortho_data = layer.render_info.texture_layer
 	
 	var img = heightmap_data.get_image(
 		pos_x,

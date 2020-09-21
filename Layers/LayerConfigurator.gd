@@ -27,10 +27,10 @@ func add_test_data():
 	
 	# Terrain layer
 	var terrain_layer = Layer.new()
-	terrain_layer.is_rendered = true
-	terrain_layer.fields["texture"] = ortho_layer
-	terrain_layer.fields["heights"] = height_layer
-	terrain_layer.fields["render_as"] = "terrain"
+	terrain_layer.render_type = Layer.RenderType.TERRAIN
+	terrain_layer.render_info = Layer.TerrainRenderInfo.new()
+	terrain_layer.render_info.height_layer = height_layer
+	terrain_layer.render_info.texture_layer = ortho_layer
 	
 	# Add the layers
 	Layers.add_layer(height_layer)
