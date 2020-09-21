@@ -8,8 +8,15 @@ class_name Layer
 
 var is_rendered: bool = false
 var is_scored: bool = false
-var is_visible: bool = true
+var is_visible: bool = true setget set_visible
 
 var name: String
 
 var fields: Dictionary = {}
+
+signal visibility_changed(visible)
+
+
+func set_visible(visible: bool):
+	is_visible = visible
+	emit_signal("visibility_changed", is_visible)

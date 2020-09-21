@@ -22,6 +22,7 @@ func _ready():
 #		icon.texture = feature_icon
 	edit_button.connect("pressed", self, "_pop_edit")
 	edit_window.connect("change_color_tag", self, "_change_color_tag")
+	visibility_button.connect("toggled", self, "_layer_change_visibility")
 
 
 func _pop_edit():
@@ -30,3 +31,7 @@ func _pop_edit():
 
 func _change_color_tag(color: Color):
 	color_tag.color = color
+
+
+func _layer_change_visibility(is_hidden: bool):
+	layer.is_visible = !is_hidden
