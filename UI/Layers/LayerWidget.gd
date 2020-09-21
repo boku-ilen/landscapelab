@@ -16,10 +16,11 @@ onready var edit_window = get_node("EditWindow")
 
 
 func _ready():
-#	if layer.type == layer.types.raster:
-#		icon.texture = raster_icon
-#	elif layer.type == layer.types.feature:
-#		icon.texture = feature_icon
+	if layer is RasterLayer:
+		icon.texture = raster_icon
+	elif layer is FeatureLayer:
+		icon.texture = feature_icon
+	
 	edit_button.connect("pressed", self, "_pop_edit")
 	edit_window.connect("change_color_tag", self, "_change_color_tag")
 	visibility_button.connect("toggled", self, "_layer_change_visibility")
