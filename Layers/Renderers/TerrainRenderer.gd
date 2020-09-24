@@ -34,7 +34,3 @@ func update_lods(data):
 			lod.build()
 		
 		done = true
-		
-		# FIXME: Just for testing the update cycles
-		pos_x += 10
-		pos_y += 10

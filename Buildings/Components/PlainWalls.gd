@@ -7,6 +7,8 @@ extends Spatial
 #
 
 
+export(bool) var wind_counterclockwise = true
+
 var height = 2.5
 var texture_scale = 2.5  # Size of the texture in meters - likely identical to the height
 
@@ -39,25 +41,46 @@ func build(footprint: PoolVector2Array):
 		# The distance is needed for the UV coordinates, to make the texture not stretch but repeat
 		var distance_to_next_point = max(0.1, point_3d.distance_to(next_point_3d)) # to prevent division by 0
 		
-		# First triangle of the wall
-		st.add_uv(Vector2(0.0, 0.0))
-		st.add_vertex(point_3d)
-		
-		st.add_uv(Vector2(0.0, height) / texture_scale)
-		st.add_vertex(point_up_3d)
-		
-		st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
-		st.add_vertex(next_point_3d)
-		
-		# Second triangle of the wall
-		st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
-		st.add_vertex(next_point_3d)
-		
-		st.add_uv(Vector2(0.0, height) / texture_scale)
-		st.add_vertex(point_up_3d)
-		
-		st.add_uv(Vector2(distance_to_next_point, height) / texture_scale)
-		st.add_vertex(next_point_up_3d)
+		if (wind_counterclockwise):
+			# First triangle of the wall
+			st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.add_vertex(next_point_3d)
+			
+			st.add_uv(Vector2(0.0, height) / texture_scale)
+			st.add_vertex(point_up_3d)
+			
+			st.add_uv(Vector2(0.0, 0.0))
+			st.add_vertex(point_3d)
+			
+			# Second triangle of the wall
+			st.add_uv(Vector2(distance_to_next_point, height) / texture_scale)
+			st.add_vertex(next_point_up_3d)
+			
+			st.add_uv(Vector2(0.0, height) / texture_scale)
+			st.add_vertex(point_up_3d)
+			
+			st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.add_vertex(next_point_3d)
+		else:
+			# First triangle of the wall
+			st.add_uv(Vector2(0.0, 0.0))
+			st.add_vertex(point_3d)
+			
+			st.add_uv(Vector2(0.0, height) / texture_scale)
+			st.add_vertex(point_up_3d)
+			
+			st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.add_vertex(next_point_3d)
+			
+			# Second triangle of the wall
+			st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.add_vertex(next_point_3d)
+			
+			st.add_uv(Vector2(0.0, height) / texture_scale)
+			st.add_vertex(point_up_3d)
+			
+			st.add_uv(Vector2(distance_to_next_point, height) / texture_scale)
+			st.add_vertex(next_point_up_3d)
 	
 	st.generate_normals()
 	

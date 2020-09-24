@@ -40,14 +40,14 @@ func build():
 	scale.z = size / mesh_size
 	
 	# TODO: We need new objects here due to being in a thread. Solve this with a "copy" function instead.
-	current_heightmap = Geodot.get_dataset("GPKG:/home/karl/Downloads/LL_base.gpkg:dhm").get_raster_layer("").get_image(
+	current_heightmap = Geodot.get_dataset("/home/karl/Downloads/LL_base.gpkg").get_raster_layer("dhm").get_image(
 		top_left_x,
 		top_left_y,
 		size,
 		100,
 		1
 	).get_image_texture()
-	current_texture = Geodot.get_dataset("GPKG:/home/karl/Downloads/LL_base.gpkg:ortho").get_raster_layer("").get_image(
+	current_texture = Geodot.get_dataset("/home/karl/Downloads/LL_base.gpkg").get_raster_layer("ortho").get_image(
 		top_left_x,
 		top_left_y,
 		size,
