@@ -30,15 +30,16 @@ func add_test_data():
 	var terrain_layer = Layer.new()
 	terrain_layer.render_type = Layer.RenderType.TERRAIN
 	terrain_layer.render_info = Layer.TerrainRenderInfo.new()
-	terrain_layer.render_info.height_layer = height_layer
-	terrain_layer.render_info.texture_layer = ortho_layer
+	terrain_layer.render_info.height_layer = height_layer.clone()
+	terrain_layer.render_info.texture_layer = ortho_layer.clone()
 	
 	# Building layer
 	var building_layer = FeatureLayer.new()
 	building_layer.geo_feature_layer = geopackage.get_feature_layer("building_footprints")
 	building_layer.render_type = Layer.RenderType.POLYGON
 	building_layer.render_info = Layer.PolygonRenderInfo.new()
-	building_layer.render_info.height_attribute_name = null  # These have no height yet
+	building_layer.render_info.height_attribute_name = "_mean"
+	building_layer.render_info.ground_height_layer = height_layer.clone()
 	
 	# Add the layers
 	Layers.add_layer(height_layer)

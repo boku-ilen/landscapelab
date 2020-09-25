@@ -55,15 +55,13 @@ func _ready():
 
 
 func set_heights():
-	# TODO: Replace with linked layer
-	var dataset = Geodot.get_dataset("/home/karl/Downloads/LL_base.gpkg")
-	var layer = dataset.get_raster_layer("dhm")
+	var height_layer = layer.render_info.ground_height_layer
 	
 	for building in get_children():
 		# TODO: We just use this to get the value of a single pixel.
 		#  As this will likely be done more often, we'll want to add this as a
 		#  function to Geodot.
-		var geoimage = layer.get_image(
+		var geoimage = height_layer.get_image(
 			# TODO: Get position from outside
 			building.get_center().x + 420776.711,
 			-building.get_center().z + 453197.501,

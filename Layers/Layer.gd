@@ -48,3 +48,4 @@ class ObjectRenderInfo extends RenderInfo:
 
 class PolygonRenderInfo extends RenderInfo:
 	var height_attribute_name
+	var ground_height_layer: Layer
