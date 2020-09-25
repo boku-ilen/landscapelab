@@ -3,5 +3,6 @@
 [ext_resource path="res://Layers/Renderers/TerrainShader.shader" type="Shader" id=1]
 
 [resource]
+resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/height_scale = 1.0

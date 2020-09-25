@@ -23,6 +23,7 @@ center_node_path = NodePath("FirstPersonPC")
 [node name="LayerRenderers" parent="Terrain" instance=ExtResource( 6 )]
 
 [node name="FirstPersonPC" parent="." instance=ExtResource( 3 )]
-transform = Transform( 0.866, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866, 0, 500, 0 )
+transform = Transform( 0.998636, 0, 0.0517897, 0, 1, 0, -0.0517897, 0, 0.998636, 0, 500, 0 )
 
 [node name="LayerConfigurator" parent="." instance=ExtResource( 7 )]
+geopackage_path = "/home/karl/Downloads/LL_base.gpkg"
