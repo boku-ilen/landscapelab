@@ -1,9 +1,10 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Assets/Util/PVMesh.gd" type="Script" id=1]
+[ext_resource path="res://Objects/Util/PVMesh.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Meshes/PV/Aluminum.material" type="Material" id=2]
 [ext_resource path="res://Resources/Meshes/PV/4kWp_groundmount_system/pv-texture.jpg" type="Texture" id=3]
 [ext_resource path="res://Resources/Meshes/PV/material.material" type="Material" id=4]
+
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "instance_0"

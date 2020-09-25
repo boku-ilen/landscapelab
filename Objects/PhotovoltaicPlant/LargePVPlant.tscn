@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Assets/Util/MultiplePVModules.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Objects/Util/MultiplePVModules.tscn" type="PackedScene" id=1]
+
 
 [node name="LargePVPlant" instance=ExtResource( 1 )]
 rows = 24

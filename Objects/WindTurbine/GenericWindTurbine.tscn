@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://Assets/Superclasses/MovableObject.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Assets/WindTurbine/GenericWindTurbine.gd" type="Script" id=2]
+[ext_resource path="res://Objects/Superclasses/MovableObject.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Objects/WindTurbine/GenericWindTurbine.gd" type="Script" id=2]
 [ext_resource path="res://Resources/Meshes/Windmills/Enercon/enercon-white_001.material" type="Material" id=3]
 [ext_resource path="res://Resources/Meshes/Windmills/Enercon/enercon-green1_001.material" type="Material" id=4]
 [ext_resource path="res://Resources/Meshes/Windmills/Enercon/enercon-green2_001.material" type="Material" id=5]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Util/Tooltip3D.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Resources/Icons/ClassicLandscapeLab/windmill_icon.png" type="Texture" id=12]
 [ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=13]
+
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 45.3642

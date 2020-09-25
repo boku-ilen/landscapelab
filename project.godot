@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/vr-toolkit/Controller/ControllerTool.gd"
 }, {
+"base": "Layer",
+"class": "FeatureLayer",
+"language": "GDScript",
+"path": "res://Layers/FeatureLayer.gd"
+}, {
 "base": "Spatial",
 "class": "GroundedSpatial",
 "language": "GDScript",
@@ -82,7 +87,7 @@ _global_script_classes=[ {
 "base": "GroundedSpatial",
 "class": "MoveableObject",
 "language": "GDScript",
-"path": "res://Assets/Superclasses/MovableObject.gd"
+"path": "res://Objects/Superclasses/MovableObject.gd"
 }, {
 "base": "Spatial",
 "class": "PositionManager",
@@ -136,6 +141,7 @@ _global_script_class_icons={
 "BaseTiles": "",
 "Configurator": "",
 "ControllerTool": "",
+"FeatureLayer": "",
 "GroundedSpatial": "",
 "JSONParser": "",
 "Layer": "",
@@ -170,10 +176,11 @@ config/icon="res://Resources/Icons/Meta/icon.png"
 
 [autoload]
 
+RenderedObjects="*res://Objects/RenderedObjects.gd"
 Startup="*res://Global/Startup.gd"
 logger="*res://Global/Debug/logger.gd"
-Settings="*res://Config/Settings.gd"
 ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
+Settings="*res://Config/Settings.gd"
 GlobalSignal="*res://Global/GlobalSignal.gd"
 ServerConnection="*res://Global/ServerConnection.gd"
 ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"

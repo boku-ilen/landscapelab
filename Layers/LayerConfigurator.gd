@@ -15,6 +15,8 @@ func _ready():
 # Adds static test data; will be removed as soon as we have a valid GeoPackage.
 func add_test_data():
 	var geopackage = Geodot.get_dataset("GPKG:/home/karl/Downloads/LL_base.gpkg")
+	var heightmap_data_path = "C:/boku/geodata/test/test_dhm.tif"
+	var ortho_data_path = "C:/boku/geodata/test/test_ortho.jpg"
 
 	# Heightmap
 	var height_layer = RasterLayer.new()
@@ -35,3 +37,4 @@ func add_test_data():
 	Layers.add_layer(height_layer)
 	Layers.add_layer(ortho_layer)
 	Layers.add_layer(terrain_layer)
+	Layers.add_layer(FeatureLayer.new())
