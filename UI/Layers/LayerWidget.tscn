@@ -97,13 +97,19 @@ margin_right = 72.0
 margin_bottom = 75.0
 texture_normal = ExtResource( 4 )
 
-[node name="EditWindow" type="PopupMenu" parent="."]
-margin_left = 545.07
-margin_top = 7.73784
-margin_right = 823.07
-margin_bottom = 204.738
+[node name="EditMenu" type="PopupMenu" parent="."]
+margin_left = 488.0
+margin_right = 528.0
+margin_bottom = 75.0
+items = [ "Configure...", null, 0, false, false, 0, 0, null, "", false ]
 script = ExtResource( 3 )
 
-[node name="ColorMenu" type="PopupMenu" parent="EditWindow"]
+[node name="ColorMenu" type="PopupMenu" parent="EditMenu"]
+margin_left = 4.71942
+margin_top = 2.83162
+margin_right = 115.719
+margin_bottom = 67.8316
+
+[node name="ObjectMenu" type="PopupMenu" parent="EditMenu"]
 margin_right = 40.0
 margin_bottom = 40.0
