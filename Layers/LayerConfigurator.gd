@@ -22,10 +22,12 @@ func add_test_data():
 	# Heightmap
 	var height_layer = RasterLayer.new()
 	height_layer.geo_raster_layer = geopackage.get_raster_layer("dhm")
+	height_layer.name = "DHM"
 	
 	# Orthophoto
 	var ortho_layer = RasterLayer.new()
 	ortho_layer.geo_raster_layer = geopackage.get_raster_layer("ortho")
+	ortho_layer.name = "Ortho"
 	
 	# Terrain layer
 	var terrain_layer = Layer.new()
@@ -33,6 +35,7 @@ func add_test_data():
 	terrain_layer.render_info = Layer.TerrainRenderInfo.new()
 	terrain_layer.render_info.height_layer = height_layer.clone()
 	terrain_layer.render_info.texture_layer = ortho_layer.clone()
+	terrain_layer.name = "Terrain"
 	
 	# Building layer
 	var building_layer = FeatureLayer.new()
@@ -41,6 +44,7 @@ func add_test_data():
 	building_layer.render_info = Layer.PolygonRenderInfo.new()
 	building_layer.render_info.height_attribute_name = "_mean"
 	building_layer.render_info.ground_height_layer = height_layer.clone()
+	building_layer.name = "Buildings"
 	
 	# Add the layers
 	Layers.add_layer(height_layer)
