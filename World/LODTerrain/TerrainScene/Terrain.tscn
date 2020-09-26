@@ -4,16 +4,17 @@
 [ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=2]
 [ext_resource path="res://World/AssetHandler/AssetsFromShapefileByAttributeValue.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World/WorldShifting/SpatialShiftingHandler.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Assets/Power/LowVoltagePowerPole.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Objects/Power/LowVoltagePowerPole.tscn" type="PackedScene" id=5]
 [ext_resource path="res://World/WorldShifting/PathShiftingHandler.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Vegetation/VegetationLayer.shader" type="Shader" id=7]
-[ext_resource path="res://Assets/Power/HighVoltagePowerLine.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Objects/Power/HighVoltagePowerLine.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Vegetation/Plant.shader" type="Shader" id=9]
 [ext_resource path="res://Resources/Textures/ShaderUtil/rgb_noise.png" type="Texture" id=10]
 [ext_resource path="res://Vegetation/VegetationLayerRenderer.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Resources/Meshes/VegetationBillboard/10m_billboard_webm.obj" type="ArrayMesh" id=12]
 [ext_resource path="res://Resources/Meshes/VegetationBillboard/2m_billboard_webm.obj" type="ArrayMesh" id=13]
 [ext_resource path="res://Resources/Meshes/VegetationBillboard/40m_billboard_webm.obj" type="ArrayMesh" id=14]
+
 
 
 [sub_resource type="ShaderMaterial" id=1]
