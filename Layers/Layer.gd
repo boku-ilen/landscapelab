@@ -9,7 +9,7 @@ class_name Layer
 var is_scored: bool = false
 var is_visible: bool = true setget set_visible
 
-var name: String
+var name: String = "Not set"
 
 var fields: Dictionary = {}
 
