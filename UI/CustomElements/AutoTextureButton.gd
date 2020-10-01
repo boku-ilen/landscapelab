@@ -72,6 +72,8 @@ func _ready():
 	
 	if disabled:
 		_set_color(disabled_color)
+	else:
+		_set_color(default_color)
 	
 	# If the button is toggled by default, set the color at the start
 	if toggle_mode and pressed:
