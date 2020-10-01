@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="ExternalTexture" id=1]
+
+[node name="Button" type="Button"]
+margin_right = 40.0
+margin_bottom = 51.0
+rect_min_size = Vector2( 40, 40 )
+icon = SubResource( 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -6.0
+margin_bottom = -8.0
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+margin_right = 29.0
+margin_bottom = 38.0
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
