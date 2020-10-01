@@ -32,7 +32,7 @@ func _ready():
 
 
 func _pop_edit():
-	edit_window.popup()
+	edit_window.popup(Rect2(edit_button.rect_global_position + Vector2(25, 0), Vector2(4, 4)))
 
 
 func _change_color_tag(color: Color):

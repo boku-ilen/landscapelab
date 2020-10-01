@@ -11,14 +11,14 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 7 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = ExtResource( 7 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
@@ -99,7 +99,7 @@ texture_normal = ExtResource( 4 )
 
 [node name="EditMenu" type="PopupMenu" parent="."]
 margin_left = 488.0
-margin_right = 528.0
+margin_right = 652.0
 margin_bottom = 75.0
 items = [ "Configure...", null, 0, false, false, 0, 0, null, "", false ]
 script = ExtResource( 3 )
