@@ -5,7 +5,8 @@ var layer: Layer setget set_layer
 
 onready var color_menu = get_node("ColorMenu")
 onready var object_menu = get_node("ObjectMenu")
-onready var test = get_parent().get_node("WindowDialog")
+
+var layer_config = preload("res://UI/Layers/Misc/LayerConfigurationWindow.tscn")
 
 signal change_color_tag(color)
 signal change_object(object_scene)
@@ -25,7 +26,8 @@ func set_layer(l):
 	
 	if layer is FeatureLayer:
 		add_separator()
-		_add_submenu("Objects", "ObjectMenu", RenderedObjects.dict, "_emit_object_change", self, 1)
+		_add_submenu("Objects", "ObjectMenu", RenderedObjects.dict, "change_object", self, 1)
+		connect("change_object", layer, "object_changed")
 	else:
 		add_separator()
 
@@ -44,7 +46,9 @@ func _on_item_pressed(idx: int):
 
 
 func open_configure_menu():
-	print("test")
+	var instance = layer_config.instance()
+	add_child(instance)
+	instance.popup(Rect2(rect_global_position, Vector2(100,100)))
 
 
 func _default_emit(idx: int, corresponding_menu: PopupMenu, sig: String):
