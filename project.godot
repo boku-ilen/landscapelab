@@ -169,7 +169,7 @@ _global_script_class_icons={
 [application]
 
 config/name="LandscapeLab!"
-run/main_scene="res://UI/MainUI.tscn"
+run/main_scene="res://World/World.tscn"
 boot_splash/image="res://Resources/Icons/Meta/splash.png"
 boot_splash/fullsize=false
 config/icon="res://Resources/Icons/Meta/icon.png"
