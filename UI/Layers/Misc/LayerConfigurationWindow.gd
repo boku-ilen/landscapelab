@@ -1,24 +1,30 @@
 extends WindowDialog
 
 var layer: Layer
+var specific_layer_ui
 
 onready var container = get_node("VBoxContainer")
 onready var object_button = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/ObjectDropDown")
 onready var objects_popup = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/ObjectDropDown/ObjectsPopup")
 onready var type_chooser = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/TypeChooser")
+onready var min_size = rect_min_size
 
 
 func _ready():
 	connect("resized", self, "_on_resize")
 	object_button.connect("pressed", self, "_pop_objects")
+	objects_popup.connect("id_pressed", self, "_test")
+	type_chooser.connect("item_selected", self, "_on_type_select")
 	
 	_add_types()
 	
 	for object in RenderedObjects.dict:
 		_add_submenu(object, object, RenderedObjects.dict[object], "_emit_object_change", objects_popup, 0)
-	
-	objects_popup.add_item("item")
-	objects_popup.connect("id_pressed", self, "_test")
+
+
+func resize(add: Vector2):
+	rect_min_size = min_size + add
+	rect_size = rect_min_size
 
 
 func _on_resize():
@@ -58,3 +64,18 @@ func _add_submenu(display_name: String, node_name: String, menu_items, signal_to
 func _add_types():
 	for type in Layer.RenderType:
 		type_chooser.add_item(type)
+
+
+# TODO: This shouldnt be all upercase anyways, maybe move this functionality
+func _on_type_select(idx: int):
+	var type: String = type_chooser.get_item_text(idx)
+	type = type.substr(0, 1) + type.substr(1).to_lower()
+	
+	if specific_layer_ui != null:
+		container.remove_child(specific_layer_ui)
+	
+	specific_layer_ui = load("res://UI/Layers/Misc/SpecificLayerUI/%sLayer.tscn" % type).instance()
+	container.add_child(specific_layer_ui)
+	container.move_child(specific_layer_ui, 1)
+	
+	resize(Vector2(0, specific_layer_ui.rect_size.y))

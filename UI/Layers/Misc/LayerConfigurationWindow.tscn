@@ -1,16 +1,18 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://UI/Layers/Misc/LayerConfigurationWindow.gd" type="Script" id=1]
 [ext_resource path="res://UI/Layers/Misc/ColorTag.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/arrow_down.svg" type="Texture" id=3]
 [ext_resource path="res://UI/Layers/Misc/FileChooser.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/Fonts/TextBold.tres" type="DynamicFont" id=5]
 
 [node name="Control" type="WindowDialog"]
 visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -241.0
-rect_min_size = Vector2( 600, 400 )
+margin_bottom = -226.0
+rect_min_size = Vector2( 600, 350 )
 window_title = "Layer Configuration"
 resizable = true
 script = ExtResource( 1 )
@@ -29,44 +31,62 @@ __meta__ = {
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
 margin_right = 310.0
-margin_bottom = 250.0
+margin_bottom = 280.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer"]
 margin_right = 158.0
-margin_bottom = 250.0
+margin_bottom = 280.0
+
+[node name="Ttile" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
+margin_right = 158.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="Label" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer/Ttile"]
+margin_right = 158.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 5 )
+text = "Layer Configuration"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/HSplitContainer/VBoxContainer/Ttile"]
+margin_top = 31.0
+margin_right = 158.0
+margin_bottom = 39.0
 
 [node name="Name" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
+margin_top = 58.0
 margin_right = 158.0
-margin_bottom = 40.0
+margin_bottom = 98.0
 rect_min_size = Vector2( 0, 40 )
 text = "Layer Name:"
 valign = 1
 
 [node name="ColorTag" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
-margin_top = 48.0
+margin_top = 106.0
 margin_right = 158.0
-margin_bottom = 88.0
+margin_bottom = 146.0
 rect_min_size = Vector2( 0, 40 )
 text = "Color Tag:"
 valign = 1
 
 [node name="Type" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
-margin_top = 96.0
+margin_top = 154.0
 margin_right = 158.0
-margin_bottom = 136.0
+margin_bottom = 194.0
 rect_min_size = Vector2( 0, 40 )
 text = "Type:"
 
 [node name="Source" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
-margin_top = 144.0
+margin_top = 202.0
 margin_right = 158.0
-margin_bottom = 169.0
+margin_bottom = 242.0
+rect_min_size = Vector2( 0, 40 )
 text = "Source:"
 
 [node name="Dependencies" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
-margin_top = 177.0
+margin_top = 250.0
 margin_right = 158.0
-margin_bottom = 202.0
+margin_bottom = 275.0
 text = "Dependencies:"
 
 [node name="Object" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
@@ -78,43 +98,48 @@ rect_min_size = Vector2( 0, 40 )
 text = "Object:"
 valign = 1
 
-[node name="Label4" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
-margin_top = 210.0
-margin_right = 158.0
-margin_bottom = 250.0
-rect_min_size = Vector2( 0, 40 )
-text = "asdasd"
-valign = 1
-
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HSplitContainer"]
 margin_left = 182.0
 margin_right = 310.0
-margin_bottom = 250.0
+margin_bottom = 280.0
+
+[node name="Spacer" type="Control" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
+margin_right = 128.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
 
 [node name="Name" type="TextEdit" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
+margin_top = 58.0
 margin_right = 128.0
-margin_bottom = 40.0
+margin_bottom = 98.0
 rect_min_size = Vector2( 0, 40 )
 text = "asdasd"
 
 [node name="ColorTagMenu" parent="VBoxContainer/HSplitContainer/VBoxContainer2" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 48.0
+margin_top = 106.0
 margin_right = 128.0
-margin_bottom = 78.0
+margin_bottom = 136.0
 
 [node name="TypeChooser" type="OptionButton" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
-margin_top = 86.0
+margin_top = 144.0
 margin_right = 128.0
-margin_bottom = 126.0
+margin_bottom = 184.0
 rect_min_size = Vector2( 0, 40 )
 text = "Type..."
 
 [node name="FileChooser" parent="VBoxContainer/HSplitContainer/VBoxContainer2" instance=ExtResource( 4 )]
-margin_top = 134.0
+margin_top = 192.0
 margin_right = 128.0
-margin_bottom = 174.0
+margin_bottom = 232.0
+
+[node name="FileName" parent="VBoxContainer/HSplitContainer/VBoxContainer2/FileChooser" index="0"]
+margin_right = 19.0
+
+[node name="Button" parent="VBoxContainer/HSplitContainer/VBoxContainer2/FileChooser" index="1"]
+margin_left = 27.0
+margin_right = 128.0
 
 [node name="ObjectDropDown" type="Button" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
 visible = false
@@ -131,16 +156,16 @@ margin_right = -162.0
 margin_bottom = 20.0
 
 [node name="Label4" type="TextEdit" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
-margin_top = 182.0
+margin_top = 240.0
 margin_right = 128.0
-margin_bottom = 222.0
+margin_bottom = 280.0
 rect_min_size = Vector2( 0, 40 )
 text = "asdasd"
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
-margin_top = 258.0
+margin_top = 288.0
 margin_right = 310.0
-margin_bottom = 295.0
+margin_bottom = 325.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -161,3 +186,5 @@ margin_right = 157.0
 margin_bottom = 37.0
 text = "Cancel"
 [connection signal="id_pressed" from="VBoxContainer/HSplitContainer/VBoxContainer2/ObjectDropDown/ObjectsPopup" to="." method="_on_ObjectsPopup_id_pressed"]
+
+[editable path="VBoxContainer/HSplitContainer/VBoxContainer2/FileChooser"]

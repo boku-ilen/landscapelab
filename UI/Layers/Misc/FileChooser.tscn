@@ -30,7 +30,6 @@ size_flags_horizontal = 8
 text = "Open..."
 
 [node name="FileDialog" type="FileDialog" parent="Button"]
-visible = true
 margin_left = -264.0
 margin_top = 181.0
 margin_right = 459.0
