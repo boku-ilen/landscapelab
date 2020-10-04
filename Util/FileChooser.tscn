@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Util/FileChooser.gd" type="Script" id=1]
+
+[node name="FileChooser" type="HBoxContainer"]
+margin_right = 109.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileName" type="TextEdit" parent="."]
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+size_flags_horizontal = 3
+size_flags_vertical = 10
+text = "..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+margin_left = 8.0
+margin_right = 109.0
+margin_bottom = 40.0
+size_flags_horizontal = 8
+text = "Open..."
+
+[node name="FileDialog" type="FileDialog" parent="Button"]
+margin_left = -264.0
+margin_top = 181.0
+margin_right = 459.0
+margin_bottom = 723.0
+window_title = "Open a File"
+mode = 0
+access = 2
+filters = PoolStringArray( "" )
+current_dir = "/boku/landscapelab"
+current_path = "/boku/landscapelab/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
