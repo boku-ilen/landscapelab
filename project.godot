@@ -104,6 +104,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://World/WorldShifting/ShiftingHandler.gd"
 }, {
+"base": "Node",
+"class": "SpecificLayerUI",
+"language": "GDScript",
+"path": "res://UI/Layers/SpecificLayerUI/SpecificLayerUI.gd"
+}, {
 "base": "Object",
 "class": "SpritesheetHelper",
 "language": "GDScript",
@@ -154,6 +159,7 @@ _global_script_class_icons={
 "PositionManager": "",
 "RasterLayer": "",
 "ShiftingHandler": "",
+"SpecificLayerUI": "",
 "SpritesheetHelper": "",
 "ToolsButton": "",
 "VRGuiElement": "",
