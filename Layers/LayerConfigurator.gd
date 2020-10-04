@@ -46,10 +46,15 @@ func add_test_data():
 	building_layer.render_info.ground_height_layer = height_layer.clone()
 	building_layer.name = "Buildings"
 	
+	var test_layer = Layer.new()
+	test_layer.render_type = Layer.RenderType.NONE
+	test_layer.is_scored = true
+	test_layer.name = "Test layer"
+	
 	# Add the layers
 	Layers.add_layer(height_layer)
 	Layers.add_layer(ortho_layer)
 	Layers.add_layer(terrain_layer)
-	Layers.add_layer(FeatureLayer.new())
+	Layers.add_layer(test_layer)
 	Layers.add_layer(building_layer)
 
