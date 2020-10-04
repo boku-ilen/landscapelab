@@ -13,6 +13,8 @@ var name: String = "Not set"
 
 var fields: Dictionary = {}
 
+var color_tag: Color = Color.transparent
+
 enum RenderType {
 	NONE,
 	TERRAIN,
@@ -27,6 +29,8 @@ var render_info
 
 
 signal visibility_changed(visible)
+signal layer_changed
+
 
 func set_visible(visible: bool):
 	is_visible = visible
@@ -39,6 +43,9 @@ class RenderInfo:
 class TerrainRenderInfo extends RenderInfo:
 	var height_layer: Layer
 	var texture_layer: Layer
+	var is_color_shaded: bool
+	var max_color: Color
+	var min_color: Color
 
 class ParticlesRenderInfo extends RenderInfo:
 	pass
