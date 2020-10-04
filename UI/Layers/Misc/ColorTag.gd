@@ -1,6 +1,8 @@
 extends HBoxContainer
 
 
+var current_color: Color
+
 var auto_button = preload("res://UI/Layers/Misc/ColorButton.tscn")
 
 onready var color_indicator = get_node("ColorRect")
@@ -24,3 +26,4 @@ func _ready():
 
 func _color_change(c: Color):
 	color_indicator.color = c
+	current_color = c

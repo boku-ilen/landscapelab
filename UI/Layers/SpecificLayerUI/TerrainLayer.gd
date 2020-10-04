@@ -1,4 +1,4 @@
-extends HSplitContainer
+extends SpecificLayerUI
 
 
 onready var color_checkbox = get_node("RightBox/CheckBox")
@@ -6,6 +6,8 @@ onready var label_color_min = get_node("LeftBox/ColorMin")
 onready var label_color_max = get_node("LeftBox/ColorMax")
 onready var button_color_min = get_node("RightBox/ButtonMin")
 onready var button_color_max = get_node("RightBox/ButtonMax")
+onready var geodata_height = get_node("RightBox/GeodataChooser/FileChooser/FileName")
+onready var geodata_texture = get_node("RightBox/GeodataChooser2/FileChooser/FileName")
 
 
 func _ready():
@@ -30,3 +32,27 @@ func _pop_color_picker(button: Button):
 
 func _set_color(button: Button, color_picker: ColorPicker):
 	button.color = color_picker.color
+
+
+func assign_specific_layer_info(layer):
+	if layer.render_info == null:
+		layer.render_info = Layer.TerrainRenderInfo.new()
+	
+	var geopackage_texture = Geodot.get_dataset(geodata_texture.text)
+	var geopackage_height = Geodot.get_dataset(geodata_height.text)
+
+	# Heightmap
+	var height_layer = RasterLayer.new()
+	height_layer.geo_raster_layer = geopackage_height.get_raster_layer("dhm")
+	height_layer.name = "DHM"
+	
+	# Orthophoto
+	var ortho_layer = RasterLayer.new()
+	ortho_layer.geo_raster_layer = geopackage_texture.get_raster_layer("ortho")
+	ortho_layer.name = "Ortho"
+	
+	layer.render_info.height_layer = height_layer.clone()
+	layer.render_info.texture_layer = ortho_layer.clone()
+	layer.render_info.is_color_shaded = color_checkbox.pressed
+	layer.render_info.max_color = button_color_max.color
+	layer.render_info.min_color = button_color_min.color

@@ -15,6 +15,15 @@ onready var layer_name = get_node("RightContainer/Name")
 
 
 func _ready():
+	_reload()
+	
+	edit_button.connect("pressed", self, "_pop_edit")
+	edit_window.connect("change_color_tag", self, "_change_color_tag")
+	visibility_button.connect("toggled", self, "_layer_change_visibility")
+	layer.connect("layer_changed", self, "_reload")
+
+
+func _reload():
 	if layer is RasterLayer:
 		icon.texture = raster_icon
 	elif layer is FeatureLayer:
@@ -22,13 +31,10 @@ func _ready():
 	elif layer.render_type == layer.RenderType.TERRAIN:
 		icon.texture = terrain_icon
 	
-	edit_button.connect("pressed", self, "_pop_edit")
-	edit_window.connect("change_color_tag", self, "_change_color_tag")
-	visibility_button.connect("toggled", self, "_layer_change_visibility")
-	
 	if layer != null:
 		edit_window.layer = layer
 		layer_name.text = layer.name
+		color_tag.color = layer.color_tag
 
 
 func _pop_edit():

@@ -1,20 +1,15 @@
-extends Configurator
+extends PanelContainer
 
 
-var layer_widget = preload("res://UI/Layers/LayerWidget.tscn")
+onready var new_button = get_node("VBoxContainer/Menu/NewLayer")
+onready var config_window = get_node("VBoxContainer/Menu/NewLayer/LayerConfig")
+onready var delete_button = get_node("VBoxContainer/Menu/DeleteLayer")
 
-onready var layer_container = get_parent().get_node("ScrollContainer/LayerContainer")
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	Layers.connect("new_layer", self, "add_layer")
+	new_button.connect("pressed", self, "_on_new_layer")
+	delete_button.connect("pressed", self, "_delete_layer")
 
 
-func add_layer(layer: Layer):
-	var new_layer = layer_widget.instance()
-	new_layer.layer = layer
-	# hocus pocus
-	layer_container.add_child(new_layer)
-	
-	return true
+func _on_new_layer():
+	config_window.popup(new_button.get_global_rect())

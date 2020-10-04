@@ -48,7 +48,7 @@ func _on_item_pressed(idx: int):
 func open_configure_menu():
 	var instance = layer_config.instance()
 	add_child(instance)
-	instance.popup(Rect2(rect_global_position, Vector2(100,200)))
+	instance.layer_popup(Rect2(rect_global_position, Vector2(100,200)), layer)
 
 
 func _default_emit(idx: int, corresponding_menu: PopupMenu, sig: String):

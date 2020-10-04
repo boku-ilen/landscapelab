@@ -13,9 +13,8 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_left = -1.0
 margin_top = 10.0
-margin_right = 29.0
+margin_right = 30.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 30, 30 )
 size_flags_horizontal = 4
