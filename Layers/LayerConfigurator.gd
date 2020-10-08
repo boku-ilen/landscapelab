@@ -70,11 +70,16 @@ func add_test_data():
 	vegetation_layer.render_info.height_layer = height_layer
 	vegetation_layer.render_info.landuse_layer = landuse_layer
 	
+	var test_layer = Layer.new()
+	test_layer.render_type = Layer.RenderType.NONE
+	test_layer.is_scored = true
+	test_layer.name = "Test layer"
+	
 	# Add the layers
 	Layers.add_layer(height_layer)
 	Layers.add_layer(ortho_layer)
 	Layers.add_layer(terrain_layer)
-	Layers.add_layer(FeatureLayer.new())
+	Layers.add_layer(test_layer)
 	Layers.add_layer(building_layer)
 	Layers.add_layer(landuse_layer)
 	Layers.add_layer(vegetation_layer)
