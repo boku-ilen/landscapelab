@@ -1,14 +1,14 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Vegetation/VegetationLayerRenderer.gd" type="Script" id=1]
-[ext_resource path="res://Vegetation/Plant.shader" type="Shader" id=2]
-[ext_resource path="res://Vegetation/VegetationLayer.shader" type="Shader" id=3]
-[ext_resource path="res://Resources/Textures/ShaderUtil/rgb_noise.png" type="Texture" id=4]
-[ext_resource path="res://Resources/Meshes/VegetationBillboard/1m_billboard.obj" type="ArrayMesh" id=5]
+[ext_resource path="res://Resources/Meshes/VegetationBillboard/1m_billboard.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Resources/Textures/ShaderUtil/rgb_noise.png" type="Texture" id=2]
+[ext_resource path="res://Layers/Renderers/RasterVegetation/Plant.shader" type="Shader" id=3]
+[ext_resource path="res://Layers/Renderers/RasterVegetation/VegetationLayer.shader" type="Shader" id=4]
+[ext_resource path="res://Layers/Renderers/RasterVegetation/VegetationLayerRenderer.gd" type="Script" id=5]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
-shader = ExtResource( 2 )
+shader = ExtResource( 3 )
 shader_param/amplitude = 0.1
 shader_param/speed = Vector2( 2, 1.5 )
 shader_param/scale = Vector2( 0.1, 0.2 )
@@ -19,13 +19,13 @@ shader_param/max_distance = null
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
-shader = ExtResource( 3 )
+shader = ExtResource( 4 )
 shader_param/rows = 300.0
 shader_param/spacing = 1.0
 shader_param/amplitude = 1.0
 shader_param/heightmap_size = Vector2( 300, 300 )
 shader_param/offset = null
-shader_param/noisemap = ExtResource( 4 )
+shader_param/noisemap = ExtResource( 2 )
 
 [node name="VegetationLayer" type="Particles" groups=[
 "SpatialShifting",
@@ -38,7 +38,7 @@ explosiveness = 1.0
 visibility_aabb = AABB( -150, -150, -150, 300, 300, 300 )
 local_coords = false
 process_material = SubResource( 2 )
-draw_pass_1 = ExtResource( 5 )
-script = ExtResource( 1 )
+draw_pass_1 = ExtResource( 1 )
+script = ExtResource( 5 )
 rows = 300
 spacing = 0.5
