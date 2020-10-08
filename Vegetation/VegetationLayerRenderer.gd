@@ -26,8 +26,6 @@ var previous_origin
 
 var current_offset_from_shifting = Vector2.ZERO
 
-var pos_manager: PositionManager
-
 # Updates the visibility aabb which is used for culling.
 func update_aabb():
 	var size = rows * spacing
@@ -56,15 +54,8 @@ func get_spacing():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# TODO: Fixme
-	#Offset.connect("shift_world", self, "_on_shift_world")
-	
 	set_rows(rows)
 	set_spacing(spacing)
-	
-	previous_origin = global_transform.origin
-	var position = pos_manager.to_world_coordinates(global_transform.origin)
-	update_textures(previous_origin, position, current_offset_from_shifting)
 
 
 # When the world is shifted, this offset needs to be remembered and passed to
@@ -76,51 +67,24 @@ func _on_shift_world(delta_x, delta_z):
 	material_override.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
 
 
-func _process(delta):
-	global_transform.origin = PlayerInfo.get_engine_player_position() + Vector3(offset.x, 0.0, offset.y)
-	
-	time_passed += delta
-	
-	# If no data is currently loading and we've moved 1/2 of the distance we can
-	#  move within the available data, start getting some new data.
-	if not load_thread.is_active() \
-			and (previous_origin - global_transform.origin).length() \
-			> additional_map_size / 4.0:
-		
-		var position = global_transform.origin
-		var world_position = pos_manager.to_world_coordinates(position)
-		var offset = current_offset_from_shifting
-		
-		load_thread.start(self, "_threaded_update_textures", [position, world_position, offset])
+#func _threaded_update_textures(userdata):
+#	update_textures(userdata[0], userdata[1], userdata[2], userdata[3], userdata[4])
 
 
-func _input(event):
-	if event.is_action("toggle_vegetation") and event.pressed:
-		visible = not visible
-
-
-func _threaded_update_textures(userdata):
-	update_textures(userdata[0], userdata[1], userdata[2])
-
-
-func update_textures(position, world_position, current_offset_from_shifting_before_load):
+func update_textures(dhm_layer, splat_layer, world_x, world_y):
 	var map_size =  rows * spacing * 2 + additional_map_size
 	
-	var dhm = Geodot.get_image(
-		GeodataPaths.get_absolute("heightmap"),
-		GeodataPaths.get_type("heightmap"),
-		-world_position[0] - map_size / 2,
-		world_position[2] + map_size / 2,
+	var dhm = dhm_layer.get_image(
+		world_x - map_size / 2,
+		world_y + map_size / 2,
 		map_size,
 		map_size / 2.0,
 		1
 	)
 	
-	var splat = Geodot.get_image(
-		GeodataPaths.get_absolute("land-use"),
-		GeodataPaths.get_type("land-use"),
-		-world_position[0] - map_size / 2,
-		world_position[2] + map_size / 2,
+	var splat = splat_layer.get_image(
+		world_x - map_size / 2,
+		world_y + map_size / 2,
 		map_size,
 		map_size / 2.0,
 		0
@@ -167,9 +131,7 @@ func update_textures(position, world_position, current_offset_from_shifting_befo
 			distribution_tex,
 			heightmap_size,
 			dhm.get_image_texture(),
-			splat.get_image_texture(),
-			position,
-			current_offset_from_shifting_before_load)
+			splat.get_image_texture())
 
 
 func _update_done(
@@ -178,11 +140,7 @@ func _update_done(
 		distribution_tex,
 		heightmap_size,
 		heightmap,
-		splatmap,
-		position,
-		offset_before_load):
-	var new_offset = current_offset_from_shifting - offset_before_load
-	
+		splatmap):
 	material_override.set_shader_param("id_to_row", id_row_map_tex)
 	material_override.set_shader_param("texture_map", billboard_tex)
 	material_override.set_shader_param("distribution_map", distribution_tex)
@@ -193,11 +151,8 @@ func _update_done(
 	process_material.set_shader_param("heightmap", heightmap)
 	material_override.set_shader_param("splatmap", splatmap)
 	
-	previous_origin = position
-	current_offset_from_shifting = new_offset
-	
-	process_material.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
-	material_override.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
+	process_material.set_shader_param("offset", Vector2(0, 0))
+	material_override.set_shader_param("offset", Vector2(0, 0))
 	
 	if load_thread.is_active():
 		load_thread.wait_to_finish()

@@ -22,7 +22,8 @@ enum RenderType {
 	OBJECT,
 	PATH,
 	CONNECTED_OBJECT,
-	POLYGON
+	POLYGON,
+	VEGETATION
 }
 var render_type = RenderType.NONE
 var render_info
@@ -46,6 +47,14 @@ class TerrainRenderInfo extends RenderInfo:
 	var is_color_shaded: bool
 	var max_color: Color
 	var min_color: Color
+
+class VegetationRenderInfo extends RenderInfo:
+	var height_layer: Layer
+	var landuse_layer: Layer
+	var extent: float
+	var density: float
+	var min_plant_size: float
+	var max_plant_size: float
 
 class ParticlesRenderInfo extends RenderInfo:
 	pass

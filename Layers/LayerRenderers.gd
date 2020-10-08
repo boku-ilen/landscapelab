@@ -4,6 +4,7 @@ extends Configurator
 var layer_renderer = preload("res://Layers/LayerRenderer.tscn")
 var terrain_renderer = preload("res://Layers/Renderers/Terrain/TerrainRenderer.tscn")
 var polygon_renderer = preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn")
+var raster_vegetation_renderer = preload("res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.tscn")
 
 onready var layer_renderers = get_parent()
 
@@ -25,6 +26,8 @@ func add_layer(layer: Layer):
 		new_layer = terrain_renderer.instance()
 	elif layer.render_type == Layer.RenderType.POLYGON:
 		new_layer = polygon_renderer.instance()
+	elif layer.render_type == Layer.RenderType.VEGETATION:
+		new_layer = raster_vegetation_renderer.instance()
 	else:
 		# TODO
 		new_layer = layer_renderer.instance()
