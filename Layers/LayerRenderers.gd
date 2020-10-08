@@ -17,6 +17,7 @@ func _ready():
 	
 	# For future layers, use a signal.
 	Layers.connect("new_rendered_layer", self, "add_layer")
+	Layers.connect("removed_rendered_layer", self, "remove_layer")
 
 
 func add_layer(layer: Layer):
@@ -33,4 +34,10 @@ func add_layer(layer: Layer):
 		new_layer = layer_renderer.instance()
 	
 	new_layer.layer = layer
+	new_layer.name = layer.name
+	
 	layer_renderers.add_child(new_layer)
+
+
+func remove_layer(name_to_remove):
+	layer_renderers.get_node(name_to_remove).queue_free()
