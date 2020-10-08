@@ -1,0 +1,36 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Layers/Renderers/Terrain/TerrainShader.shader" type="Shader" id=1]
+[ext_resource path="res://Layers/Renderers/Terrain/TerrainLOD.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Layers/LayerRenderer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Layers/Renderers/Terrain/TerrainRenderer.gd" type="Script" id=4]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/height_scale = 1.0
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/height_scale = 1.0
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/height_scale = 1.0
+
+[node name="TerrainRenderer" instance=ExtResource( 3 )]
+script = ExtResource( 4 )
+
+[node name="TerrainLOD0" parent="." index="0" instance=ExtResource( 2 )]
+material_override = SubResource( 1 )
+is_inner = true
+
+[node name="TerrainLOD1" parent="." index="1" instance=ExtResource( 2 )]
+material_override = SubResource( 2 )
+size = 500.0
+
+[node name="TerrainLOD2" parent="." index="2" instance=ExtResource( 2 )]
+material_override = SubResource( 3 )
+size = 2500.0

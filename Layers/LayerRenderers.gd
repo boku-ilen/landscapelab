@@ -2,8 +2,8 @@ extends Configurator
 
 
 var layer_renderer = preload("res://Layers/LayerRenderer.tscn")
-var terrain_renderer = preload("res://Layers/Renderers/TerrainRenderer.tscn")
-var polygon_renderer = preload("res://Layers/Renderers/PolygonRenderer.tscn")
+var terrain_renderer = preload("res://Layers/Renderers/Terrain/TerrainRenderer.tscn")
+var polygon_renderer = preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn")
 
 onready var layer_renderers = get_parent()
 
