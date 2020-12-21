@@ -1,12 +1,12 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://UI/Layers/LayerUI.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/delete_file.svg" type="Texture" id=2]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/new_file.svg" type="Texture" id=4]
 [ext_resource path="res://UI/Layers/LayerUIConfig.gd" type="Script" id=5]
-[ext_resource path="res://UI/Layers/Misc/LayerConfigurationWindow.tscn" type="PackedScene" id=6]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=7]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/filter.svg" type="Texture" id=8]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -16,6 +16,13 @@ shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 7 )
 shader_param/color = Vector3( 0, 0, 0 )
@@ -63,15 +70,20 @@ margin_right = 72.0
 margin_bottom = 72.0
 texture_normal = ExtResource( 4 )
 
-[node name="LayerConfig" parent="VBoxContainer/Menu/NewLayer" instance=ExtResource( 6 )]
-visible = false
-margin_left = 16.0
-margin_right = 616.0
-margin_bottom = 293.0
-
 [node name="DeleteLayer" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
 material = SubResource( 2 )
 margin_left = 80.0
 margin_right = 152.0
 margin_bottom = 72.0
 texture_normal = ExtResource( 2 )
+
+[node name="Filter" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
+material = SubResource( 3 )
+margin_left = 160.0
+margin_right = 232.0
+margin_bottom = 72.0
+texture_normal = ExtResource( 8 )
+
+[node name="FilterOptions" type="PopupMenu" parent="VBoxContainer/Menu/Filter"]
+margin_right = 40.0
+margin_bottom = 40.0

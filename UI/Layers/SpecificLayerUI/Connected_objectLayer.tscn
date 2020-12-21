@@ -1,13 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://UI/Fonts/TextBold.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Util/FileChooser.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/Layers/SpecificLayerUI/Connected_objectLayer.gd" type="Script" id=3]
 
-
-[node name="ParticlesLayer" type="HSplitContainer"]
+[node name="ConnectedLayer" type="HSplitContainer"]
 margin_right = 1024.0
 margin_bottom = 150.0
 rect_min_size = Vector2( 0, 150 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

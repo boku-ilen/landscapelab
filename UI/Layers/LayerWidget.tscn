@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://UI/Layers/LayerWidget.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/eye.svg" type="Texture" id=2]
 [ext_resource path="res://UI/Layers/EditWindow.gd" type="Script" id=3]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/three_points.svg" type="Texture" id=4]
+[ext_resource path="res://Util/UIBorder.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/eye_crossed.svg" type="Texture" id=6]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=7]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=8]
@@ -23,8 +24,9 @@ shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [node name="LayerWidget" type="HBoxContainer"]
-margin_right = 480.0
-margin_bottom = 72.0
+margin_left = 488.0
+margin_right = 968.0
+margin_bottom = 75.0
 rect_min_size = Vector2( 480, 75 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -113,3 +115,10 @@ margin_bottom = 67.8316
 [node name="ObjectMenu" type="PopupMenu" parent="EditMenu"]
 margin_right = 40.0
 margin_bottom = 40.0
+
+[node name="BorderLine" parent="." instance=ExtResource( 5 )]
+visible = false
+margin_left = 488.0
+margin_right = 488.0
+margin_bottom = 75.0
+width = 3.0
