@@ -26,11 +26,11 @@ __meta__ = {
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
 margin_right = 751.0
-margin_bottom = 240.0
+margin_bottom = 194.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer"]
 margin_right = 157.0
-margin_bottom = 240.0
+margin_bottom = 194.0
 
 [node name="Ttile" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_right = 157.0
@@ -74,7 +74,7 @@ text = "Type:"
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HSplitContainer"]
 margin_left = 181.0
 margin_right = 751.0
-margin_bottom = 240.0
+margin_bottom = 194.0
 
 [node name="Spacer" type="Control" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
 margin_right = 570.0
