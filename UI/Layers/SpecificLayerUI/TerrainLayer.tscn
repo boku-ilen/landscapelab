@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://UI/Layers/Misc/GeodataChooser.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/Layers/SpecificLayerUI/TerrainLayer.gd" type="Script" id=2]
 [ext_resource path="res://UI/Fonts/TextBold.tres" type="DynamicFont" id=3]
 [ext_resource path="res://UI/Layers/Misc/ColorButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Util/Warning.tscn" type="PackedScene" id=5]
 
 [node name="TerrainLayer" type="HSplitContainer"]
 margin_right = 1024.0
@@ -90,12 +91,18 @@ margin_top = 58.0
 margin_right = 867.0
 margin_bottom = 143.0
 
+[node name="FileChooser" parent="RightBox/GeodataChooser" index="0"]
+margin_right = 867.0
+
 [node name="GeodataChooser2" parent="RightBox" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 151.0
 margin_right = 867.0
 margin_bottom = 236.0
+
+[node name="FileChooser" parent="RightBox/GeodataChooser2" index="0"]
+margin_right = 867.0
 
 [node name="CheckBox" type="CheckBox" parent="RightBox"]
 margin_top = 244.0
@@ -109,6 +116,7 @@ visible = false
 margin_top = 210.0
 margin_bottom = 250.0
 size_flags_horizontal = 0
+color = Color( 1, 1, 1, 1 )
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="RightBox/ButtonMin"]
 margin_right = 669.0
@@ -128,6 +136,7 @@ visible = false
 margin_top = 258.0
 margin_bottom = 298.0
 size_flags_horizontal = 0
+color = Color( 1, 1, 1, 1 )
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="RightBox/ButtonMax"]
 margin_left = -13.4696
@@ -143,3 +152,10 @@ margin_bottom = 928.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Warning" parent="RightBox" instance=ExtResource( 5 )]
+visible = false
+
+[editable path="RightBox/GeodataChooser"]
+
+[editable path="RightBox/GeodataChooser2"]
