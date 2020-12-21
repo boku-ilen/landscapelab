@@ -106,7 +106,7 @@ static func create_spritesheet(
 				desired_size *= scale_factors[y][x]
 			
 			# Scale the sprite to the desired size
-			sprite.resize(desired_size.x, desired_size.y)
+			sprite.resize(ceil(desired_size.x), ceil(desired_size.y))
 	
 			# We want the sprites to always be centered, so check how big the offset has to be
 			var centering_offset = (sprite_size - desired_size) / 2
