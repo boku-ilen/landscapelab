@@ -19,7 +19,7 @@ float get_height(vec2 pos) {
 	
 	pos += vec2(1.0, 1.0);
 	
-	return texture(heightmap, pos).r * 1.45;
+	return texture(heightmap, pos).r;
 }
 
 void vertex() {

@@ -63,7 +63,7 @@ void fragment() {
 	if (abs(row - 255.0) < 0.1) {
 		discard;
 	}
-	
+
 	// Make the plant transparent if it's between 3/4 and 4/4 of the possible
 	//  distance from the camera, to prevent a harsh cutoff from full vegetation
 	//  to no vegetation.
@@ -76,10 +76,10 @@ void fragment() {
 		4.0 / 17.0, 12.0 / 17.0,  2.0 / 17.0, 10.0 / 17.0,
 		16.0 / 17.0,  8.0 / 17.0, 14.0 / 17.0,  6.0 / 17.0
 	};
-	
+
 	int x_index = int(SCREEN_UV.x * VIEWPORT_SIZE.x) % 4;
 	int y_index = int(SCREEN_UV.y * VIEWPORT_SIZE.y) % 4;
-	
+
 	float blend_start_distance = max_distance - max_distance / 4.0;
 	float dist = length(camera_pos - worldpos);
 
@@ -88,24 +88,24 @@ void fragment() {
 	if (dist_alpha - thresholdMatrix[y_index * 4 + x_index] < 0.0) {
 		discard;
 	}
-	
+
 	// Get the color from the right sprite in the spritesheet
 	ivec2 sheet_size = textureSize(texture_map, 0);
 	ivec2 cols_rows = sheet_size / 1024;
-	
+
 	vec2 scaled_uv = UV / (vec2(sheet_size) / 1024.0);
-	
+
 	vec2 uv_offset = vec2(dist_id / float(cols_rows.x), row / float(cols_rows.y));
-	
+
 	vec4 color = texture(texture_map, scaled_uv + uv_offset);
-	
+
 	ALBEDO = color.rgb;
 	if (color.a < 0.7) {
 		discard;
 	}
-	
+
 	NORMALMAP = texture(normal_map, UV).rgb;
-	
+
 	METALLIC = 0.0;
 	SPECULAR = texture(specular_map, UV).r;
 	ROUGHNESS = 1.0 - SPECULAR;
