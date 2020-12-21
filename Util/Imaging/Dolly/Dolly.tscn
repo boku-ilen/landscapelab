@@ -5,7 +5,6 @@
 [ext_resource path="res://Util/Imaging/Dolly/ViewportContainer.gd" type="Script" id=3]
 [ext_resource path="res://Util/Imaging/Dolly/RecordingViewport.gd" type="Script" id=4]
 
-
 [sub_resource type="Curve3D" id=1]
 _data = {
 "points": PoolVector3Array(  ),

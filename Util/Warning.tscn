@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/Fonts/TextWarning.tres" type="DynamicFont" id=1]
+
+[node name="Warning" type="Label"]
+margin_top = 300.0
+margin_right = 867.0
+margin_bottom = 338.0
+custom_fonts/font = ExtResource( 1 )
+text = "Configuration is not valid!"

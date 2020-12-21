@@ -2,7 +2,6 @@
 
 [ext_resource path="res://Util/Imaging/Dolly/DollyCamera/DollyCamera.gd" type="Script" id=1]
 
-
 [sub_resource type="PrismMesh" id=1]
 size = Vector3( 15, 20, 8 )
 
