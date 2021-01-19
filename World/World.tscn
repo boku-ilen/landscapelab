@@ -29,4 +29,4 @@ transform = Transform( 0.998636, 0, 0.0517897, 0, 1, 0, -0.0517897, 0, 0.998636,
 [node name="MainUI" parent="." instance=ExtResource( 8 )]
 
 [node name="LayerConfigurator" parent="." instance=ExtResource( 7 )]
-geopackage_path = "C:\\boku\\geodata\\test_data\\LL_base.gpkg"
+geopackage_path = "/home/graf/landscapelab/landscapelab-geodaten/gpkg/LL_base.gpkg"
