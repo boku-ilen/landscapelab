@@ -38,5 +38,5 @@ func _create_rooftop_pv(data):
 
 func _remove_rooftop_pv(data):
 	if assetpos_id:
-		# FIXME: this is specific game logic
+	    # FIXME: this is specific game logic
 		ServerConnection.get_json("/assetpos/remove/%d" % assetpos_id)
