@@ -18,7 +18,7 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
@@ -119,8 +119,9 @@ __meta__ = {
 
 [node name="ToolsPanel" parent="ToolsOffset" instance=ExtResource( 1 )]
 anchor_bottom = 0.0
+margin_top = 238.0
 margin_right = 100.0
-margin_bottom = 604.0
+margin_bottom = 842.0
 size_flags_vertical = 4
 
 [node name="Bottom UI" type="MarginContainer" parent="."]
@@ -134,7 +135,7 @@ __meta__ = {
 }
 
 [node name="ValuesOffset" type="VBoxContainer" parent="Bottom UI"]
-margin_right = 1024.0
+margin_right = 1920.0
 margin_bottom = 300.0
 mouse_filter = 2
 alignment = 2
@@ -176,9 +177,13 @@ margin_bottom = 20.0
 visible = false
 
 [node name="LayerUI" parent="." instance=ExtResource( 10 )]
-margin_left = 501.392
-margin_top = 134.868
-margin_right = 1015.39
-margin_bottom = 466.868
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -393.182
+margin_top = -302.827
+margin_right = 120.8
+margin_bottom = 81.1731
 
 [editable path="CenterContainer/StartScene"]
