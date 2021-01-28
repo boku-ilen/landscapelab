@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -8,6 +8,33 @@
 [ext_resource path="res://Vegetation/Editor/GroupList.gd" type="Script" id=6]
 [ext_resource path="res://Vegetation/Editor/GroupPanel.gd" type="Script" id=7]
 [ext_resource path="res://Vegetation/Editor/GroupDetails.gd" type="Script" id=8]
+[ext_resource path="res://Layers/Renderers/RasterVegetation/VegetationLayer.shader" type="Shader" id=9]
+[ext_resource path="res://Layers/Renderers/RasterVegetation/VegetationLayerRenderer.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Resources/Textures/ShaderUtil/rgb_noise.png" type="Texture" id=11]
+[ext_resource path="res://Layers/Renderers/RasterVegetation/Plant.shader" type="Shader" id=12]
+[ext_resource path="res://Vegetation/Editor/Visualization.gd" type="Script" id=13]
+[ext_resource path="res://Resources/Meshes/VegetationBillboard/2m_billboard.obj" type="ArrayMesh" id=14]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 12 )
+shader_param/amplitude = 0.1
+shader_param/speed = Vector2( 2, 1.5 )
+shader_param/scale = Vector2( 0.1, 0.2 )
+shader_param/heightmap_size = Vector2( 300, 300 )
+shader_param/offset = null
+shader_param/dist_scale = 5000.0
+shader_param/max_distance = null
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 9 )
+shader_param/rows = 300.0
+shader_param/spacing = 1.0
+shader_param/amplitude = 1.0
+shader_param/heightmap_size = Vector2( 300, 300 )
+shader_param/offset = null
+shader_param/noisemap = ExtResource( 11 )
 
 [node name="VegetationEditor" type="HSplitContainer"]
 anchor_right = 1.0
@@ -221,11 +248,17 @@ text = "Plants:"
 [node name="GroupPlantList" type="ItemList" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
 margin_top = 135.0
 margin_right = 372.0
-margin_bottom = 428.0
+margin_bottom = 383.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 fixed_icon_size = Vector2( 100, 100 )
 script = ExtResource( 5 )
+
+[node name="RemoveButton" type="Button" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
+margin_top = 391.0
+margin_right = 372.0
+margin_bottom = 428.0
+text = "Remove Selected"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer"]
 margin_left = 424.0
@@ -245,10 +278,21 @@ size = Vector2( 1000, 1000 )
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Camera" type="Camera" parent="HSplitContainer/VBoxContainer/ViewportContainer/Viewport"]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 4, 0 )
+[node name="Visualization" type="Spatial" parent="HSplitContainer/VBoxContainer/ViewportContainer/Viewport"]
+script = ExtResource( 13 )
 
-[node name="Button" type="Button" parent="HSplitContainer/VBoxContainer"]
+[node name="Camera" type="Camera" parent="HSplitContainer/VBoxContainer/ViewportContainer/Viewport/Visualization"]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 5, 0 )
+
+[node name="VegetationLayer" parent="HSplitContainer/VBoxContainer/ViewportContainer/Viewport/Visualization" instance=ExtResource( 10 )]
+material_override = SubResource( 1 )
+process_material = SubResource( 2 )
+draw_pass_1 = ExtResource( 14 )
+rows = 50
+spacing = 1.0
+max_size = 20.0
+
+[node name="UpdateVisButton" type="Button" parent="HSplitContainer/VBoxContainer"]
 margin_top = 1008.0
 margin_right = 1072.0
 margin_bottom = 1045.0

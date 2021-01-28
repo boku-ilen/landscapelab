@@ -28,7 +28,6 @@ func _create_groups_from_csv() -> void:
 	
 	var headings = group_csv.get_csv_line()
 	
-	#for i in range(100):
 	while !group_csv.eof_reached():
 		# Format:
 		# ID	FILE	TYPE	SIZE	SPECIES	NAME_DE	NAME_EN	SEASON	SOURCE	LICENSE	AUTHOR	NOTE

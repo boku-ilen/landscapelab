@@ -55,6 +55,7 @@ class VegetationRenderInfo extends RenderInfo:
 	var density: float
 	var min_plant_size: float
 	var max_plant_size: float
+	var mesh: Resource
 
 class ParticlesRenderInfo extends RenderInfo:
 	pass

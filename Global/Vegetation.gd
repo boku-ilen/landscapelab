@@ -114,9 +114,9 @@ func _load_data_from_csv() -> void:
 func get_phytocoenosis_array_for_ids(id_array):
 	var phytocoenosis_array = []
 	
-	for id in id_array:
-		if phytocoenosis_by_id.has(id):
-			phytocoenosis_array.append(phytocoenosis_by_id[id])
+	for group in groups.values():
+		if id_array.has(group.id):
+			phytocoenosis_array.append(group)
 	
 	return phytocoenosis_array
 
@@ -149,7 +149,7 @@ func get_billboard_sheet_for_ids(id_array, max_size):
 	var phytocoenosis_array = []
 	
 	for id in id_array:
-		phytocoenosis_array.append(phytocoenosis_by_id[id])
+		phytocoenosis_array.append(groups[id])
 	
 	return get_billboard_sheet(phytocoenosis_array, max_size)
 
@@ -172,6 +172,8 @@ func get_billboard_sheet(phytocoenosis_array, max_size):
 	for phytocoenosis in phytocoenosis_array:
 		billboard_table[row] = []
 		scale_table[row] = []
+		
+		print(phytocoenosis.plants.size())
 		
 		for plant in phytocoenosis.plants:
 			var billboard = plant.get_billboard()
@@ -296,7 +298,6 @@ func generate_distribution(phytocoenosis: Phytocoenosis):
 					highest_roll_plant = plant
 					highest_roll = roll
 			
-			# TODO: Edge case with highest_roll_plant being null due to no plants or all densities being 0?
 			distribution.set_pixel(x, y, Color(highest_roll_plant.id / 255.0, 0.0, 0.0))
 	
 	distribution.unlock()
@@ -313,7 +314,7 @@ class Phytocoenosis:
 	var ground_texture_path
 	
 	func _init(id, name, ground_texture_path = null, plants = null):
-		self.id = id
+		self.id = int(id)
 		self.name = name
 		
 		if ground_texture_path:
@@ -324,6 +325,9 @@ class Phytocoenosis:
 	
 	func add_plant(plant: Plant):
 		plants.append(plant)
+	
+	func remove_plant(plant: Plant):
+		plants.erase(plant)
 	
 	func get_ground_image(image_name):
 		var full_path = Vegetation.base_path.plus_file("ground-textures").plus_file(ground_texture_path).plus_file(image_name + ".jpg")
