@@ -32,7 +32,7 @@ const distribution_size = 16
 const sprite_size = 1024
 const texture_size = 1024
 
-var base_path = GeodataPaths.get_absolute("vegetation-data")
+var base_path = "/home/karl/Downloads/vegetation"
 
 var phytocoenosis_by_name = {}
 var phytocoenosis_by_id = {}
@@ -42,9 +42,20 @@ var ground_image_cache = {}
 
 var ground_image_mutex = Mutex.new()
 
+var plants = {}
+var groups = {}
+
 
 func _ready() -> void:
 	_load_data_from_csv()
+
+
+func add_plant(plant: Plant):
+	plants[plant.id] = plant
+
+
+func add_group(group):
+	groups[group.id] = group
 
 
 # Read the CSV files at the path provided by GeodataPaths and save the
@@ -89,10 +100,10 @@ func _load_data_from_csv() -> void:
 		
 		var p = phytocoenosis_by_name[csv[0].to_lower()]
 		
-		p.plants.append(
-				Plant.new(p.plants.size(), "", float(csv[1]), float(csv[2]),
-				float(csv[3]), csv[4],
-				base_path.plus_file("plant-textures")))
+#		p.plants.append(
+#				Plant.new(p.plants.size(), "", float(csv[1]), float(csv[2]),
+#				float(csv[3]), csv[4],
+#				base_path.plus_file("plant-textures")))
 	
 	# Add a map of ID to phytocoenosis as well, since that is frequently required
 	for phytocoenosis in phytocoenosis_by_name.values():
@@ -103,9 +114,9 @@ func _load_data_from_csv() -> void:
 func get_phytocoenosis_array_for_ids(id_array):
 	var phytocoenosis_array = []
 	
-	for id in id_array:
-		if phytocoenosis_by_id.has(id):
-			phytocoenosis_array.append(phytocoenosis_by_id[id])
+	for group in groups.values():
+		if id_array.has(group.id):
+			phytocoenosis_array.append(group)
 	
 	return phytocoenosis_array
 
@@ -138,7 +149,7 @@ func get_billboard_sheet_for_ids(id_array, max_size):
 	var phytocoenosis_array = []
 	
 	for id in id_array:
-		phytocoenosis_array.append(phytocoenosis_by_id[id])
+		phytocoenosis_array.append(groups[id])
 	
 	return get_billboard_sheet(phytocoenosis_array, max_size)
 
@@ -161,6 +172,8 @@ func get_billboard_sheet(phytocoenosis_array, max_size):
 	for phytocoenosis in phytocoenosis_array:
 		billboard_table[row] = []
 		scale_table[row] = []
+		
+		print(phytocoenosis.plants.size())
 		
 		for plant in phytocoenosis.plants:
 			var billboard = plant.get_billboard()
@@ -285,7 +298,6 @@ func generate_distribution(phytocoenosis: Phytocoenosis):
 					highest_roll_plant = plant
 					highest_roll = roll
 			
-			# TODO: Edge case with highest_roll_plant being null due to no plants or all densities being 0?
 			distribution.set_pixel(x, y, Color(highest_roll_plant.id / 255.0, 0.0, 0.0))
 	
 	distribution.unlock()
@@ -302,7 +314,7 @@ class Phytocoenosis:
 	var ground_texture_path
 	
 	func _init(id, name, ground_texture_path = null, plants = null):
-		self.id = id
+		self.id = int(id)
 		self.name = name
 		
 		if ground_texture_path:
@@ -313,6 +325,9 @@ class Phytocoenosis:
 	
 	func add_plant(plant: Plant):
 		plants.append(plant)
+	
+	func remove_plant(plant: Plant):
+		plants.erase(plant)
 	
 	func get_ground_image(image_name):
 		var full_path = Vegetation.base_path.plus_file("ground-textures").plus_file(ground_texture_path).plus_file(image_name + ".jpg")
@@ -332,38 +347,65 @@ class Phytocoenosis:
 		return Vegetation.ground_image_cache[full_path]
 
 
+enum Season {SPRING, SUMMER, AUTUMN, WINTER}
+
+
+func parse_size(size_string: String):
+	if size_string == "S": return Plant.Size.S
+	elif size_string == "M": return Plant.Size.M
+	elif size_string == "L": return Plant.Size.L
+	elif size_string == "XL": return Plant.Size.XL
+	else: return null
+
+
+func parse_season(season_string: String):
+	if season_string == "SPRING": return Season.SPRING
+	elif season_string == "SUMMER": return Season.SUMMER
+	elif season_string == "AUTUMN": return Season.AUTUMN
+	elif season_string == "WINTER": return Season.WINTER
+	else: return null
+
+
 class Plant:
-	var id
-	var name
-	var avg_height
-	var sigma_height
-	var density
-	var billboard_path: String
-	var base_path: String
-	var billboard_image: Image
+	enum Size {S, M, L, XL}
 	
-	func _init(id, name, avg_height, sigma_height, density, billboard_path, base_path):
-		self.id = id
-		self.name = name
-		self.avg_height = avg_height
-		self.sigma_height = sigma_height
-		self.density = density
-		self.billboard_path = billboard_path
-		self.base_path = base_path
+	var id: int
+	var billboard_path: String
+	var billboard_image: Image
+	var type: String
+	var size_class#: Size
+	var species: String
+	var name_en: String
+	var name_de: String
+	var season#: Season
+	var source: String
+	var license: String
+	var author: String
+	var note: String
+	
+	var avg_height: float
+	var sigma_height: float
+	var density: float
 	
 	# Return the billboard of this plant as an unmodified Image.
 	func get_billboard():
-		var full_path = base_path.plus_file(billboard_path)
+		var full_path = billboard_path
 		
 		if not Vegetation.plant_image_cache.has(full_path):
 			var img = Image.new()
 			img.load(full_path)
 			
 			if img.is_empty():
-				logger.error("Invalid billboard path in CSV of phytocoenosis %s: %s"
-						 % [name, full_path])
+				logger.error("Invalid billboard path in %s: %s"
+						 % [name_en, full_path])
 			
 			Vegetation.plant_image_cache[full_path] = img
 		
 		return Vegetation.plant_image_cache[full_path]
-
+	
+	
+	func get_billboard_texture():
+		var tex = ImageTexture.new()
+		tex.create_from_image(get_billboard(), Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER)
+		
+		return tex

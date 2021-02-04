@@ -26,6 +26,9 @@ var previous_origin
 
 var current_offset_from_shifting = Vector2.ZERO
 
+func set_mesh(new_mesh):
+	draw_pass_1 = new_mesh
+
 # Updates the visibility aabb which is used for culling.
 func update_aabb():
 	var size = rows * spacing
@@ -90,12 +93,16 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 		0
 	)
 	
-	# Get the most common splatmap values here
-	var ids = splat.get_most_common(8)
+	update_textures_with_images(dhm.get_image_texture(), splat.get_image_texture(), splat.get_most_common(8))
+
+
+func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
+	var map_size =  rows * spacing * 2 + additional_map_size
 	
 	# Loat the phytocoenosis for these IDs and filter them by the given size
 	#  parameters
 	var phytocoenosis = Vegetation.get_phytocoenosis_array_for_ids(ids)
+	
 	var filtered_phytocoenosis = Vegetation.filter_phytocoenosis_array_by_height(phytocoenosis, min_size, max_size)
 	
 	var billboards = Vegetation.get_billboard_sheet(filtered_phytocoenosis, max_size)
@@ -130,8 +137,8 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 			billboard_tex,
 			distribution_tex,
 			heightmap_size,
-			dhm.get_image_texture(),
-			splat.get_image_texture())
+			dhm,
+			splat)
 
 
 func _update_done(

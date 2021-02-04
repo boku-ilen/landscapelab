@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://UI/Layers/LayerWidget.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/eye.svg" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/eye_crossed.svg" type="Texture" id=6]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=7]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Resources/Fonts/Nunito/NunitoSans-Bold.ttf" type="DynamicFontData" id=9]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -15,6 +16,11 @@ shader = ExtResource( 7 )
 shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="DynamicFont" id=3]
+size = 40
+outline_size = 3
+font_data = ExtResource( 9 )
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
@@ -59,6 +65,8 @@ margin_bottom = 72.0
 toggle_mode = true
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 6 )
+texture_name = ""
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="VSeparator" type="VSeparator" parent="RightContainer"]
 margin_left = 80.0
@@ -75,11 +83,15 @@ margin_bottom = 72.0
 
 [node name="Name" type="Label" parent="RightContainer"]
 margin_left = 104.0
-margin_top = 23.0
+margin_top = 8.0
 margin_right = 334.0
-margin_bottom = 48.0
+margin_bottom = 64.0
 rect_min_size = Vector2( 230, 0 )
 size_flags_horizontal = 8
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "test "
 valign = 1
 clip_text = true
@@ -90,14 +102,16 @@ __meta__ = {
 [node name="LeftContainer" type="HBoxContainer" parent="."]
 margin_left = 408.0
 margin_right = 480.0
-margin_bottom = 75.0
+margin_bottom = 76.0
 alignment = 2
 
 [node name="Edit" parent="LeftContainer" instance=ExtResource( 8 )]
 material = SubResource( 2 )
 margin_right = 72.0
-margin_bottom = 75.0
+margin_bottom = 76.0
 texture_normal = ExtResource( 4 )
+texture_name = ""
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="EditMenu" type="PopupMenu" parent="."]
 margin_left = 488.0

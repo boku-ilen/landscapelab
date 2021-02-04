@@ -69,6 +69,8 @@ material = SubResource( 1 )
 margin_right = 72.0
 margin_bottom = 72.0
 texture_normal = ExtResource( 4 )
+texture_name = ""
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="DeleteLayer" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
 material = SubResource( 2 )
@@ -76,6 +78,8 @@ margin_left = 80.0
 margin_right = 152.0
 margin_bottom = 72.0
 texture_normal = ExtResource( 2 )
+texture_name = ""
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="Filter" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
 material = SubResource( 3 )
@@ -83,6 +87,8 @@ margin_left = 160.0
 margin_right = 232.0
 margin_bottom = 72.0
 texture_normal = ExtResource( 8 )
+texture_name = ""
+default_color = Color( 0, 0, 0, 1 )
 
 [node name="FilterOptions" type="PopupMenu" parent="VBoxContainer/Menu/Filter"]
 margin_right = 40.0

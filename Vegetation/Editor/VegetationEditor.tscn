@@ -1,0 +1,299 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
+[ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
+[ext_resource path="res://Vegetation/Editor/PlantDetails.gd" type="Script" id=3]
+[ext_resource path="res://Vegetation/Editor/VegetationEditor.gd" type="Script" id=4]
+[ext_resource path="res://Vegetation/Editor/GroupPlantList.gd" type="Script" id=5]
+[ext_resource path="res://Vegetation/Editor/GroupList.gd" type="Script" id=6]
+[ext_resource path="res://Vegetation/Editor/GroupPanel.gd" type="Script" id=7]
+[ext_resource path="res://Vegetation/Editor/GroupDetails.gd" type="Script" id=8]
+[ext_resource path="res://Layers/Renderers/RasterVegetation/VegetationLayer.shader" type="Shader" id=9]
+[ext_resource path="res://Layers/Renderers/RasterVegetation/VegetationLayerRenderer.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Resources/Textures/ShaderUtil/rgb_noise.png" type="Texture" id=11]
+[ext_resource path="res://Layers/Renderers/RasterVegetation/Plant.shader" type="Shader" id=12]
+[ext_resource path="res://Vegetation/Editor/Visualization.gd" type="Script" id=13]
+[ext_resource path="res://Resources/Meshes/VegetationBillboard/2m_billboard.obj" type="ArrayMesh" id=14]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 12 )
+shader_param/amplitude = 0.1
+shader_param/speed = Vector2( 2, 1.5 )
+shader_param/scale = Vector2( 0.1, 0.2 )
+shader_param/heightmap_size = Vector2( 300, 300 )
+shader_param/offset = null
+shader_param/dist_scale = 5000.0
+shader_param/max_distance = null
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 9 )
+shader_param/rows = 300.0
+shader_param/spacing = 1.0
+shader_param/amplitude = 1.0
+shader_param/heightmap_size = Vector2( 300, 300 )
+shader_param/offset = null
+shader_param/noisemap = ExtResource( 11 )
+
+[node name="VegetationEditor" type="HSplitContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlantPanel" type="VSplitContainer" parent="."]
+margin_right = 400.0
+margin_bottom = 1080.0
+split_offset = 600
+script = ExtResource( 2 )
+
+[node name="PlantList" type="ItemList" parent="PlantPanel"]
+margin_right = 400.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 400, 0 )
+fixed_column_width = 500
+fixed_icon_size = Vector2( 100, 100 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlantDetails" type="PanelContainer" parent="PlantPanel"]
+margin_top = 624.0
+margin_right = 400.0
+margin_bottom = 1080.0
+script = ExtResource( 3 )
+
+[node name="DetailList" type="VBoxContainer" parent="PlantPanel/PlantDetails"]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 386.0
+margin_bottom = 442.0
+
+[node name="ID" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
+margin_right = 372.0
+margin_bottom = 25.0
+
+[node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/ID"]
+margin_right = 31.0
+margin_bottom = 25.0
+text = "ID:"
+
+[node name="Label" type="Label" parent="PlantPanel/PlantDetails/DetailList/ID"]
+margin_left = 39.0
+margin_right = 39.0
+margin_bottom = 25.0
+
+[node name="Name" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
+margin_top = 33.0
+margin_right = 372.0
+margin_bottom = 78.0
+
+[node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/Name"]
+margin_top = 10.0
+margin_right = 72.0
+margin_bottom = 35.0
+text = "Name:"
+
+[node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/Name"]
+margin_left = 80.0
+margin_right = 330.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 250, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Height" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
+margin_top = 86.0
+margin_right = 372.0
+margin_bottom = 131.0
+
+[node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/Height"]
+margin_top = 10.0
+margin_right = 77.0
+margin_bottom = 35.0
+text = "Height:"
+
+[node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/Height"]
+margin_left = 85.0
+margin_right = 249.0
+margin_bottom = 45.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Density" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
+margin_top = 139.0
+margin_right = 372.0
+margin_bottom = 184.0
+
+[node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/Density"]
+margin_top = 10.0
+margin_right = 86.0
+margin_bottom = 35.0
+text = "Density:"
+
+[node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/Density"]
+margin_left = 94.0
+margin_right = 258.0
+margin_bottom = 45.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveButton" type="Button" parent="PlantPanel/PlantDetails/DetailList"]
+margin_top = 192.0
+margin_right = 372.0
+margin_bottom = 229.0
+text = "Save"
+
+[node name="HSeparator" type="HSeparator" parent="PlantPanel/PlantDetails/DetailList"]
+margin_top = 237.0
+margin_right = 372.0
+margin_bottom = 245.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GroupButton" type="Button" parent="PlantPanel/PlantDetails/DetailList"]
+margin_top = 253.0
+margin_right = 372.0
+margin_bottom = 290.0
+text = "Add to current group >"
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+margin_left = 424.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+
+[node name="GroupPanel" type="VSplitContainer" parent="HSplitContainer"]
+margin_right = 400.0
+margin_bottom = 1080.0
+split_offset = 600
+script = ExtResource( 7 )
+
+[node name="GroupList" type="ItemList" parent="HSplitContainer/GroupPanel"]
+margin_right = 400.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 400, 0 )
+script = ExtResource( 6 )
+
+[node name="GroupDetails" type="VSplitContainer" parent="HSplitContainer/GroupPanel"]
+margin_top = 624.0
+margin_right = 400.0
+margin_bottom = 1080.0
+script = ExtResource( 8 )
+
+[node name="GroupAttributes" type="PanelContainer" parent="HSplitContainer/GroupPanel/GroupDetails"]
+margin_right = 400.0
+margin_bottom = 456.0
+
+[node name="Attributes" type="VBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes"]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 386.0
+margin_bottom = 442.0
+
+[node name="ID" type="HBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
+margin_right = 372.0
+margin_bottom = 25.0
+
+[node name="Prompt" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/ID"]
+margin_right = 31.0
+margin_bottom = 25.0
+text = "ID:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/ID"]
+margin_left = 39.0
+margin_right = 39.0
+margin_bottom = 25.0
+
+[node name="Name" type="HBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
+margin_top = 33.0
+margin_right = 372.0
+margin_bottom = 78.0
+
+[node name="Prompt" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Name"]
+margin_top = 10.0
+margin_right = 72.0
+margin_bottom = 35.0
+text = "Name:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Name"]
+margin_left = 80.0
+margin_right = 244.0
+margin_bottom = 45.0
+
+[node name="HSeparator" type="HSeparator" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
+margin_top = 86.0
+margin_right = 372.0
+margin_bottom = 94.0
+
+[node name="ListHeading" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
+margin_top = 102.0
+margin_right = 372.0
+margin_bottom = 127.0
+text = "Plants:"
+
+[node name="GroupPlantList" type="ItemList" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
+margin_top = 135.0
+margin_right = 372.0
+margin_bottom = 383.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+fixed_icon_size = Vector2( 100, 100 )
+script = ExtResource( 5 )
+
+[node name="RemoveButton" type="Button" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
+margin_top = 391.0
+margin_right = 372.0
+margin_bottom = 428.0
+text = "Remove Selected"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer"]
+margin_left = 424.0
+margin_right = 1496.0
+margin_bottom = 1080.0
+
+[node name="ViewportContainer" type="ViewportContainer" parent="HSplitContainer/VBoxContainer"]
+margin_right = 1072.0
+margin_bottom = 1000.0
+rect_min_size = Vector2( 1000, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="HSplitContainer/VBoxContainer/ViewportContainer"]
+size = Vector2( 1000, 1000 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Visualization" type="Spatial" parent="HSplitContainer/VBoxContainer/ViewportContainer/Viewport"]
+script = ExtResource( 13 )
+
+[node name="Camera" type="Camera" parent="HSplitContainer/VBoxContainer/ViewportContainer/Viewport/Visualization"]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 5, 0 )
+
+[node name="VegetationLayer" parent="HSplitContainer/VBoxContainer/ViewportContainer/Viewport/Visualization" instance=ExtResource( 10 )]
+material_override = SubResource( 1 )
+process_material = SubResource( 2 )
+draw_pass_1 = ExtResource( 14 )
+rows = 50
+spacing = 1.0
+max_size = 20.0
+
+[node name="UpdateVisButton" type="Button" parent="HSplitContainer/VBoxContainer"]
+margin_top = 1008.0
+margin_right = 1072.0
+margin_bottom = 1045.0
+text = "Update"
