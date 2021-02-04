@@ -4,7 +4,7 @@
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
 [ext_resource path="res://UI/CustomElements/SignalAutoTextureButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/vr.svg" type="Texture" id=4]
-[ext_resource path="res://UI/DebugInfo/DebugOverlay.gd" type="Script" id=5]
+[ext_resource path="res://UI/UIDock.gd" type="Script" id=5]
 [ext_resource path="res://UI/StartMenu/StartMenuUI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://StartScene.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/eye.svg" type="Texture" id=8]
@@ -18,7 +18,7 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
@@ -34,53 +34,146 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TopLeftUI" type="MarginContainer" parent="."]
-margin_right = 80.0
-margin_bottom = 72.0
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_left = 0.01
+anchor_top = 0.01
+anchor_right = 0.98
+anchor_bottom = 0.98
+margin_left = -0.24
+margin_top = 0.24
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TopLeftUI"]
-margin_right = 80.0
-margin_bottom = 72.0
+[node name="Split1" type="HSplitContainer" parent="MarginContainer"]
+margin_right = 1546.0
+margin_bottom = 558.0
+rect_pivot_offset = Vector2( 748.958, 413 )
+split_offset = 500
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="TextureButton" type="TextureButton" parent="TopLeftUI/HBoxContainer"]
-margin_right = 72.0
-margin_bottom = 72.0
-texture_normal = ExtResource( 8 )
+[node name="Split11" type="HSplitContainer" parent="MarginContainer/Split1"]
+margin_right = 238.0
+margin_bottom = 558.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TopLeftUI/HBoxContainer"]
-margin_left = 76.0
-margin_right = 76.0
-margin_bottom = 72.0
+[node name="Split111" type="VSplitContainer" parent="MarginContainer/Split1/Split11"]
+margin_right = 130.0
+margin_bottom = 558.0
 
-[node name="DebugOverlay" type="Label" parent="TopLeftUI/HBoxContainer/VBoxContainer"]
-visible = false
-margin_bottom = 25.0
+[node name="LeftLeftTop" type="TabContainer" parent="MarginContainer/Split1/Split11/Split111"]
+margin_right = 130.0
+margin_bottom = 447.0
+rect_min_size = Vector2( 100, 0 )
+tab_align = 0
+use_hidden_tabs_for_min_size = true
 script = ExtResource( 5 )
 
-[node name="TopRightUI" type="MarginContainer" parent="."]
-anchor_left = 1.0
+[node name="ToolsPanel" parent="MarginContainer/Split1/Split11/Split111/LeftLeftTop" instance=ExtResource( 1 )]
 anchor_right = 1.0
-margin_bottom = 72.0
+margin_left = 5.0
+margin_top = 38.0
+margin_right = -5.0
+margin_bottom = -5.0
+size_flags_vertical = 4
+
+[node name="LeftLeftBot" type="TabContainer" parent="MarginContainer/Split1/Split11/Split111"]
+margin_top = 455.0
+margin_right = 130.0
+margin_bottom = 558.0
+tab_align = 0
+use_hidden_tabs_for_min_size = true
+script = ExtResource( 5 )
+
+[node name="Values" parent="MarginContainer/Split1/Split11/Split111/LeftLeftBot" instance=ExtResource( 19 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 38.0
+margin_right = -5.0
+margin_bottom = -5.0
+mouse_filter = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+alignment = 0
+
+[node name="Split112" type="VSplitContainer" parent="MarginContainer/Split1/Split11"]
+margin_left = 138.0
+margin_right = 238.0
+margin_bottom = 558.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="LeftRightTop" type="TabContainer" parent="MarginContainer/Split1/Split11/Split112"]
+margin_right = 100.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 0, 200 )
+tab_align = 0
+use_hidden_tabs_for_min_size = true
+script = ExtResource( 5 )
+
+[node name="LeftRightBot" type="TabContainer" parent="MarginContainer/Split1/Split11/Split112"]
+margin_top = 208.0
+margin_right = 100.0
+margin_bottom = 558.0
+tab_align = 0
+use_hidden_tabs_for_min_size = true
+script = ExtResource( 5 )
+
+[node name="Split2" type="HSplitContainer" parent="MarginContainer/Split1"]
+margin_left = 246.0
+margin_right = 1546.0
+margin_bottom = 558.0
+split_offset = 69
+
+[node name="Spacer" type="Control" parent="MarginContainer/Split1/Split2"]
+margin_right = 600.0
+margin_bottom = 558.0
+rect_min_size = Vector2( 600, 0 )
+size_flags_horizontal = 15
+size_flags_vertical = 15
+
+[node name="Split21" type="HSplitContainer" parent="MarginContainer/Split1/Split2"]
+margin_left = 608.0
+margin_right = 1300.0
+margin_bottom = 558.0
+
+[node name="Split211" type="VSplitContainer" parent="MarginContainer/Split1/Split2/Split21"]
+margin_right = 174.0
+margin_bottom = 558.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RightLeftTop" type="TabContainer" parent="MarginContainer/Split1/Split2/Split21/Split211"]
+margin_right = 174.0
+margin_bottom = 558.0
+tab_align = 0
+script = ExtResource( 5 )
+
+[node name="More" type="MarginContainer" parent="MarginContainer/Split1/Split2/Split21/Split211/RightLeftTop"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 38.0
+margin_right = -5.0
+margin_bottom = -5.0
 grow_horizontal = 0
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Top" type="HBoxContainer" parent="TopRightUI"]
+[node name="Top" type="HBoxContainer" parent="MarginContainer/Split1/Split2/Split21/Split211/RightLeftTop/More"]
 margin_right = 164.0
-margin_bottom = 80.0
+margin_bottom = 515.0
 grow_horizontal = 0
 grow_vertical = 0
 alignment = 2
 
-[node name="VR" parent="TopRightUI/Top" instance=ExtResource( 3 )]
+[node name="VR" parent="MarginContainer/Split1/Split2/Split21/Split211/RightLeftTop/More/Top" instance=ExtResource( 3 )]
 material = SubResource( 1 )
 margin_right = 80.0
-margin_bottom = 80.0
+margin_bottom = 515.0
 rect_min_size = Vector2( 80, 80 )
 toggle_mode = true
 texture_normal = ExtResource( 4 )
@@ -89,64 +182,73 @@ default_color = Color( 0, 0, 0, 1 )
 signal_pressed = "vr_enable"
 signal_released = "vr_disable"
 
-[node name="Settings" parent="TopRightUI/Top" instance=ExtResource( 44 )]
+[node name="Settings" parent="MarginContainer/Split1/Split2/Split21/Split211/RightLeftTop/More/Top" instance=ExtResource( 44 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 84.0
 margin_right = 164.0
-margin_bottom = 80.0
+margin_bottom = 515.0
 rect_min_size = Vector2( 80, 80 )
 
-[node name="DebugSettings" type="VBoxContainer" parent="TopRightUI"]
-margin_bottom = 80.0
+[node name="DebugSettings" type="VBoxContainer" parent="MarginContainer/Split1/Split2/Split21/Split211/RightLeftTop/More"]
+margin_bottom = 515.0
 size_flags_horizontal = 2
 
-[node name="DebugInfo" parent="TopRightUI/DebugSettings" instance=ExtResource( 14 )]
+[node name="DebugInfo" parent="MarginContainer/Split1/Split2/Split21/Split211/RightLeftTop/More/DebugSettings" instance=ExtResource( 14 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 300.0
-margin_bottom = 975.0
+margin_bottom = 968.0
 rect_min_size = Vector2( 300, 0 )
 
-[node name="ToolsOffset" type="MarginContainer" parent="."]
-anchor_bottom = 1.0
-margin_right = 468.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="RightLeftBot" type="TabContainer" parent="MarginContainer/Split1/Split2/Split21/Split211"]
+visible = false
+margin_right = 10.0
+margin_bottom = 559.0
+tab_align = 0
+script = ExtResource( 5 )
 
-[node name="ToolsPanel" parent="ToolsOffset" instance=ExtResource( 1 )]
-anchor_bottom = 0.0
-margin_right = 100.0
-margin_bottom = 604.0
-size_flags_vertical = 4
+[node name="Split212" type="VSplitContainer" parent="MarginContainer/Split1/Split2/Split21"]
+margin_left = 182.0
+margin_right = 692.0
+margin_bottom = 558.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="Bottom UI" type="MarginContainer" parent="."]
-anchor_top = 1.0
+[node name="RightRightTop" type="TabContainer" parent="MarginContainer/Split1/Split2/Split21/Split212"]
+visible = false
+margin_right = 510.0
+margin_bottom = 115.0
+tab_align = 0
+script = ExtResource( 5 )
+
+[node name="TextureButton" type="TextureButton" parent="MarginContainer/Split1/Split2/Split21/Split212/RightRightTop"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -300.0
-mouse_filter = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_left = 5.0
+margin_top = 38.0
+margin_right = -5.0
+margin_bottom = -5.0
+texture_normal = ExtResource( 8 )
 
-[node name="ValuesOffset" type="VBoxContainer" parent="Bottom UI"]
-margin_right = 1024.0
-margin_bottom = 300.0
-mouse_filter = 2
-alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="RightRightBot" type="TabContainer" parent="MarginContainer/Split1/Split2/Split21/Split212"]
+margin_right = 510.0
+margin_bottom = 558.0
+tab_align = 0
+script = ExtResource( 5 )
 
-[node name="Values" parent="Bottom UI/ValuesOffset" instance=ExtResource( 19 )]
-margin_right = 630.0
-mouse_filter = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
+[node name="LayerUI" parent="MarginContainer/Split1/Split2/Split21/Split212/RightRightBot" instance=ExtResource( 10 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 38.0
+margin_right = -5.0
+margin_bottom = -5.0
+rect_min_size = Vector2( 500, 0 )
+rect_scale = Vector2( 1, 1 )
+size_flags_horizontal = 9
+size_flags_vertical = 9
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_left = 0.5
@@ -174,11 +276,5 @@ margin_bottom = 20.0
 
 [node name="GraphicContainer" parent="CenterContainer/StartScene" index="0"]
 visible = false
-
-[node name="LayerUI" parent="." instance=ExtResource( 10 )]
-margin_left = 501.392
-margin_top = 134.868
-margin_right = 1015.39
-margin_bottom = 466.868
 
 [editable path="CenterContainer/StartScene"]
