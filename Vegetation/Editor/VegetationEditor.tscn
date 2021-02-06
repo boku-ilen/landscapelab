@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -36,6 +36,9 @@ shader_param/amplitude = 1.0
 shader_param/heightmap_size = Vector2( 300, 300 )
 shader_param/offset = null
 shader_param/noisemap = ExtResource( 11 )
+
+[sub_resource type="PlaneMesh" id=3]
+size = Vector2( 500, 500 )
 
 [node name="VegetationEditor" type="HSplitContainer"]
 anchor_right = 1.0
@@ -314,6 +317,13 @@ draw_pass_1 = ExtResource( 14 )
 rows = 50
 spacing = 1.0
 max_size = 20.0
+
+[node name="DirectionalLight" type="DirectionalLight" parent="HSplitContainer/VBoxContainer/ViewportContainer/Viewport/Visualization"]
+transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 8, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="HSplitContainer/VBoxContainer/ViewportContainer/Viewport/Visualization"]
+mesh = SubResource( 3 )
+material/0 = null
 
 [node name="UpdateVisButton" type="Button" parent="HSplitContainer/VBoxContainer"]
 margin_top = 998.0
