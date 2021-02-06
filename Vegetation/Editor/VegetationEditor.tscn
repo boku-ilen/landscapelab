@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Layers/Renderers/RasterVegetation/Plant.shader" type="Shader" id=12]
 [ext_resource path="res://Vegetation/Editor/Visualization.gd" type="Script" id=13]
 [ext_resource path="res://Resources/Meshes/VegetationBillboard/2m_billboard.obj" type="ArrayMesh" id=14]
+[ext_resource path="res://Vegetation/Editor/SaveButton.gd" type="Script" id=15]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -267,14 +268,16 @@ margin_bottom = 1080.0
 
 [node name="ViewportContainer" type="ViewportContainer" parent="HSplitContainer/VBoxContainer"]
 margin_right = 1072.0
-margin_bottom = 1000.0
+margin_bottom = 990.0
 rect_min_size = Vector2( 1000, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Viewport" type="Viewport" parent="HSplitContainer/VBoxContainer/ViewportContainer"]
-size = Vector2( 1000, 1000 )
+size = Vector2( 1000, 900 )
 handle_input_locally = false
 render_target_update_mode = 3
 
@@ -293,7 +296,14 @@ spacing = 1.0
 max_size = 20.0
 
 [node name="UpdateVisButton" type="Button" parent="HSplitContainer/VBoxContainer"]
-margin_top = 1008.0
+margin_top = 998.0
 margin_right = 1072.0
-margin_bottom = 1045.0
+margin_bottom = 1035.0
 text = "Update"
+
+[node name="SaveButton" type="Button" parent="HSplitContainer/VBoxContainer"]
+margin_top = 1043.0
+margin_right = 1072.0
+margin_bottom = 1080.0
+text = "Save Configuration"
+script = ExtResource( 15 )
