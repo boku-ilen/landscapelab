@@ -32,7 +32,11 @@ const distribution_size = 16
 const sprite_size = 1024
 const texture_size = 1024
 
-var base_path = "/home/karl/Downloads/vegetation"
+var plant_csv_path = "/home/karl/Downloads/retour_billboards.csv"
+var group_csv_path = "/home/karl/Downloads/groups.csv"
+var billboard_base_path = "/home/karl/Downloads/plants"
+
+const BILLBOARD_ENDING = ".png"
 
 var phytocoenosis_by_name = {}
 var phytocoenosis_by_id = {}
@@ -47,7 +51,7 @@ var groups = {}
 
 
 func _ready() -> void:
-	_load_data_from_csv()
+	_load_data_from_csv(plant_csv_path, group_csv_path)
 
 
 func add_plant(plant: Plant):
@@ -60,54 +64,87 @@ func add_group(group):
 
 # Read the CSV files at the path provided by GeodataPaths and save the
 #  metadata of all phytocoenosis with their plants.
-func _load_data_from_csv() -> void:
-	# Load phytocoenosis data
-	var phytocoenosis_path = base_path.plus_file("phytocoenosis.csv")
-	
-	var phyto_csv = File.new()
-	phyto_csv.open(phytocoenosis_path, phyto_csv.READ)
-	
-	if not phyto_csv.is_open():
-		logger.error("Phytocoenosis CSV file does not exist, expected it at %s"
-				 % [phytocoenosis_path])
-		return
-	
-	var phytocoenosis_headings = phyto_csv.get_csv_line()
-	
-	while !phyto_csv.eof_reached():
-		# Format: Name, ID, Ground texture
-		var csv = phyto_csv.get_csv_line()
-		phytocoenosis_by_name[csv[0].to_lower()] = Phytocoenosis.new(csv[1], csv[0], csv[2])
-	
-	# Load plant data
-	var plant_path = base_path.plus_file("plants.csv")
-	
+func _load_data_from_csv(plant_path: String, group_path: String) -> void:
+	_create_plants_from_csv(plant_path)
+	_create_groups_from_csv(group_path)
+
+
+func _create_plants_from_csv(csv_path: String) -> void:
 	var plant_csv = File.new()
-	plant_csv.open(plant_path, phyto_csv.READ)
+	plant_csv.open(csv_path, File.READ)
 	
 	if not plant_csv.is_open():
 		logger.error("Plants CSV file does not exist, expected it at %s"
-				 % [plant_path])
+				 % [csv_path])
 		return
 	
 	var plant_headings = plant_csv.get_csv_line()
 	
+	#for i in range(100):
 	while !plant_csv.eof_reached():
-		# Format: Phytocoenosis Name, Avg height, sigma height, density, billboard
+		# Format:
+		# ID	FILE	TYPE	SIZE	SPECIES	NAME_DE	NAME_EN	SEASON	SOURCE	LICENSE	AUTHOR	NOTE
 		var csv = plant_csv.get_csv_line()
 		
-		if csv[0] == "": break
+		var id = csv[0]
+		var file = csv[1]
+		var type = csv[2]
+		var size = csv[3]
+		var species = csv[4]
+		var name_de = csv[5]
+		var name_en = csv[6]
+		var season = csv[7]
+		var source = csv[8]
+		var license = csv[9]
+		var author = csv[10]
+		var note = csv[11]
 		
-		var p = phytocoenosis_by_name[csv[0].to_lower()]
+		if id == "": break
 		
-#		p.plants.append(
-#				Plant.new(p.plants.size(), "", float(csv[1]), float(csv[2]),
-#				float(csv[3]), csv[4],
-#				base_path.plus_file("plant-textures")))
+		var plant = Vegetation.Plant.new()
+		
+		plant.id = id
+		plant.billboard_path = billboard_base_path.plus_file("small-" + file) + BILLBOARD_ENDING
+		plant.type = type
+		plant.size_class = Vegetation.parse_size(size)
+		plant.species = species
+		plant.name_de = name_de
+		plant.name_en = name_en
+		plant.season = Vegetation.parse_season(season)
+		plant.source = source
+		plant.license = license
+		plant.author = author
+		plant.note = note
+		
+		Vegetation.add_plant(plant)
+
+
+func _create_groups_from_csv(csv_path: String) -> void:
+	var group_csv = File.new()
+	group_csv.open(csv_path, File.READ)
 	
-	# Add a map of ID to phytocoenosis as well, since that is frequently required
-	for phytocoenosis in phytocoenosis_by_name.values():
-		phytocoenosis_by_id[int(phytocoenosis.id)] = phytocoenosis
+	if not group_csv.is_open():
+		logger.error("Groups CSV file does not exist, expected it at %s"
+				 % [csv_path])
+		return
+	
+	var headings = group_csv.get_csv_line()
+	
+	while !group_csv.eof_reached():
+		# Format:
+		# ID	FILE	TYPE	SIZE	SPECIES	NAME_DE	NAME_EN	SEASON	SOURCE	LICENSE	AUTHOR	NOTE
+		var csv = group_csv.get_csv_line()
+		
+		var id = csv[7]
+		var name_en = csv[5]
+		
+		if id == "": continue
+		
+		var group = Vegetation.Phytocoenosis.new(id, name_en)
+		
+		Vegetation.add_group(group)
+	
+	Vegetation.groups
 
 
 # Returns the Phytocoenosis objects which correspond to the given IDs.
