@@ -62,8 +62,7 @@ func add_group(group):
 	groups[group.id] = group
 
 
-# Read the CSV files at the path provided by GeodataPaths and save the
-#  metadata of all phytocoenosis with their plants.
+# Read Plants and Groups from the given CSV files.
 func _load_data_from_csv(plant_path: String, group_path: String) -> void:
 	_create_plants_from_csv(plant_path)
 	_create_groups_from_csv(group_path)
@@ -101,22 +100,22 @@ func _create_plants_from_csv(csv_path: String) -> void:
 		
 		if id == "": break
 		
-		var plant = Vegetation.Plant.new()
+		var plant = Plant.new()
 		
 		plant.id = id
 		plant.billboard_path = billboard_base_path.plus_file("small-" + file) + BILLBOARD_ENDING
 		plant.type = type
-		plant.size_class = Vegetation.parse_size(size)
+		plant.size_class = parse_size(size)
 		plant.species = species
 		plant.name_de = name_de
 		plant.name_en = name_en
-		plant.season = Vegetation.parse_season(season)
+		plant.season = parse_season(season)
 		plant.source = source
 		plant.license = license
 		plant.author = author
 		plant.note = note
 		
-		Vegetation.add_plant(plant)
+		add_plant(plant)
 
 
 func _create_groups_from_csv(csv_path: String) -> void:
@@ -132,7 +131,7 @@ func _create_groups_from_csv(csv_path: String) -> void:
 	
 	while !group_csv.eof_reached():
 		# Format:
-		# ID	FILE	TYPE	SIZE	SPECIES	NAME_DE	NAME_EN	SEASON	SOURCE	LICENSE	AUTHOR	NOTE
+		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID)
 		var csv = group_csv.get_csv_line()
 		
 		var id = csv[7]
@@ -140,11 +139,74 @@ func _create_groups_from_csv(csv_path: String) -> void:
 		
 		if id == "": continue
 		
-		var group = Vegetation.Phytocoenosis.new(id, name_en)
+		var group = Phytocoenosis.new(id, name_en)
 		
-		Vegetation.add_group(group)
+		add_group(group)
+
+
+# Save the current Plant and Group data to CSV files at the given locations.
+# If the files exist, their content is replaced by the new data.
+func save_to_files(plant_csv_path: String, group_csv_path: String):
+	_save_plants_to_csv(plant_csv_path)
+	_save_groups_to_csv(group_csv_path)
+
+
+func _save_plants_to_csv(csv_path):
+	var plant_csv = File.new()
+	plant_csv.open(csv_path, File.WRITE)
 	
-	Vegetation.groups
+	if not plant_csv.is_open():
+		logger.error("Plants CSV file at %s could not be created or opened for writing"
+				 % [csv_path])
+		return
+	
+	var headings = "ID,FILE,TYPE,SIZE,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE"
+	plant_csv.store_line(headings)
+	
+	for plant in plants.values():
+		# Format:
+		# ID	FILE	TYPE	SIZE	SPECIES	NAME_DE	NAME_EN	SEASON	SOURCE	LICENSE	AUTHOR	NOTE
+		plant_csv.store_csv_line([
+			plant.id,
+			plant.billboard_path,
+			plant.type,
+			reverse_parse_size(plant.size_class),
+			plant.species,
+			plant.name_de,
+			plant.name_en,
+			reverse_parse_season(plant.season),
+			plant.source,
+			plant.license,
+			plant.author,
+			plant.note
+		])
+
+
+func _save_groups_to_csv(csv_path: String) -> void:
+	var group_csv = File.new()
+	group_csv.open(csv_path, File.WRITE)
+	
+	if not group_csv.is_open():
+		logger.error("Groups CSV file at %s could not be created or opened for writing"
+				 % [csv_path])
+		return
+	
+	var headings = "SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID)"
+	group_csv.store_line(headings)
+	
+	for group in groups.values():
+		# Format:
+		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID)
+		group_csv.store_csv_line([
+			"TODO",
+			"TODO",
+			"TODO",
+			"TODO",
+			"TODO",
+			group.name,
+			"TODO",
+			group.id
+		])
 
 
 # Returns the Phytocoenosis objects which correspond to the given IDs.
@@ -400,6 +462,22 @@ func parse_season(season_string: String):
 	elif season_string == "SUMMER": return Season.SUMMER
 	elif season_string == "AUTUMN": return Season.AUTUMN
 	elif season_string == "WINTER": return Season.WINTER
+	else: return null
+
+
+func reverse_parse_size(size):
+	if size == Plant.Size.S: return "S"
+	elif size == Plant.Size.M: return "M"
+	elif size == Plant.Size.L: return "L"
+	elif size == Plant.Size.XL: return "XL"
+	else: return null
+
+
+func reverse_parse_season(season):
+	if season == Season.SPRING: return "SPRING"
+	elif season == Season.SUMMER: return "SUMMER"
+	elif season == Season.AUTUMN: return "AUTUMN"
+	elif season == Season.WINTER: return "WINTER"
 	else: return null
 
 
