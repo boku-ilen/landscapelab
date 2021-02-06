@@ -108,29 +108,48 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Height" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
+[node name="MinHeight" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
 margin_top = 86.0
 margin_right = 372.0
 margin_bottom = 131.0
 
-[node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/Height"]
+[node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/MinHeight"]
 margin_top = 10.0
-margin_right = 77.0
+margin_right = 124.0
 margin_bottom = 35.0
-text = "Height:"
+text = "Min Height:"
 
-[node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/Height"]
-margin_left = 85.0
-margin_right = 249.0
+[node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/MinHeight"]
+margin_left = 132.0
+margin_right = 296.0
+margin_bottom = 45.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MaxHeight" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
+margin_top = 139.0
+margin_right = 372.0
+margin_bottom = 184.0
+
+[node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/MaxHeight"]
+margin_top = 10.0
+margin_right = 129.0
+margin_bottom = 35.0
+text = "Max Height:"
+
+[node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/MaxHeight"]
+margin_left = 137.0
+margin_right = 301.0
 margin_bottom = 45.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Density" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 139.0
+margin_top = 192.0
 margin_right = 372.0
-margin_bottom = 184.0
+margin_bottom = 237.0
 
 [node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/Density"]
 margin_top = 10.0
@@ -147,23 +166,23 @@ __meta__ = {
 }
 
 [node name="SaveButton" type="Button" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 192.0
+margin_top = 245.0
 margin_right = 372.0
-margin_bottom = 229.0
+margin_bottom = 282.0
 text = "Save"
 
 [node name="HSeparator" type="HSeparator" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 237.0
+margin_top = 290.0
 margin_right = 372.0
-margin_bottom = 245.0
+margin_bottom = 298.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="GroupButton" type="Button" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 253.0
+margin_top = 306.0
 margin_right = 372.0
-margin_bottom = 290.0
+margin_bottom = 343.0
 text = "Add to current group >"
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]

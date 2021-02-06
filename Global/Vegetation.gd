@@ -15,16 +15,6 @@ extends Node
 # 		albedo.jpg
 # 		normal.jpg
 # 		displacement.jpg
-#
-# phytocoenosis.csv must have the columns:
-# Name, ID, Ground texture
-# For example:
-# Meadow, 1, Grass
-#
-# plants.csv must have the columns:
-# Phytocoenosis Name, Avg height, sigma height, density, billboard
-# For example:
-# Meadow, 0.8, 0.1, 0.9, billboard1.png
 # 
 
 const distribution_size = 16
@@ -82,21 +72,24 @@ func _create_plants_from_csv(csv_path: String) -> void:
 	#for i in range(100):
 	while !plant_csv.eof_reached():
 		# Format:
-		# ID	FILE	TYPE	SIZE	SPECIES	NAME_DE	NAME_EN	SEASON	SOURCE	LICENSE	AUTHOR	NOTE
+		# ID,FILE,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE
 		var csv = plant_csv.get_csv_line()
 		
 		var id = csv[0]
 		var file = csv[1]
 		var type = csv[2]
 		var size = csv[3]
-		var species = csv[4]
-		var name_de = csv[5]
-		var name_en = csv[6]
-		var season = csv[7]
-		var source = csv[8]
-		var license = csv[9]
-		var author = csv[10]
-		var note = csv[11]
+		var height_min = csv[4]
+		var height_max = csv[5]
+		var density = csv[6]
+		var species = csv[7]
+		var name_de = csv[8]
+		var name_en = csv[9]
+		var season = csv[10]
+		var source = csv[11]
+		var license = csv[12]
+		var author = csv[13]
+		var note = csv[14]
 		
 		if id == "": break
 		
@@ -106,6 +99,9 @@ func _create_plants_from_csv(csv_path: String) -> void:
 		plant.billboard_path = billboard_base_path.plus_file("small-" + file) + BILLBOARD_ENDING
 		plant.type = type
 		plant.size_class = parse_size(size)
+		plant.height_min = height_min
+		plant.height_max = height_max
+		plant.density = density
 		plant.species = species
 		plant.name_de = name_de
 		plant.name_en = name_en
@@ -160,17 +156,20 @@ func _save_plants_to_csv(csv_path):
 				 % [csv_path])
 		return
 	
-	var headings = "ID,FILE,TYPE,SIZE,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE"
+	var headings = "ID,FILE,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE"
 	plant_csv.store_line(headings)
 	
 	for plant in plants.values():
 		# Format:
-		# ID	FILE	TYPE	SIZE	SPECIES	NAME_DE	NAME_EN	SEASON	SOURCE	LICENSE	AUTHOR	NOTE
+		# ID,FILE,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE
 		plant_csv.store_csv_line([
 			plant.id,
 			plant.billboard_path,
 			plant.type,
 			reverse_parse_size(plant.size_class),
+			plant.height_min,
+			plant.height_max,
+			plant.density,
 			plant.species,
 			plant.name_de,
 			plant.name_en,
@@ -230,7 +229,7 @@ func filter_phytocoenosis_array_by_height(phytocoenosis_array, min_height: float
 		var plants = []
 		
 		for plant in phytocoenosis.plants:
-			if plant.avg_height > min_height and plant.avg_height < max_height:
+			if plant.height_max > min_height and plant.height_max < max_height:
 				plants.append(plant)
 		
 		# Append a new Phytocoenosis which is identical to the one in the passed
@@ -277,7 +276,7 @@ func get_billboard_sheet(phytocoenosis_array, max_size):
 		for plant in phytocoenosis.plants:
 			var billboard = plant.get_billboard()
 			billboard_table[row].append(billboard)
-			scale_table[row].append(plant.avg_height / max_size)
+			scale_table[row].append(plant.height_max / max_size)
 			
 		row += 1
 		
@@ -498,8 +497,8 @@ class Plant:
 	var author: String
 	var note: String
 	
-	var avg_height: float
-	var sigma_height: float
+	var height_min: float
+	var height_max: float
 	var density: float
 	
 	# Return the billboard of this plant as an unmodified Image.
