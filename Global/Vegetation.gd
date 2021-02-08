@@ -127,15 +127,32 @@ func _create_groups_from_csv(csv_path: String) -> void:
 	
 	while !group_csv.eof_reached():
 		# Format:
-		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID)
+		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS
 		var csv = group_csv.get_csv_line()
 		
-		var id = csv[7]
+		if csv.size() < 9: continue
+		
+		var id = csv[7].strip_edges()
 		var name_en = csv[5]
+		var plant_ids = csv[8].split(",") if not csv[8].empty() else []
 		
 		if id == "": continue
 		
-		var group = Phytocoenosis.new(id, name_en)
+		if id in groups.keys():
+			logger.warning("Duplicate group with ID %s! Skipping..."
+					% [id])
+			continue
+		
+		# Parse and loads plants
+		var group_plants = []
+		for plant_id in plant_ids:
+			if plants.has(int(plant_id)):
+				group_plants.append(plants[int(plant_id)])
+			else:
+				logger.warning("Non-existent plant with ID %s in CSV %s!"
+						% [plant_id, csv_path])
+		
+		var group = Phytocoenosis.new(id, name_en, group_plants)
 		
 		add_group(group)
 
@@ -195,7 +212,7 @@ func _save_groups_to_csv(csv_path: String) -> void:
 	
 	for group in groups.values():
 		# Format:
-		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID)
+		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS
 		group_csv.store_csv_line([
 			"TODO",
 			"TODO",
@@ -204,7 +221,8 @@ func _save_groups_to_csv(csv_path: String) -> void:
 			"TODO",
 			group.name,
 			"TODO",
-			group.id
+			group.id,
+			PoolStringArray(group.get_plant_ids()).join(",")
 		])
 
 
@@ -236,8 +254,8 @@ func filter_phytocoenosis_array_by_height(phytocoenosis_array, min_height: float
 		#  array, but with the filtered plants
 		new_array.append(Phytocoenosis.new(phytocoenosis.id,
 				phytocoenosis.name,
-				phytocoenosis.ground_texture_path,
-				plants))
+				plants,
+				phytocoenosis.ground_texture_path))
 	
 	return new_array
 
@@ -270,8 +288,6 @@ func get_billboard_sheet(phytocoenosis_array, max_size):
 	for phytocoenosis in phytocoenosis_array:
 		billboard_table[row] = []
 		scale_table[row] = []
-		
-		print(phytocoenosis.plants.size())
 		
 		for plant in phytocoenosis.plants:
 			var billboard = plant.get_billboard()
@@ -411,7 +427,7 @@ class Phytocoenosis:
 	var plants: Array
 	var ground_texture_path
 	
-	func _init(id, name, ground_texture_path = null, plants = null):
+	func _init(id, name, plants = null, ground_texture_path = null):
 		self.id = int(id)
 		self.name = name
 		
@@ -443,6 +459,13 @@ class Phytocoenosis:
 		Vegetation.ground_image_mutex.unlock()
 		
 		return Vegetation.ground_image_cache[full_path]
+	
+	func get_plant_ids():
+		var plant_ids = []
+		for plant in plants:
+			plant_ids.append(plant.id)
+		
+		return plant_ids
 
 
 enum Season {SPRING, SUMMER, AUTUMN, WINTER}
