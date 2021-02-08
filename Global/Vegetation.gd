@@ -91,7 +91,12 @@ func _create_plants_from_csv(csv_path: String) -> void:
 		var author = csv[13]
 		var note = csv[14]
 		
-		if id == "": break
+		if id == "":
+			logger.warning("Plant with empty ID in plant CSV line: %s"
+					% [csv])
+			continue
+		else:
+			id = int(id)
 		
 		var plant = Plant.new()
 		
@@ -130,13 +135,21 @@ func _create_groups_from_csv(csv_path: String) -> void:
 		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS
 		var csv = group_csv.get_csv_line()
 		
-		if csv.size() < 9: continue
+		if csv.size() < headings.size():
+			logger.warning("Unexpected CSV line (size does not match headings): %s"
+					% [csv])
+			continue
 		
 		var id = csv[7].strip_edges()
 		var name_en = csv[5]
 		var plant_ids = csv[8].split(",") if not csv[8].empty() else []
 		
-		if id == "": continue
+		if id == "":
+			logger.warning("Group with empty ID in CSV line: %s"
+					% [csv])
+			continue
+		else:
+			id = int(id)
 		
 		if id in groups.keys():
 			logger.warning("Duplicate group with ID %s! Skipping..."
@@ -146,8 +159,10 @@ func _create_groups_from_csv(csv_path: String) -> void:
 		# Parse and loads plants
 		var group_plants = []
 		for plant_id in plant_ids:
-			if plants.has(int(plant_id)):
-				group_plants.append(plants[int(plant_id)])
+			plant_id = int(plant_id)
+			
+			if plants.has(plant_id):
+				group_plants.append(plants[plant_id])
 			else:
 				logger.warning("Non-existent plant with ID %s in CSV %s!"
 						% [plant_id, csv_path])
