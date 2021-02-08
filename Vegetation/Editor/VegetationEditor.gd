@@ -17,15 +17,16 @@ func _add_current_plant_to_current_group():
 	var current_plant = $PlantPanel/PlantDetails.current_plant
 	var current_group = $HSplitContainer/GroupPanel/GroupDetails.current_group
 	
-	current_group.add_plant(current_plant)
-	
-	$HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/GroupPlantList.update_plants()
+	if current_plant and current_group:
+		current_group.add_plant(current_plant)
+		$HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/GroupPlantList.update_plants()
 
 
 func _update_visualization():
 	var current_group = $HSplitContainer/GroupPanel/GroupDetails.current_group
 	
-	$HSplitContainer/VBoxContainer/ViewportContainer/Viewport/Visualization.update_visualization(current_group.id)
+	if (current_group):
+		$HSplitContainer/VBoxContainer/ViewportContainer/Viewport/Visualization.update_visualization(current_group.id)
 
 
 
