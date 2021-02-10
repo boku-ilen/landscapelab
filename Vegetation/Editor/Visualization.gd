@@ -23,3 +23,9 @@ func update_visualization(group_id):
 	
 	for layer in get_node("VegetationRenderers").get_children():
 		layer.update_textures_with_images(null, splat_texture, [group_id])
+	
+	# Update ground texture if available
+	var ground_texture = Vegetation.groups[group_id].get_ground_texture("albedo")
+	
+	if ground_texture:
+		$GroundMesh.get_surface_material(0).albedo_texture = ground_texture

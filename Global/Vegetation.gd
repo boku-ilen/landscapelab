@@ -22,8 +22,10 @@ const distribution_size = 16
 const sprite_size = 1024
 const texture_size = 1024
 
-var plant_csv_path = "/home/karl/Downloads/retour_billboards.csv"
-var group_csv_path = "/home/karl/Downloads/new_groups.csv"
+var plant_csv_path = "/home/karl/Nextcloud/Boku/new_veg/plants.csv"
+var group_csv_path = "/home/karl/Nextcloud/Boku/new_veg/groups.csv"
+
+var ground_texture_base_path = "/home/karl/Downloads"
 var billboard_base_path = "/home/karl/Downloads/plants"
 
 const BILLBOARD_ENDING = ".png"
@@ -144,7 +146,7 @@ func _create_groups_from_csv(csv_path: String) -> void:
 	
 	while !group_csv.eof_reached():
 		# Format:
-		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS
+		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS,GROUND TEXTURE
 		var csv = group_csv.get_csv_line()
 		
 		if csv.size() < headings.size():
@@ -179,7 +181,9 @@ func _create_groups_from_csv(csv_path: String) -> void:
 				logger.warning("Non-existent plant with ID %s in CSV %s!"
 						% [plant_id, csv_path])
 		
-		var group = Phytocoenosis.new(id, name_en, group_plants)
+		var ground_texture_path = csv[9]
+		
+		var group = Phytocoenosis.new(id, name_en, group_plants, ground_texture_path)
 		
 		add_group(group)
 
@@ -249,7 +253,8 @@ func _save_groups_to_csv(csv_path: String) -> void:
 			group.name,
 			"TODO",
 			group.id,
-			PoolStringArray(group.get_plant_ids()).join(",")
+			PoolStringArray(group.get_plant_ids()).join(","),
+			group.ground_texture_path
 		])
 
 
@@ -471,7 +476,9 @@ class Phytocoenosis:
 		plants.erase(plant)
 	
 	func get_ground_image(image_name):
-		var full_path = Vegetation.base_path.plus_file("ground-textures").plus_file(ground_texture_path).plus_file(image_name + ".jpg")
+		if not ground_texture_path: return null
+		
+		var full_path = ground_texture_path.plus_file(image_name + ".jpg")
 		
 		Vegetation.ground_image_mutex.lock()
 		if not Vegetation.ground_image_cache.has(full_path):
@@ -486,6 +493,15 @@ class Phytocoenosis:
 		Vegetation.ground_image_mutex.unlock()
 		
 		return Vegetation.ground_image_cache[full_path]
+	
+	func get_ground_texture(image_name):
+		var image = get_ground_image(image_name)
+		if not image: return null
+		
+		var tex = ImageTexture.new()
+		tex.create_from_image(image, Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER + Texture.FLAG_REPEAT)
+		
+		return tex
 	
 	func get_plant_ids():
 		var plant_ids = []
