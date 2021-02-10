@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://Vegetation/Editor/GroupPanel.gd" type="Script" id=7]
 [ext_resource path="res://Vegetation/Editor/GroupDetails.gd" type="Script" id=8]
 [ext_resource path="res://Vegetation/Editor/VisualizationUI.gd" type="Script" id=9]
+[ext_resource path="res://Vegetation/Editor/SaveDialog.gd" type="Script" id=10]
+[ext_resource path="res://Vegetation/Editor/LoadButton.gd" type="Script" id=11]
+[ext_resource path="res://Vegetation/Editor/LoadDialog.gd" type="Script" id=12]
 [ext_resource path="res://Vegetation/Editor/Visualization.gd" type="Script" id=13]
 [ext_resource path="res://Resources/Meshes/VegetationBillboard/2m_billboard.obj" type="ArrayMesh" id=14]
 [ext_resource path="res://Vegetation/Editor/SaveButton.gd" type="Script" id=15]
@@ -298,7 +301,7 @@ margin_bottom = 1080.0
 
 [node name="VisualizationUI" type="ViewportContainer" parent="HSplitContainer/VBoxContainer"]
 margin_right = 1072.0
-margin_bottom = 990.0
+margin_bottom = 945.0
 rect_min_size = Vector2( 1000, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -330,7 +333,7 @@ margin_bottom = 127.0
 text = "Aerial View (50m)"
 
 [node name="Viewport" type="Viewport" parent="HSplitContainer/VBoxContainer/VisualizationUI"]
-size = Vector2( 1000, 900 )
+size = Vector2( 1072, 945 )
 handle_input_locally = false
 render_target_update_mode = 3
 
@@ -350,14 +353,53 @@ mesh = SubResource( 3 )
 material/0 = null
 
 [node name="UpdateVisButton" type="Button" parent="HSplitContainer/VBoxContainer"]
-margin_top = 998.0
+margin_top = 953.0
 margin_right = 1072.0
-margin_bottom = 1035.0
+margin_bottom = 990.0
 text = "Update"
 
 [node name="SaveButton" type="Button" parent="HSplitContainer/VBoxContainer"]
+margin_top = 998.0
+margin_right = 1072.0
+margin_bottom = 1035.0
+text = "Save Configuration"
+script = ExtResource( 15 )
+
+[node name="SaveDialog" type="FileDialog" parent="HSplitContainer/VBoxContainer/SaveButton"]
+margin_left = -289.172
+margin_top = -822.657
+margin_right = 695.828
+margin_bottom = -216.657
+window_title = "Select Directory for Vegetation Configuration"
+dialog_hide_on_ok = true
+mode = 2
+access = 2
+current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
+current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoadButton" type="Button" parent="HSplitContainer/VBoxContainer"]
 margin_top = 1043.0
 margin_right = 1072.0
 margin_bottom = 1080.0
-text = "Save Configuration"
-script = ExtResource( 15 )
+text = "Load Configuration"
+script = ExtResource( 11 )
+
+[node name="LoadDialog" type="FileDialog" parent="HSplitContainer/VBoxContainer/LoadButton"]
+margin_left = -289.172
+margin_top = -822.657
+margin_right = 695.828
+margin_bottom = -216.657
+window_title = "Open a Directory"
+dialog_hide_on_ok = true
+mode = 2
+access = 2
+current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
+current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

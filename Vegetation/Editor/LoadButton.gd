@@ -6,4 +6,4 @@ func _ready():
 
 
 func _on_pressed():
-	$SaveDialog.popup()
+	$LoadDialog.popup()

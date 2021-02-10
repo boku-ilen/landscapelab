@@ -23,7 +23,7 @@ const sprite_size = 1024
 const texture_size = 1024
 
 var plant_csv_path = "/home/karl/Downloads/retour_billboards.csv"
-var group_csv_path = "/home/karl/Downloads/groups.csv"
+var group_csv_path = "/home/karl/Downloads/new_groups.csv"
 var billboard_base_path = "/home/karl/Downloads/plants"
 
 const BILLBOARD_ENDING = ".png"
@@ -32,6 +32,7 @@ var phytocoenosis_by_name = {}
 var phytocoenosis_by_id = {}
 
 var plant_image_cache = {}
+var plant_image_texture_cache = {}
 var ground_image_cache = {}
 
 var ground_image_mutex = Mutex.new()
@@ -39,9 +40,11 @@ var ground_image_mutex = Mutex.new()
 var plants = {}
 var groups = {}
 
+signal new_data
+
 
 func _ready() -> void:
-	_load_data_from_csv(plant_csv_path, group_csv_path)
+	load_data_from_csv(plant_csv_path, group_csv_path)
 
 
 func add_plant(plant: Plant):
@@ -53,9 +56,14 @@ func add_group(group):
 
 
 # Read Plants and Groups from the given CSV files.
-func _load_data_from_csv(plant_path: String, group_path: String) -> void:
+func load_data_from_csv(plant_path: String, group_path: String) -> void:
+	plants = {}
+	groups = {}
+	
 	_create_plants_from_csv(plant_path)
 	_create_groups_from_csv(group_path)
+	
+	emit_signal("new_data")
 
 
 func _create_plants_from_csv(csv_path: String) -> void:
@@ -69,11 +77,15 @@ func _create_plants_from_csv(csv_path: String) -> void:
 	
 	var plant_headings = plant_csv.get_csv_line()
 	
-	#for i in range(100):
 	while !plant_csv.eof_reached():
 		# Format:
 		# ID,FILE,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE
 		var csv = plant_csv.get_csv_line()
+		
+		if csv.size() < plant_headings.size():
+			logger.warning("Unexpected CSV line (size does not match headings): %s"
+					% [csv])
+			continue
 		
 		var id = csv[0]
 		var file = csv[1]
@@ -101,7 +113,7 @@ func _create_plants_from_csv(csv_path: String) -> void:
 		var plant = Plant.new()
 		
 		plant.id = id
-		plant.billboard_path = billboard_base_path.plus_file("small-" + file) + BILLBOARD_ENDING
+		plant.billboard_path = file
 		plant.type = type
 		plant.size_class = parse_size(size)
 		plant.height_min = height_min
@@ -523,7 +535,6 @@ class Plant:
 	
 	var id: int
 	var billboard_path: String
-	var billboard_image: Image
 	var type: String
 	var size_class#: Size
 	var species: String
@@ -539,11 +550,14 @@ class Plant:
 	var height_max: float
 	var density: float
 	
-	# Return the billboard of this plant as an unmodified Image.
-	func get_billboard():
-		var full_path = billboard_path
+	func _get_full_path():
+		return Vegetation.billboard_base_path.plus_file("small-" + billboard_path) + BILLBOARD_ENDING
+	
+	func _load_into_cache_if_necessary():
+		var full_path = _get_full_path()
 		
 		if not Vegetation.plant_image_cache.has(full_path):
+			# Load Image into the Image cache
 			var img = Image.new()
 			img.load(full_path)
 			
@@ -552,12 +566,18 @@ class Plant:
 						 % [name_en, full_path])
 			
 			Vegetation.plant_image_cache[full_path] = img
-		
-		return Vegetation.plant_image_cache[full_path]
+			
+			# Also load into the ImageTexture cache
+			var tex = ImageTexture.new()
+			tex.create_from_image(get_billboard(), Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER)
+			Vegetation.plant_image_texture_cache[full_path] = tex
 	
+	# Return the billboard of this plant as an unmodified Image.
+	func get_billboard():
+		_load_into_cache_if_necessary()
+		return Vegetation.plant_image_cache[_get_full_path()]
 	
+	# Return an ImageTexture with the billboard of this plant.
 	func get_billboard_texture():
-		var tex = ImageTexture.new()
-		tex.create_from_image(get_billboard(), Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER)
-		
-		return tex
+		_load_into_cache_if_necessary()
+		return Vegetation.plant_image_texture_cache[_get_full_path()]
