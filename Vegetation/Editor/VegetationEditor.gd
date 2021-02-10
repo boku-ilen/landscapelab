@@ -26,7 +26,7 @@ func _update_visualization():
 	var current_group = $HSplitContainer/GroupPanel/GroupDetails.current_group
 	
 	if (current_group):
-		$HSplitContainer/VBoxContainer/ViewportContainer/Viewport/Visualization.update_visualization(current_group.id)
+		$HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization.update_visualization(current_group.id)
 
 
 
