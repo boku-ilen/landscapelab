@@ -129,6 +129,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/vr-toolkit/Objects/VRStaticInteractable.gd"
 }, {
+"base": "Resource",
+"class": "VegetationLayerComposition",
+"language": "GDScript",
+"path": "res://ResourceClasses/VegetationLayerComposition.gd"
+}, {
+"base": "Resource",
+"class": "VegetationLayerDefinition",
+"language": "GDScript",
+"path": "res://ResourceClasses/VegetationLayerDefinition.gd"
+}, {
 "base": "Spatial",
 "class": "WorldTile",
 "language": "GDScript",
@@ -159,6 +169,8 @@ _global_script_class_icons={
 "VRGuiElement": "",
 "VRInteractable": "",
 "VRStaticInteractable": "",
+"VegetationLayerComposition": "",
+"VegetationLayerDefinition": "",
 "WorldTile": ""
 }
 
@@ -203,8 +215,8 @@ WorldPosition="*res://Global/WorldPosition.gd"
 
 [display]
 
-window/size/height=576
-window/size/borderless=true
+window/size/width=1920
+window/size/height=1080
 window/dpi/allow_hidpi=true
 window/per_pixel_transparency/allowed=true
 window/per_pixel_transparency/enabled=true
