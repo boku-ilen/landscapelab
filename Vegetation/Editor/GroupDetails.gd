@@ -9,8 +9,8 @@ func _ready():
 
 
 func _set_new_ground_texture(new_path):
-	current_group.ground_texture_path = new_path
-	print(current_group.name, current_group.ground_texture_path)
+	if current_group:
+		current_group.ground_texture_folder = new_path
 
 
 func set_group(group):

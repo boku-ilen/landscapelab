@@ -254,7 +254,7 @@ func _save_groups_to_csv(csv_path: String) -> void:
 			"TODO",
 			group.id,
 			PoolStringArray(group.get_plant_ids()).join(","),
-			group.ground_texture_path
+			group.ground_texture_folder
 		])
 
 
@@ -287,7 +287,7 @@ func filter_phytocoenosis_array_by_height(phytocoenosis_array, min_height: float
 		new_array.append(Phytocoenosis.new(phytocoenosis.id,
 				phytocoenosis.name,
 				plants,
-				phytocoenosis.ground_texture_path))
+				phytocoenosis.ground_texture_folder))
 	
 	return new_array
 
@@ -457,14 +457,14 @@ class Phytocoenosis:
 	var id
 	var name
 	var plants: Array
-	var ground_texture_path
+	var ground_texture_folder
 	
-	func _init(id, name, plants = null, ground_texture_path = null):
+	func _init(id, name, plants = null, ground_texture_folder = null):
 		self.id = int(id)
 		self.name = name
 		
-		if ground_texture_path:
-			self.ground_texture_path = ground_texture_path
+		if ground_texture_folder:
+			self.ground_texture_folder = ground_texture_folder
 		
 		if plants:
 			self.plants = plants
@@ -476,9 +476,11 @@ class Phytocoenosis:
 		plants.erase(plant)
 	
 	func get_ground_image(image_name):
-		if not ground_texture_path: return null
+		if not ground_texture_folder: return null
 		
-		var full_path = ground_texture_path.plus_file(image_name + ".jpg")
+		var full_path = Vegetation.ground_texture_base_path \
+				.plus_file(ground_texture_folder) \
+				.plus_file(image_name + ".jpg")
 		
 		Vegetation.ground_image_mutex.lock()
 		if not Vegetation.ground_image_cache.has(full_path):
@@ -578,7 +580,7 @@ class Plant:
 			img.load(full_path)
 			
 			if img.is_empty():
-				logger.error("Invalid billboard path in %s: %s"
+				logger.warning("Invalid billboard path in %s: %s"
 						 % [name_en, full_path])
 			
 			Vegetation.plant_image_cache[full_path] = img

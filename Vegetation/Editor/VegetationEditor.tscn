@@ -22,7 +22,7 @@
 [ext_resource path="res://Vegetation/Editor/TextureSelectButton.gd" type="Script" id=20]
 [ext_resource path="res://Vegetation/Editor/TextureFileDialog.gd" type="Script" id=21]
 
-[sub_resource type="Resource" id=4]
+[sub_resource type="Resource" id=1]
 script = ExtResource( 16 )
 min_plant_size = 0.0
 max_plant_size = 2.0
@@ -30,7 +30,7 @@ extent = 15.0
 density = 3.0
 mesh = ExtResource( 14 )
 
-[sub_resource type="Resource" id=5]
+[sub_resource type="Resource" id=2]
 script = ExtResource( 16 )
 min_plant_size = 2.0
 max_plant_size = 10.0
@@ -38,7 +38,7 @@ extent = 80.0
 density = 0.15
 mesh = ExtResource( 18 )
 
-[sub_resource type="Resource" id=6]
+[sub_resource type="Resource" id=3]
 script = ExtResource( 16 )
 min_plant_size = 10.0
 max_plant_size = 40.0
@@ -46,14 +46,14 @@ extent = 400.0
 density = 0.08
 mesh = ExtResource( 19 )
 
-[sub_resource type="Resource" id=7]
+[sub_resource type="Resource" id=4]
 script = ExtResource( 17 )
-layers = [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ]
+layers = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ]
 
-[sub_resource type="PlaneMesh" id=3]
+[sub_resource type="PlaneMesh" id=5]
 size = Vector2( 500, 500 )
 
-[sub_resource type="SpatialMaterial" id=8]
+[sub_resource type="SpatialMaterial" id=6]
 uv1_scale = Vector3( 100, 100, 100 )
 
 [node name="VegetationEditor" type="HSplitContainer"]
@@ -384,7 +384,7 @@ render_target_update_mode = 3
 
 [node name="Visualization" type="Spatial" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport"]
 script = ExtResource( 13 )
-vegetation_layer_composition = SubResource( 7 )
+vegetation_layer_composition = SubResource( 4 )
 
 [node name="Camera" type="Camera" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 2, 0 )
@@ -394,8 +394,8 @@ far = 500.0
 transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 8, 0 )
 
 [node name="GroundMesh" type="MeshInstance" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
-mesh = SubResource( 3 )
-material/0 = SubResource( 8 )
+mesh = SubResource( 5 )
+material/0 = SubResource( 6 )
 
 [node name="UpdateVisButton" type="Button" parent="HSplitContainer/VBoxContainer"]
 margin_top = 953.0
