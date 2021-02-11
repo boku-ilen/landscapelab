@@ -1,5 +1,4 @@
-tool
-extends ToolsButton
+extends "res://UI/Tools/ToolsButton.gd"
 
 
 func _ready():
@@ -16,6 +15,3 @@ func _on_toggle(toggled: bool):
 
 func _on_teleported():
 	set_pressed(false)
-	
-	for popup in my_popups:
-		popup.set_visible(false)

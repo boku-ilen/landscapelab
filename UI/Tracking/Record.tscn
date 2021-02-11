@@ -10,14 +10,14 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [node name="Record" type="HBoxContainer"]
-margin_top = 221.0
-margin_right = 387.0
-margin_bottom = 268.0
+margin_right = 232.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 232, 72 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -31,19 +31,17 @@ texture_normal = ExtResource( 6 )
 texture_name = "play"
 
 [node name="Pause" parent="." instance=ExtResource( 4 )]
-visible = false
 material = SubResource( 1 )
-margin_left = 65.0
-margin_right = 122.0
-margin_bottom = 57.0
+margin_left = 80.0
+margin_right = 152.0
+margin_bottom = 72.0
 texture_normal = ExtResource( 3 )
 texture_name = "pause"
 
 [node name="Stop" parent="." instance=ExtResource( 4 )]
-visible = false
 material = SubResource( 1 )
-margin_left = 65.0
-margin_right = 122.0
-margin_bottom = 57.0
+margin_left = 160.0
+margin_right = 232.0
+margin_bottom = 72.0
 texture_normal = ExtResource( 5 )
 texture_name = "stop"
