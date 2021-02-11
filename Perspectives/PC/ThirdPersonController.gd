@@ -24,14 +24,12 @@ func _handle_viewport_input(event):
 		move_and_collide(get_forward() * -MOUSE_ZOOM_SPEED)
 		
 		translation.y = clamp(translation.y, 0, MAX_DISTANCE_TO_GROUND)
-		has_moved = true
 		
 	elif event.is_action_pressed("zoom_in"): # Move up when scrolling down
 		get_tree().set_input_as_handled()
 		move_and_collide(get_forward() * MOUSE_ZOOM_SPEED)
 		
 		translation.y = clamp(translation.y, 0, MAX_DISTANCE_TO_GROUND)
-		has_moved = true
 		
 	elif event is InputEventMouseMotion:
 		if dragging:
@@ -54,7 +52,6 @@ func _handle_viewport_input(event):
 			global_rotate(UP, deg2rad(-event.relative.x * mouse_sensitivity))
 			global_rotate(transform.basis.x, deg2rad(-event.relative.y * mouse_sensitivity))
 		
-		has_moved = true
 		return true
 
 

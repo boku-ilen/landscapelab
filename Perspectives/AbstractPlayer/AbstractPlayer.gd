@@ -1,60 +1,12 @@
 extends KinematicBody
 class_name AbstractPlayer
 
-var has_moved : bool = true
-export var is_main_perspective : bool
-export var is_vr_perspective : bool = false
-
 var dragging : bool = false
 var rotating : bool = false
 
 var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 
 var position_manager: PositionManager
-
-
-func _ready():
-	pass
-	# TODO: We should not need this here, the new ShiftingSpatial group should
-	#  take care of that. However, for some reason, it doesn't work for the
-	#  player...
-#	Offset.connect("shift_world", self, "shift")
-#
-#	if is_main_perspective:
-#		PlayerInfo.is_main_active = true
-
-
-# Handles notifications sent by the engine
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		# Destructor-like
-		if is_main_perspective:
-			PlayerInfo.is_main_active = false
-	elif what == NOTIFICATION_PATH_CHANGED or what == NOTIFICATION_READY:
-		# If the node path has changed or it has just been instanced, we may be in a
-		#  new viewport - make sure it's setup correctly
-		if is_vr_perspective:
-			logger.debug("Setting up viewport for VR")
-			
-			get_viewport().hdr = false
-			get_viewport().arvr = true
-		else:
-			logger.debug("Setting up viewport for PC")
-			
-			get_viewport().hdr = true
-			get_viewport().arvr = false
-
-
-func _physics_process(delta):
-	pass
-#	if has_moved and is_main_perspective:
-#		PlayerInfo.update_player_pos(translation)
-#		PlayerInfo.update_player_look_direction(-(get_node("Head/Camera").global_transform.basis.z))
-#		has_moved = false
-#	else:
-#		if PlayerInfo.is_follow_enabled:
-#			translation.x = PlayerInfo.get_engine_player_position().x
-#			translation.z = PlayerInfo.get_engine_player_position().z
 
 
 func _unhandled_input(event):
@@ -86,10 +38,12 @@ func _handle_abstract_viewport_input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == BUTTON_LEFT: 
 			dragging = true
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			get_tree().set_input_as_handled()
 			return true
 		elif event.button_index == BUTTON_RIGHT:
 			rotating = true
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			get_tree().set_input_as_handled()
 			return true
 
@@ -107,9 +61,13 @@ func _handle_abstract_general_input(event):
 	if event is InputEventMouseButton and not event.pressed:
 		if event.button_index == BUTTON_LEFT:
 			dragging = false
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			
 			return true
 		elif event.button_index == BUTTON_RIGHT:
 			rotating = false
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			
 			return true
 
 
@@ -119,13 +77,14 @@ func _handle_general_input(event):
 	pass
 
 
-# FIXME: Should inherit from Perspective and get that function from there! Currently not possible
-#  since this inherits from KinematicBody
-func cleanup():
-	pass
-
-
 # Shift the player's in-engine translation by a certain offset, but not the player's true coordinates.
 func shift(delta_x, delta_z):
 	translation.x += delta_x
 	translation.z += delta_z
+
+
+# To prevent floating point errors, the player.translation does not reflect the player's 
+# actual position in the whole world. This function returns the true world position of 
+# the player (in projected meters) as integers.
+func get_true_position():
+	return translation  # TODO: Implement properly using PositionManager

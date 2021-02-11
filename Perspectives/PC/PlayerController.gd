@@ -1,74 +1,81 @@
 extends AbstractPlayer
 
 #
-# This scene handles a basic first person controller with a flying mode
-# and a walking mode.
+# Player Controller with classic first person movement as well as dragging and zooming.
 #
 
-var origin_offset_x : int = 0
-var origin_offset_z : int = 0
-
-var camera_angle = 0
 var velocity = Vector3()
 var _vr_mode : bool = false
 
 var walking = Settings.get_setting("player", "start-walking-enabled")
 
 var FLY_SPEED = Settings.get_setting("player", "fly-speed")
+var WALK_SPEED = Settings.get_setting("player", "walk-speed-default")
 var SPRINT_SPEED = Settings.get_setting("player", "fly-speed-sprint")
 var SNEAK_SPEED = Settings.get_setting("player", "fly-speed-sneak")
-
-onready var head = get_node("Head")
-onready var camera = head.get_node("Camera")
-
-
-func _ready():
-	GlobalSignal.connect("vr_enable", self, "_set_vr_mode", [true])
-	GlobalSignal.connect("vr_disable", self, "_set_vr_mode", [false])
-
-
-# To prevent floating point errors, the player.translation does not reflect the player's 
-# actual position in the whole world. This function returns the true world position of 
-# the player (in webmercator meters) as integers.
-func get_true_position():
-	return translation
+var MAX_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "max-distance-to-ground")
+var START_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "start_height")
+var MOUSE_ZOOM_SPEED = Settings.get_setting("third-person", "mouse-zoom-speed")
 
 
 func get_look_direction():
 	# TODO: The x-coordinate seems right, but the z-coordinate acts strangely...
-	return -camera.global_transform.basis.z
+	return -$Head/Camera.global_transform.basis.z
 
 
 func _physics_process(delta):
-	# only change position if vr_mode is disabled
-	if not _vr_mode:
-		fly(delta)
-		PlayerInfo.update_player_look_direction(get_look_direction())
+	fly(delta)
 
 
 func _handle_general_input(event):
-	# only accept input if vr mode is disabled
-	if not _vr_mode:
-		# Rotate the camera if the event is mouse motion and the mouse is currently captured or right mouse button is pressed
-		if event is InputEventMouseMotion and (Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED or rotating):
-			head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
-			
-			var change = -event.relative.y * mouse_sensitivity
-			
-			if change + camera_angle < 90 and change + camera_angle > -90:
-				camera.rotate_x(deg2rad(change))
-				camera_angle += change
-			
-			get_tree().set_input_as_handled()
-			return true
+	if event is InputEventMouseMotion and rotating:
+		$Head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
+		
+		var change = -event.relative.y * mouse_sensitivity
+		
+		# Limit the view to between straight down and straight up
+		if change + $Head/Camera.rotation_degrees.x < 90 \
+				and change + $Head/Camera.rotation_degrees.x > -90:
+			$Head/Camera.rotate_x(deg2rad(change))
+		
+		get_tree().set_input_as_handled()
+		return true
 
 
 func _handle_viewport_input(event):
+	# Zoom out/in
+	if event.is_action_pressed("zoom_out"): # Move down when scrolling up
+		get_tree().set_input_as_handled()
+		move_and_collide(Vector3.UP * -MOUSE_ZOOM_SPEED)
+		
+		# TODO: Instead of 0, use the ground height at this position
+		translation.y = clamp(translation.y, 0, MAX_DISTANCE_TO_GROUND)
+	elif event.is_action_pressed("zoom_in"): # Move up when scrolling down
+		get_tree().set_input_as_handled()
+		move_and_collide(Vector3.UP * MOUSE_ZOOM_SPEED)
+		
+		# TODO: Instead of 0, use the ground height at this position
+		translation.y = clamp(translation.y, 0, MAX_DISTANCE_TO_GROUND)
+	
+	# Dragging
+	elif event is InputEventMouseMotion and dragging:
+		var mouseMovement = Vector3(event.relative.x, 0, event.relative.y)
+		
+		# Rotate the movement along the Head to make it relative to the view direction
+		mouseMovement = mouseMovement.rotated(Vector3.UP, $Head.rotation.y)
+		
+		move_and_collide(-mouseMovement * translation.y / 1000)  # FIXME: hardcoded value
+		
+		return true
+	
+	# Switches
 	if event.is_action_pressed("pc_toggle_walk"):
-			walking = not walking
-			
-			get_tree().set_input_as_handled()
-			return true
+		walking = not walking
+		
+		get_tree().set_input_as_handled()
+		return true
+	
+	# Misc
 	elif event.is_action_pressed("make_asset_only_screenshot"):
 		# TODO: This doesn't really belong here and should be generalized.
 		# Here we make a high-res screenshot with only the assets, the rest is
@@ -86,7 +93,7 @@ func _handle_viewport_input(event):
 		
 		var previous_viewport_size = get_viewport().size
 		
-		camera.cull_mask = 16
+		$Head/Camera.cull_mask = 16
 		get_viewport().transparent_bg = true
 		get_viewport().size = Vector2(3888, 2592)
 		
@@ -100,7 +107,7 @@ func _handle_viewport_input(event):
 		
 		img.save_png("user://photo-%d" % [OS.get_system_time_msecs()])
 		
-		camera.cull_mask = 23+32+64
+		$Head/Camera.cull_mask = 23+32+64
 		get_viewport().transparent_bg = false
 		get_viewport().size = previous_viewport_size
 		
@@ -108,53 +115,34 @@ func _handle_viewport_input(event):
 
 
 func fly(delta):
-	# reset the direction of the player
+	# Reset the direction of the player
 	var direction = Vector3()
 	
-	# get the rotation of the camera
-	var aim = camera.get_global_transform().basis
+	# Get the rotation of the camera
+	var aim = $Head/Camera.get_global_transform().basis
 	
-	# check input and change direction
+	# Check input and change direction
 	if Input.is_action_pressed("pc_move_up"):
 		direction -= aim.z
-		has_moved = true
 	if Input.is_action_pressed("pc_move_down"):
 		direction += aim.z
-		has_moved = true
 	if Input.is_action_pressed("pc_move_left"):
 		direction -= aim.x
-		has_moved = true
 	if Input.is_action_pressed("pc_move_right"):
 		direction += aim.x
-		has_moved = true
 	
 	direction = direction.normalized()
 	
 	if Input.is_action_pressed("ui_sprint"):
-		direction *= SPRINT_SPEED / FLY_SPEED
+		direction *= SPRINT_SPEED
 	elif Input.is_action_pressed("ui_sneak"):
-		direction *= SNEAK_SPEED / FLY_SPEED
+		direction *= SNEAK_SPEED
 	
-	# where would the player go at max speed
-	var target
+	var target = direction * WALK_SPEED if walking else direction * FLY_SPEED
 	
-	if walking:
-		target = direction * PlayerInfo.walk_speed
-	else:
-		target = direction * FLY_SPEED
-	
-	# move
+	# Apply the movement
 	move_and_slide(target)
 	
 	if walking:
+		# Place the player back onto the ground
 		translation = WorldPosition.get_position_on_ground(translation)
-
-
-func switch_follow_mode():
-	PlayerInfo.update_player_pos(translation)
-	PlayerInfo.is_follow_enabled = !PlayerInfo.is_follow_enabled
-
-
-func _set_vr_mode(vr_mode):
-	logger.info("vr mode set to %s " % [vr_mode])
-	_vr_mode = vr_mode
