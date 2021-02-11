@@ -1,20 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://UI/ValuesMenu/ValuesMenu.gd" type="Script" id=1]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=2]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=3]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/up.svg" type="Texture" id=4]
 
-[sub_resource type="ShaderMaterial" id=1]
-resource_local_to_scene = true
-shader = ExtResource( 3 )
-shader_param/color = null
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[node name="HBoxContainer" type="HBoxContainer"]
-margin_right = 501.0
-margin_bottom = 300.0
+[node name="VBoxContainer" type="VBoxContainer"]
+margin_right = 188.0
+margin_bottom = 73.0
 alignment = 2
 script = ExtResource( 1 )
 __meta__ = {
@@ -22,36 +12,21 @@ __meta__ = {
 }
 
 [node name="Control" type="OptionButton" parent="."]
-margin_top = 263.0
-margin_right = 200.0
-margin_bottom = 300.0
-rect_min_size = Vector2( 200, 30 )
+margin_right = 188.0
+margin_bottom = 37.0
+rect_min_size = Vector2( 20, 20 )
 size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "Select Value"
 
-[node name="Button" parent="." instance=ExtResource( 2 )]
-material = SubResource( 1 )
-margin_left = 208.0
-margin_top = 228.0
-margin_right = 280.0
-margin_bottom = 300.0
-size_flags_horizontal = 0
-size_flags_vertical = 8
-texture_normal = ExtResource( 4 )
-texture_name = "up"
-default_color = Color( 0, 0, 0, 1 )
-
 [node name="PanelContainer" type="PanelContainer" parent="."]
-margin_left = 288.0
-margin_right = 638.0
-margin_bottom = 300.0
-rect_min_size = Vector2( 350, 300 )
+margin_top = 45.0
+margin_right = 28.0
+margin_bottom = 73.0
+rect_min_size = Vector2( 20, 20 )
 mouse_filter = 1
 size_flags_horizontal = 0
 size_flags_vertical = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Tween" type="Tween" parent="."]

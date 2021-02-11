@@ -7,7 +7,7 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 3 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
@@ -16,3 +16,7 @@ material = SubResource( 1 )
 mouse_filter = 1
 toggle_mode = true
 script = ExtResource( 2 )
+
+[node name="WindowDialog" type="WindowDialog" parent="." index="0"]
+margin_right = 16.0
+margin_bottom = 16.0

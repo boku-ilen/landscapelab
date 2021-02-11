@@ -1,5 +1,4 @@
-tool
-extends ToolsButton
+extends "res://UI/Tools/ToolsButton.gd"
 
 
 func _ready():

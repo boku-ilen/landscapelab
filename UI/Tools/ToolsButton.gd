@@ -1,6 +1,4 @@
-tool
 extends "res://UI/CustomElements/AutoTextureButton.gd"
-class_name ToolsButton
 
 
 #
@@ -8,22 +6,27 @@ class_name ToolsButton
 #
 
 onready var my_popups = get_children()
-var popups_container : HBoxContainer = null
 
 
 func _ready():
 	set_mouse_filter(MOUSE_FILTER_PASS) 
 	set_toggle_mode(true)
-
-
-func set_popups_container(container : HBoxContainer):
-	popups_container = container
 	
+	set_popups_container()
+
+
+func set_popups_container():
+	var max_min_size = Vector2(0,0)
 	for child in my_popups:
+		if child.name == "WindowDialog": continue
+		if max_min_size < child.rect_min_size: max_min_size = child.rect_min_size
 		remove_child(child)
-		popups_container.add_child(child)
+		$WindowDialog.add_child(child)
+		$WindowDialog.window_title = child.name
+		child.visible = true
+		
+	$WindowDialog.rect_min_size = max_min_size
 
 
 func _toggled(button_pressed):
-	for child in my_popups:
-		child.visible = !child.visible
+	$WindowDialog.popup(Rect2(rect_global_position, rect_size * rect_scale))

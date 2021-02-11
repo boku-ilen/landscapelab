@@ -73,6 +73,7 @@ func _change_view():
 
 func _input(event):
 	var mouse_pos = viewport.get_viewport().get_mouse_position()
+	mouse_pos.y = viewport.get_viewport().size.y - mouse_pos.y
 	if event is InputEventMouseButton and is_event_inside_control(event, viewport_container):
 		if event.pressed:
 			is_dragging = true
@@ -89,13 +90,14 @@ func _input(event):
 		else:
 			is_dragging = false
 	elif event is InputEventMouseMotion:
-		var from = camera.to_local(camera.project_ray_origin(mouse_pos))
+		var projected_mouse = camera.project_ray_origin(mouse_pos)
+		var from = camera.to_local(projected_mouse)
 		var to = from + camera.project_local_ray_normal(mouse_pos) * 100
 		cursor.set_translation(from)
 		cursor.set_cast_to(to)
 		if is_dragging and current_point:
 			if camera.projection == Camera.PROJECTION_ORTHOGONAL:
-				var new_pos = Vector2(camera.project_ray_origin(mouse_pos).x, camera.project_ray_origin(mouse_pos).y)
+				var new_pos = Vector2(projected_mouse.x, projected_mouse.y)
 				current_point.set_position(new_pos)
 				current_profile.drag()
 			else:

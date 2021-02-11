@@ -114,11 +114,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/SpritesheetHelper.gd"
 }, {
-"base": "TextureButton",
-"class": "ToolsButton",
-"language": "GDScript",
-"path": "res://UI/Tools/ToolsButton.gd"
-}, {
 "base": "Control",
 "class": "VRGuiElement",
 "language": "GDScript",
@@ -161,7 +156,6 @@ _global_script_class_icons={
 "ShiftingHandler": "",
 "SpecificLayerUI": "",
 "SpritesheetHelper": "",
-"ToolsButton": "",
 "VRGuiElement": "",
 "VRInteractable": "",
 "VRStaticInteractable": "",
@@ -209,13 +203,13 @@ WorldPosition="*res://Global/WorldPosition.gd"
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
+window/size/height=576
+window/size/borderless=true
 window/dpi/allow_hidpi=true
 window/per_pixel_transparency/allowed=true
 window/per_pixel_transparency/enabled=true
 window/energy_saving/keep_screen_on=false
-window/stretch/mode="2d"
+window/stretch/aspect="expand"
 
 [editor_plugins]
 

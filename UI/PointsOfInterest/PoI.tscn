@@ -11,15 +11,16 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 10 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
-[node name="Container" type="HBoxContainer"]
+[node name="PoI" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 0.263519
-margin_bottom = 0.26355
+margin_right = -683.0
+margin_bottom = -349.0
+rect_min_size = Vector2( 341, 227 )
 rect_pivot_offset = Vector2( 440, 160 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -28,7 +29,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 261.0
-margin_bottom = 1080.0
+margin_bottom = 227.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -88,37 +89,33 @@ text = "Speichern"
 
 [node name="Arrows" type="VBoxContainer" parent="."]
 margin_left = 269.0
-margin_right = 326.0
-margin_bottom = 197.0
+margin_right = 341.0
+margin_bottom = 227.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_constants/separation = 10
 
 [node name="Tabs" type="Tabs" parent="Arrows"]
-margin_right = 57.0
+margin_right = 72.0
 margin_bottom = 45.0
 
 [node name="ArrowUp" parent="Arrows" instance=ExtResource( 11 )]
 material = SubResource( 1 )
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_top = 55.0
-margin_right = 57.0
-margin_bottom = 112.0
+margin_right = 72.0
+margin_bottom = 127.0
 texture_normal = ExtResource( 12 )
 texture_name = "up"
 
 [node name="HSeparator" type="HSeparator" parent="Arrows"]
-margin_top = 122.0
-margin_right = 57.0
-margin_bottom = 130.0
+margin_top = 137.0
+margin_right = 72.0
+margin_bottom = 145.0
 
 [node name="ArrowDown" parent="Arrows" instance=ExtResource( 11 )]
 material = SubResource( 1 )
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 140.0
-margin_right = 57.0
-margin_bottom = 197.0
+margin_top = 155.0
+margin_right = 72.0
+margin_bottom = 227.0
 texture_normal = ExtResource( 13 )
 texture_name = "down"

@@ -13,3 +13,7 @@ settings.ini
 
 # IDE specific ignores
 *.iml
+
+# Making working on windows more feasible
+addons/geodot/win*
+!addons/geodot/win*/libgeodot.*

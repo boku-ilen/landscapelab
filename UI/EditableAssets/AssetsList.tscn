@@ -2,27 +2,28 @@
 
 [ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=1]
 [ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=2]
-[ext_resource path="res://UI/EditableAssets/Assets.gd" type="Script" id=4]
+[ext_resource path="res://UI/EditableAssets/Assets.gd" type="Script" id=3]
 
 [node name="List" type="VBoxContainer"]
 anchor_right = 0.107
 anchor_bottom = 0.123
 margin_right = 17.56
 margin_bottom = 44.16
-script = ExtResource( 4 )
+rect_min_size = Vector2( 200, 181 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="."]
-margin_right = 223.0
+margin_right = 200.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
 text = "Assets:"
 
 [node name="ItemList" type="ItemList" parent="."]
 margin_top = 31.0
-margin_right = 223.0
+margin_right = 200.0
 margin_bottom = 181.0
 rect_min_size = Vector2( 200, 150 )
 custom_fonts/font = ExtResource( 2 )
