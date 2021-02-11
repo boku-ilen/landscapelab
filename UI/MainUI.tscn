@@ -200,6 +200,7 @@ More messages
 More messages
 More messages
 "
+readonly = true
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/Split/Right"]
 margin_left = 1347.0
