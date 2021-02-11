@@ -36,7 +36,7 @@ func _unhandled_input(event):
 # Input for all Player classes - do not overwrite!
 func _handle_abstract_viewport_input(event):
 	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == BUTTON_LEFT: 
+		if event.button_index == BUTTON_LEFT and not rotating: 
 			dragging = true
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			get_tree().set_input_as_handled()
@@ -59,14 +59,14 @@ func _handle_viewport_input(event):
 func _handle_abstract_general_input(event):
 	# Mouse button release
 	if event is InputEventMouseButton and not event.pressed:
-		if event.button_index == BUTTON_LEFT:
+		if event.button_index == BUTTON_LEFT and dragging:
 			dragging = false
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			if not rotating: Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			
 			return true
-		elif event.button_index == BUTTON_RIGHT:
+		elif event.button_index == BUTTON_RIGHT and rotating:
 			rotating = false
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			if not dragging: Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			
 			return true
 

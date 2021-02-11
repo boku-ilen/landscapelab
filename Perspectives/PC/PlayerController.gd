@@ -39,7 +39,6 @@ func _handle_general_input(event):
 			$Head/Camera.rotate_x(deg2rad(change))
 		
 		get_tree().set_input_as_handled()
-		return true
 
 
 func _handle_viewport_input(event):
