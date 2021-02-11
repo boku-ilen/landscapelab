@@ -15,16 +15,6 @@ extends Node
 # 		albedo.jpg
 # 		normal.jpg
 # 		displacement.jpg
-#
-# phytocoenosis.csv must have the columns:
-# Name, ID, Ground texture
-# For example:
-# Meadow, 1, Grass
-#
-# plants.csv must have the columns:
-# Phytocoenosis Name, Avg height, sigma height, density, billboard
-# For example:
-# Meadow, 0.8, 0.1, 0.9, billboard1.png
 # 
 
 const distribution_size = 16
@@ -32,12 +22,19 @@ const distribution_size = 16
 const sprite_size = 1024
 const texture_size = 1024
 
-var base_path = "/home/karl/Downloads/vegetation"
+var plant_csv_path = "/home/karl/Nextcloud/Boku/new_veg/plants.csv"
+var group_csv_path = "/home/karl/Nextcloud/Boku/new_veg/groups.csv"
+
+var ground_texture_base_path = "/home/karl/Downloads"
+var billboard_base_path = "/home/karl/Downloads/plants"
+
+const BILLBOARD_ENDING = ".png"
 
 var phytocoenosis_by_name = {}
 var phytocoenosis_by_id = {}
 
 var plant_image_cache = {}
+var plant_image_texture_cache = {}
 var ground_image_cache = {}
 
 var ground_image_mutex = Mutex.new()
@@ -45,9 +42,11 @@ var ground_image_mutex = Mutex.new()
 var plants = {}
 var groups = {}
 
+signal new_data
+
 
 func _ready() -> void:
-	_load_data_from_csv()
+	load_data_from_csv(plant_csv_path, group_csv_path)
 
 
 func add_plant(plant: Plant):
@@ -58,56 +57,205 @@ func add_group(group):
 	groups[group.id] = group
 
 
-# Read the CSV files at the path provided by GeodataPaths and save the
-#  metadata of all phytocoenosis with their plants.
-func _load_data_from_csv() -> void:
-	# Load phytocoenosis data
-	var phytocoenosis_path = base_path.plus_file("phytocoenosis.csv")
+# Read Plants and Groups from the given CSV files.
+func load_data_from_csv(plant_path: String, group_path: String) -> void:
+	plants = {}
+	groups = {}
 	
-	var phyto_csv = File.new()
-	phyto_csv.open(phytocoenosis_path, phyto_csv.READ)
+	_create_plants_from_csv(plant_path)
+	_create_groups_from_csv(group_path)
 	
-	if not phyto_csv.is_open():
-		logger.error("Phytocoenosis CSV file does not exist, expected it at %s"
-				 % [phytocoenosis_path])
-		return
-	
-	var phytocoenosis_headings = phyto_csv.get_csv_line()
-	
-	while !phyto_csv.eof_reached():
-		# Format: Name, ID, Ground texture
-		var csv = phyto_csv.get_csv_line()
-		phytocoenosis_by_name[csv[0].to_lower()] = Phytocoenosis.new(csv[1], csv[0], csv[2])
-	
-	# Load plant data
-	var plant_path = base_path.plus_file("plants.csv")
-	
+	emit_signal("new_data")
+
+
+func _create_plants_from_csv(csv_path: String) -> void:
 	var plant_csv = File.new()
-	plant_csv.open(plant_path, phyto_csv.READ)
+	plant_csv.open(csv_path, File.READ)
 	
 	if not plant_csv.is_open():
 		logger.error("Plants CSV file does not exist, expected it at %s"
-				 % [plant_path])
+				 % [csv_path])
 		return
 	
 	var plant_headings = plant_csv.get_csv_line()
 	
 	while !plant_csv.eof_reached():
-		# Format: Phytocoenosis Name, Avg height, sigma height, density, billboard
+		# Format:
+		# ID,FILE,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE
 		var csv = plant_csv.get_csv_line()
 		
-		if csv[0] == "": break
+		if csv.size() < plant_headings.size():
+			logger.warning("Unexpected CSV line (size does not match headings): %s"
+					% [csv])
+			continue
 		
-		var p = phytocoenosis_by_name[csv[0].to_lower()]
+		var id = csv[0]
+		var file = csv[1]
+		var type = csv[2]
+		var size = csv[3]
+		var height_min = csv[4]
+		var height_max = csv[5]
+		var density = csv[6]
+		var species = csv[7]
+		var name_de = csv[8]
+		var name_en = csv[9]
+		var season = csv[10]
+		var source = csv[11]
+		var license = csv[12]
+		var author = csv[13]
+		var note = csv[14]
 		
-#		p.plants.append(
-#				Plant.new(p.plants.size(), "", float(csv[1]), float(csv[2]),
-#				float(csv[3]), csv[4],
-#				base_path.plus_file("plant-textures")))
+		if id == "":
+			logger.warning("Plant with empty ID in plant CSV line: %s"
+					% [csv])
+			continue
+		else:
+			id = int(id)
+		
+		var plant = Plant.new()
+		
+		plant.id = id
+		plant.billboard_path = file
+		plant.type = type
+		plant.size_class = parse_size(size)
+		plant.height_min = height_min
+		plant.height_max = height_max
+		plant.density = density
+		plant.species = species
+		plant.name_de = name_de
+		plant.name_en = name_en
+		plant.season = parse_season(season)
+		plant.source = source
+		plant.license = license
+		plant.author = author
+		plant.note = note
+		
+		add_plant(plant)
+
+
+func _create_groups_from_csv(csv_path: String) -> void:
+	var group_csv = File.new()
+	group_csv.open(csv_path, File.READ)
 	
-	# Add a map of ID to phytocoenosis as well, since that is frequently required
-	for phytocoenosis in phytocoenosis_by_name.values():
-		phytocoenosis_by_id[int(phytocoenosis.id)] = phytocoenosis
+	if not group_csv.is_open():
+		logger.error("Groups CSV file does not exist, expected it at %s"
+				 % [csv_path])
+		return
+	
+	var headings = group_csv.get_csv_line()
+	
+	while !group_csv.eof_reached():
+		# Format:
+		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS,GROUND TEXTURE
+		var csv = group_csv.get_csv_line()
+		
+		if csv.size() < headings.size():
+			logger.warning("Unexpected CSV line (size does not match headings): %s"
+					% [csv])
+			continue
+		
+		var id = csv[7].strip_edges()
+		var name_en = csv[5]
+		var plant_ids = csv[8].split(",") if not csv[8].empty() else []
+		
+		if id == "":
+			logger.warning("Group with empty ID in CSV line: %s"
+					% [csv])
+			continue
+		else:
+			id = int(id)
+		
+		if id in groups.keys():
+			logger.warning("Duplicate group with ID %s! Skipping..."
+					% [id])
+			continue
+		
+		# Parse and loads plants
+		var group_plants = []
+		for plant_id in plant_ids:
+			plant_id = int(plant_id)
+			
+			if plants.has(plant_id):
+				group_plants.append(plants[plant_id])
+			else:
+				logger.warning("Non-existent plant with ID %s in CSV %s!"
+						% [plant_id, csv_path])
+		
+		var ground_texture_path = csv[9]
+		
+		var group = Phytocoenosis.new(id, name_en, group_plants, ground_texture_path)
+		
+		add_group(group)
+
+
+# Save the current Plant and Group data to CSV files at the given locations.
+# If the files exist, their content is replaced by the new data.
+func save_to_files(plant_csv_path: String, group_csv_path: String):
+	_save_plants_to_csv(plant_csv_path)
+	_save_groups_to_csv(group_csv_path)
+
+
+func _save_plants_to_csv(csv_path):
+	var plant_csv = File.new()
+	plant_csv.open(csv_path, File.WRITE)
+	
+	if not plant_csv.is_open():
+		logger.error("Plants CSV file at %s could not be created or opened for writing"
+				 % [csv_path])
+		return
+	
+	var headings = "ID,FILE,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE"
+	plant_csv.store_line(headings)
+	
+	for plant in plants.values():
+		# Format:
+		# ID,FILE,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE
+		plant_csv.store_csv_line([
+			plant.id,
+			plant.billboard_path,
+			plant.type,
+			reverse_parse_size(plant.size_class),
+			plant.height_min,
+			plant.height_max,
+			plant.density,
+			plant.species,
+			plant.name_de,
+			plant.name_en,
+			reverse_parse_season(plant.season),
+			plant.source,
+			plant.license,
+			plant.author,
+			plant.note
+		])
+
+
+func _save_groups_to_csv(csv_path: String) -> void:
+	var group_csv = File.new()
+	group_csv.open(csv_path, File.WRITE)
+	
+	if not group_csv.is_open():
+		logger.error("Groups CSV file at %s could not be created or opened for writing"
+				 % [csv_path])
+		return
+	
+	var headings = "SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID)"
+	group_csv.store_line(headings)
+	
+	for group in groups.values():
+		# Format:
+		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS
+		group_csv.store_csv_line([
+			"TODO",
+			"TODO",
+			"TODO",
+			"TODO",
+			"TODO",
+			group.name,
+			"TODO",
+			group.id,
+			PoolStringArray(group.get_plant_ids()).join(","),
+			group.ground_texture_folder
+		])
 
 
 # Returns the Phytocoenosis objects which correspond to the given IDs.
@@ -131,15 +279,15 @@ func filter_phytocoenosis_array_by_height(phytocoenosis_array, min_height: float
 		var plants = []
 		
 		for plant in phytocoenosis.plants:
-			if plant.avg_height > min_height and plant.avg_height < max_height:
+			if plant.height_max > min_height and plant.height_max < max_height:
 				plants.append(plant)
 		
 		# Append a new Phytocoenosis which is identical to the one in the passed
 		#  array, but with the filtered plants
 		new_array.append(Phytocoenosis.new(phytocoenosis.id,
 				phytocoenosis.name,
-				phytocoenosis.ground_texture_path,
-				plants))
+				plants,
+				phytocoenosis.ground_texture_folder))
 	
 	return new_array
 
@@ -173,12 +321,10 @@ func get_billboard_sheet(phytocoenosis_array, max_size):
 		billboard_table[row] = []
 		scale_table[row] = []
 		
-		print(phytocoenosis.plants.size())
-		
 		for plant in phytocoenosis.plants:
 			var billboard = plant.get_billboard()
 			billboard_table[row].append(billboard)
-			scale_table[row].append(plant.avg_height / max_size)
+			scale_table[row].append(plant.height_max / max_size)
 			
 		row += 1
 		
@@ -311,14 +457,14 @@ class Phytocoenosis:
 	var id
 	var name
 	var plants: Array
-	var ground_texture_path
+	var ground_texture_folder
 	
-	func _init(id, name, ground_texture_path = null, plants = null):
+	func _init(id, name, plants = null, ground_texture_folder = null):
 		self.id = int(id)
 		self.name = name
 		
-		if ground_texture_path:
-			self.ground_texture_path = ground_texture_path
+		if ground_texture_folder:
+			self.ground_texture_folder = ground_texture_folder
 		
 		if plants:
 			self.plants = plants
@@ -330,7 +476,11 @@ class Phytocoenosis:
 		plants.erase(plant)
 	
 	func get_ground_image(image_name):
-		var full_path = Vegetation.base_path.plus_file("ground-textures").plus_file(ground_texture_path).plus_file(image_name + ".jpg")
+		if not ground_texture_folder: return null
+		
+		var full_path = Vegetation.ground_texture_base_path \
+				.plus_file(ground_texture_folder) \
+				.plus_file(image_name + ".jpg")
 		
 		Vegetation.ground_image_mutex.lock()
 		if not Vegetation.ground_image_cache.has(full_path):
@@ -345,6 +495,22 @@ class Phytocoenosis:
 		Vegetation.ground_image_mutex.unlock()
 		
 		return Vegetation.ground_image_cache[full_path]
+	
+	func get_ground_texture(image_name):
+		var image = get_ground_image(image_name)
+		if not image: return null
+		
+		var tex = ImageTexture.new()
+		tex.create_from_image(image, Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER + Texture.FLAG_REPEAT)
+		
+		return tex
+	
+	func get_plant_ids():
+		var plant_ids = []
+		for plant in plants:
+			plant_ids.append(plant.id)
+		
+		return plant_ids
 
 
 enum Season {SPRING, SUMMER, AUTUMN, WINTER}
@@ -366,12 +532,27 @@ func parse_season(season_string: String):
 	else: return null
 
 
+func reverse_parse_size(size):
+	if size == Plant.Size.S: return "S"
+	elif size == Plant.Size.M: return "M"
+	elif size == Plant.Size.L: return "L"
+	elif size == Plant.Size.XL: return "XL"
+	else: return null
+
+
+func reverse_parse_season(season):
+	if season == Season.SPRING: return "SPRING"
+	elif season == Season.SUMMER: return "SUMMER"
+	elif season == Season.AUTUMN: return "AUTUMN"
+	elif season == Season.WINTER: return "WINTER"
+	else: return null
+
+
 class Plant:
 	enum Size {S, M, L, XL}
 	
 	var id: int
 	var billboard_path: String
-	var billboard_image: Image
 	var type: String
 	var size_class#: Size
 	var species: String
@@ -383,29 +564,38 @@ class Plant:
 	var author: String
 	var note: String
 	
-	var avg_height: float
-	var sigma_height: float
+	var height_min: float
+	var height_max: float
 	var density: float
 	
-	# Return the billboard of this plant as an unmodified Image.
-	func get_billboard():
-		var full_path = billboard_path
+	func _get_full_path():
+		return Vegetation.billboard_base_path.plus_file("small-" + billboard_path) + BILLBOARD_ENDING
+	
+	func _load_into_cache_if_necessary():
+		var full_path = _get_full_path()
 		
 		if not Vegetation.plant_image_cache.has(full_path):
+			# Load Image into the Image cache
 			var img = Image.new()
 			img.load(full_path)
 			
 			if img.is_empty():
-				logger.error("Invalid billboard path in %s: %s"
+				logger.warning("Invalid billboard path in %s: %s"
 						 % [name_en, full_path])
 			
 			Vegetation.plant_image_cache[full_path] = img
-		
-		return Vegetation.plant_image_cache[full_path]
+			
+			# Also load into the ImageTexture cache
+			var tex = ImageTexture.new()
+			tex.create_from_image(get_billboard(), Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER)
+			Vegetation.plant_image_texture_cache[full_path] = tex
 	
+	# Return the billboard of this plant as an unmodified Image.
+	func get_billboard():
+		_load_into_cache_if_necessary()
+		return Vegetation.plant_image_cache[_get_full_path()]
 	
+	# Return an ImageTexture with the billboard of this plant.
 	func get_billboard_texture():
-		var tex = ImageTexture.new()
-		tex.create_from_image(get_billboard(), Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER)
-		
-		return tex
+		_load_into_cache_if_necessary()
+		return Vegetation.plant_image_texture_cache[_get_full_path()]

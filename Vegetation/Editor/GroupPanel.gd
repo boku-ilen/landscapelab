@@ -9,9 +9,10 @@ func _ready():
 
 func _remove_current_selection():
 	var plant = $GroupDetails/GroupAttributes/Attributes/GroupPlantList.get_selected_plant()
-	$GroupDetails.current_group.remove_plant(plant)
 	
-	$GroupDetails/GroupAttributes/Attributes/GroupPlantList.update_plants()
+	if plant:
+		$GroupDetails.current_group.remove_plant(plant)
+		$GroupDetails/GroupAttributes/Attributes/GroupPlantList.update_plants()
 
 
 func _update_group(selected_id: int):

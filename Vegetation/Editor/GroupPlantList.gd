@@ -4,14 +4,12 @@ extends ItemList
 var current_group
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
 func get_selected_plant():
-	var id = get_selected_items()[0]
-	return get_item_metadata(id)
+	var selection = get_selected_items()
+	
+	if selection.size() == 1:
+		var id = selection[0]
+		return get_item_metadata(id)
 
 
 func update_plants(group = current_group):
