@@ -8,7 +8,7 @@
 [ext_resource path="res://UI/StartMenu/StartMenuUI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://StartScene.tscn" type="PackedScene" id=7]
 [ext_resource path="res://UI/UISplit.gd" type="Script" id=8]
-[ext_resource path="res://UI/Theme/LandscapeLab.tres" type="Theme" id=9]
+[ext_resource path="res://UI/Theme/DarkTheme.tres" type="Theme" id=9]
 [ext_resource path="res://UI/Layers/LayerUI.tscn" type="PackedScene" id=10]
 [ext_resource path="res://World/World.tscn" type="PackedScene" id=12]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=13]
@@ -180,6 +180,7 @@ size = Vector2( 1339, 839 )
 size_override_stretch = true
 own_world = true
 handle_input_locally = false
+render_target_update_mode = 3
 
 [node name="World" parent="MarginContainer/Split/Right/Mid/WorldViewPort/Viewport" instance=ExtResource( 12 )]
 center_node_path = NodePath("../../../World/Viewport/World/FirstPersonPC")
