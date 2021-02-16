@@ -44,7 +44,7 @@ func assign_specific_layer_info(layer):
 	var texture = geodata_texture.get_selected_metadata()
 	var height = geodata_height.get_selected_metadata()
 	
-	if !texture.is_valid() or !height.is_valid():
+	if !texture or !height or !texture.is_valid() or !height.is_valid():
 		warning.visible = true
 		warning.text = "Texture or height data is not valid!"
 
