@@ -62,6 +62,7 @@ class ParticlesRenderInfo extends RenderInfo:
 
 class ObjectRenderInfo extends RenderInfo:
 	var object: PackedScene
+	var point_layer: Layer
 
 class PolygonRenderInfo extends RenderInfo:
 	var height_attribute_name
