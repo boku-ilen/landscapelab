@@ -82,6 +82,13 @@ func get_show_meshes(side: int):
 
 
 func _ready():
+	var VR = ARVRServer.find_interface(\"OpenVR\")
+	if VR and VR.initialize():
+		get_viewport().arvr = true
+		
+		OS.vsync_enabled = false
+		Engine.target_fps = 90
+
 	#set_show_controller_left(show_hand_left)
 	#set_show_controller_right(show_hand_right)
 	#set_show_hand_left(show_hand_left)
