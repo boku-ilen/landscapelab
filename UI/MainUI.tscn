@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://UI/UISplit.gd" type="Script" id=8]
 [ext_resource path="res://UI/Theme/DarkTheme.tres" type="Theme" id=9]
 [ext_resource path="res://UI/Layers/LayerUI.tscn" type="PackedScene" id=10]
+[ext_resource path="res://UI/WorldViewPort.gd" type="Script" id=11]
 [ext_resource path="res://World/World.tscn" type="PackedScene" id=12]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=13]
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
@@ -89,7 +90,7 @@ margin_right = 130.0
 margin_bottom = 413.0
 rect_min_size = Vector2( 100, 0 )
 tab_align = 0
-use_hidden_tabs_for_min_size = true
+drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -109,7 +110,7 @@ margin_top = 421.0
 margin_right = 130.0
 margin_bottom = 1047.0
 tab_align = 0
-use_hidden_tabs_for_min_size = true
+drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -136,7 +137,7 @@ script = ExtResource( 8 )
 margin_right = 100.0
 margin_bottom = 43.0
 tab_align = 0
-use_hidden_tabs_for_min_size = true
+drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -148,7 +149,7 @@ margin_right = 100.0
 margin_bottom = 1047.0
 rect_min_size = Vector2( 0, 200 )
 tab_align = 0
-use_hidden_tabs_for_min_size = true
+drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -165,6 +166,7 @@ script = SubResource( 1 )
 [node name="Mid" type="VSplitContainer" parent="MarginContainer/Split/Right"]
 margin_right = 1339.0
 margin_bottom = 1047.0
+mouse_filter = 1
 
 [node name="WorldViewPort" type="ViewportContainer" parent="MarginContainer/Split/Right/Mid"]
 margin_right = 1339.0
@@ -174,6 +176,7 @@ mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
+script = ExtResource( 11 )
 
 [node name="Viewport" type="Viewport" parent="MarginContainer/Split/Right/Mid/WorldViewPort"]
 size = Vector2( 1339, 839 )
@@ -202,6 +205,7 @@ More messages
 More messages
 "
 readonly = true
+syntax_highlighting = true
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/Split/Right"]
 margin_left = 1347.0
@@ -219,6 +223,7 @@ script = ExtResource( 8 )
 margin_right = 10.0
 margin_bottom = 43.0
 tab_align = 0
+drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/Split/Right/Right/Left"]
@@ -226,6 +231,7 @@ margin_top = 51.0
 margin_right = 10.0
 margin_bottom = 1047.0
 tab_align = 0
+drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
 
 [node name="Right" type="VSplitContainer" parent="MarginContainer/Split/Right/Right"]
@@ -241,6 +247,7 @@ script = ExtResource( 8 )
 margin_right = 251.0
 margin_bottom = 43.0
 tab_align = 0
+drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/Split/Right/Right/Right"]
@@ -248,6 +255,7 @@ margin_top = 51.0
 margin_right = 251.0
 margin_bottom = 1047.0
 tab_align = 0
+drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
 
 [node name="LayerUI" parent="MarginContainer/Split/Right/Right/Right/Bot" instance=ExtResource( 10 )]
