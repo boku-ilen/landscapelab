@@ -69,7 +69,6 @@ func assign_specific_layer_info(layer):
 
 
 func init_specific_layer_info(layer):
-	print("test")
 	if layer == null:
 		return
 	
