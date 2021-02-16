@@ -83,8 +83,8 @@ __meta__ = {
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-margin_right = 123.0
-margin_bottom = 370.0
+margin_right = 239.0
+margin_bottom = 719.0
 rect_min_size = Vector2( 0, 370 )
 mouse_filter = 1
 size_flags_horizontal = 15
@@ -117,6 +117,7 @@ disabled_color = Color( 0, 0, 0, 1 )
 focused_color = Color( 0, 0, 0, 1 )
 
 [node name="PoI" parent="ScrollContainer/ToolsBar/Teleport" instance=ExtResource( 16 )]
+visible = false
 
 [node name="Season" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 3 )
@@ -127,6 +128,11 @@ texture_normal = ExtResource( 1 )
 texture_name = "clock"
 
 [node name="Datetime" parent="ScrollContainer/ToolsBar/Season" instance=ExtResource( 14 )]
+visible = false
+margin_top = 0.0
+margin_right = 214.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 216, 72 )
 
 [node name="Tracking" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 4 )
@@ -137,6 +143,7 @@ texture_normal = ExtResource( 2 )
 texture_name = "footprint"
 
 [node name="Record" parent="ScrollContainer/ToolsBar/Tracking" instance=ExtResource( 6 )]
+visible = false
 
 [node name="Imaging" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 5 )
@@ -147,6 +154,7 @@ texture_normal = ExtResource( 4 )
 texture_name = "camera"
 
 [node name="ImagingMenu" parent="ScrollContainer/ToolsBar/Imaging" instance=ExtResource( 8 )]
+visible = false
 
 [node name="Assets" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 6 )
@@ -157,6 +165,7 @@ texture_normal = ExtResource( 12 )
 texture_name = "construction"
 
 [node name="List" parent="ScrollContainer/ToolsBar/Assets" instance=ExtResource( 5 )]
+visible = false
 
 [node name="Style" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 7 )
@@ -167,3 +176,4 @@ texture_normal = ExtResource( 17 )
 texture_name = "paintbrush"
 
 [node name="RenderingStyleMenu" parent="ScrollContainer/ToolsBar/Style" instance=ExtResource( 18 )]
+visible = false
