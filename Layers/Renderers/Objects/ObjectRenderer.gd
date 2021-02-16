@@ -21,30 +21,11 @@ func _ready():
 	
 	for feature in features:
 		var instance = layer.render_info.object.instance()
-		instance.transform.origin = feature.get_offset_vector3(-pos_x, 0, -pos_y)
+		
+		var local_object_pos = feature.get_offset_vector3(-pos_x, 0, -pos_y)
+		local_object_pos.y = layer.render_info.ground_height_layer.get_value_at_position(
+			pos_x + local_object_pos.x, pos_y - local_object_pos.z)
+		
+		instance.transform.origin = local_object_pos
 		
 		add_child(instance)
-	
-	set_heights()
-
-
-func set_heights():
-	var height_layer = layer.render_info.ground_height_layer
-	
-	for object in get_children():
-		# TODO: We just use this to get the value of a single pixel.
-		#  As this will likely be done more often, we'll want to add this as a
-		#  function to Geodot.
-		var geoimage = height_layer.get_image(
-			# TODO: Get position from outside
-			object.transform.origin.x + 420776.711,
-			-object.transform.origin.z + 453197.501,
-			1,
-			1,
-			1
-		)
-		var height = geoimage.get_image()
-		
-		height.lock()
-		object.translation.y = height.get_pixel(0, 0).r
-		height.unlock()

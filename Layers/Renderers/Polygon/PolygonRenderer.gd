@@ -58,19 +58,7 @@ func set_heights():
 	var height_layer = layer.render_info.ground_height_layer
 	
 	for building in get_children():
-		# TODO: We just use this to get the value of a single pixel.
-		#  As this will likely be done more often, we'll want to add this as a
-		#  function to Geodot.
-		var geoimage = height_layer.get_image(
-			# TODO: Get position from outside
+		building.translation.y = height_layer.get_value_at_position(
 			building.get_center().x + 420776.711,
-			-building.get_center().z + 453197.501,
-			1,
-			1,
-			1
+			-building.get_center().z + 453197.501
 		)
-		var height = geoimage.get_image()
-		
-		height.lock()
-		building.translation.y = height.get_pixel(0, 0).r
-		height.unlock()
