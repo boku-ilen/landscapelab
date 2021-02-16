@@ -7,6 +7,10 @@ onready var layer_container = get_parent().get_node("VBoxContainer/ScrollLayers/
 
 
 func _ready():
+	# if the UI was instanced later than the world, we need to check for already instanced layers
+	for layer in Layers.layers:
+		add_layer(Layers.layers[layer])
+		
 	Layers.connect("new_layer", self, "add_layer")
 	Layers.connect("removed_layer", self, "remove_layer")
 
