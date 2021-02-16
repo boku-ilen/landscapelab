@@ -17,6 +17,13 @@ var MAX_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "max-distance-
 var START_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "start_height")
 var MOUSE_ZOOM_SPEED = Settings.get_setting("third-person", "mouse-zoom-speed")
 
+var directions = {
+	"up": false,
+	"down": false,
+	"right": false,
+	"left": false
+}
+
 
 func get_look_direction():
 	# TODO: The x-coordinate seems right, but the z-coordinate acts strangely...
@@ -39,6 +46,24 @@ func _handle_general_input(event):
 			$Head/Camera.rotate_x(deg2rad(change))
 		
 		get_tree().set_input_as_handled()
+		
+	if event.is_action_pressed("pc_move_up"):
+		directions.up = true
+	elif event.is_action_released("pc_move_up"):
+		directions.up = false
+	if event.is_action_pressed("pc_move_down"):
+		directions.down = true
+	elif event.is_action_released("pc_move_down"):
+		directions.down = false
+	if event.is_action_pressed("pc_move_left"):
+		directions.left = true
+	elif event.is_action_released("pc_move_left"):
+		directions.left = false
+	if event.is_action_pressed("pc_move_right"):
+		directions.right = true
+	elif event.is_action_released("pc_move_right"):
+		directions.right = false
+
 
 
 func _handle_viewport_input(event):
@@ -121,13 +146,13 @@ func fly(delta):
 	var aim = $Head/Camera.get_global_transform().basis
 	
 	# Check input and change direction
-	if Input.is_action_pressed("pc_move_up"):
+	if directions.up:
 		direction -= aim.z
-	if Input.is_action_pressed("pc_move_down"):
+	if directions.down:
 		direction += aim.z
-	if Input.is_action_pressed("pc_move_left"):
+	if directions.left:
 		direction -= aim.x
-	if Input.is_action_pressed("pc_move_right"):
+	if directions.right:
 		direction += aim.x
 	
 	direction = direction.normalized()
