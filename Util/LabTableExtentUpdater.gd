@@ -2,15 +2,15 @@ extends Spatial
 
 
 #
-# Regularly fetches the newest Lego extent from the server and draws it.
+# Regularly fetches the newest LabTable extent from the server and draws it.
 #
 
 
-export(int) var lego_board_assettype_id = 6
+export(int) var labtable_assettype_id = 6
 export(int) var top_left_id = 14
 export(int) var bottom_right_id = 15
 
-onready var drawer = get_node("LegoExtentDrawer")
+onready var drawer = get_node("LabTableExtentDrawer")
 onready var requester = get_node("RegularServerRequest")
 
 
@@ -18,14 +18,14 @@ onready var requester = get_node("RegularServerRequest")
 func _ready():
 	# TODO: There's currently no display radius for this asset type, so we can use the position 0.0, 0.0
 	#  But maybe it would make sense to have a display radius?
-	# FIXME: communication with the lego baord has to be rethought
-	requester.set_request("/assetpos/get_near/by_assettype/%d/0.0/0.0.json" % [lego_board_assettype_id])
-	requester.connect("new_response", self, "_on_new_response", [], CONNECT_DEFERRED)
+	# FIXME: communication with the labtable has to be rethought
+	# requester.set_request("/assetpos/get_near/by_assettype/%d/0.0/0.0.json" % [labtable_assettype_id])
+	# requester.connect("new_response", self, "_on_new_response", [], CONNECT_DEFERRED)
 
 
 func _on_new_response(response):
 	if not response or not response.has("assets"):
-		logger.warning("Invalid response for Lego extent request!")
+		logger.warning("Invalid response for LabTable extent request!")
 		return
 	
 	var top_left_vector
@@ -54,5 +54,5 @@ func _on_new_response(response):
 		drawer.set_mesh_extent(top_left_vector_3d, bottom_right_vector_3d)
 		drawer.visible = true
 	else:
-		logger.debug("Lego extent not updated but hidden due to missing data about the extent")
+		logger.debug("LabTable extent not updated but hidden due to missing data about the extent")
 		drawer.visible = false
