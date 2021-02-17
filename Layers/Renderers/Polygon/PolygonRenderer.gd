@@ -19,8 +19,6 @@ func _ready():
 	var features = layer.get_features_near_position(pos_x, pos_y, 1000, 1000)
 	var height_attribute_name = layer.render_info.height_attribute_name
 	
-	print(features.size())
-	
 	# Create the buildings
 	for feature in features:
 		var polygon = feature.get_outer_vertices()

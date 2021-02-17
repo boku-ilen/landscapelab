@@ -28,6 +28,7 @@ func build_area_list():
 		logger.error("Couldn't get scenarios!'", "StartMenuUI")
 	
 	# Select the first item by default
+	# FIXME: Index out of bounds (size is 0)
 	area_list.select(0)
 
 

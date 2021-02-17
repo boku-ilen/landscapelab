@@ -10,6 +10,7 @@ extends BoxContainer
 # On toggle it will unfold and show additional information to the buttons.
 #
 
+# FIXME: None of these are found, can they be removed?
 onready var tools_bar = get_node("HBoxContainer/PanelContainer/ScrollContainer/ToolsBar")
 onready var panel = get_node("HBoxContainer/PanelContainer")
 onready var window = get_node("HBoxContainer")

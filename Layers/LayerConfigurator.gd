@@ -18,13 +18,22 @@ func _ready():
 func add_test_data():
 	var geopackage = Geodot.get_dataset(geopackage_path)
 	
+	var logstring = "\n"
+	
 	var rasters = geopackage.get_raster_layers()
+	logstring += "Raster layers in GeoPackage:\n"
+	
 	for raster in rasters:
-		print(raster.resource_name)
+		logstring += "- " + raster.resource_name + "\n"
+	logstring += "\n"
 	
 	var features = geopackage.get_feature_layers()
+	logstring += "Vector layers in GeoPackage:\n"
+	
 	for feature in features:
-		print(feature.resource_name)
+		logstring += "- " + feature.resource_name + "\n"
+	
+	logger.info(logstring)
 
 
 	# Heightmap

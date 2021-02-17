@@ -32,7 +32,7 @@ func _ready():
 
 	# if we could not find a geopackage we can not continue
 	if geopackage == "":
-		print("Could not find a valid geopackage! It has to be in the format of LL_<name>.gpkg[x]")
+		logger.error("Could not find a valid geopackage! It has to be in the format of LL_<name>.gpkg[x]")
 		#get_tree().quit()
 
 	# change the pixel transparency

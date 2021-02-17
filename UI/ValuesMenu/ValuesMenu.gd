@@ -2,7 +2,7 @@ extends VBoxContainer
 
 
 onready var panel = get_node("PanelContainer")
-onready var tween = get_node("Tween")
+onready var tween = get_node("Tween")  # FIXME: Not found
 onready var dropdown = get_node("Control")
 
 onready var panel_pos_x = panel.rect_position.x
