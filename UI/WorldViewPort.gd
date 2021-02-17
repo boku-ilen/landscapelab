@@ -23,5 +23,4 @@ func _enter_tree():
 
 
 func _disable_in_input(disable: bool):
-	print("Gui input disable: " + String(disable))
 	$Viewport.gui_disable_input = disable
