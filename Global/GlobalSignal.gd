@@ -1,5 +1,8 @@
 extends Node
 
+# FIXME: Remove many old signals
+# We want to avoid this as much as possible, maybe fully?
+
 # World
 signal cursor_click(world_position)
 signal game_started

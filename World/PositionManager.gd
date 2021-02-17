@@ -16,7 +16,7 @@ LayerContainer. This can for instance be raster-data, such as vegetation
 export(NodePath) var center_node_path
 
 onready var terrain = get_node("Terrain")
-onready var base_tiles = get_node("Terrain/BaseTiles")
+onready var base_tiles = get_node("Terrain/BaseTiles")  # FIXME: Replace with new terrain
 onready var path_shifter = get_node("Terrain/PathShiftingHandler")
 onready var spatial_shifter = get_node("Terrain/SpatialShiftingHandler")
 onready var center_node = get_node(center_node_path)
@@ -37,9 +37,6 @@ var z: int = 0
 
 func _ready():
 	inject_offset_properties()
-	
-	if base_tiles:
-		WorldPosition.set_handler(base_tiles)
 
 
 func _process(delta):

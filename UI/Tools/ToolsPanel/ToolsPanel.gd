@@ -10,6 +10,7 @@ extends BoxContainer
 # On toggle it will unfold and show additional information to the buttons.
 #
 
+# FIXME: None of these are found, can they be removed?
 onready var tools_bar = get_node("HBoxContainer/PanelContainer/ScrollContainer/ToolsBar")
 onready var panel = get_node("HBoxContainer/PanelContainer")
 onready var window = get_node("HBoxContainer")
@@ -22,7 +23,9 @@ var arrow_toggle: bool = false
 
 
 func _ready():
-	apply_tool_settings(GameModeLoader.get_startup_mode())
+	pass
+	# FIXME: Not working because of the rebuild - adapt the GameModeLoader!
+	#apply_tool_settings(GameModeLoader.get_startup_mode())
 
 
 # If the current game mode is changed, the new mode will be applied according to 

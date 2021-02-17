@@ -17,6 +17,7 @@ func _ready():
 	# var argv = OS.get_cmdline_args()
 
 	# find the landscapelab geopackage
+	# FIXME: Move to LayerConfigurator
 	base_path = OS.get_executable_path().get_base_dir()
 	var base_dir = Directory.new()
 	base_dir.open(base_path)
@@ -32,13 +33,5 @@ func _ready():
 
 	# if we could not find a geopackage we can not continue
 	if geopackage == "":
-		print("Could not find a valid geopackage! It has to be in the format of LL_<name>.gpkg[x]")
+		logger.error("Could not find a valid geopackage! It has to be in the format of LL_<name>.gpkg[x]")
 		#get_tree().quit()
-
-	# change the pixel transparency
-	ProjectSettings.set_setting("display/window/per_pixel_transparency/enabled", false)
-	ProjectSettings.set_setting("display/window/per_pixel_transparency/allowed", false)
-	# start with maximized window with borders
-	OS.set_window_maximized(true)
-	OS.set_borderless_window(false)
-	OS.set_window_always_on_top(false)

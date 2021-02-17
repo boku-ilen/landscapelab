@@ -1,12 +1,12 @@
-extends JSONParser
+extends Node
 
-# FIXME: this is going to be replaced by the "GameEngine"
+# FIXME: this needs to access the Settings and be in the UIConfigurator (or UIToolConfigurator or something like that)
 
-var _settings: Dictionary = _parse_json("res://game-mode-settings.json")
-var _values_settings = _settings["values"]
-var _tool_settings = _settings["tools"]
+var _settings: Dictionary = {}
+var _values_settings
+var _tool_settings
 
-var _modes_json: Array = _parse_json("res://game-modes.json")
+var _modes_json: Array = []
 
 
 # Returns an Array mapping a mode ID to all its data.

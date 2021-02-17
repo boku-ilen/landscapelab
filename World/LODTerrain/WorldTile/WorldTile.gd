@@ -58,8 +58,6 @@ func _ready():
 	# Set everything to invisible at the start to prevent flickering
 	children.visible = false
 	
-	PerformanceTracker.number_of_tiles += 1
-	
 	if initialized:
 		activate()
 	else:
@@ -92,7 +90,6 @@ func _process(delta):
 	# If this tile is flagged to be deleted, all threads are done and all children are done deleting
 	# as well, delete this tile!
 	if done_loading and to_be_deleted and children.get_child_count() == 0:
-		PerformanceTracker.number_of_tiles -= 1
 		queue_free()
 		return
 		
@@ -356,30 +353,31 @@ func get_dist_to_center():
 
 
 func get_geoimage(name, interpolation=1):
-	geoimage_cache_mutex.lock()
-	
-	if geoimage_cache.has(name):
-		geoimage_cache_mutex.unlock()
-		return geoimage_cache.get(name)
-	else:
-		var true_pos = get_true_position()
-		var full_path = GeodataPaths.get_absolute(name)
-		var ending = GeodataPaths.get_type(name)
-		
-		var geoimg = Geodot.get_image(
-			full_path,
-			ending,
-			-true_pos[0] - size / 2,
-			true_pos[2] + size / 2,
-			size,
-			256,
-			interpolation
-		)
-		
-		geoimage_cache[name] = geoimg
-		geoimage_cache_mutex.unlock()
-		
-		return geoimg
+	return null
+#	geoimage_cache_mutex.lock()
+#
+#	if geoimage_cache.has(name):
+#		geoimage_cache_mutex.unlock()
+#		return geoimage_cache.get(name)
+#	else:
+#		var true_pos = get_true_position()
+#		var full_path = GeodataPaths.get_absolute(name)
+#		var ending = GeodataPaths.get_type(name)
+#
+#		var geoimg = Geodot.get_image(
+#			full_path,
+#			ending,
+#			-true_pos[0] - size / 2,
+#			true_pos[2] + size / 2,
+#			size,
+#			256,
+#			interpolation
+#		)
+#
+#		geoimage_cache[name] = geoimg
+#		geoimage_cache_mutex.unlock()
+#
+#		return geoimg
 
 
 func get_texture(name, interpolation=1):

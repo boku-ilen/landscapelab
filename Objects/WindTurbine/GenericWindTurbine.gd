@@ -1,4 +1,4 @@
-extends MoveableObject
+extends Spatial
 
 #
 # A windmill which acts according to a specified wind direction and speed.

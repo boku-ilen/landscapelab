@@ -1,9 +1,8 @@
 tool
-extends JSONParser
+extends Node
 
 #
-# Parses default-settings.json in order to allow any script to access any setting
-# TODO: an optional readout of the LL_settings table in the geopackage can overwrite the default settings
+# FIXME Document properly
 #
 
 const default_configuration_path: String = "res://configuration.ini"
@@ -60,6 +59,7 @@ func _load_from_user_config():
 
 
 func _load_from_scenario_config():
+	# FIXME: Load data from the geopackage
 	pass
 
 

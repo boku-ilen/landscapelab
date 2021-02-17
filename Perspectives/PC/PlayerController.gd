@@ -168,5 +168,5 @@ func fly(delta):
 	move_and_slide(target)
 	
 	if walking:
-		# Place the player back onto the ground
-		translation = WorldPosition.get_position_on_ground(translation)
+		# FIXME: Place player on ground (using the terrain layer?)
+		pass

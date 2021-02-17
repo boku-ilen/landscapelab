@@ -43,15 +43,15 @@ func spawn_modules():
 			
 		index += 1
 	
-	# Spawn the modules we selected previously
-	for module in modules_to_spawn:
-		var instance = ModuleLoader.get_instance(module) as Module
-		
-		instance.connect("module_done_loading", self, "_on_module_done_loading", [instance], CONNECT_DEFERRED)
-		instance.set_tile(tile)
-		
-		tile.thread_task(instance, "init", null)
-		#instance.init()
+#	# Spawn the modules we selected previously
+#	for module in modules_to_spawn:
+#		var instance = ModuleLoader.get_instance(module) as Module
+#
+#		instance.connect("module_done_loading", self, "_on_module_done_loading", [instance], CONNECT_DEFERRED)
+#		instance.set_tile(tile)
+#
+#		tile.thread_task(instance, "init", null)
+#		#instance.init()
 
 
 # Called when the module_done_loading signal is emitted.
