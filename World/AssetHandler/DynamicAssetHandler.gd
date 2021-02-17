@@ -30,8 +30,8 @@ func _ready():
 func _get_server_result():
 	var player_pos = PlayerInfo.get_true_player_position()
 	#FIXME: this should be handled by geodot in the future
-	var result = ServerConnection.get_json("/assetpos/get_near/by_asset/%s/%d.0/%d.0.json"
-	 % [asset_id, -player_pos[0], player_pos[2]], false)
+	var result = "" # ServerConnection.get_json("/assetpos/get_near/by_asset/%s/%d.0/%d.0.json"
+	 # % [asset_id, -player_pos[0], player_pos[2]], false)
 	
 	if result and result.has("assets"):
 		return result["assets"]
@@ -51,7 +51,7 @@ func _spawn_asset(instance_id):
 	
 	# Our request should only return nearby assets, but this is a failsafe to prevent #78 from causing crashes if
 	#  for some reason, we get assets which are very far away.
-	if pos.length() < 30000:
+	if pos.length() < 30000:  # FIXME: make this a constant?
 		var new_instance = asset_scene.instance()
 		
 		new_instance.name = String(instance_id)
