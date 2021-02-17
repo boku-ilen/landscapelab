@@ -34,11 +34,3 @@ func _ready():
 	if geopackage == "":
 		logger.error("Could not find a valid geopackage! It has to be in the format of LL_<name>.gpkg[x]")
 		#get_tree().quit()
-
-	# change the pixel transparency
-	ProjectSettings.set_setting("display/window/per_pixel_transparency/enabled", false)
-	ProjectSettings.set_setting("display/window/per_pixel_transparency/allowed", false)
-	# start with maximized window with borders
-	OS.set_window_maximized(true)
-	OS.set_borderless_window(false)
-	OS.set_window_always_on_top(false)
