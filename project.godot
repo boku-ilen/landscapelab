@@ -174,9 +174,9 @@ _global_script_class_icons={
 "WorldTile": ""
 }
 
-[ServerConnection]
+[CommunicationServer]
 
-*res://Scripts/ServerConnection.gd=""
+*res://Scripts/CommunicationServer.gd=""
 
 [application]
 
@@ -194,7 +194,7 @@ logger="*res://Global/Debug/logger.gd"
 ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
 Settings="*res://Config/Settings.gd"
 GlobalSignal="*res://Global/GlobalSignal.gd"
-ServerConnection="*res://Global/ServerConnection.gd"
+CommunicationServer="*res://Global/CommunicationServer.gd"
 ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
 Session="*res://Global/Session.gd"
 PlayerInfo="*res://Global/PlayerInfo.gd"
