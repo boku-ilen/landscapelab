@@ -9,7 +9,7 @@ var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 var position_manager: PositionManager
 
 
-func _unhandled_input(event):
+func _input(event):
 	# Check abstract general input, then overwritten general input, then abstract viewport input,
 	#  then overwritten viewport input
 	# If the input was handled by one of the functions, it is marked handled and the function is exited.

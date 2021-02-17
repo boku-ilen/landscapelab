@@ -103,6 +103,7 @@ margin_left = 5.0
 margin_top = 38.0
 margin_right = -5.0
 margin_bottom = -5.0
+focus_mode = 2
 size_flags_vertical = 0
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/Split/Left/Left"]
@@ -124,6 +125,7 @@ margin_top = 38.0
 margin_right = -5.0
 margin_bottom = -5.0
 rect_min_size = Vector2( 0, 200 )
+focus_mode = 2
 
 [node name="Right" type="VSplitContainer" parent="MarginContainer/Split/Left"]
 margin_left = 138.0
@@ -172,7 +174,7 @@ mouse_filter = 1
 margin_right = 1339.0
 margin_bottom = 839.0
 rect_min_size = Vector2( 500, 500 )
-mouse_filter = 1
+focus_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
@@ -182,6 +184,7 @@ script = ExtResource( 11 )
 size = Vector2( 1339, 839 )
 handle_input_locally = false
 render_target_update_mode = 3
+gui_disable_input = true
 
 [node name="World" parent="MarginContainer/Split/Right/Mid/WorldViewPort/Viewport" instance=ExtResource( 12 )]
 
@@ -263,6 +266,7 @@ margin_top = 38.0
 margin_right = -5.0
 margin_bottom = -5.0
 rect_scale = Vector2( 1, 1 )
+focus_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
