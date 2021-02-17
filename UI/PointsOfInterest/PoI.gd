@@ -87,7 +87,7 @@ func _on_save_pressed():
 	# we have to use a "-" on the x-axis to properly save it
 	#FIXME: we have to decide how we want to provide this functionallity after
 	#FIXME: the locations come from a (should be readonly) geopackage
-	var result = ServerConnection.get_json("/location/create/%s/%d.0/%d.0/%d" % [url_escaped_input, -fixed_pos[0], fixed_pos[1], Session.scenario_id], false)
+	var result = "" # ServerConnection.get_json("/location/create/%s/%d.0/%d.0/%d" % [url_escaped_input, -fixed_pos[0], fixed_pos[1], Session.scenario_id], false)
 	
 	# Only store on client if it was also successfully stored on server
 	if result.creation_success:
@@ -107,7 +107,7 @@ func _on_delete_pressed():
 
 	#FIXME: we have to decide how we want to provide this functionallity after
 	#FIXME: the locations come from a (should be readonly) geopackage
-	var result = ServerConnection.get_json("/location/remove/%s/%d" % [item_text, Session.scenario_id], false)
+	var result = "" # ServerConnection.get_json("/location/remove/%s/%d" % [item_text, Session.scenario_id], false)
 	
 	# Only store on client if it was also successfully stored on server
 	if result.removal_success:

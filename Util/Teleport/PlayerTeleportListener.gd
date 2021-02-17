@@ -66,7 +66,7 @@ func get_new_data():
 # Requests new data and sets the corresponding flags when done (to be called from a thread)
 func _request_data(args):
     #FIXME: we have to find a new way how we want to handle teleportation syncronization - see issue #225
-	data = ServerConnection.get_json("/assetpos/get_all/%d.json" % [player_teleporter_id], false)  # Don't cache
+	data = "" # ServerConnection.get_json("/assetpos/get_all/%d.json" % [player_teleporter_id], false)  # Don't cache
 	has_new_data = true
 	previous_request_done = true
 
