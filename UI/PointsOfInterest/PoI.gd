@@ -25,15 +25,13 @@ func _ready():
 	arrow_up.connect("pressed", self, "_on_arrow_up")
 	arrow_down.connect("pressed", self, "_on_arrow_down")
 	
-	_load_pois()
+	# FIXME: Load POIs from GeoPackage
+	#_load_pois()
 
 
+# FIXME: Adapt to GeoPackage
 func _load_pois():
-	if not Session.get_current_scenario():
-		logger.warning("_load_pois() was called, but there is no active scenario!")
-		return
-	
-	var pois = Session.get_current_scenario().locations
+	var pois = null
 	
 	var index = 0
 	# create a Point of Interest for each entry in the locations
@@ -68,7 +66,8 @@ func _on_add_pressed():
 
 func _on_save_pressed():
 	# Create an array for the locations data (only contains "x" and "z"-axis)
-	var fixed_pos = [PlayerInfo.get_true_player_position()[0], PlayerInfo.get_true_player_position()[2]]
+	# FIXME: Get the player position here
+	var fixed_pos = [0, 0]
 	
 	# Search for bad url characters
 	var regex = RegEx.new()

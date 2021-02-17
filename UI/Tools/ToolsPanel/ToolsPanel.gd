@@ -23,7 +23,9 @@ var arrow_toggle: bool = false
 
 
 func _ready():
-	apply_tool_settings(GameModeLoader.get_startup_mode())
+	pass
+	# FIXME: Not working because of the rebuild - adapt the GameModeLoader!
+	#apply_tool_settings(GameModeLoader.get_startup_mode())
 
 
 # If the current game mode is changed, the new mode will be applied according to 

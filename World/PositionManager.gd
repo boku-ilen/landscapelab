@@ -37,9 +37,6 @@ var z: int = 0
 
 func _ready():
 	inject_offset_properties()
-	
-	if base_tiles:
-		WorldPosition.set_handler(base_tiles)
 
 
 func _process(delta):

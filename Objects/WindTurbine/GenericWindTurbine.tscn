@@ -14,7 +14,6 @@
 [ext_resource path="res://Resources/Icons/ClassicLandscapeLab/windmill_icon.png" type="Texture" id=12]
 [ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=13]
 
-
 [sub_resource type="CapsuleShape" id=1]
 radius = 45.3642
 height = 106.981

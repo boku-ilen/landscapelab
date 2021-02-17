@@ -17,6 +17,7 @@ func _ready():
 	# var argv = OS.get_cmdline_args()
 
 	# find the landscapelab geopackage
+	# FIXME: Move to LayerConfigurator
 	base_path = OS.get_executable_path().get_base_dir()
 	var base_dir = Directory.new()
 	base_dir.open(base_path)

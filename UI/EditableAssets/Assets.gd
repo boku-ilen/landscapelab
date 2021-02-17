@@ -23,7 +23,8 @@ func _ready():
 	GlobalSignal.connect("changed_item_to_spawn", self, "set_asset_id")
 	items.connect("item_selected", self, "_on_item_activated")
 	
-	_load_assets()
+	# FIXME: Load Assets using the new approach (RenderedObjects?), not with the asset JSON
+	#_load_assets()
 
 
 # Emit the index of the wanted item
@@ -36,7 +37,7 @@ func _on_item_activated(index):
 func _load_assets():
 	# Load all possible assets from the server 
 	# Url: assetpos/get_all_editable_assettypes.json
-	assets_json = Assets.get_asset_types_with_assets()
+	assets_json = null
 	
 	label.text = tr("ASSETS")
 	
