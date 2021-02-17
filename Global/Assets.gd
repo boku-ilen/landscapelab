@@ -29,13 +29,13 @@ func _ready():
 	
 	return # FIXME: Phasing out the server
 	
-	var result = ServerConnection.get_json(url)
+	# WAS: var result = ServerConnection.get_json(url)
 	
-	if not result:
-		logger.error("Couldn't get editable assettypes from the server - this means there will be no dynamic assets!")
-		return
+	# if not result:
+	# 	logger.error("Couldn't get editable assettypes from the server - this means there will be no dynamic assets!")
+	#	return
 	
-	_types_assets = result
+	# _types_assets = result
 	
 	# For ease of access, we load the individual assets of each type into another dictionary
 	for asset_type_id in _types_assets:
