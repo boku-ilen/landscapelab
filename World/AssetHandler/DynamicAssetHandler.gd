@@ -6,7 +6,7 @@ extends "res://World/AssetHandler/AbstractAssetHandler.gd"
 #
 
 
-export(bool) var only_lego_active = true
+export(bool) var only_labtable_active = true
 export(int) var asset_id
 export(Material) var temporary_material
 
@@ -15,10 +15,10 @@ func _ready():
 	# Use the update interval from the settings
 	update_interval = Settings.get_setting("assets", "moving-update-interval")
 	
-	# When only_lego_active is true, the asset handler only becomes active
+	# When only_labtable_active is true, the asset handler only becomes active
 	#  when sync_moving_assets is emitted, otherwise it's inactive because then we
 	#  work with local input instead.
-	if only_lego_active:
+	if only_labtable_active:
 		_active = false
 		GlobalSignal.connect("stop_sync_moving_assets", self, "_set_inactive")
 		GlobalSignal.connect("sync_moving_assets", self, "_set_active")
