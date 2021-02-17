@@ -26,6 +26,8 @@ var world_shift_check_period: float = 1
 var world_shift_timer: float = 0
 var height = 100
 
+var is_fullscreen: bool = false
+
 var shift_limit: float = Settings.get_setting("lod", "world-shift-distance")
 
 # The offset
@@ -48,6 +50,12 @@ func _process(delta):
 	if world_shift_timer > world_shift_check_period:
 		world_shift_timer = 0
 		check_for_world_shift()
+
+
+func _input(event):
+	if event.is_action_pressed("exit_fullscreen") and is_fullscreen:
+		TreeHandler.switch_last_state()
+		is_fullscreen = false
 
 
 # Shift the world if the player exceeds the bounds, in order to prevent coordinates from getting too big (floating point issues)

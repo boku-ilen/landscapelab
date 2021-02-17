@@ -12,7 +12,6 @@ onready var color_tag = get_node("RightContainer/VisibilityBox/ColorRect")
 onready var edit_button = get_node("LeftContainer/Edit")
 onready var edit_window = get_node("EditMenu")
 onready var layer_name = get_node("RightContainer/Name")
-onready var border = get_node("BorderLine")
 
 
 func _ready():
