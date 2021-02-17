@@ -22,9 +22,11 @@ const distribution_size = 16
 const sprite_size = 1024
 const texture_size = 1024
 
+# FIXME: this should be settings and default to neutral paths
 var plant_csv_path = "/home/karl/Nextcloud/Boku/new_veg/plants.csv"
 var group_csv_path = "/home/karl/Nextcloud/Boku/new_veg/groups.csv"
 
+# FIXME: this should be settings and default to neutral paths
 var ground_texture_base_path = "/home/karl/Downloads"
 var billboard_base_path = "/home/karl/Downloads/plants"
 
