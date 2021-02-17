@@ -13,10 +13,6 @@ const user_config_path: String = "res://user-config.ini"
 var config = ConfigFile.new()
 var user_config = ConfigFile.new()
 
-#var default_data: JSONParseResult = _parse_json(default_settings_path)
-#var scenario_config: Array = Geodot.get_dataset(scenario_settings_path).get_feature_layer(feature_layer)
-var user_file: JSONParseResult #= _parse_json(user_config_path)
-
 var software_config: Dictionary = {
 	"meta": {
 		"version": "v0.5.0-dev",
