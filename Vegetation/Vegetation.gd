@@ -570,12 +570,13 @@ class Plant:
 	var height_max: float
 	var density: float
 	
-	func _get_full_path():
+	func _get_full_icon_path():
 		return Vegetation.billboard_base_path.plus_file("small-" + billboard_path) + BILLBOARD_ENDING
 	
-	func _load_into_cache_if_necessary():
-		var full_path = _get_full_path()
-		
+	func _get_full_billboard_path():
+		return Vegetation.billboard_base_path.plus_file(billboard_path) + BILLBOARD_ENDING
+	
+	func _load_into_cache_if_necessary(full_path):
 		if not Vegetation.plant_image_cache.has(full_path):
 			# Load Image into the Image cache
 			var img = Image.new()
@@ -585,22 +586,50 @@ class Plant:
 				logger.warning("Invalid billboard path in %s: %s"
 						 % [name_en, full_path])
 			
+			# Godot can crash with extremely large images, so we downscale it to a size appropriate
+			#  for further handling.
+			var new_size = SpritesheetHelper.get_size_keep_aspect(
+				Vector2(texture_size, texture_size), img.get_size())
+			img.resize(new_size.x, new_size.y)
+			
 			Vegetation.plant_image_cache[full_path] = img
 			
 			# Also load into the ImageTexture cache
 			var tex = ImageTexture.new()
-			tex.create_from_image(get_billboard(), Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER)
+			tex.create_from_image(_get_image(full_path), Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER)
 			Vegetation.plant_image_texture_cache[full_path] = tex
+	
+	func _get_image(path):
+		if not File.new().file_exists(path):
+			logger.warn("Invalid Plant image (file does not exist): %s" % [path])
+			return null
+		
+		_load_into_cache_if_necessary(path)
+		return Vegetation.plant_image_cache[path]
+	
+	func _get_texture(path):
+		if not File.new().file_exists(path):
+			logger.warn("Invalid Plant image (file does not exist): %s" % [path])
+			return null
+		
+		_load_into_cache_if_necessary(path)
+		return Vegetation.plant_image_texture_cache[path]
 	
 	# Return the billboard of this plant as an unmodified Image.
 	func get_billboard():
-		_load_into_cache_if_necessary()
-		return Vegetation.plant_image_cache[_get_full_path()]
+		return _get_image(_get_full_billboard_path())
 	
 	# Return an ImageTexture with the billboard of this plant.
 	func get_billboard_texture():
-		_load_into_cache_if_necessary()
-		return Vegetation.plant_image_texture_cache[_get_full_path()]
+		return _get_texture(_get_full_billboard_path())
+	
+	# Return an icon (a small version of the billboard) for this plant.
+	func get_icon():
+		return _get_image(_get_full_icon_path())
+	
+	# Return an ImageTexture with the icon of this plant.
+	func get_icon_texture():
+		return _get_texture(_get_full_icon_path())
 	
 	# Return a string in the form "ID: Name (Size Class)"
 	func get_title_string():
