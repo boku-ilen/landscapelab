@@ -14,7 +14,7 @@ func _build_list():
 	
 	for plant in Vegetation.plants.values():
 		var item_id = get_item_count()
-		add_item(str(plant.id) + ": " + plant.name_en)
+		add_item(plant.get_title_string())
 		
 		set_item_icon(item_id, plant.get_billboard_texture())
 		set_item_metadata(item_id, plant)

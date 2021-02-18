@@ -539,7 +539,7 @@ func reverse_parse_size(size):
 	elif size == Plant.Size.M: return "M"
 	elif size == Plant.Size.L: return "L"
 	elif size == Plant.Size.XL: return "XL"
-	else: return null
+	else: return "UNKNOWN"
 
 
 func reverse_parse_season(season):
@@ -547,7 +547,7 @@ func reverse_parse_season(season):
 	elif season == Season.SUMMER: return "SUMMER"
 	elif season == Season.AUTUMN: return "AUTUMN"
 	elif season == Season.WINTER: return "WINTER"
-	else: return null
+	else: return "UNKNOWN"
 
 
 class Plant:
@@ -601,3 +601,8 @@ class Plant:
 	func get_billboard_texture():
 		_load_into_cache_if_necessary()
 		return Vegetation.plant_image_texture_cache[_get_full_path()]
+	
+	# Return a string in the form "ID: Name (Size Class)"
+	func get_title_string():
+		return str(self.id) + ": " + self.name_en \
+				+ " (" + Vegetation.reverse_parse_size(self.size_class) + ")"
