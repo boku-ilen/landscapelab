@@ -314,27 +314,21 @@ func get_billboard_sheet(phytocoenosis_array: Array, max_size):
 	var billboard_table = Array()
 	billboard_table.resize(phytocoenosis_array.size())
 	
-	var scale_table = Array()
-	scale_table.resize(phytocoenosis_array.size())
-	
 	var row = 0
 	
 	for phytocoenosis in phytocoenosis_array:
 		billboard_table[row] = []
-		scale_table[row] = []
 		
 		for plant in phytocoenosis.plants:
 			var billboard = plant.get_billboard()
 			billboard_table[row].append(billboard)
-			scale_table[row].append(plant.height_max / max_size)
 			
 		row += 1
 		
 	return SpritesheetHelper.create_spritesheet(
 			Vector2(sprite_size, sprite_size),
 			billboard_table,
-			SpritesheetHelper.SCALING.KEEP_ASPECT,
-			scale_table)
+			SpritesheetHelper.SCALING.KEEP_ASPECT)
 
 
 # Returns a 1x? spritesheet with each phytocoenosis' ground texture in the rows.
@@ -357,14 +351,14 @@ func get_ground_sheet(phytocoenosis_array, texture_name):
 
 # Returns a 1x? spritesheet with each phytocoenosis' distribution texture in the
 #  rows.
-func get_distribution_sheet(phytocoenosis_array):
+func get_distribution_sheet(phytocoenosis_array, max_size):
 	var texture_table = Array()
 	texture_table.resize(phytocoenosis_array.size())
 	
 	var row = 0
 	
 	for phytocoenosis in phytocoenosis_array:
-		texture_table[row] = [generate_distribution(phytocoenosis)] \
+		texture_table[row] = [generate_distribution(phytocoenosis, max_size)] \
 				if phytocoenosis.plants.size() > 0 else null
 		
 		row += 1
@@ -421,11 +415,13 @@ func get_billboard_texture(phytocoenosis_array, max_size):
 
 # Returns a newly generated distribution map for the plants in the given
 #  phytocoenosis.
-# This map is a 16x16 images whose values correspond to the IDs of the plants.
-func generate_distribution(phytocoenosis: Phytocoenosis):
+# This map is a 16x16 image whose R values correspond to the IDs of the plants; the G values are
+#  the size scaling factors (between 0 and 1) for each particular plant instance, taking into
+#  account its min and max size.
+func generate_distribution(phytocoenosis: Phytocoenosis, max_size: float):
 	var distribution = Image.new()
 	distribution.create(distribution_size, distribution_size,
-			false, Image.FORMAT_R8)
+			false, Image.FORMAT_RG8)
 	
 	var dice = RandomNumberGenerator.new()
 	dice.randomize()
@@ -452,7 +448,13 @@ func generate_distribution(phytocoenosis: Phytocoenosis):
 				
 				current_plant_in_group_id += 1
 			
-			distribution.set_pixel(x, y, Color(highest_roll_id / 255.0, 0.0, 0.0))
+			# Roll another dice for getting the height of this plant instance
+			#  (between the plant's min and max height)
+			var plant = phytocoenosis.plants[highest_roll_id]
+			var random_height = dice.randf_range(plant.height_min, plant.height_max)
+			var scale_factor = random_height / max_size
+			
+			distribution.set_pixel(x, y, Color(highest_roll_id / 255.0, scale_factor, 0.0, 0.0))
 	
 	distribution.unlock()
 	

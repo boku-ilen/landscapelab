@@ -53,8 +53,13 @@ void vertex() {
 	row = texelFetch(id_to_row, ivec2(int(round(splat_id)), 0), 0).r * 255.0;
 	
 	// Using the row, we can get the ID (the column) of the plant which should be here
-	ivec2 dist_pos = ivec2(int(pos.x * dist_scale) % 16, int(pos.y * dist_scale) % 16);
-	dist_id = texelFetch(distribution_map, ivec2(0, int(row) * 16) + dist_pos, 0).r * 255.0;
+	ivec2 dist_pos = ivec2(int(worldpos.x * dist_scale) % 16, int(worldpos.z * dist_scale) % 16);
+	
+	vec2 dist_value = texelFetch(distribution_map, ivec2(0, int(row) * 16) + dist_pos, 0).rg;
+	dist_id = dist_value.r * 255.0;
+	
+	float size_scale = dist_value.g;
+	VERTEX *= size_scale;
 }
 
 void fragment() {
