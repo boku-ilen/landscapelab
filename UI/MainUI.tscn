@@ -166,12 +166,13 @@ split_offset = 839
 script = SubResource( 1 )
 
 [node name="Mid" type="VSplitContainer" parent="MarginContainer/Split/Right"]
-margin_right = 1339.0
+margin_right = 1308.0
 margin_bottom = 1047.0
 mouse_filter = 1
+size_flags_horizontal = 3
 
 [node name="WorldViewPort" type="ViewportContainer" parent="MarginContainer/Split/Right/Mid"]
-margin_right = 1339.0
+margin_right = 1308.0
 margin_bottom = 839.0
 rect_min_size = Vector2( 500, 500 )
 focus_mode = 2
@@ -181,7 +182,7 @@ stretch = true
 script = ExtResource( 11 )
 
 [node name="Viewport" type="Viewport" parent="MarginContainer/Split/Right/Mid/WorldViewPort"]
-size = Vector2( 1339, 839 )
+size = Vector2( 1308, 839 )
 handle_input_locally = false
 render_target_update_mode = 3
 gui_disable_input = true
@@ -195,7 +196,7 @@ texture_name = "fullscreen"
 
 [node name="TextEdit" type="TextEdit" parent="MarginContainer/Split/Right/Mid"]
 margin_top = 847.0
-margin_right = 1339.0
+margin_right = 1308.0
 margin_bottom = 1047.0
 rect_min_size = Vector2( 0, 200 )
 text = "Debug Info: House x,y spawned
@@ -208,9 +209,10 @@ readonly = true
 syntax_highlighting = true
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/Split/Right"]
-margin_left = 1347.0
+margin_left = 1316.0
 margin_right = 1616.0
 margin_bottom = 1047.0
+rect_min_size = Vector2( 300, 0 )
 mouse_filter = 1
 
 [node name="Left" type="VSplitContainer" parent="MarginContainer/Split/Right/Right"]
@@ -236,7 +238,7 @@ script = ExtResource( 5 )
 
 [node name="Right" type="VSplitContainer" parent="MarginContainer/Split/Right/Right"]
 margin_left = 18.0
-margin_right = 269.0
+margin_right = 300.0
 margin_bottom = 1047.0
 mouse_filter = 1
 size_flags_horizontal = 3
@@ -244,7 +246,7 @@ size_flags_vertical = 3
 script = ExtResource( 8 )
 
 [node name="Top" type="TabContainer" parent="MarginContainer/Split/Right/Right/Right"]
-margin_right = 251.0
+margin_right = 282.0
 margin_bottom = 43.0
 tab_align = 0
 drag_to_rearrange_enabled = true
@@ -252,7 +254,7 @@ script = ExtResource( 5 )
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/Split/Right/Right/Right"]
 margin_top = 51.0
-margin_right = 251.0
+margin_right = 282.0
 margin_bottom = 1047.0
 tab_align = 0
 drag_to_rearrange_enabled = true
@@ -285,7 +287,7 @@ __meta__ = {
 }
 
 [node name="Top" type="HBoxContainer" parent="MarginContainer/Split/Right/Right/Right/Bot/More"]
-margin_right = 241.0
+margin_right = 272.0
 margin_bottom = 953.0
 grow_horizontal = 0
 grow_vertical = 0

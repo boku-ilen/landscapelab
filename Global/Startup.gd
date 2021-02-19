@@ -9,9 +9,11 @@ var geopackage: String = ""
 # this is the startup sequence and should be the first element
 # of the auto loader configuration - no logging is available
 func _ready():
-
 	# preliminary set the window title
+	# FIXME: Consider moving to the MainUI root - these may depend on which scene starts up
+	#  (e.g. GeoPackage selection in a non-maximized window similar to the Godot project selection)
 	OS.set_window_title("LandscapeLab!")
+	OS.set_window_maximized(true)
 
 	# TODO: check the runtime parameters
 	# var argv = OS.get_cmdline_args()
