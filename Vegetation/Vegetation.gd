@@ -308,7 +308,7 @@ func get_billboard_sheet_for_ids(id_array, max_size):
 #  phytocoenosis_array.
 # A row of the spritesheet corresponds to one phytocoenosis, with its plants in
 #  the columns.
-func get_billboard_sheet(phytocoenosis_array, max_size):
+func get_billboard_sheet(phytocoenosis_array: Array, max_size):
 	# Array holding the rows of vegetation - each vegetation loaded from the 
 	#  given vegetation_names becomes a row in this table
 	var billboard_table = Array()
@@ -435,18 +435,24 @@ func generate_distribution(phytocoenosis: Phytocoenosis):
 	for y in range(0, distribution_size):
 		for x in range(0, distribution_size):
 			var highest_roll = 0
-			var highest_roll_plant
+			var highest_roll_id = 0
 			
+			# Roll a dice for every plant. If it is higher than the previous highest roll,
+			#  set the hihgest roll ID to the ID of this plant within the group (the position
+			#  in the group's plant array).
+			var current_plant_in_group_id = 0
 			for plant in phytocoenosis.plants:
 				# Roll the dice weighed by the plant density. A small factor is
 				#  added because some plants never show up otherwise.
 				var roll = dice.randf_range(0.0, plant.density + 0.3)
 				
 				if roll > highest_roll:
-					highest_roll_plant = plant
+					highest_roll_id = current_plant_in_group_id
 					highest_roll = roll
+				
+				current_plant_in_group_id += 1
 			
-			distribution.set_pixel(x, y, Color(highest_roll_plant.id / 255.0, 0.0, 0.0))
+			distribution.set_pixel(x, y, Color(highest_roll_id / 255.0, 0.0, 0.0))
 	
 	distribution.unlock()
 	
