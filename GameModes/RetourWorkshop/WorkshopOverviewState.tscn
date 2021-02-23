@@ -5,7 +5,7 @@
 [ext_resource path="res://World/AssetHandler/AssetHandlerSpawner.tscn" type="PackedScene" id=5]
 [ext_resource path="res://World/AssetHandler/DynamicAssetHandler.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Util/Imaging/DrawPath/Path/Path.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Util/LegoExtentUpdater.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Util/LabTableExtentUpdater.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Util/Teleport/PlayerTeleportListener.tscn" type="PackedScene" id=9]
 
 
@@ -22,7 +22,7 @@ asset_handler_scene = ExtResource( 6 )
 
 [node name="PlayerTeleportListener" parent="." instance=ExtResource( 9 )]
 
-[node name="LegoExtentUpdater" parent="." instance=ExtResource( 8 )]
+[node name="LabTableExtentUpdater" parent="." instance=ExtResource( 8 )]
 
 [node name="ExistingWindTurbineHandler" parent="." instance=ExtResource( 6 )]
 asset_id = 30

@@ -6,7 +6,7 @@ extends "res://World/AssetHandler/AbstractAssetHandler.gd"
 #
 
 
-export(bool) var only_lego_active = true
+export(bool) var only_labtable_active = true
 export(int) var asset_id
 export(Material) var temporary_material
 
@@ -15,10 +15,10 @@ func _ready():
 	# Use the update interval from the settings
 	update_interval = Settings.get_setting("assets", "moving-update-interval")
 	
-	# When only_lego_active is true, the asset handler only becomes active
+	# When only_labtable_active is true, the asset handler only becomes active
 	#  when sync_moving_assets is emitted, otherwise it's inactive because then we
 	#  work with local input instead.
-	if only_lego_active:
+	if only_labtable_active:
 		_active = false
 		GlobalSignal.connect("stop_sync_moving_assets", self, "_set_inactive")
 		GlobalSignal.connect("sync_moving_assets", self, "_set_active")
@@ -30,8 +30,8 @@ func _ready():
 func _get_server_result():
 	var player_pos = PlayerInfo.get_true_player_position()
 	#FIXME: this should be handled by geodot in the future
-	var result = ServerConnection.get_json("/assetpos/get_near/by_asset/%s/%d.0/%d.0.json"
-	 % [asset_id, -player_pos[0], player_pos[2]], false)
+	var result = "" # ServerConnection.get_json("/assetpos/get_near/by_asset/%s/%d.0/%d.0.json"
+	 # % [asset_id, -player_pos[0], player_pos[2]], false)
 	
 	if result and result.has("assets"):
 		return result["assets"]
@@ -51,7 +51,7 @@ func _spawn_asset(instance_id):
 	
 	# Our request should only return nearby assets, but this is a failsafe to prevent #78 from causing crashes if
 	#  for some reason, we get assets which are very far away.
-	if pos.length() < 30000:
+	if pos.length() < 30000:  # FIXME: make this a constant?
 		var new_instance = asset_scene.instance()
 		
 		new_instance.name = String(instance_id)

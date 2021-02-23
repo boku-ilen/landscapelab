@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Util/LegoExtentDrawer.gd" type="Script" id=1]
+[ext_resource path="res://Util/LabTableExtentDrawer.gd" type="Script" id=1]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 100, 1000, 100 )
@@ -19,21 +19,21 @@ emission_on_uv2 = false
 flags_unshaded = true
 albedo_color = Color( 0.227451, 0.266667, 0, 1 )
 
-[node name="LegoExtentDrawer" type="Spatial" groups=[
+[node name="LabTableExtentDrawer" type="Spatial" groups=[
 "SpatialShifting",
 ]]
 script = ExtResource( 1 )
 
-[node name="LegoExtent" type="MeshInstance" parent="."]
+[node name="LabTableExtent" type="MeshInstance" parent="."]
 layers = 64
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 
-[node name="LegoExtentSymbol" type="CSGBox" parent="."]
+[node name="LabTableExtentSymbol" type="CSGBox" parent="."]
 layers = 128
 material = SubResource( 3 )
 
-[node name="Inside" type="CSGBox" parent="LegoExtentSymbol"]
+[node name="Inside" type="CSGBox" parent="LabTableExtentSymbol"]
 layers = 128
 operation = 2
 width = 1.8

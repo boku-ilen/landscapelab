@@ -25,18 +25,18 @@ func _on_toggled(button_pressed):
 		ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_remove_rooftop_pv", []), 90)
 
 
+# FIXME: this should be implmemented in game logic
 func _create_rooftop_pv(data):
 	var pos = PlayerInfo.get_true_player_position()
 	pos[0] = -pos[0]  # TODO: Generalize
 	
-	# No caching
-	# FIXME: this is specific game logic
-	var response = ServerConnection.get_json("/assetpos/create/%d/%d/%d.0/%d.0" % [Session.scenario_id, asset_id, pos[0], pos[2]], false)
-	assetpos_id = response["assetpos_id"]
+	# var response = ServerConnection.get_json("/assetpos/create/%d/%d/%d.0/%d.0" % [Session.scenario_id, asset_id, pos[0], pos[2]], false)
+	# assetpos_id = response["assetpos_id"]
 	task_done = true
 
 
+# FIXME: this is specific game logic
 func _remove_rooftop_pv(data):
 	if assetpos_id:
-	    # FIXME: this is specific game logic
-		ServerConnection.get_json("/assetpos/remove/%d" % assetpos_id)
+		# ServerConnection.get_json("/assetpos/remove/%d" % assetpos_id)
+		pass

@@ -19,8 +19,8 @@ func _ready():
 func _get_server_result():
 	var player_pos = PlayerInfo.get_true_player_position()
 	# FIXME: this should be done by geodot in the future
-	var result = ServerConnection.get_json("/assetpos/get_near/by_assettype/%s/%d.0/%d.0.json"
-	 % [asset_type_id, -player_pos[0], player_pos[2]], false)
+	var result = "" # ServerConnection.get_json("/assetpos/get_near/by_assettype/%s/%d.0/%d.0.json"
+	 # % [asset_type_id, -player_pos[0], player_pos[2]], false)
 	
 	if result and result.has("assets"):
 		return result["assets"]

@@ -9,9 +9,10 @@ onready var start_button = get_node("PanelContainer/HBoxContainer/VBoxContainer/
 func _ready():
 	start_button.connect("pressed", self, "start_game")
 	
-	scenarios = Session.get_scenarios()
-	build_area_list()
-	build_gamemode_list()
+	# FIXME: This will be rebuilt using the new geopackage approach
+	#scenarios = Session.get_scenarios()
+	#build_area_list()
+	#build_gamemode_list()
 
 
 # Fill the Godot UI Item List with the scenarios
@@ -28,6 +29,7 @@ func build_area_list():
 		logger.error("Couldn't get scenarios!'", "StartMenuUI")
 	
 	# Select the first item by default
+	# FIXME: Index out of bounds (size is 0)
 	area_list.select(0)
 
 
@@ -57,7 +59,6 @@ func start_game():
 	var selected_area = area_list.get_selected_items()[0]
 	var selected_gamemode = gamemode_list.get_selected_items()[0]
 	
-	Session.set_start_offset_for_scenario(area_list.get_item_metadata(selected_area))
 	get_tree().change_scene(gamemode_list.get_item_metadata(selected_gamemode))
 	
 	GlobalSignal.emit_signal("game_started")

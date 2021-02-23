@@ -71,7 +71,7 @@ func _do_server_request(args):
 	
 	# Never cache here since when we do it regularly, we probably expect changes
 	# TODO: we should make this function obsolete but first have to track down its usages
-	var response = ServerConnection.get_json(request, false)
+	var response = CommunicationServer.get_json(request, false)
 	
 	# TODO: Make sure this is thread-safe together with get_latest_response()!
 	#  We need a mutex otherwise

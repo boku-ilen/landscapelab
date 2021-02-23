@@ -3,13 +3,7 @@
         "version": "v0.5.0-dev",
         "usage": "debug"
     },
-    
-    "server": {
-        "ip": "141.244.151.130",
-        "port": 80,
-        "prefix": "/landscapelab-dev"
-    },
-    
+
     "filesystem": {
         "geodata-path": ""
     },

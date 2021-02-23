@@ -3,7 +3,7 @@ extends ViewportContainer
 
 func _ready():
 	$FullscreenButton.connect("pressed", self, "on_fullscreen")
-	$Viewport/World.connect("fullscreen_off", self, "exit_fullscreen")
+	$Viewport/World.connect("fullscreen_off", self, "exit_fullscreen")  # FIXME: Non-existent signal!
 	connect("focus_entered", self, "_disable_in_input", [false])
 	connect("focus_exited", self, "_disable_in_input", [true])
 
@@ -23,4 +23,5 @@ func _enter_tree():
 
 
 func _disable_in_input(disable: bool):
+	logger.info("Gui input disable: " + String(disable))
 	$Viewport.gui_disable_input = disable

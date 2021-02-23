@@ -99,11 +99,12 @@ func _setup():
 		add_child(assets_list)
 
 
-# The first object in the array has to be a string of the name of the type, the second one needs to be the id 
+# The first object in the array has to be a string of the name of the type, the second one needs to be the id
+#FIXME: this is specific game logic
 func _request_type_target_value(asset_information : Array):
-	#FIXME: this is specific game logic?
-	var response = ServerConnection.get_json("/energy/target/%s/%s.json" % [String(Session.scenario_id), asset_information[1]])
-	requested_target_energy_dict[asset_information[0]] = response["energy_target"]
+	# var response = ServerConnection.get_json("/energy/target/%s/%s.json" % [String(Session.scenario_id), asset_information[1]])
+	# requested_target_energy_dict[asset_information[0]] = response["energy_target"]
+	pass
 
 
 func _init_dict():

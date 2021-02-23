@@ -115,7 +115,7 @@ func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	else:
 		visible = true
 	
-	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_phytocoenosis)
+	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_phytocoenosis, max_size)
 	
 	# All spritesheets are organized like this:
 	# The rows correspond to land-use values
@@ -151,6 +151,7 @@ func _update_done(
 	material_override.set_shader_param("id_to_row", id_row_map_tex)
 	material_override.set_shader_param("texture_map", billboard_tex)
 	material_override.set_shader_param("distribution_map", distribution_tex)
+	material_override.set_shader_param("dist_scale", 1.0 / spacing)
 	
 	process_material.set_shader_param("heightmap_size", heightmap_size)
 	material_override.set_shader_param("heightmap_size", heightmap_size)

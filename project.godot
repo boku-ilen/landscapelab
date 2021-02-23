@@ -49,11 +49,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/GroundedSpatial.gd"
 }, {
-"base": "Node",
-"class": "JSONParser",
-"language": "GDScript",
-"path": "res://Global/JSONParser.gd"
-}, {
 "base": "Resource",
 "class": "Layer",
 "language": "GDScript",
@@ -153,7 +148,6 @@ _global_script_class_icons={
 "ControllerTool": "",
 "FeatureLayer": "",
 "GroundedSpatial": "",
-"JSONParser": "",
 "Layer": "",
 "LayerRenderer": "",
 "LinearCSGPolygon": "",
@@ -174,9 +168,9 @@ _global_script_class_icons={
 "WorldTile": ""
 }
 
-[ServerConnection]
+[CommunicationServer]
 
-*res://Scripts/ServerConnection.gd=""
+*res://Scripts/CommunicationServer.gd=""
 
 [application]
 
@@ -194,24 +188,15 @@ logger="*res://Global/Debug/logger.gd"
 ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
 Settings="*res://Config/Settings.gd"
 GlobalSignal="*res://Global/GlobalSignal.gd"
-ServerConnection="*res://Global/ServerConnection.gd"
-ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
-Session="*res://Global/Session.gd"
-PlayerInfo="*res://Global/PlayerInfo.gd"
-TooltipHandler="*res://Global/TooltipHandler.gd"
-PerformanceTracker="*res://Global/Debug/PerformanceTracker.gd"
-Assets="*res://Global/Assets.gd"
-ModuleLoader="*res://Global/ModuleLoader.gd"
 UISignal="*res://Global/UISignal.gd"
+CommunicationServer="*res://Global/CommunicationServer.gd"
+ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
 GameModeLoader="*res://Global/GameModeLoader.gd"
 Geodot="*res://addons/geodot/geodot.gdns"
-GlobalTerrain="*res://Global/GlobalTerrain.tscn"
 RenderStyle="*res://Global/RenderStyle.gd"
-GeodataPaths="*res://Global/GeodataPaths.gd"
 GlobalVRAccess="*res://addons/vr-toolkit/GlobalVRAccess.gd"
-Vegetation="*res://Global/Vegetation.gd"
+Vegetation="*res://Vegetation/Vegetation.gd"
 Layers="*res://Layers/Singletons/Layers.gd"
-WorldPosition="*res://Global/WorldPosition.gd"
 TreeHandler="*res://Global/TreeHandler.gd"
 
 [display]
@@ -219,8 +204,6 @@ TreeHandler="*res://Global/TreeHandler.gd"
 window/size/width=1920
 window/size/height=1080
 window/dpi/allow_hidpi=true
-window/per_pixel_transparency/allowed=true
-window/per_pixel_transparency/enabled=true
 window/energy_saving/keep_screen_on=false
 window/stretch/aspect="expand"
 

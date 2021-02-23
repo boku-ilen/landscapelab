@@ -308,33 +308,27 @@ func get_billboard_sheet_for_ids(id_array, max_size):
 #  phytocoenosis_array.
 # A row of the spritesheet corresponds to one phytocoenosis, with its plants in
 #  the columns.
-func get_billboard_sheet(phytocoenosis_array, max_size):
+func get_billboard_sheet(phytocoenosis_array: Array, max_size):
 	# Array holding the rows of vegetation - each vegetation loaded from the 
 	#  given vegetation_names becomes a row in this table
 	var billboard_table = Array()
 	billboard_table.resize(phytocoenosis_array.size())
 	
-	var scale_table = Array()
-	scale_table.resize(phytocoenosis_array.size())
-	
 	var row = 0
 	
 	for phytocoenosis in phytocoenosis_array:
 		billboard_table[row] = []
-		scale_table[row] = []
 		
 		for plant in phytocoenosis.plants:
 			var billboard = plant.get_billboard()
 			billboard_table[row].append(billboard)
-			scale_table[row].append(plant.height_max / max_size)
 			
 		row += 1
 		
 	return SpritesheetHelper.create_spritesheet(
 			Vector2(sprite_size, sprite_size),
 			billboard_table,
-			SpritesheetHelper.SCALING.KEEP_ASPECT,
-			scale_table)
+			SpritesheetHelper.SCALING.KEEP_ASPECT)
 
 
 # Returns a 1x? spritesheet with each phytocoenosis' ground texture in the rows.
@@ -357,14 +351,14 @@ func get_ground_sheet(phytocoenosis_array, texture_name):
 
 # Returns a 1x? spritesheet with each phytocoenosis' distribution texture in the
 #  rows.
-func get_distribution_sheet(phytocoenosis_array):
+func get_distribution_sheet(phytocoenosis_array, max_size):
 	var texture_table = Array()
 	texture_table.resize(phytocoenosis_array.size())
 	
 	var row = 0
 	
 	for phytocoenosis in phytocoenosis_array:
-		texture_table[row] = [generate_distribution(phytocoenosis)] \
+		texture_table[row] = [generate_distribution(phytocoenosis, max_size)] \
 				if phytocoenosis.plants.size() > 0 else null
 		
 		row += 1
@@ -421,11 +415,13 @@ func get_billboard_texture(phytocoenosis_array, max_size):
 
 # Returns a newly generated distribution map for the plants in the given
 #  phytocoenosis.
-# This map is a 16x16 images whose values correspond to the IDs of the plants.
-func generate_distribution(phytocoenosis: Phytocoenosis):
+# This map is a 16x16 image whose R values correspond to the IDs of the plants; the G values are
+#  the size scaling factors (between 0 and 1) for each particular plant instance, taking into
+#  account its min and max size.
+func generate_distribution(phytocoenosis: Phytocoenosis, max_size: float):
 	var distribution = Image.new()
 	distribution.create(distribution_size, distribution_size,
-			false, Image.FORMAT_R8)
+			false, Image.FORMAT_RG8)
 	
 	var dice = RandomNumberGenerator.new()
 	dice.randomize()
@@ -435,18 +431,30 @@ func generate_distribution(phytocoenosis: Phytocoenosis):
 	for y in range(0, distribution_size):
 		for x in range(0, distribution_size):
 			var highest_roll = 0
-			var highest_roll_plant
+			var highest_roll_id = 0
 			
+			# Roll a dice for every plant. If it is higher than the previous highest roll,
+			#  set the hihgest roll ID to the ID of this plant within the group (the position
+			#  in the group's plant array).
+			var current_plant_in_group_id = 0
 			for plant in phytocoenosis.plants:
 				# Roll the dice weighed by the plant density. A small factor is
 				#  added because some plants never show up otherwise.
 				var roll = dice.randf_range(0.0, plant.density + 0.3)
 				
 				if roll > highest_roll:
-					highest_roll_plant = plant
+					highest_roll_id = current_plant_in_group_id
 					highest_roll = roll
+				
+				current_plant_in_group_id += 1
 			
-			distribution.set_pixel(x, y, Color(highest_roll_plant.id / 255.0, 0.0, 0.0))
+			# Roll another dice for getting the height of this plant instance
+			#  (between the plant's min and max height)
+			var plant = phytocoenosis.plants[highest_roll_id]
+			var random_height = dice.randf_range(plant.height_min, plant.height_max)
+			var scale_factor = random_height / max_size
+			
+			distribution.set_pixel(x, y, Color(highest_roll_id / 255.0, scale_factor, 0.0, 0.0))
 	
 	distribution.unlock()
 	
@@ -539,7 +547,7 @@ func reverse_parse_size(size):
 	elif size == Plant.Size.M: return "M"
 	elif size == Plant.Size.L: return "L"
 	elif size == Plant.Size.XL: return "XL"
-	else: return null
+	else: return "UNKNOWN"
 
 
 func reverse_parse_season(season):
@@ -547,7 +555,7 @@ func reverse_parse_season(season):
 	elif season == Season.SUMMER: return "SUMMER"
 	elif season == Season.AUTUMN: return "AUTUMN"
 	elif season == Season.WINTER: return "WINTER"
-	else: return null
+	else: return "UNKNOWN"
 
 
 class Plant:
@@ -570,12 +578,13 @@ class Plant:
 	var height_max: float
 	var density: float
 	
-	func _get_full_path():
+	func _get_full_icon_path():
 		return Vegetation.billboard_base_path.plus_file("small-" + billboard_path) + BILLBOARD_ENDING
 	
-	func _load_into_cache_if_necessary():
-		var full_path = _get_full_path()
-		
+	func _get_full_billboard_path():
+		return Vegetation.billboard_base_path.plus_file(billboard_path) + BILLBOARD_ENDING
+	
+	func _load_into_cache_if_necessary(full_path):
 		if not Vegetation.plant_image_cache.has(full_path):
 			# Load Image into the Image cache
 			var img = Image.new()
@@ -585,19 +594,52 @@ class Plant:
 				logger.warning("Invalid billboard path in %s: %s"
 						 % [name_en, full_path])
 			
+			# Godot can crash with extremely large images, so we downscale it to a size appropriate
+			#  for further handling.
+			var new_size = SpritesheetHelper.get_size_keep_aspect(
+				Vector2(texture_size, texture_size), img.get_size())
+			img.resize(new_size.x, new_size.y)
+			
 			Vegetation.plant_image_cache[full_path] = img
 			
 			# Also load into the ImageTexture cache
 			var tex = ImageTexture.new()
-			tex.create_from_image(get_billboard(), Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER)
+			tex.create_from_image(_get_image(full_path), Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER)
 			Vegetation.plant_image_texture_cache[full_path] = tex
+	
+	func _get_image(path):
+		if not File.new().file_exists(path):
+			logger.warn("Invalid Plant image (file does not exist): %s" % [path])
+			return null
+		
+		_load_into_cache_if_necessary(path)
+		return Vegetation.plant_image_cache[path]
+	
+	func _get_texture(path):
+		if not File.new().file_exists(path):
+			logger.warn("Invalid Plant image (file does not exist): %s" % [path])
+			return null
+		
+		_load_into_cache_if_necessary(path)
+		return Vegetation.plant_image_texture_cache[path]
 	
 	# Return the billboard of this plant as an unmodified Image.
 	func get_billboard():
-		_load_into_cache_if_necessary()
-		return Vegetation.plant_image_cache[_get_full_path()]
+		return _get_image(_get_full_billboard_path())
 	
 	# Return an ImageTexture with the billboard of this plant.
 	func get_billboard_texture():
-		_load_into_cache_if_necessary()
-		return Vegetation.plant_image_texture_cache[_get_full_path()]
+		return _get_texture(_get_full_billboard_path())
+	
+	# Return an icon (a small version of the billboard) for this plant.
+	func get_icon():
+		return _get_image(_get_full_icon_path())
+	
+	# Return an ImageTexture with the icon of this plant.
+	func get_icon_texture():
+		return _get_texture(_get_full_icon_path())
+	
+	# Return a string in the form "ID: Name (Size Class)"
+	func get_title_string():
+		return str(self.id) + ": " + self.name_en \
+				+ " (" + Vegetation.reverse_parse_size(self.size_class) + ")"

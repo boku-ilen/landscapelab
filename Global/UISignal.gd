@@ -4,6 +4,8 @@ extends Node
 # All the signals that are mapped from an input event to a signal
 #
 
+# FIXME: Check/move similar as GlobalSignal (either merge or move away entirely)
+
 # General
 
 signal ui_loaded

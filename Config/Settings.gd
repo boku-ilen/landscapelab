@@ -1,9 +1,8 @@
 tool
-extends JSONParser
+extends Node
 
 #
-# Parses default-settings.json in order to allow any script to access any setting
-# TODO: an optional readout of the LL_settings table in the geopackage can overwrite the default settings
+# FIXME Document properly
 #
 
 const default_configuration_path: String = "res://configuration.ini"
@@ -12,10 +11,6 @@ const user_config_path: String = "res://user-config.ini"
 
 var config = ConfigFile.new()
 var user_config = ConfigFile.new()
-
-#var default_data: JSONParseResult = _parse_json(default_settings_path)
-#var scenario_config: Array = Geodot.get_dataset(scenario_settings_path).get_feature_layer(feature_layer)
-var user_file: JSONParseResult #= _parse_json(user_config_path)
 
 var software_config: Dictionary = {
 	"meta": {
@@ -64,6 +59,7 @@ func _load_from_user_config():
 
 
 func _load_from_scenario_config():
+	# FIXME: Load data from the geopackage
 	pass
 
 

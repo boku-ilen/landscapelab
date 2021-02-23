@@ -74,18 +74,18 @@ margin_right = 171.0
 margin_bottom = 37.0
 script = ExtResource( 5 )
 
-[node name="Lego" type="HBoxContainer" parent="SettingsWindow/ScrollContainer/VBoxContainer"]
+[node name="LabTable" type="HBoxContainer" parent="SettingsWindow/ScrollContainer/VBoxContainer"]
 margin_top = 45.0
 margin_right = 387.0
 margin_bottom = 125.0
 
-[node name="Label" type="Label" parent="SettingsWindow/ScrollContainer/VBoxContainer/Lego"]
+[node name="Label" type="Label" parent="SettingsWindow/ScrollContainer/VBoxContainer/LabTable"]
 margin_top = 27.0
 margin_right = 199.0
 margin_bottom = 52.0
-text = "Enable Lego Mode"
+text = "Enable LabTable Mode"
 
-[node name="EnableLego" type="CheckButton" parent="SettingsWindow/ScrollContainer/VBoxContainer/Lego"]
+[node name="EnableLabTable" type="CheckButton" parent="SettingsWindow/ScrollContainer/VBoxContainer/LabTable"]
 margin_left = 207.0
 margin_right = 359.0
 margin_bottom = 80.0

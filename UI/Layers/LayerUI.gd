@@ -83,5 +83,6 @@ func _setup_filters():
 func _setup_layer_widgets():
 	for child in layer_container.get_children():
 		if not child.get_signal_list().has("_on_layer_select"):
+			# FIXME: Already connected - is this called multiple times?
 			child.connect("gui_input", self, "_on_layer_select", [child])
 
