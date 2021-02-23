@@ -74,6 +74,16 @@ func add_test_data():
 #	test_layer.render_type = Layer.RenderType.NONE
 #	test_layer.is_scored = true
 #	test_layer.name = "Test layer"
+#
+#	# Test Point Data
+#	var windmill_layer = FeatureLayer.new()
+#	var windmill_dataset = Geodot.get_dataset("C:\\boku\\geodata\\test_data\\ooe_point_test.shp")
+#	windmill_layer.geo_feature_layer = windmill_dataset.get_feature_layer("ooe_point_test")
+#	windmill_layer.render_type = Layer.RenderType.OBJECT
+#	windmill_layer.render_info = Layer.ObjectRenderInfo.new()
+#	windmill_layer.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
+#	windmill_layer.render_info.ground_height_layer = height_layer.clone()
+#	windmill_layer.name = "Windmills"
 	
 	# Add the layers
 	Layers.add_layer(height_layer)
@@ -83,4 +93,5 @@ func add_test_data():
 	Layers.add_layer(building_layer)
 #	Layers.add_layer(landuse_layer)
 #	Layers.add_layer(vegetation_layer)
+#	Layers.add_layer(windmill_layer)
 
