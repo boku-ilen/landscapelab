@@ -4,18 +4,6 @@ extends Node
 # Loads vegetation data and provides it wrapped in Godot classes with
 # functionality such as generating spritesheets.
 # 
-# The data is expected to be laid out like this:
-# plants.csv
-# phytocoenosis.csv
-# plant-texutres
-# 	billboard1.png
-# 	billboard2.png
-# ground-textures
-# 	Grass
-# 		albedo.jpg
-# 		normal.jpg
-# 		displacement.jpg
-# 
 
 const distribution_size = 16
 
@@ -23,17 +11,18 @@ const sprite_size = 1024
 const texture_size = 1024
 
 # FIXME: this should be settings and default to neutral paths
+# The default plant and group CSV definition files. See load_data_from_csv for the format.
 var plant_csv_path = "/home/karl/Nextcloud/Boku/new_veg/plants.csv"
 var group_csv_path = "/home/karl/Nextcloud/Boku/new_veg/groups.csv"
 
 # FIXME: this should be settings and default to neutral paths
+# Base folders for ground textures and billboard sprites -- entries in the definition CSVs are
+#  relative to these
 var ground_texture_base_path = "/home/karl/Downloads"
 var billboard_base_path = "/home/karl/Downloads/plants"
 
+# We assume all billboards to end with 'png' since they require transparency
 const BILLBOARD_ENDING = ".png"
-
-var phytocoenosis_by_name = {}
-var phytocoenosis_by_id = {}
 
 var plant_image_cache = {}
 var plant_image_texture_cache = {}
@@ -183,7 +172,8 @@ func _create_groups_from_csv(csv_path: String) -> void:
 				logger.warning("Non-existent plant with ID %s in CSV %s!"
 						% [plant_id, csv_path])
 		
-		var ground_texture_path = csv[9]
+		# null is encoded as the string "Null"
+		var ground_texture_path = csv[9] if csv[9] != "Null" else null
 		
 		var group = Phytocoenosis.new(id, name_en, group_plants, ground_texture_path)
 		
@@ -295,20 +285,20 @@ func filter_phytocoenosis_array_by_height(phytocoenosis_array, min_height: float
 
 
 # Shortcut for get_phytocoenosis_array_for_ids + get_billboard_sheet
-func get_billboard_sheet_for_ids(id_array, max_size):
+func get_billboard_sheet_for_ids(id_array: Array):
 	var phytocoenosis_array = []
 	
 	for id in id_array:
 		phytocoenosis_array.append(groups[id])
 	
-	return get_billboard_sheet(phytocoenosis_array, max_size)
+	return get_billboard_sheet(phytocoenosis_array)
 
 
 # Get a spritesheet with all billboards of the phytocoenosis in the given
 #  phytocoenosis_array.
 # A row of the spritesheet corresponds to one phytocoenosis, with its plants in
 #  the columns.
-func get_billboard_sheet(phytocoenosis_array: Array, max_size):
+func get_billboard_sheet(phytocoenosis_array: Array):
 	# Array holding the rows of vegetation - each vegetation loaded from the 
 	#  given vegetation_names becomes a row in this table
 	var billboard_table = Array()
@@ -406,9 +396,9 @@ func get_ground_sheet_texture(phytocoenosis_array, texture_name):
 
 # Wrapper for get_billboard_sheet, but returns an ImageTexture instead of an
 #   Image for direct use in materials.
-func get_billboard_texture(phytocoenosis_array, max_size):
+func get_billboard_texture(phytocoenosis_array):
 	var tex = ImageTexture.new()
-	tex.create_from_image(get_billboard_sheet(phytocoenosis_array, max_size))
+	tex.create_from_image(get_billboard_sheet(phytocoenosis_array))
 	
 	return tex
 
