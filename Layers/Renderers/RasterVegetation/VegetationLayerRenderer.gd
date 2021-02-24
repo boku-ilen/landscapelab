@@ -99,23 +99,23 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	var map_size =  rows * spacing * 2 + additional_map_size
 	
-	# Loat the phytocoenosis for these IDs and filter them by the given size
+	# Load the groups for these IDs and filter them by the given size
 	#  parameters
-	var phytocoenosis = Vegetation.get_phytocoenosis_array_for_ids(ids)
+	var groups = Vegetation.get_group_array_for_ids(ids)
 	
-	var filtered_phytocoenosis = Vegetation.filter_phytocoenosis_array_by_height(phytocoenosis, min_size, max_size)
+	var filtered_groups = Vegetation.filter_group_array_by_height(groups, min_size, max_size)
 	
-	var billboards = Vegetation.get_billboard_sheet(filtered_phytocoenosis)
+	var billboards = Vegetation.get_billboard_sheet(filtered_groups)
 	
 	# If billboards is null, this means that there were 0 plants in all of the
-	#  phytocoenosis. Then, we don't need to render anything.
+	#  groups. Then, we don't need to render anything.
 	if not billboards:
 		visible = false
 		return
 	else:
 		visible = true
 	
-	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_phytocoenosis, max_size)
+	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_groups, max_size)
 	
 	# All spritesheets are organized like this:
 	# The rows correspond to land-use values

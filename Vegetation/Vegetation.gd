@@ -175,7 +175,7 @@ func _create_groups_from_csv(csv_path: String) -> void:
 		# null is encoded as the string "Null"
 		var ground_texture_path = csv[9] if csv[9] != "Null" else null
 		
-		var group = Phytocoenosis.new(id, name_en, group_plants, ground_texture_path)
+		var group = Group.new(id, name_en, group_plants, ground_texture_path)
 		
 		add_group(group)
 
@@ -250,66 +250,66 @@ func _save_groups_to_csv(csv_path: String) -> void:
 		])
 
 
-# Returns the Phytocoenosis objects which correspond to the given IDs.
-func get_phytocoenosis_array_for_ids(id_array):
-	var phytocoenosis_array = []
+# Returns the Group objects which correspond to the given IDs.
+func get_group_array_for_ids(id_array):
+	var group_array = []
 	
 	for group in groups.values():
 		if id_array.has(group.id):
-			phytocoenosis_array.append(group)
+			group_array.append(group)
 	
-	return phytocoenosis_array
+	return group_array
 
 
-# Returns an array with the same phytocoenosis as were given to the function,
-#  but with each phytocoenosis' plant array only consisting of plants within the
+# Returns an array with the same groups as were given to the function,
+#  but with each group's plant array only consisting of plants within the
 #  given height range.
-func filter_phytocoenosis_array_by_height(phytocoenosis_array, min_height: float, max_height: float):
+func filter_group_array_by_height(group_array, min_height: float, max_height: float):
 	var new_array = []
 	
-	for phytocoenosis in phytocoenosis_array:
+	for group in group_array:
 		var plants = []
 		
-		for plant in phytocoenosis.plants:
+		for plant in group.plants:
 			if plant.height_max > min_height and plant.height_max < max_height:
 				plants.append(plant)
 		
-		# Append a new Phytocoenosis which is identical to the one in the passed
+		# Append a new Group which is identical to the one in the passed
 		#  array, but with the filtered plants
-		new_array.append(Phytocoenosis.new(phytocoenosis.id,
-				phytocoenosis.name,
+		new_array.append(Group.new(group.id,
+				group.name,
 				plants,
-				phytocoenosis.ground_texture_folder))
+				group.ground_texture_folder))
 	
 	return new_array
 
 
-# Shortcut for get_phytocoenosis_array_for_ids + get_billboard_sheet
+# Shortcut for get_group_array_for_ids + get_billboard_sheet
 func get_billboard_sheet_for_ids(id_array: Array):
-	var phytocoenosis_array = []
+	var group_array = []
 	
 	for id in id_array:
-		phytocoenosis_array.append(groups[id])
+		group_array.append(groups[id])
 	
-	return get_billboard_sheet(phytocoenosis_array)
+	return get_billboard_sheet(group_array)
 
 
-# Get a spritesheet with all billboards of the phytocoenosis in the given
-#  phytocoenosis_array.
-# A row of the spritesheet corresponds to one phytocoenosis, with its plants in
+# Get a spritesheet with all billboards of the groups in the given
+#  group_array.
+# A row of the spritesheet corresponds to one group, with its plants in
 #  the columns.
-func get_billboard_sheet(phytocoenosis_array: Array):
+func get_billboard_sheet(group_array: Array):
 	# Array holding the rows of vegetation - each vegetation loaded from the 
 	#  given vegetation_names becomes a row in this table
 	var billboard_table = Array()
-	billboard_table.resize(phytocoenosis_array.size())
+	billboard_table.resize(group_array.size())
 	
 	var row = 0
 	
-	for phytocoenosis in phytocoenosis_array:
+	for group in group_array:
 		billboard_table[row] = []
 		
-		for plant in phytocoenosis.plants:
+		for plant in group.plants:
 			var billboard = plant.get_billboard()
 			billboard_table[row].append(billboard)
 			
@@ -321,15 +321,15 @@ func get_billboard_sheet(phytocoenosis_array: Array):
 			SpritesheetHelper.SCALING.KEEP_ASPECT)
 
 
-# Returns a 1x? spritesheet with each phytocoenosis' ground texture in the rows.
-func get_ground_sheet(phytocoenosis_array, texture_name):
+# Returns a 1x? spritesheet with each group's ground texture in the rows.
+func get_ground_sheet(group_array, texture_name):
 	var texture_table = Array()
-	texture_table.resize(phytocoenosis_array.size())
+	texture_table.resize(group_array.size())
 	
 	var row = 0
 	
-	for phytocoenosis in phytocoenosis_array:
-		texture_table[row] = [phytocoenosis.get_ground_image(texture_name)]
+	for group in group_array:
+		texture_table[row] = [group.get_ground_image(texture_name)]
 		
 		row += 1
 	
@@ -339,17 +339,17 @@ func get_ground_sheet(phytocoenosis_array, texture_name):
 			SpritesheetHelper.SCALING.STRETCH)
 
 
-# Returns a 1x? spritesheet with each phytocoenosis' distribution texture in the
+# Returns a 1x? spritesheet with each group's distribution texture in the
 #  rows.
-func get_distribution_sheet(phytocoenosis_array, max_size):
+func get_distribution_sheet(group_array, max_size):
 	var texture_table = Array()
-	texture_table.resize(phytocoenosis_array.size())
+	texture_table.resize(group_array.size())
 	
 	var row = 0
 	
-	for phytocoenosis in phytocoenosis_array:
-		texture_table[row] = [generate_distribution(phytocoenosis, max_size)] \
-				if phytocoenosis.plants.size() > 0 else null
+	for group in group_array:
+		texture_table[row] = [generate_distribution(group, max_size)] \
+				if group.plants.size() > 0 else null
 		
 		row += 1
 	
@@ -387,28 +387,28 @@ func get_id_row_map_texture(ids):
 
 
 # Wraps the result of get_ground_albedo_sheet in an ImageTexture.
-func get_ground_sheet_texture(phytocoenosis_array, texture_name):
+func get_ground_sheet_texture(group_array, texture_name):
 	var tex = ImageTexture.new()
-	tex.create_from_image(get_ground_sheet(phytocoenosis_array, texture_name))
+	tex.create_from_image(get_ground_sheet(group_array, texture_name))
 	
 	return tex
 
 
 # Wrapper for get_billboard_sheet, but returns an ImageTexture instead of an
 #   Image for direct use in materials.
-func get_billboard_texture(phytocoenosis_array):
+func get_billboard_texture(group_array):
 	var tex = ImageTexture.new()
-	tex.create_from_image(get_billboard_sheet(phytocoenosis_array))
+	tex.create_from_image(get_billboard_sheet(group_array))
 	
 	return tex
 
 
 # Returns a newly generated distribution map for the plants in the given
-#  phytocoenosis.
+#  group.
 # This map is a 16x16 image whose R values correspond to the IDs of the plants; the G values are
 #  the size scaling factors (between 0 and 1) for each particular plant instance, taking into
 #  account its min and max size.
-func generate_distribution(phytocoenosis: Phytocoenosis, max_size: float):
+func generate_distribution(group: Group, max_size: float):
 	var distribution = Image.new()
 	distribution.create(distribution_size, distribution_size,
 			false, Image.FORMAT_RG8)
@@ -427,7 +427,7 @@ func generate_distribution(phytocoenosis: Phytocoenosis, max_size: float):
 			#  set the hihgest roll ID to the ID of this plant within the group (the position
 			#  in the group's plant array).
 			var current_plant_in_group_id = 0
-			for plant in phytocoenosis.plants:
+			for plant in group.plants:
 				# Roll the dice weighed by the plant density. A small factor is
 				#  added because some plants never show up otherwise.
 				var roll = dice.randf_range(0.0, plant.density + 0.3)
@@ -440,7 +440,7 @@ func generate_distribution(phytocoenosis: Phytocoenosis, max_size: float):
 			
 			# Roll another dice for getting the height of this plant instance
 			#  (between the plant's min and max height)
-			var plant = phytocoenosis.plants[highest_roll_id]
+			var plant = group.plants[highest_roll_id]
 			var random_height = dice.randf_range(plant.height_min, plant.height_max)
 			var scale_factor = random_height / max_size
 			
@@ -453,7 +453,7 @@ func generate_distribution(phytocoenosis: Phytocoenosis, max_size: float):
 
 
 
-class Phytocoenosis:
+class Group:
 	var id
 	var name
 	var plants: Array
@@ -488,7 +488,7 @@ class Phytocoenosis:
 			img.load(full_path)
 			
 			if img.is_empty():
-				logger.error("Invalid ground texture path in CSV of phytocoenosis %s: %s"
+				logger.error("Invalid ground texture path in CSV of group %s: %s"
 						 % [name, full_path])
 			
 			Vegetation.ground_image_cache[full_path] = img

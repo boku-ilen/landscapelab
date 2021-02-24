@@ -75,11 +75,11 @@ func get_vegetation_data(tile, mesh):
 	mesh.material_override.set_shader_param("id_to_row", id_row_map_tex)
 	
 	# Load spritesheets
-	var phytocoenosis = Vegetation.get_phytocoenosis_array_for_ids(splat_ids)
+	var group = Vegetation.get_group_array_for_ids(splat_ids)
 	
-	var detail_albedo_sheet = Vegetation.get_ground_sheet_texture(phytocoenosis, "albedo")
-	var detail_normal_sheet = Vegetation.get_ground_sheet_texture(phytocoenosis, "normal")
-	var detail_depth_sheet = Vegetation.get_ground_sheet_texture(phytocoenosis, "displacement")
+	var detail_albedo_sheet = Vegetation.get_ground_sheet_texture(group, "albedo")
+	var detail_normal_sheet = Vegetation.get_ground_sheet_texture(group, "normal")
+	var detail_depth_sheet = Vegetation.get_ground_sheet_texture(group, "displacement")
 	
 	mesh.material_override.set_shader_param("detail_albedo_sheet", detail_albedo_sheet)
 	mesh.material_override.set_shader_param("detail_normal_sheet", detail_normal_sheet)
