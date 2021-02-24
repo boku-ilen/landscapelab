@@ -16,7 +16,6 @@ var values: Dictionary
 
 func _ready():
 	dropdown.connect("item_selected", self, "_on_value_changed")
-	panel.connect("resized", self, "_on_panel_resize")
 	
 	#apply_value_settings(GameModeLoader.get_startup_mode())
 	# Load the default selected (index 0) energy-ui
