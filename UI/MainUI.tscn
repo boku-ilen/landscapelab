@@ -52,6 +52,7 @@ script = ExtResource( 43 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+pc_player_path = NodePath("MarginContainer/Split/Right/Mid/WorldViewPort/Viewport/World/FirstPersonPC")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_left = 0.01
@@ -355,5 +356,7 @@ mouse_filter = 2
 
 [node name="GraphicContainer" parent="CenterContainer/StartScene" index="0"]
 visible = false
+
+[editable path="MarginContainer/Split/Right/Mid/WorldViewPort/Viewport/World"]
 
 [editable path="CenterContainer/StartScene"]
