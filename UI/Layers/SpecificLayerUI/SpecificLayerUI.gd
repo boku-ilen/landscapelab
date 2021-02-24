@@ -21,4 +21,4 @@ func print_warning():
 
 
 func validate(geodata_type):
-	return geodata_type != null and geodata_type.is_valid()
+	return geodata_type and geodata_type.is_valid()

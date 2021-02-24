@@ -21,7 +21,7 @@ func _process(delta):
 	#  we only want to update once _everything_ is ready!
 	if done:
 		for lod in get_children():
-			lod.call_deferred("apply_textures")
+			lod.apply_textures()
 		
 		done = false
 

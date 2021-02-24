@@ -3,11 +3,13 @@ extends SpecificLayerUI
 
 onready var geodata_objects: OptionButton = get_node("RightBox/GeodataChooserPoint/OptionButton")
 onready var geodata_height: OptionButton = get_node("RightBox/GeodataChooserHeight/OptionButton")
+
+# FIXME: These don't exist, can they be removed?
 onready var file_path_objects = get_node("RightBox/GeodataChooser/FileChooser/FileName")
 onready var file_path_object_scene = get_node("RightBox/ObjectChooser/FileName")
 
 
-func assign_specific_layer_info(layer):
+func assign_specific_layer_info(layer: Layer):
 	if layer.render_info == null:
 		layer.render_info = Layer.ObjectRenderInfo.new()
 	
@@ -21,13 +23,12 @@ func assign_specific_layer_info(layer):
 	var objects = objects_dataset.get_feature_layer(objects_name)
 	
 	# Obtain the height data, where the points will be placed upon
+	# FIXME: produces "Index p_idx = 0 is out of bounds (items.size() = 0)._on_confirm()"
 	var height_name = geodata_height.get_item_text(geodata_height.get_selected_id())
-	var height_dataset = Geodot.get_dataset($RightBox/GeodataChooserHeight/FileChooser/FileName.text)
-	if !validate(height_dataset):
-		print_warning()
-		return
-		
-	var height = height_dataset.get_raster_layer(height_name)
+	
+	# For the height, we open a Layer directly without a dataset in-between, because that's how
+	#  things like GeoTIFFs are handled
+	var height = Geodot.get_raster_layer($RightBox/GeodataChooserHeight/FileChooser/FileName.text)
 	
 	var file2Check = File.new()
 	var is_valid_spatial = file2Check.file_exists(file_path_object_scene.text)
