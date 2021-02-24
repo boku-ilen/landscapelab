@@ -56,6 +56,13 @@ func _on_confirm():
 	layer.color_tag = layer_color_tag.current_color
 	specific_layer_ui.assign_specific_layer_info(layer)
 	
+	if not layer.is_valid():
+		logger.error("Confirm would've created invalid layer with name: %s and type: %s. Aborting"
+				% [layer.name, current_type])
+		# TODO: Should we give an error in the UI here too, or did this definitely already happen
+		#  in assign_specific_layer_info?
+		return
+	
 	if is_new:
 		Layers.add_layer(layer)
 	else:
