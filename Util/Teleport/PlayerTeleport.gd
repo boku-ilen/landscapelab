@@ -20,19 +20,19 @@ func set_teleport_mode(mode: bool):
 
 
 func teleport_player(coordinates: Vector3):
-	PlayerInfo.update_player_pos(coordinates)
+	pass
 
 
 func _unhandled_input(event):
 	if teleport_mode:
 		if event.is_action_pressed("teleport_player"):
-			teleport_player(WorldPosition.get_position_on_ground(cursor.get_collision_point()))
+			teleport_player(cursor.get_collision_point())
 			GlobalSignal.emit_signal("teleported")
 			get_tree().set_input_as_handled()
 			set_teleport_mode(false)
 
 
 func _poi_teleport(coordinates):
-	teleport_player(WorldPosition.get_position_on_ground(Vector3(coordinates.x, 0, coordinates.y)))
+	teleport_player(Vector3(coordinates.x, 0, coordinates.y))
 	GlobalSignal.emit_signal("teleported")
 	set_teleport_mode(false)
