@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Perspectives/AbstractPlayer/AbstractPlayer.gd"
 }, {
+"base": "Node",
+"class": "AbstractRequestHandler",
+"language": "GDScript",
+"path": "res://Communication/AbstractRequestHandler.gd"
+}, {
 "base": "TextureButton",
 "class": "AutoTextureButton",
 "language": "GDScript",
@@ -142,6 +147,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AbstractAssetsFromShapefile": "",
 "AbstractPlayer": "",
+"AbstractRequestHandler": "",
 "AutoTextureButton": "",
 "BaseTiles": "",
 "Configurator": "",
