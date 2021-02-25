@@ -18,12 +18,12 @@ func _ready():
 func add_test_data():
 	var file2Check = File.new()
 	if !file2Check.file_exists(geopackage_path):
-		logger.error("Path to geodata-set \"%s\" does not exist, could not load any data!" % [geopackage_path])
+		logger.error("Path to geodataset \"%s\" does not exist, could not load any data!" % [geopackage_path])
 		return
 	
 	var geopackage = Geodot.get_dataset(geopackage_path)
 	if !geopackage.is_valid():
-		logger.error("Geo-dataset is not valid, could not load any data!")
+		logger.error("Geodataset is not valid, could not load any data!")
 		return
 	
 	var logstring = "\n"
