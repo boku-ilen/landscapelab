@@ -6,11 +6,10 @@ onready var label_color_min = get_node("LeftBox/ColorMin")
 onready var label_color_max = get_node("LeftBox/ColorMax")
 onready var button_color_min = get_node("RightBox/ButtonMin")
 onready var button_color_max = get_node("RightBox/ButtonMax")
-onready var geodata_height: OptionButton = get_node("RightBox/GeodataChooser/OptionButton")
-onready var geodata_texture: OptionButton = get_node("RightBox/GeodataChooser2/OptionButton")
+onready var geodata_height: OptionButton = get_node("RightBox/GeodataChooserHeight/OptionButton")
+onready var geodata_texture: OptionButton = get_node("RightBox/GeodataChooserTexture/OptionButton")
 onready var file_path_height = get_node("RightBox/GeodataChooser/FileChooser/FileName")
 onready var file_path_path = get_node("RightBox/GeodataChooser/FileChooser/FileName")
-onready var warning = get_node("RightBox/Warning")
 
 
 func _ready():
@@ -41,22 +40,27 @@ func assign_specific_layer_info(layer):
 	if layer.render_info == null:
 		layer.render_info = Layer.TerrainRenderInfo.new()
 	
-	var texture = geodata_texture.get_selected_metadata()
-	var height = geodata_height.get_selected_metadata()
+	var texture_name = geodata_texture.get_item_text(geodata_texture.get_selected_id())
+	var texture_dataset = Geodot.get_dataset($RightBox/GeodataChooserTexture/FileChooser/FileName.text)
+	var texture = texture_dataset.get_raster_layer(texture_name)
+		
+	var height_name = geodata_height.get_item_text(geodata_height.get_selected_id())
+	var height_dataset = Geodot.get_dataset($RightBox/GeodataChooserHeight/FileChooser/FileName.text)
+	var height = height_dataset.get_raster_layer(height_name)
 	
 	if !texture or !height or !texture.is_valid() or !height.is_valid():
-		warning.visible = true
-		warning.text = "Texture or height data is not valid!"
+		print_warning()
+		return
 
 	# Heightmap
 	var height_layer = RasterLayer.new()
 	height_layer.geo_raster_layer = height
-	height_layer.name = texture.resource_name
+	height_layer.name = height.resource_name
 
 	# Orthophoto
 	var ortho_layer = RasterLayer.new()
 	ortho_layer.geo_raster_layer = texture
-	ortho_layer.name = height.resource_name
+	ortho_layer.name = texture.resource_name
 
 	Layers.add_layer(height_layer)
 	Layers.add_layer(ortho_layer)

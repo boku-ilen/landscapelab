@@ -79,28 +79,7 @@ static func create_spritesheet(
 			if scaling_method == SCALING.STRETCH:
 				desired_size = sprite_size
 			elif scaling_method == SCALING.KEEP_ASPECT:
-				var original_size = sprite.get_size()
-				
-				# Ratio of width to height -> Greater than 1 means the image is
-				#  wider than it is high ("landscape")
-				var current_aspect = original_size.x / original_size.y
-				var desired_aspect = sprite_size.x / sprite_size.y
-				
-				if current_aspect == desired_aspect:
-					# The aspect matches -> Direct downscale
-					desired_size = sprite_size
-				elif current_aspect > desired_aspect:
-					# The current image is too wide -> Maximize width, smaller height
-					var current_width = original_size.x
-					
-					desired_size.x = sprite_size.x
-					desired_size.y = int(desired_size.x / current_aspect)
-				else:
-					# The current image is too high -> Maximize height, smaller width
-					var current_height = original_size.y
-					
-					desired_size.y = sprite_size.y
-					desired_size.x = int(desired_size.y * current_aspect)
+				desired_size = get_size_keep_aspect(sprite_size, sprite.get_size())
 			
 			if scale_factors:
 				desired_size *= scale_factors[y][x]
@@ -127,3 +106,24 @@ static func create_spritesheet(
 		current_offset.y += sprite_size.y
 	
 	return sheet
+
+
+static func get_size_keep_aspect(max_size, original_size):
+	# Ratio of width to height -> Greater than 1 means the image is
+	#  wider than it is high ("landscape")
+	var current_aspect = original_size.x / original_size.y
+	var desired_aspect = max_size.x / max_size.y
+	
+	if current_aspect == desired_aspect:
+		# The aspect matches -> Direct downscale
+		return max_size
+	elif current_aspect > desired_aspect:
+		# The current image is too wide -> Maximize width, smaller height
+		var current_width = original_size.x
+		
+		return Vector2(max_size.x, int(max_size.x / current_aspect))
+	else:
+		# The current image is too high -> Maximize height, smaller width
+		var current_height = original_size.y
+		
+		return Vector2(int(max_size.y * current_aspect), max_size.y)

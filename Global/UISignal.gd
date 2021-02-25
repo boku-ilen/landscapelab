@@ -6,10 +6,6 @@ extends Node
 
 # FIXME: Check/move similar as GlobalSignal (either merge or move away entirely)
 
-# General
-
-signal ui_loaded
-
 # Tools
 ## Imaging
 signal imaging

@@ -15,18 +15,23 @@ var RAY_LENGTH = Settings.get_setting("mouse-point", "camera-ray-length") # Dist
 
 
 func _ready():
-	cursor.cast_to = Vector3(0, 0, -RAY_LENGTH)
+	#cursor.cast_to = Vector3(0, 0, -RAY_LENGTH)
+	$MouseCollisionIndicator.cursor = cursor
 
 
 # Whenever the mouse moves, align the rotation again
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
+		var mouse_pos = get_viewport().get_mouse_position()
+		var projected_mouse = camera.project_ray_origin(mouse_pos)
+		var from = camera.to_local(projected_mouse)
+		var to = (from + camera.project_local_ray_normal(mouse_pos)).normalized() * RAY_LENGTH
+		cursor.set_translation(from)
+		cursor.set_cast_to(to)
+		
 		# Direct the mouse position on the screen along the camera
 		# We use a local ray since it should be relative to the rotation of any parent node
-		var mouse_point_vector = camera.project_local_ray_normal(event.position)
+		#var mouse_point_vector = camera.project_local_ray_normal(event.position)
 		
 		# Transform the forward vector to this projected vector (-z is forward)
-		transform.basis.z = -mouse_point_vector
-	elif Input.is_action_pressed("world_cursor_activated"):
-		GlobalSignal.emit_signal("cursor_click", 
-			WorldPosition.get_position_on_ground(cursor.get_collision_point()))
+		#transform.basis.z = -mouse_point_vector

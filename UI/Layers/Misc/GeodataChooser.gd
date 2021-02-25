@@ -17,13 +17,15 @@ func _ready():
 func _check_path():
 	var geopackage = Geodot.get_dataset(file_name.text)
 	if geopackage.is_valid():
-		var idx: int
+		_fill_options([], 0, true) # Empty all entries list
+		var idx: int = 0
 		if show_raster_layers:
-			idx = _fill_options(geopackage.get_raster_layers())
+			idx = _fill_options(geopackage.get_raster_layers(), idx)
 		if show_feature_layer:
 			_fill_options(geopackage.get_feature_layers(), idx)
 		options.visible = true
 	else:
+		_fill_options([], 0, true) # Empty all entries list
 		options.visible = false
 
 
@@ -34,10 +36,9 @@ func _file_selected(which: String):
 
 # As filling the options with two different types of layers (feature and raster)
 # the idx has to be assigned manually to fit the position in the list.
-func _fill_options(which: Array, start_idx: int = 0) -> int:
+func _fill_options(which: Array, start_idx: int = 0, clear = false) -> int:
+	if clear: options.clear()
 	for option in which:
 		options.add_item(option.resource_name)
-		options.set_item_metadata(start_idx, option)
-		start_idx += 1
 	
 	return start_idx

@@ -6,8 +6,8 @@ extends Spatial
 #
 
 
-onready var cursor: RayCast = get_parent().get_node("InteractRay")
+var cursor
 
 func _process(delta):
 	if cursor.is_colliding():
-		global_transform.origin = WorldPosition.get_position_on_ground(cursor.get_collision_point())
+		$Node/Particle.transform.origin = cursor.get_collision_point()

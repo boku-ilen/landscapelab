@@ -16,7 +16,7 @@ var pos_manager: PositionManager
 func _ready():
 	# Required to make the _notification with NOTIFICATION_TRANSFORM_CHANGED work
 	set_notify_transform(true)
-	
+
 	_place_on_ground()
 
 
@@ -34,14 +34,14 @@ func _notification(what):
 
 # Puts the origin of the node on the ground.
 func _place_on_ground():
-	# FIXME: Update position: global_transform.origin = 
-	
+	# FIXME: Update position: global_transform.origin =
+
 	_just_placed_on_ground = true
 
 
 # React to a world shift
 func shift(delta_x, delta_z):
 	global_transform.origin += Vector3(delta_x, 0, delta_z)
-	
+
 	# Since this was a world shift, we don't need to get a new height
 	_just_placed_on_ground = true

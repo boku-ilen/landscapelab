@@ -201,7 +201,7 @@ GameModeLoader="*res://Global/GameModeLoader.gd"
 Geodot="*res://addons/geodot/geodot.gdns"
 RenderStyle="*res://Global/RenderStyle.gd"
 GlobalVRAccess="*res://addons/vr-toolkit/GlobalVRAccess.gd"
-Vegetation="*res://Global/Vegetation.gd"
+Vegetation="*res://Vegetation/Vegetation.gd"
 Layers="*res://Layers/Singletons/Layers.gd"
 TreeHandler="*res://Global/TreeHandler.gd"
 
@@ -441,11 +441,6 @@ imaging_set_focus={
 imaging={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":67,"unicode":0,"echo":false,"script":null)
- ]
-}
-toggle_ui={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":85,"unicode":0,"echo":false,"script":null)
  ]
 }
 toggle_imaging_view={

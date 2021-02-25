@@ -45,7 +45,7 @@ func _process(_delta):
 
 # Registers a new asset instance at the position data[0], data[1] on the server (to be called from a thread)
 func add_object_on_server(data):
-    #FIXME: see remark in ItemSpawner.gd:77
+	#FIXME: see remark in ItemSpawner.gd:77
 	var result = "" # ServerConnection.get_json("/assetpos/create/%d/%d/%d.0/%d.0" % [Session.scenario_id, asset_id, -data[0], data[1]])
 		
 		# As the server request takes some time we instance a scene for the time we are waiting for a result

@@ -9,14 +9,20 @@ export(bool) var is_inner
 
 export(float) var size = 100
 
+export(int) var heightmap_resolution = 100
+export(int) var ortho_resolution = 1000
+
 var position_x
 var position_y
 
 var height_layer
 var texture_layer
 
+var current_heightmap_raw
 var current_heightmap
 var current_texture
+
+signal updated_data
 
 
 func _ready():
@@ -45,19 +51,20 @@ func build():
 		top_left_x,
 		top_left_y,
 		size,
-		100,
+		heightmap_resolution,
 		1
 	)
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
+		current_heightmap_raw = current_height_image.get_image()
 	
 	
 	var current_ortho_image = texture_layer.get_image(
 		top_left_x,
 		top_left_y,
 		size,
-		1000,
+		ortho_resolution,
 		1
 	)
 	
@@ -71,3 +78,6 @@ func apply_textures():
 		material_override.set_shader_param("tex", current_texture)
 		
 		visible = true
+		
+		if has_node("CollisionMeshCreator"):
+			$CollisionMeshCreator.create_mesh(current_heightmap, size)

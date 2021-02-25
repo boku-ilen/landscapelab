@@ -14,7 +14,7 @@ __meta__ = {
 }
 
 [node name="FileChooser" parent="." instance=ExtResource( 1 )]
-margin_right = 1024.0
+margin_right = 1920.0
 
 [node name="OptionButton" type="OptionButton" parent="."]
 visible = false

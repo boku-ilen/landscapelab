@@ -2,7 +2,6 @@ extends VBoxContainer
 
 
 onready var panel = get_node("PanelContainer")
-onready var tween = get_node("Tween")  # FIXME: Not found
 onready var dropdown = get_node("Control")
 
 onready var panel_pos_x = panel.rect_position.x
@@ -16,7 +15,6 @@ var values: Dictionary
 
 func _ready():
 	dropdown.connect("item_selected", self, "_on_value_changed")
-	panel.connect("resized", self, "_on_panel_resize")
 	
 	#apply_value_settings(GameModeLoader.get_startup_mode())
 	# Load the default selected (index 0) energy-ui

@@ -84,25 +84,19 @@ margin_right = 867.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 
-[node name="GeodataChooser" parent="RightBox" instance=ExtResource( 1 )]
+[node name="GeodataChooserHeight" parent="RightBox" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 58.0
 margin_right = 867.0
 margin_bottom = 143.0
 
-[node name="FileChooser" parent="RightBox/GeodataChooser" index="0"]
-margin_right = 867.0
-
-[node name="GeodataChooser2" parent="RightBox" instance=ExtResource( 1 )]
+[node name="GeodataChooserTexture" parent="RightBox" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 151.0
 margin_right = 867.0
 margin_bottom = 236.0
-
-[node name="FileChooser" parent="RightBox/GeodataChooser2" index="0"]
-margin_right = 867.0
 
 [node name="CheckBox" type="CheckBox" parent="RightBox"]
 margin_top = 244.0
@@ -155,7 +149,3 @@ __meta__ = {
 
 [node name="Warning" parent="RightBox" instance=ExtResource( 5 )]
 visible = false
-
-[editable path="RightBox/GeodataChooser"]
-
-[editable path="RightBox/GeodataChooser2"]

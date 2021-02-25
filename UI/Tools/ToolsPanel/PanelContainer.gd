@@ -18,7 +18,6 @@ func _ready():
 	connect("mouse_exited", self, "_on_mouse_exited")
 	connect("mouse_entered", self, "_on_mouse_entered")
 	arrow.connect("toggled", self, "_on_arrow_toggle")
-	UISignal.connect("ui_loaded", self, "_on_ui_loaded")
 	set_position(panel_start_pos)
 
 
@@ -42,10 +41,6 @@ func _on_arrow_toggle(toggled):
 	else:
 		set_position(panel_start_pos)
 		arrow.set_rotation_degrees(-90)
-
-
-func _on_ui_loaded():
-	set_position(panel_start_pos)
 
 
 # Tool specific tool for showing errors in the editor

@@ -8,9 +8,9 @@ extends VSplitContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$PlantList.connect("item_selected", self, "_update_plant")
+	$PlantSelection/PlantList.connect("item_selected", self, "_update_plant")
 
 
 func _update_plant(selected_id: int):
-	var plant = $PlantList.get_item_metadata(selected_id)
+	var plant = $PlantSelection/PlantList.get_item_metadata(selected_id)
 	$PlantDetails.set_plant(plant)

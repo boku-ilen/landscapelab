@@ -10,6 +10,17 @@ onready var layer_type = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/
 onready var type_chooser = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/TypeChooser")
 onready var min_size = rect_min_size
 
+var RenderTypeObject = {
+	"NONE": Layer,
+	"TERRAIN": Layer,
+	"PARTICLES": RasterLayer,
+	"OBJECT": FeatureLayer,
+	"PATH": FeatureLayer,
+	"CONNECTED_OBJECT": FeatureLayer,
+	"POLYGON": FeatureLayer,
+	"VEGETATION": Layer
+}
+
 
 func _ready():
 	connect("confirmed", self, "_on_confirm")
@@ -35,14 +46,22 @@ func layer_popup(rect: Rect2, existing_layer: Layer = null):
 
 func _on_confirm():
 	var is_new: bool = false
+	var current_type = layer_type.get_item_metadata(layer_type.get_selected_id())
 	if layer == null:
-		layer = Layer.new()
+		layer = RenderTypeObject[current_type].new()
 		is_new = true
 	
 	layer.name = layer_name.text
-	layer.render_type = Layer.RenderType[layer_type.get_item_metadata(layer_type.get_selected_id())]
+	layer.render_type = Layer.RenderType[current_type]
 	layer.color_tag = layer_color_tag.current_color
 	specific_layer_ui.assign_specific_layer_info(layer)
+	
+	if not layer.is_valid():
+		logger.error("Confirm would've created invalid layer with name: %s and type: %s. Aborting"
+				% [layer.name, current_type])
+		# TODO: Should we give an error in the UI here too, or did this definitely already happen
+		#  in assign_specific_layer_info?
+		return
 	
 	if is_new:
 		Layers.add_layer(layer)

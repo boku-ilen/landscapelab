@@ -7,8 +7,6 @@
 [node name="MouseCollisionIndicator" type="Spatial"]
 script = ExtResource( 1 )
 
-[node name="Particle" parent="." instance=ExtResource( 2 )]
-
 [node name="Viewshed" type="Spatial" parent="."]
 script = ExtResource( 3 )
 
@@ -27,3 +25,7 @@ omni_attenuation = 0.0118415
 __meta__ = {
 "_editor_description_": ""
 }
+
+[node name="Node" type="Node" parent="."]
+
+[node name="Particle" parent="Node" instance=ExtResource( 2 )]

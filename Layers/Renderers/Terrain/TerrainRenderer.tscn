@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Layers/Renderers/Terrain/TerrainShader.shader" type="Shader" id=1]
 [ext_resource path="res://Layers/Renderers/Terrain/TerrainLOD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Layers/LayerRenderer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Layers/Renderers/Terrain/TerrainRenderer.gd" type="Script" id=4]
+[ext_resource path="res://Layers/Renderers/Terrain/CollisionMeshCreator.gd" type="Script" id=5]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -34,3 +35,10 @@ size = 500.0
 [node name="TerrainLOD2" parent="." index="2" instance=ExtResource( 2 )]
 material_override = SubResource( 3 )
 size = 2500.0
+
+[node name="CollisionMeshCreator" type="StaticBody" parent="TerrainLOD2" index="0"]
+collision_layer = 16387
+script = ExtResource( 5 )
+subdivision = 32
+
+[node name="CollisionShape" type="CollisionShape" parent="TerrainLOD2/CollisionMeshCreator" index="0"]

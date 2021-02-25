@@ -12,7 +12,6 @@ func _ready():
 	file_dialog.filters = filters
 	button.connect("pressed", self, "_pop_file_dialog")
 	file_dialog.connect("file_selected", self, "_file_selected")
-	file_name.connect("text_changed", self, "_check_path")
 
 
 func _pop_file_dialog():

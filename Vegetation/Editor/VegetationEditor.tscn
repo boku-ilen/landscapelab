@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -21,6 +21,8 @@
 [ext_resource path="res://Resources/Meshes/VegetationBillboard/40m_billboard.obj" type="ArrayMesh" id=19]
 [ext_resource path="res://Vegetation/Editor/TextureSelectButton.gd" type="Script" id=20]
 [ext_resource path="res://Vegetation/Editor/TextureFileDialog.gd" type="Script" id=21]
+[ext_resource path="res://Vegetation/Editor/PlantFilter.gd" type="Script" id=22]
+[ext_resource path="res://Vegetation/Editor/PlantSelection.gd" type="Script" id=23]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 16 )
@@ -70,10 +72,34 @@ margin_bottom = 1080.0
 split_offset = 600
 script = ExtResource( 2 )
 
-[node name="PlantList" type="ItemList" parent="PlantPanel"]
+[node name="PlantSelection" type="VBoxContainer" parent="PlantPanel"]
 margin_right = 400.0
-margin_bottom = 600.0
+margin_bottom = 645.0
+script = ExtResource( 23 )
+
+[node name="FilterContainer" type="HBoxContainer" parent="PlantPanel/PlantSelection"]
+margin_right = 400.0
+margin_bottom = 37.0
+
+[node name="Label" type="Label" parent="PlantPanel/PlantSelection/FilterContainer"]
+margin_top = 6.0
+margin_right = 61.0
+margin_bottom = 31.0
+text = "Filter:"
+
+[node name="PlantFilter" type="OptionButton" parent="PlantPanel/PlantSelection/FilterContainer"]
+margin_left = 69.0
+margin_right = 400.0
+margin_bottom = 37.0
+size_flags_horizontal = 3
+script = ExtResource( 22 )
+
+[node name="PlantList" type="ItemList" parent="PlantPanel/PlantSelection"]
+margin_top = 45.0
+margin_right = 400.0
+margin_bottom = 645.0
 rect_min_size = Vector2( 400, 0 )
+size_flags_vertical = 3
 fixed_column_width = 500
 fixed_icon_size = Vector2( 100, 100 )
 script = ExtResource( 1 )
@@ -82,7 +108,7 @@ __meta__ = {
 }
 
 [node name="PlantDetails" type="PanelContainer" parent="PlantPanel"]
-margin_top = 624.0
+margin_top = 669.0
 margin_right = 400.0
 margin_bottom = 1080.0
 script = ExtResource( 3 )
@@ -91,7 +117,7 @@ script = ExtResource( 3 )
 margin_left = 14.0
 margin_top = 14.0
 margin_right = 386.0
-margin_bottom = 442.0
+margin_bottom = 397.0
 
 [node name="ID" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
 margin_right = 372.0

@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Perspectives/PC/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/PC/SettingsCamera.gd" type="Script" id=2]
 [ext_resource path="res://Perspectives/PC/Minimap/MinimapIcon.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Resources/Icons/ClassicLandscapeLab/map_cursor.svg" type="Texture" id=4]
+[ext_resource path="res://Perspectives/PC/MousePoint.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Perspectives/PC/ActionHandler.gd" type="Script" id=6]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -28,6 +30,8 @@ far = 70000.0
 script = ExtResource( 2 )
 setting_title = "player"
 
+[node name="MousePoint" parent="Head/Camera" instance=ExtResource( 5 )]
+
 [node name="MinimapIcon" parent="Head" instance=ExtResource( 3 )]
 transform = Transform( 1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0 )
 icon = ExtResource( 4 )
@@ -37,3 +41,6 @@ rotate = true
 transform = Transform( 1, 0, 1.77636e-15, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.65595, 0 )
 shape = SubResource( 1 )
 disabled = true
+
+[node name="ActionHandler" type="Node" parent="."]
+script = ExtResource( 6 )

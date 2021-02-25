@@ -15,4 +15,4 @@ func get_features_near_position(pos_x: float, pos_y: float, radius: float, max_f
 
 
 func is_valid():
-	return geo_feature_layer.is_valid()
+	return geo_feature_layer && geo_feature_layer.is_valid()
