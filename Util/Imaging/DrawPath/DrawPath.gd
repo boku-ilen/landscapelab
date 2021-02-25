@@ -18,10 +18,10 @@ func _ready():
 func _unhandled_input(event):
 	if currently_imaging:
 		if event.is_action_pressed("imaging_set_path"):
-			var position = WorldPosition.get_position_on_ground(cursor.get_collision_point())
+			var position = cursor.get_collision_point()
 			GlobalSignal.emit_signal("imaging_add_path_point", position)
 		elif event.is_action_pressed("imaging_set_focus"):
-			var position = WorldPosition.get_position_on_ground(cursor.get_collision_point())
+			var position = cursor.get_collision_point()
 			GlobalSignal.emit_signal("imaging_set_focus", position)
 
 

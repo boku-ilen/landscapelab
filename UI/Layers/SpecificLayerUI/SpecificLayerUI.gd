@@ -15,9 +15,10 @@ func init_specific_layer_info(layer: Layer):
 	pass
 
 
-func print_warning():
+func print_warning(information = name):
 	warning.visible = true
-	warning.text = "Texture or height data is not valid!"
+	warning.text = "Texture or height data is not valid! %s" % [information]
+	logger.error("Invalid data in data of created layer: %s" % [information])
 
 
 func validate(geodata_type):
