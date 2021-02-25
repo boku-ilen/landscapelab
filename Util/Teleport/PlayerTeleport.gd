@@ -1,7 +1,7 @@
 extends Node
 
 #
-# Attach this scene to the MousePoint scene. With this an input mapped to 
+# Attach this scene to the MousePoint scene. With this an input mapped to
 # "teleport_player" will teleport the player to the cursor position in the
 # World. Also the Points of Interest Menu will open.
 #
@@ -20,6 +20,7 @@ func set_teleport_mode(mode: bool):
 
 
 func teleport_player(coordinates: Vector3):
+	# FIXME: Handle this
 	pass
 
 
@@ -33,6 +34,6 @@ func _unhandled_input(event):
 
 
 func _poi_teleport(coordinates):
-	teleport_player(Vector3(coordinates.x, 0, coordinates.y))
+	teleport_player(Vector3(coordinates.x, 0, coordinates.y))  # FIXME: Height
 	GlobalSignal.emit_signal("teleported")
 	set_teleport_mode(false)

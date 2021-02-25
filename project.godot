@@ -197,9 +197,9 @@ GameModeLoader="*res://Global/GameModeLoader.gd"
 Geodot="*res://addons/geodot/geodot.gdns"
 RenderStyle="*res://Global/RenderStyle.gd"
 GlobalVRAccess="*res://addons/vr-toolkit/GlobalVRAccess.gd"
-Vegetation="*res://Global/Vegetation.gd"
 Layers="*res://Layers/Singletons/Layers.gd"
 TreeHandler="*res://Global/TreeHandler.gd"
+Vegetation="*res://Vegetation/Vegetation.gd"
 
 [display]
 

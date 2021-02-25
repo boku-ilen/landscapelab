@@ -1,7 +1,7 @@
 extends Spatial
 
 #
-# Attach this scene to MousePoint.tscn. 
+# Attach this scene to MousePoint.tscn.
 # Once the setting_path bool is enabled, with the mapped inputs of "imaging_set_path" and
 # "imaging_set_focus" a path and a focussed point can be set.
 #
