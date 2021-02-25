@@ -3,6 +3,7 @@ extends Spatial
 export(float) var interval = 1  # TODO: Setting?
 export(int) var player_marker_asset_id
 
+# FIXME: this will be handled differently in the future
 onready var requester = get_node("RegularServerRequest")
 
 
