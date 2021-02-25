@@ -13,8 +13,8 @@ var _handlers = {}
 # initialize the websocket server and listening for client connections
 func _ready():
 	self._ws_server = WebSocketServer.new()
-	var port = "" # FIXME: read from settings
-	var supported_protocols = "" # FIXME: read from settings
+	var port = 1234 # FIXME: read from settings
+	var supported_protocols = [] # FIXME: read from settings
 
 	# Connect base signals for server client communication
 	self._ws_server.connect("client_connected", self, "_connected")
@@ -38,7 +38,7 @@ func _exit_tree():
 
 	# send the event handler that the server stops
 	for handler in _handlers:
-		hander.on_server_remove()
+		handler.on_server_remove()
 	_handlers.clear()
 
 	# stop listening
@@ -65,32 +65,32 @@ func unregister_handler(handler: AbstractRequestHandler):
 # we have to frequently and actively check for new messages
 # TODO: do we need to do this multithreaded?
 func _process(_delta):
-	if self._ws_server.is_listening:
+	if self._ws_server.is_listening():
 		self._ws_server.poll()
 
 
 # handle a new client connection and register it
 func _connected(id, proto):
-	logger.info("Connected client {} with protocol {}".format(id, proto))
+	logger.info("Connected client {} with protocol {}".format([id, proto]))
 	self._clients[id] = self._ws_server.get_peer(id)
 	self._clients[id].set_write_mode(self._write_mode)
 
 
 # remove a client connection
 func _disconnected(id, was_clean=false):
-	logger.info("Disconnected client {} (clean: {})".format(id, was_clean))
+	logger.info("Disconnected client {} (clean: {})".format([id, was_clean]))
 	if self._clients.has(id):
 		self._clients.erase(id)
 
 
 func _close_request(id, code, reason):
-	logger.info("Disconnection request from client {} (code: {}, reason: {})".format(id, code, reason))
+	logger.info("Disconnection request from client {} (code: {}, reason: {})".format([id, code, reason]))
 	# TODO: forward to _disconnect() ?
 
 
 func _on_data(id):
 	var packet = self._ws_server.get_peer(id).get_packet()
-	logger.debug("received request from {} with data {}".format(id, packet))
+	logger.debug("received request from {} with data {}".format([id, packet]))
 	# FIXME: implement
 
 

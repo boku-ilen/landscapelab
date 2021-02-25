@@ -174,10 +174,6 @@ _global_script_class_icons={
 "WorldTile": ""
 }
 
-[CommunicationServer]
-
-*res://Scripts/CommunicationServer.gd=""
-
 [application]
 
 config/name="LandscapeLab!"
@@ -195,13 +191,13 @@ ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
 Settings="*res://Config/Settings.gd"
 GlobalSignal="*res://Global/GlobalSignal.gd"
 UISignal="*res://Global/UISignal.gd"
-CommunicationServer="*res://Global/CommunicationServer.gd"
+CommunicationServer="*res://Communication/CommunicationServer.gd"
 ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
 GameModeLoader="*res://Global/GameModeLoader.gd"
 Geodot="*res://addons/geodot/geodot.gdns"
 RenderStyle="*res://Global/RenderStyle.gd"
 GlobalVRAccess="*res://addons/vr-toolkit/GlobalVRAccess.gd"
-Vegetation="*res://Vegetation/Vegetation.gd"
+Vegetation="*res://Global/Vegetation.gd"
 Layers="*res://Layers/Singletons/Layers.gd"
 TreeHandler="*res://Global/TreeHandler.gd"
 
@@ -441,6 +437,11 @@ imaging_set_focus={
 imaging={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":67,"unicode":0,"echo":false,"script":null)
+ ]
+}
+toggle_ui={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":85,"unicode":0,"echo":false,"script":null)
  ]
 }
 toggle_imaging_view={
