@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://UI/Fonts/TextBold.tres" type="DynamicFont" id=1]
 [ext_resource path="res://UI/Layers/Misc/GeodataChooser.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/Layers/SpecificLayerUI/PathLayer.gd" type="Script" id=3]
 [ext_resource path="res://Util/FileChooser.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/Layers/Misc/ProfileEditor/ProfileEditor.tscn" type="PackedScene" id=5]
 
 [node name="PathLayer" type="HSplitContainer"]
 margin_right = 1024.0
@@ -88,3 +89,9 @@ margin_bottom = 236.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 0
 text = "Open..."
+
+[node name="ProfileEditor" parent="RightBox/Button" instance=ExtResource( 5 )]
+margin_left = -174.0
+margin_top = -199.0
+margin_right = 756.0
+margin_bottom = 301.0

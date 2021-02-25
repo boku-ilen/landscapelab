@@ -67,6 +67,8 @@ func _on_confirm():
 		Layers.add_layer(layer)
 	else:
 		layer.emit_signal("layer_changed")
+	
+	hide()
 
 
 func resize(add: Vector2):

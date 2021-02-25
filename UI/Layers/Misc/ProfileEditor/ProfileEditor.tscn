@@ -43,6 +43,7 @@ rect_min_size = Vector2( 500, 500 )
 
 [node name="Viewport" type="Viewport" parent="HSplitContainer/ViewportContainer"]
 size = Vector2( 500, 500 )
+own_world = true
 handle_input_locally = false
 keep_3d_linear = true
 render_target_v_flip = true

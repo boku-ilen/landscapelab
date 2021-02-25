@@ -3,9 +3,6 @@ extends SpecificLayerUI
 
 onready var geodata_objects: OptionButton = get_node("RightBox/GeodataChooserPoint/OptionButton")
 onready var geodata_height: OptionButton = get_node("RightBox/GeodataChooserHeight/OptionButton")
-
-# FIXME: These don't exist, can they be removed?
-onready var file_path_objects = get_node("RightBox/GeodataChooser/FileChooser/FileName")
 onready var file_path_object_scene = get_node("RightBox/ObjectChooser/FileName")
 
 
@@ -17,7 +14,7 @@ func assign_specific_layer_info(layer: Layer):
 	var objects_name = geodata_objects.get_item_text(geodata_objects.get_selected_id())
 	var objects_dataset = Geodot.get_dataset($RightBox/GeodataChooserPoint/FileChooser/FileName.text)
 	if !validate(objects_dataset):
-		print_warning()
+		print_warning("Dataset for objects is not valid!")
 		return
 	
 	var objects = objects_dataset.get_feature_layer(objects_name)
@@ -30,10 +27,14 @@ func assign_specific_layer_info(layer: Layer):
 	#  things like GeoTIFFs are handled
 	var height = Geodot.get_raster_layer($RightBox/GeodataChooserHeight/FileChooser/FileName.text)
 	
+	if !validate(objects) or !validate(height):
+		print_warning("Object- or height-layer is not valid!")
+		return
+	
 	var file2Check = File.new()
 	var is_valid_spatial = file2Check.file_exists(file_path_object_scene.text)
-	if !validate(objects) or !validate(height) or !is_valid_spatial:
-		print_warning()
+	if !is_valid_spatial:
+		print_warning("Object scene is not a valid scene!")
 		return
 	
 	var height_layer = RasterLayer.new()
@@ -46,6 +47,7 @@ func assign_specific_layer_info(layer: Layer):
 	layer.render_info.ground_height_layer = height_layer.clone()
 
 
+# TODO: implement this function accordingly, so when editing an existing one, all configurations will be applied
 func init_specific_layer_info(layer):
 	if layer == null:
 		return

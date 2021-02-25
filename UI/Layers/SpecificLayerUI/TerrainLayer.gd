@@ -48,8 +48,8 @@ func assign_specific_layer_info(layer):
 	var height_dataset = Geodot.get_dataset($RightBox/GeodataChooserHeight/FileChooser/FileName.text)
 	var height = height_dataset.get_raster_layer(height_name)
 	
-	if !texture or !height or !texture.is_valid() or !height.is_valid():
-		print_warning()
+	if !validate(texture) or !validate(height):
+		print_warning("Texture- or height-layer is invalid!")
 		return
 
 	# Heightmap
@@ -72,11 +72,10 @@ func assign_specific_layer_info(layer):
 	layer.render_info.min_color = button_color_min.color
 
 
+# TODO: implement this function accordingly, so when editing an existing one, all configurations will be applied
 func init_specific_layer_info(layer):
 	if layer == null:
 		return
 	
 	#file_path_height = 
 	#file_path_
-	
-	

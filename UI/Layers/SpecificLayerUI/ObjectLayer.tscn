@@ -83,6 +83,12 @@ margin_top = 151.0
 margin_right = 775.0
 margin_bottom = 236.0
 
+[node name="FileChooser" parent="RightBox/GeodataChooserHeight" index="0"]
+margin_right = 775.0
+
+[node name="OptionButton" parent="RightBox/GeodataChooserHeight" index="1"]
+margin_right = 775.0
+
 [node name="ObjectChooser" parent="RightBox" instance=ExtResource( 1 )]
 margin_top = 244.0
 margin_right = 775.0
@@ -101,5 +107,7 @@ visible = false
 margin_top = 154.0
 margin_right = 882.0
 margin_bottom = 192.0
+
+[editable path="RightBox/GeodataChooserHeight"]
 
 [editable path="RightBox/ObjectChooser"]
