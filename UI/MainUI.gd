@@ -9,6 +9,7 @@ signal ui_loaded
 
 # Often used nodes that can be injected to the UIDocks if required
 export(NodePath) var pc_player_path
+export(NodePath) var pos_manager_path
 
 
 func _ready():
@@ -30,6 +31,8 @@ func _inject():
 		for child in dock.get_children():
 			if "pc_player" in child:
 				child.pc_player = get_node(pc_player_path)
+			if "pos_manager" in child:
+				child.pos_manager = get_node(pos_manager_path)
 			if child.has_method("_on_ui_loaded"):
 				connect("ui_loaded", child, "_on_ui_loaded")
 
