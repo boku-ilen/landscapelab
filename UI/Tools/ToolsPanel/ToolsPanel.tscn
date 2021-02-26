@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/clock.svg" type="Texture" id=1]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/footprint.svg" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://UI/UiTeleport.gd" type="Script" id=10]
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.gd" type="Script" id=11]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/construction.svg" type="Texture" id=12]
+[ext_resource path="res://UI/Tracking/Record.gd" type="Script" id=13]
 [ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=14]
 [ext_resource path="res://UI/PointsOfInterest/PoI.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/paintbrush.svg" type="Texture" id=17]
@@ -48,6 +49,13 @@ shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = ExtResource( 9 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=9]
 resource_local_to_scene = true
 shader = ExtResource( 9 )
 shader_param/color = Vector3( 0, 0, 0 )
@@ -149,10 +157,26 @@ margin_top = 240.0
 margin_right = 72.0
 margin_bottom = 312.0
 texture_normal = ExtResource( 2 )
-texture_name = "footprint"
+script = ExtResource( 13 )
+pressed_color = Color( 0, 0, 0, 1 )
+hover_color = Color( 0, 0, 0, 1 )
+disabled_color = Color( 0, 0, 0, 1 )
+focused_color = Color( 0, 0, 0, 1 )
 
 [node name="Record" parent="ScrollContainer/ToolsBar/Tracking" instance=ExtResource( 6 )]
+
+[node name="Play" parent="ScrollContainer/ToolsBar/Tracking/Record" index="0"]
+material = SubResource( 9 )
+
+[node name="Pause" parent="ScrollContainer/ToolsBar/Tracking/Record" index="1"]
 visible = false
+material = SubResource( 9 )
+
+[node name="Stop" parent="ScrollContainer/ToolsBar/Tracking/Record" index="2"]
+visible = false
+material = SubResource( 9 )
+margin_left = 80.0
+margin_right = 152.0
 
 [node name="Imaging" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 6 )
@@ -188,3 +212,5 @@ texture_name = "paintbrush"
 visible = false
 
 [editable path="ScrollContainer/ToolsBar/Teleport/PoI"]
+
+[editable path="ScrollContainer/ToolsBar/Tracking/Record"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Perspectives/VR/ParentTracker.gd" type="Script" id=1]
+[ext_resource path="res://Perspectives/Tracking/ParentTracker.gd" type="Script" id=1]
 
 [node name="ParentTracker" type="Node"]
 script = ExtResource( 1 )

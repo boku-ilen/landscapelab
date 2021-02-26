@@ -1,6 +1,5 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://UI/Settings/Record.gd" type="Script" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/pause.svg" type="Texture" id=3]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=4]
@@ -18,7 +17,6 @@ shader_param/color_length_modulate_threshold = 1.5
 margin_right = 232.0
 margin_bottom = 72.0
 rect_min_size = Vector2( 232, 72 )
-script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

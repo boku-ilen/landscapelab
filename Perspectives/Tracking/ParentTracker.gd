@@ -14,21 +14,15 @@ onready var screenshot_timer = get_node("ScreenshotTimer")
 var file = File.new()
 
 
-func _ready():
-	# Connect these signals in CONNECT_DEFERRED so that we have the new session_id by then
-	GlobalSignal.connect("tracking_start", self, "start_tracking", [], CONNECT_DEFERRED)
-	GlobalSignal.connect("tracking_pause", self, "toggle_pause_tracking", [], CONNECT_DEFERRED)
-	GlobalSignal.connect("tracking_stop", self, "stop_tracking", [], CONNECT_DEFERRED)
-
-
 # Start saving data with the current Session id
 func start_tracking(additional_flag: String = ""):
 	var filename
 	
+	# FIXME: we need some kind of session ID here
 	if additional_flag == "":
-		filename = "user://tracking-%s-%s-session%d.csv" % [usage, version, Session.session_id]
+		filename = "user://tracking-%s-%s-session%d.csv" % [usage, version, 0] #[usage, version, Session.session_id]
 	else:
-		filename = "user://tracking-%s-%s-session%d-%s.csv" % [usage, version, Session.session_id, additional_flag]
+		filename = "user://tracking-%s-%s-session%d-%s.csv" % [usage, version, 0, additional_flag] #[usage, version, "Session.session_id", additional_flag]
 	
 	open_tracking_file(filename)
 	
@@ -37,7 +31,9 @@ func start_tracking(additional_flag: String = ""):
 
 # Start or stop tracking depending on the Session id
 func toggle_pause_tracking():
-	if Session.session_id > 0:
+	# FIXME: Replace "true" with a pendant to "Session.session_id > 0"
+	# FIXME: What is this for in the first place?
+	if true:
 		start_tracking()
 	else:
 		stop_tracking()
@@ -117,8 +113,9 @@ func take_screenshot():
 	
 	# Save to a file, use the current time for naming
 	var timestamp = OS.get_datetime()
+	# FIXME: Replace with a pendant to "Session"
 	var screenshot_filename = "user://screenshot-%d%d%d-%d%d%d-%d.png" % [timestamp["year"], timestamp["month"],
-	 timestamp["day"], timestamp["hour"], timestamp["minute"], timestamp["second"], Session.session_id]
+	 timestamp["day"], timestamp["hour"], timestamp["minute"], timestamp["second"], 0]#"Session.session_id"]
 	
 	# Medium to low priority - we do want it to save sometime soon, but doesn't have to be immediate
 	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_save_screenshot", [img, screenshot_filename]), 15)
