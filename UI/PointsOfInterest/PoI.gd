@@ -18,7 +18,6 @@ var pos_manager: PositionManager
 
 
 func _ready():
-	item_list.connect("item_activated", self, "_on_poi_activated")
 	add_button.connect("pressed", self, "_on_add_pressed")
 	save_button.connect("pressed", self, "_on_save_pressed")
 	delete_button.connect("pressed", self, "_on_delete_pressed")
@@ -27,6 +26,9 @@ func _ready():
 	
 	# FIXME: Load POIs from GeoPackage
 	#_load_pois()
+	
+	item_list.add_item("text")
+	item_list.set_item_metadata(0, [422699, 450292])
 
 
 # FIXME: Adapt to GeoPackage
@@ -50,15 +52,6 @@ func _load_pois():
 
 
 # Points of interest UI functionality
-
-# We saved the location coordinates in the metadata of the list items,
-# if one is clicked emit a signal with this data that can be handled
-# in another script
-func _on_poi_activated(index):
-	var fixed_pos = item_list.get_item_metadata(index)
-	UISignal.emit_signal("poi_teleport",  pos_manager.to_engine_coordinates(fixed_pos))
-
-
 func _on_add_pressed():
 	input_field.visible = true
 	save_button.visible = true
