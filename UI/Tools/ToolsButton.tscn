@@ -20,3 +20,4 @@ script = ExtResource( 2 )
 [node name="WindowDialog" type="WindowDialog" parent="." index="0"]
 margin_right = 16.0
 margin_bottom = 16.0
+mouse_filter = 1

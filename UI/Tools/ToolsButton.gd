@@ -28,6 +28,7 @@ func set_popups_container():
 
 
 func _toggled(button_pressed):
-	if $WindowDialog.get_child_count():
-		$WindowDialog.popup(Rect2(rect_global_position, rect_size * rect_scale))
+	if button_pressed:
+		if $WindowDialog.get_child_count():
+			$WindowDialog.popup(Rect2(rect_global_position, rect_size * rect_scale))
 

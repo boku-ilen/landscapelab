@@ -10,22 +10,31 @@ extends BoxContainer
 # On toggle it will unfold and show additional information to the buttons.
 #
 
-# FIXME: None of these are found, can they be removed?
-onready var tools_bar = get_node("HBoxContainer/PanelContainer/ScrollContainer/ToolsBar")
-onready var panel = get_node("HBoxContainer/PanelContainer")
-onready var window = get_node("HBoxContainer")
-
 
 # Giving a configuration warning if a wrong item has been attached
 const _required_button = preload("res://UI/Tools/ToolsButton.gd")
 
 var arrow_toggle: bool = false
+var pc_player: AbstractPlayer
+var pos_manager
 
 
 func _ready():
 	pass
 	# FIXME: Not working because of the rebuild - adapt the GameModeLoader!
 	#apply_tool_settings(GameModeLoader.get_startup_mode())
+
+
+func _on_ui_loaded():
+	_inject()
+
+
+func _inject():
+	for child in $ScrollContainer/ToolsBar.get_children():
+		if "pc_player" in child:
+			child.pc_player = pc_player
+		if "pos_manager" in child:
+			child.pos_manager = pos_manager
 
 
 # If the current game mode is changed, the new mode will be applied according to 

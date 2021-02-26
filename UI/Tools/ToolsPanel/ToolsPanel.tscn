@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/clock.svg" type="Texture" id=1]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/footprint.svg" type="Texture" id=2]
@@ -27,6 +27,13 @@ shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 9 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=8]
 resource_local_to_scene = true
 shader = ExtResource( 9 )
 shader_param/color = Vector3( 0, 0, 0 )
@@ -111,13 +118,15 @@ margin_right = 72.0
 margin_bottom = 152.0
 texture_normal = ExtResource( 3 )
 script = ExtResource( 10 )
-pressed_color = Color( 0, 0, 0, 1 )
-hover_color = Color( 0, 0, 0, 1 )
-disabled_color = Color( 0, 0, 0, 1 )
-focused_color = Color( 0, 0, 0, 1 )
 
 [node name="PoI" parent="ScrollContainer/ToolsBar/Teleport" instance=ExtResource( 16 )]
 visible = false
+
+[node name="ArrowUp" parent="ScrollContainer/ToolsBar/Teleport/PoI/Arrows" index="1"]
+material = SubResource( 8 )
+
+[node name="ArrowDown" parent="ScrollContainer/ToolsBar/Teleport/PoI/Arrows" index="3"]
+material = SubResource( 8 )
 
 [node name="Season" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 3 )
@@ -177,3 +186,5 @@ texture_name = "paintbrush"
 
 [node name="RenderingStyleMenu" parent="ScrollContainer/ToolsBar/Style" instance=ExtResource( 18 )]
 visible = false
+
+[editable path="ScrollContainer/ToolsBar/Teleport/PoI"]
