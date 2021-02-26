@@ -25,6 +25,11 @@ var directions = {
 }
 
 
+func _ready():
+	$ActionHandler.player = self
+	$ActionHandler.cursor = $Head/Camera/MousePoint/InteractRay
+
+
 func get_look_direction():
 	# TODO: The x-coordinate seems right, but the z-coordinate acts strangely...
 	return -$Head/Camera.global_transform.basis.z
@@ -35,34 +40,37 @@ func _physics_process(delta):
 
 
 func _handle_general_input(event):
-	if event is InputEventMouseMotion and rotating:
-		$Head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
-		
-		var change = -event.relative.y * mouse_sensitivity
-		
-		# Limit the view to between straight down and straight up
-		if change + $Head/Camera.rotation_degrees.x < 90 \
-				and change + $Head/Camera.rotation_degrees.x > -90:
-			$Head/Camera.rotate_x(deg2rad(change))
-		
-		get_tree().set_input_as_handled()
-		
-	if event.is_action_pressed("pc_move_up"):
-		directions.up = true
-	elif event.is_action_released("pc_move_up"):
-		directions.up = false
-	if event.is_action_pressed("pc_move_down"):
-		directions.down = true
-	elif event.is_action_released("pc_move_down"):
-		directions.down = false
-	if event.is_action_pressed("pc_move_left"):
-		directions.left = true
-	elif event.is_action_released("pc_move_left"):
-		directions.left = false
-	if event.is_action_pressed("pc_move_right"):
-		directions.right = true
-	elif event.is_action_released("pc_move_right"):
-		directions.right = false
+	if $ActionHandler.has_action():
+		$ActionHandler.action(event)
+	else:
+		if event is InputEventMouseMotion and rotating:
+			$Head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
+			
+			var change = -event.relative.y * mouse_sensitivity
+			
+			# Limit the view to between straight down and straight up
+			if change + $Head/Camera.rotation_degrees.x < 90 \
+					and change + $Head/Camera.rotation_degrees.x > -90:
+				$Head/Camera.rotate_x(deg2rad(change))
+			
+			get_tree().set_input_as_handled()
+			
+		if event.is_action_pressed("pc_move_up"):
+			directions.up = true
+		elif event.is_action_released("pc_move_up"):
+			directions.up = false
+		if event.is_action_pressed("pc_move_down"):
+			directions.down = true
+		elif event.is_action_released("pc_move_down"):
+			directions.down = false
+		if event.is_action_pressed("pc_move_left"):
+			directions.left = true
+		elif event.is_action_released("pc_move_left"):
+			directions.left = false
+		if event.is_action_pressed("pc_move_right"):
+			directions.right = true
+		elif event.is_action_released("pc_move_right"):
+			directions.right = false
 
 
 

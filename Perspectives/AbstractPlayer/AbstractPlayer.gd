@@ -9,6 +9,11 @@ var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 var position_manager: PositionManager
 
 
+func teleport(pos: Vector3):
+	logger.info("Teleporting player %s to coordinates: %s" % [name, pos])
+	transform.origin = pos
+
+
 func _input(event):
 	# Check abstract general input, then overwritten general input, then abstract viewport input,
 	#  then overwritten viewport input
