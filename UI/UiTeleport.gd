@@ -18,9 +18,9 @@ func set_player(player):
 func _on_toggle(toggled: bool):
 	pressed = toggled
 	if toggled:
-		pc_player.get_node("ActionHandler").set_current_mode("teleport")
+		pc_player.action_handler.set_current_mode("teleport")
 	else:
-		pc_player.get_node("ActionHandler").stop_current_mode()
+		pc_player.action_handler.stop_current_mode()
 		$WindowDialog.hide()
 
 

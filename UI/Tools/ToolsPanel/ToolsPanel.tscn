@@ -33,13 +33,6 @@ shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="ShaderMaterial" id=8]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
 [sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 9 )
@@ -69,6 +62,13 @@ shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="ShaderMaterial" id=7]
+resource_local_to_scene = true
+shader = ExtResource( 9 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=8]
 resource_local_to_scene = true
 shader = ExtResource( 9 )
 shader_param/color = Vector3( 0, 0, 0 )
@@ -123,13 +123,13 @@ script = ExtResource( 10 )
 visible = false
 
 [node name="ArrowUp" parent="ScrollContainer/ToolsBar/Teleport/PoI/Arrows" index="1"]
-material = SubResource( 8 )
+material = SubResource( 3 )
 
 [node name="ArrowDown" parent="ScrollContainer/ToolsBar/Teleport/PoI/Arrows" index="3"]
-material = SubResource( 8 )
+material = SubResource( 3 )
 
 [node name="Season" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 3 )
+material = SubResource( 4 )
 margin_top = 160.0
 margin_right = 72.0
 margin_bottom = 232.0
@@ -144,7 +144,7 @@ margin_bottom = 72.0
 rect_min_size = Vector2( 216, 72 )
 
 [node name="Tracking" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 4 )
+material = SubResource( 5 )
 margin_top = 240.0
 margin_right = 72.0
 margin_bottom = 312.0
@@ -155,7 +155,7 @@ texture_name = "footprint"
 visible = false
 
 [node name="Imaging" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 5 )
+material = SubResource( 6 )
 margin_top = 320.0
 margin_right = 72.0
 margin_bottom = 392.0
@@ -166,7 +166,7 @@ texture_name = "camera"
 visible = false
 
 [node name="Assets" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 6 )
+material = SubResource( 7 )
 margin_top = 400.0
 margin_right = 72.0
 margin_bottom = 472.0
@@ -177,7 +177,7 @@ texture_name = "construction"
 visible = false
 
 [node name="Style" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 7 )
+material = SubResource( 8 )
 margin_top = 480.0
 margin_right = 72.0
 margin_bottom = 552.0
