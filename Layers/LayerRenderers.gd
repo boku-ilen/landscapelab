@@ -1,46 +1,60 @@
-extends Configurator
+extends Spatial
 
 
-var layer_renderer = preload("res://Layers/LayerRenderer.tscn")
-var terrain_renderer = preload("res://Layers/Renderers/Terrain/TerrainRenderer.tscn")
-var polygon_renderer = preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn")
-var raster_vegetation_renderer = preload("res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.tscn")
-var object_renderer = preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn")
+var position_manager: PositionManager setget set_position_manager, get_position_manager
 
-onready var layer_renderers = get_parent()
+# Used if no position manager is injected
+export(bool) var apply_default_center = false
+export(Array, int) var default_center = [0, 0]
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	# There may be some rendered layers which were added before this _ready.
-	for layer in Layers.get_rendered_layers():
-		add_layer(layer)
+func set_position_manager(new_manager: PositionManager):
+	position_manager = new_manager
+	apply_center()
+
+
+func get_position_manager() -> PositionManager:
+	return position_manager
+
+
+func add_child(child: Node, legible_unique_name: bool = false):
+	if not position_manager and not apply_default_center:
+		logger.info("Adding child %s to %s, but not yet loading its data due to no available center position"
+				% [child.name, name])
+		.add_child(child, legible_unique_name)
+		return
 	
-	# For future layers, use a signal.
-	Layers.connect("new_rendered_layer", self, "add_layer")
-	Layers.connect("removed_rendered_layer", self, "remove_layer")
-
-
-func add_layer(layer: Layer):
-	var new_layer
+	# Give the child a center position
+	if position_manager:
+		# Apply the center position from the PositionManager
+		child.center = position_manager.get_center()
+	elif apply_default_center:
+		# Apply the default center for use without a PositionManager
+		child.center = default_center
+		
 	
-	if layer.render_type == Layer.RenderType.TERRAIN:
-		new_layer = terrain_renderer.instance()
-	elif layer.render_type == Layer.RenderType.POLYGON:
-		new_layer = polygon_renderer.instance()
-	elif layer.render_type == Layer.RenderType.VEGETATION:
-		new_layer = raster_vegetation_renderer.instance()
-	elif layer.render_type == Layer.RenderType.OBJECT:
-		new_layer = object_renderer.instance()
-	else:
-		# TODO
-		new_layer = layer_renderer.instance()
+	# Start loading its data
+	# FIXME: Start a thread with this
+	child.load_new_data() # FIXME: Run in thread
 	
-	new_layer.layer = layer
-	new_layer.name = layer.name
+	# Actually add the child node to the tree
+	.add_child(child, legible_unique_name)
 	
-	layer_renderers.add_child(new_layer)
+	# Apply the data
+	# FIXME: Do this once all load_new_data threads are done!
+	child.apply_new_data()
 
 
-func remove_layer(name_to_remove):
-	layer_renderers.get_node(name_to_remove).queue_free()
+# Apply a new center position to all child nodes
+func apply_center():
+	logger.info("Applying new center center to all children in %s" % [name])
+	
+	for renderer in get_children():
+		if renderer is LayerRenderer:
+			renderer.center = position_manager.get_center()
+			renderer.load_new_data() # FIXME: Run in a thread
+	
+	# FIXME: Do after all data loading is done
+	for renderer in get_children():
+		if renderer is LayerRenderer:
+			renderer.apply_new_data()
