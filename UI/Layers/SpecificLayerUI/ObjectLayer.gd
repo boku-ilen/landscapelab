@@ -41,13 +41,9 @@ func assign_specific_layer_info(layer: Layer):
 
 	var file2Check = File.new()
 	var is_valid_spatial = file2Check.file_exists(file_path_object_scene.text)
-<<<<<<< HEAD
-	if !is_valid_spatial:
-		print_warning("Object scene is not a valid scene!")
-=======
+	
 	if !validate(objects) or !validate(height) or !is_valid_spatial:
 		print_warning("Invalid layers!")
->>>>>>> e1676f8788c962ffed85820cc59c5198cf2ee977
 		return
 
 	var height_layer = RasterLayer.new()
