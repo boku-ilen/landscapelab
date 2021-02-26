@@ -11,3 +11,4 @@ var cursor
 func _process(delta):
 	if cursor.is_colliding():
 		$Node/Particle.transform.origin = cursor.get_collision_point()
+		$Node/OmniLight.transform.origin = cursor.get_collision_point()

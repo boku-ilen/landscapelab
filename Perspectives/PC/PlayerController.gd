@@ -24,10 +24,13 @@ var directions = {
 	"left": false
 }
 
+onready var action_handler = $ActionHandler
+
 
 func _ready():
 	$ActionHandler.player = self
 	$ActionHandler.cursor = $Head/Camera/MousePoint/InteractRay
+	$ActionHandler.collision_indicator = $Head/Camera/MousePoint/MouseCollisionIndicator
 
 
 func get_look_direction():

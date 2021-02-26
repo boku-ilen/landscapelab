@@ -2,6 +2,7 @@ extends Node
 
 
 var cursor: RayCast
+var collision_indicator: Spatial
 var player: AbstractPlayer
 
 var current_mode: String
@@ -25,6 +26,9 @@ func has_action() -> bool:
 	return current_mode != ""
 
 
+# This should solely be used for things that need an input inside the player's
+# script, and actually handles this via callbacks. Other functionalities that 
+# do not require a direct input (e.g. viewshed) should be handled sperately.
 func action(event):
 	if has_method(current_mode):
 		call(current_mode, event)
@@ -34,3 +38,7 @@ func teleport(event):
 	if event.is_action_pressed("teleport_player"):
 		player.teleport(cursor.get_collision_point() + Vector3(0, 2, 0))
 		emit_signal("teleport_finished")
+
+
+func enable_viewshed(enabled: bool):
+	collision_indicator.get_node("Node/OmniLight").visible = enabled
