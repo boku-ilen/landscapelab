@@ -4,28 +4,26 @@ var radius = 1000
 var max_features = 50
 
 
-func _ready():
-	# get_features_near_position(pos_x: float, pos_y: float, radius: float, max_features: int)
-	# add `object` instances at those positions
-	# if asset_to_spawn:
-	#	var instance = asset_to_spawn.instance()
-	#	instance.transform.origin = geopoint.get_offset_vector3(pos_manager.x, 0, -pos_manager.z)
-	if not layer is FeatureLayer or not layer.is_valid():
-		logger.error("ObjectRenderer was given an invalid layer!")
-	
-	# TODO: Move this position out, pass it from the World node down to here
-	var pos_x = 420776.711
-	var pos_y = 453197.501
-	
-	var features = layer.get_features_near_position(pos_x, pos_y, radius, max_features)
+func load_new_data():
+	var features = layer.get_features_near_position(center[0], center[1], radius, max_features)
 	
 	for feature in features:
 		var instance = layer.render_info.object.instance()
 		
-		var local_object_pos = feature.get_offset_vector3(-pos_x, 0, -pos_y)
+		var local_object_pos = feature.get_offset_vector3(-center[0], 0, -center[1])
 		local_object_pos.y = layer.render_info.ground_height_layer.get_value_at_position(
-			pos_x + local_object_pos.x, pos_y - local_object_pos.z)
+			center[0] + local_object_pos.x, center[1] - local_object_pos.z)
 		
 		instance.transform.origin = local_object_pos
 		
 		add_child(instance)
+
+
+func apply_new_data():
+	# FIXME: add_children here instead of in load_new_data!
+	pass
+
+
+func _ready():
+	if not layer is FeatureLayer or not layer.is_valid():
+		logger.error("ObjectRenderer was given an invalid layer!")

@@ -10,13 +10,9 @@ var fallback_height = 10
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	# TODO: Move this position out, pass it from the World node down to here
-	var pos_x = 420776.711
-	var pos_y = 453197.501
-	
+func load_new_data():
 	# Extract features
-	var features = layer.get_features_near_position(pos_x, pos_y, 1000, 1000)
+	var features = layer.get_features_near_position(center[0], center[1], 1000, 1000)
 	var height_attribute_name = layer.render_info.height_attribute_name
 	
 	# Create the buildings
@@ -42,7 +38,7 @@ func _ready():
 		# Set parameters in the building base
 		building.set_footprint(polygon)
 		building.set_holes(holes)
-		building.set_offset(pos_x, pos_y)
+		building.set_offset(center[0], center[1])
 		
 		# Build!
 		building.build()
@@ -52,11 +48,16 @@ func _ready():
 	set_heights()
 
 
+func apply_new_data():
+	# FIXME: Only add_childs here, not in load_new_data!
+	pass
+
+
 func set_heights():
 	var height_layer = layer.render_info.ground_height_layer
 	
 	for building in get_children():
 		building.translation.y = height_layer.get_value_at_position(
-			building.get_center().x + 420776.711,
-			-building.get_center().z + 453197.501
+			building.get_center().x + center[0],
+			-building.get_center().z + center[1]
 		)

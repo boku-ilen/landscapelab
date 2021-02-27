@@ -18,7 +18,7 @@ func init_specific_layer_info(layer: Layer):
 	pass
 
 
-func print_warning(warning_text: String):
+func print_warning(warning_text: String = ""):
 	warning.visible = true
 	warning.text = warning_text
 	logger.warning(warning_text)

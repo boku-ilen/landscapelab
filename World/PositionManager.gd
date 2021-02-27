@@ -30,8 +30,8 @@ var is_fullscreen: bool = false
 var shift_limit: float = Settings.get_setting("lod", "world-shift-distance")
 
 # The offset
-var x: int = 0
-var z: int = 0
+var x: int = 420776
+var z: int = 453197
 
 
 func _ready():
@@ -95,6 +95,10 @@ func set_offset(new_x, new_z):
 	z = new_z
 	
 	logger.debug("New offset: %d, %d" % [x, z])
+
+
+func get_center():
+	return [x, z]
 
 
 # Converts engine coordinates to world coordinates (absolute webmercator coordinates).
