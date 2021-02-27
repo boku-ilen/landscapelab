@@ -70,11 +70,6 @@ signal overlay_updated
 signal vr_enable
 signal vr_disable
 
-# set the tracking modes
-signal tracking_start
-signal tracking_pause
-signal tracking_stop
-
 # energy details mode (incl. tooltips)
 signal energy_details_enabled
 signal energy_details_disabled
