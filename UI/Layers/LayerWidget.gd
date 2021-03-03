@@ -2,9 +2,11 @@ extends Control
 
 # Dependency comes from the LayerRenderers-Node which should always be above in the tree
 var layer: Layer
-var raster_icon = preload("res://Resources/Icons/ColorOpenMoji/raster.svg")
-var feature_icon = preload("res://Resources/Icons/ColorOpenMoji/vector.svg")
-var terrain_icon = preload("res://Resources/Icons/ColorOpenMoji/world.svg")
+
+# FIXME: Get the folder (like "ModernLandscapeLab") from a global setting, like AutoTextureButton
+var raster_icon = preload("res://Resources/Icons/ModernLandscapeLab/raster.svg")
+var feature_icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
+var terrain_icon = preload("res://Resources/Icons/ModernLandscapeLab/world.svg")
 
 onready var icon = get_node("RightContainer/Icon")
 onready var visibility_button = get_node("RightContainer/VisibilityBox/VisibilityButton")

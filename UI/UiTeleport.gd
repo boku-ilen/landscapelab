@@ -1,4 +1,5 @@
 extends "res://UI/Tools/ToolsButton.gd"
+tool
 
 
 var pc_player: AbstractPlayer setget set_player
@@ -7,7 +8,9 @@ var pos_manager
 
 func _ready():
 	connect("toggled", self, "_on_toggle")
-	$WindowDialog/PoI/VBoxContainer/ItemList.connect("item_activated", self, "_on_poi_activated")
+	
+	if has_node("WindowDialog/PoI/VBoxContainer/ItemList"):
+		$WindowDialog/PoI/VBoxContainer/ItemList.connect("item_activated", self, "_on_poi_activated")
 
 
 func set_player(player):

@@ -10,7 +10,7 @@ class_name AutoTextureButton
 # Also provides additional functionality for styling buttons such as rotating.
 #
 
-var icon_folder = "ColorOpenMoji" # TODO: Global setting
+var icon_folder = "ModernLandscapeLab" # TODO: Global setting
 
 export(String) var texture_name setget set_texture_name, get_texture_name
 

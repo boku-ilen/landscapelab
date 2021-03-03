@@ -1,12 +1,12 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://UI/Layers/LayerUI.gd" type="Script" id=1]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/delete_file.svg" type="Texture" id=2]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/delete_file.svg" type="Texture" id=2]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/new_file.svg" type="Texture" id=4]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/new_file.svg" type="Texture" id=4]
 [ext_resource path="res://UI/Layers/LayerUIConfig.gd" type="Script" id=5]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/filter.svg" type="Texture" id=6]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=7]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/filter.svg" type="Texture" id=8]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -51,7 +51,7 @@ margin_bottom = 484.0
 
 [node name="ScrollLayers" type="ScrollContainer" parent="VBoxContainer"]
 margin_right = 232.0
-margin_bottom = 390.0
+margin_bottom = 421.0
 rect_min_size = Vector2( 0, 200 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -64,29 +64,32 @@ __meta__ = {
 }
 
 [node name="Menu" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 398.0
+margin_top = 429.0
 margin_right = 232.0
 margin_bottom = 470.0
 
 [node name="NewLayer" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
 material = SubResource( 1 )
-margin_right = 72.0
-margin_bottom = 72.0
+margin_right = 38.0
+margin_bottom = 41.0
 texture_normal = ExtResource( 4 )
+texture_name = "new_file"
 
 [node name="DeleteLayer" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
 material = SubResource( 2 )
-margin_left = 80.0
-margin_right = 152.0
-margin_bottom = 72.0
+margin_left = 46.0
+margin_right = 84.0
+margin_bottom = 41.0
 texture_normal = ExtResource( 2 )
+texture_name = "delete_file"
 
 [node name="Filter" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
 material = SubResource( 3 )
-margin_left = 160.0
-margin_right = 232.0
-margin_bottom = 72.0
-texture_normal = ExtResource( 8 )
+margin_left = 92.0
+margin_right = 129.0
+margin_bottom = 41.0
+texture_normal = ExtResource( 6 )
+texture_name = "filter"
 
 [node name="FilterOptions" type="PopupMenu" parent="VBoxContainer/Menu/Filter"]
 margin_right = 40.0

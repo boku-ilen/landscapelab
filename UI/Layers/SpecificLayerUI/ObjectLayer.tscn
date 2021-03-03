@@ -102,6 +102,10 @@ margin_right = 666.0
 margin_left = 674.0
 margin_right = 775.0
 
+[node name="FileDialog" parent="RightBox/ObjectChooser/Button" index="0"]
+current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
+current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
+
 [node name="Warning" parent="RightBox" instance=ExtResource( 4 )]
 visible = false
 margin_top = 154.0

@@ -1,4 +1,5 @@
 extends "res://UI/CustomElements/AutoTextureButton.gd"
+tool
 
 
 #
