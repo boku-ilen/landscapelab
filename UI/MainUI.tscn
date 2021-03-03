@@ -185,8 +185,9 @@ script = ExtResource( 11 )
 
 [node name="FullscreenButton" parent="MarginContainer/Split/Right/Mid/WorldViewPort" instance=ExtResource( 13 )]
 material = SubResource( 2 )
-margin_right = 72.0
-margin_bottom = 72.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
 texture_normal = ExtResource( 15 )
 texture_name = "fullscreen"
 
@@ -304,6 +305,8 @@ margin_bottom = 80.0
 rect_min_size = Vector2( 80, 80 )
 toggle_mode = true
 texture_normal = ExtResource( 4 )
+expand = false
+stretch_mode = 0
 texture_name = "vr"
 default_color = Color( 0, 0, 0, 1 )
 signal_pressed = "vr_enable"

@@ -51,7 +51,7 @@ margin_bottom = 484.0
 
 [node name="ScrollLayers" type="ScrollContainer" parent="VBoxContainer"]
 margin_right = 232.0
-margin_bottom = 421.0
+margin_bottom = 422.0
 rect_min_size = Vector2( 0, 200 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -64,30 +64,32 @@ __meta__ = {
 }
 
 [node name="Menu" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 429.0
+margin_top = 430.0
 margin_right = 232.0
 margin_bottom = 470.0
 
 [node name="NewLayer" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
 material = SubResource( 1 )
-margin_right = 38.0
-margin_bottom = 41.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
 texture_normal = ExtResource( 4 )
 texture_name = "new_file"
 
 [node name="DeleteLayer" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
 material = SubResource( 2 )
-margin_left = 46.0
-margin_right = 84.0
-margin_bottom = 41.0
+margin_left = 48.0
+margin_right = 88.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
 texture_normal = ExtResource( 2 )
 texture_name = "delete_file"
 
 [node name="Filter" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
 material = SubResource( 3 )
-margin_left = 92.0
-margin_right = 129.0
-margin_bottom = 41.0
+margin_left = 96.0
+margin_right = 96.0
+margin_bottom = 40.0
 texture_normal = ExtResource( 6 )
 texture_name = "filter"
 

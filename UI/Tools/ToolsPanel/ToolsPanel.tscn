@@ -1,9 +1,10 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/locomotion.svg" type="Texture" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/footprint.svg" type="Texture" id=2]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/camera.svg" type="Texture" id=3]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/paintbrush.svg" type="Texture" id=4]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" type="Texture" id=5]
 [ext_resource path="res://UI/Tools/ToolsButton.tscn" type="PackedScene" id=7]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=9]
 [ext_resource path="res://UI/UiTeleport.gd" type="Script" id=10]
@@ -15,11 +16,18 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 9 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 9 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 9 )
 shader_param/color = Vector3( 0, 0, 0 )
@@ -54,13 +62,6 @@ shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="ShaderMaterial" id=8]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
 [node name="ToolsPanel" type="VBoxContainer"]
 anchor_right = 0.129
 anchor_bottom = 0.694
@@ -85,63 +86,56 @@ size_flags_vertical = 15
 scroll_horizontal_enabled = false
 
 [node name="ToolsBar" type="VBoxContainer" parent="ScrollContainer"]
-margin_right = 58.0
-margin_bottom = 278.0
+margin_right = 25.0
+margin_bottom = 258.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
 [node name="Viewshed" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 1 )
-margin_right = 58.0
-margin_bottom = 0.0
+texture_normal = ExtResource( 5 )
 script = ExtResource( 20 )
 texture_name = "eyes"
 
 [node name="Teleport" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 2 )
-margin_top = 8.0
-margin_right = 58.0
-margin_bottom = 40.0
+margin_top = 38.0
+margin_bottom = 68.0
 texture_normal = ExtResource( 1 )
 script = ExtResource( 10 )
 texture_name = "locomotion"
 
 [node name="Season" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 4 )
-margin_top = 48.0
-margin_right = 58.0
-margin_bottom = 93.0
+material = SubResource( 3 )
+margin_top = 76.0
+margin_bottom = 106.0
 texture_normal = ExtResource( 17 )
 texture_name = "clock"
 
 [node name="Tracking" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 5 )
-margin_top = 101.0
-margin_right = 58.0
-margin_bottom = 154.0
+material = SubResource( 4 )
+margin_top = 114.0
+margin_bottom = 144.0
 texture_normal = ExtResource( 2 )
 texture_name = "footprint"
 
 [node name="Imaging" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 6 )
-margin_top = 162.0
-margin_right = 58.0
-margin_bottom = 185.0
+material = SubResource( 5 )
+margin_top = 152.0
+margin_bottom = 182.0
 texture_normal = ExtResource( 3 )
 texture_name = "camera"
 
 [node name="Assets" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 7 )
-margin_top = 193.0
-margin_right = 58.0
-margin_bottom = 233.0
+material = SubResource( 6 )
+margin_top = 190.0
+margin_bottom = 220.0
 texture_normal = ExtResource( 12 )
 texture_name = "construction"
 
 [node name="Style" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 8 )
-margin_top = 241.0
-margin_right = 58.0
-margin_bottom = 278.0
+material = SubResource( 7 )
+margin_top = 228.0
+margin_bottom = 258.0
 texture_normal = ExtResource( 4 )
 texture_name = "paintbrush"

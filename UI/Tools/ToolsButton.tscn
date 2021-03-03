@@ -13,6 +13,9 @@ shader_param/color_length_modulate_threshold = 1.5
 
 [node name="ToolsButton" instance=ExtResource( 1 )]
 material = SubResource( 1 )
+margin_right = 25.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 25, 30 )
 mouse_filter = 1
 toggle_mode = true
 script = ExtResource( 2 )

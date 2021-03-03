@@ -6,7 +6,7 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 3 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
@@ -14,6 +14,8 @@ shader_param/color_length_modulate_threshold = 1.5
 material = SubResource( 1 )
 margin_right = -1920.0
 margin_bottom = -1080.0
+expand = true
+stretch_mode = 5
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
