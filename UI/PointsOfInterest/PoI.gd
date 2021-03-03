@@ -27,8 +27,11 @@ func _ready():
 	# FIXME: Load POIs from GeoPackage
 	#_load_pois()
 	
-	item_list.add_item("text")
+	item_list.add_item("actual coordinates")
 	item_list.set_item_metadata(0, [422699, 450292])
+	
+	item_list.add_item("0,0 coordinates")
+	item_list.set_item_metadata(1, [0, 0])
 
 
 # FIXME: Adapt to GeoPackage

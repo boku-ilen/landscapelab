@@ -3,8 +3,10 @@ extends ViewportContainer
 
 func _ready():
 	$FullscreenButton.connect("pressed", self, "on_fullscreen")
-	connect("focus_entered", self, "_disable_in_input", [false])
-	connect("focus_exited", self, "_disable_in_input", [true])
+	connect("focus_entered", self, "_disable_input", [false])
+	connect("focus_exited", self, "_disable_input", [true])
+	connect("mouse_entered", self, "_disable_input", [false])
+	connect("mouse_exited", self, "_disable_input", [true])
 
 
 func on_fullscreen():
@@ -21,6 +23,8 @@ func _enter_tree():
 		$Viewport.add_child(world)
 
 
-func _disable_in_input(disable: bool):
+func _disable_input(disable: bool):
 	logger.info("Gui input disable: " + String(disable))
 	$Viewport.gui_disable_input = disable
+	if disable:
+		$Viewport/World/FirstPersonPC.stop_movement()

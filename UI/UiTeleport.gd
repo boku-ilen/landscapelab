@@ -4,6 +4,17 @@ tool
 
 var pc_player: AbstractPlayer setget set_player
 var pos_manager
+var teleport_action
+
+class TeleportAction extends ActionHandler.Action:
+	var cursor
+	
+	func _init(c, p, b).(p, b):
+		cursor = c
+	
+	func apply(event):
+		if event.is_action_pressed("teleport_player"):
+			player.teleport(cursor.get_collision_point() + Vector3.UP * 3)
 
 
 func _ready():
@@ -15,15 +26,15 @@ func _ready():
 
 func set_player(player):
 	pc_player = player
-	pc_player.get_node("ActionHandler").connect("teleport_finished", self, "_on_toggle", [false])
+	teleport_action = TeleportAction.new(pc_player.action_handler.cursor, pc_player, false)#, pc_player.action_handler.cursor)
 
 
 func _on_toggle(toggled: bool):
 	pressed = toggled
 	if toggled:
-		pc_player.action_handler.set_current_mode("teleport")
+		pc_player.action_handler.set_current_action(teleport_action)
 	else:
-		pc_player.action_handler.stop_current_mode()
+		pc_player.action_handler.stop_current_action()
 		$WindowDialog.hide()
 
 

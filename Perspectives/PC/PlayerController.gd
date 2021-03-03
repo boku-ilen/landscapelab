@@ -33,6 +33,12 @@ func _ready():
 	$ActionHandler.collision_indicator = $Head/Camera/MousePoint/MouseCollisionIndicator
 
 
+# Immediately stop all movement from directions dict
+func stop_movement():
+	for dir in directions:
+		directions[dir] = false
+
+
 func get_look_direction():
 	# TODO: The x-coordinate seems right, but the z-coordinate acts strangely...
 	return -$Head/Camera.global_transform.basis.z
@@ -43,9 +49,10 @@ func _physics_process(delta):
 
 
 func _handle_general_input(event):
-	if $ActionHandler.has_action():
+	if $ActionHandler.has_blocking_action():
 		$ActionHandler.action(event)
 	else:
+		$ActionHandler.action(event)
 		if event is InputEventMouseMotion and rotating:
 			$Head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
 			
