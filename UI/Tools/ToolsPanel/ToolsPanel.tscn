@@ -1,13 +1,10 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/clock.svg" type="Texture" id=1]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/pause.svg" type="Texture" id=2]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/play.svg" type="Texture" id=3]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/locomotion.svg" type="Texture" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/clock.svg" type="Texture" id=4]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" type="Texture" id=5]
 [ext_resource path="res://UI/Tracking/Record.tscn" type="PackedScene" id=6]
 [ext_resource path="res://UI/Tools/ToolsButton.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/stop.svg" type="Texture" id=8]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=9]
 [ext_resource path="res://UI/UiTeleport.gd" type="Script" id=10]
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.gd" type="Script" id=11]
@@ -16,7 +13,12 @@
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/construction.svg" type="Texture" id=14]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/paintbrush.svg" type="Texture" id=15]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/footprint.svg" type="Texture" id=16]
+[ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=17]
+[ext_resource path="res://UI/PointsOfInterest/PoI.tscn" type="PackedScene" id=18]
+[ext_resource path="res://UI/Imaging/ImagingMenu.tscn" type="PackedScene" id=19]
 [ext_resource path="res://UI/Viewshed/ViewshedButton.gd" type="Script" id=20]
+[ext_resource path="res://UI/EditableAssets/AssetsList.tscn" type="PackedScene" id=21]
+[ext_resource path="res://UI/RenderingStyle/RenderingStyleMenu.tscn" type="PackedScene" id=22]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -67,13 +69,6 @@ shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="ShaderMaterial" id=8]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
 [node name="ToolsPanel" type="VBoxContainer"]
 anchor_right = 0.129
 anchor_bottom = 0.694
@@ -116,7 +111,9 @@ margin_bottom = 68.0
 texture_normal = ExtResource( 1 )
 script = ExtResource( 10 )
 texture_name = "locomotion"
-default_color = Color( 0, 0, 0, 1 )
+
+[node name="PoI" parent="ScrollContainer/ToolsBar/Teleport" instance=ExtResource( 18 )]
+visible = false
 
 [node name="Season" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 3 )
@@ -124,6 +121,9 @@ margin_top = 76.0
 margin_bottom = 106.0
 texture_normal = ExtResource( 4 )
 texture_name = "clock"
+
+[node name="Datetime" parent="ScrollContainer/ToolsBar/Season" instance=ExtResource( 17 )]
+visible = false
 
 [node name="Tracking" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 4 )
@@ -138,43 +138,34 @@ disabled_color = Color( 0, 0, 0, 1 )
 focused_color = Color( 0, 0, 0, 1 )
 
 [node name="Record" parent="ScrollContainer/ToolsBar/Tracking" instance=ExtResource( 6 )]
-
-[node name="Play" parent="ScrollContainer/ToolsBar/Tracking/Record" index="0"]
-material = SubResource( 5 )
-margin_right = 0.0
-texture_normal = ExtResource( 3 )
-
-[node name="Pause" parent="ScrollContainer/ToolsBar/Tracking/Record" index="1"]
 visible = false
-material = SubResource( 5 )
-texture_normal = ExtResource( 2 )
-
-[node name="Stop" parent="ScrollContainer/ToolsBar/Tracking/Record" index="2"]
-visible = false
-material = SubResource( 5 )
-margin_left = 80.0
-margin_right = 152.0
-texture_normal = ExtResource( 8 )
 
 [node name="Imaging" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 6 )
+material = SubResource( 5 )
 margin_top = 152.0
 margin_bottom = 182.0
 texture_normal = ExtResource( 12 )
 texture_name = "camera"
 
+[node name="ImagingMenu" parent="ScrollContainer/ToolsBar/Imaging" instance=ExtResource( 19 )]
+visible = false
+
 [node name="Assets" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 7 )
+material = SubResource( 6 )
 margin_top = 190.0
 margin_bottom = 220.0
 texture_normal = ExtResource( 14 )
 texture_name = "construction"
 
+[node name="List" parent="ScrollContainer/ToolsBar/Assets" instance=ExtResource( 21 )]
+visible = false
+
 [node name="Style" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 8 )
+material = SubResource( 7 )
 margin_top = 228.0
 margin_bottom = 258.0
 texture_normal = ExtResource( 15 )
 texture_name = "paintbrush"
 
-[editable path="ScrollContainer/ToolsBar/Tracking/Record"]
+[node name="RenderingStyleMenu" parent="ScrollContainer/ToolsBar/Style" instance=ExtResource( 22 )]
+visible = false

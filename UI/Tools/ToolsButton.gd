@@ -6,16 +6,18 @@ tool
 # Making a new toolbar-button requires a script that extends this class.
 #
 
-onready var my_popups = get_children()
-
 
 func _ready():
 	set_mouse_filter(MOUSE_FILTER_PASS) 
 	
-	set_popups_container()
+	# To prevent the tool from removing this node in the editor do this only when it
+	# is not inside the editor
+	if not Engine.editor_hint:
+		set_popups_container()
 
 
 func set_popups_container():
+	var my_popups = get_children()
 	var max_min_size = Vector2(0,0)
 	for child in my_popups:
 		if child.name == "WindowDialog": continue
@@ -30,6 +32,5 @@ func set_popups_container():
 
 func _toggled(button_pressed):
 	if button_pressed:
-		if $WindowDialog.get_child_count():
+		if $WindowDialog.get_child_count() > 1:
 			$WindowDialog.popup(Rect2(rect_global_position, rect_size * rect_scale))
-
