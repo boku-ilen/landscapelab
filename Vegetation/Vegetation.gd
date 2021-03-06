@@ -11,15 +11,10 @@ const sprite_size = 1024
 const texture_size = 1024
 
 # FIXME: this should be settings and default to neutral paths
-# The default plant and group CSV definition files. See load_data_from_csv for the format.
-var plant_csv_path = "/home/karl/Nextcloud/Boku/new_veg/plants.csv"
-var group_csv_path = "/home/karl/Nextcloud/Boku/new_veg/groups.csv"
-
-# FIXME: this should be settings and default to neutral paths
 # Base folders for ground textures and billboard sprites -- entries in the definition CSVs are
 #  relative to these
-var ground_texture_base_path = "/home/karl/Downloads"
-var billboard_base_path = "/home/karl/Downloads/plants"
+var ground_texture_base_path = ""
+var billboard_base_path = ""
 
 # We assume all billboards to end with 'png' since they require transparency
 const BILLBOARD_ENDING = ".png"
@@ -34,10 +29,6 @@ var plants = {}
 var groups = {}
 
 signal new_data
-
-
-func _ready() -> void:
-	load_data_from_csv(plant_csv_path, group_csv_path)
 
 
 func add_plant(plant: Plant):

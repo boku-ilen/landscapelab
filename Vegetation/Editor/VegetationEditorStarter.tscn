@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Vegetation/Editor/VegetationEditorStarter.gd" type="Script" id=1]
+
+[node name="VegetationUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SetupPanel" type="PanelContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -148.5
+margin_top = -55.0
+margin_right = 148.5
+margin_bottom = 55.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons" type="VBoxContainer" parent="SetupPanel"]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 283.0
+margin_bottom = 96.0
+
+[node name="ChangePathButton" type="Button" parent="SetupPanel/Buttons"]
+margin_right = 269.0
+margin_bottom = 37.0
+text = "Change Paths"
+
+[node name="StartEditorButton" type="Button" parent="SetupPanel/Buttons"]
+margin_top = 45.0
+margin_right = 269.0
+margin_bottom = 82.0
+text = "Start Vegetation Editor"
