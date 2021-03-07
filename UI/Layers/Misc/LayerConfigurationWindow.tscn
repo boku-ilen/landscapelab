@@ -11,6 +11,7 @@ anchor_bottom = 1.0
 margin_right = -241.0
 margin_bottom = -226.0
 rect_min_size = Vector2( 600, 350 )
+popup_exclusive = true
 window_title = "Layer Configuration"
 resizable = true
 dialog_hide_on_ok = false
