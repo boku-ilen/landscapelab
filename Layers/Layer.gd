@@ -70,3 +70,4 @@ class PolygonRenderInfo extends RenderInfo:
 
 class PathRenderInfo extends RenderInfo:
 	var line_visualization: PackedScene
+	var ground_height_layer: Layer

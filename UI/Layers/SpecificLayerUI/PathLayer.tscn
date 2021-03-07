@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://UI/Fonts/TextBold.tres" type="DynamicFont" id=1]
 [ext_resource path="res://UI/Layers/Misc/GeodataChooser.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/Layers/SpecificLayerUI/PathLayer.gd" type="Script" id=3]
 [ext_resource path="res://Util/FileChooser.tscn" type="PackedScene" id=4]
 [ext_resource path="res://UI/Layers/Misc/ProfileEditor/ProfileEditor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://UI/Fonts/TextWarning.tres" type="DynamicFont" id=6]
 
 [node name="PathLayer" type="HSplitContainer"]
 margin_right = 1024.0
@@ -16,76 +17,90 @@ __meta__ = {
 }
 
 [node name="LeftBox" type="VBoxContainer" parent="."]
-margin_right = 150.0
-margin_bottom = 239.0
+margin_right = 224.0
+margin_bottom = 375.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Title" type="VBoxContainer" parent="LeftBox"]
-margin_right = 150.0
+margin_right = 224.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 
 [node name="Title" type="Label" parent="LeftBox/Title"]
-margin_right = 150.0
+margin_right = 224.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
 text = "Path-Layer"
 
 [node name="HSeparator" type="HSeparator" parent="LeftBox/Title"]
 margin_top = 31.0
-margin_right = 150.0
+margin_right = 224.0
 margin_bottom = 39.0
 
 [node name="Path-data" type="Label" parent="LeftBox"]
 margin_top = 58.0
-margin_right = 150.0
+margin_right = 224.0
 margin_bottom = 143.0
 rect_min_size = Vector2( 0, 85 )
 text = "Path-data:"
 
-[node name="Profile" type="Label" parent="LeftBox"]
+[node name="PathGroundHeight" type="Label" parent="LeftBox"]
 margin_top = 151.0
-margin_right = 150.0
-margin_bottom = 191.0
+margin_right = 224.0
+margin_bottom = 236.0
+rect_min_size = Vector2( 0, 85 )
+text = "Path-ground-height: "
+
+[node name="Profile" type="Label" parent="LeftBox"]
+margin_top = 244.0
+margin_right = 224.0
+margin_bottom = 284.0
 rect_min_size = Vector2( 0, 40 )
 text = "Profile:"
 
 [node name="ProfileEditor" type="Label" parent="LeftBox"]
-margin_top = 199.0
-margin_right = 150.0
-margin_bottom = 239.0
+margin_top = 292.0
+margin_right = 224.0
+margin_bottom = 332.0
 rect_min_size = Vector2( 0, 40 )
 text = "Profile-editor:"
 
 [node name="RightBox" type="VBoxContainer" parent="."]
-margin_left = 174.0
+margin_left = 248.0
 margin_right = 1024.0
-margin_bottom = 239.0
+margin_bottom = 375.0
 
 [node name="Spacer" type="Control" parent="RightBox"]
-margin_right = 850.0
+margin_right = 776.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 
-[node name="GeodataChooser" parent="RightBox" instance=ExtResource( 2 )]
+[node name="PathChooser" parent="RightBox" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 58.0
-margin_right = 850.0
+margin_right = 776.0
 margin_bottom = 143.0
 
-[node name="FileChooser" parent="RightBox" instance=ExtResource( 4 )]
+[node name="HeightChooser" parent="RightBox" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 151.0
-margin_right = 850.0
-margin_bottom = 191.0
+margin_right = 776.0
+margin_bottom = 236.0
+
+[node name="ProfileChooser" parent="RightBox" instance=ExtResource( 4 )]
+margin_top = 244.0
+margin_right = 776.0
+margin_bottom = 284.0
 filters = PoolStringArray( "*.tscn" )
 
 [node name="Button" type="Button" parent="RightBox"]
-margin_top = 199.0
+margin_top = 292.0
 margin_right = 101.0
-margin_bottom = 236.0
+margin_bottom = 329.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 0
 text = "Open..."
@@ -95,3 +110,12 @@ margin_left = -174.0
 margin_top = -199.0
 margin_right = 756.0
 margin_bottom = 301.0
+
+[node name="Warning" type="Label" parent="RightBox"]
+margin_top = 337.0
+margin_right = 776.0
+margin_bottom = 375.0
+custom_fonts/font = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
