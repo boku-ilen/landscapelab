@@ -26,7 +26,7 @@ func _ready():
 
 func set_player(player):
 	pc_player = player
-	teleport_action = TeleportAction.new(pc_player.action_handler.cursor, pc_player, false)#, pc_player.action_handler.cursor)
+	teleport_action = TeleportAction.new(pc_player.action_handler.cursor, pc_player, false)
 
 
 func _on_toggle(toggled: bool):
