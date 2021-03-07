@@ -22,8 +22,6 @@ var is_dragging: bool = false
 
 
 func _ready():
-	popup()
-	
 	new_profile_button.connect("pressed", self, "_add_profile")
 	remove_profile_button.connect("pressed", self, "_remove_profile")
 	change_view_button.connect("pressed", self, "_change_view")
