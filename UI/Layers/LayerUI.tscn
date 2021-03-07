@@ -88,8 +88,9 @@ texture_name = "delete_file"
 [node name="Filter" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
 material = SubResource( 3 )
 margin_left = 96.0
-margin_right = 96.0
+margin_right = 136.0
 margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
 texture_normal = ExtResource( 6 )
 texture_name = "filter"
 
