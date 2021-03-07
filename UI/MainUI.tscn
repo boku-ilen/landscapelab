@@ -199,11 +199,20 @@ gui_disable_input = true
 
 [node name="World" parent="MarginContainer/Split/Right/Mid/WorldViewPort/Viewport" instance=ExtResource( 12 )]
 
-[node name="TextEdit" type="TextEdit" parent="MarginContainer/Split/Right/Mid"]
+[node name="LayerConfigurator" parent="MarginContainer/Split/Right/Mid/WorldViewPort/Viewport/World" index="3"]
+geopackage_path = "C:\\boku\\geodata\\test_data\\LL_base.gpkg"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Split/Right/Mid"]
 margin_top = 847.0
 margin_right = 1308.0
 margin_bottom = 1047.0
+
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/Split/Right/Mid/HBoxContainer"]
+margin_right = 1175.0
+margin_bottom = 200.0
 rect_min_size = Vector2( 0, 200 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "Debug Info: House x,y spawned
 More messages
 More messages
@@ -212,6 +221,18 @@ More messages
 "
 readonly = true
 syntax_highlighting = true
+
+[node name="Position" type="Label" parent="MarginContainer/Split/Right/Mid/HBoxContainer"]
+margin_left = 1179.0
+margin_right = 1308.0
+margin_bottom = 83.0
+size_flags_vertical = 0
+text = "Engine-Position:
+
+Geo-Position:"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Split/Right/Mid"]
+margin_right = 1308.0
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/Split/Right"]
 margin_left = 1316.0

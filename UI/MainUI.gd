@@ -26,6 +26,15 @@ func _ready():
 	emit_signal("ui_loaded")
 
 
+func _process(delta):
+	var engine_pos = get_node(pc_player_path).transform.origin
+	var geo_pos = engine_pos + Vector3(get_node(pos_manager_path).x, 0, get_node(pos_manager_path).z)
+	var formatted = "Engine-Position: x=%.2f, y=%.2f, z=%.2f\n\nGeo-Position: x=%.2f, y=%.2f, z=%.2f"
+	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos.x, geo_pos.y, geo_pos.z]
+	
+	$MarginContainer/Split/Right/Mid/HBoxContainer/Position.text = formatted
+
+
 func _inject():
 	for dock in docks:
 		for child in dock.get_children():
