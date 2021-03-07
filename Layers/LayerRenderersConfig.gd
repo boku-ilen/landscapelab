@@ -6,6 +6,7 @@ var terrain_renderer = preload("res://Layers/Renderers/Terrain/TerrainRenderer.t
 var polygon_renderer = preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn")
 var raster_vegetation_renderer = preload("res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.tscn")
 var object_renderer = preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn")
+var path_renderer = preload("res://Layers/Renderers/Path/PathRenderer.tscn")
 
 onready var layer_renderers = get_parent()
 
@@ -32,6 +33,8 @@ func add_layer(layer: Layer):
 		new_layer = raster_vegetation_renderer.instance()
 	elif layer.render_type == Layer.RenderType.OBJECT:
 		new_layer = object_renderer.instance()
+	elif layer.render_type == Layer.RenderType.PATH:
+		new_layer = path_renderer.instance()
 	else:
 		# TODO
 		new_layer = layer_renderer.instance()

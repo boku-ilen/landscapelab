@@ -67,3 +67,6 @@ class ObjectRenderInfo extends RenderInfo:
 class PolygonRenderInfo extends RenderInfo:
 	var height_attribute_name
 	var ground_height_layer: Layer
+
+class PathRenderInfo extends RenderInfo:
+	var line_visualization: PackedScene
