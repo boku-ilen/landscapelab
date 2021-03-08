@@ -1,7 +1,7 @@
 extends Configurator
 
 
-var layer_widget = preload("res://UI/Layers/LayerWidget.tscn")
+var layer_widget = preload("res://UI/Layers/LayerConfiguration/LayerWidget.tscn")
 
 onready var layer_container = get_parent().get_node("VBoxContainer/ScrollLayers/LayerContainer")
 

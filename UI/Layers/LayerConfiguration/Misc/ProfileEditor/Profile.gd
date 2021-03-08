@@ -2,7 +2,7 @@ extends CSGPolygon
 tool
 
 
-var point_area = preload("res://UI/Layers/Misc/ProfileEditor/PolygonPoint.tscn")
+var point_area = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.tscn")
 var profile_polygon: Array
 
 

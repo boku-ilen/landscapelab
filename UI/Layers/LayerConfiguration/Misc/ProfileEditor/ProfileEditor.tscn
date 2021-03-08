@@ -2,7 +2,8 @@
 
 [ext_resource path="res://Util/FileChooser.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Util/GridPlane/GridPlane.tscn" type="PackedScene" id=2]
-[ext_resource path="res://UI/Layers/Misc/ProfileEditor/ProfileEditor.gd" type="Script" id=3]
+[ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/ProfileEditor.gd" type="Script" id=3]
+
 
 [sub_resource type="Curve3D" id=1]
 _data = {

@@ -39,7 +39,7 @@ func layer_popup(rect: Rect2, existing_layer: Layer = null):
 	if layer != null:
 		layer_name.text = layer.name
 		layer_type.selected = layer.render_type
-		specific_layer_ui = load("res://UI/Layers/SpecificLayerUI/%sLayer.tscn" % layer.RenderType.keys()[layer.render_type]).instance()
+		specific_layer_ui = load("res://UI/Layers/LayerConfiguration/SpecificLayerUI/%sLayer.tscn" % layer.RenderType.keys()[layer.render_type]).instance()
 		container.add_child(specific_layer_ui)
 		container.move_child(specific_layer_ui, 1)
 
@@ -96,7 +96,7 @@ func _on_type_select(idx: int):
 	if specific_layer_ui != null:
 		container.remove_child(specific_layer_ui)
 	
-	specific_layer_ui = load("res://UI/Layers/SpecificLayerUI/%sLayer.tscn" % type).instance()
+	specific_layer_ui = load("res://UI/Layers/LayerConfiguration/SpecificLayerUI/%sLayer.tscn" % type).instance()
 	container.add_child(specific_layer_ui)
 	container.move_child(specific_layer_ui, 1)
 	

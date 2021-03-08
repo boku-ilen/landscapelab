@@ -1,17 +1,17 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://UI/Layers/LayerWidget.gd" type="Script" id=1]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/eye_crossed.svg" type="Texture" id=2]
-[ext_resource path="res://UI/Layers/EditWindow.gd" type="Script" id=3]
+[ext_resource path="res://UI/Layers/LayerConfiguration/LayerWidget.gd" type="Script" id=1]
+[ext_resource path="res://UI/Layers/LayerConfiguration/EditWindow.gd" type="Script" id=2]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/eye_crossed.svg" type="Texture" id=3]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/three_points.svg" type="Texture" id=4]
-[ext_resource path="res://UI/Theme/LayerWidget.tres" type="Theme" id=5]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=7]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Resources/Fonts/Nunito/NunitoSans-Bold.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Resources/Fonts/Nunito/NunitoSans-Bold.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://UI/Theme/LayerWidget.tres" type="Theme" id=7]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=8]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
-shader = ExtResource( 7 )
+shader = ExtResource( 8 )
 shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
@@ -19,11 +19,11 @@ shader_param/color_length_modulate_threshold = 1.5
 [sub_resource type="DynamicFont" id=2]
 size = 20
 outline_size = 2
-font_data = ExtResource( 9 )
+font_data = ExtResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
-shader = ExtResource( 7 )
+shader = ExtResource( 8 )
 shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
@@ -34,7 +34,7 @@ margin_right = 728.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 20, 25 )
 focus_mode = 1
-theme = ExtResource( 5 )
+theme = ExtResource( 7 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -59,13 +59,13 @@ margin_right = 30.0
 margin_bottom = 30.0
 color = Color( 1, 1, 1, 0 )
 
-[node name="VisibilityButton" parent="RightContainer/VisibilityBox" instance=ExtResource( 8 )]
+[node name="VisibilityButton" parent="RightContainer/VisibilityBox" instance=ExtResource( 5 )]
 material = SubResource( 1 )
 margin_right = 30.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 30, 30 )
 toggle_mode = true
-texture_normal = ExtResource( 2 )
+texture_normal = ExtResource( 3 )
 texture_name = "eye_crossed"
 
 [node name="VSeparator" type="VSeparator" parent="RightContainer"]
@@ -108,7 +108,7 @@ rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
 alignment = 2
 
-[node name="Edit" parent="LeftContainer" instance=ExtResource( 8 )]
+[node name="Edit" parent="LeftContainer" instance=ExtResource( 5 )]
 material = SubResource( 3 )
 margin_left = 60.0
 margin_right = 100.0
@@ -120,11 +120,11 @@ texture_normal = ExtResource( 4 )
 texture_name = "three_points"
 
 [node name="EditMenu" type="PopupMenu" parent="."]
-margin_left = 158.0
-margin_right = 322.0
+margin_left = 248.0
+margin_right = 412.0
 margin_bottom = 65.0
 items = [ "Configure...", null, 0, false, false, 0, 0, null, "", false ]
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 
 [node name="ColorMenu" type="PopupMenu" parent="EditMenu"]
 margin_left = 4.71942

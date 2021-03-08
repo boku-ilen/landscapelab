@@ -6,7 +6,7 @@ var layer: Layer setget set_layer
 onready var color_menu = get_node("ColorMenu")
 onready var object_menu = get_node("ObjectMenu")
 
-var layer_config = preload("res://UI/Layers/Misc/LayerConfigurationWindow.tscn")
+var layer_config = preload("res://UI/Layers/LayerConfiguration/Misc/LayerConfigurationWindow.tscn")
 
 signal change_color_tag(color)
 signal change_object(object_scene)

@@ -13,8 +13,8 @@ onready var add_point_button = get_node("HSplitContainer/Vbox/AddPointButton")
 onready var remove_point_button = get_node("HSplitContainer/Vbox/RemovePointButton")
 onready var add_texture_button = get_node("HSplitContainer/Vbox/FileChooser/AddText")
 
-var profile = preload("res://UI/Layers/Misc/ProfileEditor/Profile.tscn")
-var poly_point = preload("res://UI/Layers/Misc/ProfileEditor/PolygonPoint.tscn")
+var profile = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Profile.tscn")
+var poly_point = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.tscn")
 var top_view: bool = false
 var current_point
 var current_profile: CSGPolygon

@@ -3,7 +3,7 @@ extends HBoxContainer
 
 var current_color: Color
 
-var auto_button = preload("res://UI/Layers/Misc/ColorButton.tscn")
+var auto_button = preload("res://UI/Layers/LayerConfiguration/Misc/ColorButton.tscn")
 
 onready var color_indicator = get_node("ColorRect")
 

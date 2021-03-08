@@ -1,12 +1,13 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://UI/Layers/LayerUI.gd" type="Script" id=1]
+[ext_resource path="res://UI/Layers/LayerConfiguration/LayerUI.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/delete_file.svg" type="Texture" id=2]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/new_file.svg" type="Texture" id=4]
-[ext_resource path="res://UI/Layers/LayerUIConfig.gd" type="Script" id=5]
+[ext_resource path="res://UI/Layers/LayerConfiguration/LayerUIConfig.gd" type="Script" id=5]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/filter.svg" type="Texture" id=6]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=7]
+
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true

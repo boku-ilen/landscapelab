@@ -1,13 +1,15 @@
 extends PanelContainer
 
 
+signal new_layer_selected(layer)
+
 var selected_layer = null # Is layer widget
 var filters = {
 	"Other": true,
 	"Scored": true,
 	"Rendered": true
 }
-var layer_config_window = preload("res://UI/Layers/Misc/LayerConfigurationWindow.tscn")
+var layer_config_window = preload("res://UI/Layers/LayerConfiguration/Misc/LayerConfigurationWindow.tscn")
 var current_config_window
 
 onready var new_button = get_node("VBoxContainer/Menu/NewLayer")
@@ -67,6 +69,7 @@ func _on_layer_select(event: InputEvent, layer_widget):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT and event.pressed:
 			selected_layer = layer_widget
+			emit_signal("new_layer_selected", layer_widget.layer)
 
 
 func _setup_filters():
