@@ -17,6 +17,7 @@ func _ready():
 	docks.append($MarginContainer/Split/Left/Left/Bot)
 	docks.append($MarginContainer/Split/Left/Right/Top)
 	docks.append($MarginContainer/Split/Left/Right/Bot)
+	docks.append($MarginContainer/Split/Right/Mid/VBoxContainer)
 	docks.append($MarginContainer/Split/Right/Right/Left/Top)
 	docks.append($MarginContainer/Split/Right/Right/Left/Bot)
 	docks.append($MarginContainer/Split/Right/Right/Right/Top)
