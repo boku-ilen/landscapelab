@@ -101,6 +101,16 @@ func add_test_data():
 #	windmill_layer.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
 #	windmill_layer.render_info.ground_height_layer = height_layer.clone()
 #	windmill_layer.name = "Windmills"
+#
+#	# Test Line Data
+#	var street_layer = FeatureLayer.new()
+#	var street_dataset = Geodot.get_dataset("C:\\boku\\geodata\\test_data\\ooe_line_test.shp")
+#	street_layer.geo_feature_layer = street_dataset.get_feature_layer("ooe_line_test")
+#	street_layer.render_type = Layer.RenderType.PATH
+#	street_layer.render_info = Layer.PathRenderInfo.new()
+#	street_layer.render_info.line_visualization = preload("res://Street.tscn")
+#	street_layer.name = "Streets"
+	
 	
 	# Add the layers
 	Layers.add_layer(height_layer)
@@ -111,4 +121,5 @@ func add_test_data():
 #	Layers.add_layer(landuse_layer)
 #	Layers.add_layer(vegetation_layer)
 #	Layers.add_layer(windmill_layer)
+#	Layers.add_layer(street_layer)
 

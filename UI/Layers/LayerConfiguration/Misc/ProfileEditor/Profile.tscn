@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Profile.gd" type="Script" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
+resource_local_to_scene = true
+flags_ensure_correct_normals = true
+
+[node name="Profile" type="CSGPolygon"]
+material_override = SubResource( 1 )
+polygon = PoolVector2Array( 1, 1, -1, 1, -1, 0, 1, 0 )
+mode = 2
+path_node = NodePath("")
+path_interval = 1.0
+path_rotation = 1
+path_local = false
+path_continuous_u = false
+path_joined = false
+script = ExtResource( 1 )

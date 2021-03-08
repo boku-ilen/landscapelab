@@ -14,6 +14,7 @@ shader_param/color_length_modulate_threshold = 1.5
 material = SubResource( 1 )
 margin_right = -1920.0
 margin_bottom = -1080.0
+rect_min_size = Vector2( 30, 30 )
 expand = true
 stretch_mode = 5
 script = ExtResource( 1 )

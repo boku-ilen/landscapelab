@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Perspectives/PC/MousePoint.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/PC/MouseFeedback/MouseCollisionIndicator.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Util/Imaging/DrawPath/DrawPath.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Util/Teleport/PlayerTeleport.gd" type="Script" id=5]
 
 [node name="MousePoint" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
@@ -15,8 +13,3 @@ cast_to = Vector3( 0, 0, 0 )
 collide_with_areas = true
 
 [node name="MouseCollisionIndicator" parent="." instance=ExtResource( 3 )]
-
-[node name="DrawPath" parent="." instance=ExtResource( 4 )]
-
-[node name="TeleportPlayer" type="Spatial" parent="."]
-script = ExtResource( 5 )

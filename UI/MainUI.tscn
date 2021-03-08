@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
@@ -9,12 +9,13 @@
 [ext_resource path="res://StartScene.tscn" type="PackedScene" id=7]
 [ext_resource path="res://UI/UISplit.gd" type="Script" id=8]
 [ext_resource path="res://UI/Theme/DarkTheme.tres" type="Theme" id=9]
-[ext_resource path="res://UI/Layers/LayerUI.tscn" type="PackedScene" id=10]
+[ext_resource path="res://UI/Layers/LayerConfiguration/LayerUI.tscn" type="PackedScene" id=10]
 [ext_resource path="res://UI/WorldViewPort.gd" type="Script" id=11]
 [ext_resource path="res://World/World.tscn" type="PackedScene" id=12]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=13]
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" type="Texture" id=15]
+[ext_resource path="res://UI/Layers/LayerManagement/LayerManagement.gd" type="Script" id=16]
 [ext_resource path="res://UI/ValuesMenu/ValuesMenu.tscn" type="PackedScene" id=19]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
 [ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
@@ -27,14 +28,14 @@ func _input(event):
 	pass
 "
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/color = Vector3( 0, 0, 0 )
@@ -52,24 +53,22 @@ script = ExtResource( 43 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-pc_player_path = NodePath("MarginContainer/Split/Right/Mid/WorldViewPort/Viewport/World/FirstPersonPC")
-pos_manager_path = NodePath("MarginContainer/Split/Right/Mid/WorldViewPort/Viewport/World")
+pc_player_path = NodePath("MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC")
+pos_manager_path = NodePath("MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-anchor_left = 0.01
-anchor_top = 0.01
-anchor_right = 0.98
-anchor_bottom = 0.98
-margin_left = -0.24
-margin_top = 0.24
+anchor_left = 0.005
+anchor_top = 0.005
+anchor_right = 0.995
+anchor_bottom = 0.995
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Split" type="HSplitContainer" parent="MarginContainer"]
-margin_right = 1862.0
-margin_bottom = 1047.0
+margin_right = 1900.0
+margin_bottom = 1069.0
 rect_pivot_offset = Vector2( 748.958, 413 )
 mouse_filter = 1
 __meta__ = {
@@ -78,12 +77,12 @@ __meta__ = {
 
 [node name="Left" type="HSplitContainer" parent="MarginContainer/Split"]
 margin_right = 238.0
-margin_bottom = 1047.0
+margin_bottom = 1069.0
 mouse_filter = 1
 
 [node name="Left" type="VSplitContainer" parent="MarginContainer/Split/Left"]
 margin_right = 130.0
-margin_bottom = 1047.0
+margin_bottom = 1069.0
 mouse_filter = 1
 script = ExtResource( 8 )
 
@@ -111,7 +110,7 @@ size_flags_vertical = 0
 [node name="Bot" type="TabContainer" parent="MarginContainer/Split/Left/Left"]
 margin_top = 421.0
 margin_right = 130.0
-margin_bottom = 1047.0
+margin_bottom = 1069.0
 tab_align = 0
 drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
@@ -132,7 +131,7 @@ focus_mode = 2
 [node name="Right" type="VSplitContainer" parent="MarginContainer/Split/Left"]
 margin_left = 138.0
 margin_right = 238.0
-margin_bottom = 1047.0
+margin_bottom = 1069.0
 rect_min_size = Vector2( 100, 0 )
 mouse_filter = 1
 script = ExtResource( 8 )
@@ -150,7 +149,7 @@ __meta__ = {
 [node name="Bot" type="TabContainer" parent="MarginContainer/Split/Left/Right"]
 margin_top = 51.0
 margin_right = 100.0
-margin_bottom = 1047.0
+margin_bottom = 1069.0
 rect_min_size = Vector2( 0, 200 )
 tab_align = 0
 drag_to_rearrange_enabled = true
@@ -161,21 +160,33 @@ __meta__ = {
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/Split"]
 margin_left = 246.0
-margin_right = 1862.0
-margin_bottom = 1047.0
+margin_right = 1900.0
+margin_bottom = 1069.0
 mouse_filter = 1
 split_offset = 839
 script = SubResource( 1 )
 
 [node name="Mid" type="VSplitContainer" parent="MarginContainer/Split/Right"]
-margin_right = 1308.0
-margin_bottom = 1047.0
+margin_right = 1346.0
+margin_bottom = 1069.0
 mouse_filter = 1
 size_flags_horizontal = 3
 
-[node name="WorldViewPort" type="ViewportContainer" parent="MarginContainer/Split/Right/Mid"]
-margin_right = 1308.0
-margin_bottom = 839.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Split/Right/Mid"]
+margin_right = 1346.0
+margin_bottom = 861.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LayerManagement" type="MarginContainer" parent="MarginContainer/Split/Right/Mid/VBoxContainer"]
+margin_right = 1346.0
+script = ExtResource( 16 )
+layer_ui_path = NodePath("../../../Right/Right/Bot/LayerUI")
+
+[node name="WorldViewPort" type="ViewportContainer" parent="MarginContainer/Split/Right/Mid/VBoxContainer"]
+margin_top = 4.0
+margin_right = 1346.0
+margin_bottom = 861.0
 rect_min_size = Vector2( 500, 500 )
 focus_mode = 2
 size_flags_horizontal = 3
@@ -183,27 +194,38 @@ size_flags_vertical = 3
 stretch = true
 script = ExtResource( 11 )
 
-[node name="FullscreenButton" parent="MarginContainer/Split/Right/Mid/WorldViewPort" instance=ExtResource( 13 )]
-material = SubResource( 2 )
+[node name="FullscreenButton" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort" instance=ExtResource( 13 )]
+material = SubResource( 3 )
 margin_right = 40.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 texture_normal = ExtResource( 15 )
 texture_name = "fullscreen"
 
-[node name="Viewport" type="Viewport" parent="MarginContainer/Split/Right/Mid/WorldViewPort"]
-size = Vector2( 1308, 839 )
+[node name="Viewport" type="Viewport" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
+size = Vector2( 1346, 857 )
 handle_input_locally = false
 render_target_update_mode = 3
 gui_disable_input = true
 
-[node name="World" parent="MarginContainer/Split/Right/Mid/WorldViewPort/Viewport" instance=ExtResource( 12 )]
+[node name="World" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport" instance=ExtResource( 12 )]
+center_node_path = NodePath("../../../VBoxContainer2/WorldViewPort/Viewport/World/FirstPersonPC")
 
-[node name="TextEdit" type="TextEdit" parent="MarginContainer/Split/Right/Mid"]
-margin_top = 847.0
-margin_right = 1308.0
-margin_bottom = 1047.0
+[node name="LayerConfigurator" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World" index="3"]
+geopackage_path = "C:\\boku\\geodata\\test_data\\LL_base.gpkg"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Split/Right/Mid"]
+margin_top = 869.0
+margin_right = 1346.0
+margin_bottom = 1069.0
+size_flags_vertical = 8
+
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/Split/Right/Mid/HBoxContainer"]
+margin_right = 1213.0
+margin_bottom = 200.0
 rect_min_size = Vector2( 0, 200 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "Debug Info: House x,y spawned
 More messages
 More messages
@@ -213,16 +235,25 @@ More messages
 readonly = true
 syntax_highlighting = true
 
+[node name="Position" type="Label" parent="MarginContainer/Split/Right/Mid/HBoxContainer"]
+margin_left = 1217.0
+margin_right = 1346.0
+margin_bottom = 83.0
+size_flags_vertical = 0
+text = "Engine-Position:
+
+Geo-Position:"
+
 [node name="Right" type="HSplitContainer" parent="MarginContainer/Split/Right"]
-margin_left = 1316.0
-margin_right = 1616.0
-margin_bottom = 1047.0
+margin_left = 1354.0
+margin_right = 1654.0
+margin_bottom = 1069.0
 rect_min_size = Vector2( 300, 0 )
 mouse_filter = 1
 
 [node name="Left" type="VSplitContainer" parent="MarginContainer/Split/Right/Right"]
 margin_right = 10.0
-margin_bottom = 1047.0
+margin_bottom = 1069.0
 mouse_filter = 1
 script = ExtResource( 8 )
 
@@ -236,7 +267,7 @@ script = ExtResource( 5 )
 [node name="Bot" type="TabContainer" parent="MarginContainer/Split/Right/Right/Left"]
 margin_top = 51.0
 margin_right = 10.0
-margin_bottom = 1047.0
+margin_bottom = 1069.0
 tab_align = 0
 drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
@@ -244,7 +275,7 @@ script = ExtResource( 5 )
 [node name="Right" type="VSplitContainer" parent="MarginContainer/Split/Right/Right"]
 margin_left = 18.0
 margin_right = 300.0
-margin_bottom = 1047.0
+margin_bottom = 1069.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -260,7 +291,7 @@ script = ExtResource( 5 )
 [node name="Bot" type="TabContainer" parent="MarginContainer/Split/Right/Right/Right"]
 margin_top = 51.0
 margin_right = 282.0
-margin_bottom = 1047.0
+margin_bottom = 1069.0
 tab_align = 0
 drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
@@ -293,13 +324,13 @@ __meta__ = {
 
 [node name="Top" type="HBoxContainer" parent="MarginContainer/Split/Right/Right/Right/Bot/More"]
 margin_right = 272.0
-margin_bottom = 953.0
+margin_bottom = 975.0
 grow_horizontal = 0
 grow_vertical = 0
 alignment = 2
 
 [node name="VR" parent="MarginContainer/Split/Right/Right/Right/Bot/More/Top" instance=ExtResource( 3 )]
-material = SubResource( 3 )
+material = SubResource( 4 )
 margin_right = 80.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 80, 80 )
@@ -321,7 +352,7 @@ margin_bottom = 80.0
 rect_min_size = Vector2( 80, 80 )
 
 [node name="DebugSettings" type="VBoxContainer" parent="MarginContainer/Split/Right/Right/Right/Bot/More"]
-margin_bottom = 953.0
+margin_bottom = 975.0
 size_flags_horizontal = 2
 
 [node name="DebugInfo" parent="MarginContainer/Split/Right/Right/Right/Bot/More/DebugSettings" instance=ExtResource( 14 )]
@@ -361,6 +392,6 @@ mouse_filter = 2
 [node name="GraphicContainer" parent="CenterContainer/StartScene" index="0"]
 visible = false
 
-[editable path="MarginContainer/Split/Right/Mid/WorldViewPort/Viewport/World"]
+[editable path="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World"]
 
 [editable path="CenterContainer/StartScene"]

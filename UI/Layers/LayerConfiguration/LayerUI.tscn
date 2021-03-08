@@ -1,0 +1,100 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://UI/Layers/LayerConfiguration/LayerUI.gd" type="Script" id=1]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/delete_file.svg" type="Texture" id=2]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/new_file.svg" type="Texture" id=4]
+[ext_resource path="res://UI/Layers/LayerConfiguration/LayerUIConfig.gd" type="Script" id=5]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/filter.svg" type="Texture" id=6]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=7]
+
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[node name="LayerUI" type="PanelContainer"]
+margin_right = 260.0
+margin_bottom = 498.0
+rect_scale = Vector2( 0.7, 0.7 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LayerUIConfig" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 246.0
+margin_bottom = 484.0
+
+[node name="ScrollLayers" type="ScrollContainer" parent="VBoxContainer"]
+margin_right = 232.0
+margin_bottom = 422.0
+rect_min_size = Vector2( 0, 200 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LayerContainer" type="VBoxContainer" parent="VBoxContainer/ScrollLayers"]
+margin_bottom = 200.0
+rect_min_size = Vector2( 0, 200 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 430.0
+margin_right = 232.0
+margin_bottom = 470.0
+
+[node name="NewLayer" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
+material = SubResource( 1 )
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+texture_normal = ExtResource( 4 )
+texture_name = "new_file"
+
+[node name="DeleteLayer" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
+material = SubResource( 2 )
+margin_left = 48.0
+margin_right = 88.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+texture_normal = ExtResource( 2 )
+texture_name = "delete_file"
+
+[node name="Filter" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
+material = SubResource( 3 )
+margin_left = 96.0
+margin_right = 136.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+texture_normal = ExtResource( 6 )
+texture_name = "filter"
+
+[node name="FilterOptions" type="PopupMenu" parent="VBoxContainer/Menu/Filter"]
+margin_right = 40.0
+margin_bottom = 40.0
