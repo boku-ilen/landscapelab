@@ -1,4 +1,4 @@
-extends Control
+extends BoxContainer
 
 # Dependency comes from the LayerRenderers-Node which should always be above in the tree
 var layer: Layer
@@ -49,3 +49,9 @@ func _change_color_tag(color: Color):
 
 func _layer_change_visibility(is_hidden: bool):
 	layer.is_visible = !is_hidden
+
+
+func _draw():
+	if has_focus():
+		var focussed = theme.get_stylebox("FocusedBox", "BoxContainer")
+		draw_style_box(focussed, Rect2(Vector2(0,0), rect_size))

@@ -66,9 +66,6 @@ func _delete_layer():
 func _on_layer_select(event: InputEvent, layer_widget):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT and event.pressed:
-			if selected_layer != null:
-				selected_layer.border.visible = false
-			layer_widget.border.visible = true
 			selected_layer = layer_widget
 
 

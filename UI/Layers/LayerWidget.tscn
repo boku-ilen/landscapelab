@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://UI/Layers/LayerWidget.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/eye_crossed.svg" type="Texture" id=2]
 [ext_resource path="res://UI/Layers/EditWindow.gd" type="Script" id=3]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/three_points.svg" type="Texture" id=4]
+[ext_resource path="res://UI/Theme/LayerWidget.tres" type="Theme" id=5]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=7]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Resources/Fonts/Nunito/NunitoSans-Bold.ttf" type="DynamicFontData" id=9]
@@ -29,9 +30,11 @@ shader_param/color_length_modulate_threshold = 1.5
 
 [node name="LayerWidget" type="HBoxContainer"]
 margin_left = 488.0
-margin_right = 753.0
+margin_right = 728.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 20, 25 )
+focus_mode = 1
+theme = ExtResource( 5 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -99,7 +102,7 @@ __meta__ = {
 
 [node name="LeftContainer" type="HBoxContainer" parent="."]
 margin_left = 140.0
-margin_right = 265.0
+margin_right = 240.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
@@ -107,10 +110,11 @@ alignment = 2
 
 [node name="Edit" parent="LeftContainer" instance=ExtResource( 8 )]
 material = SubResource( 3 )
-margin_left = 85.0
-margin_right = 125.0
+margin_left = 60.0
+margin_right = 100.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 40, 30 )
+mouse_filter = 1
 size_flags_vertical = 0
 texture_normal = ExtResource( 4 )
 texture_name = "three_points"
