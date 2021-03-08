@@ -7,15 +7,20 @@ var collision_indicator: Spatial
 var player: AbstractPlayer
 
 var current_action: Action
+var current_cursor
 
 
 # The string should precisely resemble a function in this script
-func set_current_action(action: Action):
+func set_current_action(action: Action, cursor=null):
 	current_action = action
+	if cursor:
+		current_cursor = cursor
+		Input.set_custom_mouse_cursor(cursor)
 
 
 func stop_current_action():
 	current_action = null
+	Input.set_custom_mouse_cursor(null)
 
 
 # If an input comes, the player will check if the action handler has a pending
