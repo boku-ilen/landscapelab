@@ -508,7 +508,8 @@ enum Season {SPRING, SUMMER, AUTUMN, WINTER}
 
 
 func parse_size(size_string: String):
-	if size_string == "S": return Plant.Size.S
+	if size_string == "XS": return Plant.Size.XS
+	elif size_string == "S": return Plant.Size.S
 	elif size_string == "M": return Plant.Size.M
 	elif size_string == "L": return Plant.Size.L
 	elif size_string == "XL": return Plant.Size.XL
@@ -524,7 +525,8 @@ func parse_season(season_string: String):
 
 
 func reverse_parse_size(size):
-	if size == Plant.Size.S: return "S"
+	if size == Plant.Size.XS: return "XS"
+	elif size == Plant.Size.S: return "S"
 	elif size == Plant.Size.M: return "M"
 	elif size == Plant.Size.L: return "L"
 	elif size == Plant.Size.XL: return "XL"
@@ -540,7 +542,7 @@ func reverse_parse_season(season):
 
 
 class Plant:
-	enum Size {S, M, L, XL}
+	enum Size {XS, S, M, L, XL}
 	
 	var id: int
 	var billboard_path: String
