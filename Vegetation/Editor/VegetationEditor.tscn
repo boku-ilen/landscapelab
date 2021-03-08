@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://Vegetation/Editor/TextureFileDialog.gd" type="Script" id=21]
 [ext_resource path="res://Vegetation/Editor/PlantFilter.gd" type="Script" id=22]
 [ext_resource path="res://Vegetation/Editor/PlantSelection.gd" type="Script" id=23]
+[ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=24]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 16 )
@@ -67,39 +68,42 @@ __meta__ = {
 }
 
 [node name="PlantPanel" type="VSplitContainer" parent="."]
-margin_right = 400.0
+margin_right = 250.0
 margin_bottom = 1080.0
-split_offset = 600
+split_offset = 350
 script = ExtResource( 2 )
 
 [node name="PlantSelection" type="VBoxContainer" parent="PlantPanel"]
-margin_right = 400.0
-margin_bottom = 645.0
+margin_right = 250.0
+margin_bottom = 544.0
 script = ExtResource( 23 )
 
 [node name="FilterContainer" type="HBoxContainer" parent="PlantPanel/PlantSelection"]
-margin_right = 400.0
-margin_bottom = 37.0
+margin_right = 250.0
+margin_bottom = 36.0
 
 [node name="Label" type="Label" parent="PlantPanel/PlantSelection/FilterContainer"]
 margin_top = 6.0
-margin_right = 61.0
-margin_bottom = 31.0
+margin_right = 42.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 24 )
 text = "Filter:"
 
 [node name="PlantFilter" type="OptionButton" parent="PlantPanel/PlantSelection/FilterContainer"]
-margin_left = 69.0
-margin_right = 400.0
-margin_bottom = 37.0
+margin_left = 50.0
+margin_right = 250.0
+margin_bottom = 36.0
 size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 24 )
 script = ExtResource( 22 )
 
 [node name="PlantList" type="ItemList" parent="PlantPanel/PlantSelection"]
-margin_top = 45.0
-margin_right = 400.0
-margin_bottom = 645.0
-rect_min_size = Vector2( 400, 0 )
+margin_top = 44.0
+margin_right = 250.0
+margin_bottom = 544.0
+rect_min_size = Vector2( 250, 150 )
 size_flags_vertical = 3
+custom_fonts/font = ExtResource( 24 )
 fixed_column_width = 500
 fixed_icon_size = Vector2( 100, 100 )
 script = ExtResource( 1 )
@@ -108,215 +112,234 @@ __meta__ = {
 }
 
 [node name="PlantDetails" type="PanelContainer" parent="PlantPanel"]
-margin_top = 669.0
-margin_right = 400.0
+margin_top = 568.0
+margin_right = 250.0
 margin_bottom = 1080.0
 script = ExtResource( 3 )
 
 [node name="DetailList" type="VBoxContainer" parent="PlantPanel/PlantDetails"]
 margin_left = 14.0
 margin_top = 14.0
-margin_right = 386.0
-margin_bottom = 397.0
+margin_right = 236.0
+margin_bottom = 498.0
 
 [node name="ID" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
-margin_right = 372.0
-margin_bottom = 25.0
+margin_right = 222.0
+margin_bottom = 23.0
 
 [node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/ID"]
-margin_right = 31.0
-margin_bottom = 25.0
+margin_right = 21.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 24 )
 text = "ID:"
 
 [node name="Label" type="Label" parent="PlantPanel/PlantDetails/DetailList/ID"]
-margin_left = 39.0
-margin_right = 39.0
-margin_bottom = 25.0
+margin_left = 29.0
+margin_right = 29.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 24 )
 
 [node name="Name" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 33.0
-margin_right = 372.0
-margin_bottom = 78.0
+margin_top = 31.0
+margin_right = 222.0
+margin_bottom = 74.0
 
 [node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/Name"]
 margin_top = 10.0
-margin_right = 72.0
-margin_bottom = 35.0
+margin_right = 48.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 24 )
 text = "Name:"
 
 [node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/Name"]
-margin_left = 80.0
-margin_right = 330.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 250, 0 )
+margin_left = 56.0
+margin_right = 206.0
+margin_bottom = 43.0
+rect_min_size = Vector2( 150, 0 )
+custom_fonts/font = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MinHeight" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 86.0
-margin_right = 372.0
-margin_bottom = 131.0
+margin_top = 82.0
+margin_right = 222.0
+margin_bottom = 125.0
 
 [node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/MinHeight"]
 margin_top = 10.0
-margin_right = 124.0
-margin_bottom = 35.0
+margin_right = 84.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 24 )
 text = "Min Height:"
 
 [node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/MinHeight"]
-margin_left = 132.0
-margin_right = 296.0
-margin_bottom = 45.0
+margin_left = 92.0
+margin_right = 208.0
+margin_bottom = 43.0
+custom_fonts/font = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MaxHeight" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 139.0
-margin_right = 372.0
-margin_bottom = 184.0
+margin_top = 133.0
+margin_right = 222.0
+margin_bottom = 176.0
 
 [node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/MaxHeight"]
 margin_top = 10.0
-margin_right = 129.0
-margin_bottom = 35.0
+margin_right = 89.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 24 )
 text = "Max Height:"
 
 [node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/MaxHeight"]
-margin_left = 137.0
-margin_right = 301.0
-margin_bottom = 45.0
+margin_left = 97.0
+margin_right = 213.0
+margin_bottom = 43.0
+custom_fonts/font = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Density" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 192.0
-margin_right = 372.0
-margin_bottom = 237.0
+margin_top = 184.0
+margin_right = 222.0
+margin_bottom = 227.0
 
 [node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/Density"]
 margin_top = 10.0
-margin_right = 86.0
-margin_bottom = 35.0
+margin_right = 60.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 24 )
 text = "Density:"
 
 [node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/Density"]
-margin_left = 94.0
-margin_right = 258.0
-margin_bottom = 45.0
+margin_left = 68.0
+margin_right = 184.0
+margin_bottom = 43.0
+custom_fonts/font = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SaveButton" type="Button" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 245.0
-margin_right = 372.0
-margin_bottom = 282.0
+margin_top = 235.0
+margin_right = 222.0
+margin_bottom = 270.0
+custom_fonts/font = ExtResource( 24 )
 text = "Save"
 
 [node name="HSeparator" type="HSeparator" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 290.0
-margin_right = 372.0
-margin_bottom = 298.0
+margin_top = 278.0
+margin_right = 222.0
+margin_bottom = 286.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="GroupButton" type="Button" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 306.0
-margin_right = 372.0
-margin_bottom = 343.0
+margin_top = 294.0
+margin_right = 222.0
+margin_bottom = 329.0
+custom_fonts/font = ExtResource( 24 )
 text = "Add to current group >"
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
-margin_left = 424.0
+margin_left = 274.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 
 [node name="GroupPanel" type="VSplitContainer" parent="HSplitContainer"]
-margin_right = 400.0
+margin_right = 250.0
 margin_bottom = 1080.0
-split_offset = 600
+split_offset = 450
 script = ExtResource( 7 )
 
 [node name="GroupList" type="ItemList" parent="HSplitContainer/GroupPanel"]
-margin_right = 400.0
+margin_right = 250.0
 margin_bottom = 600.0
-rect_min_size = Vector2( 400, 0 )
+rect_min_size = Vector2( 250, 150 )
+custom_fonts/font = ExtResource( 24 )
 script = ExtResource( 6 )
 
 [node name="GroupDetails" type="VSplitContainer" parent="HSplitContainer/GroupPanel"]
 margin_top = 624.0
-margin_right = 400.0
+margin_right = 250.0
 margin_bottom = 1080.0
 script = ExtResource( 8 )
 
 [node name="GroupAttributes" type="PanelContainer" parent="HSplitContainer/GroupPanel/GroupDetails"]
-margin_right = 400.0
+margin_right = 250.0
 margin_bottom = 456.0
 
 [node name="Attributes" type="VBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes"]
 margin_left = 14.0
 margin_top = 14.0
-margin_right = 386.0
+margin_right = 236.0
 margin_bottom = 442.0
 
 [node name="ID" type="HBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_right = 372.0
-margin_bottom = 25.0
+margin_right = 222.0
+margin_bottom = 23.0
 
 [node name="Prompt" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/ID"]
-margin_right = 31.0
-margin_bottom = 25.0
+margin_right = 21.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 24 )
 text = "ID:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/ID"]
-margin_left = 39.0
-margin_right = 39.0
-margin_bottom = 25.0
+margin_left = 29.0
+margin_right = 29.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 24 )
 
 [node name="Name" type="HBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_top = 33.0
-margin_right = 372.0
-margin_bottom = 78.0
+margin_top = 31.0
+margin_right = 222.0
+margin_bottom = 74.0
 
 [node name="Prompt" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Name"]
 margin_top = 10.0
-margin_right = 72.0
-margin_bottom = 35.0
+margin_right = 48.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 24 )
 text = "Name:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LineEdit" type="LineEdit" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Name"]
-margin_left = 80.0
-margin_right = 244.0
-margin_bottom = 45.0
+margin_left = 56.0
+margin_right = 172.0
+margin_bottom = 43.0
+custom_fonts/font = ExtResource( 24 )
 
 [node name="Texture" type="HBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_top = 86.0
-margin_right = 372.0
-margin_bottom = 123.0
+margin_top = 82.0
+margin_right = 222.0
+margin_bottom = 117.0
 
 [node name="Prompt" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Texture"]
 margin_top = 6.0
-margin_right = 178.0
-margin_bottom = 31.0
+margin_right = 121.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 24 )
 text = "Ground Texture:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureSelectButton" type="Button" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Texture"]
-margin_left = 186.0
-margin_right = 274.0
-margin_bottom = 37.0
+margin_left = 129.0
+margin_right = 199.0
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 24 )
 text = "Select"
 script = ExtResource( 20 )
 
@@ -340,39 +363,43 @@ __meta__ = {
 }
 
 [node name="HSeparator" type="HSeparator" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_top = 131.0
-margin_right = 372.0
-margin_bottom = 139.0
+margin_top = 125.0
+margin_right = 222.0
+margin_bottom = 133.0
 
 [node name="ListHeading" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_top = 147.0
-margin_right = 372.0
-margin_bottom = 172.0
+margin_top = 141.0
+margin_right = 222.0
+margin_bottom = 164.0
+custom_fonts/font = ExtResource( 24 )
 text = "Plants:"
 
 [node name="GroupPlantList" type="ItemList" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_top = 180.0
-margin_right = 372.0
-margin_bottom = 383.0
+margin_top = 172.0
+margin_right = 222.0
+margin_bottom = 385.0
+rect_min_size = Vector2( 0, 150 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_fonts/font = ExtResource( 24 )
 fixed_icon_size = Vector2( 100, 100 )
 script = ExtResource( 5 )
 
 [node name="RemoveButton" type="Button" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_top = 391.0
-margin_right = 372.0
+margin_top = 393.0
+margin_right = 222.0
 margin_bottom = 428.0
+custom_fonts/font = ExtResource( 24 )
 text = "Remove Selected"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer"]
-margin_left = 424.0
-margin_right = 1496.0
+margin_left = 274.0
+margin_right = 1646.0
 margin_bottom = 1080.0
 
 [node name="VisualizationUI" type="ViewportContainer" parent="HSplitContainer/VBoxContainer"]
-margin_right = 1072.0
-margin_bottom = 945.0
+margin_right = 1372.0
+margin_bottom = 951.0
 rect_min_size = Vector2( 1000, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -387,24 +414,27 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="GroundViewButton" type="Button" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
-margin_right = 230.0
-margin_bottom = 37.0
+margin_right = 172.0
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 24 )
 text = "Ground View (2m)"
 
 [node name="CanopyViewButton" type="Button" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
-margin_top = 45.0
-margin_right = 230.0
-margin_bottom = 82.0
+margin_top = 43.0
+margin_right = 172.0
+margin_bottom = 78.0
+custom_fonts/font = ExtResource( 24 )
 text = "Canopy View (20m)"
 
 [node name="AirViewButton" type="Button" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
-margin_top = 90.0
-margin_right = 230.0
-margin_bottom = 127.0
+margin_top = 86.0
+margin_right = 172.0
+margin_bottom = 121.0
+custom_fonts/font = ExtResource( 24 )
 text = "Aerial View (50m)"
 
 [node name="Viewport" type="Viewport" parent="HSplitContainer/VBoxContainer/VisualizationUI"]
-size = Vector2( 1072, 945 )
+size = Vector2( 1372, 951 )
 handle_input_locally = false
 render_target_update_mode = 3
 
@@ -424,15 +454,17 @@ mesh = SubResource( 5 )
 material/0 = SubResource( 6 )
 
 [node name="UpdateVisButton" type="Button" parent="HSplitContainer/VBoxContainer"]
-margin_top = 953.0
-margin_right = 1072.0
-margin_bottom = 990.0
+margin_top = 959.0
+margin_right = 1372.0
+margin_bottom = 994.0
+custom_fonts/font = ExtResource( 24 )
 text = "Update"
 
 [node name="SaveButton" type="Button" parent="HSplitContainer/VBoxContainer"]
-margin_top = 998.0
-margin_right = 1072.0
-margin_bottom = 1035.0
+margin_top = 1002.0
+margin_right = 1372.0
+margin_bottom = 1037.0
+custom_fonts/font = ExtResource( 24 )
 text = "Save Configuration"
 script = ExtResource( 15 )
 
@@ -456,9 +488,10 @@ __meta__ = {
 }
 
 [node name="LoadButton" type="Button" parent="HSplitContainer/VBoxContainer"]
-margin_top = 1043.0
-margin_right = 1072.0
+margin_top = 1045.0
+margin_right = 1372.0
 margin_bottom = 1080.0
+custom_fonts/font = ExtResource( 24 )
 text = "Load Configuration"
 script = ExtResource( 11 )
 

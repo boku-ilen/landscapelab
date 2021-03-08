@@ -4,4 +4,5 @@
 font_path = "res://Resources/Fonts/Nunito/NunitoSans-Bold.ttf"
 
 [resource]
+use_filter = true
 font_data = SubResource( 1 )
