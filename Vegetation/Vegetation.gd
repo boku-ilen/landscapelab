@@ -7,8 +7,8 @@ extends Node
 
 const distribution_size = 16
 
-const sprite_size = 1024
-const texture_size = 1024
+const sprite_size = 2048
+const texture_size = 2048
 
 # FIXME: this should be settings and default to neutral paths
 # Base folders for ground textures and billboard sprites -- entries in the definition CSVs are
@@ -577,9 +577,10 @@ class Plant:
 			
 			# Godot can crash with extremely large images, so we downscale it to a size appropriate
 			#  for further handling.
-			var new_size = SpritesheetHelper.get_size_keep_aspect(
-				Vector2(texture_size, texture_size), img.get_size())
-			img.resize(new_size.x, new_size.y)
+			if img.get_width() > sprite_size or img.get_height() > sprite_size:
+				var new_size = SpritesheetHelper.get_size_keep_aspect(
+					Vector2(sprite_size, sprite_size), img.get_size())
+				img.resize(new_size.x, new_size.y)
 			
 			Vegetation.plant_image_cache[full_path] = img
 			

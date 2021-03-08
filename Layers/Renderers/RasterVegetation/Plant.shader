@@ -10,6 +10,8 @@ uniform sampler2D id_to_row;
 
 uniform sampler2D splatmap;
 
+uniform int sprite_size = 2048;
+
 uniform float amplitude = 0.1;
 uniform vec2 speed = vec2(2.0, 1.5);
 uniform vec2 scale = vec2(0.1, 0.2);
@@ -96,9 +98,9 @@ void fragment() {
 
 	// Get the color from the right sprite in the spritesheet
 	ivec2 sheet_size = textureSize(texture_map, 0);
-	ivec2 cols_rows = sheet_size / 1024;
+	ivec2 cols_rows = sheet_size / sprite_size;
 
-	vec2 scaled_uv = UV / (vec2(sheet_size) / 1024.0);
+	vec2 scaled_uv = UV / (vec2(sheet_size) / float(sprite_size));
 
 	vec2 uv_offset = vec2(dist_id / float(cols_rows.x), row / float(cols_rows.y));
 
