@@ -166,7 +166,8 @@ func _create_groups_from_csv(csv_path: String) -> void:
 		# null is encoded as the string "Null"
 		var ground_texture_path = csv[9] if csv[9] != "Null" else null
 		
-		var group = Group.new(id, name_en, group_plants, ground_texture_path)
+		var group = Group.new(id, name_en, group_plants, ground_texture_path,
+				csv[0], csv[1], csv[2], csv[3], csv[4], csv[6])
 		
 		add_group(group)
 
@@ -226,15 +227,15 @@ func _save_groups_to_csv(csv_path: String) -> void:
 	
 	for group in groups.values():
 		# Format:
-		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS
+		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS,TEXTURE
 		group_csv.store_csv_line([
-			"TODO",
-			"TODO",
-			"TODO",
-			"TODO",
-			"TODO",
-			group.name,
-			"TODO",
+			group.source,
+			group.snar_code,
+			group.snarx10,
+			group.snar_name,
+			group.name_de,
+			group.name_en,
+			group.snar_group,
 			group.id,
 			PoolStringArray(group.get_plant_ids()).join(","),
 			group.ground_texture_folder
@@ -268,7 +269,7 @@ func filter_group_array_by_height(group_array, min_height: float, max_height: fl
 		# Append a new Group which is identical to the one in the passed
 		#  array, but with the filtered plants
 		new_array.append(Group.new(group.id,
-				group.name,
+				group.name_en,
 				plants,
 				group.ground_texture_folder))
 	
@@ -446,20 +447,36 @@ func generate_distribution(group: Group, max_size: float):
 
 class Group:
 	var id
-	var name
 	var plants: Array
 	var ground_texture_folder
 	
-	func _init(id, name, plants = null, ground_texture_folder = null):
+	# Misc
+	var source
+	var snar_code
+	var snarx10
+	var snar_name
+	var name_de
+	var name_en
+	var snar_group
+	
+	func _init(id, name_en, plants = null, ground_texture_folder = null, source="", snar_code="",
+			snarx10="", snar_name="", name_de="", snar_group=""):
 		self.id = int(id)
-		self.name = name
+		self.name_en = name_en
 		
 		if ground_texture_folder:
 			self.ground_texture_folder = ground_texture_folder
 		
 		if plants:
 			self.plants = plants
-	
+		
+		self.source = source
+		self.snar_code = snar_code
+		self.snarx10 = snarx10
+		self.snar_name = snar_name
+		self.name_de = name_de
+		self.snar_group = snar_group
+		
 	func add_plant(plant: Plant):
 		plants.append(plant)
 	
@@ -480,7 +497,7 @@ class Group:
 			
 			if img.is_empty():
 				logger.error("Invalid ground texture path in CSV of group %s: %s"
-						 % [name, full_path])
+						 % [name_en, full_path])
 			
 			Vegetation.ground_image_cache[full_path] = img
 		Vegetation.ground_image_mutex.unlock()

@@ -17,6 +17,6 @@ func set_group(group):
 	current_group = group
 	
 	$GroupAttributes/Attributes/ID/Label.text = str(group.id)
-	$GroupAttributes/Attributes/Name/LineEdit.text = group.name
+	$GroupAttributes/Attributes/Name/LineEdit.text = group.name_en
 	
 	$GroupAttributes/Attributes/GroupPlantList.update_plants(group)

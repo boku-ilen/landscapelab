@@ -14,5 +14,5 @@ func _build_list():
 	
 	for group in Vegetation.groups.values():
 		var item_id = get_item_count()
-		add_item(str(group.id) + ": " + group.name)
+		add_item(str(group.id) + ": " + group.name_en)
 		set_item_metadata(item_id, group)
