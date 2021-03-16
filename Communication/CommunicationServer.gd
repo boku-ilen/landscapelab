@@ -49,14 +49,14 @@ func _exit_tree():
 func register_handler(handler: AbstractRequestHandler):
 	if handler.protocol_keyword:
 		if not self._handlers.has(handler.protocol_keyword):
-			self._handlers.add(handler.protocol_keyword, handler)
+			self._handlers[handler.protocol_keyword] = handler
 			return true
 	return false
 
 
 # remove the request handler upon request
 func unregister_handler(handler: AbstractRequestHandler):
-	if handler.procol_keyword:
+	if handler.protocol_keyword:
 		if self._handlers.erase(handler.protocol_keyword):
 			return true
 	return false

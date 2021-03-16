@@ -6,7 +6,7 @@ var rotating : bool = false
 
 var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 
-var position_manager: PositionManager
+var position_manager: PositionManager  # Injected if needed
 
 
 func teleport(pos: Vector3):
@@ -82,14 +82,13 @@ func _handle_general_input(event):
 	pass
 
 
-# Shift the player's in-engine translation by a certain offset, but not the player's true coordinates.
-func shift(delta_x, delta_z):
-	translation.x += delta_x
-	translation.z += delta_z
-
-
 # To prevent floating point errors, the player.translation does not reflect the player's 
 # actual position in the whole world. This function returns the true world position of 
 # the player (in projected meters) as integers.
 func get_true_position():
-	return translation  # TODO: Implement properly using PositionManager
+	return position_manager.to_world_coordinates(translation)
+
+
+# Set the position from projected meter coordinates in an int array
+func set_true_position(pos):
+	translation = position_manager.to_engine_coordinates(pos)

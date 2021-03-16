@@ -5,13 +5,13 @@ class_name AbstractRequestHandler
 # answering a certain request (protocol_keyword). This has to be set by the specific
 # subclass
 
-var protocol_keyword = null  # each subclass has to set this to identify which requests are handled
+export(String) var protocol_keyword  # each subclass has to set this to identify which requests are handled
 var parameter_list = {}  # FIXME: do we need this?
 var _server = CommunicationServer  # internal reference to the singleton
 
 
-func _init():
-	assert(self.protocol_keyword, "AbstractRequestHandler is an abstract class - it must not be initialized")
+func _ready():
+	assert(!self.protocol_keyword.empty(), "AbstractRequestHandler is an abstract class - it must not be initialized")
 	if not self._server.register_handler(self):
 		logger.error("Could not register keyword {}".format(self.protocol_keyword))
 

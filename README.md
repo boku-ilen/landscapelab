@@ -1,12 +1,8 @@
 # Setup
 
-(First: Setup the [landscapelab-server](https://github.com/boku-ilen/landscapelab-server))
-
-Development Setup
-
-* copy settings.ini-default to settings.ini, put it into the user:// path and adapt the resources path
+* Get the [latest Geodot build for your platform](https://github.com/boku-ilen/geodot-plugin/actions) and copy the `addons/geodot` folder into this project
+* Copy user-config.ini to configuration.ini in the `user://` path (`AppData` on Windows, `.local/share` on Linux) and adapt the GeoPackage path
 * Open the Godot project 
-* Run the landscapelab-server
 * Run the main scene
 
 we currently dont provide a executable runtime package

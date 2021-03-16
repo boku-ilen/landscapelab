@@ -82,6 +82,11 @@ func shift_world(delta_x, delta_z):
 
 
 func inject_offset_properties():
+	# Inject into the center node
+	if center_node and "position_manager" in center_node:
+		center_node.position_manager = self
+	
+	# Inject into the terrain
 	for child in terrain.get_children():
 		if "center_node" in child:
 			child.center_node = center_node

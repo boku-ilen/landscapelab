@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Perspectives/PC/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/PC/SettingsCamera.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Perspectives/PC/MousePoint.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Perspectives/PC/ActionHandler.gd" type="Script" id=6]
 [ext_resource path="res://Perspectives/Tracking/ParentTracker.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Communication/SetPositionRequestHandler.gd" type="Script" id=8]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -47,3 +48,7 @@ disabled = true
 script = ExtResource( 6 )
 
 [node name="ParentTracker" parent="." instance=ExtResource( 7 )]
+
+[node name="SetPositionRequestHandler" type="Node" parent="."]
+script = ExtResource( 8 )
+protocol_keyword = "set_position"
