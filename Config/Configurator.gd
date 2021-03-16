@@ -3,12 +3,12 @@ class_name Configurator
 
 
 export(String) var category: String setget set_category
-var setting_block
+var settings_section  # FIXME: Is this needed?
 
 
 func set_category(setting_category):
 	category = setting_category
-	setting_block = Settings.get_setting_block(category)
+	settings_section = Settings.get_setting_section(category)
 
 
 func get_setting(label, default=null):

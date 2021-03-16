@@ -1,21 +1,22 @@
 extends Configurator
 
 
-export(String) var geopackage_path
-
 var geodataset
 
 
 func _ready():
-	# TODO: Open the geodataset, iterate over layers, etc
-	# set_category("TODO")
-	# var layers = get_setting("TODO", null)
-	
+	set_category("geodata")
 	add_test_data()
 
 
 # Adds static test data; will be removed as soon as we have a valid GeoPackage.
 func add_test_data():
+	var geopackage_path = get_setting("gpkg-path")
+	
+	if geopackage_path.empty():
+		logger.error("User Geopackage path not set! Please set it in user://configuration.ini")
+		return
+	
 	var file2Check = File.new()
 	if !file2Check.file_exists(geopackage_path):
 		logger.error("Path to geodataset \"%s\" does not exist, could not load any data!" % [geopackage_path])

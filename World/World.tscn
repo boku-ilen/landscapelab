@@ -26,4 +26,3 @@ center_node_path = NodePath("FirstPersonPC")
 transform = Transform( 0.998636, 0, 0.0517897, 0, 1, 0, -0.0517897, 0, 0.998636, 0, 500, 0 )
 
 [node name="LayerConfigurator" parent="." instance=ExtResource( 7 )]
-geopackage_path = "/home/karl/Downloads/LL_base.gpkg"
