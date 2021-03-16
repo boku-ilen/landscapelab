@@ -96,8 +96,17 @@ func _on_data(id):
 
 # FIXME: we could implement a send function like this but we have to determine which client id
 # FIXME: is the receiving part - or broadcast it and the client decides what to do with the event
-func _send_data(data, id=null):
-	pass
+func _send_data(data, client_id=null):
+
+	# if id is null broadcast to all connected clients
+	if not client_id:
+		for client in _clients:
+			_send_data(data, client.id)
+
+	else:
+		logger.debug("send msg: {} to client {}".format(data, client_id))
+		# FIXME: to implement
+		pass
 
 # FIXME: this is a backward compatibility function which should soon be removed
 func get_json(parameter):
