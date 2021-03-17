@@ -652,5 +652,5 @@ class Plant:
 	
 	# Return a string in the form "ID: Name (Size Class)"
 	func get_title_string():
-		return str(self.id) + ": " + self.name_en \
+		return str(self.id) + ": " + self.name_de \
 				+ " (" + Vegetation.reverse_parse_size(self.size_class) + ")"
