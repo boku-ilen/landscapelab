@@ -28,14 +28,14 @@ func _input(event):
 	pass
 "
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/color = Vector3( 0, 0, 0 )
@@ -195,7 +195,7 @@ stretch = true
 script = ExtResource( 11 )
 
 [node name="FullscreenButton" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort" instance=ExtResource( 13 )]
-material = SubResource( 3 )
+material = SubResource( 2 )
 margin_right = 40.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
@@ -210,9 +210,6 @@ gui_disable_input = true
 
 [node name="World" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport" instance=ExtResource( 12 )]
 center_node_path = NodePath("../../../VBoxContainer2/WorldViewPort/Viewport/World/FirstPersonPC")
-
-[node name="LayerConfigurator" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World" index="3"]
-geopackage_path = "C:\\boku\\geodata\\test_data\\LL_base.gpkg"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Split/Right/Mid"]
 margin_top = 869.0
@@ -330,7 +327,7 @@ grow_vertical = 0
 alignment = 2
 
 [node name="VR" parent="MarginContainer/Split/Right/Right/Right/Bot/More/Top" instance=ExtResource( 3 )]
-material = SubResource( 4 )
+material = SubResource( 3 )
 margin_right = 80.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 80, 80 )
