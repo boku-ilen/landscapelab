@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode cull_disabled;
 
-uniform sampler2D texture_map : hint_albedo;
+uniform sampler2DArray texture_map : hint_albedo;
 uniform sampler2D normal_map : hint_normal;
 uniform sampler2D specular_map : hint_black;
 
@@ -97,14 +97,14 @@ void fragment() {
 	}
 
 	// Get the color from the right sprite in the spritesheet
-	ivec2 sheet_size = textureSize(texture_map, 0);
+	ivec2 sheet_size = textureSize(texture_map, 0).xy;
 	ivec2 cols_rows = sheet_size / sprite_size;
 
 	vec2 scaled_uv = UV / (vec2(sheet_size) / float(sprite_size));
 
-	vec2 uv_offset = vec2(dist_id / float(cols_rows.x), row / float(cols_rows.y));
+	vec2 uv_offset = vec2(0.0, row / float(cols_rows.y));
 
-	vec4 color = texture(texture_map, scaled_uv + uv_offset);
+	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
 
 	ALBEDO = color.rgb;
 	if (color.a < 0.7) {

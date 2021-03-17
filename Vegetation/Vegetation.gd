@@ -328,7 +328,7 @@ func get_ground_sheet(group_array, texture_name):
 	return SpritesheetHelper.create_spritesheet(
 			Vector2(texture_size, texture_size),
 			texture_table,
-			SpritesheetHelper.SCALING.STRETCH)
+			SpritesheetHelper.SCALING.STRETCH)[0]
 
 
 # Returns a 1x? spritesheet with each group's distribution texture in the
@@ -347,7 +347,7 @@ func get_distribution_sheet(group_array, max_size):
 	
 	return SpritesheetHelper.create_spritesheet(
 			Vector2(distribution_size, distribution_size),
-			texture_table)
+			texture_table)[0]
 
 
 # To map land-use values to a row from 0-7, we use a 256x1 texture.
@@ -389,10 +389,20 @@ func get_ground_sheet_texture(group_array, texture_name):
 # Wrapper for get_billboard_sheet, but returns an ImageTexture instead of an
 #   Image for direct use in materials.
 func get_billboard_texture(group_array):
-	var tex = ImageTexture.new()
-	tex.create_from_image(get_billboard_sheet(group_array))
+	var images = get_billboard_sheet(group_array)
 	
-	return tex
+	if not images or images.size() == 0:
+		return null
+	
+	var texture_array = TextureArray.new()
+	texture_array.create(images[0].get_width(), images[0].get_height(), images.size(), Image.FORMAT_RGBA8)
+	
+	var current_layer = 0
+	for image in images:
+		texture_array.set_layer_data(image, current_layer)
+		current_layer += 1
+	
+	return texture_array
 
 
 # Returns a newly generated distribution map for the plants in the given

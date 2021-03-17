@@ -105,11 +105,11 @@ func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	
 	var filtered_groups = Vegetation.filter_group_array_by_height(groups, min_size, max_size)
 	
-	var billboards = Vegetation.get_billboard_sheet(filtered_groups)
+	var billboard_tex = Vegetation.get_billboard_texture(filtered_groups)
 	
 	# If billboards is null, this means that there were 0 plants in all of the
 	#  groups. Then, we don't need to render anything.
-	if not billboards:
+	if not billboard_tex:
 		visible = false
 		return
 	else:
@@ -122,9 +122,6 @@ func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	# The columns correspond to distribution values
 	
 	var id_row_map_tex = Vegetation.get_id_row_map_texture(ids)
-	
-	var billboard_tex = ImageTexture.new()
-	billboard_tex.create_from_image(billboards)
 	
 	var distribution_tex = ImageTexture.new()
 	distribution_tex.create_from_image(distribution_sheet, ImageTexture.FLAG_REPEAT)
