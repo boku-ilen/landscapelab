@@ -5,7 +5,7 @@ class_name AbstractRequestHandler
 # answering a certain request (protocol_keyword). This has to be set by the specific
 # subclass
 
-export(String) var protocol_keyword  # each subclass has to set this to identify which requests are handled
+var protocol_keyword = ""  # each subclass has to set this to identify which requests are handled
 var parameter_list = {}  # FIXME: do we need this?
 var _server = CommunicationServer  # internal reference to the singleton
 
