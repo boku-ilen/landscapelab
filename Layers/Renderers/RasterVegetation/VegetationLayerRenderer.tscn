@@ -9,6 +9,7 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 3 )
+shader_param/sprite_size = 2048
 shader_param/amplitude = 0.1
 shader_param/speed = Vector2( 2, 1.5 )
 shader_param/scale = Vector2( 0.1, 0.2 )

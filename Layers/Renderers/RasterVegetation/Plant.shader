@@ -31,8 +31,13 @@ varying flat float row;
 varying flat float dist_id;
 
 void vertex() {
-	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	camera_pos = (CAMERA_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+	
+	// Add the camera direction to the position to move it towards the player's view, making more
+	//  plants appear there as opposed to behind the player
+	camera_pos += -CAMERA_MATRIX[2].xyz * max_distance * 0.75;
+	
+	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	
 	// Move the upper vertices around for a wind wave effect
 	if (VERTEX.y > 0.3) {
@@ -88,7 +93,7 @@ void fragment() {
 	int y_index = int(SCREEN_UV.y * VIEWPORT_SIZE.y) % 4;
 
 	float blend_start_distance = max_distance - max_distance / 4.0;
-	float dist = length(camera_pos - worldpos);
+	float dist = length(camera_pos.xz - worldpos.xz);
 
 	float dist_alpha = (max_distance - dist) / (max_distance - blend_start_distance);
 

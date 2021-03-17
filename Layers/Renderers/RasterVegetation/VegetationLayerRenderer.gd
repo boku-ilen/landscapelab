@@ -40,7 +40,7 @@ func set_rows(new_rows):
 	update_aabb()
 	if process_material:
 		process_material.set_shader_param("rows", rows)
-		material_override.set_shader_param("max_distance", rows * spacing / 2.0)
+		material_override.set_shader_param("max_distance", rows * spacing / 3.0)
 
 func get_rows():
 	return rows
@@ -50,7 +50,7 @@ func set_spacing(new_spacing):
 	update_aabb()
 	if process_material:
 		process_material.set_shader_param("spacing", spacing)
-		material_override.set_shader_param("max_distance", rows * spacing / 2.0)
+		material_override.set_shader_param("max_distance", rows * spacing / 3.0)
 
 func get_spacing():
 	return spacing
