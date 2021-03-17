@@ -6,7 +6,7 @@ var edit_action: ActionHandler.Action
 
 
 func _ready():
-	$EditPoints.connect("toggled", self, "_on_edit")
+	$AddPaths.connect("toggled", self, "_on_edit")
 
 
 func set_player(player):
@@ -17,19 +17,31 @@ func set_player(player):
 class EditAction extends ActionHandler.Action:
 	var cursor: RayCast
 	var layer: Layer
+	var path: Path
 	
 	func _init(l, c, p, blocking).(p, blocking):
 		cursor = c
 		layer = l
+		path = load("res://Street.tscn").instance()
+		player.get_parent().add_child(path)
+#		var vis = CSGPolygon.new()
+#		vis.material = Material.new()
+#		path.visualizer = vis
+	
+	func new_path():
+		path = load("res://Street.tscn").instance()
+		player.get_parent().get_node("Terrain").add_child(path)
 	
 	func apply(event: InputEvent):
 		if event.is_action_pressed("layer_add_feature"):
 			# FIXME: this is far from clean and should be altered once Geodot offers
 			# FIXME: a proper feature for writing to a 
 			#layer.add_point_feature(PointFeature)
-			var instance = layer.render_info.object.instance()
-			player.get_parent().add_child(instance)
-			instance.transform.origin = cursor.get_collision_point()
+			if path == null: new_path()
+			path.curve.add_point(cursor.get_collision_point())
+		if event.is_action_pressed("layer_end_feature"):
+			# FIXME: Finishing logic ...
+			path = null
 
 
 func _on_edit(toggled):
