@@ -8,13 +8,9 @@ extends AbstractRequestHandler
 export(NodePath) var target
 
 
-func _init():
-	protocol_keyword = "set_position"
-
-
 # set the protocol keyword
 func _init():
-	protocol_keyword = "TABLE_EXTENT"
+	protocol_keyword = "TELEPORT_TO"
 
 
 func handle_request(request: Dictionary) -> Dictionary:
