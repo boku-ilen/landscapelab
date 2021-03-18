@@ -1,3 +1,5 @@
+# FIXME: deprecated - will be replaced by a child of Player
+
 extends Spatial
 
 export(float) var interval = 1  # TODO: Setting?
