@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -24,12 +24,13 @@
 [ext_resource path="res://Vegetation/Editor/PlantFilter.gd" type="Script" id=22]
 [ext_resource path="res://Vegetation/Editor/PlantSelection.gd" type="Script" id=23]
 [ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=24]
+[ext_resource path="res://Vegetation/Editor/ClickDragCamera.gd" type="Script" id=25]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 16 )
 min_plant_size = 0.0
 max_plant_size = 2.0
-extent = 15.0
+extent = 20.0
 density = 3.0
 mesh = ExtResource( 14 )
 
@@ -442,9 +443,10 @@ render_target_update_mode = 3
 script = ExtResource( 13 )
 vegetation_layer_composition = SubResource( 4 )
 
-[node name="Camera" type="Camera" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
+[node name="ClickDragCamera" type="Camera" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 2, 0 )
 far = 500.0
+script = ExtResource( 25 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
 transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 8, 0 )

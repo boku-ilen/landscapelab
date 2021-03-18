@@ -13,6 +13,7 @@ func _add_current_plant_to_current_group():
 	
 	if current_plant and current_group:
 		current_group.add_plant(current_plant)
+		$HSplitContainer/GroupPanel/GroupList.update_background_of_selected()
 		$HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/GroupPlantList.update_plants()
 
 

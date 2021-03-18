@@ -7,6 +7,10 @@ extends AbstractRequestHandler
 export(NodePath) var target
 
 
+func _init():
+	protocol_keyword = "set_position"
+
+
 func handle_request(request: Dictionary) -> Dictionary:
 	if target:
 		if target.has_method("set_true_position"):

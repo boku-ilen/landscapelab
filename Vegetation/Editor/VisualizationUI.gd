@@ -8,5 +8,5 @@ func _ready():
 
 
 func _change_camera_view(height, angle=0):
-	$Viewport/Visualization/Camera.translation.y = height
-	$Viewport/Visualization/Camera.rotation_degrees.x = angle
+	$Viewport/Visualization/ClickDragCamera.translation.y = height
+	$Viewport/Visualization/ClickDragCamera.rotation_degrees.x = angle

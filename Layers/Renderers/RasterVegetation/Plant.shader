@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode cull_disabled;
 
-uniform sampler2D texture_map : hint_albedo;
+uniform sampler2DArray texture_map : hint_albedo;
 uniform sampler2D normal_map : hint_normal;
 uniform sampler2D specular_map : hint_black;
 
@@ -31,8 +31,13 @@ varying flat float row;
 varying flat float dist_id;
 
 void vertex() {
-	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	camera_pos = (CAMERA_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+	
+	// Add the camera direction to the position to move it towards the player's view, making more
+	//  plants appear there as opposed to behind the player
+	camera_pos += -CAMERA_MATRIX[2].xyz * max_distance * 0.75;
+	
+	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	
 	// Move the upper vertices around for a wind wave effect
 	if (VERTEX.y > 0.3) {
@@ -88,7 +93,7 @@ void fragment() {
 	int y_index = int(SCREEN_UV.y * VIEWPORT_SIZE.y) % 4;
 
 	float blend_start_distance = max_distance - max_distance / 4.0;
-	float dist = length(camera_pos - worldpos);
+	float dist = length(camera_pos.xz - worldpos.xz);
 
 	float dist_alpha = (max_distance - dist) / (max_distance - blend_start_distance);
 
@@ -97,14 +102,14 @@ void fragment() {
 	}
 
 	// Get the color from the right sprite in the spritesheet
-	ivec2 sheet_size = textureSize(texture_map, 0);
+	ivec2 sheet_size = textureSize(texture_map, 0).xy;
 	ivec2 cols_rows = sheet_size / sprite_size;
 
 	vec2 scaled_uv = UV / (vec2(sheet_size) / float(sprite_size));
 
-	vec2 uv_offset = vec2(dist_id / float(cols_rows.x), row / float(cols_rows.y));
+	vec2 uv_offset = vec2(0.0, row / float(cols_rows.y));
 
-	vec4 color = texture(texture_map, scaled_uv + uv_offset);
+	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
 
 	ALBEDO = color.rgb;
 	if (color.a < 0.7) {

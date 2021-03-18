@@ -51,18 +51,21 @@ static func create_spritesheet(
 			if num_cols_in_row > num_cols:
 				num_cols = num_cols_in_row
 	
-	# Create the image which will be filled with data, large enough to hold all
+	# Create the image warray hich will be filled with data, large enough to hold all
 	#  rows and columns.
-	var sheet = Image.new()
-	sheet.create(sprite_size.x * num_cols,
-			sprite_size.y * num_rows,
-			false, format)
+	var image_array = []
+	image_array.resize(num_cols)
 	
-	# The current position on the sheet
-	var current_offset = Vector2(0, 0)
-	
-	for y in num_rows:
-		for x in num_cols:
+	# Iterate over columns (1 column = 1 texture)
+	for x in num_cols:
+		var image = Image.new()
+		image.create(sprite_size.x, sprite_size.y * num_rows, false, format)
+		
+		# The current position on the sheet
+		var current_offset = Vector2(0, 0)
+		
+		# Iterate over rows within that column (within that texture)
+		for y in num_rows:
 			# It's plausible for a row to be empty. In this case, just continue
 			#  with the next row.
 			if not images[y]:
@@ -94,18 +97,16 @@ static func create_spritesheet(
 			centering_offset.y *= 2
 			
 			# Add the scaled sprite to the spritesheet
-			sheet.blit_rect(sprite, Rect2(Vector2(0, 0),
+			image.blit_rect(sprite, Rect2(Vector2(0, 0),
 					Vector2(desired_size.x, desired_size.y)),
 					current_offset + centering_offset)
 			
 			# Increment column position on spritesheet
-			current_offset.x += sprite_size.x
+			current_offset.y += sprite_size.x
 		
-		# Increment row position on spritesheet; reset column
-		current_offset.x = 0
-		current_offset.y += sprite_size.y
+		image_array[x] = image
 	
-	return sheet
+	return image_array
 
 
 static func get_size_keep_aspect(max_size, original_size):

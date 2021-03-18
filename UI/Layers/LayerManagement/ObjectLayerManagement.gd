@@ -1,17 +1,8 @@
-extends HBoxContainer
+extends AbstractLayerManagement
 
-
-var pc_player: AbstractPlayer
-var pos_manager: PositionManager
-var layer
 
 var edit_cursor = preload("res://Resources/Icons/ModernLandscapeLab/paintbrush.svg")
 var edit_action: ActionHandler.Action
-
-
-func init(player, l):
-	layer = l
-	set_player(player)
 
 
 func _ready():
@@ -19,7 +10,7 @@ func _ready():
 
 
 func set_player(player):
-	pc_player = player
+	.set_player(player)
 	edit_action = EditAction.new(layer, pc_player.action_handler.cursor, pc_player, false)
 
 
