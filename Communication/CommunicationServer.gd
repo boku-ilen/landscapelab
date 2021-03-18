@@ -13,7 +13,8 @@ var _handlers = {}
 # initialize the websocket server and listening for client connections
 func _ready():
 	self._ws_server = WebSocketServer.new()
-	var port = 1234 # FIXME: read from settings
+	self._ws_server.bind_ip = Settings.get_setting("server", "bind_ip")
+	var port = Settings.get_setting("server", "port")
 	var supported_protocols = [] # FIXME: read from settings
 
 	# Connect base signals for server client communication
@@ -25,8 +26,10 @@ func _ready():
 	# try to start listening
 	var err = _ws_server.listen(port, supported_protocols, false)
 	if err:
+		logger.error("server bindings could not be initialized (port: %s)" % [port])
 		# FIXME: server binding could not be initialized
-		pass
+	else:
+		logger.info("websocket server initialized on port %s" % [port])
 
 
 # close the server on unload
