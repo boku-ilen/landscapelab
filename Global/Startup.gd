@@ -12,7 +12,7 @@ func _ready():
 	# preliminary set the window title
 	# FIXME: Consider moving to the MainUI root - these may depend on which scene starts up
 	#  (e.g. GeoPackage selection in a non-maximized window similar to the Godot project selection)
-	OS.set_window_title("LandscapeLab!")
+	OS.set_window_title("Landscape.Lab!")
 	OS.set_window_maximized(true)
 
 	# TODO: check the runtime parameters
