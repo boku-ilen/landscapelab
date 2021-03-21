@@ -11,9 +11,11 @@ var _server = CommunicationServer  # internal reference to the singleton
 
 
 func _ready():
+	logger.debug("registering %s" % [self.protocol_keyword])
 	assert(!self.protocol_keyword.empty(), "AbstractRequestHandler is an abstract class - it must not be initialized")
 	if not self._server.register_handler(self):
 		logger.error("Could not register keyword {}".format(self.protocol_keyword))
+
 
 func _exit_tree():
 	self._server.unregister_handler(self)
@@ -24,10 +26,14 @@ func handle_request(request: Dictionary) -> Dictionary:
 	return {}
 
 
-# FIXME: in this case we probably can not use the same protocol keyword
-func send_request(request: Dictionary, target=null) -> Dictionary:
+# FIXME: in this case we probably can not use the same protocol keyword?
+func send_request(request: Dictionary, target=null):
 	assert(!self.protocol_keyword.empty(), "AbstractRequestHandler.handle_request has to be implemented")
-	return {}
+
+
+# this is the callback for the answer from the send_request
+func on_answer(answer: Dictionary, from):
+	assert(!self.protocol_keyword.empty(), "AbstractRequestHandler.handle_request has to be implemented")
 
 
 # this is an event handler sent to the request handlers before the server removes this request handler

@@ -5,10 +5,10 @@ extends Node
 # several connections to endpoints like the qgis-plugin or to LabTable(s)
 
 var _ws_server: WebSocketServer
-var _write_mode = WebSocketPeer.WRITE_MODE_TEXT  # TODO: or do we need BINARY?
+var _write_mode = WebSocketPeer.WRITE_MODE_TEXT
 var _clients = {}
 var _handlers = {}
-
+var _message_stack = {}
 
 # initialize the websocket server and listening for client connections
 func _ready():
@@ -74,42 +74,67 @@ func _process(_delta):
 
 # handle a new client connection and register it
 func _connected(id, proto):
-	logger.info("Connected client {} with protocol {}".format([id, proto]))
+	logger.info("Connected client %s with protocol %s" % [id, proto])
 	self._clients[id] = self._ws_server.get_peer(id)
 	self._clients[id].set_write_mode(self._write_mode)
 
 
 # remove a client connection
 func _disconnected(id, was_clean=false):
-	logger.info("Disconnected client {} (clean: {})".format([id, was_clean]))
+	logger.info("Disconnected client %s (clean: %s)" % [id, was_clean])
 	if self._clients.has(id):
 		self._clients.erase(id)
 
 
 func _close_request(id, code, reason):
-	logger.info("Disconnection request from client {} (code: {}, reason: {})".format([id, code, reason]))
+	logger.info("Disconnection request from client %s (code: %s, reason: %s)" % [id, code, reason])
 	# TODO: forward to _disconnect() ?
 
 
 func _on_data(id):
+	
+	# unpack the received data
 	var packet = self._ws_server.get_peer(id).get_packet()
-	logger.debug("received request from {} with data {}".format([id, packet]))
-	# FIXME: implement
+	var string = packet.get_string_from_utf8()
+	var json_dict = JSON.parse(string).result
+	
+	logger.debug("received request from %s with data %s" % [id, json_dict])
+	
+	var message_id = json_dict["message_id"]
+	var keyword = json_dict["keyword"]
+	
+	# detect if this is an answer to a sent message
+	if _message_stack.has(message_id):
+		var handler = _message_stack.get(_message_stack)
+		handler.on_answer(json_dict )  # FIXME: how to find according client_id?
+		
+	# not an answer so get the correct target and forward the message
+	else:
+		if _handlers.has(keyword):
+			var handler = _handlers.get(keyword)
+			var answer = handler.handle_request(json_dict)
+			if answer:
+				_send_data(answer )  # FIXME: how to find according client_id?
+			
+		else:
+			logger.warning("received a message without registered keyword %s" % [keyword])
 
 
 # FIXME: we could implement a send function like this but we have to determine which client id
 # FIXME: is the receiving part - or broadcast it and the client decides what to do with the event
-func _send_data(data, client_id=null):
+func _send_data(data: Dictionary, client_id=null):
 
 	# if id is null broadcast to all connected clients
 	if not client_id:
+		logger.debug("starting broadcast")
 		for client in _clients:
 			_send_data(data, client.id)
+		logger.debug("ending broadcast")
 
 	else:
-		logger.debug("send msg: {} to client {}".format(data, client_id))
-		# FIXME: to implement
-		pass
+		logger.debug("send msg: %s to client %s" % [data, client_id])
+		var message = JSON.print(data)
+		self._ws_server.get_peer(client_id).put_packet(message)
 
 # FIXME: this is a backward compatibility function which should soon be removed
 func get_json(parameter):
