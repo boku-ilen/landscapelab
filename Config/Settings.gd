@@ -6,7 +6,7 @@ extends Node
 #
 
 const default_configuration_path: String = "res://configuration.ini"
-const scenario_config_path: String = "res://sample1_2.gpkg"
+const scenario_config_path: String = "res://sample1_2.gpkg"  # FIXME: this should be autodetected or loaded from configuration
 const user_config_path: String = "user://configuration.ini"
 
 var config = ConfigFile.new()
