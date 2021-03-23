@@ -1,4 +1,5 @@
 extends AbstractRequestHandler
+class_name SetTableExtentRequestHandler
 
 #
 # Handles "set position" requests and sets the position on the target node accordingly.

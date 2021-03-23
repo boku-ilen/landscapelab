@@ -1,4 +1,5 @@
 extends AbstractRequestHandler
+class_name GetSettingsRequestHandler
 
 #
 # answers to GET_SETTINGS requests which indicate a connection initialization

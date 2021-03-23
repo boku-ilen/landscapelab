@@ -102,6 +102,7 @@ func _on_data(id):
 	
 	var message_id = json_dict["message_id"]
 	var keyword = json_dict["keyword"]
+	# FIXME: remove keyword and message_id from message
 	
 	# detect if this is an answer to a sent message
 	if _message_stack.has(message_id):
@@ -127,8 +128,8 @@ func _send_data(data: Dictionary, client_id=null):
 	# if id is null broadcast to all connected clients
 	if not client_id:
 		logger.debug("starting broadcast")
-		for client in _clients:
-			_send_data(data, client.id)
+		for client_id in _clients:
+			_send_data(data, _clients[client_id])
 		logger.debug("ending broadcast")
 
 	else:
