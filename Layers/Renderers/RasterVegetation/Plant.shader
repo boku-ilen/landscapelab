@@ -31,7 +31,7 @@ varying flat float row;
 varying flat float dist_id;
 
 void vertex() {
-	camera_pos = (CAMERA_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+	camera_pos = CAMERA_MATRIX[3].xyz;
 	
 	// Add the camera direction to the position to move it towards the player's view, making more
 	//  plants appear there as opposed to behind the player
@@ -67,6 +67,9 @@ void vertex() {
 	
 	float size_scale = dist_value.g;
 	VERTEX *= size_scale;
+	
+	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
+	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
 void fragment() {

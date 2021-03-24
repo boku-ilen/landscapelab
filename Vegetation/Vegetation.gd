@@ -82,10 +82,17 @@ func _create_plants_from_csv(csv_path: String) -> void:
 		var name_de = csv[8]
 		var name_en = csv[9]
 		var season = csv[10]
-		var source = csv[11]
-		var license = csv[12]
-		var author = csv[13]
-		var note = csv[14]
+		var style = csv[11]
+		var color = csv[12]
+		var source = csv[13]
+		var license = csv[14]
+		var author = csv[15]
+		var note = csv[16]
+		var density_ha = csv[17]
+		var cluster_width = csv[18]
+		var cluster_ha = csv[19]
+		var plants_ha = csv[20]
+		var density_class_string = csv[21]
 		
 		if id == "":
 			logger.warning("Plant with empty ID in plant CSV line: %s"
@@ -102,15 +109,21 @@ func _create_plants_from_csv(csv_path: String) -> void:
 		plant.size_class = parse_size(size)
 		plant.height_min = height_min
 		plant.height_max = height_max
-		plant.density = density
+		plant.density_ha = density_ha
+		plant.density_class = parse_density_class(density_class_string)
 		plant.species = species
 		plant.name_de = name_de
 		plant.name_en = name_en
 		plant.season = parse_season(season)
+		plant.style = style
+		plant.color = color
 		plant.source = source
 		plant.license = license
 		plant.author = author
 		plant.note = note
+		plant.cluster_width = cluster_width
+		plant.cluster_per_ha = cluster_ha
+		plant.plants_per_ha = plants_ha
 		
 		add_plant(plant)
 
@@ -201,15 +214,22 @@ func _save_plants_to_csv(csv_path):
 			reverse_parse_size(plant.size_class),
 			plant.height_min,
 			plant.height_max,
-			plant.density,
+			1.0, # TODO: Remove this old density
 			plant.species,
 			plant.name_de,
 			plant.name_en,
 			reverse_parse_season(plant.season),
+			plant.style,
+			plant.color,
 			plant.source,
 			plant.license,
 			plant.author,
-			plant.note
+			plant.note,
+			plant.density_ha,
+			plant.cluster_width,
+			plant.cluster_per_ha,
+			plant.plants_per_ha,
+			reverse_parse_density_class(plant.density_class)
 		])
 
 
@@ -253,17 +273,17 @@ func get_group_array_for_ids(id_array):
 	return group_array
 
 
-# Returns an array with the same groups as were given to the function,
-#  but with each group's plant array only consisting of plants within the
-#  given height range.
-func filter_group_array_by_height(group_array, min_height: float, max_height: float):
+# Returns an array with the same groups as were given in the function,
+#  but with each group's plant array only consisting of plants with the
+#  given density class.
+func filter_group_array_by_density_class(group_array: Array, density_class):
 	var new_array = []
 	
 	for group in group_array:
 		var plants = []
 		
 		for plant in group.plants:
-			if plant.height_max > min_height and plant.height_max < max_height:
+			if plant.density_class == density_class:
 				plants.append(plant)
 		
 		# Append a new Group which is identical to the one in the passed
@@ -333,14 +353,15 @@ func get_ground_sheet(group_array, texture_name):
 
 # Returns a 1x? spritesheet with each group's distribution texture in the
 #  rows.
-func get_distribution_sheet(group_array, max_size):
+func get_distribution_sheet(group_array):
 	var texture_table = Array()
 	texture_table.resize(group_array.size())
 	
 	var row = 0
 	
 	for group in group_array:
-		texture_table[row] = [generate_distribution(group, max_size)] \
+		# Max size of 40.0 is currently hardcoded - TODO: Generalize
+		texture_table[row] = [generate_distribution(group, 40.0)] \
 				if group.plants.size() > 0 else null
 		
 		row += 1
@@ -432,7 +453,7 @@ func generate_distribution(group: Group, max_size: float):
 			for plant in group.plants:
 				# Roll the dice weighed by the plant density. A small factor is
 				#  added because some plants never show up otherwise.
-				var roll = dice.randf_range(0.0, plant.density + 0.3)
+				var roll = dice.randf_range(0.0, plant.density_ha + 800.0)
 				
 				if roll > highest_roll:
 					highest_roll_id = current_plant_in_group_id
@@ -568,6 +589,49 @@ func reverse_parse_season(season):
 	else: return "UNKNOWN"
 
 
+enum DensityClass {S_PLANT, M_PLANT, L_PLANT, XL_PLANT, S_TREE, L_TREE}
+var max_densities = {
+	DensityClass.S_PLANT: 8.0,
+	DensityClass.M_PLANT: 5.0,
+	DensityClass.L_PLANT: 2.0,
+	DensityClass.XL_PLANT: 0.5,
+	DensityClass.S_TREE: 0.5,
+	DensityClass.L_TREE: 0.1
+}
+
+func parse_density_class(class_string: String):
+	if class_string == "S_PLANT":
+		return DensityClass.S_PLANT
+	elif class_string == "M_PLANT":
+		return DensityClass.M_PLANT
+	elif class_string == "L_PLANT":
+		return DensityClass.L_PLANT
+	elif class_string == "XL_PLANT":
+		return DensityClass.XL_PLANT
+	elif class_string == "S_TREE":
+		return DensityClass.S_TREE
+	elif class_string == "L_TREE":
+		return DensityClass.L_TREE
+	else:
+		logger.warning("Invalid density class: %s. Using S_PLANT as a fallback." % [class_string])
+		return DensityClass.S_PLANT
+
+
+func reverse_parse_density_class(density_class):
+	if density_class == DensityClass.S_PLANT:
+		return "S_PLANT"
+	elif density_class == DensityClass.M_PLANT:
+		return "M_PLANT"
+	elif density_class == DensityClass.L_PLANT:
+		return "L_PLANT"
+	elif density_class == DensityClass.XL_PLANT:
+		return "XL_PLANT"
+	elif density_class == DensityClass.S_TREE:
+		return "S_TREE"
+	elif density_class == DensityClass.L_TREE:
+		return "L_TREE"
+
+
 class Plant:
 	enum Size {XS, S, M, L, XL}
 	
@@ -579,6 +643,8 @@ class Plant:
 	var name_en: String
 	var name_de: String
 	var season#: Season
+	var style: String
+	var color: String
 	var source: String
 	var license: String
 	var author: String
@@ -586,7 +652,12 @@ class Plant:
 	
 	var height_min: float
 	var height_max: float
-	var density: float
+	
+	var density_class
+	var density_ha: int
+	var cluster_per_ha: int
+	var plants_per_ha: int
+	var cluster_width: float
 	
 	func _get_full_icon_path():
 		return Vegetation.billboard_base_path.plus_file("small-" + billboard_path) + BILLBOARD_ENDING
