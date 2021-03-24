@@ -6,13 +6,13 @@ extends Node
 #
 
 const default_configuration_path: String = "res://configuration.ini"
-const scenario_config_path: String = "res://sample1_2.gpkg"
+const scenario_config_path: String = "res://sample1_2.gpkg"  # FIXME: this should be autodetected or loaded from configuration
 const user_config_path: String = "user://configuration.ini"
 
 var config = ConfigFile.new()
 var user_config = ConfigFile.new()
 
-var software_config: Dictionary = {
+var software_config: Dictionary = { 
 	"meta": {
 		"version": "v0.5.0-dev",
 		"usage": "debug"
@@ -40,16 +40,22 @@ func load_settings():
 
 
 func _load_defaults():
+	
 	var err = config.load(default_configuration_path)
 	if err != OK:
 		logger.error("Default configuration could not be loaded. Is there a file configuration.ini?")
-		assert(true)
+		assert(true)  # FIXME: ? assert(false) maybe?
+		
+	# overwrite with the software configuration
+	for section in software_config:
+		for key in software_config[section]:
+			config.set_value(section, key, software_config[section][key])
 
 
 func _load_from_user_config():
 	var err = user_config.load(user_config_path)
 	if err != OK:
-		logger.error("User-configuration could not be loaded. Is there a file user-config.ini?")
+		logger.warning("User-configuration could not be loaded. Is there a file user://configuration.ini?")
 		return
 	
 	for section in user_config.get_sections():
@@ -60,6 +66,7 @@ func _load_from_user_config():
 
 func _load_from_scenario_config():
 	# FIXME: Load data from the geopackage
+	# FIXME: this is done by reading the LL_configuration table
 	pass
 
 

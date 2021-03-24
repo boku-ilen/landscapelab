@@ -1,2 +1,2 @@
-extends AbstractAsset
-
+extends AbstractObject
+class_name EnergyProducer

@@ -5,7 +5,7 @@
 * Open the Godot project 
 * Run the main scene
 
-we currently dont provide a executable runtime package
+we currently don't provide an executable runtime package
 
 ## Credits
 
