@@ -68,6 +68,10 @@ void vertex() {
 	float size_scale = dist_value.g;
 	VERTEX *= size_scale;
 	
+	// We need to do this in order to get correct height scales.
+	// TODO: Why? It seems to be exactly right like this - but where is this 1 additional meter coming from? And why does this not stretch the model?
+	VERTEX.y -= 1.0;
+	
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
