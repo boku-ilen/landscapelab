@@ -28,25 +28,25 @@
 [sub_resource type="Resource" id=1]
 script = ExtResource( 16 )
 density_class = 0
-extent = 4.0
+extent = 6.0
 mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 16 )
 density_class = 1
-extent = 8.0
+extent = 10.0
 mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=3]
 script = ExtResource( 16 )
 density_class = 2
-extent = 12.0
+extent = 16.0
 mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=4]
 script = ExtResource( 16 )
 density_class = 3
-extent = 20.0
+extent = 24.0
 mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=5]

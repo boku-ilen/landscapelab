@@ -5,10 +5,16 @@ extends Node
 # functionality such as generating spritesheets.
 # 
 
+# Width and height of the distribution picture -- increasing this may prevent repetitive patterns
 const distribution_size = 16
 
+# Size of the plant images and the ground texture
 const sprite_size = 2048
 const texture_size = 2048
+
+# Maximum plant height -- height values in the distribution map are interpreted to be between 0.0
+#  and this value
+const max_plant_height = 40.0
 
 # FIXME: this should be settings and default to neutral paths
 # Base folders for ground textures and billboard sprites -- entries in the definition CSVs are
@@ -19,10 +25,13 @@ var billboard_base_path = ""
 # We assume all billboards to end with 'png' since they require transparency
 const BILLBOARD_ENDING = ".png"
 
+# Cache for all images and image textures to prevent duplicate loading
 var plant_image_cache = {}
 var plant_image_texture_cache = {}
 var ground_image_cache = {}
 
+# Locked when a ground texture is loaded into the ground_image_cache to prevent potential
+#  multithreading issues
 var ground_image_mutex = Mutex.new()
 
 var plants = {}
@@ -62,8 +71,6 @@ func _create_plants_from_csv(csv_path: String) -> void:
 	var plant_headings = plant_csv.get_csv_line()
 	
 	while !plant_csv.eof_reached():
-		# Format:
-		# ID,FILE,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE
 		var csv = plant_csv.get_csv_line()
 		
 		if csv.size() < plant_headings.size():
@@ -71,6 +78,7 @@ func _create_plants_from_csv(csv_path: String) -> void:
 					% [csv])
 			continue
 		
+		# Read all CSV fields
 		var id = csv[0]
 		var file = csv[1]
 		var type = csv[2]
@@ -94,6 +102,7 @@ func _create_plants_from_csv(csv_path: String) -> void:
 		var plants_ha = csv[20]
 		var density_class_string = csv[21]
 		
+		# A missing ID makes a plant invalid
 		if id == "":
 			logger.warning("Plant with empty ID in plant CSV line: %s"
 					% [csv])
@@ -201,12 +210,10 @@ func _save_plants_to_csv(csv_path):
 				 % [csv_path])
 		return
 	
-	var headings = "ID,FILE,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE"
+	var headings = "ID,GENERIC_FILENAME,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,STYLE,COLOR,SOURCE,LICENSE,AUTHOR,NOTE,LAB_PLANT_DENSITY,GR-WIDTH,GR-PLANTS_per_HA,PLANTS_per_HA,DENSITY_CLASS"
 	plant_csv.store_line(headings)
 	
 	for plant in plants.values():
-		# Format:
-		# ID,FILE,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,SOURCE,LICENSE,AUTHOR,NOTE
 		plant_csv.store_csv_line([
 			plant.id,
 			plant.billboard_path,
@@ -214,7 +221,7 @@ func _save_plants_to_csv(csv_path):
 			reverse_parse_size(plant.size_class),
 			plant.height_min,
 			plant.height_max,
-			1.0, # TODO: Remove this old density
+			1.0, # TODO: Remove this old density (from the definition too)
 			plant.species,
 			plant.name_de,
 			plant.name_en,
@@ -246,8 +253,6 @@ func _save_groups_to_csv(csv_path: String) -> void:
 	group_csv.store_line(headings)
 	
 	for group in groups.values():
-		# Format:
-		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS,TEXTURE
 		group_csv.store_csv_line([
 			group.source,
 			group.snar_code,
@@ -360,8 +365,7 @@ func get_distribution_sheet(group_array):
 	var row = 0
 	
 	for group in group_array:
-		# Max size of 40.0 is currently hardcoded - TODO: Generalize
-		texture_table[row] = [generate_distribution(group, 40.0)] \
+		texture_table[row] = [generate_distribution(group, max_plant_height)] \
 				if group.plants.size() > 0 else null
 		
 		row += 1
@@ -426,11 +430,10 @@ func get_billboard_texture(group_array):
 	return texture_array
 
 
-# Returns a newly generated distribution map for the plants in the given
-#  group.
+# Returns a newly generated distribution map for the plants in the given group.
 # This map is a 16x16 image whose R values correspond to the IDs of the plants; the G values are
-#  the size scaling factors (between 0 and 1) for each particular plant instance, taking into
-#  account its min and max size.
+#  the size scaling factors (between 0 and 1 relative to the given max_size) for each particular
+#  plant instance, taking into account its min and max size.
 func generate_distribution(group: Group, max_size: float):
 	var distribution = Image.new()
 	distribution.create(distribution_size, distribution_size,
@@ -589,12 +592,14 @@ func reverse_parse_season(season):
 	else: return "UNKNOWN"
 
 
+# TODO: There might be a nicer data structure for this? But this works
+# TODO: The density values are experimental, but they seem to be within a sensible range
 enum DensityClass {S_PLANT, M_PLANT, L_PLANT, XL_PLANT, S_TREE, L_TREE}
 var max_densities = {
-	DensityClass.S_PLANT: 8.0,
-	DensityClass.M_PLANT: 5.0,
-	DensityClass.L_PLANT: 2.0,
-	DensityClass.XL_PLANT: 0.5,
+	DensityClass.S_PLANT: 5.0,
+	DensityClass.M_PLANT: 2.5,
+	DensityClass.L_PLANT: 1.5,
+	DensityClass.XL_PLANT: 1.0,
 	DensityClass.S_TREE: 0.5,
 	DensityClass.L_TREE: 0.1
 }
