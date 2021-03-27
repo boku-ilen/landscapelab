@@ -87,8 +87,7 @@ func _disconnected(id, was_clean=false):
 
 
 func _close_request(id, code, reason):
-	logger.info("Disconnection request from client %s (code: %s, reason: %s)" % [id, code, reason])
-	# TODO: forward to _disconnect() ?
+	logger.debug("Disconnection request from client %s (code: %s, reason: %s)" % [id, code, reason])
 
 
 func _on_data(id):
@@ -102,7 +101,8 @@ func _on_data(id):
 	
 	var message_id = json_dict["message_id"]
 	var keyword = json_dict["keyword"]
-	# FIXME: remove keyword and message_id from message
+	json_dict.erase("message_id")
+	json_dict.erase("keyword")
 	
 	# detect if this is an answer to a sent message
 	if _message_stack.has(message_id):
@@ -129,13 +129,13 @@ func _send_data(data: Dictionary, client_id=null):
 	if not client_id:
 		logger.debug("starting broadcast")
 		for client_id in _clients:
-			_send_data(data, _clients[client_id])
+			_send_data(data, client_id)
 		logger.debug("ending broadcast")
 
 	else:
 		logger.debug("send msg: %s to client %s" % [data, client_id])
 		var message = JSON.print(data)
-		self._ws_server.get_peer(client_id).put_packet(message)
+		self._ws_server.get_peer(client_id).put_packet(message.to_utf8())
 
 # FIXME: this is a backward compatibility function which should soon be removed
 func get_json(parameter):
