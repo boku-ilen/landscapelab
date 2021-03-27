@@ -26,6 +26,8 @@ func update_visualization(group_id):
 	
 	# Update ground texture if available
 	var ground_texture = Vegetation.groups[group_id].get_ground_texture("albedo")
+	var normal_texture = Vegetation.groups[group_id].get_ground_texture("normal")
 	
 	if ground_texture:
 		$GroundMesh.get_surface_material(0).albedo_texture = ground_texture
+		$GroundMesh.get_surface_material(0).normal_texture = normal_texture

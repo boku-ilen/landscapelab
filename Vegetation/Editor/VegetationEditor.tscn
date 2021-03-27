@@ -69,6 +69,8 @@ layers = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 
 size = Vector2( 500, 500 )
 
 [sub_resource type="SpatialMaterial" id=9]
+normal_enabled = true
+normal_scale = 1.0
 uv1_scale = Vector3( 100, 100, 100 )
 
 [node name="VegetationEditor" type="HSplitContainer"]
