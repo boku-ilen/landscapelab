@@ -2,20 +2,17 @@ extends Resource
 class_name VegetationLayerDefinition
 
 
-export(float) var min_plant_size
-export(float) var max_plant_size
+export(Vegetation.DensityClass) var density_class
 export(float) var extent
-export(float) var density
 export(Resource) var mesh
 
 
 func get_renderer():
 	var renderer = preload("res://Layers/Renderers/RasterVegetation/VegetationLayerRenderer.tscn").instance()
 	
-	renderer.min_size = min_plant_size
-	renderer.max_size = max_plant_size
-	renderer.rows = extent * density
-	renderer.spacing = 1.0 / density
+	renderer.density_class = density_class
+	renderer.rows = extent * Vegetation.max_densities[density_class]
+	renderer.spacing = 1.0 / Vegetation.max_densities[density_class]
 	renderer.set_mesh(mesh)
 	
 	return renderer

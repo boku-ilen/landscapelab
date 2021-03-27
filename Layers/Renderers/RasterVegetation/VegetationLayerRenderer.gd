@@ -5,10 +5,8 @@ extends Particles
 export var rows = 4 setget set_rows, get_rows
 export var spacing = 1.0 setget set_spacing, get_spacing
 
-# Min and max size of plants which this layer should render.
-# Should usually correspond to the mesh which is used to draw the plants.
-export(float) var min_size
-export(float) var max_size
+# Density class of this plant renderer -- influences the density of the rendered particles.
+export(Vegetation.DensityClass) var density_class
 
 # To allow some movement without having to load new data, not only the area
 #  given by rows * spacing is loaded, but this additional map size is added.
@@ -103,7 +101,7 @@ func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	#  parameters
 	var groups = Vegetation.get_group_array_for_ids(ids)
 	
-	var filtered_groups = Vegetation.filter_group_array_by_height(groups, min_size, max_size)
+	var filtered_groups = Vegetation.filter_group_array_by_density_class(groups, density_class)
 	
 	var billboard_tex = Vegetation.get_billboard_texture(filtered_groups)
 	
@@ -115,7 +113,7 @@ func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	else:
 		visible = true
 	
-	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_groups, max_size)
+	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_groups)
 	
 	# All spritesheets are organized like this:
 	# The rows correspond to land-use values

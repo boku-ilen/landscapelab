@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -13,11 +13,10 @@
 [ext_resource path="res://Vegetation/Editor/LoadButton.gd" type="Script" id=11]
 [ext_resource path="res://Vegetation/Editor/LoadDialog.gd" type="Script" id=12]
 [ext_resource path="res://Vegetation/Editor/Visualization.gd" type="Script" id=13]
-[ext_resource path="res://Resources/Meshes/VegetationBillboard/2m_billboard.obj" type="ArrayMesh" id=14]
+[ext_resource path="res://Vegetation/Editor/DensityClassDropdown.gd" type="Script" id=14]
 [ext_resource path="res://Vegetation/Editor/SaveButton.gd" type="Script" id=15]
 [ext_resource path="res://ResourceClasses/VegetationLayerDefinition.gd" type="Script" id=16]
 [ext_resource path="res://ResourceClasses/VegetationLayerComposition.gd" type="Script" id=17]
-[ext_resource path="res://Resources/Meshes/VegetationBillboard/10m_billboard.obj" type="ArrayMesh" id=18]
 [ext_resource path="res://Resources/Meshes/VegetationBillboard/40m_billboard.obj" type="ArrayMesh" id=19]
 [ext_resource path="res://Vegetation/Editor/TextureSelectButton.gd" type="Script" id=20]
 [ext_resource path="res://Vegetation/Editor/TextureFileDialog.gd" type="Script" id=21]
@@ -28,36 +27,48 @@
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 16 )
-min_plant_size = 0.0
-max_plant_size = 2.0
-extent = 20.0
-density = 3.0
-mesh = ExtResource( 14 )
+density_class = 0
+extent = 6.0
+mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 16 )
-min_plant_size = 2.0
-max_plant_size = 10.0
-extent = 80.0
-density = 0.15
-mesh = ExtResource( 18 )
+density_class = 1
+extent = 10.0
+mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=3]
 script = ExtResource( 16 )
-min_plant_size = 10.0
-max_plant_size = 40.0
-extent = 400.0
-density = 0.08
+density_class = 2
+extent = 16.0
 mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=4]
-script = ExtResource( 17 )
-layers = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ]
+script = ExtResource( 16 )
+density_class = 3
+extent = 24.0
+mesh = ExtResource( 19 )
 
-[sub_resource type="PlaneMesh" id=5]
+[sub_resource type="Resource" id=5]
+script = ExtResource( 16 )
+density_class = 4
+extent = 50.0
+mesh = ExtResource( 19 )
+
+[sub_resource type="Resource" id=6]
+script = ExtResource( 16 )
+density_class = 5
+extent = 100.0
+mesh = ExtResource( 19 )
+
+[sub_resource type="Resource" id=7]
+script = ExtResource( 17 )
+layers = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ]
+
+[sub_resource type="PlaneMesh" id=8]
 size = Vector2( 500, 500 )
 
-[sub_resource type="SpatialMaterial" id=6]
+[sub_resource type="SpatialMaterial" id=9]
 uv1_scale = Vector3( 100, 100, 100 )
 
 [node name="VegetationEditor" type="HSplitContainer"]
@@ -154,9 +165,10 @@ text = "Name:"
 
 [node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/Name"]
 margin_left = 56.0
-margin_right = 206.0
+margin_right = 222.0
 margin_bottom = 43.0
 rect_min_size = Vector2( 150, 0 )
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -176,8 +188,9 @@ text = "Min Height:"
 
 [node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/MinHeight"]
 margin_left = 92.0
-margin_right = 208.0
+margin_right = 222.0
 margin_bottom = 43.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -197,8 +210,9 @@ text = "Max Height:"
 
 [node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/MaxHeight"]
 margin_left = 97.0
-margin_right = 213.0
+margin_right = 222.0
 margin_bottom = 43.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -218,32 +232,53 @@ text = "Density:"
 
 [node name="LineEdit" type="LineEdit" parent="PlantPanel/PlantDetails/DetailList/Density"]
 margin_left = 68.0
-margin_right = 184.0
+margin_right = 222.0
 margin_bottom = 43.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SaveButton" type="Button" parent="PlantPanel/PlantDetails/DetailList"]
+[node name="DensityClass" type="HBoxContainer" parent="PlantPanel/PlantDetails/DetailList"]
 margin_top = 235.0
 margin_right = 222.0
-margin_bottom = 270.0
+margin_bottom = 271.0
+
+[node name="Prompt" type="Label" parent="PlantPanel/PlantDetails/DetailList/DensityClass"]
+margin_top = 6.0
+margin_right = 104.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 24 )
+text = "Density Class:"
+
+[node name="DensityClassDropdown" type="OptionButton" parent="PlantPanel/PlantDetails/DetailList/DensityClass"]
+margin_left = 112.0
+margin_right = 222.0
+margin_bottom = 36.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 24 )
+script = ExtResource( 14 )
+
+[node name="SaveButton" type="Button" parent="PlantPanel/PlantDetails/DetailList"]
+margin_top = 279.0
+margin_right = 222.0
+margin_bottom = 314.0
 custom_fonts/font = ExtResource( 24 )
 text = "Save"
 
 [node name="HSeparator" type="HSeparator" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 278.0
+margin_top = 322.0
 margin_right = 222.0
-margin_bottom = 286.0
+margin_bottom = 330.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="GroupButton" type="Button" parent="PlantPanel/PlantDetails/DetailList"]
-margin_top = 294.0
+margin_top = 338.0
 margin_right = 222.0
-margin_bottom = 329.0
+margin_bottom = 373.0
 custom_fonts/font = ExtResource( 24 )
 text = "Add to current group >"
 
@@ -317,8 +352,9 @@ __meta__ = {
 
 [node name="LineEdit" type="LineEdit" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Name"]
 margin_left = 56.0
-margin_right = 172.0
+margin_right = 222.0
 margin_bottom = 43.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 24 )
 
 [node name="Texture" type="HBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
@@ -338,8 +374,9 @@ __meta__ = {
 
 [node name="TextureSelectButton" type="Button" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Texture"]
 margin_left = 129.0
-margin_right = 199.0
+margin_right = 222.0
 margin_bottom = 35.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 24 )
 text = "Select"
 script = ExtResource( 20 )
@@ -441,7 +478,7 @@ render_target_update_mode = 3
 
 [node name="Visualization" type="Spatial" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport"]
 script = ExtResource( 13 )
-vegetation_layer_composition = SubResource( 4 )
+vegetation_layer_composition = SubResource( 7 )
 
 [node name="ClickDragCamera" type="Camera" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 2, 0 )
@@ -452,8 +489,8 @@ script = ExtResource( 25 )
 transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 8, 0 )
 
 [node name="GroundMesh" type="MeshInstance" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
-mesh = SubResource( 5 )
-material/0 = SubResource( 6 )
+mesh = SubResource( 8 )
+material/0 = SubResource( 9 )
 
 [node name="UpdateVisButton" type="Button" parent="HSplitContainer/VBoxContainer"]
 margin_top = 959.0
