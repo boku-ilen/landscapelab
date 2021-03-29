@@ -36,6 +36,8 @@ var ground_image_mutex = Mutex.new()
 
 var plants = {}
 var groups = {}
+var density_classes = {}
+var ground_textures = {}
 
 signal new_data
 
@@ -49,14 +51,55 @@ func add_group(group):
 
 
 # Read Plants and Groups from the given CSV files.
-func load_data_from_csv(plant_path: String, group_path: String) -> void:
+func load_data_from_csv(plant_path: String, group_path: String, density_path: String, texture_definition_path) -> void:
 	plants = {}
 	groups = {}
 	
+	_create_density_classes_from_csv(density_path)
+	_create_textures_from_csv(texture_definition_path)
 	_create_plants_from_csv(plant_path)
 	_create_groups_from_csv(group_path)
 	
 	emit_signal("new_data")
+
+
+func _create_density_classes_from_csv(csv_path: String) -> void:
+	var density_csv = CSVReader.new()
+	density_csv.read_csv(csv_path)
+	
+	for line in density_csv.get_lines():
+		var density_class = DensityClass.new(
+			line["ID"],
+			line["Density Class"],
+			line["Image Type"],
+			line["Note"],
+			line["Godot Density per m"]
+		)
+		density_classes[density_class.id] = density_class
+		
+		print(density_class)
+
+
+func _create_textures_from_csv(csv_path: String) -> void:
+	var texture_csv = CSVReader.new()
+	texture_csv.read_csv(csv_path)
+	
+	for line in texture_csv.get_lines():
+		var texture = GroundTexture.new(
+			line["ID"],
+			line["Texture"],
+			line["TYPE"],
+			line["SIZE"],
+			Seasons.new(
+				true if line["SPRING"] == "1" else false,
+				true if line["SUMMER"] == "1" else false,
+				true if line["AUTUMN"] == "1" else false,
+				true if line["WINTER"] == "1" else false
+			),
+			line["DESC"],
+			line["APPLICATIONS"]
+		)
+		ground_textures[texture.id] = texture
 
 
 func _create_plants_from_csv(csv_path: String) -> void:
@@ -112,6 +155,10 @@ func _create_plants_from_csv(csv_path: String) -> void:
 		
 		var plant = Plant.new()
 		
+		if (not density_classes.has(density_class_string)):
+			logger.warning("Unknown Density Class: %s" % [density_class_string])
+			continue
+		
 		plant.id = id
 		plant.billboard_path = file
 		plant.type = type
@@ -119,7 +166,7 @@ func _create_plants_from_csv(csv_path: String) -> void:
 		plant.height_min = height_min
 		plant.height_max = height_max
 		plant.density_ha = density_ha
-		plant.density_class = parse_density_class(density_class_string)
+		plant.density_class = density_classes[density_class_string]
 		plant.species = species
 		plant.name_de = name_de
 		plant.name_en = name_en
@@ -236,7 +283,7 @@ func _save_plants_to_csv(csv_path):
 			plant.cluster_width,
 			plant.cluster_per_ha,
 			plant.plants_per_ha,
-			reverse_parse_density_class(plant.density_class)
+			plant.density_class.id
 		])
 
 
@@ -478,6 +525,37 @@ func generate_distribution(group: Group, max_size: float):
 
 
 
+class Seasons:
+	var spring: bool
+	var summer: bool
+	var fall: bool
+	var winter: bool
+	
+	func _init(spring: bool, summer: bool, fall: bool, winter: bool):
+		self.spring = spring
+		self.summer = summer
+		self.fall = fall
+		self.winter = winter
+
+
+class GroundTexture:
+	var id: int
+	var texture_name: String
+	var type: String
+	var size_m: float
+	var seasons: Seasons
+	var description: String
+	var applications: String
+	
+	func _init(id, texture_name, type, size_m, seasons, description, applications):
+		self.id = id
+		self.texture_name = texture_name
+		self.type = type
+		self.size_m = size_m
+		self.seasons = seasons
+		self.description = description
+		self.applications = applications
+
 
 class Group:
 	var id
@@ -592,49 +670,19 @@ func reverse_parse_season(season):
 	else: return "UNKNOWN"
 
 
-# TODO: There might be a nicer data structure for this? But this works
-# TODO: The density values are experimental, but they seem to be within a sensible range
-enum DensityClass {S_PLANT, M_PLANT, L_PLANT, XL_PLANT, S_TREE, L_TREE}
-var max_densities = {
-	DensityClass.S_PLANT: 5.0,
-	DensityClass.M_PLANT: 2.5,
-	DensityClass.L_PLANT: 1.5,
-	DensityClass.XL_PLANT: 1.0,
-	DensityClass.S_TREE: 0.5,
-	DensityClass.L_TREE: 0.1
-}
-
-func parse_density_class(class_string: String):
-	if class_string == "S_PLANT":
-		return DensityClass.S_PLANT
-	elif class_string == "M_PLANT":
-		return DensityClass.M_PLANT
-	elif class_string == "L_PLANT":
-		return DensityClass.L_PLANT
-	elif class_string == "XL_PLANT":
-		return DensityClass.XL_PLANT
-	elif class_string == "S_TREE":
-		return DensityClass.S_TREE
-	elif class_string == "L_TREE":
-		return DensityClass.L_TREE
-	else:
-		logger.warning("Invalid density class: %s. Using S_PLANT as a fallback." % [class_string])
-		return DensityClass.S_PLANT
-
-
-func reverse_parse_density_class(density_class):
-	if density_class == DensityClass.S_PLANT:
-		return "S_PLANT"
-	elif density_class == DensityClass.M_PLANT:
-		return "M_PLANT"
-	elif density_class == DensityClass.L_PLANT:
-		return "L_PLANT"
-	elif density_class == DensityClass.XL_PLANT:
-		return "XL_PLANT"
-	elif density_class == DensityClass.S_TREE:
-		return "S_TREE"
-	elif density_class == DensityClass.L_TREE:
-		return "L_TREE"
+class DensityClass:
+	var id: int
+	var name: String
+	var image_type: String
+	var note: String
+	var density_per_m: float
+	
+	func _init(id, name, image_type, note, density_per_m):
+		self.id = id
+		self.name = name
+		self.image_type = image_type
+		self.note = note
+		self.density_per_m = density_per_m
 
 
 class Plant:

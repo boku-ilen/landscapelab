@@ -26,7 +26,9 @@ func switch_to_vegetation_editor():
 	
 	Vegetation.load_data_from_csv(
 		config.get_value("paths", "plant_csv_path"),
-		config.get_value("paths", "group_csv_path")
+		config.get_value("paths", "group_csv_path"),
+		config.get_value("paths", "density_csv_path"),
+		config.get_value("paths", "texture_csv_path")
 	)
 	
 	call_deferred("_on_switch_to_vegetation_editor")

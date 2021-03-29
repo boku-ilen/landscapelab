@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -10,8 +10,6 @@
 [ext_resource path="res://Vegetation/Editor/GroupDetails.gd" type="Script" id=8]
 [ext_resource path="res://Vegetation/Editor/VisualizationUI.gd" type="Script" id=9]
 [ext_resource path="res://Vegetation/Editor/SaveDialog.gd" type="Script" id=10]
-[ext_resource path="res://Vegetation/Editor/LoadButton.gd" type="Script" id=11]
-[ext_resource path="res://Vegetation/Editor/LoadDialog.gd" type="Script" id=12]
 [ext_resource path="res://Vegetation/Editor/Visualization.gd" type="Script" id=13]
 [ext_resource path="res://Vegetation/Editor/DensityClassDropdown.gd" type="Script" id=14]
 [ext_resource path="res://Vegetation/Editor/SaveButton.gd" type="Script" id=15]
@@ -27,37 +25,37 @@
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 16 )
-density_class = 0
+density_class_id = 1
 extent = 6.0
 mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 16 )
-density_class = 1
+density_class_id = 1
 extent = 10.0
 mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=3]
 script = ExtResource( 16 )
-density_class = 2
+density_class_id = 1
 extent = 16.0
 mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=4]
 script = ExtResource( 16 )
-density_class = 3
+density_class_id = 1
 extent = 24.0
 mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=5]
 script = ExtResource( 16 )
-density_class = 4
+density_class_id = 1
 extent = 50.0
 mesh = ExtResource( 19 )
 
 [sub_resource type="Resource" id=6]
 script = ExtResource( 16 )
-density_class = 5
+density_class_id = 1
 extent = 100.0
 mesh = ExtResource( 19 )
 
@@ -439,7 +437,7 @@ margin_bottom = 1080.0
 
 [node name="VisualizationUI" type="ViewportContainer" parent="HSplitContainer/VBoxContainer"]
 margin_right = 1372.0
-margin_bottom = 951.0
+margin_bottom = 994.0
 rect_min_size = Vector2( 1000, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -474,7 +472,7 @@ custom_fonts/font = ExtResource( 24 )
 text = "Aerial View (50m)"
 
 [node name="Viewport" type="Viewport" parent="HSplitContainer/VBoxContainer/VisualizationUI"]
-size = Vector2( 1372, 951 )
+size = Vector2( 1372, 994 )
 handle_input_locally = false
 render_target_update_mode = 3
 
@@ -495,16 +493,16 @@ mesh = SubResource( 8 )
 material/0 = SubResource( 9 )
 
 [node name="UpdateVisButton" type="Button" parent="HSplitContainer/VBoxContainer"]
-margin_top = 959.0
+margin_top = 1002.0
 margin_right = 1372.0
-margin_bottom = 994.0
+margin_bottom = 1037.0
 custom_fonts/font = ExtResource( 24 )
 text = "Update"
 
 [node name="SaveButton" type="Button" parent="HSplitContainer/VBoxContainer"]
-margin_top = 1002.0
+margin_top = 1045.0
 margin_right = 1372.0
-margin_bottom = 1037.0
+margin_bottom = 1080.0
 custom_fonts/font = ExtResource( 24 )
 text = "Save Configuration"
 script = ExtResource( 15 )
@@ -524,33 +522,6 @@ access = 2
 current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 script = ExtResource( 10 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LoadButton" type="Button" parent="HSplitContainer/VBoxContainer"]
-margin_top = 1045.0
-margin_right = 1372.0
-margin_bottom = 1080.0
-custom_fonts/font = ExtResource( 24 )
-text = "Load Configuration"
-script = ExtResource( 11 )
-
-[node name="LoadDialog" type="FileDialog" parent="HSplitContainer/VBoxContainer/LoadButton"]
-margin_left = -287.673
-margin_top = -822.657
-margin_right = 697.327
-margin_bottom = -216.657
-window_title = "Open a Directory"
-dialog_text = "The selected folder must contain a 'plants.csv' and a 'groups.csv'."
-dialog_hide_on_ok = true
-dialog_autowrap = true
-mode_overrides_title = false
-mode = 2
-access = 2
-current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
-current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
-script = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

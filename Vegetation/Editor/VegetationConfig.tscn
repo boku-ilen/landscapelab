@@ -30,7 +30,7 @@ __meta__ = {
 margin_left = 14.0
 margin_top = 14.0
 margin_right = 363.0
-margin_bottom = 186.0
+margin_bottom = 276.0
 
 [node name="PlantCSVButton" type="Button" parent="PanelContainer/SelectButtons"]
 margin_right = 349.0
@@ -73,13 +73,55 @@ filters = PoolStringArray( "*.csv" )
 current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
-[node name="PlantButton" type="Button" parent="PanelContainer/SelectButtons"]
+[node name="DensityCSVButton" type="Button" parent="PanelContainer/SelectButtons"]
 margin_top = 90.0
 margin_right = 349.0
 margin_bottom = 127.0
+text = "Set Density Class CSV Path"
+script = ExtResource( 1 )
+vegetation_variable_name = "density_csv_path"
+
+[node name="FileDialog" type="FileDialog" parent="PanelContainer/SelectButtons/DensityCSVButton"]
+margin_top = -33.0
+margin_right = 645.0
+margin_bottom = 215.0
+rect_min_size = Vector2( 800, 800 )
+window_title = "Open a File"
+resizable = true
+mode = 0
+access = 2
+filters = PoolStringArray( "*.csv" )
+current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
+current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
+
+[node name="TextureCSVButton" type="Button" parent="PanelContainer/SelectButtons"]
+margin_top = 135.0
+margin_right = 349.0
+margin_bottom = 172.0
+text = "Set Ground Texture CSV Path"
+script = ExtResource( 1 )
+vegetation_variable_name = "texture_csv_path"
+
+[node name="FileDialog" type="FileDialog" parent="PanelContainer/SelectButtons/TextureCSVButton"]
+margin_top = -33.0
+margin_right = 645.0
+margin_bottom = 215.0
+rect_min_size = Vector2( 800, 800 )
+window_title = "Open a File"
+resizable = true
+mode = 0
+access = 2
+filters = PoolStringArray( "*.csv" )
+current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
+current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
+
+[node name="PlantButton" type="Button" parent="PanelContainer/SelectButtons"]
+margin_top = 180.0
+margin_right = 349.0
+margin_bottom = 217.0
 hint_tooltip = "The Plant Picture path must contain a folder with all billboard images. For preview images, it should also include downsized images prefixed with 'small-'."
 size_flags_horizontal = 3
-text = "Set Plant Picture Path"
+text = "Set Plant Picture Base Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "plant_path"
 
@@ -96,9 +138,9 @@ current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="GroundButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 135.0
+margin_top = 225.0
 margin_right = 349.0
-margin_bottom = 172.0
+margin_bottom = 262.0
 hint_tooltip = "The Plant Picture path must contain a folder with all billboard images. For preview images, it should also include downsized images prefixed with 'small-'."
 text = "Set Ground Texture Base Path"
 script = ExtResource( 1 )

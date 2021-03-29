@@ -6,7 +6,7 @@ export var rows = 4 setget set_rows, get_rows
 export var spacing = 1.0 setget set_spacing, get_spacing
 
 # Density class of this plant renderer -- influences the density of the rendered particles.
-export(Vegetation.DensityClass) var density_class
+export(int) var density_class
 
 # To allow some movement without having to load new data, not only the area
 #  given by rows * spacing is loaded, but this additional map size is added.
