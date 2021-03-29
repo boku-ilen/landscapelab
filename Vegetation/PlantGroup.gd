@@ -1,6 +1,12 @@
 extends Object
 class_name PlantGroup
 
+#
+# A group of multiple Plant objects along with some additional parameters.
+# These can be displayed by a vegetation renderer.
+#
+
+
 var id
 var plants: Array
 var ground_texture_folder

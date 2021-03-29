@@ -5,6 +5,7 @@ extends Node
 # functionality such as generating spritesheets.
 # 
 
+
 # Width and height of the distribution picture -- increasing this may prevent repetitive patterns
 const distribution_size = 16
 

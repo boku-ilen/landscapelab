@@ -1,5 +1,10 @@
 extends Node
 
+#
+# Global paths and caches relating to Vegetation image data.
+#
+
+
 const SPRITE_SIZE = 2048
 const GROUND_TEXTURE_SIZE = 2048
 

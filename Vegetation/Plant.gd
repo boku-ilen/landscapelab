@@ -1,6 +1,12 @@
 extends Object
 class_name Plant
 
+#
+# Definition of a plant to be used in a PlantGroup. Provides access to the billboard image (texture)
+# and metadata like the height.
+#
+
+
 # We assume all billboards to end with 'png' since they require transparency
 const BILLBOARD_ENDING = ".png"
 

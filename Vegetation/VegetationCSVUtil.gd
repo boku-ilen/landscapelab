@@ -1,6 +1,11 @@
 extends Object
 class_name VegetationCSVUtil
 
+#
+# Static utility functions for loading Vegetation objects from pre-defined CSV files.
+#
+
+
 static func create_density_classes_from_csv(csv_path: String) -> Dictionary:
 	var density_classes = {}
 	

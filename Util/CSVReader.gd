@@ -1,7 +1,19 @@
 extends Object
 class_name CSVReader
 
+#
+# Utility object for reading from CSV files. Each line is parsed into a dictionary with the headers
+# (the first CSV row) as the keys.
+# 
+# Assumptions about the CSV file:
+# - The headers are in the first row
+# - These headers apply to every row
+# - Each row has the same length
+#
+
+
 var lines = []
+
 
 func read_csv(csv_path: String) -> void:
 	var csv_file = File.new()

@@ -1,6 +1,12 @@
 extends Object
 class_name GroundTexture
 
+#
+# Definition of a Ground Texture as assigned to a PlantGroup. Essentially a collection of textures
+# (albedo, normal, etc.) along with some metadata such as the size.
+#
+
+
 var id: int
 var texture_name: String
 var type: String

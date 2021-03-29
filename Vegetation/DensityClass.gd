@@ -1,6 +1,13 @@
 extends Object
 class_name DensityClass
 
+#
+# Plants are put into Density Classes which control how densely they are rendered. Putting multiple
+# plants into the same density class makes them share the total density, causing each plant's
+# individual density to be reduced.
+#
+
+
 var id: int
 var name: String
 var image_type: String
