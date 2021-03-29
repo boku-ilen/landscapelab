@@ -8,28 +8,9 @@ extends Node
 # Width and height of the distribution picture -- increasing this may prevent repetitive patterns
 const distribution_size = 16
 
-# Size of the plant images and the ground texture
-const texture_size = 2048
-const sprite_size = 2048 # TODO: Move
-
 # Maximum plant height -- height values in the distribution map are interpreted to be between 0.0
 #  and this value
 const max_plant_height = 40.0
-
-# FIXME: this should be settings and default to neutral paths
-# Base folders for ground textures and billboard sprites -- entries in the definition CSVs are
-#  relative to these
-var ground_texture_base_path = ""
-var billboard_base_path = ""
-
-# Cache for all images and image textures to prevent duplicate loading
-var plant_image_cache = {}
-var plant_image_texture_cache = {}
-var ground_image_cache = {}
-
-# Locked when a ground texture is loaded into the ground_image_cache to prevent potential
-#  multithreading issues
-var ground_image_mutex = Mutex.new()
 
 var plants = {}
 var groups = {}
@@ -125,7 +106,7 @@ func get_billboard_sheet(group_array: Array):
 		row += 1
 		
 	return SpritesheetHelper.create_spritesheet(
-			Vector2(sprite_size, sprite_size),
+			Vector2(VegetationImages.SPRITE_SIZE, VegetationImages.SPRITE_SIZE),
 			billboard_table,
 			SpritesheetHelper.SCALING.KEEP_ASPECT)
 
@@ -143,7 +124,7 @@ func get_ground_sheet(group_array, texture_name):
 		row += 1
 	
 	return SpritesheetHelper.create_spritesheet(
-			Vector2(texture_size, texture_size),
+			Vector2(VegetationImages.GROUND_TEXTURE_SIZE, VegetationImages.GROUND_TEXTURE_SIZE),
 			texture_table,
 			SpritesheetHelper.SCALING.STRETCH)[0]
 

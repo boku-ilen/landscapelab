@@ -5,7 +5,7 @@ signal new_texture_selected(texture_path)
 
 
 func _ready():
-	current_dir = Vegetation.ground_texture_base_path
+	current_dir = VegetationImages.ground_image_base_path
 	connect("dir_selected", self, "_on_dir_selected")
 
 

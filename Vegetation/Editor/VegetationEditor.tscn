@@ -25,7 +25,7 @@
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 16 )
-density_class_id = 1
+density_class_id = 0
 extent = 6.0
 mesh = ExtResource( 19 )
 

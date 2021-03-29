@@ -21,8 +21,8 @@ func switch_to_vegetation_editor():
 	# Load again to get the latest data
 	config.load("user://vegetation_paths.cfg")
 	
-	Vegetation.ground_texture_base_path = config.get_value("paths", "ground_path")
-	Vegetation.billboard_base_path = config.get_value("paths", "plant_path")
+	VegetationImages.ground_image_base_path = config.get_value("paths", "ground_path")
+	VegetationImages.plant_image_base_path = config.get_value("paths", "plant_path")
 	
 	Vegetation.load_data_from_csv(
 		config.get_value("paths", "plant_csv_path"),
