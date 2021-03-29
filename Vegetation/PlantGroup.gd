@@ -9,7 +9,7 @@ class_name PlantGroup
 
 var id
 var plants: Array
-var ground_texture_folder
+var ground_texture: GroundTexture
 
 # Misc
 var source
@@ -20,13 +20,13 @@ var name_de
 var name_en
 var snar_group
 
-func _init(id, name_en, plants = null, ground_texture_folder = null, source="", snar_code="",
+func _init(id, name_en, plants = null, ground_texture = null, source="", snar_code="",
 		snarx10="", snar_name="", name_de="", snar_group=""):
 	self.id = int(id)
 	self.name_en = name_en
 	
-	if ground_texture_folder:
-		self.ground_texture_folder = ground_texture_folder
+	if ground_texture:
+		self.ground_texture = ground_texture
 	
 	if plants:
 		self.plants = plants
@@ -45,10 +45,10 @@ func remove_plant(plant: Plant):
 	plants.erase(plant)
 
 func get_ground_image(image_name):
-	if not ground_texture_folder: return null
+	if not ground_texture: return null
 	
 	var full_path = VegetationImages.ground_image_base_path \
-			.plus_file(ground_texture_folder) \
+			.plus_file(ground_texture.texture_name) \
 			.plus_file(image_name + ".jpg")
 	
 	VegetationImages.ground_image_mutex.lock()

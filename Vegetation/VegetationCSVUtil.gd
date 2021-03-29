@@ -138,7 +138,7 @@ static func create_plants_from_csv(csv_path: String, density_classes: Dictionary
 	return plants
 
 
-static func create_groups_from_csv(csv_path: String, plants: Dictionary) -> Dictionary:
+static func create_groups_from_csv(csv_path: String, plants: Dictionary, ground_textures: Dictionary) -> Dictionary:
 	var groups = {}
 	
 	var group_csv = File.new()
@@ -189,9 +189,14 @@ static func create_groups_from_csv(csv_path: String, plants: Dictionary) -> Dict
 						% [plant_id, csv_path])
 		
 		# null is encoded as the string "Null"
-		var ground_texture_path = csv[9] if csv[9] != "Null" else null
+		var ground_texture_id = csv[9] if not csv[9].empty() and csv[9] != "Null" else null
 		
-		var group = PlantGroup.new(id, name_en, group_plants, ground_texture_path,
+		if not ground_texture_id or not ground_textures.has(ground_texture_id):
+			logger.warning("Non-existent ground texture ID %s in group %s, using 1 as fallback"
+					% [ground_texture_id, id])
+			ground_texture_id = 1
+		
+		var group = PlantGroup.new(id, name_en, group_plants, ground_textures[ground_texture_id],
 				csv[0], csv[1], csv[2], csv[3], csv[4], csv[6])
 		
 		groups[group.id] = group
@@ -261,7 +266,7 @@ static func save_groups_to_csv(csv_path: String, groups) -> void:
 			group.snar_group,
 			group.id,
 			PoolStringArray(group.get_plant_ids()).join(","),
-			group.ground_texture_folder
+			group.ground_texture.id
 		])
 
 

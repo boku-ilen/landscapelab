@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -10,14 +10,13 @@
 [ext_resource path="res://Vegetation/Editor/GroupDetails.gd" type="Script" id=8]
 [ext_resource path="res://Vegetation/Editor/VisualizationUI.gd" type="Script" id=9]
 [ext_resource path="res://Vegetation/Editor/SaveDialog.gd" type="Script" id=10]
+[ext_resource path="res://Vegetation/Editor/TextureOptionButton.gd" type="Script" id=11]
 [ext_resource path="res://Vegetation/Editor/Visualization.gd" type="Script" id=13]
 [ext_resource path="res://Vegetation/Editor/DensityClassDropdown.gd" type="Script" id=14]
 [ext_resource path="res://Vegetation/Editor/SaveButton.gd" type="Script" id=15]
 [ext_resource path="res://ResourceClasses/VegetationLayerDefinition.gd" type="Script" id=16]
 [ext_resource path="res://ResourceClasses/VegetationLayerComposition.gd" type="Script" id=17]
 [ext_resource path="res://Resources/Meshes/VegetationBillboard/40m_billboard.obj" type="ArrayMesh" id=19]
-[ext_resource path="res://Vegetation/Editor/TextureSelectButton.gd" type="Script" id=20]
-[ext_resource path="res://Vegetation/Editor/TextureFileDialog.gd" type="Script" id=21]
 [ext_resource path="res://Vegetation/Editor/PlantFilter.gd" type="Script" id=22]
 [ext_resource path="res://Vegetation/Editor/PlantSelection.gd" type="Script" id=23]
 [ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=24]
@@ -360,7 +359,7 @@ custom_fonts/font = ExtResource( 24 )
 [node name="Texture" type="HBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
 margin_top = 82.0
 margin_right = 222.0
-margin_bottom = 117.0
+margin_bottom = 118.0
 
 [node name="Prompt" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Texture"]
 margin_top = 6.0
@@ -372,48 +371,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureSelectButton" type="Button" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Texture"]
+[node name="TextureOptionButton" type="OptionButton" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Texture"]
 margin_left = 129.0
 margin_right = 222.0
-margin_bottom = 35.0
+margin_bottom = 36.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 24 )
-text = "Select"
-script = ExtResource( 20 )
-
-[node name="TextureFileDialog" type="FileDialog" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Texture/TextureSelectButton"]
-margin_left = -370.779
-margin_top = -538.054
-margin_right = 454.221
-margin_bottom = 133.946
-window_title = "Select Ground Texture Folder"
-dialog_text = "The selected folder must contain a texture and a normal map, named 'albedo.jpg' and 'normal.jpg' respectively."
-dialog_hide_on_ok = true
-dialog_autowrap = true
-mode_overrides_title = false
-mode = 2
-access = 2
-current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
-current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
-script = ExtResource( 21 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 11 )
 
 [node name="HSeparator" type="HSeparator" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_top = 125.0
+margin_top = 126.0
 margin_right = 222.0
-margin_bottom = 133.0
+margin_bottom = 134.0
 
 [node name="ListHeading" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_top = 141.0
+margin_top = 142.0
 margin_right = 222.0
-margin_bottom = 164.0
+margin_bottom = 165.0
 custom_fonts/font = ExtResource( 24 )
 text = "Plants:"
 
 [node name="GroupPlantList" type="ItemList" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_top = 172.0
+margin_top = 173.0
 margin_right = 222.0
 margin_bottom = 385.0
 rect_min_size = Vector2( 0, 150 )

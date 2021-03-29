@@ -5,7 +5,7 @@ export(Resource) var vegetation_layer_composition
 
 
 func _ready():
-	add_child(vegetation_layer_composition.get_renderers("VegetationRenderers"))
+	add_child(Vegetation.get_renderers())
 
 
 # Called when the node enters the scene tree for the first time.

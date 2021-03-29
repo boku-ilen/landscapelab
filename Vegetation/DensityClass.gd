@@ -14,6 +14,10 @@ var image_type: String
 var note: String
 var density_per_m: float
 
+# TODO: This influences the rendering of the DensityClass, but it is not really part of the
+#  DensityClass definition, rather it is a PC-specific setting. Should it be moved?
+var extent = 30.0 # FIXME: Placeholder value
+
 func _init(id, name, image_type, note, density_per_m):
 	self.id = id
 	self.name = name

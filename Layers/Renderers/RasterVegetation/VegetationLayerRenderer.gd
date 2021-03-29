@@ -6,7 +6,7 @@ export var rows = 4 setget set_rows, get_rows
 export var spacing = 1.0 setget set_spacing, get_spacing
 
 # Density class of this plant renderer -- influences the density of the rendered particles.
-export(int) var density_class
+var density_class: DensityClass setget set_density_class, get_density_class
 
 # To allow some movement without having to load new data, not only the area
 #  given by rows * spacing is loaded, but this additional map size is added.
@@ -23,6 +23,15 @@ var load_thread = Thread.new()
 var previous_origin
 
 var current_offset_from_shifting = Vector2.ZERO
+
+func set_density_class(new_density_class):
+	density_class = new_density_class
+	
+	rows = new_density_class.extent * new_density_class.density_per_m
+	spacing = 1.0 / new_density_class.density_per_m
+
+func get_density_class():
+	return density_class
 
 func set_mesh(new_mesh):
 	draw_pass_1 = new_mesh

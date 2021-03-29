@@ -29,7 +29,7 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	density_classes = VegetationCSVUtil.create_density_classes_from_csv(density_path)
 	ground_textures = VegetationCSVUtil.create_textures_from_csv(texture_definition_path)
 	plants = VegetationCSVUtil.create_plants_from_csv(plant_path, density_classes)
-	groups = VegetationCSVUtil.create_groups_from_csv(group_path, plants)
+	groups = VegetationCSVUtil.create_groups_from_csv(group_path, plants, ground_textures)
 	
 	emit_signal("new_data")
 
@@ -70,7 +70,7 @@ func filter_group_array_by_density_class(group_array: Array, density_class):
 		new_array.append(PlantGroup.new(group.id,
 				group.name_en,
 				plants,
-				group.ground_texture_folder))
+				group.ground_texture))
 	
 	return new_array
 
@@ -249,3 +249,21 @@ func generate_distribution(group: PlantGroup, max_size: float):
 	distribution.unlock()
 	
 	return distribution
+
+
+# Return all renderers according to the set Density Classes. The renderers are children of the
+#  returned Spatial.
+func get_renderers() -> Spatial:
+	var root = Spatial.new()
+	root.name = "VegetationRenderers"
+	
+	for density_class in density_classes.values():
+		var renderer = preload("res://Layers/Renderers/RasterVegetation/VegetationLayerRenderer.tscn").instance()
+		
+		renderer.density_class = density_class
+		# TODO: Remove hardcoded path
+		renderer.set_mesh(preload("res://Resources/Meshes/VegetationBillboard/40m_billboard.obj"))
+		
+		root.add_child(renderer)
+	
+	return root
