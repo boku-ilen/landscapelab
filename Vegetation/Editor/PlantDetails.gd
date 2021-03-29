@@ -1,14 +1,14 @@
 extends PanelContainer
 
 
-var current_plant: Vegetation.Plant
+var current_plant: Plant
 
 
 func _ready():
 	$DetailList/SaveButton.connect("pressed", self, "save_plant_values")
 
 
-func set_plant(plant: Vegetation.Plant):
+func set_plant(plant: Plant):
 	current_plant = plant
 	$DetailList/ID/Label.text = str(plant.id)
 	$DetailList/Name/LineEdit.text = plant.name_en
