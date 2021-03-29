@@ -38,10 +38,10 @@ func add_plant(plant: Plant):
 func remove_plant(plant: Plant):
 	plants.erase(plant)
 
-func get_ground_image(base_path, image_name):
+func get_ground_image(image_name):
 	if not ground_texture_folder: return null
 	
-	var full_path = base_path \
+	var full_path = VegetationImages.ground_image_base_path \
 			.plus_file(ground_texture_folder) \
 			.plus_file(image_name + ".jpg")
 	
@@ -59,8 +59,8 @@ func get_ground_image(base_path, image_name):
 	
 	return VegetationImages.ground_image_cache[full_path]
 
-func get_ground_texture(base_path, image_name):
-	var image = get_ground_image(base_path, image_name)
+func get_ground_texture(image_name):
+	var image = get_ground_image(image_name)
 	if not image: return null
 	
 	var tex = ImageTexture.new()

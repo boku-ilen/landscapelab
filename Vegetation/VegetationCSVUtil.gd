@@ -102,8 +102,9 @@ static func create_plants_from_csv(csv_path: String, density_classes: Dictionary
 		var plant = Plant.new()
 		
 		if (not density_classes.has(density_class_string)):
-			logger.warning("Unknown Density Class: %s" % [density_class_string])
-			continue
+			logger.warning("Unknown Density Class ID: %s. Using the first one as a fallback..."
+					% [density_class_string])
+			density_class_string = 0
 		
 		plant.id = id
 		plant.billboard_path = file

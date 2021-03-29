@@ -3,15 +3,12 @@ extends OptionButton
 
 func _ready():
 	# Add all density classes
-	# TODO: Automatically get these from Vegetation
-	add_item("S_PLANT")
-	add_item("M_PLANT")
-	add_item("L_PLANT")
-	add_item("XL_PLANT")
-	add_item("S_TREE")
-	add_item("L_TREE")
+	var item_id = 0
+	for density in Vegetation.density_classes.values():
+		add_item(density.name)
+		set_item_metadata(item_id, density)
+		item_id += 1
 
 
 func get_selected_class():
-	var selected_string = get_item_text(get_selected_id())
-	return Vegetation.parse_density_class(selected_string)
+	return get_item_metadata(get_selected_id())

@@ -31,11 +31,11 @@ var cluster_per_ha: int
 var plants_per_ha: int
 var cluster_width: float
 
-func _get_full_icon_path(base_path):
-	return base_path.plus_file("small-" + billboard_path) + BILLBOARD_ENDING
+func _get_full_icon_path():
+	return VegetationImages.plant_image_base_path.plus_file("small-" + billboard_path) + BILLBOARD_ENDING
 
-func _get_full_billboard_path(base_path):
-	return base_path.plus_file(billboard_path) + BILLBOARD_ENDING
+func _get_full_billboard_path():
+	return VegetationImages.plant_image_base_path.plus_file(billboard_path) + BILLBOARD_ENDING
 
 func _load_into_cache_if_necessary(full_path):
 	if not VegetationImages.plant_image_cache.has(full_path):
@@ -78,20 +78,20 @@ func _get_texture(path):
 	return VegetationImages.plant_image_texture_cache[path]
 
 # Return the billboard of this plant as an unmodified Image.
-func get_billboard(base_path):
-	return _get_image(_get_full_billboard_path(base_path))
+func get_billboard():
+	return _get_image(_get_full_billboard_path())
 
 # Return an ImageTexture with the billboard of this plant.
-func get_billboard_texture(base_path):
-	return _get_texture(_get_full_billboard_path(base_path))
+func get_billboard_texture():
+	return _get_texture(_get_full_billboard_path())
 
 # Return an icon (a small version of the billboard) for this plant.
-func get_icon(base_path):
-	return _get_image(_get_full_icon_path(base_path))
+func get_icon():
+	return _get_image(_get_full_icon_path())
 
 # Return an ImageTexture with the icon of this plant.
-func get_icon_texture(base_path):
-	return _get_texture(_get_full_icon_path(base_path))
+func get_icon_texture():
+	return _get_texture(_get_full_icon_path())
 
 # Return a string in the form "ID: Name (Size Class)"
 func get_title_string():

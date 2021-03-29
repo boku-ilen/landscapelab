@@ -15,7 +15,7 @@ func set_plant(plant: Plant):
 	$DetailList/MinHeight/LineEdit.text = str(plant.height_min)
 	$DetailList/MaxHeight/LineEdit.text = str(plant.height_max)
 	$DetailList/Density/LineEdit.text = str(plant.density_ha)
-	$DetailList/DensityClass/DensityClassDropdown.selected = plant.density_class
+	$DetailList/DensityClass/DensityClassDropdown.selected = plant.density_class.id
 
 
 func save_plant_values():
