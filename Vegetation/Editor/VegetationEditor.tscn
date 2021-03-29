@@ -68,6 +68,10 @@ size = Vector2( 500, 500 )
 [sub_resource type="SpatialMaterial" id=9]
 normal_enabled = true
 normal_scale = 1.0
+ao_enabled = true
+ao_light_affect = 0.0
+ao_on_uv2 = false
+ao_texture_channel = 0
 uv1_scale = Vector3( 100, 100, 100 )
 
 [node name="VegetationEditor" type="HSplitContainer"]
