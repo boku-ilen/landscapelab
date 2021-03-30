@@ -51,4 +51,3 @@ script = ExtResource( 6 )
 
 [node name="SetPositionRequestHandler" type="Node" parent="."]
 script = ExtResource( 8 )
-protocol_keyword = "set_position"
