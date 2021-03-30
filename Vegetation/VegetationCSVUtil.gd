@@ -191,10 +191,12 @@ static func create_groups_from_csv(csv_path: String, plants: Dictionary, ground_
 		# null is encoded as the string "Null"
 		var ground_texture_id = csv[9] if not csv[9].empty() and csv[9] != "Null" else null
 		
-		if not ground_texture_id or not ground_textures.has(ground_texture_id):
+		if not ground_texture_id or not ground_textures.has(int(ground_texture_id)):
 			logger.warning("Non-existent ground texture ID %s in group %s, using 1 as fallback"
 					% [ground_texture_id, id])
 			ground_texture_id = 1
+		else:
+			ground_texture_id = int(ground_texture_id)
 		
 		var group = PlantGroup.new(id, name_en, group_plants, ground_textures[ground_texture_id],
 				csv[0], csv[1], csv[2], csv[3], csv[4], csv[6])
@@ -204,7 +206,7 @@ static func create_groups_from_csv(csv_path: String, plants: Dictionary, ground_
 	return groups
 
 
-static func save_plants_to_csv(csv_path, plants):
+static func save_plants_to_csv(plants: Dictionary, csv_path: String):
 	var plant_csv = File.new()
 	plant_csv.open(csv_path, File.WRITE)
 	
@@ -243,7 +245,7 @@ static func save_plants_to_csv(csv_path, plants):
 		])
 
 
-static func save_groups_to_csv(csv_path: String, groups) -> void:
+static func save_groups_to_csv(groups: Dictionary, csv_path: String) -> void:
 	var group_csv = File.new()
 	group_csv.open(csv_path, File.WRITE)
 	
@@ -252,7 +254,7 @@ static func save_groups_to_csv(csv_path: String, groups) -> void:
 				 % [csv_path])
 		return
 	
-	var headings = "SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID)"
+	var headings = "SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS,TEXTURE_ID"
 	group_csv.store_line(headings)
 	
 	for group in groups.values():
