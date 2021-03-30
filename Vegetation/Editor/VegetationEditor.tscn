@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -14,58 +14,15 @@
 [ext_resource path="res://Vegetation/Editor/Visualization.gd" type="Script" id=13]
 [ext_resource path="res://Vegetation/Editor/DensityClassDropdown.gd" type="Script" id=14]
 [ext_resource path="res://Vegetation/Editor/SaveButton.gd" type="Script" id=15]
-[ext_resource path="res://ResourceClasses/VegetationLayerDefinition.gd" type="Script" id=16]
-[ext_resource path="res://ResourceClasses/VegetationLayerComposition.gd" type="Script" id=17]
-[ext_resource path="res://Resources/Meshes/VegetationBillboard/40m_billboard.obj" type="ArrayMesh" id=19]
 [ext_resource path="res://Vegetation/Editor/PlantFilter.gd" type="Script" id=22]
 [ext_resource path="res://Vegetation/Editor/PlantSelection.gd" type="Script" id=23]
 [ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=24]
 [ext_resource path="res://Vegetation/Editor/ClickDragCamera.gd" type="Script" id=25]
 
-[sub_resource type="Resource" id=1]
-script = ExtResource( 16 )
-density_class_id = 0
-extent = 6.0
-mesh = ExtResource( 19 )
-
-[sub_resource type="Resource" id=2]
-script = ExtResource( 16 )
-density_class_id = 1
-extent = 10.0
-mesh = ExtResource( 19 )
-
-[sub_resource type="Resource" id=3]
-script = ExtResource( 16 )
-density_class_id = 1
-extent = 16.0
-mesh = ExtResource( 19 )
-
-[sub_resource type="Resource" id=4]
-script = ExtResource( 16 )
-density_class_id = 1
-extent = 24.0
-mesh = ExtResource( 19 )
-
-[sub_resource type="Resource" id=5]
-script = ExtResource( 16 )
-density_class_id = 1
-extent = 50.0
-mesh = ExtResource( 19 )
-
-[sub_resource type="Resource" id=6]
-script = ExtResource( 16 )
-density_class_id = 1
-extent = 100.0
-mesh = ExtResource( 19 )
-
-[sub_resource type="Resource" id=7]
-script = ExtResource( 17 )
-layers = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ]
-
-[sub_resource type="PlaneMesh" id=8]
+[sub_resource type="PlaneMesh" id=1]
 size = Vector2( 500, 500 )
 
-[sub_resource type="SpatialMaterial" id=9]
+[sub_resource type="SpatialMaterial" id=2]
 normal_enabled = true
 normal_scale = 1.0
 ao_enabled = true
@@ -461,7 +418,6 @@ render_target_update_mode = 3
 
 [node name="Visualization" type="Spatial" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport"]
 script = ExtResource( 13 )
-vegetation_layer_composition = SubResource( 7 )
 
 [node name="ClickDragCamera" type="Camera" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 2, 0 )
@@ -472,8 +428,8 @@ script = ExtResource( 25 )
 transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 8, 0 )
 
 [node name="GroundMesh" type="MeshInstance" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
-mesh = SubResource( 8 )
-material/0 = SubResource( 9 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
 
 [node name="UpdateVisButton" type="Button" parent="HSplitContainer/VBoxContainer"]
 margin_top = 1002.0

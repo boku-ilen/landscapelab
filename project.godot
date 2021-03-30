@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "GameObject",
+"class": "AbstractAction",
+"language": "GDScript",
+"path": "res://GameEngine/DataModel/Base/AbstractAction.gd"
+}, {
 "base": "Spatial",
 "class": "AbstractAssetsFromShapefile",
 "language": "GDScript",
@@ -18,6 +23,11 @@ _global_script_classes=[ {
 "class": "AbstractLayerManagement",
 "language": "GDScript",
 "path": "res://UI/Layers/LayerManagement/AbstractLayerManagement.gd"
+}, {
+"base": "GameObject",
+"class": "AbstractObject",
+"language": "GDScript",
+"path": "res://GameEngine/DataModel/Base/AbstractObject.gd"
 }, {
 "base": "KinematicBody",
 "class": "AbstractPlayer",
@@ -44,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://World/BaseTiles/BaseTiles.gd"
 }, {
+"base": "Object",
+"class": "CSVReader",
+"language": "GDScript",
+"path": "res://Util/CSVReader.gd"
+}, {
 "base": "Node",
 "class": "Configurator",
 "language": "GDScript",
@@ -54,10 +69,35 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/vr-toolkit/Controller/ControllerTool.gd"
 }, {
+"base": "Object",
+"class": "DensityClass",
+"language": "GDScript",
+"path": "res://Vegetation/DensityClass.gd"
+}, {
+"base": "AbstractObject",
+"class": "EnergyProducer",
+"language": "GDScript",
+"path": "res://GameEngine/DataModel/Energy/EnergyProducer.gd"
+}, {
 "base": "Layer",
 "class": "FeatureLayer",
 "language": "GDScript",
 "path": "res://Layers/FeatureLayer.gd"
+}, {
+"base": "Node",
+"class": "GameObject",
+"language": "GDScript",
+"path": "res://GameEngine/DataModel/Base/GameObject.gd"
+}, {
+"base": "AbstractRequestHandler",
+"class": "GetSettingsRequestHandler",
+"language": "GDScript",
+"path": "res://Communication/GetSettingsRequestHandler.gd"
+}, {
+"base": "Object",
+"class": "GroundTexture",
+"language": "GDScript",
+"path": "res://Vegetation/GroundTexture.gd"
 }, {
 "base": "Spatial",
 "class": "GroundedSpatial",
@@ -99,6 +139,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Objects/Superclasses/MovableObject.gd"
 }, {
+"base": "Object",
+"class": "Plant",
+"language": "GDScript",
+"path": "res://Vegetation/Plant.gd"
+}, {
+"base": "Object",
+"class": "PlantGroup",
+"language": "GDScript",
+"path": "res://Vegetation/PlantGroup.gd"
+}, {
 "base": "Spatial",
 "class": "PositionManager",
 "language": "GDScript",
@@ -108,6 +158,21 @@ _global_script_classes=[ {
 "class": "RasterLayer",
 "language": "GDScript",
 "path": "res://Layers/RasterLayer.gd"
+}, {
+"base": "GameObject",
+"class": "Score",
+"language": "GDScript",
+"path": "res://GameEngine/DataModel/Base/Score.gd"
+}, {
+"base": "AbstractRequestHandler",
+"class": "SetPositionRequestHandler",
+"language": "GDScript",
+"path": "res://Communication/SetPositionRequestHandler.gd"
+}, {
+"base": "AbstractRequestHandler",
+"class": "SetTableExtentRequestHandler",
+"language": "GDScript",
+"path": "res://Communication/SetTableExtentRequestHandler.gd"
 }, {
 "base": "Node",
 "class": "ShiftingHandler",
@@ -124,6 +189,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/SpritesheetHelper.gd"
 }, {
+"base": "GameObject",
+"class": "Team",
+"language": "GDScript",
+"path": "res://GameEngine/DataModel/Base/Team.gd"
+}, {
+"base": "GameObject",
+"class": "Turn",
+"language": "GDScript",
+"path": "res://GameEngine/DataModel/Base/Turn.gd"
+}, {
 "base": "Control",
 "class": "VRGuiElement",
 "language": "GDScript",
@@ -139,15 +214,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/vr-toolkit/Objects/VRStaticInteractable.gd"
 }, {
-"base": "Resource",
-"class": "VegetationLayerComposition",
+"base": "Object",
+"class": "VegetationCSVUtil",
 "language": "GDScript",
-"path": "res://ResourceClasses/VegetationLayerComposition.gd"
-}, {
-"base": "Resource",
-"class": "VegetationLayerDefinition",
-"language": "GDScript",
-"path": "res://ResourceClasses/VegetationLayerDefinition.gd"
+"path": "res://Vegetation/VegetationCSVUtil.gd"
 }, {
 "base": "Spatial",
 "class": "WorldTile",
@@ -155,16 +225,24 @@ _global_script_classes=[ {
 "path": "res://World/LODTerrain/WorldTile/WorldTile.gd"
 } ]
 _global_script_class_icons={
+"AbstractAction": "",
 "AbstractAssetsFromShapefile": "",
 "AbstractLayerManagement": "",
+"AbstractObject": "",
 "AbstractPlayer": "",
 "AbstractRequestHandler": "",
 "ActionHandler": "",
 "AutoTextureButton": "",
 "BaseTiles": "",
+"CSVReader": "",
 "Configurator": "",
 "ControllerTool": "",
+"DensityClass": "",
+"EnergyProducer": "",
 "FeatureLayer": "",
+"GameObject": "",
+"GetSettingsRequestHandler": "",
+"GroundTexture": "",
 "GroundedSpatial": "",
 "Layer": "",
 "LayerRenderer": "",
@@ -173,16 +251,22 @@ _global_script_class_icons={
 "Module": "",
 "ModuleHandler": "",
 "MoveableObject": "",
+"Plant": "",
+"PlantGroup": "",
 "PositionManager": "",
 "RasterLayer": "",
+"Score": "",
+"SetPositionRequestHandler": "",
+"SetTableExtentRequestHandler": "",
 "ShiftingHandler": "",
 "SpecificLayerUI": "",
 "SpritesheetHelper": "",
+"Team": "",
+"Turn": "",
 "VRGuiElement": "",
 "VRInteractable": "",
 "VRStaticInteractable": "",
-"VegetationLayerComposition": "",
-"VegetationLayerDefinition": "",
+"VegetationCSVUtil": "",
 "WorldTile": ""
 }
 
@@ -211,6 +295,7 @@ RenderStyle="*res://Global/RenderStyle.gd"
 GlobalVRAccess="*res://addons/vr-toolkit/GlobalVRAccess.gd"
 Layers="*res://Layers/Singletons/Layers.gd"
 TreeHandler="*res://Global/TreeHandler.gd"
+VegetationImages="*res://Vegetation/VegetationImages.gd"
 Vegetation="*res://Vegetation/Vegetation.gd"
 
 [display]

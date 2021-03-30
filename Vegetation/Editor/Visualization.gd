@@ -1,9 +1,6 @@
 extends Spatial
 
 
-export(Resource) var vegetation_layer_composition
-
-
 func _ready():
 	add_child(Vegetation.get_renderers())
 
