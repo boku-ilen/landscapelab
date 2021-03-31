@@ -24,3 +24,8 @@ func _init(id, name, image_type, note, density_per_m):
 	self.image_type = image_type
 	self.note = note
 	self.density_per_m = density_per_m
+	
+	# Placeholder calculation: Set the extent to a sensible value within a range.
+	# This could be adapted to only take 1 or 2 setting parameters in order to easily tweak the
+	#  vegetation density based on the PC's performance.
+	self.extent = clamp((1.0 / self.density_per_m) * 80.0, 20.0, 300.0) # FIXME: Placeholder
