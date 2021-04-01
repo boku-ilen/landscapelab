@@ -28,7 +28,11 @@ func update_visualization(group_id):
 	var specular_texture = Vegetation.groups[group_id].get_ground_texture("specular")
 	
 	if ground_texture:
-		$GroundMesh.get_surface_material(0).albedo_texture = ground_texture
-		$GroundMesh.get_surface_material(0).normal_texture = normal_texture
-		$GroundMesh.get_surface_material(0).ao_texture = ambient_texture
-		# TODO: Can we use specular or do we need roughness?
+		$GroundMesh.get_surface_material(0).set_shader_param("size_m", 500)
+		$GroundMesh.get_surface_material(0).set_shader_param("texture_size_m",
+				Vegetation.groups[group_id].ground_texture.size_m)
+		
+		$GroundMesh.get_surface_material(0).set_shader_param("albedo_tex", ground_texture)
+		$GroundMesh.get_surface_material(0).set_shader_param("normal_tex", normal_texture)
+		$GroundMesh.get_surface_material(0).set_shader_param("ao_tex", ambient_texture)
+		$GroundMesh.get_surface_material(0).set_shader_param("specular_tex", specular_texture)

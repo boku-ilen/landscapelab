@@ -1,13 +1,14 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Vegetation/Editor/ConfigButton.gd" type="Script" id=1]
-[ext_resource path="res://Vegetation/Editor/VegetationConfig.gd" type="Script" id=2]
-[ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=3]
+[ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Vegetation/Editor/VegetationConfig.gd" type="Script" id=3]
+
 
 [node name="VegetationConfig" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -37,7 +38,7 @@ margin_bottom = 412.0
 margin_right = 349.0
 margin_bottom = 81.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 2 )
 text = "Set or change paths to the required CSV files. Green buttons imply that a path is already known, but it can be overwritten."
 autowrap = true
 
@@ -45,7 +46,7 @@ autowrap = true
 margin_top = 89.0
 margin_right = 349.0
 margin_bottom = 124.0
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 2 )
 text = "Set Plant CSV Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "plant_csv_path"
@@ -67,7 +68,7 @@ current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 margin_top = 132.0
 margin_right = 349.0
 margin_bottom = 167.0
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 2 )
 text = "Set Group CSV Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "group_csv_path"
@@ -89,7 +90,7 @@ current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 margin_top = 175.0
 margin_right = 349.0
 margin_bottom = 210.0
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 2 )
 text = "Set Density Class CSV Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "density_csv_path"
@@ -111,7 +112,7 @@ current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 margin_top = 218.0
 margin_right = 349.0
 margin_bottom = 253.0
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 2 )
 text = "Set Ground Texture CSV Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "texture_csv_path"
@@ -135,7 +136,7 @@ margin_right = 349.0
 margin_bottom = 296.0
 hint_tooltip = "The Plant Picture path must contain a folder with all billboard images. For preview images, it should also include downsized images prefixed with 'small-'."
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 2 )
 text = "Set Plant Picture Base Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "plant_path"
@@ -157,7 +158,7 @@ margin_top = 304.0
 margin_right = 349.0
 margin_bottom = 339.0
 hint_tooltip = "The Plant Picture path must contain a folder with all billboard images. For preview images, it should also include downsized images prefixed with 'small-'."
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 2 )
 text = "Set Ground Texture Base Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "ground_path"
@@ -186,5 +187,5 @@ __meta__ = {
 margin_top = 363.0
 margin_right = 349.0
 margin_bottom = 398.0
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 2 )
 text = "Save and Return"
