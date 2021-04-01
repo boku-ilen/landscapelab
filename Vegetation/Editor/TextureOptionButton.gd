@@ -1,12 +1,19 @@
 extends OptionButton
 
 
+export(String) var vegetation_field_to_access
+
 signal new_texture_selected(texture_name)
 
 
 func _ready():
+	if not vegetation_field_to_access in Vegetation:
+		logger.error("Invalid vegetation field %s in dropdown %s!"
+				% [vegetation_field_to_access, name])
+		return
+	
 	var item_id = 0
-	for texture in Vegetation.ground_textures.values():
+	for texture in Vegetation.get(vegetation_field_to_access).values():
 		add_item(texture.texture_name)
 		set_item_metadata(item_id, texture)
 		

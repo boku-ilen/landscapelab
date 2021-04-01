@@ -314,12 +314,12 @@ margin_bottom = 43.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 7 )
 
-[node name="Texture" type="HBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
+[node name="GroundTexture" type="HBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
 margin_top = 82.0
 margin_right = 222.0
 margin_bottom = 118.0
 
-[node name="Prompt" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Texture"]
+[node name="Prompt" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/GroundTexture"]
 margin_top = 6.0
 margin_right = 121.0
 margin_bottom = 29.0
@@ -329,28 +329,53 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureOptionButton" type="OptionButton" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/Texture"]
+[node name="TextureOptionButton" type="OptionButton" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/GroundTexture"]
 margin_left = 129.0
 margin_right = 222.0
 margin_bottom = 36.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 7 )
 script = ExtResource( 14 )
+vegetation_field_to_access = "ground_textures"
 
-[node name="HSeparator" type="HSeparator" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
+[node name="FadeTexture" type="HBoxContainer" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
 margin_top = 126.0
 margin_right = 222.0
-margin_bottom = 134.0
+margin_bottom = 162.0
+
+[node name="Prompt" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/FadeTexture"]
+margin_top = 6.0
+margin_right = 103.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 7 )
+text = "Fade Texture:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureOptionButton" type="OptionButton" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/FadeTexture"]
+margin_left = 111.0
+margin_right = 222.0
+margin_bottom = 36.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 7 )
+script = ExtResource( 14 )
+vegetation_field_to_access = "fade_textures"
+
+[node name="HSeparator" type="HSeparator" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
+margin_top = 170.0
+margin_right = 222.0
+margin_bottom = 178.0
 
 [node name="ListHeading" type="Label" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_top = 142.0
+margin_top = 186.0
 margin_right = 222.0
-margin_bottom = 165.0
+margin_bottom = 209.0
 custom_fonts/font = ExtResource( 7 )
 text = "Plants:"
 
 [node name="GroupPlantList" type="ItemList" parent="HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes"]
-margin_top = 173.0
+margin_top = 217.0
 margin_right = 222.0
 margin_bottom = 385.0
 rect_min_size = Vector2( 0, 150 )
