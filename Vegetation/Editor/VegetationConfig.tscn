@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Vegetation/Editor/ConfigButton.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/VegetationConfig.gd" type="Script" id=2]
+[ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=3]
 
 [node name="VegetationConfig" type="Control"]
 anchor_right = 1.0
@@ -17,9 +18,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -188.5
-margin_top = -77.5
+margin_top = -213.0
 margin_right = 188.5
-margin_bottom = 77.5
+margin_bottom = 213.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 __meta__ = {
@@ -30,11 +31,21 @@ __meta__ = {
 margin_left = 14.0
 margin_top = 14.0
 margin_right = 363.0
-margin_bottom = 276.0
+margin_bottom = 412.0
+
+[node name="Label" type="Label" parent="PanelContainer/SelectButtons"]
+margin_right = 349.0
+margin_bottom = 81.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 3 )
+text = "Set or change paths to the required CSV files. Green buttons imply that a path is already known, but it can be overwritten."
+autowrap = true
 
 [node name="PlantCSVButton" type="Button" parent="PanelContainer/SelectButtons"]
+margin_top = 89.0
 margin_right = 349.0
-margin_bottom = 37.0
+margin_bottom = 124.0
+custom_fonts/font = ExtResource( 3 )
 text = "Set Plant CSV Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "plant_csv_path"
@@ -53,9 +64,10 @@ current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="GroupCSVButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 45.0
+margin_top = 132.0
 margin_right = 349.0
-margin_bottom = 82.0
+margin_bottom = 167.0
+custom_fonts/font = ExtResource( 3 )
 text = "Set Group CSV Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "group_csv_path"
@@ -74,9 +86,10 @@ current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="DensityCSVButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 90.0
+margin_top = 175.0
 margin_right = 349.0
-margin_bottom = 127.0
+margin_bottom = 210.0
+custom_fonts/font = ExtResource( 3 )
 text = "Set Density Class CSV Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "density_csv_path"
@@ -95,9 +108,10 @@ current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="TextureCSVButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 135.0
+margin_top = 218.0
 margin_right = 349.0
-margin_bottom = 172.0
+margin_bottom = 253.0
+custom_fonts/font = ExtResource( 3 )
 text = "Set Ground Texture CSV Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "texture_csv_path"
@@ -116,11 +130,12 @@ current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="PlantButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 180.0
+margin_top = 261.0
 margin_right = 349.0
-margin_bottom = 217.0
+margin_bottom = 296.0
 hint_tooltip = "The Plant Picture path must contain a folder with all billboard images. For preview images, it should also include downsized images prefixed with 'small-'."
 size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 3 )
 text = "Set Plant Picture Base Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "plant_path"
@@ -138,10 +153,11 @@ current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="GroundButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 225.0
+margin_top = 304.0
 margin_right = 349.0
-margin_bottom = 262.0
+margin_bottom = 339.0
 hint_tooltip = "The Plant Picture path must contain a folder with all billboard images. For preview images, it should also include downsized images prefixed with 'small-'."
+custom_fonts/font = ExtResource( 3 )
 text = "Set Ground Texture Base Path"
 script = ExtResource( 1 )
 vegetation_variable_name = "ground_path"
@@ -157,3 +173,18 @@ mode = 2
 access = 2
 current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/SelectButtons"]
+margin_top = 347.0
+margin_right = 349.0
+margin_bottom = 355.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveButton" type="Button" parent="PanelContainer/SelectButtons"]
+margin_top = 363.0
+margin_right = 349.0
+margin_bottom = 398.0
+custom_fonts/font = ExtResource( 3 )
+text = "Save and Return"
