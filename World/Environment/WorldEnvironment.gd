@@ -27,7 +27,9 @@ func _ready():
 	GlobalSignal.connect("season_changed", self, "_on_season_changed")
 	
 	# Set time and season with default values
-	update_time_season()
+	# FIXME: Disabled until sun position fetching is reimplemented without server
+	#update_time_season()
+	update_colors(90, 0)
 	
 	# Spawn Skycube if setting is on
 	if CLOUDS_ENABLED:

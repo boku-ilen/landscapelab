@@ -44,6 +44,7 @@ script = ExtResource( 1 )
 transform = Transform( -0.173648, 0.238247, -0.955554, -1.69349e-08, 0.970296, 0.241922, 0.984808, 0.0420094, -0.16849, 0, 0, 0 )
 layers = 15
 light_energy = 2.0
+light_bake_mode = 0
 shadow_enabled = true
 shadow_color = Color( 0.6, 0.6, 0.6, 1 )
 directional_shadow_blend_splits = true

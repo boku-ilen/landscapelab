@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Vegetation/Editor/VisualizationUI.gd" type="Script" id=9]
 [ext_resource path="res://Vegetation/Editor/SaveDialog.gd" type="Script" id=10]
 [ext_resource path="res://Vegetation/Editor/TextureOptionButton.gd" type="Script" id=11]
+[ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Vegetation/Editor/Visualization.gd" type="Script" id=13]
 [ext_resource path="res://Vegetation/Editor/DensityClassDropdown.gd" type="Script" id=14]
 [ext_resource path="res://Vegetation/Editor/SaveButton.gd" type="Script" id=15]
@@ -414,7 +415,12 @@ text = "Aerial View (50m)"
 [node name="Viewport" type="Viewport" parent="HSplitContainer/VBoxContainer/VisualizationUI"]
 size = Vector2( 1372, 994 )
 handle_input_locally = false
+msaa = 1
 render_target_update_mode = 3
+shadow_atlas_size = 1024
+shadow_atlas_quad_1 = 3
+shadow_atlas_quad_2 = 4
+shadow_atlas_quad_3 = 5
 
 [node name="Visualization" type="Spatial" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport"]
 script = ExtResource( 13 )
@@ -424,12 +430,11 @@ transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0
 far = 500.0
 script = ExtResource( 25 )
 
-[node name="DirectionalLight" type="DirectionalLight" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
-transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 8, 0 )
-
 [node name="GroundMesh" type="MeshInstance" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
+
+[node name="WorldEnvironment" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization" instance=ExtResource( 12 )]
 
 [node name="UpdateVisButton" type="Button" parent="HSplitContainer/VBoxContainer"]
 margin_top = 1002.0
