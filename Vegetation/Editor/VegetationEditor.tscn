@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Vegetation/Editor/PlantList.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/PlantPanel.gd" type="Script" id=2]
@@ -9,7 +9,6 @@
 [ext_resource path="res://Vegetation/Editor/GroupPanel.gd" type="Script" id=7]
 [ext_resource path="res://Vegetation/Editor/GroupDetails.gd" type="Script" id=8]
 [ext_resource path="res://Vegetation/Editor/VisualizationUI.gd" type="Script" id=9]
-[ext_resource path="res://Vegetation/Editor/SaveDialog.gd" type="Script" id=10]
 [ext_resource path="res://Vegetation/Editor/TextureOptionButton.gd" type="Script" id=11]
 [ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Vegetation/Editor/Visualization.gd" type="Script" id=13]
@@ -451,22 +450,3 @@ margin_bottom = 1080.0
 custom_fonts/font = ExtResource( 24 )
 text = "Save Configuration"
 script = ExtResource( 15 )
-
-[node name="SaveDialog" type="FileDialog" parent="HSplitContainer/VBoxContainer/SaveButton"]
-margin_left = -289.0
-margin_top = -823.0
-margin_right = 693.0
-margin_bottom = -202.0
-window_title = "Select Directory for Vegetation Configuration"
-dialog_text = "The files 'plants.csv' and 'groups.csv' will be created or overwritten in the selected directory."
-dialog_hide_on_ok = true
-dialog_autowrap = true
-mode_overrides_title = false
-mode = 2
-access = 2
-current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
-current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
-script = ExtResource( 10 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
