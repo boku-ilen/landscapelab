@@ -106,7 +106,9 @@ static func create_plants_from_csv(csv_path: String, density_classes: Dictionary
 		
 		var plant = Plant.new()
 		
-		if (not density_classes.has(density_class_string)):
+		if not density_class_string \
+				or density_class_string.empty() \
+				or not density_classes.has(int(density_class_string)):
 			logger.warning("Unknown Density Class ID: %s. Using the first one as a fallback..."
 					% [density_class_string])
 			density_class_string = 0
@@ -118,7 +120,7 @@ static func create_plants_from_csv(csv_path: String, density_classes: Dictionary
 		plant.height_min = height_min
 		plant.height_max = height_max
 		plant.density_ha = density_ha
-		plant.density_class = density_classes[density_class_string]
+		plant.density_class = density_classes[int(density_class_string)]
 		plant.species = species
 		plant.name_de = name_de
 		plant.name_en = name_en
