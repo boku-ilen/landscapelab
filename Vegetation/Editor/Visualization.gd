@@ -38,3 +38,10 @@ func update_visualization(group_id):
 		$GroundMesh.get_surface_material(0).set_shader_param("ao_tex", ambient_texture)
 		$GroundMesh.get_surface_material(0).set_shader_param("specular_tex", specular_texture)
 		$GroundMesh.get_surface_material(0).set_shader_param("roughness_tex", roughness_texture)
+	
+	if Vegetation.groups[group_id].fade_texture:
+		var fade_texture = Vegetation.groups[group_id].get_fade_texture("albedo")
+		
+		$GroundMesh.get_surface_material(0).set_shader_param("distance_tex", fade_texture)
+		$GroundMesh.get_surface_material(0).set_shader_param("distance_tex_start", 10)
+		$GroundMesh.get_surface_material(0).set_shader_param("distance_texture_size_m", Vegetation.groups[group_id].fade_texture.size_m)

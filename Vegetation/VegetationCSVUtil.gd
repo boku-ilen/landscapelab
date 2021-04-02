@@ -25,13 +25,18 @@ static func create_density_classes_from_csv(csv_path: String) -> Dictionary:
 	return density_classes
 
 
-static func create_textures_from_csv(csv_path: String) -> Dictionary:
+static func create_textures_from_csv(csv_path: String, include_types, exclude_types) -> Dictionary:
 	var ground_textures = {}
 	
 	var texture_csv = CSVReader.new()
 	texture_csv.read_csv(csv_path)
 	
 	for line in texture_csv.get_lines():
+		if not include_types.empty() and not line["TYPE"] in include_types:
+			continue
+		if not exclude_types.empty() and line["TYPE"] in exclude_types:
+			continue
+		
 		var texture = GroundTexture.new(
 			line["ID"],
 			line["Texture"],
@@ -140,7 +145,8 @@ static func create_plants_from_csv(csv_path: String, density_classes: Dictionary
 	return plants
 
 
-static func create_groups_from_csv(csv_path: String, plants: Dictionary, ground_textures: Dictionary) -> Dictionary:
+static func create_groups_from_csv(csv_path: String, plants: Dictionary,
+		ground_textures: Dictionary, fade_textures: Dictionary) -> Dictionary:
 	var groups = {}
 	
 	var group_csv = File.new()
@@ -200,8 +206,18 @@ static func create_groups_from_csv(csv_path: String, plants: Dictionary, ground_
 		else:
 			ground_texture_id = int(ground_texture_id)
 		
+		var fade_texture_id = csv[10] if not csv[10].empty() and csv[10] != "Null" else null
+		var fade_texture
+		
+		if not fade_texture_id or not fade_textures.has(int(fade_texture_id)):
+			logger.warning("Non-existent ground texture ID %s in group %s, using 1 as fallback"
+					% [fade_texture_id, id])
+			fade_texture = null
+		else:
+			fade_texture = fade_textures[int(fade_texture_id)]
+		
 		var group = PlantGroup.new(id, name_en, group_plants, ground_textures[ground_texture_id],
-				csv[0], csv[1], csv[2], csv[3], csv[4], csv[6])
+				fade_texture, csv[0], csv[1], csv[2], csv[3], csv[4], csv[6])
 		
 		groups[group.id] = group
 	
@@ -256,7 +272,7 @@ static func save_groups_to_csv(groups: Dictionary, csv_path: String) -> void:
 				 % [csv_path])
 		return
 	
-	var headings = "SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS,TEXTURE_ID"
+	var headings = "SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS,TEXTURE_ID,DISTANCE_MAP_ID"
 	group_csv.store_line(headings)
 	
 	for group in groups.values():
@@ -270,7 +286,8 @@ static func save_groups_to_csv(groups: Dictionary, csv_path: String) -> void:
 			group.snar_group,
 			group.id,
 			PoolStringArray(group.get_plant_ids()).join(","),
-			group.ground_texture.id
+			group.ground_texture.id,
+			group.fade_texture.id if group.fade_texture else null
 		])
 
 
