@@ -26,6 +26,7 @@ func update_visualization(group_id):
 	var normal_texture = Vegetation.groups[group_id].get_ground_texture("normal")
 	var ambient_texture = Vegetation.groups[group_id].get_ground_texture("ambient")
 	var specular_texture = Vegetation.groups[group_id].get_ground_texture("specular")
+	var roughness_texture = Vegetation.groups[group_id].get_ground_texture("roughness")
 	
 	if ground_texture:
 		$GroundMesh.get_surface_material(0).set_shader_param("size_m", 500)
@@ -36,3 +37,4 @@ func update_visualization(group_id):
 		$GroundMesh.get_surface_material(0).set_shader_param("normal_tex", normal_texture)
 		$GroundMesh.get_surface_material(0).set_shader_param("ao_tex", ambient_texture)
 		$GroundMesh.get_surface_material(0).set_shader_param("specular_tex", specular_texture)
+		$GroundMesh.get_surface_material(0).set_shader_param("roughness_tex", roughness_texture)

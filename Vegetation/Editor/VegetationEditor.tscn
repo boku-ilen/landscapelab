@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Vegetation/Editor/ClickDragCamera.gd" type="Script" id=1]
 [ext_resource path="res://Vegetation/Editor/DensityClassDropdown.gd" type="Script" id=2]
@@ -19,6 +19,9 @@
 [ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Vegetation/Editor/Visualization.gd" type="Script" id=18]
 [ext_resource path="res://Vegetation/Editor/GroundShader.shader" type="Shader" id=19]
+[ext_resource path="res://Vegetation/Editor/PopupButton.gd" type="Script" id=20]
+[ext_resource path="res://Vegetation/Editor/ViewSettings/TextureSettingsDialog.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Vegetation/Editor/ViewSettings/ViewSettingsDialog.tscn" type="PackedScene" id=22]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 500, 500 )
@@ -27,6 +30,13 @@ size = Vector2( 500, 500 )
 shader = ExtResource( 19 )
 shader_param/size_m = null
 shader_param/texture_size_m = null
+shader_param/normal_scale = null
+shader_param/is_roughness_increase = null
+shader_param/roughness_scale = 0.0
+shader_param/is_specular_increase = null
+shader_param/specular_scale = 0.0
+shader_param/is_ao_increase = null
+shader_param/ao_scale = 0.0
 
 [node name="VegetationEditor" type="HSplitContainer"]
 anchor_right = 1.0
@@ -433,6 +443,31 @@ margin_bottom = 121.0
 custom_fonts/font = ExtResource( 7 )
 text = "Aerial View (50m)"
 
+[node name="HSeparator" type="HSeparator" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
+margin_top = 129.0
+margin_right = 172.0
+margin_bottom = 137.0
+
+[node name="TextureSettingsButton" type="Button" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
+margin_top = 145.0
+margin_right = 172.0
+margin_bottom = 180.0
+custom_fonts/font = ExtResource( 7 )
+text = "Texture Settings"
+script = ExtResource( 20 )
+
+[node name="TextureSettingsDialog" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons/TextureSettingsButton" instance=ExtResource( 21 )]
+
+[node name="ViewSettingsButton" type="Button" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
+margin_top = 188.0
+margin_right = 172.0
+margin_bottom = 223.0
+custom_fonts/font = ExtResource( 7 )
+text = "View Settings"
+script = ExtResource( 20 )
+
+[node name="ViewSettingsDialog" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons/ViewSettingsButton" instance=ExtResource( 22 )]
+
 [node name="Viewport" type="Viewport" parent="HSplitContainer/VBoxContainer/VisualizationUI"]
 size = Vector2( 1372, 994 )
 handle_input_locally = false
@@ -448,7 +483,7 @@ script = ExtResource( 18 )
 
 [node name="ClickDragCamera" type="Camera" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 2, 0 )
-fov = 60.0
+fov = 50.0
 far = 500.0
 script = ExtResource( 1 )
 
