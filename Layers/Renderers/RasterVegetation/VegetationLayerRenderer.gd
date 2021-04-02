@@ -24,11 +24,23 @@ var previous_origin
 
 var current_offset_from_shifting = Vector2.ZERO
 
+
+func _ready():
+	Vegetation.connect("new_plant_extent", self, "update_rows_spacing")
+
+
+func update_rows_spacing(extent):
+	rows = extent * density_class.density_per_m
+	spacing = 1.0 / density_class.density_per_m
+	
+	set_rows(rows)
+	set_spacing(spacing)
+
+
 func set_density_class(new_density_class):
 	density_class = new_density_class
 	
-	rows = new_density_class.extent * new_density_class.density_per_m
-	spacing = 1.0 / new_density_class.density_per_m
+	update_rows_spacing(Vegetation.plant_extent)
 
 func get_density_class():
 	return density_class
@@ -61,11 +73,6 @@ func set_spacing(new_spacing):
 
 func get_spacing():
 	return spacing
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	set_rows(rows)
-	set_spacing(spacing)
 
 
 # When the world is shifted, this offset needs to be remembered and passed to

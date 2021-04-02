@@ -3,6 +3,7 @@
 [ext_resource path="res://Vegetation/Editor/ViewSettings/ViewSettingsDialog.gd" type="Script" id=1]
 
 [node name="ViewSettingsDialog" type="WindowDialog"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -60,28 +61,28 @@ margin_bottom = 72.0
 
 [node name="Label" type="Label" parent="Settings/ViewDistance"]
 margin_top = 3.0
-margin_right = 155.0
+margin_right = 187.0
 margin_bottom = 28.0
-text = "View Distance:"
+text = "View Distance: 10"
 
 [node name="HSlider" type="HSlider" parent="Settings/ViewDistance"]
-margin_left = 163.0
-margin_right = 446.0
+margin_left = 195.0
+margin_right = 453.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
-min_value = 15.0
-max_value = 150.0
+min_value = 10.0
+max_value = 120.0
 value = 30.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label2" type="Label" parent="Settings/ViewDistance"]
-margin_left = 454.0
+margin_left = 461.0
 margin_top = 3.0
 margin_right = 500.0
 margin_bottom = 28.0
-text = "Max"
+text = "120"
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -26,7 +26,7 @@ func _change_fov(value: float):
 
 
 func _change_view_distance(value: float):
-	pass # TODO
+	Vegetation.plant_extent = value
 
 
 func _change_camera_view(height, angle=0):

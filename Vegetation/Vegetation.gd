@@ -18,7 +18,21 @@ var groups = {}
 var density_classes = {}
 var ground_textures = {}
 
+# Global plant view distance modifyer (plants per renderer row)
+# TODO: Consider moving to settings
+var plant_extent = 30.0 setget set_plant_extent, get_plant_extent
+signal new_plant_extent(extent)
+
 signal new_data
+
+
+func set_plant_extent(extent):
+	plant_extent = extent
+	emit_signal("new_plant_extent", extent)
+
+
+func get_plant_extent():
+	return plant_extent
 
 
 # Read Plants and Groups from the given CSV files.

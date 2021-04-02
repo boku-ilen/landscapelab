@@ -1,8 +1,8 @@
 extends WindowDialog
 
 
-signal new_fov
-signal new_view_distance
+signal new_fov(value)
+signal new_view_distance(value)
 
 
 func _ready():
