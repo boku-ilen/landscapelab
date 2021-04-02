@@ -30,7 +30,7 @@ func _ready():
 
 
 func update_rows_spacing(extent):
-	rows = extent * density_class.density_per_m
+	rows = extent
 	spacing = 1.0 / density_class.density_per_m
 	
 	set_rows(rows)
