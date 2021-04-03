@@ -24,12 +24,8 @@ class EditAction extends ActionHandler.Action:
 	
 	func apply(event: InputEvent):
 		if event.is_action_pressed("layer_add_feature"):
-			# FIXME: this is far from clean and should be altered once Geodot offers
-			# FIXME: a proper feature for writing to a 
-			#layer.add_point_feature(PointFeature)
-			var instance = layer.render_info.object.instance()
-			player.get_parent().add_child(instance)
-			instance.transform.origin = cursor.get_collision_point()
+			var new_feature = layer.create_feature()
+			new_feature.set_vector3(cursor.get_collision_point())
 
 
 func _on_edit(toggled):

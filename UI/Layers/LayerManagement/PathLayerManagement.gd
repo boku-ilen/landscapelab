@@ -22,23 +22,20 @@ class EditAction extends ActionHandler.Action:
 	func _init(l, c, p, blocking).(p, blocking):
 		cursor = c
 		layer = l
-		path = load("res://Street.tscn").instance()
+		path = layer.render_info.line_visualization.instance()#load("res://Street.tscn").instance()
 		player.get_parent().add_child(path)
 #		var vis = CSGPolygon.new()
 #		vis.material = Material.new()
 #		path.visualizer = vis
 	
 	func new_path():
-		path = load("res://Street.tscn").instance()
+		path = layer.render_info.line_visualization.instance()
 		player.get_parent().get_node("Terrain").add_child(path)
 	
 	func apply(event: InputEvent):
 		if event.is_action_pressed("layer_add_feature"):
-			# FIXME: this is far from clean and should be altered once Geodot offers
-			# FIXME: a proper feature for writing to a 
-			#layer.add_point_feature(PointFeature)
-			if path == null: new_path()
-			path.curve.add_point(cursor.get_collision_point())
+			var new_feature = layer.create_feature()
+			new_feature.set_vector3(cursor.get_collision_point())
 		if event.is_action_pressed("layer_end_feature"):
 			# FIXME: Finishing logic ...
 			path = null
