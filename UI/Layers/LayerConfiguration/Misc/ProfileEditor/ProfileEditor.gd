@@ -4,35 +4,72 @@ extends WindowDialog
 onready var viewport = get_node("HSplitContainer/ViewportContainer/Viewport")
 onready var viewport_container = get_node("HSplitContainer/ViewportContainer")
 onready var camera = get_node("HSplitContainer/ViewportContainer/Viewport/Spatial/Camera")
-onready var path = get_node("HSplitContainer/ViewportContainer/Viewport/Spatial/Path")
 onready var cursor = get_node("HSplitContainer/ViewportContainer/Viewport/Spatial/Camera/MousePoint")
-onready var new_profile_button = get_node("HSplitContainer/Vbox/AddProfileButton")
-onready var remove_profile_button = get_node("HSplitContainer/Vbox/RemoveProfileButton")
-onready var change_view_button = get_node("HSplitContainer/Vbox/ChangeViewButton")
-onready var add_point_button = get_node("HSplitContainer/Vbox/AddPointButton")
-onready var remove_point_button = get_node("HSplitContainer/Vbox/RemovePointButton")
-onready var add_texture_button = get_node("HSplitContainer/Vbox/FileChooser/AddText")
+onready var path = get_node("HSplitContainer/ViewportContainer/Viewport/Spatial/Path")
+
+onready var save_menu = get_node("HSplitContainer/Vbox/SaveButton/SaveMenu")
 
 var profile = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Profile.tscn")
 var poly_point = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.tscn")
-var top_view: bool = false
 var current_point
 var current_profile: CSGPolygon
 var is_dragging: bool = false
 
+enum Views {
+	ELEVATION,
+	PLAN,
+	PERSPECTIVE
+}
+
 
 func _ready():
-	new_profile_button.connect("pressed", self, "_add_profile")
-	remove_profile_button.connect("pressed", self, "_remove_profile")
-	change_view_button.connect("pressed", self, "_change_view")
-	add_point_button.connect("pressed", self, "_add_point")
-	remove_point_button.connect("pressed", self, "_remove_point")
-	add_texture_button.connect("pressed", self, "_add_texture")
+	popup()
+	_change_view(Views.ELEVATION)
+	$HSplitContainer/Vbox/AddProfileButton.connect("pressed", self, "_add_profile")
+	$HSplitContainer/Vbox/RemoveProfileButton.connect("pressed", self, "_remove_profile")
+	$HSplitContainer/ViewportContainer/VBoxContainer/ElevationViewButton.connect("pressed", self, "_change_view", [Views.ELEVATION])
+	$HSplitContainer/ViewportContainer/VBoxContainer/PlanViewButton.connect("pressed", self, "_change_view", [Views.PLAN])
+	$HSplitContainer/ViewportContainer/VBoxContainer/PerspectiveViewButton.connect("pressed", self, "_change_view", [Views.PERSPECTIVE])
+	$HSplitContainer/Vbox/AddPointButton.connect("pressed", self, "_add_point")
+	$HSplitContainer/Vbox/SaveButton.connect("pressed", save_menu, "popup")
+	save_menu.connect("file_selected", self, "_save")
+	$HSplitContainer/Vbox/RemovePointButton.connect("pressed", self, "_remove_point")
+	$HSplitContainer/Vbox/FileChooser/AddText.connect("pressed", self, "_add_texture")
+
+
+func _save(file_path: String):
+	# Explicitly mark ownership on the parent node, else the children don't get
+	# stored in a packed scene
+	var i = 0
+	for child in path.get_children():
+		# The attached profile has editor functionality (drag polygon, etc.)
+		# - thus a primitive duplicate is created
+		if child.has_method("duplicate_as_primitive_material"):
+			var duplicate: CSGPolygon = child.duplicate_as_primitive_material()
+			path.add_child(duplicate)
+			duplicate.set_owner(path)
+			
+			# Additionally store the material of each profile
+			var resource_path = "%s%d%s" % [file_path.substr(0, file_path.find_last(".")), i, "tres"]
+			ResourceSaver.save(resource_path, child.material)
+			var mat = SpatialMaterial.new()
+			mat.resource_path = resource_path
+			duplicate.material = mat
+			i += 1
+		else:
+			child.set_owner(path)
+	
+	# Store in a packed scene
+	var packed_scene = PackedScene.new()
+	packed_scene.pack(path)
+	ResourceSaver.save(file_path, packed_scene)
 
 
 func _add_texture():
 	var texture = load(get_node("HSplitContainer/Vbox/FileChooser/FileName").text)
-	current_profile.material_override.albedo_texture = texture
+	var mat = SpatialMaterial.new()
+	mat.albedo_texture = texture
+	current_profile.material = mat
 
 
 func _add_point():
@@ -49,7 +86,6 @@ func _add_profile():
 	var new_prof = profile.instance()
 	path.add_child(new_prof)
 	new_prof.path_node = "../"
-	
 
 
 func _remove_profile():
@@ -58,17 +94,22 @@ func _remove_profile():
 		current_profile = null
 
 
-func _change_view():
-	if top_view:
+func _change_view(view_type: int):
+	if view_type == Views.PLAN:
+		camera.projection = camera.PROJECTION_ORTHOGONAL
 		camera.translation = Vector3(0, 0, 3.665)
-		camera.rotation_degrees.x = 0
-		top_view = false
-	else:
+		camera.rotation_degrees = Vector3.ZERO
+	elif view_type == Views.ELEVATION:
+		camera.projection = camera.PROJECTION_ORTHOGONAL
 		camera.translation = Vector3(0, 6, -3)
-		camera.rotation_degrees.x = -90
-		top_view = true
+		camera.rotation_degrees = Vector3(-90,0,0)
+	elif view_type == Views.PERSPECTIVE:
+		camera.projection = camera.PROJECTION_PERSPECTIVE
+		camera.translation = Vector3(6, 6, 8)
+		camera.look_at(Vector3.ZERO, Vector3.UP)
 
 
+# Dragging functionality of the polygon points
 func _input(event):
 	var mouse_pos = viewport.get_viewport().get_mouse_position()
 	mouse_pos.y = viewport.get_viewport().size.y - mouse_pos.y
@@ -104,6 +145,11 @@ func _input(event):
 				var new_pos = Vector2(relative_proj.x, relative_proj.y)
 				current_point.set_position(new_pos)
 				current_profile.drag()
+	elif event.is_pressed():
+		if event.button_index == BUTTON_WHEEL_UP:
+			pass
+		if event.button_index == BUTTON_WHEEL_DOWN:
+			pass
 
 
 func is_event_inside_control(event: InputEvent, control: Control):

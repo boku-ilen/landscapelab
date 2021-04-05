@@ -4,7 +4,6 @@
 [ext_resource path="res://Util/GridPlane/GridPlane.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/ProfileEditor.gd" type="Script" id=3]
 
-
 [sub_resource type="Curve3D" id=1]
 _data = {
 "points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -8 ),
@@ -21,37 +20,72 @@ params_cull_mode = 2
 params_depth_draw_mode = 1
 
 [sub_resource type="Environment" id=4]
-ambient_light_color = Color( 0.65098, 0.65098, 0.65098, 1 )
+background_mode = 1
+background_color = Color( 1, 1, 1, 1 )
+ambient_light_color = Color( 1, 1, 1, 1 )
 
-[node name="ProfileEditor" type="WindowDialog"]
-margin_right = 930.0
-margin_bottom = 500.0
+[node name="ProfileEditor" type="AcceptDialog"]
+visible = true
+margin_left = 171.0
+margin_top = 58.0
+margin_right = 1639.0
+margin_bottom = 966.0
 rect_min_size = Vector2( 930, 500 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 popup_exclusive = true
+window_title = "Profile Editor"
+resizable = true
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSplitContainer" type="HBoxContainer" parent="."]
-margin_right = 558.0
-margin_bottom = 424.0
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 1452.0
+margin_bottom = 839.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ViewportContainer" type="ViewportContainer" parent="HSplitContainer"]
-margin_right = 500.0
-margin_bottom = 500.0
+margin_right = 706.0
+margin_bottom = 823.0
 rect_min_size = Vector2( 500, 500 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/ViewportContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="ElevationViewButton" type="Button" parent="HSplitContainer/ViewportContainer/VBoxContainer"]
+margin_right = 206.0
+margin_bottom = 37.0
+text = "Elevation View"
+
+[node name="PlanViewButton" type="Button" parent="HSplitContainer/ViewportContainer/VBoxContainer"]
+margin_top = 45.0
+margin_right = 206.0
+margin_bottom = 82.0
+text = "Plan View"
+
+[node name="PerspectiveViewButton" type="Button" parent="HSplitContainer/ViewportContainer/VBoxContainer"]
+margin_top = 90.0
+margin_right = 206.0
+margin_bottom = 127.0
+text = "Perspective View"
 
 [node name="Viewport" type="Viewport" parent="HSplitContainer/ViewportContainer"]
-size = Vector2( 500, 500 )
+size = Vector2( 706, 823 )
 own_world = true
 handle_input_locally = false
 keep_3d_linear = true
 render_target_v_flip = true
-render_target_update_mode = 0
+render_target_update_mode = 3
 
 [node name="Spatial" type="Spatial" parent="HSplitContainer/ViewportContainer/Viewport"]
 
@@ -59,8 +93,7 @@ render_target_update_mode = 0
 curve = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="HSplitContainer/ViewportContainer/Viewport/Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.6652 )
-projection = 1
+transform = Transform( 0.891545, 0.00936696, -0.452836, 0, 0.999786, 0.0206807, 0.452933, -0.0184378, 0.891354, 6, 6, -3 )
 fov = 68.2899
 size = 4.0
 
@@ -89,65 +122,73 @@ grid_size = 1
 environment = SubResource( 4 )
 
 [node name="Vbox" type="VBoxContainer" parent="HSplitContainer"]
-margin_left = 508.0
-margin_right = 781.0
-margin_bottom = 500.0
-
-[node name="ChangeViewButton" type="Button" parent="HSplitContainer/Vbox"]
-margin_right = 273.0
-margin_bottom = 37.0
-text = "Change View"
+margin_left = 730.0
+margin_right = 1436.0
+margin_bottom = 823.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="AddProfileButton" type="Button" parent="HSplitContainer/Vbox"]
-margin_top = 45.0
-margin_right = 273.0
-margin_bottom = 82.0
+margin_right = 706.0
+margin_bottom = 37.0
 text = "Add Profile"
 
 [node name="RemoveProfileButton" type="Button" parent="HSplitContainer/Vbox"]
-margin_top = 90.0
-margin_right = 273.0
-margin_bottom = 127.0
+margin_top = 45.0
+margin_right = 706.0
+margin_bottom = 82.0
 text = "Remove Profile"
 
 [node name="AddPointButton" type="Button" parent="HSplitContainer/Vbox"]
-margin_top = 135.0
-margin_right = 273.0
-margin_bottom = 172.0
+margin_top = 90.0
+margin_right = 706.0
+margin_bottom = 127.0
 text = "Add Point"
 
 [node name="RemovePointButton" type="Button" parent="HSplitContainer/Vbox"]
-margin_top = 180.0
-margin_right = 273.0
-margin_bottom = 217.0
+margin_top = 135.0
+margin_right = 706.0
+margin_bottom = 172.0
 text = "Remove Point"
 
+[node name="FileChooser2" parent="HSplitContainer/Vbox" instance=ExtResource( 1 )]
+margin_top = 180.0
+margin_right = 706.0
+margin_bottom = 220.0
+filters = PoolStringArray( "*.jpg", "*.png" )
+
+[node name="AddObject" type="Button" parent="HSplitContainer/Vbox/FileChooser2"]
+margin_left = 563.0
+margin_right = 706.0
+margin_bottom = 40.0
+text = "Add Object"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="FileChooser" parent="HSplitContainer/Vbox" instance=ExtResource( 1 )]
-margin_top = 225.0
-margin_right = 273.0
-margin_bottom = 265.0
+margin_top = 228.0
+margin_right = 706.0
+margin_bottom = 268.0
 filters = PoolStringArray( "*.jpg", "*.png" )
 
 [node name="AddText" type="Button" parent="HSplitContainer/Vbox/FileChooser"]
-margin_left = 117.0
-margin_right = 273.0
+margin_left = 550.0
+margin_right = 706.0
 margin_bottom = 40.0
 text = "Add Texture"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FileChooser2" parent="HSplitContainer/Vbox" instance=ExtResource( 1 )]
-margin_top = 273.0
-margin_right = 273.0
+[node name="SaveButton" type="Button" parent="HSplitContainer/Vbox"]
+margin_top = 276.0
+margin_right = 706.0
 margin_bottom = 313.0
-filters = PoolStringArray( "*.jpg", "*.png" )
+text = "Save"
 
-[node name="AddObject" type="Button" parent="HSplitContainer/Vbox/FileChooser2"]
-margin_left = 130.0
-margin_right = 273.0
-margin_bottom = 40.0
-text = "Add Object"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="SaveMenu" type="FileDialog" parent="HSplitContainer/Vbox/SaveButton"]
+margin_right = 645.0
+margin_bottom = 532.0
+resizable = true
+filters = PoolStringArray( "*.tscn" )

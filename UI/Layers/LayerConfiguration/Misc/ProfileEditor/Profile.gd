@@ -61,3 +61,12 @@ func add_point(point):
 	point.position = Vector2(0, 0)
 	profile_polygon.append(point)
 	update()
+
+
+func duplicate_as_primitive_material():
+	var primitive = CSGPolygon.new()
+	primitive.polygon = polygon
+	primitive.mode = mode
+	primitive.path_node = path_node
+	primitive.invert_faces = true
+	return primitive
