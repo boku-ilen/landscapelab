@@ -37,6 +37,13 @@ func _ready():
 	save_menu.connect("file_selected", save_menu, "save", [path])
 	$HSplitContainer/Vbox/ScrollContainer/Vbox/RemovePointButton.connect("pressed", self, "_remove_point")
 	$HSplitContainer/Vbox/ScrollContainer/Vbox/FileChooser/AddText.connect("pressed", self, "_add_texture")
+	$HSplitContainer/Vbox/ScrollContainer/Vbox/FileChooser2/AddObject.connect("pressed", self, "_add_object")
+
+
+func _add_object():
+	var object = load(get_node("HSplitContainer/Vbox/ScrollContainer/Vbox/FileChooser2/FileName").text).instance()
+	add_child(object)
+	object.translation = Vector3.ZERO
 
 
 func _add_texture():
@@ -111,7 +118,7 @@ func _input(event):
 func _focus_point(event: InputEvent):
 	if event.is_pressed() and event.button_index == BUTTON_LEFT:
 		is_dragging = true
-		if cursor.is_colliding():
+		if cursor.is_colliding() and cursor.get_collider() is PolygonPoint:
 			if current_point:
 				current_point.color = Color(1, 0.227451, 0)
 			current_point = cursor.get_collider()

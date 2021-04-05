@@ -1,4 +1,5 @@
 extends Area
+class_name PolygonPoint
 
 
 onready var line_to_next = get_node("Node/LineToNext")
