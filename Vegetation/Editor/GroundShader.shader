@@ -22,6 +22,7 @@ uniform float specular_scale = 0.0;
 uniform bool is_ao_increase;
 uniform float ao_scale = 0.0;
 
+uniform bool has_distance_tex = false;
 uniform sampler2D distance_tex: hint_albedo;
 uniform float distance_tex_start;
 uniform float distance_texture_size_m;
@@ -35,11 +36,16 @@ void vertex() {
 }
 
 float close_factor() {
-	return float(distance(camera_pos, world_pos) <= distance_tex_start);
+	// Returns 1.0 if has_distance_tex is false or if the camera is closer than distance_tex_start.
+	// Returns 0.0 otherwise.
+	return (1.0 - float(has_distance_tex))
+		+ float(has_distance_tex) * float(distance(camera_pos, world_pos) <= distance_tex_start);
 }
 
 float far_factor() {
-	return float(distance(camera_pos, world_pos) > distance_tex_start);
+	// Returns 1.0 if has_distance_tex is true and the camera is further than distance_tex_start.
+	// Returns 0.0 otherwise.
+	return float(has_distance_tex) * float(distance(camera_pos, world_pos) > distance_tex_start);
 }
 
 void fragment() {
