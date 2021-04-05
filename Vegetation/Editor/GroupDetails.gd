@@ -16,7 +16,7 @@ func _set_new_ground_texture(new_ground_texture):
 
 func _set_new_fade_texture(new_fade_texture):
 	if current_group:
-		pass # TODO
+		current_group.fade_texture = new_fade_texture
 
 
 func set_group(group):

@@ -17,8 +17,23 @@ var plants = {}
 var groups = {}
 var density_classes = {}
 var ground_textures = {}
+var fade_textures = {}
+
+# Global plant view distance modifyer (plants per renderer row)
+# TODO: Consider moving to settings
+var plant_extent = 40.0 setget set_plant_extent, get_plant_extent
+signal new_plant_extent(extent)
 
 signal new_data
+
+
+func set_plant_extent(extent):
+	plant_extent = extent
+	emit_signal("new_plant_extent", extent)
+
+
+func get_plant_extent():
+	return plant_extent
 
 
 # Read Plants and Groups from the given CSV files.
@@ -27,9 +42,10 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	groups = {}
 	
 	density_classes = VegetationCSVUtil.create_density_classes_from_csv(density_path)
-	ground_textures = VegetationCSVUtil.create_textures_from_csv(texture_definition_path)
+	ground_textures = VegetationCSVUtil.create_textures_from_csv(texture_definition_path, [], ["DISTANCE"])
+	fade_textures = VegetationCSVUtil.create_textures_from_csv(texture_definition_path, ["DISTANCE"], [])
 	plants = VegetationCSVUtil.create_plants_from_csv(plant_path, density_classes)
-	groups = VegetationCSVUtil.create_groups_from_csv(group_path, plants, ground_textures)
+	groups = VegetationCSVUtil.create_groups_from_csv(group_path, plants, ground_textures, fade_textures)
 	
 	emit_signal("new_data")
 
