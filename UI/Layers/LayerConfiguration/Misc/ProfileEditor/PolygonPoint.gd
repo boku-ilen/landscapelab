@@ -16,7 +16,8 @@ func set_position(vec: Vector2):
 
 func set_color(c: Color):
 	color = c
-	get_node("MeshInstance").material_override.albedo_color = c
+	$MeshInstance.material_override.albedo_color = c
+	$Node/LineToNext.material_override.albedo_color = c
 
 
 func _process(delta):

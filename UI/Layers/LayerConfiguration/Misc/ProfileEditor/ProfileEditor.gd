@@ -14,7 +14,8 @@ var poly_point = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/
 var current_point
 var current_profile: CSGPolygon
 var is_dragging: bool = false
-var current_view
+var is_stiring: bool = false
+var current_view: int
 
 enum Views {
 	ELEVATION,
@@ -26,52 +27,20 @@ enum Views {
 func _ready():
 	popup()
 	_change_view(Views.ELEVATION)
-	$HSplitContainer/Vbox/AddProfileButton.connect("pressed", self, "_add_profile")
-	$HSplitContainer/Vbox/RemoveProfileButton.connect("pressed", self, "_remove_profile")
+	$HSplitContainer/Vbox/ScrollContainer/Vbox/AddProfileButton.connect("pressed", self, "_add_profile")
+	$HSplitContainer/Vbox/ScrollContainer/Vbox/RemoveProfileButton.connect("pressed", self, "_remove_profile")
 	$HSplitContainer/ViewportContainer/VBoxContainer/ElevationViewButton.connect("pressed", self, "_change_view", [Views.ELEVATION])
 	$HSplitContainer/ViewportContainer/VBoxContainer/PlanViewButton.connect("pressed", self, "_change_view", [Views.PLAN])
 	$HSplitContainer/ViewportContainer/VBoxContainer/PerspectiveViewButton.connect("pressed", self, "_change_view", [Views.PERSPECTIVE])
-	$HSplitContainer/Vbox/AddPointButton.connect("pressed", self, "_add_point")
+	$HSplitContainer/Vbox/ScrollContainer/Vbox/AddPointButton.connect("pressed", self, "_add_point")
 	$HSplitContainer/Vbox/SaveButton.connect("pressed", save_menu, "popup")
-	save_menu.connect("file_selected", self, "_save")
-	$HSplitContainer/Vbox/RemovePointButton.connect("pressed", self, "_remove_point")
-	$HSplitContainer/Vbox/FileChooser/AddText.connect("pressed", self, "_add_texture")
-
-
-func _save(file_path: String):
-	# Duplicate the path for storing purposes
-	var store_path = path.duplicate(15)
-	# Explicitly mark ownership on the parent node, else the children don't get
-	# stored in a packed scene
-	var i = 0
-	for child in store_path.get_children():
-		# The attached profile has editor functionality (drag polygon, etc.)
-		# - thus a primitive duplicate is created
-		if child.has_method("duplicate_as_primitive_material"):
-			var duplicate: CSGPolygon = child.duplicate_as_primitive_material()
-			store_path.add_child(duplicate)
-			duplicate.set_owner(store_path)
-			
-			# Additionally store the material of each profile
-			var resource_path = "%s%d%s" % [file_path.substr(0, file_path.find_last(".")), i, ".tres"]
-			ResourceSaver.save(resource_path, child.material)
-			var mat = SpatialMaterial.new()
-			mat.resource_path = resource_path
-			duplicate.material = mat
-			i += 1
-		else:
-			child.set_owner(store_path)
-	
-	# Store in a packed scene
-	var packed_scene = PackedScene.new()
-	packed_scene.pack(store_path)
-	ResourceSaver.save(file_path, packed_scene)
-	# Remove the duplicated path, as it should be persisted
-	store_path.queue_free()
+	save_menu.connect("file_selected", save_menu, "save", [path])
+	$HSplitContainer/Vbox/ScrollContainer/Vbox/RemovePointButton.connect("pressed", self, "_remove_point")
+	$HSplitContainer/Vbox/ScrollContainer/Vbox/FileChooser/AddText.connect("pressed", self, "_add_texture")
 
 
 func _add_texture():
-	var texture = load(get_node("HSplitContainer/Vbox/FileChooser/FileName").text)
+	var texture = load(get_node("HSplitContainer/Vbox/ScrollContainer/Vbox/FileChooser/FileName").text)
 	var mat = SpatialMaterial.new()
 	mat.albedo_texture = texture
 	current_profile.material = mat
@@ -117,20 +86,30 @@ func _change_view(view_type: int):
 
 
 func _input(event):
+	var projected_mouse = camera.project_ray_origin(viewport.get_viewport().get_mouse_position())
+	var from = camera.to_local(projected_mouse)
+	var to = from + camera.project_local_ray_normal(viewport.get_viewport().get_mouse_position()) * 100
+	cursor.set_translation(from)
+	cursor.set_cast_to(to)
 	# Dragging functionality of the polygon points
-	if event is InputEventMouseButton and is_event_inside_control(event, viewport_container):
-		if event.button_index == BUTTON_WHEEL_UP:
-			_scroll(true)
-		elif event.button_index == BUTTON_WHEEL_DOWN:
-			_scroll(false)
-		else:
+	if event is InputEventMouseButton:
+		if is_event_inside_control(event, viewport_container):
 			_focus_point(event)
+			if event.button_index == BUTTON_WHEEL_UP:
+				_scroll(true)
+			elif event.button_index == BUTTON_WHEEL_DOWN:
+				_scroll(false)
+		if event.button_index == BUTTON_MIDDLE:
+			is_stiring = event.is_pressed()
 	elif event is InputEventMouseMotion:
-		_drag_polygon(event)
+		if is_dragging and current_point:
+			_drag_polygon(event, projected_mouse)
+		elif is_stiring:
+			_stir(event)
 
 
 func _focus_point(event: InputEvent):
-	if event.pressed and event.button_index == BUTTON_LEFT:
+	if event.is_pressed() and event.button_index == BUTTON_LEFT:
 		is_dragging = true
 		if cursor.is_colliding():
 			if current_point:
@@ -146,23 +125,21 @@ func _focus_point(event: InputEvent):
 		is_dragging = false
 
 
-func _drag_polygon(event: InputEvent):
-	var projected_mouse = camera.project_ray_origin(viewport.get_viewport().get_mouse_position())
-	var from = camera.to_local(projected_mouse)
-	var to = from + camera.project_local_ray_normal(viewport.get_viewport().get_mouse_position()) * 100
-	cursor.set_translation(from)
-	cursor.set_cast_to(to)
-	if is_dragging and current_point:
-		if camera.projection == Camera.PROJECTION_ORTHOGONAL:
-			var new_pos = Vector2(projected_mouse.x, projected_mouse.y)
-			current_point.set_position(new_pos)
-			current_profile.drag()
+func _drag_polygon(event: InputEvent, projected_mouse):
+	if camera.projection == Camera.PROJECTION_ORTHOGONAL:
+		var new_pos
+		if current_view == Views.ELEVATION:
+			new_pos = Vector2(projected_mouse.x, projected_mouse.y)
 		else:
-			var distance = camera.project_ray_origin(viewport.get_viewport().get_mouse_position()).distance_to(current_point.translation)
-			var relative_proj = camera.project_ray_normal(viewport.get_viewport().get_mouse_position()) * distance
-			var new_pos = Vector2(relative_proj.x, relative_proj.y)
-			current_point.set_position(new_pos)
-			current_profile.drag()
+			new_pos = Vector2(projected_mouse.x, current_point.position.y)
+		current_point.set_position(new_pos)
+		current_profile.drag()
+	else:
+		var distance = camera.project_ray_origin(viewport.get_viewport().get_mouse_position()).distance_to(current_point.translation)
+		var relative_proj = camera.project_ray_normal(viewport.get_viewport().get_mouse_position()) * distance
+		var new_pos = Vector2(relative_proj.x, relative_proj.y)
+		current_point.set_position(new_pos)
+		current_profile.drag()
 
 
 func _scroll(up: bool):
@@ -176,6 +153,11 @@ func _scroll(up: bool):
 			camera.size -= 1
 		else:
 			camera.size += 1
+
+
+func _stir(event: InputEventMouseMotion):
+	var force = Vector3(-event.relative.x, event.relative.y, 0) * 0.01
+	camera.translate(force)
 
 
 func is_event_inside_control(event: InputEvent, control: Control):

@@ -17,6 +17,3 @@ path_continuous_u = false
 path_joined = false
 material = SubResource( 1 )
 script = ExtResource( 1 )
-
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, -6.06618 )
