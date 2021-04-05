@@ -14,6 +14,7 @@ var poly_point = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/
 var current_point
 var current_profile: CSGPolygon
 var is_dragging: bool = false
+var current_view
 
 enum Views {
 	ELEVATION,
@@ -38,31 +39,35 @@ func _ready():
 
 
 func _save(file_path: String):
+	# Duplicate the path for storing purposes
+	var store_path = path.duplicate(15)
 	# Explicitly mark ownership on the parent node, else the children don't get
 	# stored in a packed scene
 	var i = 0
-	for child in path.get_children():
+	for child in store_path.get_children():
 		# The attached profile has editor functionality (drag polygon, etc.)
 		# - thus a primitive duplicate is created
 		if child.has_method("duplicate_as_primitive_material"):
 			var duplicate: CSGPolygon = child.duplicate_as_primitive_material()
-			path.add_child(duplicate)
-			duplicate.set_owner(path)
+			store_path.add_child(duplicate)
+			duplicate.set_owner(store_path)
 			
 			# Additionally store the material of each profile
-			var resource_path = "%s%d%s" % [file_path.substr(0, file_path.find_last(".")), i, "tres"]
+			var resource_path = "%s%d%s" % [file_path.substr(0, file_path.find_last(".")), i, ".tres"]
 			ResourceSaver.save(resource_path, child.material)
 			var mat = SpatialMaterial.new()
 			mat.resource_path = resource_path
 			duplicate.material = mat
 			i += 1
 		else:
-			child.set_owner(path)
+			child.set_owner(store_path)
 	
 	# Store in a packed scene
 	var packed_scene = PackedScene.new()
-	packed_scene.pack(path)
+	packed_scene.pack(store_path)
 	ResourceSaver.save(file_path, packed_scene)
+	# Remove the duplicated path, as it should be persisted
+	store_path.queue_free()
 
 
 func _add_texture():
@@ -95,11 +100,13 @@ func _remove_profile():
 
 
 func _change_view(view_type: int):
-	if view_type == Views.PLAN:
+	current_view = view_type
+	camera.transform = Transform.IDENTITY
+	if view_type == Views.ELEVATION:
 		camera.projection = camera.PROJECTION_ORTHOGONAL
 		camera.translation = Vector3(0, 0, 3.665)
 		camera.rotation_degrees = Vector3.ZERO
-	elif view_type == Views.ELEVATION:
+	elif view_type == Views.PLAN:
 		camera.projection = camera.PROJECTION_ORTHOGONAL
 		camera.translation = Vector3(0, 6, -3)
 		camera.rotation_degrees = Vector3(-90,0,0)
@@ -109,47 +116,66 @@ func _change_view(view_type: int):
 		camera.look_at(Vector3.ZERO, Vector3.UP)
 
 
-# Dragging functionality of the polygon points
 func _input(event):
-	var mouse_pos = viewport.get_viewport().get_mouse_position()
-	mouse_pos.y = viewport.get_viewport().size.y - mouse_pos.y
+	# Dragging functionality of the polygon points
 	if event is InputEventMouseButton and is_event_inside_control(event, viewport_container):
-		if event.pressed:
-			is_dragging = true
-			if cursor.is_colliding():
-				if current_point:
-					current_point.color = Color(1, 0.227451, 0)
-				current_point = cursor.get_collider()
-				current_profile = current_point.get_parent()
-				current_point.color = Color(0, 1, 0.261719)
-			else:
-				if current_point:
-					current_point.color = Color(1, 0.227451, 0)
-				current_point = null
-		else:
-			is_dragging = false
-	elif event is InputEventMouseMotion:
-		var projected_mouse = camera.project_ray_origin(mouse_pos)
-		var from = camera.to_local(projected_mouse)
-		var to = from + camera.project_local_ray_normal(mouse_pos) * 100
-		cursor.set_translation(from)
-		cursor.set_cast_to(to)
-		if is_dragging and current_point:
-			if camera.projection == Camera.PROJECTION_ORTHOGONAL:
-				var new_pos = Vector2(projected_mouse.x, projected_mouse.y)
-				current_point.set_position(new_pos)
-				current_profile.drag()
-			else:
-				var distance = camera.project_ray_origin(mouse_pos).distance_to(current_point.translation)
-				var relative_proj = camera.project_ray_normal(mouse_pos) * distance
-				var new_pos = Vector2(relative_proj.x, relative_proj.y)
-				current_point.set_position(new_pos)
-				current_profile.drag()
-	elif event.is_pressed():
 		if event.button_index == BUTTON_WHEEL_UP:
-			pass
-		if event.button_index == BUTTON_WHEEL_DOWN:
-			pass
+			_scroll(true)
+		elif event.button_index == BUTTON_WHEEL_DOWN:
+			_scroll(false)
+		else:
+			_focus_point(event)
+	elif event is InputEventMouseMotion:
+		_drag_polygon(event)
+
+
+func _focus_point(event: InputEvent):
+	if event.pressed and event.button_index == BUTTON_LEFT:
+		is_dragging = true
+		if cursor.is_colliding():
+			if current_point:
+				current_point.color = Color(1, 0.227451, 0)
+			current_point = cursor.get_collider()
+			current_profile = current_point.get_parent()
+			current_point.color = Color(0, 1, 0.261719)
+		else:
+			if current_point:
+				current_point.color = Color(1, 0.227451, 0)
+			current_point = null
+	else:
+		is_dragging = false
+
+
+func _drag_polygon(event: InputEvent):
+	var projected_mouse = camera.project_ray_origin(viewport.get_viewport().get_mouse_position())
+	var from = camera.to_local(projected_mouse)
+	var to = from + camera.project_local_ray_normal(viewport.get_viewport().get_mouse_position()) * 100
+	cursor.set_translation(from)
+	cursor.set_cast_to(to)
+	if is_dragging and current_point:
+		if camera.projection == Camera.PROJECTION_ORTHOGONAL:
+			var new_pos = Vector2(projected_mouse.x, projected_mouse.y)
+			current_point.set_position(new_pos)
+			current_profile.drag()
+		else:
+			var distance = camera.project_ray_origin(viewport.get_viewport().get_mouse_position()).distance_to(current_point.translation)
+			var relative_proj = camera.project_ray_normal(viewport.get_viewport().get_mouse_position()) * distance
+			var new_pos = Vector2(relative_proj.x, relative_proj.y)
+			current_point.set_position(new_pos)
+			current_profile.drag()
+
+
+func _scroll(up: bool):
+	if current_view == Views.PERSPECTIVE:
+		if up:
+			camera.translation -= Vector3.ONE * camera.transform.basis.z
+		else:
+			camera.translation += Vector3.ONE * camera.transform.basis.z
+	else:
+		if up:
+			camera.size -= 1
+		else:
+			camera.size += 1
 
 
 func is_event_inside_control(event: InputEvent, control: Control):

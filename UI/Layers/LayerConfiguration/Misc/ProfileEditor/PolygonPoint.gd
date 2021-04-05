@@ -1,7 +1,7 @@
 extends Area
 
 
-onready var line_to_next = get_node("LineToNext")
+onready var line_to_next = get_node("Node/LineToNext")
 
 var color = Color(1, 0.227451, 0) setget set_color 
 
@@ -20,4 +20,4 @@ func set_color(c: Color):
 
 
 func _process(delta):
-	$Viewport/Label.text = String(idx)
+	$Viewport/CenterContainer/Label.text = String(idx)

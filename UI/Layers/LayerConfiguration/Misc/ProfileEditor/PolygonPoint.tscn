@@ -1,11 +1,12 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/circle.svg" type="Texture" id=1]
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.gd" type="Script" id=2]
+[ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=3]
 
 [sub_resource type="SphereShape" id=1]
 resource_local_to_scene = true
-radius = 0.08
+radius = 0.862325
 
 [sub_resource type="SpatialMaterial" id=2]
 resource_local_to_scene = true
@@ -20,10 +21,6 @@ albedo_texture = ExtResource( 1 )
 
 [sub_resource type="QuadMesh" id=3]
 size = Vector2( 0.05, 0.05 )
-
-[sub_resource type="SpatialMaterial" id=4]
-flags_unshaded = true
-albedo_color = Color( 1, 0.176471, 0, 1 )
 
 [sub_resource type="QuadMesh" id=5]
 size = Vector2( 0.8, 0.2 )
@@ -42,6 +39,10 @@ params_billboard_mode = 1
 params_billboard_keep_scale = true
 albedo_texture = SubResource( 6 )
 
+[sub_resource type="SpatialMaterial" id=4]
+flags_unshaded = true
+albedo_color = Color( 1, 0.176471, 0, 1 )
+
 [node name="PolygonPoint" type="Area"]
 script = ExtResource( 2 )
 
@@ -54,20 +55,33 @@ cast_shadow = 0
 mesh = SubResource( 3 )
 material/0 = null
 
-[node name="LineToNext" type="ImmediateGeometry" parent="."]
-material_override = SubResource( 4 )
-
 [node name="MeshInstance2" type="MeshInstance" parent="."]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0.0388794, 0, 0 )
 mesh = SubResource( 5 )
 material/0 = SubResource( 7 )
 
 [node name="Viewport" type="Viewport" parent="."]
-size = Vector2( 160, 40 )
+size = Vector2( 600, 150 )
 transparent_bg = true
+usage = 0
+render_target_v_flip = true
 
-[node name="Label" type="Label" parent="Viewport"]
-margin_right = 40.0
-margin_bottom = 25.0
-rect_scale = Vector2( 0.7, 0.7 )
+[node name="CenterContainer" type="CenterContainer" parent="Viewport"]
+margin_left = 300.0
+margin_top = 20.0
+margin_right = 397.0
+margin_bottom = 60.0
+
+[node name="Label" type="Label" parent="Viewport/CenterContainer"]
+margin_left = 14.0
+margin_top = 8.0
+margin_right = 82.0
+margin_bottom = 31.0
+size_flags_horizontal = 4
+custom_fonts/font = ExtResource( 3 )
 text = "(3.1, 2.0)"
+
+[node name="Node" type="Node" parent="."]
+
+[node name="LineToNext" type="ImmediateGeometry" parent="Node"]
+material_override = SubResource( 4 )
