@@ -19,12 +19,18 @@ func apply_new_data():
 func apply_new_feature(feature):
 	var instance = layer.render_info.object.instance()
 	
+	update_instance_position(feature, instance)
+	feature.connect("point_changed", self, "update_instance_position", [feature, instance])
+	
+	add_child(instance)
+
+
+func update_instance_position(feature, instance):
 	var local_object_pos = feature.get_offset_vector3(-center[0], 0, -center[1])
+	
 	local_object_pos.y = layer.render_info.ground_height_layer.get_value_at_position(
 		center[0] + local_object_pos.x, center[1] - local_object_pos.z)
 	instance.transform.origin = local_object_pos
-	
-	add_child(instance)
 
 
 func _ready():

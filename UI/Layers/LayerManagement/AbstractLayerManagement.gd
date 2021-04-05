@@ -7,8 +7,11 @@ var pos_manager: PositionManager
 var layer
 
 
-func init(player, l):
+func init(player, l, p_m):
 	layer = l
+	pos_manager = p_m
+	
+	# This depends on the variables set above!
 	set_player(player)
 
 
