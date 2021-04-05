@@ -225,6 +225,13 @@ static func create_groups_from_csv(csv_path: String, plants: Dictionary,
 
 
 static func save_plants_to_csv(plants: Dictionary, csv_path: String):
+	# Backup the old file
+	var dir = Directory.new()
+	if dir.copy(csv_path, csv_path + ".backup-" + str(OS.get_unix_time())) != OK:
+		# TODO: Give a warning to the UI too
+		logger.error("Couldn't create backup -- didn't save!")
+		return
+	
 	var plant_csv = File.new()
 	plant_csv.open(csv_path, File.WRITE)
 	
@@ -264,6 +271,13 @@ static func save_plants_to_csv(plants: Dictionary, csv_path: String):
 
 
 static func save_groups_to_csv(groups: Dictionary, csv_path: String) -> void:
+	# Backup the old file
+	var dir = Directory.new()
+	if dir.copy(csv_path, csv_path + ".backup-" + str(OS.get_unix_time())) != OK:
+		# TODO: Give a warning to the UI too
+		logger.error("Couldn't create backup -- didn't save!")
+		return
+	
 	var group_csv = File.new()
 	group_csv.open(csv_path, File.WRITE)
 	
