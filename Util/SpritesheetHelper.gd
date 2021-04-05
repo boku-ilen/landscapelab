@@ -38,7 +38,7 @@ static func create_spritesheet(
 	
 	if format == null:
 		# No valid images...
-		logger.error("No valid images in the array given to create_spritesheet")
+		logger.warning("No valid images in the array given to create_spritesheet")
 		return null
 	
 	# Get the largest row (the row with the most columns) and use it as the

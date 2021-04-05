@@ -37,6 +37,7 @@ shader_param/is_specular_increase = null
 shader_param/specular_scale = 0.0
 shader_param/is_ao_increase = null
 shader_param/ao_scale = 0.0
+shader_param/has_distance_tex = false
 shader_param/distance_tex_start = null
 shader_param/distance_texture_size_m = null
 

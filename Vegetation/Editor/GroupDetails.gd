@@ -25,7 +25,8 @@ func set_group(group):
 	$GroupAttributes/Attributes/ID/Label.text = str(group.id)
 	$GroupAttributes/Attributes/Name/LineEdit.text = group.name_en
 	
-	# Select the group's texture in the dropdown -- subtract 1 because the IDs start at 1
-	$GroupAttributes/Attributes/GroundTexture/TextureOptionButton.select(group.ground_texture.id - 1)
+	# Select the group's textures in the dropdowns
+	$GroupAttributes/Attributes/GroundTexture/TextureOptionButton.select_value(group.ground_texture)
+	$GroupAttributes/Attributes/FadeTexture/TextureOptionButton.select_value(group.fade_texture)
 	
 	$GroupAttributes/Attributes/GroupPlantList.update_plants(group)

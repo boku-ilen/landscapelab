@@ -8,10 +8,10 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -250.0
-margin_top = -100.0
+margin_top = -150.0
 margin_right = 250.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 500, 200 )
+margin_bottom = 150.0
+rect_min_size = Vector2( 500, 300 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -24,9 +24,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NormalScale" type="HBoxContainer" parent="Settings"]
+[node name="Label" type="Label" parent="Settings"]
 margin_right = 500.0
-margin_bottom = 32.0
+margin_bottom = 56.0
+text = "Note: These changes are not persisted, they are only intended for temporary testing."
+autowrap = true
+
+[node name="HSeparator" type="HSeparator" parent="Settings"]
+margin_top = 64.0
+margin_right = 500.0
+margin_bottom = 72.0
+
+[node name="NormalScale" type="HBoxContainer" parent="Settings"]
+margin_top = 80.0
+margin_right = 500.0
+margin_bottom = 112.0
 
 [node name="Label" type="Label" parent="Settings/NormalScale"]
 margin_top = 3.0
@@ -41,6 +53,9 @@ margin_bottom = 32.0
 size_flags_horizontal = 3
 max_value = 5.0
 step = 0.05
+value = 1.0
+tick_count = 6
+ticks_on_borders = true
 
 [node name="Label2" type="Label" parent="Settings/NormalScale"]
 margin_left = 487.0
@@ -50,9 +65,9 @@ margin_bottom = 28.0
 text = "5"
 
 [node name="Roughness" type="HBoxContainer" parent="Settings"]
-margin_top = 40.0
+margin_top = 120.0
 margin_right = 500.0
-margin_bottom = 72.0
+margin_bottom = 152.0
 
 [node name="Label" type="Label" parent="Settings/Roughness"]
 margin_top = 3.0
@@ -77,9 +92,9 @@ margin_bottom = 28.0
 text = "1"
 
 [node name="Specularity" type="HBoxContainer" parent="Settings"]
-margin_top = 80.0
+margin_top = 160.0
 margin_right = 500.0
-margin_bottom = 112.0
+margin_bottom = 192.0
 
 [node name="Label" type="Label" parent="Settings/Specularity"]
 margin_top = 3.0
@@ -104,9 +119,9 @@ margin_bottom = 28.0
 text = "1"
 
 [node name="AmbientOcclusion" type="HBoxContainer" parent="Settings"]
-margin_top = 120.0
+margin_top = 200.0
 margin_right = 500.0
-margin_bottom = 152.0
+margin_bottom = 232.0
 
 [node name="Label" type="Label" parent="Settings/AmbientOcclusion"]
 margin_top = 3.0

@@ -2,6 +2,7 @@ extends Node
 
 
 export var layer_ui_path: NodePath
+export var pos_manager_path: NodePath
 
 onready var layer_ui = get_node(layer_ui_path)
 
@@ -12,6 +13,7 @@ var pos_manager: PositionManager
 
 func _ready():
 	layer_ui.connect("new_layer_selected", self, "_new_layer_selected")
+	pos_manager = get_node(pos_manager_path)
 
 
 func _new_layer_selected(layer):
@@ -25,5 +27,5 @@ func _new_layer_selected(layer):
 	var file2check = File.new()
 	if file2check.file_exists(ui_path):
 		current_layer_management_ui = load(ui_path).instance()
-		current_layer_management_ui.init(pc_player, layer)
+		current_layer_management_ui.init(pc_player, layer, pos_manager)
 		add_child(current_layer_management_ui)
