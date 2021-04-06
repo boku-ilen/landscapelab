@@ -2,7 +2,7 @@ extends ViewportContainer
 
 
 func _ready():
-	$CameraButtons/GroundViewButton.connect("pressed", self, "_change_camera_view", [2])
+	$CameraButtons/GroundViewButton.connect("pressed", self, "_change_camera_view", [1.6])
 	$CameraButtons/CanopyViewButton.connect("pressed", self, "_change_camera_view", [20, -20])
 	$CameraButtons/AirViewButton.connect("pressed", self, "_change_camera_view", [50, -45])
 	
