@@ -8,14 +8,22 @@ onready var cursor = get_node("HSplitContainer/ViewportContainer/Viewport/Spatia
 onready var path = get_node("HSplitContainer/ViewportContainer/Viewport/Spatial/Path")
 
 onready var save_menu = get_node("HSplitContainer/Vbox/SaveButton/SaveMenu")
+onready var profile_menu = get_node("HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer")
+onready var point_menu = get_node("HSplitContainer/Vbox/ScrollContainer/Vbox/PointContainer")
+onready var object_menu = get_node("HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer")
 
 var profile = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Profile.tscn")
 var poly_point = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.tscn")
-var current_point
-var current_profile: CSGPolygon
+var current_point setget set_current_point
+var current_profile: CSGPolygon setget set_current_profile
+var current_object: Spatial setget set_current_object
 var is_dragging: bool = false
 var is_stiring: bool = false
 var current_view: int
+
+signal current_profile_changed(profile)
+signal current_point_changed(point)
+signal current_object_changed(object)
 
 enum Views {
 	ELEVATION,
@@ -26,53 +34,29 @@ enum Views {
 
 func _ready():
 	popup()
+	
+	# Viewing
 	_change_view(Views.ELEVATION)
-	$HSplitContainer/Vbox/ScrollContainer/Vbox/AddProfileButton.connect("pressed", self, "_add_profile")
-	$HSplitContainer/Vbox/ScrollContainer/Vbox/RemoveProfileButton.connect("pressed", self, "_remove_profile")
 	$HSplitContainer/ViewportContainer/VBoxContainer/ElevationViewButton.connect("pressed", self, "_change_view", [Views.ELEVATION])
 	$HSplitContainer/ViewportContainer/VBoxContainer/PlanViewButton.connect("pressed", self, "_change_view", [Views.PLAN])
 	$HSplitContainer/ViewportContainer/VBoxContainer/PerspectiveViewButton.connect("pressed", self, "_change_view", [Views.PERSPECTIVE])
-	$HSplitContainer/Vbox/ScrollContainer/Vbox/AddPointButton.connect("pressed", self, "_add_point")
+	
+	# Profile
+	connect("current_profile_changed", profile_menu, "set_current_profile")
+	profile_menu.get_node("AddProfileButton").connect("pressed", profile_menu, "_add_profile", [profile, path])
+	
+	# Points
+	connect("current_profile_changed", point_menu, "set_current_profile")
+	connect("current_point_changed", point_menu, "set_current_point")
+	point_menu.get_node("AddPointButton").connect("pressed", point_menu, "_add_point", [poly_point])
+	
+	# Objects
+	object_menu.get_node("ObjectChooser/AddObject").connect("pressed", object_menu, "_add_object", [viewport])
+	object_menu.get_node("ScalingBox/Apply").connect("pressed", object_menu, "_scale_object")
+	
+	# Saving
 	$HSplitContainer/Vbox/SaveButton.connect("pressed", save_menu, "popup")
 	save_menu.connect("file_selected", save_menu, "save", [path])
-	$HSplitContainer/Vbox/ScrollContainer/Vbox/RemovePointButton.connect("pressed", self, "_remove_point")
-	$HSplitContainer/Vbox/ScrollContainer/Vbox/FileChooser/AddText.connect("pressed", self, "_add_texture")
-	$HSplitContainer/Vbox/ScrollContainer/Vbox/FileChooser2/AddObject.connect("pressed", self, "_add_object")
-
-
-func _add_object():
-	var object = load(get_node("HSplitContainer/Vbox/ScrollContainer/Vbox/FileChooser2/FileName").text).instance()
-	add_child(object)
-	object.translation = Vector3.ZERO
-
-
-func _add_texture():
-	var texture = load(get_node("HSplitContainer/Vbox/ScrollContainer/Vbox/FileChooser/FileName").text)
-	var mat = SpatialMaterial.new()
-	mat.albedo_texture = texture
-	current_profile.material = mat
-
-
-func _add_point():
-	if current_profile:
-		current_profile.add_point(poly_point.instance())
-
-
-func _remove_point():
-	if current_point:
-		current_profile.delete_point(current_point.idx)
-
-
-func _add_profile():
-	var new_prof = profile.instance()
-	path.add_child(new_prof)
-	new_prof.path_node = "../"
-
-
-func _remove_profile():
-	if current_profile:
-		current_profile.queue_free()
-		current_profile = null
 
 
 func _change_view(view_type: int):
@@ -119,15 +103,13 @@ func _focus_point(event: InputEvent):
 	if event.is_pressed() and event.button_index == BUTTON_LEFT:
 		is_dragging = true
 		if cursor.is_colliding() and cursor.get_collider() is PolygonPoint:
-			if current_point:
-				current_point.color = Color(1, 0.227451, 0)
-			current_point = cursor.get_collider()
-			current_profile = current_point.get_parent()
-			current_point.color = Color(0, 1, 0.261719)
+			set_current_point(cursor.get_collider())
+			set_current_profile(current_point.get_parent())
 		else:
-			if current_point:
-				current_point.color = Color(1, 0.227451, 0)
-			current_point = null
+			if cursor.is_colliding():
+				set_current_object(cursor.get_collider())
+			set_current_point(null)
+			set_current_profile(null)
 	else:
 		is_dragging = false
 
@@ -174,3 +156,30 @@ func is_event_inside_control(event: InputEvent, control: Control):
 		return true
 	else:
 		return false
+
+
+func set_current_point(point):
+	if current_point:
+		current_point.color = Color.red
+	
+	emit_signal("current_point_changed", point)
+	current_point = point
+	
+	if current_point:
+		current_point.color = Color.green
+
+
+func set_current_profile(profile):
+	if current_profile:
+		current_profile.color = Color.red
+		
+	emit_signal("current_profile_changed", profile)
+	current_profile = profile
+	
+	if current_profile:
+		current_profile.color = Color.green
+
+
+func set_current_object(object):
+	emit_signal("current_object_changed", object)
+	current_object = object
