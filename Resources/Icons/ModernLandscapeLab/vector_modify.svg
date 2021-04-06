@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!--Creator: CorelDRAW-->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="13.1335mm" height="11.6495mm" version="1.1" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;fill-rule:evenodd;clip-rule:evenodd" viewBox="0 0 94.97 84.24" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+    <defs>
+        <font id="FontID0" horiz-adv-x="777" font-variant="normal" style="fill-rule:nonzero" font-style="normal" font-weight="900">
+            <font-face font-family="Arial Black">
+                <font-face-src>
+                    <font-face-name name="Arial Black"/>
+                </font-face-src>
+            </font-face>
+            <missing-glyph>
+                <path d="M0 0z"/>
+            </missing-glyph>
+            <glyph unicode="*" horiz-adv-x="556" d="M220.995 728.005l108 0 -8.99996e+000 -7.40076e+001c-1.99606e+000,-1.79999e+001 -5.99998e+000,-3.79959e+001 -1.2e+001,-6.09919e+001 12,5.99998 20.9999,10.996 25.0038,12.9921 13.0039,7.00391 23.9999,13.0039 31.0038,16.0039l67.9958 31.9959 32.9999 -1.02992e+002 -7.49997e+001 -1.49999e+001c-1.3996e+001,-2.99999e+000 -3.40038e+001,-5.00785e+000 -6.10037e+001,-5.99998e+000 17.9999,-1.40078e+001 32.9999,-2.69999e+001 44.0077,-3.90117e+001l49.9959 -5.49919e+001 -8.80036e+001 -6.59997e+001 -3.59999e+001 65.9997c-4.99604e+000,8.99996 -1.29921e+001,27.992 -2.4992e+001,54.9919 -1.30039e+001,-2.99999e+001 -2.09999e+001,-4.79998e+001 -2.50038e+001,-5.49919e+001l-3.70038e+001 -6.59997e+001 -8.99996e+001 65.9997 53.9998 54.9919c16.0039,16.0039 31.0038,29.0078 44.9998,39.0117 -1.49999e+001,1.99606 -3.3992e+001,4.99604 -5.89958e+001,8.99996l-7.60036e+001 12 35.9999 102.992 67.0037 -2.99999e+001c7.99603,-3.99211e+000 25.0038,-1.3996e+001 53.9998,-3.0992e+001 -7.00391e+000,27.992 -1.00039e+001,47.9998 -1.2e+001,60.9919l-1.00039e+001 74.0076z"/>
+        </font>
+        <style type="text/css">
+            <![CDATA[@font-face{font-family:"Arial Black";font-variant:normal;font-style:normal;font-weight:900;src:url("#FontID0") format(svg)}]]>
+        </style>
+    </defs>
+    <g id="Ebene_x0020_1">
+        <metadata id="CorelCorpID_0Corel-Layer"/>
+        <path d="M9.4 78.91l8.59 -61.69 26.52 33.88m14.94 3.74l29.47 -27.98" style="fill:none;stroke:gray;stroke-width:5.1;stroke-miterlimit:22.9256"/>
+        <circle cx="88.92" cy="26.85" r="6.05" style="fill:#999999"/>
+        <circle cx="9.5" cy="78.19" r="6.05" style="fill:#999999"/>
+        <path d="M22.12 4.89l9.57 10.81 -4.15 12.4 -12.81 2.61 -9.57 -10.81c-1.07,-1.21 -2.93,-1.31 -4.15,-0.23 -0.59,0.52 -0.95,1.26 -1,2.04 -0.18,5.72 1.83,11.24 5.63,15.53 6.45,7.28 16.54,9.4 25.09,6l19.73 27.44c3.49,4.86 10.88,4.9 15.36,0.93l0.29 -0.25c4.48,-3.97 5.33,-11.3 0.93,-15.36l-24.85 -22.91c4.47,-8.09 3.56,-18.32 -2.91,-25.63 -3.8,-4.29 -9.03,-6.95 -14.73,-7.47 -0.78,-0.05 -1.56,0.22 -2.15,0.74 -1.22,1.08 -1.35,2.94 -0.28,4.14zm39.97 62.24c-2.37,2.1 -6,1.88 -8.1,-0.49 -2.1,-2.37 -1.88,-6 0.49,-8.1 2.37,-2.1 6,-1.88 8.1,0.49 2.1,2.37 1.88,6 -0.49,8.1z" style="fill:#99CC33"/>
+        <g transform="matrix(0.916544 -3.99935E-001 0.399935 0.916544 -5.51374E+002 396.551)">
+            <text x="656.68" y="-86.37" style="font-weight:900;font-size:61.22px;font-family:'Arial Black';fill:white">*</text>
+        </g>
+    </g>
+</svg>
