@@ -6,7 +6,7 @@ var edit_action: ActionHandler.Action
 
 
 func _ready():
-	$AddPaths.connect("toggled", self, "_on_edit")
+	$Edit.connect("toggled", self, "_on_edit")
 
 
 func set_player(player):
