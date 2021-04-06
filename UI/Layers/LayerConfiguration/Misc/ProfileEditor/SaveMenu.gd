@@ -23,7 +23,7 @@ func save(file_path: String, path: Path):
 			duplicate.material = mat
 			i += 1
 		else:
-			child.set_owner(store_path)
+			set_recursive_owner(child, store_path)
 	
 	# Store in a packed scene
 	var packed_scene = PackedScene.new()
@@ -31,3 +31,9 @@ func save(file_path: String, path: Path):
 	ResourceSaver.save(file_path, packed_scene)
 	# Remove the duplicated path, as it should be persisted
 	store_path.queue_free()
+
+
+func set_recursive_owner(child: Node, ownr: Node):
+	child.set_owner(ownr)
+	for sub_child in child.get_children():
+		set_recursive_owner(sub_child, ownr)

@@ -4,13 +4,13 @@ extends VBoxContainer
 var current_profile setget set_current_profile
 
 
+func set_current_profile(profile):
+	current_profile = profile
+
+
 func _ready():
 	$RemoveProfileButton.connect("pressed", self, "_remove_profile")
 	$FileChooser/AddText.connect("pressed", self, "_add_texture")
-
-
-func set_current_profile(profile):
-	current_profile = profile
 
 
 func _add_profile(profile, path):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Util/FileChooser.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Util/GridPlane/GridPlane.tscn" type="PackedScene" id=2]
@@ -7,10 +7,11 @@
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/ProfileContainer.gd" type="Script" id=5]
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/ObjectContainer.gd" type="Script" id=6]
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PointContainer.gd" type="Script" id=7]
+[ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Path.gd" type="Script" id=8]
 
 [sub_resource type="Curve3D" id=1]
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -25 ),
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -50 ),
 "tilts": PoolRealArray( 0, 0 )
 }
 
@@ -85,6 +86,7 @@ render_target_update_mode = 0
 
 [node name="Path" type="Path" parent="HSplitContainer/ViewportContainer/Viewport/Spatial"]
 curve = SubResource( 1 )
+script = ExtResource( 8 )
 
 [node name="Camera" type="Camera" parent="HSplitContainer/ViewportContainer/Viewport/Spatial"]
 projection = 1
@@ -244,25 +246,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer"]
+[node name="DistanceBox" type="HBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer"]
 margin_top = 97.0
 margin_right = 761.0
 margin_bottom = 142.0
 
-[node name="DistanceLabel" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/HBoxContainer"]
+[node name="DistanceLabel" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/DistanceBox"]
 margin_top = 10.0
 margin_right = 92.0
 margin_bottom = 35.0
 text = "Distance"
 
-[node name="SpinBox" type="SpinBox" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/HBoxContainer"]
+[node name="SpinBox" type="SpinBox" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/DistanceBox"]
 margin_left = 100.0
 margin_right = 296.0
 margin_bottom = 45.0
 align = 2
 suffix = "m"
 
-[node name="Button" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/HBoxContainer"]
+[node name="Apply" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/DistanceBox"]
 margin_left = 676.0
 margin_right = 761.0
 margin_bottom = 45.0
