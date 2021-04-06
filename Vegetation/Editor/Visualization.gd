@@ -41,9 +41,11 @@ func update_visualization(group_id):
 	
 	if Vegetation.groups[group_id].fade_texture:
 		var fade_texture = Vegetation.groups[group_id].get_fade_texture("albedo")
+		var fade_normals = Vegetation.groups[group_id].get_fade_texture("normal")
 		
 		$GroundMesh.get_surface_material(0).set_shader_param("has_distance_tex", true)
 		$GroundMesh.get_surface_material(0).set_shader_param("distance_tex", fade_texture)
+		$GroundMesh.get_surface_material(0).set_shader_param("distance_normals", fade_normals)
 		$GroundMesh.get_surface_material(0).set_shader_param("distance_tex_start", 10)
 		$GroundMesh.get_surface_material(0).set_shader_param("distance_texture_size_m", Vegetation.groups[group_id].fade_texture.size_m)
 	else:
