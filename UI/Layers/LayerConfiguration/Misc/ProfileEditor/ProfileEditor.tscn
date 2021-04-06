@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Util/FileChooser.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Util/GridPlane/GridPlane.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/ObjectContainer.gd" type="Script" id=6]
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PointContainer.gd" type="Script" id=7]
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Path.gd" type="Script" id=8]
+[ext_resource path="res://Util/DirectoryChooser.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Curve3D" id=1]
 _data = {
@@ -23,10 +24,11 @@ ambient_light_color = Color( 0.141176, 0.141176, 0.141176, 1 )
 ambient_light_energy = 0.01
 
 [node name="ProfileEditor" type="AcceptDialog"]
+visible = true
 margin_left = 171.0
 margin_top = 58.0
-margin_right = 1639.0
-margin_bottom = 966.0
+margin_right = 1882.0
+margin_bottom = 988.0
 rect_min_size = Vector2( 930, 500 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -41,14 +43,14 @@ __meta__ = {
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
 margin_left = 16.0
 margin_top = 16.0
-margin_right = 1452.0
-margin_bottom = 839.0
+margin_right = 1695.0
+margin_bottom = 861.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ViewportContainer" type="ViewportContainer" parent="HSplitContainer"]
-margin_right = 706.0
+margin_right = 827.0
 margin_bottom = 845.0
 rect_min_size = Vector2( 500, 500 )
 size_flags_horizontal = 3
@@ -77,10 +79,10 @@ margin_bottom = 127.0
 text = "Perspective View"
 
 [node name="Viewport" type="Viewport" parent="HSplitContainer/ViewportContainer"]
-size = Vector2( 706, 845 )
+size = Vector2( 827, 845 )
 handle_input_locally = false
 keep_3d_linear = true
-render_target_update_mode = 0
+render_target_update_mode = 3
 
 [node name="Spatial" type="Spatial" parent="HSplitContainer/ViewportContainer/Viewport"]
 
@@ -116,38 +118,38 @@ light_energy = 0.2
 light_indirect_energy = 0.2
 
 [node name="Vbox" type="VBoxContainer" parent="HSplitContainer"]
-margin_left = 730.0
-margin_right = 1436.0
+margin_left = 851.0
+margin_right = 1679.0
 margin_bottom = 845.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Vbox"]
-margin_right = 706.0
+margin_right = 828.0
 margin_bottom = 800.0
 rect_min_size = Vector2( 0, 800 )
 size_flags_horizontal = 3
 size_flags_vertical = 11
 
 [node name="Vbox" type="VBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer"]
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 800.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ProfileContainer" type="VBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox"]
-margin_right = 761.0
-margin_bottom = 179.0
+margin_right = 828.0
+margin_bottom = 227.0
 script = ExtResource( 5 )
 
 [node name="Profile" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer"]
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 25.0
 text = "Profile"
 
 [node name="HSeparator" type="HSeparator" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer"]
 margin_top = 33.0
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 41.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -155,26 +157,39 @@ __meta__ = {
 
 [node name="AddProfileButton" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer"]
 margin_top = 49.0
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 86.0
 text = "Add Profile"
 
 [node name="RemoveProfileButton" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer"]
 margin_top = 94.0
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 131.0
 text = "Remove Profile"
 
-[node name="FileChooser" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer" instance=ExtResource( 1 )]
+[node name="StructuredTextureChooser" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer" instance=ExtResource( 9 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 139.0
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 179.0
+
+[node name="AddMaterial" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer/StructuredTextureChooser"]
+margin_left = 665.0
+margin_right = 828.0
+margin_bottom = 40.0
+text = "Add Material"
+
+[node name="FileChooser" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer" instance=ExtResource( 1 )]
+margin_top = 187.0
+margin_right = 828.0
+margin_bottom = 227.0
 filters = PoolStringArray( "*.jpg", "*.png" )
 current_dir = "res://Resources/Textures/"
 
 [node name="AddText" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer/FileChooser"]
-margin_left = 605.0
-margin_right = 761.0
+margin_left = 672.0
+margin_right = 828.0
 margin_bottom = 40.0
 text = "Add Texture"
 __meta__ = {
@@ -182,19 +197,19 @@ __meta__ = {
 }
 
 [node name="PointContainer" type="VBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox"]
-margin_top = 187.0
-margin_right = 761.0
-margin_bottom = 318.0
+margin_top = 235.0
+margin_right = 828.0
+margin_bottom = 366.0
 script = ExtResource( 7 )
 
 [node name="Point" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/PointContainer"]
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 25.0
 text = "Point"
 
 [node name="HSeparator2" type="HSeparator" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/PointContainer"]
 margin_top = 33.0
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 41.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -202,30 +217,30 @@ __meta__ = {
 
 [node name="AddPointButton" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/PointContainer"]
 margin_top = 49.0
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 86.0
 text = "Add Point"
 
 [node name="RemovePointButton" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/PointContainer"]
 margin_top = 94.0
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 131.0
 text = "Remove Point"
 
 [node name="ObjectContainer" type="VBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox"]
-margin_top = 326.0
-margin_right = 761.0
-margin_bottom = 521.0
+margin_top = 374.0
+margin_right = 828.0
+margin_bottom = 569.0
 script = ExtResource( 6 )
 
 [node name="Object" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer"]
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 25.0
 text = "Object"
 
 [node name="HSeparator3" type="HSeparator" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer"]
 margin_top = 33.0
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 41.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -233,13 +248,13 @@ __meta__ = {
 
 [node name="ObjectChooser" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer" instance=ExtResource( 1 )]
 margin_top = 49.0
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 89.0
 filters = PoolStringArray( "*.tscn" )
 
 [node name="AddObject" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/ObjectChooser"]
-margin_left = 618.0
-margin_right = 761.0
+margin_left = 685.0
+margin_right = 828.0
 margin_bottom = 40.0
 text = "Add Object"
 __meta__ = {
@@ -248,7 +263,7 @@ __meta__ = {
 
 [node name="DistanceBox" type="HBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer"]
 margin_top = 97.0
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 142.0
 
 [node name="DistanceLabel" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/DistanceBox"]
@@ -265,8 +280,8 @@ align = 2
 suffix = "m"
 
 [node name="Apply" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/DistanceBox"]
-margin_left = 676.0
-margin_right = 761.0
+margin_left = 743.0
+margin_right = 828.0
 margin_bottom = 45.0
 size_flags_horizontal = 10
 size_flags_vertical = 3
@@ -274,7 +289,7 @@ text = "Apply"
 
 [node name="ScalingBox" type="HBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer"]
 margin_top = 150.0
-margin_right = 761.0
+margin_right = 828.0
 margin_bottom = 195.0
 
 [node name="ScaleLabel" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/ScalingBox"]
@@ -311,8 +326,8 @@ align = 2
 prefix = "z"
 
 [node name="Apply" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/ScalingBox"]
-margin_left = 676.0
-margin_right = 761.0
+margin_left = 743.0
+margin_right = 828.0
 margin_bottom = 45.0
 size_flags_horizontal = 10
 size_flags_vertical = 3
@@ -320,7 +335,7 @@ text = "Apply"
 
 [node name="SaveButton" type="Button" parent="HSplitContainer/Vbox"]
 margin_top = 808.0
-margin_right = 706.0
+margin_right = 828.0
 margin_bottom = 845.0
 size_flags_vertical = 10
 text = "Save Configuration"

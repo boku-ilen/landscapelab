@@ -11,6 +11,7 @@ func set_current_profile(profile):
 func _ready():
 	$RemoveProfileButton.connect("pressed", self, "_remove_profile")
 	$FileChooser/AddText.connect("pressed", self, "_add_texture")
+	$StructuredTextureChooser/AddMaterial.connect("pressed", self, "_add_structured_texture")
 
 
 func _add_profile(profile, path):
@@ -26,7 +27,13 @@ func _remove_profile():
 
 
 func _add_texture():
-	var texture = load(get_node("FileChooser/FileName").text)
+	var texture = load($FileChooser/FileName.text)
 	var mat = SpatialMaterial.new()
 	mat.albedo_texture = texture
 	current_profile.material = mat
+
+
+func _add_structured_texture():
+	var mat = StructuredTexture.get_material($StructuredTextureChooser/DirName.text)
+	if mat:
+		current_profile.material = mat
