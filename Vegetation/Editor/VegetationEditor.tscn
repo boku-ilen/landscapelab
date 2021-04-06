@@ -30,7 +30,7 @@ size = Vector2( 500, 500 )
 shader = ExtResource( 19 )
 shader_param/size_m = null
 shader_param/texture_size_m = null
-shader_param/normal_scale = null
+shader_param/normal_scale = 1.0
 shader_param/is_roughness_increase = null
 shader_param/roughness_scale = 0.0
 shader_param/is_specular_increase = null
@@ -427,33 +427,33 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="GroundViewButton" type="Button" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
-margin_right = 172.0
+margin_right = 175.0
 margin_bottom = 35.0
 custom_fonts/font = ExtResource( 7 )
-text = "Ground View (2m)"
+text = "Ground View (1.6m)"
 
 [node name="CanopyViewButton" type="Button" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
 margin_top = 43.0
-margin_right = 172.0
+margin_right = 175.0
 margin_bottom = 78.0
 custom_fonts/font = ExtResource( 7 )
 text = "Canopy View (20m)"
 
 [node name="AirViewButton" type="Button" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
 margin_top = 86.0
-margin_right = 172.0
+margin_right = 175.0
 margin_bottom = 121.0
 custom_fonts/font = ExtResource( 7 )
 text = "Aerial View (50m)"
 
 [node name="HSeparator" type="HSeparator" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
 margin_top = 129.0
-margin_right = 172.0
+margin_right = 175.0
 margin_bottom = 137.0
 
 [node name="TextureSettingsButton" type="Button" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
 margin_top = 145.0
-margin_right = 172.0
+margin_right = 175.0
 margin_bottom = 180.0
 custom_fonts/font = ExtResource( 7 )
 text = "Texture Settings"
@@ -463,7 +463,7 @@ script = ExtResource( 20 )
 
 [node name="ViewSettingsButton" type="Button" parent="HSplitContainer/VBoxContainer/VisualizationUI/CameraButtons"]
 margin_top = 188.0
-margin_right = 172.0
+margin_right = 175.0
 margin_bottom = 223.0
 custom_fonts/font = ExtResource( 7 )
 text = "View Settings"
@@ -485,7 +485,7 @@ shadow_atlas_quad_3 = 5
 script = ExtResource( 18 )
 
 [node name="ClickDragCamera" type="Camera" parent="HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization"]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 2, 0 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 1.6, 0 )
 fov = 50.0
 far = 500.0
 script = ExtResource( 1 )

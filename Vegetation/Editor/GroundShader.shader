@@ -10,7 +10,7 @@ uniform sampler2D ao_tex;
 uniform float size_m;
 uniform float texture_size_m;
 
-uniform float normal_scale;
+uniform float normal_scale = 1.0;
 
 // Increase or decrease texture values in the range 0..1
 uniform bool is_roughness_increase;
@@ -24,6 +24,7 @@ uniform float ao_scale = 0.0;
 
 uniform bool has_distance_tex = false;
 uniform sampler2D distance_tex: hint_albedo;
+uniform sampler2D distance_normals: hint_normal;
 uniform float distance_tex_start;
 uniform float distance_texture_size_m;
 
@@ -57,7 +58,8 @@ void fragment() {
 			+ texture(distance_tex, fade_scaled_uv).rgb * far_factor();
 	
 	// Normals
-	NORMALMAP = texture(normal_tex, scaled_uv).xyz;
+	NORMALMAP = texture(normal_tex, scaled_uv).rgb * close_factor()
+			+ texture(distance_normals, fade_scaled_uv).rgb * far_factor();
 	NORMALMAP_DEPTH = normal_scale;
 	
 	// Roughness and specularity

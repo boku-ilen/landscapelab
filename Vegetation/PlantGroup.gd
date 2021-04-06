@@ -53,12 +53,8 @@ func _get_image(image_name, texture):
 	
 	VegetationImages.ground_image_mutex.lock()
 	if not VegetationImages.ground_image_cache.has(full_path):
-		var img = Image.new()
-		img.load(full_path)
-		
-		if img.is_empty():
-			logger.error("Invalid ground texture path in CSV of group %s: %s"
-					 % [name_en, full_path])
+		var img = StructuredTexture.get_image(VegetationImages.ground_image_base_path \
+			.plus_file(texture.texture_name), image_name)
 		
 		VegetationImages.ground_image_cache[full_path] = img
 	VegetationImages.ground_image_mutex.unlock()
@@ -76,7 +72,7 @@ func get_ground_texture(image_name):
 	if not image: return null
 	
 	var tex = ImageTexture.new()
-	tex.create_from_image(image, Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER + Texture.FLAG_REPEAT)
+	tex.create_from_image(image, Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER + Texture.FLAG_REPEAT + Texture.FLAG_ANISOTROPIC_FILTER)
 	
 	return tex
 
