@@ -1,5 +1,4 @@
 extends CSGPolygon
-tool
 
 
 var point_area = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.tscn")
@@ -31,12 +30,16 @@ func update():
 			draw_line(point_before, point)
 		point_before = point
 	
+	# Finish the line
+	draw_line(profile_polygon.back(), profile_polygon.front())
+	
 	set_polygon(temp)
 
 
 func draw_line(point1, point2):
 	point1.line_to_next.clear()
-	point1.line_to_next.begin(Mesh.PRIMITIVE_LINE_STRIP)
+	point1.line_to_next.begin(Mesh.PRIMITIVE_LINES)
+	point1.line_to_next.add_vertex(Vector3(point1.position.x, point1.position.y, 0))
 	point1.line_to_next.add_vertex(Vector3(point2.position.x, point2.position.y, 0))
 	point1.line_to_next.end()
 
@@ -47,6 +50,7 @@ func drag():
 		temp.append(point.position)
 	
 	set_polygon(temp)
+	update()
 
 
 func delete_point(idx: int):

@@ -1,7 +1,8 @@
 extends Area
+class_name PolygonPoint
 
 
-onready var line_to_next = get_node("LineToNext")
+onready var line_to_next = get_node("Node/LineToNext")
 
 var color = Color(1, 0.227451, 0) setget set_color 
 
@@ -16,8 +17,9 @@ func set_position(vec: Vector2):
 
 func set_color(c: Color):
 	color = c
-	get_node("MeshInstance").material_override.albedo_color = c
+	$MeshInstance.material_override.albedo_color = c
+	$Node/LineToNext.material_override.albedo_color = c
 
 
 func _process(delta):
-	$Viewport/Label.text = String(idx)
+	$Viewport/CenterContainer/Label.text = String(idx)

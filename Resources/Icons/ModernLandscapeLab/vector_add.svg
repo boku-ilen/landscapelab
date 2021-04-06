@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xml:space="preserve" width="12.6564mm" height="10.8105mm" version="1.1" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;fill-rule:evenodd;clip-rule:evenodd" viewBox="0 0 88.66 75.73" id="svg29" sodipodi:docname="vector_add.svg" inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+    <metadata id="metadata33">
+        <rdf:RDF>
+            <cc:Work rdf:about="">
+                <dc:format>
+                    image/svg+xml
+                </dc:format>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+                <dc:title/>
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="2560" inkscape:window-height="1361" id="namedview31" showgrid="false" inkscape:zoom="28.34223" inkscape:cx="23.917606" inkscape:cy="20.429292" inkscape:window-x="-9" inkscape:window-y="-9" inkscape:window-maximized="1" inkscape:current-layer="svg29"/>
+    <defs id="defs13">
+        <font id="FontID0" horiz-adv-x="777" font-variant="normal" style="fill-rule:nonzero" font-weight="900">
+            <font-face font-family="Arial Black" id="font-face2">
+                <font-face-src>
+                    <font-face-name name="Arial Black"/>
+                </font-face-src>
+            </font-face>
+            <missing-glyph id="missing-glyph6">
+                <path d="M0 0z" id="path4"/>
+            </missing-glyph>
+            <glyph unicode="*" horiz-adv-x="556" d="M220.995 728.005l108 0 -8.99996e+000 -7.40076e+001c-1.99606e+000,-1.79999e+001 -5.99998e+000,-3.79959e+001 -1.2e+001,-6.09919e+001 12,5.99998 20.9999,10.996 25.0038,12.9921 13.0039,7.00391 23.9999,13.0039 31.0038,16.0039l67.9958 31.9959 32.9999 -1.02992e+002 -7.49997e+001 -1.49999e+001c-1.3996e+001,-2.99999e+000 -3.40038e+001,-5.00785e+000 -6.10037e+001,-5.99998e+000 17.9999,-1.40078e+001 32.9999,-2.69999e+001 44.0077,-3.90117e+001l49.9959 -5.49919e+001 -8.80036e+001 -6.59997e+001 -3.59999e+001 65.9997c-4.99604e+000,8.99996 -1.29921e+001,27.992 -2.4992e+001,54.9919 -1.30039e+001,-2.99999e+001 -2.09999e+001,-4.79998e+001 -2.50038e+001,-5.49919e+001l-3.70038e+001 -6.59997e+001 -8.99996e+001 65.9997 53.9998 54.9919c16.0039,16.0039 31.0038,29.0078 44.9998,39.0117 -1.49999e+001,1.99606 -3.3992e+001,4.99604 -5.89958e+001,8.99996l-7.60036e+001 12 35.9999 102.992 67.0037 -2.99999e+001c7.99603,-3.99211e+000 25.0038,-1.3996e+001 53.9998,-3.0992e+001 -7.00391e+000,27.992 -1.00039e+001,47.9998 -1.2e+001,60.9919l-1.00039e+001 74.0076z" id="glyph8"/>
+        </font>
+        <style type="text/css" id="style11">
+            <![CDATA[@font-face{font-family:"Arial Black";font-variant:normal;font-weight:900;src:url("#FontID0") format(svg)}]]>
+        </style>
+    </defs>
+    <g id="Ebene_x0020_1">
+        <metadata id="CorelCorpID_0Corel-Layer"/>
+        <polyline points="5.76,70.57 14.09,10.8 47.58,53.59 82.8,20.14 " id="polyline16" style="fill:none;stroke:#999999;stroke-width:4.94;stroke-miterlimit:22.9256"/>
+        <circle cx="82.8" cy="20.14" r="5.86" id="circle18" style="fill:#E6E6E6"/>
+        <circle cx="47.58" cy="53.59" r="5.86" id="circle20" style="fill:#E6E6E6"/>
+        <circle cx="5.86" cy="69.87" r="5.86" id="circle22" style="fill:#E6E6E6"/>
+        <g transform="matrix(0.998169 -6.04897E-002 0.0604897 0.998169 -6.13801E+002 381.7)" id="g26">
+            <text x="632.82" y="-299.69" id="text24" style="font-weight:900;font-size:59.31px;font-family:'Arial Black';fill:#99CC33">*</text>
+        </g>
+    </g>
+</svg>
