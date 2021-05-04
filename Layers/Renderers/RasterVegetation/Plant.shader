@@ -48,10 +48,8 @@ void vertex() {
 	vec2 pos = worldpos.xz;
 	pos += offset;
 	
-	pos -= 0.5 * heightmap_size;
+	pos += 0.5 * heightmap_size;
 	pos /= heightmap_size;
-	
-	pos += vec2(1.0, 1.0);
 	
 	// Splatmap ID at this position
 	splat_id = texture(splatmap, pos).r * 255.0;
@@ -66,11 +64,10 @@ void vertex() {
 	dist_id = dist_value.r * 255.0;
 	
 	float size_scale = dist_value.g;
-	VERTEX *= size_scale;
+	VERTEX *= size_scale * 40.0;
 	
-	// We need to do this in order to get correct height scales.
-	// TODO: Why? It seems to be exactly right like this - but where is this 1 additional meter coming from? And why does this not stretch the model?
-	VERTEX.y -= 1.0;
+	// FIXME: This is required in the Vegetation editor, but not generally -- fix that there
+	//VERTEX.y -= 1.0;
 	
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;

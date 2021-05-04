@@ -7,6 +7,74 @@ enum SCALING {
 	KEEP_ASPECT
 }
 
+static func create_layered_spritesheet(
+		sprite_size: Vector2,
+		images: Array,
+		scaling_method = SCALING.KEEP_ASPECT):
+	
+	# All images are assumed to be of the same format for now.
+	# TODO: We could convert all images to a set format?
+	var format = null
+	
+	for row in images:
+		if row:
+			for col in row:
+				if col:
+					format = col.get_format()
+					break
+	
+	if format == null:
+		# No valid images...
+		logger.warning("No valid images in the array given to create_spritesheet!")
+		return null
+	
+	var number_of_layers = images.size()
+	var image_array = []
+	image_array.resize(number_of_layers)
+	
+	var layer_depth = 0
+	
+	for layer_data in images:
+		var number_of_images_in_layer = layer_data.size()
+		
+		var layer = Image.new()
+		layer.create(sprite_size.x, sprite_size.y * number_of_images_in_layer, false, format)
+		
+		# The current position on the sheet
+		var current_offset = Vector2(0, 0)
+		
+		for image in layer_data:
+			var desired_size = Vector2()
+			
+			# It's plausible for individual images to be null -- in that case, that position is left empty
+			if image:
+				if scaling_method == SCALING.STRETCH:
+					desired_size = sprite_size
+				elif scaling_method == SCALING.KEEP_ASPECT:
+					desired_size = get_size_keep_aspect(sprite_size, image.get_size())
+				
+				# Scale the sprite to the desired size
+				image.resize(ceil(desired_size.x), ceil(desired_size.y))
+		
+				# We want the sprites to always be centered, so check how big the offset has to be
+				var centering_offset = (sprite_size - desired_size) / 2
+				
+				# Place it at the bottom middle, not the center
+				centering_offset.y *= 2
+				
+				# Add the scaled sprite to the spritesheet
+				layer.blit_rect(image, Rect2(Vector2(0, 0),
+						Vector2(desired_size.x, desired_size.y)),
+						current_offset + centering_offset)
+			
+			# Increment column position on spritesheet
+			current_offset.y += sprite_size.y
+		
+		image_array[layer_depth] = layer
+		layer_depth += 1
+	
+	return image_array
+
 
 # Turn the images in the given array into a spritesheet.
 # The array is expected to be a 2-dimensional array with the first index being
@@ -69,15 +137,17 @@ static func create_spritesheet(
 			# It's plausible for a row to be empty. In this case, just continue
 			#  with the next row.
 			if not images[y]:
-				break
+				continue
 			
 			# It's possible that some rows don't fill all columns. If we're done
 			#  with the columns for this row, break out of the inner loop
-			if not x < images[y].size():
+			if x >= images[y].size():
 				break
 			
 			var sprite = images[y][x] as Image
 			var desired_size = Vector2()
+			
+			if not sprite: continue
 			
 			if scaling_method == SCALING.STRETCH:
 				desired_size = sprite_size
@@ -102,7 +172,7 @@ static func create_spritesheet(
 					current_offset + centering_offset)
 			
 			# Increment column position on spritesheet
-			current_offset.y += sprite_size.x
+			current_offset.y += sprite_size.y
 		
 		image_array[x] = image
 	

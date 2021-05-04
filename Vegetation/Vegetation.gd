@@ -27,6 +27,21 @@ signal new_plant_extent(extent)
 signal new_data
 
 
+func _ready():
+	var config = ConfigFile.new()
+	config.load("user://vegetation_paths.cfg")
+	
+	VegetationImages.ground_image_base_path = config.get_value("paths", "ground_path")
+	VegetationImages.plant_image_base_path = config.get_value("paths", "plant_path")
+	
+	load_data_from_csv(
+		config.get_value("paths", "plant_csv_path"),
+		config.get_value("paths", "group_csv_path"),
+		config.get_value("paths", "density_csv_path"),
+		config.get_value("paths", "texture_csv_path")
+	)
+
+
 func set_plant_extent(extent):
 	plant_extent = extent
 	emit_signal("new_plant_extent", extent)
@@ -57,15 +72,26 @@ func save_to_files(plant_csv_path: String, group_csv_path: String):
 	VegetationCSVUtil.save_groups_to_csv(groups, group_csv_path)
 
 
-# Returns the Group objects which correspond to the given IDs.
+# Returns the Group objects which correspond to the given IDs, retaining the ordering.
 func get_group_array_for_ids(id_array):
 	var group_array = []
+	group_array.resize(id_array.size())
 	
-	for group in groups.values():
-		if id_array.has(group.id):
-			group_array.append(group)
+	for i in range(id_array.size()):
+		group_array[i] = groups[id_array[i]]
 	
 	return group_array
+
+
+# Returns the an array containing all IDs of the given groups, retaining the ordering.
+func get_id_array_for_groups(group_array):
+	var id_array = []
+	id_array.resize(group_array.size())
+	
+	for i in range(group_array.size()):
+		id_array[i] = group_array[i].id
+	
+	return id_array
 
 
 # Returns an array with the same groups as were given in the function,
@@ -81,12 +107,13 @@ func filter_group_array_by_density_class(group_array: Array, density_class):
 			if plant.density_class == density_class:
 				plants.append(plant)
 		
-		# Append a new Group which is identical to the one in the passed
-		#  array, but with the filtered plants
-		new_array.append(PlantGroup.new(group.id,
-				group.name_en,
-				plants,
-				group.ground_texture))
+		if not plants.empty():
+			# Append a new Group which is identical to the one in the passed
+			#  array, but with the filtered plants
+			new_array.append(PlantGroup.new(group.id,
+					group.name_en,
+					plants,
+					group.ground_texture))
 	
 	return new_array
 
@@ -106,23 +133,27 @@ func get_billboard_sheet_for_ids(id_array: Array):
 # A row of the spritesheet corresponds to one group, with its plants in
 #  the columns.
 func get_billboard_sheet(group_array: Array):
-	# Array holding the rows of vegetation - each vegetation loaded from the 
-	#  given vegetation_names becomes a row in this table
-	var billboard_table = Array()
-	billboard_table.resize(group_array.size())
+	# "Reversed" because we want infinite plants per group, not infinite plant groups
+	var number_of_images_within_layer = group_array.size()
 	
-	var row = 0
-	
+	var number_of_layers = 0
 	for group in group_array:
-		billboard_table[row] = []
+		if group.plants.size() > number_of_layers:
+			number_of_layers = group.plants.size()
+	
+	var billboard_table = Array()
+	billboard_table.resize(number_of_layers)
+	
+	for layer_id in number_of_layers:
+		billboard_table[layer_id] = []
 		
-		for plant in group.plants:
-			var billboard = plant.get_billboard()
-			billboard_table[row].append(billboard)
+		for group_id in number_of_images_within_layer:
+			var end_of_plants_reached = layer_id >= group_array[group_id].plants.size()
 			
-		row += 1
-		
-	return SpritesheetHelper.create_spritesheet(
+			billboard_table[layer_id].append(group_array[group_id].plants[layer_id].get_billboard()
+					if not end_of_plants_reached else null)
+	
+	return SpritesheetHelper.create_layered_spritesheet(
 			Vector2(VegetationImages.SPRITE_SIZE, VegetationImages.SPRITE_SIZE),
 			billboard_table,
 			SpritesheetHelper.SCALING.KEEP_ASPECT)
@@ -131,16 +162,14 @@ func get_billboard_sheet(group_array: Array):
 # Returns a 1x? spritesheet with each group's ground texture in the rows.
 func get_ground_sheet(group_array, texture_name):
 	var texture_table = Array()
-	texture_table.resize(group_array.size())
+	texture_table.resize(1)
 	
-	var row = 0
+	texture_table[0] = []
 	
 	for group in group_array:
-		texture_table[row] = [group.get_ground_image(texture_name)]
-		
-		row += 1
+		texture_table[0].append(group.get_ground_image(texture_name))
 	
-	return SpritesheetHelper.create_spritesheet(
+	return SpritesheetHelper.create_layered_spritesheet(
 			Vector2(VegetationImages.GROUND_TEXTURE_SIZE, VegetationImages.GROUND_TEXTURE_SIZE),
 			texture_table,
 			SpritesheetHelper.SCALING.STRETCH)[0]
@@ -150,17 +179,15 @@ func get_ground_sheet(group_array, texture_name):
 #  rows.
 func get_distribution_sheet(group_array):
 	var texture_table = Array()
-	texture_table.resize(group_array.size())
+	texture_table.resize(1)
 	
-	var row = 0
+	texture_table[0] = []
 	
 	for group in group_array:
-		texture_table[row] = [generate_distribution(group, max_plant_height)] \
-				if group.plants.size() > 0 else null
-		
-		row += 1
+		texture_table[0].append(generate_distribution(group, max_plant_height) \
+				if group.plants.size() > 0 else null)
 	
-	return SpritesheetHelper.create_spritesheet(
+	return SpritesheetHelper.create_layered_spritesheet(
 			Vector2(distribution_size, distribution_size),
 			texture_table)[0]
 
@@ -278,7 +305,7 @@ func get_renderers() -> Spatial:
 		
 		renderer.density_class = density_class
 		# TODO: Remove hardcoded path
-		renderer.set_mesh(preload("res://Resources/Meshes/VegetationBillboard/40m_billboard.obj"))
+		renderer.set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
 		
 		root.add_child(renderer)
 	

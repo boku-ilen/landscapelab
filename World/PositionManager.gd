@@ -30,8 +30,8 @@ var is_fullscreen: bool = false
 var shift_limit: float = Settings.get_setting("lod", "world-shift-distance")
 
 # The offset
-var x: int = 420776
-var z: int = 453197
+var x: int = 420821
+var z: int = 453220
 
 
 func _ready():

@@ -1,17 +1,14 @@
 extends LayerRenderer
 
-onready var renderer = get_node("Renderer")
-
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	# Shorthand
-	var ri = layer.render_info
+func load_new_data():
+	var renderers = Vegetation.get_renderers()
+	add_child(renderers)
 	
-	renderer.min_size = ri.min_plant_size
-	renderer.max_size = ri.max_plant_size
-	renderer.rows = ri.extent * ri.density
-	renderer.spacing = 1.0 / ri.density
-	renderer.set_mesh(ri.mesh)
-	
-	renderer.update_textures(ri.height_layer, ri.landuse_layer, 420776.711, 453197.501)
+	for renderer in renderers.get_children():
+		renderer.update_textures(layer.render_info.height_layer, layer.render_info.landuse_layer,
+				center[0], center[1])
+
+
+# TODO: Add apply_new_data for actually visualizing the data (thread-safety)

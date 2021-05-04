@@ -12,7 +12,7 @@ var density_class: DensityClass setget set_density_class, get_density_class
 #  given by rows * spacing is loaded, but this additional map size is added.
 # Thus, there's no need to load new data immediately, and it's not a problem if
 #  it takes a while to load.
-export(float) var additional_map_size = 1000
+export(float) var additional_map_size = 0 # FIXME: Disabled for debugging
 
 export(Vector2) var offset = Vector2.ZERO
 
@@ -89,19 +89,19 @@ func _on_shift_world(delta_x, delta_z):
 
 
 func update_textures(dhm_layer, splat_layer, world_x, world_y):
-	var map_size =  rows * spacing * 2 + additional_map_size
+	var map_size =  rows * spacing + additional_map_size
 	
 	var dhm = dhm_layer.get_image(
-		world_x - map_size / 2,
-		world_y + map_size / 2,
+		world_x - map_size / 2,# + 40,
+		world_y + map_size / 2,# + 10,
 		map_size,
 		map_size / 2.0,
 		1
 	)
 	
 	var splat = splat_layer.get_image(
-		world_x - map_size / 2,
-		world_y + map_size / 2,
+		world_x - map_size / 2,# + 40,
+		world_y + map_size / 2,# + 10,
 		map_size,
 		map_size / 2.0,
 		0
@@ -111,7 +111,7 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 
 
 func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
-	var map_size =  rows * spacing * 2 + additional_map_size
+	var map_size =  rows * spacing + additional_map_size
 	
 	# Load the groups for these IDs and filter them by the given size
 	#  parameters
@@ -135,7 +135,15 @@ func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	# The rows correspond to land-use values
 	# The columns correspond to distribution values
 	
-	var id_row_map_tex = Vegetation.get_id_row_map_texture(ids)
+	var id_row_map_tex = Vegetation.get_id_row_map_texture(Vegetation.get_id_array_for_groups(filtered_groups))
+	
+	# Save the generated images for debugging
+#	var img_id = randi()
+#
+#	for layer_id in billboard_tex.get_depth():
+#		billboard_tex.get_layer_data(layer_id).save_png("/home/karl/Downloads/debug/bill%s-%s.png" % [img_id, layer_id])
+#	id_row_map_tex.get_data().save_png("/home/karl/Downloads/debug/idrow%s.png" % img_id)
+#	distribution_sheet.save_png("/home/karl/Downloads/debug/dist%s.png" % img_id)
 	
 	var distribution_tex = ImageTexture.new()
 	distribution_tex.create_from_image(distribution_sheet, ImageTexture.FLAG_REPEAT)

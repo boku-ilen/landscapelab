@@ -73,6 +73,7 @@ void fragment() {
 	METALLIC = 0.0;
 	
 	// Ambient Occlusion
-	AO = float(is_ao_increase) * ao_scale
-			+ texture(ao_tex, scaled_uv).r * (1.0 - ao_scale);
+	AO = (float(is_ao_increase) * ao_scale
+			+ texture(ao_tex, scaled_uv).r * (1.0 - ao_scale)) * close_factor()
+			+ 0.0 * far_factor();
 }
