@@ -2,77 +2,82 @@ extends Particles
 
 
 # With 4 rows and a spacing of 0.5, plants are drawn within a 2x2 area.
-export var rows = 4 setget set_rows, get_rows
-export var spacing = 1.0 setget set_spacing, get_spacing
+export var rows = 4
+export var spacing = 1.0
 
 # Density class of this plant renderer -- influences the density of the rendered particles.
 var density_class: DensityClass setget set_density_class, get_density_class
 
-# To allow some movement without having to load new data, not only the area
-#  given by rows * spacing is loaded, but this additional map size is added.
-# Thus, there's no need to load new data immediately, and it's not a problem if
-#  it takes a while to load.
-export(float) var additional_map_size = 0 # FIXME: Disabled for debugging
-
 export(Vector2) var offset = Vector2.ZERO
 
+var current_offset_from_shifting = Vector2.ZERO
 var time_passed = 0
-
-var load_thread = Thread.new()
-
 var previous_origin
 
-var current_offset_from_shifting = Vector2.ZERO
+# Data
+var id_row_map_tex
+var billboard_tex
+var distribution_tex
+var heightmap
+var splatmap
 
 
 func _ready():
 	Vegetation.connect("new_plant_extent", self, "update_rows_spacing")
 
 
+# Set the internal rows and spacing variables based on the density_class and the given extent.
 func update_rows_spacing(extent):
 	rows = extent
 	spacing = 1.0 / density_class.density_per_m
 	
 	set_rows(rows)
 	set_spacing(spacing)
+	
+	update_aabb()
 
 
+# Update the density class variable and apply the resulting rows and spacing.
 func set_density_class(new_density_class):
 	density_class = new_density_class
 	
 	update_rows_spacing(Vegetation.plant_extent)
 
+
 func get_density_class():
 	return density_class
+
 
 func set_mesh(new_mesh):
 	draw_pass_1 = new_mesh
 
-# Updates the visibility aabb which is used for culling.
+
+# Updates the visibility AABB which is used for culling.
 func update_aabb():
 	var size = rows * spacing
 	visibility_aabb = AABB(Vector3(-0.5 * size, -1000.0, -0.5 * size), Vector3(size, 10000.0, size))
 
+
 func set_rows(new_rows):
 	rows = new_rows
 	amount = rows * rows
-	update_aabb()
+	
 	if process_material:
 		process_material.set_shader_param("rows", rows)
 		material_override.set_shader_param("max_distance", rows * spacing / 3.0)
 
-func get_rows():
-	return rows
 
 func set_spacing(new_spacing):
 	spacing = new_spacing
-	update_aabb()
+	
 	if process_material:
 		process_material.set_shader_param("spacing", spacing)
 		material_override.set_shader_param("max_distance", rows * spacing / 3.0)
 
-func get_spacing():
-	return spacing
+
+# Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
+func get_map_size():
+	return rows * spacing * 2 # Multiply by 2 to allow for some movement within the data
 
 
 # When the world is shifted, this offset needs to be remembered and passed to
@@ -84,24 +89,21 @@ func _on_shift_world(delta_x, delta_z):
 	material_override.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
 
 
-#func _threaded_update_textures(userdata):
-#	update_textures(userdata[0], userdata[1], userdata[2], userdata[3], userdata[4])
-
-
+# Update all internal data based on the given layers and position.
 func update_textures(dhm_layer, splat_layer, world_x, world_y):
-	var map_size =  rows * spacing + additional_map_size
+	var map_size = get_map_size()
 	
 	var dhm = dhm_layer.get_image(
-		world_x - map_size / 2,# + 40,
-		world_y + map_size / 2,# + 10,
+		world_x - map_size / 2,
+		world_y + map_size / 2,
 		map_size,
 		map_size / 2.0,
 		1
 	)
 	
 	var splat = splat_layer.get_image(
-		world_x - map_size / 2,# + 40,
-		world_y + map_size / 2,# + 10,
+		world_x - map_size / 2,
+		world_y + map_size / 2,
 		map_size,
 		map_size / 2.0,
 		0
@@ -110,16 +112,20 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 	update_textures_with_images(dhm.get_image_texture(), splat.get_image_texture(), splat.get_most_common(8))
 
 
+# Directly update the vegetation data with given ImageTextures. Can be used e.g. for testing with
+#  artificially created data. Is also called internally when `update_textures` is used.
+# Should be called in a thread to avoid stalling the main thread.
 func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
-	var map_size =  rows * spacing + additional_map_size
+	heightmap = dhm
+	splatmap = splat
 	
-	# Load the groups for these IDs and filter them by the given size
-	#  parameters
+	var map_size = get_map_size()
+	
+	# Load the groups for these IDs and filter them by the given density class
 	var groups = Vegetation.get_group_array_for_ids(ids)
-	
 	var filtered_groups = Vegetation.filter_group_array_by_density_class(groups, density_class)
 	
-	var billboard_tex = Vegetation.get_billboard_texture(filtered_groups)
+	billboard_tex = Vegetation.get_billboard_texture(filtered_groups)
 	
 	# If billboards is null, this means that there were 0 plants in all of the
 	#  groups. Then, we don't need to render anything.
@@ -135,51 +141,26 @@ func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	# The rows correspond to land-use values
 	# The columns correspond to distribution values
 	
-	var id_row_map_tex = Vegetation.get_id_row_map_texture(Vegetation.get_id_array_for_groups(filtered_groups))
+	id_row_map_tex = Vegetation.get_id_row_map_texture(Vegetation.get_id_array_for_groups(filtered_groups))
 	
-	# Save the generated images for debugging
-#	var img_id = randi()
-#
-#	for layer_id in billboard_tex.get_depth():
-#		billboard_tex.get_layer_data(layer_id).save_png("/home/karl/Downloads/debug/bill%s-%s.png" % [img_id, layer_id])
-#	id_row_map_tex.get_data().save_png("/home/karl/Downloads/debug/idrow%s.png" % img_id)
-#	distribution_sheet.save_png("/home/karl/Downloads/debug/dist%s.png" % img_id)
-	
-	var distribution_tex = ImageTexture.new()
+	distribution_tex = ImageTexture.new()
 	distribution_tex.create_from_image(distribution_sheet, ImageTexture.FLAG_REPEAT)
-	
-	var heightmap_size = Vector2(map_size, map_size)
-	
-	# Finish the shader so that it can accept new loading requests again
-	call_deferred("_update_done",
-			id_row_map_tex,
-			billboard_tex,
-			distribution_tex,
-			heightmap_size,
-			dhm,
-			splat)
 
 
-func _update_done(
-		id_row_map_tex,
-		billboard_tex,
-		distribution_tex,
-		heightmap_size,
-		heightmap,
-		splatmap):
+# Apply data which has previously been loaded with `update_textures`.
+# Should not be called from a thread.
+func apply_data():
 	material_override.set_shader_param("id_to_row", id_row_map_tex)
 	material_override.set_shader_param("texture_map", billboard_tex)
 	material_override.set_shader_param("distribution_map", distribution_tex)
 	material_override.set_shader_param("dist_scale", 1.0 / spacing)
 	
-	process_material.set_shader_param("heightmap_size", heightmap_size)
-	material_override.set_shader_param("heightmap_size", heightmap_size)
+	var size = Vector2(get_map_size(), get_map_size())
+	process_material.set_shader_param("heightmap_size", size)
+	material_override.set_shader_param("heightmap_size", size)
 	
 	process_material.set_shader_param("heightmap", heightmap)
 	material_override.set_shader_param("splatmap", splatmap)
 	
 	process_material.set_shader_param("offset", Vector2(0, 0))
 	material_override.set_shader_param("offset", Vector2(0, 0))
-	
-	if load_thread.is_active():
-		load_thread.wait_to_finish()
