@@ -23,6 +23,7 @@ albedo_texture = ExtResource( 1 )
 size = Vector2( 0.05, 0.05 )
 
 [sub_resource type="SpatialMaterial" id=4]
+resource_local_to_scene = true
 flags_unshaded = true
 albedo_color = Color( 1, 0.176471, 0, 1 )
 

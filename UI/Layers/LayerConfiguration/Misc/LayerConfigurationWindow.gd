@@ -39,7 +39,11 @@ func layer_popup(rect: Rect2, existing_layer: Layer = null):
 	if layer != null:
 		layer_name.text = layer.name
 		layer_type.selected = layer.render_type
-		specific_layer_ui = load("res://UI/Layers/LayerConfiguration/SpecificLayerUI/%sLayer.tscn" % layer.RenderType.keys()[layer.render_type]).instance()
+		
+		# FIXME: this probably should not be done like this anyways so we should fix this
+		var type_string: String = layer.RenderType.keys()[layer.render_type]
+		type_string = type_string.substr(0, 1) + type_string.substr(1).to_lower()
+		specific_layer_ui = load("res://UI/Layers/LayerConfiguration/SpecificLayerUI/%sLayer.tscn" % type_string).instance()
 		container.add_child(specific_layer_ui)
 		container.move_child(specific_layer_ui, 1)
 

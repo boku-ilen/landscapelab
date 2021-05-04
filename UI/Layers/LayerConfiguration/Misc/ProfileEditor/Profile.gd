@@ -4,6 +4,14 @@ extends CSGPolygon
 var point_area = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.tscn")
 var profile_polygon: Array
 
+var color setget set_color
+
+
+func set_color(color):
+	color = color
+	for point in profile_polygon:
+		point.line_to_next.material_override.albedo_color = color
+
 
 func _ready():
 	_create_collision_points()
