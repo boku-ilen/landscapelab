@@ -29,7 +29,12 @@ signal new_data
 
 func _ready():
 	var config = ConfigFile.new()
-	config.load("user://vegetation_paths.cfg")
+	var err = config.load("user://vegetation_paths.cfg")
+	
+	if err != OK:
+		logger.error("Couldn't load vegetation from config since none was available!")
+		# TODO: Display the UI for entering paths instead
+		return
 	
 	VegetationImages.ground_image_base_path = config.get_value("paths", "ground_path")
 	VegetationImages.plant_image_base_path = config.get_value("paths", "plant_path")
@@ -301,7 +306,7 @@ func get_renderers() -> Spatial:
 	root.name = "VegetationRenderers"
 	
 	for density_class in density_classes.values():
-		var renderer = preload("res://Layers/Renderers/RasterVegetation/VegetationLayerRenderer.tscn").instance()
+		var renderer = preload("res://Layers/Renderers/RasterVegetation/VegetationParticles.tscn").instance()
 		
 		renderer.density_class = density_class
 		# TODO: Remove hardcoded path

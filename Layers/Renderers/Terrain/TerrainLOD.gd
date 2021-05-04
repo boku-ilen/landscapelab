@@ -74,8 +74,8 @@ func build():
 
 func apply_textures():
 	if current_heightmap and current_texture:
-		material_override.set_shader_param("heights", current_heightmap)
-		material_override.set_shader_param("tex", current_texture)
+		material_override.set_shader_param("heightmap", current_heightmap)
+		material_override.set_shader_param("orthophoto", current_texture)
 		
 		visible = true
 		
