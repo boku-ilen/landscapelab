@@ -37,9 +37,17 @@ func set_visible(visible: bool):
 	is_visible = visible
 	emit_signal("visibility_changed", is_visible)
 
+
+func is_valid():
+	return render_type == RenderType.NONE or (render_info and render_info.is_valid())
+
+
 # RenderInfo data classes
 class RenderInfo:
 	var lod = false
+	
+	func is_valid():
+		return true
 
 class TerrainRenderInfo extends RenderInfo:
 	var height_layer: Layer
@@ -47,6 +55,9 @@ class TerrainRenderInfo extends RenderInfo:
 	var is_color_shaded: bool
 	var max_color: Color
 	var min_color: Color
+	
+	func is_valid():
+		return height_layer != null  and texture_layer != null 
 
 class VegetationRenderInfo extends RenderInfo:
 	var height_layer: Layer
@@ -56,6 +67,9 @@ class VegetationRenderInfo extends RenderInfo:
 	var min_plant_size: float
 	var max_plant_size: float
 	var mesh: Resource
+	
+	func is_valid():
+		return height_layer != null and landuse_layer != null 
 
 class ParticlesRenderInfo extends RenderInfo:
 	pass
@@ -63,11 +77,20 @@ class ParticlesRenderInfo extends RenderInfo:
 class ObjectRenderInfo extends RenderInfo:
 	var object: PackedScene
 	var ground_height_layer: Layer
+	
+	func is_valid():
+		return ground_height_layer != null
 
 class PolygonRenderInfo extends RenderInfo:
 	var height_attribute_name
 	var ground_height_layer: Layer
+	
+	func is_valid():
+		return ground_height_layer != null
 
 class PathRenderInfo extends RenderInfo:
 	var line_visualization: PackedScene
 	var ground_height_layer: Layer
+	
+	func is_valid():
+		return ground_height_layer != null
