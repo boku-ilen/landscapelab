@@ -51,6 +51,7 @@ func layer_popup(rect: Rect2, existing_layer: Layer = null):
 func _on_confirm():
 	var is_new: bool = false
 	var current_type = layer_type.get_item_metadata(layer_type.get_selected_id())
+	
 	if layer == null:
 		layer = RenderTypeObject[current_type].new()
 		is_new = true
