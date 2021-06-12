@@ -34,7 +34,10 @@ func load_new_data():
 		
 		# Add the floors
 		for i in range(num_floors):
-			building.add_child(plain_walls_scene.instance())
+			var walls = plain_walls_scene.instance()
+			walls.set_texture(preload("res://Resources/Textures/Buildings/facade/plaster_yellow.jpg"))
+			walls.set_normalmap(preload("res://Resources/Textures/Buildings/facade/normalmap_plaster.jpg"))
+			building.add_child(walls)
 		
 		# Add the roof
 		building.add_child(flat_roof_scene.instance())
