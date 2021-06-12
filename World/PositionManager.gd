@@ -41,6 +41,9 @@ var delta_z := 0.0
 
 var loading = false
 
+var _dependent_object_count := 0
+var _dependent_objects_loaded := 0
+
 
 func _ready():
 	inject_offset_properties()
@@ -51,7 +54,7 @@ func _process(delta):
 	
 	if world_shift_timer > world_shift_check_period:
 		world_shift_timer = 0
-		check_for_world_shift()
+		_check_for_world_shift()
 
 
 func _input(event):
@@ -61,18 +64,19 @@ func _input(event):
 
 
 # Shift the world if the player exceeds the bounds, in order to prevent coordinates from getting too big (floating point issues)
-func check_for_world_shift():
+func _check_for_world_shift():
 	var delta_squared = Vector2(center_node.translation.x, center_node.translation.z).length_squared()
 	
 	if (delta_squared > pow(shift_limit, 2)) and not loading:
-		shift_world(center_node.translation.x, center_node.translation.z)
+		_shift_world(center_node.translation.x, center_node.translation.z)
 
 
 # Begin the process of world shifting by setting the new offset variables and emitting a signal.
-func shift_world(delta_x, delta_z):
+func _shift_world(delta_x, delta_z):
 	logger.info("Shifting world by %f, %f" % [delta_x, delta_z])
 	
 	loading = true
+	_dependent_objects_loaded = 0
 	
 	self.delta_x = delta_x
 	self.delta_z = delta_z
@@ -81,11 +85,16 @@ func shift_world(delta_x, delta_z):
 	z -= delta_z
 	
 	emit_signal("new_center", [x, z])
+	
+	# If there are no objects we need to wait for, apply the new position right away.
+	# Otherwise, we'll wait until all dependent objects are done loading.
+	if _dependent_object_count == 0:
+		_apply_new_position_to_center_node()
 
 
 # Move the center_node according to the last known position delta.
 # This should be called in the same frame as the new data is being displayed for a seamless transition.
-func apply_new_position():
+func _apply_new_position_to_center_node():
 	center_node.translation.x -= delta_x
 	center_node.translation.z -= delta_z
 	
@@ -110,11 +119,27 @@ func set_offset(new_x, new_z):
 	x = new_x
 	z = new_z
 	
+	# FIXME: shift the world accordingly (or remove this function entirely? currently unused)
+	
 	logger.debug("New offset: %d, %d" % [x, z])
 
 
 func get_center():
 	return [x, z]
+
+
+# Add a signal to wait for until the new offset is applied to the center_node.
+# Useful for synchronizing the displaying of new data all at once.
+func add_signal_dependency(object, signal_name):
+	object.connect(signal_name, self, "_on_dependent_object_loaded")
+	_dependent_object_count += 1
+
+
+func _on_dependent_object_loaded():
+	_dependent_objects_loaded += 1
+	
+	if _dependent_objects_loaded == _dependent_object_count:
+		_apply_new_position_to_center_node()
 
 
 # Converts engine coordinates to world coordinates (absolute webmercator coordinates).

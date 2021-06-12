@@ -12,10 +12,14 @@ var renderers_finished = 0
 
 var load_data_threaded = true
 
+signal loading_finished
+
 
 func set_position_manager(new_manager: PositionManager):
 	position_manager = new_manager
 	position_manager.connect("new_center", self, "apply_center")
+	
+	position_manager.add_signal_dependency(self, "loading_finished")
 	
 	apply_center(position_manager.get_center())
 
@@ -89,12 +93,8 @@ func _on_renderer_finished():
 
 # Called when all renderers are done loading data in a thread and ready to display it.
 func _apply_renderers_data():
-	# Tell the position manager that loading is finished and this world shift is thus complete.
-	# FIXME: This causes very tight coupling between the LayerRenderers node and the PositionManager.
-	# We need to design this in a better way! One option to invert this dependency would be to register
-	#  this as a dependent in the PositionManager
-	position_manager.apply_new_position()
-	
 	for renderer in get_children():
 		if renderer is LayerRenderer:
 			renderer.apply_new_data()
+	
+	emit_signal("loading_finished")
