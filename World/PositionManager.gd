@@ -36,6 +36,11 @@ signal new_center(new_center_array)
 var x: int = 420500
 var z: int = 453720
 
+var delta_x := 0.0
+var delta_z := 0.0
+
+var loading = false
+
 
 func _ready():
 	inject_offset_properties()
@@ -59,18 +64,32 @@ func _input(event):
 func check_for_world_shift():
 	var delta_squared = Vector2(center_node.translation.x, center_node.translation.z).length_squared()
 	
-	if (delta_squared > pow(shift_limit, 2)):
+	if (delta_squared > pow(shift_limit, 2)) and not loading:
 		shift_world(center_node.translation.x, center_node.translation.z)
 
 
+# Begin the process of world shifting by setting the new offset variables and emitting a signal.
 func shift_world(delta_x, delta_z):
+	logger.info("Shifting world by %f, %f" % [delta_x, delta_z])
+	
+	loading = true
+	
+	self.delta_x = delta_x
+	self.delta_z = delta_z
+	
 	x += delta_x
 	z -= delta_z
 	
+	emit_signal("new_center", [x, z])
+
+
+# Move the center_node according to the last known position delta.
+# This should be called in the same frame as the new data is being displayed for a seamless transition.
+func apply_new_position():
 	center_node.translation.x -= delta_x
 	center_node.translation.z -= delta_z
 	
-	emit_signal("new_center", [x, z])
+	loading = false
 
 
 func inject_offset_properties():

@@ -21,7 +21,7 @@ func load_new_data():
 		var width = float(line.get_attribute("WIDTH"))
 		width = max(width, 2) # It's sometimes -1 in the data
 	
-		# FIXME: widht logic
+		# FIXME: width logic
 		
 		instances.append(line_visualization_instance)
 
