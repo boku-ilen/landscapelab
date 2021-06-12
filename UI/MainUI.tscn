@@ -182,6 +182,7 @@ size_flags_vertical = 3
 margin_right = 1346.0
 script = ExtResource( 16 )
 layer_ui_path = NodePath("../../../Right/Right/Bot/LayerUI")
+pos_manager_path = NodePath("../WorldViewPort/Viewport/World")
 
 [node name="WorldViewPort" type="ViewportContainer" parent="MarginContainer/Split/Right/Mid/VBoxContainer"]
 margin_top = 4.0
@@ -207,6 +208,7 @@ size = Vector2( 1346, 857 )
 handle_input_locally = false
 render_target_update_mode = 3
 gui_disable_input = true
+shadow_atlas_size = 2048
 
 [node name="World" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport" instance=ExtResource( 12 )]
 center_node_path = NodePath("../../../VBoxContainer2/WorldViewPort/Viewport/World/FirstPersonPC")
@@ -336,7 +338,6 @@ texture_normal = ExtResource( 4 )
 expand = false
 stretch_mode = 0
 texture_name = "vr"
-default_color = Color( 0, 0, 0, 1 )
 signal_pressed = "vr_enable"
 signal_released = "vr_disable"
 
@@ -390,5 +391,4 @@ mouse_filter = 2
 visible = false
 
 [editable path="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World"]
-
 [editable path="CenterContainer/StartScene"]
