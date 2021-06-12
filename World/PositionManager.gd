@@ -18,7 +18,8 @@ export(NodePath) var center_node_path
 onready var terrain = get_node("Terrain")
 onready var path_shifter = get_node("Terrain/PathShiftingHandler")
 onready var spatial_shifter = get_node("Terrain/SpatialShiftingHandler")
-onready var center_node = get_node(center_node_path)
+# FIXME: Should be center_node_path, but this generates errors due to inconsistencies in the node paths...
+onready var center_node = get_node("FirstPersonPC")
 
 # TODO: all these will come from the configuration
 var world_shift_check_period: float = 1
@@ -29,9 +30,11 @@ var is_fullscreen: bool = false
 
 var shift_limit: float = Settings.get_setting("lod", "world-shift-distance")
 
+signal new_center(new_center_array)
+
 # The offset
-var x: int = 420821
-var z: int = 453220
+var x: int = 420500
+var z: int = 453720
 
 
 func _ready():
@@ -39,8 +42,6 @@ func _ready():
 
 
 func _process(delta):
-	return  # FIXME: Disabled for now
-	
 	world_shift_timer += delta
 	
 	if world_shift_timer > world_shift_check_period:
@@ -56,29 +57,20 @@ func _input(event):
 
 # Shift the world if the player exceeds the bounds, in order to prevent coordinates from getting too big (floating point issues)
 func check_for_world_shift():
-	var delta_vec = Vector3(0, 0, 0)
+	var delta_squared = Vector2(center_node.translation.x, center_node.translation.z).length_squared()
 	
-	
-	# Check x, z coordinates
-	delta_vec.x = -shift_limit * floor(center_node.translation.x / shift_limit)
-	delta_vec.z = -shift_limit * floor(center_node.translation.z / shift_limit)
-	# (Height (y) probably doesn't matter, height differences won't be that big
-	
-	# Apply
-	if delta_vec != Vector3(0, 0, 0):
-		shift_world(delta_vec.x, delta_vec.z)
+	if (delta_squared > pow(shift_limit, 2)):
+		shift_world(center_node.translation.x, center_node.translation.z)
 
 
 func shift_world(delta_x, delta_z):
 	x += delta_x
-	z += delta_z
+	z -= delta_z
 	
-	center_node.translation.x += delta_x
-	center_node.translation.z += delta_z
-	path_shifter.on_shift_world(delta_x, delta_z)
-	spatial_shifter.on_shift_world(delta_x, delta_z)
+	center_node.translation.x -= delta_x
+	center_node.translation.z -= delta_z
 	
-	logger.debug("New offset: %d, %d" % [x, z])
+	emit_signal("new_center", [x, z])
 
 
 func inject_offset_properties():

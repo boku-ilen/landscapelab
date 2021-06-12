@@ -9,6 +9,8 @@ var floor_height = 2.5 # Height of one building floor for calculating the number
 var fallback_height = 10
 var cellar_height = floor_height # For preventing partially floating buildings on uneven surfaces
 
+var building_instances = []
+
 
 # Called when the node enters the scene tree for the first time.
 func load_new_data():
@@ -50,14 +52,18 @@ func load_new_data():
 		# Build!
 		building.build()
 		
-		add_child(building)
-	
-	set_heights()
+		building_instances.append(building)
 
 
 func apply_new_data():
-	# FIXME: Only add_childs here, not in load_new_data!
-	pass
+	for child in get_children():
+		child.queue_free()
+	
+	for building in building_instances:
+		add_child(building)
+	
+	building_instances.clear()
+	set_heights()
 
 
 func set_heights():

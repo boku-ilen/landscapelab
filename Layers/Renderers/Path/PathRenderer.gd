@@ -3,6 +3,8 @@ extends LayerRenderer
 var radius = 1000
 var max_features = 500
 
+var instances = []
+
 
 func load_new_data():
 	var lines = layer.get_features_near_position(center[0], center[1], radius, max_features)
@@ -20,7 +22,8 @@ func load_new_data():
 		width = max(width, 2) # It's sometimes -1 in the data
 	
 		# FIXME: widht logic
-		add_child(line_visualization_instance)
+		
+		instances.append(line_visualization_instance)
 
 
 # Adjust the height to represent it on the terrain
@@ -30,9 +33,13 @@ func _adjust_height(position: Vector3):
 
 
 func apply_new_data():
-	# FIXME: add_children here instead of in load_new_data!
-	pass
-
+	for child in get_children():
+		child.queue_free()
+	
+	for instance in instances:
+		add_child(instance)
+	
+	instances.clear()
 
 func _ready():
 	if not layer is FeatureLayer or not layer.is_valid():

@@ -10,7 +10,8 @@ export(Array, int) var default_center = [0, 0]
 
 func set_position_manager(new_manager: PositionManager):
 	position_manager = new_manager
-	apply_center()
+	position_manager.connect("new_center", self, "apply_center")
+	apply_center(position_manager.get_center())
 
 
 func get_position_manager() -> PositionManager:
@@ -46,12 +47,12 @@ func add_child(child: Node, legible_unique_name: bool = false):
 
 
 # Apply a new center position to all child nodes
-func apply_center():
+func apply_center(center_array):
 	logger.info("Applying new center center to all children in %s" % [name])
 	
 	for renderer in get_children():
 		if renderer is LayerRenderer:
-			renderer.center = position_manager.get_center()
+			renderer.center = center_array
 			renderer.load_new_data() # FIXME: Run in a thread
 	
 	# FIXME: Do after all data loading is done
