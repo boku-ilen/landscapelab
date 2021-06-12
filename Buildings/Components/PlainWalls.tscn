@@ -3,6 +3,7 @@
 [ext_resource path="res://Buildings/Components/PlainWalls.gd" type="Script" id=1]
 
 [sub_resource type="SpatialMaterial" id=1]
+resource_local_to_scene = true
 albedo_color = Color( 0.317647, 0.368627, 0.337255, 1 )
 
 [node name="PlainWalls" type="Spatial"]
