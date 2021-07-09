@@ -20,22 +20,33 @@ func _add_object(world, drag_handler):
 		current_object = object
 		object.translation = Vector3.ZERO
 		
-		_recursively_create_trimesh_colliders(object, object.name)
+		_recursively_create_colliders(object, object.name)
 		
 		drag_handler.dragables[object.name] = drag_handler.DragableObject.new(object)
 
 
 # Recursively find all meshes and create trimesh colliders for them
-func _recursively_create_trimesh_colliders(object: Spatial, name: String):
+func _recursively_create_colliders(object: Spatial, name: String):
 	if not object: return
 	
 	for child in object.get_children():
-		_recursively_create_trimesh_colliders(child, name)
+		_recursively_create_colliders(child, name)
 		
 	if object is MeshInstance:
 		object.create_convex_collision()
 		if object.get_child_count():
 			object.get_child(0).name = name
+
+
+func _recursively_remove_colliders(object: Spatial, name: String):
+	if not object: return
+	
+	for child in object.get_children():
+		_recursively_remove_colliders(child, name)
+		
+	if object is MeshInstance:
+		if object.get_child_count():
+			object.remove_child(object.get_node(name))
 
 
 func _scale_object():
@@ -49,6 +60,7 @@ func _apply_reoccuring_object(path: Profile):
 		# store the translation and reset it to zero 
 		# this will be h- and v-offset of the path-follow later on
 		var translation = current_object.translation
+		_recursively_remove_colliders(current_object, current_object.name)
 		current_object.translation = Vector3.ZERO
 		var object_as_scene = PackedScene.new()
 		object_as_scene.pack(current_object)
