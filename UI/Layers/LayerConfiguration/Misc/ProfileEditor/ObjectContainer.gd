@@ -16,7 +16,7 @@ func _add_object(world, drag_handler):
 	var f = File.new()
 	if f.file_exists(get_node("ObjectChooser/FileName").text):
 		var object = load(get_node("ObjectChooser/FileName").text).instance()
-		world.add_child(object)
+		world.add_child(object, true)
 		current_object = object
 		object.translation = Vector3.ZERO
 		
