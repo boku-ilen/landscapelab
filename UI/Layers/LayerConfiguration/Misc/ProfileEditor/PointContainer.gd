@@ -17,9 +17,11 @@ func _ready():
 	$RemovePointButton.connect("pressed", self, "_remove_point")
 
 
-func _add_point(poly_point):
+func _add_point(poly_point, drag_handler):
 	if current_profile:
-		current_profile.add_point(poly_point.instance())
+		var new_point = poly_point.instance()
+		current_profile.add_point(new_point)
+		drag_handler.dragables[new_point.name] = drag_handler.DragablePoint.new(new_point, current_profile)
 
 
 func _remove_point():
