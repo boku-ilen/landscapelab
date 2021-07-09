@@ -20,34 +20,22 @@ func _add_object(world, drag_handler):
 		current_object = object
 		object.translation = Vector3.ZERO
 		
-		var aabb = _recursively_create_AABB(object, MeshInstance.new().get_aabb())
-		object.add_child(_collider_from_AABB(aabb, object.name))
+		_recursively_create_trimesh_colliders(object, object.name)
 		
 		drag_handler.dragables[object.name] = drag_handler.DragableObject.new(object)
 
 
-func _collider_from_AABB(aabb: AABB, name) -> Area:
-	var area = Area.new()
-	var collision_shape = CollisionShape.new()
-	var box_shape = BoxShape.new()
-	
-	box_shape.extents = aabb.size
-	collision_shape.set_shape(box_shape)
-	area.add_child(collision_shape)
-	area.name = name
-	
-	return area
-
-
-func _recursively_create_AABB(object: Spatial, aabb: AABB) -> AABB:
-	if not object: return aabb
+# Recursively find all meshes and create trimesh colliders for them
+func _recursively_create_trimesh_colliders(object: Spatial, name: String):
+	if not object: return
 	
 	for child in object.get_children():
-		aabb = _recursively_create_AABB(child, aabb)
+		_recursively_create_trimesh_colliders(child, name)
 		
 	if object is MeshInstance:
-		return aabb.merge(object.get_aabb())
-	return aabb
+		object.create_convex_collision()
+		if object.get_child_count():
+			object.get_child(0).name = name
 
 
 func _scale_object():
