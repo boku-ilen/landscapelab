@@ -99,6 +99,10 @@ func get_icon():
 func get_icon_texture():
 	return _get_texture(_get_full_icon_path())
 
+# Preload the billboard texture to increase run-time loading speeds at the cost of the initial loading speed
+func preload_texture():
+	_load_into_cache_if_necessary(_get_full_billboard_path())
+
 # Return a string in the form "ID: Name (Size Class)"
 func get_title_string():
 	return str(self.id) + ": " + self.name_de \
