@@ -1,9 +1,6 @@
 extends LayerRenderer
 
 
-var update_threads = []
-var done = false
-
 onready var lods = get_children()
 
 

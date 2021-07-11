@@ -10,16 +10,52 @@
 resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/height_scale = 1.0
+shader_param/size_m = null
+shader_param/texture_size_m = null
+shader_param/normal_scale = 1.0
+shader_param/is_roughness_increase = null
+shader_param/roughness_scale = 0.0
+shader_param/is_specular_increase = null
+shader_param/specular_scale = 0.0
+shader_param/is_ao_increase = null
+shader_param/ao_scale = 0.0
+shader_param/has_distance_tex = false
+shader_param/distance_tex_start = null
+shader_param/distance_texture_size_m = null
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/height_scale = 1.0
+shader_param/size_m = null
+shader_param/texture_size_m = null
+shader_param/normal_scale = 1.0
+shader_param/is_roughness_increase = null
+shader_param/roughness_scale = 0.0
+shader_param/is_specular_increase = null
+shader_param/specular_scale = 0.0
+shader_param/is_ao_increase = null
+shader_param/ao_scale = 0.0
+shader_param/has_distance_tex = false
+shader_param/distance_tex_start = null
+shader_param/distance_texture_size_m = null
 
 [sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/height_scale = 1.0
+shader_param/size_m = null
+shader_param/texture_size_m = null
+shader_param/normal_scale = 1.0
+shader_param/is_roughness_increase = null
+shader_param/roughness_scale = 0.0
+shader_param/is_specular_increase = null
+shader_param/specular_scale = 0.0
+shader_param/is_ao_increase = null
+shader_param/ao_scale = 0.0
+shader_param/has_distance_tex = false
+shader_param/distance_tex_start = null
+shader_param/distance_texture_size_m = null
 
 [node name="TerrainRenderer" instance=ExtResource( 3 )]
 script = ExtResource( 4 )
