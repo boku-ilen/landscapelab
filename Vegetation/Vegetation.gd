@@ -21,7 +21,7 @@ var fade_textures = {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent = 40.0 setget set_plant_extent, get_plant_extent
+var plant_extent = 60.0 setget set_plant_extent, get_plant_extent
 signal new_plant_extent(extent)
 
 signal new_data
@@ -78,12 +78,15 @@ func save_to_files(plant_csv_path: String, group_csv_path: String):
 
 
 # Returns the Group objects which correspond to the given IDs, retaining the ordering.
+# Note that the exact indices may not match up -- invalid entries are skipped, not filled with null!
 func get_group_array_for_ids(id_array):
 	var group_array = []
-	group_array.resize(id_array.size())
 	
 	for i in range(id_array.size()):
-		group_array[i] = groups[id_array[i]]
+		if groups.has(id_array[i]):
+			group_array.append(groups[id_array[i]])
+		else:
+			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]])
 	
 	return group_array
 
