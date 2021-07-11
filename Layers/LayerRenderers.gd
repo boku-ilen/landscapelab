@@ -7,10 +7,10 @@ var position_manager: PositionManager setget set_position_manager, get_position_
 export(bool) var apply_default_center = false
 export(Array, int) var default_center = [0, 0]
 
-var renderers_count = 0
-var renderers_finished = 0
+var renderers_count := 0
+var renderers_finished := 0
 
-var load_data_threaded = true
+var load_data_threaded := true
 
 signal loading_finished
 
@@ -30,8 +30,8 @@ func get_position_manager() -> PositionManager:
 
 func add_child(child: Node, legible_unique_name: bool = false):
 	if not position_manager and not apply_default_center:
-		logger.info("Adding child %s to %s, but not yet loading its data due to no available center position"
-				% [child.name, name])
+		logger.debug("Adding child %s to %s, but not yet loading its data due to no available center position"
+				% [child.name, name], "render")
 		.add_child(child, legible_unique_name)
 		return
 	
@@ -57,7 +57,7 @@ func add_child(child: Node, legible_unique_name: bool = false):
 
 # Apply a new center position to all child nodes
 func apply_center(center_array):
-	logger.info("Applying new center center to all children in %s" % [name])
+	logger.debug("Applying new center center to all children in %s" % [name], "render")
 	
 	renderers_finished = 0
 	renderers_count = 0
@@ -72,20 +72,24 @@ func apply_center(center_array):
 		if renderer is LayerRenderer:
 			renderer.center = center_array
 			
+			logger.debug("Child {} beginning to load", "render")
 			var task = ThreadPool.Task.new(renderer, "load_new_data")
 			
 			if load_data_threaded:
-				task.connect("finished", self, "_on_renderer_finished")
+				task.connect("finished", self, "_on_renderer_finished", [renderer.name])
 				ThreadPool.enqueue_task(task)
 			else:
 				task.execute()
-				_on_renderer_finished()
+				_on_renderer_finished(renderer.name)
 
 
-func _on_renderer_finished():
+func _on_renderer_finished(renderer_name):
 	renderers_finished += 1
 	
-	logger.debug("Renderer %f of %f finished!" % [renderers_finished, renderers_count])
+	logger.debug(
+		"Renderer %s of %s (with name %s) finished!" % [renderers_finished, renderers_count, renderer_name],
+		"render"
+	)
 	
 	if renderers_finished == renderers_count:
 		_apply_renderers_data()
