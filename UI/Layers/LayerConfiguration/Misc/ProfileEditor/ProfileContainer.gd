@@ -14,10 +14,13 @@ func _ready():
 	$StructuredTextureChooser/AddMaterial.connect("pressed", self, "_add_structured_texture")
 
 
-func _add_profile(profile, path):
+func _add_profile(profile, path, drag_handler):
 	var new_prof = profile.instance()
 	path.add_child(new_prof)
 	new_prof.path_node = "../"
+	
+	for poly_point in new_prof.get_children():
+		drag_handler.dragables[poly_point.name] = drag_handler.DragablePoint.new(poly_point, new_prof)
 
 
 func _remove_profile():
