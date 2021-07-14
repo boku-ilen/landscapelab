@@ -78,7 +78,7 @@ func save_to_files(plant_csv_path: String, group_csv_path: String):
 
 
 # Returns the Group objects which correspond to the given IDs, retaining the ordering.
-# Note that the exact indices may not match up -- invalid entries are skipped, not filled with null!
+# Note that the exact indices may not be retained - invalid entries are skipped, not filled with null!
 func get_group_array_for_ids(id_array):
 	var group_array = []
 	

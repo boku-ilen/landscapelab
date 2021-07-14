@@ -140,6 +140,11 @@ _global_script_classes=[ {
 "path": "res://Objects/Superclasses/MovableObject.gd"
 }, {
 "base": "Node",
+"class": "ObjParse",
+"language": "GDScript",
+"path": "res://addons/obj-parse/ObjParse.gd"
+}, {
+"base": "Node",
 "class": "ObjectBroker",
 "language": "GDScript",
 "path": "res://GameEngine/ObjectBroker.gd"
@@ -271,6 +276,7 @@ _global_script_class_icons={
 "Module": "",
 "ModuleHandler": "",
 "MoveableObject": "",
+"ObjParse": "",
 "ObjectBroker": "",
 "Plant": "",
 "PlantGroup": "",
