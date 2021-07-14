@@ -12,6 +12,7 @@ var renderers_finished := 0
 
 var load_data_threaded := true
 
+signal loading_started
 signal loading_finished
 
 
@@ -58,6 +59,7 @@ func add_child(child: Node, legible_unique_name: bool = false):
 # Apply a new center position to all child nodes
 func apply_center(center_array):
 	logger.debug("Applying new center center to all children in %s" % [name], "render")
+	emit_signal("loading_started")
 	
 	renderers_finished = 0
 	renderers_count = 0
