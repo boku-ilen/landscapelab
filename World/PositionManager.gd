@@ -81,10 +81,7 @@ func _shift_world(delta_x, delta_z):
 	self.delta_x = delta_x
 	self.delta_z = delta_z
 	
-	x += delta_x
-	z -= delta_z
-	
-	emit_signal("new_center", [x, z])
+	emit_signal("new_center", [x + delta_x, z - delta_z])
 	
 	# If there are no objects we need to wait for, apply the new position right away.
 	# Otherwise, we'll wait until all dependent objects are done loading.
@@ -97,6 +94,9 @@ func _shift_world(delta_x, delta_z):
 func _apply_new_position_to_center_node():
 	center_node.translation.x -= delta_x
 	center_node.translation.z -= delta_z
+	
+	x += delta_x
+	z -= delta_z
 	
 	loading = false
 
@@ -148,7 +148,7 @@ func to_world_coordinates(pos):
 	if pos is Vector2:
 		return [x - int(pos.x), z - int(pos.y)]
 	elif pos is Vector3:
-		return [x - int(pos.x), int(pos.y), z - int(pos.z)]
+		return [x + int(pos.x), int(pos.y), z - int(pos.z)]
 	else:
 		logger.warning("Invalid type for to_world_coordinates: %s;"\
 			+ "supported types: Vector2, Vector3" % [typeof(pos)])
