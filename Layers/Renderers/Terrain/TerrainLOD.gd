@@ -114,6 +114,7 @@ func apply_textures():
 		material_override.set_shader_param("landuse", current_landuse)
 	
 	if current_surface_heightmap:
+		material_override.set_shader_param("has_surface_heights", true)
 		material_override.set_shader_param("surface_heightmap", current_surface_heightmap)
 		
 	visible = true
