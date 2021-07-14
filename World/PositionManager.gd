@@ -176,3 +176,9 @@ func change_position_format(pos):
 		return [pos[0], pos[1]]
 	elif pos is Vector3:
 		return [pos[0], pos[1], pos[2]]
+
+
+# Return an array with the minimum and maximum x and z values in all rendered layers.
+func get_rendered_boundary() -> Array:
+	# TODO: get all Layers and calculate their maximum boundary
+	return [0, 1000000, 0, 1000000]
