@@ -57,8 +57,8 @@ func add_test_data():
 	
 	# Terrain layer
 	var terrain_layer = Layer.new()
-	terrain_layer.render_type = Layer.RenderType.TERRAIN
-	terrain_layer.render_info = Layer.TerrainRenderInfo.new()
+	terrain_layer.render_type = Layer.RenderType.BASIC_TERRAIN
+	terrain_layer.render_info = Layer.BasicTerrainRenderInfo.new()
 	terrain_layer.render_info.height_layer = height_layer.clone()
 	terrain_layer.render_info.texture_layer = ortho_layer.clone()
 	terrain_layer.name = "Terrain"

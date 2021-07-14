@@ -17,7 +17,8 @@ var color_tag: Color = Color.transparent
 
 enum RenderType {
 	NONE,
-	TERRAIN,
+	BASIC_TERRAIN,
+	REALISTIC_TERRAIN,
 	PARTICLES,
 	OBJECT,
 	PATH,
@@ -49,7 +50,7 @@ class RenderInfo:
 	func is_valid():
 		return true
 
-class TerrainRenderInfo extends RenderInfo:
+class BasicTerrainRenderInfo extends RenderInfo:
 	var height_layer: Layer
 	var texture_layer: Layer
 	var is_color_shaded: bool
@@ -57,7 +58,16 @@ class TerrainRenderInfo extends RenderInfo:
 	var min_color: Color
 	
 	func is_valid():
-		return height_layer != null  and texture_layer != null 
+		return height_layer != null and (is_color_shaded or texture_layer != null)
+
+class RealisticTerrainRenderInfo extends RenderInfo:
+	var height_layer: Layer
+	var surface_height_layer: Layer
+	var texture_layer: Layer
+	var landuse_layer: Layer
+	
+	func is_valid():
+		return height_layer and surface_height_layer and texture_layer and landuse_layer
 
 class VegetationRenderInfo extends RenderInfo:
 	var height_layer: Layer

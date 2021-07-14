@@ -12,7 +12,7 @@ onready var min_size = rect_min_size
 
 var RenderTypeObject = {
 	"NONE": Layer,
-	"TERRAIN": Layer,
+	"BASIC_TERRAIN": Layer,
 	"PARTICLES": RasterLayer,
 	"OBJECT": FeatureLayer,
 	"PATH": FeatureLayer,
