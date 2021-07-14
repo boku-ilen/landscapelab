@@ -11,16 +11,20 @@ export(float) var size = 100
 
 export(int) var heightmap_resolution = 100
 export(int) var ortho_resolution = 1000
+export(int) var landuse_resolution = 100
 
 var position_x
 var position_y
 
 var height_layer
 var texture_layer
+var landuse_layer
+var surface_height_layer
 
-var current_heightmap_raw
 var current_heightmap
 var current_texture
+var current_landuse
+var current_surface_heightmap
 
 signal updated_data
 
@@ -47,6 +51,7 @@ func build():
 	scale.x = size / mesh_size
 	scale.z = size / mesh_size
 	
+	# Heightmap
 	var current_height_image = height_layer.get_image(
 		top_left_x,
 		top_left_y,
@@ -57,27 +62,61 @@ func build():
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
-		current_heightmap_raw = current_height_image.get_image()
 	
+	# Texture
+	if texture_layer:
+		var current_ortho_image = texture_layer.get_image(
+			top_left_x,
+			top_left_y,
+			size,
+			ortho_resolution,
+			1
+		)
+		
+		if current_ortho_image.is_valid():
+			current_texture = current_ortho_image.get_image_texture()
 	
-	var current_ortho_image = texture_layer.get_image(
-		top_left_x,
-		top_left_y,
-		size,
-		ortho_resolution,
-		1
-	)
+	# Land Use
+	if landuse_layer:
+		var current_landuse_image = landuse_layer.get_image(
+			top_left_x,
+			top_left_y,
+			size,
+			landuse_resolution,
+			1
+		)
+		
+		if current_landuse_image.is_valid():
+			current_landuse = current_landuse_image.get_image_texture()
 	
-	if current_ortho_image.is_valid():
-		current_texture = current_ortho_image.get_image_texture()
+	# Surface Height
+	if surface_height_layer:
+		var current_surface_height_image = surface_height_layer.get_image(
+			top_left_x,
+			top_left_y,
+			size,
+			heightmap_resolution,
+			1
+		)
+		
+		if current_surface_height_image.is_valid():
+			current_surface_heightmap = current_surface_height_image.get_image_texture()
 
 
 func apply_textures():
-	if current_heightmap and current_texture:
+	if current_heightmap:
 		material_override.set_shader_param("heightmap", current_heightmap)
+	
+	if current_texture:
 		material_override.set_shader_param("orthophoto", current_texture)
+	
+	if current_landuse:
+		material_override.set_shader_param("landuse", current_landuse)
+	
+	if current_surface_heightmap:
+		material_override.set_shader_param("surface_heightmap", current_surface_heightmap)
 		
-		visible = true
-		
-		if has_node("CollisionMeshCreator"):
-			$CollisionMeshCreator.create_mesh(current_heightmap, size)
+	visible = true
+	
+	if has_node("CollisionMeshCreator"):
+		$CollisionMeshCreator.create_mesh(current_heightmap, size)

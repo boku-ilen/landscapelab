@@ -2,7 +2,8 @@ extends Configurator
 
 
 var renderers = {
-	Layer.RenderType.BASIC_TERRAIN: preload("res://Layers/Renderers/Terrain/TerrainRenderer.tscn"),
+	Layer.RenderType.BASIC_TERRAIN: preload("res://Layers/Renderers/Terrain/BasicTerrainRenderer.tscn"),
+	Layer.RenderType.REALISTIC_TERRAIN: preload("res://Layers/Renderers/Terrain/RealisticTerrainRenderer.tscn"),
 	Layer.RenderType.POLYGON: preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn"),
 	Layer.RenderType.VEGETATION: preload("res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.tscn"),
 	Layer.RenderType.OBJECT: preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn"),
