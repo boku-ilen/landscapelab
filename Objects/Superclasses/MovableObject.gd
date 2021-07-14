@@ -17,7 +17,7 @@ func _ready():
 
 
 func _request_energy_value(data):
-    # FIXME: in this case we want to abstract the game logic anyway
+	# FIXME: in this case we want to abstract the game logic anyway
 	var energy_value = "" # ServerConnection.get_json("/energy/location/%s.json" % [data[0]])
 	
 	if energy_value and energy_value.has("energy_production"):
