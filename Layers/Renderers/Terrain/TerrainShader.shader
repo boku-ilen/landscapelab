@@ -11,48 +11,58 @@ uniform float surface_heights_start_distance = 800.0;
 uniform sampler2D surface_heightmap;
 
 // Land use-based detail textures
-uniform sampler2D albedo_tex: hint_albedo;
-uniform sampler2D normal_tex: hint_normal;
-uniform sampler2D ambient_tex;
-uniform sampler2D specular_tex;
-uniform sampler2D roughness_tex;
-uniform sampler2D ao_tex;
+uniform sampler2D landuse;
 
-uniform float size_m;
-uniform float texture_size_m;
+uniform sampler2DArray albedo_tex: hint_albedo;
+uniform sampler2DArray normal_tex: hint_normal;
+uniform sampler2DArray ambient_tex;
+uniform sampler2DArray specular_tex;
+uniform sampler2DArray roughness_tex;
+uniform sampler2DArray ao_tex;
+
+// See Vegetation.get_metadata_texture for details
+uniform sampler2D metadata;
+
+uniform sampler2DArray distance_tex: hint_albedo;
+uniform sampler2DArray distance_normals: hint_normal;
 
 uniform float normal_scale = 1.0;
 
-// Increase or decrease texture values in the range 0..1
-uniform bool is_roughness_increase;
-uniform float roughness_scale = 0.0;
-
-uniform bool is_specular_increase;
-uniform float specular_scale = 0.0;
-
-uniform bool is_ao_increase;
-uniform float ao_scale = 0.0;
-
-uniform bool has_distance_tex = false;
-uniform sampler2D distance_tex: hint_albedo;
-uniform sampler2D distance_normals: hint_normal;
-uniform float distance_tex_start;
-uniform float distance_texture_size_m;
-
 varying vec3 camera_pos;
 varying vec3 world_pos;
+varying float world_distance;
 
 void vertex() {
 	world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	world_distance = length(world_pos.xz);
 	
 	VERTEX.y = texture(heightmap, UV).r * height_scale;
 	
 	if (has_surface_heights) {
-		float surface_height_factor = float(length(world_pos.xz) > surface_heights_start_distance);
-		VERTEX.y += texture(surface_heightmap, UV).r * height_scale * surface_height_factor
+		float surface_height_factor = float(world_distance > surface_heights_start_distance);
+		VERTEX.y += texture(surface_heightmap, UV).r * height_scale * surface_height_factor;
 	}
 }
 
 void fragment() {
-	ALBEDO = texture(orthophoto, UV).rgb;
+	int splat_id = int(texture(landuse, UV).r * 255.0);
+	
+	vec3 metadata_value = texelFetch(metadata, ivec2(splat_id, 0), 0).rgb;
+	
+	float plant_row = metadata_value.r * 255.0;
+	float ground_texture_scale = metadata_value.g * 100.0; // FIXME: Move scale to uniform
+	float fade_texture_scale = metadata_value.b * 100.0;
+	
+	ground_texture_scale *= float(world_distance < 20.0); // FIXME: Move this threshold to uniform
+	
+	if (ground_texture_scale > 0.0) {
+		vec3 scaled_uv = vec3(UV * 100.0, plant_row);
+		ALBEDO = texture(albedo_tex, scaled_uv).rgb;
+		NORMALMAP = texture(normal_tex, scaled_uv).rgb;
+		AO = texture(ambient_tex, scaled_uv).r;
+		SPECULAR = texture(specular_tex, scaled_uv).r;
+		ROUGHNESS = texture(roughness_tex, scaled_uv).r;
+	} else {
+		ALBEDO = texture(orthophoto, UV).rgb;
+	}
 }

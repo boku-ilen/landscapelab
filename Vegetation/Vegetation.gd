@@ -170,17 +170,16 @@ func get_billboard_sheet(group_array: Array):
 # Returns a 1x? spritesheet with each group's ground texture in the rows.
 func get_ground_sheet(group_array, texture_name):
 	var texture_table = Array()
-	texture_table.resize(1)
+	texture_table.resize(group_array.size())
 	
-	texture_table[0] = []
-	
-	for group in group_array:
-		texture_table[0].append(group.get_ground_image(texture_name))
+	for i in range(group_array.size()):
+		var group = group_array[i]
+		texture_table[i] = [group.get_ground_image(texture_name)]
 	
 	return SpritesheetHelper.create_layered_spritesheet(
 			Vector2(VegetationImages.GROUND_TEXTURE_SIZE, VegetationImages.GROUND_TEXTURE_SIZE),
 			texture_table,
-			SpritesheetHelper.SCALING.STRETCH)[0]
+			SpritesheetHelper.SCALING.STRETCH)
 
 
 # Returns a 1x? spritesheet with each group's distribution texture in the
@@ -228,24 +227,67 @@ func get_id_row_map_texture(ids):
 	return id_row_map_tex
 
 
+# Creates a texture expressing various metadata of the groups in the given ID array.
+# The texture is 256 pixels wide, with the first row being an id-row-map (see above).
+# The following rows of the texture consist of the following data for each of the Groups:
+# [Ground Texture Scale | Fade Texture Scale]
+# A scale of 0 means that there is no texture of this type.
+# Note that each value needs to be scaled before use, since the texture only allows relative values in the 0..1 range.
+func get_metadata_map(ids):
+	var metadata = Image.new()
+	metadata.create(256, 1, false, Image.FORMAT_RGB8)
+	metadata.lock()
+	
+	# .fill doesn't work here - if that is used, the set_pixel calls later have no effect...
+	for i in range(0, 256):
+		metadata.set_pixel(i, 0, Color(1.0, 0.0, 0.0))
+	
+	# The pixel at x=id (0-255) is set to the row value (0-7).
+	var row = 0
+	for id in ids:
+		if groups.has(id):
+			# Row value
+			var row_color = row / 255.0
+			
+			# Ground Texture Scale
+			var ground_texture_scale = groups[id].ground_texture.size_m / GroundTexture.MAX_SIZE_M \
+					if groups[id].ground_texture else 0
+			
+			# Fade Texture Scale
+			var fade_texture_scale = groups[id].fade_texture.size_m / GroundTexture.MAX_SIZE_M \
+					if groups[id].fade_texture else 0
+			
+			metadata.set_pixel(id, 0, Color(row_color, ground_texture_scale, fade_texture_scale))
+			row += 1
+	
+	metadata.unlock()
+	
+	# Fill all parameters into the shader
+	var metadata_tex = ImageTexture.new()
+	metadata_tex.create_from_image(metadata, 0)
+	
+	return metadata_tex
+
+
 # Wraps the result of get_ground_albedo_sheet in an ImageTexture.
 func get_ground_sheet_texture(group_array, texture_name):
-	var tex = ImageTexture.new()
-	tex.create_from_image(get_ground_sheet(group_array, texture_name))
-	
-	return tex
+	return _image_array_to_texture_array(get_ground_sheet(group_array, texture_name))
 
 
 # Wrapper for get_billboard_sheet, but returns an ImageTexture instead of an
 #   Image for direct use in materials.
 func get_billboard_texture(group_array):
-	var images = get_billboard_sheet(group_array)
-	
+	return _image_array_to_texture_array(get_billboard_sheet(group_array))
+
+
+# Utility function for turning an ImageArray into a TextureArray.
+func _image_array_to_texture_array(images):
 	if not images or images.size() == 0:
 		return null
 	
 	var texture_array = TextureArray.new()
-	texture_array.create(images[0].get_width(), images[0].get_height(), images.size(), Image.FORMAT_RGBA8)
+	texture_array.create(images[0].get_width(), images[0].get_height(), images.size(), images[0].get_format(),
+			TextureLayered.FLAG_FILTER + TextureLayered.FLAG_MIPMAPS + TextureLayered.FLAG_REPEAT)
 	
 	var current_layer = 0
 	for image in images:

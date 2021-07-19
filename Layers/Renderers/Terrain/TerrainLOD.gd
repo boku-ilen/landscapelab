@@ -13,6 +13,8 @@ export(int) var heightmap_resolution = 100
 export(int) var ortho_resolution = 1000
 export(int) var landuse_resolution = 100
 
+const MAX_GROUPS = 4
+
 var position_x
 var position_y
 
@@ -25,6 +27,16 @@ var current_heightmap
 var current_texture
 var current_landuse
 var current_surface_heightmap
+var current_metadata_map
+
+var current_albedo_ground_textures
+var current_normal_ground_textures
+var current_specular_ground_textures
+var current_ambient_ground_textures
+var current_roughness_ground_textures
+
+var current_albedo_fade_textures
+var current_normal_fade_textures
 
 signal updated_data
 
@@ -83,11 +95,24 @@ func build():
 			top_left_y,
 			size,
 			landuse_resolution,
-			1
+			0
 		)
 		
 		if current_landuse_image.is_valid():
 			current_landuse = current_landuse_image.get_image_texture()
+			var most_common_groups = current_landuse_image.get_most_common(MAX_GROUPS)
+			var group_array = Vegetation.get_group_array_for_ids(most_common_groups)
+			
+			current_metadata_map = Vegetation.get_metadata_map(most_common_groups)
+			
+			current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+			current_normal_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "normal")
+			current_specular_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "specular")
+			current_ambient_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "ambient")
+			current_roughness_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "roughness")
+			
+			#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+			#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
 	
 	# Surface Height
 	if surface_height_layer:
@@ -116,7 +141,17 @@ func apply_textures():
 	if current_surface_heightmap:
 		material_override.set_shader_param("has_surface_heights", true)
 		material_override.set_shader_param("surface_heightmap", current_surface_heightmap)
-		
+	
+	if current_metadata_map:
+		material_override.set_shader_param("metadata", current_metadata_map)
+	
+	if current_albedo_ground_textures:
+		material_override.set_shader_param("albedo_tex", current_albedo_ground_textures)
+		material_override.set_shader_param("normal_tex", current_normal_ground_textures)
+		material_override.set_shader_param("ambient_tex", current_ambient_ground_textures)
+		material_override.set_shader_param("specular_tex", current_specular_ground_textures)
+		material_override.set_shader_param("roughness_tex", current_roughness_ground_textures)
+	
 	visible = true
 	
 	if has_node("CollisionMeshCreator"):
