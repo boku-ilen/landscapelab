@@ -26,6 +26,8 @@ signal new_plant_extent(extent)
 
 signal new_data
 
+var load_mutex = Mutex.new()
+
 
 func _ready():
 	var config = ConfigFile.new()

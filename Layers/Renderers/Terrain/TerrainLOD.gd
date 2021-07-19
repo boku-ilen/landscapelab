@@ -57,6 +57,9 @@ func rebuild_aabb():
 
 
 func build():
+	# FIXME: Find out what causes thread unsafety of this function paired with VegetationParticles.update_textures_with_images()
+	Vegetation.load_mutex.lock()
+	
 	var top_left_x = position_x - size / 2
 	var top_left_y = position_y + size / 2
 	
@@ -126,6 +129,8 @@ func build():
 		
 		if current_surface_height_image.is_valid():
 			current_surface_heightmap = current_surface_height_image.get_image_texture()
+	
+	Vegetation.load_mutex.unlock()
 
 
 func apply_textures():
