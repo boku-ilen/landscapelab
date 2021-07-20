@@ -13,7 +13,10 @@ export(int) var heightmap_resolution = 100
 export(int) var ortho_resolution = 1000
 export(int) var landuse_resolution = 100
 
-const MAX_GROUPS = 4
+export(bool) var load_detail_textures = false
+export(bool) var load_fade_textures = false
+
+const MAX_GROUPS = 3
 
 var position_x
 var position_y
@@ -92,7 +95,7 @@ func build():
 			current_texture = current_ortho_image.get_image_texture()
 	
 	# Land Use
-	if landuse_layer:
+	if landuse_layer and (load_detail_textures or load_fade_textures):
 		var current_landuse_image = landuse_layer.get_image(
 			top_left_x,
 			top_left_y,
@@ -108,14 +111,17 @@ func build():
 			
 			current_metadata_map = Vegetation.get_metadata_map(most_common_groups)
 			
-			current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
-			current_normal_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "normal")
-			current_specular_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "specular")
-			current_ambient_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "ambient")
-			current_roughness_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "roughness")
+			if load_detail_textures:
+				current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+				current_normal_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "normal")
+				current_specular_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "specular")
+				current_ambient_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "ambient")
+				current_roughness_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "roughness")
 			
-			#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
-			#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+			if load_fade_textures:
+				pass
+				#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+				#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
 	
 	# Surface Height
 	if surface_height_layer:
@@ -134,6 +140,8 @@ func build():
 
 
 func apply_textures():
+	material_override.set_shader_param("size", size)
+	
 	if current_heightmap:
 		material_override.set_shader_param("heightmap", current_heightmap)
 	

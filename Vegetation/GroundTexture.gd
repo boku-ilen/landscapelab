@@ -15,7 +15,7 @@ var seasons: Seasons
 var description: String
 var applications: String
 
-const MAX_SIZE_M := 100.0
+const MAX_SIZE_M := 128.0
 
 func _init(id, texture_name, type, size_m, seasons, description, applications):
 	self.id = id

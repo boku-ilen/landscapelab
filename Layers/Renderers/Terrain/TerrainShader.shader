@@ -27,8 +27,10 @@ uniform sampler2DArray distance_tex: hint_albedo;
 uniform sampler2DArray distance_normals: hint_normal;
 
 uniform float normal_scale = 1.0;
-uniform float ortho_saturation = 1.4;
+uniform float ortho_saturation = 1.5;
 uniform float ortho_blue_shift_factor = 0.9;
+
+uniform float size;
 
 varying vec3 camera_pos;
 varying vec3 world_pos;
@@ -61,20 +63,28 @@ vec3 shift_blue(vec3 color, float change) {
 	return color;
 }
 
+// Workaround for a bug in `texelFetch` - use this instead!
+// More info at https://github.com/godotengine/godot/issues/31732
+vec4 texelGet ( sampler2D tg_tex, ivec2 tg_coord, int tg_lod ) {
+	vec2 tg_texel = 1.0 / vec2(textureSize(tg_tex, 0));
+	vec2 tg_getpos = (vec2(tg_coord) * tg_texel) + (tg_texel * 0.5);
+	return texture(tg_tex, tg_getpos, float(tg_lod));
+}
+
+
 
 void fragment() {
-	int splat_id = int(texture(landuse, UV).r * 255.0);
+	int splat_id = int(round(texture(landuse, UV).r * 255.0));
 	
-	vec3 metadata_value = texelFetch(metadata, ivec2(splat_id, 0), 0).rgb;
+	vec3 metadata_value = texelGet(metadata, ivec2(splat_id, 0), 0).rgb;
 	
 	float plant_row = metadata_value.r * 255.0;
-	float ground_texture_scale = metadata_value.g * 100.0; // FIXME: Move scale to uniform
-	float fade_texture_scale = metadata_value.b * 100.0;
+	float ground_texture_scale = metadata_value.g * 128.0; // FIXME: Move scale to uniform
+	float fade_texture_scale = metadata_value.b * 128.0;
 	
-	ground_texture_scale *= float(world_distance < 20.0); // FIXME: Move this threshold to uniform
-	
-	if (ground_texture_scale > 0.0) {
-		vec3 scaled_uv = vec3(UV * 100.0, plant_row);
+	if (ground_texture_scale > 0.0 && world_distance < 20.0) { // FIXME: Move this threshold to uniform
+		vec3 scaled_uv = vec3(UV * size / ground_texture_scale, plant_row);
+		
 		ALBEDO = texture(albedo_tex, scaled_uv).rgb;
 		NORMALMAP = texture(normal_tex, scaled_uv).rgb;
 		AO = texture(ambient_tex, scaled_uv).r;

@@ -12,8 +12,9 @@ shader_param/height_scale = 1.0
 shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/normal_scale = 1.0
-shader_param/ortho_saturation = 1.4
+shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
+shader_param/size = null
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
@@ -22,8 +23,9 @@ shader_param/height_scale = 1.0
 shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/normal_scale = 1.0
-shader_param/ortho_saturation = 1.4
+shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
+shader_param/size = null
 
 [sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
@@ -32,8 +34,9 @@ shader_param/height_scale = 1.0
 shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/normal_scale = 1.0
-shader_param/ortho_saturation = 1.4
+shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
+shader_param/size = null
 
 [node name="RealisticTerrainRenderer" type="Spatial"]
 script = ExtResource( 4 )
@@ -41,10 +44,13 @@ script = ExtResource( 4 )
 [node name="TerrainLOD0" parent="." instance=ExtResource( 1 )]
 material_override = SubResource( 1 )
 is_inner = true
+load_detail_textures = true
+load_fade_textures = true
 
 [node name="TerrainLOD1" parent="." instance=ExtResource( 1 )]
 material_override = SubResource( 2 )
 size = 500.0
+load_fade_textures = true
 
 [node name="TerrainLOD2" parent="." instance=ExtResource( 1 )]
 material_override = SubResource( 3 )
