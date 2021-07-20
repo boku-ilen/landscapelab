@@ -27,6 +27,8 @@ uniform sampler2DArray distance_tex: hint_albedo;
 uniform sampler2DArray distance_normals: hint_normal;
 
 uniform float normal_scale = 1.0;
+uniform float ortho_saturation = 1.4;
+uniform float ortho_blue_shift_factor = 0.9;
 
 varying vec3 camera_pos;
 varying vec3 world_pos;
@@ -43,6 +45,22 @@ void vertex() {
 		VERTEX.y += texture(surface_heightmap, UV).r * height_scale * surface_height_factor;
 	}
 }
+
+// Decrase or increase the color saturation
+// Adapted from http://www.alienryderflex.com/saturation.html
+vec3 saturate_color(vec3 color, float change) {
+	float P = sqrt(color.r * color.r * 0.299
+			+ color.g * color.g * 0.587
+			+ color.b * color.b * 0.114);
+	
+	return vec3(P, P, P) + (color - vec3(P, P, P)) * change;
+}
+
+vec3 shift_blue(vec3 color, float change) {
+	color.b *= change;
+	return color;
+}
+
 
 void fragment() {
 	int splat_id = int(texture(landuse, UV).r * 255.0);
@@ -63,6 +81,7 @@ void fragment() {
 		SPECULAR = texture(specular_tex, scaled_uv).r;
 		ROUGHNESS = texture(roughness_tex, scaled_uv).r;
 	} else {
-		ALBEDO = texture(orthophoto, UV).rgb;
+		vec3 blue_shifted_sample = shift_blue(texture(orthophoto, UV).rgb, ortho_blue_shift_factor);
+		ALBEDO = saturate_color(blue_shifted_sample, ortho_saturation);
 	}
 }
