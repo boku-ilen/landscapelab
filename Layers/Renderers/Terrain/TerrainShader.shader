@@ -12,6 +12,7 @@ uniform sampler2D surface_heightmap;
 
 // Land use-based detail textures
 uniform sampler2D landuse;
+uniform bool has_landuse = false;
 
 uniform sampler2DArray albedo_tex: hint_albedo;
 uniform sampler2DArray normal_tex: hint_normal;
@@ -82,7 +83,7 @@ void fragment() {
 	float ground_texture_scale = metadata_value.g * 128.0; // FIXME: Move scale to uniform
 	float fade_texture_scale = metadata_value.b * 128.0;
 	
-	if (ground_texture_scale > 0.0 && world_distance < 20.0) { // FIXME: Move this threshold to uniform
+	if (ground_texture_scale > 0.0 && has_landuse && world_distance < 20.0) { // FIXME: Move this threshold to uniform
 		vec3 scaled_uv = vec3(UV * size / ground_texture_scale, plant_row);
 		
 		ALBEDO = texture(albedo_tex, scaled_uv).rgb;

@@ -149,6 +149,7 @@ func apply_textures():
 		material_override.set_shader_param("orthophoto", current_texture)
 	
 	if current_landuse:
+		material_override.set_shader_param("has_landuse", true)
 		material_override.set_shader_param("landuse", current_landuse)
 	
 	if current_surface_heightmap:

@@ -65,7 +65,7 @@ func add_test_data():
 	surface_height_layer.geo_raster_layer = geopackage.get_raster_layer("ndom")
 	surface_height_layer.name = "nDSM"
 	
-	# Terrain layer
+	# Realistic Terrain layer
 	var terrain_layer = Layer.new()
 	terrain_layer.render_type = Layer.RenderType.REALISTIC_TERRAIN
 	terrain_layer.render_info = Layer.RealisticTerrainRenderInfo.new()
@@ -73,7 +73,15 @@ func add_test_data():
 	terrain_layer.render_info.texture_layer = ortho_layer.clone()
 	terrain_layer.render_info.landuse_layer = landuse_layer.clone()
 	terrain_layer.render_info.surface_height_layer = surface_height_layer.clone()
-	terrain_layer.name = "Terrain"
+	terrain_layer.name = "Realistic Terrain"
+	
+#	# Basic Terrain layer
+#	var terrain_layer = Layer.new()
+#	terrain_layer.render_type = Layer.RenderType.BASIC_TERRAIN
+#	terrain_layer.render_info = Layer.BasicTerrainRenderInfo.new()
+#	terrain_layer.render_info.height_layer = height_layer.clone()
+#	terrain_layer.render_info.texture_layer = ortho_layer.clone()
+#	terrain_layer.name = "Basic Terrain"
 	
 	# Building layer
 	var building_layer = FeatureLayer.new()
@@ -99,4 +107,4 @@ func add_test_data():
 	Layers.add_layer(landuse_layer)
 	Layers.add_layer(terrain_layer)
 	Layers.add_layer(building_layer)
-	#Layers.add_layer(vegetation_layer)
+	Layers.add_layer(vegetation_layer)
