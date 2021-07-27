@@ -115,7 +115,6 @@ void fragment() {
 	ivec2 cols_rows = sheet_size / sprite_size;
 
 	vec2 scaled_uv = UV / (vec2(sheet_size) / float(sprite_size));
-
 	vec2 uv_offset = vec2(0.0, row / float(cols_rows.y));
 
 	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
@@ -123,16 +122,19 @@ void fragment() {
 	// Make the plant darker at the bottom to simulate some shadowing
 	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)
 	color.rgb *= min(max(size_scaled_uv, fake_shadow_min_multiplier), fake_shadow_height) / fake_shadow_height;
+	
+	// Similarly, vary light transmission based on how far up we are, assuming that leaves etc. are likely higher up
+	TRANSMISSION = vec3(0.5, 0.7, 0.5) * (1.0 - UV.y);
 
 	ALBEDO = color.rgb;
+	
+	// Alpha Scissoring
 	if (color.a < 0.7) {
 		discard;
 	}
 
-	NORMALMAP = texture(normal_map, UV).rgb;
+	// TODO: Add a basic, general plant normal map and apply it here
 
 	METALLIC = 0.0;
-	SPECULAR = texture(specular_map, UV).r;
-	ROUGHNESS = 1.0 - SPECULAR;
-	TRANSMISSION = vec3(0.2, 0.2, 0.2);
+	ROUGHNESS = 0.9;
 }
