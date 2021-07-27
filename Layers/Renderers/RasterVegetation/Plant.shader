@@ -23,12 +23,16 @@ uniform float dist_scale = 5000.0;
 
 uniform float max_distance;
 
+uniform float fake_shadow_height = 1.2;
+uniform float fake_shadow_min_multiplier = 0.25;
+
 varying vec3 worldpos;
 varying vec3 camera_pos;
 
 varying flat float splat_id;
 varying flat float row;
 varying flat float dist_id;
+varying flat float size;
 
 void vertex() {
 	camera_pos = CAMERA_MATRIX[3].xyz;
@@ -64,7 +68,8 @@ void vertex() {
 	dist_id = dist_value.r * 255.0;
 	
 	float size_scale = dist_value.g;
-	VERTEX *= size_scale * 40.0;
+	size = size_scale * 40.0;
+	VERTEX *= size;
 	
 	// FIXME: This is required in the Vegetation editor, but not generally -- fix that there
 	//VERTEX.y -= 1.0;
@@ -114,6 +119,10 @@ void fragment() {
 	vec2 uv_offset = vec2(0.0, row / float(cols_rows.y));
 
 	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
+	
+	// Make the plant darker at the bottom to simulate some shadowing
+	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)
+	color.rgb *= min(max(size_scaled_uv, fake_shadow_min_multiplier), fake_shadow_height) / fake_shadow_height;
 
 	ALBEDO = color.rgb;
 	if (color.a < 0.7) {
