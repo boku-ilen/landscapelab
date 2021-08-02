@@ -133,8 +133,11 @@ void fragment() {
 		discard;
 	}
 
-	// TODO: Add a basic, general plant normal map and apply it here
-
+	// Apply the general (not plant-specific) normal map, but use the scaled UV so it varies based on height
+	NORMALMAP = texture(normal_map, scaled_uv).rgb;
+	NORMALMAP_DEPTH = 8.0; // This is high due to the high transmission (otherwise it's barely noticeable)
+	
+	// Other material parameters
 	METALLIC = 0.0;
 	ROUGHNESS = 0.9;
 }
