@@ -22,6 +22,7 @@ uniform vec2 offset;
 uniform float dist_scale = 5000.0;
 
 uniform float max_distance;
+uniform bool camera_facing;
 
 uniform float fake_shadow_height = 1.2;
 uniform float fake_shadow_min_multiplier = 0.25;
@@ -76,6 +77,12 @@ void vertex() {
 	
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	
+	// Billboarding
+	if (camera_facing) {
+		MODELVIEW_MATRIX = INV_CAMERA_MATRIX * mat4(CAMERA_MATRIX[0],WORLD_MATRIX[1],
+				vec4(normalize(cross(CAMERA_MATRIX[0].xyz,WORLD_MATRIX[1].xyz)), 0.0),WORLD_MATRIX[3]);
+	}
 }
 
 void fragment() {

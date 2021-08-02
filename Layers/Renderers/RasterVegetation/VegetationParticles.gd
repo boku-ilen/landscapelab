@@ -52,6 +52,10 @@ func set_mesh(new_mesh):
 	draw_pass_1 = new_mesh
 
 
+func set_camera_facing(is_camera_facing: bool) -> void:
+	material_override.set_shader_param("camera_facing", is_camera_facing)
+
+
 # Updates the visibility AABB which is used for culling.
 func update_aabb():
 	var size = rows * spacing

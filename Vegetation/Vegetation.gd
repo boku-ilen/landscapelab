@@ -356,8 +356,14 @@ func get_renderers() -> Spatial:
 		var renderer = preload("res://Layers/Renderers/RasterVegetation/VegetationParticles.tscn").instance()
 		
 		renderer.density_class = density_class
-		# TODO: Remove hardcoded path
-		renderer.set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
+		
+		# TODO: Decide whether to use camera-facing billboards based on the density class!
+		if true:
+			renderer.set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard_camerafacing.obj"))
+			renderer.set_camera_facing(true)
+		else:
+			renderer.set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
+			renderer.set_camera_facing(false)
 		
 		root.add_child(renderer)
 	
