@@ -51,3 +51,4 @@ script = ExtResource( 6 )
 
 [node name="SetPositionRequestHandler" type="Node" parent="."]
 script = ExtResource( 8 )
+target_path = NodePath("..")
