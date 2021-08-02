@@ -44,6 +44,9 @@ var loading = false
 var _dependent_object_count := 0
 var _dependent_objects_loaded := 0
 
+# Fallback height for conversions where no height is given, but the output expects one
+const DEFAULT_HEIGHT = 500
+
 
 func _ready():
 	inject_offset_properties()
@@ -155,15 +158,16 @@ func to_world_coordinates(pos):
 
 
 # Converts world coordinates (absolute webmercator coordinates) to engine coordinates.
-# Works with Vector2 (top view) and Vector3.
-func to_engine_coordinates(pos):
+# Works with 2D and 3D arrays, but always returns a Vector3.
+func to_engine_coordinates(pos: Array) -> Vector3:
 	if pos is Array and pos.size() == 2:
-		return Vector2(x - pos[0], -pos[1] + z)
+		return Vector3(-x + pos[0], DEFAULT_HEIGHT, -pos[1] + z)
 	elif pos is Array and pos.size() == 3:
 		return Vector3(x - pos[0], pos[1], -pos[2] + z)
 	else:
 		logger.warning("Invalid type for to_engine_coordinates: %s; Needs to be Array with length of 2 or 3"
 		 % [String(typeof(pos))])
+		return Vector3(0, 0, 0)
 
 
 # Converts any position from array to vector of vice versa
