@@ -37,11 +37,44 @@ varying vec3 camera_pos;
 varying vec3 world_pos;
 varying float world_distance;
 
+float get_height(vec2 uv) {
+	return texture(heightmap, uv).r * height_scale;
+}
+
+vec3 get_normal(vec2 normal_uv_pos) {
+	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
+	// e is the offset factor.
+	float texture_size = float(textureSize(heightmap, 0).x);
+	float e = 1.0 / 100.0; // TODO: Take resolution as a uniform var and use that here
+	
+	// Sobel filter for getting the normal at this position
+	float bottom_left = get_height(normal_uv_pos + vec2(-e, -e));
+	float bottom_center = get_height(normal_uv_pos + vec2(0, -e));
+	float bottom_right = get_height(normal_uv_pos + vec2(e, -e));
+	
+	float center_left = get_height(normal_uv_pos + vec2(-e, 0));
+	float center_center = get_height(normal_uv_pos + vec2(0, 0));
+	float center_right = get_height(normal_uv_pos + vec2(e, 0));
+	
+	float top_left = get_height(normal_uv_pos + vec2(-e, e));
+	float top_center = get_height(normal_uv_pos + vec2(0, e));
+	float top_right = get_height(normal_uv_pos + vec2(e, e));
+	
+	vec3 long_normal;
+	
+	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left) / 100.0;
+	long_normal.y = (top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right) / 100.0;
+	long_normal.z = 1.0;
+
+	return normalize(long_normal);
+}
+
 void vertex() {
 	world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	world_distance = length(world_pos.xz);
 	
-	VERTEX.y = texture(heightmap, UV).r * height_scale;
+	VERTEX.y = get_height(UV);
+	NORMAL = get_normal(UV);
 	
 	if (has_surface_heights) {
 		float surface_height_factor = float(world_distance > surface_heights_start_distance);
@@ -88,6 +121,7 @@ void fragment() {
 		
 		ALBEDO = texture(albedo_tex, scaled_uv).rgb;
 		NORMALMAP = texture(normal_tex, scaled_uv).rgb;
+		NORMALMAP_DEPTH = 2.5;
 		AO = texture(ambient_tex, scaled_uv).r;
 		SPECULAR = texture(specular_tex, scaled_uv).r;
 		ROUGHNESS = texture(roughness_tex, scaled_uv).r;
