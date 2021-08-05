@@ -25,8 +25,10 @@ func handle_request(request: Dictionary) -> Dictionary:
 			logger.warning("could not register LabTable - ProgrammingError!")
 			
 	# answer the lab table settings
-	var answer = { "success": true }
-	for key in request:
-		answer[key] = Settings.get_setting("labtable", key)
+	var answer = Settings.get_setting_section("labtable")
+	if answer:
+		answer["success"] = true
+	else:
+		answer["success"] = false
 	
 	return answer
