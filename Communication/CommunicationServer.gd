@@ -96,12 +96,30 @@ func _on_data(id):
 	# unpack the received data
 	var packet = self._ws_server.get_peer(id).get_packet()
 	var string = packet.get_string_from_utf8()
-	var json_dict = JSON.parse(string).result
+	var json_result = JSON.parse(string)
+	
+	# Validation
+	if not json_result.error == OK:
+		logger.error("Received invalid JSON data in request: %s" % [string])
+		return
+	
+	var json_dict = json_result.result
 	
 	logger.debug("received request from %s with data %s" % [id, json_dict], LOG_MODULE)
 	
+	if not json_dict.has("message_id"):
+		logger.error("Missing message ID in request! Aborting...")
+		return
+	
 	var message_id = json_dict["message_id"]
+	
+	if not json_dict.has("keyword"):
+		logger.error("Missing keyword field in request with ID %s!" % [message_id])
+		return
+	
 	var keyword = json_dict["keyword"]
+	
+	# Remove these meta parameters for further handling
 	json_dict.erase("message_id")
 	json_dict.erase("keyword")
 	

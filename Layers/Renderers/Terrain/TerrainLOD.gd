@@ -11,16 +11,35 @@ export(float) var size = 100
 
 export(int) var heightmap_resolution = 100
 export(int) var ortho_resolution = 1000
+export(int) var landuse_resolution = 100
+
+export(bool) var load_detail_textures = false
+export(bool) var load_fade_textures = false
+
+const MAX_GROUPS = 3
 
 var position_x
 var position_y
 
 var height_layer
 var texture_layer
+var landuse_layer
+var surface_height_layer
 
-var current_heightmap_raw
 var current_heightmap
 var current_texture
+var current_landuse
+var current_surface_heightmap
+var current_metadata_map
+
+var current_albedo_ground_textures
+var current_normal_ground_textures
+var current_specular_ground_textures
+var current_ambient_ground_textures
+var current_roughness_ground_textures
+
+var current_albedo_fade_textures
+var current_normal_fade_textures
 
 signal updated_data
 
@@ -41,12 +60,16 @@ func rebuild_aabb():
 
 
 func build():
+	# FIXME: Find out what causes thread unsafety of this function paired with VegetationParticles.update_textures_with_images()
+	Vegetation.load_mutex.lock()
+	
 	var top_left_x = position_x - size / 2
 	var top_left_y = position_y + size / 2
 	
 	scale.x = size / mesh_size
 	scale.z = size / mesh_size
 	
+	# Heightmap
 	var current_height_image = height_layer.get_image(
 		top_left_x,
 		top_left_y,
@@ -57,27 +80,93 @@ func build():
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
-		current_heightmap_raw = current_height_image.get_image()
 	
+	# Texture
+	if texture_layer:
+		var current_ortho_image = texture_layer.get_image(
+			top_left_x,
+			top_left_y,
+			size,
+			ortho_resolution,
+			1
+		)
+		
+		if current_ortho_image.is_valid():
+			current_texture = current_ortho_image.get_image_texture()
 	
-	var current_ortho_image = texture_layer.get_image(
-		top_left_x,
-		top_left_y,
-		size,
-		ortho_resolution,
-		1
-	)
+	# Land Use
+	if landuse_layer and (load_detail_textures or load_fade_textures):
+		var current_landuse_image = landuse_layer.get_image(
+			top_left_x,
+			top_left_y,
+			size,
+			landuse_resolution,
+			0
+		)
+		
+		if current_landuse_image.is_valid():
+			current_landuse = current_landuse_image.get_image_texture()
+			var most_common_groups = current_landuse_image.get_most_common(MAX_GROUPS)
+			var group_array = Vegetation.get_group_array_for_ids(most_common_groups)
+			
+			current_metadata_map = Vegetation.get_metadata_map(most_common_groups)
+			
+			if load_detail_textures:
+				current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+				current_normal_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "normal")
+				current_specular_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "specular")
+				current_ambient_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "ambient")
+				current_roughness_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "roughness")
+			
+			if load_fade_textures:
+				pass
+				#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+				#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
 	
-	if current_ortho_image.is_valid():
-		current_texture = current_ortho_image.get_image_texture()
+	# Surface Height
+	if surface_height_layer:
+		var current_surface_height_image = surface_height_layer.get_image(
+			top_left_x,
+			top_left_y,
+			size,
+			heightmap_resolution,
+			1
+		)
+		
+		if current_surface_height_image.is_valid():
+			current_surface_heightmap = current_surface_height_image.get_image_texture()
+	
+	Vegetation.load_mutex.unlock()
 
 
 func apply_textures():
-	if current_heightmap and current_texture:
+	material_override.set_shader_param("size", size)
+	
+	if current_heightmap:
 		material_override.set_shader_param("heightmap", current_heightmap)
+	
+	if current_texture:
 		material_override.set_shader_param("orthophoto", current_texture)
-		
-		visible = true
-		
-		if has_node("CollisionMeshCreator"):
-			$CollisionMeshCreator.create_mesh(current_heightmap, size)
+	
+	if current_landuse:
+		material_override.set_shader_param("has_landuse", true)
+		material_override.set_shader_param("landuse", current_landuse)
+	
+	if current_surface_heightmap:
+		material_override.set_shader_param("has_surface_heights", true)
+		material_override.set_shader_param("surface_heightmap", current_surface_heightmap)
+	
+	if current_metadata_map:
+		material_override.set_shader_param("metadata", current_metadata_map)
+	
+	if current_albedo_ground_textures:
+		material_override.set_shader_param("albedo_tex", current_albedo_ground_textures)
+		material_override.set_shader_param("normal_tex", current_normal_ground_textures)
+		material_override.set_shader_param("ambient_tex", current_ambient_ground_textures)
+		material_override.set_shader_param("specular_tex", current_specular_ground_textures)
+		material_override.set_shader_param("roughness_tex", current_roughness_ground_textures)
+	
+	visible = true
+	
+	if has_node("CollisionMeshCreator"):
+		$CollisionMeshCreator.create_mesh(current_heightmap, size)

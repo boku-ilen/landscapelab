@@ -182,7 +182,15 @@ func fly(delta):
 	
 	var target = direction * WALK_SPEED if walking else direction * FLY_SPEED
 	
-	# Apply the movement
+	# If the player would move outside of the boundary, keep them inside
+	var future_world_coordinates = position_manager.to_world_coordinates(translation + target * delta)
+	var boundary = position_manager.get_rendered_boundary()
+	
+	if future_world_coordinates[0] < boundary[0]: target.x += (boundary[0] - future_world_coordinates[0]) / delta
+	if future_world_coordinates[0] > boundary[1]: target.x -= (future_world_coordinates[0] - boundary[1]) / delta
+	if future_world_coordinates[2] < boundary[2]: target.z -= (boundary[2] - future_world_coordinates[2]) / delta
+	if future_world_coordinates[2] > boundary[3]: target.z += (future_world_coordinates[2] - boundary[3]) / delta
+	
 	move_and_slide(target)
 	
 	if walking:

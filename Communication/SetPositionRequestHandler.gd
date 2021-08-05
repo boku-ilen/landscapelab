@@ -4,14 +4,22 @@ class_name SetPositionRequestHandler
 #
 # Handles "set position" requests and sets the position on the target node accordingly.
 #
+# Example request data:
+# {
+# "message_id": 1,
+# "keyword": "TELEPORT_TO",
+# "position": [420500, 453950]
+# }
+#
 
 
-export(NodePath) var target
+export(NodePath) var target_path
+onready var target = get_node(target_path)
 
 
 # set the protocol keyword
 func _init():
-	protocol_keyword = "TABLE_EXTENT"
+	protocol_keyword = "TELEPORT_TO"
 
 
 func handle_request(request: Dictionary) -> Dictionary:

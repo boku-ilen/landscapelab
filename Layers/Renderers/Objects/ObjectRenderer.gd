@@ -1,19 +1,22 @@
 extends LayerRenderer
 
-var radius = 1000
+var radius = 800
 var max_features = 50
+
+var features
 
 
 func load_new_data():
-	var features = layer.get_features_near_position(center[0], center[1], radius, max_features)
-	
-	for feature in features:
-		apply_new_feature(feature)
+	features = layer.get_features_near_position(center[0], center[1], radius, max_features)
 
 
 func apply_new_data():
-	# FIXME: add_children here instead of in load_new_data!
-	pass
+	# First clear the old objects, then add the new ones
+	for child in get_children():
+		child.free()
+	
+	for feature in features:
+		apply_new_feature(feature)
 
 
 func apply_new_feature(feature):

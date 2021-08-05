@@ -3,8 +3,8 @@
 [ext_resource path="res://Layers/Renderers/RasterVegetation/VegetationParticles.gd" type="Script" id=1]
 [ext_resource path="res://Layers/Renderers/RasterVegetation/Plant.shader" type="Shader" id=2]
 [ext_resource path="res://Layers/Renderers/RasterVegetation/VegetationLayer.shader" type="Shader" id=3]
-[ext_resource path="res://Resources/Meshes/VegetationBillboard/1m_billboard.obj" type="ArrayMesh" id=4]
 [ext_resource path="res://Resources/Textures/ShaderUtil/rgb_noise.png" type="Texture" id=5]
+[ext_resource path="res://Resources/Textures/ShaderUtil/noise_normal_fine.png" type="Texture" id=6]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -17,6 +17,10 @@ shader_param/heightmap_size = Vector2( 300, 300 )
 shader_param/offset = null
 shader_param/dist_scale = 5000.0
 shader_param/max_distance = null
+shader_param/camera_facing = null
+shader_param/fake_shadow_height = 1.2
+shader_param/fake_shadow_min_multiplier = 0.25
+shader_param/normal_map = ExtResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
@@ -39,7 +43,6 @@ explosiveness = 1.0
 visibility_aabb = AABB( -150, -150, -150, 300, 300, 300 )
 local_coords = false
 process_material = SubResource( 2 )
-draw_pass_1 = ExtResource( 4 )
 script = ExtResource( 1 )
 rows = 300
 spacing = 0.5

@@ -30,7 +30,7 @@ func _reload():
 		icon.texture = raster_icon
 	elif layer is FeatureLayer:
 		icon.texture = feature_icon
-	elif layer.render_type == layer.RenderType.TERRAIN:
+	elif layer.render_type == layer.RenderType.BASIC_TERRAIN:
 		icon.texture = terrain_icon
 	
 	if layer != null:

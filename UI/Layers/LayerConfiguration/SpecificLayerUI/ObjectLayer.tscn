@@ -6,7 +6,6 @@
 [ext_resource path="res://Util/Warning.tscn" type="PackedScene" id=4]
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn" type="PackedScene" id=5]
 
-
 [node name="ObjectLayer" type="HSplitContainer"]
 margin_right = 1024.0
 margin_bottom = 150.0
@@ -18,7 +17,7 @@ __meta__ = {
 
 [node name="LeftBox" type="VBoxContainer" parent="."]
 margin_right = 225.0
-margin_bottom = 284.0
+margin_bottom = 348.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -63,7 +62,7 @@ text = "Object:"
 [node name="RightBox" type="VBoxContainer" parent="."]
 margin_left = 249.0
 margin_right = 1024.0
-margin_bottom = 284.0
+margin_bottom = 348.0
 
 [node name="Spacer" type="Control" parent="RightBox"]
 margin_right = 775.0
@@ -94,7 +93,7 @@ margin_right = 775.0
 margin_top = 244.0
 margin_right = 775.0
 margin_bottom = 284.0
-filters = PoolStringArray( "*.tscn" )
+filters = PoolStringArray( "*.tscn", "*.obj" )
 
 [node name="FileName" parent="RightBox/ObjectChooser" index="0"]
 margin_right = 666.0
@@ -103,12 +102,22 @@ margin_right = 666.0
 margin_left = 674.0
 margin_right = 775.0
 
+[node name="FileDialog" parent="RightBox/ObjectChooser/Button" index="0"]
+current_dir = "/run/media/karl/Nextcloud/Boku/landscapelab"
+current_path = "/run/media/karl/Nextcloud/Boku/landscapelab/"
+
 [node name="Warning" parent="RightBox" instance=ExtResource( 4 )]
 visible = false
-margin_top = 154.0
-margin_right = 882.0
-margin_bottom = 192.0
+margin_top = 292.0
+margin_right = 775.0
+margin_bottom = 330.0
+
+[node name="Label" type="Label" parent="RightBox"]
+margin_top = 292.0
+margin_right = 775.0
+margin_bottom = 348.0
+text = "The selected file can either be a native scene or an external OBJ (with an accompanying MTL)."
+autowrap = true
 
 [editable path="RightBox/GeodataChooserHeight"]
-
 [editable path="RightBox/ObjectChooser"]

@@ -11,7 +11,7 @@ export(NodePath) var target
 
 # set the protocol keyword
 func _init():
-	protocol_keyword = "TELEPORT_TO"
+	protocol_keyword = "TABLE_EXTENT"
 
 
 func handle_request(request: Dictionary) -> Dictionary:

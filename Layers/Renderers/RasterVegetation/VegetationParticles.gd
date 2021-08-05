@@ -52,6 +52,10 @@ func set_mesh(new_mesh):
 	draw_pass_1 = new_mesh
 
 
+func set_camera_facing(is_camera_facing: bool) -> void:
+	material_override.set_shader_param("camera_facing", is_camera_facing)
+
+
 # Updates the visibility AABB which is used for culling.
 func update_aabb():
 	var size = rows * spacing
@@ -116,6 +120,9 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 #  artificially created data. Is also called internally when `update_textures` is used.
 # Should be called in a thread to avoid stalling the main thread.
 func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
+	# FIXME: Find out what causes thread unsafety of this function paired with TerrainLOD.build()
+	Vegetation.load_mutex.lock()
+	
 	heightmap = dhm
 	splatmap = splat
 	
@@ -131,6 +138,7 @@ func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	#  groups. Then, we don't need to render anything.
 	if not billboard_tex:
 		visible = false
+		Vegetation.load_mutex.unlock()
 		return
 	else:
 		visible = true
@@ -145,6 +153,8 @@ func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	
 	distribution_tex = ImageTexture.new()
 	distribution_tex.create_from_image(distribution_sheet, ImageTexture.FLAG_REPEAT)
+	
+	Vegetation.load_mutex.unlock()
 
 
 # Apply data which has previously been loaded with `update_textures`.

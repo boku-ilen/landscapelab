@@ -40,10 +40,30 @@ func assign_specific_layer_info(layer: Layer):
 		return
 
 	var file2Check = File.new()
-	var is_valid_spatial = file2Check.file_exists(file_path_object_scene.text)
+	var file_exists = file2Check.file_exists(file_path_object_scene.text)
 	
-	if !validate(objects) or !validate(height) or !is_valid_spatial:
+	if !validate(objects) or !validate(height) or !file_exists:
 		print_warning("Invalid layers!")
+		return
+	
+	# Check whether we're loading a native scene or an external OBJ and create a scene accordingly
+	var object_scene
+	if file_path_object_scene.text.ends_with(".tscn"):
+		object_scene = load(file_path_object_scene.text)
+	elif file_path_object_scene.text.ends_with(".obj"):
+		# Load the material and mesh
+		var material_path = file_path_object_scene.text.replace(".obj", ".mtl")
+		var mesh = ObjParse.parse_obj(file_path_object_scene.text, material_path)
+		
+		# Put the resulting mesh into a node
+		var mesh_instance = MeshInstance.new()
+		mesh_instance.mesh = mesh
+		
+		# Pack the node into a scene
+		object_scene = PackedScene.new()
+		object_scene.pack(mesh_instance)
+	else:
+		print_warning("Invalid Object file!")
 		return
 
 	var height_layer = RasterLayer.new()
@@ -52,7 +72,7 @@ func assign_specific_layer_info(layer: Layer):
 
 	layer.geo_feature_layer = objects
 	layer.render_type = Layer.RenderType.OBJECT
-	layer.render_info.object = load(file_path_object_scene.text)
+	layer.render_info.object = object_scene
 	layer.render_info.ground_height_layer = height_layer.clone()
 
 

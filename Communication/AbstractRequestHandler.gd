@@ -1,12 +1,16 @@
 extends Node
 class_name AbstractRequestHandler
 
-# this is the base class for all request handlers. Each request handler implements
-# answering a certain request (protocol_keyword). This has to be set by the specific
-# subclass
+#
+# Base class for all request handlers. Each request handler implements the handling and answering of a certain request
+# (specified via protocol_keyword). This protocol_keyword needs to be set by the specific subclass.
+#
+# Request handlers automatically register themselves with the CommunicationServer, so there is no need for any global
+# access or polling in specialized classes - these should be implemented as normal local nodes.
+#
 
 var protocol_keyword = null # each subclass has to set this to identify which requests are handled
-var parameter_list = {}  # FIXME: do we need this?
+var parameter_list = {}  # FIXME: do we need this? might be practical for documentation and validation
 var _server = CommunicationServer  # internal reference to the singleton
 
 

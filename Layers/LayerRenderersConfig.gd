@@ -1,12 +1,17 @@
 extends Configurator
 
 
+var renderers = {
+	Layer.RenderType.BASIC_TERRAIN: preload("res://Layers/Renderers/Terrain/BasicTerrainRenderer.tscn"),
+	Layer.RenderType.REALISTIC_TERRAIN: preload("res://Layers/Renderers/Terrain/RealisticTerrainRenderer.tscn"),
+	Layer.RenderType.POLYGON: preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn"),
+	Layer.RenderType.VEGETATION: preload("res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.tscn"),
+	Layer.RenderType.OBJECT: preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn"),
+	Layer.RenderType.PATH: preload("res://Layers/Renderers/Path/PathRenderer.tscn")
+}
+
+
 var layer_renderer = preload("res://Layers/LayerRenderer.tscn")
-var terrain_renderer = preload("res://Layers/Renderers/Terrain/TerrainRenderer.tscn")
-var polygon_renderer = preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn")
-var raster_vegetation_renderer = preload("res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.tscn")
-var object_renderer = preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn")
-var path_renderer = preload("res://Layers/Renderers/Path/PathRenderer.tscn")
 
 onready var layer_renderers = get_parent()
 
@@ -23,21 +28,11 @@ func _ready():
 
 
 func add_layer(layer: Layer):
-	var new_layer
+	if not renderers.has(layer.render_type):
+		logger.error("Unknown render type for rendered layer: %s" % [str(layer.render_type)])
+		return
 	
-	if layer.render_type == Layer.RenderType.TERRAIN:
-		new_layer = terrain_renderer.instance()
-	elif layer.render_type == Layer.RenderType.POLYGON:
-		new_layer = polygon_renderer.instance()
-	elif layer.render_type == Layer.RenderType.VEGETATION:
-		new_layer = raster_vegetation_renderer.instance()
-	elif layer.render_type == Layer.RenderType.OBJECT:
-		new_layer = object_renderer.instance()
-	elif layer.render_type == Layer.RenderType.PATH:
-		new_layer = path_renderer.instance()
-	else:
-		# TODO
-		new_layer = layer_renderer.instance()
+	var new_layer = renderers[layer.render_type].instance()
 	
 	new_layer.layer = layer
 	new_layer.name = layer.name

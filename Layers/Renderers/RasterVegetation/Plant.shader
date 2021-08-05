@@ -22,6 +22,10 @@ uniform vec2 offset;
 uniform float dist_scale = 5000.0;
 
 uniform float max_distance;
+uniform bool camera_facing;
+
+uniform float fake_shadow_height = 1.2;
+uniform float fake_shadow_min_multiplier = 0.25;
 
 varying vec3 worldpos;
 varying vec3 camera_pos;
@@ -29,6 +33,7 @@ varying vec3 camera_pos;
 varying flat float splat_id;
 varying flat float row;
 varying flat float dist_id;
+varying flat float size;
 
 void vertex() {
 	camera_pos = CAMERA_MATRIX[3].xyz;
@@ -64,13 +69,20 @@ void vertex() {
 	dist_id = dist_value.r * 255.0;
 	
 	float size_scale = dist_value.g;
-	VERTEX *= size_scale * 40.0;
+	size = size_scale * 40.0;
+	VERTEX *= size;
 	
 	// FIXME: This is required in the Vegetation editor, but not generally -- fix that there
 	//VERTEX.y -= 1.0;
 	
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	
+	// Billboarding
+	if (camera_facing) {
+		MODELVIEW_MATRIX = INV_CAMERA_MATRIX * mat4(CAMERA_MATRIX[0],WORLD_MATRIX[1],
+				vec4(normalize(cross(CAMERA_MATRIX[0].xyz,WORLD_MATRIX[1].xyz)), 0.0),WORLD_MATRIX[3]);
+	}
 }
 
 void fragment() {
@@ -110,20 +122,29 @@ void fragment() {
 	ivec2 cols_rows = sheet_size / sprite_size;
 
 	vec2 scaled_uv = UV / (vec2(sheet_size) / float(sprite_size));
-
 	vec2 uv_offset = vec2(0.0, row / float(cols_rows.y));
 
 	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
+	
+	// Make the plant darker at the bottom to simulate some shadowing
+	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)
+	color.rgb *= min(max(size_scaled_uv, fake_shadow_min_multiplier), fake_shadow_height) / fake_shadow_height;
+	
+	// Similarly, vary light transmission based on how far up we are, assuming that leaves etc. are likely higher up
+	TRANSMISSION = vec3(0.5, 0.7, 0.5) * (1.0 - UV.y);
 
 	ALBEDO = color.rgb;
+	
+	// Alpha Scissoring
 	if (color.a < 0.7) {
 		discard;
 	}
 
-	NORMALMAP = texture(normal_map, UV).rgb;
-
+	// Apply the general (not plant-specific) normal map, but use the scaled UV so it varies based on height
+	NORMALMAP = texture(normal_map, scaled_uv).rgb;
+	NORMALMAP_DEPTH = 8.0; // This is high due to the high transmission (otherwise it's barely noticeable)
+	
+	// Other material parameters
 	METALLIC = 0.0;
-	SPECULAR = texture(specular_map, UV).r;
-	ROUGHNESS = 1.0 - SPECULAR;
-	TRANSMISSION = vec3(0.2, 0.2, 0.2);
+	ROUGHNESS = 0.9;
 }

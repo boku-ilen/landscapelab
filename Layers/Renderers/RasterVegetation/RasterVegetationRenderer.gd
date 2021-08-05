@@ -14,6 +14,9 @@ func load_new_data():
 
 
 func apply_new_data():
+	for child in get_children():
+		child.queue_free()
+	
 	for renderer in renderers.get_children():
 		renderer.apply_data()
 	

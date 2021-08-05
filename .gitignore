@@ -16,3 +16,9 @@ settings.ini
 
 # Geodot is added separately
 addons/geodot
+
+# godot-python is also installed separately
+addons/pythonscript
+
+# Python-specific
+*/__pycache__

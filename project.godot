@@ -140,6 +140,11 @@ _global_script_classes=[ {
 "path": "res://Objects/Superclasses/MovableObject.gd"
 }, {
 "base": "Node",
+"class": "ObjParse",
+"language": "GDScript",
+"path": "res://addons/obj-parse/ObjParse.gd"
+}, {
+"base": "Node",
 "class": "ObjectBroker",
 "language": "GDScript",
 "path": "res://GameEngine/ObjectBroker.gd"
@@ -271,6 +276,7 @@ _global_script_class_icons={
 "Module": "",
 "ModuleHandler": "",
 "MoveableObject": "",
+"ObjParse": "",
 "ObjectBroker": "",
 "Plant": "",
 "PlantGroup": "",
@@ -623,6 +629,16 @@ layer_add_feature={
 layer_end_feature={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+snapping={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"unicode":0,"echo":false,"script":null)
+ ]
+}
+snapping_grid={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
  ]
 }
 

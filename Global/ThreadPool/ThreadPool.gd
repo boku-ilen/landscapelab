@@ -13,10 +13,8 @@ extends Node
 const BlockingQueue = preload("res://Global/ThreadPool/BlockingQueue.gd")
 
 const THREAD_COUNT_AT_PRIORITY = [
-	2,
-	2,
-	2,
-	1
+	4,
+	4
 ]
 
 var task_queues = []
@@ -61,14 +59,15 @@ func enqueue_task(task, priority=0):
 # with the set parameters. Note that the function has to take the arguments in the 
 # form of a single array.
 class Task:
-
 	var obj
 	var ref
 	var method
 	var params
+	
+	signal finished
 
 
-	func _init(obj, method, params):
+	func _init(obj, method, params=null):
 		self.obj = obj
 		self.ref = weakref(obj)
 		self.method = method
@@ -81,6 +80,13 @@ class Task:
 		# As proposed here: https://godotengine.org/qa/10085/how-to-know-a-node-is-freed-or-deleted
 		# Note that this should always succeed if all usages of the ThreadPool are correctly programmed!
 		if ref.get_ref():
-			obj.call(method, params) 
+			if params:
+				obj.call(method, params) 
+			else:
+				obj.call(method)
 		else:
-			logger.error("Thread was supposed to call %s, but the object didn't exist anymore!" % [method])
+			pass
+			# FIXME: Would be nice to log this, but this is likely not thread-safe either!
+			#logger.error("Thread was supposed to call %s, but the object didn't exist anymore!" % [method])
+		
+		call_deferred("emit_signal", "finished")

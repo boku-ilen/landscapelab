@@ -28,10 +28,10 @@ func _ready():
 
 
 func _process(delta):
-	var engine_pos = get_node(pc_player_path).transform.origin
-	var geo_pos = engine_pos + Vector3(get_node(pos_manager_path).x, 0, get_node(pos_manager_path).z)
+	var engine_pos = get_node(pc_player_path).translation
+	var geo_pos = get_node(pos_manager_path).to_world_coordinates(engine_pos)
 	var formatted = "Engine-Position: x=%.2f, y=%.2f, z=%.2f\n\nGeo-Position: x=%.2f, y=%.2f, z=%.2f"
-	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos.x, geo_pos.y, geo_pos.z]
+	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos[0], geo_pos[1], geo_pos[2]]
 	
 	$MarginContainer/Split/Right/Mid/HBoxContainer/Position.text = formatted
 

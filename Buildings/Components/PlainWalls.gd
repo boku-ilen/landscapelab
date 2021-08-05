@@ -13,6 +13,16 @@ var height = 2.5
 var texture_scale = 2.5  # Size of the texture in meters - likely identical to the height
 
 
+func set_texture(texture):
+	$MeshInstance.material_override.albedo_texture = texture
+
+
+func set_normalmap(texture):
+	$MeshInstance.material_override.normal_enabled = true
+	$MeshInstance.material_override.normal_scale = 5.0
+	$MeshInstance.material_override.normal_texture = texture
+
+
 func build(footprint: PoolVector2Array):
 	var st = SurfaceTool.new()
 	
@@ -42,6 +52,9 @@ func build(footprint: PoolVector2Array):
 		var distance_to_next_point = max(0.1, point_3d.distance_to(next_point_3d)) # to prevent division by 0
 		
 		if (wind_counterclockwise):
+			var tangent_plane = Plane(next_point_3d, point_up_3d, point_3d)
+			st.add_tangent(tangent_plane)
+			
 			# First triangle of the wall
 			st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
 			st.add_vertex(next_point_3d)
@@ -62,6 +75,9 @@ func build(footprint: PoolVector2Array):
 			st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
 			st.add_vertex(next_point_3d)
 		else:
+			var tangent_plane = Plane(point_3d, point_up_3d, next_point_3d)
+			st.add_tangent(tangent_plane)
+			
 			# First triangle of the wall
 			st.add_uv(Vector2(0.0, 0.0))
 			st.add_vertex(point_3d)
@@ -86,4 +102,6 @@ func build(footprint: PoolVector2Array):
 	
 	# Apply
 	var mesh = st.commit()
-	get_node("MeshInstance").mesh = mesh
+	$MeshInstance.mesh = mesh
+	
+	

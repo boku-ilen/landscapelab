@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
@@ -16,6 +16,8 @@
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" type="Texture" id=15]
 [ext_resource path="res://UI/Layers/LayerManagement/LayerManagement.gd" type="Script" id=16]
+[ext_resource path="res://UI/LoadingLabel.gd" type="Script" id=17]
+[ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=18]
 [ext_resource path="res://UI/ValuesMenu/ValuesMenu.tscn" type="PackedScene" id=19]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
 [ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
@@ -182,6 +184,7 @@ size_flags_vertical = 3
 margin_right = 1346.0
 script = ExtResource( 16 )
 layer_ui_path = NodePath("../../../Right/Right/Bot/LayerUI")
+pos_manager_path = NodePath("../WorldViewPort/Viewport/World")
 
 [node name="WorldViewPort" type="ViewportContainer" parent="MarginContainer/Split/Right/Mid/VBoxContainer"]
 margin_top = 4.0
@@ -202,11 +205,24 @@ rect_min_size = Vector2( 40, 40 )
 texture_normal = ExtResource( 15 )
 texture_name = "fullscreen"
 
+[node name="LoadingLabel" type="Label" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
+anchor_top = 0.96
+anchor_bottom = 0.96
+margin_right = 154.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 18 )
+text = "Loading new data..."
+script = ExtResource( 17 )
+layer_renderers_path = NodePath("../Viewport/World/Terrain/LayerRenderers")
+
 [node name="Viewport" type="Viewport" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
 size = Vector2( 1346, 857 )
 handle_input_locally = false
 render_target_update_mode = 3
 gui_disable_input = true
+shadow_atlas_size = 2048
 
 [node name="World" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport" instance=ExtResource( 12 )]
 center_node_path = NodePath("../../../VBoxContainer2/WorldViewPort/Viewport/World/FirstPersonPC")
@@ -336,7 +352,6 @@ texture_normal = ExtResource( 4 )
 expand = false
 stretch_mode = 0
 texture_name = "vr"
-default_color = Color( 0, 0, 0, 1 )
 signal_pressed = "vr_enable"
 signal_released = "vr_disable"
 
@@ -390,5 +405,4 @@ mouse_filter = 2
 visible = false
 
 [editable path="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World"]
-
 [editable path="CenterContainer/StartScene"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Layers/Renderers/Terrain/lod_mesh_hole.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Layers/Renderers/Terrain/lod_mesh_hole_doubleres.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Layers/Renderers/Terrain/lod_mesh_full.obj" type="ArrayMesh" id=2]
 [ext_resource path="res://Layers/Renderers/Terrain/TerrainLOD.gd" type="Script" id=3]
 [ext_resource path="res://Layers/Renderers/Terrain/TerrainShader.tres" type="Material" id=4]
