@@ -8,6 +8,12 @@
 
 We currently don't provide an executable runtime package.
 
+## Using the optional Python features
+
+1. Install the _PythonScript_ addon from the Godot Assetlib (the tab next to _2D_, _3D_ and _Script_)
+2. Run ensurepip in the installed Python environment (on Linux: `addons/pythonscript/x11-64/bin/python3.8 -m ensurepip`)
+3. Install the requirements: `addons/pythonscript/x11-64/bin/python3.8 -m pip install -r Python/requirements.txt`
+
 ## Credits
 
 A build of our [Geodot plugin](https://github.com/boku-ilen/geodot-plugin) is included, along with the required GDAL library. All credits for GDAL go to [OSGeo/gdal](https://github.com/OSGeo/gdal/) ([license](https://raw.githubusercontent.com/OSGeo/gdal/master/gdal/LICENSE.TXT)).
