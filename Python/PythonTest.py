@@ -10,30 +10,14 @@ import numpy as np
 
 @exposed
 class PythonTest(Node):
-
-	# member variables here, example:
-	a = export(int)
-	b = export(str, default='foo')
-	
 	def numpy_array_to_image(self, array):
 		image = Image()
 		
 		width = array.shape[0]
 		height = array.shape[1]
 		
-		image.create(height, width, False, Image.FORMAT_RGB8)
-		
-		image.lock()
-		
-		print("set pixel start")
-		for x in range(width):
-			for y in range(height):
-				val = array[x][y]
-				image.set_pixel(y, x, Color(val[0], val[1], val[2]))
-		
-		print("set pixel end")
-		
-		image.unlock()
+		pool_array = PoolByteArray(array.flatten())
+		image.create_from_data(height, width, False, Image.FORMAT_RGB8, pool_array)
 		
 		return image
 
@@ -48,7 +32,7 @@ class PythonTest(Node):
 		y = np.sin(x)
 		plot.plot(x, y, color='red')
 
-		canvas.draw()       # draw the canvas, cache the renderer
+		canvas.draw()
 
 		image_from_plot = np.frombuffer(canvas.tostring_rgb(), dtype=np.uint8)
 		image_from_plot = image_from_plot.reshape(canvas.get_width_height()[::-1] + (3,))
