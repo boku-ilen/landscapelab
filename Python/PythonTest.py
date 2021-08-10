@@ -1,5 +1,7 @@
 from godot import exposed, export
 from godot import *
+import os
+import sys
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -43,4 +45,3 @@ class PythonTest(Node):
 		image_texture.create_from_image(image)
 		
 		self.get_node("TextureRect").texture = image_texture
-

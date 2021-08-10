@@ -9,6 +9,7 @@ var _write_mode = WebSocketPeer.WRITE_MODE_TEXT
 var _clients = {}
 var _handlers = {}
 var _message_stack = {}
+var LOG_MODULE = "websocket"
 
 # initialize the websocket server and listening for client connections
 func _ready():
@@ -26,10 +27,10 @@ func _ready():
 	# try to start listening
 	var err = _ws_server.listen(port, supported_protocols, false)
 	if err:
-		logger.error("server bindings could not be initialized (port: %s)" % [port])
+		logger.error("server bindings could not be initialized (port: %s)" % [port], LOG_MODULE)
 		# FIXME: server binding could not be initialized
 	else:
-		logger.info("websocket server initialized on port %s" % [port])
+		logger.info("websocket server initialized on port %s" % [port], LOG_MODULE)
 
 
 # close the server on unload
@@ -74,20 +75,20 @@ func _process(_delta):
 
 # handle a new client connection and register it
 func _connected(id, proto):
-	logger.info("Connected client %s with protocol %s" % [id, proto])
+	logger.info("Connected client %s with protocol %s" % [id, proto], LOG_MODULE)
 	self._clients[id] = self._ws_server.get_peer(id)
 	self._clients[id].set_write_mode(self._write_mode)
 
 
 # remove a client connection
 func _disconnected(id, was_clean=false):
-	logger.info("Disconnected client %s (clean: %s)" % [id, was_clean])
+	logger.info("Disconnected client %s (clean: %s)" % [id, was_clean], LOG_MODULE)
 	if self._clients.has(id):
 		self._clients.erase(id)
 
 
 func _close_request(id, code, reason):
-	logger.debug("Disconnection request from client %s (code: %s, reason: %s)" % [id, code, reason])
+	logger.debug("Disconnection request from client %s (code: %s, reason: %s)" % [id, code, reason], LOG_MODULE)
 
 
 func _on_data(id):
@@ -104,7 +105,7 @@ func _on_data(id):
 	
 	var json_dict = json_result.result
 	
-	logger.debug("received request from %s with data %s" % [id, json_dict])
+	logger.debug("received request from %s with data %s" % [id, json_dict], LOG_MODULE)
 	
 	if not json_dict.has("message_id"):
 		logger.error("Missing message ID in request! Aborting...")
@@ -133,25 +134,29 @@ func _on_data(id):
 			var handler = _handlers.get(keyword)
 			var answer = handler.handle_request(json_dict)
 			if answer:
-				_send_data(answer )  # FIXME: how to find according client_id?
+				_send_data(answer, null, message_id)  # FIXME: how to find according client_id?
 			
 		else:
-			logger.warning("received a message without registered keyword %s" % [keyword])
+			logger.warning("received a message without registered keyword %s" % [keyword], LOG_MODULE)
 
 
 # FIXME: we could implement a send function like this but we have to determine which client id
 # FIXME: is the receiving part - or broadcast it and the client decides what to do with the event
-func _send_data(data: Dictionary, client_id=null):
+func _send_data(data: Dictionary, client_id=null, message_id=null):
 
 	# if id is null broadcast to all connected clients
 	if not client_id:
-		logger.debug("starting broadcast")
+		logger.debug("starting broadcast", LOG_MODULE)
 		for client_id in _clients:
-			_send_data(data, client_id)
-		logger.debug("ending broadcast")
+			_send_data(data, client_id, message_id)
+		logger.debug("ending broadcast", LOG_MODULE)
 
 	else:
-		logger.debug("send msg: %s to client %s" % [data, client_id])
+		if message_id:
+			data["message_id"] = message_id
+		else:
+			data["message_id"] = OS.get_system_time_msecs()  # FIXME: is there a better unique id in GDScript?
+		logger.debug("send msg: %s to client %s" % [data, client_id], LOG_MODULE)
 		var message = JSON.print(data)
 		self._ws_server.get_peer(client_id).put_packet(message.to_utf8())
 

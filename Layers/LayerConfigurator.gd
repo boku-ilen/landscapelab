@@ -57,7 +57,7 @@ func add_test_data():
 	
 	# Land use
 	var landuse_layer = RasterLayer.new()
-	landuse_layer.geo_raster_layer = geopackage.get_raster_layer("landuse13")
+	landuse_layer.geo_raster_layer = geopackage.get_raster_layer("landuse")
 	landuse_layer.name = "Land Use"
 	
 	# Surface Heightmap
@@ -100,7 +100,19 @@ func add_test_data():
 	vegetation_layer.render_info.height_layer = height_layer.clone()
 	vegetation_layer.render_info.landuse_layer = landuse_layer.clone()
 	
+#	# Test Point Data
+#	var windmill_layer = FeatureLayer.new()
+#	var windmill_dataset = Geodot.get_dataset("C:\\boku\\geodata\\test_data\\ooe_point_test.shp")
+#	windmill_layer.geo_feature_layer = windmill_dataset.get_feature_layer("ooe_point_test")
+#	windmill_layer.render_type = Layer.RenderType.OBJECT
+#	windmill_layer.render_info = Layer.ObjectRenderInfo.new()
+#	windmill_layer.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
+#	windmill_layer.render_info.ground_height_layer = height_layer.clone()
+#	windmill_layer.name = "Windmills"
+	
+	
 	# Add the layers
+#	Layers.add_layer(windmill_layer)
 	Layers.add_layer(height_layer)
 	Layers.add_layer(ortho_layer)
 	Layers.add_layer(surface_height_layer)
