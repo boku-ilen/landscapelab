@@ -8,8 +8,9 @@ var docks = []
 signal ui_loaded
 
 # Often used nodes that can be injected to the UIDocks if required
-export(NodePath) var pc_player_path
-export(NodePath) var pos_manager_path
+export var pc_player_path: NodePath
+export var pos_manager_path: NodePath
+var pos_manager: PositionManager
 
 
 func _ready():
@@ -22,18 +23,19 @@ func _ready():
 	docks.append($MarginContainer/Split/Right/Right/Left/Bot)
 	docks.append($MarginContainer/Split/Right/Right/Right/Top)
 	docks.append($MarginContainer/Split/Right/Right/Right/Bot)
+	pos_manager = get_node(pos_manager_path)
 	
 	_inject()
 	emit_signal("ui_loaded")
 
 
 func _process(delta):
-	var engine_pos = get_node(pc_player_path).translation
-	var geo_pos = get_node(pos_manager_path).to_world_coordinates(engine_pos)
-	var formatted = "Engine-Position: x=%.2f, y=%.2f, z=%.2f\n\nGeo-Position: x=%.2f, y=%.2f, z=%.2f"
+	var engine_pos = pos_manager.center_node.translation
+	var geo_pos = pos_manager.to_world_coordinates(engine_pos)
+	var formatted = "x=%.2f, y=%.2f, z=%.2f\nx=%.0f, y=%.0f, z=%.0f"
 	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos[0], geo_pos[1], geo_pos[2]]
 	
-	$MarginContainer/Split/Right/Mid/HBoxContainer/Position.text = formatted
+	$MarginContainer/Split/Right/Mid/HBoxContainer/DebugInfo/ScrollContainer/Settings/VBoxContainer/Info/PositionDisplay/Data.text = formatted
 
 
 func _inject():
