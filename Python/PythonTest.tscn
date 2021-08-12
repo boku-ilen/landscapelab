@@ -4,3 +4,12 @@
 
 [node name="PythonTest" type="Node"]
 script = ExtResource( 1 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 500.0
+margin_bottom = 500.0
+rect_min_size = Vector2( 500, 500 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
