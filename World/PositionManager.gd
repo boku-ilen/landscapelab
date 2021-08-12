@@ -52,7 +52,7 @@ func set_center_node(node: Spatial):
 	center_node = node
 	# Inject into the center node
 	if "position_manager" in node:
-		center_node.pos_manager = self
+		center_node.position_manager = self
 	
 	# Inject into the terrain
 	for child in terrain.get_children():
