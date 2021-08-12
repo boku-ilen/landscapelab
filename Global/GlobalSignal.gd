@@ -66,9 +66,6 @@ signal reset_tiles
 ## something in the overlay render layer changed so it should be redrawn
 signal overlay_updated
 
-# enable and disable vr mode
-signal vr_enable
-signal vr_disable
 
 # energy details mode (incl. tooltips)
 signal energy_details_enabled
