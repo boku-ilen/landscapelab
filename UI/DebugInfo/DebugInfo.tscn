@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://UI/DebugInfo/DebugInfo.gd" type="Script" id=1]
-[ext_resource path="res://UI/DebugInfo/PositionDisplay.gd" type="Script" id=2]
 [ext_resource path="res://UI/DebugInfo/FPSDisplay.gd" type="Script" id=3]
 [ext_resource path="res://UI/DebugInfo/ThreadPoolDisplay.gd" type="Script" id=4]
 [ext_resource path="res://UI/CustomElements/SignalTextToggle.tscn" type="PackedScene" id=5]
@@ -10,10 +9,11 @@
 
 [sub_resource type="Theme" id=1]
 
-[node name="DebugInfo" type="VBoxContainer"]
-anchor_right = 1.0
+[node name="DebugInfo" type="HBoxContainer"]
+anchor_right = 0.159
 anchor_bottom = 1.0
-margin_right = -1615.0
+margin_right = 302.72
+margin_bottom = -880.0
 mouse_filter = 0
 script = ExtResource( 1 )
 __meta__ = {
@@ -21,9 +21,9 @@ __meta__ = {
 }
 
 [node name="DebugPanel" type="Panel" parent="."]
-margin_right = 305.0
-margin_bottom = 605.0
-rect_min_size = Vector2( 200, 500 )
+margin_right = 200.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 200, 200 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource( 1 )
@@ -36,106 +36,111 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LogLevelInfo" type="HBoxContainer" parent="."]
-margin_top = 613.0
-margin_right = 305.0
-margin_bottom = 645.0
-mouse_filter = 0
-
-[node name="Label" type="Label" parent="LogLevelInfo"]
-margin_top = 3.0
-margin_right = 101.0
-margin_bottom = 28.0
-text = "Log level:"
-
-[node name="LogLevelSlider" type="HSlider" parent="LogLevelInfo"]
-margin_left = 109.0
-margin_right = 305.0
-margin_bottom = 32.0
-size_flags_horizontal = 3
-max_value = 4.0
-ticks_on_borders = true
-
-[node name="PositionDisplay" type="HBoxContainer" parent="."]
-margin_top = 653.0
-margin_right = 305.0
-margin_bottom = 678.0
-script = ExtResource( 2 )
-
-[node name="Name" type="Label" parent="PositionDisplay"]
-margin_right = 99.0
-margin_bottom = 25.0
-text = "Position: "
-
-[node name="Data" type="Label" parent="PositionDisplay"]
-margin_left = 107.0
-margin_right = 107.0
-margin_bottom = 25.0
-
-[node name="FPSDisplay" type="HBoxContainer" parent="."]
-margin_top = 686.0
-margin_right = 305.0
-margin_bottom = 711.0
-script = ExtResource( 3 )
-
-[node name="Name" type="Label" parent="FPSDisplay"]
-margin_right = 51.0
-margin_bottom = 25.0
-text = "FPS: "
-
-[node name="Data" type="Label" parent="FPSDisplay"]
-margin_left = 59.0
-margin_right = 59.0
-margin_bottom = 25.0
-
-[node name="ThreadPoolDisplay" type="HBoxContainer" parent="."]
-margin_top = 719.0
-margin_right = 305.0
-margin_bottom = 744.0
-script = ExtResource( 4 )
-
-[node name="Name" type="Label" parent="ThreadPoolDisplay"]
-margin_right = 215.0
-margin_bottom = 25.0
-text = "Thread queue sizes:"
-
-[node name="Data" type="Label" parent="ThreadPoolDisplay"]
-margin_left = 223.0
-margin_right = 223.0
-margin_bottom = 25.0
-
-[node name="Spacer" type="MarginContainer" parent="."]
-margin_top = 752.0
-margin_right = 305.0
-margin_bottom = 772.0
-rect_min_size = Vector2( 0, 20 )
-
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-margin_top = 780.0
-margin_right = 305.0
-margin_bottom = 1080.0
-rect_min_size = Vector2( 0, 300 )
+margin_left = 208.0
+margin_right = 608.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 400, 200 )
 
 [node name="Settings" type="PanelContainer" parent="ScrollContainer"]
 margin_right = 507.0
-margin_bottom = 693.0
+margin_bottom = 891.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Settings"]
 margin_left = 14.0
 margin_top = 14.0
 margin_right = 493.0
-margin_bottom = 679.0
+margin_bottom = 877.0
 
-[node name="VisualHeading" type="Label" parent="ScrollContainer/Settings/VBoxContainer"]
+[node name="Info" type="VBoxContainer" parent="ScrollContainer/Settings/VBoxContainer"]
+margin_right = 479.0
+margin_bottom = 190.0
+
+[node name="ThreadPoolDisplay" type="HBoxContainer" parent="ScrollContainer/Settings/VBoxContainer/Info"]
 margin_right = 479.0
 margin_bottom = 25.0
+script = ExtResource( 4 )
+
+[node name="Name" type="Label" parent="ScrollContainer/Settings/VBoxContainer/Info/ThreadPoolDisplay"]
+margin_right = 215.0
+margin_bottom = 25.0
+text = "Thread queue sizes:"
+
+[node name="Data" type="Label" parent="ScrollContainer/Settings/VBoxContainer/Info/ThreadPoolDisplay"]
+margin_left = 223.0
+margin_right = 223.0
+margin_bottom = 25.0
+
+[node name="FPSDisplay" type="HBoxContainer" parent="ScrollContainer/Settings/VBoxContainer/Info"]
+margin_top = 33.0
+margin_right = 479.0
+margin_bottom = 58.0
+script = ExtResource( 3 )
+
+[node name="Name" type="Label" parent="ScrollContainer/Settings/VBoxContainer/Info/FPSDisplay"]
+margin_right = 51.0
+margin_bottom = 25.0
+text = "FPS: "
+
+[node name="Data" type="Label" parent="ScrollContainer/Settings/VBoxContainer/Info/FPSDisplay"]
+margin_left = 59.0
+margin_right = 59.0
+margin_bottom = 25.0
+
+[node name="PositionDisplay" type="HBoxContainer" parent="ScrollContainer/Settings/VBoxContainer/Info"]
+margin_top = 66.0
+margin_right = 479.0
+margin_bottom = 122.0
+
+[node name="Name" type="Label" parent="ScrollContainer/Settings/VBoxContainer/Info/PositionDisplay"]
+margin_right = 174.0
+margin_bottom = 56.0
+text = "Engine-Position:
+Geo-Position:"
+
+[node name="Data" type="Label" parent="ScrollContainer/Settings/VBoxContainer/Info/PositionDisplay"]
+margin_left = 182.0
+margin_top = 15.0
+margin_right = 182.0
+margin_bottom = 40.0
+
+[node name="LogLevelInfo" type="HBoxContainer" parent="ScrollContainer/Settings/VBoxContainer/Info"]
+margin_top = 130.0
+margin_right = 479.0
+margin_bottom = 162.0
+mouse_filter = 0
+
+[node name="Label" type="Label" parent="ScrollContainer/Settings/VBoxContainer/Info/LogLevelInfo"]
+margin_top = 3.0
+margin_right = 101.0
+margin_bottom = 28.0
+text = "Log level:"
+
+[node name="LogLevelSlider" type="HSlider" parent="ScrollContainer/Settings/VBoxContainer/Info/LogLevelInfo"]
+margin_left = 109.0
+margin_right = 479.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+max_value = 4.0
+ticks_on_borders = true
+
+[node name="Spacer" type="MarginContainer" parent="ScrollContainer/Settings/VBoxContainer/Info"]
+margin_top = 170.0
+margin_right = 479.0
+margin_bottom = 190.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="VisualHeading" type="Label" parent="ScrollContainer/Settings/VBoxContainer"]
+margin_top = 198.0
+margin_right = 479.0
+margin_bottom = 223.0
 text = "Visual Debug Settings::"
 uppercase = true
 
 [node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/Settings/VBoxContainer"]
-margin_top = 33.0
+margin_top = 231.0
 margin_right = 479.0
-margin_bottom = 113.0
+margin_bottom = 311.0
 
 [node name="WireframeToggle" parent="ScrollContainer/Settings/VBoxContainer/MarginContainer2" instance=ExtResource( 5 )]
 margin_right = 479.0
@@ -146,50 +151,50 @@ optional_signal_parameter = 0
 default_toggled = false
 
 [node name="GameplayHeading" type="Label" parent="ScrollContainer/Settings/VBoxContainer"]
-margin_top = 121.0
+margin_top = 319.0
 margin_right = 479.0
-margin_bottom = 146.0
+margin_bottom = 344.0
 text = "Gameplay settings:"
 uppercase = true
 
 [node name="Spacer3" type="MarginContainer" parent="ScrollContainer/Settings/VBoxContainer"]
-margin_top = 154.0
+margin_top = 352.0
 margin_right = 479.0
-margin_bottom = 174.0
+margin_bottom = 372.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="TileHeading" type="Label" parent="ScrollContainer/Settings/VBoxContainer"]
-margin_top = 182.0
+margin_top = 380.0
 margin_right = 479.0
-margin_bottom = 207.0
+margin_bottom = 405.0
 text = "Tile settings:"
 uppercase = true
 
 [node name="TileUpdateToggle" parent="ScrollContainer/Settings/VBoxContainer" instance=ExtResource( 5 )]
-margin_top = 215.0
+margin_top = 413.0
 margin_right = 479.0
-margin_bottom = 295.0
+margin_bottom = 493.0
 label_text = "Update tiles:"
 signal_to_emit = "tile_update_toggle"
 optional_signal_parameter = 0
 default_toggled = true
 
 [node name="SignalButton" parent="ScrollContainer/Settings/VBoxContainer" instance=ExtResource( 7 )]
-margin_top = 303.0
+margin_top = 501.0
 margin_right = 479.0
-margin_bottom = 340.0
+margin_bottom = 538.0
 text = "Reset all tiles"
 signal_pressed = "reset_tiles"
 
 [node name="Spacer4" type="MarginContainer" parent="ScrollContainer/Settings/VBoxContainer"]
-margin_top = 348.0
+margin_top = 546.0
 margin_right = 479.0
-margin_bottom = 368.0
+margin_bottom = 566.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="VisualSettings" parent="ScrollContainer/Settings/VBoxContainer" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 376.0
+margin_top = 574.0
 margin_right = 479.0
-margin_bottom = 665.0
+margin_bottom = 863.0
