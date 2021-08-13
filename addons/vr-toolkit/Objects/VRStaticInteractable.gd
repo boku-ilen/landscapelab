@@ -16,6 +16,7 @@ var _is_interacting: bool = false
 # checks for it.
 func _ready():
 	add_to_group("Interactable")
+	set_collision_layer_bit(18, true)
 
 
 # This method will be called, when the interaction-button is pressed on the current controller

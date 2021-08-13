@@ -2,19 +2,19 @@ extends MeshInstance
 tool
 
 
-export(PackedScene) var viewport_element
+export(PackedScene) var viewport_element setget set_up_viewport
 export(bool) var interactable = true
 export(Vector2) var mesh_size setget set_mesh_size
 
 onready var viewport = get_node("Viewport")
 onready var area = get_node("Area")
 onready var collision_shape = get_node("Area/CollisionShape")
-onready var viewport_texture = viewport_element.instance()
 
 # The size of the quad mesh itself.
 var quad_mesh_size: Vector2
 var material = SpatialMaterial.new()
 var last_pos2D
+var viewport_texture
 
 
 func set_mesh_size(size):
@@ -27,29 +27,36 @@ func set_mesh_size(size):
 		quad_mesh_size = mesh_size
 
 
-func _ready():
-#	if self.mesh.has_method("get_size"):
-#		if not mesh_size == Vector2(0,0):
-#			mesh.size = mesh_size
-#		quad_mesh_size = mesh.size
-#	else:
-#		quad_mesh_size = mesh_size
+func set_up_viewport(element):
+	# Remove all children or else they will stay
+	for child in $Viewport.get_children():
+		$Viewport.remove_child(child)
 	
+	# Reset the surface material if unset
+	if element == null:
+		viewport_element = null
+		set_surface_material(0, null)
+		return
+		
+	# So the viewport size does not have to be set manually
+	viewport_element = element
+	viewport_texture = element.instance()
+	if viewport_texture is Control:
+		$Viewport.size = viewport_texture.rect_size
+	
+	$Viewport.add_child(viewport_texture)
+	material.albedo_texture = $Viewport.get_texture()
+	material.flags_unshaded = true
+	material.flags_transparent = true
+	set_surface_material(0, material)
+
+
+func _ready():
 	if interactable:
 		collision_shape.shape = BoxShape.new()
 		collision_shape.shape.extents = Vector3(quad_mesh_size.x / 2, 0.001, quad_mesh_size.y / 2)
 	else:
 		collision_shape.disabled = true
-	
-	# So the viewport size does not have to be set manually
-	if viewport_texture.has_method("get_rect"):
-		viewport.size = viewport_texture.rect_size
-	
-	viewport.add_child(viewport_texture)
-	material.albedo_texture = viewport.get_texture()
-	material.flags_unshaded = true
-	material.flags_transparent = true
-	set_surface_material(0, material)
 
 
 func ray_interaction_input(position3D: Vector3, event_type, device_id, pressed=null):
