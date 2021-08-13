@@ -1,4 +1,4 @@
-extends AutoTextureButton
+extends BoxContainer
 
 
 export var vr_player: PackedScene
@@ -7,7 +7,11 @@ var vr_player_instance: Spatial
 var pc_player_instance: Spatial
 
 
-func _toggled(button_pressed):
+func _ready():
+	$HBoxContainer/InitVR.connect("toggled", self, "_toggle_vr")
+
+
+func _toggle_vr(button_pressed):
 	if button_pressed:
 		vr_player_instance = vr_player.instance()
 		pos_manager.add_child(vr_player_instance)
