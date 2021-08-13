@@ -1,187 +1,24 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Perspectives/VR/SettingsHandler.gd" type="Script" id=1]
-[ext_resource path="res://addons/vr-toolkit/Controller/Hand/Gestures.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Perspectives/VR/SettingsARVRCamera.gd" type="Script" id=3]
-[ext_resource path="res://addons/godot-openvr/scenes/ovr_controller.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Perspectives/Tracking/ParentTracker.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/vr-toolkit/Controller/ARVRController.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Perspectives/AbstractPlayer/AbstractPlayer.gd" type="Script" id=1]
+[ext_resource path="res://addons/vr-toolkit/PlayerVR.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Util/GroundedSpatial.tscn" type="PackedScene" id=3]
 
+[sub_resource type="CapsuleShape" id=1]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends \"res://addons/godot-openvr/scenes/ovr_main.gd\"
-#tool
-
-#
-# This script sets up the VR player, as described in
-# https://github.com/GodotVR/godot-openvr-asset.
-#
-
-export(PackedScene) var vr_menu
-export(PackedScene) var objects_menu
-export(bool) var show_controller_left #setget set_show_controller_left
-export(bool) var show_controller_right #setget set_show_controller_right
-export(bool) var show_hand_left #setget set_show_hand_left
-export(bool) var show_hand_right# setget set_show_hand_right
-export(bool) var gui_finger_left #setget set_gui_finger_left
-export(bool) var gui_finger_right# setget set_gui_finger_right
-
-onready var controller_left = get_node(\"LeftVisual\")
-onready var controller_right = get_node(\"RightVisual\")
-onready var hand_left = get_node(\"Left/Tip/Gestures\")
-onready var hand_right = get_node(\"Right/Tip/Gestures\")
-onready var camera = get_node(\"ARVRCamera\")
-
-var interface
-
-
-func set_show_controller_left(is_visible):
-	show_controller_left = is_visible
-	var test = get_node(\"LeftVisual\")
-	get_node(\"LeftVisual\").show_controller_mesh = show_controller_left
-
-
-func set_show_controller_right(is_visible):
-	show_controller_right = is_visible
-	get_node(\"RightVisual\").show_controller_mesh = show_controller_right
-
-
-func set_show_hand_left(is_visible):
-	show_hand_left = is_visible
-	get_node(\"Left/Tip/Gestures\").visible = show_hand_left
-
-
-func set_show_hand_right(is_visible):
-	show_hand_right = is_visible
-	get_node(\"Right/Tip/Gestures\").visible = show_hand_right
-
-
-func set_gui_finger_left(is_enabled):
-	gui_finger_left = is_enabled
-	get_node(\"Left/Tip/Gestures\").gui_finger = is_enabled
-
-
-func set_gui_finger_right(is_enabled):
-	gui_finger_right = is_enabled
-	get_node(\"Right/Tip/Gestures\").gui_finger = is_enabled
-
-
-func set_show_meshes(side: int, show_controller: bool, show_hand: bool):
-	if side == 1:
-		set_show_controller_left(show_controller)
-		set_show_hand_left(show_hand)
-	elif side == 2:
-		set_show_controller_right(show_controller)
-		set_show_hand_right(show_hand)
-
-
-func get_show_meshes(side: int):
-	if side == 1:
-		return {\"hand\": show_hand_left, \"controller\": show_controller_left}
-	elif side == 2:
-		return {\"hand\": show_hand_right, \"controller\": show_controller_right}
-
-
-func _ready():
-	var VR = ARVRServer.find_interface(\"OpenVR\")
-	if VR and VR.initialize():
-		get_viewport().arvr = true
-		
-		OS.vsync_enabled = false
-		Engine.target_fps = 90
-
-	#set_show_controller_left(show_hand_left)
-	#set_show_controller_right(show_hand_right)
-	#set_show_hand_left(show_hand_left)
-	#set_show_hand_right(show_hand_right)
-	controller_left.show_controller_mesh = show_controller_left
-	controller_right.show_controller_mesh = show_controller_right
-	hand_left.visible = show_hand_left
-	hand_right.visible = show_hand_right
-	
-	GlobalVRAccess.controller_id_dict[controller_left.controller_id] = controller_left
-	GlobalVRAccess.controller_id_dict[controller_right.controller_id] = controller_right
-	
-	#init_object_menu()
-	#init_vr_menu()
-
-
-func _process(delta):
-	# Keep the VR player at the global player position
-	if WorldPosition.has_handler():
-		translation = WorldPosition.get_position_on_ground(PlayerInfo.get_engine_player_position())
-	
-	PlayerInfo.update_player_look_direction(-(camera.global_transform.basis.z))
-
-
-func init_vr_menu():
-	var vr_menu_mesh = preload(\"res://addons/vr-toolkit/Gui/GuiToCurved.tscn\").instance()
-	vr_menu_mesh.viewport_element = vr_menu
-	vr_menu_mesh.rotation_degrees.x = 90
-	vr_menu_mesh.visible = false
-	add_child(vr_menu_mesh)
-	GlobalVRAccess.vr_menus.append(vr_menu_mesh)
-
-
-func init_object_menu():
-	var instance = objects_menu.instance()
-	GlobalVRAccess.object_menu = instance
-	instance.visible = false
-	add_child(instance)
-"
-
-[node name="PlayerVR" type="ARVROrigin"]
-script = SubResource( 1 )
-action_json_path = "res://addons/vr-toolkit/Controller/actions-toolkit.json"
-default_action_set = "/actions/godot_ingame"
-show_controller_left = true
-show_controller_right = true
-show_hand_left = true
-show_hand_right = true
-gui_finger_left = true
-gui_finger_right = true
-
-[node name="ARVRCamera" type="ARVRCamera" parent="."]
-transform = Transform( 0.835603, -0.152514, -0.527738, 0.00346618, 0.962132, -0.272563, 0.549323, 0.225925, 0.804488, 0.283994, 1.25431, -0.0914008 )
-cull_mask = 1048439
-script = ExtResource( 3 )
-
-[node name="ParentTracker" parent="ARVRCamera" instance=ExtResource( 6 )]
-
-[node name="Left" parent="." instance=ExtResource( 7 )]
-controller_side = 1
-
-[node name="Base" parent="Left" index="0"]
-on_hand = 2
-
-[node name="Gestures" parent="Left/Tip" index="0" instance=ExtResource( 2 )]
-on_hand = 1
-
-[node name="Right" parent="." instance=ExtResource( 7 )]
-controller_side = 2
-
-[node name="Raw" parent="Right" index="1"]
-on_hand = 2
-
-[node name="Grip" parent="Right" index="2"]
-on_hand = 2
-
-[node name="Tip" parent="Right" index="3"]
-on_hand = 2
-
-[node name="Gestures" parent="Right/Tip" index="0" instance=ExtResource( 2 )]
-on_hand = 2
-
-[node name="LeftVisual" parent="." instance=ExtResource( 4 )]
-transform = Transform( -0.827234, 0.454567, -0.330244, -0.0758034, 0.492097, 0.867235, 0.556728, 0.742436, -0.372624, 0.377803, 0.644683, -0.171194 )
-
-[node name="RightVisual" parent="." instance=ExtResource( 4 )]
-transform = Transform( 0.414081, -0.819101, 0.397004, 0.169413, 0.497882, 0.850538, -0.894337, -0.284935, 0.34493, 0.355576, 0.670598, -0.118187 )
-controller_id = 2
-
-[node name="SettingsHandler" type="Node" parent="."]
+[node name="FirstPersonVR" type="KinematicBody" groups=[
+"ShiftingSpatial",
+]]
 script = ExtResource( 1 )
 
-[editable path="Left"]
+[node name="PlayerVR" parent="." instance=ExtResource( 2 )]
 
-[editable path="Right"]
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 1.77636e-15, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.65595, 0 )
+shape = SubResource( 1 )
+disabled = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="GroundedSpatial" parent="." instance=ExtResource( 3 )]
