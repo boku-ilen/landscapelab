@@ -8,23 +8,34 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot
 
 import numpy as np
+import ctypes
 
 
 @exposed
 class PythonTest(Node):
-	def numpy_array_to_image(self, array):
+	def canvas_to_godot_image(self, canvas):
 		image = Image()
 		
-		width = array.shape[0]
-		height = array.shape[1]
+		width = canvas.get_width_height()[1]
+		height = canvas.get_width_height()[0]
 		
-		pool_array = PoolByteArray(array.flatten())
+		size = width * height * 3
+		
+		pool_array = PoolByteArray()
+		pool_array.resize(size)
+
+		
+		with pool_array.raw_access() as ptr:
+			numpy_array = np.ctypeslib.as_array(ctypes.cast(ptr.get_address(), ctypes.POINTER(ctypes.c_uint8)), (size,))
+			numpy_array[:] = np.frombuffer(canvas.tostring_rgb(), dtype=np.uint8).reshape(canvas.get_width_height()[::-1] + (3,)).flatten()
+		
 		image.create_from_data(height, width, False, Image.FORMAT_RGB8, pool_array)
-		
 		return image
 
 	def _ready(self):
-		fig = Figure(dpi=200)
+		time_before = OS.get_ticks_msec()
+		
+		fig = Figure(dpi=150)
 		canvas = FigureCanvas(fig)
 		
 		plot = fig.add_subplot(111)
@@ -35,13 +46,14 @@ class PythonTest(Node):
 		plot.plot(x, y, color='red')
 
 		canvas.draw()
-
-		image_from_plot = np.frombuffer(canvas.tostring_rgb(), dtype=np.uint8)
-		image_from_plot = image_from_plot.reshape(canvas.get_width_height()[::-1] + (3,))
 		
-		image = self.numpy_array_to_image(image_from_plot)
+		image = self.canvas_to_godot_image(canvas)
 		
 		image_texture = ImageTexture()
 		image_texture.create_from_image(image)
 		
 		self.get_node("TextureRect").texture = image_texture
+		
+		time_after = OS.get_ticks_msec()
+		
+		print(time_after - time_before)

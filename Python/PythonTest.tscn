@@ -6,10 +6,8 @@
 script = ExtResource( 1 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 500.0
-margin_bottom = 500.0
-rect_min_size = Vector2( 500, 500 )
-expand = true
+margin_right = 40.0
+margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
