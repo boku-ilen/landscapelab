@@ -126,12 +126,13 @@ void fragment() {
 
 	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
 	
+	// Vary the transmission based on how bright and/or green the plant is here
+	// (This is to approximate a higher transmission for leaves)
+	TRANSMISSION = vec3(0.6, 0.8, 0.6) * color.g;
+	
 	// Make the plant darker at the bottom to simulate some shadowing
 	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)
 	color.rgb *= min(max(size_scaled_uv, fake_shadow_min_multiplier), fake_shadow_height) / fake_shadow_height;
-	
-	// Similarly, vary light transmission based on how far up we are, assuming that leaves etc. are likely higher up
-	TRANSMISSION = vec3(0.5, 0.7, 0.5) * (1.0 - UV.y);
 
 	ALBEDO = color.rgb;
 	
