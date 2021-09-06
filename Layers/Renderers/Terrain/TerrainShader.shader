@@ -44,7 +44,6 @@ float get_height(vec2 uv) {
 vec3 get_normal(vec2 normal_uv_pos) {
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor.
-	float texture_size = float(textureSize(heightmap, 0).x);
 	float e = 1.0 / 100.0; // TODO: Take resolution as a uniform var and use that here
 	
 	// Sobel filter for getting the normal at this position
@@ -62,9 +61,9 @@ vec3 get_normal(vec2 normal_uv_pos) {
 	
 	vec3 long_normal;
 	
-	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left) / 100.0;
-	long_normal.y = (top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right) / 100.0;
-	long_normal.z = 1.0;
+	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left) / (size * e);
+	long_normal.z = -(top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right) / (size * e);
+	long_normal.y = size * e * 1.0; // scaling by <1.0 makes the normals more drastic
 
 	return normalize(long_normal);
 }
