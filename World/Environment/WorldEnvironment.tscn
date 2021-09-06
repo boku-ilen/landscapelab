@@ -1,19 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://World/Environment/WorldEnvironment.gd" type="Script" id=1]
+[ext_resource path="res://addons/Sky/sky_texture.tscn" type="PackedScene" id=2]
 
-[sub_resource type="ProceduralSky" id=1]
-sky_top_color = Color( 0.0470588, 0.454902, 0.976471, 1 )
-sky_horizon_color = Color( 0.556863, 0.823529, 0.909804, 1 )
-sky_curve = 0.13
-ground_bottom_color = Color( 0, 0, 0, 1 )
-ground_horizon_color = Color( 0.556863, 0.823529, 0.909804, 1 )
-ground_curve = 0.177532
-sun_latitude = 14.0
-sun_longitude = -80.0
-sun_curve = 0.0270376
+[sub_resource type="PanoramaSky" id=1]
+resource_local_to_scene = true
 
 [sub_resource type="Environment" id=2]
+resource_local_to_scene = true
 background_mode = 2
 background_sky = SubResource( 1 )
 background_energy = 2.0
@@ -46,5 +40,8 @@ layers = 15
 light_energy = 2.0
 light_bake_mode = 0
 shadow_enabled = true
+shadow_color = Color( 0.6, 0.6, 0.6, 1 )
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 300.0
+
+[node name="Sky_texture" parent="." instance=ExtResource( 2 )]

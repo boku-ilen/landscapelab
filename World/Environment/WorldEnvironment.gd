@@ -20,16 +20,13 @@ var base_top_color = Color(54.0 / 255.0, 80.0 / 255.0, 141.0 / 255.0, 1)
 
 var sun_change_thread = Thread.new()
 
+func _on_Sky_texture_sky_updated():
+	$Sky_texture.copy_to_environment(environment)
+
 
 func _ready():
-	# React to time_changed events
-	GlobalSignal.connect("time_changed", self, "_on_time_changed")
-	GlobalSignal.connect("season_changed", self, "_on_season_changed")
-	
-	# Set time and season with default values
-	# FIXME: Disabled until sun position fetching is reimplemented without server
-	#update_time_season()
-	update_colors(90, 0)
+	$Sky_texture.connect("sky_updated", self, "_on_Sky_texture_sky_updated")
+	$Sky_texture.set_time_of_day(10.5, get_node("DirectionalLight"), deg2rad(30.0))
 	
 	# Spawn Skycube if setting is on
 	if CLOUDS_ENABLED:
