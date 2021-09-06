@@ -40,7 +40,7 @@ func set_rotate_night_sky(new_basis):
 func get_rotate_night_sky():
 	return rotate_night_sky
 
-func set_time_of_day(hours, directional_light, horizontal_angle = 0.0, energy_scale=1.0):
+func set_time_of_day(hours, directional_light, environment_node, horizontal_angle = 0.0, energy_scale=1.0):
 	var sun_position = Vector3(0.0, -100.0, 0.0)
 	sun_position = sun_position.rotated(Vector3(1.0, 0.0, 0.0), hours * PI / 12.0)
 	sun_position = sun_position.rotated(Vector3(0.0, 1.0, 0.0), horizontal_angle)
@@ -49,7 +49,10 @@ func set_time_of_day(hours, directional_light, horizontal_angle = 0.0, energy_sc
 		var t = directional_light.transform
 		t.origin = sun_position
 		directional_light.transform = t.looking_at(Vector3(0.0, 0.0, 0.0), Vector3(0.0, 1.0, 0.0))
-		directional_light.light_energy = (1.0 - clamp(abs(hours - 12.0) / 6.0, 0.0, 1.0)) * energy_scale
+		
+		var base_lighting = pow((1.0 - clamp(abs(hours - 12.0) / 6.0, 0.0, 1.0)), 1.0/3.0)
+		directional_light.light_energy = base_lighting * energy_scale
+		environment_node.environment.ambient_light_energy = base_lighting * 2.5 + 0.5
 	
 	# and update our sky
 	set_sun_position(sun_position)

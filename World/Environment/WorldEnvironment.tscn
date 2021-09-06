@@ -7,11 +7,10 @@
 resource_local_to_scene = true
 
 [sub_resource type="Environment" id=2]
-resource_local_to_scene = true
 background_mode = 2
 background_sky = SubResource( 1 )
 background_energy = 2.0
-ambient_light_color = Color( 0.501961, 0.501961, 0.501961, 1 )
+ambient_light_color = Color( 0.235294, 0.235294, 0.235294, 1 )
 ambient_light_energy = 3.0
 ambient_light_sky_contribution = 0.3
 fog_enabled = true
@@ -40,7 +39,7 @@ layers = 15
 light_energy = 2.0
 light_bake_mode = 0
 shadow_enabled = true
-shadow_color = Color( 0.6, 0.6, 0.6, 1 )
+shadow_color = Color( 0.27451, 0.27451, 0.27451, 1 )
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 300.0
 
