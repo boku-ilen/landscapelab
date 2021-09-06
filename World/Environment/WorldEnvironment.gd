@@ -26,7 +26,7 @@ func _on_Sky_texture_sky_updated():
 
 func _ready():
 	$Sky_texture.connect("sky_updated", self, "_on_Sky_texture_sky_updated")
-	$Sky_texture.set_time_of_day(10.5, get_node("DirectionalLight"), deg2rad(30.0))
+	$Sky_texture.set_time_of_day(7.5, get_node("DirectionalLight"), deg2rad(30.0), 2.0)
 	
 	# Spawn Skycube if setting is on
 	if CLOUDS_ENABLED:
