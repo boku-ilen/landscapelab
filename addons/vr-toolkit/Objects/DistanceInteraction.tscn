@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/godot-openvr/OpenVRAction.gdns" type="Script" id=1]
+[ext_resource path="res://addons/vr-toolkit/Objects/DistanceInteraction.gd" type="Script" id=2]
+[ext_resource path="res://addons/vr-toolkit/Util/LineRenderer.tscn" type="PackedScene" id=3]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
+albedo_color = Color( 0.945098, 1, 0, 1 )
+
+[node name="DistanceInteraction" type="Spatial"]
+script = ExtResource( 2 )
+line_material = SubResource( 1 )
+
+[node name="RayCast" type="RayCast" parent="."]
+enabled = true
+collision_mask = 262144
+collide_with_areas = true
+
+[node name="LineRenderer" parent="." instance=ExtResource( 3 )]
+startThickness = 0.002
+endThickness = 0.002
+drawCaps = false
+globalCoords = false
+
+[node name="Inputs" type="Node" parent="."]
+
+[node name="InteractInput" type="Node" parent="Inputs"]
+script = ExtResource( 1 )
+pressed_action = "/actions/godot_ingame/in/trigger"
+
+[node name="Tween" type="Tween" parent="."]

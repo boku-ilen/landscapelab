@@ -18,8 +18,7 @@ export(NodePath) var center_node_path
 onready var terrain = get_node("Terrain")
 onready var path_shifter = get_node("Terrain/PathShiftingHandler")
 onready var spatial_shifter = get_node("Terrain/SpatialShiftingHandler")
-# FIXME: Should be center_node_path, but this generates errors due to inconsistencies in the node paths...
-onready var center_node = get_node("FirstPersonPC")
+onready var center_node: Spatial = get_node("FirstPersonPC") setget set_center_node
 
 # TODO: all these will come from the configuration
 var world_shift_check_period: float = 1
@@ -31,6 +30,7 @@ var is_fullscreen: bool = false
 var shift_limit: float = Settings.get_setting("lod", "world-shift-distance")
 
 signal new_center(new_center_array)
+signal new_center_node(node)
 
 # The offset
 var x: int = 420500
@@ -48,8 +48,26 @@ var _dependent_objects_loaded := 0
 const DEFAULT_HEIGHT = 500
 
 
+func set_center_node(node: Spatial):
+	center_node = node
+	# Inject into the center node
+	if "position_manager" in node:
+		center_node.position_manager = self
+	
+	# Inject into the terrain
+	for child in terrain.get_children():
+		if "center_node" in child:
+			child.center_node = node
+	emit_signal("new_center_node", node)
+
+
 func _ready():
-	inject_offset_properties()
+	# Inject into the terrain
+	for child in terrain.get_children():
+		if "position_manager" in child:
+			child.position_manager = self
+	
+	set_center_node(get_node(center_node_path))
 
 
 func _process(delta):
@@ -102,19 +120,6 @@ func _apply_new_position_to_center_node():
 	z -= delta_z
 	
 	loading = false
-
-
-func inject_offset_properties():
-	# Inject into the center node
-	if center_node and "position_manager" in center_node:
-		center_node.position_manager = self
-	
-	# Inject into the terrain
-	for child in terrain.get_children():
-		if "center_node" in child:
-			child.center_node = center_node
-		if "position_manager" in child:
-			child.position_manager = self
 
 
 # Sets the current divergence between engine coordinates and world coordinates.

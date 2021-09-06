@@ -99,11 +99,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Vegetation/GroundTexture.gd"
 }, {
-"base": "Spatial",
-"class": "GroundedSpatial",
-"language": "GDScript",
-"path": "res://Util/GroundedSpatial.gd"
-}, {
 "base": "Resource",
 "class": "Layer",
 "language": "GDScript",
@@ -268,7 +263,6 @@ _global_script_class_icons={
 "GameObject": "",
 "GetSettingsRequestHandler": "",
 "GroundTexture": "",
-"GroundedSpatial": "",
 "Layer": "",
 "LayerRenderer": "",
 "LinearCSGPolygon": "",

@@ -1,6 +1,7 @@
 extends RigidBody
 class_name VRInteractable
 
+
 # When picked up hide the hand/controller mesh
 export(bool) var show_controller_hand_meshes = true
 # Alwawy same position in the hand
@@ -11,6 +12,7 @@ onready var original_parent = get_parent()
 
 var controller_id: int
 var object_interaction
+var outline_mesh
 var is_picked_up: bool = false
 var _is_interacting: bool = false
 
@@ -19,6 +21,15 @@ var _is_interacting: bool = false
 # checks for it.
 func _ready():
 	add_to_group("Interactable")
+	set_collision_layer_bit(18, true)
+	for node in get_children():
+		if node is MeshInstance:
+			var outline = node.mesh.create_outline(0.01)
+			outline_mesh = MeshInstance.new()
+			outline_mesh.mesh = outline
+			outline_mesh.visible = false
+			add_child(outline_mesh)
+			outline_mesh.transform = node.transform
 
 
 # This method will be called, when the interaction-button is pressed on the current controller

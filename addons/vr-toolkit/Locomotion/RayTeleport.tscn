@@ -37,7 +37,7 @@ size = Vector2( 0.7, 0.6 )
 [node name="RayTeleport" type="Spatial"]
 script = ExtResource( 1 )
 min_pitch = -160.0
-max_distance = 200.0
+max_distance = 400.0
 line_material = SubResource( 1 )
 indicator_material = SubResource( 2 )
 

@@ -36,8 +36,7 @@ func _ready():
 
 func on_teleport():
 	if tall_ray.is_colliding():
-		PlayerInfo.update_player_pos(WorldPosition.get_position_on_ground(tall_ray.get_collision_point()))
-		#origin.translation = tall_ray.get_collision_point()
+		origin.translation = tall_ray.get_collision_point()
 
 
 func _process(delta):
@@ -49,14 +48,13 @@ func _process(delta):
 		_find_cast_position()
 	
 		if tall_ray.is_colliding():
-			print(tall_ray.get_collider().get_parent().name)
 			position_indicator.visible = true
 			
 			var collision_plane = Plane(tall_ray.get_collision_normal(), 0)
 			var new_up = tall_ray.get_collision_normal()
 			var new_forward = collision_plane.project(tall_ray.get_collision_point() - global_transform.origin).normalized()
 			var new_right = new_forward.cross(new_up)
-			position_indicator.global_transform = Transform(new_right, new_up, -new_forward, WorldPosition.get_position_on_ground(tall_ray.get_collision_point()))
+			position_indicator.global_transform = Transform(new_right, new_up, -new_forward, tall_ray.get_collision_point())
 			
 			indicator_material.albedo_color = can_teleport
 			line_material.albedo_color = can_teleport
@@ -95,12 +93,6 @@ func _find_cast_position():
 	var cast_position = origin.get_global_transform().origin + Vector3.UP * cast_height
 	var cast_direction = horizontal_point - tall_ray.global_transform.origin
 	
-	# On very high pitches the cast_height has to scale up aswell, otherwise the 
-	# tall_ray's cast_to will almost never collide with anything
-#	var pitch = horizontal_ray.global_transform.basis.get_euler().x
-#	if pitch < 0.8:
-#		cast_position += Vector3.UP * pitch * 50
-
 	tall_ray.global_transform.origin = cast_position
 	tall_ray.cast_to = cast_direction
 
