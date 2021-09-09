@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://World/Environment/WorldEnvironment.gd" type="Script" id=1]
 [ext_resource path="res://addons/Sky/sky_texture.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Python/PysolarInterface.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Python/PythonWrapper.tscn" type="PackedScene" id=4]
 
 [sub_resource type="PanoramaSky" id=1]
@@ -48,4 +47,4 @@ directional_shadow_max_distance = 300.0
 [node name="Sky_texture" parent="." instance=ExtResource( 2 )]
 
 [node name="PythonWrapper" parent="." instance=ExtResource( 4 )]
-scene_to_load = ExtResource( 3 )
+scene_to_load = "res://Python/PysolarInterface.tscn"

@@ -1,14 +1,14 @@
 extends Node
 
 
-export var scene_to_load: PackedScene
+export(String, FILE, "*.tscn") var scene_to_load
 
 var _is_python_node_instanced := false
 
 
 func _ready():
 	if Python.is_available():
-		add_child(scene_to_load.instance())
+		add_child(load(scene_to_load).instance())
 		_is_python_node_instanced = true
 
 
