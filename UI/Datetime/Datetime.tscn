@@ -1,63 +1,120 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://UI/Datetime/TimeSlider.gd" type="Script" id=1]
-[ext_resource path="res://UI/Datetime/SeasonSlider.gd" type="Script" id=2]
+[ext_resource path="res://UI/Datetime/Datetime.gd" type="Script" id=1]
 
 [node name="Datetime" type="VBoxContainer"]
-margin_top = 88.0
-margin_right = 177.0
-margin_bottom = 156.0
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TimeSetting" type="HBoxContainer" parent="."]
-margin_right = 214.0
+margin_right = 494.0
 margin_bottom = 32.0
 alignment = 1
 
 [node name="Label" type="Label" parent="TimeSetting"]
 margin_top = 3.0
-margin_right = 54.0
+margin_right = 152.0
 margin_bottom = 28.0
-text = "Time"
+text = "Time of day: 0"
 align = 2
 
 [node name="TimeSlider" type="HSlider" parent="TimeSetting"]
-margin_left = 62.0
-margin_right = 214.0
+margin_left = 160.0
+margin_right = 460.0
 margin_bottom = 32.0
-rect_min_size = Vector2( 128, 32 )
+rect_min_size = Vector2( 300, 32 )
 hint_tooltip = "Time"
 focus_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 max_value = 24.0
 step = 0.5
+value = 12.0
+tick_count = 13
 ticks_on_borders = true
-script = ExtResource( 1 )
+
+[node name="Label2" type="Label" parent="TimeSetting"]
+margin_left = 468.0
+margin_top = 3.0
+margin_right = 494.0
+margin_bottom = 28.0
+text = "24"
+align = 2
 
 [node name="SeasonSetting" type="HBoxContainer" parent="."]
 margin_top = 40.0
-margin_right = 214.0
+margin_right = 494.0
 margin_bottom = 72.0
 alignment = 1
 
 [node name="Label" type="Label" parent="SeasonSetting"]
 margin_top = 3.0
-margin_right = 78.0
+margin_right = 148.0
 margin_bottom = 28.0
-text = "Season"
+text = "Day of year: 0"
 align = 2
 
-[node name="SeasonSlider" type="HSlider" parent="SeasonSetting"]
-margin_left = 86.0
-margin_right = 214.0
+[node name="DaySlider" type="HSlider" parent="SeasonSetting"]
+margin_left = 156.0
+margin_right = 447.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 128, 32 )
 hint_tooltip = "Time"
 focus_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-max_value = 3.0
-script = ExtResource( 2 )
+max_value = 364.0
+tick_count = 5
+ticks_on_borders = true
+
+[node name="Label2" type="Label" parent="SeasonSetting"]
+margin_left = 455.0
+margin_top = 3.0
+margin_right = 494.0
+margin_bottom = 28.0
+text = "365"
+align = 2
+
+[node name="YearSetting" type="HBoxContainer" parent="."]
+margin_top = 80.0
+margin_right = 494.0
+margin_bottom = 112.0
+alignment = 1
+
+[node name="Label" type="Label" parent="YearSetting"]
+margin_top = 3.0
+margin_right = 113.0
+margin_bottom = 28.0
+text = "Year: 2000"
+align = 2
+
+[node name="YearSlider" type="HSlider" parent="YearSetting"]
+margin_left = 121.0
+margin_right = 434.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+hint_tooltip = "Time"
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+min_value = 1990.0
+max_value = 2021.0
+value = 2021.0
+tick_count = 22
+ticks_on_borders = true
+
+[node name="Label2" type="Label" parent="YearSetting"]
+margin_left = 442.0
+margin_top = 3.0
+margin_right = 494.0
+margin_bottom = 28.0
+text = "2021"
+align = 2
+
+[node name="ConfirmButton" type="Button" parent="."]
+margin_top = 120.0
+margin_right = 494.0
+margin_bottom = 157.0
+text = "Confirm"

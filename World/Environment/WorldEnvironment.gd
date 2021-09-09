@@ -26,7 +26,7 @@ func _on_Sky_texture_sky_updated():
 
 func _ready():
 	$Sky_texture.connect("sky_updated", self, "_on_Sky_texture_sky_updated")
-	$Sky_texture.set_time_of_day(7.0, get_node("DirectionalLight"), self, deg2rad(30.0), 1.5)
+	$Sky_texture.set_time_of_day(7.0, get_node("DirectionalLight"), self, deg2rad(10.0), 1.5)
 	
 	# Spawn Skycube if setting is on
 	if CLOUDS_ENABLED:
@@ -35,6 +35,22 @@ func _ready():
 		
 	environment.fog_depth_begin = FOG_BEGIN
 	environment.fog_depth_end = FOG_END
+	
+	DateTime.connect("datetime_changed", self, "apply_datetime")
+
+
+func apply_datetime():
+	if $PythonWrapper.has_python_node():
+		# TODO: Replace with real lon/lat values
+		var altitude_azimuth = $PythonWrapper.get_python_node().get_sun_altitude_azimuth(
+			48.0, 15.0, DateTime.time, DateTime.day, DateTime.year)
+		
+		$Sky_texture.set_sun_altitude_azimuth(altitude_azimuth[0], altitude_azimuth[1],
+				get_node("DirectionalLight"), self, 1.5)
+	else:
+		logger.warn("Pysolar is unavailable, so the sun position is only approximate!")
+	
+		$Sky_texture.set_time_of_day(DateTime.time, get_node("DirectionalLight"), self, deg2rad(10.0), 1.5)
 
 
 func _physics_process(delta):

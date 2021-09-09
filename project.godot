@@ -129,7 +129,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://World/LODTerrain/WorldTile/ModuleHandler.gd"
 }, {
-"base": "GroundedSpatial",
+"base": "Spatial",
 "class": "MoveableObject",
 "language": "GDScript",
 "path": "res://Objects/Superclasses/MovableObject.gd"
@@ -168,6 +168,11 @@ _global_script_classes=[ {
 "class": "Profile",
 "language": "GDScript",
 "path": "res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Path.gd"
+}, {
+"base": "Object",
+"class": "Python",
+"language": "GDScript",
+"path": "res://Python/Python.gd"
 }, {
 "base": "Layer",
 "class": "RasterLayer",
@@ -277,6 +282,7 @@ _global_script_class_icons={
 "PolygonPoint": "",
 "PositionManager": "",
 "Profile": "",
+"Python": "",
 "RasterLayer": "",
 "Score": "",
 "SetPositionRequestHandler": "",
@@ -321,6 +327,7 @@ Layers="*res://Layers/Singletons/Layers.gd"
 TreeHandler="*res://Global/TreeHandler.gd"
 VegetationImages="*res://Vegetation/VegetationImages.gd"
 Vegetation="*res://Vegetation/Vegetation.gd"
+DateTime="*res://Global/DateTime.gd"
 
 [display]
 
