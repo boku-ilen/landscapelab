@@ -8,5 +8,5 @@ class_name Python
 
 
 static func is_available():
-	# TODO: Implement
-	return true
+	# TODO: More sophisticated check (maybe try running a script)
+	return Directory.new().dir_exists("res://addons/pythonscript")
