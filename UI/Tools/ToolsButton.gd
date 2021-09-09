@@ -21,7 +21,11 @@ func set_popups_container():
 	var max_min_size = Vector2(0,0)
 	for child in my_popups:
 		if child.name == "WindowDialog": continue
-		if max_min_size < child.rect_min_size: max_min_size = child.rect_min_size
+		if max_min_size < child.rect_min_size: 
+			max_min_size = Vector2(
+				max(child.rect_min_size.x, child.rect_size.x),
+				max(child.rect_min_size.y, child.rect_size.y)
+			)
 		remove_child(child)
 		$WindowDialog.add_child(child)
 		$WindowDialog.window_title = child.name
