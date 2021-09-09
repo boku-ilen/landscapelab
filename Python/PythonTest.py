@@ -13,6 +13,8 @@ import ctypes
 
 @exposed
 class PythonTest(Node):
+	time_passed = 0.0
+	
 	def canvas_to_godot_image(self, canvas):
 		image = Image()
 		
@@ -23,7 +25,6 @@ class PythonTest(Node):
 		
 		pool_array = PoolByteArray()
 		pool_array.resize(size)
-
 		
 		with pool_array.raw_access() as ptr:
 			numpy_array = np.ctypeslib.as_array(ctypes.cast(ptr.get_address(), ctypes.POINTER(ctypes.c_uint8)), (size,))
@@ -31,8 +32,10 @@ class PythonTest(Node):
 		
 		image.create_from_data(height, width, False, Image.FORMAT_RGB8, pool_array)
 		return image
-
-	def _ready(self):
+	
+	def _process(self, delta):
+		self.time_passed += delta
+		
 		time_before = OS.get_ticks_msec()
 		
 		fig = Figure(dpi=150)
@@ -41,8 +44,8 @@ class PythonTest(Node):
 		plot = fig.add_subplot(111)
  
 		# draw a cardinal sine plot
-		x = np.arange(0, 100, 0.1)
-		y = np.sin(x)
+		x = np.arange(0, 10, 0.1)
+		y = np.sin(x + self.time_passed)
 		plot.plot(x, y, color='red')
 
 		canvas.draw()
