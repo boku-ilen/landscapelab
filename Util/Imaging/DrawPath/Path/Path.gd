@@ -1,39 +1,52 @@
 extends "res://Util/LinearDrawer/InterpolateLinear.gd"
 
 
-# As we do not want to have the line directly on the ground there will be a placeholder value
-export var height_above_ground: float
+# As we do not want to have the line directly on the ground there will be a 
+# placeholder value
 
-onready var focus: Spatial = get_node("Focus")
-onready var path: Path = get_node("Path")
-
-onready var height_correction = Vector3(0, height_above_ground, 0)
+var dolly_cam: Camera
+onready var path = $Path
 
 
-func _ready():
-	GlobalSignal.connect("imaging_add_path_point", self, "_add_path_point")
-	GlobalSignal.connect("imaging_set_focus", self, "_set_focus_position")
-	UISignal.connect("clear_imaging_path", self, "_on_clear")
+func set_ui(main_ui: Control):
+	dolly_cam = $Path/PathFollow/ViewportContainer/RecordingViewport/DollyCamera
 
 
-func _add_path_point(position):
-	var all_points = path.curve.get_baked_points()
+func add_path_point(position):
+	var all_points = $Path.curve.get_baked_points()
 	
 	if not all_points.empty():
-		var last_point = path.curve.get_point_position(path.curve.get_point_count() - 1)
-		
-		var possible_interpolated: Array = interpolate_points(last_point, position + height_correction)
+		var last_point = $Path.curve.get_point_position($Path.curve.get_point_count() - 1)
+
+		var possible_interpolated: Array = interpolate_points(
+			last_point, position)
 		for point in possible_interpolated:
-			point = WorldPosition.get_position_on_ground(point) + height_correction
-			
-			path.curve.add_point(point)
+			$Path.curve.add_point(point)
 	else:
-		path.curve.add_point(position + height_correction)
+		$Path.curve.add_point(position)
 
 
-func _set_focus_position(position):
-	focus.global_transform.origin = (position + height_correction)
+func set_focus_position(position_on_ground, path_height):
+	$Focus.set_translation(position_on_ground)
+	$Focus/Sprite3D.set_translation(path_height)
+	dolly_cam.focus = $Focus
 
 
-func _on_clear():
-	path.get_curve().clear_points()
+func clear():
+	$Path.get_curve().clear_points()
+
+
+func set_imaging_visible(is_visible: bool):
+	visible = is_visible
+	if is_visible:
+		$Path/PathFollow/ViewportContainer.set_visible(true)
+	else:
+		$Path/PathFollow/ViewportContainer.set_visible(false)
+
+
+func toggle_cam(is_enabled: bool):
+	dolly_cam.toggle_cam(is_enabled)
+	if is_enabled:
+		$Path/PathFollow.offset = 0.01
+	else:
+		$Path/PathFollow.unit_offset = 0.0
