@@ -4,12 +4,8 @@ extends "res://Util/LinearDrawer/InterpolateLinear.gd"
 # As we do not want to have the line directly on the ground there will be a 
 # placeholder value
 
-var dolly_cam: Camera
+onready var dolly_cam: Camera = $Path/PathFollow/ViewportContainer/RecordingViewport/DollyCamera
 onready var path = $Path
-
-
-func set_ui(main_ui: Control):
-	dolly_cam = $Path/PathFollow/ViewportContainer/RecordingViewport/DollyCamera
 
 
 func add_path_point(position):
@@ -37,7 +33,6 @@ func clear():
 
 
 func set_imaging_visible(is_visible: bool):
-	visible = is_visible
 	if is_visible:
 		$Path/PathFollow/ViewportContainer.set_visible(true)
 	else:

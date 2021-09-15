@@ -24,7 +24,7 @@ func _toggle_set_dolly_path(button_pressed: bool):
 
 func set_player(player):
 	pc_player = player
-	imaging_action = ImagingAction.new(main_ui, pc_player.action_handler.cursor, 
+	imaging_action = ImagingAction.new(pc_player.action_handler.cursor, 
 		preload("res://Util/Imaging/DrawPath/Path/Path.tscn"), pc_player, true)
 	set_height_correction($WindowDialog/ImagingMenu/VBoxContainer/SpinBox.value)
 	$WindowDialog/ImagingMenu/Clear.connect("pressed", imaging_action, "clear")
@@ -49,11 +49,10 @@ class ImagingAction extends ActionHandler.Action:
 	var point_count := 0 setget set_point_count
 	
 	
-	func _init(ui, c, packed_scene, p, b).(p, b):
+	func _init(c, packed_scene, p, b).(p, b):
 		cursor = c
 		path_scene = packed_scene
 		path_scene_instance = packed_scene.instance()
-		path_scene_instance.set_ui(ui)
 		return path_scene_instance
 
 	
