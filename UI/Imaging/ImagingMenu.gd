@@ -1,33 +1,35 @@
 extends HBoxContainer
 
 
-onready var imaging_button = get_node("Imaging")
-onready var filimg_button = get_node("Filming")
-onready var clear_button = get_node("Clear")
-onready var record_button = get_node("Record")
+var dolly = preload("res://Util/Imaging/Dolly/Dolly.tscn")
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	imaging_button.connect("pressed", self, "_on_imaging")
-	filimg_button.connect("pressed", self, "_on_filming")
-	clear_button.connect("pressed",self, "_on_cleared")
-	record_button.connect("pressed", self, "_on_record")
-
-
-# Draw the path
-func _on_imaging():
-	UISignal.emit_signal("imaging")
-
-
-# Film on the path
-func _on_filming():
-	UISignal.emit_signal("toggle_imaging_view")
-
-
-func _on_cleared():
-	UISignal.emit_signal("clear_imaging_path")
+	$Record.connect("pressed", self, "_on_record")
+	$Stop.connect("pressed", self, "_on_stop")
+	$Pause.connect("pressed", self, "_on_pause")
+	$Play.connect("pressed", self, "_on_play")
 
 
 func _on_record():
-	UISignal.emit_signal("toggle_imaging_recording")
+	$Record.visible = false
+	$Stop.visible = true
+	$Pause.visible = true
+
+
+func _on_stop():
+	$Record.visible = true
+	$Stop.visible = false
+	$Pause.visible = false
+	$Play.visible = false
+
+
+func _on_pause():
+	$Pause.visible = false
+	$Play.visible = true
+
+
+func _on_play():
+	$Pause.visible = true
+	$Play.visible = false
