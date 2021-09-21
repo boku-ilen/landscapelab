@@ -33,8 +33,8 @@ signal new_center(new_center_array)
 signal new_center_node(node)
 
 # The offset
-var x: int = 420500
-var z: int = 453720
+onready var x: int = $LayerConfigurator.center.x
+onready var z: int = $LayerConfigurator.center.z
 
 var delta_x := 0.0
 var delta_z := 0.0
@@ -163,12 +163,14 @@ func to_world_coordinates(pos):
 
 
 # Converts world coordinates (absolute webmercator coordinates) to engine coordinates.
-# Works with 2D and 3D arrays, but always returns a Vector3.
-func to_engine_coordinates(pos: Array) -> Vector3:
+# Works with 2D and 3D arrays and Vectors, but always returns a Vector3.
+func to_engine_coordinates(pos) -> Vector3:
 	if pos is Array and pos.size() == 2:
 		return Vector3(-x + pos[0], DEFAULT_HEIGHT, -pos[1] + z)
 	elif pos is Array and pos.size() == 3:
 		return Vector3(x - pos[0], pos[1], -pos[2] + z)
+	elif pos is Vector3:
+		return Vector3(-x + pos.x, pos.y, -pos.z + z)
 	else:
 		logger.warning("Invalid type for to_engine_coordinates: %s; Needs to be Array with length of 2 or 3"
 		 % [String(typeof(pos))])

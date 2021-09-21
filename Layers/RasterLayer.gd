@@ -14,6 +14,14 @@ func get_value_at_position(x: float, y: float):
 	return geo_raster_layer.get_value_at_position(x, y)
 
 
+func get_extent():
+	return geo_raster_layer.get_extent()
+
+
+func get_center():
+	return geo_raster_layer.get_center()
+
+
 func clone():
 	var cloned_layer = duplicate()
 	cloned_layer.geo_raster_layer = geo_raster_layer.clone()

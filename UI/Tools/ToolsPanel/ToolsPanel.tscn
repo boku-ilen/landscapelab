@@ -1,11 +1,13 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/locomotion.svg" type="Texture" id=1]
-[ext_resource path="res://UI/Imaging/ImagingButton.gd" type="Script" id=2]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/raster.svg" type="Texture" id=2]
+[ext_resource path="res://UI/GeoJPEG/GeoJPEGMenu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/clock.svg" type="Texture" id=4]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" type="Texture" id=5]
 [ext_resource path="res://UI/Tracking/Record.tscn" type="PackedScene" id=6]
 [ext_resource path="res://UI/Tools/ToolsButton.tscn" type="PackedScene" id=7]
+[ext_resource path="res://UI/Imaging/ImagingButton.gd" type="Script" id=8]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=9]
 [ext_resource path="res://UI/UiTeleport.gd" type="Script" id=10]
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.gd" type="Script" id=11]
@@ -70,6 +72,13 @@ shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
+[sub_resource type="ShaderMaterial" id=8]
+resource_local_to_scene = true
+shader = ExtResource( 9 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
 [node name="ToolsPanel" type="VBoxContainer"]
 anchor_right = 0.125
 anchor_bottom = 0.666
@@ -85,7 +94,7 @@ __meta__ = {
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-margin_right = 49.0
+margin_right = 25.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 0, 370 )
 mouse_filter = 1
@@ -95,7 +104,7 @@ scroll_horizontal_enabled = false
 
 [node name="ToolsBar" type="VBoxContainer" parent="ScrollContainer"]
 margin_right = 25.0
-margin_bottom = 270.0
+margin_bottom = 310.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 custom_constants/separation = 10
@@ -153,7 +162,7 @@ material = SubResource( 5 )
 margin_top = 160.0
 margin_bottom = 190.0
 texture_normal = ExtResource( 12 )
-script = ExtResource( 2 )
+script = ExtResource( 8 )
 pressed_color = Color( 0, 0, 0, 1 )
 hover_color = Color( 0, 0, 0, 1 )
 disabled_color = Color( 0, 0, 0, 1 )
@@ -180,4 +189,14 @@ texture_normal = ExtResource( 15 )
 texture_name = "paintbrush"
 
 [node name="RenderingStyleMenu" parent="ScrollContainer/ToolsBar/Style" instance=ExtResource( 22 )]
+visible = false
+
+[node name="GeoJPEG" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
+material = SubResource( 8 )
+margin_top = 280.0
+margin_bottom = 310.0
+texture_normal = ExtResource( 2 )
+texture_name = "raster"
+
+[node name="GeoJPEGMenu" parent="ScrollContainer/ToolsBar/GeoJPEG" instance=ExtResource( 3 )]
 visible = false
