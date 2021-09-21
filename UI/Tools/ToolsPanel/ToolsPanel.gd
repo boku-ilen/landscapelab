@@ -35,6 +35,16 @@ func _inject():
 			child.pc_player = pc_player
 		if "pos_manager" in child:
 			child.pos_manager = pos_manager
+		
+		for subchild in child.get_children():
+			if subchild.get_child_count() > 1:
+				# .get_child(1) is needed because the ToolsButton places everything
+				# under a new root node, and the window dialogue has a default child
+				# which is get_child(0)
+				if "pc_player" in subchild.get_child(1):
+					subchild.get_child(1).pc_player = pc_player
+				if "pos_manager" in subchild.get_child(1):
+					subchild.get_child(1).pos_manager = pos_manager
 
 
 # If the current game mode is changed, the new mode will be applied according to 

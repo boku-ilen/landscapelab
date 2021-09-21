@@ -15,13 +15,13 @@ __meta__ = {
 }
 
 [node name="Heading" type="Label" parent="."]
-margin_right = 350.0
+margin_right = 480.0
 margin_bottom = 25.0
 text = "Open a georeferenced JPEG"
 
 [node name="FileOpenButton" type="Button" parent="."]
 margin_top = 33.0
-margin_right = 350.0
+margin_right = 480.0
 margin_bottom = 70.0
 text = "Open"
 script = ExtResource( 2 )
@@ -38,3 +38,21 @@ current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="PythonWrapper" parent="." instance=ExtResource( 1 )]
 scene_to_load = "res://Python/ExifInterface.tscn"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_top = 78.0
+margin_right = 480.0
+margin_bottom = 348.0
+rect_min_size = Vector2( 480, 270 )
+expand = true
+stretch_mode = 6
+
+[node name="TeleportButton" type="Button" parent="."]
+margin_top = 356.0
+margin_right = 480.0
+margin_bottom = 393.0
+disabled = true
+text = "Teleport to Image location"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -42,4 +42,4 @@ class ExifInterface(Node):
 		lat = self.get_decimal_from_dms(self.geotags['GPSLatitude'], self.geotags['GPSLatitudeRef'])
 		lon = self.get_decimal_from_dms(self.geotags['GPSLongitude'], self.geotags['GPSLongitudeRef'])
 
-		return Vector2(lat, lon)
+		return Vector3(lat, 0, lon)
