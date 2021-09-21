@@ -2,6 +2,7 @@ extends Configurator
 
 
 var geodataset
+var center
 
 
 func _ready():
@@ -74,6 +75,9 @@ func add_test_data():
 	terrain_layer.render_info.landuse_layer = landuse_layer.clone()
 	terrain_layer.render_info.surface_height_layer = surface_height_layer.clone()
 	terrain_layer.name = "Realistic Terrain"
+	
+	# TODO: Consider using the average center of all layers?
+	center = height_layer.get_center()
 	
 #	# Basic Terrain layer
 #	var terrain_layer = Layer.new()
