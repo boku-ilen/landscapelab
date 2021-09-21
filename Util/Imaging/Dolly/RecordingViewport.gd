@@ -1,21 +1,28 @@
 extends Viewport
 
 
+#
+# FIXME: Rewrite filming functionality (maybe use a cpp library as gdnative
+# plugin for filming actual videos)
+#
+
+
 var timer: Timer
 export(float) var fps: float = 4.0
 export(float) var asset_type_to_color: int = 2
 
 
 func _ready():
-	timer = Timer.new()
-	timer.set_one_shot(false)
-	timer.set_timer_process_mode(0)
-	timer.set_wait_time(1.0 / fps)
-	timer.set_autostart(false)
-	timer.connect("timeout", self, "make_training_screenshot_pair")
-	UISignal.connect("toggle_imaging_recording", self, "_on_record")
-	
-	self.add_child(timer)
+	pass
+#	timer = Timer.new()
+#	timer.set_one_shot(false)
+#	timer.set_timer_process_mode(0)
+#	timer.set_wait_time(1.0 / fps)
+#	timer.set_autostart(false)
+#	timer.connect("timeout", self, "make_training_screenshot_pair")
+#	UISignal.connect("toggle_imaging_recording", self, "_on_record")
+#
+#	self.add_child(timer)
 
 
 func _on_record():
@@ -81,8 +88,8 @@ func save_screenshot(img_filename_array):
 
 
 func _get_screenshot_filename():
-	return "user://videoframe-%d-%d.png" % [Session.session_id, OS.get_system_time_msecs()]
+	pass#return "user://videoframe-%d-%d.png" % [Session.session_id, OS.get_system_time_msecs()]
 
 
 func _get_screenshot_filename_with_additional_flag(flag: int, time: int):
-	return "user://%d-videoframe-%d-%d.png" % [flag, Session.session_id, time]
+	pass#return "user://%d-videoframe-%d-%d.png" % [flag, Session.session_id, time]

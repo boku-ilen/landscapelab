@@ -1,24 +1,64 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://UI/Imaging/ImagingMenu.gd" type="Script" id=1]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=3]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/pause.svg" type="Texture" id=4]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/stop.svg" type="Texture" id=5]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/record.svg" type="Texture" id=6]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/play.svg" type="Texture" id=7]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/paintbrush.svg" type="Texture" id=8]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/clear.svg" type="Texture" id=9]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" type="Texture" id=10]
 
-[sub_resource type="InputEventAction" id=1]
-action = "imaging"
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/color = Vector3( 0.92549, 0.866667, 0.866667 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="ShortCut" id=2]
-shortcut = SubResource( 1 )
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="InputEventAction" id=3]
-action = "toggle_imaging_view"
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="ShortCut" id=4]
-shortcut = SubResource( 3 )
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="InputEventAction" id=5]
-action = "toggle_imaging_recording"
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
-[sub_resource type="ShortCut" id=6]
-shortcut = SubResource( 5 )
+[sub_resource type="ShaderMaterial" id=6]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
+[sub_resource type="ShaderMaterial" id=7]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
 [node name="ImagingMenu" type="HBoxContainer"]
 margin_right = 381.0
@@ -32,31 +72,87 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Imaging" type="Button" parent="."]
-margin_right = 107.0
-margin_bottom = 40.0
+[node name="Set" parent="." instance=ExtResource( 2 )]
+material = SubResource( 1 )
+margin_right = 30.0
+margin_bottom = 78.0
 toggle_mode = true
-shortcut = SubResource( 2 )
-text = "SetPath"
+texture_normal = ExtResource( 8 )
+texture_name = "paintbrush"
+default_color = Color( 0.92549, 0.866667, 0.866667, 1 )
+pressed_color = Color( 0.243137, 0.0470588, 0.227451, 1 )
 
-[node name="Filming" type="Button" parent="."]
-margin_left = 115.0
-margin_right = 185.0
-margin_bottom = 40.0
+[node name="Clear" parent="." instance=ExtResource( 2 )]
+material = SubResource( 2 )
+margin_left = 38.0
+margin_right = 68.0
+margin_bottom = 78.0
+texture_normal = ExtResource( 9 )
+texture_name = "clear"
+
+[node name="Show" parent="." instance=ExtResource( 2 )]
+material = SubResource( 3 )
+margin_left = 76.0
+margin_right = 106.0
+margin_bottom = 78.0
 toggle_mode = true
-shortcut = SubResource( 4 )
-text = "Film"
+texture_normal = ExtResource( 10 )
+texture_name = "eyes"
 
-[node name="Clear" type="Button" parent="."]
-margin_left = 193.0
-margin_right = 273.0
-margin_bottom = 40.0
-text = "Clear"
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 114.0
+margin_right = 310.0
+margin_bottom = 78.0
 
-[node name="Record" type="Button" parent="."]
-margin_left = 281.0
-margin_right = 381.0
-margin_bottom = 40.0
-toggle_mode = true
-shortcut = SubResource( 6 )
-text = "Record"
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 196.0
+margin_bottom = 25.0
+text = "Camera-height"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer"]
+margin_top = 33.0
+margin_right = 196.0
+margin_bottom = 78.0
+min_value = 1.0
+max_value = 9999.0
+value = 100.0
+
+[node name="VSeparator" type="VSeparator" parent="."]
+margin_left = 318.0
+margin_right = 326.0
+margin_bottom = 78.0
+
+[node name="Record" parent="." instance=ExtResource( 2 )]
+material = SubResource( 4 )
+margin_left = 334.0
+margin_right = 364.0
+margin_bottom = 78.0
+texture_normal = ExtResource( 6 )
+texture_name = "record"
+
+[node name="Stop" parent="." instance=ExtResource( 2 )]
+visible = false
+material = SubResource( 5 )
+margin_left = 324.0
+margin_right = 354.0
+margin_bottom = 78.0
+texture_normal = ExtResource( 5 )
+texture_name = "stop"
+
+[node name="Pause" parent="." instance=ExtResource( 2 )]
+visible = false
+material = SubResource( 6 )
+margin_left = 362.0
+margin_right = 392.0
+margin_bottom = 78.0
+texture_normal = ExtResource( 4 )
+texture_name = "pause"
+
+[node name="Play" parent="." instance=ExtResource( 2 )]
+visible = false
+material = SubResource( 7 )
+margin_left = 400.0
+margin_right = 430.0
+margin_bottom = 78.0
+texture_normal = ExtResource( 7 )
+texture_name = "play"
