@@ -16,7 +16,7 @@ const _required_button = preload("res://UI/Tools/ToolsButton.gd")
 
 var arrow_toggle: bool = false
 var pc_player: AbstractPlayer
-var pos_manager
+var pos_manager: PositionManager
 
 
 func _ready():
