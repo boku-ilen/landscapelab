@@ -18,4 +18,5 @@ func _toggle_vr(button_pressed):
 		pc_player_instance = pos_manager.center_node
 		pos_manager.center_node = vr_player_instance
 	else:
-		pass
+		pos_manager.remove_child(vr_player_instance)
+		pos_manager.center_node = pc_player_instance
