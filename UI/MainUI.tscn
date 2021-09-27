@@ -221,7 +221,6 @@ shadow_atlas_size = 2048
 
 [node name="GroundedSpatial" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC" index="5" instance=ExtResource( 4 )]
 is_active = false
-above_height = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Split/Right/Mid"]
 margin_top = 869.0
@@ -346,5 +345,4 @@ mouse_filter = 2
 visible = false
 
 [editable path="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World"]
-
 [editable path="CenterContainer/StartScene"]
