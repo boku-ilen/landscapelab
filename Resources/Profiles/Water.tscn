@@ -13,11 +13,11 @@ curve = SubResource( 1 )
 
 [node name="CSGBox" type="CSGPolygon" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.500705, 0.304402, 0 )
-polygon = PoolVector2Array( -10, 3, 10, 3, 0, 3 )
+polygon = PoolVector2Array( -20, 2, 20, 2, 20, 2 )
 mode = 2
 path_node = NodePath("..")
 path_interval = 1.0
-path_rotation = 1
+path_rotation = 2
 path_local = false
 path_continuous_u = true
 path_joined = false
