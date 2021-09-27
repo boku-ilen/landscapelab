@@ -71,11 +71,6 @@ class ImagingAction extends ActionHandler.Action:
 		world.add_child(path_scene_instance)
 
 
-	func _notification(what):
-		if what == NOTIFICATION_PREDELETE:
-			path_scene_instance.queue_free()
-
-
 	func clear():
 		path_scene_instance.clear()
 		set_point_count(0)
