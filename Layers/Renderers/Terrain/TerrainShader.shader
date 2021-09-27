@@ -24,6 +24,8 @@ uniform sampler2DArray ao_tex;
 // See Vegetation.get_metadata_texture for details
 uniform sampler2D metadata;
 
+uniform float distance_tex_switch_distance = 20.0;
+uniform float transition_space = 8.0;
 uniform sampler2DArray distance_tex: hint_albedo;
 uniform sampler2DArray distance_normals: hint_normal;
 
@@ -36,6 +38,7 @@ uniform float size;
 varying vec3 camera_pos;
 varying vec3 world_pos;
 varying float world_distance;
+varying float camera_distance;
 
 float get_height(vec2 uv) {
 	return texture(heightmap, uv).r * height_scale;
@@ -69,11 +72,14 @@ vec3 get_normal(vec2 normal_uv_pos) {
 }
 
 void vertex() {
+	VERTEX.y = get_height(UV);
+	NORMAL = get_normal(UV);
+	
 	world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	world_distance = length(world_pos.xz);
 	
-	VERTEX.y = get_height(UV);
-	NORMAL = get_normal(UV);
+	camera_pos = CAMERA_MATRIX[3].xyz;
+	camera_distance = length(world_pos - camera_pos);
 	
 	if (has_surface_heights) {
 		float surface_height_factor = float(world_distance > surface_heights_start_distance);
@@ -105,6 +111,12 @@ vec4 texelGet ( sampler2D tg_tex, ivec2 tg_coord, int tg_lod ) {
 }
 
 
+vec3 get_ortho_color(vec2 uv) {
+	vec3 blue_shifted_sample = shift_blue(texture(orthophoto, uv).rgb, ortho_blue_shift_factor);
+	return saturate_color(blue_shifted_sample, ortho_saturation);
+}
+
+
 
 void fragment() {
 	int splat_id = int(round(texture(landuse, UV).r * 255.0));
@@ -115,17 +127,61 @@ void fragment() {
 	float ground_texture_scale = metadata_value.g * 128.0; // FIXME: Move scale to uniform
 	float fade_texture_scale = metadata_value.b * 128.0;
 	
-	if (ground_texture_scale > 0.0 && has_landuse && world_distance < 20.0) { // FIXME: Move this threshold to uniform
-		vec3 scaled_uv = vec3(UV * size / ground_texture_scale, plant_row);
-		
-		ALBEDO = texture(albedo_tex, scaled_uv).rgb;
-		NORMALMAP = texture(normal_tex, scaled_uv).rgb;
-		NORMALMAP_DEPTH = 2.5;
-		AO = texture(ambient_tex, scaled_uv).r;
-		SPECULAR = texture(specular_tex, scaled_uv).r;
-		ROUGHNESS = texture(roughness_tex, scaled_uv).r;
+	// Calculate the near factor: 0.0 when only the distance texture should be applied,
+	// 1.0 when only the close ground texture should be used
+	float near_factor = 0.0;
+	
+	if (camera_distance < distance_tex_switch_distance - transition_space) {
+		near_factor = 1.0;
+	} else if (camera_distance < distance_tex_switch_distance + transition_space) {
+		near_factor = camera_distance - (distance_tex_switch_distance - transition_space);
+		near_factor /= transition_space * 2.0;
 	} else {
-		vec3 blue_shifted_sample = shift_blue(texture(orthophoto, UV).rgb, ortho_blue_shift_factor);
-		ALBEDO = saturate_color(blue_shifted_sample, ortho_saturation);
+		near_factor = 0.0;
+	}
+	
+	// Apply textures
+	if (ground_texture_scale > 0.0 && has_landuse) {
+		// We have special near textures here
+		if (near_factor >= 1.0) {
+			vec3 scaled_uv = vec3(UV * size / ground_texture_scale, plant_row);
+		
+			ALBEDO = texture(albedo_tex, scaled_uv).rgb;
+			// TODO: Angle normals by previous vertex NORMAL so that the shading isn't overwritten (need to use TANGENT)
+			NORMALMAP = texture(normal_tex, scaled_uv).rgb;
+			NORMALMAP_DEPTH = 2.5;
+			AO = texture(ambient_tex, scaled_uv).r;
+			SPECULAR = texture(specular_tex, scaled_uv).r;
+			ROUGHNESS = texture(roughness_tex, scaled_uv).r;
+		} else if (near_factor <= 0.0) {
+			// Apply the distance tex only
+			if (fade_texture_scale > 0.0) {
+				vec3 scaled_far_uv = vec3(UV * size / fade_texture_scale, plant_row);
+				ALBEDO = texture(distance_tex, scaled_far_uv).rgb;
+			} else {
+				// If none is available, just use the orthophoto
+				ALBEDO = get_ortho_color(UV);
+			}
+		} else {
+			// Blend between close tex and distance tex
+			vec3 scaled_near_uv = vec3(UV * size / ground_texture_scale, plant_row);
+			vec3 scaled_far_uv = vec3(UV * size / fade_texture_scale, plant_row);
+			
+			// Select the distance sample depending on whether a fade texture is available (ortho otherwise)
+			vec3 second_sample;
+			vec3 second_sample_normals;
+			if (fade_texture_scale > 0.0) {
+				second_sample = texture(distance_tex, scaled_far_uv).rgb;
+				second_sample_normals = texture(distance_normals, scaled_far_uv).rgb;
+			} else {
+				second_sample = get_ortho_color(UV);
+			}
+			
+			ALBEDO = mix(texture(albedo_tex, scaled_near_uv).rgb, second_sample, near_factor);
+		}
+	} else {
+		// No near texture is available, so just apply the ortho
+		// TOOD: Restructure to also handle the case of a fade texture being available, but no near texture
+		ALBEDO = get_ortho_color(UV);
 	}
 }
