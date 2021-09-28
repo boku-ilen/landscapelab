@@ -213,6 +213,8 @@ layer_renderers_path = NodePath("../Viewport/World/Terrain/LayerRenderers")
 [node name="Viewport" type="Viewport" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
 size = Vector2( 1346, 857 )
 handle_input_locally = false
+msaa = 1
+debanding = true
 render_target_update_mode = 3
 gui_disable_input = true
 shadow_atlas_size = 2048

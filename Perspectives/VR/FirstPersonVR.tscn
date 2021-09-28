@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Perspectives/AbstractPlayer/AbstractPlayer.gd" type="Script" id=1]
+[ext_resource path="res://Perspectives/VR/FirstPersonVR.gd" type="Script" id=1]
 [ext_resource path="res://addons/vr-toolkit/PlayerVR.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Util/GroundedSpatial.tscn" type="PackedScene" id=3]
 
