@@ -73,6 +73,13 @@ vec3 get_normal(vec2 normal_uv_pos) {
 
 void vertex() {
 	VERTEX.y = get_height(UV);
+	
+	// Water bed offset
+	int splat_id = int(round(texture(landuse, UV).r * 255.0));
+	if (splat_id == 60) {
+		VERTEX.y -= 30.0;
+	}
+	
 	NORMAL = get_normal(UV);
 	
 	world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;

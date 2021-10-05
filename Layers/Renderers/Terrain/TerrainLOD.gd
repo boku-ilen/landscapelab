@@ -15,6 +15,7 @@ export(int) var landuse_resolution = 100
 
 export(bool) var load_detail_textures = false
 export(bool) var load_fade_textures = false
+export(bool) var always_load_landuse = false
 
 const MAX_GROUPS = 3
 
@@ -102,7 +103,7 @@ func build():
 			current_texture = current_ortho_image.get_image_texture()
 	
 	# Land Use
-	if landuse_layer and (load_detail_textures or load_fade_textures):
+	if landuse_layer and (always_load_landuse or load_detail_textures or load_fade_textures):
 		var current_landuse_image = landuse_layer.get_image(
 			top_left_x,
 			top_left_y,
@@ -183,5 +184,4 @@ func apply_textures():
 		$CollisionMeshCreator.create_mesh(current_heightmap, size)
 	
 	if has_node("ExtraLOD"):
-		$ExtraLOD.apply_size(size)
 		$ExtraLOD.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)
