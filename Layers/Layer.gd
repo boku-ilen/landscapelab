@@ -56,6 +56,7 @@ class BasicTerrainRenderInfo extends RenderInfo:
 	var is_color_shaded: bool
 	var max_color: Color
 	var min_color: Color
+	var alpha: float
 	
 	func is_valid():
 		return height_layer != null and (is_color_shaded or texture_layer != null)

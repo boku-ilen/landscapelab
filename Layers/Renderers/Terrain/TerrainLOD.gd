@@ -23,6 +23,13 @@ var position_y
 
 var height_layer
 var texture_layer
+
+# Data shading specific
+var is_color_shaded
+var min_color: Color
+var max_color: Color
+
+# Terrain specific
 var landuse_layer
 var surface_height_layer
 
@@ -145,26 +152,30 @@ func apply_textures():
 	if current_heightmap:
 		material_override.set_shader_param("heightmap", current_heightmap)
 	
-	if current_texture:
-		material_override.set_shader_param("orthophoto", current_texture)
-	
-	if current_landuse:
-		material_override.set_shader_param("has_landuse", true)
-		material_override.set_shader_param("landuse", current_landuse)
-	
-	if current_surface_heightmap:
-		material_override.set_shader_param("has_surface_heights", true)
-		material_override.set_shader_param("surface_heightmap", current_surface_heightmap)
-	
-	if current_metadata_map:
-		material_override.set_shader_param("metadata", current_metadata_map)
-	
-	if current_albedo_ground_textures:
-		material_override.set_shader_param("albedo_tex", current_albedo_ground_textures)
-		material_override.set_shader_param("normal_tex", current_normal_ground_textures)
-		material_override.set_shader_param("ambient_tex", current_ambient_ground_textures)
-		material_override.set_shader_param("specular_tex", current_specular_ground_textures)
-		material_override.set_shader_param("roughness_tex", current_roughness_ground_textures)
+	if not is_color_shaded:
+		if current_texture:
+			material_override.set_shader_param("orthophoto", current_texture)
+		
+		if current_landuse:
+			material_override.set_shader_param("has_landuse", true)
+			material_override.set_shader_param("landuse", current_landuse)
+		
+		if current_surface_heightmap:
+			material_override.set_shader_param("has_surface_heights", true)
+			material_override.set_shader_param("surface_heightmap", current_surface_heightmap)
+		
+		if current_metadata_map:
+			material_override.set_shader_param("metadata", current_metadata_map)
+		
+		if current_albedo_ground_textures:
+			material_override.set_shader_param("albedo_tex", current_albedo_ground_textures)
+			material_override.set_shader_param("normal_tex", current_normal_ground_textures)
+			material_override.set_shader_param("ambient_tex", current_ambient_ground_textures)
+			material_override.set_shader_param("specular_tex", current_specular_ground_textures)
+			material_override.set_shader_param("roughness_tex", current_roughness_ground_textures)
+	else:
+		if current_texture:
+			material_override.set_shader_param("tex", current_texture)
 	
 	visible = true
 	
