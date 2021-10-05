@@ -66,6 +66,11 @@ func add_test_data():
 	surface_height_layer.geo_raster_layer = geopackage.get_raster_layer("ndom")
 	surface_height_layer.name = "nDSM"
 	
+	# Precipitation
+	var precipitation_layer = RasterLayer.new()
+	precipitation_layer.geo_raster_layer = Geodot.get_raster_layer("C:\\boku\\geodata\\Niederschlag\\ooe\\Niederschlagssumme_Jahresmittel_1981_2010.tif")
+	precipitation_layer.name = "Precipitation"
+	
 	# Realistic Terrain layer
 	var terrain_layer = Layer.new()
 	terrain_layer.render_type = Layer.RenderType.REALISTIC_TERRAIN
@@ -86,6 +91,18 @@ func add_test_data():
 #	terrain_layer.render_info.height_layer = height_layer.clone()
 #	terrain_layer.render_info.texture_layer = ortho_layer.clone()
 #	terrain_layer.name = "Basic Terrain"
+	
+	# Data Shaded Terrain layer
+	var data_terrain_layer = Layer.new()
+	data_terrain_layer.render_type = Layer.RenderType.BASIC_TERRAIN
+	data_terrain_layer.render_info = Layer.BasicTerrainRenderInfo.new()
+	data_terrain_layer.render_info.height_layer = height_layer.clone()
+	data_terrain_layer.render_info.texture_layer = precipitation_layer.clone()
+	data_terrain_layer.render_info.is_color_shaded = true
+	data_terrain_layer.render_info.max_color = Color(0.8, 0, 0)
+	data_terrain_layer.render_info.min_color = Color(0, 0.8, 0)
+	data_terrain_layer.render_info.alpha = 1.0
+	data_terrain_layer.name = "Data shaded Terrain"
 	
 	# Building layer
 	var building_layer = FeatureLayer.new()
@@ -114,23 +131,36 @@ func add_test_data():
 #	windmill_layer.render_info.ground_height_layer = height_layer.clone()
 #	windmill_layer.name = "Windmills"
 	
-#	# Test Line Data
-#	var street_layer = FeatureLayer.new()
-#	var street_dataset = Geodot.get_dataset("C:\\boku\\geodata\\test_data\\ooe_line_test.shp")
-#	street_layer.geo_feature_layer = street_dataset.get_feature_layer("ooe_line_test")
-#	street_layer.render_type = Layer.RenderType.PATH
-#	street_layer.render_info = Layer.PathRenderInfo.new()
-#	street_layer.render_info.line_visualization = load("res://Resources/Profiles/Water.tscn")
-#	street_layer.render_info.ground_height_layer = height_layer.clone()
-#	street_layer.name = "Streets"
+	# Test Line Data
+	var water_layer = FeatureLayer.new()
+	var water_dataset = Geodot.get_dataset("C:\\boku\\geodata\\test_data\\water_ooe.shp")
+	water_layer.geo_feature_layer = water_dataset.get_feature_layer("water_ooe")
+	water_layer.render_type = Layer.RenderType.PATH
+	water_layer.render_info = Layer.PathRenderInfo.new()
+	water_layer.render_info.line_visualization = load("res://Resources/Profiles/Water.tscn")
+	water_layer.render_info.ground_height_layer = height_layer.clone()
+	water_layer.name = "River"
+	
+	# Test Line Data
+	var street_layer = FeatureLayer.new()
+	var street_dataset = Geodot.get_dataset("C:\\boku\\geodata\\test_data\\ooe_line_test.shp")
+	street_layer.geo_feature_layer = street_dataset.get_feature_layer("ooe_line_test")
+	street_layer.render_type = Layer.RenderType.PATH
+	street_layer.render_info = Layer.PathRenderInfo.new()
+	street_layer.render_info.line_visualization = load("res://Resources/Profiles/Water.tscn")
+	street_layer.render_info.ground_height_layer = height_layer.clone()
+	street_layer.name = "Streets"
 	
 	# Add the layers
+	Layers.add_layer(precipitation_layer)
+	Layers.add_layer(data_terrain_layer)
 #	Layers.add_layer(windmill_layer)
+	Layers.add_layer(water_layer)
 #	Layers.add_layer(street_layer)
 	Layers.add_layer(height_layer)
 	Layers.add_layer(ortho_layer)
 	Layers.add_layer(surface_height_layer)
 	Layers.add_layer(landuse_layer)
-	Layers.add_layer(terrain_layer)
+#	Layers.add_layer(terrain_layer)
 	Layers.add_layer(building_layer)
 	Layers.add_layer(vegetation_layer)

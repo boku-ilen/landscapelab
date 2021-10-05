@@ -9,6 +9,17 @@ func _ready():
 	for lod in lods:
 		lod.height_layer = layer.render_info.height_layer.clone()
 		lod.texture_layer = layer.render_info.texture_layer.clone()
+		
+		lod.is_color_shaded = layer.render_info.is_color_shaded
+		if not layer.render_info.is_color_shaded:
+			lod.material_override = load("res://Layers/Renderers/Terrain/TerrainShader.tres")
+		else:
+			lod.material_override = load("res://Layers/Renderers/Terrain/TerrainDataShader.tres")
+			lod.material_override.set_shader_param("min_value", layer.render_info.texture_layer.geo_raster_layer.get_min())
+			lod.material_override.set_shader_param("max_value", layer.render_info.texture_layer.geo_raster_layer.get_max())
+			lod.material_override.set_shader_param("min_color", layer.render_info.min_color)
+			lod.material_override.set_shader_param("max_color", layer.render_info.max_color)
+			lod.material_override.set_shader_param("alpha", layer.render_info.alpha)
 
 
 func load_new_data():
