@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Layers/Renderers/Terrain/TerrainLOD.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Layers/Renderers/Terrain/TerrainShader.shader" type="Shader" id=2]
+[ext_resource path="res://Layers/Renderers/Terrain/Materials/TerrainShader.shader" type="Shader" id=2]
 [ext_resource path="res://Layers/Renderers/Terrain/CollisionMeshCreator.gd" type="Script" id=3]
 [ext_resource path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" type="Script" id=4]
+[ext_resource path="res://Layers/Renderers/Terrain/ExtraLOD.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Layers/Renderers/Terrain/Materials/Water.tres" type="Material" id=6]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -12,6 +14,8 @@ shader_param/height_scale = 1.0
 shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/has_landuse = false
+shader_param/distance_tex_switch_distance = 20.0
+shader_param/transition_space = 8.0
 shader_param/normal_scale = 1.0
 shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
@@ -24,6 +28,8 @@ shader_param/height_scale = 1.0
 shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/has_landuse = false
+shader_param/distance_tex_switch_distance = 20.0
+shader_param/transition_space = 8.0
 shader_param/normal_scale = 1.0
 shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
@@ -36,6 +42,8 @@ shader_param/height_scale = 1.0
 shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/has_landuse = false
+shader_param/distance_tex_switch_distance = 20.0
+shader_param/transition_space = 8.0
 shader_param/normal_scale = 1.0
 shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
@@ -54,6 +62,9 @@ load_fade_textures = true
 material_override = SubResource( 2 )
 size = 500.0
 load_fade_textures = true
+
+[node name="ExtraLOD" parent="TerrainLOD1" instance=ExtResource( 5 )]
+material_override = ExtResource( 6 )
 
 [node name="TerrainLOD2" parent="." instance=ExtResource( 1 )]
 material_override = SubResource( 3 )

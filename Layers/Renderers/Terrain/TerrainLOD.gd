@@ -170,3 +170,7 @@ func apply_textures():
 	
 	if has_node("CollisionMeshCreator"):
 		$CollisionMeshCreator.create_mesh(current_heightmap, size)
+	
+	if has_node("ExtraLOD"):
+		$ExtraLOD.apply_size(size)
+		$ExtraLOD.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)

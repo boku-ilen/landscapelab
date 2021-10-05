@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Layers/Renderers/Terrain/ExtraLOD.gd" type="Script" id=1]
+[ext_resource path="res://Layers/Renderers/Terrain/lod_mesh_full.obj" type="ArrayMesh" id=2]
+
+[node name="ExtraLOD" type="MeshInstance"]
+mesh = ExtResource( 2 )
+material/0 = null
+script = ExtResource( 1 )
+mesh_size = 100.0
