@@ -114,22 +114,24 @@ func build():
 		
 		if current_landuse_image.is_valid():
 			current_landuse = current_landuse_image.get_image_texture()
-			var most_common_groups = current_landuse_image.get_most_common(MAX_GROUPS)
-			var group_array = Vegetation.get_group_array_for_ids(most_common_groups)
 			
-			current_metadata_map = Vegetation.get_metadata_map(most_common_groups)
-			
-			if load_detail_textures:
-				current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
-				current_normal_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "normal")
-				current_specular_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "specular")
-				current_ambient_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "ambient")
-				current_roughness_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "roughness")
-			
-			if load_fade_textures:
-				pass
-				#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
-				#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+			if load_detail_textures or load_fade_textures:
+				var most_common_groups = current_landuse_image.get_most_common(MAX_GROUPS)
+				var group_array = Vegetation.get_group_array_for_ids(most_common_groups)
+				
+				current_metadata_map = Vegetation.get_metadata_map(most_common_groups)
+				
+				if load_detail_textures:
+					current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+					current_normal_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "normal")
+					current_specular_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "specular")
+					current_ambient_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "ambient")
+					current_roughness_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "roughness")
+				
+				if load_fade_textures:
+					pass
+					#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+					#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
 	
 	# Surface Height
 	if surface_height_layer:
@@ -158,9 +160,14 @@ func apply_textures():
 			material_override.set_shader_param("orthophoto", current_texture)
 		
 		if current_landuse:
-			material_override.set_shader_param("has_landuse", true)
 			material_override.set_shader_param("landuse", current_landuse)
 			material_override.set_shader_param("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
+			
+			if not always_load_landuse:
+				# always_load_landuse doesn't load any detail textures (it just provides the landuse data to ExtraLODs)
+				# so in that case, don't apply the data to the shader
+				# FIXME: Make this more clear in the variable names
+				material_override.set_shader_param("has_landuse", true)
 		
 		if current_surface_heightmap:
 			material_override.set_shader_param("has_surface_heights", true)

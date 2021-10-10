@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Layers/Renderers/Terrain/TerrainLOD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Layers/Renderers/Terrain/Materials/TerrainShader.shader" type="Shader" id=2]
@@ -49,6 +49,20 @@ shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
 shader_param/size = null
 
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/height_scale = 1.0
+shader_param/has_surface_heights = false
+shader_param/surface_heights_start_distance = 800.0
+shader_param/has_landuse = false
+shader_param/distance_tex_switch_distance = 20.0
+shader_param/transition_space = 8.0
+shader_param/normal_scale = 1.0
+shader_param/ortho_saturation = 1.0
+shader_param/ortho_blue_shift_factor = 0.9
+shader_param/size = null
+
 [node name="RealisticTerrainRenderer" type="Spatial"]
 script = ExtResource( 4 )
 
@@ -75,6 +89,12 @@ subdivision = 32
 
 [node name="CollisionShape" type="CollisionShape" parent="TerrainLOD2/CollisionMeshCreator"]
 
-[node name="ExtraLOD" parent="TerrainLOD2" instance=ExtResource( 5 )]
+[node name="TerrainLOD3" parent="." instance=ExtResource( 1 )]
+material_override = SubResource( 4 )
+size = 12500.0
+landuse_resolution = 500
+always_load_landuse = true
+
+[node name="ExtraLOD" parent="TerrainLOD3" instance=ExtResource( 5 )]
 material_override = ExtResource( 6 )
 extra_cull_margin = 10000.0
