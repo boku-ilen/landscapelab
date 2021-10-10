@@ -14,6 +14,8 @@ uniform sampler2D surface_heightmap;
 uniform sampler2D landuse;
 uniform bool has_landuse = false;
 
+uniform sampler2D offset_noise;
+
 uniform sampler2DArray albedo_tex: hint_albedo;
 uniform sampler2DArray normal_tex: hint_normal;
 uniform sampler2DArray ambient_tex;
@@ -73,13 +75,6 @@ vec3 get_normal(vec2 normal_uv_pos) {
 
 void vertex() {
 	VERTEX.y = get_height(UV);
-	
-	// Water bed offset
-	int splat_id = int(round(texture(landuse, UV).r * 255.0));
-	if (splat_id == 60) {
-		VERTEX.y -= 30.0;
-	}
-	
 	NORMAL = get_normal(UV);
 	
 	world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -126,7 +121,12 @@ vec3 get_ortho_color(vec2 uv) {
 
 
 void fragment() {
-	int splat_id = int(round(texture(landuse, UV).r * 255.0));
+	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.003).rg - 0.5) * (75.0 / size);
+	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
+	
+	if (splat_id == 60) {
+		discard;
+	}
 	
 	vec3 metadata_value = texelGet(metadata, ivec2(splat_id, 0), 0).rgb;
 	

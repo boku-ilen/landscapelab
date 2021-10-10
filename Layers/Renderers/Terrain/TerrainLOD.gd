@@ -160,6 +160,7 @@ func apply_textures():
 		if current_landuse:
 			material_override.set_shader_param("has_landuse", true)
 			material_override.set_shader_param("landuse", current_landuse)
+			material_override.set_shader_param("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
 		
 		if current_surface_heightmap:
 			material_override.set_shader_param("has_surface_heights", true)

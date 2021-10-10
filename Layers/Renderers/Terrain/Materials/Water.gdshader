@@ -28,6 +28,11 @@ render_mode 	cull_back,diffuse_burley,specular_schlick_ggx, blend_mix;
 // LandscapeLab-specific uniforms
 uniform sampler2D heightmap;
 uniform sampler2D landuse;
+uniform sampler2D offset_noise;
+
+uniform float size;
+
+varying vec3 world_pos;
 
 
 // Wave settings:
@@ -121,6 +126,8 @@ void vertex()
 			VERTEX			 = vertex.xyz;
 			
 			inv_mvp = inverse(PROJECTION_MATRIX * MODELVIEW_MATRIX);
+	
+	world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
 
@@ -128,7 +135,9 @@ void vertex()
 void fragment()
 {
 	// Check landuse for whether we need to do rendering here
-	int splat_id = int(round(texture(landuse, UV).r * 255.0));
+	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.003).rg - 0.5) * (75.0 / size);
+	
+	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
 	if (splat_id != 60) {
 		discard;
 	}
