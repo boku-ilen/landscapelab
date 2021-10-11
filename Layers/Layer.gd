@@ -99,6 +99,12 @@ class PolygonRenderInfo extends RenderInfo:
 	func is_valid():
 		return ground_height_layer != null
 
+class BuildingRenderInfo extends PolygonRenderInfo:
+	var slope_attribute_name
+	var red_attribute_name
+	var green_attribute_name
+	var blue_attribute_name
+
 class PathRenderInfo extends RenderInfo:
 	var line_visualization: PackedScene
 	var ground_height_layer: Layer

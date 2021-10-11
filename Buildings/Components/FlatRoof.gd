@@ -7,6 +7,10 @@ extends Spatial
 #
 
 
+func set_texture(texture):
+	$MeshInstance.material_override.albedo_texture = texture
+
+
 func build(footprint: PoolVector2Array):
 	# Convert the footprint to a polygon
 	var polygon_indices = Geometry.triangulate_polygon(footprint)

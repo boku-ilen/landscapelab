@@ -4,12 +4,12 @@
 
 [node name="GeodataDemo" type="Spatial"]
 script = ExtResource( 1 )
-geodata_path = "/media/karl/loda/geodata/steiermark/ALS_Gebaeudemaske/buildings.shp"
+geodata_path = "/home/karl/Nextcloud/Boku/Data/LL_test_weiden_V2.gpkg"
 building_layer_name = "buildings"
-height_attribute_name = "HOEHE"
+height_attribute_name = "_mean"
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.840633, 0.167257, -0.515132, 0, 0.951121, 0.308818, 0.541605, -0.259602, 0.799544, -120.426, 72.4184, 114.155 )
+transform = Transform( 0.211445, 0.301835, -0.929617, 0, 0.951121, 0.308817, 0.97739, -0.0652978, 0.20111, -120.426, 67.4184, 114.155 )
 far = 3000.0
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]

@@ -1,12 +1,11 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Buildings/Components/FlatRoof.gd" type="Script" id=1]
+[ext_resource path="res://Buildings/Components/PointedRoof.gd" type="Script" id=1]
 
 [sub_resource type="SpatialMaterial" id=1]
 resource_local_to_scene = true
-albedo_color = Color( 0.682353, 0.666667, 0.666667, 1 )
 
-[node name="FlatRoof" type="Spatial"]
+[node name="MansardRoof" type="Spatial"]
 script = ExtResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
