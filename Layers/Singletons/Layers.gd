@@ -25,6 +25,16 @@ func get_rendered_layers():
 	return returned_layers
 
 
+func get_layers_of_type(type):
+	var returned_layers = []
+	
+	for layer in layers:
+		if is_layer_of_type(layers[layer], type):
+			returned_layers.append(layers[layer])
+	
+	return returned_layers
+
+
 func add_layer(layer: Layer):
 	layers[layer.name] = layer
 	
@@ -49,3 +59,7 @@ func remove_layer(layer_name: String):
 
 func is_layer_rendered(layer: Layer):
 	return layer.render_type > Layer.RenderType.NONE
+
+
+func is_layer_of_type(layer: Layer, type):
+	return layer.render_type == type
