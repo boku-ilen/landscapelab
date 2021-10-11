@@ -15,7 +15,7 @@ export(String) var height_attribute_name
 
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 var plain_walls_scene = preload("res://Buildings/Components/PlainWalls.tscn")
-var flat_roof_scene = preload("res://Buildings/Components/FlatRoof.tscn")
+var flat_roof_scene = preload("res://Buildings/Components/PointedRoof.tscn")
 
 var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
 
@@ -27,7 +27,7 @@ func _ready():
 	var layer = dataset.get_feature_layer(building_layer_name)
 	
 	# Extract features
-	var features = layer.get_features_near_position(1577309.91, 5960304.19, 2000, 1000)
+	var features = layer.get_features_near_position(662456.130, 455465.165, 200, 100)
 	
 	var time_before = OS.get_ticks_usec()
 	
@@ -47,12 +47,14 @@ func _ready():
 			building.add_child(plain_walls_scene.instance())
 		
 		# Add the roof
-		building.add_child(flat_roof_scene.instance())
+		var flat_roof = flat_roof_scene.instance()
+		flat_roof.set_texture(preload("res://Resources/Textures/Buildings/roof/roof_2-diffuse.jpg"))
+		building.add_child(flat_roof)
 		
 		# Set parameters in the building base
 		building.set_footprint(polygon)
 		building.set_holes(holes)
-		building.set_offset(1577309, 5960304)
+		building.set_offset(662456, 455465)
 		
 		# Build!
 		building.build()

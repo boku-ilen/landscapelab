@@ -1,8 +1,8 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=2]
 
 [ext_resource path="res://Resources/Materials/Shaders/RiverWater.shader" type="Shader" id=1]
-[ext_resource path="res://Resources/Textures/water/foam_noise.png" type="Texture" id=2]
-[ext_resource path="res://Resources/Textures/water/normal_river.png" type="Texture" id=3]
+[ext_resource path="res://Resources/Textures/RiverWater/foam_noise.png" type="Texture" id=2]
+[ext_resource path="res://Resources/Textures/RiverWater/normal_river.png" type="Texture" id=3]
 
 [resource]
 shader = ExtResource( 1 )

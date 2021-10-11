@@ -3,7 +3,7 @@
 [ext_resource path="res://Layers/Renderers/Terrain/lod_mesh_hole_doubleres.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Layers/Renderers/Terrain/lod_mesh_full.obj" type="ArrayMesh" id=2]
 [ext_resource path="res://Layers/Renderers/Terrain/TerrainLOD.gd" type="Script" id=3]
-[ext_resource path="res://Layers/Renderers/Terrain/TerrainShader.tres" type="Material" id=4]
+[ext_resource path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" type="Material" id=4]
 
 [node name="TerrainLOD" type="MeshInstance"]
 material_override = ExtResource( 4 )

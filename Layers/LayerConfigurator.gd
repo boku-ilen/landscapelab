@@ -106,10 +106,14 @@ func add_test_data():
 	
 	# Building layer
 	var building_layer = FeatureLayer.new()
-	building_layer.geo_feature_layer = geopackage.get_feature_layer("building_footprints")
+	building_layer.geo_feature_layer = geopackage.get_feature_layer("buildings")
 	building_layer.render_type = Layer.RenderType.POLYGON
-	building_layer.render_info = Layer.PolygonRenderInfo.new()
+	building_layer.render_info = Layer.BuildingRenderInfo.new()
 	building_layer.render_info.height_attribute_name = "_mean"
+	building_layer.render_info.slope_attribute_name = "slope_mean"
+	building_layer.render_info.red_attribute_name = "red_median"
+	building_layer.render_info.green_attribute_name = "green_median"
+	building_layer.render_info.blue_attribute_name = "blue_median"
 	building_layer.render_info.ground_height_layer = height_layer.clone()
 	building_layer.name = "Buildings"
 

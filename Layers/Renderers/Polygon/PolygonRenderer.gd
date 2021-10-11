@@ -4,6 +4,7 @@ extends LayerRenderer
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 var plain_walls_scene = preload("res://Buildings/Components/PlainWalls.tscn")
 var flat_roof_scene = preload("res://Buildings/Components/FlatRoof.tscn")
+var pointed_roof_scene = preload("res://Buildings/Components/PointedRoof.tscn")
 
 var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
 var fallback_height = 10
@@ -42,7 +43,29 @@ func load_new_data():
 			building.add_child(walls)
 		
 		# Add the roof
-		building.add_child(flat_roof_scene.instance())
+		if layer.render_info is Layer.PolygonRenderInfo:
+			var slope = feature.get_attribute(layer.render_info.slope_attribute_name)
+			var roof
+			
+			if float(slope) > 15:
+				roof = pointed_roof_scene.instance()
+			
+			if not roof or not roof.can_build(polygon):
+				roof = flat_roof_scene.instance()
+			
+			var color = Color(
+					float(feature.get_attribute(layer.render_info.red_attribute_name)) / 255.0,
+					float(feature.get_attribute(layer.render_info.green_attribute_name)) / 255.0,
+					float(feature.get_attribute(layer.render_info.blue_attribute_name)) / 255.0
+			)
+			
+			# TODO: Refine this logic
+			if color.r - 0.1 > color.g and color.r - 0.1 > color.b:
+				roof.set_texture(preload("res://Resources/Textures/Buildings/roof/roof_3_diffuse.jpg"))
+			else:
+				roof.set_texture(preload("res://Resources/Textures/Buildings/roof/roof_1_diffuse.png"))
+			
+			building.add_child(roof)
 		
 		# Set parameters in the building base
 		building.set_footprint(polygon)
