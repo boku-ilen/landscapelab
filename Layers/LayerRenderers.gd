@@ -44,12 +44,12 @@ func add_child(child: Node, legible_unique_name: bool = false):
 		# Apply the default center for use without a PositionManager
 		child.center = default_center
 	
+	# Actually add the child node to the tree
+	.add_child(child, legible_unique_name)
+	
 	# Start loading its data
 	# FIXME: Start a thread with this
 	child.load_new_data() # FIXME: Run in thread
-	
-	# Actually add the child node to the tree
-	.add_child(child, legible_unique_name)
 	
 	# Apply the data
 	# FIXME: Do this once all load_new_data threads are done!

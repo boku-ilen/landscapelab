@@ -16,7 +16,7 @@ __meta__ = {
 
 [node name="LeftBox" type="VBoxContainer" parent="."]
 margin_right = 133.0
-margin_bottom = 388.0
+margin_bottom = 458.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -54,30 +54,38 @@ text = "Texture:"
 [node name="ColorCode" type="Label" parent="LeftBox"]
 margin_top = 244.0
 margin_right = 133.0
-margin_bottom = 292.0
-rect_min_size = Vector2( 0, 48 )
+margin_bottom = 279.0
+rect_min_size = Vector2( 0, 35 )
 text = "Color code:"
 
 [node name="ColorMin" type="Label" parent="LeftBox"]
 visible = false
-margin_top = 300.0
+margin_top = 287.0
 margin_right = 133.0
-margin_bottom = 340.0
-rect_min_size = Vector2( 0, 40 )
+margin_bottom = 322.0
+rect_min_size = Vector2( 0, 35 )
 text = "Color min: "
 
 [node name="ColorMax" type="Label" parent="LeftBox"]
 visible = false
-margin_top = 348.0
+margin_top = 330.0
 margin_right = 133.0
-margin_bottom = 388.0
-rect_min_size = Vector2( 0, 40 )
+margin_bottom = 365.0
+rect_min_size = Vector2( 0, 35 )
 text = "Color max:"
+
+[node name="Alpha" type="Label" parent="LeftBox"]
+visible = false
+margin_top = 373.0
+margin_right = 133.0
+margin_bottom = 408.0
+rect_min_size = Vector2( 0, 35 )
+text = "Alpha:"
 
 [node name="RightBox" type="VBoxContainer" parent="."]
 margin_left = 157.0
 margin_right = 1024.0
-margin_bottom = 388.0
+margin_bottom = 458.0
 
 [node name="Control" type="Control" parent="RightBox"]
 margin_right = 867.0
@@ -107,8 +115,8 @@ size_flags_vertical = 0
 
 [node name="ButtonMin" parent="RightBox" instance=ExtResource( 1 )]
 visible = false
-margin_top = 210.0
-margin_bottom = 250.0
+margin_top = 300.0
+margin_bottom = 340.0
 size_flags_horizontal = 0
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="RightBox/ButtonMin"]
@@ -126,8 +134,8 @@ __meta__ = {
 
 [node name="ButtonMax" parent="RightBox" instance=ExtResource( 1 )]
 visible = false
-margin_top = 258.0
-margin_bottom = 298.0
+margin_top = 348.0
+margin_bottom = 388.0
 size_flags_horizontal = 0
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="RightBox/ButtonMax"]
@@ -145,5 +153,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AlphaSpinBox" type="SpinBox" parent="RightBox"]
+visible = false
+margin_top = 396.0
+margin_right = 196.0
+margin_bottom = 441.0
+size_flags_horizontal = 0
+max_value = 1.0
+step = 0.05
+value = 1.0
+
 [node name="Warning" parent="RightBox" instance=ExtResource( 5 )]
 visible = false
+margin_top = 353.0
+margin_bottom = 391.0

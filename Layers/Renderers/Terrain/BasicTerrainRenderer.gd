@@ -12,11 +12,13 @@ func _ready():
 		
 		lod.is_color_shaded = layer.render_info.is_color_shaded
 		if not layer.render_info.is_color_shaded:
-			lod.material_override = load("res://Layers/Renderers/Terrain/TerrainShader.tres")
+			# FIXME: I dont know why a duplicate is necessary but somehow it seems to be...
+			lod.material_override = load("res://Layers/Renderers/Terrain/TerrainShader.tres").duplicate()
 		else:
-			lod.material_override = load("res://Layers/Renderers/Terrain/TerrainDataShader.tres")
-			lod.material_override.set_shader_param("min_value", layer.render_info.texture_layer.geo_raster_layer.get_min())
-			lod.material_override.set_shader_param("max_value", layer.render_info.texture_layer.geo_raster_layer.get_max())
+			# FIXME: I dont know why a duplicate is necessary but somehow it seems to be...
+			lod.material_override = load("res://Layers/Renderers/Terrain/TerrainDataShader.tres").duplicate()
+			lod.material_override.set_shader_param("min_value", layer.render_info.texture_layer.get_min())
+			lod.material_override.set_shader_param("max_value", layer.render_info.texture_layer.get_max())
 			lod.material_override.set_shader_param("min_color", layer.render_info.min_color)
 			lod.material_override.set_shader_param("max_color", layer.render_info.max_color)
 			lod.material_override.set_shader_param("alpha", layer.render_info.alpha)

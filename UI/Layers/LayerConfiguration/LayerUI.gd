@@ -62,7 +62,7 @@ func _alter_filters(idx):
 
 func _delete_layer():
 	if selected_layer != null:
-		Layers.remove_layer(selected_layer.name)
+		Layers.remove_layer(selected_layer.layer.name)
 
 
 func _on_layer_select(event: InputEvent, layer_widget):

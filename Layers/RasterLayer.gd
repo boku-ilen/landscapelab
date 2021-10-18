@@ -6,6 +6,14 @@ class_name RasterLayer
 var geo_raster_layer
 
 
+func get_min():
+	return geo_raster_layer.get_min()
+
+
+func get_max():
+	return geo_raster_layer.get_max()
+
+
 func get_image(top_left_x: float, top_left_y: float, size_meters: float, img_size: int, interpolation_type: int):
 	return geo_raster_layer.get_image(top_left_x, top_left_y, size_meters, img_size, interpolation_type)
 

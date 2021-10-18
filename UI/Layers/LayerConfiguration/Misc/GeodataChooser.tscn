@@ -19,5 +19,5 @@ margin_right = 1920.0
 [node name="OptionButton" type="OptionButton" parent="."]
 visible = false
 margin_top = 48.0
-margin_right = 1024.0
+margin_right = 1920.0
 margin_bottom = 85.0

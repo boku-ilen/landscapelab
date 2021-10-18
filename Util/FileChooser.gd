@@ -1,7 +1,8 @@
 extends HBoxContainer
 
 
-export var filters: PoolStringArray = ["*.shp", "*.gpkg"]
+export var filters: PoolStringArray = ["*.shp", "*.gpkg", "*.tif"]
+export var current_dir: String = "res://"
 
 onready var button = get_node("Button")
 onready var file_dialog = get_node("Button/FileDialog")
@@ -10,6 +11,8 @@ onready var file_name = get_node("FileName")
 
 func _ready():
 	file_dialog.filters = filters
+	file_dialog.current_dir = current_dir
+	file_dialog.current_path = current_dir
 	button.connect("pressed", self, "_pop_file_dialog")
 	file_dialog.connect("file_selected", self, "_file_selected")
 

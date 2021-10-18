@@ -23,6 +23,8 @@ func _toggle_color_menu(toggled: bool):
 	label_color_max.visible = toggled
 	button_color_min.visible = toggled
 	label_color_min.visible = toggled
+	$LeftBox/Alpha.visible = toggled
+	$RightBox/AlphaSpinBox.visible = toggled
 
 
 func _pop_color_picker(button: Button):
@@ -38,38 +40,24 @@ func _set_color(button: Button, color_picker: ColorPicker):
 
 func assign_specific_layer_info(layer):
 	if layer.render_info == null:
-		layer.render_info = Layer.TerrainRenderInfo.new()
+		layer.render_info = Layer.BasicTerrainRenderInfo.new()
 	
-	var texture_name = geodata_texture.get_item_text(geodata_texture.get_selected_id())
-	var texture_dataset = Geodot.get_dataset($RightBox/GeodataChooserTexture/FileChooser/FileName.text)
-	var texture = texture_dataset.get_raster_layer(texture_name)
-		
-	var height_name = geodata_height.get_item_text(geodata_height.get_selected_id())
-	var height_dataset = Geodot.get_dataset($RightBox/GeodataChooserHeight/FileChooser/FileName.text)
-	var height = height_dataset.get_raster_layer(height_name)
-	
-	if !validate(texture) or !validate(height):
+	var texture_layer = $RightBox/GeodataChooserTexture.get_geo_layer(true)
+	var height_layer = $RightBox/GeodataChooserHeight.get_geo_layer(true)
+
+	if !validate(texture_layer) or !validate(height_layer):
 		print_warning("Texture- or height-layer is invalid!")
 		return
 
-	# Heightmap
-	var height_layer = RasterLayer.new()
-	height_layer.geo_raster_layer = height
-	height_layer.name = height.resource_name
-
-	# Orthophoto
-	var ortho_layer = RasterLayer.new()
-	ortho_layer.geo_raster_layer = texture
-	ortho_layer.name = texture.resource_name
-
 	Layers.add_layer(height_layer)
-	Layers.add_layer(ortho_layer)
-
+	Layers.add_layer(texture_layer)
+	
 	layer.render_info.height_layer = height_layer.clone()
-	layer.render_info.texture_layer = ortho_layer.clone()
+	layer.render_info.texture_layer = texture_layer.clone()
 	layer.render_info.is_color_shaded = color_checkbox.pressed
 	layer.render_info.max_color = button_color_max.color
 	layer.render_info.min_color = button_color_min.color
+	layer.render_info.alpha = $RightBox/AlphaSpinBox.value
 
 
 # TODO: implement this function accordingly, so when editing an existing one, all configurations will be applied

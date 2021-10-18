@@ -154,6 +154,12 @@ func apply_textures():
 	
 	if current_heightmap:
 		material_override.set_shader_param("heightmap", current_heightmap)
+		
+		if has_node("CollisionMeshCreator"):
+			$CollisionMeshCreator.create_mesh(current_heightmap, size)
+
+		if has_node("ExtraLOD"):
+			$ExtraLOD.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)
 	
 	if not is_color_shaded:
 		if current_texture:
@@ -187,9 +193,3 @@ func apply_textures():
 			material_override.set_shader_param("tex", current_texture)
 	
 	visible = true
-	
-	if has_node("CollisionMeshCreator"):
-		$CollisionMeshCreator.create_mesh(current_heightmap, size)
-	
-	if has_node("ExtraLOD"):
-		$ExtraLOD.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)
