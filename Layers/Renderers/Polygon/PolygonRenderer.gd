@@ -35,10 +35,27 @@ func load_new_data():
 		# Add a cellar
 		building.add_child(plain_walls_scene.instance())
 		
+		# Random facade texture
+		var random_gen = RandomNumberGenerator.new()
+		random_gen.seed = hash(polygon)
+		
+		var wall_texture
+		var random = random_gen.randi_range(0, 10)
+		
+		if random >= 0 and random <= 5:
+			wall_texture = preload("res://Resources/Textures/Buildings/facade/plaster_yellow.jpg")
+		elif random > 5 and random <= 8:
+			wall_texture = preload("res://Resources/Textures/Buildings/facade/plaster_white.jpg")
+		elif random == 9:
+			wall_texture = preload("res://Resources/Textures/Buildings/facade/plaster_green.jpg")
+		elif random == 10:
+			wall_texture = preload("res://Resources/Textures/Buildings/facade/plaster_blue.jpg")
+		
 		# Add the floors
 		for i in range(num_floors):
 			var walls = plain_walls_scene.instance()
-			walls.set_texture(preload("res://Resources/Textures/Buildings/facade/plaster_yellow.jpg"))
+			
+			walls.set_texture(wall_texture)
 			walls.set_normalmap(preload("res://Resources/Textures/Buildings/facade/normalmap_plaster.jpg"))
 			building.add_child(walls)
 		
@@ -59,11 +76,10 @@ func load_new_data():
 					float(feature.get_attribute(layer.render_info.blue_attribute_name)) / 255.0
 			)
 			
-			# TODO: Refine this logic
-			if color.r - 0.1 > color.g and color.r - 0.1 > color.b:
-				roof.set_texture(preload("res://Resources/Textures/Buildings/roof/roof_3_diffuse.jpg"))
-			else:
-				roof.set_texture(preload("res://Resources/Textures/Buildings/roof/roof_1_diffuse.png"))
+			# TODO: Vary texture
+			roof.set_texture(preload("res://Resources/Textures/Buildings/roof/roof_white.jpg"))
+			roof.set_normalmap(preload("res://Resources/Textures/Buildings/roof_normal/roof_3-normal.jpg"))
+			roof.set_color(color)
 			
 			building.add_child(roof)
 		

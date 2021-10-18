@@ -11,6 +11,16 @@ func set_texture(texture):
 	$MeshInstance.material_override.albedo_texture = texture
 
 
+func set_color(color):
+	$MeshInstance.material_override.albedo_color = color
+
+
+func set_normalmap(texture):
+	$MeshInstance.material_override.normal_enabled = true
+	$MeshInstance.material_override.normal_scale = 3.0
+	$MeshInstance.material_override.normal_texture = texture
+
+
 func build(footprint: PoolVector2Array):
 	# Convert the footprint to a polygon
 	var polygon_indices = Geometry.triangulate_polygon(footprint)

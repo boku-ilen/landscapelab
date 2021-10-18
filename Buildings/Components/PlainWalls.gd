@@ -19,8 +19,12 @@ func set_texture(texture):
 
 func set_normalmap(texture):
 	$MeshInstance.material_override.normal_enabled = true
-	$MeshInstance.material_override.normal_scale = 5.0
+	$MeshInstance.material_override.normal_scale = 3.0
 	$MeshInstance.material_override.normal_texture = texture
+
+
+func set_window_light(enabled):
+	$MeshInstance.material_override.emission_enabled = enabled
 
 
 func build(footprint: PoolVector2Array):

@@ -4,6 +4,8 @@
 
 [sub_resource type="SpatialMaterial" id=1]
 resource_local_to_scene = true
+metallic = 0.7
+roughness = 0.5
 
 [node name="MansardRoof" type="Spatial"]
 script = ExtResource( 1 )
