@@ -28,12 +28,12 @@ func apply_new_feature(feature):
 	add_child(instance)
 
 
-func update_instance_position(feature, instance):
+func update_instance_position(feature, obj_instance):
 	var local_object_pos = feature.get_offset_vector3(-center[0], 0, -center[1])
 	
 	local_object_pos.y = layer.render_info.ground_height_layer.get_value_at_position(
 		center[0] + local_object_pos.x, center[1] - local_object_pos.z)
-	instance.transform.origin = local_object_pos
+	obj_instance.transform.origin = local_object_pos
 
 
 func _ready():
