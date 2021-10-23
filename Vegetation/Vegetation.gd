@@ -88,7 +88,7 @@ func get_group_array_for_ids(id_array):
 		if groups.has(id_array[i]):
 			group_array.append(groups[id_array[i]])
 		else:
-			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]])
+			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]], "vegetation-data")
 	
 	return group_array
 
