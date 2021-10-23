@@ -124,16 +124,19 @@ vec3 get_ortho_color(vec2 uv) {
 
 void fragment() {
 	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.003).rg - 0.5) * (75.0 / size);
-	vec2 random_fine_landuse_offset = (texture(offset_noise, world_pos.xz * 0.8).gb - 0.5) * (7.0 / size);
-	random_fine_landuse_offset += (texture(offset_noise, world_pos.xz * 0.55).rb - 0.5) * (6.0 / size);
-	
-	int splat_id = int(round(texture(landuse, UV + random_landuse_offset + random_fine_landuse_offset).r * 255.0));
+	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
 	
 	// Check for water
 	// TODO: Expose these parameters
 	if (splat_id >= 60 && splat_id <= 66) {
 		discard;
 	}
+	
+	// Add some more noise for all non-water land-uses
+	vec2 random_fine_landuse_offset = (texture(offset_noise, world_pos.xz * 0.8).gb - 0.5) * (7.0 / size);
+	random_fine_landuse_offset += (texture(offset_noise, world_pos.xz * 0.55).rb - 0.5) * (6.0 / size);
+	
+	splat_id = int(round(texture(landuse, UV + random_landuse_offset + random_fine_landuse_offset).r * 255.0));
 	
 	vec3 metadata_value = texelGet(metadata, ivec2(splat_id, 0), 0).rgb;
 	
