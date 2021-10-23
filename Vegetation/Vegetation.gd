@@ -184,6 +184,21 @@ func get_ground_sheet(group_array, texture_name):
 			SpritesheetHelper.SCALING.STRETCH)
 
 
+# Returns a 1x? spritesheet with each group's fade texture in the rows.
+func get_fade_sheet(group_array, texture_name):
+	var texture_table = Array()
+	texture_table.resize(group_array.size())
+	
+	for i in range(group_array.size()):
+		var group = group_array[i]
+		texture_table[i] = [group.get_fade_image(texture_name)]
+	
+	return SpritesheetHelper.create_layered_spritesheet(
+			Vector2(VegetationImages.FADE_TEXTURE_SIZE, VegetationImages.FADE_TEXTURE_SIZE),
+			texture_table,
+			SpritesheetHelper.SCALING.STRETCH)
+
+
 # Returns a 1x? spritesheet with each group's distribution texture in the
 #  rows.
 func get_distribution_sheet(group_array):
@@ -271,9 +286,14 @@ func get_metadata_map(ids):
 	return metadata_tex
 
 
-# Wraps the result of get_ground_albedo_sheet in an ImageTexture.
+# Wraps the result of get_ground_sheet in an ImageTexture.
 func get_ground_sheet_texture(group_array, texture_name):
 	return _image_array_to_texture_array(get_ground_sheet(group_array, texture_name))
+
+
+# Wraps the result of get_fade_sheet in an ImageTexture.
+func get_fade_sheet_texture(group_array, texture_name):
+	return _image_array_to_texture_array(get_fade_sheet(group_array, texture_name))
 
 
 # Wrapper for get_billboard_sheet, but returns an ImageTexture instead of an

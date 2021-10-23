@@ -129,9 +129,8 @@ func build():
 					current_roughness_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "roughness")
 				
 				if load_fade_textures:
-					pass
-					#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
-					#current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+					current_albedo_fade_textures = Vegetation.get_fade_sheet_texture(group_array, "albedo")
+					current_normal_fade_textures = Vegetation.get_fade_sheet_texture(group_array, "normal")
 	
 	# Surface Height
 	if surface_height_layer:
@@ -188,6 +187,10 @@ func apply_textures():
 			material_override.set_shader_param("ambient_tex", current_ambient_ground_textures)
 			material_override.set_shader_param("specular_tex", current_specular_ground_textures)
 			material_override.set_shader_param("roughness_tex", current_roughness_ground_textures)
+		
+		if current_albedo_fade_textures:
+			material_override.set_shader_param("distance_tex", current_albedo_fade_textures)
+			material_override.set_shader_param("distance_normals", current_normal_fade_textures)
 	else:
 		if current_texture:
 			material_override.set_shader_param("tex", current_texture)

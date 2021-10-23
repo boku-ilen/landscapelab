@@ -27,7 +27,9 @@ uniform sampler2DArray ao_tex;
 uniform sampler2D metadata;
 
 uniform float distance_tex_switch_distance = 20.0;
-uniform float transition_space = 8.0;
+uniform float fade_transition_space = 8.0;
+uniform float ortho_switch_distance = 150.0;
+uniform float ortho_transition_space = 20.0;
 uniform sampler2DArray distance_tex: hint_albedo;
 uniform sampler2DArray distance_normals: hint_normal;
 
@@ -122,9 +124,14 @@ vec3 get_ortho_color(vec2 uv) {
 
 void fragment() {
 	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.003).rg - 0.5) * (75.0 / size);
-	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
+	vec2 random_fine_landuse_offset = (texture(offset_noise, world_pos.xz * 0.8).gb - 0.5) * (7.0 / size);
+	random_fine_landuse_offset += (texture(offset_noise, world_pos.xz * 0.55).rb - 0.5) * (6.0 / size);
 	
-	if (splat_id == 60) {
+	int splat_id = int(round(texture(landuse, UV + random_landuse_offset + random_fine_landuse_offset).r * 255.0));
+	
+	// Check for water
+	// TODO: Expose these parameters
+	if (splat_id >= 60 && splat_id <= 66) {
 		discard;
 	}
 	
@@ -138,11 +145,11 @@ void fragment() {
 	// 1.0 when only the close ground texture should be used
 	float near_factor = 0.0;
 	
-	if (camera_distance < distance_tex_switch_distance - transition_space) {
+	if (camera_distance < distance_tex_switch_distance - fade_transition_space) {
 		near_factor = 1.0;
-	} else if (camera_distance < distance_tex_switch_distance + transition_space) {
-		near_factor = camera_distance - (distance_tex_switch_distance - transition_space);
-		near_factor /= transition_space * 2.0;
+	} else if (camera_distance < distance_tex_switch_distance + fade_transition_space) {
+		near_factor = camera_distance - (distance_tex_switch_distance - fade_transition_space);
+		near_factor /= fade_transition_space * 2.0;
 	} else {
 		near_factor = 0.0;
 	}
@@ -161,13 +168,25 @@ void fragment() {
 			SPECULAR = texture(specular_tex, scaled_uv).r;
 			ROUGHNESS = texture(roughness_tex, scaled_uv).r;
 		} else if (near_factor <= 0.0) {
-			// Apply the distance tex only
-			if (fade_texture_scale > 0.0) {
-				vec3 scaled_far_uv = vec3(UV * size / fade_texture_scale, plant_row);
-				ALBEDO = texture(distance_tex, scaled_far_uv).rgb;
-			} else {
-				// If none is available, just use the orthophoto
+			// Apply the distance tex or ortho
+			if (fade_texture_scale <= 0.0 || camera_distance > ortho_switch_distance + ortho_transition_space) {
+				// If none is available or the camera is far away, use orthophoto
 				ALBEDO = get_ortho_color(UV);
+			} else { 
+				vec3 scaled_far_uv = vec3(UV * size / fade_texture_scale, plant_row);
+				vec3 distance_sample = texture(distance_tex, scaled_far_uv).rgb;
+				
+				if (camera_distance < ortho_switch_distance - ortho_transition_space) {
+					// Fade texture only
+					ALBEDO = distance_sample;
+					// TODO: Also take sample of normal map
+				} else {
+					// Mix
+					float fade_factor = camera_distance - (ortho_switch_distance - ortho_transition_space);
+					fade_factor /= ortho_transition_space * 2.0;
+					
+					ALBEDO = mix(distance_sample, get_ortho_color(UV), fade_factor);
+				}
 			}
 		} else {
 			// Blend between close tex and distance tex
