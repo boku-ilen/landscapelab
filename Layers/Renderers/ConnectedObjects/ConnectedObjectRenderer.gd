@@ -49,7 +49,7 @@ func update_connected_object(geo_line):
 	for index in range(course.get_point_count()):
 		# Create a specified connector-object or use fallback
 		var object: Spatial
-		if not selector_attribute and not selector_attribute in layer.render_info.connectors:
+		if not selector_attribute or not selector_attribute in layer.render_info.connectors:
 			object = layer.render_info.fallback_connector.instance()
 		else:
 			object = layer.render_info.connectors[selector_attribute].instance()
