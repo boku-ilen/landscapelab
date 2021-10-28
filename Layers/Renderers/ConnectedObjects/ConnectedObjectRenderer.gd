@@ -33,6 +33,11 @@ func apply_new_data():
 
 
 func update_connected_object(geo_line):
+	# Get the specifying attribute or null (=> fallbacks)
+	var attribute_name = layer.render_info.selector_attribute_name
+	var selector_attribute = geo_line.get_attribute(attribute_name) \
+										if attribute_name else null
+	
 	# The line-dataset
 	var course: Curve3D = geo_line.get_offset_curve3d(-center[0], 0, -center[1])
 	# Object and translation of the previous connector
@@ -42,6 +47,13 @@ func update_connected_object(geo_line):
 	var point_next: Vector3
 	
 	for index in range(course.get_point_count()):
+		# Create a specified connector-object or use fallback
+		var object: Spatial
+		if not selector_attribute and not selector_attribute in layer.render_info.connectors:
+			object = layer.render_info.fallback_connector.instance()
+		else:
+			object = layer.render_info.connectors[selector_attribute].instance()
+		
 		# Obtain the next point (required for the orientation of the current)
 		if index+1 < course.get_point_count():
 			point_next = course.get_point_position(index + 1)
@@ -50,10 +62,6 @@ func update_connected_object(geo_line):
 		# Obtain the height at the current point
 		var point = course.get_point_position(index)
 		point = Vector3(point.x, _get_height_at_ground(point), point.z)
-		
-		# Create a connector-object and change its transform accordingly
-		var object: Spatial = layer.render_info.object.instance()
-		object.translation = point
 		
 		if object_before:
 			# Vec3 cant be null so we check differently
@@ -76,7 +84,7 @@ func update_connected_object(geo_line):
 			# Only y rotation is relevant
 			object.rotation.x = 0
 			object.rotation.z = 0
-			_connect(object, object_before)
+			_connect(object, object_before, selector_attribute)
 			
 		# Vec3 cant be null so we check differently
 		# "if point_next:"
@@ -92,11 +100,19 @@ func update_connected_object(geo_line):
 		connector_instances.append(object)
 
 
-func _connect(object: Spatial, object_before: Spatial):
+func _connect(object: Spatial, object_before: Spatial, selector_attribute: String):
+	# Dock parent might have a transform -> apply it too
 	var dock_parent: Spatial = object.get_node("Docks")
+	
 	for dock in object.get_node("Docks").get_children():
+		# Create a specified connection-object or use fallback
+		var connection: Spatial
+		if not selector_attribute and not selector_attribute in layer.render_info.connections:
+			connection = layer.render_info.fallback_connection.instance()
+		else:
+			connection = layer.render_info.connections[selector_attribute].instance()
+		
 		var dock_before: Spatial = object_before.get_node("Docks/" + dock.name)
-		var connection = layer.render_info.connection_visualization.instance()
 		
 		var p1: Vector3 = (object.transform * dock_parent.transform * dock.transform).origin #* object.transform.basis
 		var p2: Vector3 = (object_before.transform * dock_parent.transform * dock_before.transform).origin #* object_before.transform.basis
