@@ -54,10 +54,10 @@ func load_new_data():
 		# Add the floors
 		for i in range(num_floors):
 			var walls = plain_walls_scene.instance()
+			building.add_child(walls)
 			
 			walls.set_texture(wall_texture)
 			walls.set_normalmap(preload("res://Resources/Textures/Buildings/facade/normalmap_plaster.jpg"))
-			building.add_child(walls)
 		
 		# Add the roof
 		if layer.render_info is Layer.PolygonRenderInfo:

@@ -52,12 +52,12 @@ func set_terrain(terr: Spatial):
 	path_shifter = get_node("Terrain/PathShiftingHandler")
 	spatial_shifter = get_node("Terrain/SpatialShiftingHandler")
 	
-	set_center_node(get_node(center_node_path))
-	
 	# Inject into the terrain
 	for child in terrain.get_children():
 		if "position_manager" in child:
 			child.position_manager = self
+	
+	set_center_node(get_node(center_node_path))
 
 
 func set_center_node(node: Spatial):
@@ -70,6 +70,7 @@ func set_center_node(node: Spatial):
 	for child in terrain.get_children():
 		if "center_node" in child:
 			child.center_node = node
+	
 	emit_signal("new_center_node", node)
 
 

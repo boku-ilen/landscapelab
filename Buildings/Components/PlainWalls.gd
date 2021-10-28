@@ -12,19 +12,26 @@ export(bool) var wind_counterclockwise = true
 var height = 2.5
 var texture_scale = 2.5  # Size of the texture in meters - likely identical to the height
 
+var albedo
+var normalmap
+
+
+func _ready():
+	$MeshInstance.material_override = preload("res://Buildings/Components/PlainWalls.tres").duplicate()
+	$MeshInstance.material_override.set_shader_param("texture_albedo", albedo)
+	$MeshInstance.material_override.set_shader_param("texture_normal", normalmap)
+
 
 func set_texture(texture):
-	$MeshInstance.material_override.albedo_texture = texture
+	albedo = texture
 
 
 func set_normalmap(texture):
-	$MeshInstance.material_override.normal_enabled = true
-	$MeshInstance.material_override.normal_scale = 3.0
-	$MeshInstance.material_override.normal_texture = texture
+	normalmap = texture
 
 
 func set_window_light(enabled):
-	$MeshInstance.material_override.emission_enabled = enabled
+	$MeshInstance.material_override.set_shader_param("lights_on", enabled)
 
 
 func build(footprint: PoolVector2Array):
