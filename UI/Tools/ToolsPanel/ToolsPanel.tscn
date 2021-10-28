@@ -94,7 +94,7 @@ __meta__ = {
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-margin_right = 25.0
+margin_right = 49.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 0, 370 )
 mouse_filter = 1
@@ -114,7 +114,6 @@ material = SubResource( 1 )
 texture_normal = ExtResource( 5 )
 script = ExtResource( 20 )
 texture_name = "eyes"
-default_color = Color( 0, 0, 0, 1 )
 
 [node name="Teleport" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 2 )
@@ -123,7 +122,6 @@ margin_bottom = 70.0
 texture_normal = ExtResource( 1 )
 script = ExtResource( 10 )
 texture_name = "locomotion"
-default_color = Color( 0, 0, 0, 1 )
 
 [node name="PoI" parent="ScrollContainer/ToolsBar/Teleport" instance=ExtResource( 18 )]
 visible = false
@@ -148,7 +146,6 @@ margin_bottom = 150.0
 texture_normal = ExtResource( 16 )
 script = ExtResource( 13 )
 texture_name = "footprint"
-default_color = Color( 0, 0, 0, 1 )
 pressed_color = Color( 0, 0, 0, 1 )
 hover_color = Color( 0, 0, 0, 1 )
 disabled_color = Color( 0, 0, 0, 1 )

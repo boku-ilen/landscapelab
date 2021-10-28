@@ -17,6 +17,7 @@ const _required_button = preload("res://UI/Tools/ToolsButton.gd")
 var arrow_toggle: bool = false
 var pc_player: AbstractPlayer
 var pos_manager: PositionManager
+var time_manager: TimeManager
 
 
 func _ready():
@@ -26,25 +27,28 @@ func _ready():
 
 
 func _on_ui_loaded():
-	_inject()
+	_search_injections()
 
 
-func _inject():
+func _search_injections():
 	for child in $ScrollContainer/ToolsBar.get_children():
-		if "pc_player" in child:
-			child.pc_player = pc_player
-		if "pos_manager" in child:
-			child.pos_manager = pos_manager
+		_inject(child)
 		
 		for subchild in child.get_children():
 			if subchild.get_child_count() > 1:
 				# .get_child(1) is needed because the ToolsButton places everything
 				# under a new root node, and the window dialogue has a default child
 				# which is get_child(0)
-				if "pc_player" in subchild.get_child(1):
-					subchild.get_child(1).pc_player = pc_player
-				if "pos_manager" in subchild.get_child(1):
-					subchild.get_child(1).pos_manager = pos_manager
+				_inject(subchild.get_child(1))
+
+
+func _inject(node: Node):
+	if "pc_player" in node:
+		node.pc_player = pc_player
+	if "pos_manager" in node:
+		node.pos_manager = pos_manager
+	if "time_manager" in node:
+		node.time_manager = time_manager
 
 
 # If the current game mode is changed, the new mode will be applied according to 
