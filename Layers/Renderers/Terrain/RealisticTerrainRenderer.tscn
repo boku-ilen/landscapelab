@@ -115,4 +115,5 @@ always_load_landuse = true
 
 [node name="ExtraLOD" parent="TerrainLOD3" instance=ExtResource( 5 )]
 material_override = ExtResource( 6 )
+cast_shadow = 0
 extra_cull_margin = 10000.0

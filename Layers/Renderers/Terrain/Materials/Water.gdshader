@@ -47,13 +47,13 @@ float waves(vec2 pos, float time){
 
 void vertex(){
 	VERTEX.y = texture(heightmap, UV).r;
+	world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
 
 void fragment(){
-		// Check landuse for whether we need to do rendering here
+	// Check landuse for whether we need to do rendering here
 	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.003).rg - 0.5) * (75.0 / size);
-	
 	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
 	
 	// TODO: Expose these parameters
