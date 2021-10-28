@@ -27,7 +27,8 @@ func _ready():
 	
 	# Start at a random rotation
 	rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, randf() * PI * 2.0)
-
+	
+	$BlinkTimer.connect("timeout", self, "_toggle_blink")
 
 # Saves the specified wind direction and updates the model's rotation
 # Called whenever the exported wind_direction is changed
@@ -53,3 +54,7 @@ func update_rotation():
 func _process(delta):
 	if delta > 0.8: return  # Avoid skipping
 	rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)
+
+
+func _toggle_blink():
+	$Blink.visible = !$Blink.visible

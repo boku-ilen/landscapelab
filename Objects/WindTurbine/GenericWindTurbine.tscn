@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Objects/Superclasses/MovableObject.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/WindTurbine/GenericWindTurbine.gd" type="Script" id=2]
@@ -148,6 +148,19 @@ surfaces/2 = {
 "vertex_count": 10
 }
 
+[sub_resource type="SpatialMaterial" id=6]
+albedo_color = Color( 1, 0.0823529, 0.0823529, 1 )
+emission_enabled = true
+emission = Color( 1, 0, 0, 1 )
+emission_energy = 12.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="SphereMesh" id=7]
+material = SubResource( 6 )
+radius = 2.0
+height = 4.0
+
 [node name="Windmill" instance=ExtResource( 1 )]
 transform = Transform( 1.45, 0, 0, 0, 1.45, 0, 0, 0, 1.45, 0, 0, 0 )
 script = ExtResource( 2 )
@@ -196,3 +209,12 @@ icon = ExtResource( 12 )
 
 [node name="MinimapIcon" parent="." index="4" instance=ExtResource( 13 )]
 icon = ExtResource( 12 )
+
+[node name="Blink" type="MeshInstance" parent="." index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 137.333, 1.12013 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="BlinkTimer" type="Timer" parent="." index="6"]
+wait_time = 1.5
+autostart = true
