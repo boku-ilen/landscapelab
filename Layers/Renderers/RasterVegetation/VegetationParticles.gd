@@ -81,7 +81,7 @@ func set_spacing(new_spacing):
 
 # Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
 func get_map_size():
-	return rows * spacing * 2 # Multiply by 2 to allow for some movement within the data
+	return rows * spacing + 100 # Add 100 to allow for some movement within the data
 
 
 # When the world is shifted, this offset needs to be remembered and passed to

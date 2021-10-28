@@ -47,6 +47,13 @@ func apply_datetime():
 		
 		$Sky_texture.set_sun_altitude_azimuth(altitude_azimuth[0], altitude_azimuth[1],
 				get_node("DirectionalLight"), self, 1.5)
+		
+		if altitude_azimuth[0] < 0:
+			environment.ambient_light_energy = 0.75
+			$DirectionalLight.light_energy = 0
+		else:
+			$DirectionalLight.light_energy = 2
+			environment.ambient_light_energy = 3
 	else:
 		logger.warn("Pysolar is unavailable, so the sun position is only approximate!")
 	

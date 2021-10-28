@@ -51,7 +51,7 @@ func _load_into_cache_if_necessary(full_path):
 		
 		if img.is_empty():
 			logger.warning("Invalid billboard path in %s: %s"
-					 % [name_en, full_path])
+					 % [name_en, full_path], "vegetation-data")
 		
 		# Godot can crash with extremely large images, so we downscale it to a size appropriate
 		#  for further handling.
@@ -69,7 +69,7 @@ func _load_into_cache_if_necessary(full_path):
 
 func _get_image(path):
 	if not File.new().file_exists(path):
-		logger.warn("Invalid Plant image (file does not exist): %s" % [path])
+		logger.warn("Invalid Plant image (file does not exist): %s" % [path], "vegetation-data")
 		return null
 	
 	_load_into_cache_if_necessary(path)
@@ -77,7 +77,7 @@ func _get_image(path):
 
 func _get_texture(path):
 	if not File.new().file_exists(path):
-		logger.warn("Invalid Plant image (file does not exist): %s" % [path])
+		logger.warn("Invalid Plant image (file does not exist): %s" % [path], "vegetation-data")
 		return null
 	
 	_load_into_cache_if_necessary(path)

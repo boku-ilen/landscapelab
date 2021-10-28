@@ -15,7 +15,9 @@ shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/has_landuse = false
 shader_param/distance_tex_switch_distance = 20.0
-shader_param/transition_space = 8.0
+shader_param/fade_transition_space = 8.0
+shader_param/ortho_switch_distance = 150.0
+shader_param/ortho_transition_space = 20.0
 shader_param/normal_scale = 1.0
 shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
@@ -29,7 +31,9 @@ shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/has_landuse = false
 shader_param/distance_tex_switch_distance = 20.0
-shader_param/transition_space = 8.0
+shader_param/fade_transition_space = 8.0
+shader_param/ortho_switch_distance = 150.0
+shader_param/ortho_transition_space = 20.0
 shader_param/normal_scale = 1.0
 shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
@@ -43,7 +47,9 @@ shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/has_landuse = false
 shader_param/distance_tex_switch_distance = 20.0
-shader_param/transition_space = 8.0
+shader_param/fade_transition_space = 8.0
+shader_param/ortho_switch_distance = 150.0
+shader_param/ortho_transition_space = 20.0
 shader_param/normal_scale = 1.0
 shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
@@ -57,7 +63,9 @@ shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/has_landuse = false
 shader_param/distance_tex_switch_distance = 20.0
-shader_param/transition_space = 8.0
+shader_param/fade_transition_space = 8.0
+shader_param/ortho_switch_distance = 150.0
+shader_param/ortho_transition_space = 20.0
 shader_param/normal_scale = 1.0
 shader_param/ortho_saturation = 1.0
 shader_param/ortho_blue_shift_factor = 0.9
@@ -69,17 +77,25 @@ script = ExtResource( 4 )
 [node name="TerrainLOD0" parent="." instance=ExtResource( 1 )]
 material_override = SubResource( 1 )
 is_inner = true
+heightmap_resolution = 200
+ortho_resolution = 1500
+landuse_resolution = 20
 load_detail_textures = true
 load_fade_textures = true
 
 [node name="TerrainLOD1" parent="." instance=ExtResource( 1 )]
 material_override = SubResource( 2 )
 size = 500.0
+heightmap_resolution = 200
+ortho_resolution = 1500
 load_fade_textures = true
 
 [node name="TerrainLOD2" parent="." instance=ExtResource( 1 )]
 material_override = SubResource( 3 )
 size = 2500.0
+heightmap_resolution = 200
+ortho_resolution = 1500
+landuse_resolution = 500
 always_load_landuse = true
 
 [node name="CollisionMeshCreator" type="StaticBody" parent="TerrainLOD2"]
@@ -92,7 +108,9 @@ subdivision = 32
 [node name="TerrainLOD3" parent="." instance=ExtResource( 1 )]
 material_override = SubResource( 4 )
 size = 12500.0
-landuse_resolution = 500
+heightmap_resolution = 200
+ortho_resolution = 1500
+landuse_resolution = 2500
 always_load_landuse = true
 
 [node name="ExtraLOD" parent="TerrainLOD3" instance=ExtResource( 5 )]

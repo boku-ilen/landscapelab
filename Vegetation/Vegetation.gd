@@ -21,7 +21,7 @@ var fade_textures = {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent = 60.0 setget set_plant_extent, get_plant_extent
+var plant_extent = 140.0 setget set_plant_extent, get_plant_extent
 signal new_plant_extent(extent)
 
 signal new_data
@@ -88,7 +88,7 @@ func get_group_array_for_ids(id_array):
 		if groups.has(id_array[i]):
 			group_array.append(groups[id_array[i]])
 		else:
-			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]])
+			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]], "vegetation-data")
 	
 	return group_array
 
@@ -184,6 +184,21 @@ func get_ground_sheet(group_array, texture_name):
 			SpritesheetHelper.SCALING.STRETCH)
 
 
+# Returns a 1x? spritesheet with each group's fade texture in the rows.
+func get_fade_sheet(group_array, texture_name):
+	var texture_table = Array()
+	texture_table.resize(group_array.size())
+	
+	for i in range(group_array.size()):
+		var group = group_array[i]
+		texture_table[i] = [group.get_fade_image(texture_name)]
+	
+	return SpritesheetHelper.create_layered_spritesheet(
+			Vector2(VegetationImages.FADE_TEXTURE_SIZE, VegetationImages.FADE_TEXTURE_SIZE),
+			texture_table,
+			SpritesheetHelper.SCALING.STRETCH)
+
+
 # Returns a 1x? spritesheet with each group's distribution texture in the
 #  rows.
 func get_distribution_sheet(group_array):
@@ -271,9 +286,14 @@ func get_metadata_map(ids):
 	return metadata_tex
 
 
-# Wraps the result of get_ground_albedo_sheet in an ImageTexture.
+# Wraps the result of get_ground_sheet in an ImageTexture.
 func get_ground_sheet_texture(group_array, texture_name):
 	return _image_array_to_texture_array(get_ground_sheet(group_array, texture_name))
+
+
+# Wraps the result of get_fade_sheet in an ImageTexture.
+func get_fade_sheet_texture(group_array, texture_name):
+	return _image_array_to_texture_array(get_fade_sheet(group_array, texture_name))
 
 
 # Wrapper for get_billboard_sheet, but returns an ImageTexture instead of an

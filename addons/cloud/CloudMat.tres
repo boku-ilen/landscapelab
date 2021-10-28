@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://addons/cloud/Cloud.shader" type="Shader" id=1]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/seed = -1000.0
+shader_param/speed = 2.0
+shader_param/transform_speed = Vector2( 0, 0.0001 )
+shader_param/min_density = 0.46
+shader_param/max_density = 6.0
+shader_param/altitude = 2000.0
+shader_param/color = Color( 1, 1, 1, 1 )
+shader_param/detail_noise = false
+shader_param/upper_enabled = true
+shader_param/lower_enabled = false

@@ -138,7 +138,9 @@ void fragment()
 	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.003).rg - 0.5) * (75.0 / size);
 	
 	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
-	if (splat_id != 60) {
+	
+	// TODO: Expose these parameters
+	if (splat_id < 60 || splat_id > 66) {
 		discard;
 	}
 	

@@ -35,6 +35,10 @@ varying flat float row;
 varying flat float dist_id;
 varying flat float size;
 
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
 void vertex() {
 	camera_pos = CAMERA_MATRIX[3].xyz;
 	
@@ -51,6 +55,10 @@ void vertex() {
 	}
 	
 	vec2 pos = worldpos.xz;
+	
+	// Add some noise to the land-use position to get better fading
+	pos += vec2(rand(pos) - 0.5, rand(pos + vec2(0.01, 0.01)) - 0.5) * 4.0;
+	
 	pos += offset;
 	
 	pos += 0.5 * heightmap_size;
