@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GameEngine/DataModel/Base/AbstractAction.gd"
 }, {
-"base": "Spatial",
-"class": "AbstractAssetsFromShapefile",
-"language": "GDScript",
-"path": "res://World/AssetHandler/AbstractAssetsFromShapefile.gd"
-}, {
 "base": "Node",
 "class": "AbstractConnection",
 "language": "GDScript",
@@ -53,11 +48,6 @@ _global_script_classes=[ {
 "class": "AutoTextureButton",
 "language": "GDScript",
 "path": "res://UI/CustomElements/AutoTextureButton.gd"
-}, {
-"base": "Spatial",
-"class": "BaseTiles",
-"language": "GDScript",
-"path": "res://World/BaseTiles/BaseTiles.gd"
 }, {
 "base": "Object",
 "class": "CSVReader",
@@ -130,16 +120,6 @@ _global_script_classes=[ {
 "path": "res://Util/LinearDrawer/LinearDrawer.gd"
 }, {
 "base": "Spatial",
-"class": "Module",
-"language": "GDScript",
-"path": "res://World/LODTerrain/Modules/AbstractModule.gd"
-}, {
-"base": "Spatial",
-"class": "ModuleHandler",
-"language": "GDScript",
-"path": "res://World/LODTerrain/WorldTile/ModuleHandler.gd"
-}, {
-"base": "Spatial",
 "class": "MoveableObject",
 "language": "GDScript",
 "path": "res://Objects/Superclasses/MovableObject.gd"
@@ -169,7 +149,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.gd"
 }, {
-"base": "Spatial",
+"base": "Node",
 "class": "PositionManager",
 "language": "GDScript",
 "path": "res://World/PositionManager.gd"
@@ -253,15 +233,9 @@ _global_script_classes=[ {
 "class": "VegetationCSVUtil",
 "language": "GDScript",
 "path": "res://Vegetation/VegetationCSVUtil.gd"
-}, {
-"base": "Spatial",
-"class": "WorldTile",
-"language": "GDScript",
-"path": "res://World/LODTerrain/WorldTile/WorldTile.gd"
 } ]
 _global_script_class_icons={
 "AbstractAction": "",
-"AbstractAssetsFromShapefile": "",
 "AbstractConnection": "",
 "AbstractLayerManagement": "",
 "AbstractObject": "",
@@ -269,7 +243,6 @@ _global_script_class_icons={
 "AbstractRequestHandler": "",
 "ActionHandler": "",
 "AutoTextureButton": "",
-"BaseTiles": "",
 "CSVReader": "",
 "CloudDome": "",
 "Configurator": "",
@@ -284,8 +257,6 @@ _global_script_class_icons={
 "LayerRenderer": "",
 "LinearCSGPolygon": "",
 "LinearDrawer": "",
-"Module": "",
-"ModuleHandler": "",
 "MoveableObject": "",
 "ObjParse": "",
 "ObjectBroker": "",
@@ -308,8 +279,7 @@ _global_script_class_icons={
 "VRGuiElement": "",
 "VRInteractable": "",
 "VRStaticInteractable": "",
-"VegetationCSVUtil": "",
-"WorldTile": ""
+"VegetationCSVUtil": ""
 }
 
 [application]
