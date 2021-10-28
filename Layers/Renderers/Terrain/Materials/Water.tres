@@ -1,34 +1,49 @@
-[gd_resource type="ShaderMaterial" load_steps=8 format=2]
+[gd_resource type="ShaderMaterial" load_steps=11 format=2]
 
 [ext_resource path="res://Layers/Renderers/Terrain/Materials/Water.gdshader" type="Shader" id=1]
-[ext_resource path="res://Resources/Textures/LakeWater/Water_UV.png" type="Texture" id=2]
-[ext_resource path="res://Resources/Textures/LakeWater/Water_N_B.png" type="Texture" id=3]
-[ext_resource path="res://Resources/Textures/LakeWater/Foam.png" type="Texture" id=4]
-[ext_resource path="res://Resources/Textures/LakeWater/Water_N_A.png" type="Texture" id=5]
-[ext_resource path="res://Resources/Textures/LakeWater/Caustic.png" type="TextureArray" id=6]
 [ext_resource path="res://Resources/Textures/ShaderUtil/rgb_solid_noise.png" type="Texture" id=7]
+
+[sub_resource type="OpenSimplexNoise" id=1]
+seed = 2066020070
+
+[sub_resource type="NoiseTexture" id=2]
+seamless = true
+noise = SubResource( 1 )
+
+[sub_resource type="OpenSimplexNoise" id=3]
+seed = -1312041339
+
+[sub_resource type="NoiseTexture" id=4]
+seamless = true
+noise = SubResource( 3 )
+
+[sub_resource type="OpenSimplexNoise" id=5]
+
+[sub_resource type="NoiseTexture" id=6]
+seamless = true
+as_normalmap = true
+noise = SubResource( 5 )
+
+[sub_resource type="OpenSimplexNoise" id=7]
+
+[sub_resource type="NoiseTexture" id=8]
+seamless = true
+as_normalmap = true
+noise = SubResource( 7 )
 
 [resource]
 shader = ExtResource( 1 )
 shader_param/size = null
-shader_param/wave_speed = 0.5
-shader_param/wave_a = Plane( 1, 0.4, 0.2, 2 )
-shader_param/wave_b = Plane( 0.4, 1, -0.3, 4 )
-shader_param/wave_c = Plane( -1, -0.8, 0.5, 6 )
-shader_param/sampler_scale = Vector2( 100, 100 )
-shader_param/sampler_direction = Vector2( 0.05, 0.04 )
-shader_param/uv_sampler_scale = Vector2( 0.25, 0.25 )
-shader_param/uv_sampler_strength = 0.04
-shader_param/foam_level = 0.5
-shader_param/refraction = 0.04
-shader_param/color_deep = Color( 0.32549, 0.407843, 0.505882, 1 )
-shader_param/color_shallow = Color( 0.666667, 0.752941, 0.768627, 1 )
-shader_param/beers_law = 1.3
-shader_param/depth_offset = 0.1
-shader_param/projector = Transform( 0.81, 0.493, -0.317, 0.558, -0.481, 0.676, 0.18, -0.725, -0.665, -0.137, 16.094, 0.317 )
+shader_param/speed = 0.01
+shader_param/color = Color( 0.658824, 0.596078, 0.596078, 1 )
+shader_param/color_ground = Color( 0.219608, 0.176471, 0.12549, 1 )
+shader_param/near = 0.1
+shader_param/far = 100.0
+shader_param/wave_strengh = Vector2( 0.5, 0.25 )
+shader_param/wave_frequency = Vector2( 12, 12 )
+shader_param/time_factor = Vector2( 1, 2 )
 shader_param/offset_noise = ExtResource( 7 )
-shader_param/uv_sampler = ExtResource( 2 )
-shader_param/normalmap_a_sampler = ExtResource( 5 )
-shader_param/normalmap_b_sampler = ExtResource( 3 )
-shader_param/foam_sampler = ExtResource( 4 )
-shader_param/caustic_sampler = ExtResource( 6 )
+shader_param/noise1 = SubResource( 2 )
+shader_param/noise2 = SubResource( 4 )
+shader_param/normalmap = SubResource( 6 )
+shader_param/normalmap2 = SubResource( 8 )
