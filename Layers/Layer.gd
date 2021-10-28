@@ -111,3 +111,11 @@ class PathRenderInfo extends RenderInfo:
 	
 	func is_valid():
 		return ground_height_layer != null
+
+class ConnectedObjectInfo extends RenderInfo:
+	var connection_visualization: PackedScene
+	var object: PackedScene
+	var ground_height_layer: Layer
+	
+	func is_valid():
+		return ground_height_layer != null
