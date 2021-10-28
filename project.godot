@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://World/AssetHandler/AbstractAssetsFromShapefile.gd"
 }, {
 "base": "Node",
+"class": "AbstractConnection",
+"language": "GDScript",
+"path": "res://Objects/Connection/Superclasses/AbstractConnection.gd"
+}, {
+"base": "Node",
 "class": "AbstractLayerManagement",
 "language": "GDScript",
 "path": "res://UI/Layers/LayerManagement/AbstractLayerManagement.gd"
@@ -252,6 +257,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AbstractAction": "",
 "AbstractAssetsFromShapefile": "",
+"AbstractConnection": "",
 "AbstractLayerManagement": "",
 "AbstractObject": "",
 "AbstractPlayer": "",
