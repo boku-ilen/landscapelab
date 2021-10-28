@@ -51,9 +51,15 @@ func apply_datetime():
 		if altitude_azimuth[0] < 0:
 			environment.ambient_light_energy = 0.75
 			$DirectionalLight.light_energy = 0
+			$CloudDome.cloud_color = Color.white * 0.05
+			$CloudDome.shade_color = Color.white * 0.1
+			$CloudDome._regen_mesh()
 		else:
 			$DirectionalLight.light_energy = 2
 			environment.ambient_light_energy = 3
+			$CloudDome.cloud_color = Color.white
+			$CloudDome.shade_color = Color(0.568627, 0.698039, 0.878431, 1.0)
+			$CloudDome._regen_mesh()
 	else:
 		logger.warn("Pysolar is unavailable, so the sun position is only approximate!")
 	
