@@ -7,7 +7,8 @@ var renderers = {
 	Layer.RenderType.POLYGON: preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn"),
 	Layer.RenderType.VEGETATION: preload("res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.tscn"),
 	Layer.RenderType.OBJECT: preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn"),
-	Layer.RenderType.PATH: preload("res://Layers/Renderers/Path/PathRenderer.tscn")
+	Layer.RenderType.PATH: preload("res://Layers/Renderers/Path/PathRenderer.tscn"),
+	Layer.RenderType.CONNECTED_OBJECT: preload("res://Layers/Renderers/ConnectedObjects/ConnectedObjectRenderer.tscn")
 }
 
 
