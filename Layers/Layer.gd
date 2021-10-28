@@ -113,8 +113,15 @@ class PathRenderInfo extends RenderInfo:
 		return ground_height_layer != null
 
 class ConnectedObjectInfo extends RenderInfo:
-	var connection_visualization: PackedScene
-	var object: PackedScene
+	# The geodata-key-attribute that determines which connector/connection to use
+	var selector_attribute_name: String
+	# The specified connectors/connection attributes
+	# e.g. "minor-power-line": "LowVoltage.tscn", "power-line": "HighVoltage.tscn"
+	var connectors = {}
+	var connections = {}
+	# Should nothing be specified, take the fallbacks
+	var fallback_connector: PackedScene
+	var fallback_connection: PackedScene
 	var ground_height_layer: Layer
 	
 	func is_valid():
