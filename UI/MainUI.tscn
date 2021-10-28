@@ -49,7 +49,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 pc_player_path = NodePath("MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC")
-pos_manager_path = NodePath("MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World")
+pos_manager_path = NodePath("MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/PositionManager")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_left = 0.005
@@ -177,7 +177,7 @@ size_flags_vertical = 3
 margin_right = 1346.0
 script = ExtResource( 16 )
 layer_ui_path = NodePath("../../../Right/Right/Bot/LayerUI")
-pos_manager_path = NodePath("../WorldViewPort/Viewport/World")
+pos_manager_path = NodePath("../WorldViewPort/Viewport/World/PositionManager")
 
 [node name="WorldViewPort" type="ViewportContainer" parent="MarginContainer/Split/Right/Mid/VBoxContainer"]
 margin_top = 4.0
@@ -214,7 +214,6 @@ layer_renderers_path = NodePath("../Viewport/World/Terrain/LayerRenderers")
 size = Vector2( 1346, 857 )
 handle_input_locally = false
 msaa = 1
-debanding = true
 render_target_update_mode = 3
 gui_disable_input = true
 shadow_atlas_size = 2048

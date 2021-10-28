@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://World/PositionManager.gd" type="Script" id=1]
 [ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=2]
@@ -7,10 +7,10 @@
 [ext_resource path="res://World/WorldShifting/PathShiftingHandler.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Layers/LayerRenderers.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Layers/LayerConfigurator.tscn" type="PackedScene" id=7]
+[ext_resource path="res://World/World.gd" type="Script" id=8]
 
 [node name="World" type="Spatial"]
-script = ExtResource( 1 )
-center_node_path = NodePath("FirstPersonPC")
+script = ExtResource( 8 )
 
 [node name="WorldEnvironment" parent="." instance=ExtResource( 2 )]
 
@@ -26,3 +26,9 @@ center_node_path = NodePath("FirstPersonPC")
 transform = Transform( 0.998636, 0, 0.0517897, 0, 1, 0, -0.0517897, 0, 0.998636, 0, 500, 0 )
 
 [node name="LayerConfigurator" parent="." instance=ExtResource( 7 )]
+
+[node name="PositionManager" type="Node" parent="."]
+script = ExtResource( 1 )
+center_node_path = NodePath("../FirstPersonPC")
+
+[node name="TimeManager" type="Node" parent="."]

@@ -1,4 +1,4 @@
-extends Spatial
+extends Node
 class_name PositionManager
 
 
@@ -15,17 +15,16 @@ LayerContainer. This can for instance be raster-data, such as vegetation
 
 export(NodePath) var center_node_path
 
-onready var terrain = get_node("Terrain")
-onready var path_shifter = get_node("Terrain/PathShiftingHandler")
-onready var spatial_shifter = get_node("Terrain/SpatialShiftingHandler")
-onready var center_node: Spatial = get_node("FirstPersonPC") setget set_center_node
+var center_node: Spatial setget set_center_node
+var terrain setget set_terrain
+var layer_configurator: Node setget set_layer_configurator
+var path_shifter: Node
+var spatial_shifter: Node
 
 # TODO: all these will come from the configuration
 var world_shift_check_period: float = 1
 var world_shift_timer: float = 0
 var height = 100
-
-var is_fullscreen: bool = false
 
 var shift_limit: float = Settings.get_setting("lod", "world-shift-distance")
 
@@ -33,8 +32,8 @@ signal new_center(new_center_array)
 signal new_center_node(node)
 
 # The offset
-onready var x: int = $LayerConfigurator.center.x
-onready var z: int = $LayerConfigurator.center.z
+var x: int
+var z: int
 
 var delta_x := 0.0
 var delta_z := 0.0
@@ -46,6 +45,19 @@ var _dependent_objects_loaded := 0
 
 # Fallback height for conversions where no height is given, but the output expects one
 const DEFAULT_HEIGHT = 500
+
+
+func set_terrain(terr: Spatial):
+	terrain = terr
+	path_shifter = get_node("Terrain/PathShiftingHandler")
+	spatial_shifter = get_node("Terrain/SpatialShiftingHandler")
+	
+	set_center_node(get_node(center_node_path))
+	
+	# Inject into the terrain
+	for child in terrain.get_children():
+		if "position_manager" in child:
+			child.position_manager = self
 
 
 func set_center_node(node: Spatial):
@@ -61,13 +73,10 @@ func set_center_node(node: Spatial):
 	emit_signal("new_center_node", node)
 
 
-func _ready():
-	# Inject into the terrain
-	for child in terrain.get_children():
-		if "position_manager" in child:
-			child.position_manager = self
-	
-	set_center_node(get_node(center_node_path))
+func set_layer_configurator(configurator: Node):
+	layer_configurator = configurator
+	x = layer_configurator.center.x
+	z = layer_configurator.center.z
 
 
 func _process(delta):
@@ -76,12 +85,6 @@ func _process(delta):
 	if world_shift_timer > world_shift_check_period:
 		world_shift_timer = 0
 		_check_for_world_shift()
-
-
-func _input(event):
-	if event.is_action_pressed("exit_fullscreen") and is_fullscreen:
-		TreeHandler.switch_last_state()
-		is_fullscreen = false
 
 
 # Shift the world if the player exceeds the bounds, in order to prevent coordinates from getting too big (floating point issues)
