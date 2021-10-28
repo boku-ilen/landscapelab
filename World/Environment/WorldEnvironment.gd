@@ -35,15 +35,13 @@ func _ready():
 		
 	environment.fog_depth_begin = FOG_BEGIN
 	environment.fog_depth_end = FOG_END
-	
-	DateTime.connect("datetime_changed", self, "apply_datetime")
 
 
-func apply_datetime():
+func apply_datetime(date_time: TimeManager.DateTime):
 	if $PythonWrapper.has_python_node():
 		# TODO: Replace with real lon/lat values
 		var altitude_azimuth = $PythonWrapper.get_python_node().get_sun_altitude_azimuth(
-			48.0, 15.0, DateTime.time, DateTime.day, DateTime.year)
+			48.0, 15.0, date_time.time, date_time.day, date_time.year)
 		
 		$Sky_texture.set_sun_altitude_azimuth(altitude_azimuth[0], altitude_azimuth[1],
 				get_node("DirectionalLight"), self, 1.5)
@@ -63,7 +61,7 @@ func apply_datetime():
 	else:
 		logger.warn("Pysolar is unavailable, so the sun position is only approximate!")
 	
-		$Sky_texture.set_time_of_day(DateTime.time, get_node("DirectionalLight"), self, deg2rad(10.0), 1.5)
+		$Sky_texture.set_time_of_day(date_time.time, get_node("DirectionalLight"), self, deg2rad(10.0), 1.5)
 
 
 func _physics_process(delta):
