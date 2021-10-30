@@ -27,6 +27,7 @@ uniform vec3 uv2_scale;
 uniform vec3 uv2_offset;
 
 uniform bool lights_on = false;
+uniform int random_seed;
 
 varying vec3 worldpos;
 
@@ -53,7 +54,7 @@ void fragment() {
 	NORMALMAP_DEPTH = normal_scale;
 	
 	if (lights_on) {
-		bool light_here = int(floor(UV.x)) % 3 == 2;
+		bool light_here = (int(floor(UV.x)) * random_seed) % 3 == 2;
 		
 		if (light_here) {
 			vec3 emission_tex = texture(texture_emission,base_uv).rgb;
@@ -83,6 +84,7 @@ shader_param/uv1_offset = Vector3( 0, 0, 0 )
 shader_param/uv2_scale = Vector3( 1, 1, 1 )
 shader_param/uv2_offset = Vector3( 0, 0, 0 )
 shader_param/lights_on = false
+shader_param/random_seed = null
 shader_param/texture_albedo = SubResource( 2 )
 shader_param/texture_metallic = ExtResource( 2 )
 shader_param/texture_roughness = ExtResource( 1 )

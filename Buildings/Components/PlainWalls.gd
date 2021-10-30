@@ -20,6 +20,7 @@ func _ready():
 	$MeshInstance.material_override = preload("res://Buildings/Components/PlainWalls.tres").duplicate()
 	$MeshInstance.material_override.set_shader_param("texture_albedo", albedo)
 	$MeshInstance.material_override.set_shader_param("texture_normal", normalmap)
+	$MeshInstance.material_override.set_shader_param("random_seed", randi())
 
 
 func set_texture(texture):
