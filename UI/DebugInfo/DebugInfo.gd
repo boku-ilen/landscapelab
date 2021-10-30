@@ -2,7 +2,7 @@ extends BoxContainer
 
 
 onready var logger_output = get_node("DebugPanel/DebugText")
-onready var log_level_slider = get_node("ScrollContainer/Settings/VBoxContainer/Info/LogLevelInfo")
+onready var log_level_slider = get_node("ScrollContainer/Settings/VBoxContainer/Info/LogLevelInfo/LogLevelSlider")
 
 
 func _ready() -> void:
