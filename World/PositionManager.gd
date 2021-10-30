@@ -18,8 +18,6 @@ export(NodePath) var center_node_path
 var center_node: Spatial setget set_center_node
 var terrain setget set_terrain
 var layer_configurator: Node setget set_layer_configurator
-var path_shifter: Node
-var spatial_shifter: Node
 
 # TODO: all these will come from the configuration
 var world_shift_check_period: float = 1
@@ -49,8 +47,6 @@ const DEFAULT_HEIGHT = 500
 
 func set_terrain(terr: Spatial):
 	terrain = terr
-	path_shifter = get_node("Terrain/PathShiftingHandler")
-	spatial_shifter = get_node("Terrain/SpatialShiftingHandler")
 	
 	# Inject into the terrain
 	for child in terrain.get_children():
@@ -117,8 +113,9 @@ func _shift_world(delta_x, delta_z):
 # Move the center_node according to the last known position delta.
 # This should be called in the same frame as the new data is being displayed for a seamless transition.
 func _apply_new_position_to_center_node():
-	center_node.translation.x -= delta_x
-	center_node.translation.z -= delta_z
+	if center_node:
+		center_node.translation.x -= delta_x
+		center_node.translation.z -= delta_z
 	
 	x += delta_x
 	z -= delta_z
