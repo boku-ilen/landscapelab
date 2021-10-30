@@ -12,7 +12,19 @@ func _ready():
 	$WindowDialog/ImagingMenu/VBoxContainer/SpinBox.connect(
 		"value_changed", self, "set_height_correction")
 	$WindowDialog/ImagingMenu/Set.connect("toggled", self, "_toggle_set_dolly_path")
+
+
+func _set_imaging_action(new_imaging_action):
+	# Disconnect the old connections
+	if imaging_action:
+		if $WindowDialog/ImagingMenu/Show.is_connected("toggled", imaging_action, "set_imaging_visible"):
+			$WindowDialog/ImagingMenu/Show.disconnect("toggled", imaging_action, "set_imaging_visible")
+		if $WindowDialog/ImagingMenu/Clear.is_connected("pressed", imaging_action, "clear"):
+			$WindowDialog/ImagingMenu/Clear.disconnect("pressed", imaging_action, "clear")
+	
+	imaging_action = new_imaging_action
 	$WindowDialog/ImagingMenu/Show.connect("toggled", imaging_action, "set_imaging_visible")
+	$WindowDialog/ImagingMenu/Clear.connect("pressed", imaging_action, "clear")
 
 
 func _toggle_set_dolly_path(button_pressed: bool):
@@ -24,11 +36,11 @@ func _toggle_set_dolly_path(button_pressed: bool):
 
 func set_player(player):
 	pc_player = player
-	imaging_action = ImagingAction.new(pc_player.action_handler.cursor, 
-		preload("res://Util/Imaging/DrawPath/Path/Path.tscn"), pc_player, true)
+	
+	_set_imaging_action(ImagingAction.new(pc_player.action_handler.cursor, 
+		preload("res://Util/Imaging/DrawPath/Path/Path.tscn"), pc_player, true))
+	
 	set_height_correction($WindowDialog/ImagingMenu/VBoxContainer/SpinBox.value)
-	$WindowDialog/ImagingMenu/Clear.connect("pressed", imaging_action, "clear")
-	$WindowDialog/ImagingMenu/Show.connect("toggled", imaging_action, "set_imaging_visible")
 
 
 func set_pos_man(pos_man):
