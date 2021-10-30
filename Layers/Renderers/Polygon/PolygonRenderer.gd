@@ -13,6 +13,7 @@ var cellar_height = floor_height # For preventing partially floating buildings o
 var building_instances = []
 
 var time_manager setget set_time_manager
+var is_daytime = true
 
 
 # Called when the node enters the scene tree for the first time.
@@ -105,6 +106,7 @@ func apply_new_data():
 	
 	building_instances.clear()
 	set_heights()
+	_apply_new_daytime(is_daytime)
 
 
 func set_heights():
@@ -121,10 +123,15 @@ func set_heights():
 
 func set_time_manager(new_time_manager):
 	time_manager = new_time_manager
-	time_manager.connect("daytime_changed", self, "_on_daytime_changed")
+	time_manager.connect("daytime_changed", self, "_apply_new_daytime")
+	
+	# Reaction to initial time
+	_apply_new_daytime(time_manager.is_daytime())
 
 
-func _on_daytime_changed(is_daytime):
+func _apply_new_daytime(is_now_daytime):
+	is_daytime = is_now_daytime
+	
 	for child in get_children():
 		if child.has_method("set_lights_enabled"):
 			child.set_lights_enabled(not is_daytime)

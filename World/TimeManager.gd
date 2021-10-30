@@ -40,6 +40,10 @@ func _is_nighttime(time):
 	return time < 8.0 or time > 20.0
 
 
+func is_daytime():
+	return not _is_nighttime(date_time.time)
+
+
 func get_time():
 	return date_time.time
 
