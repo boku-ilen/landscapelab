@@ -57,3 +57,9 @@ func build():
 		
 		if "height" in child:
 			next_floor_height_offset += child.height
+
+
+func set_lights_enabled(enabled):
+	for child in get_children():
+		if child.has_method("set_lights_enabled"):
+			child.set_lights_enabled(enabled)

@@ -10,6 +10,8 @@ func _ready():
 	
 	$TimeManager.connect("datetime_changed", $WorldEnvironment, "apply_datetime")
 	
+	$Terrain/LayerRenderers.time_manager = $TimeManager
+
 
 func _input(event):
 	if event.is_action_pressed("exit_fullscreen") and is_fullscreen:

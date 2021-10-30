@@ -30,7 +30,7 @@ func set_normalmap(texture):
 	normalmap = texture
 
 
-func set_window_light(enabled):
+func set_lights_enabled(enabled):
 	$MeshInstance.material_override.set_shader_param("lights_on", enabled)
 
 

@@ -2,6 +2,7 @@ extends Spatial
 
 
 var position_manager: PositionManager setget set_position_manager, get_position_manager
+var time_manager: TimeManager setget set_time_manager
 
 # Used if no position manager is injected
 export(bool) var apply_default_center = false
@@ -27,6 +28,13 @@ func set_position_manager(new_manager: PositionManager):
 
 func get_position_manager() -> PositionManager:
 	return position_manager
+
+
+func set_time_manager(new_time_manager):
+	time_manager = new_time_manager
+	
+	for renderer in get_children():
+		renderer.set("time_manager", time_manager)
 
 
 func add_child(child: Node, legible_unique_name: bool = false):

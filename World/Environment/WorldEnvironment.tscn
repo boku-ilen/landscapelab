@@ -203,7 +203,6 @@ directional_shadow_max_distance = 300.0
 scene_to_load = "res://Python/PysolarInterface.tscn"
 
 [node name="CloudDome" type="MeshInstance" parent="."]
-visible = false
 material_override = SubResource( 12 )
 mesh = ExtResource( 5 )
 material/0 = null
