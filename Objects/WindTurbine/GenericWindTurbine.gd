@@ -1,4 +1,5 @@
 extends Spatial
+tool
 
 #
 # A windmill which acts according to a specified wind direction and speed.
@@ -8,6 +9,9 @@ onready var rotor = get_node("Mesh/Rotor")
 
 export(float) var speed = 0.1 # Rotation speed in radians
 export(float) var wind_direction = 0 setget set_wind_direction, get_wind_direction # Rotation of wind in degrees
+
+export var mesh_hub_height := 135
+export var mesh_rotor_diameter := 100
 
 export(Vector3) var forward_for_rotation = Vector3(1, 0, 0)
 
@@ -29,6 +33,9 @@ func _ready():
 	rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, randf() * PI * 2.0)
 	
 	$BlinkTimer.connect("timeout", self, "_toggle_blink")
+	
+	set_hub_height(135)
+	set_rotor_diameter(100)
 
 # Saves the specified wind direction and updates the model's rotation
 # Called whenever the exported wind_direction is changed
@@ -57,4 +64,19 @@ func _process(delta):
 
 
 func _toggle_blink():
-	$Blink.visible = !$Blink.visible
+	$Mesh/Hub/Hub/Blink.visible = !$Mesh/Hub/Hub/Blink.visible
+
+
+func set_hub_height(height: float):
+	$Mesh/Mast.scale.y = height / mesh_hub_height
+	$Mesh/Rotor.translation.y = height
+	$Mesh/Hub.translation.y = height
+	
+
+
+func set_rotor_diameter(diameter: float):
+	$Mesh/Rotor.scale.z = diameter / mesh_rotor_diameter
+	$Mesh/Rotor.scale.y = diameter / mesh_rotor_diameter
+	
+	$Mesh/Hub.scale.z = diameter / mesh_rotor_diameter
+	$Mesh/Hub.scale.y = diameter / mesh_rotor_diameter
