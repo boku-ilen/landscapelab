@@ -315,7 +315,6 @@ Layers="*res://Layers/Singletons/Layers.gd"
 TreeHandler="*res://Global/TreeHandler.gd"
 VegetationImages="*res://Vegetation/VegetationImages.gd"
 Vegetation="*res://Vegetation/Vegetation.gd"
-DateTime="*res://Global/DateTime.gd"
 
 [display]
 
