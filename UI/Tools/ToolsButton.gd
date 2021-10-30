@@ -17,22 +17,23 @@ func _ready():
 
 
 func set_popups_container():
-	var my_popup = get_child(1)
-	
-	if my_popup:
-		assert(my_popup is Container, "The child has to be of type Container")
+	if get_child_count() > 1:
+		var my_popup = get_child(1)
 		
-		var popup_size = Vector2(
-			max(my_popup.rect_min_size.x, my_popup.rect_size.x),
-			max(my_popup.rect_min_size.y, my_popup.rect_size.y)
-		)
-		remove_child(my_popup)
-		$WindowDialog.add_child(my_popup)
-		$WindowDialog.window_title = my_popup.name
-		my_popup.visible = true
-		
-		$WindowDialog.rect_min_size = popup_size
-		$WindowDialog.rect_size = popup_size
+		if my_popup:
+			assert(my_popup is Container, "The child has to be of type Container")
+			
+			var popup_size = Vector2(
+				max(my_popup.rect_min_size.x, my_popup.rect_size.x),
+				max(my_popup.rect_min_size.y, my_popup.rect_size.y)
+			)
+			remove_child(my_popup)
+			$WindowDialog.add_child(my_popup)
+			$WindowDialog.window_title = my_popup.name
+			my_popup.visible = true
+			
+			$WindowDialog.rect_min_size = popup_size
+			$WindowDialog.rect_size = popup_size
 
 
 func _toggled(button_pressed):
