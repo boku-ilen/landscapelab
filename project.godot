@@ -238,6 +238,11 @@ _global_script_classes=[ {
 "class": "VegetationCSVUtil",
 "language": "GDScript",
 "path": "res://Vegetation/VegetationCSVUtil.gd"
+}, {
+"base": "Node",
+"class": "WeatherManager",
+"language": "GDScript",
+"path": "res://World/WeatherManager.gd"
 } ]
 _global_script_class_icons={
 "AbstractAction": "",
@@ -285,7 +290,8 @@ _global_script_class_icons={
 "VRGuiElement": "",
 "VRInteractable": "",
 "VRStaticInteractable": "",
-"VegetationCSVUtil": ""
+"VegetationCSVUtil": "",
+"WeatherManager": ""
 }
 
 [application]

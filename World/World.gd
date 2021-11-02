@@ -10,6 +10,10 @@ func _ready():
 	
 	$TimeManager.connect("datetime_changed", $WorldEnvironment, "apply_datetime")
 	
+	$WeatherManager.connect("visibility_changed", $WorldEnvironment, "apply_visibility")
+	$WeatherManager.connect("cloudiness_changed", $WorldEnvironment, "apply_cloudiness")
+	$WeatherManager.connect("unshaded_changed", $WorldEnvironment, "apply_is_unshaded")
+	
 	$Terrain/LayerRenderers.time_manager = $TimeManager
 
 

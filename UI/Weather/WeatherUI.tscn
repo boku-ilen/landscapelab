@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/Weather/WeatherUI.gd" type="Script" id=1]
+
+[node name="WeatherUI" type="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 600, 0 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Visibility" type="HBoxContainer" parent="."]
+margin_right = 600.0
+margin_bottom = 32.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Visibility"]
+margin_top = 3.0
+margin_right = 157.0
+margin_bottom = 28.0
+text = "Visibility: Clear"
+
+[node name="HSlider" type="HSlider" parent="Visibility"]
+margin_left = 165.0
+margin_right = 539.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="Visibility"]
+margin_left = 547.0
+margin_top = 3.0
+margin_right = 600.0
+margin_bottom = 28.0
+text = "Hazy"
+
+[node name="Clouds" type="HBoxContainer" parent="."]
+margin_top = 40.0
+margin_right = 600.0
+margin_bottom = 72.0
+
+[node name="Label" type="Label" parent="Clouds"]
+margin_top = 3.0
+margin_right = 185.0
+margin_bottom = 28.0
+text = "Cloudiness: Clear"
+
+[node name="HSlider" type="HSlider" parent="Clouds"]
+margin_left = 193.0
+margin_right = 496.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="Clouds"]
+margin_left = 504.0
+margin_top = 3.0
+margin_right = 600.0
+margin_bottom = 28.0
+text = "Overcast"
+
+[node name="Unshaded" type="HBoxContainer" parent="."]
+margin_top = 80.0
+margin_right = 600.0
+margin_bottom = 128.0
+
+[node name="Label" type="Label" parent="Unshaded"]
+margin_top = 11.0
+margin_right = 209.0
+margin_bottom = 36.0
+text = "Unshaded Objects: "
+
+[node name="CheckBox" type="CheckBox" parent="Unshaded"]
+margin_left = 217.0
+margin_right = 265.0
+margin_bottom = 48.0

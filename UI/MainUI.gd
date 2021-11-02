@@ -11,6 +11,8 @@ signal ui_loaded
 export var pc_player_path: NodePath
 export var pos_manager_path: NodePath
 export var time_manager_path: NodePath
+export var weather_manager_path: NodePath
+
 var pos_manager: PositionManager
 
 
@@ -48,6 +50,8 @@ func _inject():
 				child.pos_manager = get_node(pos_manager_path)
 			if "time_manager" in child:
 				child.time_manager = get_node(time_manager_path)
+			if "weather_manager" in child:
+				child.weather_manager = get_node(weather_manager_path)
 			if child.has_method("_on_ui_loaded"):
 				connect("ui_loaded", child, "_on_ui_loaded")
 

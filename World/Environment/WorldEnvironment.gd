@@ -37,6 +37,22 @@ func _ready():
 	environment.fog_depth_end = FOG_END
 
 
+func apply_visibility(new_visibility):
+	environment.fog_depth_begin = (100 - new_visibility) * 100 + 500
+	environment.fog_depth_end = (100 - new_visibility) * 300 + 1500
+
+
+func apply_cloudiness(new_cloudiness):
+	$CloudDome.cloud_min_density_low = 1.1 - new_cloudiness * 0.01
+	
+	# TODO: Consider decreasing light.light_energy and increasing the ambient light instead
+
+
+func apply_is_unshaded(new_is_unshaded):
+	# TODO: Implement
+	pass
+
+
 func apply_datetime(date_time: TimeManager.DateTime):
 	if $PythonWrapper.has_python_node():
 		# TODO: Replace with real lon/lat values

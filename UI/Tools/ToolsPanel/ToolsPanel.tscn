@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/locomotion.svg" type="Texture" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/raster.svg" type="Texture" id=2]
@@ -22,6 +22,8 @@
 [ext_resource path="res://UI/Viewshed/ViewshedButton.gd" type="Script" id=20]
 [ext_resource path="res://UI/EditableAssets/AssetsList.tscn" type="PackedScene" id=21]
 [ext_resource path="res://UI/RenderingStyle/RenderingStyleMenu.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/energy.svg" type="Texture" id=23]
+[ext_resource path="res://UI/Weather/WeatherUI.tscn" type="PackedScene" id=24]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -79,6 +81,13 @@ shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
+[sub_resource type="ShaderMaterial" id=9]
+resource_local_to_scene = true
+shader = ExtResource( 9 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
+
 [node name="ToolsPanel" type="VBoxContainer"]
 anchor_right = 0.125
 anchor_bottom = 0.666
@@ -104,7 +113,7 @@ scroll_horizontal_enabled = false
 
 [node name="ToolsBar" type="VBoxContainer" parent="ScrollContainer"]
 margin_right = 25.0
-margin_bottom = 310.0
+margin_bottom = 350.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 custom_constants/separation = 10
@@ -139,10 +148,20 @@ margin_right = 214.0
 margin_bottom = 72.0
 rect_min_size = Vector2( 214, 72 )
 
-[node name="Tracking" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
+[node name="Weather" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = SubResource( 4 )
 margin_top = 120.0
 margin_bottom = 150.0
+texture_normal = ExtResource( 23 )
+texture_name = "energy"
+
+[node name="WeatherUI" parent="ScrollContainer/ToolsBar/Weather" instance=ExtResource( 24 )]
+visible = false
+
+[node name="Tracking" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
+material = SubResource( 5 )
+margin_top = 160.0
+margin_bottom = 190.0
 texture_normal = ExtResource( 16 )
 script = ExtResource( 13 )
 texture_name = "footprint"
@@ -155,9 +174,9 @@ focused_color = Color( 0, 0, 0, 1 )
 visible = false
 
 [node name="Imaging" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 5 )
-margin_top = 160.0
-margin_bottom = 190.0
+material = SubResource( 6 )
+margin_top = 200.0
+margin_bottom = 230.0
 texture_normal = ExtResource( 12 )
 script = ExtResource( 8 )
 pressed_color = Color( 0, 0, 0, 1 )
@@ -169,9 +188,9 @@ focused_color = Color( 0, 0, 0, 1 )
 visible = false
 
 [node name="Assets" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 6 )
-margin_top = 200.0
-margin_bottom = 230.0
+material = SubResource( 7 )
+margin_top = 240.0
+margin_bottom = 270.0
 texture_normal = ExtResource( 14 )
 texture_name = "construction"
 
@@ -179,9 +198,9 @@ texture_name = "construction"
 visible = false
 
 [node name="Style" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 7 )
-margin_top = 240.0
-margin_bottom = 270.0
+material = SubResource( 8 )
+margin_top = 280.0
+margin_bottom = 310.0
 texture_normal = ExtResource( 15 )
 texture_name = "paintbrush"
 
@@ -189,9 +208,9 @@ texture_name = "paintbrush"
 visible = false
 
 [node name="GeoJPEG" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 8 )
-margin_top = 280.0
-margin_bottom = 310.0
+material = SubResource( 9 )
+margin_top = 320.0
+margin_bottom = 350.0
 texture_normal = ExtResource( 2 )
 texture_name = "raster"
 

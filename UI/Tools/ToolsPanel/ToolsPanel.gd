@@ -18,6 +18,7 @@ var arrow_toggle: bool = false
 var pc_player: AbstractPlayer
 var pos_manager: PositionManager
 var time_manager: TimeManager
+var weather_manager: WeatherManager
 
 
 func _ready():
@@ -49,6 +50,8 @@ func _inject(node: Node):
 		node.pos_manager = pos_manager
 	if "time_manager" in node:
 		node.time_manager = time_manager
+	if "weather_manager" in node:
+		node.weather_manager = weather_manager
 
 
 # If the current game mode is changed, the new mode will be applied according to 
