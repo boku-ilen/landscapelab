@@ -1,9 +1,15 @@
 extends LayerRenderer
 
-var radius = 800
-var max_features = 50
+var radius = 20000
+var max_features = 100
 
 var features
+
+var weather_manager: WeatherManager setget set_weather_manager
+
+
+func set_weather_manager(new_weather_manager):
+	weather_manager = new_weather_manager
 
 
 func load_new_data():
@@ -24,6 +30,9 @@ func apply_new_feature(feature):
 	
 	update_instance_position(feature, instance)
 	feature.connect("point_changed", self, "update_instance_position", [feature, instance])
+	
+	if "weather_manager" in instance:
+		instance.set("weather_manager", weather_manager)
 	
 	add_child(instance)
 

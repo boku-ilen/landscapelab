@@ -12,9 +12,12 @@ func _ready():
 	
 	$WeatherManager.connect("visibility_changed", $WorldEnvironment, "apply_visibility")
 	$WeatherManager.connect("cloudiness_changed", $WorldEnvironment, "apply_cloudiness")
+	$WeatherManager.connect("wind_speed_changed", $WorldEnvironment, "apply_wind_speed")
+	$WeatherManager.connect("wind_direction_changed", $WorldEnvironment, "apply_wind_direction")
 	$WeatherManager.connect("unshaded_changed", $WorldEnvironment, "apply_is_unshaded")
 	
 	$Terrain/LayerRenderers.time_manager = $TimeManager
+	$Terrain/LayerRenderers.weather_manager = $WeatherManager
 
 
 func _input(event):

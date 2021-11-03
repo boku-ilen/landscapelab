@@ -15,6 +15,26 @@ export var mesh_rotor_diameter := 100
 
 export(Vector3) var forward_for_rotation = Vector3(1, 0, 0)
 
+var weather_manager: WeatherManager setget set_weather_manager
+
+
+func set_weather_manager(new_weather_manager):
+	weather_manager = new_weather_manager
+	
+	_apply_new_wind_speed(weather_manager.wind_speed)
+	weather_manager.connect("wind_speed_changed", self, "_apply_new_wind_speed")
+	
+	_apply_new_wind_direction(weather_manager.wind_direction)
+	weather_manager.connect("wind_direction_changed", self, "_apply_new_wind_direction")
+
+
+func _apply_new_wind_speed(wind_speed):
+	speed = wind_speed / 15.0
+
+
+func _apply_new_wind_direction(wind_direction):
+	set_wind_direction(-wind_direction)
+
 
 func _ready():
 	# Orient the windmill according to the scenario's wind direction

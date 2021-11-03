@@ -14,6 +14,9 @@ var clouds
 var current_time = 12
 var current_season = 0
 
+var wind_speed = 0
+var wind_direction = 0
+
 # Godot's default values - they look pretty good
 var base_horizon_color = Color(139.0 / 255.0, 175.0 / 255.0, 207.0 / 255.0, 1.0) 
 var base_top_color = Color(54.0 / 255.0, 80.0 / 255.0, 141.0 / 255.0, 1)
@@ -40,12 +43,35 @@ func _ready():
 func apply_visibility(new_visibility):
 	environment.fog_depth_begin = (100 - new_visibility) * 100 + 500
 	environment.fog_depth_end = (100 - new_visibility) * 300 + 1500
+	
+	if new_visibility > 90:
+		$CloudDome.visible = false
+		environment.background_mode = Environment.BG_COLOR
+		environment.background_color = environment.fog_color
+	else:
+		$CloudDome.visible = true
+		environment.background_mode = Environment.BG_SKY
 
 
 func apply_cloudiness(new_cloudiness):
 	$CloudDome.cloud_min_density_low = 1.1 - new_cloudiness * 0.01
 	
 	# TODO: Consider decreasing light.light_energy and increasing the ambient light instead
+
+
+func apply_wind_speed(new_wind_speed):
+	wind_speed = new_wind_speed
+	apply_wind()
+
+
+func apply_wind_direction(new_wind_direction):
+	wind_direction = new_wind_direction
+	apply_wind()
+
+
+func apply_wind():
+	var rotated_vector = Vector2.UP.rotated(deg2rad(wind_direction))
+	$CloudDome.cloud_speed = rotated_vector * wind_speed * 5.0
 
 
 func apply_is_unshaded(new_is_unshaded):
