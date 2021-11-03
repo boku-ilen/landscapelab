@@ -174,6 +174,10 @@ func apply_data():
 	
 	process_material.set_shader_param("offset", Vector2(0, 0))
 	material_override.set_shader_param("offset", Vector2(0, 0))
+	
+	# Row crops
+	if density_class.id == 6:
+		process_material.set_shader_param("row_spacing", 3.0)
 
 
 func apply_wind_speed(wind_speed):

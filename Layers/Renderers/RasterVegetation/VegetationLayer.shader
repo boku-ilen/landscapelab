@@ -7,6 +7,8 @@ uniform sampler2D heightmap;
 uniform float amplitude = 1.0;
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
 
+uniform float row_spacing = 0.0;
+
 uniform vec2 offset;
 
 uniform sampler2D noisemap;
@@ -35,6 +37,9 @@ void vertex() {
 	
 	// and now apply our spacing
 	pos *= spacing;
+	
+	// Add single-dimension spacing for some crops
+	pos.x *= row_spacing;
 	
 	// now center on our particle location but within our spacing
 	pos.x += EMISSION_TRANSFORM[3][0] - mod(EMISSION_TRANSFORM[3][0], spacing);
