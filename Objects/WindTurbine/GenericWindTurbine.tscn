@@ -161,7 +161,7 @@ surfaces/5 = {
 [node name="Windmill" instance=ExtResource( 1 )]
 transform = Transform( 1.0253, 0, -1.02531, 0, 1.45, 0, 1.02531, 0, 1.0253, 0, 0, 0 )
 script = ExtResource( 2 )
-speed = 0.0999986
+speed = 0.111798
 wind_direction = 315.0
 
 [node name="CollisionShape" parent="PickupBody" index="0"]
@@ -192,7 +192,7 @@ mesh = SubResource( 5 )
 material/0 = null
 
 [node name="Rotor" type="Spatial" parent="Mesh" index="1"]
-transform = Transform( 1, 0, 0, 0, 0.808847, -0.588063, 0, 0.588063, 0.808847, 11.198, 135, 0 )
+transform = Transform( 1, -2.98023e-08, 0, 0, -0.307375, 0.951606, -5.96046e-08, -0.951607, -0.307375, 11.198, 135, -4.76837e-07 )
 
 [node name="Rotor" type="MeshInstance" parent="Mesh/Rotor" index="0"]
 transform = Transform( 1.48619e-09, -0.034, -2.97237e-09, -0.034, -1.48619e-09, 0, -1.29927e-16, 2.97237e-09, -0.034, 0, 1.52588e-05, 0 )

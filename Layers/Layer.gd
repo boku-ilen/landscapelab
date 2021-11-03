@@ -92,6 +92,10 @@ class ObjectRenderInfo extends RenderInfo:
 	func is_valid():
 		return ground_height_layer != null
 
+class WindTurbineRenderInfo extends ObjectRenderInfo:
+	var height_attribute_name
+	var diameter_attribute_name
+
 class PolygonRenderInfo extends RenderInfo:
 	var height_attribute_name
 	var ground_height_layer: Layer

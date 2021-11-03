@@ -1,5 +1,4 @@
 extends Spatial
-tool
 
 #
 # A windmill which acts according to a specified wind direction and speed.
@@ -13,9 +12,14 @@ export(float) var wind_direction = 0 setget set_wind_direction, get_wind_directi
 export var mesh_hub_height := 135
 export var mesh_rotor_diameter := 100
 
+var height = mesh_hub_height
+var diameter = mesh_rotor_diameter
+
 export(Vector3) var forward_for_rotation = Vector3(1, 0, 0)
 
 var weather_manager: WeatherManager setget set_weather_manager
+var feature
+var render_info
 
 
 func set_weather_manager(new_weather_manager):
@@ -54,8 +58,15 @@ func _ready():
 	
 	$BlinkTimer.connect("timeout", self, "_toggle_blink")
 	
-	set_hub_height(135)
-	set_rotor_diameter(100)
+	if feature and render_info:
+		var height_attribute_name = render_info.height_attribute_name
+		var diameter_attribute_name = render_info.diameter_attribute_name
+		
+		var height = float(feature.get_attribute(height_attribute_name))
+		var diameter = float(feature.get_attribute(diameter_attribute_name))
+		
+		set_hub_height(height)
+		set_rotor_diameter(diameter)
 
 # Saves the specified wind direction and updates the model's rotation
 # Called whenever the exported wind_direction is changed

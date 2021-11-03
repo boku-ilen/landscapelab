@@ -34,6 +34,12 @@ func apply_new_feature(feature):
 	if "weather_manager" in instance:
 		instance.set("weather_manager", weather_manager)
 	
+	if "feature" in instance:
+		instance.set("feature", feature)
+	
+	if "render_info" in instance:
+		instance.set("render_info", layer.render_info)
+	
 	add_child(instance)
 
 
