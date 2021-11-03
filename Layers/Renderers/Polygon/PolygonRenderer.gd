@@ -12,8 +12,8 @@ var cellar_height = floor_height # For preventing partially floating buildings o
 
 var building_instances = []
 
-var time_manager setget set_time_manager
-var is_daytime = true
+#var time_manager setget set_time_manager
+#var is_daytime = true
 
 
 # Called when the node enters the scene tree for the first time.
