@@ -91,11 +91,12 @@ func update_rotation():
 # Updates the rotation of the rotor to make them rotate with the exported speed variable
 func _process(delta):
 	if delta > 0.8: return  # Avoid skipping
-	rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)
+	if is_inside_tree():
+		rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)
 
 
 func _toggle_blink():
-	$Mesh/Hub/Hub/Blink.visible = !$Mesh/Hub/Hub/Blink.visible
+	$Mesh/Hub/Blink.visible = !$Mesh/Hub/Blink.visible
 
 
 func set_hub_height(height: float):
@@ -111,3 +112,9 @@ func set_rotor_diameter(diameter: float):
 	
 	$Mesh/Hub.scale.z = diameter / mesh_rotor_diameter
 	$Mesh/Hub.scale.y = diameter / mesh_rotor_diameter
+
+
+func apply_daytime_change(is_daytime: bool):
+	# During daytime, the light should be 
+	$BlinkTimer.set_paused(is_daytime)
+	$Mesh/Hub/Blink.visible = not is_daytime
