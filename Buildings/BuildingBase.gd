@@ -59,7 +59,7 @@ func build():
 			next_floor_height_offset += child.height
 
 
-func set_lights_enabled(enabled):
+func apply_daytime_change(is_daytime):
 	for child in get_children():
 		if child.has_method("set_lights_enabled"):
-			child.set_lights_enabled(enabled)
+			child.set_lights_enabled(not is_daytime)
