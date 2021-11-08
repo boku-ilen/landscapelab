@@ -25,7 +25,7 @@ func load_new_data():
 
 # Overload with applying and visualizing the data. Not run in a thread.
 func apply_new_data():
-	pass
+	_apply_daytime_change(is_daytime)
 
 
 func set_time_manager(manager: TimeManager):
