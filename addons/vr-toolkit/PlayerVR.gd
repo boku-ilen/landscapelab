@@ -22,12 +22,12 @@ var interface
 
 func set_show_controller_left(is_visible):
 	show_controller_left = is_visible
-	get_node("LeftVisual").show_controller_mesh = show_controller_left
+	get_node("LeftVisual").show_controller_mesh = false
 
 
 func set_show_controller_right(is_visible):
 	show_controller_right = is_visible
-	get_node("RightVisual").show_controller_mesh = show_controller_right
+	get_node("RightVisual").show_controller_mesh = false
 
 
 func set_show_hand_left(is_visible):
