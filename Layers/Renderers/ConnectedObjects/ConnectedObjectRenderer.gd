@@ -20,7 +20,6 @@ func apply_new_data():
 	# First clear the old objects, then add the new ones
 	# connectors as well as connections
 	for child in get_children():
-		var test = child.name
 		child.queue_free()
 	
 	for instance in connector_instances:
