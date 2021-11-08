@@ -62,8 +62,6 @@ func _ready():
 	# Start at a random rotation
 	rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, randf() * PI * 2.0)
 	
-	$BlinkTimer.connect("timeout", self, "_toggle_blink")
-	
 	if feature and render_info:
 		var height_attribute_name = render_info.height_attribute_name
 		var diameter_attribute_name = render_info.diameter_attribute_name
@@ -101,10 +99,6 @@ func _process(delta):
 		rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)
 
 
-func _toggle_blink():
-	$Mesh/Hub/Blink.visible = !$Mesh/Hub/Blink.visible
-
-
 func set_hub_height(height: float):
 	$Mesh/Mast.scale = Vector3.ONE * (height / mesh_hub_height)
 	$Mesh/Rotor.translation.y = height
@@ -121,6 +115,11 @@ func set_rotor_diameter(diameter: float):
 
 
 func apply_daytime_change(is_daytime: bool):
-	# During daytime, the light should be 
-	$BlinkTimer.set_paused(is_daytime)
+	# During daytime, the light should not be blinking
+	if is_daytime:
+		$BlinkAnimationPlayer.stop()
+		$BlinkAnimationPlayer.seek(0, true)
+	else:
+		$BlinkAnimationPlayer.play("Blink")
+	
 	$Mesh/Hub/Blink.visible = not is_daytime

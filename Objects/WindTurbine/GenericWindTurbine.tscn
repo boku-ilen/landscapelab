@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Objects/Superclasses/MovableObject.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/WindTurbine/GenericWindTurbine.gd" type="Script" id=2]
@@ -158,6 +158,23 @@ surfaces/5 = {
 "vertex_count": 56
 }
 
+[sub_resource type="Animation" id=8]
+resource_name = "Blink"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Mesh/Hub/Blink:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5, 2.5, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false ]
+}
+
 [node name="Windmill" instance=ExtResource( 1 )]
 transform = Transform( 1.0253, 0, -1.02531, 0, 1.45, 0, 1.02531, 0, 1.0253, 0, 0, 0 )
 script = ExtResource( 2 )
@@ -215,6 +232,5 @@ material/3 = null
 material/4 = null
 material/5 = null
 
-[node name="BlinkTimer" type="Timer" parent="." index="3"]
-wait_time = 1.5
-autostart = true
+[node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="." index="3"]
+anims/Blink = SubResource( 8 )
