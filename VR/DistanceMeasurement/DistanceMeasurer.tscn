@@ -1,0 +1,67 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://VR/DistanceMeasurement/DistanceMeasurer.gd" type="Script" id=1]
+[ext_resource path="res://addons/vr-toolkit/Gui/GuiToMesh.tscn" type="PackedScene" id=2]
+[ext_resource path="res://VR/DistanceMeasurement/laserpointer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://VR/DistanceMeasurement/Display.tscn" type="PackedScene" id=4]
+
+[sub_resource type="PlaneMesh" id=3]
+resource_local_to_scene = true
+size = Vector2( 0.2, 0.2 )
+
+[sub_resource type="ViewportTexture" id=10]
+
+[sub_resource type="SpatialMaterial" id=11]
+flags_transparent = true
+flags_unshaded = true
+albedo_texture = SubResource( 10 )
+
+[sub_resource type="CubeMesh" id=6]
+size = Vector3( 0.2, 0.2, 0.01 )
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="BoxShape" id=8]
+extents = Vector3( 0.0524242, 0.100746, 0.251612 )
+
+[sub_resource type="SpatialMaterial" id=9]
+albedo_color = Color( 1, 0, 0, 1 )
+emission_enabled = true
+emission = Color( 1, 0, 0, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[node name="Spatial" type="RigidBody"]
+script = ExtResource( 1 )
+
+[node name="laserpointer" parent="." instance=ExtResource( 3 )]
+transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.05, 0, 0, 0.16999 )
+
+[node name="Display" type="Spatial" parent="."]
+transform = Transform( 0.830936, 0.402088, -0.384539, 0, 0.69116, 0.722702, 0.556368, -0.600519, 0.57431, 0.106161, 0.116395, 0.00513785 )
+
+[node name="GuiToMesh" parent="Display" instance=ExtResource( 2 )]
+transform = Transform( 0.99383, 0.0766593, 0.0801577, 0.0801577, 0.00308189, -0.996778, -0.0766592, 0.997053, -0.0030821, 0, 1.49012e-08, -0.00899999 )
+mesh = SubResource( 3 )
+material/0 = SubResource( 11 )
+viewport_element = ExtResource( 4 )
+mesh_size = Vector2( 0.2, 0.2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Display"]
+transform = Transform( 1, 0, 2.98023e-08, 2.98023e-08, 1, 2.98023e-08, 2.98023e-08, 2.98023e-08, 1, -7.45058e-09, 0, -0.0155001 )
+visible = false
+mesh = SubResource( 6 )
+material/0 = SubResource( 7 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0522866, 0 )
+shape = SubResource( 8 )
+
+[node name="Laser" type="RayCast" parent="."]
+enabled = true
+cast_to = Vector3( 0, 0, -1000 )
+
+[node name="ImmediateGeometry" type="ImmediateGeometry" parent="."]
+material_override = SubResource( 9 )
