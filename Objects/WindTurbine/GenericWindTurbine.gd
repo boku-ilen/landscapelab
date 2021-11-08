@@ -23,6 +23,12 @@ var render_info
 
 
 func set_weather_manager(new_weather_manager):
+	# FIXME: Seems like there's a condition where this is called once with a null
+	# weather manager. Not necessarily a problem since it's called again correctly
+	# later, but feels like it shouldn't be necessary.
+	if not new_weather_manager:
+		return
+	
 	weather_manager = new_weather_manager
 	
 	_apply_new_wind_speed(weather_manager.wind_speed)

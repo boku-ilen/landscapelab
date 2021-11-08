@@ -94,7 +94,7 @@ func apply_center(center_array):
 			var task = ThreadPool.Task.new(renderer, "load_new_data")
 			
 			if load_data_threaded:
-				task.connect("finished", self, "_on_renderer_finished", [renderer.name])
+				task.connect("finished", self, "_on_renderer_finished", [renderer.name], CONNECT_DEFERRED)
 				ThreadPool.enqueue_task(task)
 			else:
 				task.execute()

@@ -89,4 +89,8 @@ class Task:
 			# FIXME: Would be nice to log this, but this is likely not thread-safe either!
 			#logger.error("Thread was supposed to call %s, but the object didn't exist anymore!" % [method])
 		
-		call_deferred("emit_signal", "finished")
+		# FIXME: Should be call_deferred("emit_signal", "finished"), but we've encountered a problem
+		# where that is not executed if there are two very similar taks (execute the same function on
+		# objects of the same type).
+		# Thus, take care to use CONNECT_DEFERRED when connecting to this signal!
+		emit_signal("finished")
