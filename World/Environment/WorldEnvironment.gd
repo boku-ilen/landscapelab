@@ -43,14 +43,6 @@ func _ready():
 func apply_visibility(new_visibility):
 	environment.fog_depth_begin = (100 - new_visibility) * 100 + 500
 	environment.fog_depth_end = (100 - new_visibility) * 300 + 1500
-	
-	if new_visibility > 90:
-		$CloudDome.visible = false
-		environment.background_mode = Environment.BG_COLOR
-		environment.background_color = environment.fog_color
-	else:
-		$CloudDome.visible = true
-		environment.background_mode = Environment.BG_SKY
 
 
 func apply_cloudiness(new_cloudiness):
@@ -93,10 +85,14 @@ func apply_datetime(date_time: TimeManager.DateTime):
 			$DirectionalLight.light_energy = 0
 			$CloudDome.cloud_color = Color.white * 0.05
 			$CloudDome.shade_color = Color.white * 0.1
+			environment.fog_color = Color(0.05, 0.06, 0.07)
+			environment.fog_sun_amount = 0
 			$CloudDome._regen_mesh()
 		else:
 			$DirectionalLight.light_energy = 2
 			environment.ambient_light_energy = 3
+			environment.fog_color = Color(0.501961, 0.6, 0.701961)
+			environment.fog_sun_amount = 1
 			$CloudDome.cloud_color = Color.white
 			$CloudDome.shade_color = Color(0.568627, 0.698039, 0.878431, 1.0)
 			$CloudDome._regen_mesh()
