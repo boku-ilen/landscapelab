@@ -106,7 +106,7 @@ func _toggle_blink():
 
 
 func set_hub_height(height: float):
-	$Mesh/Mast.scale.y = height / mesh_hub_height
+	$Mesh/Mast.scale = Vector3.ONE * (height / mesh_hub_height)
 	$Mesh/Rotor.translation.y = height
 	$Mesh/Hub.translation.y = height
 	
