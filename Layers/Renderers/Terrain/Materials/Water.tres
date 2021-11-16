@@ -3,19 +3,19 @@
 [ext_resource path="res://Layers/Renderers/Terrain/Materials/Water.gdshader" type="Shader" id=1]
 [ext_resource path="res://Resources/Textures/ShaderUtil/rgb_solid_noise.png" type="Texture" id=7]
 
-[sub_resource type="OpenSimplexNoise" id=1]
+[sub_resource type="OpenSimplexNoise" id=9]
 seed = 2066020070
 
-[sub_resource type="NoiseTexture" id=2]
+[sub_resource type="NoiseTexture" id=10]
 seamless = true
-noise = SubResource( 1 )
+noise = SubResource( 9 )
 
-[sub_resource type="OpenSimplexNoise" id=3]
+[sub_resource type="OpenSimplexNoise" id=11]
 seed = -1312041339
 
 [sub_resource type="NoiseTexture" id=4]
 seamless = true
-noise = SubResource( 3 )
+noise = SubResource( 11 )
 
 [sub_resource type="OpenSimplexNoise" id=5]
 
@@ -43,7 +43,7 @@ shader_param/wave_strengh = Vector2( 0.5, 0.25 )
 shader_param/wave_frequency = Vector2( 12, 12 )
 shader_param/time_factor = Vector2( 1, 2 )
 shader_param/offset_noise = ExtResource( 7 )
-shader_param/noise1 = SubResource( 2 )
+shader_param/noise1 = SubResource( 10 )
 shader_param/noise2 = SubResource( 4 )
 shader_param/normalmap = SubResource( 6 )
 shader_param/normalmap2 = SubResource( 8 )

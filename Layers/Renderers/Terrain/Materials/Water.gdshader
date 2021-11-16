@@ -61,7 +61,7 @@ void fragment(){
 		discard;
 	}
 
-	vec2 scaled_uv = UV * 20.0;
+	vec2 scaled_uv = world_pos.xz * 0.002;
 
 	float time = TIME * speed;
 	vec3 n1 = texture(noise1, scaled_uv + time).rgb;
