@@ -66,9 +66,12 @@ func load_new_data():
 			
 			if float(slope) > 15:
 				roof = pointed_roof_scene.instance()
+				roof.set_texture(preload("res://Resources/Textures/Buildings/roof/roof_white.jpg"))
+				roof.set_normalmap(preload("res://Resources/Textures/Buildings/roof_normal/roof_3-normal.jpg"))
 			
 			if not roof or not roof.can_build(polygon):
 				roof = flat_roof_scene.instance()
+				roof.set_texture(preload("res://Resources/Textures/Buildings/roof/flat_roof_white.jpg"))
 			
 			var color = Color(
 					float(feature.get_attribute(layer.render_info.red_attribute_name)) / 255.0,
@@ -76,9 +79,6 @@ func load_new_data():
 					float(feature.get_attribute(layer.render_info.blue_attribute_name)) / 255.0
 			)
 			
-			# TODO: Vary texture
-			roof.set_texture(preload("res://Resources/Textures/Buildings/roof/roof_white.jpg"))
-			roof.set_normalmap(preload("res://Resources/Textures/Buildings/roof_normal/roof_3-normal.jpg"))
 			roof.set_color(color)
 			
 			building.add_child(roof)

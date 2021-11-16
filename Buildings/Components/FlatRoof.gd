@@ -34,8 +34,8 @@ func build(footprint: PoolVector2Array):
 	
 	for index in polygon_indices:
 		var vertex_2d = footprint[index]
+		st.add_uv(vertex_2d * 0.1)
 		st.add_vertex(Vector3(vertex_2d.x, 0, vertex_2d.y))
-		# TODO: Set UV variables
 	
 	st.generate_normals()
 	
