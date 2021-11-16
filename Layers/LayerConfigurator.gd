@@ -186,3 +186,20 @@ func add_test_data():
 	Layers.add_layer(terrain_layer)
 	Layers.add_layer(building_layer)
 	Layers.add_layer(vegetation_layer)
+	
+#	var scenario1 = Scenario.new()
+#	scenario1.name = "Repowering"
+#	scenario1.add_visible_layer_name(windmill_layer.name)
+#	scenario1.add_visible_layer_name(terrain_layer.name)
+#	scenario1.add_visible_layer_name(building_layer.name)
+#	scenario1.add_visible_layer_name(vegetation_layer.name)
+#
+#	var scenario2 = Scenario.new()
+#	scenario2.name = "Bestand"
+#	scenario2.add_visible_layer_name(windmill_layer2.name)
+#	scenario2.add_visible_layer_name(terrain_layer.name)
+#	scenario2.add_visible_layer_name(building_layer.name)
+#	scenario2.add_visible_layer_name(vegetation_layer.name)
+#
+#	Scenarios.add_scenario(scenario1)
+#	Scenarios.add_scenario(scenario2)

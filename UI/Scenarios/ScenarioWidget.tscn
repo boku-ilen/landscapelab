@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/Scenarios/ScenarioWidget.gd" type="Script" id=1]
+
+[node name="ScenarioWidget" type="VBoxContainer"]
+margin_right = 151.0
+margin_bottom = 30.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 151.0
+margin_bottom = 25.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_right = 113.0
+margin_bottom = 25.0
+text = "Scenario 1"
