@@ -45,7 +45,10 @@ varying float world_distance;
 varying float camera_distance;
 
 float get_height(vec2 uv) {
-	return texture(heightmap, uv).r * height_scale;
+	float height = texture(heightmap, uv).r * height_scale;
+	// Clamp to prevent weird behavior with extreme nodata values
+	// TODO: Might have to be generalized further to be more robust
+	return clamp(height, -1000.0, 50000.0);
 }
 
 vec3 get_normal(vec2 normal_uv_pos) {
@@ -87,7 +90,11 @@ void vertex() {
 	
 	if (has_surface_heights) {
 		float surface_height_factor = float(world_distance > surface_heights_start_distance);
-		VERTEX.y += texture(surface_heightmap, UV).r * height_scale * surface_height_factor;
+		float texture_read = texture(surface_heightmap, UV).r;
+		if (texture_read < 1000.0) {
+			// Nodata may be encoded as infinity
+			VERTEX.y += texture_read * height_scale * surface_height_factor;
+		}
 	}
 }
 
