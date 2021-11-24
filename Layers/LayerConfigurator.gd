@@ -66,10 +66,10 @@ func add_test_data():
 	surface_height_layer.geo_raster_layer = geopackage.get_raster_layer("ndom")
 	surface_height_layer.name = "nDSM"
 	
-	# Precipitation
-	var precipitation_layer = RasterLayer.new()
-	precipitation_layer.geo_raster_layer = Geodot.get_raster_layer("C:\\boku\\geodata\\Niederschlag\\ooe\\Niederschlagssumme_Jahresmittel_1981_2010.tif")
-	precipitation_layer.name = "Precipitation"
+#	# Precipitation
+#	var precipitation_layer = RasterLayer.new()
+#	precipitation_layer.geo_raster_layer = Geodot.get_raster_layer("C:\\boku\\geodata\\Niederschlag\\ooe\\Niederschlagssumme_Jahresmittel_1981_2010.tif")
+#	precipitation_layer.name = "Precipitation"
 	
 	# Realistic Terrain layer
 	var terrain_layer = Layer.new()
@@ -106,14 +106,14 @@ func add_test_data():
 #
 	# Building layer
 	var building_layer = FeatureLayer.new()
-	building_layer.geo_feature_layer = geopackage.get_feature_layer("building_footprints")
+	building_layer.geo_feature_layer = geopackage.get_feature_layer("buildings")
 	building_layer.render_type = Layer.RenderType.POLYGON
 	building_layer.render_info = Layer.BuildingRenderInfo.new()
-	building_layer.render_info.height_attribute_name = "_mean"
+	building_layer.render_info.height_attribute_name = "ndom_mean"
 	building_layer.render_info.slope_attribute_name = "slope_mean"
-	building_layer.render_info.red_attribute_name = "red_median"
-	building_layer.render_info.green_attribute_name = "green_median"
-	building_layer.render_info.blue_attribute_name = "blue_median"
+	building_layer.render_info.red_attribute_name = "r_median"
+	building_layer.render_info.green_attribute_name = "g_median"
+	building_layer.render_info.blue_attribute_name = "b_median"
 	building_layer.render_info.ground_height_layer = height_layer.clone()
 	building_layer.name = "Buildings"
 
@@ -125,15 +125,44 @@ func add_test_data():
 	vegetation_layer.render_info.height_layer = height_layer.clone()
 	vegetation_layer.render_info.landuse_layer = landuse_layer.clone()
 	
-#	# Test Point Data
-#	var windmill_layer = FeatureLayer.new()
-#	var windmill_dataset = Geodot.get_dataset("C:\\boku\\geodata\\test_data\\ooe\\ooe_point_test.shp")
-#	windmill_layer.geo_feature_layer = windmill_dataset.get_feature_layer("ooe_point_test")
-#	windmill_layer.render_type = Layer.RenderType.OBJECT
-#	windmill_layer.render_info = Layer.ObjectRenderInfo.new()
-#	windmill_layer.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
-#	windmill_layer.render_info.ground_height_layer = height_layer.clone()
-#	windmill_layer.name = "Windmills"
+	# Test Point Data
+	var windmill_layer = FeatureLayer.new()
+	windmill_layer.geo_feature_layer = geopackage.get_feature_layer("WKA_NeuWei_Repower")
+	windmill_layer.render_type = Layer.RenderType.OBJECT
+	windmill_layer.render_info = Layer.WindTurbineRenderInfo.new()
+	windmill_layer.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
+	windmill_layer.render_info.ground_height_layer = height_layer.clone()
+	windmill_layer.render_info.height_attribute_name = "Nabenhoehe"
+	windmill_layer.render_info.diameter_attribute_name = "Rotordurch"
+	windmill_layer.name = "Windmills Neu"
+	
+	var windmill_layer2 = FeatureLayer.new()
+	windmill_layer2.geo_feature_layer = geopackage.get_feature_layer("WKA_NeuWei_Bestand")
+	windmill_layer2.render_type = Layer.RenderType.OBJECT
+	windmill_layer2.render_info = Layer.WindTurbineRenderInfo.new()
+	windmill_layer2.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
+	windmill_layer2.render_info.ground_height_layer = height_layer.clone()
+	windmill_layer2.render_info.height_attribute_name = "Nabenhoehe"
+	windmill_layer2.render_info.diameter_attribute_name = "Rotordurch"
+	windmill_layer2.name = "Windmills Bestand"
+	
+	var windmill_layer3 = FeatureLayer.new()
+	windmill_layer3.geo_feature_layer = geopackage.get_feature_layer("WKA_Umgebung_bleibt")
+	windmill_layer3.render_type = Layer.RenderType.OBJECT
+	windmill_layer3.render_info = Layer.WindTurbineRenderInfo.new()
+	windmill_layer3.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
+	windmill_layer3.render_info.ground_height_layer = height_layer.clone()
+	windmill_layer3.render_info.height_attribute_name = "Nabenhoehe"
+	windmill_layer3.render_info.diameter_attribute_name = "Rotordurch"
+	windmill_layer3.name = "Windmills Umgebung"
+	
+	var poi = FeatureLayer.new()
+	poi.geo_feature_layer = geopackage.get_feature_layer("POI")
+	poi.render_type = Layer.RenderType.OBJECT
+	poi.render_info = Layer.ObjectRenderInfo.new()
+	poi.render_info.object = preload("res://Objects/Util/Marker.tscn")
+	poi.render_info.ground_height_layer = height_layer.clone()
+	poi.name = "Aussichtspunkte"
 	
 #	# Test Line Data
 #	var water_layer = FeatureLayer.new()
@@ -155,27 +184,29 @@ func add_test_data():
 #	street_layer.render_info.ground_height_layer = height_layer.clone()
 #	street_layer.name = "Streets"
 
-#	# Test Line Data
-#	var ppole_layer = FeatureLayer.new()
-#	var ppole_dataset = Geodot.get_dataset("C:\\boku\\geodata\\test_data\\ooe\\ooe_ppole.shp")
-#	ppole_layer.geo_feature_layer = ppole_dataset.get_feature_layer("ooe_ppole")
-#	ppole_layer.render_type = Layer.RenderType.CONNECTED_OBJECT
-#	ppole_layer.render_info = Layer.ConnectedObjectInfo.new()
-#	ppole_layer.render_info.selector_attribute_name = "power"
-#	ppole_layer.render_info.connectors = {
-#		"minor_line": load("res://Objects/Power/HighVoltagePowerLine.tscn"),
-#		"line": load("res://Objects/Power/HighVoltagePowerLine.tscn")
-#	}
-#	ppole_layer.render_info.fallback_connector = load("res://Objects/Power/HighVoltagePowerLine.tscn")
-#	ppole_layer.render_info.fallback_connection = load("res://Objects/Connection/MetalSteelCable.tscn")
-#	ppole_layer.render_info.ground_height_layer = height_layer.clone()
-#	ppole_layer.name = "Power poles"
+	# Test Line Data
+	var ppole_layer = FeatureLayer.new()
+	ppole_layer.geo_feature_layer = geopackage.get_feature_layer("power_lines")
+	ppole_layer.render_type = Layer.RenderType.CONNECTED_OBJECT
+	ppole_layer.render_info = Layer.ConnectedObjectInfo.new()
+	ppole_layer.render_info.selector_attribute_name = "power"
+	ppole_layer.render_info.connectors = {
+		"minor_line": load("res://Objects/Power/LowVoltagePowerPole.tscn"),
+		"line": load("res://Objects/Power/HighVoltagePowerLine.tscn")
+	}
+	ppole_layer.render_info.fallback_connector = load("res://Objects/Power/LowVoltagePowerPole.tscn")
+	ppole_layer.render_info.fallback_connection = load("res://Objects/Connection/MetalSteelCable.tscn")
+	ppole_layer.render_info.ground_height_layer = height_layer.clone()
+	ppole_layer.name = "Power poles"
 
 	# Add the layers
 #	Layers.add_layer(precipitation_layer)
 #	Layers.add_layer(data_terrain_layer)
 #	Layers.add_layer(bterrain_layer)
-#	Layers.add_layer(windmill_layer)
+	Layers.add_layer(windmill_layer)
+	Layers.add_layer(windmill_layer2)
+	Layers.add_layer(windmill_layer3)
+	Layers.add_layer(poi)
 #	Layers.add_layer(water_layer)
 #	Layers.add_layer(ppole_layer)
 #	Layers.add_layer(street_layer)
@@ -187,19 +218,21 @@ func add_test_data():
 	Layers.add_layer(building_layer)
 	Layers.add_layer(vegetation_layer)
 	
-#	var scenario1 = Scenario.new()
-#	scenario1.name = "Repowering"
-#	scenario1.add_visible_layer_name(windmill_layer.name)
-#	scenario1.add_visible_layer_name(terrain_layer.name)
-#	scenario1.add_visible_layer_name(building_layer.name)
-#	scenario1.add_visible_layer_name(vegetation_layer.name)
-#
-#	var scenario2 = Scenario.new()
-#	scenario2.name = "Bestand"
-#	scenario2.add_visible_layer_name(windmill_layer2.name)
-#	scenario2.add_visible_layer_name(terrain_layer.name)
-#	scenario2.add_visible_layer_name(building_layer.name)
-#	scenario2.add_visible_layer_name(vegetation_layer.name)
-#
-#	Scenarios.add_scenario(scenario1)
-#	Scenarios.add_scenario(scenario2)
+	var scenario1 = Scenario.new()
+	scenario1.name = "Repowering"
+	scenario1.add_visible_layer_name(windmill_layer.name)
+	scenario1.add_visible_layer_name(windmill_layer3.name)
+	scenario1.add_visible_layer_name(terrain_layer.name)
+	scenario1.add_visible_layer_name(building_layer.name)
+	scenario1.add_visible_layer_name(vegetation_layer.name)
+	
+	var scenario2 = Scenario.new()
+	scenario2.name = "Bestand"
+	scenario2.add_visible_layer_name(windmill_layer2.name)
+	scenario2.add_visible_layer_name(windmill_layer3.name)
+	scenario2.add_visible_layer_name(terrain_layer.name)
+	scenario2.add_visible_layer_name(building_layer.name)
+	scenario2.add_visible_layer_name(vegetation_layer.name)
+	
+	Scenarios.add_scenario(scenario1)
+	Scenarios.add_scenario(scenario2)

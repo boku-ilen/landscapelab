@@ -62,7 +62,7 @@ func _ready():
 	# Start at a random rotation
 	rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, randf() * PI * 2.0)
 	
-	if feature and render_info:
+	if feature and render_info and render_info is Layer.WindTurbineRenderInfo:
 		var height_attribute_name = render_info.height_attribute_name
 		var diameter_attribute_name = render_info.diameter_attribute_name
 		
@@ -119,7 +119,9 @@ func apply_daytime_change(is_daytime: bool):
 	if is_daytime:
 		$BlinkAnimationPlayer.stop()
 		$BlinkAnimationPlayer.seek(0, true)
+		$Mesh/Hub/Blink.visible = false
 	else:
+		$Mesh/Hub/Blink.visible = true
 		$BlinkAnimationPlayer.play("Blink")
 	
 	$Mesh/Hub/Blink.visible = not is_daytime
