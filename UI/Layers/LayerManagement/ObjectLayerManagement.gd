@@ -13,7 +13,8 @@ func _ready():
 
 func set_player(player):
 	.set_player(player)
-	edit_action = EditAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
+	if "action_handler" in pc_player:
+		edit_action = EditAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
 
 
 class EditAction extends ActionHandler.Action:
