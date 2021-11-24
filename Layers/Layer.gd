@@ -28,6 +28,7 @@ enum RenderType {
 }
 var render_type = RenderType.NONE
 var render_info
+var ui_info = UIInfo.new()
 
 
 signal visibility_changed(visible)
@@ -41,6 +42,10 @@ func set_visible(visible: bool):
 
 func is_valid():
 	return render_type == RenderType.NONE or (render_info and render_info.is_valid())
+
+
+class UIInfo:
+	var name_attribute
 
 
 # RenderInfo data classes

@@ -162,6 +162,7 @@ func add_test_data():
 	poi.render_info = Layer.ObjectRenderInfo.new()
 	poi.render_info.object = preload("res://Objects/Util/Marker.tscn")
 	poi.render_info.ground_height_layer = height_layer.clone()
+	poi.ui_info.name_attribute = "Beschreib"
 	poi.name = "Aussichtspunkte"
 	
 #	# Test Line Data
