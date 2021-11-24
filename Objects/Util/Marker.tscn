@@ -12,5 +12,6 @@ distance_fade_max_distance = 100.0
 [node name="Marker" type="Spatial"]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
+cast_shadow = 0
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
