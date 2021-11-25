@@ -68,6 +68,9 @@ func load_new_data():
 				roof = pointed_roof_scene.instance()
 				roof.set_texture(preload("res://Resources/Textures/Buildings/roof/roof_white.jpg"))
 				roof.set_normalmap(preload("res://Resources/Textures/Buildings/roof_normal/roof_3-normal.jpg"))
+				
+				var height_stdev = float(feature.get_attribute(layer.render_info.height_stdev_attribute_name))
+				roof.set_height(fmod(height, floor_height) + height_stdev)
 			
 			if not roof or not roof.can_build(polygon):
 				roof = flat_roof_scene.instance()

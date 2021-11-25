@@ -110,6 +110,7 @@ func add_test_data():
 	building_layer.render_type = Layer.RenderType.POLYGON
 	building_layer.render_info = Layer.BuildingRenderInfo.new()
 	building_layer.render_info.height_attribute_name = "ndom_mean"
+	building_layer.render_info.height_stdev_attribute_name = "ndom_stdev"
 	building_layer.render_info.slope_attribute_name = "slope_mean"
 	building_layer.render_info.red_attribute_name = "r_median"
 	building_layer.render_info.green_attribute_name = "g_median"

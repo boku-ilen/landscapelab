@@ -7,6 +7,9 @@ extends Spatial
 #
 
 
+var height
+
+
 func set_texture(texture):
 	$MeshInstance.material_override.albedo_texture = texture
 
@@ -33,6 +36,10 @@ func get_center(footprint: PoolVector2Array):
 	return center
 
 
+func set_height(new_height):
+	height = new_height
+
+
 func can_build(footprint):
 	return Geometry.is_point_in_polygon(get_center(footprint), footprint)
 
@@ -57,7 +64,7 @@ func build(footprint: PoolVector2Array):
 			max_vec.y = vector.y
 	
 	var extent = (max_vec - min_vec).length()
-	var height = min(extent / 8.0, 8.0)
+	var roof_height = height if height else min(extent / 5.0, 5.0)
 		
 	
 	var st = SurfaceTool.new()
@@ -69,7 +76,7 @@ func build(footprint: PoolVector2Array):
 		
 		var point1 = Vector3(vertex_2d.x, 0, vertex_2d.y)
 		var point2 = Vector3(next_2d.x, 0, next_2d.y)
-		var point3 = Vector3(center.x, height, center.y)
+		var point3 = Vector3(center.x, roof_height, center.y)
 		
 		var tangent_plane = Plane(point1, point2, point3)
 		st.add_tangent(tangent_plane)

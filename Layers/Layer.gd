@@ -109,6 +109,7 @@ class PolygonRenderInfo extends RenderInfo:
 		return ground_height_layer != null
 
 class BuildingRenderInfo extends PolygonRenderInfo:
+	var height_stdev_attribute_name
 	var slope_attribute_name
 	var red_attribute_name
 	var green_attribute_name
