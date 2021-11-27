@@ -14,6 +14,25 @@ func _ready():
 func add_test_data():
 	var geopackage_path = get_setting("gpkg-path")
 	
+	# TODO: Load the GeoPackage automatically
+#	base_path = OS.get_executable_path().get_base_dir()
+#	var base_dir = Directory.new()
+#	base_dir.open(base_path)
+#	base_dir.list_dir_begin()
+#	while true:
+#		var file = base_dir.get_next()
+#		if file == "":
+#			break
+#		elif file.begins_with("LL_") and (file.ends_with(".gpkg") or file.ends_with(".gpkgx")):
+#			geopackage = base_path + "/" + file
+#			break
+#	base_dir.list_dir_end()
+#
+#	# if we could not find a geopackage we can not continue
+#	if geopackage == "":
+#		logger.error("Could not find a valid geopackage! It has to be in the format of LL_<name>.gpkg[x]")
+#		#get_tree().quit()
+	
 	if geopackage_path.empty():
 		logger.error("User Geopackage path not set! Please set it in user://configuration.ini")
 		return
@@ -66,6 +85,11 @@ func add_test_data():
 	surface_height_layer.geo_raster_layer = geopackage.get_raster_layer("ndom")
 	surface_height_layer.name = "nDSM"
 	
+	# Topomap
+	var topomap_layer = RasterLayer.new()
+	topomap_layer.geo_raster_layer = geopackage.get_raster_layer("map")
+	topomap_layer.name = "Map"
+	
 #	# Precipitation
 #	var precipitation_layer = RasterLayer.new()
 #	precipitation_layer.geo_raster_layer = Geodot.get_raster_layer("C:\\boku\\geodata\\Niederschlag\\ooe\\Niederschlagssumme_Jahresmittel_1981_2010.tif")
@@ -80,6 +104,14 @@ func add_test_data():
 	terrain_layer.render_info.landuse_layer = landuse_layer.clone()
 	terrain_layer.render_info.surface_height_layer = surface_height_layer.clone()
 	terrain_layer.name = "Realistic Terrain"
+	
+	# Minimap Terrain layer
+	var map_layer = Layer.new()
+	map_layer.render_type = Layer.RenderType.BASIC_TERRAIN
+	map_layer.render_info = Layer.BasicTerrainRenderInfo.new()
+	map_layer.render_info.height_layer = height_layer.clone()
+	map_layer.render_info.texture_layer = topomap_layer.clone()
+	map_layer.name = "Map"
 	
 	# TODO: Consider using the average center of all layers?
 	center = height_layer.get_center()
@@ -126,39 +158,50 @@ func add_test_data():
 	vegetation_layer.render_info.height_layer = height_layer.clone()
 	vegetation_layer.render_info.landuse_layer = landuse_layer.clone()
 	
+	# FIXME: Rare crash caused by GeoPackage (SQLite Feature fetching causes DB error), that's why
+	# we load these vector features like this for now
+	var data_prefix = "C:/boku/geodata/"
+	
 	# Test Point Data
-	var windmill_layer = FeatureLayer.new()
-	windmill_layer.geo_feature_layer = geopackage.get_feature_layer("WKA_NeuWei_Repower")
-	windmill_layer.render_type = Layer.RenderType.OBJECT
-	windmill_layer.render_info = Layer.WindTurbineRenderInfo.new()
-	windmill_layer.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
-	windmill_layer.render_info.ground_height_layer = height_layer.clone()
-	windmill_layer.render_info.height_attribute_name = "Nabenhoehe"
-	windmill_layer.render_info.diameter_attribute_name = "Rotordurch"
-	windmill_layer.name = "Windmills Neu"
+	var windmills_repower = get_windmill_layer(
+		data_prefix + "WKA_koordinaten_LAMB/WKA_NeuWei_Repower.shp",
+		"WKA_NeuWei_Repower",
+		"WKA Repowering",
+		height_layer)
 	
-	var windmill_layer2 = FeatureLayer.new()
-	windmill_layer2.geo_feature_layer = geopackage.get_feature_layer("WKA_NeuWei_Bestand")
-	windmill_layer2.render_type = Layer.RenderType.OBJECT
-	windmill_layer2.render_info = Layer.WindTurbineRenderInfo.new()
-	windmill_layer2.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
-	windmill_layer2.render_info.ground_height_layer = height_layer.clone()
-	windmill_layer2.render_info.height_attribute_name = "Nabenhoehe"
-	windmill_layer2.render_info.diameter_attribute_name = "Rotordurch"
-	windmill_layer2.name = "Windmills Bestand"
+	var windmills_repower_large = get_windmill_layer(
+		data_prefix + "WKA_koordinaten_LAMB/WKA_NeuWei_Repower_Large.shp",
+		"WKA_NeuWei_Repower_Large",
+		"WKA Repowering alle groß",
+		height_layer)
 	
-	var windmill_layer3 = FeatureLayer.new()
-	windmill_layer3.geo_feature_layer = geopackage.get_feature_layer("WKA_Umgebung_bleibt")
-	windmill_layer3.render_type = Layer.RenderType.OBJECT
-	windmill_layer3.render_info = Layer.WindTurbineRenderInfo.new()
-	windmill_layer3.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
-	windmill_layer3.render_info.ground_height_layer = height_layer.clone()
-	windmill_layer3.render_info.height_attribute_name = "Nabenhoehe"
-	windmill_layer3.render_info.diameter_attribute_name = "Rotordurch"
-	windmill_layer3.name = "Windmills Umgebung"
+	var windmills_repower_surrounding1 = get_windmill_layer(
+		data_prefix + "WKA_koordinaten_LAMB/WKA_Umgebung_Repower.shp",
+		"WKA_Umgebung_Repower",
+		"WKA Repowering Umgebung Repower",
+		height_layer)
 	
+	var windmills_repower_surrounding2 = get_windmill_layer(
+		data_prefix + "WKA_koordinaten_LAMB/WKA_Umgebung_bleibt.shp",
+		"WKA_Umgebung_bleibt",
+		"WKA Repowering Umgebung Bleibt",
+		height_layer)
+	
+	var windmills_old = get_windmill_layer(
+		data_prefix + "WKA_koordinaten_LAMB/WKA_NeuWei_Bestand.shp",
+		"WKA_NeuWei_Bestand",
+		"WKA Bestand",
+		height_layer)
+	
+	var windmills_old_surrounding = get_windmill_layer(
+		data_prefix + "WKA_koordinaten_LAMB/WKA_Umgebung_2020.shp",
+		"WKA_Umgebung_2020",
+		"WKA Bestand Umgebung",
+		height_layer)
+
 	var poi = FeatureLayer.new()
-	poi.geo_feature_layer = geopackage.get_feature_layer("POI")
+	var poi_dataset = Geodot.get_dataset(data_prefix + "Aussichtspunkte/Aussichtspunkte_AL.shp")
+	poi.geo_feature_layer = poi_dataset.get_feature_layer("Aussichtspunkte_AL")
 	poi.render_type = Layer.RenderType.OBJECT
 	poi.render_info = Layer.ObjectRenderInfo.new()
 	poi.render_info.object = preload("res://Objects/Util/Marker.tscn")
@@ -205,9 +248,12 @@ func add_test_data():
 #	Layers.add_layer(precipitation_layer)
 #	Layers.add_layer(data_terrain_layer)
 #	Layers.add_layer(bterrain_layer)
-	Layers.add_layer(windmill_layer)
-	Layers.add_layer(windmill_layer2)
-	Layers.add_layer(windmill_layer3)
+	Layers.add_layer(windmills_repower)
+	Layers.add_layer(windmills_repower_large)
+	Layers.add_layer(windmills_repower_surrounding1)
+	Layers.add_layer(windmills_repower_surrounding2)
+	Layers.add_layer(windmills_old)
+	Layers.add_layer(windmills_old_surrounding)
 	Layers.add_layer(poi)
 #	Layers.add_layer(water_layer)
 #	Layers.add_layer(ppole_layer)
@@ -219,22 +265,58 @@ func add_test_data():
 	Layers.add_layer(terrain_layer)
 	Layers.add_layer(building_layer)
 	Layers.add_layer(vegetation_layer)
+	Layers.add_layer(topomap_layer)
+	Layers.add_layer(map_layer)
 	
 	var scenario1 = Scenario.new()
 	scenario1.name = "Repowering"
-	scenario1.add_visible_layer_name(windmill_layer.name)
-	scenario1.add_visible_layer_name(windmill_layer3.name)
+	scenario1.add_visible_layer_name(windmills_repower.name)
+	scenario1.add_visible_layer_name(windmills_repower_surrounding1.name)
+	scenario1.add_visible_layer_name(windmills_repower_surrounding2.name)
 	scenario1.add_visible_layer_name(terrain_layer.name)
 	scenario1.add_visible_layer_name(building_layer.name)
 	scenario1.add_visible_layer_name(vegetation_layer.name)
 	
 	var scenario2 = Scenario.new()
 	scenario2.name = "Bestand"
-	scenario2.add_visible_layer_name(windmill_layer2.name)
-	scenario2.add_visible_layer_name(windmill_layer3.name)
+	scenario2.add_visible_layer_name(windmills_old.name)
+	scenario2.add_visible_layer_name(windmills_old_surrounding.name)
 	scenario2.add_visible_layer_name(terrain_layer.name)
 	scenario2.add_visible_layer_name(building_layer.name)
 	scenario2.add_visible_layer_name(vegetation_layer.name)
 	
+	var scenario3 = Scenario.new()
+	scenario3.name = "Repowering alle Groß"
+	scenario3.add_visible_layer_name(windmills_repower_large.name)
+	scenario3.add_visible_layer_name(windmills_repower_surrounding1.name)
+	scenario3.add_visible_layer_name(windmills_repower_surrounding2.name)
+	scenario3.add_visible_layer_name(terrain_layer.name)
+	scenario3.add_visible_layer_name(building_layer.name)
+	scenario3.add_visible_layer_name(vegetation_layer.name)
+	
+	var scenario4 = Scenario.new()
+	scenario4.name = "Karte"
+	scenario4.add_visible_layer_name(map_layer.name)
+	
 	Scenarios.add_scenario(scenario1)
 	Scenarios.add_scenario(scenario2)
+	Scenarios.add_scenario(scenario3)
+	Scenarios.add_scenario(scenario4)
+	
+	scenario2.activate()
+
+
+func get_windmill_layer(path, geo_layer_name, readable_layer_name, height_layer):
+	# Test Point Data
+	var windmill_layer = FeatureLayer.new()
+	var dataset = Geodot.get_dataset(path)
+	windmill_layer.geo_feature_layer = dataset.get_feature_layer(geo_layer_name)
+	windmill_layer.render_type = Layer.RenderType.OBJECT
+	windmill_layer.render_info = Layer.WindTurbineRenderInfo.new()
+	windmill_layer.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
+	windmill_layer.render_info.ground_height_layer = height_layer.clone()
+	windmill_layer.render_info.height_attribute_name = "Nabenhoehe"
+	windmill_layer.render_info.diameter_attribute_name = "Rotordurch"
+	windmill_layer.name = readable_layer_name
+	
+	return windmill_layer
