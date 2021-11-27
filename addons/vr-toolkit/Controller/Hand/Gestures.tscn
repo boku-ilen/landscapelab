@@ -175,15 +175,11 @@ pressed_action = "/actions/godot_ingame/in/button_ax"
 [node name="HandDefault" parent="." instance=ExtResource( 3 )]
 
 [node name="Skeleton" parent="HandDefault/Armature" index="0"]
-bones/3/bound_children = [ NodePath("Index") ]
-bones/6/bound_children = [ NodePath("Middle") ]
-bones/9/bound_children = [ NodePath("Ring") ]
-bones/12/bound_children = [ NodePath("Pinky") ]
 bones/15/rest = Transform( 0.995, 0.093, -0.032, -0.087, 0.983, 0.164, 0.047, -0.002, 0.986, 0, 0.645, 0 )
-bones/15/bound_children = [ NodePath("Thumb") ]
 
 [node name="Hand" parent="HandDefault/Armature/Skeleton" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1.35, 0, 0, 0 )
+cast_shadow = 0
 
 [node name="Index" type="BoneAttachment" parent="HandDefault/Armature/Skeleton" index="1"]
 transform = Transform( 0.975734, 0.196838, -0.0959022, -0.196604, 0.98041, 0.0119764, 0.0963809, 0.00716901, 0.995319, 0.700328, 2.98927, 0.0458557 )
@@ -219,5 +215,4 @@ anims/1 = SubResource( 2 )
 anims/2 = SubResource( 3 )
 
 [editable path="HandDefault"]
-
 [editable path="HandDefault/Armature/Skeleton/Index/GuiFinger"]
