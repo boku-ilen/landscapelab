@@ -23,7 +23,7 @@ uniform float dist_scale = 5000.0;
 
 uniform float max_distance;
 uniform bool camera_facing;
-uniform bool billboard_enabled = true;
+uniform bool billboard_enabled = false;
 
 uniform float fake_shadow_height = 1.2;
 uniform float fake_shadow_min_multiplier = 0.25;
@@ -114,7 +114,7 @@ void fragment() {
 	int x_index = int(SCREEN_UV.x * VIEWPORT_SIZE.x) % 4;
 	int y_index = int(SCREEN_UV.y * VIEWPORT_SIZE.y) % 4;
 
-	float blend_start_distance = max_distance - max_distance / 4.0;
+	float blend_start_distance = max_distance - max_distance / 8.0;
 	float dist = length(camera_pos.xz - worldpos.xz);
 
 	float dist_alpha = (max_distance - dist) / (max_distance - blend_start_distance);
@@ -149,7 +149,9 @@ void fragment() {
 
 	// Apply the general (not plant-specific) normal map, but use the scaled UV so it varies based on height
 	NORMALMAP = texture(normal_map, scaled_uv).rgb;
-	NORMALMAP_DEPTH = 8.0; // This is high due to the high transmission (otherwise it's barely noticeable)
+	NORMALMAP_DEPTH = 2.0;// * max(1.0 - dist / 50.0, 0.0); // This is high due to the high transmission (otherwise it's barely noticeable)
+	
+	NORMALMAP = mix(NORMALMAP, vec3(0.5,0.5,1.0), max(1.0 - dist / 50.0, 0.0));
 	
 	// Other material parameters
 	METALLIC = 0.0;

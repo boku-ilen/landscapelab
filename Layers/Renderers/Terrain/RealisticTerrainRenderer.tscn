@@ -179,7 +179,7 @@ is_inner = true
 size = 200.0
 heightmap_resolution = 200
 ortho_resolution = 1500
-landuse_resolution = 20
+landuse_resolution = 200
 load_detail_textures = true
 load_fade_textures = true
 
@@ -199,6 +199,7 @@ material_override = SubResource( 2 )
 size = 1000.0
 heightmap_resolution = 200
 ortho_resolution = 1500
+landuse_resolution = 1000
 load_fade_textures = true
 
 [node name="ExtraLOD" parent="TerrainLOD1" instance=ExtResource( 5 )]
@@ -210,7 +211,7 @@ material_override = SubResource( 3 )
 size = 5000.0
 heightmap_resolution = 200
 ortho_resolution = 1500
-landuse_resolution = 500
+landuse_resolution = 5000
 always_load_landuse = true
 
 [node name="ExtraLOD" parent="TerrainLOD2" instance=ExtResource( 5 )]

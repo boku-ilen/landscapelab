@@ -13,10 +13,10 @@ func _ready():
 		lod.is_color_shaded = layer.render_info.is_color_shaded
 		if not layer.render_info.is_color_shaded:
 			# FIXME: I dont know why a duplicate is necessary but somehow it seems to be...
-			lod.material_override = load("res://Layers/Renderers/Terrain/TerrainShader.tres").duplicate()
+			lod.material_override = load("res://Layers/Renderers/Terrain/Materials/TerrainShader.tres").duplicate()
 		else:
 			# FIXME: I dont know why a duplicate is necessary but somehow it seems to be...
-			lod.material_override = load("res://Layers/Renderers/Terrain/TerrainDataShader.tres").duplicate()
+			lod.material_override = load("res://Layers/Renderers/Terrain/Materials/TerrainDataShader.tres").duplicate()
 			lod.material_override.set_shader_param("min_value", layer.render_info.texture_layer.get_min())
 			lod.material_override.set_shader_param("max_value", layer.render_info.texture_layer.get_max())
 			lod.material_override.set_shader_param("min_color", layer.render_info.min_color)

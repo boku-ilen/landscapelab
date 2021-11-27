@@ -91,7 +91,7 @@ void vertex() {
 	if (has_surface_heights) {
 		float surface_height_factor = float(world_distance > surface_heights_start_distance);
 		float texture_read = texture(surface_heightmap, UV).r;
-		if (texture_read < 1000.0) {
+		if (texture_read < 80.0) {
 			// Nodata may be encoded as infinity
 			VERTEX.y += texture_read * height_scale * surface_height_factor;
 		}
@@ -130,7 +130,7 @@ vec3 get_ortho_color(vec2 uv) {
 
 
 void fragment() {
-	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.003).rg - 0.5) * (75.0 / size);
+	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.006).rg - 0.5) * (50.0 / size);
 	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
 	
 	// Check for water
@@ -173,10 +173,10 @@ void fragment() {
 			ALBEDO = texture(albedo_tex, scaled_uv).rgb;
 			// TODO: Angle normals by previous vertex NORMAL so that the shading isn't overwritten (need to use TANGENT)
 			NORMALMAP = texture(normal_tex, scaled_uv).rgb;
-			NORMALMAP_DEPTH = 2.5;
-			AO = texture(ambient_tex, scaled_uv).r;
-			SPECULAR = texture(specular_tex, scaled_uv).r;
-			ROUGHNESS = texture(roughness_tex, scaled_uv).r;
+			NORMALMAP_DEPTH = 2.5 * (1.0 - camera_distance / (distance_tex_switch_distance - fade_transition_space));
+//			AO = texture(ambient_tex, scaled_uv).r;
+//			SPECULAR = texture(specular_tex, scaled_uv).r;
+//			ROUGHNESS = texture(roughness_tex, scaled_uv).r;
 		} else if (near_factor <= 0.0) {
 			// Apply the distance tex or ortho
 			if (fade_texture_scale <= 0.0 || camera_distance > ortho_switch_distance + ortho_transition_space) {
@@ -220,4 +220,7 @@ void fragment() {
 		// TOOD: Restructure to also handle the case of a fade texture being available, but no near texture
 		ALBEDO = get_ortho_color(UV);
 	}
+	
+	METALLIC = 0.0;
+	ROUGHNESS = 0.95;
 }

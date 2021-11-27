@@ -18,6 +18,7 @@ shader_param/offset = null
 shader_param/dist_scale = 5000.0
 shader_param/max_distance = null
 shader_param/camera_facing = null
+shader_param/billboard_enabled = false
 shader_param/fake_shadow_height = 1.2
 shader_param/fake_shadow_min_multiplier = 0.25
 shader_param/normal_map = ExtResource( 6 )
@@ -29,12 +30,11 @@ shader_param/rows = 300.0
 shader_param/spacing = 1.0
 shader_param/amplitude = 1.0
 shader_param/heightmap_size = Vector2( 300, 300 )
+shader_param/row_spacing = 1.0
 shader_param/offset = null
 shader_param/noisemap = ExtResource( 5 )
 
-[node name="VegetationParticles" type="Particles" groups=[
-"SpatialShifting",
-]]
+[node name="VegetationParticles" type="Particles" groups=["SpatialShifting"]]
 layers = 2
 material_override = SubResource( 1 )
 cast_shadow = 0
