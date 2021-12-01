@@ -220,7 +220,7 @@ msaa = 2
 debanding = true
 render_target_update_mode = 3
 gui_disable_input = true
-shadow_atlas_size = 2048
+shadow_atlas_size = 4096
 
 [node name="World" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport" instance=ExtResource( 12 )]
 
