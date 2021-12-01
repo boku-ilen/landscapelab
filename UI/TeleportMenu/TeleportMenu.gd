@@ -15,9 +15,11 @@ onready var arrow_up = get_node("Arrows/ArrowUp")
 onready var arrow_down = get_node("Arrows/ArrowDown")
 
 var pos_manager: PositionManager
+var pc_player
 
 
 func _ready():
+	$VBoxContainer/TeleportToButton.connect("pressed", self, "_teleport_current_values")
 	add_button.connect("pressed", self, "_on_add_pressed")
 	save_button.connect("pressed", self, "_on_save_pressed")
 	delete_button.connect("pressed", self, "_on_delete_pressed")
@@ -26,12 +28,22 @@ func _ready():
 	
 	# FIXME: Load POIs from GeoPackage
 	#_load_pois()
-	
-	item_list.add_item("actual coordinates")
-	item_list.set_item_metadata(0, [422699, 450292])
-	
-	item_list.add_item("0,0 coordinates")
-	item_list.set_item_metadata(1, [0, 0])
+
+
+func _teleport_current_values():
+	teleport_to_coordinates(Vector3($VBoxContainer/HBoxContainer2/X.value, 
+		$VBoxContainer/HBoxContainer2/Y.value, $VBoxContainer/HBoxContainer2/Z.value), true)
+
+
+# Teleports to engine- or geo-coordinates (of the current projection)
+func teleport_to_coordinates(xyz: Vector3, geo_coords=true):
+	if geo_coords:
+		xyz = pos_manager.to_engine_coordinates(xyz)
+	if pc_player:
+		pc_player.translation = xyz
+	else:
+		# FIXME: what if center node is not a player?
+		pass
 
 
 # FIXME: Adapt to GeoPackage
