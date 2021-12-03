@@ -18,8 +18,10 @@ func screenshot(
 				viewport_size: Vector2 = pos_manager.get_viewport().size):
 	
 	var previous_viewport_size = pos_manager.get_viewport().size
+	var previous_plant_extent = Vegetation.plant_extent
 	
-	pos_manager.get_viewport().size = viewport_size * 5
+	pos_manager.get_viewport().size = viewport_size * 2
+	Vegetation.plant_extent = 200
 	
 	VisualServer.force_draw()
 	
@@ -31,4 +33,6 @@ func screenshot(
 	image.save_png(image_name)
 	
 	pos_manager.get_viewport().size = previous_viewport_size
+	Vegetation.plant_extent = previous_plant_extent
+	
 	VisualServer.force_draw()
