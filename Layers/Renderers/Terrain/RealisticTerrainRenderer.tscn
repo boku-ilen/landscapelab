@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Layers/Renderers/Terrain/TerrainLOD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Layers/Renderers/Terrain/Materials/TerrainShader.shader" type="Shader" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Layers/Renderers/Terrain/lod_mesh_hole_doubleres.obj" type="ArrayMesh" id=7]
 [ext_resource path="res://Resources/Textures/ShaderUtil/rgb_solid_noise.png" type="Texture" id=8]
 [ext_resource path="res://Layers/Renderers/Terrain/lod_mesh_full.obj" type="ArrayMesh" id=9]
+[ext_resource path="res://Layers/Renderers/Terrain/Materials/Water.tres" type="Material" id=10]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -26,35 +27,35 @@ shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
 shader_param/size = null
 
-[sub_resource type="OpenSimplexNoise" id=9]
+[sub_resource type="OpenSimplexNoise" id=2]
 seed = 2066020070
 
-[sub_resource type="NoiseTexture" id=10]
+[sub_resource type="NoiseTexture" id=3]
 seamless = true
-noise = SubResource( 9 )
+noise = SubResource( 2 )
 
-[sub_resource type="OpenSimplexNoise" id=11]
+[sub_resource type="OpenSimplexNoise" id=4]
 seed = -1312041339
 
-[sub_resource type="NoiseTexture" id=4]
+[sub_resource type="NoiseTexture" id=5]
 seamless = true
-noise = SubResource( 11 )
+noise = SubResource( 4 )
 
-[sub_resource type="OpenSimplexNoise" id=5]
+[sub_resource type="OpenSimplexNoise" id=6]
 
-[sub_resource type="NoiseTexture" id=6]
-seamless = true
-as_normalmap = true
-noise = SubResource( 5 )
-
-[sub_resource type="OpenSimplexNoise" id=7]
-
-[sub_resource type="NoiseTexture" id=8]
+[sub_resource type="NoiseTexture" id=7]
 seamless = true
 as_normalmap = true
-noise = SubResource( 7 )
+noise = SubResource( 6 )
 
-[sub_resource type="ShaderMaterial" id=15]
+[sub_resource type="OpenSimplexNoise" id=8]
+
+[sub_resource type="NoiseTexture" id=9]
+seamless = true
+as_normalmap = true
+noise = SubResource( 8 )
+
+[sub_resource type="ShaderMaterial" id=10]
 shader = ExtResource( 6 )
 shader_param/size = null
 shader_param/speed = 0.01
@@ -66,45 +67,12 @@ shader_param/wave_strengh = Vector2( 0.5, 0.25 )
 shader_param/wave_frequency = Vector2( 12, 12 )
 shader_param/time_factor = Vector2( 1, 2 )
 shader_param/offset_noise = ExtResource( 8 )
-shader_param/noise1 = SubResource( 10 )
-shader_param/noise2 = SubResource( 4 )
-shader_param/normalmap = SubResource( 6 )
-shader_param/normalmap2 = SubResource( 8 )
+shader_param/noise1 = SubResource( 3 )
+shader_param/noise2 = SubResource( 5 )
+shader_param/normalmap = SubResource( 7 )
+shader_param/normalmap2 = SubResource( 9 )
 
-[sub_resource type="ShaderMaterial" id=2]
-resource_local_to_scene = true
-shader = ExtResource( 2 )
-shader_param/height_scale = 1.0
-shader_param/has_surface_heights = false
-shader_param/surface_heights_start_distance = 800.0
-shader_param/has_landuse = false
-shader_param/distance_tex_switch_distance = 20.0
-shader_param/fade_transition_space = 8.0
-shader_param/ortho_switch_distance = 150.0
-shader_param/ortho_transition_space = 20.0
-shader_param/normal_scale = 1.0
-shader_param/ortho_saturation = 1.5
-shader_param/ortho_blue_shift_factor = 0.9
-shader_param/size = null
-
-[sub_resource type="ShaderMaterial" id=16]
-shader = ExtResource( 6 )
-shader_param/size = null
-shader_param/speed = 0.01
-shader_param/color = Color( 0.658824, 0.596078, 0.596078, 1 )
-shader_param/color_ground = Color( 0.219608, 0.176471, 0.12549, 1 )
-shader_param/near = 0.1
-shader_param/far = 100.0
-shader_param/wave_strengh = Vector2( 0.5, 0.25 )
-shader_param/wave_frequency = Vector2( 12, 12 )
-shader_param/time_factor = Vector2( 1, 2 )
-shader_param/offset_noise = ExtResource( 8 )
-shader_param/noise1 = SubResource( 10 )
-shader_param/noise2 = SubResource( 4 )
-shader_param/normalmap = SubResource( 6 )
-shader_param/normalmap2 = SubResource( 8 )
-
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=11]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/height_scale = 1.0
@@ -132,10 +100,10 @@ shader_param/wave_strengh = Vector2( 0.5, 0.25 )
 shader_param/wave_frequency = Vector2( 12, 12 )
 shader_param/time_factor = Vector2( 1, 2 )
 shader_param/offset_noise = ExtResource( 8 )
-shader_param/noise1 = SubResource( 10 )
-shader_param/noise2 = SubResource( 4 )
-shader_param/normalmap = SubResource( 6 )
-shader_param/normalmap2 = SubResource( 8 )
+shader_param/noise1 = SubResource( 3 )
+shader_param/noise2 = SubResource( 5 )
+shader_param/normalmap = SubResource( 7 )
+shader_param/normalmap2 = SubResource( 9 )
 
 [sub_resource type="ShaderMaterial" id=13]
 resource_local_to_scene = true
@@ -149,7 +117,7 @@ shader_param/fade_transition_space = 8.0
 shader_param/ortho_switch_distance = 150.0
 shader_param/ortho_transition_space = 20.0
 shader_param/normal_scale = 1.0
-shader_param/ortho_saturation = 1.0
+shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
 shader_param/size = null
 
@@ -165,10 +133,59 @@ shader_param/wave_strengh = Vector2( 0.5, 0.25 )
 shader_param/wave_frequency = Vector2( 12, 12 )
 shader_param/time_factor = Vector2( 1, 2 )
 shader_param/offset_noise = ExtResource( 8 )
-shader_param/noise1 = SubResource( 10 )
-shader_param/noise2 = SubResource( 4 )
-shader_param/normalmap = SubResource( 6 )
-shader_param/normalmap2 = SubResource( 8 )
+shader_param/noise1 = SubResource( 3 )
+shader_param/noise2 = SubResource( 5 )
+shader_param/normalmap = SubResource( 7 )
+shader_param/normalmap2 = SubResource( 9 )
+
+[sub_resource type="ShaderMaterial" id=15]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/height_scale = 1.0
+shader_param/has_surface_heights = false
+shader_param/surface_heights_start_distance = 800.0
+shader_param/has_landuse = false
+shader_param/distance_tex_switch_distance = 20.0
+shader_param/fade_transition_space = 8.0
+shader_param/ortho_switch_distance = 150.0
+shader_param/ortho_transition_space = 20.0
+shader_param/normal_scale = 1.0
+shader_param/ortho_saturation = 1.0
+shader_param/ortho_blue_shift_factor = 0.9
+shader_param/size = null
+
+[sub_resource type="ShaderMaterial" id=16]
+shader = ExtResource( 6 )
+shader_param/size = null
+shader_param/speed = 0.01
+shader_param/color = Color( 0.658824, 0.596078, 0.596078, 1 )
+shader_param/color_ground = Color( 0.219608, 0.176471, 0.12549, 1 )
+shader_param/near = 0.1
+shader_param/far = 100.0
+shader_param/wave_strengh = Vector2( 0.5, 0.25 )
+shader_param/wave_frequency = Vector2( 12, 12 )
+shader_param/time_factor = Vector2( 1, 2 )
+shader_param/offset_noise = ExtResource( 8 )
+shader_param/noise1 = SubResource( 3 )
+shader_param/noise2 = SubResource( 5 )
+shader_param/normalmap = SubResource( 7 )
+shader_param/normalmap2 = SubResource( 9 )
+
+[sub_resource type="ShaderMaterial" id=17]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/height_scale = 1.0
+shader_param/has_surface_heights = false
+shader_param/surface_heights_start_distance = 800.0
+shader_param/has_landuse = false
+shader_param/distance_tex_switch_distance = 20.0
+shader_param/fade_transition_space = 8.0
+shader_param/ortho_switch_distance = 150.0
+shader_param/ortho_transition_space = 20.0
+shader_param/normal_scale = 1.0
+shader_param/ortho_saturation = 1.0
+shader_param/ortho_blue_shift_factor = 0.9
+shader_param/size = null
 
 [node name="RealisticTerrainRenderer" type="Spatial"]
 script = ExtResource( 4 )
@@ -176,56 +193,66 @@ script = ExtResource( 4 )
 [node name="TerrainLOD0" parent="." instance=ExtResource( 1 )]
 material_override = SubResource( 1 )
 is_inner = true
-size = 200.0
-heightmap_resolution = 200
+size = 50.0
 ortho_resolution = 1500
-landuse_resolution = 200
+landuse_resolution = 50
 load_detail_textures = true
 load_fade_textures = true
 
-[node name="CollisionMeshCreator" type="StaticBody" parent="TerrainLOD0"]
+[node name="ExtraLOD" parent="TerrainLOD0" instance=ExtResource( 5 )]
+material_override = SubResource( 10 )
+mesh = ExtResource( 9 )
+
+[node name="TerrainLOD1" parent="." instance=ExtResource( 1 )]
+material_override = SubResource( 11 )
+size = 250.0
+heightmap_resolution = 500
+ortho_resolution = 1500
+landuse_resolution = 250
+load_fade_textures = true
+
+[node name="ExtraLOD" parent="TerrainLOD1" instance=ExtResource( 5 )]
+material_override = SubResource( 12 )
+mesh = ExtResource( 7 )
+
+[node name="CollisionMeshCreator" type="StaticBody" parent="TerrainLOD1"]
 collision_layer = 16387
 script = ExtResource( 3 )
 subdivision = 100
 
-[node name="CollisionShape" type="CollisionShape" parent="TerrainLOD0/CollisionMeshCreator"]
-
-[node name="ExtraLOD" parent="TerrainLOD0" instance=ExtResource( 5 )]
-material_override = SubResource( 15 )
-mesh = ExtResource( 9 )
-
-[node name="TerrainLOD1" parent="." instance=ExtResource( 1 )]
-material_override = SubResource( 2 )
-size = 1000.0
-heightmap_resolution = 200
-ortho_resolution = 1500
-landuse_resolution = 1000
-load_fade_textures = true
-
-[node name="ExtraLOD" parent="TerrainLOD1" instance=ExtResource( 5 )]
-material_override = SubResource( 16 )
-mesh = ExtResource( 7 )
+[node name="CollisionShape" type="CollisionShape" parent="TerrainLOD1/CollisionMeshCreator"]
 
 [node name="TerrainLOD2" parent="." instance=ExtResource( 1 )]
-material_override = SubResource( 3 )
-size = 5000.0
-heightmap_resolution = 200
+material_override = SubResource( 13 )
+size = 1250.0
+heightmap_resolution = 500
+ortho_resolution = 1500
+landuse_resolution = 1250
+load_fade_textures = true
+
+[node name="ExtraLOD" parent="TerrainLOD2" instance=ExtResource( 5 )]
+material_override = SubResource( 14 )
+mesh = ExtResource( 7 )
+
+[node name="TerrainLOD3" parent="." instance=ExtResource( 1 )]
+material_override = SubResource( 15 )
+size = 6250.0
+heightmap_resolution = 500
 ortho_resolution = 1500
 landuse_resolution = 5000
 always_load_landuse = true
 
-[node name="ExtraLOD" parent="TerrainLOD2" instance=ExtResource( 5 )]
-material_override = SubResource( 12 )
+[node name="ExtraLOD" parent="TerrainLOD3" instance=ExtResource( 5 )]
+material_override = SubResource( 16 )
 mesh = ExtResource( 7 )
 
-[node name="TerrainLOD3" parent="." instance=ExtResource( 1 )]
-material_override = SubResource( 13 )
-size = 25000.0
-heightmap_resolution = 200
+[node name="TerrainLOD4" parent="." instance=ExtResource( 1 )]
+material_override = SubResource( 17 )
+size = 31250.0
+heightmap_resolution = 500
 ortho_resolution = 1500
-landuse_resolution = 2500
+landuse_resolution = 5000
 always_load_landuse = true
 
-[node name="ExtraLOD" parent="TerrainLOD3" instance=ExtResource( 5 )]
-material_override = SubResource( 14 )
-mesh = ExtResource( 7 )
+[node name="ExtraLOD" parent="TerrainLOD4" instance=ExtResource( 5 )]
+material_override = ExtResource( 10 )
