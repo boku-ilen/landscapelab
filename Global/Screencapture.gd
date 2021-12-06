@@ -21,7 +21,7 @@ func screenshot(
 	var previous_plant_extent = Vegetation.plant_extent
 	
 	pos_manager.get_viewport().size = viewport_size * 2
-	Vegetation.plant_extent = 200
+	Vegetation.plant_extent = 5
 	
 	VisualServer.force_draw()
 	

@@ -28,7 +28,9 @@ func _ready():
 
 # Set the internal rows and spacing variables based on the density_class and the given extent.
 func update_rows_spacing(extent):
-	rows = extent
+	var size = extent * density_class.size_factor
+	
+	rows = floor(size * density_class.density_per_m)
 	spacing = 1.0 / density_class.density_per_m
 	
 	set_rows(rows)
@@ -81,7 +83,7 @@ func set_spacing(new_spacing):
 
 # Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
 func get_map_size():
-	return rows * spacing + 100 # Add 100 to allow for some movement within the data
+	return rows * spacing * 1.5 + 100 # Add 100 to allow for some movement within the data
 
 
 # When the world is shifted, this offset needs to be remembered and passed to

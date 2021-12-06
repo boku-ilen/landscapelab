@@ -21,8 +21,8 @@ var fade_textures = {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent = 140.0 setget set_plant_extent, get_plant_extent
-signal new_plant_extent(extent)
+var plant_extent_factor = 2.0 setget set_plant_extent_factor, get_plant_extent_factor
+signal new_plant_extent_factor(extent)
 
 signal new_data
 
@@ -49,13 +49,13 @@ func _ready():
 	)
 
 
-func set_plant_extent(extent):
-	plant_extent = extent
-	emit_signal("new_plant_extent", extent)
+func set_plant_extent_factor(extent):
+	plant_extent_factor = extent
+	emit_signal("new_plant_extent_factor", extent)
 
 
-func get_plant_extent():
-	return plant_extent
+func get_plant_extent_factor():
+	return plant_extent_factor
 
 
 # Read Plants and Groups from the given CSV files.
