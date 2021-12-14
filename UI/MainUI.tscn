@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
@@ -21,7 +21,6 @@
 [ext_resource path="res://UI/ValuesMenu/ValuesMenu.tscn" type="PackedScene" id=19]
 [ext_resource path="res://UI/Scenarios/Scenarios.tscn" type="PackedScene" id=20]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
-[ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends HSplitContainer
@@ -314,15 +313,6 @@ rect_scale = Vector2( 1, 1 )
 focus_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-
-[node name="Settings" parent="MarginContainer/Split/Right/Right/Right/Bot" instance=ExtResource( 44 )]
-visible = false
-margin_left = 5.0
-margin_top = 38.0
-margin_right = -5.0
-margin_bottom = -5.0
-rect_min_size = Vector2( 20, 20 )
-size_flags_horizontal = 0
 
 [node name="Scenarios" parent="MarginContainer/Split/Right/Right/Right/Bot" instance=ExtResource( 20 )]
 visible = false

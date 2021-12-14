@@ -2,7 +2,6 @@ extends OptionButton
 
 #
 # This Node manages all the possible language configurations.
-# FIXME: then the name 'OptionButton' is not the right choice
 #
 
 func _ready():

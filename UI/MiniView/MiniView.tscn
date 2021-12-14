@@ -1,19 +1,13 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://UI/MiniView/ThirdPerson.gd" type="Script" id=1]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/helicopter.svg" type="Texture" id=3]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/swap.svg" type="Texture" id=4]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/together.svg" type="Texture" id=1]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.gd" type="Script" id=2]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/swap.svg" type="Texture" id=3]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/helicopter.svg" type="Texture" id=4]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=5]
-[ext_resource path="res://UI/CustomElements/SignalAutoTextureButton.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/together.svg" type="Texture" id=7]
-[ext_resource path="res://UI/MiniView/FirstPerson.gd" type="Script" id=8]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/map.svg" type="Texture" id=9]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/map.svg" type="Texture" id=6]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/close.svg" type="Texture" id=7]
 [ext_resource path="res://Resources/Icons/ColorOpenMoji/eye.svg" type="Texture" id=10]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/close.svg" type="Texture" id=11]
-[ext_resource path="res://UI/MiniView/Map.gd" type="Script" id=12]
-[ext_resource path="res://UI/MiniView/CloseMinimap.gd" type="Script" id=13]
-[ext_resource path="res://UI/MiniView/SwapPerspectives.gd" type="Script" id=14]
 [ext_resource path="res://UI/MiniView/ResizingViewport.gd" type="Script" id=38]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=39]
 
@@ -27,35 +21,35 @@ shader_param/color_length_modulate_threshold = 1.5
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = ExtResource( 5 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="ShaderMaterial" id=8]
 resource_local_to_scene = true
 shader = ExtResource( 5 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="ShaderMaterial" id=9]
 resource_local_to_scene = true
 shader = ExtResource( 5 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="ShaderMaterial" id=5]
 resource_local_to_scene = true
 shader = ExtResource( 5 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="ShaderMaterial" id=6]
 resource_local_to_scene = true
 shader = ExtResource( 5 )
-shader_param/color = null
+shader_param/color = Vector3( 0, 0, 0 )
 shader_param/rotation_radians = null
 shader_param/color_length_modulate_threshold = 1.5
 
@@ -87,93 +81,120 @@ __meta__ = {
 }
 
 [node name="Miniview Menu" type="HBoxContainer" parent="."]
+margin_top = 3.0
 margin_right = 630.0
-margin_bottom = 57.0
+margin_bottom = 53.0
 rect_min_size = Vector2( 630, 50 )
 mouse_filter = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 
 [node name="Map Commands" type="HBoxContainer" parent="Miniview Menu"]
-margin_right = 305.0
-margin_bottom = 57.0
+margin_top = 20.0
+margin_right = 440.0
+margin_bottom = 50.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
 
-[node name="FollowToggle" parent="Miniview Menu/Map Commands" instance=ExtResource( 6 )]
+[node name="FollowToggle" type="TextureButton" parent="Miniview Menu/Map Commands"]
 material = SubResource( 1 )
-margin_right = 57.0
-margin_bottom = 57.0
+margin_right = 30.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
 toggle_mode = true
 pressed = true
-texture_normal = ExtResource( 7 )
-texture_name = "together"
-signal_pressed = "toggle_follow_mode"
-signal_released = "toggle_follow_mode"
+texture_normal = ExtResource( 1 )
+expand = true
+stretch_mode = 5
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="View Commands" type="HBoxContainer" parent="Miniview Menu"]
-margin_left = 313.0
+margin_left = 448.0
+margin_top = 20.0
 margin_right = 630.0
-margin_bottom = 57.0
+margin_bottom = 50.0
 mouse_filter = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 alignment = 2
 
-[node name="ThirdPerosn" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
+[node name="ThirdPerson" type="TextureButton" parent="Miniview Menu/View Commands"]
 material = SubResource( 2 )
-margin_right = 57.0
-margin_bottom = 57.0
-texture_normal = ExtResource( 3 )
-script = ExtResource( 1 )
-texture_name = "helicopter"
-default_color = Color( 0, 0, 0, 1 )
-
-[node name="Map" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 8 )
-margin_left = 65.0
-margin_right = 122.0
-margin_bottom = 57.0
-texture_normal = ExtResource( 9 )
-script = ExtResource( 12 )
-texture_name = "map"
-default_color = Color( 0, 0, 0, 1 )
-
-[node name="FirstPerson" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 9 )
-margin_left = 130.0
-margin_right = 187.0
-margin_bottom = 57.0
-texture_normal = ExtResource( 10 )
-script = ExtResource( 8 )
-texture_name = "eye"
-default_color = Color( 0, 0, 0, 1 )
-
-[node name="SwapPerspectives" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
-material = SubResource( 5 )
-margin_left = 195.0
-margin_right = 252.0
-margin_bottom = 57.0
+margin_right = 30.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
 texture_normal = ExtResource( 4 )
-script = ExtResource( 14 )
-texture_name = "swap"
-default_color = Color( 0, 0, 0, 1 )
+expand = true
+stretch_mode = 5
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Close" parent="Miniview Menu/View Commands" instance=ExtResource( 2 )]
+[node name="Map" type="TextureButton" parent="Miniview Menu/View Commands"]
+material = SubResource( 8 )
+margin_left = 38.0
+margin_right = 68.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+texture_normal = ExtResource( 6 )
+expand = true
+stretch_mode = 5
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FirstPerson" type="TextureButton" parent="Miniview Menu/View Commands"]
+material = SubResource( 9 )
+margin_left = 76.0
+margin_right = 106.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+texture_normal = ExtResource( 10 )
+expand = true
+stretch_mode = 5
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SwapPerspectives" type="TextureButton" parent="Miniview Menu/View Commands"]
+material = SubResource( 5 )
+margin_left = 114.0
+margin_right = 144.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+texture_normal = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Close" type="TextureButton" parent="Miniview Menu/View Commands"]
 material = SubResource( 6 )
-margin_left = 260.0
-margin_right = 317.0
-margin_bottom = 57.0
-texture_normal = ExtResource( 11 )
-script = ExtResource( 13 )
-texture_name = "close"
-default_color = Color( 0, 0, 0, 1 )
+margin_left = 152.0
+margin_right = 182.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+texture_normal = ExtResource( 7 )
+expand = true
+stretch_mode = 5
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Border" type="ColorRect" parent="."]
-margin_top = 65.0
+margin_top = 61.0
 margin_right = 632.0
-margin_bottom = 497.0
+margin_bottom = 493.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_min_size = Vector2( 632, 432 )

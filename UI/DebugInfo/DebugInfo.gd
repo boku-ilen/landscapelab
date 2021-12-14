@@ -11,6 +11,11 @@ onready var log_level_slider = get_node("ScrollContainer/Settings/VBoxContainer/
 func _ready() -> void:
 	log_level_slider.connect("value_changed", self, "_on_log_level_change")
 	
+	$ScrollContainer/Settings/VBoxContainer/MarginContainer2/Wireframes/WireframeButton.connect("toggled", self, "_switch_wireframe_mode")
+
+
+func _switch_wireframe_mode(enabled):
+	get_viewport().debug_draw = Viewport.DEBUG_DRAW_WIREFRAME if enabled else Viewport.DEBUG_DRAW_DISABLED
 
 # Change the log level of the logger when the level slider has been moved
 func _on_log_level_change(level):
