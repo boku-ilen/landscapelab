@@ -23,12 +23,12 @@ var splatmap
 
 
 func _ready():
-	Vegetation.connect("new_plant_extent", self, "update_rows_spacing")
+	Vegetation.connect("new_plant_extent_factor", self, "update_rows_spacing")
 
 
-# Set the internal rows and spacing variables based on the density_class and the given extent.
-func update_rows_spacing(extent):
-	var size = extent * density_class.size_factor
+# Set the internal rows and spacing variables based on the density_class and the given extent_factor.
+func update_rows_spacing(extent_factor):
+	var size = extent_factor * density_class.size_factor
 	
 	rows = floor(size * density_class.density_per_m)
 	spacing = 1.0 / density_class.density_per_m
@@ -43,7 +43,7 @@ func update_rows_spacing(extent):
 func set_density_class(new_density_class):
 	density_class = new_density_class
 	
-	update_rows_spacing(Vegetation.plant_extent)
+	update_rows_spacing(Vegetation.plant_extent_factor)
 
 
 func get_density_class():
