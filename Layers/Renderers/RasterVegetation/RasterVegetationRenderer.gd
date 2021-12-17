@@ -34,3 +34,23 @@ func apply_new_data():
 		renderer.apply_data()
 	
 	add_child(renderers)
+
+
+func get_debug_info() -> String:
+	var total_emitted_particles = 0
+	var active_renderers = 0
+	var total_renderers = 0
+	
+	if get_child_count() > 0:
+		for renderer in get_child(0).get_children():
+			if renderer.visible:
+				total_emitted_particles += renderer.rows * renderer.rows
+				active_renderers += 1
+			
+			total_renderers += 1
+	
+	return "{0} of {1} renderers active.\n{2} plants emitted.".format([
+		active_renderers,
+		total_renderers,
+		total_emitted_particles
+	])

@@ -23,6 +23,12 @@ func load_new_data():
 	pass
 
 
+# Overload to return a string with statistics and information about the current state of this
+# renderer
+func get_debug_info() -> String:
+	return ""
+
+
 # Overload with applying and visualizing the data. Not run in a thread.
 func apply_new_data():
 	_apply_daytime_change(is_daytime)

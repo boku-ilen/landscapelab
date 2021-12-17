@@ -1,6 +1,9 @@
 extends BoxContainer
 
 
+export(NodePath) var layer_renderers_path
+onready var layer_renderers = get_node(layer_renderers_path)
+
 onready var logger_output = get_node("DebugPanel/DebugText")
 onready var log_level_slider = get_node("ScrollContainer/Settings/VBoxContainer/Info/LogLevelInfo/LogLevelSlider")
 
@@ -16,11 +19,4 @@ func _on_log_level_change(level):
 
 # Get the latest logger output and display it in the text box
 func _process(delta: float) -> void:
-	# TODO: Unnecessarily inefficient, but Godot doesn't have streams...
-	#  could we make this nicer?
-	logger_output.text = ""
-
-	if visible:
-		for message in logger.get_memory():
-			if message:
-				logger_output.text += message + "\n"
+	$DebugPanel/DebugText.text = layer_renderers.get_debug_info()

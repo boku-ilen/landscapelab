@@ -240,6 +240,7 @@ margin_right = 1346.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
+layer_renderers_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport/World/Terrain/LayerRenderers")
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/Split/Right"]
 margin_left = 1354.0
