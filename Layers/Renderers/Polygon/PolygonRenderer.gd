@@ -12,7 +12,8 @@ var cellar_height = floor_height # For preventing partially floating buildings o
 
 var building_instances = []
 
-var load_radius = 1000
+# The load radius corresponds to the vegetation extent in order to have a clean LOD border where both plants and buildings end.
+var load_radius = Vegetation.get_max_extent()
 var max_features = 1000
 
 
