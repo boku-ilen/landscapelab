@@ -58,7 +58,7 @@ func _ready():
 
 
 func get_debug_info() -> String:
-	return "{0} of maximally {1} polygons loaded.".format([
+	return "{0} of maximally {1} objects loaded.".format([
 		str(get_child_count()),
 		str(max_features)
 	])
