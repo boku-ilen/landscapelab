@@ -7,7 +7,7 @@ class_name GetObjectLayerDataRequestHandler
 # Example request data:
 # {
 # "message_id": 1,
-# "keyword": "GET_OBJECT_LAYER_DATA"
+# "keyword": "GET_OBJECT_LAYER_DATA",
 # "layer_name": "wind_turbines"
 # }
 #
@@ -20,16 +20,16 @@ func _init():
 
 func handle_request(request: Dictionary) -> Dictionary:
 	var result = {"success": false}
-	var layer = Layers.get_layer(request["layer_name"])
+	var layer = Layers.get_layer(request.layer_name)
 	
 	if layer:
-		result["success"] = true
-		result["objects"] = []
+		result.success = true
+		result.objects = []
 		
 		var features = layer.get_all_features()
 		
 		for feature in features:
-			result["objects"].append({
+			result.objects.append({
 				"id": feature.get_id(),
 				"attributes": feature.get_attributes(),
 				"position": feature.get_vector3()

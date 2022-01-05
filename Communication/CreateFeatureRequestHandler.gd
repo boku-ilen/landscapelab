@@ -20,7 +20,7 @@ func _init():
 
 func handle_request(request: Dictionary) -> Dictionary:
 	var result = {"success": false}
-	var layer = Layers.get_layer(request["layer_name"])
+	var layer = Layers.get_layer(request.layer_name)
 	
 	if layer:
 		var feature = layer.create_feature()
