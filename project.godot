@@ -69,6 +69,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/vr-toolkit/Controller/ControllerTool.gd"
 }, {
+"base": "AbstractRequestHandler",
+"class": "CreateFeatureRequestHandler",
+"language": "GDScript",
+"path": "res://Communication/CreateFeatureRequestHandler.gd"
+}, {
 "base": "Object",
 "class": "DensityClass",
 "language": "GDScript",
@@ -272,6 +277,7 @@ _global_script_class_icons={
 "CloudDome": "",
 "Configurator": "",
 "ControllerTool": "",
+"CreateFeatureRequestHandler": "",
 "DensityClass": "",
 "EnergyProducer": "",
 "FeatureLayer": "",
