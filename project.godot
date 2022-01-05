@@ -90,6 +90,11 @@ _global_script_classes=[ {
 "path": "res://GameEngine/DataModel/Base/GameObject.gd"
 }, {
 "base": "AbstractRequestHandler",
+"class": "GetObjectLayerDataRequestHandler",
+"language": "GDScript",
+"path": "res://Communication/GetObjectLayerDataRequestHandler.gd"
+}, {
+"base": "AbstractRequestHandler",
 "class": "GetSettingsRequestHandler",
 "language": "GDScript",
 "path": "res://Communication/GetSettingsRequestHandler.gd"
@@ -266,6 +271,7 @@ _global_script_class_icons={
 "EnergyProducer": "",
 "FeatureLayer": "",
 "GameObject": "",
+"GetObjectLayerDataRequestHandler": "",
 "GetSettingsRequestHandler": "",
 "GroundTexture": "",
 "Layer": "",
