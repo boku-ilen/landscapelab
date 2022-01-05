@@ -1,8 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
 [sub_resource type="SphereMesh" id=1]
-radius = 8.0
-height = 16.0
+radius = 2.0
+height = 4.0
 radial_segments = 32
 rings = 24
 
@@ -12,11 +12,9 @@ emission = Color( 0.588235, 1, 0.901961, 1 )
 emission_energy = 2.5
 emission_operator = 0
 emission_on_uv2 = false
-proximity_fade_enable = true
-proximity_fade_distance = 10.0
 distance_fade_mode = 1
-distance_fade_min_distance = 50.0
-distance_fade_max_distance = 200.0
+distance_fade_min_distance = 5.0
+distance_fade_max_distance = 10.0
 
 [node name="Particle" type="MeshInstance"]
 layers = 192

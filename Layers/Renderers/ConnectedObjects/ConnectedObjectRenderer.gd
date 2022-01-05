@@ -19,14 +19,16 @@ func load_new_data():
 func apply_new_data():
 	# First clear the old objects, then add the new ones
 	# connectors as well as connections
-	for child in get_children():
+	for child in $Connectors.get_children():
+		child.queue_free()
+	for child in $Connections.get_children():
 		child.queue_free()
 	
 	for instance in connector_instances:
-		add_child(instance)
+		$Connectors.add_child(instance)
 	
 	for instance in connection_instances:
-		add_child(instance)
+		$Connections.add_child(instance)
 		# AbstractConnection.apply_connection()
 		instance.apply_connection()
 	
@@ -144,3 +146,12 @@ func _get_height_at_ground(position: Vector3) -> float:
 func _ready():
 	if not layer is FeatureLayer or not layer.is_valid():
 		logger.error("ConnectedObjectRenderer was given an invalid layer!")
+
+
+func get_debug_info() -> String:
+	return "{0} of maximally {1} connectors loaded.\n{2} of maximally {3} connections loaded.".format([
+		str($Connectors.get_child_count()),
+		str(max_features),
+		str($Connections.get_child_count()),
+		str(max_connections),
+	])

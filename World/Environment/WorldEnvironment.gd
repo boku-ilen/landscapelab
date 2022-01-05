@@ -83,9 +83,9 @@ func apply_datetime(date_time: TimeManager.DateTime):
 		if altitude_azimuth[0] < 0:
 			environment.ambient_light_energy = 0.75
 			$DirectionalLight.light_energy = 0
-			$CloudDome.cloud_color = Color.white * 0.05
-			$CloudDome.shade_color = Color.white * 0.1
-			environment.fog_color = Color(0.05, 0.06, 0.07)
+			$CloudDome.cloud_color = Color.white * 0.03 + Color.blue * 0.02
+			$CloudDome.shade_color = Color.white * 0.06
+			environment.fog_color = Color(0.03, 0.04, 0.05)
 			environment.fog_sun_amount = 0
 			$CloudDome._regen_mesh()
 		else:

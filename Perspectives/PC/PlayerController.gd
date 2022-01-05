@@ -25,6 +25,7 @@ var directions = {
 }
 
 onready var action_handler = $ActionHandler
+onready var camera = $Head/Camera
 
 
 func _ready():

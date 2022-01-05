@@ -18,6 +18,8 @@ func _ready():
 	
 	$Terrain/LayerRenderers.time_manager = $TimeManager
 	$Terrain/LayerRenderers.weather_manager = $WeatherManager
+	
+	Screencapture.pos_manager = $PositionManager
 
 
 func _input(event):

@@ -1,14 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Perspectives/VR/FirstPersonVR.gd" type="Script" id=1]
 [ext_resource path="res://addons/vr-toolkit/PlayerVR.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Util/GroundedSpatial.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleShape" id=1]
 
-[node name="FirstPersonVR" type="KinematicBody" groups=[
-"ShiftingSpatial",
-]]
+[node name="FirstPersonVR" type="KinematicBody"]
 script = ExtResource( 1 )
 
 [node name="PlayerVR" parent="." instance=ExtResource( 2 )]
@@ -20,5 +17,3 @@ disabled = true
 __meta__ = {
 "_editor_description_": ""
 }
-
-[node name="GroundedSpatial" parent="." instance=ExtResource( 3 )]

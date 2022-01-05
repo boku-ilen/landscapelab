@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/Scenarios/ScenarioUIConfig.gd" type="Script" id=4]
+
+[node name="Scenarios" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 38.0
+margin_right = -265.0
+margin_bottom = -941.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScenarioUIConfig" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 1636.0
+margin_bottom = 87.0
+
+[node name="Scenarios" type="VBoxContainer" parent="ScrollContainer"]

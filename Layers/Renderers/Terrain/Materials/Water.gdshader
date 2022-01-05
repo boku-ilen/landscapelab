@@ -53,7 +53,7 @@ void vertex(){
 
 void fragment(){
 	// Check landuse for whether we need to do rendering here
-	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.003).rg - 0.5) * (75.0 / size);
+	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.006).rg - 0.5) * (50.0 / size);
 	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
 	
 	// TODO: Expose these parameters
@@ -61,7 +61,7 @@ void fragment(){
 		discard;
 	}
 
-	vec2 scaled_uv = UV * 20.0;
+	vec2 scaled_uv = world_pos.xz * 0.002;
 
 	float time = TIME * speed;
 	vec3 n1 = texture(noise1, scaled_uv + time).rgb;

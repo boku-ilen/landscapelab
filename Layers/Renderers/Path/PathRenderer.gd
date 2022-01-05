@@ -55,3 +55,10 @@ func _get_height_at_ground(position: Vector3):
 func _ready():
 	if not layer is FeatureLayer or not layer.is_valid():
 		logger.error("PathRenderer was given an invalid layer!")
+
+
+func get_debug_info() -> String:
+	return "{0} of maximally {1} paths loaded.".format([
+		str(get_child_count()),
+		str(max_features)
+	])

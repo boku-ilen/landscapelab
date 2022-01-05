@@ -13,7 +13,8 @@ func _ready():
 
 func set_player(player):
 	.set_player(player)
-	edit_action = EditAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
+	if "action_handler" in pc_player:
+		edit_action = EditAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
 
 
 class EditAction extends ActionHandler.Action:
@@ -51,7 +52,10 @@ func load_features_into_list():
 		# TODO: Why do we need to reverse the z coordinate? seems like an inconsistency in coordinate handling
 		position.z = -position.z
 		
-		$List/ListWindow/ItemList.add_item(str(position))
+		var item_name = feature.get_attribute(layer.ui_info.name_attribute) \
+				if layer.ui_info.name_attribute else str(position)
+		
+		$List/ListWindow/ItemList.add_item(item_name)
 		$List/ListWindow/ItemList.set_item_metadata(new_id, position)
 
 

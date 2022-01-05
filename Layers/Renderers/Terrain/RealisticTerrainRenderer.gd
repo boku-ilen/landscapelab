@@ -25,3 +25,10 @@ func load_new_data():
 func apply_new_data():
 	for lod in get_children():
 		lod.apply_textures()
+
+
+func get_debug_info() -> String:
+	return "{0} LODs with a maximum size of {1} m.".format([
+		lods.size(),
+		lods.back().size
+	])
