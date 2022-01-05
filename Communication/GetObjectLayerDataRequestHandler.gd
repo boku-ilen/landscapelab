@@ -30,6 +30,7 @@ func handle_request(request: Dictionary) -> Dictionary:
 		
 		for feature in features:
 			result["objects"].append({
+				"id": feature.get_id(),
 				"attributes": feature.get_attributes(),
 				"position": feature.get_vector3()
 			})
