@@ -12,7 +12,7 @@ signal removed_layer(layer_name)
 
 
 func get_layer(name: String):
-	return layers[name]
+	return layers[name] if layers.has(name) else null
 
 
 func get_rendered_layers():

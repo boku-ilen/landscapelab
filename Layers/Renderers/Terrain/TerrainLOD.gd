@@ -176,6 +176,8 @@ func apply_textures():
 		
 		if current_surface_heightmap:
 			material_override.set_shader_param("has_surface_heights", true)
+			# Start applying surface heights at the point where vegetation stops
+			material_override.set_shader_param("surface_heights_start_distance", Vegetation.get_max_extent())
 			material_override.set_shader_param("surface_heightmap", current_surface_heightmap)
 		
 		if current_metadata_map:

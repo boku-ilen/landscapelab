@@ -20,8 +20,18 @@ func _ready():
 func _process(delta):
 	# Place on ground
 	var space_state = get_world().direct_space_state
-	var result = space_state.intersect_ray($PlayerVR.global_transform.origin + Vector3(0, 5000, 0),
-			$PlayerVR.global_transform.origin + Vector3(0, -5000, 0), [self])
+	var result = space_state.intersect_ray(Vector3(0, 5000, 0), Vector3(0, -5000, 0), [self])
 	
 	if result:
-		$PlayerVR.global_transform.origin.y = result.position.y
+		transform.origin.y = result.position.y
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("pc_move_left"):
+		transform.origin.x -= 2.0
+	elif event.is_action_pressed("pc_move_right"):
+		transform.origin.x += 2.0
+	elif event.is_action_pressed("pc_move_up"):
+		transform.origin.z -= 2.0
+	elif event.is_action_pressed("pc_move_down"):
+		transform.origin.z += 2.0

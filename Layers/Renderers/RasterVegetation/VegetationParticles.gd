@@ -23,12 +23,14 @@ var splatmap
 
 
 func _ready():
-	Vegetation.connect("new_plant_extent", self, "update_rows_spacing")
+	Vegetation.connect("new_plant_extent_factor", self, "update_rows_spacing")
 
 
-# Set the internal rows and spacing variables based on the density_class and the given extent.
-func update_rows_spacing(extent):
-	rows = extent
+# Set the internal rows and spacing variables based on the density_class and the given extent_factor.
+func update_rows_spacing(extent_factor):
+	var size = extent_factor * density_class.size_factor
+	
+	rows = floor(size * density_class.density_per_m)
 	spacing = 1.0 / density_class.density_per_m
 	
 	set_rows(rows)
@@ -41,7 +43,7 @@ func update_rows_spacing(extent):
 func set_density_class(new_density_class):
 	density_class = new_density_class
 	
-	update_rows_spacing(Vegetation.plant_extent)
+	update_rows_spacing(Vegetation.plant_extent_factor)
 
 
 func get_density_class():
@@ -81,7 +83,7 @@ func set_spacing(new_spacing):
 
 # Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
 func get_map_size():
-	return rows * spacing + 100 # Add 100 to allow for some movement within the data
+	return rows * spacing * 1.5 + 100 # Add 100 to allow for some movement within the data
 
 
 # When the world is shifted, this offset needs to be remembered and passed to
@@ -113,7 +115,7 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 		0
 	)
 	
-	update_textures_with_images(dhm.get_image_texture(), splat.get_image_texture(), splat.get_most_common(8))
+	update_textures_with_images(dhm.get_image_texture(), splat.get_image_texture(), splat.get_most_common(12))
 
 
 # Directly update the vegetation data with given ImageTextures. Can be used e.g. for testing with

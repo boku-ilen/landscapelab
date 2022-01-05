@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 3.0
+height = 6.0
+
+[sub_resource type="SpatialMaterial" id=2]
+distance_fade_mode = 3
+distance_fade_min_distance = 80.0
+distance_fade_max_distance = 100.0
+
+[node name="Marker" type="Spatial"]
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+cast_shadow = 0
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )

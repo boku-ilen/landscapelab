@@ -7,3 +7,4 @@
 script = ExtResource( 1 )
 
 [node name="OVRRenderModel" parent="." instance=ExtResource( 2 )]
+cast_shadow = 0

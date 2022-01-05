@@ -21,8 +21,9 @@ var fade_textures = {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent = 140.0 setget set_plant_extent, get_plant_extent
-signal new_plant_extent(extent)
+var plant_extent_factor = 2.0 setget set_plant_extent_factor, get_plant_extent_factor
+var max_extent = 0.0
+signal new_plant_extent_factor(extent)
 
 signal new_data
 
@@ -49,13 +50,13 @@ func _ready():
 	)
 
 
-func set_plant_extent(extent):
-	plant_extent = extent
-	emit_signal("new_plant_extent", extent)
+func set_plant_extent_factor(extent):
+	plant_extent_factor = extent
+	emit_signal("new_plant_extent_factor", extent)
 
 
-func get_plant_extent():
-	return plant_extent
+func get_plant_extent_factor():
+	return plant_extent_factor
 
 
 # Read Plants and Groups from the given CSV files.
@@ -68,6 +69,14 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	fade_textures = VegetationCSVUtil.create_textures_from_csv(texture_definition_path, ["DISTANCE"], [])
 	plants = VegetationCSVUtil.create_plants_from_csv(plant_path, density_classes)
 	groups = VegetationCSVUtil.create_groups_from_csv(group_path, plants, ground_textures, fade_textures)
+	
+	# Calculate the max extent here in order to cache it
+	var max_size_factor = 0.0
+	for density_class in density_classes.values():
+		if density_class.size_factor > max_size_factor:
+			max_size_factor = density_class.size_factor
+	
+	max_extent = max_size_factor * plant_extent_factor
 	
 	emit_signal("new_data")
 
@@ -388,3 +397,8 @@ func get_renderers() -> Spatial:
 		root.add_child(renderer)
 	
 	return root
+
+
+# Returns the maximum extent of vegetation so that it can by synchronized with other render distances or LOD factors.
+func get_max_extent():
+	return max_extent

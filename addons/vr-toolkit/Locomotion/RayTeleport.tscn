@@ -47,6 +47,8 @@ cast_to = Vector3( 0, 0, -500 )
 collide_with_areas = true
 
 [node name="PositionIndicator" type="MeshInstance" parent="."]
+visible = false
+cast_shadow = 0
 mesh = SubResource( 4 )
 material/0 = null
 

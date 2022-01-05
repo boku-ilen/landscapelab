@@ -1,7 +1,7 @@
 extends LayerRenderer
 
 var radius = 20000
-var max_features = 100
+var max_features = 200
 
 var features
 
@@ -55,3 +55,10 @@ func _ready():
 	layer.geo_feature_layer.connect("feature_added", self, "apply_new_feature")
 	if not layer is FeatureLayer or not layer.is_valid():
 		logger.error("ObjectRenderer was given an invalid layer!")
+
+
+func get_debug_info() -> String:
+	return "{0} of maximally {1} objects loaded.".format([
+		str(get_child_count()),
+		str(max_features)
+	])

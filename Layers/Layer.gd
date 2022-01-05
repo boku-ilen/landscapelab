@@ -29,6 +29,7 @@ enum RenderType {
 }
 var render_type = RenderType.NONE
 var render_info
+var ui_info = UIInfo.new()
 
 
 signal visibility_changed(visible)
@@ -42,6 +43,10 @@ func set_visible(visible: bool):
 
 func is_valid():
 	return render_type == RenderType.NONE or (render_info and render_info.is_valid())
+
+
+class UIInfo:
+	var name_attribute
 
 
 # RenderInfo data classes
@@ -105,6 +110,7 @@ class PolygonRenderInfo extends RenderInfo:
 		return ground_height_layer != null
 
 class BuildingRenderInfo extends PolygonRenderInfo:
+	var height_stdev_attribute_name
 	var slope_attribute_name
 	var red_attribute_name
 	var green_attribute_name

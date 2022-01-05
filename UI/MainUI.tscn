@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://UI/LoadingLabel.gd" type="Script" id=17]
 [ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=18]
 [ext_resource path="res://UI/ValuesMenu/ValuesMenu.tscn" type="PackedScene" id=19]
+[ext_resource path="res://UI/Scenarios/Scenarios.tscn" type="PackedScene" id=20]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
 [ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
 
@@ -219,7 +220,7 @@ msaa = 2
 debanding = true
 render_target_update_mode = 3
 gui_disable_input = true
-shadow_atlas_size = 2048
+shadow_atlas_size = 4096
 
 [node name="World" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport" instance=ExtResource( 12 )]
 
@@ -239,6 +240,7 @@ margin_right = 1346.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
+layer_renderers_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport/World/Terrain/LayerRenderers")
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/Split/Right"]
 margin_left = 1354.0
@@ -318,6 +320,11 @@ margin_right = -5.0
 margin_bottom = -5.0
 rect_min_size = Vector2( 20, 20 )
 size_flags_horizontal = 0
+
+[node name="Scenarios" parent="MarginContainer/Split/Right/Right/Right/Bot" instance=ExtResource( 20 )]
+visible = false
+margin_right = -5.0
+margin_bottom = -5.0
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_left = 0.5

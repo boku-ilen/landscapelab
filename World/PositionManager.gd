@@ -56,6 +56,18 @@ func set_terrain(terr: Spatial):
 	set_center_node(get_node(center_node_path))
 
 
+func get_center_node_engine_position():
+	return center_node.translation
+
+
+func get_center_node_world_position():
+	return to_world_coordinates(center_node.translation)
+
+
+func translate_center_node():
+	pass
+
+
 func set_center_node(node: Spatial):
 	center_node = node
 	# Inject into the center node

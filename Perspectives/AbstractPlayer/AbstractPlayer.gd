@@ -101,7 +101,7 @@ func get_true_position():
 
 # Set the position from projected meter coordinates in an int array
 func set_true_position(pos):
-	translation = position_manager.to_engine_coordinates(pos)
+	translation = position_manager.to_engine_coordinates(pos) + Vector3.UP * 500.0
 
 
 # Lock the mosue to the window and make it invisible.

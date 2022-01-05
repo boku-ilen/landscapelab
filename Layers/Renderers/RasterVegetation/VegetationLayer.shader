@@ -7,7 +7,7 @@ uniform sampler2D heightmap;
 uniform float amplitude = 1.0;
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
 
-uniform float row_spacing = 0.0;
+uniform float row_spacing = 1.0;
 
 uniform vec2 offset;
 

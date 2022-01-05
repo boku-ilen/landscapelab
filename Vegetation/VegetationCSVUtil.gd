@@ -18,7 +18,8 @@ static func create_density_classes_from_csv(csv_path: String) -> Dictionary:
 			line["Density Class"],
 			line["Image Type"],
 			line["Note"],
-			line["Godot Density per m"]
+			line["Godot Density per m"],
+			line["Base Extent"]
 		)
 		density_classes[density_class.id] = density_class
 		

@@ -1,7 +1,9 @@
 extends LayerRenderer
 
-var radius = 1000
-var max_features = 500
+var radius = 800
+var max_features = 100
+var connection_radius = 500
+var max_connections = 100
 
 var connector_instances = []
 var connection_instances = []
@@ -17,14 +19,16 @@ func load_new_data():
 func apply_new_data():
 	# First clear the old objects, then add the new ones
 	# connectors as well as connections
-	for child in get_children():
+	for child in $Connectors.get_children():
+		child.queue_free()
+	for child in $Connections.get_children():
 		child.queue_free()
 	
 	for instance in connector_instances:
-		add_child(instance)
+		$Connectors.add_child(instance)
 	
 	for instance in connection_instances:
-		add_child(instance)
+		$Connections.add_child(instance)
 		# AbstractConnection.apply_connection()
 		instance.apply_connection()
 	
@@ -49,10 +53,11 @@ func update_connected_object(geo_line):
 	for index in range(course.get_point_count()):
 		# Create a specified connector-object or use fallback
 		var object: Spatial
-		if not selector_attribute or not selector_attribute in layer.render_info.connectors:
-			object = layer.render_info.fallback_connector.instance()
-		else:
+
+		if selector_attribute and selector_attribute in layer.render_info.connectors:
 			object = layer.render_info.connectors[selector_attribute].instance()
+		else:
+			object = layer.render_info.fallback_connector.instance()
 		
 		# Obtain the next point (required for the orientation of the current)
 		if index+1 < course.get_point_count():
@@ -100,24 +105,35 @@ func update_connected_object(geo_line):
 		connector_instances.append(object)
 
 
-func _connect(object: Spatial, object_before: Spatial, selector_attribute: String):
+func _connect(object: Spatial, object_before: Spatial, selector_attribute: String):	
+	if not object.has_node("Docks"):
+		logger.warning("Connected Object %s defines no Docks and cannot be connected" % [object.name])
+		return
+	
+	if object.translation.distance_to(Vector3.ZERO) > connection_radius \
+		and object_before.translation.distance_to(Vector3.ZERO) > connection_radius:
+			return
+	
+	if max_connections <= connection_instances.size():
+		return
+	
 	# Dock parent might have a transform -> apply it too
 	var dock_parent: Spatial = object.get_node("Docks")
 	
-	for dock in object.get_node("Docks").get_children():
+	for dock in dock_parent.get_children():
 		# Create a specified connection-object or use fallback
 		var connection: Spatial
-		if not selector_attribute and not selector_attribute in layer.render_info.connections:
+		if not selector_attribute or not selector_attribute in layer.render_info.connections:
 			connection = layer.render_info.fallback_connection.instance()
 		else:
 			connection = layer.render_info.connections[selector_attribute].instance()
 		
 		var dock_before: Spatial = object_before.get_node("Docks/" + dock.name)
 		
-		var p1: Vector3 = (object.transform * dock_parent.transform * dock.transform).origin #* object.transform.basis
-		var p2: Vector3 = (object_before.transform * dock_parent.transform * dock_before.transform).origin #* object_before.transform.basis
+		var p1: Vector3 = (object.transform * dock_parent.transform * dock.transform).origin
+		var p2: Vector3 = (object_before.transform * dock_parent.transform * dock_before.transform).origin
 		
-		connection.find_connection_points(p1, p2, 1.001)
+		connection.find_connection_points(p1, p2, 0.0033)
 		connection_instances.append(connection)
 
 
@@ -130,3 +146,12 @@ func _get_height_at_ground(position: Vector3) -> float:
 func _ready():
 	if not layer is FeatureLayer or not layer.is_valid():
 		logger.error("ConnectedObjectRenderer was given an invalid layer!")
+
+
+func get_debug_info() -> String:
+	return "{0} of maximally {1} connectors loaded.\n{2} of maximally {3} connections loaded.".format([
+		str($Connectors.get_child_count()),
+		str(max_features),
+		str($Connections.get_child_count()),
+		str(max_connections),
+	])

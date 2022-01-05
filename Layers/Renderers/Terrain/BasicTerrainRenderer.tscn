@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Layers/Renderers/Terrain/Materials/TerrainShader.shader" type="Shader" id=1]
 [ext_resource path="res://Layers/Renderers/Terrain/TerrainLOD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Layers/LayerRenderer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Layers/Renderers/Terrain/BasicTerrainRenderer.gd" type="Script" id=4]
-[ext_resource path="res://Layers/Renderers/Terrain/CollisionMeshCreator.gd" type="Script" id=5]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -14,35 +13,9 @@ shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/has_landuse = false
 shader_param/distance_tex_switch_distance = 20.0
-shader_param/transition_space = 8.0
-shader_param/normal_scale = 1.0
-shader_param/ortho_saturation = 1.5
-shader_param/ortho_blue_shift_factor = 0.9
-shader_param/size = null
-
-[sub_resource type="ShaderMaterial" id=2]
-resource_local_to_scene = true
-shader = ExtResource( 1 )
-shader_param/height_scale = 1.0
-shader_param/has_surface_heights = false
-shader_param/surface_heights_start_distance = 800.0
-shader_param/has_landuse = false
-shader_param/distance_tex_switch_distance = 20.0
-shader_param/transition_space = 8.0
-shader_param/normal_scale = 1.0
-shader_param/ortho_saturation = 1.5
-shader_param/ortho_blue_shift_factor = 0.9
-shader_param/size = null
-
-[sub_resource type="ShaderMaterial" id=3]
-resource_local_to_scene = true
-shader = ExtResource( 1 )
-shader_param/height_scale = 1.0
-shader_param/has_surface_heights = false
-shader_param/surface_heights_start_distance = 800.0
-shader_param/has_landuse = false
-shader_param/distance_tex_switch_distance = 20.0
-shader_param/transition_space = 8.0
+shader_param/fade_transition_space = 8.0
+shader_param/ortho_switch_distance = 150.0
+shader_param/ortho_transition_space = 20.0
 shader_param/normal_scale = 1.0
 shader_param/ortho_saturation = 1.5
 shader_param/ortho_blue_shift_factor = 0.9
@@ -54,18 +27,6 @@ script = ExtResource( 4 )
 [node name="TerrainLOD0" parent="." index="0" instance=ExtResource( 2 )]
 material_override = SubResource( 1 )
 is_inner = true
-
-[node name="TerrainLOD1" parent="." index="1" instance=ExtResource( 2 )]
-material_override = SubResource( 2 )
-size = 500.0
-
-[node name="TerrainLOD2" parent="." index="2" instance=ExtResource( 2 )]
-material_override = SubResource( 3 )
-size = 2500.0
-
-[node name="CollisionMeshCreator" type="StaticBody" parent="TerrainLOD2" index="0"]
-collision_layer = 16387
-script = ExtResource( 5 )
-subdivision = 32
-
-[node name="CollisionShape" type="CollisionShape" parent="TerrainLOD2/CollisionMeshCreator" index="0"]
+size = 25000.0
+heightmap_resolution = 1000
+ortho_resolution = 10000

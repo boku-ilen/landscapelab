@@ -101,6 +101,16 @@ func apply_center(center_array):
 				_on_renderer_finished(renderer.name)
 
 
+func get_debug_info():
+	var info = ""
+	
+	for renderer in get_children():
+		if renderer is LayerRenderer:
+			info += renderer.name + ": \n" + renderer.get_debug_info() + "\n\n"
+	
+	return info
+
+
 func _on_renderer_finished(renderer_name):
 	renderers_finished += 1
 	

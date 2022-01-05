@@ -14,7 +14,7 @@ resource_local_to_scene = true
 background_mode = 2
 background_sky = SubResource( 1 )
 background_energy = 2.0
-ambient_light_color = Color( 0.235294, 0.235294, 0.235294, 1 )
+ambient_light_color = Color( 0.168627, 0.168627, 0.168627, 1 )
 ambient_light_energy = 3.0
 ambient_light_sky_contribution = 0.3
 fog_enabled = true
@@ -23,7 +23,6 @@ fog_sun_amount = 1.0
 fog_depth_begin = 1000.0
 fog_depth_end = 10000.0
 fog_transmit_enabled = true
-tonemap_mode = 2
 tonemap_white = 6.0
 ssao_bias = 1.0
 glow_enabled = true
@@ -193,8 +192,9 @@ light_energy = 2.0
 light_bake_mode = 0
 shadow_enabled = true
 shadow_color = Color( 0.27451, 0.27451, 0.27451, 1 )
-shadow_bias = 0.2
+shadow_bias = 0.7
 directional_shadow_blend_splits = true
+directional_shadow_normal_bias = 2.0
 directional_shadow_max_distance = 300.0
 
 [node name="Sky_texture" parent="." instance=ExtResource( 2 )]
@@ -204,6 +204,7 @@ scene_to_load = "res://Python/PysolarInterface.tscn"
 
 [node name="CloudDome" type="MeshInstance" parent="."]
 material_override = SubResource( 12 )
+cast_shadow = 0
 mesh = ExtResource( 5 )
 material/0 = null
 script = ExtResource( 6 )
