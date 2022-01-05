@@ -15,6 +15,7 @@ var fields: Dictionary = {}
 
 var color_tag: Color = Color.transparent
 
+# NOTE: these RenderTypes have to be synchronous with the LL_render_types table in the geopackage except for NONE
 enum RenderType {
 	NONE,
 	BASIC_TERRAIN,
