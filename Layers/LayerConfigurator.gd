@@ -1,21 +1,23 @@
 extends Configurator
 
+const SQLite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
 
 var geodataset
 var center
+var geopackage
 
 
 func _ready():
 	set_category("geodata")
-	add_test_data()
+	digest_geopackage()
 
 
-# Adds static test data; will be removed as soon as we have a valid GeoPackage.
-func add_test_data():
-	var geopackage_path = get_setting("gpkg-path")
+# Digests the information provided by the geopackage
+func digest_geopackage():
+	var geopackage_path = get_setting("gpkg-path") + ".db"
 	
-	# TODO: Load the GeoPackage automatically
-#	base_path = OS.get_executable_path().get_base_dir()
+#	# TODO: Load the GeoPackage automatically
+#	var base_path = OS.get_executable_path().get_base_dir()
 #	var base_dir = Directory.new()
 #	base_dir.open(base_path)
 #	base_dir.list_dir_begin()
@@ -32,17 +34,17 @@ func add_test_data():
 #	if geopackage == "":
 #		logger.error("Could not find a valid geopackage! It has to be in the format of LL_<name>.gpkg[x]")
 #		#get_tree().quit()
-	
+
 	if geopackage_path.empty():
 		logger.error("User Geopackage path not set! Please set it in user://configuration.ini")
 		return
-	
+
 	var file2Check = File.new()
 	if !file2Check.file_exists(geopackage_path):
 		logger.error("Path to geodataset \"%s\" does not exist, could not load any data!" % [geopackage_path])
 		return
 	
-	var geopackage = Geodot.get_dataset(geopackage_path)
+	geopackage = Geodot.get_dataset(geopackage_path)
 	if !geopackage.is_valid():
 		logger.error("Geodataset is not valid, could not load any data!")
 		return
@@ -64,259 +66,262 @@ func add_test_data():
 	
 	logger.info(logstring)
 
+	logger.info("Opening geopackage as DB ...")
+	var db = SQLite.new()
+	db.path = geopackage_path
+	db.verbose_mode = true
+	db.open_db()
 
-	# Heightmap
-	var height_layer = RasterLayer.new()
-	height_layer.geo_raster_layer = geopackage.get_raster_layer("dhm")
-	height_layer.name = "DHM"
+	# Load configuration for each layer as specified in GPKG
+	var layer_configs: Array = load_entire_table(db, "LL_layer_configuration")
+	if layer_configs.empty():
+		logger.error("No layer configuration found in the geopackage.")
 	
-	# Orthophoto
-	var ortho_layer = RasterLayer.new()
-	ortho_layer.geo_raster_layer = geopackage.get_raster_layer("ortho")
-	ortho_layer.name = "Ortho"
+	for layer_config in layer_configs:
+		var layer: Layer
+		
+		var raster_layers = db.select_rows(
+			"LL_georasterlayer_to_layer", 
+			"layer_id = %d" % [layer_config.id], 
+			["*"] 
+		).duplicate()
+		
+		var feature_layers = db.select_rows(
+			"LL_geofeaturelayer_to_layer", 
+			"layer_id = %d" % [layer_config.id], 
+			["*"] 
+		).duplicate()
+		
+		match layer_config.render_type:
+			Layer.RenderType.REALISTIC_TERRAIN:
+				layer = load_realistic_terrain(db, layer_config, raster_layers)
+			
+			Layer.RenderType.BASIC_TERRAIN:
+				layer = load_basic_terrain(db, layer_config, raster_layers)
+			
+			Layer.RenderType.OBJECT:
+				match get_extension_by_key(db, "extends_as", layer_config.id):
+					"WindTurbineRenderInfo":
+						layer = load_windmills(db, layer_config, feature_layers, raster_layers)
+					_: 
+						layer = load_object_layer(db, layer_config, feature_layers, raster_layers)
+			
+			Layer.RenderType.PATH:
+				# FIXME: allow different path-types per layer
+				layer = load_path_layer(db, layer_config, feature_layers, raster_layers)
+			
+			Layer.RenderType.CONNECTED_OBJECT:
+				layer = load_connected_object_layer(db, layer_config, feature_layers, raster_layers)
+			
+			Layer.RenderType.POLYGON:
+				match get_extension_by_key(db, "extends_as", layer_config.id):
+					"BuildingRenderInfo":
+						layer = load_buildings(db, layer_config, feature_layers, raster_layers)
+					_:
+						layer = load_polygon_layer(db, layer_config, feature_layers, raster_layers)
+			
+			Layer.RenderType.VEGETATION:
+				# FIXME: write the vegetation csvs into the geopackage
+				layer = load_vegetation_layer(db, layer_config, raster_layers)
+		
+		if layer:
+			logger.info("Added %s-layer: %s" % [Layer.RenderType.keys()[layer.render_type], layer.name])
+			Layers.add_layer(layer)
 	
-	# Land use
-	var landuse_layer = RasterLayer.new()
-	landuse_layer.geo_raster_layer = geopackage.get_raster_layer("landuse")
-	landuse_layer.name = "Land Use"
+	db.close_db()
+	logger.info("Closing geopackage as DB ...")
+
+	center = get_avg_center()
+
+
+func load_entire_table(db, table_name: String):
+	# Duplication is necessary (SQLite plugin otherwise overwrites with the next query
+	var table = db.select_rows(table_name, "", ["*"]).duplicate()
 	
-	# Surface Heightmap
-	var surface_height_layer = RasterLayer.new()
-	surface_height_layer.geo_raster_layer = geopackage.get_raster_layer("ndom")
-	surface_height_layer.name = "nDSM"
+	# Log the table
+	logger.info("Loaded table \"%s\"\n" % [table_name])
+	logger.info(table)
 	
-	# Topomap
-	var topomap_layer = RasterLayer.new()
-	topomap_layer.geo_raster_layer = geopackage.get_raster_layer("map")
-	topomap_layer.name = "Map"
+	return table
+
+
+func get_geolayer_name_by_type(db, type: String, candidates: Array, is_raster := true) -> Layer:
+	var type_dict = db.select_rows(
+		"LL_geo_layer_type", 
+		"name = '%s'" % [type], 
+		["id"] 
+	)
 	
-#	# Precipitation
-#	var precipitation_layer = RasterLayer.new()
-#	precipitation_layer.geo_raster_layer = Geodot.get_raster_layer("C:\\boku\\geodata\\Niederschlag\\ooe\\Niederschlagssumme_Jahresmittel_1981_2010.tif")
-#	precipitation_layer.name = "Precipitation"
+	if type_dict.empty():
+		logger.error("Could not find layer-type %s" % [type])
+		return null
 	
-	# Realistic Terrain layer
+	for layer in candidates: 
+		if layer.geo_layer_type == type_dict[0].id:
+			if is_raster:
+				var raster = RasterLayer.new()
+				raster.geo_raster_layer = geopackage.get_raster_layer(layer.geolayer_name)
+				return raster
+			else: 
+				var feature = FeatureLayer.new()
+				feature.geo_feature_layer = geopackage.get_feature_layer(layer.geolayer_name)
+				return feature
+	return null
+
+
+func get_extension_by_key(db, key: String, layer_id) -> String:
+	var value = db.select_rows(
+		"LL_layer_configuration_extention", 
+		"key = '%s' and layer_id = %d" % [key, layer_id], 
+		["value"] 
+	)
+	
+	if value.empty():
+		logger.error("No extension with key %s." %[key])
+		return ""
+	
+	return value[0].value
+
+
+func load_realistic_terrain(db, layer_config, raster_layers) -> Layer:
 	var terrain_layer = Layer.new()
 	terrain_layer.render_type = Layer.RenderType.REALISTIC_TERRAIN
 	terrain_layer.render_info = Layer.RealisticTerrainRenderInfo.new()
-	terrain_layer.render_info.height_layer = height_layer.clone()
-	terrain_layer.render_info.texture_layer = ortho_layer.clone()
-	terrain_layer.render_info.landuse_layer = landuse_layer.clone()
-	terrain_layer.render_info.surface_height_layer = surface_height_layer.clone()
-	terrain_layer.name = "Realistic Terrain"
+	terrain_layer.render_info.height_layer = get_geolayer_name_by_type(db, "HEIGHT_LAYER", raster_layers)
+	terrain_layer.render_info.texture_layer = get_geolayer_name_by_type(db, "TEXTURE_LAYER", raster_layers)
+	terrain_layer.render_info.landuse_layer = get_geolayer_name_by_type(db, "LANDUSE_LAYER", raster_layers)
+	terrain_layer.render_info.surface_height_layer = get_geolayer_name_by_type(db, "SURFACE_HEIGHT_LAYER", raster_layers)
+	terrain_layer.name = layer_config.name
 	
-	# Minimap Terrain layer
-	var map_layer = Layer.new()
-	map_layer.render_type = Layer.RenderType.BASIC_TERRAIN
-	map_layer.render_info = Layer.BasicTerrainRenderInfo.new()
-	map_layer.render_info.height_layer = height_layer.clone()
-	map_layer.render_info.texture_layer = topomap_layer.clone()
-	map_layer.name = "Map"
-	
-	# TODO: Consider using the average center of all layers?
-	center = height_layer.get_center()
-	
-#	# Basic Terrain layer
-#	var bterrain_layer = Layer.new()
-#	bterrain_layer.render_type = Layer.RenderType.BASIC_TERRAIN
-#	bterrain_layer.render_info = Layer.BasicTerrainRenderInfo.new()
-#	bterrain_layer.render_info.height_layer = height_layer.clone()
-#	bterrain_layer.render_info.texture_layer = ortho_layer.clone()
-#	bterrain_layer.name = "Basic Terrain"
-#
-#	# Data Shaded Terrain layer
-#	var data_terrain_layer = Layer.new()
-#	data_terrain_layer.render_type = Layer.RenderType.BASIC_TERRAIN
-#	data_terrain_layer.render_info = Layer.BasicTerrainRenderInfo.new()
-#	data_terrain_layer.render_info.height_layer = height_layer.clone()
-#	data_terrain_layer.render_info.texture_layer = precipitation_layer.clone()
-#	data_terrain_layer.render_info.is_color_shaded = true
-#	data_terrain_layer.render_info.max_color = Color(0.8, 0, 0)
-#	data_terrain_layer.render_info.min_color = Color(0, 0.8, 0)
-#	data_terrain_layer.render_info.alpha = 1.0
-#	data_terrain_layer.name = "Data shaded Terrain"
-#
-	# Building layer
-	var building_layer = FeatureLayer.new()
-	building_layer.geo_feature_layer = geopackage.get_feature_layer("buildings")
-	building_layer.render_type = Layer.RenderType.POLYGON
-	building_layer.render_info = Layer.BuildingRenderInfo.new()
-	building_layer.render_info.height_attribute_name = "ndom_mean"
-	building_layer.render_info.height_stdev_attribute_name = "ndom_stdev"
-	building_layer.render_info.slope_attribute_name = "slope_mean"
-	building_layer.render_info.red_attribute_name = "r_median"
-	building_layer.render_info.green_attribute_name = "g_median"
-	building_layer.render_info.blue_attribute_name = "b_median"
-	building_layer.render_info.ground_height_layer = height_layer.clone()
-	building_layer.name = "Buildings"
+	return terrain_layer
 
-	# Vegetation
+
+func load_basic_terrain(db, layer_config, raster_layers) -> Layer:
+	var terrain_layer = Layer.new()
+	terrain_layer.render_type = Layer.RenderType.BASIC_TERRAIN
+	terrain_layer.render_info = Layer.BasicTerrainRenderInfo.new()
+	terrain_layer.render_info.height_layer = get_geolayer_name_by_type(db, "HEIGHT_LAYER", raster_layers)
+	terrain_layer.render_info.texture_layer = get_geolayer_name_by_type(db, "TEXTURE_LAYER", raster_layers)
+	terrain_layer.name = layer_config.name
+	
+	return terrain_layer
+
+
+func load_vegetation_layer(db, layer_config, raster_layers) -> Layer:
 	var vegetation_layer = Layer.new()
-	vegetation_layer.name = "Vegetation"
 	vegetation_layer.render_type = Layer.RenderType.VEGETATION
 	vegetation_layer.render_info = Layer.VegetationRenderInfo.new()
-	vegetation_layer.render_info.height_layer = height_layer.clone()
-	vegetation_layer.render_info.landuse_layer = landuse_layer.clone()
+	vegetation_layer.render_info.height_layer = get_geolayer_name_by_type(db, "HEIGHT_LAYER", raster_layers)
+	vegetation_layer.render_info.landuse_layer = get_geolayer_name_by_type(db, "LANDUSE_LAYER", raster_layers)
+	vegetation_layer.name = layer_config.name
 	
-	# FIXME: Rare crash caused by GeoPackage (SQLite Feature fetching causes DB error), that's why
-	# we load these vector features like this for now
-	var data_prefix = "C:/boku/geodata/"
-	
-	# Test Point Data
-	var windmills_repower = get_windmill_layer(
-		data_prefix + "WKA_koordinaten_LAMB/WKA_NeuWei_Repower.shp",
-		"WKA_NeuWei_Repower",
-		"WKA Repowering",
-		height_layer)
-	
-	var windmills_repower_large = get_windmill_layer(
-		data_prefix + "WKA_koordinaten_LAMB/WKA_NeuWei_Repower_Large.shp",
-		"WKA_NeuWei_Repower_Large",
-		"WKA Repowering alle groß",
-		height_layer)
-	
-	var windmills_repower_surrounding1 = get_windmill_layer(
-		data_prefix + "WKA_koordinaten_LAMB/WKA_Umgebung_Repower.shp",
-		"WKA_Umgebung_Repower",
-		"WKA Repowering Umgebung Repower",
-		height_layer)
-	
-	var windmills_repower_surrounding2 = get_windmill_layer(
-		data_prefix + "WKA_koordinaten_LAMB/WKA_Umgebung_bleibt.shp",
-		"WKA_Umgebung_bleibt",
-		"WKA Repowering Umgebung Bleibt",
-		height_layer)
-	
-	var windmills_old = get_windmill_layer(
-		data_prefix + "WKA_koordinaten_LAMB/WKA_NeuWei_Bestand.shp",
-		"WKA_NeuWei_Bestand",
-		"WKA Bestand",
-		height_layer)
-	
-	var windmills_old_surrounding = get_windmill_layer(
-		data_prefix + "WKA_koordinaten_LAMB/WKA_Umgebung_2020.shp",
-		"WKA_Umgebung_2020",
-		"WKA Bestand Umgebung",
-		height_layer)
-
-	var poi = FeatureLayer.new()
-	var poi_dataset = Geodot.get_dataset(data_prefix + "Aussichtspunkte/Aussichtspunkte_AL.shp")
-	poi.geo_feature_layer = poi_dataset.get_feature_layer("Aussichtspunkte_AL")
-	poi.render_type = Layer.RenderType.OBJECT
-	poi.render_info = Layer.ObjectRenderInfo.new()
-	poi.render_info.object = preload("res://Objects/Util/Marker.tscn")
-	poi.render_info.ground_height_layer = height_layer.clone()
-	poi.ui_info.name_attribute = "Beschreib"
-	poi.name = "Aussichtspunkte"
-	
-#	# Test Line Data
-#	var water_layer = FeatureLayer.new()
-#	var water_dataset = Geodot.get_dataset("C:\\boku\\geodata\\test_data\\ooe\\water_ooe.shp")
-#	water_layer.geo_feature_layer = water_dataset.get_feature_layer("water_ooe")
-#	water_layer.render_type = Layer.RenderType.PATH
-#	water_layer.render_info = Layer.PathRenderInfo.new()
-#	water_layer.render_info.line_visualization = load("res://Resources/Profiles/Water.tscn")
-#	water_layer.render_info.ground_height_layer = height_layer.clone()
-#	water_layer.name = "River"
-#
-#	# Test Line Data
-#	var street_layer = FeatureLayer.new()
-#	var street_dataset = Geodot.get_dataset("C:\\boku\\geodata\\test_data\\ooe\\ooe_line_test.shp")
-#	street_layer.geo_feature_layer = street_dataset.get_feature_layer("ooe_line_test")
-#	street_layer.render_type = Layer.RenderType.PATH
-#	street_layer.render_info = Layer.PathRenderInfo.new()
-#	street_layer.render_info.line_visualization = load("res://Resources/Profiles/Water.tscn")
-#	street_layer.render_info.ground_height_layer = height_layer.clone()
-#	street_layer.name = "Streets"
-
-	# Test Line Data
-	var ppole_layer = FeatureLayer.new()
-	ppole_layer.geo_feature_layer = geopackage.get_feature_layer("power_lines")
-	ppole_layer.render_type = Layer.RenderType.CONNECTED_OBJECT
-	ppole_layer.render_info = Layer.ConnectedObjectInfo.new()
-	ppole_layer.render_info.selector_attribute_name = "power"
-	ppole_layer.render_info.connectors = {
-		"minor_line": load("res://Objects/Power/LowVoltagePowerPole.tscn"),
-		"line": load("res://Objects/Power/HighVoltagePowerLine.tscn")
-	}
-	ppole_layer.render_info.fallback_connector = load("res://Objects/Power/LowVoltagePowerPole.tscn")
-	ppole_layer.render_info.fallback_connection = load("res://Objects/Connection/MetalSteelCable.tscn")
-	ppole_layer.render_info.ground_height_layer = height_layer.clone()
-	ppole_layer.name = "Power poles"
-
-	# Add the layers
-#	Layers.add_layer(precipitation_layer)
-#	Layers.add_layer(data_terrain_layer)
-#	Layers.add_layer(bterrain_layer)
-	Layers.add_layer(windmills_repower)
-	Layers.add_layer(windmills_repower_large)
-	Layers.add_layer(windmills_repower_surrounding1)
-	Layers.add_layer(windmills_repower_surrounding2)
-	Layers.add_layer(windmills_old)
-	Layers.add_layer(windmills_old_surrounding)
-	Layers.add_layer(poi)
-#	Layers.add_layer(water_layer)
-#	Layers.add_layer(ppole_layer)
-#	Layers.add_layer(street_layer)
-	Layers.add_layer(height_layer)
-	Layers.add_layer(ortho_layer)
-	Layers.add_layer(surface_height_layer)
-	Layers.add_layer(landuse_layer)
-	Layers.add_layer(terrain_layer)
-	Layers.add_layer(building_layer)
-	Layers.add_layer(vegetation_layer)
-	Layers.add_layer(topomap_layer)
-	Layers.add_layer(map_layer)
-	
-	var scenario1 = Scenario.new()
-	scenario1.name = "Repowering"
-	scenario1.add_visible_layer_name(windmills_repower.name)
-	scenario1.add_visible_layer_name(windmills_repower_surrounding1.name)
-	scenario1.add_visible_layer_name(windmills_repower_surrounding2.name)
-	scenario1.add_visible_layer_name(terrain_layer.name)
-	scenario1.add_visible_layer_name(building_layer.name)
-	scenario1.add_visible_layer_name(vegetation_layer.name)
-	
-	var scenario2 = Scenario.new()
-	scenario2.name = "Bestand"
-	scenario2.add_visible_layer_name(windmills_old.name)
-	scenario2.add_visible_layer_name(windmills_old_surrounding.name)
-	scenario2.add_visible_layer_name(terrain_layer.name)
-	scenario2.add_visible_layer_name(building_layer.name)
-	scenario2.add_visible_layer_name(vegetation_layer.name)
-	
-	var scenario3 = Scenario.new()
-	scenario3.name = "Repowering alle Groß"
-	scenario3.add_visible_layer_name(windmills_repower_large.name)
-	scenario3.add_visible_layer_name(windmills_repower_surrounding1.name)
-	scenario3.add_visible_layer_name(windmills_repower_surrounding2.name)
-	scenario3.add_visible_layer_name(terrain_layer.name)
-	scenario3.add_visible_layer_name(building_layer.name)
-	scenario3.add_visible_layer_name(vegetation_layer.name)
-	
-	var scenario4 = Scenario.new()
-	scenario4.name = "Karte"
-	scenario4.add_visible_layer_name(map_layer.name)
-	
-	Scenarios.add_scenario(scenario1)
-	Scenarios.add_scenario(scenario2)
-	Scenarios.add_scenario(scenario3)
-	Scenarios.add_scenario(scenario4)
-	
-	scenario2.activate()
+	return vegetation_layer
 
 
-func get_windmill_layer(path, geo_layer_name, readable_layer_name, height_layer):
-	# Test Point Data
-	var windmill_layer = FeatureLayer.new()
-	var dataset = Geodot.get_dataset(path)
-	windmill_layer.geo_feature_layer = dataset.get_feature_layer(geo_layer_name)
-	windmill_layer.render_type = Layer.RenderType.OBJECT
-	windmill_layer.render_info = Layer.WindTurbineRenderInfo.new()
-	windmill_layer.render_info.object = preload("res://Objects/WindTurbine/GenericWindTurbine.tscn")
-	windmill_layer.render_info.ground_height_layer = height_layer.clone()
-	windmill_layer.render_info.height_attribute_name = "Nabenhoehe"
-	windmill_layer.render_info.diameter_attribute_name = "Rotordurch"
-	windmill_layer.name = readable_layer_name
+func load_object_layer(db, layer_config, feature_layers, raster_layers, extended_as: Layer.ObjectRenderInfo = null) -> Layer:
+	var object_layer = FeatureLayer.new()
+	object_layer.geo_feature_layer = get_geolayer_name_by_type(db, "FEATURE_LAYER", feature_layers, false)
+	object_layer.render_type = Layer.RenderType.OBJECT
+	
+	if not extended_as:
+		object_layer.render_info = Layer.ObjectRenderInfo.new()
+	else:
+		object_layer.render_info = extended_as
+	
+	object_layer.render_info.object = load(get_extension_by_key(db, "object", layer_config.id))
+	object_layer.render_info.ground_height_layer = get_geolayer_name_by_type(db, "HEIGHT_LAYER", raster_layers)
+	object_layer.ui_info.name_attribute = "Beschreib"
+	object_layer.name = layer_config.name
+	
+	return object_layer
+
+
+func load_windmills(db, layer_config, feature_layers, raster_layers) -> Layer:
+	var windmill_layer = load_object_layer(db, layer_config, feature_layers, raster_layers, Layer.WindTurbineRenderInfo.new())
+	windmill_layer.render_info.height_attribute_name = get_extension_by_key(db, "height_attribute_name", layer_config.id)
+	windmill_layer.render_info.diameter_attribute_name = get_extension_by_key(db, "diameter_attribute_name", layer_config.id)
 	
 	return windmill_layer
+
+
+func load_polygon_layer(db, layer_config, feature_layers, raster_layers, extended_as: Layer.PolygonRenderInfo = null) -> Layer:
+	var polygon_layer = FeatureLayer.new()
+	polygon_layer.geo_feature_layer = get_geolayer_name_by_type(db, "FEATURE_LAYER", feature_layers, false)
+	polygon_layer.render_type = Layer.RenderType.POLYGON
+	
+	if not extended_as:
+		polygon_layer.render_info = Layer.PolygonRenderInfo.new()
+	else:
+		polygon_layer.render_info = extended_as
+	
+	polygon_layer.render_info.height_attribute_name = get_extension_by_key(db, "height_attribute_name", layer_config.id)
+	polygon_layer.render_info.ground_height_layer = get_geolayer_name_by_type(db, "HEIGHT_LAYER", raster_layers)
+	polygon_layer.name = layer_config.name
+	
+	return polygon_layer
+
+
+func load_buildings(db, layer_config, feature_layers, raster_layers) -> Layer:
+	var building_layer = load_polygon_layer(db, layer_config, feature_layers, raster_layers, Layer.BuildingRenderInfo.new())
+	building_layer.render_info.height_stdev_attribute_name  = get_extension_by_key(db, "height_stdev_attribute_name", layer_config.id)
+	building_layer.render_info.slope_attribute_name  = get_extension_by_key(db, "slope_attribute_name", layer_config.id)
+	building_layer.render_info.red_attribute_name = get_extension_by_key(db, "red_attribute_name", layer_config.id)
+	building_layer.render_info.green_attribute_name = get_extension_by_key(db, "green_attribute_name", layer_config.id)
+	building_layer.render_info.blue_attribute_name = get_extension_by_key(db, "blue_attribute_name", layer_config.id)
+	
+	return building_layer
+
+
+func load_path_layer(db, layer_config, feature_layers, raster_layers) -> Layer:
+	var path_layer = FeatureLayer.new()
+	path_layer.geo_feature_layer = get_geolayer_name_by_type(db, "FEATURE_LAYER", feature_layers, false)
+	path_layer.render_type = Layer.RenderType.PATH
+	path_layer.render_info = Layer.PathRenderInfo.new()
+	path_layer.render_info.line_visualization = get_extension_by_key(db, "line_visualization", layer_config.id)
+	path_layer.render_info.ground_height_layer = get_geolayer_name_by_type(db, "HEIGHT_LAYER", raster_layers)
+	path_layer.name = layer_config.name
+	
+	return path_layer
+
+
+func load_object_JSON(json_string: String) -> Dictionary:
+	var json = JSON.parse(json_string)
+	var loaded_json = {}
+	
+	if json.error != OK:
+		logger.error("Could not parse JSON - try to validate your JSON entries in the package.")
+		return loaded_json
+		
+	for entry in json.result:
+		loaded_json[entry] = load(json.result[entry])
+	
+	return loaded_json
+
+
+func load_connected_object_layer(db, layer_config, feature_layers, raster_layers) -> Layer:
+	var co_layer = FeatureLayer.new()
+	co_layer.geo_feature_layer = get_geolayer_name_by_type(db, "FEATURE_LAYER", feature_layers, false)
+	co_layer.render_type = Layer.RenderType.CONNECTED_OBJECT
+	co_layer.render_info = Layer.ConnectedObjectInfo.new()
+	co_layer.render_info.selector_attribute_name = get_extension_by_key(db, "selector_attribute_name", layer_config.id)
+	# FIXME: There might be more appealing ways than storing a json as varchar in the db ...
+	# https://imgur.com/9ZJkPvV
+	co_layer.render_info.connectors = load_object_JSON(get_extension_by_key(db, "connectors", layer_config.id))
+	co_layer.render_info.connections = load_object_JSON(get_extension_by_key(db, "connections", layer_config.id))
+	co_layer.render_info.fallback_connector = load(get_extension_by_key(db, "fallback_connector", layer_config.id))
+	co_layer.render_info.fallback_connection = load(get_extension_by_key(db, "fallback_connection", layer_config.id))
+	co_layer.render_info.ground_height_layer = get_geolayer_name_by_type(db, "HEIGHT_LAYER", raster_layers)
+	co_layer.name = layer_config.name
+	
+	return co_layer
+
+
+func get_avg_center():
+	var center_avg := Vector3.ZERO
+	var count := 0
+	for layer in Layers.layers:
+		for geolayer in Layers.layers[layer].render_info.get_geolayers():
+			center_avg += geolayer.get_center()
+			count += 1
+	
+	return center_avg / count
