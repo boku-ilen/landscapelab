@@ -14,7 +14,7 @@ func _ready():
 
 # Digests the information provided by the geopackage
 func digest_geopackage():
-	var geopackage_path = get_setting("gpkg-path") + ".db"
+	var geopackage_path = get_setting("gpkg-path")
 	
 #	# TODO: Load the GeoPackage automatically
 #	var base_path = OS.get_executable_path().get_base_dir()
