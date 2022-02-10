@@ -3,7 +3,7 @@ extends Configurator
 const SQLite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
 
 var geodataset
-var center
+var center := Vector3.ZERO
 var geopackage
 
 
@@ -69,7 +69,7 @@ func digest_geopackage():
 	logger.info("Opening geopackage as DB ...")
 	var db = SQLite.new()
 	db.path = geopackage_path
-	db.verbose_mode = true
+	db.verbose_mode = OS.is_debug_build()
 	db.open_db()
 
 	# Load configuration for each layer as specified in GPKG
@@ -284,6 +284,8 @@ func load_path_layer(db, layer_config, feature_layers, raster_layers) -> Layer:
 	return path_layer
 
 
+# Loads a JSON containing paths to Objects in this format:
+# {"object_name_1": "res://path/to/object1.tscn", "object_name_2": "path/to/object2.tscn"}
 func load_object_JSON(json_string: String) -> Dictionary:
 	var json = JSON.parse(json_string)
 	var loaded_json = {}
