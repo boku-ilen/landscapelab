@@ -1,7 +1,7 @@
 extends Layer
 class_name FeatureLayer
 
-# is of type Geodot.GeoRasterLayer
+# is of type Geodot.GeoFeatureLayer
 # TODO: look up how to access classes from gdnative for typing
 var geo_feature_layer
 
