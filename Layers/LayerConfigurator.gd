@@ -58,6 +58,7 @@ func digest_geopackage():
 	Vegetation.load_data_from_gpkg(db)
 	
 	# Load configuration for each layer as specified in GPKG
+	logger.info("Starting to load layers ...")
 	var layer_configs: Array = GPKGUtil.load_entire_table(db, "LL_layer_configuration")
 	if layer_configs.empty():
 		logger.error("No layer configuration found in the geopackage.")
@@ -112,6 +113,36 @@ func digest_geopackage():
 		if layer:
 			logger.info("Added %s-layer: %s" % [Layer.RenderType.keys()[layer.render_type], layer.name])
 			Layers.add_layer(layer)
+	
+	# Loading Scenarios
+	logger.info("Starting to load scenarios ...")
+	var scenario_configs: Array = GPKGUtil.load_entire_table(db, "LL_scenarios")
+	for scenario_config in scenario_configs:
+		var scenario = Scenario.new()
+		scenario.name = scenario_config.name
+		
+		var layer_ids = db.select_rows(
+			"LL_layer_to_scenario", 
+			"scenario_id = %d" % [scenario_config.id], 
+			["layer_id"] 
+		).duplicate()
+		
+		for id in layer_ids:
+			var entry = db.select_rows(
+				"LL_layer_configuration", 
+				"id = %d" % [id.layer_id], 
+				["name"] 
+			).duplicate()
+			
+			if entry.empty():
+				logger.error("Tried to find a non-existing layer with id %d for scenario %s" 
+					% [id.layer_id, scenario.name])
+				continue
+			
+			var layer_name = entry[0].name
+			scenario.add_visible_layer_name(layer_name)
+		
+		Scenarios.add_scenario(scenario)
 	
 	db.close_db()
 	logger.info("Closing geopackage as DB ...")
