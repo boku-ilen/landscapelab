@@ -15,25 +15,6 @@ func _ready():
 # Digests the information provided by the geopackage
 func digest_geopackage():
 	var geopackage_path = get_setting("gpkg-path")
-	
-#	# TODO: Load the GeoPackage automatically
-#	var base_path = OS.get_executable_path().get_base_dir()
-#	var base_dir = Directory.new()
-#	base_dir.open(base_path)
-#	base_dir.list_dir_begin()
-#	while true:
-#		var file = base_dir.get_next()
-#		if file == "":
-#			break
-#		elif file.begins_with("LL_") and (file.ends_with(".gpkg") or file.ends_with(".gpkgx")):
-#			geopackage = base_path + "/" + file
-#			break
-#	base_dir.list_dir_end()
-#
-#	# if we could not find a geopackage we can not continue
-#	if geopackage == "":
-#		logger.error("Could not find a valid geopackage! It has to be in the format of LL_<name>.gpkg[x]")
-#		#get_tree().quit()
 
 	if geopackage_path.empty():
 		logger.error("User Geopackage path not set! Please set it in user://configuration.ini")
@@ -72,8 +53,9 @@ func digest_geopackage():
 	db.verbose_mode = OS.is_debug_build()
 	db.open_db()
 	
-	### create_density_classes_from_csv
-	VegetationGPKGUtil.create_density_classes_from_gpkg(db)
+	# Load vegetation tables outside of the GPKG
+	logger.info("Loading Vegetation tables from GPKG ...")
+	Vegetation.load_data_from_gpkg(db)
 	
 	# Load configuration for each layer as specified in GPKG
 	var layer_configs: Array = GPKGUtil.load_entire_table(db, "LL_layer_configuration")
