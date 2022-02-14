@@ -89,6 +89,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Layers/FeatureLayer.gd"
 }, {
+"base": "Object",
+"class": "GPKGUtil",
+"language": "GDScript",
+"path": "res://Util/GPKGUtil.gd"
+}, {
 "base": "Node",
 "class": "GameObject",
 "language": "GDScript",
@@ -254,10 +259,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/vr-toolkit/Objects/VRStaticInteractable.gd"
 }, {
-"base": "Object",
+"base": "VegetationUtil",
 "class": "VegetationCSVUtil",
 "language": "GDScript",
 "path": "res://Vegetation/VegetationCSVUtil.gd"
+}, {
+"base": "VegetationUtil",
+"class": "VegetationGPKGUtil",
+"language": "GDScript",
+"path": "res://Vegetation/VegetationGPKGUtil.gd"
+}, {
+"base": "Object",
+"class": "VegetationUtil",
+"language": "GDScript",
+"path": "res://Vegetation/VegetationUtil.gd"
 }, {
 "base": "Node",
 "class": "WeatherManager",
@@ -281,6 +296,7 @@ _global_script_class_icons={
 "DensityClass": "",
 "EnergyProducer": "",
 "FeatureLayer": "",
+"GPKGUtil": "",
 "GameObject": "",
 "GetObjectLayerDataRequestHandler": "",
 "GetSettingsRequestHandler": "",
@@ -315,6 +331,8 @@ _global_script_class_icons={
 "VRInteractable": "",
 "VRStaticInteractable": "",
 "VegetationCSVUtil": "",
+"VegetationGPKGUtil": "",
+"VegetationUtil": "",
 "WeatherManager": ""
 }
 

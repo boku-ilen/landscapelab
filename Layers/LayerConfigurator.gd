@@ -71,9 +71,12 @@ func digest_geopackage():
 	db.path = geopackage_path
 	db.verbose_mode = OS.is_debug_build()
 	db.open_db()
-
+	
+	### create_density_classes_from_csv
+	VegetationGPKGUtil.create_density_classes_from_gpkg(db)
+	
 	# Load configuration for each layer as specified in GPKG
-	var layer_configs: Array = load_entire_table(db, "LL_layer_configuration")
+	var layer_configs: Array = GPKGUtil.load_entire_table(db, "LL_layer_configuration")
 	if layer_configs.empty():
 		logger.error("No layer configuration found in the geopackage.")
 	
@@ -132,17 +135,6 @@ func digest_geopackage():
 	logger.info("Closing geopackage as DB ...")
 
 	center = get_avg_center()
-
-
-func load_entire_table(db, table_name: String):
-	# Duplication is necessary (SQLite plugin otherwise overwrites with the next query
-	var table = db.select_rows(table_name, "", ["*"]).duplicate()
-	
-	# Log the table
-	logger.info("Loaded table \"%s\"\n" % [table_name])
-	logger.info(table)
-	
-	return table
 
 
 func get_geolayer_name_by_type(db, type: String, candidates: Array, is_raster := true) -> Layer:
