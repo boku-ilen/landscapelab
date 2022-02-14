@@ -6,7 +6,7 @@ export(String) var category: String setget set_category
 var settings_section  # FIXME: Is this needed?
 
 
-func set_category(setting_category):
+func set_category(setting_category="Not set"):
 	category = setting_category
 	settings_section = Settings.get_setting_section(category)
 
