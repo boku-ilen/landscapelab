@@ -1,13 +1,17 @@
 extends Layer
 class_name FeatureLayer
 
-# is of type Geodot.GeoRasterLayer
+# is of type Geodot.GeoFeatureLayer
 # TODO: look up how to access classes from gdnative for typing
 var geo_feature_layer
 
 
 func create_feature():
 	return geo_feature_layer.create_feature()
+
+
+func get_feature_by_id(id):
+	return geo_feature_layer.get_feature_by_id(id)
 
 
 func get_all_features():

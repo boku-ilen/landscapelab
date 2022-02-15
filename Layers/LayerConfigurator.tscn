@@ -4,3 +4,4 @@
 
 [node name="LayerConfigurator" type="Node"]
 script = ExtResource( 1 )
+category = "Layer"

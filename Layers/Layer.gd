@@ -15,6 +15,7 @@ var fields: Dictionary = {}
 
 var color_tag: Color = Color.transparent
 
+# NOTE: these RenderTypes have to be synchronous with the LL_render_types table in the geopackage except for NONE
 enum RenderType {
 	NONE,
 	BASIC_TERRAIN,
@@ -52,7 +53,10 @@ class UIInfo:
 class RenderInfo:
 	var lod = false
 	
-	func is_valid():
+	func get_geolayers() -> Array:
+		return []
+	
+	func is_valid() -> bool:
 		return true
 
 class BasicTerrainRenderInfo extends RenderInfo:
@@ -63,6 +67,9 @@ class BasicTerrainRenderInfo extends RenderInfo:
 	var min_color: Color
 	var alpha: float
 	
+	func get_geolayers():
+		return [height_layer, texture_layer]
+	
 	func is_valid():
 		return height_layer != null and (is_color_shaded or texture_layer != null)
 
@@ -72,17 +79,18 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	var texture_layer: Layer
 	var landuse_layer: Layer
 	
+	func get_geolayers():
+		return [height_layer, surface_height_layer, texture_layer, landuse_layer]
+	
 	func is_valid():
 		return height_layer and surface_height_layer and texture_layer and landuse_layer
 
 class VegetationRenderInfo extends RenderInfo:
 	var height_layer: Layer
 	var landuse_layer: Layer
-	var extent: float
-	var density: float
-	var min_plant_size: float
-	var max_plant_size: float
-	var mesh: Resource
+	
+	func get_geolayers():
+		return [height_layer, landuse_layer]
 	
 	func is_valid():
 		return height_layer != null and landuse_layer != null 
@@ -94,6 +102,9 @@ class ObjectRenderInfo extends RenderInfo:
 	var object: PackedScene
 	var ground_height_layer: Layer
 	
+	func get_geolayers():
+		return [ground_height_layer]
+	
 	func is_valid():
 		return ground_height_layer != null
 
@@ -104,6 +115,9 @@ class WindTurbineRenderInfo extends ObjectRenderInfo:
 class PolygonRenderInfo extends RenderInfo:
 	var height_attribute_name
 	var ground_height_layer: Layer
+	
+	func get_geolayers():
+		return [ground_height_layer]
 	
 	func is_valid():
 		return ground_height_layer != null
@@ -119,6 +133,9 @@ class PathRenderInfo extends RenderInfo:
 	var line_visualization: PackedScene
 	var ground_height_layer: Layer
 	
+	func get_geolayers():
+		return [ground_height_layer]
+	
 	func is_valid():
 		return ground_height_layer != null
 
@@ -133,6 +150,9 @@ class ConnectedObjectInfo extends RenderInfo:
 	var fallback_connector: PackedScene
 	var fallback_connection: PackedScene
 	var ground_height_layer: Layer
+	
+	func get_geolayers():
+		return [ground_height_layer]
 	
 	func is_valid():
 		return ground_height_layer != null

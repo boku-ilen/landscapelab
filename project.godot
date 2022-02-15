@@ -69,6 +69,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/vr-toolkit/Controller/ControllerTool.gd"
 }, {
+"base": "AbstractRequestHandler",
+"class": "CreateFeatureRequestHandler",
+"language": "GDScript",
+"path": "res://Communication/CreateFeatureRequestHandler.gd"
+}, {
 "base": "Object",
 "class": "DensityClass",
 "language": "GDScript",
@@ -88,6 +93,11 @@ _global_script_classes=[ {
 "class": "GameObject",
 "language": "GDScript",
 "path": "res://GameEngine/DataModel/Base/GameObject.gd"
+}, {
+"base": "AbstractRequestHandler",
+"class": "GetObjectLayerDataRequestHandler",
+"language": "GDScript",
+"path": "res://Communication/GetObjectLayerDataRequestHandler.gd"
 }, {
 "base": "AbstractRequestHandler",
 "class": "GetSettingsRequestHandler",
@@ -180,6 +190,11 @@ _global_script_classes=[ {
 "path": "res://GameEngine/DataModel/Base/Score.gd"
 }, {
 "base": "AbstractRequestHandler",
+"class": "SetObjectPositionRequestHandler",
+"language": "GDScript",
+"path": "res://Communication/SetObjectPositionRequestHandler.gd"
+}, {
+"base": "AbstractRequestHandler",
 "class": "SetPositionRequestHandler",
 "language": "GDScript",
 "path": "res://Communication/SetPositionRequestHandler.gd"
@@ -262,10 +277,12 @@ _global_script_class_icons={
 "CloudDome": "",
 "Configurator": "",
 "ControllerTool": "",
+"CreateFeatureRequestHandler": "",
 "DensityClass": "",
 "EnergyProducer": "",
 "FeatureLayer": "",
 "GameObject": "",
+"GetObjectLayerDataRequestHandler": "",
 "GetSettingsRequestHandler": "",
 "GroundTexture": "",
 "Layer": "",
@@ -284,6 +301,7 @@ _global_script_class_icons={
 "RasterLayer": "",
 "Scenario": "",
 "Score": "",
+"SetObjectPositionRequestHandler": "",
 "SetPositionRequestHandler": "",
 "SetTableExtentRequestHandler": "",
 "ShiftingHandler": "",

@@ -8,3 +8,4 @@ script = ExtResource( 1 )
 
 [node name="LayerRenderersConfig" type="Node" parent="."]
 script = ExtResource( 2 )
+category = "LayersRenderers"
