@@ -41,13 +41,6 @@ func _ready():
 	
 	VegetationImages.ground_image_base_path = config.get_value("paths", "ground_path")
 	VegetationImages.plant_image_base_path = config.get_value("paths", "plant_path")
-	
-	load_data_from_csv(
-		config.get_value("paths", "plant_csv_path"),
-		config.get_value("paths", "group_csv_path"),
-		config.get_value("paths", "density_csv_path"),
-		config.get_value("paths", "texture_csv_path")
-	)
 
 
 func set_plant_extent_factor(extent):
@@ -57,6 +50,27 @@ func set_plant_extent_factor(extent):
 
 func get_plant_extent_factor():
 	return plant_extent_factor
+
+
+func load_data_from_gpkg(db) -> void:
+	plants = {}
+	groups = {}
+	
+	density_classes = VegetationGPKGUtil.create_density_classes_from_gpkg(db)
+	ground_textures = VegetationGPKGUtil.create_textures_from_gpkg(db, [], ["DISTANCE"])
+	fade_textures = VegetationGPKGUtil.create_textures_from_gpkg(db, ["DISTANCE"], [])
+	plants = VegetationGPKGUtil.create_plants_from_gpkg(db, density_classes)
+	groups = VegetationGPKGUtil.create_groups_from_gpkg(db, plants, ground_textures, fade_textures)
+	
+	# Calculate the max extent here in order to cache it
+	var max_size_factor = 0.0
+	for density_class in density_classes.values():
+		if density_class.size_factor > max_size_factor:
+			max_size_factor = density_class.size_factor
+	
+	max_extent = max_size_factor * plant_extent_factor
+	
+	emit_signal("new_data")
 
 
 # Read Plants and Groups from the given CSV files.

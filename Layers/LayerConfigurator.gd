@@ -15,25 +15,6 @@ func _ready():
 # Digests the information provided by the geopackage
 func digest_geopackage():
 	var geopackage_path = get_setting("gpkg-path")
-	
-#	# TODO: Load the GeoPackage automatically
-#	var base_path = OS.get_executable_path().get_base_dir()
-#	var base_dir = Directory.new()
-#	base_dir.open(base_path)
-#	base_dir.list_dir_begin()
-#	while true:
-#		var file = base_dir.get_next()
-#		if file == "":
-#			break
-#		elif file.begins_with("LL_") and (file.ends_with(".gpkg") or file.ends_with(".gpkgx")):
-#			geopackage = base_path + "/" + file
-#			break
-#	base_dir.list_dir_end()
-#
-#	# if we could not find a geopackage we can not continue
-#	if geopackage == "":
-#		logger.error("Could not find a valid geopackage! It has to be in the format of LL_<name>.gpkg[x]")
-#		#get_tree().quit()
 
 	if geopackage_path.empty():
 		logger.error("User Geopackage path not set! Please set it in user://configuration.ini")
@@ -71,9 +52,16 @@ func digest_geopackage():
 	db.path = geopackage_path
 	db.verbose_mode = OS.is_debug_build()
 	db.open_db()
-
+	
+	# Load vegetation tables outside of the GPKG
+	logger.info("Loading Vegetation tables from GPKG ...")
+	Vegetation.load_data_from_gpkg(db)
+	
 	# Load configuration for each layer as specified in GPKG
-	var layer_configs: Array = load_entire_table(db, "LL_layer_configuration")
+	logger.info("Starting to load layers ...")
+	# Duplication is necessary (SQLite plugin otherwise overwrites with the next query
+	var layer_configs: Array = db.select_rows("LL_layer_configuration", "", ["*"]).duplicate()
+	
 	if layer_configs.empty():
 		logger.error("No layer configuration found in the geopackage.")
 	
@@ -128,21 +116,40 @@ func digest_geopackage():
 			logger.info("Added %s-layer: %s" % [Layer.RenderType.keys()[layer.render_type], layer.name])
 			Layers.add_layer(layer)
 	
+	# Loading Scenarios
+	logger.info("Starting to load scenarios ...")
+	var scenario_configs: Array = db.select_rows("LL_scenarios", "", ["*"]).duplicate()
+	for scenario_config in scenario_configs:
+		var scenario = Scenario.new()
+		scenario.name = scenario_config.name
+		
+		var layer_ids = db.select_rows(
+			"LL_layer_to_scenario", 
+			"scenario_id = %d" % [scenario_config.id], 
+			["layer_id"] 
+		).duplicate()
+		
+		for id in layer_ids:
+			var entry = db.select_rows(
+				"LL_layer_configuration", 
+				"id = %d" % [id.layer_id], 
+				["name"] 
+			).duplicate()
+			
+			if entry.empty():
+				logger.error("Tried to find a non-existing layer with id %d for scenario %s" 
+					% [id.layer_id, scenario.name])
+				continue
+			
+			var layer_name = entry[0].name
+			scenario.add_visible_layer_name(layer_name)
+		
+		Scenarios.add_scenario(scenario)
+	
 	db.close_db()
 	logger.info("Closing geopackage as DB ...")
 
 	center = get_avg_center()
-
-
-func load_entire_table(db, table_name: String):
-	# Duplication is necessary (SQLite plugin otherwise overwrites with the next query
-	var table = db.select_rows(table_name, "", ["*"]).duplicate()
-	
-	# Log the table
-	logger.info("Loaded table \"%s\"\n" % [table_name])
-	logger.info(table)
-	
-	return table
 
 
 func get_geolayer_name_by_type(db, type: String, candidates: Array, is_raster := true) -> Layer:

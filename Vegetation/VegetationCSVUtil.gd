@@ -1,4 +1,4 @@
-extends Object
+extends VegetationUtil
 class_name VegetationCSVUtil
 
 #
@@ -12,18 +12,7 @@ static func create_density_classes_from_csv(csv_path: String) -> Dictionary:
 	var density_csv = CSVReader.new()
 	density_csv.read_csv(csv_path)
 	
-	for line in density_csv.get_lines():
-		var density_class = DensityClass.new(
-			line["ID"],
-			line["Density Class"],
-			line["Image Type"],
-			line["Note"],
-			line["Godot Density per m"],
-			line["Base Extent"]
-		)
-		density_classes[density_class.id] = density_class
-		
-	return density_classes
+	return ._create_density_classes(density_csv.get_lines())
 
 
 static func create_textures_from_csv(csv_path: String, include_types, exclude_types) -> Dictionary:
@@ -32,197 +21,26 @@ static func create_textures_from_csv(csv_path: String, include_types, exclude_ty
 	var texture_csv = CSVReader.new()
 	texture_csv.read_csv(csv_path)
 	
-	for line in texture_csv.get_lines():
-		if not include_types.empty() and not line["TYPE"] in include_types:
-			continue
-		if not exclude_types.empty() and line["TYPE"] in exclude_types:
-			continue
-		
-		var texture = GroundTexture.new(
-			line["ID"],
-			line["Texture"],
-			line["TYPE"],
-			line["SIZE"],
-			GroundTexture.Seasons.new(
-				true if line["SPRING"] == "1" else false,
-				true if line["SUMMER"] == "1" else false,
-				true if line["AUTUMN"] == "1" else false,
-				true if line["WINTER"] == "1" else false
-			),
-			line["DESC"],
-			line["APPLICATIONS"]
-		)
-		ground_textures[texture.id] = texture
-	
-	return ground_textures
+	return ._create_textures(texture_csv.get_lines(), include_types, exclude_types)
 
 
 static func create_plants_from_csv(csv_path: String, density_classes: Dictionary) -> Dictionary:
 	var plants = {}
 	
-	var plant_csv = File.new()
-	plant_csv.open(csv_path, File.READ)
+	var plant_csv = CSVReader.new()
+	plant_csv.read_csv(csv_path)
 	
-	if not plant_csv.is_open():
-		logger.error("Plants CSV file does not exist, expected it at %s"
-				 % [csv_path])
-		return {}
-	
-	var plant_headings = plant_csv.get_csv_line()
-	
-	while !plant_csv.eof_reached():
-		var csv = plant_csv.get_csv_line()
-		
-		if csv.size() < plant_headings.size():
-			logger.warning("Unexpected CSV line (size does not match headings): %s"
-					% [csv])
-			continue
-		
-		# Read all CSV fields
-		var id = csv[0]
-		var file = csv[1]
-		var type = csv[2]
-		var size = csv[3]
-		var height_min = csv[4]
-		var height_max = csv[5]
-		var density = csv[6]
-		var species = csv[7]
-		var name_de = csv[8]
-		var name_en = csv[9]
-		var season = csv[10]
-		var style = csv[11]
-		var color = csv[12]
-		var source = csv[13]
-		var license = csv[14]
-		var author = csv[15]
-		var note = csv[16]
-		var density_ha = csv[17]
-		var cluster_width = csv[18]
-		var cluster_ha = csv[19]
-		var plants_ha = csv[20]
-		var density_class_string = csv[21]
-		
-		# A missing ID makes a plant invalid
-		if id == "":
-			logger.warning("Plant with empty ID in plant CSV line: %s"
-					% [csv])
-			continue
-		else:
-			id = int(id)
-		
-		var plant = Plant.new()
-		
-		if not density_class_string \
-				or density_class_string.empty() \
-				or not density_classes.has(int(density_class_string)):
-			logger.warning("Unknown Density Class ID: %s. Using the first one as a fallback..."
-					% [density_class_string])
-			density_class_string = 0
-		
-		plant.id = id
-		plant.billboard_path = file
-		plant.type = type
-		plant.size_class = parse_size(size)
-		plant.height_min = height_min
-		plant.height_max = height_max
-		plant.density_ha = density_ha
-		plant.density_class = density_classes[int(density_class_string)]
-		plant.species = species
-		plant.name_de = name_de
-		plant.name_en = name_en
-		plant.season = parse_season(season)
-		plant.style = style
-		plant.color = color
-		plant.source = source
-		plant.license = license
-		plant.author = author
-		plant.note = note
-		plant.cluster_width = cluster_width
-		plant.cluster_per_ha = cluster_ha
-		plant.plants_per_ha = plants_ha
-		
-		plants[plant.id] = plant
-	
-	return plants
+	return ._create_plants(plant_csv.get_lines(), density_classes)
 
 
 static func create_groups_from_csv(csv_path: String, plants: Dictionary,
 		ground_textures: Dictionary, fade_textures: Dictionary) -> Dictionary:
 	var groups = {}
 	
-	var group_csv = File.new()
-	group_csv.open(csv_path, File.READ)
-	
-	if not group_csv.is_open():
-		logger.error("Groups CSV file does not exist, expected it at %s"
-				 % [csv_path])
-		return {}
-	
-	var headings = group_csv.get_csv_line()
-	
-	while !group_csv.eof_reached():
-		# Format:
-		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS,GROUND TEXTURE
-		var csv = group_csv.get_csv_line()
-		
-		if csv.size() < headings.size():
-			logger.warning("Unexpected CSV line (size does not match headings): %s"
-					% [csv])
-			continue
-		
-		var id = csv[0].strip_edges()
-		var name_en = csv[2]
-		var plant_ids = csv[3].split(",") if not csv[3].empty() else []
-		
-		if id == "":
-			logger.warning("Group with empty ID in CSV line: %s"
-					% [csv])
-			continue
-		else:
-			id = int(id)
-		
-		if id in groups.keys():
-			logger.warning("Duplicate group with ID %s! Skipping..."
-					% [id])
-			continue
-		
-		# Parse and loads plants
-		var group_plants = []
-		for plant_id in plant_ids:
-			plant_id = int(plant_id)
-			
-			if plants.has(plant_id):
-				group_plants.append(plants[plant_id])
-			else:
-				logger.warning("Non-existent plant with ID %s in CSV %s!"
-						% [plant_id, csv_path])
-		
-		# null is encoded as the string "Null"
-		var ground_texture_id = csv[4] if not csv[4].empty() and csv[4] != "Null" else null
-		
-		if not ground_texture_id or not ground_textures.has(int(ground_texture_id)):
-			logger.warning("Non-existent ground texture ID %s in group %s, using 1 as fallback"
-					% [ground_texture_id, id])
-			ground_texture_id = 1
-		else:
-			ground_texture_id = int(ground_texture_id)
-		
-		var fade_texture_id = csv[5] if not csv[5].empty() and csv[5] != "Null" else null
-		var fade_texture
-		
-		if not fade_texture_id or not fade_textures.has(int(fade_texture_id)):
-			logger.warning("Non-existent fade texture ID %s in group %s, using null as fallback"
-					% [fade_texture_id, id])
-			fade_texture = null
-		else:
-			fade_texture = fade_textures[int(fade_texture_id)]
-		
-		var group = PlantGroup.new(id, name_en, group_plants, ground_textures[ground_texture_id],
-				fade_texture)
-		
-		groups[group.id] = group
-	
-	return groups
+	var group_csv = CSVReader.new()
+	group_csv.read_csv(csv_path)
+
+	return ._create_groups(group_csv.get_lines(), plants, ground_textures, fade_textures)
 
 
 static func save_plants_to_csv(plants: Dictionary, csv_path: String):
