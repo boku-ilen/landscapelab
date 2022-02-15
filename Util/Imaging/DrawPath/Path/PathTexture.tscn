@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Util/LinearDrawer/Polygons/Road.gd" type="Script" id=1]
+[ext_resource path="res://Util/Imaging/Road.gd" type="Script" id=1]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_vertex_lighting = true
