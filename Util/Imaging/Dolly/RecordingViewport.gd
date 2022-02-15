@@ -57,16 +57,10 @@ func make_screenshot():
 func make_training_screenshot_pair():
 	var normal_img = _get_screenshot_from_viewport()
 	
-	# Emit signal to color all assets of asset_type_to_color pink
-	GlobalSignal.emit_signal("toggle_asset_debug_color", asset_type_to_color, true)
-	
 	# Wait for a frame so that the new material is definitely applied
 	VisualServer.force_draw()
 	
 	var colored_img = _get_screenshot_from_viewport()
-	
-	# Remove color overwrite from above
-	GlobalSignal.emit_signal("toggle_asset_debug_color", asset_type_to_color, false)
 	
 	# Get the time here and pass it as an argument to prevent tiny differences, causing
 	#  different screenshot filenames

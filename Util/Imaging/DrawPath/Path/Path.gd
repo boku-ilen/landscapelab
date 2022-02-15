@@ -1,4 +1,4 @@
-extends "res://Util/LinearDrawer/InterpolateLinear.gd"
+extends "res://Util/Imaging/InterpolateLinear.gd"
 
 
 # As we do not want to have the line directly on the ground there will be a 

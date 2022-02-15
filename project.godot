@@ -210,11 +210,6 @@ _global_script_classes=[ {
 "path": "res://Communication/SetTableExtentRequestHandler.gd"
 }, {
 "base": "Node",
-"class": "ShiftingHandler",
-"language": "GDScript",
-"path": "res://World/WorldShifting/ShiftingHandler.gd"
-}, {
-"base": "Node",
 "class": "SpecificLayerUI",
 "language": "GDScript",
 "path": "res://UI/Layers/LayerConfiguration/SpecificLayerUI/SpecificLayerUI.gd"
@@ -320,7 +315,6 @@ _global_script_class_icons={
 "SetObjectPositionRequestHandler": "",
 "SetPositionRequestHandler": "",
 "SetTableExtentRequestHandler": "",
-"ShiftingHandler": "",
 "SpecificLayerUI": "",
 "SpritesheetHelper": "",
 "StructuredTexture": "",
@@ -352,7 +346,6 @@ logger="*res://Global/Debug/logger.gd"
 ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
 Settings="*res://Config/Settings.gd"
 GlobalSignal="*res://Global/GlobalSignal.gd"
-UISignal="*res://Global/UISignal.gd"
 CommunicationServer="*res://Communication/CommunicationServer.gd"
 ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
 GameModeLoader="*res://Global/GameModeLoader.gd"

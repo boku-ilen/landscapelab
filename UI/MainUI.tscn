@@ -1,12 +1,10 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
 [ext_resource path="res://UI/VRMenu/VRMenu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Util/GroundedSpatial.tscn" type="PackedScene" id=4]
 [ext_resource path="res://UI/UIDock.gd" type="Script" id=5]
-[ext_resource path="res://UI/StartMenu/StartMenuUI.tscn" type="PackedScene" id=6]
-[ext_resource path="res://StartScene.tscn" type="PackedScene" id=7]
 [ext_resource path="res://UI/UISplit.gd" type="Script" id=8]
 [ext_resource path="res://UI/Theme/DarkTheme.tres" type="Theme" id=9]
 [ext_resource path="res://UI/Layers/LayerConfiguration/LayerUI.tscn" type="PackedScene" id=10]
@@ -21,7 +19,6 @@
 [ext_resource path="res://UI/ValuesMenu/ValuesMenu.tscn" type="PackedScene" id=19]
 [ext_resource path="res://UI/Scenarios/Scenarios.tscn" type="PackedScene" id=20]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
-[ext_resource path="res://UI/Settings/Settings.tscn" type="PackedScene" id=44]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends HSplitContainer
@@ -315,48 +312,9 @@ focus_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="Settings" parent="MarginContainer/Split/Right/Right/Right/Bot" instance=ExtResource( 44 )]
-visible = false
-margin_left = 5.0
-margin_top = 38.0
-margin_right = -5.0
-margin_bottom = -5.0
-rect_min_size = Vector2( 20, 20 )
-size_flags_horizontal = 0
-
 [node name="Scenarios" parent="MarginContainer/Split/Right/Right/Right/Bot" instance=ExtResource( 20 )]
 visible = false
 margin_right = -5.0
 margin_bottom = -5.0
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 20.0
-margin_bottom = 20.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="StartMenuUI" parent="CenterContainer" instance=ExtResource( 6 )]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 20.0
-margin_bottom = 20.0
-mouse_filter = 2
-
-[node name="StartScene" parent="CenterContainer" instance=ExtResource( 7 )]
-
-[node name="GraphicContainer" parent="CenterContainer/StartScene" index="0"]
-visible = false
-
 [editable path="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World"]
-[editable path="CenterContainer/StartScene"]
