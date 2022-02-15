@@ -6,11 +6,6 @@ extends Node
 # 
 
 
-# FIXME: a better way of deciding where to get the vegetation data from - maybe first search
-# in the GPKG then have a fallback to the files? Or remove this entirely? I left CSV loading utility
-# for now, data gets loaded inside the LayerConfigurator as of now (because the db is opened there)
-const load_from_gpkg = true
-
 # Width and height of the distribution picture -- increasing this may prevent repetitive patterns
 const distribution_size = 16
 
@@ -46,14 +41,6 @@ func _ready():
 	
 	VegetationImages.ground_image_base_path = config.get_value("paths", "ground_path")
 	VegetationImages.plant_image_base_path = config.get_value("paths", "plant_path")
-	
-	if not load_from_gpkg:
-		load_data_from_csv(
-			config.get_value("paths", "plant_csv_path"),
-			config.get_value("paths", "group_csv_path"),
-			config.get_value("paths", "density_csv_path"),
-			config.get_value("paths", "texture_csv_path")
-		)
 
 
 func set_plant_extent_factor(extent):

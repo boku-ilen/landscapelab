@@ -59,7 +59,9 @@ func digest_geopackage():
 	
 	# Load configuration for each layer as specified in GPKG
 	logger.info("Starting to load layers ...")
-	var layer_configs: Array = GPKGUtil.load_entire_table(db, "LL_layer_configuration")
+	# Duplication is necessary (SQLite plugin otherwise overwrites with the next query
+	var layer_configs: Array = db.select_rows("LL_layer_configuration", "", ["*"]).duplicate()
+	
 	if layer_configs.empty():
 		logger.error("No layer configuration found in the geopackage.")
 	
@@ -116,7 +118,7 @@ func digest_geopackage():
 	
 	# Loading Scenarios
 	logger.info("Starting to load scenarios ...")
-	var scenario_configs: Array = GPKGUtil.load_entire_table(db, "LL_scenarios")
+	var scenario_configs: Array = db.select_rows("LL_scenarios", "", ["*"]).duplicate()
 	for scenario_config in scenario_configs:
 		var scenario = Scenario.new()
 		scenario.name = scenario_config.name
