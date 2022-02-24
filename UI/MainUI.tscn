@@ -224,9 +224,6 @@ shadow_atlas_size = 4096
 [node name="GroundedSpatial" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC" index="5" instance=ExtResource( 4 )]
 is_active = false
 
-[node name="LayerConfigurator" parent="MarginContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World" index="3"]
-category = "Layer"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Split/Right/Mid"]
 margin_top = 869.0
 margin_right = 1346.0

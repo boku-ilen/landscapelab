@@ -7,6 +7,7 @@ enum SCALING {
 	KEEP_ASPECT
 }
 
+const LOG_MODULE := "SPRITESHEET"
 
 # Turn the images in the given array into a spritesheet.
 # The array is expected to be a 2-dimensional array with the first index being
@@ -38,7 +39,7 @@ static func create_spritesheet(
 	
 	if format == null:
 		# No valid images...
-		logger.error("No valid images in the array given to create_spritesheet")
+		logger.error("No valid images in the array given to create_spritesheet", LOG_MODULE)
 		return null
 	
 	# Get the largest row (the row with the most columns) and use it as the
@@ -130,7 +131,7 @@ static func create_layered_spritesheet(
 	
 	if format == null:
 		# No valid images...
-		logger.warning("No valid images in the array given to create_spritesheet!")
+		logger.warning("No valid images in the array given to create_spritesheet!", LOG_MODULE)
 		return null
 	
 	var number_of_layers = images.size()

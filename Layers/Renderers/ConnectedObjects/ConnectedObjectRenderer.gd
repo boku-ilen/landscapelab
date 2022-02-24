@@ -8,7 +8,6 @@ var max_connections = 100
 var connector_instances = []
 var connection_instances = []
 
-
 func load_new_data():
 	var geo_lines = layer.get_features_near_position(center[0], center[1], radius, max_features)
 	
@@ -107,7 +106,7 @@ func update_connected_object(geo_line):
 
 func _connect(object: Spatial, object_before: Spatial, selector_attribute: String):	
 	if not object.has_node("Docks"):
-		logger.warning("Connected Object %s defines no Docks and cannot be connected" % [object.name])
+		logger.warning("Connected Object %s defines no Docks and cannot be connected" % [object.name], LOG_MODULE)
 		return
 	
 	if object.translation.distance_to(Vector3.ZERO) > connection_radius \
@@ -145,7 +144,7 @@ func _get_height_at_ground(position: Vector3) -> float:
 
 func _ready():
 	if not layer is FeatureLayer or not layer.is_valid():
-		logger.error("ConnectedObjectRenderer was given an invalid layer!")
+		logger.error("ConnectedObjectRenderer was given an invalid layer!", LOG_MODULE)
 
 
 func get_debug_info() -> String:

@@ -22,7 +22,7 @@ func _ready():
 	path_follow = get_node(path_follow_nodepath) as PathFollow
 	
 	if not path_follow:
-		logger.error("Nodepath of DollyCamera must be a PathFollow which the camera can go along!")
+		logger.error("Nodepath of DollyCamera must be a PathFollow which the camera can go along!", "DOLLYCAM")
 		assert(false, "Nodepath of DollyCamera must be a PathFollow which the camera can go along!")
 
 

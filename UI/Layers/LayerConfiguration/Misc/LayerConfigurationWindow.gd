@@ -62,7 +62,7 @@ func _on_confirm():
 	specific_layer_ui.assign_specific_layer_info(layer)
 	
 	if not layer.is_valid():
-		logger.error("Confirm would've created invalid layer with name: %s and type: %s. Aborting"
+		logger.error("Confirmation would've created invalid layer with name: %s and type: %s. Aborting"
 				% [layer.name, current_type])
 		# TODO: Should we give an error in the UI here too, or did this definitely already happen
 		#  in assign_specific_layer_info?

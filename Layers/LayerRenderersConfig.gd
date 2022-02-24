@@ -14,6 +14,8 @@ var renderers = {
 
 var layer_renderer = preload("res://Layers/LayerRenderer.tscn")
 
+const LOG_MODULE := "LAYERCONFIGURATION"
+
 onready var layer_renderers = get_parent()
 
 
@@ -30,7 +32,7 @@ func _ready():
 
 func add_layer(layer: Layer):
 	if not renderers.has(layer.render_type):
-		logger.error("Unknown render type for rendered layer: %s" % [str(layer.render_type)])
+		logger.error("Unknown render type for rendered layer: %s" % [str(layer.render_type)], LOG_MODULE)
 		return
 	
 	var new_layer = renderers[layer.render_type].instance()

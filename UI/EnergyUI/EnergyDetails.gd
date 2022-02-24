@@ -18,11 +18,6 @@ var type_progress_bar_dict : Dictionary
 # Stores the most recent values for each type returned by the RegularServerRequester
 var requested_target_energy_dict : Dictionary
 
-# Uninstanced requester scene
-onready var requester = preload("res://Util/RegularServerRequest.tscn")
-# Load all possible assets from the server 
-# Url: assetpos/get_all_editable_assettypes.json
-onready var assets = Assets.get_asset_types_with_assets()
 
 func _ready():
 	# Init the dictionaries size for thread-safety

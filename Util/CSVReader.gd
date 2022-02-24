@@ -14,6 +14,8 @@ class_name CSVReader
 
 var lines = []
 
+const LOG_MODULE := "CSVREADER"
+
 
 func read_csv(csv_path: String) -> void:
 	var csv_file = File.new()
@@ -21,7 +23,7 @@ func read_csv(csv_path: String) -> void:
 	
 	if not csv_file.is_open():
 		logger.error("CSV file does not exist, expected it at %s"
-				 % [csv_path])
+				 % [csv_path], LOG_MODULE)
 		return
 	
 	var headings = csv_file.get_csv_line()
@@ -31,7 +33,7 @@ func read_csv(csv_path: String) -> void:
 		
 		if csv.size() < headings.size():
 			logger.warning("Unexpected CSV line (size does not match headings): %s"
-					% [csv])
+					% [csv], LOG_MODULE)
 			continue
 		
 		# Read all lines into a dictionary mapping heading names to values

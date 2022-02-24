@@ -9,7 +9,8 @@ var _write_mode = WebSocketPeer.WRITE_MODE_TEXT
 var _clients = {}
 var _handlers = {}
 var _message_stack = {}
-var LOG_MODULE = "websocket"
+
+const LOG_MODULE := "WEBSOCKET"
 
 # initialize the websocket server and listening for client connections
 func _ready():
@@ -100,7 +101,7 @@ func _on_data(id):
 	
 	# Validation
 	if not json_result.error == OK:
-		logger.error("Received invalid JSON data in request: %s" % [string])
+		logger.error("Received invalid JSON data in request: %s" % [string], LOG_MODULE)
 		return
 	
 	var json_dict = json_result.result
@@ -108,13 +109,13 @@ func _on_data(id):
 	logger.debug("received request from %s with data %s" % [id, json_dict], LOG_MODULE)
 	
 	if not json_dict.has("message_id"):
-		logger.error("Missing message ID in request! Aborting...")
+		logger.error("Missing message ID in request! Aborting...", LOG_MODULE)
 		return
 	
 	var message_id = json_dict["message_id"]
 	
 	if not json_dict.has("keyword"):
-		logger.error("Missing keyword field in request with ID %s!" % [message_id])
+		logger.error("Missing keyword field in request with ID %s!" % [message_id], LOG_MODULE)
 		return
 	
 	var keyword = json_dict["keyword"]

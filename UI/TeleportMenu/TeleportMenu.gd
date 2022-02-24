@@ -17,6 +17,8 @@ onready var arrow_down = get_node("Arrows/ArrowDown")
 var pos_manager: PositionManager
 var pc_player
 
+const LOG_MODULE := "UI"
+
 
 func _ready():
 	$VBoxContainer/TeleportToButton.connect("pressed", self, "_teleport_current_values")
@@ -83,7 +85,7 @@ func _on_save_pressed():
 	var has_bad_chars = regex.search(input_field.text)
 	
 	if has_bad_chars:
-		logger.warning("New PoI name must not contain special characters")
+		logger.warning("New PoI name must not contain special characters", LOG_MODULE)
 		input_field.set_text("No special characters!")
 		return
 	

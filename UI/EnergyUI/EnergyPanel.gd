@@ -14,10 +14,7 @@ onready var of = get_node("Energy/EnergySum/Of")
 
 
 func _ready():
-	if not Session.get_current_scenario():
-		logger.warning("EnergyPanel was created, but there is no active scenario!")
-		return
-	
+
 	# Make the the interval for the assets request in intervals of 2 seconds
 	#requester.interval = 2
 	# FIXME: game logic

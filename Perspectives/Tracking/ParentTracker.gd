@@ -13,6 +13,8 @@ onready var screenshot_timer = get_node("ScreenshotTimer")
 
 var file = File.new()
 
+const LOG_MODULE := "PERSPECTIVES"
+
 
 # Start saving data with the current Session id
 func start_tracking(additional_flag: String = ""):
@@ -56,7 +58,7 @@ func get_position():
 # Prepare for tracking: Open / create the CSV file and connect the timer to it
 func open_tracking_file(filename):
 	if file.open(filename, File.WRITE) != 0:
-		logger.error("Couldn't open tracking file!")
+		logger.error("Couldn't open tracking file!", LOG_MODULE)
 		return
 	
 	var line = PoolStringArray()
@@ -124,5 +126,5 @@ func take_screenshot():
 # Actually save a screenshot - to be run in a thread
 func _save_screenshot(img_filename_array):
 	img_filename_array[0].save_png(img_filename_array[1])
-	logger.info("captured screenshot in %s " % [img_filename_array[1]])
+	logger.info("captured screenshot in %s " % [img_filename_array[1]], LOG_MODULE)
 	
