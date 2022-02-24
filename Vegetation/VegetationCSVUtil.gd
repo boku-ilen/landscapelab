@@ -5,7 +5,6 @@ class_name VegetationCSVUtil
 # Static utility functions for loading Vegetation objects from pre-defined CSV files.
 #
 
-
 static func create_density_classes_from_csv(csv_path: String) -> Dictionary:
 	var density_classes = {}
 	
@@ -47,8 +46,8 @@ static func save_plants_to_csv(plants: Dictionary, csv_path: String):
 	# Backup the old file
 	var dir = Directory.new()
 	if dir.copy(csv_path, csv_path + ".backup-" + str(OS.get_unix_time())) != OK:
-		# TODO: Give a warning to the UI too
-		logger.error("Couldn't create backup -- didn't save!")
+		# TODO: Give a warning to the UI too, const LOG_MODULE cannot be accessed for some reason ...
+		logger.error("Couldn't create backup -- didn't save!", "VEGETATION")
 		return
 	
 	var plant_csv = File.new()
@@ -56,7 +55,7 @@ static func save_plants_to_csv(plants: Dictionary, csv_path: String):
 	
 	if not plant_csv.is_open():
 		logger.error("Plants CSV file at %s could not be created or opened for writing"
-				 % [csv_path])
+				 % [csv_path], "VEGETATION")
 		return
 	
 	var headings = "ID,GENERIC_FILENAME,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,STYLE,COLOR,SOURCE,LICENSE,AUTHOR,NOTE,LAB_PLANT_DENSITY,GR-WIDTH,GR-PLANTS_per_HA,PLANTS_per_HA,DENSITY_CLASS"
@@ -94,7 +93,7 @@ static func save_groups_to_csv(groups: Dictionary, csv_path: String) -> void:
 	var dir = Directory.new()
 	if dir.copy(csv_path, csv_path + ".backup-" + str(OS.get_unix_time())) != OK:
 		# TODO: Give a warning to the UI too
-		logger.error("Couldn't create backup -- didn't save!")
+		logger.error("Couldn't create backup -- didn't save!", "VEGETATION")
 		return
 	
 	var group_csv = File.new()
@@ -102,7 +101,7 @@ static func save_groups_to_csv(groups: Dictionary, csv_path: String) -> void:
 	
 	if not group_csv.is_open():
 		logger.error("Groups CSV file at %s could not be created or opened for writing"
-				 % [csv_path])
+				 % [csv_path], "VEGETATION")
 		return
 	
 	var headings = "LID,LABEL_DE,LABEL_EN,PLANTS,TEXTURE_ID,DISTANCE_MAP_ID"

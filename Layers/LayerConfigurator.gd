@@ -6,6 +6,8 @@ var geodataset
 var center := Vector3.ZERO
 var geopackage
 
+const LOG_MODULE := "LAYERCONFIGURATION"
+
 
 func _ready():
 	set_category("geodata")
@@ -17,17 +19,20 @@ func digest_geopackage():
 	var geopackage_path = get_setting("gpkg-path")
 
 	if geopackage_path.empty():
-		logger.error("User Geopackage path not set! Please set it in user://configuration.ini")
+		logger.error("User Geopackage path not set! Please set it in user://configuration.ini", LOG_MODULE)
 		return
 
 	var file2Check = File.new()
 	if !file2Check.file_exists(geopackage_path):
-		logger.error("Path to geodataset \"%s\" does not exist, could not load any data!" % [geopackage_path])
+		logger.error(
+			"Path to geodataset \"%s\" does not exist, could not load any data!" % [geopackage_path],
+			LOG_MODULE
+		)
 		return
 	
 	geopackage = Geodot.get_dataset(geopackage_path)
 	if !geopackage.is_valid():
-		logger.error("Geodataset is not valid, could not load any data!")
+		logger.error("Geodataset is not valid, could not load any data!", LOG_MODULE)
 		return
 	
 	var logstring = "\n"
@@ -45,25 +50,25 @@ func digest_geopackage():
 	for feature in features:
 		logstring += "- " + feature.resource_name + "\n"
 	
-	logger.info(logstring)
+	logger.info(logstring, LOG_MODULE)
 
-	logger.info("Opening geopackage as DB ...")
+	logger.info("Opening geopackage as DB ...", LOG_MODULE)
 	var db = SQLite.new()
 	db.path = geopackage_path
 	db.verbose_mode = OS.is_debug_build()
 	db.open_db()
 	
 	# Load vegetation tables outside of the GPKG
-	logger.info("Loading Vegetation tables from GPKG ...")
+	logger.info("Loading Vegetation tables from GPKG ...", LOG_MODULE)
 	Vegetation.load_data_from_gpkg(db)
 	
 	# Load configuration for each layer as specified in GPKG
-	logger.info("Starting to load layers ...")
+	logger.info("Starting to load layers ...", LOG_MODULE)
 	# Duplication is necessary (SQLite plugin otherwise overwrites with the next query
 	var layer_configs: Array = db.select_rows("LL_layer_configuration", "", ["*"]).duplicate()
 	
 	if layer_configs.empty():
-		logger.error("No layer configuration found in the geopackage.")
+		logger.error("No layer configuration found in the geopackage.", LOG_MODULE)
 	
 	for layer_config in layer_configs:
 		var layer: Layer
@@ -113,11 +118,14 @@ func digest_geopackage():
 				layer = load_vegetation_layer(db, layer_config, raster_layers)
 		
 		if layer:
-			logger.info("Added %s-layer: %s" % [Layer.RenderType.keys()[layer.render_type], layer.name])
+			logger.info(
+				"Added %s-layer: %s" % [Layer.RenderType.keys()[layer.render_type], layer.name],
+				LOG_MODULE
+			)
 			Layers.add_layer(layer)
 	
 	# Loading Scenarios
-	logger.info("Starting to load scenarios ...")
+	logger.info("Starting to load scenarios ...", LOG_MODULE)
 	var scenario_configs: Array = db.select_rows("LL_scenarios", "", ["*"]).duplicate()
 	for scenario_config in scenario_configs:
 		var scenario = Scenario.new()
@@ -137,8 +145,11 @@ func digest_geopackage():
 			).duplicate()
 			
 			if entry.empty():
-				logger.error("Tried to find a non-existing layer with id %d for scenario %s" 
-					% [id.layer_id, scenario.name])
+				logger.error(
+					"Tried to find a non-existing layer with id %d for scenario %s" 
+					% [id.layer_id, scenario.name],
+					LOG_MODULE
+				)
 				continue
 			
 			var layer_name = entry[0].name
@@ -147,7 +158,7 @@ func digest_geopackage():
 		Scenarios.add_scenario(scenario)
 	
 	db.close_db()
-	logger.info("Closing geopackage as DB ...")
+	logger.info("Closing geopackage as DB ...", LOG_MODULE)
 
 	center = get_avg_center()
 
@@ -160,7 +171,7 @@ func get_geolayer_name_by_type(db, type: String, candidates: Array, is_raster :=
 	)
 	
 	if type_dict.empty():
-		logger.error("Could not find layer-type %s" % [type])
+		logger.error("Could not find layer-type %s" % [type], LOG_MODULE)
 		return null
 	
 	for layer in candidates: 
@@ -184,7 +195,7 @@ func get_extension_by_key(db, key: String, layer_id) -> String:
 	)
 	
 	if value.empty():
-		logger.error("No extension with key %s." %[key])
+		logger.error("No extension with key %s." % [key], LOG_MODULE)
 		return ""
 	
 	return value[0].value
@@ -298,7 +309,10 @@ func load_object_JSON(json_string: String) -> Dictionary:
 	var loaded_json = {}
 	
 	if json.error != OK:
-		logger.error("Could not parse JSON - try to validate your JSON entries in the package.")
+		logger.error(
+			"Could not parse JSON - try to validate your JSON entries in the package.",
+			LOG_MODULE
+		)
 		return loaded_json
 		
 	for entry in json.result:

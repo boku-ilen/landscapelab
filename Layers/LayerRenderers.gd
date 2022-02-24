@@ -14,6 +14,8 @@ var renderers_finished := 0
 
 var load_data_threaded := true
 
+const LOG_MODULE := "LAYERRENDERERS"
+
 signal loading_started
 signal loading_finished
 
@@ -48,7 +50,7 @@ func set_weather_manager(new_weather_manager):
 func add_child(child: Node, legible_unique_name: bool = false):
 	if not position_manager and not apply_default_center:
 		logger.debug("Adding child %s to %s, but not yet loading its data due to no available center position"
-				% [child.name, name], "render")
+				% [child.name, name], LOG_MODULE)
 		.add_child(child, legible_unique_name)
 		return
 	
@@ -74,7 +76,7 @@ func add_child(child: Node, legible_unique_name: bool = false):
 
 # Apply a new center position to all child nodes
 func apply_center(center_array):
-	logger.debug("Applying new center center to all children in %s" % [name], "render")
+	logger.debug("Applying new center center to all children in %s" % [name], LOG_MODULE)
 	emit_signal("loading_started")
 	
 	renderers_finished = 0
@@ -90,7 +92,7 @@ func apply_center(center_array):
 		if renderer is LayerRenderer:
 			renderer.center = center_array
 			
-			logger.debug("Child {} beginning to load", "render")
+			logger.debug("Child {} beginning to load", LOG_MODULE)
 			var task = ThreadPool.Task.new(renderer, "load_new_data")
 			
 			if load_data_threaded:
@@ -116,7 +118,7 @@ func _on_renderer_finished(renderer_name):
 	
 	logger.debug(
 		"Renderer %s of %s (with name %s) finished!" % [renderers_finished, renderers_count, renderer_name],
-		"render"
+		LOG_MODULE
 	)
 	
 	if renderers_finished == renderers_count:

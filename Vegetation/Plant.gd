@@ -9,6 +9,7 @@ class_name Plant
 
 # We assume all billboards to end with 'png' since they require transparency
 const BILLBOARD_ENDING = ".png"
+const LOG_MODULE := "VEGETATION"
 
 enum Size {XS, S, M, L, XL}
 enum Season {SPRING, SUMMER, AUTUMN, WINTER}
@@ -51,7 +52,7 @@ func _load_into_cache_if_necessary(full_path):
 		
 		if img.is_empty():
 			logger.warning("Invalid billboard path in %s: %s"
-					 % [name_en, full_path], "vegetation-data")
+					 % [name_en, full_path], LOG_MODULE)
 		
 		# Godot can crash with extremely large images, so we downscale it to a size appropriate
 		#  for further handling.
@@ -69,7 +70,7 @@ func _load_into_cache_if_necessary(full_path):
 
 func _get_image(path):
 	if not File.new().file_exists(path):
-		logger.warn("Invalid Plant image (file does not exist): %s" % [path], "vegetation-data")
+		logger.warn("Invalid Plant image (file does not exist): %s" % [path], LOG_MODULE)
 		return null
 	
 	_load_into_cache_if_necessary(path)
@@ -77,7 +78,7 @@ func _get_image(path):
 
 func _get_texture(path):
 	if not File.new().file_exists(path):
-		logger.warn("Invalid Plant image (file does not exist): %s" % [path], "vegetation-data")
+		logger.warn("Invalid Plant image (file does not exist): %s" % [path], LOG_MODULE)
 		return null
 	
 	_load_into_cache_if_necessary(path)

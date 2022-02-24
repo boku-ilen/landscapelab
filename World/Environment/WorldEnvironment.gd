@@ -2,6 +2,8 @@ extends WorldEnvironment
 
 onready var light = get_node("DirectionalLight")
 
+const LOG_MODULE := "WORLDENV"
+
 var clouds_scene = preload("res://addons/volumetric-clouds/CloudRenderer.tscn")
 
 var CLOUDS_ENABLED = Settings.get_setting("sky", "clouds")
@@ -97,7 +99,7 @@ func apply_datetime(date_time: TimeManager.DateTime):
 			$CloudDome.shade_color = Color(0.568627, 0.698039, 0.878431, 1.0)
 			$CloudDome._regen_mesh()
 	else:
-		logger.warn("Pysolar is unavailable, so the sun position is only approximate!")
+		logger.warn("Pysolar is unavailable, so the sun position is only approximate!", LOG_MODULE)
 	
 		$Sky_texture.set_time_of_day(date_time.time, get_node("DirectionalLight"), self, deg2rad(10.0), 1.5)
 
@@ -115,7 +117,7 @@ func get_middle_of_season(season): # 0 = winter, 1 = spring, 2 = summer, 3 = fal
 
 
 func set_sun_position_for_seasontime(season, hours):
-	logger.debug("setting sun position to season: %s and time: %s" % [season, hours])
+	logger.debug("setting sun position to season: %s and time: %s" % [season, hours], LOG_MODULE)
 	var date = get_middle_of_season(season)
 	set_sun_position_for_datetime(hours, date.day, date.month, date.year)
 
@@ -210,7 +212,7 @@ func _on_season_changed(season):
 func update_time_season():
 	# Run this in a thread to prevent stutter while waiting for HTTP request
 	if sun_change_thread.is_active():
-		logger.warning("Attempt to change time/season, but last change hasn't finished - aborting")
+		logger.warning("Attempt to change time/season, but last change hasn't finished - aborting", LOG_MODULE)
 		return
 	
 	sun_change_thread.start(self, "_bg_set_sun_position_for_seasontime", [current_season, current_time])

@@ -12,6 +12,8 @@ var center := [0, 0]
 var time_manager setget set_time_manager
 var is_daytime = true
 
+const LOG_MODULE := "LAYERRENDERERS"
+
 
 func _ready():
 	layer.connect("visibility_changed", self, "set_visible")

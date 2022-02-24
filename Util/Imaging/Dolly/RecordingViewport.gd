@@ -78,7 +78,7 @@ func make_training_screenshot_pair():
 # Actually save a screenshot - to be run in a thread
 func save_screenshot(img_filename_array):
 	img_filename_array[0].save_png(img_filename_array[1])
-	logger.info("captured screenshot in %s " % [img_filename_array[1]])
+	logger.info("captured screenshot in %s " % [img_filename_array[1]], "SCREENSHOT")
 
 
 func _get_screenshot_filename():

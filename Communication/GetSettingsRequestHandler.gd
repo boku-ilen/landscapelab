@@ -9,6 +9,8 @@ class_name GetSettingsRequestHandler
 
 export(NodePath) var labtable
 
+const LOG_MODULE := "TABLE"
+
 
 # set the protocol keyword
 func _init():
@@ -22,7 +24,7 @@ func handle_request(request: Dictionary) -> Dictionary:
 		if labtable.has_method("register_labtable_connection"):
 			labtable.register_labtable_connection()  # FIXME: method parameters?
 		else:
-			logger.warning("could not register LabTable - ProgrammingError!")
+			logger.warning("could not register LabTable - ProgrammingError!", LOG_MODULE)
 			
 	# answer the lab table settings
 	var answer = Settings.get_setting_section("labtable")
