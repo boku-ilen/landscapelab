@@ -4,9 +4,7 @@ extends BoxContainer
 var layer: Layer
 
 # FIXME: Get the folder (like "ModernLandscapeLab") from a global setting, like AutoTextureButton
-var raster_icon = preload("res://Resources/Icons/ModernLandscapeLab/raster.svg")
-var feature_icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
-var terrain_icon = preload("res://Resources/Icons/ModernLandscapeLab/world.svg")
+var icon_prefix = "res://Resources/Icons/ModernLandscapeLab"
 
 onready var icon = get_node("RightContainer/Icon")
 onready var visibility_button = get_node("RightContainer/VisibilityBox/VisibilityButton")
@@ -27,11 +25,19 @@ func _ready():
 
 func _reload():
 	if layer is RasterLayer:
-		icon.texture = raster_icon
+		icon.texture = load("%s/raster.svg" % icon_prefix)
 	elif layer is FeatureLayer:
-		icon.texture = feature_icon
-	elif layer.render_type == layer.RenderType.BASIC_TERRAIN:
-		icon.texture = terrain_icon
+		icon.texture = load("%s/vector.svg" % icon_prefix)
+	else:
+		match layer.render_type:
+			Layer.RenderType.REALISTIC_TERRAIN:
+				icon.texture = load("%s/world.svg" % icon_prefix)
+			Layer.RenderType.BASIC_TERRAIN:
+				icon.texture = load("%s/map.svg" % icon_prefix)
+			Layer.RenderType.VEGETATION:
+				icon.texture = load("%s/grass.png" % icon_prefix)
+			_:
+				icon.texture = load("%s/layer.svg" % icon_prefix)
 	
 	if layer != null:
 		edit_window.layer = layer
