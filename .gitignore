@@ -22,3 +22,6 @@ addons/pythonscript
 
 # Python-specific
 */__pycache__
+
+# Geodata should not be pushed to the repo
+Geodata/*
