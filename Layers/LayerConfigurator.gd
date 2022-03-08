@@ -181,15 +181,24 @@ func geo_layers_config_for_LL_layer(db, LL_layer_id):
 	var features_config = db.select_rows(
 		"LL_geofeaturelayer_to_layer", 
 		"layer_id = %d" % [LL_layer_id], 
-		["geolayer_name, geo_layer_type"] 
+		["geolayer_name, ll_reference"] 
 	).duplicate()
 	
-	# Load external data sources for the current LL layer
-	var externals_config = db.select_rows(
-		"LL_externalgeolayer_to_layer",
+	# Load external feature data sources for the current LL layer
+	var external_feature_config = db.select_rows(
+		"LL_external_geofeaturelayer_to_layer",
+		"layer_id = %d" % [LL_layer_id], 
+		["geolayer_path, ll_reference"]
+	).duplicate()
+	
+	# Load external raster data sources for the current LL layer
+	var external_raster_config = db.select_rows(
+		"LL_external_georasterlayer_to_layer",
 		"layer_id = %d" % [LL_layer_id], 
 		["geolayer_path, geo_layer_type"]
 	).duplicate()
+	
+	var externals_config = external_feature_config + external_raster_config
 	
 	# Convert paths in the external config to file-name without extension
 	for conf in externals_config:
@@ -198,13 +207,14 @@ func geo_layers_config_for_LL_layer(db, LL_layer_id):
 		conf.erase("geolayer_path")
 		conf["geolayer_name"] = layer_name
 	
-	return rasters_config + features_config + externals_config
+	return { "rasters": rasters_config + external_raster_config,
+			 "features": features_config + external_feature_config }
 
 
 # Get the corresponding geolayer for the LL layer by a given type
 # e.g. a basic-terrain consists of height and texture 
 # => find dhm (digital height model) by type HEIGHT_LAYER, find ortho by type TEXTURE:LAYER
-func get_geolayer_by_type(db, type: String, candidates: Array, is_raster := true) -> Layer:
+func get_georasterlayer_by_type(db, type: String, candidates: Array) -> Layer:
 	var result = db.select_rows(
 		"LL_geo_layer_type", 
 		"name = '%s'" % [type], 
@@ -218,15 +228,22 @@ func get_geolayer_by_type(db, type: String, candidates: Array, is_raster := true
 	var id = result[0].id
 	
 	for layer in candidates: 
-		if layer.geo_layer_type == id:
-			if is_raster:
-				var raster = RasterLayer.new()
-				raster.geo_raster_layer = Layers.geo_layers["rasters"][layer.geolayer_name]
-				return raster
-			else: 
-				var feature = FeatureLayer.new()
-				feature.geo_feature_layer = Layers.geo_layers["features"][layer.geolayer_name]
-				return feature
+		if layer and layer.geo_layer_type == id:
+			var raster = RasterLayer.new()
+			raster.geo_raster_layer = Layers.geo_layers["rasters"][layer.geolayer_name]
+			return raster
+	return null
+
+
+# Get the corresponding geolayer for the LL layer by a given type
+# e.g. a basic-terrain consists of height and texture 
+# => find dhm (digital height model) by type HEIGHT_LAYER, find ortho by type TEXTURE:LAYER
+func get_geofeaturelayer_by_name(db, lname: String, candidates: Array) -> Layer:
+	for layer in candidates: 
+		if layer.ll_reference == lname:
+			var feature = FeatureLayer.new()
+			feature.geo_feature_layer = Layers.geo_layers["features"][layer.geolayer_name]
+			return feature
 	return null
 
 
@@ -248,10 +265,14 @@ func load_realistic_terrain_layer(db, layer_config, geo_layers_config) -> Layer:
 	var terrain_layer = Layer.new()
 	terrain_layer.render_type = Layer.RenderType.REALISTIC_TERRAIN
 	terrain_layer.render_info = Layer.RealisticTerrainRenderInfo.new()
-	terrain_layer.render_info.height_layer = get_geolayer_by_type(db, "HEIGHT_LAYER", geo_layers_config)
-	terrain_layer.render_info.texture_layer = get_geolayer_by_type(db, "TEXTURE_LAYER", geo_layers_config)
-	terrain_layer.render_info.landuse_layer = get_geolayer_by_type(db, "LANDUSE_LAYER", geo_layers_config)
-	terrain_layer.render_info.surface_height_layer = get_geolayer_by_type(db, "SURFACE_HEIGHT_LAYER", geo_layers_config)
+	terrain_layer.render_info.height_layer = get_georasterlayer_by_type(
+		db, "HEIGHT_LAYER", geo_layers_config.rasters)
+	terrain_layer.render_info.texture_layer = get_georasterlayer_by_type(
+		db, "TEXTURE_LAYER", geo_layers_config.rasters)
+	terrain_layer.render_info.landuse_layer = get_georasterlayer_by_type(
+		db, "LANDUSE_LAYER", geo_layers_config.rasters)
+	terrain_layer.render_info.surface_height_layer = get_georasterlayer_by_type(
+		db, "SURFACE_HEIGHT_LAYER", geo_layers_config.rasters)
 	terrain_layer.name = layer_config.name
 	
 	return terrain_layer
@@ -261,8 +282,10 @@ func load_basic_terrain_layer(db, layer_config, geo_layers_config) -> Layer:
 	var terrain_layer = Layer.new()
 	terrain_layer.render_type = Layer.RenderType.BASIC_TERRAIN
 	terrain_layer.render_info = Layer.BasicTerrainRenderInfo.new()
-	terrain_layer.render_info.height_layer = get_geolayer_by_type(db, "HEIGHT_LAYER", geo_layers_config)
-	terrain_layer.render_info.texture_layer = get_geolayer_by_type(db, "TEXTURE_LAYER", geo_layers_config)
+	terrain_layer.render_info.height_layer = get_georasterlayer_by_type(
+		db, "HEIGHT_LAYER", geo_layers_config.rasters)
+	terrain_layer.render_info.texture_layer = get_georasterlayer_by_type(
+		db, "TEXTURE_LAYER", geo_layers_config.rasters)
 	terrain_layer.name = layer_config.name
 	
 	return terrain_layer
@@ -272,19 +295,23 @@ func load_vegetation_layer(db, layer_config, geo_layers_config) -> Layer:
 	var vegetation_layer = Layer.new()
 	vegetation_layer.render_type = Layer.RenderType.VEGETATION
 	vegetation_layer.render_info = Layer.VegetationRenderInfo.new()
-	vegetation_layer.render_info.height_layer = get_geolayer_by_type(db, "HEIGHT_LAYER", geo_layers_config)
-	vegetation_layer.render_info.landuse_layer = get_geolayer_by_type(db, "LANDUSE_LAYER", geo_layers_config)
+	vegetation_layer.render_info.height_layer = get_georasterlayer_by_type(
+		db, "HEIGHT_LAYER", geo_layers_config.rasters)
+	vegetation_layer.render_info.landuse_layer = get_georasterlayer_by_type(
+		db, "LANDUSE_LAYER", geo_layers_config.rasters)
 	vegetation_layer.name = layer_config.name
 	
 	return vegetation_layer
 
 
 func load_object_layer(db, layer_config, geo_layers_config, extended_as: Layer.ObjectRenderInfo = null) -> Layer:
-	if get_extension_by_key(db, "extends_as", layer_config.id) == "WindTurbineRenderInfo" and extended_as == null:
-		return load_windmills(db, layer_config, geo_layers_config)
+	if get_extension_by_key(db, "extends_as", layer_config.id) == "WindTurbineRenderInfo":
+		if extended_as == null:
+			return load_windmills(db, layer_config, geo_layers_config)
 
 	var object_layer = FeatureLayer.new()
-	object_layer.geo_feature_layer = get_geolayer_by_type(db, "FEATURE_LAYER", geo_layers_config, false)
+	object_layer.geo_feature_layer = get_geofeaturelayer_by_name(
+		db, "objects", geo_layers_config.features)
 	object_layer.render_type = Layer.RenderType.OBJECT
 	
 	if not extended_as:
@@ -293,7 +320,8 @@ func load_object_layer(db, layer_config, geo_layers_config, extended_as: Layer.O
 		object_layer.render_info = extended_as
 	
 	object_layer.render_info.object = load(get_extension_by_key(db, "object", layer_config.id))
-	object_layer.render_info.ground_height_layer = get_geolayer_by_type(db, "HEIGHT_LAYER", geo_layers_config)
+	object_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
+		db, "HEIGHT_LAYER", geo_layers_config.rasters)
 	object_layer.ui_info.name_attribute = "Beschreib"
 	object_layer.name = layer_config.name
 	
@@ -301,19 +329,24 @@ func load_object_layer(db, layer_config, geo_layers_config, extended_as: Layer.O
 
 
 func load_windmills(db, layer_config, geo_layers_config) -> Layer:
-	var windmill_layer = load_object_layer(db, layer_config, geo_layers_config, Layer.WindTurbineRenderInfo.new())
-	windmill_layer.render_info.height_attribute_name = get_extension_by_key(db, "height_attribute_name", layer_config.id)
-	windmill_layer.render_info.diameter_attribute_name = get_extension_by_key(db, "diameter_attribute_name", layer_config.id)
+	var windmill_layer = load_object_layer(
+		db, layer_config, geo_layers_config, Layer.WindTurbineRenderInfo.new())
+	windmill_layer.render_info.height_attribute_name = get_extension_by_key(
+		db, "height_attribute_name", layer_config.id)
+	windmill_layer.render_info.diameter_attribute_name = get_extension_by_key(
+		db, "diameter_attribute_name", layer_config.id)
 	
 	return windmill_layer
 
 
 func load_polygon_layer(db, layer_config, geo_layers_config, extended_as: Layer.PolygonRenderInfo = null) -> Layer:
-	if get_extension_by_key(db, "extends_as", layer_config.id) == "BuildingRenderInfo" and extended_as == null:
-		return load_buildings(db, layer_config, geo_layers_config)
+	if get_extension_by_key(db, "extends_as", layer_config.id) == "BuildingRenderInfo":
+		if extended_as == null:
+			return load_buildings(db, layer_config, geo_layers_config)
 	
 	var polygon_layer = FeatureLayer.new()
-	polygon_layer.geo_feature_layer = get_geolayer_by_type(db, "FEATURE_LAYER", geo_layers_config, false)
+	polygon_layer.geo_feature_layer = get_geofeaturelayer_by_name(
+		db, "polygons", geo_layers_config.features)
 	polygon_layer.render_type = Layer.RenderType.POLYGON
 	
 	if not extended_as:
@@ -321,8 +354,10 @@ func load_polygon_layer(db, layer_config, geo_layers_config, extended_as: Layer.
 	else:
 		polygon_layer.render_info = extended_as
 	
-	polygon_layer.render_info.height_attribute_name = get_extension_by_key(db, "height_attribute_name", layer_config.id)
-	polygon_layer.render_info.ground_height_layer = get_geolayer_by_type(db, "HEIGHT_LAYER", geo_layers_config)
+	polygon_layer.render_info.height_attribute_name = get_extension_by_key(
+		db, "height_attribute_name", layer_config.id)
+	polygon_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
+		db, "HEIGHT_LAYER", geo_layers_config.rasters)
 	polygon_layer.name = layer_config.name
 	
 	return polygon_layer
@@ -330,22 +365,30 @@ func load_polygon_layer(db, layer_config, geo_layers_config, extended_as: Layer.
 
 func load_buildings(db, layer_config,geo_layers_config) -> Layer:
 	var building_layer = load_polygon_layer(db, layer_config, geo_layers_config, Layer.BuildingRenderInfo.new())
-	building_layer.render_info.height_stdev_attribute_name  = get_extension_by_key(db, "height_stdev_attribute_name", layer_config.id)
-	building_layer.render_info.slope_attribute_name  = get_extension_by_key(db, "slope_attribute_name", layer_config.id)
-	building_layer.render_info.red_attribute_name = get_extension_by_key(db, "red_attribute_name", layer_config.id)
-	building_layer.render_info.green_attribute_name = get_extension_by_key(db, "green_attribute_name", layer_config.id)
-	building_layer.render_info.blue_attribute_name = get_extension_by_key(db, "blue_attribute_name", layer_config.id)
+	building_layer.render_info.height_stdev_attribute_name  = get_extension_by_key(
+		db, "height_stdev_attribute_name", layer_config.id)
+	building_layer.render_info.slope_attribute_name  = get_extension_by_key(
+		db, "slope_attribute_name", layer_config.id)
+	building_layer.render_info.red_attribute_name = get_extension_by_key(
+		db, "red_attribute_name", layer_config.id)
+	building_layer.render_info.green_attribute_name = get_extension_by_key(
+		db, "green_attribute_name", layer_config.id)
+	building_layer.render_info.blue_attribute_name = get_extension_by_key(
+		db, "blue_attribute_name", layer_config.id)
 	
 	return building_layer
 
 
 func load_path_layer(db, layer_config, geo_layers_config) -> Layer:
 	var path_layer = FeatureLayer.new()
-	path_layer.geo_feature_layer = get_geolayer_by_type(db, "FEATURE_LAYER", geo_layers_config, false)
+	path_layer.geo_feature_layer = get_geofeaturelayer_by_name(
+		db, "paths", geo_layers_config.features)
 	path_layer.render_type = Layer.RenderType.PATH
 	path_layer.render_info = Layer.PathRenderInfo.new()
-	path_layer.render_info.line_visualization = get_extension_by_key(db, "line_visualization", layer_config.id)
-	path_layer.render_info.ground_height_layer = get_geolayer_by_type(db, "HEIGHT_LAYER", geo_layers_config)
+	path_layer.render_info.line_visualization = get_extension_by_key(
+		db, "line_visualization", layer_config.id)
+	path_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
+		db, "HEIGHT_LAYER", geo_layers_config.rasters)
 	path_layer.name = layer_config.name
 	
 	return path_layer
@@ -372,17 +415,24 @@ func load_object_JSON(json_string: String) -> Dictionary:
 
 func load_connected_object_layer(db, layer_config, geo_layers_config) -> Layer:
 	var co_layer = FeatureLayer.new()
-	co_layer.geo_feature_layer = get_geolayer_by_type(db, "FEATURE_LAYER", geo_layers_config, false)
+	co_layer.geo_feature_layer = get_geofeaturelayer_by_name(
+		db, "objects", geo_layers_config.features)
 	co_layer.render_type = Layer.RenderType.CONNECTED_OBJECT
 	co_layer.render_info = Layer.ConnectedObjectInfo.new()
-	co_layer.render_info.selector_attribute_name = get_extension_by_key(db, "selector_attribute_name", layer_config.id)
+	co_layer.render_info.selector_attribute_name = get_extension_by_key(
+		db, "selector_attribute_name", layer_config.id)
 	# FIXME: There might be more appealing ways than storing a json as varchar in the db ...
 	# https://imgur.com/9ZJkPvV
-	co_layer.render_info.connectors = load_object_JSON(get_extension_by_key(db, "connectors", layer_config.id))
-	co_layer.render_info.connections = load_object_JSON(get_extension_by_key(db, "connections", layer_config.id))
-	co_layer.render_info.fallback_connector = load(get_extension_by_key(db, "fallback_connector", layer_config.id))
-	co_layer.render_info.fallback_connection = load(get_extension_by_key(db, "fallback_connection", layer_config.id))
-	co_layer.render_info.ground_height_layer = get_geolayer_by_type(db, "HEIGHT_LAYER", geo_layers_config)
+	co_layer.render_info.connectors = load_object_JSON(get_extension_by_key(
+		db, "connectors", layer_config.id))
+	co_layer.render_info.connections = load_object_JSON(get_extension_by_key(
+		db, "connections", layer_config.id))
+	co_layer.render_info.fallback_connector = load(get_extension_by_key(
+		db, "fallback_connector", layer_config.id))
+	co_layer.render_info.fallback_connection = load(get_extension_by_key(
+		db, "fallback_connection", layer_config.id))
+	co_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
+		db, "HEIGHT_LAYER", geo_layers_config.rasters)
 	co_layer.name = layer_config.name
 	
 	return co_layer
