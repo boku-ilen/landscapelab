@@ -37,8 +37,14 @@ func _toggle_set_dolly_path(button_pressed: bool):
 func set_player(player):
 	pc_player = player
 	
-	_set_imaging_action(ImagingAction.new(pc_player.action_handler.cursor, 
-		preload("res://Util/Imaging/DrawPath/Path/Path.tscn"), pc_player, true))
+	var camera = load("res://Util/Imaging/Dolly/DollyCamera.tscn").instance()
+	var scene = load("res://Util/Imaging/Dolly/DollyScene.tscn").instance()
+	scene.set_cam(camera)
+	_set_imaging_action(ImagingAction.new(
+		pc_player.action_handler.cursor, 
+		scene,
+		camera,
+		pc_player, true))
 	
 	set_height_correction($WindowDialog/ImagingMenu/VBoxContainer/SpinBox.value)
 
@@ -54,19 +60,20 @@ func set_height_correction(height: float):
 
 class ImagingAction extends ActionHandler.Action:
 	var cursor
-	var world setget set_world
+	var world: Spatial setget set_world
 	var height_correction
-	var path_scene
-	var path_scene_instance
+	var dolly_scene: Spatial
+	var dolly_camera: Camera
+	var player_camera: Camera
 	var point_count := 0 setget set_point_count
 	
 	
-	func _init(c, packed_scene, p, b).(p, b):
+	func _init(c, rail: Spatial, cam: Camera, p, b).(p, b):
 		cursor = c
-		path_scene = packed_scene
-		path_scene_instance = packed_scene.instance()
-		return path_scene_instance
-
+		dolly_scene = rail
+		dolly_camera = cam
+		return dolly_scene
+	
 	
 	func set_point_count(count: int):
 		point_count = count
@@ -74,28 +81,35 @@ class ImagingAction extends ActionHandler.Action:
 	
 	
 	func toggle_cam(enable: bool):
-		if path_scene_instance != null:
-			path_scene_instance.toggle_cam(enable)
+		dolly_scene.get_node("DollyRail/PathFollow/RemoteTransform").remote_path = dolly_camera.get_path()
+		if dolly_scene != null:
+			dolly_scene.toggle_cam(enable)
 
 
 	func set_world(pos_manager):
-		world = pos_manager
-		world.add_child(path_scene_instance)
+		# FIXME: This is ugly
+		world = pos_manager.get_parent()
+		world.add_child(dolly_scene)
+		world.add_child(dolly_camera)
+		player_camera = world.get_viewport().get_camera()
 
 
 	func clear():
-		path_scene_instance.clear()
+		dolly_scene.clear()
 		set_point_count(0)
 	
 	
 	func set_imaging_visible(toggled: bool):
-		path_scene_instance.set_imaging_visible(toggled)
+		if toggled:
+			dolly_camera.make_current()
+		else:
+			player_camera.make_current()
 	
 	
 	func apply(event):
 		var position = cursor.get_collision_point()
 		if event.is_action_pressed("imaging_set_path"):
-			path_scene_instance.add_path_point(position + Vector3.UP * height_correction)
+			dolly_scene.add_path_point(position + Vector3.UP * height_correction)
 			set_point_count(point_count + 1)
 		elif event.is_action_pressed("imaging_set_focus"):
-			path_scene_instance.set_focus_position(position, Vector3.UP * height_correction)
+			dolly_scene.set_focus_position(position, Vector3.UP * height_correction)
