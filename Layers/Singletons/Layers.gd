@@ -1,6 +1,6 @@
 extends Node
 
-
+var geo_layers: Dictionary
 var layers: Dictionary
 
 signal new_rendered_layer(layer)

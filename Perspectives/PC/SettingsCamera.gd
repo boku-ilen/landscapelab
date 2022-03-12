@@ -19,10 +19,6 @@ func _ready():
 		
 	if setting_fov:
 		fov = setting_fov
-	
-	# Connect with visual settings signals
-	if signal_title:
-		GlobalSignal.connect(signal_title + "_toggle_render_layer", self, "_toggle_render_layer")
 
 
 # Display/hide a render layer.
