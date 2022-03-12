@@ -8,10 +8,12 @@
 [node name="MousePoint" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
 script = ExtResource( 1 )
+show_collider = true
 
 [node name="InteractRay" type="RayCast" parent="."]
 enabled = true
 cast_to = Vector3( 0, 0, 0 )
+collision_mask = 524288
 collide_with_areas = true
 
 [node name="MouseCollisionIndicator" parent="." instance=ExtResource( 3 )]
