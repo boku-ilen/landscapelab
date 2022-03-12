@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Util/Imaging/Road.gd" type="Script" id=1]
+[ext_resource path="res://Util/Imaging/Dolly/Road.gd" type="Script" id=1]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_vertex_lighting = true
@@ -18,10 +18,13 @@ invert_faces = true
 polygon = PoolVector2Array( -3, -1, -3, 1, 3, 1, 3, -1 )
 mode = 2
 path_node = NodePath("..")
+path_interval_type = 0
 path_interval = 3.0
+path_simplify_angle = 0.0
 path_rotation = 2
 path_local = false
 path_continuous_u = false
+path_u_distance = 1.0
 path_joined = false
 material = SubResource( 1 )
 script = ExtResource( 1 )

@@ -5,9 +5,6 @@ extends Camera
 # Must be child of a PathFollow node!
 #
 
-
-export(NodePath) var path_follow_nodepath
-
 var path_follow: PathFollow
 var focus: Spatial
 var velocity: Vector3
@@ -19,11 +16,9 @@ export(float, 0.0, 1.0) var move_speed_decay: float
 
 
 func _ready():
-	path_follow = get_node(path_follow_nodepath) as PathFollow
-	
 	if not path_follow:
-		logger.error("Nodepath of DollyCamera must be a PathFollow which the camera can go along!", "DOLLYCAM")
-		assert(false, "Nodepath of DollyCamera must be a PathFollow which the camera can go along!")
+		logger.error("Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced", "DOLLYCAM")
+		assert(false, "Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced")
 
 
 func _process(delta):
@@ -53,7 +48,8 @@ func _process(delta):
 		path_follow.offset += velocity.z
 		
 		# Free movement relative to position on rails
-		translation += Vector3(velocity.x, velocity.y, 0.0)
+		#translation += Vector3(velocity.x, velocity.y, 0.0)
+		rotation += Vector3(velocity.x, velocity.y, 0.0)
 
 
 func toggle_cam(enabled):
