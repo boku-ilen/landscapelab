@@ -122,7 +122,7 @@ _global_script_classes=[ {
 "base": "CSGPolygon",
 "class": "LinearCSGPolygon",
 "language": "GDScript",
-"path": "res://Util/Imaging/LinearCSGPolygon.gd"
+"path": "res://Util/Imaging/Dolly/LinearCSGPolygon.gd"
 }, {
 "base": "Spatial",
 "class": "MoveableObject",
@@ -678,6 +678,7 @@ screenshot={
 3d_render/layer_9="3D Secondary View UI"
 3d_render/layer_10="3D VR"
 3d_render/layer_16="3D Terrain Overlay"
+3d_physics/layer_20="MouseCollision"
 
 [locale]
 
