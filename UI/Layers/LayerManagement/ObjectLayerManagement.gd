@@ -9,6 +9,7 @@ func _ready():
 	$Edit.connect("toggled", self, "_on_edit")
 	$List.connect("toggled", self, "_on_list")
 	$List/ListWindow/ItemList.connect("item_selected", self, "_on_feature_list_item_selected")
+	load_features_into_list()
 
 
 func set_player(player):
@@ -53,7 +54,8 @@ func load_features_into_list():
 		position.z = -position.z
 		
 		var item_name = feature.get_attribute(layer.ui_info.name_attribute) \
-				if layer.ui_info.name_attribute else str(position)
+				if feature.get_attribute(layer.ui_info.name_attribute) != "" \
+				else str(position)
 		
 		$List/ListWindow/ItemList.add_item(item_name)
 		$List/ListWindow/ItemList.set_item_metadata(new_id, position)
@@ -67,6 +69,5 @@ func _on_feature_list_item_selected(item_id):
 func _on_list(toggled):
 	if toggled:
 		$List/ListWindow.popup()
-		load_features_into_list()
 	else:
 		$List/ListWindow.hide()
