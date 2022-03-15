@@ -88,10 +88,10 @@ class ImagingAction extends ActionHandler.Action:
 
 	func set_world(pos_manager):
 		# FIXME: This is ugly
-		world = pos_manager.get_parent()
+		player_camera = world.get_viewport().get_camera()
 		world.add_child(dolly_scene)
 		world.add_child(dolly_camera)
-		player_camera = world.get_viewport().get_camera()
+		player_camera.make_current()
 
 
 	func clear():
