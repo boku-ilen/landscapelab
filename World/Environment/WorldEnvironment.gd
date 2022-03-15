@@ -6,7 +6,6 @@ const LOG_MODULE := "WORLDENV"
 
 var clouds_scene = preload("res://addons/volumetric-clouds/CloudRenderer.tscn")
 
-var CLOUDS_ENABLED = Settings.get_setting("sky", "clouds")
 var FOG_BEGIN = Settings.get_setting("sky", "fog-begin")
 var FOG_END = Settings.get_setting("sky", "fog-end")
 var MAX_SUN_INTENSITY = Settings.get_setting("sky", "max-sun-intensity")
@@ -33,11 +32,6 @@ func _ready():
 	$Sky_texture.connect("sky_updated", self, "_on_Sky_texture_sky_updated")
 	$Sky_texture.set_time_of_day(7.0, get_node("DirectionalLight"), self, deg2rad(10.0), 1.5)
 	
-	# Spawn Skycube if setting is on
-	if CLOUDS_ENABLED:
-		clouds = clouds_scene.instance()
-		add_child(clouds)
-		
 	environment.fog_depth_begin = FOG_BEGIN
 	environment.fog_depth_end = FOG_END
 
