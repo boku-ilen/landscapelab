@@ -17,15 +17,15 @@ var pos_manager: PositionManager
 
 
 func _ready():
-	docks.append($MarginContainer/Split/Left/Left/Top)
-	docks.append($MarginContainer/Split/Left/Left/Bot)
-	docks.append($MarginContainer/Split/Left/Right/Top)
-	docks.append($MarginContainer/Split/Left/Right/Bot)
-	docks.append($MarginContainer/Split/Right/Mid/VBoxContainer)
-	docks.append($MarginContainer/Split/Right/Right/Left/Top)
-	docks.append($MarginContainer/Split/Right/Right/Left/Bot)
-	docks.append($MarginContainer/Split/Right/Right/Right/Top)
-	docks.append($MarginContainer/Split/Right/Right/Right/Bot)
+	docks.append($MarginContainer/VBoxContainer/Split/Left/Left/Top)
+	docks.append($MarginContainer/VBoxContainer/Split/Left/Left/Bot)
+	docks.append($MarginContainer/VBoxContainer/Split/Left/Right/Top)
+	docks.append($MarginContainer/VBoxContainer/Split/Left/Right/Bot)
+	docks.append($MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer)
+	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Left/Top)
+	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Left/Bot)
+	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Right/Top)
+	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot)
 	pos_manager = get_node(pos_manager_path)
 	
 	_inject()
@@ -38,7 +38,7 @@ func _process(delta):
 	var formatted = "x=%.2f, y=%.2f, z=%.2f\nx=%.0f, y=%.0f, z=%.0f"
 	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos[0], geo_pos[1], geo_pos[2]]
 	
-	$MarginContainer/Split/Right/Mid/HBoxContainer/DebugInfo/ScrollContainer/Settings/VBoxContainer/Info/PositionDisplay/Data.text = formatted
+	$MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer/DebugInfo/ScrollContainer/Settings/VBoxContainer/Info/PositionDisplay/Data.text = formatted
 
 
 func _inject():

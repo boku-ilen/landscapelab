@@ -230,7 +230,7 @@ func get_georasterlayer_by_type(db, type: String, candidates: Array) -> Layer:
 	for layer in candidates: 
 		if layer and layer.geo_layer_type == id:
 			var raster = RasterLayer.new()
-			raster.geo_raster_layer = Layers.geo_layers["rasters"][layer.geolayer_name]
+			raster.geo_raster_layer = Layers.geo_layers["rasters"][layer.geolayer_name].clone()
 			return raster
 	return null
 

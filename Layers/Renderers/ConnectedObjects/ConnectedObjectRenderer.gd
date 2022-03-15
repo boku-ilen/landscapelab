@@ -119,9 +119,12 @@ func _connect(object: Spatial, object_before: Spatial, selector_attribute: Strin
 	# Dock parent might have a transform -> apply it too
 	var dock_parent: Spatial = object.get_node("Docks")
 	
+	# Vector between current and next dock of the current connection and it's predecessors 
+	# might be the same => cache!
+	var catenary_curve_cache = []
 	for dock in dock_parent.get_children():
 		# Create a specified connection-object or use fallback
-		var connection: Spatial
+		var connection: AbstractConnection
 		if not selector_attribute or not selector_attribute in layer.render_info.connections:
 			connection = layer.render_info.fallback_connection.instance()
 		else:
@@ -132,7 +135,7 @@ func _connect(object: Spatial, object_before: Spatial, selector_attribute: Strin
 		var p1: Vector3 = (object.transform * dock_parent.transform * dock.transform).origin
 		var p2: Vector3 = (object_before.transform * dock_parent.transform * dock_before.transform).origin
 		
-		connection.find_connection_points(p1, p2, 0.0033)
+		catenary_curve_cache = connection.find_connection_points(p1, p2, 0.0033, catenary_curve_cache)
 		connection_instances.append(connection)
 
 

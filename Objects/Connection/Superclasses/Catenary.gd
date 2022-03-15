@@ -8,6 +8,17 @@ export var line_step_size := 10
 var catenary_curve: Array
 
 
+class CatenaryCache:
+	var curve: Array
+	var prev_P1: Vector3
+	var prev_P2: Vector3
+	
+	func _init(c, P1, P2):
+		curve = c
+		prev_P1 = P1
+		prev_P2 = P2
+
+
 func apply_connection():
 	if catenary_curve:
 		$Node/Line.curve = Curve3D.new()
@@ -15,8 +26,30 @@ func apply_connection():
 			$Node/Line.curve.add_point(point)
 
 
-func find_connection_points(_P1: Vector3, _P2: Vector3, length_factor: float):
-	catenary_curve = _find_curve(_P1, _P2, length_factor)
+func find_connection_points(P1: Vector3, P2: Vector3, length_factor: float, cache_array: Array = []):
+	var cache_index = _get_cache(P1, P2, cache_array)
+	if cache_index > -1:
+		var cache = cache_array[cache_index] as CatenaryCache
+		var offset = P1 - cache.prev_P1
+		for i in range(cache.curve.size()):
+			cache.curve[i] = cache.curve[i] + offset
+		catenary_curve = cache.curve
+	else:
+		catenary_curve = _find_curve(P1, P2, length_factor)
+	
+	cache_array.append(CatenaryCache.new(catenary_curve.duplicate(true), P1, P2))
+	
+	return cache_array
+
+
+# Returns -1 if no according cache could be found, index of cache else
+func _get_cache(P1: Vector3, P2: Vector3, cache_array: Array):
+	for i in range(cache_array.size()):
+		var cache = cache_array[i] as CatenaryCache
+		if cache and (P2 - P1 == cache.prev_P2 - cache.prev_P1):
+			return i
+	
+	return -1
 
 
 # Catenary equations have to be performed numerically, follow these links for 
