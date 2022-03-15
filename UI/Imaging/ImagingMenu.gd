@@ -1,9 +1,6 @@
 extends HBoxContainer
 
 
-var dolly = preload("res://Util/Imaging/Dolly/Dolly.tscn")
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Record.connect("pressed", self, "_on_record")

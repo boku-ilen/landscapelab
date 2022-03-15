@@ -1,4 +1,5 @@
 extends Spatial
+tool
 
 #
 # This object is a child of a camera.
@@ -7,12 +8,27 @@ extends Spatial
 # the position the mouse is clicking at in the 3D world can be found. 
 #
 
+export var show_collider: bool setget set_show_collider, get_show_collider
 
 onready var camera: Camera = get_parent()
 onready var cursor: RayCast = get_node("InteractRay")
 onready var info := get_node("CursorInfoDialog")
 
 var RAY_LENGTH = Settings.get_setting("mouse-point", "camera-ray-length") # Distance that will be checked for collision with the ground
+
+
+func set_visible(is_visible):
+	set_show_collider(is_visible)
+	visible = is_visible
+
+
+func set_show_collider(is_visible: bool):
+	if $MouseCollisionIndicator/TransformReset/Particle != null:
+		$MouseCollisionIndicator/TransformReset/Particle.visible = is_visible
+
+
+func get_show_collider():
+	return $MouseCollisionIndicator/TransformReset/Particle.visible
 
 
 func _ready():
@@ -28,13 +44,14 @@ func _ready():
 
 
 func _process(delta):
-	# Direct the mouse position on the screen along the camera
-	# We use a local ray since it should be relative to the rotation of any parent node
-	# This is done here rather than in _input to prevent missing updates during framerate drops
-	var mouse_point_vector = camera.project_local_ray_normal(get_viewport().get_mouse_position())
-	
-	# Transform the forward vector to this projected vector (-z is forward)
-	transform.basis.z = -mouse_point_vector
+	if not Engine.editor_hint:
+		# Direct the mouse position on the screen along the camera
+		# We use a local ray since it should be relative to the rotation of any parent node
+		# This is done here rather than in _input to prevent missing updates during framerate drops
+		var mouse_point_vector = camera.project_local_ray_normal(get_viewport().get_mouse_position())
+		
+		# Transform the forward vector to this projected vector (-z is forward)
+		transform.basis.z = -mouse_point_vector
 
 
 # Whenever the mouse moves, align the rotation again

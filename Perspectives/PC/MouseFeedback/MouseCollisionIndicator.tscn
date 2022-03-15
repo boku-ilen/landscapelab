@@ -25,3 +25,4 @@ __meta__ = {
 }
 
 [node name="Particle" parent="TransformReset" instance=ExtResource( 2 )]
+skeleton = NodePath("")
