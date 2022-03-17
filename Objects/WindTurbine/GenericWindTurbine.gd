@@ -12,8 +12,9 @@ export(float) var wind_direction = 0 setget set_wind_direction, get_wind_directi
 export var mesh_hub_height := 135
 export var mesh_rotor_diameter := 100
 
-var height = mesh_hub_height
-var diameter = mesh_rotor_diameter
+# Minimum height and diameter for features where this attribute is 0
+export var min_hub_height := 50
+export var min_rotor_diameter := 35
 
 export(Vector3) var forward_for_rotation = Vector3(1, 0, 0)
 
@@ -66,8 +67,8 @@ func _ready():
 		var height_attribute_name = render_info.height_attribute_name
 		var diameter_attribute_name = render_info.diameter_attribute_name
 		
-		var height = float(feature.get_attribute(height_attribute_name))
-		var diameter = float(feature.get_attribute(diameter_attribute_name))
+		var height = max(float(feature.get_attribute(height_attribute_name)), min_hub_height)
+		var diameter = max(float(feature.get_attribute(diameter_attribute_name)), min_rotor_diameter)
 		
 		set_hub_height(height)
 		set_rotor_diameter(diameter)
