@@ -35,6 +35,7 @@ _data = {
 script = ExtResource( 3 )
 
 [node name="Focus" type="CSGMesh" parent="." groups=["SpatialShifting"]]
+visible = false
 layers = 64
 cast_shadow = 0
 mesh = SubResource( 1 )
