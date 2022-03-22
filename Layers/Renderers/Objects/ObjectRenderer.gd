@@ -43,16 +43,19 @@ func apply_new_feature(feature):
 	add_child(instance)
 
 
-func update_instance_position(feature, obj_instance):
+func update_instance_position(feature, obj_instance: Spatial):
 	var local_object_pos = feature.get_offset_vector3(-center[0], 0, -center[1])
 	
 	local_object_pos.y = layer.render_info.ground_height_layer.get_value_at_position(
 		center[0] + local_object_pos.x, center[1] - local_object_pos.z)
 	obj_instance.transform.origin = local_object_pos
+	
+	if feature.get_attribute("LL_rot"):
+		obj_instance.rotation_degrees.y = float(feature.get_attribute("LL_rot"))
 
 
 func _ready():
-	layer.geo_feature_layer.geo_feature_layer.connect("feature_added", self, "apply_new_feature")
+	layer.get_lowest_geo_feature_layer().connect("feature_added", self, "apply_new_feature")
 	if not layer is FeatureLayer or not layer.is_valid():
 		logger.error("ObjectRenderer was given an invalid layer!", LOG_MODULE)
 
