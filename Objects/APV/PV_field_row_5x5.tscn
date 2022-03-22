@@ -1,8 +1,11 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Resources/Meshes/APV/pv-module-texture-10x6_trans.material" type="Material" id=1]
-[ext_resource path="res://Resources/Meshes/APV/material.material" type="Material" id=2]
+[ext_resource path="res://Resources/Meshes/APV/Metal039_2K-JPG/Metal039_2K_Color.jpg" type="Texture" id=2]
 [ext_resource path="res://Resources/Meshes/APV/Steel_Brushed_Stainless.material" type="Material" id=3]
+[ext_resource path="res://Resources/Meshes/APV/Metal039_2K-JPG/Metal039_2K_NormalGL.jpg" type="Texture" id=4]
+[ext_resource path="res://Resources/Meshes/APV/Metal039_2K-JPG/Metal039_2K_Roughness.jpg" type="Texture" id=5]
+[ext_resource path="res://Resources/Meshes/APV/Metal039_2K-JPG/Metal039_2K_Metalness.jpg" type="Texture" id=6]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "instance_0"
@@ -19,6 +22,23 @@ surfaces/0 = {
 "vertex_count": 38
 }
 
+[sub_resource type="SpatialMaterial" id=21]
+resource_name = "Steel_Brushed_Stainless"
+params_cull_mode = 2
+albedo_texture = ExtResource( 2 )
+metallic = 0.5
+metallic_texture = ExtResource( 6 )
+roughness = 0.5
+roughness_texture = ExtResource( 5 )
+emission_enabled = true
+emission = Color( 0, 0, 0, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 4 )
+
 [sub_resource type="ArrayMesh" id=2]
 resource_name = "instance_0001"
 surfaces/0 = {
@@ -28,7 +48,7 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97539,
 "index_count": 6,
-"material": ExtResource( 2 ),
+"material": SubResource( 21 ),
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 4

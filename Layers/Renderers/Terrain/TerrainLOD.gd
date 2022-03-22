@@ -17,7 +17,7 @@ export(bool) var load_detail_textures = false
 export(bool) var load_fade_textures = false
 export(bool) var always_load_landuse = false
 
-const MAX_GROUPS = 3
+const MAX_GROUPS = 6
 
 var position_x
 var position_y

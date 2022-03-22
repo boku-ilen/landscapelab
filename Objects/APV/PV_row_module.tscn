@@ -1,0 +1,699 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Resources/Meshes/APV/__Steel_Brushed_Stainless_1.material" type="Material" id=1]
+[ext_resource path="res://Resources/Meshes/APV/Metal037_2K_Color.material" type="Material" id=2]
+[ext_resource path="res://Resources/Meshes/APV/pv-module-texture-2000px1.material" type="Material" id=3]
+
+[sub_resource type="ArrayMesh" id=1]
+resource_name = "PV_row_module_ID6"
+surfaces/0 = {
+"aabb": AABB( 0, 1.77636e-14, -2.16535, 76.378, 1.10237, 2.16536 ),
+"array_data": PoolByteArray( 130, 193, 152, 66, 51, 26, 141, 63, 0, 0, 0, 128, 0, 127, 127, 127, 80, 46, 111, 44, 255, 255, 255, 39, 51, 26, 141, 63, 41, 149, 10, 192, 0, 127, 127, 127, 208, 50, 235, 195, 255, 255, 255, 39, 51, 26, 141, 63, 0, 0, 0, 128, 0, 127, 127, 127, 80, 46, 235, 195, 130, 193, 152, 66, 51, 26, 141, 63, 41, 149, 10, 192, 0, 127, 127, 127, 208, 50, 111, 44, 255, 255, 255, 39, 51, 26, 141, 63, 41, 149, 10, 192, 129, 0, 0, 63, 208, 178, 111, 44, 255, 255, 255, 39, 51, 26, 141, 63, 41, 149, 10, 192, 129, 0, 0, 63, 208, 178, 111, 44, 255, 255, 255, 39, 1, 0, 72, 42, 0, 0, 0, 128, 129, 0, 0, 63, 80, 174, 20, 48, 255, 255, 255, 39, 1, 0, 72, 42, 0, 0, 0, 128, 129, 0, 0, 63, 80, 174, 20, 48, 255, 255, 255, 39, 51, 26, 141, 63, 0, 0, 0, 128, 129, 0, 0, 63, 80, 174, 111, 44, 0, 0, 0, 0, 1, 0, 72, 42, 41, 149, 10, 192, 129, 0, 0, 63, 208, 178, 20, 48, 130, 193, 152, 66, 51, 26, 141, 63, 0, 0, 0, 128, 0, 0, 127, 63, 50, 68, 111, 44, 255, 255, 255, 39, 1, 0, 72, 42, 0, 0, 0, 128, 0, 0, 127, 63, 81, 49, 20, 48, 130, 193, 152, 66, 1, 0, 160, 40, 0, 0, 0, 128, 0, 0, 127, 63, 50, 68, 20, 48, 255, 255, 255, 39, 51, 26, 141, 63, 0, 0, 0, 128, 0, 0, 127, 63, 81, 49, 111, 44, 130, 193, 152, 66, 1, 0, 160, 40, 41, 149, 10, 192, 127, 0, 127, 127, 208, 50, 20, 48, 130, 193, 152, 66, 51, 26, 141, 63, 0, 0, 0, 128, 127, 0, 127, 127, 80, 46, 111, 44, 130, 193, 152, 66, 1, 0, 160, 40, 0, 0, 0, 128, 127, 0, 127, 127, 80, 46, 20, 48, 130, 193, 152, 66, 51, 26, 141, 63, 41, 149, 10, 192, 127, 0, 127, 127, 208, 50, 111, 44, 0, 0, 0, 0, 1, 0, 72, 42, 41, 149, 10, 192, 127, 129, 129, 63, 208, 178, 20, 48, 0, 0, 0, 0, 1, 0, 72, 42, 41, 149, 10, 192, 127, 127, 129, 63, 208, 178, 20, 48, 130, 193, 152, 66, 51, 26, 141, 63, 41, 149, 10, 192, 127, 129, 129, 63, 62, 196, 111, 44, 130, 193, 152, 66, 51, 26, 141, 63, 41, 149, 10, 192, 127, 127, 129, 63, 62, 196, 111, 44, 130, 193, 152, 66, 1, 0, 160, 40, 41, 149, 10, 192, 127, 127, 129, 63, 62, 196, 20, 48, 255, 255, 255, 39, 51, 26, 141, 63, 41, 149, 10, 192, 127, 129, 129, 63, 208, 178, 111, 44, 130, 193, 152, 66, 1, 0, 160, 40, 41, 149, 10, 192, 0, 129, 127, 63, 50, 68, 188, 51, 130, 193, 152, 66, 1, 0, 160, 40, 41, 149, 10, 192, 0, 129, 127, 63, 50, 68, 188, 51, 255, 255, 255, 39, 1, 0, 72, 42, 0, 0, 0, 128, 0, 129, 127, 63, 81, 49, 20, 48, 255, 255, 255, 39, 1, 0, 72, 42, 0, 0, 0, 128, 0, 129, 127, 63, 81, 49, 20, 48, 0, 0, 0, 0, 1, 0, 72, 42, 41, 149, 10, 192, 0, 129, 127, 63, 81, 49, 188, 51, 130, 193, 152, 66, 1, 0, 160, 40, 0, 0, 0, 128, 0, 129, 127, 63, 50, 68, 20, 48 ),
+"array_index_data": PoolByteArray( 0, 0, 2, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4, 0, 8, 0, 6, 0, 7, 0, 9, 0, 5, 0, 10, 0, 12, 0, 11, 0, 11, 0, 13, 0, 10, 0, 14, 0, 16, 0, 15, 0, 15, 0, 17, 0, 14, 0, 19, 0, 22, 0, 21, 0, 20, 0, 23, 0, 18, 0, 25, 0, 28, 0, 27, 0, 26, 0, 29, 0, 24, 0 ),
+"blend_shape_data": [  ],
+"format": 2194711,
+"index_count": 36,
+"material": ExtResource( 2 ),
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 30
+}
+
+[sub_resource type="ArrayMesh" id=2]
+resource_name = "PV_row_module_ID22"
+surfaces/0 = {
+"aabb": AABB( 0, 0.787402, -39.0551, 70.2756, 1.00136e-05, 38.2677 ),
+"array_data": PoolByteArray( 26, 141, 140, 66, 39, 147, 73, 63, 113, 56, 28, 194, 0, 129, 0, 63, 0, 0, 52, 64, 0, 0, 0, 0, 39, 147, 73, 63, 39, 147, 73, 191, 0, 129, 0, 63, 0, 60, 0, 60, 0, 0, 0, 0, 39, 147, 73, 63, 113, 56, 28, 194, 0, 129, 0, 63, 0, 0, 0, 60, 26, 141, 140, 66, 39, 147, 73, 63, 39, 147, 73, 191, 0, 129, 0, 63, 0, 60, 52, 64 ),
+"array_index_data": PoolByteArray( 0, 0, 2, 0, 1, 0, 1, 0, 3, 0, 0, 0 ),
+"blend_shape_data": [  ],
+"format": 2194711,
+"index_count": 6,
+"material": ExtResource( 3 ),
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 4
+}
+
+[sub_resource type="ArrayMesh" id=3]
+resource_name = "PV_row_module_ID35"
+surfaces/0 = {
+"aabb": AABB( 0, 1.1811, -39.0551, 70.2756, 1.00136e-05, 38.2677 ),
+"array_data": PoolByteArray( 26, 141, 140, 66, 90, 46, 151, 63, 39, 147, 73, 191, 0, 127, 0, 63, 0, 60, 210, 61, 0, 0, 0, 0, 90, 46, 151, 63, 113, 56, 28, 194, 0, 127, 0, 63, 0, 0, 29, 65, 0, 0, 0, 0, 90, 46, 151, 63, 39, 147, 73, 191, 0, 127, 0, 63, 0, 60, 29, 65, 26, 141, 140, 66, 90, 46, 151, 63, 113, 56, 28, 194, 0, 127, 0, 63, 0, 0, 210, 61 ),
+"array_index_data": PoolByteArray( 0, 0, 2, 0, 1, 0, 1, 0, 3, 0, 0, 0 ),
+"blend_shape_data": [  ],
+"format": 2194711,
+"index_count": 6,
+"material": ExtResource( 3 ),
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 4
+}
+
+[sub_resource type="ArrayMesh" id=4]
+resource_name = "PV_row_module_ID43"
+surfaces/0 = {
+"aabb": AABB( 0, 0.787402, -39.0551, 70.2756, 0.3937, 38.2677 ),
+"array_data": PoolByteArray( 26, 141, 140, 66, 39, 147, 73, 63, 113, 56, 28, 194, 127, 0, 127, 127, 53, 57, 229, 59, 26, 141, 140, 66, 90, 46, 151, 63, 39, 147, 73, 191, 127, 0, 127, 127, 184, 34, 215, 59, 26, 141, 140, 66, 39, 147, 73, 63, 39, 147, 73, 191, 127, 0, 127, 127, 184, 34, 229, 59, 26, 141, 140, 66, 90, 46, 151, 63, 113, 56, 28, 194, 127, 0, 127, 127, 53, 57, 215, 59, 0, 0, 0, 0, 90, 46, 151, 63, 113, 56, 28, 194, 127, 127, 129, 63, 0, 0, 215, 59, 26, 141, 140, 66, 39, 147, 73, 63, 113, 56, 28, 194, 127, 127, 129, 63, 175, 188, 229, 59, 0, 0, 0, 0, 39, 147, 73, 63, 113, 56, 28, 194, 127, 127, 129, 63, 0, 0, 229, 59, 26, 141, 140, 66, 90, 46, 151, 63, 113, 56, 28, 194, 127, 127, 129, 63, 175, 188, 215, 59, 26, 141, 140, 66, 90, 46, 151, 63, 39, 147, 73, 191, 0, 0, 127, 63, 175, 60, 215, 59, 0, 0, 0, 0, 39, 147, 73, 63, 39, 147, 73, 191, 0, 0, 127, 63, 0, 0, 229, 59, 26, 141, 140, 66, 39, 147, 73, 63, 39, 147, 73, 191, 0, 0, 127, 63, 175, 60, 229, 59, 0, 0, 0, 0, 90, 46, 151, 63, 39, 147, 73, 191, 0, 0, 127, 63, 0, 0, 215, 59, 0, 0, 0, 0, 90, 46, 151, 63, 113, 56, 28, 194, 129, 0, 0, 63, 53, 185, 215, 59, 0, 0, 0, 0, 39, 147, 73, 63, 39, 147, 73, 191, 129, 0, 0, 63, 184, 162, 229, 59, 0, 0, 0, 0, 90, 46, 151, 63, 39, 147, 73, 191, 129, 0, 0, 63, 184, 162, 215, 59, 0, 0, 0, 0, 39, 147, 73, 63, 113, 56, 28, 194, 129, 0, 0, 63, 53, 185, 229, 59 ),
+"array_index_data": PoolByteArray( 0, 0, 2, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4, 0, 6, 0, 5, 0, 5, 0, 7, 0, 4, 0, 8, 0, 10, 0, 9, 0, 9, 0, 11, 0, 8, 0, 12, 0, 14, 0, 13, 0, 13, 0, 15, 0, 12, 0 ),
+"blend_shape_data": [  ],
+"format": 2194711,
+"index_count": 24,
+"material": ExtResource( 1 ),
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 16
+}
+
+[sub_resource type="ArrayMesh" id=5]
+resource_name = "PV_row_module_ID60"
+surfaces/0 = {
+"aabb": AABB( 1.9685, 0, -5.90551, 3.93701, 23.6221, 5.90551 ),
+"array_data": PoolByteArray( 240, 247, 251, 63, 245, 249, 188, 65, 244, 249, 188, 192, 127, 127, 129, 63, 0, 0, 20, 48, 240, 247, 251, 63, 245, 249, 188, 65, 244, 249, 188, 192, 127, 127, 129, 63, 0, 0, 20, 48, 244, 249, 188, 64, 0, 0, 0, 0, 244, 249, 188, 192, 127, 127, 129, 63, 165, 178, 126, 61, 244, 249, 188, 64, 0, 0, 0, 0, 244, 249, 188, 192, 127, 127, 129, 63, 165, 178, 126, 61, 240, 247, 251, 63, 0, 0, 0, 0, 244, 249, 188, 192, 127, 127, 129, 63, 0, 0, 126, 61, 244, 249, 188, 64, 245, 249, 188, 65, 244, 249, 188, 192, 127, 127, 129, 63, 165, 178, 20, 48, 244, 249, 188, 64, 0, 0, 0, 0, 244, 249, 188, 192, 0, 129, 127, 63, 165, 50, 189, 62, 240, 247, 251, 63, 0, 0, 0, 0, 0, 0, 0, 128, 0, 129, 127, 63, 0, 0, 126, 61, 240, 247, 251, 63, 0, 0, 0, 0, 244, 249, 188, 192, 0, 129, 127, 63, 0, 0, 189, 62, 244, 249, 188, 64, 0, 0, 0, 0, 0, 0, 0, 128, 0, 129, 127, 63, 165, 50, 126, 61, 240, 247, 251, 63, 245, 249, 188, 65, 244, 249, 188, 192, 129, 0, 0, 63, 252, 180, 20, 48, 240, 247, 251, 63, 0, 0, 0, 0, 0, 0, 0, 128, 129, 0, 0, 63, 0, 0, 126, 61, 240, 247, 251, 63, 245, 249, 188, 65, 0, 0, 0, 128, 129, 0, 0, 63, 0, 0, 20, 48, 240, 247, 251, 63, 0, 0, 0, 0, 244, 249, 188, 192, 129, 0, 0, 63, 252, 180, 126, 61, 240, 247, 251, 63, 245, 249, 188, 65, 0, 0, 0, 128, 0, 127, 126, 63, 0, 0, 20, 48, 196, 96, 48, 64, 245, 249, 188, 65, 39, 147, 73, 191, 0, 127, 126, 63, 81, 41, 128, 45, 240, 247, 251, 63, 245, 249, 188, 65, 244, 249, 188, 192, 0, 127, 126, 63, 0, 0, 227, 177, 244, 249, 188, 64, 245, 249, 188, 65, 0, 0, 0, 128, 0, 127, 127, 63, 165, 50, 20, 48, 142, 199, 163, 64, 245, 249, 188, 65, 39, 147, 73, 191, 0, 127, 126, 63, 81, 49, 128, 45, 142, 199, 163, 64, 245, 249, 188, 65, 142, 199, 163, 192, 0, 127, 127, 63, 81, 49, 143, 176, 196, 96, 48, 64, 245, 249, 188, 65, 142, 199, 163, 192, 0, 127, 126, 63, 81, 41, 143, 176, 244, 249, 188, 64, 245, 249, 188, 65, 244, 249, 188, 192, 0, 127, 127, 63, 165, 50, 227, 177, 244, 249, 188, 64, 0, 0, 0, 0, 244, 249, 188, 192, 127, 0, 127, 127, 39, 56, 126, 61, 244, 249, 188, 64, 245, 249, 188, 65, 0, 0, 0, 128, 127, 0, 127, 127, 165, 50, 20, 48, 244, 249, 188, 64, 0, 0, 0, 0, 0, 0, 0, 128, 127, 0, 127, 127, 165, 50, 126, 61, 244, 249, 188, 64, 245, 249, 188, 65, 244, 249, 188, 192, 127, 0, 127, 127, 39, 56, 20, 48, 244, 249, 188, 64, 245, 249, 188, 65, 0, 0, 0, 128, 0, 0, 127, 63, 165, 50, 20, 48, 244, 249, 188, 64, 245, 249, 188, 65, 0, 0, 0, 128, 0, 0, 127, 63, 165, 50, 20, 48, 240, 247, 251, 63, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 127, 63, 0, 0, 126, 61, 240, 247, 251, 63, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 127, 63, 0, 0, 126, 61, 244, 249, 188, 64, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 127, 63, 165, 50, 126, 61, 240, 247, 251, 63, 245, 249, 188, 65, 0, 0, 0, 128, 0, 0, 127, 63, 0, 0, 20, 48 ),
+"array_index_data": PoolByteArray( 1, 0, 4, 0, 3, 0, 2, 0, 5, 0, 0, 0, 6, 0, 8, 0, 7, 0, 7, 0, 9, 0, 6, 0, 10, 0, 12, 0, 11, 0, 11, 0, 13, 0, 10, 0, 14, 0, 16, 0, 15, 0, 15, 0, 17, 0, 14, 0, 15, 0, 18, 0, 17, 0, 18, 0, 19, 0, 17, 0, 16, 0, 21, 0, 20, 0, 20, 0, 15, 0, 16, 0, 21, 0, 19, 0, 20, 0, 21, 0, 17, 0, 19, 0, 22, 0, 24, 0, 23, 0, 23, 0, 25, 0, 22, 0, 27, 0, 30, 0, 29, 0, 28, 0, 31, 0, 26, 0 ),
+"blend_shape_data": [  ],
+"format": 2194711,
+"index_count": 54,
+"material": ExtResource( 2 ),
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 32
+}
+
+[sub_resource type="ArrayMesh" id=6]
+resource_name = "PV_row_module_ID68"
+surfaces/0 = {
+"aabb": AABB( 2.75591, 23.622, -5.11811, 2.36221, 79.8426, 4.33072 ),
+"array_data": PoolByteArray( 142, 199, 163, 64, 224, 237, 206, 66, 39, 147, 73, 191, 0, 127, 127, 63, 81, 49, 84, 61, 196, 96, 48, 64, 224, 237, 206, 66, 142, 199, 163, 192, 0, 127, 127, 63, 81, 41, 106, 60, 196, 96, 48, 64, 224, 237, 206, 66, 39, 147, 73, 191, 0, 127, 127, 63, 81, 41, 84, 61, 142, 199, 163, 64, 224, 237, 206, 66, 142, 199, 163, 192, 0, 127, 127, 63, 81, 49, 106, 60, 196, 96, 48, 64, 224, 237, 206, 66, 142, 199, 163, 192, 127, 127, 127, 63, 81, 41, 17, 68, 142, 199, 163, 64, 245, 249, 188, 65, 142, 199, 163, 192, 127, 127, 127, 63, 81, 49, 143, 176, 196, 96, 48, 64, 245, 249, 188, 65, 142, 199, 163, 192, 127, 127, 127, 63, 81, 41, 143, 176, 142, 199, 163, 64, 224, 237, 206, 66, 142, 199, 163, 192, 127, 127, 127, 63, 81, 49, 17, 68, 196, 96, 48, 64, 224, 237, 206, 66, 142, 199, 163, 192, 129, 0, 0, 127, 64, 68, 143, 176, 196, 96, 48, 64, 245, 249, 188, 65, 39, 147, 73, 191, 129, 0, 0, 127, 81, 41, 128, 45, 196, 96, 48, 64, 224, 237, 206, 66, 39, 147, 73, 191, 129, 0, 0, 127, 64, 68, 128, 45, 196, 96, 48, 64, 245, 249, 188, 65, 142, 199, 163, 192, 129, 0, 0, 127, 81, 41, 143, 176, 142, 199, 163, 64, 224, 237, 206, 66, 39, 147, 73, 191, 0, 0, 127, 63, 81, 49, 21, 196, 196, 96, 48, 64, 245, 249, 188, 65, 39, 147, 73, 191, 0, 0, 127, 63, 81, 41, 20, 48, 142, 199, 163, 64, 245, 249, 188, 65, 39, 147, 73, 191, 0, 0, 127, 63, 81, 49, 20, 48, 196, 96, 48, 64, 224, 237, 206, 66, 39, 147, 73, 191, 0, 0, 127, 63, 81, 41, 21, 196, 142, 199, 163, 64, 245, 249, 188, 65, 142, 199, 163, 192, 127, 0, 127, 127, 80, 54, 20, 48, 142, 199, 163, 64, 224, 237, 206, 66, 39, 147, 73, 191, 127, 0, 127, 127, 81, 49, 21, 196, 142, 199, 163, 64, 245, 249, 188, 65, 39, 147, 73, 191, 127, 0, 127, 127, 81, 49, 20, 48, 142, 199, 163, 64, 224, 237, 206, 66, 142, 199, 163, 192, 127, 0, 127, 127, 80, 54, 21, 196 ),
+"array_index_data": PoolByteArray( 0, 0, 2, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4, 0, 6, 0, 5, 0, 5, 0, 7, 0, 4, 0, 8, 0, 10, 0, 9, 0, 9, 0, 11, 0, 8, 0, 12, 0, 14, 0, 13, 0, 13, 0, 15, 0, 12, 0, 16, 0, 18, 0, 17, 0, 17, 0, 19, 0, 16, 0 ),
+"blend_shape_data": [  ],
+"format": 2194711,
+"index_count": 30,
+"material": ExtResource( 2 ),
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 20
+}
+
+[node name="PV_row_module" type="Spatial"]
+
+[node name="SketchUp" type="Spatial" parent="."]
+transform = Transform( 0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0 )
+
+[node name="RowUnit" type="Spatial" parent="SketchUp"]
+
+[node name="instance_0" type="MeshInstance" parent="SketchUp/RowUnit"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 62.9921, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_1" type="MeshInstance" parent="SketchUp/RowUnit"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 102.362, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_2" type="MeshInstance" parent="SketchUp/RowUnit"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_2001" type="MeshInstance" parent="SketchUp/RowUnit"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_2002" type="MeshInstance" parent="SketchUp/RowUnit"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_3" type="MeshInstance" parent="SketchUp/RowUnit"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_3001" type="MeshInstance" parent="SketchUp/RowUnit"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_3002" type="MeshInstance" parent="SketchUp/RowUnit"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_4" type="MeshInstance" parent="SketchUp/RowUnit"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 23.622, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Row_unit" type="MeshInstance" parent="SketchUp/RowUnit"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit001" type="MeshInstance" parent="SketchUp/RowUnit"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="RowUnit001" type="Spatial" parent="SketchUp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 78.7402, 0, 0 )
+
+[node name="instance_5" type="MeshInstance" parent="SketchUp/RowUnit001"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 62.9921, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_6" type="MeshInstance" parent="SketchUp/RowUnit001"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 102.362, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_7" type="MeshInstance" parent="SketchUp/RowUnit001"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_7001" type="MeshInstance" parent="SketchUp/RowUnit001"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_7002" type="MeshInstance" parent="SketchUp/RowUnit001"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_8" type="MeshInstance" parent="SketchUp/RowUnit001"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_8001" type="MeshInstance" parent="SketchUp/RowUnit001"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_8002" type="MeshInstance" parent="SketchUp/RowUnit001"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_9" type="MeshInstance" parent="SketchUp/RowUnit001"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 23.622, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Row_unit002" type="MeshInstance" parent="SketchUp/RowUnit001"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit003" type="MeshInstance" parent="SketchUp/RowUnit001"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="RowUnit002" type="Spatial" parent="SketchUp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 157.48, 0, 0 )
+
+[node name="instance_5001" type="MeshInstance" parent="SketchUp/RowUnit002"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 62.9921, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_6001" type="MeshInstance" parent="SketchUp/RowUnit002"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 102.362, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_7003" type="MeshInstance" parent="SketchUp/RowUnit002"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_7004" type="MeshInstance" parent="SketchUp/RowUnit002"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_7005" type="MeshInstance" parent="SketchUp/RowUnit002"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_8003" type="MeshInstance" parent="SketchUp/RowUnit002"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_8004" type="MeshInstance" parent="SketchUp/RowUnit002"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_8005" type="MeshInstance" parent="SketchUp/RowUnit002"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_9001" type="MeshInstance" parent="SketchUp/RowUnit002"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 23.622, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Row_unit004" type="MeshInstance" parent="SketchUp/RowUnit002"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit005" type="MeshInstance" parent="SketchUp/RowUnit002"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="RowUnit003" type="Spatial" parent="SketchUp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 236.22, 0, 0 )
+
+[node name="instance_5002" type="MeshInstance" parent="SketchUp/RowUnit003"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 62.9921, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_6002" type="MeshInstance" parent="SketchUp/RowUnit003"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 102.362, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_7006" type="MeshInstance" parent="SketchUp/RowUnit003"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_7007" type="MeshInstance" parent="SketchUp/RowUnit003"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_7008" type="MeshInstance" parent="SketchUp/RowUnit003"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_8006" type="MeshInstance" parent="SketchUp/RowUnit003"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_8007" type="MeshInstance" parent="SketchUp/RowUnit003"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_8008" type="MeshInstance" parent="SketchUp/RowUnit003"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_9002" type="MeshInstance" parent="SketchUp/RowUnit003"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 23.622, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Row_unit006" type="MeshInstance" parent="SketchUp/RowUnit003"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit007" type="MeshInstance" parent="SketchUp/RowUnit003"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="RowUnit004" type="Spatial" parent="SketchUp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 314.961, 0, 0 )
+
+[node name="instance_5003" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 62.9921, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_6003" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 102.362, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_7009" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_7010" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_7011" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_8009" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_8010" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_8011" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_9003" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 23.622, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Row_unit008" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit009" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="Row_unit010" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 76.7716, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit011" type="MeshInstance" parent="SketchUp/RowUnit004"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 76.7716, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="RowUnit005" type="Spatial" parent="SketchUp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -387.795 )
+
+[node name="instance_5004" type="MeshInstance" parent="SketchUp/RowUnit005"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 62.9921, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_6004" type="MeshInstance" parent="SketchUp/RowUnit005"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 102.362, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_7012" type="MeshInstance" parent="SketchUp/RowUnit005"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_7013" type="MeshInstance" parent="SketchUp/RowUnit005"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_7014" type="MeshInstance" parent="SketchUp/RowUnit005"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_8012" type="MeshInstance" parent="SketchUp/RowUnit005"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_8013" type="MeshInstance" parent="SketchUp/RowUnit005"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_8014" type="MeshInstance" parent="SketchUp/RowUnit005"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_9004" type="MeshInstance" parent="SketchUp/RowUnit005"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 23.622, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Row_unit010" type="MeshInstance" parent="SketchUp/RowUnit005"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit011" type="MeshInstance" parent="SketchUp/RowUnit005"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="RowUnit006" type="Spatial" parent="SketchUp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 78.7402, 0, -387.795 )
+
+[node name="instance_5005" type="MeshInstance" parent="SketchUp/RowUnit006"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 62.9921, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_6005" type="MeshInstance" parent="SketchUp/RowUnit006"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 102.362, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_7015" type="MeshInstance" parent="SketchUp/RowUnit006"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_7016" type="MeshInstance" parent="SketchUp/RowUnit006"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_7017" type="MeshInstance" parent="SketchUp/RowUnit006"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_8015" type="MeshInstance" parent="SketchUp/RowUnit006"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_8016" type="MeshInstance" parent="SketchUp/RowUnit006"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_8017" type="MeshInstance" parent="SketchUp/RowUnit006"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_9005" type="MeshInstance" parent="SketchUp/RowUnit006"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 23.622, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Row_unit012" type="MeshInstance" parent="SketchUp/RowUnit006"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit013" type="MeshInstance" parent="SketchUp/RowUnit006"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="RowUnit007" type="Spatial" parent="SketchUp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 157.48, 0, -387.795 )
+
+[node name="instance_5006" type="MeshInstance" parent="SketchUp/RowUnit007"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 62.9921, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_6006" type="MeshInstance" parent="SketchUp/RowUnit007"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 102.362, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_7018" type="MeshInstance" parent="SketchUp/RowUnit007"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_7019" type="MeshInstance" parent="SketchUp/RowUnit007"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_7020" type="MeshInstance" parent="SketchUp/RowUnit007"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_8018" type="MeshInstance" parent="SketchUp/RowUnit007"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_8019" type="MeshInstance" parent="SketchUp/RowUnit007"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_8020" type="MeshInstance" parent="SketchUp/RowUnit007"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_9006" type="MeshInstance" parent="SketchUp/RowUnit007"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 23.622, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Row_unit014" type="MeshInstance" parent="SketchUp/RowUnit007"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit015" type="MeshInstance" parent="SketchUp/RowUnit007"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="RowUnit008" type="Spatial" parent="SketchUp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 314.961, 0, -387.795 )
+
+[node name="instance_5007" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 62.9921, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_6007" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 102.362, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_7021" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_7022" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_7023" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_8021" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_8022" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_8023" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_9007" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 23.622, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Row_unit016" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.96851, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit017" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.96851, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="Row_unit018" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 76.7716, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit019" type="MeshInstance" parent="SketchUp/RowUnit008"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 76.7716, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="RowUnit009" type="Spatial" parent="SketchUp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 236.22, 0, -387.795 )
+
+[node name="instance_5008" type="MeshInstance" parent="SketchUp/RowUnit009"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 62.9921, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_6008" type="MeshInstance" parent="SketchUp/RowUnit009"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 102.362, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="instance_7024" type="MeshInstance" parent="SketchUp/RowUnit009"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_7025" type="MeshInstance" parent="SketchUp/RowUnit009"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_7026" type="MeshInstance" parent="SketchUp/RowUnit009"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 103.15, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_8024" type="MeshInstance" parent="SketchUp/RowUnit009"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="instance_8025" type="MeshInstance" parent="SketchUp/RowUnit009"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="instance_8026" type="MeshInstance" parent="SketchUp/RowUnit009"]
+transform = Transform( 1, 0, 0, 0, -1.19209e-07, 1, 0, -1, -1.19209e-07, 6.20079, 63.7795, -1.9685 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="instance_9008" type="MeshInstance" parent="SketchUp/RowUnit009"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.14961, 23.622, -1.87008 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Row_unit018" type="MeshInstance" parent="SketchUp/RowUnit009"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="Row_unit019" type="MeshInstance" parent="SketchUp/RowUnit009"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9685, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null

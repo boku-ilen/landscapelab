@@ -115,7 +115,7 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 		0
 	)
 	
-	update_textures_with_images(dhm.get_image_texture(), splat.get_image_texture(), splat.get_most_common(12))
+	update_textures_with_images(dhm.get_image_texture(), splat.get_image_texture(), splat.get_most_common(28))
 
 
 # Directly update the vegetation data with given ImageTextures. Can be used e.g. for testing with

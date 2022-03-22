@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Resources/Meshes/APV/PV_field_tracker_5x5.glb" type="PackedScene" id=1]
+
+[node name="PV_field_tracker_5x5" instance=ExtResource( 1 )]

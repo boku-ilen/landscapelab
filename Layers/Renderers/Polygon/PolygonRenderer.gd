@@ -14,7 +14,7 @@ var building_instances = []
 
 # The load radius corresponds to the vegetation extent in order to have a clean LOD border where both plants and buildings end.
 var load_radius = Vegetation.get_max_extent()
-var max_features = 1000
+var max_features = 2000
 
 
 # Called when the node enters the scene tree for the first time.
