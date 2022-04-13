@@ -17,12 +17,18 @@ var MAX_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "max-distance-
 var START_DISTANCE_TO_GROUND = Settings.get_setting("third-person", "start_height")
 var MOUSE_ZOOM_SPEED = Settings.get_setting("third-person", "mouse-zoom-speed")
 
+var MOUSE_ACCELERATION = Settings.get_setting("player", "smooth-mouse-acceleration")
+var MOUSE_DRAG = Settings.get_setting("player", "smooth-mouse-drag")
+
 var directions = {
 	"up": false,
 	"down": false,
 	"right": false,
 	"left": false
 }
+
+var is_smooth_camera := false
+var current_mouse_velocity := Vector2.ZERO
 
 onready var action_handler = $ActionHandler
 onready var camera = $Head/Camera
@@ -47,6 +53,16 @@ func get_look_direction():
 
 func _physics_process(delta):
 	fly(delta)
+	
+	if is_smooth_camera:
+		$Head.rotate_y(current_mouse_velocity.y)
+		
+		# Limit the view to between straight down and straight up
+		if current_mouse_velocity.x + $Head/Camera.rotation_degrees.x < 90 \
+				and current_mouse_velocity.x + $Head/Camera.rotation_degrees.x > -90:
+			$Head/Camera.rotate_x(current_mouse_velocity.x)
+		
+		current_mouse_velocity *= MOUSE_DRAG
 
 
 func _handle_general_input(event):
@@ -55,14 +71,18 @@ func _handle_general_input(event):
 	else:
 		$ActionHandler.action(event)
 		if event is InputEventMouseMotion and rotating:
-			$Head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
-			
-			var change = -event.relative.y * mouse_sensitivity
-			
-			# Limit the view to between straight down and straight up
-			if change + $Head/Camera.rotation_degrees.x < 90 \
-					and change + $Head/Camera.rotation_degrees.x > -90:
-				$Head/Camera.rotate_x(deg2rad(change))
+			if is_smooth_camera:
+				current_mouse_velocity.y += -event.relative.x * MOUSE_ACCELERATION
+				current_mouse_velocity.x += -event.relative.y * MOUSE_ACCELERATION
+			else:
+				$Head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
+				
+				var change = -event.relative.y * mouse_sensitivity
+				
+				# Limit the view to between straight down and straight up
+				if change + $Head/Camera.rotation_degrees.x < 90 \
+						and change + $Head/Camera.rotation_degrees.x > -90:
+					$Head/Camera.rotate_x(deg2rad(change))
 			
 			get_tree().set_input_as_handled()
 			
