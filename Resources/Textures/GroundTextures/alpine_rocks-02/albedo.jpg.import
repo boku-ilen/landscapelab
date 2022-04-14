@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-5a2393eb99c1f023122b0b4784192c48.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_rocks-02/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-5a2393eb99c1f023122b0b4784192c48.image" ]
+
+[params]
+

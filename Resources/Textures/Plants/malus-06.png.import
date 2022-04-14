@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/malus-06.png-b7db96d1afb17d6e336e2e56c2829884.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/malus-06.png"
+dest_files=[ "res://.import/malus-06.png-b7db96d1afb17d6e336e2e56c2829884.image" ]
+
+[params]
+

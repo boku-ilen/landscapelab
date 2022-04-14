@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-b9654d7d91adb14dcc1f91fdba5c6e79.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/170-beans/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-b9654d7d91adb14dcc1f91fdba5c6e79.image" ]
+
+[params]
+

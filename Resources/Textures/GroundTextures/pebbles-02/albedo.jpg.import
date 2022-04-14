@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-bac8252f2015e5038fb8f96f096dcc90.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/pebbles-02/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-bac8252f2015e5038fb8f96f096dcc90.image" ]
+
+[params]
+

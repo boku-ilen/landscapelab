@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-a00578e0e92fce7b1b4220cd20c172f6.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/159-triticale/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-a00578e0e92fce7b1b4220cd20c172f6.image" ]
+
+[params]
+

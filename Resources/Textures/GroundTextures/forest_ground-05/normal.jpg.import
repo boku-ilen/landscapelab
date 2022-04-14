@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-e2419991b5b01b3a01a7da8a910f8a32.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/forest_ground-05/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-e2419991b5b01b3a01a7da8a910f8a32.image" ]
+
+[params]
+

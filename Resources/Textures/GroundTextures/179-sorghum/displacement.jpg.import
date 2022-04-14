@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-d0d06ef93c0e8a5a6d75711b8c66acb1.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/179-sorghum/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-d0d06ef93c0e8a5a6d75711b8c66acb1.image" ]
+
+[params]
+

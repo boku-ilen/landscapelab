@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/bromus-03.png-c8c4eb37ae7f7849c8c94d705000ba3f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/bromus-03.png"
+dest_files=[ "res://.import/bromus-03.png-c8c4eb37ae7f7849c8c94d705000ba3f.image" ]
+
+[params]
+

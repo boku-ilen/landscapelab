@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-fcc10df69167d845f94883763ad74e9e.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/170-beans/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-fcc10df69167d845f94883763ad74e9e.image" ]
+
+[params]
+

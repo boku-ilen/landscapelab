@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-37644cb70d1d22cb6544e899cf7705a9.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_rocks-02/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-37644cb70d1d22cb6544e899cf7705a9.image" ]
+
+[params]
+

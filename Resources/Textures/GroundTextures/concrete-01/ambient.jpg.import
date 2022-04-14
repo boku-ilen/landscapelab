@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-8bae4757f4316344c4174276faf80fd1.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/concrete-01/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-8bae4757f4316344c4174276faf80fd1.image" ]
+
+[params]
+

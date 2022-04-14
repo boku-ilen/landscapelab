@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-c13b67220b5da3eba2f8845442537b6d.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/bark_mulch-01/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-c13b67220b5da3eba2f8845442537b6d.image" ]
+
+[params]
+

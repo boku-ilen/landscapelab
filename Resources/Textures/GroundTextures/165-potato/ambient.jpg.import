@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-f1a3c8ee0d0ee9aa71a1355f97df1981.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/165-potato/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-f1a3c8ee0d0ee9aa71a1355f97df1981.image" ]
+
+[params]
+

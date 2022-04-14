@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambientalbedo.jpg-9635c4b8e906eba2fd500be00999a1b0.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/fallow-01/ambientalbedo.jpg"
+dest_files=[ "res://.import/ambientalbedo.jpg-9635c4b8e906eba2fd500be00999a1b0.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-cc274ace08fbbad2646c81ea75e57d5d.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/water-01/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-cc274ace08fbbad2646c81ea75e57d5d.image" ]
+
+[params]
+

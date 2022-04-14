@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-1e9ccef3c4751c1ac1b3d3e045d5c5ef.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/concrete-01/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-1e9ccef3c4751c1ac1b3d3e045d5c5ef.image" ]
+
+[params]
+

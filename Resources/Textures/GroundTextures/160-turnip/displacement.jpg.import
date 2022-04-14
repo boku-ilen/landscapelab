@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-e702c71d8313fc4235b7d098da889128.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/160-turnip/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-e702c71d8313fc4235b7d098da889128.image" ]
+
+[params]
+

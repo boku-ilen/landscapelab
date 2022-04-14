@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-fcf766cd6ab6f162b5da23a03ccb15ff.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/156-clover/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-fcf766cd6ab6f162b5da23a03ccb15ff.image" ]
+
+[params]
+

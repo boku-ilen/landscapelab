@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/acer-x24.png-1ed79f5c9a6856868b3bbc2a511e92a7.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/acer-x24.png"
+dest_files=[ "res://.import/acer-x24.png-1ed79f5c9a6856868b3bbc2a511e92a7.image" ]
+
+[params]
+

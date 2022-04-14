@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-c8615b9421b0a6bdc42985327a63e85b.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_grassland-02/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-c8615b9421b0a6bdc42985327a63e85b.image" ]
+
+[params]
+

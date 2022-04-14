@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-596fe64a1549ba3ddb02691bbb465489.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/snow-01/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-596fe64a1549ba3ddb02691bbb465489.image" ]
+
+[params]
+

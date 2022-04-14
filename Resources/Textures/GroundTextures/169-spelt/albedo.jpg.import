@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-cf0c6f464f3741ca0a40395f78e8d19d.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/169-spelt/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-cf0c6f464f3741ca0a40395f78e8d19d.image" ]
+
+[params]
+

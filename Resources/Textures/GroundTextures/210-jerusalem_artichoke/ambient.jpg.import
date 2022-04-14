@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-2ea924179acce57c5a38fc2d70176252.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/210-jerusalem_artichoke/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-2ea924179acce57c5a38fc2d70176252.image" ]
+
+[params]
+

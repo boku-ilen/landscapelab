@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-b8a2c7fc9e1443cb3e49a9a76d34e40f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/185-hemp/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-b8a2c7fc9e1443cb3e49a9a76d34e40f.image" ]
+
+[params]
+

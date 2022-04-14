@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/fieldflower-01.png-8e55c4e2072a5fc219331069450d0efc.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/fieldflower-01.png"
+dest_files=[ "res://.import/fieldflower-01.png-8e55c4e2072a5fc219331069450d0efc.image" ]
+
+[params]
+

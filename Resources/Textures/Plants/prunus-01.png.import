@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/prunus-01.png-6dfc98f3ab2d3f3e86a5fc08bb320aa5.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/prunus-01.png"
+dest_files=[ "res://.import/prunus-01.png-6dfc98f3ab2d3f3e86a5fc08bb320aa5.image" ]
+
+[params]
+

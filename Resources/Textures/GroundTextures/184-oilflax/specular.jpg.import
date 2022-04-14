@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-20135388f707ec87806f130070b98cf7.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/184-oilflax/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-20135388f707ec87806f130070b98cf7.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-dd508e265eda57bd890693f82f9ed83c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/soil-06/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-dd508e265eda57bd890693f82f9ed83c.image" ]
+
+[params]
+

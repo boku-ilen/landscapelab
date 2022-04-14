@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-b56e7b17598d659401ac6daf52161ccc.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/160-turnip/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-b56e7b17598d659401ac6daf52161ccc.image" ]
+
+[params]
+

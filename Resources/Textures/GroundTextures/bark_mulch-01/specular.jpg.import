@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-7915ba05cf12f48fe7cef7562cc73724.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/bark_mulch-01/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-7915ba05cf12f48fe7cef7562cc73724.image" ]
+
+[params]
+

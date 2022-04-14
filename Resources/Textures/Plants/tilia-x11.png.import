@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/tilia-x11.png-6b82c277df92d0e999859227ae0bd50f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/tilia-x11.png"
+dest_files=[ "res://.import/tilia-x11.png-6b82c277df92d0e999859227ae0bd50f.image" ]
+
+[params]
+

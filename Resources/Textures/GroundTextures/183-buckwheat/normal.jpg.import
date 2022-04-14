@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-e1aef0530443b907d1838a3b337c00c2.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/183-buckwheat/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-e1aef0530443b907d1838a3b337c00c2.image" ]
+
+[params]
+

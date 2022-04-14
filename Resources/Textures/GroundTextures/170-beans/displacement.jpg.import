@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-c73bdda74e80d12ab7a329426f4eef5e.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/170-beans/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-c73bdda74e80d12ab7a329426f4eef5e.image" ]
+
+[params]
+

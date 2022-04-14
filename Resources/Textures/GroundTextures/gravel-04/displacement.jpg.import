@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-c143cbb567349e2e58c740120c2d4b3f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/gravel-04/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-c143cbb567349e2e58c740120c2d4b3f.image" ]
+
+[params]
+

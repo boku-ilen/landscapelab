@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-ffb0264279d46f5ce8af2bf5271901da.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/164-oat/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-ffb0264279d46f5ce8af2bf5271901da.image" ]
+
+[params]
+

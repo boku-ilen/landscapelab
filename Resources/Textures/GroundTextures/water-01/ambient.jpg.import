@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-ff387d6df47e24e390c55d1c6b3444fc.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/water-01/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-ff387d6df47e24e390c55d1c6b3444fc.image" ]
+
+[params]
+

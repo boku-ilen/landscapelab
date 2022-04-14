@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-a09275e6024dce5cf22b40f6b784653f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/asphalt-01/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-a09275e6024dce5cf22b40f6b784653f.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/solanum-tuberosum-01.png-cc82b8e07ff049da7a8b2dec132ada5f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/solanum-tuberosum-01.png"
+dest_files=[ "res://.import/solanum-tuberosum-01.png-cc82b8e07ff049da7a8b2dec132ada5f.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-2418e794a9c989f3682d726f7bcd7f4d.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/152-corn/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-2418e794a9c989f3682d726f7bcd7f4d.image" ]
+
+[params]
+

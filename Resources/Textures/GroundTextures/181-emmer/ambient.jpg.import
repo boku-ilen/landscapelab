@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-fd51bcf1e95273dc5381cf408a0bb168.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/181-emmer/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-fd51bcf1e95273dc5381cf408a0bb168.image" ]
+
+[params]
+

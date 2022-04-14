@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/syringa-x01.png-94f5a6ca4362777d254c1cc146299036.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/syringa-x01.png"
+dest_files=[ "res://.import/syringa-x01.png-94f5a6ca4362777d254c1cc146299036.image" ]
+
+[params]
+

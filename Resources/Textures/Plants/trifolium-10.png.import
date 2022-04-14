@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/trifolium-10.png-423f2e45f1201647304b8f6622b883d0.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/trifolium-10.png"
+dest_files=[ "res://.import/trifolium-10.png-423f2e45f1201647304b8f6622b883d0.image" ]
+
+[params]
+

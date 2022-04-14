@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-c2a2d95bffe6373479587f5bed781187.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/gravel-02/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-c2a2d95bffe6373479587f5bed781187.image" ]
+
+[params]
+

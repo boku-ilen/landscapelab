@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/gr-shrub-01.png-abb7911b318b2ccb70156f6c9f250656.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/gr-shrub-01.png"
+dest_files=[ "res://.import/gr-shrub-01.png-abb7911b318b2ccb70156f6c9f250656.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-0c5b51f505cc5ad3b7585533d6ae9239.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/152-corn/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-0c5b51f505cc5ad3b7585533d6ae9239.image" ]
+
+[params]
+

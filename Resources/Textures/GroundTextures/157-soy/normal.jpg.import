@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-3af3cedadc673ea6c346c0ae1b31ca5e.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/157-soy/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-3af3cedadc673ea6c346c0ae1b31ca5e.image" ]
+
+[params]
+

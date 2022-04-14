@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-db327f88d1f76a5a57aad88cd77ba058.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/165-potato/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-db327f88d1f76a5a57aad88cd77ba058.image" ]
+
+[params]
+

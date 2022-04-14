@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/fungi-03.png-64b2cc587295a27c4d7471d272983cb3.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/fungi-03.png"
+dest_files=[ "res://.import/fungi-03.png-64b2cc587295a27c4d7471d272983cb3.image" ]
+
+[params]
+

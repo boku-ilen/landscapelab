@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-f80bcda710da416435f6480ec618bde6.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/vine_row-01/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-f80bcda710da416435f6480ec618bde6.image" ]
+
+[params]
+

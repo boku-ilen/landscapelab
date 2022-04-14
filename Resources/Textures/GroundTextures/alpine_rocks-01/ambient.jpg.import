@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-b9eaf33a703e546df48723ba44d3ba53.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_rocks-01/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-b9eaf33a703e546df48723ba44d3ba53.image" ]
+
+[params]
+

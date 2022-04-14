@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-a70e8a97fa169695c96b152cb17502c6.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/190-mustard/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-a70e8a97fa169695c96b152cb17502c6.image" ]
+
+[params]
+

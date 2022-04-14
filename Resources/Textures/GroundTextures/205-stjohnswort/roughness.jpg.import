@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-136b40e41d39aa2965777807c602d3ce.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/205-stjohnswort/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-136b40e41d39aa2965777807c602d3ce.image" ]
+
+[params]
+

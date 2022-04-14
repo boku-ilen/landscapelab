@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-c9f171839d2ac4c34f98bea8ad3b2480.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/210-jerusalem_artichoke/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-c9f171839d2ac4c34f98bea8ad3b2480.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-a6647ab8e74908a6786858a48bdad1a2.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/gravel-04/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-a6647ab8e74908a6786858a48bdad1a2.image" ]
+
+[params]
+

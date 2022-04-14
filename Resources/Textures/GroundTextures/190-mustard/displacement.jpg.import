@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-852624d9486039ccdbab664012191054.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/190-mustard/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-852624d9486039ccdbab664012191054.image" ]
+
+[params]
+

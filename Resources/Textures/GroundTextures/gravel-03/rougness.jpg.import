@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/rougness.jpg-94477d7bb953310665e4e6cfd35504eb.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/gravel-03/rougness.jpg"
+dest_files=[ "res://.import/rougness.jpg-94477d7bb953310665e4e6cfd35504eb.image" ]
+
+[params]
+

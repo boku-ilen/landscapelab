@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-b9dd406b30ab2c62f54d3db88e7c3039.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/190-mustard/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-b9dd406b30ab2c62f54d3db88e7c3039.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/pyrus-05.png-32aed6207e1daed4dde341adb09f5329.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/pyrus-05.png"
+dest_files=[ "res://.import/pyrus-05.png-32aed6207e1daed4dde341adb09f5329.image" ]
+
+[params]
+

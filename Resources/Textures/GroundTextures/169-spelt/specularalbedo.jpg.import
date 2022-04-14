@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specularalbedo.jpg-10333b177d3f745f262b7c9d30594d93.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/169-spelt/specularalbedo.jpg"
+dest_files=[ "res://.import/specularalbedo.jpg-10333b177d3f745f262b7c9d30594d93.image" ]
+
+[params]
+
