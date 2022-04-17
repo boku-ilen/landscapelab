@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://UI/Layers/LayerConfiguration/LayerWidget.gd" type="Script" id=1]
 [ext_resource path="res://UI/Layers/LayerConfiguration/EditWindow.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Resources/Fonts/Nunito/NunitoSans-Bold.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://UI/Theme/LayerWidget.tres" type="Theme" id=7]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=8]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/rotate.svg" type="Texture" id=9]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -106,6 +107,17 @@ margin_bottom = 30.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
 alignment = 2
+
+[node name="Reload" parent="LeftContainer" instance=ExtResource( 5 )]
+material = SubResource( 3 )
+margin_left = 12.0
+margin_right = 52.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 40, 30 )
+mouse_filter = 1
+size_flags_vertical = 0
+texture_normal = ExtResource( 9 )
+texture_name = "rotate"
 
 [node name="Edit" parent="LeftContainer" instance=ExtResource( 5 )]
 material = SubResource( 3 )
