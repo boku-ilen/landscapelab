@@ -1,0 +1,113 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://UI/Fonts/TextBold.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Util/Warning.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/Layers/LayerConfiguration/SpecificLayerUI/Realistic_terrainLayer.gd" type="Script" id=4]
+
+[node name="RealisticTerrainLayer" type="HSplitContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( -912, -151 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeftBox" type="VBoxContainer" parent="."]
+margin_right = 180.0
+margin_bottom = 1080.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="VBoxContainer" parent="LeftBox"]
+margin_right = 180.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="Title" type="Label" parent="LeftBox/Title"]
+margin_right = 180.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 1 )
+text = "Realistic-Terrain-Layer"
+
+[node name="HSeparator" type="HSeparator" parent="LeftBox/Title"]
+margin_top = 31.0
+margin_right = 180.0
+margin_bottom = 39.0
+
+[node name="Height" type="Label" parent="LeftBox"]
+margin_top = 58.0
+margin_right = 180.0
+margin_bottom = 143.0
+rect_min_size = Vector2( 0, 85 )
+text = "Height-data:"
+
+[node name="Texture" type="Label" parent="LeftBox"]
+margin_top = 151.0
+margin_right = 180.0
+margin_bottom = 236.0
+rect_min_size = Vector2( 0, 85 )
+text = "Texture:"
+
+[node name="SurfaceHeight" type="Label" parent="LeftBox"]
+margin_top = 244.0
+margin_right = 180.0
+margin_bottom = 329.0
+rect_min_size = Vector2( 0, 85 )
+text = "Surface-Height:"
+
+[node name="LandUse" type="Label" parent="LeftBox"]
+margin_top = 337.0
+margin_right = 180.0
+margin_bottom = 422.0
+rect_min_size = Vector2( 0, 85 )
+text = "Land-Use:"
+
+[node name="RightBox" type="VBoxContainer" parent="."]
+margin_left = 204.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+
+[node name="Control" type="Control" parent="RightBox"]
+margin_right = 1716.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="GeodataChooserHeight" parent="RightBox" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 58.0
+margin_right = 1716.0
+margin_bottom = 143.0
+show_feature_layer = false
+
+[node name="GeodataChooserTexture" parent="RightBox" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 151.0
+margin_right = 1716.0
+margin_bottom = 236.0
+show_feature_layer = false
+
+[node name="GeodataChooserSurfaceHeight" parent="RightBox" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 244.0
+margin_right = 1716.0
+margin_bottom = 329.0
+show_feature_layer = false
+
+[node name="GeodataChooserLandUse" parent="RightBox" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 337.0
+margin_right = 1716.0
+margin_bottom = 422.0
+show_feature_layer = false
+
+[node name="Warning" parent="RightBox" instance=ExtResource( 2 )]
+visible = false
+margin_top = 353.0
+margin_bottom = 391.0

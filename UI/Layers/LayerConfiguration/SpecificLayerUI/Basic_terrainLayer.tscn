@@ -16,7 +16,7 @@ __meta__ = {
 
 [node name="LeftBox" type="VBoxContainer" parent="."]
 margin_right = 133.0
-margin_bottom = 458.0
+margin_bottom = 388.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -85,7 +85,7 @@ text = "Alpha:"
 [node name="RightBox" type="VBoxContainer" parent="."]
 margin_left = 157.0
 margin_right = 1024.0
-margin_bottom = 458.0
+margin_bottom = 388.0
 
 [node name="Control" type="Control" parent="RightBox"]
 margin_right = 867.0
@@ -98,6 +98,7 @@ anchor_bottom = 0.0
 margin_top = 58.0
 margin_right = 867.0
 margin_bottom = 143.0
+show_feature_layer = false
 
 [node name="GeodataChooserTexture" parent="RightBox" instance=ExtResource( 4 )]
 anchor_right = 0.0
@@ -105,6 +106,7 @@ anchor_bottom = 0.0
 margin_top = 151.0
 margin_right = 867.0
 margin_bottom = 236.0
+show_feature_layer = false
 
 [node name="CheckBox" type="CheckBox" parent="RightBox"]
 margin_top = 244.0

@@ -94,6 +94,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GameEngine/DataModel/Base/GameObject.gd"
 }, {
+"base": "VBoxContainer",
+"class": "GeodataChooser",
+"language": "GDScript",
+"path": "res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.gd"
+}, {
 "base": "AbstractRequestHandler",
 "class": "GetObjectLayerDataRequestHandler",
 "language": "GDScript",
@@ -282,6 +287,7 @@ _global_script_class_icons={
 "EnergyProducer": "",
 "FeatureLayer": "",
 "GameObject": "",
+"GeodataChooser": "",
 "GetObjectLayerDataRequestHandler": "",
 "GetSettingsRequestHandler": "",
 "GroundTexture": "",
@@ -360,7 +366,7 @@ enabled=PoolStringArray( "dscn_io", "gameflow" )
 
 [gdnative]
 
-singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib", "res://pythonscript.gdnlib" ]
+singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib" ]
 
 [gui]
 

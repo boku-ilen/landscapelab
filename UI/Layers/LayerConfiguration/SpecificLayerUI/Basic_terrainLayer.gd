@@ -1,28 +1,17 @@
 extends SpecificLayerUI
 
 
-onready var color_checkbox = get_node("RightBox/CheckBox")
-onready var label_color_min = get_node("LeftBox/ColorMin")
-onready var label_color_max = get_node("LeftBox/ColorMax")
-onready var button_color_min = get_node("RightBox/ButtonMin")
-onready var button_color_max = get_node("RightBox/ButtonMax")
-onready var geodata_height: OptionButton = get_node("RightBox/GeodataChooserHeight/OptionButton")
-onready var geodata_texture: OptionButton = get_node("RightBox/GeodataChooserTexture/OptionButton")
-onready var file_path_height = get_node("RightBox/GeodataChooser/FileChooser/FileName")
-onready var file_path_path = get_node("RightBox/GeodataChooser/FileChooser/FileName")
-
-
 func _ready():
-	color_checkbox.connect("toggled", self, "_toggle_color_menu")
-	button_color_min.connect("pressed", self, "_pop_color_picker", [button_color_min])
-	button_color_max.connect("pressed", self, "_pop_color_picker", [button_color_max])
+	$RightBox/CheckBox.connect("toggled", self, "_toggle_color_menu")
+	$RightBox/ButtonMin.connect("pressed", self, "_pop_color_picker", [$RightBox/ButtonMin])
+	$RightBox/ButtonMax.connect("pressed", self, "_pop_color_picker", [$RightBox/ButtonMax])
 
 
 func _toggle_color_menu(toggled: bool):
-	button_color_max.visible = toggled
-	label_color_max.visible = toggled
-	button_color_min.visible = toggled
-	label_color_min.visible = toggled
+	$RightBox/ButtonMax.visible = toggled
+	$LeftBox/ColorMax.visible = toggled
+	$RightBox/ButtonMin.visible = toggled
+	$LeftBox/ColorMin.visible = toggled
 	$LeftBox/Alpha.visible = toggled
 	$RightBox/AlphaSpinBox.visible = toggled
 
@@ -48,15 +37,12 @@ func assign_specific_layer_info(layer):
 	if !validate(texture_layer) or !validate(height_layer):
 		print_warning("Texture- or height-layer is invalid!")
 		return
-
-	Layers.add_layer(height_layer)
-	Layers.add_layer(texture_layer)
 	
 	layer.render_info.height_layer = height_layer.clone()
 	layer.render_info.texture_layer = texture_layer.clone()
-	layer.render_info.is_color_shaded = color_checkbox.pressed
-	layer.render_info.max_color = button_color_max.color
-	layer.render_info.min_color = button_color_min.color
+	layer.render_info.is_color_shaded = $RightBox/CheckBox.pressed
+	layer.render_info.max_color = $RightBox/ButtonMax.color
+	layer.render_info.min_color = $RightBox/ButtonMin.color
 	layer.render_info.alpha = $RightBox/AlphaSpinBox.value
 
 

@@ -2,6 +2,7 @@ extends AbstractLayerManagement
 
 
 var edit_cursor = preload("res://Resources/Icons/ModernLandscapeLab/paintbrush.svg")
+var add_action: ActionHandler.Action
 var edit_action: ActionHandler.Action
 
 
@@ -16,9 +17,25 @@ func set_player(player):
 	.set_player(player)
 	if "action_handler" in pc_player:
 		edit_action = EditAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
-
+		add_action = AddFeatureAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
 
 class EditAction extends ActionHandler.Action:
+	var cursor: RayCast
+	var layer: Layer
+	var pos_manager: PositionManager
+	
+	func _init(l, c, p_m, p, blocking).(p, blocking):
+		cursor = c
+		layer = l
+		pos_manager = p_m
+	
+	func apply(event: InputEvent):
+		if event.is_action_pressed("layer_add_feature"):
+			if cursor.is_colliding():
+				var object = cursor.get_collider()
+
+
+class AddFeatureAction extends ActionHandler.Action:
 	var cursor: RayCast
 	var layer: Layer
 	var pos_manager: PositionManager
