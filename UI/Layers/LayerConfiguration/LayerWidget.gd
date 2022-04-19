@@ -12,7 +12,7 @@ onready var color_tag = get_node("RightContainer/VisibilityBox/ColorRect")
 onready var edit_button = get_node("LeftContainer/Edit")
 onready var edit_window = get_node("EditMenu")
 onready var reload_button = get_node("LeftContainer/Reload")
-onready var layer_name = get_node("RightContainer/Name")
+onready var layer_name = get_node("RightContainer/NameSizeFix/Name")
 
 
 func _ready():
@@ -44,6 +44,7 @@ func _reload():
 	if layer != null:
 		edit_window.layer = layer
 		layer_name.text = layer.name
+		hint_tooltip = layer.name
 		color_tag.color = layer.color_tag
 
 
