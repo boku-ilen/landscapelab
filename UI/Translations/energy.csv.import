@@ -1,0 +1,16 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+
+[deps]
+
+files=[ "res://UI/Translations/energy.en.translation", "res://UI/Translations/energy.de.translation" ]
+
+source_file="res://UI/Translations/energy.csv"
+dest_files=[ "res://UI/Translations/energy.en.translation", "res://UI/Translations/energy.de.translation" ]
+
+[params]
+
+compress=true
+delimiter=0

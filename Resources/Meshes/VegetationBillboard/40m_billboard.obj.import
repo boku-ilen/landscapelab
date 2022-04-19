@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/40m_billboard.obj-6aec4c47f737e6d96f726f9918da3474.mesh"
+
+[deps]
+
+files=[ "res://.import/40m_billboard.obj-6aec4c47f737e6d96f726f9918da3474.mesh" ]
+
+source_file="res://Resources/Meshes/VegetationBillboard/40m_billboard.obj"
+dest_files=[ "res://.import/40m_billboard.obj-6aec4c47f737e6d96f726f9918da3474.mesh", "res://.import/40m_billboard.obj-6aec4c47f737e6d96f726f9918da3474.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

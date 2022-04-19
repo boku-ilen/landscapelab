@@ -11,6 +11,7 @@ onready var visibility_button = get_node("RightContainer/VisibilityBox/Visibilit
 onready var color_tag = get_node("RightContainer/VisibilityBox/ColorRect")
 onready var edit_button = get_node("LeftContainer/Edit")
 onready var edit_window = get_node("EditMenu")
+onready var reload_button = get_node("LeftContainer/Reload")
 onready var layer_name = get_node("RightContainer/Name")
 
 
@@ -18,6 +19,7 @@ func _ready():
 	_reload()
 	
 	edit_button.connect("pressed", self, "_pop_edit")
+	reload_button.connect("pressed", self, "_on_layer_reload_pressed")
 	edit_window.connect("change_color_tag", self, "_change_color_tag")
 	visibility_button.connect("toggled", self, "_layer_change_visibility")
 	layer.connect("layer_changed", self, "_reload")
@@ -47,6 +49,10 @@ func _reload():
 
 func _pop_edit():
 	edit_window.popup(Rect2(edit_button.rect_global_position + Vector2(25, 0), Vector2(4, 4)))
+
+
+func _on_layer_reload_pressed():
+	layer.emit_signal("refresh_view")
 
 
 func _change_color_tag(color: Color):

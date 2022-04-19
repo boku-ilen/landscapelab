@@ -34,6 +34,7 @@ var ui_info = UIInfo.new()
 
 signal visibility_changed(visible)
 signal layer_changed
+signal refresh_view
 
 
 func set_visible(visible: bool):
