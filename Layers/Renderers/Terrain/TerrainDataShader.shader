@@ -72,7 +72,7 @@ void fragment() {
 	// Obtain data for the current pixel
 	float data_value = texture(tex, UV).r;
 	// Transform between 0 and 1
-	data_value = invLerp(max_value, min_value, data_value);
+	data_value = invLerp(min_value, max_value, data_value);
 	// Interpolate the color between the start- and endcolor
 	vec4 data_color = mix(min_color, max_color, data_value);
 	

@@ -16,9 +16,9 @@ func _ready():
 			lod.material_override = load("res://Layers/Renderers/Terrain/Materials/TerrainShader.tres").duplicate()
 		else:
 			# FIXME: I dont know why a duplicate is necessary but somehow it seems to be...
-			lod.material_override = load("res://Layers/Renderers/Terrain/Materials/TerrainDataShader.tres").duplicate()
-			lod.material_override.set_shader_param("min_value", layer.render_info.texture_layer.get_min())
-			lod.material_override.set_shader_param("max_value", layer.render_info.texture_layer.get_max())
+			lod.material_override = load("res://Layers/Renderers/Terrain/TerrainDataShader.tres").duplicate()
+			lod.material_override.set_shader_param("min_value", layer.render_info.min_value)
+			lod.material_override.set_shader_param("max_value", layer.render_info.max_value)
 			lod.material_override.set_shader_param("min_color", layer.render_info.min_color)
 			lod.material_override.set_shader_param("max_color", layer.render_info.max_color)
 			lod.material_override.set_shader_param("alpha", layer.render_info.alpha)
