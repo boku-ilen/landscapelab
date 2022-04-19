@@ -20,5 +20,12 @@ func assign_specific_layer_info(layer):
 	layer.render_info.landuse_layer = landuse_layer.clone()
 
 
-func init_specific_layer_info():
-	pass
+func init_specific_layer_info(layer: Layer):
+	$RightBox/GeodataChooserHeight.init_from_layer(
+		layer.render_info.height_layer)
+	$RightBox/GeodataChooserTexture.init_from_layer(
+		layer.render_info.texture_layer)
+	$RightBox/GeodataChooserSurfaceHeight.init_from_layer(
+		layer.render_info.surface_height_layer)
+	$RightBox/GeodataChooserLandUse.init_from_layer(
+		layer.render_info.landuse_layer)

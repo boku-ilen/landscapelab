@@ -3,17 +3,24 @@ extends SpecificLayerUI
 
 func _ready():
 	$RightBox/CheckBox.connect("toggled", self, "_toggle_color_menu")
-	$RightBox/ButtonMin.connect("pressed", self, "_pop_color_picker", [$RightBox/ButtonMin])
-	$RightBox/ButtonMax.connect("pressed", self, "_pop_color_picker", [$RightBox/ButtonMax])
+	$RightBox/ColorShading/ButtonMin.connect("pressed", self, "_pop_color_picker",
+		[$RightBox/ColorShading/ButtonMin])
+	$RightBox/ColorShading/ButtonMax.connect("pressed", self, "_pop_color_picker", 
+		[$RightBox/ColorShading/ButtonMax])
+	# We always want the min max values of the current texture available for color
+	# shading, such taht the user can see the default values
 
 
 func _toggle_color_menu(toggled: bool):
-	$RightBox/ButtonMax.visible = toggled
-	$LeftBox/ColorMax.visible = toggled
-	$RightBox/ButtonMin.visible = toggled
-	$LeftBox/ColorMin.visible = toggled
-	$LeftBox/Alpha.visible = toggled
-	$RightBox/AlphaSpinBox.visible = toggled
+	$LeftBox/ColorShading.visible = toggled
+	$RightBox/ColorShading.visible = toggled
+	_update_min_max()
+
+
+func _update_min_max():
+	var texture_layer = $RightBox/GeodataChooserTexture.get_geo_layer(true)
+	$RightBox/ColorShading/MinVal.value = texture_layer.get_min()
+	$RightBox/ColorShading/MaxVal.value = texture_layer.get_max()
 
 
 func _pop_color_picker(button: Button):
@@ -41,15 +48,26 @@ func assign_specific_layer_info(layer):
 	layer.render_info.height_layer = height_layer.clone()
 	layer.render_info.texture_layer = texture_layer.clone()
 	layer.render_info.is_color_shaded = $RightBox/CheckBox.pressed
-	layer.render_info.max_color = $RightBox/ButtonMax.color
-	layer.render_info.min_color = $RightBox/ButtonMin.color
-	layer.render_info.alpha = $RightBox/AlphaSpinBox.value
+	layer.render_info.max_value = $RightBox/ColorShading/MaxVal.value
+	layer.render_info.max_color = $RightBox/ColorShading/ButtonMax.color
+	layer.render_info.min_value = $RightBox/ColorShading/MinVal.value
+	layer.render_info.min_color = $RightBox/ColorShading/ButtonMin.color
+	layer.render_info.alpha = $RightBox/ColorShading/AlphaSpinBox.value
 
 
-# TODO: implement this function accordingly, so when editing an existing one, all configurations will be applied
 func init_specific_layer_info(layer):
-	if layer == null:
-		return
+	$RightBox/GeodataChooserHeight.init_from_layer(
+		layer.render_info.height_layer)
+	$RightBox/GeodataChooserTexture.init_from_layer(
+		layer.render_info.texture_layer)
+	$RightBox/CheckBox.pressed = layer.render_info.is_color_shaded
 	
-	#file_path_height = 
-	#file_path_
+	# Information is only interesting if colorshading is enabled
+	if layer.render_info.is_color_shaded:
+		$RightBox/ColorShading.visible = true
+		$LeftBox/ColorShading.visible = true
+		$RightBox/ColorShading/MaxVal.value = layer.render_info.max_value
+		$RightBox/ColorShading/ButtonMax.color = layer.render_info.max_color
+		$RightBox/ColorShading/MinVal.value = layer.render_info.min_value
+		$RightBox/ColorShading/ButtonMin.color = layer.render_info.min_color
+		$RightBox/ColorShading/AlphaSpinBox.value = layer.render_info.alpha

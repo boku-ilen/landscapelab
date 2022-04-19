@@ -6,8 +6,9 @@ onready var warning = get_node("RightBox/Warning")
 const LOG_MODULE := "LAYERUI"
 
 
-func init(layer=null):
-	init_specific_layer_info(layer)
+func init(layer: Layer = null):
+	if layer != null:
+		init_specific_layer_info(layer)
 
 
 # To be implemented by a child class

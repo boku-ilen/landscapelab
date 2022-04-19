@@ -20,8 +20,8 @@ func assign_specific_layer_info(layer: Layer):
 		print_warning("Dataset for objects is not valid!")
 		return
 
-	var objects = objects_dataset.get_feature_layer(objects_name)
-
+	var features = FeatureLayer.new()
+	features.geo_feature_layer = objects_dataset.get_feature_layer(objects_name)
 
 	# Obtain the height data, where the points will be placed upon
 	if not geodata_height.get_selected_id() < geodata_height.get_item_count():
@@ -35,14 +35,14 @@ func assign_specific_layer_info(layer: Layer):
 
 	var height = height_dataset.get_raster_layer(height_name)
 
-	if !validate(objects) or !validate(height):
+	if !validate(features) or !validate(height):
 		print_warning("Object- or height-layer is not valid!")
 		return
 
 	var file2Check = File.new()
 	var file_exists = file2Check.file_exists(file_path_object_scene.text)
 	
-	if !validate(objects) or !validate(height) or !file_exists:
+	if !validate(features) or !validate(height) or !file_exists:
 		print_warning("Invalid layers!")
 		return
 	
@@ -70,16 +70,15 @@ func assign_specific_layer_info(layer: Layer):
 	height_layer.geo_raster_layer = height
 	height_layer.name = height.resource_name
 
-	layer.geo_feature_layer = objects
+	layer.geo_feature_layer = features
 	layer.render_type = Layer.RenderType.OBJECT
 	layer.render_info.object = object_scene
 	layer.render_info.ground_height_layer = height_layer.clone()
 
 
-# TODO: implement this function accordingly, so when editing an existing one, all configurations will be applied
-func init_specific_layer_info(layer):
-	if layer == null:
-		return
-
-	#file_path_height =
-	#file_path_
+func init_specific_layer_info(layer: Layer):
+	$RightBox/GeodataChooserHeight.init_from_layer(
+		layer.render_info.ground_height_layer)
+	$RightBox/GeodataChooserPoint.init_from_layer(
+		layer.geo_feature_layer)
+	$RightBox/ObjectChooser/FileName.text = layer.render_info.object.get_path()
