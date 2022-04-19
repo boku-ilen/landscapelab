@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-e66c8e9190301c52fd175ab9dee09f20.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/183-buckwheat/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-e66c8e9190301c52fd175ab9dee09f20.image" ]
+
+[params]
+

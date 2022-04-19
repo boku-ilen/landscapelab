@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-750959fcd8a895c51a290d77be374438.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/155-barley/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-750959fcd8a895c51a290d77be374438.image" ]
+
+[params]
+

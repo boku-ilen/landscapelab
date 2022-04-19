@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-327664d94e4828669ea66e96976cd4b1.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/170-beans/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-327664d94e4828669ea66e96976cd4b1.image" ]
+
+[params]
+

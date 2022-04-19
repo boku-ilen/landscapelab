@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-16e58653252dd51a637cb52f583bc874.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_grassland-02/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-16e58653252dd51a637cb52f583bc874.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/pisum-sativum-03.png-4e453f59e109d99cf776f7f12245dbb9.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/pisum-sativum-03.png"
+dest_files=[ "res://.import/pisum-sativum-03.png-4e453f59e109d99cf776f7f12245dbb9.image" ]
+
+[params]
+

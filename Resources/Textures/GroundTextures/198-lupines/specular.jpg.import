@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-a49ff2a31d4cf23686cf02ec8a9c2eba.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/198-lupines/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-a49ff2a31d4cf23686cf02ec8a9c2eba.image" ]
+
+[params]
+

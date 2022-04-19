@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-cb6bb1fc06e19ef160094a24887ed85c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/snow-02/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-cb6bb1fc06e19ef160094a24887ed85c.image" ]
+
+[params]
+

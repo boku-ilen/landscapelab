@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-6e2d20df9d2b154be58026def09eec9b.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_rocks-02/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-6e2d20df9d2b154be58026def09eec9b.image" ]
+
+[params]
+

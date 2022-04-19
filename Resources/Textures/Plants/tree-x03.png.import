@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/tree-x03.png-652673f77c29e9f6e9a3b96d98af96c3.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/tree-x03.png"
+dest_files=[ "res://.import/tree-x03.png-652673f77c29e9f6e9a3b96d98af96c3.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-72177a852724afc0db13e1077c6c3b94.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/grass-06/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-72177a852724afc0db13e1077c6c3b94.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-26b945dd6ab9a742f34d5e28e2b914e0.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/snow-02/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-26b945dd6ab9a742f34d5e28e2b914e0.image" ]
+
+[params]
+

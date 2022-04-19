@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-4a6de1c6b5a24dfc90fc56ca7e13f593.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/sand-02/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-4a6de1c6b5a24dfc90fc56ca7e13f593.image" ]
+
+[params]
+

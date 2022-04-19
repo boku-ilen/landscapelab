@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-3e3bb98e35366d8a2d7ff8c75d5fba4c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/154-pasture/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-3e3bb98e35366d8a2d7ff8c75d5fba4c.image" ]
+
+[params]
+

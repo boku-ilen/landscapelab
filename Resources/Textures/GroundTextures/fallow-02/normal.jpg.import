@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-bb034447504c07eee4f91821c32305f6.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/fallow-02/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-bb034447504c07eee4f91821c32305f6.image" ]
+
+[params]
+

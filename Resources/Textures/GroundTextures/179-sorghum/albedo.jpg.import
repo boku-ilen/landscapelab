@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-fac535845e57c514fd3367434a2f4fb8.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/179-sorghum/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-fac535845e57c514fd3367434a2f4fb8.image" ]
+
+[params]
+

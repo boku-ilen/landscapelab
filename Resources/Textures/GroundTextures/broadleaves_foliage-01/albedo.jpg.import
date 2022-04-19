@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-941a8ba2bb6720183f6383b1971d6347.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/broadleaves_foliage-01/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-941a8ba2bb6720183f6383b1971d6347.image" ]
+
+[params]
+

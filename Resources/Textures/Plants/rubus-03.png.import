@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/rubus-03.png-5c3d67baac6c4346b6c90ed9272083fa.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/rubus-03.png"
+dest_files=[ "res://.import/rubus-03.png-5c3d67baac6c4346b6c90ed9272083fa.image" ]
+
+[params]
+

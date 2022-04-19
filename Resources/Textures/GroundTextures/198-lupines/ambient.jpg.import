@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-fdef4bea964ebdcc43e76db3375aba1c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/198-lupines/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-fdef4bea964ebdcc43e76db3375aba1c.image" ]
+
+[params]
+

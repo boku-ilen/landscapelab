@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-d3ed63457d82739ba8528b14c911c343.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/155-barley/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-d3ed63457d82739ba8528b14c911c343.image" ]
+
+[params]
+

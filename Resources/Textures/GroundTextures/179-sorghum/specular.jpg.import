@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-c230bee0c81bb441ea805b5826807fe8.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/179-sorghum/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-c230bee0c81bb441ea805b5826807fe8.image" ]
+
+[params]
+

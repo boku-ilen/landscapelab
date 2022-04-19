@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-1f2f4ca1a0d9e09f2e89f3547b19903d.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/grass_paver-01/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-1f2f4ca1a0d9e09f2e89f3547b19903d.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-ceb8f67f2f94305193edc9126b7bd100.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/sand-02/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-ceb8f67f2f94305193edc9126b7bd100.image" ]
+
+[params]
+

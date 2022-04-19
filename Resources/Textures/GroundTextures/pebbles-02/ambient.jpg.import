@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-4760cf76bdc27cd1c374efd3fd7fb2b4.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/pebbles-02/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-4760cf76bdc27cd1c374efd3fd7fb2b4.image" ]
+
+[params]
+

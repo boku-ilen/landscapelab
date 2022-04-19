@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-24dd35088a24452f5b3b4a331b31a34f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/205-stjohnswort/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-24dd35088a24452f5b3b4a331b31a34f.image" ]
+
+[params]
+

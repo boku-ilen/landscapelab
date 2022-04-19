@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-ad26d18cde81e7ffc7ff785dce34fa0c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/fallow-02/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-ad26d18cde81e7ffc7ff785dce34fa0c.image" ]
+
+[params]
+

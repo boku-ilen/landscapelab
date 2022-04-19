@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-421de7178fad987a665c8319ec36c406.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/154-pasture/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-421de7178fad987a665c8319ec36c406.image" ]
+
+[params]
+

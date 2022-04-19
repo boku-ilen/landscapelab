@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-e4e58c75b8b8d3e6688364274bf749f5.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/210-jerusalem_artichoke/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-e4e58c75b8b8d3e6688364274bf749f5.image" ]
+
+[params]
+

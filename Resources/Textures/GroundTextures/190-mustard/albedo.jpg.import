@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-cfb382978755bd9afb9f449dc05fad04.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/190-mustard/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-cfb382978755bd9afb9f449dc05fad04.image" ]
+
+[params]
+

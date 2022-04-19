@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/sorbus-03.png-32cc5aa8058f7fc5ec7b8fadcddc853d.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/sorbus-03.png"
+dest_files=[ "res://.import/sorbus-03.png-32cc5aa8058f7fc5ec7b8fadcddc853d.image" ]
+
+[params]
+

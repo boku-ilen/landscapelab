@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-559d28d932c1d1656f799eb9a0074469.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/soil-08/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-559d28d932c1d1656f799eb9a0074469.image" ]
+
+[params]
+

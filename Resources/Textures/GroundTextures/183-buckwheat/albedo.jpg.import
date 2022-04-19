@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-3cbc749cce0c4d39bf0fa2c412300f1b.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/183-buckwheat/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-3cbc749cce0c4d39bf0fa2c412300f1b.image" ]
+
+[params]
+

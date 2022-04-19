@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/cereal-01.png-805ab83f6a2e75dcd2c75ad51102a227.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/cereal-01.png"
+dest_files=[ "res://.import/cereal-01.png-805ab83f6a2e75dcd2c75ad51102a227.image" ]
+
+[params]
+

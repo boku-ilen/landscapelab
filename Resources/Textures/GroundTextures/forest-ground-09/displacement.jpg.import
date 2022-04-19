@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-a3072d71f4177d6c346646b9d13033ae.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/forest-ground-09/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-a3072d71f4177d6c346646b9d13033ae.image" ]
+
+[params]
+

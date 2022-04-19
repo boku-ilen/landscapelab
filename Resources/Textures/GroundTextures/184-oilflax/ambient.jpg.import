@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-3ab231067efd6f85a4c9dd38d95a16c5.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/184-oilflax/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-3ab231067efd6f85a4c9dd38d95a16c5.image" ]
+
+[params]
+

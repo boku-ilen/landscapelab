@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-83819b5c02e10deb4671e2c984c87df1.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/179-sorghum/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-83819b5c02e10deb4671e2c984c87df1.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-3f3e7805de525bf252e284a703d443e6.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/179-sorghum/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-3f3e7805de525bf252e284a703d443e6.image" ]
+
+[params]
+

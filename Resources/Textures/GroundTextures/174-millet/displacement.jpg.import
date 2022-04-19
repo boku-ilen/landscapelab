@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-5e07ad43393a112d584a93c0101fde2a.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/174-millet/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-5e07ad43393a112d584a93c0101fde2a.image" ]
+
+[params]
+

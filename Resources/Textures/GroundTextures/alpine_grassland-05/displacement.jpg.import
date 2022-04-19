@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-b957cbb1c4440873ed7142ca5d6eb378.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_grassland-05/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-b957cbb1c4440873ed7142ca5d6eb378.image" ]
+
+[params]
+

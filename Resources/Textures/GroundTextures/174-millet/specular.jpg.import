@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-013c624a3b8178431659e50cafc0d73e.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/174-millet/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-013c624a3b8178431659e50cafc0d73e.image" ]
+
+[params]
+

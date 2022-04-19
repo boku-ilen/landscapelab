@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-8cc38973e4cc9ad5067893ce2e3827f1.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/190-mustard/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-8cc38973e4cc9ad5067893ce2e3827f1.image" ]
+
+[params]
+

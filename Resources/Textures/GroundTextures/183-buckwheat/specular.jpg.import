@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-77a5369367051ca102cb1c85be4c291c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/183-buckwheat/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-77a5369367051ca102cb1c85be4c291c.image" ]
+
+[params]
+

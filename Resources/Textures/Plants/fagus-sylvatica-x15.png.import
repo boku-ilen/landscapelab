@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/fagus-sylvatica-x15.png-77b143a32ccc7a30c87d6360daa24a29.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/fagus-sylvatica-x15.png"
+dest_files=[ "res://.import/fagus-sylvatica-x15.png-77b143a32ccc7a30c87d6360daa24a29.image" ]
+
+[params]
+

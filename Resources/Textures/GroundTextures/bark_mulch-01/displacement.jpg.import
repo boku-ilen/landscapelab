@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-4ea2dab0a9049716b948ff3de33f2019.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/bark_mulch-01/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-4ea2dab0a9049716b948ff3de33f2019.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-8295a1cdf29f40f873f0ddc3e1ef07c6.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/bark_mulch-01/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-8295a1cdf29f40f873f0ddc3e1ef07c6.image" ]
+
+[params]
+

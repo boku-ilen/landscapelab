@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/gr-grass-01.png-35169441fef30301b265cc60b8c6ed79.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/gr-grass-01.png"
+dest_files=[ "res://.import/gr-grass-01.png-35169441fef30301b265cc60b8c6ed79.image" ]
+
+[params]
+

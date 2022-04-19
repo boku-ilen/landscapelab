@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-d51ceaab2f50a4f2bd42885d1b3a32a3.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/broadleaves_foliage-01/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-d51ceaab2f50a4f2bd42885d1b3a32a3.image" ]
+
+[params]
+

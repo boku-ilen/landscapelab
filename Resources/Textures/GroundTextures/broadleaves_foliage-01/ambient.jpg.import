@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-fbcdcaa52b3b5c00fc3088eae977c251.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/broadleaves_foliage-01/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-fbcdcaa52b3b5c00fc3088eae977c251.image" ]
+
+[params]
+

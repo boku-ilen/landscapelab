@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-c7e7eccd5e47f0d56f00a4aee08d49ff.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/178-poppy/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-c7e7eccd5e47f0d56f00a4aee08d49ff.image" ]
+
+[params]
+

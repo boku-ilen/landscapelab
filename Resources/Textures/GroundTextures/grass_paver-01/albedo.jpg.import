@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-f2640d60cc96679a7f066a1753fe5426.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/grass_paver-01/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-f2640d60cc96679a7f066a1753fe5426.image" ]
+
+[params]
+

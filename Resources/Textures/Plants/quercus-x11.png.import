@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/quercus-x11.png-d765a04e735bba8d8f420fbaa4fb63a7.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/quercus-x11.png"
+dest_files=[ "res://.import/quercus-x11.png-d765a04e735bba8d8f420fbaa4fb63a7.image" ]
+
+[params]
+

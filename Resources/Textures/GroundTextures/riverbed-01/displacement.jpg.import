@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-7f8f97f207698f493024097123b8a338.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/riverbed-01/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-7f8f97f207698f493024097123b8a338.image" ]
+
+[params]
+

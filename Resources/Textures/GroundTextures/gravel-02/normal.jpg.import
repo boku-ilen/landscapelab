@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-9174c1a4d1fa0a09f8ab9eaf5c9ee4ad.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/gravel-02/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-9174c1a4d1fa0a09f8ab9eaf5c9ee4ad.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-b9b3b2d7de288903505c317fb1593fc7.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/178-poppy/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-b9b3b2d7de288903505c317fb1593fc7.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-38d8591838f861b4066c9a45ba7b996d.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/210-jerusalem_artichoke/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-38d8591838f861b4066c9a45ba7b996d.image" ]
+
+[params]
+

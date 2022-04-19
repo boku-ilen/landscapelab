@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-d844cd0d94e4427d5e14559d3e54ec20.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/169-spelt/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-d844cd0d94e4427d5e14559d3e54ec20.image" ]
+
+[params]
+

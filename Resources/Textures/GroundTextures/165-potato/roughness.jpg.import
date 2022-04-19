@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-6a7f9eb69da8d7792f530e33ed51a37c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/165-potato/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-6a7f9eb69da8d7792f530e33ed51a37c.image" ]
+
+[params]
+

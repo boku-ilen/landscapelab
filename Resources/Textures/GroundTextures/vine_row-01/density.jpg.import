@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/density.jpg-8e1c2a922a710f8427a54e04ff51e994.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/vine_row-01/density.jpg"
+dest_files=[ "res://.import/density.jpg-8e1c2a922a710f8427a54e04ff51e994.image" ]
+
+[params]
+

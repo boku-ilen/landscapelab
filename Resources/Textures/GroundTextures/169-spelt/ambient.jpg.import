@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-b7de70ad173491c4ea38260dc18b8422.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/169-spelt/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-b7de70ad173491c4ea38260dc18b8422.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-b0d79fe812547e1b4b8ba8b1e21615ba.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/185-hemp/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-b0d79fe812547e1b4b8ba8b1e21615ba.image" ]
+
+[params]
+

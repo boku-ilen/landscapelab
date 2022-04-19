@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-0b2a0edf26cd7966c5917a7bc3c3865b.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/152-corn/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-0b2a0edf26cd7966c5917a7bc3c3865b.image" ]
+
+[params]
+

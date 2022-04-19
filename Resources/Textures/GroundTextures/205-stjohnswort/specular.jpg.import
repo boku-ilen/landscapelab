@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-23be7d276da10708f9a627f2fe58d5d2.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/205-stjohnswort/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-23be7d276da10708f9a627f2fe58d5d2.image" ]
+
+[params]
+

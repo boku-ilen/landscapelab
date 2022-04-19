@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-2d19a65fa3f193ffba59f74efa4d03ad.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/184-oilflax/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-2d19a65fa3f193ffba59f74efa4d03ad.image" ]
+
+[params]
+
