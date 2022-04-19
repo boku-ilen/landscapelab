@@ -55,7 +55,7 @@ func update_instance_position(feature, obj_instance: Spatial):
 
 
 func _ready():
-	layer.geo_feature_layer.geo_feature_layer.connect("feature_added", self, "apply_new_feature")
+	layer.get_lowest_geo_feature_layer().connect("feature_added", self, "apply_new_feature")
 	if not layer is FeatureLayer or not layer.is_valid():
 		logger.error("ObjectRenderer was given an invalid layer!", LOG_MODULE)
 
