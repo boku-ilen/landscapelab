@@ -34,4 +34,15 @@ func get_lowest_geo_feature_layer(current=geo_feature_layer):
 		return get_lowest_geo_feature_layer(current.geo_feature_layer)
 	else:
 		return current
-		
+
+
+func get_path():
+	if geo_feature_layer.get_dataset() == null:
+		return geo_feature_layer.get_name()
+	return geo_feature_layer.get_dataset().get_path()
+
+
+func get_name():
+	if geo_feature_layer.get_dataset() == null:
+		return geo_feature_layer.get_name().substr(geo_feature_layer.get_name().find_last("/"))
+	return geo_feature_layer.get_name()

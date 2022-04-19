@@ -46,6 +46,16 @@ func is_valid():
 	return render_type == RenderType.NONE or (render_info and render_info.is_valid())
 
 
+# Implemented by child classes
+func get_path():
+	pass
+
+
+# Implemented by child classes
+func get_name():
+	pass
+
+
 class UIInfo:
 	var name_attribute
 
@@ -63,9 +73,12 @@ class RenderInfo:
 class BasicTerrainRenderInfo extends RenderInfo:
 	var height_layer: Layer
 	var texture_layer: Layer
+	# Data shading
 	var is_color_shaded: bool
 	var max_color: Color
 	var min_color: Color
+	var max_value: float
+	var min_value: float
 	var alpha: float
 	
 	func get_geolayers():
