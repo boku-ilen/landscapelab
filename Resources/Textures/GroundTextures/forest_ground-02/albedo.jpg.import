@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-6b2fd4e462fe6f7280b121722a3b1be1.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/forest_ground-02/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-6b2fd4e462fe6f7280b121722a3b1be1.image" ]
+
+[params]
+

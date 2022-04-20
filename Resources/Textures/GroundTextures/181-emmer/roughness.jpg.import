@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-35492ab17bb594566eff4cde710b1a9c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/181-emmer/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-35492ab17bb594566eff4cde710b1a9c.image" ]
+
+[params]
+

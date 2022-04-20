@@ -35,3 +35,15 @@ func clone():
 	cloned_layer.geo_raster_layer = geo_raster_layer.clone()
 	
 	return cloned_layer
+
+
+func get_path():
+	if geo_raster_layer.get_dataset() == null:
+		return geo_raster_layer.get_name()
+	return geo_raster_layer.get_dataset().get_path()
+
+
+func get_name():
+	if geo_raster_layer.get_dataset() == null:
+		return geo_raster_layer.get_name().substr(geo_raster_layer.get_name().find_last("/"))
+	return geo_raster_layer.get_name()

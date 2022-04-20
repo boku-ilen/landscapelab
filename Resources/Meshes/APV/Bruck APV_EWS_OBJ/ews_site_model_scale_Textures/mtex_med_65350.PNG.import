@@ -1,0 +1,34 @@
+[remap]
+
+importer="texture"
+type="StreamTexture2D"
+uid="uid://v12ddwg77bqr"
+path="res://.godot/imported/mtex_med_65350.PNG-6a3a0b278af4096b2f40d94b1aea2bd8.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Resources/Meshes/APV/Bruck APV_EWS_OBJ/ews_site_model_scale_Textures/mtex_med_65350.PNG"
+dest_files=["res://.godot/imported/mtex_med_65350.PNG-6a3a0b278af4096b2f40d94b1aea2bd8.stex"]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/bptc_ldr=0
+compress/normal_map=0
+compress/channel_pack=0
+compress/streamed=false
+mipmaps/generate=false
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/HDR_as_SRGB=false
+process/size_limit=0
+detect_3d/compress_to=1

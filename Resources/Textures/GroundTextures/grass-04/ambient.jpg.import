@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-ba366db25930439dcd2cd342e86a97fb.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/grass-04/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-ba366db25930439dcd2cd342e86a97fb.image" ]
+
+[params]
+

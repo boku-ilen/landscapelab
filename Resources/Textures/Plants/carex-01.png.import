@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/carex-01.png-894681fcf0bc227d97460d7ed5f27236.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/carex-01.png"
+dest_files=[ "res://.import/carex-01.png-894681fcf0bc227d97460d7ed5f27236.image" ]
+
+[params]
+

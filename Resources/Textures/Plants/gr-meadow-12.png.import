@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/gr-meadow-12.png-e5d5a5ea7db41b5daba71b32948cb5af.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/gr-meadow-12.png"
+dest_files=[ "res://.import/gr-meadow-12.png-e5d5a5ea7db41b5daba71b32948cb5af.image" ]
+
+[params]
+

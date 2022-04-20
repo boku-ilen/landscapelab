@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-0053d4f0db64c89a27902314e56b8c1f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/185-hemp/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-0053d4f0db64c89a27902314e56b8c1f.image" ]
+
+[params]
+

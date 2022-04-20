@@ -7,6 +7,7 @@ size = Vector3( 15, 20, 8 )
 
 [node name="DollyCamera" type="Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1349 )
+visible = false
 cull_mask = 55
 near = 0.01
 far = 25000.0
@@ -19,4 +20,3 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0
 layers = 64
 cast_shadow = 0
 mesh = SubResource( 1 )
-material/0 = null

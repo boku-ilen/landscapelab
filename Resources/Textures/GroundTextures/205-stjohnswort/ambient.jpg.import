@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-30c262c8f2a079a18138b7639a2f7c06.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/205-stjohnswort/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-30c262c8f2a079a18138b7639a2f7c06.image" ]
+
+[params]
+

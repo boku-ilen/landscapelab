@@ -13,6 +13,7 @@ onready var min_size = rect_min_size
 var RenderTypeObject = {
 	"NONE": Layer,
 	"BASIC_TERRAIN": Layer,
+	"REALISTIC_TERRAIN": Layer,
 	"PARTICLES": RasterLayer,
 	"OBJECT": FeatureLayer,
 	"PATH": FeatureLayer,
@@ -43,7 +44,10 @@ func layer_popup(rect: Rect2, existing_layer: Layer = null):
 		# FIXME: this probably should not be done like this anyways so we should fix this
 		var type_string: String = layer.RenderType.keys()[layer.render_type]
 		type_string = type_string.substr(0, 1) + type_string.substr(1).to_lower()
-		specific_layer_ui = load("res://UI/Layers/LayerConfiguration/SpecificLayerUI/%sLayer.tscn" % type_string).instance()
+		specific_layer_ui = load(
+			"res://UI/Layers/LayerConfiguration/SpecificLayerUI/%sLayer.tscn" 
+			% type_string).instance()
+		specific_layer_ui.init(layer)
 		container.add_child(specific_layer_ui)
 		container.move_child(specific_layer_ui, 1)
 
@@ -72,6 +76,7 @@ func _on_confirm():
 		Layers.add_layer(layer)
 	else:
 		layer.emit_signal("layer_changed")
+		layer.emit_signal("refresh_view")
 	
 	hide()
 

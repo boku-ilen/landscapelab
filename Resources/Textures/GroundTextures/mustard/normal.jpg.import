@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-b6a857346fb6db924e564a56826ccdb1.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/mustard/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-b6a857346fb6db924e564a56826ccdb1.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-313971c968a32bf44e97b0c54612a615.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/198-lupines/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-313971c968a32bf44e97b0c54612a615.image" ]
+
+[params]
+

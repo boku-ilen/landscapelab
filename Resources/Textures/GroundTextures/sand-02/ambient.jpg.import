@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-2a22eafda809859856e10f67d31f476e.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/sand-02/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-2a22eafda809859856e10f67d31f476e.image" ]
+
+[params]
+

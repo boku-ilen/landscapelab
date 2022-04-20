@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-0e104e44fd9f19f2780ab230c294bd8d.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/162-rape/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-0e104e44fd9f19f2780ab230c294bd8d.image" ]
+
+[params]
+

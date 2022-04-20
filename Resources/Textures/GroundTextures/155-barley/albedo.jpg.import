@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-f50c167f5f6824fec605f415bb8921af.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/155-barley/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-f50c167f5f6824fec605f415bb8921af.image" ]
+
+[params]
+

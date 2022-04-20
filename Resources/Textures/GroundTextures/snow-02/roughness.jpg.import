@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-349668c4319dbe1c10999f8f8b7e2a39.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/snow-02/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-349668c4319dbe1c10999f8f8b7e2a39.image" ]
+
+[params]
+

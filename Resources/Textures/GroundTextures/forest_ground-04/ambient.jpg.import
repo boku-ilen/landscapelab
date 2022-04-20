@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-68c79faa17552e5ad689c3858f18884e.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/forest_ground-04/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-68c79faa17552e5ad689c3858f18884e.image" ]
+
+[params]
+

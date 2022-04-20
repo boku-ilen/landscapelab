@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-ce819c1a37c69edd954e79e8ee6d2367.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/165-potato/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-ce819c1a37c69edd954e79e8ee6d2367.image" ]
+
+[params]
+

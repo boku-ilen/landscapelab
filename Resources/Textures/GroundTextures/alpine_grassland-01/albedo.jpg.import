@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-998b291f0b351ebe6328e7cdb943195a.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_grassland-01/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-998b291f0b351ebe6328e7cdb943195a.image" ]
+
+[params]
+

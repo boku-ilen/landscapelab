@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-8c20ae6fff8756957182995c56bdcc66.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/156-clover/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-8c20ae6fff8756957182995c56bdcc66.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-4214752dba50a5ef91d39283da2d2986.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/gravel-04/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-4214752dba50a5ef91d39283da2d2986.image" ]
+
+[params]
+

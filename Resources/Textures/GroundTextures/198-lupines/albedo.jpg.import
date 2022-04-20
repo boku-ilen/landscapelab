@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-67538f77e21bc29d8c5b48a3d8d7ae6d.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/198-lupines/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-67538f77e21bc29d8c5b48a3d8d7ae6d.image" ]
+
+[params]
+

@@ -24,3 +24,25 @@ func get_features_near_position(pos_x: float, pos_y: float, radius: float, max_f
 
 func is_valid():
 	return geo_feature_layer && geo_feature_layer.is_valid()
+
+
+# Workaround as sometimes it is necessary to do [...].geo_feature_layer.geo_feature_layer
+# and so on ...
+# FIXME: it works but might be a bit confusing ...
+func get_lowest_geo_feature_layer(current=geo_feature_layer):
+	if geo_feature_layer in current:
+		return get_lowest_geo_feature_layer(current.geo_feature_layer)
+	else:
+		return current
+
+
+func get_path():
+	if geo_feature_layer.get_dataset() == null:
+		return geo_feature_layer.get_name()
+	return geo_feature_layer.get_dataset().get_path()
+
+
+func get_name():
+	if geo_feature_layer.get_dataset() == null:
+		return geo_feature_layer.get_name().substr(geo_feature_layer.get_name().find_last("/"))
+	return geo_feature_layer.get_name()

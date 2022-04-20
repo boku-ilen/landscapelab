@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/dislacement.jpg-f99bffcdaf60c8ec9fc621d13750cb86.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/fallow-02/dislacement.jpg"
+dest_files=[ "res://.import/dislacement.jpg-f99bffcdaf60c8ec9fc621d13750cb86.image" ]
+
+[params]
+

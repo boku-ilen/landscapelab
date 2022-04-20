@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-d5efe32ea0dfa3780afd63eda913ca61.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/165-potato/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-d5efe32ea0dfa3780afd63eda913ca61.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-029e1bf46aa8f370fbb43dd9d23f8653.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/159-triticale/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-029e1bf46aa8f370fbb43dd9d23f8653.image" ]
+
+[params]
+

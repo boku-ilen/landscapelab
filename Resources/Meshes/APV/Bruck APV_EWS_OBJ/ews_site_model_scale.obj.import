@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ba8h0180nqsvd"
+path="res://.godot/imported/ews_site_model_scale.obj-f2d5149faed5c7c57bf7962f9ebf7c6f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/ews_site_model_scale.obj-f2d5149faed5c7c57bf7962f9ebf7c6f.mesh"]
+
+source_file="res://Resources/Meshes/APV/Bruck APV_EWS_OBJ/ews_site_model_scale.obj"
+dest_files=["res://.godot/imported/ews_site_model_scale.obj-f2d5149faed5c7c57bf7962f9ebf7c6f.mesh", "res://.godot/imported/ews_site_model_scale.obj-f2d5149faed5c7c57bf7962f9ebf7c6f.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

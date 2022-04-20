@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/picea-abies-32.png-298e982424ad3c0d18b8d85d7b5202bf.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/picea-abies-32.png"
+dest_files=[ "res://.import/picea-abies-32.png-298e982424ad3c0d18b8d85d7b5202bf.image" ]
+
+[params]
+

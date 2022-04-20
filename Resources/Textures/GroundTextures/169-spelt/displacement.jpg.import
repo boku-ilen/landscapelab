@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-b268b884727c68e9ecbde45f1dc78bea.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/169-spelt/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-b268b884727c68e9ecbde45f1dc78bea.image" ]
+
+[params]
+

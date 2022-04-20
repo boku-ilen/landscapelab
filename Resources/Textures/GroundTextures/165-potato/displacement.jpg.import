@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/displacement.jpg-eeb09def04cebc6f0782acb78ee172da.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/165-potato/displacement.jpg"
+dest_files=[ "res://.import/displacement.jpg-eeb09def04cebc6f0782acb78ee172da.image" ]
+
+[params]
+

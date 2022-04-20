@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-bfec991abe52e7234d3d2a3a335993ad.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/soil-07/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-bfec991abe52e7234d3d2a3a335993ad.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/panicum-01.png-7df7d4d99bff78aca515541db7840505.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/panicum-01.png"
+dest_files=[ "res://.import/panicum-01.png-7df7d4d99bff78aca515541db7840505.image" ]
+
+[params]
+

@@ -306,6 +306,8 @@ func load_vegetation_layer(db, layer_config, geo_layers_config) -> Layer:
 
 func load_object_layer(db, layer_config, geo_layers_config, extended_as: Layer.ObjectRenderInfo = null) -> Layer:
 	if get_extension_by_key(db, "extends_as", layer_config.id) == "WindTurbineRenderInfo":
+		# If it is extended as Winturbine we recursively call this function again
+		# without extension such that it creates the standard object-layer procedure
 		if extended_as == null:
 			return load_windmills(db, layer_config, geo_layers_config)
 
@@ -324,6 +326,7 @@ func load_object_layer(db, layer_config, geo_layers_config, extended_as: Layer.O
 		db, "HEIGHT_LAYER", geo_layers_config.rasters)
 	object_layer.ui_info.name_attribute = "Beschreib"
 	object_layer.name = layer_config.name
+	
 	
 	return object_layer
 

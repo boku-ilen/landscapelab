@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-32ddce4ae9c3054184c6662874b7624a.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_rocks-01/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-32ddce4ae9c3054184c6662874b7624a.image" ]
+
+[params]
+

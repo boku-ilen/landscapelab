@@ -47,8 +47,7 @@ func _get_full_billboard_path():
 func _load_into_cache_if_necessary(full_path):
 	if not VegetationImages.plant_image_cache.has(full_path):
 		# Load Image into the Image cache
-		var img = Image.new()
-		img.load(full_path)
+		var img = load(full_path)
 		
 		if img.is_empty():
 			logger.warning("Invalid billboard path in %s: %s"

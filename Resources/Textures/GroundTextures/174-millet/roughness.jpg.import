@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-f8909534b04b46b13483d9cbcaf4c897.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/174-millet/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-f8909534b04b46b13483d9cbcaf4c897.image" ]
+
+[params]
+

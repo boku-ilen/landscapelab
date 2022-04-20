@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-1be276c9b5f9ddf713bfad746d3c8456.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/177-reforestation/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-1be276c9b5f9ddf713bfad746d3c8456.image" ]
+
+[params]
+

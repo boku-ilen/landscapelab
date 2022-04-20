@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/pinus-x12.png-65615444a0bff03b4bb6d6a089469acb.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/pinus-x12.png"
+dest_files=[ "res://.import/pinus-x12.png-65615444a0bff03b4bb6d6a089469acb.image" ]
+
+[params]
+

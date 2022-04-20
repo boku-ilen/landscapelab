@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/petroselinum-02.png-1848c6567b276842f10f76dd91f6e80f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/petroselinum-02.png"
+dest_files=[ "res://.import/petroselinum-02.png-1848c6567b276842f10f76dd91f6e80f.image" ]
+
+[params]
+

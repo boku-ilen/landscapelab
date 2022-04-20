@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-8de576add76c4e06dbd4374722893380.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/154-pasture/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-8de576add76c4e06dbd4374722893380.image" ]
+
+[params]
+

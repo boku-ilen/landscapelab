@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-c77b9ecaec15a33a5c4111a90499c8bb.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/soil-02/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-c77b9ecaec15a33a5c4111a90499c8bb.image" ]
+
+[params]
+

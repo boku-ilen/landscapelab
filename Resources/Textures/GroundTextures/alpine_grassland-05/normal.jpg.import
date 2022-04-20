@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-3d5b3362bef4eb738b86edf4bab4d330.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_grassland-05/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-3d5b3362bef4eb738b86edf4bab4d330.image" ]
+
+[params]
+

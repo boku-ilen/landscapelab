@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-c328c9912c1b81e334d54cead08b4e73.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/riverbed-01/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-c328c9912c1b81e334d54cead08b4e73.image" ]
+
+[params]
+

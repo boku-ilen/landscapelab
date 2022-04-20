@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-fcac1d6892416b907ce218c337e9ce74.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/fallow-02/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-fcac1d6892416b907ce218c337e9ce74.image" ]
+
+[params]
+

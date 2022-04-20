@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-0b97e575e12065b339f6c1d5151b4474.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/grass-06/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-0b97e575e12065b339f6c1d5151b4474.image" ]
+
+[params]
+

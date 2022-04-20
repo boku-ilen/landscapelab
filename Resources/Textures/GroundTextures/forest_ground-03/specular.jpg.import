@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-54116fa3739ddc8f14e2472b7c67e84e.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/forest_ground-03/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-54116fa3739ddc8f14e2472b7c67e84e.image" ]
+
+[params]
+

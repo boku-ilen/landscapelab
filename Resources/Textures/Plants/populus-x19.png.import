@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/populus-x19.png-c32c6cf6bb5ac052499b2f671e16f5c0.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/populus-x19.png"
+dest_files=[ "res://.import/populus-x19.png-c32c6cf6bb5ac052499b2f671e16f5c0.image" ]
+
+[params]
+

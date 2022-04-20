@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-79ad369b535c4a68942410192aca6d80.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_grassland-05/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-79ad369b535c4a68942410192aca6d80.image" ]
+
+[params]
+

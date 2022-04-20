@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-852d2efc2c420b0ff28eef43e8747f6f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/185-hemp/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-852d2efc2c420b0ff28eef43e8747f6f.image" ]
+
+[params]
+

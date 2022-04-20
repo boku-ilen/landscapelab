@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-b3900bb3093cda2eadb648dcc2c97809.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/159-triticale/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-b3900bb3093cda2eadb648dcc2c97809.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-be7dd1244858d8f2dfb437a81cb12b00.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/181-emmer/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-be7dd1244858d8f2dfb437a81cb12b00.image" ]
+
+[params]
+

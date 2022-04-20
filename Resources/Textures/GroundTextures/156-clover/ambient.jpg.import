@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-84ae175daaa4ca3eb504d37e63f2e758.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/156-clover/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-84ae175daaa4ca3eb504d37e63f2e758.image" ]
+
+[params]
+

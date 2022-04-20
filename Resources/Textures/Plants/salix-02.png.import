@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/salix-02.png-94a1895e27d3d02256e3707b33632039.image"
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/salix-02.png"
+dest_files=[ "res://.import/salix-02.png-94a1895e27d3d02256e3707b33632039.image" ]
+
+[params]
+

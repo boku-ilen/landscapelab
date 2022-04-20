@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-cbfbca7b9710fcb883b0a41cc2d638c8.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/grass-01/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-cbfbca7b9710fcb883b0a41cc2d638c8.image" ]
+
+[params]
+

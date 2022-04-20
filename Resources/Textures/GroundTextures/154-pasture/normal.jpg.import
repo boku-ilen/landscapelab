@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-b2ade2759e25f9ef05f9358ad4ad84b9.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/154-pasture/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-b2ade2759e25f9ef05f9358ad4ad84b9.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/normal.jpg-79966b64792388c00a7b820a6de88152.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/156-clover/normal.jpg"
+dest_files=[ "res://.import/normal.jpg-79966b64792388c00a7b820a6de88152.image" ]
+
+[params]
+

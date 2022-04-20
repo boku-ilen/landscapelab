@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-ed2d1ab05ebffffc15d2125591994364.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/vine_row-01/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-ed2d1ab05ebffffc15d2125591994364.image" ]
+
+[params]
+

@@ -20,12 +20,14 @@ func add_path_point(position):
 
 
 func set_focus_position(position_on_ground, path_height):
+	$Focus.visible = true
 	$Focus.set_translation(position_on_ground)
 	$Focus/Sprite3D.set_translation(path_height)
 	dolly_cam.focus = $Focus
 
 
 func clear():
+	$Focus.visible = false
 	$DollyRail.get_curve().clear_points()
 
 

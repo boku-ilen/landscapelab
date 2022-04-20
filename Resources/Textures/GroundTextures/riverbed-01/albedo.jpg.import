@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-56ce1d2f97b08205b30ae5b5edbfb7eb.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/riverbed-01/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-56ce1d2f97b08205b30ae5b5edbfb7eb.image" ]
+
+[params]
+

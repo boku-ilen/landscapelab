@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-68525be53c14d72ea952ab682913916c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine_rocks-02/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-68525be53c14d72ea952ab682913916c.image" ]
+
+[params]
+

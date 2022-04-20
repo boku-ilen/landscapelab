@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/roughness.jpg-7e3dcaf8bc7696d1b570afe40fa90c32.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/forest_ground-06/roughness.jpg"
+dest_files=[ "res://.import/roughness.jpg-7e3dcaf8bc7696d1b570afe40fa90c32.image" ]
+
+[params]
+
