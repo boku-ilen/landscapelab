@@ -56,7 +56,7 @@ class AddFeatureAction extends ActionHandler.Action:
 
 func _on_edit(toggled):
 	if toggled:
-		pc_player.action_handler.set_current_action(edit_action, edit_cursor)
+		pc_player.action_handler.set_current_action(add_action, edit_cursor)
 	else:
 		pc_player.action_handler.stop_current_action()
 
