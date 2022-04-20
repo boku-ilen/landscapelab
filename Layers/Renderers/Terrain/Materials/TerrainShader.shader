@@ -16,6 +16,7 @@ uniform bool has_landuse = false;
 
 uniform sampler2D offset_noise;
 
+uniform bool uses_detail_textures = false;
 uniform sampler2DArray albedo_tex: hint_albedo;
 uniform sampler2DArray normal_tex: hint_normal;
 uniform sampler2DArray ambient_tex;
@@ -26,6 +27,7 @@ uniform sampler2DArray ao_tex;
 // See Vegetation.get_metadata_texture for details
 uniform sampler2D metadata;
 
+uniform bool uses_distance_textures = false;
 uniform float distance_tex_switch_distance = 20.0;
 uniform float fade_transition_space = 8.0;
 uniform float ortho_switch_distance = 150.0;
@@ -148,8 +150,8 @@ void fragment() {
 	vec3 metadata_value = texelGet(metadata, ivec2(splat_id, 0), 0).rgb;
 	
 	float plant_row = metadata_value.r * 255.0;
-	float ground_texture_scale = metadata_value.g * 128.0; // FIXME: Move scale to uniform
-	float fade_texture_scale = metadata_value.b * 128.0;
+	float ground_texture_scale = float(uses_detail_textures) * metadata_value.g * 128.0; // FIXME: Move scale to uniform
+	float fade_texture_scale = float(uses_distance_textures) * metadata_value.b * 128.0;
 	
 	// Calculate the near factor: 0.0 when only the distance texture should be applied,
 	// 1.0 when only the close ground texture should be used
@@ -165,18 +167,22 @@ void fragment() {
 	}
 	
 	// Apply textures
-	if (ground_texture_scale > 0.0 && has_landuse) {
+	if (has_landuse && (ground_texture_scale > 0.0 || fade_texture_scale > 0.0)) {
 		// We have special near textures here
 		if (near_factor >= 1.0) {
-			vec3 scaled_uv = vec3(UV * size / ground_texture_scale, plant_row);
-		
-			ALBEDO = texture(albedo_tex, scaled_uv).rgb;
-			// TODO: Angle normals by previous vertex NORMAL so that the shading isn't overwritten (need to use TANGENT)
-			NORMALMAP = texture(normal_tex, scaled_uv).rgb;
-			NORMALMAP_DEPTH = 2.5 * (1.0 - camera_distance / (distance_tex_switch_distance - fade_transition_space));
-//			AO = texture(ambient_tex, scaled_uv).r;
-//			SPECULAR = texture(specular_tex, scaled_uv).r;
-//			ROUGHNESS = texture(roughness_tex, scaled_uv).r;
+			if (ground_texture_scale > 0.0) {
+				vec3 scaled_uv = vec3(UV * size / ground_texture_scale, plant_row);
+				
+				ALBEDO = texture(albedo_tex, scaled_uv).rgb;
+				// TODO: Angle normals by previous vertex NORMAL so that the shading isn't overwritten (need to use TANGENT)
+				NORMALMAP = texture(normal_tex, scaled_uv).rgb;
+				NORMALMAP_DEPTH = 2.5 * (1.0 - camera_distance / (distance_tex_switch_distance - fade_transition_space));
+	//			AO = texture(ambient_tex, scaled_uv).r;
+	//			SPECULAR = texture(specular_tex, scaled_uv).r;
+	//			ROUGHNESS = texture(roughness_tex, scaled_uv).r;
+			} else {
+				ALBEDO = get_ortho_color(UV);
+			}
 		} else if (near_factor <= 0.0) {
 			// Apply the distance tex or ortho
 			if (fade_texture_scale <= 0.0 || camera_distance > ortho_switch_distance + ortho_transition_space) {
@@ -203,17 +209,23 @@ void fragment() {
 			vec3 scaled_near_uv = vec3(UV * size / ground_texture_scale, plant_row);
 			vec3 scaled_far_uv = vec3(UV * size / fade_texture_scale, plant_row);
 			
-			// Select the distance sample depending on whether a fade texture is available (ortho otherwise)
-			vec3 second_sample;
-			vec3 second_sample_normals;
-			if (fade_texture_scale > 0.0) {
-				second_sample = texture(distance_tex, scaled_far_uv).rgb;
-				second_sample_normals = texture(distance_normals, scaled_far_uv).rgb;
+			// Select the detail sample depending on whether it is available
+			vec3 detail_sample;
+			if (ground_texture_scale > 0.0) {
+				detail_sample = texture(albedo_tex, scaled_near_uv).rgb;
 			} else {
-				second_sample = get_ortho_color(UV);
+				detail_sample = get_ortho_color(UV);
 			}
 			
-			ALBEDO = mix(texture(albedo_tex, scaled_near_uv).rgb, second_sample, near_factor);
+			// Select the distance sample depending on whether a fade texture is available (ortho otherwise)
+			vec3 distance_sample;
+			if (fade_texture_scale > 0.0) {
+				distance_sample = texture(distance_tex, scaled_far_uv).rgb;
+			} else {
+				distance_sample = get_ortho_color(UV);
+			}
+			
+			ALBEDO = mix(detail_sample, distance_sample, near_factor);
 		}
 	} else {
 		// No near texture is available, so just apply the ortho

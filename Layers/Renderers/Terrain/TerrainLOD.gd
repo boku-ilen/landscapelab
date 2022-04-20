@@ -184,6 +184,7 @@ func apply_textures():
 			material_override.set_shader_param("metadata", current_metadata_map)
 		
 		if current_albedo_ground_textures:
+			material_override.set_shader_param("uses_detail_textures", true)
 			material_override.set_shader_param("albedo_tex", current_albedo_ground_textures)
 			material_override.set_shader_param("normal_tex", current_normal_ground_textures)
 			material_override.set_shader_param("ambient_tex", current_ambient_ground_textures)
@@ -191,6 +192,7 @@ func apply_textures():
 			material_override.set_shader_param("roughness_tex", current_roughness_ground_textures)
 		
 		if current_albedo_fade_textures:
+			material_override.set_shader_param("uses_distance_textures", true)
 			material_override.set_shader_param("distance_tex", current_albedo_fade_textures)
 			material_override.set_shader_param("distance_normals", current_normal_fade_textures)
 	else:
