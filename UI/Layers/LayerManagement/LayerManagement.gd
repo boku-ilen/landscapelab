@@ -29,7 +29,7 @@ func _new_layer_selected(layer):
 	type_str = type_str.substr(0, 1).to_upper() + type_str.substr(1).to_lower()
 	var ui_path = "res://UI/Layers/LayerManagement/%sLayerManagement.tscn" % type_str
 	
-	if current_layer_management_ui != null:
+	if current_layer_management_ui != null and is_instance_valid(current_layer_management_ui):
 		current_layer_management_ui.queue_free()
 	
 	var file2check = File.new()
