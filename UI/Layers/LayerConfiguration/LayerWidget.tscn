@@ -19,7 +19,6 @@ shader_param/color_length_modulate_threshold = 1.5
 
 [sub_resource type="DynamicFont" id=2]
 size = 20
-outline_size = 2
 font_data = ExtResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=3]
@@ -106,16 +105,10 @@ margin_bottom = 29.0
 rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 2 )
 text = "123456789101112"
 valign = 1
-percent_visible = -0.1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LeftContainer" type="HBoxContainer" parent="."]
 margin_left = 243.0

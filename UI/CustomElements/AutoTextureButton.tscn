@@ -18,9 +18,6 @@ rect_min_size = Vector2( 30, 30 )
 expand = true
 stretch_mode = 5
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 pressed_color = Color( 0, 0.0392157, 1, 1 )
 hover_color = Color( 0, 0.0745098, 0.360784, 1 )
 disabled_color = Color( 0.321569, 0.321569, 0.321569, 1 )
