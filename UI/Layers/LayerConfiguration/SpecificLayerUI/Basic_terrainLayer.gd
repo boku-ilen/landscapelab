@@ -19,8 +19,10 @@ func _toggle_color_menu(toggled: bool):
 
 func _update_min_max():
 	var texture_layer = $RightBox/GeodataChooserTexture.get_geo_layer(true)
-	$RightBox/ColorShading/MinVal.value = texture_layer.get_min()
-	$RightBox/ColorShading/MaxVal.value = texture_layer.get_max()
+	
+	if texture_layer != null:
+		$RightBox/ColorShading/MinVal.value = texture_layer.get_min()
+		$RightBox/ColorShading/MaxVal.value = texture_layer.get_max()
 
 
 func _pop_color_picker(button: Button):

@@ -8,7 +8,8 @@
 
 [node name="TerrainLayer" type="HSplitContainer"]
 margin_right = 1024.0
-rect_min_size = Vector2( 0, 388 )
+margin_bottom = 425.0
+rect_min_size = Vector2( 0, 425 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -16,7 +17,7 @@ __meta__ = {
 
 [node name="LeftBox" type="VBoxContainer" parent="."]
 margin_right = 133.0
-margin_bottom = 388.0
+margin_bottom = 425.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -102,7 +103,7 @@ text = "Alpha:
 [node name="RightBox" type="VBoxContainer" parent="."]
 margin_left = 157.0
 margin_right = 1024.0
-margin_bottom = 388.0
+margin_bottom = 425.0
 
 [node name="Control" type="Control" parent="RightBox"]
 margin_right = 867.0
