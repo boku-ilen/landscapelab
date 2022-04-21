@@ -35,7 +35,7 @@ func _on_new_layer():
 		
 	current_config_window = layer_config_window.instance()
 	new_button.add_child(current_config_window)
-	current_config_window.popup(new_button.get_global_rect())
+	current_config_window.popup_centered(current_config_window.rect_min_size)
 
 
 func _open_filter_options():

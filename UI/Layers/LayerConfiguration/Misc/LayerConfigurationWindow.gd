@@ -33,8 +33,8 @@ func _ready():
 
 # Use this function instead of popup to also fill the according layer properties.
 # If the layer is not set, the popup will handle the configuration as a new layer.
-func layer_popup(rect: Rect2, existing_layer: Layer = null):
-	popup(rect)
+func layer_popup(min_size: Vector2, existing_layer: Layer = null):
+	popup_centered(min_size)
 	layer = existing_layer
 	
 	if layer != null:
