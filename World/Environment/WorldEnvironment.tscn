@@ -205,6 +205,7 @@ scene_to_load = "res://Python/PysolarInterface.tscn"
 [node name="CloudDome" type="MeshInstance" parent="."]
 material_override = SubResource( 12 )
 cast_shadow = 0
+extra_cull_margin = 1000.0
 mesh = ExtResource( 5 )
 material/0 = null
 script = ExtResource( 6 )

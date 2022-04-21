@@ -3,38 +3,20 @@
 [ext_resource path="res://addons/Sky/sky_render.shader" type="Shader" id=1]
 
 [sub_resource type="ShaderMaterial" id=1]
-
-render_priority = 0
 shader = ExtResource( 1 )
-shader_param/earth_radius_km = null
-shader_param/atmo_radius_km = null
-shader_param/cam_height_m = null
-shader_param/sun_pos = null
-shader_param/sun_intensity = null
-shader_param/rayleigh_coeff = null
-shader_param/mie_coeff = null
-shader_param/rayleigh_scale = null
-shader_param/mie_scale = null
-shader_param/mie_scatter_dir = null
+shader_param/earth_radius_km = 6371.0
+shader_param/atmo_radius_km = 6471.0
+shader_param/cam_height_m = 1.8
+shader_param/sun_pos = Vector3( 0, 0.1, -0.5 )
+shader_param/sun_intensity = 22.0
+shader_param/rayleigh_coeff = Vector3( 5.5, 13, 22.4 )
+shader_param/mie_coeff = 21.0
+shader_param/rayleigh_scale = 800.0
+shader_param/mie_scale = 120.0
+shader_param/mie_scatter_dir = 0.758
 shader_param/rotate_night_sky = Basis( 1, 0, 0, 0, 1, 0, 0, 0, 1 )
-_sections_unfolded = [ "shader_param" ]
 
-[node name="Sky" type="ColorRect" index="0"]
-
+[node name="Sky" type="ColorRect"]
 material = SubResource( 1 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_right = 2048.0
-margin_bottom = 1024.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-color = Color( 1, 1, 1, 1 )
-_sections_unfolded = [ "Material", "Rect" ]
-
-
+margin_bottom = 1079.0
