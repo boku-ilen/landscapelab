@@ -54,9 +54,6 @@ func is_current_file_dataset():
 
 
 func get_geo_layer(is_raster: bool = true):
-	if  Directory.new().file_exists($FileChooser/FileName.text) or $FileChooser/FileName.text.begins_with("."):
-		return null
-	
 	if is_current_file_dataset():
 		var sub_layer_name = $OptionButton.get_item_text($OptionButton.get_selected_id())
 		var dataset = Geodot.get_dataset($FileChooser/FileName.text)
