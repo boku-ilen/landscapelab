@@ -8,7 +8,10 @@ script = ExtResource( 1 )
 
 [node name="TransformReset" type="Node" parent="."]
 
-[node name="OmniLight" type="OmniLight" parent="TransformReset"]
+[node name="Particle" parent="TransformReset" instance=ExtResource( 2 )]
+skeleton = NodePath("")
+
+[node name="OmniLight" type="OmniLight" parent="TransformReset/Particle"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0 )
 visible = false
 layers = 23
@@ -23,6 +26,3 @@ omni_attenuation = 0.0118415
 __meta__ = {
 "_editor_description_": ""
 }
-
-[node name="Particle" parent="TransformReset" instance=ExtResource( 2 )]
-skeleton = NodePath("")

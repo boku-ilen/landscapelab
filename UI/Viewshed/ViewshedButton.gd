@@ -10,4 +10,4 @@ func _ready():
 
 
 func _on_toggle(toggled: bool):
-	pc_player.action_handler.enable_viewshed(toggled)
+	pc_player.get_node("Head/Camera/MousePoint/MouseCollisionIndicator/TransformReset/Particle/OmniLight").visible = toggled
