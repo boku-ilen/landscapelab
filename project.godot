@@ -44,10 +44,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Perspectives/PC/ActionHandler.gd"
 }, {
-"base": "TextureButton",
-"class": "AutoTextureButton",
+"base": "Button",
+"class": "AutoIconButton",
 "language": "GDScript",
-"path": "res://UI/CustomElements/AutoTextureButton.gd"
+"path": "res://UI/CustomElements/AutoIconButton.gd"
 }, {
 "base": "Object",
 "class": "CSVReader",
@@ -277,7 +277,7 @@ _global_script_class_icons={
 "AbstractPlayer": "",
 "AbstractRequestHandler": "",
 "ActionHandler": "",
-"AutoTextureButton": "",
+"AutoIconButton": "",
 "CSVReader": "",
 "CloudDome": "",
 "Configurator": "",
@@ -360,9 +360,13 @@ window/dpi/allow_hidpi=true
 window/energy_saving/keep_screen_on=false
 window/stretch/aspect="expand"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "dscn_io", "gameflow" )
+
 [gdnative]
 
-singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib" ]
+singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib", "res://pythonscript.gdnlib" ]
 
 [gui]
 
