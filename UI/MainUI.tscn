@@ -191,6 +191,8 @@ stretch = true
 script = ExtResource( 11 )
 
 [node name="FullscreenButton" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort" instance=ExtResource( 13 )]
+margin_right = -1376.0
+margin_bottom = -990.0
 texture_normal = ExtResource( 2 )
 texture_name = "fullscreen"
 
