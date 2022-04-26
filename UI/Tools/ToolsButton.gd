@@ -1,4 +1,4 @@
-extends "res://UI/CustomElements/AutoTextureButton.gd"
+extends AutoIconButton
 tool
 
 

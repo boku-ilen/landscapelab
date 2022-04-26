@@ -1,4 +1,4 @@
-extends AutoTextureButton
+extends AutoIconButton
 
 
 var pos_manager: PositionManager

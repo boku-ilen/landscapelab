@@ -2,7 +2,7 @@
 
 [ext_resource path="res://UI/Layers/LayerManagement/PathLayerManagement.gd" type="Script" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/vector_edit.svg" type="Texture" id=4]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/vector_modify.svg" type="Texture" id=5]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/vector_save.svg" type="Texture" id=6]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=3]
 [ext_resource path="res://UI/Layers/LayerManagement/ObjectLayerManagement.gd" type="Script" id=4]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/file.svg" type="Texture" id=9]

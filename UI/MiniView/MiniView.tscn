@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/together.svg" type="Texture" id=1]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.gd" type="Script" id=2]
+[ext_resource path="res://UI/CustomElements/AutoIconButton.gd" type="Script" id=2]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/swap.svg" type="Texture" id=3]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/helicopter.svg" type="Texture" id=4]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=5]

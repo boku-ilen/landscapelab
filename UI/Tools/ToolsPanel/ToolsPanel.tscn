@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/locomotion.svg" type="Texture" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/raster.svg" type="Texture" id=2]
@@ -8,10 +8,8 @@
 [ext_resource path="res://UI/Tracking/Record.tscn" type="PackedScene" id=6]
 [ext_resource path="res://UI/Tools/ToolsButton.tscn" type="PackedScene" id=7]
 [ext_resource path="res://UI/Imaging/ImagingButton.gd" type="Script" id=8]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=9]
 [ext_resource path="res://UI/UiTeleport.gd" type="Script" id=10]
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.gd" type="Script" id=11]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/record.svg" type="Texture" id=12]
 [ext_resource path="res://UI/Tracking/Record.gd" type="Script" id=13]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/paintbrush.svg" type="Texture" id=15]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/footprint.svg" type="Texture" id=16]
@@ -23,71 +21,7 @@
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/energy.svg" type="Texture" id=23]
 [ext_resource path="res://UI/Weather/WeatherUI.tscn" type="PackedScene" id=24]
 [ext_resource path="res://UI/Screenshot/Screenshot.gd" type="Script" id=25]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/camera.svg" type="Texture" id=26]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=27]
-
-[sub_resource type="ShaderMaterial" id=1]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[sub_resource type="ShaderMaterial" id=2]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[sub_resource type="ShaderMaterial" id=3]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[sub_resource type="ShaderMaterial" id=4]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[sub_resource type="ShaderMaterial" id=5]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[sub_resource type="ShaderMaterial" id=6]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[sub_resource type="ShaderMaterial" id=8]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[sub_resource type="ShaderMaterial" id=9]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
-
-[sub_resource type="ShaderMaterial" id=10]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
+[ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=27]
 
 [node name="ToolsPanel" type="VBoxContainer"]
 anchor_right = 0.125
@@ -99,9 +33,12 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 alignment = 1
 script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-margin_right = 30.0
+margin_right = 40.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 0, 370 )
 mouse_filter = 1
@@ -110,38 +47,36 @@ size_flags_vertical = 15
 scroll_horizontal_enabled = false
 
 [node name="ToolsBar" type="VBoxContainer" parent="ScrollContainer"]
-margin_right = 30.0
-margin_bottom = 350.0
+margin_right = 40.0
+margin_bottom = 440.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 custom_constants/separation = 10
 
 [node name="Viewshed" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 1 )
-margin_right = 30.0
-texture_normal = ExtResource( 5 )
+material = null
+margin_right = 40.0
+margin_bottom = 40.0
+icon = ExtResource( 5 )
 script = ExtResource( 20 )
-texture_name = "eyes"
 
 [node name="Teleport" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 2 )
-margin_top = 40.0
-margin_right = 30.0
-margin_bottom = 70.0
-texture_normal = ExtResource( 1 )
+material = null
+margin_top = 50.0
+margin_right = 40.0
+margin_bottom = 90.0
+icon = ExtResource( 1 )
 script = ExtResource( 10 )
-texture_name = "locomotion"
 
 [node name="TeleportMenu" parent="ScrollContainer/ToolsBar/Teleport" instance=ExtResource( 18 )]
 visible = false
 
 [node name="Season" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 3 )
-margin_top = 80.0
-margin_right = 30.0
-margin_bottom = 110.0
-texture_normal = ExtResource( 4 )
-texture_name = "clock"
+material = null
+margin_top = 100.0
+margin_right = 40.0
+margin_bottom = 140.0
+icon = ExtResource( 4 )
 
 [node name="Datetime" parent="ScrollContainer/ToolsBar/Season" instance=ExtResource( 17 )]
 visible = false
@@ -150,78 +85,64 @@ margin_bottom = 72.0
 rect_min_size = Vector2( 214, 72 )
 
 [node name="Weather" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 4 )
-margin_top = 120.0
-margin_right = 30.0
-margin_bottom = 150.0
-texture_normal = ExtResource( 23 )
-texture_name = "energy"
+material = null
+margin_top = 150.0
+margin_right = 40.0
+margin_bottom = 190.0
+icon = ExtResource( 23 )
 
 [node name="WeatherUI" parent="ScrollContainer/ToolsBar/Weather" instance=ExtResource( 24 )]
 visible = false
 
 [node name="Tracking" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 5 )
-margin_top = 160.0
-margin_right = 30.0
-margin_bottom = 190.0
-texture_normal = ExtResource( 16 )
+material = null
+margin_top = 200.0
+margin_right = 40.0
+margin_bottom = 240.0
+icon = ExtResource( 16 )
 script = ExtResource( 13 )
 texture_name = "footprint"
-pressed_color = Color( 0, 0, 0, 1 )
-hover_color = Color( 0, 0, 0, 1 )
-disabled_color = Color( 0, 0, 0, 1 )
-focused_color = Color( 0, 0, 0, 1 )
 
 [node name="Record" parent="ScrollContainer/ToolsBar/Tracking" instance=ExtResource( 6 )]
 visible = false
 
 [node name="Imaging" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 6 )
-margin_top = 200.0
-margin_right = 30.0
-margin_bottom = 230.0
-texture_normal = ExtResource( 12 )
+material = null
+margin_top = 250.0
+margin_right = 40.0
+margin_bottom = 290.0
+expand_icon = false
 script = ExtResource( 8 )
 texture_name = "record"
-pressed_color = Color( 0, 0, 0, 1 )
-hover_color = Color( 0, 0, 0, 1 )
-disabled_color = Color( 0, 0, 0, 1 )
-focused_color = Color( 0, 0, 0, 1 )
 
 [node name="ImagingMenu" parent="ScrollContainer/ToolsBar/Imaging" instance=ExtResource( 19 )]
 visible = false
 
 [node name="Style" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 8 )
-margin_top = 240.0
-margin_right = 30.0
-margin_bottom = 270.0
-texture_normal = ExtResource( 15 )
-texture_name = "paintbrush"
+material = null
+margin_top = 300.0
+margin_right = 40.0
+margin_bottom = 340.0
+icon = ExtResource( 15 )
 
 [node name="RenderingStyleMenu" parent="ScrollContainer/ToolsBar/Style" instance=ExtResource( 22 )]
 visible = false
 
 [node name="GeoJPEG" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
-material = SubResource( 9 )
-margin_top = 280.0
-margin_right = 30.0
-margin_bottom = 310.0
-texture_normal = ExtResource( 2 )
-texture_name = "raster"
+material = null
+margin_top = 350.0
+margin_right = 40.0
+margin_bottom = 390.0
+icon = ExtResource( 2 )
 
 [node name="GeoJPEGMenu" parent="ScrollContainer/ToolsBar/GeoJPEG" instance=ExtResource( 3 )]
 visible = false
 
 [node name="Camera" parent="ScrollContainer/ToolsBar" instance=ExtResource( 27 )]
-material = SubResource( 10 )
-margin_top = 320.0
-margin_right = 30.0
-margin_bottom = 350.0
-texture_normal = ExtResource( 26 )
+margin_top = 400.0
+margin_right = 40.0
+margin_bottom = 440.0
+mouse_filter = 1
+expand_icon = false
 script = ExtResource( 25 )
-pressed_color = Color( 0, 0, 0, 1 )
-hover_color = Color( 0, 0, 0, 1 )
-disabled_color = Color( 0, 0, 0, 1 )
-focused_color = Color( 0, 0, 0, 1 )
+texture_name = "camera"

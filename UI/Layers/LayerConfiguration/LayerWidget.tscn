@@ -1,32 +1,18 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://UI/Layers/LayerConfiguration/LayerWidget.gd" type="Script" id=1]
 [ext_resource path="res://UI/Layers/LayerConfiguration/EditWindow.gd" type="Script" id=2]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/eye_crossed.svg" type="Texture" id=3]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/three_points.svg" type="Texture" id=4]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Resources/Fonts/Nunito/NunitoSans-Bold.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://UI/Theme/LayerWidget.tres" type="Theme" id=7]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=8]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/rotate.svg" type="Texture" id=9]
-
-[sub_resource type="ShaderMaterial" id=1]
-resource_local_to_scene = true
-shader = ExtResource( 8 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" type="Texture" id=10]
 
 [sub_resource type="DynamicFont" id=2]
 size = 20
 font_data = ExtResource( 6 )
-
-[sub_resource type="ShaderMaterial" id=3]
-resource_local_to_scene = true
-shader = ExtResource( 8 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
 
 [node name="LayerWidget" type="HBoxContainer"]
 margin_left = 438.0
@@ -45,7 +31,7 @@ __meta__ = {
 
 [node name="RightContainer" type="HBoxContainer" parent="."]
 margin_right = 235.0
-margin_bottom = 30.0
+margin_bottom = 37.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 20, 0 )
@@ -56,33 +42,32 @@ __meta__ = {
 }
 
 [node name="VisibilityBox" type="MarginContainer" parent="RightContainer"]
-margin_right = 30.0
-margin_bottom = 30.0
+margin_right = 45.0
+margin_bottom = 37.0
 
 [node name="ColorRect" type="ColorRect" parent="RightContainer/VisibilityBox"]
-margin_right = 30.0
-margin_bottom = 30.0
+margin_right = 45.0
+margin_bottom = 37.0
 color = Color( 1, 1, 1, 0 )
 
-[node name="VisibilityButton" parent="RightContainer/VisibilityBox" instance=ExtResource( 5 )]
-material = SubResource( 1 )
-margin_right = 30.0
-margin_bottom = 30.0
+[node name="VisibilityButton" type="TextureButton" parent="RightContainer/VisibilityBox"]
+margin_right = 45.0
+margin_bottom = 37.0
 toggle_mode = true
-texture_normal = ExtResource( 3 )
-texture_name = "eye_crossed"
+texture_normal = ExtResource( 10 )
+texture_pressed = ExtResource( 3 )
 
 [node name="VSeparator" type="VSeparator" parent="RightContainer"]
-margin_left = 38.0
-margin_right = 46.0
-margin_bottom = 30.0
+margin_left = 53.0
+margin_right = 61.0
+margin_bottom = 37.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Icon" type="TextureRect" parent="RightContainer"]
-margin_left = 54.0
-margin_right = 84.0
+margin_left = 69.0
+margin_right = 99.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 30, 30 )
 size_flags_horizontal = 0
@@ -91,9 +76,9 @@ expand = true
 stretch_mode = 6
 
 [node name="NameSizeFix" type="Control" parent="RightContainer"]
-margin_left = 92.0
+margin_left = 107.0
 margin_right = 235.0
-margin_bottom = 30.0
+margin_bottom = 37.0
 rect_clip_content = true
 mouse_filter = 1
 size_flags_horizontal = 3
@@ -113,32 +98,30 @@ valign = 1
 [node name="LeftContainer" type="HBoxContainer" parent="."]
 margin_left = 243.0
 margin_right = 343.0
-margin_bottom = 30.0
+margin_bottom = 37.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 8
 size_flags_vertical = 8
 alignment = 2
 
 [node name="Reload" parent="LeftContainer" instance=ExtResource( 5 )]
-material = SubResource( 3 )
 margin_left = 12.0
 margin_right = 52.0
-margin_bottom = 30.0
+margin_bottom = 37.0
 rect_min_size = Vector2( 40, 30 )
 mouse_filter = 1
 size_flags_vertical = 0
-texture_normal = ExtResource( 9 )
+icon = ExtResource( 9 )
 texture_name = "rotate"
 
 [node name="Edit" parent="LeftContainer" instance=ExtResource( 5 )]
-material = SubResource( 3 )
 margin_left = 60.0
 margin_right = 100.0
-margin_bottom = 30.0
+margin_bottom = 37.0
 rect_min_size = Vector2( 40, 30 )
 mouse_filter = 1
 size_flags_vertical = 0
-texture_normal = ExtResource( 4 )
+icon = ExtResource( 4 )
 texture_name = "three_points"
 
 [node name="EditMenu" type="PopupMenu" parent="."]

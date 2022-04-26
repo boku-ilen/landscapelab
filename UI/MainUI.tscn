@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=2]
@@ -10,9 +10,8 @@
 [ext_resource path="res://UI/Layers/LayerConfiguration/LayerUI.tscn" type="PackedScene" id=10]
 [ext_resource path="res://UI/WorldViewPort.gd" type="Script" id=11]
 [ext_resource path="res://World/World.tscn" type="PackedScene" id=12]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.tscn" type="PackedScene" id=13]
+[ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=13]
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" type="Texture" id=15]
 [ext_resource path="res://UI/Layers/LayerManagement/LayerManagement.gd" type="Script" id=16]
 [ext_resource path="res://UI/LoadingLabel.gd" type="Script" id=17]
 [ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=18]
@@ -202,9 +201,6 @@ script = ExtResource( 11 )
 material = SubResource( 2 )
 margin_right = 40.0
 margin_bottom = 40.0
-rect_min_size = Vector2( 40, 40 )
-texture_normal = ExtResource( 15 )
-texture_name = "fullscreen"
 
 [node name="LoadingLabel" type="Label" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
 anchor_top = 0.96
@@ -287,7 +283,7 @@ script = ExtResource( 8 )
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right"]
 margin_right = 282.0
-margin_bottom = 74.0
+margin_bottom = 83.0
 tab_align = 0
 drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
@@ -299,7 +295,7 @@ margin_right = -5.0
 margin_bottom = -5.0
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right"]
-margin_top = 82.0
+margin_top = 91.0
 margin_right = 282.0
 margin_bottom = 1034.0
 size_flags_horizontal = 3
