@@ -59,6 +59,7 @@ margin_right = 40.0
 margin_bottom = 40.0
 icon = ExtResource( 5 )
 script = ExtResource( 20 )
+texture_name = "eyes"
 
 [node name="Teleport" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = null
@@ -67,6 +68,7 @@ margin_right = 40.0
 margin_bottom = 90.0
 icon = ExtResource( 1 )
 script = ExtResource( 10 )
+texture_name = "locomotion"
 
 [node name="TeleportMenu" parent="ScrollContainer/ToolsBar/Teleport" instance=ExtResource( 18 )]
 visible = false
@@ -77,6 +79,7 @@ margin_top = 100.0
 margin_right = 40.0
 margin_bottom = 140.0
 icon = ExtResource( 4 )
+texture_name = "clock"
 
 [node name="Datetime" parent="ScrollContainer/ToolsBar/Season" instance=ExtResource( 17 )]
 visible = false
@@ -90,6 +93,7 @@ margin_top = 150.0
 margin_right = 40.0
 margin_bottom = 190.0
 icon = ExtResource( 23 )
+texture_name = "energy"
 
 [node name="WeatherUI" parent="ScrollContainer/ToolsBar/Weather" instance=ExtResource( 24 )]
 visible = false
@@ -124,6 +128,7 @@ margin_top = 300.0
 margin_right = 40.0
 margin_bottom = 340.0
 icon = ExtResource( 15 )
+texture_name = "paintbrush"
 
 [node name="RenderingStyleMenu" parent="ScrollContainer/ToolsBar/Style" instance=ExtResource( 22 )]
 visible = false
@@ -134,6 +139,7 @@ margin_top = 350.0
 margin_right = 40.0
 margin_bottom = 390.0
 icon = ExtResource( 2 )
+texture_name = "raster"
 
 [node name="GeoJPEGMenu" parent="ScrollContainer/ToolsBar/GeoJPEG" instance=ExtResource( 3 )]
 visible = false

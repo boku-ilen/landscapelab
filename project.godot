@@ -44,7 +44,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Perspectives/PC/ActionHandler.gd"
 }, {
-"base": "Button",
+"base": "BaseButton",
 "class": "AutoIconButton",
 "language": "GDScript",
 "path": "res://UI/CustomElements/AutoIconButton.gd"
