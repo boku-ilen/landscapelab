@@ -25,8 +25,11 @@ func _update_texture():
 		var full_path = "res://Resources/Icons".plus_file(icon_folder).plus_file(texture_name) + ".svg"
 		assert(File.new().file_exists(full_path), "%s: No icon with name '%s' found in icon folder '%s'!" % [name, texture_name, icon_folder])
 		
-		expand_icon = true
-		icon = load(full_path)
+		if "texture" in self:
+			self.texture = load(full_path)
+		else:
+			expand_icon = true
+			icon = load(full_path)
 
 
 func set_texture_name(new_name: String):
