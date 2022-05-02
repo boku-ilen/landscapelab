@@ -14,5 +14,22 @@ func open_vegetation_editor():
 
 
 func assign_specific_layer_info(layer: Layer):
-	layer.render_info = Layer.VegetationRenderInfo.new()
-	# TODO: Also set properties of thar RenderInfo according to the UI selections
+	if layer.render_info == null:
+		layer.render_info = Layer.VegetationRenderInfo.new()
+	
+	var height_layer = $HSplitContainer/RightBox/HeightChooser.get_geo_layer(true)
+	var landuse_layer = $HSplitContainer/RightBox/LanduseChooser.get_geo_layer(true)
+
+	if !validate(landuse_layer) or !validate(height_layer):
+		print_warning("Texture- or height-layer is invalid!")
+		return
+	
+	layer.render_info.height_layer = height_layer.clone()
+	layer.render_info.landuse_layer = landuse_layer.clone()
+
+
+func init_specific_layer_info(layer):
+	$HSplitContainer/RightBox/HeightChooser.init_from_layer(
+		layer.render_info.height_layer)
+	$HSplitContainer/RightBox/LanduseChooser.init_from_layer(
+		layer.render_info.landuse_layer)
