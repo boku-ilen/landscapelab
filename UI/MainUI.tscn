@@ -67,15 +67,14 @@ script = ExtResource( 7 )
 margin_right = 65.0
 margin_bottom = 31.0
 text = "Project"
-items = [ "Open from GeoPackage", null, 0, false, false, 0, 0, null, "", false ]
 switch_on_hover = true
 
 [node name="GeopackageFileDialog" type="FileDialog" parent="MarginContainer/VBoxContainer/MenuBar/ProjectButton"]
 visible = true
-margin_left = 82.1809
-margin_top = -561.997
-margin_right = 768.181
-margin_bottom = -106.997
+margin_left = 574.181
+margin_top = -543.997
+margin_right = 1260.18
+margin_bottom = -88.997
 window_title = "Open a File"
 dialog_text = "Load project from a preconfigured GeoPackage"
 mode = 0
