@@ -65,7 +65,7 @@ func get_center_node_world_position():
 	return to_world_coordinates(center_node.translation)
 
 
-func translate_center_node():
+func translate_center_node(new_x, new_z):
 	pass
 
 
@@ -85,6 +85,7 @@ func set_center_node(node: Spatial):
 
 func set_layer_configurator(configurator: Node):
 	layer_configurator = configurator
+	layer_configurator.connect("center_changed", self, "set_offset")
 	x = layer_configurator.center.x
 	z = layer_configurator.center.z
 
@@ -141,7 +142,9 @@ func set_offset(new_x, new_z):
 	x = new_x
 	z = new_z
 	
-	# FIXME: shift the world accordingly (or remove this function entirely? currently unused)
+	emit_signal("new_center", [x, z])
+	delta_x = 0
+	delta_z = 0
 	
 	logger.debug("New offset: %d, %d" % [x, z], LOG_MODULE)
 

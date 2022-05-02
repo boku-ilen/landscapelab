@@ -2,38 +2,64 @@ extends Configurator
 
 const SQLite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
 
-var center := Vector3.ZERO
+var center := Vector3.ZERO setget set_center
 var geopackage
 var external_layers = preload("res://Layers/ExternalLayer.gd").new()
 
 const LOG_MODULE := "LAYERCONFIGURATION"
 
+signal geodata_invalid
+signal center_changed(x, y)
+
+
+func set_center(c: Vector3):
+	center = c
+	emit_signal("center_changed", center.x, center.z)
+
 
 func _ready():
 	set_category("geodata")
-	digest_geopackage()
+	load_gpkg(get_setting("gpkg-path"))
 
 
-# Digests the information provided by the geopackage
-func digest_geopackage():
-	var geopackage_path = get_setting("gpkg-path")
+# Gets called from main_ui
+func check_default():
+	set_category("geodata")
+	if(not validate_gpkg(get_setting("gpkg-path"))):
+		emit_signal("geodata_invalid")
 
+
+func load_gpkg(geopackage_path: String):
+	if(validate_gpkg(geopackage_path)):
+		digest_gpkg(geopackage_path)
+	else:
+		emit_signal("geodata_invalid")
+
+
+func validate_gpkg(geopackage_path: String):
 	if geopackage_path.empty():
 		logger.error("User Geopackage path not set! Please set it in user://configuration.ini", LOG_MODULE)
-		return
-
+		return false
+	
 	var file2Check = File.new()
 	if !file2Check.file_exists(geopackage_path):
 		logger.error(
 			"Path to geodataset \"%s\" does not exist, could not load any data!" % [geopackage_path],
 			LOG_MODULE
 		)
-		return
+		return false
 	
 	geopackage = Geodot.get_dataset(geopackage_path)
 	if !geopackage.is_valid():
 		logger.error("Geodataset is not valid, could not load any data!", LOG_MODULE)
-		return
+		return false
+	
+	return true
+
+
+# Digests the information provided by the geopackage
+func digest_gpkg(geopackage_path: String):
+	geopackage = Geodot.get_dataset(geopackage_path)
 	
 	var logstring = "\n"
 	
@@ -127,8 +153,8 @@ func digest_geopackage():
 	
 	db.close_db()
 	logger.info("Closing geopackage as DB ...", LOG_MODULE)
-
-	center = get_avg_center()
+	
+	set_center(get_avg_center())
  
 
 # Load all used geo-layers as defined by configuration
