@@ -1,9 +1,8 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://UI/Fonts/TextBold.tres" type="DynamicFont" id=1]
-[ext_resource path="res://Util/FileChooser.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/Layers/LayerConfiguration/SpecificLayerUI/PolygonLayer.gd" type="Script" id=3]
-
 
 [node name="PolygonLayer" type="HSplitContainer"]
 margin_right = 1024.0
@@ -15,58 +14,88 @@ __meta__ = {
 }
 
 [node name="LeftBox" type="VBoxContainer" parent="."]
-margin_right = 131.0
-margin_bottom = 150.0
+margin_right = 272.0
+margin_bottom = 345.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Title" type="VBoxContainer" parent="LeftBox"]
-margin_right = 131.0
+margin_right = 272.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 
 [node name="Title" type="Label" parent="LeftBox/Title"]
-margin_right = 131.0
+margin_right = 272.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
 text = "Polygon-Layer"
 
 [node name="HSeparator" type="HSeparator" parent="LeftBox/Title"]
 margin_top = 31.0
-margin_right = 131.0
+margin_right = 272.0
 margin_bottom = 39.0
 
-[node name="Raster" type="Label" parent="LeftBox"]
+[node name="Polygons" type="Label" parent="LeftBox"]
 margin_top = 58.0
-margin_right = 131.0
-margin_bottom = 98.0
-rect_min_size = Vector2( 0, 40 )
-text = "Raster-data:"
+margin_right = 272.0
+margin_bottom = 143.0
+rect_min_size = Vector2( 0, 85 )
+text = "Polygon-data:"
 
-[node name="Particles" type="Label" parent="LeftBox"]
-margin_top = 106.0
-margin_right = 131.0
-margin_bottom = 146.0
+[node name="GroundHeight" type="Label" parent="LeftBox"]
+margin_top = 151.0
+margin_right = 272.0
+margin_bottom = 236.0
+rect_min_size = Vector2( 0, 85 )
+text = "Ground-Height-data:"
+
+[node name="HeightAttrib" type="Label" parent="LeftBox"]
+margin_top = 244.0
+margin_right = 272.0
+margin_bottom = 284.0
 rect_min_size = Vector2( 0, 40 )
-text = "Particles:"
+text = "Height Attribute:"
+
+[node name="Extend" type="Label" parent="LeftBox"]
+margin_top = 292.0
+margin_right = 272.0
+margin_bottom = 317.0
+text = "Extend as Building-Layer:"
 
 [node name="RightBox" type="VBoxContainer" parent="."]
-margin_left = 155.0
+margin_left = 296.0
 margin_right = 1024.0
-margin_bottom = 150.0
+margin_bottom = 345.0
 
 [node name="Spacer" type="Control" parent="RightBox"]
-margin_right = 869.0
+margin_right = 728.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 
-[node name="FileChooser" parent="RightBox" instance=ExtResource( 2 )]
+[node name="PolygonChooser" parent="RightBox" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 58.0
-margin_right = 869.0
-margin_bottom = 98.0
+margin_right = 728.0
+margin_bottom = 143.0
+show_raster_layers = false
 
-[node name="FileChooser2" parent="RightBox" instance=ExtResource( 2 )]
-margin_top = 106.0
-margin_right = 869.0
-margin_bottom = 146.0
+[node name="GroundHeightChooser" parent="RightBox" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 151.0
+margin_right = 728.0
+margin_bottom = 236.0
+show_feature_layer = false
+
+[node name="HeightAttributeText" type="LineEdit" parent="RightBox"]
+margin_top = 244.0
+margin_right = 728.0
+margin_bottom = 289.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="CheckBox" type="CheckBox" parent="RightBox"]
+margin_top = 297.0
+margin_right = 728.0
+margin_bottom = 345.0
