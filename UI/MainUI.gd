@@ -13,6 +13,8 @@ export var pos_manager_path: NodePath
 export var time_manager_path: NodePath
 export var weather_manager_path: NodePath
 
+export var layer_configurator_path: NodePath
+
 var pos_manager: PositionManager
 
 
@@ -26,6 +28,11 @@ func _ready():
 	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Left/Bot)
 	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Right/Top)
 	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot)
+	
+	var layer_configurator = get_node(layer_configurator_path)
+	$MarginContainer/VBoxContainer/MenuBar.set_layer_configurator(layer_configurator)
+	layer_configurator.check_default()
+	
 	pos_manager = get_node(pos_manager_path)
 	
 	_inject()
