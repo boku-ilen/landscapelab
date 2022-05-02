@@ -15,12 +15,16 @@ onready var reload_button = get_node("LeftContainer/Reload")
 onready var layer_name = get_node("RightContainer/NameSizeFix/Name")
 
 
+signal translate_to_layer(x, z)
+
+
 func _ready():
 	_reload()
 	
 	edit_button.connect("pressed", self, "_pop_edit")
 	reload_button.connect("pressed", self, "_on_layer_reload_pressed")
 	edit_window.connect("change_color_tag", self, "_change_color_tag")
+	edit_window.connect("translate_to_layer", self, "_emit_translate_to_layer")
 	visibility_button.connect("toggled", self, "_layer_change_visibility")
 	layer.connect("layer_changed", self, "_reload")
 
@@ -62,6 +66,18 @@ func _change_color_tag(color: Color):
 
 func _layer_change_visibility(is_hidden: bool):
 	layer.is_visible = !is_hidden
+
+
+func _emit_translate_to_layer():
+	var center_avg := Vector3.ZERO
+	var count := 0
+	for geolayer in layer.render_info.get_geolayers():
+		center_avg += geolayer.get_center()
+		count += 1
+	
+	center_avg /= count
+
+	emit_signal("translate_to_layer", center_avg.x, center_avg.z)
 
 
 func _draw():

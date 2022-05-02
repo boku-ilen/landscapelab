@@ -21,6 +21,9 @@ var colors = {
 }
 
 
+signal translate_to_layer
+
+
 func set_layer(l):
 	layer = l 
 	
@@ -34,7 +37,8 @@ func set_layer(l):
 
 func _ready():
 	connect("index_pressed", self, "_on_item_pressed")
-	set_item_metadata(0, "open_configure_menu")
+	set_item_metadata(0, "_open_configure_menu")
+	set_item_metadata(1, "_translate_to_layer")
 	
 	_add_submenu("Color Tag", "ColorMenu", colors, "change_color_tag")
 
@@ -45,11 +49,15 @@ func _on_item_pressed(idx: int):
 	call(what)
 
 
-func open_configure_menu():
+func _open_configure_menu():
 	var instance = layer_config.instance()
 	add_child(instance)
 	instance.layer_popup(Vector2(100,200), layer)
 	#instance.specific_layer_ui
+
+
+func _translate_to_layer():
+	emit_signal("translate_to_layer")
 
 
 func _default_emit(idx: int, corresponding_menu: PopupMenu, sig: String):

@@ -325,6 +325,35 @@ rect_scale = Vector2( 1, 1 )
 focus_mode = 2
 size_flags_vertical = 0
 
+[node name="LayerUIConfig" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI" index="0"]
+position_manager_path = NodePath("../../../../../Mid/VBoxContainer/WorldViewPort/Viewport/World/PositionManager")
+
+[node name="VBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI" index="1"]
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 266.0
+margin_bottom = 896.0
+
+[node name="ScrollLayers" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer" index="0"]
+margin_right = 260.0
+margin_bottom = 848.0
+
+[node name="LayerContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer/ScrollLayers" index="0"]
+margin_right = 260.0
+
+[node name="Menu" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer" index="1"]
+margin_top = 852.0
+margin_right = 260.0
+margin_bottom = 892.0
+
+[node name="DeleteLayer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer/Menu" index="1"]
+margin_left = 44.0
+margin_right = 84.0
+
+[node name="Filter" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer/Menu" index="2"]
+margin_left = 88.0
+margin_right = 128.0
+
 [node name="Scenarios" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot" instance=ExtResource( 20 )]
 visible = false
 margin_right = -5.0
@@ -332,3 +361,4 @@ margin_bottom = -5.0
 
 [editable path="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World"]
 [editable path="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC"]
+[editable path="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI"]
