@@ -75,6 +75,7 @@ anchor_bottom = 0.0
 margin_top = 58.0
 margin_right = 775.0
 margin_bottom = 143.0
+show_raster_layers = false
 
 [node name="GeodataChooserHeight" parent="RightBox" instance=ExtResource( 5 )]
 anchor_right = 0.0
@@ -82,6 +83,7 @@ anchor_bottom = 0.0
 margin_top = 151.0
 margin_right = 775.0
 margin_bottom = 236.0
+show_feature_layer = false
 
 [node name="FileChooser" parent="RightBox/GeodataChooserHeight" index="0"]
 margin_right = 775.0

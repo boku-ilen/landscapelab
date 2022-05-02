@@ -83,6 +83,7 @@ anchor_bottom = 0.0
 margin_top = 58.0
 margin_right = 776.0
 margin_bottom = 143.0
+show_raster_layers = false
 
 [node name="HeightChooser" parent="RightBox" instance=ExtResource( 2 )]
 anchor_right = 0.0
@@ -90,6 +91,7 @@ anchor_bottom = 0.0
 margin_top = 151.0
 margin_right = 776.0
 margin_bottom = 236.0
+show_feature_layer = false
 
 [node name="ProfileChooser" parent="RightBox" instance=ExtResource( 4 )]
 margin_top = 244.0
