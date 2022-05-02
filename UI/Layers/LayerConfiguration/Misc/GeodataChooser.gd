@@ -64,8 +64,8 @@ func get_geo_layer(is_raster: bool = true):
 			return raster_layer
 		else:
 			var feature_layer = FeatureLayer.new()
-			feature_layer.geo_feature_layer = dataset.get_raster_layer(sub_layer_name)
-			feature_layer.name = feature_layer.geo_raster_layer.resource_name
+			feature_layer.geo_feature_layer = dataset.get_feature_layer(sub_layer_name)
+			feature_layer.name = feature_layer.geo_feature_layer.resource_name
 			return feature_layer
 	else:
 		if is_raster:
@@ -75,7 +75,7 @@ func get_geo_layer(is_raster: bool = true):
 			return raster_layer
 		else:
 			var feature_layer = FeatureLayer.new()
-			feature_layer.geo_feature_layer = Geodot.get_raster_layer($FileChooser/FileName.text)
+			feature_layer.geo_feature_layer = Geodot.get_feature_layer($FileChooser/FileName.text)
 			feature_layer.name = $FileChooser/FileName.text.get_file() 
 			return feature_layer
 
