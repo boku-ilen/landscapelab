@@ -64,7 +64,7 @@ func load_new_data():
 			walls.set_normalmap(preload("res://Resources/Textures/Buildings/facade/normalmap_plaster.jpg"))
 		
 		# Add the roof
-		if layer.render_info is Layer.PolygonRenderInfo:
+		if layer.render_info is Layer.BuildingRenderInfo:
 			var slope = feature.get_attribute(layer.render_info.slope_attribute_name)
 			var roof
 			
