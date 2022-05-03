@@ -14,7 +14,7 @@ signal new_layer_selected(layer)
 
 func _ready():
 	$FileChooser/Button/FileDialog.connect("file_selected", self, "_file_selected")
-	$FileChooser/FileName.connect("text_changed", self, "_file_selected")
+	$FileChooser/FileName.connect("text_changed", self, "_check_path")
 	$OptionButton.connect("item_selected", self, "_on_item_selcted")
 
 
@@ -24,7 +24,7 @@ func _on_item_selcted(idx: int):
 		emit_signal("new_layer_selected", layer)
 
 
-func _check_path():
+func _check_path(which: String = ""):
 	if is_current_file_dataset():
 		_fill_dataset_options()
 
