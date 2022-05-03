@@ -1,71 +1,206 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://UI/Fonts/TextBold.tres" type="DynamicFont" id=1]
-[ext_resource path="res://Util/FileChooser.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/Layers/LayerConfiguration/SpecificLayerUI/Connected_objectLayer.gd" type="Script" id=3]
+[ext_resource path="res://UI/Layers/LayerConfiguration/Misc/AttributeDropDown.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Util/FileChooser.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/plus.svg" type="Texture" id=6]
+[ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=7]
 
-[node name="ConnectedLayer" type="HSplitContainer"]
-margin_right = 1024.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 0, 150 )
+[node name="ConnectedObjectLayer" type="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 1024, 0 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LeftBox" type="VBoxContainer" parent="."]
-margin_right = 187.0
-margin_bottom = 150.0
+[node name="Split" type="HSplitContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 425.0
+rect_min_size = Vector2( 0, 150 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="VBoxContainer" parent="LeftBox"]
-margin_right = 187.0
+[node name="LeftBox" type="VBoxContainer" parent="Split"]
+margin_right = 251.0
+margin_bottom = 425.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="VBoxContainer" parent="Split/LeftBox"]
+margin_right = 251.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 
-[node name="Title" type="Label" parent="LeftBox/Title"]
-margin_right = 187.0
+[node name="Title" type="Label" parent="Split/LeftBox/Title"]
+margin_right = 251.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
 text = "Connected Object Layer"
 
-[node name="HSeparator" type="HSeparator" parent="LeftBox/Title"]
+[node name="HSeparator" type="HSeparator" parent="Split/LeftBox/Title"]
 margin_top = 31.0
-margin_right = 187.0
+margin_right = 251.0
 margin_bottom = 39.0
 
-[node name="Raster" type="Label" parent="LeftBox"]
+[node name="Raster" type="Label" parent="Split/LeftBox"]
 margin_top = 58.0
-margin_right = 187.0
-margin_bottom = 98.0
-rect_min_size = Vector2( 0, 40 )
-text = "Raster-data:"
+margin_right = 251.0
+margin_bottom = 143.0
+rect_min_size = Vector2( 0, 85 )
+text = "Connected-object-data:"
 
-[node name="Particles" type="Label" parent="LeftBox"]
-margin_top = 106.0
-margin_right = 187.0
-margin_bottom = 146.0
-rect_min_size = Vector2( 0, 40 )
-text = "Particles:"
+[node name="Particles" type="Label" parent="Split/LeftBox"]
+margin_top = 151.0
+margin_right = 251.0
+margin_bottom = 236.0
+rect_min_size = Vector2( 0, 85 )
+text = "Height-data:"
 
-[node name="RightBox" type="VBoxContainer" parent="."]
-margin_left = 211.0
+[node name="SelectorAttribute" type="Label" parent="Split/LeftBox"]
+margin_top = 244.0
+margin_right = 251.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 0, 40 )
+text = "Selector Attribute:"
+
+[node name="FallbackConnector" type="Label" parent="Split/LeftBox"]
+margin_top = 292.0
+margin_right = 251.0
+margin_bottom = 357.0
+rect_min_size = Vector2( 0, 65 )
+text = "Fallback Connector:
+(e.g. power-pole)"
+
+[node name="FallbackConnectoion" type="Label" parent="Split/LeftBox"]
+margin_top = 365.0
+margin_right = 251.0
+margin_bottom = 425.0
+rect_min_size = Vector2( 0, 60 )
+text = "Fallback Connection:
+(e.g. power-line)"
+
+[node name="RightBox" type="VBoxContainer" parent="Split"]
+margin_left = 275.0
 margin_right = 1024.0
-margin_bottom = 150.0
+margin_bottom = 425.0
 
-[node name="Spacer" type="Control" parent="RightBox"]
-margin_right = 813.0
+[node name="Spacer" type="Control" parent="Split/RightBox"]
+margin_right = 749.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 
-[node name="FileChooser" parent="RightBox" instance=ExtResource( 2 )]
+[node name="COChooser" parent="Split/RightBox" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 58.0
-margin_right = 813.0
-margin_bottom = 98.0
+margin_right = 749.0
+margin_bottom = 143.0
+show_raster_layers = false
 
-[node name="FileChooser2" parent="RightBox" instance=ExtResource( 2 )]
-margin_top = 106.0
-margin_right = 813.0
-margin_bottom = 146.0
+[node name="GroundHeightChooser" parent="Split/RightBox" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 151.0
+margin_right = 749.0
+margin_bottom = 236.0
+show_feature_layer = false
+
+[node name="SelectorAttrDD" parent="Split/RightBox" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 244.0
+margin_right = 749.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="ConnectorChooser" parent="Split/RightBox" instance=ExtResource( 5 )]
+margin_top = 292.0
+margin_right = 749.0
+margin_bottom = 352.0
+rect_min_size = Vector2( 0, 60 )
+size_flags_vertical = 0
+filters = PoolStringArray( "*.tscn", "*.obj" )
+
+[node name="FileName" parent="Split/RightBox/ConnectorChooser" index="0"]
+margin_right = 640.0
+size_flags_vertical = 2
+
+[node name="Button" parent="Split/RightBox/ConnectorChooser" index="1"]
+margin_left = 648.0
+margin_right = 749.0
+margin_bottom = 37.0
+size_flags_vertical = 0
+
+[node name="FileDialog" parent="Split/RightBox/ConnectorChooser/Button" index="0"]
+filters = PoolStringArray( "*.shp", "*.gpkg", "*.tif" )
+
+[node name="ConnectionChooser" parent="Split/RightBox" instance=ExtResource( 5 )]
+margin_top = 360.0
+margin_right = 749.0
+margin_bottom = 420.0
+rect_min_size = Vector2( 0, 60 )
+size_flags_vertical = 0
+filters = PoolStringArray( "*.tscn", "*.obj" )
+
+[node name="FileName" parent="Split/RightBox/ConnectionChooser" index="0"]
+margin_right = 640.0
+size_flags_vertical = 2
+
+[node name="Button" parent="Split/RightBox/ConnectionChooser" index="1"]
+margin_left = 648.0
+margin_right = 749.0
+margin_bottom = 37.0
+size_flags_vertical = 0
+
+[node name="FileDialog" parent="Split/RightBox/ConnectionChooser/Button" index="0"]
+filters = PoolStringArray( "*.shp", "*.gpkg", "*.tif" )
+
+[node name="AdditionalAttribute" type="VBoxContainer" parent="."]
+margin_top = 433.0
+margin_right = 1024.0
+margin_bottom = 506.0
+rect_min_size = Vector2( 1024, 73 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AddTribute" parent="AdditionalAttribute" instance=ExtResource( 7 )]
+margin_right = 1024.0
+margin_bottom = 40.0
+text = "Add an additonal connection/connector"
+icon = ExtResource( 6 )
+texture_name = "plus"
+
+[node name="Overview" type="GridContainer" parent="AdditionalAttribute"]
+margin_top = 48.0
+margin_right = 1024.0
+margin_bottom = 73.0
+columns = 4
+
+[node name="Label" type="Label" parent="AdditionalAttribute/Overview"]
+margin_right = 252.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+text = "Attribute value:"
+
+[node name="Label2" type="Label" parent="AdditionalAttribute/Overview"]
+margin_left = 260.0
+margin_right = 512.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+text = "Connector:"
+
+[node name="Label3" type="Label" parent="AdditionalAttribute/Overview"]
+margin_left = 520.0
+margin_right = 772.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+text = "Connection:"
+
+[editable path="Split/RightBox/ConnectorChooser"]
+[editable path="Split/RightBox/ConnectionChooser"]
