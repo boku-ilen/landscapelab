@@ -2,26 +2,28 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/roughness.jpg-1823c4f6b03fd169c000d67cb9ba95e4.stex"
+path.s3tc="res://.import/roughness.jpg-1823c4f6b03fd169c000d67cb9ba95e4.s3tc.stex"
+path.etc2="res://.import/roughness.jpg-1823c4f6b03fd169c000d67cb9ba95e4.etc2.stex"
 metadata={
-"vram_texture": false
+"imported_formats": [ "s3tc", "etc2" ],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Textures/Cable/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-1823c4f6b03fd169c000d67cb9ba95e4.stex" ]
+dest_files=[ "res://.import/roughness.jpg-1823c4f6b03fd169c000d67cb9ba95e4.s3tc.stex", "res://.import/roughness.jpg-1823c4f6b03fd169c000d67cb9ba95e4.etc2.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
+flags/repeat=true
 flags/filter=true
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
@@ -31,5 +33,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

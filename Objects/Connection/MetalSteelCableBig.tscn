@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Objects/Connection/Superclasses/Catenary.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Textures/Cable/albedo.jpg" type="Texture" id=2]
+[ext_resource path="res://Resources/Textures/Cable/metallic.jpg" type="Texture" id=3]
+[ext_resource path="res://Resources/Textures/Cable/normal.jpg" type="Texture" id=4]
+[ext_resource path="res://Resources/Textures/Cable/roughness.jpg" type="Texture" id=5]
 
 [sub_resource type="Curve3D" id=3]
 _data = {
@@ -10,8 +13,18 @@ _data = {
 }
 
 [sub_resource type="SpatialMaterial" id=2]
-flags_unshaded = true
+flags_vertex_lighting = true
+params_specular_mode = 2
+albedo_color = Color( 0.894118, 0.894118, 0.894118, 1 )
 albedo_texture = ExtResource( 2 )
+metallic = 0.66
+metallic_specular = 0.54
+metallic_texture = ExtResource( 3 )
+roughness = 0.48
+roughness_texture = ExtResource( 5 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 4 )
 
 [node name="Catenary" type="Spatial"]
 script = ExtResource( 1 )
@@ -22,8 +35,7 @@ script = ExtResource( 1 )
 curve = SubResource( 3 )
 
 [node name="CSGPolygon" type="CSGPolygon" parent="Node/Line"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-polygon = PoolVector2Array( 0.1, 0, 0, 0.1, -0.1, 0, 0, -0.1 )
+polygon = PoolVector2Array( 0.06, 0, 0, 0.06, -0.06, 0, 0, -0.06 )
 mode = 2
 path_node = NodePath("..")
 path_interval_type = 0
