@@ -36,7 +36,7 @@ uniform sampler2DArray distance_tex: hint_albedo;
 uniform sampler2DArray distance_normals: hint_normal;
 
 uniform float normal_scale = 1.0;
-uniform float ortho_saturation = 1.5;
+uniform float ortho_saturation = 1.2;
 uniform float ortho_blue_shift_factor = 0.9;
 
 uniform float size;
