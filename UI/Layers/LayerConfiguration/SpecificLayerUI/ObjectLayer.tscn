@@ -96,7 +96,6 @@ margin_top = 244.0
 margin_right = 775.0
 margin_bottom = 284.0
 filters = PoolStringArray( "*.tscn", "*.obj" )
-current_dir = "res://Objects/"
 
 [node name="FileName" parent="RightBox/ObjectChooser" index="0"]
 margin_right = 666.0
