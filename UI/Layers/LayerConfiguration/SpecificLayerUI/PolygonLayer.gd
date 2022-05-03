@@ -51,7 +51,7 @@ func init_specific_layer_info(layer):
 		layer.geo_feature_layer)
 	
 	$RightBox/HeightAttrDD.set_feature_layer(layer)
-	
+	$RightBox/HeightAttrDD.set_selected_by_text(layer.render_info.height_attribute_name)
 	
 	$RightBox/BuildingCheckBox.set_pressed(layer.render_info is Layer.BuildingRenderInfo)
 	
@@ -65,5 +65,3 @@ func init_specific_layer_info(layer):
 		$RightBox/BuildingInfo/RedAttrDD.set_selected_by_text(layer.render_info.red_attribute_name)
 		$RightBox/BuildingInfo/GreenAttrDD.set_selected_by_text(layer.render_info.green_attribute_name)
 		$RightBox/BuildingInfo/BlueAttrDD.set_selected_by_text(layer.render_info.blue_attribute_name)
-	
-	$RightBox/HeightAttrDD.set_selected_by_text(layer.render_info.height_attribute_name)
