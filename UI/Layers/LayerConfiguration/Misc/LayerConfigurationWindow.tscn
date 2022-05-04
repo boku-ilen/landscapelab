@@ -6,11 +6,12 @@
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/LayerConfigurationWindow.gd" type="Script" id=4]
 
 [node name="Control" type="ConfirmationDialog"]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -1021.0
-margin_bottom = -537.0
-rect_min_size = Vector2( 600, 350 )
+margin_bottom = -780.0
+rect_min_size = Vector2( 600, 300 )
 popup_exclusive = true
 window_title = "Layer Configuration"
 resizable = true
@@ -24,7 +25,7 @@ __meta__ = {
 margin_left = 16.0
 margin_top = 16.0
 margin_right = 883.0
-margin_bottom = 474.0
+margin_bottom = 231.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -86,24 +87,24 @@ margin_right = 686.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 
-[node name="Name" type="TextEdit" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
+[node name="Name" type="LineEdit" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
 margin_top = 58.0
 margin_right = 686.0
-margin_bottom = 98.0
+margin_bottom = 103.0
 rect_min_size = Vector2( 0, 40 )
-text = "..."
+placeholder_text = "..."
 
 [node name="ColorTagMenu" parent="VBoxContainer/HSplitContainer/VBoxContainer2" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 106.0
+margin_top = 111.0
 margin_right = 686.0
-margin_bottom = 136.0
+margin_bottom = 141.0
 
 [node name="TypeChooser" type="OptionButton" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
-margin_top = 144.0
+margin_top = 149.0
 margin_right = 686.0
-margin_bottom = 184.0
+margin_bottom = 189.0
 rect_min_size = Vector2( 0, 40 )
 text = "Type..."
 

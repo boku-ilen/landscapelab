@@ -87,7 +87,6 @@ show_feature_layer = false
 
 [node name="FileChooser" parent="RightBox/GeodataChooserHeight" index="0"]
 margin_right = 775.0
-margin_bottom = 40.0
 
 [node name="OptionButton" parent="RightBox/GeodataChooserHeight" index="1"]
 margin_right = 775.0
@@ -97,7 +96,6 @@ margin_top = 244.0
 margin_right = 775.0
 margin_bottom = 284.0
 filters = PoolStringArray( "*.tscn", "*.obj" )
-current_dir = "res://Objects/"
 
 [node name="FileName" parent="RightBox/ObjectChooser" index="0"]
 margin_right = 666.0

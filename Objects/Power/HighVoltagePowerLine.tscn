@@ -3,6 +3,7 @@
 [ext_resource path="res://Resources/Meshes/Power/HighVoltage.glb" type="PackedScene" id=1]
 
 [node name="HighVoltage" instance=ExtResource( 1 )]
+transform = Transform( 0.8, 0, 0, 0, 0.6, 0, 0, 0, 0.8, 0, 0, 0 )
 
 [node name="pole_3dmesh" parent="." index="0"]
 transform = Transform( -4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 4.5, 0, 4.35 )

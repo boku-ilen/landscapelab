@@ -7,8 +7,8 @@
 
 [node name="RealisticTerrainLayer" type="HSplitContainer"]
 anchor_right = 1.0
-anchor_bottom = 1.0
-margin_bottom = -2.0
+anchor_bottom = 0.391
+margin_bottom = -0.280029
 rect_pivot_offset = Vector2( -912, -151 )
 script = ExtResource( 4 )
 __meta__ = {
@@ -17,7 +17,7 @@ __meta__ = {
 
 [node name="LeftBox" type="VBoxContainer" parent="."]
 margin_right = 180.0
-margin_bottom = 1078.0
+margin_bottom = 422.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -69,7 +69,7 @@ text = "Land-Use:"
 [node name="RightBox" type="VBoxContainer" parent="."]
 margin_left = 204.0
 margin_right = 1920.0
-margin_bottom = 1078.0
+margin_bottom = 422.0
 
 [node name="Control" type="Control" parent="RightBox"]
 margin_right = 1716.0

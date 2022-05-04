@@ -9,12 +9,22 @@ export var show_feature_layer: bool = true
 var geo_dataset_extensions = [".shp", ".gpkg"]
 
 
+signal new_layer_selected(layer)
+
+
 func _ready():
 	$FileChooser/Button/FileDialog.connect("file_selected", self, "_file_selected")
 	$FileChooser/FileName.connect("text_changed", self, "_check_path")
+	$OptionButton.connect("item_selected", self, "_on_item_selcted")
 
 
-func _check_path():
+func _on_item_selcted(idx: int):
+	if not show_raster_layers:
+		var layer = get_geo_layer(false)
+		emit_signal("new_layer_selected", layer)
+
+
+func _check_path(which: String = ""):
 	if is_current_file_dataset():
 		_fill_dataset_options()
 
@@ -53,7 +63,14 @@ func is_current_file_dataset():
 	return "." + $FileChooser/FileName.text.get_extension() in geo_dataset_extensions
 
 
+func is_current_path_valid():
+	var f = File.new()
+	return f.file_exists($FileChooser/FileName.text)
+
+
 func get_geo_layer(is_raster: bool = true):
+	if not is_current_path_valid(): return null
+	
 	if is_current_file_dataset():
 		var sub_layer_name = $OptionButton.get_item_text($OptionButton.get_selected_id())
 		var dataset = Geodot.get_dataset($FileChooser/FileName.text)

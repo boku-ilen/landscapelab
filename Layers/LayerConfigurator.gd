@@ -347,7 +347,27 @@ func load_object_layer(db, layer_config, geo_layers_config, extended_as: Layer.O
 	else:
 		object_layer.render_info = extended_as
 	
-	object_layer.render_info.object = load(get_extension_by_key(db, "object", layer_config.id))
+	var file_path_object_scene = get_extension_by_key(db, "object", layer_config.id)
+	var object_scene
+	if file_path_object_scene.ends_with(".tscn"):
+		object_scene = load(file_path_object_scene)
+	elif file_path_object_scene.ends_with(".obj"):
+		# Load the material and mesh
+		var material_path = file_path_object_scene.replace(".obj", ".mtl")
+		var mesh = ObjParse.parse_obj(file_path_object_scene, material_path)
+		
+		# Put the resulting mesh into a node
+		var mesh_instance = MeshInstance.new()
+		mesh_instance.mesh = mesh
+		
+		# Pack the node into a scene
+		object_scene = PackedScene.new()
+		object_scene.pack(mesh_instance)
+	else:
+		logger.error("Not a valid format for object-layer!", LOG_MODULE)
+		return FeatureLayer.new()
+		
+	object_layer.render_info.object = object_scene
 	object_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
 		db, "HEIGHT_LAYER", geo_layers_config.rasters)
 	object_layer.ui_info.name_attribute = "Beschreib"
