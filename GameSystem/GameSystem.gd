@@ -30,7 +30,7 @@ func remove_game_object(game_object):
 
 
 func get_game_object(id):
-	return _game_objects[id]
+	return _game_objects[int(id)]
 
 
 func create_game_object_for_geo_feature(geo_feature):
