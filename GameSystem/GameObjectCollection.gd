@@ -26,7 +26,7 @@ func _init(initial_name, initial_feature_layer):
 
 
 func _add_game_object(feature):
-	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(feature)
+	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(feature, self)
 	game_objects[game_object_for_feature.id] = game_object_for_feature
 
 

@@ -40,7 +40,19 @@ func load_gpkg(geopackage_path: String):
 	game_mode.add_game_object_collection_for_feature_layer("WKA Alt", Layers.geo_layers["features"]["WKA_NeuWei_Bestand"])
 	game_mode.add_game_object_collection_for_feature_layer("WKA Neu", Layers.geo_layers["features"]["WKA_NeuWei_Repower"])
 	
+	game_mode.game_object_collections["WKA Alt"].add_explicit_attribute_mapping("Rotor", "Rotordurch")
+	
+	var score = GameScore.new()
+	score.name = "Test Score"
+	score.add_contributor(game_mode.game_object_collections["WKA Alt"], "Rotor")
+	
+	game_mode.add_score(score)
+	
 	GameSystem.current_game_mode = game_mode
+
+
+func _process(delta):
+	print(GameSystem.current_game_mode.game_scores["Test Score"].get_value())
 
 
 func validate_gpkg(geopackage_path: String):

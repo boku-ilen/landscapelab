@@ -33,8 +33,8 @@ func get_game_object(id):
 	return _game_objects[int(id)]
 
 
-func create_game_object_for_geo_feature(geo_feature):
-	var game_object = GameObject.new(_next_game_object_id, geo_feature)
+func create_game_object_for_geo_feature(geo_feature, collection):
+	var game_object = GameObject.new(_next_game_object_id, geo_feature, collection)
 	_game_objects[_next_game_object_id] = game_object
 	
 	_next_game_object_id += 1

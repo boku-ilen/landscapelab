@@ -10,6 +10,12 @@ var value := 0.0
 var target := 0.0
 
 
+func add_contributor(game_object_collection, attribute_name, weight = 1.0):
+	contributors.append(GameScoreContributor.new(
+		game_object_collection, attribute_name, weight
+	))
+
+
 func get_value():
 	var sum = 0.0
 	
@@ -39,6 +45,6 @@ class GameScoreContributor:
 		var sum = 0.0
 		
 		for game_object in game_object_collection.get_all_game_objects():
-			sum += game_object.get_attribute(attribute_name)
+			sum += float(game_object.get_attribute(attribute_name))
 		
 		return sum

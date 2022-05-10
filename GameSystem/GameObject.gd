@@ -6,9 +6,10 @@ var collection: GameObjectCollection
 var geo_feature
 
 
-func _init(initial_id: int, initial_geo_feature):
+func _init(initial_id: int, initial_geo_feature, initial_collection):
 	id = initial_id
 	geo_feature = initial_geo_feature
+	collection = initial_collection
 
 
 func get_attribute(attribute_name):
