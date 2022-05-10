@@ -91,5 +91,5 @@ class ImplicitGameObjectAttribute extends GameObjectAttribute:
 	
 	func get_value(game_object):
 		var position = game_object.geo_feature.get_vector3()
-		return raster_layer.get_value_at_position(position.x, position.z)
+		return raster_layer.get_value_at_position(position.x, -position.z)
 
