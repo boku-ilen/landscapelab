@@ -1,2 +1,0 @@
-extends AbstractObject
-class_name EnergyProducer

@@ -4,10 +4,12 @@ class_name RemoveTokenRequestHandler
 #
 # Example request data:
 # {
-#    "keyword": "SET_TOKEN_POSITION",
+#    "keyword": "REMOVE_TOKEN",
 #    "object_id": 0
 # }
 #
+
+var table_communicator: TableCommunicator  # To be injected
 
 
 # set the protocol keyword
@@ -21,5 +23,13 @@ func handle_request(request: Dictionary) -> Dictionary:
 		"success": false,
 		"object_id": 0
 	}
+	
+	var game_object = GameSystem.get_game_object(request["object_id"])
+	GameSystem.remove_game_object(game_object)
+	
+	# TODO: Error handling
+	
+	result["success"] = true
+	result["object_id"] = game_object.id
 	
 	return result

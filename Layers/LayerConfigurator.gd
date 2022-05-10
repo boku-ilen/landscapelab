@@ -34,6 +34,13 @@ func load_gpkg(geopackage_path: String):
 		digest_gpkg(geopackage_path)
 	else:
 		emit_signal("geodata_invalid")
+	
+	# FIXME: Game Engine Testing
+	var game_mode = GameMode.new()
+	game_mode.add_game_object_collection_for_feature_layer("WKA Alt", Layers.geo_layers["features"]["WKA_NeuWei_Bestand"])
+	game_mode.add_game_object_collection_for_feature_layer("WKA Neu", Layers.geo_layers["features"]["WKA_NeuWei_Repower"])
+	
+	GameSystem.current_game_mode = game_mode
 
 
 func validate_gpkg(geopackage_path: String):

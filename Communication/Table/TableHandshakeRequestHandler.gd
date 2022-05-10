@@ -1,13 +1,11 @@
 extends AbstractRequestHandler
-class_name RemoveTokenRequestHandler
+class_name TableHandshakeRequestHandler
 
 #
-# Example request data:
-# {
-#    "keyword": "TABLE_HANDSHAKE",
-#    "detected_brick_shape_color_pairs": ["SQUARE", "RED"], ["RECTANGLE", "RED"]]
-# }
+# 
 #
+
+var table_communicator: TableCommunicator  # To be injected
 
 
 # set the protocol keyword
@@ -16,14 +14,6 @@ func _init():
 
 
 func handle_request(request: Dictionary) -> Dictionary:
-	var result = {}
-	
-	# TODO: Send gamestate info (use separate function because that might be relevant in multiple places?)
-	#    "keyword": "GAMESTATE_INFO",
-	#    "used_bricks": [],  # [[shape, color, icon_svg, disappear_after_seconds], ...]
-	#    "scores": [],  # [[id, max_value], ...]
-	#    "start_position": [0.0, 0.0],
-	#    "start_extent": [0.0, 0.0],  # FIXME: or zoom level?
-	#    "projection": ""  # EPSG Code (optional, default is Austria Lambert)
+	var result = table_communicator.get_gamestate_info(request)
 	
 	return result

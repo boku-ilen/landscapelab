@@ -28,6 +28,8 @@ func apply_new_data():
 func apply_new_feature(feature):
 	var instance = layer.render_info.object.instance()
 	
+	instance.name = String(feature.get_id())
+	
 	update_instance_position(feature, instance)
 	feature.connect("point_changed", self, "update_instance_position", [feature, instance])
 	
@@ -43,6 +45,10 @@ func apply_new_feature(feature):
 	add_child(instance)
 
 
+func remove_feature(feature):
+	get_node(String(feature.get_id())).queue_free()
+
+
 func update_instance_position(feature, obj_instance: Spatial):
 	var local_object_pos = feature.get_offset_vector3(-center[0], 0, -center[1])
 	
@@ -56,6 +62,8 @@ func update_instance_position(feature, obj_instance: Spatial):
 
 func _ready():
 	layer.geo_feature_layer.geo_feature_layer.connect("feature_added", self, "apply_new_feature")
+	layer.geo_feature_layer.geo_feature_layer.connect("feature_removed", self, "remove_feature")
+	
 	if not layer is FeatureLayer or not layer.is_valid():
 		logger.error("ObjectRenderer was given an invalid layer!", LOG_MODULE)
 
