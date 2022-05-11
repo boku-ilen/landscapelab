@@ -56,8 +56,7 @@ static func _get_full_path(base_path: String, name: String, ending: String) -> S
 static func get_image(base_path: String, name: String, ending: String = DEFAULT_ENDING) -> Image:
 	var full_path = _get_full_path(base_path, name, ending)
 
-	var img = Image.new()
-	img.load(full_path)
+	var img = load(full_path)
 	
 	if img.is_empty():
 		logger.error("Trying to load invalid texture at path %s!" % [full_path], "TEXTURELOAD")

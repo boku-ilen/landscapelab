@@ -195,6 +195,8 @@ func apply_textures():
 			material_override.set_shader_param("uses_distance_textures", true)
 			material_override.set_shader_param("distance_tex", current_albedo_fade_textures)
 			material_override.set_shader_param("distance_normals", current_normal_fade_textures)
+			material_override.set_shader_param("distance_tex_switch_distance", Vegetation.plant_extent_factor * 5.0)
+			material_override.set_shader_param("fade_transition_space", Vegetation.plant_extent_factor * 2.0)
 	else:
 		if current_texture:
 			material_override.set_shader_param("tex", current_texture)
