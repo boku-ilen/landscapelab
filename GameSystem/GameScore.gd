@@ -9,20 +9,40 @@ var contributors = []
 var value := 0.0
 var target := 0.0
 
+signal value_changed(new_value)
+signal target_reached
 
-func add_contributor(game_object_collection, attribute_name, weight = 1.0):
+
+func add_contributor(game_object_collection: GameObjectCollection, attribute_name, weight = 1.0):
 	contributors.append(GameScoreContributor.new(
 		game_object_collection, attribute_name, weight
 	))
+	
+	# Connect this GameObjectCollection's changed signal if necessary (it's possible to have two
+	# contributors with the same underlying game_object_collection, but different attribute_names)
+	if not game_object_collection.is_connected("changed", self, "_recalculate_score"):
+		game_object_collection.connect("changed", self, "_recalculate_score")
+	
+	# Update the score to reflect this new contributor
+	_recalculate_score()
 
 
-func get_value():
+func _recalculate_score():
 	var sum = 0.0
 	
 	for contributor in contributors:
 		sum += contributor.get_value()
 	
-	return sum
+	if value != sum:
+		value = sum
+		emit_signal("value_changed", value)
+	
+		if value >= target:
+			emit_signal("target_reached")
+
+
+func get_value():
+	return value
 
 
 func is_target_reached():
@@ -40,8 +60,6 @@ class GameScoreContributor:
 		weight = initial_weight
 	
 	func get_value():
-		# TODO: Cache the value and only recalculate if the game objects in the collection have changed
-		
 		var sum = 0.0
 		
 		for game_object in game_object_collection.get_all_game_objects():

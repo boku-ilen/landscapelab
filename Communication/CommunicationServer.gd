@@ -141,6 +141,10 @@ func _on_data(id):
 			logger.warning("received a message without registered keyword %s" % [keyword], LOG_MODULE)
 
 
+func broadcast(data):
+	_send_data(data)
+
+
 # FIXME: we could implement a send function like this but we have to determine which client id
 # FIXME: is the receiving part - or broadcast it and the client decides what to do with the event
 func _send_data(data: Dictionary, client_id=null, message_id=null):

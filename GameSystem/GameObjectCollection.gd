@@ -11,6 +11,8 @@ var game_objects = {}
 var attributes = {}
 var feature_layer
 
+signal changed # Emitted whenever there is any change in the collection
+
 
 func _init(initial_name, initial_feature_layer):
 	name = initial_name
@@ -28,6 +30,17 @@ func _init(initial_name, initial_feature_layer):
 func _add_game_object(feature):
 	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(feature, self)
 	game_objects[game_object_for_feature.id] = game_object_for_feature
+	
+	# TODO: Currently we only handle this signal, but we'd want to react to other changes as well
+	# This might warrant an addition in Geodot (a general "changed" signal)
+	if feature.has_signal("point_changed"):
+		feature.connect("point_changed", self, "_on_feature_changed")
+	
+	emit_signal("changed")
+
+
+func _on_feature_changed():
+	emit_signal("changed")
 
 
 func _remove_game_object(feature):
@@ -40,6 +53,8 @@ func _remove_game_object(feature):
 			corresponding_game_object = game_object
 	
 	GameSystem.apply_game_object_removal(name, corresponding_game_object)
+	
+	emit_signal("changed")
 
 
 func get_game_object(id):
