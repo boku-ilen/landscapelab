@@ -36,6 +36,10 @@ func set_lights_enabled(enabled):
 	$MeshInstance.material_override.set_shader_param("lights_on", enabled)
 
 
+func set_window_shading(enabled: bool):
+	$MeshInstance.material_override.set_shader_param("window_shading", enabled)
+
+
 func build(footprint: PoolVector2Array):
 	var st = SurfaceTool.new()
 	

@@ -28,6 +28,7 @@ uniform vec3 uv2_offset;
 
 uniform bool lights_on = false;
 uniform int random_seed;
+uniform bool window_shading = true;
 
 varying vec3 worldpos;
 
@@ -45,6 +46,10 @@ void fragment() {
 	vec2 base_uv = UV;
 	vec4 albedo_tex = texture(texture_albedo,base_uv);
 	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	
+	// A bit hacky: disabling window shading clamps the UVs to 0.0, thus making the metallic and roughness effects of the window not apply
+	base_uv *= float(!window_shading);
+	
 	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
 	METALLIC = metallic_tex * metallic;
 	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
@@ -85,6 +90,7 @@ shader_param/uv2_scale = Vector3( 1, 1, 1 )
 shader_param/uv2_offset = Vector3( 0, 0, 0 )
 shader_param/lights_on = false
 shader_param/random_seed = null
+shader_param/window_shading = true
 shader_param/texture_albedo = SubResource( 2 )
 shader_param/texture_metallic = ExtResource( 2 )
 shader_param/texture_roughness = ExtResource( 1 )

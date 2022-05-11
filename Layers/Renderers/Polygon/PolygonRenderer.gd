@@ -39,6 +39,15 @@ func load_new_data():
 		# Add a cellar
 		building.add_child(plain_walls_scene.instance())
 		
+		# In order to get a more accurate height, we add a building base if there's a remainder of
+		# half a floor height; this also adds some variation and is probably realistic in many cases
+		if fmod(height, floor_height) > floor_height / 2.0:
+			var base_floor = plain_walls_scene.instance()
+			base_floor.height = floor_height / 2.0
+			base_floor.set_texture(preload("res://Resources/Textures/Buildings/basement/plaster_white.jpg"))
+			base_floor.set_window_shading(false)
+			building.add_child(base_floor)
+		
 		# Random facade texture
 		var random_gen = RandomNumberGenerator.new()
 		random_gen.seed = hash(polygon)
