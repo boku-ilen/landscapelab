@@ -34,7 +34,15 @@ func get_gamestate_info(request: Dictionary):
 		"projection_epsg": 0 
 	}
 	
-	# TODO: Where should start position and extent come from? Probably also the current game mode?
+	# Set starting position and extent
+	var start_position = game_mode.get_starting_position()
+	response["start_position_x"] = start_position.x
+	response["start_position_y"] = start_position.z
+	
+	# TODO: Where should this extent come from? Maybe not the game mode, since it's a very
+	#  table-specific concept... hardcoded for now
+	response["start_extent_x"] = 5000
+	response["start_extent_y"] = 5000
 	
 	var possible_tokens = request["provided_tokens"]
 	var current_possible_token_id := 0
