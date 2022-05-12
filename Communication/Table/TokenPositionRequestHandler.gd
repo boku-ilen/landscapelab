@@ -28,8 +28,11 @@ func handle_request(request: Dictionary) -> Dictionary:
 	
 	var game_object = GameSystem.get_game_object(request["object_id"])
 	
-	game_object.set_position(Vector3(
-		request["position_x"], 0.0, -request["position_y"]
-	))
+	if game_object:
+		game_object.set_position(Vector3(
+			request["position_x"], 0.0, -request["position_y"]
+		))
+		
+		result["success"] = true
 	
 	return result

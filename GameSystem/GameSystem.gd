@@ -52,8 +52,9 @@ func remove_game_object(game_object):
 	apply_game_object_removal(collection.name, game_object.id)
 
 
+# Returns the game object that corresponds to the given ID, or null if it doesn't exist.
 func get_game_object(id):
-	return _game_objects[int(id)]
+	return _game_objects.get(int(id))
 
 
 func create_game_object_for_geo_feature(geo_feature, collection):

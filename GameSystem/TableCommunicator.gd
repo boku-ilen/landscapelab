@@ -34,6 +34,8 @@ func get_gamestate_info(request: Dictionary):
 		"projection_epsg": 0 
 	}
 	
+	# TODO: Where should start position and extent come from? Probably also the current game mode?
+	
 	var possible_tokens = request["provided_tokens"]
 	var current_possible_token_id := 0
 	

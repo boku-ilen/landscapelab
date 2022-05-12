@@ -2,8 +2,11 @@ extends AbstractRequestHandler
 class_name TableHandshakeRequestHandler
 
 #
-# 
+# Responds to a handshape request by returning all information about the current GameMode.
+# Its main purpose is to map possible Table tokens (included in the request) to
+# GameObjectCollections in the current GameMode.
 #
+
 
 var table_communicator: TableCommunicator  # To be injected
 

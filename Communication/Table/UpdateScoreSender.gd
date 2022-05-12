@@ -1,5 +1,9 @@
 extends Node
 
+#
+# Broadcasts changes in any GameScore via the CommunicationServer.
+#
+
 
 func _ready():
 	GameSystem.connect("score_changed", self, "_on_score_changed")

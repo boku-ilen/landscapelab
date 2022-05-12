@@ -25,11 +25,11 @@ func handle_request(request: Dictionary) -> Dictionary:
 	}
 	
 	var game_object = GameSystem.get_game_object(request["object_id"])
-	GameSystem.remove_game_object(game_object)
 	
-	# TODO: Error handling
-	
-	result["success"] = true
-	result["object_id"] = game_object.id
+	if game_object:
+		GameSystem.remove_game_object(game_object)
+		
+		result["success"] = true
+		result["object_id"] = game_object.id
 	
 	return result
