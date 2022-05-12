@@ -217,3 +217,7 @@ func fly(delta):
 	if walking:
 		# FIXME: Place player on ground (using the terrain layer?)
 		pass
+
+
+func get_world_position():
+	return position_manager.to_world_coordinates(translation)
