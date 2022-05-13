@@ -28,15 +28,11 @@ func handle_request(request: Dictionary) -> Dictionary:
 	}
 	
 	var collection = table_communicator.token_to_game_object_collection[request["brick_shape"]][request["brick_color"]]
-	var new_game_object = GameSystem.create_new_game_object(collection.name)
+	var new_game_object = GameSystem.create_new_game_object(
+		collection.name, Vector3(request["position_x"], 0.0, -request["position_y"]))
 	
-	new_game_object.set_position(Vector3(
-		request["position_x"], 0.0, -request["position_y"]
-	))
-	
-	# TODO: Error handling
-	
-	result["success"] = true
-	result["object_id"] = new_game_object.id
+	if new_game_object:
+		result["success"] = true
+		result["object_id"] = new_game_object.id
 	
 	return result

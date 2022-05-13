@@ -35,10 +35,22 @@ func _on_score_target_reached(score):
 	emit_signal("score_target_reached", score)
 
 
-func create_new_game_object(collection_name):
+func create_new_game_object(collection_name, position := Vector3.ZERO):
 	var collection = current_game_mode.game_object_collections[collection_name]
 	var id = _next_game_object_id
-	collection.feature_layer.create_feature()
+	
+	# Check whether it is allowed to create a game object here
+	for creation_condition in collection.creation_conditions.values():
+		if not creation_condition.is_creation_allowed_at_position(position):
+			return null
+	
+	var new_feature = collection.feature_layer.create_feature()
+	
+	# TODO: Could this be generalized? We do need the position here in order to check the creation
+	# conditions, so we can't just create an object and set it later
+	if new_feature.has_method("set_vector3") and position != Vector3.ZERO:
+		new_feature.set_vector3(position)
+	
 	# No need to do anything else because the collection reacts to the `feature_added` signal
 	
 	return _game_objects[id]

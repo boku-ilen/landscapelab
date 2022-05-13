@@ -8,6 +8,7 @@ class_name GameObjectCollection
 
 var name = ""
 var game_objects = {}
+var creation_conditions = {}
 var attributes = {}
 var feature_layer
 
@@ -65,6 +66,12 @@ func get_all_game_objects():
 	return game_objects.values()
 
 
+func add_creation_condition(creation_condition):
+	creation_conditions[creation_condition.name] = creation_condition
+
+
+# FIXME: Maybe we should have a `add_attribute_mapping` instead and leave the object creation up to the user.
+#  This would allow some more flexibility and be less maintainance work
 func add_explicit_attribute_mapping(attribute_name, geo_attribute_name):
 	attributes[attribute_name] = ExplicitGameObjectAttribute.new(attribute_name, geo_attribute_name)
 
@@ -73,6 +80,8 @@ func add_implicit_attribute_mapping(attribute_name, raster_layer):
 	attributes[attribute_name] = ImplicitGameObjectAttribute.new(attribute_name, raster_layer)
 
 
+# Attributes
+
 # General definition of an attribute which game objects within one collection can have
 class GameObjectAttribute:
 	var name := ""
@@ -80,7 +89,6 @@ class GameObjectAttribute:
 	# To be implemented
 	func get_value(game_object):
 		pass
-
 
 # Explicit attributes correspond directly to attributes of features.
 # This class thus remembers the name of the corresponding attribute in the GeoFeature.
@@ -107,4 +115,26 @@ class ImplicitGameObjectAttribute extends GameObjectAttribute:
 	func get_value(game_object):
 		var position = game_object.geo_feature.get_vector3()
 		return raster_layer.get_value_at_position(position.x, -position.z)
+
+
+# Creation Conditions
+
+class CreationCondition:
+	var name = ""
+	
+	# To be implemented
+	func is_creation_allowed_at_position(position):
+		pass
+
+
+class GreaterThanRasterCreationCondition:
+	var raster_layer
+	var greater_than_comparator
+	
+	func _init(initial_raster_layer, initial_greater_than_comparator):
+		raster_layer = initial_raster_layer
+		greater_than_comparator = initial_greater_than_comparator
+	
+	func is_creation_allowed_at_position(position):
+		return raster_layer.get_value_at_position(position.x, position.z) > greater_than_comparator
 
