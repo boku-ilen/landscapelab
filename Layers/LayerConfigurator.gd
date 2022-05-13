@@ -37,8 +37,7 @@ func load_gpkg(geopackage_path: String):
 	
 	# FIXME: Game Engine Testing
 	var game_mode = GameMode.new()
-	game_mode.add_game_object_collection_for_feature_layer("WKA Alt", Layers.geo_layers["features"]["WKA_NeuWei_Bestand"])
-	game_mode.add_game_object_collection_for_feature_layer("WKA Neu", Layers.geo_layers["features"]["WKA_NeuWei_Repower"])
+	var wka = game_mode.add_game_object_collection_for_feature_layer("WKA Alt", Layers.geo_layers["features"]["WKA_NeuWei_Bestand"])
 	
 	game_mode.game_object_collections["WKA Alt"].add_explicit_attribute_mapping("Rotor", "Rotordurch")
 	game_mode.game_object_collections["WKA Alt"].add_implicit_attribute_mapping("Hohe", Layers.geo_layers["rasters"]["dhm"])
@@ -50,11 +49,10 @@ func load_gpkg(geopackage_path: String):
 	
 	game_mode.add_score(score)
 	
+#	var condition = GreaterThanRasterCreationCondition.new("Test Condition", Layers.geo_layers["rasters"]["dhm"], 116.0)
+#	wka.add_creation_condition(condition)
+	
 	GameSystem.current_game_mode = game_mode
-
-
-func _process(delta):
-	print(GameSystem.current_game_mode.game_scores["Test Score"].get_value())
 
 
 func validate_gpkg(geopackage_path: String):
