@@ -1,7 +1,7 @@
 extends Node
 
 
-var current_game_mode: GameMode setget set_current_game_mode
+var current_game_mode setget set_current_game_mode
 
 var _next_game_object_id := 0
 var _game_objects = {}
@@ -70,7 +70,7 @@ func get_game_object(id):
 
 
 func create_game_object_for_geo_feature(geo_feature, collection):
-	var game_object = GameObject.new(_next_game_object_id, geo_feature, collection)
+	var game_object = GeoGameObject.new(_next_game_object_id, collection, geo_feature)
 	_game_objects[_next_game_object_id] = game_object
 	
 	_next_game_object_id += 1

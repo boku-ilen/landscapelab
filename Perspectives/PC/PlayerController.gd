@@ -221,3 +221,7 @@ func fly(delta):
 
 func get_world_position():
 	return position_manager.to_world_coordinates(translation)
+
+
+func set_world_position(world_position):
+	pass # TODO

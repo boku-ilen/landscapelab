@@ -11,7 +11,7 @@ signal score_target_reached(score)
 
 
 func add_game_object_collection_for_feature_layer(collection_name, feature_layer):
-	game_object_collections[collection_name] = GameObjectCollection.new(collection_name, feature_layer)
+	game_object_collections[collection_name] = GeoGameObjectCollection.new(collection_name, feature_layer)
 	return game_object_collections[collection_name]
 
 

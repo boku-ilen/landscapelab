@@ -1,22 +1,16 @@
-extends Object
-class_name GameObjectCollection
+extends GameObjectCollection
+class_name GeoGameObjectCollection
 
 #
-# A collection of multiple game objects of the same type.
+# A collection of multiple GeoGameObjects of the same type.
 # Has a 1:1 relationship to a Layer.
 #
 
-var name = ""
-var game_objects = {}
-var creation_conditions = {}
 var attributes = {}
 var feature_layer
 
-signal changed # Emitted whenever there is any change in the collection
 
-
-func _init(initial_name, initial_feature_layer):
-	name = initial_name
+func _init(initial_name, initial_feature_layer).(initial_name):
 	feature_layer = initial_feature_layer
 	
 	# Register all existing features
@@ -56,18 +50,6 @@ func _remove_game_object(feature):
 	GameSystem.apply_game_object_removal(name, corresponding_game_object)
 	
 	emit_signal("changed")
-
-
-func get_game_object(id):
-	return game_objects[id]
-
-
-func get_all_game_objects():
-	return game_objects.values()
-
-
-func add_creation_condition(creation_condition):
-	creation_conditions[creation_condition.name] = creation_condition
 
 
 # FIXME: Maybe we should have a `add_attribute_mapping` instead and leave the object creation up to the user.

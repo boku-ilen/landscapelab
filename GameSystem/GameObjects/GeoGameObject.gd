@@ -1,15 +1,12 @@
-extends Object
-class_name GameObject
+extends GameObject
+class_name GeoGameObject
 
-var id := -1
-var collection: GameObjectCollection
+
 var geo_feature
 
 
-func _init(initial_id: int, initial_geo_feature, initial_collection):
-	id = initial_id
+func _init(initial_id: int, initial_collection, initial_geo_feature).(initial_id, initial_collection):
 	geo_feature = initial_geo_feature
-	collection = initial_collection
 
 
 func get_attribute(attribute_name):
