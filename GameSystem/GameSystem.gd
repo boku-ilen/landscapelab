@@ -35,8 +35,21 @@ func _on_score_target_reached(score):
 	emit_signal("score_target_reached", score)
 
 
-func create_new_game_object(collection_name, position := Vector3.ZERO):
-	var collection = current_game_mode.game_object_collections[collection_name]
+func create_new_game_object(collection, position := Vector3.ZERO):
+	# FIXME: This if should be removed, it's a hacky way to allow the PlayerGameObjectCollection to
+	#  move the player on "NEW_TOKEN" while allowing the actual creation of new objects in
+	#  GeoGameObjectCollections
+	if collection is GeoGameObjectCollection:
+		create_new_geo_game_object(collection, position)
+	elif collection is PlayerGameObjectCollection:
+		collection.game_objects.values()[0].set_position(position)
+
+
+func create_new_geo_game_object(collection, position := Vector3.ZERO):
+	# FIXME: Feels hacky and would be a race condition in multi-threaded code. The problem is that
+	#  We don't actually create a game object until `create_feature` causes `feature_added` to be
+	#  emitted, which calls `create_game_object_for_geo_feature`. But we're sure that it will be
+	#  created and we want the ID here
 	var id = _next_game_object_id
 	
 	# Check whether it is allowed to create a game object here
@@ -69,11 +82,19 @@ func get_game_object(id):
 	return _game_objects.get(int(id))
 
 
-func create_game_object_for_geo_feature(geo_feature, collection):
-	var game_object = GeoGameObject.new(_next_game_object_id, collection, geo_feature)
-	_game_objects[_next_game_object_id] = game_object
-	
+# Returns a unique Game Object ID which is ensured not to be returned again.
+func acquire_game_object_id():
+	var id = _next_game_object_id
 	_next_game_object_id += 1
+	
+	return id
+
+
+func create_game_object_for_geo_feature(geo_feature, collection):
+	var id = acquire_game_object_id()
+	
+	var game_object = GeoGameObject.new(id, collection, geo_feature)
+	_game_objects[id] = game_object
 	
 	return game_object
 

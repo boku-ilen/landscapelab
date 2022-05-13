@@ -16,8 +16,10 @@ func get_attribute(attribute_name):
 
 
 func set_position(new_position: Vector3):
+	new_position.z = -new_position.z  # FIXME: why is this needed?
 	player_node.set_world_position(new_position)
 
 
 func get_position():
-	return player_node.get_world_position()
+	var world_pos_array = player_node.get_world_position()
+	return Vector3(world_pos_array[0], world_pos_array[1], world_pos_array[2])

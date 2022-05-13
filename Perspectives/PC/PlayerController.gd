@@ -224,4 +224,7 @@ func get_world_position():
 
 
 func set_world_position(world_position):
-	pass # TODO
+	var new_pos = position_manager.to_engine_coordinates(world_position)
+	translation.x = new_pos.x
+	translation.z = new_pos.z
+	# FIXME: Should probably get the ground height and use it for the y position
