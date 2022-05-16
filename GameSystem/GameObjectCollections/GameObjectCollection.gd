@@ -6,6 +6,7 @@ class_name GameObjectCollection
 #
 
 var name = ""
+var icon_name = ""
 var game_objects = {}
 var creation_conditions = {}
 

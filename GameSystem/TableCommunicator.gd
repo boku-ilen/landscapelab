@@ -72,7 +72,7 @@ func get_gamestate_info(request: Dictionary):
 			response["used_tokens"].append({
 				"shape": shape,
 				"color": color,
-				"icon_svg": "",  # the svg as ascii string
+				"icon_name": collection.icon_name,  # the icon name corresponding to a Table icon
 				"disappear_after_seconds": 0.0
 			})
 			

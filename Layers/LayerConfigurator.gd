@@ -42,6 +42,8 @@ func load_gpkg(geopackage_path: String):
 	game_mode.game_object_collections["WKA Alt"].add_explicit_attribute_mapping("Rotor", "Rotordurch")
 	game_mode.game_object_collections["WKA Alt"].add_implicit_attribute_mapping("Hohe", Layers.geo_layers["rasters"]["dhm"])
 	
+	game_mode.game_object_collections["WKA Alt"].icon_name = "windmill_icon"
+	
 	game_mode.set_extent(569000.0, 380000.0, 599000.0, 410000.0)
 	
 	var score = GameScore.new()
