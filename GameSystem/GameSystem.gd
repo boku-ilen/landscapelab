@@ -40,9 +40,10 @@ func create_new_game_object(collection, position := Vector3.ZERO):
 	#  move the player on "NEW_TOKEN" while allowing the actual creation of new objects in
 	#  GeoGameObjectCollections
 	if collection is GeoGameObjectCollection:
-		create_new_geo_game_object(collection, position)
+		return create_new_geo_game_object(collection, position)
 	elif collection is PlayerGameObjectCollection:
 		collection.game_objects.values()[0].set_position(position)
+		return collection.game_objects.values()[0]
 
 
 func create_new_geo_game_object(collection, position := Vector3.ZERO):

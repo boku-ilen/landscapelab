@@ -31,7 +31,11 @@ func get_gamestate_info(request: Dictionary):
 		"start_position_y": 0.0,
 		"start_extent_x": 0.0,  # height
 		"start_extent_y": 0.0,  # width
-		"projection_epsg": 0 
+		"minimap_min_x": 0.0,
+		"minimap_min_y": 0.0,
+		"minimap_max_x": 0.0,
+		"minimap_max_y": 0.0
+#		"projection_epsg": 0 
 	}
 	
 	# Set starting position and extent
@@ -43,6 +47,12 @@ func get_gamestate_info(request: Dictionary):
 	#  table-specific concept... hardcoded for now
 	response["start_extent_x"] = 5000
 	response["start_extent_y"] = 5000
+	
+	var extent = game_mode.get_extent()
+	response["minimap_min_x"] = extent[0]
+	response["minimap_min_y"] = extent[1]
+	response["minimap_max_x"] = extent[2]
+	response["minimap_max_y"] = extent[3]
 	
 	var possible_tokens = request["provided_tokens"]
 	var current_possible_token_id := 0

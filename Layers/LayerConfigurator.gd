@@ -42,6 +42,8 @@ func load_gpkg(geopackage_path: String):
 	game_mode.game_object_collections["WKA Alt"].add_explicit_attribute_mapping("Rotor", "Rotordurch")
 	game_mode.game_object_collections["WKA Alt"].add_implicit_attribute_mapping("Hohe", Layers.geo_layers["rasters"]["dhm"])
 	
+	game_mode.set_extent(569000.0, 380000.0, 599000.0, 410000.0)
+	
 	var score = GameScore.new()
 	score.name = "Test Score"
 	score.add_contributor(game_mode.game_object_collections["WKA Alt"], "Rotor")
@@ -51,6 +53,10 @@ func load_gpkg(geopackage_path: String):
 	
 #	var condition = GreaterThanRasterCreationCondition.new("Test Condition", Layers.geo_layers["rasters"]["dhm"], 116.0)
 #	wka.add_creation_condition(condition)
+	
+	# Add player game object collection
+	var player_game_object_collection = PlayerGameObjectCollection.new("Players", get_parent().get_node("FirstPersonPC"))
+	game_mode.add_game_object_collection(player_game_object_collection)
 	
 	GameSystem.current_game_mode = game_mode
 

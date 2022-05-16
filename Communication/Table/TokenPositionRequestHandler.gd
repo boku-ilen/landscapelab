@@ -22,17 +22,20 @@ func _init():
 func handle_request(request: Dictionary) -> Dictionary:
 	var result = {
 		"keyword": "TOKEN_ANSWER",
-		"success": false,
+		"placement_allowed": false,
 		"object_id": 0
 	}
 	
 	var game_object = GameSystem.get_game_object(request["object_id"])
 	
 	if game_object:
+		# TODO: Verify if placement is actually allowed at that new position
+		# (Doesn't matter along as Table only sends Creations and Deletes)
 		game_object.set_position(Vector3(
 			request["position_x"], 0.0, -request["position_y"]
 		))
 		
-		result["success"] = true
+		result["object_id"] = game_object.id
+		result["placement_allowed"] = true
 	
 	return result

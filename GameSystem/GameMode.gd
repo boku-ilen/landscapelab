@@ -6,6 +6,8 @@ class_name GameMode
 var game_object_collections = {}
 var game_scores = {}
 
+var extent = [0.0, 0.0, 0.0, 0.0]
+
 signal score_changed(score)
 signal score_target_reached(score)
 
@@ -37,6 +39,18 @@ func get_starting_position():
 			count += 1
 	
 	return center_avg / count
+
+
+func set_extent(min_x, min_y, max_x, max_y):
+	extent[0] = min_x
+	extent[1] = min_y
+	extent[2] = max_x
+	extent[3] = max_y
+
+
+# Returns the extent as an array containing min_x, min_y, max_x, max_y
+func get_extent():
+	return extent
 
 
 func _on_score_value_changed(value, score):

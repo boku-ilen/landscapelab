@@ -23,7 +23,7 @@ func _init():
 func handle_request(request: Dictionary) -> Dictionary:
 	var result = {
 		"keyword": "TOKEN_ANSWER",
-		"success": false,
+		"placement_allowed": false,
 		"object_id": 0
 	}
 	
@@ -32,7 +32,7 @@ func handle_request(request: Dictionary) -> Dictionary:
 		collection, Vector3(request["position_x"], 0.0, -request["position_y"]))
 	
 	if new_game_object:
-		result["success"] = true
+		result["placement_allowed"] = true
 		result["object_id"] = new_game_object.id
 	
 	return result
