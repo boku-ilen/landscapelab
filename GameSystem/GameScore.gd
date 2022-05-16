@@ -13,6 +13,10 @@ signal value_changed(new_value)
 signal target_reached
 
 
+func _init():
+	id = GameSystem.acquire_game_object_id()
+
+
 func add_contributor(game_object_collection: GameObjectCollection, attribute_name, weight = 1.0):
 	contributors.append(GameScoreContributor.new(
 		game_object_collection, attribute_name, weight

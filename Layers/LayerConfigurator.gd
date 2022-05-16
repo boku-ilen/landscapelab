@@ -47,9 +47,17 @@ func load_gpkg(geopackage_path: String):
 	var score = GameScore.new()
 	score.name = "Test Score"
 	score.add_contributor(game_mode.game_object_collections["WKA Alt"], "Rotor")
-	score.add_contributor(game_mode.game_object_collections["WKA Alt"], "Hohe")
+	score.target = 10000.0
 	
 	game_mode.add_score(score)
+	
+	var score2 = GameScore.new()
+	score2.name = "Second Test Score"
+	score2.add_contributor(game_mode.game_object_collections["WKA Alt"], "Rotor")
+	score2.add_contributor(game_mode.game_object_collections["WKA Alt"], "Hohe")
+	score2.target = 20000.0
+	
+	game_mode.add_score(score2)
 	
 #	var condition = GreaterThanRasterCreationCondition.new("Test Condition", Layers.geo_layers["rasters"]["dhm"], 116.0)
 #	wka.add_creation_condition(condition)
