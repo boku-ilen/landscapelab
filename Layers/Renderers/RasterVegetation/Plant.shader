@@ -47,13 +47,7 @@ void vertex() {
 	//  plants appear there as opposed to behind the player
 	camera_pos += -CAMERA_MATRIX[2].xyz * max_distance * 0.75;
 	
-	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	
-	// Move the upper vertices around for a wind wave effect
-	if (VERTEX.y > 0.3) {
-		VERTEX.x += amplitude * sin(worldpos.x * scale.x * 0.75 + TIME * speed.x) * cos(worldpos.z * scale.x + TIME * speed.x * 0.25);
-		VERTEX.z += amplitude * sin(worldpos.x * scale.y + TIME * speed.y * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed.y);
-	}
+	worldpos = (WORLD_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 	
 	vec2 pos = worldpos.xz;
 	
@@ -79,6 +73,13 @@ void vertex() {
 	
 	float size_scale = dist_value.g;
 	size = size_scale * 40.0;
+	
+	// Move the upper vertices around for a wind wave effect
+	if (VERTEX.y > 0.3) {
+		VERTEX.x += amplitude * sin(worldpos.x * scale.x * 0.75 + TIME * speed.x) * cos(worldpos.z * scale.x + TIME * speed.x * 0.25);
+		VERTEX.z += amplitude * sin(worldpos.x * scale.y + TIME * speed.y * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed.y);
+	}
+	
 	VERTEX *= size;
 	
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
