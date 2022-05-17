@@ -7,8 +7,8 @@ class_name NewTokenRequestHandler
 #    "keyword": "NEW_TOKEN",
 #    "position_x": 123.0,
 #    "position_y": 123.0,
-#    "brick_color": "RED",
-#    "brick_shape": "SQUARE"
+#    "color": "RED",
+#    "shape": "SQUARE"
 # }
 #
 
@@ -27,7 +27,7 @@ func handle_request(request: Dictionary) -> Dictionary:
 		"object_id": 0
 	}
 	
-	var collection = table_communicator.token_to_game_object_collection[request["brick_shape"]][request["brick_color"]]
+	var collection = table_communicator.token_to_game_object_collection[request["shape"]][request["color"]]
 	var new_game_object = GameSystem.create_new_game_object(
 		collection, Vector3(request["position_x"], 0.0, -request["position_y"]))
 	
