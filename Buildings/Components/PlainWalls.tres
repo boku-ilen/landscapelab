@@ -1,12 +1,13 @@
-[gd_resource type="ShaderMaterial" load_steps=5 format=2]
+[gd_resource type="ShaderMaterial" load_steps=6 format=2]
 
 [ext_resource path="res://Resources/Textures/Buildings/facade/plaster_roughness.jpg" type="Texture" id=1]
 [ext_resource path="res://Resources/Textures/Buildings/facade/plaster_metallic.jpg" type="Texture" id=2]
+[ext_resource path="res://Resources/Textures/Buildings/facade/plaster_white.jpg" type="Texture" id=3]
+[ext_resource path="res://Resources/Textures/Buildings/facade/normalmap_plaster.jpg" type="Texture" id=4]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type spatial;
 render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
-uniform vec4 albedo : hint_color;
 uniform sampler2D texture_albedo : hint_albedo;
 uniform float specular;
 uniform float metallic;
@@ -45,7 +46,9 @@ float rand(vec2 co){
 void fragment() {
 	vec2 base_uv = UV;
 	vec4 albedo_tex = texture(texture_albedo,base_uv);
-	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	
+	// Modulate color with vertex color - this is more performant than a color uniform
+	ALBEDO = COLOR.rgb * albedo_tex.rgb;
 	
 	// A bit hacky: disabling window shading clamps the UVs to 0.0, thus making the metallic and roughness effects of the window not apply
 	base_uv *= float(!window_shading);
@@ -69,12 +72,9 @@ void fragment() {
 }
 "
 
-[sub_resource type="NoiseTexture" id=2]
-
 [resource]
 resource_local_to_scene = true
 shader = SubResource( 1 )
-shader_param/albedo = Color( 1, 1, 1, 1 )
 shader_param/specular = 0.5
 shader_param/metallic = 1.0
 shader_param/roughness = 1.0
@@ -91,7 +91,8 @@ shader_param/uv2_offset = Vector3( 0, 0, 0 )
 shader_param/lights_on = false
 shader_param/random_seed = null
 shader_param/window_shading = true
-shader_param/texture_albedo = SubResource( 2 )
+shader_param/texture_albedo = ExtResource( 3 )
 shader_param/texture_metallic = ExtResource( 2 )
 shader_param/texture_roughness = ExtResource( 1 )
 shader_param/texture_emission = ExtResource( 2 )
+shader_param/texture_normal = ExtResource( 4 )

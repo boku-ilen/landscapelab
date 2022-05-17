@@ -7,18 +7,15 @@ extends Spatial
 #
 
 
-func set_texture(texture):
-	$MeshInstance.material_override.albedo_texture = texture
+var color
 
 
-func set_color(color):
-	$MeshInstance.material_override.albedo_color = color
+func _ready():
+	$MeshInstance.material_override = preload("res://Buildings/Components/FlatRoof.tres")
 
 
-func set_normalmap(texture):
-	$MeshInstance.material_override.normal_enabled = true
-	$MeshInstance.material_override.normal_scale = 3.0
-	$MeshInstance.material_override.normal_texture = texture
+func set_color(new_color):
+	color = new_color
 
 
 func build(footprint: PoolVector2Array):
@@ -34,6 +31,7 @@ func build(footprint: PoolVector2Array):
 	
 	for index in polygon_indices:
 		var vertex_2d = footprint[index]
+		st.add_color(color)
 		st.add_uv(vertex_2d * 0.1)
 		st.add_vertex(Vector3(vertex_2d.x, 0, vertex_2d.y))
 	
