@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://World/PositionManager.gd" type="Script" id=1]
 [ext_resource path="res://World/Environment/WorldEnvironment.tscn" type="PackedScene" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://Communication/GetObjectLayerDataRequestHandler.gd" type="Script" id=9]
 [ext_resource path="res://Communication/SetObjectPositionRequestHandler.gd" type="Script" id=10]
 [ext_resource path="res://Communication/CreateFeatureRequestHandler.gd" type="Script" id=11]
+[ext_resource path="res://GameSystem/TableCommunicator.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Communication/Table/PlayerPositionSender.gd" type="Script" id=13]
 
 [node name="World" type="Spatial"]
 script = ExtResource( 8 )
@@ -23,6 +25,9 @@ script = ExtResource( 8 )
 
 [node name="FirstPersonPC" parent="." instance=ExtResource( 3 )]
 transform = Transform( 0.998636, 0, 0.0517897, 0, 1, 0, -0.0517897, 0, 0.998636, 0, 500, 0 )
+
+[node name="PlayerPositionSender" type="Node" parent="FirstPersonPC"]
+script = ExtResource( 13 )
 
 [node name="LayerConfigurator" parent="." instance=ExtResource( 7 )]
 
@@ -46,3 +51,5 @@ script = ExtResource( 10 )
 
 [node name="CreateFeatureRequestHandler" type="Node" parent="GeneralRequestHandlers"]
 script = ExtResource( 11 )
+
+[node name="TableCommunicator" parent="." instance=ExtResource( 12 )]

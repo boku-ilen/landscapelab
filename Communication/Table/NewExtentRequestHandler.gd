@@ -12,6 +12,8 @@ class_name NewExtentRequestHandler
 # }
 #
 
+var table_communicator: TableCommunicator  # To be injected
+
 
 # set the protocol keyword
 func _init():

@@ -34,6 +34,41 @@ func load_gpkg(geopackage_path: String):
 		digest_gpkg(geopackage_path)
 	else:
 		emit_signal("geodata_invalid")
+	
+	# FIXME: Game Engine Testing
+	var game_mode = GameMode.new()
+	var wka = game_mode.add_game_object_collection_for_feature_layer("WKA Alt", Layers.geo_layers["features"]["WKA_NeuWei_Bestand"])
+	
+	game_mode.game_object_collections["WKA Alt"].add_explicit_attribute_mapping("Rotor", "Rotordurch")
+	game_mode.game_object_collections["WKA Alt"].add_implicit_attribute_mapping("Hohe", Layers.geo_layers["rasters"]["dhm"])
+	
+	game_mode.game_object_collections["WKA Alt"].icon_name = "windmill_icon"
+	
+	game_mode.set_extent(569000.0, 380000.0, 599000.0, 410000.0)
+	
+	var score = GameScore.new()
+	score.name = "Test Score"
+	score.add_contributor(game_mode.game_object_collections["WKA Alt"], "Rotor")
+	score.target = 10000.0
+	
+	game_mode.add_score(score)
+	
+	var score2 = GameScore.new()
+	score2.name = "Second Test Score"
+	score2.add_contributor(game_mode.game_object_collections["WKA Alt"], "Rotor")
+	score2.add_contributor(game_mode.game_object_collections["WKA Alt"], "Hohe")
+	score2.target = 20000.0
+	
+	game_mode.add_score(score2)
+	
+#	var condition = GreaterThanRasterCreationCondition.new("Test Condition", Layers.geo_layers["rasters"]["dhm"], 116.0)
+#	wka.add_creation_condition(condition)
+	
+	# Add player game object collection
+	var player_game_object_collection = PlayerGameObjectCollection.new("Players", get_parent().get_node("FirstPersonPC"))
+	game_mode.add_game_object_collection(player_game_object_collection)
+	
+	GameSystem.current_game_mode = game_mode
 
 
 func validate_gpkg(geopackage_path: String):

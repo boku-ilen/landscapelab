@@ -217,3 +217,14 @@ func fly(delta):
 	if walking:
 		# FIXME: Place player on ground (using the terrain layer?)
 		pass
+
+
+func get_world_position():
+	return position_manager.to_world_coordinates(translation)
+
+
+func set_world_position(world_position):
+	var new_pos = position_manager.to_engine_coordinates(world_position)
+	translation.x = new_pos.x
+	translation.z = new_pos.z
+	# FIXME: Should probably get the ground height and use it for the y position

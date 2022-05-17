@@ -1,0 +1,30 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Communication/Table/NewExtentRequestHandler.gd" type="Script" id=1]
+[ext_resource path="res://GameSystem/TableCommunicator.gd" type="Script" id=2]
+[ext_resource path="res://Communication/Table/NewTokenRequestHandler.gd" type="Script" id=3]
+[ext_resource path="res://Communication/Table/RemoveTokenRequestHandler.gd" type="Script" id=4]
+[ext_resource path="res://Communication/Table/TableHandshakeRequestHandler.gd" type="Script" id=5]
+[ext_resource path="res://Communication/Table/TokenPositionRequestHandler.gd" type="Script" id=6]
+[ext_resource path="res://Communication/Table/UpdateScoreSender.gd" type="Script" id=7]
+
+[node name="TableCommunicator" type="Node"]
+script = ExtResource( 2 )
+
+[node name="NewExtentRequestHandler" type="Node" parent="."]
+script = ExtResource( 1 )
+
+[node name="NewTokenRequestHandler" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="RemoveTokenRequestHandler" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="TableHandshakeRequestHandler" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[node name="TokenPositionRequestHandler" type="Node" parent="."]
+script = ExtResource( 6 )
+
+[node name="UpdateScoreSender" type="Node" parent="."]
+script = ExtResource( 7 )
