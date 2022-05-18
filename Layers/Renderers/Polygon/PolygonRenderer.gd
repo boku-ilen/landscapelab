@@ -44,33 +44,32 @@ func load_new_data():
 		if fmod(height, floor_height) > floor_height / 2.0:
 			var base_floor = plain_walls_scene.instance()
 			base_floor.height = floor_height / 2.0
-			base_floor.set_texture(preload("res://Resources/Textures/Buildings/basement/plaster_white.jpg"))
 			base_floor.set_window_shading(false)
+			base_floor.set_color(Color.gray)
 			building.add_child(base_floor)
 		
 		# Random facade texture
 		var random_gen = RandomNumberGenerator.new()
 		random_gen.seed = hash(polygon)
 		
-		var wall_texture
+		var wall_color = Color.whitesmoke
 		var random = random_gen.randi_range(0, 10)
 		
 		if random >= 0 and random <= 5:
-			wall_texture = preload("res://Resources/Textures/Buildings/facade/plaster_yellow.jpg")
+			wall_color = Color.lightyellow
 		elif random > 5 and random <= 8:
-			wall_texture = preload("res://Resources/Textures/Buildings/facade/plaster_white.jpg")
+			wall_color = Color.whitesmoke
 		elif random == 9:
-			wall_texture = preload("res://Resources/Textures/Buildings/facade/plaster_green.jpg")
+			wall_color = Color.darkseagreen
 		elif random == 10:
-			wall_texture = preload("res://Resources/Textures/Buildings/facade/plaster_blue.jpg")
+			wall_color = Color.lightblue
 		
 		# Add the floors
 		for i in range(num_floors):
 			var walls = plain_walls_scene.instance()
 			building.add_child(walls)
 			
-			walls.set_texture(wall_texture)
-			walls.set_normalmap(preload("res://Resources/Textures/Buildings/facade/normalmap_plaster.jpg"))
+			walls.set_color(wall_color)
 		
 		# Add the roof
 		if layer.render_info is Layer.BuildingRenderInfo:
@@ -79,21 +78,21 @@ func load_new_data():
 			
 			if float(slope) > 15:
 				roof = pointed_roof_scene.instance()
-				roof.set_texture(preload("res://Resources/Textures/Buildings/roof/roof_white.jpg"))
-				roof.set_normalmap(preload("res://Resources/Textures/Buildings/roof_normal/roof_3-normal.jpg"))
-				
 				var height_stdev = float(feature.get_attribute(layer.render_info.height_stdev_attribute_name))
 				roof.set_height(fmod(height, floor_height) + height_stdev)
 			
 			if not roof or not roof.can_build(polygon):
 				roof = flat_roof_scene.instance()
-				roof.set_texture(preload("res://Resources/Textures/Buildings/roof/flat_roof_white.jpg"))
 			
 			var color = Color(
 					float(feature.get_attribute(layer.render_info.red_attribute_name)) / 255.0,
 					float(feature.get_attribute(layer.render_info.green_attribute_name)) / 255.0,
 					float(feature.get_attribute(layer.render_info.blue_attribute_name)) / 255.0
 			)
+			
+			# Increase contrast and saturation
+			color.v *= 0.9
+			color.s *= 1.6
 			
 			roof.set_color(color)
 			

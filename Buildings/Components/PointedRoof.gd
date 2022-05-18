@@ -8,20 +8,15 @@ extends Spatial
 
 
 var height
+var color
 
 
-func set_texture(texture):
-	$MeshInstance.material_override.albedo_texture = texture
+func _ready():
+	$MeshInstance.material_override = preload("res://Buildings/Components/PointedRoof.tres")
 
 
-func set_color(color):
-	$MeshInstance.material_override.albedo_color = color
-
-
-func set_normalmap(texture):
-	$MeshInstance.material_override.normal_enabled = true
-	$MeshInstance.material_override.normal_scale = 3.0
-	$MeshInstance.material_override.normal_texture = texture
+func set_color(new_color):
+	color = new_color
 
 
 func get_center(footprint: PoolVector2Array):
@@ -80,6 +75,7 @@ func build(footprint: PoolVector2Array):
 		
 		var tangent_plane = Plane(point1, point2, point3)
 		st.add_tangent(tangent_plane)
+		st.add_color(color)
 		
 		st.add_uv(Vector2(0, 0))
 		st.add_vertex(point1)

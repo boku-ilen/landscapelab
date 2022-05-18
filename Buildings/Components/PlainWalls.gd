@@ -12,24 +12,19 @@ export(bool) var wind_counterclockwise = true
 var height = 2.5
 var texture_scale = 2.5  # Size of the texture in meters - likely identical to the height
 
-var albedo
-var normalmap
+var color
 
 
 func _ready():
-	$MeshInstance.material_override = preload("res://Buildings/Components/PlainWalls.tres").duplicate()
-	$MeshInstance.material_override.set_shader_param("texture_albedo", albedo)
-	$MeshInstance.material_override.set_shader_param("texture_normal", normalmap)
-	# TODO: Should stay the same for identical buildings
-	$MeshInstance.material_override.set_shader_param("random_seed", randi())
+	$MeshInstance.material_override = preload("res://Buildings/Components/PlainWalls.tres")
+#	$MeshInstance.material_override.set_shader_param("texture_albedo", albedo)
+#	$MeshInstance.material_override.set_shader_param("texture_normal", normalmap)
+#	# TODO: Should stay the same for identical buildings
+#	$MeshInstance.material_override.set_shader_param("random_seed", randi())
 
 
-func set_texture(texture):
-	albedo = texture
-
-
-func set_normalmap(texture):
-	normalmap = texture
+func set_color(new_color):
+	color = new_color
 
 
 func set_lights_enabled(enabled):
@@ -71,6 +66,7 @@ func build(footprint: PoolVector2Array):
 		if (wind_counterclockwise):
 			var tangent_plane = Plane(next_point_3d, point_up_3d, point_3d)
 			st.add_tangent(tangent_plane)
+			st.add_color(color)
 			
 			# First triangle of the wall
 			st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
@@ -94,6 +90,7 @@ func build(footprint: PoolVector2Array):
 		else:
 			var tangent_plane = Plane(point_3d, point_up_3d, next_point_3d)
 			st.add_tangent(tangent_plane)
+			st.add_color(color)
 			
 			# First triangle of the wall
 			st.add_uv(Vector2(0.0, 0.0))

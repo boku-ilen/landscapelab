@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://Resources/Textures/Buildings/roof/roof_white.jpg" type="Texture" id=1]
+[ext_resource path="res://Resources/Textures/Buildings/roof_normal/roof_3-normal.jpg" type="Texture" id=2]
+[ext_resource path="res://Buildings/Components/RoofShader.gdshader" type="Shader" id=3]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/specular = 0.5
+shader_param/metallic = 1.0
+shader_param/roughness = 0.7
+shader_param/point_size = 1.0
+shader_param/normal_scale = 1.0
+shader_param/texture_albedo = ExtResource( 1 )
+shader_param/texture_normal = ExtResource( 2 )
