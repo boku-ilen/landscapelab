@@ -194,15 +194,8 @@ func digest_gpkg(geopackage_path: String):
 
 # Load all used geo-layers as defined by configuration
 func get_geolayers(db, gpkg):
-	# Load which gpkg raster layers concern which LL-layers
-	var rasters_config = db.select_rows(
-		"LL_georasterlayer_to_layer", "", ["*"] 
-	).duplicate()
-	
-	# Load which gpkg feature layers concern which LL-layers
-	var features_config = db.select_rows(
-		"LL_geofeaturelayer_to_layer", "", ["*"] 
-	).duplicate()
+	var raster_layers = gpkg.get_raster_layers()
+	var feature_layers = gpkg.get_feature_layers()
 	
 	# Load which external data sources concern which LL-layers
 	var externals_config = db.select_rows(
@@ -211,11 +204,11 @@ func get_geolayers(db, gpkg):
 	
 	var rasters = {}
 	var features = {}
-	for raster_config in rasters_config:
-		rasters[raster_config.geolayer_name] = gpkg.get_raster_layer(raster_config.geolayer_name)
+	for raster in raster_layers:
+		rasters[raster.resource_name] = raster
 	
-	for feature_config in features_config:
-		features[feature_config.geolayer_name] = gpkg.get_feature_layer(feature_config.geolayer_name)
+	for feature in feature_layers:
+		features[feature.resource_name] = feature
 	
 	for external_config in externals_config:
 		var layer = external_layers.external_to_geolayer_from_type(db, external_config)
