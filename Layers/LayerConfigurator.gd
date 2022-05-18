@@ -41,6 +41,8 @@ func load_gpkg(geopackage_path: String):
 	var wka = game_mode.add_game_object_collection_for_feature_layer("WKA", Layers.geo_layers["features"]["windmills"])
 	game_mode.game_object_collections["WKA"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["windturbine_potentials"])
 	game_mode.game_object_collections["WKA"].icon_name = "windmill_icon"
+	game_mode.game_object_collections["WKA"].desired_shape = "SQUARE_BRICK"
+	game_mode.game_object_collections["WKA"].desired_color = "BLUE_BRICK"
 	
 	var wka_condition = GreaterThanRasterCreationCondition.new("WKA Potential Condition", Layers.geo_layers["rasters"]["windturbine_potentials"], 0.0)
 	wka.add_creation_condition(wka_condition)
@@ -48,10 +50,14 @@ func load_gpkg(geopackage_path: String):
 	var pv_small = game_mode.add_game_object_collection_for_feature_layer("PV klein", Layers.geo_layers["features"]["pv_small"])
 	game_mode.game_object_collections["PV klein"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["pv_potentials"])
 	game_mode.game_object_collections["PV klein"].icon_name = "pv_icon"
+	game_mode.game_object_collections["PV klein"].desired_shape = "SQUARE_BRICK"
+	game_mode.game_object_collections["PV klein"].desired_color = "RED_BRICK"
 	
 	var pv_large = game_mode.add_game_object_collection_for_feature_layer("PV groß", Layers.geo_layers["features"]["pv_small"])
 	game_mode.game_object_collections["PV groß"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["pv_potentials"])
 	game_mode.game_object_collections["PV groß"].icon_name = "pv_icon"
+	game_mode.game_object_collections["PV groß"].desired_shape = "RECTANGLE_BRICK"
+	game_mode.game_object_collections["PV groß"].desired_color = "RED_BRICK"
 	
 	var pv_condition = GreaterThanRasterCreationCondition.new("PV Potential Condition", Layers.geo_layers["rasters"]["pv_potentials"], 0.0)
 	pv_small.add_creation_condition(pv_condition)
@@ -77,6 +83,8 @@ func load_gpkg(geopackage_path: String):
 	# Add player game object collection
 	var player_game_object_collection = PlayerGameObjectCollection.new("Players", get_parent().get_node("FirstPersonPC"))
 	game_mode.add_game_object_collection(player_game_object_collection)
+	player_game_object_collection.desired_shape = "SQUARE_BRICK"
+	player_game_object_collection.desired_color = "GREEN_BRICK"
 
 	GameSystem.current_game_mode = game_mode
 

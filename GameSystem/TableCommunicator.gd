@@ -57,28 +57,36 @@ func get_gamestate_info(request: Dictionary):
 	var possible_tokens = request["provided_tokens"]
 	var current_possible_token_id := 0
 	
-	# Map possible tokens to game object collections within the current game mode
+#	# Map possible tokens to game object collections within the current game mode
+#	for collection in game_mode.game_object_collections.values():
+#		if current_possible_token_id < possible_tokens.size():
+#			var shape = possible_tokens[current_possible_token_id]["shape"]
+#			var color = possible_tokens[current_possible_token_id]["color"]
+#
+#			if not token_to_game_object_collection.has(shape):
+#				token_to_game_object_collection[shape] = {}
+#
+#			token_to_game_object_collection[shape][color] = collection
+#			game_object_collection_to_token[collection] = possible_tokens[current_possible_token_id]
+#
+#			response["used_tokens"].append({
+#				"shape": shape,
+#				"color": color,
+#				"icon_name": collection.icon_name,  # the icon name corresponding to a Table icon
+#				"disappear_after_seconds": 0.0
+#			})
+#
+#			current_possible_token_id += 1
+#		else:
+#			logger.error("Game Mode would require more possible tokens than provided by this table!")
+	
 	for collection in game_mode.game_object_collections.values():
-		if current_possible_token_id < possible_tokens.size():
-			var shape = possible_tokens[current_possible_token_id]["shape"]
-			var color = possible_tokens[current_possible_token_id]["color"]
-			
-			if not token_to_game_object_collection.has(shape):
-				token_to_game_object_collection[shape] = {}
-			
-			token_to_game_object_collection[shape][color] = collection
-			game_object_collection_to_token[collection] = possible_tokens[current_possible_token_id]
-			
-			response["used_tokens"].append({
-				"shape": shape,
-				"color": color,
-				"icon_name": collection.icon_name,  # the icon name corresponding to a Table icon
-				"disappear_after_seconds": 0.0
-			})
-			
-			current_possible_token_id += 1
-		else:
-			logger.error("Game Mode would require more possible tokens than provided by this table!")
+		response["used_tokens"].append({
+			"shape": collection.desired_shape,
+			"color": collection.desired_color,
+			"icon_name": collection.icon_name,
+			"disappear_after_seconds": 0.0
+		})
 	
 	# Write scores into the response
 	for score in game_mode.game_scores.values():
@@ -91,15 +99,15 @@ func get_gamestate_info(request: Dictionary):
 	
 	# Write existing tokens into the response
 	for collection in game_mode.game_object_collections.values():
-		var token = game_object_collection_to_token[collection]
+#		var token = game_object_collection_to_token[collection]
 		
 		for game_object in collection.get_all_game_objects():
 			response["existing_tokens"].append({
 				"object_id": game_object.id,
 				"position_x": game_object.get_position().x,
 				"position_y": -game_object.get_position().z,
-				"shape": token["shape"],
-				"color": token["color"],
+				"shape": collection.desired_shape,
+				"color": collection.desired_color,
 				"data": []  # optional
 			})
 	

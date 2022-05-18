@@ -10,6 +10,11 @@ var icon_name = ""
 var game_objects = {}
 var creation_conditions = {}
 
+# Table-specific
+# FIXME: Should be somewhere else, GameObjectCollections shouldn't need to know about tables
+var desired_color
+var desired_shape
+
 signal changed # Emitted whenever there is any change in the collection
 
 
