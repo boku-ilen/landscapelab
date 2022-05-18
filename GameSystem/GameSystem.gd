@@ -73,9 +73,10 @@ func create_new_geo_game_object(collection, position := Vector3.ZERO):
 func remove_game_object(game_object):
 	var collection = game_object.collection
 	
-	collection.feature_layer.remove_feature(game_object.geo_feature)
-	
-	apply_game_object_removal(collection.name, game_object.id)
+	# TODO: Find a cleaner way to differentiate here; maybe use duck typing
+	if collection is GeoGameObjectCollection:
+		collection.feature_layer.remove_feature(game_object.geo_feature)
+		apply_game_object_removal(collection.name, game_object.id)
 
 
 # Returns the game object that corresponds to the given ID, or null if it doesn't exist.

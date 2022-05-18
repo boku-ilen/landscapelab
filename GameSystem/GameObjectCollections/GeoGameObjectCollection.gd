@@ -47,7 +47,7 @@ func _remove_game_object(feature):
 		if game_object.geo_feature == feature:
 			corresponding_game_object = game_object
 	
-	GameSystem.apply_game_object_removal(name, corresponding_game_object)
+	GameSystem.apply_game_object_removal(name, corresponding_game_object.id)
 	
 	emit_signal("changed")
 
