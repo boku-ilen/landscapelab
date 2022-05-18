@@ -1,4 +1,3 @@
-tool
 extends Spatial
 
 # 
@@ -36,7 +35,7 @@ func _ready():
 	set_notify_transform(true)
 
 
-func _notification(what: int) -> void:
+func _notification(what):
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
 		set_child_positions()
 
@@ -45,16 +44,25 @@ func set_child_positions():
 	for child in get_children():
 		var offset = ground_height_layer.get_value_at_position(
 				center[0] + (transform.origin.x + child.translation.x),
-				center[1] - (transform.origin.x + child.translation.z)) - transform.origin.y
+				center[1] - (transform.origin.z + child.translation.z)) - transform.origin.y
 		child.translation.y = offset
 		
 		var right_add = 2.0
 		
 		var offset_right = ground_height_layer.get_value_at_position(
-				center[0] + (transform.origin.x + child.translation.x + right_add),
-				center[1] - (transform.origin.x + child.translation.z)) - transform.origin.y
+				center[0] + (transform.origin.x + child.translation.x),
+				center[1] - (transform.origin.z + child.translation.z - right_add)) - transform.origin.y
 		
 		var difference = offset_right - offset
 		var diagonal_vector = Vector2(right_add, difference)
 		
-		child.transform = child.transform.rotated(Vector3.FORWARD, -diagonal_vector.angle())
+		child.rotation.x = diagonal_vector.angle()
+		
+#		var offset_up = ground_height_layer.get_value_at_position(
+#				center[0] + (transform.origin.x + child.translation.x + right_add),
+#				center[1] - (transform.origin.z + child.translation.z)) - transform.origin.y
+#
+#		difference = offset_up - offset
+#		diagonal_vector = Vector2(right_add, difference)
+#
+#		child.rotation.z = -(diagonal_vector.angle())
