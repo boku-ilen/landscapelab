@@ -3,3 +3,333 @@
 [ext_resource path="res://Resources/Meshes/APV/PV_field_row_10x10.glb" type="PackedScene" id=1]
 
 [node name="PV_field_row_10x10" instance=ExtResource( 1 )]
+
+[node name="instance_0" parent="SketchUp/RowUnit" index="0"]
+material/0 = null
+
+[node name="instance_1" parent="SketchUp/RowUnit" index="1"]
+material/0 = null
+
+[node name="instance_2" parent="SketchUp/RowUnit" index="2"]
+material/0 = null
+
+[node name="instance_2001" parent="SketchUp/RowUnit" index="3"]
+material/0 = null
+
+[node name="instance_2002" parent="SketchUp/RowUnit" index="4"]
+material/0 = null
+
+[node name="instance_3" parent="SketchUp/RowUnit" index="5"]
+material/0 = null
+
+[node name="instance_3001" parent="SketchUp/RowUnit" index="6"]
+material/0 = null
+
+[node name="instance_3002" parent="SketchUp/RowUnit" index="7"]
+material/0 = null
+
+[node name="instance_4" parent="SketchUp/RowUnit" index="8"]
+material/0 = null
+
+[node name="Row_unit" parent="SketchUp/RowUnit" index="9"]
+material/0 = null
+
+[node name="Row_unit001" parent="SketchUp/RowUnit" index="10"]
+material/0 = null
+
+[node name="instance_0001" parent="SketchUp/RowUnit001" index="0"]
+material/0 = null
+
+[node name="instance_1001" parent="SketchUp/RowUnit001" index="1"]
+material/0 = null
+
+[node name="instance_2003" parent="SketchUp/RowUnit001" index="2"]
+material/0 = null
+
+[node name="instance_2004" parent="SketchUp/RowUnit001" index="3"]
+material/0 = null
+
+[node name="instance_2005" parent="SketchUp/RowUnit001" index="4"]
+material/0 = null
+
+[node name="instance_3003" parent="SketchUp/RowUnit001" index="5"]
+material/0 = null
+
+[node name="instance_3004" parent="SketchUp/RowUnit001" index="6"]
+material/0 = null
+
+[node name="instance_3005" parent="SketchUp/RowUnit001" index="7"]
+material/0 = null
+
+[node name="instance_4001" parent="SketchUp/RowUnit001" index="8"]
+material/0 = null
+
+[node name="Row_unit002" parent="SketchUp/RowUnit001" index="9"]
+material/0 = null
+
+[node name="Row_unit003" parent="SketchUp/RowUnit001" index="10"]
+material/0 = null
+
+[node name="instance_0002" parent="SketchUp/RowUnit002" index="0"]
+material/0 = null
+
+[node name="instance_1002" parent="SketchUp/RowUnit002" index="1"]
+material/0 = null
+
+[node name="instance_2006" parent="SketchUp/RowUnit002" index="2"]
+material/0 = null
+
+[node name="instance_2007" parent="SketchUp/RowUnit002" index="3"]
+material/0 = null
+
+[node name="instance_2008" parent="SketchUp/RowUnit002" index="4"]
+material/0 = null
+
+[node name="instance_3006" parent="SketchUp/RowUnit002" index="5"]
+material/0 = null
+
+[node name="instance_3007" parent="SketchUp/RowUnit002" index="6"]
+material/0 = null
+
+[node name="instance_3008" parent="SketchUp/RowUnit002" index="7"]
+material/0 = null
+
+[node name="instance_4002" parent="SketchUp/RowUnit002" index="8"]
+material/0 = null
+
+[node name="Row_unit004" parent="SketchUp/RowUnit002" index="9"]
+material/0 = null
+
+[node name="Row_unit005" parent="SketchUp/RowUnit002" index="10"]
+material/0 = null
+
+[node name="instance_0003" parent="SketchUp/RowUnit003" index="0"]
+material/0 = null
+
+[node name="instance_1003" parent="SketchUp/RowUnit003" index="1"]
+material/0 = null
+
+[node name="instance_2009" parent="SketchUp/RowUnit003" index="2"]
+material/0 = null
+
+[node name="instance_2010" parent="SketchUp/RowUnit003" index="3"]
+material/0 = null
+
+[node name="instance_2011" parent="SketchUp/RowUnit003" index="4"]
+material/0 = null
+
+[node name="instance_3009" parent="SketchUp/RowUnit003" index="5"]
+material/0 = null
+
+[node name="instance_3010" parent="SketchUp/RowUnit003" index="6"]
+material/0 = null
+
+[node name="instance_3011" parent="SketchUp/RowUnit003" index="7"]
+material/0 = null
+
+[node name="instance_4003" parent="SketchUp/RowUnit003" index="8"]
+material/0 = null
+
+[node name="Row_unit006" parent="SketchUp/RowUnit003" index="9"]
+material/0 = null
+
+[node name="Row_unit007" parent="SketchUp/RowUnit003" index="10"]
+material/0 = null
+
+[node name="instance_0004" parent="SketchUp/RowUnit004" index="0"]
+material/0 = null
+
+[node name="instance_1004" parent="SketchUp/RowUnit004" index="1"]
+material/0 = null
+
+[node name="instance_2012" parent="SketchUp/RowUnit004" index="2"]
+material/0 = null
+
+[node name="instance_2013" parent="SketchUp/RowUnit004" index="3"]
+material/0 = null
+
+[node name="instance_2014" parent="SketchUp/RowUnit004" index="4"]
+material/0 = null
+
+[node name="instance_3012" parent="SketchUp/RowUnit004" index="5"]
+material/0 = null
+
+[node name="instance_3013" parent="SketchUp/RowUnit004" index="6"]
+material/0 = null
+
+[node name="instance_3014" parent="SketchUp/RowUnit004" index="7"]
+material/0 = null
+
+[node name="instance_4004" parent="SketchUp/RowUnit004" index="8"]
+material/0 = null
+
+[node name="Row_unit008" parent="SketchUp/RowUnit004" index="9"]
+material/0 = null
+
+[node name="Row_unit009" parent="SketchUp/RowUnit004" index="10"]
+material/0 = null
+
+[node name="instance_0005" parent="SketchUp/RowUnit005" index="0"]
+material/0 = null
+
+[node name="instance_1005" parent="SketchUp/RowUnit005" index="1"]
+material/0 = null
+
+[node name="instance_2015" parent="SketchUp/RowUnit005" index="2"]
+material/0 = null
+
+[node name="instance_2016" parent="SketchUp/RowUnit005" index="3"]
+material/0 = null
+
+[node name="instance_2017" parent="SketchUp/RowUnit005" index="4"]
+material/0 = null
+
+[node name="instance_3015" parent="SketchUp/RowUnit005" index="5"]
+material/0 = null
+
+[node name="instance_3016" parent="SketchUp/RowUnit005" index="6"]
+material/0 = null
+
+[node name="instance_3017" parent="SketchUp/RowUnit005" index="7"]
+material/0 = null
+
+[node name="instance_4005" parent="SketchUp/RowUnit005" index="8"]
+material/0 = null
+
+[node name="Row_unit010" parent="SketchUp/RowUnit005" index="9"]
+material/0 = null
+
+[node name="Row_unit011" parent="SketchUp/RowUnit005" index="10"]
+material/0 = null
+
+[node name="instance_0006" parent="SketchUp/RowUnit006" index="0"]
+material/0 = null
+
+[node name="instance_1006" parent="SketchUp/RowUnit006" index="1"]
+material/0 = null
+
+[node name="instance_2018" parent="SketchUp/RowUnit006" index="2"]
+material/0 = null
+
+[node name="instance_2019" parent="SketchUp/RowUnit006" index="3"]
+material/0 = null
+
+[node name="instance_2020" parent="SketchUp/RowUnit006" index="4"]
+material/0 = null
+
+[node name="instance_3018" parent="SketchUp/RowUnit006" index="5"]
+material/0 = null
+
+[node name="instance_3019" parent="SketchUp/RowUnit006" index="6"]
+material/0 = null
+
+[node name="instance_3020" parent="SketchUp/RowUnit006" index="7"]
+material/0 = null
+
+[node name="instance_4006" parent="SketchUp/RowUnit006" index="8"]
+material/0 = null
+
+[node name="Row_unit012" parent="SketchUp/RowUnit006" index="9"]
+material/0 = null
+
+[node name="Row_unit013" parent="SketchUp/RowUnit006" index="10"]
+material/0 = null
+
+[node name="instance_0007" parent="SketchUp/RowUnit007" index="0"]
+material/0 = null
+
+[node name="instance_1007" parent="SketchUp/RowUnit007" index="1"]
+material/0 = null
+
+[node name="instance_2021" parent="SketchUp/RowUnit007" index="2"]
+material/0 = null
+
+[node name="instance_2022" parent="SketchUp/RowUnit007" index="3"]
+material/0 = null
+
+[node name="instance_2023" parent="SketchUp/RowUnit007" index="4"]
+material/0 = null
+
+[node name="instance_3021" parent="SketchUp/RowUnit007" index="5"]
+material/0 = null
+
+[node name="instance_3022" parent="SketchUp/RowUnit007" index="6"]
+material/0 = null
+
+[node name="instance_3023" parent="SketchUp/RowUnit007" index="7"]
+material/0 = null
+
+[node name="instance_4007" parent="SketchUp/RowUnit007" index="8"]
+material/0 = null
+
+[node name="Row_unit014" parent="SketchUp/RowUnit007" index="9"]
+material/0 = null
+
+[node name="Row_unit015" parent="SketchUp/RowUnit007" index="10"]
+material/0 = null
+
+[node name="instance_0008" parent="SketchUp/RowUnit008" index="0"]
+material/0 = null
+
+[node name="instance_1008" parent="SketchUp/RowUnit008" index="1"]
+material/0 = null
+
+[node name="instance_2024" parent="SketchUp/RowUnit008" index="2"]
+material/0 = null
+
+[node name="instance_2025" parent="SketchUp/RowUnit008" index="3"]
+material/0 = null
+
+[node name="instance_2026" parent="SketchUp/RowUnit008" index="4"]
+material/0 = null
+
+[node name="instance_3024" parent="SketchUp/RowUnit008" index="5"]
+material/0 = null
+
+[node name="instance_3025" parent="SketchUp/RowUnit008" index="6"]
+material/0 = null
+
+[node name="instance_3026" parent="SketchUp/RowUnit008" index="7"]
+material/0 = null
+
+[node name="instance_4008" parent="SketchUp/RowUnit008" index="8"]
+material/0 = null
+
+[node name="Row_unit016" parent="SketchUp/RowUnit008" index="9"]
+material/0 = null
+
+[node name="Row_unit017" parent="SketchUp/RowUnit008" index="10"]
+material/0 = null
+
+[node name="instance_0009" parent="SketchUp/RowUnit009" index="0"]
+material/0 = null
+
+[node name="instance_1009" parent="SketchUp/RowUnit009" index="1"]
+material/0 = null
+
+[node name="instance_2027" parent="SketchUp/RowUnit009" index="2"]
+material/0 = null
+
+[node name="instance_2028" parent="SketchUp/RowUnit009" index="3"]
+material/0 = null
+
+[node name="instance_2029" parent="SketchUp/RowUnit009" index="4"]
+material/0 = null
+
+[node name="instance_3027" parent="SketchUp/RowUnit009" index="5"]
+material/0 = null
+
+[node name="instance_3028" parent="SketchUp/RowUnit009" index="6"]
+material/0 = null
+
+[node name="instance_3029" parent="SketchUp/RowUnit009" index="7"]
+material/0 = null
+
+[node name="instance_4009" parent="SketchUp/RowUnit009" index="8"]
+material/0 = null
+
+[node name="Row_unit018" parent="SketchUp/RowUnit009" index="9"]
+material/0 = null
+
+[node name="Row_unit019" parent="SketchUp/RowUnit009" index="10"]
+material/0 = null

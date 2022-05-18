@@ -42,6 +42,12 @@ func apply_new_feature(feature):
 	if "render_info" in instance:
 		instance.set("render_info", layer.render_info)
 	
+	if "ground_height_layer" in instance:
+		instance.set("ground_height_layer", layer.render_info.ground_height_layer)
+	
+	if "center" in instance:
+		instance.set("center", center)
+	
 	add_child(instance)
 
 

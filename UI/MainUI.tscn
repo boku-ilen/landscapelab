@@ -35,9 +35,6 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource( 6 )
 script = ExtResource( 43 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 pc_player_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC")
 pos_manager_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/PositionManager")
 time_manager_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/TimeManager")
@@ -79,8 +76,8 @@ window_title = "Open a File"
 dialog_text = "Load project from a preconfigured GeoPackage"
 mode = 0
 access = 2
-current_dir = "/boku/landscapelab"
-current_path = "/boku/landscapelab/"
+current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
+current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -236,6 +233,9 @@ gui_disable_input = true
 shadow_atlas_size = 4096
 
 [node name="World" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport" instance=ExtResource( 12 )]
+
+[node name="FirstPersonPC" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World" index="2"]
+transform = Transform( 0.998636, 0, 0.0517897, 0, 1, 0, -0.0517897, 0, 0.998636, 0, 1000, 0 )
 
 [node name="GroundedSpatial" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC" index="5" instance=ExtResource( 4 )]
 is_active = false

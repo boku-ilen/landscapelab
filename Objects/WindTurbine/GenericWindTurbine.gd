@@ -73,6 +73,7 @@ func _ready():
 		set_hub_height(height)
 		set_rotor_diameter(diameter)
 
+
 # Saves the specified wind direction and updates the model's rotation
 # Called whenever the exported wind_direction is changed
 func set_wind_direction(var dir):
