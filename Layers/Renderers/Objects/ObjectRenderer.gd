@@ -52,7 +52,8 @@ func apply_new_feature(feature):
 
 
 func remove_feature(feature):
-	get_node(String(feature.get_id())).queue_free()
+	if has_node(String(feature.get_id())):
+		get_node(String(feature.get_id())).queue_free()
 
 
 func update_instance_position(feature, obj_instance: Spatial):

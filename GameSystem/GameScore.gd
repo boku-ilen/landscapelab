@@ -67,6 +67,6 @@ class GameScoreContributor:
 		var sum = 0.0
 		
 		for game_object in game_object_collection.get_all_game_objects():
-			sum += float(game_object.get_attribute(attribute_name))
+			sum += float(game_object.get_attribute(attribute_name)) * weight
 		
 		return sum

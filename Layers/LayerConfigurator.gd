@@ -48,18 +48,18 @@ func load_gpkg(geopackage_path: String):
 	wka.add_creation_condition(wka_condition)
 	
 	var pv_small = game_mode.add_game_object_collection_for_feature_layer("PV klein", Layers.geo_layers["features"]["pv_small"])
-	game_mode.game_object_collections["PV klein"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["pv_potentials"])
+	game_mode.game_object_collections["PV klein"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["new_pv_potentials"])
 	game_mode.game_object_collections["PV klein"].icon_name = "pv_icon"
 	game_mode.game_object_collections["PV klein"].desired_shape = "SQUARE_BRICK"
 	game_mode.game_object_collections["PV klein"].desired_color = "RED_BRICK"
 	
-	var pv_large = game_mode.add_game_object_collection_for_feature_layer("PV groß", Layers.geo_layers["features"]["pv_small"])
-	game_mode.game_object_collections["PV groß"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["pv_potentials"])
+	var pv_large = game_mode.add_game_object_collection_for_feature_layer("PV groß", Layers.geo_layers["features"]["pv_large"])
+	game_mode.game_object_collections["PV groß"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["new_pv_potentials"])
 	game_mode.game_object_collections["PV groß"].icon_name = "pv_icon"
 	game_mode.game_object_collections["PV groß"].desired_shape = "RECTANGLE_BRICK"
 	game_mode.game_object_collections["PV groß"].desired_color = "RED_BRICK"
 	
-	var pv_condition = GreaterThanRasterCreationCondition.new("PV Potential Condition", Layers.geo_layers["rasters"]["pv_potentials"], 0.0)
+	var pv_condition = GreaterThanRasterCreationCondition.new("PV Potential Condition", Layers.geo_layers["rasters"]["new_pv_potentials"], 0.0)
 	pv_small.add_creation_condition(pv_condition)
 	pv_large.add_creation_condition(pv_condition)
 
@@ -67,22 +67,22 @@ func load_gpkg(geopackage_path: String):
 
 	var score = GameScore.new()
 	score.name = "Strom PV"
-	score.add_contributor(game_mode.game_object_collections["PV groß"], "MW")
-	score.add_contributor(game_mode.game_object_collections["PV klein"], "MW")
-	score.target = 222667.0
-
-	game_mode.add_score(score)
+	score.add_contributor(game_mode.game_object_collections["PV groß"], "MW", 30.0)
+	score.add_contributor(game_mode.game_object_collections["PV klein"], "MW", 10.0)
+	score.target = 69726.0
 
 	var score2 = GameScore.new()
 	score2.name = "Strom WKA"
 	score2.add_contributor(game_mode.game_object_collections["WKA"], "MW")
-	score2.target = 69726.0
+	score2.target = 222667.0
 
 	game_mode.add_score(score2)
+	game_mode.add_score(score)
 
 	# Add player game object collection
 	var player_game_object_collection = PlayerGameObjectCollection.new("Players", get_parent().get_node("FirstPersonPC"))
 	game_mode.add_game_object_collection(player_game_object_collection)
+	player_game_object_collection.icon_name = "player_position"
 	player_game_object_collection.desired_shape = "SQUARE_BRICK"
 	player_game_object_collection.desired_color = "GREEN_BRICK"
 
