@@ -15,7 +15,7 @@ export(float) var col_spacing
 
 var mesh = load("res://Objects/Util/PVMesh.tscn")
 
-var ground_height_layer
+var render_info
 var center
 
 
@@ -42,14 +42,14 @@ func _notification(what):
 
 func set_child_positions():
 	for child in get_children():
-		var offset = ground_height_layer.get_value_at_position(
+		var offset = render_info.ground_height_layer.get_value_at_position(
 				center[0] + (transform.origin.x + child.translation.x),
 				center[1] - (transform.origin.z + child.translation.z)) - transform.origin.y
 		child.translation.y = offset
 		
 		var right_add = 2.0
 		
-		var offset_right = ground_height_layer.get_value_at_position(
+		var offset_right = render_info.ground_height_layer.get_value_at_position(
 				center[0] + (transform.origin.x + child.translation.x),
 				center[1] - (transform.origin.z + child.translation.z - right_add)) - transform.origin.y
 		

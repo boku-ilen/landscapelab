@@ -4,6 +4,9 @@ var radius = 20000
 var max_features = 200
 
 var features
+var feature_add_queue = []
+var feature_remove_queue = []
+var is_loading
 
 var weather_manager: WeatherManager setget set_weather_manager
 
@@ -13,6 +16,7 @@ func set_weather_manager(new_weather_manager):
 
 
 func load_new_data():
+	is_loading = true
 	features = layer.get_features_near_position(center[0], center[1], radius, max_features)
 
 
@@ -23,6 +27,19 @@ func apply_new_data():
 	
 	for feature in features:
 		apply_new_feature(feature)
+	
+	is_loading = false
+	
+	# Apply queues
+	for feature in feature_add_queue:
+		if not has_node(String(feature.get_id())):
+			apply_new_feature(feature)
+	
+	for feature in feature_remove_queue:
+		remove_feature(feature)
+	
+	feature_add_queue.clear()
+	feature_remove_queue.clear()
 
 
 func apply_new_feature(feature):
@@ -41,9 +58,6 @@ func apply_new_feature(feature):
 	
 	if "render_info" in instance:
 		instance.set("render_info", layer.render_info)
-	
-	if "ground_height_layer" in instance:
-		instance.set("ground_height_layer", layer.render_info.ground_height_layer)
 	
 	if "center" in instance:
 		instance.set("center", center)
@@ -68,11 +82,28 @@ func update_instance_position(feature, obj_instance: Spatial):
 
 
 func _ready():
-	layer.geo_feature_layer.geo_feature_layer.connect("feature_added", self, "apply_new_feature")
-	layer.geo_feature_layer.geo_feature_layer.connect("feature_removed", self, "remove_feature")
+	layer.geo_feature_layer.geo_feature_layer.connect("feature_added", self, "_on_feature_added", [])
+	layer.geo_feature_layer.geo_feature_layer.connect("feature_removed", self, "_on_feature_removed", [])
 	
 	if not layer is FeatureLayer or not layer.is_valid():
 		logger.error("ObjectRenderer was given an invalid layer!", LOG_MODULE)
+
+
+func _on_feature_added(feature):
+	if not is_loading:
+		apply_new_feature(feature)
+	else:
+		# TODO: We could add a temporary object here for immediate feedback
+		feature_add_queue.append(feature)
+
+
+func _on_feature_removed(feature):
+	if not is_loading:
+		remove_feature(feature)
+	else:
+		# TODO: We could potentially already remove the feature here as well since we check whether
+		#  it exists when removing later; needs to be tested
+		feature_remove_queue.append(feature)
 
 
 func get_debug_info() -> String:
