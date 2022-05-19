@@ -116,7 +116,7 @@ func get_debug_info():
 func _on_renderer_finished(renderer_name):
 	renderers_finished += 1
 	
-	logger.debug(
+	logger.info(
 		"Renderer %s of %s (with name %s) finished!" % [renderers_finished, renderers_count, renderer_name],
 		LOG_MODULE
 	)

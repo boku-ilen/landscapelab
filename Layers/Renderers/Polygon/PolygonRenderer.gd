@@ -37,16 +37,19 @@ func load_new_data():
 		var num_floors = max(1, height / floor_height)
 		
 		# Add a cellar
-		building.add_child(plain_walls_scene.instance())
+		var cellar = plain_walls_scene.instance()
+		cellar.set_color(Color.lightgray)
+		building.add_child(cellar)
 		
-		# In order to get a more accurate height, we add a building base if there's a remainder of
-		# half a floor height; this also adds some variation and is probably realistic in many cases
-		if fmod(height, floor_height) > floor_height / 2.0:
-			var base_floor = plain_walls_scene.instance()
-			base_floor.height = floor_height / 2.0
-			base_floor.set_window_shading(false)
-			base_floor.set_color(Color.gray)
-			building.add_child(base_floor)
+		# FIXME: Find a way not to have a half window texture here
+#		# In order to get a more accurate height, we add a building base if there's a remainder of
+#		# half a floor height; this also adds some variation and is probably realistic in many cases
+#		if fmod(height, floor_height) > floor_height / 2.0:
+#			var base_floor = plain_walls_scene.instance()
+#			base_floor.height = floor_height / 2.0
+#			base_floor.set_window_shading(false)
+#			base_floor.set_color(Color.gray)
+#			building.add_child(base_floor)
 		
 		# Random facade texture
 		var random_gen = RandomNumberGenerator.new()

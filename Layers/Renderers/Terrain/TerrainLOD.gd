@@ -68,15 +68,15 @@ func rebuild_aabb():
 
 
 func build():
-	# FIXME: Find out what causes thread unsafety of this function paired with VegetationParticles.update_textures_with_images()
-	Vegetation.load_mutex.lock()
-	
 	var top_left_x = position_x - size / 2
 	var top_left_y = position_y + size / 2
 	
 	scale.x = size / mesh_size
 	scale.z = size / mesh_size
 	
+	# FIXME: Required because of a thread unsafety with VegetationParticles.update_textures_with_images - why?
+	Vegetation.load_mutex.lock()
+
 	# Heightmap
 	var current_height_image = height_layer.get_image(
 		top_left_x,
@@ -88,6 +88,8 @@ func build():
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
+	
+	Vegetation.load_mutex.unlock()
 	
 	# Texture
 	if texture_layer:
@@ -102,35 +104,16 @@ func build():
 		if current_ortho_image.is_valid():
 			current_texture = current_ortho_image.get_image_texture()
 	
-	# Land Use
-	if landuse_layer and (always_load_landuse or load_detail_textures or load_fade_textures):
-		var current_landuse_image = landuse_layer.get_image(
-			top_left_x,
-			top_left_y,
-			size,
-			landuse_resolution,
-			0
-		)
-		
-		if current_landuse_image.is_valid():
-			current_landuse = current_landuse_image.get_image_texture()
-			
-			if load_detail_textures or load_fade_textures:
-				var most_common_groups = current_landuse_image.get_most_common(MAX_GROUPS)
-				var group_array = Vegetation.get_group_array_for_ids(most_common_groups)
-				
-				current_metadata_map = Vegetation.get_metadata_map(most_common_groups)
-				
-				if load_detail_textures:
-					current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
-					current_normal_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "normal")
-					current_specular_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "specular")
-					current_ambient_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "ambient")
-					current_roughness_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "roughness")
-				
-				if load_fade_textures:
-					current_albedo_fade_textures = Vegetation.get_fade_sheet_texture(group_array, "albedo")
-					current_normal_fade_textures = Vegetation.get_fade_sheet_texture(group_array, "normal")
+	var current_landuse_image = landuse_layer.get_image(
+		top_left_x,
+		top_left_y,
+		size,
+		landuse_resolution,
+		0
+	)
+	
+	if current_landuse_image.is_valid():
+		current_landuse = current_landuse_image.get_image_texture()
 	
 	# Surface Height
 	if surface_height_layer:
@@ -145,8 +128,23 @@ func build():
 		if current_surface_height_image.is_valid():
 			current_surface_heightmap = current_surface_height_image.get_image_texture()
 	
-	Vegetation.load_mutex.unlock()
-
+	if landuse_layer and (always_load_landuse or load_detail_textures or load_fade_textures):
+		if load_detail_textures or load_fade_textures:
+			var most_common_groups = current_landuse_image.get_most_common(MAX_GROUPS)
+			var group_array = Vegetation.get_group_array_for_ids(most_common_groups)
+			
+			current_metadata_map = Vegetation.get_metadata_map(most_common_groups)
+			
+			if load_detail_textures:
+				current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
+				current_normal_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "normal")
+				current_specular_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "specular")
+				current_ambient_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "ambient")
+				current_roughness_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "roughness")
+			
+			if load_fade_textures:
+				current_albedo_fade_textures = Vegetation.get_fade_sheet_texture(group_array, "albedo")
+				current_normal_fade_textures = Vegetation.get_fade_sheet_texture(group_array, "normal")
 
 func apply_textures():
 	material_override.set_shader_param("size", size)
@@ -177,7 +175,7 @@ func apply_textures():
 		if current_surface_heightmap:
 			material_override.set_shader_param("has_surface_heights", true)
 			# Start applying surface heights at the point where vegetation stops
-			material_override.set_shader_param("surface_heights_start_distance", Vegetation.get_max_extent())
+			material_override.set_shader_param("surface_heights_start_distance", Vegetation.get_max_extent() / 2.0)
 			material_override.set_shader_param("surface_heightmap", current_surface_heightmap)
 		
 		if current_metadata_map:

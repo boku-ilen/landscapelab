@@ -81,8 +81,9 @@ vec3 get_normal(vec2 normal_uv_pos) {
 }
 
 void vertex() {
-	VERTEX.y = get_height(UV);
-	NORMAL = get_normal(UV);
+	// FIXME: Prevents some visual artifacts, but shouldn't be needed
+	VERTEX.y = get_height(UV * 0.99);
+	NORMAL = get_normal(UV * 0.99);
 	
 	world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	world_distance = length(world_pos.xz);

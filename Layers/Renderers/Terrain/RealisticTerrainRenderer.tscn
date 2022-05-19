@@ -185,7 +185,7 @@ script = ExtResource( 4 )
 material_override = SubResource( 1 )
 is_inner = true
 size = 150.0
-ortho_resolution = 1500
+ortho_resolution = 500
 landuse_resolution = 50
 load_detail_textures = true
 load_fade_textures = true
@@ -207,6 +207,13 @@ load_fade_textures = true
 material_override = SubResource( 12 )
 mesh = ExtResource( 7 )
 
+[node name="CollisionMeshCreator" type="StaticBody" parent="TerrainLOD1"]
+collision_layer = 540675
+script = ExtResource( 3 )
+subdivision = 100
+
+[node name="CollisionShape" type="CollisionShape" parent="TerrainLOD1/CollisionMeshCreator"]
+
 [node name="TerrainLOD2" parent="." instance=ExtResource( 1 )]
 material_override = SubResource( 13 )
 size = 3750.0
@@ -219,19 +226,11 @@ load_fade_textures = true
 material_override = SubResource( 14 )
 mesh = ExtResource( 7 )
 
-[node name="CollisionMeshCreator" type="StaticBody" parent="TerrainLOD2"]
-collision_layer = 540675
-script = ExtResource( 3 )
-subdivision = 100
-
-[node name="CollisionShape" type="CollisionShape" parent="TerrainLOD2/CollisionMeshCreator"]
-
 [node name="TerrainLOD3" parent="." instance=ExtResource( 1 )]
 material_override = SubResource( 15 )
 size = 18750.0
 heightmap_resolution = 500
-ortho_resolution = 1500
-landuse_resolution = 5000
+landuse_resolution = 1250
 always_load_landuse = true
 
 [node name="ExtraLOD" parent="TerrainLOD3" instance=ExtResource( 5 )]

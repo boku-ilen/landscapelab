@@ -99,6 +99,9 @@ func _on_shift_world(delta_x, delta_z):
 func update_textures(dhm_layer, splat_layer, world_x, world_y):
 	var map_size = get_map_size()
 	
+	# FIXME: Find out what causes thread unsafety of this function paired with TerrainLOD.build()
+	Vegetation.load_mutex.lock()
+	
 	var dhm = dhm_layer.get_image(
 		world_x - map_size / 2,
 		world_y + map_size / 2,
@@ -106,6 +109,10 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 		map_size / 2.0,
 		1
 	)
+	
+	heightmap = dhm.get_image_texture()
+	
+	Vegetation.load_mutex.unlock()
 	
 	var splat = splat_layer.get_image(
 		world_x - map_size / 2,
@@ -115,19 +122,15 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 		0
 	)
 	
-	update_textures_with_images(dhm.get_image_texture(), splat.get_image_texture(), splat.get_most_common(28))
+	splatmap = splat.get_image_texture()
+	
+	update_textures_with_images(splat.get_most_common(28))
 
 
 # Directly update the vegetation data with given ImageTextures. Can be used e.g. for testing with
 #  artificially created data. Is also called internally when `update_textures` is used.
 # Should be called in a thread to avoid stalling the main thread.
-func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
-	# FIXME: Find out what causes thread unsafety of this function paired with TerrainLOD.build()
-	Vegetation.load_mutex.lock()
-	
-	heightmap = dhm
-	splatmap = splat
-	
+func update_textures_with_images(ids):
 	var map_size = get_map_size()
 	
 	# Load the groups for these IDs and filter them by the given density class
@@ -140,7 +143,6 @@ func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	#  groups. Then, we don't need to render anything.
 	if not billboard_tex:
 		visible = false
-		Vegetation.load_mutex.unlock()
 		return
 	else:
 		visible = true
@@ -155,8 +157,6 @@ func update_textures_with_images(dhm: ImageTexture, splat: ImageTexture, ids):
 	
 	distribution_tex = ImageTexture.new()
 	distribution_tex.create_from_image(distribution_sheet, ImageTexture.FLAG_REPEAT)
-	
-	Vegetation.load_mutex.unlock()
 
 
 # Apply data which has previously been loaded with `update_textures`.

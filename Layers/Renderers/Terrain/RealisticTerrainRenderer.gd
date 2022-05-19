@@ -8,10 +8,10 @@ func _ready():
 	# Create a loading thread for each LOD child
 	for lod in lods:
 		# Note that the layers would need to be cloned if each LOD were to load its data in parallel!
-		lod.height_layer = layer.render_info.height_layer
-		lod.texture_layer = layer.render_info.texture_layer
-		lod.landuse_layer = layer.render_info.landuse_layer
-		lod.surface_height_layer = layer.render_info.surface_height_layer
+		lod.height_layer = layer.render_info.height_layer.clone()
+		lod.texture_layer = layer.render_info.texture_layer.clone()
+		lod.landuse_layer = layer.render_info.landuse_layer.clone()
+		lod.surface_height_layer = layer.render_info.surface_height_layer.clone()
 
 
 func load_new_data():
