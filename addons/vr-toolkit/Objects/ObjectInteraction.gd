@@ -37,10 +37,10 @@ func on_interact(pressed):
 			current_object.interact()
 		else:
 			current_object.interact_end()
-	else:
-		var compi: Spatial = load("res://VR/DistanceMeasurement/DistanceMeasurer.tscn").instance()
-		get_parent().get_parent().get_parent().get_parent().add_child(compi)
-		compi.global_transform.origin = global_transform.origin
+	#else:
+	#	var compi: Spatial = load("res://VR/DistanceMeasurement/DistanceMeasurer.tscn").instance()
+	#	get_parent().get_parent().get_parent().get_parent().add_child(compi)
+	#	compi.global_transform.origin = global_transform.origin
 
 
 func on_pickup(pressed: bool):
