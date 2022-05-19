@@ -1,6 +1,6 @@
 extends LayerRenderer
 
-var radius = 20000
+var radius = 10000
 var max_features = 200
 
 var features
@@ -21,12 +21,25 @@ func load_new_data():
 
 
 func apply_new_data():
-	# First clear the old objects, then add the new ones
-	for child in get_children():
-		child.free()
+	var features_to_persist = {}
 	
 	for feature in features:
-		apply_new_feature(feature)
+		var node_name = String(feature.get_id())
+		
+		if not has_node(node_name):
+			# This feature is new
+			apply_new_feature(feature)
+		else:
+			# This feature already exists -> persist it
+			features_to_persist[node_name] = feature
+	
+	for child in get_children():
+		if not features_to_persist.has(child.name):
+			# Remove features which should not be persisted
+			child.free()
+		else:
+			# Move the feature according to the new offset
+			update_instance_position(features_to_persist[child.name], child)
 	
 	is_loading = false
 	
