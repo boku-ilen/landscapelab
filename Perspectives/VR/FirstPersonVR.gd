@@ -5,10 +5,6 @@ func _ready():
 	# Setup VR
 	var interface = ARVRServer.find_interface("OpenVR")
 	if interface and interface.initialize():
-		get_viewport().arvr = true
-		get_viewport().keep_3d_linear = true
-		get_viewport().hdr = true
-
 		# Make sure vsync is disabled or we'll be limited to 60fps
 		OS.vsync_enabled = false
 
@@ -35,3 +31,13 @@ func _input(event: InputEvent) -> void:
 		transform.origin.z -= 2.0
 	elif event.is_action_pressed("pc_move_down"):
 		transform.origin.z += 2.0
+
+
+func get_world_position():
+	return position_manager.to_world_coordinates(translation)
+
+
+func set_world_position(world_position):
+	var new_pos = position_manager.to_engine_coordinates(world_position)
+	translation.x = new_pos.x
+	translation.z = new_pos.z
