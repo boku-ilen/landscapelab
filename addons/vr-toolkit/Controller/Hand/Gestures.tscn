@@ -179,7 +179,6 @@ bones/15/rest = Transform( 0.995, 0.093, -0.032, -0.087, 0.983, 0.164, 0.047, -0
 
 [node name="Hand" parent="HandDefault/Armature/Skeleton" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1.35, 0, 0, 0 )
-cast_shadow = 0
 
 [node name="Index" type="BoneAttachment" parent="HandDefault/Armature/Skeleton" index="1"]
 transform = Transform( 0.975734, 0.196838, -0.0959022, -0.196604, 0.98041, 0.0119764, 0.0963809, 0.00716901, 0.995319, 0.700328, 2.98927, 0.0458557 )

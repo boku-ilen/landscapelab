@@ -21,7 +21,14 @@ onready var input = get_node("Inputs/TeleportInput")
 onready var bezier = Curve3D.new()
 
 var horizontal_point: Vector3
+# In the LL the ARVRorigin is not the actual player
+var player_node: KinematicBody
 
+
+func set_origin(orig: ARVROrigin):
+	if orig:
+		.set_origin(orig)
+		player_node = orig.get_parent()
 
 
 func _ready():
@@ -36,7 +43,10 @@ func _ready():
 
 func on_teleport():
 	if tall_ray.is_colliding():
-		origin.translation = tall_ray.get_collision_point()
+		if player_node:
+			player_node.translation = tall_ray.get_collision_point()
+		else:
+			origin.translation = tall_ray.get_collision_point()
 
 
 func _process(delta):
