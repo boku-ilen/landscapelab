@@ -74,9 +74,6 @@ func build():
 	scale.x = size / mesh_size
 	scale.z = size / mesh_size
 	
-	# FIXME: Required because of a thread unsafety with VegetationParticles.update_textures_with_images - why?
-	Vegetation.load_mutex.lock()
-
 	# Heightmap
 	var current_height_image = height_layer.get_image(
 		top_left_x,
@@ -88,8 +85,6 @@ func build():
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
-	
-	Vegetation.load_mutex.unlock()
 	
 	# Texture
 	if texture_layer:

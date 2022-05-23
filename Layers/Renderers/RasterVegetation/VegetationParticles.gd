@@ -99,9 +99,6 @@ func _on_shift_world(delta_x, delta_z):
 func update_textures(dhm_layer, splat_layer, world_x, world_y):
 	var map_size = get_map_size()
 	
-	# FIXME: Find out what causes thread unsafety of this function paired with TerrainLOD.build()
-	Vegetation.load_mutex.lock()
-	
 	var dhm = dhm_layer.get_image(
 		world_x - map_size / 2,
 		world_y + map_size / 2,
@@ -111,8 +108,6 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 	)
 	
 	heightmap = dhm.get_image_texture()
-	
-	Vegetation.load_mutex.unlock()
 	
 	var splat = splat_layer.get_image(
 		world_x - map_size / 2,
