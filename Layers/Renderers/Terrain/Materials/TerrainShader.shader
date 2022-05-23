@@ -4,6 +4,7 @@ shader_type spatial;
 uniform sampler2D orthophoto: hint_albedo;
 uniform sampler2D heightmap;
 uniform float height_scale = 1.0;
+uniform bool has_hole = false;
 
 // Surface heights
 uniform bool has_surface_heights = false;
@@ -82,8 +83,13 @@ vec3 get_normal(vec2 normal_uv_pos) {
 
 void vertex() {
 	// FIXME: Prevents some visual artifacts, but shouldn't be needed
-	VERTEX.y = get_height(UV * 0.99);
-	NORMAL = get_normal(UV * 0.99);
+	if (has_hole && UV.x > 0.49 && UV.x < 0.51 && UV.y > 0.49 && UV.y < 0.51) {
+		VERTEX.y = -1000.0;
+	} else {
+		VERTEX.y = get_height(UV);
+	}
+	
+	NORMAL = get_normal(UV);
 	
 	world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	world_distance = length(world_pos.xz);

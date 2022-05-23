@@ -159,6 +159,9 @@ func apply_textures():
 			$ExtraLOD.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)
 	
 	if not is_color_shaded:
+		if not is_inner:
+			material_override.set_shader_param("has_hole", true)
+		
 		if current_texture:
 			material_override.set_shader_param("orthophoto", current_texture)
 		
