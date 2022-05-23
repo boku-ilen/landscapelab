@@ -184,6 +184,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GameSystem/GameObjects/PlayerGameObject.gd"
 }, {
+"base": "GameObjectCollection",
+"class": "PlayerGameObjectCollection",
+"language": "GDScript",
+"path": "res://GameSystem/GameObjectCollections/PlayerGameObjectCollection.gd"
+}, {
 "base": "Area",
 "class": "PolygonPoint",
 "language": "GDScript",
@@ -340,6 +345,7 @@ _global_script_class_icons={
 "Plant": "",
 "PlantGroup": "",
 "PlayerGameObject": "",
+"PlayerGameObjectCollection": "",
 "PolygonPoint": "",
 "PositionManager": "",
 "Profile": "",
@@ -405,7 +411,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "dscn_io", "gameflow" )
+enabled=PoolStringArray(  )
 
 [gdnative]
 
