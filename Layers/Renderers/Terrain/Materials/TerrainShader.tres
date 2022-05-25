@@ -6,6 +6,7 @@
 resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/height_scale = 1.0
+shader_param/has_hole = false
 shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/has_landuse = false
