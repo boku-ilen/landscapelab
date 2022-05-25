@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Creator: CorelDRAW-->
+
+<svg
+   xml:space="preserve"
+   width="10mm"
+   height="10mm"
+   version="1.1"
+   style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;fill-rule:evenodd;clip-rule:evenodd"
+   viewBox="0 0 166.53 166.53"
+   id="svg909"
+   sodipodi:docname="compass_straight.svg"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs913" /><sodipodi:namedview
+   id="namedview911"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1.0"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:document-units="mm"
+   showgrid="false"
+   inkscape:zoom="7.6266146"
+   inkscape:cx="-12.587499"
+   inkscape:cy="46.613081"
+   inkscape:window-width="2560"
+   inkscape:window-height="1377"
+   inkscape:window-x="3832"
+   inkscape:window-y="384"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Ebene_x0020_1" />
+    <g
+   id="Ebene_x0020_1"
+   inkscape:label="Ebene 1">
+        <metadata
+   id="CorelCorpID_0Corel-Layer" />
+        <g
+   id="_105553249188704"
+   transform="matrix(-0.49999999,0.49999999,-0.49999999,-0.49999999,168.05775,83.264998)">
+            <path
+   d="m 94.57,94.57 c -6.24,6.25 -16.37,6.25 -22.62,0 -6.24,-6.25 -6.24,-16.37 0,-22.62 L 61.11,61.11 -0.01,166.52 105.4,105.4 94.56,94.56 Z"
+   style="fill:#ff6666"
+   id="path901" />
+            <path
+   d="m 94.57,94.57 c 6.25,-6.24 6.25,-16.37 0,-22.62 -6.25,-6.24 -16.37,-6.24 -22.62,0 L 61.11,61.11 166.52,-0.01 105.4,105.4 94.56,94.56 Z"
+   style="fill:#00ccff"
+   id="path903" />
+            <circle
+   cx="83.190002"
+   cy="83.269997"
+   r="12.44"
+   style="fill:#ffffff"
+   id="circle905" />
+        </g>
+    </g>
+</svg>
