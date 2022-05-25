@@ -1,6 +1,15 @@
 extends ViewportContainer
 
 
+var pc_player setget set_pc_player 
+
+
+func set_pc_player(player: AbstractPlayer):
+	for child in get_children():
+		if "pc_player" in child:
+			child.pc_player = player
+
+
 func _ready():
 	$FullscreenButton.connect("pressed", self, "on_fullscreen")
 	connect("focus_entered", self, "_disable_input", [false])
