@@ -22,20 +22,9 @@ vr_player = ExtResource( 5 )
 margin_right = 1920.0
 margin_bottom = 40.0
 
-[node name="Label" type="Label" parent="HBoxContainer"]
-margin_top = 7.0
-margin_right = 92.0
-margin_bottom = 32.0
-text = "Initialize"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="InitVR" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 100.0
-margin_right = 140.0
+margin_right = 40.0
 margin_bottom = 40.0
 toggle_mode = true
 icon = ExtResource( 3 )
 texture_name = "vr"
-focused_color = Color( 0.117647, 0.6, 0.694118, 1 )

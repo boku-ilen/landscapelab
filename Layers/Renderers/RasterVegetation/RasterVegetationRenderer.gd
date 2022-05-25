@@ -13,8 +13,9 @@ func _ready():
 
 func set_weather_manager(new_weather_manager):
 	weather_manager = new_weather_manager
-	
+
 	weather_manager.connect("wind_speed_changed", self, "_on_wind_speed_changed")
+	_on_wind_speed_changed(weather_manager.wind_speed)
 
 
 func _on_wind_speed_changed(new_wind_speed):
@@ -38,15 +39,15 @@ func get_debug_info() -> String:
 	var total_emitted_particles = 0
 	var active_renderers = 0
 	var total_renderers = 0
-	
+
 	if get_child_count() > 0:
 		for renderer in get_child(0).get_children():
 			if renderer.visible:
 				total_emitted_particles += renderer.rows * renderer.rows
 				active_renderers += 1
-			
+
 			total_renderers += 1
-	
+
 	return "{0} of {1} renderers active.\n{2} plants emitted.".format([
 		active_renderers,
 		total_renderers,

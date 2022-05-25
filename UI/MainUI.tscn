@@ -76,8 +76,8 @@ window_title = "Open a File"
 dialog_text = "Load project from a preconfigured GeoPackage"
 mode = 0
 access = 2
-current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
-current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
+current_dir = "/boku/landscapelab"
+current_path = "/boku/landscapelab/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -95,19 +95,19 @@ __meta__ = {
 }
 
 [node name="Left" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Split"]
-margin_right = 168.0
+margin_right = 170.0
 margin_bottom = 1034.0
 mouse_filter = 1
 
 [node name="Left" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Split/Left"]
-margin_right = 60.0
+margin_right = 62.0
 margin_bottom = 1034.0
 mouse_filter = 1
 script = ExtResource( 8 )
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Left/Left"]
-margin_right = 60.0
-margin_bottom = 1034.0
+margin_right = 62.0
+margin_bottom = 413.0
 rect_min_size = Vector2( 60, 0 )
 tab_align = 0
 drag_to_rearrange_enabled = true
@@ -127,9 +127,8 @@ focus_mode = 2
 size_flags_vertical = 0
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Left/Left"]
-visible = false
 margin_top = 421.0
-margin_right = 100.0
+margin_right = 62.0
 margin_bottom = 1034.0
 tab_align = 0
 drag_to_rearrange_enabled = true
@@ -138,9 +137,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="VRMenu" parent="MarginContainer/VBoxContainer/Split/Left/Left/Bot" instance=ExtResource( 3 )]
+margin_left = 5.0
+margin_top = 38.0
+margin_right = -5.0
+margin_bottom = -5.0
+
 [node name="Right" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Split/Left"]
-margin_left = 68.0
-margin_right = 168.0
+margin_left = 70.0
+margin_right = 170.0
 margin_bottom = 1034.0
 rect_min_size = Vector2( 100, 0 )
 mouse_filter = 1
@@ -169,7 +174,7 @@ __meta__ = {
 }
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Split"]
-margin_left = 176.0
+margin_left = 178.0
 margin_right = 1900.0
 margin_bottom = 1034.0
 mouse_filter = 1
@@ -177,27 +182,27 @@ split_offset = 839
 script = SubResource( 1 )
 
 [node name="Mid" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Split/Right"]
-margin_right = 1416.0
+margin_right = 1414.0
 margin_bottom = 1034.0
 mouse_filter = 1
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid"]
-margin_right = 1416.0
-margin_bottom = 826.0
+margin_right = 1414.0
+margin_bottom = 1034.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="LayerManagement" type="MarginContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer"]
-margin_right = 1416.0
+margin_right = 1414.0
 script = ExtResource( 16 )
 layer_ui_path = NodePath("../../../Right/Right/Bot/LayerUI")
 pos_manager_path = NodePath("../WorldViewPort/Viewport/World/PositionManager")
 
 [node name="WorldViewPort" type="ViewportContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer"]
 margin_top = 4.0
-margin_right = 1416.0
-margin_bottom = 826.0
+margin_right = 1414.0
+margin_bottom = 1034.0
 rect_min_size = Vector2( 500, 500 )
 focus_mode = 2
 size_flags_horizontal = 3
@@ -224,7 +229,7 @@ script = ExtResource( 17 )
 layer_renderers_path = NodePath("../Viewport/World/Terrain/LayerRenderers")
 
 [node name="Viewport" type="Viewport" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
-size = Vector2( 1416, 822 )
+size = Vector2( 1414, 1030 )
 handle_input_locally = false
 msaa = 2
 debanding = true
@@ -240,7 +245,11 @@ transform = Transform( 0.998636, 0, 0.0517897, 0, 1, 0, -0.0517897, 0, 0.998636,
 [node name="GroundedSpatial" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC" index="5" instance=ExtResource( 4 )]
 is_active = false
 
+[node name="OVRFirstPerson" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC/Viewport" index="0"]
+transform = Transform( 0.998636, 0, 0.0517897, 0, 1, 0, -0.0517897, 0, 0.998636, 0, 1000, 0 )
+
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid"]
+visible = false
 margin_top = 834.0
 margin_right = 1416.0
 margin_bottom = 1034.0
@@ -256,8 +265,8 @@ size_flags_horizontal = 3
 layer_renderers_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport/World/Terrain/LayerRenderers")
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Split/Right"]
-margin_left = 1424.0
-margin_right = 1724.0
+margin_left = 1422.0
+margin_right = 1722.0
 margin_bottom = 1034.0
 rect_min_size = Vector2( 300, 0 )
 mouse_filter = 1
@@ -294,19 +303,13 @@ script = ExtResource( 8 )
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right"]
 margin_right = 282.0
-margin_bottom = 83.0
+margin_bottom = 43.0
 tab_align = 0
 drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
 
-[node name="VRMenu" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top" instance=ExtResource( 3 )]
-margin_left = 5.0
-margin_top = 38.0
-margin_right = -5.0
-margin_bottom = -5.0
-
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right"]
-margin_top = 91.0
+margin_top = 51.0
 margin_right = 282.0
 margin_bottom = 1034.0
 size_flags_horizontal = 3
@@ -332,19 +335,19 @@ position_manager_path = NodePath("../../../../../Mid/VBoxContainer/WorldViewPort
 margin_left = 6.0
 margin_top = 4.0
 margin_right = 266.0
-margin_bottom = 896.0
+margin_bottom = 936.0
 
 [node name="ScrollLayers" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer" index="0"]
 margin_right = 260.0
-margin_bottom = 848.0
+margin_bottom = 888.0
 
 [node name="LayerContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer/ScrollLayers" index="0"]
 margin_right = 260.0
 
 [node name="Menu" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer" index="1"]
-margin_top = 852.0
+margin_top = 892.0
 margin_right = 260.0
-margin_bottom = 892.0
+margin_bottom = 932.0
 
 [node name="DeleteLayer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer/Menu" index="1"]
 margin_left = 44.0
