@@ -28,7 +28,6 @@ uniform vec3 uv2_scale;
 uniform vec3 uv2_offset;
 
 uniform bool lights_on = false;
-uniform int random_seed;
 uniform bool window_shading = true;
 
 varying vec3 worldpos;
@@ -36,11 +35,11 @@ varying vec3 worldpos;
 
 void vertex() {
 	UV=UV*uv1_scale.xy+uv1_offset.xy;
-	worldpos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	worldpos = (WORLD_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 }
 
-float rand(vec2 co){
-    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+float rand(vec3 co){
+    return fract(sin(dot(co.xyz ,vec3(12.9898,78.233,54.1463))) * 43758.5453);
 }
 
 void fragment() {
@@ -49,9 +48,6 @@ void fragment() {
 	
 	// Modulate color with vertex color - this is more performant than a color uniform
 	ALBEDO = COLOR.rgb * albedo_tex.rgb;
-	
-	// A bit hacky: disabling window shading clamps the UVs to 0.0, thus making the metallic and roughness effects of the window not apply
-	base_uv *= float(!window_shading);
 	
 	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
 	METALLIC = metallic_tex * metallic;
@@ -62,10 +58,11 @@ void fragment() {
 	NORMALMAP_DEPTH = normal_scale;
 	
 	if (lights_on) {
-		bool light_here = (int(floor(UV.x) + floor(UV.y)) * random_seed) % 3 == 2;
+		int random_seed = int(rand(round(worldpos)) * rand(vec3(floor(UV), 0.0)) * 100000.0);
+		bool light_here = random_seed % 3 == 2;
 		
 		if (light_here) {
-			vec3 emission_tex = texture(texture_emission,base_uv).rgb;
+			float emission_tex = texture(texture_emission, base_uv).r;
 			EMISSION = (emission.rgb*emission_tex) * (emission_energy * (0.1 + fract(float(int(floor(UV.x)) * random_seed) / 1000.0) * 0.9));
 		}
 	}
@@ -89,7 +86,6 @@ shader_param/uv1_offset = Vector3( 0, 0, 0 )
 shader_param/uv2_scale = Vector3( 1, 1, 1 )
 shader_param/uv2_offset = Vector3( 0, 0, 0 )
 shader_param/lights_on = false
-shader_param/random_seed = null
 shader_param/window_shading = true
 shader_param/texture_albedo = ExtResource( 3 )
 shader_param/texture_metallic = ExtResource( 2 )
