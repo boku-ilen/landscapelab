@@ -57,7 +57,8 @@ func _inject(node: Node):
 # If the current game mode is changed, the new mode will be applied according to 
 # the game-mode-settings.json-file.
 func apply_tool_settings(mode: int):
-	var tools: Array = GameModeLoader.get_all_tools_for_mode(mode)
+	pass
+#	var tools: Array = GameModeLoader.get_all_tools_for_mode(mode)
 	
 	#for child in tools_bar.get_children():
 	#	if not tools.has(child.name):

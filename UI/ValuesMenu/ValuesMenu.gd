@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+# FIXME: To be removed or updated with GameSystem
+
 
 onready var panel = get_node("PanelContainer")
 onready var dropdown = get_node("Control")
@@ -25,11 +27,12 @@ func _ready():
 # If the current game mode is changed, the new mode will be applied according to 
 # the game-mode-settings.json-file.
 func apply_value_settings(mode: int):
-	values = GameModeLoader.get_all_values_for_mode(mode)
-	
-	# Fill in each label of the values
-	for value in values:
-		dropdown.add_item(value)
+	pass
+#	values = GameModeLoader.get_all_values_for_mode(mode)
+#
+#	# Fill in each label of the values
+#	for value in values:
+#		dropdown.add_item(value)
 
 
 func _on_value_changed(id: int):

@@ -119,11 +119,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Communication/GetObjectLayerDataRequestHandler.gd"
 }, {
-"base": "AbstractRequestHandler",
-"class": "GetSettingsRequestHandler",
-"language": "GDScript",
-"path": "res://Communication/GetSettingsRequestHandler.gd"
-}, {
 "base": "CreationCondition",
 "class": "GreaterThanRasterCreationCondition",
 "language": "GDScript",
@@ -332,7 +327,6 @@ _global_script_class_icons={
 "GeoGameObjectCollection": "",
 "GeodataChooser": "",
 "GetObjectLayerDataRequestHandler": "",
-"GetSettingsRequestHandler": "",
 "GreaterThanRasterCreationCondition": "",
 "GroundTexture": "",
 "Layer": "",
@@ -389,7 +383,6 @@ ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
 Settings="*res://Config/Settings.gd"
 CommunicationServer="*res://Communication/CommunicationServer.gd"
 ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
-GameModeLoader="*res://Global/GameModeLoader.gd"
 Geodot="*res://addons/geodot/geodot.gdns"
 RenderStyle="*res://Global/RenderStyle.gd"
 GlobalVRAccess="*res://addons/vr-toolkit/GlobalVRAccess.gd"
