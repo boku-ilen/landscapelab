@@ -28,6 +28,7 @@ var world_shift_timer: float = 0
 
 var standing_shift_limit := 5.0
 var moving_shift_limit := 400.0
+var moving_shift_time_factor := 1.0
 
 var height = 100
 
@@ -120,8 +121,8 @@ func _check_for_world_shift():
 		# Shift towards the movement velocity in order to have data approximately where we're going
 		# TODO: Instead of the hardcoded 5 second estimate, we could take the previous loading time
 		#  But for this we need to have access to the LayerRenderers node here
-		_shift_world(center_node.translation.x + _center_node_velocity.x * 5.0,
-				center_node.translation.z + _center_node_velocity.y * 5.0)
+		_shift_world(center_node.translation.x + _center_node_velocity.x * moving_shift_time_factor,
+				center_node.translation.z + _center_node_velocity.y * moving_shift_time_factor)
 
 
 # Begin the process of world shifting by setting the new offset variables and emitting a signal.
