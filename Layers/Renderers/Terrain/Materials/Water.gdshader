@@ -25,7 +25,7 @@ uniform vec4 color_ground : hint_color;
 
 //foam
 uniform float near = 0.1;
-uniform float far = 100f;
+uniform float far = 100.0;
 
 //waves
 uniform vec2 wave_strengh = vec2(0.5, 0.25);
@@ -35,7 +35,7 @@ uniform vec2 time_factor = vec2(1.0, 2.0);
 
 
 float rim(float depth){
-	depth = 2f * depth - 1f;
+	depth = 2.0 * depth - 1.0;
 	return near * far / (far + depth * (near - far));
 }
 
@@ -67,12 +67,12 @@ void fragment(){
 	vec3 n1 = texture(noise1, scaled_uv + time).rgb;
 	vec3 n2 = texture(noise2, scaled_uv - time * 0.2).rgb;
 	
-	vec2 scaled_uv_movement = scaled_uv * 4f;
-	scaled_uv_movement += TIME * speed * 4f;
+	vec2 scaled_uv_movement = scaled_uv * 4.0;
+	scaled_uv_movement += TIME * speed * 4.0;
 	
-	vec2 scaled_uv_movement2 = scaled_uv * 7f - TIME * speed * 4f;
+	vec2 scaled_uv_movement2 = scaled_uv * 7.0 - TIME * speed * 4.0;
 	
-	float sum = (n1.r + n2.r) - 1f;
+	float sum = (n1.r + n2.r) - 1.0;
 	
 	
 	float z_depth = rim(texture(DEPTH_TEXTURE, SCREEN_UV).x);
@@ -88,7 +88,7 @@ void fragment(){
 	
 	NORMALMAP = mix(normal_1, normal_2, 0.4);
 	ROUGHNESS = 0.05;
-	SPECULAR = 0.5f;
+	SPECULAR = 0.5;
 	METALLIC = 0.2;
 	NORMALMAP_DEPTH = 1.25;
 }
