@@ -4,8 +4,6 @@ onready var light = get_node("DirectionalLight")
 
 const LOG_MODULE := "WORLDENV"
 
-var clouds_scene = preload("res://addons/volumetric-clouds/CloudRenderer.tscn")
-
 var FOG_BEGIN = Settings.get_setting("sky", "fog-begin")
 var FOG_END = Settings.get_setting("sky", "fog-end")
 var MAX_SUN_INTENSITY = Settings.get_setting("sky", "max-sun-intensity")
