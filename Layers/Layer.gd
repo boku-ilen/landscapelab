@@ -25,7 +25,8 @@ enum RenderType {
 	PATH,
 	CONNECTED_OBJECT,
 	POLYGON,
-	VEGETATION
+	VEGETATION,
+	TWODIMENSIONAL
 }
 var render_type = RenderType.NONE
 var render_info
@@ -170,3 +171,11 @@ class ConnectedObjectInfo extends RenderInfo:
 	
 	func is_valid():
 		return ground_height_layer != null
+
+class TwoDimensionalInfo extends RenderInfo: 
+	var texture_layer: Layer
+	func get_geolayers() -> Array:
+		return [texture_layer]
+	
+	func is_valid() -> bool:
+		return texture_layer.is_valid()

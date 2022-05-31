@@ -150,7 +150,7 @@ func digest_gpkg(geopackage_path: String):
 		logger.error("No layer configuration found in the geopackage.", LOG_MODULE)
 	
 	# Load all geo_layers necessary for the configuration
-	Layers.geo_layers = get_geolayers(db, geopackage)
+	get_geolayers(db, geopackage)
 	
 	for layer_config in layer_configs:
 		var layer: Layer
@@ -220,24 +220,17 @@ func get_geolayers(db, gpkg):
 		"LL_externalgeolayer_to_layer", "", ["*"]
 	).duplicate()
 	
-	var rasters = {}
-	var features = {}
 	for raster in raster_layers:
-		rasters[raster.resource_name] = raster
+		Layers.add_geo_layer(raster, true)
 	
 	for feature in feature_layers:
-		features[feature.resource_name] = feature
+		Layers.add_geo_layer(feature, false)
 	
 	for external_config in externals_config:
 		var layer = external_layers.external_to_geolayer_from_type(db, external_config)
 		var layer_name = external_config.geolayer_path.get_basename()
 		layer_name = layer_name.substr(layer_name.rfind("/") + 1)
-		if layer is RasterLayer:
-			rasters[layer_name] = layer
-		else:
-			features[layer_name] = layer
-	
-	return { "rasters": rasters, "features": features }
+		Layers.add_geo_layer(layer, layer is RasterLayer)
 
 
 # Find the connections of the primitive geolayers to a a specific LL layer
