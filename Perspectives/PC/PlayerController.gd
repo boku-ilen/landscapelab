@@ -47,13 +47,11 @@ func stop_movement():
 
 
 func get_look_direction():
-	# TODO: The x-coordinate seems right, but the z-coordinate acts strangely...
-	return -$Head/Camera.global_transform.basis.z
+	return Vector3.UP.cross($Head/Camera.global_transform.basis.x)
 
 
 func _physics_process(delta):
 	fly(delta)
-	
 	if is_smooth_camera:
 		$Head.rotate_y(current_mouse_velocity.y)
 		

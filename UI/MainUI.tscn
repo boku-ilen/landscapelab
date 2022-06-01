@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" type="Texture" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/plus.svg" type="Texture" id=22]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/minus.svg" type="Texture" id=23]
+[ext_resource path="res://Resources/Icons/ClassicLandscapeLab/dot_marker_direction.svg" type="Texture" id=24]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
 
 [sub_resource type="GDScript" id=1]
@@ -261,7 +262,13 @@ shadow_atlas_size = 4096
 [node name="World" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport" instance=ExtResource( 12 )]
 
 [node name="FirstPersonPC" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World" index="2"]
+transform = Transform( 0.867488, 0, 0.497459, 0, 1, 0, -0.497459, 0, 0.867488, 0, 0, 0 )
+
+[node name="Head" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="Camera" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC/Head" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.66, 0 )
 
 [node name="GroundedSpatial" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC" index="5" instance=ExtResource( 4 )]
 is_active = false
@@ -347,12 +354,18 @@ update_rotation = false
 update_scale = false
 
 [node name="Camera" type="Camera" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport/Viewport/RemoteTransform"]
-transform = Transform( 1, 0, 0, 0, 5.96047e-08, 1, 0, -1, 5.96047e-08, 0, 5, 0 )
-cull_mask = 8
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0 )
+cull_mask = 1014920
 projection = 1
 size = 1000.0
 near = 0.01
 far = 10000.0
+
+[node name="PlayerMarker" type="Sprite3D" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport/Viewport"]
+transform = Transform( 0.580575, 0.814195, -0.0044612, 2.2883e-05, 0.00546288, 0.999985, 0.814207, -0.580566, 0.00315298, -1, 1.48865, 0 )
+layers = 136
+pixel_size = 1.0
+texture = ExtResource( 24 )
 
 [node name="ZoomContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport"]
 margin_right = 40.0

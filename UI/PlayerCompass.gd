@@ -14,4 +14,4 @@ func _ready():
 
 
 func _process(delta):
-	rect_rotation = pc_player.get_node("Head").rotation_degrees.y
+	rect_rotation = -rad2deg(pc_player.get_look_direction().signed_angle_to(Vector3.FORWARD, Vector3.UP))
