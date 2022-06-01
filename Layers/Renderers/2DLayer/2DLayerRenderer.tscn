@@ -3,21 +3,19 @@
 [ext_resource path="res://Layers/Renderers/2DLayer/2DLayerRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Layers/Renderers/2DLayer/TexturePlane.gd" type="Script" id=2]
 
-[sub_resource type="QuadMesh" id=2]
+[sub_resource type="PlaneMesh" id=4]
 size = Vector2( 10000, 10000 )
 
 [sub_resource type="SpatialMaterial" id=3]
 flags_unshaded = true
-params_cull_mode = 1
 
 [node name="2DLayerRenderer" type="Spatial"]
 script = ExtResource( 1 )
 
 [node name="TexturePlane" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 layers = 8
 cast_shadow = 0
-mesh = SubResource( 2 )
+mesh = SubResource( 4 )
 material/0 = SubResource( 3 )
 script = ExtResource( 2 )
-map_resolution = 2000
+map_resolution = 10000
