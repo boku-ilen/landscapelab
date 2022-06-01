@@ -18,6 +18,16 @@ func teleport(pos: Vector3):
 	transform.origin = pos
 
 
+# As in some cases the actual orientation node might be different, define this as function to
+# be overwritten
+func get_orientation_basis():
+	return transform.basis
+
+
+func get_look_direction() -> Vector3:
+	return -transform.basis.z
+
+
 func _input(event):
 	# Check abstract general input, then overwritten general input, then abstract viewport input,
 	#  then overwritten viewport input
