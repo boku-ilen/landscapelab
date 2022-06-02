@@ -1,9 +1,8 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" type="Texture" id=2]
 [ext_resource path="res://UI/VRMenu/VRMenu.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Util/GroundedSpatial.tscn" type="PackedScene" id=4]
 [ext_resource path="res://UI/UIDock.gd" type="Script" id=5]
 [ext_resource path="res://UI/Theme/LightTheme.tres" type="Theme" id=6]
 [ext_resource path="res://UI/MenuBar/MenuBar.gd" type="Script" id=7]
@@ -83,8 +82,8 @@ window_title = "Open a File"
 dialog_text = "Load project from a preconfigured GeoPackage"
 mode = 0
 access = 2
-current_dir = "/home/landscapelab/landscapelab"
-current_path = "/home/landscapelab/landscapelab/"
+current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
+current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -266,9 +265,6 @@ transform = Transform( 0.867488, 0, 0.497459, 0, 1, 0, -0.497459, 0, 0.867488, 0
 
 [node name="Camera" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC/Head" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-
-[node name="GroundedSpatial" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC" index="5" instance=ExtResource( 4 )]
-is_active = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid"]
 margin_top = 834.0

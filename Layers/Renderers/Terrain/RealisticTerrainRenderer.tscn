@@ -214,7 +214,7 @@ mesh = ExtResource( 7 )
 [node name="CollisionMeshCreator" type="StaticBody" parent="TerrainLOD1"]
 collision_layer = 540675
 script = ExtResource( 3 )
-subdivision = 100
+subdivision = 500
 
 [node name="CollisionShape" type="CollisionShape" parent="TerrainLOD1/CollisionMeshCreator"]
 

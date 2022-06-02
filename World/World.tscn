@@ -24,7 +24,6 @@ script = ExtResource( 8 )
 [node name="LayerRenderers" parent="Terrain" instance=ExtResource( 6 )]
 
 [node name="FirstPersonPC" parent="." instance=ExtResource( 3 )]
-transform = Transform( 0.998636, 0, 0.0517897, 0, 1, 0, -0.0517897, 0, 0.998636, 0, 500, 0 )
 
 [node name="PlayerPositionSender" type="Node" parent="FirstPersonPC"]
 script = ExtResource( 13 )

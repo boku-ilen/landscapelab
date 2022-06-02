@@ -52,6 +52,7 @@ func get_look_direction():
 
 func _physics_process(delta):
 	fly(delta)
+	
 	if is_smooth_camera:
 		$Head.rotate_y(current_mouse_velocity.y)
 		
@@ -213,8 +214,13 @@ func fly(delta):
 	move_and_slide(target)
 	
 	if walking:
-		# FIXME: Place player on ground (using the terrain layer?)
-		pass
+		var space_state = get_world().direct_space_state
+		var result = space_state.intersect_ray(
+			Vector3(translation.x, 6000, translation.z),
+			Vector3(translation.x, -1000, translation.z), [self])
+		
+		if result:
+			transform.origin.y = result.position.y
 
 
 func get_world_position():

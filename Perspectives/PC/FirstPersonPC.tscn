@@ -7,7 +7,8 @@
 [ext_resource path="res://Perspectives/Tracking/ParentTracker.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Communication/SetPositionRequestHandler.gd" type="Script" id=8]
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="RayShape" id=1]
+length = 1.65
 
 [node name="FirstPersonPC" type="KinematicBody" groups=["ShiftingSpatial"]]
 transform = Transform( 0.999978, 0, 0, 0, 1, 0, 0, 0, 0.999978, 0, 0, 0 )
