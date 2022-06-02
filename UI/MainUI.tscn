@@ -83,8 +83,8 @@ window_title = "Open a File"
 dialog_text = "Load project from a preconfigured GeoPackage"
 mode = 0
 access = 2
-current_dir = "/boku/landscapelab"
-current_path = "/boku/landscapelab/"
+current_dir = "/home/landscapelab/landscapelab"
+current_path = "/home/landscapelab/landscapelab/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -196,7 +196,7 @@ size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid"]
 margin_right = 1286.0
-margin_bottom = 1034.0
+margin_bottom = 826.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -209,7 +209,7 @@ pos_manager_path = NodePath("../WorldViewPort/Viewport/World/PositionManager")
 [node name="WorldViewPort" type="ViewportContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer"]
 margin_top = 4.0
 margin_right = 1286.0
-margin_bottom = 1034.0
+margin_bottom = 826.0
 rect_min_size = Vector2( 500, 500 )
 focus_mode = 2
 size_flags_horizontal = 3
@@ -251,7 +251,7 @@ script = ExtResource( 17 )
 layer_renderers_path = NodePath("../Viewport/World/Terrain/LayerRenderers")
 
 [node name="Viewport" type="Viewport" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
-size = Vector2( 1286, 1030 )
+size = Vector2( 1286, 822 )
 handle_input_locally = false
 msaa = 2
 debanding = true
@@ -264,26 +264,22 @@ shadow_atlas_size = 4096
 [node name="FirstPersonPC" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World" index="2"]
 transform = Transform( 0.867488, 0, 0.497459, 0, 1, 0, -0.497459, 0, 0.867488, 0, 0, 0 )
 
-[node name="Head" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-
 [node name="Camera" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC/Head" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.66, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="GroundedSpatial" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC" index="5" instance=ExtResource( 4 )]
 is_active = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid"]
-visible = false
 margin_top = 834.0
-margin_right = 1416.0
+margin_right = 1286.0
 margin_bottom = 1034.0
 size_flags_vertical = 8
 
 [node name="DebugInfo" parent="MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer" instance=ExtResource( 14 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1416.0
+margin_right = 1286.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
