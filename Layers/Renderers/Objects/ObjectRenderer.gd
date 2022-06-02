@@ -29,9 +29,8 @@ func apply_new_data():
 		if not has_node(node_name):
 			# This feature is new
 			apply_new_feature(feature)
-		else:
-			# This feature already exists -> persist it
-			features_to_persist[node_name] = feature
+
+		features_to_persist[node_name] = feature
 	
 	for child in get_children():
 		if not features_to_persist.has(child.name):
@@ -59,8 +58,6 @@ func apply_new_feature(feature):
 	var instance = layer.render_info.object.instance()
 	
 	instance.name = String(feature.get_id())
-	
-	update_instance_position(feature, instance)
 	feature.connect("point_changed", self, "update_instance_position", [feature, instance])
 	
 	if "weather_manager" in instance:
