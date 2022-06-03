@@ -1,7 +1,7 @@
 extends LayerRenderer
 
 var radius = 10000
-var max_features = 200
+var max_features = 2000
 
 var features
 var feature_add_queue = []
