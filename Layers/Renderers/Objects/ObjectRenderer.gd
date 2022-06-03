@@ -60,8 +60,11 @@ func apply_new_feature(feature):
 	instance.name = String(feature.get_id())
 	feature.connect("point_changed", self, "update_instance_position", [feature, instance])
 	
-	if "weather_manager" in instance:
+	if "weather_manager" in instance and weather_manager:
 		instance.set("weather_manager", weather_manager)
+	
+	if "time_manager" in instance and time_manager:
+		instance.set("time_manager", time_manager)
 	
 	if "feature" in instance:
 		instance.set("feature", feature)
