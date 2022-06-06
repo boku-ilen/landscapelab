@@ -15,6 +15,14 @@ func set_weather_manager(new_weather_manager):
 	weather_manager = new_weather_manager
 
 
+func set_time_manager(manager: TimeManager):
+	.set_time_manager(manager)
+	
+	for child in get_children():
+		if "time_manager" in child:
+			child.set("time_manager", time_manager)
+
+
 func load_new_data():
 	is_loading = true
 	features = layer.get_features_near_position(center[0], center[1], radius, max_features)
