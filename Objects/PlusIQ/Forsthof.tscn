@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://External/PlusIQ/forsthof.glb" type="PackedScene" id=1]
+
+[node name="Forsthof" type="Spatial"]
+
+[node name="forsthof" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.988988, 0.14521, 0.0286064, -0.139319, 0.978643, -0.151156, -0.0499447, 0.145505, 0.988096, 0, -0.635688, 0 )
