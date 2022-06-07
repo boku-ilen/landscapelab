@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://External/PlusIQ/F1_HK_rows_relief_ungrouped.glb" type="PackedScene" id=1]
+
+[node name="Rows_field1" type="Spatial"]
+
+[node name="F1_HK_rows_relief_ungrouped" parent="." instance=ExtResource( 1 )]

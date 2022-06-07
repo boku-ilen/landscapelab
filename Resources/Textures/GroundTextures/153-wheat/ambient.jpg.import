@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ambient.jpg-6cf3dcdf7b005bff90e433e54091c469.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/153-wheat/ambient.jpg"
+dest_files=[ "res://.import/ambient.jpg-6cf3dcdf7b005bff90e433e54091c469.image" ]
+
+[params]
+

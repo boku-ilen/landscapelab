@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://External/PlusIQ/F2_HK_rows_relief.glb" type="PackedScene" id=1]
+
+[node name="F2_HK_rows_relief" instance=ExtResource( 1 )]

@@ -36,57 +36,57 @@ func load_gpkg(geopackage_path: String):
 		emit_signal("geodata_invalid")
 	
 	# FIXME: Game Engine Testing
-	var game_mode = GameMode.new()
-	
-	var wka = game_mode.add_game_object_collection_for_feature_layer("WKA", Layers.geo_layers["features"]["windmills"])
-	game_mode.game_object_collections["WKA"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["windturbine_potentials"])
-	game_mode.game_object_collections["WKA"].icon_name = "windmill_icon"
-	game_mode.game_object_collections["WKA"].desired_shape = "SQUARE_BRICK"
-	game_mode.game_object_collections["WKA"].desired_color = "BLUE_BRICK"
-
-	var wka_condition = GreaterThanRasterCreationCondition.new("WKA Potential Condition", Layers.geo_layers["rasters"]["windturbine_potentials"], 0.0)
-	wka.add_creation_condition(wka_condition)
-
-	var pv_small = game_mode.add_game_object_collection_for_feature_layer("PV klein", Layers.geo_layers["features"]["pv_small"])
-	game_mode.game_object_collections["PV klein"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["new_pv_potentials"])
-	game_mode.game_object_collections["PV klein"].icon_name = "pv_icon"
-	game_mode.game_object_collections["PV klein"].desired_shape = "SQUARE_BRICK"
-	game_mode.game_object_collections["PV klein"].desired_color = "RED_BRICK"
-
-	var pv_large = game_mode.add_game_object_collection_for_feature_layer("PV groß", Layers.geo_layers["features"]["pv_large"])
-	game_mode.game_object_collections["PV groß"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["new_pv_potentials"])
-	game_mode.game_object_collections["PV groß"].icon_name = "pv_icon"
-	game_mode.game_object_collections["PV groß"].desired_shape = "RECTANGLE_BRICK"
-	game_mode.game_object_collections["PV groß"].desired_color = "RED_BRICK"
-
-	var pv_condition = GreaterThanRasterCreationCondition.new("PV Potential Condition", Layers.geo_layers["rasters"]["new_pv_potentials"], 0.0)
-	pv_small.add_creation_condition(pv_condition)
-	pv_large.add_creation_condition(pv_condition)
-
-	game_mode.set_extent(569000.0, 380000.0, 599000.0, 410000.0)
-
-	var score = GameScore.new()
-	score.name = "Strom PV"
-	score.add_contributor(game_mode.game_object_collections["PV groß"], "MW", 30.0)
-	score.add_contributor(game_mode.game_object_collections["PV klein"], "MW", 10.0)
-	score.target = 69726.0
-
-	var score2 = GameScore.new()
-	score2.name = "Strom WKA"
-	score2.add_contributor(game_mode.game_object_collections["WKA"], "MW")
-	score2.target = 222667.0
-
-	game_mode.add_score(score2)
-	game_mode.add_score(score)
-
-	# Add player game object collection
-	var player_game_object_collection = PlayerGameObjectCollection.new("Players", get_parent().get_node("FirstPersonPC"))
-	game_mode.add_game_object_collection(player_game_object_collection)
-	player_game_object_collection.icon_name = "player_position"
-	player_game_object_collection.desired_shape = "SQUARE_BRICK"
-	player_game_object_collection.desired_color = "GREEN_BRICK"
-
-	GameSystem.current_game_mode = game_mode
+#	var game_mode = GameMode.new()
+#
+#	var wka = game_mode.add_game_object_collection_for_feature_layer("WKA", Layers.geo_layers["features"]["windmills"])
+#	game_mode.game_object_collections["WKA"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["windturbine_potentials"])
+#	game_mode.game_object_collections["WKA"].icon_name = "windmill_icon"
+#	game_mode.game_object_collections["WKA"].desired_shape = "SQUARE_BRICK"
+#	game_mode.game_object_collections["WKA"].desired_color = "BLUE_BRICK"
+#
+#	var wka_condition = GreaterThanRasterCreationCondition.new("WKA Potential Condition", Layers.geo_layers["rasters"]["windturbine_potentials"], 0.0)
+#	wka.add_creation_condition(wka_condition)
+#
+#	var pv_small = game_mode.add_game_object_collection_for_feature_layer("PV klein", Layers.geo_layers["features"]["pv_small"])
+#	game_mode.game_object_collections["PV klein"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["new_pv_potentials"])
+#	game_mode.game_object_collections["PV klein"].icon_name = "pv_icon"
+#	game_mode.game_object_collections["PV klein"].desired_shape = "SQUARE_BRICK"
+#	game_mode.game_object_collections["PV klein"].desired_color = "RED_BRICK"
+#
+#	var pv_large = game_mode.add_game_object_collection_for_feature_layer("PV groß", Layers.geo_layers["features"]["pv_large"])
+#	game_mode.game_object_collections["PV groß"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["new_pv_potentials"])
+#	game_mode.game_object_collections["PV groß"].icon_name = "pv_icon"
+#	game_mode.game_object_collections["PV groß"].desired_shape = "RECTANGLE_BRICK"
+#	game_mode.game_object_collections["PV groß"].desired_color = "RED_BRICK"
+#
+#	var pv_condition = GreaterThanRasterCreationCondition.new("PV Potential Condition", Layers.geo_layers["rasters"]["new_pv_potentials"], 0.0)
+#	pv_small.add_creation_condition(pv_condition)
+#	pv_large.add_creation_condition(pv_condition)
+#
+#	game_mode.set_extent(569000.0, 380000.0, 599000.0, 410000.0)
+#
+#	var score = GameScore.new()
+#	score.name = "Strom PV"
+#	score.add_contributor(game_mode.game_object_collections["PV groß"], "MW", 30.0)
+#	score.add_contributor(game_mode.game_object_collections["PV klein"], "MW", 10.0)
+#	score.target = 69726.0
+#
+#	var score2 = GameScore.new()
+#	score2.name = "Strom WKA"
+#	score2.add_contributor(game_mode.game_object_collections["WKA"], "MW")
+#	score2.target = 222667.0
+#
+#	game_mode.add_score(score2)
+#	game_mode.add_score(score)
+#
+#	# Add player game object collection
+#	var player_game_object_collection = PlayerGameObjectCollection.new("Players", get_parent().get_node("FirstPersonPC"))
+#	game_mode.add_game_object_collection(player_game_object_collection)
+#	player_game_object_collection.icon_name = "player_position"
+#	player_game_object_collection.desired_shape = "SQUARE_BRICK"
+#	player_game_object_collection.desired_color = "GREEN_BRICK"
+#
+#	GameSystem.current_game_mode = game_mode
 
 
 func validate_gpkg(geopackage_path: String):
@@ -524,6 +524,17 @@ func load_connected_object_layer(db, layer_config, geo_layers_config) -> Layer:
 	co_layer.name = layer_config.name
 	
 	return co_layer
+
+
+func load_twodimensional_layer(db, layer_config, geo_layers_config) -> Layer:
+	var layer_2d = Layer.new()
+	layer_2d.render_type = Layer.RenderType.TWODIMENSIONAL
+	layer_2d.render_info = Layer.TwoDimensionalInfo.new()
+	layer_2d.render_info.texture_layer = get_georasterlayer_by_type(
+		db, "TEXTURE_LAYER", geo_layers_config.rasters)
+	layer_2d.name = layer_config.name
+	
+	return layer_2d
 
 
 func get_avg_center():

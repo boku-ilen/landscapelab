@@ -39,6 +39,8 @@ func _reload():
 			Layer.RenderType.REALISTIC_TERRAIN:
 				icon.texture = load("%s/world.svg" % icon_prefix)
 			Layer.RenderType.BASIC_TERRAIN:
+				icon.texture = load("%s/world.svg" % icon_prefix)
+			Layer.RenderType.TWODIMENSIONAL:
 				icon.texture = load("%s/map.svg" % icon_prefix)
 			Layer.RenderType.VEGETATION:
 				icon.texture = load("%s/grass.png" % icon_prefix)

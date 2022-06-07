@@ -19,7 +19,8 @@ var RenderTypeObject = {
 	"PATH": FeatureLayer,
 	"CONNECTED_OBJECT": FeatureLayer,
 	"POLYGON": FeatureLayer,
-	"VEGETATION": Layer
+	"VEGETATION": Layer,
+	"TWODIMENSIONAL": Layer
 }
 
 

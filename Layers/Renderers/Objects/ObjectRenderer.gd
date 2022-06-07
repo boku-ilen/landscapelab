@@ -1,7 +1,7 @@
 extends LayerRenderer
 
 var radius = 10000
-var max_features = 200
+var max_features = 2000
 
 var features
 var feature_add_queue = []
@@ -13,6 +13,14 @@ var weather_manager: WeatherManager setget set_weather_manager
 
 func set_weather_manager(new_weather_manager):
 	weather_manager = new_weather_manager
+
+
+func set_time_manager(manager: TimeManager):
+	.set_time_manager(manager)
+	
+	for child in get_children():
+		if "time_manager" in child:
+			child.set("time_manager", time_manager)
 
 
 func load_new_data():
@@ -29,9 +37,8 @@ func apply_new_data():
 		if not has_node(node_name):
 			# This feature is new
 			apply_new_feature(feature)
-		else:
-			# This feature already exists -> persist it
-			features_to_persist[node_name] = feature
+
+		features_to_persist[node_name] = feature
 	
 	for child in get_children():
 		if not features_to_persist.has(child.name):
@@ -59,12 +66,13 @@ func apply_new_feature(feature):
 	var instance = layer.render_info.object.instance()
 	
 	instance.name = String(feature.get_id())
-	
-	update_instance_position(feature, instance)
 	feature.connect("point_changed", self, "update_instance_position", [feature, instance])
 	
-	if "weather_manager" in instance:
+	if "weather_manager" in instance and weather_manager:
 		instance.set("weather_manager", weather_manager)
+	
+	if "time_manager" in instance and time_manager:
+		instance.set("time_manager", time_manager)
 	
 	if "feature" in instance:
 		instance.set("feature", feature)

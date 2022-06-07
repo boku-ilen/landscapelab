@@ -7,7 +7,8 @@
 [ext_resource path="res://Perspectives/Tracking/ParentTracker.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Communication/SetPositionRequestHandler.gd" type="Script" id=8]
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="RayShape" id=1]
+length = 1.65
 
 [node name="FirstPersonPC" type="KinematicBody" groups=["ShiftingSpatial"]]
 transform = Transform( 0.999978, 0, 0, 0, 1, 0, 0, 0, 0.999978, 0, 0, 0 )
@@ -16,10 +17,10 @@ collision_mask = 16385
 script = ExtResource( 1 )
 
 [node name="Head" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0 )
 
 [node name="Camera" type="Camera" parent="Head"]
-transform = Transform( 1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, -1.66, 0 )
+transform = Transform( 1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0 )
 cull_mask = 119
 doppler_tracking = 2
 current = true
