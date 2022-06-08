@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://External/PlusIQ/PV-Tracker-Unit.glb" type="PackedScene" id=1]
+[ext_resource path="res://Objects/APV/PVTracker.gd" type="Script" id=2]
+
+[node name="PVTrackerUnit" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="PV-Tracker" parent="root" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0618857, 1.88625, 0 )
+
+[node name="Rotierachse" parent="root/PV-Tracker" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0616092, -1.89159, 0 )
+
+[node name="Quertraeger" parent="root/PV-Tracker" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0616092, -1.89159, 0 )
+
+[node name="PV 10er-Array" parent="root/PV-Tracker" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0616092, -1.89159, 0 )

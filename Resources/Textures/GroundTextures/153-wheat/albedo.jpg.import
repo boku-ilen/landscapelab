@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/albedo.jpg-f86a52bb8517313fe3eda008915e213b.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/153-wheat/albedo.jpg"
+dest_files=[ "res://.import/albedo.jpg-f86a52bb8517313fe3eda008915e213b.image" ]
+
+[params]
+

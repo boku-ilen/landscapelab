@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/specular.jpg-ece4d0174979172db0c21e60bb9efe10.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/153-wheat/specular.jpg"
+dest_files=[ "res://.import/specular.jpg-ece4d0174979172db0c21e60bb9efe10.image" ]
+
+[params]
+
