@@ -1,4 +1,4 @@
-extends Label
+extends Control
 
 
 export var layer_renderers_path: NodePath
