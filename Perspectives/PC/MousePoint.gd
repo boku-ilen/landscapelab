@@ -23,8 +23,9 @@ func set_visible(is_visible):
 
 func set_show_collider(is_visible: bool):
 	show_collider = is_visible
-	if $MouseCollisionIndicator/TransformReset/Particle != null:
-		$MouseCollisionIndicator/TransformReset/Particle.visible = is_visible
+	var particle = get_node("MouseCollisionIndicator/TransformReset/Particle")
+	if particle != null:
+		particle .visible = is_visible
 
 
 func get_show_collider():
