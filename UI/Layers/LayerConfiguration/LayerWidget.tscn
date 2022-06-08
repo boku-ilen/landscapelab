@@ -125,9 +125,9 @@ icon = ExtResource( 4 )
 texture_name = "three_points"
 
 [node name="EditMenu" type="PopupMenu" parent="."]
-margin_left = 248.0
-margin_right = 412.0
-margin_bottom = 73.0
+margin_left = 223.0
+margin_right = 452.0
+margin_bottom = 98.0
 items = [ "Configure...", null, 0, false, false, 0, 0, null, "", false, "Translate to layer", null, 0, false, false, 1, 0, null, "", false ]
 script = ExtResource( 2 )
 

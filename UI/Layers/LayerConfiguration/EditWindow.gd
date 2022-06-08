@@ -27,12 +27,7 @@ signal translate_to_layer
 func set_layer(l):
 	layer = l 
 	
-	if layer is FeatureLayer:
-		add_separator()
-		_add_submenu("Objects", "ObjectMenu", RenderedObjects.dict, "change_object", self, 1)
-		connect("change_object", layer, "object_changed")
-	else:
-		add_separator()
+	add_separator()
 
 
 func _ready():
