@@ -2,7 +2,7 @@
 
 [ext_resource path="res://UI/Screenshot/ScreenshotMenu.gd" type="Script" id=1]
 
-[node name="Control" type="VBoxContainer"]
+[node name="Control" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -10,7 +10,142 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
-margin_right = 1920.0
-margin_bottom = 25.0
-text = "Set "
+[node name="Labels" type="VBoxContainer" parent="."]
+margin_right = 206.0
+margin_bottom = 1080.0
+
+[node name="LabelName" type="Label" parent="Labels"]
+margin_right = 206.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 0, 45 )
+text = "Screenshot name: "
+valign = 1
+
+[node name="LabelUpscale" type="Label" parent="Labels"]
+margin_top = 53.0
+margin_right = 206.0
+margin_bottom = 98.0
+rect_min_size = Vector2( 0, 45 )
+text = "Upscale viewport: "
+valign = 1
+
+[node name="LabelExtent" type="Label" parent="Labels"]
+margin_top = 106.0
+margin_right = 206.0
+margin_bottom = 151.0
+rect_min_size = Vector2( 0, 45 )
+text = "Plant extent: "
+valign = 1
+
+[node name="TimeSeries" type="Label" parent="Labels"]
+margin_top = 159.0
+margin_right = 206.0
+margin_bottom = 207.0
+rect_min_size = Vector2( 0, 48 )
+text = "Enable time-series:"
+valign = 1
+
+[node name="TimeSeriesLabels" type="VBoxContainer" parent="Labels"]
+visible = false
+margin_top = 215.0
+margin_right = 206.0
+margin_bottom = 366.0
+
+[node name="FromLabel" type="Label" parent="Labels/TimeSeriesLabels"]
+margin_right = 206.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 0, 45 )
+text = "From:"
+valign = 1
+
+[node name="ToLabel" type="Label" parent="Labels/TimeSeriesLabels"]
+margin_top = 53.0
+margin_right = 206.0
+margin_bottom = 98.0
+rect_min_size = Vector2( 0, 45 )
+text = "To:"
+valign = 1
+
+[node name="IntervalLabel" type="Label" parent="Labels/TimeSeriesLabels"]
+margin_top = 106.0
+margin_right = 206.0
+margin_bottom = 151.0
+rect_min_size = Vector2( 0, 45 )
+text = "Interval:"
+valign = 1
+
+[node name="Inputs" type="VBoxContainer" parent="."]
+margin_left = 214.0
+margin_right = 474.0
+margin_bottom = 1080.0
+
+[node name="ScreenShotName" type="LineEdit" parent="Inputs"]
+margin_right = 260.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 260, 0 )
+placeholder_text = "user://image.png"
+
+[node name="UpscaleViewport" type="SpinBox" parent="Inputs"]
+margin_top = 53.0
+margin_right = 260.0
+margin_bottom = 98.0
+rect_min_size = Vector2( 0, 40 )
+min_value = 1.0
+max_value = 4.0
+step = 0.1
+value = 1.5
+align = 1
+
+[node name="PlantExtent" type="SpinBox" parent="Inputs"]
+margin_top = 106.0
+margin_right = 260.0
+margin_bottom = 151.0
+rect_min_size = Vector2( 0, 45 )
+min_value = 0.1
+max_value = 10.0
+step = 0.1
+value = 5.5
+align = 1
+
+[node name="CheckBoxTimeSeries" type="CheckBox" parent="Inputs"]
+margin_top = 159.0
+margin_right = 260.0
+margin_bottom = 207.0
+
+[node name="TimeSeriesContainer" type="VBoxContainer" parent="Inputs"]
+visible = false
+margin_top = 215.0
+margin_right = 260.0
+margin_bottom = 366.0
+
+[node name="From" type="SpinBox" parent="Inputs/TimeSeriesContainer"]
+margin_right = 260.0
+margin_bottom = 45.0
+max_value = 24.0
+align = 1
+suffix = "h"
+
+[node name="To" type="SpinBox" parent="Inputs/TimeSeriesContainer"]
+margin_top = 53.0
+margin_right = 260.0
+margin_bottom = 98.0
+max_value = 24.0
+value = 12.0
+align = 1
+suffix = "h"
+
+[node name="Interval" type="SpinBox" parent="Inputs/TimeSeriesContainer"]
+margin_top = 106.0
+margin_right = 260.0
+margin_bottom = 151.0
+rect_min_size = Vector2( 0, 45 )
+max_value = 23.0
+value = 1.0
+align = 1
+suffix = "h"
+
+[node name="ScreenshotButton" type="Button" parent="Inputs"]
+margin_top = 215.0
+margin_right = 260.0
+margin_bottom = 252.0
+text = "Screenshot"
