@@ -16,20 +16,26 @@ onready var arrow_down = get_node("Arrows/ArrowDown")
 
 var pos_manager: PositionManager
 var pc_player
+var current_poi_layer: Layer
 
 const LOG_MODULE := "UI"
 
 
 func _ready():
 	$VBoxContainer/TeleportToButton.connect("pressed", self, "_teleport_current_values")
+	$VBoxContainer/OptionButton.connect("item_selected", self, "_change_selected_layer")
 	add_button.connect("pressed", self, "_on_add_pressed")
 	save_button.connect("pressed", self, "_on_save_pressed")
 	delete_button.connect("pressed", self, "_on_delete_pressed")
 	arrow_up.connect("pressed", self, "_on_arrow_up")
 	arrow_down.connect("pressed", self, "_on_arrow_down")
 	
-	# FIXME: Load POIs from GeoPackage
-	#_load_pois()
+	var object_layers = Layers.get_layers_of_type(Layer.RenderType.OBJECT)
+	for layer in object_layers:
+		_add_object_layer(layer)
+	
+	Layers.connect("new_layer", self, "_add_object_layer")
+	Layers.connect("removed_rendered_layer", self, "_remove_object_layer")
 
 
 func _teleport_current_values():
@@ -48,25 +54,23 @@ func teleport_to_coordinates(xyz: Vector3, geo_coords=true):
 		pass
 
 
-# FIXME: Adapt to GeoPackage
-func _load_pois():
-	var pois = null
-	
-	var index = 0
-	# create a Point of Interest for each entry in the locations
-	for poi in pois:
-		var text = poi.get_attribute("id")
-		item_list.add_item(text)
-		# Create a vector for the locations data (only contains "x" and "z"-axis)
-		# As the coordinates from the server are responded in a different type we have to use a "-" on the x-axis
-		var fixed_pos = [-poi.get_vector3().x, -poi.get_vector3().z]
-		
-		# The ID in the list is not necessarily the same as the id in the json-file thus we have to
-		# set the poi-id in the metadata
-		item_list.set_item_metadata(index, fixed_pos)
-		
-		index += 1
+func _remove_object_layer(lname: String, render_type):
+	if render_type == Layer.RenderType.OBJECT:
+		# Items in option buttons are so weird... Every fifth entry is the 
+		# name of another item
+		var index = $VBoxContainer/OptionButton.items.find(lname) / 5
+		$VBoxContainer/OptionButton.remove_item(index)
 
+
+func _add_object_layer(layer: Layer):
+	if layer.render_type == Layer.RenderType.OBJECT:
+		$VBoxContainer/OptionButton.add_item(layer.name)
+
+
+func _change_selected_layer(id: int):
+	var layer_name = $VBoxContainer/OptionButton.get_item_text(id)
+	current_poi_layer = Layers.layers[layer_name]
+	
 
 # Points of interest UI functionality
 func _on_add_pressed():
