@@ -13,7 +13,7 @@ var protocol_keyword = null # each subclass has to set this to identify which re
 var parameter_list = {}  # FIXME: do we need this? might be practical for documentation and validation
 var _server = CommunicationServer  # internal reference to the singleton
 
-const LOG_MODULE := "REQUESTS"
+var LOG_MODULE := "REQUESTS"
 
 
 func _ready():

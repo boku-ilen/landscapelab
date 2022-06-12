@@ -1,5 +1,4 @@
 extends Spatial
-tool
 
 #
 # This object is a child of a camera.
@@ -23,8 +22,10 @@ func set_visible(is_visible):
 
 
 func set_show_collider(is_visible: bool):
-	if $MouseCollisionIndicator/TransformReset/Particle != null:
-		$MouseCollisionIndicator/TransformReset/Particle.visible = is_visible
+	show_collider = is_visible
+	var particle = get_node("MouseCollisionIndicator/TransformReset/Particle")
+	if particle != null:
+		particle .visible = is_visible
 
 
 func get_show_collider():
@@ -41,6 +42,8 @@ func _ready():
 	# workaround), thus making it impossible to interact with it
 	remove_child(info)
 	get_tree().get_root().call_deferred("add_child", info)
+	
+	set_show_collider(show_collider)
 
 
 func _process(delta):
