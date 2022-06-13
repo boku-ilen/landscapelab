@@ -7,7 +7,7 @@ signal new_rendered_layer(layer)
 signal new_scored_layer(layer)
 signal new_layer(layer)
 signal new_geo_layer(geo_layer, is_raster)
-signal removed_rendered_layer(layer_name)
+signal removed_rendered_layer(layer_name, render_type)
 signal removed_scored_layer(layer_name)
 signal removed_layer(layer_name)
 
@@ -66,7 +66,7 @@ func remove_layer(layer_name: String):
 	if layers[layer_name].is_scored:
 		emit_signal("removed_scored_layer", layer_name)
 	if is_layer_rendered(layers[layer_name]):
-		emit_signal("removed_rendered_layer", layer_name)
+		emit_signal("removed_rendered_layer", layer_name, layers[layer_name].render_type)
 	
 	emit_signal("removed_layer", layer_name)
 	

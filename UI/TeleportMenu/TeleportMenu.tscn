@@ -135,7 +135,7 @@ text = "Hinzufügen"
 
 [node name="Delete" type="Button" parent="VBoxContainer/HBoxContainer"]
 margin_left = 133.0
-margin_right = 261.0
+margin_right = 258.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 125, 0 )
 custom_fonts/font = ExtResource( 2 )

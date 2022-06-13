@@ -15,7 +15,7 @@ onready var arrow_up = get_node("Arrows/ArrowUp")
 onready var arrow_down = get_node("Arrows/ArrowDown")
 
 var pos_manager: PositionManager
-var pc_player
+var pc_player: AbstractPlayer
 var current_poi_layer: Layer
 
 const LOG_MODULE := "UI"
@@ -24,6 +24,7 @@ const LOG_MODULE := "UI"
 func _ready():
 	$VBoxContainer/TeleportToButton.connect("pressed", self, "_teleport_current_values")
 	$VBoxContainer/OptionButton.connect("item_selected", self, "_change_selected_layer")
+	$VBoxContainer/ItemList.connect("item_selected", self, "_on_feature_select")
 	add_button.connect("pressed", self, "_on_add_pressed")
 	save_button.connect("pressed", self, "_on_save_pressed")
 	delete_button.connect("pressed", self, "_on_delete_pressed")
@@ -54,6 +55,11 @@ func teleport_to_coordinates(xyz: Vector3, geo_coords=true):
 		pass
 
 
+func _add_object_layer(layer: Layer):
+	if layer.render_type == Layer.RenderType.OBJECT:
+		$VBoxContainer/OptionButton.add_item(layer.name)
+
+
 func _remove_object_layer(lname: String, render_type):
 	if render_type == Layer.RenderType.OBJECT:
 		# Items in option buttons are so weird... Every fifth entry is the 
@@ -62,17 +68,36 @@ func _remove_object_layer(lname: String, render_type):
 		$VBoxContainer/OptionButton.remove_item(index)
 
 
-func _add_object_layer(layer: Layer):
-	if layer.render_type == Layer.RenderType.OBJECT:
-		$VBoxContainer/OptionButton.add_item(layer.name)
-
-
 func _change_selected_layer(id: int):
 	var layer_name = $VBoxContainer/OptionButton.get_item_text(id)
 	current_poi_layer = Layers.layers[layer_name]
-	
+	_load_features_into_list(current_poi_layer)
 
-# Points of interest UI functionality
+
+func _load_features_into_list(layer: Layer):
+	$VBoxContainer/ItemList.clear()
+	
+	var features = layer.get_features_near_position(0, 0, 1000000000, 100)
+	
+	for feature in features:
+		var new_id = $VBoxContainer/ItemList.get_item_count()
+		var position = feature.get_vector3()
+		# TODO: Why do we need to reverse the z coordinate? seems like an inconsistency in coordinate handling
+		position.z = -position.z
+		
+		var item_name = feature.get_attribute(layer.ui_info.name_attribute) \
+				if feature.get_attribute(layer.ui_info.name_attribute) != "" \
+				else str(position)
+		
+		$VBoxContainer/ItemList.add_item(item_name)
+		$VBoxContainer/ItemList.set_item_metadata(new_id, position)
+
+
+func _on_feature_select(item_id):
+	var global_pos = $VBoxContainer/ItemList.get_item_metadata(item_id)
+	teleport_to_coordinates(global_pos, true)
+
+
 func _on_add_pressed():
 	input_field.visible = true
 	save_button.visible = true
