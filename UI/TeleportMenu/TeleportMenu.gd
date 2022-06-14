@@ -71,13 +71,13 @@ func _remove_object_layer(lname: String, render_type):
 func _change_selected_layer(id: int):
 	var layer_name = $VBoxContainer/OptionButton.get_item_text(id)
 	current_poi_layer = Layers.layers[layer_name]
-	_load_features_into_list(current_poi_layer)
+	_load_features_into_list()
 
 
-func _load_features_into_list(layer: Layer):
+func _load_features_into_list():
 	$VBoxContainer/ItemList.clear()
 	
-	var features = layer.get_features_near_position(0, 0, 1000000000, 100)
+	var features = current_poi_layer.get_features_near_position(0, 0, 1000000000, 100)
 	
 	for feature in features:
 		var new_id = $VBoxContainer/ItemList.get_item_count()
@@ -85,16 +85,17 @@ func _load_features_into_list(layer: Layer):
 		# TODO: Why do we need to reverse the z coordinate? seems like an inconsistency in coordinate handling
 		position.z = -position.z
 		
-		var item_name = feature.get_attribute(layer.ui_info.name_attribute) \
-				if feature.get_attribute(layer.ui_info.name_attribute) != "" \
+		var item_name = feature.get_attribute(current_poi_layer.ui_info.name_attribute) \
+				if feature.get_attribute(current_poi_layer.ui_info.name_attribute) != "" \
 				else str(position)
 		
+		var metadata = {"pos": position, "feature": feature}
 		$VBoxContainer/ItemList.add_item(item_name)
-		$VBoxContainer/ItemList.set_item_metadata(new_id, position)
+		$VBoxContainer/ItemList.set_item_metadata(new_id, metadata)
 
 
 func _on_feature_select(item_id):
-	var global_pos = $VBoxContainer/ItemList.get_item_metadata(item_id)
+	var global_pos = $VBoxContainer/ItemList.get_item_metadata(item_id)["pos"]
 	teleport_to_coordinates(global_pos, true)
 
 
@@ -104,34 +105,20 @@ func _on_add_pressed():
 
 
 func _on_save_pressed():
-	# Create an array for the locations data (only contains "x" and "z"-axis)
-	# FIXME: Get the player position here
-	var fixed_pos = [0, 0]
+	var new_feature = current_poi_layer.create_feature()
 	
-	# Search for bad url characters
-	var regex = RegEx.new()
-	regex.compile(".*[!@#$%^&*(),.?\"\/\\\\:{}|<>].*")
-	var has_bad_chars = regex.search(input_field.text)
+	var global_center = pos_manager.get_center()
+	new_feature.set_offset_vector3(pc_player.translation, 
+			global_center[0], 0, global_center[1])
 	
-	if has_bad_chars:
-		logger.warning("New PoI name must not contain special characters", LOG_MODULE)
-		input_field.set_text("No special characters!")
-		return
+	# FIXME: this is a limitation as of now as set_attribute only works
+	# FIXME: on an existing table row. This needs to be created first
+	var key = current_poi_layer.ui_info.name_attribute
+	var val = input_field.text 
+	new_feature.set_attribute(key, val)
+	var test = new_feature.get_attribute(key)
 	
-	# To escape whitespaces use ``.percent_encode()``
-	var url_escaped_input = input_field.text.percent_encode()
-	
-	# As the coordinates on the server are responded in a different type,
-	# we have to use a "-" on the x-axis to properly save it
-	#FIXME: we have to decide how we want to provide this functionallity after
-	#FIXME: the locations come from a (should be readonly) geopackage
-	var result = "" # ServerConnection.get_json("/location/create/%s/%d.0/%d.0/%d" % [url_escaped_input, -fixed_pos[0], fixed_pos[1], Session.scenario_id], false)
-	
-	# Only store on client if it was also successfully stored on server
-	if result.creation_success:
-		item_list.add_item(input_field.text)
-		# The item will be added as the last element in the list
-		item_list.set_item_metadata(item_list.get_item_count() - 1, fixed_pos)
+	_load_features_into_list()
 	
 	input_field.set_text("")
 	input_field.visible = false
@@ -140,16 +127,9 @@ func _on_save_pressed():
 
 func _on_delete_pressed():
 	# select mode is set to single, so only one item can be selected
-	var current_item : int = item_list.get_selected_items()[0]
-	var item_text : String = item_list.get_item_text(current_item)
-
-	#FIXME: we have to decide how we want to provide this functionallity after
-	#FIXME: the locations come from a (should be readonly) geopackage
-	var result = "" # ServerConnection.get_json("/location/remove/%s/%d" % [item_text, Session.scenario_id], false)
-	
-	# Only store on client if it was also successfully stored on server
-	if result.removal_success:
-		item_list.remove_item(current_item)
+	var current_item = item_list.get_selected_items()[0]
+	var feature = item_list.get_item_metadata(current_item)["feature"]
+	current_poi_layer.remove_feature(feature)
 
 
 func _on_arrow_up():
