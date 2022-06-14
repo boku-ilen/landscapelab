@@ -16,7 +16,7 @@
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" type="PackedScene" id=15]
 [ext_resource path="res://UI/Layers/LayerManagement/LayerManagement.gd" type="Script" id=16]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/loading.png" type="Texture" id=17]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/loading.svg" type="Texture" id=17]
 [ext_resource path="res://UI/MinimapViewport.gd" type="Script" id=19]
 [ext_resource path="res://UI/Scenarios/Scenarios.tscn" type="PackedScene" id=20]
 [ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=21]
@@ -98,8 +98,8 @@ window_title = "Open a File"
 dialog_text = "Load project from a preconfigured GeoPackage"
 mode = 0
 access = 2
-current_dir = "/boku/landscapelab"
-current_path = "/boku/landscapelab/"
+current_dir = "/home/landscapelab/landscapelab"
+current_path = "/home/landscapelab/landscapelab/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -358,7 +358,7 @@ render_target_update_mode = 3
 [node name="PlayerMarker" type="Sprite3D" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport/Viewport"]
 transform = Transform( 0.580575, 0.814195, -0.0044612, 2.2883e-05, 0.00546288, 0.999985, 0.814207, -0.580566, 0.00315298, -1, 1.48865, 0 )
 layers = 136
-pixel_size = 1.0
+pixel_size = 0.15
 texture = ExtResource( 24 )
 
 [node name="Camera" type="Camera" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport/Viewport"]
