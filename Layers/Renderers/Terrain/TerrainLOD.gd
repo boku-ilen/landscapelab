@@ -29,6 +29,7 @@ var landuse_layer
 var surface_height_layer
 
 var current_heightmap
+var current_normalmap
 var current_texture
 var current_landuse
 var current_surface_heightmap
@@ -65,17 +66,21 @@ func build():
 	$HeightmapCollider.translation.x = 1.0 - (size / mesh_resolution) / scale.x 
 	$HeightmapCollider.translation.z = 1.0 - (size / mesh_resolution) / scale.x
 	
+	$HeightmapCollider.scale.x = 1.0 + 1.0 / mesh_resolution
+	$HeightmapCollider.scale.z = 1.0 + 1.0 / mesh_resolution
+	
 	# Heightmap
 	var current_height_image = height_layer.get_image(
 		top_left_x,
 		top_left_y,
 		size,
-		mesh_resolution + 1,
+		mesh_resolution,
 		0
 	)
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
+		current_normalmap = current_height_image.get_normalmap_texture_for_heightmap(0.005)
 	
 	# Texture
 	if texture_layer:
@@ -139,6 +144,7 @@ func apply_textures():
 	
 	if current_heightmap:
 		material_override.set_shader_param("heightmap", current_heightmap)
+		material_override.set_shader_param("normalmap", current_normalmap)
 		
 		# Create a float array for the heightmap collider to use as a heightmap
 		var heightmap_image = current_heightmap.get_data()

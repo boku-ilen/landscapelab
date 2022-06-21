@@ -3,6 +3,7 @@ shader_type spatial;
 // Basic Terrain
 uniform sampler2D orthophoto: hint_albedo;
 uniform sampler2D heightmap;
+uniform sampler2D normalmap : hint_normal;
 uniform float height_scale = 1.0;
 uniform bool has_hole = false;
 
@@ -84,7 +85,7 @@ vec3 get_normal(vec2 normal_uv_pos) {
 	
 	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left) / (size * e);
 	long_normal.z = -(top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right) / (size * e);
-	long_normal.y = size * e * 1.0; // scaling by <1.0 makes the normals more drastic
+	long_normal.y = size * e * 2.0; // scaling by <1.0 makes the normals more drastic
 
 	return normalize(long_normal);
 }
@@ -96,10 +97,8 @@ void vertex() {
 	} else {
 		// FIXME: Without this multiplication by 0.99..., we get wrong values right at the border
 		// This fix should have no visual impact, but it's still odd. Might be a bug in Geodot?
-		VERTEX.y = get_height(UV * 0.999999);
+		VERTEX.y = get_height(UV);
 	}
-	
-	NORMAL = get_normal(UV);
 	
 	world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	world_distance = length(world_pos.xz);
@@ -141,6 +140,8 @@ vec3 get_ortho_color(vec2 uv) {
 
 
 void fragment() {
+	NORMALMAP = texture(normalmap, UV).rgb;
+	
 	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.006).rg - 0.5) * (50.0 / size);
 	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
 	
