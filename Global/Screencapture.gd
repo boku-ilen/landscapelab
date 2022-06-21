@@ -13,16 +13,26 @@ func _input(event):
 
 
 func screenshot(
-				image_name := "user://photo-%d-%s.png" % \
-					[OS.get_system_time_msecs(), pos_manager.get_center_node_world_position()], 
-				viewport_size: Vector2 = pos_manager.get_viewport().size):
-	
+					image_name := "user://photo-%d-%s.png" % \
+						[OS.get_system_time_msecs(),
+						pos_manager.get_center_node_world_position()],
+					upscale_viewport := 1.5,
+					plant_extent := 5,
+					name_extension := ""
+				):
+	if image_name == null or image_name == "": 
+		image_name = "user://photo-%d-%s%s.png" % \
+					[OS.get_system_time_msecs(),
+					pos_manager.get_center_node_world_position(),
+					name_extension]
+						
 	var previous_viewport_size = pos_manager.get_viewport().size
 	var previous_plant_extent_factor = Vegetation.plant_extent_factor
 	
-	pos_manager.get_viewport().size = viewport_size * 2
-	Vegetation.plant_extent_factor = 5
+	pos_manager.get_viewport().size = previous_viewport_size * upscale_viewport
+	Vegetation.plant_extent_factor = plant_extent
 	
+	VisualServer.force_sync()
 	VisualServer.force_draw()
 	
 	# get data of the viewport and flip (because ... it is flipped
@@ -35,4 +45,5 @@ func screenshot(
 	pos_manager.get_viewport().size = previous_viewport_size
 	Vegetation.plant_extent_factor = previous_plant_extent_factor
 	
+	VisualServer.force_sync()
 	VisualServer.force_draw()

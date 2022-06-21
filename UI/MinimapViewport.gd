@@ -21,7 +21,6 @@ func set_zoom(zoom: float):
 
 func set_player(p: AbstractPlayer):
 	pc_player = p
-	#$Viewport/RemoteTransform.remote_path = p.get_path()
 
 
 func _ready():
@@ -35,8 +34,9 @@ func zoom(zoom: float):
 
 
 func _process(delta):
+	# Only update the orientation in a 2Dish manner (only update north, east, south, west)
 	marker.rotation.y = -pc_player.get_look_direction().signed_angle_to(Vector3.FORWARD, Vector3.UP)
-	
+	# And the position
 	marker.transform.origin = Vector3(
 			pc_player.transform.origin.x, 
 			marker.transform.origin.y,

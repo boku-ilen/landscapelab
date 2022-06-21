@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://UI/Fonts/TextBold.tres" type="DynamicFont" id=1]
-[ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ObjectDropDown.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ColorTag.tscn" type="PackedScene" id=3]
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/LayerConfigurationWindow.gd" type="Script" id=4]
 
@@ -35,28 +34,28 @@ margin_right = 867.0
 margin_bottom = 194.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer"]
-margin_right = 157.0
+margin_right = 146.0
 margin_bottom = 194.0
 
 [node name="Ttile" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
-margin_right = 157.0
+margin_right = 146.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer/Ttile"]
-margin_right = 157.0
+margin_right = 146.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
 text = "Layer Configuration"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/HSplitContainer/VBoxContainer/Ttile"]
 margin_top = 31.0
-margin_right = 157.0
+margin_right = 146.0
 margin_bottom = 39.0
 
 [node name="Name" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 58.0
-margin_right = 157.0
+margin_right = 146.0
 margin_bottom = 98.0
 rect_min_size = Vector2( 0, 40 )
 text = "Layer Name:"
@@ -64,7 +63,7 @@ valign = 1
 
 [node name="ColorTag" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 106.0
-margin_right = 157.0
+margin_right = 146.0
 margin_bottom = 146.0
 rect_min_size = Vector2( 0, 40 )
 text = "Color Tag:"
@@ -72,24 +71,24 @@ valign = 1
 
 [node name="Type" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 154.0
-margin_right = 157.0
+margin_right = 146.0
 margin_bottom = 194.0
 rect_min_size = Vector2( 0, 40 )
 text = "Type:"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HSplitContainer"]
-margin_left = 181.0
+margin_left = 170.0
 margin_right = 867.0
 margin_bottom = 194.0
 
 [node name="Spacer" type="Control" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
-margin_right = 686.0
+margin_right = 697.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 
 [node name="Name" type="LineEdit" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
 margin_top = 58.0
-margin_right = 686.0
+margin_right = 697.0
 margin_bottom = 103.0
 rect_min_size = Vector2( 0, 40 )
 placeholder_text = "..."
@@ -98,14 +97,12 @@ placeholder_text = "..."
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 111.0
-margin_right = 686.0
+margin_right = 697.0
 margin_bottom = 141.0
 
 [node name="TypeChooser" type="OptionButton" parent="VBoxContainer/HSplitContainer/VBoxContainer2"]
 margin_top = 149.0
-margin_right = 686.0
+margin_right = 697.0
 margin_bottom = 189.0
 rect_min_size = Vector2( 0, 40 )
 text = "Type..."
-
-[node name="ObjectDropDown" parent="VBoxContainer/HSplitContainer/VBoxContainer2" instance=ExtResource( 2 )]

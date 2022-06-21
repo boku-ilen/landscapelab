@@ -8,12 +8,11 @@ class_name SetTableExtentRequestHandler
 
 export(NodePath) var target
 
-const LOG_MODULE := "TABLE"
-
 
 # set the protocol keyword
 func _init():
 	protocol_keyword = "TABLE_EXTENT"
+	LOG_MODULE = "TABLE"
 
 
 func handle_request(request: Dictionary) -> Dictionary:

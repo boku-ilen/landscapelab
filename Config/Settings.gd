@@ -26,7 +26,8 @@ var software_config: Dictionary = {
 
 
 func _init():
-	load_settings()
+	if not Engine.editor_hint:
+		load_settings()
 
 
 # Settings are overriden in the following order:
@@ -41,7 +42,6 @@ func load_settings():
 
 
 func _load_defaults():
-	
 	var err = config.load(default_configuration_path)
 	if err != OK:
 		logger.error("Default configuration could not be loaded. Is there a file configuration.ini?", LOG_MODULE)

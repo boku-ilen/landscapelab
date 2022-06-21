@@ -1,5 +1,4 @@
 extends "res://UI/Tools/ToolsButton.gd"
-tool
 
 var pc_player: AbstractPlayer setget set_player
 

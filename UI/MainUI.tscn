@@ -3,6 +3,7 @@
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" type="Texture" id=2]
 [ext_resource path="res://UI/VRMenu/VRMenu.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/LoadingCircle.gd" type="Script" id=4]
 [ext_resource path="res://UI/UIDock.gd" type="Script" id=5]
 [ext_resource path="res://UI/Theme/LightTheme.tres" type="Theme" id=6]
 [ext_resource path="res://UI/MenuBar/MenuBar.gd" type="Script" id=7]
@@ -15,8 +16,7 @@
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" type="PackedScene" id=15]
 [ext_resource path="res://UI/Layers/LayerManagement/LayerManagement.gd" type="Script" id=16]
-[ext_resource path="res://UI/LoadingLabel.gd" type="Script" id=17]
-[ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=18]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/loading.svg" type="Texture" id=17]
 [ext_resource path="res://UI/MinimapViewport.gd" type="Script" id=19]
 [ext_resource path="res://UI/Scenarios/Scenarios.tscn" type="PackedScene" id=20]
 [ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=21]
@@ -28,9 +28,22 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends HSplitContainer
 
+onready var initial_rect_size_x = $Right.rect_size.x
+
+func _ready():
+	connect(\"dragged\", self, \"_on_dragg\")
+
 
 func _input(event):
 	pass
+
+
+func _on_dragg(offset: int):
+	print(offset)
+	if offset >= initial_rect_size_x - 10:
+		$Right.visible = false
+	else: 
+		$Right.visible = true
 "
 
 [node name="MainUI" type="Panel"]
@@ -41,6 +54,9 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource( 6 )
 script = ExtResource( 43 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 pc_player_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC")
 pos_manager_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/PositionManager")
 time_manager_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/TimeManager")
@@ -67,7 +83,7 @@ margin_bottom = 31.0
 script = ExtResource( 7 )
 
 [node name="ProjectButton" type="MenuButton" parent="MarginContainer/VBoxContainer/MenuBar"]
-margin_right = 65.0
+margin_right = 62.0
 margin_bottom = 31.0
 text = "Project"
 switch_on_hover = true
@@ -82,8 +98,8 @@ window_title = "Open a File"
 dialog_text = "Load project from a preconfigured GeoPackage"
 mode = 0
 access = 2
-current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
-current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
+current_dir = "/home/landscapelab/landscapelab"
+current_path = "/home/landscapelab/landscapelab/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -237,16 +253,16 @@ margin_bottom = -990.0
 texture_normal = ExtResource( 2 )
 texture_name = "fullscreen"
 
-[node name="LoadingLabel" type="Label" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
-anchor_top = 0.96
-anchor_bottom = 0.96
-margin_right = 154.0
-margin_bottom = 31.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 18 )
-text = "Loading new data..."
-script = ExtResource( 17 )
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
+anchor_left = 0.01
+anchor_top = 0.94
+anchor_right = 0.01
+anchor_bottom = 0.94
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 17 )
+expand = true
+script = ExtResource( 4 )
 layer_renderers_path = NodePath("../Viewport/World/Terrain/LayerRenderers")
 
 [node name="Viewport" type="Viewport" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
@@ -342,7 +358,7 @@ render_target_update_mode = 3
 [node name="PlayerMarker" type="Sprite3D" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport/Viewport"]
 transform = Transform( 0.580575, 0.814195, -0.0044612, 2.2883e-05, 0.00546288, 0.999985, 0.814207, -0.580566, 0.00315298, -1, 1.48865, 0 )
 layers = 136
-pixel_size = 1.0
+pixel_size = 0.15
 texture = ExtResource( 24 )
 
 [node name="Camera" type="Camera" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport/Viewport"]

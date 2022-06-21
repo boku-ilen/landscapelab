@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/locomotion.svg" type="Texture" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/raster.svg" type="Texture" id=2]
@@ -8,9 +8,12 @@
 [ext_resource path="res://UI/Tracking/Record.tscn" type="PackedScene" id=6]
 [ext_resource path="res://UI/Tools/ToolsButton.tscn" type="PackedScene" id=7]
 [ext_resource path="res://UI/Imaging/ImagingButton.gd" type="Script" id=8]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=9]
 [ext_resource path="res://UI/UiTeleport.gd" type="Script" id=10]
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.gd" type="Script" id=11]
+[ext_resource path="res://UI/Screenshot/ScreenshotMenu.tscn" type="PackedScene" id=12]
 [ext_resource path="res://UI/Tracking/Record.gd" type="Script" id=13]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/camera.svg" type="Texture" id=14]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/paintbrush.svg" type="Texture" id=15]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/footprint.svg" type="Texture" id=16]
 [ext_resource path="res://UI/Datetime/Datetime.tscn" type="PackedScene" id=17]
@@ -20,8 +23,13 @@
 [ext_resource path="res://UI/RenderingStyle/RenderingStyleMenu.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/energy.svg" type="Texture" id=23]
 [ext_resource path="res://UI/Weather/WeatherUI.tscn" type="PackedScene" id=24]
-[ext_resource path="res://UI/Screenshot/Screenshot.gd" type="Script" id=25]
-[ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=27]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 9 )
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/rotation_radians = null
+shader_param/color_length_modulate_threshold = 1.5
 
 [node name="ToolsPanel" type="VBoxContainer"]
 anchor_right = 0.125
@@ -71,7 +79,11 @@ script = ExtResource( 10 )
 texture_name = "locomotion"
 
 [node name="TeleportMenu" parent="ScrollContainer/ToolsBar/Teleport" instance=ExtResource( 18 )]
-visible = false
+anchor_left = 0.062
+anchor_right = 16.3
+anchor_bottom = 10.0
+margin_right = -6.10352e-05
+margin_bottom = 0.0
 
 [node name="Season" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = null
@@ -82,10 +94,8 @@ icon = ExtResource( 4 )
 texture_name = "clock"
 
 [node name="Datetime" parent="ScrollContainer/ToolsBar/Season" instance=ExtResource( 17 )]
-visible = false
-margin_right = 214.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 214, 72 )
+margin_right = 750.0
+rect_min_size = Vector2( 250, 72 )
 
 [node name="Weather" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = null
@@ -144,11 +154,16 @@ texture_name = "raster"
 [node name="GeoJPEGMenu" parent="ScrollContainer/ToolsBar/GeoJPEG" instance=ExtResource( 3 )]
 visible = false
 
-[node name="Camera" parent="ScrollContainer/ToolsBar" instance=ExtResource( 27 )]
+[node name="Camera" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
+material = SubResource( 1 )
 margin_top = 400.0
 margin_right = 40.0
 margin_bottom = 440.0
-mouse_filter = 1
-expand_icon = false
-script = ExtResource( 25 )
+icon = ExtResource( 14 )
 texture_name = "camera"
+
+[node name="ScreenshotMenu" parent="ScrollContainer/ToolsBar/Camera" instance=ExtResource( 12 )]
+visible = false
+margin_right = 434.0
+margin_bottom = 361.0
+rect_min_size = Vector2( 474, 401 )

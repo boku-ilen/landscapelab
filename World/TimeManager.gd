@@ -23,6 +23,11 @@ func set_datetime(new_time, new_day, new_year):
 	emit_signal("datetime_changed", date_time)
 
 
+func set_datetime_by_class(datetime: DateTime):
+	date_time = datetime
+	emit_signal("datetime_changed", date_time)
+
+
 func set_time(new_time):
 	var previous_time = date_time.time
 	
