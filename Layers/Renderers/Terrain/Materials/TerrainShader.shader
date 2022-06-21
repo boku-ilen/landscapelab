@@ -47,6 +47,14 @@ varying vec3 world_pos;
 varying float world_distance;
 varying float camera_distance;
 
+// Workaround for a bug in `texelFetch` - use this instead!
+// More info at https://github.com/godotengine/godot/issues/31732
+vec4 texelGet ( sampler2D tg_tex, ivec2 tg_coord, int tg_lod ) {
+	vec2 tg_texel = 1.0 / vec2(textureSize(tg_tex, 0));
+	vec2 tg_getpos = (vec2(tg_coord) * tg_texel) + (tg_texel * 0.5);
+	return texture(tg_tex, tg_getpos, float(tg_lod));
+}
+
 float get_height(vec2 uv) {
 	float height = texture(heightmap, uv).r * height_scale;
 	// Clamp to prevent weird behavior with extreme nodata values
@@ -82,8 +90,8 @@ vec3 get_normal(vec2 normal_uv_pos) {
 }
 
 void vertex() {
-	// FIXME: Prevents some visual artifacts, but shouldn't be needed
-	if (has_hole && UV.x > 0.49 && UV.x < 0.51 && UV.y > 0.49 && UV.y < 0.51) {
+	// Hide transition with a "skirt": outermost row of vertices is moved down to create a wall that fills holes
+	if (UV.x < 0.0 || UV.x > 1.0 || UV.y < 0.0 || UV.y > 1.0) {
 		VERTEX.y = -1000.0;
 	} else {
 		VERTEX.y = get_height(UV);
@@ -97,14 +105,14 @@ void vertex() {
 	camera_pos = CAMERA_MATRIX[3].xyz;
 	camera_distance = length(world_pos - camera_pos);
 	
-	if (has_surface_heights) {
-		float surface_height_factor = float(world_distance > surface_heights_start_distance);
-		float texture_read = texture(surface_heightmap, UV).r;
-		if (texture_read < 80.0) {
-			// Nodata may be encoded as infinity
-			VERTEX.y += texture_read * height_scale * surface_height_factor;
-		}
-	}
+//	if (has_surface_heights) {
+//		float surface_height_factor = float(world_distance > surface_heights_start_distance);
+//		float texture_read = texture(surface_heightmap, UV).r;
+//		if (texture_read < 80.0) {
+//			// Nodata may be encoded as infinity
+//			VERTEX.y += texture_read * height_scale * surface_height_factor;
+//		}
+//	}
 }
 
 // Decrase or increase the color saturation
@@ -120,14 +128,6 @@ vec3 saturate_color(vec3 color, float change) {
 vec3 shift_blue(vec3 color, float change) {
 	color.b *= change;
 	return color;
-}
-
-// Workaround for a bug in `texelFetch` - use this instead!
-// More info at https://github.com/godotengine/godot/issues/31732
-vec4 texelGet ( sampler2D tg_tex, ivec2 tg_coord, int tg_lod ) {
-	vec2 tg_texel = 1.0 / vec2(textureSize(tg_tex, 0));
-	vec2 tg_getpos = (vec2(tg_coord) * tg_texel) + (tg_texel * 0.5);
-	return texture(tg_tex, tg_getpos, float(tg_lod));
 }
 
 

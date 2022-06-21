@@ -1,10 +1,33 @@
 extends LayerRenderer
 
 
-onready var lods = get_children()
+var lods = []
 
 
 func _ready():
+	# Spawn LODs
+	for scales in range(4):
+		for x in range(-1, 2):
+			for y in range(-1, 2):
+				var lod = preload("res://Layers/Renderers/Terrain/TerrainLOD.tscn").instance()
+				
+				if x == 0 and y == 0:
+					if scales == 0:
+						lod.mesh = preload("res://Layers/Renderers/Terrain/lod_mesh_200x200.obj")
+						lod.mesh_resolution = 200
+					else:
+						continue
+				
+				var size = pow(3.0, scales) * 200.0
+				lod.translation.x = x * size
+				lod.translation.z = y * size
+				lod.size = size
+				
+				lods.append(lod)
+	
+	for lod in lods:
+		add_child(lod)
+	
 	# Create a loading thread for each LOD child
 	for lod in lods:
 		lod.height_layer = layer.render_info.height_layer.clone()
