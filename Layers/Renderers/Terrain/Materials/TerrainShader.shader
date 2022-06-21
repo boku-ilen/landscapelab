@@ -95,8 +95,6 @@ void vertex() {
 	if (UV.x < 0.0 || UV.x > 1.0 || UV.y < 0.0 || UV.y > 1.0) {
 		VERTEX.y = -1000.0;
 	} else {
-		// FIXME: Without this multiplication by 0.99..., we get wrong values right at the border
-		// This fix should have no visual impact, but it's still odd. Might be a bug in Geodot?
 		VERTEX.y = get_height(UV);
 	}
 	
