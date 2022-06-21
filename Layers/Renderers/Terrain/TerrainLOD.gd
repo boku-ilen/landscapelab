@@ -50,9 +50,8 @@ func _ready():
 	visible = false
 
 
-# TODO: Use this instead of the extra cull margin; can't get it to work properly atm
 func rebuild_aabb():
-	var aabb = AABB(Vector3.ZERO, Vector3(size / 2, 100000, size / 2))
+	var aabb = AABB(global_transform.origin - translation - Vector3(size / 2.0, 0.0, size / 2.0), Vector3(size, 100000, size))
 	set_custom_aabb(aabb)
 
 
@@ -134,6 +133,8 @@ func build():
 				current_normal_fade_textures = Vegetation.get_fade_sheet_texture(group_array, "normal")
 
 func apply_textures():
+	rebuild_aabb()
+	
 	material_override.set_shader_param("size", size)
 	
 	if current_heightmap:
