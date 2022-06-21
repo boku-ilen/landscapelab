@@ -8,10 +8,6 @@ onready var thrown_objects = get_node("ThrownObjects")
 export(PackedScene) var object_to_throw_scene
 
 
-func _ready():
-	UISignal.connect("imaging", self, "_imaging")
-
-
 func _unhandled_input(event):
 	if event.is_action_pressed("throw_physics_ball"):
 		var direction = cursor.cast_to.normalized()

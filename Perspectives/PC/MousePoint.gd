@@ -7,8 +7,6 @@ extends Spatial
 # the position the mouse is clicking at in the 3D world can be found. 
 #
 
-export var show_collider: bool setget set_show_collider, get_show_collider
-
 onready var camera: Camera = get_parent()
 onready var cursor: RayCast = get_node("InteractRay")
 onready var info := get_node("CursorInfoDialog")
@@ -17,19 +15,7 @@ var RAY_LENGTH = Settings.get_setting("mouse-point", "camera-ray-length") # Dist
 
 
 func set_visible(is_visible):
-	set_show_collider(is_visible)
 	visible = is_visible
-
-
-func set_show_collider(is_visible: bool):
-	show_collider = is_visible
-	var particle = get_node("MouseCollisionIndicator/TransformReset/Particle")
-	if particle != null:
-		particle .visible = is_visible
-
-
-func get_show_collider():
-	return $MouseCollisionIndicator/TransformReset/Particle.visible
 
 
 func _ready():
@@ -42,8 +28,6 @@ func _ready():
 	# workaround), thus making it impossible to interact with it
 	remove_child(info)
 	get_tree().get_root().call_deferred("add_child", info)
-	
-	set_show_collider(show_collider)
 
 
 func _process(delta):

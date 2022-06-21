@@ -8,7 +8,6 @@
 [node name="MousePoint" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
 script = ExtResource( 1 )
-show_collider = true
 
 [node name="InteractRay" type="RayCast" parent="."]
 enabled = true

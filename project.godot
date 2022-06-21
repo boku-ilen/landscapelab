@@ -376,7 +376,6 @@ config/icon="res://Resources/Icons/Meta/icon.png"
 
 [autoload]
 
-RenderedObjects="*res://Objects/RenderedObjects.gd"
 Startup="*res://Global/Startup.gd"
 logger="*res://Global/Debug/logger.gd"
 ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
