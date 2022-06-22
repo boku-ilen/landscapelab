@@ -6,4 +6,4 @@ func _ready():
 
 
 func _process(delta):
-	rect_rotation += 2
+	rect_rotation += 180 * delta
