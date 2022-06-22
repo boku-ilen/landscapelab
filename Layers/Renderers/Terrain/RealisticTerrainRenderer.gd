@@ -13,8 +13,8 @@ func _ready():
 				
 				if x == 0 and y == 0:
 					if scales == 0:
-						lod.mesh = preload("res://Layers/Renderers/Terrain/lod_mesh_200x200.obj")
-						lod.mesh_resolution = 200
+						lod.mesh = preload("res://Layers/Renderers/Terrain/lod_mesh_300x300.obj")
+						lod.mesh_resolution = 300
 					else:
 						continue
 				
@@ -26,7 +26,7 @@ func _ready():
 				else:
 					lod.always_load_landuse = true
 				
-				var size = pow(3.0, scales) * 200.0
+				var size = pow(3.0, scales) * 300.0
 				lod.translation.x = x * size
 				lod.translation.z = y * size
 				lod.size = size
