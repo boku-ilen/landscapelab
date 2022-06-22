@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/GameSystem/GameUI.gd" type="Script" id=1]
+
+[node name="GameUI" type="HBoxContainer"]
+script = ExtResource( 1 )
+
+[node name="GameObjects" type="VBoxContainer" parent="."]
+margin_right = 300.0
+margin_bottom = 183.0
+
+[node name="Label" type="Label" parent="GameObjects"]
+margin_right = 300.0
+margin_bottom = 25.0
+text = "Game Objects:"
+
+[node name="GameObjectCollections" type="ItemList" parent="GameObjects"]
+margin_top = 33.0
+margin_right = 300.0
+margin_bottom = 183.0
+rect_min_size = Vector2( 300, 150 )
+rect_clip_content = false
+max_columns = 4
+same_column_width = true
+fixed_column_width = 150
+fixed_icon_size = Vector2( 150, 150 )
+
+[node name="Scores" type="VBoxContainer" parent="."]
+margin_left = 308.0
+margin_right = 386.0
+margin_bottom = 183.0
+
+[node name="Label" type="Label" parent="Scores"]
+margin_right = 78.0
+margin_bottom = 25.0
+text = "Scores:"
