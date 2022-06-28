@@ -34,7 +34,7 @@ setting_title = "player"
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.66, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 1.77636e-15, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.65595, 0 )
+transform = Transform( 1, 0, 1.77636e-15, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.656, 0.1 )
 shape = SubResource( 1 )
 
 [node name="ActionHandler" type="Node" parent="."]

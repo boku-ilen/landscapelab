@@ -299,6 +299,8 @@ layer_renderers_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport/Worl
 [node name="GameUI" parent="MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer" instance=ExtResource( 18 )]
 margin_right = 365.0
 margin_bottom = 185.0
+viewport_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport")
+position_manager_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport/World/PositionManager")
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Split/Right"]
 margin_left = 1294.0
