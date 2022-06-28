@@ -12,10 +12,10 @@ func set_score(new_score):
 	$ProgressBar.min_value = 0.0
 	$ProgressBar.max_value = score.target
 	
-	_update_data()
+	_update_data(score.value)
 	score.connect("value_changed", self, "_update_data")
 
 
-func _update_data():
-	$CurrentValue.text = str(score.value)
-	$ProgressBar.value = score.value
+func _update_data(new_value):
+	$CurrentValue.text = str(new_value)
+	$ProgressBar.value = new_value
