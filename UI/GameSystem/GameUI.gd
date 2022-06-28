@@ -2,6 +2,10 @@ extends HBoxContainer
 
 
 func _ready():
+	if not GameSystem.current_game_mode:
+		visible = false
+		return
+	
 	for collection in GameSystem.current_game_mode.game_object_collections.values():
 		$GameObjects/GameObjectCollections.add_item(collection.name)
 	
