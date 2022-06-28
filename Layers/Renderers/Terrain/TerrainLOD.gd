@@ -164,9 +164,10 @@ func apply_textures():
 				i += 1
 		heightmap_image.unlock()
 		$HeightmapCollider/CollisionShape.shape.map_data = float_array
-
-		if has_node("ExtraLOD"):
-			$ExtraLOD.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)
+		
+		for child in get_children():
+			if child is ExtraLOD:
+				child.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)
 	
 	if not is_color_shaded:
 		if current_texture:
