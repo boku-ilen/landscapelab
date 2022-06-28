@@ -1,16 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://Layers/Renderers/Terrain/ExtraLOD.gd" type="Script" id=1]
-
-[sub_resource type="PlaneMesh" id=1]
-size = Vector2( 100, 100 )
-subdivide_width = 10
-subdivide_depth = 10
 
 [node name="ExtraLOD" type="MeshInstance"]
 cast_shadow = 0
 extra_cull_margin = 10000.0
-mesh = SubResource( 1 )
-material/0 = null
 script = ExtResource( 1 )
-mesh_size = 100.0

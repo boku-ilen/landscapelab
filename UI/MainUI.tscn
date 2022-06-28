@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" type="Texture" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" type="PackedScene" id=15]
 [ext_resource path="res://UI/Layers/LayerManagement/LayerManagement.gd" type="Script" id=16]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/loading.svg" type="Texture" id=17]
+[ext_resource path="res://UI/GameSystem/GameUI.tscn" type="PackedScene" id=18]
 [ext_resource path="res://UI/MinimapViewport.gd" type="Script" id=19]
 [ext_resource path="res://UI/Scenarios/Scenarios.tscn" type="PackedScene" id=20]
 [ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=21]
@@ -54,9 +55,6 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource( 6 )
 script = ExtResource( 43 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 pc_player_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC")
 pos_manager_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/PositionManager")
 time_manager_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/TimeManager")
@@ -98,8 +96,8 @@ window_title = "Open a File"
 dialog_text = "Load project from a preconfigured GeoPackage"
 mode = 0
 access = 2
-current_dir = "/home/landscapelab/landscapelab"
-current_path = "/home/landscapelab/landscapelab/"
+current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
+current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -211,7 +209,7 @@ size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid"]
 margin_right = 1286.0
-margin_bottom = 826.0
+margin_bottom = 841.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -224,7 +222,7 @@ pos_manager_path = NodePath("../WorldViewPort/Viewport/World/PositionManager")
 [node name="WorldViewPort" type="ViewportContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer"]
 margin_top = 4.0
 margin_right = 1286.0
-margin_bottom = 826.0
+margin_bottom = 841.0
 rect_min_size = Vector2( 500, 500 )
 focus_mode = 2
 size_flags_horizontal = 3
@@ -266,7 +264,7 @@ script = ExtResource( 4 )
 layer_renderers_path = NodePath("../Viewport/World/Terrain/LayerRenderers")
 
 [node name="Viewport" type="Viewport" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
-size = Vector2( 1286, 822 )
+size = Vector2( 1286, 837 )
 handle_input_locally = false
 msaa = 2
 debanding = true
@@ -283,12 +281,13 @@ transform = Transform( 0.867488, 0, 0.497459, 0, 1, 0, -0.497459, 0, 0.867488, 0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid"]
-margin_top = 834.0
+margin_top = 849.0
 margin_right = 1286.0
 margin_bottom = 1034.0
 size_flags_vertical = 8
 
 [node name="DebugInfo" parent="MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer" instance=ExtResource( 14 )]
+visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1286.0
@@ -296,6 +295,10 @@ margin_bottom = 200.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
 layer_renderers_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport/World/Terrain/LayerRenderers")
+
+[node name="GameUI" parent="MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer" instance=ExtResource( 18 )]
+margin_right = 365.0
+margin_bottom = 185.0
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Split/Right"]
 margin_left = 1294.0

@@ -218,7 +218,7 @@ func fly(delta):
 		var result = space_state.intersect_ray(
 			Vector3(translation.x, 6000, translation.z),
 			Vector3(translation.x, -1000, translation.z), [self])
-		
+
 		if result:
 			transform.origin.y = result.position.y
 

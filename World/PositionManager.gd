@@ -26,7 +26,7 @@ var _center_node_velocity := Vector2.ZERO
 var world_shift_check_period: float = 0.5
 var world_shift_timer: float = 0
 
-var standing_shift_limit := 5.0
+var standing_shift_limit := 50.0
 var moving_shift_limit := 400.0
 var moving_shift_time_factor := 1.0
 
@@ -127,6 +127,12 @@ func _check_for_world_shift():
 
 # Begin the process of world shifting by setting the new offset variables and emitting a signal.
 func _shift_world(delta_x, delta_z):
+	# Make sure the shifting lines up with the most coarse grid (e.g. of the terrain) in order to
+	# avoid differences within same-LOD areas after shifting
+	# TODO: Generalize this factor; config or calculate from other values?
+	delta_x -= fposmod(delta_x, 16)
+	delta_z -= fposmod(delta_z, 16)
+	
 	logger.info("Shifting world by %f, %f" % [delta_x, delta_z], LOG_MODULE)
 	
 	loading = true

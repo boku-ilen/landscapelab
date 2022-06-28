@@ -1,7 +1,7 @@
 extends Node
 
 
-var current_game_mode setget set_current_game_mode
+var current_game_mode: GameMode setget set_current_game_mode
 
 var _next_game_object_id := 0
 var _game_objects = {}
