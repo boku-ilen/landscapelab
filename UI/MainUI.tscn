@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" type="Texture" id=2]
@@ -24,6 +24,7 @@
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/plus.svg" type="Texture" id=22]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/minus.svg" type="Texture" id=23]
 [ext_resource path="res://Resources/Icons/ClassicLandscapeLab/dot_marker_direction.svg" type="Texture" id=24]
+[ext_resource path="res://UI/UILicenses.gd" type="Script" id=25]
 [ext_resource path="res://UI/MainUI.gd" type="Script" id=43]
 
 [sub_resource type="GDScript" id=1]
@@ -96,8 +97,8 @@ window_title = "Open a File"
 dialog_text = "Load project from a preconfigured GeoPackage"
 mode = 0
 access = 2
-current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
-current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
+current_dir = "/home/landscapelab/landscapelab"
+current_path = "/home/landscapelab/landscapelab/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -202,26 +203,26 @@ split_offset = 839
 script = SubResource( 1 )
 
 [node name="Mid" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Split/Right"]
-margin_right = 1286.0
+margin_right = 1414.0
 margin_bottom = 1034.0
 mouse_filter = 1
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid"]
-margin_right = 1286.0
+margin_right = 1414.0
 margin_bottom = 841.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="LayerManagement" type="MarginContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer"]
-margin_right = 1286.0
+margin_right = 1414.0
 script = ExtResource( 16 )
 layer_ui_path = NodePath("../../../Right/Right/Bot/LayerUI")
 pos_manager_path = NodePath("../WorldViewPort/Viewport/World/PositionManager")
 
 [node name="WorldViewPort" type="ViewportContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer"]
 margin_top = 4.0
-margin_right = 1286.0
+margin_right = 1414.0
 margin_bottom = 841.0
 rect_min_size = Vector2( 500, 500 )
 focus_mode = 2
@@ -264,7 +265,7 @@ script = ExtResource( 4 )
 layer_renderers_path = NodePath("../Viewport/World/Terrain/LayerRenderers")
 
 [node name="Viewport" type="Viewport" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
-size = Vector2( 1286, 837 )
+size = Vector2( 1414, 837 )
 handle_input_locally = false
 msaa = 2
 debanding = true
@@ -282,7 +283,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid"]
 margin_top = 849.0
-margin_right = 1286.0
+margin_right = 1414.0
 margin_bottom = 1034.0
 size_flags_vertical = 8
 
@@ -301,7 +302,7 @@ margin_right = 365.0
 margin_bottom = 185.0
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Split/Right"]
-margin_left = 1294.0
+margin_left = 1422.0
 margin_right = 1722.0
 margin_bottom = 1034.0
 rect_min_size = Vector2( 300, 0 )
@@ -330,7 +331,7 @@ script = ExtResource( 5 )
 
 [node name="Right" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right"]
 margin_left = 18.0
-margin_right = 428.0
+margin_right = 300.0
 margin_bottom = 1034.0
 mouse_filter = 1
 size_flags_horizontal = 3
@@ -338,13 +339,35 @@ size_flags_vertical = 3
 script = ExtResource( 8 )
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right"]
-margin_right = 410.0
-margin_bottom = 443.0
+margin_right = 282.0
+margin_bottom = 103.0
 tab_align = 0
 drag_to_rearrange_enabled = true
 script = ExtResource( 5 )
 
+[node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 38.0
+margin_right = -5.0
+margin_bottom = -5.0
+rect_min_size = Vector2( 0, 60 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 25 )
+
+[node name="AcceptDialog" type="AcceptDialog" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/Licenses"]
+visible = true
+margin_left = -724.0
+margin_top = 180.0
+margin_right = -148.0
+margin_bottom = 290.0
+popup_exclusive = true
+dialog_autowrap = true
+
 [node name="MinimapViewport" type="ViewportContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -356,7 +379,7 @@ script = ExtResource( 19 )
 [node name="Viewport" type="Viewport" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport"]
 size = Vector2( 400, 400 )
 handle_input_locally = false
-render_target_update_mode = 3
+render_target_update_mode = 0
 
 [node name="PlayerMarker" type="Sprite3D" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport/Viewport"]
 transform = Transform( 0.580575, 0.814195, -0.0044612, 2.2883e-05, 0.00546288, 0.999985, 0.814207, -0.580566, 0.00315298, -1, 1.48865, 0 )
@@ -389,8 +412,8 @@ icon = ExtResource( 23 )
 texture_name = "minus"
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right"]
-margin_top = 451.0
-margin_right = 410.0
+margin_top = 111.0
+margin_right = 282.0
 margin_bottom = 1034.0
 size_flags_horizontal = 3
 tab_align = 0
@@ -414,20 +437,20 @@ position_manager_path = NodePath("../../../../../Mid/VBoxContainer/WorldViewPort
 [node name="VBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI" index="1"]
 margin_left = 6.0
 margin_top = 4.0
-margin_right = 394.0
-margin_bottom = 536.0
+margin_right = 266.0
+margin_bottom = 876.0
 
 [node name="ScrollLayers" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer" index="0"]
-margin_right = 388.0
-margin_bottom = 488.0
+margin_right = 260.0
+margin_bottom = 828.0
 
 [node name="LayerContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer/ScrollLayers" index="0"]
-margin_right = 388.0
+margin_right = 260.0
 
 [node name="Menu" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer" index="1"]
-margin_top = 492.0
-margin_right = 388.0
-margin_bottom = 532.0
+margin_top = 832.0
+margin_right = 260.0
+margin_bottom = 872.0
 
 [node name="DeleteLayer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer/Menu" index="1"]
 margin_left = 44.0
