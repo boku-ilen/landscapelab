@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UI/CustomElements/AutoIconButton.gd"
 }, {
+"base": "TextureButton",
+"class": "AutoTextureButton",
+"language": "GDScript",
+"path": "res://UI/CustomElements/AutoTextureButton.gd"
+}, {
 "base": "Object",
 "class": "CSVReader",
 "language": "GDScript",
@@ -311,6 +316,7 @@ _global_script_class_icons={
 "AbstractRequestHandler": "",
 "ActionHandler": "",
 "AutoIconButton": "",
+"AutoTextureButton": "",
 "CSVReader": "",
 "CloudDome": "",
 "Configurator": "",
@@ -376,9 +382,8 @@ config/icon="res://Resources/Icons/Meta/icon.png"
 
 [autoload]
 
-RenderedObjects="*res://Objects/RenderedObjects.gd"
-Startup="*res://Global/Startup.gd"
 logger="*res://Global/Debug/logger.gd"
+Startup="*res://Global/Startup.gd"
 ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
 Settings="*res://Config/Settings.gd"
 CommunicationServer="*res://Communication/CommunicationServer.gd"
@@ -408,7 +413,7 @@ enabled=PoolStringArray(  )
 
 [gdnative]
 
-singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib", "res://pythonscript.gdnlib" ]
+singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib" ]
 
 [gui]
 
