@@ -15,6 +15,9 @@ func _ready():
 	$WeatherManager.connect("wind_speed_changed", $WorldEnvironment, "apply_wind_speed")
 	$WeatherManager.connect("wind_direction_changed", $WorldEnvironment, "apply_wind_direction")
 	$WeatherManager.connect("unshaded_changed", $WorldEnvironment, "apply_is_unshaded")
+	$WeatherManager.connect("rain_enabled_changed", $WorldEnvironment, "apply_rain_enabled")
+	$WeatherManager.connect("rain_density_changed", $WorldEnvironment, "apply_rain_density")
+	$WeatherManager.connect("rain_drop_size_changed", $WorldEnvironment, "apply_rain_drop_size")
 	
 	$Terrain/LayerRenderers.time_manager = $TimeManager
 	$Terrain/LayerRenderers.weather_manager = $WeatherManager
