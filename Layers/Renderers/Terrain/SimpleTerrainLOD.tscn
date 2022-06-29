@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Layers/Renderers/Terrain/SimpleTerrainLOD.gd" type="Script" id=1]
+[ext_resource path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" type="Material" id=4]
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 1000, 1000 )
+
+[node name="TerrainLOD" type="MeshInstance"]
+material_override = ExtResource( 4 )
+extra_cull_margin = 10000.0
+mesh = SubResource( 1 )
+material/0 = null
+script = ExtResource( 1 )
