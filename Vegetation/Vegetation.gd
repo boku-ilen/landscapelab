@@ -22,7 +22,7 @@ var fade_textures = {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 1.5 setget set_plant_extent_factor, get_plant_extent_factor
+var plant_extent_factor = 5.5 setget set_plant_extent_factor, get_plant_extent_factor
 var max_extent = 0.0
 signal new_plant_extent_factor(extent)
 
