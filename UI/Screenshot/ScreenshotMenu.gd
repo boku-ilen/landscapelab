@@ -32,6 +32,8 @@ func _on_screenshot():
 		var current_datetime = $Inputs/TimeSeriesContainer/From.value
 		var to = $Inputs/TimeSeriesContainer/To.value
 		var interval_idx = 0
+		var interval = $Inputs/TimeSeriesContainer/Interval/Hours.value
+		interval +=  $Inputs/TimeSeriesContainer/Interval/Minutes.value / 60
 		
 		while to > current_datetime:
 			time_manager.set_time(current_datetime)
@@ -43,7 +45,7 @@ func _on_screenshot():
 				"-%d" % interval_idx
 			)
 			
-			current_datetime += $Inputs/TimeSeriesContainer/Interval.value
+			current_datetime += interval
 			interval_idx += 1
 		
 		time_manager.set_datetime_by_class(prev_datetime)

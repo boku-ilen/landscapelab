@@ -43,7 +43,7 @@ func _reload():
 			Layer.RenderType.TWODIMENSIONAL:
 				icon.texture = load("%s/map.svg" % icon_prefix)
 			Layer.RenderType.VEGETATION:
-				icon.texture = load("%s/grass.png" % icon_prefix)
+				icon.texture = load("%s/grass.svg" % icon_prefix)
 			_:
 				icon.texture = load("%s/layer.svg" % icon_prefix)
 	

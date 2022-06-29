@@ -35,7 +35,7 @@ func load_gpkg(geopackage_path: String):
 	else:
 		emit_signal("geodata_invalid")
 	
-	# FIXME: Game Engine Testing
+#	# FIXME: Game Engine Testing
 #	var game_mode = GameMode.new()
 #
 #	var wka = game_mode.add_game_object_collection_for_feature_layer("WKA", Layers.geo_layers["features"]["windmills"])

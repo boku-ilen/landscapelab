@@ -9,9 +9,12 @@
 resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/height_scale = 1.0
+shader_param/has_hole = false
 shader_param/has_surface_heights = false
 shader_param/surface_heights_start_distance = 800.0
 shader_param/has_landuse = false
+shader_param/uses_detail_textures = false
+shader_param/uses_distance_textures = false
 shader_param/distance_tex_switch_distance = 20.0
 shader_param/fade_transition_space = 8.0
 shader_param/ortho_switch_distance = 150.0
@@ -26,7 +29,5 @@ script = ExtResource( 4 )
 
 [node name="TerrainLOD0" parent="." index="0" instance=ExtResource( 2 )]
 material_override = SubResource( 1 )
-is_inner = true
 size = 25000.0
-heightmap_resolution = 1000
 ortho_resolution = 10000

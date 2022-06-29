@@ -9,7 +9,7 @@ export var columns: int setget set_columns
 func set_rows(amount: int):
 	rows = amount
 	for i in range(rows):
-		
+		pass
 
 
 func set_columns(amount: int):

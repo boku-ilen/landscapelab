@@ -1,12 +1,13 @@
 extends MeshInstance
+class_name ExtraLOD
 
-
-export var mesh_size: float
 
 const LOG_MODULE := "TERRAINLAYER"
 
 
 func apply_textures(heightmap, surface_heightmap, landuse):
+	mesh = get_parent().mesh
+	
 	if not material_override:
 		logger.warn("ExtraLOD with no Material Override! This will have no effect.", LOG_MODULE)
 		return

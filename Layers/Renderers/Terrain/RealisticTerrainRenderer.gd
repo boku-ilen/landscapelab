@@ -1,16 +1,45 @@
 extends LayerRenderer
 
 
-onready var lods = get_children()
+var lods = []
 
 
 func _ready():
-	# Create a loading thread for each LOD child
+	# Spawn LODs
+	for scales in range(4):
+		for x in range(-1, 2):
+			for y in range(-1, 2):
+				var lod = preload("res://Layers/Renderers/Terrain/TerrainLOD.tscn").instance()
+				
+				if x == 0 and y == 0:
+					if scales == 0:
+						lod.mesh = preload("res://Layers/Renderers/Terrain/lod_mesh_300x300.obj")
+						lod.mesh_resolution = 300
+					else:
+						continue
+				
+				if scales == 0:
+					lod.load_detail_textures = true
+					lod.load_fade_textures = true
+				elif scales == 1:
+					lod.load_fade_textures = true
+				else:
+					lod.always_load_landuse = true
+				
+				var size = pow(3.0, scales) * 300.0
+				lod.translation.x = x * size
+				lod.translation.z = y * size
+				lod.size = size
+				
+				lod.height_layer = layer.render_info.height_layer.clone()
+				lod.texture_layer = layer.render_info.texture_layer.clone()
+				lod.landuse_layer = layer.render_info.landuse_layer.clone()
+				lod.surface_height_layer = layer.render_info.surface_height_layer.clone()
+				
+				lods.append(lod)
+	
 	for lod in lods:
-		lod.height_layer = layer.render_info.height_layer.clone()
-		lod.texture_layer = layer.render_info.texture_layer.clone()
-		lod.landuse_layer = layer.render_info.landuse_layer.clone()
-		lod.surface_height_layer = layer.render_info.surface_height_layer.clone()
+		add_child(lod)
 
 
 func load_new_data():

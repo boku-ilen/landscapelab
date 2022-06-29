@@ -79,9 +79,11 @@ script = ExtResource( 10 )
 texture_name = "locomotion"
 
 [node name="TeleportMenu" parent="ScrollContainer/ToolsBar/Teleport" instance=ExtResource( 18 )]
-visible = false
-margin_right = 612.0
-margin_bottom = 276.0
+anchor_left = 0.062
+anchor_right = 16.3
+anchor_bottom = 10.0
+margin_right = -6.10352e-05
+margin_bottom = 0.0
 
 [node name="Season" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = null
@@ -92,10 +94,8 @@ icon = ExtResource( 4 )
 texture_name = "clock"
 
 [node name="Datetime" parent="ScrollContainer/ToolsBar/Season" instance=ExtResource( 17 )]
-visible = false
-margin_right = 214.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 214, 72 )
+margin_right = 750.0
+rect_min_size = Vector2( 250, 72 )
 
 [node name="Weather" parent="ScrollContainer/ToolsBar" instance=ExtResource( 7 )]
 material = null

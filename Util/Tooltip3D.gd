@@ -15,8 +15,8 @@ var ready = false
 
 func _ready():
 	visible = false
-	GlobalSignal.connect("asset_show_tooltip", self, "_on_display_tooltip", [true])
-	GlobalSignal.connect("asset_hide_tooltip", self, "_on_display_tooltip", [false])
+	#.connect("asset_show_tooltip", self, "_on_display_tooltip", [true])
+	#GlobalSignal.connect("asset_hide_tooltip", self, "_on_display_tooltip", [false])
 	ready = true
 	update()
 
