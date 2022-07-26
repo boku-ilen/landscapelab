@@ -28,6 +28,9 @@ func switch_to_vegetation_editor():
 		config.get_value("paths", "texture_csv_path")
 	)
 	
+	VegetationImages.plant_image_base_path = config.get_value("paths", "plant_path")
+	VegetationImages.plant_image_base_path = config.get_value("paths", "ground_path")
+	
 	call_deferred("_on_switch_to_vegetation_editor")
 
 func _on_switch_to_vegetation_editor():

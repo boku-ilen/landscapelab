@@ -52,7 +52,7 @@ func _load_into_cache_if_necessary(full_path):
 		if img.is_empty():
 			logger.warning("Invalid billboard path in %s: %s"
 					 % [name_en, full_path], LOG_MODULE)
-		
+
 		# Godot can crash with extremely large images, so we downscale it to a size appropriate
 		#  for further handling.
 		if img.get_width() > VegetationImages.SPRITE_SIZE or img.get_height() > VegetationImages.SPRITE_SIZE:
