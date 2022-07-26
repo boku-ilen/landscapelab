@@ -19,7 +19,9 @@ func update_visualization(group_id):
 	splat_texture.create_from_image(splat_image)
 	
 	for layer in get_node("VegetationRenderers").get_children():
-		layer.update_textures_with_images(null, splat_texture, [group_id])
+		layer.splatmap = splat_texture
+		layer.update_textures_with_images([group_id])
+		layer.apply_data()
 	
 	# Update ground texture if available
 	var ground_texture = Vegetation.groups[group_id].get_ground_texture("albedo")
