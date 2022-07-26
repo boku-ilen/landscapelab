@@ -39,6 +39,18 @@ func apply_visibility(new_visibility):
 	environment.fog_depth_end = (100 - new_visibility) * 300 + 1500
 
 
+func apply_rain_enabled(enabled):
+	$Rain.emitting = enabled
+
+
+func apply_rain_drop_size(rain_drop_size):
+	$Rain.process_material.scale = rain_drop_size
+
+
+func apply_rain_density(rain_density):
+	$Rain.amount = rain_density
+
+
 func apply_cloudiness(new_cloudiness):
 	$CloudDome.cloud_min_density_low = 1.1 - new_cloudiness * 0.01
 	
@@ -57,7 +69,12 @@ func apply_wind_direction(new_wind_direction):
 
 func apply_wind():
 	var rotated_vector = Vector2.UP.rotated(deg2rad(wind_direction))
-	$CloudDome.cloud_speed = rotated_vector * wind_speed * 5.0
+	var wind_vector = rotated_vector * wind_speed * 5.0
+	$CloudDome.cloud_speed = wind_vector
+	# FIXME: the angle should also be applied - it rotates with the camera however
+	# $Rain.process_material.angle = 
+	$Rain.process_material.direction = Vector3(rotated_vector.x, 1, rotated_vector.y) * wind_speed 
+	$Rain.speed_scale = wind_speed
 
 
 func apply_is_unshaded(new_is_unshaded):

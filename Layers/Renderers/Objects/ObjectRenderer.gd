@@ -94,8 +94,12 @@ func remove_feature(feature):
 func update_instance_position(feature, obj_instance: Spatial):
 	var local_object_pos = feature.get_offset_vector3(-center[0], 0, -center[1])
 	
-	local_object_pos.y = layer.render_info.ground_height_layer.get_value_at_position(
-		center[0] + local_object_pos.x, center[1] - local_object_pos.z)
+	if not obj_instance.transform.origin.y > 0.0:
+		local_object_pos.y = layer.render_info.ground_height_layer.get_value_at_position(
+			center[0] + local_object_pos.x, center[1] - local_object_pos.z)
+	else:
+		local_object_pos.y = obj_instance.transform.origin.y
+	
 	obj_instance.transform.origin = local_object_pos
 	
 	if feature.get_attribute("LL_rot"):

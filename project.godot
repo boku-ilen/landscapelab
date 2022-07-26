@@ -44,6 +44,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/CSVReader.gd"
 }, {
+"base": "Reference",
+"class": "Calendar",
+"language": "GDScript",
+"path": "res://addons/calendar_button/class/Calendar.gd"
+}, {
+"base": "Reference",
+"class": "CalendarButtons",
+"language": "GDScript",
+"path": "res://addons/calendar_button/scripts/calendar_buttons.gd"
+}, {
 "base": "MeshInstance",
 "class": "CloudDome",
 "language": "GDScript",
@@ -68,6 +78,11 @@ _global_script_classes=[ {
 "class": "CreationCondition",
 "language": "GDScript",
 "path": "res://GameSystem/CreationConditions/CreationCondition.gd"
+}, {
+"base": "Reference",
+"class": "Date",
+"language": "GDScript",
+"path": "res://addons/calendar_button/class/Date.gd"
 }, {
 "base": "Object",
 "class": "DensityClass",
@@ -308,6 +323,11 @@ _global_script_classes=[ {
 "class": "WeatherManager",
 "language": "GDScript",
 "path": "res://World/WeatherManager.gd"
+}, {
+"base": "Reference",
+"class": "WindowRestrictor",
+"language": "GDScript",
+"path": "res://addons/calendar_button/scripts/window_restrictor.gd"
 } ]
 _global_script_class_icons={
 "AbstractConnection": "",
@@ -317,11 +337,14 @@ _global_script_class_icons={
 "ActionHandler": "",
 "AutoIconButton": "",
 "CSVReader": "",
+"Calendar": "",
+"CalendarButtons": "",
 "CloudDome": "",
 "Configurator": "",
 "ControllerTool": "",
 "CreateFeatureRequestHandler": "",
 "CreationCondition": "",
+"Date": "",
 "DensityClass": "",
 "ExtraLOD": "",
 "FeatureLayer": "",
@@ -369,7 +392,8 @@ _global_script_class_icons={
 "VegetationCSVUtil": "",
 "VegetationGPKGUtil": "",
 "VegetationUtil": "",
-"WeatherManager": ""
+"WeatherManager": "",
+"WindowRestrictor": ""
 }
 
 [application]

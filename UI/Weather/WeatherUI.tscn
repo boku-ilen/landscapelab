@@ -114,10 +114,86 @@ margin_right = 600.0
 margin_bottom = 28.0
 text = "360"
 
-[node name="Unshaded" type="HBoxContainer" parent="."]
+[node name="Rain" type="HBoxContainer" parent="."]
 margin_top = 160.0
 margin_right = 600.0
 margin_bottom = 208.0
+
+[node name="Label" type="Label" parent="Rain"]
+margin_top = 11.0
+margin_right = 152.0
+margin_bottom = 36.0
+text = "Rain enabled: "
+
+[node name="CheckBox" type="CheckBox" parent="Rain"]
+margin_left = 160.0
+margin_right = 208.0
+margin_bottom = 48.0
+
+[node name="RainDensity" type="HBoxContainer" parent="."]
+margin_top = 216.0
+margin_right = 600.0
+margin_bottom = 248.0
+
+[node name="Label" type="Label" parent="RainDensity"]
+margin_top = 3.0
+margin_right = 171.0
+margin_bottom = 28.0
+text = "Rain Density: 50"
+
+[node name="HSlider" type="HSlider" parent="RainDensity"]
+margin_left = 179.0
+margin_right = 540.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+min_value = 100.0
+max_value = 5000.0
+step = 300.0
+value = 100.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="Label2" type="Label" parent="RainDensity"]
+margin_left = 548.0
+margin_top = 3.0
+margin_right = 600.0
+margin_bottom = 28.0
+text = "2000"
+
+[node name="RainDrop" type="HBoxContainer" parent="."]
+margin_top = 256.0
+margin_right = 600.0
+margin_bottom = 288.0
+
+[node name="Label" type="Label" parent="RainDrop"]
+margin_top = 3.0
+margin_right = 200.0
+margin_bottom = 28.0
+text = "Rain Drop Size: 0.1"
+
+[node name="HSlider" type="HSlider" parent="RainDrop"]
+margin_left = 208.0
+margin_right = 579.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+min_value = 0.1
+max_value = 200.0
+step = 0.1
+value = 5.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="Label2" type="Label" parent="RainDrop"]
+margin_left = 587.0
+margin_top = 3.0
+margin_right = 600.0
+margin_bottom = 28.0
+text = "5"
+
+[node name="Unshaded" type="HBoxContainer" parent="."]
+margin_top = 296.0
+margin_right = 600.0
+margin_bottom = 344.0
 
 [node name="Label" type="Label" parent="Unshaded"]
 margin_top = 11.0

@@ -96,8 +96,8 @@ window_title = "Open a File"
 dialog_text = "Load project from a preconfigured GeoPackage"
 mode = 0
 access = 2
-current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
-current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
+current_dir = "/boku/landscapelab"
+current_path = "/boku/landscapelab/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
