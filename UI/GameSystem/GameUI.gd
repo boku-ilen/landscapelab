@@ -14,6 +14,9 @@ func _ready():
 		visible = false
 		return
 	
+	if GameSystem.current_game_mode is TurnBasedGameMode:
+		add_child(preload("res://UI/GameSystem/TurnBasedMenu.tscn").instance())
+	
 	for collection in GameSystem.current_game_mode.game_object_collections.values():
 		$GameObjects/GameObjectCollections.add_item(collection.name)
 	
