@@ -17,7 +17,7 @@ __meta__ = {
 
 [node name="LeftBox" type="VBoxContainer" parent="."]
 margin_right = 225.0
-margin_bottom = 348.0
+margin_bottom = 353.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -62,7 +62,7 @@ text = "Object:"
 [node name="RightBox" type="VBoxContainer" parent="."]
 margin_left = 249.0
 margin_right = 1024.0
-margin_bottom = 348.0
+margin_bottom = 353.0
 
 [node name="Spacer" type="Control" parent="RightBox"]
 margin_right = 775.0
@@ -94,7 +94,7 @@ margin_right = 775.0
 [node name="ObjectChooser" parent="RightBox" instance=ExtResource( 1 )]
 margin_top = 244.0
 margin_right = 775.0
-margin_bottom = 284.0
+margin_bottom = 289.0
 filters = PoolStringArray( "*.tscn", "*.obj" )
 
 [node name="FileName" parent="RightBox/ObjectChooser" index="0"]
@@ -104,6 +104,10 @@ margin_right = 666.0
 margin_left = 674.0
 margin_right = 775.0
 
+[node name="FileDialog" parent="RightBox/ObjectChooser/Button" index="0"]
+current_dir = "/home/landscapelab/landscapelab"
+current_path = "/home/landscapelab/landscapelab/"
+
 [node name="Warning" parent="RightBox" instance=ExtResource( 4 )]
 visible = false
 margin_top = 292.0
@@ -111,9 +115,9 @@ margin_right = 775.0
 margin_bottom = 330.0
 
 [node name="Label" type="Label" parent="RightBox"]
-margin_top = 292.0
+margin_top = 297.0
 margin_right = 775.0
-margin_bottom = 348.0
+margin_bottom = 353.0
 text = "The selected file can either be a native scene or an external OBJ (with an accompanying MTL)."
 autowrap = true
 
