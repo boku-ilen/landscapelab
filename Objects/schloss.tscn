@@ -1,16 +1,1223 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Resources/Meshes/Schloss/new/nagy.gltf" type="PackedScene" id=1]
+[ext_resource path="res://Objects/Util/nagy_to_ground.tscn" type="PackedScene" id=2]
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 18.157, 0.01, 67.206 )
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 41.873, 0.1, 26.963 )
 
 [sub_resource type="BoxShape" id=1]
-extents = Vector3( 31, 1, 72.4996 )
+extents = Vector3( 31, 0.01, 72.5 )
 
 [node name="nagy" instance=ExtResource( 1 )]
 
-[node name="Area" type="StaticBody" parent="." index="0"]
+[node name="nagy_to_ground" parent="." index="0" instance=ExtResource( 2 )]
+
+[node name="Area" type="StaticBody" parent="nagy_to_ground" index="3"]
+collision_layer = 16385
+collision_mask = 16387
+
+[node name="CollisionShape" type="CollisionShape" parent="nagy_to_ground/Area" index="0"]
+transform = Transform( 0.963069, -0.269256, 0, 0.269256, 0.963069, 0, 0, 0, 1, -26.252, -4.83219, 70.4347 )
+shape = SubResource( 2 )
+
+[node name="Area2" type="StaticBody" parent="nagy_to_ground" index="4"]
+collision_layer = 16385
+collision_mask = 16387
+
+[node name="CollisionShape" type="CollisionShape" parent="nagy_to_ground/Area2" index="0"]
+transform = Transform( 0.946283, 0.323339, 0, -0.323339, 0.946283, 0, 0, 0, 1, 72.2915, -6.42473, 70.4347 )
+shape = SubResource( 2 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Area3" type="StaticBody" parent="nagy_to_ground" index="5"]
+collision_layer = 16385
+collision_mask = 16387
+
+[node name="CollisionShape" type="CollisionShape" parent="nagy_to_ground/Area3" index="0"]
+transform = Transform( 1, 0, 0, 0, 0.927295, -0.374331, 0, 0.374331, 0.927295, 24.9115, -10.0677, 163.145 )
+shape = SubResource( 3 )
+
+[node name="Area" type="StaticBody" parent="." index="1"]
 collision_layer = 16385
 collision_mask = 16387
 
 [node name="CollisionShape" type="CollisionShape" parent="Area" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23.8787, 0.0343513, 65.9947 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23.879, 0, 65.995 )
 shape = SubResource( 1 )
+
+[node name="nagycenk_park" parent="." index="2"]
+material/0 = null
+
+[node name="Sphere" parent="." index="3"]
+material/0 = null
+
+[node name="Sphere001" parent="." index="4"]
+material/0 = null
+
+[node name="Sphere002" parent="." index="5"]
+material/0 = null
+
+[node name="Sphere003" parent="." index="6"]
+material/0 = null
+
+[node name="Sphere004" parent="." index="7"]
+material/0 = null
+
+[node name="Sphere005" parent="." index="8"]
+material/0 = null
+
+[node name="Sphere006" parent="." index="9"]
+material/0 = null
+
+[node name="Sphere007" parent="." index="10"]
+material/0 = null
+
+[node name="Cone" parent="." index="11"]
+material/0 = null
+
+[node name="Cone001" parent="." index="12"]
+material/0 = null
+
+[node name="Cone002" parent="." index="13"]
+material/0 = null
+
+[node name="Cone003" parent="." index="14"]
+material/0 = null
+
+[node name="Cone004" parent="." index="15"]
+material/0 = null
+
+[node name="Cone005" parent="." index="16"]
+material/0 = null
+
+[node name="Cone006" parent="." index="17"]
+material/0 = null
+
+[node name="Cone007" parent="." index="18"]
+material/0 = null
+
+[node name="Cone008" parent="." index="19"]
+material/0 = null
+
+[node name="Cone009" parent="." index="20"]
+material/0 = null
+
+[node name="Cone010" parent="." index="21"]
+material/0 = null
+
+[node name="Cone011" parent="." index="22"]
+material/0 = null
+
+[node name="Cone012" parent="." index="23"]
+material/0 = null
+
+[node name="Cone013" parent="." index="24"]
+material/0 = null
+
+[node name="Cone014" parent="." index="25"]
+material/0 = null
+
+[node name="Cone015" parent="." index="26"]
+material/0 = null
+
+[node name="Cone016" parent="." index="27"]
+material/0 = null
+
+[node name="Cone017" parent="." index="28"]
+material/0 = null
+
+[node name="Cube010" parent="." index="29"]
+material/0 = null
+
+[node name="Cube001" parent="." index="30"]
+material/0 = null
+
+[node name="Cube002" parent="." index="31"]
+material/0 = null
+
+[node name="Cube003" parent="." index="32"]
+material/0 = null
+
+[node name="Cube004" parent="." index="33"]
+material/0 = null
+
+[node name="Betonsockel" parent="Pillar" index="0"]
+material/0 = null
+
+[node name="Topf" parent="Pillar" index="1"]
+material/0 = null
+
+[node name="Topf001" parent="Pillar" index="2"]
+material/0 = null
+
+[node name="Betonsockel001" parent="Pillar001" index="0"]
+material/0 = null
+
+[node name="Topf002" parent="Pillar001" index="1"]
+material/0 = null
+
+[node name="Topf003" parent="Pillar001" index="2"]
+material/0 = null
+
+[node name="Betonsockel002" parent="Pillar002" index="0"]
+material/0 = null
+
+[node name="Topf004" parent="Pillar002" index="1"]
+material/0 = null
+
+[node name="Topf005" parent="Pillar002" index="2"]
+material/0 = null
+
+[node name="Betonsockel003" parent="Pillar003" index="0"]
+material/0 = null
+
+[node name="Topf006" parent="Pillar003" index="1"]
+material/0 = null
+
+[node name="Topf007" parent="Pillar003" index="2"]
+material/0 = null
+
+[node name="Betonsockel005" parent="Pillar004" index="0"]
+material/0 = null
+
+[node name="Topf008" parent="Pillar004" index="1"]
+material/0 = null
+
+[node name="Topf009" parent="Pillar004" index="2"]
+material/0 = null
+
+[node name="Betonsockel006" parent="Pillar005" index="0"]
+material/0 = null
+
+[node name="Topf010" parent="Pillar005" index="1"]
+material/0 = null
+
+[node name="Topf011" parent="Pillar005" index="2"]
+material/0 = null
+
+[node name="Betonsockel007" parent="Pillar006" index="0"]
+material/0 = null
+
+[node name="Topf012" parent="Pillar006" index="1"]
+material/0 = null
+
+[node name="Topf013" parent="Pillar006" index="2"]
+material/0 = null
+
+[node name="Betonsockel008" parent="Pillar007" index="0"]
+material/0 = null
+
+[node name="Topf014" parent="Pillar007" index="1"]
+material/0 = null
+
+[node name="Topf015" parent="Pillar007" index="2"]
+material/0 = null
+
+[node name="Betonsockel009" parent="Pillar008" index="0"]
+material/0 = null
+
+[node name="Topf016" parent="Pillar008" index="1"]
+material/0 = null
+
+[node name="Topf017" parent="Pillar008" index="2"]
+material/0 = null
+
+[node name="Betonsockel010" parent="Pillar009" index="0"]
+material/0 = null
+
+[node name="Topf018" parent="Pillar009" index="1"]
+material/0 = null
+
+[node name="Topf019" parent="Pillar009" index="2"]
+material/0 = null
+
+[node name="Betonsockel011" parent="Pillar010" index="0"]
+material/0 = null
+
+[node name="Topf020" parent="Pillar010" index="1"]
+material/0 = null
+
+[node name="Topf021" parent="Pillar010" index="2"]
+material/0 = null
+
+[node name="Betonsockel012" parent="Pillar011" index="0"]
+material/0 = null
+
+[node name="Topf022" parent="Pillar011" index="1"]
+material/0 = null
+
+[node name="Topf023" parent="Pillar011" index="2"]
+material/0 = null
+
+[node name="Betonsockel013" parent="Pillar012" index="0"]
+material/0 = null
+
+[node name="Topf024" parent="Pillar012" index="1"]
+material/0 = null
+
+[node name="Topf025" parent="Pillar012" index="2"]
+material/0 = null
+
+[node name="Betonsockel014" parent="Pillar013" index="0"]
+material/0 = null
+
+[node name="Topf026" parent="Pillar013" index="1"]
+material/0 = null
+
+[node name="Topf027" parent="Pillar013" index="2"]
+material/0 = null
+
+[node name="Betonsockel015" parent="Pillar014" index="0"]
+material/0 = null
+
+[node name="Topf028" parent="Pillar014" index="1"]
+material/0 = null
+
+[node name="Topf029" parent="Pillar014" index="2"]
+material/0 = null
+
+[node name="Betonsockel016" parent="Pillar015" index="0"]
+material/0 = null
+
+[node name="Topf030" parent="Pillar015" index="1"]
+material/0 = null
+
+[node name="Topf031" parent="Pillar015" index="2"]
+material/0 = null
+
+[node name="Betonsockel017" parent="Pillar016" index="0"]
+material/0 = null
+
+[node name="Topf032" parent="Pillar016" index="1"]
+material/0 = null
+
+[node name="Topf033" parent="Pillar016" index="2"]
+material/0 = null
+
+[node name="Betonsockel018" parent="Pillar017" index="0"]
+material/0 = null
+
+[node name="Topf034" parent="Pillar017" index="1"]
+material/0 = null
+
+[node name="Topf035" parent="Pillar017" index="2"]
+material/0 = null
+
+[node name="Betonsockel019" parent="Pillar018" index="0"]
+material/0 = null
+
+[node name="Topf036" parent="Pillar018" index="1"]
+material/0 = null
+
+[node name="Topf037" parent="Pillar018" index="2"]
+material/0 = null
+
+[node name="Betonsockel020" parent="Pillar019" index="0"]
+material/0 = null
+
+[node name="Topf038" parent="Pillar019" index="1"]
+material/0 = null
+
+[node name="Topf039" parent="Pillar019" index="2"]
+material/0 = null
+
+[node name="Betonsockel021" parent="Pillar020" index="0"]
+material/0 = null
+
+[node name="Topf040" parent="Pillar020" index="1"]
+material/0 = null
+
+[node name="Topf041" parent="Pillar020" index="2"]
+material/0 = null
+
+[node name="Betonsockel022" parent="Pillar021" index="0"]
+material/0 = null
+
+[node name="Topf042" parent="Pillar021" index="1"]
+material/0 = null
+
+[node name="Topf043" parent="Pillar021" index="2"]
+material/0 = null
+
+[node name="Betonsockel023" parent="Pillar022" index="0"]
+material/0 = null
+
+[node name="Topf044" parent="Pillar022" index="1"]
+material/0 = null
+
+[node name="Topf045" parent="Pillar022" index="2"]
+material/0 = null
+
+[node name="Betonsockel024" parent="Pillar023" index="0"]
+material/0 = null
+
+[node name="Topf046" parent="Pillar023" index="1"]
+material/0 = null
+
+[node name="Topf047" parent="Pillar023" index="2"]
+material/0 = null
+
+[node name="Laterne" parent="Lantern" index="0"]
+material/0 = null
+
+[node name="Laterne001" parent="Lantern" index="1"]
+material/0 = null
+
+[node name="Laterne002" parent="Lantern" index="2"]
+material/0 = null
+
+[node name="Laterne003" parent="Lantern" index="3"]
+material/0 = null
+
+[node name="Laterne004" parent="Lantern" index="4"]
+material/0 = null
+
+[node name="Laterne005" parent="Lantern" index="5"]
+material/0 = null
+
+[node name="Laterne006" parent="Lantern" index="6"]
+material/0 = null
+
+[node name="Laterne007" parent="Lantern" index="7"]
+material/0 = null
+
+[node name="Laterne008" parent="Lantern" index="8"]
+material/0 = null
+
+[node name="Laterne009" parent="Lantern" index="9"]
+material/0 = null
+
+[node name="Laterne010" parent="Lantern" index="10"]
+material/0 = null
+
+[node name="Laterne011" parent="Lantern" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne012" parent="Lantern" index="12"]
+material/0 = null
+
+[node name="Laterne013" parent="Lantern001" index="0"]
+material/0 = null
+
+[node name="Laterne014" parent="Lantern001" index="1"]
+material/0 = null
+
+[node name="Laterne015" parent="Lantern001" index="2"]
+material/0 = null
+
+[node name="Laterne016" parent="Lantern001" index="3"]
+material/0 = null
+
+[node name="Laterne017" parent="Lantern001" index="4"]
+material/0 = null
+
+[node name="Laterne018" parent="Lantern001" index="5"]
+material/0 = null
+
+[node name="Laterne019" parent="Lantern001" index="6"]
+material/0 = null
+
+[node name="Laterne020" parent="Lantern001" index="7"]
+material/0 = null
+
+[node name="Laterne021" parent="Lantern001" index="8"]
+material/0 = null
+
+[node name="Laterne022" parent="Lantern001" index="9"]
+material/0 = null
+
+[node name="Laterne023" parent="Lantern001" index="10"]
+material/0 = null
+
+[node name="Laterne024" parent="Lantern001" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne025" parent="Lantern001" index="12"]
+material/0 = null
+
+[node name="Laterne026" parent="Lantern002" index="0"]
+material/0 = null
+
+[node name="Laterne027" parent="Lantern002" index="1"]
+material/0 = null
+
+[node name="Laterne028" parent="Lantern002" index="2"]
+material/0 = null
+
+[node name="Laterne029" parent="Lantern002" index="3"]
+material/0 = null
+
+[node name="Laterne030" parent="Lantern002" index="4"]
+material/0 = null
+
+[node name="Laterne031" parent="Lantern002" index="5"]
+material/0 = null
+
+[node name="Laterne032" parent="Lantern002" index="6"]
+material/0 = null
+
+[node name="Laterne033" parent="Lantern002" index="7"]
+material/0 = null
+
+[node name="Laterne034" parent="Lantern002" index="8"]
+material/0 = null
+
+[node name="Laterne035" parent="Lantern002" index="9"]
+material/0 = null
+
+[node name="Laterne036" parent="Lantern002" index="10"]
+material/0 = null
+
+[node name="Laterne037" parent="Lantern002" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne038" parent="Lantern002" index="12"]
+material/0 = null
+
+[node name="Laterne039" parent="Lantern003" index="0"]
+material/0 = null
+
+[node name="Laterne040" parent="Lantern003" index="1"]
+material/0 = null
+
+[node name="Laterne041" parent="Lantern003" index="2"]
+material/0 = null
+
+[node name="Laterne042" parent="Lantern003" index="3"]
+material/0 = null
+
+[node name="Laterne043" parent="Lantern003" index="4"]
+material/0 = null
+
+[node name="Laterne044" parent="Lantern003" index="5"]
+material/0 = null
+
+[node name="Laterne045" parent="Lantern003" index="6"]
+material/0 = null
+
+[node name="Laterne046" parent="Lantern003" index="7"]
+material/0 = null
+
+[node name="Laterne047" parent="Lantern003" index="8"]
+material/0 = null
+
+[node name="Laterne048" parent="Lantern003" index="9"]
+material/0 = null
+
+[node name="Laterne049" parent="Lantern003" index="10"]
+material/0 = null
+
+[node name="Laterne050" parent="Lantern003" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne051" parent="Lantern003" index="12"]
+material/0 = null
+
+[node name="Laterne052" parent="Lantern004" index="0"]
+material/0 = null
+
+[node name="Laterne053" parent="Lantern004" index="1"]
+material/0 = null
+
+[node name="Laterne054" parent="Lantern004" index="2"]
+material/0 = null
+
+[node name="Laterne055" parent="Lantern004" index="3"]
+material/0 = null
+
+[node name="Laterne056" parent="Lantern004" index="4"]
+material/0 = null
+
+[node name="Laterne057" parent="Lantern004" index="5"]
+material/0 = null
+
+[node name="Laterne058" parent="Lantern004" index="6"]
+material/0 = null
+
+[node name="Laterne059" parent="Lantern004" index="7"]
+material/0 = null
+
+[node name="Laterne060" parent="Lantern004" index="8"]
+material/0 = null
+
+[node name="Laterne061" parent="Lantern004" index="9"]
+material/0 = null
+
+[node name="Laterne062" parent="Lantern004" index="10"]
+material/0 = null
+
+[node name="Laterne063" parent="Lantern004" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne064" parent="Lantern004" index="12"]
+material/0 = null
+
+[node name="Laterne065" parent="Lantern005" index="0"]
+material/0 = null
+
+[node name="Laterne066" parent="Lantern005" index="1"]
+material/0 = null
+
+[node name="Laterne067" parent="Lantern005" index="2"]
+material/0 = null
+
+[node name="Laterne068" parent="Lantern005" index="3"]
+material/0 = null
+
+[node name="Laterne069" parent="Lantern005" index="4"]
+material/0 = null
+
+[node name="Laterne070" parent="Lantern005" index="5"]
+material/0 = null
+
+[node name="Laterne071" parent="Lantern005" index="6"]
+material/0 = null
+
+[node name="Laterne072" parent="Lantern005" index="7"]
+material/0 = null
+
+[node name="Laterne073" parent="Lantern005" index="8"]
+material/0 = null
+
+[node name="Laterne074" parent="Lantern005" index="9"]
+material/0 = null
+
+[node name="Laterne075" parent="Lantern005" index="10"]
+material/0 = null
+
+[node name="Laterne076" parent="Lantern005" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne077" parent="Lantern005" index="12"]
+material/0 = null
+
+[node name="Laterne078" parent="Lantern006" index="0"]
+material/0 = null
+
+[node name="Laterne079" parent="Lantern006" index="1"]
+material/0 = null
+
+[node name="Laterne080" parent="Lantern006" index="2"]
+material/0 = null
+
+[node name="Laterne081" parent="Lantern006" index="3"]
+material/0 = null
+
+[node name="Laterne082" parent="Lantern006" index="4"]
+material/0 = null
+
+[node name="Laterne083" parent="Lantern006" index="5"]
+material/0 = null
+
+[node name="Laterne084" parent="Lantern006" index="6"]
+material/0 = null
+
+[node name="Laterne085" parent="Lantern006" index="7"]
+material/0 = null
+
+[node name="Laterne086" parent="Lantern006" index="8"]
+material/0 = null
+
+[node name="Laterne087" parent="Lantern006" index="9"]
+material/0 = null
+
+[node name="Laterne088" parent="Lantern006" index="10"]
+material/0 = null
+
+[node name="Laterne089" parent="Lantern006" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne090" parent="Lantern006" index="12"]
+material/0 = null
+
+[node name="Laterne091" parent="Lantern007" index="0"]
+material/0 = null
+
+[node name="Laterne092" parent="Lantern007" index="1"]
+material/0 = null
+
+[node name="Laterne093" parent="Lantern007" index="2"]
+material/0 = null
+
+[node name="Laterne094" parent="Lantern007" index="3"]
+material/0 = null
+
+[node name="Laterne095" parent="Lantern007" index="4"]
+material/0 = null
+
+[node name="Laterne096" parent="Lantern007" index="5"]
+material/0 = null
+
+[node name="Laterne097" parent="Lantern007" index="6"]
+material/0 = null
+
+[node name="Laterne098" parent="Lantern007" index="7"]
+material/0 = null
+
+[node name="Laterne099" parent="Lantern007" index="8"]
+material/0 = null
+
+[node name="Laterne100" parent="Lantern007" index="9"]
+material/0 = null
+
+[node name="Laterne101" parent="Lantern007" index="10"]
+material/0 = null
+
+[node name="Laterne102" parent="Lantern007" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne103" parent="Lantern007" index="12"]
+material/0 = null
+
+[node name="Laterne104" parent="Lantern008" index="0"]
+material/0 = null
+
+[node name="Laterne105" parent="Lantern008" index="1"]
+material/0 = null
+
+[node name="Laterne106" parent="Lantern008" index="2"]
+material/0 = null
+
+[node name="Laterne107" parent="Lantern008" index="3"]
+material/0 = null
+
+[node name="Laterne108" parent="Lantern008" index="4"]
+material/0 = null
+
+[node name="Laterne109" parent="Lantern008" index="5"]
+material/0 = null
+
+[node name="Laterne110" parent="Lantern008" index="6"]
+material/0 = null
+
+[node name="Laterne111" parent="Lantern008" index="7"]
+material/0 = null
+
+[node name="Laterne112" parent="Lantern008" index="8"]
+material/0 = null
+
+[node name="Laterne113" parent="Lantern008" index="9"]
+material/0 = null
+
+[node name="Laterne114" parent="Lantern008" index="10"]
+material/0 = null
+
+[node name="Laterne115" parent="Lantern008" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne116" parent="Lantern008" index="12"]
+material/0 = null
+
+[node name="Laterne117" parent="Lantern009" index="0"]
+material/0 = null
+
+[node name="Laterne118" parent="Lantern009" index="1"]
+material/0 = null
+
+[node name="Laterne119" parent="Lantern009" index="2"]
+material/0 = null
+
+[node name="Laterne120" parent="Lantern009" index="3"]
+material/0 = null
+
+[node name="Laterne121" parent="Lantern009" index="4"]
+material/0 = null
+
+[node name="Laterne122" parent="Lantern009" index="5"]
+material/0 = null
+
+[node name="Laterne123" parent="Lantern009" index="6"]
+material/0 = null
+
+[node name="Laterne124" parent="Lantern009" index="7"]
+material/0 = null
+
+[node name="Laterne125" parent="Lantern009" index="8"]
+material/0 = null
+
+[node name="Laterne126" parent="Lantern009" index="9"]
+material/0 = null
+
+[node name="Laterne127" parent="Lantern009" index="10"]
+material/0 = null
+
+[node name="Laterne128" parent="Lantern009" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne129" parent="Lantern009" index="12"]
+material/0 = null
+
+[node name="Laterne130" parent="Lantern010" index="0"]
+material/0 = null
+
+[node name="Laterne131" parent="Lantern010" index="1"]
+material/0 = null
+
+[node name="Laterne132" parent="Lantern010" index="2"]
+material/0 = null
+
+[node name="Laterne133" parent="Lantern010" index="3"]
+material/0 = null
+
+[node name="Laterne134" parent="Lantern010" index="4"]
+material/0 = null
+
+[node name="Laterne135" parent="Lantern010" index="5"]
+material/0 = null
+
+[node name="Laterne136" parent="Lantern010" index="6"]
+material/0 = null
+
+[node name="Laterne137" parent="Lantern010" index="7"]
+material/0 = null
+
+[node name="Laterne138" parent="Lantern010" index="8"]
+material/0 = null
+
+[node name="Laterne139" parent="Lantern010" index="9"]
+material/0 = null
+
+[node name="Laterne140" parent="Lantern010" index="10"]
+material/0 = null
+
+[node name="Laterne141" parent="Lantern010" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne142" parent="Lantern010" index="12"]
+material/0 = null
+
+[node name="Laterne143" parent="Lantern011" index="0"]
+material/0 = null
+
+[node name="Laterne144" parent="Lantern011" index="1"]
+material/0 = null
+
+[node name="Laterne145" parent="Lantern011" index="2"]
+material/0 = null
+
+[node name="Laterne146" parent="Lantern011" index="3"]
+material/0 = null
+
+[node name="Laterne147" parent="Lantern011" index="4"]
+material/0 = null
+
+[node name="Laterne148" parent="Lantern011" index="5"]
+material/0 = null
+
+[node name="Laterne149" parent="Lantern011" index="6"]
+material/0 = null
+
+[node name="Laterne150" parent="Lantern011" index="7"]
+material/0 = null
+
+[node name="Laterne151" parent="Lantern011" index="8"]
+material/0 = null
+
+[node name="Laterne152" parent="Lantern011" index="9"]
+material/0 = null
+
+[node name="Laterne153" parent="Lantern011" index="10"]
+material/0 = null
+
+[node name="Laterne154" parent="Lantern011" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne155" parent="Lantern011" index="12"]
+material/0 = null
+
+[node name="Laterne156" parent="Lantern012" index="0"]
+material/0 = null
+
+[node name="Laterne157" parent="Lantern012" index="1"]
+material/0 = null
+
+[node name="Laterne158" parent="Lantern012" index="2"]
+material/0 = null
+
+[node name="Laterne159" parent="Lantern012" index="3"]
+material/0 = null
+
+[node name="Laterne160" parent="Lantern012" index="4"]
+material/0 = null
+
+[node name="Laterne161" parent="Lantern012" index="5"]
+material/0 = null
+
+[node name="Laterne162" parent="Lantern012" index="6"]
+material/0 = null
+
+[node name="Laterne163" parent="Lantern012" index="7"]
+material/0 = null
+
+[node name="Laterne164" parent="Lantern012" index="8"]
+material/0 = null
+
+[node name="Laterne165" parent="Lantern012" index="9"]
+material/0 = null
+
+[node name="Laterne166" parent="Lantern012" index="10"]
+material/0 = null
+
+[node name="Laterne167" parent="Lantern012" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne168" parent="Lantern012" index="12"]
+material/0 = null
+
+[node name="Laterne169" parent="Lantern013" index="0"]
+material/0 = null
+
+[node name="Laterne170" parent="Lantern013" index="1"]
+material/0 = null
+
+[node name="Laterne171" parent="Lantern013" index="2"]
+material/0 = null
+
+[node name="Laterne172" parent="Lantern013" index="3"]
+material/0 = null
+
+[node name="Laterne173" parent="Lantern013" index="4"]
+material/0 = null
+
+[node name="Laterne174" parent="Lantern013" index="5"]
+material/0 = null
+
+[node name="Laterne175" parent="Lantern013" index="6"]
+material/0 = null
+
+[node name="Laterne176" parent="Lantern013" index="7"]
+material/0 = null
+
+[node name="Laterne177" parent="Lantern013" index="8"]
+material/0 = null
+
+[node name="Laterne178" parent="Lantern013" index="9"]
+material/0 = null
+
+[node name="Laterne179" parent="Lantern013" index="10"]
+material/0 = null
+
+[node name="Laterne180" parent="Lantern013" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne181" parent="Lantern013" index="12"]
+material/0 = null
+
+[node name="Laterne182" parent="Lantern014" index="0"]
+material/0 = null
+
+[node name="Laterne183" parent="Lantern014" index="1"]
+material/0 = null
+
+[node name="Laterne184" parent="Lantern014" index="2"]
+material/0 = null
+
+[node name="Laterne185" parent="Lantern014" index="3"]
+material/0 = null
+
+[node name="Laterne186" parent="Lantern014" index="4"]
+material/0 = null
+
+[node name="Laterne187" parent="Lantern014" index="5"]
+material/0 = null
+
+[node name="Laterne188" parent="Lantern014" index="6"]
+material/0 = null
+
+[node name="Laterne189" parent="Lantern014" index="7"]
+material/0 = null
+
+[node name="Laterne190" parent="Lantern014" index="8"]
+material/0 = null
+
+[node name="Laterne191" parent="Lantern014" index="9"]
+material/0 = null
+
+[node name="Laterne192" parent="Lantern014" index="10"]
+material/0 = null
+
+[node name="Laterne193" parent="Lantern014" index="11"]
+material/0 = null
+material/1 = null
+
+[node name="Laterne194" parent="Lantern014" index="12"]
+material/0 = null
+
+[node name="SketchUp" parent="." index="73"]
+material/0 = null
+
+[node name="group_0" parent="SketchUp" index="0"]
+material/0 = null
+material/1 = null
+
+[node name="group_0001" parent="SketchUp" index="1"]
+material/0 = null
+material/1 = null
+
+[node name="group_0002" parent="SketchUp" index="2"]
+material/0 = null
+material/1 = null
+
+[node name="group_0003" parent="SketchUp" index="3"]
+material/0 = null
+material/1 = null
+
+[node name="group_0004" parent="SketchUp" index="4"]
+material/0 = null
+material/1 = null
+
+[node name="group_1" parent="SketchUp" index="6"]
+material/0 = null
+material/1 = null
+
+[node name="group_1001" parent="SketchUp" index="7"]
+material/0 = null
+material/1 = null
+
+[node name="group_1002" parent="SketchUp" index="8"]
+material/0 = null
+material/1 = null
+
+[node name="group_1003" parent="SketchUp" index="9"]
+material/0 = null
+material/1 = null
+
+[node name="group_1004" parent="SketchUp" index="10"]
+material/0 = null
+material/1 = null
+
+[node name="group_2" parent="SketchUp" index="12"]
+material/0 = null
+material/1 = null
+
+[node name="group_2001" parent="SketchUp" index="13"]
+material/0 = null
+material/1 = null
+
+[node name="group_2002" parent="SketchUp" index="14"]
+material/0 = null
+material/1 = null
+
+[node name="group_2003" parent="SketchUp" index="15"]
+material/0 = null
+material/1 = null
+
+[node name="group_2004" parent="SketchUp" index="16"]
+material/0 = null
+material/1 = null
+
+[node name="group_3" parent="SketchUp" index="18"]
+material/0 = null
+material/1 = null
+
+[node name="group_3001" parent="SketchUp" index="19"]
+material/0 = null
+material/1 = null
+
+[node name="group_3002" parent="SketchUp" index="20"]
+material/0 = null
+material/1 = null
+
+[node name="group_3003" parent="SketchUp" index="21"]
+material/0 = null
+material/1 = null
+
+[node name="group_3004" parent="SketchUp" index="22"]
+material/0 = null
+material/1 = null
+
+[node name="group_4" parent="SketchUp" index="24"]
+material/0 = null
+
+[node name="group_4001" parent="SketchUp" index="25"]
+material/0 = null
+
+[node name="instance_0" parent="SketchUp" index="28"]
+material/0 = null
+
+[node name="instance_0001" parent="SketchUp" index="29"]
+material/0 = null
+
+[node name="instance_0002" parent="SketchUp" index="30"]
+material/0 = null
+
+[node name="instance_0003" parent="SketchUp" index="31"]
+material/0 = null
+
+[node name="instance_0004" parent="SketchUp" index="32"]
+material/0 = null
+
+[node name="instance_0005" parent="SketchUp" index="33"]
+material/0 = null
+
+[node name="instance_0006" parent="SketchUp" index="34"]
+material/0 = null
+
+[node name="instance_0007" parent="SketchUp" index="35"]
+material/0 = null
+
+[node name="instance_0008" parent="SketchUp" index="36"]
+material/0 = null
+
+[node name="instance_0009" parent="SketchUp" index="37"]
+material/0 = null
+
+[node name="instance_0010" parent="SketchUp" index="38"]
+material/0 = null
+
+[node name="instance_0011" parent="SketchUp" index="39"]
+material/0 = null
+
+[node name="instance_0012" parent="SketchUp" index="40"]
+material/0 = null
+
+[node name="instance_0013" parent="SketchUp" index="41"]
+material/0 = null
+
+[node name="instance_0014" parent="SketchUp" index="42"]
+material/0 = null
+
+[node name="SketchUp001" parent="." index="74"]
+material/0 = null
+
+[node name="SketchUp002" parent="." index="75"]
+material/0 = null
+
+[node name="SketchUp003" parent="." index="76"]
+material/0 = null
+
+[node name="SketchUp004" parent="." index="77"]
+material/0 = null
+
+[node name="SketchUp005" parent="." index="78"]
+material/0 = null
+
+[node name="SketchUp006" parent="." index="79"]
+material/0 = null
+
+[node name="SketchUp007" parent="." index="80"]
+material/0 = null
+
+[node name="SketchUp008" parent="." index="81"]
+material/0 = null
+
+[node name="SketchUp009" parent="." index="82"]
+material/0 = null
+
+[node name="SketchUp010" parent="." index="83"]
+material/0 = null
+
+[node name="SketchUp011" parent="." index="84"]
+material/0 = null
+
+[node name="SketchUp012" parent="." index="85"]
+material/0 = null
+
+[node name="SketchUp013" parent="." index="86"]
+material/0 = null
+
+[node name="SketchUp014" parent="." index="87"]
+material/0 = null
+
+[node name="SketchUp015" parent="." index="88"]
+material/0 = null
+
+[node name="SketchUp016" parent="." index="89"]
+material/0 = null
+
+[node name="SketchUp017" parent="." index="90"]
+material/0 = null
+
+[node name="SketchUp018" parent="." index="91"]
+material/0 = null
+
+[node name="SketchUp019" parent="." index="92"]
+material/0 = null
+
+[node name="SketchUp020" parent="." index="93"]
+material/0 = null
+
+[node name="SketchUp021" parent="." index="94"]
+material/0 = null
+
+[node name="SketchUp022" parent="." index="95"]
+material/0 = null
+
+[node name="SketchUp023" parent="." index="96"]
+material/0 = null
+
+[node name="SketchUp024" parent="." index="97"]
+material/0 = null
+
+[node name="SketchUp025" parent="." index="98"]
+material/0 = null
+
+[node name="SketchUp026" parent="." index="99"]
+material/0 = null
+
+[node name="SketchUp027" parent="." index="100"]
+material/0 = null
+
+[node name="SketchUp028" parent="." index="101"]
+material/0 = null
+
+[node name="SketchUp029" parent="." index="102"]
+material/0 = null
+
+[node name="SketchUp030" parent="." index="103"]
+material/0 = null
+
+[node name="SketchUp031" parent="." index="104"]
+material/0 = null
+
+[node name="SketchUp032" parent="." index="105"]
+material/0 = null
+
+[node name="SketchUp033" parent="." index="106"]
+material/0 = null
+
+[node name="SketchUp034" parent="." index="107"]
+material/0 = null
+
+[node name="SketchUp035" parent="." index="108"]
+material/0 = null
+
+[node name="SketchUp036" parent="." index="109"]
+material/0 = null
+
+[node name="SketchUp037" parent="." index="110"]
+material/0 = null
+
+[node name="SketchUp038" parent="." index="111"]
+material/0 = null
+
+[node name="SketchUp039" parent="." index="112"]
+material/0 = null
+
+[node name="SketchUp040" parent="." index="113"]
+material/0 = null
+
+[node name="SketchUp041" parent="." index="114"]
+material/0 = null
+
+[editable path="nagy_to_ground"]

@@ -7,6 +7,8 @@ transform = Transform( 0.4, 0, 0, 0, 0.45, 0, 0, 0, 0.4, 0, 0, 0 )
 
 [node name="pole_3dmesh" parent="." index="0"]
 transform = Transform( -4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 4.5, 0, 4.35 )
+material/0 = null
+material/1 = null
 
 [node name="Docks" type="Spatial" parent="." index="1"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
