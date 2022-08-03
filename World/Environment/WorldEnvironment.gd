@@ -49,7 +49,6 @@ func apply_rain_drop_size(rain_drop_size):
 
 func apply_rain_density(rain_density):
 	$Rain.amount = rain_density
-	#$CloudDome.cloud_color *= 1 - lerp(50, 2000, rain_density)
 
 
 func apply_cloudiness(new_cloudiness):

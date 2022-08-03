@@ -182,6 +182,15 @@ func digest_gpkg(geopackage_path: String):
 			)
 			Layers.add_layer(layer)
 	
+#	var raster = RasterLayer.new()
+#	raster.geo_raster_layer = Layers.geo_layers["rasters"]["basemap"].clone()
+#	var test = Layer.new()
+#	test.render_type = Layer.RenderType.TWODIMENSIONAL
+#	test.render_info = Layer.TwoDimensionalInfo.new()
+#	test.render_info.texture_layer = raster
+#	test.name = "map"
+#	Layers.add_layer(test)
+	
 	# Loading Scenarios
 	logger.info("Starting to load scenarios ...", LOG_MODULE)
 	var scenario_configs: Array = db.select_rows("LL_scenarios", "", ["*"]).duplicate()
