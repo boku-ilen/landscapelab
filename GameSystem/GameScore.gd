@@ -9,6 +9,10 @@ var contributors = []
 var value := 0.0
 var target := 0.0
 
+# If wished, the score can be applied with an additional color that is used
+# for styling in the UI
+var color_code: Color
+
 signal value_changed(new_value)
 signal target_reached
 

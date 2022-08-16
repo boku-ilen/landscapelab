@@ -12,6 +12,13 @@ func set_score(new_score):
 	$ProgressBar.min_value = 0.0
 	$ProgressBar.max_value = score.target
 	
+	if score.color_code:
+		# Get current stylebox of the progress, duplicate so it only affects this node
+		# and only override the background color so it fits the rest of the theme
+		var new_stylebox = $ProgressBar.get_stylebox("Fg").duplicate()
+		new_stylebox.border_color = score.color_code
+		$ProgressBar.add_stylebox_override("Fg", new_stylebox)
+	
 	_update_data(score.value)
 	score.connect("value_changed", self, "_update_data")
 
