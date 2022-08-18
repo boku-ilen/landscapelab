@@ -2,6 +2,7 @@ extends HBoxContainer
 
 
 var score: GameScore setget set_score
+var stacked_bar: StackedProgressBar
 
 
 func set_score(new_score):
@@ -9,27 +10,28 @@ func set_score(new_score):
 	
 	$Name.text = score.name
 	$MaxValue.text = str(score.target)
-	$ProgressBar.min_value = 0.0
-	$ProgressBar.max_value = score.target
 	
-	if score.color_code:
-		# Get current stylebox of the progress, duplicate so it only affects this node
-		# and only override the background color so it fits the rest of the theme
-		var new_stylebox = $ProgressBar.get_stylebox("fg").duplicate()
-		# For many themes, a texture could be used which does not have a color
-		# in no styleboxflat is used, create one on our own
-		if "bg_color" in new_stylebox:
-			new_stylebox.bg_color = score.color_code
-			$ProgressBar.add_stylebox_override("fg", new_stylebox)
-		else: 
-			new_stylebox = StyleBoxFlat.new()
-			new_stylebox.bg_color = score.color_code
-			$ProgressBar.add_stylebox_override("fg", new_stylebox)
+	stacked_bar = load("res://UI/CustomElements/StackedProgressBar.tscn").instance()
+	stacked_bar.set_bar_count(score.contributors.size())
+	# TODO: think if it will always be 0?
+	stacked_bar.min_value = 0
+	stacked_bar.max_value = score.target
+	add_child(stacked_bar)
+	move_child(stacked_bar, 2)
 	
-	_update_data(score.value)
-	score.connect("value_changed", self, "_update_data")
+	for index in score.contributors.size():
+		var contrib: GameScore.GameScoreContributor = score.contributors[index]
+		
+		if contrib.color_code:
+			stacked_bar.set_progress_bar_color_at_index(index, contrib.color_code)
+			
+		_update_data(score.value)
+		score.connect("value_changed", self, "_update_data")
 
 
 func _update_data(new_value):
 	$CurrentValue.text = str(new_value)
-	$ProgressBar.value = new_value
+	
+	for index in stacked_bar.progress_bar_values.size():
+		var contrib: GameScore.GameScoreContributor = score.contributors[index]
+		stacked_bar.progress_bar_values[index] = score.values_per_contributor[contrib.get_name()]
