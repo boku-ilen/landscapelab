@@ -1,4 +1,5 @@
 extends CenterContainer
+class_name StackedProgressBar
 tool
 
 
@@ -11,6 +12,34 @@ var progress_bars: Array
 var progress_bar_values := [] setget set_progress_bar_values
 
 var summed_value: float
+
+
+func get_progress_bar_at_index(index: int):
+	return progress_bars[index] if index < progress_bars.size() else null
+
+
+func set_progress_bar_value_at_index(index: int, value: float):
+	progress_bar_values[index] = value
+
+
+func set_progress_bar_color_at_index(index: int, color: Color):
+	# Get current stylebox of the progress, duplicate so it only affects this node
+	# and only override the background color so it fits the rest of the theme
+	var new_stylebox = progress_bars[index].get_stylebox("fg").duplicate()
+	# For many themes, a texture could be used which does not have a color
+	# in no styleboxflat is used, create one on our own
+	if "bg_color" in new_stylebox:
+		new_stylebox.bg_color = color
+		progress_bars[index].add_stylebox_override("fg", new_stylebox)
+	else: 
+		new_stylebox = StyleBoxFlat.new()
+		new_stylebox.bg_color = color
+		progress_bars[index].add_stylebox_override("fg", new_stylebox)
+
+
+func get_progress_bar_color_at_index(index: int):
+	if "bg_color" in progress_bars[index].get_stylebox("fg"):
+		return progress_bars[index].get_stylebox("fg").bg_color
 
 
 func set_progress_bar_values(vals):
@@ -89,56 +118,48 @@ func _get_property_list():
 	return properties
 
 
-
 # Custom getters (i.e. setget) for custom properties
 func _get(property):
-	for i in bar_count + 1:
-		if property == "range%d_value" % i:
-			return progress_bar_values[bar_count - 1 - i]
+	if property.begins_with("range"):
+		if property.ends_with("_value"):
+			var name_as_index: String = property.lstrip("range").rstrip("_value")
+			var index_from_name = int(name_as_index)
+			return progress_bar_values[index_from_name]
 		
-		if property == "range%d_bar_color" % i:
-			if "bg_color" in progress_bars[i].get_stylebox("fg"):
-				return progress_bars[i].get_stylebox("fg").bg_color
+		if property.ends_with("_bar_color"):
+			var name_as_index: String = property.lstrip("range").rstrip("_value")
+			var index_from_name = int(name_as_index)
+			if "bg_color" in progress_bars[index_from_name].get_stylebox("fg"):
+				return progress_bars[index_from_name].get_stylebox("fg").bg_color
 
 
 # Custom setters  (i.e. setget) for custom properties
 func _set(property, value):
 	# Find the according property by looping through all of the
-	for i in bar_count + 1:
-		if property.begins_with("range") and property.ends_with("_value"):
+	if property.begins_with("range"):
+		if property.ends_with("_value"):
 			# Get id from property string
 			var name_as_index: String = property.lstrip("range").rstrip("_value")
 			var index_from_name = int(name_as_index)
-			if index_from_name == i:
-				progress_bar_values[bar_count - 1 - i] = value
-				# If any progress bar changes, potentially all will change
-				_update_progress_bars()
-				return true
+			progress_bar_values[index_from_name] = value
+			# If any progress bar changes, potentially all will change
+			_update_progress_bars()
+			return true
 		
-		
-		if property == "range%d_bar_color" % i:
-			# Get current stylebox of the progress, duplicate so it only affects this node
-			# and only override the background color so it fits the rest of the theme
-			var new_stylebox = progress_bars[i].get_stylebox("fg").duplicate()
-			# For many themes, a texture could be used which does not have a color
-			# in no styleboxflat is used, create one on our own
-			if "bg_color" in new_stylebox:
-				new_stylebox.bg_color = value
-				progress_bars[i].add_stylebox_override("fg", new_stylebox)
-			else: 
-				new_stylebox = StyleBoxFlat.new()
-				new_stylebox.bg_color = value
-				progress_bars[i].add_stylebox_override("fg", new_stylebox)
-			
+		if property.ends_with("_bar_color"):
+			# Get id from property string
+			var name_as_index: String = property.lstrip("range").rstrip("_bar_color")
+			var index_from_name = int(name_as_index)
+			set_progress_bar_color_at_index(index_from_name, value)
 			return true
 
 
 func _update_progress_bars():
-	# In reverse order
-	for i in range(progress_bars.size() - 1, -1, -1): 
+	for i in range(progress_bars.size()): 
 		progress_bars[i].value = 0
+		print(get_progress_bar_color_at_index(i))
 		for j in range(progress_bars.size() - i):
-			progress_bars[i].value += progress_bar_values[j] 
+			progress_bars[i].value += progress_bar_values[progress_bars.size() - 1 - j] 
 
 
 func _ready():
