@@ -47,6 +47,8 @@ func set_progress_bar_values(vals):
 	# For quick access from outside
 	summed_value = 0
 	for val in vals: summed_value += val
+	
+	_update_progress_bars()
 
 
 func set_step(st: float):
@@ -69,18 +71,19 @@ func set_max_value(val: float):
 
 func set_bar_count(count: int):
 	# Negative bar count is senseless
-	if bar_count < 1:
-		count = 0
+	if count < 1:
+		bar_count = 0
+	else:
+		bar_count = count
 	
-	bar_count = count
 	# Add/remove bars until adequate
 	while true:
 		if count > progress_bars.size():
 			var bar = ProgressBar.new()
-			if not count == 1:
+			progress_bars.append(bar)
+			if not progress_bars.size() == 1:
 				bar.add_stylebox_override("bg", StyleBoxEmpty.new())
 				bar.percent_visible = false
-			progress_bars.append(bar)
 			progress_bar_values.append(0.0)
 			add_child(bar)
 		elif count < progress_bars.size():
