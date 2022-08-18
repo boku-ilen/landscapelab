@@ -10,13 +10,14 @@ var values_per_contributor = {}
 
 var value := 0.0
 var target := 0.0
+var icon_name := ""
 
 const DisplayMode = {
 	PROGRESSBAR = "ProgressBar",
 	STACKEDBAR = "StackedBar",
 	ICONTEXT = "IconText"
 }
-var display_mode = DisplayMode.PROGRESSBAR
+var display_mode = DisplayMode.ICONTEXT
 
 signal value_changed(new_value)
 signal target_reached
