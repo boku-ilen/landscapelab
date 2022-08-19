@@ -21,17 +21,9 @@ func add_contributor(game_object_collection: GameObjectCollection, attribute_nam
 	contributors.append(GameScoreContributor.new(
 		game_object_collection, attribute_name, weight
 	))
-	
-	# Connect this GameObjectCollection's changed signal if necessary (it's possible to have two
-	# contributors with the same underlying game_object_collection, but different attribute_names)
-	if not game_object_collection.is_connected("changed", self, "_recalculate_score"):
-		game_object_collection.connect("changed", self, "_recalculate_score")
-	
-	# Update the score to reflect this new contributor
-	_recalculate_score()
 
 
-func _recalculate_score():
+func recalculate_score():
 	var sum = 0.0
 	
 	for contributor in contributors:

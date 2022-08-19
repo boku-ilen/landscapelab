@@ -4,8 +4,18 @@ class_name GameEvent
 
 var title := ""
 var description := ""
+var actions = []
 
 
-# To be implemented by inheriting classes
+func add_action(event_action: EventAction):
+	actions.append(event_action)
+
+
 func apply_event(game_mode: GameMode):
-	pass
+	for action in actions:
+		action.apply(game_mode)
+
+
+func cleanup():
+	for action in actions:
+		action.cleanup()
