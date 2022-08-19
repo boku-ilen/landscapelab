@@ -18,4 +18,4 @@ cast_shadow = 0
 mesh = SubResource( 4 )
 material/0 = SubResource( 3 )
 script = ExtResource( 2 )
-map_resolution = 10000
+map_resolution = 1000

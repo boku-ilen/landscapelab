@@ -4,3 +4,260 @@
 
 [node name="schloss" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, 0 )
+
+[node name="SketchUp" parent="." index="0"]
+material/0 = null
+
+[node name="group_0" parent="SketchUp" index="0"]
+material/0 = null
+material/1 = null
+
+[node name="group_0001" parent="SketchUp" index="1"]
+material/0 = null
+material/1 = null
+
+[node name="group_0002" parent="SketchUp" index="2"]
+material/0 = null
+material/1 = null
+
+[node name="group_0003" parent="SketchUp" index="3"]
+material/0 = null
+material/1 = null
+
+[node name="group_0004" parent="SketchUp" index="4"]
+material/0 = null
+material/1 = null
+
+[node name="group_1" parent="SketchUp" index="6"]
+material/0 = null
+material/1 = null
+
+[node name="group_1001" parent="SketchUp" index="7"]
+material/0 = null
+material/1 = null
+
+[node name="group_1002" parent="SketchUp" index="8"]
+material/0 = null
+material/1 = null
+
+[node name="group_1003" parent="SketchUp" index="9"]
+material/0 = null
+material/1 = null
+
+[node name="group_1004" parent="SketchUp" index="10"]
+material/0 = null
+material/1 = null
+
+[node name="group_2" parent="SketchUp" index="12"]
+material/0 = null
+material/1 = null
+
+[node name="group_2001" parent="SketchUp" index="13"]
+material/0 = null
+material/1 = null
+
+[node name="group_2002" parent="SketchUp" index="14"]
+material/0 = null
+material/1 = null
+
+[node name="group_2003" parent="SketchUp" index="15"]
+material/0 = null
+material/1 = null
+
+[node name="group_2004" parent="SketchUp" index="16"]
+material/0 = null
+material/1 = null
+
+[node name="group_3" parent="SketchUp" index="18"]
+material/0 = null
+material/1 = null
+
+[node name="group_3001" parent="SketchUp" index="19"]
+material/0 = null
+material/1 = null
+
+[node name="group_3002" parent="SketchUp" index="20"]
+material/0 = null
+material/1 = null
+
+[node name="group_3003" parent="SketchUp" index="21"]
+material/0 = null
+material/1 = null
+
+[node name="group_3004" parent="SketchUp" index="22"]
+material/0 = null
+material/1 = null
+
+[node name="group_4" parent="SketchUp" index="24"]
+material/0 = null
+
+[node name="group_4001" parent="SketchUp" index="25"]
+material/0 = null
+
+[node name="instance_0" parent="SketchUp" index="28"]
+material/0 = null
+
+[node name="instance_0001" parent="SketchUp" index="29"]
+material/0 = null
+
+[node name="instance_0002" parent="SketchUp" index="30"]
+material/0 = null
+
+[node name="instance_0003" parent="SketchUp" index="31"]
+material/0 = null
+
+[node name="instance_0004" parent="SketchUp" index="32"]
+material/0 = null
+
+[node name="instance_0005" parent="SketchUp" index="33"]
+material/0 = null
+
+[node name="instance_0006" parent="SketchUp" index="34"]
+material/0 = null
+
+[node name="instance_0007" parent="SketchUp" index="35"]
+material/0 = null
+
+[node name="instance_0008" parent="SketchUp" index="36"]
+material/0 = null
+
+[node name="instance_0009" parent="SketchUp" index="37"]
+material/0 = null
+
+[node name="instance_0010" parent="SketchUp" index="38"]
+material/0 = null
+
+[node name="instance_0011" parent="SketchUp" index="39"]
+material/0 = null
+
+[node name="instance_0012" parent="SketchUp" index="40"]
+material/0 = null
+
+[node name="instance_0013" parent="SketchUp" index="41"]
+material/0 = null
+
+[node name="instance_0014" parent="SketchUp" index="42"]
+material/0 = null
+
+[node name="SketchUp001" parent="." index="1"]
+material/0 = null
+
+[node name="SketchUp002" parent="." index="2"]
+material/0 = null
+
+[node name="SketchUp003" parent="." index="3"]
+material/0 = null
+
+[node name="SketchUp004" parent="." index="4"]
+material/0 = null
+
+[node name="SketchUp005" parent="." index="5"]
+material/0 = null
+
+[node name="SketchUp006" parent="." index="6"]
+material/0 = null
+
+[node name="SketchUp007" parent="." index="7"]
+material/0 = null
+
+[node name="SketchUp008" parent="." index="8"]
+material/0 = null
+
+[node name="SketchUp009" parent="." index="9"]
+material/0 = null
+
+[node name="SketchUp010" parent="." index="10"]
+material/0 = null
+
+[node name="SketchUp011" parent="." index="11"]
+material/0 = null
+
+[node name="SketchUp012" parent="." index="12"]
+material/0 = null
+
+[node name="SketchUp013" parent="." index="13"]
+material/0 = null
+
+[node name="SketchUp014" parent="." index="14"]
+material/0 = null
+
+[node name="SketchUp015" parent="." index="15"]
+material/0 = null
+
+[node name="SketchUp016" parent="." index="16"]
+material/0 = null
+
+[node name="SketchUp017" parent="." index="17"]
+material/0 = null
+
+[node name="SketchUp018" parent="." index="18"]
+material/0 = null
+
+[node name="SketchUp019" parent="." index="19"]
+material/0 = null
+
+[node name="SketchUp020" parent="." index="20"]
+material/0 = null
+
+[node name="SketchUp021" parent="." index="21"]
+material/0 = null
+
+[node name="SketchUp022" parent="." index="22"]
+material/0 = null
+
+[node name="SketchUp023" parent="." index="23"]
+material/0 = null
+
+[node name="SketchUp024" parent="." index="24"]
+material/0 = null
+
+[node name="SketchUp025" parent="." index="25"]
+material/0 = null
+
+[node name="SketchUp026" parent="." index="26"]
+material/0 = null
+
+[node name="SketchUp027" parent="." index="27"]
+material/0 = null
+
+[node name="SketchUp028" parent="." index="28"]
+material/0 = null
+
+[node name="SketchUp029" parent="." index="29"]
+material/0 = null
+
+[node name="SketchUp030" parent="." index="30"]
+material/0 = null
+
+[node name="SketchUp031" parent="." index="31"]
+material/0 = null
+
+[node name="SketchUp032" parent="." index="32"]
+material/0 = null
+
+[node name="SketchUp033" parent="." index="33"]
+material/0 = null
+
+[node name="SketchUp034" parent="." index="34"]
+material/0 = null
+
+[node name="SketchUp035" parent="." index="35"]
+material/0 = null
+
+[node name="SketchUp036" parent="." index="36"]
+material/0 = null
+
+[node name="SketchUp037" parent="." index="37"]
+material/0 = null
+
+[node name="SketchUp038" parent="." index="38"]
+material/0 = null
+
+[node name="SketchUp039" parent="." index="39"]
+material/0 = null
+
+[node name="SketchUp040" parent="." index="40"]
+material/0 = null
+
+[node name="SketchUp041" parent="." index="41"]
+material/0 = null

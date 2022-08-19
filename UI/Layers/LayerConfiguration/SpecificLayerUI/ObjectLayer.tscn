@@ -104,6 +104,10 @@ margin_right = 666.0
 margin_left = 674.0
 margin_right = 775.0
 
+[node name="FileDialog" parent="RightBox/ObjectChooser/Button" index="0"]
+current_dir = "/home/landscapelab/landscapelab"
+current_path = "/home/landscapelab/landscapelab/"
+
 [node name="Warning" parent="RightBox" instance=ExtResource( 4 )]
 visible = false
 margin_top = 292.0

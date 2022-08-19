@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://World/Environment/WorldEnvironment.gd" type="Script" id=1]
 [ext_resource path="res://addons/Sky/sky_texture.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Python/PythonWrapper.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/cloud/CageMesh.tres" type="ArrayMesh" id=5]
 [ext_resource path="res://addons/cloud/Cloud.gd" type="Script" id=6]
+[ext_resource path="res://Resources/Textures/starmap_random_2020_4k.exr" type="Texture" id=7]
 
 [sub_resource type="PanoramaSky" id=1]
 resource_local_to_scene = true
@@ -32,7 +33,7 @@ glow_bicubic_upscale = true
 adjustment_enabled = true
 adjustment_saturation = 1.2
 
-[sub_resource type="ShaderMaterial" id=16]
+[sub_resource type="ShaderMaterial" id=27]
 render_priority = -119
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
@@ -46,9 +47,9 @@ shader_param/detail_noise = true
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=17]
+[sub_resource type="ShaderMaterial" id=28]
 render_priority = -120
-next_pass = SubResource( 16 )
+next_pass = SubResource( 27 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -61,9 +62,9 @@ shader_param/detail_noise = true
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=18]
+[sub_resource type="ShaderMaterial" id=29]
 render_priority = -121
-next_pass = SubResource( 17 )
+next_pass = SubResource( 28 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -76,9 +77,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=19]
+[sub_resource type="ShaderMaterial" id=30]
 render_priority = -122
-next_pass = SubResource( 18 )
+next_pass = SubResource( 29 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -91,9 +92,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=20]
+[sub_resource type="ShaderMaterial" id=31]
 render_priority = -123
-next_pass = SubResource( 19 )
+next_pass = SubResource( 30 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -106,9 +107,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=21]
+[sub_resource type="ShaderMaterial" id=32]
 render_priority = -124
-next_pass = SubResource( 20 )
+next_pass = SubResource( 31 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -121,9 +122,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=22]
+[sub_resource type="ShaderMaterial" id=33]
 render_priority = -125
-next_pass = SubResource( 21 )
+next_pass = SubResource( 32 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -136,9 +137,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=23]
+[sub_resource type="ShaderMaterial" id=34]
 render_priority = -126
-next_pass = SubResource( 22 )
+next_pass = SubResource( 33 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -151,9 +152,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=24]
+[sub_resource type="ShaderMaterial" id=35]
 render_priority = -127
-next_pass = SubResource( 23 )
+next_pass = SubResource( 34 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -166,9 +167,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=25]
+[sub_resource type="ShaderMaterial" id=36]
 render_priority = -128
-next_pass = SubResource( 24 )
+next_pass = SubResource( 35 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -182,15 +183,19 @@ shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
 [sub_resource type="SpatialMaterial" id=13]
-flags_transparent = true
-flags_world_triplanar = true
 params_blend_mode = 1
 params_cull_mode = 2
 params_billboard_mode = 3
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
-albedo_color = Color( 0.054902, 0.0941176, 0.223529, 0.882353 )
+albedo_color = Color( 0.32549, 0.360784, 0.482353, 1 )
+roughness = 0.0
+emission_enabled = true
+emission = Color( 0.439216, 0.470588, 0.52549, 1 )
+emission_energy = 0.48
+emission_operator = 0
+emission_on_uv2 = false
 
 [sub_resource type="ParticlesMaterial" id=14]
 emission_shape = 2
@@ -201,7 +206,10 @@ spread = 0.0
 initial_velocity = 1.0
 initial_velocity_random = 0.05
 
+[sub_resource type="SpatialMaterial" id=26]
+
 [sub_resource type="CubeMesh" id=15]
+material = SubResource( 26 )
 size = Vector3( 0.01, 0.3, 0.01 )
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
@@ -221,12 +229,13 @@ directional_shadow_normal_bias = 2.0
 directional_shadow_max_distance = 300.0
 
 [node name="Sky_texture" parent="." instance=ExtResource( 2 )]
+night_sky = ExtResource( 7 )
 
 [node name="PythonWrapper" parent="." instance=ExtResource( 4 )]
 scene_to_load = "res://Python/PysolarInterface.tscn"
 
 [node name="CloudDome" type="MeshInstance" parent="."]
-material_override = SubResource( 25 )
+material_override = SubResource( 36 )
 cast_shadow = 0
 extra_cull_margin = 1000.0
 mesh = ExtResource( 5 )

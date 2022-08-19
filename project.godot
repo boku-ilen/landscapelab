@@ -39,20 +39,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UI/CustomElements/AutoIconButton.gd"
 }, {
+"base": "TextureButton",
+"class": "AutoTextureButton",
+"language": "GDScript",
+"path": "res://UI/CustomElements/AutoTextureButton.gd"
+}, {
 "base": "Object",
 "class": "CSVReader",
 "language": "GDScript",
 "path": "res://Util/CSVReader.gd"
-}, {
-"base": "Reference",
-"class": "Calendar",
-"language": "GDScript",
-"path": "res://addons/calendar_button/class/Calendar.gd"
-}, {
-"base": "Reference",
-"class": "CalendarButtons",
-"language": "GDScript",
-"path": "res://addons/calendar_button/scripts/calendar_buttons.gd"
 }, {
 "base": "MeshInstance",
 "class": "CloudDome",
@@ -79,11 +74,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GameSystem/CreationConditions/CreationCondition.gd"
 }, {
-"base": "Reference",
-"class": "Date",
-"language": "GDScript",
-"path": "res://addons/calendar_button/class/Date.gd"
-}, {
 "base": "Object",
 "class": "DensityClass",
 "language": "GDScript",
@@ -98,6 +88,11 @@ _global_script_classes=[ {
 "class": "FeatureLayer",
 "language": "GDScript",
 "path": "res://Layers/FeatureLayer.gd"
+}, {
+"base": "Object",
+"class": "GameEvent",
+"language": "GDScript",
+"path": "res://GameSystem/GameEvents/GameEvent.gd"
 }, {
 "base": "Object",
 "class": "GameMode",
@@ -264,6 +259,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/SpritesheetHelper.gd"
 }, {
+"base": "CenterContainer",
+"class": "StackedProgressBar",
+"language": "GDScript",
+"path": "res://UI/CustomElements/StackedProgressBar.gd"
+}, {
 "base": "Object",
 "class": "StructuredTexture",
 "language": "GDScript",
@@ -288,6 +288,11 @@ _global_script_classes=[ {
 "class": "TokenPositionRequestHandler",
 "language": "GDScript",
 "path": "res://Communication/Table/TokenPositionRequestHandler.gd"
+}, {
+"base": "GameMode",
+"class": "TurnBasedGameMode",
+"language": "GDScript",
+"path": "res://GameSystem/TurnBasedGameMode.gd"
 }, {
 "base": "Control",
 "class": "VRGuiElement",
@@ -323,11 +328,6 @@ _global_script_classes=[ {
 "class": "WeatherManager",
 "language": "GDScript",
 "path": "res://World/WeatherManager.gd"
-}, {
-"base": "Reference",
-"class": "WindowRestrictor",
-"language": "GDScript",
-"path": "res://addons/calendar_button/scripts/window_restrictor.gd"
 } ]
 _global_script_class_icons={
 "AbstractConnection": "",
@@ -336,18 +336,17 @@ _global_script_class_icons={
 "AbstractRequestHandler": "",
 "ActionHandler": "",
 "AutoIconButton": "",
+"AutoTextureButton": "",
 "CSVReader": "",
-"Calendar": "",
-"CalendarButtons": "",
 "CloudDome": "",
 "Configurator": "",
 "ControllerTool": "",
 "CreateFeatureRequestHandler": "",
 "CreationCondition": "",
-"Date": "",
 "DensityClass": "",
 "ExtraLOD": "",
 "FeatureLayer": "",
+"GameEvent": "",
 "GameMode": "",
 "GameObject": "",
 "GameObjectCollection": "",
@@ -381,19 +380,20 @@ _global_script_class_icons={
 "SetTableExtentRequestHandler": "",
 "SpecificLayerUI": "",
 "SpritesheetHelper": "",
+"StackedProgressBar": "",
 "StructuredTexture": "",
 "TableCommunicator": "",
 "TableHandshakeRequestHandler": "",
 "TimeManager": "",
 "TokenPositionRequestHandler": "",
+"TurnBasedGameMode": "",
 "VRGuiElement": "",
 "VRInteractable": "",
 "VRStaticInteractable": "",
 "VegetationCSVUtil": "",
 "VegetationGPKGUtil": "",
 "VegetationUtil": "",
-"WeatherManager": "",
-"WindowRestrictor": ""
+"WeatherManager": ""
 }
 
 [application]
@@ -406,8 +406,8 @@ config/icon="res://Resources/Icons/Meta/icon.png"
 
 [autoload]
 
-Startup="*res://Global/Startup.gd"
 logger="*res://Global/Debug/logger.gd"
+Startup="*res://Global/Startup.gd"
 ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
 Settings="*res://Config/Settings.gd"
 CommunicationServer="*res://Communication/CommunicationServer.gd"
@@ -419,6 +419,7 @@ Layers="*res://Layers/Singletons/Layers.gd"
 Scenarios="*res://Scenarios/Singletons/Scenarios.gd"
 TreeHandler="*res://Global/TreeHandler.gd"
 VegetationImages="*res://Vegetation/VegetationImages.gd"
+Licenses="*res://Util/Licenses.gd"
 Vegetation="*res://Vegetation/Vegetation.gd"
 Screencapture="*res://Global/Screencapture.gd"
 GameSystem="*res://GameSystem/GameSystem.gd"
@@ -437,7 +438,7 @@ enabled=PoolStringArray(  )
 
 [gdnative]
 
-singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib", "res://pythonscript.gdnlib" ]
+singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib" ]
 
 [gui]
 

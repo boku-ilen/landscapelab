@@ -70,14 +70,27 @@ func load_gpkg(geopackage_path: String):
 #	score.add_contributor(game_mode.game_object_collections["PV groß"], "MW", 30.0)
 #	score.add_contributor(game_mode.game_object_collections["PV klein"], "MW", 10.0)
 #	score.target = 69726.0
+#	score.contributors[0].color_code = Color.crimson
+#	score.contributors[1].color_code = Color.coral
+#	score.display_mode = GameScore.DisplayMode.STACKEDBAR
 #
 #	var score2 = GameScore.new()
 #	score2.name = "Strom WKA"
 #	score2.add_contributor(game_mode.game_object_collections["WKA"], "MW")
 #	score2.target = 222667.0
+#	score2.value = 222667.0 / 2
+#	score2.contributors[0].color_code = Color.blue
+#	score2.display_mode = GameScore.DisplayMode.PROGRESSBAR
 #
-#	game_mode.add_score(score2)
+#	var score3 = GameScore.new()
+#	score3.name = "Autokilometer"
+#	score3.add_contributor(game_mode.game_object_collections["PV groß"], "MW", 30.0)
+#	score3.icon_name = "energy"
+#	score3.display_mode = GameScore.DisplayMode.ICONTEXT
+#
 #	game_mode.add_score(score)
+#	game_mode.add_score(score2)
+#	game_mode.add_score(score3)
 #
 #	# Add player game object collection
 #	var player_game_object_collection = PlayerGameObjectCollection.new("Players", get_parent().get_node("FirstPersonPC"))
@@ -87,6 +100,17 @@ func load_gpkg(geopackage_path: String):
 #	player_game_object_collection.desired_color = "GREEN_BRICK"
 #
 #	GameSystem.current_game_mode = game_mode
+#
+#	var map_raster = RasterLayer.new()
+#	map_raster.geo_raster_layer = Layers.geo_layers["rasters"]["ortho"]
+#
+#	var map_layer = Layer.new()
+#	map_layer.render_type = Layer.RenderType.TWODIMENSIONAL
+#	map_layer.render_info = Layer.TwoDimensionalInfo.new()
+#	map_layer.render_info.texture_layer = map_raster
+#	map_layer.name = "Minimap Ortho"
+#
+#	Layers.add_layer(map_layer)
 
 
 func validate_gpkg(geopackage_path: String):
@@ -171,14 +195,14 @@ func digest_gpkg(geopackage_path: String):
 			)
 			Layers.add_layer(layer)
 	
-	var raster = RasterLayer.new()
-	raster.geo_raster_layer = Layers.geo_layers["rasters"]["basemap"].clone()
-	var test = Layer.new()
-	test.render_type = Layer.RenderType.TWODIMENSIONAL
-	test.render_info = Layer.TwoDimensionalInfo.new()
-	test.render_info.texture_layer = raster
-	test.name = "map"
-	Layers.add_layer(test)
+#	var raster = RasterLayer.new()
+#	raster.geo_raster_layer = Layers.geo_layers["rasters"]["basemap"].clone()
+#	var test = Layer.new()
+#	test.render_type = Layer.RenderType.TWODIMENSIONAL
+#	test.render_info = Layer.TwoDimensionalInfo.new()
+#	test.render_info.texture_layer = raster
+#	test.name = "map"
+#	Layers.add_layer(test)
 	
 	# Loading Scenarios
 	logger.info("Starting to load scenarios ...", LOG_MODULE)
@@ -420,7 +444,8 @@ func load_object_layer(db, layer_config, geo_layers_config, extended_as: Layer.O
 	object_layer.render_info.object = object_scene
 	object_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
 		db, "HEIGHT_LAYER", geo_layers_config.rasters)
-	object_layer.ui_info.name_attribute = "Beschreib"
+	# FIXME: should come from geopackage -> no hardcoding
+	object_layer.ui_info.name_attribute = "Name"
 	object_layer.name = layer_config.name
 	
 	
@@ -552,8 +577,9 @@ func get_avg_center():
 	var center_avg := Vector3.ZERO
 	var count := 0
 	for layer in Layers.layers:
-		for geolayer in Layers.layers[layer].render_info.get_geolayers():
-			center_avg += geolayer.get_center()
-			count += 1
+		if Layers.layers[layer].render_info:
+			for geolayer in Layers.layers[layer].render_info.get_geolayers():
+				center_avg += geolayer.get_center()
+				count += 1
 	
 	return center_avg / count
