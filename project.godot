@@ -259,6 +259,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Util/SpritesheetHelper.gd"
 }, {
+"base": "CenterContainer",
+"class": "StackedProgressBar",
+"language": "GDScript",
+"path": "res://UI/CustomElements/StackedProgressBar.gd"
+}, {
 "base": "Object",
 "class": "StructuredTexture",
 "language": "GDScript",
@@ -375,6 +380,7 @@ _global_script_class_icons={
 "SetTableExtentRequestHandler": "",
 "SpecificLayerUI": "",
 "SpritesheetHelper": "",
+"StackedProgressBar": "",
 "StructuredTexture": "",
 "TableCommunicator": "",
 "TableHandshakeRequestHandler": "",

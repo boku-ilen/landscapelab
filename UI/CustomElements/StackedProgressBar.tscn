@@ -4,17 +4,10 @@
 [ext_resource path="res://UI/CustomElements/StackedProgressBar.gd" type="Script" id=2]
 
 [node name="Control" type="CenterContainer"]
-margin_left = 381.0
-margin_right = 681.0
+margin_right = 300.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 300, 0 )
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
-bar_count = 3
+bar_count = 0
 step = 1.0
-range0_value = 46.124
-range0_bar_color = Color( 0.964706, 0, 0, 1 )
-range1_value = 26.94
-range1_bar_color = Color( 0.564706, 0.564706, 0.564706, 1 )
-range2_value = 16.196
-range2_bar_color = Color( 0.780392, 0.592157, 0.592157, 1 )
