@@ -31,7 +31,7 @@ func load_new_data():
 			# (i.e. in most cases some form of foothold)
 			for foothold in object.get_footholds():
 				# Add relative foothold position to absolute object position
-				var foothold_pos = current_pos + foothold.translation
+				var foothold_pos = (current_pos + foothold.translation) * layer.render_info.individual_rotation 
 				var point_feature = object_layer.create_feature()
 				# TODO: implement this function
 				point_feature.set_position(foothold_pos)
