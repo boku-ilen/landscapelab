@@ -26,6 +26,10 @@ func is_valid():
 	return geo_feature_layer && geo_feature_layer.is_valid()
 
 
+func save_modified_layer(path):
+	geo_feature_layer.save_modified_layer(path)
+
+
 # Workaround as sometimes it is necessary to do [...].geo_feature_layer.geo_feature_layer
 # and so on ...
 # FIXME: it works but might be a bit confusing ...
