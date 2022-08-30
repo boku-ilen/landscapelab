@@ -195,15 +195,6 @@ func digest_gpkg(geopackage_path: String):
 			)
 			Layers.add_layer(layer)
 	
-#	var raster = RasterLayer.new()
-#	raster.geo_raster_layer = Layers.geo_layers["rasters"]["basemap"].clone()
-#	var test = Layer.new()
-#	test.render_type = Layer.RenderType.TWODIMENSIONAL
-#	test.render_info = Layer.TwoDimensionalInfo.new()
-#	test.render_info.texture_layer = raster
-#	test.name = "map"
-#	Layers.add_layer(test)
-	
 	# Loading Scenarios
 	logger.info("Starting to load scenarios ...", LOG_MODULE)
 	var scenario_configs: Array = db.select_rows("LL_scenarios", "", ["*"]).duplicate()
@@ -467,6 +458,9 @@ func load_polygon_layer(db, layer_config, geo_layers_config, extended_as: Layer.
 	if get_extension_by_key(db, "extends_as", layer_config.id) == "BuildingRenderInfo":
 		if extended_as == null:
 			return load_buildings(db, layer_config, geo_layers_config)
+	elif get_extension_by_key(db, "extends_as", layer_config.id) == "GradientPolygonRenderInfo":
+		if extended_as == null:
+			return load_gradient_polygon_layer(db, layer_config, geo_layers_config)
 	
 	var polygon_layer = FeatureLayer.new()
 	polygon_layer.geo_feature_layer = get_geofeaturelayer_by_name(
@@ -478,8 +472,6 @@ func load_polygon_layer(db, layer_config, geo_layers_config, extended_as: Layer.
 	else:
 		polygon_layer.render_info = extended_as
 	
-	polygon_layer.render_info.height_attribute_name = get_extension_by_key(
-		db, "height_attribute_name", layer_config.id)
 	polygon_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
 		db, "HEIGHT_LAYER", geo_layers_config.rasters)
 	polygon_layer.name = layer_config.name
@@ -487,8 +479,19 @@ func load_polygon_layer(db, layer_config, geo_layers_config, extended_as: Layer.
 	return polygon_layer
 
 
+func load_gradient_polygon_layer(db, layer_config,geo_layers_config) -> Layer:
+	var polygon_layer = load_polygon_layer(db, layer_config, geo_layers_config, Layer.GradientPolygonRenderInfo.new())
+	polygon_layer.render_type = Layer.RenderType.GRADIENT_POLYGON
+	polygon_layer.render_info.polygon_height = get_extension_by_key(
+		db, "polygon_height", layer_config.id)
+	
+	return polygon_layer
+
+
 func load_buildings(db, layer_config,geo_layers_config) -> Layer:
 	var building_layer = load_polygon_layer(db, layer_config, geo_layers_config, Layer.BuildingRenderInfo.new())
+	building_layer.render_info.height_attribute_name = get_extension_by_key(
+		db, "height_attribute_name", layer_config.id)
 	building_layer.render_info.height_stdev_attribute_name  = get_extension_by_key(
 		db, "height_stdev_attribute_name", layer_config.id)
 	building_layer.render_info.slope_attribute_name  = get_extension_by_key(

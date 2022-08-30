@@ -25,6 +25,7 @@ enum RenderType {
 	PATH,
 	CONNECTED_OBJECT,
 	POLYGON,
+	GRADIENT_POLYGON,
 	VEGETATION,
 	TWODIMENSIONAL
 }
@@ -128,7 +129,6 @@ class WindTurbineRenderInfo extends ObjectRenderInfo:
 	var diameter_attribute_name
 
 class PolygonRenderInfo extends RenderInfo:
-	var height_attribute_name
 	var ground_height_layer: Layer
 	
 	func get_geolayers():
@@ -137,12 +137,19 @@ class PolygonRenderInfo extends RenderInfo:
 	func is_valid():
 		return ground_height_layer != null
 
+
+class GradientPolygonRenderInfo extends PolygonRenderInfo:
+	var polygon_height
+
+
 class BuildingRenderInfo extends PolygonRenderInfo:
 	var height_stdev_attribute_name
 	var slope_attribute_name
 	var red_attribute_name
 	var green_attribute_name
 	var blue_attribute_name
+	
+	var height_attribute_name
 
 class PathRenderInfo extends RenderInfo:
 	var line_visualization: PackedScene

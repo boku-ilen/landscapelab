@@ -29,5 +29,5 @@ script = ExtResource( 4 )
 
 [node name="TerrainLOD0" parent="." index="0" instance=ExtResource( 2 )]
 material_override = SubResource( 1 )
-size = 25000.0
-ortho_resolution = 10000
+size = 10000.0
+ortho_resolution = 5000
