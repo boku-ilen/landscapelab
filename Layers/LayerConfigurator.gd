@@ -111,6 +111,29 @@ func load_gpkg(geopackage_path: String):
 #	map_layer.name = "Minimap Ortho"
 #
 #	Layers.add_layer(map_layer)
+	
+	var external_layers = preload("res://Layers/ExternalLayer.gd").new()
+	var polygon_layer = FeatureLayer.new()
+	var polygon_ds = Geodot.get_dataset("D:/boku/geodata/Heiligenkreuz/test_poly_object.shp")
+	polygon_layer.geo_feature_layer = polygon_ds.get_feature_layer("test_poly_object")
+
+	var object_layer = FeatureLayer.new()
+	var object_ds = Geodot.get_dataset("D:/boku/geodata/Heiligenkreuz/test_object.shp")
+	object_layer.geo_feature_layer = object_ds.get_feature_layer("test_object")
+	
+	var ground_height = RasterLayer.new()
+	ground_height.geo_raster_layer = Layers.geo_layers["rasters"]["dhm"] 
+	
+	var po_layer = Layer.new()
+	po_layer.render_type = Layer.RenderType.POLYGON_OBJECT
+	po_layer.render_info = Layer.PolygonObjectInfo.new()
+	po_layer.render_info.polygon_layer = polygon_layer
+	po_layer.render_info.object_layer = object_layer
+	po_layer.render_info.object = load("res://Objects/PhotovoltaicPlant/PVField5x5.tscn")
+	po_layer.render_info.individual_rotation = 0
+	po_layer.name = "Poly Object Layer"
+
+	Layers.add_layer(po_layer)
 
 
 func validate_gpkg(geopackage_path: String):

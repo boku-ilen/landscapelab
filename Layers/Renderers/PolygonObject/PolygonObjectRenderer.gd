@@ -45,11 +45,15 @@ func load_new_data():
 					# Add relative foothold position to absolute object position
 					var foothold_pos = (current_pos + foothold.translation)
 					var point_feature = object_layer.create_feature()
-					#point_feature.set_offset_vector3(Vector3(foothold_pos.x, 0, foothold_pos.z), -center[0], 0, -center[1])
-					point_feature.set_vector3(Vector3(foothold_pos.x, 0, foothold_pos.z))
+					#point_feature.set_offset_vector3(Vector3(foothold_pos.x, 0, foothold_pos.z), center[0], 0, center[1])
+#					point_feature.set_vector3(Vector3(foothold_pos.x, 0, foothold_pos.z))
+					point_feature.set_vector3(Vector3(581204, 0, 490328))
 					
-					if not poly_feature.intersects_with(point_feature):
+					if not point_feature.intersects_with(poly_feature):
 						fully_inside = false
+						var test = point_feature.get_offset_vector3()
+						var test2 = poly_feature.get_outer_vertices()
+						var test3 = "test"
 				
 				if fully_inside:
 					var new_object = layer.render_info.object.instance()
