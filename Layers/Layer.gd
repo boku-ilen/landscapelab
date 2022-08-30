@@ -27,7 +27,8 @@ enum RenderType {
 	POLYGON,
 	GRADIENT_POLYGON,
 	VEGETATION,
-	TWODIMENSIONAL
+	TWODIMENSIONAL,
+	POLYGON_OBJECT
 }
 var render_type = RenderType.NONE
 var render_info
@@ -186,3 +187,14 @@ class TwoDimensionalInfo extends RenderInfo:
 	
 	func is_valid() -> bool:
 		return texture_layer.is_valid()
+
+class PolygonObjectInfo extends RenderInfo:
+	var polygon_layer: Layer
+	# "virtual" layer which serves solely for using gdal features
+	var object_layer: Layer
+	var object: PackedScene
+	var individual_rotation: float
+	var group_rotation: float
+	
+	func get_geolayers() -> Array:
+		return [polygon_layer, object_layer]
