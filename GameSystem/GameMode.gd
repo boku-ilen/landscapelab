@@ -5,9 +5,12 @@ class_name GameMode
 # Map of collection name to GameObjectCollection object
 var game_object_collections = {}
 var game_scores = {}
+var game_views = {}
 
+var current_view: GameView
 var extent = [0.0, 0.0, 0.0, 0.0]
 
+signal view_activated(view)
 signal score_changed(score)
 signal score_target_reached(score)
 
@@ -51,6 +54,13 @@ func set_extent(min_x, min_y, max_x, max_y):
 # Returns the extent as an array containing min_x, min_y, max_x, max_y
 func get_extent():
 	return extent
+
+
+func activate_view(view_name):
+	current_view = game_views[view_name]
+	current_view.activate()
+	
+	emit_signal("view_activated", current_view)
 
 
 func _on_score_value_changed(value, score):

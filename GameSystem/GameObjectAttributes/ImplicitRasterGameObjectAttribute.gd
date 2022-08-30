@@ -1,8 +1,8 @@
 extends GameObjectAttribute
-class_name ImplicitGameObjectAttribute
+class_name ImplicitRasterGameObjectAttribute
 
-# Implicit attributes are values at the game object's position in a different raster layer.
-# This class thus remembers the raster layer from which to fetch these values.
+# Implicit attributes are values at the game object's position in a different layer.
+# This class remembers the raster layer from which to fetch these values.
 
 
 
