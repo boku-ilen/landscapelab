@@ -83,6 +83,9 @@ func apply_new_feature(feature):
 	if "center" in instance:
 		instance.set("center", center)
 	
+	if "height_layer" in instance:
+		instance.set("height_layer", layer.render_info.ground_height_layer)
+	
 	add_child(instance)
 
 
@@ -94,7 +97,11 @@ func remove_feature(feature):
 func update_instance_position(feature, obj_instance: Spatial):
 	var local_object_pos = feature.get_offset_vector3(-center[0], 0, -center[1])
 	
-	if not obj_instance.transform.origin.y > 0.0:
+	if obj_instance.has_method("set_height"):
+		# Object has custom method for getting the height
+		obj_instance.set_height(local_object_pos)
+		local_object_pos.y = 0.0
+	elif not obj_instance.transform.origin.y > 0.0:
 		local_object_pos.y = layer.render_info.ground_height_layer.get_value_at_position(
 			center[0] + local_object_pos.x, center[1] - local_object_pos.z)
 	else:

@@ -16,7 +16,7 @@
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" type="PackedScene" id=15]
 [ext_resource path="res://UI/Layers/LayerManagement/LayerManagement.gd" type="Script" id=16]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/loading.svg" type="Texture" id=17]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/loading.png" type="Texture" id=17]
 [ext_resource path="res://UI/GameSystem/GameUI.tscn" type="PackedScene" id=18]
 [ext_resource path="res://UI/MinimapViewport.gd" type="Script" id=19]
 [ext_resource path="res://UI/Scenarios/Scenarios.tscn" type="PackedScene" id=20]
@@ -32,8 +32,8 @@ script/source = "extends HSplitContainer
 
 onready var initial_rect_size_x = $Right.rect_size.x
 
-func _ready():
-	connect(\"dragged\", self, \"_on_dragg\")
+#func _ready():
+#	connect(\"dragged\", self, \"_on_dragg\")
 
 
 func _input(event):
@@ -301,6 +301,7 @@ layer_renderers_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport/Worl
 [node name="GameUI" parent="MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer" instance=ExtResource( 18 )]
 margin_right = 365.0
 margin_bottom = 185.0
+mouse_filter = 0
 viewport_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport")
 position_manager_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport/World/PositionManager")
 

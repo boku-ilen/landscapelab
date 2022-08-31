@@ -50,7 +50,7 @@ func _resolve_turn():
 	# Move on to next phase
 	if current_turn_number + 1 < total_turn_number:
 		emit_signal("turn_ending")
-	
+		
 		# Apply constant events
 		for event in constant_events.values():
 			_apply_event(event)
@@ -59,6 +59,18 @@ func _resolve_turn():
 		if events_per_turn.has(current_turn_number):
 			for event in events_per_turn[current_turn_number].values():
 				_apply_event(event)
+		
+		# Update scores
+		for score in game_scores.values():
+			score.recalculate_score()
+		
+		# Cleanup
+		for event in constant_events.values():
+			event.cleanup()
+		
+		if events_per_turn.has(current_turn_number):
+			for event in events_per_turn[current_turn_number].values():
+				event.cleanup()
 		
 		current_turn_number += 1
 		_setup_turn()

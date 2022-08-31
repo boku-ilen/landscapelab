@@ -35,69 +35,118 @@ func load_gpkg(geopackage_path: String):
 	else:
 		emit_signal("geodata_invalid")
 	
-#	# FIXME: Game Engine Testing
-#	var game_mode = GameMode.new()
-#
-#	var wka = game_mode.add_game_object_collection_for_feature_layer("WKA", Layers.geo_layers["features"]["windmills"])
-#	game_mode.game_object_collections["WKA"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["windturbine_potentials"])
-#	game_mode.game_object_collections["WKA"].icon_name = "windmill_icon"
-#	game_mode.game_object_collections["WKA"].desired_shape = "SQUARE_BRICK"
-#	game_mode.game_object_collections["WKA"].desired_color = "BLUE_BRICK"
-#
-#	var wka_condition = GreaterThanRasterCreationCondition.new("WKA Potential Condition", Layers.geo_layers["rasters"]["windturbine_potentials"], 0.0)
-#	wka.add_creation_condition(wka_condition)
-#
-#	var pv_small = game_mode.add_game_object_collection_for_feature_layer("PV klein", Layers.geo_layers["features"]["pv_small"])
-#	game_mode.game_object_collections["PV klein"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["new_pv_potentials"])
-#	game_mode.game_object_collections["PV klein"].icon_name = "pv_icon"
-#	game_mode.game_object_collections["PV klein"].desired_shape = "SQUARE_BRICK"
-#	game_mode.game_object_collections["PV klein"].desired_color = "RED_BRICK"
-#
-#	var pv_large = game_mode.add_game_object_collection_for_feature_layer("PV groß", Layers.geo_layers["features"]["pv_large"])
-#	game_mode.game_object_collections["PV groß"].add_implicit_attribute_mapping("MW", Layers.geo_layers["rasters"]["new_pv_potentials"])
-#	game_mode.game_object_collections["PV groß"].icon_name = "pv_icon"
-#	game_mode.game_object_collections["PV groß"].desired_shape = "RECTANGLE_BRICK"
-#	game_mode.game_object_collections["PV groß"].desired_color = "RED_BRICK"
-#
-#	var pv_condition = GreaterThanRasterCreationCondition.new("PV Potential Condition", Layers.geo_layers["rasters"]["new_pv_potentials"], 0.0)
-#	pv_small.add_creation_condition(pv_condition)
-#	pv_large.add_creation_condition(pv_condition)
-#
-#	game_mode.set_extent(569000.0, 380000.0, 599000.0, 410000.0)
-#
-#	var score = GameScore.new()
-#	score.name = "Strom PV"
-#	score.add_contributor(game_mode.game_object_collections["PV groß"], "MW", 30.0)
-#	score.add_contributor(game_mode.game_object_collections["PV klein"], "MW", 10.0)
-#	score.target = 69726.0
-#
-#	var score2 = GameScore.new()
-#	score2.name = "Strom WKA"
-#	score2.add_contributor(game_mode.game_object_collections["WKA"], "MW")
-#	score2.target = 222667.0
-#
-#	game_mode.add_score(score2)
-#	game_mode.add_score(score)
-#
-#	# Add player game object collection
-#	var player_game_object_collection = PlayerGameObjectCollection.new("Players", get_parent().get_node("FirstPersonPC"))
-#	game_mode.add_game_object_collection(player_game_object_collection)
-#	player_game_object_collection.icon_name = "player_position"
-#	player_game_object_collection.desired_shape = "SQUARE_BRICK"
-#	player_game_object_collection.desired_color = "GREEN_BRICK"
-#
-#	GameSystem.current_game_mode = game_mode
-#
-#	var map_raster = RasterLayer.new()
-#	map_raster.geo_raster_layer = Layers.geo_layers["rasters"]["ortho"]
-#
-#	var map_layer = Layer.new()
-#	map_layer.render_type = Layer.RenderType.TWODIMENSIONAL
-#	map_layer.render_info = Layer.TwoDimensionalInfo.new()
-#	map_layer.render_info.texture_layer = map_raster
-#	map_layer.name = "Minimap Ortho"
-#
-#	Layers.add_layer(map_layer)
+	#define_probing_game_mode()
+
+
+func define_probing_game_mode():
+	var game_mode = GameMode.new()
+	
+	var acceptable = game_mode.add_game_object_collection_for_feature_layer("Vorstellbar", Layers.geo_layers["features"]["acceptable"])
+	var unacceptable = game_mode.add_game_object_collection_for_feature_layer("Nicht vorstellbar", Layers.geo_layers["features"]["unacceptable"])
+	
+	acceptable.icon_name = "yes_icon"
+	acceptable.desired_shape = "SQUARE_BRICK"
+	acceptable.desired_color = "GREEN_BRICK"
+	
+	acceptable.icon_name = "no_icon"
+	acceptable.desired_shape = "SQUARE_BRICK"
+	acceptable.desired_color = "RED_BRICK"
+	
+	# TODO: Do we want a score, e.g. more acceptable than unacceptable?
+	
+	GameSystem.current_game_mode = game_mode
+
+
+func define_pa3c3_game_mode():
+	var game_mode = GameMode.new()
+	
+	var apv_fh = game_mode.add_game_object_collection_for_feature_layer("APV Frauenhofer", Layers.geo_layers["features"]["apv_fh"])
+	
+	var apv_creation_condition = VectorExistsCreationCondition.new("APV auf Feld", Layers.geo_layers["features"]["fields"])
+	apv_fh.add_creation_condition(apv_creation_condition)
+	
+	var field_profit_attribute = ImplicitVectorGameObjectAttribute.new(
+			"Profitdifferenz LW",
+			Layers.geo_layers["features"]["fields"],
+			"PRF_DIFF_F"
+	)
+	apv_fh.add_attribute_mapping(field_profit_attribute)
+	
+	var power_generation = ImplicitVectorGameObjectAttribute.new(
+			"Stromerzeugung kWh",
+			Layers.geo_layers["features"]["fields"],
+			"FH_2041_AV"
+	)
+	apv_fh.add_attribute_mapping(power_generation)
+	
+	var cost = StaticAttribute.new(
+			"Kosten",
+			-16035.6
+	)
+	apv_fh.add_attribute_mapping(cost)
+	
+	var people_fed = StaticAttribute.new(
+			"Ernaehrte Personen",
+			-1
+	)
+	apv_fh.add_attribute_mapping(people_fed)
+	
+	apv_fh.icon_name = "windmill_icon"
+	apv_fh.desired_shape = "SQUARE_BRICK"
+	apv_fh.desired_color = "BLUE_BRICK"
+	
+	var profit_lw_score = UpdatingGameScore.new()
+	profit_lw_score.name = "Profit Landwirtschaft"
+	profit_lw_score.add_contributor(apv_fh, "Profitdifferenz LW")
+	profit_lw_score.target = 0.0
+	profit_lw_score.display_mode = GameScore.DisplayMode.ICONTEXT
+	
+	game_mode.add_score(profit_lw_score)
+	
+	var profit_power_score = UpdatingGameScore.new()
+	profit_power_score.name = "Profit Strom"
+	profit_power_score.add_contributor(apv_fh, "Stromerzeugung kWh", 0.07)
+	profit_power_score.add_contributor(apv_fh, "Kosten")
+	profit_power_score.target = 0.0
+	profit_power_score.display_mode = GameScore.DisplayMode.ICONTEXT
+	
+	game_mode.add_score(profit_power_score)
+	
+	var profit_score = UpdatingGameScore.new()
+	profit_score.name = "Profit"
+	profit_score.add_contributor(apv_fh, "Profitdifferenz LW")
+	profit_score.add_contributor(apv_fh, "Stromerzeugung kWh", 0.07)
+	profit_score.add_contributor(apv_fh, "Kosten")
+	profit_score.target = 0.0
+	profit_score.display_mode = GameScore.DisplayMode.ICONTEXT
+	
+	game_mode.add_score(profit_score)
+	
+	var power_score = UpdatingGameScore.new()
+	power_score.name = "Stromerzeugung kWh"
+	power_score.add_contributor(apv_fh, "Stromerzeugung kWh", 0.07)
+	power_score.target = 50000.0
+	power_score.display_mode = GameScore.DisplayMode.PROGRESSBAR
+	
+	game_mode.add_score(power_score)
+	
+	var power_score_households = UpdatingGameScore.new()
+	power_score_households.name = "Versorgte Haushalte"
+	power_score_households.add_contributor(apv_fh, "Stromerzeugung kWh", 1.0 / 4500.0)
+	power_score_households.target = 100
+	power_score_households.display_mode = GameScore.DisplayMode.ICONTEXT
+	
+	game_mode.add_score(power_score_households)
+	
+	var food_score = UpdatingGameScore.new()
+	food_score.name = "Ernährte Personen"
+	food_score.add_contributor(apv_fh, "Ernaehrte Personen")
+	food_score.target = 0.0
+	food_score.display_mode = GameScore.DisplayMode.ICONTEXT
+	
+	game_mode.add_score(food_score)
+	
+	GameSystem.current_game_mode = game_mode
 
 
 func validate_gpkg(geopackage_path: String):
@@ -432,7 +481,7 @@ func load_object_layer(db, layer_config, geo_layers_config, extended_as: Layer.O
 	object_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
 		db, "HEIGHT_LAYER", geo_layers_config.rasters)
 	# FIXME: should come from geopackage -> no hardcoding
-	object_layer.ui_info.name_attribute = "Beschreib"
+	object_layer.ui_info.name_attribute = "Name"
 	object_layer.name = layer_config.name
 	
 	
@@ -564,8 +613,9 @@ func get_avg_center():
 	var center_avg := Vector3.ZERO
 	var count := 0
 	for layer in Layers.layers:
-		for geolayer in Layers.layers[layer].render_info.get_geolayers():
-			center_avg += geolayer.get_center()
-			count += 1
+		if Layers.layers[layer].render_info:
+			for geolayer in Layers.layers[layer].render_info.get_geolayers():
+				center_avg += geolayer.get_center()
+				count += 1
 	
 	return center_avg / count
