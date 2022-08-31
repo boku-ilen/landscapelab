@@ -17,7 +17,7 @@ func _init(initial_name, initial_vector_layer, initial_attribute_name, initial_a
 
 
 func is_creation_allowed_at_position(position):
-	var game_objects_at_position = vector_layer.get_features_near_position(position.x, -position.z, 0)
+	var game_objects_at_position = vector_layer.get_features_near_position(position.x, -position.z, 0.1, 10)
 	
 	if game_objects_at_position.empty():
 		return default_return

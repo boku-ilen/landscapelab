@@ -17,4 +17,4 @@ func set_score(new_score):
 
 
 func _update_data(value):
-	$VBox/Value.text = str(score.value)
+	$VBox/Value.text = str(round(score.value))

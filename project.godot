@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Perspectives/PC/ActionHandler.gd"
 }, {
+"base": "EventAction",
+"class": "AttributeChangeAction",
+"language": "GDScript",
+"path": "res://GameSystem/GameEvents/AttributeChangeAction.gd"
+}, {
 "base": "BaseButton",
 "class": "AutoIconButton",
 "language": "GDScript",
@@ -48,6 +53,11 @@ _global_script_classes=[ {
 "class": "CSVReader",
 "language": "GDScript",
 "path": "res://Util/CSVReader.gd"
+}, {
+"base": "GameObjectAttribute",
+"class": "ChangeOnIntersectAttribute",
+"language": "GDScript",
+"path": "res://GameSystem/GameObjectAttributes/ChangeOnIntersectAttribute.gd"
 }, {
 "base": "MeshInstance",
 "class": "CloudDome",
@@ -74,10 +84,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GameSystem/CreationConditions/CreationCondition.gd"
 }, {
+"base": "GameScore",
+"class": "CumulativeGameScore",
+"language": "GDScript",
+"path": "res://GameSystem/CumulativeGameScore.gd"
+}, {
 "base": "Object",
 "class": "DensityClass",
 "language": "GDScript",
 "path": "res://Vegetation/DensityClass.gd"
+}, {
+"base": "Object",
+"class": "EventAction",
+"language": "GDScript",
+"path": "res://GameSystem/GameEvents/EventAction.gd"
+}, {
+"base": "GameObjectAttribute",
+"class": "ExplicitGameObjectAttribute",
+"language": "GDScript",
+"path": "res://GameSystem/GameObjectAttributes/ExplicitGameObjectAttribute.gd"
 }, {
 "base": "MeshInstance",
 "class": "ExtraLOD",
@@ -105,6 +130,11 @@ _global_script_classes=[ {
 "path": "res://GameSystem/GameObjects/GameObject.gd"
 }, {
 "base": "Object",
+"class": "GameObjectAttribute",
+"language": "GDScript",
+"path": "res://GameSystem/GameObjectAttributes/GameObjectAttribute.gd"
+}, {
+"base": "Object",
 "class": "GameObjectCollection",
 "language": "GDScript",
 "path": "res://GameSystem/GameObjectCollections/GameObjectCollection.gd"
@@ -113,6 +143,11 @@ _global_script_classes=[ {
 "class": "GameScore",
 "language": "GDScript",
 "path": "res://GameSystem/GameScore.gd"
+}, {
+"base": "Object",
+"class": "GameView",
+"language": "GDScript",
+"path": "res://GameSystem/GameView/GameView.gd"
 }, {
 "base": "GameObject",
 "class": "GeoGameObject",
@@ -143,6 +178,16 @@ _global_script_classes=[ {
 "class": "GroundTexture",
 "language": "GDScript",
 "path": "res://Vegetation/GroundTexture.gd"
+}, {
+"base": "GameObjectAttribute",
+"class": "ImplicitRasterGameObjectAttribute",
+"language": "GDScript",
+"path": "res://GameSystem/GameObjectAttributes/ImplicitRasterGameObjectAttribute.gd"
+}, {
+"base": "GameObjectAttribute",
+"class": "ImplicitVectorGameObjectAttribute",
+"language": "GDScript",
+"path": "res://GameSystem/GameObjectAttributes/ImplicitVectorGameObjectAttribute.gd"
 }, {
 "base": "Resource",
 "class": "Layer",
@@ -219,6 +264,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Python/Python.gd"
 }, {
+"base": "GameEvent",
+"class": "RandomGameEvent",
+"language": "GDScript",
+"path": "res://GameSystem/GameEvents/RandomGameEvent.gd"
+}, {
 "base": "Layer",
 "class": "RasterLayer",
 "language": "GDScript",
@@ -264,6 +314,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UI/CustomElements/StackedProgressBar.gd"
 }, {
+"base": "GameObjectAttribute",
+"class": "StaticAttribute",
+"language": "GDScript",
+"path": "res://GameSystem/GameObjectAttributes/StaticAttribute.gd"
+}, {
 "base": "Object",
 "class": "StructuredTexture",
 "language": "GDScript",
@@ -294,6 +349,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GameSystem/TurnBasedGameMode.gd"
 }, {
+"base": "GameScore",
+"class": "UpdatingGameScore",
+"language": "GDScript",
+"path": "res://GameSystem/UpdatingGameScore.gd"
+}, {
 "base": "Control",
 "class": "VRGuiElement",
 "language": "GDScript",
@@ -308,6 +368,16 @@ _global_script_classes=[ {
 "class": "VRStaticInteractable",
 "language": "GDScript",
 "path": "res://addons/vr-toolkit/Objects/VRStaticInteractable.gd"
+}, {
+"base": "CreationCondition",
+"class": "VectorAttributeCreationCondition",
+"language": "GDScript",
+"path": "res://GameSystem/CreationConditions/VectorAttributeCreationCondition.gd"
+}, {
+"base": "CreationCondition",
+"class": "VectorExistsCreationCondition",
+"language": "GDScript",
+"path": "res://GameSystem/CreationConditions/VectorExistsCreationCondition.gd"
 }, {
 "base": "VegetationUtil",
 "class": "VegetationCSVUtil",
@@ -335,28 +405,37 @@ _global_script_class_icons={
 "AbstractPlayer": "",
 "AbstractRequestHandler": "",
 "ActionHandler": "",
+"AttributeChangeAction": "",
 "AutoIconButton": "",
 "AutoTextureButton": "",
 "CSVReader": "",
+"ChangeOnIntersectAttribute": "",
 "CloudDome": "",
 "Configurator": "",
 "ControllerTool": "",
 "CreateFeatureRequestHandler": "",
 "CreationCondition": "",
+"CumulativeGameScore": "",
 "DensityClass": "",
+"EventAction": "",
+"ExplicitGameObjectAttribute": "",
 "ExtraLOD": "",
 "FeatureLayer": "",
 "GameEvent": "",
 "GameMode": "",
 "GameObject": "",
+"GameObjectAttribute": "",
 "GameObjectCollection": "",
 "GameScore": "",
+"GameView": "",
 "GeoGameObject": "",
 "GeoGameObjectCollection": "",
 "GeodataChooser": "",
 "GetObjectLayerDataRequestHandler": "",
 "GreaterThanRasterCreationCondition": "",
 "GroundTexture": "",
+"ImplicitRasterGameObjectAttribute": "",
+"ImplicitVectorGameObjectAttribute": "",
 "Layer": "",
 "LayerRenderer": "",
 "LinearCSGPolygon": "",
@@ -372,6 +451,7 @@ _global_script_class_icons={
 "PositionManager": "",
 "Profile": "",
 "Python": "",
+"RandomGameEvent": "",
 "RasterLayer": "",
 "RemoveTokenRequestHandler": "",
 "Scenario": "",
@@ -381,15 +461,19 @@ _global_script_class_icons={
 "SpecificLayerUI": "",
 "SpritesheetHelper": "",
 "StackedProgressBar": "",
+"StaticAttribute": "",
 "StructuredTexture": "",
 "TableCommunicator": "",
 "TableHandshakeRequestHandler": "",
 "TimeManager": "",
 "TokenPositionRequestHandler": "",
 "TurnBasedGameMode": "",
+"UpdatingGameScore": "",
 "VRGuiElement": "",
 "VRInteractable": "",
 "VRStaticInteractable": "",
+"VectorAttributeCreationCondition": "",
+"VectorExistsCreationCondition": "",
 "VegetationCSVUtil": "",
 "VegetationGPKGUtil": "",
 "VegetationUtil": "",
@@ -438,7 +522,7 @@ enabled=PoolStringArray(  )
 
 [gdnative]
 
-singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib" ]
+singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib", "res://pythonscript.gdnlib" ]
 
 [gui]
 
