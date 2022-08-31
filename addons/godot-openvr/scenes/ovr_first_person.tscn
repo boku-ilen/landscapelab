@@ -28,6 +28,7 @@ script = ExtResource( 3 )
 
 [node name="ARVRCamera" type="ARVRCamera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, 0 )
+cull_mask = 1047551
 fov = 65.0
 near = 0.01
 far = 15000.0

@@ -18,6 +18,8 @@ export (NodePath) var viewport = null
 var arvr_interface : ARVRInterface = null
 var openvr_config = null
 
+signal initialized
+
 func get_openvr_config():
 	return openvr_config
 
@@ -34,6 +36,7 @@ func _ready():
 	# Find the interface and initialise
 	arvr_interface = ARVRServer.find_interface("OpenVR")
 	if arvr_interface and arvr_interface.initialize():
+		emit_signal("initialized")
 		var vp : Viewport = null
 		if viewport:
 			vp = get_node(viewport)
