@@ -39,11 +39,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UI/CustomElements/AutoIconButton.gd"
 }, {
-"base": "TextureButton",
-"class": "AutoTextureButton",
-"language": "GDScript",
-"path": "res://UI/CustomElements/AutoTextureButton.gd"
-}, {
 "base": "Object",
 "class": "CSVReader",
 "language": "GDScript",
@@ -331,7 +326,6 @@ _global_script_class_icons={
 "AbstractRequestHandler": "",
 "ActionHandler": "",
 "AutoIconButton": "",
-"AutoTextureButton": "",
 "CSVReader": "",
 "CloudDome": "",
 "Configurator": "",
@@ -750,6 +744,7 @@ screenshot={
 3d_render/layer_8="2D Symbols"
 3d_render/layer_9="3D Secondary View UI"
 3d_render/layer_10="3D VR"
+3d_render/layer_11="3D no VR"
 3d_render/layer_16="3D Terrain Overlay"
 3d_physics/layer_20="MouseCollision"
 
