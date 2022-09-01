@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/energy.svg-8d625aa9d889daf74cd05fa2d1cca45b.stex"
+path="res://.import/household.svg-fb8ba06907b380852f6129f4d56ad07a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Icons/ModernLandscapeLab/energy.svg"
-dest_files=[ "res://.import/energy.svg-8d625aa9d889daf74cd05fa2d1cca45b.stex" ]
+source_file="res://Resources/Icons/ModernLandscapeLab/household.svg"
+dest_files=[ "res://.import/household.svg-fb8ba06907b380852f6129f4d56ad07a.stex" ]
 
 [params]
 
