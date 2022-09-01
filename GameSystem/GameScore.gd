@@ -10,7 +10,10 @@ var values_per_contributor = {}
 
 var value := 0.0
 var target := 0.0
-var icon_name := ""
+# e.g.: energy-provided households
+# descriptor -> energy-symbol; subject -> household
+var icon_descriptor := ""
+var icon_subject := ""
 
 const DisplayMode = {
 	PROGRESSBAR = "ProgressBar",
@@ -29,7 +32,7 @@ func _init():
 
 func add_contributor(game_object_collection: GameObjectCollection, attribute_name, weight = 1.0, color = Color.gray):
 	contributors.append(GameScoreContributor.new(
-		game_object_collection, attribute_name, weight
+		game_object_collection, attribute_name, weight, color
 	))
 
 
@@ -67,10 +70,11 @@ class GameScoreContributor:
 	# for styling in the UI
 	var color_code := Color.gray
 	
-	func _init(initial_game_object_collection, initial_attribute_name, initial_weight = 1.0):
+	func _init(initial_game_object_collection, initial_attribute_name, initial_weight = 1.0, color = Color.gray):
 		game_object_collection = initial_game_object_collection
 		attribute_name = initial_attribute_name
 		weight = initial_weight
+		color_code = color
 	
 	func get_name():
 		return game_object_collection.name + " " + attribute_name
