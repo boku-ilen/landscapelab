@@ -13,6 +13,7 @@ func set_score(new_score):
 	$CenterContainer/ProgressBar.max_value = score.target
 	
 	if score.contributors[0].color_code:
+		# TODO: Godot 4.0 implements a vertical ProgressBar
 		if $CenterContainer/ProgressBar is ProgressBar:
 			# Get current stylebox of the progress, duplicate so it only affects this node
 			# and only override the background color so it fits the rest of the theme
