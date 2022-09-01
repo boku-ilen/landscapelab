@@ -10,8 +10,10 @@ func set_score(new_score):
 	score = new_score
 	
 	$VBox/HBox/Name.text = score.name
-	$TextureRect.texture = load(
-		"res://Resources/Icons".plus_file(icon_folder).plus_file(score.icon_name) + ".svg")
+	$TextureDescriptor.texture = load(
+		"res://Resources/Icons".plus_file(icon_folder).plus_file(score.icon_descriptor) + ".svg")
+	$TextureSubject.texture = load(
+		"res://Resources/Icons".plus_file(icon_folder).plus_file(score.icon_subject) + ".svg")
 	_update_data(score.value)
 	score.connect("value_changed", self, "_update_data")
 
