@@ -18,3 +18,10 @@ func _on_new_scenario(scenario):
 	widget.scenario = scenario
 	
 	widget_root.add_child(widget)
+	widget.connect("focus_entered", self, "set_selected_widget", [widget])
+
+
+func set_selected_widget(widget: Control):
+	for child in widget_root.get_children():
+		child.selected = false
+	widget.selected = true
