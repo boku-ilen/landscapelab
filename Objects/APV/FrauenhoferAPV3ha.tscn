@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Resources/Meshes/APV/frauenhofer-apv.glb" type="PackedScene" id=1]
+[ext_resource path="res://Objects/APV/APV.gd" type="Script" id=2]
+
+[node name="FrauenhoferAPV3ha" type="Spatial"]
+script = ExtResource( 2 )
+apv_scene = ExtResource( 1 )
+extent_x = 173
+extent_z = 173
+distance_z = 15.0
