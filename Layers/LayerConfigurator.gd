@@ -35,7 +35,27 @@ func load_gpkg(geopackage_path: String):
 	else:
 		emit_signal("geodata_invalid")
 	
-	define_pa3c3_game_mode()
+	# Wolkersdorf
+#	define_pa3c3_game_mode(
+#		623950,
+#		493950,
+#		648950,
+#		513950,
+#		-2,
+#		-1,
+#		5000000
+#	)
+	
+	# StStefan
+	define_pa3c3_game_mode(
+		513210,
+		366760,
+		538210,
+		391760,
+		-3,
+		-1,
+		5000000
+	)
 
 
 func define_probing_game_mode():
@@ -57,8 +77,18 @@ func define_probing_game_mode():
 	GameSystem.current_game_mode = game_mode
 
 
-func define_pa3c3_game_mode():
+func define_pa3c3_game_mode(
+		extent_x_min,
+		extent_y_min,
+		extent_x_max,
+		extent_y_max,
+		food_minus_fh,
+		food_minus_bf,
+		power_target
+	):
 	var game_mode = GameMode.new()
+	
+	game_mode.extent = [extent_x_min, extent_y_min, extent_x_max, extent_y_max]
 	
 	var apv_fh_1 = game_mode.add_game_object_collection_for_feature_layer("APV Fraunhofer 1ha", Layers.geo_layers["features"]["apv_fh_1"])
 	var apv_fh_3 = game_mode.add_game_object_collection_for_feature_layer("APV Fraunhofer 3ha", Layers.geo_layers["features"]["apv_fh_3"])
@@ -66,6 +96,13 @@ func define_pa3c3_game_mode():
 	var apv_bf_1 = game_mode.add_game_object_collection_for_feature_layer("APV Bifacial 1ha", Layers.geo_layers["features"]["apv_bf_1"])
 	var apv_bf_3 = game_mode.add_game_object_collection_for_feature_layer("APV Bifacial 3ha", Layers.geo_layers["features"]["apv_bf_3"])
 	
+	# Add player game object collection
+	var player_game_object_collection = PlayerGameObjectCollection.new("Players", get_parent().get_node("FirstPersonPC"))
+	game_mode.add_game_object_collection(player_game_object_collection)
+	player_game_object_collection.icon_name = "player_position"
+	player_game_object_collection.desired_shape = "SQUARE_BRICK"
+	player_game_object_collection.desired_color = "GREEN_BRICK"
+
 	var apv_creation_condition = VectorExistsCreationCondition.new("APV auf Feld", Layers.geo_layers["features"]["fields"])
 	apv_fh_1.add_creation_condition(apv_creation_condition)
 	apv_fh_3.add_creation_condition(apv_creation_condition)
@@ -110,11 +147,11 @@ func define_pa3c3_game_mode():
 	apv_bf_1.add_attribute_mapping(StaticAttribute.new("Kosten", -20044.5))
 	apv_bf_3.add_attribute_mapping(StaticAttribute.new("Kosten", -20044.5))
 
-	apv_fh_1.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", -2))
-	apv_fh_3.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", -2))
+	apv_fh_1.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", food_minus_fh))
+	apv_fh_3.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", food_minus_fh))
 	
-	apv_bf_1.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", -1))
-	apv_bf_3.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", -1))
+	apv_bf_1.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", food_minus_bf))
+	apv_bf_3.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", food_minus_bf))
 	
 	apv_fh_1.icon_name = "pv_icon"
 	apv_fh_1.desired_shape = "SQUARE_BRICK"
@@ -183,7 +220,7 @@ func define_pa3c3_game_mode():
 	power_score.add_contributor(apv_fh_3, "Stromerzeugung kWh")
 	power_score.add_contributor(apv_bf_1, "Stromerzeugung kWh")
 	power_score.add_contributor(apv_bf_3, "Stromerzeugung kWh")
-	power_score.target = 50000.0
+	power_score.target = power_target
 	power_score.display_mode = GameScore.DisplayMode.PROGRESSBAR
 	
 	game_mode.add_score(power_score)
