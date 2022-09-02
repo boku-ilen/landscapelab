@@ -43,7 +43,7 @@ func load_gpkg(geopackage_path: String):
 #		513950,
 #		-2,
 #		-1,
-#		5000000
+#		484300000
 #	)
 	
 	# StStefan
@@ -54,7 +54,7 @@ func load_gpkg(geopackage_path: String):
 		391760,
 		-3,
 		-1,
-		5000000
+		293800000
 	)
 
 
@@ -68,9 +68,9 @@ func define_probing_game_mode():
 	acceptable.desired_shape = "SQUARE_BRICK"
 	acceptable.desired_color = "GREEN_BRICK"
 	
-	acceptable.icon_name = "no_icon"
-	acceptable.desired_shape = "SQUARE_BRICK"
-	acceptable.desired_color = "RED_BRICK"
+	unacceptable.icon_name = "no_icon"
+	unacceptable.desired_shape = "SQUARE_BRICK"
+	unacceptable.desired_color = "RED_BRICK"
 	
 	# TODO: Do we want a score, e.g. more acceptable than unacceptable?
 	
