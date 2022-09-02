@@ -34,6 +34,7 @@ func set_popups_container():
 			
 			$WindowDialog.rect_min_size = popup_size
 			$WindowDialog.rect_size = popup_size
+			$WindowDialog.connect("popup_hide", self, "set_pressed", [false])
 
 
 func _toggled(button_pressed):
