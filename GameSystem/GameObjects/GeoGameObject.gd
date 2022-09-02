@@ -11,7 +11,7 @@ func _init(initial_id: int, initial_collection, initial_geo_feature).(initial_id
 
 func get_attribute(attribute_name):
 	if not collection.attributes.has(attribute_name):
-		logger.error("Invalid attribute with name {}".format(attribute_name), "GAMESYSTEM")
+		logger.error("Invalid attribute with name {n}".format({"n": attribute_name}), "GAMESYSTEM")
 		return null
 	
 	return collection.attributes[attribute_name].get_value(self)

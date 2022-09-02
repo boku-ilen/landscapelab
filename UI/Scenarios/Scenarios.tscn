@@ -8,10 +8,7 @@ anchor_bottom = 1.0
 margin_left = 5.0
 margin_top = 38.0
 margin_right = -265.0
-margin_bottom = -941.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_bottom = -558.0
 
 [node name="ScenarioUIConfig" type="Node" parent="."]
 script = ExtResource( 4 )
@@ -20,6 +17,7 @@ script = ExtResource( 4 )
 margin_left = 14.0
 margin_top = 14.0
 margin_right = 1636.0
-margin_bottom = 87.0
+margin_bottom = 470.0
 
 [node name="Scenarios" type="VBoxContainer" parent="ScrollContainer"]
+mouse_filter = 0

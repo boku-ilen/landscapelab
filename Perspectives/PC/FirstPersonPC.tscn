@@ -1,11 +1,14 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Perspectives/PC/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Perspectives/PC/SettingsCamera.gd" type="Script" id=2]
+[ext_resource path="res://addons/godot-openvr/scenes/ovr_first_person.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Perspectives/PC/VRDirectionIndicator.gd" type="Script" id=4]
 [ext_resource path="res://Perspectives/PC/MousePoint.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Perspectives/PC/ActionHandler.gd" type="Script" id=6]
 [ext_resource path="res://Perspectives/Tracking/ParentTracker.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Communication/SetPositionRequestHandler.gd" type="Script" id=8]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/positionindicator.svg" type="Texture" id=9]
 
 [sub_resource type="RayShape" id=1]
 length = 1.65
@@ -21,7 +24,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0 )
 
 [node name="Camera" type="Camera" parent="Head"]
 transform = Transform( 1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0 )
-cull_mask = 119
+cull_mask = 1143
 doppler_tracking = 2
 current = true
 fov = 60.0
@@ -45,3 +48,26 @@ script = ExtResource( 6 )
 [node name="SetPositionRequestHandler" type="Node" parent="."]
 script = ExtResource( 8 )
 target_path = NodePath("..")
+
+[node name="VRDirectionIndicator" type="TextureRect" parent="."]
+visible = false
+margin_right = 20.0
+margin_bottom = 20.0
+texture = ExtResource( 9 )
+expand = true
+script = ExtResource( 4 )
+vr_node = NodePath("../Viewport/OVRFirstPerson")
+
+[node name="Viewport" type="Viewport" parent="."]
+arvr = true
+size = Vector2( 100, 100 )
+keep_3d_linear = true
+render_target_update_mode = 3
+
+[node name="OVRFirstPerson" parent="Viewport" instance=ExtResource( 3 )]
+transform = Transform( 0.999978, 0, 0, 0, 1, 0, 0, 0, 0.999978, 0, 0, 0 )
+
+[node name="RemoteTransform" type="RemoteTransform" parent="."]
+remote_path = NodePath("../Viewport/OVRFirstPerson")
+update_rotation = false
+update_scale = false

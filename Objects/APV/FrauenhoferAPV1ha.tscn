@@ -1,0 +1,246 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Resources/Meshes/APV/frauenhofer-apv.glb" type="PackedScene" id=1]
+[ext_resource path="res://Objects/APV/FrauenhoferAPV1ha.gd" type="Script" id=2]
+
+[node name="FrauenhoferAPV1ha" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="Row" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 50 )
+
+[node name="frauenhofer-apv" parent="Row" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="frauenhofer-apv4" parent="Row" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0 )
+
+[node name="frauenhofer-apv5" parent="Row" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0 )
+
+[node name="frauenhofer-apv6" parent="Row" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0 )
+
+[node name="frauenhofer-apv2" parent="Row" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="frauenhofer-apv3" parent="Row" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0 )
+
+[node name="frauenhofer-apv7" parent="Row" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0 )
+
+[node name="Row2" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40 )
+
+[node name="frauenhofer-apv" parent="Row2" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="frauenhofer-apv4" parent="Row2" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0 )
+
+[node name="frauenhofer-apv5" parent="Row2" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0 )
+
+[node name="frauenhofer-apv6" parent="Row2" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0 )
+
+[node name="frauenhofer-apv2" parent="Row2" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="frauenhofer-apv3" parent="Row2" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0 )
+
+[node name="frauenhofer-apv7" parent="Row2" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0 )
+
+[node name="Row3" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30 )
+
+[node name="frauenhofer-apv" parent="Row3" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="frauenhofer-apv4" parent="Row3" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0 )
+
+[node name="frauenhofer-apv5" parent="Row3" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0 )
+
+[node name="frauenhofer-apv6" parent="Row3" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0 )
+
+[node name="frauenhofer-apv2" parent="Row3" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="frauenhofer-apv3" parent="Row3" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0 )
+
+[node name="frauenhofer-apv7" parent="Row3" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0 )
+
+[node name="Row4" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20 )
+
+[node name="frauenhofer-apv" parent="Row4" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="frauenhofer-apv4" parent="Row4" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0 )
+
+[node name="frauenhofer-apv5" parent="Row4" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0 )
+
+[node name="frauenhofer-apv6" parent="Row4" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0 )
+
+[node name="frauenhofer-apv2" parent="Row4" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="frauenhofer-apv3" parent="Row4" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0 )
+
+[node name="frauenhofer-apv7" parent="Row4" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0 )
+
+[node name="Row5" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
+
+[node name="frauenhofer-apv" parent="Row5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="frauenhofer-apv4" parent="Row5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0 )
+
+[node name="frauenhofer-apv5" parent="Row5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0 )
+
+[node name="frauenhofer-apv6" parent="Row5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0 )
+
+[node name="frauenhofer-apv2" parent="Row5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="frauenhofer-apv3" parent="Row5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0 )
+
+[node name="frauenhofer-apv7" parent="Row5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0 )
+
+[node name="Row6" type="Spatial" parent="."]
+
+[node name="frauenhofer-apv" parent="Row6" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="frauenhofer-apv4" parent="Row6" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0 )
+
+[node name="frauenhofer-apv5" parent="Row6" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0 )
+
+[node name="frauenhofer-apv6" parent="Row6" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0 )
+
+[node name="frauenhofer-apv2" parent="Row6" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="frauenhofer-apv3" parent="Row6" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0 )
+
+[node name="frauenhofer-apv7" parent="Row6" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0 )
+
+[node name="Row7" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10 )
+
+[node name="frauenhofer-apv" parent="Row7" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="frauenhofer-apv4" parent="Row7" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0 )
+
+[node name="frauenhofer-apv5" parent="Row7" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0 )
+
+[node name="frauenhofer-apv6" parent="Row7" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0 )
+
+[node name="frauenhofer-apv2" parent="Row7" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="frauenhofer-apv3" parent="Row7" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0 )
+
+[node name="frauenhofer-apv7" parent="Row7" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0 )
+
+[node name="Row8" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20 )
+
+[node name="frauenhofer-apv" parent="Row8" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="frauenhofer-apv4" parent="Row8" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0 )
+
+[node name="frauenhofer-apv5" parent="Row8" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0 )
+
+[node name="frauenhofer-apv6" parent="Row8" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0 )
+
+[node name="frauenhofer-apv2" parent="Row8" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="frauenhofer-apv3" parent="Row8" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0 )
+
+[node name="frauenhofer-apv7" parent="Row8" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0 )
+
+[node name="Row9" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30 )
+
+[node name="frauenhofer-apv" parent="Row9" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="frauenhofer-apv4" parent="Row9" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0 )
+
+[node name="frauenhofer-apv5" parent="Row9" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0 )
+
+[node name="frauenhofer-apv6" parent="Row9" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0 )
+
+[node name="frauenhofer-apv2" parent="Row9" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="frauenhofer-apv3" parent="Row9" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0 )
+
+[node name="frauenhofer-apv7" parent="Row9" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0 )
+
+[node name="Row10" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40 )
+
+[node name="frauenhofer-apv" parent="Row10" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="frauenhofer-apv4" parent="Row10" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0 )
+
+[node name="frauenhofer-apv5" parent="Row10" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0 )
+
+[node name="frauenhofer-apv6" parent="Row10" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0 )
+
+[node name="frauenhofer-apv2" parent="Row10" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="frauenhofer-apv3" parent="Row10" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0 )
+
+[node name="frauenhofer-apv7" parent="Row10" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0 )

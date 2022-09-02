@@ -1,12 +1,22 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://UI/GameSystem/GameUI.gd" type="Script" id=1]
+[ext_resource path="res://UI/GameSystem/SaveButton.gd" type="Script" id=2]
 
 [node name="GameUI" type="HBoxContainer"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 1 )
 
+[node name="SaveButton" type="Button" parent="."]
+margin_right = 75.0
+margin_bottom = 183.0
+text = "Save"
+script = ExtResource( 2 )
+
 [node name="GameObjects" type="VBoxContainer" parent="."]
-margin_right = 300.0
+margin_left = 83.0
+margin_right = 383.0
 margin_bottom = 183.0
 
 [node name="Label" type="Label" parent="GameObjects"]
@@ -26,11 +36,42 @@ fixed_column_width = 150
 fixed_icon_size = Vector2( 150, 150 )
 
 [node name="Scores" type="VBoxContainer" parent="."]
-margin_left = 308.0
-margin_right = 386.0
+margin_left = 391.0
+margin_right = 469.0
 margin_bottom = 183.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Scores"]
 margin_right = 78.0
 margin_bottom = 25.0
 text = "Scores:"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Scores"]
+margin_top = 33.0
+margin_right = 78.0
+margin_bottom = 183.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Scores/ScrollContainer"]
+margin_right = 308.0
+margin_bottom = 126.0
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Scores/ScrollContainer/HBoxContainer"]
+margin_right = 300.0
+margin_bottom = 126.0
+rect_min_size = Vector2( 300, 0 )
+size_flags_vertical = 3
+
+[node name="IconTextContainer" type="VBoxContainer" parent="Scores/ScrollContainer/HBoxContainer/ScrollContainer"]
+margin_right = 300.0
+margin_bottom = 126.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BarContainer" type="HBoxContainer" parent="Scores/ScrollContainer/HBoxContainer"]
+margin_left = 308.0
+margin_right = 308.0
+margin_bottom = 126.0

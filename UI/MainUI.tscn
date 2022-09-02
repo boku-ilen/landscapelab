@@ -286,7 +286,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 margin_top = 849.0
 margin_right = 1414.0
 margin_bottom = 1034.0
-size_flags_vertical = 8
+size_flags_horizontal = 3
+size_flags_vertical = 11
+size_flags_stretch_ratio = 0.15
 
 [node name="DebugInfo" parent="MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer" instance=ExtResource( 14 )]
 visible = false
@@ -299,7 +301,7 @@ size_flags_horizontal = 3
 layer_renderers_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport/World/Terrain/LayerRenderers")
 
 [node name="GameUI" parent="MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer" instance=ExtResource( 18 )]
-margin_right = 365.0
+margin_right = 1414.0
 margin_bottom = 185.0
 mouse_filter = 0
 viewport_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport")

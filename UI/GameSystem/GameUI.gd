@@ -25,7 +25,10 @@ func _ready():
 	for score in GameSystem.current_game_mode.game_scores.values():
 		var score_ui = load("res://UI/GameSystem/%sScoreUI.tscn" % score.display_mode).instance()
 		score_ui.score = score
-		$Scores.add_child(score_ui)
+		if score_ui.score.display_mode == GameScore.DisplayMode.ICONTEXT:
+			$Scores/ScrollContainer/HBoxContainer/ScrollContainer/IconTextContainer.add_child(score_ui)
+		else:
+			$Scores/ScrollContainer/HBoxContainer.add_child(score_ui)
 
 
 func _on_game_object_collection_selected(item_id):
