@@ -30,10 +30,18 @@ func _init():
 	id = GameSystem.acquire_game_object_id()
 
 
-func add_contributor(game_object_collection: GameObjectCollection, attribute_name, weight = 1.0, color = Color.gray):
-	contributors.append(GameScoreContributor.new(
+func add_contributor(game_object_collection: GameObjectCollection, attribute_name, weight = 1.0, color = Color.gray, weight_min = null, weight_max = null):
+	var new_contributor = GameScoreContributor.new(
 		game_object_collection, attribute_name, weight, color
-	))
+	)
+	
+	if weight_min and weight_max:
+		new_contributor.weight_changable = true
+		new_contributor.weight_interval_start = weight_min
+		new_contributor.weight_interval_end = weight_max
+	
+	contributors.append(new_contributor)
+	new_contributor.connect("weight_changed", self, "recalculate_score")
 
 
 func recalculate_score():
@@ -65,16 +73,28 @@ func is_target_reached():
 class GameScoreContributor:
 	var game_object_collection: GameObjectCollection
 	var attribute_name: String
-	var weight := 1.0
+	var weight := 1.0 setget set_weight
+	var weight_changable := false
+	var weight_interval_start := 0.1
+	var weight_interval_end := 0.1
 	# If wished, the score can be applied with an additional color that is used
 	# for styling in the UI
 	var color_code := Color.gray
+	
+	signal weight_changed
 	
 	func _init(initial_game_object_collection, initial_attribute_name, initial_weight = 1.0, color = Color.gray):
 		game_object_collection = initial_game_object_collection
 		attribute_name = initial_attribute_name
 		weight = initial_weight
 		color_code = color
+	
+	func set_weight(w: float):
+		if w > weight_interval_end or w < weight_interval_start:
+			return
+		
+		weight = w
+		emit_signal("weight_changed")
 	
 	func get_name():
 		return game_object_collection.name + " " + attribute_name
