@@ -9,7 +9,7 @@
    style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
    viewBox="0 0 43.226709 43.226709"
    id="svg955"
-   sodipodi:docname="down.svg"
+   sodipodi:docname="right.svg"
    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -45,6 +45,6 @@
    points="41.63,41.63 0,41.63 20.81,0 "
    style="fill:#e6e6e6;stroke:#000000;stroke-width:4.163;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    id="polygon952"
-   transform="matrix(-0.89374392,0,0,-0.89374392,40.705041,38.268896)" />
+   transform="matrix(0,0.89374392,-0.89374392,0,39.554972,2.2117592)" />
     </g>
 </svg>
