@@ -35,7 +35,7 @@ func load_gpkg(geopackage_path: String):
 	else:
 		emit_signal("geodata_invalid")
 	
-	#define_probing_game_mode()
+	define_pa3c3_game_mode()
 
 
 func define_probing_game_mode():
@@ -115,7 +115,7 @@ func define_pa3c3_game_mode():
 	var profit_score = UpdatingGameScore.new()
 	profit_score.name = "Profit"
 	profit_score.add_contributor(apv_fh, "Profitdifferenz LW")
-	profit_score.add_contributor(apv_fh, "Stromerzeugung kWh", 0.07)
+	profit_score.add_contributor(apv_fh, "Stromerzeugung kWh", 0.07, Color.aliceblue, 0.03, 0.09)
 	profit_score.add_contributor(apv_fh, "Kosten")
 	profit_score.target = 0.0
 	profit_score.display_mode = GameScore.DisplayMode.ICONTEXT
@@ -124,7 +124,7 @@ func define_pa3c3_game_mode():
 	
 	var power_score = UpdatingGameScore.new()
 	power_score.name = "Stromerzeugung kWh"
-	power_score.add_contributor(apv_fh, "Stromerzeugung kWh", 0.07)
+	power_score.add_contributor(apv_fh, "Stromerzeugung kWh", 0.07, Color.aliceblue, 0.03, 0.09)
 	power_score.target = 50000.0
 	power_score.display_mode = GameScore.DisplayMode.PROGRESSBAR
 	
