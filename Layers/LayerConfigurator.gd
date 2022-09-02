@@ -99,7 +99,7 @@ func define_pa3c3_game_mode():
 	var power_generation_bf = ImplicitVectorGameObjectAttribute.new(
 			"Stromerzeugung kWh",
 			Layers.geo_layers["features"]["fields"],
-			"FH_2041_AV"
+			"BF_2041_AV"
 	)
 	apv_bf_1.add_attribute_mapping(power_generation_bf)
 	apv_bf_3.add_attribute_mapping(power_generation_bf)
