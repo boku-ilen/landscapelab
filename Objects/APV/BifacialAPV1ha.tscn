@@ -6,5 +6,4 @@
 [node name="BifacialAPV" type="Spatial"]
 script = ExtResource( 1 )
 apv_scene = ExtResource( 2 )
-distance_x = 15.0
 distance_z = 10.0

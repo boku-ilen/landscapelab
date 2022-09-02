@@ -8,5 +8,4 @@ script = ExtResource( 1 )
 apv_scene = ExtResource( 2 )
 extent_x = 172
 extent_z = 172
-distance_x = 15.0
 distance_z = 10.0
