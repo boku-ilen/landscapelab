@@ -1,4 +1,4 @@
-extends HBoxContainer
+extends "res://UI/GameSystem/AbstractScoreUI.gd"
 
 
 var score: GameScore setget set_score
@@ -7,6 +7,7 @@ var icon_folder = Settings.get_setting("gui", "icon_folder", "ModernLandscapeLab
 
 
 func set_score(new_score):
+	.set_score(new_score)
 	score = new_score
 	
 	$VBox/HBox/Name.text = score.name
