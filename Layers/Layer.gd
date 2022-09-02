@@ -58,6 +58,11 @@ func get_name():
 	pass
 
 
+# Implemented by child classes
+func get_center():
+	pass
+
+
 class UIInfo:
 	var name_attribute
 
@@ -182,6 +187,7 @@ class TwoDimensionalInfo extends RenderInfo:
 		return texture_layer.is_valid()
 
 class PolygonObjectInfo extends RenderInfo:
+	var ground_height_layer: Layer
 	var polygon_layer: Layer
 	# "virtual" layer which serves solely for using gdal features
 	var object_layer: Layer

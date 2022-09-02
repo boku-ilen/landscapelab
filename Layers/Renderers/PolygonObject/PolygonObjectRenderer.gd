@@ -4,14 +4,17 @@ extends LayerRenderer
 var radius = 10000
 var max_features = 2000
 var distance_between_objects = 10
+# Stores if the object-layer has been processed previously
+var processed = false
+var very_large_number = 999999.0
 
 var object_instances = []
 
-onready var polygon_layer = layer.render_info.polygon_layer
-onready var object_layer: FeatureLayer = layer.render_info.object_layer
-
 
 func load_new_data():
+	var polygon_layer = layer.render_info.polygon_layer
+	var object_layer: FeatureLayer = layer.render_info.object_layer
+	
 	# Extract features
 	var features = polygon_layer.get_features_near_position(center[0], center[1], radius, max_features)
 	
@@ -19,33 +22,46 @@ func load_new_data():
 	for poly_feature in features:
 		var polygon = poly_feature.get_outer_vertices()
 		
-		# Find mid point and add objects from there
-		var current_pos = Vector2(0,0)
-		for vertex in polygon: current_pos += vertex
-		current_pos /= polygon.size()
+		# Find left-most and bottom-most and right-most, top-most point in polygon
+		var min_pos = Vector3(very_large_number, 0, very_large_number)
+		var max_pos = Vector3(-very_large_number, 0, -very_large_number)
+		for vertex in polygon: 
+			min_pos.x = vertex.x if vertex.x < min_pos.x else min_pos.x
+			min_pos.z = vertex.y if vertex.y < min_pos.z else min_pos.z
+			
+			max_pos.x = vertex.x if vertex.x > max_pos.x else max_pos.x
+			max_pos.z = vertex.y if vertex.y > max_pos.z else max_pos.z
 		
 		var object: Spatial = layer.render_info.object.instance()
 		
-		while true:
-			# Predefined points in the object that have to be inside the polygon
-			# (i.e. in most cases some form of foothold)
-			for foothold in object.get_footholds():
-				# Add relative foothold position to absolute object position
-				var foothold_pos = (current_pos + foothold.translation) * layer.render_info.individual_rotation 
-				var point_feature = object_layer.create_feature()
-				# TODO: implement this function
-				point_feature.set_position(foothold_pos)
+		var current_pos = min_pos
+		while current_pos.x <= max_pos.x:
+			current_pos.z = min_pos.z
+			while current_pos.z <= max_pos.z:
+				# Predefined points in the object that have to be inside the polygon
+				# (i.e. in most cases some form of foothold)
+				var fully_inside = true
+				for foothold in object.get_node("Footholds").get_children():
+					# Add relative foothold position to absolute object position
+					var foothold_pos = (current_pos + foothold.translation)
+					var point_feature = object_layer.create_feature()
+					#point_feature.set_offset_vector3(Vector3(foothold_pos.x, 0, foothold_pos.z), -center[0], 0, -center[1])
+					point_feature.set_vector3(Vector3(foothold_pos.x, 0, foothold_pos.z))
+					
+					if not poly_feature.intersects_with(point_feature):
+						fully_inside = false
 				
-				if point_feature.intersects_with(poly_feature):
+				if fully_inside:
 					var new_object = layer.render_info.object.instance()
 					new_object.rotation_degrees.y = layer.render_info.individual_rotation
 					new_object.translation = current_pos
+					new_object.translation.y = layer.render_info.ground_height_layer.get_value_at_position(
+						center[0] + current_pos.x, center[1] - current_pos.z)
 					object_instances.append(new_object)
-				else:
-					break
 				
-				# TODO: go in all directions 
-				current_pos += Vector3.RIGHT * distance_between_objects
+				# Go up and right
+				current_pos += Vector3.BACK * distance_between_objects
+			current_pos += Vector3.RIGHT * distance_between_objects
 
 
 func apply_new_data():

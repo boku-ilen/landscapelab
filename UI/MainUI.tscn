@@ -16,7 +16,7 @@
 [ext_resource path="res://UI/DebugInfo/DebugInfo.tscn" type="PackedScene" id=14]
 [ext_resource path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" type="PackedScene" id=15]
 [ext_resource path="res://UI/Layers/LayerManagement/LayerManagement.gd" type="Script" id=16]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/loading.png" type="Texture" id=17]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/loading.svg" type="Texture" id=17]
 [ext_resource path="res://UI/GameSystem/GameUI.tscn" type="PackedScene" id=18]
 [ext_resource path="res://UI/MinimapViewport.gd" type="Script" id=19]
 [ext_resource path="res://UI/Scenarios/Scenarios.tscn" type="PackedScene" id=20]
@@ -56,6 +56,9 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource( 6 )
 script = ExtResource( 43 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 pc_player_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC")
 pos_manager_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/PositionManager")
 time_manager_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/TimeManager")

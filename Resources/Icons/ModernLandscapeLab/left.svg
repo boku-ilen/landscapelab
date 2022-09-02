@@ -3,13 +3,13 @@
 
 <svg
    xml:space="preserve"
-   width="5.1917739mm"
-   height="5.1917739mm"
+   width="5mm"
+   height="5mm"
    version="1.1"
-   style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
-   viewBox="0 0 43.226709 43.226709"
+   style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;fill-rule:evenodd;clip-rule:evenodd"
+   viewBox="0 0 41.63 41.63"
    id="svg955"
-   sodipodi:docname="down.svg"
+   sodipodi:docname="left.svg"
    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -26,8 +26,8 @@
    inkscape:document-units="mm"
    showgrid="false"
    inkscape:zoom="14.574207"
-   inkscape:cx="4.9745417"
-   inkscape:cy="9.9833905"
+   inkscape:cx="5.1803847"
+   inkscape:cy="9.6403185"
    inkscape:window-width="2560"
    inkscape:window-height="1377"
    inkscape:window-x="3832"
@@ -36,15 +36,13 @@
    inkscape:current-layer="Ebene_x0020_1" />
     <g
    id="Ebene_x0020_1"
-   inkscape:label="Ebene 1"
-   inkscape:groupmode="layer"
-   transform="translate(-0.48808459,0.79799171)">
+   inkscape:label="Ebene 1">
         <metadata
    id="CorelCorpID_0Corel-Layer" />
         <polygon
-   points="41.63,41.63 0,41.63 20.81,0 "
-   style="fill:#e6e6e6;stroke:#000000;stroke-width:4.163;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   points="20.81,0 41.63,41.63 0,41.63 "
+   style="fill:#e6e6e6"
    id="polygon952"
-   transform="matrix(-0.89374392,0,0,-0.89374392,40.705041,38.268896)" />
+   transform="matrix(0,1,1,0,0,0)" />
     </g>
 </svg>

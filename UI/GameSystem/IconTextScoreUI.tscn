@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://UI/GameSystem/IconTextScoreUI.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/energy.svg" type="Texture" id=2]
 [ext_resource path="res://Resources/Icons/ModernLandscapeLab/household.svg" type="Texture" id=3]
 [ext_resource path="res://UI/Fonts/Header1.tres" type="DynamicFont" id=4]
+[ext_resource path="res://UI/GameSystem/ScoreUIConfigPopup.tscn" type="PackedScene" id=5]
 
 [node name="IconTextScoreUI" type="HBoxContainer"]
 anchor_right = 0.156
@@ -12,8 +13,15 @@ margin_right = 0.47998
 margin_bottom = 0.319996
 script = ExtResource( 1 )
 
+[node name="AdditionalInfo" parent="." instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 19.0
+margin_bottom = 67.0
+
 [node name="TextureDescriptor" type="TextureRect" parent="."]
-margin_right = 58.0
+margin_left = 27.0
+margin_right = 85.0
 margin_bottom = 67.0
 rect_min_size = Vector2( 58, 58 )
 texture = ExtResource( 2 )
@@ -21,8 +29,8 @@ expand = true
 stretch_mode = 6
 
 [node name="VBox" type="VBoxContainer" parent="."]
-margin_left = 66.0
-margin_right = 216.0
+margin_left = 93.0
+margin_right = 243.0
 margin_bottom = 67.0
 rect_min_size = Vector2( 150, 0 )
 
@@ -58,8 +66,8 @@ align = 1
 valign = 1
 
 [node name="TextureSubject" type="TextureRect" parent="."]
-margin_left = 224.0
-margin_right = 282.0
+margin_left = 251.0
+margin_right = 309.0
 margin_bottom = 67.0
 rect_min_size = Vector2( 58, 58 )
 texture = ExtResource( 3 )

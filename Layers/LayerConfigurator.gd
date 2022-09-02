@@ -35,7 +35,7 @@ func load_gpkg(geopackage_path: String):
 	else:
 		emit_signal("geodata_invalid")
 	
-	#define_probing_game_mode()
+	define_pa3c3_game_mode()
 
 
 func define_probing_game_mode():
@@ -164,11 +164,11 @@ func define_pa3c3_game_mode():
 	profit_score.add_contributor(apv_fh_3, "Profitdifferenz LW", 3.0)
 	profit_score.add_contributor(apv_bf_1, "Profitdifferenz LW")
 	profit_score.add_contributor(apv_bf_3, "Profitdifferenz LW", 3.0)
-	profit_score.add_contributor(apv_fh_1, "Stromerzeugung kWh", 0.07)
+	profit_score.add_contributor(apv_fh_1, "Stromerzeugung kWh", 0.07, Color.aliceblue, 0.03, 0.09)
 	profit_score.add_contributor(apv_fh_3, "Stromerzeugung kWh", 0.07 * 3.0)
 	profit_score.add_contributor(apv_fh_1, "Kosten")
 	profit_score.add_contributor(apv_fh_3, "Kosten", 3.0)
-	profit_score.add_contributor(apv_bf_1, "Stromerzeugung kWh", 0.07)
+	profit_score.add_contributor(apv_bf_1, "Stromerzeugung kWh", 0.07, Color.aliceblue, 0.03, 0.09)
 	profit_score.add_contributor(apv_bf_3, "Stromerzeugung kWh", 0.07 * 3.0)
 	profit_score.add_contributor(apv_bf_1, "Kosten")
 	profit_score.add_contributor(apv_bf_3, "Kosten", 3.0)
