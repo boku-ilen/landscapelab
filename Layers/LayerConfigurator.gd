@@ -177,6 +177,7 @@ func define_pa3c3_game_mode(
 	profit_lw_score.add_contributor(apv_bf_3, "Profitdifferenz LW", 3.0)
 	profit_lw_score.target = 0.0
 	profit_lw_score.display_mode = GameScore.DisplayMode.ICONTEXT
+	profit_lw_score.icon_subject = "euro"
 	
 	game_mode.add_score(profit_lw_score)
 	
@@ -192,6 +193,7 @@ func define_pa3c3_game_mode(
 	profit_power_score.add_contributor(apv_bf_3, "Kosten", 3.0)
 	profit_power_score.target = 0.0
 	profit_power_score.display_mode = GameScore.DisplayMode.ICONTEXT
+	profit_power_score.icon_subject = "euro"
 	
 	game_mode.add_score(profit_power_score)
 	
@@ -211,6 +213,7 @@ func define_pa3c3_game_mode(
 	profit_score.add_contributor(apv_bf_3, "Kosten", 3.0)
 	profit_score.target = 0.0
 	profit_score.display_mode = GameScore.DisplayMode.ICONTEXT
+	profit_score.icon_subject = "euro"
 	
 	game_mode.add_score(profit_score)
 	
