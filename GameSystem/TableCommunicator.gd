@@ -81,6 +81,8 @@ func get_gamestate_info(request: Dictionary):
 #			logger.error("Game Mode would require more possible tokens than provided by this table!")
 	
 	for collection in game_mode.game_object_collections.values():
+		if not collection.desired_shape: continue
+		
 		if not collection.desired_shape in token_to_game_object_collection:
 			token_to_game_object_collection[collection.desired_shape] = {}
 		token_to_game_object_collection[collection.desired_shape][collection.desired_color] = collection
