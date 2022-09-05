@@ -62,7 +62,7 @@ func _on_edit(toggled):
 
 
 func load_features_into_list():
-	var features = layer.get_features_near_position(0, 0, 1000000000, 100)
+	var features = layer.get_all_features()
 	
 	for feature in features:
 		var new_id = $List/ListWindow/ItemList.get_item_count()

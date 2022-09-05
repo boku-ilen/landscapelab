@@ -77,7 +77,7 @@ func _change_selected_layer(id: int):
 func _load_features_into_list():
 	$VBoxContainer/ItemList.clear()
 	
-	var features = current_poi_layer.get_features_near_position(0, 0, 1000000000, 100)
+	var features = current_poi_layer.get_all_features()
 	
 	for feature in features:
 		var new_id = $VBoxContainer/ItemList.get_item_count()
