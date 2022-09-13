@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Objects/APV/APV.gd" type="Script" id=1]
+[ext_resource path="res://Resources/Meshes/APV/bifacial-apv.glb" type="PackedScene" id=2]
+
+[node name="BifacialAPV" type="Spatial"]
+script = ExtResource( 1 )
+apv_scene = ExtResource( 2 )
+distance_z = 10.0

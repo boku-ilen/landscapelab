@@ -20,7 +20,7 @@
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"><metadata
    id="metadata15"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
    id="defs13" /><sodipodi:namedview
    pagecolor="#ffffff"
    bordercolor="#666666"
@@ -30,35 +30,37 @@
    guidetolerance="10"
    inkscape:pageopacity="0"
    inkscape:pageshadow="2"
-   inkscape:window-width="1920"
-   inkscape:window-height="1043"
+   inkscape:window-width="1848"
+   inkscape:window-height="1016"
    id="namedview11"
    showgrid="false"
    inkscape:zoom="6.3324406"
-   inkscape:cx="18.897638"
-   inkscape:cy="18.634206"
-   inkscape:window-x="0"
-   inkscape:window-y="0"
+   inkscape:cx="-33.214971"
+   inkscape:cy="5.1476544"
+   inkscape:window-x="1992"
+   inkscape:window-y="27"
    inkscape:window-maximized="1"
    inkscape:current-layer="svg9" />
     <g
    id="Ebene_x0020_1"
-   style="fill:#ffffff">
+   style="fill:#00001c;fill-opacity:1;stroke:none;stroke-width:2.2578094;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   transform="matrix(1.0014742,0,0,1.0014742,-0.06509624,0.19957663)">
         <metadata
    id="CorelCorpID_0Corel-Layer" />
         <g
    id="_105553303819360"
-   style="fill:#ffffff">
+   style="fill:#00001c;fill-opacity:1;stroke:none;stroke-width:2.2578094;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">
             <circle
-   cx="41.65"
-   cy="23.37"
-   r="23.37"
-   style="fill:#ffffff"
+   cx="41.650002"
+   cy="23.370001"
+   r="23.370001"
+   style="fill:#00001c;fill-opacity:1;stroke:none;stroke-width:2.2578094;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    id="circle3" />
             <path
-   d="M83.29 82.13l-83.29 -0c0.76,-16.19 9.61,-29.87 22.48,-36.8 5.31,4.63 12.12,7.19 19.17,7.19 7.05,0 13.86,-2.55 19.17,-7.19 12.8,6.96 21.72,20.68 22.48,36.81z"
-   style="fill:#ffffff"
-   id="path5" />
+   d="M 83.29,82.13 H 0 c 0.76,-16.19 9.61,-29.87 22.48,-36.8 5.31,4.63 12.12,7.19 19.17,7.19 7.05,0 13.86,-2.55 19.17,-7.19 12.8,6.96 21.72,20.68 22.48,36.81 z"
+   style="fill:#00001c;fill-opacity:1;stroke:none;stroke-width:2.2578094;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   id="path5"
+   inkscape:connector-curvature="0" />
         </g>
     </g>
 </svg>

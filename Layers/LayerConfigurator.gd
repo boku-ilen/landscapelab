@@ -35,7 +35,27 @@ func load_gpkg(geopackage_path: String):
 	else:
 		emit_signal("geodata_invalid")
 	
-	define_pa3c3_game_mode()
+	# Wolkersdorf
+#	define_pa3c3_game_mode(
+#		623950,
+#		493950,
+#		648950,
+#		513950,
+#		-2,
+#		-1,
+#		5000000
+#	)
+	
+	# StStefan
+	define_pa3c3_game_mode(
+		513210,
+		366760,
+		538210,
+		391760,
+		-3,
+		-1,
+		5000000
+	)
 
 
 func define_probing_game_mode():
@@ -57,92 +77,180 @@ func define_probing_game_mode():
 	GameSystem.current_game_mode = game_mode
 
 
-func define_pa3c3_game_mode():
+func define_pa3c3_game_mode(
+		extent_x_min,
+		extent_y_min,
+		extent_x_max,
+		extent_y_max,
+		food_minus_fh,
+		food_minus_bf,
+		power_target
+	):
 	var game_mode = GameMode.new()
 	
-	var apv_fh = game_mode.add_game_object_collection_for_feature_layer("APV Frauenhofer", Layers.geo_layers["features"]["apv_fh"])
+	game_mode.extent = [extent_x_min, extent_y_min, extent_x_max, extent_y_max]
 	
+	var apv_fh_1 = game_mode.add_game_object_collection_for_feature_layer("APV Fraunhofer 1ha", Layers.geo_layers["features"]["apv_fh_1"])
+	var apv_fh_3 = game_mode.add_game_object_collection_for_feature_layer("APV Fraunhofer 3ha", Layers.geo_layers["features"]["apv_fh_3"])
+	
+	var apv_bf_1 = game_mode.add_game_object_collection_for_feature_layer("APV Bifacial 1ha", Layers.geo_layers["features"]["apv_bf_1"])
+	var apv_bf_3 = game_mode.add_game_object_collection_for_feature_layer("APV Bifacial 3ha", Layers.geo_layers["features"]["apv_bf_3"])
+	
+	# Add player game object collection
+	var player_game_object_collection = PlayerGameObjectCollection.new("Players", get_parent().get_node("FirstPersonPC"))
+	game_mode.add_game_object_collection(player_game_object_collection)
+	player_game_object_collection.icon_name = "player_position"
+	player_game_object_collection.desired_shape = "SQUARE_BRICK"
+	player_game_object_collection.desired_color = "GREEN_BRICK"
+
 	var apv_creation_condition = VectorExistsCreationCondition.new("APV auf Feld", Layers.geo_layers["features"]["fields"])
-	apv_fh.add_creation_condition(apv_creation_condition)
+	apv_fh_1.add_creation_condition(apv_creation_condition)
+	apv_fh_3.add_creation_condition(apv_creation_condition)
+	apv_bf_1.add_creation_condition(apv_creation_condition)
+	apv_bf_3.add_creation_condition(apv_creation_condition)
 	
-	var field_profit_attribute = ImplicitVectorGameObjectAttribute.new(
+	var field_profit_attribute_fh = ImplicitVectorGameObjectAttribute.new(
 			"Profitdifferenz LW",
 			Layers.geo_layers["features"]["fields"],
 			"PRF_DIFF_F"
 	)
-	apv_fh.add_attribute_mapping(field_profit_attribute)
+	apv_fh_1.add_attribute_mapping(field_profit_attribute_fh)
+	apv_fh_3.add_attribute_mapping(field_profit_attribute_fh)
 	
-	var power_generation = ImplicitVectorGameObjectAttribute.new(
+	var field_profit_attribute_bf = ImplicitVectorGameObjectAttribute.new(
+			"Profitdifferenz LW",
+			Layers.geo_layers["features"]["fields"],
+			"PRF_DIFF_B"
+	)
+	apv_bf_1.add_attribute_mapping(field_profit_attribute_bf)
+	apv_bf_3.add_attribute_mapping(field_profit_attribute_bf)
+	
+	var power_generation_fh = ImplicitVectorGameObjectAttribute.new(
 			"Stromerzeugung kWh",
 			Layers.geo_layers["features"]["fields"],
 			"FH_2041_AV"
 	)
-	apv_fh.add_attribute_mapping(power_generation)
+	apv_fh_1.add_attribute_mapping(power_generation_fh)
+	apv_fh_3.add_attribute_mapping(power_generation_fh)
 	
-	var cost = StaticAttribute.new(
-			"Kosten",
-			-16035.6
+	var power_generation_bf = ImplicitVectorGameObjectAttribute.new(
+			"Stromerzeugung kWh",
+			Layers.geo_layers["features"]["fields"],
+			"BF_2041_AV"
 	)
-	apv_fh.add_attribute_mapping(cost)
+	apv_bf_1.add_attribute_mapping(power_generation_bf)
+	apv_bf_3.add_attribute_mapping(power_generation_bf)
 	
-	var people_fed = StaticAttribute.new(
-			"Ernaehrte Personen",
-			-1
-	)
-	apv_fh.add_attribute_mapping(people_fed)
+	apv_fh_1.add_attribute_mapping(StaticAttribute.new("Kosten", -47308.8))
+	apv_fh_3.add_attribute_mapping(StaticAttribute.new("Kosten", -47308.8))
 	
-	apv_fh.icon_name = "windmill_icon"
-	apv_fh.desired_shape = "SQUARE_BRICK"
-	apv_fh.desired_color = "BLUE_BRICK"
+	apv_bf_1.add_attribute_mapping(StaticAttribute.new("Kosten", -20044.5))
+	apv_bf_3.add_attribute_mapping(StaticAttribute.new("Kosten", -20044.5))
+
+	apv_fh_1.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", food_minus_fh))
+	apv_fh_3.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", food_minus_fh))
+	
+	apv_bf_1.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", food_minus_bf))
+	apv_bf_3.add_attribute_mapping(StaticAttribute.new("Ernaehrte Personen", food_minus_bf))
+	
+	apv_fh_1.icon_name = "pv_icon"
+	apv_fh_1.desired_shape = "SQUARE_BRICK"
+	apv_fh_1.desired_color = "BLUE_BRICK"
+	
+	apv_fh_3.icon_name = "pv_icon"
+	apv_fh_3.desired_shape = "RECTANGLE_BRICK"
+	apv_fh_3.desired_color = "BLUE_BRICK"
+	
+	apv_bf_1.icon_name = "pv_icon"
+	apv_bf_1.desired_shape = "SQUARE_BRICK"
+	apv_bf_1.desired_color = "RED_BRICK"
+	
+	apv_bf_3.icon_name = "pv_icon"
+	apv_bf_3.desired_shape = "RECTANGLE_BRICK"
+	apv_bf_3.desired_color = "RED_BRICK"
 	
 	var profit_lw_score = UpdatingGameScore.new()
 	profit_lw_score.name = "Profit Landwirtschaft"
-	profit_lw_score.add_contributor(apv_fh, "Profitdifferenz LW")
+	profit_lw_score.add_contributor(apv_fh_1, "Profitdifferenz LW")
+	profit_lw_score.add_contributor(apv_fh_3, "Profitdifferenz LW", 3.0)
+	profit_lw_score.add_contributor(apv_bf_1, "Profitdifferenz LW")
+	profit_lw_score.add_contributor(apv_bf_3, "Profitdifferenz LW", 3.0)
 	profit_lw_score.target = 0.0
 	profit_lw_score.display_mode = GameScore.DisplayMode.ICONTEXT
+	profit_lw_score.icon_subject = "euro"
 	
 	game_mode.add_score(profit_lw_score)
 	
 	var profit_power_score = UpdatingGameScore.new()
 	profit_power_score.name = "Profit Strom"
-	profit_power_score.add_contributor(apv_fh, "Stromerzeugung kWh", 0.07)
-	profit_power_score.add_contributor(apv_fh, "Kosten")
+	profit_power_score.add_contributor(apv_fh_1, "Stromerzeugung kWh", 0.07)
+	profit_power_score.add_contributor(apv_fh_3, "Stromerzeugung kWh", 0.07 * 3.0)
+	profit_power_score.add_contributor(apv_fh_1, "Kosten")
+	profit_power_score.add_contributor(apv_fh_3, "Kosten", 3.0)
+	profit_power_score.add_contributor(apv_bf_1, "Stromerzeugung kWh", 0.07)
+	profit_power_score.add_contributor(apv_bf_3, "Stromerzeugung kWh", 0.07 * 3.0)
+	profit_power_score.add_contributor(apv_bf_1, "Kosten")
+	profit_power_score.add_contributor(apv_bf_3, "Kosten", 3.0)
 	profit_power_score.target = 0.0
 	profit_power_score.display_mode = GameScore.DisplayMode.ICONTEXT
+	profit_power_score.icon_subject = "euro"
 	
 	game_mode.add_score(profit_power_score)
 	
 	var profit_score = UpdatingGameScore.new()
 	profit_score.name = "Profit"
-	profit_score.add_contributor(apv_fh, "Profitdifferenz LW")
-	profit_score.add_contributor(apv_fh, "Stromerzeugung kWh", 0.07, Color.aliceblue, 0.03, 0.09)
-	profit_score.add_contributor(apv_fh, "Kosten")
+	profit_score.add_contributor(apv_fh_1, "Profitdifferenz LW")
+	profit_score.add_contributor(apv_fh_3, "Profitdifferenz LW", 3.0)
+	profit_score.add_contributor(apv_bf_1, "Profitdifferenz LW")
+	profit_score.add_contributor(apv_bf_3, "Profitdifferenz LW", 3.0)
+	profit_score.add_contributor(apv_fh_1, "Stromerzeugung kWh", 0.07, Color.aliceblue, 0.03, 0.09)
+	profit_score.add_contributor(apv_fh_3, "Stromerzeugung kWh", 0.07 * 3.0)
+	profit_score.add_contributor(apv_fh_1, "Kosten")
+	profit_score.add_contributor(apv_fh_3, "Kosten", 3.0)
+	profit_score.add_contributor(apv_bf_1, "Stromerzeugung kWh", 0.07, Color.aliceblue, 0.03, 0.09)
+	profit_score.add_contributor(apv_bf_3, "Stromerzeugung kWh", 0.07 * 3.0)
+	profit_score.add_contributor(apv_bf_1, "Kosten")
+	profit_score.add_contributor(apv_bf_3, "Kosten", 3.0)
 	profit_score.target = 0.0
 	profit_score.display_mode = GameScore.DisplayMode.ICONTEXT
+	profit_score.icon_subject = "euro"
 	
 	game_mode.add_score(profit_score)
 	
 	var power_score = UpdatingGameScore.new()
 	power_score.name = "Stromerzeugung kWh"
-	power_score.add_contributor(apv_fh, "Stromerzeugung kWh", 0.07, Color.aliceblue, 0.03, 0.09)
-	power_score.target = 50000.0
+	power_score.add_contributor(apv_fh_1, "Stromerzeugung kWh")
+	power_score.add_contributor(apv_fh_3, "Stromerzeugung kWh")
+	power_score.add_contributor(apv_bf_1, "Stromerzeugung kWh")
+	power_score.add_contributor(apv_bf_3, "Stromerzeugung kWh")
+	power_score.target = power_target
 	power_score.display_mode = GameScore.DisplayMode.PROGRESSBAR
 	
 	game_mode.add_score(power_score)
 	
 	var power_score_households = UpdatingGameScore.new()
 	power_score_households.name = "Versorgte Haushalte"
-	power_score_households.add_contributor(apv_fh, "Stromerzeugung kWh", 1.0 / 4500.0)
+	power_score_households.add_contributor(apv_fh_1, "Stromerzeugung kWh", 1.0 / 4500.0)
+	power_score_households.add_contributor(apv_fh_3, "Stromerzeugung kWh", 1.0 / 4500.0 * 3.0)
+	power_score_households.add_contributor(apv_bf_1, "Stromerzeugung kWh", 1.0 / 4500.0)
+	power_score_households.add_contributor(apv_bf_3, "Stromerzeugung kWh", 1.0 / 4500.0 * 3.0)
 	power_score_households.target = 100
 	power_score_households.display_mode = GameScore.DisplayMode.ICONTEXT
+	power_score_households.icon_descriptor = "energy"
+	power_score_households.icon_subject = "household"
 	
 	game_mode.add_score(power_score_households)
 	
 	var food_score = UpdatingGameScore.new()
 	food_score.name = "Ernährte Personen"
-	food_score.add_contributor(apv_fh, "Ernaehrte Personen")
+	food_score.add_contributor(apv_fh_1, "Ernaehrte Personen")
+	food_score.add_contributor(apv_fh_3, "Ernaehrte Personen", 3.0)
+	food_score.add_contributor(apv_bf_1, "Ernaehrte Personen")
+	food_score.add_contributor(apv_bf_3, "Ernaehrte Personen", 3.0)
 	food_score.target = 0.0
 	food_score.display_mode = GameScore.DisplayMode.ICONTEXT
+	food_score.icon_descriptor = "grass"
+	food_score.icon_subject = "person"
 	
 	game_mode.add_score(food_score)
 	
