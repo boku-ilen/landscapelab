@@ -11,14 +11,26 @@ signal rain_density_changed(new_rain_density)
 signal rain_drop_size_changed(new_rain_density)
 signal rain_enabled_changed(enabled)
 
-var visibility = 0 setget set_visibility # 0..100 = "clear visibility".."strong haziness"
-var cloudiness = 0 setget set_cloudiness # 0..100 = "clear sky".."fully overcast"
-var wind_speed = 10 setget set_wind_speed # in km/h
-var wind_direction = 0 setget set_wind_direction # in degrees
+# 0..100 = "clear visibility".."strong haziness"
+var visibility = 0 setget set_visibility
+
+# 0..100 = "clear sky".."fully overcast"
+var cloudiness = 0 setget set_cloudiness
+
+# in km/h
+var wind_speed = 10 setget set_wind_speed
+
+# in degrees
+var wind_direction = 0 setget set_wind_direction 
+
 var rain_enabled := false setget set_rain_enabled
+
 var rain_density := 100.0 setget set_rain_density
+
 var rain_drop_size := 1.0 setget set_rain_drop_size
-var is_unshaded = false setget set_is_unshaded # true or false; makes objects completely unshaded
+
+# true or false; makes objects completely unshaded
+var is_unshaded = false setget set_is_unshaded
 
 
 func _ready():
