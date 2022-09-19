@@ -21,12 +21,6 @@ var rain_drop_size := 1.0 setget set_rain_drop_size
 var is_unshaded = false setget set_is_unshaded # true or false; makes objects completely unshaded
 
 
-func _ready():
-	var remote_transform = RemoteTransform.new()
-	remote_transform.remote_path = get_parent().get_node("WorldEnvironment/Rain").get_path()
-	get_parent().get_node("FirstPersonPC").add_child(remote_transform)
-
-
 func set_visibility(new_visibility):
 	visibility = new_visibility
 	emit_signal("visibility_changed", visibility)

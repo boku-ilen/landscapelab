@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://World/Environment/WorldEnvironment.gd" type="Script" id=1]
 [ext_resource path="res://addons/Sky/sky_texture.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://addons/cloud/CageMesh.tres" type="ArrayMesh" id=5]
 [ext_resource path="res://addons/cloud/Cloud.gd" type="Script" id=6]
 [ext_resource path="res://Resources/Textures/starmap_random_2020_4k.exr" type="Texture" id=7]
+[ext_resource path="res://World/Environment/RainParticles.tscn" type="PackedScene" id=8]
 
 [sub_resource type="PanoramaSky" id=1]
 resource_local_to_scene = true
@@ -33,7 +34,7 @@ glow_bicubic_upscale = true
 adjustment_enabled = true
 adjustment_saturation = 1.2
 
-[sub_resource type="ShaderMaterial" id=27]
+[sub_resource type="ShaderMaterial" id=3]
 render_priority = -119
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
@@ -47,9 +48,9 @@ shader_param/detail_noise = true
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=28]
+[sub_resource type="ShaderMaterial" id=4]
 render_priority = -120
-next_pass = SubResource( 27 )
+next_pass = SubResource( 3 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -62,9 +63,9 @@ shader_param/detail_noise = true
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=29]
+[sub_resource type="ShaderMaterial" id=5]
 render_priority = -121
-next_pass = SubResource( 28 )
+next_pass = SubResource( 4 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -77,9 +78,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=30]
+[sub_resource type="ShaderMaterial" id=6]
 render_priority = -122
-next_pass = SubResource( 29 )
+next_pass = SubResource( 5 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -92,9 +93,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=31]
+[sub_resource type="ShaderMaterial" id=7]
 render_priority = -123
-next_pass = SubResource( 30 )
+next_pass = SubResource( 6 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -107,9 +108,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=32]
+[sub_resource type="ShaderMaterial" id=8]
 render_priority = -124
-next_pass = SubResource( 31 )
+next_pass = SubResource( 7 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -122,9 +123,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=33]
+[sub_resource type="ShaderMaterial" id=9]
 render_priority = -125
-next_pass = SubResource( 32 )
+next_pass = SubResource( 8 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -137,9 +138,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=34]
+[sub_resource type="ShaderMaterial" id=10]
 render_priority = -126
-next_pass = SubResource( 33 )
+next_pass = SubResource( 9 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -152,9 +153,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=35]
+[sub_resource type="ShaderMaterial" id=11]
 render_priority = -127
-next_pass = SubResource( 34 )
+next_pass = SubResource( 10 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -167,9 +168,9 @@ shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=36]
+[sub_resource type="ShaderMaterial" id=12]
 render_priority = -128
-next_pass = SubResource( 35 )
+next_pass = SubResource( 11 )
 shader = ExtResource( 3 )
 shader_param/seed = -10000.0
 shader_param/speed = Vector2( 20, 10 )
@@ -181,36 +182,6 @@ shader_param/color = Color( 1, 1, 1, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
-
-[sub_resource type="SpatialMaterial" id=13]
-params_blend_mode = 1
-params_cull_mode = 2
-params_billboard_mode = 3
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
-albedo_color = Color( 0.32549, 0.360784, 0.482353, 1 )
-roughness = 0.0
-emission_enabled = true
-emission = Color( 0.439216, 0.470588, 0.52549, 1 )
-emission_energy = 0.48
-emission_operator = 0
-emission_on_uv2 = false
-
-[sub_resource type="ParticlesMaterial" id=14]
-emission_shape = 2
-emission_box_extents = Vector3( 50, 50, 50 )
-emission_ring_axis = Vector3( 0, 0, 0 )
-direction = Vector3( 0, 1, 0 )
-spread = 0.0
-initial_velocity = 1.0
-initial_velocity_random = 0.05
-
-[sub_resource type="SpatialMaterial" id=26]
-
-[sub_resource type="CubeMesh" id=15]
-material = SubResource( 26 )
-size = Vector3( 0.01, 0.3, 0.01 )
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource( 2 )
@@ -235,25 +206,14 @@ night_sky = ExtResource( 7 )
 scene_to_load = "res://Python/PysolarInterface.tscn"
 
 [node name="CloudDome" type="MeshInstance" parent="."]
-material_override = SubResource( 36 )
+material_override = SubResource( 12 )
 cast_shadow = 0
 extra_cull_margin = 1000.0
 mesh = ExtResource( 5 )
-material/0 = null
 script = ExtResource( 6 )
 draw_count = 10
 cloud_speed = Vector2( 20, 10 )
 cloud_transform_speed = Vector2( 0.001, 0.001 )
 cloud_thickness = 180.0
 
-[node name="Rain" type="Particles" parent="."]
-material_override = SubResource( 13 )
-cast_shadow = 0
-emitting = false
-amount = 500
-lifetime = 10.0
-speed_scale = 3.0
-visibility_aabb = AABB( -250, -250, -250, 500, 500, 500 )
-draw_order = 2
-process_material = SubResource( 14 )
-draw_pass_1 = SubResource( 15 )
+[node name="RainParticles" parent="." instance=ExtResource( 8 )]
