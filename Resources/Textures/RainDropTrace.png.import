@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/RainFalling.png-ab38e2b9959531839e49b127baef6409.s3tc.stex"
-path.etc2="res://.import/RainFalling.png-ab38e2b9959531839e49b127baef6409.etc2.stex"
+path.s3tc="res://.import/RainDropTrace.png-2175e8ea3266ececdaeb47d0f9aa2193.s3tc.stex"
+path.etc2="res://.import/RainDropTrace.png-2175e8ea3266ececdaeb47d0f9aa2193.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Resources/Textures/RainFalling.png"
-dest_files=[ "res://.import/RainFalling.png-ab38e2b9959531839e49b127baef6409.s3tc.stex", "res://.import/RainFalling.png-ab38e2b9959531839e49b127baef6409.etc2.stex" ]
+source_file="res://Resources/Textures/RainDropTrace.png"
+dest_files=[ "res://.import/RainDropTrace.png-2175e8ea3266ececdaeb47d0f9aa2193.s3tc.stex", "res://.import/RainDropTrace.png-2175e8ea3266ececdaeb47d0f9aa2193.etc2.stex" ]
 
 [params]
 

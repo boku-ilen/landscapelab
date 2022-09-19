@@ -27,16 +27,8 @@ var rain_enabled := false setget set_rain_enabled
 
 var rain_density := 100.0 setget set_rain_density
 
-var rain_drop_size := 1.0 setget set_rain_drop_size
-
-# true or false; makes objects completely unshaded
-var is_unshaded = false setget set_is_unshaded
-
-
-func _ready():
-	var remote_transform = RemoteTransform.new()
-	remote_transform.remote_path = get_parent().get_node("WorldEnvironment/Rain").get_path()
-	get_parent().get_node("FirstPersonPC").add_child(remote_transform)
+var rain_drop_size := Vector2(0.5, 0.25) setget set_rain_drop_size
+var is_unshaded = false setget set_is_unshaded # true or false; makes objects completely unshaded
 
 
 func set_visibility(new_visibility):
@@ -54,7 +46,7 @@ func set_rain_density(new_rain_density: float):
 	emit_signal("rain_density_changed", rain_density)
 
 
-func set_rain_drop_size(new_rain_drop_size: float):
+func set_rain_drop_size(new_rain_drop_size: Vector2):
 	rain_drop_size = new_rain_drop_size
 	emit_signal("rain_drop_size_changed", new_rain_drop_size)
 

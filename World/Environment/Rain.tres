@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://World/Environment/RainShader.tres" type="Shader" id=1]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/amount = 196
+shader_param/rows = 14
+shader_param/randomness = 5.0
+shader_param/spacing = 1.0
+shader_param/droplet_start_height = 5.0
+shader_param/droplet_speed_modifier = 5.0
+shader_param/shift_threshold = 10.0
+shader_param/scale_x = 0.5
+shader_param/scale_y = 1.0
+shader_param/wind_force_north = 0.0
+shader_param/wind_force_east = 10.0

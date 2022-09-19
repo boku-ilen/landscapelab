@@ -1,0 +1,15 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://Resources/Textures/RainDropTrace.png" type="Texture" id=1]
+
+[resource]
+flags_transparent = true
+params_blend_mode = 1
+params_billboard_mode = 2
+params_billboard_keep_scale = true
+albedo_texture = ExtResource( 1 )
+emission_enabled = true
+emission = Color( 1, 1, 0.976471, 1 )
+emission_energy = 0.1
+emission_operator = 0
+emission_on_uv2 = false
