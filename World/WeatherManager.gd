@@ -17,7 +17,7 @@ var wind_speed = 10 setget set_wind_speed # in km/h
 var wind_direction = 0 setget set_wind_direction # in degrees
 var rain_enabled := false setget set_rain_enabled
 var rain_density := 100.0 setget set_rain_density
-var rain_drop_size := 1.0 setget set_rain_drop_size
+var rain_drop_size := Vector2(0.5, 0.25) setget set_rain_drop_size
 var is_unshaded = false setget set_is_unshaded # true or false; makes objects completely unshaded
 
 
@@ -36,7 +36,7 @@ func set_rain_density(new_rain_density: float):
 	emit_signal("rain_density_changed", rain_density)
 
 
-func set_rain_drop_size(new_rain_drop_size: float):
+func set_rain_drop_size(new_rain_drop_size: Vector2):
 	rain_drop_size = new_rain_drop_size
 	emit_signal("rain_drop_size_changed", new_rain_drop_size)
 

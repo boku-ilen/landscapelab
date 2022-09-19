@@ -217,3 +217,4 @@ cloud_transform_speed = Vector2( 0.001, 0.001 )
 cloud_thickness = 180.0
 
 [node name="RainParticles" parent="." instance=ExtResource( 8 )]
+emitting = false
