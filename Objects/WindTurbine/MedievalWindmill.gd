@@ -6,8 +6,11 @@ extends Spatial
 
 onready var rotor = get_node("Mesh/Rotor")
 
-export(float) var speed = 0.1 # Rotation speed in radians
-export(float) var wind_direction = 0 setget set_wind_direction, get_wind_direction # Rotation of wind in degrees
+# Rotation speed in radians
+export(float) var speed = 0.1
+
+# Rotation of wind in degrees
+export(float) var wind_direction = 0 setget set_wind_direction, get_wind_direction
 
 export var mesh_hub_height := 135
 export var mesh_rotor_diameter := 100

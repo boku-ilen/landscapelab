@@ -1,18 +1,16 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://UI/Weather/WeatherUI.gd" type="Script" id=1]
+[ext_resource path="res://UI/CustomElements/SlideAndSpin.tscn" type="PackedScene" id=2]
 
 [node name="WeatherUI" type="VBoxContainer"]
 margin_right = 40.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 600, 0 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Visibility" type="HBoxContainer" parent="."]
-margin_right = 600.0
+margin_right = 693.0
 margin_bottom = 32.0
 alignment = 1
 
@@ -24,20 +22,20 @@ text = "Visibility: Clear"
 
 [node name="HSlider" type="HSlider" parent="Visibility"]
 margin_left = 165.0
-margin_right = 539.0
+margin_right = 632.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="Visibility"]
-margin_left = 547.0
+margin_left = 640.0
 margin_top = 3.0
-margin_right = 600.0
+margin_right = 693.0
 margin_bottom = 28.0
 text = "Hazy"
 
 [node name="Clouds" type="HBoxContainer" parent="."]
 margin_top = 40.0
-margin_right = 600.0
+margin_right = 693.0
 margin_bottom = 72.0
 
 [node name="Label" type="Label" parent="Clouds"]
@@ -48,20 +46,20 @@ text = "Cloudiness: Clear"
 
 [node name="HSlider" type="HSlider" parent="Clouds"]
 margin_left = 193.0
-margin_right = 496.0
+margin_right = 589.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="Clouds"]
-margin_left = 504.0
+margin_left = 597.0
 margin_top = 3.0
-margin_right = 600.0
+margin_right = 693.0
 margin_bottom = 28.0
 text = "Overcast"
 
 [node name="WindSpeed" type="HBoxContainer" parent="."]
 margin_top = 80.0
-margin_right = 600.0
+margin_right = 693.0
 margin_bottom = 112.0
 
 [node name="Label" type="Label" parent="WindSpeed"]
@@ -72,7 +70,7 @@ text = "Wind Speed (km/h): 0"
 
 [node name="HSlider" type="HSlider" parent="WindSpeed"]
 margin_left = 238.0
-margin_right = 566.0
+margin_right = 659.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 max_value = 50.0
@@ -81,15 +79,15 @@ tick_count = 6
 ticks_on_borders = true
 
 [node name="Label2" type="Label" parent="WindSpeed"]
-margin_left = 574.0
+margin_left = 667.0
 margin_top = 3.0
-margin_right = 600.0
+margin_right = 693.0
 margin_bottom = 28.0
 text = "50"
 
 [node name="WindDirection" type="HBoxContainer" parent="."]
 margin_top = 120.0
-margin_right = 600.0
+margin_right = 693.0
 margin_bottom = 152.0
 
 [node name="Label" type="Label" parent="WindDirection"]
@@ -100,7 +98,7 @@ text = "Wind Direction (°): 0"
 
 [node name="HSlider" type="HSlider" parent="WindDirection"]
 margin_left = 222.0
-margin_right = 553.0
+margin_right = 646.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 max_value = 360.0
@@ -108,15 +106,15 @@ tick_count = 5
 ticks_on_borders = true
 
 [node name="Label2" type="Label" parent="WindDirection"]
-margin_left = 561.0
+margin_left = 654.0
 margin_top = 3.0
-margin_right = 600.0
+margin_right = 693.0
 margin_bottom = 28.0
 text = "360"
 
 [node name="Rain" type="HBoxContainer" parent="."]
 margin_top = 160.0
-margin_right = 600.0
+margin_right = 693.0
 margin_bottom = 208.0
 
 [node name="Label" type="Label" parent="Rain"]
@@ -130,70 +128,45 @@ margin_left = 160.0
 margin_right = 208.0
 margin_bottom = 48.0
 
-[node name="RainDensity" type="HBoxContainer" parent="."]
+[node name="RainDensity" parent="." instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 216.0
-margin_right = 600.0
-margin_bottom = 248.0
-
-[node name="Label" type="Label" parent="RainDensity"]
-margin_top = 3.0
-margin_right = 171.0
-margin_bottom = 28.0
-text = "Rain Density: 50"
-
-[node name="HSlider" type="HSlider" parent="RainDensity"]
-margin_left = 179.0
-margin_right = 540.0
-margin_bottom = 32.0
-size_flags_horizontal = 3
-min_value = 100.0
-max_value = 5000.0
-step = 300.0
+margin_right = 693.0
+margin_bottom = 261.0
+label = "Rain Density: "
+min_value = 20.0
+max_value = 500.0
 value = 100.0
-tick_count = 20
-ticks_on_borders = true
 
-[node name="Label2" type="Label" parent="RainDensity"]
-margin_left = 548.0
-margin_top = 3.0
-margin_right = 600.0
-margin_bottom = 28.0
-text = "2000"
-
-[node name="RainDrop" type="HBoxContainer" parent="."]
-margin_top = 256.0
-margin_right = 600.0
-margin_bottom = 288.0
-
-[node name="Label" type="Label" parent="RainDrop"]
-margin_top = 3.0
-margin_right = 200.0
-margin_bottom = 28.0
-text = "Rain Drop Size: 0.1"
-
-[node name="HSlider" type="HSlider" parent="RainDrop"]
-margin_left = 208.0
-margin_right = 579.0
-margin_bottom = 32.0
-size_flags_horizontal = 3
+[node name="RainDropX" parent="." instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 269.0
+margin_right = 693.0
+margin_bottom = 314.0
+label = "Rain Drop Size X:"
 min_value = 0.1
-max_value = 200.0
+max_value = 5.0
 step = 0.1
-value = 5.0
-tick_count = 20
-ticks_on_borders = true
+value = 1.0
 
-[node name="Label2" type="Label" parent="RainDrop"]
-margin_left = 587.0
-margin_top = 3.0
-margin_right = 600.0
-margin_bottom = 28.0
-text = "5"
+[node name="RainDropY" parent="." instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 322.0
+margin_right = 693.0
+margin_bottom = 367.0
+label = "Rain Drop Size Y:"
+min_value = 0.1
+max_value = 5.0
+step = 0.1
+value = 0.5
 
 [node name="Unshaded" type="HBoxContainer" parent="."]
-margin_top = 296.0
-margin_right = 600.0
-margin_bottom = 344.0
+margin_top = 375.0
+margin_right = 693.0
+margin_bottom = 423.0
 
 [node name="Label" type="Label" parent="Unshaded"]
 margin_top = 11.0

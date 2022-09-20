@@ -40,15 +40,22 @@ func apply_visibility(new_visibility):
 
 
 func apply_rain_enabled(enabled):
-	$Rain.emitting = enabled
+	$RainParticles.emitting = enabled
 
 
 func apply_rain_drop_size(rain_drop_size):
-	$Rain.process_material.scale = rain_drop_size
+	$RainParticles.scale_x = rain_drop_size.x
+	$RainParticles.scale_y = rain_drop_size.y
 
 
 func apply_rain_density(rain_density):
-	$Rain.amount = rain_density
+	# FIXME: we should define a function that calculates the cloud color given all
+	# FIXME: relevant environment impacts (sunrise/set, rain, ...)
+	if $RainParticles.emitting:
+		$CloudDome.shade_color = Color("#011030")
+		$CloudDome.cloud_color = Color("#7bdefc")
+		$CloudDome._regen_mesh()
+	$RainParticles.amount = rain_density
 
 
 func apply_cloudiness(new_cloudiness):
@@ -73,8 +80,8 @@ func apply_wind():
 	$CloudDome.cloud_speed = wind_vector
 	# FIXME: the angle should also be applied - it rotates with the camera however
 	# $Rain.process_material.angle = 
-	$Rain.process_material.direction = Vector3(rotated_vector.x, 1, rotated_vector.y) * wind_speed 
-	$Rain.speed_scale = wind_speed
+	$RainParticles.wind_force_east = rotated_vector.x * wind_speed * 0.3
+	$RainParticles.wind_force_north = rotated_vector.y * wind_speed  * 0.3
 
 
 func apply_is_unshaded(new_is_unshaded):

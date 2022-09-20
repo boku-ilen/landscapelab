@@ -22,6 +22,11 @@ func _ready():
 	$Terrain/LayerRenderers.time_manager = $TimeManager
 	$Terrain/LayerRenderers.weather_manager = $WeatherManager
 	
+	$WorldEnvironment/RainParticles.center_node = $PositionManager.center_node
+	$PositionManager.connect("new_center_node", $WorldEnvironment/RainParticles, "set_center_node")
+	$WorldEnvironment/RainSplashes.center_node = $PositionManager.center_node
+	$PositionManager.connect("new_center_node", $WorldEnvironment/RainSplashes, "set_center_node")
+	
 	Screencapture.pos_manager = $PositionManager
 
 
