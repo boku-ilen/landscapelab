@@ -11,11 +11,11 @@
 [node name="TerrainLOD" type="MeshInstance"]
 material_override = ExtResource( 4 )
 mesh = ExtResource( 1 )
-material/0 = null
 script = ExtResource( 3 )
 
 [node name="HeightmapCollider" type="StaticBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1 )
+collision_layer = 524289
 
 [node name="CollisionShape" type="CollisionShape" parent="HeightmapCollider"]
 shape = SubResource( 1 )
