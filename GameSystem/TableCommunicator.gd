@@ -99,7 +99,9 @@ func get_gamestate_info(request: Dictionary):
 			"score_id": score.id,
 			"name": score.name,
 			"initial_value": score.value,
-			"target_value": score.target
+			"target_value": score.target,
+			"icon_descriptor": score.icon_descriptor,
+			"icon_subject": score.icon_subject
 		})
 	
 	# Write existing tokens into the response

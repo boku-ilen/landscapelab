@@ -90,9 +90,6 @@ class GameScoreContributor:
 		color_code = color
 	
 	func set_weight(w: float):
-		if w > weight_interval_end or w < weight_interval_start:
-			return
-		
 		weight = w
 		emit_signal("weight_changed")
 	
