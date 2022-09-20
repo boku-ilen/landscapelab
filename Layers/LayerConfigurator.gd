@@ -35,7 +35,13 @@ func load_gpkg(geopackage_path: String):
 	else:
 		emit_signal("geodata_invalid")
 	
-	# Wolkersdorf
+#	define_probing_game_mode(
+#		623950,
+#		493950,
+#		648950,
+#		513950)
+	
+#	# Wolkersdorf
 #	define_pa3c3_game_mode(
 #		623950,
 #		493950,
@@ -43,23 +49,28 @@ func load_gpkg(geopackage_path: String):
 #		513950,
 #		-2,
 #		-1,
-#		484300000
+#		4843000,
+#		56100000
 #	)
-	
+#
 	# StStefan
-	define_pa3c3_game_mode(
-		513210,
-		366760,
-		538210,
-		391760,
-		-3,
-		-1,
-		293800000
-	)
+#	define_pa3c3_game_mode(
+#		513210,
+#		366760,
+#		538210,
+#		391760,
+#		-3,
+#		-1,
+#		2938000
+#	)
 
 
-func define_probing_game_mode():
+func define_probing_game_mode(extent_x_min,
+		extent_y_min,
+		extent_x_max,
+		extent_y_max):
 	var game_mode = GameMode.new()
+	game_mode.extent = [extent_x_min, extent_y_min, extent_x_max, extent_y_max]
 	
 	var acceptable = game_mode.add_game_object_collection_for_feature_layer("Vorstellbar", Layers.geo_layers["features"]["acceptable"])
 	var unacceptable = game_mode.add_game_object_collection_for_feature_layer("Nicht vorstellbar", Layers.geo_layers["features"]["unacceptable"])
@@ -84,7 +95,8 @@ func define_pa3c3_game_mode(
 		extent_y_max,
 		food_minus_fh,
 		food_minus_bf,
-		power_target
+		power_target,
+		power_target2
 	):
 	var game_mode = GameMode.new()
 	
@@ -170,7 +182,7 @@ func define_pa3c3_game_mode(
 	apv_bf_3.desired_color = "RED_BRICK"
 	
 	var profit_lw_score = UpdatingGameScore.new()
-	profit_lw_score.name = "Profit Landwirtschaft"
+	profit_lw_score.name = "Deckungsbeitrag"
 	profit_lw_score.add_contributor(apv_fh_1, "Profitdifferenz LW")
 	profit_lw_score.add_contributor(apv_fh_3, "Profitdifferenz LW", 3.0)
 	profit_lw_score.add_contributor(apv_bf_1, "Profitdifferenz LW")
@@ -178,6 +190,7 @@ func define_pa3c3_game_mode(
 	profit_lw_score.target = 0.0
 	profit_lw_score.display_mode = GameScore.DisplayMode.ICONTEXT
 	profit_lw_score.icon_subject = "euro"
+	profit_lw_score.icon_descriptor = "grass"
 	
 	game_mode.add_score(profit_lw_score)
 	
@@ -194,6 +207,7 @@ func define_pa3c3_game_mode(
 	profit_power_score.target = 0.0
 	profit_power_score.display_mode = GameScore.DisplayMode.ICONTEXT
 	profit_power_score.icon_subject = "euro"
+	profit_power_score.icon_descriptor = "energy"
 	
 	game_mode.add_score(profit_power_score)
 	
@@ -214,32 +228,30 @@ func define_pa3c3_game_mode(
 	profit_score.target = 0.0
 	profit_score.display_mode = GameScore.DisplayMode.ICONTEXT
 	profit_score.icon_subject = "euro"
+	profit_score.icon_descriptor = "sum"
 	
 	game_mode.add_score(profit_score)
 	
 	var power_score = UpdatingGameScore.new()
-	power_score.name = "Stromerzeugung kWh"
+	power_score.name = "Stromerzeugung kWh 2030"
 	power_score.add_contributor(apv_fh_1, "Stromerzeugung kWh")
-	power_score.add_contributor(apv_fh_3, "Stromerzeugung kWh")
+	power_score.add_contributor(apv_fh_3, "Stromerzeugung kWh", 3.0)
 	power_score.add_contributor(apv_bf_1, "Stromerzeugung kWh")
-	power_score.add_contributor(apv_bf_3, "Stromerzeugung kWh")
+	power_score.add_contributor(apv_bf_3, "Stromerzeugung kWh", 3.0)
 	power_score.target = power_target
 	power_score.display_mode = GameScore.DisplayMode.PROGRESSBAR
 	
+	var power_score2 = UpdatingGameScore.new()
+	power_score2.name = "Stromerzeugung kWh 2050"
+	power_score2.add_contributor(apv_fh_1, "Stromerzeugung kWh")
+	power_score2.add_contributor(apv_fh_3, "Stromerzeugung kWh", 3.0)
+	power_score2.add_contributor(apv_bf_1, "Stromerzeugung kWh")
+	power_score2.add_contributor(apv_bf_3, "Stromerzeugung kWh", 3.0)
+	power_score2.target = power_target2
+	power_score2.display_mode = GameScore.DisplayMode.PROGRESSBAR
+	
 	game_mode.add_score(power_score)
-	
-	var power_score_households = UpdatingGameScore.new()
-	power_score_households.name = "Versorgte Haushalte"
-	power_score_households.add_contributor(apv_fh_1, "Stromerzeugung kWh", 1.0 / 4500.0)
-	power_score_households.add_contributor(apv_fh_3, "Stromerzeugung kWh", 1.0 / 4500.0 * 3.0)
-	power_score_households.add_contributor(apv_bf_1, "Stromerzeugung kWh", 1.0 / 4500.0)
-	power_score_households.add_contributor(apv_bf_3, "Stromerzeugung kWh", 1.0 / 4500.0 * 3.0)
-	power_score_households.target = 100
-	power_score_households.display_mode = GameScore.DisplayMode.ICONTEXT
-	power_score_households.icon_descriptor = "energy"
-	power_score_households.icon_subject = "household"
-	
-	game_mode.add_score(power_score_households)
+	game_mode.add_score(power_score2)
 	
 	var food_score = UpdatingGameScore.new()
 	food_score.name = "Ernährte Personen"
@@ -253,6 +265,19 @@ func define_pa3c3_game_mode(
 	food_score.icon_subject = "person"
 	
 	game_mode.add_score(food_score)
+	
+	var power_score_households = UpdatingGameScore.new()
+	power_score_households.name = "Versorgte Haushalte"
+	power_score_households.add_contributor(apv_fh_1, "Stromerzeugung kWh", 1.0 / 4500.0)
+	power_score_households.add_contributor(apv_fh_3, "Stromerzeugung kWh", 1.0 / 4500.0 * 3.0)
+	power_score_households.add_contributor(apv_bf_1, "Stromerzeugung kWh", 1.0 / 4500.0)
+	power_score_households.add_contributor(apv_bf_3, "Stromerzeugung kWh", 1.0 / 4500.0 * 3.0)
+	power_score_households.target = 0.0
+	power_score_households.display_mode = GameScore.DisplayMode.ICONTEXT
+	power_score_households.icon_descriptor = "energy"
+	power_score_households.icon_subject = "household"
+	
+	game_mode.add_score(power_score_households)
 	
 	GameSystem.current_game_mode = game_mode
 
