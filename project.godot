@@ -491,8 +491,6 @@ config/icon="res://Resources/Icons/Meta/icon.png"
 [autoload]
 
 logger="*res://Global/Debug/logger.gd"
-Startup="*res://Global/Startup.gd"
-ErrorPrompt="*res://Global/Debug/ErrorPrompt.gd"
 Settings="*res://Config/Settings.gd"
 CommunicationServer="*res://Communication/CommunicationServer.gd"
 ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
@@ -846,7 +844,7 @@ screenshot={
 
 [locale]
 
-translations=PoolStringArray( "res://UI/Translations/energy.de.translation", "res://UI/Translations/energy.en.translation" )
+translations=PoolStringArray(  )
 
 [memory]
 
