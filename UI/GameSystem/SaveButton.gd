@@ -13,4 +13,5 @@ func _on_button_pressed():
 				timestamp["day"], timestamp["hour"], timestamp["minute"], timestamp["second"], 0]
 		)
 		
-		goc.feature_layer.save_modified_layer(gamestate_filename)
+		if "feature_layer" in goc:
+			goc.feature_layer.save_modified_layer(gamestate_filename)
