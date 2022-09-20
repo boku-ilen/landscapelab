@@ -5,3 +5,5 @@
 [node name="Rows_field1" type="Spatial"]
 
 [node name="F1_HK_rows_relief_ungrouped" parent="." instance=ExtResource( 1 )]
+
+[editable path="F1_HK_rows_relief_ungrouped"]
