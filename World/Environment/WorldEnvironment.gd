@@ -49,6 +49,12 @@ func apply_rain_drop_size(rain_drop_size):
 
 
 func apply_rain_density(rain_density):
+	# FIXME: we should define a function that calculates the cloud color given all
+	# FIXME: relevant environment impacts (sunrise/set, rain, ...)
+	if $RainParticles.emitting:
+		$CloudDome.shade_color = Color("#011030")
+		$CloudDome.cloud_color = Color("#7bdefc")
+		$CloudDome._regen_mesh()
 	$RainParticles.amount = rain_density
 
 
