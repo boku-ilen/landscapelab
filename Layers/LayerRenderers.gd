@@ -13,6 +13,7 @@ var renderers_count := 0
 var renderers_finished := 0
 
 var load_data_threaded := true
+onready var loading_thread = Thread.new()
 
 const LOG_MODULE := "LAYERRENDERERS"
 
@@ -87,20 +88,27 @@ func apply_center(center_array):
 		if renderer is LayerRenderer:
 			renderers_count += 1
 	
+	if load_data_threaded:
+		loading_thread.start(self, "update_renderers", center_array)
+	else:
+		update_renderers(center_array)
+
+func update_renderers(center_array):
 	# Now, load the data of each renderer
 	for renderer in get_children():
 		if renderer is LayerRenderer:
 			renderer.center = center_array
 			
 			logger.debug("Child {} beginning to load", LOG_MODULE)
-			var task = ThreadPool.Task.new(renderer, "load_new_data")
-			
-			if load_data_threaded:
-				task.connect("finished", self, "_on_renderer_finished", [renderer.name], CONNECT_DEFERRED)
-				ThreadPool.enqueue_task(task, 90)
-			else:
-				task.execute()
-				_on_renderer_finished(renderer.name)
+
+			renderer.load_new_data()
+			call_deferred("_on_renderer_finished", renderer.name)
+	
+	call_deferred("finish_loading_thread")
+
+
+func finish_loading_thread():
+	loading_thread.wait_to_finish()
 
 
 func get_debug_info():
