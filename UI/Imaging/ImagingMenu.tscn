@@ -68,40 +68,35 @@ mouse_filter = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Set" parent="." instance=ExtResource( 2 )]
 material = SubResource( 1 )
-margin_right = 30.0
+margin_right = 40.0
 margin_bottom = 78.0
 toggle_mode = true
-texture_normal = ExtResource( 8 )
+icon = ExtResource( 8 )
 texture_name = "paintbrush"
-default_color = Color( 0.92549, 0.866667, 0.866667, 1 )
-pressed_color = Color( 0.243137, 0.0470588, 0.227451, 1 )
 
 [node name="Clear" parent="." instance=ExtResource( 2 )]
 material = SubResource( 2 )
-margin_left = 38.0
-margin_right = 68.0
+margin_left = 48.0
+margin_right = 88.0
 margin_bottom = 78.0
-texture_normal = ExtResource( 9 )
+icon = ExtResource( 9 )
 texture_name = "clear"
 
 [node name="Show" parent="." instance=ExtResource( 2 )]
 material = SubResource( 3 )
-margin_left = 76.0
-margin_right = 106.0
+margin_left = 96.0
+margin_right = 136.0
 margin_bottom = 78.0
 toggle_mode = true
-texture_normal = ExtResource( 10 )
+icon = ExtResource( 10 )
 texture_name = "eyes"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 114.0
-margin_right = 310.0
+margin_left = 144.0
+margin_right = 340.0
 margin_bottom = 78.0
 
 [node name="Label" type="Label" parent="VBoxContainer"]
@@ -118,16 +113,16 @@ max_value = 9999.0
 value = 100.0
 
 [node name="VSeparator" type="VSeparator" parent="."]
-margin_left = 318.0
-margin_right = 326.0
+margin_left = 348.0
+margin_right = 356.0
 margin_bottom = 78.0
 
 [node name="Record" parent="." instance=ExtResource( 2 )]
 material = SubResource( 4 )
-margin_left = 334.0
-margin_right = 364.0
+margin_left = 364.0
+margin_right = 404.0
 margin_bottom = 78.0
-texture_normal = ExtResource( 6 )
+icon = ExtResource( 6 )
 texture_name = "record"
 
 [node name="Stop" parent="." instance=ExtResource( 2 )]
@@ -136,7 +131,7 @@ material = SubResource( 5 )
 margin_left = 324.0
 margin_right = 354.0
 margin_bottom = 78.0
-texture_normal = ExtResource( 5 )
+icon = ExtResource( 5 )
 texture_name = "stop"
 
 [node name="Pause" parent="." instance=ExtResource( 2 )]
@@ -145,7 +140,7 @@ material = SubResource( 6 )
 margin_left = 362.0
 margin_right = 392.0
 margin_bottom = 78.0
-texture_normal = ExtResource( 4 )
+icon = ExtResource( 4 )
 texture_name = "pause"
 
 [node name="Play" parent="." instance=ExtResource( 2 )]
@@ -154,5 +149,5 @@ material = SubResource( 7 )
 margin_left = 400.0
 margin_right = 430.0
 margin_bottom = 78.0
-texture_normal = ExtResource( 7 )
+icon = ExtResource( 7 )
 texture_name = "play"

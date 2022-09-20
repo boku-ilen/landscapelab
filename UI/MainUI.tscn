@@ -56,9 +56,6 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource( 6 )
 script = ExtResource( 43 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 pc_player_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/FirstPersonPC")
 pos_manager_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/PositionManager")
 time_manager_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/Viewport/World/TimeManager")
@@ -286,6 +283,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 margin_top = 849.0
 margin_right = 1414.0
 margin_bottom = 1034.0
+mouse_filter = 0
 size_flags_horizontal = 3
 size_flags_vertical = 11
 size_flags_stretch_ratio = 0.15
@@ -303,7 +301,6 @@ layer_renderers_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport/Worl
 [node name="GameUI" parent="MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer" instance=ExtResource( 18 )]
 margin_right = 1414.0
 margin_bottom = 185.0
-mouse_filter = 0
 viewport_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport")
 position_manager_path = NodePath("../../VBoxContainer/WorldViewPort/Viewport/World/PositionManager")
 
