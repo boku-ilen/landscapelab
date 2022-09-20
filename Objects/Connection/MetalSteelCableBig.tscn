@@ -35,7 +35,7 @@ script = ExtResource( 1 )
 curve = SubResource( 3 )
 
 [node name="CSGPolygon" type="CSGPolygon" parent="Node/Line"]
-polygon = PoolVector2Array( 0.06, 0, 0, 0.06, -0.06, 0, 0, -0.06 )
+polygon = PoolVector2Array( 0.04, 0, 0, 0.04, -0.04, 0, 0, -0.04 )
 mode = 2
 path_node = NodePath("..")
 path_interval_type = 0
