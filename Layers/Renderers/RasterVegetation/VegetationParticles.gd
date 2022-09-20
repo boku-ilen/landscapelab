@@ -9,6 +9,7 @@ export var spacing = 1.0
 var density_class: DensityClass setget set_density_class, get_density_class
 
 export(Vector2) var offset = Vector2.ZERO
+export var camera_facing_enabled := false setget set_camera_facing_enabled
 
 var current_offset_from_shifting = Vector2.ZERO
 var time_passed = 0
@@ -22,7 +23,25 @@ var heightmap
 var splatmap
 
 
+func set_camera_facing_enabled(is_enabled: bool):
+	camera_facing_enabled = is_enabled
+	# A density class is required for sensible setting of billboard mode
+	if not density_class: return
+	if is_enabled:
+		# Render solitary plants as camera-facing billboards, clusters as static meshes
+		if density_class.image_type == "Solitary":
+			set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard_camerafacing.obj"))
+			set_camera_facing(true)
+		else:
+			set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
+			set_camera_facing(false)
+	else:
+		set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
+		set_camera_facing(false)
+
+
 func _ready():
+	set_camera_facing_enabled(camera_facing_enabled)
 	Vegetation.connect("new_plant_extent_factor", self, "update_rows_spacing")
 
 
@@ -56,6 +75,7 @@ func set_mesh(new_mesh):
 
 func set_camera_facing(is_camera_facing: bool) -> void:
 	material_override.set_shader_param("camera_facing", is_camera_facing)
+	material_override.set_shader_param("billboard_enabled", is_camera_facing)
 
 
 # Updates the visibility AABB which is used for culling.

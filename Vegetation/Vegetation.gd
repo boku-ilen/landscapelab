@@ -395,14 +395,6 @@ func get_renderers() -> Spatial:
 		
 		renderer.density_class = density_class
 		
-		# Render solitary plants as camera-facing billboards, clusters as static meshes
-		if density_class.image_type == "Solitary":
-			renderer.set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard_camerafacing.obj"))
-			renderer.set_camera_facing(true)
-		else:
-			renderer.set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
-			renderer.set_camera_facing(false)
-		
 		root.add_child(renderer)
 	
 	return root
