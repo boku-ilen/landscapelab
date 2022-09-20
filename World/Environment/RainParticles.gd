@@ -79,8 +79,6 @@ func set_scale_y(scl: float):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(Vector3.FORWARD)
-	print(Vector3.RIGHT)
 	process_material.set_shader_param("spacing", spacing)
 	process_material.set_shader_param("rows", int(sqrt(amount)))
 	process_material.set_shader_param("amount", int(amount))
