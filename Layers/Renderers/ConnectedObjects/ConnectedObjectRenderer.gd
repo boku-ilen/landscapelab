@@ -135,7 +135,7 @@ func _connect(object: Spatial, object_before: Spatial, selector_attribute: Strin
 		var p1: Vector3 = (object.transform * dock_parent.transform * dock.transform).origin
 		var p2: Vector3 = (object_before.transform * dock_parent.transform * dock_before.transform).origin
 		
-		catenary_curve_cache = connection.find_connection_points(p1, p2, 0.0033, catenary_curve_cache)
+		catenary_curve_cache = connection.find_connection_points(p1, p2, 0.0013, catenary_curve_cache)
 		connection_instances.append(connection)
 
 
