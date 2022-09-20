@@ -128,13 +128,6 @@ func apply_datetime(date_time: TimeManager.DateTime):
 		$Sky_texture.set_time_of_day(date_time.time, get_node("DirectionalLight"), self, deg2rad(10.0), 1.5)
 
 
-func _physics_process(delta):
-	pass
-	# Make the light stick to the player in order to always show highest detail shadows next to them
-	# FIXME: Make the light follow the player, or just add this scene as a child to the player?
-	#light.translation = PlayerInfo.get_engine_player_position()
-
-
 func get_middle_of_season(season): # 0 = winter, 1 = spring, 2 = summer, 3 = fall
 	return {day = 1, month = 2 + season * 3, year = 2018}
 	# Example: Spring -> 1.5.2018

@@ -29,26 +29,26 @@ __meta__ = {
 
 [node name="Play" parent="." instance=ExtResource( 4 )]
 material = SubResource( 1 )
-margin_right = 18.0
+margin_right = 24.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 18, 0 )
-texture_normal = ExtResource( 3 )
+icon = ExtResource( 3 )
 texture_name = "play"
 
 [node name="Pause" parent="." instance=ExtResource( 4 )]
 material = SubResource( 1 )
-margin_left = 33.0
-margin_right = 51.0
+margin_left = 39.0
+margin_right = 63.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 18, 0 )
-texture_normal = ExtResource( 1 )
+icon = ExtResource( 1 )
 texture_name = "pause"
 
 [node name="Stop" parent="." instance=ExtResource( 4 )]
 material = SubResource( 1 )
-margin_left = 66.0
-margin_right = 84.0
+margin_left = 78.0
+margin_right = 102.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 18, 0 )
-texture_normal = ExtResource( 5 )
+icon = ExtResource( 5 )
 texture_name = "stop"

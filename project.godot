@@ -294,6 +294,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Communication/SetTableExtentRequestHandler.gd"
 }, {
+"base": "HBoxContainer",
+"class": "SlideAndSpin",
+"language": "GDScript",
+"path": "res://UI/CustomElements/SlideAndSpin.gd"
+}, {
 "base": "Control",
 "class": "SpecificLayerUI",
 "language": "GDScript",
@@ -452,6 +457,7 @@ _global_script_class_icons={
 "SetObjectPositionRequestHandler": "",
 "SetPositionRequestHandler": "",
 "SetTableExtentRequestHandler": "",
+"SlideAndSpin": "",
 "SpecificLayerUI": "",
 "SpritesheetHelper": "",
 "StackedProgressBar": "",

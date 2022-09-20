@@ -2,7 +2,6 @@ extends VRInteractable
 
 #
 # A compass indicating the orientation of the firstPerson.
-# Rotates with the latest global player position from PlayerInfo.
 #
 
 # Obtain the required nodes.
