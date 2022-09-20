@@ -63,6 +63,7 @@ arvr = true
 size = Vector2( 100, 100 )
 keep_3d_linear = true
 render_target_update_mode = 3
+shadow_atlas_size = 2048
 
 [node name="OVRFirstPerson" parent="Viewport" instance=ExtResource( 3 )]
 transform = Transform( 0.999978, 0, 0, 0, 1, 0, 0, 0, 0.999978, 0, 0, 0 )

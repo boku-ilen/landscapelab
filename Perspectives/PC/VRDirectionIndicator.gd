@@ -36,5 +36,5 @@ func _process(delta):
 			projected_position.x = get_viewport_rect().size.x - rect_size.x
 		else:
 			projected_position.x = 0
-#		projected_position.x = get_viewport_rect().size.x * float(projected_position.x < get_viewport_rect().size.x / 2)
+	
 	rect_position = projected_position
