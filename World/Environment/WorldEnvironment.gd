@@ -10,7 +10,6 @@ var MAX_SUN_INTENSITY = Settings.get_setting("sky", "max-sun-intensity")
 
 var clouds
 
-var date_time
 var current_time = 12
 var current_season = 0
 
@@ -53,8 +52,8 @@ func apply_rain_density(rain_density):
 	# FIXME: we should define a function that calculates the cloud color given all
 	# FIXME: relevant environment impacts (sunrise/set, rain, ...)
 	if $RainParticles.emitting:
-		$CloudDome.shade_color = Color("#011030")# * 0.005 * rain_density
-		$CloudDome.cloud_color = Color("#7bdefc")# * 0.005 * rain_density
+		$CloudDome.shade_color = Color("#011030")
+		$CloudDome.cloud_color = Color("#7bdefc")
 		$CloudDome._regen_mesh()
 	$RainParticles.amount = rain_density
 
