@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/panicum-03.png-18f10b02a7890c15d550c46c65d3bd67.image"
+uid="uid://fb5uh4by0tig"
+path="res://.godot/imported/panicum-03.png-18f10b02a7890c15d550c46c65d3bd67.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/panicum-03.png"
-dest_files=[ "res://.import/panicum-03.png-18f10b02a7890c15d550c46c65d3bd67.image" ]
+dest_files=["res://.godot/imported/panicum-03.png-18f10b02a7890c15d550c46c65d3bd67.image"]
 
 [params]
 

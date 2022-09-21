@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/carpinus-betulus-x06.png-52a33c9fcc40686db5c05fc8fc993b88.image"
+uid="uid://dtorcmapaco88"
+path="res://.godot/imported/carpinus-betulus-x06.png-52a33c9fcc40686db5c05fc8fc993b88.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/carpinus-betulus-x06.png"
-dest_files=[ "res://.import/carpinus-betulus-x06.png-52a33c9fcc40686db5c05fc8fc993b88.image" ]
+dest_files=["res://.godot/imported/carpinus-betulus-x06.png-52a33c9fcc40686db5c05fc8fc993b88.image"]
 
 [params]
 

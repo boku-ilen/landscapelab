@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-f725910b4688e1e033adf74c02b6d35c.image"
+uid="uid://dv7q7fv0umryx"
+path="res://.godot/imported/albedo.jpg-f725910b4688e1e033adf74c02b6d35c.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/water-01/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-f725910b4688e1e033adf74c02b6d35c.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-f725910b4688e1e033adf74c02b6d35c.image"]
 
 [params]
 

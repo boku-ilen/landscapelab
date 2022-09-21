@@ -1,10 +1,10 @@
 extends HBoxContainer
 
-export var viewport_path: NodePath
-onready var viewport = get_node(viewport_path)
+@export var viewport_path: NodePath
+@onready var viewport = get_node(viewport_path)
 
-export var position_manager_path: NodePath
-onready var position_manager = get_node(position_manager_path)
+@export var position_manager_path: NodePath
+@onready var position_manager = get_node(position_manager_path)
 
 var selected_collection
 
@@ -15,15 +15,15 @@ func _ready():
 		return
 	
 	if GameSystem.current_game_mode is TurnBasedGameMode:
-		add_child(preload("res://UI/GameSystem/TurnBasedMenu.tscn").instance())
+		add_child(preload("res://UI/GameSystem/TurnBasedMenu.tscn").instantiate())
 	
 	for collection in GameSystem.current_game_mode.game_object_collections.values():
 		$GameObjects/GameObjectCollections.add_item(collection.name)
 	
-	$GameObjects/GameObjectCollections.connect("item_selected", self, "_on_game_object_collection_selected")
+	$GameObjects/GameObjectCollections.connect("item_selected",Callable(self,"_on_game_object_collection_selected"))
 	
 	for score in GameSystem.current_game_mode.game_scores.values():
-		var score_ui = load("res://UI/GameSystem/%sScoreUI.tscn" % score.display_mode).instance()
+		var score_ui = load("res://UI/GameSystem/%sScoreUI.tscn" % score.display_mode).instantiate()
 		score_ui.score = score
 		if score_ui.score.display_mode == GameScore.DisplayMode.ICONTEXT:
 			$Scores/ScrollContainer/HBoxContainer/ScrollContainer/IconTextContainer.add_child(score_ui)
@@ -39,11 +39,11 @@ func _on_game_object_collection_selected(item_id):
 func _input(event):
 	if selected_collection and event.is_action_pressed("layer_add_feature"):
 		var mousepos = viewport.get_mouse_position()
-		var origin = viewport.get_camera().project_ray_origin(mousepos)
-		var normal = origin + viewport.get_camera().project_ray_normal(mousepos) * 10000
+		var origin = viewport.get_camera_3d().project_ray_origin(mousepos)
+		var normal = origin + viewport.get_camera_3d().project_ray_normal(mousepos) * 10000
 		
-		var space_state = viewport.get_node("World").get_world().direct_space_state
-		var result = space_state.intersect_ray(origin, normal)
+		var space_state = viewport.get_node("World").get_world_3d().direct_space_state
+		var result = space_state.intersect_ray(PhysicsRayQueryParameters3D.create(origin, normal))
 		
 		if result:
 			var global_center = position_manager.get_center()

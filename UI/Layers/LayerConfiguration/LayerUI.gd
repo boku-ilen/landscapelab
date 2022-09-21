@@ -12,34 +12,34 @@ var filters = {
 var layer_config_window = preload("res://UI/Layers/LayerConfiguration/Misc/LayerConfigurationWindow.tscn")
 var current_config_window
 
-onready var new_button = get_node("VBoxContainer/Menu/NewLayer")
-onready var delete_button = get_node("VBoxContainer/Menu/DeleteLayer")
-onready var filter_button = get_node("VBoxContainer/Menu/Filter")
-onready var filter_options = get_node("VBoxContainer/Menu/Filter/FilterOptions")
-onready var layer_container = get_node("VBoxContainer/ScrollLayers/LayerContainer")
+@onready var new_button = get_node("VBoxContainer/Menu/NewLayer")
+@onready var delete_button = get_node("VBoxContainer/Menu/DeleteLayer")
+@onready var filter_button = get_node("VBoxContainer/Menu/Filter")
+@onready var filter_options = get_node("VBoxContainer/Menu/Filter/FilterOptions")
+@onready var layer_container = get_node("VBoxContainer/ScrollLayers/LayerContainer")
 
 
 func _ready():
 	_setup_filters()
 	
-	new_button.connect("pressed", self, "_on_new_layer")
-	delete_button.connect("pressed", self, "_delete_layer")
-	filter_button.connect("pressed", self, "_open_filter_options")
-	filter_options.connect("index_pressed", self, "_alter_filters")
-	layer_container.connect("sort_children", self, "_setup_layer_widgets")
+	new_button.connect("pressed",Callable(self,"_on_new_layer"))
+	delete_button.connect("pressed",Callable(self,"_delete_layer"))
+	filter_button.connect("pressed",Callable(self,"_open_filter_options"))
+	filter_options.connect("index_pressed",Callable(self,"_alter_filters"))
+	layer_container.connect("sort_children",Callable(self,"_setup_layer_widgets"))
 
 
 func _on_new_layer():
 	if current_config_window:
 		current_config_window.queue_free()
 		
-	current_config_window = layer_config_window.instance()
+	current_config_window = layer_config_window.instantiate()
 	new_button.add_child(current_config_window)
-	current_config_window.popup_centered(current_config_window.rect_min_size)
+	current_config_window.popup_centered(current_config_window.minimum_size)
 
 
 func _open_filter_options():
-	filter_options.popup(Rect2(rect_global_position, Vector2(20, 10)))
+	filter_options.popup(Rect2(global_position, Vector2(20, 10)))
 
 
 func _alter_filters(idx):
@@ -67,7 +67,7 @@ func _delete_layer():
 
 func _on_layer_select(event: InputEvent, layer_widget):
 	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT and event.pressed:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			selected_layer = layer_widget
 			emit_signal("new_layer_selected", layer_widget.layer)
 
@@ -82,6 +82,6 @@ func _setup_filters():
 
 func _setup_layer_widgets():
 	for child in layer_container.get_children():
-		if not child.is_connected("gui_input", self, "_on_layer_select"):
-			child.connect("gui_input", self, "_on_layer_select", [child])
+		if not child.is_connected("gui_input",Callable(self,"_on_layer_select")):
+			child.connect("gui_input",Callable(self,"_on_layer_select").bind(child))
 

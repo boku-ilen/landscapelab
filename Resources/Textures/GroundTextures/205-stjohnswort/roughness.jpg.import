@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/roughness.jpg-136b40e41d39aa2965777807c602d3ce.image"
+uid="uid://ch0c0sf0hhckh"
+path="res://.godot/imported/roughness.jpg-136b40e41d39aa2965777807c602d3ce.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/205-stjohnswort/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-136b40e41d39aa2965777807c602d3ce.image" ]
+dest_files=["res://.godot/imported/roughness.jpg-136b40e41d39aa2965777807c602d3ce.image"]
 
 [params]
 

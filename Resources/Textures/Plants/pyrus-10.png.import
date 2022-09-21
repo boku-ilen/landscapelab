@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/pyrus-10.png-35fe6a27a5b591a9e1fcf03c2dcbe6cd.image"
+uid="uid://b77lbon76xrqx"
+path="res://.godot/imported/pyrus-10.png-35fe6a27a5b591a9e1fcf03c2dcbe6cd.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/pyrus-10.png"
-dest_files=[ "res://.import/pyrus-10.png-35fe6a27a5b591a9e1fcf03c2dcbe6cd.image" ]
+dest_files=["res://.godot/imported/pyrus-10.png-35fe6a27a5b591a9e1fcf03c2dcbe6cd.image"]
 
 [params]
 

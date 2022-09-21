@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/sorbus-05.png-d7c81920ac181276bc55f6d2e563c318.image"
+uid="uid://dwo5cbpywmtfb"
+path="res://.godot/imported/sorbus-05.png-d7c81920ac181276bc55f6d2e563c318.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/sorbus-05.png"
-dest_files=[ "res://.import/sorbus-05.png-d7c81920ac181276bc55f6d2e563c318.image" ]
+dest_files=["res://.godot/imported/sorbus-05.png-d7c81920ac181276bc55f6d2e563c318.image"]
 
 [params]
 

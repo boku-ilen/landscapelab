@@ -12,8 +12,8 @@ func external_to_geolayer_from_type(db, config: Dictionary):
 	
 	var path
 	if config.geolayer_path.is_rel_path():
-		path = ProjectSettings.globalize_path(path_prefix.plus_file(config.geolayer_path))
-	elif config.geolayer_path.is_abs_path():
+		path = ProjectSettings.globalize_path(path_prefix.path_join(config.geolayer_path))
+	elif config.geolayer_path.is_absolute_path():
 		path = config.geolayer_path
 	else:
 		logger.error("Invalid path \"%s\" in external layer configuration" % config.geolayer_path, LOG_MODULE)

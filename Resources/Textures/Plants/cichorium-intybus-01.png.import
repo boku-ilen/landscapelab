@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/cichorium-intybus-01.png-db328ba5d85268e3951a9473c910dc83.image"
+uid="uid://bh1v4dj1mpwey"
+path="res://.godot/imported/cichorium-intybus-01.png-db328ba5d85268e3951a9473c910dc83.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/cichorium-intybus-01.png"
-dest_files=[ "res://.import/cichorium-intybus-01.png-db328ba5d85268e3951a9473c910dc83.image" ]
+dest_files=["res://.godot/imported/cichorium-intybus-01.png-db328ba5d85268e3951a9473c910dc83.image"]
 
 [params]
 

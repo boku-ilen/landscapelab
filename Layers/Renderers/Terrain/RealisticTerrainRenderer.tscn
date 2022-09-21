@@ -2,5 +2,5 @@
 
 [ext_resource path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" type="Script" id=4]
 
-[node name="RealisticTerrainRenderer" type="Spatial"]
+[node name="RealisticTerrainRenderer" type="Node3D"]
 script = ExtResource( 4 )

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/tree-x01.png-5ad577480c032a07a3f3b5b7d77ba9e1.image"
+uid="uid://cnrtff5hia5kd"
+path="res://.godot/imported/tree-x01.png-5ad577480c032a07a3f3b5b7d77ba9e1.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/tree-x01.png"
-dest_files=[ "res://.import/tree-x01.png-5ad577480c032a07a3f3b5b7d77ba9e1.image" ]
+dest_files=["res://.godot/imported/tree-x01.png-5ad577480c032a07a3f3b5b7d77ba9e1.image"]
 
 [params]
 

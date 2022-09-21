@@ -1,15 +1,23 @@
-extends Particles
+extends GPUParticles3D
 
 
 # With 4 rows and a spacing of 0.5, plants are drawn within a 2x2 area.
-export var rows = 4
-export var spacing = 1.0
+@export var rows = 4
+@export var spacing = 1.0
 
 # Density class of this plant renderer -- influences the density of the rendered particles.
-var density_class: DensityClass setget set_density_class, get_density_class
+var density_class: DensityClass :
+	get:
+		return density_class # TODOConverter40 Copy here content of get_density_class
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_density_class
 
-export(Vector2) var offset = Vector2.ZERO
-export var camera_facing_enabled := false setget set_camera_facing_enabled
+@export var offset: Vector2 = Vector2.ZERO
+@export var camera_facing_enabled := false :
+	get:
+		return camera_facing_enabled # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_camera_facing_enabled
 
 var current_offset_from_shifting = Vector2.ZERO
 var time_passed = 0
@@ -42,10 +50,10 @@ func set_camera_facing_enabled(is_enabled: bool):
 
 func _ready():
 	set_camera_facing_enabled(camera_facing_enabled)
-	Vegetation.connect("new_plant_extent_factor", self, "update_rows_spacing")
+	Vegetation.connect("new_plant_extent_factor",Callable(self,"update_rows_spacing"))
 
 
-# Set the internal rows and spacing variables based on the density_class and the given extent_factor.
+# Set the internal rows and spacing variables based checked the density_class and the given extent_factor.
 func update_rows_spacing(extent_factor):
 	var size = extent_factor * density_class.size_factor
 	
@@ -74,8 +82,8 @@ func set_mesh(new_mesh):
 
 
 func set_camera_facing(is_camera_facing: bool) -> void:
-	material_override.set_shader_param("camera_facing", is_camera_facing)
-	material_override.set_shader_param("billboard_enabled", is_camera_facing)
+	material_override.set_shader_parameter("camera_facing", is_camera_facing)
+	material_override.set_shader_parameter("billboard_enabled", is_camera_facing)
 
 
 # Updates the visibility AABB which is used for culling.
@@ -89,16 +97,16 @@ func set_rows(new_rows):
 	amount = rows * rows
 	
 	if process_material:
-		process_material.set_shader_param("rows", rows)
-		material_override.set_shader_param("max_distance", rows * spacing / 3.0)
+		process_material.set_shader_parameter("rows", rows)
+		material_override.set_shader_parameter("max_distance", rows * spacing / 3.0)
 
 
 func set_spacing(new_spacing):
 	spacing = new_spacing
 	
 	if process_material:
-		process_material.set_shader_param("spacing", spacing)
-		material_override.set_shader_param("max_distance", rows * spacing / 3.0)
+		process_material.set_shader_parameter("spacing", spacing)
+		material_override.set_shader_parameter("max_distance", rows * spacing / 3.0)
 
 
 # Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
@@ -111,11 +119,11 @@ func get_map_size():
 func _on_shift_world(delta_x, delta_z):
 	current_offset_from_shifting -= Vector2(delta_x, delta_z)
 	
-	process_material.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
-	material_override.set_shader_param("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
+	process_material.set_shader_parameter("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
+	material_override.set_shader_parameter("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
 
 
-# Update all internal data based on the given layers and position.
+# Update all internal data based checked the given layers and position.
 func update_textures(dhm_layer, splat_layer, world_x, world_y):
 	var map_size = get_map_size()
 	
@@ -171,32 +179,32 @@ func update_textures_with_images(ids):
 	id_row_map_tex = Vegetation.get_id_row_map_texture(Vegetation.get_id_array_for_groups(filtered_groups))
 	
 	distribution_tex = ImageTexture.new()
-	distribution_tex.create_from_image(distribution_sheet, ImageTexture.FLAG_REPEAT)
+	distribution_tex.create_from_image(distribution_sheet) #,ImageTexture.FLAG_REPEAT
 
 
 # Apply data which has previously been loaded with `update_textures`.
 # Should not be called from a thread.
 func apply_data():
-	material_override.set_shader_param("id_to_row", id_row_map_tex)
-	material_override.set_shader_param("texture_map", billboard_tex)
-	material_override.set_shader_param("distribution_map", distribution_tex)
-	material_override.set_shader_param("dist_scale", 1.0 / spacing)
+	material_override.set_shader_parameter("id_to_row", id_row_map_tex)
+	material_override.set_shader_parameter("texture_map", billboard_tex)
+	material_override.set_shader_parameter("distribution_map", distribution_tex)
+	material_override.set_shader_parameter("dist_scale", 1.0 / spacing)
 	
 	var size = Vector2(get_map_size(), get_map_size())
-	process_material.set_shader_param("heightmap_size", size)
-	material_override.set_shader_param("heightmap_size", size)
+	process_material.set_shader_parameter("heightmap_size", size)
+	material_override.set_shader_parameter("heightmap_size", size)
 	
-	process_material.set_shader_param("heightmap", heightmap)
-	material_override.set_shader_param("splatmap", splatmap)
+	process_material.set_shader_parameter("heightmap", heightmap)
+	material_override.set_shader_parameter("splatmap", splatmap)
 	
-	process_material.set_shader_param("offset", Vector2(0, 0))
-	material_override.set_shader_param("offset", Vector2(0, 0))
+	process_material.set_shader_parameter("offset", Vector2(0, 0))
+	material_override.set_shader_parameter("offset", Vector2(0, 0))
 	
 	# Row crops
 	if density_class.id == 6:
-		process_material.set_shader_param("row_spacing", 3.0)
+		process_material.set_shader_parameter("row_spacing", 3.0)
 	
 
 func apply_wind_speed(wind_speed):
-	material_override.set_shader_param("speed", Vector2(wind_speed, wind_speed) / 40.0)
-	material_override.set_shader_param("amplitude", wind_speed / 200.0)
+	material_override.set_shader_parameter("speed", Vector2(wind_speed, wind_speed) / 40.0)
+	material_override.set_shader_parameter("amplitude", wind_speed / 200.0)

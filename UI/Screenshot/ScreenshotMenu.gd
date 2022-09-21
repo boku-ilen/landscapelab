@@ -7,8 +7,8 @@ var time_manager: TimeManager
 #FIXME: use a calendar for timeseries
 
 func _ready():
-	$Inputs/ScreenshotButton.connect("pressed", self, "_on_screenshot")
-	$Inputs/CheckBoxTimeSeries.connect("toggled", self, "_toggle_time_series")
+	$Inputs/ScreenshotButton.connect("pressed",Callable(self,"_on_screenshot"))
+	$Inputs/CheckBoxTimeSeries.connect("toggled",Callable(self,"_toggle_time_series"))
 #	$Inputs/TimeSeriesContainer/FromButton.connect(
 #		"pressed", $Inputs/TimeSeriesContainer/FromButton/popupFrom, "popup")
 #	$Inputs/TimeSeriesContainer/ToButton.connect(
@@ -37,7 +37,7 @@ func _on_screenshot():
 		
 		while to > current_datetime:
 			time_manager.set_time(current_datetime)
-			yield(get_tree(), "idle_frame")
+			await get_tree().idle_frame
 			Screencapture.screenshot(
 				$Inputs/ScreenShotName.text,
 				$Inputs/UpscaleViewport.value,

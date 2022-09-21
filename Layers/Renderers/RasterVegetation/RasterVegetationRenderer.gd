@@ -3,7 +3,11 @@ extends LayerRenderer
 
 var renderers
 
-var weather_manager: WeatherManager setget set_weather_manager
+var weather_manager: WeatherManager :
+	get:
+		return weather_manager # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_weather_manager
 
 
 func _ready():
@@ -14,7 +18,7 @@ func _ready():
 func set_weather_manager(new_weather_manager):
 	weather_manager = new_weather_manager
 
-	weather_manager.connect("wind_speed_changed", self, "_on_wind_speed_changed")
+	weather_manager.connect("wind_speed_changed",Callable(self,"_on_wind_speed_changed"))
 	_on_wind_speed_changed(weather_manager.wind_speed)
 
 

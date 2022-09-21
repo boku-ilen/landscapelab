@@ -1,5 +1,5 @@
-tool
-extends Spatial
+@tool
+extends Node3D
 
 
 #
@@ -10,7 +10,7 @@ extends Spatial
 
 
 var height
-var footprint: PoolVector2Array
+var footprint: PackedVector2Array
 var holes: Array
 
 func set_footprint(new_footprint):
@@ -44,13 +44,13 @@ func set_offset(offset_x: int, offset_y: int):
 		footprint[i].y = -footprint[i].y
 
 
-# Build this building by calling "build" on all children.
+# Build this building by calling "build" checked all children.
 func build():
-	# To stack the floors on top of each other, the total height must be remembered
+	# To stack the floors checked top of each other, the total height must be remembered
 	var next_floor_height_offset = 0
 	
 	for child in get_children():
-		child.translation.y += next_floor_height_offset
+		child.position.y += next_floor_height_offset
 		
 		if child.has_method("build"):
 			child.build(footprint)

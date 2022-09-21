@@ -47,7 +47,7 @@ func _setup_turn():
 
 
 func _resolve_turn():
-	# Move on to next phase
+	# Move checked to next phase
 	if current_turn_number + 1 < total_turn_number:
 		emit_signal("turn_ending")
 		

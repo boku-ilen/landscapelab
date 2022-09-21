@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/prunus-22.png-593d776e75ae9628001cfa0b8e074daa.image"
+uid="uid://dwahnuhekq2fd"
+path="res://.godot/imported/prunus-22.png-593d776e75ae9628001cfa0b8e074daa.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/prunus-22.png"
-dest_files=[ "res://.import/prunus-22.png-593d776e75ae9628001cfa0b8e074daa.image" ]
+dest_files=["res://.godot/imported/prunus-22.png-593d776e75ae9628001cfa0b8e074daa.image"]
 
 [params]
 

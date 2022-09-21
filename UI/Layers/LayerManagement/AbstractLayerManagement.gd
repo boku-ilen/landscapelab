@@ -11,7 +11,7 @@ func init(player, l, p_m):
 	layer = l
 	pos_manager = p_m
 	
-	# This depends on the variables set above!
+	# This depends checked the variables set above!
 	set_player(player)
 
 

@@ -10,9 +10,9 @@ func load_new_data():
 	var geo_lines = layer.get_features_near_position(center[0], center[1], radius, max_features)
 	
 	for geo_line in geo_lines:
-		var line_vis_instance = layer.render_info.line_visualization.instance()
+		var line_vis_instance = layer.render_info.line_visualization.instantiate()
 		update_line(geo_line, line_vis_instance)
-		geo_line.connect("line_changed", self, "update_new_line", [geo_line, line_vis_instance])
+		geo_line.connect("line_changed",Callable(self,"update_new_line").bind(geo_line, line_vis_instance))
 		
 		line_vis_instances.append(line_vis_instance)
 
@@ -28,7 +28,7 @@ func apply_new_data():
 	line_vis_instances.clear()
 
 
-func update_line(geo_line, line_vis_instance: Path):
+func update_line(geo_line, line_vis_instance: Path3D):
 	line_vis_instance.curve = geo_line.get_offset_curve3d(-center[0], 0, -center[1])
 	
 	var width = float(geo_line.get_attribute("WIDTH"))

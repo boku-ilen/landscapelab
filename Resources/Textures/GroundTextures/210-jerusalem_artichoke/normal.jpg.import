@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-15a87987e56f1f665c9c5daf42024887.image"
+uid="uid://bmgf1fn26mdk7"
+path="res://.godot/imported/normal.jpg-15a87987e56f1f665c9c5daf42024887.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/210-jerusalem_artichoke/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-15a87987e56f1f665c9c5daf42024887.image" ]
+dest_files=["res://.godot/imported/normal.jpg-15a87987e56f1f665c9c5daf42024887.image"]
 
 [params]
 

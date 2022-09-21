@@ -51,17 +51,17 @@ func _get_image(image_name, texture):
 	if not texture: return null
 	
 	var full_path = VegetationImages.ground_image_base_path \
-			.plus_file(texture.texture_name) \
-			.plus_file(image_name + ".jpg")
+			.path_join(texture.texture_name) \
+			.path_join(image_name + ".jpg")
 	
 	VegetationImages.ground_image_mutex.lock()
 	if not VegetationImages.ground_image_cache.has(full_path):
-		var path = VegetationImages.ground_image_base_path.plus_file(texture.texture_name)
+		var path = VegetationImages.ground_image_base_path.path_join(texture.texture_name)
 		if not File.new().file_exists(full_path):
 			logger.warn("Invalid ground texture file: %s (ID %s)" % [full_path, str(texture.id)], LOG_MODULE)
 		
 		var img = StructuredTexture.get_image(VegetationImages.ground_image_base_path \
-			.plus_file(texture.texture_name), image_name)
+			.path_join(texture.texture_name), image_name)
 		
 		VegetationImages.ground_image_cache[full_path] = img
 	VegetationImages.ground_image_mutex.unlock()
@@ -79,7 +79,7 @@ func get_ground_texture(image_name):
 	if not image: return null
 	
 	var tex = ImageTexture.new()
-	tex.create_from_image(image, Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER + Texture.FLAG_REPEAT + Texture.FLAG_ANISOTROPIC_FILTER)
+	tex.create_from_image(image) #,Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER + Texture2D.FLAG_REPEAT + Texture2D.FLAG_ANISOTROPIC_FILTER
 	
 	return tex
 
@@ -88,7 +88,7 @@ func get_fade_texture(image_name):
 	if not image: return null
 	
 	var tex = ImageTexture.new()
-	tex.create_from_image(image, Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER + Texture.FLAG_REPEAT)
+	tex.create_from_image(image) #,Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER + Texture2D.FLAG_REPEAT
 	
 	return tex
 

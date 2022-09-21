@@ -3,18 +3,18 @@ class_name UpdatingGameScore
 
 
 # Overwrite to recalculate score automatically if the game_object_collection changes in some way
-func add_contributor(game_object_collection: GameObjectCollection, attribute_name, weight = 1.0, color = Color.gray, weight_min = null, weight_max = null):
-	.add_contributor(game_object_collection, attribute_name, weight, color, weight_min, weight_max)
+func add_contributor(game_object_collection: GameObjectCollection, attribute_name, weight = 1.0, color = Color.GRAY, weight_min = null, weight_max = null):
+	super.add_contributor(game_object_collection, attribute_name, weight, color, weight_min, weight_max)
 	
 	# Connect this GameObjectCollection's changed signal if necessary (it's possible to have two
 	# contributors with the same underlying game_object_collection, but different attribute_names)
-	if not game_object_collection.is_connected("changed", self, "recalculate_score"):
-		game_object_collection.connect("changed", self, "recalculate_score")
+	if not game_object_collection.is_connected("changed",Callable(self,"recalculate_score")):
+		game_object_collection.connect("changed",Callable(self,"recalculate_score"))
 	
 	# FIXME: Hacky
 	if game_object_collection.attributes[attribute_name] is ChangeOnIntersectAttribute:
 		game_object_collection.attributes[attribute_name] \
-				.intersecting_game_object_collection.connect("changed", self, "recalculate_score")
+				.intersecting_game_object_collection.connect("changed",Callable(self,"recalculate_score"))
 	
 	# Update the score to reflect this new contributor
 	recalculate_score()

@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=2]
 
-[ext_resource path="res://Resources/Textures/Buildings/roof/roof_white.jpg" type="Texture" id=1]
-[ext_resource path="res://Resources/Textures/Buildings/roof_normal/roof_3-normal.jpg" type="Texture" id=2]
+[ext_resource path="res://Resources/Textures/Buildings/roof/roof_white.jpg" type="Texture2D" id=1]
+[ext_resource path="res://Resources/Textures/Buildings/roof_normal/roof_3-normal.jpg" type="Texture2D" id=2]
 [ext_resource path="res://Buildings/Components/RoofShader.gdshader" type="Shader" id=3]
 
 [resource]

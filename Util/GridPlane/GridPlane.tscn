@@ -2,6 +2,6 @@
 
 [ext_resource path="res://Util/GridPlane/GridPlane.gd" type="Script" id=1]
 
-[node name="Spatial" type="Spatial"]
+[node name="Node3D" type="Node3D"]
 script = ExtResource( 1 )
 lines = 9

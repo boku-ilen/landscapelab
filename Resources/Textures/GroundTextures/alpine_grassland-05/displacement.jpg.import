@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-b957cbb1c4440873ed7142ca5d6eb378.image"
+uid="uid://vdk3fu1i20i3"
+path="res://.godot/imported/displacement.jpg-b957cbb1c4440873ed7142ca5d6eb378.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/alpine_grassland-05/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-b957cbb1c4440873ed7142ca5d6eb378.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-b957cbb1c4440873ed7142ca5d6eb378.image"]
 
 [params]
 

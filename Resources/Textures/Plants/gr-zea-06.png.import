@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/gr-zea-06.png-fe72938504065fff5dd2c9ab61fe2c59.image"
+uid="uid://cvnp3b5yhlj31"
+path="res://.godot/imported/gr-zea-06.png-fe72938504065fff5dd2c9ab61fe2c59.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/gr-zea-06.png"
-dest_files=[ "res://.import/gr-zea-06.png-fe72938504065fff5dd2c9ab61fe2c59.image" ]
+dest_files=["res://.godot/imported/gr-zea-06.png-fe72938504065fff5dd2c9ab61fe2c59.image"]
 
 [params]
 

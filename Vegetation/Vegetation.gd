@@ -22,7 +22,11 @@ var fade_textures = {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 5.5 setget set_plant_extent_factor, get_plant_extent_factor
+var plant_extent_factor = 4.5 :
+	get:
+		return plant_extent_factor # TODOConverter40 Copy here content of get_plant_extent_factor
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_plant_extent_factor
 var max_extent = 0.0
 signal new_plant_extent_factor(extent)
 
@@ -136,7 +140,7 @@ func filter_group_array_by_density_class(group_array: Array, density_class):
 			if plant.density_class == density_class:
 				plants.append(plant)
 		
-		if not plants.empty():
+		if not plants.is_empty():
 			# Append a new Group which is identical to the one in the passed
 			#  array, but with the filtered plants
 			new_array.append(PlantGroup.new(group.id,
@@ -240,7 +244,7 @@ func get_distribution_sheet(group_array):
 func get_id_row_map_texture(ids):
 	var id_row_map = Image.new()
 	id_row_map.create(256, 1, false, Image.FORMAT_R8)
-	id_row_map.lock()
+	false # id_row_map.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	# id_row_map.fill doesn't work here - if that is used, the set_pixel calls
 	#  later have no effect...
@@ -253,11 +257,11 @@ func get_id_row_map_texture(ids):
 		id_row_map.set_pixel(id, 0, Color(row / 255.0, 0.0, 0.0))
 		row += 1
 	
-	id_row_map.unlock()
+	false # id_row_map.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	# Fill all parameters into the shader
 	var id_row_map_tex = ImageTexture.new()
-	id_row_map_tex.create_from_image(id_row_map, 0)
+	id_row_map_tex.create_from_image(id_row_map) #,0
 	
 	return id_row_map_tex
 
@@ -265,13 +269,13 @@ func get_id_row_map_texture(ids):
 # Creates a texture expressing various metadata of the groups in the given ID array.
 # The texture is 256 pixels wide, with the first row being an id-row-map (see above).
 # The following rows of the texture consist of the following data for each of the Groups:
-# [Ground Texture Scale | Fade Texture Scale]
+# [Ground Texture2D Scale | Fade Texture2D Scale]
 # A scale of 0 means that there is no texture of this type.
 # Note that each value needs to be scaled before use, since the texture only allows relative values in the 0..1 range.
 func get_metadata_map(ids):
 	var metadata = Image.new()
 	metadata.create(256, 1, false, Image.FORMAT_RGB8)
-	metadata.lock()
+	false # metadata.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	# .fill doesn't work here - if that is used, the set_pixel calls later have no effect...
 	for i in range(0, 256):
@@ -284,22 +288,22 @@ func get_metadata_map(ids):
 			# Row value
 			var row_color = row / 255.0
 			
-			# Ground Texture Scale
+			# Ground Texture2D Scale
 			var ground_texture_scale = groups[id].ground_texture.size_m / GroundTexture.MAX_SIZE_M \
 					if groups[id].ground_texture else 0
 			
-			# Fade Texture Scale
+			# Fade Texture2D Scale
 			var fade_texture_scale = groups[id].fade_texture.size_m / GroundTexture.MAX_SIZE_M \
 					if groups[id].fade_texture else 0
 			
 			metadata.set_pixel(id, 0, Color(row_color, ground_texture_scale, fade_texture_scale))
 			row += 1
 	
-	metadata.unlock()
+	false # metadata.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	# Fill all parameters into the shader
 	var metadata_tex = ImageTexture.new()
-	metadata_tex.create_from_image(metadata, 0)
+	metadata_tex.create_from_image(metadata) #,0
 	
 	return metadata_tex
 
@@ -320,12 +324,12 @@ func get_billboard_texture(group_array):
 	return _image_array_to_texture_array(get_billboard_sheet(group_array))
 
 
-# Utility function for turning an ImageArray into a TextureArray.
+# Utility function for turning an ImageArray into a Texture2DArray.
 func _image_array_to_texture_array(images):
 	if not images or images.size() == 0:
 		return null
 	
-	var texture_array = TextureArray.new()
+	var texture_array = Texture2DArray.new()
 	texture_array.create(images[0].get_width(), images[0].get_height(), images.size(), images[0].get_format(),
 			TextureLayered.FLAG_FILTER + TextureLayered.FLAG_MIPMAPS + TextureLayered.FLAG_REPEAT)
 	
@@ -349,7 +353,7 @@ func generate_distribution(group: PlantGroup, max_size: float):
 	var dice = RandomNumberGenerator.new()
 	dice.randomize()
 	
-	distribution.lock()
+	false # distribution.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	for y in range(0, distribution_size):
 		for x in range(0, distribution_size):
@@ -379,19 +383,19 @@ func generate_distribution(group: PlantGroup, max_size: float):
 			
 			distribution.set_pixel(x, y, Color(highest_roll_id / 255.0, scale_factor, 0.0, 0.0))
 	
-	distribution.unlock()
+	false # distribution.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	return distribution
 
 
 # Return all renderers according to the set Density Classes. The renderers are children of the
-#  returned Spatial.
-func get_renderers() -> Spatial:
-	var root = Spatial.new()
+#  returned Node3D.
+func get_renderers() -> Node3D:
+	var root = Node3D.new()
 	root.name = "VegetationRenderers"
 	
 	for density_class in density_classes.values():
-		var renderer = preload("res://Layers/Renderers/RasterVegetation/VegetationParticles.tscn").instance()
+		var renderer = load("res://Layers/Renderers/RasterVegetation/VegetationParticles.tscn").instantiate()
 		
 		renderer.density_class = density_class
 		

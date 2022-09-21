@@ -6,7 +6,7 @@ extends Node
 #
 
 
-export var update_interval := 0.5
+@export var update_interval := 0.5
 
 var _current_update_timer := 0.0
 var _previous_player_position := [0.0, 0.0, 0.0]

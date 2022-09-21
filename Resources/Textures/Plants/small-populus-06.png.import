@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/small-populus-06.png-aa0594602a998983015ee66f7301e2af.image"
+uid="uid://bc3lltliedfcg"
+path="res://.godot/imported/small-populus-06.png-aa0594602a998983015ee66f7301e2af.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/small-populus-06.png"
-dest_files=[ "res://.import/small-populus-06.png-aa0594602a998983015ee66f7301e2af.image" ]
+dest_files=["res://.godot/imported/small-populus-06.png-aa0594602a998983015ee66f7301e2af.image"]
 
 [params]
 

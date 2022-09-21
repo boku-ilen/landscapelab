@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-19aea4bd417fdee789cdc07d9722a445.image"
+uid="uid://dyqd3x8kfjcbl"
+path="res://.godot/imported/specular.jpg-19aea4bd417fdee789cdc07d9722a445.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/159-triticale/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-19aea4bd417fdee789cdc07d9722a445.image" ]
+dest_files=["res://.godot/imported/specular.jpg-19aea4bd417fdee789cdc07d9722a445.image"]
 
 [params]
 

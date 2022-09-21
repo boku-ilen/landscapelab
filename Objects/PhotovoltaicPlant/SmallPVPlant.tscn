@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Objects/Util/MultiplePVModules.gd" type="Script" id=1]
 
-[node name="SmallPVPlant" type="Spatial"]
+[node name="SmallPVPlant" type="Node3D"]
 script = ExtResource( 1 )
 rows = 14
 cols = 10

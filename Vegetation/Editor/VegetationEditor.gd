@@ -2,9 +2,9 @@ extends HSplitContainer
 
 
 func _ready():
-	$PlantPanel/PlantDetails/DetailList/GroupButton.connect("pressed", self, "_add_current_plant_to_current_group")
-	$HSplitContainer/VBoxContainer/UpdateVisButton.connect("pressed", self, "_update_visualization")
-	$HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/GroupPlantList.connect("item_selected", self, "_on_group_plant_selected")
+	$PlantPanel/PlantDetails/DetailList/GroupButton.connect("pressed",Callable(self,"_add_current_plant_to_current_group"))
+	$HSplitContainer/VBoxContainer/UpdateVisButton.connect("pressed",Callable(self,"_update_visualization"))
+	$HSplitContainer/GroupPanel/GroupDetails/GroupAttributes/Attributes/GroupPlantList.connect("item_selected",Callable(self,"_on_group_plant_selected"))
 
 
 func _add_current_plant_to_current_group():
@@ -21,7 +21,7 @@ func _update_visualization():
 	var current_group = $HSplitContainer/GroupPanel/GroupDetails.current_group
 	
 	if (current_group):
-		$HSplitContainer/VBoxContainer/VisualizationUI/Viewport/Visualization.update_visualization(current_group.id)
+		$HSplitContainer/VBoxContainer/VisualizationUI/SubViewport/Visualization.update_visualization(current_group.id)
 
 
 

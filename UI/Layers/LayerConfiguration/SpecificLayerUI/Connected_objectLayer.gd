@@ -5,14 +5,14 @@ var co_attribute_config = load("res://UI/Layers/LayerConfiguration/Misc/Connecte
 
 
 func _ready():
-	$AdditionalAttribute/AddTribute.connect("pressed", self, "_on_additional_pressed")
-	$Split/RightBox/COChooser.connect("new_layer_selected", $Split/RightBox/SelectorAttrDD, "set_feature_layer")
+	$AdditionalAttribute/AddTribute.connect("pressed",Callable(self,"_on_additional_pressed"))
+	$Split/RightBox/COChooser.connect("new_layer_selected",Callable($Split/RightBox/SelectorAttrDD,"set_feature_layer"))
 	
 	emit_signal("resized")
 
 
 func _on_additional_pressed():
-	$AdditionalAttribute.add_child(co_attribute_config.instance())
+	$AdditionalAttribute.add_child(co_attribute_config.instantiate())
 
 
 func assign_specific_layer_info(layer: Layer):
@@ -58,7 +58,7 @@ func init_specific_layer_info(layer):
 	
 	var additonal_attributes = $AdditionalAttribute
 	for value in layer.render_info.connectors:
-		var conf = co_attribute_config.instance()
+		var conf = co_attribute_config.instantiate()
 		conf.name = value
 		conf.set_value(value)
 		conf.set_connector(layer.render_info.connectors[value].get_path())
@@ -76,7 +76,7 @@ func init_specific_layer_info(layer):
 			if child.has_method("get_value"): names.append(child.get_value())
 		if value in names: continue
 		
-		var conf = co_attribute_config.instance()
+		var conf = co_attribute_config.instantiate()
 		conf.name = value
 		conf.set_value(value)
 		conf.set_connection(layer.render_info.connections[value].get_path())

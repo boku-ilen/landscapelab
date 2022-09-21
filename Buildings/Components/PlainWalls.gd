@@ -1,5 +1,5 @@
-tool
-extends Spatial
+@tool
+extends Node3D
 
 
 #
@@ -7,7 +7,7 @@ extends Spatial
 #
 
 
-export(bool) var wind_counterclockwise = true
+@export var wind_counterclockwise: bool = true
 
 var height = 2.5
 var texture_scale = 2.5  # Size of the texture in meters - likely identical to the height
@@ -20,14 +20,14 @@ func set_color(new_color):
 
 
 func set_lights_enabled(enabled):
-	$MeshInstance.material_override.set_shader_param("lights_on", enabled)
+	$MeshInstance3D.material_override.set_shader_parameter("lights_on", enabled)
 
 
 func set_window_shading(enabled: bool):
-	$MeshInstance.material_override.set_shader_param("window_shading", enabled)
+	$MeshInstance3D.material_override.set_shader_parameter("window_shading", enabled)
 
 
-func build(footprint: PoolVector2Array):
+func build(footprint: PackedVector2Array):
 	var st = SurfaceTool.new()
 	
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -108,6 +108,6 @@ func build(footprint: PoolVector2Array):
 	
 	# Apply
 	var mesh = st.commit()
-	$MeshInstance.mesh = mesh
+	$MeshInstance3D.mesh = mesh
 	
 	

@@ -7,24 +7,26 @@ var edit_action: ActionHandler.Action
 
 
 func _ready():
-	$Edit.connect("toggled", self, "_on_edit")
-	$List.connect("toggled", self, "_on_list")
-	$List/ListWindow/ItemList.connect("item_selected", self, "_on_feature_list_item_selected")
+	$Edit.connect("toggled",Callable(self,"_on_edit"))
+	$List.connect("toggled",Callable(self,"_on_list"))
+	$List/ListWindow/ItemList.connect("item_selected",Callable(self,"_on_feature_list_item_selected"))
 	load_features_into_list()
 
 
 func set_player(player):
-	.set_player(player)
+	super.set_player(player)
 	if "action_handler" in pc_player:
 		edit_action = EditAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
 		add_action = AddFeatureAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
 
 class EditAction extends ActionHandler.Action:
-	var cursor: RayCast
+	var cursor: RayCast3D
 	var layer: Layer
 	var pos_manager: PositionManager
 	
-	func _init(l, c, p_m, p, blocking).(p, blocking):
+	func _init(l,c,p_m,p,blocking):
+		super._init(p, blocking)
+		
 		cursor = c
 		layer = l
 		pos_manager = p_m
@@ -36,11 +38,13 @@ class EditAction extends ActionHandler.Action:
 
 
 class AddFeatureAction extends ActionHandler.Action:
-	var cursor: RayCast
+	var cursor: RayCast3D
 	var layer: Layer
 	var pos_manager: PositionManager
 	
-	func _init(l, c, p_m, p, blocking).(p, blocking):
+	func _init(l,c,p_m,p,blocking):
+		super._init(p, blocking)
+		
 		cursor = c
 		layer = l
 		pos_manager = p_m

@@ -1,7 +1,7 @@
 extends SpecificLayerUI
 
 
-onready var geodata_texture: OptionButton = get_node("RightBox/GeodataChooserTexture/OptionButton")
+@onready var geodata_texture: OptionButton = get_node("RightBox/GeodataChooserTexture/OptionButton")
 
 
 func assign_specific_layer_info(layer: Layer):

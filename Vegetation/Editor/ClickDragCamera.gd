@@ -1,4 +1,4 @@
-extends Camera
+extends Camera3D
 
 var rot_x = 0
 var rot_y = 0
@@ -20,7 +20,7 @@ func _input(event):
 			rotate_object_local(Vector3(1, 0, 0), rot_y)
 
 	elif event is InputEventMouseButton:
-		if event.button_index == BUTTON_RIGHT:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
 			is_right_mouse_button_down = event.pressed
 
 			if is_right_mouse_button_down:

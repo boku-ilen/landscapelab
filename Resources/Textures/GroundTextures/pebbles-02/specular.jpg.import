@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-65f9048adf071b75f196b6f93b7f38c9.image"
+uid="uid://c6bgskec14kfa"
+path="res://.godot/imported/specular.jpg-65f9048adf071b75f196b6f93b7f38c9.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/pebbles-02/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-65f9048adf071b75f196b6f93b7f38c9.image" ]
+dest_files=["res://.godot/imported/specular.jpg-65f9048adf071b75f196b6f93b7f38c9.image"]
 
 [params]
 

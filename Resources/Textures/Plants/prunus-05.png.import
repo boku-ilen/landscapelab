@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/prunus-05.png-3dda6c42391e0fb88b129ce820393ca5.image"
+uid="uid://dxo1axfhptqse"
+path="res://.godot/imported/prunus-05.png-3dda6c42391e0fb88b129ce820393ca5.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/prunus-05.png"
-dest_files=[ "res://.import/prunus-05.png-3dda6c42391e0fb88b129ce820393ca5.image" ]
+dest_files=["res://.godot/imported/prunus-05.png-3dda6c42391e0fb88b129ce820393ca5.image"]
 
 [params]
 

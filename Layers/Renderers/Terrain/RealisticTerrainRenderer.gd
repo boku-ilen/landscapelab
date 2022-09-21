@@ -9,7 +9,7 @@ func _ready():
 	for scales in range(4):
 		for x in range(-1, 2):
 			for y in range(-1, 2):
-				var lod = preload("res://Layers/Renderers/Terrain/TerrainLOD.tscn").instance()
+				var lod = preload("res://Layers/Renderers/Terrain/TerrainLOD.tscn").instantiate()
 				
 				if x == 0 and y == 0:
 					if scales == 0:
@@ -27,8 +27,8 @@ func _ready():
 					lod.always_load_landuse = true
 				
 				var size = pow(3.0, scales) * 300.0
-				lod.translation.x = x * size
-				lod.translation.z = y * size
+				lod.position.x = x * size
+				lod.position.z = y * size
 				lod.size = size
 				
 				lod.height_layer = layer.render_info.height_layer.clone()

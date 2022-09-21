@@ -1,4 +1,4 @@
-extends KinematicBody
+extends CharacterBody3D
 class_name AbstractPlayer
 
 var dragging : bool = false
@@ -55,12 +55,12 @@ func _input(event):
 # Input for all Player classes - do not overwrite!
 func _handle_abstract_viewport_input(event):
 	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == BUTTON_LEFT and not rotating: 
+		if event.button_index == MOUSE_BUTTON_LEFT and not rotating: 
 			dragging = true
 			set_mouse_mode_captured()
 			get_tree().set_input_as_handled()
 			return true
-		elif event.button_index == BUTTON_RIGHT:
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			rotating = true
 			set_mouse_mode_captured()
 			get_tree().set_input_as_handled()
@@ -86,12 +86,12 @@ func _handle_viewport_input(event):
 func _handle_abstract_general_input(event):
 	# Mouse button release
 	if event is InputEventMouseButton and not event.pressed:
-		if event.button_index == BUTTON_LEFT and dragging:
+		if event.button_index == MOUSE_BUTTON_LEFT and dragging:
 			dragging = false
 			if not rotating: set_mouse_mode_free()
 			
 			return true
-		elif event.button_index == BUTTON_RIGHT and rotating:
+		elif event.button_index == MOUSE_BUTTON_RIGHT and rotating:
 			rotating = false
 			if not dragging: set_mouse_mode_free()
 			
@@ -104,16 +104,16 @@ func _handle_general_input(event):
 	pass
 
 
-# To prevent floating point errors, the player.translation does not reflect the player's 
+# To prevent floating point errors, the player.position does not reflect the player's 
 # actual position in the whole world. This function returns the true world position of 
 # the player (in projected meters) as integers.
 func get_true_position():
-	return position_manager.to_world_coordinates(translation)
+	return position_manager.to_world_coordinates(position)
 
 
 # Set the position from projected meter coordinates in an int array
 func set_true_position(pos):
-	translation = position_manager.to_engine_coordinates(pos) + Vector3.UP * 500.0
+	position = position_manager.to_engine_coordinates(pos) + Vector3.UP * 500.0
 
 
 # Lock the mosue to the window and make it invisible.
@@ -128,7 +128,7 @@ func set_mouse_mode_free():
 	# Hide the mouse while teleporting it back to where it was before being captured
 	# (warping during MOUSE_MODE_CAPTURED has no effect)
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	Input.warp_mouse_position(mouse_position_before_capture)
+	Input.warp_mouse(mouse_position_before_capture)
 	
 	# Make it visible
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

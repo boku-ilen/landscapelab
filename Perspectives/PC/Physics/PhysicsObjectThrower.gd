@@ -1,11 +1,11 @@
-extends Spatial
+extends Node3D
 
 
-onready var origin: Spatial = get_parent()
-onready var cursor: RayCast = get_parent().get_node("InteractRay")
-onready var thrown_objects = get_node("ThrownObjects")
+@onready var origin: Node3D = get_parent()
+@onready var cursor: RayCast3D = get_parent().get_node("InteractRay")
+@onready var thrown_objects = get_node("ThrownObjects")
 
-export(PackedScene) var object_to_throw_scene
+@export var object_to_throw_scene: PackedScene
 
 
 func _unhandled_input(event):
@@ -13,7 +13,7 @@ func _unhandled_input(event):
 		var direction = cursor.cast_to.normalized()
 		var instance_position = origin.global_transform.origin
 		
-		var instance = object_to_throw_scene.instance() as RigidBody
+		var instance = object_to_throw_scene.instantiate() as RigidBody3D
 		thrown_objects.add_child(instance)
 		
 		instance.global_transform.origin = instance_position + direction * 20.0

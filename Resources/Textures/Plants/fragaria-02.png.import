@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/fragaria-02.png-a9f31fcba3100da4aa9373a5be6ca677.image"
+uid="uid://d3dhb27fxflsq"
+path="res://.godot/imported/fragaria-02.png-a9f31fcba3100da4aa9373a5be6ca677.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/fragaria-02.png"
-dest_files=[ "res://.import/fragaria-02.png-a9f31fcba3100da4aa9373a5be6ca677.image" ]
+dest_files=["res://.godot/imported/fragaria-02.png-a9f31fcba3100da4aa9373a5be6ca677.image"]
 
 [params]
 

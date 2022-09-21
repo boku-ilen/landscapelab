@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/gr-hordeum-vulgare-02.png-aaa32103a4103dfd036c80c1ba8dc988.image"
+uid="uid://nrb0p02qd67v"
+path="res://.godot/imported/gr-hordeum-vulgare-02.png-aaa32103a4103dfd036c80c1ba8dc988.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/gr-hordeum-vulgare-02.png"
-dest_files=[ "res://.import/gr-hordeum-vulgare-02.png-aaa32103a4103dfd036c80c1ba8dc988.image" ]
+dest_files=["res://.godot/imported/gr-hordeum-vulgare-02.png-aaa32103a4103dfd036c80c1ba8dc988.image"]
 
 [params]
 

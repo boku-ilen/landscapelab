@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/lactuca-sativa-01.png-14d4ecb9978272cfb943515cb791aa99.image"
+uid="uid://cb4n4lepjahpn"
+path="res://.godot/imported/lactuca-sativa-01.png-14d4ecb9978272cfb943515cb791aa99.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/lactuca-sativa-01.png"
-dest_files=[ "res://.import/lactuca-sativa-01.png-14d4ecb9978272cfb943515cb791aa99.image" ]
+dest_files=["res://.godot/imported/lactuca-sativa-01.png-14d4ecb9978272cfb943515cb791aa99.image"]
 
 [params]
 

@@ -18,7 +18,7 @@ var layer_renderer = preload("res://Layers/LayerRenderer.tscn")
 
 const LOG_MODULE := "LAYERCONFIGURATION"
 
-onready var layer_renderers = get_parent()
+@onready var layer_renderers = get_parent()
 
 
 # Called when the node enters the scene tree for the first time.
@@ -28,8 +28,8 @@ func _ready():
 		add_layer(layer)
 	
 	# For future layers, use a signal.
-	Layers.connect("new_rendered_layer", self, "add_layer")
-	Layers.connect("removed_rendered_layer", self, "remove_layer")
+	Layers.connect("new_rendered_layer",Callable(self,"add_layer"))
+	Layers.connect("removed_rendered_layer",Callable(self,"remove_layer"))
 
 
 func add_layer(layer: Layer):
@@ -37,7 +37,7 @@ func add_layer(layer: Layer):
 		logger.error("Unknown render type for rendered layer: %s" % [str(layer.render_type)], LOG_MODULE)
 		return
 	
-	var new_layer = renderers[layer.render_type].instance()
+	var new_layer = renderers[layer.render_type].instantiate()
 	
 	new_layer.layer = layer
 	new_layer.name = layer.name

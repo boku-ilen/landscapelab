@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-89133dff7160c0dbb7725e3c563c79c5.image"
+uid="uid://b16rm6i7u0djy"
+path="res://.godot/imported/displacement.jpg-89133dff7160c0dbb7725e3c563c79c5.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/pebbles-02/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-89133dff7160c0dbb7725e3c563c79c5.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-89133dff7160c0dbb7725e3c563c79c5.image"]
 
 [params]
 

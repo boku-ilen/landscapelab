@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-7c5e3ca29b76125d9faf75a8c6879cfa.image"
+uid="uid://boshcte3abt2n"
+path="res://.godot/imported/albedo.jpg-7c5e3ca29b76125d9faf75a8c6879cfa.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/173-cereals/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-7c5e3ca29b76125d9faf75a8c6879cfa.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-7c5e3ca29b76125d9faf75a8c6879cfa.image"]
 
 [params]
 

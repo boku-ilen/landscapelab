@@ -12,12 +12,12 @@ static func _create_density_classes(densities_data: Array) -> Dictionary:
 	
 	for line in densities_data:
 		var density_class = DensityClass.new(
-			line["ID"],
+			str_to_var(line["ID"]),
 			line["Density Class"],
 			line["Image Type"],
 			line["Note"],
-			line["Godot Density per m"],
-			line["Base Extent"]
+			str_to_var(line["Godot Density per m"]),
+			str_to_var(line["Base Extent"])
 		)
 		density_classes[density_class.id] = density_class
 		
@@ -28,16 +28,16 @@ static func _create_textures(textures_data: Array, include_types, exclude_types)
 	var ground_textures = {}
 	
 	for line in textures_data:
-		if not include_types.empty() and not line["TYPE"] in include_types:
+		if not include_types.is_empty() and not line["TYPE"] in include_types:
 			continue
-		if not exclude_types.empty() and line["TYPE"] in exclude_types:
+		if not exclude_types.is_empty() and line["TYPE"] in exclude_types:
 			continue
 		
 		var texture = GroundTexture.new(
-			line["ID"],
+			str_to_var(line["ID"]),
 			line["Texture"],
 			line["TYPE"],
-			line["SIZE"],
+			str_to_var(line["SIZE"]),
 			GroundTexture.Seasons.new(
 				true if line["SPRING"] == "1" else false,
 				true if line["SUMMER"] == "1" else false,
@@ -62,18 +62,17 @@ static func _create_plants(plants_data: Array, density_classes: Dictionary) -> D
 		
 		# A missing ID makes a plant invalid
 		if id == "":
-			logger.warning("Plant with empty ID in plant row/line: %s"
+			logger.warn("Plant with empty ID in plant row/line: %s"
 					% [line], LOG_MODULE)
 			continue
 		else:
-			id = int(id)
+			id = str_to_var(id)
 		
 		var plant = Plant.new()
 		
-		if not density_class_string \
-				or density_class_string.empty() \
-				or not density_classes.has(int(density_class_string)):
-			logger.warning("Unknown Density Class ID: %s. Using the first one as a fallback..."
+		if density_class_string.is_empty() \
+				or not density_classes.has(str_to_var(density_class_string)):
+			logger.warn("Unknown Density Class ID: %s. Using the first one as a fallback..."
 					% [density_class_string], LOG_MODULE)
 			density_class_string = 0
 		
@@ -81,10 +80,10 @@ static func _create_plants(plants_data: Array, density_classes: Dictionary) -> D
 		plant.billboard_path = line["GENERIC_FILENAME"]
 		plant.type = line["TYPE"]
 		plant.size_class = _parse_size(line["SIZE"])
-		plant.height_min = line["H_MIN"]
-		plant.height_max = line["H_MAX"]
-		plant.density_ha = line["LAB_PLANT_DENSITY_HA"]
-		plant.density_class = density_classes[int(line["DENSITY_CLASS"])]
+		plant.height_min = str_to_var(line["H_MIN"])
+		plant.height_max = str_to_var(line["H_MAX"])
+		plant.density_ha = str_to_var("0" + line["LAB_PLANT_DENSITY_HA"])
+		plant.density_class = density_classes[str_to_var(line["DENSITY_CLASS"])]
 		plant.species = line["SPECIES"]
 		plant.name_de = line["NAME_DE"]
 		plant.name_en = line["NAME_EN"]
@@ -95,9 +94,9 @@ static func _create_plants(plants_data: Array, density_classes: Dictionary) -> D
 		plant.license = line["LICENSE"]
 		plant.author = line["AUTHOR"]
 		plant.note = line["NOTE"]
-		plant.cluster_width = line["CLUSTER-WIDTH"]
-		plant.cluster_per_ha = line["CLUSTER-PLANTS_per_HA"]
-		plant.plants_per_ha = line["PLANTS_per_HA"]
+		plant.cluster_width = str_to_var("0" + line["CLUSTER-WIDTH"])
+		plant.cluster_per_ha = str_to_var("0" + line["CLUSTER-PLANTS_per_HA"])
+		plant.plants_per_ha = str_to_var("0" + line["PLANTS_per_HA"])
 		
 		plants[plant.id] = plant
 	
@@ -114,56 +113,56 @@ static func _create_groups(groups_data: Array, plants: Dictionary,
 		# SOURCE,SNAR_CODE,SNAR_CODEx10,SNAR-Bezeichnung,TXT_DE,TXT_EN,SNAR_GROUP_LAB,LAB_ID (LID),PLANTS,GROUND TEXTURE
 		
 		var id = line["LID"].strip_edges()
-		var plant_ids = line["PLANTS"].split(",") if not line["PLANTS"].empty() else []
+		var plant_ids = line["PLANTS"].split(",") if not line["PLANTS"].is_empty() else []
 		
 		if id == "":
-			logger.warning("Group with empty ID in CSV line: %s"
+			logger.warn("Group with empty ID in CSV line: %s"
 					% [line], LOG_MODULE)
 			continue
 		else:
-			id = int(id)
+			id = str_to_var(id)
 		
 		if id in groups.keys():
-			logger.warning("Duplicate group with ID %s! Skipping..."
+			logger.warn("Duplicate group with ID %s! Skipping..."
 					% [id], LOG_MODULE)
 			continue
 		
 		# Parse and loads plants
 		var group_plants = []
 		for plant_id in plant_ids:
-			plant_id = int(plant_id)
+			plant_id = str_to_var(plant_id)
 			
 			if plants.has(plant_id):
 				group_plants.append(plants[plant_id])
 			else:
-				logger.warning("Non-existent plant with ID %s in line/row %s!"
+				logger.warn("Non-existent plant with ID %s in line/row %s!"
 						% [plant_id, line], LOG_MODULE)
 		
 		# null is encoded as the string "Null"
-		var ground_texture_id = line["TEXTURE_ID"] if not line["TEXTURE_ID"] .empty() \
+		var ground_texture_id = line["TEXTURE_ID"] if not line["TEXTURE_ID"].is_empty() \
 														and line["TEXTURE_ID"] != "Null" \
 														and line["TEXTURE_ID"] != null \
 													else null
 		
-		if not ground_texture_id or not ground_textures.has(int(ground_texture_id)):
-			logger.warning("Non-existent ground texture ID %s in group %s, using 1 as fallback"
+		if ground_texture_id == null or ground_texture_id.is_empty() or not ground_textures.has(str_to_var(ground_texture_id)):
+			logger.warn("Non-existent ground texture ID %s in group %s, using 1 as fallback"
 					% [ground_texture_id, id], LOG_MODULE)
 			ground_texture_id = 1
 		else:
-			ground_texture_id = int(ground_texture_id)
+			ground_texture_id = str_to_var(ground_texture_id)
 		
-		var fade_texture_id = line["DISTANCE_MAP_ID"] if not line["DISTANCE_MAP_ID"] .empty() \
+		var fade_texture_id = line["DISTANCE_MAP_ID"] if not line["DISTANCE_MAP_ID"].is_empty() \
 														and line["DISTANCE_MAP_ID"] != "Null" \
 														and line["DISTANCE_MAP_ID"] != null \
 													else null
 		var fade_texture
 		
-		if not fade_texture_id or not fade_textures.has(int(fade_texture_id)):
-			logger.warning("Non-existent fade texture ID %s in group %s, using null as fallback"
+		if fade_texture_id == null or not fade_textures.has(str_to_var(fade_texture_id)):
+			logger.warn("Non-existent fade texture ID %s in group %s, using null as fallback"
 					% [fade_texture_id, id], LOG_MODULE)
 			fade_texture = null
 		else:
-			fade_texture = fade_textures[int(fade_texture_id)]
+			fade_texture = fade_textures[str_to_var(fade_texture_id)]
 		
 		var group = PlantGroup.new(id, line["LABEl_EN"], group_plants, ground_textures[ground_texture_id],
 				fade_texture)

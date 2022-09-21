@@ -1,15 +1,15 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Layers/Renderers/Path/PathInstance.gd" type="Script" id=1]
+[ext_resource path="res://Layers/Renderers/Path3D/PathInstance.gd" type="Script" id=1]
 
 [sub_resource type="Curve3D" id=1]
 _data = {
-"points": PoolVector3Array(  ),
-"tilts": PoolRealArray(  )
+"points": PackedVector3Array(  ),
+"tilts": PackedFloat32Array(  )
 }
 
-[node name="Path" type="Path"]
+[node name="Path3D" type="Path3D"]
 curve = SubResource( 1 )
 script = ExtResource( 1 )
 
-[node name="PathFollow" type="PathFollow" parent="."]
+[node name="PathFollow3D" type="PathFollow3D" parent="."]

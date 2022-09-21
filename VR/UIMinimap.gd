@@ -1,18 +1,18 @@
-extends Camera
+extends Camera3D
 
 #
 # Basic minimap implementation which uses an orthographic camera placed above the player.
 #
 
-onready var ray = get_node("RayCast")
-onready var marker = get_node("MeshInstance")
-onready var done_button = get_node("Container/HBoxContainer/Button")
+@onready var ray = get_node("RayCast3D")
+@onready var marker = get_node("MeshInstance3D")
+@onready var done_button = get_node("Container/HBoxContainer/Button")
 
 
 func _ready():
-	done_button.connect("pressed", self, "save_position_to_file")
+	done_button.connect("pressed",Callable(self,"save_position_to_file"))
 	
-	var initial_cam_height = translation.y
+	var initial_cam_height = position.y
 	global_transform.origin.y = initial_cam_height
 
 

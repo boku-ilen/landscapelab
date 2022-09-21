@@ -1,13 +1,13 @@
 extends SpecificLayerUI
 
 
-onready var geodata_paths: OptionButton = get_node("RightBox/PathChooser/OptionButton")
-onready var geodata_height: OptionButton = get_node("RightBox/HeightChooser/OptionButton")
-onready var file_path_line_scene = get_node("RightBox/ProfileChooser/FileName")
+@onready var geodata_paths: OptionButton = get_node("RightBox/PathChooser/OptionButton")
+@onready var geodata_height: OptionButton = get_node("RightBox/HeightChooser/OptionButton")
+@onready var file_path_line_scene = get_node("RightBox/ProfileChooser/FileName")
 
 
 func _ready():
-	$RightBox/Button.connect("pressed", self, "_open_profile_editor")
+	$RightBox/Button.connect("pressed",Callable(self,"_open_profile_editor"))
 
 
 func _open_profile_editor():

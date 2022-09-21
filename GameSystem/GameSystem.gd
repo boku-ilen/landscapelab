@@ -1,7 +1,19 @@
 extends Node
 
 
-var current_game_mode: GameMode setget set_current_game_mode
+var current_game_mode: GameMode :
+	get:
+		return current_game_mode # TODOConverter40 Non existent get function 
+	set(new_game_mode):
+		# Disconnect previous signals
+		if current_game_mode:
+			current_game_mode.disconnect("score_changed",Callable(self,"_on_score_changed"))
+			current_game_mode.disconnect("score_target_reached",Callable(self,"_on_score_target_changed"))
+		
+		current_game_mode = new_game_mode
+	
+		current_game_mode.connect("score_changed",Callable(self,"_on_score_changed"))
+		current_game_mode.connect("score_target_reached",Callable(self,"_on_score_target_changed"))
 
 var _next_game_object_id := 0
 var _game_objects = {}
@@ -11,20 +23,8 @@ signal score_target_reached(score)
 
 
 func _ready():
-	# TODO: Layers.connect("new_game_layer", self, "_on_new_game_layer")
+	# TODO: Layers.connect("new_game_layer",Callable(self,"_on_new_game_layer"))
 	pass
-
-
-func set_current_game_mode(new_game_mode):
-	# Disconnect previous signals
-	if current_game_mode:
-		current_game_mode.disconnect("score_changed", self, "_on_score_changed")
-		current_game_mode.disconnect("score_target_reached", self, "_on_score_target_changed")
-	
-	current_game_mode = new_game_mode
-	
-	current_game_mode.connect("score_changed", self, "_on_score_changed")
-	current_game_mode.connect("score_target_reached", self, "_on_score_target_changed")
 
 
 func _on_score_changed(score):
@@ -37,11 +37,11 @@ func _on_score_target_reached(score):
 
 func create_new_game_object(collection, position := Vector3.ZERO):
 	# FIXME: This if should be removed, it's a hacky way to allow the PlayerGameObjectCollection to
-	#  move the player on "NEW_TOKEN" while allowing the actual creation of new objects in
+	#  move the player checked "NEW_TOKEN" while allowing the actual creation of new objects in
 	#  GeoGameObjectCollections
-	if collection is GeoGameObjectCollection:
+	if collection.has_method("create_new_geo_game_object"):
 		return create_new_geo_game_object(collection, position)
-	elif collection is PlayerGameObjectCollection:
+	else:
 		collection.game_objects.values()[0].set_position(position)
 		return collection.game_objects.values()[0]
 
@@ -74,7 +74,7 @@ func remove_game_object(game_object):
 	var collection = game_object.collection
 	
 	# TODO: Find a cleaner way to differentiate here; maybe use duck typing
-	if collection is GeoGameObjectCollection:
+	if "feature_layer" in collection:
 		collection.feature_layer.remove_feature(game_object.geo_feature)
 		apply_game_object_removal(collection.name, game_object.id)
 

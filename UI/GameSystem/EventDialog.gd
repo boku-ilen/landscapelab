@@ -5,7 +5,7 @@ var events_waiting := 0
 
 
 func _ready():
-	GameSystem.current_game_mode.connect("event_occurring", self, "_on_event_occurring")
+	GameSystem.current_game_mode.connect("event_occurring",Callable(self,"_on_event_occurring"))
 
 
 func _on_event_occurring(event: GameEvent):
@@ -14,10 +14,10 @@ func _on_event_occurring(event: GameEvent):
 		events_waiting += 1
 		
 		for i in range(events_waiting):
-			yield(self, "confirmed")
+			await self.confirmed
 		
 		events_waiting -= 1
 	
-	window_title = event.title
+	title = event.title
 	dialog_text = event.description
 	popup_centered()

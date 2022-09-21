@@ -1,6 +1,6 @@
 extends Node
 
-# this is the new communication implementation based on the godot websocket
+# this is the new communication implementation based checked the godot websocket
 # we assume the landscapelab (former client) to be the master of potential
 # several connections to endpoints like the qgis-plugin or to LabTable(s)
 
@@ -20,10 +20,10 @@ func _ready():
 	var supported_protocols = [] # FIXME: read from settings
 
 	# Connect base signals for server client communication
-	self._ws_server.connect("client_connected", self, "_connected")
-	self._ws_server.connect("client_disconnected", self, "_disconnected")
-	self._ws_server.connect("client_close_request", self, "_close_request")
-	self._ws_server.connect("data_received", self, "_on_data")
+	self._ws_server.connect("client_connected",Callable(self,"_connected"))
+	self._ws_server.connect("client_disconnected",Callable(self,"_disconnected"))
+	self._ws_server.connect("client_close_request",Callable(self,"_close_request"))
+	self._ws_server.connect("data_received",Callable(self,"_on_data"))
 
 	# try to start listening
 	var err = _ws_server.listen(port, supported_protocols, false)
@@ -31,10 +31,10 @@ func _ready():
 		logger.error("server bindings could not be initialized (port: %s)" % [port], LOG_MODULE)
 		# FIXME: server binding could not be initialized
 	else:
-		logger.info("websocket server initialized on port %s" % [port], LOG_MODULE)
+		logger.info("websocket server initialized checked port %s" % [port], LOG_MODULE)
 
 
-# close the server on unload
+# close the server checked unload
 func _exit_tree():
 
 	# free the client connection list
@@ -59,7 +59,7 @@ func register_handler(handler: AbstractRequestHandler):
 	return false
 
 
-# remove the request handler upon request
+# remove_at the request handler upon request
 func unregister_handler(handler: AbstractRequestHandler):
 	if handler.protocol_keyword:
 		if self._handlers.erase(handler.protocol_keyword):
@@ -81,7 +81,7 @@ func _connected(id, proto):
 	self._clients[id].set_write_mode(self._write_mode)
 
 
-# remove a client connection
+# remove_at a client connection
 func _disconnected(id, was_clean=false):
 	logger.info("Disconnected client %s (clean: %s)" % [id, was_clean], LOG_MODULE)
 	if self._clients.has(id):
@@ -97,7 +97,9 @@ func _on_data(id):
 	# unpack the received data
 	var packet = self._ws_server.get_peer(id).get_packet()
 	var string = packet.get_string_from_utf8()
-	var json_result = JSON.parse(string)
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(string)
+	var json_result = test_json_conv.get_data()
 	
 	# Validation
 	if not json_result.error == OK:
@@ -140,7 +142,7 @@ func _on_data(id):
 				_send_data(answer, null, message_id)  # FIXME: how to find according client_id?
 			
 		else:
-			logger.warning("received a message without registered keyword %s" % [keyword], LOG_MODULE)
+			logger.warn("received a message without registered keyword %s" % [keyword], LOG_MODULE)
 
 
 func broadcast(data):
@@ -149,23 +151,22 @@ func broadcast(data):
 
 # FIXME: we could implement a send function like this but we have to determine which client id
 # FIXME: is the receiving part - or broadcast it and the client decides what to do with the event
-func _send_data(data: Dictionary, client_id=null, message_id=null):
-
+func _send_data(data: Dictionary, client_id=-1, message_id=null):
 	# if id is null broadcast to all connected clients
-	if not client_id:
+	if client_id == -1:
 		logger.debug("starting broadcast", LOG_MODULE)
-		for client_id in _clients:
-			_send_data(data, client_id, message_id)
+		for current_client_id in _clients:
+			_send_data(data, current_client_id, message_id)
 		logger.debug("ending broadcast", LOG_MODULE)
 
 	else:
 		if message_id:
 			data["message_id"] = message_id
 		else:
-			data["message_id"] = OS.get_system_time_msecs()  # FIXME: is there a better unique id in GDScript?
+			data["message_id"] = Time.get_ticks_msec() 
 		logger.debug("send msg: %s to client %s" % [data, client_id], LOG_MODULE)
-		var message = JSON.print(data)
-		self._ws_server.get_peer(client_id).put_packet(message.to_utf8())
+		var message = JSON.stringify(data)
+		self._ws_server.get_peer(client_id).put_packet(message.to_utf8_buffer())
 
 # FIXME: this is a backward compatibility function which should soon be removed
 func get_json(parameter):

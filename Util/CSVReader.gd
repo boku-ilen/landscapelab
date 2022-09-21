@@ -23,7 +23,7 @@ func read_csv(csv_path: String) -> void:
 	
 	if not csv_file.is_open():
 		logger.error("CSV file does not exist, expected it at %s"
-				 % [csv_path], LOG_MODULE)
+				% [csv_path], LOG_MODULE)
 		return
 	
 	var headings = csv_file.get_csv_line()
@@ -32,7 +32,7 @@ func read_csv(csv_path: String) -> void:
 		var csv = csv_file.get_csv_line()
 		
 		if csv.size() < headings.size():
-			logger.warning("Unexpected CSV line (size does not match headings): %s"
+			logger.warn("Unexpected CSV line (size does not match headings): %s"
 					% [csv], LOG_MODULE)
 			continue
 		

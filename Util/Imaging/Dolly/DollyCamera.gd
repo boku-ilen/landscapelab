@@ -1,24 +1,24 @@
-extends Camera
+extends Camera3D
 
 #
-# Camera which goes along a PathFollow and keeps the view centered on a certain target (any Spatial node).
-# Must be child of a PathFollow node!
+# Camera3D which goes along a PathFollow3D and keeps the view centered checked a certain target (any Node3D node).
+# Must be child of a PathFollow3D node!
 #
 
-var path_follow: PathFollow
-var focus: Spatial
+var path_follow: PathFollow3D
+var focus: Node3D
 var velocity: Vector3
 
 var is_enabled: bool = false
 
-export(float) var move_speed: float
-export(float, 0.0, 1.0) var move_speed_decay: float
+@export var move_speed: float
+@export var move_speed_decay: float # (float, 0.0, 1.0)
 
 
 func _ready():
 	if not path_follow:
 		logger.error("Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced", "DOLLYCAM")
-		assert(false, "Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced")
+		assert(false) #,"Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced")
 
 
 func _process(delta):
@@ -47,8 +47,8 @@ func _process(delta):
 		# Movement along rails
 		path_follow.offset += velocity.z
 		
-		# Free movement relative to position on rails
-		#translation += Vector3(velocity.x, velocity.y, 0.0)
+		# Free movement relative to position checked rails
+		#position += Vector3(velocity.x, velocity.y, 0.0)
 		rotation += Vector3(velocity.x, velocity.y, 0.0)
 
 

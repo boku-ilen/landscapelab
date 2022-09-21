@@ -9,7 +9,7 @@ class_name ImplicitRasterGameObjectAttribute
 var raster_layer
 
 
-func _init(initial_name, initial_raster_layer):
+func _init(initial_name,initial_raster_layer):
 	name = initial_name
 	raster_layer = initial_raster_layer
 

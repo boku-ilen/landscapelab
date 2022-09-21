@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/zea-04.png-2948c627a30ca7fb444a095ffd6adbbb.image"
+uid="uid://blq5in51x02pn"
+path="res://.godot/imported/zea-04.png-2948c627a30ca7fb444a095ffd6adbbb.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/zea-04.png"
-dest_files=[ "res://.import/zea-04.png-2948c627a30ca7fb444a095ffd6adbbb.image" ]
+dest_files=["res://.godot/imported/zea-04.png-2948c627a30ca7fb444a095ffd6adbbb.image"]
 
 [params]
 

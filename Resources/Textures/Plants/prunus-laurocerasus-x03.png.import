@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/prunus-laurocerasus-x03.png-72d24444c439d00aab329448c5c53337.image"
+uid="uid://dj18iwww04m4o"
+path="res://.godot/imported/prunus-laurocerasus-x03.png-72d24444c439d00aab329448c5c53337.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/prunus-laurocerasus-x03.png"
-dest_files=[ "res://.import/prunus-laurocerasus-x03.png-72d24444c439d00aab329448c5c53337.image" ]
+dest_files=["res://.godot/imported/prunus-laurocerasus-x03.png-72d24444c439d00aab329448c5c53337.image"]
 
 [params]
 

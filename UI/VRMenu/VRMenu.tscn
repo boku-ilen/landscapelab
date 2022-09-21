@@ -1,17 +1,17 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/vr.svg" type="Texture" id=3]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/vr.svg" type="Texture2D" id=3]
 [ext_resource path="res://UI/VRMenu/VRMenu.gd" type="Script" id=4]
 [ext_resource path="res://Perspectives/VR/FirstPersonVR.tscn" type="PackedScene" id=5]
 
 [node name="VRMenu" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 17.9796
-margin_top = -7.49158
-margin_right = 17.9796
-margin_bottom = -7.49158
+offset_left = 17.9796
+offset_top = -7.49158
+offset_right = 17.9796
+offset_bottom = -7.49158
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -19,12 +19,12 @@ __meta__ = {
 vr_player = ExtResource( 5 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 1920.0
-margin_bottom = 40.0
+offset_right = 1920.0
+offset_bottom = 40.0
 
 [node name="InitVR" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_right = 40.0
-margin_bottom = 40.0
+offset_right = 40.0
+offset_bottom = 40.0
 toggle_mode = true
 icon = ExtResource( 3 )
 texture_name = "vr"

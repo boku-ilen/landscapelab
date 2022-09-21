@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/roughness.jpg-8f23707f5f721843e87f992b585cbdfd.image"
+uid="uid://c7jxqolaounwg"
+path="res://.godot/imported/roughness.jpg-8f23707f5f721843e87f992b585cbdfd.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/vine_row-01/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-8f23707f5f721843e87f992b585cbdfd.image" ]
+dest_files=["res://.godot/imported/roughness.jpg-8f23707f5f721843e87f992b585cbdfd.image"]
 
 [params]
 

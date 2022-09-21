@@ -7,7 +7,7 @@ class License:
 	var author
 	var additional_info
 	
-	func _init(name, acronym, author, additional_info):
+	func _init(name,acronym,author,additional_info):
 		self.name = name
 		self.acronym = acronym
 		self.author = author
@@ -30,7 +30,7 @@ func _ready():
 		"Public Domain",
 		"Gaia DR2",
 		"NASA/Goddard Space Flight Center Scientific Visualization Studio." +
-		"Gaia DR2: ESA/Gaia/DPAC. Constellation figures based on those developed" +
+		"Gaia DR2: ESA/Gaia/DPAC. Constellation figures based checked those developed" +
 		"for the IAU by Alan MacRobert of Sky and Telescope magazine (Roger Sinnott and Rick Fienberg)."
 	)
 

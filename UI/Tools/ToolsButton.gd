@@ -1,5 +1,5 @@
 extends AutoIconButton
-tool
+@tool
 
 
 #
@@ -12,7 +12,7 @@ func _ready():
 	
 	# To prevent the tool from removing this node in the editor do this only when it
 	# is not inside the editor
-	if not Engine.editor_hint:
+	if not Engine.is_editor_hint():
 		set_popups_container()
 
 
@@ -21,23 +21,24 @@ func set_popups_container():
 		var my_popup = get_child(1)
 		
 		if my_popup:
-			assert(my_popup is Container, "The child has to be of type Container")
+			assert(my_popup is Container) #,"The child has to be of type Container")
 			
 			var popup_size = Vector2(
-				max(my_popup.rect_min_size.x, my_popup.rect_size.x),
-				max(my_popup.rect_min_size.y, my_popup.rect_size.y)
+				max(my_popup.custom_minimum_size.x, my_popup.size.x),
+				max(my_popup.custom_minimum_size.y, my_popup.size.y)
 			)
 			remove_child(my_popup)
-			$WindowDialog.add_child(my_popup)
-			$WindowDialog.window_title = my_popup.name
+			$Window.add_child(my_popup)
+			$Window.title = my_popup.name
 			my_popup.visible = true
 			
-			$WindowDialog.rect_min_size = popup_size
-			$WindowDialog.rect_size = popup_size
-			$WindowDialog.connect("popup_hide", self, "set_pressed", [false])
+			$Window.size = popup_size
+			$Window.min_size = popup_size
+			
+			$Window.connect("popup_hide",Callable(self,"set_pressed").bind(false))
 
 
 func _toggled(button_pressed):
 	if button_pressed:
-		if $WindowDialog.get_child_count() > 1:
-			$WindowDialog.popup(Rect2(rect_global_position, rect_size * rect_scale))
+		if $Window.get_child_count() > 1:
+			$Window.popup(Rect2(global_position, size * scale))

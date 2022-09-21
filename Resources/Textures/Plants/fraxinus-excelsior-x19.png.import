@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/fraxinus-excelsior-x19.png-967c0ca5a0cbb471a2d0a58297572493.image"
+uid="uid://dvecgjw44inrw"
+path="res://.godot/imported/fraxinus-excelsior-x19.png-967c0ca5a0cbb471a2d0a58297572493.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/fraxinus-excelsior-x19.png"
-dest_files=[ "res://.import/fraxinus-excelsior-x19.png-967c0ca5a0cbb471a2d0a58297572493.image" ]
+dest_files=["res://.godot/imported/fraxinus-excelsior-x19.png-967c0ca5a0cbb471a2d0a58297572493.image"]
 
 [params]
 

@@ -1,7 +1,7 @@
 extends Control
 class_name SpecificLayerUI
 
-onready var warning = get_node("RightBox/Warning")
+@onready var warning = get_node("RightBox/Warning")
 
 const LOG_MODULE := "LAYERUI"
 
@@ -12,7 +12,7 @@ signal new_size(add)
 
 
 func _ready():
-	connect("resized", self, "_on_resize")
+	connect("resized",Callable(self,"_on_resize"))
 
 
 func init(layer: Layer = null):
@@ -33,7 +33,7 @@ func init_specific_layer_info(layer: Layer):
 func print_warning(warning_text: String = ""):
 	warning.visible = true
 	warning.text = warning_text
-	logger.warning(warning_text, LOG_MODULE)
+	logger.warn(warning_text, LOG_MODULE)
 
 
 func validate(geodata_type):
@@ -41,4 +41,4 @@ func validate(geodata_type):
 
 
 func _on_resize():
-	emit_signal("new_size", rect_size)
+	emit_signal("new_size", size)

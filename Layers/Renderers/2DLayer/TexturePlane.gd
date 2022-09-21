@@ -1,7 +1,7 @@
-extends MeshInstance
+extends MeshInstance3D
 
 
-export(int) var map_resolution = 100
+@export var map_resolution: int = 100
 
 
 var position_x
@@ -21,7 +21,7 @@ func build():
 	var top_left_x = position_x - mesh.size.x / 2
 	var top_left_y = position_y + mesh.size.y / 2
 	
-	# Texture
+	# Texture2D
 	if texture_layer:
 		var current_tex_image = texture_layer.get_image(
 			top_left_x,
@@ -37,6 +37,6 @@ func build():
 
 func apply_textures():
 	if current_texture:
-		get_surface_material(0).albedo_texture = current_texture
+		get_surface_override_material(0).albedo_texture = current_texture
 	
 	visible = true

@@ -6,30 +6,32 @@ var edit_action: ActionHandler.Action
 
 
 func _ready():
-	$Edit.connect("toggled", self, "_on_edit")
+	$Edit.connect("toggled",Callable(self,"_on_edit"))
 
 
 func set_player(player):
-	.set_player(player)
+	super.set_player(player)
 	edit_action = EditAction.new(layer, pc_player.action_handler.cursor, pc_player, false)
 
 
 class EditAction extends ActionHandler.Action:
-	var cursor: RayCast
+	var cursor: RayCast3D
 	var layer: Layer
-	var path: Path
+	var path: Path3D
 	
-	func _init(l, c, p, blocking).(p, blocking):
+	func _init(l,c,p,blocking):
+		super._init(p,blocking)
+		
 		cursor = c
 		layer = l
-		path = layer.render_info.line_visualization.instance()#load("res://Street.tscn").instance()
+		path = layer.render_info.line_visualization.instantiate()#load("res://Street.tscn").instantiate()
 		player.get_parent().add_child(path)
-#		var vis = CSGPolygon.new()
+#		var vis = CSGPolygon3D.new()
 #		vis.material = Material.new()
 #		path.visualizer = vis
 	
 	func new_path():
-		path = layer.render_info.line_visualization.instance()
+		path = layer.render_info.line_visualization.instantiate()
 		player.get_parent().get_node("Terrain").add_child(path)
 	
 	func apply(event: InputEvent):

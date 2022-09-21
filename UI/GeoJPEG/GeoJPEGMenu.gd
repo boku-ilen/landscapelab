@@ -10,7 +10,7 @@ func _ready():
 		$Heading.text = "Cannot access Python! It is required for this tool."
 		$FileOpenButton.disabled = true
 	
-	$FileOpenButton/FileDialog.connect("file_selected", self, "_on_file_selected")
+	$FileOpenButton/FileDialog.connect("file_selected",Callable(self,"_on_file_selected"))
 
 
 func _on_file_selected(filepath):
@@ -26,7 +26,7 @@ func _on_file_selected(filepath):
 	tex.create_from_image(image)
 	$TextureRect.texture = tex
 	
-	$TeleportButton.connect("pressed", self, "_on_teleport_button_pressed")
+	$TeleportButton.connect("pressed",Callable(self,"_on_teleport_button_pressed"))
 	$TeleportButton.disabled = false
 
 
@@ -72,5 +72,5 @@ PROJCS["MGI / Austria Lambert",
 	
 	var engine_coordinates = pos_manager.to_engine_coordinates(transformed)
 	
-	pc_player.translation = engine_coordinates
+	pc_player.position = engine_coordinates
 	

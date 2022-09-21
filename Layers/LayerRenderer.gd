@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name LayerRenderer
 
 
@@ -9,15 +9,19 @@ var layer: Layer
 var center := [0, 0]
 
 # Time management
-var time_manager setget set_time_manager
+var time_manager :
+	get:
+		return time_manager # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_time_manager
 var is_daytime = true
 
 const LOG_MODULE := "LAYERRENDERERS"
 
 
 func _ready():
-	layer.connect("visibility_changed", self, "set_visible")
-	layer.connect("refresh_view", self, "refresh")
+	layer.connect("visibility_changed",Callable(self,"set_visible"))
+	layer.connect("refresh_view",Callable(self,"refresh"))
 
 
 # Overload with the functionality to load new data, but not use (visualize) it yet. Run in a thread,
@@ -47,7 +51,7 @@ func refresh():
 
 func set_time_manager(manager: TimeManager):
 	time_manager = manager
-	time_manager.connect("daytime_changed", self, "_apply_daytime_change")
+	time_manager.connect("daytime_changed",Callable(self,"_apply_daytime_change"))
 
 
 # Emitted from the injected time_manager

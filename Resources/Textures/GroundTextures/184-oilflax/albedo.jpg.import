@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-d335aa896f9ed00ec566c7b787deb67f.image"
+uid="uid://dkaj5e7cgmefc"
+path="res://.godot/imported/albedo.jpg-d335aa896f9ed00ec566c7b787deb67f.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/184-oilflax/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-d335aa896f9ed00ec566c7b787deb67f.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-d335aa896f9ed00ec566c7b787deb67f.image"]
 
 [params]
 

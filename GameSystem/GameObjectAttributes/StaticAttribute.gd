@@ -7,7 +7,7 @@ class_name StaticAttribute
 var value
 
 
-func _init(initial_name, initial_value):
+func _init(initial_name,initial_value):
 	name = initial_name
 	value = initial_value
 

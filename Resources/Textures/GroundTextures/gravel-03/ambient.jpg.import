@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-0bcf00ec9b32d74ed8beef7fdabf41c0.image"
+uid="uid://blguhjhgmen1i"
+path="res://.godot/imported/ambient.jpg-0bcf00ec9b32d74ed8beef7fdabf41c0.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/gravel-03/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-0bcf00ec9b32d74ed8beef7fdabf41c0.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-0bcf00ec9b32d74ed8beef7fdabf41c0.image"]
 
 [params]
 

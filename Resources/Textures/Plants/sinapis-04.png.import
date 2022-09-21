@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/sinapis-04.png-bed5d8d9bf6fb20adedfaafa0ba4aa3f.image"
+uid="uid://bv5c0y0teqrfp"
+path="res://.godot/imported/sinapis-04.png-bed5d8d9bf6fb20adedfaafa0ba4aa3f.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/sinapis-04.png"
-dest_files=[ "res://.import/sinapis-04.png-bed5d8d9bf6fb20adedfaafa0ba4aa3f.image" ]
+dest_files=["res://.godot/imported/sinapis-04.png-bed5d8d9bf6fb20adedfaafa0ba4aa3f.image"]
 
 [params]
 

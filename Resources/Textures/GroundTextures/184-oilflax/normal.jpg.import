@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-4c410fb5d792cd9fd487d41e16073465.image"
+uid="uid://cwep2uwr3dap5"
+path="res://.godot/imported/normal.jpg-4c410fb5d792cd9fd487d41e16073465.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/184-oilflax/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-4c410fb5d792cd9fd487d41e16073465.image" ]
+dest_files=["res://.godot/imported/normal.jpg-4c410fb5d792cd9fd487d41e16073465.image"]
 
 [params]
 

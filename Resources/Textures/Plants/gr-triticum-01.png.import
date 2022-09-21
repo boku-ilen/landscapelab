@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/gr-triticum-01.png-5318177dad1aceea89432fe0c93da6cc.image"
+uid="uid://duhjv68uoyu3c"
+path="res://.godot/imported/gr-triticum-01.png-5318177dad1aceea89432fe0c93da6cc.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/gr-triticum-01.png"
-dest_files=[ "res://.import/gr-triticum-01.png-5318177dad1aceea89432fe0c93da6cc.image" ]
+dest_files=["res://.godot/imported/gr-triticum-01.png-5318177dad1aceea89432fe0c93da6cc.image"]
 
 [params]
 

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/dactylis-glomerata-01.png-0e75e5e3c0f2148137b0fdf58a231c62.image"
+uid="uid://ceosklpeyvssb"
+path="res://.godot/imported/dactylis-glomerata-01.png-0e75e5e3c0f2148137b0fdf58a231c62.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/dactylis-glomerata-01.png"
-dest_files=[ "res://.import/dactylis-glomerata-01.png-0e75e5e3c0f2148137b0fdf58a231c62.image" ]
+dest_files=["res://.godot/imported/dactylis-glomerata-01.png-0e75e5e3c0f2148137b0fdf58a231c62.image"]
 
 [params]
 

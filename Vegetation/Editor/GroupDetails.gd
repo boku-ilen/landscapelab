@@ -5,8 +5,8 @@ var current_group
 
 
 func _ready():
-	$GroupAttributes/Attributes/GroundTexture/TextureOptionButton.connect("new_texture_selected", self, "_set_new_ground_texture")
-	$GroupAttributes/Attributes/FadeTexture/TextureOptionButton.connect("new_texture_selected", self, "_set_new_fade_texture")
+	$GroupAttributes/Attributes/GroundTexture/TextureOptionButton.connect("new_texture_selected",Callable(self,"_set_new_ground_texture"))
+	$GroupAttributes/Attributes/FadeTexture/TextureOptionButton.connect("new_texture_selected",Callable(self,"_set_new_fade_texture"))
 
 
 func _set_new_ground_texture(new_ground_texture):

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/cornus-sanquinea-03.png-e7534be77f6f7f0cb16286dd6b2b37eb.image"
+uid="uid://bgfrbj8654a71"
+path="res://.godot/imported/cornus-sanquinea-03.png-e7534be77f6f7f0cb16286dd6b2b37eb.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/cornus-sanquinea-03.png"
-dest_files=[ "res://.import/cornus-sanquinea-03.png-e7534be77f6f7f0cb16286dd6b2b37eb.image" ]
+dest_files=["res://.godot/imported/cornus-sanquinea-03.png-e7534be77f6f7f0cb16286dd6b2b37eb.image"]
 
 [params]
 

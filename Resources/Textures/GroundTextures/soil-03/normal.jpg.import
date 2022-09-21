@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-151eb73237da63ac6053c335a37c6ce8.image"
+uid="uid://0428yvexcxr"
+path="res://.godot/imported/normal.jpg-151eb73237da63ac6053c335a37c6ce8.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/soil-03/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-151eb73237da63ac6053c335a37c6ce8.image" ]
+dest_files=["res://.godot/imported/normal.jpg-151eb73237da63ac6053c335a37c6ce8.image"]
 
 [params]
 

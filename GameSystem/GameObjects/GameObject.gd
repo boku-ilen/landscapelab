@@ -5,7 +5,7 @@ var id := -1
 var collection: GameObjectCollection
 
 
-func _init(initial_id: int, initial_collection):
+func _init(initial_id: int,initial_collection):
 	id = initial_id
 	collection = initial_collection
 

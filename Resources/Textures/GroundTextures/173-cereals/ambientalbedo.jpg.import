@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambientalbedo.jpg-22acb955590fbc5f4fb3e92fb0ed1e0d.image"
+uid="uid://dr63so3q78jxw"
+path="res://.godot/imported/ambientalbedo.jpg-22acb955590fbc5f4fb3e92fb0ed1e0d.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/173-cereals/ambientalbedo.jpg"
-dest_files=[ "res://.import/ambientalbedo.jpg-22acb955590fbc5f4fb3e92fb0ed1e0d.image" ]
+dest_files=["res://.godot/imported/ambientalbedo.jpg-22acb955590fbc5f4fb3e92fb0ed1e0d.image"]
 
 [params]
 

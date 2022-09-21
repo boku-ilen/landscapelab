@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/cucurbita-04.png-b00b9f92d840689aae0b194749e302c7.image"
+uid="uid://cewklwuwockh5"
+path="res://.godot/imported/cucurbita-04.png-b00b9f92d840689aae0b194749e302c7.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/cucurbita-04.png"
-dest_files=[ "res://.import/cucurbita-04.png-b00b9f92d840689aae0b194749e302c7.image" ]
+dest_files=["res://.godot/imported/cucurbita-04.png-b00b9f92d840689aae0b194749e302c7.image"]
 
 [params]
 

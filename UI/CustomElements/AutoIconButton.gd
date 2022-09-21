@@ -1,4 +1,4 @@
-tool
+@tool
 extends BaseButton
 class_name AutoIconButton
 
@@ -12,7 +12,11 @@ class_name AutoIconButton
 
 var icon_folder = Settings.get_setting("gui", "icon_folder", "ModernLandscapeLab")
 
-export(String) var texture_name setget set_texture_name, get_texture_name
+@export var texture_name: String :
+	get:
+		return texture_name # TODOConverter40 Copy here content of get_texture_name
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_texture_name
 
 
 func _enter_tree() -> void:
@@ -21,14 +25,14 @@ func _enter_tree() -> void:
 
 # Update the button's base texture
 func _update_texture():
-	if not texture_name.empty():
+	if not texture_name.is_empty():
 		var full_path
 		if Engine.is_editor_hint():
-			full_path = "res://Resources/Icons".plus_file("ModernLandscapeLab").plus_file(texture_name) + ".svg"
+			full_path = "res://Resources/Icons".path_join("ModernLandscapeLab").path_join(texture_name) + ".svg"
 		else:
-			full_path = "res://Resources/Icons".plus_file(icon_folder).plus_file(texture_name) + ".svg"
+			full_path = "res://Resources/Icons".path_join(icon_folder).path_join(texture_name) + ".svg"
 		
-		assert(File.new().file_exists(full_path), "%s: No icon with name '%s' found in icon folder '%s'!" % [name, texture_name, icon_folder])
+		assert(File.new().file_exists(full_path)) #,"%s: No icon with name '%s' found in icon folder '%s'!" % [name, texture_name, icon_folder])
 		
 		if "texture_normal" in self:
 			self.texture_normal = load(full_path)

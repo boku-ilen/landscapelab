@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/roughness.jpg-59bbb8f0bc08a64d7c07a4eb4eb8fe66.image"
+uid="uid://b6ivqwlxev2g0"
+path="res://.godot/imported/roughness.jpg-59bbb8f0bc08a64d7c07a4eb4eb8fe66.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/grass-02/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-59bbb8f0bc08a64d7c07a4eb4eb8fe66.image" ]
+dest_files=["res://.godot/imported/roughness.jpg-59bbb8f0bc08a64d7c07a4eb4eb8fe66.image"]
 
 [params]
 

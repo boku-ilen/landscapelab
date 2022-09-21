@@ -1,8 +1,12 @@
 extends Button
-tool
+@tool
 
 
-export var color: Color = Color.white setget set_color
+@export var color: Color = Color.WHITE :
+	get:
+		return color # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_color
 
 
 func set_color(new_color: Color):

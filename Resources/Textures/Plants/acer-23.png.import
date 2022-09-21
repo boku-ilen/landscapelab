@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/acer-23.png-a2fdd71053083b6a40211b1427ea625b.image"
+uid="uid://cipn67pckmbj7"
+path="res://.godot/imported/acer-23.png-a2fdd71053083b6a40211b1427ea625b.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/acer-23.png"
-dest_files=[ "res://.import/acer-23.png-a2fdd71053083b6a40211b1427ea625b.image" ]
+dest_files=["res://.godot/imported/acer-23.png-a2fdd71053083b6a40211b1427ea625b.image"]
 
 [params]
 

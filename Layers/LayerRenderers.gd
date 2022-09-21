@@ -1,19 +1,31 @@
-extends Spatial
+extends Node3D
 
 
-var position_manager: PositionManager setget set_position_manager, get_position_manager
-var time_manager: TimeManager setget set_time_manager
-var weather_manager: WeatherManager setget set_weather_manager
+var position_manager: PositionManager :
+	get:
+		return position_manager # TODOConverter40 Copy here content of get_position_manager
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_position_manager
+var time_manager: TimeManager :
+	get:
+		return time_manager # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_time_manager
+var weather_manager: WeatherManager :
+	get:
+		return weather_manager # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_weather_manager
 
 # Used if no position manager is injected
-export(bool) var apply_default_center = false
-export(Array, int) var default_center = [0, 0]
+@export var apply_default_center: bool = false
+@export var default_center = [0, 0] # (Array, int)
 
 var renderers_count := 0
 var renderers_finished := 0
 
 var load_data_threaded := true
-onready var loading_thread = Thread.new()
+@onready var loading_thread = Thread.new()
 
 const LOG_MODULE := "LAYERRENDERERS"
 
@@ -23,7 +35,7 @@ signal loading_finished
 
 func set_position_manager(new_manager: PositionManager):
 	position_manager = new_manager
-	position_manager.connect("new_center", self, "apply_center")
+	position_manager.connect("new_center",Callable(self,"apply_center"))
 	
 	position_manager.add_signal_dependency(self, "loading_finished")
 	
@@ -48,11 +60,11 @@ func set_weather_manager(new_weather_manager):
 		renderer.set("weather_manager", weather_manager)
 
 
-func add_child(child: Node, legible_unique_name: bool = false):
+func add_child(child: Node, force_readable_name: bool = false, internal: int = 0):
 	if not position_manager and not apply_default_center:
 		logger.debug("Adding child %s to %s, but not yet loading its data due to no available center position"
 				% [child.name, name], LOG_MODULE)
-		.add_child(child, legible_unique_name)
+		super.add_child(child, force_readable_name, internal)
 		return
 	
 	# Give the child a center position
@@ -64,7 +76,7 @@ func add_child(child: Node, legible_unique_name: bool = false):
 		child.center = default_center
 	
 	# Actually add the child node to the tree
-	.add_child(child, legible_unique_name)
+	super.add_child(child, force_readable_name, internal)
 	
 	# Start loading its data
 	# FIXME: Start a thread with this
@@ -89,7 +101,7 @@ func apply_center(center_array):
 			renderers_count += 1
 	
 	if load_data_threaded:
-		loading_thread.start(self, "update_renderers", center_array)
+		loading_thread.start(Callable(self,"update_renderers").bind(center_array))
 	else:
 		update_renderers(center_array)
 
@@ -116,7 +128,7 @@ func get_debug_info():
 	
 	for renderer in get_children():
 		if renderer is LayerRenderer:
-			info += renderer.name + ": \n" + renderer.get_debug_info() + "\n\n"
+			info += String(renderer.name) + ": \n" + renderer.get_debug_info() + "\n\n"
 	
 	return info
 

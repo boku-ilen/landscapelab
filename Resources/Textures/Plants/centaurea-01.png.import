@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/centaurea-01.png-16854cb7b39f6a7beabff5e64a31adbe.image"
+uid="uid://b0s3ekm8keyr1"
+path="res://.godot/imported/centaurea-01.png-16854cb7b39f6a7beabff5e64a31adbe.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/centaurea-01.png"
-dest_files=[ "res://.import/centaurea-01.png-16854cb7b39f6a7beabff5e64a31adbe.image" ]
+dest_files=["res://.godot/imported/centaurea-01.png-16854cb7b39f6a7beabff5e64a31adbe.image"]
 
 [params]
 

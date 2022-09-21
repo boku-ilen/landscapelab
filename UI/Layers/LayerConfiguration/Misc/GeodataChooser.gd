@@ -2,8 +2,8 @@ class_name GeodataChooser
 extends VBoxContainer
 
 
-export var show_raster_layers: bool = true
-export var show_feature_layer: bool = true
+@export var show_raster_layers: bool = true
+@export var show_feature_layer: bool = true
 
 # For geodot there is a differentiation between datasets and single files ...
 var geo_dataset_extensions = [".shp", ".gpkg"]
@@ -13,9 +13,9 @@ signal new_layer_selected(layer)
 
 
 func _ready():
-	$FileChooser/Button/FileDialog.connect("file_selected", self, "_file_selected")
-	$FileChooser/FileName.connect("text_changed", self, "_check_path")
-	$OptionButton.connect("item_selected", self, "_on_item_selcted")
+	$FileChooser/Button/FileDialog.connect("file_selected",Callable(self,"_file_selected"))
+	$FileChooser/FileName.connect("text_changed",Callable(self,"_check_path"))
+	$OptionButton.connect("item_selected",Callable(self,"_on_item_selcted"))
 
 
 func _on_item_selcted(idx: int):

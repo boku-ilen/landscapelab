@@ -3,8 +3,8 @@ extends VSplitContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$GroupList.connect("item_selected", self, "_update_group")
-	$GroupDetails/GroupAttributes/Attributes/RemoveButton.connect("pressed", self, "_remove_current_selection")
+	$GroupList.connect("item_selected",Callable(self,"_update_group"))
+	$GroupDetails/GroupAttributes/Attributes/RemoveButton.connect("pressed",Callable(self,"_remove_current_selection"))
 
 
 func _remove_current_selection():

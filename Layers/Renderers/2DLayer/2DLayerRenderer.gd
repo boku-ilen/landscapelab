@@ -1,7 +1,7 @@
 extends LayerRenderer
 
 
-onready var plane = get_node("TexturePlane")
+@onready var plane = get_node("TexturePlane")
 
 
 func _ready():

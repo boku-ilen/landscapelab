@@ -11,7 +11,7 @@ static func create_density_classes_from_csv(csv_path: String) -> Dictionary:
 	var density_csv = CSVReader.new()
 	density_csv.read_csv(csv_path)
 	
-	return ._create_density_classes(density_csv.get_lines())
+	return super._create_density_classes(density_csv.get_lines())
 
 
 static func create_textures_from_csv(csv_path: String, include_types, exclude_types) -> Dictionary:
@@ -20,7 +20,7 @@ static func create_textures_from_csv(csv_path: String, include_types, exclude_ty
 	var texture_csv = CSVReader.new()
 	texture_csv.read_csv(csv_path)
 	
-	return ._create_textures(texture_csv.get_lines(), include_types, exclude_types)
+	return super._create_textures(texture_csv.get_lines(), include_types, exclude_types)
 
 
 static func create_plants_from_csv(csv_path: String, density_classes: Dictionary) -> Dictionary:
@@ -29,7 +29,7 @@ static func create_plants_from_csv(csv_path: String, density_classes: Dictionary
 	var plant_csv = CSVReader.new()
 	plant_csv.read_csv(csv_path)
 	
-	return ._create_plants(plant_csv.get_lines(), density_classes)
+	return super._create_plants(plant_csv.get_lines(), density_classes)
 
 
 static func create_groups_from_csv(csv_path: String, plants: Dictionary,
@@ -39,13 +39,13 @@ static func create_groups_from_csv(csv_path: String, plants: Dictionary,
 	var group_csv = CSVReader.new()
 	group_csv.read_csv(csv_path)
 
-	return ._create_groups(group_csv.get_lines(), plants, ground_textures, fade_textures)
+	return super._create_groups(group_csv.get_lines(), plants, ground_textures, fade_textures)
 
 
 static func save_plants_to_csv(plants: Dictionary, csv_path: String):
 	# Backup the old file
 	var dir = Directory.new()
-	if dir.copy(csv_path, csv_path + ".backup-" + str(OS.get_unix_time())) != OK:
+	if dir.copy(csv_path, csv_path + ".backup-" + str(Time.get_unix_time_from_system())) != OK:
 		# TODO: Give a warning to the UI too, const LOG_MODULE cannot be accessed for some reason ...
 		logger.error("Couldn't create backup -- didn't save!", "VEGETATION")
 		return
@@ -55,7 +55,7 @@ static func save_plants_to_csv(plants: Dictionary, csv_path: String):
 	
 	if not plant_csv.is_open():
 		logger.error("Plants CSV file at %s could not be created or opened for writing"
-				 % [csv_path], "VEGETATION")
+				% [csv_path], "VEGETATION")
 		return
 	
 	var headings = "ID,GENERIC_FILENAME,TYPE,SIZE,H_MIN,H_MAX,DENSITY,SPECIES,NAME_DE,NAME_EN,SEASON,STYLE,COLOR,SOURCE,LICENSE,AUTHOR,NOTE,LAB_PLANT_DENSITY,GR-WIDTH,GR-PLANTS_per_HA,PLANTS_per_HA,DENSITY_CLASS"
@@ -91,7 +91,7 @@ static func save_plants_to_csv(plants: Dictionary, csv_path: String):
 static func save_groups_to_csv(groups: Dictionary, csv_path: String) -> void:
 	# Backup the old file
 	var dir = Directory.new()
-	if dir.copy(csv_path, csv_path + ".backup-" + str(OS.get_unix_time())) != OK:
+	if dir.copy(csv_path, csv_path + ".backup-" + str(Time.get_unix_time_from_system())) != OK:
 		# TODO: Give a warning to the UI too
 		logger.error("Couldn't create backup -- didn't save!", "VEGETATION")
 		return
@@ -101,7 +101,7 @@ static func save_groups_to_csv(groups: Dictionary, csv_path: String) -> void:
 	
 	if not group_csv.is_open():
 		logger.error("Groups CSV file at %s could not be created or opened for writing"
-				 % [csv_path], "VEGETATION")
+				% [csv_path], "VEGETATION")
 		return
 	
 	var headings = "LID,LABEL_DE,LABEL_EN,PLANTS,TEXTURE_ID,DISTANCE_MAP_ID"
@@ -112,7 +112,7 @@ static func save_groups_to_csv(groups: Dictionary, csv_path: String) -> void:
 			group.id,
 			group.name_de,
 			group.name_en,
-			PoolStringArray(group.get_plant_ids()).join(","),
+			",".join(PackedStringArray(group.get_plant_ids())),
 			group.ground_texture.id,
 			group.fade_texture.id if group.fade_texture else null
 		])

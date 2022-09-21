@@ -1,0 +1,21 @@
+[configuration]
+
+entry_symbol = "sqlite_library_init"
+
+[libraries]
+
+macos.debug = "res://addons/godot-sqlite/bin/libgdsqlite.macos.debug.framework"
+macos.release = "res://addons/godot-sqlite/bin/libgdsqlite.macos.release.framework"
+windows.debug.x86_64 = "res://addons/godot-sqlite/bin/libgdsqlite.windows.debug.x86_64.dll"
+windows.release.x86_64 = "res://addons/godot-sqlite/bin/libgdsqlite.windows.release.x86_64.dll"
+linux.debug.x86_64 = "res://addons/godot-sqlite/bin/libgdsqlite.linux.debug.x86_64.so"
+linux.release.x86_64 = "res://addons/godot-sqlite/bin/libgdsqlite.linux.release.x86_64.so"
+
+[dependencies]
+
+macos.debug = {}
+macos.release = {}
+windows.debug.x86_64 = {}
+windows.release.x86_64 = {}
+linux.debug.x86_64 = {}
+linux.release.x86_64 = {}

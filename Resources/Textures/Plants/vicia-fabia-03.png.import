@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/vicia-fabia-03.png-836723d6d7841e0e90588f6203e55953.image"
+uid="uid://rsahreorewyh"
+path="res://.godot/imported/vicia-fabia-03.png-836723d6d7841e0e90588f6203e55953.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/vicia-fabia-03.png"
-dest_files=[ "res://.import/vicia-fabia-03.png-836723d6d7841e0e90588f6203e55953.image" ]
+dest_files=["res://.godot/imported/vicia-fabia-03.png-836723d6d7841e0e90588f6203e55953.image"]
 
 [params]
 

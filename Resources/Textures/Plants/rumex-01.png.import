@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/rumex-01.png-ec2803e27bb91c7d30160160d787a59f.image"
+uid="uid://bbr77kyb8faq4"
+path="res://.godot/imported/rumex-01.png-ec2803e27bb91c7d30160160d787a59f.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/rumex-01.png"
-dest_files=[ "res://.import/rumex-01.png-ec2803e27bb91c7d30160160d787a59f.image" ]
+dest_files=["res://.godot/imported/rumex-01.png-ec2803e27bb91c7d30160160d787a59f.image"]
 
 [params]
 

@@ -1,21 +1,21 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Resources/Textures/wood/bark_7-4K/4K-bark_7-diffuse.jpg" type="Texture" id=1]
+[ext_resource path="res://Resources/Textures/wood/bark_7-4K/4K-bark_7-diffuse.jpg" type="Texture2D" id=1]
 [ext_resource path="res://Resources/Meshes/Infrastructure/TelephonePole.glb" type="PackedScene" id=2]
 
-[sub_resource type="SpatialMaterial" id=2]
+[sub_resource type="StandardMaterial3D" id=2]
 albedo_color = Color( 0.580392, 0.580392, 0.580392, 1 )
 metallic = 0.91
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="StandardMaterial3D" id=1]
 albedo_color = Color( 0.698039, 0.619608, 0.396078, 1 )
 albedo_texture = ExtResource( 1 )
 metallic_specular = 0.18
 
-[node name="LowVoltagePowerPole" type="Spatial"]
+[node name="LowVoltagePowerPole" type="Node3D"]
 
 [node name="TelephonePole" parent="." instance=ExtResource( 2 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+transform = Transform3D( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
 
 [node name="Eagle_2" parent="TelephonePole" index="0"]
 mesh = null
@@ -35,19 +35,19 @@ material/0 = SubResource( 2 )
 [node name="Utility_Knob_Top" parent="TelephonePole" index="6"]
 material/0 = SubResource( 2 )
 
-[node name="Docks" type="Spatial" parent="."]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+[node name="Docks" type="Node3D" parent="."]
+transform = Transform3D( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
 
-[node name="Spatial" type="Position3D" parent="Docks"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 7.34409, 0.521114 )
+[node name="Node3D" type="Marker3D" parent="Docks"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 7.34409, 0.521114 )
 
-[node name="Spatial2" type="Position3D" parent="Docks"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 7.34409, -0.530063 )
+[node name="Spatial2" type="Marker3D" parent="Docks"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 7.34409, -0.530063 )
 
-[node name="Spatial3" type="Position3D" parent="Docks"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 8.54249, -0.530063 )
+[node name="Spatial3" type="Marker3D" parent="Docks"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 8.54249, -0.530063 )
 
-[node name="Spatial4" type="Position3D" parent="Docks"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 8.54249, 0.515295 )
+[node name="Spatial4" type="Marker3D" parent="Docks"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 8.54249, 0.515295 )
 
 [editable path="TelephonePole"]

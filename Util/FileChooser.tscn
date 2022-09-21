@@ -3,8 +3,8 @@
 [ext_resource path="res://Util/FileChooser.gd" type="Script" id=1]
 
 [node name="FileChooser" type="HBoxContainer"]
-margin_right = 109.0
-margin_bottom = 40.0
+offset_right = 109.0
+offset_bottom = 40.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -12,28 +12,28 @@ __meta__ = {
 text_placeholder = ""
 
 [node name="FileName" type="LineEdit" parent="."]
-margin_right = 164.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 0, 40 )
+offset_right = 164.0
+offset_bottom = 45.0
+minimum_size = Vector2( 0, 40 )
 size_flags_horizontal = 3
 size_flags_vertical = 10
 
 [node name="Button" type="Button" parent="."]
-margin_left = 172.0
-margin_right = 273.0
-margin_bottom = 45.0
+offset_left = 172.0
+offset_right = 273.0
+offset_bottom = 45.0
 size_flags_horizontal = 8
 text = "Open..."
 
 [node name="FileDialog" type="FileDialog" parent="Button"]
-margin_left = -264.0
-margin_top = 181.0
-margin_right = 459.0
-margin_bottom = 723.0
+offset_left = -264.0
+offset_top = 181.0
+offset_right = 459.0
+offset_bottom = 723.0
 window_title = "Open a File"
 mode = 0
 access = 2
-filters = PoolStringArray( "" )
+filters = PackedStringArray( "" )
 current_dir = "/boku/landscapelab"
 current_path = "/boku/landscapelab/"
 __meta__ = {

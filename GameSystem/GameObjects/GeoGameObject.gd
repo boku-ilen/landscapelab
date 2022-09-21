@@ -5,7 +5,9 @@ class_name GeoGameObject
 var geo_feature
 
 
-func _init(initial_id: int, initial_collection, initial_geo_feature).(initial_id, initial_collection):
+func _init(initial_id: int,initial_collection,initial_geo_feature):
+	super._init(initial_id, initial_collection)
+	
 	geo_feature = initial_geo_feature
 
 

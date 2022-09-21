@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ulmus-02.png-06b41f34bf2b12c2fec754ce00dba5bf.image"
+uid="uid://d2ebx2f6tgl4k"
+path="res://.godot/imported/ulmus-02.png-06b41f34bf2b12c2fec754ce00dba5bf.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/ulmus-02.png"
-dest_files=[ "res://.import/ulmus-02.png-06b41f34bf2b12c2fec754ce00dba5bf.image" ]
+dest_files=["res://.godot/imported/ulmus-02.png-06b41f34bf2b12c2fec754ce00dba5bf.image"]
 
 [params]
 

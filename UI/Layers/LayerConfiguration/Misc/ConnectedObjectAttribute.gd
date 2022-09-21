@@ -2,7 +2,7 @@ extends GridContainer
 
 
 func _ready():
-	$Button.connect("pressed", self, "queue_free")
+	$Button.connect("pressed",Callable(self,"queue_free"))
 
 
 func set_connector(connector: String):

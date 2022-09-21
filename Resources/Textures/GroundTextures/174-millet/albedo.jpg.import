@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-f4d019e335b6ce5666fba4a89e13c325.image"
+uid="uid://cdwa27amwdumg"
+path="res://.godot/imported/albedo.jpg-f4d019e335b6ce5666fba4a89e13c325.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/174-millet/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-f4d019e335b6ce5666fba4a89e13c325.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-f4d019e335b6ce5666fba4a89e13c325.image"]
 
 [params]
 

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/consolida-01.png-6a5acaf771428321a8791db9d60b9424.image"
+uid="uid://p6er3t6jw7rg"
+path="res://.godot/imported/consolida-01.png-6a5acaf771428321a8791db9d60b9424.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/consolida-01.png"
-dest_files=[ "res://.import/consolida-01.png-6a5acaf771428321a8791db9d60b9424.image" ]
+dest_files=["res://.godot/imported/consolida-01.png-6a5acaf771428321a8791db9d60b9424.image"]
 
 [params]
 

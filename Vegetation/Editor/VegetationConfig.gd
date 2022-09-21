@@ -17,14 +17,14 @@ func _ready():
 	for button in $PanelContainer/SelectButtons.get_children():
 		if not "vegetation_variable_name" in button: continue
 		
-		button.connect("dir_selected", self, "_on_dir_selected", [button.vegetation_variable_name])
+		button.connect("dir_selected",Callable(self,"_on_dir_selected").bind(button.vegetation_variable_name))
 		button_count += 1
 		
 		# If this value is already known, mark the button accordingly
 		if config.has_section_key("paths", button.vegetation_variable_name):
 			button.set_done()
 	
-	$PanelContainer/SelectButtons/SaveButton.connect("pressed", self, "save_and_exit")
+	$PanelContainer/SelectButtons/SaveButton.connect("pressed",Callable(self,"save_and_exit"))
 
 
 func save_and_exit():

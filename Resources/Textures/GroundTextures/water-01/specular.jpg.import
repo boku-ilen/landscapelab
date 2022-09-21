@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-fd1605451c4f3d8bb8c09f8d662802f1.image"
+uid="uid://dbiw1t5pdtfrc"
+path="res://.godot/imported/specular.jpg-fd1605451c4f3d8bb8c09f8d662802f1.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/water-01/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-fd1605451c4f3d8bb8c09f8d662802f1.image" ]
+dest_files=["res://.godot/imported/specular.jpg-fd1605451c4f3d8bb8c09f8d662802f1.image"]
 
 [params]
 

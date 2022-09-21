@@ -6,7 +6,7 @@ var raster_layer
 var greater_than_comparator
 
 
-func _init(initial_name, initial_raster_layer, initial_greater_than_comparator):
+func _init(initial_name,initial_raster_layer,initial_greater_than_comparator):
 	name = initial_name
 	raster_layer = initial_raster_layer
 	greater_than_comparator = initial_greater_than_comparator

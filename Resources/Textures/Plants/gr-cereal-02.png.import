@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/gr-cereal-02.png-1ad26d69344ad0658be6c79374607d9a.image"
+uid="uid://i1008eg1umlp"
+path="res://.godot/imported/gr-cereal-02.png-1ad26d69344ad0658be6c79374607d9a.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/gr-cereal-02.png"
-dest_files=[ "res://.import/gr-cereal-02.png-1ad26d69344ad0658be6c79374607d9a.image" ]
+dest_files=["res://.godot/imported/gr-cereal-02.png-1ad26d69344ad0658be6c79374607d9a.image"]
 
 [params]
 

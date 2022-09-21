@@ -1,16 +1,20 @@
-extends Spatial
+extends Node3D
 
 
-# As we do not want to have the line directly on the ground there will be a 
+# As we do not want to have the line directly checked the ground there will be a 
 # placeholder value
 
-var dolly_cam: Camera setget set_cam
-onready var path = $DollyRail
+var dolly_cam: Camera3D :
+	get:
+		return dolly_cam # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_cam
+@onready var path = $DollyRail
 
 
 func set_cam(cam):
 	dolly_cam = cam
-	dolly_cam.path_follow = $DollyRail/PathFollow
+	dolly_cam.path_follow = $DollyRail/PathFollow3D
 
 
 func add_path_point(position):
@@ -21,8 +25,8 @@ func add_path_point(position):
 
 func set_focus_position(position_on_ground, path_height):
 	$Focus.visible = true
-	$Focus.set_translation(position_on_ground)
-	$Focus/Sprite3D.set_translation(path_height)
+	$Focus.set_position(position_on_ground)
+	$Focus/Sprite3D.set_position(path_height)
 	dolly_cam.focus = $Focus
 
 
@@ -34,6 +38,6 @@ func clear():
 func toggle_cam(is_enabled: bool):
 	dolly_cam.toggle_cam(is_enabled)
 	if is_enabled:
-		$DollyRail/PathFollow.offset = 0.01
+		$DollyRail/PathFollow3D.offset = 0.01
 	else:
-		$DollyRail/PathFollow.unit_offset = 0.0
+		$DollyRail/PathFollow3D.progress_ratio = 0.0

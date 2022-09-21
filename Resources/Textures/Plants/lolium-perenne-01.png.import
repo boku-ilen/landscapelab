@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/lolium-perenne-01.png-b1dd452789eee6c94fcb162df66067d5.image"
+uid="uid://dtxliwmaxsd0e"
+path="res://.godot/imported/lolium-perenne-01.png-b1dd452789eee6c94fcb162df66067d5.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/lolium-perenne-01.png"
-dest_files=[ "res://.import/lolium-perenne-01.png-b1dd452789eee6c94fcb162df66067d5.image" ]
+dest_files=["res://.godot/imported/lolium-perenne-01.png-b1dd452789eee6c94fcb162df66067d5.image"]
 
 [params]
 

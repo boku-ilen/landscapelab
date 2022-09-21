@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-4c59cdd105fcce14c60602d6200eb14c.image"
+uid="uid://xo0bwmvv3rlb"
+path="res://.godot/imported/normal.jpg-4c59cdd105fcce14c60602d6200eb14c.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/grass-03/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-4c59cdd105fcce14c60602d6200eb14c.image" ]
+dest_files=["res://.godot/imported/normal.jpg-4c59cdd105fcce14c60602d6200eb14c.image"]
 
 [params]
 

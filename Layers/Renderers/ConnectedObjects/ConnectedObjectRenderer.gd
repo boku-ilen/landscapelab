@@ -43,20 +43,20 @@ func update_connected_object(geo_line):
 	
 	# The line-dataset
 	var course: Curve3D = geo_line.get_offset_curve3d(-center[0], 0, -center[1])
-	# Object and translation of the previous connector
-	var object_before: Spatial = null
+	# Object and position of the previous connector
+	var object_before: Node3D = null
 	var point_before: Vector3
 	# Translation of the next connector
 	var point_next: Vector3
 	
 	for index in range(course.get_point_count()):
 		# Create a specified connector-object or use fallback
-		var object: Spatial
+		var object: Node3D
 
 		if selector_attribute and selector_attribute in layer.render_info.connectors:
-			object = layer.render_info.connectors[selector_attribute].instance()
+			object = layer.render_info.connectors[selector_attribute].instantiate()
 		else:
-			object = layer.render_info.fallback_connector.instance()
+			object = layer.render_info.fallback_connector.instantiate()
 		
 		# Obtain the next point (required for the orientation of the current)
 		if index+1 < course.get_point_count():
@@ -104,20 +104,20 @@ func update_connected_object(geo_line):
 		connector_instances.append(object)
 
 
-func _connect(object: Spatial, object_before: Spatial, selector_attribute: String):	
+func _connect(object: Node3D, object_before: Node3D, selector_attribute: Node3D):
 	if not object.has_node("Docks"):
-		logger.warning("Connected Object %s defines no Docks and cannot be connected" % [object.name], LOG_MODULE)
+		logger.warn("Connected Object %s defines no Docks and cannot be connected" % [object.name], LOG_MODULE)
 		return
 	
-	if object.translation.distance_to(Vector3.ZERO) > connection_radius \
-		and object_before.translation.distance_to(Vector3.ZERO) > connection_radius:
+	if object.position.distance_to(Vector3.ZERO) > connection_radius \
+		and object_before.position.distance_to(Vector3.ZERO) > connection_radius:
 			return
 	
 	if max_connections <= connection_instances.size():
 		return
 	
 	# Dock parent might have a transform -> apply it too
-	var dock_parent: Spatial = object.get_node("Docks")
+	var dock_parent: Node3D = object.get_node("Docks")
 	
 	# Vector between current and next dock of the current connection and it's predecessors 
 	# might be the same => cache!
@@ -126,11 +126,11 @@ func _connect(object: Spatial, object_before: Spatial, selector_attribute: Strin
 		# Create a specified connection-object or use fallback
 		var connection: AbstractConnection
 		if not selector_attribute or not selector_attribute in layer.render_info.connections:
-			connection = layer.render_info.fallback_connection.instance()
+			connection = layer.render_info.fallback_connection.instantiate()
 		else:
-			connection = layer.render_info.connections[selector_attribute].instance()
+			connection = layer.render_info.connections[selector_attribute].instantiate()
 		
-		var dock_before: Spatial = object_before.get_node("Docks/" + dock.name)
+		var dock_before: Node3D = object_before.get_node("Docks/" + String(dock.name))
 		
 		var p1: Vector3 = (object.transform * dock_parent.transform * dock.transform).origin
 		var p2: Vector3 = (object_before.transform * dock_parent.transform * dock_before.transform).origin

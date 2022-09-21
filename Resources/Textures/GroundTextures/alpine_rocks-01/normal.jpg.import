@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-abc7553a9dbe5508d7391aab931d2f40.image"
+uid="uid://cgu1liqmnt8m1"
+path="res://.godot/imported/normal.jpg-abc7553a9dbe5508d7391aab931d2f40.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/alpine_rocks-01/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-abc7553a9dbe5508d7391aab931d2f40.image" ]
+dest_files=["res://.godot/imported/normal.jpg-abc7553a9dbe5508d7391aab931d2f40.image"]
 
 [params]
 

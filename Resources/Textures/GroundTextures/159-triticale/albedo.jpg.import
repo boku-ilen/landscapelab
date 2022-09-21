@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-d811a6c36ee33c77050b50909cf80322.image"
+uid="uid://danikhx74dxux"
+path="res://.godot/imported/albedo.jpg-d811a6c36ee33c77050b50909cf80322.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/159-triticale/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-d811a6c36ee33c77050b50909cf80322.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-d811a6c36ee33c77050b50909cf80322.image"]
 
 [params]
 

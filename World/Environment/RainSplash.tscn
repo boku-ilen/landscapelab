@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://World/Environment/RainSplash.tres" type="Shader" id=1]
-[ext_resource path="res://Resources/Textures/RainSplash.png" type="Texture" id=2]
+[ext_resource path="res://Resources/Textures/RainSplash.png" type="Texture2D" id=2]
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="StandardMaterial3D" id=1]
 flags_transparent = true
 params_billboard_mode = 3
 particles_anim_h_frames = 1
@@ -31,7 +31,7 @@ shader_param/wind_force_east = 0.0
 [sub_resource type="QuadMesh" id=3]
 size = Vector2( 0.05, 0.05 )
 
-[node name="Particles" type="Particles"]
+[node name="GPUParticles3D" type="GPUParticles3D"]
 material_override = SubResource( 1 )
 emitting = false
 amount = 100

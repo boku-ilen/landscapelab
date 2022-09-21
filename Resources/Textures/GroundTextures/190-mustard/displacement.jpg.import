@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-852624d9486039ccdbab664012191054.image"
+uid="uid://8lylhya6bgkt"
+path="res://.godot/imported/displacement.jpg-852624d9486039ccdbab664012191054.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/190-mustard/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-852624d9486039ccdbab664012191054.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-852624d9486039ccdbab664012191054.image"]
 
 [params]
 

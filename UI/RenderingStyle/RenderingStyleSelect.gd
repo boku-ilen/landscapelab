@@ -8,7 +8,7 @@ func _ready() -> void:
 	for style in RenderStyle.styles:
 		add_item(style.name)
 	
-	connect("item_activated", self, "_on_item_activated")
+	connect("item_activated",Callable(self,"_on_item_activated"))
 
 
 func _on_item_activated(id: int):

@@ -1,6 +1,6 @@
 extends HBoxContainer
 
-onready var label = get_node("Data")
+@onready var label = get_node("Data")
 
 
 func _process(delta):

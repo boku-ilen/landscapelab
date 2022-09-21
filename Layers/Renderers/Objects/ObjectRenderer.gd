@@ -8,7 +8,11 @@ var feature_add_queue = []
 var feature_remove_queue = []
 var is_loading
 
-var weather_manager: WeatherManager setget set_weather_manager
+var weather_manager: WeatherManager :
+	get:
+		return weather_manager # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_weather_manager
 
 
 func set_weather_manager(new_weather_manager):
@@ -16,7 +20,7 @@ func set_weather_manager(new_weather_manager):
 
 
 func set_time_manager(manager: TimeManager):
-	.set_time_manager(manager)
+	super.set_time_manager(manager)
 	
 	for child in get_children():
 		if "time_manager" in child:
@@ -32,7 +36,7 @@ func apply_new_data():
 	var features_to_persist = {}
 	
 	for feature in features:
-		var node_name = String(feature.get_id())
+		var node_name = var_to_str(feature.get_id())
 		
 		if not has_node(node_name):
 			# This feature is new
@@ -52,7 +56,7 @@ func apply_new_data():
 	
 	# Apply queues
 	for feature in feature_add_queue:
-		if not has_node(String(feature.get_id())):
+		if not has_node(var_to_str(feature.get_id())):
 			apply_new_feature(feature)
 	
 	for feature in feature_remove_queue:
@@ -63,10 +67,10 @@ func apply_new_data():
 
 
 func apply_new_feature(feature):
-	var instance = layer.render_info.object.instance()
+	var instance = layer.render_info.object.instantiate()
 	
-	instance.name = String(feature.get_id())
-	feature.connect("point_changed", self, "update_instance_position", [feature, instance])
+	instance.name = var_to_str(feature.get_id())
+	feature.connect("point_changed",Callable(self,"update_instance_position").bind(feature, instance))
 	
 	if "weather_manager" in instance and weather_manager:
 		instance.set("weather_manager", weather_manager)
@@ -90,11 +94,11 @@ func apply_new_feature(feature):
 
 
 func remove_feature(feature):
-	if has_node(String(feature.get_id())):
-		get_node(String(feature.get_id())).queue_free()
+	if has_node(var_to_str(feature.get_id())):
+		get_node(var_to_str(feature.get_id())).queue_free()
 
 
-func update_instance_position(feature, obj_instance: Spatial):
+func update_instance_position(feature, obj_instance: Node3D):
 	var local_object_pos = feature.get_offset_vector3(-center[0], 0, -center[1])
 	
 	if obj_instance.has_method("set_height"):
@@ -110,12 +114,12 @@ func update_instance_position(feature, obj_instance: Spatial):
 	obj_instance.transform.origin = local_object_pos
 	
 	if feature.get_attribute("LL_rot"):
-		obj_instance.rotation_degrees.y = float(feature.get_attribute("LL_rot"))
+		obj_instance.rotation.y = deg_to_rad(float(feature.get_attribute("LL_rot")))
 
 
 func _ready():
-	layer.geo_feature_layer.geo_feature_layer.connect("feature_added", self, "_on_feature_added", [])
-	layer.geo_feature_layer.geo_feature_layer.connect("feature_removed", self, "_on_feature_removed", [])
+	layer.geo_feature_layer.geo_feature_layer.connect("feature_added",Callable(self,"_on_feature_added").bind())
+	layer.geo_feature_layer.geo_feature_layer.connect("feature_removed",Callable(self,"_on_feature_removed").bind())
 	
 	if not layer is FeatureLayer or not layer.is_valid():
 		logger.error("ObjectRenderer was given an invalid layer!", LOG_MODULE)
@@ -133,7 +137,7 @@ func _on_feature_removed(feature):
 	if not is_loading:
 		remove_feature(feature)
 	else:
-		# TODO: We could potentially already remove the feature here as well since we check whether
+		# TODO: We could potentially already remove_at the feature here as well since we check whether
 		#  it exists when removing later; needs to be tested
 		feature_remove_queue.append(feature)
 

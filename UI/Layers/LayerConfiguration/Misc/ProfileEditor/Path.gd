@@ -1,4 +1,4 @@
-extends Path
+extends Path3D
 class_name Profile
 
 
@@ -8,7 +8,7 @@ class ReoccurringObject:
 	var distance_to_next: float
 	var object_scene: PackedScene
 	
-	func _init(h_offset, v_offset, distance, scene):
+	func _init(h_offset,v_offset,distance,scene):
 		self.h_offset = h_offset
 		self.v_offset = v_offset
 		self.distance_to_next = distance
@@ -17,24 +17,24 @@ class ReoccurringObject:
 
 func _ready():
 	for child in get_children():
-		if child is PathFollow:
+		if child is PathFollow3D:
 			var first = child.duplicate()
 			first.offset -= child.offset
 			add_child(first)
 			
 			var dupl = child.duplicate()
-			var u_offset_before = child.unit_offset
+			var u_offset_before = child.progress_ratio
 			while u_offset_before <= 1:
 				dupl = dupl.duplicate()
 				dupl.offset += child.offset
 				add_child(dupl)
-				u_offset_before += child.unit_offset
+				u_offset_before += child.progress_ratio
 
 
 func add_reoccuring_object(object):
 	if object is ReoccurringObject:
-		var path_follow = PathFollow.new()
-		var object_instance = object.object_scene.instance()
+		var path_follow = PathFollow3D.new()
+		var object_instance = object.object_scene.instantiate()
 		
 		path_follow.h_offset = object.h_offset
 		path_follow.v_offset = object.v_offset

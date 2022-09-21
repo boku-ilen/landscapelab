@@ -2,13 +2,12 @@ extends Node
 class_name Configurator
 
 
-export(String) var category: String setget set_category
+@export var category: String = "Not Set" :
+	get: return category
+	set(setting_category):
+		category = setting_category
+		settings_section = Settings.get_setting_section(category)
 var settings_section  # FIXME: Is this needed?
-
-
-func set_category(setting_category="Not set"):
-	category = setting_category
-	settings_section = Settings.get_setting_section(category)
 
 
 func get_setting(label, default=null):

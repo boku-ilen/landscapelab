@@ -2,12 +2,12 @@
 
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Profile.gd" type="Script" id=1]
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="StandardMaterial3D" id=1]
 resource_local_to_scene = true
 
-[node name="Profile" type="CSGPolygon"]
+[node name="Profile" type="CSGPolygon3D"]
 invert_faces = true
-polygon = PoolVector2Array( 1, 1, -1, 1, -1, 0, 1, 0 )
+polygon = PackedVector2Array( 1, 1, -1, 1, -1, 0, 1, 0 )
 mode = 2
 path_node = NodePath("")
 path_interval = 1.0

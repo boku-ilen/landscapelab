@@ -3,9 +3,9 @@
 [ext_resource path="res://UI/CustomElements/AutoIconButton.gd" type="Script" id=1]
 
 [node name="AutoTextureButton" type="Button"]
-margin_right = -1920.0
-margin_bottom = -1080.0
-rect_min_size = Vector2( 40, 40 )
+offset_right = -1920.0
+offset_bottom = -1080.0
+minimum_size = Vector2( 40, 40 )
 expand_icon = true
 script = ExtResource( 1 )
 __meta__ = {

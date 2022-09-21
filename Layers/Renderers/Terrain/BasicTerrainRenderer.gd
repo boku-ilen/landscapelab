@@ -1,7 +1,7 @@
 extends LayerRenderer
 
 
-onready var lods = get_children()
+@onready var lods = get_children()
 
 
 func _ready():
@@ -17,11 +17,11 @@ func _ready():
 		else:
 			# FIXME: I dont know why a duplicate is necessary but somehow it seems to be...
 			lod.material_override = load("res://Layers/Renderers/Terrain/TerrainDataShader.tres").duplicate()
-			lod.material_override.set_shader_param("min_value", layer.render_info.min_value)
-			lod.material_override.set_shader_param("max_value", layer.render_info.max_value)
-			lod.material_override.set_shader_param("min_color", layer.render_info.min_color)
-			lod.material_override.set_shader_param("max_color", layer.render_info.max_color)
-			lod.material_override.set_shader_param("alpha", layer.render_info.alpha)
+			lod.material_override.set_shader_parameter("min_value", layer.render_info.min_value)
+			lod.material_override.set_shader_parameter("max_value", layer.render_info.max_value)
+			lod.material_override.set_shader_parameter("min_color", layer.render_info.min_color)
+			lod.material_override.set_shader_parameter("max_color", layer.render_info.max_color)
+			lod.material_override.set_shader_parameter("alpha", layer.render_info.alpha)
 
 
 func load_new_data():

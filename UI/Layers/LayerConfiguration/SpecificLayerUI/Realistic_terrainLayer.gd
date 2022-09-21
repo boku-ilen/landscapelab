@@ -11,7 +11,7 @@ func assign_specific_layer_info(layer):
 	var landuse_layer = $RightBox/GeodataChooserLandUse.get_geo_layer(true)
 
 	if !validate(texture_layer) or !validate(height_layer):
-		print_warning("Texture- or height-layer is invalid!")
+		print_warning("Texture2D- or height-layer is invalid!")
 		return
 	
 	layer.render_info.height_layer = height_layer.clone()

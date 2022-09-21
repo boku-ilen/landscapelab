@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/roughness.jpg-8b9fbbd6c43a892b8a81a7d85c2a64f4.image"
+uid="uid://iayd840fuvjj"
+path="res://.godot/imported/roughness.jpg-8b9fbbd6c43a892b8a81a7d85c2a64f4.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/179-sorghum/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-8b9fbbd6c43a892b8a81a7d85c2a64f4.image" ]
+dest_files=["res://.godot/imported/roughness.jpg-8b9fbbd6c43a892b8a81a7d85c2a64f4.image"]
 
 [params]
 

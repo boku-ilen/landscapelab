@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/acer-x38.png-60d3156fd1763db904415f292cfe07bc.image"
+uid="uid://cygpl4mthpm41"
+path="res://.godot/imported/acer-x38.png-60d3156fd1763db904415f292cfe07bc.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/acer-x38.png"
-dest_files=[ "res://.import/acer-x38.png-60d3156fd1763db904415f292cfe07bc.image" ]
+dest_files=["res://.godot/imported/acer-x38.png-60d3156fd1763db904415f292cfe07bc.image"]
 
 [params]
 

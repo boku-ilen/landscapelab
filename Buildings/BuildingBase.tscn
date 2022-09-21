@@ -2,5 +2,5 @@
 
 [ext_resource path="res://Buildings/BuildingBase.gd" type="Script" id=1]
 
-[node name="BuildingBase" type="Spatial"]
+[node name="BuildingBase" type="Node3D"]
 script = ExtResource( 1 )

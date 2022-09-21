@@ -3,12 +3,11 @@ extends ConfirmationDialog
 var layer: Layer
 var specific_layer_ui: SpecificLayerUI
 
-onready var container = get_node("VBoxContainer")
-onready var layer_name = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/Name")
-onready var layer_color_tag = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/ColorTagMenu")
-onready var layer_type = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/TypeChooser")
-onready var type_chooser = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/TypeChooser")
-onready var min_size = rect_min_size
+@onready var container = get_node("VBoxContainer")
+@onready var layer_name = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/Name")
+@onready var layer_color_tag = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/ColorTagMenu")
+@onready var layer_type = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/TypeChooser")
+@onready var type_chooser = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/TypeChooser")
 
 var RenderTypeObject = {
 	"NONE": Layer,
@@ -25,8 +24,8 @@ var RenderTypeObject = {
 
 
 func _ready():
-	connect("confirmed", self, "_on_confirm")
-	type_chooser.connect("item_selected", self, "_on_type_select")
+	connect("confirmed",Callable(self,"_on_confirm"))
+	type_chooser.connect("item_selected",Callable(self,"_on_type_select"))
 	
 	_add_types()
 
@@ -62,7 +61,7 @@ func _on_confirm():
 	
 	if not layer.is_valid():
 		logger.error("Confirmation would've created invalid layer with name: %s and type: %s. Aborting"
-				% [layer.name, current_type])
+				% [layer.name, current_type], "LAYERCONFIG")
 		# TODO: Should we give an error in the UI here too, or did this definitely already happen
 		#  in assign_specific_layer_info?
 		return
@@ -75,11 +74,11 @@ func _on_confirm():
 	
 	hide()
 
-
-func resize(add: Vector2):
-	rect_min_size.y = min_size.y + add.y
-	rect_min_size.x = max(add.x, min_size.x) 
-	rect_size = rect_min_size
+# FIXME: Is this still necessary?
+#func resize(add: Vector2):
+#	minimum_size.y = min_size.y + add.y
+#	minimum_size.x = max(add.x, min_size.x) 
+#	size = minimum_size
 
 
 func _add_types():
@@ -104,11 +103,11 @@ func _on_type_select(idx: int):
 func _add_specific_layer_conf(type_string: String):
 	specific_layer_ui = load(
 			"res://UI/Layers/LayerConfiguration/SpecificLayerUI/%sLayer.tscn" 
-			% type_string).instance()
+			% type_string).instantiate()
 	
 	if layer: specific_layer_ui.init(layer)
 	
 	container.add_child(specific_layer_ui)
 	container.move_child(specific_layer_ui, 1)
 	
-	specific_layer_ui.connect("new_size", self, "resize")
+	specific_layer_ui.connect("new_size",Callable(self,"resize"))

@@ -1,4 +1,4 @@
-extends Viewport
+extends SubViewport
 
 
 #
@@ -8,19 +8,19 @@ extends Viewport
 
 
 var timer: Timer
-export(float) var fps: float = 4.0
-export(float) var asset_type_to_color: int = 2
+@export var fps: float = 4.0
+@export var asset_type_to_color: int = 2
 
 
 func _ready():
 	pass
 #	timer = Timer.new()
 #	timer.set_one_shot(false)
-#	timer.set_timer_process_mode(0)
+#	timer.set_timer_process_callback(0)
 #	timer.set_wait_time(1.0 / fps)
 #	timer.set_autostart(false)
-#	timer.connect("timeout", self, "make_training_screenshot_pair")
-#	UISignal.connect("toggle_imaging_recording", self, "_on_record")
+#	timer.connect("timeout",Callable(self,"make_training_screenshot_pair"))
+#	UISignal.connect("toggle_imaging_recording",Callable(self,"_on_record"))
 #
 #	self.add_child(timer)
 
@@ -36,7 +36,7 @@ func _get_screenshot_from_viewport():
 	# Retrieve the captured image
 	var img = get_texture().get_data()
   
-	# Flip it on the y-axis (because it's flipped)
+	# Flip it checked the y-axis (because it's flipped)
 	img.flip_y()
 	
 	return img
@@ -58,13 +58,13 @@ func make_training_screenshot_pair():
 	var normal_img = _get_screenshot_from_viewport()
 	
 	# Wait for a frame so that the new material is definitely applied
-	VisualServer.force_draw()
+	RenderingServer.force_draw()
 	
 	var colored_img = _get_screenshot_from_viewport()
 	
 	# Get the time here and pass it as an argument to prevent tiny differences, causing
 	#  different screenshot filenames
-	var time = OS.get_system_time_msecs()
+	var time = Time.get_datetime_string_from_system()
 	
 	# Save to a file, use the current time for naming
 	var normal_screenshot_filename = _get_screenshot_filename_with_additional_flag(1, time)
@@ -85,5 +85,5 @@ func _get_screenshot_filename():
 	pass#return "user://videoframe-%d-%d.png" % [Session.session_id, OS.get_system_time_msecs()]
 
 
-func _get_screenshot_filename_with_additional_flag(flag: int, time: int):
+func _get_screenshot_filename_with_additional_flag(flag: int, time: String):
 	pass#return "user://%d-videoframe-%d-%d.png" % [flag, Session.session_id, time]

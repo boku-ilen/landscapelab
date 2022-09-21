@@ -3,10 +3,10 @@ extends HBoxContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Record.connect("pressed", self, "_on_record")
-	$Stop.connect("pressed", self, "_on_stop")
-	$Pause.connect("pressed", self, "_on_pause")
-	$Play.connect("pressed", self, "_on_play")
+	$Record.connect("pressed",Callable(self,"_on_record"))
+	$Stop.connect("pressed",Callable(self,"_on_stop"))
+	$Pause.connect("pressed",Callable(self,"_on_pause"))
+	$Play.connect("pressed",Callable(self,"_on_play"))
 
 
 func _on_record():

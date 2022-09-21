@@ -1,23 +1,57 @@
 extends Node
 class_name PositionManager
 
+#
+# This scene offers the possibility to use of the world of the LandscapeLab 
+# encapsulated. The general idea is to have a node which determines the current 
+# center position (in the graphic the VRTable/Player). 
+#
+# The node above (PositionManager) then forwards this position to the Terrain nodes and
+# also manages Offset/Shifting-behaviour. Via the BaseTiles a very basic version 
+# of the world will be rendered. Additional geo-information are added in the 
+# LayerContainer. This can for instance be raster-data, such as vegetation 
+# (grass, trees, ...) but also vector-data, such as assets (existing wind-turbines)
+#
 
-"""This scene offers the possibility to use of the world of the LandscapeLab 
-encapsulated. The general idea is to have a node which determines the current 
-center position (in the graphic the VRTable/Player). 
+@export var center_node_path: NodePath
 
-The node above (PositionManager) then forwards this position to the Terrain nodes and
-also manages Offset/Shifting-behaviour. Via the BaseTiles a very basic version 
-of the world will be rendered. Additional geo-information are added in the 
-LayerContainer. This can for instance be raster-data, such as vegetation 
-(grass, trees, ...) but also vector-data, such as assets (existing wind-turbines)"""
+var center_node: Node3D :
+	get:
+		return center_node # TODOConverter40 Non existent get function 
+	set(node):
+		center_node = node
+		# Inject into the center node
+		if "position_manager" in node:
+			center_node.position_manager = self
+		
+		# Inject into the terrain
+		for child in terrain.get_children():
+			if "center_node" in child:
+				child.center_node = node
+		
+		emit_signal("new_center_node", node)
 
+var terrain :
+	get:
+		return terrain # TODOConverter40 Non existent get function 
+	set(terr):
+		terrain = terr
+		
+		# Inject into the terrain
+		for child in terrain.get_children():
+			if "position_manager" in child:
+				child.position_manager = self
+		
+		self.center_node = get_node(center_node_path)
 
-export(NodePath) var center_node_path
-
-var center_node: Spatial setget set_center_node
-var terrain setget set_terrain
-var layer_configurator: Node setget set_layer_configurator
+var layer_configurator: Node :
+	get:
+		return layer_configurator # TODOConverter40 Non existent get function 
+	set(configurator):
+		layer_configurator = configurator
+		layer_configurator.connect("center_changed",Callable(self,"set_offset"))
+		x = layer_configurator.center.x
+		z = layer_configurator.center.z
 
 var _previous_center_node_position := Vector2.ZERO
 var _center_node_velocity := Vector2.ZERO
@@ -54,53 +88,21 @@ const DEFAULT_HEIGHT = 500
 const LOG_MODULE := "WORLDPOSITION"
 
 
-func set_terrain(terr: Spatial):
-	terrain = terr
-	
-	# Inject into the terrain
-	for child in terrain.get_children():
-		if "position_manager" in child:
-			child.position_manager = self
-	
-	set_center_node(get_node(center_node_path))
-
-
 func get_center_node_engine_position():
-	return center_node.translation
+	return center_node.position
 
 
 func get_center_node_world_position():
-	return to_world_coordinates(center_node.translation)
+	return to_world_coordinates(center_node.position)
 
 
 func translate_center_node(new_x, new_z):
 	pass
 
 
-func set_center_node(node: Spatial):
-	center_node = node
-	# Inject into the center node
-	if "position_manager" in node:
-		center_node.position_manager = self
-	
-	# Inject into the terrain
-	for child in terrain.get_children():
-		if "center_node" in child:
-			child.center_node = node
-	
-	emit_signal("new_center_node", node)
-
-
-func set_layer_configurator(configurator: Node):
-	layer_configurator = configurator
-	layer_configurator.connect("center_changed", self, "set_offset")
-	x = layer_configurator.center.x
-	z = layer_configurator.center.z
-
-
 func _process(delta):
 	# Calculate center node velocity
-	var current_center_node_position = Vector2(center_node.translation.x, center_node.translation.z)
+	var current_center_node_position = Vector2(center_node.position.x, center_node.position.z)
 	_center_node_velocity = (current_center_node_position - _previous_center_node_position) / delta
 	_previous_center_node_position = current_center_node_position
 	
@@ -113,7 +115,7 @@ func _process(delta):
 
 # Shift the world if the player exceeds the bounds, in order to prevent coordinates from getting too big (floating point issues)
 func _check_for_world_shift():
-	var delta_squared = Vector2(center_node.translation.x, center_node.translation.z).length_squared()
+	var delta_squared = Vector2(center_node.position.x, center_node.position.z).length_squared()
 	
 	# Shift the world if we're standing, or if we've moved quite a bit
 	if ((_center_node_velocity == Vector2.ZERO and (delta_squared > pow(standing_shift_limit, 2))) \
@@ -121,8 +123,8 @@ func _check_for_world_shift():
 		# Shift towards the movement velocity in order to have data approximately where we're going
 		# TODO: Instead of the hardcoded 5 second estimate, we could take the previous loading time
 		#  But for this we need to have access to the LayerRenderers node here
-		_shift_world(center_node.translation.x + _center_node_velocity.x * moving_shift_time_factor,
-				center_node.translation.z + _center_node_velocity.y * moving_shift_time_factor)
+		_shift_world(center_node.position.x + _center_node_velocity.x * moving_shift_time_factor,
+				center_node.position.z + _center_node_velocity.y * moving_shift_time_factor)
 
 
 # Begin the process of world shifting by setting the new offset variables and emitting a signal.
@@ -153,8 +155,8 @@ func _shift_world(delta_x, delta_z):
 # This should be called in the same frame as the new data is being displayed for a seamless transition.
 func _apply_new_position_to_center_node():
 	if center_node:
-		center_node.translation.x -= delta_x
-		center_node.translation.z -= delta_z
+		center_node.position.x -= delta_x
+		center_node.position.z -= delta_z
 	
 	x += delta_x
 	z -= delta_z
@@ -181,7 +183,7 @@ func get_center():
 # Add a signal to wait for until the new offset is applied to the center_node.
 # Useful for synchronizing the displaying of new data all at once.
 func add_signal_dependency(object, signal_name):
-	object.connect(signal_name, self, "_on_dependent_object_loaded")
+	object.connect(signal_name,Callable(self,"_on_dependent_object_loaded"))
 	_dependent_object_count += 1
 
 
@@ -200,7 +202,7 @@ func to_world_coordinates(pos):
 	elif pos is Vector3:
 		return [x + int(pos.x), int(pos.y), z - int(pos.z)]
 	else:
-		logger.warning("Invalid type for to_world_coordinates: %s;"\
+		logger.warn("Invalid type for to_world_coordinates: %s;"\
 			+ "supported types: Vector2, Vector3" % [typeof(pos)], LOG_MODULE)
 
 
@@ -214,8 +216,8 @@ func to_engine_coordinates(pos) -> Vector3:
 	elif pos is Vector3:
 		return Vector3(-x + pos.x, pos.y, -pos.z + z)
 	else:
-		logger.warning("Invalid type for to_engine_coordinates: %s; Needs to be Array with length of 2 or 3"
-		 % [String(typeof(pos))], LOG_MODULE)
+		logger.warn("Invalid type for to_engine_coordinates: %s; Needs to be Array with length of 2 or 3" 
+		% [var_to_str(typeof(pos))], LOG_MODULE)
 		return Vector3(0, 0, 0)
 
 

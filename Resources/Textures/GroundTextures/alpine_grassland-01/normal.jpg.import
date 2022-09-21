@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-598c9135e8f3108a03d0e8b6ba68e9d2.image"
+uid="uid://ch5ti6no67gnf"
+path="res://.godot/imported/normal.jpg-598c9135e8f3108a03d0e8b6ba68e9d2.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/alpine_grassland-01/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-598c9135e8f3108a03d0e8b6ba68e9d2.image" ]
+dest_files=["res://.godot/imported/normal.jpg-598c9135e8f3108a03d0e8b6ba68e9d2.image"]
 
 [params]
 

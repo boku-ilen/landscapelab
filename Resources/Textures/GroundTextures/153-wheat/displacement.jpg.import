@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-f42d6584e6be648928ae63f619dfb868.image"
+uid="uid://cko4ti2em28h4"
+path="res://.godot/imported/displacement.jpg-f42d6584e6be648928ae63f619dfb868.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/153-wheat/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-f42d6584e6be648928ae63f619dfb868.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-f42d6584e6be648928ae63f619dfb868.image"]
 
 [params]
 

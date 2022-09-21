@@ -21,7 +21,7 @@ static func create_spritesheet(
 		sprite_size: Vector2,
 		images: Array,
 		scaling_method = SCALING.KEEP_ASPECT,
-		scale_factors = null):
+		scale_factors = []):
 	# The number of rows and columns is given by the amount of images in the
 	#  array
 	var num_rows = images.size()
@@ -59,7 +59,7 @@ static func create_spritesheet(
 			sprite_size.y * num_rows,
 			false, format)
 	
-	# The current position on the sheet
+	# The current position checked the sheet
 	var current_offset = Vector2(0, 0)
 	
 	for y in num_rows:
@@ -82,7 +82,7 @@ static func create_spritesheet(
 			elif scaling_method == SCALING.KEEP_ASPECT:
 				desired_size = get_size_keep_aspect(sprite_size, sprite.get_size())
 			
-			if scale_factors:
+			if not scale_factors.is_empty():
 				desired_size *= scale_factors[y][x]
 			
 			# Scale the sprite to the desired size
@@ -99,10 +99,10 @@ static func create_spritesheet(
 					Vector2(desired_size.x, desired_size.y)),
 					current_offset + centering_offset)
 			
-			# Increment column position on spritesheet
+			# Increment column position checked spritesheet
 			current_offset.x += sprite_size.x
 		
-		# Increment row position on spritesheet; reset column
+		# Increment row position checked spritesheet; reset column
 		current_offset.x = 0
 		current_offset.y += sprite_size.y
 	
@@ -131,7 +131,7 @@ static func create_layered_spritesheet(
 	
 	if format == null:
 		# No valid images...
-		logger.warning("No valid images in the array given to create_spritesheet!", LOG_MODULE)
+		logger.warn("No valid images in the array given to create_spritesheet!", LOG_MODULE)
 		return null
 	
 	var number_of_layers = images.size()
@@ -146,7 +146,7 @@ static func create_layered_spritesheet(
 		var layer = Image.new()
 		layer.create(sprite_size.x, sprite_size.y * number_of_images_in_layer, false, format)
 		
-		# The current position on the sheet
+		# The current position checked the sheet
 		var current_offset = Vector2(0, 0)
 		
 		for image in layer_data:
@@ -173,7 +173,7 @@ static func create_layered_spritesheet(
 						Vector2(desired_size.x, desired_size.y)),
 						current_offset + centering_offset)
 			
-			# Increment column position on spritesheet
+			# Increment column position checked spritesheet
 			current_offset.y += sprite_size.y
 		
 		image_array[layer_depth] = layer

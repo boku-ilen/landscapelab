@@ -7,13 +7,17 @@ class_name Layer
 # 
 
 var is_scored: bool = false
-var is_visible: bool = true setget set_visible
+var is_visible: bool = true :
+	get:
+		return is_visible # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_visible
 
 var name: String = "Not set"
 
 var fields: Dictionary = {}
 
-var color_tag: Color = Color.transparent
+var color_tag: Color = Color.TRANSPARENT
 
 # NOTE: these RenderTypes have to be synchronous with the LL_render_types table in the geopackage except for NONE
 enum RenderType {

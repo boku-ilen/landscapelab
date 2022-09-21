@@ -6,13 +6,13 @@
 [sub_resource type="PlaneMesh" id=4]
 size = Vector2( 10000, 10000 )
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="StandardMaterial3D" id=3]
 flags_unshaded = true
 
-[node name="2DLayerRenderer" type="Spatial"]
+[node name="2DLayerRenderer" type="Node3D"]
 script = ExtResource( 1 )
 
-[node name="TexturePlane" type="MeshInstance" parent="."]
+[node name="TexturePlane" type="MeshInstance3D" parent="."]
 layers = 8
 cast_shadow = 0
 mesh = SubResource( 4 )

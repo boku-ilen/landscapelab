@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-fdd3fb0b9a80b8f56cf181ef6abe1d3a.image"
+uid="uid://p83w6rt8i4pr"
+path="res://.godot/imported/ambient.jpg-fdd3fb0b9a80b8f56cf181ef6abe1d3a.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/grass-01/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-fdd3fb0b9a80b8f56cf181ef6abe1d3a.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-fdd3fb0b9a80b8f56cf181ef6abe1d3a.image"]
 
 [params]
 

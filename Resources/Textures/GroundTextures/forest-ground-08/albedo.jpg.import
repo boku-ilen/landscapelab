@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-78e297b653c1bdfeda3b382d3c4c16bf.image"
+uid="uid://86qpwauo0wry"
+path="res://.godot/imported/albedo.jpg-78e297b653c1bdfeda3b382d3c4c16bf.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/forest-ground-08/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-78e297b653c1bdfeda3b382d3c4c16bf.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-78e297b653c1bdfeda3b382d3c4c16bf.image"]
 
 [params]
 

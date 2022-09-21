@@ -37,7 +37,7 @@ func _search_injections():
 		
 		for subchild in child.get_children():
 			if subchild.get_child_count() > 1:
-				# .get_child(1) is needed because the ToolsButton places everything
+				# super.get_child(1) is needed because the ToolsButton places everything
 				# under a new root node, and the window dialogue has a default child
 				# which is get_child(0)
 				_inject(subchild.get_child(1))

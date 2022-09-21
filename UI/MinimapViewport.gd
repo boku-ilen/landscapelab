@@ -1,22 +1,30 @@
-extends ViewportContainer
+extends SubViewportContainer
 
 
-export var player_marker_scale := 0.0035
-export var min_zoom := 0.0
-export var max_zoom := 5000.0
-export var zoom_step := 100.0
+@export var player_marker_scale := 0.0035
+@export var min_zoom := 0.0
+@export var max_zoom := 5000.0
+@export var zoom_step := 100.0
 
-onready var zoom_factor = 1000.0 setget set_zoom
-onready var marker = $Viewport/PlayerMarker
+@onready var zoom_factor = 1000.0 :
+	get:
+		return zoom_factor # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_zoom
+@onready var marker = $SubViewport/PlayerMarker
 # to be injected from above
-var pc_player: AbstractPlayer setget set_player
+var pc_player: AbstractPlayer :
+	get:
+		return pc_player # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_player
 
 
 func set_zoom(zoom: float):
 	if zoom > min_zoom and zoom < max_zoom: 
 		zoom_factor = zoom
 		marker.scale = Vector3.ONE * zoom_factor * player_marker_scale
-		$Viewport/Camera.size = zoom_factor
+		$SubViewport/Camera3D.size = zoom_factor
 
 
 func set_player(p: AbstractPlayer):
@@ -24,8 +32,8 @@ func set_player(p: AbstractPlayer):
 
 
 func _ready():
-	$ZoomContainer/ZoomIn.connect("pressed", self, "zoom", [zoom_step])
-	$ZoomContainer/ZoomOut.connect("pressed", self, "zoom", [-zoom_step])
+	$ZoomContainer/ZoomIn.connect("pressed",Callable(self,"zoom").bind(zoom_step))
+	$ZoomContainer/ZoomOut.connect("pressed",Callable(self,"zoom").bind(-zoom_step))
 	set_zoom(zoom_factor)
 
 
@@ -42,7 +50,7 @@ func _process(delta):
 			marker.transform.origin.y,
 			pc_player.transform.origin.z)
 			
-	$Viewport/Camera.transform.origin = Vector3(
+	$SubViewport/Camera3D.transform.origin = Vector3(
 			pc_player.transform.origin.x, 
-			$Viewport/Camera.transform.origin.y,
+			$SubViewport/Camera3D.transform.origin.y,
 			pc_player.transform.origin.z)

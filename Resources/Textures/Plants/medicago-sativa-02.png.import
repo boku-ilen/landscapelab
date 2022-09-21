@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/medicago-sativa-02.png-6f76e1ccfd8e160c2985dfc680bd610c.image"
+uid="uid://bf06rlpruahp"
+path="res://.godot/imported/medicago-sativa-02.png-6f76e1ccfd8e160c2985dfc680bd610c.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/medicago-sativa-02.png"
-dest_files=[ "res://.import/medicago-sativa-02.png-6f76e1ccfd8e160c2985dfc680bd610c.image" ]
+dest_files=["res://.godot/imported/medicago-sativa-02.png-6f76e1ccfd8e160c2985dfc680bd610c.image"]
 
 [params]
 

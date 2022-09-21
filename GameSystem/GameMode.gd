@@ -27,8 +27,8 @@ func add_game_object_collection_for_feature_layer(collection_name, feature_layer
 
 func add_score(score: GameScore):
 	game_scores[score.name] = score
-	score.connect("value_changed", self, "_on_score_value_changed", [score])
-	score.connect("target_reached", self, "_on_score_target_reached", [score])
+	score.connect("value_changed",Callable(self,"_on_score_value_changed").bind(score))
+	score.connect("target_reached",Callable(self,"_on_score_target_reached").bind(score))
 
 
 func get_starting_position():

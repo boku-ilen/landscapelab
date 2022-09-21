@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-c7d8f716551bd58a5bf81f8b94b3a8cd.image"
+uid="uid://1vpcbqoikjun"
+path="res://.godot/imported/normal.jpg-c7d8f716551bd58a5bf81f8b94b3a8cd.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/155-barley/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-c7d8f716551bd58a5bf81f8b94b3a8cd.image" ]
+dest_files=["res://.godot/imported/normal.jpg-c7d8f716551bd58a5bf81f8b94b3a8cd.image"]
 
 [params]
 

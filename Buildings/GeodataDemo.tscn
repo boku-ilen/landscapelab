@@ -2,15 +2,15 @@
 
 [ext_resource path="res://Buildings/GeodataDemo.gd" type="Script" id=1]
 
-[node name="GeodataDemo" type="Spatial"]
+[node name="GeodataDemo" type="Node3D"]
 script = ExtResource( 1 )
 geodata_path = "/home/karl/Nextcloud/Boku/Data/LL_test_weiden_V2.gpkg"
 building_layer_name = "buildings"
 height_attribute_name = "_mean"
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.211445, 0.301835, -0.929617, 0, 0.951121, 0.308817, 0.97739, -0.0652978, 0.20111, -120.426, 67.4184, 114.155 )
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D( 0.211445, 0.301835, -0.929617, 0, 0.951121, 0.308817, 0.97739, -0.0652978, 0.20111, -120.426, 67.4184, 114.155 )
 far = 3000.0
 
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.786159, 0.485565, -0.382336, 0, 0.618642, 0.785673, 0.618024, -0.617664, 0.486351, 0, 0, 0 )
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D( 0.786159, 0.485565, -0.382336, 0, 0.618642, 0.785673, 0.618024, -0.617664, 0.486351, 0, 0, 0 )

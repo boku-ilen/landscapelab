@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/larix-decidua-03.png-3022f0027d25abee3d6673c2765f713c.image"
+uid="uid://be1kymrxyywni"
+path="res://.godot/imported/larix-decidua-03.png-3022f0027d25abee3d6673c2765f713c.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/larix-decidua-03.png"
-dest_files=[ "res://.import/larix-decidua-03.png-3022f0027d25abee3d6673c2765f713c.image" ]
+dest_files=["res://.godot/imported/larix-decidua-03.png-3022f0027d25abee3d6673c2765f713c.image"]
 
 [params]
 

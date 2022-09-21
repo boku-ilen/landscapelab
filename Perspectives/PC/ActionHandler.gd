@@ -2,8 +2,8 @@ extends Node
 class_name ActionHandler
 
 
-var cursor: RayCast
-var collision_indicator: Spatial
+var cursor: RayCast3D
+var collision_indicator: Node3D
 var player: AbstractPlayer
 
 var current_action: Action
@@ -47,7 +47,7 @@ class Action:
 	var player: AbstractPlayer
 	var is_blocking: bool
 	
-	func _init(p, blocking):
+	func _init(p,blocking):
 		player = p
 		is_blocking = blocking
 	
@@ -56,4 +56,4 @@ class Action:
 
 
 func enable_viewshed(enabled: bool):
-	collision_indicator.get_node("Node/OmniLight").visible = enabled
+	collision_indicator.get_node("Node/OmniLight3D").visible = enabled

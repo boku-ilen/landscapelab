@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/gr-cannabis-indica-01.png-0d11020219b8508568caacdffb11a206.image"
+uid="uid://deavjadnnp8mw"
+path="res://.godot/imported/gr-cannabis-indica-01.png-0d11020219b8508568caacdffb11a206.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/gr-cannabis-indica-01.png"
-dest_files=[ "res://.import/gr-cannabis-indica-01.png-0d11020219b8508568caacdffb11a206.image" ]
+dest_files=["res://.godot/imported/gr-cannabis-indica-01.png-0d11020219b8508568caacdffb11a206.image"]
 
 [params]
 

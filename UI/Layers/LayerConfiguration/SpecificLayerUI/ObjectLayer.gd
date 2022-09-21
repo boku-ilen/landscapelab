@@ -1,9 +1,9 @@
 extends SpecificLayerUI
 
 
-onready var geodata_objects: OptionButton = get_node("RightBox/GeodataChooserPoint/OptionButton")
-onready var geodata_height: OptionButton = get_node("RightBox/GeodataChooserHeight/OptionButton")
-onready var file_path_object_scene = get_node("RightBox/ObjectChooser/FileName")
+@onready var geodata_objects: OptionButton = get_node("RightBox/GeodataChooserPoint/OptionButton")
+@onready var geodata_height: OptionButton = get_node("RightBox/GeodataChooserHeight/OptionButton")
+@onready var file_path_object_scene = get_node("RightBox/ObjectChooser/FileName")
 
 
 func assign_specific_layer_info(layer: Layer):
@@ -56,7 +56,7 @@ func assign_specific_layer_info(layer: Layer):
 		var mesh = ObjParse.parse_obj(file_path_object_scene.text, material_path)
 		
 		# Put the resulting mesh into a node
-		var mesh_instance = MeshInstance.new()
+		var mesh_instance = MeshInstance3D.new()
 		mesh_instance.mesh = mesh
 		
 		# Pack the node into a scene

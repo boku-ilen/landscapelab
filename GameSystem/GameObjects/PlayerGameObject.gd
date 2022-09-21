@@ -5,7 +5,9 @@ class_name PlayerGameObject
 var player_node
 
 
-func _init(initial_id: int, initial_collection, initial_player_node).(initial_id, initial_collection):
+func _init(initial_id: int,initial_collection,initial_player_node):
+	super._init(initial_id, initial_collection)
+	
 	id = initial_id
 	collection = initial_collection
 	player_node = initial_player_node

@@ -32,7 +32,7 @@ func load_new_data():
 			max_pos.x = vertex.x if vertex.x > max_pos.x else max_pos.x
 			max_pos.z = vertex.y if vertex.y > max_pos.z else max_pos.z
 		
-		var object: Spatial = layer.render_info.object.instance()
+		var object: Node3D = layer.render_info.object.instantiate()
 		
 		var current_pos = min_pos
 		while current_pos.x <= max_pos.x:
@@ -43,7 +43,7 @@ func load_new_data():
 				var fully_inside = true
 				for foothold in object.get_node("Footholds").get_children():
 					# Add relative foothold position to absolute object position
-					var foothold_pos = (current_pos + foothold.translation)
+					var foothold_pos = (current_pos + foothold.position)
 					var point_feature = object_layer.create_feature()
 					#point_feature.set_offset_vector3(Vector3(foothold_pos.x, 0, foothold_pos.z), -center[0], 0, -center[1])
 					point_feature.set_vector3(Vector3(foothold_pos.x, 0, foothold_pos.z))
@@ -52,10 +52,10 @@ func load_new_data():
 						fully_inside = false
 				
 				if fully_inside:
-					var new_object = layer.render_info.object.instance()
-					new_object.rotation_degrees.y = layer.render_info.individual_rotation
-					new_object.translation = current_pos
-					new_object.translation.y = layer.render_info.ground_height_layer.get_value_at_position(
+					var new_object = layer.render_info.object.instantiate()
+					new_object.rotation.y = deg_to_rad(layer.render_info.individual_rotation)
+					new_object.position = current_pos
+					new_object.position.y = layer.render_info.ground_height_layer.get_value_at_position(
 						center[0] + current_pos.x, center[1] - current_pos.z)
 					object_instances.append(new_object)
 				

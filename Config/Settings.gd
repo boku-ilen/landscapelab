@@ -1,4 +1,4 @@
-tool
+@tool
 extends Node
 
 #
@@ -26,7 +26,7 @@ var software_config: Dictionary = {
 
 
 func _init():
-	if not Engine.editor_hint:
+	if not Engine.is_editor_hint():
 		load_settings()
 
 
@@ -56,7 +56,7 @@ func _load_defaults():
 func _load_from_user_config():
 	var err = user_config.load(user_config_path)
 	if err != OK:
-		logger.warning("User-configuration could not be loaded. Is there a file user://configuration.ini?", LOG_MODULE)
+		logger.warn("User-configuration could not be loaded. Is there a file user://configuration.ini?", LOG_MODULE)
 		return
 	
 	for section in user_config.get_sections():
@@ -90,7 +90,7 @@ func save_user_settings():
 			for key in config.get_section_keys(section):
 				user_config.set_value(section, key, config.get_value(section, key))
 	
-	user_config.save()
+	user_config.save(user_config_path)
 
 
 # Get a specific setting by category and label (for example: category 'server', label 'ip')

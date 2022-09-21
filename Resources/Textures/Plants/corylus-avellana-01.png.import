@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/corylus-avellana-01.png-cc5aadd27438e0eb226c9449b60ac4ac.image"
+uid="uid://bevww63pjqhm2"
+path="res://.godot/imported/corylus-avellana-01.png-cc5aadd27438e0eb226c9449b60ac4ac.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/corylus-avellana-01.png"
-dest_files=[ "res://.import/corylus-avellana-01.png-cc5aadd27438e0eb226c9449b60ac4ac.image" ]
+dest_files=["res://.godot/imported/corylus-avellana-01.png-cc5aadd27438e0eb226c9449b60ac4ac.image"]
 
 [params]
 

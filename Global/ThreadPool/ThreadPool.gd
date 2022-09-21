@@ -29,7 +29,7 @@ func _ready():
 		
 		for thread_num in range(0, THREAD_COUNT_AT_PRIORITY[priority]):
 			threads[priority].append(Thread.new())
-			threads[priority][thread_num].start(self, "thread_worker", task_queues[priority])
+			threads[priority][thread_num].start(Callable(self,"thread_worker").bind(task_queues[priority]))
 
 
 # This is the function which the thread workers are constantly running
@@ -55,7 +55,7 @@ func enqueue_task(task, priority=0):
 
 
 # This class groups an object, a method and parameters for the method. It provides 
-# an 'execute' function which calls the provided method on the provided object, 
+# an 'execute' function which calls the provided method checked the provided object, 
 # with the set parameters. Note that the function has to take the arguments in the 
 # form of a single array.
 class Task:
@@ -67,7 +67,7 @@ class Task:
 	signal finished
 
 
-	func _init(obj, method, params=null):
+	func _init(obj,method,params=null):
 		self.obj = obj
 		self.ref = weakref(obj)
 		self.method = method
@@ -90,7 +90,7 @@ class Task:
 			#logger.error("Thread was supposed to call %s, but the object didn't exist anymore!" % [method])
 		
 		# FIXME: Should be call_deferred("emit_signal", "finished"), but we've encountered a problem
-		# where that is not executed if there are two very similar taks (execute the same function on
+		# where that is not executed if there are two very similar taks (execute the same function checked
 		# objects of the same type).
 		# Thus, take care to use CONNECT_DEFERRED when connecting to this signal!
 		emit_signal("finished")

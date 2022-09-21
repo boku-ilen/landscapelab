@@ -5,11 +5,11 @@ var veg_edit_start_scene = preload("res://Vegetation/Editor/VegetationEditorStar
 
 
 func _ready():
-	$VegEditButton.connect("pressed", self, "open_vegetation_editor")
+	$VegEditButton.connect("pressed",Callable(self,"open_vegetation_editor"))
 
 
 func open_vegetation_editor():
-	$VegEditButton/VegEditDialog.add_child(veg_edit_start_scene.instance())
+	$VegEditButton/VegEditDialog.add_child(veg_edit_start_scene.instantiate())
 	$VegEditButton/VegEditDialog.popup()
 
 
@@ -21,7 +21,7 @@ func assign_specific_layer_info(layer: Layer):
 	var landuse_layer = $HSplitContainer/RightBox/LanduseChooser.get_geo_layer(true)
 
 	if !validate(landuse_layer) or !validate(height_layer):
-		print_warning("Texture- or height-layer is invalid!")
+		print_warning("Texture2D- or height-layer is invalid!")
 		return
 	
 	layer.render_info.height_layer = height_layer.clone()

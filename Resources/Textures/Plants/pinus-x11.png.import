@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/pinus-x11.png-b84c0c15f5931709db4458011eb8c962.image"
+uid="uid://q10feweg31bi"
+path="res://.godot/imported/pinus-x11.png-b84c0c15f5931709db4458011eb8c962.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/pinus-x11.png"
-dest_files=[ "res://.import/pinus-x11.png-b84c0c15f5931709db4458011eb8c962.image" ]
+dest_files=["res://.godot/imported/pinus-x11.png-b84c0c15f5931709db4458011eb8c962.image"]
 
 [params]
 

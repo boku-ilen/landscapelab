@@ -1,10 +1,14 @@
 extends PopupMenu
 
 
-var layer: Layer setget set_layer
+var layer: Layer :
+	get:
+		return layer # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_layer
 
-onready var color_menu = get_node("ColorMenu")
-onready var object_menu = get_node("ObjectMenu")
+@onready var color_menu = get_node("ColorMenu")
+@onready var object_menu = get_node("ObjectMenu")
 
 var layer_config = preload("res://UI/Layers/LayerConfiguration/Misc/LayerConfigurationWindow.tscn")
 
@@ -14,10 +18,10 @@ signal open_menu(which)
 
 var colors = {
 	"None": Color(0, 0, 0, 0),
-	"Green": Color.green,
-	"Red": Color.red,
-	"Blue": Color.blue,
-	"Yellow": Color.yellow
+	"Green": Color.GREEN,
+	"Red": Color.RED,
+	"Blue": Color.BLUE,
+	"Yellow": Color.YELLOW
 }
 
 
@@ -31,7 +35,7 @@ func set_layer(l):
 
 
 func _ready():
-	connect("index_pressed", self, "_on_item_pressed")
+	connect("index_pressed",Callable(self,"_on_item_pressed"))
 	set_item_metadata(0, "_open_configure_menu")
 	set_item_metadata(1, "_translate_to_layer")
 	
@@ -45,7 +49,7 @@ func _on_item_pressed(idx: int):
 
 
 func _open_configure_menu():
-	var instance = layer_config.instance()
+	var instance = layer_config.instantiate()
 	add_child(instance)
 	instance.layer_popup(Vector2(100,200), layer)
 	#instance.specific_layer_ui
@@ -86,6 +90,6 @@ func _add_submenu(display_name: String, node_name: String, menu_items, signal_to
 			idx += 1
 	
 
-	current_menu.connect("index_pressed", self, "_default_emit", [current_menu, signal_to_emit])
+	current_menu.connect("index_pressed",Callable(self,"_default_emit").bind(current_menu, signal_to_emit))
 
 	relative_node.add_submenu_item(display_name, node_name)

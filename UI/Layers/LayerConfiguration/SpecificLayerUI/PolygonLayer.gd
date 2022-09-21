@@ -2,11 +2,11 @@ extends SpecificLayerUI
 
 
 func _ready():
-	$RightBox/PolygonChooser.connect("new_layer_selected", $RightBox/HeightAttrDD, "set_feature_layer")
+	$RightBox/PolygonChooser.connect("new_layer_selected",Callable($RightBox/HeightAttrDD,"set_feature_layer"))
 	for child in $RightBox/BuildingInfo.get_children():
-		$RightBox/PolygonChooser.connect("new_layer_selected", child, "set_feature_layer")
+		$RightBox/PolygonChooser.connect("new_layer_selected",Callable(child,"set_feature_layer"))
 	
-	$RightBox/BuildingCheckBox.connect("toggled", self, "_set_building_info_visible")
+	$RightBox/BuildingCheckBox.connect("toggled",Callable(self,"_set_building_info_visible"))
 
 
 func _set_building_info_visible(toggled: bool):

@@ -3,9 +3,9 @@
 [ext_resource path="res://VR/DistanceMeasurement/Display.gd" type="Script" id=1]
 
 [node name="CenterContainer" type="CenterContainer"]
-margin_right = 200.0
-margin_bottom = 200.0
-rect_scale = Vector2( 0.995159, 0.991729 )
+offset_right = 200.0
+offset_bottom = 200.0
+scale = Vector2( 0.995159, 0.991729 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 script = ExtResource( 1 )
@@ -14,27 +14,27 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 38.0
-margin_top = 51.0
-margin_right = 162.0
-margin_bottom = 148.0
+offset_left = 38.0
+offset_top = 51.0
+offset_right = 162.0
+offset_bottom = 148.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 124.0
-margin_bottom = 20.0
+offset_right = 124.0
+offset_bottom = 20.0
 
 [node name="Yards" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_right = 60.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 60, 0 )
+offset_right = 60.0
+offset_bottom = 20.0
+minimum_size = Vector2( 60, 0 )
 toggle_mode = true
 text = "Yards"
 
 [node name="Metres" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 64.0
-margin_right = 124.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 60, 0 )
+offset_left = 64.0
+offset_right = 124.0
+offset_bottom = 20.0
+minimum_size = Vector2( 60, 0 )
 toggle_mode = true
 pressed = true
 text = "Metres"
@@ -43,25 +43,25 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="VBoxContainer"]
-margin_top = 24.0
-margin_right = 124.0
-margin_bottom = 55.0
-rect_min_size = Vector2( 0, 30 )
+offset_top = 24.0
+offset_right = 124.0
+offset_bottom = 55.0
+minimum_size = Vector2( 0, 30 )
 text = "DISTANCE: 
 "
 align = 1
 valign = 1
 
 [node name="Distance" type="Label" parent="VBoxContainer"]
-margin_top = 59.0
-margin_right = 124.0
-margin_bottom = 73.0
+offset_top = 59.0
+offset_right = 124.0
+offset_bottom = 73.0
 text = "24"
 align = 1
 
 [node name="PressedButton" type="Button" parent="VBoxContainer"]
-margin_top = 77.0
-margin_right = 124.0
-margin_bottom = 97.0
+offset_top = 77.0
+offset_right = 124.0
+offset_bottom = 97.0
 toggle_mode = true
 text = "^"

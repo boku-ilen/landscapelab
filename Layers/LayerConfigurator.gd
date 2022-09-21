@@ -1,8 +1,10 @@
 extends Configurator
 
-const SQLite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
-
-var center := Vector3.ZERO setget set_center
+var center := Vector3.ZERO :
+	get:
+		return center # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_center
 var geopackage
 var external_layers = preload("res://Layers/ExternalLayer.gd").new()
 
@@ -18,13 +20,13 @@ func set_center(c: Vector3):
 
 
 func _ready():
-	set_category("geodata")
+	category = "geodata"
 	load_gpkg(get_setting("gpkg-path"))
 
 
 # Gets called from main_ui
 func check_default():
-	set_category("geodata")
+	category = "geodata"
 	if(not validate_gpkg(get_setting("gpkg-path"))):
 		emit_signal("geodata_invalid")
 
@@ -217,11 +219,11 @@ func define_pa3c3_game_mode(
 	profit_score.add_contributor(apv_fh_3, "Profitdifferenz LW", 3.0)
 	profit_score.add_contributor(apv_bf_1, "Profitdifferenz LW")
 	profit_score.add_contributor(apv_bf_3, "Profitdifferenz LW", 3.0)
-	profit_score.add_contributor(apv_fh_1, "Stromerzeugung kWh", 0.07, Color.aliceblue, 0.03, 0.09)
+	profit_score.add_contributor(apv_fh_1, "Stromerzeugung kWh", 0.07, Color.ALICE_BLUE, 0.03, 0.09)
 	profit_score.add_contributor(apv_fh_3, "Stromerzeugung kWh", 0.07 * 3.0)
 	profit_score.add_contributor(apv_fh_1, "Kosten")
 	profit_score.add_contributor(apv_fh_3, "Kosten", 3.0)
-	profit_score.add_contributor(apv_bf_1, "Stromerzeugung kWh", 0.07, Color.aliceblue, 0.03, 0.09)
+	profit_score.add_contributor(apv_bf_1, "Stromerzeugung kWh", 0.07, Color.ALICE_BLUE, 0.03, 0.09)
 	profit_score.add_contributor(apv_bf_3, "Stromerzeugung kWh", 0.07 * 3.0)
 	profit_score.add_contributor(apv_bf_1, "Kosten")
 	profit_score.add_contributor(apv_bf_3, "Kosten", 3.0)
@@ -283,14 +285,14 @@ func define_pa3c3_game_mode(
 
 
 func validate_gpkg(geopackage_path: String):
-	if geopackage_path.empty():
+	if geopackage_path.is_empty():
 		logger.error("User Geopackage path not set! Please set it in user://configuration.ini", LOG_MODULE)
 		return false
 	
 	var file2Check = File.new()
 	if !file2Check.file_exists(geopackage_path):
 		logger.error(
-			"Path to geodataset \"%s\" does not exist, could not load any data!" % [geopackage_path],
+			"Path3D to geodataset \"%s\" does not exist, could not load any data!" % [geopackage_path],
 			LOG_MODULE
 		)
 		return false
@@ -309,25 +311,26 @@ func digest_gpkg(geopackage_path: String):
 	
 	var logstring = "\n"
 	
-	var rasters = geopackage.get_raster_layers()
-	logstring += "Raster layers in GeoPackage:\n"
-	
-	for raster in rasters:
-		logstring += "- " + raster.resource_name + "\n"
-	logstring += "\n"
-	
 	var features = geopackage.get_feature_layers()
 	logstring += "Vector layers in GeoPackage:\n"
 	
 	for feature in features:
 		logstring += "- " + feature.resource_name + "\n"
 	
+	var rasters = geopackage.get_raster_layers()
+	logstring += "Raster layers in GeoPackage:\n"
+	
+	for raster in rasters:
+		logstring += "- " + raster.resource_name + "\n"
+	
+	logstring += "\n"
+	
 	logger.info(logstring, LOG_MODULE)
 
 	logger.info("Opening geopackage as DB ...", LOG_MODULE)
 	var db = SQLite.new()
 	db.path = geopackage_path
-	db.verbose_mode = OS.is_debug_build()
+	# FIXME: What's the new one? db.verbose_mode = OS.is_debug_build()
 	db.open_db()
 	
 	# Load vegetation tables outside of the GPKG
@@ -339,7 +342,7 @@ func digest_gpkg(geopackage_path: String):
 	# Duplication is necessary (SQLite plugin otherwise overwrites with the next query
 	var layer_configs: Array = db.select_rows("LL_layer_configuration", "", ["*"]).duplicate()
 	
-	if layer_configs.empty():
+	if layer_configs.is_empty():
 		logger.error("No layer configuration found in the geopackage.", LOG_MODULE)
 	
 	# Load all geo_layers necessary for the configuration
@@ -393,7 +396,7 @@ func digest_gpkg(geopackage_path: String):
 				["name"] 
 			).duplicate()
 			
-			if entry.empty():
+			if entry.is_empty():
 				logger.error(
 					"Tried to find a non-existing layer with id %d for scenario %s" 
 					% [id.layer_id, scenario.name],
@@ -477,7 +480,7 @@ func geo_layers_config_for_LL_layer(db, LL_layer_id):
 		conf["geolayer_name"] = layer_name
 	
 	return { "rasters": rasters_config + external_raster_config,
-			 "features": features_config + external_feature_config }
+			"features": features_config + external_feature_config }
 
 
 # Get the corresponding geolayer for the LL layer by a given type
@@ -490,7 +493,7 @@ func get_georasterlayer_by_type(db, type: String, candidates: Array) -> Layer:
 		["id"]
 	)
 	
-	if result.empty():
+	if result.is_empty():
 		logger.error("Could not find layer-type %s" % [type], LOG_MODULE)
 		return null
 	
@@ -523,7 +526,7 @@ func get_extension_by_key(db, key: String, layer_id) -> String:
 		["value"] 
 	)
 	
-	if value.empty():
+	if value.is_empty():
 		logger.error("No extension with key %s." % [key], LOG_MODULE)
 		return ""
 	
@@ -573,7 +576,7 @@ func load_vegetation_layer(db, layer_config, geo_layers_config) -> Layer:
 	return vegetation_layer
 
 
-func load_object_layer(db, layer_config, geo_layers_config, extended_as: Layer.ObjectRenderInfo = null) -> Layer:
+func load_object_layer(db, layer_config, geo_layers_config, extended_as = null) -> Layer:
 	if get_extension_by_key(db, "extends_as", layer_config.id) == "WindTurbineRenderInfo":
 		# If it is extended as Winturbine we recursively call this function again
 		# without extension such that it creates the standard object-layer procedure
@@ -597,10 +600,10 @@ func load_object_layer(db, layer_config, geo_layers_config, extended_as: Layer.O
 	elif file_path_object_scene.ends_with(".obj"):
 		# Load the material and mesh
 		var material_path = file_path_object_scene.replace(".obj", ".mtl")
-		var mesh = ObjParse.parse_obj(file_path_object_scene, material_path)
+		var mesh = BoxMesh.new() # FIXME: ObjParse.parse_obj(file_path_object_scene, material_path)
 		
 		# Put the resulting mesh into a node
-		var mesh_instance = MeshInstance.new()
+		var mesh_instance = MeshInstance3D.new()
 		mesh_instance.mesh = mesh
 		
 		# Pack the node into a scene
@@ -632,7 +635,7 @@ func load_windmills(db, layer_config, geo_layers_config) -> Layer:
 	return windmill_layer
 
 
-func load_polygon_layer(db, layer_config, geo_layers_config, extended_as: Layer.PolygonRenderInfo = null) -> Layer:
+func load_polygon_layer(db, layer_config, geo_layers_config, extended_as = null) -> Layer:
 	if get_extension_by_key(db, "extends_as", layer_config.id) == "BuildingRenderInfo":
 		if extended_as == null:
 			return load_buildings(db, layer_config, geo_layers_config)
@@ -690,18 +693,20 @@ func load_path_layer(db, layer_config, geo_layers_config) -> Layer:
 # Loads a JSON containing paths to Objects in this format:
 # {"object_name_1": "res://path/to/object1.tscn", "object_name_2": "path/to/object2.tscn"}
 func load_object_JSON(json_string: String) -> Dictionary:
-	var json = JSON.parse(json_string)
+	var test_json_conv = JSON.new()
+	var error = test_json_conv.parse(json_string)
+	var json = test_json_conv.get_data()
 	var loaded_json = {}
 	
-	if json.error != OK:
+	if error != OK:
 		logger.error(
 			"Could not parse JSON - try to validate your JSON entries in the package.",
 			LOG_MODULE
 		)
 		return loaded_json
 		
-	for entry in json.result:
-		loaded_json[entry] = load(json.result[entry])
+	for entry in json:
+		loaded_json[entry] = load(json[entry])
 	
 	return loaded_json
 

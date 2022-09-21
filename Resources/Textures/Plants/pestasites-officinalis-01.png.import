@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/pestasites-officinalis-01.png-0beb5ea82d59471dc32a80c7a66e4a95.image"
+uid="uid://ghe1n0715aql"
+path="res://.godot/imported/pestasites-officinalis-01.png-0beb5ea82d59471dc32a80c7a66e4a95.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/pestasites-officinalis-01.png"
-dest_files=[ "res://.import/pestasites-officinalis-01.png-0beb5ea82d59471dc32a80c7a66e4a95.image" ]
+dest_files=["res://.godot/imported/pestasites-officinalis-01.png-0beb5ea82d59471dc32a80c7a66e4a95.image"]
 
 [params]
 

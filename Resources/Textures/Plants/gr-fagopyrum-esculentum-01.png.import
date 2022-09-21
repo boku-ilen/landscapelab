@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/gr-fagopyrum-esculentum-01.png-53d414fed7244ca957f773c2e9876a81.image"
+uid="uid://be6g2rmculyid"
+path="res://.godot/imported/gr-fagopyrum-esculentum-01.png-53d414fed7244ca957f773c2e9876a81.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/gr-fagopyrum-esculentum-01.png"
-dest_files=[ "res://.import/gr-fagopyrum-esculentum-01.png-53d414fed7244ca957f773c2e9876a81.image" ]
+dest_files=["res://.godot/imported/gr-fagopyrum-esculentum-01.png-53d414fed7244ca957f773c2e9876a81.image"]
 
 [params]
 

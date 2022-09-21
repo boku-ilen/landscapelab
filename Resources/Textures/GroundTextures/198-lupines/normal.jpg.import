@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-dc621f10091959353dc931ca1c7df700.image"
+uid="uid://jsvqju2rt1pq"
+path="res://.godot/imported/normal.jpg-dc621f10091959353dc931ca1c7df700.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/198-lupines/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-dc621f10091959353dc931ca1c7df700.image" ]
+dest_files=["res://.godot/imported/normal.jpg-dc621f10091959353dc931ca1c7df700.image"]
 
 [params]
 

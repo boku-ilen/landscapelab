@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-e4ab8809dde999a2f18d2923f6e7578a.image"
+uid="uid://cxcmr2h63yhk3"
+path="res://.godot/imported/normal.jpg-e4ab8809dde999a2f18d2923f6e7578a.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/forest_ground-01/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-e4ab8809dde999a2f18d2923f6e7578a.image" ]
+dest_files=["res://.godot/imported/normal.jpg-e4ab8809dde999a2f18d2923f6e7578a.image"]
 
 [params]
 

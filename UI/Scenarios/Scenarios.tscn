@@ -5,19 +5,19 @@
 [node name="Scenarios" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 38.0
-margin_right = -265.0
-margin_bottom = -558.0
+offset_left = 5.0
+offset_top = 38.0
+offset_right = -265.0
+offset_bottom = -558.0
 
 [node name="ScenarioUIConfig" type="Node" parent="."]
 script = ExtResource( 4 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-margin_left = 14.0
-margin_top = 14.0
-margin_right = 1636.0
-margin_bottom = 470.0
+offset_left = 14.0
+offset_top = 14.0
+offset_right = 1636.0
+offset_bottom = 470.0
 
 [node name="Scenarios" type="VBoxContainer" parent="ScrollContainer"]
 mouse_filter = 0

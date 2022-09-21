@@ -2,5 +2,5 @@
 
 [ext_resource path="res://World/Environment/RainSplashes.gd" type="Script" id=1]
 
-[node name="RainSplashes" type="Spatial"]
+[node name="RainSplashes" type="Node3D"]
 script = ExtResource( 1 )

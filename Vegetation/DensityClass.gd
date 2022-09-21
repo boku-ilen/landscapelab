@@ -16,7 +16,7 @@ var density_per_m: float
 var size_factor: float
 
 
-func _init(id, name, image_type, note, density_per_m, size_factor):
+func _init(id,name,image_type,note,density_per_m,size_factor):
 	self.id = id
 	self.name = name
 	self.image_type = image_type

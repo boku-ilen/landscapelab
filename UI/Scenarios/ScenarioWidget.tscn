@@ -4,17 +4,17 @@
 [ext_resource path="res://UI/Theme/LayerWidget.tres" type="Theme" id=2]
 
 [node name="ScenarioWidget" type="VBoxContainer"]
-margin_right = 151.0
-margin_bottom = 30.0
+offset_right = 151.0
+offset_bottom = 30.0
 focus_mode = 2
 theme = ExtResource( 2 )
 script = ExtResource( 1 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 151.0
-margin_bottom = 25.0
+offset_right = 151.0
+offset_bottom = 25.0
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_right = 113.0
-margin_bottom = 25.0
+offset_right = 113.0
+offset_bottom = 25.0
 text = "Scenario 1"

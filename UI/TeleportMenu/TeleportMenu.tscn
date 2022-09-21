@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=1]
-[ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=2]
+[ext_resource path="res://UI/CustomElements/AutoTextureButton.gdshader" type="Shader" id=1]
+[ext_resource path="res://UI/Fonts/Text.tres" type="FontFile" id=2]
 [ext_resource path="res://UI/TeleportMenu/TeleportMenu.gd" type="Script" id=4]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/up.svg" type="Texture" id=5]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/down.svg" type="Texture" id=6]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/up.svg" type="Texture2D" id=5]
+[ext_resource path="res://Resources/Icons/ModernLandscapeLab/down.svg" type="Texture2D" id=6]
 [ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=7]
 
 [sub_resource type="ShaderMaterial" id=1]
@@ -17,36 +17,36 @@ shader_param/color_length_modulate_threshold = 1.5
 [node name="TeleportMenu" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -1268.0
-margin_bottom = -613.0
-rect_min_size = Vector2( 652, 400 )
-rect_pivot_offset = Vector2( 440, 160 )
+offset_right = -1268.0
+offset_bottom = -613.0
+minimum_size = Vector2( 652, 400 )
+pivot_offset = Vector2( 440, 160 )
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_right = 604.0
-margin_bottom = 467.0
+offset_right = 604.0
+offset_bottom = 467.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TeleportTo" type="Label" parent="VBoxContainer"]
-margin_right = 604.0
-margin_bottom = 25.0
+offset_right = 604.0
+offset_bottom = 25.0
 text = "Teleport to"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 33.0
-margin_right = 604.0
-margin_bottom = 78.0
+offset_top = 33.0
+offset_right = 604.0
+offset_bottom = 78.0
 
 [node name="X" type="SpinBox" parent="VBoxContainer/HBoxContainer2"]
-margin_right = 196.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 100, 40 )
+offset_right = 196.0
+offset_bottom = 45.0
+minimum_size = Vector2( 100, 40 )
 focus_mode = 2
 mouse_default_cursor_shape = 1
 min_value = -1e+07
@@ -60,10 +60,10 @@ __meta__ = {
 }
 
 [node name="Y" type="SpinBox" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 204.0
-margin_right = 400.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 100, 40 )
+offset_left = 204.0
+offset_right = 400.0
+offset_bottom = 45.0
+minimum_size = Vector2( 100, 40 )
 focus_mode = 2
 mouse_default_cursor_shape = 1
 min_value = -1e+07
@@ -77,10 +77,10 @@ __meta__ = {
 }
 
 [node name="Z" type="SpinBox" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 408.0
-margin_right = 604.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 100, 40 )
+offset_left = 408.0
+offset_right = 604.0
+offset_bottom = 45.0
+minimum_size = Vector2( 100, 40 )
 focus_mode = 2
 mouse_default_cursor_shape = 1
 min_value = -1e+07
@@ -94,27 +94,27 @@ __meta__ = {
 }
 
 [node name="TeleportToButton" type="Button" parent="VBoxContainer"]
-margin_top = 86.0
-margin_right = 604.0
-margin_bottom = 123.0
+offset_top = 86.0
+offset_right = 604.0
+offset_bottom = 123.0
 text = "Teleport"
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_top = 131.0
-margin_right = 604.0
-margin_bottom = 156.0
+offset_top = 131.0
+offset_right = 604.0
+offset_bottom = 156.0
 text = "Points of Interest"
 
 [node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
-margin_top = 164.0
-margin_right = 604.0
-margin_bottom = 201.0
+offset_top = 164.0
+offset_right = 604.0
+offset_bottom = 201.0
 
 [node name="ItemList" type="ItemList" parent="VBoxContainer"]
-margin_top = 209.0
-margin_right = 604.0
-margin_bottom = 314.0
-rect_min_size = Vector2( 253, 105 )
+offset_top = 209.0
+offset_right = 604.0
+offset_bottom = 314.0
+minimum_size = Vector2( 253, 105 )
 custom_fonts/font = ExtResource( 2 )
 allow_reselect = true
 max_columns = 50
@@ -122,76 +122,76 @@ same_column_width = true
 fixed_icon_size = Vector2( 25, 25 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 322.0
-margin_right = 604.0
-margin_bottom = 357.0
+offset_top = 322.0
+offset_right = 604.0
+offset_bottom = 357.0
 
 [node name="Add" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_right = 125.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 125, 0 )
+offset_right = 125.0
+offset_bottom = 35.0
+minimum_size = Vector2( 125, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Hinzufügen"
 
 [node name="Delete" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 133.0
-margin_right = 258.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 125, 0 )
+offset_left = 133.0
+offset_right = 258.0
+offset_bottom = 35.0
+minimum_size = Vector2( 125, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Punkt löschen"
 
 [node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
 visible = false
-margin_top = 320.0
-margin_right = 604.0
-margin_bottom = 350.0
-rect_min_size = Vector2( 0, 30 )
+offset_top = 320.0
+offset_right = 604.0
+offset_bottom = 350.0
+minimum_size = Vector2( 0, 30 )
 custom_fonts/font = ExtResource( 2 )
 
 [node name="Save" type="Button" parent="VBoxContainer"]
 visible = false
-margin_top = 320.0
-margin_right = 604.0
-margin_bottom = 355.0
+offset_top = 320.0
+offset_right = 604.0
+offset_bottom = 355.0
 custom_fonts/font = ExtResource( 2 )
 text = "Speichern"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 365.0
-margin_right = 604.0
-margin_bottom = 365.0
+offset_top = 365.0
+offset_right = 604.0
+offset_bottom = 365.0
 
 [node name="Arrows" type="VBoxContainer" parent="."]
-margin_left = 612.0
-margin_right = 652.0
-margin_bottom = 308.0
+offset_left = 612.0
+offset_right = 652.0
+offset_bottom = 308.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_constants/separation = 10
 
 [node name="Space" type="Control" parent="Arrows"]
-margin_right = 40.0
-margin_bottom = 190.0
-rect_min_size = Vector2( 0, 190 )
+offset_right = 40.0
+offset_bottom = 190.0
+minimum_size = Vector2( 0, 190 )
 
 [node name="ArrowUp" parent="Arrows" instance=ExtResource( 7 )]
 material = SubResource( 1 )
-margin_top = 200.0
-margin_right = 40.0
-margin_bottom = 240.0
+offset_top = 200.0
+offset_right = 40.0
+offset_bottom = 240.0
 icon = ExtResource( 5 )
 texture_name = "up"
 
 [node name="HSeparator" type="HSeparator" parent="Arrows"]
-margin_top = 250.0
-margin_right = 40.0
-margin_bottom = 258.0
+offset_top = 250.0
+offset_right = 40.0
+offset_bottom = 258.0
 
 [node name="ArrowDown" parent="Arrows" instance=ExtResource( 7 )]
 material = SubResource( 1 )
-margin_top = 268.0
-margin_right = 40.0
-margin_bottom = 308.0
+offset_top = 268.0
+offset_right = 40.0
+offset_bottom = 308.0
 icon = ExtResource( 6 )
 texture_name = "down"

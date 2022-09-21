@@ -1,7 +1,7 @@
 extends Configurator
 
-onready var tree: Tree = get_parent().get_node("Tree")
-onready var root = tree.create_item()
+@onready var tree: Tree = get_parent().get_node("Tree")
+@onready var root = tree.create_item()
 
 
 func _ready():
@@ -12,7 +12,7 @@ func _ready():
 	for layer in Layers.geo_layers["features"]:
 		add_geo_layer(Layers.geo_layers["features"][layer], false)
 		
-	Layers.connect("new_geo_layer", self, "add_geo_layer")
+	Layers.connect("new_geo_layer",Callable(self,"add_geo_layer"))
 
 
 func add_geo_layer(geo_layer: Resource, is_raster: bool):

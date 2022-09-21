@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-391136dc2afd5bd0c64b2746f55d31e1.image"
+uid="uid://ci4en4xk3sufu"
+path="res://.godot/imported/displacement.jpg-391136dc2afd5bd0c64b2746f55d31e1.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/185-hemp/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-391136dc2afd5bd0c64b2746f55d31e1.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-391136dc2afd5bd0c64b2746f55d31e1.image"]
 
 [params]
 

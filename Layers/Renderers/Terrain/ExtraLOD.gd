@@ -1,4 +1,4 @@
-extends MeshInstance
+extends MeshInstance3D
 class_name ExtraLOD
 
 
@@ -12,7 +12,7 @@ func apply_textures(heightmap, surface_heightmap, landuse):
 		logger.warn("ExtraLOD with no Material Override! This will have no effect.", LOG_MODULE)
 		return
 	
-	material_override.set_shader_param("heightmap", heightmap)
-	material_override.set_shader_param("surface_heightmap", surface_heightmap)
-	material_override.set_shader_param("landuse", landuse)
-	material_override.set_shader_param("size", get_parent().size)
+	material_override.set_shader_parameter("heightmap", heightmap)
+	material_override.set_shader_parameter("surface_heightmap", surface_heightmap)
+	material_override.set_shader_parameter("landuse", landuse)
+	material_override.set_shader_parameter("size", get_parent().size)
