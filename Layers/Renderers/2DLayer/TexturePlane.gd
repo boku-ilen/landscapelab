@@ -37,6 +37,6 @@ func build():
 
 func apply_textures():
 	if current_texture:
-		get_surface_override_material(0).albedo_texture = current_texture
+		material_override.albedo_texture = current_texture
 	
 	visible = true

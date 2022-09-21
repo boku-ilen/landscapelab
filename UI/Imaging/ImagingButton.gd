@@ -78,7 +78,7 @@ class ImagingAction extends ActionHandler.Action:
 	var player_camera: Camera3D
 	var point_count := 0 :
 		get:
-			return point_count # TODOConverter40 Non existent get function 
+			return point_count 
 		set(count):
 			point_count = count
 			toggle_cam(point_count > 1)

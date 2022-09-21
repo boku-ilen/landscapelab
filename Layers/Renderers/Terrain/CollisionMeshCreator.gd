@@ -36,9 +36,7 @@ func _get_height_from_image(pix_pos, image):
 	# Locking the image and using get_pixel takes about as long as manually
 	#  getting the height from the PackedByteArray data, so this more intuitive
 	#  way is used instead of a custom implementation, as previously.
-	false # image.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	var height = image.get_pixel(pix_pos.x, pix_pos.y).r
-	false # image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	return height
 

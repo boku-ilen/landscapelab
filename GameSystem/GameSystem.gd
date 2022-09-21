@@ -3,7 +3,7 @@ extends Node
 
 var current_game_mode: GameMode :
 	get:
-		return current_game_mode # TODOConverter40 Non existent get function 
+		return current_game_mode
 	set(new_game_mode):
 		# Disconnect previous signals
 		if current_game_mode:

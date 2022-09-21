@@ -1,6 +1,5 @@
-[gd_scene load_steps=28 format=3 uid="uid://02dq7nb8174u"]
+[gd_scene load_steps=27 format=3 uid="uid://02dq7nb8174u"]
 
-[ext_resource type="PackedScene" uid="uid://6gk30myv1t2l" path="res://UI/Tools/ToolsPanel/ToolsPanel.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://b2i6gv6rjevem" path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" id="2"]
 [ext_resource type="PackedScene" path="res://UI/VRMenu/VRMenu.tscn" id="3"]
 [ext_resource type="Script" path="res://UI/LoadingCircle.gd" id="4"]
@@ -14,7 +13,7 @@
 [ext_resource type="PackedScene" path="res://UI/CustomElements/AutoTextureButton.tscn" id="13"]
 [ext_resource type="PackedScene" path="res://UI/DebugInfo/DebugInfo.tscn" id="14"]
 [ext_resource type="PackedScene" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="15"]
-[ext_resource type="PackedScene" path="res://World/World.tscn" id="15_xvbyv"]
+[ext_resource type="PackedScene" uid="uid://bj3hw0pvn674o" path="res://World/World.tscn" id="15_xvbyv"]
 [ext_resource type="Script" path="res://UI/Layers/LayerManagement/LayerManagement.gd" id="16"]
 [ext_resource type="Texture2D" uid="uid://c74tlumk8myvv" path="res://Resources/Icons/ModernLandscapeLab/loading.svg" id="17"]
 [ext_resource type="PackedScene" path="res://UI/GameSystem/GameUI.tscn" id="18"]
@@ -64,6 +63,7 @@ weather_manager_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/V
 layer_configurator_path = NodePath("MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/SubViewport/World/LayerConfigurator")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.005
 anchor_top = 0.005
@@ -72,15 +72,18 @@ anchor_bottom = 0.995
 mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
 offset_right = 1140.0
 offset_bottom = 641.0
 
 [node name="MenuBar" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
 offset_right = 1140.0
 offset_bottom = 31.0
 script = ExtResource("7")
 
 [node name="ProjectButton" type="MenuButton" parent="MarginContainer/VBoxContainer/MenuBar"]
+layout_mode = 2
 offset_right = 62.0
 offset_bottom = 31.0
 text = "Project"
@@ -93,6 +96,7 @@ dialog_text = "Load project from a preconfigured GeoPackage"
 access = 2
 
 [node name="Split" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
 offset_top = 35.0
 offset_right = 1140.0
 offset_bottom = 641.0
@@ -101,62 +105,57 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Left" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Split"]
+layout_mode = 2
 offset_right = 30.0
 offset_bottom = 606.0
 
 [node name="Left" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Split/Left"]
+layout_mode = 2
 offset_right = 12.0
 offset_bottom = 606.0
 script = ExtResource("8")
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Left/Left"]
+layout_mode = 2
 offset_right = 12.0
-offset_bottom = 55.0
+offset_bottom = 10.0
 drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
-[node name="Tools" parent="MarginContainer/VBoxContainer/Split/Left/Left/Top" instance=ExtResource("1")]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 5.0
-offset_top = 36.0
-offset_right = -5.0
-offset_bottom = -5.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 0
-focus_mode = 2
-
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Left/Left"]
-offset_top = 63.0
+layout_mode = 2
+offset_top = 18.0
 offset_right = 12.0
 offset_bottom = 606.0
 drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="VRMenu" parent="MarginContainer/VBoxContainer/Split/Left/Left/Bot" instance=ExtResource("3")]
+layout_mode = 2
 anchors_preset = 15
 offset_left = 5.0
-offset_top = 36.0
+offset_top = 38.0
 offset_right = -5.0
 offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Right" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Split/Left"]
+layout_mode = 2
 offset_left = 20.0
 offset_right = 30.0
 offset_bottom = 606.0
 script = ExtResource("8")
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Left/Right"]
+layout_mode = 2
 offset_right = 10.0
 offset_bottom = 10.0
 drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Left/Right"]
+layout_mode = 2
 offset_top = 18.0
 offset_right = 10.0
 offset_bottom = 606.0
@@ -164,6 +163,7 @@ drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Split"]
+layout_mode = 2
 offset_left = 38.0
 offset_right = 1140.0
 offset_bottom = 606.0
@@ -171,23 +171,27 @@ split_offset = 839
 script = SubResource("1")
 
 [node name="Mid" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Split/Right"]
+layout_mode = 2
 offset_right = 1020.0
 offset_bottom = 606.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid"]
+layout_mode = 2
 offset_right = 1020.0
 offset_bottom = 522.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="LayerManagement" type="MarginContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer"]
+layout_mode = 2
 offset_right = 1020.0
 script = ExtResource("16")
 layer_ui_path = NodePath("../../../Right/Right/Bot/LayerUI")
 pos_manager_path = NodePath("../WorldViewPort/SubViewport/World/PositionManager")
 
 [node name="WorldViewPort" type="SubViewportContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer"]
+layout_mode = 2
 offset_top = 4.0
 offset_right = 1020.0
 offset_bottom = 522.0
@@ -199,6 +203,7 @@ script = ExtResource("11")
 
 [node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort" instance=ExtResource("9")]
 clip_contents = true
+layout_mode = 2
 anchors_preset = -1
 anchor_left = 0.98
 anchor_top = 0.015
@@ -214,6 +219,7 @@ size_flags_horizontal = 10
 size_flags_vertical = 10
 
 [node name="FullscreenButton" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort" instance=ExtResource("13")]
+layout_mode = 2
 anchors_preset = 15
 offset_right = -1376.0
 offset_bottom = -990.0
@@ -228,6 +234,7 @@ focused_color = Color(0, 0, 0, 1)
 texture_name = ""
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort"]
+layout_mode = 2
 anchors_preset = -1
 anchor_left = 0.01
 anchor_top = 0.94
@@ -248,6 +255,7 @@ render_target_update_mode = 4
 [node name="World" parent="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/SubViewport" instance=ExtResource("15_xvbyv")]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Mid"]
+layout_mode = 2
 offset_top = 530.0
 offset_right = 1020.0
 offset_bottom = 606.0
@@ -258,6 +266,7 @@ mouse_filter = 0
 
 [node name="DebugInfo" parent="MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer" instance=ExtResource("14")]
 visible = false
+layout_mode = 2
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 1286.0
@@ -266,28 +275,33 @@ size_flags_horizontal = 3
 layer_renderers_path = NodePath("../../VBoxContainer/WorldViewPort/SubViewport/World/Terrain/LayerRenderers")
 
 [node name="GameUI" parent="MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer" instance=ExtResource("18")]
+layout_mode = 2
 offset_right = 1020.0
 offset_bottom = 76.0
 viewport_path = NodePath("../../VBoxContainer/WorldViewPort/SubViewport")
 position_manager_path = NodePath("../../VBoxContainer/WorldViewPort/SubViewport/World/PositionManager")
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Split/Right"]
+layout_mode = 2
 offset_left = 1028.0
 offset_right = 1102.0
 offset_bottom = 606.0
 
 [node name="Left" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right"]
+layout_mode = 2
 offset_right = 10.0
 offset_bottom = 606.0
 script = ExtResource("8")
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Left"]
+layout_mode = 2
 offset_right = 10.0
 offset_bottom = 10.0
 drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Left"]
+layout_mode = 2
 offset_top = 18.0
 offset_right = 10.0
 offset_bottom = 606.0
@@ -295,6 +309,7 @@ drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="Right" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right"]
+layout_mode = 2
 offset_left = 18.0
 offset_right = 74.0
 offset_bottom = 606.0
@@ -303,17 +318,19 @@ size_flags_vertical = 3
 script = ExtResource("8")
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right"]
+layout_mode = 2
 offset_right = 56.0
 offset_bottom = 43.0
 drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top"]
+layout_mode = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 5.0
-offset_top = 36.0
+offset_top = 38.0
 offset_right = -5.0
 offset_bottom = -5.0
 grow_horizontal = 2
@@ -328,6 +345,7 @@ dialog_autowrap = true
 
 [node name="MinimapViewport" type="SubViewportContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top"]
 visible = false
+layout_mode = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -358,16 +376,19 @@ near = 0.01
 far = 10000.0
 
 [node name="ZoomContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport"]
+layout_mode = 2
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="ZoomOut" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport/ZoomContainer" instance=ExtResource("21")]
+layout_mode = 2
 offset_right = 40.0
 offset_bottom = 40.0
 icon = ExtResource("22")
 texture_name = ""
 
 [node name="ZoomIn" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Top/MinimapViewport/ZoomContainer" instance=ExtResource("21")]
+layout_mode = 2
 offset_left = 44.0
 offset_right = 84.0
 offset_bottom = 40.0
@@ -375,6 +396,7 @@ icon = ExtResource("23")
 texture_name = ""
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right"]
+layout_mode = 2
 offset_top = 51.0
 offset_right = 56.0
 offset_bottom = 606.0
@@ -383,11 +405,12 @@ drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="LayerUI" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot" instance=ExtResource("10")]
+layout_mode = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 5.0
-offset_top = 36.0
+offset_top = 38.0
 offset_right = -5.0
 offset_bottom = -5.0
 grow_horizontal = 2
@@ -400,36 +423,43 @@ focus_mode = 2
 position_manager_path = NodePath("../../../../../Mid/VBoxContainer/WorldViewPort/SubViewport/World/PositionManager")
 
 [node name="VBoxContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI" index="1"]
+layout_mode = 2
 offset_left = 6.0
 offset_top = 4.0
 offset_right = 50.0
 offset_bottom = 508.0
 
 [node name="ScrollLayers" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer" index="0"]
+layout_mode = 2
 offset_right = 44.0
 offset_bottom = 492.0
 
 [node name="LayerContainer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer/ScrollLayers" index="0"]
+layout_mode = 2
 offset_right = 44.0
 offset_bottom = 0.0
 
 [node name="Menu" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer" index="1"]
+layout_mode = 2
 offset_top = 496.0
 offset_right = 44.0
 offset_bottom = 504.0
 
 [node name="NewLayer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer/Menu" index="0"]
+layout_mode = 2
 offset_right = 12.0
 offset_bottom = 8.0
 texture_name = ""
 
 [node name="DeleteLayer" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer/Menu" index="1"]
+layout_mode = 2
 offset_left = 16.0
 offset_right = 28.0
 offset_bottom = 8.0
 texture_name = ""
 
 [node name="Filter" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI/VBoxContainer/Menu" index="2"]
+layout_mode = 2
 offset_left = 32.0
 offset_right = 44.0
 offset_bottom = 8.0
@@ -437,6 +467,7 @@ texture_name = ""
 
 [node name="GeoLayerUI" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot" instance=ExtResource("15")]
 visible = false
+layout_mode = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -449,6 +480,7 @@ grow_vertical = 2
 
 [node name="Scenarios" parent="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot" instance=ExtResource("20")]
 visible = false
+layout_mode = 2
 anchors_preset = 15
 offset_left = 0.0
 offset_top = 0.0
@@ -457,4 +489,5 @@ offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[editable path="MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer/WorldViewPort/SubViewport/World"]
 [editable path="MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot/LayerUI"]

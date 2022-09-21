@@ -5,31 +5,46 @@ class_name StackedProgressBar
 
 @export var bar_count := 1 :
 	get:
-		return bar_count # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_bar_count
+		return bar_count
+	set(count):
+		set_bar_count(count)
+
 @export var min_value := 0.0 :
 	get:
-		return min_value # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_min_value
+		return min_value
+	set(val): 
+		min_value = val
+		for bar in progress_bars:
+			bar.min_value = min_value
+
 @export var max_value := 100.0 :
 	get:
-		return max_value # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_max_value
+		return max_value
+	set(val): 
+		max_value = val
+		for bar in progress_bars:
+			bar.max_value = max_value
+
 @export var step := 0.01 :
 	get:
-		return step # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_step
+		return step 
+	set(st):
+		step = st
+		for bar in get_children():
+			bar.step = step
 
 var progress_bars: Array
+
 var progress_bar_values := [] :
 	get:
-		return progress_bar_values # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_progress_bar_values
+		return progress_bar_values
+	set(vals):
+		progress_bar_values = vals
+		# For quick access from outside
+		summed_value = 0
+		for val in vals: summed_value += val
+		
+		_update_progress_bars()
 
 var summed_value: float
 
@@ -60,33 +75,6 @@ func set_progress_bar_color_at_index(index: int, color: Color):
 func get_progress_bar_color_at_index(index: int):
 	if "bg_color" in progress_bars[index].get_stylebox("fg"):
 		return progress_bars[index].get_stylebox("fg").bg_color
-
-
-func set_progress_bar_values(vals):
-	progress_bar_values = vals
-	# For quick access from outside
-	summed_value = 0
-	for val in vals: summed_value += val
-	
-	_update_progress_bars()
-
-
-func set_step(st: float):
-	step = st
-	for bar in get_children():
-		bar.step = step
-
-
-func set_min_value(val: float): 
-	min_value = val
-	for bar in progress_bars:
-		bar.min_value = min_value
-
-
-func set_max_value(val: float): 
-	max_value = val
-	for bar in progress_bars:
-		bar.max_value = max_value
 
 
 func set_bar_count(count: int):
@@ -191,10 +179,10 @@ func _ready():
 
 
 func _update():
-	set_bar_count(bar_count)
-	set_min_value(min_value)
-	set_max_value(max_value)
-	set_step(step)
+	self.bar_count = bar_count
+	self.min_value = min_value
+	self.max_value = max_value
+	self.step = step
 
 
 func child_entered_tree(node: Node):

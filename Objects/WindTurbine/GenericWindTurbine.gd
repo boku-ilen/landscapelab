@@ -12,9 +12,12 @@ extends Node3D
 # Rotation of wind in degrees
 @export var wind_direction: float = 0 :
 	get:
-		return wind_direction # TODOConverter40 Copy here content of get_wind_direction
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_wind_direction 
+		return wind_direction
+	set(dir):
+		wind_direction = dir
+		
+		if is_inside_tree():
+			update_rotation()
 
 @export var mesh_hub_height := 135
 @export var mesh_rotor_diameter := 100
@@ -27,27 +30,25 @@ extends Node3D
 
 var weather_manager: WeatherManager :
 	get:
-		return weather_manager # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_weather_manager
+		return weather_manager
+	set(new_weather_manager):
+		# FIXME: Seems like there's a condition where this is called once with a null
+		# weather manager. Not necessarily a problem since it's called again correctly
+		# later, but feels like it shouldn't be necessary.
+		if not new_weather_manager:
+			return
+		
+		weather_manager = new_weather_manager
+		
+		_apply_new_wind_speed(weather_manager.wind_speed)
+		weather_manager.connect("wind_speed_changed",Callable(self,"_apply_new_wind_speed"))
+		
+		_apply_new_wind_direction(weather_manager.wind_direction)
+		weather_manager.connect("wind_direction_changed",Callable(self,"_apply_new_wind_direction"))
+
+
 var feature
 var render_info
-
-
-func set_weather_manager(new_weather_manager):
-	# FIXME: Seems like there's a condition where this is called once with a null
-	# weather manager. Not necessarily a problem since it's called again correctly
-	# later, but feels like it shouldn't be necessary.
-	if not new_weather_manager:
-		return
-	
-	weather_manager = new_weather_manager
-	
-	_apply_new_wind_speed(weather_manager.wind_speed)
-	weather_manager.connect("wind_speed_changed",Callable(self,"_apply_new_wind_speed"))
-	
-	_apply_new_wind_direction(weather_manager.wind_direction)
-	weather_manager.connect("wind_direction_changed",Callable(self,"_apply_new_wind_direction"))
 
 
 func _apply_new_wind_speed(wind_speed):
@@ -55,14 +56,14 @@ func _apply_new_wind_speed(wind_speed):
 
 
 func _apply_new_wind_direction(wind_direction):
-	set_wind_direction(-wind_direction)
+	self.wind_direction = -wind_direction
 
 
 func _ready():
 	# Orient the windmill according to the scenario's wind direction
 	# This assumes that a wind direction of 90° means that the wind is blowing from west to east.
 	# FIXME: Should be set from the outside (e.g. using another layer)
-	set_wind_direction(315.0)
+	self.wind_direction = 315.0
 	
 	# If is_inside_tree() in set_wind_direction() returned false, we need to catch up checked
 	#  setting the wind direction now.
@@ -78,31 +79,16 @@ func _ready():
 		var height_attribute_name = render_info.height_attribute_name
 		var diameter_attribute_name = render_info.diameter_attribute_name
 		
-		var height = max(float(feature.get_attribute(height_attribute_name)), min_hub_height)
-		var diameter = max(float(feature.get_attribute(diameter_attribute_name)), min_rotor_diameter)
+		var height = max(str_to_var(feature.get_attribute(height_attribute_name)), min_hub_height)
+		var diameter = max(str_to_var(feature.get_attribute(diameter_attribute_name)), min_rotor_diameter)
 		
 		set_hub_height(height)
 		set_rotor_diameter(diameter)
 
 
-# Saves the specified wind direction and updates the model's rotation
-# Called whenever the exported wind_direction is changed
-func set_wind_direction(dir):
-	wind_direction = dir
-	
-	if is_inside_tree():
-		update_rotation()
-
-
-# Returns the current wind direction which this windmill has saved
-func get_wind_direction():
-	return wind_direction
-
-
 # Correctly orients the model depending checked the public wind_direction - automatically called when the wind direction is changed
 func update_rotation():
-	var direction = get_wind_direction()
-	rotation.y = direction
+	rotation.y = wind_direction
 
 
 # Updates the rotation of the rotor to make them rotate with the exported speed variable

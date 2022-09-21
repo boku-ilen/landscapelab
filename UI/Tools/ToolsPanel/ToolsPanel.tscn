@@ -24,7 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://r04ni1kmbdmh" path="res://Resources/Icons/ModernLandscapeLab/energy.svg" id="23"]
 [ext_resource type="PackedScene" path="res://UI/Weather/WeatherUI.tscn" id="24"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fnr4d"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qm1og"]
 resource_local_to_scene = true
 shader = ExtResource("9")
 shader_parameter/color = Vector3(0, 0, 0)
@@ -44,14 +44,12 @@ alignment = 1
 script = ExtResource("11")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-layout_mode = 2
 offset_right = 8.0
 offset_bottom = 432.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 
 [node name="ToolsBar" type="VBoxContainer" parent="ScrollContainer"]
-layout_mode = 2
 offset_right = 8.0
 offset_bottom = 104.0
 size_flags_horizontal = 8
@@ -59,7 +57,6 @@ size_flags_vertical = 0
 
 [node name="Viewshed" parent="ScrollContainer/ToolsBar" instance=ExtResource("7")]
 material = null
-layout_mode = 2
 offset_right = 8.0
 offset_bottom = 8.0
 icon = ExtResource("5")
@@ -68,7 +65,6 @@ texture_name = ""
 
 [node name="Teleport" parent="ScrollContainer/ToolsBar" instance=ExtResource("7")]
 material = null
-layout_mode = 2
 offset_top = 12.0
 offset_right = 8.0
 offset_bottom = 20.0
@@ -77,7 +73,6 @@ script = ExtResource("10")
 texture_name = ""
 
 [node name="TeleportMenu" parent="ScrollContainer/ToolsBar/Teleport" instance=ExtResource("18")]
-layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.062
 anchor_right = 16.3
@@ -87,7 +82,6 @@ offset_bottom = 0.0
 
 [node name="Season" parent="ScrollContainer/ToolsBar" instance=ExtResource("7")]
 material = null
-layout_mode = 2
 offset_top = 24.0
 offset_right = 8.0
 offset_bottom = 32.0
@@ -95,12 +89,10 @@ icon = ExtResource("4")
 texture_name = ""
 
 [node name="Datetime" parent="ScrollContainer/ToolsBar/Season" instance=ExtResource("17")]
-layout_mode = 0
 offset_right = 750.0
 
 [node name="Weather" parent="ScrollContainer/ToolsBar" instance=ExtResource("7")]
 material = null
-layout_mode = 2
 offset_top = 36.0
 offset_right = 8.0
 offset_bottom = 44.0
@@ -109,11 +101,9 @@ texture_name = ""
 
 [node name="WeatherUI" parent="ScrollContainer/ToolsBar/Weather" instance=ExtResource("24")]
 visible = false
-layout_mode = 0
 
 [node name="Tracking" parent="ScrollContainer/ToolsBar" instance=ExtResource("7")]
 material = null
-layout_mode = 2
 offset_top = 48.0
 offset_right = 8.0
 offset_bottom = 56.0
@@ -123,11 +113,9 @@ texture_name = "footprint"
 
 [node name="Record" parent="ScrollContainer/ToolsBar/Tracking" instance=ExtResource("6")]
 visible = false
-layout_mode = 1
 
 [node name="Imaging" parent="ScrollContainer/ToolsBar" instance=ExtResource("7")]
 material = null
-layout_mode = 2
 offset_top = 60.0
 offset_right = 8.0
 offset_bottom = 68.0
@@ -137,11 +125,9 @@ texture_name = "record"
 
 [node name="ImagingMenu" parent="ScrollContainer/ToolsBar/Imaging" instance=ExtResource("19")]
 visible = false
-layout_mode = 0
 
 [node name="Style" parent="ScrollContainer/ToolsBar" instance=ExtResource("7")]
 material = null
-layout_mode = 2
 offset_top = 72.0
 offset_right = 8.0
 offset_bottom = 80.0
@@ -150,11 +136,9 @@ texture_name = ""
 
 [node name="RenderingStyleMenu" parent="ScrollContainer/ToolsBar/Style" instance=ExtResource("22")]
 visible = false
-layout_mode = 0
 
 [node name="GeoJPEG" parent="ScrollContainer/ToolsBar" instance=ExtResource("7")]
 material = null
-layout_mode = 2
 offset_top = 84.0
 offset_right = 8.0
 offset_bottom = 92.0
@@ -163,15 +147,13 @@ texture_name = ""
 
 [node name="GeoJPEGMenu" parent="ScrollContainer/ToolsBar/GeoJPEG" instance=ExtResource("3")]
 visible = false
-layout_mode = 0
 offset_left = 0.0
 offset_top = 0.0
 offset_right = 350.0
 offset_bottom = 100.0
 
 [node name="Camera3D" parent="ScrollContainer/ToolsBar" instance=ExtResource("7")]
-material = SubResource("ShaderMaterial_fnr4d")
-layout_mode = 2
+material = SubResource("ShaderMaterial_qm1og")
 offset_top = 96.0
 offset_right = 8.0
 offset_bottom = 104.0
@@ -180,7 +162,6 @@ texture_name = ""
 
 [node name="ScreenshotMenu" parent="ScrollContainer/ToolsBar/Camera3D" instance=ExtResource("12")]
 visible = false
-layout_mode = 1
 anchors_preset = 15
 offset_right = 434.0
 offset_bottom = 361.0

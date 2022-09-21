@@ -4,9 +4,12 @@ extends "res://UI/Tools/ToolsButton.gd"
 
 var pc_player: AbstractPlayer :
 	get:
-		return pc_player # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_player
+		return pc_player 
+	set(player):
+		pc_player = player
+		teleport_action = TeleportAction.new(pc_player.action_handler.cursor, pc_player, false)
+
+
 var pos_manager
 var teleport_action
 
@@ -28,11 +31,6 @@ func _ready():
 	
 	if has_node("Window/PoI/VBoxContainer/ItemList"):
 		$Window/PoI/VBoxContainer/ItemList.connect("item_activated",Callable(self,"_on_poi_activated"))
-
-
-func set_player(player):
-	pc_player = player
-	teleport_action = TeleportAction.new(pc_player.action_handler.cursor, pc_player, false)
 
 
 func _on_toggle(toggled: bool):

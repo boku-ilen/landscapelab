@@ -85,9 +85,9 @@ class DragableObject extends Dragable:
 
 var current_dragable: Dragable :
 	get:
-		return current_dragable # TODOConverter40 Non existent get function 
+		return current_dragable
 	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_current_dragable
+		set_current_dragable(mod_value)
 
 
 func set_current_dragable(dragable):

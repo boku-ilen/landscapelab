@@ -8,16 +8,31 @@ extends GPUParticles3D
 # Density class of this plant renderer -- influences the density of the rendered particles.
 var density_class: DensityClass :
 	get:
-		return density_class # TODOConverter40 Copy here content of get_density_class
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_density_class
+		return density_class
+	set(new_density_class):
+		density_class = new_density_class
+		
+		update_rows_spacing(Vegetation.plant_extent_factor)
 
 @export var offset: Vector2 = Vector2.ZERO
 @export var camera_facing_enabled := false :
 	get:
-		return camera_facing_enabled # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_camera_facing_enabled
+		return camera_facing_enabled
+	set(is_enabled):
+		camera_facing_enabled = is_enabled
+		# A density class is required for sensible setting of billboard mode
+		if not density_class: return
+		if is_enabled:
+			# Render solitary plants as camera-facing billboards, clusters as static meshes
+			if density_class.image_type == "Solitary":
+				set_mesh(load("res://Resources/Meshes/VegetationBillboard/1m_billboard_camerafacing.obj"))
+				set_camera_facing(true)
+			else:
+				set_mesh(load("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
+				set_camera_facing(false)
+		else:
+			set_mesh(load("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
+			set_camera_facing(false)
 
 var current_offset_from_shifting = Vector2.ZERO
 var time_passed = 0
@@ -31,25 +46,8 @@ var heightmap
 var splatmap
 
 
-func set_camera_facing_enabled(is_enabled: bool):
-	camera_facing_enabled = is_enabled
-	# A density class is required for sensible setting of billboard mode
-	if not density_class: return
-	if is_enabled:
-		# Render solitary plants as camera-facing billboards, clusters as static meshes
-		if density_class.image_type == "Solitary":
-			set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard_camerafacing.obj"))
-			set_camera_facing(true)
-		else:
-			set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
-			set_camera_facing(false)
-	else:
-		set_mesh(preload("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
-		set_camera_facing(false)
-
-
 func _ready():
-	set_camera_facing_enabled(camera_facing_enabled)
+	self.camera_facing_enabled = camera_facing_enabled
 	Vegetation.connect("new_plant_extent_factor",Callable(self,"update_rows_spacing"))
 
 
@@ -64,17 +62,6 @@ func update_rows_spacing(extent_factor):
 	set_spacing(spacing)
 	
 	update_aabb()
-
-
-# Update the density class variable and apply the resulting rows and spacing.
-func set_density_class(new_density_class):
-	density_class = new_density_class
-	
-	update_rows_spacing(Vegetation.plant_extent_factor)
-
-
-func get_density_class():
-	return density_class
 
 
 func set_mesh(new_mesh):

@@ -146,7 +146,7 @@ func apply_textures():
 		material_override.set_shader_parameter("normalmap", current_normalmap)
 		
 		# Create a float array for the heightmap collider to use as a heightmap
-		var heightmap_image = current_heightmap.get_data()
+		var heightmap_image = current_heightmap.get_image()
 		heightmap_image.convert(Image.FORMAT_RF)
 		$HeightmapCollider/CollisionShape3D.shape = HeightMapShape3D.new()
 		$HeightmapCollider/CollisionShape3D.shape.map_width = heightmap_image.get_width()
@@ -156,13 +156,11 @@ func apply_textures():
 		# Because the format matches, this is straightforward
 		var float_array = PackedFloat32Array()
 		float_array.resize(heightmap_image.get_width() * heightmap_image.get_height())
-		false # heightmap_image.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 		var i = 0
 		for y in heightmap_image.get_height():
 			for x in heightmap_image.get_width():
 				float_array[i] = heightmap_image.get_pixel(x, y).r
 				i += 1
-		false # heightmap_image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 		$HeightmapCollider/CollisionShape3D.shape.map_data = float_array
 		
 		for child in get_children():

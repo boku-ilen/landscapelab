@@ -10,18 +10,12 @@ var is_loading
 
 var weather_manager: WeatherManager :
 	get:
-		return weather_manager # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_weather_manager
+		return weather_manager 
+	set(new_weather_manager):
+		weather_manager = new_weather_manager
 
 
-func set_weather_manager(new_weather_manager):
-	weather_manager = new_weather_manager
-
-
-func set_time_manager(manager: TimeManager):
-	super.set_time_manager(manager)
-	
+func set_time_manager():
 	for child in get_children():
 		if "time_manager" in child:
 			child.set("time_manager", time_manager)

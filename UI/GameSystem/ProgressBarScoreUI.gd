@@ -3,9 +3,9 @@ extends "res://UI/GameSystem/AbstractScoreUI.gd"
 
 var score: GameScore :
 	get:
-		return score # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_score
+		return score 
+	set(val):
+		set_score(val)
 
 
 func set_score(new_score):

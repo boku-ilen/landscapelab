@@ -14,9 +14,10 @@ var icon_folder = Settings.get_setting("gui", "icon_folder", "ModernLandscapeLab
 
 @export var texture_name: String :
 	get:
-		return texture_name # TODOConverter40 Copy here content of get_texture_name
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_texture_name
+		return texture_name
+	set(new_name):
+		texture_name = new_name
+		_update_texture()
 
 
 func _enter_tree() -> void:
@@ -39,12 +40,3 @@ func _update_texture():
 		elif "icon" in self:
 			self.expand_icon = true
 			self.icon = load(full_path)
-
-
-func set_texture_name(new_name: String):
-	texture_name = new_name
-	_update_texture()
-
-
-func get_texture_name():
-	return texture_name

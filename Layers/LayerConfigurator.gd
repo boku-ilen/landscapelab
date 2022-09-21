@@ -2,9 +2,11 @@ extends Configurator
 
 var center := Vector3.ZERO :
 	get:
-		return center # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_center
+		return center
+	set(c):
+		center = c
+		emit_signal("center_changed", center.x, center.z)
+
 var geopackage
 var external_layers = preload("res://Layers/ExternalLayer.gd").new()
 
@@ -12,11 +14,6 @@ const LOG_MODULE := "LAYERCONFIGURATION"
 
 signal geodata_invalid
 signal center_changed(x, y)
-
-
-func set_center(c: Vector3):
-	center = c
-	emit_signal("center_changed", center.x, center.z)
 
 
 func _ready():
@@ -414,7 +411,7 @@ func digest_gpkg(geopackage_path: String):
 	db.close_db()
 	logger.info("Closing geopackage as DB ...", LOG_MODULE)
 	
-	set_center(get_avg_center())
+	self.center = get_avg_center()
  
 
 # Load all used geo-layers as defined by configuration

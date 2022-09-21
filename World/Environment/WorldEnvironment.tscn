@@ -1,16 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://cejf5c8oyb02b"]
+[gd_scene load_steps=8 format=3 uid="uid://cejf5c8oyb02b"]
 
 [ext_resource type="Script" path="res://World/Environment/WorldEnvironment.gd" id="1"]
 [ext_resource type="PackedScene" path="res://Python/PythonWrapper.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://World/Environment/RainParticles.tscn" id="8"]
 [ext_resource type="PackedScene" path="res://World/Environment/RainSplashes.tscn" id="9"]
 
-[sub_resource type="Sky" id="1"]
-resource_local_to_scene = true
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_ylech"]
+
+[sub_resource type="Sky" id="Sky_gjwmw"]
+sky_material = SubResource("PhysicalSkyMaterial_ylech")
 
 [sub_resource type="Environment" id="2"]
 background_mode = 2
-sky = SubResource("1")
+sky = SubResource("Sky_gjwmw")
 ambient_light_color = Color(0.168627, 0.168627, 0.168627, 1)
 ambient_light_sky_contribution = 0.3
 ambient_light_energy = 3.0
@@ -18,7 +20,6 @@ tonemap_white = 6.0
 glow_enabled = true
 glow_intensity = 1.2
 glow_bloom = 0.1
-fog_enabled = true
 adjustment_enabled = true
 adjustment_saturation = 1.2
 
@@ -41,5 +42,7 @@ scene_to_load = "res://Python/PysolarInterface.tscn"
 
 [node name="RainParticles" parent="." instance=ExtResource("8")]
 emitting = false
+wind_force_north = 0.0
+wind_force_east = 0.0
 
 [node name="RainSplashes" parent="." instance=ExtResource("9")]

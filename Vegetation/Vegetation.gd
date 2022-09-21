@@ -24,9 +24,11 @@ var fade_textures = {}
 # TODO: Consider moving to settings
 var plant_extent_factor = 4.5 :
 	get:
-		return plant_extent_factor # TODOConverter40 Copy here content of get_plant_extent_factor
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_plant_extent_factor
+		return plant_extent_factor
+	set(extent):
+		plant_extent_factor = extent
+		emit_signal("new_plant_extent_factor", extent)
+
 var max_extent = 0.0
 signal new_plant_extent_factor(extent)
 
@@ -41,15 +43,6 @@ func _ready():
 		logger.error("Couldn't load vegetation from config since none was available!", LOG_MODULE)
 		# TODO: Display the UI for entering paths instead
 		return
-
-
-func set_plant_extent_factor(extent):
-	plant_extent_factor = extent
-	emit_signal("new_plant_extent_factor", extent)
-
-
-func get_plant_extent_factor():
-	return plant_extent_factor
 
 
 func load_data_from_gpkg(db) -> void:
@@ -244,7 +237,6 @@ func get_distribution_sheet(group_array):
 func get_id_row_map_texture(ids):
 	var id_row_map = Image.new()
 	id_row_map.create(256, 1, false, Image.FORMAT_R8)
-	false # id_row_map.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	# id_row_map.fill doesn't work here - if that is used, the set_pixel calls
 	#  later have no effect...
@@ -257,7 +249,6 @@ func get_id_row_map_texture(ids):
 		id_row_map.set_pixel(id, 0, Color(row / 255.0, 0.0, 0.0))
 		row += 1
 	
-	false # id_row_map.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	# Fill all parameters into the shader
 	var id_row_map_tex = ImageTexture.new()
@@ -275,7 +266,6 @@ func get_id_row_map_texture(ids):
 func get_metadata_map(ids):
 	var metadata = Image.new()
 	metadata.create(256, 1, false, Image.FORMAT_RGB8)
-	false # metadata.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	# .fill doesn't work here - if that is used, the set_pixel calls later have no effect...
 	for i in range(0, 256):
@@ -298,8 +288,6 @@ func get_metadata_map(ids):
 			
 			metadata.set_pixel(id, 0, Color(row_color, ground_texture_scale, fade_texture_scale))
 			row += 1
-	
-	false # metadata.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	# Fill all parameters into the shader
 	var metadata_tex = ImageTexture.new()
@@ -326,17 +314,11 @@ func get_billboard_texture(group_array):
 
 # Utility function for turning an ImageArray into a Texture2DArray.
 func _image_array_to_texture_array(images):
-	if not images or images.size() == 0:
+	if images == null or images.size() == 0:
 		return null
 	
 	var texture_array = Texture2DArray.new()
-	texture_array.create(images[0].get_width(), images[0].get_height(), images.size(), images[0].get_format(),
-			TextureLayered.FLAG_FILTER + TextureLayered.FLAG_MIPMAPS + TextureLayered.FLAG_REPEAT)
-	
-	var current_layer = 0
-	for image in images:
-		texture_array.set_layer_data(image, current_layer)
-		current_layer += 1
+	texture_array.create_from_images(images)
 	
 	return texture_array
 
@@ -352,8 +334,6 @@ func generate_distribution(group: PlantGroup, max_size: float):
 	
 	var dice = RandomNumberGenerator.new()
 	dice.randomize()
-	
-	false # distribution.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	for y in range(0, distribution_size):
 		for x in range(0, distribution_size):
@@ -382,8 +362,6 @@ func generate_distribution(group: PlantGroup, max_size: float):
 			var scale_factor = random_height / max_size
 			
 			distribution.set_pixel(x, y, Color(highest_roll_id / 255.0, scale_factor, 0.0, 0.0))
-	
-	false # distribution.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	return distribution
 

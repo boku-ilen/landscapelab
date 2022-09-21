@@ -3,13 +3,9 @@ extends VBoxContainer
 
 var current_object :
 	get:
-		return current_object # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_current_object
-
-
-func set_current_object(object):
-	current_object = object
+		return current_object 
+	set(object):
+		current_object = object
 
 
 func _ready():

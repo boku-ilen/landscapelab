@@ -2,9 +2,38 @@ extends Node3D
 
 @export var lines: int :
 	get:
-		return lines # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_lines
+		return lines
+	set(lines):
+		# Rows
+		for i in range(lines):
+			var line = ImmediateMesh.new()
+			line.material_override = material
+			line.position -= Vector3(lines / 2, 0, lines / 2)
+			line.clear()
+			line.begin(Mesh.PRIMITIVE_LINES)
+			line.add_vertex(Vector3(0, 0, i * grid_size))
+			line.add_vertex(Vector3(lines - 1, 0, i * grid_size))
+			line.end()
+			
+			var line_child = MeshInstance3D.new()
+			line_child.mesh = line
+			add_child(line_child)
+
+		# Columns
+		for i in range(lines):
+			var line = ImmediateMesh.new()
+			line.material_override = material
+			line.position -= Vector3(lines / 2, 0, lines / 2)
+			line.clear()
+			line.begin(Mesh.PRIMITIVE_LINES)
+			line.add_vertex(Vector3(i * grid_size, 0, 0))
+			line.add_vertex(Vector3(i * grid_size, 0, lines - 1))
+			line.end()
+			
+			var line_child = MeshInstance3D.new()
+			line_child.mesh = line
+			add_child(line_child)
+
 @export var grid_size: int = 1
 @export var show_cs: bool = true
 
@@ -42,34 +71,3 @@ func _ready():
 		line_z_child.mesh = line_z
 		add_child(line_z_child)
 
-
-func set_lines(lines: int):
-	# Rows
-	for i in range(lines):
-		var line = ImmediateMesh.new()
-		line.material_override = material
-		line.position -= Vector3(lines / 2, 0, lines / 2)
-		line.clear()
-		line.begin(Mesh.PRIMITIVE_LINES)
-		line.add_vertex(Vector3(0, 0, i * grid_size))
-		line.add_vertex(Vector3(lines - 1, 0, i * grid_size))
-		line.end()
-		
-		var line_child = MeshInstance3D.new()
-		line_child.mesh = line
-		add_child(line_child)
-
-	# Columns
-	for i in range(lines):
-		var line = ImmediateMesh.new()
-		line.material_override = material
-		line.position -= Vector3(lines / 2, 0, lines / 2)
-		line.clear()
-		line.begin(Mesh.PRIMITIVE_LINES)
-		line.add_vertex(Vector3(i * grid_size, 0, 0))
-		line.add_vertex(Vector3(i * grid_size, 0, lines - 1))
-		line.end()
-		
-		var line_child = MeshInstance3D.new()
-		line_child.mesh = line
-		add_child(line_child)

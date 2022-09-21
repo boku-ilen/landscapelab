@@ -4,15 +4,11 @@ extends Node3D
 
 var time_manager: TimeManager :
 	get:
-		return time_manager # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_time_manager
-
-
-func set_time_manager(new_time_manager):
-	time_manager = new_time_manager
-	time_manager.connect("datetime_changed",Callable(self,"_on_datetime_changed"))
-	_on_datetime_changed(time_manager.date_time)
+		return time_manager
+	set(new_time_manager):
+		time_manager = new_time_manager
+		time_manager.connect("datetime_changed",Callable(self,"_on_datetime_changed"))
+		_on_datetime_changed(time_manager.date_time)
 
 
 func _on_datetime_changed(time_day_year):

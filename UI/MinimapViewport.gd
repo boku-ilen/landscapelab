@@ -8,37 +8,30 @@ extends SubViewportContainer
 
 @onready var zoom_factor = 1000.0 :
 	get:
-		return zoom_factor # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_zoom
+		return zoom_factor 
+	set(zoom):
+		if zoom > min_zoom and zoom < max_zoom: 
+			zoom_factor = zoom
+			marker.scale = Vector3.ONE * zoom_factor * player_marker_scale
+			$SubViewport/Camera3D.size = zoom_factor
+
 @onready var marker = $SubViewport/PlayerMarker
+
 # to be injected from above
 var pc_player: AbstractPlayer :
 	get:
-		return pc_player # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_player
-
-
-func set_zoom(zoom: float):
-	if zoom > min_zoom and zoom < max_zoom: 
-		zoom_factor = zoom
-		marker.scale = Vector3.ONE * zoom_factor * player_marker_scale
-		$SubViewport/Camera3D.size = zoom_factor
-
-
-func set_player(p: AbstractPlayer):
-	pc_player = p
+		return pc_player
+	set(p):
+		pc_player = p
 
 
 func _ready():
 	$ZoomContainer/ZoomIn.connect("pressed",Callable(self,"zoom").bind(zoom_step))
 	$ZoomContainer/ZoomOut.connect("pressed",Callable(self,"zoom").bind(-zoom_step))
-	set_zoom(zoom_factor)
 
 
 func zoom(zoom: float):
-	set_zoom(zoom_factor + zoom)
+	self.zoom_factor = zoom_factor + zoom
 
 
 func _process(delta):

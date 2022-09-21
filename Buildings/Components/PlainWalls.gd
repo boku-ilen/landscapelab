@@ -56,55 +56,52 @@ func build(footprint: PackedVector2Array):
 		var distance_to_next_point = max(0.1, point_3d.distance_to(next_point_3d)) # to prevent division by 0
 		
 		if (wind_counterclockwise):
-			var tangent_plane = Plane(next_point_3d, point_up_3d, point_3d)
-			st.add_tangent(tangent_plane)
-			st.add_color(color)
+			st.set_color(color)
 			
 			# First triangle of the wall
-			st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
 			st.add_vertex(next_point_3d)
 			
-			st.add_uv(Vector2(0.0, height) / texture_scale)
+			st.set_uv(Vector2(0.0, height) / texture_scale)
 			st.add_vertex(point_up_3d)
 			
-			st.add_uv(Vector2(0.0, 0.0))
+			st.set_uv(Vector2(0.0, 0.0))
 			st.add_vertex(point_3d)
 			
 			# Second triangle of the wall
-			st.add_uv(Vector2(distance_to_next_point, height) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, height) / texture_scale)
 			st.add_vertex(next_point_up_3d)
 			
-			st.add_uv(Vector2(0.0, height) / texture_scale)
+			st.set_uv(Vector2(0.0, height) / texture_scale)
 			st.add_vertex(point_up_3d)
 			
-			st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
 			st.add_vertex(next_point_3d)
 		else:
-			var tangent_plane = Plane(point_3d, point_up_3d, next_point_3d)
-			st.add_tangent(tangent_plane)
 			st.add_color(color)
 			
 			# First triangle of the wall
-			st.add_uv(Vector2(0.0, 0.0))
+			st.set_uv(Vector2(0.0, 0.0))
 			st.add_vertex(point_3d)
 			
-			st.add_uv(Vector2(0.0, height) / texture_scale)
+			st.set_uv(Vector2(0.0, height) / texture_scale)
 			st.add_vertex(point_up_3d)
 			
-			st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
 			st.add_vertex(next_point_3d)
 			
 			# Second triangle of the wall
-			st.add_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
 			st.add_vertex(next_point_3d)
 			
-			st.add_uv(Vector2(0.0, height) / texture_scale)
+			st.set_uv(Vector2(0.0, height) / texture_scale)
 			st.add_vertex(point_up_3d)
 			
-			st.add_uv(Vector2(distance_to_next_point, height) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, height) / texture_scale)
 			st.add_vertex(next_point_up_3d)
 	
 	st.generate_normals()
+	st.generate_tangents()
 	
 	# Apply
 	var mesh = st.commit()

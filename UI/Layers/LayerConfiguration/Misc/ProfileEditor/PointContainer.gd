@@ -3,22 +3,15 @@ extends VBoxContainer
 
 var current_profile :
 	get:
-		return current_profile # TODOConverter40 Non existent get function 
+		return current_profile
 	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_current_profile
+		mod_value
+
 var current_point :
 	get:
-		return current_point # TODOConverter40 Non existent get function 
+		return current_point
 	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_current_point
-
-
-func set_current_profile(profile):
-	current_profile = profile
-
-
-func set_current_point(point):
-	current_point = point
+		mod_value
 
 
 func _ready():

@@ -9,9 +9,10 @@ class_name Layer
 var is_scored: bool = false
 var is_visible: bool = true :
 	get:
-		return is_visible # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_visible
+		return is_visible
+	set(visible):
+		is_visible = visible
+		emit_signal("visibility_changed", is_visible)
 
 var name: String = "Not set"
 
@@ -41,11 +42,6 @@ var ui_info = UIInfo.new()
 signal visibility_changed(visible)
 signal layer_changed
 signal refresh_view
-
-
-func set_visible(visible: bool):
-	is_visible = visible
-	emit_signal("visibility_changed", is_visible)
 
 
 func is_valid():

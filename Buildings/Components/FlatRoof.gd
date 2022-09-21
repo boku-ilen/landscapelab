@@ -31,11 +31,12 @@ func build(footprint: PackedVector2Array):
 	
 	for index in polygon_indices:
 		var vertex_2d = footprint[index]
-		st.add_color(color)
-		st.add_uv(vertex_2d * 0.1)
+		st.set_color(color)
+		st.set_uv(vertex_2d * 0.1)
 		st.add_vertex(Vector3(vertex_2d.x, 0, vertex_2d.y))
 	
 	st.generate_normals()
+	st.generate_tangents()
 	
 	# Apply
 	var mesh = st.commit()

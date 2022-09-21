@@ -82,7 +82,7 @@ func _handle_general_input(event):
 						and change + $Head/Camera3D.rotation.x > -PI/2:
 					$Head/Camera3D.rotate_x(deg_to_rad(change))
 			
-			get_tree().set_input_as_handled()
+#			get_tree().set_input_as_handled()
 			
 		if event.is_action_pressed("pc_move_up"):
 			directions.up = true
@@ -106,13 +106,13 @@ func _handle_general_input(event):
 func _handle_viewport_input(event):
 	# Zoom out/in
 	if event.is_action_pressed("zoom_out"): # Move down when scrolling up
-		get_tree().set_input_as_handled()
+#		get_tree().set_input_as_handled()
 		move_and_collide(Vector3.UP * -MOUSE_ZOOM_SPEED)
 		
 		# TODO: Instead of 0, use the ground height at this position
 		position.y = clamp(position.y, 0, MAX_DISTANCE_TO_GROUND)
 	elif event.is_action_pressed("zoom_in"): # Move up when scrolling down
-		get_tree().set_input_as_handled()
+#		get_tree().set_input_as_handled()
 		move_and_collide(Vector3.UP * MOUSE_ZOOM_SPEED)
 		
 		# TODO: Instead of 0, use the ground height at this position

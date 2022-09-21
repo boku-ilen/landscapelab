@@ -3,9 +3,11 @@ extends PopupMenu
 
 var layer: Layer :
 	get:
-		return layer # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_layer
+		return layer 
+	set(l):
+		layer = l 
+		
+		add_separator()
 
 @onready var color_menu = get_node("ColorMenu")
 @onready var object_menu = get_node("ObjectMenu")
@@ -26,12 +28,6 @@ var colors = {
 
 
 signal translate_to_layer
-
-
-func set_layer(l):
-	layer = l 
-	
-	add_separator()
 
 
 func _ready():

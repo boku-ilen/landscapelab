@@ -13,21 +13,19 @@ var cur_splash_ind = 0
  
 var center_node: Node3D :
 	get:
-		return center_node # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_center_node
+		return center_node
+	set(node):
+		if center_node:
+			center_node.get_node("RainRemoteTransform2").queue_free()
+		center_node = node
+		var rt = RemoteTransform3D.new()
+		rt.name = "RainRemoteTransform2"
+		rt.remote_path = get_path()
+		rt.update_rotation = false
+		rt.update_scale = false
+		rt.update_position = true
+		node.add_child(rt)
 
-func set_center_node(node: Node3D):
-	if center_node:
-		center_node.get_node("RainRemoteTransform2").queue_free()
-	center_node = node
-	var rt = RemoteTransform3D.new()
-	rt.name = "RainRemoteTransform2"
-	rt.remote_path = get_path()
-	rt.update_rotation = false
-	rt.update_scale = false
-	rt.update_position = true
-	node.add_child(rt)
 
 func _ready():
 	for i in range(splash_pool_size):

@@ -73,21 +73,20 @@ func build(footprint: PackedVector2Array):
 		var point2 = Vector3(next_2d.x, 0, next_2d.y)
 		var point3 = Vector3(center.x, roof_height, center.y)
 		
-		var tangent_plane = Plane(point1, point2, point3)
-		st.add_tangent(tangent_plane)
-		st.add_color(color)
+		st.set_color(color)
 		
-		st.add_uv(Vector2(0, 0))
+		st.set_uv(Vector2(0, 0))
 		st.add_vertex(point1)
 		
-		st.add_uv(Vector2(1, 0))
+		st.set_uv(Vector2(1, 0))
 		st.add_vertex(point2)
 		
-		st.add_uv(Vector2(0.5, 1))
+		st.set_uv(Vector2(0.5, 1))
 		st.add_vertex(point3)
 		# TODO: Set UV variables
 	
 	st.generate_normals()
+	st.generate_tangents()
 	
 	# Apply
 	var mesh = st.commit()

@@ -4,14 +4,14 @@ class_name SlideAndSpin
 
 @export var label := "" :
 	get:
-		return label # TODOConverter40 Non existent get function 
+		return label
 	set(text):
 		label = text
 		$Label.text = text
 
 @export var min_value := 0.0 :
 	get:
-		return min_value # TODOConverter40 Non existent get function 
+		return min_value
 	set(val):
 		min_value = val
 		$SpinBox.min_value = val
@@ -19,7 +19,7 @@ class_name SlideAndSpin
 
 @export var max_value := 100.0 :
 	get:
-		return max_value # TODOConverter40 Non existent get function 
+		return max_value
 	set(val):
 		max_value = val
 		$SpinBox.max_value = val
@@ -27,7 +27,7 @@ class_name SlideAndSpin
 
 @export var step := 1.0 :
 	get:
-		return step # TODOConverter40 Non existent get function 
+		return step
 	set(val):
 		step = val
 		$SpinBox.step = val
@@ -35,7 +35,7 @@ class_name SlideAndSpin
 
 @export var value := 50.0 :
 	get:
-		return value # TODOConverter40 Non existent get function 
+		return value 
 	set(val):
 		value = val
 		$SpinBox.value = val

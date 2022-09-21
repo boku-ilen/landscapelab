@@ -11,9 +11,7 @@ func update_visualization(group_id):
 	var splat_image = Image.new()
 	
 	splat_image.create(1, 1, false, Image.FORMAT_R8)
-	false # splat_image.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	splat_image.set_pixel(0, 0, Color(group_id / 255.0, 0, 0))
-	false # splat_image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	var splat_texture = ImageTexture.new()
 	splat_texture.create_from_image(splat_image)

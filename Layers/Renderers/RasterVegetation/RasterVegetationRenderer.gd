@@ -5,21 +5,17 @@ var renderers
 
 var weather_manager: WeatherManager :
 	get:
-		return weather_manager # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_weather_manager
+		return weather_manager
+	set(new_weather_manager):
+		weather_manager = new_weather_manager
+
+		weather_manager.connect("wind_speed_changed",Callable(self,"_on_wind_speed_changed"))
+		_on_wind_speed_changed(weather_manager.wind_speed)
 
 
 func _ready():
 	renderers = Vegetation.get_renderers()
 	add_child(renderers)
-
-
-func set_weather_manager(new_weather_manager):
-	weather_manager = new_weather_manager
-
-	weather_manager.connect("wind_speed_changed",Callable(self,"_on_wind_speed_changed"))
-	_on_wind_speed_changed(weather_manager.wind_speed)
 
 
 func _on_wind_speed_changed(new_wind_speed):

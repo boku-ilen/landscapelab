@@ -3,9 +3,10 @@ extends HBoxContainer
 
 var score: GameScore :
 	get:
-		return score # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_score
+		return score
+	set(new_score):
+		set_score(new_score)
+
 var stacked_bar: StackedProgressBar
 
 

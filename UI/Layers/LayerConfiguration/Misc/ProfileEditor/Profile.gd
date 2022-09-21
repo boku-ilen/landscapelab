@@ -6,15 +6,11 @@ var profile_polygon: Array
 
 var color :
 	get:
-		return color # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_color
-
-
-func set_color(color):
-	color = color
-	for point in profile_polygon:
-		point.line_to_next.material_override.albedo_color = color
+		return color
+	set(color):
+		color = color
+		for point in profile_polygon:
+			point.line_to_next.material_override.albedo_color = color
 
 
 func _ready():

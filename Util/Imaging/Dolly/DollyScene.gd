@@ -6,15 +6,12 @@ extends Node3D
 
 var dolly_cam: Camera3D :
 	get:
-		return dolly_cam # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_cam
+		return dolly_cam
+	set(cam):
+		dolly_cam = cam
+		dolly_cam.path_follow = $DollyRail/PathFollow3D
+
 @onready var path = $DollyRail
-
-
-func set_cam(cam):
-	dolly_cam = cam
-	dolly_cam.path_follow = $DollyRail/PathFollow3D
 
 
 func add_path_point(position):

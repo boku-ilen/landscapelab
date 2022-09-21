@@ -9,14 +9,22 @@ var layer: Layer
 var center := [0, 0]
 
 # Time management
-var time_manager :
+var time_manager: TimeManager :
 	get:
-		return time_manager # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_time_manager
+		return time_manager
+	set(manager):
+		time_manager = manager
+		time_manager.connect("daytime_changed",Callable(self,"_apply_daytime_change"))
+		set_time_manager()
+
 var is_daytime = true
 
 const LOG_MODULE := "LAYERRENDERERS"
+
+
+# To be implemented by child class
+func set_time_manager():
+	pass
 
 
 func _ready():
@@ -47,11 +55,6 @@ func apply_new_data():
 func refresh():
 	load_new_data()
 	apply_new_data()
-
-
-func set_time_manager(manager: TimeManager):
-	time_manager = manager
-	time_manager.connect("daytime_changed",Callable(self,"_apply_daytime_change"))
 
 
 # Emitted from the injected time_manager

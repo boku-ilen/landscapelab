@@ -3,13 +3,9 @@ extends VBoxContainer
 
 var current_profile :
 	get:
-		return current_profile # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_current_profile
-
-
-func set_current_profile(profile):
-	current_profile = profile
+		return current_profile
+	set(profile):
+		current_profile = profile
 
 
 func _ready():

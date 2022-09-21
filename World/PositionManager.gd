@@ -17,7 +17,7 @@ class_name PositionManager
 
 var center_node: Node3D :
 	get:
-		return center_node # TODOConverter40 Non existent get function 
+		return center_node
 	set(node):
 		center_node = node
 		# Inject into the center node
@@ -33,7 +33,7 @@ var center_node: Node3D :
 
 var terrain :
 	get:
-		return terrain # TODOConverter40 Non existent get function 
+		return terrain
 	set(terr):
 		terrain = terr
 		
@@ -46,7 +46,7 @@ var terrain :
 
 var layer_configurator: Node :
 	get:
-		return layer_configurator # TODOConverter40 Non existent get function 
+		return layer_configurator 
 	set(configurator):
 		layer_configurator = configurator
 		layer_configurator.connect("center_changed",Callable(self,"set_offset"))

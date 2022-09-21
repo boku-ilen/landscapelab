@@ -3,9 +3,11 @@ extends VBoxContainer
 
 var scenario: Scenario :
 	get:
-		return scenario # TODOConverter40 Non existent get function 
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_scenario
+		return scenario
+	set(new_scenario):
+		scenario = new_scenario
+		$HBoxContainer/Label.text = scenario.name
+
 var selected := false
 
 
@@ -17,11 +19,6 @@ func _on_clicked(event: InputEvent):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			scenario.activate()
-
-
-func set_scenario(new_scenario):
-	scenario = new_scenario
-	$HBoxContainer/Label.text = scenario.name
 
 
 func draw():
