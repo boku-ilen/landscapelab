@@ -5,8 +5,8 @@ render_mode blend_mix;
 
 
 // LandscapeLab-specific uniforms
-uniform sampler2D heightmap;
-uniform sampler2D landuse;
+uniform sampler2D heightmap: repeat_disable;
+uniform sampler2D landuse: repeat_disable, filter_nearest;
 uniform sampler2D offset_noise;
 
 uniform float size;

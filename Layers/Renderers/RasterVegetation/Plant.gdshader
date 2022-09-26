@@ -1,14 +1,14 @@
 shader_type spatial;
 render_mode cull_disabled;
 
-uniform sampler2DArray texture_map : source_color;
+uniform sampler2DArray texture_map : source_color, repeat_disable;
 uniform sampler2D normal_map : hint_normal;
 uniform sampler2D specular_map : hint_default_black;
 
 uniform sampler2D distribution_map : hint_default_black;
 uniform sampler2D id_to_row;
 
-uniform sampler2D splatmap;
+uniform sampler2D splatmap: repeat_disable, filter_nearest;
 
 uniform int sprite_size = 2048;
 

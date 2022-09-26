@@ -3,7 +3,7 @@ shader_type particles;
 uniform float rows = 300;
 uniform float spacing = 1.0;
 
-uniform sampler2D heightmap;
+uniform sampler2D heightmap: repeat_disable;
 uniform float amplitude = 1.0;
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
 

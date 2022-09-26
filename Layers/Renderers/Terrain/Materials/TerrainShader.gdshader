@@ -1,19 +1,19 @@
 shader_type spatial;
 
 // Basic Terrain
-uniform sampler2D orthophoto: source_color;
-uniform sampler2D heightmap;
-uniform sampler2D normalmap : hint_normal;
+uniform sampler2D orthophoto: source_color, repeat_disable;
+uniform sampler2D heightmap: repeat_disable;
+uniform sampler2D normalmap: hint_normal, repeat_disable;
 uniform float height_scale = 1.0;
 uniform bool has_hole = false;
 
 // Surface heights
 uniform bool has_surface_heights = false;
 uniform float surface_heights_start_distance = 800.0;
-uniform sampler2D surface_heightmap;
+uniform sampler2D surface_heightmap: repeat_disable;
 
 // Land use-based detail textures
-uniform sampler2D landuse;
+uniform sampler2D landuse: repeat_disable, filter_nearest;
 uniform bool has_landuse = false;
 
 uniform sampler2D offset_noise;
