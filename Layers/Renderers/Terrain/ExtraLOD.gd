@@ -10,6 +10,7 @@ func apply_textures(heightmap, surface_heightmap, landuse):
 	
 	if not material_override:
 		logger.warn("ExtraLOD with no Material Override! This will have no effect.", LOG_MODULE)
+		visible = false
 		return
 	
 	material_override.set_shader_parameter("heightmap", heightmap)

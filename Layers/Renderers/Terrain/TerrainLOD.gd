@@ -79,7 +79,7 @@ func build():
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
-		current_normalmap = current_height_image.get_normalmap_texture_for_heightmap(0.005)
+		current_normalmap = current_height_image.get_normalmap_texture_for_heightmap(35.0 / size)
 	
 	# Texture2D
 	if texture_layer:
