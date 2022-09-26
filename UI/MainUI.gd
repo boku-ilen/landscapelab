@@ -18,15 +18,11 @@ signal ui_loaded
 var pos_manager: PositionManager
 
 func _ready():
-	docks.append($MarginContainer/VBoxContainer/Split/Left/Left/Top)
-	docks.append($MarginContainer/VBoxContainer/Split/Left/Left/Bot)
-	docks.append($MarginContainer/VBoxContainer/Split/Left/Right/Top)
-	docks.append($MarginContainer/VBoxContainer/Split/Left/Right/Bot)
-	docks.append($MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer)
-	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Left/Top)
-	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Left/Bot)
-	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Right/Top)
-	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot)
+	docks.append($MarginContainer/VBoxContainer/Left/Tabs/Top)
+	docks.append($MarginContainer/VBoxContainer/Left/Tabs/Bot)
+	docks.append($MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top)
+	docks.append($MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot)
+	docks.append($MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer)
 	
 	var layer_configurator = get_node(layer_configurator_path)
 	$MarginContainer/VBoxContainer/MenuBar.layer_configurator = layer_configurator
@@ -44,7 +40,7 @@ func _process(delta):
 	var formatted = "x=%.2f, y=%.2f, z=%.2f\nx=%.0f, y=%.0f, z=%.0f"
 	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos[0], geo_pos[1], geo_pos[2]]
 	
-	$MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer/DebugInfo/ScrollContainer/Settings/VBoxContainer/Info/PositionDisplay/Data.text = formatted
+	$MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer/DebugInfo/ScrollContainer/Settings/VBoxContainer/Info/PositionDisplay/Data.text = formatted
 
 
 func _inject():

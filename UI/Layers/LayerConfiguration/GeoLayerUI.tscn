@@ -1,26 +1,21 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://bhicpel2rgc1f"]
 
-[ext_resource path="res://UI/Layers/LayerConfiguration/GeoLayerUIConfig.gd" type="Script" id=2]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayerUIConfig.gd" id="2"]
 
-[node name="VBoxContainer" type="VBoxContainer"]
-offset_right = 332.0
-offset_bottom = 258.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="GeoLayerUI" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="GeoLayerUIConfig" type="Node" parent="."]
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="Tree" type="Tree" parent="."]
-offset_right = 332.0
-offset_bottom = 400.0
-minimum_size = Vector2( 200, 400 )
+offset_right = 1152.0
 allow_reselect = true
 allow_rmb_select = true
 hide_folding = true
 hide_root = true
 drop_mode_flags = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}

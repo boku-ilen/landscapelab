@@ -24,7 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://r04ni1kmbdmh" path="res://Resources/Icons/ModernLandscapeLab/energy.svg" id="23"]
 [ext_resource type="PackedScene" path="res://UI/Weather/WeatherUI.tscn" id="24"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qm1og"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_45e2q"]
 resource_local_to_scene = true
 shader = ExtResource("9")
 shader_parameter/color = Vector3(0, 0, 0)
@@ -153,7 +153,7 @@ offset_right = 350.0
 offset_bottom = 100.0
 
 [node name="Camera3D" parent="ScrollContainer/ToolsBar" instance=ExtResource("7")]
-material = SubResource("ShaderMaterial_qm1og")
+material = SubResource("ShaderMaterial_45e2q")
 offset_top = 96.0
 offset_right = 8.0
 offset_bottom = 104.0

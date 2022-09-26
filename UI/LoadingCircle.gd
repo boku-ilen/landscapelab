@@ -6,4 +6,4 @@ func _ready():
 
 
 func _process(delta):
-	rotation += 180 * delta
+	rotation += TAU * delta
