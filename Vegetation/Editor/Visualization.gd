@@ -13,8 +13,7 @@ func update_visualization(group_id):
 	splat_image.create(1, 1, false, Image.FORMAT_R8)
 	splat_image.set_pixel(0, 0, Color(group_id / 255.0, 0, 0))
 	
-	var splat_texture = ImageTexture.new()
-	splat_texture.create_from_image(splat_image)
+	var splat_texture = ImageTexture.create_from_image(splat_image)
 	
 	for layer in get_node("VegetationRenderers").get_children():
 		layer.splatmap = splat_texture

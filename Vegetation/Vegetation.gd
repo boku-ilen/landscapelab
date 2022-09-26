@@ -251,10 +251,7 @@ func get_id_row_map_texture(ids):
 	
 	
 	# Fill all parameters into the shader
-	var id_row_map_tex = ImageTexture.new()
-	id_row_map_tex.create_from_image(id_row_map) #,0
-	
-	return id_row_map_tex
+	return ImageTexture.create_from_image(id_row_map) #,0
 
 
 # Creates a texture expressing various metadata of the groups in the given ID array.
@@ -290,10 +287,7 @@ func get_metadata_map(ids):
 			row += 1
 	
 	# Fill all parameters into the shader
-	var metadata_tex = ImageTexture.new()
-	metadata_tex.create_from_image(metadata) #,0
-	
-	return metadata_tex
+	return ImageTexture.create_from_image(metadata) #,0
 
 
 # Wraps the result of get_ground_sheet in an ImageTexture.

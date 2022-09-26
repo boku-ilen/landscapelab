@@ -22,8 +22,7 @@ func _on_file_selected(filepath):
 	var image = Image.new()
 	image.load(filepath)
 	
-	var tex = ImageTexture.new()
-	tex.create_from_image(image)
+	var tex = ImageTexture.create_from_image(image)
 	$TextureRect.texture = tex
 	
 	$TeleportButton.connect("pressed",Callable(self,"_on_teleport_button_pressed"))

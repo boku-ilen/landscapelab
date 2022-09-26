@@ -46,10 +46,7 @@ static func texture_exists(base_path: String, name: String, ending: String = DEF
 static func get_texture(base_path: String, name: String, ending: String = DEFAULT_ENDING, flags = get_default_flags()) -> ImageTexture:
 	var image = get_image(base_path, name, ending)
 	
-	var tex = ImageTexture.new()
-	tex.create_from_image(image) #,flags
-	
-	return tex
+	return ImageTexture.create_from_image(image) #,flags
 
 
 static func _get_full_path(base_path: String, name: String, ending: String) -> String:

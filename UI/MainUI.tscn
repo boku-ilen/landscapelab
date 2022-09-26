@@ -80,7 +80,7 @@ script = ExtResource("5")
 [node name="VRMenu" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("3")]
 anchors_preset = 15
 offset_left = 5.0
-offset_top = 38.0
+offset_top = 36.0
 offset_right = -5.0
 offset_bottom = -5.0
 grow_horizontal = 2
@@ -232,7 +232,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 5.0
-offset_top = 38.0
+offset_top = 36.0
 offset_right = -5.0
 offset_bottom = -5.0
 grow_horizontal = 2
@@ -257,7 +257,7 @@ script = ExtResource("5")
 
 [node name="LayerUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("10")]
 offset_left = 5.0
-offset_top = 38.0
+offset_top = 36.0
 offset_right = -5.0
 offset_bottom = -5.0
 

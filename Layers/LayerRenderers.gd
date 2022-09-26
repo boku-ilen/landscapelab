@@ -37,7 +37,7 @@ var weather_manager: WeatherManager :
 var renderers_count := 0
 var renderers_finished := 0
 
-var load_data_threaded := true
+var load_data_threaded := false
 @onready var loading_thread = Thread.new()
 
 const LOG_MODULE := "LAYERRENDERERS"

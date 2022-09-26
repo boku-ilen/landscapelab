@@ -15,6 +15,7 @@ var density_class: DensityClass :
 		update_rows_spacing(Vegetation.plant_extent_factor)
 
 @export var offset: Vector2 = Vector2.ZERO
+
 @export var camera_facing_enabled := false :
 	get:
 		return camera_facing_enabled
@@ -165,8 +166,7 @@ func update_textures_with_images(ids):
 	
 	id_row_map_tex = Vegetation.get_id_row_map_texture(Vegetation.get_id_array_for_groups(filtered_groups))
 	
-	distribution_tex = ImageTexture.new()
-	distribution_tex.create_from_image(distribution_sheet) #,ImageTexture.FLAG_REPEAT
+	distribution_tex = ImageTexture.create_from_image(distribution_sheet) #,ImageTexture.FLAG_REPEAT
 
 
 # Apply data which has previously been loaded with `update_textures`.

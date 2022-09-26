@@ -78,19 +78,13 @@ func get_ground_texture(image_name):
 	var image = get_ground_image(image_name)
 	if not image: return null
 	
-	var tex = ImageTexture.new()
-	tex.create_from_image(image) #,Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER + Texture2D.FLAG_REPEAT + Texture2D.FLAG_ANISOTROPIC_FILTER
-	
-	return tex
+	return ImageTexture.create_from_image(image) #,Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER + Texture2D.FLAG_REPEAT + Texture2D.FLAG_ANISOTROPIC_FILTER
 
 func get_fade_texture(image_name):
 	var image = get_fade_image(image_name)
 	if not image: return null
 	
-	var tex = ImageTexture.new()
-	tex.create_from_image(image) #,Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER + Texture2D.FLAG_REPEAT
-	
-	return tex
+	return ImageTexture.create_from_image(image) #,Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER + Texture2D.FLAG_REPEAT
 
 
 func get_plant_ids():

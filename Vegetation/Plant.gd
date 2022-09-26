@@ -62,10 +62,11 @@ func _load_into_cache_if_necessary(full_path):
 		
 		VegetationImages.plant_image_cache[full_path] = img
 		
-		# Also load into the ImageTexture cache
-		var tex = ImageTexture.new()
-		tex.create_from_image(_get_image(full_path)) #,Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER
-		VegetationImages.plant_image_texture_cache[full_path] = tex
+		# FIXME: Not needed at the moment, move somewhere else?
+#		# Also load into the ImageTexture cache
+#		var tex = ImageTexture.new()
+#		tex.create_from_image(_get_image(full_path)) #,Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER
+#		VegetationImages.plant_image_texture_cache[full_path] = tex
 
 func _get_image(path):
 	if not File.new().file_exists(path):
