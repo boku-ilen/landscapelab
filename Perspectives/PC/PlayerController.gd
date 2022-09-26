@@ -75,12 +75,12 @@ func _handle_general_input(event):
 			else:
 				$Head.rotate_y(deg_to_rad(-event.relative.x * mouse_sensitivity))
 				
-				var change = -event.relative.y * mouse_sensitivity
+				var change = deg_to_rad(-event.relative.y * mouse_sensitivity)
 				
 				# Limit the view to between straight down and straight up
 				if change + $Head/Camera3D.rotation.x < PI/2 \
 						and change + $Head/Camera3D.rotation.x > -PI/2:
-					$Head/Camera3D.rotate_x(deg_to_rad(change))
+					$Head/Camera3D.rotate_x(change)
 			
 #			get_tree().set_input_as_handled()
 			
