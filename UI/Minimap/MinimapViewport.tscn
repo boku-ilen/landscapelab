@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://UI/Minimap/MinimapViewport.gd" id="1_i0gbd"]
 [ext_resource type="Texture2D" uid="uid://bbq13nb7ioqvd" path="res://Resources/Icons/ClassicLandscapeLab/dot_marker_direction.svg" id="2_okqlj"]
-[ext_resource type="PackedScene" path="res://UI/CustomElements/AutoIconButton.tscn" id="3_nt1j3"]
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="3_nt1j3"]
 [ext_resource type="Texture2D" uid="uid://b3vd4ae021x8" path="res://Resources/Icons/ModernLandscapeLab/plus.svg" id="4_3685d"]
 [ext_resource type="Texture2D" uid="uid://dbl70h8vqdyiy" path="res://Resources/Icons/ModernLandscapeLab/minus.svg" id="5_qow2j"]
 
@@ -45,11 +45,9 @@ offset_bottom = 40.0
 offset_right = 40.0
 offset_bottom = 40.0
 icon = ExtResource("4_3685d")
-texture_name = ""
 
 [node name="ZoomIn" parent="ZoomContainer" instance=ExtResource("3_nt1j3")]
 offset_left = 44.0
 offset_right = 84.0
 offset_bottom = 40.0
 icon = ExtResource("5_qow2j")
-texture_name = ""

@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/EditWindow.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://23k0cl4yv3b3" path="res://Resources/Icons/ModernLandscapeLab/eye_crossed.svg" id="3"]
 [ext_resource type="Texture2D" uid="uid://dugrgepqgf6ik" path="res://Resources/Icons/ModernLandscapeLab/three_points.svg" id="4"]
-[ext_resource type="PackedScene" path="res://UI/CustomElements/AutoIconButton.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="5"]
 [ext_resource type="Theme" uid="uid://dsbyviyb5cpke" path="res://UI/Theme/LayerWidget.tres" id="7"]
 [ext_resource type="Texture2D" uid="uid://bgla5bw7tc34a" path="res://Resources/Icons/ModernLandscapeLab/rotate.svg" id="9"]
 [ext_resource type="Texture2D" uid="uid://c3kuxlnuadbrl" path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" id="10"]
@@ -21,7 +21,7 @@ theme = ExtResource("7")
 script = ExtResource("1")
 
 [node name="RightContainer" type="HBoxContainer" parent="."]
-offset_right = 319.0
+offset_right = 275.0
 offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -64,7 +64,7 @@ clip_contents = true
 layout_mode = 3
 anchors_preset = 0
 offset_left = 91.0
-offset_right = 319.0
+offset_right = 275.0
 offset_bottom = 30.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -79,8 +79,7 @@ size_flags_vertical = 3
 text = "123456789101112"
 
 [node name="LeftContainer" type="HBoxContainer" parent="."]
-offset_left = 323.0
-offset_top = 22.0
+offset_left = 279.0
 offset_right = 343.0
 offset_bottom = 30.0
 size_flags_horizontal = 8
@@ -88,17 +87,17 @@ size_flags_vertical = 8
 alignment = 2
 
 [node name="Reload" parent="LeftContainer" instance=ExtResource("5")]
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 30.0
+offset_bottom = 30.0
 size_flags_vertical = 0
 mouse_filter = 1
 icon = ExtResource("9")
 texture_name = "rotate"
 
 [node name="Edit" parent="LeftContainer" instance=ExtResource("5")]
-offset_left = 12.0
-offset_right = 20.0
-offset_bottom = 8.0
+offset_left = 34.0
+offset_right = 64.0
+offset_bottom = 30.0
 size_flags_vertical = 0
 mouse_filter = 1
 icon = ExtResource("4")
