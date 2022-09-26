@@ -104,7 +104,7 @@ func update_connected_object(geo_line):
 		connector_instances.append(object)
 
 
-func _connect(object: Node3D, object_before: Node3D, selector_attribute: Node3D):
+func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 	if not object.has_node("Docks"):
 		logger.warn("Connected Object %s defines no Docks and cannot be connected" % [object.name], LOG_MODULE)
 		return
