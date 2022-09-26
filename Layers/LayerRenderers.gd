@@ -87,7 +87,8 @@ func apply_center(center_array):
 			renderers_count += 1
 	
 	if load_data_threaded:
-		loading_thread.start(Callable(self,"update_renderers").bind(center_array))
+		loading_thread.start(Callable(self,"update_renderers").bind(center_array),
+				Thread.PRIORITY_HIGH)
 	else:
 		update_renderers(center_array)
 

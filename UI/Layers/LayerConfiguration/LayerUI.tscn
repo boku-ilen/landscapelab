@@ -20,38 +20,32 @@ script = ExtResource("5")
 category = "LayerUI"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
 offset_right = 1152.0
 offset_bottom = 648.0
 size_flags_horizontal = 3
 
 [node name="ScrollLayers" type="ScrollContainer" parent="VBoxContainer"]
-layout_mode = 2
 offset_right = 1152.0
 offset_bottom = 614.0
 size_flags_vertical = 3
 
 [node name="LayerContainer" type="VBoxContainer" parent="VBoxContainer/ScrollLayers"]
-layout_mode = 2
 offset_right = 1152.0
 size_flags_horizontal = 3
 
 [node name="Menu" type="HBoxContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2i(0, 30)
-layout_mode = 2
 offset_top = 618.0
 offset_right = 1152.0
 offset_bottom = 648.0
 
 [node name="NewLayer" parent="VBoxContainer/Menu" instance=ExtResource("3")]
-layout_mode = 2
 offset_right = 30.0
 offset_bottom = 30.0
 icon = ExtResource("4")
 texture_name = "new_file"
 
 [node name="DeleteLayer" parent="VBoxContainer/Menu" instance=ExtResource("3")]
-layout_mode = 2
 offset_left = 34.0
 offset_right = 64.0
 offset_bottom = 30.0
@@ -59,7 +53,6 @@ icon = ExtResource("2")
 texture_name = "delete_file"
 
 [node name="Filter" parent="VBoxContainer/Menu" instance=ExtResource("3")]
-layout_mode = 2
 offset_left = 68.0
 offset_right = 98.0
 offset_bottom = 30.0

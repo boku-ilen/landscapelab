@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://b1jdnsbo3n6eo"]
 
-[ext_resource path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" type="Script" id=4]
+[ext_resource type="Script" path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" id="4"]
 
 [node name="RealisticTerrainRenderer" type="Node3D"]
-script = ExtResource( 4 )
+script = ExtResource("4")

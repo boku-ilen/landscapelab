@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://dnsskjxroy78b"]
 
-[ext_resource path="res://Buildings/Components/FlatRoof.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Buildings/Components/FlatRoof.gd" id="1"]
 
 [node name="FlatRoof" type="Node3D"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 cast_shadow = 0
