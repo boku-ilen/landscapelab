@@ -37,7 +37,7 @@ shader_param/noisemap = ExtResource( 5 )
 [node name="VegetationParticles" type="Particles" groups=["SpatialShifting"]]
 layers = 2
 material_override = SubResource( 1 )
-cast_shadow = 0
+cast_shadow = 2
 amount = 1
 explosiveness = 1.0
 visibility_aabb = AABB( -150, -150, -150, 300, 300, 300 )

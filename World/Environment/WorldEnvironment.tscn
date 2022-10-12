@@ -198,7 +198,7 @@ shadow_color = Color( 0.27451, 0.27451, 0.27451, 1 )
 shadow_bias = 0.7
 directional_shadow_blend_splits = true
 directional_shadow_normal_bias = 2.0
-directional_shadow_max_distance = 300.0
+directional_shadow_max_distance = 600.0
 
 [node name="Sky_texture" parent="." instance=ExtResource( 2 )]
 night_sky = ExtResource( 7 )
@@ -218,7 +218,9 @@ cloud_transform_speed = Vector2( 0.001, 0.001 )
 cloud_thickness = 180.0
 
 [node name="RainParticles" parent="." instance=ExtResource( 8 )]
+visible = false
 emitting = false
 
 [node name="RainSplashes" parent="." instance=ExtResource( 9 )]
+visible = false
 splashes_per_second = 100

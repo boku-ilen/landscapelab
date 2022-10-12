@@ -15,6 +15,10 @@ var texture_scale = 2.5  # Size of the texture in meters - likely identical to t
 var color
 
 
+func _ready():
+	$MeshInstance.material_override = preload("res://Buildings/Components/PlainWalls.tres")
+
+
 func set_color(new_color):
 	color = new_color
 

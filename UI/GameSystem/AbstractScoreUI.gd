@@ -13,8 +13,8 @@ func set_score(score: GameScore):
 			slider.rect_min_size = Vector2(200, 50)
 			var label = Label.new()
 			label.text = contributor.get_name()
-			get_node("AdditionalInfo/PopupPanel/VBoxContainer").add_child(label)
-			get_node("AdditionalInfo/PopupPanel/VBoxContainer").add_child(slider)
+#			get_node("AdditionalInfo/PopupPanel/VBoxContainer").add_child(label)
+#			get_node("AdditionalInfo/PopupPanel/VBoxContainer").add_child(slider)
 
 
 func set_contributor_weight(value_changed: bool, contributor, slider):
