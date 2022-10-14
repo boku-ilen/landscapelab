@@ -80,23 +80,17 @@ func load_new_data():
 			var remainder_x = center[0] % chunk_size
 			var remainder_y = center[1] % chunk_size
 			
-			lod.position_x = center[0]
-			lod.position_y = center[1]
+			lod.position_diff_x = remainder_x
+			lod.position_diff_z = remainder_y
 			
-			lod.position.x += remainder_x
-			lod.position.z += remainder_y
-			
-			lod.build()
+			lod.build(center[0] + lod.position.x + lod.position_diff_x, center[1] - lod.position.z - lod.position_diff_z)
 	else:
 		var nearest_lod_distance = INF
 		var nearest_lod
 		
 		for lod in lods:
-			lod.position.x -= center[0] - previous_center[0]
-			lod.position.z += center[1] - previous_center[1]
-			
-			lod.position_x = center[0]
-			lod.position_y = center[1]
+			lod.position_diff_x = previous_center[0] - center[0]
+			lod.position_diff_z = center[1] - previous_center[1]
 			
 #			var remainder_x = center[0] % chunk_size
 #			var remainder_y = center[1] % chunk_size
@@ -106,21 +100,21 @@ func load_new_data():
 
 			var changed = false
 
-			while lod.position.x >= chunk_size * extent:
-				lod.position.x -= chunk_size * extent * 2 + chunk_size
+			while lod.position.x + lod.position_diff_x >= chunk_size * extent:
+				lod.position_diff_x += -chunk_size * extent * 2 - chunk_size
 				changed = true
-			while lod.position.x <= -chunk_size * extent:
-				lod.position.x += chunk_size * extent * 2 + chunk_size
+			while lod.position.x + lod.position_diff_x <= -chunk_size * extent:
+				lod.position_diff_x += chunk_size * extent * 2 + chunk_size
 				changed = true
-			while lod.position.z >= chunk_size * extent:
-				lod.position.z -= chunk_size * extent * 2 + chunk_size
+			while lod.position.z + lod.position_diff_z >= chunk_size * extent:
+				lod.position_diff_z += -chunk_size * extent * 2 - chunk_size
 				changed = true
-			while lod.position.z <= -chunk_size * extent:
-				lod.position.z += chunk_size * extent * 2 + chunk_size
+			while lod.position.z + lod.position_diff_z <= -chunk_size * extent:
+				lod.position_diff_z += chunk_size * extent * 2 + chunk_size
 				changed = true
 			
 			if changed:
-				lod.build()
+				lod.build(center[0] + lod.position.x + lod.position_diff_x, center[1] - lod.position.z - lod.position_diff_z)
 			
 			var distance = lod.position.length_squared()
 			
@@ -134,6 +128,9 @@ func load_new_data():
 
 func apply_new_data():
 	for lod in get_children():
+		lod.position.x += lod.position_diff_x
+		lod.position.z += lod.position_diff_z
+		
 		if lod.changed:
 			lod.apply_textures()
 

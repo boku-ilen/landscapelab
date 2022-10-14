@@ -13,8 +13,8 @@ extends MeshInstance3D
 
 const MAX_GROUPS = 6
 
-var position_x
-var position_y
+var position_diff_x
+var position_diff_z
 
 var height_layer
 var texture_layer
@@ -58,9 +58,9 @@ func rebuild_aabb():
 	set_custom_aabb(aabb)
 
 
-func build():
-	var top_left_x = position_x - size / 2 + position.x
-	var top_left_y = position_y + size / 2 - position.z
+func build(center_x, center_y):
+	var top_left_x = center_x - size / 2 
+	var top_left_y = center_y + size / 2 
 	
 	scale.x = size / mesh_resolution
 	scale.z = size / mesh_resolution
