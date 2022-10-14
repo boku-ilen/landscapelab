@@ -44,6 +44,8 @@ var current_roughness_ground_textures
 var current_albedo_fade_textures
 var current_normal_fade_textures
 
+var changed = false
+
 signal updated_data
 
 
@@ -135,6 +137,8 @@ func build():
 			if load_fade_textures:
 				current_albedo_fade_textures = Vegetation.get_fade_sheet_texture(group_array, "albedo")
 				current_normal_fade_textures = Vegetation.get_fade_sheet_texture(group_array, "normal")
+	
+	changed = true
 
 func apply_textures():
 	rebuild_aabb()
@@ -209,3 +213,4 @@ func apply_textures():
 			material_override.set_shader_parameter("tex", current_texture)
 	
 	visible = true
+	changed = false
