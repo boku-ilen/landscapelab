@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://c67vti800m3el"]
+
+[ext_resource type="PackedScene" uid="uid://kjnwwo7e3v13" path="res://addons/godot-websocket-nodes/WebSocketServer.tscn" id="1_kw0in"]
+[ext_resource type="PackedScene" uid="uid://dqj72j3uqnvgo" path="res://addons/godot-websocket-nodes/WebSocketClient.tscn" id="2_x4g24"]
+
+[sub_resource type="GDScript" id="GDScript_ttwad"]
+script/source = "extends Control
+
+func _ready():
+	start_server()
+	await get_tree().create_timer(1.0).timeout
+	start_client()
+	await get_tree().create_timer(1.0).timeout
+	$WebSocketClient.send(\"Some message from the client\")
+	await get_tree().create_timer(1.0).timeout
+	for id in $WebSocketServer.peers:
+		$WebSocketServer.send(id, JSON.stringify({
+			\"message\": \"JSON message from the server.\",
+			\"payload\": \"Some payload\"
+		}))
+
+
+func start_server():
+	$WebSocketServer.listen(8080)
+
+
+func start_client():
+	$WebSocketClient.connect_to_url(\"ws://localhost:8080\")
+
+
+func _on_web_socket_server_client_connected(peer_id):
+	print(\"[Server] New peer connected. ID: \", peer_id)
+
+
+func _on_web_socket_server_client_disconnected(peer_id):
+	print(\"[Server] Peer disconnected. ID: \", peer_id)
+
+
+func _on_web_socket_server_message_received(peer_id, message):
+	print(\"[Server] Message received from client. ID: %d, Message: %s\" % [peer_id, message])
+
+
+func _on_web_socket_client_connected_to_server():
+	print(\"[Client] Connected to server!\")
+
+
+func _on_web_socket_client_connection_closed():
+	print(\"[Client] Connection closed.\")
+
+
+func _on_web_socket_client_message_received(message):
+	print(\"[Client] Message received from server. Message: %s\" % [message])
+"
+
+[node name="demo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_ttwad")
+
+[node name="WebSocketServer" parent="." instance=ExtResource("1_kw0in")]
+
+[node name="WebSocketClient" parent="." instance=ExtResource("2_x4g24")]
+
+[connection signal="client_connected" from="WebSocketServer" to="." method="_on_web_socket_server_client_connected"]
+[connection signal="client_disconnected" from="WebSocketServer" to="." method="_on_web_socket_server_client_disconnected"]
+[connection signal="message_received" from="WebSocketServer" to="." method="_on_web_socket_server_message_received"]
+[connection signal="connected_to_server" from="WebSocketClient" to="." method="_on_web_socket_client_connected_to_server"]
+[connection signal="connection_closed" from="WebSocketClient" to="." method="_on_web_socket_client_connection_closed"]
+[connection signal="message_received" from="WebSocketClient" to="." method="_on_web_socket_client_message_received"]

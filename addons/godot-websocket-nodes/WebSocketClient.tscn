@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqj72j3uqnvgo"]
+
+[ext_resource type="Script" path="res://addons/godot-websocket-nodes/WebSocketClient.gd" id="1_pfja5"]
+
+[node name="WebSocketClient" type="Node"]
+script = ExtResource("1_pfja5")

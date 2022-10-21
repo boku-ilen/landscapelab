@@ -15,7 +15,8 @@ const LOG_MODULE := "WEBSOCKET"
 # initialize the websocket server and listening for client connections
 func _ready():
 	self._ws_server = WebSocketServer.new()
-	self._ws_server.bind_ip = Settings.get_setting("server", "bind_ip")
+	# FIXME: Seems like this is not needed anymore?
+	# self._ws_server.bind_ip = Settings.get_setting("server", "bind_ip")
 	var port = Settings.get_setting("server", "port")
 	var supported_protocols = [] # FIXME: read from settings
 
@@ -26,7 +27,7 @@ func _ready():
 	self._ws_server.connect("data_received",Callable(self,"_on_data"))
 
 	# try to start listening
-	var err = _ws_server.listen(port, supported_protocols, false)
+	var err = _ws_server.listen(port)
 	if err:
 		logger.error("server bindings could not be initialized (port: %s)" % [port], LOG_MODULE)
 		# FIXME: server binding could not be initialized
@@ -70,8 +71,7 @@ func unregister_handler(handler: AbstractRequestHandler):
 # we have to frequently and actively check for new messages
 # TODO: do we need to do this multithreaded?
 func _process(_delta):
-	if self._ws_server.is_listening():
-		self._ws_server.poll()
+	self._ws_server.poll()
 
 
 # handle a new client connection and register it
