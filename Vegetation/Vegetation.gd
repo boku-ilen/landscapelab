@@ -231,27 +231,17 @@ func get_distribution_sheet(group_array):
 			texture_table)[0]
 
 
-# To map land-use values to a row from 0-7, we use a 256x1 texture.
-# An array would be more straightforward, but shaders don't accept these as
-#  uniform parameters.
-func get_id_row_map_texture(ids):
-	var id_row_map = Image.new()
-	id_row_map.create(256, 1, false, Image.FORMAT_R8)
+# To map land-use values to a row from 0-7, we use a 256x1 array.
+func get_id_row_array(ids):
+	var array = []
+	array.resize(256)
+	array.fill(-1.0)
 	
-	# id_row_map.fill doesn't work here - if that is used, the set_pixel calls
-	#  later have no effect...
-	for i in range(0, 256):
-		id_row_map.set_pixel(i, 0, Color(1.0, 0.0, 0.0))
-	
-	# The pixel at x=id (0-255) is set to the row value (0-7).
 	var row = 0
 	for id in ids:
-		id_row_map.set_pixel(id, 0, Color(row / 255.0, 0.0, 0.0))
-		row += 1
+		array[id] = row / 255.0
 	
-	
-	# Fill all parameters into the shader
-	return ImageTexture.create_from_image(id_row_map) #,0
+	return array
 
 
 # Creates a texture expressing various metadata of the groups in the given ID array.

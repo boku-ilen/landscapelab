@@ -185,19 +185,15 @@ static func create_layered_spritesheet(
 static func get_size_keep_aspect(max_size, original_size):
 	# Ratio of width to height -> Greater than 1 means the image is
 	#  wider than it is high ("landscape")
-	var current_aspect = original_size.x / original_size.y
-	var desired_aspect = max_size.x / max_size.y
+	var current_aspect = float(original_size.x) / float(original_size.y)
+	var desired_aspect = float(max_size.x) / float(max_size.y)
 	
 	if current_aspect == desired_aspect:
 		# The aspect matches -> Direct downscale
 		return max_size
 	elif current_aspect > desired_aspect:
 		# The current image is too wide -> Maximize width, smaller height
-		var current_width = original_size.x
-		
-		return Vector2(max_size.x, int(max_size.x / current_aspect))
+		return Vector2(max_size.x, floor(max_size.x / current_aspect))
 	else:
 		# The current image is too high -> Maximize height, smaller width
-		var current_height = original_size.y
-		
-		return Vector2(int(max_size.y * current_aspect), max_size.y)
+		return Vector2(floor(max_size.y * current_aspect), max_size.y)

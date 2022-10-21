@@ -52,21 +52,9 @@ func _load_into_cache_if_necessary(full_path):
 		if img.is_empty():
 			logger.warn("Invalid billboard path in %s: %s"
 					% [name_en, full_path], LOG_MODULE)
-
-		# Godot can crash with extremely large images, so we downscale it to a size appropriate
-		#  for further handling.
-		if img.get_width() > VegetationImages.SPRITE_SIZE or img.get_height() > VegetationImages.SPRITE_SIZE:
-			var new_size = SpritesheetHelper.get_size_keep_aspect(
-				Vector2(VegetationImages.SPRITE_SIZE, VegetationImages.SPRITE_SIZE), img.get_size())
-			img.resize(new_size.x, new_size.y)
 		
 		VegetationImages.plant_image_cache[full_path] = img
-		
-		# FIXME: Not needed at the moment, move somewhere else?
-#		# Also load into the ImageTexture cache
-#		var tex = ImageTexture.new()
-#		tex.create_from_image(_get_image(full_path)) #,Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER
-#		VegetationImages.plant_image_texture_cache[full_path] = tex
+
 
 func _get_image(path):
 	if not FileAccess.file_exists(path):

@@ -40,7 +40,7 @@ var time_passed = 0
 var previous_origin
 
 # Data
-var id_row_map_tex
+var id_row_array
 var billboard_tex
 var distribution_tex
 var heightmap
@@ -164,7 +164,7 @@ func update_textures_with_images(ids):
 	# The rows correspond to land-use values
 	# The columns correspond to distribution values
 	
-	id_row_map_tex = Vegetation.get_id_row_map_texture(Vegetation.get_id_array_for_groups(filtered_groups))
+	id_row_array = Vegetation.get_id_row_array(Vegetation.get_id_array_for_groups(filtered_groups))
 	
 	distribution_tex = ImageTexture.create_from_image(distribution_sheet) #,ImageTexture.FLAG_REPEAT
 
@@ -172,17 +172,19 @@ func update_textures_with_images(ids):
 # Apply data which has previously been loaded with `update_textures`.
 # Should not be called from a thread.
 func apply_data():
-	material_override.set_shader_parameter("id_to_row", id_row_map_tex)
+	process_material.set_shader_parameter("id_to_row", id_row_array)
+	process_material.set_shader_parameter("distribution_map", distribution_tex)
+	process_material.set_shader_parameter("splatmap", splatmap)
+	process_material.set_shader_parameter("splatmap_size_meters", get_map_size())
+	process_material.set_shader_parameter("dist_scale", 1.0 / spacing)
+	
 	material_override.set_shader_parameter("texture_map", billboard_tex)
-	material_override.set_shader_parameter("distribution_map", distribution_tex)
-	material_override.set_shader_parameter("dist_scale", 1.0 / spacing)
 	
 	var size = Vector2(get_map_size(), get_map_size())
 	process_material.set_shader_parameter("heightmap_size", size)
 	material_override.set_shader_parameter("heightmap_size", size)
 	
 	process_material.set_shader_parameter("heightmap", heightmap)
-	material_override.set_shader_parameter("splatmap", splatmap)
 	
 	process_material.set_shader_parameter("offset", Vector2(0, 0))
 	material_override.set_shader_parameter("offset", Vector2(0, 0))

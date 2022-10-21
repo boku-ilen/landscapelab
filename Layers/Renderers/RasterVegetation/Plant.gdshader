@@ -5,11 +5,6 @@ uniform sampler2DArray texture_map : source_color, repeat_disable;
 uniform sampler2D normal_map : hint_normal;
 uniform sampler2D specular_map : hint_default_black;
 
-uniform sampler2D distribution_map : hint_default_black;
-uniform sampler2D id_to_row;
-
-uniform sampler2D splatmap: repeat_disable, filter_nearest;
-
 uniform int sprite_size = 2048;
 
 uniform float amplitude = 0.1;
@@ -18,8 +13,6 @@ uniform vec2 scale = vec2(0.1, 0.2);
 
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
 uniform vec2 offset;
-
-uniform float dist_scale = 5000.0;
 
 uniform float max_distance;
 uniform bool camera_facing;
@@ -31,10 +24,18 @@ uniform float fake_shadow_min_multiplier = 0.25;
 varying vec3 worldpos;
 varying vec3 camera_pos;
 
-varying flat float splat_id;
-varying flat float row;
-varying flat float dist_id;
-varying flat float size;
+varying float size;
+varying float row;
+varying float dist_id;
+
+
+// Workaround for a bug in `texelFetch` - use this instead!
+// More info at https://github.com/godotengine/godot/issues/31732
+vec4 texelGet ( sampler2D tg_tex, ivec2 tg_coord, int tg_lod ) {
+	vec2 tg_texel = 1.0 / vec2(textureSize(tg_tex, 0));
+	vec2 tg_getpos = (vec2(tg_coord) * tg_texel) + (tg_texel * 0.5);
+	return texture(tg_tex, tg_getpos, float(tg_lod));
+}
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
@@ -59,27 +60,14 @@ void vertex() {
 	pos += 0.5 * heightmap_size;
 	pos /= heightmap_size;
 	
-	// Splatmap ID at this position
-	splat_id = texture(splatmap, pos).r * 255.0;
-	
-	// The row in the spritesheets which corresponds to this splatmap ID
-	row = texelFetch(id_to_row, ivec2(int(round(splat_id)), 0), 0).r * 255.0;
-	
-	// Using the row, we can get the ID (the column) of the plant which should be here
-	ivec2 dist_pos = ivec2(int(worldpos.x * dist_scale) % 16, int(worldpos.z * dist_scale) % 16);
-	
-	vec2 dist_value = texelFetch(distribution_map, ivec2(0, int(row) * 16) + dist_pos, 0).rg;
-	dist_id = dist_value.r * 255.0;
-	
-	float size_scale = dist_value.g;
-	size = size_scale * 40.0;
-	
 	// Move the upper vertices around for a wind wave effect
 	if (VERTEX.y > 0.3) {
 		VERTEX.x += amplitude * sin(worldpos.x * scale.x * 0.75 + TIME * speed.x) * cos(worldpos.z * scale.x + TIME * speed.x * 0.25);
 		VERTEX.z += amplitude * sin(worldpos.x * scale.y + TIME * speed.y * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed.y);
 	}
 	
+	// Scale by the size
+	size = INSTANCE_CUSTOM.r * 40.0;
 	VERTEX *= size;
 	
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
@@ -90,15 +78,12 @@ void vertex() {
 		MODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0],MODEL_MATRIX[1],
 				vec4(normalize(cross(INV_VIEW_MATRIX[0].xyz,MODEL_MATRIX[1].xyz)), 0.0),MODEL_MATRIX[3]);
 	}
+	
+	dist_id = INSTANCE_CUSTOM.g * 255.0;
+	row = INSTANCE_CUSTOM.b * 255.0;
 }
 
 void fragment() {
-	// If the row value is 255, this means that no data is available for this
-	// land-use ID in this shader, so discard this pixel.
-	if (abs(row - 255.0) < 0.1) {
-		discard;
-	}
-
 	// Make the plant transparent if it's between 3/4 and 4/4 of the possible
 	//  distance from the camera, to prevent a harsh cutoff from full vegetation
 	//  to no vegetation.
