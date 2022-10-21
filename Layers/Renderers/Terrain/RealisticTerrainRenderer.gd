@@ -5,7 +5,7 @@ var lods = []
 var previous_center
 
 var chunk_size = 1000
-var extent = 7 # extent in every direction
+var extent = 7 # extent of chunks in every direction
 
 var update_thread = Thread.new()
 
@@ -21,12 +21,12 @@ func _ready():
 			lod.position = lod_position
 			lod.size = size
 			
-			if x == 0 and y == 0:
-				lod.ortho_resolution = 1000
-				lod.landuse_resolution = 100
-			else:
-				lod.ortho_resolution = 100
-				lod.landuse_resolution = 10
+#			if x == 0 and y == 0:
+#				lod.ortho_resolution = 1000
+#				lod.landuse_resolution = 100
+#			else:
+			lod.ortho_resolution = 100
+			lod.landuse_resolution = 10
 			
 			lod.height_layer = layer.render_info.height_layer.clone()
 			lod.texture_layer = layer.render_info.texture_layer.clone()
@@ -118,9 +118,14 @@ func load_new_data():
 			
 			var distance = lod.position.length_squared()
 			
-			if nearest_lod_distance < distance:
+			if distance < nearest_lod_distance:
 				nearest_lod_distance = distance
 				nearest_lod = lod
+	
+		nearest_lod.ortho_resolution = 1000
+		nearest_lod.landuse_resolution = 100
+		nearest_lod.build(center[0] + nearest_lod.position.x + previous_center[0] - center[0], center[1] - nearest_lod.position.z - center[1] + previous_center[1])
+		nearest_lod.changed = true
 	
 	previous_center[0] = center[0]
 	previous_center[1] = center[1]
