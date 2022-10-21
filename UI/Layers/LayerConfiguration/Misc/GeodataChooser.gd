@@ -64,8 +64,7 @@ func is_current_file_dataset():
 
 
 func is_current_path_valid():
-	var f = File.new()
-	return f.file_exists($FileChooser/FileName.text)
+	return FileAccess.file_exists($FileChooser/FileName.text)
 
 
 func get_geo_layer(is_raster: bool = true):

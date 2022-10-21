@@ -39,8 +39,7 @@ static func get_material(base_path: String, ending: String = DEFAULT_ENDING, fla
 
 
 static func texture_exists(base_path: String, name: String, ending: String = DEFAULT_ENDING) -> bool:
-	var dir := Directory.new()
-	return dir.file_exists(_get_full_path(base_path, name, ending))
+	return FileAccess.file_exists(_get_full_path(base_path, name, ending))
 
 
 static func get_texture(base_path: String, name: String, ending: String = DEFAULT_ENDING, flags = get_default_flags()) -> ImageTexture:

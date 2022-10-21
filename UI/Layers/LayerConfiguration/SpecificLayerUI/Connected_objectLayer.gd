@@ -37,10 +37,9 @@ func assign_specific_layer_info(layer: Layer):
 	for child in $AdditionalAttribute.get_children():
 		if not child.has_method("get_value"): continue
 		
-		var f = File.new()
-		if f.file_exists(child.get_connector()) and child.get_connector().get_extension() == "tscn":
+		if FileAccess.file_exists(child.get_connector()) and child.get_connector().get_extension() == "tscn":
 			layer.render_info.connectors[child.get_value()] = load(child.get_connector())
-		if f.file_exists(child.get_connection()) and child.get_connection().get_extension() == "tscn":
+		if FileAccess.file_exists(child.get_connection()) and child.get_connection().get_extension() == "tscn":
 			layer.render_info.connections[child.get_value()] = load(child.get_connection())
 
 

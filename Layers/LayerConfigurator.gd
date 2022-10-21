@@ -286,8 +286,7 @@ func validate_gpkg(geopackage_path: String):
 		logger.error("User Geopackage path not set! Please set it in user://configuration.ini", LOG_MODULE)
 		return false
 	
-	var file2Check = File.new()
-	if !file2Check.file_exists(geopackage_path):
+	if not FileAccess.file_exists(geopackage_path):
 		logger.error(
 			"Path3D to geodataset \"%s\" does not exist, could not load any data!" % [geopackage_path],
 			LOG_MODULE

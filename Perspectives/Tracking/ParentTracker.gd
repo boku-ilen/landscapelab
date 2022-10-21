@@ -11,7 +11,7 @@ var usage = Settings.get_setting("meta", "usage")
 @onready var position_tracking_timer = get_node("PositionTrackingTimer")
 @onready var screenshot_timer = get_node("ScreenshotTimer")
 
-var file = File.new()
+var file
 
 const LOG_MODULE := "PERSPECTIVES"
 
@@ -57,7 +57,9 @@ func get_position():
 
 # Prepare for tracking: Open / create the CSV file and connect the timer to it
 func open_tracking_file(filename):
-	if file.open(filename, File.WRITE) != 0:
+	file = FileAccess.open(filename, FileAccess.WRITE)
+	
+	if file == null:
 		logger.error("Couldn't open tracking file!", LOG_MODULE)
 		return
 	

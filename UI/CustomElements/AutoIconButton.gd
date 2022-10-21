@@ -33,7 +33,7 @@ func _update_texture():
 		else:
 			full_path = "res://Resources/Icons".path_join(icon_folder).path_join(texture_name) + ".svg"
 		
-		assert(File.new().file_exists(full_path)) #,"%s: No icon with name '%s' found in icon folder '%s'!" % [name, texture_name, icon_folder])
+		assert(FileAccess.file_exists(full_path)) #,"%s: No icon with name '%s' found in icon folder '%s'!" % [name, texture_name, icon_folder])
 		
 		if "texture_normal" in self:
 			self.texture_normal = load(full_path)

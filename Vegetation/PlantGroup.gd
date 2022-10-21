@@ -57,7 +57,7 @@ func _get_image(image_name, texture):
 	VegetationImages.ground_image_mutex.lock()
 	if not VegetationImages.ground_image_cache.has(full_path):
 		var path = VegetationImages.ground_image_base_path.path_join(texture.texture_name)
-		if not File.new().file_exists(full_path):
+		if not FileAccess.file_exists(full_path):
 			logger.warn("Invalid ground texture file: %s (ID %s)" % [full_path, str(texture.id)], LOG_MODULE)
 		
 		var img = StructuredTexture.get_image(VegetationImages.ground_image_base_path \

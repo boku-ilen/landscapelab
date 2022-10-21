@@ -3,7 +3,7 @@ extends BoxContainer
 
 func set_score(score: GameScore):
 	for contrib in score.contributors:
-		var contributor: GameScore.GameScoreContributor = contrib
+		var contributor = contrib
 		if contributor.weight_changable:
 			var slider = HSlider.new()
 			slider.min_value = contributor.weight_interval_start

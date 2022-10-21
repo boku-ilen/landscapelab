@@ -38,9 +38,8 @@ func assign_specific_layer_info(layer: Layer):
 	if !validate(features) or !validate(height):
 		print_warning("Object- or height-layer is not valid!")
 		return
-
-	var file2Check = File.new()
-	var file_exists = file2Check.file_exists(file_path_object_scene.text)
+	
+	var file_exists = FileAccess.file_exists(file_path_object_scene.text)
 	
 	if !validate(features) or !validate(height) or !file_exists:
 		print_warning("Invalid layers!")

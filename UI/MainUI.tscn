@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://bj3hw0pvn674o" path="res://World/World.tscn" id="15_xvbyv"]
 [ext_resource type="Script" path="res://UI/Layers/LayerManagement/LayerManagement.gd" id="16"]
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="17_3pwcs"]
-[ext_resource type="PackedScene" path="res://UI/GameSystem/GameUI.tscn" id="18"]
+[ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="18"]
 [ext_resource type="PackedScene" uid="uid://dhe6mnba7w50y" path="res://UI/Scenarios/Scenarios.tscn" id="20"]
 [ext_resource type="Script" path="res://UI/UILicenses.gd" id="25"]
 [ext_resource type="Script" path="res://UI/MainUI.gd" id="43"]
@@ -168,7 +168,6 @@ pressed_color = Color(0, 0, 0, 1)
 hover_color = Color(0, 0, 0, 1)
 disabled_color = Color(0, 0, 0, 1)
 focused_color = Color(0, 0, 0, 1)
-texture_name = "fullscreen"
 
 [node name="LoadingCircle" type="TextureRect" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI"]
 custom_minimum_size = Vector2i(20, 40)
@@ -191,6 +190,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="DebugInfo" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("14")]
+visible = false
 custom_minimum_size = Vector2i(400, 0)
 anchors_preset = 0
 anchor_right = 0.0
@@ -202,7 +202,6 @@ grow_vertical = 1
 layer_renderers_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/Terrain/LayerRenderers")
 
 [node name="GameUI" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("18")]
-offset_left = 416.0
 offset_right = 829.0
 offset_bottom = 133.0
 viewport_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport")

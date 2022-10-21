@@ -32,8 +32,7 @@ func _new_layer_selected(layer):
 	if current_layer_management_ui != null and is_instance_valid(current_layer_management_ui):
 		current_layer_management_ui.queue_free()
 	
-	var file2check = File.new()
-	if file2check.file_exists(ui_path):
+	if FileAccess.file_exists(ui_path):
 		current_layer_management_ui = load(ui_path).instantiate()
 		current_layer_management_ui.init(pc_player, layer, pos_manager)
 		add_child(current_layer_management_ui)

@@ -46,9 +46,8 @@ func assign_specific_layer_info(layer: Layer):
 	if !validate(paths) or !validate(height):
 		print_warning("Object- or height-layer is not valid!")
 		return
-
-	var file2Check = File.new()
-	var is_valid_spatial = file2Check.file_exists(file_path_line_scene.text)
+	
+	var is_valid_spatial = FileAccess.file_exists(file_path_line_scene.text)
 	
 	if !is_valid_spatial:
 		print_warning("Invalid profile!")

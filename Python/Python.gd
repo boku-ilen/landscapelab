@@ -9,4 +9,4 @@ class_name Python
 
 static func is_available():
 	# TODO: More sophisticated check (maybe try running a script)
-	return Directory.new().dir_exists("res://addons/pythonscript")
+	return DirAccess.dir_exists_absolute("res://addons/pythonscript")

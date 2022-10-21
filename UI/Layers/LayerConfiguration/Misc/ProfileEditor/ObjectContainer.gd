@@ -13,8 +13,7 @@ func _ready():
 
 
 func _add_object(world, drag_handler):
-	var f = File.new()
-	if f.file_exists(get_node("ObjectChooser/FileName").text):
+	if FileAccess.file_exists(get_node("ObjectChooser/FileName").text):
 		var object = load(get_node("ObjectChooser/FileName").text).instantiate()
 		world.add_child(object, true)
 		current_object = object

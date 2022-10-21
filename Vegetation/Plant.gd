@@ -69,7 +69,7 @@ func _load_into_cache_if_necessary(full_path):
 #		VegetationImages.plant_image_texture_cache[full_path] = tex
 
 func _get_image(path):
-	if not File.new().file_exists(path):
+	if not FileAccess.file_exists(path):
 		logger.warn("Invalid Plant image (file does not exist): %s" % [path], LOG_MODULE)
 		return null
 	
@@ -77,7 +77,7 @@ func _get_image(path):
 	return VegetationImages.plant_image_cache[path]
 
 func _get_texture(path):
-	if not File.new().file_exists(path):
+	if not FileAccess.file_exists(path):
 		logger.warn("Invalid Plant image (file does not exist): %s" % [path], LOG_MODULE)
 		return null
 	

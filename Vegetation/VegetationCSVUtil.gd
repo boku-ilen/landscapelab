@@ -44,14 +44,12 @@ static func create_groups_from_csv(csv_path: String, plants: Dictionary,
 
 static func save_plants_to_csv(plants: Dictionary, csv_path: String):
 	# Backup the old file
-	var dir = Directory.new()
-	if dir.copy(csv_path, csv_path + ".backup-" + str(Time.get_unix_time_from_system())) != OK:
+	if DirAccess.copy_absolute(csv_path, csv_path + ".backup-" + str(Time.get_unix_time_from_system())) != OK:
 		# TODO: Give a warning to the UI too, const LOG_MODULE cannot be accessed for some reason ...
 		logger.error("Couldn't create backup -- didn't save!", "VEGETATION")
 		return
 	
-	var plant_csv = File.new()
-	plant_csv.open(csv_path, File.WRITE)
+	var plant_csv = FileAccess.open(csv_path, FileAccess.WRITE)
 	
 	if not plant_csv.is_open():
 		logger.error("Plants CSV file at %s could not be created or opened for writing"
@@ -90,14 +88,12 @@ static func save_plants_to_csv(plants: Dictionary, csv_path: String):
 
 static func save_groups_to_csv(groups: Dictionary, csv_path: String) -> void:
 	# Backup the old file
-	var dir = Directory.new()
-	if dir.copy(csv_path, csv_path + ".backup-" + str(Time.get_unix_time_from_system())) != OK:
+	if DirAccess.copy_absolute(csv_path, csv_path + ".backup-" + str(Time.get_unix_time_from_system())) != OK:
 		# TODO: Give a warning to the UI too
 		logger.error("Couldn't create backup -- didn't save!", "VEGETATION")
 		return
 	
-	var group_csv = File.new()
-	group_csv.open(csv_path, File.WRITE)
+	var group_csv = FileAccess.open(csv_path, FileAccess.WRITE)
 	
 	if not group_csv.is_open():
 		logger.error("Groups CSV file at %s could not be created or opened for writing"

@@ -18,8 +18,7 @@ const LOG_MODULE := "CSVREADER"
 
 
 func read_csv(csv_path: String) -> void:
-	var csv_file = File.new()
-	csv_file.open(csv_path, File.READ)
+	var csv_file = FileAccess.open(csv_path, FileAccess.READ)
 	
 	if not csv_file.is_open():
 		logger.error("CSV file does not exist, expected it at %s"
