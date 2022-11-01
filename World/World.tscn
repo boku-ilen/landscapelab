@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://World/TimeManager.gd" id="4"]
 [ext_resource type="Script" path="res://World/WeatherManager.gd" id="5"]
 [ext_resource type="PackedScene" path="res://Layers/LayerRenderers.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://Layers/LayerConfigurator.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://d2e1r4org8oyd" path="res://Layers/LayerConfigurator.tscn" id="7"]
 [ext_resource type="Script" path="res://World/World.gd" id="8"]
 [ext_resource type="Script" path="res://Communication/GetObjectLayerDataRequestHandler.gd" id="9"]
 [ext_resource type="Script" path="res://Communication/SetObjectPositionRequestHandler.gd" id="10"]

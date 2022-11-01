@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" path="res://World/Environment/RainSplashes.tscn" id="9"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_ylech"]
+rayleigh_color = Color(0.24, 0.366, 0.6, 1)
+mie_color = Color(0.6075, 0.671625, 0.81, 1)
+ground_color = Color(1, 1, 1, 1)
 
 [sub_resource type="Sky" id="Sky_gjwmw"]
 sky_material = SubResource("PhysicalSkyMaterial_ylech")
@@ -22,11 +25,10 @@ glow_enabled = true
 glow_intensity = 1.2
 glow_bloom = 0.1
 fog_enabled = true
-fog_density = 0.0005
+fog_density = 0.0003
 fog_aerial_perspective = 1.0
 fog_sky_affect = 0.0
 volumetric_fog_density = 0.01
-adjustment_enabled = true
 adjustment_saturation = 1.2
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
@@ -36,7 +38,7 @@ script = ExtResource("1")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.0647573, 0.811453, 0.58082, 0.161121, -0.582907, 0.796404, 0.984808, 0.0420095, -0.16849, 0, 0, 0)
 layers = 15
-light_energy = 2.0
+light_energy = 1.5
 light_bake_mode = 0
 shadow_enabled = true
 shadow_bias = 0.7
