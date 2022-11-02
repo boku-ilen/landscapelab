@@ -16,8 +16,8 @@ const MAX_GROUPS = 6
 var position_diff_x
 var position_diff_z
 
-var height_layer
-var texture_layer
+var height_layer: GeoRasterLayer
+var texture_layer: GeoRasterLayer
 
 # Data shading specific
 var is_color_shaded
@@ -25,8 +25,8 @@ var min_color: Color
 var max_color: Color
 
 # Terrain specific
-var landuse_layer
-var surface_height_layer
+var landuse_layer: GeoRasterLayer
+var surface_height_layer: GeoRasterLayer
 
 var current_heightmap
 var current_normalmap

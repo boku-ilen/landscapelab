@@ -1,4 +1,4 @@
-extends LayerRenderer
+extends LayerCompositionRenderer
 
 
 var lods = []
@@ -28,10 +28,10 @@ func _ready():
 			lod.ortho_resolution = 100
 			lod.landuse_resolution = 10
 			
-			lod.height_layer = layer.render_info.height_layer.clone()
-			lod.texture_layer = layer.render_info.texture_layer.clone()
-			lod.landuse_layer = layer.render_info.landuse_layer.clone()
-			lod.surface_height_layer = layer.render_info.surface_height_layer.clone()
+			lod.height_layer = layer_composition.render_info.height_layer.clone()
+			lod.texture_layer = layer_composition.render_info.texture_layer.clone()
+			lod.landuse_layer = layer_composition.render_info.landuse_layer.clone()
+			lod.surface_height_layer = layer_composition.render_info.surface_height_layer.clone()
 			
 			lods.append(lod)
 	

@@ -1,18 +1,18 @@
 extends PopupMenu
 
 
-var layer: Layer :
+var layer_composition: LayerComposition :
 	get:
-		return layer 
+		return layer_composition 
 	set(l):
-		layer = l 
+		layer_composition = l 
 		
 		add_separator()
 
 @onready var color_menu = get_node("ColorMenu")
 @onready var object_menu = get_node("ObjectMenu")
 
-var layer_config = preload("res://UI/Layers/LayerConfiguration/Misc/LayerConfigurationWindow.tscn")
+var layer_composition_config = preload("res://UI/Layers/LayerConfiguration/Misc/LayerCompositionConfigurationWindow.tscn")
 
 signal change_color_tag(color)
 signal change_object(object_scene)
@@ -45,9 +45,9 @@ func _on_item_pressed(idx: int):
 
 
 func _open_configure_menu():
-	var instance = layer_config.instantiate()
+	var instance = layer_composition_config.instantiate()
 	add_child(instance)
-	instance.layer_popup(Vector2(100,200), layer)
+	instance.layer_popup(Vector2(100,200), layer_composition)
 	#instance.specific_layer_ui
 
 

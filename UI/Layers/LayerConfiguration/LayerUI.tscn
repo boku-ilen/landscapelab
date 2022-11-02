@@ -1,10 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://38ow144jrx3q"]
+[gd_scene load_steps=7 format=3 uid="uid://cjlxssyojw44m"]
 
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerUI.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bm7bb3ha1w18o" path="res://Resources/Icons/ModernLandscapeLab/delete_file.svg" id="2"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://cs4tv7bap36pw" path="res://Resources/Icons/ModernLandscapeLab/new_file.svg" id="4"]
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerUIConfig.gd" id="5"]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerCompositionUIConfig.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://cwjdfqe2rp1ji" path="res://Resources/Icons/ModernLandscapeLab/filter.svg" id="6"]
 
 [node name="LayerUI" type="PanelContainer"]

@@ -94,11 +94,6 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Layers/Renderers/Terrain/ExtraLOD.gd"
 }, {
-"base": "Layer",
-"class": &"FeatureLayer",
-"language": &"GDScript",
-"path": "res://Layers/FeatureLayer.gd"
-}, {
 "base": "Object",
 "class": &"GameEvent",
 "language": &"GDScript",
@@ -175,14 +170,14 @@ _global_script_classes=[{
 "path": "res://GameSystem/GameObjectAttributes/ImplicitVectorGameObjectAttribute.gd"
 }, {
 "base": "Resource",
-"class": &"Layer",
+"class": &"LayerComposition",
 "language": &"GDScript",
-"path": "res://Layers/Layer.gd"
+"path": "res://Layers/LayerComposition.gd"
 }, {
 "base": "Node3D",
-"class": &"LayerRenderer",
+"class": &"LayerCompositionRenderer",
 "language": &"GDScript",
-"path": "res://Layers/LayerRenderer.gd"
+"path": "res://Layers/LayerCompositionRenderer.gd"
 }, {
 "base": "CSGPolygon3D",
 "class": &"LinearCSGPolygon",
@@ -254,11 +249,6 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://GameSystem/GameEvents/RandomGameEvent.gd"
 }, {
-"base": "Layer",
-"class": &"RasterLayer",
-"language": &"GDScript",
-"path": "res://Layers/RasterLayer.gd"
-}, {
 "base": "AbstractRequestHandler",
 "class": &"RemoveTokenRequestHandler",
 "language": &"GDScript",
@@ -290,9 +280,9 @@ _global_script_classes=[{
 "path": "res://UI/CustomElements/SlideAndSpin.gd"
 }, {
 "base": "Control",
-"class": &"SpecificLayerUI",
+"class": &"SpecificLayerCompositionUI",
 "language": &"GDScript",
-"path": "res://UI/Layers/LayerConfiguration/SpecificLayerUI/SpecificLayerUI.gd"
+"path": "res://UI/Layers/LayerConfiguration/SpecificLayerCompositionUI/SpecificLayerCompositionUI.gd"
 }, {
 "base": "Object",
 "class": &"SpritesheetHelper",
@@ -374,6 +364,16 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://World/WeatherManager.gd"
 }, {
+"base": "Node",
+"class": &"WebSocketClient",
+"language": &"GDScript",
+"path": "res://addons/godot-websocket-nodes/WebSocketClient.gd"
+}, {
+"base": "Node",
+"class": &"WebSocketServer",
+"language": &"GDScript",
+"path": "res://addons/godot-websocket-nodes/WebSocketServer.gd"
+}, {
 "base": "Object",
 "class": &"logger",
 "language": &"GDScript",
@@ -397,7 +397,6 @@ _global_script_class_icons={
 "EventAction": "",
 "ExplicitGameObjectAttribute": "",
 "ExtraLOD": "",
-"FeatureLayer": "",
 "GameEvent": "",
 "GameMode": "",
 "GameObject": "",
@@ -413,8 +412,8 @@ _global_script_class_icons={
 "GroundTexture": "",
 "ImplicitRasterGameObjectAttribute": "",
 "ImplicitVectorGameObjectAttribute": "",
-"Layer": "",
-"LayerRenderer": "",
+"LayerComposition": "",
+"LayerCompositionRenderer": "",
 "LinearCSGPolygon": "",
 "MoveableObject": "",
 "NewExtentRequestHandler": "",
@@ -429,14 +428,13 @@ _global_script_class_icons={
 "Profile": "",
 "Python": "",
 "RandomGameEvent": "",
-"RasterLayer": "",
 "RemoveTokenRequestHandler": "",
 "Scenario": "",
 "SetObjectPositionRequestHandler": "",
 "SetPositionRequestHandler": "",
 "SetTableExtentRequestHandler": "",
 "SlideAndSpin": "",
-"SpecificLayerUI": "",
+"SpecificLayerCompositionUI": "",
 "SpritesheetHelper": "",
 "StackedProgressBar": "",
 "StaticAttribute": "",
@@ -453,6 +451,8 @@ _global_script_class_icons={
 "VegetationGPKGUtil": "",
 "VegetationUtil": "",
 "WeatherManager": "",
+"WebSocketClient": "",
+"WebSocketServer": "",
 "logger": ""
 }
 

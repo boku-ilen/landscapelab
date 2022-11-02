@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://ohbaf05rx6us"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="PackedScene" path="res://Layers/LayerRenderer.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://Layers/LayerCompositionRenderer.tscn" id="1"]
 [ext_resource type="Script" path="res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.gd" id="2"]
 
 [node name="RasterVegetationRenderer" instance=ExtResource("1")]

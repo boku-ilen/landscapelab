@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8g0jp1mokpfn"]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://Layers/Renderers/2DLayer/2DLayerRenderer.gd" id="1"]
 [ext_resource type="Script" path="res://Layers/Renderers/2DLayer/TexturePlane.gd" id="2"]

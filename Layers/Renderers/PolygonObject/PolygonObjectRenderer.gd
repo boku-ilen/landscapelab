@@ -1,4 +1,4 @@
-extends LayerRenderer
+extends LayerCompositionRenderer
 
 
 var radius = 10000
@@ -12,8 +12,8 @@ var object_instances = []
 
 
 func load_new_data():
-	var polygon_layer = layer.render_info.polygon_layer
-	var object_layer: FeatureLayer = layer.render_info.object_layer
+	var polygon_layer: GeoFeatureLayer = layer_composition.render_info.polygon_layer
+	var object_layer: GeoFeatureLayer = layer_composition.render_info.object_layer
 	
 	# Extract features
 	var features = polygon_layer.get_features_near_position(center[0], center[1], radius, max_features)
@@ -32,7 +32,7 @@ func load_new_data():
 			max_pos.x = vertex.x if vertex.x > max_pos.x else max_pos.x
 			max_pos.z = vertex.y if vertex.y > max_pos.z else max_pos.z
 		
-		var object: Node3D = layer.render_info.object.instantiate()
+		var object: Node3D = layer_composition.render_info.object.instantiate()
 		
 		var current_pos = min_pos
 		while current_pos.x <= max_pos.x:
@@ -52,10 +52,10 @@ func load_new_data():
 						fully_inside = false
 				
 				if fully_inside:
-					var new_object = layer.render_info.object.instantiate()
-					new_object.rotation.y = deg_to_rad(layer.render_info.individual_rotation)
+					var new_object = layer_composition.render_info.object.instantiate()
+					new_object.rotation.y = deg_to_rad(layer_composition.render_info.individual_rotation)
 					new_object.position = current_pos
-					new_object.position.y = layer.render_info.ground_height_layer.get_value_at_position(
+					new_object.position.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
 						center[0] + current_pos.x, center[1] - current_pos.z)
 					object_instances.append(new_object)
 				

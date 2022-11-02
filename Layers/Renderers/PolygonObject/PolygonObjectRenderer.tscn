@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://855vcumdveav"]
 
-[ext_resource path="res://Layers/Renderers/PolygonObject/PolygonObjectRenderer.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Layers/Renderers/PolygonObject/PolygonObjectRenderer.gd" id="1"]
 
 [node name="PolygonObjectRenderer" type="Node3D"]
-script = ExtResource( 1 )
+script = ExtResource("1")

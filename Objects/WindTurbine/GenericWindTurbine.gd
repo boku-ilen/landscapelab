@@ -75,7 +75,7 @@ func _ready():
 	# Start at a random rotation
 	rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, randf() * PI * 2.0)
 	
-	if feature and render_info and render_info is Layer.WindTurbineRenderInfo:
+	if feature and render_info and render_info is LayerComposition.WindTurbineRenderInfo:
 		var height_attribute_name = render_info.height_attribute_name
 		var diameter_attribute_name = render_info.diameter_attribute_name
 		
