@@ -14,13 +14,13 @@ func _ready():
 	for x in range(-extent, extent + 1):
 		for y in range(-extent, extent + 1):
 			var lod = preload("res://Layers/Renderers/Terrain/TerrainLOD.tscn").instantiate()
-			
+
 			var size = chunk_size
 			var lod_position = Vector3(x * size, 0.0, y * size)
-			
+
 			lod.position = lod_position
 			lod.size = size
-			
+
 #			if x == 0 and y == 0:
 #				lod.ortho_resolution = 1000
 #				lod.landuse_resolution = 100
@@ -28,11 +28,13 @@ func _ready():
 			lod.ortho_resolution = 100
 			lod.landuse_resolution = 10
 			
+			var test = layer_composition.render_info.height_layer.is_valid()
+			GeoRasterLayer
 			lod.height_layer = layer_composition.render_info.height_layer.clone()
 			lod.texture_layer = layer_composition.render_info.texture_layer.clone()
 			lod.landuse_layer = layer_composition.render_info.landuse_layer.clone()
 			lod.surface_height_layer = layer_composition.render_info.surface_height_layer.clone()
-			
+
 			lods.append(lod)
 	
 #	# Spawn LODs

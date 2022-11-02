@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://vbxp2lb1dpj"]
 
 [ext_resource type="Script" path="res://Layers/LayerCompositionRenderers.gd" id="1"]
 [ext_resource type="Script" path="res://Layers/LayerCompositionRenderersConfig.gd" id="2"]
 
 [node name="LayerRenderers" type="Node3D"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="LayerRenderersConfig" type="Node" parent="."]
-script = ExtResource( 2 )
+script = ExtResource("2")
 category = "LayersRenderers"

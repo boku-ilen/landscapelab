@@ -1,7 +1,7 @@
 extends MeshInstance3D
 
 # Note: the mesh must always be scaled so that one unit within the mesh resolution corresponds to 1m
-@export var mesh_resolution: float = 100
+@export var mesh_resolution: int = 100
 @export var size: float = 100
 
 @export var ortho_resolution: int = 1000
@@ -59,8 +59,8 @@ func rebuild_aabb():
 
 
 func build(center_x, center_y):
-	var top_left_x = center_x - size / 2 
-	var top_left_y = center_y + size / 2 
+	var top_left_x = float(center_x - size / 2)
+	var top_left_y = float(center_y + size / 2)
 	
 	scale.x = size / mesh_resolution
 	scale.z = size / mesh_resolution
@@ -78,6 +78,7 @@ func build(center_x, center_y):
 		mesh_resolution + 1,
 		0
 	)
+	
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
