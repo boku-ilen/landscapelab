@@ -10,6 +10,10 @@ var position_manager: PositionManager :
 		
 		position_manager.add_signal_dependency(self, "loading_finished")
 		
+		for renderer in get_children():
+			if renderer is LayerRenderer:
+				renderer.position_manager = position_manager
+		
 		apply_center(position_manager.get_center())
 
 var time_manager: TimeManager :
@@ -56,6 +60,7 @@ func add_child(child: Node, force_readable_name: bool = false, internal: int = 0
 	# Give the child a center position
 	if position_manager:
 		# Apply the center position from the PositionManager
+		child.position_manager = position_manager
 		child.center = position_manager.get_center()
 	elif apply_default_center:
 		# Apply the default center for use without a PositionManager
@@ -101,7 +106,7 @@ func update_renderers(center_array):
 			
 			logger.debug("Child {} beginning to load", LOG_MODULE)
 
-			renderer.load_new_data()
+			renderer.load_new_data(Vector3.ZERO)
 			call_deferred("_on_renderer_finished", renderer.name)
 	
 	call_deferred("finish_loading_thread")

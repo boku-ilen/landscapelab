@@ -21,7 +21,7 @@ func set_time_manager():
 			child.set("time_manager", time_manager)
 
 
-func load_new_data():
+func load_new_data(position_diff: Vector3):
 	is_loading = true
 	features = layer.get_features_near_position(center[0], center[1], radius, max_features)
 

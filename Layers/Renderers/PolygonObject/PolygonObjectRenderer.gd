@@ -11,7 +11,7 @@ var very_large_number = 999999.0
 var object_instances = []
 
 
-func load_new_data():
+func load_new_data(position_diff: Vector3):
 	var polygon_layer = layer.render_info.polygon_layer
 	var object_layer: FeatureLayer = layer.render_info.object_layer
 	

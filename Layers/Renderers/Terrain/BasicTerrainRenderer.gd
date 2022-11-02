@@ -24,7 +24,7 @@ func _ready():
 			lod.material_override.set_shader_parameter("alpha", layer.render_info.alpha)
 
 
-func load_new_data():
+func load_new_data(position_diff: Vector3):
 	for lod in lods:
 		lod.position_x = center[0]
 		lod.position_y = center[1]

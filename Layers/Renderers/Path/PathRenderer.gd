@@ -6,7 +6,7 @@ var max_features = 1000
 var line_vis_instances = []
 
 
-func load_new_data():
+func load_new_data(position_diff: Vector3):
 	var geo_lines = layer.get_features_near_position(center[0], center[1], radius, max_features)
 	
 	for geo_line in geo_lines:

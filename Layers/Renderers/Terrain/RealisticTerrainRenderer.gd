@@ -7,8 +7,6 @@ var previous_center
 var chunk_size = 1000
 var extent = 7 # extent of chunks in every direction
 
-var update_thread = Thread.new()
-
 
 func _ready():
 	for x in range(-extent, extent + 1):
@@ -72,7 +70,14 @@ func _ready():
 		add_child(lod)
 
 
-func load_new_data():
+func is_new_loading_required(position_diff: Vector3) -> bool:
+	if abs(position_diff.x) > chunk_size or abs(position_diff.z) > chunk_size:
+		return true
+	else:
+		return false
+
+
+func load_new_data(position_diff: Vector3):
 	if previous_center == null:
 		previous_center = [0, 0]
 		
@@ -85,58 +90,45 @@ func load_new_data():
 			
 			lod.build(center[0] + lod.position.x + lod.position_diff_x, center[1] - lod.position.z - lod.position_diff_z)
 	else:
-		var nearest_lod_distance = INF
-		var nearest_lod
-		
 		for lod in lods:
-			lod.position_diff_x = previous_center[0] - center[0]
-			lod.position_diff_z = center[1] - previous_center[1]
-			
-#			var remainder_x = center[0] % chunk_size
-#			var remainder_y = center[1] % chunk_size
-#
-#			lod.position_x = center[0]
-#			lod.position_y = center[1]
+			lod.position_diff_x = 0.0
+			lod.position_diff_z = 0.0
 
 			var changed = false
 
-			while lod.position.x + lod.position_diff_x >= chunk_size * extent:
-				lod.position_diff_x += -chunk_size * extent * 2 - chunk_size
+			if lod.position.x - position_manager.center_node.position.x >= chunk_size * extent:
+				lod.position_diff_x = -chunk_size * extent * 2 - chunk_size
 				changed = true
-			while lod.position.x + lod.position_diff_x <= -chunk_size * extent:
-				lod.position_diff_x += chunk_size * extent * 2 + chunk_size
+			if lod.position.x - position_manager.center_node.position.x <= -chunk_size * extent:
+				lod.position_diff_x = chunk_size * extent * 2 + chunk_size
 				changed = true
-			while lod.position.z + lod.position_diff_z >= chunk_size * extent:
-				lod.position_diff_z += -chunk_size * extent * 2 - chunk_size
+			if lod.position.z - position_manager.center_node.position.z >= chunk_size * extent:
+				lod.position_diff_z = -chunk_size * extent * 2 - chunk_size
 				changed = true
-			while lod.position.z + lod.position_diff_z <= -chunk_size * extent:
-				lod.position_diff_z += chunk_size * extent * 2 + chunk_size
+			if lod.position.z - position_manager.center_node.position.z <= -chunk_size * extent:
+				lod.position_diff_z = chunk_size * extent * 2 + chunk_size
 				changed = true
 			
 			if changed:
 				lod.build(center[0] + lod.position.x + lod.position_diff_x, center[1] - lod.position.z - lod.position_diff_z)
-			
-			var distance = lod.position.length_squared()
-			
-			if distance < nearest_lod_distance:
-				nearest_lod_distance = distance
-				nearest_lod = lod
 	
-		nearest_lod.ortho_resolution = 1000
-		nearest_lod.landuse_resolution = 100
-		nearest_lod.build(center[0] + nearest_lod.position.x + previous_center[0] - center[0], center[1] - nearest_lod.position.z - center[1] + previous_center[1])
-		nearest_lod.changed = true
+#		nearest_lod.ortho_resolution = 1000
+#		nearest_lod.landuse_resolution = 100
+#		nearest_lod.build(center[0] + nearest_lod.position.x + previous_center[0] - center[0], center[1] - nearest_lod.position.z - center[1] + previous_center[1])
+#		nearest_lod.changed = true
 	
 	previous_center[0] = center[0]
 	previous_center[1] = center[1]
+	
+	call_deferred("apply_new_data")
 
 
 func apply_new_data():
 	for lod in get_children():
-		lod.position.x += lod.position_diff_x
-		lod.position.z += lod.position_diff_z
-		
 		if lod.changed:
+			lod.position.x += lod.position_diff_x
+			lod.position.z += lod.position_diff_z
+			
 			lod.apply_textures()
 
 

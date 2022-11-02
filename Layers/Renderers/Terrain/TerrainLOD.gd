@@ -149,23 +149,23 @@ func apply_textures():
 		material_override.set_shader_parameter("heightmap", current_heightmap)
 		material_override.set_shader_parameter("normalmap", current_normalmap)
 		
-		# Create a float array for the heightmap collider to use as a heightmap
-		var heightmap_image = current_heightmap.get_image()
-		heightmap_image.convert(Image.FORMAT_RF)
-		$HeightmapCollider/CollisionShape3D.shape = HeightMapShape3D.new()
-		$HeightmapCollider/CollisionShape3D.shape.map_width = heightmap_image.get_width()
-		$HeightmapCollider/CollisionShape3D.shape.map_depth = heightmap_image.get_height()
-
-		# Assign the heights using the image's raw data.
-		# Because the format matches, this is straightforward
-		var float_array = PackedFloat32Array()
-		float_array.resize(heightmap_image.get_width() * heightmap_image.get_height())
-		var i = 0
-		for y in heightmap_image.get_height():
-			for x in heightmap_image.get_width():
-				float_array[i] = heightmap_image.get_pixel(x, y).r
-				i += 1
-		$HeightmapCollider/CollisionShape3D.shape.map_data = float_array
+#		# Create a float array for the heightmap collider to use as a heightmap
+#		var heightmap_image = current_heightmap.get_image()
+#		heightmap_image.convert(Image.FORMAT_RF)
+#		$HeightmapCollider/CollisionShape3D.shape = HeightMapShape3D.new()
+#		$HeightmapCollider/CollisionShape3D.shape.map_width = heightmap_image.get_width()
+#		$HeightmapCollider/CollisionShape3D.shape.map_depth = heightmap_image.get_height()
+#
+#		# Assign the heights using the image's raw data.
+#		# Because the format matches, this is straightforward
+#		var float_array = PackedFloat32Array()
+#		float_array.resize(heightmap_image.get_width() * heightmap_image.get_height())
+#		var i = 0
+#		for y in heightmap_image.get_height():
+#			for x in heightmap_image.get_width():
+#				float_array[i] = heightmap_image.get_pixel(x, y).r
+#				i += 1
+#		$HeightmapCollider/CollisionShape3D.shape.map_data = float_array
 		
 		for child in get_children():
 			if child is ExtraLOD:
