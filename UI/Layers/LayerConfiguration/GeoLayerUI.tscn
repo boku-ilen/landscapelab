@@ -3,19 +3,26 @@
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayerUIConfig.gd" id="2"]
 
 [node name="GeoLayerUI" type="VBoxContainer"]
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -270.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Tree" type="Tree" parent="."]
+custom_minimum_size = Vector2i(0, 100)
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 378.0
+size_flags_vertical = 3
+allow_reselect = true
+hide_folding = true
+enable_recursive_folding = false
+hide_root = true
+drop_mode_flags = 1
 
 [node name="GeoLayerUIConfig" type="Node" parent="."]
 script = ExtResource("2")
-
-[node name="Tree" type="Tree" parent="."]
-offset_right = 1152.0
-allow_reselect = true
-allow_rmb_select = true
-hide_folding = true
-hide_root = true
-drop_mode_flags = 3
