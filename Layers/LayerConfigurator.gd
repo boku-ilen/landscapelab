@@ -675,8 +675,8 @@ func load_path_layer_composition(db, layer_config, geo_layers_config) -> LayerCo
 	path_layer.render_info = LayerComposition.PathRenderInfo.new()
 	path_layer.render_info.geo_feature_layer = get_geofeaturelayer_by_name(
 		db, "paths", geo_layers_config.features)
-	path_layer.render_info.line_visualization = get_extension_by_key(
-		db, "line_visualization", layer_config.id)
+	path_layer.render_info.line_visualization = load(get_extension_by_key(
+		db, "line_visualization", layer_config.id))
 	path_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
 		db, "HEIGHT_LAYER", geo_layers_config.rasters)
 	path_layer.name = layer_config.name
