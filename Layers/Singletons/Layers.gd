@@ -64,11 +64,11 @@ func add_geo_layer(layer: Resource, is_raster: bool):
 
 func remove_layer_composition(layer_composition_name: String):
 	if layer_compositions[layer_composition_name].is_scored:
-		emit_signal("removed_scored_layer", layer_composition_name)
+		emit_signal("removed_scored_layer_composition", layer_composition_name)
 	if is_layer_composition_rendered(layer_compositions[layer_composition_name]):
-		emit_signal("removed_rendered_layer", layer_composition_name, layer_compositions[layer_composition_name].render_type)
+		emit_signal("removed_rendered_layer_composition", layer_composition_name, layer_compositions[layer_composition_name].render_type)
 	
-	emit_signal("removed_layer", layer_composition_name)
+	emit_signal("removed_layer_composition", layer_composition_name)
 	
 	layer_compositions.erase(layer_composition_name)
 

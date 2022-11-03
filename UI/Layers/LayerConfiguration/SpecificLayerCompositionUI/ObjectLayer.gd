@@ -1,4 +1,4 @@
-extends SpecificLayerUI
+extends SpecificLayerCompositionUI
 
 
 @onready var geodata_objects: OptionButton = get_node("RightBox/GeodataChooserPoint/OptionButton")
@@ -6,9 +6,9 @@ extends SpecificLayerUI
 @onready var file_path_object_scene = get_node("RightBox/ObjectChooser/FileName")
 
 
-func assign_specific_layer_info(layer: Layer):
-	if layer.render_info == null:
-		layer.render_info = Layer.ObjectRenderInfo.new()
+func assign_specific_layer_info(layerc: LayerComposition):
+	if layerc.render_info == null:
+		layerc.render_info = LayerComposition.ObjectRenderInfo.new()
 
 	# Obtain the point data where the object shall be set
 	if not geodata_objects.get_selected_id() < geodata_objects.get_item_count():

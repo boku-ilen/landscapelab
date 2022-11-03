@@ -11,7 +11,7 @@ func _ready():
 	
 	for layer in Layers.geo_layers["features"]:
 		add_geo_layer(Layers.geo_layers["features"][layer], false)
-		
+	
 	Layers.connect("new_geo_layer",Callable(self,"add_geo_layer"))
 
 

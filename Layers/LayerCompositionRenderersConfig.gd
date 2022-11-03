@@ -45,5 +45,5 @@ func add_layer_composition(layer_composition: LayerComposition):
 	layer_composition_renderers.add_child(new_layer_composition)
 
 
-func remove_layer(name_to_remove):
+func remove_layer_composition(name_to_remove, type):
 	layer_composition_renderers.get_node(name_to_remove).queue_free()

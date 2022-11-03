@@ -3,11 +3,9 @@ extends ConfirmationDialog
 var layer_composition: LayerComposition
 var specific_layer_composition_ui: SpecificLayerCompositionUI
 
-@onready var container = get_node("VBoxContainer")
-@onready var layer_composition_name = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/Name")
-@onready var layer_composition_color_tag = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/ColorTagMenu")
-@onready var layer_composition_type = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/TypeChooser")
-@onready var type_chooser = get_node("VBoxContainer/HSplitContainer/VBoxContainer2/TypeChooser")
+@onready var layer_composition_name = $VBoxContainer/GridContainer/Name
+@onready var layer_composition_color_tag = $VBoxContainer/GridContainer/ColorTagMenu
+@onready var type_chooser = $VBoxContainer/GridContainer/TypeChooser
 
 var RenderTypeObject = {
 	"NONE": LayerComposition,
@@ -38,7 +36,7 @@ func layer_popup(min_size: Vector2, existing_layer_composition: LayerComposition
 	
 	if layer_composition != null:
 		layer_composition_name.text = layer_composition.name
-		layer_composition_type.selected = layer_composition.render_type
+		type_chooser.selected = layer_composition.render_type
 		
 		# FIXME: this probably should not be done like this anyways so we should fix this
 		var type_string: String = LayerComposition.RenderType.keys()[layer_composition.render_type]
@@ -48,7 +46,7 @@ func layer_popup(min_size: Vector2, existing_layer_composition: LayerComposition
 
 func _on_confirm():
 	var is_new: bool = false
-	var current_type = layer_composition_type.get_item_metadata(layer_composition_type.get_selected_id())
+	var current_type = type_chooser.get_item_metadata(type_chooser.get_selected_id())
 	
 	if layer_composition == null:
 		layer_composition = RenderTypeObject[current_type].new()
@@ -74,12 +72,6 @@ func _on_confirm():
 	
 	hide()
 
-# FIXME: Is this still necessary?
-#func resize(add: Vector2):
-#	minimum_size.y = min_size.y + add.y
-#	minimum_size.x = max(add.x, min_size.x) 
-#	size = minimum_size
-
 
 func _add_types():
 	var idx = 0
@@ -95,7 +87,7 @@ func _on_type_select(idx: int):
 	type = type.substr(0, 1) + type.substr(1).to_lower()
 	
 	if specific_layer_composition_ui != null:
-		container.remove_child(specific_layer_composition_ui)
+		$VBoxContainer.remove_child(specific_layer_composition_ui)
 	
 	_add_specific_layer_conf(type)
 
@@ -107,7 +99,7 @@ func _add_specific_layer_conf(type_string: String):
 	
 	if layer_composition: specific_layer_composition_ui.init(layer_composition)
 	
-	container.add_child(specific_layer_composition_ui)
-	container.move_child(specific_layer_composition_ui, 1)
+	$VBoxContainer.add_child(specific_layer_composition_ui)
+	$VBoxContainer.move_child(specific_layer_composition_ui, 1)
 	
 	specific_layer_composition_ui.connect("new_size",Callable(self,"resize"))

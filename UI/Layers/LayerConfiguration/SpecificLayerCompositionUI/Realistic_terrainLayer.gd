@@ -5,10 +5,10 @@ func assign_specific_layer_info(layer_composition):
 	if layer_composition.render_info == null:
 		layer_composition.render_info = LayerComposition.RealisticTerrainRenderInfo.new()
 	
-	var texture_layer = $RightBox/GeodataChooserTexture.get_geo_layer(true)
-	var height_layer = $RightBox/GeodataChooserHeight.get_geo_layer(true)
-	var sheight_layer = $RightBox/GeodataChooserSurfaceHeight.get_geo_layer(true)
-	var landuse_layer = $RightBox/GeodataChooserLandUse.get_geo_layer(true)
+	var texture_layer = $GeodataChooserTexture.get_geo_layer(true)
+	var height_layer = $GeodataChooserHeight.get_geo_layer(true)
+	var sheight_layer = $GeodataChooserSurfaceHeight.get_geo_layer(true)
+	var landuse_layer = $GeodataChooserLandUse.get_geo_layer(true)
 
 	if !validate(texture_layer) or !validate(height_layer):
 		print_warning("Texture2D- or height-layer is invalid!")
@@ -21,11 +21,11 @@ func assign_specific_layer_info(layer_composition):
 
 
 func init_specific_layer_info(layer_composition: LayerComposition):
-	$RightBox/GeodataChooserHeight.init_from_layer(
+	$GeodataChooserHeight.init_from_layer(
 		layer_composition.render_info.height_layer)
-	$RightBox/GeodataChooserTexture.init_from_layer(
+	$GeodataChooserTexture.init_from_layer(
 		layer_composition.render_info.texture_layer)
-	$RightBox/GeodataChooserSurfaceHeight.init_from_layer(
+	$GeodataChooserSurfaceHeight.init_from_layer(
 		layer_composition.render_info.surface_height_layer)
-	$RightBox/GeodataChooserLandUse.init_from_layer(
+	$GeodataChooserLandUse.init_from_layer(
 		layer_composition.render_info.landuse_layer)

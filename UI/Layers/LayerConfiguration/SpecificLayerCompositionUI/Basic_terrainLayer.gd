@@ -1,4 +1,4 @@
-extends SpecificLayerUI
+extends SpecificLayerCompositionUI
 
 
 func _ready():
@@ -36,9 +36,9 @@ func _set_color(button: Button, color_picker: ColorPicker):
 	button.color = color_picker.color
 
 
-func assign_specific_layer_info(layer):
-	if layer.render_info == null:
-		layer.render_info = Layer.BasicTerrainRenderInfo.new()
+func assign_specific_layer_info(layerc):
+	if layerc.render_info == null:
+		layerc.render_info = LayerComposition.BasicTerrainRenderInfo.new()
 	
 	var texture_layer = $RightBox/GeodataChooserTexture.get_geo_layer(true)
 	var height_layer = $RightBox/GeodataChooserHeight.get_geo_layer(true)
@@ -47,29 +47,29 @@ func assign_specific_layer_info(layer):
 		print_warning("Texture2D- or height-layer is invalid!")
 		return
 	
-	layer.render_info.height_layer = height_layer.clone()
-	layer.render_info.texture_layer = texture_layer.clone()
-	layer.render_info.is_color_shaded = $RightBox/CheckBox.pressed
-	layer.render_info.max_value = $RightBox/ColorShading/MaxVal.value
-	layer.render_info.max_color = $RightBox/ColorShading/ButtonMax.color
-	layer.render_info.min_value = $RightBox/ColorShading/MinVal.value
-	layer.render_info.min_color = $RightBox/ColorShading/ButtonMin.color
-	layer.render_info.alpha = $RightBox/ColorShading/AlphaSpinBox.value
+	layerc.render_info.height_layer = height_layer.clone()
+	layerc.render_info.texture_layer = texture_layer.clone()
+	layerc.render_info.is_color_shaded = $RightBox/CheckBox.pressed
+	layerc.render_info.max_value = $RightBox/ColorShading/MaxVal.value
+	layerc.render_info.max_color = $RightBox/ColorShading/ButtonMax.color
+	layerc.render_info.min_value = $RightBox/ColorShading/MinVal.value
+	layerc.render_info.min_color = $RightBox/ColorShading/ButtonMin.color
+	layerc.render_info.alpha = $RightBox/ColorShading/AlphaSpinBox.value
 
 
-func init_specific_layer_info(layer):
+func init_specific_layer_info(layerc):
 	$RightBox/GeodataChooserHeight.init_from_layer(
-		layer.render_info.height_layer)
+		layerc.render_info.height_layer)
 	$RightBox/GeodataChooserTexture.init_from_layer(
-		layer.render_info.texture_layer)
-	$RightBox/CheckBox.button_pressed = layer.render_info.is_color_shaded
+		layerc.render_info.texture_layer)
+	$RightBox/CheckBox.button_pressed = layerc.render_info.is_color_shaded
 	
 	# Information is only interesting if colorshading is enabled
-	if layer.render_info.is_color_shaded:
+	if layerc.render_info.is_color_shaded:
 		$RightBox/ColorShading.visible = true
 		$LeftBox/ColorShading.visible = true
-		$RightBox/ColorShading/MaxVal.value = layer.render_info.max_value
-		$RightBox/ColorShading/ButtonMax.color = layer.render_info.max_color
-		$RightBox/ColorShading/MinVal.value = layer.render_info.min_value
-		$RightBox/ColorShading/ButtonMin.color = layer.render_info.min_color
-		$RightBox/ColorShading/AlphaSpinBox.value = layer.render_info.alpha
+		$RightBox/ColorShading/MaxVal.value = layerc.render_info.max_value
+		$RightBox/ColorShading/ButtonMax.color = layerc.render_info.max_color
+		$RightBox/ColorShading/MinVal.value = layerc.render_info.min_value
+		$RightBox/ColorShading/ButtonMin.color = layerc.render_info.min_color
+		$RightBox/ColorShading/AlphaSpinBox.value = layerc.render_info.alpha

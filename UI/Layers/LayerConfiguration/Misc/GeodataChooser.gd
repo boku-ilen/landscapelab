@@ -20,7 +20,7 @@ func _ready():
 
 func _on_item_selcted(idx: int):
 	if not show_raster_layers:
-		var layer = get_geo_layer(false)
+		var layer #= get_geo_layer(false)
 		emit_signal("new_layer_selected", layer)
 
 
@@ -67,33 +67,29 @@ func is_current_path_valid():
 	return FileAccess.file_exists($FileChooser/FileName.text)
 
 
-func get_geo_layer(is_raster: bool = true):
+func get_geo_layer(function_str: String):
+	var dataset
+	var access_str: String
+	if is_current_file_dataset():
+		access_str = $OptionButton.get_item_text($OptionButton.get_selected_id())
+		dataset = Geodot.get_dataset($FileChooser/FileName.text)
+	else:
+		access_str = $FileChooser/FileName.text
+		dataset = Geodot
+	
+	return dataset.call(function_str).bind(access_str)
+
+
+func get_geo_feature_layer():
 	if not is_current_path_valid(): return null
 	
-	if is_current_file_dataset():
-		var sub_layer_name = $OptionButton.get_item_text($OptionButton.get_selected_id())
-		var dataset = Geodot.get_dataset($FileChooser/FileName.text)
-		if is_raster:
-			var raster_layer = RasterLayer.new()
-			raster_layer.geo_raster_layer = dataset.get_raster_layer(sub_layer_name)
-			raster_layer.name = raster_layer.geo_raster_layer.resource_name
-			return raster_layer
-		else:
-			var feature_layer = FeatureLayer.new()
-			feature_layer.geo_feature_layer = dataset.get_feature_layer(sub_layer_name)
-			feature_layer.name = feature_layer.geo_feature_layer.resource_name
-			return feature_layer
-	else:
-		if is_raster:
-			var raster_layer = RasterLayer.new()
-			raster_layer.geo_raster_layer = Geodot.get_raster_layer($FileChooser/FileName.text)
-			raster_layer.name = $FileChooser/FileName.text.get_file() 
-			return raster_layer
-		else:
-			var feature_layer = FeatureLayer.new()
-			feature_layer.geo_feature_layer = Geodot.get_feature_layer($FileChooser/FileName.text)
-			feature_layer.name = $FileChooser/FileName.text.get_file() 
-			return feature_layer
+	return get_geo_layer("get_feature_layer")
+
+
+func get_geo_raster_layer():
+	if not is_current_path_valid(): return null
+	
+	return get_geo_layer("get_raster_layer")
 
 
 func _get_dataset_option_by_name(_name: String):
@@ -103,9 +99,10 @@ func _get_dataset_option_by_name(_name: String):
 			return i
 
 
-func init_from_layer(layer: Layer):
-	$FileChooser/FileName.text = layer.get_path()
+func init_from_layer(geolayer):
+	var path = geolayer.get_dataset().get_path() if geolayer.has_method("get_dataset") else geolayer.get_name()
+	$FileChooser/FileName.text = path
 	if is_current_file_dataset():
 		_fill_dataset_options()
-		var idx = _get_dataset_option_by_name(layer.get_name())
+		var idx = _get_dataset_option_by_name(geolayer.get_name())
 		if idx != null: $OptionButton.select(idx) 

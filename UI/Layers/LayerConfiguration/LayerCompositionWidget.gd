@@ -35,13 +35,6 @@ func _ready():
 			else: $GeoLayers.set_custom_minimum_size(Vector2i(0, 80)))
 
 func _reload():
-	# FIXME: check wheter raster of rfeature composition 
-	#if layer_composition is LayerComposition:
-	#	icon.texture = load("%s/raster.svg" % icon_prefix)
-	#elif layer_composition is FeatureLayerComposition:
-	#	icon.texture = load("%s/vector.svg" % icon_prefix)
-	#else:
-	
 	if layer_composition.render_type > 4:
 		icon.texture = load("%s/vector.svg" % icon_prefix)
 	else:

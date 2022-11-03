@@ -14,7 +14,6 @@ size_flags_vertical = 3
 
 [node name="Tree" type="Tree" parent="."]
 custom_minimum_size = Vector2i(0, 100)
-layout_mode = 2
 offset_right = 1152.0
 offset_bottom = 378.0
 size_flags_vertical = 3

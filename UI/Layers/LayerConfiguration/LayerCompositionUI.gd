@@ -13,7 +13,7 @@ var layer_composition_config_window = preload("res://UI/Layers/LayerConfiguratio
 var current_config_window
 
 @onready var new_button = get_node("VBoxContainer/Menu/NewLayer")
-@onready var delete_button = get_node("VBoxContainer/Menu/DeleteLayer")
+@onready var delete_button = $VBoxContainer/Menu/DeleteLayer
 @onready var filter_button = get_node("VBoxContainer/Menu/Filter")
 @onready var filter_options = get_node("VBoxContainer/Menu/Filter/FilterOptions")
 @onready var layer_composition_container = get_node("VBoxContainer/ScrollLayers/LayerContainer")
@@ -23,7 +23,7 @@ func _ready():
 	_setup_filters()
 	
 	new_button.connect("pressed",Callable(self,"_on_new_layer_composition"))
-	delete_button.connect("pressed",Callable(self,"_delete_layer"))
+	delete_button.connect("pressed",Callable(self,"_delete_layer_composition"))
 	filter_button.connect("pressed",Callable(self,"_open_filter_options"))
 	filter_options.connect("index_pressed",Callable(self,"_alter_filters"))
 	layer_composition_container.connect("sort_children",Callable(self,"_setup_layer_composition_widgets"))
@@ -35,7 +35,7 @@ func _on_new_layer_composition():
 		
 	current_config_window = layer_composition_config_window.instantiate()
 	new_button.add_child(current_config_window)
-	current_config_window.popup_centered(current_config_window.minimum_size)
+	current_config_window.popup_centered()
 
 
 func _open_filter_options():
@@ -62,7 +62,7 @@ func _alter_filters(idx):
 
 func _delete_layer_composition():
 	if selected_layer_composition != null:
-		Layers.remove_layer(selected_layer_composition.layer_composition.name)
+		Layers.remove_layer_composition(selected_layer_composition.layer_composition.name)
 
 
 func _on_layer_select(event: InputEvent, layer_composition_widget):

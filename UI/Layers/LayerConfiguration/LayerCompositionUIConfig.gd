@@ -13,8 +13,8 @@ func _ready():
 	for layer_composition in Layers.layer_compositions.values():
 		add_layer_composition(layer_composition)
 		
-	Layers.connect("new_layer_composition",Callable(self,"add_layer"))
-	Layers.connect("removed_layer_composition",Callable(self,"remove_layer"))
+	Layers.connect("new_layer_composition",Callable(self,"add_layer_composition"))
+	Layers.connect("removed_layer_composition",Callable(self,"remove_layer_composition"))
 
 
 func add_layer_composition(layer_composition: LayerComposition):
