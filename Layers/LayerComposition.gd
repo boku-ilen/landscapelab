@@ -74,6 +74,9 @@ class RenderInfo:
 	func get_geolayers() -> Array:
 		return []
 	
+	func get_described_geolayers() -> Dictionary:
+		return {}
+	
 	func is_valid() -> bool:
 		return true
 
@@ -91,6 +94,9 @@ class BasicTerrainRenderInfo extends RenderInfo:
 	func get_geolayers():
 		return [height_layer, texture_layer]
 	
+	func get_described_geolayers() -> Dictionary:
+		return {"Height": height_layer, "Texture": texture_layer}
+	
 	func is_valid():
 		return height_layer != null and (is_color_shaded or texture_layer != null)
 
@@ -103,6 +109,10 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	func get_geolayers():
 		return [height_layer, surface_height_layer, texture_layer, landuse_layer]
 	
+	func get_described_geolayers() -> Dictionary:
+		return {"Height": height_layer, "Surface height": surface_height_layer,
+				"Texture": texture_layer, "Landuse": landuse_layer}
+	
 	func is_valid():
 		return height_layer and surface_height_layer and texture_layer and landuse_layer
 
@@ -112,6 +122,9 @@ class VegetationRenderInfo extends RenderInfo:
 	
 	func get_geolayers():
 		return [height_layer, landuse_layer]
+	
+	func get_described_geolayers() -> Dictionary:
+		return {"Height": height_layer, "Landuse": landuse_layer}
 	
 	func is_valid():
 		return height_layer != null and landuse_layer != null 
@@ -127,6 +140,9 @@ class ObjectRenderInfo extends RenderInfo:
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
 	
+	func get_described_geolayers() -> Dictionary:
+		return {"Ground-height": ground_height_layer, "Features": geo_feature_layer}
+	
 	func is_valid():
 		return geo_feature_layer != null && ground_height_layer != null
 
@@ -141,6 +157,9 @@ class PolygonRenderInfo extends RenderInfo:
 	
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
+	
+	func get_described_geolayers() -> Dictionary:
+		return {"Ground-height": ground_height_layer, "Features": geo_feature_layer}
 	
 	func is_valid():
 		return geo_feature_layer != null && ground_height_layer != null
@@ -159,6 +178,9 @@ class PathRenderInfo extends RenderInfo:
 	
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
+	
+	func get_described_geolayers() -> Dictionary:
+		return {"Ground-height": ground_height_layer, "Features": geo_feature_layer}
 	
 	func is_valid():
 		return geo_feature_layer != null && ground_height_layer != null
@@ -179,13 +201,20 @@ class ConnectedObjectInfo extends RenderInfo:
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
 	
+	func get_described_geolayers() -> Dictionary:
+		return {"Ground-height": ground_height_layer, "Features": geo_feature_layer}
+	
 	func is_valid():
 		return geo_feature_layer != null && ground_height_layer != null
 
 class TwoDimensionalInfo extends RenderInfo: 
 	var texture_layer: GeoRasterLayer
+	
 	func get_geolayers() -> Array:
 		return [texture_layer]
+	
+	func get_described_geolayers() -> Dictionary:
+		return {"Texture": texture_layer}
 	
 	func is_valid() -> bool:
 		return texture_layer.is_valid()
