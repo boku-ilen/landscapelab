@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cykaq53hrglno"]
+[gd_scene load_steps=10 format=3 uid="uid://cykaq53hrglno"]
 
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerCompositionWidget.gd" id="1"]
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/EditWindow.gd" id="2"]
@@ -9,11 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bgla5bw7tc34a" path="res://Resources/Icons/ModernLandscapeLab/rotate.svg" id="9"]
 [ext_resource type="Texture2D" uid="uid://c3kuxlnuadbrl" path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" id="10"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mhu73"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3pt7"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_002fl"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1qb64"]
 
 [node name="LayerCompositionWidget" type="VBoxContainer"]
 offset_left = 343.0
@@ -139,7 +135,5 @@ offset_right = 312.0
 offset_bottom = 44.0
 size_flags_vertical = 3
 mouse_filter = 1
-theme_override_styles/focus = SubResource("StyleBoxEmpty_mhu73")
-theme_override_styles/selected = SubResource("StyleBoxEmpty_n3pt7")
-theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_002fl")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1qb64")
 allow_reselect = true

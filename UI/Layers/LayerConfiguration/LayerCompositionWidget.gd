@@ -32,7 +32,7 @@ func _ready():
 		"item_collapsed", 
 		func(treeitem: TreeItem): 
 			if treeitem.is_any_collapsed(): $GeoLayers.set_custom_minimum_size(Vector2i(0, 8))
-			else: $GeoLayers.set_custom_minimum_size(Vector2i(0, 50)))
+			else: $GeoLayers.set_custom_minimum_size(Vector2i(0, 80)))
 
 func _reload():
 	# FIXME: check wheter raster of rfeature composition 
@@ -64,14 +64,19 @@ func _reload():
 		tooltip_text = layer_composition.name
 		color_tag.color = layer_composition.color_tag
 		
+		# Visualize the geo layers the composition is composed of as tree
 		var tree = $GeoLayers
 		var root: TreeItem = tree.create_item()
 		root.set_selectable(0, false)
 	
-		for geo_layer in layer_composition.render_info.get_geolayers():
+		var described_geolayers: Dictionary = layer_composition.render_info.get_described_geolayers()
+		for geo_layer_decription in described_geolayers:
 			var tree_item: TreeItem = tree.create_item(root)
-			tree_item.set_text(0, geo_layer.resource_name)
-		
+			var geo_layer = described_geolayers[geo_layer_decription]
+			tree_item.set_text(0, "%s: %s" % 
+				[geo_layer_decription, geo_layer.resource_name])
+			tree_item.set_metadata(0, geo_layer)
+			
 		root.set_collapsed(true)
 
 
