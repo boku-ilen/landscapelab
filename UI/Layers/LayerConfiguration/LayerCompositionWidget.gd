@@ -6,13 +6,13 @@ var layer_composition: LayerComposition
 # FIXME: Get the folder (like "ModernLandscapeLab") from a global setting, like AutoTextureButton
 var icon_prefix = "res://Resources/Icons/ModernLandscapeLab"
 
-@onready var icon = get_node("RightContainer/Icon")
-@onready var visibility_button = get_node("RightContainer/VisibilityBox/VisibilityButton")
-@onready var color_tag = get_node("RightContainer/VisibilityBox/ColorRect")
-@onready var edit_button = get_node("LeftContainer/Edit")
-@onready var edit_window = get_node("EditMenu")
-@onready var reload_button = get_node("LeftContainer/Reload")
-@onready var layer_name = get_node("RightContainer/NameSizeFix/Name")
+@onready var icon = get_node("VBox/RightContainer/Icon")
+@onready var visibility_button = get_node("VBox/RightContainer/VisibilityBox/VisibilityButton")
+@onready var color_tag = get_node("VBox/RightContainer/VisibilityBox/ColorRect")
+@onready var edit_button = get_node("VBox/LeftContainer/Edit")
+@onready var edit_window = get_node("VBox/EditMenu")
+@onready var reload_button = get_node("VBox/LeftContainer/Reload")
+@onready var layer_name = get_node("VBox/RightContainer/NameSizeFix/Name")
 
 
 signal translate_to_layer(x, z)
@@ -25,9 +25,14 @@ func _ready():
 	reload_button.connect("pressed",Callable(self,"_on_layer_reload_pressed"))
 	edit_window.connect("change_color_tag",Callable(self,"_change_color_tag"))
 	edit_window.connect("translate_to_layer",Callable(self,"_emit_translate_to_layer"))
+	$VBox/EditMenu.connect("ui_geolayers_set_visible",Callable(self,"_ui_geolayers_set_visible"))
 	visibility_button.connect("toggled",Callable(self,"_layer_change_visibility"))
 	layer_composition.connect("layer_changed",Callable(self,"_reload"))
-
+	$GeoLayers.connect(
+		"item_collapsed", 
+		func(treeitem: TreeItem): 
+			if treeitem.is_any_collapsed(): $GeoLayers.set_custom_minimum_size(Vector2i(0, 8))
+			else: $GeoLayers.set_custom_minimum_size(Vector2i(0, 50)))
 
 func _reload():
 	# FIXME: check wheter raster of rfeature composition 
@@ -36,7 +41,14 @@ func _reload():
 	#elif layer_composition is FeatureLayerComposition:
 	#	icon.texture = load("%s/vector.svg" % icon_prefix)
 	#else:
+	
+	if layer_composition.render_type > 4:
+		icon.texture = load("%s/vector.svg" % icon_prefix)
+	else:
+		icon.texture = load("%s/raster.svg" % icon_prefix)
 	match layer_composition.render_type:
+		LayerComposition.RenderType.NONE:
+			icon.texture = load("%s/file.svg" % icon_prefix)
 		LayerComposition.RenderType.REALISTIC_TERRAIN:
 			icon.texture = load("%s/world.svg" % icon_prefix)
 		LayerComposition.RenderType.BASIC_TERRAIN:
@@ -45,14 +57,22 @@ func _reload():
 			icon.texture = load("%s/map.svg" % icon_prefix)
 		LayerComposition.RenderType.VEGETATION:
 			icon.texture = load("%s/grass.svg" % icon_prefix)
-		_:
-			icon.texture = load("%s/layer.svg" % icon_prefix)
 	
 	if layer_composition != null:
 		edit_window.layer_composition = layer_composition
 		layer_name.text = layer_composition.name
 		tooltip_text = layer_composition.name
 		color_tag.color = layer_composition.color_tag
+		
+		var tree = $GeoLayers
+		var root: TreeItem = tree.create_item()
+		root.set_selectable(0, false)
+	
+		for geo_layer in layer_composition.render_info.get_geolayers():
+			var tree_item: TreeItem = tree.create_item(root)
+			tree_item.set_text(0, geo_layer.resource_name)
+		
+		root.set_collapsed(true)
 
 
 func _pop_edit():

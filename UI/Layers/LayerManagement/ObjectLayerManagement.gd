@@ -21,7 +21,7 @@ func set_player(player):
 
 class EditAction extends ActionHandler.Action:
 	var cursor: RayCast3D
-	var layer: Layer
+	var layer: LayerComposition
 	var pos_manager: PositionManager
 	
 	func _init(l,c,p_m,p,blocking):
@@ -39,7 +39,7 @@ class EditAction extends ActionHandler.Action:
 
 class AddFeatureAction extends ActionHandler.Action:
 	var cursor: RayCast3D
-	var layer: Layer
+	var layer: LayerComposition
 	var pos_manager: PositionManager
 	
 	func _init(l,c,p_m,p,blocking):

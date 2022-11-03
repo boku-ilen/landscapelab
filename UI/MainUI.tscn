@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dfros7q2kbc3l"]
+[gd_scene load_steps=23 format=3 uid="uid://cveb5gkx5lclw"]
 
 [ext_resource type="Texture2D" uid="uid://b2i6gv6rjevem" path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" id="2"]
 [ext_resource type="PackedScene" uid="uid://csad5ev7rwtoe" path="res://UI/MenuBar/MenuBar.tscn" id="2_56a3o"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://UI/WorldUI.gd" id="7_fnvwn"]
 [ext_resource type="Script" path="res://UI/UISplit.gd" id="8"]
 [ext_resource type="PackedScene" path="res://UI/PlayerCompass.tscn" id="9"]
-[ext_resource type="PackedScene" uid="uid://cjlxssyojw44m" path="res://UI/Layers/LayerConfiguration/LayerUI.tscn" id="10"]
 [ext_resource type="Script" path="res://UI/WorldViewPort.gd" id="11"]
 [ext_resource type="Texture2D" uid="uid://copq7sq4f0uom" path="res://Resources/Icons/ModernLandscapeLab/loading.png" id="12_8oiw2"]
 [ext_resource type="PackedScene" path="res://UI/CustomElements/AutoTextureButton.tscn" id="13"]
@@ -20,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="17_3pwcs"]
 [ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="18"]
 [ext_resource type="PackedScene" uid="uid://dhe6mnba7w50y" path="res://UI/Scenarios/Scenarios.tscn" id="20"]
+[ext_resource type="PackedScene" uid="uid://1sw3qnm7im8a" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.tscn" id="20_2333t"]
 [ext_resource type="Script" path="res://UI/UILicenses.gd" id="25"]
 [ext_resource type="Script" path="res://UI/MainUI.gd" id="43"]
 
@@ -113,7 +113,7 @@ size_flags_vertical = 3
 [node name="LayerManagement" type="MarginContainer" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer"]
 offset_right = 829.0
 script = ExtResource("16")
-layer_ui_path = NodePath("../../../Right/Tabs/Bot/LayerUI")
+layer_ui_path = NodePath("../../../Right/Tabs/Bot/LayerCompositionUI")
 pos_manager_path = NodePath("../WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 
 [node name="WorldUI" type="Control" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer"]
@@ -256,7 +256,7 @@ offset_bottom = 593.0
 size_flags_vertical = 3
 script = ExtResource("5")
 
-[node name="LayerUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("10")]
+[node name="LayerCompositionUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("20_2333t")]
 offset_left = 5.0
 offset_top = 36.0
 offset_right = -5.0
@@ -264,7 +264,10 @@ offset_bottom = -5.0
 
 [node name="GeoLayerUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("15")]
 visible = false
-offset_top = 31.0
+offset_left = 5.0
+offset_top = 38.0
+offset_right = -5.0
+offset_bottom = -5.0
 
 [node name="Scenarios" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("20")]
 visible = false
