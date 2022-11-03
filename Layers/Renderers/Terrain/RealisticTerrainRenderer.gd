@@ -28,8 +28,6 @@ func _ready():
 			lod.ortho_resolution = 100
 			lod.landuse_resolution = 10
 			
-			var test = layer_composition.render_info.height_layer.is_valid()
-			GeoRasterLayer
 			lod.height_layer = layer_composition.render_info.height_layer.clone()
 			lod.texture_layer = layer_composition.render_info.texture_layer.clone()
 			lod.landuse_layer = layer_composition.render_info.landuse_layer.clone()
