@@ -17,32 +17,28 @@ columns = 2
 script = ExtResource("4")
 
 [node name="Title" type="VBoxContainer" parent="."]
-layout_mode = 2
 offset_right = 174.0
 offset_bottom = 34.0
 
 [node name="Title" type="Label" parent="Title"]
-layout_mode = 2
 offset_right = 174.0
 offset_bottom = 26.0
 text = "Realistic-Terrain-Layer"
 label_settings = SubResource("LabelSettings_vonsp")
 
 [node name="HSeparator" type="HSeparator" parent="Title"]
-layout_mode = 2
 offset_top = 30.0
 offset_right = 174.0
 offset_bottom = 34.0
 
 [node name="Empty" type="Control" parent="."]
-layout_mode = 2
+layout_mode = 3
 anchors_preset = 0
 offset_left = 224.0
 offset_right = 1152.0
 offset_bottom = 34.0
 
 [node name="Height" type="Label" parent="."]
-layout_mode = 2
 offset_top = 40.0
 offset_right = 174.0
 offset_bottom = 66.0
@@ -50,7 +46,6 @@ text = "Height-data:"
 label_settings = SubResource("LabelSettings_tdoed")
 
 [node name="GeodataChooserHeight" parent="." instance=ExtResource("3")]
-layout_mode = 2
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -58,13 +53,10 @@ offset_left = 224.0
 offset_top = 38.0
 offset_right = 1152.0
 offset_bottom = 69.0
-grow_horizontal = 2
-grow_vertical = 2
 size_flags_horizontal = 3
 show_feature_layer = false
 
 [node name="Texture2D" type="Label" parent="."]
-layout_mode = 2
 offset_top = 75.0
 offset_right = 174.0
 offset_bottom = 101.0
@@ -72,7 +64,6 @@ text = "Texture2D:"
 label_settings = SubResource("LabelSettings_tdoed")
 
 [node name="GeodataChooserTexture" parent="." instance=ExtResource("3")]
-layout_mode = 2
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -80,12 +71,9 @@ offset_left = 224.0
 offset_top = 73.0
 offset_right = 1152.0
 offset_bottom = 104.0
-grow_horizontal = 2
-grow_vertical = 2
 show_feature_layer = false
 
 [node name="SurfaceHeight" type="Label" parent="."]
-layout_mode = 2
 offset_top = 110.0
 offset_right = 174.0
 offset_bottom = 136.0
@@ -93,7 +81,6 @@ text = "Surface-Height:"
 label_settings = SubResource("LabelSettings_tdoed")
 
 [node name="GeodataChooserSurfaceHeight" parent="." instance=ExtResource("3")]
-layout_mode = 2
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -101,12 +88,9 @@ offset_left = 224.0
 offset_top = 108.0
 offset_right = 1152.0
 offset_bottom = 139.0
-grow_horizontal = 2
-grow_vertical = 2
 show_feature_layer = false
 
 [node name="LandUse" type="Label" parent="."]
-layout_mode = 2
 offset_top = 145.0
 offset_right = 174.0
 offset_bottom = 171.0
@@ -114,7 +98,6 @@ text = "Land-Use:"
 label_settings = SubResource("LabelSettings_tdoed")
 
 [node name="GeodataChooserLandUse" parent="." instance=ExtResource("3")]
-layout_mode = 2
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -122,13 +105,10 @@ offset_left = 224.0
 offset_top = 143.0
 offset_right = 1152.0
 offset_bottom = 174.0
-grow_horizontal = 2
-grow_vertical = 2
 show_feature_layer = false
 
 [node name="Warning" parent="." instance=ExtResource("2")]
 visible = false
-layout_mode = 2
 offset_left = 186.0
 offset_top = 353.0
 offset_right = 1053.0

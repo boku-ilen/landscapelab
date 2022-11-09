@@ -16,8 +16,8 @@ func _ready():
 func set_player(player):
 	super.set_player(player)
 	if "action_handler" in pc_player:
-		edit_action = EditAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
-		add_action = AddFeatureAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
+		edit_action = EditAction.new(layerc, pc_player.action_handler.cursor, pos_manager, pc_player, false)
+		add_action = AddFeatureAction.new(layerc, pc_player.action_handler.cursor, pos_manager, pc_player, false)
 
 class EditAction extends ActionHandler.Action:
 	var cursor: RayCast3D
@@ -66,7 +66,8 @@ func _on_edit(toggled):
 
 
 func load_features_into_list():
-	var features = layer.get_all_features()
+	var feature_layer = layerc.render_info.geo_feature_layer
+	var features = feature_layer.get_all_features()
 	
 	for feature in features:
 		var new_id = $List/ListWindow/ItemList.get_item_count()
@@ -74,8 +75,8 @@ func load_features_into_list():
 		# TODO: Why do we need to reverse the z coordinate? seems like an inconsistency in coordinate handling
 		position.z = -position.z
 		
-		var item_name = feature.get_attribute(layer.ui_info.name_attribute) \
-				if feature.get_attribute(layer.ui_info.name_attribute) != "" \
+		var item_name = feature.get_attribute(layerc.ui_info.name_attribute) \
+				if feature.get_attribute(layerc.ui_info.name_attribute) != "" \
 				else str(position)
 		
 		$List/ListWindow/ItemList.add_item(item_name)

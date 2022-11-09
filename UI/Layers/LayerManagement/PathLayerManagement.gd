@@ -16,27 +16,27 @@ func set_player(player):
 
 class EditAction extends ActionHandler.Action:
 	var cursor: RayCast3D
-	var layer: Layer
+	var layerc: LayerComposition
 	var path: Path3D
 	
-	func _init(l,c,p,blocking):
+	func _init(lc,c,p,blocking):
 		super._init(p,blocking)
 		
 		cursor = c
-		layer = l
-		path = layer.render_info.line_visualization.instantiate()#load("res://Street.tscn").instantiate()
+		layerc = lc
+		path = layerc.render_info.line_visualization.instantiate()#load("res://Street.tscn").instantiate()
 		player.get_parent().add_child(path)
 #		var vis = CSGPolygon3D.new()
 #		vis.material = Material.new()
 #		path.visualizer = vis
 	
 	func new_path():
-		path = layer.render_info.line_visualization.instantiate()
+		path = layerc.render_info.line_visualization.instantiate()
 		player.get_parent().get_node("Terrain").add_child(path)
 	
 	func apply(event: InputEvent):
 		if event.is_action_pressed("layer_add_feature"):
-			var new_feature = layer.create_feature()
+			var new_feature = layerc.create_feature()
 			new_feature.set_vector3(cursor.get_collision_point())
 		if event.is_action_pressed("layer_end_feature"):
 			# FIXME: Finishing logic ...
