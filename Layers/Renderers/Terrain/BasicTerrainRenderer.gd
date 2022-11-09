@@ -5,6 +5,7 @@ extends LayerCompositionRenderer
 
 
 func _ready():
+	super._ready()
 	# Create a loading thread for each LOD child
 	for lod in lods:
 		lod.height_layer = layer_composition.render_info.height_layer.clone()

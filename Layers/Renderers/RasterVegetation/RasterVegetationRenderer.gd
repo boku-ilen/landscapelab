@@ -14,6 +14,7 @@ var weather_manager: WeatherManager :
 
 
 func _ready():
+	super._ready()
 	renderers = Vegetation.get_renderers()
 	add_child(renderers)
 

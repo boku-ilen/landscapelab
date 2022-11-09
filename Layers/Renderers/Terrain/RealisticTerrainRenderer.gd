@@ -11,6 +11,7 @@ var update_thread = Thread.new()
 
 
 func _ready():
+	super._ready()
 	for x in range(-extent, extent + 1):
 		for y in range(-extent, extent + 1):
 			var lod = preload("res://Layers/Renderers/Terrain/TerrainLOD.tscn").instantiate()

@@ -72,3 +72,7 @@ func apply_new_data():
 		add_child(object)
 	
 	object_instances.clear()
+
+
+func _ready():
+	super._ready()

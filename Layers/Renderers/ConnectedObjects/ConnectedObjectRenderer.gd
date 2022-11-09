@@ -146,6 +146,7 @@ func _get_height_at_ground(position: Vector3) -> float:
 
 
 func _ready():
+	super._ready()
 	if not layer_composition.is_valid():
 		logger.error("ConnectedObjectRenderer was given an invalid layer!", LOG_MODULE)
 

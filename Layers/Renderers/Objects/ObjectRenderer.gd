@@ -112,6 +112,7 @@ func update_instance_position(feature, obj_instance: Node3D):
 
 
 func _ready():
+	super._ready()
 	layer_composition.render_info.geo_feature_layer.connect("feature_added",Callable(self,"_on_feature_added").bind())
 	layer_composition.render_info.geo_feature_layer.connect("feature_removed",Callable(self,"_on_feature_removed").bind())
 

@@ -5,6 +5,7 @@ extends LayerCompositionRenderer
 
 
 func _ready():
+	super._ready()
 	plane.texture_layer = layer_composition.render_info.texture_layer.clone()
 
 

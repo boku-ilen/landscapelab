@@ -125,6 +125,10 @@ func apply_new_data():
 	_apply_daytime_change(is_daytime)
 
 
+func _ready():
+	super._ready()
+
+
 func set_heights():
 	var height_layer = layer_composition.render_info.ground_height_layer
 	
