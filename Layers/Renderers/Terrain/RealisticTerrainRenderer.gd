@@ -123,6 +123,36 @@ func load_new_data(position_diff: Vector3):
 	call_deferred("apply_new_data")
 
 
+func get_nearest_lod(query_position: Vector3):
+	var nearest_distance = INF
+	var nearest_lod
+	
+	for lod in lods:
+		var distance = lod.position.distance_to(query_position)
+		if distance < nearest_distance:
+			nearest_distance = distance
+			nearest_lod = lod
+	
+	return nearest_lod
+
+
+func load_refined_data():
+	var nearest_lod = get_nearest_lod(position_manager.center_node.position)
+	
+	if nearest_lod.ortho_resolution < 1000:
+		nearest_lod.position_diff_x = 0
+		nearest_lod.position_diff_z = 0
+		
+		nearest_lod.mesh = preload("res://Layers/Renderers/Terrain/lod_mesh_300x300.obj")
+		nearest_lod.mesh_resolution = 300
+		nearest_lod.ortho_resolution = 2000
+		nearest_lod.build(center[0] + nearest_lod.position.x + nearest_lod.position_diff_x,
+				center[1] - nearest_lod.position.z - nearest_lod.position_diff_z)
+		nearest_lod.changed = true
+	
+		call_deferred("apply_new_data")
+
+
 func apply_new_data():
 	for lod in get_children():
 		if lod.changed:
