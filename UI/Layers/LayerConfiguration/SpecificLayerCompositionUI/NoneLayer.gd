@@ -1,4 +1,4 @@
-extends SpecificLayerUI
+extends SpecificLayerCompositionUI
 
 
 # Declare member variables here. Examples:

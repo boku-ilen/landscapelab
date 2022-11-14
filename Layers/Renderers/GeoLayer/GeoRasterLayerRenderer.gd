@@ -1,4 +1,4 @@
-extends GeoLayerRenderer
+extends Node2D
 
 
 @export var layer_resolution: int = 100

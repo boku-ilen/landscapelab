@@ -1,4 +1,4 @@
-extends GeoLayerRenderer
+extends Node2D
 
 
 @export var radius := 10000.0
