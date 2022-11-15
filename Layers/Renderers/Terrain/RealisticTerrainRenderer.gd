@@ -105,6 +105,21 @@ func get_nearest_lod_below_resolution(query_position: Vector3, resolution: int, 
 
 
 func refine_load():
+	# Downgrade LODs which are now too far away
+	for lod in lods:
+		if lod.ortho_resolution >= detailed_ortho_resolution and \
+				lod.position.distance_to(position_manager.center_node.position) > detailed_load_distance:
+			lod.position_diff_x = 0
+			lod.position_diff_z = 0
+		
+			lod.mesh = basic_mesh
+			lod.mesh_resolution = basic_mesh_resolution
+			lod.ortho_resolution = basic_ortho_resolution
+			lod.build(center[0] + lod.position.x + lod.position_diff_x,
+				center[1] - lod.position.z - lod.position_diff_z)
+			lod.changed = true
+	
+	# Upgrade nearby LODs
 	var nearest_lod = get_nearest_lod_below_resolution(position_manager.center_node.position, detailed_ortho_resolution, detailed_load_distance)
 	
 	if nearest_lod:
@@ -116,10 +131,10 @@ func refine_load():
 		nearest_lod.ortho_resolution = detailed_ortho_resolution
 		
 		nearest_lod.build(center[0] + nearest_lod.position.x + nearest_lod.position_diff_x,
-				center[1] - nearest_lod.position.z - nearest_lod.position_diff_z)
+			center[1] - nearest_lod.position.z - nearest_lod.position_diff_z)
 		nearest_lod.changed = true
 	
-		call_deferred("apply_new_data")
+	call_deferred("apply_new_data")
 
 
 func apply_new_data():
