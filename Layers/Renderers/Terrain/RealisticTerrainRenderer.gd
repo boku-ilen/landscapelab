@@ -77,45 +77,46 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 		return false
 
 
-func load_new_data(position_diff: Vector3):
-	if previous_center == null:
-		previous_center = [0, 0]
-		
-		for lod in lods:
-			var remainder_x = center[0] % chunk_size
-			var remainder_y = center[1] % chunk_size
-			
-			lod.position_diff_x = remainder_x
-			lod.position_diff_z = remainder_y
-			
-			lod.build(center[0] + lod.position.x + lod.position_diff_x, center[1] - lod.position.z - lod.position_diff_z)
-	else:
-		for lod in lods:
-			lod.position_diff_x = 0.0
-			lod.position_diff_z = 0.0
-
-			var changed = false
-
-			if lod.position.x - position_manager.center_node.position.x >= chunk_size * extent:
-				lod.position_diff_x = -chunk_size * extent * 2 - chunk_size
-				changed = true
-			if lod.position.x - position_manager.center_node.position.x <= -chunk_size * extent:
-				lod.position_diff_x = chunk_size * extent * 2 + chunk_size
-				changed = true
-			if lod.position.z - position_manager.center_node.position.z >= chunk_size * extent:
-				lod.position_diff_z = -chunk_size * extent * 2 - chunk_size
-				changed = true
-			if lod.position.z - position_manager.center_node.position.z <= -chunk_size * extent:
-				lod.position_diff_z = chunk_size * extent * 2 + chunk_size
-				changed = true
-			
-			if changed:
-				lod.build(center[0] + lod.position.x + lod.position_diff_x, center[1] - lod.position.z - lod.position_diff_z)
+func full_load():
+	previous_center = [0, 0]
 	
-#		nearest_lod.ortho_resolution = 1000
-#		nearest_lod.landuse_resolution = 100
-#		nearest_lod.build(center[0] + nearest_lod.position.x + previous_center[0] - center[0], center[1] - nearest_lod.position.z - center[1] + previous_center[1])
-#		nearest_lod.changed = true
+	for lod in lods:
+		var remainder_x = center[0] % chunk_size
+		var remainder_y = center[1] % chunk_size
+		
+		lod.position_diff_x = remainder_x
+		lod.position_diff_z = remainder_y
+		
+		lod.build(center[0] + lod.position.x + lod.position_diff_x, center[1] - lod.position.z - lod.position_diff_z)
+	
+	previous_center[0] = center[0]
+	previous_center[1] = center[1]
+	
+	call_deferred("apply_new_data")
+
+
+func adapt_load(position_diff: Vector3):
+	for lod in lods:
+		lod.position_diff_x = 0.0
+		lod.position_diff_z = 0.0
+
+		var changed = false
+
+		if lod.position.x - position_manager.center_node.position.x >= chunk_size * extent:
+			lod.position_diff_x = -chunk_size * extent * 2 - chunk_size
+			changed = true
+		if lod.position.x - position_manager.center_node.position.x <= -chunk_size * extent:
+			lod.position_diff_x = chunk_size * extent * 2 + chunk_size
+			changed = true
+		if lod.position.z - position_manager.center_node.position.z >= chunk_size * extent:
+			lod.position_diff_z = -chunk_size * extent * 2 - chunk_size
+			changed = true
+		if lod.position.z - position_manager.center_node.position.z <= -chunk_size * extent:
+			lod.position_diff_z = chunk_size * extent * 2 + chunk_size
+			changed = true
+		
+		if changed:
+			lod.build(center[0] + lod.position.x + lod.position_diff_x, center[1] - lod.position.z - lod.position_diff_z)
 	
 	previous_center[0] = center[0]
 	previous_center[1] = center[1]
@@ -137,7 +138,7 @@ func get_nearest_lod_below_resolution(query_position: Vector3, resolution: int, 
 	return nearest_lod
 
 
-func load_refined_data():
+func refine_load():
 	var nearest_lod = get_nearest_lod_below_resolution(position_manager.center_node.position, 2000, 3000.0)
 	
 	if nearest_lod:

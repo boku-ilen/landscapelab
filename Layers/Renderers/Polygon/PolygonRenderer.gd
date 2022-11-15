@@ -18,7 +18,7 @@ var max_features = 2000
 
 
 # Called when the node enters the scene tree for the first time.
-func load_new_data(position_diff: Vector3):
+func full_load():
 	# Extract features
 	var features = layer.get_features_near_position(center[0], center[1], load_radius, max_features)
 	var height_attribute_name = layer.render_info.height_attribute_name

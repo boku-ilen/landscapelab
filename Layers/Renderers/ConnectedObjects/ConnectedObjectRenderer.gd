@@ -8,7 +8,7 @@ var max_connections = 100
 var connector_instances = []
 var connection_instances = []
 
-func load_new_data(position_diff: Vector3):
+func full_load():
 	var geo_lines = layer.get_features_near_position(center[0], center[1], radius, max_features)
 	
 	for geo_line in geo_lines:

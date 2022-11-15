@@ -69,12 +69,8 @@ func add_child(child: Node, force_readable_name: bool = false, internal: int = 0
 	# Actually add the child node to the tree
 	super.add_child(child, force_readable_name, internal)
 	
-	# Start loading its data
-	# FIXME: Start a thread with this
-	child.load_new_data() # FIXME: Run in thread
-	
-	# Apply the data
-	# FIXME: Do this once all load_new_data threads are done!
+	# First full load is non-threaded
+	child.full_load()
 	child.apply_new_data()
 
 
@@ -106,7 +102,7 @@ func update_renderers(center_array):
 			
 			logger.debug("Child {} beginning to load", LOG_MODULE)
 
-			renderer.load_new_data(Vector3.ZERO)
+			renderer.full_load()
 			call_deferred("_on_renderer_finished", renderer.name)
 	
 	call_deferred("finish_loading_thread")

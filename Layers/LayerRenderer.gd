@@ -45,11 +45,11 @@ func _process(delta):
 	if not loading_thread.is_started():
 		var diff = position_manager.center_node.position - last_load_position
 		if is_new_loading_required(diff):
-#			loading_thread.start(load_new_data.bind(diff))
-			load_new_data(diff)
+#			loading_thread.start(full_load.bind(diff))
+			adapt_load(diff)
 			last_load_position = position_manager.center_node.position
 		else:
-			loading_thread.start(load_refined_data)
+			loading_thread.start(refine_load)
 
 
 # Overload with a check which returns `true` if new data loading is required, e.g. because the
@@ -58,14 +58,22 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 	return false
 
 
-# Overload with the functionality to load new data, but not use (visualize) it yet. Run in a thread,
-#  so watch out for thread safety!
-func load_new_data(position_diff: Vector3):
+# Reset and fully load new data for the new world-shifted origin.
+# Run in a thread, so watch out for thread safety!
+func full_load():
 	pass
 
 
-# Overload with functionality to refine the data for the current position
-func load_refined_data():
+# Adapt the current data based on the given position_diff, loading new data where required.
+# Likely implemented similarly to full_load, but re-using existing data where possible.
+# Run in a thread, so watch out for thread safety!
+func adapt_load(position_diff: Vector3):
+	pass
+
+
+# Refine the currently loaded data, e.g. loading more detailed data near the camera.
+# Run in a thread, so watch out for thread safety!
+func refine_load():
 	pass
 
 
@@ -81,10 +89,10 @@ func apply_new_data():
 
 
 # Reload the data within this layer
-# Not threaded! Should only be called as a response to user input, otherwise use load_new_data and
+# Not threaded! Should only be called as a response to user input, otherwise use full_load and
 # apply_new_data threaded as intended
 func refresh():
-	load_new_data(Vector3.ZERO)
+	full_load()
 	apply_new_data()
 
 
