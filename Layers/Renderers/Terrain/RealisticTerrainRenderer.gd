@@ -123,23 +123,24 @@ func load_new_data(position_diff: Vector3):
 	call_deferred("apply_new_data")
 
 
-func get_nearest_lod(query_position: Vector3):
+func get_nearest_lod_below_resolution(query_position: Vector3, resolution: int, max_distance: float):
 	var nearest_distance = INF
 	var nearest_lod
 	
 	for lod in lods:
-		var distance = lod.position.distance_to(query_position)
-		if distance < nearest_distance:
-			nearest_distance = distance
-			nearest_lod = lod
+		if lod.ortho_resolution < resolution:
+			var distance = lod.position.distance_to(query_position)
+			if distance < nearest_distance and distance < max_distance:
+				nearest_distance = distance
+				nearest_lod = lod
 	
 	return nearest_lod
 
 
 func load_refined_data():
-	var nearest_lod = get_nearest_lod(position_manager.center_node.position)
+	var nearest_lod = get_nearest_lod_below_resolution(position_manager.center_node.position, 2000, 3000.0)
 	
-	if nearest_lod.ortho_resolution < 1000:
+	if nearest_lod:
 		nearest_lod.position_diff_x = 0
 		nearest_lod.position_diff_z = 0
 		
