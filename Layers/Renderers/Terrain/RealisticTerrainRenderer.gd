@@ -2,10 +2,19 @@ extends LayerRenderer
 
 
 var lods = []
-var previous_center
 
 var chunk_size = 1000
 var extent = 7 # extent of chunks in every direction
+
+@export var basic_ortho_resolution := 100
+@export var basic_landuse_resolution := 10
+@export var basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_100x100.obj")
+@export var basic_mesh_resolution := 100
+
+@export var detailed_load_distance := 2000.0
+@export var detailed_ortho_resolution := 2000
+@export var detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_300x300.obj")
+@export var detailed_mesh_resolution := 300
 
 
 func _ready():
@@ -19,12 +28,10 @@ func _ready():
 			lod.position = lod_position
 			lod.size = size
 			
-#			if x == 0 and y == 0:
-#				lod.ortho_resolution = 1000
-#				lod.landuse_resolution = 100
-#			else:
-			lod.ortho_resolution = 100
-			lod.landuse_resolution = 10
+			lod.ortho_resolution = basic_ortho_resolution
+			lod.landuse_resolution = basic_landuse_resolution
+			lod.mesh = basic_mesh
+			lod.mesh_resolution = basic_mesh_resolution
 			
 			lod.height_layer = layer.render_info.height_layer.clone()
 			lod.texture_layer = layer.render_info.texture_layer.clone()
@@ -32,39 +39,6 @@ func _ready():
 			lod.surface_height_layer = layer.render_info.surface_height_layer.clone()
 			
 			lods.append(lod)
-	
-#	# Spawn LODs
-#	for scales in range(4):
-#		for x in range(-1, 2):
-#			for y in range(-1, 2):
-#				var lod = preload("res://Layers/Renderers/Terrain/TerrainLOD.tscn").instantiate()
-#
-#				if x == 0 and y == 0:
-#					if scales == 0:
-#						lod.mesh = preload("res://Layers/Renderers/Terrain/lod_mesh_300x300.obj")
-#						lod.mesh_resolution = 300
-#					else:
-#						continue
-#
-##				if scales == 0:
-##					lod.load_detail_textures = true
-##					lod.load_fade_textures = true
-##				elif scales == 1:
-##					lod.load_fade_textures = true
-##				else:
-##					lod.always_load_landuse = true
-#
-#				var size = pow(3.0, scales) * 300.0
-#				lod.position.x = x * size
-#				lod.position.z = y * size
-#				lod.size = size
-#
-#				lod.height_layer = layer.render_info.height_layer.clone()
-#				lod.texture_layer = layer.render_info.texture_layer.clone()
-#				lod.landuse_layer = layer.render_info.landuse_layer.clone()
-#				lod.surface_height_layer = layer.render_info.surface_height_layer.clone()
-#
-#				lods.append(lod)
 	
 	for lod in lods:
 		add_child(lod)
@@ -78,8 +52,6 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 
 
 func full_load():
-	previous_center = [0, 0]
-	
 	for lod in lods:
 		var remainder_x = center[0] % chunk_size
 		var remainder_y = center[1] % chunk_size
@@ -88,9 +60,6 @@ func full_load():
 		lod.position_diff_z = remainder_y
 		
 		lod.build(center[0] + lod.position.x + lod.position_diff_x, center[1] - lod.position.z - lod.position_diff_z)
-	
-	previous_center[0] = center[0]
-	previous_center[1] = center[1]
 	
 	call_deferred("apply_new_data")
 
@@ -118,9 +87,6 @@ func adapt_load(position_diff: Vector3):
 		if changed:
 			lod.build(center[0] + lod.position.x + lod.position_diff_x, center[1] - lod.position.z - lod.position_diff_z)
 	
-	previous_center[0] = center[0]
-	previous_center[1] = center[1]
-	
 	call_deferred("apply_new_data")
 
 
@@ -139,15 +105,16 @@ func get_nearest_lod_below_resolution(query_position: Vector3, resolution: int, 
 
 
 func refine_load():
-	var nearest_lod = get_nearest_lod_below_resolution(position_manager.center_node.position, 2000, 3000.0)
+	var nearest_lod = get_nearest_lod_below_resolution(position_manager.center_node.position, detailed_ortho_resolution, detailed_load_distance)
 	
 	if nearest_lod:
 		nearest_lod.position_diff_x = 0
 		nearest_lod.position_diff_z = 0
 		
-		nearest_lod.mesh = preload("res://Layers/Renderers/Terrain/lod_mesh_300x300.obj")
-		nearest_lod.mesh_resolution = 300
-		nearest_lod.ortho_resolution = 2000
+		nearest_lod.mesh = detailed_mesh
+		nearest_lod.mesh_resolution = detailed_mesh_resolution
+		nearest_lod.ortho_resolution = detailed_ortho_resolution
+		
 		nearest_lod.build(center[0] + nearest_lod.position.x + nearest_lod.position_diff_x,
 				center[1] - nearest_lod.position.z - nearest_lod.position_diff_z)
 		nearest_lod.changed = true
