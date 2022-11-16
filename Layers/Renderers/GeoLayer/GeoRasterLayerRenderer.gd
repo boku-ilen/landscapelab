@@ -3,10 +3,41 @@ extends GeoLayerRenderer
 
 @export var layer_resolution: int = 4000
 
-@onready var plane = get_node("TexturePlane")
+@onready var plane: MeshInstance2D = get_node("TexturePlane")
 
 
-var geo_raster_layer: GeoRasterLayer 
+# as exposed in https://docs.godotengine.org/en/latest/classes/class_image.html#enum-image-format
+var format: int
+
+var r_func = func(plane, texture):
+	plane.material = ShaderMaterial.new()
+	plane.material.shader = load("res://Layers/Renderers/GeoLayer/FORMAT_RF.gdshader")
+	plane.get_material().set_shader_parameter("tex", texture)
+	plane.get_material().set_shader_parameter("min_val", geo_raster_layer.get_min())
+	plane.get_material().set_shader_parameter("max_val", geo_raster_layer.get_max())
+var rgb_func = func(plane, texture): plane.texture = texture
+
+var format_function_dict = {
+	Image.FORMAT_RGB8: rgb_func,
+	Image.FORMAT_RGBA8: rgb_func,
+	Image.FORMAT_RF: r_func, 
+	Image.FORMAT_R8: r_func
+}
+
+var geo_raster_layer: GeoRasterLayer : 
+	get: return geo_raster_layer
+	set(raster_layer):
+		geo_raster_layer = raster_layer
+		
+		# Just some dummy values for getting the format
+		format = raster_layer.get_image(
+			0,
+			0,
+			1.0,
+			1,
+			0
+		).get_image_texture().get_format()
+
 var current_texture
 
 
@@ -21,8 +52,8 @@ func load_new_data():
 		var current_tex_image = geo_raster_layer.get_image(
 			top_left_x,
 			top_left_y,
-			500.0,
-			layer_resolution,
+			10000.0,
+			layer_resolution / 20,
 			1
 		)
 		
@@ -32,7 +63,7 @@ func load_new_data():
 
 func apply_new_data():
 	if current_texture:
-		plane.texture = current_texture
+		format_function_dict.get(format).call(plane, current_texture)
 
 
 func get_debug_info() -> String:

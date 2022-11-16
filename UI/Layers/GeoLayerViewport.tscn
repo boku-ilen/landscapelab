@@ -1,13 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://bv83rjwmtygw"]
+[gd_scene load_steps=7 format=3 uid="uid://dkm4clrngg65t"]
 
 [ext_resource type="PackedScene" uid="uid://dn25tsa6f10jw" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.tscn" id="1_4xdhn"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayerViewport.gd" id="1_ctf72"]
+[ext_resource type="Script" path="res://UI/Layers/Viewport2DCamera.gd" id="2_4kwff"]
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="3_h5xpr"]
+[ext_resource type="Texture2D" uid="uid://b3vd4ae021x8" path="res://Resources/Icons/ModernLandscapeLab/plus.svg" id="4_p5pgr"]
+[ext_resource type="Texture2D" uid="uid://dbl70h8vqdyiy" path="res://Resources/Icons/ModernLandscapeLab/minus.svg" id="5_wp3ff"]
 
 [node name="GeoLayerViewport" type="SubViewportContainer"]
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ctf72")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
@@ -16,4 +22,33 @@ handle_input_locally = false
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
+[node name="Camera2D" type="Camera2D" parent="SubViewport"]
+ignore_rotation = false
+current = true
+limit_left = -1000000000
+limit_top = -1000000000
+limit_right = 1000000000
+limit_bottom = 1000000000
+position_smoothing_enabled = true
+position_smoothing_speed = 15.0
+script = ExtResource("2_4kwff")
+
 [node name="GeoLayerRenderers" parent="SubViewport" instance=ExtResource("1_4xdhn")]
+
+[node name="ZoomContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ZoomIn" parent="ZoomContainer" instance=ExtResource("3_h5xpr")]
+layout_mode = 2
+offset_right = 30.0
+offset_bottom = 40.0
+icon = ExtResource("4_p5pgr")
+
+[node name="ZoomOut" parent="ZoomContainer" instance=ExtResource("3_h5xpr")]
+layout_mode = 2
+offset_left = 34.0
+offset_right = 64.0
+offset_bottom = 40.0
+icon = ExtResource("5_wp3ff")

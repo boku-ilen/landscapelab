@@ -18,9 +18,9 @@
 [ext_resource type="Script" path="res://UI/Layers/LayerManagement/LayerManagement.gd" id="16"]
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="17_3pwcs"]
 [ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="18"]
+[ext_resource type="PackedScene" uid="uid://bv83rjwmtygw" path="res://UI/Layers/GeoLayerViewport.tscn" id="18_gf1q8"]
 [ext_resource type="PackedScene" uid="uid://dhe6mnba7w50y" path="res://UI/Scenarios/Scenarios.tscn" id="20"]
-[ext_resource type="PackedScene" uid="uid://isy28dqddt8o" path="res://test.tscn" id="20_5adix"]
-[ext_resource type="PackedScene" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.tscn" id="20_2333t"]
+[ext_resource type="PackedScene" uid="uid://1sw3qnm7im8a" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.tscn" id="20_2333t"]
 [ext_resource type="Script" path="res://UI/UILicenses.gd" id="25"]
 [ext_resource type="Script" path="res://UI/MainUI.gd" id="43"]
 
@@ -102,17 +102,17 @@ offset_bottom = 593.0
 size_flags_horizontal = 3
 
 [node name="MidVertical" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Left/Mid"]
-offset_right = 829.0
+offset_right = 766.0
 offset_bottom = 593.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical"]
-offset_right = 829.0
+offset_right = 766.0
 offset_bottom = 447.0
 size_flags_vertical = 3
 
 [node name="LayerManagement" type="MarginContainer" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer"]
-offset_right = 829.0
+offset_right = 766.0
 script = ExtResource("16")
 layer_ui_path = NodePath("../../../Right/Tabs/Bot/LayerCompositionUI")
 pos_manager_path = NodePath("../WorldUI/WorldViewPort/SubViewport/World/PositionManager")
@@ -121,7 +121,7 @@ pos_manager_path = NodePath("../WorldUI/WorldViewPort/SubViewport/World/Position
 layout_mode = 3
 anchors_preset = 0
 offset_top = 4.0
-offset_right = 829.0
+offset_right = 766.0
 offset_bottom = 447.0
 size_flags_vertical = 3
 mouse_filter = 1
@@ -142,7 +142,7 @@ script = ExtResource("11")
 handle_input_locally = false
 use_taa = true
 gui_disable_input = true
-size = Vector2i(829, 443)
+size = Vector2i(766, 443)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_xvbyv")]
@@ -187,7 +187,7 @@ layer_renderers_path = NodePath("../WorldViewPort/SubViewport/World/Terrain/Laye
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical"]
 offset_top = 455.0
-offset_right = 829.0
+offset_right = 766.0
 offset_bottom = 593.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
@@ -205,30 +205,39 @@ grow_vertical = 1
 layer_renderers_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/Terrain/LayerRenderers")
 
 [node name="GameUI" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("18")]
-offset_right = 829.0
+offset_right = 766.0
 offset_bottom = 138.0
 viewport_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport")
 position_manager_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left/Mid"]
 custom_minimum_size = Vector2i(40, 40)
-offset_left = 837.0
+offset_left = 774.0
 offset_right = 1084.0
 offset_bottom = 593.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="Tabs" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right"]
-offset_right = 247.0
+offset_right = 310.0
 offset_bottom = 593.0
 script = ExtResource("8")
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs"]
-offset_right = 247.0
-offset_bottom = 143.0
+offset_right = 310.0
+offset_bottom = 343.0
 script = ExtResource("5")
 
+[node name="GeoLayerViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top" instance=ExtResource("18_gf1q8")]
+custom_minimum_size = Vector2i(300, 300)
+offset_left = 5.0
+offset_top = 38.0
+offset_right = -5.0
+offset_bottom = -5.0
+stretch = true
+
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]
+visible = false
 custom_minimum_size = Vector2i(0, 100)
 anchors_preset = 15
 anchor_right = 1.0
@@ -250,12 +259,9 @@ offset_right = 0.0
 offset_bottom = 0.0
 stretch = true
 
-[node name="SubViewportContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top" instance=ExtResource("20_5adix")]
-visible = false
-
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs"]
-offset_top = 151.0
-offset_right = 247.0
+offset_top = 351.0
+offset_right = 310.0
 offset_bottom = 593.0
 size_flags_vertical = 3
 script = ExtResource("5")

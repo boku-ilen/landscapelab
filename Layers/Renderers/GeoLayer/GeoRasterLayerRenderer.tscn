@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.gd" id="1_lulqc"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lw7q4"]
-size = Vector2(500, 500)
+size = Vector2(200, 200)
 orientation = 2
 
 [node name="GeoRasterLayerRenderer" type="Node2D"]

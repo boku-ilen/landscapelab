@@ -28,18 +28,15 @@ func _ready():
 	for layer in Layers.geo_layers["features"]:
 		_instantiate_geolayer_renderer(layer, false)
 	
-	Layers.new_geo_layer.connect(_instantiate_geolayer_renderer)
+	#Layers.new_geo_layer.connect(_instantiate_geolayer_renderer)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _instantiate_geolayer_renderer(geo_layer_name, is_raster: bool):
 	var new_renderer
-	if is_raster:
-		if geo_layer_name == "ortho":
-			new_renderer = raster_renderer.instantiate()
-			new_renderer.geo_raster_layer = Layers.geo_layers["rasters"][geo_layer_name]
-		else:
-			return
+	if is_raster and geo_layer_name == "dhm":
+		new_renderer = raster_renderer.instantiate()
+		new_renderer.geo_raster_layer = Layers.geo_layers["rasters"][geo_layer_name]
 	else: 
 		return
 #		new_renderer = feature_renderer.instantiate()
