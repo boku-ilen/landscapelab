@@ -1,4 +1,4 @@
-extends Node2D
+extends GeoLayerRenderer
 
 
 @export var layer_resolution: int = 100
@@ -31,7 +31,7 @@ func load_new_data():
 
 func apply_new_data():
 	if current_texture:
-		plane.material_override.albedo_texture = current_texture
+		plane.texture = current_texture
 
 
 func get_debug_info() -> String:

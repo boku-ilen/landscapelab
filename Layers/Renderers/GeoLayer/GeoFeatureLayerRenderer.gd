@@ -1,4 +1,4 @@
-extends Node2D
+extends GeoLayerRenderer
 
 
 @export var radius := 10000.0
@@ -14,9 +14,6 @@ func load_new_data():
 	var position_x = center[0]
 	var position_y = center[1]
 	
-	var top_left_x = position_x - plane.mesh.size.x / 2
-	var top_left_y = position_y + plane.mesh.size.y / 2
-	
 	if geo_feature_layer:
 		geo_feature_layer.get_features_near_position(
 			float(position_x),
@@ -24,14 +21,14 @@ func load_new_data():
 			float(radius),
 			max_features
 		)
-		$MultimeshInstanc2D.instance_count = current_features.size()
+		$MultiMeshInstance2D.multimesh.instance_count = current_features.size()
 
 
 func apply_new_data():
 	if current_features:
 		for i in current_features.size():
 			var t = Transform2D(0, current_features[i].get_offset_vector3(-center[0], 0, -center[1]))
-			$MultiMeshInstance2D.set_instance_transform_2d(i, t)
+			$MultiMeshInstance2D.multimesh.set_instance_transform_2d(i, t)
 
 
 func get_debug_info() -> String:
