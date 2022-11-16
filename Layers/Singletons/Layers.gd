@@ -11,6 +11,8 @@ signal removed_rendered_layer_composition(layer_composition_name, render_type)
 signal removed_scored_layer_composition(layer_composition_name)
 signal removed_layer_composition(layer_composition_name)
 
+const LOG_MODULE := "LAYERCONFIGURATION"
+
 
 func get_layer_composition(name: String):
 	return layer_compositions[name] if layer_compositions.has(name) else null
@@ -39,10 +41,8 @@ func get_layer_compositions_of_type(type):
 func add_layer_composition(layer_composition: LayerComposition):
 	layer_compositions[layer_composition.name] = layer_composition
 	
-	# FIXME: is there any way to find out whether something is raster or feature
-	# FIXME: from the resource? 
 	for geo_layer in layer_composition.render_info.get_geolayers():
-		add_geo_layer(geo_layer, true)
+		add_geo_layer(geo_layer)
 	
 	if layer_composition.is_scored:
 		emit_signal("new_scored_layer_composition", layer_composition)
@@ -52,14 +52,16 @@ func add_layer_composition(layer_composition: LayerComposition):
 	emit_signal("new_layer_composition", layer_composition)
 
 
-func add_geo_layer(layer: Resource, is_raster: bool):
-	if layer:
-		if is_raster:
-			geo_layers["rasters"][layer.resource_name] = layer
-		else: 
-			geo_layers["features"][layer.resource_name] = layer
+func add_geo_layer(layer: Resource):
+	if layer is GeoRasterLayer:
+		geo_layers["rasters"][layer.resource_name] = layer
+	elif layer is GeoFeatureLayer:
+		geo_layers["features"][layer.resource_name] = layer
+	else:
+		logger.error("Added an invalid geolayer", LOG_MODULE)
+		return
 		
-		emit_signal("new_geo_layer", is_raster)
+	emit_signal("new_geo_layer", layer is GeoRasterLayer)
 
 
 func remove_layer_composition(layer_composition_name: String):

@@ -424,10 +424,10 @@ func get_geolayers(db, gpkg):
 	).duplicate()
 	
 	for raster in raster_layers:
-		Layers.add_geo_layer(raster, true)
+		Layers.add_geo_layer(raster)
 	
 	for feature in feature_layers:
-		Layers.add_geo_layer(feature, false)
+		Layers.add_geo_layer(feature)
 	
 	for external_config in externals_config:
 		var layer = external_layers.external_to_geolayer_from_type(db, external_config)
