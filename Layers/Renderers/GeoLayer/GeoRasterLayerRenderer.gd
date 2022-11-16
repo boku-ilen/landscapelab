@@ -1,11 +1,12 @@
 extends GeoLayerRenderer
 
 
-@export var layer_resolution: int = 100
+@export var layer_resolution: int = 4000
 
 @onready var plane = get_node("TexturePlane")
 
-var geo_raster_layer: GeoRasterLayer
+
+var geo_raster_layer: GeoRasterLayer 
 var current_texture
 
 
@@ -20,7 +21,7 @@ func load_new_data():
 		var current_tex_image = geo_raster_layer.get_image(
 			top_left_x,
 			top_left_y,
-			plane.mesh.size.x,
+			500.0,
 			layer_resolution,
 			1
 		)

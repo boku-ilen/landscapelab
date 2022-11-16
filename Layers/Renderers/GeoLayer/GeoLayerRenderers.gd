@@ -10,7 +10,7 @@ var pos_manager: PositionManager :
 		return pos_manager
 	set(new_manager):
 		pos_manager = new_manager
-		pos_manager.connect("new_center",Callable(self,"apply_center"))
+		pos_manager.new_center.connect(apply_center)
 		
 		pos_manager.add_signal_dependency(self, "loading_finished")
 		
@@ -35,11 +35,15 @@ func _ready():
 func _instantiate_geolayer_renderer(geo_layer_name, is_raster: bool):
 	var new_renderer
 	if is_raster:
-		new_renderer = raster_renderer.instantiate()
-		new_renderer.geo_raster_layer = Layers.geo_layers["rasters"][geo_layer_name]
-	else:
-		new_renderer = feature_renderer.instantiate()
-		new_renderer.geo_feature_layer = Layers.geo_layers["features"][geo_layer_name]
+		if geo_layer_name == "ortho":
+			new_renderer = raster_renderer.instantiate()
+			new_renderer.geo_raster_layer = Layers.geo_layers["rasters"][geo_layer_name]
+		else:
+			return
+	else: 
+		return
+#		new_renderer = feature_renderer.instantiate()
+#		new_renderer.geo_feature_layer = Layers.geo_layers["features"][geo_layer_name]
 	
 	new_renderer.name = geo_layer_name
 	add_child(new_renderer)
