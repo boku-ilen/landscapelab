@@ -139,6 +139,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://GameSystem/GameObjectCollections/GeoGameObjectCollection.gd"
 }, {
+"base": "Node2D",
+"class": &"GeoLayerRenderer",
+"language": &"GDScript",
+"path": "res://Layers/Renderers/GeoLayer/GeoLayerRenderer.gd"
+}, {
 "base": "VBoxContainer",
 "class": &"GeodataChooser",
 "language": &"GDScript",
@@ -406,6 +411,7 @@ _global_script_class_icons={
 "GameView": "",
 "GeoGameObject": "",
 "GeoGameObjectCollection": "",
+"GeoLayerRenderer": "",
 "GeodataChooser": "",
 "GetObjectLayerDataRequestHandler": "",
 "GreaterThanRasterCreationCondition": "",
