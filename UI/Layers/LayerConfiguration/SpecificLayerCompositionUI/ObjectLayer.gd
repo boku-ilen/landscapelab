@@ -20,8 +20,7 @@ func assign_specific_layer_info(layerc: LayerComposition):
 		print_warning("Dataset for objects is not valid!")
 		return
 
-	var features = FeatureLayer.new()
-	features.geo_feature_layer = objects_dataset.get_feature_layer(objects_name)
+	var features = objects_dataset.get_feature_layer(objects_name)
 
 	# Obtain the height data, where the points will be placed upon
 	if not geodata_height.get_selected_id() < geodata_height.get_item_count():
@@ -33,7 +32,7 @@ func assign_specific_layer_info(layerc: LayerComposition):
 		print_warning()
 		return
 
-	var height = height_dataset.get_raster_layer(height_name)
+	var height_layer = height_dataset.get_raster_layer(height_name)
 
 	if !validate(features) or !validate(height):
 		print_warning("Object- or height-layer is not valid!")
@@ -65,19 +64,15 @@ func assign_specific_layer_info(layerc: LayerComposition):
 		print_warning("Invalid Object file!")
 		return
 
-	var height_layer = RasterLayer.new()
-	height_layer.geo_raster_layer = height
-	height_layer.name = height.resource_name
-
 	layer.geo_feature_layer = features
-	layer.render_type = Layer.RenderType.OBJECT
+	layer.render_type = LayerComposition.RenderType.OBJECT
 	layer.render_info.object = object_scene
 	layer.render_info.ground_height_layer = height_layer.clone()
 
 
-func init_specific_layer_info(layer: Layer):
+func init_specific_layer_info(layerc: LayerComposition):
 	$RightBox/GeodataChooserHeight.init_from_layer(
-		layer.render_info.ground_height_layer)
+		layerc.render_info.ground_height_layer)
 	$RightBox/GeodataChooserPoint.init_from_layer(
-		layer.geo_feature_layer)
-	$RightBox/ObjectChooser/FileName.text = layer.render_info.object.get_path()
+		layerc.geo_feature_layer)
+	$RightBox/ObjectChooser/FileName.text = layerc.render_info.object.get_path()

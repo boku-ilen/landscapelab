@@ -1,12 +1,12 @@
 extends OptionButton
 
 
-var feature_layer: FeatureLayer :
+var feature_layer: GeoFeatureLayer :
 	get:
 		return feature_layer
 	set(layer):
 		feature_layer = layer
-		var exemplary_feature = feature_layer.geo_feature_layer.create_feature()
+		var exemplary_feature = feature_layer.create_feature()
 		var attrib_dict: Dictionary = exemplary_feature.get_attributes()
 		# FIXME: also remove_at the feature afterwards (shouldnt this work?)
 		#feature_layer.geo_feature_layer.remove_feature(exemplary_feature)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cveb5gkx5lclw"]
+[gd_scene load_steps=24 format=3 uid="uid://dfros7q2kbc3l"]
 
 [ext_resource type="Texture2D" uid="uid://b2i6gv6rjevem" path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" id="2"]
 [ext_resource type="PackedScene" uid="uid://csad5ev7rwtoe" path="res://UI/MenuBar/MenuBar.tscn" id="2_56a3o"]
@@ -19,7 +19,8 @@
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="17_3pwcs"]
 [ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="18"]
 [ext_resource type="PackedScene" uid="uid://dhe6mnba7w50y" path="res://UI/Scenarios/Scenarios.tscn" id="20"]
-[ext_resource type="PackedScene" uid="uid://1sw3qnm7im8a" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.tscn" id="20_2333t"]
+[ext_resource type="PackedScene" uid="uid://isy28dqddt8o" path="res://test.tscn" id="20_5adix"]
+[ext_resource type="PackedScene" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.tscn" id="20_2333t"]
 [ext_resource type="Script" path="res://UI/UILicenses.gd" id="25"]
 [ext_resource type="Script" path="res://UI/MainUI.gd" id="43"]
 
@@ -80,7 +81,7 @@ script = ExtResource("5")
 [node name="VRMenu" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("3")]
 anchors_preset = 15
 offset_left = 5.0
-offset_top = 36.0
+offset_top = 38.0
 offset_right = -5.0
 offset_bottom = -5.0
 grow_horizontal = 2
@@ -233,7 +234,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 5.0
-offset_top = 36.0
+offset_top = 38.0
 offset_right = -5.0
 offset_bottom = -5.0
 grow_horizontal = 2
@@ -249,6 +250,9 @@ offset_right = 0.0
 offset_bottom = 0.0
 stretch = true
 
+[node name="SubViewportContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top" instance=ExtResource("20_5adix")]
+visible = false
+
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs"]
 offset_top = 151.0
 offset_right = 247.0
@@ -258,7 +262,7 @@ script = ExtResource("5")
 
 [node name="LayerCompositionUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("20_2333t")]
 offset_left = 5.0
-offset_top = 36.0
+offset_top = 38.0
 offset_right = -5.0
 offset_bottom = -5.0
 
