@@ -30,24 +30,22 @@ limit_top = -1000000000
 limit_right = 1000000000
 limit_bottom = 1000000000
 position_smoothing_enabled = true
-position_smoothing_speed = 15.0
+position_smoothing_speed = 30.0
 script = ExtResource("2_4kwff")
 
 [node name="GeoLayerRenderers" parent="SubViewport" instance=ExtResource("1_4xdhn")]
+camera_path = NodePath("../Camera2D")
 
 [node name="ZoomContainer" type="HBoxContainer" parent="."]
-layout_mode = 2
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="ZoomIn" parent="ZoomContainer" instance=ExtResource("3_h5xpr")]
-layout_mode = 2
 offset_right = 30.0
 offset_bottom = 40.0
 icon = ExtResource("4_p5pgr")
 
 [node name="ZoomOut" parent="ZoomContainer" instance=ExtResource("3_h5xpr")]
-layout_mode = 2
 offset_left = 34.0
 offset_right = 64.0
 offset_bottom = 40.0

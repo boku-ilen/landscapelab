@@ -53,7 +53,7 @@ func load_new_data():
 			top_left_x,
 			top_left_y,
 			10000.0,
-			layer_resolution / 20,
+			layer_resolution,
 			1
 		)
 		

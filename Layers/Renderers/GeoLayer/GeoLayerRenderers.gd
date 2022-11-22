@@ -1,6 +1,6 @@
 extends Node2D
 
-
+@export var camera_path: NodePath
 @onready var loading_thread = Thread.new()
 var raster_renderer = preload("res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn")
 var feature_renderer = preload("res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.tscn")
@@ -34,16 +34,22 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _instantiate_geolayer_renderer(geo_layer_name, is_raster: bool):
 	var new_renderer
-	if is_raster and geo_layer_name == "dhm":
+	if is_raster:
 		new_renderer = raster_renderer.instantiate()
 		new_renderer.geo_raster_layer = Layers.geo_layers["rasters"][geo_layer_name]
+		if geo_layer_name == "ortho":
+			new_renderer.z_index = 10
 	else: 
-		return
-#		new_renderer = feature_renderer.instantiate()
-#		new_renderer.geo_feature_layer = Layers.geo_layers["features"][geo_layer_name]
+		if geo_layer_name == "windmills":
+			new_renderer = feature_renderer.instantiate()
+			get_node(camera_path).zoom_changed.connect(new_renderer.apply_zoom)
+			new_renderer.geo_feature_layer = Layers.geo_layers["features"][geo_layer_name]
+			new_renderer.z_index = 11
+			
 	
-	new_renderer.name = geo_layer_name
-	add_child(new_renderer)
+	if new_renderer:
+		new_renderer.name = geo_layer_name
+		add_child(new_renderer)
 
 
 # Apply a new center position to all child nodes
