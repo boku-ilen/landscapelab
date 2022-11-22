@@ -1,0 +1,192 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="FontFile" path="res://UI/Fonts/TextBold.tres" id="1"]
+[ext_resource type="PackedScene" path="res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn" id="2"]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/SpecificLayerCompositionUI/PolygonLayer.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://cevkujetsv5y7" path="res://UI/Layers/LayerConfiguration/Misc/AttributeDropDown.tscn" id="4"]
+
+[node name="PolygonLayer" type="HSplitContainer"]
+offset_right = 1024.0
+offset_bottom = 150.0
+minimum_size = Vector2( 0, 150 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeftBox" type="VBoxContainer" parent="."]
+offset_right = 272.0
+offset_bottom = 340.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="VBoxContainer" parent="LeftBox"]
+offset_right = 272.0
+offset_bottom = 50.0
+minimum_size = Vector2( 0, 50 )
+
+[node name="Title" type="Label" parent="LeftBox/Title"]
+offset_right = 272.0
+offset_bottom = 23.0
+custom_fonts/font = ExtResource( 1 )
+text = "Polygon-Layer"
+
+[node name="HSeparator" type="HSeparator" parent="LeftBox/Title"]
+offset_top = 31.0
+offset_right = 272.0
+offset_bottom = 39.0
+
+[node name="Polygons" type="Label" parent="LeftBox"]
+offset_top = 58.0
+offset_right = 272.0
+offset_bottom = 143.0
+minimum_size = Vector2( 0, 85 )
+text = "Polygon-data:"
+
+[node name="GroundHeight" type="Label" parent="LeftBox"]
+offset_top = 151.0
+offset_right = 272.0
+offset_bottom = 236.0
+minimum_size = Vector2( 0, 85 )
+text = "Ground-Height-data:"
+
+[node name="HeightAttrib" type="Label" parent="LeftBox"]
+offset_top = 244.0
+offset_right = 272.0
+offset_bottom = 284.0
+minimum_size = Vector2( 0, 40 )
+text = "Height Attribute:"
+
+[node name="Extend" type="Label" parent="LeftBox"]
+offset_top = 292.0
+offset_right = 272.0
+offset_bottom = 317.0
+text = "Extend as Building-Layer:"
+
+[node name="BuildingInfo" type="VBoxContainer" parent="LeftBox"]
+visible = false
+offset_top = 325.0
+offset_right = 272.0
+offset_bottom = 325.0
+
+[node name="HeightStdAttrib" type="Label" parent="LeftBox/BuildingInfo"]
+offset_top = 8.0
+offset_right = 272.0
+offset_bottom = 48.0
+minimum_size = Vector2( 0, 40 )
+text = "Height Stdev Attribute:"
+
+[node name="SlopeAttrib" type="Label" parent="LeftBox/BuildingInfo"]
+offset_top = 56.0
+offset_right = 272.0
+offset_bottom = 96.0
+minimum_size = Vector2( 0, 40 )
+text = "Slope Attribute:"
+
+[node name="RedAttrib" type="Label" parent="LeftBox/BuildingInfo"]
+offset_top = 104.0
+offset_right = 272.0
+offset_bottom = 144.0
+minimum_size = Vector2( 0, 40 )
+text = "Red Attribute:"
+
+[node name="GreenAttrib" type="Label" parent="LeftBox/BuildingInfo"]
+offset_top = 152.0
+offset_right = 272.0
+offset_bottom = 192.0
+minimum_size = Vector2( 0, 40 )
+text = "Green Attribute:"
+
+[node name="BlueAttrib" type="Label" parent="LeftBox/BuildingInfo"]
+offset_top = 200.0
+offset_right = 272.0
+offset_bottom = 240.0
+minimum_size = Vector2( 0, 40 )
+text = "Blue Attribute:"
+
+[node name="RightBox" type="VBoxContainer" parent="."]
+offset_left = 296.0
+offset_right = 1024.0
+offset_bottom = 340.0
+
+[node name="Spacer" type="Control" parent="RightBox"]
+offset_right = 728.0
+offset_bottom = 50.0
+minimum_size = Vector2( 0, 50 )
+
+[node name="PolygonChooser" parent="RightBox" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 58.0
+offset_right = 728.0
+offset_bottom = 143.0
+show_raster_layers = false
+
+[node name="GroundHeightChooser" parent="RightBox" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 151.0
+offset_right = 728.0
+offset_bottom = 236.0
+show_feature_layer = false
+
+[node name="HeightAttrDD" parent="RightBox" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 244.0
+offset_right = 728.0
+offset_bottom = 284.0
+minimum_size = Vector2( 0, 40 )
+
+[node name="BuildingCheckBox" type="CheckBox" parent="RightBox"]
+offset_top = 292.0
+offset_right = 728.0
+offset_bottom = 340.0
+
+[node name="BuildingInfo" type="VBoxContainer" parent="RightBox"]
+visible = false
+offset_top = 348.0
+offset_right = 728.0
+offset_bottom = 580.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HeightStdAttrDD" parent="RightBox/BuildingInfo" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 728.0
+offset_bottom = 40.0
+minimum_size = Vector2( 0, 40 )
+
+[node name="SlopeAttrDD" parent="RightBox/BuildingInfo" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 48.0
+offset_right = 728.0
+offset_bottom = 88.0
+minimum_size = Vector2( 0, 40 )
+
+[node name="RedAttrDD" parent="RightBox/BuildingInfo" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 96.0
+offset_right = 728.0
+offset_bottom = 136.0
+minimum_size = Vector2( 0, 40 )
+
+[node name="GreenAttrDD" parent="RightBox/BuildingInfo" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 144.0
+offset_right = 728.0
+offset_bottom = 184.0
+minimum_size = Vector2( 0, 40 )
+
+[node name="BlueAttrDD" parent="RightBox/BuildingInfo" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 192.0
+offset_right = 728.0
+offset_bottom = 232.0
+minimum_size = Vector2( 0, 40 )

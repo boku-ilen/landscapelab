@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2e1r4org8oyd"]
+[gd_scene load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://Layers/LayerConfigurator.gd" id="1"]
 

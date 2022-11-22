@@ -116,20 +116,20 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 	var map_size = get_map_size()
 	
 	var dhm = dhm_layer.get_image(
-		world_x - map_size / 2,
-		world_y + map_size / 2,
-		map_size,
-		map_size / 2.0,
+		float(world_x - map_size / 2),
+		float(world_y + map_size / 2),
+		float(map_size), 
+		int(map_size / 2.0),
 		1
 	)
 	
 	heightmap = dhm.get_image_texture()
 	
 	var splat = splat_layer.get_image(
-		world_x - map_size / 2,
-		world_y + map_size / 2,
-		map_size,
-		map_size / 2.0,
+		float(world_x - map_size / 2),
+		float(world_y + map_size / 2),
+		float(map_size), 
+		int(map_size / 2.0),
 		0
 	)
 	

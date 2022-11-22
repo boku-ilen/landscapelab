@@ -1,4 +1,4 @@
-extends LayerRenderer
+extends LayerCompositionRenderer
 
 var radius = 800
 var max_features = 100
@@ -8,8 +8,9 @@ var max_connections = 100
 var connector_instances = []
 var connection_instances = []
 
+
 func full_load():
-	var geo_lines = layer.get_features_near_position(center[0], center[1], radius, max_features)
+	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(center[0], center[1], radius, max_features)
 	
 	for geo_line in geo_lines:
 		update_connected_object(geo_line)
@@ -37,7 +38,7 @@ func apply_new_data():
 
 func update_connected_object(geo_line):
 	# Get the specifying attribute or null (=> fallbacks)
-	var attribute_name = layer.render_info.selector_attribute_name
+	var attribute_name = layer_composition.render_info.selector_attribute_name
 	var selector_attribute = geo_line.get_attribute(attribute_name) \
 										if attribute_name else null
 	
@@ -53,10 +54,10 @@ func update_connected_object(geo_line):
 		# Create a specified connector-object or use fallback
 		var object: Node3D
 
-		if selector_attribute and selector_attribute in layer.render_info.connectors:
-			object = layer.render_info.connectors[selector_attribute].instantiate()
+		if selector_attribute and selector_attribute in layer_composition.render_info.connectors:
+			object = layer_composition.render_info.connectors[selector_attribute].instantiate()
 		else:
-			object = layer.render_info.fallback_connector.instantiate()
+			object = layer_composition.render_info.fallback_connector.instantiate()
 		
 		# Obtain the next point (required for the orientation of the current)
 		if index+1 < course.get_point_count():
@@ -125,10 +126,10 @@ func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 	for dock in dock_parent.get_children():
 		# Create a specified connection-object or use fallback
 		var connection: AbstractConnection
-		if not selector_attribute or not selector_attribute in layer.render_info.connections:
-			connection = layer.render_info.fallback_connection.instantiate()
+		if not selector_attribute or not selector_attribute in layer_composition.render_info.connections:
+			connection = layer_composition.render_info.fallback_connection.instantiate()
 		else:
-			connection = layer.render_info.connections[selector_attribute].instantiate()
+			connection = layer_composition.render_info.connections[selector_attribute].instantiate()
 		
 		var dock_before: Node3D = object_before.get_node("Docks/" + String(dock.name))
 		
@@ -141,12 +142,13 @@ func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 
 # Returns the current ground height
 func _get_height_at_ground(position: Vector3) -> float:
-	return layer.render_info.ground_height_layer.get_value_at_position(
+	return layer_composition.render_info.ground_height_layer.get_value_at_position(
 		center[0] + position.x, center[1] - position.z)
 
 
 func _ready():
-	if not layer is FeatureLayer or not layer.is_valid():
+	super._ready()
+	if not layer_composition.is_valid():
 		logger.error("ConnectedObjectRenderer was given an invalid layer!", LOG_MODULE)
 
 

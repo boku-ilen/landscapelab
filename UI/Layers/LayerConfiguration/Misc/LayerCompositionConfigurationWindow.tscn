@@ -1,0 +1,75 @@
+[gd_scene load_steps=7 format=3 uid="uid://dbembde0n3cjx"]
+
+[ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="2_ckxgs"]
+[ext_resource type="PackedScene" uid="uid://ce363ya7o8glf" path="res://UI/Layers/LayerConfiguration/Misc/ColorTag.tscn" id="3"]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/LayerCompositionConfigurationWindow.gd" id="4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5gamk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_yyqew"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xn3c6"]
+
+[node name="Control" type="ConfirmationDialog"]
+title = "Layer Configuration"
+size = Vector2i(500, 180)
+visible = true
+theme = ExtResource("2_ckxgs")
+dialog_hide_on_ok = false
+script = ExtResource("4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 492.0
+offset_bottom = 131.0
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+offset_right = 484.0
+offset_bottom = 116.0
+theme_override_constants/h_separation = 50
+columns = 2
+
+[node name="LabelName" type="Label" parent="VBoxContainer/GridContainer"]
+offset_right = 98.0
+offset_bottom = 34.0
+text = "Layer Name:"
+label_settings = SubResource("LabelSettings_5gamk")
+
+[node name="Name" type="LineEdit" parent="VBoxContainer/GridContainer"]
+offset_left = 148.0
+offset_right = 484.0
+offset_bottom = 34.0
+size_flags_horizontal = 3
+placeholder_text = "..."
+
+[node name="ColorTag" type="Label" parent="VBoxContainer/GridContainer"]
+offset_top = 41.0
+offset_right = 98.0
+offset_bottom = 75.0
+text = "Color Tag:"
+label_settings = SubResource("LabelSettings_yyqew")
+
+[node name="ColorTagMenu" parent="VBoxContainer/GridContainer" instance=ExtResource("3")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 148.0
+offset_top = 38.0
+offset_right = 484.0
+offset_bottom = 78.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Type" type="Label" parent="VBoxContainer/GridContainer"]
+offset_top = 82.0
+offset_right = 98.0
+offset_bottom = 116.0
+text = "Type:"
+label_settings = SubResource("LabelSettings_xn3c6")
+
+[node name="TypeChooser" type="OptionButton" parent="VBoxContainer/GridContainer"]
+offset_left = 148.0
+offset_top = 82.0
+offset_right = 484.0
+offset_bottom = 116.0

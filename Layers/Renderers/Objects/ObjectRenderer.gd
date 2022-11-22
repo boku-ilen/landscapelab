@@ -1,4 +1,4 @@
-extends LayerRenderer
+extends LayerCompositionRenderer
 
 var radius = 10000
 var max_features = 2000
@@ -23,7 +23,7 @@ func set_time_manager():
 
 func full_load():
 	is_loading = true
-	features = layer.get_features_near_position(center[0], center[1], radius, max_features)
+	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(center[0], center[1], radius, max_features)
 
 
 func apply_new_data():
@@ -61,7 +61,7 @@ func apply_new_data():
 
 
 func apply_new_feature(feature):
-	var instance = layer.render_info.object.instantiate()
+	var instance = layer_composition.render_info.object.instantiate()
 	
 	instance.name = var_to_str(feature.get_id())
 	feature.connect("point_changed",Callable(self,"update_instance_position").bind(feature, instance))
@@ -76,13 +76,13 @@ func apply_new_feature(feature):
 		instance.set("feature", feature)
 	
 	if "render_info" in instance:
-		instance.set("render_info", layer.render_info)
+		instance.set("render_info", layer_composition.render_info)
 	
 	if "center" in instance:
 		instance.set("center", center)
 	
 	if "height_layer" in instance:
-		instance.set("height_layer", layer.render_info.ground_height_layer)
+		instance.set("height_layer", layer_composition.render_info.ground_height_layer)
 	
 	add_child(instance)
 
@@ -100,7 +100,7 @@ func update_instance_position(feature, obj_instance: Node3D):
 		obj_instance.set_height(local_object_pos)
 		local_object_pos.y = 0.0
 	elif not obj_instance.transform.origin.y > 0.0:
-		local_object_pos.y = layer.render_info.ground_height_layer.get_value_at_position(
+		local_object_pos.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
 			center[0] + local_object_pos.x, center[1] - local_object_pos.z)
 	else:
 		local_object_pos.y = obj_instance.transform.origin.y
@@ -112,10 +112,11 @@ func update_instance_position(feature, obj_instance: Node3D):
 
 
 func _ready():
-	layer.geo_feature_layer.geo_feature_layer.connect("feature_added",Callable(self,"_on_feature_added").bind())
-	layer.geo_feature_layer.geo_feature_layer.connect("feature_removed",Callable(self,"_on_feature_removed").bind())
-	
-	if not layer is FeatureLayer or not layer.is_valid():
+	super._ready()
+	layer_composition.render_info.geo_feature_layer.connect("feature_added",Callable(self,"_on_feature_added").bind())
+	layer_composition.render_info.geo_feature_layer.connect("feature_removed",Callable(self,"_on_feature_removed").bind())
+
+	if not layer_composition.is_valid():
 		logger.error("ObjectRenderer was given an invalid layer!", LOG_MODULE)
 
 

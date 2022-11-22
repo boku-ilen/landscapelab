@@ -1,4 +1,4 @@
-extends LayerRenderer
+extends LayerCompositionRenderer
 
 
 var lods = []
@@ -18,13 +18,14 @@ var extent = 7 # extent of chunks in every direction
 
 
 func _ready():
+	super._ready()
 	for x in range(-extent, extent + 1):
 		for y in range(-extent, extent + 1):
 			var lod = preload("res://Layers/Renderers/Terrain/TerrainLOD.tscn").instantiate()
-			
+
 			var size = chunk_size
 			var lod_position = Vector3(x * size, 0.0, y * size)
-			
+
 			lod.position = lod_position
 			lod.size = size
 			
@@ -33,11 +34,11 @@ func _ready():
 			lod.mesh = basic_mesh
 			lod.mesh_resolution = basic_mesh_resolution
 			
-			lod.height_layer = layer.render_info.height_layer.clone()
-			lod.texture_layer = layer.render_info.texture_layer.clone()
-			lod.landuse_layer = layer.render_info.landuse_layer.clone()
-			lod.surface_height_layer = layer.render_info.surface_height_layer.clone()
-			
+			lod.height_layer = layer_composition.render_info.height_layer.clone()
+			lod.texture_layer = layer_composition.render_info.texture_layer.clone()
+			lod.landuse_layer = layer_composition.render_info.landuse_layer.clone()
+			lod.surface_height_layer = layer_composition.render_info.surface_height_layer.clone()
+
 			lods.append(lod)
 	
 	for lod in lods:

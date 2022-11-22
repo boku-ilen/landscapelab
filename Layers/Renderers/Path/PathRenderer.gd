@@ -1,4 +1,4 @@
-extends LayerRenderer
+extends LayerCompositionRenderer
 
 var radius = 1000
 var max_features = 1000
@@ -7,10 +7,10 @@ var line_vis_instances = []
 
 
 func full_load():
-	var geo_lines = layer.get_features_near_position(center[0], center[1], radius, max_features)
+	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(center[0], center[1], radius, max_features)
 	
 	for geo_line in geo_lines:
-		var line_vis_instance = layer.render_info.line_visualization.instantiate()
+		var line_vis_instance = layer_composition.render_info.line_visualization.instantiate()
 		update_line(geo_line, line_vis_instance)
 		geo_line.connect("line_changed",Callable(self,"update_new_line").bind(geo_line, line_vis_instance))
 		
@@ -48,12 +48,13 @@ func _adjust_height(curve: Curve3D):
 
 # Returns the current ground height
 func _get_height_at_ground(position: Vector3):
-	return layer.render_info.ground_height_layer.get_value_at_position(
+	return layer_composition.render_info.ground_height_layer.get_value_at_position(
 		center[0] + position.x, center[1] - position.z)
 
 
 func _ready():
-	if not layer is FeatureLayer or not layer.is_valid():
+	super._ready()
+	if not layer_composition.is_valid():
 		logger.error("PathRenderer was given an invalid layer!", LOG_MODULE)
 
 

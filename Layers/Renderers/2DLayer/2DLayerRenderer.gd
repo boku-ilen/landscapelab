@@ -1,11 +1,12 @@
-extends LayerRenderer
+extends LayerCompositionRenderer
 
 
 @onready var plane = get_node("TexturePlane")
 
 
 func _ready():
-	plane.texture_layer = layer.render_info.texture_layer.clone()
+	super._ready()
+	plane.texture_layer = layer_composition.render_info.texture_layer.clone()
 
 
 func full_load():

@@ -1,4 +1,4 @@
-extends LayerRenderer
+extends LayerCompositionRenderer
 
 
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
@@ -20,8 +20,8 @@ var max_features = 2000
 # Called when the node enters the scene tree for the first time.
 func full_load():
 	# Extract features
-	var features = layer.get_features_near_position(center[0], center[1], load_radius, max_features)
-	var height_attribute_name = layer.render_info.height_attribute_name
+	var features = layer_composition.render_info.geo_feature_layer.get_features_near_position(center[0], center[1], load_radius, max_features)
+	var height_attribute_name = layer_composition.render_info.height_attribute_name
 	
 	# Create the buildings
 	for feature in features:
@@ -75,22 +75,22 @@ func full_load():
 			walls.set_color(wall_color)
 		
 		# Add the roof
-		if layer.render_info is Layer.BuildingRenderInfo:
-			var slope = feature.get_attribute(layer.render_info.slope_attribute_name)
+		if layer_composition.render_info is LayerComposition.BuildingRenderInfo:
+			var slope = feature.get_attribute(layer_composition.render_info.slope_attribute_name)
 			var roof = null
 			
 			if str_to_var(slope) > 15:
 				roof = pointed_roof_scene.instantiate()
-				var height_stdev = str_to_var(feature.get_attribute(layer.render_info.height_stdev_attribute_name))
+				var height_stdev = str_to_var(feature.get_attribute(layer_composition.render_info.height_stdev_attribute_name))
 				roof.set_height(fmod(height, floor_height) + height_stdev)
 			
 			if roof == null or not roof.can_build(polygon):
 				roof = flat_roof_scene.instantiate()
 			
 			var color = Color(
-					str_to_var(feature.get_attribute(layer.render_info.red_attribute_name)) / 255.0,
-					str_to_var(feature.get_attribute(layer.render_info.green_attribute_name)) / 255.0,
-					str_to_var(feature.get_attribute(layer.render_info.blue_attribute_name)) / 255.0
+					str_to_var(feature.get_attribute(layer_composition.render_info.red_attribute_name)) / 255.0,
+					str_to_var(feature.get_attribute(layer_composition.render_info.green_attribute_name)) / 255.0,
+					str_to_var(feature.get_attribute(layer_composition.render_info.blue_attribute_name)) / 255.0
 			)
 			
 			# Increase contrast and saturation
@@ -125,8 +125,12 @@ func apply_new_data():
 	_apply_daytime_change(is_daytime)
 
 
+func _ready():
+	super._ready()
+
+
 func set_heights():
-	var height_layer = layer.render_info.ground_height_layer
+	var height_layer = layer_composition.render_info.ground_height_layer
 	
 	for building in get_children():
 		# Move the building down by the cellar_height so that their ground floor ends up at the

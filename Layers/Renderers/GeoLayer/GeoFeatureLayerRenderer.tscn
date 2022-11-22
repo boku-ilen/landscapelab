@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://v0nrbo5s762y"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.gd" id="1_7xgen"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ds7sa"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_yncj5"]
+mesh = SubResource("PlaneMesh_ds7sa")
+
+[node name="GeoFeatureLayerRenderer" type="Node2D"]
+script = ExtResource("1_7xgen")
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="."]
+multimesh = SubResource("MultiMesh_yncj5")

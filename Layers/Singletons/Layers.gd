@@ -1,81 +1,83 @@
 extends Node
 
 var geo_layers: Dictionary = { "rasters": {}, "features": {}}
-var layers: Dictionary
+var layer_compositions: Dictionary
 
-signal new_rendered_layer(layer)
-signal new_scored_layer(layer)
-signal new_layer(layer)
+signal new_rendered_layer_composition(layer_composition)
+signal new_scored_layer_composition(layer_composition)
+signal new_layer_composition(layer_composition)
 signal new_geo_layer(geo_layer, is_raster)
-signal removed_rendered_layer(layer_name, render_type)
-signal removed_scored_layer(layer_name)
-signal removed_layer(layer_name)
+signal removed_rendered_layer_composition(layer_composition_name, render_type)
+signal removed_scored_layer_composition(layer_composition_name)
+signal removed_layer_composition(layer_composition_name)
+
+const LOG_MODULE := "LAYERCONFIGURATION"
 
 
-func get_layer(name: String):
-	return layers[name] if layers.has(name) else null
+func get_layer_composition(name: String):
+	return layer_compositions[name] if layer_compositions.has(name) else null
 
 
-func get_rendered_layers():
+func get_rendered_layer_compositions():
 	var returned_layers = []
 	
-	for layer in layers:
-		if is_layer_rendered(layer):
-			returned_layers.append(layer)
+	for layer_composition in layer_compositions:
+		if is_layer_composition_rendered(layer_composition):
+			returned_layers.append(layer_composition)
 	
 	return returned_layers
 
 
-func get_layers_of_type(type):
+func get_layer_compositions_of_type(type):
 	var returned_layers = []
 	
-	for layer in layers:
-		if is_layer_of_type(layers[layer], type):
-			returned_layers.append(layers[layer])
+	for layer_composition in layer_compositions:
+		if is_layer_composition_of_type(layer_compositions[layer_composition], type):
+			returned_layers.append(layer_compositions[layer_composition])
 	
 	return returned_layers
 
 
-func add_layer(layer: Layer):
-	layers[layer.name] = layer
+func add_layer_composition(layer_composition: LayerComposition):
+	layer_compositions[layer_composition.name] = layer_composition
 	
-	# FIXME: is there any way to find out whether something is raster or feature
-	# FIXME: from the resource? 
-	for geo_layer in layer.render_info.get_geolayers():
-		add_geo_layer(geo_layer, true)
+	for geo_layer in layer_composition.render_info.get_geolayers():
+		add_geo_layer(geo_layer)
 	
-	if layer.is_scored:
-		emit_signal("new_scored_layer", layer)
-	if is_layer_rendered(layer):
-		emit_signal("new_rendered_layer", layer)
+	if layer_composition.is_scored:
+		emit_signal("new_scored_layer_composition", layer_composition)
+	if is_layer_composition_rendered(layer_composition):
+		emit_signal("new_rendered_layer_composition", layer_composition)
 	
-	emit_signal("new_layer", layer)
+	emit_signal("new_layer_composition", layer_composition)
 
 
-func add_geo_layer(layer: Resource, is_raster: bool):
-	if layer:
-		if is_raster:
-			geo_layers["rasters"][layer.resource_name] = layer
-		else: 
-			geo_layers["features"][layer.resource_name] = layer
+func add_geo_layer(layer: Resource):
+	if layer is GeoRasterLayer:
+		geo_layers["rasters"][layer.resource_name] = layer
+	elif layer is GeoFeatureLayer:
+		geo_layers["features"][layer.resource_name] = layer
+	else:
+		logger.error("Added an invalid geolayer", LOG_MODULE)
+		return
 		
-		emit_signal("new_geo_layer", is_raster)
+	emit_signal("new_geo_layer", layer is GeoRasterLayer)
 
 
-func remove_layer(layer_name: String):
-	if layers[layer_name].is_scored:
-		emit_signal("removed_scored_layer", layer_name)
-	if is_layer_rendered(layers[layer_name]):
-		emit_signal("removed_rendered_layer", layer_name, layers[layer_name].render_type)
+func remove_layer_composition(layer_composition_name: String):
+	if layer_compositions[layer_composition_name].is_scored:
+		emit_signal("removed_scored_layer_composition", layer_composition_name)
+	if is_layer_composition_rendered(layer_compositions[layer_composition_name]):
+		emit_signal("removed_rendered_layer_composition", layer_composition_name, layer_compositions[layer_composition_name].render_type)
 	
-	emit_signal("removed_layer", layer_name)
+	emit_signal("removed_layer_composition", layer_composition_name)
 	
-	layers.erase(layer_name)
+	layer_compositions.erase(layer_composition_name)
 
 
-func is_layer_rendered(layer: Layer):
-	return layer.render_type > Layer.RenderType.NONE
+func is_layer_composition_rendered(layer_composition: LayerComposition):
+	return layer_composition.render_type > LayerComposition.RenderType.NONE
 
 
-func is_layer_of_type(layer: Layer, type):
-	return layer.render_type == type
+func is_layer_composition_of_type(layer_composition: LayerComposition, type):
+	return layer_composition.render_type == type
