@@ -20,7 +20,7 @@ var max_features = 2000
 # Called when the node enters the scene tree for the first time.
 func full_load():
 	# Extract features
-	var features = layer_composition.render_info.geo_feature_layer.get_features_near_position(center[0], center[1], load_radius, max_features)
+	var features = layer_composition.render_info.geo_feature_layer.get_features_near_position(float(center[0]), float(center[1]), float(load_radius), max_features)
 	var height_attribute_name = layer_composition.render_info.height_attribute_name
 	
 	# Create the buildings
