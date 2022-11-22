@@ -50,8 +50,8 @@ var layer_configurator: Node :
 	set(configurator):
 		layer_configurator = configurator
 		layer_configurator.connect("center_changed",Callable(self,"set_offset"))
-		x = layer_configurator.center.x
-		z = layer_configurator.center.z
+		x = layer_configurator.center.x - fposmod(layer_configurator.center.x, 1000) + 500
+		z = layer_configurator.center.z - fposmod(layer_configurator.center.z, 1000) + 500
 
 var _previous_center_node_position := Vector2.ZERO
 var _center_node_velocity := Vector2.ZERO
@@ -132,8 +132,8 @@ func _shift_world(delta_x, delta_z):
 	# Make sure the shifting lines up with the most coarse grid (e.g. of the terrain) in order to
 	# avoid differences within same-LOD areas after shifting
 	# TODO: Generalize this factor; config or calculate from other values?
-	delta_x -= fposmod(delta_x, 16)
-	delta_z -= fposmod(delta_z, 16)
+	delta_x -= fposmod(delta_x, 1000)
+	delta_z -= fposmod(delta_z, 1000)
 	
 	logger.info("Shifting world by %f, %f" % [delta_x, delta_z], LOG_MODULE)
 	

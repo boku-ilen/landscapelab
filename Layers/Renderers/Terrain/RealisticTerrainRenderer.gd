@@ -57,10 +57,10 @@ func full_load():
 		var remainder_x = center[0] % chunk_size
 		var remainder_y = center[1] % chunk_size
 		
-		lod.position_diff_x = remainder_x
-		lod.position_diff_z = remainder_y
+		lod.position_diff_x = 0
+		lod.position_diff_z = 0
 		
-		lod.build(center[0] + lod.position.x + lod.position_diff_x, center[1] - lod.position.z - lod.position_diff_z)
+		lod.build(center[0] + lod.position.x, center[1] - lod.position.z)
 	
 	call_deferred("apply_new_data")
 
