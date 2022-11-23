@@ -9,6 +9,10 @@ var pos_manager: PositionManager :
 		$SubViewport/GeoLayerRenderers.pos_manager = new_manager
 
 
+func _gui_input(event):
+	$SubViewport/Camera2D.input(event)
+
+
 func _ready():
 	$ZoomContainer/ZoomIn.pressed.connect($SubViewport/Camera2D.zoom_in.bind(0.5))
 	$ZoomContainer/ZoomOut.pressed.connect($SubViewport/Camera2D.zoom_out.bind(0.5))

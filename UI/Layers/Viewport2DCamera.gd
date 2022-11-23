@@ -9,7 +9,7 @@ var screen_start_position
 var dragging = false
 
 
-func _input(event):
+func input(event: InputEvent):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.is_pressed():
