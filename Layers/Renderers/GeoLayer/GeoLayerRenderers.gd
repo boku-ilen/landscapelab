@@ -40,11 +40,10 @@ func _instantiate_geolayer_renderer(geo_layer_name, is_raster: bool):
 		if geo_layer_name == "ortho":
 			new_renderer.z_index = 10
 	else: 
-		if geo_layer_name == "windmills":
-			new_renderer = feature_renderer.instantiate()
-			get_node(camera_path).zoom_changed.connect(new_renderer.apply_zoom)
-			new_renderer.geo_feature_layer = Layers.geo_layers["features"][geo_layer_name]
-			new_renderer.z_index = 11
+		new_renderer = feature_renderer.instantiate()
+		get_node(camera_path).zoom_changed.connect(new_renderer.apply_zoom)
+		new_renderer.geo_feature_layer = Layers.geo_layers["features"][geo_layer_name]
+		new_renderer.z_index = 11
 			
 	
 	if new_renderer:

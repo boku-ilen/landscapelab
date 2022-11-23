@@ -1,7 +1,7 @@
 extends GeoLayerRenderer
 
 
-@export var radius := 100000.0
+@export var radius := 10000.0
 @export var max_features := 1000
 
 var geo_feature_layer: GeoFeatureLayer
@@ -15,12 +15,20 @@ var point_func = func(feature):
 	return marker
 
 var line_func = func(feature):
-	var l = feature
-	return Line2D.new()
+	var curve: Curve3D = feature.get_offset_curve3d(-center[0], 0, -center[1])
+	var line := Line2D.new()
+	line.set_default_color(Color.CRIMSON)
+	line.points = Array(curve.tessellate()).map(func(vec3): return Vector2(vec3.x, vec3.z))
+	return line
 
 var polygon_func = func(feature):
-	var p = feature
-	return MeshInstance2D.new()
+	GeoPolygon
+	var p = feature.get_outer_vertices()
+	var polygon = Polygon2D.new()
+	polygon.set_polygon(Array(p).map(func(vec2): return vec2 - Vector2(center[0], center[1])))
+	polygon.set_color(Color.CYAN)
+	polygon.scale.y = -1
+	return polygon
 
 var func_dict = {
 	"GeoPoint": point_func,
@@ -28,6 +36,7 @@ var func_dict = {
 	"GeoPolygon": polygon_func
 }
 
+var is_what: String
 
 func load_new_data():
 	var position_x = center[0]
@@ -44,15 +53,21 @@ func load_new_data():
 
 func apply_new_data():
 	if current_features:
-		var create_func = func_dict[current_features[0].get_class()]
+		is_what = current_features[0].get_class()
+		var create_func = func_dict[is_what]
 		
 		for feature in current_features:
-			add_child(create_func.call(feature))
+			var visualizer = create_func.call(feature)
+			if visualizer: add_child(visualizer) 
 
 
 func apply_zoom(zoom):
-	for child in get_children():
-		child.scale = Vector2.ONE / zoom
+	if is_what == "GeoPoint":
+		for child in get_children():
+			child.scale = Vector2.ONE / zoom
+	elif is_what == "GeoLine":
+		for child in get_children():
+			child.width = 1 / zoom.x
 
 
 func get_debug_info() -> String:
