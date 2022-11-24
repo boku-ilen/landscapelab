@@ -14,5 +14,7 @@ func _gui_input(event):
 
 
 func _ready():
-	$ZoomContainer/ZoomIn.pressed.connect($SubViewport/Camera2D.zoom_in.bind(0.5))
-	$ZoomContainer/ZoomOut.pressed.connect($SubViewport/Camera2D.zoom_out.bind(0.5))
+	$ZoomContainer/ZoomIn.pressed.connect($SubViewport/Camera2D.do_zoom.bind(1.1))
+	$ZoomContainer/ZoomOut.pressed.connect($SubViewport/Camera2D.do_zoom.bind(0.9))
+	
+	

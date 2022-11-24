@@ -26,6 +26,7 @@ render_target_update_mode = 4
 [node name="Camera2D" type="Camera2D" parent="SubViewport"]
 ignore_rotation = false
 current = true
+zoom = Vector2(0.5, 0.5)
 limit_left = -1000000000
 limit_top = -1000000000
 limit_right = 1000000000
@@ -38,15 +39,18 @@ script = ExtResource("2_4kwff")
 camera_path = NodePath("../Camera2D")
 
 [node name="ZoomContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="ZoomIn" parent="ZoomContainer" instance=ExtResource("3_h5xpr")]
+layout_mode = 2
 offset_right = 30.0
 offset_bottom = 40.0
 icon = ExtResource("4_p5pgr")
 
 [node name="ZoomOut" parent="ZoomContainer" instance=ExtResource("3_h5xpr")]
+layout_mode = 2
 offset_left = 34.0
 offset_right = 64.0
 offset_bottom = 40.0
