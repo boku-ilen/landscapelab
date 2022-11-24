@@ -22,7 +22,6 @@ var line_func = func(feature):
 	return line
 
 var polygon_func = func(feature):
-	GeoPolygon
 	var p = feature.get_outer_vertices()
 	var polygon = Polygon2D.new()
 	polygon.set_polygon(Array(p).map(func(vec2): return vec2 - Vector2(center[0], center[1])))

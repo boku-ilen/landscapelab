@@ -1,7 +1,7 @@
 extends GeoLayerRenderer
 
 
-@export var layer_resolution: int = 4000
+@export var layer_resolution: int = 1000
 
 @onready var plane: MeshInstance2D = get_node("TexturePlane")
 
@@ -54,7 +54,7 @@ func load_new_data():
 			top_left_y,
 			10000.0,
 			layer_resolution,
-			1
+			0
 		)
 		
 		if current_tex_image.is_valid():
