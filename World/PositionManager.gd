@@ -44,14 +44,6 @@ var terrain :
 		
 		self.center_node = get_node(center_node_path)
 
-var layer_configurator: Node :
-	get:
-		return layer_configurator 
-	set(configurator):
-		layer_configurator = configurator
-		layer_configurator.connect("center_changed",Callable(self,"set_offset"))
-		x = layer_configurator.center.x
-		z = layer_configurator.center.z
 
 var _previous_center_node_position := Vector2.ZERO
 var _center_node_velocity := Vector2.ZERO
@@ -86,6 +78,10 @@ var _dependent_objects_loaded := 0
 # Fallback height for conversions where no height is given, but the output expects one
 const DEFAULT_HEIGHT = 500
 const LOG_MODULE := "WORLDPOSITION"
+
+
+func _ready():
+	set_offset(Layers.current_center.x, Layers.current_center.z)
 
 
 func get_center_node_engine_position():

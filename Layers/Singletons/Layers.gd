@@ -1,5 +1,6 @@
 extends Node
 
+var current_center := Vector3.ZERO
 var geo_layers: Dictionary = { "rasters": {}, "features": {}}
 var layer_compositions: Dictionary
 
@@ -60,7 +61,8 @@ func add_geo_layer(layer: Resource):
 	else:
 		logger.error("Added an invalid geolayer", LOG_MODULE)
 		return
-		
+	
+	recalculate_center()
 	emit_signal("new_geo_layer", layer is GeoRasterLayer)
 
 
@@ -81,3 +83,16 @@ func is_layer_composition_rendered(layer_composition: LayerComposition):
 
 func is_layer_composition_of_type(layer_composition: LayerComposition, type):
 	return layer_composition.render_type == type
+
+
+# Return the middle of all layers for initial loading
+# FIXME: also include GeoFeatureLayers  
+func recalculate_center():
+	var center_avg := Vector3.ZERO
+	var count := 0
+	for geolayer in geo_layers["rasters"].values():
+		if geolayer is GeoRasterLayer:
+			center_avg += geolayer.get_center()
+			count += 1
+	
+	current_center = center_avg / count
