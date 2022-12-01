@@ -18,7 +18,6 @@ const LOG_MODULE = "GEOLAYERRENDERERS"
 
 func _ready():
 	camera = get_node(camera_path)
-	#camera.zoom_changed.connect(_on_zoom_changed)
 	camera.offset_changed.connect(apply_offset)
 		
 	for layer in Layers.geo_layers["rasters"]:
