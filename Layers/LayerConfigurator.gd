@@ -494,9 +494,8 @@ func get_georasterlayer_by_type(db, type: String, candidates: Array) -> GeoRaste
 	return null
 
 
-# Get the corresponding geolayer for the LL layer by a given type
-# e.g. a basic-terrain consists of height and texture 
-# => find dhm (digital height model) by type HEIGHT_LAYER, find ortho by type TEXTURE:LAYER
+# Get the corresponding geolayer for the LL layer by a string
+# e.g. ll_reference in db = "objects" => filter after this keyword
 func get_geofeaturelayer_by_name(db, lname: String, candidates: Array) -> GeoFeatureLayer:
 	for layer in candidates: 
 		if layer.ll_reference == lname:
