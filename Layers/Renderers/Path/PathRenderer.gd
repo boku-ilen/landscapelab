@@ -1,65 +1,86 @@
-extends LayerCompositionRenderer
+extends Node3D
+class_name PathRenderer
 
-var radius = 1000
+var path_layer: GeoFeatureLayer
+
+var chunks = []
+var chunk_size = 1000.0
+
+var center = [0,0]
+var radius: float = 500.0
 var max_features = 1000
 
-var line_vis_instances = []
+var _path_instance_scene = preload("res://Layers/Renderers/Path/PathInstance.tscn")
+var heightmaps: Dictionary = {}
 
 
-func full_load():
-	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(center[0], center[1], radius, max_features)
+func load_roads() -> void:
+	_create_heightmap_dictionary()
 	
-	for geo_line in geo_lines:
-		var line_vis_instance = layer_composition.render_info.line_visualization.instantiate()
-		update_line(geo_line, line_vis_instance)
-		geo_line.connect("line_changed",Callable(self,"update_new_line").bind(geo_line, line_vis_instance))
-		
-		line_vis_instances.append(line_vis_instance)
+	var path_features = path_layer.get_features_near_position(float(center[0]), float(center[1]), radius, max_features)
+	for path_feature in path_features:
+		var path = _create_path(path_feature)
 
 
-func apply_new_data():
-	# First clear the old objects, then add the new ones
-	for child in get_children():
-		child.queue_free()
+func _create_heightmap_dictionary() -> void:
+	for chunk in chunks:
+		var position_x = int(chunk.position.x / 1000)
+		var position_z = int(chunk.position.z / 1000)
+		if heightmaps.has(position_x):
+			heightmaps[position_x][position_z] = chunk.current_heightmap.duplicate()
+		else:
+			heightmaps[position_x] = {position_z: chunk.current_heightmap.duplicate()}
+
+
+func _create_path(path_feature) -> PathInstance:
+	var path_instance: PathInstance
 	
-	for instance in line_vis_instances:
-		add_child(instance)
+	var path_curve: Curve3D = path_feature.get_offset_curve3d(-center[0], 0, -center[1])
+	for index in range(path_curve.point_count):
+		var position = path_curve.get_point_position(index)
+		var height = _get_height(position)
+		var cube: MeshInstance3D = $"../MeshInstance3D".duplicate()
+		cube.position = position
+		cube.position.y = height
+		add_child(cube)
 	
-	line_vis_instances.clear()
+	return path_instance
 
 
-func update_line(geo_line, line_vis_instance: Path3D):
-	line_vis_instance.curve = geo_line.get_offset_curve3d(-center[0], 0, -center[1])
+func _get_height(position: Vector3) -> float:
+	# Get chunk
+	var chunk_x: int = position.x / 1000.0
+	var chunk_z: int = position.z / 1000.0
+	var heightmap: ImageTexture = heightmaps[chunk_x][chunk_z]
+	var image_size = heightmap.get_width()
 	
-	var width = float(geo_line.get_attribute("WIDTH"))
-	width = max(width, 2) # It's sometimes -1 in the data
-	# FIXME: widht logic
+	var image_x = int(((fposmod(position.x + chunk_size / 2.0, chunk_size)) / chunk_size) * image_size)
+	var image_y = int(((fposmod(position.z + chunk_size / 2.0, chunk_size)) / chunk_size) * image_size)
+	var image_position: int = (image_y * image_size + image_x) * 4
+	# Read bytes from image
+	var value: float = read_from_texture(heightmap, image_position)
 	
-	_adjust_height(line_vis_instance.curve)
+	return value
 
 
-# Adjust the height to a possible changed terrain
-func _adjust_height(curve: Curve3D):
-	for index in range(curve.get_point_count()):
-		var point = curve.get_point_position(index)
-		point = Vector3(point.x, _get_height_at_ground(point), point.z)
-		curve.set_point_position(index, point)
+
+static func read_from_texture(texture: ImageTexture, pos: int) -> float:
+	return texture.get_image().get_data().decode_float(pos)
 
 
-# Returns the current ground height
-func _get_height_at_ground(position: Vector3):
-	return layer_composition.render_info.ground_height_layer.get_value_at_position(
-		center[0] + position.x, center[1] - position.z)
-
-
-func _ready():
-	super._ready()
-	if not layer_composition.is_valid():
-		logger.error("PathRenderer was given an invalid layer!", LOG_MODULE)
-
-
-func get_debug_info() -> String:
-	return "{0} of maximally {1} paths loaded.".format([
-		str(get_child_count()),
-		str(max_features)
-	])
+static func bytes_to_vector(bytes: PackedByteArray) -> Vector2:
+	var vector_bytes: PackedByteArray
+	# Vector2 header
+	vector_bytes.append(5)
+	vector_bytes.append(0)
+	vector_bytes.append(0)
+	vector_bytes.append(0)
+	# height as 32-bit float
+	vector_bytes.append_array(bytes)
+	# zero as 32-bit float
+	vector_bytes.append(0)
+	vector_bytes.append(0)
+	vector_bytes.append(0)
+	vector_bytes.append(0)
+	# Reconstruct vector from bytes
+	return bytes_to_var(vector_bytes)

@@ -209,6 +209,16 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://addons/obj-parse/ObjParse.gd"
 }, {
+"base": "Path3D",
+"class": &"PathInstance",
+"language": &"GDScript",
+"path": "res://Layers/Renderers/Path/PathInstance.gd"
+}, {
+"base": "Node3D",
+"class": &"PathRenderer",
+"language": &"GDScript",
+"path": "res://Layers/Renderers/Path/PathRenderer.gd"
+}, {
 "base": "Object",
 "class": &"Plant",
 "language": &"GDScript",
@@ -319,6 +329,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Communication/Table/TableHandshakeRequestHandler.gd"
 }, {
+"base": "MeshInstance3D",
+"class": &"TerrainChunk",
+"language": &"GDScript",
+"path": "res://Layers/Renderers/Terrain/TerrainChunk.gd"
+}, {
 "base": "Node",
 "class": &"TimeManager",
 "language": &"GDScript",
@@ -425,6 +440,8 @@ _global_script_class_icons={
 "NewExtentRequestHandler": "",
 "NewTokenRequestHandler": "",
 "ObjParse": "",
+"PathInstance": "",
+"PathRenderer": "",
 "Plant": "",
 "PlantGroup": "",
 "PlayerGameObject": "",
@@ -447,6 +464,7 @@ _global_script_class_icons={
 "StructuredTexture": "",
 "TableCommunicator": "",
 "TableHandshakeRequestHandler": "",
+"TerrainChunk": "",
 "TimeManager": "",
 "TokenPositionRequestHandler": "",
 "TurnBasedGameMode": "",

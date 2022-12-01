@@ -537,6 +537,8 @@ func load_realistic_terrain_layer_composition(db, layer_config, geo_layers_confi
 		db, "LANDUSE_LAYER", geo_layers_config.rasters)
 	terrain_layer.render_info.surface_height_layer = get_georasterlayer_by_type(
 		db, "SURFACE_HEIGHT_LAYER", geo_layers_config.rasters)
+	terrain_layer.render_info.road_edges = get_geofeaturelayer_by_name(
+		db, "road_edges", geo_layers_config.features)
 	terrain_layer.name = layer_config.name
 	
 	return terrain_layer

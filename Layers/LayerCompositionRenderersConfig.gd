@@ -2,12 +2,12 @@ extends Configurator
 
 
 var renderers = {
-	LayerComposition.RenderType.BASIC_TERRAIN: preload("res://Layers/Renderers/Terrain/BasicTerrainRenderer.tscn"),
+	#LayerComposition.RenderType.BASIC_TERRAIN: preload("res://Layers/Renderers/Terrain/BasicTerrainRenderer.tscn"),
 	LayerComposition.RenderType.REALISTIC_TERRAIN: preload("res://Layers/Renderers/Terrain/RealisticTerrainRenderer.tscn"),
 	LayerComposition.RenderType.POLYGON: preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn"),
-	LayerComposition.RenderType.VEGETATION: preload("res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.tscn"),
+	#LayerComposition.RenderType.VEGETATION: preload("res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.tscn"),
 	LayerComposition.RenderType.OBJECT: preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn"),
-	LayerComposition.RenderType.PATH: preload("res://Layers/Renderers/Path/PathRenderer.tscn"),
+	#LayerComposition.RenderType.PATH: preload("res://Layers/Renderers/Path/PathRenderer.tscn"),
 	LayerComposition.RenderType.CONNECTED_OBJECT: preload("res://Layers/Renderers/ConnectedObjects/ConnectedObjectRenderer.tscn"),
 	LayerComposition.RenderType.TWODIMENSIONAL: preload("res://Layers/Renderers/2DLayer/2DLayerRenderer.tscn"),
 	LayerComposition.RenderType.POLYGON_OBJECT: preload("res://Layers/Renderers/PolygonObject/PolygonObjectRenderer.tscn")

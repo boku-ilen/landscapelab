@@ -1,6 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://ci8pmuyiijfqu"]
+[gd_scene load_steps=5 format=3 uid="uid://ci8pmuyiijfqu"]
 
+[ext_resource type="Script" path="res://Layers/Renderers/Path/PathRenderer.gd" id="2_qxqrc"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" id="4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hoint"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dly7t"]
+material = SubResource("StandardMaterial3D_hoint")
+size = Vector3(2, 2, 2)
 
 [node name="RealisticTerrainRenderer" type="Node3D"]
 script = ExtResource("4")
+
+[node name="Chunks" type="Node3D" parent="."]
+
+[node name="PathRenderer" type="Node3D" parent="."]
+script = ExtResource("2_qxqrc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_dly7t")

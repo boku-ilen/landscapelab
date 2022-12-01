@@ -105,13 +105,14 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	var surface_height_layer: GeoRasterLayer
 	var texture_layer: GeoRasterLayer
 	var landuse_layer: GeoRasterLayer
+	var road_edges: GeoFeatureLayer
 	
 	func get_geolayers():
-		return [height_layer, surface_height_layer, texture_layer, landuse_layer]
+		return [height_layer, surface_height_layer, texture_layer, landuse_layer, road_edges]
 	
 	func get_described_geolayers() -> Dictionary:
 		return {"Height": height_layer, "Surface height": surface_height_layer,
-				"Texture": texture_layer, "Landuse": landuse_layer}
+				"Texture": texture_layer, "Landuse": landuse_layer, "road_edges": road_edges}
 	
 	func is_valid():
 		return height_layer and surface_height_layer and texture_layer and landuse_layer
@@ -171,19 +172,19 @@ class BuildingRenderInfo extends PolygonRenderInfo:
 	var green_attribute_name
 	var blue_attribute_name
 
-class PathRenderInfo extends RenderInfo:
-	var line_visualization: PackedScene
-	var ground_height_layer: GeoRasterLayer
-	var geo_feature_layer: GeoFeatureLayer
-	
-	func get_geolayers():
-		return [ground_height_layer, geo_feature_layer]
-	
-	func get_described_geolayers() -> Dictionary:
-		return {"Ground-height": ground_height_layer, "Features": geo_feature_layer}
-	
-	func is_valid():
-		return geo_feature_layer != null && ground_height_layer != null
+#class PathRenderInfo extends RenderInfo:
+#	var line_visualization: PackedScene
+#	var ground_height_layer: GeoRasterLayer
+#	var geo_feature_layer: GeoFeatureLayer
+#
+#	func get_geolayers():
+#		return [ground_height_layer, geo_feature_layer]
+#
+#	func get_described_geolayers() -> Dictionary:
+#		return {"Ground-height": ground_height_layer, "Features": geo_feature_layer}
+#
+#	func is_valid():
+#		return geo_feature_layer != null && ground_height_layer != null
 
 class ConnectedObjectInfo extends RenderInfo:
 	# The geodata-key-attribute that determines which connector/connection to use
