@@ -2,19 +2,13 @@ extends Camera2D
 
 
 signal zoom_changed(z)
-signal load_new_data(world_offset, viewport_size)
+signal offset_changed(_offset, viewport_size, _zoom)
 
 var mouse_start_pos
 var screen_start_position
 
 var dragging = false
-
-
-func _set(n, value):
-	match n:
-		"position":
-			position = value
-			load_new_data.emit(position, get_viewport_rect().size / zoom)
+var zoom_action_counter = 0
 
 
 func input(event: InputEvent):
@@ -26,6 +20,7 @@ func input(event: InputEvent):
 				dragging = true
 			else:
 				dragging = false
+				offset_changed.emit(position, get_viewport_rect().size, zoom)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			do_zoom(1.1, get_viewport().get_mouse_position())
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
@@ -35,6 +30,7 @@ func input(event: InputEvent):
 
 
 # Zoom and keep the current pixel at it's relative same position
+# such that zooming in and out feels fluent and intuitive
 func do_zoom(factor: float, mouse_pos := get_viewport_rect().size / 2):
 	zoom *= factor
 	# On x and y axis calculate current mouse position normalized like between -0.5 and 0.5
@@ -50,4 +46,10 @@ func do_zoom(factor: float, mouse_pos := get_viewport_rect().size / 2):
 	center_offset -= Vector2.ONE * 0.5
 	position += (factor - 1) * center_offset * (get_viewport_rect().size / zoom)
 	
-	emit_signal("zoom_changed", zoom)
+	# Usually the user will scroll more than one zoom-level => wait a short time
+	# before loading new to avoid unnecessary work load
+#	zoom_action_counter += 1
+#	await get_tree().create_timer(0.3).timeout
+#	zoom_action_counter -= 1
+#	if not bool(zoom_action_counter):
+	offset_changed.emit(position, get_viewport_rect().size, zoom)

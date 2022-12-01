@@ -1,7 +1,8 @@
 extends GeoLayerRenderer
 
 
-@export var layer_resolution: int = 1000
+@export var layer_resolution: int
+@export var size_buffer_factor: float = 1.5
 
 @onready var plane: MeshInstance2D = get_node("TexturePlane")
 
@@ -45,14 +46,20 @@ func load_new_data():
 	var position_x = center[0]
 	var position_y = center[1]
 	
-	var top_left_x = position_x - plane.mesh.size.x / 2
-	var top_left_y = position_y + plane.mesh.size.y / 2
+	# Geodot will always load a square and rectangles are not possible
+	# => get the long side to make sure the canvas is filled
+	var long_side = max(viewport_size.x, viewport_size.y)
+	# Apply the size to the mesh and add some additional buffer
+	var mesh_size = (Vector2.ONE * long_side) / zoom
+	plane.mesh.size = mesh_size
+	var top_left_x = position_x - mesh_size.x / 2
+	var top_left_y = position_y + mesh_size.y / 2
 	
 	if geo_raster_layer:
 		var current_tex_image = geo_raster_layer.get_image(
 			top_left_x,
 			top_left_y,
-			10000.0,
+			long_side / zoom.x,
 			layer_resolution,
 			0
 		)
