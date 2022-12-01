@@ -9,6 +9,8 @@ var screen_start_position
 
 var dragging = false
 var zoom_action_counter = 0
+# Time to wait between scrolls before loading new data
+var zoom_reload_delay = 0.15
 
 
 func input(event: InputEvent):
@@ -48,8 +50,8 @@ func do_zoom(factor: float, mouse_pos := get_viewport_rect().size / 2):
 	
 	# Usually the user will scroll more than one zoom-level => wait a short time
 	# before loading new to avoid unnecessary work load
-#	zoom_action_counter += 1
-#	await get_tree().create_timer(0.3).timeout
-#	zoom_action_counter -= 1
-#	if not bool(zoom_action_counter):
-	offset_changed.emit(position, get_viewport_rect().size, zoom)
+	zoom_action_counter += 1
+	await get_tree().create_timer(zoom_reload_delay).timeout
+	zoom_action_counter -= 1
+	if not bool(zoom_action_counter):
+		offset_changed.emit(position, get_viewport_rect().size, zoom)
