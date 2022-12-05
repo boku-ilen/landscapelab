@@ -1,7 +1,6 @@
 extends Camera2D
 
 
-signal zoom_changed(z)
 signal offset_changed(_offset, viewport_size, _zoom)
 
 var mouse_start_pos
