@@ -363,15 +363,6 @@ func digest_gpkg(geopackage_path: String):
 			)
 			Layers.add_layer_composition(layer_composition)
 	
-#	var raster = RasterLayer.new()
-#	raster.geo_raster_layer = Layers.geo_layers["rasters"]["basemap"].clone()
-#	var test = Layer.new()
-#	test.render_type = Layer.RenderType.TWODIMENSIONAL
-#	test.render_info = Layer.TwoDimensionalInfo.new()
-#	test.render_info.texture_layer = raster
-#	test.name = "map"
-#	Layers.add_layer(test)
-	
 	# Loading Scenarios
 	logger.info("Starting to load scenarios ...", LOG_MODULE)
 	var scenario_configs: Array = db.select_rows("LL_scenarios", "", ["*"]).duplicate()
@@ -559,14 +550,14 @@ func load_vegetation_layer_composition(db, layer_config, geo_layers_config) -> L
 	var vegetation_layer = LayerComposition.new()
 	vegetation_layer.render_type = LayerComposition.RenderType.NONE
 	vegetation_layer.render_info = LayerComposition.RenderInfo.new()
-#	vegetation_layer.render_type = LayerComposition.RenderType.VEGETATION
-#	vegetation_layer.render_info = LayerComposition.VegetationRenderInfo.new()
-#	var render_ifno = vegetation_layer.render_info
-#	vegetation_layer.render_info.height_layer = get_georasterlayer_by_type(
-#		db, "HEIGHT_LAYER", geo_layers_config.rasters)
-#	vegetation_layer.render_info.landuse_layer = get_georasterlayer_by_type(
-#		db, "LANDUSE_LAYER", geo_layers_config.rasters)
-#	vegetation_layer.name = layer_config.name
+	vegetation_layer.render_type = LayerComposition.RenderType.VEGETATION
+	vegetation_layer.render_info = LayerComposition.VegetationRenderInfo.new()
+	var render_ifno = vegetation_layer.render_info
+	vegetation_layer.render_info.height_layer = get_georasterlayer_by_type(
+		db, "HEIGHT_LAYER", geo_layers_config.rasters)
+	vegetation_layer.render_info.landuse_layer = get_georasterlayer_by_type(
+		db, "LANDUSE_LAYER", geo_layers_config.rasters)
+	vegetation_layer.name = layer_config.name
 	
 	return vegetation_layer
 
