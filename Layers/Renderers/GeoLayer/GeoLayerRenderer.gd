@@ -3,7 +3,10 @@ class_name GeoLayerRenderer
 
 
 # Offset to use as the center position
-var center := [0, 0]
+var center := Vector2.ZERO
+var viewport_size := Vector2.ONE * 100
+var zoom := Vector2.ONE
+var radius := 1000
 
 
 # Overload with the functionality to load new data, but not use (visualize) it yet. Run in a thread,

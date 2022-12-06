@@ -1,7 +1,6 @@
 extends Configurator
 
-@onready var tree: Tree = get_parent().get_node("Tree")
-@onready var root = tree.create_item()
+@onready var list: ItemList = get_parent().get_node("ItemList")
 
 
 func _ready():
@@ -13,12 +12,12 @@ func _ready():
 		add_geo_layer(Layers.geo_layers["features"][layer], false)
 	
 	Layers.connect("new_geo_layer",Callable(self,"add_geo_layer"))
+	list.z_index_changed.emit(list.get_items())
 
 
 func add_geo_layer(geo_layer: Resource, is_raster: bool):
-	var new_layer = tree.create_item(root)
-	new_layer.set_metadata(0, geo_layer)
-	new_layer.set_text(0, geo_layer.resource_name)
+	var new_layer_idx = list.add_item(geo_layer.resource_name)
+	list.set_item_metadata(new_layer_idx, geo_layer)
 
 
 func remove_layer(layer_name: String):

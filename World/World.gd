@@ -5,7 +5,6 @@ var is_fullscreen: bool = false
 
 
 func _ready():
-	$PositionManager.layer_configurator = get_node("LayerConfigurator")
 	$PositionManager.terrain = get_node("Terrain")
 	
 	$TimeManager.connect("datetime_changed",Callable($WorldEnvironment,"apply_datetime"))

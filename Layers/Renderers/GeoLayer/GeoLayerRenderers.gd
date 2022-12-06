@@ -1,84 +1,95 @@
 extends Node2D
 
-
+@export var camera_path: NodePath
 @onready var loading_thread = Thread.new()
+var camera: Camera2D
 var raster_renderer = preload("res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn")
 var feature_renderer = preload("res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.tscn")
-
-var pos_manager: PositionManager :
-	get:
-		return pos_manager
-	set(new_manager):
-		pos_manager = new_manager
-		pos_manager.new_center.connect(apply_center)
-		
-		pos_manager.add_signal_dependency(self, "loading_finished")
-		
-		apply_center(pos_manager.get_center())
+signal loading_finished
+signal loading_started
 
 var renderers_finished := 0
 var renderers_count := 0
-var load_data_threaded := false
+var load_data_threaded := true
+
+# Center in geocordinates
+var center := Vector2.ZERO
+var offset := Vector2.ZERO
+var zoom := Vector2.ONE
 
 const LOG_MODULE = "GEOLAYERRENDERERS"
 
+
 func _ready():
+	camera = get_node(camera_path)
+	camera.offset_changed.connect(apply_offset)
+		
 	for layer in Layers.geo_layers["rasters"]:
 		_instantiate_geolayer_renderer(layer, true)
 	for layer in Layers.geo_layers["features"]:
 		_instantiate_geolayer_renderer(layer, false)
 	
+	center = Vector2(Layers.current_center.x, Layers.current_center.z)
+	apply_offset(Vector2.ZERO, camera.get_viewport_rect().size, camera.zoom)
+	
 	#Layers.new_geo_layer.connect(_instantiate_geolayer_renderer)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _instantiate_geolayer_renderer(geo_layer_name, is_raster: bool):
 	var new_renderer
-	if is_raster and geo_layer_name == "dhm":
+	if is_raster:
 		new_renderer = raster_renderer.instantiate()
 		new_renderer.geo_raster_layer = Layers.geo_layers["rasters"][geo_layer_name]
 	else: 
-		return
-#		new_renderer = feature_renderer.instantiate()
-#		new_renderer.geo_feature_layer = Layers.geo_layers["features"][geo_layer_name]
+		new_renderer = feature_renderer.instantiate()
+		new_renderer.geo_feature_layer = Layers.geo_layers["features"][geo_layer_name]
 	
-	new_renderer.name = geo_layer_name
-	add_child(new_renderer)
+	if new_renderer:
+		new_renderer.name = geo_layer_name
+		add_child(new_renderer)
 
 
-# Apply a new center position to all child nodes
-func apply_center(center_array):
+func apply_offset(offset, viewport_size, zoom):
+	self.zoom = zoom
+	self.offset = offset
+	var current_center = center
+	current_center.x += offset.x
+	current_center.y -= offset.y
 	logger.debug("Applying new center center to all children in %s" % [name], LOG_MODULE)
 	emit_signal("loading_started")
 	
 	renderers_finished = 0
-	renderers_count = 0
+	renderers_count = 0  
 	
 	# Get the number of renderers first to avoid race conditions
 	for renderer in get_children():
 		if renderer is GeoLayerRenderer:
 			renderers_count += 1
-	
-#	if load_data_threaded:
-#		loading_thread.start(Callable(self,"update_renderers").bind(center_array),
-#				Thread.PRIORITY_HIGH)
-#	else:
-	update_renderers(center_array)
+		
+		if load_data_threaded:
+			loading_thread.start(update_renderers.bind(
+				current_center, offset, viewport_size, zoom), Thread.PRIORITY_HIGH)
+		else:
+			update_renderers(current_center, offset, viewport_size, zoom)
 
 
-func update_renderers(center_array):
+func update_renderers(center, offset, viewport_size, zoom):
+	# The maximum radius is at the corners => get the diagonale divided by 2s
+	var radius = sqrt(pow(viewport_size.x / zoom.x, 2) + pow(viewport_size.y / zoom.y, 2)) / 2
 	# Now, load the data of each renderer
 	for renderer in get_children():
 		if renderer is GeoLayerRenderer:
-			renderer.center = center_array
+			renderer.center = center
+			renderer.viewport_size = viewport_size
+			renderer.zoom = zoom
+			renderer.radius = radius
 			
 			logger.debug("Child {} beginning to load", LOG_MODULE)
 
 			renderer.load_new_data()
-			call_deferred("_on_renderer_finished", renderer.name)
+			_on_renderer_finished.call_deferred(renderer.name)
 	
-	call_deferred("finish_loading_thread")
-
+	loading_thread.wait_to_finish.call_deferred()
 
 
 func _on_renderer_finished(renderer_name):
@@ -98,5 +109,14 @@ func _apply_renderers_data():
 	for renderer in get_children():
 		if renderer is GeoLayerRenderer:
 			renderer.apply_new_data()
+			# Only apply the position after the new data has
+			# been applied otherwise it will look clunky
+			renderer.position = offset
 	
 	emit_signal("loading_finished")
+
+
+func reclassify_z_indices(item_array):
+	for item in item_array:
+		if has_node(item.name):
+			get_node(item.name).z_index = item.z_idx
