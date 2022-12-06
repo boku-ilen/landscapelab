@@ -251,8 +251,7 @@ func get_id_row_array(ids):
 # A scale of 0 means that there is no texture of this type.
 # Note that each value needs to be scaled before use, since the texture only allows relative values in the 0..1 range.
 func get_metadata_map(ids):
-	var metadata = Image.new()
-	metadata.create(256, 1, false, Image.FORMAT_RGB8)
+	var metadata = Image.create(256, 1, false, Image.FORMAT_RGB8)
 	
 	# .fill doesn't work here - if that is used, the set_pixel calls later have no effect...
 	for i in range(0, 256):
@@ -312,8 +311,7 @@ func _image_array_to_texture_array(images):
 #  the size scaling factors (between 0 and 1 relative to the given max_size) for each particular
 #  plant instance, taking into account its min and max size.
 func generate_distribution(group: PlantGroup, max_size: float):
-	var distribution = Image.new()
-	distribution.create(distribution_size, distribution_size,
+	var distribution = Image.create(distribution_size, distribution_size,
 			false, Image.FORMAT_RG8)
 	
 	var dice = RandomNumberGenerator.new()
