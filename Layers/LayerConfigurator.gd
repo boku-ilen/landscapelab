@@ -1,11 +1,5 @@
 extends Configurator
 
-var center := Vector3.ZERO :
-	get:
-		return center
-	set(c):
-		center = c
-		emit_signal("center_changed", center.x, center.z)
 
 var geopackage
 var external_layers = preload("res://Layers/ExternalLayerComposition.gd").new()
@@ -13,12 +7,13 @@ var external_layers = preload("res://Layers/ExternalLayerComposition.gd").new()
 const LOG_MODULE := "LAYERCONFIGURATION"
 
 signal geodata_invalid
-signal center_changed(x, y)
+signal loading_finished
 
 
 func _ready():
 	category = "geodata"
 	load_gpkg(get_setting("gpkg-path"))
+	loading_finished.emit()
 
 
 # Gets called from main_ui
@@ -363,15 +358,6 @@ func digest_gpkg(geopackage_path: String):
 			)
 			Layers.add_layer_composition(layer_composition)
 	
-#	var raster = RasterLayer.new()
-#	raster.geo_raster_layer = Layers.geo_layers["rasters"]["basemap"].clone()
-#	var test = Layer.new()
-#	test.render_type = Layer.RenderType.TWODIMENSIONAL
-#	test.render_info = Layer.TwoDimensionalInfo.new()
-#	test.render_info.texture_layer = raster
-#	test.name = "map"
-#	Layers.add_layer(test)
-	
 	# Loading Scenarios
 	logger.info("Starting to load scenarios ...", LOG_MODULE)
 	var scenario_configs: Array = db.select_rows("LL_scenarios", "", ["*"]).duplicate()
@@ -409,8 +395,6 @@ func digest_gpkg(geopackage_path: String):
 	
 	db.close_db()
 	logger.info("Closing geopackage as DB ...", LOG_MODULE)
-	
-	self.center = get_avg_center()
  
 
 # Load all used geo-layers as defined by configuration
@@ -501,9 +485,8 @@ func get_georasterlayer_by_type(db, type: String, candidates: Array) -> GeoRaste
 	return null
 
 
-# Get the corresponding geolayer for the LL layer by a given type
-# e.g. a basic-terrain consists of height and texture 
-# => find dhm (digital height model) by type HEIGHT_LAYER, find ortho by type TEXTURE:LAYER
+# Get the corresponding geolayer for the LL layer by a string
+# e.g. ll_reference in db = "objects" => filter after this keyword
 func get_geofeaturelayer_by_name(db, lname: String, candidates: Array) -> GeoFeatureLayer:
 	for layer in candidates: 
 		if layer.ll_reference == lname:
@@ -561,14 +544,14 @@ func load_vegetation_layer_composition(db, layer_config, geo_layers_config) -> L
 	var vegetation_layer = LayerComposition.new()
 	vegetation_layer.render_type = LayerComposition.RenderType.NONE
 	vegetation_layer.render_info = LayerComposition.RenderInfo.new()
-#	vegetation_layer.render_type = LayerComposition.RenderType.VEGETATION
-#	vegetation_layer.render_info = LayerComposition.VegetationRenderInfo.new()
-#	var render_ifno = vegetation_layer.render_info
-#	vegetation_layer.render_info.height_layer = get_georasterlayer_by_type(
-#		db, "HEIGHT_LAYER", geo_layers_config.rasters)
-#	vegetation_layer.render_info.landuse_layer = get_georasterlayer_by_type(
-#		db, "LANDUSE_LAYER", geo_layers_config.rasters)
-#	vegetation_layer.name = layer_config.name
+	vegetation_layer.render_type = LayerComposition.RenderType.VEGETATION
+	vegetation_layer.render_info = LayerComposition.VegetationRenderInfo.new()
+	var render_ifno = vegetation_layer.render_info
+	vegetation_layer.render_info.height_layer = get_georasterlayer_by_type(
+		db, "HEIGHT_LAYER", geo_layers_config.rasters)
+	vegetation_layer.render_info.landuse_layer = get_georasterlayer_by_type(
+		db, "LANDUSE_LAYER", geo_layers_config.rasters)
+	vegetation_layer.name = layer_config.name
 	
 	return vegetation_layer
 
@@ -743,17 +726,3 @@ func load_twodimensional_layer_composition(db, layer_config, geo_layers_config) 
 	layer_2d.name = layer_config.name
 	
 	return layer_2d
-
-
-func get_avg_center():
-	var center_avg := Vector3.ZERO
-	var count := 0
-	for layer_composition in Layers.layer_compositions.values():
-		if layer_composition.render_info:
-			var test = layer_composition.render_info
-			for geolayer in layer_composition.render_info.get_geolayers():
-				if geolayer is GeoRasterLayer:
-					center_avg += geolayer.get_center()
-					count += 1
-
-	return center_avg / count

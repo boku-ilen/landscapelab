@@ -8,9 +8,7 @@ func _ready():
 # Called when the node enters the scene tree for the first time.
 func update_visualization(group_id):
 	# Generate DHM and Splatmap for this
-	var splat_image = Image.new()
-	
-	splat_image.create(1, 1, false, Image.FORMAT_R8)
+	var splat_image = Image.create(1, 1, false, Image.FORMAT_R8)
 	splat_image.set_pixel(0, 0, Color(group_id / 255.0, 0, 0))
 	
 	var splat_texture = ImageTexture.create_from_image(splat_image)

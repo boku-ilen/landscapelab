@@ -44,15 +44,6 @@ var terrain :
 		
 		self.center_node = get_node(center_node_path)
 
-var layer_configurator: Node :
-	get:
-		return layer_configurator 
-	set(configurator):
-		layer_configurator = configurator
-		layer_configurator.connect("center_changed",Callable(self,"set_offset"))
-		x = layer_configurator.center.x - fposmod(layer_configurator.center.x, 1000) + 500
-		z = layer_configurator.center.z - fposmod(layer_configurator.center.z, 1000) + 500
-
 var _previous_center_node_position := Vector2.ZERO
 var _center_node_velocity := Vector2.ZERO
 
@@ -86,6 +77,10 @@ var _dependent_objects_loaded := 0
 # Fallback height for conversions where no height is given, but the output expects one
 const DEFAULT_HEIGHT = 500
 const LOG_MODULE := "WORLDPOSITION"
+
+
+func _ready():
+	set_offset(Layers.current_center.x, Layers.current_center.z)
 
 
 func get_center_node_engine_position():
@@ -166,8 +161,9 @@ func _apply_new_position_to_center_node():
 
 # Sets the current divergence between engine coordinates and world coordinates.
 func set_offset(new_x, new_z):
-	x = new_x
-	z = new_z
+	# Ensure that the offset happens in steps of 500, 1500, 2500, ...
+	x = new_x - fposmod(new_x, 1000) + 500
+	z = new_z - fposmod(new_z, 1000) + 500
 	
 	emit_signal("new_center", [x, z])
 	delta_x = 0

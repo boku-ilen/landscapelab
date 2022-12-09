@@ -219,7 +219,7 @@ func fly(delta):
 		var result = space_state.intersect_ray(
 			PhysicsRayQueryParameters3D.create(
 				Vector3(position.x, 6000, position.z),
-				Vector3(position.x, -1000, position.z), 4294967295, [self]))
+				Vector3(position.x, -1000, position.z), 4294967295, [get_rid()]))
 
 		if result:
 			transform.origin.y = result.position.y
