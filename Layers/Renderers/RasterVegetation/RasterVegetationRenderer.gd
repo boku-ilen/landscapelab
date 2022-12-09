@@ -35,26 +35,34 @@ func full_load():
 
 func is_new_loading_required(position_diff: Vector3) -> bool:
 	# Small radius for grass?
-	if Vector2(position_diff.x, position_diff.z).length_squared() >= 20:
+	if Vector2(position_diff.x, position_diff.z).length_squared() >= 50:
 		return true
 	
 	return false
 
 
 func adapt_load(position_diff: Vector3):
-#	var world_position = position_manager.to_world_coordinates(position_manager.center_node.position)
-#
-#	offset = Vector3(position_manager.center_node.position.x, 0.0, position_manager.center_node.position.z)
-#
-#	for renderer in renderers.get_children():
-#		renderer.update_textures(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
-#				world_position[0], world_position[2])
-#
-#	call_deferred("apply_new_data")
-	pass
+	# Clamp to steps of 10 in order to maintain the land-use grid
+	# FIXME: actually depends on the resolution of the land-use and potentially other factors
+	var world_position = [
+		center[0] + position_manager.center_node.position.x - fposmod(position_manager.center_node.position.x, 10.0),
+		center[1] - position_manager.center_node.position.z + fposmod(position_manager.center_node.position.z, 10.0)
+	]
+	
+	var uv_offset_x = world_position[0] - center[0]
+	var uv_offset_y = world_position[1] - center[1]
+	
+	for renderer in renderers.get_children():
+		renderer.update_textures(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
+				world_position[0], world_position[1], uv_offset_x, uv_offset_y)
+
+	call_deferred("apply_new_data")
 
 
 func _process(delta):
+	super._process(delta)
+	
+	# Continuously reposition the Vegetation particles in the most optimal way
 	for renderer in renderers.get_children():
 		renderer.position = Vector3(
 			position_manager.center_node.position.x,

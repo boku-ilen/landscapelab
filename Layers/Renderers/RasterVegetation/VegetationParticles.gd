@@ -45,6 +45,8 @@ var billboard_tex
 var distribution_tex
 var heightmap
 var splatmap
+var uv_offset_x
+var uv_offset_y
 
 
 func _ready():
@@ -99,7 +101,7 @@ func set_spacing(new_spacing):
 
 # Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
 func get_map_size():
-	return rows * spacing * 1.5 + 200 # Add 200 to allow for some movement within the data
+	return rows * spacing * 1.5 + 500 # Add 200 to allow for some movement within the data
 
 
 # When the world is shifted, this offset needs to be remembered and passed to
@@ -112,7 +114,7 @@ func _on_shift_world(delta_x, delta_z):
 
 
 # Update all internal data based checked the given layers and position.
-func update_textures(dhm_layer, splat_layer, world_x, world_y):
+func update_textures(dhm_layer, splat_layer, world_x, world_y, uv_offset_x=0, uv_offset_y=0):
 	var map_size = get_map_size()
 	
 	var dhm = dhm_layer.get_image(
@@ -134,6 +136,9 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y):
 	)
 	
 	splatmap = splat.get_image_texture()
+	
+	self.uv_offset_x = uv_offset_x
+	self.uv_offset_y = uv_offset_y
 	
 	update_textures_with_images(splat.get_most_common(32))
 
@@ -177,6 +182,7 @@ func apply_data():
 	process_material.set_shader_parameter("splatmap", splatmap)
 	process_material.set_shader_parameter("splatmap_size_meters", get_map_size())
 	process_material.set_shader_parameter("dist_scale", 1.0 / spacing)
+	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, -uv_offset_y))
 	
 	material_override.set_shader_parameter("texture_map", billboard_tex)
 	
@@ -185,8 +191,6 @@ func apply_data():
 	material_override.set_shader_parameter("heightmap_size", size)
 	
 	process_material.set_shader_parameter("heightmap", heightmap)
-	
-	process_material.set_shader_parameter("offset", Vector2(0, 0))
 	material_override.set_shader_parameter("offset", Vector2(0, 0))
 	
 	# Row crops

@@ -27,11 +27,11 @@ shader_parameter/amplitude = null
 shader_parameter/dist_scale = null
 shader_parameter/heightmap_size = null
 shader_parameter/id_to_row = null
-shader_parameter/offset = null
 shader_parameter/row_spacing = null
 shader_parameter/rows = null
 shader_parameter/spacing = null
 shader_parameter/splatmap_size_meters = null
+shader_parameter/uv_offset = null
 
 [node name="VegetationParticles" type="GPUParticles3D"]
 layers = 2

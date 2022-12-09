@@ -19,7 +19,7 @@ uniform vec2 heightmap_size = vec2(300.0, 300.0);
 
 uniform float row_spacing = 1.0;
 
-uniform vec2 offset;
+uniform vec2 uv_offset;
 
 uniform sampler2D noisemap;
 
@@ -28,12 +28,8 @@ float rand(vec2 co){
 }
 
 float get_height(vec2 pos) {
-	pos += offset;
-	
-	pos -= 0.5 * heightmap_size;
+	pos += 0.5 * heightmap_size;
 	pos /= heightmap_size;
-	
-	pos += vec2(1.0, 1.0);
 	
 	return texture(heightmap, pos).r;
 }
@@ -60,17 +56,17 @@ void process() {
 	pos.z += EMISSION_TRANSFORM[3][2] - mod(EMISSION_TRANSFORM[3][2], spacing);
 	
 	// now add some noise based on our _world_ position
-	pos.x += rand(round(pos.xz * 10.0) * 0.01) * spacing;
-	pos.z += rand(round(pos.xz * 10.0) * 0.02) * spacing;
+	pos.x += rand(round((pos.xz) * 10.0) * 0.01) * spacing;
+	pos.z += rand(round((pos.xz) * 10.0) * 0.02) * spacing;
 	
 	// apply our height
-	pos.y = get_height(pos.xz);
+	pos.y = get_height(pos.xz - uv_offset);
 	
 	// rotate our transform
-	TRANSFORM[0][0] = cos(rand(round(pos.xz * 10.0) * 0.03) * 3.0);
-	TRANSFORM[0][2] = -sin(rand(round(pos.xz * 10.0) * 0.04) * 3.0);
-	TRANSFORM[2][0] = sin(rand(round(pos.xz * 10.0) * 0.05) * 3.0);
-	TRANSFORM[2][2] = cos(rand(round(pos.xz * 10.0) * 0.06) * 3.0);
+	TRANSFORM[0][0] = cos(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
+	TRANSFORM[0][2] = -sin(rand(round((pos.xz) * 10.0) * 0.04) * 3.0);
+	TRANSFORM[2][0] = sin(rand(round((pos.xz) * 10.0) * 0.05) * 3.0);
+	TRANSFORM[2][2] = cos(rand(round((pos.xz) * 10.0) * 0.06) * 3.0);
 	
 	// update our transform to place
 	TRANSFORM[3][0] = pos.x;
@@ -78,7 +74,7 @@ void process() {
 	TRANSFORM[3][2] = pos.z;
 	
 	// Read from splatmap based on world position
-	vec2 splatmap_uv = pos.xz + 0.5 * splatmap_size_meters;
+	vec2 splatmap_uv = pos.xz + 0.5 * splatmap_size_meters - uv_offset;
 	splatmap_uv /= splatmap_size_meters;
 	
 	int splatmap_value = int(round(texture(splatmap, splatmap_uv).r * 255.0));
