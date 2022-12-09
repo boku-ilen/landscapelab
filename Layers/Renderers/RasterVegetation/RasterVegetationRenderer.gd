@@ -2,6 +2,8 @@ extends LayerCompositionRenderer
 
 
 var renderers
+var offset = Vector3.ZERO
+
 
 var weather_manager: WeatherManager :
 	get:
@@ -31,8 +33,53 @@ func full_load():
 				center[0], center[1])
 
 
+func is_new_loading_required(position_diff: Vector3) -> bool:
+	# Small radius for grass?
+	if Vector2(position_diff.x, position_diff.z).length_squared() >= 20:
+		return true
+	
+	return false
+
+
+func adapt_load(position_diff: Vector3):
+#	var world_position = position_manager.to_world_coordinates(position_manager.center_node.position)
+#
+#	offset = Vector3(position_manager.center_node.position.x, 0.0, position_manager.center_node.position.z)
+#
+#	for renderer in renderers.get_children():
+#		renderer.update_textures(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
+#				world_position[0], world_position[2])
+#
+#	call_deferred("apply_new_data")
+	pass
+
+
+func _process(delta):
+	for renderer in renderers.get_children():
+		renderer.position = Vector3(
+			position_manager.center_node.position.x,
+			0.0,
+			position_manager.center_node.position.z
+		)
+		
+		# Follow camera forward in order to only render in front
+		renderer.position += position_manager.center_node.get_look_direction() * (renderer.spacing * renderer.rows * 0.5)
+		
+		renderer.position = Vector3(
+			renderer.position.x - fposmod(renderer.position.x, renderer.spacing * (1.0 + (float(renderer.density_class.id == 6) * 2.0))),
+			0.0,
+			renderer.position.z - fposmod(renderer.position.z, renderer.spacing)
+		)
+		renderer.restart()
+
+
+func refine_load():
+	pass
+
+
 func apply_new_data():
 	for renderer in renderers.get_children():
+		renderer.position = offset
 		renderer.apply_data()
 
 

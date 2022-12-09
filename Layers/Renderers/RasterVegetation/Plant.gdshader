@@ -44,10 +44,6 @@ float rand(vec2 co){
 void vertex() {
 	camera_pos = INV_VIEW_MATRIX[3].xyz;
 	
-	// Add the camera direction to the position to move it towards the player's view, making more
-	//  plants appear there as opposed to behind the player
-	camera_pos += -INV_VIEW_MATRIX[2].xyz * max_distance * 0.75;
-	
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 	
 	vec2 pos = worldpos.xz;

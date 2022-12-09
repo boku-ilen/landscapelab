@@ -86,7 +86,7 @@ func set_rows(new_rows):
 	
 	if process_material:
 		process_material.set_shader_parameter("rows", rows)
-		material_override.set_shader_parameter("max_distance", rows * spacing / 3.0)
+		material_override.set_shader_parameter("max_distance", rows * spacing)
 
 
 func set_spacing(new_spacing):
@@ -94,12 +94,12 @@ func set_spacing(new_spacing):
 	
 	if process_material:
 		process_material.set_shader_parameter("spacing", spacing)
-		material_override.set_shader_parameter("max_distance", rows * spacing / 3.0)
+		material_override.set_shader_parameter("max_distance", rows * spacing)
 
 
 # Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
 func get_map_size():
-	return rows * spacing * 1.5 + 100 # Add 100 to allow for some movement within the data
+	return rows * spacing * 1.5 + 200 # Add 200 to allow for some movement within the data
 
 
 # When the world is shifted, this offset needs to be remembered and passed to

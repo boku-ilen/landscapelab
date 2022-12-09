@@ -60,17 +60,17 @@ void process() {
 	pos.z += EMISSION_TRANSFORM[3][2] - mod(EMISSION_TRANSFORM[3][2], spacing);
 	
 	// now add some noise based on our _world_ position
-	pos.x += rand(pos.xz * 0.01) * spacing;
-	pos.z += rand(pos.xz * 0.02) * spacing;
+	pos.x += rand(round(pos.xz * 10.0) * 0.01) * spacing;
+	pos.z += rand(round(pos.xz * 10.0) * 0.02) * spacing;
 	
 	// apply our height
 	pos.y = get_height(pos.xz);
 	
 	// rotate our transform
-	TRANSFORM[0][0] = cos(rand(pos.xz * 0.03) * 3.0);
-	TRANSFORM[0][2] = -sin(rand(pos.xz * 0.04) * 3.0);
-	TRANSFORM[2][0] = sin(rand(pos.xz * 0.05) * 3.0);
-	TRANSFORM[2][2] = cos(rand(pos.xz * 0.06) * 3.0);
+	TRANSFORM[0][0] = cos(rand(round(pos.xz * 10.0) * 0.03) * 3.0);
+	TRANSFORM[0][2] = -sin(rand(round(pos.xz * 10.0) * 0.04) * 3.0);
+	TRANSFORM[2][0] = sin(rand(round(pos.xz * 10.0) * 0.05) * 3.0);
+	TRANSFORM[2][2] = cos(rand(round(pos.xz * 10.0) * 0.06) * 3.0);
 	
 	// update our transform to place
 	TRANSFORM[3][0] = pos.x;

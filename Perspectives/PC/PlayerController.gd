@@ -46,7 +46,7 @@ func stop_movement():
 
 
 func get_look_direction():
-	return Vector3.UP.cross($Head/Camera3D.global_transform.basis.x)
+	return -$Head/Camera3D.global_transform.basis.z
 
 
 func _physics_process(delta):
