@@ -306,11 +306,17 @@ func _image_array_to_texture_array(images):
 	return texture_array
 
 
+var distribution_cache = {}
+
+
 # Returns a newly generated distribution map for the plants in the given group.
 # This map is a 16x16 image whose R values correspond to the IDs of the plants; the G values are
 #  the size scaling factors (between 0 and 1 relative to the given max_size) for each particular
 #  plant instance, taking into account its min and max size.
 func generate_distribution(group: PlantGroup, max_size: float):
+	if group.id in distribution_cache:
+		return distribution_cache[group.id]
+	
 	var distribution = Image.create(distribution_size, distribution_size,
 			false, Image.FORMAT_RG8)
 	
@@ -344,6 +350,8 @@ func generate_distribution(group: PlantGroup, max_size: float):
 			var scale_factor = random_height / max_size
 			
 			distribution.set_pixel(x, y, Color(highest_roll_id / 255.0, scale_factor, 0.0, 0.0))
+	
+	distribution_cache[group.id] = distribution
 	
 	return distribution
 
