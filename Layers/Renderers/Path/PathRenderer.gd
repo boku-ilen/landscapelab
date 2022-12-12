@@ -1,13 +1,13 @@
 extends LayerCompositionRenderer
 
-var radius = 1000
+var radius = 1000.0
 var max_features = 1000
 
 var line_vis_instances = []
 
 
 func full_load():
-	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(center[0], center[1], radius, max_features)
+	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(float(center[0]), float(center[1]), radius, max_features)
 	
 	for geo_line in geo_lines:
 		var line_vis_instance = layer_composition.render_info.line_visualization.instantiate()
