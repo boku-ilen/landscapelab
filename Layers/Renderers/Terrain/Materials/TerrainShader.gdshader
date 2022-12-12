@@ -85,7 +85,7 @@ vec3 get_normal(vec2 normal_uv_pos) {
 	
 	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left) / (size * e);
 	long_normal.z = -(top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right) / (size * e);
-	long_normal.y = size * e * 2.0; // scaling by <1.0 makes the normals more drastic
+	long_normal.y = size * e * 0.1; // scaling by <1.0 makes the normals more drastic
 
 	return normalize(long_normal);
 }
@@ -138,7 +138,7 @@ vec3 get_ortho_color(vec2 uv) {
 
 
 void fragment() {
-	NORMAL_MAP = texture(normalmap, UV).rgb;
+	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 	
 	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.006).rg - 0.5) * (50.0 / size);
 	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));

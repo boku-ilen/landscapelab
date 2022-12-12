@@ -61,8 +61,6 @@ func full_load():
 		lod.position_diff_z = 0
 		
 		lod.build(center[0] + lod.position.x, center[1] - lod.position.z)
-	
-	call_deferred("apply_new_data")
 
 
 func adapt_load(position_diff: Vector3):

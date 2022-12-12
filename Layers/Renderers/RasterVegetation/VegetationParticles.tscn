@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cjefdo8nt3k1g"]
+[gd_scene load_steps=7 format=3 uid="uid://cjefdo8nt3k1g"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/RasterVegetation/VegetationParticles.gd" id="1"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/Plant.gdshader" id="2"]
+[ext_resource type="Texture2D" uid="uid://vyds71cf5rrv" path="res://Resources/Textures/ShaderUtil/noise_normal.png" id="2_om2x1"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/VegetationLayer.gdshader" id="3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oyqth"]
@@ -15,6 +16,7 @@ shader_parameter/fake_shadow_height = 1.2
 shader_parameter/fake_shadow_min_multiplier = 0.25
 shader_parameter/heightmap_size = Vector2(300, 300)
 shader_parameter/max_distance = null
+shader_parameter/normal_map = ExtResource("2_om2x1")
 shader_parameter/offset = null
 shader_parameter/scale = Vector2(0.1, 0.2)
 shader_parameter/speed = Vector2(2, 1.5)
