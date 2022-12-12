@@ -259,6 +259,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Python/Python.gd"
 }, {
+"base": "RefCounted",
+"class": &"QuadUtil",
+"language": &"GDScript",
+"path": "res://Layers/Renderers/Path/QuadUtil.gd"
+}, {
 "base": "GameEvent",
 "class": &"RandomGameEvent",
 "language": &"GDScript",
@@ -450,6 +455,7 @@ _global_script_class_icons={
 "PositionManager": "",
 "Profile": "",
 "Python": "",
+"QuadUtil": "",
 "RandomGameEvent": "",
 "RemoveTokenRequestHandler": "",
 "Scenario": "",

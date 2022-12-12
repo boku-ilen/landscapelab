@@ -61,7 +61,7 @@ offset_bottom = 638.0
 offset_right = 1142.0
 
 [node name="Left" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2i(40, 40)
+custom_minimum_size = Vector2(40, 40)
 offset_top = 35.0
 offset_right = 1142.0
 offset_bottom = 628.0
@@ -73,7 +73,7 @@ offset_bottom = 593.0
 script = ExtResource("8")
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
-custom_minimum_size = Vector2i(50, 0)
+custom_minimum_size = Vector2(50, 0)
 offset_right = 50.0
 offset_bottom = 73.0
 script = ExtResource("5")
@@ -95,7 +95,7 @@ drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="Mid" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left"]
-custom_minimum_size = Vector2i(500, 500)
+custom_minimum_size = Vector2(500, 500)
 offset_left = 58.0
 offset_right = 1142.0
 offset_bottom = 593.0
@@ -159,7 +159,7 @@ grow_horizontal = 0
 size_flags_horizontal = 8
 
 [node name="FullscreenButton" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI" instance=ExtResource("13")]
-custom_minimum_size = Vector2i(20, 20)
+custom_minimum_size = Vector2(20, 20)
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 40.0
@@ -173,7 +173,7 @@ focused_color = Color(0, 0, 0, 1)
 texture_name = ""
 
 [node name="LoadingCircle" type="TextureRect" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI"]
-custom_minimum_size = Vector2i(20, 40)
+custom_minimum_size = Vector2(20, 40)
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -194,7 +194,7 @@ size_flags_stretch_ratio = 0.3
 
 [node name="DebugInfo" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("14")]
 visible = false
-custom_minimum_size = Vector2i(400, 0)
+custom_minimum_size = Vector2(400, 0)
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -211,7 +211,7 @@ viewport_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport"
 position_manager_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left/Mid"]
-custom_minimum_size = Vector2i(40, 40)
+custom_minimum_size = Vector2(40, 40)
 offset_left = 774.0
 offset_right = 1084.0
 offset_bottom = 593.0
@@ -229,16 +229,15 @@ offset_bottom = 343.0
 script = ExtResource("5")
 
 [node name="GeoLayerViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top" instance=ExtResource("18_gf1q8")]
-custom_minimum_size = Vector2i(300, 300)
+custom_minimum_size = Vector2(300, 300)
 offset_left = 5.0
 offset_top = 38.0
 offset_right = -5.0
 offset_bottom = -5.0
-stretch = true
 
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]
 visible = false
-custom_minimum_size = Vector2i(0, 100)
+custom_minimum_size = Vector2(0, 100)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
