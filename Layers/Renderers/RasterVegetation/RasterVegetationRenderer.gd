@@ -29,7 +29,7 @@ func _on_wind_speed_changed(new_wind_speed):
 # Called when the node enters the scene tree for the first time.
 func full_load():
 	for renderer in renderers.get_children():
-		renderer.update_textures(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
+		renderer.complete_update(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
 				center[0], center[1])
 
 
@@ -53,9 +53,29 @@ func adapt_load(position_diff: Vector3):
 	var uv_offset_y = world_position[1] - center[1]
 	
 	for renderer in renderers.get_children():
-		renderer.update_textures(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
+		renderer.texture_update(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
 				world_position[0], world_position[1], uv_offset_x, uv_offset_y)
 
+	call_deferred("apply_new_data")
+
+
+func refine_load():
+	# FIXME: Optimize, currently does the same as adapt_load, just with full_update
+	
+	# Clamp to steps of 10 in order to maintain the land-use grid
+	# FIXME: actually depends on the resolution of the land-use and potentially other factors
+	var world_position = [
+		center[0] + position_manager.center_node.position.x - fposmod(position_manager.center_node.position.x, 10.0),
+		center[1] - position_manager.center_node.position.z + fposmod(position_manager.center_node.position.z, 10.0)
+	]
+	
+	var uv_offset_x = world_position[0] - center[0]
+	var uv_offset_y = world_position[1] - center[1]
+	
+	for renderer in renderers.get_children():
+		renderer.complete_update(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
+				world_position[0], world_position[1], uv_offset_x, uv_offset_y)
+	
 	call_deferred("apply_new_data")
 
 
@@ -79,10 +99,6 @@ func _process(delta):
 			renderer.position.z - fposmod(renderer.position.z, renderer.spacing)
 		)
 		renderer.restart()
-
-
-func refine_load():
-	pass
 
 
 func apply_new_data():

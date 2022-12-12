@@ -113,8 +113,13 @@ func _on_shift_world(delta_x, delta_z):
 	material_override.set_shader_parameter("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
 
 
-# Update all internal data based checked the given layers and position.
-func update_textures(dhm_layer, splat_layer, world_x, world_y, uv_offset_x=0, uv_offset_y=0):
+func complete_update(dhm_layer, splat_layer, world_x, world_y, uv_offset_x=0, uv_offset_y=0):
+	var splat = texture_update(dhm_layer, splat_layer, world_x, world_y, uv_offset_x, uv_offset_y)
+	
+	update_textures_with_images(splat.get_most_common(32))
+
+
+func texture_update(dhm_layer, splat_layer, world_x, world_y, uv_offset_x=0, uv_offset_y=0):
 	var map_size = get_map_size()
 	
 	var dhm = dhm_layer.get_image(
@@ -131,7 +136,7 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y, uv_offset_x=0, uv
 		float(world_x - map_size / 2),
 		float(world_y + map_size / 2),
 		float(map_size), 
-		int(map_size / 2.0),
+		int(map_size / 10.0),
 		0
 	)
 	
@@ -140,7 +145,7 @@ func update_textures(dhm_layer, splat_layer, world_x, world_y, uv_offset_x=0, uv
 	self.uv_offset_x = uv_offset_x
 	self.uv_offset_y = uv_offset_y
 	
-	update_textures_with_images(splat.get_most_common(32))
+	return splat
 
 
 # Directly update the vegetation data with given ImageTextures. Can be used e.g. for testing with
