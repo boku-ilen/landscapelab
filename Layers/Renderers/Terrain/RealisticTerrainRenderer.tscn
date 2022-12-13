@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ci8pmuyiijfqu"]
+[gd_scene load_steps=5 format=3 uid="uid://ci8pmuyiijfqu"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/Path/PathRenderer.gd" id="2_qxqrc"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" id="4"]
@@ -8,16 +8,6 @@ albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_oa82v"]
 material = SubResource("StandardMaterial3D_3fv6t")
-size = Vector3(0.2, 0.2, 0.2)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5q02o"]
-albedo_color = Color(1, 1, 0, 1)
-proximity_fade_distance = 4096.0
-
-[sub_resource type="SphereMesh" id="SphereMesh_6sbdl"]
-material = SubResource("StandardMaterial3D_5q02o")
-radius = 0.08
-height = 0.4
 
 [node name="RealisticTerrainRenderer" type="Node3D"]
 script = ExtResource("4")
@@ -32,13 +22,3 @@ script = ExtResource("2_qxqrc")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PathRenderer"]
 mesh = SubResource("BoxMesh_oa82v")
 skeleton = NodePath("../..")
-
-[node name="MeshInstance3D_test" type="MeshInstance3D" parent="PathRenderer"]
-mesh = SubResource("SphereMesh_6sbdl")
-skeleton = NodePath("../..")
-
-[node name="Label3D" type="Label3D" parent="PathRenderer"]
-pixel_size = 0.002
-billboard = 1
-no_depth_test = true
-fixed_size = true
