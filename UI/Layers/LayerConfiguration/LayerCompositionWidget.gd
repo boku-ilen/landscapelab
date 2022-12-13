@@ -66,9 +66,10 @@ func _reload():
 		for geo_layer_decription in described_geolayers:
 			var tree_item: TreeItem = tree.create_item(root)
 			var geo_layer = described_geolayers[geo_layer_decription]
-			tree_item.set_text(0, "%s: %s" % 
-				[geo_layer_decription, geo_layer.resource_name])
-			tree_item.set_metadata(0, geo_layer)
+			if geo_layer:
+				tree_item.set_text(0, "%s: %s" % 
+					[geo_layer_decription, geo_layer.resource_name])
+				tree_item.set_metadata(0, geo_layer)
 			
 		root.set_collapsed(true)
 

@@ -15,7 +15,7 @@ static func triangular_interpolation(P: Vector3, A: Vector3, B: Vector3, C: Vect
 static func get_lower_left_point(point: Vector3, step_size: float, x_offset: int = 0, z_offset: int = 0) -> Vector3:
 	var x_grid = floor(point.x / step_size) + x_offset
 	var z_grid = floor(point.z / step_size) + z_offset
-	return Vector3(x_grid * step_size, point.y, z_grid * step_size)
+	return Vector3(x_grid * step_size, point.y, (z_grid + 1) * step_size)
 
 
 # Returns the upper left corner from the quad the point is in
@@ -23,7 +23,7 @@ static func get_lower_left_point(point: Vector3, step_size: float, x_offset: int
 static func get_upper_left_point(point: Vector3, step_size: float, x_offset: int = 0, z_offset: int = 0) -> Vector3:
 	var x_grid = floor(point.x / step_size) + x_offset
 	var z_grid = floor(point.z / step_size) + z_offset
-	return Vector3(x_grid * step_size, point.y, (z_grid + 1) * step_size)
+	return Vector3(x_grid * step_size, point.y, z_grid * step_size)
 
 
 # Returns the lower right corner from the quad the point is in
@@ -31,7 +31,7 @@ static func get_upper_left_point(point: Vector3, step_size: float, x_offset: int
 static func get_lower_right_point(point: Vector3, step_size: float, x_offset: int = 0, z_offset: int = 0) -> Vector3:
 	var x_grid = floor(point.x / step_size) + x_offset
 	var z_grid = floor(point.z / step_size) + z_offset
-	return Vector3((x_grid + 1) * step_size, point.y, z_grid * step_size)
+	return Vector3((x_grid + 1) * step_size, point.y, (z_grid + 1) * step_size)
 
 
 # Returns the upper right corner from the quad the point is in
@@ -39,7 +39,7 @@ static func get_lower_right_point(point: Vector3, step_size: float, x_offset: in
 static func get_upper_right_point(point: Vector3, step_size: float, x_offset: int = 0, z_offset: int = 0) -> Vector3:
 	var x_grid = floor(point.x / step_size) + x_offset
 	var z_grid = floor(point.z / step_size) + z_offset
-	return Vector3((x_grid + 1) * step_size, point.y, (z_grid + 1) * step_size)
+	return Vector3((x_grid + 1) * step_size, point.y, z_grid * step_size)
 
 
 # Gets the intersection point with the quad diagonal (bottom-left to top-right)
