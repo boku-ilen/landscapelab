@@ -1,31 +1,64 @@
 extends LayerCompositionRenderer
 
-var radius = 800
+var radius = 800.0
 var max_features = 100
-var connection_radius = 500
+var connection_radius = 500.0
 var max_connections = 100
 
-var connector_instances = []
+# Connector = objects, connection = lines in-between
+var connector_instances = {}
 var connection_instances = []
 
 
+func is_new_loading_required(position_diff: Vector3) -> bool:
+	if Vector2(position_diff.x, position_diff.z).length_squared() >= pow(radius / 4.0, 2):
+		return true
+	
+	return false
+
+
 func full_load():
-	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(center[0], center[1], radius, max_features)
+	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(float(center[0]), float(center[1]), radius, max_features)
 	
 	for geo_line in geo_lines:
-		update_connected_object(geo_line)
+		connector_instances[str(geo_line.get_id())] = get_connected_objects(geo_line)
+
+
+func adapt_load(diff: Vector3):
+	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(
+		float(center[0]) + position_manager.center_node.position.x,
+		float(center[1]) - position_manager.center_node.position.z,
+		radius, max_features
+	)
+	
+	for geo_line in geo_lines:
+		if not has_node(str(geo_line.get_id())):
+			connector_instances[str(geo_line.get_id())] = get_connected_objects(geo_line)
+		else:
+			# Just set to "true" in order to specify that this line should remain
+			connector_instances[str(geo_line.get_id())] = true
+	
+	call_deferred("apply_new_data")
+
+
+func refine_load():
+	# TODO: call _connect(object, object_before, selector_attribute) for all objects
+	pass
+
 
 
 func apply_new_data():
 	# First clear the old objects, then add the new ones
 	# connectors as well as connections
 	for child in $Connectors.get_children():
-		child.queue_free()
+		if not child.name in connector_instances:
+			child.queue_free()
 	for child in $Connections.get_children():
 		child.queue_free()
 	
-	for instance in connector_instances:
-		$Connectors.add_child(instance)
+	for instance_id in connector_instances.keys():
+		if not has_node(instance_id):
+			$Connectors.add_child(connector_instances[instance_id])
 	
 	for instance in connection_instances:
 		$Connections.add_child(instance)
@@ -36,7 +69,10 @@ func apply_new_data():
 	connection_instances.clear()
 
 
-func update_connected_object(geo_line):
+func get_connected_objects(geo_line):
+	var line_root = Node3D.new()
+	line_root.name = str(geo_line.get_id())
+	
 	# Get the specifying attribute or null (=> fallbacks)
 	var attribute_name = layer_composition.render_info.selector_attribute_name
 	var selector_attribute = geo_line.get_attribute(attribute_name) \
@@ -89,7 +125,8 @@ func update_connected_object(geo_line):
 			# Only y rotation is relevant
 			object.rotation.x = 0
 			object.rotation.z = 0
-			_connect(object, object_before, selector_attribute)
+			# TODO: Do in refine_load step
+			#_connect(object, object_before, selector_attribute)
 			
 		# Vec3 cant be null so we check differently
 		# "if point_next:"
@@ -102,7 +139,9 @@ func update_connected_object(geo_line):
 		object_before = object
 		point_before = point
 		
-		connector_instances.append(object)
+		line_root.add_child(object)
+		
+	return line_root
 
 
 func _connect(object: Node3D, object_before: Node3D, selector_attribute):
@@ -122,7 +161,7 @@ func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 	
 	# Vector between current and next dock of the current connection and it's predecessors 
 	# might be the same => cache!
-	var catenary_curve_cache = []
+	var connection_cache = []
 	for dock in dock_parent.get_children():
 		# Create a specified connection-object or use fallback
 		var connection: AbstractConnection
@@ -136,7 +175,7 @@ func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 		var p1: Vector3 = (object.transform * dock_parent.transform * dock.transform).origin
 		var p2: Vector3 = (object_before.transform * dock_parent.transform * dock_before.transform).origin
 		
-		catenary_curve_cache = connection.find_connection_points(p1, p2, 0.0013, catenary_curve_cache)
+		connection_cache = connection.find_connection_points(p1, p2, 0.0013, connection_cache)
 		connection_instances.append(connection)
 
 

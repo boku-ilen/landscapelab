@@ -15,20 +15,23 @@ sky_material = SubResource("PhysicalSkyMaterial_ylech")
 
 [sub_resource type="Environment" id="2"]
 background_mode = 2
-background_energy_multiplier = 3.0
+background_energy_multiplier = 4.0
 sky = SubResource("Sky_gjwmw")
 ambient_light_source = 3
-ambient_light_color = Color(0.168627, 0.168627, 0.168627, 1)
-ambient_light_energy = 3.0
+ambient_light_sky_contribution = 0.35
+ambient_light_energy = 0.0
+reflected_light_source = 2
 tonemap_white = 6.0
+sdfgi_min_cell_size = 1.0
+sdfgi_cascade0_distance = 64.0
+sdfgi_max_distance = 1024.0
 glow_enabled = true
-glow_intensity = 1.2
-glow_bloom = 0.1
 fog_enabled = true
 fog_density = 0.0003
 fog_aerial_perspective = 1.0
 fog_sky_affect = 0.0
 volumetric_fog_density = 0.01
+adjustment_contrast = 1.15
 adjustment_saturation = 1.2
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
@@ -39,7 +42,6 @@ script = ExtResource("1")
 transform = Transform3D(0.0647573, 0.811453, 0.58082, 0.161121, -0.582907, 0.796404, 0.984808, 0.0420095, -0.16849, 0, 0, 0)
 layers = 15
 light_energy = 1.5
-light_bake_mode = 0
 shadow_enabled = true
 shadow_bias = 0.7
 directional_shadow_blend_splits = true

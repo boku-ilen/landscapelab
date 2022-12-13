@@ -44,10 +44,6 @@ float rand(vec2 co){
 void vertex() {
 	camera_pos = INV_VIEW_MATRIX[3].xyz;
 	
-	// Add the camera direction to the position to move it towards the player's view, making more
-	//  plants appear there as opposed to behind the player
-	camera_pos += -INV_VIEW_MATRIX[2].xyz * max_distance * 0.75;
-	
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 	
 	vec2 pos = worldpos.xz;
@@ -118,9 +114,11 @@ void fragment() {
 
 	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
 	
+	vec3 normalmap_sample = texture(normal_map, scaled_uv).rgb;
+	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
-	BACKLIGHT = vec3(0.6, 0.8, 0.6) * color.g;
+	BACKLIGHT = vec3(1.2, 1.6, 1.2) * normalmap_sample.g * color.g * 3.0;
 	
 	// Make the plant darker at the bottom to simulate some shadowing
 	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)
@@ -134,8 +132,8 @@ void fragment() {
 	}
 
 	// Apply the general (not plant-specific) normal map, but use the scaled UV so it varies based on height
-	NORMAL_MAP = texture(normal_map, scaled_uv).rgb;
-	NORMAL_MAP_DEPTH = 2.0;// * max(1.0 - dist / 50.0, 0.0); // This is high due to the high transmission (otherwise it's barely noticeable)
+	NORMAL_MAP = normalmap_sample;
+	NORMAL_MAP_DEPTH = 30.0;// * max(1.0 - dist / 50.0, 0.0); // This is high due to the high transmission (otherwise it's barely noticeable)
 	
 	NORMAL_MAP = mix(NORMAL_MAP, vec3(0.5,0.5,1.0), max(1.0 - dist / 50.0, 0.0));
 	

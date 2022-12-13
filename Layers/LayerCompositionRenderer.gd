@@ -45,8 +45,8 @@ func _process(delta):
 	if not loading_thread.is_started():
 		var diff = position_manager.center_node.position - last_load_position
 		if is_new_loading_required(diff):
-#			loading_thread.start(full_load.bind(diff))
-			adapt_load(diff)
+			loading_thread.start(adapt_load.bind(diff))
+#			adapt_load(diff)
 			last_load_position = position_manager.center_node.position
 		else:
 			loading_thread.start(refine_load)

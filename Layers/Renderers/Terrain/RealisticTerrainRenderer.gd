@@ -64,7 +64,6 @@ func full_load():
 		
 		chunk.build(center[0] + chunk.position.x, center[1] - chunk.position.z)
 	
-	call_deferred("apply_new_data")
 
 
 func adapt_load(position_diff: Vector3):
