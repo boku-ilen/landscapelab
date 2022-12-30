@@ -12,8 +12,52 @@ signal loading_finished
 
 func _ready():
 	category = "geodata"
-	load_gpkg(get_setting("gpkg-path"))
+	load_ll_json("/home/landscapelab/Data/wolkersdorf.ll")
 	loading_finished.emit()
+
+
+func load_ll_json(path: String):
+	var json_object := JSON.new()
+	
+	var file = FileAccess.open(path, FileAccess.READ)
+	
+	if file == null:
+		logger.error("Error opening LL project file at " + path, category)
+	
+	var error = json_object.parse(file.get_as_text())
+	
+	if error != OK:
+		logger.error("Error parsing LL project at " + path + ": "
+				+ json_object.get_error_message() + " at line "
+				+ str(json_object.get_error_line()), category)
+	
+	var ll_project = json_object.data
+	
+	print(ll_project)
+	
+	for composition_name in ll_project["LayerCompositions"].keys():
+		var composition_data = ll_project["LayerCompositions"][composition_name]
+		var type = composition_data["type"]
+		
+		# TODO: Consider automating this whole parsing process to avoid the need for writing new
+		# code here when a new layer composition type is added - this is just a proof of concept
+		if type == "RealisticTerrain":
+			var layer_composition = LayerComposition.new()
+			
+			layer_composition.render_type = LayerComposition.RenderType.REALISTIC_TERRAIN
+			layer_composition.render_info = LayerComposition.RealisticTerrainRenderInfo.new()
+			
+			for layer_name in ["height_layer", "texture_layer", "surface_height_layer", "landuse_layer"]:
+				var dhm_info = composition_data[layer_name].split(":")
+				var dhm_file = path.get_base_dir().path_join(dhm_info[0])
+				var dhm_layer = dhm_info[1]
+				
+				var dhm_db = Geodot.get_dataset(dhm_file)
+				var dhm = dhm_db.get_raster_layer(dhm_layer)
+				
+				layer_composition.render_info.set(layer_name, dhm)
+			
+			Layers.add_layer_composition(layer_composition)
 
 
 # Gets called from main_ui
@@ -319,7 +363,7 @@ func digest_gpkg(geopackage_path: String):
 	logger.info(logstring, LOG_MODULE)
 
 	logger.info("Opening geopackage as DB ...", LOG_MODULE)
-	var db = SQLite.new()
+	var db 
 	db.path = geopackage_path
 	# FIXME: What's the new one? db.verbose_mode = OS.is_debug_build()
 	db.open_db()
