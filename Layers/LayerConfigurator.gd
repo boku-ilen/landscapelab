@@ -12,7 +12,7 @@ signal loading_finished
 
 func _ready():
 	category = "geodata"
-	load_ll_json("/home/landscapelab/Data/wolkersdorf.ll")
+	load_ll_json("/home/karl/Data/Boku/joglland.ll")
 	loading_finished.emit()
 
 
@@ -47,15 +47,15 @@ func load_ll_json(path: String):
 			layer_composition.render_type = LayerComposition.RenderType.REALISTIC_TERRAIN
 			layer_composition.render_info = LayerComposition.RealisticTerrainRenderInfo.new()
 			
-			for layer_name in ["height_layer", "texture_layer", "surface_height_layer", "landuse_layer"]:
-				var dhm_info = composition_data[layer_name].split(":")
-				var dhm_file = path.get_base_dir().path_join(dhm_info[0])
-				var dhm_layer = dhm_info[1]
+			for attribute_name in composition_data["layers"].keys():
+				var full_path = composition_data["layers"][attribute_name].split(":")
+				var file_name = path.get_base_dir().path_join(full_path[0])
+				var layer_name = full_path[1]
 				
-				var dhm_db = Geodot.get_dataset(dhm_file)
-				var dhm = dhm_db.get_raster_layer(dhm_layer)
+				var db = Geodot.get_dataset(file_name)
+				var layer = db.get_raster_layer(layer_name)
 				
-				layer_composition.render_info.set(layer_name, dhm)
+				layer_composition.render_info.set(attribute_name, layer)
 			
 			Layers.add_layer_composition(layer_composition)
 
