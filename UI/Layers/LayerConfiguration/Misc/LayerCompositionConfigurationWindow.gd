@@ -36,11 +36,10 @@ func layer_popup(min_size: Vector2, existing_layer_composition: LayerComposition
 	
 	if layer_composition != null:
 		layer_composition_name.text = layer_composition.name
-		type_chooser.selected = layer_composition.render_type
+		type_chooser.selected = layer_composition.render_info.get_class()
 		
 		# FIXME: this probably should not be done like this anyways so we should fix this
-		var type_string: String = LayerComposition.RenderType.keys()[layer_composition.render_type]
-		type_string = type_string.substr(0, 1) + type_string.substr(1).to_lower()
+		var type_string: String = LayerComposition.RENDER_INFOS.find_key(layer_composition.render_info.get_class())
 		_add_specific_layer_conf(type_string)
 
 
@@ -53,7 +52,7 @@ func _on_confirm():
 		is_new = true
 	
 	layer_composition.name = layer_composition_name.text
-	layer_composition.render_type = LayerComposition.RenderType[current_type]
+	layer_composition.render_info = LayerComposition.RENDER_INFOS[current_type]
 	layer_composition.color_tag = layer_composition_color_tag.current_color
 	specific_layer_composition_ui.assign_specific_layer_info(layer_composition)
 	
@@ -75,7 +74,7 @@ func _on_confirm():
 
 func _add_types():
 	var idx = 0
-	for type in LayerComposition.RenderType:
+	for type in LayerComposition.RENDER_INFOS.keys():
 		type_chooser.add_item(type)
 		type_chooser.set_item_metadata(idx, type)
 		idx += 1

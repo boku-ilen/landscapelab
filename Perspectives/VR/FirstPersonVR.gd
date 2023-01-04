@@ -6,7 +6,7 @@ func _ready():
 	var interface = XRServer.find_interface("OpenVR")
 	if interface and interface.initialize():
 		# Make sure vsync is disabled or we'll be limited to 60fps
-		OS.vsync_enabled = false
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
 		# Up our physics to 90fps to get in sync with our rendering
 		# TODO: Is this needed?

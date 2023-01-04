@@ -15,25 +15,21 @@ const ROUGHNESS_NAME = "roughness"
 const AO_NAME = "ambient"
 
 
-static func get_default_flags():
-	return  Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER + Texture2D.FLAG_REPEAT
-
-
 # Get a material which uses all textures with the defined texture names (see above) that exist in
 # the given directory.
-static func get_material(base_path: String, ending: String = DEFAULT_ENDING, flags = get_default_flags()) -> StandardMaterial3D:
+static func get_material(base_path: String, ending: String = DEFAULT_ENDING) -> StandardMaterial3D:
 	var material = StandardMaterial3D.new()
 	
 	if texture_exists(base_path, ALBEDO_NAME, ending):
-		material.albedo_texture = get_texture(base_path, ALBEDO_NAME, ending, flags)
+		material.albedo_texture = get_texture(base_path, ALBEDO_NAME, ending)
 	if texture_exists(base_path, NORMAL_NAME, ending):
 		material.normal_enabled = true
-		material.normal_texture = get_texture(base_path, NORMAL_NAME, ending, flags)
+		material.normal_texture = get_texture(base_path, NORMAL_NAME, ending)
 	if texture_exists(base_path, ROUGHNESS_NAME, ending):
-		material.roughness_texture = get_texture(base_path, ROUGHNESS_NAME, ending, flags)
+		material.roughness_texture = get_texture(base_path, ROUGHNESS_NAME, ending)
 	if texture_exists(base_path, AO_NAME, ending):
 		material.ao_enabled = true
-		material.ao_texture = get_texture(base_path, AO_NAME, ending, flags)
+		material.ao_texture = get_texture(base_path, AO_NAME, ending)
 	
 	return material
 
@@ -42,7 +38,7 @@ static func texture_exists(base_path: String, name: String, ending: String = DEF
 	return FileAccess.file_exists(_get_full_path(base_path, name, ending))
 
 
-static func get_texture(base_path: String, name: String, ending: String = DEFAULT_ENDING, flags = get_default_flags()) -> ImageTexture:
+static func get_texture(base_path: String, name: String, ending: String = DEFAULT_ENDING) -> ImageTexture:
 	var image = get_image(base_path, name, ending)
 	
 	return ImageTexture.create_from_image(image) #,flags

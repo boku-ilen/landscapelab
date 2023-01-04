@@ -57,12 +57,12 @@ func teleport_to_coordinates(xyz: Vector3, geo_coords=true):
 
 
 func _add_object_layer(layerc: LayerComposition):
-	if layerc.render_type == LayerComposition.RenderType.OBJECT:
+	if layerc.render_info is LayerComposition.ObjectRenderInfo:
 		$VBoxContainer/OptionButton.add_item(layerc.name)
 
 
-func _remove_object_layer_composition(lcname: String, render_type):
-	if render_type == LayerComposition.RenderType.OBJECT:
+func _remove_object_layer_composition(lcname: String, render_info):
+	if render_info is LayerComposition.ObjectRenderInfo:
 		# Items in option buttons are so weird... Every fifth entry is the 
 		# name of another item
 		var index = $VBoxContainer/OptionButton.items.find(lcname) / 5

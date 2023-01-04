@@ -20,23 +20,22 @@ var fields: Dictionary = {}
 
 var color_tag: Color = Color.TRANSPARENT
 
-# NOTE: these RenderTypes have to be synchronous with the LL_render_types table in the geopackage except for NONE
-enum RenderType {
-	NONE,
-	BASIC_TERRAIN,
-	REALISTIC_TERRAIN,
-	PARTICLES,
-	OBJECT,
-	PATH,
-	CONNECTED_OBJECT,
-	POLYGON,
-	VEGETATION,
-	TWODIMENSIONAL,
-	POLYGON_OBJECT
-}
-var render_type = RenderType.NONE
 var render_info
 var ui_info = UIInfo.new()
+
+# FIXME: should be const
+var RENDER_INFOS := {
+	"Basic Terrain": BasicTerrainRenderInfo,
+	"Realistic Terrain": RealisticTerrainRenderInfo,
+	"Vegetation": VegetationRenderInfo,
+	"Object": ObjectRenderInfo,
+	"Wind Turbine": WindTurbineRenderInfo,
+	"Polygon": PolygonObjectInfo,
+	"Building": BuildingRenderInfo,
+	"Path": PathRenderInfo,
+	"Connected Object": ConnectedObjectInfo,
+	"Polygon Object": PolygonObjectInfo
+}
 
 
 signal visibility_changed(visible)
@@ -44,8 +43,9 @@ signal layer_changed
 signal refresh_view
 
 
+# Implemented by child classes
 func is_valid():
-	return render_type == RenderType.NONE or (render_info and render_info.is_valid())
+	return true
 
 
 # Implemented by child classes
@@ -70,6 +70,7 @@ class UIInfo:
 # RenderInfo data classes
 class RenderInfo:
 	var lod = false
+	var renderer = null
 	
 	func get_geolayers() -> Array:
 		return []
@@ -91,6 +92,9 @@ class BasicTerrainRenderInfo extends RenderInfo:
 	var min_value: float
 	var alpha: float
 	
+	func _init():
+		renderer = preload("res://Layers/Renderers/Terrain/BasicTerrainRenderer.tscn")
+	
 	func get_geolayers():
 		return [height_layer, texture_layer]
 	
@@ -106,6 +110,9 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	var texture_layer: GeoRasterLayer
 	var landuse_layer: GeoRasterLayer
 	
+	func _init():
+		renderer = preload("res://Layers/Renderers/Terrain/RealisticTerrainRenderer.tscn")
+	
 	func get_geolayers():
 		return [height_layer, surface_height_layer, texture_layer, landuse_layer]
 	
@@ -119,6 +126,9 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 class VegetationRenderInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
 	var landuse_layer: GeoRasterLayer
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.tscn")
 	
 	func get_geolayers():
 		return [height_layer, landuse_layer]
@@ -137,6 +147,9 @@ class ObjectRenderInfo extends RenderInfo:
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
 	
+	func _init():
+		renderer = preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn")
+	
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
 	
@@ -154,6 +167,9 @@ class PolygonRenderInfo extends RenderInfo:
 	var height_attribute_name
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn")
 	
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
@@ -175,6 +191,9 @@ class PathRenderInfo extends RenderInfo:
 	var line_visualization: PackedScene
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/Path/PathRenderer.tscn")
 	
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
@@ -198,6 +217,9 @@ class ConnectedObjectInfo extends RenderInfo:
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
 	
+	func _init():
+		renderer = preload("res://Layers/Renderers/ConnectedObjects/ConnectedObjectRenderer.tscn")
+	
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
 	
@@ -207,18 +229,6 @@ class ConnectedObjectInfo extends RenderInfo:
 	func is_valid():
 		return geo_feature_layer != null && ground_height_layer != null
 
-class TwoDimensionalInfo extends RenderInfo: 
-	var texture_layer: GeoRasterLayer
-	
-	func get_geolayers() -> Array:
-		return [texture_layer]
-	
-	func get_described_geolayers() -> Dictionary:
-		return {"Texture": texture_layer}
-	
-	func is_valid() -> bool:
-		return texture_layer.is_valid()
-
 class PolygonObjectInfo extends RenderInfo:
 	var ground_height_layer: GeoRasterLayer
 	var polygon_layer: GeoFeatureLayer
@@ -227,6 +237,9 @@ class PolygonObjectInfo extends RenderInfo:
 	var object: PackedScene
 	var individual_rotation: float
 	var group_rotation: float
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/PolygonObject/PolygonObjectRenderer.tscn")
 	
 	func get_geolayers() -> Array:
 		return [polygon_layer, object_layer]

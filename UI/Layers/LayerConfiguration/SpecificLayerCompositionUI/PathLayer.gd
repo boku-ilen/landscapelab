@@ -58,6 +58,5 @@ func assign_specific_layer_info(layer: Layer):
 	height_layer.name = height.resource_name
 
 	layer.geo_feature_layer = paths
-	layer.render_type = Layer.RenderType.PATH
 	layer.render_info.line_visualization = load(file_path_line_scene.text)
 	layer.render_info.ground_height_layer = height_layer.clone()

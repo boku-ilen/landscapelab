@@ -91,9 +91,9 @@ func get_connected_objects(geo_line):
 		var object: Node3D
 
 		if selector_attribute and selector_attribute in layer_composition.render_info.connectors:
-			object = layer_composition.render_info.connectors[selector_attribute].instantiate()
+			object = load(layer_composition.render_info.connectors[selector_attribute]).instantiate()
 		else:
-			object = layer_composition.render_info.fallback_connector.instantiate()
+			object = load(layer_composition.render_info.fallback_connector).instantiate()
 		
 		# Obtain the next point (required for the orientation of the current)
 		if index+1 < course.get_point_count():

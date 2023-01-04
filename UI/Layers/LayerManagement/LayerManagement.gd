@@ -25,8 +25,7 @@ func _on_new_center_node(new_center_node):
 
 
 func _new_layer_selected(layer):
-	var type_str = layer.RenderType.keys()[layer.render_type]
-	type_str = type_str.substr(0, 1).to_upper() + type_str.substr(1).to_lower()
+	var type_str = layer.RenderType.keys()[layer.render_info.get_class().trim_suffix("RenderInfo")]
 	var ui_path = "res://UI/Layers/LayerManagement/%sLayerManagement.tscn" % type_str
 	
 	if current_layer_management_ui != null and is_instance_valid(current_layer_management_ui):

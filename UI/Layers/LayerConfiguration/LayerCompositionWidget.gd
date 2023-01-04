@@ -35,21 +35,22 @@ func _ready():
 			else: $GeoLayers.set_custom_minimum_size(Vector2i(0, 80)))
 
 func _reload():
-	if layer_composition.render_type > 4:
+	if layer_composition.render_info is LayerComposition.ObjectRenderInfo:
 		icon.texture = load("%s/vector.svg" % icon_prefix)
 	else:
 		icon.texture = load("%s/raster.svg" % icon_prefix)
-	match layer_composition.render_type:
-		LayerComposition.RenderType.NONE:
-			icon.texture = load("%s/file.svg" % icon_prefix)
-		LayerComposition.RenderType.REALISTIC_TERRAIN:
-			icon.texture = load("%s/world.svg" % icon_prefix)
-		LayerComposition.RenderType.BASIC_TERRAIN:
-			icon.texture = load("%s/world.svg" % icon_prefix)
-		LayerComposition.RenderType.TWODIMENSIONAL:
-			icon.texture = load("%s/map.svg" % icon_prefix)
-		LayerComposition.RenderType.VEGETATION:
-			icon.texture = load("%s/grass.svg" % icon_prefix)
+	# FIXME: Reimplement with render_info
+#	match layer_composition.render_type:
+#		LayerComposition.RenderType.NONE:
+#			icon.texture = load("%s/file.svg" % icon_prefix)
+#		LayerComposition.RenderType.REALISTIC_TERRAIN:
+#			icon.texture = load("%s/world.svg" % icon_prefix)
+#		LayerComposition.RenderType.BASIC_TERRAIN:
+#			icon.texture = load("%s/world.svg" % icon_prefix)
+#		LayerComposition.RenderType.TWODIMENSIONAL:
+#			icon.texture = load("%s/map.svg" % icon_prefix)
+#		LayerComposition.RenderType.VEGETATION:
+#			icon.texture = load("%s/grass.svg" % icon_prefix)
 	
 	if layer_composition != null:
 		edit_window.layer_composition = layer_composition

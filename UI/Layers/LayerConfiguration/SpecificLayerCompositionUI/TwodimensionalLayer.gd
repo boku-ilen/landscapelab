@@ -28,7 +28,6 @@ func assign_specific_layer_info(layer: Layer):
 	texture_layer.geo_raster_layer = texture
 	texture_layer.name = texture.resource_name
 
-	layer.render_type = Layer.RenderType.TWODIMENSIONAL
 	layer.render_info.texture_layer = texture_layer.clone()
 
 

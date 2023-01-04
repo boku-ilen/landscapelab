@@ -65,7 +65,6 @@ func assign_specific_layer_info(layerc: LayerComposition):
 		return
 
 	layer.geo_feature_layer = features
-	layer.render_type = LayerComposition.RenderType.OBJECT
 	layer.render_info.object = object_scene
 	layer.render_info.ground_height_layer = height_layer.clone()
 
