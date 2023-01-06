@@ -12,22 +12,36 @@ var radius: float = 500.0
 var max_features = 1000
 
 var _path_instance_scene = preload("res://Layers/Renderers/Path/PathInstance.tscn")
+var _road_instance_scene = preload("res://Layers/Renderers/Path/Roads/RoadInstance.tscn")
 var heightmap_data_arrays: Dictionary = {}
 
-var debug_points = []
+var roads_parent: Node3D
+
+var draw_debug_points: bool = true
+var debug_point_scene = preload("res://Layers/Renderers/Path/Roads/RoadDebugPoint.tscn")
+var debug_points_parent: Node3D
 
 func load_roads() -> void:
-	debug_points.clear()
+	print("PATH GERNEAT STARTED")
+	# Variables are now unlinked to scene object (allows deletion of old and adding  of new objects)
+	roads_parent = Node3D.new()
+	roads_parent.name = "Roads"
+	
+	debug_points_parent = Node3D.new()
+	debug_points_parent.name = "Debug"
+	
 	
 	_create_heightmap_dictionary()
 	var player_position = [int(center[0] + $"..".position_manager.center_node.position.x), int(center[1] - $"..".position_manager.center_node.position.z)]
 	var path_features = path_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
-	for path_feature in path_features:
-		var path = _create_path(path_feature)
+	_create_roads(path_features)
 	
-	call_deferred("_add_debug_points")
+	print("PATH GERNEAT ENDED")
+	
+	call_deferred("_add_objects")
 
 
+# Creates and fills the dictionary with the chunk-heightmaps using their position as keys
 func _create_heightmap_dictionary() -> void:
 	heightmap_data_arrays.clear()
 	for chunk in chunks:
@@ -39,21 +53,46 @@ func _create_heightmap_dictionary() -> void:
 			heightmap_data_arrays[position_x] = {position_z: chunk.current_heightmap.get_image().get_data().duplicate()}
 
 
-func _create_path(path_feature) -> PathInstance:
-	var path_instance: PathInstance
-	
-	var path_curve: Curve3D = path_feature.get_offset_curve3d(-center[0], 0, -center[1])
-	for index in range(path_curve.point_count):
-		var position = path_curve.get_point_position(index)
-		position = get_triangular_interpolation_point(position, step_size)
+func _create_roads(road_features) -> void:
+	for road_feature in road_features:
+		var road_type: String = road_feature.get_attribute("type")
 		
-		# DEBUGGING
-		var cube: MeshInstance3D = $"MeshInstance3D".duplicate()
-		cube.position = position
-		cube.position.y = position.y
-		debug_points.append(cube)
-	
-	return path_instance
+		# Skip all rail-roads
+		if road_type.begins_with('E'):
+			continue
+		
+		# Get point curve from feature
+		var road_curve: Curve3D = road_feature.get_offset_curve3d(-center[0], 0, -center[1])
+		
+		var road_instance: RoadInstance = _road_instance_scene.instantiate()
+		road_instance.curve = road_curve
+		
+		roads_parent.add_child(road_instance)
+		
+		
+
+		# INITIAL POINTS
+		for index in range(road_curve.get_point_count()):
+			# Make sure all roads are facing up
+			#road_curve.set_point_tilt(index, 0)
+
+			var point = road_curve.get_point_position(index)
+			point = get_triangular_interpolation_point(point, step_size)
+			road_curve.set_point_position(index, point)
+
+
+			if draw_debug_points:
+				var debug_point: MeshInstance3D = debug_point_scene.instantiate()
+				debug_point.position = point
+				debug_points_parent.add_child(debug_point)
+#
+#
+#		road_instance.width = road_width
+#		road_instance.intersection_id = int(road_feature.get_attribute("from_node"))
+#		road_instance.curve.bake_interval = 2 # force recomputation
+#		#road_instance.set_polygon_from_lane_uses()
+		
+		
 
 
 # Returns the triangle surface point at the given point-position
@@ -92,10 +131,10 @@ func _get_height(position: Vector3) -> float:
 	return value
 
 
-func _add_debug_points() -> void:
-	for child in $"Debug".get_children():
-		child.free()
+func _add_objects() -> void:
+	# Delete scene objects while keeping code objects
+	$Debug.free()
+	$Roads.free()
 	
-	for cube in debug_points:
-		$"Debug".add_child(cube)
-
+	add_child(roads_parent)
+	add_child(debug_points_parent)

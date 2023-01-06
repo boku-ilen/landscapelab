@@ -139,7 +139,7 @@ func refine_load():
 	elif load_roads:
 		load_roads = false
 		$PathRenderer.center = center
-		$PathRenderer.load_roads()
+		$PathRenderer.call_deferred("load_roads")
 	
 	call_deferred("apply_new_data")
 

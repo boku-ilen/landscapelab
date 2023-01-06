@@ -1,24 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://ci8pmuyiijfqu"]
+[gd_scene load_steps=3 format=3 uid="uid://ci8pmuyiijfqu"]
 
-[ext_resource type="Script" path="res://Layers/Renderers/Path/PathRenderer.gd" id="2_qxqrc"]
+[ext_resource type="PackedScene" uid="uid://c3hg3iqjfc3vw" path="res://Layers/Renderers/Path/PathRenderer.tscn" id="2_pqnea"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" id="4"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3fv6t"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_oa82v"]
-material = SubResource("StandardMaterial3D_3fv6t")
 
 [node name="RealisticTerrainRenderer" type="Node3D"]
 script = ExtResource("4")
 
 [node name="Chunks" type="Node3D" parent="."]
 
-[node name="PathRenderer" type="Node3D" parent="."]
-script = ExtResource("2_qxqrc")
-
-[node name="Debug" type="Node3D" parent="PathRenderer"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="PathRenderer"]
-mesh = SubResource("BoxMesh_oa82v")
-skeleton = NodePath("../..")
+[node name="PathRenderer" parent="." instance=ExtResource("2_pqnea")]
