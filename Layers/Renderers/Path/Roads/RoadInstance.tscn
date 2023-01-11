@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Layers/Renderers/Path/Roads/RoadInstance.gd" id="1_cfnoq"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wa74p"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6xy31"]
 
 [node name="RoadInstance" type="Path3D"]
 script = ExtResource("1_cfnoq")
@@ -19,4 +19,4 @@ path_local = false
 path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
-material = SubResource("StandardMaterial3D_wa74p")
+material = SubResource("StandardMaterial3D_6xy31")

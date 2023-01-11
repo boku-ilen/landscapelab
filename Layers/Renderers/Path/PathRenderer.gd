@@ -11,18 +11,19 @@ var center = [0,0]
 var radius: float = 500.0
 var max_features = 1000
 
-var _path_instance_scene = preload("res://Layers/Renderers/Path/PathInstance.tscn")
 var _road_instance_scene = preload("res://Layers/Renderers/Path/Roads/RoadInstance.tscn")
 var heightmap_data_arrays: Dictionary = {}
 
 var roads_parent: Node3D
+var roads = []
 
+# DEBUGGING
 var draw_debug_points: bool = true
 var debug_point_scene = preload("res://Layers/Renderers/Path/Roads/RoadDebugPoint.tscn")
+var debug_point2_scene = preload("res://Layers/Renderers/Path/Roads/RoadDebugPoint2.tscn")
 var debug_points_parent: Node3D
 
 func load_roads() -> void:
-	print("PATH GERNEAT STARTED")
 	# Variables are now unlinked to scene object (allows deletion of old and adding  of new objects)
 	roads_parent = Node3D.new()
 	roads_parent.name = "Roads"
@@ -35,8 +36,6 @@ func load_roads() -> void:
 	var player_position = [int(center[0] + $"..".position_manager.center_node.position.x), int(center[1] - $"..".position_manager.center_node.position.z)]
 	var path_features = path_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
 	_create_roads(path_features)
-	
-	print("PATH GERNEAT ENDED")
 	
 	call_deferred("_add_objects")
 
@@ -65,28 +64,88 @@ func _create_roads(road_features) -> void:
 		var road_curve: Curve3D = road_feature.get_offset_curve3d(-center[0], 0, -center[1])
 		
 		var road_instance: RoadInstance = _road_instance_scene.instantiate()
-		road_instance.curve = road_curve
 		
 		roads_parent.add_child(road_instance)
 		
 		
-
-		# INITIAL POINTS
-		for index in range(road_curve.get_point_count()):
+		# SET INITIAL POINT HEIGHTS
+		var point_count = road_curve.get_point_count()
+		for index in range(point_count):
 			# Make sure all roads are facing up
 			#road_curve.set_point_tilt(index, 0)
 
 			var point = road_curve.get_point_position(index)
 			point = get_triangular_interpolation_point(point, step_size)
 			road_curve.set_point_position(index, point)
-
-
+			
 			if draw_debug_points:
 				var debug_point: MeshInstance3D = debug_point_scene.instantiate()
 				debug_point.position = point
 				debug_points_parent.add_child(debug_point)
-#
-#
+		
+		# REFINE ROAD BY ADDING MESH TRIANGLE INTERSECTIONS
+		var current_point_index: int = 0
+		
+		# GO THROUGH EACH CURVE EDGE
+		for index in range(point_count - 1):
+			var current_point: Vector3 = road_curve.get_point_position(current_point_index)
+			var next_point: Vector3 = road_curve.get_point_position(current_point_index + 1)
+			
+			var x_quad_point = null
+			var z_quad_point = null
+			
+			while true:
+				# INTERSECTION WITH DIAGONAL
+				var intersection_point = QuadUtil.get_diagonal_intersection(current_point, next_point, step_size)
+				if intersection_point != null:
+					intersection_point.y = _get_height(intersection_point)
+				
+					# Add intersection to curve
+					road_curve.add_point(intersection_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
+					current_point_index += 1
+					
+					if draw_debug_points:
+						var debug_point: MeshInstance3D = debug_point2_scene.instantiate()
+						debug_point.position = intersection_point
+						debug_points_parent.add_child(debug_point)
+				
+				# INTERSECTION WITH GRID AXES
+				# Only calculate grid point if we don't have one from last calculation
+				if x_quad_point == null:
+					x_quad_point = QuadUtil.get_horizontal_intersection(current_point, next_point, step_size)
+				
+				# Same for z
+				if z_quad_point == null:
+					z_quad_point = QuadUtil.get_vertical_intersection(current_point, next_point, step_size)
+				
+				# If no grid points, done with this curve edge
+				if x_quad_point == null && z_quad_point == null:
+					# Move to next points
+					current_point_index += 1
+					break
+				
+				# Add closest one
+				if z_quad_point == null || (x_quad_point != null && current_point.distance_squared_to(x_quad_point) <= current_point.distance_squared_to(z_quad_point)):
+					x_quad_point.y = _get_height(x_quad_point)
+					road_curve.add_point(x_quad_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
+					current_point = x_quad_point
+					x_quad_point = null
+				else:
+					z_quad_point.y = _get_height(z_quad_point)
+					road_curve.add_point(z_quad_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
+					current_point = z_quad_point
+					z_quad_point = null
+				
+				# Move to newly added point and start from there again
+				current_point_index += 1
+				
+				if draw_debug_points:
+					var debug_point: MeshInstance3D = debug_point2_scene.instantiate()
+					debug_point.position = current_point
+					debug_points_parent.add_child(debug_point)
+				
+		road_instance.curve = road_curve
+		
 #		road_instance.width = road_width
 #		road_instance.intersection_id = int(road_feature.get_attribute("from_node"))
 #		road_instance.curve.bake_interval = 2 # force recomputation
