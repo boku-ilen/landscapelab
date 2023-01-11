@@ -21,7 +21,7 @@ func enqueue(val):
 # This function is blocking if the queue is currently locked (being accessed) or empty.
 # It may return null if there was an error with decrementing the Semaphore.
 func dequeue():
-	if _sem.wait() == ERR_BUSY:
+	if _sem.try_wait() == ERR_BUSY:
 		return null
 	
 	while _mutex.try_lock() == ERR_BUSY:

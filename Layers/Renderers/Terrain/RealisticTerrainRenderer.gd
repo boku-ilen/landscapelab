@@ -13,8 +13,8 @@ var extent = 7 # extent of chunks in every direction
 
 @export var detailed_load_distance := 2000.0
 @export var detailed_ortho_resolution := 2000
-@export var detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_300x300.obj")
-@export var detailed_mesh_resolution := 300
+@export var detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_200x200.obj")
+@export var detailed_mesh_resolution := 200
 
 func _ready():
 	super._ready()
