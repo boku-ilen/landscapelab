@@ -80,6 +80,10 @@ func _create_roads(road_features) -> void:
 			var point = road_curve.get_point_position(index)
 			point = get_triangular_interpolation_point(point, step_size)
 			road_curve.set_point_position(index, point)
+			
+			var debug_point: MeshInstance3D = debug_point_scene.instantiate()
+			debug_point.position = point
+			$Debug.add_child(debug_point)
 		
 		# REFINE ROAD BY ADDING MESH TRIANGLE INTERSECTIONS
 		var current_point_index: int = 0
@@ -128,6 +132,10 @@ func _create_roads(road_features) -> void:
 					road_curve.add_point(z_quad_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
 					current_point = z_quad_point
 					z_quad_point = null
+				
+				var debug_point: MeshInstance3D = debug_point2_scene.instantiate()
+				debug_point.position = current_point
+				$Debug.add_child(debug_point)
 				
 				# Move to newly added point and start from there again
 				current_point_index += 1
