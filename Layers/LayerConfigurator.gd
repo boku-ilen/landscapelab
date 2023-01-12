@@ -325,23 +325,3 @@ func define_pa3c3_game_mode(
 	game_mode.add_score(power_score_households)
 	
 	GameSystem.current_game_mode = game_mode
-
-
-func validate_gpkg(geopackage_path: String):
-	if geopackage_path.is_empty():
-		logger.error("User Geopackage path not set! Please set it in user://configuration.ini", LOG_MODULE)
-		return false
-	
-	if not FileAccess.file_exists(geopackage_path):
-		logger.error(
-			"Path3D to geodataset \"%s\" does not exist, could not load any data!" % [geopackage_path],
-			LOG_MODULE
-		)
-		return false
-	
-	geopackage = Geodot.get_dataset(geopackage_path)
-	if !geopackage.is_valid():
-		logger.error("Geodataset is not valid, could not load any data!", LOG_MODULE)
-		return false
-	
-	return true
