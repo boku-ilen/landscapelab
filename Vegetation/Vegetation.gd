@@ -367,6 +367,7 @@ func get_renderers() -> Node3D:
 		var renderer = load("res://Layers/Renderers/RasterVegetation/VegetationParticles.tscn").instantiate()
 		
 		renderer.density_class = density_class
+		renderer.name = density_class.name
 		
 		root.add_child(renderer)
 	
