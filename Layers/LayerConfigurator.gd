@@ -1,19 +1,26 @@
 extends Configurator
 
-
 var geopackage
 var external_layers = preload("res://Layers/ExternalLayerComposition.gd").new()
+var has_loaded = false
 
 const LOG_MODULE := "LAYERCONFIGURATION"
 
-signal geodata_invalid
+signal configuration_invalid
 signal loading_finished
 
 
 func _ready():
 	category = "geodata"
-	load_ll_json("/home/landscapelab/Data/wolkersdorf.ll")
-	loading_finished.emit()
+
+
+func setup():
+	var path = get_setting("config-path")
+	
+	if path == null:
+		configuration_invalid.emit()
+	else:
+		load_ll_json(path)
 
 
 func load_ll_json(path: String):
@@ -23,6 +30,8 @@ func load_ll_json(path: String):
 	
 	if file == null:
 		logger.error("Error opening LL project file at " + path, category)
+		configuration_invalid.emit()
+		return
 	
 	var error = json_object.parse(file.get_as_text())
 	
@@ -56,6 +65,8 @@ func load_ll_json(path: String):
 				var db = db_cache[file_name]
 				var layer = db.get_raster_layer(layer_name)
 				
+				Layers.geo_layers["rasters"][layer_name] = layer
+				
 				layer_composition.render_info.set(attribute_name, layer)
 		
 		if composition_data.has("feature_layers"):
@@ -70,6 +81,8 @@ func load_ll_json(path: String):
 				var db = db_cache[file_name]
 				var layer = db.get_feature_layer(layer_name)
 				
+				Layers.geo_layers["features"][layer_name] = layer
+				
 				layer_composition.render_info.set(attribute_name, layer)
 		
 		if composition_data.has("attributes"):
@@ -78,6 +91,10 @@ func load_ll_json(path: String):
 				layer_composition.render_info.set(attribute_name, value)
 		
 		Layers.add_layer_composition(layer_composition)
+	
+	Layers.recalculate_center()
+	has_loaded = true
+	loading_finished.emit()
 
 	
 #	define_probing_game_mode(

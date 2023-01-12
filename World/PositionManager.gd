@@ -79,7 +79,7 @@ const DEFAULT_HEIGHT = 500
 const LOG_MODULE := "WORLDPOSITION"
 
 
-func _ready():
+func reset_center():
 	set_offset(Layers.current_center.x, Layers.current_center.z)
 
 

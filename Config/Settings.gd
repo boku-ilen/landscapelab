@@ -96,10 +96,11 @@ func save_user_settings():
 # Get a specific setting by category and label (for example: category 'server', label 'ip')
 func get_setting(section, key , default=null):
 	if not config.has_section(section):
-		logger.error("BUG: Invalid setting section: %s" % [section], LOG_MODULE)
+		logger.warn("Invalid setting section: %s" % [section], LOG_MODULE)
+		return default
 	elif not config.has_section_key(section, key):
-		if default == null:
-			logger.error("BUG: Setting section %s does not have key %s!" % [section, key], LOG_MODULE)
+		logger.warn("Setting section %s does not have key %s!" % [section, key], LOG_MODULE)
+		return default
 	
 	return config.get_value(section, key, default)
 

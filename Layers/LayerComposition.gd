@@ -23,8 +23,7 @@ var color_tag: Color = Color.TRANSPARENT
 var render_info
 var ui_info = UIInfo.new()
 
-# FIXME: should be const
-var RENDER_INFOS := {
+const RENDER_INFOS := {
 	"Basic Terrain": BasicTerrainRenderInfo,
 	"Realistic Terrain": RealisticTerrainRenderInfo,
 	"Vegetation": VegetationRenderInfo,
