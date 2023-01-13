@@ -60,18 +60,32 @@ func _create_roads(road_features) -> void:
 			roads_to_delete.erase(road_id)
 			continue
 		
-		var road_type: String = road_feature.get_attribute("type")
-		
-		# Skip all rail-roads
-		if road_type.begins_with('E'):
-			continue
-		
 		# Get point curve from feature
 		var road_curve: Curve3D = road_feature.get_offset_curve3d(-center[0], 0, -center[1])
 		
 		var road_instance: RoadInstance = _road_instance_scene.instantiate()
 		
-		# SET INITIAL POINT HEIGHTS
+		# Set road data
+		road_instance.id = road_id
+		road_instance.width = float(road_feature.get_attribute("width"))
+		road_instance.length = float(road_feature.get_attribute("length"))
+		road_instance.road_name = road_feature.get_attribute("name")
+		road_instance.from_intersection = road_feature.get_attribute("from_node")
+		road_instance.to_intersection = road_feature.get_attribute("to_node")
+		road_instance.speed_forward = road_feature.get_attribute("speed_forward")
+		road_instance.speed_backwards = road_feature.get_attribute("speed_backwards")
+		road_instance.lanes_forward = road_feature.get_attribute("lanes_forward")
+		road_instance.lanes_backwards = road_feature.get_attribute("lanes_backwards")
+		road_instance.direction = road_feature.get_attribute("direction")
+		road_instance.type = road_feature.get_attribute("type")
+		road_instance.physical_type = road_feature.get_attribute("physical_type")
+		road_instance.lane_uses = road_feature.get_attribute("linear_uses")
+		
+		
+		
+		#############################
+		# SET INITIAL POINT HEIGHTS #
+		#############################
 		var point_count = road_curve.get_point_count()
 		for index in range(point_count):
 			# Make sure all roads are facing up
@@ -85,7 +99,9 @@ func _create_roads(road_features) -> void:
 			debug_point.position = point
 			$Debug.add_child(debug_point)
 		
-		# REFINE ROAD BY ADDING MESH TRIANGLE INTERSECTIONS
+		#####################################################
+		# REFINE ROAD BY ADDING MESH TRIANGLE INTERSECTIONS #
+		#####################################################
 		var current_point_index: int = 0
 		
 		# GO THROUGH EACH CURVE EDGE
@@ -146,7 +162,6 @@ func _create_roads(road_features) -> void:
 
 
 func _add_objects() -> void:
-	var tic = Time.get_ticks_msec()
 	# Delete old roads
 	for road_id in roads_to_delete.keys():
 		roads.erase(road_id)
@@ -155,11 +170,7 @@ func _add_objects() -> void:
 	# Add new roads
 	for road in roads.values():
 		$Roads.add_child(road)
-	
-	var toc = Time.get_ticks_msec()
-	print("Add Roads Time: %s" %[toc - tic])
-	
-	print($Roads.get_child_count())
+		road.set_polygon_from_lane_uses()
 
 
 # Returns the triangle surface point at the given point-position
