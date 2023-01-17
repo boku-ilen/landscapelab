@@ -75,6 +75,8 @@ func apply_new_data():
 	
 	feature_add_queue.clear()
 	feature_remove_queue.clear()
+	
+	logger.info("Applied new ObjectRenderer data for %s" % [name], LOG_MODULE)
 
 
 func apply_new_feature(feature):

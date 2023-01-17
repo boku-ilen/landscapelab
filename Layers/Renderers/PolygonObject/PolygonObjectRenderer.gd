@@ -72,6 +72,8 @@ func apply_new_data():
 		add_child(object)
 	
 	object_instances.clear()
+	
+	logger.info("Applied new PolygonObjectRenderer data for %s" % [name], LOG_MODULE)
 
 
 func _ready():

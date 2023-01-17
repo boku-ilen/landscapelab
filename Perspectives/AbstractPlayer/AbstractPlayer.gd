@@ -28,6 +28,10 @@ func get_look_direction() -> Vector3:
 	return -transform.basis.z
 
 
+func get_cardinal_direction() -> Vector3:
+	return Vector3.UP.cross(transform.basis.x)
+
+
 func _input(event):
 	# Check abstract general input, then overwritten general input, then abstract viewport input,
 	#  then overwritten viewport input

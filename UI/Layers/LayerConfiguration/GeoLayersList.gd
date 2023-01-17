@@ -1,5 +1,9 @@
 extends ItemList
 
+#
+# Display of all geolayers and handling for z-index of geo-layers in the 2D space.
+#
+
 
 signal z_index_changed(item_array)
 

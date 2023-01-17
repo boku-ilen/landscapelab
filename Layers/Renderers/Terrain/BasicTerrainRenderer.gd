@@ -36,3 +36,5 @@ func full_load():
 func apply_new_data():
 	for lod in get_children():
 		lod.apply_textures()
+	
+	logger.info("Applied new BasicTerrainRenderer data for %s" % [name], LOG_MODULE)

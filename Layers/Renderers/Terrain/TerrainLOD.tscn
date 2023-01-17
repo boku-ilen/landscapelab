@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/TerrainLOD.gd" id="3"]
 [ext_resource type="Material" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="4"]
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_diamu"]
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pxxd3"]
 
 [node name="TerrainLOD" type="MeshInstance3D"]
 material_override = ExtResource("4")
@@ -16,4 +16,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 collision_layer = 524289
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HeightmapCollider"]
-shape = SubResource("WorldBoundaryShape3D_diamu")
+shape = SubResource("WorldBoundaryShape3D_pxxd3")

@@ -70,6 +70,7 @@ class UIInfo:
 class RenderInfo:
 	var lod = false
 	var renderer = null
+	var icon = preload("res://Resources/Icons/ModernLandscapeLab/file.svg")
 	
 	func get_geolayers() -> Array:
 		return []
@@ -93,6 +94,7 @@ class BasicTerrainRenderInfo extends RenderInfo:
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Terrain/BasicTerrainRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/raster.svg")
 	
 	func get_geolayers():
 		return [height_layer, texture_layer]
@@ -111,6 +113,7 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Terrain/RealisticTerrainRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/raster.svg")
 	
 	func get_geolayers():
 		return [height_layer, surface_height_layer, texture_layer, landuse_layer]
@@ -128,6 +131,7 @@ class VegetationRenderInfo extends RenderInfo:
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/grass.svg")
 	
 	func get_geolayers():
 		return [height_layer, landuse_layer]
@@ -142,12 +146,13 @@ class ParticlesRenderInfo extends RenderInfo:
 	pass
 
 class ObjectRenderInfo extends RenderInfo:
-	var object: PackedScene
+	var object: String
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 	
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
@@ -159,16 +164,17 @@ class ObjectRenderInfo extends RenderInfo:
 		return geo_feature_layer != null && ground_height_layer != null
 
 class WindTurbineRenderInfo extends ObjectRenderInfo:
-	var height_attribute_name
-	var diameter_attribute_name
+	var height_attribute_name: String
+	var diameter_attribute_name: String
 
 class PolygonRenderInfo extends RenderInfo:
-	var height_attribute_name
+	var height_attribute_name: String
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 	
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
@@ -180,19 +186,20 @@ class PolygonRenderInfo extends RenderInfo:
 		return geo_feature_layer != null && ground_height_layer != null
 
 class BuildingRenderInfo extends PolygonRenderInfo:
-	var height_stdev_attribute_name
-	var slope_attribute_name
-	var red_attribute_name
-	var green_attribute_name
-	var blue_attribute_name
+	var height_stdev_attribute_name: String
+	var slope_attribute_name: String
+	var red_attribute_name: String
+	var green_attribute_name: String
+	var blue_attribute_name: String
 
 class PathRenderInfo extends RenderInfo:
-	var line_visualization: PackedScene
+	var line_visualization: String
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Path/PathRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 	
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
@@ -211,13 +218,14 @@ class ConnectedObjectInfo extends RenderInfo:
 	var connectors = {}
 	var connections = {}
 	# Should nothing be specified, take the fallbacks
-	var fallback_connector: PackedScene
-	var fallback_connection: PackedScene
+	var fallback_connector: String
+	var fallback_connection: String
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/ConnectedObjects/ConnectedObjectRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 	
 	func get_geolayers():
 		return [ground_height_layer, geo_feature_layer]
@@ -233,12 +241,13 @@ class PolygonObjectInfo extends RenderInfo:
 	var polygon_layer: GeoFeatureLayer
 	# "virtual" layer which serves solely for using gdal features
 	var object_layer: GeoFeatureLayer
-	var object: PackedScene
+	var object: String
 	var individual_rotation: float
 	var group_rotation: float
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/PolygonObject/PolygonObjectRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 	
 	func get_geolayers() -> Array:
 		return [polygon_layer, object_layer]

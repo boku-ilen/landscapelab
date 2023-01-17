@@ -7,19 +7,6 @@ var specific_layer_composition_ui: SpecificLayerCompositionUI
 @onready var layer_composition_color_tag = $VBoxContainer/GridContainer/ColorTagMenu
 @onready var type_chooser = $VBoxContainer/GridContainer/TypeChooser
 
-var RenderTypeObject = {
-	"NONE": LayerComposition,
-	"BASIC_TERRAIN": LayerComposition,
-	"REALISTIC_TERRAIN": LayerComposition,
-	"PARTICLES": LayerComposition,
-	"OBJECT": LayerComposition,
-	"PATH": LayerComposition,
-	"CONNECTED_OBJECT": LayerComposition,
-	"POLYGON": LayerComposition,
-	"VEGETATION": LayerComposition,
-	"TWODIMENSIONAL": LayerComposition
-}
-
 
 func _ready():
 	connect("confirmed",Callable(self,"_on_confirm"))
@@ -48,7 +35,7 @@ func _on_confirm():
 	var current_type = type_chooser.get_item_metadata(type_chooser.get_selected_id())
 	
 	if layer_composition == null:
-		layer_composition = RenderTypeObject[current_type].new()
+		layer_composition = LayerComposition.new()
 		is_new = true
 	
 	layer_composition.name = layer_composition_name.text

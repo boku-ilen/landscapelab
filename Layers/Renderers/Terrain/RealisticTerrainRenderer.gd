@@ -104,6 +104,8 @@ func get_nearest_lod_below_resolution(query_position: Vector3, resolution: int, 
 
 
 func refine_load():
+	var any_change_done = false
+	
 	# Downgrade LODs which are now too far away
 	for lod in lods:
 		if lod.ortho_resolution >= detailed_ortho_resolution and \
@@ -117,6 +119,7 @@ func refine_load():
 			lod.build(center[0] + lod.position.x + lod.position_diff_x,
 				center[1] - lod.position.z - lod.position_diff_z)
 			lod.changed = true
+			any_change_done = true
 	
 	# Upgrade nearby LODs
 	var nearest_lod = get_nearest_lod_below_resolution(position_manager.center_node.position, detailed_ortho_resolution, detailed_load_distance)
@@ -132,8 +135,10 @@ func refine_load():
 		nearest_lod.build(center[0] + nearest_lod.position.x + nearest_lod.position_diff_x,
 			center[1] - nearest_lod.position.z - nearest_lod.position_diff_z)
 		nearest_lod.changed = true
+		any_change_done = true
 	
-	call_deferred("apply_new_data")
+	if any_change_done:
+		call_deferred("apply_new_data")
 
 
 func apply_new_data():
@@ -143,6 +148,8 @@ func apply_new_data():
 			lod.position.z += lod.position_diff_z
 			
 			lod.apply_textures()
+	
+	logger.info("Applied new RealisticTerrainRenderer data for %s" % [name], LOG_MODULE)
 
 
 func get_debug_info() -> String:

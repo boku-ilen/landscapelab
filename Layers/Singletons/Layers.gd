@@ -19,6 +19,16 @@ func get_layer_composition(name: String):
 	return layer_compositions[name] if layer_compositions.has(name) else null
 
 
+func get_layers_with_render_info(render_info_class):
+	var returned_layers = []
+	
+	for layer_composition in layer_compositions:
+		if layer_composition.render_info is render_info_class:
+			returned_layers.append(layer_composition)
+	
+	return returned_layers
+
+
 func get_rendered_layer_compositions():
 	var returned_layers = []
 	

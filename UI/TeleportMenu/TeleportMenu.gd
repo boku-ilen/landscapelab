@@ -31,7 +31,8 @@ func _ready():
 	arrow_up.connect("pressed",Callable(self,"_on_arrow_up"))
 	arrow_down.connect("pressed",Callable(self,"_on_arrow_down"))
 	
-	var object_layers = Layers.get_layers_of_type(LayerComposition.RenderType.OBJECT)
+	var object_layers = Layers.get_layers_with_render_info(LayerComposition.ObjectRenderInfo)
+	
 	for layer in object_layers:
 		_add_object_layer(layer)
 	

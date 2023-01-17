@@ -1,83 +1,67 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=10 format=3 uid="uid://ca5f6m4nkfww1"]
 
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/vector_edit.svg" type="Texture2D" id=1]
-[ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=2]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.gdshader" type="Shader" id=3]
-[ext_resource path="res://UI/Layers/LayerManagement/ObjectLayerManagement.gd" type="Script" id=4]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/vector_add.svg" type="Texture2D" id=5]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/vector_modify.svg" type="Texture2D" id=6]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/vector_save.svg" type="Texture2D" id=7]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/file.svg" type="Texture2D" id=9]
+[ext_resource type="Texture2D" uid="uid://b3pbwu5eqrdlv" path="res://Resources/Icons/ModernLandscapeLab/vector_edit.svg" id="1"]
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="2"]
+[ext_resource type="Shader" path="res://UI/CustomElements/AutoTextureButton.gdshader" id="3"]
+[ext_resource type="Script" path="res://UI/Layers/LayerManagement/ObjectLayerManagement.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://3l8mvamphk8h" path="res://Resources/Icons/ModernLandscapeLab/vector_add.svg" id="5"]
+[ext_resource type="Texture2D" uid="uid://b5vbuejsrm8o7" path="res://Resources/Icons/ModernLandscapeLab/vector_modify.svg" id="6"]
+[ext_resource type="Texture2D" uid="uid://djgdeb68xdbg5" path="res://Resources/Icons/ModernLandscapeLab/vector_save.svg" id="7"]
+[ext_resource type="Texture2D" uid="uid://dcuht2a13ydk1" path="res://Resources/Icons/ModernLandscapeLab/file.svg" id="9"]
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id="2"]
 resource_local_to_scene = true
-shader = ExtResource( 3 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
+shader = ExtResource("3")
+shader_parameter/color = Vector3(0, 0, 0)
+shader_parameter/rotation_radians = null
+shader_parameter/color_length_modulate_threshold = 1.5
 
 [node name="ObjectLayerManagement" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -2.24493
 offset_right = -2.24487
-script = ExtResource( 4 )
+script = ExtResource("4")
 
-[node name="List" parent="." instance=ExtResource( 2 )]
-material = SubResource( 2 )
-offset_right = 40.0
-offset_bottom = 1080.0
+[node name="List" parent="." instance=ExtResource("2")]
+material = SubResource("2")
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
 toggle_mode = true
-icon = ExtResource( 9 )
+icon = ExtResource("9")
 texture_name = "file"
 
 [node name="ListWindow" type="Window" parent="List"]
-visible = true
-offset_right = 327.0
-offset_bottom = 324.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ItemList" type="ItemList" parent="List/ListWindow"]
 offset_left = 14.0
 offset_top = 14.0
 offset_right = 314.0
 offset_bottom = 314.0
-minimum_size = Vector2( 300, 300 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Edit" parent="." instance=ExtResource( 2 )]
-offset_left = 48.0
-offset_right = 88.0
-offset_bottom = 1080.0
+[node name="Edit" parent="." instance=ExtResource("2")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
 toggle_mode = true
-icon = ExtResource( 1 )
+icon = ExtResource("1")
 texture_name = "vector_edit"
 
-[node name="Add" parent="." instance=ExtResource( 2 )]
-offset_left = 96.0
-offset_right = 136.0
-offset_bottom = 1080.0
+[node name="Add" parent="." instance=ExtResource("2")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
 toggle_mode = true
-icon = ExtResource( 5 )
+icon = ExtResource("5")
 texture_name = "vector_add"
 
-[node name="Modify" parent="." instance=ExtResource( 2 )]
-offset_left = 144.0
-offset_right = 184.0
-offset_bottom = 1080.0
+[node name="Modify" parent="." instance=ExtResource("2")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
 toggle_mode = true
-icon = ExtResource( 6 )
+icon = ExtResource("6")
 texture_name = "vector_modify"
 
-[node name="Save" parent="." instance=ExtResource( 2 )]
-offset_left = 192.0
-offset_right = 232.0
-offset_bottom = 1080.0
-icon = ExtResource( 7 )
+[node name="Save" parent="." instance=ExtResource("2")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+icon = ExtResource("7")
 texture_name = "vector_save"

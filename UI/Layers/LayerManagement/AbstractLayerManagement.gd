@@ -1,6 +1,8 @@
 extends Node
 class_name AbstractLayerManagement
 
+# FIXME: Move from LayerCompositions to GeoLayers
+
 
 var pc_player: AbstractPlayer
 var pos_manager: PositionManager
