@@ -67,8 +67,7 @@ class UIInfo:
 
 
 # RenderInfo data classes
-class RenderInfo:
-	var lod = false
+class RenderInfo extends RefCounted:
 	var renderer = null
 	var icon = preload("res://Resources/Icons/ModernLandscapeLab/file.svg")
 	

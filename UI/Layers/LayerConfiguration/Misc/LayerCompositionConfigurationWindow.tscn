@@ -1,14 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://dbembde0n3cjx"]
+[gd_scene load_steps=8 format=3 uid="uid://dbembde0n3cjx"]
 
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="2_ckxgs"]
 [ext_resource type="PackedScene" uid="uid://ce363ya7o8glf" path="res://UI/Layers/LayerConfiguration/Misc/ColorTag.tscn" id="3"]
+[ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="3_cfdml"]
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/LayerCompositionConfigurationWindow.gd" id="4"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_5gamk"]
+[sub_resource type="LabelSettings" id="LabelSettings_o6epo"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_yyqew"]
+[sub_resource type="LabelSettings" id="LabelSettings_d3uiw"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_xn3c6"]
+[sub_resource type="LabelSettings" id="LabelSettings_e4bb4"]
 
 [node name="Control" type="ConfirmationDialog"]
 title = "Layer Configuration"
@@ -23,53 +24,35 @@ offset_left = 8.0
 offset_top = 8.0
 offset_right = 492.0
 offset_bottom = 131.0
+theme = ExtResource("3_cfdml")
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
-offset_right = 484.0
-offset_bottom = 116.0
+layout_mode = 2
 theme_override_constants/h_separation = 50
 columns = 2
 
 [node name="LabelName" type="Label" parent="VBoxContainer/GridContainer"]
-offset_right = 98.0
-offset_bottom = 34.0
+layout_mode = 2
 text = "Layer Name:"
-label_settings = SubResource("LabelSettings_5gamk")
+label_settings = SubResource("LabelSettings_o6epo")
 
 [node name="Name" type="LineEdit" parent="VBoxContainer/GridContainer"]
-offset_left = 148.0
-offset_right = 484.0
-offset_bottom = 34.0
+layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "..."
 
 [node name="ColorTag" type="Label" parent="VBoxContainer/GridContainer"]
-offset_top = 41.0
-offset_right = 98.0
-offset_bottom = 75.0
+layout_mode = 2
 text = "Color Tag:"
-label_settings = SubResource("LabelSettings_yyqew")
+label_settings = SubResource("LabelSettings_d3uiw")
 
 [node name="ColorTagMenu" parent="VBoxContainer/GridContainer" instance=ExtResource("3")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 148.0
-offset_top = 38.0
-offset_right = 484.0
-offset_bottom = 78.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
 [node name="Type" type="Label" parent="VBoxContainer/GridContainer"]
-offset_top = 82.0
-offset_right = 98.0
-offset_bottom = 116.0
+layout_mode = 2
 text = "Type:"
-label_settings = SubResource("LabelSettings_xn3c6")
+label_settings = SubResource("LabelSettings_e4bb4")
 
 [node name="TypeChooser" type="OptionButton" parent="VBoxContainer/GridContainer"]
-offset_left = 148.0
-offset_top = 82.0
-offset_right = 484.0
-offset_bottom = 116.0
+layout_mode = 2

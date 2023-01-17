@@ -1,7 +1,7 @@
 extends ConfirmationDialog
 
 var layer_composition: LayerComposition
-var specific_layer_composition_ui: SpecificLayerCompositionUI
+var specific_layer_composition_ui
 
 @onready var layer_composition_name = $VBoxContainer/GridContainer/Name
 @onready var layer_composition_color_tag = $VBoxContainer/GridContainer/ColorTagMenu
@@ -70,7 +70,6 @@ func _add_types():
 # TODO: This shouldnt be all upercase anyways, maybe move this functionality
 func _on_type_select(idx: int):
 	var type: String = type_chooser.get_item_text(idx)
-	type = type.substr(0, 1) + type.substr(1).to_lower()
 	
 	if specific_layer_composition_ui != null:
 		$VBoxContainer.remove_child(specific_layer_composition_ui)
@@ -79,11 +78,34 @@ func _on_type_select(idx: int):
 
 
 func _add_specific_layer_conf(type_string: String):
-	specific_layer_composition_ui = load(
-			"res://UI/Layers/LayerConfiguration/SpecificLayerCompositionUI/%sLayer.tscn" 
-			% type_string).instantiate()
+	var render_info = LayerComposition.RENDER_INFOS[type_string].new()
 	
-	if layer_composition: specific_layer_composition_ui.init(layer_composition)
+	specific_layer_composition_ui = VBoxContainer.new()
+	
+	# Create list of basic Object properties so we can ignore those later
+	var object_property_names = []
+	var object = LayerComposition.RenderInfo.new()
+	for property in object.get_property_list():
+		object_property_names.append(property["name"])
+	
+	print(object_property_names)
+	
+	for property in render_info.get_property_list():
+		# Ignore basic Object properties
+		if property["name"] in object_property_names: continue
+		
+		var container = HBoxContainer.new()
+		
+		var label = Label.new()
+		label.text = property["name"]
+		
+		var line_edit = LineEdit.new()
+		line_edit.placeholder_text = property["class_name"]
+		
+		container.add_child(label)
+		container.add_child(line_edit)
+		
+		specific_layer_composition_ui.add_child(container)
 	
 	$VBoxContainer.add_child(specific_layer_composition_ui)
 	$VBoxContainer.move_child(specific_layer_composition_ui, 1)
