@@ -46,9 +46,8 @@ func _on_item_pressed(idx: int):
 
 func _open_configure_menu():
 	var instance = layer_composition_config.instantiate()
-	add_child(instance)
+	get_parent().add_child(instance)
 	instance.layer_popup(Vector2(100,200), layer_composition)
-	#instance.specific_layer_ui
 
 
 func _translate_to_layer():

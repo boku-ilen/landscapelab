@@ -24,6 +24,8 @@ func setup():
 
 
 func load_ll_json(path: String):
+	logger.info("Loading LL project file from " + path + "...", category)
+	
 	var json_object := JSON.new()
 	
 	var file = FileAccess.open(path, FileAccess.READ)
@@ -46,14 +48,18 @@ func load_ll_json(path: String):
 	
 	# Load vegetation if in config
 	if ll_project.has("Vegetation"):
+		logger.info("Loading vegetation...", category)
 		Vegetation.load_data_from_csv(
 			path.get_base_dir().path_join(ll_project["Vegetation"]["Plants"]),
 			path.get_base_dir().path_join(ll_project["Vegetation"]["Groups"]),
 			path.get_base_dir().path_join(ll_project["Vegetation"]["Densities"]),
 			path.get_base_dir().path_join(ll_project["Vegetation"]["Textures"])
 		)
+		logger.info("Done loading vegetation!", category)
 	
 	for composition_name in ll_project["LayerCompositions"].keys():
+		logger.info("Loading layer composition " + composition_name + "...", category)
+		
 		var composition_data = ll_project["LayerCompositions"][composition_name]
 		var type = composition_data["type"]
 		
@@ -103,6 +109,7 @@ func load_ll_json(path: String):
 	
 	# Load scenarios if in config
 	if ll_project.has("Scenarios"):
+		logger.info("Loading scenarios...", category)
 		for scenario_name in ll_project["Scenarios"].keys():
 			var scenario = Scenario.new()
 			scenario.name = scenario_name
@@ -111,10 +118,13 @@ func load_ll_json(path: String):
 				scenario.add_visible_layer_name(layer_name)
 			
 			Scenarios.add_scenario(scenario)
+		logger.info("Done loading scenarios!", category)
 	
 	Layers.recalculate_center()
 	has_loaded = true
 	loading_finished.emit()
+	
+	logger.info("Done loading layers!", category)
 
 	
 #	define_probing_game_mode(
