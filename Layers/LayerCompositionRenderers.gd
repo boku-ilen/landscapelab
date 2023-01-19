@@ -10,6 +10,10 @@ var position_manager: PositionManager :
 		
 		position_manager.add_signal_dependency(self, "loading_finished")
 		
+		for renderer in get_children():
+			if renderer is LayerCompositionRenderer:
+				renderer.position_manager = position_manager
+		
 		apply_center(position_manager.get_center())
 
 var time_manager: TimeManager :
@@ -56,6 +60,7 @@ func add_child(child: Node, force_readable_name: bool = false, internal: int = 0
 	# Give the child a center position
 	if position_manager:
 		# Apply the center position from the PositionManager
+		child.position_manager = position_manager
 		child.center = position_manager.get_center()
 	elif apply_default_center:
 		# Apply the default center for use without a PositionManager
@@ -63,14 +68,6 @@ func add_child(child: Node, force_readable_name: bool = false, internal: int = 0
 	
 	# Actually add the child node to the tree
 	super.add_child(child, force_readable_name, internal)
-	
-	# Start loading its data
-	# FIXME: Start a thread with this
-	child.load_new_data() # FIXME: Run in thread
-	
-	# Apply the data
-	# FIXME: Do this once all load_new_data threads are done!
-	child.apply_new_data()
 
 
 # Apply a new center position to all child nodes
@@ -101,7 +98,7 @@ func update_renderers(center_array):
 			
 			logger.debug("Child {} beginning to load", LOG_MODULE)
 
-			renderer.load_new_data()
+			renderer.full_load()
 			call_deferred("_on_renderer_finished", renderer.name)
 	
 	call_deferred("finish_loading_thread")

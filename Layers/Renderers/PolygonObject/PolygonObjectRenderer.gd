@@ -1,7 +1,7 @@
 extends LayerCompositionRenderer
 
 
-var radius = 10000
+var radius = 10000.0
 var max_features = 2000
 var distance_between_objects = 10
 # Stores if the object-layer has been processed previously
@@ -11,12 +11,12 @@ var very_large_number = 999999.0
 var object_instances = []
 
 
-func load_new_data():
+func full_load():
 	var polygon_layer: GeoFeatureLayer = layer_composition.render_info.polygon_layer
 	var object_layer: GeoFeatureLayer = layer_composition.render_info.object_layer
 	
 	# Extract features
-	var features = polygon_layer.get_features_near_position(center[0], center[1], radius, max_features)
+	var features = polygon_layer.get_features_near_position(float(center[0]), float(center[1]), radius, max_features)
 	
 	# Create the objects inside each individual polygon
 	for poly_feature in features:
@@ -72,3 +72,9 @@ func apply_new_data():
 		add_child(object)
 	
 	object_instances.clear()
+	
+	logger.info("Applied new PolygonObjectRenderer data for %s" % [name], LOG_MODULE)
+
+
+func _ready():
+	super._ready()

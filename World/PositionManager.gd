@@ -44,15 +44,6 @@ var terrain :
 		
 		self.center_node = get_node(center_node_path)
 
-var layer_configurator: Node :
-	get:
-		return layer_configurator 
-	set(configurator):
-		layer_configurator = configurator
-		layer_configurator.connect("center_changed",Callable(self,"set_offset"))
-		x = layer_configurator.center.x
-		z = layer_configurator.center.z
-
 var _previous_center_node_position := Vector2.ZERO
 var _center_node_velocity := Vector2.ZERO
 
@@ -60,8 +51,8 @@ var _center_node_velocity := Vector2.ZERO
 var world_shift_check_period: float = 0.5
 var world_shift_timer: float = 0
 
-var standing_shift_limit := 50.0
-var moving_shift_limit := 400.0
+var standing_shift_limit := 20000000.0
+var moving_shift_limit := 20000000.0
 var moving_shift_time_factor := 1.0
 
 var height = 100
@@ -86,6 +77,10 @@ var _dependent_objects_loaded := 0
 # Fallback height for conversions where no height is given, but the output expects one
 const DEFAULT_HEIGHT = 500
 const LOG_MODULE := "WORLDPOSITION"
+
+
+func reset_center():
+	set_offset(Layers.current_center.x, Layers.current_center.z)
 
 
 func get_center_node_engine_position():
@@ -132,8 +127,8 @@ func _shift_world(delta_x, delta_z):
 	# Make sure the shifting lines up with the most coarse grid (e.g. of the terrain) in order to
 	# avoid differences within same-LOD areas after shifting
 	# TODO: Generalize this factor; config or calculate from other values?
-	delta_x -= fposmod(delta_x, 16)
-	delta_z -= fposmod(delta_z, 16)
+	delta_x -= fposmod(delta_x, 1000)
+	delta_z -= fposmod(delta_z, 1000)
 	
 	logger.info("Shifting world by %f, %f" % [delta_x, delta_z], LOG_MODULE)
 	
@@ -166,8 +161,9 @@ func _apply_new_position_to_center_node():
 
 # Sets the current divergence between engine coordinates and world coordinates.
 func set_offset(new_x, new_z):
-	x = new_x
-	z = new_z
+	# Ensure that the offset happens in steps of 500, 1500, 2500, ...
+	x = new_x - fposmod(new_x, 1000) + 500
+	z = new_z - fposmod(new_z, 1000) + 500
 	
 	emit_signal("new_center", [x, z])
 	delta_x = 0

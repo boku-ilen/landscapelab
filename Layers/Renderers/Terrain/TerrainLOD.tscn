@@ -1,12 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://ye3hpdk4tnpx"]
+[gd_scene load_steps=5 format=3 uid="uid://ye3hpdk4tnpx"]
 
 [ext_resource type="ArrayMesh" uid="uid://lqw0a5653sxf" path="res://Layers/Renderers/Terrain/lod_mesh_100x100.obj" id="1"]
-[ext_resource type="PackedScene" path="res://Layers/Renderers/Terrain/ExtraLOD.tscn" id="2"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/TerrainLOD.gd" id="3"]
 [ext_resource type="Material" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="4"]
-[ext_resource type="Material" uid="uid://cmjx78rr7k7vp" path="res://Layers/Renderers/Terrain/Materials/Water.tres" id="5"]
 
-[sub_resource type="WorldBoundaryShape3D" id="1"]
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pxxd3"]
 
 [node name="TerrainLOD" type="MeshInstance3D"]
 material_override = ExtResource("4")
@@ -18,7 +16,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 collision_layer = 524289
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HeightmapCollider"]
-shape = SubResource("1")
-
-[node name="Water" parent="." instance=ExtResource("2")]
-material_override = ExtResource("5")
+shape = SubResource("WorldBoundaryShape3D_pxxd3")

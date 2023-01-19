@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://csad5ev7rwtoe"]
+[gd_scene load_steps=3 format=3 uid="uid://csad5ev7rwtoe"]
 
 [ext_resource type="Script" path="res://UI/MenuBar/MenuBar.gd" id="1_ikqg2"]
+[ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="2_uetun"]
 
 [node name="MenuBar" type="HBoxContainer"]
 offset_right = 1140.0
@@ -8,12 +9,15 @@ offset_bottom = 31.0
 script = ExtResource("1_ikqg2")
 
 [node name="ProjectButton" type="MenuButton" parent="."]
-offset_right = 62.0
-offset_bottom = 31.0
+layout_mode = 2
 text = "Project"
 switch_on_hover = true
 
-[node name="GeopackageFileDialog" type="FileDialog" parent="ProjectButton"]
-size = Vector2i(643, 177)
-dialog_text = "Load project from a preconfigured GeoPackage"
+[node name="FileDialog" type="FileDialog" parent="ProjectButton"]
+title = "Open a File"
+size = Vector2i(531, 400)
+theme = ExtResource("2_uetun")
+ok_button_text = "Open"
+file_mode = 0
 access = 2
+filters = PackedStringArray("*.ll")

@@ -5,7 +5,6 @@ var is_fullscreen: bool = false
 
 
 func _ready():
-	$PositionManager.layer_configurator = get_node("LayerConfigurator")
 	$PositionManager.terrain = get_node("Terrain")
 	
 	$TimeManager.connect("datetime_changed",Callable($WorldEnvironment,"apply_datetime"))
@@ -27,7 +26,11 @@ func _ready():
 	$WorldEnvironment/RainSplashes.center_node = $PositionManager.center_node
 	$PositionManager.connect("new_center_node",Callable($WorldEnvironment/RainSplashes,"set_center_node"))
 	
+	$LayerConfigurator.connect("loading_finished", $PositionManager.reset_center)
+	
 	Screencapture.pos_manager = $PositionManager
+	
+	$LayerConfigurator.setup()
 
 
 func _input(event):

@@ -46,6 +46,10 @@ func stop_movement():
 
 
 func get_look_direction():
+	return -$Head/Camera3D.global_transform.basis.z
+
+
+func get_cardinal_direction() -> Vector3:
 	return Vector3.UP.cross($Head/Camera3D.global_transform.basis.x)
 
 
@@ -82,7 +86,7 @@ func _handle_general_input(event):
 						and change + $Head/Camera3D.rotation.x > -PI/2:
 					$Head/Camera3D.rotate_x(change)
 			
-#			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			
 		if event.is_action_pressed("pc_move_up"):
 			directions.up = true
@@ -106,13 +110,13 @@ func _handle_general_input(event):
 func _handle_viewport_input(event):
 	# Zoom out/in
 	if event.is_action_pressed("zoom_out"): # Move down when scrolling up
-#		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		move_and_collide(Vector3.UP * -MOUSE_ZOOM_SPEED)
 		
 		# TODO: Instead of 0, use the ground height at this position
 		position.y = clamp(position.y, 0, MAX_DISTANCE_TO_GROUND)
 	elif event.is_action_pressed("zoom_in"): # Move up when scrolling down
-#		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		move_and_collide(Vector3.UP * MOUSE_ZOOM_SPEED)
 		
 		# TODO: Instead of 0, use the ground height at this position
@@ -133,7 +137,7 @@ func _handle_viewport_input(event):
 	if event.is_action_pressed("pc_toggle_walk"):
 		walking = not walking
 		
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		return true
 	
 	# Misc
@@ -194,9 +198,9 @@ func fly(delta):
 	
 	direction = direction.normalized()
 	
-	if Input.is_action_pressed("ui_sprint"):
+	if Input.is_action_pressed("pc_sprint"):
 		direction *= SPRINT_SPEED
-	elif Input.is_action_pressed("ui_sneak"):
+	elif Input.is_action_pressed("pc_sneak"):
 		direction *= SNEAK_SPEED
 	
 	var target = direction * WALK_SPEED if walking else direction * FLY_SPEED
@@ -219,7 +223,7 @@ func fly(delta):
 		var result = space_state.intersect_ray(
 			PhysicsRayQueryParameters3D.create(
 				Vector3(position.x, 6000, position.z),
-				Vector3(position.x, -1000, position.z), 4294967295, [self]))
+				Vector3(position.x, -1000, position.z), 4294967295, [get_rid()]))
 
 		if result:
 			transform.origin.y = result.position.y

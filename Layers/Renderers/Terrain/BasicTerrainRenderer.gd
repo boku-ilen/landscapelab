@@ -5,6 +5,7 @@ extends LayerCompositionRenderer
 
 
 func _ready():
+	super._ready()
 	# Create a loading thread for each LOD child
 	for lod in lods:
 		lod.height_layer = layer_composition.render_info.height_layer.clone()
@@ -24,7 +25,7 @@ func _ready():
 			lod.material_override.set_shader_parameter("alpha", layer_composition.render_info.alpha)
 
 
-func load_new_data():
+func full_load():
 	for lod in lods:
 		lod.position_x = center[0]
 		lod.position_y = center[1]
@@ -35,3 +36,5 @@ func load_new_data():
 func apply_new_data():
 	for lod in get_children():
 		lod.apply_textures()
+	
+	logger.info("Applied new BasicTerrainRenderer data for %s" % [name], LOG_MODULE)

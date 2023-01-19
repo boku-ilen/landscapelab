@@ -28,6 +28,10 @@ func get_look_direction() -> Vector3:
 	return -transform.basis.z
 
 
+func get_cardinal_direction() -> Vector3:
+	return Vector3.UP.cross(transform.basis.x)
+
+
 func _input(event):
 	# Check abstract general input, then overwritten general input, then abstract viewport input,
 	#  then overwritten viewport input
@@ -58,12 +62,12 @@ func _handle_abstract_viewport_input(event):
 		if event.button_index == MOUSE_BUTTON_LEFT and not rotating: 
 			dragging = true
 			set_mouse_mode_captured()
-#			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			return true
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			rotating = true
 			set_mouse_mode_captured()
-#			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			return true
 	elif event is InputEventMouseMotion:
 		# If the mouse is currently active, remember the mouse position in case it gets captured

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Perspectives/PC/PlayerController.gd" id="1"]
 [ext_resource type="Script" path="res://Perspectives/PC/SettingsCamera.gd" id="2"]
 [ext_resource type="Script" path="res://Perspectives/PC/VRDirectionIndicator.gd" id="4"]
-[ext_resource type="PackedScene" path="res://Perspectives/PC/MousePoint.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://cuiempx2ao4sm" path="res://Perspectives/PC/MousePoint.tscn" id="5"]
 [ext_resource type="Script" path="res://Perspectives/PC/ActionHandler.gd" id="6"]
 [ext_resource type="PackedScene" path="res://Perspectives/Tracking/ParentTracker.tscn" id="7"]
 [ext_resource type="Script" path="res://Communication/SetPositionRequestHandler.gd" id="8"]

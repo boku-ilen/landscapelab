@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dfros7q2kbc3l"]
+[gd_scene load_steps=24 format=3 uid="uid://dfros7q2kbc3l"]
 
 [ext_resource type="Texture2D" uid="uid://b2i6gv6rjevem" path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" id="2"]
 [ext_resource type="PackedScene" uid="uid://csad5ev7rwtoe" path="res://UI/MenuBar/MenuBar.tscn" id="2_56a3o"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://UI/WorldUI.gd" id="7_fnvwn"]
 [ext_resource type="Script" path="res://UI/UISplit.gd" id="8"]
 [ext_resource type="PackedScene" path="res://UI/PlayerCompass.tscn" id="9"]
-[ext_resource type="PackedScene" uid="uid://cjlxssyojw44m" path="res://UI/Layers/LayerConfiguration/LayerUI.tscn" id="10"]
 [ext_resource type="Script" path="res://UI/WorldViewPort.gd" id="11"]
 [ext_resource type="Texture2D" uid="uid://copq7sq4f0uom" path="res://Resources/Icons/ModernLandscapeLab/loading.png" id="12_8oiw2"]
 [ext_resource type="PackedScene" path="res://UI/CustomElements/AutoTextureButton.tscn" id="13"]
@@ -19,12 +18,13 @@
 [ext_resource type="Script" path="res://UI/Layers/LayerManagement/LayerManagement.gd" id="16"]
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="17_3pwcs"]
 [ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="18"]
+[ext_resource type="PackedScene" uid="uid://dkm4clrngg65t" path="res://UI/Layers/GeoLayerViewport.tscn" id="18_gf1q8"]
 [ext_resource type="PackedScene" uid="uid://dhe6mnba7w50y" path="res://UI/Scenarios/Scenarios.tscn" id="20"]
+[ext_resource type="PackedScene" uid="uid://1sw3qnm7im8a" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.tscn" id="20_2333t"]
 [ext_resource type="Script" path="res://UI/UILicenses.gd" id="25"]
 [ext_resource type="Script" path="res://UI/MainUI.gd" id="43"]
 
 [node name="MainUI" type="Panel"]
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -40,6 +40,7 @@ weather_manager_path = NodePath("MarginContainer/VBoxContainer/Left/Mid/MidVerti
 layer_configurator_path = NodePath("MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/LayerConfigurator")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -51,82 +52,60 @@ theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-offset_left = 5.0
-offset_top = 10.0
-offset_right = 1147.0
-offset_bottom = 638.0
+layout_mode = 2
 
 [node name="MenuBar" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_56a3o")]
-offset_right = 1142.0
+layout_mode = 2
 
 [node name="Left" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2i(40, 40)
-offset_top = 35.0
-offset_right = 1142.0
-offset_bottom = 628.0
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Tabs" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Left"]
-offset_right = 50.0
-offset_bottom = 593.0
+layout_mode = 2
 script = ExtResource("8")
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
-custom_minimum_size = Vector2i(50, 0)
-offset_right = 50.0
-offset_bottom = 73.0
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
 script = ExtResource("5")
 
 [node name="VRMenu" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("3")]
-anchors_preset = 15
-offset_left = 5.0
-offset_top = 36.0
-offset_right = -5.0
-offset_bottom = -5.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
-offset_top = 81.0
-offset_right = 50.0
-offset_bottom = 593.0
+layout_mode = 2
 drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="Mid" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left"]
-custom_minimum_size = Vector2i(500, 500)
-offset_left = 58.0
-offset_right = 1142.0
-offset_bottom = 593.0
+custom_minimum_size = Vector2(500, 500)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="MidVertical" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Left/Mid"]
-offset_right = 829.0
-offset_bottom = 593.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical"]
-offset_right = 829.0
-offset_bottom = 447.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="LayerManagement" type="MarginContainer" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer"]
-offset_right = 829.0
+layout_mode = 2
 script = ExtResource("16")
-layer_ui_path = NodePath("../../../Right/Tabs/Bot/LayerUI")
+layer_ui_path = NodePath("../../../Right/Tabs/Bot/LayerCompositionUI")
 pos_manager_path = NodePath("../WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 
 [node name="WorldUI" type="Control" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer"]
-layout_mode = 3
-anchors_preset = 0
-offset_top = 4.0
-offset_right = 829.0
-offset_bottom = 447.0
+layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 1
 script = ExtResource("7_fnvwn")
 
 [node name="WorldViewPort" type="SubViewportContainer" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -141,12 +120,13 @@ script = ExtResource("11")
 handle_input_locally = false
 use_taa = true
 gui_disable_input = true
-size = Vector2i(829, 443)
+size = Vector2i(766, 443)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_xvbyv")]
 
 [node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI" instance=ExtResource("9")]
+layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -158,7 +138,8 @@ grow_horizontal = 0
 size_flags_horizontal = 8
 
 [node name="FullscreenButton" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI" instance=ExtResource("13")]
-custom_minimum_size = Vector2i(20, 20)
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 40.0
@@ -172,7 +153,8 @@ focused_color = Color(0, 0, 0, 1)
 texture_name = ""
 
 [node name="LoadingCircle" type="TextureRect" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI"]
-custom_minimum_size = Vector2i(20, 40)
+custom_minimum_size = Vector2(20, 40)
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -185,88 +167,65 @@ script = ExtResource("14_jjvhr")
 layer_renderers_path = NodePath("../WorldViewPort/SubViewport/World/Terrain/LayerRenderers")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical"]
-offset_top = 455.0
-offset_right = 829.0
-offset_bottom = 593.0
+layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="DebugInfo" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("14")]
 visible = false
-custom_minimum_size = Vector2i(400, 0)
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 412.0
-offset_bottom = 133.0
-grow_horizontal = 1
-grow_vertical = 1
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
 layer_renderers_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/Terrain/LayerRenderers")
 
 [node name="GameUI" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("18")]
-offset_right = 829.0
-offset_bottom = 138.0
+layout_mode = 2
 viewport_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport")
 position_manager_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 
 [node name="Right" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left/Mid"]
-custom_minimum_size = Vector2i(40, 40)
-offset_left = 837.0
-offset_right = 1084.0
-offset_bottom = 593.0
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="Tabs" type="VSplitContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right"]
-offset_right = 247.0
-offset_bottom = 593.0
+layout_mode = 2
 script = ExtResource("8")
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs"]
-offset_right = 247.0
-offset_bottom = 143.0
+layout_mode = 2
 script = ExtResource("5")
 
+[node name="GeoLayerViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top" instance=ExtResource("18_gf1q8")]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]
-custom_minimum_size = Vector2i(0, 100)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 5.0
-offset_top = 36.0
-offset_right = -5.0
-offset_bottom = -5.0
-grow_horizontal = 2
-grow_vertical = 2
+visible = false
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
 script = ExtResource("25")
 
 [node name="AcceptDialog" type="AcceptDialog" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/Licenses"]
 
 [node name="MinimapViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top" instance=ExtResource("17_3pwcs")]
-offset_left = 0.0
-offset_top = 31.0
-offset_right = 0.0
-offset_bottom = 0.0
+layout_mode = 2
 stretch = true
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs"]
-offset_top = 151.0
-offset_right = 247.0
-offset_bottom = 593.0
+layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("5")
 
-[node name="LayerUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("10")]
-offset_left = 5.0
-offset_top = 36.0
-offset_right = -5.0
-offset_bottom = -5.0
+[node name="LayerCompositionUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("20_2333t")]
+layout_mode = 2
 
 [node name="GeoLayerUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("15")]
 visible = false
-offset_top = 31.0
+layout_mode = 2
 
 [node name="Scenarios" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("20")]
 visible = false
+layout_mode = 2
 
 [editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World"]

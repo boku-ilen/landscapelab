@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c80mmsavbpqyk"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.gd" id="1_lulqc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sdkt6"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lw7q4"]
+material = SubResource("StandardMaterial3D_sdkt6")
+size = Vector2(10000, 10000)
+orientation = 2
+
+[node name="GeoRasterLayerRenderer" type="Node2D"]
+script = ExtResource("1_lulqc")
+layer_resolution = 1000
+
+[node name="TexturePlane" type="MeshInstance2D" parent="."]
+scale = Vector2(1, -1)
+mesh = SubResource("PlaneMesh_lw7q4")

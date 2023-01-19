@@ -1,37 +1,39 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://cjefdo8nt3k1g"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/RasterVegetation/VegetationParticles.gd" id="1"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/Plant.gdshader" id="2"]
+[ext_resource type="Texture2D" uid="uid://vyds71cf5rrv" path="res://Resources/Textures/ShaderUtil/noise_normal.png" id="2_om2x1"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/VegetationLayer.gdshader" id="3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oyqth"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2")
+shader_parameter/sprite_size = 2048
 shader_parameter/amplitude = 0.1
-shader_parameter/billboard_enabled = false
+shader_parameter/speed = Vector2(2, 1.5)
+shader_parameter/scale = Vector2(0.1, 0.2)
+shader_parameter/heightmap_size = Vector2(300, 300)
+shader_parameter/offset = null
+shader_parameter/max_distance = null
 shader_parameter/camera_facing = null
+shader_parameter/billboard_enabled = false
 shader_parameter/fake_shadow_height = 1.2
 shader_parameter/fake_shadow_min_multiplier = 0.25
-shader_parameter/heightmap_size = Vector2(300, 300)
-shader_parameter/max_distance = null
-shader_parameter/offset = null
-shader_parameter/scale = Vector2(0.1, 0.2)
-shader_parameter/speed = Vector2(2, 1.5)
-shader_parameter/sprite_size = 2048
+shader_parameter/normal_map = ExtResource("2_om2x1")
 
 [sub_resource type="ShaderMaterial" id="2"]
 resource_local_to_scene = true
 shader = ExtResource("3")
-shader_parameter/amplitude = null
-shader_parameter/dist_scale = null
-shader_parameter/heightmap_size = null
-shader_parameter/id_to_row = null
-shader_parameter/offset = null
-shader_parameter/row_spacing = null
 shader_parameter/rows = null
 shader_parameter/spacing = null
 shader_parameter/splatmap_size_meters = null
+shader_parameter/dist_scale = null
+shader_parameter/id_to_row = null
+shader_parameter/amplitude = null
+shader_parameter/heightmap_size = null
+shader_parameter/row_spacing = null
+shader_parameter/uv_offset = null
 
 [node name="VegetationParticles" type="GPUParticles3D"]
 layers = 2
@@ -39,6 +41,9 @@ material_override = SubResource("ShaderMaterial_oyqth")
 cast_shadow = 0
 amount = 1
 explosiveness = 1.0
+fixed_fps = 0
+interpolate = false
+fract_delta = false
 visibility_aabb = AABB(-150, -150, -150, 300, 300, 300)
 process_material = SubResource("2")
 script = ExtResource("1")

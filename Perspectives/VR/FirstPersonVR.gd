@@ -6,7 +6,7 @@ func _ready():
 	var interface = XRServer.find_interface("OpenVR")
 	if interface and interface.initialize():
 		# Make sure vsync is disabled or we'll be limited to 60fps
-		OS.vsync_enabled = false
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
 		# Up our physics to 90fps to get in sync with our rendering
 		# TODO: Is this needed?
@@ -17,7 +17,7 @@ func _process(delta):
 	# Place checked ground
 	var space_state = get_world_3d().direct_space_state
 	var result = space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
-				Vector3(0, 5000, 0), Vector3(0, -5000, 0), 4294967295, [self]))
+				Vector3(0, 5000, 0), Vector3(0, -5000, 0), 4294967295, [get_rid()]))
 	
 	if result:
 		transform.origin.y = result.position.y

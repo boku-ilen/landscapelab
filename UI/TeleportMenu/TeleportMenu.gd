@@ -16,7 +16,7 @@ extends HBoxContainer
 
 var pos_manager: PositionManager
 var pc_player: AbstractPlayer
-var current_poi_layer: Layer
+var current_poi_layer: LayerComposition
 
 const LOG_MODULE := "UI"
 
@@ -31,12 +31,14 @@ func _ready():
 	arrow_up.connect("pressed",Callable(self,"_on_arrow_up"))
 	arrow_down.connect("pressed",Callable(self,"_on_arrow_down"))
 	
-	var object_layers = Layers.get_layers_of_type(Layer.RenderType.OBJECT)
+	var object_layers = Layers.get_layers_with_render_info(LayerComposition.ObjectRenderInfo)
+	
 	for layer in object_layers:
 		_add_object_layer(layer)
 	
 	Layers.connect("new_layer",Callable(self,"_add_object_layer"))
-	Layers.connect("removed_rendered_layer",Callable(self,"_remove_object_layer"))
+	Layers.connect("removed_rendered_layer_composition",
+		Callable(self,"_remove_object_layer_composition"))
 
 
 func _teleport_current_values():
@@ -55,16 +57,16 @@ func teleport_to_coordinates(xyz: Vector3, geo_coords=true):
 		pass
 
 
-func _add_object_layer(layer: Layer):
-	if layer.render_type == Layer.RenderType.OBJECT:
-		$VBoxContainer/OptionButton.add_item(layer.name)
+func _add_object_layer(layerc: LayerComposition):
+	if layerc.render_info is LayerComposition.ObjectRenderInfo:
+		$VBoxContainer/OptionButton.add_item(layerc.name)
 
 
-func _remove_object_layer(lname: String, render_type):
-	if render_type == Layer.RenderType.OBJECT:
+func _remove_object_layer_composition(lcname: String, render_info):
+	if render_info is LayerComposition.ObjectRenderInfo:
 		# Items in option buttons are so weird... Every fifth entry is the 
 		# name of another item
-		var index = $VBoxContainer/OptionButton.items.find(lname) / 5
+		var index = $VBoxContainer/OptionButton.items.find(lcname) / 5
 		$VBoxContainer/OptionButton.remove_item(index)
 
 

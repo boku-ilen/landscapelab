@@ -22,14 +22,15 @@ var fade_textures = {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 4.5 :
+var plant_extent_factor = 3.0 :
 	get:
 		return plant_extent_factor
 	set(extent):
 		plant_extent_factor = extent
 		emit_signal("new_plant_extent_factor", extent)
 
-var max_extent = 0.0
+# FIXME: Sensible value
+var max_extent = 1000.0
 signal new_plant_extent_factor(extent)
 
 signal new_data
@@ -251,8 +252,7 @@ func get_id_row_array(ids):
 # A scale of 0 means that there is no texture of this type.
 # Note that each value needs to be scaled before use, since the texture only allows relative values in the 0..1 range.
 func get_metadata_map(ids):
-	var metadata = Image.new()
-	metadata.create(256, 1, false, Image.FORMAT_RGB8)
+	var metadata = Image.create(256, 1, false, Image.FORMAT_RGB8)
 	
 	# .fill doesn't work here - if that is used, the set_pixel calls later have no effect...
 	for i in range(0, 256):
@@ -307,13 +307,18 @@ func _image_array_to_texture_array(images):
 	return texture_array
 
 
+var distribution_cache = {}
+
+
 # Returns a newly generated distribution map for the plants in the given group.
 # This map is a 16x16 image whose R values correspond to the IDs of the plants; the G values are
 #  the size scaling factors (between 0 and 1 relative to the given max_size) for each particular
 #  plant instance, taking into account its min and max size.
 func generate_distribution(group: PlantGroup, max_size: float):
-	var distribution = Image.new()
-	distribution.create(distribution_size, distribution_size,
+	if group.id in distribution_cache:
+		return distribution_cache[group.id]
+	
+	var distribution = Image.create(distribution_size, distribution_size,
 			false, Image.FORMAT_RG8)
 	
 	var dice = RandomNumberGenerator.new()
@@ -347,6 +352,8 @@ func generate_distribution(group: PlantGroup, max_size: float):
 			
 			distribution.set_pixel(x, y, Color(highest_roll_id / 255.0, scale_factor, 0.0, 0.0))
 	
+	distribution_cache[group.id] = distribution
+	
 	return distribution
 
 
@@ -360,6 +367,7 @@ func get_renderers() -> Node3D:
 		var renderer = load("res://Layers/Renderers/RasterVegetation/VegetationParticles.tscn").instantiate()
 		
 		renderer.density_class = density_class
+		renderer.name = density_class.name
 		
 		root.add_child(renderer)
 	

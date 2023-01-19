@@ -29,6 +29,7 @@ var landuse_layer: GeoRasterLayer
 var surface_height_layer: GeoRasterLayer
 
 var current_heightmap
+var current_heightmap_shape
 var current_normalmap
 var current_texture
 var current_landuse
@@ -82,7 +83,8 @@ func build(center_x, center_y):
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
-		current_normalmap = current_height_image.get_normalmap_texture_for_heightmap(35.0 / size)
+		current_normalmap = current_height_image.get_normalmap_texture_for_heightmap(10.0)
+		current_heightmap_shape = current_height_image.get_shape_for_heightmap()
 	
 	# Texture2D
 	if texture_layer:
@@ -150,23 +152,7 @@ func apply_textures():
 		material_override.set_shader_parameter("heightmap", current_heightmap)
 		material_override.set_shader_parameter("normalmap", current_normalmap)
 		
-		# Create a float array for the heightmap collider to use as a heightmap
-		var heightmap_image = current_heightmap.get_image()
-		heightmap_image.convert(Image.FORMAT_RF)
-		$HeightmapCollider/CollisionShape3D.shape = HeightMapShape3D.new()
-		$HeightmapCollider/CollisionShape3D.shape.map_width = heightmap_image.get_width()
-		$HeightmapCollider/CollisionShape3D.shape.map_depth = heightmap_image.get_height()
-
-		# Assign the heights using the image's raw data.
-		# Because the format matches, this is straightforward
-		var float_array = PackedFloat32Array()
-		float_array.resize(heightmap_image.get_width() * heightmap_image.get_height())
-		var i = 0
-		for y in heightmap_image.get_height():
-			for x in heightmap_image.get_width():
-				float_array[i] = heightmap_image.get_pixel(x, y).r
-				i += 1
-		$HeightmapCollider/CollisionShape3D.shape.map_data = float_array
+		$HeightmapCollider/CollisionShape3D.shape = current_heightmap_shape
 		
 		for child in get_children():
 			if child is ExtraLOD:

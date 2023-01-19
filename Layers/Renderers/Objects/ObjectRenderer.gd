@@ -1,6 +1,6 @@
 extends LayerCompositionRenderer
 
-var radius = 10000
+var radius = 3000.0
 var max_features = 2000
 
 var features
@@ -21,9 +21,26 @@ func set_time_manager():
 			child.set("time_manager", time_manager)
 
 
-func load_new_data():
+func is_new_loading_required(position_diff: Vector3) -> bool:
+	if Vector2(position_diff.x, position_diff.z).length_squared() >= pow(radius / 4.0, 2):
+		return true
+	
+	return false
+
+
+func full_load():
 	is_loading = true
-	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(center[0], center[1], radius, max_features)
+	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(float(center[0]), float(center[1]), radius, max_features)
+
+
+func adapt_load(diff: Vector3):
+	# Essentially the same as full_load since that is already optimized
+	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
+			float(center[0]) + position_manager.center_node.position.x,
+			float(center[1]) - position_manager.center_node.position.z,
+			radius, max_features
+	)
+	call_deferred("apply_new_data")
 
 
 func apply_new_data():
@@ -58,6 +75,8 @@ func apply_new_data():
 	
 	feature_add_queue.clear()
 	feature_remove_queue.clear()
+	
+	logger.info("Applied new ObjectRenderer data for %s" % [name], LOG_MODULE)
 
 
 func apply_new_feature(feature):
@@ -112,6 +131,7 @@ func update_instance_position(feature, obj_instance: Node3D):
 
 
 func _ready():
+	super._ready()
 	layer_composition.render_info.geo_feature_layer.connect("feature_added",Callable(self,"_on_feature_added").bind())
 	layer_composition.render_info.geo_feature_layer.connect("feature_removed",Callable(self,"_on_feature_removed").bind())
 

@@ -54,8 +54,7 @@ static func create_spritesheet(
 	
 	# Create the image which will be filled with data, large enough to hold all
 	#  rows and columns.
-	var sheet = Image.new()
-	sheet.create(sprite_size.x * num_cols,
+	var sheet = Image.create(sprite_size.x * num_cols,
 			sprite_size.y * num_rows,
 			false, format)
 	
@@ -143,8 +142,7 @@ static func create_layered_spritesheet(
 	for layer_data in images:
 		var number_of_images_in_layer = layer_data.size()
 		
-		var layer = Image.new()
-		layer.create(sprite_size.x, sprite_size.y * number_of_images_in_layer, false, format)
+		var layer = Image.create(sprite_size.x, sprite_size.y * number_of_images_in_layer, false, format)
 		
 		# The current position checked the sheet
 		var current_offset = Vector2(0, 0)

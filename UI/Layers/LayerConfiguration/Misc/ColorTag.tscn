@@ -1,26 +1,22 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://ce363ya7o8glf"]
 
-[ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ColorTag.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/ColorTag.gd" id="1"]
 
 [node name="ColorTagMenu" type="HBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.0
 offset_bottom = -524.0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_top = 262.0
-offset_right = 30.0
-offset_bottom = 292.0
-minimum_size = Vector2( 30, 30 )
-size_flags_horizontal = 4
-size_flags_vertical = 4
+custom_minimum_size = Vector2i(40, 40)
+offset_right = 40.0
+offset_bottom = 123.0
+size_flags_horizontal = 0
 
 [node name="VSeparator" type="VSeparator" parent="."]
-offset_left = 38.0
-offset_right = 46.0
-offset_bottom = 555.0
+offset_left = 44.0
+offset_right = 48.0
+offset_bottom = 123.0

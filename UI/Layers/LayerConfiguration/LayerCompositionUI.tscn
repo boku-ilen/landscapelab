@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://1sw3qnm7im8a"]
+
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.gd" id="1_h6fpr"]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerCompositionUIConfig.gd" id="2_5bpvu"]
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="3_crf05"]
+[ext_resource type="Texture2D" uid="uid://cs4tv7bap36pw" path="res://Resources/Icons/ModernLandscapeLab/new_file.svg" id="4_yh728"]
+[ext_resource type="Texture2D" uid="uid://bm7bb3ha1w18o" path="res://Resources/Icons/ModernLandscapeLab/delete_file.svg" id="5_7o63i"]
+[ext_resource type="Texture2D" uid="uid://cwjdfqe2rp1ji" path="res://Resources/Icons/ModernLandscapeLab/filter.svg" id="6_yg0yl"]
+
+[node name="LayerCompositionUI" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h6fpr")
+
+[node name="LayerCompositionUIConfig" type="Node" parent="."]
+script = ExtResource("2_5bpvu")
+category = "LayerUI"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScrollLayers" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LayerContainer" type="VBoxContainer" parent="VBoxContainer/ScrollLayers"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Menu" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="NewLayer" parent="VBoxContainer/Menu" instance=ExtResource("3_crf05")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+icon = ExtResource("4_yh728")
+texture_name = "new_file"
+
+[node name="DeleteLayer" parent="VBoxContainer/Menu" instance=ExtResource("3_crf05")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+icon = ExtResource("5_7o63i")
+texture_name = "delete_file"
+
+[node name="Filter" parent="VBoxContainer/Menu" instance=ExtResource("3_crf05")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+icon = ExtResource("6_yg0yl")
+texture_name = "filter"
+
+[node name="FilterOptions" type="PopupMenu" parent="VBoxContainer/Menu/Filter"]
