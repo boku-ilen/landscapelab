@@ -1,5 +1,4 @@
 extends GPUParticles3D
-@tool
 
 
 @export var spacing: float :

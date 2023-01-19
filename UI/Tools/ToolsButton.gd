@@ -1,5 +1,5 @@
-extends AutoIconButton
 @tool
+extends AutoIconButton
 
 
 #

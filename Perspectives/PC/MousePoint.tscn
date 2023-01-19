@@ -28,15 +28,8 @@ offset_bottom = 40.0
 
 [node name="DistanceLabel" type="Label" parent="CursorInfoDialog/Distance"]
 layout_mode = 2
-offset_top = 3.0
-offset_right = 79.0
-offset_bottom = 37.0
 text = "Distance: "
 
 [node name="DistanceValue" type="Label" parent="CursorInfoDialog/Distance"]
 layout_mode = 2
-offset_left = 83.0
-offset_top = 3.0
-offset_right = 99.0
-offset_bottom = 37.0
 text = "?"
