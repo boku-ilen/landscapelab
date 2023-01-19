@@ -1,21 +1,39 @@
-[gd_scene load_steps=8 format=3 uid="uid://cejf5c8oyb02b"]
+[gd_scene load_steps=12 format=3 uid="uid://cejf5c8oyb02b"]
 
 [ext_resource type="Script" path="res://World/Environment/WorldEnvironment.gd" id="1"]
+[ext_resource type="Shader" path="res://addons/clouds/clouds.gdshader" id="1_p31xn"]
+[ext_resource type="Texture2D" uid="uid://dfkye0uf4i6w1" path="res://addons/clouds/weather.bmp" id="2_ltw8f"]
+[ext_resource type="CompressedTexture3D" uid="uid://dbfbysid168mx" path="res://addons/clouds/perlworlnoise.tga" id="2_xrwak"]
+[ext_resource type="CompressedTexture3D" uid="uid://c4dp6g6gouj2b" path="res://addons/clouds/worlnoise.bmp" id="3_dh22h"]
 [ext_resource type="PackedScene" path="res://Python/PythonWrapper.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://World/Environment/RainParticles.tscn" id="8"]
 [ext_resource type="PackedScene" path="res://World/Environment/RainSplashes.tscn" id="9"]
 
-[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_ylech"]
-rayleigh_color = Color(0.24, 0.366, 0.6, 1)
-mie_color = Color(0.6075, 0.671625, 0.81, 1)
-ground_color = Color(1, 1, 1, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ywyjs"]
+shader = ExtResource("1_p31xn")
+shader_parameter/_density = 0.05
+shader_parameter/cloud_coverage = 0.25
+shader_parameter/_time_scale = 1.0
+shader_parameter/_time_offset = 0.0
+shader_parameter/rayleigh = 2.0
+shader_parameter/rayleigh_color = Color(0.26, 0.41, 0.58, 1)
+shader_parameter/mie = 0.005
+shader_parameter/mie_eccentricity = 0.8
+shader_parameter/mie_color = Color(0.63, 0.77, 0.92, 1)
+shader_parameter/turbidity = 10.0
+shader_parameter/sun_disk_scale = 1.0
+shader_parameter/ground_color = Color(1, 1, 1, 1)
+shader_parameter/exposure = 0.1
+shader_parameter/worlnoise = ExtResource("3_dh22h")
+shader_parameter/perlworlnoise = ExtResource("2_xrwak")
+shader_parameter/weathermap = ExtResource("2_ltw8f")
 
 [sub_resource type="Sky" id="Sky_gjwmw"]
-sky_material = SubResource("PhysicalSkyMaterial_ylech")
+sky_material = SubResource("ShaderMaterial_ywyjs")
 
 [sub_resource type="Environment" id="2"]
 background_mode = 2
-background_energy_multiplier = 4.0
+background_energy_multiplier = 2.0
 sky = SubResource("Sky_gjwmw")
 ambient_light_source = 3
 ambient_light_sky_contribution = 0.35
@@ -41,7 +59,6 @@ script = ExtResource("1")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.0647573, 0.811453, 0.58082, 0.161121, -0.582907, 0.796404, 0.984808, 0.0420095, -0.16849, 0, 0, 0)
 layers = 15
-light_energy = 1.5
 shadow_enabled = true
 shadow_bias = 0.7
 directional_shadow_blend_splits = true
