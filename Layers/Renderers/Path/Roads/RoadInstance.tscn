@@ -27,7 +27,7 @@ curve = SubResource("Curve3D_7t15y")
 script = ExtResource("1_cfnoq")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
-polygon = PackedVector2Array(-0.5, 0.2, 0.5, 0.2, 0.5, 0, -0.5, 0)
+polygon = PackedVector2Array(-1.7504, 0.232739, 2.09945, 0.236314, 2.04761, -0.0117654, -1.79737, -0.0474159)
 mode = 2
 path_node = NodePath("..")
 path_interval_type = 0

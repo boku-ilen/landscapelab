@@ -1,7 +1,6 @@
 shader_type spatial;
 
-uniform sampler2D asphalt;
-uniform sampler2D asphalt_normal;
+uniform sampler2D asphalt: source_color;
 
 const float outer_line_width = 0.03;
 const float outer_line_offset = 0.05;
@@ -21,6 +20,8 @@ uniform float lane_widths[20];
 uniform bool left_bike_on_road = false;
 uniform bool right_bike_on_road = false;
 
+varying vec3 worldpos;
+
 
 float map_to_range(float value, float old_from, float old_to, float new_from, float new_to){
 	return new_from + ((new_to - new_from) / (old_to - old_from)) * (value - old_from);
@@ -35,22 +36,22 @@ vec3 road_lane(vec2 uv, vec3 color) {
 	if (inside_line(uv.y, outer_line_width, outer_line_offset)){
 		if (left_bike_on_road){
 			if (mod(uv.x, outer_line_frequency) < outer_line_length){
-				color = vec3(1.0);
+				color *= 8.0;
 			}
 		}
 		else {
-			color = vec3(1.0);
+			color *= 8.0;
 		}
 	}
 	// Right outer line
 	if (inside_line(uv.y, outer_line_width, 1.0 - outer_line_offset)){
 		if (right_bike_on_road){
 			if (mod(uv.x, outer_line_frequency) < outer_line_length){
-				color = vec3(1.0);
+				color *= 8.0;
 			}
 		}
 		else {
-			color = vec3(1.0);
+			color *= 8.0;
 		}
 	}
 	
@@ -65,7 +66,7 @@ vec3 road_lane(vec2 uv, vec3 color) {
 		uv.y *= inner_lines;
 		if (inside_line(fract(uv.y), inner_line_width * inner_lines, 0.5)) {
 			if (mod(uv.x, inner_line_frequency) < inner_line_length){
-				color = vec3(1.0);
+				color *= 8.0;
 			}
 		}
 	}
@@ -97,9 +98,13 @@ vec3 bike_on_road(vec2 uv, float width, vec3 color, int lane){
 	return color;
 }
 
+void vertex()
+{
+	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz * 0.35;
+}
+
 void fragment() {
-	vec2 texture_pos = vec2(UV.x / 5.0, UV.y) * 5.0;
-	vec3 color = texture(asphalt, texture_pos).xyz * 0.6;
+	vec3 color = texture(asphalt, worldpos.xz).rgb;
 	
 	for(int i = 0; i < number_of_lanes; i++){
 		vec2 uv = UV * (float(number_of_lanes) * 2.0 + 6.0) - float(i);
@@ -136,5 +141,6 @@ void fragment() {
 		
 	}
 	
-	ALBEDO = color;
+	ALBEDO = min(color, vec3(1.0,1.0, 1.0));
 }
+
