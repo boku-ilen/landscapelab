@@ -4,6 +4,8 @@ extends LayerCompositionRenderer
 var renderers
 var offset = Vector3.ZERO
 
+var needs_to_refine = false
+
 
 var weather_manager: WeatherManager :
 	get:
@@ -57,9 +59,13 @@ func adapt_load(position_diff: Vector3):
 				world_position[0], world_position[1], uv_offset_x, uv_offset_y)
 
 	call_deferred("apply_new_data")
+	
+	needs_to_refine = true
 
 
 func refine_load():
+	if not needs_to_refine: return
+	
 	# FIXME: Optimize, currently does the same as adapt_load, just with full_update
 	
 	# Clamp to steps of 10 in order to maintain the land-use grid
@@ -77,6 +83,8 @@ func refine_load():
 				world_position[0], world_position[1], uv_offset_x, uv_offset_y)
 	
 	call_deferred("apply_new_data")
+	
+	needs_to_refine = false
 
 
 func _process(delta):
@@ -105,6 +113,8 @@ func apply_new_data():
 	for renderer in renderers.get_children():
 		renderer.position = offset
 		renderer.apply_data()
+	
+	logger.info("Applied new RasterVegetationRenderer data for %s" % [name], LOG_MODULE)
 
 
 func get_debug_info() -> String:

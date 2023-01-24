@@ -3,7 +3,7 @@ class_name logger
 
 
 static func categorized(message: String, category: String):
-	return "[%s]: '%s'" % [message, category]
+	return "%s - [%s]: '%s'" % [Time.get_time_string_from_system(), category, message]
 
 
 static func debug(message: String, category: String):

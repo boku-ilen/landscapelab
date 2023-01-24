@@ -1,33 +1,131 @@
 extends Configurator
 
-
 var geopackage
 var external_layers = preload("res://Layers/ExternalLayerComposition.gd").new()
+var has_loaded = false
 
 const LOG_MODULE := "LAYERCONFIGURATION"
 
-signal geodata_invalid
+signal configuration_invalid
 signal loading_finished
 
 
 func _ready():
 	category = "geodata"
-	load_gpkg(get_setting("gpkg-path"))
-	loading_finished.emit()
 
 
-# Gets called from main_ui
-func check_default():
-	category = "geodata"
-	if(not validate_gpkg(get_setting("gpkg-path"))):
-		emit_signal("geodata_invalid")
-
-
-func load_gpkg(geopackage_path: String):
-	if(validate_gpkg(geopackage_path)):
-		digest_gpkg(geopackage_path)
+func setup():
+	var path = get_setting("config-path")
+	
+	if path == null:
+		configuration_invalid.emit()
 	else:
-		emit_signal("geodata_invalid")
+		load_ll_json(path)
+
+
+func load_ll_json(path: String):
+	logger.info("Loading LL project file from " + path + "...", category)
+	
+	var json_object := JSON.new()
+	
+	var file = FileAccess.open(path, FileAccess.READ)
+	
+	if file == null:
+		logger.error("Error opening LL project file at " + path, category)
+		configuration_invalid.emit()
+		return
+	
+	var error = json_object.parse(file.get_as_text())
+	
+	if error != OK:
+		logger.error("Error parsing LL project at " + path + ": "
+				+ json_object.get_error_message() + " at line "
+				+ str(json_object.get_error_line()), category)
+	
+	var ll_project = json_object.data
+	
+	var db_cache = {}
+	
+	# Load vegetation if in config
+	if ll_project.has("Vegetation"):
+		logger.info("Loading vegetation...", category)
+		Vegetation.load_data_from_csv(
+			path.get_base_dir().path_join(ll_project["Vegetation"]["Plants"]),
+			path.get_base_dir().path_join(ll_project["Vegetation"]["Groups"]),
+			path.get_base_dir().path_join(ll_project["Vegetation"]["Densities"]),
+			path.get_base_dir().path_join(ll_project["Vegetation"]["Textures"])
+		)
+		logger.info("Done loading vegetation!", category)
+	
+	for composition_name in ll_project["LayerCompositions"].keys():
+		logger.info("Loading layer composition " + composition_name + "...", category)
+		
+		var composition_data = ll_project["LayerCompositions"][composition_name]
+		var type = composition_data["type"]
+		
+		var layer_composition = LayerComposition.new()
+		
+		layer_composition.name = composition_name
+		layer_composition.render_info = layer_composition.RENDER_INFOS[type].new()
+		
+		if composition_data.has("raster_layers"):
+			for attribute_name in composition_data["raster_layers"].keys():
+				var full_path = composition_data["raster_layers"][attribute_name].split(":")
+				var file_name = path.get_base_dir().path_join(full_path[0])
+				var layer_name = full_path[1]
+				
+				if not file_name in db_cache:
+					db_cache[file_name] = Geodot.get_dataset(file_name)
+				
+				var db = db_cache[file_name]
+				var layer = db.get_raster_layer(layer_name)
+				
+				Layers.geo_layers["rasters"][layer_name] = layer
+				
+				layer_composition.render_info.set(attribute_name, layer)
+		
+		if composition_data.has("feature_layers"):
+			for attribute_name in composition_data["feature_layers"].keys():
+				var full_path = composition_data["feature_layers"][attribute_name].split(":")
+				var file_name = path.get_base_dir().path_join(full_path[0])
+				var layer_name = full_path[1]
+				
+				if not file_name in db_cache:
+					db_cache[file_name] = Geodot.get_dataset(file_name)
+				
+				var db = db_cache[file_name]
+				var layer = db.get_feature_layer(layer_name)
+				
+				Layers.geo_layers["features"][layer_name] = layer
+				
+				layer_composition.render_info.set(attribute_name, layer)
+		
+		if composition_data.has("attributes"):
+			for attribute_name in composition_data["attributes"].keys():
+				var value = composition_data["attributes"][attribute_name]
+				layer_composition.render_info.set(attribute_name, value)
+		
+		Layers.add_layer_composition(layer_composition)
+	
+	# Load scenarios if in config
+	if ll_project.has("Scenarios"):
+		logger.info("Loading scenarios...", category)
+		for scenario_name in ll_project["Scenarios"].keys():
+			var scenario = Scenario.new()
+			scenario.name = scenario_name
+			
+			for layer_name in ll_project["Scenarios"][scenario_name]["layers"]:
+				scenario.add_visible_layer_name(layer_name)
+			
+			Scenarios.add_scenario(scenario)
+		logger.info("Done loading scenarios!", category)
+	
+	Layers.recalculate_center()
+	has_loaded = true
+	loading_finished.emit()
+	
+	logger.info("Done loading layers!", category)
+
 	
 #	define_probing_game_mode(
 #		623950,
@@ -274,455 +372,3 @@ func define_pa3c3_game_mode(
 	game_mode.add_score(power_score_households)
 	
 	GameSystem.current_game_mode = game_mode
-
-
-func validate_gpkg(geopackage_path: String):
-	if geopackage_path.is_empty():
-		logger.error("User Geopackage path not set! Please set it in user://configuration.ini", LOG_MODULE)
-		return false
-	
-	if not FileAccess.file_exists(geopackage_path):
-		logger.error(
-			"Path3D to geodataset \"%s\" does not exist, could not load any data!" % [geopackage_path],
-			LOG_MODULE
-		)
-		return false
-	
-	geopackage = Geodot.get_dataset(geopackage_path)
-	if !geopackage.is_valid():
-		logger.error("Geodataset is not valid, could not load any data!", LOG_MODULE)
-		return false
-	
-	return true
-
-
-# Digests the information provided by the geopackage
-func digest_gpkg(geopackage_path: String):
-	geopackage = Geodot.get_dataset(geopackage_path)
-	
-	var logstring = "\n"
-	
-	var features = geopackage.get_feature_layers()
-	logstring += "Vector layers in GeoPackage:\n"
-	
-	for feature in features:
-		logstring += "- " + feature.resource_name + "\n"
-	
-	var rasters = geopackage.get_raster_layers()
-	logstring += "Raster layers in GeoPackage:\n"
-	
-	for raster in rasters:
-		logstring += "- " + raster.resource_name + "\n"
-	
-	logstring += "\n"
-	
-	logger.info(logstring, LOG_MODULE)
-
-	logger.info("Opening geopackage as DB ...", LOG_MODULE)
-	var db = SQLite.new()
-	db.path = geopackage_path
-	# FIXME: What's the new one? db.verbose_mode = OS.is_debug_build()
-	db.open_db()
-	
-	# Load vegetation tables outside of the GPKG
-	logger.info("Loading Vegetation tables from GPKG ...", LOG_MODULE)
-	Vegetation.load_data_from_gpkg(db)
-	
-	# Load configuration for each layer as specified in GPKG
-	logger.info("Starting to load layers ...", LOG_MODULE)
-	# Duplication is necessary (SQLite plugin otherwise overwrites with the next query
-	var layer_configs: Array = db.select_rows("LL_layer_configuration", "", ["*"]).duplicate()
-	
-	if layer_configs.is_empty():
-		logger.error("No layer configuration found in the geopackage.", LOG_MODULE)
-	
-	# Load all geo_layers necessary for the configuration
-	get_geolayers(db, geopackage)
-	
-	for layer_config in layer_configs:
-		var layer_composition: LayerComposition
-		
-		var geo_layers_config = geo_layers_config_for_LL_layer(db, layer_config.id)
-		
-		# Call the corresponding function using the render-type as string
-		layer_composition = call(
-			# e.g. load_realistic_terrain_layer(db, layer_config, geo_layers_config)
-			"load_%s_layer_composition" % LayerComposition.RenderType.keys()[layer_config.render_type].to_lower(),
-			db, layer_config, geo_layers_config
-		)
-		
-		if layer_composition:
-			logger.info(
-				"Added %s-layer-composition: %s" % [LayerComposition.RenderType.keys()[layer_composition.render_type], layer_composition.name],
-				LOG_MODULE
-			)
-			Layers.add_layer_composition(layer_composition)
-	
-	# Loading Scenarios
-	logger.info("Starting to load scenarios ...", LOG_MODULE)
-	var scenario_configs: Array = db.select_rows("LL_scenarios", "", ["*"]).duplicate()
-	for scenario_config in scenario_configs:
-		var scenario = Scenario.new()
-		scenario.name = scenario_config.name
-		
-		var layer_ids = db.select_rows(
-			"LL_layer_to_scenario", 
-			"scenario_id = %d" % [scenario_config.id], 
-			["layer_id"] 
-		).duplicate()
-		
-		for id in layer_ids:
-			var entry = db.select_rows(
-				"LL_layer_configuration", 
-				"id = %d" % [id.layer_id], 
-				["name"] 
-			).duplicate()
-			
-			if entry.is_empty():
-				logger.error(
-					"Tried to find a non-existing layer with id %d for scenario %s" 
-					% [id.layer_id, scenario.name],
-					LOG_MODULE
-				)
-				continue
-			
-			var layer_name = entry[0].name
-			scenario.add_visible_layer_name(layer_name)
-			#FIXME: Hotfix
-			scenario.add_visible_layer_name("map")
-		
-		Scenarios.add_scenario(scenario)
-	
-	db.close_db()
-	logger.info("Closing geopackage as DB ...", LOG_MODULE)
- 
-
-# Load all used geo-layers as defined by configuration
-func get_geolayers(db, gpkg):
-	var raster_layers = gpkg.get_raster_layers()
-	var feature_layers = gpkg.get_feature_layers()
-	
-	# Load which external data sources concern which LL-layers
-	var externals_config = db.select_rows(
-		"LL_externalgeolayer_to_layer", "", ["*"]
-	).duplicate()
-	
-	for raster in raster_layers:
-		Layers.add_geo_layer(raster)
-	
-	for feature in feature_layers:
-		Layers.add_geo_layer(feature)
-	
-	for external_config in externals_config:
-		var layer = external_layers.external_to_geolayer_from_type(db, external_config)
-		var layer_name = external_config.geolayer_path.get_basename()
-		layer_name = layer_name.substr(layer_name.rfind("/") + 1)
-		#Layers.add_geo_layer(layer, layer is RasterLayerComposition)
-
-
-# Find the connections of the primitive geolayers to a a specific LL layer
-func geo_layers_config_for_LL_layer(db, LL_layer_id):
-	# Load necessary raster geolayers from gpkg for the current LL layer
-	var rasters_config = db.select_rows(
-		"LL_georasterlayer_to_layer", 
-		"layer_id = %d" % [LL_layer_id], 
-		["geolayer_name, geo_layer_type"] 
-	).duplicate()
-	
-	# Load necessary feature geolayers from gpkg for the current LL layer
-	var features_config = db.select_rows(
-		"LL_geofeaturelayer_to_layer", 
-		"layer_id = %d" % [LL_layer_id], 
-		["geolayer_name, ll_reference"] 
-	).duplicate()
-	
-	# Load external feature data sources for the current LL layer
-	var external_feature_config = db.select_rows(
-		"LL_external_geofeaturelayer_to_layer",
-		"layer_id = %d" % [LL_layer_id], 
-		["geolayer_path, ll_reference"]
-	).duplicate()
-	
-	# Load external raster data sources for the current LL layer
-	var external_raster_config = db.select_rows(
-		"LL_external_georasterlayer_to_layer",
-		"layer_id = %d" % [LL_layer_id], 
-		["geolayer_path, geo_layer_type"]
-	).duplicate()
-	
-	var externals_config = external_feature_config + external_raster_config
-	
-	# Convert paths in the external config to file-name without extension
-	for conf in externals_config:
-		var layer_name = conf.geolayer_path.get_basename()
-		layer_name = layer_name.substr(layer_name.rfind("/") + 1)
-		conf.erase("geolayer_path")
-		conf["geolayer_name"] = layer_name
-	
-	return { "rasters": rasters_config + external_raster_config,
-			"features": features_config + external_feature_config }
-
-
-# Get the corresponding geolayer for the LL layer by a given type
-# e.g. a basic-terrain consists of height and texture 
-# => find dhm (digital height model) by type HEIGHT_LAYER, find ortho by type TEXTURE:LAYER
-func get_georasterlayer_by_type(db, type: String, candidates: Array) -> GeoRasterLayer:
-	var result = db.select_rows(
-		"LL_geo_layer_type", 
-		"name = '%s'" % [type], 
-		["id"]
-	)
-	
-	if result.is_empty():
-		logger.error("Could not find layer-type %s" % [type], LOG_MODULE)
-		return null
-	
-	var id = result[0].id
-	
-	for layer in candidates: 
-		if layer and layer.geo_layer_type == id:
-			return Layers.geo_layers["rasters"][layer.geolayer_name].clone()
-	return null
-
-
-# Get the corresponding geolayer for the LL layer by a string
-# e.g. ll_reference in db = "objects" => filter after this keyword
-func get_geofeaturelayer_by_name(db, lname: String, candidates: Array) -> GeoFeatureLayer:
-	for layer in candidates: 
-		if layer.ll_reference == lname:
-			return Layers.geo_layers["features"][layer.geolayer_name]
-	return null
-
-
-func get_extension_by_key(db, key: String, layer_id) -> String:
-	var value = db.select_rows(
-		"LL_layer_configuration_extention", 
-		"key = '%s' and layer_id = %d" % [key, layer_id], 
-		["value"] 
-	)
-	
-	if value.is_empty():
-		logger.error("No extension with key %s." % [key], LOG_MODULE)
-		return ""
-	
-	return value[0].value
-
-
-func load_realistic_terrain_layer_composition(db, layer_config, geo_layers_config) -> LayerComposition:
-	var terrain_layer = LayerComposition.new()
-	terrain_layer.render_type = LayerComposition.RenderType.REALISTIC_TERRAIN
-	terrain_layer.render_info = LayerComposition.RealisticTerrainRenderInfo.new()
-	terrain_layer.render_info.height_layer = get_georasterlayer_by_type(
-		db, "HEIGHT_LAYER", geo_layers_config.rasters)
-	terrain_layer.render_info.texture_layer = get_georasterlayer_by_type(
-		db, "TEXTURE_LAYER", geo_layers_config.rasters)
-	terrain_layer.render_info.landuse_layer = get_georasterlayer_by_type(
-		db, "LANDUSE_LAYER", geo_layers_config.rasters)
-	terrain_layer.render_info.surface_height_layer = get_georasterlayer_by_type(
-		db, "SURFACE_HEIGHT_LAYER", geo_layers_config.rasters)
-	terrain_layer.render_info.road_edges = get_geofeaturelayer_by_name(
-		db, "road_edges", geo_layers_config.features)
-	terrain_layer.name = layer_config.name
-	
-	return terrain_layer
-
-
-func load_basic_terrain_layer_composition(db, layer_config, geo_layers_config) -> LayerComposition:
-	var terrain_layer = LayerComposition.new()
-	terrain_layer.render_type = LayerComposition.RenderType.BASIC_TERRAIN
-	terrain_layer.render_info = LayerComposition.BasicTerrainRenderInfo.new()
-	terrain_layer.render_info.height_layer = get_georasterlayer_by_type(
-		db, "HEIGHT_LAYER", geo_layers_config.rasters)
-	terrain_layer.render_info.texture_layer = get_georasterlayer_by_type(
-		db, "TEXTURE_LAYER", geo_layers_config.rasters)
-	terrain_layer.name = layer_config.name
-	
-	return terrain_layer
-
-
-func load_vegetation_layer_composition(db, layer_config, geo_layers_config) -> LayerComposition:
-	var vegetation_layer = LayerComposition.new()
-	vegetation_layer.render_type = LayerComposition.RenderType.NONE
-	vegetation_layer.render_info = LayerComposition.RenderInfo.new()
-	vegetation_layer.render_type = LayerComposition.RenderType.VEGETATION
-	vegetation_layer.render_info = LayerComposition.VegetationRenderInfo.new()
-	var render_ifno = vegetation_layer.render_info
-	vegetation_layer.render_info.height_layer = get_georasterlayer_by_type(
-		db, "HEIGHT_LAYER", geo_layers_config.rasters)
-	vegetation_layer.render_info.landuse_layer = get_georasterlayer_by_type(
-		db, "LANDUSE_LAYER", geo_layers_config.rasters)
-	vegetation_layer.name = layer_config.name
-	
-	return vegetation_layer
-
-
-func load_object_layer_composition(db, layer_config, geo_layers_config, extended_as = null) -> LayerComposition:
-	if get_extension_by_key(db, "extends_as", layer_config.id) == "WindTurbineRenderInfo":
-		# If it is extended as Winturbine we recursively call this function again
-		# without extension such that it creates the standard object-layer procedure
-		if extended_as == null:
-			return load_windmills(db, layer_config, geo_layers_config)
-
-	var object_layer = LayerComposition.new()
-	object_layer.render_type = LayerComposition.RenderType.OBJECT
-	
-	if not extended_as:
-		object_layer.render_info = LayerComposition.ObjectRenderInfo.new()
-	else:
-		object_layer.render_info = extended_as
-	
-	object_layer.render_info.geo_feature_layer = get_geofeaturelayer_by_name(
-		db, "objects", geo_layers_config.features)
-	var file_path_object_scene = get_extension_by_key(db, "object", layer_config.id)
-	var object_scene
-	if file_path_object_scene.ends_with(".tscn"):
-		object_scene = load(file_path_object_scene)
-	elif file_path_object_scene.ends_with(".obj"):
-		# Load the material and mesh
-		var material_path = file_path_object_scene.replace(".obj", ".mtl")
-		var mesh = BoxMesh.new() # FIXME: ObjParse.parse_obj(file_path_object_scene, material_path)
-		
-		# Put the resulting mesh into a node
-		var mesh_instance = MeshInstance3D.new()
-		mesh_instance.mesh = mesh
-		
-		# Pack the node into a scene
-		object_scene = PackedScene.new()
-		object_scene.pack(mesh_instance)
-	else:
-		logger.error("Not a valid format for object-layer!", LOG_MODULE)
-		return LayerComposition.new()
-		
-	object_layer.render_info.object = object_scene
-	object_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
-		db, "HEIGHT_LAYER", geo_layers_config.rasters)
-	# FIXME: should come from geopackage -> no hardcoding
-	object_layer.ui_info.name_attribute = "Name"
-	object_layer.name = layer_config.name
-	
-	
-	return object_layer
-
-
-func load_windmills(db, layer_config, geo_layers_config) -> LayerComposition:
-	var windmill_layer = load_object_layer_composition(
-		db, layer_config, geo_layers_config, LayerComposition.WindTurbineRenderInfo.new())
-	windmill_layer.render_info.height_attribute_name = get_extension_by_key(
-		db, "height_attribute_name", layer_config.id)
-	windmill_layer.render_info.diameter_attribute_name = get_extension_by_key(
-		db, "diameter_attribute_name", layer_config.id)
-	
-	return windmill_layer
-
-
-func load_polygon_layer_composition(db, layer_config, geo_layers_config, extended_as = null) -> LayerComposition:
-	if get_extension_by_key(db, "extends_as", layer_config.id) == "BuildingRenderInfo":
-		if extended_as == null:
-			return load_buildings(db, layer_config, geo_layers_config)
-	
-	var polygon_layer = LayerComposition.new()
-	polygon_layer.render_type = LayerComposition.RenderType.POLYGON
-	
-	if not extended_as:
-		polygon_layer.render_info = LayerComposition.PolygonRenderInfo.new()
-	else:
-		polygon_layer.render_info = extended_as
-	
-	polygon_layer.render_info.geo_feature_layer = get_geofeaturelayer_by_name(
-		db, "polygons", geo_layers_config.features)
-	polygon_layer.render_info.height_attribute_name = get_extension_by_key(
-		db, "height_attribute_name", layer_config.id)
-	polygon_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
-		db, "HEIGHT_LAYER", geo_layers_config.rasters)
-	polygon_layer.name = layer_config.name
-	
-	return polygon_layer
-
-
-func load_buildings(db, layer_config,geo_layers_config) -> LayerComposition:
-	var building_layer = load_polygon_layer_composition(db, layer_config, geo_layers_config, LayerComposition.BuildingRenderInfo.new())
-	building_layer.render_info.height_stdev_attribute_name  = get_extension_by_key(
-		db, "height_stdev_attribute_name", layer_config.id)
-	building_layer.render_info.slope_attribute_name  = get_extension_by_key(
-		db, "slope_attribute_name", layer_config.id)
-	building_layer.render_info.red_attribute_name = get_extension_by_key(
-		db, "red_attribute_name", layer_config.id)
-	building_layer.render_info.green_attribute_name = get_extension_by_key(
-		db, "green_attribute_name", layer_config.id)
-	building_layer.render_info.blue_attribute_name = get_extension_by_key(
-		db, "blue_attribute_name", layer_config.id)
-	
-	return building_layer
-
-
-#func load_path_layer_composition(db, layer_config, geo_layers_config) -> LayerComposition:
-#	var path_layer = LayerComposition.new()
-#
-#	path_layer.render_type = LayerComposition.RenderType.PATH
-#	path_layer.render_info = LayerComposition.PathRenderInfo.new()
-#	path_layer.render_info.geo_feature_layer = get_geofeaturelayer_by_name(
-#		db, "paths", geo_layers_config.features)
-#	path_layer.render_info.line_visualization = load(get_extension_by_key(
-#		db, "line_visualization", layer_config.id))
-#	path_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
-#		db, "HEIGHT_LAYER", geo_layers_config.rasters)
-#	path_layer.name = layer_config.name
-#
-#	return path_layer
-
-
-# Loads a JSON containing paths to Objects in this format:
-# {"object_name_1": "res://path/to/object1.tscn", "object_name_2": "path/to/object2.tscn"}
-func load_object_JSON(json_string: String) -> Dictionary:
-	var test_json_conv = JSON.new()
-	var error = test_json_conv.parse(json_string)
-	var json = test_json_conv.get_data()
-	var loaded_json = {}
-	
-	if error != OK:
-		logger.error(
-			"Could not parse JSON - try to validate your JSON entries in the package.",
-			LOG_MODULE
-		)
-		return loaded_json
-		
-	for entry in json:
-		loaded_json[entry] = load(json[entry])
-	
-	return loaded_json
-
-
-func load_connected_object_layer_composition(db, layer_config, geo_layers_config) -> LayerComposition:
-	var co_layer = LayerComposition.new()
-	co_layer.render_type = LayerComposition.RenderType.CONNECTED_OBJECT
-	co_layer.render_info = LayerComposition.ConnectedObjectInfo.new()
-	co_layer.render_info.geo_feature_layer = get_geofeaturelayer_by_name(
-		db, "objects", geo_layers_config.features)
-	co_layer.render_info.selector_attribute_name = get_extension_by_key(
-		db, "selector_attribute_name", layer_config.id)
-	# FIXME: There might be more appealing ways than storing a json as varchar in the db ...
-	# https://imgur.com/9ZJkPvV
-	co_layer.render_info.connectors = load_object_JSON(get_extension_by_key(
-		db, "connectors", layer_config.id))
-	co_layer.render_info.connections = load_object_JSON(get_extension_by_key(
-		db, "connections", layer_config.id))
-	co_layer.render_info.fallback_connector = load(get_extension_by_key(
-		db, "fallback_connector", layer_config.id))
-	co_layer.render_info.fallback_connection = load(get_extension_by_key(
-		db, "fallback_connection", layer_config.id))
-	co_layer.render_info.ground_height_layer = get_georasterlayer_by_type(
-		db, "HEIGHT_LAYER", geo_layers_config.rasters)
-	co_layer.name = layer_config.name
-	
-	return co_layer
-
-
-func load_twodimensional_layer_composition(db, layer_config, geo_layers_config) -> LayerComposition:
-	var layer_2d = LayerComposition.new()
-	layer_2d.render_type = LayerComposition.RenderType.TWODIMENSIONAL
-	layer_2d.render_info = LayerComposition.TwoDimensionalInfo.new()
-	layer_2d.render_info.texture_layer = get_georasterlayer_by_type(
-		db, "TEXTURE_LAYER", geo_layers_config.rasters)
-	layer_2d.name = layer_config.name
-	
-	return layer_2d

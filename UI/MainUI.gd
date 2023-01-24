@@ -26,7 +26,6 @@ func _ready():
 	
 	var layer_configurator = get_node(layer_configurator_path)
 	$MarginContainer/VBoxContainer/MenuBar.layer_configurator = layer_configurator
-	layer_configurator.check_default()
 	
 	pos_manager = get_node(pos_manager_path)
 	

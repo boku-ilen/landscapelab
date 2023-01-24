@@ -49,6 +49,10 @@ func get_look_direction():
 	return -$Head/Camera3D.global_transform.basis.z
 
 
+func get_cardinal_direction() -> Vector3:
+	return Vector3.UP.cross($Head/Camera3D.global_transform.basis.x)
+
+
 func _physics_process(delta):
 	fly(delta)
 	

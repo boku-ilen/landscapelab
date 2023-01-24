@@ -1,5 +1,5 @@
-extends "res://UI/Tools/ToolsButton.gd"
 @tool
+extends "res://UI/Tools/ToolsButton.gd"
 
 
 var pc_player: AbstractPlayer :

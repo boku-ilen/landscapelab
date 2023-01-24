@@ -38,6 +38,9 @@ func _ready():
 	layer_composition.connect("refresh_view",Callable(self,"refresh"))
 
 
+# Generic layer loading logic: if the loading thread is free, adapt the data to the current position
+# or refine the current data if the position has not changed much.
+# Do not override (remember to call call `super._process(delta)` if overloading)!
 func _process(delta):
 	if loading_thread.is_started() and not loading_thread.is_alive():
 		loading_thread.wait_to_finish()

@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bhicpel2rgc1f"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/ItemList.gd" id="1_3hdh6"]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayersList.gd" id="1_3hdh6"]
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayerUIConfig.gd" id="2"]
 
 [node name="GeoLayerUI" type="VBoxContainer"]

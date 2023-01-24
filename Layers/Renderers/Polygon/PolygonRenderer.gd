@@ -138,6 +138,11 @@ func create_building(feature, height_attribute_name):
 	# Build!
 	building.build()
 	
+	building.position.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
+			building.get_center().x + center[0],
+			-building.get_center().z + center[1]
+		) - cellar_height
+	
 	return building
 
 
@@ -151,9 +156,10 @@ func apply_new_data():
 			add_child(building_instances[building_id])
 	
 	building_instances.clear()
-	set_heights()
 	
 	_apply_daytime_change(is_daytime)
+	
+	logger.info("Applied new BuildingRenderer data for %s" % [name], LOG_MODULE)
 
 
 func _ready():

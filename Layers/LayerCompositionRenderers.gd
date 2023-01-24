@@ -68,10 +68,6 @@ func add_child(child: Node, force_readable_name: bool = false, internal: int = 0
 	
 	# Actually add the child node to the tree
 	super.add_child(child, force_readable_name, internal)
-	
-	# First full load is non-threaded
-	child.full_load()
-	child.apply_new_data()
 
 
 # Apply a new center position to all child nodes

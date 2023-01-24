@@ -1,5 +1,4 @@
 extends Node3D
-@tool
 
 #
 # Attach this scene to the MousePoint scene. It will give an indicator checked where the

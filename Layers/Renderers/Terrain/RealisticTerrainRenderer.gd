@@ -107,6 +107,8 @@ func get_nearest_chunk_below_resolution(query_position: Vector3, resolution: int
 
 var load_roads = false
 func refine_load():
+	var any_change_done = false
+	
 	# Downgrade chunks which are now too far away
 	for chunk in chunks:
 		if chunk.ortho_resolution >= detailed_ortho_resolution and \
@@ -120,6 +122,7 @@ func refine_load():
 			chunk.build(center[0] + chunk.position.x + chunk.position_diff_x,
 				center[1] - chunk.position.z - chunk.position_diff_z)
 			chunk.changed = true
+			any_change_done = true
 	
 	# Upgrade nearby chunks
 	var nearest_chunk = get_nearest_chunk_below_resolution(position_manager.center_node.position, detailed_ortho_resolution, detailed_load_distance)
@@ -136,12 +139,14 @@ func refine_load():
 		nearest_chunk.build(center[0] + nearest_chunk.position.x + nearest_chunk.position_diff_x,
 			center[1] - nearest_chunk.position.z - nearest_chunk.position_diff_z)
 		nearest_chunk.changed = true
+		any_change_done = true
 	elif load_roads:
 		load_roads = false
 		$PathRenderer.center = center
 		$PathRenderer.call_deferred("load_roads")
 	
-	call_deferred("apply_new_data")
+	if any_change_done:
+		call_deferred("apply_new_data")
 
 
 func apply_new_data():
@@ -151,6 +156,8 @@ func apply_new_data():
 			chunk.position.z += chunk.position_diff_z
 			
 			chunk.apply_textures()
+	
+	logger.info("Applied new RealisticTerrainRenderer data for %s" % [name], LOG_MODULE)
 
 
 func get_debug_info() -> String:

@@ -1,6 +1,6 @@
+@tool
 extends CenterContainer
 class_name StackedProgressBar
-@tool
 
 
 @export var bar_count := 1 :

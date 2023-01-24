@@ -42,6 +42,13 @@ func adapt_load(diff: Vector3):
 
 
 func refine_load():
+#	for connector in connector_instances.values():
+#		for i in range(1, connector.get_child_count()):
+#			_connect(
+#				connector.get_child(i),
+#				connector.get_child(i - 1),
+#				selector_attribute
+#			)
 	# TODO: call _connect(object, object_before, selector_attribute) for all objects
 	pass
 
@@ -67,6 +74,8 @@ func apply_new_data():
 	
 	connector_instances.clear()
 	connection_instances.clear()
+	
+	logger.info("Applied new ConnectedObjectRenderer data for %s" % [name], LOG_MODULE)
 
 
 func get_connected_objects(geo_line):
@@ -91,9 +100,9 @@ func get_connected_objects(geo_line):
 		var object: Node3D
 
 		if selector_attribute and selector_attribute in layer_composition.render_info.connectors:
-			object = layer_composition.render_info.connectors[selector_attribute].instantiate()
+			object = load(layer_composition.render_info.connectors[selector_attribute]).instantiate()
 		else:
-			object = layer_composition.render_info.fallback_connector.instantiate()
+			object = load(layer_composition.render_info.fallback_connector).instantiate()
 		
 		# Obtain the next point (required for the orientation of the current)
 		if index+1 < course.get_point_count():
@@ -126,7 +135,7 @@ func get_connected_objects(geo_line):
 			object.rotation.x = 0
 			object.rotation.z = 0
 			# TODO: Do in refine_load step
-			#_connect(object, object_before, selector_attribute)
+#			_connect(object, object_before, selector_attribute)
 			
 		# Vec3 cant be null so we check differently
 		# "if point_next:"
@@ -149,8 +158,8 @@ func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 		logger.warn("Connected Object %s defines no Docks and cannot be connected" % [object.name], LOG_MODULE)
 		return
 	
-	if object.position.distance_to(Vector3.ZERO) > connection_radius \
-		and object_before.position.distance_to(Vector3.ZERO) > connection_radius:
+	if object.position.distance_to(position_manager.center_node.position) > connection_radius \
+		and object_before.position.distance_to(position_manager.center_node.position) > connection_radius:
 			return
 	
 	if max_connections <= connection_instances.size():
@@ -165,10 +174,10 @@ func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 	for dock in dock_parent.get_children():
 		# Create a specified connection-object or use fallback
 		var connection: AbstractConnection
-		if not selector_attribute or not selector_attribute in layer_composition.render_info.connections:
-			connection = layer_composition.render_info.fallback_connection.instantiate()
+		if selector_attribute == null or not selector_attribute in layer_composition.render_info.connections:
+			connection = load(layer_composition.render_info.fallback_connection).instantiate()
 		else:
-			connection = layer_composition.render_info.connections[selector_attribute].instantiate()
+			connection = load(layer_composition.render_info.connections[selector_attribute]).instantiate()
 		
 		var dock_before: Node3D = object_before.get_node("Docks/" + String(dock.name))
 		

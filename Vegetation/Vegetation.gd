@@ -22,14 +22,15 @@ var fade_textures = {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 4.5 :
+var plant_extent_factor = 3.0 :
 	get:
 		return plant_extent_factor
 	set(extent):
 		plant_extent_factor = extent
 		emit_signal("new_plant_extent_factor", extent)
 
-var max_extent = 0.0
+# FIXME: Sensible value
+var max_extent = 1000.0
 signal new_plant_extent_factor(extent)
 
 signal new_data
@@ -366,6 +367,7 @@ func get_renderers() -> Node3D:
 		var renderer = load("res://Layers/Renderers/RasterVegetation/VegetationParticles.tscn").instantiate()
 		
 		renderer.density_class = density_class
+		renderer.name = density_class.name
 		
 		root.add_child(renderer)
 	
