@@ -36,22 +36,22 @@ vec3 road_lane(vec2 uv, vec3 color) {
 	if (inside_line(uv.y, outer_line_width, outer_line_offset)){
 		if (left_bike_on_road){
 			if (mod(uv.x, outer_line_frequency) < outer_line_length){
-				color *= 8.0;
+				color *= 5.0;
 			}
 		}
 		else {
-			color *= 8.0;
+			color *= 5.0;
 		}
 	}
 	// Right outer line
 	if (inside_line(uv.y, outer_line_width, 1.0 - outer_line_offset)){
 		if (right_bike_on_road){
 			if (mod(uv.x, outer_line_frequency) < outer_line_length){
-				color *= 8.0;
+				color *= 5.0;
 			}
 		}
 		else {
-			color *= 8.0;
+			color *= 5.0;
 		}
 	}
 	
@@ -66,7 +66,7 @@ vec3 road_lane(vec2 uv, vec3 color) {
 		uv.y *= inner_lines;
 		if (inside_line(fract(uv.y), inner_line_width * inner_lines, 0.5)) {
 			if (mod(uv.x, inner_line_frequency) < inner_line_length){
-				color *= 8.0;
+				color *= 5.0;
 			}
 		}
 	}
