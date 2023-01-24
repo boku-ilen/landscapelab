@@ -157,7 +157,7 @@ func _create_roads(road_features) -> void:
 				current_point_index += 1
 				
 		road_instance.curve = road_curve
-		
+		road_instance.name = str(road_instance.id)
 		roads[road_id] = road_instance
 
 
@@ -169,8 +169,9 @@ func _add_objects() -> void:
 	
 	# Add new roads
 	for road in roads.values():
-		$Roads.add_child(road)
-		road.set_polygon_from_lane_uses()
+		if not $Roads.has_node(str(road.id)):
+			$Roads.add_child(road)
+			road.set_polygon_from_lane_uses()
 
 
 # Returns the triangle surface point at the given point-position

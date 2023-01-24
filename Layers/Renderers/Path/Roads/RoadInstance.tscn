@@ -1,16 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://qhpkkh4rgi3x"]
+[gd_scene load_steps=6 format=3 uid="uid://qhpkkh4rgi3x"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/Path/Roads/RoadInstance.gd" id="1_cfnoq"]
 [ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/RoadShader.gdshader" id="2_6u08u"]
+[ext_resource type="Texture2D" uid="uid://um3tl0vdyor" path="res://Resources/Textures/Asphalt/Asphalt15_col.jpg" id="3_ip4r0"]
 
-[sub_resource type="Curve3D" id="Curve3D_xpgjx"]
+[sub_resource type="Curve3D" id="Curve3D_7t15y"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -0.993282, 2.00272e-05, -0.00945807, 0, 0, 0, 0, 0, 0, -1.01675, 0.000815868, -1.00841, 0, 0, 0, 0, 0, 0, -1.00107, 0.00160551, -2.00017, 0, 0, 0, 0, 0, 0, -0.99356, 0.00241375, -3.01522, 0, 0, 0, 0, 0, 0, -0.99349, 0.00320292, -4.00674, 0, 0, 0, 0, 0, 0, -1.0766, 0.00637054, -7.98608),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -0.993282, 2.00272e-05, -0.00945807, 0, 0, 0, 0, 0, 0, -1.01675, 0.000815868, -1.00841, 0, 0, 0, 0, 0, 0, -1.00107, 0.00160551, -2.00017, 0, 0, 0, 0, 0, 0, -0.99356, 0.00241375, -3.01522, 0, 0, 0, 0, 0, 0, -0.99349, 0.00320292, -4.00674, 0, 0, 0, 0, 0, 0, -0.902608, 0.00640869, -8.07219, 0, 0, 0, 0, 0, 0, -0.445591, 0.00677729, -8.7196, 0, 0, 0, 0.597746, 0.000146866, -0.121668, 0.212597, 0.00673509, -8.80953),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
 }
-point_count = 6
+point_count = 8
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_r7lb0"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k3msr"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_6u08u")
@@ -19,9 +20,10 @@ shader_parameter/lane_types = PackedInt32Array()
 shader_parameter/lane_widths = PackedFloat32Array()
 shader_parameter/left_bike_on_road = false
 shader_parameter/right_bike_on_road = false
+shader_parameter/asphalt = ExtResource("3_ip4r0")
 
 [node name="RoadInstance" type="Path3D"]
-curve = SubResource("Curve3D_xpgjx")
+curve = SubResource("Curve3D_7t15y")
 script = ExtResource("1_cfnoq")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
@@ -36,4 +38,4 @@ path_local = false
 path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
-material = SubResource("ShaderMaterial_r7lb0")
+material = SubResource("ShaderMaterial_k3msr")

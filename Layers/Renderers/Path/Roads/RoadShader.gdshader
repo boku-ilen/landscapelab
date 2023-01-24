@@ -1,5 +1,8 @@
 shader_type spatial;
 
+uniform sampler2D asphalt;
+uniform sampler2D asphalt_normal;
+
 const float outer_line_width = 0.03;
 const float outer_line_offset = 0.05;
 const float outer_line_length = 40.0;
@@ -95,7 +98,8 @@ vec3 bike_on_road(vec2 uv, float width, vec3 color, int lane){
 }
 
 void fragment() {
-	vec3 color = vec3(40.0 / 255.0);
+	vec2 texture_pos = vec2(UV.x / 5.0, UV.y) * 5.0;
+	vec3 color = texture(asphalt, texture_pos).xyz * 0.6;
 	
 	for(int i = 0; i < number_of_lanes; i++){
 		vec2 uv = UV * (float(number_of_lanes) * 2.0 + 6.0) - float(i);
