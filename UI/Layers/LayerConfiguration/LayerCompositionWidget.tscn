@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bgla5bw7tc34a" path="res://Resources/Icons/ModernLandscapeLab/rotate.svg" id="9"]
 [ext_resource type="Texture2D" uid="uid://c3kuxlnuadbrl" path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" id="10"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4koaj"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hw484"]
 
 [node name="LayerCompositionWidget" type="VBoxContainer"]
 offset_left = 343.0
@@ -50,7 +50,7 @@ custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-ignore_texture_size = true
+expand_mode = 1
 stretch_mode = 6
 
 [node name="NameSizeFix" type="Control" parent="VBox/RightContainer"]
@@ -113,7 +113,7 @@ custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 1
-theme_override_styles/focus = SubResource("StyleBoxEmpty_4koaj")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hw484")
 allow_reselect = true
 
 [node name="HSeparator" type="HSeparator" parent="."]
