@@ -130,7 +130,7 @@ void fragment() {
 		}
 		// Bike on Road
 		else if(lane_types[i] == 4){
-			color = bike_on_road(uv, lane_widths[i], color, i);
+			color *= bike_on_road(uv, lane_widths[i], color, i);
 		}
 		// Curbside
 		else if(lane_types[i] == 10){

@@ -31,7 +31,7 @@ const RENDER_INFOS := {
 	"Wind Turbine": WindTurbineRenderInfo,
 	"Polygon": PolygonObjectInfo,
 	"Building": BuildingRenderInfo,
-	"Path": PathRenderInfo,
+	#"Path": PathRenderInfo,
 	"Connected Object": ConnectedObjectInfo,
 	"Polygon Object": PolygonObjectInfo
 }

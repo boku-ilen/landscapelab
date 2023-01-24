@@ -31,8 +31,8 @@ const lane_type_to_name: Dictionary = {
 	0: 		"Car Lane",
 	1: 		"Bike Lane",
 	2: 		"Pedestrian Lane",
-	3: 		"Multi-purpose Lane",
-	4: 		"Parking Lane",
+	3: 		"Parking Lane",
+	4: 		"Multi-purpose Lane",
 	10: 	"Curbside"
 }
 
