@@ -34,10 +34,10 @@ func _ready():
 			lod.mesh = basic_mesh
 			lod.mesh_resolution = basic_mesh_resolution
 			
-			lod.height_layer = layer_composition.render_info.height_layer.clone()
-			lod.texture_layer = layer_composition.render_info.texture_layer.clone()
-			lod.landuse_layer = layer_composition.render_info.landuse_layer.clone()
-			lod.surface_height_layer = layer_composition.render_info.surface_height_layer.clone()
+			lod.height_layer = layer_composition.render_info.height_layer
+			lod.texture_layer = layer_composition.render_info.texture_layer
+			lod.landuse_layer = layer_composition.render_info.landuse_layer
+			lod.surface_height_layer = layer_composition.render_info.surface_height_layer
 
 			lods.append(lod)
 	
