@@ -49,6 +49,10 @@ export/convert_text_resources_to_binary=true
 
 enabled=PackedStringArray()
 
+[filesystem]
+
+import/blender/enabled=false
+
 [gdnative]
 
 singletons=["res://addons/godot-openvr/godot_openvr.gdnlib", "res://pythonscript.gdnlib"]
