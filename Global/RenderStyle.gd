@@ -52,5 +52,5 @@ func update_clay_node(node, new_style):
 class Style:
 	var name
 	
-	func _init(name: String):
-		self.name = name
+	func _init(initial_name: String):
+		self.name = initial_name

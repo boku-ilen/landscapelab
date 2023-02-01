@@ -54,16 +54,13 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 
 func full_load():
 	for lod in lods:
-		var remainder_x = center[0] % chunk_size
-		var remainder_y = center[1] % chunk_size
-		
 		lod.position_diff_x = 0
 		lod.position_diff_z = 0
 		
 		lod.build(center[0] + lod.position.x, center[1] - lod.position.z)
 
 
-func adapt_load(position_diff: Vector3):
+func adapt_load(_diff: Vector3):
 	for lod in lods:
 		lod.position_diff_x = 0.0
 		lod.position_diff_z = 0.0

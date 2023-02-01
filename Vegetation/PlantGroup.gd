@@ -24,22 +24,24 @@ var snar_group
 const LOG_MODULE := "VEGETATION"
 
 
-func _init(id, name_en, plants = null, ground_texture = null, fade_texture = null, source="",
-		snar_code="", snarx10="", snar_name="", name_de="", snar_group=""):
-	self.id = int(id)
-	self.name_en = name_en
+func _init(initial_id, initial_name_en, initial_plants = null,
+		initial_ground_texture = null, initial_fade_texture = null,
+		initial_source="", initial_snar_code="", initial_snarx10="",
+		initial_snar_name="", initial_name_de="", initial_snar_group=""):
+	self.id = int(initial_id)
+	self.name_en = initial_name_en
 	
-	self.ground_texture = ground_texture
-	self.fade_texture = fade_texture
+	self.ground_texture = initial_ground_texture
+	self.fade_texture = initial_fade_texture
 	
-	self.plants = plants
+	self.plants = initial_plants
 	
-	self.source = source
-	self.snar_code = snar_code
-	self.snarx10 = snarx10
-	self.snar_name = snar_name
-	self.name_de = name_de
-	self.snar_group = snar_group
+	self.source = initial_source
+	self.snar_code = initial_snar_code
+	self.snarx10 = initial_snarx10
+	self.snar_name = initial_snar_name
+	self.name_de = initial_name_de
+	self.snar_group = initial_snar_group
 	
 func add_plant(plant: Plant):
 	plants.append(plant)
@@ -56,7 +58,6 @@ func _get_image(image_name, texture):
 	
 	VegetationImages.ground_image_mutex.lock()
 	if not VegetationImages.ground_image_cache.has(full_path):
-		var path = VegetationImages.ground_image_base_path.path_join(texture.texture_name)
 		if not FileAccess.file_exists(full_path):
 			logger.warn("Invalid ground texture file: %s (ID %s)" % [full_path, str(texture.id)], LOG_MODULE)
 		
