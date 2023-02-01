@@ -152,8 +152,6 @@ func texture_update(dhm_layer, splat_layer, world_x, world_y, uv_offset_x=0, uv_
 #  artificially created data. Is also called internally when `update_textures` is used.
 # Should be called in a thread to avoid stalling the main thread.
 func update_textures_with_images(ids):
-	var map_size = get_map_size()
-	
 	# Load the groups for these IDs and filter them by the given density class
 	var groups = Vegetation.get_group_array_for_ids(ids)
 	var filtered_groups = Vegetation.filter_group_array_by_density_class(groups, density_class)

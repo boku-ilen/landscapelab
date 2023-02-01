@@ -10,7 +10,7 @@ signal loading_started
 
 var renderers_finished := 0
 var renderers_count := 0
-var load_data_threaded := true
+var load_data_threaded := false
 
 # Center in geocordinates
 var center := Vector2.ZERO
@@ -69,6 +69,7 @@ func apply_offset(offset, viewport_size, zoom):
 		if load_data_threaded:
 			loading_thread.start(update_renderers.bind(
 				current_center, offset, viewport_size, zoom), Thread.PRIORITY_HIGH)
+			loading_thread.wait_to_finish.call_deferred()
 		else:
 			update_renderers(current_center, offset, viewport_size, zoom)
 
@@ -88,8 +89,6 @@ func update_renderers(center, offset, viewport_size, zoom):
 
 			renderer.load_new_data()
 			_on_renderer_finished.call_deferred(renderer.name)
-	
-	loading_thread.wait_to_finish.call_deferred()
 
 
 func _on_renderer_finished(renderer_name):

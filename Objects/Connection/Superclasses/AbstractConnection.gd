@@ -8,5 +8,6 @@ func apply_connection():
 
 
 # Abstract method: must be thread safe
-func find_connection_points(point_1: Vector3, point_2: Vector3, length_factor: float, cache=null):
+func find_connection_points(_point_1: Vector3, _point_2: Vector3,
+		_length_factor: float, _cache=null):
 	pass

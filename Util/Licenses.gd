@@ -7,11 +7,11 @@ class License:
 	var author
 	var additional_info
 	
-	func _init(name,acronym,author,additional_info):
-		self.name = name
-		self.acronym = acronym
-		self.author = author
-		self.additional_info = additional_info
+	func _init(initial_name, initial_acronym, initial_author, initial_additional_info):
+		self.name = initial_name
+		self.acronym = initial_acronym
+		self.author = initial_author
+		self.additional_info = initial_additional_info
 	
 	func _to_string():
 		return "%s: %s - %s" % ([name, acronym, author])

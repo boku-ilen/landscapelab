@@ -4,8 +4,6 @@ extends AbstractPlayer
 # Player Controller with classic first person movement as well as dragging and zooming.
 #
 
-var _vr_mode : bool = false
-
 var walking = Settings.get_setting("player", "start-walking-enabled")
 
 var FLY_SPEED = Settings.get_setting("player", "fly-speed")
@@ -216,7 +214,6 @@ func fly(delta):
 	
 	set_velocity(target)
 	move_and_slide()
-	velocity
 	
 	if walking:
 		var space_state = get_world_3d().direct_space_state

@@ -30,8 +30,8 @@ func _ready():
 	$ZoomContainer/ZoomOut.connect("pressed",Callable(self,"zoom").bind(-zoom_step))
 
 
-func zoom(zoom: float):
-	self.zoom_factor = zoom_factor + zoom
+func zoom(zoom_addition: float):
+	self.zoom_factor = zoom_factor + zoom_addition
 
 
 func _process(_delta):

@@ -86,7 +86,7 @@ func _disconnected(id, was_clean=false):
 		self._clients.erase(id)
 
 
-func _on_data(id, message):
+func _on_data(id, _message):
 	
 	# unpack the received data
 	var packet = self._ws_server.get_peer(id).get_packet()
