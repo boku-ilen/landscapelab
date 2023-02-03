@@ -33,10 +33,10 @@ func _ready():
 			chunk.mesh = basic_mesh
 			chunk.mesh_resolution = basic_mesh_resolution
 			
-			chunk.height_layer = layer_composition.render_info.height_layer.clone()
-			chunk.texture_layer = layer_composition.render_info.texture_layer.clone()
-			chunk.landuse_layer = layer_composition.render_info.landuse_layer.clone()
-			chunk.surface_height_layer = layer_composition.render_info.surface_height_layer.clone()
+			chunk.height_layer = layer_composition.render_info.height_layer
+			chunk.texture_layer = layer_composition.render_info.texture_layer
+			chunk.landuse_layer = layer_composition.render_info.landuse_layer
+			chunk.surface_height_layer = layer_composition.render_info.surface_height_layer
 
 			chunks.append(chunk)
 	
@@ -56,9 +56,6 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 
 func full_load():
 	for chunk in chunks:
-		var remainder_x = center[0] % chunk_size
-		var remainder_y = center[1] % chunk_size
-		
 		chunk.position_diff_x = 0
 		chunk.position_diff_z = 0
 		
@@ -66,7 +63,7 @@ func full_load():
 	
 
 
-func adapt_load(position_diff: Vector3):
+func adapt_load(_diff: Vector3):
 	for chunk in chunks:
 		chunk.position_diff_x = 0.0
 		chunk.position_diff_z = 0.0

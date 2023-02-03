@@ -123,20 +123,20 @@ func _check_for_world_shift():
 
 
 # Begin the process of world shifting by setting the new offset variables and emitting a signal.
-func _shift_world(delta_x, delta_z):
+func _shift_world(delta_x_diff, delta_z_diff):
 	# Make sure the shifting lines up with the most coarse grid (e.g. of the terrain) in order to
 	# avoid differences within same-LOD areas after shifting
 	# TODO: Generalize this factor; config or calculate from other values?
-	delta_x -= fposmod(delta_x, 1000)
-	delta_z -= fposmod(delta_z, 1000)
+	delta_x_diff -= fposmod(delta_x_diff, 1000)
+	delta_z_diff -= fposmod(delta_z_diff, 1000)
 	
 	logger.info("Shifting world by %f, %f" % [delta_x, delta_z], LOG_MODULE)
 	
 	loading = true
 	_dependent_objects_loaded = 0
 	
-	self.delta_x = delta_x
-	self.delta_z = delta_z
+	self.delta_x = delta_x_diff
+	self.delta_z = delta_z_diff
 	
 	emit_signal("new_center", [x + delta_x, z - delta_z])
 	

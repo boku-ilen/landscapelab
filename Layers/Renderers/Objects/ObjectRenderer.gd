@@ -33,7 +33,7 @@ func full_load():
 	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(float(center[0]), float(center[1]), radius, max_features)
 
 
-func adapt_load(diff: Vector3):
+func adapt_load(_diff: Vector3):
 	# Essentially the same as full_load since that is already optimized
 	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 			float(center[0]) + position_manager.center_node.position.x,

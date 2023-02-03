@@ -1,43 +1,32 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://bvvvqwqvl1s42"]
 
-[ext_resource path="res://World/Environment/RainSplash.tres" type="Shader" id=1]
-[ext_resource path="res://Resources/Textures/RainSplash.png" type="Texture2D" id=2]
+[ext_resource type="Shader" uid="uid://wnw8t32kt5yq" path="res://World/Environment/RainSplash.tres" id="1"]
+[ext_resource type="Texture2D" uid="uid://b4u8j5mea7xd4" path="res://Resources/Textures/RainSplash.png" id="2"]
 
-[sub_resource type="StandardMaterial3D" id=1]
-flags_transparent = true
-params_billboard_mode = 3
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hwr1d"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.564706)
+albedo_texture = ExtResource("2")
+billboard_mode = 3
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
-albedo_color = Color( 1, 1, 1, 0.564706 )
-albedo_texture = ExtResource( 2 )
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = ExtResource( 1 )
-shader_param/radius = 0.1
-shader_param/PI = 3.14159
-shader_param/amount = 100
-shader_param/rows = 5
-shader_param/randomness = 5.0
-shader_param/spacing = 2.0
-shader_param/droplet_start_height = 5.0
-shader_param/droplet_speed_modifier = 5.0
-shader_param/shift_threshold = 10.0
-shader_param/scale_x = 10.5
-shader_param/scale_y = 10.5
-shader_param/wind_force_north = 0.0
-shader_param/wind_force_east = 0.0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uo2fl"]
+shader = ExtResource("1")
+shader_parameter/radius = 0.1
+shader_parameter/amount = 100
 
-[sub_resource type="QuadMesh" id=3]
-size = Vector2( 0.05, 0.05 )
+[sub_resource type="QuadMesh" id="QuadMesh_53sqd"]
+size = Vector2(0.05, 0.05)
 
 [node name="GPUParticles3D" type="GPUParticles3D"]
-material_override = SubResource( 1 )
+material_override = SubResource("StandardMaterial3D_hwr1d")
 emitting = false
 amount = 100
 lifetime = 3.0
 speed_scale = 4.0
 explosiveness = 1.0
-visibility_aabb = AABB( -20.0826, -4, -22.4127, 40.1653, 8, 44.8253 )
-process_material = SubResource( 2 )
-draw_pass_1 = SubResource( 3 )
+visibility_aabb = AABB(-20.0826, -4, -22.4127, 40.1653, 8, 44.8253)
+process_material = SubResource("ShaderMaterial_uo2fl")
+draw_pass_1 = SubResource("QuadMesh_53sqd")

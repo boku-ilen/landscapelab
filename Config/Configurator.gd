@@ -6,8 +6,6 @@ class_name Configurator
 	get: return category
 	set(setting_category):
 		category = setting_category
-		settings_section = Settings.get_setting_section(category)
-var settings_section  # FIXME: Is this needed?
 
 
 func get_setting(label, default=null):

@@ -10,7 +10,7 @@ class_name AutoIconButton
 # Also provides additional functionality for styling buttons such as rotating.
 #
 
-var icon_folder = Settings.get_setting("gui", "icon_folder", "ModernLandscapeLab")
+var icon_folder = "ModernLandscapeLab"
 
 @export var texture_name: String :
 	get:
@@ -22,6 +22,11 @@ var icon_folder = Settings.get_setting("gui", "icon_folder", "ModernLandscapeLab
 
 func _enter_tree() -> void:
 	_update_texture()
+
+
+func _ready():
+	if not Engine.is_editor_hint():
+		icon_folder = Settings.get_setting("gui", "icon-folder", "ModernLandscapeLab")
 
 
 # Update the button's base texture

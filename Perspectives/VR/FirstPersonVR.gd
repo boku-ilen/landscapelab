@@ -1,16 +1,15 @@
 extends AbstractPlayer
 
 
-func _ready():
-	# Setup VR
-	var interface = XRServer.find_interface("OpenVR")
-	if interface and interface.initialize():
-		# Make sure vsync is disabled or we'll be limited to 60fps
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+var interface : XRInterface
 
-		# Up our physics to 90fps to get in sync with our rendering
-		# TODO: Is this needed?
-		Engine.physics_ticks_per_second = 90
+func _ready():
+	interface = XRServer.find_interface("OpenXR")
+	if interface and interface.is_initialized():
+		print("OpenXR initialised successfully")
+		$VRViewport.use_xr = true
+	else:
+		print("OpenXR not initialised, please check if your headset is connected")
 
 
 func _process(delta):

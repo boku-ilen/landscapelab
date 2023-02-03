@@ -5,11 +5,11 @@
 [ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="3_cfdml"]
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/LayerCompositionConfigurationWindow.gd" id="4"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_o6epo"]
+[sub_resource type="LabelSettings" id="LabelSettings_elvrf"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_d3uiw"]
+[sub_resource type="LabelSettings" id="LabelSettings_fh8s2"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_e4bb4"]
+[sub_resource type="LabelSettings" id="LabelSettings_rouyw"]
 
 [node name="Control" type="ConfirmationDialog"]
 title = "Layer Configuration"
@@ -34,7 +34,7 @@ columns = 2
 [node name="LabelName" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Layer Name:"
-label_settings = SubResource("LabelSettings_o6epo")
+label_settings = SubResource("LabelSettings_elvrf")
 
 [node name="Name" type="LineEdit" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -44,7 +44,7 @@ placeholder_text = "..."
 [node name="ColorTag" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Color Tag:"
-label_settings = SubResource("LabelSettings_d3uiw")
+label_settings = SubResource("LabelSettings_fh8s2")
 
 [node name="ColorTagMenu" parent="VBoxContainer/GridContainer" instance=ExtResource("3")]
 layout_mode = 2
@@ -52,7 +52,7 @@ layout_mode = 2
 [node name="Type" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Type:"
-label_settings = SubResource("LabelSettings_e4bb4")
+label_settings = SubResource("LabelSettings_rouyw")
 
 [node name="TypeChooser" type="OptionButton" parent="VBoxContainer/GridContainer"]
 layout_mode = 2

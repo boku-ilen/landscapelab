@@ -9,9 +9,9 @@ extends SubViewportContainer
 @onready var zoom_factor = 1000.0 :
 	get:
 		return zoom_factor 
-	set(zoom):
-		if zoom > min_zoom and zoom < max_zoom: 
-			zoom_factor = zoom
+	set(new_zoom):
+		if new_zoom > min_zoom and new_zoom < max_zoom: 
+			zoom_factor = new_zoom
 			marker.scale = Vector3.ONE * zoom_factor * player_marker_scale
 			$SubViewport/Camera3D.size = zoom_factor
 
@@ -30,11 +30,11 @@ func _ready():
 	$ZoomContainer/ZoomOut.connect("pressed",Callable(self,"zoom").bind(-zoom_step))
 
 
-func zoom(zoom: float):
-	self.zoom_factor = zoom_factor + zoom
+func zoom(zoom_addition: float):
+	self.zoom_factor = zoom_factor + zoom_addition
 
 
-func _process(delta):
+func _process(_delta):
 	# Only update the orientation in a 2Dish manner (only update north, east, south, west)
 	marker.rotation.y = -pc_player.get_look_direction().signed_angle_to(Vector3.FORWARD, Vector3.UP)
 	# And the position

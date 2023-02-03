@@ -1,10 +1,7 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://UI/Fonts/TextWarning.tres" type="FontFile" id=1]
+[gd_scene format=3 uid="uid://djm0wu4kh64ah"]
 
 [node name="Warning" type="Label"]
 offset_top = 300.0
 offset_right = 867.0
 offset_bottom = 338.0
-custom_fonts/font = ExtResource( 1 )
 text = "Configuration is not valid!"

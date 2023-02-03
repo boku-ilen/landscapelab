@@ -45,7 +45,6 @@ func _load_defaults():
 	var err = config.load(default_configuration_path)
 	if err != OK:
 		logger.error("Default configuration could not be loaded. Is there a file configuration.ini?", LOG_MODULE)
-		assert(true)  # FIXME: ? assert(false) maybe?
 		
 	# overwrite with the software configuration
 	for section in software_config:
@@ -110,7 +109,7 @@ func get_setting_section(section_name):
 		logger.error("BUG: Invalid setting section: %s" % [section_name], LOG_MODULE)
 		return null
 	
-	var section: Dictionary
+	var section := {}
 	for key in config.get_section_keys(section_name):
 		section[key] = config.get_value(section_name, key)
 		

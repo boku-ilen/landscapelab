@@ -8,8 +8,8 @@ func _ready():
 		toggle_visibility(true)
 
 
-func toggle_visibility(is_visible: bool):
-	if is_visible:
+func toggle_visibility(new_is_visible: bool):
+	if new_is_visible:
 		visible = true
 	else:
 		visible = false

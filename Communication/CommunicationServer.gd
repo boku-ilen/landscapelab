@@ -18,13 +18,11 @@ func _ready():
 	# FIXME: Seems like this is not needed anymore?
 	# self._ws_server.bind_ip = Settings.get_setting("server", "bind_ip")
 	var port = Settings.get_setting("server", "port")
-	var supported_protocols = [] # FIXME: read from settings
 
 	# Connect base signals for server client communication
 	self._ws_server.connect("client_connected",Callable(self,"_connected"))
 	self._ws_server.connect("client_disconnected",Callable(self,"_disconnected"))
-	self._ws_server.connect("client_close_request",Callable(self,"_close_request"))
-	self._ws_server.connect("data_received",Callable(self,"_on_data"))
+	self._ws_server.connect("message_received",Callable(self,"_on_data"))
 
 	# try to start listening
 	var err = _ws_server.listen(port)
@@ -88,11 +86,7 @@ func _disconnected(id, was_clean=false):
 		self._clients.erase(id)
 
 
-func _close_request(id, code, reason):
-	logger.debug("Disconnection request from client %s (code: %s, reason: %s)" % [id, code, reason], LOG_MODULE)
-
-
-func _on_data(id):
+func _on_data(id, _message):
 	
 	# unpack the received data
 	var packet = self._ws_server.get_peer(id).get_packet()
@@ -167,7 +161,3 @@ func _send_data(data: Dictionary, client_id=-1, message_id=null):
 		logger.debug("send msg: %s to client %s" % [data, client_id], LOG_MODULE)
 		var message = JSON.stringify(data)
 		self._ws_server.get_peer(client_id).put_packet(message.to_utf8_buffer())
-
-# FIXME: this is a backward compatibility function which should soon be removed
-func get_json(parameter):
-	return ""
