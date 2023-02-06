@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://msm0hkf7u0mq"]
+
+[ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/RoadLane/RoadLanePedestrian.gdshader" id="1_uax8a"]
+[ext_resource type="Texture2D" uid="uid://04pspsww44av" path="res://Layers/Renderers/Path/Roads/RoadLane/Textures/PavingStones092_1K_Color.jpg" id="2_afodk"]
+[ext_resource type="Texture2D" uid="uid://um3tl0vdyor" path="res://Resources/Textures/Asphalt/Asphalt15_col.jpg" id="3_a73qq"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_uax8a")
+shader_parameter/width = 1.0
+shader_parameter/world_uv_scaling = 0.35
+shader_parameter/has_curbside_left = true
+shader_parameter/has_curbside_right = true
+shader_parameter/height = 0.2
+shader_parameter/road_texture = ExtResource("3_a73qq")
+shader_parameter/curbside_texture = ExtResource("2_afodk")

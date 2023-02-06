@@ -53,7 +53,7 @@ func _create_roads(road_features) -> void:
 	roads_to_delete = roads.duplicate()
 	
 	for road_feature in road_features:
-		var road_id: int = int(road_feature.get_attribute("edge_id"))
+		var road_id: int = int(road_feature.get_attribute("road_id"))
 		
 		# Skip if road is already loaded
 		if roads.has(road_id):
@@ -67,20 +67,6 @@ func _create_roads(road_features) -> void:
 		
 		# Set road data
 		road_instance.id = road_id
-		road_instance.width = float(road_feature.get_attribute("width"))
-		road_instance.length = float(road_feature.get_attribute("length"))
-		road_instance.road_name = road_feature.get_attribute("name")
-		road_instance.from_intersection = road_feature.get_attribute("from_node")
-		road_instance.to_intersection = road_feature.get_attribute("to_node")
-		road_instance.speed_forward = road_feature.get_attribute("speed_forward")
-		road_instance.speed_backwards = road_feature.get_attribute("speed_backwards")
-		road_instance.lanes_forward = road_feature.get_attribute("lanes_forward")
-		road_instance.lanes_backwards = road_feature.get_attribute("lanes_backwards")
-		road_instance.direction = road_feature.get_attribute("direction")
-		road_instance.type = road_feature.get_attribute("type")
-		road_instance.physical_type = road_feature.get_attribute("physical_type")
-		road_instance.lane_uses = road_feature.get_attribute("linear_uses")
-		
 		
 		
 		#############################
@@ -148,9 +134,12 @@ func _create_roads(road_features) -> void:
 				# Move to newly added point and start from there again
 				current_point_index += 1
 				
-		road_instance.curve = road_curve
+		road_instance.road_curve = road_curve
 		road_instance.name = str(road_instance.id)
 		roads[road_id] = road_instance
+		
+		road_instance.create_from_feature(road_feature)
+		road_instance.update_road_lanes()
 
 
 func _add_objects() -> void:
@@ -163,7 +152,6 @@ func _add_objects() -> void:
 	for road in roads.values():
 		if not $Roads.has_node(str(road.id)):
 			$Roads.add_child(road)
-			road.set_polygon_from_lane_uses()
 
 
 # Returns the triangle surface point at the given point-position

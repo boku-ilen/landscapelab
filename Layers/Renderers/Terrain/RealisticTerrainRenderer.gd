@@ -43,7 +43,7 @@ func _ready():
 	for chunk in chunks:
 		$Chunks.add_child(chunk)
 	
-	$PathRenderer.path_layer = layer_composition.render_info.road_edges
+	$PathRenderer.path_layer = layer_composition.render_info.road_roads
 	$PathRenderer.chunks = chunks
 
 

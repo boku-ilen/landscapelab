@@ -109,18 +109,18 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	var surface_height_layer: GeoRasterLayer
 	var texture_layer: GeoRasterLayer
 	var landuse_layer: GeoRasterLayer
-	var road_edges: GeoFeatureLayer
+	var road_roads: GeoFeatureLayer
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Terrain/RealisticTerrainRenderer.tscn")
 		icon = preload("res://Resources/Icons/ModernLandscapeLab/raster.svg")
 	
 	func get_geolayers():
-		return [height_layer, surface_height_layer, texture_layer, landuse_layer, road_edges]
+		return [height_layer, surface_height_layer, texture_layer, landuse_layer, road_roads]
 	
 	func get_described_geolayers() -> Dictionary:
 		return {"Height": height_layer, "Surface height": surface_height_layer,
-				"Texture": texture_layer, "Landuse": landuse_layer, "road_edges": road_edges}
+				"Texture": texture_layer, "Landuse": landuse_layer, "road_roads": road_roads}
 	
 	func is_valid():
 		return height_layer and surface_height_layer and texture_layer and landuse_layer

@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://cts8anna2kegg"]
+
+[ext_resource type="PackedScene" uid="uid://d1vdd6fvfqard" path="res://Layers/Renderers/Path/Roads/RoadLane/RoadLane.tscn" id="1_1wr8m"]
+[ext_resource type="Script" path="res://Layers/Renderers/Path/Roads/RoadLane/RoadLaneCar.gd" id="1_rwxlc"]
+[ext_resource type="Material" path="res://Layers/Renderers/Path/Roads/RoadLane/RoadLaneCar.tres" id="2_afqel"]
+
+[node name="RoadLaneCar" instance=ExtResource("1_1wr8m")]
+script = ExtResource("1_rwxlc")
+
+[node name="RoadLanePolygon" parent="." index="0"]
+material = ExtResource("2_afqel")

@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://t0jp2rytej0x"]
+
+[ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/RoadLane/RoadLaneParking.gdshader" id="1_qap13"]
+[ext_resource type="Texture2D" uid="uid://um3tl0vdyor" path="res://Resources/Textures/Asphalt/Asphalt15_col.jpg" id="2_e2qpp"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_qap13")
+shader_parameter/width = 5.0
+shader_parameter/world_uv_scaling = 0.35
+shader_parameter/road_texture = ExtResource("2_e2qpp")
