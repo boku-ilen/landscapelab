@@ -16,9 +16,9 @@ dest_files=["res://.godot/imported/displacement.jpg-692ac775d50fe873db7fa49738ae
 [params]
 
 compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false
