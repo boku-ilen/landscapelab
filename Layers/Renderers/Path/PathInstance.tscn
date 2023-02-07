@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bylr5orvn315u"]
-
-[ext_resource type="Script" path="res://Layers/Renderers/Path3D/PathInstance.gd" id="1"]
-
-[node name="PathInstance" type="Node3D"]
-script = ExtResource("1")
