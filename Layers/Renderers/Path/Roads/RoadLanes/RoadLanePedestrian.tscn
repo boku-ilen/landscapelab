@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLanePedestrian.gd" id="1_3naa5"]
+[ext_resource type="PackedScene" uid="uid://d1vdd6fvfqard" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.tscn" id="1_43xus"]
+[ext_resource type="Material" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLanePedestrian.tres" id="2_g57b5"]
+
+[node name="RoadLanePedestrian" instance=ExtResource("1_43xus")]
+script = ExtResource("1_3naa5")
+
+[node name="RoadLanePolygon" parent="." index="0"]
+polygon = PackedVector2Array(-0.5, 0.2, 0.5, 0.2, 0.5, 0, -0.5, 0)
+material = ExtResource("2_g57b5")

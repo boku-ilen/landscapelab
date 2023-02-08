@@ -15,15 +15,15 @@ var to_intersection: int = 0
 var width: float = 0.0
 var length: float = 0.0
 
-var _road_lane_car_scene = preload("res://Layers/Renderers/Path/Roads/RoadLane/RoadLaneCar.tscn")
-var _road_lane_bike_scene = preload("res://Layers/Renderers/Path/Roads/RoadLane/RoadLaneBike.tscn")
-var _road_lane_pedestrian_scene = preload("res://Layers/Renderers/Path/Roads/RoadLane/RoadLanePedestrian.tscn")
-var _road_lane_parking_scene = preload("res://Layers/Renderers/Path/Roads/RoadLane/RoadLaneParking.tscn")
+var _road_lane_car_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneCar.tscn")
+var _road_lane_bike_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneBike.tscn")
+var _road_lane_pedestrian_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLanePedestrian.tscn")
+var _road_lane_parking_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneParking.tscn")
 
 var road_lanes: Array = []
 
 
-func create_from_feature(road_feature) -> void:
+func load_from_feature(road_feature) -> void:
 	for lane in road_lanes:
 		lane.queue_free()
 	

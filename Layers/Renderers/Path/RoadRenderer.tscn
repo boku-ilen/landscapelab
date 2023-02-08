@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://h0n4d3f0wrpm"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/Path/RoadRenderer.gd" id="1_iqaxa"]
+
+[node name="RoadRenderer" type="Node3D"]
+script = ExtResource("1_iqaxa")
+
+[node name="Roads" type="Node3D" parent="."]
+
+[node name="Debug" type="Node3D" parent="."]

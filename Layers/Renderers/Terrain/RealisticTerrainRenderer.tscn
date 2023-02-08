@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://ci8pmuyiijfqu"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="PackedScene" uid="uid://c3hg3iqjfc3vw" path="res://Layers/Renderers/Path/PathRenderer.tscn" id="2_pqnea"]
+[ext_resource type="PackedScene" uid="uid://c3hg3iqjfc3vw" path="res://Layers/Renderers/Path/RoadRenderer.tscn" id="2_pqnea"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" id="4"]
 
 [node name="RealisticTerrainRenderer" type="Node3D"]

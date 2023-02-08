@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://dikugodiiccme"]
-
-[ext_resource type="PackedScene" uid="uid://d1vdd6fvfqard" path="res://Layers/Renderers/Path/Roads/RoadLane/RoadLane.tscn" id="1_87pua"]
-[ext_resource type="Material" uid="uid://csh3d17ox0x0n" path="res://Layers/Renderers/Path/Roads/RoadLane/RoadLaneBike.tres" id="2_uwdp7"]
-
-[node name="RoadLaneBike" instance=ExtResource("1_87pua")]
-
-[node name="RoadLanePolygon" parent="." index="0"]
-material = ExtResource("2_uwdp7")
