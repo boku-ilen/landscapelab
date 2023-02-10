@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://o435max2sluq"]
 
-[ext_resource type="PackedScene" uid="uid://c3hg3iqjfc3vw" path="res://Layers/Renderers/Path/RoadRenderer.tscn" id="2_pqnea"]
+[ext_resource type="PackedScene" uid="uid://h0n4d3f0wrpm" path="res://Layers/Renderers/Path/RoadRenderer.tscn" id="2_v5t6w"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" id="4"]
 
 [node name="RealisticTerrainRenderer" type="Node3D"]
@@ -8,4 +8,4 @@ script = ExtResource("4")
 
 [node name="Chunks" type="Node3D" parent="."]
 
-[node name="PathRenderer" parent="." instance=ExtResource("2_pqnea")]
+[node name="RoadRenderer" parent="." instance=ExtResource("2_v5t6w")]

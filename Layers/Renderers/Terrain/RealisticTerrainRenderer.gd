@@ -43,8 +43,9 @@ func _ready():
 	for chunk in chunks:
 		$Chunks.add_child(chunk)
 	
-	$PathRenderer.path_layer = layer_composition.render_info.road_roads
-	$PathRenderer.chunks = chunks
+	$RoadRenderer.road_layer = layer_composition.render_info.road_roads
+	$RoadRenderer.intersection_layer = layer_composition.render_info.road_intersections
+	$RoadRenderer.chunks = chunks
 
 
 func is_new_loading_required(position_diff: Vector3) -> bool:
@@ -139,8 +140,8 @@ func refine_load():
 		any_change_done = true
 	elif load_roads:
 		load_roads = false
-		$PathRenderer.center = center
-		$PathRenderer.call_deferred("load_roads")
+		$RoadRenderer.center = center
+		$RoadRenderer.call_deferred("load_data")
 	
 	if any_change_done:
 		call_deferred("apply_new_data")

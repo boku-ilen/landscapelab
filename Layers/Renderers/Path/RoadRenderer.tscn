@@ -7,4 +7,6 @@ script = ExtResource("1_iqaxa")
 
 [node name="Roads" type="Node3D" parent="."]
 
+[node name="Intersections" type="Node3D" parent="."]
+
 [node name="Debug" type="Node3D" parent="."]

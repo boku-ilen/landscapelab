@@ -1,7 +1,8 @@
 extends Node3D
 class_name PathRenderer
 
-var path_layer: GeoFeatureLayer
+var road_layer: GeoFeatureLayer
+var intersection_layer: GeoFeatureLayer
 
 var chunks = []
 var chunk_size = 1000.0
@@ -12,29 +13,43 @@ var radius: float = 500.0
 var max_features = 1000
 
 var _road_instance_scene = preload("res://Layers/Renderers/Path/Roads/RoadInstance.tscn")
+var _intersection_instance_scene = preload("res://Layers/Renderers/Path/Roads/Intersections/IntersectionInstance.tscn")
 var heightmap_data_arrays: Dictionary = {}
 
 var roads = {}
+var roads_to_add = {}
 var roads_to_delete = {}
+
+var intersections = {}
+var intersections_to_add = {}
+var intersections_to_delete = {}
 
 # DEBUGGING
 var debug_point_scene = preload("res://Layers/Renderers/Path/Roads/RoadDebugPoint.tscn")
 var debug_point2_scene = preload("res://Layers/Renderers/Path/Roads/RoadDebugPoint2.tscn")
 
-func load_roads() -> void:
+func load_data() -> void:
 	
 	# Create dictionary for height lookup
 	_create_heightmap_dictionary()
 	
 	# Get road data from db
 	var player_position = [int(center[0] + $"..".position_manager.center_node.position.x), int(center[1] - $"..".position_manager.center_node.position.z)]
-	var path_features = path_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
+	var road_features = road_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
+	var intersection_features = intersection_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
 	
 	var tic = Time.get_ticks_msec()
-	_create_roads(path_features)
+	_create_roads(road_features)
 	var toc = Time.get_ticks_msec()
 	print("Create Roads Time: %s" %[toc - tic])
+	
+	tic = Time.get_ticks_msec()
+	_create_intersections(intersection_features)
+	toc = Time.get_ticks_msec()
+	print("Create Intersections Time: %s" %[toc - tic])
+	
 	call_deferred("_add_objects")
+	print(intersections.size())
 
 
 # Creates and fills the dictionary with the chunk-heightmaps using their position as keys
@@ -51,6 +66,7 @@ func _create_heightmap_dictionary() -> void:
 
 func _create_roads(road_features) -> void:
 	roads_to_delete = roads.duplicate()
+	roads_to_add.clear()
 	
 	for road_feature in road_features:
 		var road_id: int = int(road_feature.get_attribute("road_id"))
@@ -135,11 +151,36 @@ func _create_roads(road_features) -> void:
 				current_point_index += 1
 				
 		road_instance.road_curve = road_curve
-		road_instance.name = str(road_instance.id)
 		roads[road_id] = road_instance
+		roads_to_add[road_id] = road_instance
 		
 		road_instance.load_from_feature(road_feature)
 		road_instance.update_road_lanes()
+
+
+func _create_intersections(intersection_features) -> void:
+	intersections_to_delete = intersections.duplicate()
+	intersections_to_add.clear()
+	
+	for intersection_feature in intersection_features:
+		var intersection_id: int = int(intersection_feature.get_attribute("intersection_id"))
+		# Skip if intersection is already loaded
+		if intersections.has(intersection_id):
+			intersections_to_delete.erase(intersection_id)
+			continue
+		
+		var intersection_instance: IntersectionInstance = _intersection_instance_scene.instantiate()
+		
+		var valid_intersection = intersection_instance.load_from_feature(intersection_feature, roads)
+		
+		if not valid_intersection:
+			intersection_instance.queue_free()
+			continue
+		
+		intersections[intersection_id] = intersection_instance
+		intersections_to_add[intersection_id] = intersection_instance
+		
+		intersection_instance.update_intersection()
 
 
 func _add_objects() -> void:
@@ -148,10 +189,20 @@ func _add_objects() -> void:
 		roads.erase(road_id)
 		roads_to_delete[road_id].queue_free()
 	
+	# Delete old intersections
+	for intersection_id in intersections_to_delete.keys():
+		intersections.erase(intersection_id)
+		intersections_to_delete[intersection_id].queue_free()
+	
 	# Add new roads
-	for road in roads.values():
-		if not $Roads.has_node(str(road.id)):
-			$Roads.add_child(road)
+	for road in roads_to_add.values():
+		$Roads.add_child(road)
+	roads_to_add.clear()
+	
+	# Add new intersections
+	for intersection in intersections_to_add.values():
+		$Intersections.add_child(intersection)
+	intersections_to_add.clear()
 
 
 # Returns the triangle surface point at the given point-position
