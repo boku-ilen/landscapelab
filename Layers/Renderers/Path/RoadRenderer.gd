@@ -24,9 +24,6 @@ var intersections = {}
 var intersections_to_add = {}
 var intersections_to_delete = {}
 
-# DEBUGGING
-var debug_point_scene = preload("res://Layers/Renderers/Path/Roads/RoadDebugPoint.tscn")
-var debug_point2_scene = preload("res://Layers/Renderers/Path/Roads/RoadDebugPoint2.tscn")
 
 func load_data() -> void:
 	
