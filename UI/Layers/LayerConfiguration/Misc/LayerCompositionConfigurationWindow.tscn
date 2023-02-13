@@ -1,15 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbembde0n3cjx"]
+[gd_scene load_steps=8 format=3 uid="uid://dxm7m5e7uy7jn"]
 
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="2_ckxgs"]
 [ext_resource type="PackedScene" uid="uid://ce363ya7o8glf" path="res://UI/Layers/LayerConfiguration/Misc/ColorTag.tscn" id="3"]
 [ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="3_cfdml"]
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/LayerCompositionConfigurationWindow.gd" id="4"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_5eu43"]
+[sub_resource type="LabelSettings" id="LabelSettings_e3eli"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_0oa84"]
+[sub_resource type="LabelSettings" id="LabelSettings_k22xg"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_6pmim"]
+[sub_resource type="LabelSettings" id="LabelSettings_43egx"]
 
 [node name="Control" type="ConfirmationDialog"]
 title = "Layer Configuration"
@@ -34,7 +34,7 @@ columns = 2
 [node name="LabelName" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Layer Name:"
-label_settings = SubResource("LabelSettings_5eu43")
+label_settings = SubResource("LabelSettings_e3eli")
 
 [node name="Name" type="LineEdit" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -44,7 +44,7 @@ placeholder_text = "..."
 [node name="ColorTag" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Color Tag:"
-label_settings = SubResource("LabelSettings_0oa84")
+label_settings = SubResource("LabelSettings_k22xg")
 
 [node name="ColorTagMenu" parent="VBoxContainer/GridContainer" instance=ExtResource("3")]
 layout_mode = 2
@@ -52,7 +52,7 @@ layout_mode = 2
 [node name="Type" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Type:"
-label_settings = SubResource("LabelSettings_6pmim")
+label_settings = SubResource("LabelSettings_43egx")
 
 [node name="TypeChooser" type="OptionButton" parent="VBoxContainer/GridContainer"]
 layout_mode = 2

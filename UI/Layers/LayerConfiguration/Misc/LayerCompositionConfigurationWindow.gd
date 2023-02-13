@@ -2,6 +2,22 @@ extends ConfirmationDialog
 
 var layer_composition
 var specific_layer_composition_ui
+# Each property in a layercomposition should get a generic form
+# to fill the corresponding value; e.g. Geo<Raster/Feature>Layer => GeodataChooser
+var property_to_ui = {
+	"GeoRasterLayer": 
+		preload("res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn"),
+	"GeoFeatureLayer":
+		preload("res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn"),
+	"Color": 
+		preload("res://UI/Layers/LayerConfiguration/Misc/ColorButton.tscn"),
+	TYPE_DICTIONARY: 
+		preload("res://UI/Layers/LayerConfiguration/Misc/DictionaryUIReflection.tscn"),
+	TYPE_STRING: LineEdit,
+	TYPE_STRING_NAME: LineEdit,
+	TYPE_BOOL: CheckBox,
+	TYPE_FLOAT: SpinBox,
+}
 
 @onready var layer_composition_name = $VBoxContainer/GridContainer/Name
 @onready var layer_composition_color_tag = $VBoxContainer/GridContainer/ColorTagMenu
@@ -12,7 +28,7 @@ func _ready():
 	connect("confirmed",Callable(self,"_on_confirm"))
 	type_chooser.connect("item_selected",Callable(self,"_on_type_select"))
 	
-	_add_types()
+	_add_layer_composition_types()
 
 
 # Use this function instead of popup to also fill the according layer properties.
@@ -101,7 +117,7 @@ func _on_confirm():
 	hide()
 
 
-func _add_types():
+func _add_layer_composition_types():
 	var idx = 0
 	for type in LayerComposition.RENDER_INFOS.keys():
 		type_chooser.add_item(type)
@@ -134,18 +150,20 @@ func _add_specific_layer_conf(type_string: String):
 		# Ignore basic Object properties
 		if property["name"] in base_property_names: continue
 		
-		var container = HBoxContainer.new()
-		container.name = property["name"]
+		var ui_class
+		print(property)
+		if property["type"] == TYPE_OBJECT:
+			ui_class = property_to_ui[property["class_name"]]
+		else:
+			ui_class = property_to_ui[property["type"]]
 		
+		var ui_object = ui_class.instantiate() if ui_class is PackedScene else ui_class.new()
 		var label = Label.new()
 		label.text = property["name"]
-		
-		var line_edit = LineEdit.new()
-		line_edit.name = "Data"
-		line_edit.placeholder_text = property["class_name"]
-		
+		var container = HBoxContainer.new()
+		container.name = property["name"]
 		container.add_child(label)
-		container.add_child(line_edit)
+		container.add_child(ui_object)
 		
 		specific_layer_composition_ui.add_child(container)
 	

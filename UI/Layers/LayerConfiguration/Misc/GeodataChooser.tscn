@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bi5ss0l7qp5wf"]
+[gd_scene load_steps=3 format=3 uid="uid://de45plwj80hwk"]
 
 [ext_resource type="PackedScene" path="res://Util/FileChooser.tscn" id="1"]
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.gd" id="2"]
@@ -13,12 +13,9 @@ grow_vertical = 2
 script = ExtResource("2")
 
 [node name="FileChooser" parent="." instance=ExtResource("1")]
-offset_right = 1152.0
-offset_bottom = 31.0
+layout_mode = 2
 text_placeholder = "..."
 
 [node name="OptionButton" type="OptionButton" parent="."]
 visible = false
-offset_top = 48.0
-offset_right = 1920.0
-offset_bottom = 85.0
+layout_mode = 2
