@@ -214,8 +214,8 @@ class ConnectedObjectInfo extends RenderInfo:
 	var selector_attribute_name: String
 	# The specified connectors/connection attributes
 	# e.g. "minor-power-line": "LowVoltage.tscn", "power-line": "HighVoltage.tscn"
-	var connectors = {}
-	var connections = {}
+	var connectors: Dictionary
+	var connections: Dictionary
 	# Should nothing be specified, take the fallbacks
 	var fallback_connector: String
 	var fallback_connection: String
