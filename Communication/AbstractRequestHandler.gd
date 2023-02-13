@@ -27,18 +27,18 @@ func _exit_tree():
 	self._server.unregister_handler(self)
 
 
-func handle_request(request: Dictionary) -> Dictionary:
+func handle_request(_request: Dictionary) -> Dictionary:
 	assert(!self.protocol_keyword.is_empty()) #,"AbstractRequestHandler.handle_request has to be implemented")
 	return {}
 
 
 # FIXME: in this case we probably can not use the same protocol keyword?
-func send_request(request: Dictionary, target=null):
+func send_request(_request: Dictionary, _target=null):
 	assert(!self.protocol_keyword.is_empty()) #,"AbstractRequestHandler.handle_request has to be implemented")
 
 
 # this is the callback for the answer from the send_request
-func on_answer(answer: Dictionary, from):
+func on_answer(_answer: Dictionary, _from):
 	assert(!self.protocol_keyword.is_empty()) #,"AbstractRequestHandler.handle_request has to be implemented")
 
 

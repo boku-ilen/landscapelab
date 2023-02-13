@@ -14,8 +14,8 @@ extends Node3D
 var RAY_LENGTH = Settings.get_setting("mouse-point", "camera-ray-length") # Distance that will be checked for collision with the ground
 
 
-func set_visible(is_visible):
-	visible = is_visible
+func set_visible(new_is_visible):
+	visible = new_is_visible
 
 
 func _ready():

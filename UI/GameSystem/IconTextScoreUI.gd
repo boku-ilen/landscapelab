@@ -16,7 +16,7 @@ var score: GameScore :
 		_update_data(score.value)
 		score.connect("value_changed",Callable(self,"_update_data"))
 
-var icon_folder = Settings.get_setting("gui", "icon_folder", "ModernLandscapeLab")
+var icon_folder = Settings.get_setting("gui", "icon-folder", "ModernLandscapeLab")
 
 
 func _update_data(value):

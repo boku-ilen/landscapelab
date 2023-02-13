@@ -10,11 +10,11 @@
 [ext_resource type="PackedScene" path="res://UI/PlayerCompass.tscn" id="9"]
 [ext_resource type="Script" path="res://UI/WorldViewPort.gd" id="11"]
 [ext_resource type="Texture2D" uid="uid://copq7sq4f0uom" path="res://Resources/Icons/ModernLandscapeLab/loading.png" id="12_8oiw2"]
-[ext_resource type="PackedScene" path="res://UI/CustomElements/AutoTextureButton.tscn" id="13"]
+[ext_resource type="PackedScene" uid="uid://c63a11up3xcvk" path="res://UI/CustomElements/AutoTextureButton.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://dsaj5k71mnup0" path="res://UI/DebugInfo/DebugInfo.tscn" id="14"]
 [ext_resource type="Script" path="res://UI/LoadingCircle.gd" id="14_jjvhr"]
-[ext_resource type="PackedScene" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="15"]
-[ext_resource type="PackedScene" path="res://World/World.tscn" id="15_xvbyv"]
+[ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="15"]
+[ext_resource type="PackedScene" uid="uid://yakumrwwca61" path="res://World/World.tscn" id="15_xvbyv"]
 [ext_resource type="Script" path="res://UI/Layers/LayerManagement/LayerManagement.gd" id="16"]
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="17_3pwcs"]
 [ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="18"]
@@ -121,7 +121,7 @@ script = ExtResource("11")
 handle_input_locally = false
 use_taa = true
 gui_disable_input = true
-size = Vector2i(0, 0)
+size = Vector2i(766, 443)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_xvbyv")]
@@ -141,17 +141,12 @@ size_flags_horizontal = 8
 [node name="FullscreenButton" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI" instance=ExtResource("13")]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 0
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 40.0
 offset_bottom = 40.0
 texture_normal = ExtResource("2")
-default_color = Color(0, 0, 0, 1)
-pressed_color = Color(0, 0, 0, 1)
-hover_color = Color(0, 0, 0, 1)
-disabled_color = Color(0, 0, 0, 1)
-focused_color = Color(0, 0, 0, 1)
-texture_name = ""
 
 [node name="LoadingCircle" type="TextureRect" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI"]
 custom_minimum_size = Vector2(20, 40)
@@ -221,6 +216,9 @@ script = ExtResource("5")
 [node name="LayerCompositionUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("20_2333t")]
 layout_mode = 2
 
+[node name="LayerCompositionUIConfig" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot/LayerCompositionUI" index="0"]
+position_manager_path = NodePath("../../../../../MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
+
 [node name="GeoLayerUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("15")]
 visible = false
 layout_mode = 2
@@ -230,3 +228,4 @@ visible = false
 layout_mode = 2
 
 [editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World"]
+[editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot/LayerCompositionUI"]

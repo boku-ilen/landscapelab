@@ -5,16 +5,16 @@ var id := -1
 var collection: GameObjectCollection
 
 
-func _init(initial_id: int,initial_collection):
+func _init(initial_id: int, initial_collection):
 	id = initial_id
 	collection = initial_collection
 
 
-func get_attribute(attribute_name):
+func get_attribute(_attribute_name):
 	return null # To be implemented
 
 
-func set_position(new_position: Vector3):
+func set_position(_new_position: Vector3):
 	pass # To be implemented
 
 

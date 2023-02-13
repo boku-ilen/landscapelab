@@ -47,11 +47,11 @@ func _input(event):
 		
 		if result:
 			var global_center = position_manager.get_center()
-			var global_position = result.position \
+			var result_global_position = result.position \
 					+ Vector3(global_center[0], 0, -global_center[1])
 			
 			var new_game_object = GameSystem.create_new_game_object(
-					selected_collection, global_position
+					selected_collection, result_global_position
 			)
 			
 			# TODO: Check whether new_game_object is null, give feedback that creation was not allowed here

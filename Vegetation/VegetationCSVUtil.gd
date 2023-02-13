@@ -6,8 +6,6 @@ class_name VegetationCSVUtil
 #
 
 static func create_density_classes_from_csv(csv_path: String) -> Dictionary:
-	var density_classes = {}
-	
 	var density_csv = CSVReader.new()
 	density_csv.read_csv(csv_path)
 	
@@ -15,8 +13,6 @@ static func create_density_classes_from_csv(csv_path: String) -> Dictionary:
 
 
 static func create_textures_from_csv(csv_path: String, include_types, exclude_types) -> Dictionary:
-	var ground_textures = {}
-	
 	var texture_csv = CSVReader.new()
 	texture_csv.read_csv(csv_path)
 	
@@ -24,8 +20,6 @@ static func create_textures_from_csv(csv_path: String, include_types, exclude_ty
 
 
 static func create_plants_from_csv(csv_path: String, density_classes: Dictionary) -> Dictionary:
-	var plants = {}
-	
 	var plant_csv = CSVReader.new()
 	plant_csv.read_csv(csv_path)
 	
@@ -34,8 +28,6 @@ static func create_plants_from_csv(csv_path: String, density_classes: Dictionary
 
 static func create_groups_from_csv(csv_path: String, plants: Dictionary,
 		ground_textures: Dictionary, fade_textures: Dictionary) -> Dictionary:
-	var groups = {}
-	
 	var group_csv = CSVReader.new()
 	group_csv.read_csv(csv_path)
 

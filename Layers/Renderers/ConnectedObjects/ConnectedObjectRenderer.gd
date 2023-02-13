@@ -24,7 +24,7 @@ func full_load():
 		connector_instances[str(geo_line.get_id())] = get_connected_objects(geo_line)
 
 
-func adapt_load(diff: Vector3):
+func adapt_load(_diff: Vector3):
 	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 		float(center[0]) + position_manager.center_node.position.x,
 		float(center[1]) - position_manager.center_node.position.z,
@@ -189,9 +189,9 @@ func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 
 
 # Returns the current ground height
-func _get_height_at_ground(position: Vector3) -> float:
+func _get_height_at_ground(query_position: Vector3) -> float:
 	return layer_composition.render_info.ground_height_layer.get_value_at_position(
-		center[0] + position.x, center[1] - position.z)
+		center[0] + query_position.x, center[1] - query_position.z)
 
 
 func _ready():

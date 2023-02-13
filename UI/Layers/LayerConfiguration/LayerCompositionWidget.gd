@@ -25,7 +25,6 @@ func _ready():
 	reload_button.connect("pressed",Callable(self,"_on_layer_reload_pressed"))
 	edit_window.connect("change_color_tag",Callable(self,"_change_color_tag"))
 	edit_window.connect("translate_to_layer",Callable(self,"_emit_translate_to_layer"))
-	$VBox/EditMenu.connect("ui_geolayers_set_visible",Callable(self,"_ui_geolayers_set_visible"))
 	visibility_button.connect("toggled",Callable(self,"_layer_change_visibility"))
 	layer_composition.connect("layer_changed",Callable(self,"_reload"))
 	$GeoLayers.connect(

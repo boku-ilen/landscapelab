@@ -43,7 +43,7 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 	return false
 
 
-func adapt_load(position_diff: Vector3):
+func adapt_load(_diff: Vector3):
 	# Clamp to steps of 10 in order to maintain the land-use grid
 	# FIXME: actually depends on the resolution of the land-use and potentially other factors
 	var world_position = [

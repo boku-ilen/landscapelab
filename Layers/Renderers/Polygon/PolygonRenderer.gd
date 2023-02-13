@@ -35,7 +35,7 @@ func full_load():
 		building_instances[str(feature.get_id())] = create_building(feature, height_attribute_name)
 
 
-func adapt_load(diff: Vector3):
+func adapt_load(_diff: Vector3):
 	var features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 				float(center[0]) + position_manager.center_node.position.x,
 				float(center[1]) - position_manager.center_node.position.z,

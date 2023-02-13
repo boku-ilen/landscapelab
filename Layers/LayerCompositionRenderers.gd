@@ -100,12 +100,6 @@ func update_renderers(center_array):
 
 			renderer.full_load()
 			call_deferred("_on_renderer_finished", renderer.name)
-	
-	call_deferred("finish_loading_thread")
-
-
-func finish_loading_thread():
-	loading_thread.wait_to_finish()
 
 
 func get_debug_info():

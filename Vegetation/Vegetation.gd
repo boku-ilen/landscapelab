@@ -128,18 +128,18 @@ func filter_group_array_by_density_class(group_array: Array, density_class):
 	var new_array = []
 	
 	for group in group_array:
-		var plants = []
+		var filtered_plants = []
 		
 		for plant in group.plants:
 			if plant.density_class == density_class:
-				plants.append(plant)
+				filtered_plants.append(plant)
 		
-		if not plants.is_empty():
+		if not filtered_plants.is_empty():
 			# Append a new Group which is identical to the one in the passed
 			#  array, but with the filtered plants
 			new_array.append(PlantGroup.new(group.id,
 					group.name_en,
-					plants))
+					filtered_plants))
 	
 	return new_array
 

@@ -15,8 +15,8 @@ signal removed_layer_composition(layer_composition_name)
 const LOG_MODULE := "LAYERCONFIGURATION"
 
 
-func get_layer_composition(name: String):
-	return layer_compositions[name] if layer_compositions.has(name) else null
+func get_layer_composition(lc_name: String):
+	return layer_compositions[lc_name] if layer_compositions.has(lc_name) else null
 
 
 func get_layers_with_render_info(render_info_class):

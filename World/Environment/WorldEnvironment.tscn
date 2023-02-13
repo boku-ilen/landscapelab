@@ -7,7 +7,7 @@
 [ext_resource type="CompressedTexture3D" uid="uid://c4dp6g6gouj2b" path="res://addons/clouds/worlnoise.bmp" id="3_dh22h"]
 [ext_resource type="PackedScene" path="res://Python/PythonWrapper.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://World/Environment/RainParticles.tscn" id="8"]
-[ext_resource type="PackedScene" path="res://World/Environment/RainSplashes.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://b0i6716q110pc" path="res://World/Environment/RainSplashes.tscn" id="9"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ywyjs"]
 shader = ExtResource("1_p31xn")

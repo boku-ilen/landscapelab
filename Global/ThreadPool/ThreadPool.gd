@@ -67,11 +67,11 @@ class Task:
 	signal finished
 
 
-	func _init(obj,method,params=null):
-		self.obj = obj
-		self.ref = weakref(obj)
-		self.method = method
-		self.params = params
+	func _init(initial_obj, initial_method, initial_params=null):
+		self.obj = initial_obj
+		self.ref = weakref(initial_obj)
+		self.method = initial_method
+		self.params = initial_params
 
 
 	func execute():
