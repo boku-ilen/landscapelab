@@ -151,7 +151,6 @@ func _add_specific_layer_conf(type_string: String):
 		if property["name"] in base_property_names: continue
 		
 		var ui_class
-		print(property)
 		if property["type"] == TYPE_OBJECT:
 			ui_class = property_to_ui[property["class_name"]]
 		else:
