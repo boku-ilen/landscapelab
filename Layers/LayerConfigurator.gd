@@ -44,8 +44,6 @@ func load_ll_json(path: String):
 	
 	var ll_project = json_object.data
 	
-	var db_cache = {}
-	
 	# Load vegetation if in config
 	if ll_project.has("Vegetation"):
 		logger.info("Loading vegetation...", category)
@@ -63,47 +61,11 @@ func load_ll_json(path: String):
 		var composition_data = ll_project["LayerCompositions"][composition_name]
 		var type = composition_data["type"]
 		
-		var layer_composition = LayerComposition.new()
-		
-		layer_composition.name = composition_name
-		layer_composition.render_info = layer_composition.RENDER_INFOS[type].new()
-		
-		if composition_data.has("raster_layers"):
-			for attribute_name in composition_data["raster_layers"].keys():
-				var full_path = composition_data["raster_layers"][attribute_name].split(":")
-				var file_name = path.get_base_dir().path_join(full_path[0])
-				var layer_name = full_path[1]
-				
-				if not file_name in db_cache:
-					db_cache[file_name] = Geodot.get_dataset(file_name)
-				
-				var db = db_cache[file_name]
-				var layer = db.get_raster_layer(layer_name)
-				
-				Layers.geo_layers["rasters"][layer_name] = layer
-				
-				layer_composition.render_info.set(attribute_name, layer)
-		
-		if composition_data.has("feature_layers"):
-			for attribute_name in composition_data["feature_layers"].keys():
-				var full_path = composition_data["feature_layers"][attribute_name].split(":")
-				var file_name = path.get_base_dir().path_join(full_path[0])
-				var layer_name = full_path[1]
-				
-				if not file_name in db_cache:
-					db_cache[file_name] = Geodot.get_dataset(file_name)
-				
-				var db = db_cache[file_name]
-				var layer = db.get_feature_layer(layer_name)
-				
-				Layers.geo_layers["features"][layer_name] = layer
-				
-				layer_composition.render_info.set(attribute_name, layer)
-		
-		if composition_data.has("attributes"):
-			for attribute_name in composition_data["attributes"].keys():
-				var value = composition_data["attributes"][attribute_name]
-				layer_composition.render_info.set(attribute_name, value)
+		var layer_composition = LayerCompositionSerializer.deserialize(
+			path, 
+			composition_name, 
+			type, 
+			composition_data["attributes"])
 		
 		Layers.add_layer_composition(layer_composition)
 	
