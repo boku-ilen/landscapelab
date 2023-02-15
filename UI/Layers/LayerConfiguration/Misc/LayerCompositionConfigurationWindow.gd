@@ -1,7 +1,8 @@
 extends ConfirmationDialog
 
 var layer_composition
-var specific_layer_composition_ui
+# Name to node
+var specific_layer_composition_ui: Dictionary = {}
 # Each property in a layercomposition should get a generic form
 # to fill the corresponding value; e.g. Geo<Raster/Feature>Layer => GeodataChooser
 var property_to_ui = {
@@ -57,8 +58,8 @@ func layer_popup(min_size: Vector2, existing_layer_composition: LayerComposition
 		
 		# Fill attributes
 		for property in layer_composition.render_info.get_property_list():
-			if specific_layer_composition_ui.has_node(property["name"]):
-				var node = specific_layer_composition_ui.get_node(property["name"])
+			if specific_layer_composition_ui.has(property["name"]):
+				var node = specific_layer_composition_ui[property["name"]]
 				
 				# FIXME: Doesn't work for some non-stringable types (especially Layers)
 				# We'll need to handle this more intelligently based on property["class_name"]
@@ -80,7 +81,7 @@ func _on_confirm():
 	layer_composition.render_info = LayerComposition.RENDER_INFOS[current_type].new()
 	layer_composition.color_tag = layer_composition_color_tag.current_color
 	
-	for child in specific_layer_composition_ui.get_children():
+	for child in specific_layer_composition_ui:
 		var property_name = child.name
 		var property_value = child.get_node("Data").text
 		
@@ -129,16 +130,20 @@ func _add_layer_composition_types():
 func _on_type_select(idx: int):
 	var type: String = type_chooser.get_item_text(idx)
 	
-	if specific_layer_composition_ui != null:
-		$VBoxContainer.remove_child(specific_layer_composition_ui)
-	
+	# First remove all configuration from possible previous other types
+	_remove_specific_layer_conf()
 	_add_specific_layer_conf(type)
+
+
+func _remove_specific_layer_conf():
+	for element in specific_layer_composition_ui.values():
+		$VBoxContainer/GridContainer.remove_child(element)
+		element.queue_free()
+	specific_layer_composition_ui.clear()
 
 
 func _add_specific_layer_conf(type_string: String):
 	var render_info = LayerComposition.RENDER_INFOS[type_string].new()
-	
-	specific_layer_composition_ui = VBoxContainer.new()
 	
 	# Create list of basic Object properties so we can ignore those later
 	var base_property_names = []
@@ -150,21 +155,25 @@ func _add_specific_layer_conf(type_string: String):
 		# Ignore basic Object properties
 		if property["name"] in base_property_names: continue
 		
+		# Generically find an ui object that handles the needs of the type
+		# e.g. geodatachooser for Geo<Raster/Feature>Layer
+		var ui_object
 		var ui_class
 		if property["type"] == TYPE_OBJECT:
 			ui_class = property_to_ui[property["class_name"]]
+			ui_object = ui_class.instantiate()
 		else:
 			ui_class = property_to_ui[property["type"]]
+			ui_object = ui_class.new()
+		ui_object.name = "object_{}".format(property["name"])
 		
-		var ui_object = ui_class.instantiate() if ui_class is PackedScene else ui_class.new()
+		# Add a label in the ui
 		var label = Label.new()
 		label.text = property["name"]
-		var container = HBoxContainer.new()
-		container.name = property["name"]
-		container.add_child(label)
-		container.add_child(ui_object)
+		label.name =  "label_{}".format(property["name"])
 		
-		specific_layer_composition_ui.add_child(container)
-	
-	$VBoxContainer.add_child(specific_layer_composition_ui)
-	$VBoxContainer.move_child(specific_layer_composition_ui, 1)
+		$VBoxContainer/GridContainer.add_child(label)
+		$VBoxContainer/GridContainer.add_child(ui_object)
+		
+		specific_layer_composition_ui[label.name] = label
+		specific_layer_composition_ui[ui_object.name] = ui_object
