@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://de45plwj80hwk"]
 
-[ext_resource type="PackedScene" path="res://Util/FileChooser.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://ch15mdq8mk72s" path="res://Util/FileChooser.tscn" id="1"]
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.gd" id="2"]
 
 [node name="GeodataChooser" type="VBoxContainer"]

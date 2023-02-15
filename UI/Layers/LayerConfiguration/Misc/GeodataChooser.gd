@@ -67,7 +67,7 @@ func is_current_path_valid():
 	return FileAccess.file_exists($FileChooser/FileName.text)
 
 
-func get_geo_layer(function_str: String):
+func _get_geo_layer(function_str: String):
 	var dataset
 	var access_str: String
 	if is_current_file_dataset():
@@ -83,13 +83,13 @@ func get_geo_layer(function_str: String):
 func get_geo_feature_layer():
 	if not is_current_path_valid(): return null
 	
-	return get_geo_layer("get_feature_layer")
+	return _get_geo_layer("get_feature_layer")
 
 
 func get_geo_raster_layer():
 	if not is_current_path_valid(): return null
 	
-	return get_geo_layer("get_raster_layer")
+	return _get_geo_layer("get_raster_layer")
 
 
 func _get_dataset_option_by_name(_name: String):
