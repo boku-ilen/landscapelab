@@ -165,12 +165,12 @@ func _add_specific_layer_conf(type_string: String):
 		else:
 			ui_class = property_to_ui[property["type"]]
 			ui_object = ui_class.new()
-		ui_object.name = "object_{}".format(property["name"])
+		ui_object.name = "object_{}".format([property["name"]], "{}")
 		
 		# Add a label in the ui
 		var label = Label.new()
-		label.text = property["name"]
-		label.name =  "label_{}".format(property["name"])
+		label.text = "{}:".format([property["name"]], "{}")
+		label.name =  "label_{}".format([property["name"]], "{}")
 		
 		$VBoxContainer/GridContainer.add_child(label)
 		$VBoxContainer/GridContainer.add_child(ui_object)
