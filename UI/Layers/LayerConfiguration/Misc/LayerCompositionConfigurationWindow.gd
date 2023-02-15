@@ -161,10 +161,10 @@ func _add_specific_layer_conf(type_string: String):
 		var ui_class
 		if property["type"] == TYPE_OBJECT:
 			ui_class = property_to_ui[property["class_name"]]
-			ui_object = ui_class.instantiate()
 		else:
 			ui_class = property_to_ui[property["type"]]
-			ui_object = ui_class.new()
+		
+		ui_object = ui_class.new() if not ui_class is PackedScene else ui_class.instantiate() 
 		ui_object.name = "object_{}".format([property["name"]], "{}")
 		
 		# Add a label in the ui
