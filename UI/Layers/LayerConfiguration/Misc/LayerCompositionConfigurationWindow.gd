@@ -12,7 +12,7 @@ class ui_wrapper:
 	func _init(control_func, val_func):
 		get_control = control_func
 		get_value = val_func
-		
+	
 	var get_control: Callable
 	var get_value: Callable
 
@@ -22,38 +22,38 @@ var property_to_ui = {
 			var gdc = preload("res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn").instantiate()
 			gdc.show_feature_layer = false
 			return gdc,
-		func(x): x.get_values()
+		func(x): return x.get_full_dataset_string()
 	),
 	"GeoFeatureLayer": ui_wrapper.new(
 		func():
 			var gdc = preload("res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn").instantiate()
 			gdc.show_raster_layers = false
 			return gdc,
-		func(x): x.get_values()
+		func(x): return x.get_full_dataset_string()
 	),
 	"Color": ui_wrapper.new(
 		func(): return preload("res://UI/Layers/LayerConfiguration/Misc/ColorButton.tscn").instantiate(),
-		func(x): x.get_color()
+		func(x): return x.get_color()
 	),
 	TYPE_DICTIONARY: ui_wrapper.new(
 		func(): return preload("res://UI/Layers/LayerConfiguration/Misc/DictionaryUIReflection.tscn").instantiate(),
-		func(x): x.get_values()
+		func(x): return x.get_values()
 	),
 	TYPE_STRING: ui_wrapper.new(
 		func(): return LineEdit.new(),
-		func(x: LineEdit): x.get_text()
+		func(x: LineEdit): return x.get_text()
 	),
 	TYPE_STRING_NAME: ui_wrapper.new(
 		func(): return LineEdit.new(),
-		func(x: LineEdit): x.get_text()
+		func(x: LineEdit): return x.get_text()
 	),
 	TYPE_BOOL: ui_wrapper.new(
 		func(): return CheckBox.new(),
-		func(x: CheckBox): x.is_pressed()
+		func(x: CheckBox): return x.is_pressed()
 	),
 	TYPE_FLOAT: ui_wrapper.new(
 		func(): return SpinBox.new(),
-		func(x: SpinBox): x.get_value()
+		func(x: SpinBox): return x.get_value()
 	),
 }
 
@@ -114,28 +114,15 @@ func _on_confirm():
 		layer_composition = LayerComposition.new()
 		is_new = true
 	
+	layer_composition = LayerCompositionSerializer.deserialize(
+		"",
+		layer_composition_name.text,
+		current_type,
+		_build_attributes_dictionary(),
+		layer_composition
+	)
 	
-	layer_composition.name = layer_composition_name.text
-	layer_composition.render_info = LayerComposition.RENDER_INFOS[current_type].new()
 	layer_composition.color_tag = layer_composition_color_tag.current_color
-	
-	for property_name in specific_layer_composition_ui:
-		var property_value = property_name.get_node("Data").text
-		
-		# FIXME: Somewhat hacky, perhaps there's a better way to differentiate between what we can
-		# enter 1:1 and what we need to load (in this rather specific way)
-		if property_name.ends_with("_layer"):
-			# FIXME: Code duplication with LayerConfigurator
-			var full_path = property_value.split(":")
-			var db_name = full_path[0]
-			var layer_name = full_path[1]
-			
-			var db = Geodot.get_dataset(db_name)
-			var layer = db.get_raster_layer(layer_name)
-			
-			property_value = layer
-		
-		layer_composition.render_info.set(property_name, property_value)
 	
 	if not layer_composition.is_valid():
 		logger.error("Confirmation would've created invalid layer with name: %s and type: %s. Aborting"
@@ -153,6 +140,19 @@ func _on_confirm():
 	# FIXME: Make the LayerComposition renderer do a full load
 	
 	hide()
+
+
+# Build an attribute-dictionary like in the ".ll" config out of the ui
+func _build_attributes_dictionary():
+	var attributes = {}
+	for element_name in specific_layer_composition_ui:
+		if element_name.begins_with("object_"):
+			var ui_element = specific_layer_composition_ui[element_name]
+			var type_name = element_name.trim_prefix("object_")
+			attributes[type_name] = property_to_ui[ui_element.get_meta(
+				"represents_type")].get_value.call(ui_element)
+	
+	return attributes
 
 
 func _add_layer_composition_types():
@@ -194,13 +194,18 @@ func _add_specific_layer_conf(type_string: String):
 		
 		# Generically find an ui object that handles the needs of the type
 		# e.g. geodatachooser for Geo<Raster/Feature>Layer
-		var ui_object
+		var ui_object: Control
+		var type = property["type"]
 		if property["type"] == TYPE_OBJECT:
+			type = property["class_name"]
 			ui_object = property_to_ui[property["class_name"]].get_control.call()
 		else:
 			ui_object = property_to_ui[property["type"]].get_control.call()
 		
 		ui_object.name = "object_{}".format([property["name"]], "{}")
+		# In order to get a value from property to ui mapping we need
+		# access to the type/class_name in func _get_specific_attributes()
+		ui_object.set_meta("represents_type", type)
 		
 		# Add a label in the ui
 		var label = Label.new()

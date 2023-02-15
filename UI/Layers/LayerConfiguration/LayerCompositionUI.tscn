@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://1sw3qnm7im8a"]
+[gd_scene load_steps=7 format=3 uid="uid://c1qrnycjr7pqq"]
 
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.gd" id="1_h6fpr"]
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerCompositionUIConfig.gd" id="2_5bpvu"]
