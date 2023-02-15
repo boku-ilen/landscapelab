@@ -7,17 +7,25 @@ var specific_layer_composition_ui: Dictionary = {}
 # to fill the corresponding value; e.g. Geo<Raster/Feature>Layer => GeodataChooser
 var property_to_ui = {
 	"GeoRasterLayer": 
-		preload("res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn"),
+		func():
+			var gdc = preload("res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn").instantiate()
+			gdc.show_feature_layer = false
+			return gdc,
 	"GeoFeatureLayer":
-		preload("res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn"),
-	"Color": 
-		preload("res://UI/Layers/LayerConfiguration/Misc/ColorButton.tscn"),
+		func():
+			var gdc = preload("res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn").instantiate()
+			gdc.show_raster_layers = false
+			return gdc,
+	"Color":
+		func():
+			return preload("res://UI/Layers/LayerConfiguration/Misc/ColorButton.tscn").instantiate(),
 	TYPE_DICTIONARY: 
-		preload("res://UI/Layers/LayerConfiguration/Misc/DictionaryUIReflection.tscn"),
-	TYPE_STRING: LineEdit,
-	TYPE_STRING_NAME: LineEdit,
-	TYPE_BOOL: CheckBox,
-	TYPE_FLOAT: SpinBox,
+		func():
+			return preload("res://UI/Layers/LayerConfiguration/Misc/DictionaryUIReflection.tscn"),
+	TYPE_STRING: func(): return LineEdit.new(),
+	TYPE_STRING_NAME: func(): return LineEdit.new(),
+	TYPE_BOOL: func(): return CheckBox.new(),
+	TYPE_FLOAT: func(): return SpinBox.new(),
 }
 
 @onready var layer_composition_name = $VBoxContainer/GridContainer/Name
@@ -158,13 +166,11 @@ func _add_specific_layer_conf(type_string: String):
 		# Generically find an ui object that handles the needs of the type
 		# e.g. geodatachooser for Geo<Raster/Feature>Layer
 		var ui_object
-		var ui_class
 		if property["type"] == TYPE_OBJECT:
-			ui_class = property_to_ui[property["class_name"]]
+			ui_object = property_to_ui[property["class_name"]].call()
 		else:
-			ui_class = property_to_ui[property["type"]]
+			ui_object = property_to_ui[property["type"]].call()
 		
-		ui_object = ui_class.new() if not ui_class is PackedScene else ui_class.instantiate() 
 		ui_object.name = "object_{}".format([property["name"]], "{}")
 		
 		# Add a label in the ui
