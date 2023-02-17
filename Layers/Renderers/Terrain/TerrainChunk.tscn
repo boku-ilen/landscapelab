@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ds1shm20d8ywl"]
 
-[ext_resource type="Material" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="1_r5qdr"]
+[ext_resource type="Material" uid="uid://cxixrtnlhecqc" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="1_r5qdr"]
 [ext_resource type="ArrayMesh" uid="uid://lqw0a5653sxf" path="res://Layers/Renderers/Terrain/lod_mesh_100x100.obj" id="2_co6k3"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/TerrainChunk.gd" id="3_lyni8"]
 

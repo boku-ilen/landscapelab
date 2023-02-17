@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://byx3fhu0a8mik"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLanePedestrian.gd" id="1_3naa5"]
-[ext_resource type="PackedScene" uid="uid://d1vdd6fvfqard" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.tscn" id="1_43xus"]
+[ext_resource type="PackedScene" uid="uid://viu3tawr4dl5" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.tscn" id="1_43xus"]
 [ext_resource type="Material" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLanePedestrian.tres" id="2_g57b5"]
 
 [node name="RoadLanePedestrian" instance=ExtResource("1_43xus")]

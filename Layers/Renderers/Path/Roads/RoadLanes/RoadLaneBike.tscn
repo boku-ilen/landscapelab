@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://g4a46e14ki24"]
 
-[ext_resource type="PackedScene" uid="uid://d1vdd6fvfqard" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.tscn" id="1_87pua"]
+[ext_resource type="PackedScene" uid="uid://viu3tawr4dl5" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.tscn" id="1_87pua"]
 [ext_resource type="Material" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneBike.tres" id="2_uwdp7"]
 
 [node name="RoadLaneBike" instance=ExtResource("1_87pua")]

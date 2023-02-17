@@ -1,11 +1,6 @@
 shader_type spatial;
 
-// RoadLane variables. REQUIRED
-uniform float width = 5.0;
-uniform float height = 0.2;
-uniform sampler2D road_texture: source_color;
-uniform float world_uv_scaling = 0.35;
-varying vec3 WORLD_UV;
+#include "res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.gdshaderinc"
 
 // Custom variables
 uniform float outerline_width = 0.25;
@@ -28,7 +23,7 @@ void vertex() {
 void fragment() {
 	vec3 color = texture(road_texture, WORLD_UV.xz).rgb;
 	// Map UV to the upper face of the polygon
-	vec2 uv = UV * 8.0 * width;
+	vec2 uv = UV * 8.0  * width;
 	
 	// Outer lines
 	if ((uv.y > outerline_offset && uv.y < outerline_offset + outerline_width) ||

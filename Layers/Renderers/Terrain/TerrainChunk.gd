@@ -51,8 +51,12 @@ var changed = false
 signal updated_data
 
 
+var terrarforming_texture: TerraformingTexture
+
+
 func _ready():
 	visible = false
+	terrarforming_texture = TerraformingTexture.new(201)
 
 
 func rebuild_aabb():
@@ -202,3 +206,9 @@ func apply_textures():
 	
 	visible = true
 	changed = false
+
+
+func apply_terrarforming_texture() -> void:
+	material_override.set_shader_parameter("has_terrarforming_texture", true)
+	material_override.set_shader_parameter("terrarforming_texture", terrarforming_texture.texture)
+	material_override.set_shader_parameter("terrarforming_weights", terrarforming_texture.weights)

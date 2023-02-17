@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://da5e3qw6yps85"]
 
 [ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneCar.gdshader" id="1_k213g"]
 [ext_resource type="Texture2D" uid="uid://um3tl0vdyor" path="res://Resources/Textures/Asphalt/Asphalt15_col.jpg" id="2_e2qpp"]
@@ -7,8 +7,9 @@
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_k213g")
-shader_parameter/texture_scaling = 0.35
 shader_parameter/width = 5.0
+shader_parameter/height = 0.2
+shader_parameter/world_uv_scaling = 0.35
 shader_parameter/outerline_width = 0.25
 shader_parameter/outerline_offset = 0.1
 shader_parameter/innerline_width = 0.12
