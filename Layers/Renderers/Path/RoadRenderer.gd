@@ -47,10 +47,6 @@ func load_data() -> void:
 		chunk.terrarforming_texture.update_texture()
 		chunk.apply_terrarforming_texture()
 	
-	for x in chunk_dict.keys():
-		for z in chunk_dict[x].keys():
-			chunk_dict[x][z].terrarforming_texture.save_debug_image("../Debug", "%s_%s" %[z + 7, x + 7])
-	
 	toc = Time.get_ticks_msec()
 	print("Create Roads Time: %s" %[toc - tic])
 	
