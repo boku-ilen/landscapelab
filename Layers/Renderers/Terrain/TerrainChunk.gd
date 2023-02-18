@@ -56,7 +56,6 @@ var terrarforming_texture: TerraformingTexture
 
 func _ready():
 	visible = false
-	terrarforming_texture = TerraformingTexture.new(201)
 
 
 func rebuild_aabb():
@@ -65,6 +64,9 @@ func rebuild_aabb():
 
 
 func build(center_x, center_y):
+	# Create a new TerrarformingTexture for this chunk
+	terrarforming_texture = TerraformingTexture.new(201)
+	
 	var top_left_x = float(center_x - size / 2)
 	var top_left_y = float(center_y + size / 2)
 	
