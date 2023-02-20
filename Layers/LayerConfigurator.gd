@@ -88,7 +88,38 @@ func load_ll_json(path: String):
 	
 	logger.info("Done loading layers!", category)
 
+
+func save_ll_json(path: String):
+	var ll_config = {
+		"LayerCompositions": {},
+		"Scenarios":  {},
+		"Vegetation": {}
+	}
 	
+	# FIXME: After the first layercomposition has been serialized, 
+	# FIXME: the other ones will not have a valid layer.get_dataset().resource_path
+	for layer_composition in Layers.layer_compositions.values():
+		var serialized: Dictionary = LayerCompositionSerializer.serialize(layer_composition)
+		ll_config["LayerCompositions"].merge(serialized)
+	
+	for scenario in Scenarios.scenarios:
+		ll_config.Scenarios.merge({
+			scenario.name: {
+				"layers": scenario.visible_layer_names
+			}
+		})
+	
+	ll_config["Vegetation"] = {
+		"Plants": "./plants.csv",
+		"Groups": "./groups.csv",
+		"Densities": "./densities.csv",
+		"Textures": "./textures.csv"
+	}
+	
+	var ll_config_file = FileAccess.open(path, FileAccess.WRITE)
+	ll_config_file.store_line(JSON.stringify(ll_config))
+
+
 #	define_probing_game_mode(
 #		623950,
 #		493950,
