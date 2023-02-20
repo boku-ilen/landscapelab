@@ -6,29 +6,33 @@ var layer_configurator: Configurator :
 		return layer_configurator
 	set(lc):
 		layer_configurator = lc
-		lc.configuration_invalid.connect(_pop_gpkg_menu)
-		$ProjectButton/FileDialog.file_selected.connect(lc.load_ll_json)
+		lc.configuration_invalid.connect($ProjectButton/OpenCfg.popup_centered)
+		$ProjectButton/OpenCfg.file_selected.connect(lc.load_ll_json)
+		$ProjectButton/SaveCfg.file_selected.connect(lc.save_ll_json)
 		
 		# If we missed the invalid load signal, pop the menu now
 		if not lc.has_loaded:
-			_pop_gpkg_menu()
+			$ProjectButton/OpenCfg.popup_centered()
 
 
 enum ProjectOptions {
-	PRE_GPKG
+	OPEN_CFG,
+	SAVE_CFG
 }
 
 
 func _ready():
-	$ProjectButton.get_popup().add_item("Open a .ll config...", ProjectOptions.PRE_GPKG)
-	$ProjectButton.get_popup().set_item_metadata(ProjectOptions.PRE_GPKG, "_pop_gpkg_menu")
+	var project_options = $ProjectButton.get_popup()
 	
-	$ProjectButton.get_popup().index_pressed.connect(_on_proj_menu_pressed)
-
-
-func _pop_gpkg_menu():
-	$ProjectButton/FileDialog.popup_centered()
-
-
-func _on_proj_menu_pressed(idx: int):
-	call($ProjectButton.get_popup().get_item_metadata(idx))
+	# Add options and store callback functions in metadata to call when 
+	# the option is pressed
+	project_options.add_item("Open a .ll config...", ProjectOptions.OPEN_CFG)
+	project_options.set_item_metadata(ProjectOptions.OPEN_CFG, 
+		$ProjectButton/OpenCfg.popup_centered)
+	project_options.add_item("Save a .ll config...", ProjectOptions.SAVE_CFG)
+	project_options.set_item_metadata(ProjectOptions.SAVE_CFG, 
+		$ProjectButton/SaveCfg.popup_centered)
+	
+	# Connect item pressed with callback
+	project_options.index_pressed.connect(
+		func(idx): project_options.get_item_metadata(idx).call())
