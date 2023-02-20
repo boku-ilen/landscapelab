@@ -47,9 +47,45 @@ static func deserialize(
 
 
 static func serialize(layer_composition: LayerComposition):
+	# Create list of basic Object properties so we can ignore those later
+	var base_property_names = []
+	var base_render_info = LayerComposition.RenderInfo.new()
+	for property in base_render_info.get_property_list():
+		base_property_names.append(property["name"])
+		
+	var attributes = {}
+	print(layer_composition.name)
+	for property in layer_composition.render_info.get_property_list():
+		# Ignore basic Object properties
+		if property["name"] in base_property_names: continue
+		var type = property["type"]
+		if property["type"] == TYPE_OBJECT:
+			type = property["class_name"]
+		
+		var property_var = layer_composition.render_info.get(property["name"])
+		var serialized
+		
+		match type:
+			"GeoRasterLayer":
+				serialized = "{}:{}".format(
+					[property_var.get_dataset().resource_path,
+					property_var.resource_name], "{}")
+			"GeoFeatureLayer": 
+				serialized = "{}:{}".format(
+					[property_var.get_dataset().resource_path,
+					property_var.resource_name], "{}")
+			"Color": 
+				serialized = str(property_var)
+			_:
+				serialized = property_var
+	
+		attributes[property["name"]] = serialized 
+	
 	var serialized = {
 		layer_composition.name: {
-			"type": "",
-			"attributes": {}
+			"type": layer_composition.render_info.get_class(),
+			"attributes": attributes
 		}
 	}
+	
+	return serialized
