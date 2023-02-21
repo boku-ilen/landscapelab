@@ -1,13 +1,11 @@
 extends Configurator
 
-var geopackage
-var external_layers = preload("res://Layers/ExternalLayerComposition.gd").new()
 var has_loaded = false
 
 const LOG_MODULE := "LAYERCONFIGURATION"
 
 signal configuration_invalid
-signal loading_finished
+signal applied_configuration
 
 
 func _ready():
@@ -18,106 +16,24 @@ func setup():
 	var path = get_setting("config-path")
 	
 	if path == null:
+		logger.info("No configuration path was set.", LOG_MODULE)
 		configuration_invalid.emit()
 	else:
 		load_ll_json(path)
 
 
 func load_ll_json(path: String):
-	logger.info("Loading LL project file from " + path + "...", category)
-	
-	var json_object := JSON.new()
-	
-	var file = FileAccess.open(path, FileAccess.READ)
-	
-	if file == null:
-		logger.error("Error opening LL project file at " + path, category)
+	var ll_file_access = LLFileAccess.open(path)
+	if ll_file_access == null:
 		configuration_invalid.emit()
 		return
-	
-	var error = json_object.parse(file.get_as_text())
-	
-	if error != OK:
-		logger.error("Error parsing LL project at " + path + ": "
-				+ json_object.get_error_message() + " at line "
-				+ str(json_object.get_error_line()), category)
-	
-	var ll_project = json_object.data
-	
-	# Load vegetation if in config
-	if ll_project.has("Vegetation"):
-		logger.info("Loading vegetation...", category)
-		Vegetation.load_data_from_csv(
-			path.get_base_dir().path_join(ll_project["Vegetation"]["Plants"]),
-			path.get_base_dir().path_join(ll_project["Vegetation"]["Groups"]),
-			path.get_base_dir().path_join(ll_project["Vegetation"]["Densities"]),
-			path.get_base_dir().path_join(ll_project["Vegetation"]["Textures"])
-		)
-		logger.info("Done loading vegetation!", category)
-	
-	for composition_name in ll_project["LayerCompositions"].keys():
-		logger.info("Loading layer composition " + composition_name + "...", category)
 		
-		var composition_data = ll_project["LayerCompositions"][composition_name]
-		var type = composition_data["type"]
-		
-		var layer_composition = LayerCompositionSerializer.deserialize(
-			path, 
-			composition_name, 
-			type, 
-			composition_data["attributes"])
-		
-		Layers.add_layer_composition(layer_composition)
+	ll_file_access.apply(Vegetation, Layers, Scenarios)
 	
-	# Load scenarios if in config
-	if ll_project.has("Scenarios"):
-		logger.info("Loading scenarios...", category)
-		for scenario_name in ll_project["Scenarios"].keys():
-			var scenario = Scenario.new()
-			scenario.name = scenario_name
-			
-			for layer_name in ll_project["Scenarios"][scenario_name]["layers"]:
-				scenario.add_visible_layer_name(layer_name)
-			
-			Scenarios.add_scenario(scenario)
-		logger.info("Done loading scenarios!", category)
-	
-	Layers.recalculate_center()
 	has_loaded = true
-	loading_finished.emit()
+	applied_configuration.emit()
 	
-	logger.info("Done loading layers!", category)
-
-
-func save_ll_json(path: String):
-	var ll_config = {
-		"LayerCompositions": {},
-		"Scenarios":  {},
-		"Vegetation": {}
-	}
-	
-	# FIXME: After the first layercomposition has been serialized, 
-	# FIXME: the other ones will not have a valid layer.get_dataset().resource_path
-	for layer_composition in Layers.layer_compositions.values():
-		var serialized: Dictionary = LayerCompositionSerializer.serialize(layer_composition)
-		ll_config["LayerCompositions"].merge(serialized)
-	
-	for scenario in Scenarios.scenarios:
-		ll_config.Scenarios.merge({
-			scenario.name: {
-				"layers": scenario.visible_layer_names
-			}
-		})
-	
-	ll_config["Vegetation"] = {
-		"Plants": "./plants.csv",
-		"Groups": "./groups.csv",
-		"Densities": "./densities.csv",
-		"Textures": "./textures.csv"
-	}
-	
-	var ll_config_file = FileAccess.open(path, FileAccess.WRITE)
-	ll_config_file.store_line(JSON.stringify(ll_config))
+	logger.info("Done loading layers!", LOG_MODULE)
 
 
 #	define_probing_game_mode(

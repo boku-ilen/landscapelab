@@ -8,7 +8,10 @@ var layer_configurator: Configurator :
 		layer_configurator = lc
 		lc.configuration_invalid.connect($ProjectButton/OpenCfg.popup_centered)
 		$ProjectButton/OpenCfg.file_selected.connect(lc.load_ll_json)
-		$ProjectButton/SaveCfg.file_selected.connect(lc.save_ll_json)
+		$ProjectButton/SaveCfg.file_selected.connect(func(path):
+			var ll_file_access = LLFileAccess.open(path)
+			ll_file_access.save()
+		)
 		
 		# If we missed the invalid load signal, pop the menu now
 		if not lc.has_loaded:
