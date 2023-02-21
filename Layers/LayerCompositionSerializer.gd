@@ -36,10 +36,8 @@ static func deserialize(
 			
 			if render_attribute["class_name"] == "GeoRasterLayer":
 				attribute = db.get_raster_layer(layer_name)
-				Layers.geo_layers["rasters"][layer_name] = attribute
 			elif render_attribute["class_name"] == "GeoFeatureLayer":
 				attribute = db.get_feature_layer(layer_name)
-				Layers.geo_layers["features"][layer_name] = attribute
 		
 		layer_composition.render_info.set(attribute_name, attribute)
 	
@@ -54,7 +52,6 @@ static func serialize(layer_composition: LayerComposition):
 		base_property_names.append(property["name"])
 		
 	var attributes = {}
-	print(layer_composition.name)
 	for property in layer_composition.render_info.get_property_list():
 		# Ignore basic Object properties
 		if property["name"] in base_property_names: continue
