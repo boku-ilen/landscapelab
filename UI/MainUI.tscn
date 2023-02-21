@@ -14,13 +14,13 @@
 [ext_resource type="PackedScene" uid="uid://dsaj5k71mnup0" path="res://UI/DebugInfo/DebugInfo.tscn" id="14"]
 [ext_resource type="Script" path="res://UI/LoadingCircle.gd" id="14_jjvhr"]
 [ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="15"]
-[ext_resource type="PackedScene" uid="uid://yakumrwwca61" path="res://World/World.tscn" id="15_xvbyv"]
+[ext_resource type="PackedScene" uid="uid://dq360hhqtol4f" path="res://World/World.tscn" id="15_xvbyv"]
 [ext_resource type="Script" path="res://UI/Layers/LayerManagement/LayerManagement.gd" id="16"]
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="17_3pwcs"]
 [ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="18"]
 [ext_resource type="PackedScene" uid="uid://dkm4clrngg65t" path="res://UI/Layers/GeoLayerViewport.tscn" id="18_gf1q8"]
 [ext_resource type="PackedScene" uid="uid://dhe6mnba7w50y" path="res://UI/Scenarios/Scenarios.tscn" id="20"]
-[ext_resource type="PackedScene" uid="uid://1sw3qnm7im8a" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.tscn" id="20_2333t"]
+[ext_resource type="PackedScene" uid="uid://c1qrnycjr7pqq" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.tscn" id="20_2333t"]
 [ext_resource type="Script" path="res://UI/UILicenses.gd" id="25"]
 [ext_resource type="Script" path="res://UI/MainUI.gd" id="43"]
 
@@ -38,7 +38,6 @@ pc_player_path = NodePath("MarginContainer/VBoxContainer/Left/Mid/MidVertical/VB
 pos_manager_path = NodePath("MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 time_manager_path = NodePath("MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/TimeManager")
 weather_manager_path = NodePath("MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/WeatherManager")
-layer_configurator_path = NodePath("MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/LayerConfigurator")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -121,7 +120,7 @@ script = ExtResource("11")
 handle_input_locally = false
 use_taa = true
 gui_disable_input = true
-size = Vector2i(766, 443)
+size = Vector2i(0, 0)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_xvbyv")]

@@ -13,8 +13,6 @@ signal ui_loaded
 @export var time_manager_path: NodePath
 @export var weather_manager_path: NodePath
 
-@export var layer_configurator_path: NodePath
-
 var pos_manager: PositionManager
 
 func _ready():
@@ -24,8 +22,6 @@ func _ready():
 	docks.append($MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot)
 	docks.append($MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer)
 	
-	var layer_configurator = get_node(layer_configurator_path)
-	$MarginContainer/VBoxContainer/MenuBar.layer_configurator = layer_configurator
 	
 	pos_manager = get_node(pos_manager_path)
 	

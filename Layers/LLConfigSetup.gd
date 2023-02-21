@@ -4,7 +4,6 @@ var has_loaded = false
 
 const LOG_MODULE := "LAYERCONFIGURATION"
 
-signal configuration_invalid
 signal applied_configuration
 
 
@@ -17,7 +16,6 @@ func setup():
 	
 	if path == null:
 		logger.info("No configuration path was set.", LOG_MODULE)
-		configuration_invalid.emit()
 	else:
 		load_ll_json(path)
 
@@ -25,7 +23,7 @@ func setup():
 func load_ll_json(path: String):
 	var ll_file_access = LLFileAccess.open(path)
 	if ll_file_access == null:
-		configuration_invalid.emit()
+		logger.error("Could not load config at " + path, "MenuBar")
 		return
 		
 	ll_file_access.apply(Vegetation, Layers, Scenarios)

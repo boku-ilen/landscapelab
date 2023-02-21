@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=14 format=3 uid="uid://dq360hhqtol4f"]
 
 [ext_resource type="Script" path="res://World/PositionManager.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://cejf5c8oyb02b" path="res://World/Environment/WorldEnvironment.tscn" id="2"]
@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://World/TimeManager.gd" id="4"]
 [ext_resource type="Script" path="res://World/WeatherManager.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://vbxp2lb1dpj" path="res://Layers/LayerCompositionRenderers.tscn" id="6"]
-[ext_resource type="PackedScene" uid="uid://bsejc5bq4mmbn" path="res://Layers/LLConfigSetup.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="7"]
 [ext_resource type="Script" path="res://World/World.gd" id="8"]
 [ext_resource type="Script" path="res://Communication/GetObjectLayerDataRequestHandler.gd" id="9"]
 [ext_resource type="Script" path="res://Communication/SetObjectPositionRequestHandler.gd" id="10"]

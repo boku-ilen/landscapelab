@@ -1,23 +1,6 @@
 extends HBoxContainer
 
 
-var layer_configurator: Configurator :
-	get:
-		return layer_configurator
-	set(lc):
-		layer_configurator = lc
-		lc.configuration_invalid.connect($ProjectButton/OpenCfg.popup_centered)
-		$ProjectButton/OpenCfg.file_selected.connect(lc.load_ll_json)
-		$ProjectButton/SaveCfg.file_selected.connect(func(path):
-			var ll_file_access = LLFileAccess.open(path)
-			ll_file_access.save()
-		)
-		
-		# If we missed the invalid load signal, pop the menu now
-		if not lc.has_loaded:
-			$ProjectButton/OpenCfg.popup_centered()
-
-
 enum ProjectOptions {
 	OPEN_CFG,
 	SAVE_CFG
@@ -35,6 +18,19 @@ func _ready():
 	project_options.add_item("Save a .ll config...", ProjectOptions.SAVE_CFG)
 	project_options.set_item_metadata(ProjectOptions.SAVE_CFG, 
 		$ProjectButton/SaveCfg.popup_centered)
+	
+	$ProjectButton/OpenCfg.file_selected.connect(func(path):
+		var ll_file_access = LLFileAccess.open(path)
+		if ll_file_access == null:
+			logger.error("Could not load config at " + path, "MenuBar")
+			return
+			
+		ll_file_access.apply(Vegetation, Layers, Scenarios)
+	)
+	$ProjectButton/SaveCfg.file_selected.connect(func(path):
+		var ll_file_access = LLFileAccess.open(path)
+		ll_file_access.save()
+	)
 	
 	# Connect item pressed with callback
 	project_options.index_pressed.connect(

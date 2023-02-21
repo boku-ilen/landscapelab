@@ -26,11 +26,11 @@ func _ready():
 	$WorldEnvironment/RainSplashes.center_node = $PositionManager.center_node
 	$PositionManager.connect("new_center_node",Callable($WorldEnvironment/RainSplashes,"set_center_node"))
 	
-	$LayerConfigurator.connect("applied_configuration", $PositionManager.reset_center)
+	$LLConfigSetup.connect("applied_configuration", $PositionManager.reset_center)
 	
 	Screencapture.pos_manager = $PositionManager
 	
-	$LayerConfigurator.setup()
+	$LLConfigSetup.setup()
 
 
 func _input(event):
