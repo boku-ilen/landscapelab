@@ -43,8 +43,9 @@ func _process(delta):
 
 # Whenever the mouse moves, align the rotation again
 func _input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
-		# Fill the info window with values and display it
-		var distance = (cursor.get_collision_point() - camera.global_transform.origin).length()
-		info.set_distance(distance)
-		info.popup_at_mouse_position()
+	pass
+#	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
+#		# Fill the info window with values and display it
+#		var distance = (cursor.get_collision_point() - camera.global_transform.origin).length()
+#		info.set_distance(distance)
+#		info.popup_at_mouse_position()

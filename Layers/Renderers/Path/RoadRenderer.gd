@@ -88,6 +88,7 @@ func _create_roads(road_features) -> void:
 		# Get point curve from feature
 		var road_curve: Curve3D = road_feature.get_offset_curve3d(-center[0], 0, -center[1])
 		var road_instance: RoadInstance = _road_instance_scene.instantiate()
+		road_instance.id = road_id
 		
 		# Get road data
 		var road_width = float(road_feature.get_attribute("width"))

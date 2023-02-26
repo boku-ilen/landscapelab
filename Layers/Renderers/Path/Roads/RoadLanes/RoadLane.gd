@@ -13,7 +13,7 @@ const LANE_TYPE_TO_NAME: Dictionary = {
 
 
 # Road info
-var lane_type: int = 0
+var lane_type: int = -1
 
 # Road path info
 var road_width: float = 2.0
@@ -23,6 +23,9 @@ var percentage_from = 0.0
 var percentage_to = 100.0
 
 var road_curve: Curve3D
+
+# Parent road instance
+var road_instance: RoadInstance
 
 
 func update_road_lane() -> void:
@@ -55,6 +58,9 @@ func update_road_lane() -> void:
 
 func get_info() -> Dictionary:
 	return {
-		"Lane Type": LANE_TYPE_TO_NAME[lane_type],
-		"Width": road_width,
+		"Lane Type": str(LANE_TYPE_TO_NAME[lane_type]),
+		"Width": "%sm" %[road_width],
+		"Offset": "%sm" %[road_offset],
+		"Percentage from": "%s%%" %[snapped(percentage_from, 0.01)],
+		"Percentage to": "%s%%" %[snapped(percentage_to, 0.01)],
 	}

@@ -40,8 +40,8 @@ func update_road_lane() -> void:
 func get_info() -> Dictionary:
 	var info = super.get_info()
 	info.merge({
-		"Base Type": BASE_TYPE_TO_NAME[base_type],
-		"Physical Type": PHYSICAL_TYPE_TO_NAME[physical_type],
-		"Number of Lanes": lanes,
+		"Base Type": str(BASE_TYPE_TO_NAME[base_type]),
+		"Physical Type": str(PHYSICAL_TYPE_TO_NAME[physical_type]),
+		"Number of Lanes": str(lanes),
 	})
 	return info

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://mk0xlrv2rowx"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/Path/Roads/RoadUI/RoadInfoTab.gd" id="1_5ow7b"]
+
+[node name="RoadInfoTab" type="HSplitContainer"]
+split_offset = 200
+script = ExtResource("1_5ow7b")
+
+[node name="Properties" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Values" type="VBoxContainer" parent="."]
+layout_mode = 2

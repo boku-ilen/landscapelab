@@ -14,6 +14,7 @@ curve = SubResource("Curve3D_3nffp")
 script = ExtResource("1_85n38")
 
 [node name="RoadLanePolygon" type="CSGPolygon3D" parent="."]
+use_collision = true
 polygon = PackedVector2Array(-2.5, 0.2, 2.5, 0.2, 2.5, 0, -2.5, 0)
 mode = 2
 path_node = NodePath("..")

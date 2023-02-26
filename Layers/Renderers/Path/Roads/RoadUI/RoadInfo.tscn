@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bt4cut8l4y6q5"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/Path/Roads/RoadUI/RoadInfo.gd" id="1_q5t2v"]
+
+[node name="RoadInfo" type="Window"]
+title = "Road Info"
+size = Vector2i(400, 400)
+script = ExtResource("1_q5t2v")
+
+[node name="RoadInfoTabs" type="TabContainer" parent="."]

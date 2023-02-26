@@ -63,13 +63,17 @@ func load_from_feature(road_feature) -> void:
 				road_lane = _road_lane_parking_scene.instantiate()
 			4: # Multipurpose
 				road_lane = _road_lane_pedestrian_scene.instantiate()
+		
+		# General road lane info
 		if road_lane:
-			# General road lane info
+			road_lane.lane_type = lane_type
 			road_lane.road_curve = road_curve
 			road_lane.road_width = float(lane_infos[1])
 			road_lane.road_offset = float(lane_infos[2])
 			road_lane.percentage_from = float(lane_infos[3])
 			road_lane.percentage_to = float(lane_infos[4])
+			
+			road_lane.road_instance = self
 			
 			road_lanes.append(road_lane)
 			self.add_child(road_lane)
@@ -82,11 +86,11 @@ func update_road_lanes() -> void:
 
 func get_info() -> Dictionary:
 	return {
-		"ID": id,
-		"Name": road_name,
-		"Subname": road_subname,
-		"From Intersection": from_intersection,
-		"To Intersection": to_intersection,
-		"Width": width,
-		"Length": length,
+		"ID": str(id),
+		"Name": str(road_name),
+		"Subname": str(road_subname),
+		"From Intersection": str(from_intersection),
+		"To Intersection": str(to_intersection),
+		"Width": "%sm" %[width],
+		"Length": "%sm" %[length],
 	}
