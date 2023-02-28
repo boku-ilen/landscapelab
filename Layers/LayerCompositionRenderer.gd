@@ -25,8 +25,6 @@ var time_manager: TimeManager :
 
 var is_daytime = true
 
-const LOG_MODULE := "LAYERRENDERERS"
-
 
 # To be implemented by child class
 func set_time_manager():

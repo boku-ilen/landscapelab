@@ -12,8 +12,6 @@ signal removed_rendered_layer_composition(layer_composition_name, render_info)
 signal removed_scored_layer_composition(layer_composition_name)
 signal removed_layer_composition(layer_composition_name)
 
-const LOG_MODULE := "LAYERCONFIGURATION"
-
 
 func get_layer_composition(lc_name: String):
 	return layer_compositions[lc_name] if layer_compositions.has(lc_name) else null
@@ -59,7 +57,7 @@ func add_geo_layer(layer: Resource):
 	elif layer is GeoFeatureLayer:
 		geo_layers["features"][layer.resource_name] = layer
 	else:
-		logger.error("Added an invalid geolayer", LOG_MODULE)
+		logger.error("Added an invalid geolayer")
 		return
 	
 	recalculate_center()

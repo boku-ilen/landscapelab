@@ -12,7 +12,6 @@ const distribution_size = 16
 # Maximum plant height -- height values in the distribution map are interpreted to be between 0.0
 #  and this value
 const max_plant_height = 40.0
-const LOG_MODULE := "VEGETATION"
 
 var plants = {}
 var groups = {}
@@ -41,7 +40,7 @@ func _ready():
 	var err = config.load("user://vegetation_paths.cfg")
 	
 	if err != OK:
-		logger.error("Couldn't load vegetation from config since none was available!", LOG_MODULE)
+		logger.error("Couldn't load vegetation from config since none was available!")
 		# TODO: Display the UI for entering paths instead
 		return
 
@@ -105,7 +104,7 @@ func get_group_array_for_ids(id_array):
 		if groups.has(id_array[i]):
 			group_array.append(groups[id_array[i]])
 		else:
-			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]], LOG_MODULE)
+			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]])
 	
 	return group_array
 

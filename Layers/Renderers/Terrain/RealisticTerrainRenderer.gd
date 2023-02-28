@@ -146,7 +146,7 @@ func apply_new_data():
 			
 			lod.apply_textures()
 	
-	logger.info("Applied new RealisticTerrainRenderer data for %s" % [name], LOG_MODULE)
+	logger.info("Applied new RealisticTerrainRenderer data for %s" % [name])
 
 
 func get_debug_info() -> String:

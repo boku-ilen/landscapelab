@@ -3,8 +3,6 @@ extends Configurator
 
 var layer_composition_renderer = preload("res://Layers/LayerCompositionRenderer.tscn")
 
-const LOG_MODULE := "LAYERCONFIGURATION"
-
 @onready var layer_composition_renderers = get_parent()
 
 

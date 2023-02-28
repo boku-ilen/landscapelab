@@ -22,7 +22,7 @@ func _ready():
 	$ProjectButton/OpenCfg.file_selected.connect(func(path):
 		var ll_file_access = LLFileAccess.open(path)
 		if ll_file_access == null:
-			logger.error("Could not load config at " + path, "MenuBar")
+			logger.error("Could not load config at " + path)
 			return
 			
 		ll_file_access.apply(Vegetation, Layers, Scenarios)

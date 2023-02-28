@@ -44,8 +44,6 @@ var renderers_finished := 0
 var load_data_threaded := false
 @onready var loading_thread = Thread.new()
 
-const LOG_MODULE := "LAYERRENDERERS"
-
 signal loading_started
 signal loading_finished
 
@@ -53,7 +51,7 @@ signal loading_finished
 func add_composition(child: Node):
 	if not position_manager and not apply_default_center:
 		logger.debug("Adding child %s to %s, but not yet loading its data due to no available center position"
-				% [child.name, name], LOG_MODULE)
+				% [child.name, name])
 		add_child(child)
 		return
 	
@@ -72,7 +70,7 @@ func add_composition(child: Node):
 
 # Apply a new center position to all child nodes
 func apply_center(center_array):
-	logger.debug("Applying new center center to all children in %s" % [name], LOG_MODULE)
+	logger.debug("Applying new center center to all children in %s" % [name])
 	emit_signal("loading_started")
 	
 	renderers_finished = 0
@@ -96,7 +94,7 @@ func update_renderers(center_array):
 		if renderer is LayerCompositionRenderer:
 			renderer.center = center_array
 			
-			logger.debug("Child {} beginning to load", LOG_MODULE)
+			logger.debug("Child {} beginning to load")
 
 			renderer.full_load()
 			call_deferred("_on_renderer_finished", renderer.name)
@@ -116,8 +114,7 @@ func _on_renderer_finished(renderer_name):
 	renderers_finished += 1
 	
 	logger.info(
-		"Renderer %s of %s (with name %s) finished!" % [renderers_finished, renderers_count, renderer_name],
-		LOG_MODULE
+		"Renderer %s of %s (with name %s) finished!" % [renderers_finished, renderers_count, renderer_name]
 	)
 	
 	if renderers_finished == renderers_count:

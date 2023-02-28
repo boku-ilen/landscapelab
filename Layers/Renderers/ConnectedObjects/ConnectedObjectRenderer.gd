@@ -75,7 +75,7 @@ func apply_new_data():
 	connector_instances.clear()
 	connection_instances.clear()
 	
-	logger.info("Applied new ConnectedObjectRenderer data for %s" % [name], LOG_MODULE)
+	logger.info("Applied new ConnectedObjectRenderer data for %s" % [name])
 
 
 func get_connected_objects(geo_line):
@@ -155,7 +155,7 @@ func get_connected_objects(geo_line):
 
 func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 	if not object.has_node("Docks"):
-		logger.warn("Connected Object %s defines no Docks and cannot be connected" % [object.name], LOG_MODULE)
+		logger.warn("Connected Object %s defines no Docks and cannot be connected" % [object.name])
 		return
 	
 	if object.position.distance_to(position_manager.center_node.position) > connection_radius \
@@ -197,7 +197,7 @@ func _get_height_at_ground(query_position: Vector3) -> float:
 func _ready():
 	super._ready()
 	if not layer_composition.is_valid():
-		logger.error("ConnectedObjectRenderer was given an invalid layer!", LOG_MODULE)
+		logger.error("ConnectedObjectRenderer was given an invalid layer!")
 
 
 func get_debug_info() -> String:

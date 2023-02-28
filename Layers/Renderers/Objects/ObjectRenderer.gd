@@ -76,7 +76,7 @@ func apply_new_data():
 	feature_add_queue.clear()
 	feature_remove_queue.clear()
 	
-	logger.info("Applied new ObjectRenderer data for %s" % [name], LOG_MODULE)
+	logger.info("Applied new ObjectRenderer data for %s" % [name])
 
 
 func apply_new_feature(feature):
@@ -136,7 +136,7 @@ func _ready():
 	layer_composition.render_info.geo_feature_layer.connect("feature_removed",Callable(self,"_on_feature_removed").bind())
 
 	if not layer_composition.is_valid():
-		logger.error("ObjectRenderer was given an invalid layer!", LOG_MODULE)
+		logger.error("ObjectRenderer was given an invalid layer!")
 
 
 func _on_feature_added(feature):

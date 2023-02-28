@@ -17,7 +17,7 @@ var is_enabled: bool = false
 
 func _ready():
 	if not path_follow:
-		logger.error("Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced", "DOLLYCAM")
+		logger.error("Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced")
 		assert(false) #,"Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced")
 
 

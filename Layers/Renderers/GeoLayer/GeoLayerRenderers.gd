@@ -17,8 +17,6 @@ var center := Vector2.ZERO
 var offset := Vector2.ZERO
 var zoom := Vector2.ONE
 
-const LOG_MODULE = "GEOLAYERRENDERERS"
-
 
 func _ready():
 	camera = get_node(camera_path)
@@ -55,7 +53,7 @@ func apply_offset(offset, viewport_size, zoom):
 	var current_center = center
 	current_center.x += offset.x
 	current_center.y -= offset.y
-	logger.debug("Applying new center center to all children in %s" % [name], LOG_MODULE)
+	logger.debug("Applying new center center to all children in %s" % [name])
 	emit_signal("loading_started")
 	
 	renderers_finished = 0
@@ -85,7 +83,7 @@ func update_renderers(center, offset, viewport_size, zoom):
 			renderer.zoom = zoom
 			renderer.radius = radius
 			
-			logger.debug("Child {} beginning to load", LOG_MODULE)
+			logger.debug("Child {} beginning to load")
 
 			renderer.load_new_data()
 			_on_renderer_finished.call_deferred(renderer.name)
@@ -95,8 +93,7 @@ func _on_renderer_finished(renderer_name):
 	renderers_finished += 1
 	
 	logger.info(
-		"Renderer %s of %s (with name %s) finished!" % [renderers_finished, renderers_count, renderer_name],
-		LOG_MODULE
+		"Renderer %s of %s (with name %s) finished!" % [renderers_finished, renderers_count, renderer_name]
 	)
 	
 	if renderers_finished == renderers_count:

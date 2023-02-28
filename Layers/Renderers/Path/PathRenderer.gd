@@ -55,7 +55,7 @@ func _get_height_at_ground(position: Vector3):
 func _ready():
 	super._ready()
 	if not layer_composition.is_valid():
-		logger.error("PathRenderer was given an invalid layer!", LOG_MODULE)
+		logger.error("PathRenderer was given an invalid layer!")
 
 
 func get_debug_info() -> String:

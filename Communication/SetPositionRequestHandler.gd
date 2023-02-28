@@ -29,8 +29,8 @@ func handle_request(request: Dictionary) -> Dictionary:
 			return {"success": true}
 		else:
 			logger.warn(
-				"Target has no set_true_position method, can't convert to local coordinates!", LOG_MODULE
+				"Target has no set_true_position method, can't convert to local coordinates!"
 			)
 	
-	logger.warn("Invalid target in SetPositionRequestHandler, couldn't handle request!", LOG_MODULE)
+	logger.warn("Invalid target in SetPositionRequestHandler, couldn't handle request!")
 	return {"success": false}

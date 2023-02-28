@@ -76,7 +76,6 @@ var _dependent_objects_loaded := 0
 
 # Fallback height for conversions where no height is given, but the output expects one
 const DEFAULT_HEIGHT = 500
-const LOG_MODULE := "WORLDPOSITION"
 
 
 func reset_center():
@@ -130,7 +129,7 @@ func _shift_world(delta_x_diff, delta_z_diff):
 	delta_x_diff -= fposmod(delta_x_diff, 1000)
 	delta_z_diff -= fposmod(delta_z_diff, 1000)
 	
-	logger.info("Shifting world by %f, %f" % [delta_x, delta_z], LOG_MODULE)
+	logger.info("Shifting world by %f, %f" % [delta_x, delta_z])
 	
 	loading = true
 	_dependent_objects_loaded = 0
@@ -169,7 +168,7 @@ func set_offset(new_x, new_z):
 	delta_x = 0
 	delta_z = 0
 	
-	logger.debug("New offset: %d, %d" % [x, z], LOG_MODULE)
+	logger.debug("New offset: %d, %d" % [x, z])
 
 
 func get_center():
@@ -199,7 +198,7 @@ func to_world_coordinates(pos):
 		return [x + int(pos.x), int(pos.y), z - int(pos.z)]
 	else:
 		logger.warn("Invalid type for to_world_coordinates: %s;"\
-			+ "supported types: Vector2, Vector3" % [typeof(pos)], LOG_MODULE)
+			+ "supported types: Vector2, Vector3" % [typeof(pos)])
 
 
 # Converts world coordinates (absolute webmercator coordinates) to engine coordinates.
@@ -213,7 +212,7 @@ func to_engine_coordinates(pos) -> Vector3:
 		return Vector3(-x + pos.x, pos.y, -pos.z + z)
 	else:
 		logger.warn("Invalid type for to_engine_coordinates: %s; Needs to be Array with length of 2 or 3" 
-		% [var_to_str(typeof(pos))], LOG_MODULE)
+		% [var_to_str(typeof(pos))])
 		return Vector3(0, 0, 0)
 
 

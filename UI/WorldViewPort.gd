@@ -17,7 +17,7 @@ func _enter_tree():
 
 
 func _disable_input(disable: bool):
-	logger.debug("Gui input disable: " + var_to_str(disable), "UI")
+	logger.debug("Gui input disable: " + var_to_str(disable))
 	$SubViewport.gui_disable_input = disable
 	if disable and $SubViewport/World.has_node("FirstPersonPC"):
 		$SubViewport/World/FirstPersonPC.stop_movement()

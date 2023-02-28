@@ -10,8 +10,6 @@ var _clients = {}
 var _handlers = {}
 var _message_stack = {}
 
-const LOG_MODULE := "WEBSOCKET"
-
 # initialize the websocket server and listening for client connections
 func _ready():
 	self._ws_server = WebSocketServer.new()
@@ -27,10 +25,10 @@ func _ready():
 	# try to start listening
 	var err = _ws_server.listen(port)
 	if err:
-		logger.error("server bindings could not be initialized (port: %s)" % [port], LOG_MODULE)
+		logger.error("server bindings could not be initialized (port: %s)" % [port])
 		# FIXME: server binding could not be initialized
 	else:
-		logger.info("websocket server initialized checked port %s" % [port], LOG_MODULE)
+		logger.info("websocket server initialized checked port %s" % [port])
 
 
 # close the server checked unload
@@ -74,14 +72,14 @@ func _process(_delta):
 
 # handle a new client connection and register it
 func _connected(id, proto):
-	logger.info("Connected client %s with protocol %s" % [id, proto], LOG_MODULE)
+	logger.info("Connected client %s with protocol %s" % [id, proto])
 	self._clients[id] = self._ws_server.get_peer(id)
 	self._clients[id].set_write_mode(self._write_mode)
 
 
 # remove_at a client connection
 func _disconnected(id, was_clean=false):
-	logger.info("Disconnected client %s (clean: %s)" % [id, was_clean], LOG_MODULE)
+	logger.info("Disconnected client %s (clean: %s)" % [id, was_clean])
 	if self._clients.has(id):
 		self._clients.erase(id)
 
@@ -97,21 +95,21 @@ func _on_data(id, _message):
 	
 	# Validation
 	if not json_result.error == OK:
-		logger.error("Received invalid JSON data in request: %s" % [string], LOG_MODULE)
+		logger.error("Received invalid JSON data in request: %s" % [string])
 		return
 	
 	var json_dict = json_result.result
 	
-	logger.debug("received request from %s with data %s" % [id, json_dict], LOG_MODULE)
+	logger.debug("received request from %s with data %s" % [id, json_dict])
 	
 	if not json_dict.has("message_id"):
-		logger.error("Missing message ID in request! Aborting...", LOG_MODULE)
+		logger.error("Missing message ID in request! Aborting...")
 		return
 	
 	var message_id = json_dict["message_id"]
 	
 	if not json_dict.has("keyword"):
-		logger.error("Missing keyword field in request with ID %s!" % [message_id], LOG_MODULE)
+		logger.error("Missing keyword field in request with ID %s!" % [message_id])
 		return
 	
 	var keyword = json_dict["keyword"]
@@ -136,7 +134,7 @@ func _on_data(id, _message):
 				_send_data(answer, null, message_id)  # FIXME: how to find according client_id?
 			
 		else:
-			logger.warn("received a message without registered keyword %s" % [keyword], LOG_MODULE)
+			logger.warn("received a message without registered keyword %s" % [keyword])
 
 
 func broadcast(data):
@@ -148,16 +146,16 @@ func broadcast(data):
 func _send_data(data: Dictionary, client_id=-1, message_id=null):
 	# if id is null broadcast to all connected clients
 	if client_id == -1:
-		logger.debug("starting broadcast", LOG_MODULE)
+		logger.debug("starting broadcast")
 		for current_client_id in _clients:
 			_send_data(data, current_client_id, message_id)
-		logger.debug("ending broadcast", LOG_MODULE)
+		logger.debug("ending broadcast")
 
 	else:
 		if message_id:
 			data["message_id"] = message_id
 		else:
 			data["message_id"] = Time.get_ticks_msec() 
-		logger.debug("send msg: %s to client %s" % [data, client_id], LOG_MODULE)
+		logger.debug("send msg: %s to client %s" % [data, client_id])
 		var message = JSON.stringify(data)
 		self._ws_server.get_peer(client_id).put_packet(message.to_utf8_buffer())
