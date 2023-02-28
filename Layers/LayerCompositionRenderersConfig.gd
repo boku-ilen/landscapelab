@@ -25,7 +25,7 @@ func add_layer_composition(layer_composition: LayerComposition):
 	new_layer_composition.layer_composition = layer_composition
 	new_layer_composition.name = layer_composition.name
 	
-	layer_composition_renderers.add_child(new_layer_composition)
+	layer_composition_renderers.add_composition(new_layer_composition)
 
 
 func remove_layer_composition(name_to_remove, render_info):

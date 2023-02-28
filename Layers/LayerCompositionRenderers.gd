@@ -50,11 +50,11 @@ signal loading_started
 signal loading_finished
 
 
-func add_child(child: Node, force_readable_name: bool = false, internal: int = 0):
+func add_composition(child: Node):
 	if not position_manager and not apply_default_center:
 		logger.debug("Adding child %s to %s, but not yet loading its data due to no available center position"
 				% [child.name, name], LOG_MODULE)
-		super.add_child(child, force_readable_name, internal)
+		add_child(child)
 		return
 	
 	# Give the child a center position
@@ -67,7 +67,7 @@ func add_child(child: Node, force_readable_name: bool = false, internal: int = 0
 		child.center = default_center
 	
 	# Actually add the child node to the tree
-	super.add_child(child, force_readable_name, internal)
+	add_child(child)
 
 
 # Apply a new center position to all child nodes

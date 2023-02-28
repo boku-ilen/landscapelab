@@ -80,7 +80,7 @@ static func serialize(layer_composition: LayerComposition):
 	
 	var serialized = {
 		layer_composition.name: {
-			"type": layer_composition.render_info.get_class(),
+			"type": layer_composition.render_info.get_class_name(),
 			"attributes": attributes
 		}
 	}

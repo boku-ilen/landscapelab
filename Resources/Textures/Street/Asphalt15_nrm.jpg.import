@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bpkien7e5dles"
 path.s3tc="res://.godot/imported/Asphalt15_nrm.jpg-41b4344588fdaf5aa72b41d9e3c36cf1.s3tc.ctex"
-path.etc2="res://.godot/imported/Asphalt15_nrm.jpg-41b4344588fdaf5aa72b41d9e3c36cf1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Textures/Street/Asphalt15_nrm.jpg"
-dest_files=["res://.godot/imported/Asphalt15_nrm.jpg-41b4344588fdaf5aa72b41d9e3c36cf1.s3tc.ctex", "res://.godot/imported/Asphalt15_nrm.jpg-41b4344588fdaf5aa72b41d9e3c36cf1.etc2.ctex"]
+dest_files=["res://.godot/imported/Asphalt15_nrm.jpg-41b4344588fdaf5aa72b41d9e3c36cf1.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=false
