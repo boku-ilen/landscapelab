@@ -53,12 +53,7 @@ func save():
 		})
 	
 	# FIXME: unmake hardcode
-	ll_config["Vegetation"] = {
-		"Plants": "./plants.csv",
-		"Groups": "./groups.csv",
-		"Densities": "./densities.csv",
-		"Textures": "./textures.csv"
-	}
+	ll_config["Vegetation"] = Vegetation.paths
 	
 	var json_string = JSON.stringify(ll_config)
 	file_access.store_line(json_string)

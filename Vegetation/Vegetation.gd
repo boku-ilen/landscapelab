@@ -18,6 +18,8 @@ var groups = {}
 var density_classes = {}
 var ground_textures = {}
 var fade_textures = {}
+var paths := {}
+
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
@@ -86,6 +88,12 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	max_extent = max_size_factor * plant_extent_factor
 	
 	emit_signal("new_data")
+	paths = {
+		"Densities": density_path,
+		"Groups": group_path,
+		"Plants": plant_path,
+		"Textures": texture_definition_path
+	}
 
 
 # Save the current Plant and Group data to CSV files at the given locations.
