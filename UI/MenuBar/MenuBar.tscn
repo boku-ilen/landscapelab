@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://csad5ev7rwtoe"]
+[gd_scene load_steps=4 format=3 uid="uid://csad5ev7rwtoe"]
 
 [ext_resource type="Script" path="res://UI/MenuBar/MenuBar.gd" id="1_ikqg2"]
 [ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="2_uetun"]
+[ext_resource type="PackedScene" uid="uid://ch15mdq8mk72s" path="res://Util/FileChooser.tscn" id="3_ckk4c"]
 
 [node name="MenuBar" type="HBoxContainer"]
 offset_right = 1140.0
@@ -30,3 +31,51 @@ theme = ExtResource("2_uetun")
 ok_button_text = "Save"
 access = 2
 filters = PackedStringArray("*.ll")
+
+[node name="SetVegetationPaths" type="ConfirmationDialog" parent="ProjectButton"]
+size = Vector2i(290, 193)
+theme = ExtResource("2_uetun")
+
+[node name="Grid" type="GridContainer" parent="ProjectButton/SetVegetationPaths"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 282.0
+offset_bottom = 144.0
+columns = 2
+
+[node name="DensitiesLabel" type="Label" parent="ProjectButton/SetVegetationPaths/Grid"]
+layout_mode = 2
+text = "Densities: "
+
+[node name="Densities" parent="ProjectButton/SetVegetationPaths/Grid" instance=ExtResource("3_ckk4c")]
+layout_mode = 2
+size_flags_horizontal = 3
+text_placeholder = "*.csv"
+filters = ["*.csv"]
+
+[node name="GroupsLabel" type="Label" parent="ProjectButton/SetVegetationPaths/Grid"]
+layout_mode = 2
+text = "Groups:"
+
+[node name="Groups" parent="ProjectButton/SetVegetationPaths/Grid" instance=ExtResource("3_ckk4c")]
+layout_mode = 2
+text_placeholder = "*.csv"
+filters = ["*.csv"]
+
+[node name="PlantsLabel" type="Label" parent="ProjectButton/SetVegetationPaths/Grid"]
+layout_mode = 2
+text = "Plants:"
+
+[node name="Plants" parent="ProjectButton/SetVegetationPaths/Grid" instance=ExtResource("3_ckk4c")]
+layout_mode = 2
+text_placeholder = "*.csv"
+filters = ["*.csv"]
+
+[node name="TexturesLabel" type="Label" parent="ProjectButton/SetVegetationPaths/Grid"]
+layout_mode = 2
+text = "Textures:"
+
+[node name="Textures" parent="ProjectButton/SetVegetationPaths/Grid" instance=ExtResource("3_ckk4c")]
+layout_mode = 2
+text_placeholder = "*.csv"
+filters = ["*.csv"]
