@@ -70,7 +70,8 @@ func is_current_path_valid():
 func get_full_dataset_string():
 	var access_str = $OptionButton.get_item_text($OptionButton.get_selected_id())
 	var dataset_str = $FileChooser/FileName.text
-	return "{}:{}".format([dataset_str, access_str], "{}")
+	var access_mode = "w" if $HBoxContainer/CheckBox.pressed else "r"
+	return "{}:{}?{}".format([dataset_str, access_str, access_mode], "{}")
 
 
 func _get_geo_layer(function_str: String):

@@ -19,3 +19,13 @@ text_placeholder = "..."
 [node name="OptionButton" type="OptionButton" parent="."]
 visible = false
 layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Write-acess:"
+
+[node name="CheckBox" type="CheckBox" parent="HBoxContainer"]
+layout_mode = 2

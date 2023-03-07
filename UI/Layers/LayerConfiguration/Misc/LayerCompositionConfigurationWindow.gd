@@ -114,6 +114,7 @@ func _on_confirm():
 		layer_composition = LayerComposition.new()
 		is_new = true
 	
+	# "Fake" an *.ll file
 	layer_composition = LayerCompositionSerializer.deserialize(
 		"",
 		layer_composition_name.text,
