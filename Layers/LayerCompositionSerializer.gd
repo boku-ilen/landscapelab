@@ -25,14 +25,19 @@ static func deserialize(
 		var render_attribute = render_properties[attribute_name]
 
 		if render_attribute["class_name"] in ["GeoRasterLayer", "GeoFeatureLayer"]:
-			var full_path = attributes[attribute_name].split(":")
-			var file_name = abs_path.get_base_dir().path_join(full_path[0])
-			var layer_name = full_path[1]
+			# E.g. ./LL.gpkg:ortho?w
+			# => ["./LL.gpkg", "ortho?w"]
+			var path_layer_split = attributes[attribute_name].split(":")
+			# => ["ortho", "w"]
+			var layer_access_split = path_layer_split[1].split("?")
+			var abs_file_name = LLFileAccess.get_rel_or_abs_path(abs_path, path_layer_split[0])
+			var layer_name = layer_access_split[0]
+			var write_access = true if layer_access_split.size() > 1 and layer_access_split[1] == "w" else false
 			
-			if not file_name in db_cache:
-				db_cache[file_name] = Geodot.get_dataset(file_name)
+			if not abs_file_name in db_cache:
+				db_cache[abs_file_name] = Geodot.get_dataset(abs_file_name, write_access)
 			
-			var db = db_cache[file_name]
+			var db = db_cache[abs_file_name]
 			
 			if render_attribute["class_name"] == "GeoRasterLayer":
 				attribute = db.get_raster_layer(layer_name)
@@ -64,13 +69,15 @@ static func serialize(layer_composition: LayerComposition):
 		
 		match type:
 			"GeoRasterLayer":
-				serialized = "{}:{}".format(
-					[property_var.get_file_info()["path"],
-					property_var.resource_name], "{}")
+				serialized = "{}:{}?{}".format(
+					[property_var.get_dataset().get_file_info()["path"],
+					property_var.resource_name,
+					"w" if property_var.get_dataset().has_write_access() else "r"], "{}")
 			"GeoFeatureLayer": 
-				serialized = "{}:{}".format(
-					[property_var.get_dataset().resource_path,
-					property_var.resource_name], "{}")
+				serialized = "{}:{}?{}".format(
+					[property_var.get_file_info()["path"],
+					property_var.resource_name,
+					"w" if property_var.get_dataset().has_write_access() else "r"], "{}")
 			"Color": 
 				serialized = str(property_var)
 			_:

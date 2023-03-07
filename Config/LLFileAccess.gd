@@ -71,6 +71,13 @@ func apply(vegetation: Node, layers: Node, scenarios: Node):
 	apply_scenarios(scenarios)
 
 
+static func get_rel_or_abs_path(base_path: String, file_path: String):
+	if file_path.begins_with("./"):
+		return base_path.get_base_dir().path_join(file_path)
+	else:
+		return file_path
+
+
 func apply_vegetation(vegetation: Node):
 	var ll_project = json_object.data
 	
@@ -78,10 +85,10 @@ func apply_vegetation(vegetation: Node):
 	if ll_project.has("Vegetation"):
 		logger.info("Loading vegetation...")
 		vegetation.load_data_from_csv(
-			path.get_base_dir().path_join(ll_project["Vegetation"]["Plants"]),
-			path.get_base_dir().path_join(ll_project["Vegetation"]["Groups"]),
-			path.get_base_dir().path_join(ll_project["Vegetation"]["Densities"]),
-			path.get_base_dir().path_join(ll_project["Vegetation"]["Textures"])
+			get_rel_or_abs_path(path, ll_project["Vegetation"]["Plants"]),
+			get_rel_or_abs_path(path, ll_project["Vegetation"]["Groups"]),
+			get_rel_or_abs_path(path, ll_project["Vegetation"]["Densities"]),
+			get_rel_or_abs_path(path, ll_project["Vegetation"]["Textures"])
 		)
 		logger.info("Done loading vegetation!")
 
