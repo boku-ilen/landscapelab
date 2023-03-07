@@ -22,10 +22,10 @@ func _ready():
 	camera = get_node(camera_path)
 	camera.offset_changed.connect(apply_offset)
 		
-	for layer in Layers.geo_layers["rasters"]:
-		_instantiate_geolayer_renderer(layer, true)
-	for layer in Layers.geo_layers["features"]:
-		_instantiate_geolayer_renderer(layer, false)
+	for layer in Layers.geo_layers["rasters"].values():
+		_instantiate_geolayer_renderer(layer)
+	for layer in Layers.geo_layers["features"].values():
+		_instantiate_geolayer_renderer(layer)
 	
 	center = Vector2(Layers.current_center.x, Layers.current_center.z)
 	apply_offset(Vector2.ZERO, camera.get_viewport_rect().size, camera.zoom)
@@ -33,17 +33,17 @@ func _ready():
 	#Layers.new_geo_layer.connect(_instantiate_geolayer_renderer)
 
 
-func _instantiate_geolayer_renderer(geo_layer_name, is_raster: bool):
+func _instantiate_geolayer_renderer(geo_layer: Resource):
 	var new_renderer
-	if is_raster:
+	if geo_layer is GeoRasterLayer:
 		new_renderer = raster_renderer.instantiate()
-		new_renderer.geo_raster_layer = Layers.geo_layers["rasters"][geo_layer_name]
+		new_renderer.geo_raster_layer = geo_layer
 	else: 
 		new_renderer = feature_renderer.instantiate()
-		new_renderer.geo_feature_layer = Layers.geo_layers["features"][geo_layer_name]
+		new_renderer.geo_feature_layer = geo_layer
 	
 	if new_renderer:
-		new_renderer.name = geo_layer_name
+		new_renderer.name = geo_layer.resource_name
 		add_child(new_renderer)
 
 
