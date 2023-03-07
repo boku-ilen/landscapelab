@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://iwuu4fk1floi"
 path.s3tc="res://.godot/imported/Water_N_B.png-e20bffc1544df58afba1ba180f4a6490.s3tc.ctex"
-path.etc2="res://.godot/imported/Water_N_B.png-e20bffc1544df58afba1ba180f4a6490.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Textures/LakeWater/Water_N_B.png"
-dest_files=["res://.godot/imported/Water_N_B.png-e20bffc1544df58afba1ba180f4a6490.s3tc.ctex", "res://.godot/imported/Water_N_B.png-e20bffc1544df58afba1ba180f4a6490.etc2.ctex"]
+dest_files=["res://.godot/imported/Water_N_B.png-e20bffc1544df58afba1ba180f4a6490.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=false

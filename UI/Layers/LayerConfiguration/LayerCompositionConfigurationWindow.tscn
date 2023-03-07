@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dxm7m5e7uy7jn"]
+[gd_scene load_steps=8 format=3 uid="uid://o84tjyjkbjgt"]
 
-[ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="2_ckxgs"]
-[ext_resource type="PackedScene" uid="uid://ce363ya7o8glf" path="res://UI/Layers/LayerConfiguration/Misc/ColorTag.tscn" id="3"]
-[ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="3_cfdml"]
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/LayerCompositionConfigurationWindow.gd" id="4"]
+[ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1_wg5if"]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerCompositionConfigurationWindow.gd" id="2_jvxn0"]
+[ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="3_odowl"]
+[ext_resource type="PackedScene" uid="uid://ce363ya7o8glf" path="res://UI/Layers/LayerConfiguration/Misc/ColorTag.tscn" id="4_pcifh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_samme"]
 
@@ -15,16 +15,16 @@
 title = "Layer Configuration"
 size = Vector2i(500, 180)
 visible = true
-theme = ExtResource("2_ckxgs")
+theme = ExtResource("1_wg5if")
 dialog_hide_on_ok = false
-script = ExtResource("4")
+script = ExtResource("2_jvxn0")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 492.0
 offset_bottom = 131.0
-theme = ExtResource("3_cfdml")
+theme = ExtResource("3_odowl")
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -46,7 +46,7 @@ layout_mode = 2
 text = "Color Tag:"
 label_settings = SubResource("LabelSettings_77x8n")
 
-[node name="ColorTagMenu" parent="VBoxContainer/GridContainer" instance=ExtResource("3")]
+[node name="ColorTagMenu" parent="VBoxContainer/GridContainer" instance=ExtResource("4_pcifh")]
 layout_mode = 2
 
 [node name="Type" type="Label" parent="VBoxContainer/GridContainer"]

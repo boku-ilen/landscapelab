@@ -4,7 +4,6 @@ extends Resource
 var external_types = ["shp", "json", "tif", "wmts"]
 
 const path_prefix := "user://Geodata"
-const LOG_MODULE := "EXTERNAL_LAYER"
 
 
 func external_to_geolayer_from_type(db, config: Dictionary):
@@ -16,13 +15,13 @@ func external_to_geolayer_from_type(db, config: Dictionary):
 	elif config.geolayer_path.is_absolute_path():
 		path = config.geolayer_path
 	else:
-		logger.error("Invalid path \"%s\" in external layer configuration" % config.geolayer_path, LOG_MODULE)
+		logger.error("Invalid path \"%s\" in external layer configuration" % config.geolayer_path)
 		return
 	
 	if not type in external_types:
 		logger.error(
 			"""Unexpected file-extension \"%s\" for external layer.
-				Supported types: %s""" % [type, external_types], LOG_MODULE)
+				Supported types: %s""" % [type, external_types])
 		return
 		
 	return call("geolayer_from_%s" % type, path, config)

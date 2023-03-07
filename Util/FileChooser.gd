@@ -7,8 +7,8 @@ extends HBoxContainer
 	set(text):
 		text_placeholder = text
 		
-		if $FileName:
-			$FileName.placeholder_text = text
+		if has_node("FileName"):
+			get_node("FileName").placeholder_text = text
 
 @export var filters: PackedStringArray = ["*.shp", "*.gpkg", "*.tif"]
 
@@ -23,6 +23,7 @@ extends HBoxContainer
 @onready var file_dialog = get_node("Button/FileDialog") 
 @onready var file_name = get_node("FileName")
 
+signal file_selected
 
 func _ready():
 	file_dialog.filters = filters
@@ -34,5 +35,6 @@ func _pop_file_dialog():
 	file_dialog.popup(Rect2(button.global_position, Vector2(500, 400)))
 
 
-func _file_selected(which: String):
-	file_name.set_text(which)
+func _file_selected(path: String):
+	file_name.set_text(path)
+	file_selected.emit(path)

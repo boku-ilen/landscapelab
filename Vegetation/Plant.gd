@@ -9,7 +9,6 @@ class_name Plant
 
 # We assume all billboards to end with 'png' since they require transparency
 const BILLBOARD_ENDING = ".png"
-const LOG_MODULE := "VEGETATION"
 
 enum Size {XS, S, M, L, XL}
 enum Season {SPRING, SUMMER, AUTUMN, WINTER}
@@ -51,14 +50,14 @@ func _load_into_cache_if_necessary(full_path):
 		
 		if img.is_empty():
 			logger.warn("Invalid billboard path in %s: %s"
-					% [name_en, full_path], LOG_MODULE)
+					% [name_en, full_path])
 		
 		VegetationImages.plant_image_cache[full_path] = img
 
 
 func _get_image(path):
 	if not FileAccess.file_exists(path):
-		logger.warn("Invalid Plant image (file does not exist): %s" % [path], LOG_MODULE)
+		logger.warn("Invalid Plant image (file does not exist): %s" % [path])
 		return null
 	
 	_load_into_cache_if_necessary(path)
@@ -66,7 +65,7 @@ func _get_image(path):
 
 func _get_texture(path):
 	if not FileAccess.file_exists(path):
-		logger.warn("Invalid Plant image (file does not exist): %s" % [path], LOG_MODULE)
+		logger.warn("Invalid Plant image (file does not exist): %s" % [path])
 		return null
 	
 	_load_into_cache_if_necessary(path)

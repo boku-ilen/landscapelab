@@ -35,7 +35,6 @@ render_target_update_mode = 4
 
 [node name="Camera2D" type="Camera2D" parent="GeoLayerViewport/SubViewport"]
 ignore_rotation = false
-current = true
 limit_left = -1000000000
 limit_top = -1000000000
 limit_right = 1000000000

@@ -127,7 +127,7 @@ func _on_confirm():
 	
 	if not layer_composition.is_valid():
 		logger.error("Confirmation would've created invalid layer with name: %s and type: %s. Aborting"
-				% [layer_composition.name, current_type], "LAYERCONFIG")
+				% [layer_composition.name, current_type])
 		# TODO: Should we give an error in the UI here too, or did this definitely already happen
 		#  in assign_specific_layer_info?
 		return

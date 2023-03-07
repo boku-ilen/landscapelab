@@ -5,8 +5,6 @@ class_name VegetationUtil
 # Static base utility (inherited by GPGK/CSV specifications)
 #
 
-const LOG_MODULE := "VEGETATION"
-
 static func _create_density_classes(densities_data: Array) -> Dictionary:
 	var density_classes = {}
 	
@@ -63,7 +61,7 @@ static func _create_plants(plants_data: Array, density_classes: Dictionary) -> D
 		# A missing ID makes a plant invalid
 		if id == "":
 			logger.warn("Plant with empty ID in plant row/line: %s"
-					% [line], LOG_MODULE)
+					% [line])
 			continue
 		else:
 			id = str_to_var(id)
@@ -73,7 +71,7 @@ static func _create_plants(plants_data: Array, density_classes: Dictionary) -> D
 		if density_class_string.is_empty() \
 				or not density_classes.has(str_to_var(density_class_string)):
 			logger.warn("Unknown Density Class ID: %s. Using the first one as a fallback..."
-					% [density_class_string], LOG_MODULE)
+					% [density_class_string])
 			density_class_string = 0
 		
 		plant.id = id
@@ -117,14 +115,14 @@ static func _create_groups(groups_data: Array, plants: Dictionary,
 		
 		if id == "":
 			logger.warn("Group with empty ID in CSV line: %s"
-					% [line], LOG_MODULE)
+					% [line])
 			continue
 		else:
 			id = str_to_var(id)
 		
 		if id in groups.keys():
 			logger.warn("Duplicate group with ID %s! Skipping..."
-					% [id], LOG_MODULE)
+					% [id])
 			continue
 		
 		# Parse and loads plants
@@ -136,7 +134,7 @@ static func _create_groups(groups_data: Array, plants: Dictionary,
 				group_plants.append(plants[plant_id])
 			else:
 				logger.warn("Non-existent plant with ID %s in line/row %s!"
-						% [plant_id, line], LOG_MODULE)
+						% [plant_id, line])
 		
 		# null is encoded as the string "Null"
 		var ground_texture_id = line["TEXTURE_ID"] if not line["TEXTURE_ID"].is_empty() \
@@ -146,7 +144,7 @@ static func _create_groups(groups_data: Array, plants: Dictionary,
 		
 		if ground_texture_id == null or ground_texture_id.is_empty() or not ground_textures.has(str_to_var(ground_texture_id)):
 			logger.warn("Non-existent ground texture ID %s in group %s, using 1 as fallback"
-					% [ground_texture_id, id], LOG_MODULE)
+					% [ground_texture_id, id])
 			ground_texture_id = 1
 		else:
 			ground_texture_id = str_to_var(ground_texture_id)
@@ -159,7 +157,7 @@ static func _create_groups(groups_data: Array, plants: Dictionary,
 		
 		if fade_texture_id == null or not fade_textures.has(str_to_var(fade_texture_id)):
 			logger.warn("Non-existent fade texture ID %s in group %s, using null as fallback"
-					% [fade_texture_id, id], LOG_MODULE)
+					% [fade_texture_id, id])
 			fade_texture = null
 		else:
 			fade_texture = fade_textures[str_to_var(fade_texture_id)]

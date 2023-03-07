@@ -13,7 +13,7 @@ func _init(initial_id: int,initial_collection,initial_geo_feature):
 
 func get_attribute(attribute_name):
 	if not collection.attributes.has(attribute_name):
-		logger.error("Invalid attribute with name {n}".format({"n": attribute_name}), "GAMESYSTEM")
+		logger.error("Invalid attribute with name {n}".format({"n": attribute_name}))
 		return null
 	
 	return collection.attributes[attribute_name].get_value(self)

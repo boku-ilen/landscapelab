@@ -69,7 +69,5 @@ scene_to_load = "res://Python/PysolarInterface.tscn"
 
 [node name="RainParticles" parent="." instance=ExtResource("8")]
 emitting = false
-wind_force_north = 0.0
-wind_force_east = 0.0
 
 [node name="RainSplashes" parent="." instance=ExtResource("9")]

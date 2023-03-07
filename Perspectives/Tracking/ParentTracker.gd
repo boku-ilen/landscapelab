@@ -13,8 +13,6 @@ var usage = Settings.get_setting("meta", "usage")
 
 var file
 
-const LOG_MODULE := "PERSPECTIVES"
-
 
 # Start saving data with the current Session id
 func start_tracking(additional_flag: String = ""):
@@ -60,7 +58,7 @@ func open_tracking_file(filename):
 	file = FileAccess.open(filename, FileAccess.WRITE)
 	
 	if file == null:
-		logger.error("Couldn't open tracking file!", LOG_MODULE)
+		logger.error("Couldn't open tracking file!")
 		return
 	
 	var line = PackedStringArray()
@@ -125,5 +123,5 @@ func take_screenshot():
 # Actually save a screenshot - to be run in a thread
 func _save_screenshot(img_filename_array):
 	img_filename_array[0].save_png(img_filename_array[1])
-	logger.info("captured screenshot in %s " % [img_filename_array[1]], LOG_MODULE)
+	logger.info("captured screenshot in %s " % [img_filename_array[1]])
 	

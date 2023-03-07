@@ -114,7 +114,7 @@ func apply_new_data():
 		renderer.position = offset
 		renderer.apply_data()
 	
-	logger.info("Applied new RasterVegetationRenderer data for %s" % [name], LOG_MODULE)
+	logger.info("Applied new RasterVegetationRenderer data for %s" % [name])
 
 
 func get_debug_info() -> String:

@@ -10,11 +10,9 @@ var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 
 var position_manager: PositionManager  # Injected if needed
 
-const LOG_MODULE := "PERSPECTIVES"
-
 
 func teleport(pos: Vector3):
-	logger.info("Teleporting player %s to coordinates: %s" % [name, pos], LOG_MODULE)
+	logger.info("Teleporting player %s to coordinates: %s" % [name, pos])
 	transform.origin = pos
 
 

@@ -159,7 +159,7 @@ func apply_new_data():
 	
 	_apply_daytime_change(is_daytime)
 	
-	logger.info("Applied new BuildingRenderer data for %s" % [name], LOG_MODULE)
+	logger.info("Applied new BuildingRenderer data for %s" % [name])
 
 
 func _ready():

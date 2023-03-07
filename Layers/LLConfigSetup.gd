@@ -2,8 +2,6 @@ extends Configurator
 
 var has_loaded = false
 
-const LOG_MODULE := "LAYERCONFIGURATION"
-
 signal applied_configuration
 
 
@@ -15,7 +13,7 @@ func setup():
 	var path = get_setting("config-path")
 	
 	if path == null:
-		logger.info("No configuration path was set.", LOG_MODULE)
+		logger.info("No configuration path was set.")
 	else:
 		load_ll_json(path)
 
@@ -23,7 +21,7 @@ func setup():
 func load_ll_json(path: String):
 	var ll_file_access = LLFileAccess.open(path)
 	if ll_file_access == null:
-		logger.error("Could not load config at " + path, "MenuBar")
+		logger.error("Could not load config at " + path)
 		return
 		
 	ll_file_access.apply(Vegetation, Layers, Scenarios)
@@ -31,7 +29,7 @@ func load_ll_json(path: String):
 	has_loaded = true
 	applied_configuration.emit()
 	
-	logger.info("Done loading layers!", LOG_MODULE)
+	logger.info("Done loading layers!")
 
 
 #	define_probing_game_mode(

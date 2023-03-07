@@ -1,15 +1,13 @@
 extends RefCounted
 class_name LLFileAccess
 
-const category = "LLFileAccess"
-
 var json_object := JSON.new()
 var path: String
 var file_access: FileAccess
 
 
 static func open(init_path: String) -> LLFileAccess:
-	logger.info("Loading LL project file from " + init_path + "...", category)
+	logger.info("Loading LL project file from " + init_path + "...")
 	var file
 	if FileAccess.file_exists(init_path):
 		file = FileAccess.open(init_path, FileAccess.READ_WRITE)
@@ -21,7 +19,7 @@ static func open(init_path: String) -> LLFileAccess:
 	ll_file_access.file_access = file
 	
 	if file == null:
-		logger.error("Error opening LL project file at " + init_path, category)
+		logger.error("Error opening LL project file at " + init_path)
 		return null
 	
 	var error = ll_file_access.json_object.parse(file.get_as_text())
@@ -29,7 +27,7 @@ static func open(init_path: String) -> LLFileAccess:
 	if error != OK:
 		logger.error("Error parsing LL project at " + init_path + ": "
 				+ ll_file_access.json_object.get_error_message() + " at line "
-				+ str(ll_file_access.json_object.get_error_line()), category)
+				+ str(ll_file_access.json_object.get_error_line()))
 	
 	return ll_file_access
 
@@ -55,12 +53,7 @@ func save():
 		})
 	
 	# FIXME: unmake hardcode
-	ll_config["Vegetation"] = {
-		"Plants": "./plants.csv",
-		"Groups": "./groups.csv",
-		"Densities": "./densities.csv",
-		"Textures": "./textures.csv"
-	}
+	ll_config["Vegetation"] = Vegetation.paths
 	
 	var json_string = JSON.stringify(ll_config)
 	file_access.store_line(json_string)
@@ -69,7 +62,7 @@ func save():
 	if error != OK:
 		logger.error("Error parsing LL project at : "
 			+ json_object.get_error_message() + " at line "
-			+ str(json_object.get_error_line()), category)
+			+ str(json_object.get_error_line()))
 
 
 func apply(vegetation: Node, layers: Node, scenarios: Node):
@@ -83,21 +76,21 @@ func apply_vegetation(vegetation: Node):
 	
 	# Load vegetation if in config
 	if ll_project.has("Vegetation"):
-		logger.info("Loading vegetation...", category)
+		logger.info("Loading vegetation...")
 		vegetation.load_data_from_csv(
 			path.get_base_dir().path_join(ll_project["Vegetation"]["Plants"]),
 			path.get_base_dir().path_join(ll_project["Vegetation"]["Groups"]),
 			path.get_base_dir().path_join(ll_project["Vegetation"]["Densities"]),
 			path.get_base_dir().path_join(ll_project["Vegetation"]["Textures"])
 		)
-		logger.info("Done loading vegetation!", category)
+		logger.info("Done loading vegetation!")
 
 
 func apply_layers(layers: Node):
 	var ll_project = json_object.data
 	
 	for composition_name in ll_project["LayerCompositions"].keys():
-		logger.info("Loading layer composition " + composition_name + "...", category)
+		logger.info("Loading layer composition " + composition_name + "...")
 		
 		var composition_data = ll_project["LayerCompositions"][composition_name]
 		var type = composition_data["type"]
@@ -117,7 +110,7 @@ func apply_scenarios(scenarios: Node):
 	
 	# Load scenarios if in config
 	if ll_project.has("Scenarios"):
-		logger.info("Loading scenarios...", category)
+		logger.info("Loading scenarios...")
 		for scenario_name in ll_project["Scenarios"].keys():
 			var scenario = Scenario.new()
 			scenario.name = scenario_name
@@ -127,4 +120,4 @@ func apply_scenarios(scenarios: Node):
 			
 			scenarios.add_scenario(scenario)
 		
-		logger.info("Done loading scenarios!", category)
+		logger.info("Done loading scenarios!")

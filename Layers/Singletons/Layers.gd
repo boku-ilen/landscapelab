@@ -7,12 +7,10 @@ var layer_compositions: Dictionary
 signal new_rendered_layer_composition(layer_composition)
 signal new_scored_layer_composition(layer_composition)
 signal new_layer_composition(layer_composition)
-signal new_geo_layer(geo_layer, is_raster)
+signal new_geo_layer(geo_layer)
 signal removed_rendered_layer_composition(layer_composition_name, render_info)
 signal removed_scored_layer_composition(layer_composition_name)
 signal removed_layer_composition(layer_composition_name)
-
-const LOG_MODULE := "LAYERCONFIGURATION"
 
 
 func get_layer_composition(lc_name: String):
@@ -59,11 +57,11 @@ func add_geo_layer(layer: Resource):
 	elif layer is GeoFeatureLayer:
 		geo_layers["features"][layer.resource_name] = layer
 	else:
-		logger.error("Added an invalid geolayer", LOG_MODULE)
+		logger.error("Added an invalid geolayer")
 		return
 	
 	recalculate_center()
-	emit_signal("new_geo_layer", layer is GeoRasterLayer)
+	new_geo_layer.emit(layer)
 
 
 func remove_layer_composition(layer_composition_name: String):

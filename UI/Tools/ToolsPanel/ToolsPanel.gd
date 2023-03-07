@@ -62,4 +62,4 @@ func apply_tool_settings(mode: int):
 	
 	#for child in tools_bar.get_children():
 	#	if not tools.has(child.name):
-	#		child.set_disabled(true)
+	#		child.set_button_disabled(true)

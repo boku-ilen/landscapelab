@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dcj5ncl2ea1k6"
 path.s3tc="res://.godot/imported/circle.svg-4b9ae1a413056b0938468b73528a046c.s3tc.ctex"
-path.etc2="res://.godot/imported/circle.svg-4b9ae1a413056b0938468b73528a046c.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Icons/ColorOpenMoji/circle.svg"
-dest_files=["res://.godot/imported/circle.svg-4b9ae1a413056b0938468b73528a046c.s3tc.ctex", "res://.godot/imported/circle.svg-4b9ae1a413056b0938468b73528a046c.etc2.ctex"]
+dest_files=["res://.godot/imported/circle.svg-4b9ae1a413056b0938468b73528a046c.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true

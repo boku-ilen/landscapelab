@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://5fn1b5sasnhp"
 path.s3tc="res://.godot/imported/Grass003_1K_Displacement.jpg-62f198362687142cbad0404df2d2646d.s3tc.ctex"
-path.etc2="res://.godot/imported/Grass003_1K_Displacement.jpg-62f198362687142cbad0404df2d2646d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Meshes/Schloss/new/Grass003_1K_Displacement.jpg"
-dest_files=["res://.godot/imported/Grass003_1K_Displacement.jpg-62f198362687142cbad0404df2d2646d.s3tc.ctex", "res://.godot/imported/Grass003_1K_Displacement.jpg-62f198362687142cbad0404df2d2646d.etc2.ctex"]
+dest_files=["res://.godot/imported/Grass003_1K_Displacement.jpg-62f198362687142cbad0404df2d2646d.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false

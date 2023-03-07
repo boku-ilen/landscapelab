@@ -18,8 +18,6 @@ var pos_manager: PositionManager
 var pc_player: AbstractPlayer
 var current_poi_layer: LayerComposition
 
-const LOG_MODULE := "UI"
-
 
 func _ready():
 	$VBoxContainer/TeleportToButton.connect("pressed",Callable(self,"_teleport_current_values"))
