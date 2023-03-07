@@ -65,7 +65,7 @@ static func serialize(layer_composition: LayerComposition):
 		match type:
 			"GeoRasterLayer":
 				serialized = "{}:{}".format(
-					[property_var.get_dataset().resource_path,
+					[property_var.get_file_info()["path"],
 					property_var.resource_name], "{}")
 			"GeoFeatureLayer": 
 				serialized = "{}:{}".format(
