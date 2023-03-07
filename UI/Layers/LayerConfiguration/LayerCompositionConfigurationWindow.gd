@@ -82,7 +82,7 @@ func layer_popup(min_size: Vector2, existing_layer_composition: LayerComposition
 		var type_id := 0
 		
 		for render_info_name in LayerComposition.RENDER_INFOS.keys():
-			if layer_composition.render_info is LayerComposition.RENDER_INFOS[render_info_name]:
+			if is_instance_of(layer_composition.render_info, LayerComposition.RENDER_INFOS[render_info_name]):
 				type_string = render_info_name
 			
 			type_id += 1
