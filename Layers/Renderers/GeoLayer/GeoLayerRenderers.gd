@@ -21,30 +21,34 @@ var zoom := Vector2.ONE
 func _ready():
 	camera = get_node(camera_path)
 	camera.offset_changed.connect(apply_offset)
-		
-	for layer in Layers.geo_layers["rasters"].values():
-		_instantiate_geolayer_renderer(layer)
-	for layer in Layers.geo_layers["features"].values():
-		_instantiate_geolayer_renderer(layer)
 	
 	center = Vector2(Layers.current_center.x, Layers.current_center.z)
 	apply_offset(Vector2.ZERO, camera.get_viewport_rect().size, camera.zoom)
+
+
+func set_layer_visibility(layer_name: String, is_visible: bool):
+	# geolayers shall not be instantiated by default only on user's wish
+	if layer_name not in get_children().map(func(child): child.name):
+		instantiate_geolayer_renderer(Layers.get_geo_layer_by_name(layer_name))
 	
-	#Layers.new_geo_layer.connect(_instantiate_geolayer_renderer)
+	# Find child with correct name and set its visibility
+	# TODO: stop hardcoding this
+	get_children().filter(
+		func(child): return child.name == layer_name)[0].visible = true
 
 
-func _instantiate_geolayer_renderer(geo_layer: Resource):
-	var new_renderer
+func instantiate_geolayer_renderer(geo_layer: Resource):
+	var renderer
 	if geo_layer is GeoRasterLayer:
-		new_renderer = raster_renderer.instantiate()
-		new_renderer.geo_raster_layer = geo_layer
+		renderer = raster_renderer.instantiate()
+		renderer.geo_raster_layer = geo_layer
 	else: 
-		new_renderer = feature_renderer.instantiate()
-		new_renderer.geo_feature_layer = geo_layer
+		renderer = feature_renderer.instantiate()
+		renderer.geo_feature_layer = geo_layer
 	
-	if new_renderer:
-		new_renderer.name = geo_layer.resource_name
-		add_child(new_renderer)
+	if renderer:
+		renderer.name = geo_layer.resource_name
+		add_child(renderer)
 
 
 func apply_offset(offset, viewport_size, zoom):
