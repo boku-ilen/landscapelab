@@ -80,7 +80,7 @@ func apply_new_data():
 
 
 func apply_new_feature(feature):
-	var instance = layer_composition.render_info.object.instantiate()
+	var instance = load(layer_composition.render_info.object).instantiate()
 	
 	instance.name = var_to_str(feature.get_id())
 	feature.connect("point_changed",Callable(self,"update_instance_position").bind(feature, instance))

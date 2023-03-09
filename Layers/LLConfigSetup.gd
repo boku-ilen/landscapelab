@@ -95,6 +95,9 @@ func define_pa3c3_game_mode(
 		power_target,
 		power_target2
 	):
+	Layers.geo_layers["features"]["fields"] = Geodot.get_dataset("/home/landscapelab/Data/LL_Wolkersdorf.gpkg").get_feature_layer("fields")
+	
+	
 	var game_mode = GameMode.new()
 	
 	game_mode.extent = [extent_x_min, extent_y_min, extent_x_max, extent_y_max]
