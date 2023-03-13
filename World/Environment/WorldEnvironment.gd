@@ -35,8 +35,7 @@ func _on_Sky_texture_sky_updated():
 
 
 func apply_visibility(new_visibility):
-	environment.fog_depth_begin = (100 - new_visibility) * 100 + 500
-	environment.fog_depth_end = (100 - new_visibility) * 300 + 1500
+	environment.fog_density = new_visibility * 0.0001
 
 
 func apply_rain_enabled(enabled):
@@ -59,9 +58,7 @@ func apply_rain_density(rain_density):
 
 
 func apply_cloudiness(new_cloudiness):
-#	$CloudDome.cloud_min_density_low = 1.1 - new_cloudiness * 0.01
-	pass
-	# TODO: Consider decreasing light.light_energy and increasing the ambient light instead
+	environment.sky.get_material().set_shader_parameter("cloud_coverage", new_cloudiness * 0.01)
 
 
 func apply_wind_speed(new_wind_speed):
@@ -89,43 +86,46 @@ func apply_is_unshaded(new_is_unshaded):
 	pass
 
 
-func apply_datetime(date_time: TimeManager.DateTime): pass
-#	if $PythonWrapper.has_python_node():
-#		# TODO: Replace with real lon/lat values
-#		var altitude_azimuth = $PythonWrapper.get_python_node().get_sun_altitude_azimuth(
-#			48.0, 15.0, date_time.time, date_time.day, date_time.year)
-#
-#		$Sky_texture.set_sun_altitude_azimuth(altitude_azimuth[0], altitude_azimuth[1],
-#				get_node("DirectionalLight3D"), self, 1.5)
-#
-#		if altitude_azimuth[0] < 0:
-#			environment.ambient_light_energy = 0.75
-#			$DirectionalLight3D.light_energy = 0
-#			$CloudDome.cloud_color = Color.WHITE * 0.03 + Color.BLUE * 0.02
-#			$CloudDome.shade_color = Color.WHITE * 0.06
-#			environment.fog_color = Color(0.03, 0.04, 0.05)
-#			environment.fog_sun_amount = 0
-#			$CloudDome._regen_mesh()
-#		elif altitude_azimuth[0] < 5:
-#			$DirectionalLight3D.light_energy = 2
-#			environment.ambient_light_energy = 3
-#			environment.fog_color = Color(0.501961, 0.6, 0.701961)
-#			environment.fog_sun_amount = 1
-#			$CloudDome.cloud_color = Color.WHITE * 0.5 + Color.ORANGE * altitude_azimuth[0] / 10
-#			$CloudDome.shade_color = Color.WHITE * 0.4 + Color.ORANGE_RED * altitude_azimuth[0] / 10
-#			$CloudDome._regen_mesh()
-#		else:
-#			$DirectionalLight3D.light_energy = 2
-#			environment.ambient_light_energy = 3
-#			environment.fog_color = Color(0.501961, 0.6, 0.701961)
-#			environment.fog_sun_amount = 1
-#			$CloudDome.cloud_color = Color.WHITE
-#			$CloudDome.shade_color = Color(0.568627, 0.698039, 0.878431, 1.0)
-#			$CloudDome._regen_mesh()
-#	else:
-#		logger.warn("Pysolar is unavailable, so the sun position is only approximate!")
-#
-#		$Sky_texture.set_time_of_day(date_time.time, get_node("DirectionalLight3D"), self, deg_to_rad(10.0), 1.5)
+func apply_datetime(date_time: TimeManager.DateTime):
+	if $PythonWrapper.has_python_node():
+		# TODO: Replace with real lon/lat values
+		var altitude_azimuth = $PythonWrapper.get_python_node().get_sun_altitude_azimuth(
+			48.0, 15.0, date_time.time, date_time.day, date_time.year)
+
+		$Sky_texture.set_sun_altitude_azimuth(altitude_azimuth[0], altitude_azimuth[1],
+				get_node("DirectionalLight3D"), self, 1.5)
+
+		if altitude_azimuth[0] < 0:
+			environment.ambient_light_energy = 0.75
+			$DirectionalLight3D.light_energy = 0
+			$CloudDome.cloud_color = Color.WHITE * 0.03 + Color.BLUE * 0.02
+			$CloudDome.shade_color = Color.WHITE * 0.06
+			environment.fog_color = Color(0.03, 0.04, 0.05)
+			environment.fog_sun_amount = 0
+			$CloudDome._regen_mesh()
+		elif altitude_azimuth[0] < 5:
+			$DirectionalLight3D.light_energy = 2
+			environment.ambient_light_energy = 3
+			environment.fog_color = Color(0.501961, 0.6, 0.701961)
+			environment.fog_sun_amount = 1
+			$CloudDome.cloud_color = Color.WHITE * 0.5 + Color.ORANGE * altitude_azimuth[0] / 10
+			$CloudDome.shade_color = Color.WHITE * 0.4 + Color.ORANGE_RED * altitude_azimuth[0] / 10
+			$CloudDome._regen_mesh()
+		else:
+			$DirectionalLight3D.light_energy = 2
+			environment.ambient_light_energy = 3
+			environment.fog_color = Color(0.501961, 0.6, 0.701961)
+			environment.fog_sun_amount = 1
+			$CloudDome.cloud_color = Color.WHITE
+			$CloudDome.shade_color = Color(0.568627, 0.698039, 0.878431, 1.0)
+			$CloudDome._regen_mesh()
+	else:
+		logger.warn("Pysolar is unavailable, so the sun position is only approximate!")
+		
+		$DirectionalLight3D.light_energy = 1.0 - lerp(0.0, 0.05, abs(date_time.time - 12))
+		$DirectionalLight3D.light_indirect_energy = 1.0 - lerp(0.0, 0.05, abs(date_time.time - 12))
+		$DirectionalLight3D.rotation = Vector3(
+			lerp(0.0, 2.0*PI, date_time.time / 24) + PI/2.0, deg_to_rad(90), 0)
 
 
 func get_middle_of_season(season): # 0 = winter, 1 = spring, 2 = summer, 3 = fall
