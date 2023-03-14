@@ -7,7 +7,7 @@ class_name SlideAndSpin
 		return label
 	set(text):
 		label = text
-		if $Label:
+		if has_node("Label"):
 			$Label.text = text
 
 @export var min_value := 0.0 :
@@ -15,7 +15,7 @@ class_name SlideAndSpin
 		return min_value
 	set(val):
 		min_value = val
-		if $SpinBox and $HSlider:
+		if has_node("SpinBox") and has_node("HSlider"):
 			$SpinBox.min_value = val
 			$HSlider.min_value = val
 
@@ -24,7 +24,7 @@ class_name SlideAndSpin
 		return max_value
 	set(val):
 		max_value = val
-		if $SpinBox and $HSlider:
+		if has_node("SpinBox") and has_node("HSlider"):
 			$SpinBox.max_value = val
 			$HSlider.max_value = val
 
@@ -33,7 +33,7 @@ class_name SlideAndSpin
 		return step
 	set(val):
 		step = val
-		if $SpinBox and $HSlider:
+		if has_node("SpinBox") and has_node("HSlider"):
 			$SpinBox.step = val
 			$HSlider.step = val
 
@@ -42,7 +42,7 @@ class_name SlideAndSpin
 		return value 
 	set(val):
 		value = val
-		if $SpinBox and $HSlider:
+		if has_node("SpinBox") and has_node("HSlider"):
 			$SpinBox.value = val
 			$HSlider.value = val
 
