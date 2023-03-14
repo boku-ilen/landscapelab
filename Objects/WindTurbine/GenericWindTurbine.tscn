@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://6jb2qi7o7b2l"]
+[gd_scene load_steps=30 format=3 uid="uid://3egxq5ke5lqo"]
 
 [ext_resource type="PackedScene" path="res://Objects/Superclasses/MovableObject.tscn" id="1"]
 [ext_resource type="Script" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="2"]
@@ -77,7 +77,6 @@ roughness = 0.5
 resource_name = "material.001"
 cull_mode = 2
 vertex_color_use_as_albedo = true
-albedo_color = Color(1, 1, 1, 1)
 roughness = 0.5
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_nug33"]
@@ -345,7 +344,7 @@ mesh_hub_height = 135
 mesh_rotor_diameter = 100
 min_hub_height = 50
 min_rotor_diameter = 35
-forward_for_rotation = Vector3(0, 0, 1)
+forward_for_rotation = Vector3(0, 0, -1)
 
 [node name="CollisionShape3D" parent="PickupBody" index="0"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 74.118, 0)
@@ -375,10 +374,10 @@ mesh = SubResource("ArrayMesh_aythl")
 skeleton = NodePath("")
 
 [node name="Rotor" type="Node3D" parent="Mesh" index="1"]
-transform = Transform3D(1, -5.96046e-08, 1.63913e-07, 0, -0.307375, 0.951607, -1.49012e-07, -0.951607, -0.307375, 0.076, 134.664, 0)
+transform = Transform3D(1, 4.37122e-08, 4.37122e-08, -4.37114e-08, -4.37121e-08, 1.00002, 4.37114e-08, -1.00002, -4.37121e-08, 0, 134.732, 11.301)
 
 [node name="Rotor" type="MeshInstance3D" parent="Mesh/Rotor" index="0"]
-transform = Transform3D(-9.80848e-10, -2.33147e-15, -0.0345999, -0.0106348, 0.0329243, 5.58794e-09, 0.0329244, 0.0106348, 9.31323e-10, -5.36442e-07, -10.1111, -3.26595)
+transform = Transform3D(0.0345993, 0, 0, 0, 0.0345993, 0, 0, 0, 0.0345999, 0, 0, 0)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_o0dy5")
 skeleton = NodePath("")

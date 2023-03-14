@@ -96,21 +96,21 @@ func _process(delta):
 	if delta > 0.8: return  # Avoid skipping
 	if is_inside_tree():
 		rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)
+		rotor.transform.basis = rotor.transform.basis.orthonormalized()
 
 
 func set_hub_height(height: float):
 	$Mesh/Mast.scale = Vector3.ONE * (height / mesh_hub_height)
 	$Mesh/Rotor.position.y = height
 	$Mesh/Hub.position.y = height
-	
 
 
 func set_rotor_diameter(diameter: float):
 	$Mesh/Rotor.scale.z = diameter / mesh_rotor_diameter
-	$Mesh/Rotor.scale.y = diameter / mesh_rotor_diameter
+	#$Mesh/Rotor.scale.y = diameter / mesh_rotor_diameter
 	
 	$Mesh/Hub.scale.z = diameter / mesh_rotor_diameter
-	$Mesh/Hub.scale.y = diameter / mesh_rotor_diameter
+	#$Mesh/Hub.scale.y = diameter / mesh_rotor_diameter
 
 
 func apply_daytime_change(is_daytime: bool):
