@@ -30,21 +30,11 @@ var plant_extent_factor = 3.0 :
 		plant_extent_factor = extent
 		emit_signal("new_plant_extent_factor", extent)
 
-# FIXME: Sensible value
+# Overwritten when data is loaded
 var max_extent = 1000.0
 signal new_plant_extent_factor(extent)
 
 signal new_data
-
-
-func _ready():
-	var config = ConfigFile.new()
-	var err = config.load("user://vegetation_paths.cfg")
-	
-	if err != OK:
-		logger.error("Couldn't load vegetation from config since none was available!")
-		# TODO: Display the UI for entering paths instead
-		return
 
 
 func load_data_from_gpkg(db) -> void:

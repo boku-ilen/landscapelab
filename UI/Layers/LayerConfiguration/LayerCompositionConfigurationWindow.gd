@@ -164,7 +164,6 @@ func _add_layer_composition_types():
 		idx += 1
 
 
-# TODO: This shouldnt be all upercase anyways, maybe move this functionality
 func _on_type_select(idx: int):
 	var type: String = type_chooser.get_item_text(idx)
 	

@@ -6,7 +6,6 @@ extends Node
 #
 
 const default_configuration_path := "res://configuration.ini"
-const scenario_config_path := "res://sample1_2.gpkg"  # FIXME: this should be autodetected or loaded from configuration
 const user_config_path := "user://configuration.ini"
 
 var config = ConfigFile.new()
@@ -30,13 +29,12 @@ func _init():
 
 
 # Settings are overriden in the following order:
-# defaults < user_config < scenario_config (package) < command line
+# defaults < user_config < command line
 func load_settings():
 	logger.info("Setting up configuration ...")
 	
 	_load_defaults()
 	_load_from_user_config()
-	_load_from_scenario_config()
 	_load_from_cl()
 
 
@@ -61,12 +59,6 @@ func _load_from_user_config():
 		for key in user_config.get_section_keys(section):
 			if config.get_value(section, key) != null:
 				config.set_value(section, key, user_config.get_value(section, key))
-
-
-func _load_from_scenario_config():
-	# FIXME: Load data from the geopackage
-	# FIXME: this is done by reading the LL_configuration table
-	pass
 
 
 # TODO: Loading from command line like this requires the configuration to have unique keys even in different sections

@@ -18,7 +18,7 @@ func get_attribute(attribute_name):
 
 
 func set_position(new_position: Vector3):
-	new_position.z = -new_position.z  # FIXME: why is this needed?
+	new_position.z = -new_position.z  # Adapt to local -z forward coordinate system
 	player_node.set_world_position(new_position)
 
 

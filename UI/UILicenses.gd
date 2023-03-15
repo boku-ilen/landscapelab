@@ -14,7 +14,7 @@ func _ready():
 	connect("item_activated",Callable(self,"popup_details"))
 
 
-# FIXME: Do we really want to remove_at signals during runtime? 
+# FIXME: Do we really want to remove during runtime? 
 func remove_license(name: String):
 	pass
 
