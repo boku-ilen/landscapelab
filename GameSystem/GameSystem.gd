@@ -22,11 +22,6 @@ signal score_changed(score)
 signal score_target_reached(score)
 
 
-func _ready():
-	# TODO: Layers.connect("new_game_layer",Callable(self,"_on_new_game_layer"))
-	pass
-
-
 func _on_score_changed(score):
 	emit_signal("score_changed", score)
 

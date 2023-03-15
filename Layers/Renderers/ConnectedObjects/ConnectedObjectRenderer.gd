@@ -124,6 +124,7 @@ func get_connected_objects(geo_line):
 				var v2 = point_next - point
 				var angle = v1.angle_to(v2)
 				# FIXME: Godot has no signed_angle_to yet
+				# FIXME: Yes it does: v1.signed_angle_to()
 				if v1.cross(v2).dot(Vector3.UP) < 0: angle = -angle
 				# add this angle so its actually the mean between before and next
 				object.rotation.y += angle / 2

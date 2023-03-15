@@ -46,6 +46,5 @@ func _on_toggle(toggled: bool):
 # if one is clicked handle the teleport manually here
 func _on_poi_activated(index):
 	var engine_cords = pos_manager.to_engine_coordinates($Window/PoI/VBoxContainer/ItemList.get_item_metadata(index))
-	# FIXME: we need an alternative for WorldPosition.get_position_on_ground()
 	pc_player.teleport(Vector3(engine_cords.x, pc_player.transform.origin.y, engine_cords.y))
 	_on_toggle(false)
