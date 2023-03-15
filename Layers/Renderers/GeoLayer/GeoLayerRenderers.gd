@@ -10,7 +10,7 @@ signal loading_started
 
 var renderers_finished := 0
 var renderers_count := 0
-var load_data_threaded := false
+var load_data_threaded := true
 
 # Center in geocordinates
 var center := Vector2.ZERO
@@ -60,16 +60,19 @@ func apply_offset(offset, viewport_size, zoom):
 	renderers_count = 0  
 	
 	# Get the number of renderers first to avoid race conditions
-	for renderer in get_children():
-		if renderer is GeoLayerRenderer:
-			renderers_count += 1
+	renderers_count = get_children() \
+		.filter(func(renderer): return renderer is GeoLayerRenderer).size()
+	
+	# Start loading thread and load all geolayers in the thread
+	if load_data_threaded:
+		if loading_thread.is_started() and not loading_thread.is_alive():
+			loading_thread.wait_to_finish()
 		
-		if load_data_threaded:
+		if not loading_thread.is_started():
 			loading_thread.start(update_renderers.bind(
-				current_center, offset, viewport_size, zoom), Thread.PRIORITY_HIGH)
-			loading_thread.wait_to_finish.call_deferred()
-		else:
-			update_renderers(current_center, offset, viewport_size, zoom)
+				current_center, offset, viewport_size, zoom), Thread.PRIORITY_NORMAL)
+	else:
+		update_renderers(current_center, offset, viewport_size, zoom)
 
 
 func update_renderers(center, offset, viewport_size, zoom):
@@ -82,8 +85,6 @@ func update_renderers(center, offset, viewport_size, zoom):
 			renderer.viewport_size = viewport_size
 			renderer.zoom = zoom
 			renderer.radius = radius
-			
-			logger.debug("Child {} beginning to load")
 
 			renderer.load_new_data()
 			_on_renderer_finished.call_deferred(renderer.name)
