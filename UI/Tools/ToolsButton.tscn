@@ -7,9 +7,9 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 3 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
+shader_parameter/color = Vector3( 0, 0, 0 )
+shader_parameter/rotation_radians = null
+shader_parameter/color_length_modulate_threshold = 1.5
 
 [node name="ToolsButton" instance=ExtResource( 1 )]
 material = SubResource( 1 )
