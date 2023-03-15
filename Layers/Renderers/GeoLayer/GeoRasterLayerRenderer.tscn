@@ -11,7 +11,6 @@ orientation = 2
 
 [node name="GeoRasterLayerRenderer" type="Node2D"]
 script = ExtResource("1_lulqc")
-layer_resolution = 1000
 
 [node name="TexturePlane" type="MeshInstance2D" parent="."]
 scale = Vector2(1, -1)
