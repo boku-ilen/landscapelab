@@ -15,6 +15,7 @@ var geo_feature_layer: GeoFeatureLayer :
 
 var type: String
 var current_features: Array
+var renderers: Node2D
 
 var point_func = func(feature): 
 	var p = feature.get_vector3()
@@ -34,7 +35,7 @@ var line_func = func(feature):
 	line.width = 1 / zoom.x
 	return line
 
-var polygon_func = func(feature):
+var polygon_func = func(feature): 
 	var p = feature.get_outer_vertices()
 	var polygon = Polygon2D.new()
 	polygon.set_polygon(Array(p).map(func(vec2): return vec2 - center))
@@ -60,6 +61,18 @@ func load_new_data():
 			float(radius),
 			max_features
 		)
+		
+		# Create a scene-chunk and set it deferred so there are no thread unsafeties
+		var renderers_thread_safe = Node2D.new()
+		for feature in current_features:
+			var visualizer = func_dict[type].call(feature)
+			renderers_thread_safe.add_child(visualizer)
+	
+		call_deferred(set_renderers(renderers_thread_safe))
+
+
+func set_renderers(visualizers: Node2D):
+	renderers = visualizers
 
 
 func apply_new_data():
@@ -67,14 +80,7 @@ func apply_new_data():
 	for feature_vis in get_children():
 		feature_vis.queue_free()
 	
-	if current_features:
-		var create_func = func_dict[type]
-		
-		for feature in current_features:
-			var visualizer = create_func.call(feature)
-			if visualizer: add_child(visualizer) 
-	
-	#apply_zoom()
+	add_child(renderers)
 
 
 func apply_zoom():
