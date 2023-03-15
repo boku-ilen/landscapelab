@@ -1,7 +1,6 @@
 extends GeoLayerRenderer
 
 
-@export var layer_resolution: int
 @export var size_buffer_factor: float = 1.5
 
 @onready var plane: MeshInstance2D = get_node("TexturePlane")
@@ -12,8 +11,9 @@ var format: int
 var mesh_size: Vector2
 
 var r_func = func(plane, texture):
-	plane.material = ShaderMaterial.new()
-	plane.material.shader = load("res://Layers/Renderers/GeoLayer/FORMAT_RF.gdshader")
+	if not plane.material:
+		plane.material = ShaderMaterial.new()
+		plane.material.shader = load("res://Layers/Renderers/GeoLayer/FORMAT_RF.gdshader")
 	plane.get_material().set_shader_parameter("tex", texture)
 	plane.get_material().set_shader_parameter("min_val", geo_raster_layer.get_min())
 	plane.get_material().set_shader_parameter("max_val", geo_raster_layer.get_max())
@@ -55,7 +55,7 @@ func load_new_data():
 			top_left_x,
 			top_left_y,
 			long_side / zoom.x,
-			layer_resolution,
+			int(long_side * size_buffer_factor),
 			0
 		)
 		
