@@ -12,7 +12,7 @@ func _ready():
 		print("OpenXR not initialised, please check if your headset is connected")
 
 
-func _process(delta):
+func _process(_delta):
 	# Place checked ground
 	var space_state = get_world_3d().direct_space_state
 	var result = space_state.intersect_ray(PhysicsRayQueryParameters3D.create(

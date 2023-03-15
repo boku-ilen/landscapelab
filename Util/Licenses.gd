@@ -36,16 +36,16 @@ func _ready():
 
 
 func add_license(
-		name: String,
+		license_name: String,
 		acronym: String,
 		author := "",
 		additional_info := ""
 	):
-	var new_license = License.new(name, acronym, author, additional_info)
-	licenses[name] = License.new(name, acronym, author, additional_info)
+	var new_license = License.new(license_name, acronym, author, additional_info)
+	licenses[license_name] = License.new(license_name, acronym, author, additional_info)
 	emit_signal("license_added", new_license)
 
 
-func remove_license(name: String):
-	licenses.erase(name)
-	emit_signal("license_removed", name)
+func remove_license(license_name: String):
+	licenses.erase(license_name)
+	emit_signal("license_removed", license_name)

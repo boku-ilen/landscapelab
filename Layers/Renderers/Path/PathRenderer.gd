@@ -47,9 +47,9 @@ func _adjust_height(curve: Curve3D):
 
 
 # Returns the current ground height
-func _get_height_at_ground(position: Vector3):
+func _get_height_at_ground(pos: Vector3):
 	return layer_composition.render_info.ground_height_layer.get_value_at_position(
-		center[0] + position.x, center[1] - position.z)
+		center[0] + pos.x, center[1] - pos.z)
 
 
 func _ready():

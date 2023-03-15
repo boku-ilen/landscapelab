@@ -15,7 +15,7 @@ func get_items():
 	return items
 
 
-func _can_drop_data(at_position, data):
+func _can_drop_data(_at_position, data):
 	if not "geolayer" in data: return
 	return data.geolayer is GeoFeatureLayer or data.geolayer is GeoRasterLayer
 

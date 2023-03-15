@@ -26,7 +26,7 @@ func _ready():
 	get_tree().get_root().call_deferred("add_child", info)
 
 
-func _process(delta):
+func _process(_delta):
 	if not Engine.is_editor_hint():
 		# Direct the mouse position checked the screen along the camera
 		# We use a local ray since it should be relative to the rotation of any parent node

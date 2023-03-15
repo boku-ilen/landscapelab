@@ -47,12 +47,12 @@ func _instantiate_geolayer_renderer(geo_layer: Resource):
 		add_child(new_renderer)
 
 
-func apply_offset(offset, viewport_size, zoom):
-	self.zoom = zoom
-	self.offset = offset
+func apply_offset(new_offset, new_viewport_size, new_zoom):
+	zoom = new_zoom
+	offset = new_offset
 	var current_center = center
-	current_center.x += offset.x
-	current_center.y -= offset.y
+	current_center.x += new_offset.x
+	current_center.y -= new_offset.y
 	logger.debug("Applying new center center to all children in %s" % [name])
 	emit_signal("loading_started")
 	
@@ -70,20 +70,21 @@ func apply_offset(offset, viewport_size, zoom):
 		
 		if not loading_thread.is_started():
 			loading_thread.start(update_renderers.bind(
-				current_center, offset, viewport_size, zoom), Thread.PRIORITY_NORMAL)
+				current_center, new_offset, new_viewport_size, new_zoom), Thread.PRIORITY_NORMAL)
 	else:
-		update_renderers(current_center, offset, viewport_size, zoom)
+		update_renderers(current_center, new_offset, new_viewport_size, new_zoom)
 
 
-func update_renderers(center, offset, viewport_size, zoom):
+func update_renderers(new_center, new_offset, new_viewport_size, new_zoom):
 	# The maximum radius is at the corners => get the diagonale divided by 2s
-	var radius = sqrt(pow(viewport_size.x / zoom.x, 2) + pow(viewport_size.y / zoom.y, 2)) / 2
+	var radius = sqrt(
+		pow(new_viewport_size.x / new_zoom.x, 2) + pow(new_viewport_size.y / new_zoom.y, 2)) / 2
 	# Now, load the data of each renderer
 	for renderer in get_children():
 		if renderer is GeoLayerRenderer:
-			renderer.center = center
-			renderer.viewport_size = viewport_size
-			renderer.zoom = zoom
+			renderer.center = new_center
+			renderer.viewport_size = new_viewport_size
+			renderer.zoom = new_zoom
 			renderer.radius = radius
 
 			renderer.load_new_data()

@@ -20,6 +20,7 @@ func add_geo_layer(geo_layer: Resource):
 	list.set_item_metadata(new_layer_idx, geo_layer)
 
 
-func remove_layer(layer_name: String):
-	#layer_container.get_node(layer_name).queue_free()
-	pass
+func remove_geo_layer(geo_layer_name: String):
+	for i in range(list.item_count):
+		if list.get_item_text(i) == geo_layer_name:
+			list.remove_item(i)

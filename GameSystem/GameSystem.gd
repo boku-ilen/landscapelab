@@ -102,5 +102,5 @@ func apply_game_object_removal(collection_name, game_object_id):
 	_game_objects.erase(game_object_id)
 
 
-func _on_new_game_layer(layer):
+func _on_new_game_layer(_layer):
 	pass

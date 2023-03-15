@@ -67,17 +67,12 @@ func apply_wind_direction(new_wind_direction):
 
 func apply_wind():
 	var rotated_vector = Vector2.UP.rotated(deg_to_rad(wind_direction))
-	var wind_vector = rotated_vector * wind_speed * 5.0
+	#var wind_vector = rotated_vector * wind_speed * 5.0
 #	$CloudDome.cloud_speed = wind_vector
 	# FIXME: the angle should also be applied - it rotates with the camera however
 	# $Rain.process_material.angle = 
 	$RainParticles.wind_force_east = rotated_vector.x * wind_speed * 0.3
 	$RainParticles.wind_force_north = rotated_vector.y * wind_speed  * 0.3
-
-
-func apply_is_unshaded(new_is_unshaded):
-	# TODO: Implement
-	pass
 
 
 func apply_datetime(date_time: TimeManager.DateTime):
@@ -172,7 +167,7 @@ func set_light_energy(new_energy):
 		clouds.set_sun_energy(new_energy / MAX_SUN_INTENSITY)
 
 
-func update_colors(altitude, azimuth):
+func update_colors(altitude, _azimuth):
 	var new_horizon_color = base_horizon_color
 	var new_top_color = base_top_color
 	

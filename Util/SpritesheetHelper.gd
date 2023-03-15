@@ -140,7 +140,8 @@ static func create_layered_spritesheet(
 	for layer_data in images:
 		var number_of_images_in_layer = layer_data.size()
 		
-		var layer = Image.create(sprite_size.x, sprite_size.y * number_of_images_in_layer, false, format)
+		var layer = Image.create(
+			int(sprite_size.x), int(sprite_size.y * number_of_images_in_layer), false, format)
 		
 		# The current position checked the sheet
 		var current_offset = Vector2(0, 0)

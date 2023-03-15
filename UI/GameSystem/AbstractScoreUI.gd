@@ -18,5 +18,5 @@ func set_score(score: GameScore):
 #			get_node("AdditionalInfo/PopupPanel/VBoxContainer").add_child(label)
 #			get_node("AdditionalInfo/PopupPanel/VBoxContainer").add_child(slider)
 
-func set_contributor_weight(value_changed: bool, contributor, slider):
+func set_contributor_weight(_value_changed: bool, contributor, slider):
 	contributor.set_weight(slider.value)

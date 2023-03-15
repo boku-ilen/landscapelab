@@ -14,11 +14,6 @@ func _ready():
 	connect("item_activated",Callable(self,"popup_details"))
 
 
-# FIXME: Do we really want to remove during runtime? 
-func remove_license(name: String):
-	pass
-
-
 func add_license(license):
 	add_item(license.to_string())
 	set_item_metadata(current_index, license)

@@ -3,7 +3,7 @@ extends HBoxContainer
 @onready var label = get_node("Data")
 
 
-func _process(delta):
+func _process(_delta):
 	label.text = ""
 	
 	for queue in ThreadPool.task_queues:

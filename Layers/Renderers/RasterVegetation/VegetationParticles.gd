@@ -113,13 +113,13 @@ func _on_shift_world(delta_x, delta_z):
 	material_override.set_shader_parameter("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
 
 
-func complete_update(dhm_layer, splat_layer, world_x, world_y, uv_offset_x=0, uv_offset_y=0):
-	var splat = texture_update(dhm_layer, splat_layer, world_x, world_y, uv_offset_x, uv_offset_y)
+func complete_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0, new_uv_offset_y=0):
+	var splat = texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y)
 	
 	update_textures_with_images(splat.get_most_common(32))
 
 
-func texture_update(dhm_layer, splat_layer, world_x, world_y, uv_offset_x=0, uv_offset_y=0):
+func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0, new_uv_offset_y=0):
 	var map_size = get_map_size()
 	
 	var dhm = dhm_layer.get_image(
@@ -142,8 +142,8 @@ func texture_update(dhm_layer, splat_layer, world_x, world_y, uv_offset_x=0, uv_
 	
 	splatmap = splat.get_image_texture()
 	
-	self.uv_offset_x = uv_offset_x
-	self.uv_offset_y = uv_offset_y
+	uv_offset_x = new_uv_offset_x
+	uv_offset_y = new_uv_offset_y
 	
 	return splat
 

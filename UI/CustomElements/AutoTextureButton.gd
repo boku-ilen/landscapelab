@@ -41,7 +41,7 @@ func _ready():
 		_set_color(pressed_color)
 
 
-func _set_color(color: Color):
+func _set_color(_color: Color):
 	pass#material.set_shader_parameter("color", Vector3(color.r, color.g, color.b))
 
 

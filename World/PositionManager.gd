@@ -91,7 +91,8 @@ func get_center_node_world_position():
 
 
 func translate_center_node(new_x, new_z):
-	pass
+	if center_node:
+		center_node.position = Vector3(new_x, 0, new_z)
 
 
 func _process(delta):
@@ -152,8 +153,8 @@ func _apply_new_position_to_center_node():
 		center_node.position.x -= delta_x
 		center_node.position.z -= delta_z
 	
-	x += delta_x
-	z -= delta_z
+	x += int(delta_x)
+	z -= int(delta_z)
 	
 	loading = false
 

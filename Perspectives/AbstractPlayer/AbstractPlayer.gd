@@ -78,7 +78,7 @@ func _handle_abstract_viewport_input(event):
 
 # Handle input which should only have an effect when the mouse is inside the viewport
 # Can be implemented for additional input
-func _handle_viewport_input(event):
+func _handle_viewport_input(_event):
 	pass
 
 
@@ -102,7 +102,7 @@ func _handle_abstract_general_input(event):
 
 # Handle input which should always have an effect, even if the mouse isn't over this viewport
 # Can be implemented for additional input
-func _handle_general_input(event):
+func _handle_general_input(_event):
 	pass
 
 

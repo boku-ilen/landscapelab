@@ -24,7 +24,7 @@ func _on_item_selcted(idx: int):
 		emit_signal("new_layer_selected", layer)
 
 
-func _check_path(which: String = ""):
+func _check_path(_which: String = ""):
 	if is_current_file_dataset():
 		_fill_dataset_options()
 

@@ -13,7 +13,7 @@ func _init(initial_id: int,initial_collection,initial_player_node):
 	player_node = initial_player_node
 
 
-func get_attribute(attribute_name):
+func get_attribute(_attribute_name):
 	return null # TODO: Implement specific to the player?
 
 

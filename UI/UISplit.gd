@@ -8,8 +8,5 @@ func _ready():
 		toggle_visibility(true)
 
 
-func toggle_visibility(is_visible: bool):
-	if is_visible:
-		visible = true
-	else:
-		visible = false
+func toggle_visibility(is_split_visible: bool):
+	visible = is_split_visible

@@ -23,5 +23,5 @@ func _on_log_level_change(level):
 
 
 # Get the latest logger output and display it in the text box
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	$DebugPanel/DebugText.text = layer_renderers.get_debug_info()

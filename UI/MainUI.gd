@@ -29,7 +29,7 @@ func _ready():
 	emit_signal("ui_loaded")
 
 
-func _process(delta):
+func _process(_delta):
 	var engine_pos = pos_manager.center_node.position
 	var geo_pos = pos_manager.to_world_coordinates(engine_pos)
 	var formatted = "x=%.2f, y=%.2f, z=%.2f\nx=%.0f, y=%.0f, z=%.0f"

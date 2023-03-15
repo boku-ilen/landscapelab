@@ -71,7 +71,7 @@ func _ready():
 
 # Use this function instead of popup to also fill the according layer properties.
 # If the layer is not set, the popup will handle the configuration as a new layer.
-func layer_popup(min_size: Vector2, existing_layer_composition: LayerComposition = null):
+func layer_popup(new_min_size: Vector2, existing_layer_composition: LayerComposition = null):
 	layer_composition = existing_layer_composition
 	
 	if layer_composition != null:
@@ -103,7 +103,7 @@ func layer_popup(min_size: Vector2, existing_layer_composition: LayerComposition
 				node.get_node("Data").text = var_to_str(
 					layer_composition.render_info.get(property["name"]))
 	
-	popup_centered(min_size)
+	popup_centered(new_min_size)
 
 
 func _on_confirm():

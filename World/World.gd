@@ -13,7 +13,6 @@ func _ready():
 	$WeatherManager.connect("cloudiness_changed",Callable($WorldEnvironment,"apply_cloudiness"))
 	$WeatherManager.connect("wind_speed_changed",Callable($WorldEnvironment,"apply_wind_speed"))
 	$WeatherManager.connect("wind_direction_changed",Callable($WorldEnvironment,"apply_wind_direction"))
-	$WeatherManager.connect("unshaded_changed",Callable($WorldEnvironment,"apply_is_unshaded"))
 	$WeatherManager.connect("rain_enabled_changed",Callable($WorldEnvironment,"apply_rain_enabled"))
 	$WeatherManager.connect("rain_density_changed",Callable($WorldEnvironment,"apply_rain_density"))
 	$WeatherManager.connect("rain_drop_size_changed",Callable($WorldEnvironment,"apply_rain_drop_size"))
