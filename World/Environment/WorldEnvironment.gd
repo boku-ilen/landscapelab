@@ -25,6 +25,9 @@ func apply_rain_density(rain_density):
 
 func apply_cloudiness(new_cloudiness):
 	environment.sky.get_material().set_shader_parameter("cloud_coverage", new_cloudiness * 0.01)
+	
+	# Light energy is halved when it is maximally cloudy
+	set_light_energy(1.0 - new_cloudiness * 0.005)
 
 
 func apply_wind_speed(new_wind_speed):
