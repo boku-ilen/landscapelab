@@ -7,6 +7,8 @@ extends Node3D
 # the position the mouse is clicking at in the 3D world can be found. 
 #
 
+@export_node_path("Node") var position_manager_path
+@onready var position_manager: PositionManager = get_node(position_manager_path)
 @onready var camera: Camera3D = get_parent()
 @onready var cursor: RayCast3D = get_node("InteractRay")
 @onready var info := get_node("CursorInfoDialog")
@@ -24,6 +26,15 @@ func _ready():
 	# workaround), thus making it impossible to interact with it
 	remove_child(info)
 	get_tree().get_root().call_deferred("add_child", info)
+
+
+# Return where the cursor object is hovering inside the world
+func get_cursor_world_position() -> Vector3:
+	# FIXME: to_world_coordinates is broken (or adding features)
+	var pos = position_manager.to_world_coordinates(cursor.get_collision_point())
+	var temp = pos
+	pos.z = -temp.z
+	return pos
 
 
 func _process(delta):
