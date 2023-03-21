@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" uid="uid://lqw0a5653sxf" path="res://Layers/Renderers/Terrain/lod_mesh_100x100.obj" id="1"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/TerrainLOD.gd" id="3"]
-[ext_resource type="Material" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="4"]
+[ext_resource type="Material" uid="uid://kbnb4iijyt0j" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="4"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pxxd3"]
 

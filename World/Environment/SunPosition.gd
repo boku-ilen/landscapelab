@@ -34,6 +34,6 @@ static func get_solar_angles_for_datetime(datetime, lat: float, lon: float) -> D
 	var H = rad * (280.16 + 360.9856235 * JD) - lw - right_ascension
 
 	return {
-		"altitude": rad_to_deg(asin(sin(phi) * sin(declination) + cos(phi) * cos(declination) * cos(H))),
-		"azimuth": 180.0 + rad_to_deg(atan2(sin(H), cos(H) * sin(phi) - tan(declination) * cos(phi)))
+		"altitude": asin(sin(phi) * sin(declination) + cos(phi) * cos(declination) * cos(H)),
+		"azimuth": PI + atan2(sin(H), cos(H) * sin(phi) - tan(declination) * cos(phi))
 	}

@@ -20,7 +20,7 @@ var time_manager: TimeManager :
 		return time_manager
 	set(manager):
 		time_manager = manager
-		time_manager.connect("daytime_changed",Callable(self,"_apply_daytime_change"))
+		time_manager.daytime_changed.connect(_apply_daytime_change)
 		set_time_manager()
 
 var is_daytime = true

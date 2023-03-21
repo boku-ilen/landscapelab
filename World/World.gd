@@ -7,7 +7,10 @@ var is_fullscreen: bool = false
 func _ready():
 	$PositionManager.terrain = get_node("Terrain")
 	
-	$TimeManager.connect("datetime_changed",Callable($WorldEnvironment,"apply_datetime"))
+	$TimeManager.connect("datetime_changed",Callable($WorldEnvironment, "apply_datetime"))
+	
+	# Apply initially
+	$WorldEnvironment.apply_datetime($TimeManager.datetime)
 	
 	$WeatherManager.connect("visibility_changed",Callable($WorldEnvironment,"apply_visibility"))
 	$WeatherManager.connect("cloudiness_changed",Callable($WorldEnvironment,"apply_cloudiness"))

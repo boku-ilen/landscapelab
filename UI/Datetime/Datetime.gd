@@ -5,12 +5,17 @@ var time_manager: TimeManager
 
 
 func _ready():
-	$ConfirmButton.connect("pressed",Callable(self,"_on_confirm_pressed"))
+	$Date/Year.value_changed.connect(update_date)
+	$Date/Month.value_changed.connect(update_date)
+	$Date/Day.value_changed.connect(update_date)
+	
+	$Time/Hour.value_changed.connect(update_time)
+	$Time/Minute.value_changed.connect(update_time)
 
 
-func _on_confirm_pressed():
-	time_manager.set_datetime(
-		$SlideAndSpinTime.value,
-		$SlideAndSpinDay.value,
-		$SlideAndSpinYear.value
-	)
+func update_date(_v):
+	time_manager.set_date($Date/Year.value, $Date/Month.value, $Date/Day.value)
+
+
+func update_time(_v):
+	time_manager.set_time($Time/Hour.value, $Time/Minute.value)
