@@ -24,6 +24,9 @@ func _gui_input(event):
 			get_item_metadata(get_selected_items()[0]) if not get_selected_items().is_empty() else null
 		)
 
+#
+# Functionality for reordering list entries
+#
 
 func _can_drop_data(at_position, data):
 	if not "geolayer" in data: return
