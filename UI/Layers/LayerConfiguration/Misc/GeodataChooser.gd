@@ -107,8 +107,13 @@ func _get_dataset_option_by_name(_name: String):
 
 
 func init_from_layer(geolayer):
-	var path = geolayer.get_dataset().get_path() if geolayer.has_method("get_dataset") else geolayer.get_name()
+	var path = geolayer.get_dataset().get_file_info()["path"] \
+			if geolayer is GeoFeatureLayer else geolayer.get_dataset().get_file_info()["path"]
+	
+	print(path)
+	
 	$FileChooser/FileName.text = path
+	
 	if is_current_file_dataset():
 		_fill_dataset_options()
 		var idx = _get_dataset_option_by_name(geolayer.get_name())

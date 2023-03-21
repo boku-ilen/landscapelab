@@ -12,7 +12,7 @@ func _on_add_field():
 	
 	add_child(hbox)
 
-# return values 
+
 func get_values():
 	var values_dict: Dictionary = {}
 	for child in get_children():
@@ -20,3 +20,16 @@ func get_values():
 			var key = child.get_child(0).text
 			var val = child.get_child(1).text
 			values_dict[key] = val
+	
+	return values_dict
+
+
+func set_values(values_dict):
+	var i = 0
+	
+	for child in get_children():
+		if child is HBoxContainer:
+			child.get_child(0).text = values_dict.keys()[i]
+			child.get_child(1).text = values_dict.values()[i]
+			
+			i += 1
