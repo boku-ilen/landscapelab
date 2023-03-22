@@ -61,6 +61,9 @@ func add_composition(child: Node):
 		# Apply the default center for use without a PositionManager
 		child.center = default_center
 	
+	if time_manager:
+		child.time_manager = time_manager
+	
 	# Actually add the child node to the tree
 	add_child(child)
 

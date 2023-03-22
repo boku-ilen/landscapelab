@@ -11,7 +11,7 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_b5706"]
 
-[node name="Control" type="ConfirmationDialog"]
+[node name="LayerCompositionConfigurationWindow" type="ConfirmationDialog"]
 title = "Layer Configuration"
 size = Vector2i(500, 180)
 visible = true
