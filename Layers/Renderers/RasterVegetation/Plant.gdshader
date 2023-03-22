@@ -1,6 +1,11 @@
 shader_type spatial;
 render_mode cull_disabled;
 
+uniform sampler2D test_texture  : source_color, repeat_disable;
+
+
+
+
 uniform sampler2DArray texture_map : source_color, repeat_disable;
 uniform sampler2D normal_map : hint_normal;
 uniform sampler2D specular_map : hint_default_black;
@@ -43,38 +48,38 @@ float rand(vec2 co){
 
 void vertex() {
 	camera_pos = INV_VIEW_MATRIX[3].xyz;
-	
+
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
-	
+
 	vec2 pos = worldpos.xz;
-	
+
 	// Add some noise to the land-use position to get better fading
 	pos += vec2(rand(pos) - 0.5, rand(pos + vec2(0.01, 0.01)) - 0.5) * 4.0;
-	
+
 	pos += offset;
-	
+
 	pos += 0.5 * heightmap_size;
 	pos /= heightmap_size;
-	
+
 	// Move the upper vertices around for a wind wave effect
 	if (VERTEX.y > 0.3) {
 		VERTEX.x += amplitude * sin(worldpos.x * scale.x * 0.75 + TIME * speed.x) * cos(worldpos.z * scale.x + TIME * speed.x * 0.25);
 		VERTEX.z += amplitude * sin(worldpos.x * scale.y + TIME * speed.y * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed.y);
 	}
-	
+
 	// Scale by the size
 	size = INSTANCE_CUSTOM.r * 40.0;
 	VERTEX *= size;
-	
+
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	
+
 	// Billboarding
 	if (camera_facing && billboard_enabled) {
 		MODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0],MODEL_MATRIX[1],
 				vec4(normalize(cross(INV_VIEW_MATRIX[0].xyz,MODEL_MATRIX[1].xyz)), 0.0),MODEL_MATRIX[3]);
 	}
-	
+
 	dist_id = INSTANCE_CUSTOM.g * 255.0;
 	row = INSTANCE_CUSTOM.b * 255.0;
 }
@@ -113,12 +118,11 @@ void fragment() {
 	vec2 uv_offset = vec2(0.0, row / float(cols_rows.y));
 
 	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
-	
-	vec3 normalmap_sample = texture(normal_map, scaled_uv).rgb;
+//	vec4 color = texture(test_texture, UV);
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
-	BACKLIGHT = vec3(1.2, 1.6, 1.2) * normalmap_sample.g * color.g * 3.0;
+	BACKLIGHT = vec3(1.0, 1.0, 1.0) * min(color.g * 5.0, 5.0);
 	
 	// Make the plant darker at the bottom to simulate some shadowing
 	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)
@@ -130,14 +134,19 @@ void fragment() {
 	if (color.a < 0.7) {
 		discard;
 	}
-
-	// Apply the general (not plant-specific) normal map, but use the scaled UV so it varies based on height
-	NORMAL_MAP = normalmap_sample;
-	NORMAL_MAP_DEPTH = 30.0;// * max(1.0 - dist / 50.0, 0.0); // This is high due to the high transmission (otherwise it's barely noticeable)
 	
-	NORMAL_MAP = mix(NORMAL_MAP, vec3(0.5,0.5,1.0), max(1.0 - dist / 50.0, 0.0));
+	NORMAL_MAP = texture(normal_map, UV).xyz;
+	
+	vec3 diff = (mat3(INV_VIEW_MATRIX) * VIEW) * (mat3(INV_VIEW_MATRIX) * NORMAL);
+	float diff_dot = 1.0 - abs(dot(diff, diff));
+	
+//	if (min(1.0, 5.0 - diff_dot * 5.0) - thresholdMatrix[y_index * 4 + x_index] < 0.0) {
+//		discard;
+//	}
+	//ALPHA = min(1.0, 5.0 - diff_dot * 5.0);
 	
 	// Other material parameters
+	RIM = 1.0;
 	METALLIC = 0.0;
-	ROUGHNESS = 0.9;
+	ROUGHNESS = 1.0 - color.g * 1.0;
 }
