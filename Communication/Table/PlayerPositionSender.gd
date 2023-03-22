@@ -9,7 +9,7 @@ extends Node
 @export var update_interval := 0.5
 
 var _current_update_timer := 0.0
-var _previous_player_position := [0.0, 0.0, 0.0]
+var _previous_player_position = Vector3i.ZERO
 
 
 func _process(delta):
@@ -17,8 +17,8 @@ func _process(delta):
 	
 	var new_player_position = get_parent().get_world_position()
 	
-	if (new_player_position[0] != _previous_player_position[0] \
-			or new_player_position[2] != _previous_player_position[2]) \
+	if (new_player_position.x != _previous_player_position.x \
+			or new_player_position.z != _previous_player_position.z) \
 			and _current_update_timer >= update_interval:
 		_send_updated_position(new_player_position)
 		_current_update_timer = 0.0
