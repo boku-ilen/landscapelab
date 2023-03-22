@@ -67,8 +67,8 @@ func load_new_data():
 		for feature in current_features:
 			var visualizer = func_dict[type].call(feature)
 			renderers_thread_safe.add_child(visualizer)
-	
-		call_deferred(set_renderers(renderers_thread_safe))
+		
+		call_deferred("set_renderers", renderers_thread_safe)
 
 
 func set_renderers(visualizers: Node2D):
