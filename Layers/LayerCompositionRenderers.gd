@@ -41,9 +41,6 @@ var weather_manager: WeatherManager :
 var renderers_count := 0
 var renderers_finished := 0
 
-var load_data_threaded := false
-@onready var loading_thread = Thread.new()
-
 signal loading_started
 signal loading_finished
 
@@ -81,11 +78,7 @@ func apply_center(center_array):
 		if renderer is LayerCompositionRenderer:
 			renderers_count += 1
 	
-	if load_data_threaded:
-		loading_thread.start(Callable(self,"update_renderers").bind(center_array),
-				Thread.PRIORITY_HIGH)
-	else:
-		update_renderers(center_array)
+	update_renderers(center_array)
 
 
 func update_renderers(center_array):
