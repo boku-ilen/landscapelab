@@ -35,6 +35,6 @@ func clear():
 func toggle_cam(is_enabled: bool):
 	dolly_cam.toggle_cam(is_enabled)
 	if is_enabled:
-		$DollyRail/PathFollow3D.offset = 0.01
+		$DollyRail/PathFollow3D.progress = 0.01
 	else:
 		$DollyRail/PathFollow3D.progress_ratio = 0.0

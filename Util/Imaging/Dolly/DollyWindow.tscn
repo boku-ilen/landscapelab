@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://b858h2ejta33m"]
+
+[ext_resource type="Script" path="res://Util/Imaging/Dolly/DollyWindow.gd" id="1_dfonp"]
+[ext_resource type="PackedScene" uid="uid://dvcv477i0h85l" path="res://UI/Imaging/ImagingMenu.tscn" id="1_vcx3b"]
+
+[node name="Window" type="Window"]
+initial_position = 1
+title = "Dolly Camera"
+size = Vector2i(512, 577)
+mode = 2
+min_size = Vector2i(512, 577)
+content_scale_mode = 2
+content_scale_aspect = 4
+script = ExtResource("1_dfonp")
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 162.0
+offset_bottom = 127.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ImagingMenu" parent="Margin/VBox" instance=ExtResource("1_vcx3b")]
+layout_mode = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Margin/VBox/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(674, 639)
+render_target_update_mode = 4
+
+[editable path="Margin/VBox/ImagingMenu"]
