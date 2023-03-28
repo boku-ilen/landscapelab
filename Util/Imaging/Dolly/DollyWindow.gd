@@ -1,11 +1,12 @@
 extends Window
 
 
-var action_handlers: Array
-@onready var set_action = DollySetAction.new($Margin/VBox/SubViewportContainer/SubViewport)
+var action_handlers: Array : set = on_set_handlers
+@onready var set_action = DollySetAction.new($Margin/VBox/SubViewportContainer/SubViewport) 
 
 
-func _ready():
+func on_set_handlers(handlers):
+	action_handlers = handlers
 	# set initial height correction
 	set_action.set_height_correction($Margin/VBox/ImagingMenu/VBoxContainer/SpinBox.value)
 	for handler in action_handlers:
