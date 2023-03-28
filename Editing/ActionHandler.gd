@@ -11,11 +11,13 @@ var current_action: EditingAction
 
 func set_current_action(action: EditingAction) -> void:
 	current_action = action
+	action.set_action_active(true)
 	if action.custom_cursor != null:
 		Input.set_custom_mouse_cursor(action.custom_cursor)
 
 
 func stop_current_action() -> void:
+	current_action.set_action_active(false)
 	current_action = null
 	Input.set_custom_mouse_cursor(null)
 
