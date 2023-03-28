@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://irhadvtwokr5"]
+[gd_scene load_steps=28 format=3 uid="uid://irhadvtwokr5"]
 
 [ext_resource type="Texture2D" uid="uid://b2i6gv6rjevem" path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" id="2"]
 [ext_resource type="PackedScene" uid="uid://csad5ev7rwtoe" path="res://UI/MenuBar/MenuBar.tscn" id="2_56a3o"]
@@ -11,7 +11,9 @@
 [ext_resource type="Script" path="res://UI/WorldUI.gd" id="7_fnvwn"]
 [ext_resource type="Script" path="res://UI/UISplit.gd" id="8"]
 [ext_resource type="PackedScene" path="res://UI/PlayerCompass.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="10_6fnux"]
 [ext_resource type="Script" path="res://UI/WorldViewPort.gd" id="11"]
+[ext_resource type="Script" path="res://UI/Imaging/ImagingButton.gd" id="11_2gr6u"]
 [ext_resource type="Texture2D" uid="uid://copq7sq4f0uom" path="res://Resources/Icons/ModernLandscapeLab/loading.png" id="12_8oiw2"]
 [ext_resource type="PackedScene" uid="uid://c63a11up3xcvk" path="res://UI/CustomElements/AutoTextureButton.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://dsaj5k71mnup0" path="res://UI/DebugInfo/DebugInfo.tscn" id="14"]
@@ -95,6 +97,17 @@ layout_mode = 2
 layout_mode = 2
 drag_to_rearrange_enabled = true
 script = ExtResource("5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot"]
+layout_mode = 2
+
+[node name="ImagingButton" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot/VBoxContainer" instance=ExtResource("10_6fnux")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+toggle_mode = true
+script = ExtResource("11_2gr6u")
+action_handler_paths = Array[NodePath]([NodePath("../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/ActionHandler")])
+texture_name = "camera"
 
 [node name="Mid" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left"]
 custom_minimum_size = Vector2(500, 500)
