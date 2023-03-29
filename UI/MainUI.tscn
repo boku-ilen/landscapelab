@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://irhadvtwokr5"]
+[gd_scene load_steps=31 format=3 uid="uid://irhadvtwokr5"]
 
 [ext_resource type="Texture2D" uid="uid://b2i6gv6rjevem" path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" id="2"]
 [ext_resource type="PackedScene" uid="uid://csad5ev7rwtoe" path="res://UI/MenuBar/MenuBar.tscn" id="2_56a3o"]
@@ -12,7 +12,9 @@
 [ext_resource type="Script" path="res://UI/UISplit.gd" id="8"]
 [ext_resource type="PackedScene" path="res://UI/PlayerCompass.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="10_6fnux"]
+[ext_resource type="PackedScene" uid="uid://cckl23qaxw3h8" path="res://UI/Datetime/Datetime.tscn" id="10_x7hwk"]
 [ext_resource type="Script" path="res://UI/WorldViewPort.gd" id="11"]
+[ext_resource type="PackedScene" uid="uid://dkvdbwaqhrbnn" path="res://UI/Weather/WeatherUI.tscn" id="11_1mm7o"]
 [ext_resource type="Script" path="res://UI/Imaging/ImagingButton.gd" id="11_2gr6u"]
 [ext_resource type="PackedScene" uid="uid://b858h2ejta33m" path="res://Util/Imaging/Dolly/DollyWindow.tscn" id="12_5yhyn"]
 [ext_resource type="Texture2D" uid="uid://copq7sq4f0uom" path="res://Resources/Icons/ModernLandscapeLab/loading.png" id="12_8oiw2"]
@@ -94,6 +96,14 @@ script = ExtResource("5")
 [node name="VRMenu" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("3")]
 layout_mode = 2
 
+[node name="Datetime" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("10_x7hwk")]
+visible = false
+layout_mode = 2
+
+[node name="WeatherUI" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("11_1mm7o")]
+visible = false
+layout_mode = 2
+
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
 layout_mode = 2
 drag_to_rearrange_enabled = true
@@ -103,14 +113,17 @@ script = ExtResource("5")
 layout_mode = 2
 
 [node name="ImagingButton" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot/VBoxContainer" instance=ExtResource("10_6fnux")]
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 toggle_mode = true
 script = ExtResource("11_2gr6u")
 action_handler_3d_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/ActionHandler")
+position_manager_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 texture_name = "camera"
 
 [node name="Window" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot/VBoxContainer/ImagingButton" instance=ExtResource("12_5yhyn")]
 mode = 0
+visible = false
 transient = true
 
 [node name="Mid" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left"]

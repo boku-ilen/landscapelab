@@ -12,7 +12,7 @@
 shader = ExtResource("1_p31xn")
 shader_parameter/_density = 0.05
 shader_parameter/cloud_coverage = 0.15
-shader_parameter/_time_scale = 1.0
+shader_parameter/_time_scale = 0.1
 shader_parameter/_time_offset = 0.0
 shader_parameter/rayleigh = 2.0
 shader_parameter/rayleigh_color = Color(0.26, 0.41, 0.58, 1)
@@ -57,7 +57,7 @@ environment = SubResource("2")
 script = ExtResource("1")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-4.37114e-08, -0.996195, 0.0871557, 0, 0.0871557, 0.996195, -1, 4.35451e-08, -3.8097e-09, 0, 0, 0)
+transform = Transform3D(-2.67374e-08, -0.540402, 0.841407, 3.45803e-08, 0.841407, 0.540402, -1, 4.35451e-08, -3.80972e-09, 0, 0, 0)
 layers = 15
 shadow_enabled = true
 shadow_bias = 0.7

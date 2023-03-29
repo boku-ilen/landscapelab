@@ -15,8 +15,9 @@ var r_func = func(existing_plane, texture):
 		existing_plane.material = ShaderMaterial.new()
 		existing_plane.material.shader = load("res://Layers/Renderers/GeoLayer/FORMAT_RF.gdshader")
 	existing_plane.get_material().set_shader_parameter("tex", texture)
-	existing_plane.get_material().set_shader_parameter("min_val", geo_raster_layer.get_min())
-	existing_plane.get_material().set_shader_parameter("max_val", geo_raster_layer.get_max())
+	# FIXME: Crashes if statistics have not been computed for the layer
+#	existing_plane.get_material().set_shader_parameter("min_val", geo_raster_layer.get_min())
+#	existing_plane.get_material().set_shader_parameter("max_val", geo_raster_layer.get_max())
 var rgb_func = func(existing_plane, texture): existing_plane.texture = texture
 
 var format_function_dict = {

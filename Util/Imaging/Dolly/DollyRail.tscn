@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://byxnpf3frx4du"]
 
-[ext_resource type="PackedScene" path="res://Util/Imaging/Dolly/RailTexture.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://c1ojm2dkfjcw8" path="res://Util/Imaging/Dolly/RailTexture.tscn" id="2"]
 
 [sub_resource type="Curve3D" id="3"]
 resource_local_to_scene = true
@@ -9,7 +9,7 @@ resource_local_to_scene = true
 curve = SubResource("3")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="."]
-transform = Transform3D(-0.600223, 0.643639, 0.474823, 0.142112, -0.498388, 0.855225, 0.787103, 0.580805, 0.207677, 70.3875, 61.427, -104.627)
+transform = Transform3D(-0.600223, 0.643639, 0.474823, 0.142112, -0.498388, 0.855225, 0.787103, 0.580805, 0.207677, 0, 0, 0)
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="PathFollow3D"]
 update_rotation = false

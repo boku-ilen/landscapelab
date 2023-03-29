@@ -22,7 +22,7 @@ shading_mode = 0
 albedo_texture = ExtResource("1")
 billboard_mode = 2
 
-[sub_resource type="Curve3D" id="Curve3D_jy4aa"]
+[sub_resource type="Curve3D" id="Curve3D_p8xjv"]
 resource_local_to_scene = true
 
 [node name="DollyScene" type="Node3D"]
@@ -45,6 +45,9 @@ pixel_size = 0.4
 texture = ExtResource("1")
 
 [node name="DollyRail" parent="." instance=ExtResource("2")]
-curve = SubResource("Curve3D_jy4aa")
+curve = SubResource("Curve3D_p8xjv")
+
+[node name="Visualizer" parent="DollyRail" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
 
 [editable path="DollyRail"]

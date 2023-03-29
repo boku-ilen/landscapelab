@@ -202,5 +202,5 @@ func apply_data():
 	
 
 func apply_wind_speed(wind_speed):
-	material_override.set_shader_parameter("speed", Vector2(wind_speed, wind_speed) / 40.0)
-	material_override.set_shader_parameter("amplitude", wind_speed / 200.0)
+	material_override.set_shader_parameter("speed", Vector2(wind_speed, wind_speed) / 160.0)
+	material_override.set_shader_parameter("amplitude", wind_speed / 300.0)

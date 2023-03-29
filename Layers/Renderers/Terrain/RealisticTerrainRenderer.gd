@@ -4,15 +4,15 @@ extends LayerCompositionRenderer
 var lods = []
 
 var chunk_size = 1000
-var extent = 7 # extent of chunks in every direction
+var extent = 9 # extent of chunks in every direction
 
-@export var basic_ortho_resolution := 100
+@export var basic_ortho_resolution := 200
 @export var basic_landuse_resolution := 10
 @export var basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_100x100.obj")
 @export var basic_mesh_resolution := 100
 
-@export var detailed_load_distance := 2000.0
-@export var detailed_ortho_resolution := 2000
+@export var detailed_load_distance := 2200.0
+@export var detailed_ortho_resolution := 2500
 @export var detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_500x500.obj")
 @export var detailed_mesh_resolution := 500
 

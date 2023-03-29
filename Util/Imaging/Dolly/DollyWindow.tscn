@@ -39,6 +39,8 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="Margin/VBox/SubViewportContainer"]
 handle_input_locally = false
+msaa_3d = 1
+scaling_3d_mode = 1
 size = Vector2i(674, 639)
 render_target_update_mode = 4
 
