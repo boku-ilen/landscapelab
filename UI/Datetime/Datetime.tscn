@@ -66,3 +66,7 @@ text = "Minute"
 layout_mode = 2
 max_value = 59.0
 value = 5.0
+
+[node name="MinuteAddButton" type="Button" parent="Time"]
+layout_mode = 2
+text = "+ 10 Minutes"
