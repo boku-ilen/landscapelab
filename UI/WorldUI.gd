@@ -15,8 +15,9 @@ func _ready():
 
 
 func on_fullscreen():
-	if !$SubViewport/World.is_fullscreen:
-		$SubViewport/World.is_fullscreen = true
-		var world = $SubViewport/World
-		$SubViewport.remove_child(world)
+	var world = get_node("WorldViewPort/SubViewport/World")
+	
+	if not world.is_fullscreen:
+		world.is_fullscreen = true
+		$WorldViewPort/SubViewport.remove_child(world)
 		TreeHandler.switch_main_node(world)
