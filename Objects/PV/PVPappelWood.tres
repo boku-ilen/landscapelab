@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c7f6csdwq0wc8"]
+
+[ext_resource type="Texture2D" uid="uid://f8oxujhim3co" path="res://Resources/Meshes/PV/PV_pappel_smaller_2.png" id="1_tcdgg"]
+
+[resource]
+resource_name = "Wood01_2K_BaseColor"
+transparency = 4
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.613473, 0.46963, 0.292749, 1)
+albedo_texture = ExtResource("1_tcdgg")
+roughness = 0.8
