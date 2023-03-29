@@ -23,5 +23,4 @@ func set_position(new_position: Vector3):
 
 
 func get_position():
-	var world_pos_array = player_node.get_world_position()
-	return Vector3(world_pos_array[0], world_pos_array[1], world_pos_array[2])
+	return player_node.get_world_position()

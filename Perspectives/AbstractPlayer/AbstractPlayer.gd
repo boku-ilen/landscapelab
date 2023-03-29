@@ -109,7 +109,7 @@ func _handle_general_input(_event):
 # To prevent floating point errors, the player.position does not reflect the player's 
 # actual position in the whole world. This function returns the true world position of 
 # the player (in projected meters) as integers.
-func get_true_position():
+func get_true_position() -> Vector3:
 	return position_manager.to_world_coordinates(position)
 
 

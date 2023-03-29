@@ -33,7 +33,7 @@ func _process(_delta):
 	var engine_pos = pos_manager.center_node.position
 	var geo_pos = pos_manager.to_world_coordinates(engine_pos)
 	var formatted = "x=%.2f, y=%.2f, z=%.2f\nx=%.0f, y=%.0f, z=%.0f"
-	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos[0], geo_pos[1], geo_pos[2]]
+	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos.x, geo_pos.y, geo_pos.z]
 	
 	$MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer/DebugInfo/ScrollContainer/Settings/VBoxContainer/Info/PositionDisplay/Data.text = formatted
 

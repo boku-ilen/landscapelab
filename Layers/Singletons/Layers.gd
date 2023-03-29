@@ -64,6 +64,13 @@ func add_geo_layer(layer: Resource):
 	new_geo_layer.emit(layer)
 
 
+func get_geo_layer_by_name(layer_name: String):
+	if geo_layers["rasters"].has(layer_name):
+		return geo_layers["rasters"][layer_name]
+	elif geo_layers["features"].has(layer_name):
+		return geo_layers["features"][layer_name]
+
+
 func remove_layer_composition(layer_composition_name: String):
 	if layer_compositions[layer_composition_name].is_scored:
 		emit_signal("removed_scored_layer_composition", layer_composition_name)
