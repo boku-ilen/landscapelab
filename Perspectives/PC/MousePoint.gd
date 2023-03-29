@@ -37,6 +37,10 @@ func get_cursor_world_position() -> Vector3:
 	return pos
 
 
+func get_cursor_engine_position() -> Vector3:
+	return cursor.get_collision_point()
+
+
 func _process(delta):
 	if not Engine.is_editor_hint():
 		# Direct the mouse position checked the screen along the camera
