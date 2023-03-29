@@ -7,7 +7,7 @@ var wind_direction = 0
 
 
 func apply_visibility(new_visibility):
-	environment.fog_density = new_visibility * 0.0001
+	environment.fog_density = new_visibility * 0.000008
 
 
 func apply_rain_enabled(enabled):
