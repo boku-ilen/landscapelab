@@ -13,8 +13,8 @@ uniform sampler2D specular_map : hint_default_black;
 uniform int sprite_size = 2048;
 
 uniform float amplitude = 0.1;
-uniform vec2 speed = vec2(2.0, 1.5);
-uniform vec2 scale = vec2(0.1, 0.2);
+uniform vec2 speed = vec2(0.5, 0.4);
+uniform vec2 scale = vec2(0.06, 0.11);
 
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
 uniform vec2 offset;
@@ -117,8 +117,13 @@ void fragment() {
 	vec2 scaled_uv = UV / (vec2(sheet_size) / float(sprite_size));
 	vec2 uv_offset = vec2(0.0, row / float(cols_rows.y));
 
-	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
+	vec4 color = textureLod(texture_map, vec3(scaled_uv + uv_offset, dist_id), length(camera_pos - worldpos) * 0.135 * (1.0 / size));
 //	vec4 color = texture(test_texture, UV);
+
+	// Alpha Scissoring
+	if (color.a < 0.6) {
+		discard;
+	}
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
@@ -129,11 +134,6 @@ void fragment() {
 	color.rgb *= min(max(size_scaled_uv, fake_shadow_min_multiplier), fake_shadow_height) / fake_shadow_height;
 
 	ALBEDO = color.rgb;
-	
-	// Alpha Scissoring
-	if (color.a < 0.7) {
-		discard;
-	}
 	
 	NORMAL_MAP = texture(normal_map, UV).xyz;
 	

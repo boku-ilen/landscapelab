@@ -173,6 +173,8 @@ static func create_layered_spritesheet(
 			# Increment column position checked spritesheet
 			current_offset.y += sprite_size.y
 		
+		layer.generate_mipmaps()
+		
 		image_array[layer_depth] = layer
 		layer_depth += 1
 	
