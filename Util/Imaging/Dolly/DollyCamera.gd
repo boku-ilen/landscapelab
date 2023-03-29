@@ -41,11 +41,11 @@ func _process(delta):
 		velocity.y *= move_speed_decay
 		
 		# Movement along rails
-		path_follow.progress += velocity.z
+		path_follow.progress += velocity.z * delta
 		
 		# Free movement relative to position checked rails
-		position += Vector3(velocity.x, velocity.y, 0.0)
-		rotation += Vector3(velocity.x, velocity.y, 0.0)
+		position += Vector3(velocity.x, velocity.y, 0.0) * delta
+		rotation += Vector3(velocity.x, velocity.y, 0.0) * delta
 		
 		# Keep the view towards the object
 		if focus:
