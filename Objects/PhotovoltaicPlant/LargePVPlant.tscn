@@ -1,10 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://yhrbpwo8kav5"]
 
-[ext_resource path="res://Objects/Util/MultiplePVModules.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Objects/APV/APV.gd" id="1_g0s0x"]
+[ext_resource type="PackedScene" uid="uid://bdpmyx1ejlixw" path="res://Objects/PhotovoltaicPlant/FFPVM10.tscn" id="2_7hfbp"]
 
 [node name="LargePVPlant" type="Node3D"]
-script = ExtResource( 1 )
-rows = 24
-cols = 19
-row_spacing = 7.0
-col_spacing = 9.0
+script = ExtResource("1_g0s0x")
+apv_scene = ExtResource("2_7hfbp")
+apv_rotation = 0.0
+extent_x = 40
+extent_z = 40
+distance_x = 11.0
+distance_z = 12.0

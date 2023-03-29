@@ -34,8 +34,12 @@ func set_height(origin):
 	for child in get_children():
 		var pos_x = center[0] + origin.x + child.position.x
 		var pos_y = center[1] - origin.z - child.position.z
-		var height = height_layer.get_value_at_position(pos_x, pos_y)
+		var height_left = height_layer.get_value_at_position(pos_x - 4.0, pos_y)
+		var height_right = height_layer.get_value_at_position(pos_x + 4.0, pos_y)
 		
-		child.position.y = height
+		var angle = Vector3(4.0, 0.0, 0.0).signed_angle_to(Vector3(8.0, height_right - height_left, 0.0), -Vector3.FORWARD)
+		
+		child.position.y = (height_left + height_right) / 2.0
+		child.rotation.z = angle
 	
 	height_already_set = true

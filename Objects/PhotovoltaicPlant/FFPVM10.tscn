@@ -10,7 +10,7 @@ vertex_color_use_as_albedo = true
 albedo_color = Color(0.719458, 0.738902, 0.750564, 1)
 albedo_texture = ExtResource("1_mtfqw")
 metallic = 1.0
-roughness = 0.59
+roughness = 0.6
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_ivgeg"]
 _surfaces = [{
@@ -49,7 +49,7 @@ vertex_color_use_as_albedo = true
 albedo_color = Color(0.313688, 0.441206, 0.533929, 1)
 albedo_texture = ExtResource("2_t5te7")
 metallic = 1.0
-roughness = 0.2
+roughness = 0.4
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_74sax"]
 _surfaces = [{
@@ -1585,6 +1585,7 @@ shadow_mesh = SubResource("ArrayMesh_3twyp")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.17, 0, 2)
 
 [node name="root" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 
 [node name="Node2" type="Node3D" parent="root"]
 
