@@ -110,6 +110,7 @@ action_handler_3d_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/Wor
 texture_name = "camera"
 
 [node name="Window" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot/VBoxContainer/ImagingButton" instance=ExtResource("12_5yhyn")]
+mode = 0
 transient = true
 
 [node name="Mid" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left"]
