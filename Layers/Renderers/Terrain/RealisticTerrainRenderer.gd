@@ -13,8 +13,8 @@ var extent = 7 # extent of chunks in every direction
 
 @export var detailed_load_distance := 2000.0
 @export var detailed_ortho_resolution := 2000
-@export var detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_300x300.obj")
-@export var detailed_mesh_resolution := 300
+@export var detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_500x500.obj")
+@export var detailed_mesh_resolution := 500
 
 
 func _ready():
@@ -92,7 +92,7 @@ func get_nearest_lod_below_resolution(query_position: Vector3, resolution: int, 
 	
 	for lod in lods:
 		if lod.ortho_resolution < resolution:
-			var distance = lod.position.distance_to(query_position)
+			var distance = Vector2(lod.position.x, lod.position.z).distance_to(Vector2(query_position.x, query_position.z))
 			if distance < nearest_distance and distance < max_distance:
 				nearest_distance = distance
 				nearest_lod = lod
@@ -106,7 +106,7 @@ func refine_load():
 	# Downgrade LODs which are now too far away
 	for lod in lods:
 		if lod.ortho_resolution >= detailed_ortho_resolution and \
-				lod.position.distance_to(position_manager.center_node.position) > detailed_load_distance:
+				Vector2(lod.position.x, lod.position.z).distance_to(Vector2(position_manager.center_node.position.x, position_manager.center_node.position.z)) > detailed_load_distance:
 			lod.position_diff_x = 0
 			lod.position_diff_z = 0
 		

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bb58j1gt6vy2g"
+path="res://.godot/imported/lod_mesh_500x500.obj-ee5a4af575d2dc0593ed8f9dc2c28977.mesh"
+
+[deps]
+
+files=["res://.godot/imported/lod_mesh_500x500.obj-ee5a4af575d2dc0593ed8f9dc2c28977.mesh"]
+
+source_file="res://Layers/Renderers/Terrain/lod_mesh_500x500.obj"
+dest_files=["res://.godot/imported/lod_mesh_500x500.obj-ee5a4af575d2dc0593ed8f9dc2c28977.mesh", "res://.godot/imported/lod_mesh_500x500.obj-ee5a4af575d2dc0593ed8f9dc2c28977.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
