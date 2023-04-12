@@ -5,6 +5,10 @@ extends WorldEnvironment
 var wind_speed = 0
 var wind_direction = 0
 
+var brightest_light_energy = 0.75
+var light_darken_begin_altitude = 15.0
+var light_disabled_altitude = 3.0
+
 
 func apply_visibility(new_visibility):
 	environment.fog_density = new_visibility * 0.000008
@@ -26,8 +30,7 @@ func apply_rain_density(rain_density):
 func apply_cloudiness(new_cloudiness):
 	environment.sky.get_material().set_shader_parameter("cloud_coverage", new_cloudiness * 0.01)
 	
-	# Light energy is halved when it is maximally cloudy
-	set_light_energy(1.0 - new_cloudiness * 0.005)
+	apply_light_energy()
 
 
 func apply_wind_speed(new_wind_speed):
@@ -56,11 +59,22 @@ func apply_datetime(datetime: Dictionary):
 	
 	light.rotation = Vector3(-angles["altitude"], PI - angles["azimuth"], 0)
 	
-	if angles["altitude"] < 0.0:
-		set_light_energy(0.0)
+	apply_light_energy()
+
+
+func apply_light_energy():
+	var altitude = rad_to_deg(-light.rotation.x)
+	
+	# Light energy is halved when it is maximally cloudy
+	var brightest = brightest_light_energy - environment.sky.get_material().get_shader_parameter("cloud_coverage") * 0.000025
+	
+	if altitude > light_disabled_altitude and altitude < light_darken_begin_altitude:
+		_set_light_energy(inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude) * brightest)
+	elif altitude <= light_disabled_altitude:
+		_set_light_energy(0.0)
 	else:
-		set_light_energy(1.0)
+		_set_light_energy(brightest)
 
 
-func set_light_energy(new_energy):
+func _set_light_energy(new_energy):
 	light.light_energy = new_energy
