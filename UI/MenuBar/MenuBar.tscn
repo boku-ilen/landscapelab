@@ -32,50 +32,68 @@ ok_button_text = "Save"
 access = 2
 filters = PackedStringArray("*.ll")
 
-[node name="SetVegetationPaths" type="ConfirmationDialog" parent="ProjectButton"]
-size = Vector2i(290, 193)
+[node name="VegetationDetails" type="ConfirmationDialog" parent="ProjectButton"]
+size = Vector2i(290, 243)
 theme = ExtResource("2_uetun")
 
-[node name="Grid" type="GridContainer" parent="ProjectButton/SetVegetationPaths"]
+[node name="VBox" type="VBoxContainer" parent="ProjectButton/VegetationDetails"]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 282.0
-offset_bottom = 144.0
+offset_bottom = 194.0
+
+[node name="Config" type="GridContainer" parent="ProjectButton/VegetationDetails/VBox"]
+layout_mode = 2
 columns = 2
 
-[node name="DensitiesLabel" type="Label" parent="ProjectButton/SetVegetationPaths/Grid"]
+[node name="ExtentLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Config"]
+layout_mode = 2
+text = "Extent factor:"
+
+[node name="SpinBox" type="SpinBox" parent="ProjectButton/VegetationDetails/VBox/Config"]
+layout_mode = 2
+min_value = 0.1
+max_value = 10.0
+step = 0.1
+value = 0.1
+
+[node name="Paths" type="GridContainer" parent="ProjectButton/VegetationDetails/VBox"]
+layout_mode = 2
+columns = 2
+
+[node name="DensitiesLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths"]
 layout_mode = 2
 text = "Densities: "
 
-[node name="Densities" parent="ProjectButton/SetVegetationPaths/Grid" instance=ExtResource("3_ckk4c")]
+[node name="Densities" parent="ProjectButton/VegetationDetails/VBox/Paths" instance=ExtResource("3_ckk4c")]
 layout_mode = 2
 size_flags_horizontal = 3
 text_placeholder = "*.csv"
 filters = ["*.csv"]
 
-[node name="GroupsLabel" type="Label" parent="ProjectButton/SetVegetationPaths/Grid"]
+[node name="GroupsLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths"]
 layout_mode = 2
 text = "Groups:"
 
-[node name="Groups" parent="ProjectButton/SetVegetationPaths/Grid" instance=ExtResource("3_ckk4c")]
+[node name="Groups" parent="ProjectButton/VegetationDetails/VBox/Paths" instance=ExtResource("3_ckk4c")]
 layout_mode = 2
 text_placeholder = "*.csv"
 filters = ["*.csv"]
 
-[node name="PlantsLabel" type="Label" parent="ProjectButton/SetVegetationPaths/Grid"]
+[node name="PlantsLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths"]
 layout_mode = 2
 text = "Plants:"
 
-[node name="Plants" parent="ProjectButton/SetVegetationPaths/Grid" instance=ExtResource("3_ckk4c")]
+[node name="Plants" parent="ProjectButton/VegetationDetails/VBox/Paths" instance=ExtResource("3_ckk4c")]
 layout_mode = 2
 text_placeholder = "*.csv"
 filters = ["*.csv"]
 
-[node name="TexturesLabel" type="Label" parent="ProjectButton/SetVegetationPaths/Grid"]
+[node name="TexturesLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths"]
 layout_mode = 2
 text = "Textures:"
 
-[node name="Textures" parent="ProjectButton/SetVegetationPaths/Grid" instance=ExtResource("3_ckk4c")]
+[node name="Textures" parent="ProjectButton/VegetationDetails/VBox/Paths" instance=ExtResource("3_ckk4c")]
 layout_mode = 2
 text_placeholder = "*.csv"
 filters = ["*.csv"]
