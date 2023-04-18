@@ -1,162 +1,102 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://88rg1t88n3e7"]
 
-[ext_resource path="res://UI/Screenshot/ScreenshotMenu.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://UI/Screenshot/ScreenshotMenu.gd" id="1"]
 
 [node name="Control" type="HBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -1269.0
 offset_bottom = -745.0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
 
 [node name="Labels" type="VBoxContainer" parent="."]
-offset_right = 206.0
-offset_bottom = 335.0
+layout_mode = 2
 
 [node name="LabelName" type="Label" parent="Labels"]
-offset_right = 206.0
-offset_bottom = 25.0
+layout_mode = 2
 text = "Screenshot name: "
-valign = 1
 
 [node name="LabelUpscale" type="Label" parent="Labels"]
-offset_top = 33.0
-offset_right = 206.0
-offset_bottom = 58.0
+layout_mode = 2
 text = "Upscale viewport: "
-valign = 1
 
 [node name="LabelExtent" type="Label" parent="Labels"]
-offset_top = 66.0
-offset_right = 206.0
-offset_bottom = 91.0
+layout_mode = 2
 text = "Plant extent: "
-valign = 1
 
 [node name="TimeSeries" type="Label" parent="Labels"]
-offset_top = 99.0
-offset_right = 206.0
-offset_bottom = 124.0
+layout_mode = 2
 text = "Enable time-series:"
-valign = 1
 
 [node name="TimeSeriesLabels" type="VBoxContainer" parent="Labels"]
 visible = false
-offset_top = 215.0
-offset_right = 206.0
-offset_bottom = 366.0
+layout_mode = 2
 
 [node name="FromLabel" type="Label" parent="Labels/TimeSeriesLabels"]
-offset_right = 206.0
-offset_bottom = 45.0
+layout_mode = 2
 text = "From:"
-valign = 1
 
 [node name="ToLabel" type="Label" parent="Labels/TimeSeriesLabels"]
-offset_top = 53.0
-offset_right = 206.0
-offset_bottom = 98.0
+layout_mode = 2
 text = "To:"
-valign = 1
 
 [node name="IntervalLabel" type="Label" parent="Labels/TimeSeriesLabels"]
-offset_top = 106.0
-offset_right = 206.0
-offset_bottom = 151.0
+layout_mode = 2
 text = "Interval:"
-valign = 1
 
 [node name="Inputs" type="VBoxContainer" parent="."]
-offset_left = 214.0
-offset_right = 474.0
-offset_bottom = 335.0
+layout_mode = 2
 
 [node name="ScreenShotName" type="LineEdit" parent="Inputs"]
-offset_right = 260.0
-offset_bottom = 45.0
-minimum_size = Vector2( 260, 0 )
+layout_mode = 2
 placeholder_text = "user://image.png"
 
 [node name="UpscaleViewport" type="SpinBox" parent="Inputs"]
-offset_top = 53.0
-offset_right = 260.0
-offset_bottom = 98.0
+layout_mode = 2
 max_value = 4.0
 step = 0.1
 value = 1.0
-align = 1
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="PlantExtent" type="SpinBox" parent="Inputs"]
-offset_top = 106.0
-offset_right = 260.0
-offset_bottom = 151.0
+layout_mode = 2
 max_value = 15.0
 step = 0.5
 value = 6.0
-align = 1
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="CheckBoxTimeSeries" type="CheckBox" parent="Inputs"]
-offset_top = 159.0
-offset_right = 48.0
-offset_bottom = 207.0
+layout_mode = 2
 size_flags_horizontal = 0
 
 [node name="TimeSeriesContainer" type="VBoxContainer" parent="Inputs"]
 visible = false
-offset_top = 215.0
-offset_right = 400.0
-offset_bottom = 366.0
+layout_mode = 2
 
 [node name="From" type="SpinBox" parent="Inputs/TimeSeriesContainer"]
-offset_right = 400.0
-offset_bottom = 45.0
+layout_mode = 2
 max_value = 24.0
-align = 1
 suffix = "h"
 
 [node name="To" type="SpinBox" parent="Inputs/TimeSeriesContainer"]
-offset_top = 53.0
-offset_right = 400.0
-offset_bottom = 98.0
+layout_mode = 2
 max_value = 24.0
 value = 12.0
-align = 1
 suffix = "h"
 
 [node name="Interval" type="HBoxContainer" parent="Inputs/TimeSeriesContainer"]
-offset_top = 106.0
-offset_right = 400.0
-offset_bottom = 151.0
+layout_mode = 2
 
 [node name="Hours" type="SpinBox" parent="Inputs/TimeSeriesContainer/Interval"]
-offset_right = 196.0
-offset_bottom = 45.0
+layout_mode = 2
 max_value = 24.0
 value = 1.0
-align = 1
 suffix = "h"
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="Minutes" type="SpinBox" parent="Inputs/TimeSeriesContainer/Interval"]
-offset_left = 204.0
-offset_right = 400.0
-offset_bottom = 45.0
+layout_mode = 2
 max_value = 59.0
 suffix = "m"
 
 [node name="ScreenshotButton" type="Button" parent="Inputs"]
-offset_top = 215.0
-offset_right = 260.0
-offset_bottom = 252.0
+layout_mode = 2
 text = "Screenshot"
