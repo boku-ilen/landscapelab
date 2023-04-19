@@ -38,6 +38,7 @@ func screenshot(
 	pos_manager.get_viewport().set_use_taa(false)
 	pos_manager.get_viewport().set_msaa_3d(Viewport.MSAA_MAX)
 	
+	pos_manager.get_viewport().get_parent().stretch = false
 	pos_manager.get_viewport().size = previous_viewport_size * upscale_viewport
 	Vegetation.plant_extent_factor = plant_extent
 	
@@ -45,6 +46,9 @@ func screenshot(
 	
 	RenderingServer.force_sync()
 	RenderingServer.force_draw()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
 	
 	# get data of the viewport
 	var image = pos_manager.get_viewport().get_texture().get_image()
@@ -53,12 +57,15 @@ func screenshot(
 	image.save_png(image_name)
 	
 	# Reset to prior configuration
-	pos_manager.get_viewport().size = previous_viewport_size
+	pos_manager.get_viewport().get_parent().stretch = true
 	Vegetation.plant_extent_factor = previous_plant_extent_factor
 	pos_manager.get_viewport().set_use_taa(taa_before)
 	pos_manager.get_viewport().set_msaa_3d(msaa_before)
 	
 	RenderingServer.force_sync()
 	RenderingServer.force_draw()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
 	
 	screenshot_finished.emit()

@@ -39,10 +39,9 @@ shader_parameter/uv_offset = null
 [node name="VegetationParticles" type="GPUParticles3D"]
 layers = 2
 material_override = SubResource("ShaderMaterial_oyqth")
-cast_shadow = 0
 amount = 1
 explosiveness = 1.0
-fixed_fps = 0
+fixed_fps = 1
 interpolate = false
 fract_delta = false
 visibility_aabb = AABB(-150, -150, -150, 300, 300, 300)
