@@ -9,7 +9,12 @@ func update_road_lane() -> void:
 	$RoadLanePolygon.material.set_shader_parameter("has_curbside_left", true)
 	$RoadLanePolygon.material.set_shader_parameter("has_curbside_right", true)
 
-func get_info() -> Dictionary:
+
+func reset_custom_values() -> void:
+	super.reset_custom_values()
+
+
+func get_info() -> Array:
 	var info = super.get_info()
-	info.merge({})
+	info.append_array([])
 	return info

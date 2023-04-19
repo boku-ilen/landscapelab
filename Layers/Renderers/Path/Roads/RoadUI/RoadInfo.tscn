@@ -7,4 +7,35 @@ title = "Road Info"
 size = Vector2i(400, 400)
 script = ExtResource("1_q5t2v")
 
-[node name="RoadInfoTabs" type="TabContainer" parent="."]
+[node name="RoadLaneInfos" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 400.0
+offset_bottom = 400.0
+
+[node name="Tabs" type="TabContainer" parent="RoadLaneInfos"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="RoadLaneInfos"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="ResetButton" type="Button" parent="RoadLaneInfos/MarginContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Reset"

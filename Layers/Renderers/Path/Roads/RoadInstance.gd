@@ -84,13 +84,13 @@ func update_road_lanes() -> void:
 		road_lane.update_road_lane()
 
 
-func get_info() -> Dictionary:
-	return {
-		"ID": str(id),
-		"Name": str(road_name),
-		"Subname": str(road_subname),
-		"From Intersection": str(from_intersection),
-		"To Intersection": str(to_intersection),
-		"Width": "%sm" %[width],
-		"Length": "%sm" %[length],
-	}
+func get_info() -> Array:
+	return [
+		RoadInfoData.new("ID", id, "", false),
+		RoadInfoData.new("Name", road_name, "", false),
+		RoadInfoData.new("Subname", road_subname, "", false),
+		RoadInfoData.new("From Intersection", from_intersection, "", false),
+		RoadInfoData.new("To Intersection", to_intersection, "", false),
+		RoadInfoData.new("Width", width, "", false),
+		RoadInfoData.new("Length", length, "", false),
+	]

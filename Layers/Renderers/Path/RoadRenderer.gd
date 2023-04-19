@@ -28,6 +28,9 @@ var chunk_dict = {}
 const TERRAFORMING_FALLOFF = 3
 
 func load_data() -> void:
+	$MouseInfo/RoadInfo.hide()
+	
+	
 	var tic = Time.get_ticks_msec()
 	# Create dictionary for height lookup
 	_create_heightmap_dictionary()

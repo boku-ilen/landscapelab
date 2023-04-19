@@ -4,9 +4,9 @@ const MAX_RAYCAST_DISTANCE = 5000.0
 
 
 func _ready():
-	get_parent().remove_child(self)
-	get_viewport().add_child(self)
-
+	#get_parent().remove_child(self)
+	#get_viewport().add_child(self)
+	pass
 
 
 func _input(event):
