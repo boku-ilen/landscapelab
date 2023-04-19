@@ -104,15 +104,6 @@ func get_map_size():
 	return rows * spacing * 1.5 + 500 # Add 200 to allow for some movement within the data
 
 
-# When the world is shifted, this offset needs to be remembered and passed to
-#  the shader so that the world -> UV calculation remains correct.
-func _on_shift_world(delta_x, delta_z):
-	current_offset_from_shifting -= Vector2(delta_x, delta_z)
-	
-	process_material.set_shader_parameter("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
-	material_override.set_shader_parameter("offset", Vector2(-previous_origin.x, -previous_origin.z) + current_offset_from_shifting)
-
-
 func complete_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0, new_uv_offset_y=0):
 	var splat = texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y)
 	

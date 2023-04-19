@@ -111,11 +111,7 @@ func _process(delta):
 
 func apply_new_data():
 	for renderer in renderers.get_children():
-		renderer.position = offset
 		renderer.apply_data()
-	
-	RenderingServer.force_sync()
-	RenderingServer.force_draw()
 	
 	logger.info("Applied new RasterVegetationRenderer data for %s" % [name])
 
