@@ -76,7 +76,6 @@ var _dependent_objects_loaded := 0
 
 # Fallback height for conversions where no height is given, but the output expects one
 const DEFAULT_HEIGHT = 500
-const LOG_MODULE := "WORLDPOSITION"
 
 
 func reset_center():
@@ -92,7 +91,8 @@ func get_center_node_world_position():
 
 
 func translate_center_node(new_x, new_z):
-	pass
+	if center_node:
+		center_node.position = Vector3(new_x, 0, new_z)
 
 
 func _process(delta):
@@ -130,7 +130,7 @@ func _shift_world(delta_x_diff, delta_z_diff):
 	delta_x_diff -= fposmod(delta_x_diff, 1000)
 	delta_z_diff -= fposmod(delta_z_diff, 1000)
 	
-	logger.info("Shifting world by %f, %f" % [delta_x, delta_z], LOG_MODULE)
+	logger.info("Shifting world by %f, %f" % [delta_x, delta_z])
 	
 	loading = true
 	_dependent_objects_loaded = 0
@@ -153,8 +153,8 @@ func _apply_new_position_to_center_node():
 		center_node.position.x -= delta_x
 		center_node.position.z -= delta_z
 	
-	x += delta_x
-	z -= delta_z
+	x += int(delta_x)
+	z -= int(delta_z)
 	
 	loading = false
 
@@ -169,7 +169,7 @@ func set_offset(new_x, new_z):
 	delta_x = 0
 	delta_z = 0
 	
-	logger.debug("New offset: %d, %d" % [x, z], LOG_MODULE)
+	logger.debug("New offset: %d, %d" % [x, z])
 
 
 func get_center():
@@ -194,12 +194,12 @@ func _on_dependent_object_loaded():
 # Works with Vector2 (top view) and Vector3.
 func to_world_coordinates(pos):
 	if pos is Vector2:
-		return [x - int(pos.x), z - int(pos.y)]
+		return Vector3i(x - int(pos.x), 0,  z - int(pos.y))
 	elif pos is Vector3:
-		return [x + int(pos.x), int(pos.y), z - int(pos.z)]
+		return Vector3i(x + int(pos.x), int(pos.y), z - int(pos.z))
 	else:
 		logger.warn("Invalid type for to_world_coordinates: %s;"\
-			+ "supported types: Vector2, Vector3" % [typeof(pos)], LOG_MODULE)
+			+ "supported types: Vector2, Vector3" % [typeof(pos)])
 
 
 # Converts world coordinates (absolute webmercator coordinates) to engine coordinates.
@@ -213,7 +213,7 @@ func to_engine_coordinates(pos) -> Vector3:
 		return Vector3(-x + pos.x, pos.y, -pos.z + z)
 	else:
 		logger.warn("Invalid type for to_engine_coordinates: %s; Needs to be Array with length of 2 or 3" 
-		% [var_to_str(typeof(pos))], LOG_MODULE)
+		% [var_to_str(typeof(pos))])
 		return Vector3(0, 0, 0)
 
 

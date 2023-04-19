@@ -17,16 +17,12 @@ var is_enabled: bool = false
 
 func _ready():
 	if not path_follow:
-		logger.error("Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced", "DOLLYCAM")
+		logger.error("Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced")
 		assert(false) #,"Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced")
 
 
 func _process(delta):
 	if is_enabled:
-		# Keep the view towards the object
-		if focus:
-			look_at(focus.global_transform.origin, Vector3.UP) 
-		
 		if Input.is_action_pressed("camera_move_forward"):
 			velocity.z += move_speed * delta
 		if Input.is_action_pressed("camera_move_backward"):
@@ -45,11 +41,15 @@ func _process(delta):
 		velocity.y *= move_speed_decay
 		
 		# Movement along rails
-		path_follow.offset += velocity.z
+		path_follow.progress += velocity.z * delta
 		
 		# Free movement relative to position checked rails
-		#position += Vector3(velocity.x, velocity.y, 0.0)
-		rotation += Vector3(velocity.x, velocity.y, 0.0)
+		position += Vector3(velocity.x, velocity.y, 0.0) * delta
+		rotation += Vector3(velocity.x, velocity.y, 0.0) * delta
+		
+		# Keep the view towards the object
+		if focus:
+			look_at(focus.global_transform.origin, Vector3.UP) 
 
 
 func toggle_cam(enabled):

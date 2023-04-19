@@ -10,11 +10,9 @@ var mouse_sensitivity = Settings.get_setting("player", "mouse-sensitivity")
 
 var position_manager: PositionManager  # Injected if needed
 
-const LOG_MODULE := "PERSPECTIVES"
-
 
 func teleport(pos: Vector3):
-	logger.info("Teleporting player %s to coordinates: %s" % [name, pos], LOG_MODULE)
+	logger.info("Teleporting player %s to coordinates: %s" % [name, pos])
 	transform.origin = pos
 
 
@@ -80,7 +78,7 @@ func _handle_abstract_viewport_input(event):
 
 # Handle input which should only have an effect when the mouse is inside the viewport
 # Can be implemented for additional input
-func _handle_viewport_input(event):
+func _handle_viewport_input(_event):
 	pass
 
 
@@ -104,14 +102,14 @@ func _handle_abstract_general_input(event):
 
 # Handle input which should always have an effect, even if the mouse isn't over this viewport
 # Can be implemented for additional input
-func _handle_general_input(event):
+func _handle_general_input(_event):
 	pass
 
 
 # To prevent floating point errors, the player.position does not reflect the player's 
 # actual position in the whole world. This function returns the true world position of 
 # the player (in projected meters) as integers.
-func get_true_position():
+func get_true_position() -> Vector3:
 	return position_manager.to_world_coordinates(position)
 
 

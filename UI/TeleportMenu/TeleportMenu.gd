@@ -18,8 +18,6 @@ var pos_manager: PositionManager
 var pc_player: AbstractPlayer
 var current_poi_layer: LayerComposition
 
-const LOG_MODULE := "UI"
-
 
 func _ready():
 	$VBoxContainer/TeleportToButton.connect("pressed",Callable(self,"_teleport_current_values"))
@@ -84,8 +82,7 @@ func _load_features_into_list():
 	for feature in features:
 		var new_id = $VBoxContainer/ItemList.get_item_count()
 		var position = feature.get_vector3()
-		# TODO: Why do we need to reverse the z coordinate? seems like an inconsistency in coordinate handling
-		position.z = -position.z
+		position.z = -position.z # Adapt to local -z forward coordinates
 		
 		var item_name = feature.get_attribute(current_poi_layer.ui_info.name_attribute) \
 				if feature.get_attribute(current_poi_layer.ui_info.name_attribute) != "" \

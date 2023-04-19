@@ -6,7 +6,6 @@ signal visibility_changed(new_visibility)
 signal cloudiness_changed(new_cloudiness)
 signal wind_speed_changed(new_wind_speed)
 signal wind_direction_changed(new_wind_direction)
-signal unshaded_changed(new_is_unshaded)
 signal rain_density_changed(new_rain_density)
 signal rain_drop_size_changed(new_rain_density)
 signal rain_enabled_changed(enabled)
@@ -63,10 +62,3 @@ var rain_drop_size := Vector2(0.5, 0.25) :
 	set(new_rain_drop_size):
 		rain_drop_size = new_rain_drop_size
 		emit_signal("rain_drop_size_changed", new_rain_drop_size)
-
-var is_unshaded := false :
-	get:
-		return is_unshaded # true or false; makes objects completely unshaded
-	set(new_is_unshaded):
-		is_unshaded = new_is_unshaded
-		emit_signal("unshaded_changed", is_unshaded)

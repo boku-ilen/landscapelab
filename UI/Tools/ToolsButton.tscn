@@ -1,25 +1,23 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://1gks7vfqwpfx"]
 
-[ext_resource path="res://UI/CustomElements/AutoIconButton.tscn" type="PackedScene" id=1]
-[ext_resource path="res://UI/Tools/ToolsButton.gd" type="Script" id=2]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.gdshader" type="Shader" id=3]
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="1"]
+[ext_resource type="Script" path="res://UI/Tools/ToolsButton.gd" id="2"]
+[ext_resource type="Shader" path="res://UI/CustomElements/AutoTextureButton.gdshader" id="3"]
 
-[sub_resource type="ShaderMaterial" id=1]
+[sub_resource type="ShaderMaterial" id="1"]
 resource_local_to_scene = true
-shader = ExtResource( 3 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
+shader = ExtResource("3")
+shader_parameter/color = Vector3(0, 0, 0)
+shader_parameter/rotation_radians = null
+shader_parameter/color_length_modulate_threshold = 1.5
 
-[node name="ToolsButton" instance=ExtResource( 1 )]
-material = SubResource( 1 )
+[node name="ToolsButton" instance=ExtResource("1")]
+material = SubResource("1")
+custom_minimum_size = Vector2(30, 30)
 offset_right = 25.0
 offset_bottom = 30.0
 mouse_filter = 1
 toggle_mode = true
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="Window" type="Window" parent="." index="0"]
-offset_right = 16.0
-offset_bottom = 16.0
-mouse_filter = 1

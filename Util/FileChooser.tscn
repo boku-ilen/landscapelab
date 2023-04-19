@@ -1,41 +1,26 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://ch15mdq8mk72s"]
 
-[ext_resource path="res://Util/FileChooser.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Util/FileChooser.gd" id="1"]
 
 [node name="FileChooser" type="HBoxContainer"]
 offset_right = 109.0
 offset_bottom = 40.0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
 text_placeholder = ""
 
 [node name="FileName" type="LineEdit" parent="."]
-offset_right = 164.0
-offset_bottom = 45.0
-minimum_size = Vector2( 0, 40 )
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 10
 
 [node name="Button" type="Button" parent="."]
-offset_left = 172.0
-offset_right = 273.0
-offset_bottom = 45.0
+layout_mode = 2
 size_flags_horizontal = 8
 text = "Open..."
 
 [node name="FileDialog" type="FileDialog" parent="Button"]
-offset_left = -264.0
-offset_top = 181.0
-offset_right = 459.0
-offset_bottom = 723.0
-window_title = "Open a File"
-mode = 0
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
 access = 2
-filters = PackedStringArray( "" )
-current_dir = "/boku/landscapelab"
-current_path = "/boku/landscapelab/"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+filters = PackedStringArray("")

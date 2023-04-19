@@ -139,9 +139,9 @@ float intersectSphere(vec3 pos, vec3 dir,float r) {
 // Returns density at a given point
 // Heavily based on method from Schneider
 float density(vec3 pip, vec3 weather, float mip) {
-	float time = TIME;
+	float time = TIME * _time_scale;
 	vec3 p = pip;
-	p.x += time * 10.0 * _time_scale + _time_offset;
+	p.x += time * 10.0 + _time_offset;
 	float height_fraction = GetHeightFractionForPoint(length(p));
 	vec4 n = textureLod(perlworlnoise, p.xyz*0.00008, mip-2.0);
 	float fbm = n.g*0.625+n.b*0.25+n.a*0.125;
@@ -150,7 +150,7 @@ float density(vec3 pip, vec3 weather, float mip) {
 	float weather_coverage = cloud_coverage*weather.b;
 	base_cloud = remap(base_cloud*g, 1.0-(weather_coverage), 1.0, 0.0, 1.0);
 	base_cloud *= weather_coverage;
-	p.xy -= time * 40.0;
+	p.xy -= time * 20.0;
 	vec3 hn = textureLod(worlnoise, p*0.001, mip).rgb;
 	float hfbm = hn.r*0.625+hn.g*0.25+hn.b*0.125;
 	hfbm = mix(hfbm, 1.0-hfbm, clamp(height_fraction*4.0, 0.0, 1.0));
@@ -181,8 +181,8 @@ vec4 march(vec3 pos,  vec3 end, vec3 dir, int depth) {
 	vec3 atmosphere_ground = atmosphere(normalize(vec3(1.0, -1.0, 0.0)));
 	
 	const float weather_scale = 0.00006;
-	const float time = TIME * 0.003 * _time_scale + 0.005*_time_offset;
-	const vec2 weather_pos = vec2(time * 0.9, time);
+	float time = TIME * 0.003 * _time_scale + 0.005*_time_offset;
+	vec2 weather_pos = vec2(time * 0.9, time);
 	
 	for (int i = 0; i < depth; i++) {
 		p += dir * ss;

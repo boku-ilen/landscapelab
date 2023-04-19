@@ -12,13 +12,14 @@ const distribution_size = 16
 # Maximum plant height -- height values in the distribution map are interpreted to be between 0.0
 #  and this value
 const max_plant_height = 40.0
-const LOG_MODULE := "VEGETATION"
 
 var plants = {}
 var groups = {}
 var density_classes = {}
 var ground_textures = {}
 var fade_textures = {}
+var paths := {}
+
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
@@ -29,21 +30,11 @@ var plant_extent_factor = 3.0 :
 		plant_extent_factor = extent
 		emit_signal("new_plant_extent_factor", extent)
 
-# FIXME: Sensible value
+# Overwritten when data is loaded
 var max_extent = 1000.0
 signal new_plant_extent_factor(extent)
 
 signal new_data
-
-
-func _ready():
-	var config = ConfigFile.new()
-	var err = config.load("user://vegetation_paths.cfg")
-	
-	if err != OK:
-		logger.error("Couldn't load vegetation from config since none was available!", LOG_MODULE)
-		# TODO: Display the UI for entering paths instead
-		return
 
 
 func load_data_from_gpkg(db) -> void:
@@ -87,6 +78,12 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	max_extent = max_size_factor * plant_extent_factor
 	
 	emit_signal("new_data")
+	paths = {
+		"Densities": density_path,
+		"Groups": group_path,
+		"Plants": plant_path,
+		"Textures": texture_definition_path
+	}
 
 
 # Save the current Plant and Group data to CSV files at the given locations.
@@ -105,7 +102,7 @@ func get_group_array_for_ids(id_array):
 		if groups.has(id_array[i]):
 			group_array.append(groups[id_array[i]])
 		else:
-			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]], LOG_MODULE)
+			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]])
 	
 	return group_array
 

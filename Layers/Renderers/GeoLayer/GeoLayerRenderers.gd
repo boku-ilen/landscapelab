@@ -10,82 +10,86 @@ signal loading_started
 
 var renderers_finished := 0
 var renderers_count := 0
-var load_data_threaded := false
+var load_data_threaded := true
 
 # Center in geocordinates
 var center := Vector2.ZERO
 var offset := Vector2.ZERO
 var zoom := Vector2.ONE
 
-const LOG_MODULE = "GEOLAYERRENDERERS"
-
 
 func _ready():
 	camera = get_node(camera_path)
 	camera.offset_changed.connect(apply_offset)
-		
-	for layer in Layers.geo_layers["rasters"]:
-		_instantiate_geolayer_renderer(layer, true)
-	for layer in Layers.geo_layers["features"]:
-		_instantiate_geolayer_renderer(layer, false)
 	
 	center = Vector2(Layers.current_center.x, Layers.current_center.z)
 	apply_offset(Vector2.ZERO, camera.get_viewport_rect().size, camera.zoom)
+
+
+func set_layer_visibility(layer_name: String, is_visible: bool):
+	# geolayers shall not be instantiated by default only on user's wish
+	if layer_name not in get_children().map(func(child): child.name):
+		instantiate_geolayer_renderer(Layers.get_geo_layer_by_name(layer_name))
 	
-	#Layers.new_geo_layer.connect(_instantiate_geolayer_renderer)
+	# Find child with correct name and set its visibility
+	# TODO: stop hardcoding this
+	get_children().filter(
+		func(child): return child.name == layer_name)[0].visible = true
 
 
-func _instantiate_geolayer_renderer(geo_layer_name, is_raster: bool):
-	var new_renderer
-	if is_raster:
-		new_renderer = raster_renderer.instantiate()
-		new_renderer.geo_raster_layer = Layers.geo_layers["rasters"][geo_layer_name]
+func instantiate_geolayer_renderer(geo_layer: Resource):
+	var renderer
+	if geo_layer is GeoRasterLayer:
+		renderer = raster_renderer.instantiate()
+		renderer.geo_raster_layer = geo_layer
 	else: 
-		new_renderer = feature_renderer.instantiate()
-		new_renderer.geo_feature_layer = Layers.geo_layers["features"][geo_layer_name]
+		renderer = feature_renderer.instantiate()
+		renderer.geo_feature_layer = geo_layer
 	
-	if new_renderer:
-		new_renderer.name = geo_layer_name
-		add_child(new_renderer)
+	if renderer:
+		renderer.name = geo_layer.resource_name
+		add_child(renderer)
 
 
-func apply_offset(offset, viewport_size, zoom):
-	self.zoom = zoom
-	self.offset = offset
+func apply_offset(new_offset, new_viewport_size, new_zoom):
+	zoom = new_zoom
+	offset = new_offset
 	var current_center = center
-	current_center.x += offset.x
-	current_center.y -= offset.y
-	logger.debug("Applying new center center to all children in %s" % [name], LOG_MODULE)
+	current_center.x += new_offset.x
+	current_center.y -= new_offset.y
+	logger.debug("Applying new center center to all children in %s" % [name])
 	emit_signal("loading_started")
 	
 	renderers_finished = 0
 	renderers_count = 0  
 	
 	# Get the number of renderers first to avoid race conditions
-	for renderer in get_children():
-		if renderer is GeoLayerRenderer:
-			renderers_count += 1
+	renderers_count = get_children() \
+		.filter(func(renderer): return renderer is GeoLayerRenderer).size()
+	
+	# Start loading thread and load all geolayers in the thread
+	if load_data_threaded:
+		if loading_thread.is_started() and not loading_thread.is_alive():
+			loading_thread.wait_to_finish()
 		
-		if load_data_threaded:
+		if not loading_thread.is_started():
 			loading_thread.start(update_renderers.bind(
-				current_center, offset, viewport_size, zoom), Thread.PRIORITY_HIGH)
-			loading_thread.wait_to_finish.call_deferred()
-		else:
-			update_renderers(current_center, offset, viewport_size, zoom)
+				current_center, new_offset, new_viewport_size, new_zoom), Thread.PRIORITY_NORMAL)
+	else:
+		update_renderers(current_center, new_offset, new_viewport_size, new_zoom)
 
 
-func update_renderers(center, offset, viewport_size, zoom):
+func update_renderers(new_center, new_offset, new_viewport_size, new_zoom):
 	# The maximum radius is at the corners => get the diagonale divided by 2s
-	var radius = sqrt(pow(viewport_size.x / zoom.x, 2) + pow(viewport_size.y / zoom.y, 2)) / 2
+	var radius = sqrt(
+		pow(new_viewport_size.x / new_zoom.x, 2) + pow(new_viewport_size.y / new_zoom.y, 2)) / 2
 	# Now, load the data of each renderer
 	for renderer in get_children():
 		if renderer is GeoLayerRenderer:
-			renderer.center = center
-			renderer.viewport_size = viewport_size
-			renderer.zoom = zoom
+			renderer.center = new_center
+			renderer.viewport_size = new_viewport_size
+			renderer.zoom = new_zoom
 			renderer.radius = radius
-			
-			logger.debug("Child {} beginning to load", LOG_MODULE)
 
 			renderer.load_new_data()
 			_on_renderer_finished.call_deferred(renderer.name)
@@ -95,8 +99,7 @@ func _on_renderer_finished(renderer_name):
 	renderers_finished += 1
 	
 	logger.info(
-		"Renderer %s of %s (with name %s) finished!" % [renderers_finished, renderers_count, renderer_name],
-		LOG_MODULE
+		"Renderer %s of %s (with name %s) finished!" % [renderers_finished, renderers_count, renderer_name]
 	)
 	
 	if renderers_finished == renderers_count:

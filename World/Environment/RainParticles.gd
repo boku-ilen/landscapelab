@@ -52,7 +52,7 @@ extends GPUParticles3D
 		return rows
 	set(value):
 		rows = value
-		amount = pow(value, 2)
+		amount = int(pow(value, 2))
 		process_material.set_shader_parameter("rows", int(rows))
 		process_material.set_shader_parameter("amount", int(amount))
 

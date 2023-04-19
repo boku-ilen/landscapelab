@@ -37,7 +37,7 @@ func full_load():
 
 func is_new_loading_required(position_diff: Vector3) -> bool:
 	# Small radius for grass?
-	if Vector2(position_diff.x, position_diff.z).length_squared() >= 50:
+	if Vector2(position_diff.x, position_diff.z).length_squared() >= 100:
 		return true
 	
 	return false
@@ -99,7 +99,7 @@ func _process(delta):
 		)
 		
 		# Follow camera forward in order to only render in front
-		renderer.position += position_manager.center_node.get_look_direction() * (renderer.spacing * renderer.rows * 0.5)
+		#renderer.position += position_manager.center_node.get_look_direction() * (renderer.spacing * renderer.rows * 0.5)
 		
 		renderer.position = Vector3(
 			renderer.position.x - fposmod(renderer.position.x, renderer.spacing * (1.0 + (float(renderer.density_class.id == 6) * 2.0))),
@@ -111,10 +111,9 @@ func _process(delta):
 
 func apply_new_data():
 	for renderer in renderers.get_children():
-		renderer.position = offset
 		renderer.apply_data()
 	
-	logger.info("Applied new RasterVegetationRenderer data for %s" % [name], LOG_MODULE)
+	logger.info("Applied new RasterVegetationRenderer data for %s" % [name])
 
 
 func get_debug_info() -> String:

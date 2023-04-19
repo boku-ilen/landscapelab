@@ -11,11 +11,11 @@ var current_cursor
 
 
 # The string should precisely resemble a function in this script
-func set_current_action(action: Action, cursor=null):
-	current_action = action
+func set_current_action(new_action: Action, new_cursor=null):
+	current_action = new_action
 	if cursor:
-		current_cursor = cursor
-		Input.set_custom_mouse_cursor(cursor)
+		current_cursor = new_cursor
+		Input.set_custom_mouse_cursor(new_cursor)
 
 
 func stop_current_action():
@@ -51,7 +51,7 @@ class Action:
 		player = p
 		is_blocking = blocking
 	
-	func apply(event):
+	func apply(_event):
 		pass
 
 

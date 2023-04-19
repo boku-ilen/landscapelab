@@ -31,12 +31,6 @@ var current_mouse_velocity := Vector2.ZERO
 @onready var camera = $Head/Camera3D
 
 
-func _ready():
-	$ActionHandler.player = self
-	$ActionHandler.cursor = $Head/Camera3D/MousePoint/InteractRay
-	$ActionHandler.collision_indicator = $Head/Camera3D/MousePoint/MouseCollisionIndicator
-
-
 # Immediately stop all movement from directions dict
 func stop_movement():
 	for dir in directions:
@@ -67,9 +61,9 @@ func _physics_process(delta):
 
 func _handle_general_input(event):
 	if $ActionHandler.has_blocking_action():
-		$ActionHandler.action(event)
+		$ActionHandler.handle(event)
 	else:
-		$ActionHandler.action(event)
+		$ActionHandler.handle(event)
 		if event is InputEventMouseMotion and rotating:
 			if is_smooth_camera:
 				current_mouse_velocity.y += -event.relative.x * MOUSE_ACCELERATION
@@ -207,10 +201,10 @@ func fly(delta):
 	var future_world_coordinates = position_manager.to_world_coordinates(position + target * delta)
 	var boundary = position_manager.get_rendered_boundary()
 	
-	if future_world_coordinates[0] < boundary[0]: target.x += (boundary[0] - future_world_coordinates[0]) / delta
-	if future_world_coordinates[0] > boundary[1]: target.x -= (future_world_coordinates[0] - boundary[1]) / delta
-	if future_world_coordinates[2] < boundary[2]: target.z -= (boundary[2] - future_world_coordinates[2]) / delta
-	if future_world_coordinates[2] > boundary[3]: target.z += (future_world_coordinates[2] - boundary[3]) / delta
+	if future_world_coordinates.x < boundary[0]: target.x += (boundary[0] - future_world_coordinates.x) / delta
+	if future_world_coordinates.x > boundary[1]: target.x -= (future_world_coordinates.x - boundary[1]) / delta
+	if future_world_coordinates.z < boundary[2]: target.z -= (boundary[2] - future_world_coordinates.z) / delta
+	if future_world_coordinates.z > boundary[3]: target.z += (future_world_coordinates.z - boundary[3]) / delta
 	
 	set_velocity(target)
 	move_and_slide()

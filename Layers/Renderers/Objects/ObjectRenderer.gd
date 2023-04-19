@@ -76,11 +76,11 @@ func apply_new_data():
 	feature_add_queue.clear()
 	feature_remove_queue.clear()
 	
-	logger.info("Applied new ObjectRenderer data for %s" % [name], LOG_MODULE)
+	logger.info("Applied new ObjectRenderer data for %s" % [name])
 
 
 func apply_new_feature(feature):
-	var instance = layer_composition.render_info.object.instantiate()
+	var instance = load(layer_composition.render_info.object).instantiate()
 	
 	instance.name = var_to_str(feature.get_id())
 	feature.connect("point_changed",Callable(self,"update_instance_position").bind(feature, instance))
@@ -136,7 +136,7 @@ func _ready():
 	layer_composition.render_info.geo_feature_layer.connect("feature_removed",Callable(self,"_on_feature_removed").bind())
 
 	if not layer_composition.is_valid():
-		logger.error("ObjectRenderer was given an invalid layer!", LOG_MODULE)
+		logger.error("ObjectRenderer was given an invalid layer!")
 
 
 func _on_feature_added(feature):

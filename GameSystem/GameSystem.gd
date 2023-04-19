@@ -22,11 +22,6 @@ signal score_changed(score)
 signal score_target_reached(score)
 
 
-func _ready():
-	# TODO: Layers.connect("new_game_layer",Callable(self,"_on_new_game_layer"))
-	pass
-
-
 func _on_score_changed(score):
 	emit_signal("score_changed", score)
 
@@ -39,7 +34,7 @@ func create_new_game_object(collection, position := Vector3.ZERO):
 	# FIXME: This if should be removed, it's a hacky way to allow the PlayerGameObjectCollection to
 	#  move the player checked "NEW_TOKEN" while allowing the actual creation of new objects in
 	#  GeoGameObjectCollections
-	if collection.has_method("create_new_geo_game_object"):
+	if is_instance_of(collection, GeoGameObjectCollection):
 		return create_new_geo_game_object(collection, position)
 	else:
 		collection.game_objects.values()[0].set_position(position)
@@ -107,5 +102,5 @@ func apply_game_object_removal(collection_name, game_object_id):
 	_game_objects.erase(game_object_id)
 
 
-func _on_new_game_layer(layer):
+func _on_new_game_layer(_layer):
 	pass

@@ -48,16 +48,6 @@ func is_valid():
 
 
 # Implemented by child classes
-func get_path():
-	pass
-
-
-# Implemented by child classes
-func get_name():
-	pass
-
-
-# Implemented by child classes
 func get_center():
 	pass
 
@@ -79,6 +69,8 @@ class RenderInfo extends RefCounted:
 	
 	func is_valid() -> bool:
 		return true
+	
+	func get_class_name() -> String: return ""
 
 class BasicTerrainRenderInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
@@ -103,6 +95,8 @@ class BasicTerrainRenderInfo extends RenderInfo:
 	
 	func is_valid():
 		return height_layer != null and (is_color_shaded or texture_layer != null)
+	
+	func get_class_name() -> String: return "Basic Terrain"
 
 class RealisticTerrainRenderInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
@@ -125,6 +119,8 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	
 	func is_valid():
 		return height_layer and surface_height_layer and texture_layer and landuse_layer
+	
+	func get_class_name() -> String: return "Realistic Terrain"
 
 class VegetationRenderInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
@@ -141,7 +137,9 @@ class VegetationRenderInfo extends RenderInfo:
 		return {"Height": height_layer, "Landuse": landuse_layer}
 	
 	func is_valid():
-		return height_layer != null and landuse_layer != null 
+		return height_layer != null and landuse_layer != null
+	
+	func get_class_name() -> String: return "Vegetation"
 
 class ParticlesRenderInfo extends RenderInfo:
 	pass
@@ -163,10 +161,14 @@ class ObjectRenderInfo extends RenderInfo:
 	
 	func is_valid():
 		return geo_feature_layer != null && ground_height_layer != null
+	
+	func get_class_name() -> String: return "Object"
 
 class WindTurbineRenderInfo extends ObjectRenderInfo:
 	var height_attribute_name: String
 	var diameter_attribute_name: String
+	
+	func get_class_name() -> String: return "Wind Turbine"
 
 class PolygonRenderInfo extends RenderInfo:
 	var height_attribute_name: String
@@ -185,6 +187,8 @@ class PolygonRenderInfo extends RenderInfo:
 	
 	func is_valid():
 		return geo_feature_layer != null && ground_height_layer != null
+	
+	func get_class_name() -> String: return "Polygon"
 
 class BuildingRenderInfo extends PolygonRenderInfo:
 	var height_stdev_attribute_name: String
@@ -192,28 +196,36 @@ class BuildingRenderInfo extends PolygonRenderInfo:
 	var red_attribute_name: String
 	var green_attribute_name: String
 	var blue_attribute_name: String
+	
+	func get_class_name() -> String: return "Building"
 
-#class PathRenderInfo extends RenderInfo:
-#	var line_visualization: PackedScene
-#	var ground_height_layer: GeoRasterLayer
-#	var geo_feature_layer: GeoFeatureLayer
-#
-#	func get_geolayers():
-#		return [ground_height_layer, geo_feature_layer]
-#
-#	func get_described_geolayers() -> Dictionary:
-#		return {"Ground-height": ground_height_layer, "Features": geo_feature_layer}
-#
-#	func is_valid():
-#		return geo_feature_layer != null && ground_height_layer != null
+class PathRenderInfo extends RenderInfo:
+	var line_visualization: String
+	var ground_height_layer: GeoRasterLayer
+	var geo_feature_layer: GeoFeatureLayer
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/Path/PathRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
+	
+	func get_geolayers():
+		return [ground_height_layer, geo_feature_layer]
+	
+	func get_described_geolayers() -> Dictionary:
+		return {"Ground-height": ground_height_layer, "Features": geo_feature_layer}
+	
+	func is_valid():
+		return geo_feature_layer != null && ground_height_layer != null
+	
+	func get_class_name() -> String: return "Path"
 
 class ConnectedObjectInfo extends RenderInfo:
 	# The geodata-key-attribute that determines which connector/connection to use
 	var selector_attribute_name: String
 	# The specified connectors/connection attributes
 	# e.g. "minor-power-line": "LowVoltage.tscn", "power-line": "HighVoltage.tscn"
-	var connectors = {}
-	var connections = {}
+	var connectors: Dictionary
+	var connections: Dictionary
 	# Should nothing be specified, take the fallbacks
 	var fallback_connector: String
 	var fallback_connection: String
@@ -232,6 +244,8 @@ class ConnectedObjectInfo extends RenderInfo:
 	
 	func is_valid():
 		return geo_feature_layer != null && ground_height_layer != null
+	
+	func get_class_name() -> String: return "Connected Object"
 
 class PolygonObjectInfo extends RenderInfo:
 	var ground_height_layer: GeoRasterLayer
@@ -248,3 +262,5 @@ class PolygonObjectInfo extends RenderInfo:
 	
 	func get_geolayers() -> Array:
 		return [polygon_layer, object_layer]
+	
+	func get_class_name() -> String: return "Polygon Object"

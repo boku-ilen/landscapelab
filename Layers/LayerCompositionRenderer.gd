@@ -20,12 +20,10 @@ var time_manager: TimeManager :
 		return time_manager
 	set(manager):
 		time_manager = manager
-		time_manager.connect("daytime_changed",Callable(self,"_apply_daytime_change"))
+		time_manager.daytime_changed.connect(_apply_daytime_change)
 		set_time_manager()
 
 var is_daytime = true
-
-const LOG_MODULE := "LAYERRENDERERS"
 
 
 # To be implemented by child class
@@ -41,7 +39,7 @@ func _ready():
 # Generic layer loading logic: if the loading thread is free, adapt the data to the current position
 # or refine the current data if the position has not changed much.
 # Do not override (remember to call call `super._process(delta)` if overloading)!
-func _process(delta):
+func _process(_delta):
 	if loading_thread.is_started() and not loading_thread.is_alive():
 		loading_thread.wait_to_finish()
 	
@@ -57,7 +55,7 @@ func _process(delta):
 
 # Overload with a check which returns `true` if new data loading is required, e.g. because the
 #  camera distance since the last loading is too high 
-func is_new_loading_required(position_diff: Vector3) -> bool:
+func is_new_loading_required(_position_diff: Vector3) -> bool:
 	return false
 
 
@@ -70,7 +68,7 @@ func full_load():
 # Adapt the current data based on the given position_diff, loading new data where required.
 # Likely implemented similarly to full_load, but re-using existing data where possible.
 # Run in a thread, so watch out for thread safety!
-func adapt_load(position_diff: Vector3):
+func adapt_load(_position_diff: Vector3):
 	pass
 
 

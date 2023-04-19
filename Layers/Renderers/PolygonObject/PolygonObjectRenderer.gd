@@ -73,7 +73,7 @@ func apply_new_data():
 	
 	object_instances.clear()
 	
-	logger.info("Applied new PolygonObjectRenderer data for %s" % [name], LOG_MODULE)
+	logger.info("Applied new PolygonObjectRenderer data for %s" % [name])
 
 
 func _ready():

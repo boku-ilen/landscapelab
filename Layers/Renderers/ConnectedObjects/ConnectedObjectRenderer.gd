@@ -4,9 +4,13 @@ var radius = 800.0
 var max_features = 100
 var connection_radius = 500.0
 var max_connections = 100
+# Distinguish between diffferent types of powerlines
+# e.g. (line, minor_line)
+var selector_attribute: String
 
 # Connector = objects, connection = lines in-between
 var connector_instances = {}
+var connector_instances_refine = {}
 var connection_instances = []
 
 
@@ -22,6 +26,7 @@ func full_load():
 	
 	for geo_line in geo_lines:
 		connector_instances[str(geo_line.get_id())] = get_connected_objects(geo_line)
+		connector_instances_refine = connector_instances.duplicate()
 
 
 func adapt_load(_diff: Vector3):
@@ -37,20 +42,20 @@ func adapt_load(_diff: Vector3):
 		else:
 			# Just set to "true" in order to specify that this line should remain
 			connector_instances[str(geo_line.get_id())] = true
-	
+		connector_instances_refine = connector_instances.duplicate()
+		
 	call_deferred("apply_new_data")
 
 
 func refine_load():
-#	for connector in connector_instances.values():
-#		for i in range(1, connector.get_child_count()):
-#			_connect(
-#				connector.get_child(i),
-#				connector.get_child(i - 1),
-#				selector_attribute
-#			)
-	# TODO: call _connect(object, object_before, selector_attribute) for all objects
-	pass
+	for connector in connector_instances_refine.values():
+		for i in range(1, connector.get_child_count()):
+			_connect(
+				connector.get_child(i),
+				connector.get_child(i - 1),
+				selector_attribute
+			)
+	connector_instances_refine.clear()
 
 
 
@@ -75,7 +80,7 @@ func apply_new_data():
 	connector_instances.clear()
 	connection_instances.clear()
 	
-	logger.info("Applied new ConnectedObjectRenderer data for %s" % [name], LOG_MODULE)
+	logger.info("Applied new ConnectedObjectRenderer data for %s" % [name])
 
 
 func get_connected_objects(geo_line):
@@ -84,7 +89,7 @@ func get_connected_objects(geo_line):
 	
 	# Get the specifying attribute or null (=> fallbacks)
 	var attribute_name = layer_composition.render_info.selector_attribute_name
-	var selector_attribute = geo_line.get_attribute(attribute_name) \
+	selector_attribute = geo_line.get_attribute(attribute_name) \
 										if attribute_name else null
 	
 	# The line-dataset
@@ -124,6 +129,7 @@ func get_connected_objects(geo_line):
 				var v2 = point_next - point
 				var angle = v1.angle_to(v2)
 				# FIXME: Godot has no signed_angle_to yet
+				# FIXME: Yes it does: v1.signed_angle_to()
 				if v1.cross(v2).dot(Vector3.UP) < 0: angle = -angle
 				# add this angle so its actually the mean between before and next
 				object.rotation.y += angle / 2
@@ -155,7 +161,7 @@ func get_connected_objects(geo_line):
 
 func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 	if not object.has_node("Docks"):
-		logger.warn("Connected Object %s defines no Docks and cannot be connected" % [object.name], LOG_MODULE)
+		#logger.warn("Connected Object %s defines no Docks and cannot be connected" % [object.name])
 		return
 	
 	if object.position.distance_to(position_manager.center_node.position) > connection_radius \
@@ -197,7 +203,7 @@ func _get_height_at_ground(query_position: Vector3) -> float:
 func _ready():
 	super._ready()
 	if not layer_composition.is_valid():
-		logger.error("ConnectedObjectRenderer was given an invalid layer!", LOG_MODULE)
+		logger.error("ConnectedObjectRenderer was given an invalid layer!")
 
 
 func get_debug_info() -> String:

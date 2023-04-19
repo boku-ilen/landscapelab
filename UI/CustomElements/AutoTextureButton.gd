@@ -14,14 +14,9 @@ func set_rotation_radians(radians: float):
 	material.set_shader_parameter("rotation_radians", radians)
 
 
-# Rotate the sprite clockwise around its center by the given degrees.
-func set_rotation_degrees(degrees: float):
-	set_rotation_radians(deg_to_rad(degrees))
-
-
 # Overwritten default set_disabled function to also set the corresponding color
-func set_disabled(new_disabled: bool):
-	super.set_disabled(new_disabled)
+func set_button_disabled(new_disabled: bool):
+	set_disabled(new_disabled)
 	
 	if new_disabled:
 		_set_color(disabled_color)
@@ -46,7 +41,7 @@ func _ready():
 		_set_color(pressed_color)
 
 
-func _set_color(color: Color):
+func _set_color(_color: Color):
 	pass#material.set_shader_parameter("color", Vector3(color.r, color.g, color.b))
 
 

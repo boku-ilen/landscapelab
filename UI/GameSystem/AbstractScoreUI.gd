@@ -10,12 +10,13 @@ func set_score(score: GameScore):
 			slider.max_value = contributor.weight_interval_end
 			slider.value = contributor.weight
 			slider.connect("drag_ended",Callable(self,"set_contributor_weight").bind(contributor, slider))
-			slider.minimum_size = Vector2(200, 50)
+			slider.custom_minimum_size = Vector2(200, 50)
 			var label = Label.new()
 			label.text = contributor.get_name()
-			get_node("AdditionalInfo/PopupPanel/VBoxContainer").add_child(label)
-			get_node("AdditionalInfo/PopupPanel/VBoxContainer").add_child(slider)
+			
+			# FIXME: Throws an error
+#			get_node("AdditionalInfo/PopupPanel/VBoxContainer").add_child(label)
+#			get_node("AdditionalInfo/PopupPanel/VBoxContainer").add_child(slider)
 
-
-func set_contributor_weight(value_changed: bool, contributor, slider):
+func set_contributor_weight(_value_changed: bool, contributor, slider):
 	contributor.set_weight(slider.value)

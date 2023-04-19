@@ -12,5 +12,5 @@ func _init(initial_name,initial_value):
 	value = initial_value
 
 
-func get_value(game_object):
+func get_value(_game_object):
 	return value

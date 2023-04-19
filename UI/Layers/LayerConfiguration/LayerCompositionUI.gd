@@ -9,7 +9,7 @@ var filters = {
 	"Scored": true,
 	"Rendered": true
 }
-var layer_composition_config_window = preload("res://UI/Layers/LayerConfiguration/Misc/LayerCompositionConfigurationWindow.tscn")
+var layer_composition_config_window = preload("res://UI/Layers/LayerConfiguration/LayerCompositionConfigurationWindow.tscn")
 var current_config_window
 
 @onready var new_button = get_node("VBoxContainer/Menu/NewLayer")
@@ -49,15 +49,15 @@ func _alter_filters(idx):
 	for child in layer_composition_container.get_children():
 		var is_rendered = Layers.is_layer_rendered(child.layer)
 		var is_scored = child.layer.is_scored
-		var is_visible = false
+		var is_lc_visible = false
 		if is_scored and filters["Scored"] == true:
-			is_visible = true
+			is_lc_visible = true
 		if is_rendered and filters["Rendered"] == true:
-			is_visible = true
+			is_lc_visible = true
 		if !is_scored and !is_rendered and filters["Other"] == true:
-			is_visible = true
+			is_lc_visible = true
 		
-		child.visible = is_visible
+		child.visible = is_lc_visible
 
 
 func _delete_layer_composition():

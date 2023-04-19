@@ -13,5 +13,5 @@ func _ready():
 	pivot_offset = size / 2
 
 
-func _process(delta):
+func _process(_delta):
 	rotation = -(pc_player.get_cardinal_direction().signed_angle_to(Vector3.FORWARD, Vector3.UP))

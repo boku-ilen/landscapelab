@@ -1,10 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dcwf1v36d3m1x"]
+[gd_scene load_steps=10 format=3 uid="uid://3h4ychvi0yw0"]
 
 [ext_resource type="Script" path="res://Perspectives/PC/PlayerController.gd" id="1"]
 [ext_resource type="Script" path="res://Perspectives/PC/SettingsCamera.gd" id="2"]
 [ext_resource type="Script" path="res://Perspectives/PC/VRDirectionIndicator.gd" id="4"]
+[ext_resource type="Script" path="res://Editing/ActionHandler.gd" id="4_ru6dm"]
 [ext_resource type="PackedScene" uid="uid://cuiempx2ao4sm" path="res://Perspectives/PC/MousePoint.tscn" id="5"]
-[ext_resource type="Script" path="res://Perspectives/PC/ActionHandler.gd" id="6"]
 [ext_resource type="PackedScene" path="res://Perspectives/Tracking/ParentTracker.tscn" id="7"]
 [ext_resource type="Script" path="res://Communication/SetPositionRequestHandler.gd" id="8"]
 [ext_resource type="Texture2D" uid="uid://bxy40aj51eghh" path="res://Resources/Icons/ModernLandscapeLab/positionindicator.svg" id="9"]
@@ -40,7 +40,9 @@ transform = Transform3D(1, 0, 1.77636e-15, 0, -4.37114e-08, -1, 0, 1, -4.37114e-
 shape = SubResource("1")
 
 [node name="ActionHandler" type="Node" parent="."]
-script = ExtResource("6")
+script = ExtResource("4_ru6dm")
+perspective_prefix = "3D"
+cursor_path = NodePath("../Head/Camera3D/MousePoint")
 
 [node name="ParentTracker" parent="." instance=ExtResource("7")]
 
@@ -54,7 +56,6 @@ offset_right = 20.0
 offset_bottom = 20.0
 texture = ExtResource("9")
 script = ExtResource("4")
-vr_node = NodePath("")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 size = Vector2i(100, 100)

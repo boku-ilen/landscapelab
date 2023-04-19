@@ -7,8 +7,6 @@ enum SCALING {
 	KEEP_ASPECT
 }
 
-const LOG_MODULE := "SPRITESHEET"
-
 # Turn the images in the given array into a spritesheet.
 # The array is expected to be a 2-dimensional array with the first index being
 #  the row, and the second index being the column.
@@ -39,7 +37,7 @@ static func create_spritesheet(
 	
 	if format == null:
 		# No valid images...
-		logger.error("No valid images in the array given to create_spritesheet", LOG_MODULE)
+		logger.error("No valid images in the array given to create_spritesheet")
 		return null
 	
 	# Get the largest row (the row with the most columns) and use it as the
@@ -130,7 +128,7 @@ static func create_layered_spritesheet(
 	
 	if format == null:
 		# No valid images...
-		logger.warn("No valid images in the array given to create_spritesheet!", LOG_MODULE)
+		logger.warn("No valid images in the array given to create_spritesheet!")
 		return null
 	
 	var number_of_layers = images.size()
@@ -142,7 +140,8 @@ static func create_layered_spritesheet(
 	for layer_data in images:
 		var number_of_images_in_layer = layer_data.size()
 		
-		var layer = Image.create(sprite_size.x, sprite_size.y * number_of_images_in_layer, false, format)
+		var layer = Image.create(
+			int(sprite_size.x), int(sprite_size.y * number_of_images_in_layer), false, format)
 		
 		# The current position checked the sheet
 		var current_offset = Vector2(0, 0)
@@ -173,6 +172,8 @@ static func create_layered_spritesheet(
 			
 			# Increment column position checked spritesheet
 			current_offset.y += sprite_size.y
+		
+		layer.generate_mipmaps()
 		
 		image_array[layer_depth] = layer
 		layer_depth += 1

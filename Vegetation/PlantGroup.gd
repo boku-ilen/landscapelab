@@ -21,8 +21,6 @@ var name_de
 var name_en
 var snar_group
 
-const LOG_MODULE := "VEGETATION"
-
 
 func _init(initial_id, initial_name_en, initial_plants = null,
 		initial_ground_texture = null, initial_fade_texture = null,
@@ -59,7 +57,7 @@ func _get_image(image_name, texture):
 	VegetationImages.ground_image_mutex.lock()
 	if not VegetationImages.ground_image_cache.has(full_path):
 		if not FileAccess.file_exists(full_path):
-			logger.warn("Invalid ground texture file: %s (ID %s)" % [full_path, str(texture.id)], LOG_MODULE)
+			logger.warn("Invalid ground texture file: %s (ID %s)" % [full_path, str(texture.id)])
 		
 		var img = StructuredTexture.get_image(VegetationImages.ground_image_base_path \
 			.path_join(texture.texture_name), image_name)

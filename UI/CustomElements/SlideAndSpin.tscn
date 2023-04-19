@@ -10,23 +10,20 @@ offset_bottom = -1035.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
+step = 0.5
 
 [node name="Label" type="Label" parent="."]
-offset_top = 4.0
-offset_right = 1.0
-offset_bottom = 27.0
+layout_mode = 2
 
 [node name="HSlider" type="HSlider" parent="."]
-custom_minimum_size = Vector2i(300, 0)
-offset_left = 5.0
-offset_right = 1065.0
-offset_bottom = 31.0
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
+step = 0.5
 value = 50.0
 
 [node name="SpinBox" type="SpinBox" parent="."]
-offset_left = 1069.0
-offset_right = 1152.0
-offset_bottom = 31.0
+layout_mode = 2
+step = 0.5
 value = 50.0

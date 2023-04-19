@@ -13,15 +13,14 @@ func _init(initial_id: int,initial_collection,initial_player_node):
 	player_node = initial_player_node
 
 
-func get_attribute(attribute_name):
+func get_attribute(_attribute_name):
 	return null # TODO: Implement specific to the player?
 
 
 func set_position(new_position: Vector3):
-	new_position.z = -new_position.z  # FIXME: why is this needed?
+	new_position.z = -new_position.z  # Adapt to local -z forward coordinate system
 	player_node.set_world_position(new_position)
 
 
 func get_position():
-	var world_pos_array = player_node.get_world_position()
-	return Vector3(world_pos_array[0], world_pos_array[1], world_pos_array[2])
+	return player_node.get_world_position()

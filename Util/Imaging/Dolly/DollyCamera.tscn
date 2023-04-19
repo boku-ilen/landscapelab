@@ -1,22 +1,21 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://u05lv7fifias"]
 
-[ext_resource path="res://Util/Imaging/Dolly/DollyCamera.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Util/Imaging/Dolly/DollyCamera.gd" id="1"]
 
-[sub_resource type="PrismMesh" id=1]
-size = Vector3( 15, 20, 8 )
+[sub_resource type="PrismMesh" id="1"]
+size = Vector3(15, 20, 8)
 
 [node name="DollyCamera" type="Camera3D"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1349 )
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1349)
 cull_mask = 55
 near = 0.01
 far = 25000.0
-script = ExtResource( 1 )
+script = ExtResource("1")
 move_speed = 0.7
 move_speed_decay = 0.97
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 layers = 64
 cast_shadow = 0
-mesh = SubResource( 1 )
+mesh = SubResource("1")

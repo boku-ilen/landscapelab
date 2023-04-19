@@ -1,7 +1,6 @@
 extends GeoLayerRenderer
 
 
-@export var layer_resolution: int
 @export var size_buffer_factor: float = 1.5
 
 @onready var plane: MeshInstance2D = get_node("TexturePlane")
@@ -11,13 +10,14 @@ extends GeoLayerRenderer
 var format: int
 var mesh_size: Vector2
 
-var r_func = func(plane, texture):
-	plane.material = ShaderMaterial.new()
-	plane.material.shader = load("res://Layers/Renderers/GeoLayer/FORMAT_RF.gdshader")
-	plane.get_material().set_shader_parameter("tex", texture)
-	plane.get_material().set_shader_parameter("min_val", geo_raster_layer.get_min())
-	plane.get_material().set_shader_parameter("max_val", geo_raster_layer.get_max())
-var rgb_func = func(plane, texture): plane.texture = texture
+var r_func = func(existing_plane, texture):
+	if not existing_plane.material:
+		existing_plane.material = ShaderMaterial.new()
+		existing_plane.material.shader = load("res://Layers/Renderers/GeoLayer/FORMAT_RF.gdshader")
+	existing_plane.get_material().set_shader_parameter("tex", texture)
+	existing_plane.get_material().set_shader_parameter("min_val", geo_raster_layer.get_min())
+	existing_plane.get_material().set_shader_parameter("max_val", geo_raster_layer.get_max())
+var rgb_func = func(existing_plane, texture): existing_plane.texture = texture
 
 var format_function_dict = {
 	Image.FORMAT_RGB8: rgb_func,
@@ -55,7 +55,7 @@ func load_new_data():
 			top_left_x,
 			top_left_y,
 			long_side / zoom.x,
-			layer_resolution,
+			int(long_side * size_buffer_factor),
 			0
 		)
 		

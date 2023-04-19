@@ -12,7 +12,7 @@ var layer_composition: LayerComposition :
 @onready var color_menu = get_node("ColorMenu")
 @onready var object_menu = get_node("ObjectMenu")
 
-var layer_composition_config = preload("res://UI/Layers/LayerConfiguration/Misc/LayerCompositionConfigurationWindow.tscn")
+var layer_composition_config = preload("res://UI/Layers/LayerConfiguration/LayerCompositionConfigurationWindow.tscn")
 
 signal change_color_tag(color)
 signal change_object(object_scene)

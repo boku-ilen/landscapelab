@@ -43,4 +43,4 @@ func add_reoccuring_object(object):
 		add_child(path_follow)
 		path_follow.add_child(object_instance)
 	else:
-		logger.error("Trying to attach an object other than a ReoccurringObject", "PROFILEEDITOR")
+		logger.error("Trying to attach an object other than a ReoccurringObject")

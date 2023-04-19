@@ -2,68 +2,70 @@ extends Node
 class_name TimeManager
 
 
-var date_time = DateTime.new()
+# Dictionary according to Godot's Time class:
+# Contains year, month, day, hour, minute, second
+var datetime = {
+	"year": 2023,
+	"month": 3,
+	"day": 21,
+	"hour": 11,
+	"minute": 5,
+	"second": 0
+}
 
-signal datetime_changed(time_day_yer)
-signal daytime_changed(is_day) # true if changed to day, false if changed to night
-
-class DateTime:
-	# Time between 0.0 and 24.0
-	var time := 12.0
-	# Day within year between 0 and 365 (or 366)
-	var day := 0
-	# Year
-	var year := 2021
-
-
-func set_datetime(new_time, new_day, new_year):
-	set_time(new_time)
-	date_time.day = new_day
-	date_time.year = new_year
-	emit_signal("datetime_changed", date_time)
+signal datetime_changed(new_datetime)
+signal daytime_changed(is_day)
 
 
-func set_datetime_by_class(datetime: DateTime):
-	date_time = datetime
-	emit_signal("datetime_changed", date_time)
+func set_datetime_by_dict(date):
+	datetime = date
 
 
-func set_time(new_time):
-	var previous_time = date_time.time
+func set_date(year, month, day):
+	var new_datetime = {
+		"year": year,
+		"month": month,
+		"day": day,
+		"hour": datetime["hour"],
+		"minute": datetime["minute"],
+		"second": datetime["second"]
+	}
 	
-	date_time.time = new_time
-	emit_signal("datetime_changed", date_time)
+	_update_datetime(new_datetime)
+
+
+func set_time(hour, minute, second=0):
+	var new_datetime = {
+		"year": datetime["year"],
+		"month": datetime["month"],
+		"day": datetime["day"],
+		"hour": hour,
+		"minute": minute,
+		"second": second
+	}
 	
-	if _is_nighttime(previous_time) and not _is_nighttime(new_time):
+	_update_datetime(new_datetime)
+
+
+func _update_datetime(new_datetime):
+	var previous_is_nighttime = is_nighttime()
+	
+	datetime = new_datetime
+	
+	var new_is_nighttime = is_nighttime()
+	
+	datetime_changed.emit(datetime)
+	
+	if previous_is_nighttime and not new_is_nighttime:
 		emit_signal("daytime_changed", true)
-	elif _is_nighttime(new_time) and not _is_nighttime(previous_time):
+	elif new_is_nighttime and not previous_is_nighttime:
 		emit_signal("daytime_changed", false)
 
 
-func _is_nighttime(time):
+func is_nighttime():
 	# TODO: Consider a more sophisticated check
-	return time < 8.0 or time > 20.0
+	return datetime["hour"] < 8 or datetime["hour"] > 19
 
 
 func is_daytime():
-	return not _is_nighttime(date_time.time)
-
-
-func get_time():
-	return date_time.time
-
-
-func set_day(new_day):
-	date_time.day = new_day
-	emit_signal("datetime_changed", date_time)
-
-func get_day():
-	return date_time.day
-
-
-func set_year(new_year):
-	date_time.year = new_year
-	emit_signal("datetime_changed", date_time)
-
-func get_year():
-	return date_time.year
+	return not is_nighttime()

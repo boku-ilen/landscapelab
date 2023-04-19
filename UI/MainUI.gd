@@ -13,8 +13,6 @@ signal ui_loaded
 @export var time_manager_path: NodePath
 @export var weather_manager_path: NodePath
 
-@export var layer_configurator_path: NodePath
-
 var pos_manager: PositionManager
 
 func _ready():
@@ -24,8 +22,6 @@ func _ready():
 	docks.append($MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot)
 	docks.append($MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer)
 	
-	var layer_configurator = get_node(layer_configurator_path)
-	$MarginContainer/VBoxContainer/MenuBar.layer_configurator = layer_configurator
 	
 	pos_manager = get_node(pos_manager_path)
 	
@@ -33,11 +29,11 @@ func _ready():
 	emit_signal("ui_loaded")
 
 
-func _process(delta):
+func _process(_delta):
 	var engine_pos = pos_manager.center_node.position
 	var geo_pos = pos_manager.to_world_coordinates(engine_pos)
 	var formatted = "x=%.2f, y=%.2f, z=%.2f\nx=%.0f, y=%.0f, z=%.0f"
-	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos[0], geo_pos[1], geo_pos[2]]
+	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos.x, geo_pos.y, geo_pos.z]
 	
 	$MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer/DebugInfo/ScrollContainer/Settings/VBoxContainer/Info/PositionDisplay/Data.text = formatted
 

@@ -2,14 +2,11 @@ extends MeshInstance3D
 class_name ExtraLOD
 
 
-const LOG_MODULE := "TERRAINLAYER"
-
-
 func apply_textures(heightmap, surface_heightmap, landuse):
 	mesh = get_parent().mesh
 	
 	if not material_override:
-		logger.warn("ExtraLOD with no Material Override! This will have no effect.", LOG_MODULE)
+		logger.warn("ExtraLOD with no Material Override! This will have no effect.")
 		visible = false
 		return
 	

@@ -1,7 +1,7 @@
 extends Node
 
 
-@export var scene_to_load: String # FIXME: (String, FILE, "*.tscn")
+@export_file("*.tscn") var scene_to_load: String
 
 var _is_python_node_instanced := false
 

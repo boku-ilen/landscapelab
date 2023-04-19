@@ -8,21 +8,21 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 1 )
-shader_param/height_scale = 1.0
-shader_param/has_hole = false
-shader_param/has_surface_heights = false
-shader_param/surface_heights_start_distance = 800.0
-shader_param/has_landuse = false
-shader_param/uses_detail_textures = false
-shader_param/uses_distance_textures = false
-shader_param/distance_tex_switch_distance = 20.0
-shader_param/fade_transition_space = 8.0
-shader_param/ortho_switch_distance = 150.0
-shader_param/ortho_transition_space = 20.0
-shader_param/normal_scale = 1.0
-shader_param/ortho_saturation = 1.5
-shader_param/ortho_blue_shift_factor = 0.9
-shader_param/size = null
+shader_parameter/height_scale = 1.0
+shader_parameter/has_hole = false
+shader_parameter/has_surface_heights = false
+shader_parameter/surface_heights_start_distance = 800.0
+shader_parameter/has_landuse = false
+shader_parameter/uses_detail_textures = false
+shader_parameter/uses_distance_textures = false
+shader_parameter/distance_tex_switch_distance = 20.0
+shader_parameter/fade_transition_space = 8.0
+shader_parameter/ortho_switch_distance = 150.0
+shader_parameter/ortho_transition_space = 20.0
+shader_parameter/normal_scale = 1.0
+shader_parameter/ortho_saturation = 1.5
+shader_parameter/ortho_blue_shift_factor = 0.9
+shader_parameter/size = null
 
 [node name="BasicTerrainRenderer" instance=ExtResource( 3 )]
 script = ExtResource( 4 )

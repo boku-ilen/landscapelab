@@ -11,9 +11,9 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
-shader_param/color = Vector3( 0, 0, 0 )
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
+shader_parameter/color = Vector3( 0, 0, 0 )
+shader_parameter/rotation_radians = null
+shader_parameter/color_length_modulate_threshold = 1.5
 
 [node name="PathLayerManagement" type="HBoxContainer"]
 anchor_right = 1.0

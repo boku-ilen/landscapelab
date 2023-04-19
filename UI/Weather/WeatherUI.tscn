@@ -1,77 +1,53 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://dkvdbwaqhrbnn"]
 
-[ext_resource path="res://UI/Weather/WeatherUI.gd" type="Script" id=1]
-[ext_resource path="res://UI/CustomElements/SlideAndSpin.tscn" type="PackedScene" id=2]
+[ext_resource type="Script" path="res://UI/Weather/WeatherUI.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://evcqemueid18" path="res://UI/CustomElements/SlideAndSpin.tscn" id="2"]
 
 [node name="WeatherUI" type="VBoxContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
-minimum_size = Vector2( 600, 0 )
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="Visibility" type="HBoxContainer" parent="."]
-offset_right = 693.0
-offset_bottom = 32.0
+layout_mode = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="Visibility"]
-offset_top = 3.0
-offset_right = 157.0
-offset_bottom = 28.0
+layout_mode = 2
 text = "Visibility: Clear"
 
 [node name="HSlider" type="HSlider" parent="Visibility"]
-offset_left = 165.0
-offset_right = 632.0
-offset_bottom = 32.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="Visibility"]
-offset_left = 640.0
-offset_top = 3.0
-offset_right = 693.0
-offset_bottom = 28.0
+layout_mode = 2
 text = "Hazy"
 
 [node name="Clouds" type="HBoxContainer" parent="."]
-offset_top = 40.0
-offset_right = 693.0
-offset_bottom = 72.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Clouds"]
-offset_top = 3.0
-offset_right = 185.0
-offset_bottom = 28.0
+layout_mode = 2
 text = "Cloudiness: Clear"
 
 [node name="HSlider" type="HSlider" parent="Clouds"]
-offset_left = 193.0
-offset_right = 589.0
-offset_bottom = 32.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="Clouds"]
-offset_left = 597.0
-offset_top = 3.0
-offset_right = 693.0
-offset_bottom = 28.0
+layout_mode = 2
 text = "Overcast"
 
 [node name="WindSpeed" type="HBoxContainer" parent="."]
-offset_top = 80.0
-offset_right = 693.0
-offset_bottom = 112.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="WindSpeed"]
-offset_top = 3.0
-offset_right = 230.0
-offset_bottom = 28.0
+layout_mode = 2
 text = "Wind Speed (km/h): 0"
 
 [node name="HSlider" type="HSlider" parent="WindSpeed"]
-offset_left = 238.0
-offset_right = 659.0
-offset_bottom = 32.0
+layout_mode = 2
 size_flags_horizontal = 3
 max_value = 50.0
 step = 0.5
@@ -79,102 +55,56 @@ tick_count = 6
 ticks_on_borders = true
 
 [node name="Label2" type="Label" parent="WindSpeed"]
-offset_left = 667.0
-offset_top = 3.0
-offset_right = 693.0
-offset_bottom = 28.0
+layout_mode = 2
 text = "50"
 
 [node name="WindDirection" type="HBoxContainer" parent="."]
-offset_top = 120.0
-offset_right = 693.0
-offset_bottom = 152.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="WindDirection"]
-offset_top = 3.0
-offset_right = 214.0
-offset_bottom = 28.0
+layout_mode = 2
 text = "Wind Direction (°): 0"
 
 [node name="HSlider" type="HSlider" parent="WindDirection"]
-offset_left = 222.0
-offset_right = 646.0
-offset_bottom = 32.0
+layout_mode = 2
 size_flags_horizontal = 3
 max_value = 360.0
 tick_count = 5
 ticks_on_borders = true
 
 [node name="Label2" type="Label" parent="WindDirection"]
-offset_left = 654.0
-offset_top = 3.0
-offset_right = 693.0
-offset_bottom = 28.0
+layout_mode = 2
 text = "360"
 
 [node name="Rain" type="HBoxContainer" parent="."]
-offset_top = 160.0
-offset_right = 693.0
-offset_bottom = 208.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Rain"]
-offset_top = 11.0
-offset_right = 152.0
-offset_bottom = 36.0
+layout_mode = 2
 text = "Rain enabled: "
 
 [node name="CheckBox" type="CheckBox" parent="Rain"]
-offset_left = 160.0
-offset_right = 208.0
-offset_bottom = 48.0
+layout_mode = 2
 
-[node name="RainDensity" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 216.0
-offset_right = 693.0
-offset_bottom = 261.0
+[node name="RainDensity" parent="." instance=ExtResource("2")]
+layout_mode = 2
 label = "Rain Density: "
 min_value = 20.0
 max_value = 500.0
 value = 100.0
 
-[node name="RainDropX" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 269.0
-offset_right = 693.0
-offset_bottom = 314.0
+[node name="RainDropX" parent="." instance=ExtResource("2")]
+layout_mode = 2
 label = "Rain Drop Size X:"
 min_value = 0.1
 max_value = 5.0
 step = 0.1
 value = 1.0
 
-[node name="RainDropY" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 322.0
-offset_right = 693.0
-offset_bottom = 367.0
+[node name="RainDropY" parent="." instance=ExtResource("2")]
+layout_mode = 2
 label = "Rain Drop Size Y:"
 min_value = 0.1
 max_value = 5.0
 step = 0.1
 value = 0.5
-
-[node name="Unshaded" type="HBoxContainer" parent="."]
-offset_top = 375.0
-offset_right = 693.0
-offset_bottom = 423.0
-
-[node name="Label" type="Label" parent="Unshaded"]
-offset_top = 11.0
-offset_right = 209.0
-offset_bottom = 36.0
-text = "Unshaded Objects: "
-
-[node name="CheckBox" type="CheckBox" parent="Unshaded"]
-offset_left = 217.0
-offset_right = 265.0
-offset_bottom = 48.0

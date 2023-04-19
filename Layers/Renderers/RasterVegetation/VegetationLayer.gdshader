@@ -64,9 +64,9 @@ void process() {
 	
 	// rotate our transform
 	TRANSFORM[0][0] = cos(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
-	TRANSFORM[0][2] = -sin(rand(round((pos.xz) * 10.0) * 0.04) * 3.0);
-	TRANSFORM[2][0] = sin(rand(round((pos.xz) * 10.0) * 0.05) * 3.0);
-	TRANSFORM[2][2] = cos(rand(round((pos.xz) * 10.0) * 0.06) * 3.0);
+	TRANSFORM[0][2] = -sin(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
+	TRANSFORM[2][0] = sin(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
+	TRANSFORM[2][2] = cos(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
 	
 	// update our transform to place
 	TRANSFORM[3][0] = pos.x;

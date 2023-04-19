@@ -11,7 +11,7 @@ extends Node3D
 var cursor
 var camera
 
-func _process(delta):
+func _process(_delta):
 	if not Engine.is_editor_hint():
 		if cursor.is_colliding():
 			var collision_point = cursor.get_collision_point()
