@@ -1,6 +1,7 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://kbnb4iijyt0j"]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://kbnb4iijyt0j"]
 
 [ext_resource type="Shader" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://cg7dqlsthrgj3" path="res://Resources/Textures/ShaderUtil/rgb_solid_noise.png" id="2_oph0d"]
 
 [resource]
 resource_local_to_scene = true
@@ -18,6 +19,7 @@ shader_parameter/fade_transition_space = 8.0
 shader_parameter/ortho_switch_distance = 150.0
 shader_parameter/ortho_transition_space = 20.0
 shader_parameter/normal_scale = 1.0
-shader_parameter/ortho_saturation = 1.0
+shader_parameter/ortho_saturation = 1.2
 shader_parameter/ortho_blue_shift_factor = 0.9
 shader_parameter/size = null
+shader_parameter/distance_normal_noise = ExtResource("2_oph0d")

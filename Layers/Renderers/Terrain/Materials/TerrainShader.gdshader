@@ -1,5 +1,7 @@
 shader_type spatial;
 
+#include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
+
 // Basic Terrain
 uniform sampler2D orthophoto: source_color, repeat_disable;
 uniform sampler2D heightmap: repeat_disable;
@@ -136,6 +138,23 @@ vec3 get_ortho_color(vec2 uv) {
 }
 
 
+vec3 get_distance_color(vec3 uv, vec3 ortho_color) {
+	vec3 detail_color = texture(distance_tex, uv).rgb;
+	
+	vec3 base_hcy = RGBtoHCY(ortho_color);
+	vec3 detail_hcy = RGBtoHCY(detail_color);
+
+	float hue_difference = abs(base_hcy.x - detail_hcy.x);
+
+	// Adapt the detail texture hue and chroma to the orthophoto
+	// TODO: Would be neat if we could only adapt the hue slightly, but that
+	//  can get us to completely different colors inbetween
+	detail_hcy.x = base_hcy.x;
+	detail_hcy.y = mix(detail_hcy.y, base_hcy.y, 0.5);
+
+	return HCYtoRGB(detail_hcy);
+}
+
 
 void fragment() {
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
@@ -161,6 +180,8 @@ void fragment() {
 	float ground_texture_scale = float(uses_detail_textures) * metadata_value.g * 128.0; // FIXME: Move scale to uniform
 	float fade_texture_scale = float(uses_distance_textures) * metadata_value.b * 128.0;
 	
+	vec3 ortho_color = get_ortho_color(UV);
+	
 	// Calculate the near factor: 0.0 when only the distance texture should be applied,
 	// 1.0 when only the close ground texture should be used
 	float near_factor = 0.0;
@@ -182,34 +203,41 @@ void fragment() {
 				vec3 scaled_uv = vec3(UV * size / ground_texture_scale, plant_row);
 				
 				ALBEDO = texture(albedo_tex, scaled_uv).rgb;
-				// TODO: Angle normals by previous vertex NORMAL so that the shading isn't overwritten (need to use TANGENT)
 				NORMAL_MAP = texture(normal_tex, scaled_uv).rgb;
-				NORMAL_MAP_DEPTH = 2.5 * (1.0 - camera_distance / (distance_tex_switch_distance - fade_transition_space));
+				NORMAL_MAP_DEPTH = 3.0;// * (1.0 - camera_distance / (distance_tex_switch_distance - fade_transition_space));
 	//			AO = texture(ambient_tex, scaled_uv).r;
 	//			SPECULAR = texture(specular_tex, scaled_uv).r;
 	//			ROUGHNESS = texture(roughness_tex, scaled_uv).r;
 			} else {
-				ALBEDO = get_ortho_color(UV);
+				ALBEDO = ortho_color;
 			}
 		} else if (near_factor <= 0.0) {
 			// Apply the distance tex or ortho
 			if (fade_texture_scale <= 0.0 || camera_distance > ortho_switch_distance + ortho_transition_space) {
 				// If none is available or the camera is far away, use orthophoto
-				ALBEDO = get_ortho_color(UV);
+				ALBEDO = ortho_color;
 			} else { 
 				vec3 scaled_far_uv = vec3(UV * size / fade_texture_scale, plant_row);
-				vec3 distance_sample = texture(distance_tex, scaled_far_uv).rgb;
+				vec3 distance_sample = get_distance_color(scaled_far_uv, ortho_color);
 				
 				if (camera_distance < ortho_switch_distance - ortho_transition_space) {
 					// Fade texture only
 					ALBEDO = distance_sample;
-					// TODO: Also take sample of normal map
+					// TODO: Something like this could bend the normals towards the camera, which
+					//  makes the lighting look more as if plants were rising up. However, the effect
+					//  is a bit strange while turning the camera because the ground color changes,
+					//  and the abrupt transition from the adapted color to the raw orthophoto is jarring.
+					// NORMAL = normalize(NORMAL + vec3(0.0, 0.0, 2.0));
+					NORMAL_MAP = texture(distance_normals, scaled_far_uv).xyz;
+					NORMAL_MAP_DEPTH = 3.0;
 				} else {
 					// Mix
 					float fade_factor = camera_distance - (ortho_switch_distance - ortho_transition_space);
 					fade_factor /= ortho_transition_space * 2.0;
 					
-					ALBEDO = mix(distance_sample, get_ortho_color(UV), fade_factor);
+					ALBEDO = mix(distance_sample, ortho_color, fade_factor);
+					NORMAL_MAP = texture(distance_normals, scaled_far_uv).xyz;
+					NORMAL_MAP_DEPTH = 3.0;
 				}
 			}
 		} else {
@@ -222,23 +250,25 @@ void fragment() {
 			if (ground_texture_scale > 0.0) {
 				detail_sample = texture(albedo_tex, scaled_near_uv).rgb;
 			} else {
-				detail_sample = get_ortho_color(UV);
+				detail_sample = ortho_color;
 			}
 			
 			// Select the distance sample depending on whether a fade texture is available (ortho otherwise)
 			vec3 distance_sample;
 			if (fade_texture_scale > 0.0) {
-				distance_sample = texture(distance_tex, scaled_far_uv).rgb;
+				distance_sample = get_distance_color(scaled_far_uv, ortho_color);
 			} else {
-				distance_sample = get_ortho_color(UV);
+				distance_sample = ortho_color;
 			}
 			
 			ALBEDO = mix(detail_sample, distance_sample, near_factor);
+			NORMAL_MAP = texture(distance_normals, scaled_far_uv).xyz;
+			NORMAL_MAP_DEPTH = 3.0;
 		}
 	} else {
 		// No near texture is available, so just apply the ortho
 		// TOOD: Restructure to also handle the case of a fade texture being available, but no near texture
-		ALBEDO = get_ortho_color(UV);
+		ALBEDO = ortho_color;
 	}
 	
 	METALLIC = 0.0;

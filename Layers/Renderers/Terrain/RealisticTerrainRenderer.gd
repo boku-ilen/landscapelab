@@ -125,6 +125,8 @@ func refine_load():
 		nearest_lod.position_diff_x = 0
 		nearest_lod.position_diff_z = 0
 		
+		nearest_lod.load_detail_textures = true
+		nearest_lod.load_fade_textures = true
 		nearest_lod.mesh = detailed_mesh
 		nearest_lod.mesh_resolution = detailed_mesh_resolution
 		nearest_lod.ortho_resolution = detailed_ortho_resolution
