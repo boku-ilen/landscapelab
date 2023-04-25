@@ -1,4 +1,4 @@
-extends LayerCompositionRenderer
+extends FeatureLayerCompositionRenderer
 
 
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
@@ -16,6 +16,8 @@ var building_instances = {}
 var load_radius = Vegetation.get_max_extent()
 var max_features = 2000
 
+@onready var height_attribute = layer_composition.render_info.height_attribute_name
+
 
 func is_new_loading_required(position_diff: Vector3) -> bool:
 	if Vector2(position_diff.x, position_diff.z).length_squared() >= pow(load_radius / 4.0, 2):
@@ -27,27 +29,25 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 # Called when the node enters the scene tree for the first time.
 func full_load():
 	# Extract features
-	var features = layer_composition.render_info.geo_feature_layer.get_features_near_position(float(center[0]), float(center[1]), float(load_radius), max_features)
-	var height_attribute_name = layer_composition.render_info.height_attribute_name
+	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(float(center[0]), float(center[1]), float(load_radius), max_features)
 	
 	# Create the buildings
 	for feature in features:
-		building_instances[str(feature.get_id())] = create_building(feature, height_attribute_name)
+		building_instances[str(feature.get_id())] = create_building(feature, height_attribute)
 
 
 func adapt_load(_diff: Vector3):
-	var features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
+	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 				float(center[0]) + position_manager.center_node.position.x,
 				float(center[1]) - position_manager.center_node.position.z,
 				float(load_radius), max_features
 	)
-	var height_attribute_name = layer_composition.render_info.height_attribute_name
 	
 	for feature in features:
 		var fid = str(feature.get_id())
-		building_instances[fid] = create_building(feature, height_attribute_name) \
+		building_instances[fid] = create_building(feature, height_attribute) \
 				if not has_node(fid) else true
-	
+				
 	call_deferred("apply_new_data")
 
 
@@ -139,27 +139,30 @@ func create_building(feature, height_attribute_name):
 	building.build()
 	
 	building.position.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
-			building.get_center().x + center[0],
-			-building.get_center().z + center[1]
-		) - cellar_height
+		building.get_center().x + center[0],
+		-building.get_center().z + center[1]
+	) - cellar_height
 	
 	return building
 
 
-func apply_new_data():
-	for child in get_children():
-		if not building_instances.has(child.name):
-			child.queue_free()
-	
-	for building_id in building_instances.keys():
-		if not has_node(building_id):
-			add_child(building_instances[building_id])
-	
-	building_instances.clear()
-	
-	_apply_daytime_change(is_daytime)
-	
-	logger.info("Applied new BuildingRenderer data for %s" % [name])
+func apply_new_feature(feature):
+	# If the feature does not yet exist create it
+	if not var_to_str(feature.get_id()) in building_instances.keys():
+		create_building(feature, height_attribute)
+		
+	add_child(building_instances[var_to_str(feature.get_id())])
+
+
+# FIXME: Results in crashes
+func update_instantiated_feature(feature): pass
+#	var building = building_instances[var_to_str(feature.get_id())]
+#
+#	building.set_offset(center[0], center[1])
+#	building.position.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
+#		building.get_center().x + center[0],
+#		-building.get_center().z + center[1]
+#	) - cellar_height
 
 
 func _ready():
