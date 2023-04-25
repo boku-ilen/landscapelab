@@ -48,6 +48,10 @@ func stop():
 	peers.clear()
 
 
+func get_peer(id):
+	return peers[id]
+
+
 func send(peer_id, message) -> int:
 	var type = typeof(message)
 	if peer_id <= 0:

@@ -18,9 +18,9 @@ func _ready():
 	var port = Settings.get_setting("server", "port")
 
 	# Connect base signals for server client communication
-	self._ws_server.connect("client_connected",Callable(self,"_connected"))
-	self._ws_server.connect("client_disconnected",Callable(self,"_disconnected"))
-	self._ws_server.connect("message_received",Callable(self,"_on_data"))
+	self._ws_server.client_connected.connect(Callable(self,"_connected"))
+	self._ws_server.client_disconnected.connect(Callable(self,"_disconnected"))
+	self._ws_server.message_received.connect(Callable(self,"_on_data"))
 
 	# try to start listening
 	var err = _ws_server.listen(port)
@@ -71,34 +71,27 @@ func _process(_delta):
 
 
 # handle a new client connection and register it
-func _connected(id, proto):
-	logger.info("Connected client %s with protocol %s" % [id, proto])
+func _connected(id):
+	logger.info("Connected client %s" % [id])
 	self._clients[id] = self._ws_server.get_peer(id)
-	self._clients[id].set_write_mode(self._write_mode)
+#	self._clients[id].set_write_mode(self._write_mode)
 
 
 # remove_at a client connection
-func _disconnected(id, was_clean=false):
-	logger.info("Disconnected client %s (clean: %s)" % [id, was_clean])
+func _disconnected(id):
+	logger.info("Disconnected client %s" % [id])
 	if self._clients.has(id):
 		self._clients.erase(id)
 
 
 func _on_data(id, _message):
 	
-	# unpack the received data
-	var packet = self._ws_server.get_peer(id).get_packet()
-	var string = packet.get_string_from_utf8()
-	var test_json_conv = JSON.new()
-	test_json_conv.parse(string)
-	var json_result = test_json_conv.get_data()
+	var json_dict = JSON.parse_string(_message)
 	
 	# Validation
-	if not json_result.error == OK:
-		logger.error("Received invalid JSON data in request: %s" % [string])
+	if json_dict == null:
+		logger.error("Received invalid JSON data in request: %s" % [_message])
 		return
-	
-	var json_dict = json_result.result
 	
 	logger.debug("received request from %s with data %s" % [id, json_dict])
 	
