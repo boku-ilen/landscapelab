@@ -18,14 +18,11 @@ var line_add_action = EditingAction.new(
 			curve_3d = Curve3D.new()
 			state["Curve3D"] = curve_3d
 		var pos = cursor.get_cursor_world_position()
-		curve_3d.add_point(Vector3(pos.x, 0, pos.z)),
+		curve_3d.add_point(Vector3(pos.x, 0, -pos.z)),
 	func(event: InputEvent, cursor, state: Dictionary): 
 		if "Curve3D" in state:
 			var line: GeoLine = geo_feature_layer.create_feature()
-			line.set_curve3d(state["Curve3D"])
-#			print(state["Curve3D"].get_baked_points()[0])
-#			print("\n\n")
-#			print(geo_feature_layer.get_all_features()[0].get_curve3d().get_baked_points()[0])
+			line.set_curve3d(state["Curve3D"].duplicate())
 			state.clear()
 )
 # FIXME: Implement this functionality in Geodot
