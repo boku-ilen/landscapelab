@@ -9,6 +9,12 @@ signal z_index_changed(item_array)
 signal geolayer_visibility_changed(layer_name, is_visible)
 
 
+func _ready():
+	item_clicked.connect(func(idx, pos, mouse_button):
+		var lname = get_item_metadata(idx).resource_name
+		geolayer_visibility_changed.emit(lname, true))
+
+
 func get_items():
 	var items = []
 	for idx in range(item_count):
@@ -18,9 +24,9 @@ func get_items():
 
 func _gui_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
-		select(get_item_at_position(event.global_position))
+		select(get_item_at_position(event.position, true))
 		$GeoLayerOptions.menu_popup(
-			Rect2(global_position + event.position + Vector2(25, 0), Vector2(4, 4)),
+			Rect2(event.global_position, Vector2(4, 4)),
 			get_item_metadata(get_selected_items()[0]) if not get_selected_items().is_empty() else null
 		)
 
