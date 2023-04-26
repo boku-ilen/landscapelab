@@ -62,9 +62,8 @@ transform = Transform3D(-2.91845e-08, -0.744463, 0.667664, -3.25415e-08, 0.66766
 layers = 15
 light_energy = 0.0
 shadow_enabled = true
-shadow_bias = 0.7
 directional_shadow_blend_splits = true
-directional_shadow_max_distance = 300.0
+directional_shadow_max_distance = 1000.0
 sky_mode = 1
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="DirectionalLight3D"]
