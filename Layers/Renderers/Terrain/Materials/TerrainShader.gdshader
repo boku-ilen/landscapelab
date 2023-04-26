@@ -149,9 +149,11 @@ vec3 get_distance_color(vec3 uv, vec3 ortho_color) {
 	// Adapt the detail texture hue and chroma to the orthophoto
 	// TODO: Would be neat if we could only adapt the hue slightly, but that
 	//  can get us to completely different colors inbetween
-	detail_hcy.x = base_hcy.x;
-	detail_hcy.y = mix(detail_hcy.y, base_hcy.y, 0.5);
-
+	if (detail_hcy.x < base_hcy.x) {
+		detail_hcy.x = base_hcy.x;
+		detail_hcy.y = mix(detail_hcy.y, base_hcy.y, 0.5);
+	}
+	
 	return HCYtoRGB(detail_hcy);
 }
 
