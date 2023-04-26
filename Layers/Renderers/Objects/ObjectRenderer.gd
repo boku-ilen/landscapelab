@@ -1,8 +1,5 @@
 extends FeatureLayerCompositionRenderer
 
-var radius = 3000.0
-var max_features = 2000
-
 
 var weather_manager: WeatherManager :
 	get:
@@ -28,24 +25,9 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 	return false
 
 
-func full_load():
-	is_loading = true
-	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(float(center[0]), float(center[1]), radius, max_features)
-
-
-func adapt_load(_diff: Vector3):
-	# Essentially the same as full_load since that is already optimized
-	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
-			float(center[0]) + position_manager.center_node.position.x,
-			float(center[1]) - position_manager.center_node.position.z,
-			radius, max_features
-	)
-	call_deferred("apply_new_data")
-
-
-func apply_new_feature(feature: GeoPoint):
+func load_feature_instance(feature: GeoFeature):
 	var instance = load(layer_composition.render_info.object).instantiate()
-	instance.name = var_to_str(feature.get_id())
+	instance.name = str(feature.get_id())
 	
 	if "weather_manager" in instance and weather_manager:
 		instance.set("weather_manager", weather_manager)
@@ -65,19 +47,11 @@ func apply_new_feature(feature: GeoPoint):
 	if "height_layer" in instance:
 		instance.set("height_layer", layer_composition.render_info.ground_height_layer)
 	
-	add_child(instance)
+	set_instance_pos(feature, instance)
+	instances[str(feature.get_id())] = instance
 
 
-func update_instantiated_feature(feature):
-	# If the object has not yet been instantiated return
-	if not get_children().any(
-		func(child): return child.name == var_to_str(feature.get_id())):
-			return
-	
-	# Obtain instanced object for feature via id
-	var obj_instance = get_children().filter(
-		func(child): return child.name == var_to_str(feature.get_id()))[0]
-	
+func set_instance_pos(feature, obj_instance):
 	var local_object_pos = feature.get_offset_vector3(-center[0], 0, -center[1])
 	
 	if obj_instance.has_method("set_height"):

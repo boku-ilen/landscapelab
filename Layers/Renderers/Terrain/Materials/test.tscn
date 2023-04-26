@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4if08e4ijm4r"]
+
+[ext_resource type="Shader" path="res://Buildings/Components/RoofShader.gdshader" id="1_6gbpu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xtnkn"]
+render_priority = 0
+shader = ExtResource("1_6gbpu")
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/roughness = null
+shader_parameter/point_size = null
+shader_parameter/normal_scale = 1.0
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_xtnkn")
