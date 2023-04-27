@@ -19,13 +19,6 @@ func _ready():
 	radius = Vegetation.get_max_extent()
 
 
-func is_new_loading_required(position_diff: Vector3) -> bool:
-	if Vector2(position_diff.x, position_diff.z).length_squared() >= pow(radius / 4.0, 2):
-		return true
-
-	return false
-
-
 func load_feature_instance(feature):
 	var polygon = feature.get_outer_vertices()
 	var holes = feature.get_holes()

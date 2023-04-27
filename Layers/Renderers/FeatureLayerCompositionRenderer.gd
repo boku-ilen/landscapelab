@@ -8,9 +8,6 @@ var features := []
 var instances := {}
 var radius = 6000.0
 var max_features = 2000
-# Some renderer might have more than a solitairy object per feature (e.g. connected
-# objects), thus root nodes for applying/removing features have to be defined
-#var root_nodes: Array[Node3D]
 
 
 func _ready():
@@ -114,3 +111,10 @@ func apply_feature_instance(feature: GeoFeature):
 func _on_feature_changed(feature: GeoFeature):
 	_on_feature_removed(feature)
 	_on_feature_added(feature)
+
+
+func is_new_loading_required(position_diff: Vector3) -> bool:
+	if Vector2(position_diff.x, position_diff.z).length_squared() >= pow(radius / 4.0, 2):
+		return true
+	
+	return false

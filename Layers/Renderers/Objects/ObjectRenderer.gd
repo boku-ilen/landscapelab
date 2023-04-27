@@ -18,13 +18,6 @@ func _ready():
 	super._ready()
 
 
-func is_new_loading_required(position_diff: Vector3) -> bool:
-	if Vector2(position_diff.x, position_diff.z).length_squared() >= pow(radius / 4.0, 2):
-		return true
-	
-	return false
-
-
 func load_feature_instance(feature: GeoFeature) -> Node3D:
 	var instance = load(layer_composition.render_info.object).instantiate()
 	instance.name = str(feature.get_id())
