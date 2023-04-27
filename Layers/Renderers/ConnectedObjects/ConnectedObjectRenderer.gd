@@ -1,7 +1,6 @@
-extends LayerCompositionRenderer
+extends FeatureLayerCompositionRenderer
 
-var radius = 800.0
-var max_features = 100
+
 var connection_radius = 500.0
 var max_connections = 100
 # Distinguish between diffferent types of powerlines
@@ -9,81 +8,51 @@ var max_connections = 100
 var selector_attribute: String
 
 # Connector = objects, connection = lines in-between
-var connector_instances = {}
-var connector_instances_refine = {}
-var connection_instances = []
+var connection_instances = {}
 
 
-func is_new_loading_required(position_diff: Vector3) -> bool:
-	if Vector2(position_diff.x, position_diff.z).length_squared() >= pow(radius / 4.0, 2):
-		return true
-	
-	return false
-
-
-func full_load():
-	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(float(center[0]), float(center[1]), radius, max_features)
-	
-	for geo_line in geo_lines:
-		connector_instances[str(geo_line.get_id())] = get_connected_objects(geo_line)
-		connector_instances_refine = connector_instances.duplicate()
-
-
-func adapt_load(_diff: Vector3):
-	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(
-		float(center[0]) + position_manager.center_node.position.x,
-		float(center[1]) - position_manager.center_node.position.z,
-		radius, max_features
-	)
-	
-	for geo_line in geo_lines:
-		if not has_node(str(geo_line.get_id())):
-			connector_instances[str(geo_line.get_id())] = get_connected_objects(geo_line)
-		else:
-			# Just set to "true" in order to specify that this line should remain
-			connector_instances[str(geo_line.get_id())] = true
-		connector_instances_refine = connector_instances.duplicate()
-		
-	call_deferred("apply_new_data")
+func _ready():
+	super._ready()
+	radius = 800.0
+	max_features = 100
 
 
 func refine_load():
-	for connector in connector_instances_refine.values():
-		for i in range(1, connector.get_child_count()):
-			_connect(
-				connector.get_child(i),
-				connector.get_child(i - 1),
+	var any_change_done := false
+	if max_connections <= connection_instances.size():
+		return
+		
+	for geo_line in features:
+		for i in range(1, geo_line.get_curve3d().get_point_count()):
+			var current_connections = _connect(
+				instances[geo_line.get_id()].get_child(i),
+				instances[geo_line.get_id()].get_child(i - 1),
 				selector_attribute
 			)
-	connector_instances_refine.clear()
+			
+			# Might happen if distance is too far
+			if current_connections != null and not connection_instances.has(geo_line.get_id()):
+				mutex.lock()
+				connection_instances[geo_line.get_id()] = current_connections
+				mutex.unlock()
+				any_change_done = true
+	
+	if any_change_done:
+		call_deferred("apply_refined_data")
 
 
-
-func apply_new_data():
-	# First clear the old objects, then add the new ones
-	# connectors as well as connections
-	for child in $Connectors.get_children():
-		if not child.name in connector_instances:
-			child.queue_free()
+func apply_refined_data():
+	for id in connection_instances.keys():
+		if not $Connections.has_node(str(id)):
+			$Connections.add_child(connection_instances[id])
+	
+	var valid_ids_as_str = connection_instances.keys().map(func(id): return str(id))
 	for child in $Connections.get_children():
-		child.queue_free()
-	
-	for instance_id in connector_instances.keys():
-		if not has_node(instance_id):
-			$Connectors.add_child(connector_instances[instance_id])
-	
-	for instance in connection_instances:
-		$Connections.add_child(instance)
-		# AbstractConnection.apply_connection()
-		instance.apply_connection()
-	
-	connector_instances.clear()
-	connection_instances.clear()
-	
-	logger.info("Applied new ConnectedObjectRenderer data for %s" % [name])
+		if child.name not in valid_ids_as_str:
+			child.queue_free()
 
 
-func get_connected_objects(geo_line):
+func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 	var line_root = Node3D.new()
 	line_root.name = str(geo_line.get_id())
 	
@@ -92,84 +61,73 @@ func get_connected_objects(geo_line):
 	selector_attribute = geo_line.get_attribute(attribute_name) \
 										if attribute_name else null
 	
-	# The line-dataset
-	var course: Curve3D = geo_line.get_offset_curve3d(-center[0], 0, -center[1])
+	var engine_line: Curve3D = geo_line.get_offset_curve3d(-center[0], 0, -center[1])
 	# Object and position of the previous connector
-	var object_before: Node3D = null
-	var point_before: Vector3
+	var previous_object: Node3D = null
+	var previous_point: Vector3
 	# Translation of the next connector
-	var point_next: Vector3
+	var next_point: Vector3
 	
-	for index in range(course.get_point_count()):
+	for index in range(engine_line.get_point_count()):
 		# Create a specified connector-object or use fallback
-		var object: Node3D
+		var current_object: Node3D
 
-		if selector_attribute and selector_attribute in layer_composition.render_info.connectors:
-			object = load(layer_composition.render_info.connectors[selector_attribute]).instantiate()
+		if selector_attribute != null and selector_attribute in layer_composition.render_info.connectors:
+			current_object = load(
+				layer_composition.render_info.connectors[selector_attribute]).instantiate()
 		else:
-			object = load(layer_composition.render_info.fallback_connector).instantiate()
+			current_object = load(
+				layer_composition.render_info.fallback_connector).instantiate()
 		
 		# Obtain the next point (required for the orientation of the current)
-		if index+1 < course.get_point_count():
-			point_next = course.get_point_position(index + 1)
-			point_next = Vector3(point_next.x, _get_height_at_ground(point_next), point_next.z)
+		if index+1 < engine_line.get_point_count():
+			next_point = engine_line.get_point_position(index + 1)
+			next_point.y = _get_height_at_ground(next_point)
 		
 		# Obtain the height at the current point
-		var point = course.get_point_position(index)
-		point = Vector3(point.x, _get_height_at_ground(point), point.z)
+		var current_point = engine_line.get_point_position(index)
+		current_point.y = _get_height_at_ground(current_point)
 		
-		if object_before:
-			# Vec3 cant be null so we check differently
-			# "if point_next:"
-			if index+1 < course.get_point_count():
+		if previous_object:
+			if index+1 < engine_line.get_point_count():
 				# Look at the next object
-				object.look_at_from_position(point, point_before, object.transform.basis.y)
+				current_object.look_at_from_position(
+					current_point, previous_point, current_object.transform.basis.y)
 				# Then find the angle between (p_before - p_now) and (p_now - p_next)
-				var v1 = point - point_before
-				var v2 = point_next - point
-				var angle = v1.angle_to(v2)
-				# FIXME: Godot has no signed_angle_to yet
-				# FIXME: Yes it does: v1.signed_angle_to()
-				if v1.cross(v2).dot(Vector3.UP) < 0: angle = -angle
+				var v1 = current_point - previous_point
+				var v2 = next_point - current_point
+				var angle = v1.signed_angle_to(v2, Vector3.UP)
 				# add this angle so its actually the mean between before and next
-				object.rotation.y += angle / 2
+				current_object.rotation.y += angle / 2
 				
 			else:
-				object.look_at_from_position(point, point_before, object.transform.basis.y)
+				current_object.look_at_from_position(
+					current_point, previous_point, current_object.transform.basis.y)
 				
 			# Only y rotation is relevant
-			object.rotation.x = 0
-			object.rotation.z = 0
-			# TODO: Do in refine_load step
-#			_connect(object, object_before, selector_attribute)
-			
-		# Vec3 cant be null so we check differently
-		# "if point_next:"
-		elif index+1 < course.get_point_count():
-			object.look_at_from_position(point, point_next, object.transform.basis.y)
+			current_object.rotation.x = 0
+			current_object.rotation.z = 0
+		elif index+1 < engine_line.get_point_count():
+			current_object.look_at_from_position(current_point, next_point, current_object.transform.basis.y)
 			# Only y rotation is relevant
-			object.rotation.x = 0
-			object.rotation.z = 0
+			current_object.rotation.x = 0
+			current_object.rotation.z = 0
 		
-		object_before = object
-		point_before = point
+		previous_object = current_object
+		previous_point = current_point
 		
-		line_root.add_child(object)
+		line_root.add_child(current_object)
 		
 	return line_root
 
 
 func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 	if not object.has_node("Docks"):
-		#logger.warn("Connected Object %s defines no Docks and cannot be connected" % [object.name])
 		return
 	
 	if object.position.distance_to(position_manager.center_node.position) > connection_radius \
 		and object_before.position.distance_to(position_manager.center_node.position) > connection_radius:
 			return
-	
-	if max_connections <= connection_instances.size():
-		return
 	
 	# Dock parent might have a transform -> apply it too
 	var dock_parent: Node3D = object.get_node("Docks")
@@ -177,6 +135,7 @@ func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 	# Vector between current and next dock of the current connection and it's predecessors 
 	# might be the same => cache!
 	var connection_cache = []
+	var current_connections = Node3D.new()
 	for dock in dock_parent.get_children():
 		# Create a specified connection-object or use fallback
 		var connection: AbstractConnection
@@ -191,7 +150,10 @@ func _connect(object: Node3D, object_before: Node3D, selector_attribute):
 		var p2: Vector3 = (object_before.transform * dock_parent.transform * dock_before.transform).origin
 		
 		connection_cache = connection.find_connection_points(p1, p2, 0.0013, connection_cache)
-		connection_instances.append(connection)
+		current_connections.add_child(connection)
+		connection.apply_connection()
+	
+	return current_connections
 
 
 # Returns the current ground height
@@ -200,15 +162,9 @@ func _get_height_at_ground(query_position: Vector3) -> float:
 		center[0] + query_position.x, center[1] - query_position.z)
 
 
-func _ready():
-	super._ready()
-	if not layer_composition.is_valid():
-		logger.error("ConnectedObjectRenderer was given an invalid layer!")
-
-
 func get_debug_info() -> String:
 	return "{0} of maximally {1} connectors loaded.\n{2} of maximally {3} connections loaded.".format([
-		str($Connectors.get_child_count()),
+		str(get_child_count() - 1),
 		str(max_features),
 		str($Connections.get_child_count()),
 		str(max_connections),
