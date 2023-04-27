@@ -25,7 +25,7 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 	return false
 
 
-func load_feature_instance(feature: GeoFeature):
+func load_feature_instance(feature: GeoFeature) -> Node3D:
 	var instance = load(layer_composition.render_info.object).instantiate()
 	instance.name = str(feature.get_id())
 	
@@ -48,7 +48,8 @@ func load_feature_instance(feature: GeoFeature):
 		instance.set("height_layer", layer_composition.render_info.ground_height_layer)
 	
 	set_instance_pos(feature, instance)
-	instances[str(feature.get_id())] = instance
+
+	return instance
 
 
 func set_instance_pos(feature, obj_instance):

@@ -118,7 +118,7 @@ func load_feature_instance(feature):
 		-building.get_center().z + center[1]
 	) - cellar_height
 
-	instances[str(feature.get_id())] = building
+	return building
 
 
 func get_debug_info() -> String:

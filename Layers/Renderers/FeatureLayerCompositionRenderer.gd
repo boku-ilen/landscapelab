@@ -3,6 +3,7 @@ class_name FeatureLayerCompositionRenderer
 
 
 # Define variables for loading features
+var mutex = Mutex.new()
 var features := []
 var instances := {}
 var radius = 6000.0
@@ -23,7 +24,9 @@ func full_load():
 		float(center[0]), float(center[1]), radius, max_features)
 	
 	for feature in features:
-		load_feature_instance(feature)
+		mutex.lock()
+		instances[feature.get_id()] = load_feature_instance(feature)
+		mutex.unlock()
 
 
 func adapt_load(_diff: Vector3):
@@ -34,15 +37,16 @@ func adapt_load(_diff: Vector3):
 	)
 	
 	for feature in features:
-		var fid = str(feature.get_id())
-		if not instances.has(fid): 
-			load_feature_instance(feature)
+		if not instances.has(feature.get_id()): 
+			mutex.lock()
+			instances[feature.get_id()] = load_feature_instance(feature)
+			mutex.unlock()
 	
 	call_deferred("apply_new_data")
 
 
 func apply_new_data():
-	var features_to_persist = {}
+	var valid_feature_ids = features.map(func(f): return f.get_id())
 	
 	for feature in features:
 		var node_name = str(feature.get_id())
@@ -50,13 +54,10 @@ func apply_new_data():
 		if not has_node(node_name):
 			# This feature is new
 			apply_feature_instance(feature)
-		
-		features_to_persist[node_name] = feature
 	
-	for child in get_children():
-		if not features_to_persist.has(child.name):
-			# Remove features which should not be persisted
-			child.free()
+	for id in instances.keys():
+		if not id in valid_feature_ids:
+			remove_feature(id)
 	
 	super.apply_new_data()
 	
@@ -64,12 +65,12 @@ func apply_new_data():
 
 
 func _on_feature_added(feature: GeoFeature):
-	# Load the feature instance in a thread
-	loading_thread.start(load_feature_instance.bind(feature))
-	
-	# Wait for the thread to finish before applying
 	if loading_thread.is_started() and not loading_thread.is_alive():
 		loading_thread.wait_to_finish()
+	
+	# Load the feature instance in a thread
+	loading_thread.start(load_feature_instance.bind(feature))
+	instances[feature.get_id()] = loading_thread.wait_to_finish()
 	
 	apply_feature_instance(feature)
 
@@ -78,31 +79,36 @@ func _on_feature_removed(feature: GeoFeature):
 	if loading_thread.is_started() and not loading_thread.is_alive():
 		loading_thread.wait_to_finish()
 	
-	remove_feature(feature)
+	remove_feature(feature.get_id())
 
 
 # Might be necessary to be overwritten by inherited class
 # Cannot be run in a thread
-func remove_feature(feature: GeoFeature):
-	if has_node(str(feature.get_id())):
-		get_node(str(feature.get_id())).queue_free()
-		instances.erase(str(feature.get_id()))
+func remove_feature(feature_id: int):
+	if has_node(str(feature_id)):
+		get_node(str(feature_id)).queue_free()
+		mutex.lock()
+		instances.erase(feature_id)
+		mutex.unlock()
 
 
 # To be implemented by inherited class
 # Instantiate and initially configure (e.g. set position) of  the instance - run in a thread
 # Append instances to dictionary
-func load_feature_instance(feature: GeoFeature):
-	pass
+func load_feature_instance(feature: GeoFeature) -> Node3D:
+	return Node3D.new()
 
 
 # Might be necessary to be overwritten by inherited class
-# Apply feature to the main scene - cannot be run in a thread
+# Apply feature to the main scene - not run in a thread
 func apply_feature_instance(feature: GeoFeature):
 	if not feature.feature_changed.is_connected(_on_feature_changed):
 		feature.feature_changed.connect(_on_feature_changed.bind(feature))
-	if instances.has(str(feature.get_id())):
-		add_child(instances[str(feature.get_id())])
+	if not instances.has(feature.get_id()):
+		logger.error("No feature instance was created for ID: {}".format([feature.get_id()], "{}"))
+		return
+	
+	add_child(instances[feature.get_id()])
 
 
 func _on_feature_changed(feature: GeoFeature):
