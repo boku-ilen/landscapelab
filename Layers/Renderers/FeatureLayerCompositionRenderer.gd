@@ -49,7 +49,6 @@ func apply_new_data():
 		var node_name = str(feature.get_id())
 		
 		if not has_node(node_name):
-			# This feature is new
 			apply_feature_instance(feature)
 	
 	for id in instances.keys():
