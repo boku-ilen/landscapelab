@@ -44,10 +44,10 @@ var weather_manager: WeatherManager :
 		weather_manager = new_weather_manager
 		
 		_apply_new_wind_speed(weather_manager.wind_speed)
-		weather_manager.connect("wind_speed_changed",Callable(self,"_apply_new_wind_speed"))
+		weather_manager.wind_speed_changed.connect(_apply_new_wind_speed)
 		
 		_apply_new_wind_direction(weather_manager.wind_direction)
-		weather_manager.connect("wind_direction_changed",Callable(self,"_apply_new_wind_direction"))
+		weather_manager.wind_direction_changed.connect(_apply_new_wind_direction)
 
 
 var feature
