@@ -16,7 +16,14 @@ func _ready():
 
 func refine_load():
 	var any_change_done := false
-
+	
+	for intermediate_name in intermediate_connector_instances.keys():
+		var intermediate_connection = intermediate_connector_instances[intermediate_name]
+		if position_manager.center_node.position.distance_to(intermediate_connection.position) > connection_radius:
+			mutex.lock()
+			intermediate_connector_instances.erase(intermediate_name)
+			mutex.unlock()
+	
 	for geo_line in features:
 		for i in range(1, geo_line.get_curve3d().get_point_count()):
 			var access_str = "{0}_{1}".format([geo_line.get_id(), i])
@@ -69,23 +76,14 @@ func apply_refined_data():
 				connection.apply_connection()
 	
 	# Only add features here - remove them in adapt_load
-	for feature_id in intermediate_connector_instances.keys():
-		var current_feature_root = get_node(str(feature_id))
-		if current_feature_root == null: continue
-		for vertex_intermediate_id in intermediate_connector_instances[feature_id].keys():
-			if not current_feature_root.has_node(vertex_intermediate_id):
-				current_feature_root.add_child(intermediate_connector_instances[feature_id][vertex_intermediate_id])
+	for intermediate_name in intermediate_connector_instances.keys():
+		if not has_node(intermediate_name):
+			add_child(intermediate_connector_instances[intermediate_name])
 	
-#	for child in get_children():
-#		if not "_" in child.name: continue
-#
-#		var split_name = child.name.split("_")
-#		var feature_id = split_name[0]
-#		var instance_id = split_name[1]
-#		if not intermediate_connector_instances.has(feature_id):
-#			child.queue_free()
-#		elif not intermediate_connector_instances[feature_id].has(instance_id):
-#			child.queue_free()
+	for child in get_children():
+		if not child.name.contains("_"): continue
+		if not intermediate_connector_instances.has(child.name):
+			child.queue_free()
 
 
 func load_feature_instance(geo_line: GeoFeature) -> Node3D:
@@ -188,7 +186,9 @@ func outer_connect(object: Node3D, previous_object: Node3D, geo_line: GeoFeature
 			for connection in new_connections:
 				current_connections.add_child(connection)
 			
-			previous_connector = intermediate_connector_instances[geo_line.get_id()]["{0}_{1}".format([vertex_id, i])]
+			if intermediate_connector_instances.has("{0}_{1}_{2}".format([geo_line.get_id(), vertex_id, i])):
+				previous_connector = intermediate_connector_instances[
+					"{0}_{1}_{2}".format([geo_line.get_id(), vertex_id, i])]
 		
 		return current_connections
 	else:
@@ -227,19 +227,13 @@ func inner_connect(previous_connector: Node3D, step: Vector3, connector: PackedS
 	# As they will be strung on a line they have the same rotation
 	intermediate_connector.transform = previous_connector.transform
 	intermediate_connector.position = previous_connector.position + step
-	intermediate_connector.name = "{0}_{1}".format([vertex_id, intermediate_id])
+	intermediate_connector.name = "{0}_{1}_{2}".format([feature_id, vertex_id, intermediate_id])
 	
-	var intermediate_connector_amount = intermediate_connector_instances.values().reduce(
-		func(accum, connectors): return connectors.size() + accum, 0
-	)
-	
-	if intermediate_connector_amount > max_connections:
-		return []
+#	if intermediate_connector_instances.size() > max_connections:
+#		return []
 	
 	mutex.lock()
-	if not intermediate_connector_instances.has(feature_id):
-		intermediate_connector_instances[feature_id] = {}
-	intermediate_connector_instances[feature_id][intermediate_connector.name] = intermediate_connector
+	intermediate_connector_instances[intermediate_connector.name] = intermediate_connector
 	mutex.unlock()
 	return explicit_connect(connection, intermediate_connector, previous_connector, [])
 
