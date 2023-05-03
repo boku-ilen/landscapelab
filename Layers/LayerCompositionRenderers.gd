@@ -52,6 +52,9 @@ func add_composition(child: Node):
 		add_child(child)
 		return
 	
+	if weather_manager:
+		child.set("weather_manager", weather_manager)
+	
 	# Give the child a center position
 	if position_manager:
 		# Apply the center position from the PositionManager
