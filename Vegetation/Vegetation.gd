@@ -189,7 +189,10 @@ func get_ground_sheet(group_array, texture_name):
 	
 	for i in range(group_array.size()):
 		var group = group_array[i]
-		texture_table[i] = [group.get_ground_image(texture_name)]
+		var ground_image = group.get_ground_image(texture_name)
+		if ground_image == null: return 
+		
+		texture_table[i] = [ground_image]
 	
 	return SpritesheetHelper.create_layered_spritesheet(
 			Vector2(VegetationImages.GROUND_TEXTURE_SIZE, VegetationImages.GROUND_TEXTURE_SIZE),
