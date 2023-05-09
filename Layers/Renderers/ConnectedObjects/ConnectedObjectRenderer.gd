@@ -17,19 +17,12 @@ func _ready():
 func refine_load():
 	var any_change_done := false
 	
-	for intermediate_name in intermediate_connector_instances.keys():
-		var intermediate_connection = intermediate_connector_instances[intermediate_name]
-		if position_manager.center_node.position.distance_to(intermediate_connection.position) > connection_radius:
-			mutex.lock()
-			intermediate_connector_instances.erase(intermediate_name)
-			mutex.unlock()
-	
 	for geo_line in features:
 		for i in range(1, geo_line.get_curve3d().get_point_count()):
 			var access_str = "{0}_{1}".format([geo_line.get_id(), i])
 
-			var current_connector = instances[geo_line.get_id()].get_child(i)
-			var previous_connector = instances[geo_line.get_id()].get_child(i - 1)
+			var current_connector = instances[geo_line.get_id()].get_node(str(i))
+			var previous_connector = instances[geo_line.get_id()].get_node(str(i - 1))
 
 			# GeoLines will be loaded fully, even if only one segment is inside
 			# the load-radius, hence manual checking for each segment is required
@@ -37,6 +30,9 @@ func refine_load():
 			if connection_radius < distance_to_con:
 				if connection_instances.has(access_str):
 					mutex.lock()
+					for key in intermediate_connector_instances.keys():
+						if key.begins_with(access_str):
+							intermediate_connector_instances.erase(key)
 					connection_instances[access_str] = false
 					mutex.unlock()
 					any_change_done = true
@@ -229,8 +225,8 @@ func inner_connect(previous_connector: Node3D, step: Vector3, connector: PackedS
 	intermediate_connector.position = previous_connector.position + step
 	intermediate_connector.name = "{0}_{1}_{2}".format([feature_id, vertex_id, intermediate_id])
 	
-#	if intermediate_connector_instances.size() > max_connections:
-#		return []
+	if intermediate_connector_instances.size() > max_connections:
+		return []
 	
 	mutex.lock()
 	intermediate_connector_instances[intermediate_connector.name] = intermediate_connector
