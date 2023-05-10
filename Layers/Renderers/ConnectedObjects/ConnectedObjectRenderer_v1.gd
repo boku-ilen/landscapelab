@@ -7,7 +7,6 @@ extends FeatureLayerCompositionRenderer
 #      |     \   
 #     1_0    1_1 
 # }
-#
 # I.e. a dictionary with nodes to the geo-line roots (i.e. having vertex count connectors)
 #
 # Two cases for refine_load:

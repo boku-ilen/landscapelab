@@ -1,10 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://casuv6vtbutgp"]
 
-[ext_resource type="Script" path="res://Layers/Renderers/ConnectedObjects/ConnectedObjectRenderer.gd" id="1"]
+[ext_resource type="Script" path="res://Layers/Renderers/ConnectedObjects/ConnectedObjectRenderer.gd" id="1_dgn4o"]
 
 [node name="ConnectedObjectRenderer" type="Node3D"]
-script = ExtResource("1")
+script = ExtResource("1_dgn4o")
 
 [node name="Connections" type="Node3D" parent="."]
-
-[node name="Connectors" type="Node3D" parent="."]
