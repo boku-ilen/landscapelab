@@ -85,37 +85,37 @@ func _disconnected(id):
 
 
 func _on_data(id, _message):
-	
+
 	var json_dict = JSON.parse_string(_message)
-	
+
 	# Validation
 	if json_dict == null:
 		logger.error("Received invalid JSON data in request: %s" % [_message])
 		return
-	
+
 	logger.debug("received request from %s with data %s" % [id, json_dict])
-	
+
 	if not json_dict.has("message_id"):
 		logger.error("Missing message ID in request! Aborting...")
 		return
-	
+
 	var message_id = json_dict["message_id"]
-	
+
 	if not json_dict.has("keyword"):
 		logger.error("Missing keyword field in request with ID %s!" % [message_id])
 		return
-	
+
 	var keyword = json_dict["keyword"]
-	
+
 	# Remove these meta parameters for further handling
 	json_dict.erase("message_id")
 	json_dict.erase("keyword")
-	
+
 	# detect if this is an answer to a sent message
 	if _message_stack.has(message_id):
 		var handler = _message_stack.get(_message_stack)
 		handler.on_answer(json_dict )  # FIXME: how to find according client_id?
-		
+
 	# not an answer so get the correct target and forward the message
 	else:
 		if _handlers.has(keyword):
@@ -124,8 +124,8 @@ func _on_data(id, _message):
 			if answer:
 				# TOOD: set "success" to false if something was invalid
 				answer["success"] = true
-				_send_data(answer, null, message_id)  # FIXME: how to find according client_id?
-			
+				_send_data(answer, -1, message_id)  # FIXME: how to find according client_id?
+
 		else:
 			logger.warn("received a message without registered keyword %s" % [keyword])
 
@@ -148,7 +148,8 @@ func _send_data(data: Dictionary, client_id=-1, message_id=null):
 		if message_id:
 			data["message_id"] = message_id
 		else:
-			data["message_id"] = Time.get_ticks_msec() 
+			data["message_id"] = Time.get_ticks_msec()
 		logger.debug("send msg: %s to client %s" % [data, client_id])
 		var message = JSON.stringify(data)
+		print(message)
 		self._ws_server.get_peer(client_id).put_packet(message.to_utf8_buffer())

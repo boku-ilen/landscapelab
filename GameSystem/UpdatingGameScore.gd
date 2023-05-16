@@ -3,7 +3,7 @@ class_name UpdatingGameScore
 
 
 # Overwrite to recalculate score automatically if the game_object_collection changes in some way
-func add_contributor(game_object_collection: GameObjectCollection, attribute_name, weight = 1.0, color = Color.GRAY, weight_min = null, weight_max = null):
+func add_contributor(game_object_collection: GameObjectCollection, attribute_name: String, weight = 1.0, color = Color.GRAY, weight_min = null, weight_max = null):
 	super.add_contributor(game_object_collection, attribute_name, weight, color, weight_min, weight_max)
 	
 	# Connect this GameObjectCollection's changed signal if necessary (it's possible to have two
