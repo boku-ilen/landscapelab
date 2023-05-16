@@ -240,8 +240,7 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 		
 		# Previous point exists ...
 		if previous_point != Vector3.INF:
-			current_object.look_at_from_position(
-				current_point, previous_point, current_object.transform.basis.y)
+			try_look_at_from_pos(current_object, current_point, previous_point)
 			
 			# Next point exists ...
 			if index+1 < engine_line.get_point_count():
@@ -253,8 +252,7 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 				current_object.rotation.y += angle / 2
 		
 		elif index+1 < engine_line.get_point_count():
-			current_object.look_at_from_position(
-				current_point, next_point, current_object.transform.basis.y)
+			try_look_at_from_pos(current_object, current_point, next_point)
 		
 		# Only y rotation is relevant
 		current_object.rotation.x = 0
@@ -291,6 +289,14 @@ func _get_scene_for_feature(geo_line: GeoFeature, is_connection: bool = false) -
 func _get_height_at_ground(query_position: Vector3) -> float:
 	return layer_composition.render_info.ground_height_layer.get_value_at_position(
 		center[0] + query_position.x, center[1] - query_position.z)
+
+
+# avoid "look_at_from_position: Node origin and target are in the same position, look_at() failed."
+func try_look_at_from_pos(object: Node3D, from: Vector3, look_at: Vector3):
+	if not from.is_equal_approx(look_at):
+		object.look_at_from_position(from, look_at, object.transform.basis.y)
+	else:
+		object.position = from
 
 
 func distance_to_center(pos: Vector3):
