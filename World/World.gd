@@ -23,11 +23,8 @@ func _ready():
 	$Terrain/LayerRenderers.time_manager = $TimeManager
 	$Terrain/LayerRenderers.weather_manager = $WeatherManager
 	
-	$WorldEnvironment/RainParticles.center_node = $PositionManager.center_node
 	$PositionManager.new_center_node.connect(func(center_node): $WorldEnvironment/RainParticles.center_node = center_node)
-	$WorldEnvironment/RainSplashes.center_node = $PositionManager.center_node
 	$PositionManager.new_center_node.connect(func(center_node): $WorldEnvironment/RainSplashes.center_node = center_node)
-	$WorldEnvironment/Lightning.center_node = $PositionManager.center_node
 	$PositionManager.new_center_node.connect(func(center_node): $WorldEnvironment/Lightning.center_node = center_node)
 	
 	$LLConfigSetup.connect("applied_configuration", $PositionManager.reset_center)
