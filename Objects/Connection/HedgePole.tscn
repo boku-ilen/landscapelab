@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://bnopl30t35s0s"]
+
+[ext_resource type="Texture2D" uid="uid://dofifiawt4pvi" path="res://Resources/Textures/cobble_path-01/albedo.jpg" id="1_aheoa"]
+[ext_resource type="Script" path="res://Objects/Connection/Superclasses/Connector.gd" id="1_wpchk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l2gho"]
+shading_mode = 2
+specular_mode = 2
+albedo_texture = ExtResource("1_aheoa")
+metallic = 0.1
+roughness = 0.7
+heightmap_scale = -2.724
+uv1_scale = Vector3(1, 6, 1)
+uv2_scale = Vector3(1, 6, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3rue0"]
+resource_local_to_scene = true
+size = Vector3(0.2, 3.4, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a61x4"]
+resource_local_to_scene = true
+size = Vector3(0.2, 3.4, 0.2)
+
+[node name="HedgePole" type="Node3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1_wpchk")
+load_radius = 100.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_l2gho")
+mesh = SubResource("BoxMesh_3rue0")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_l2gho")
+mesh = SubResource("BoxMesh_a61x4")
+
+[node name="Docks" type="Node3D" parent="."]
+
+[node name="Marker3D" type="Marker3D" parent="Docks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)

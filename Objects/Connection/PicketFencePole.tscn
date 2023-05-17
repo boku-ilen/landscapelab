@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://brcas5pc682wd"]
+
+[ext_resource type="Texture2D" uid="uid://btgp1urqyvctn" path="res://Resources/Textures/wood/PlankIndividual.png" id="1_5yaiu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l2gho"]
+shading_mode = 2
+specular_mode = 2
+albedo_texture = ExtResource("1_5yaiu")
+metallic = 0.1
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_23w1r"]
+size = Vector3(0.2, 3.4, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyp1d"]
+shading_mode = 2
+specular_mode = 2
+albedo_texture = ExtResource("1_5yaiu")
+metallic = 0.1
+roughness = 0.7
+
+[sub_resource type="TorusMesh" id="TorusMesh_4nyxp"]
+inner_radius = 0.02
+outer_radius = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3v5p"]
+shading_mode = 2
+specular_mode = 2
+albedo_texture = ExtResource("1_5yaiu")
+metallic = 0.1
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_es5ht"]
+material = SubResource("StandardMaterial3D_r3v5p")
+top_radius = 0.0
+bottom_radius = 0.1
+height = 0.3
+
+[node name="PicketFencePole" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_l2gho")
+mesh = SubResource("BoxMesh_23w1r")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.17822, 0)
+material_override = SubResource("StandardMaterial3D_qyp1d")
+mesh = SubResource("TorusMesh_4nyxp")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35453, 0)
+mesh = SubResource("CylinderMesh_es5ht")
+
+[node name="Docks" type="Node3D" parent="."]
+
+[node name="Marker3D" type="Marker3D" parent="Docks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.07)
