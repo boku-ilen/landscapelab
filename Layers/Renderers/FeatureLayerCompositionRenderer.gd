@@ -20,10 +20,10 @@ func full_load():
 	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 		float(center[0]), float(center[1]), radius, max_features)
 	
+	mutex.lock()
 	for feature in features:
-		mutex.lock()
 		instances[feature.get_id()] = load_feature_instance(feature)
-		mutex.unlock()
+	mutex.unlock()
 
 
 func adapt_load(_diff: Vector3):
@@ -33,24 +33,24 @@ func adapt_load(_diff: Vector3):
 		radius, max_features
 	)
 	
+	mutex.lock()
 	for feature in features:
 		if not instances.has(feature.get_id()): 
-			mutex.lock()
 			instances[feature.get_id()] = load_feature_instance(feature)
-			mutex.unlock()
+	mutex.unlock()
 	
 	call_deferred("apply_new_data")
 
 
 func apply_new_data():
-	var valid_feature_ids = features.map(func(f): return f.get_id())
-	
+	mutex.lock()
 	for feature in features:
-		var node_name = str(feature.get_id())
-		
+		var node_name = str(feature.get_id())	
 		if not has_node(node_name):
 			apply_feature_instance(feature)
+	mutex.unlock()
 	
+	var valid_feature_ids = features.map(func(f): return f.get_id())
 	for id in instances.keys():
 		if not id in valid_feature_ids:
 			remove_feature(id)
@@ -81,11 +81,11 @@ func _on_feature_removed(feature: GeoFeature):
 # Might be necessary to be overwritten by inherited class
 # Cannot be run in a thread
 func remove_feature(feature_id: int):
+	mutex.lock()
 	if has_node(str(feature_id)):
 		get_node(str(feature_id)).queue_free()
-		mutex.lock()
 		instances.erase(feature_id)
-		mutex.unlock()
+	mutex.unlock()
 
 
 # To be implemented by inherited class
