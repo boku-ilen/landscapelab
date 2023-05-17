@@ -17,18 +17,20 @@ func _init(texture_width: int):
 	width = texture_width
 	
 	_texture_data.resize(width * width * 4)
+	_weights_data.resize(width * width * 4)
+	
+	reset()
+	
 	_texture_image = Image.create(width, width, false, Image.FORMAT_RF)
 	texture = ImageTexture.create_from_image(_texture_image)
 	
-	_weights_data.resize(width * width * 4)
 	_weights_image = Image.create(width, width, false, Image.FORMAT_RF)
 	weights = ImageTexture.create_from_image(_weights_image)
 
 
 func reset() -> void:
-	for i in range(width * width * 4):
-		_texture_data[i] = 0.0
-		_weights_data[i] = 0.0
+	_texture_data.fill(0)
+	_weights_data.fill(0)
 
 
 func update_texture() -> void:

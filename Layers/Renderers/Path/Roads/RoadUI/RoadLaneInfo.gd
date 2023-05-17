@@ -7,14 +7,15 @@ func add_property(road_info_data: RoadInfoData) -> void:
 	property.text = road_info_data.property_name
 	$Properties.add_child(property)
 	
-	var value: LineEditDraggable = LineEditDraggable.new()
-	value.expand_to_text_length = true
-	value.text = str(road_info_data.property_value)
-	$Values.add_child(value)
-	value.editable = road_info_data.editable
-	
-	if road_info_data.editable:
-		value.text_submitted.connect(_on_any_property_changed.bind(road_info_data))
+	# FIXME_ROADS: Seems like LineEditDraggable is missing?
+#	var value: LineEditDraggable = LineEditDraggable.new()
+#	value.expand_to_text_length = true
+#	value.text = str(road_info_data.property_value)
+#	$Values.add_child(value)
+#	value.editable = road_info_data.editable
+#
+#	if road_info_data.editable:
+#		value.text_submitted.connect(_on_any_property_changed.bind(road_info_data))
 
 
 func _on_any_property_changed(new_text: String, road_info_data: RoadInfoData) -> void:

@@ -110,6 +110,8 @@ void vertex() {
 	camera_pos = INV_VIEW_MATRIX[3].xyz;
 	camera_distance = length(world_pos - camera_pos);
 	
+	NORMAL = get_normal(UV);
+	
 //	if (has_surface_heights) {
 //		float surface_height_factor = float(world_distance > surface_heights_start_distance);
 //		float texture_read = texture(surface_heightmap, UV).r;
@@ -161,8 +163,6 @@ vec3 get_distance_color(vec3 uv, vec3 ortho_color) {
 
 
 void fragment() {
-	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
-	
 	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.006).rg - 0.5) * (50.0 / size);
 	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
 	
