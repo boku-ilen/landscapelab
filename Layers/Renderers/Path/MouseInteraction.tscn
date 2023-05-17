@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://1heb7ejjo6r8"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/Path/MouseInteraction.gd" id="1_6tsvl"]
+[ext_resource type="PackedScene" uid="uid://bt4cut8l4y6q5" path="res://Layers/Renderers/Path/Roads/RoadUI/RoadInfo.tscn" id="2_a4t0n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kuoye"]
+albedo_color = Color(1, 0, 1, 1)
+
+[node name="MouseInteraction" type="Node3D"]
+script = ExtResource("1_6tsvl")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+radius = 1.0
+material = SubResource("StandardMaterial3D_kuoye")
+
+[node name="RoadInfo" parent="." instance=ExtResource("2_a4t0n")]
+visible = false

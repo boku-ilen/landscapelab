@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3]
 
 [ext_resource type="Shader" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.gdshader" id="1"]
-[ext_resource type="PackedScene" path="res://Layers/Renderers/Terrain/TerrainLOD.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://ds1shm20d8ywl" path="res://Layers/Renderers/Terrain/TerrainChunk.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://Layers/LayerCompositionRenderer.tscn" id="3"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/BasicTerrainRenderer.gd" id="4"]
 

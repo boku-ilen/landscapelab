@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwd1w1bsi1byw"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/Path/Roads/RoadUI/RoadLaneInfo.gd" id="1_xmbgb"]
+
+[node name="RoadLaneInfo" type="HSplitContainer"]
+split_offset = 200
+script = ExtResource("1_xmbgb")
+
+[node name="Properties" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Values" type="VBoxContainer" parent="."]
+layout_mode = 2
