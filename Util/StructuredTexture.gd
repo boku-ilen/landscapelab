@@ -53,7 +53,8 @@ static func get_image(base_path: String, name: String, ending: String = DEFAULT_
 
 	var img = load(full_path)
 	
-	if not img or img.is_empty():
+	if img == null or img.is_empty():
 		logger.error("Trying to load invalid texture at path %s!" % [full_path])
+		return null
 	
 	return img
