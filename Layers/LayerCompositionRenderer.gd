@@ -14,6 +14,9 @@ var last_load_position := Vector3.ZERO
 
 var loading_thread := Thread.new()
 
+@export var load_refined_threaded := true
+@export var load_adapt_threaded := true
+
 # Time management
 var time_manager: TimeManager :
 	get:
@@ -46,11 +49,16 @@ func _process(_delta):
 	if not loading_thread.is_started():
 		var diff = position_manager.center_node.position - last_load_position
 		if is_new_loading_required(diff):
-			loading_thread.start(adapt_load.bind(diff))
-#			adapt_load(diff)
+			if load_adapt_threaded:
+				loading_thread.start(adapt_load.bind(diff))
+			else:
+				adapt_load(diff)
 			last_load_position = position_manager.center_node.position
 		else:
-			loading_thread.start(refine_load)
+			if load_refined_threaded:
+				loading_thread.start(refine_load)
+			else:
+				refine_load()
 
 
 # Overload with a check which returns `true` if new data loading is required, e.g. because the
