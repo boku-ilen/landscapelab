@@ -23,7 +23,7 @@ metallic_texture = ExtResource("3")
 roughness = 0.48
 roughness_texture = ExtResource("5")
 
-[node name="Catenary" type="Node3D"]
+[node name="Catenary2" type="Node3D"]
 script = ExtResource("1")
 load_radius = 1200.0
 
