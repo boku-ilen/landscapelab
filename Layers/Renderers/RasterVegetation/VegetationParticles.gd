@@ -139,6 +139,12 @@ func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0,
 	return splat
 
 
+func apply_textures():
+	process_material.set_shader_parameter("splatmap", splatmap)
+	process_material.set_shader_parameter("heightmap", heightmap)
+	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, -uv_offset_y))
+
+
 # Directly update the vegetation data with given ImageTextures. Can be used e.g. for testing with
 #  artificially created data. Is also called internally when `update_textures` is used.
 # Should be called in a thread to avoid stalling the main thread.
@@ -171,12 +177,12 @@ func update_textures_with_images(ids):
 # Apply data which has previously been loaded with `update_textures`.
 # Should not be called from a thread.
 func apply_data():
+	apply_textures()
+	
 	process_material.set_shader_parameter("id_to_row", id_row_array)
 	process_material.set_shader_parameter("distribution_map", distribution_tex)
-	process_material.set_shader_parameter("splatmap", splatmap)
 	process_material.set_shader_parameter("splatmap_size_meters", get_map_size())
 	process_material.set_shader_parameter("dist_scale", 1.0 / spacing)
-	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, -uv_offset_y))
 	
 	material_override.set_shader_parameter("texture_map", billboard_tex)
 	
@@ -184,7 +190,6 @@ func apply_data():
 	process_material.set_shader_parameter("heightmap_size", size)
 	material_override.set_shader_parameter("heightmap_size", size)
 	
-	process_material.set_shader_parameter("heightmap", heightmap)
 	material_override.set_shader_parameter("offset", Vector2(0, 0))
 	
 	# Row crops
