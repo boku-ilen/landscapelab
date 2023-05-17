@@ -245,16 +245,31 @@ func _get_height(point: Vector3) -> float:
 	var chunk_x: int = roundi(point.x / chunk_size)
 	var chunk_z: int = roundi(point.z / chunk_size)
 	var data: PackedByteArray = heightmap_data_arrays[chunk_x][chunk_z]
+	
 	var image_size = 201
 	
-	var image_x = floori((fposmod(point.x + chunk_size / 2.0, chunk_size) / chunk_size) * image_size)
-	var image_y = floori((fposmod(point.z + chunk_size / 2.0, chunk_size) / chunk_size) * image_size)
+	var corrected_pos_x = point.x - chunk_x * chunk_size
+	var corrected_pos_z = point.z - chunk_z * chunk_size
+	
+	var image_x = floori(((corrected_pos_x + chunk_size / 2.0) / chunk_size) * image_size)
+	var image_y = floori(((corrected_pos_z + chunk_size / 2.0) / chunk_size) * image_size)
+	
+	image_x = clamp(image_x, 0, image_size - 1)
+	image_y = clamp(image_y, 0, image_size - 1)
 	
 	var image_position: int = (image_y * image_size + image_x)
+	
 	# Read bytes from image
 	var value: float = data.decode_float(image_position * 4)
 	
 	return value
+
+
+func _image_xy_to_index(image_x, image_y, image_size) -> int:
+	image_x = clamp(image_x, 0, image_size - 1)
+	image_y = clamp(image_y, 0, image_size - 1)
+	
+	return image_y * image_size + image_x
 
 
 func _set_terraforming_height(point: Vector3, road_width: float) -> void:
@@ -264,8 +279,16 @@ func _set_terraforming_height(point: Vector3, road_width: float) -> void:
 	var chunk: TerrainChunk = chunk_dict[chunk_x][chunk_z]
 	
 	var image_size = 201
-	var image_x = floori((fposmod(point.x + chunk_size / 2.0, chunk_size) / chunk_size) * image_size)
-	var image_y = floori((fposmod(point.z + chunk_size / 2.0, chunk_size) / chunk_size) * image_size)
+	
+	var corrected_pos_x = point.x - chunk_x * chunk_size
+	var corrected_pos_z = point.z - chunk_z * chunk_size
+	
+	var image_x = floori(((corrected_pos_x + chunk_size / 2.0) / chunk_size) * image_size)
+	var image_y = floori(((corrected_pos_z + chunk_size / 2.0) / chunk_size) * image_size)
+	
+	image_x = clamp(image_x, 0, image_size - 1)
+	image_y = clamp(image_y, 0, image_size - 1)
+	
 	var image_position: int = (image_y * image_size + image_x)
 	
 	var required_points = ceili(road_width / step_size) + 2
@@ -275,20 +298,25 @@ func _set_terraforming_height(point: Vector3, road_width: float) -> void:
 	
 	for i in range(required_points):
 		var offset: int = i - floori(required_points / 2.0)
-		# X-Axis
-		chunk.terrarforming_texture.set_pixel(image_position + offset, point.y, 1.0)
-		# Z-Axis
-		chunk.terrarforming_texture.set_pixel(image_position + (offset * image_size), point.y, 1.0)
+		
+		chunk.terrarforming_texture.set_pixel(
+			_image_xy_to_index(image_x + offset, image_y, image_size), point.y, 1.0)
+		chunk.terrarforming_texture.set_pixel(
+			_image_xy_to_index(image_x, image_y + offset, image_size), point.y, 1.0)
 	
 	var required_points_offset = floori(required_points / 2.0)
 	for i in range(TERRAFORMING_FALLOFF):
 		var weight = 1.0 - float(i + 1) / float(TERRAFORMING_FALLOFF + 1)
 		# X-Axis left
-		chunk.terrarforming_texture.set_pixel(image_position - (required_points_offset + i + 1), point.y, weight)
+		var new_x_left = _image_xy_to_index(image_x - (required_points_offset + i + 1), image_y, image_size)
+		chunk.terrarforming_texture.set_pixel(new_x_left, point.y, weight)
 		# X-Axis right
-		chunk.terrarforming_texture.set_pixel(image_position + (required_points_offset + i + 1), point.y, weight)
+		var new_x_right = _image_xy_to_index(image_x + (required_points_offset + i + 1), image_y, image_size)
+		chunk.terrarforming_texture.set_pixel(new_x_right, point.y, weight)
 		# Z-Axis up
-		chunk.terrarforming_texture.set_pixel(image_position - ((required_points_offset + i + 1) * image_size), point.y, weight)
+		var new_z_up = _image_xy_to_index(image_x, image_y - (required_points_offset + i + 1), image_size)
+		chunk.terrarforming_texture.set_pixel(new_z_up, point.y, weight)
 		# Z-Axis down
-		chunk.terrarforming_texture.set_pixel(image_position + ((required_points_offset + i + 1) * image_size), point.y, weight)
+		var new_z_down = _image_xy_to_index(image_x, image_y + (required_points_offset + i + 1), image_size)
+		chunk.terrarforming_texture.set_pixel(new_z_down, point.y, weight)
 
