@@ -13,6 +13,11 @@ extends FeatureLayerCompositionRenderer
 # Two cases for refine_load:
 #   - load new data (inside a given radius)
 #   - erase invalid data (outside a given radius)
+# 
+# The line data set must be cleaned with QGIS function 
+#	Remvoe duplicate vertices 
+# or this renderer will run into problems
+# 
 
 var connection_radius = 800.0
 var max_connections = 100
@@ -20,11 +25,34 @@ var max_connections = 100
 var intermediate_connectors := {}
 var connections := {}
 
+var loaded_connection_scenes := {}
+var loaded_connector_scenes := {}
+
 
 func _ready():
 	super._ready()
 	radius = 800.0
 	max_features = 100
+	load_scenes()
+	
+	radius = loaded_connector_scenes["fallback"].instantiate().load_radius
+	connection_radius = loaded_connection_scenes["fallback"].instantiate().load_radius
+
+
+# Load in the scenes as configured in .ll to avoid having to load them continuously
+func load_scenes():
+	loaded_connection_scenes["fallback"] = load(
+		layer_composition.render_info.get("fallback_connection")
+	)
+	loaded_connector_scenes["fallback"] = load(
+		layer_composition.render_info.get("fallback_connector")
+	)
+	for key in layer_composition.render_info.get("connections"):
+		loaded_connection_scenes[key] = \
+			load(layer_composition.render_info.get("connections")[key])
+	for key in layer_composition.render_info.get("connectors"):
+		loaded_connector_scenes[key] = \
+			load(layer_composition.render_info.get("connectors")[key])
 
 
 func remove_connection(feature_id: int, vertex_id: int):
@@ -54,11 +82,22 @@ func remove_intermediate_connectors(feature_id: int, vertex_id: int):
 func refine_load():
 	var any_change_done := false 
 	
+	var get_nearest_vertex_instance = func(feature_id: int, vert_id: int, iterate_operation: Callable): 
+		var i = 0
+		while not instances[feature_id].has_node(str(vert_id)):
+			vert_id = iterate_operation.call(vert_id)
+			i += 1
+			if i > instances[feature_id].get_child_count():
+				return Node3D.new()
+		
+		return instances[feature_id].get_node(str(vert_id))
+	
 	for geo_line in features:
 		# Skip index 0 because connecting requires two objects
 		for vert_id in range(1, geo_line.get_curve3d().get_point_count()):
 			var current_connector = instances[geo_line.get_id()].get_node(str(vert_id))
 			var previous_connector = instances[geo_line.get_id()].get_node(str(vert_id - 1))
+			
 			var access_str = "{0}_{1}".format([geo_line.get_id(), vert_id])
 			
 			if connection_radius < distance_to_center(current_connector.position):
@@ -127,7 +166,9 @@ func refine_load():
 
 func apply_refined_data():
 	for access_str in connections.keys():
-		if not $Connections.has_node(access_str):
+		if not int(access_str.split("_")[0]) in instances:
+			connections.erase(access_str)
+		elif not $Connections.has_node(access_str):
 			$Connections.add_child(connections[access_str])
 			if connections[access_str] is Node3D:
 				for connection in connections[access_str].get_children():
@@ -235,14 +276,17 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 		
 		#
 		# Try to resemble a realistic rotation of the connector-objects  
-		# (i.e. they have to face each other)
-		#
+		# (i.e. they have to face each other); 3 cases:
+		# 1. First point, only next point exists
+		# 2. x_i; i > 0 & i < n; previous and next point exist
+		# 3. Last point, only previous point exists
+		# 
 		
-		# Previous point exists ...
+		# Case 1 or 2 
 		if previous_point != Vector3.INF:
 			try_look_at_from_pos(current_object, current_point, previous_point)
 			
-			# Next point exists ...
+			# Case 2 
 			if index+1 < engine_line.get_point_count():
 				# Find the angle between (p_before - p_now) and (p_now - p_next)
 				var v1 = current_point - previous_point
@@ -250,7 +294,8 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 				var angle = v1.signed_angle_to(v2, Vector3.UP)
 				# add this angle so its actually the mean between before and next
 				current_object.rotation.y += angle / 2
-		
+			
+		# Case 3
 		elif index+1 < engine_line.get_point_count():
 			try_look_at_from_pos(current_object, current_point, next_point)
 		
@@ -272,18 +317,14 @@ func _get_scene_for_feature(geo_line: GeoFeature, is_connection: bool = false) -
 	if attribute_name:
 		selector_attribute = geo_line.get_attribute(attribute_name)
 	
-	var access_connection_or_connector := "connector"
+	var load_from = loaded_connector_scenes
 	if is_connection:
-		access_connection_or_connector = "connection"
+		load_from = loaded_connection_scenes
 	
 	if selector_attribute != null and selector_attribute in layer_composition.render_info.connectors:
-		return load(
-			layer_composition.render_info.get(access_connection_or_connector + "s")[selector_attribute]
-		)
+		return load_from[selector_attribute]
 	else:
-		return load(
-			layer_composition.render_info.get("fallback_" + access_connection_or_connector)
-		)
+		return load_from["fallback"]
 
 
 func _get_height_at_ground(query_position: Vector3) -> float:
@@ -292,9 +333,10 @@ func _get_height_at_ground(query_position: Vector3) -> float:
 
 
 # avoid "look_at_from_position: Node origin and target are in the same position, look_at() failed."
-func try_look_at_from_pos(object: Node3D, from: Vector3, look_at: Vector3):
-	if not from.is_equal_approx(look_at):
-		object.look_at_from_position(from, look_at, object.transform.basis.y)
+func try_look_at_from_pos(object: Node3D, from: Vector3, target: Vector3):
+	if not from.is_equal_approx(target) and not target.is_equal_approx(Vector3.ZERO):
+		object.position = from
+		object.look_at_from_position(from, target, object.transform.basis.y)
 	else:
 		object.position = from
 
