@@ -199,26 +199,6 @@ class BuildingRenderInfo extends PolygonRenderInfo:
 	
 	func get_class_name() -> String: return "Building"
 
-class PathRenderInfo extends RenderInfo:
-	var line_visualization: String
-	var ground_height_layer: GeoRasterLayer
-	var geo_feature_layer: GeoFeatureLayer
-	
-	func _init():
-		renderer = preload("res://Layers/Renderers/Path/PathRenderer.tscn")
-		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
-	
-	func get_geolayers():
-		return [ground_height_layer, geo_feature_layer]
-	
-	func get_described_geolayers() -> Dictionary:
-		return {"Ground-height": ground_height_layer, "Features": geo_feature_layer}
-	
-	func is_valid():
-		return geo_feature_layer != null && ground_height_layer != null
-	
-	func get_class_name() -> String: return "Path"
-
 class ConnectedObjectInfo extends RenderInfo:
 	# The geodata-key-attribute that determines which connector/connection to use
 	var selector_attribute_name: String
