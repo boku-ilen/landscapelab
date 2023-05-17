@@ -32,9 +32,8 @@ func set_layer_visibility(layer_name: String, is_visible: bool):
 		instantiate_geolayer_renderer(Layers.get_geo_layer_by_name(layer_name))
 	
 	# Find child with correct name and set its visibility
-	# TODO: stop hardcoding this
-	get_children().filter(
-		func(child): return child.name == layer_name)[0].visible = true
+	if has_node(layer_name):
+		get_node(layer_name).visible = true
 
 
 func instantiate_geolayer_renderer(geo_layer: Resource):
