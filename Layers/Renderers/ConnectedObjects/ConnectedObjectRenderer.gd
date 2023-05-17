@@ -3,7 +3,7 @@ extends FeatureLayerCompositionRenderer
 
 #
 # Given at this moment: instances = {
-#   1: Node3D --- 1_2
+#   Node3D.name == 1 --- 1_2
 #      |     \   
 #     1_0    1_1 
 # }
@@ -55,54 +55,28 @@ func load_scenes():
 			load(layer_composition.render_info.get("connectors")[key])
 
 
-func remove_connection(feature_id: int, vertex_id: int):
-	var any_change_done := false
-	for id in connections.keys():
-		if id.begins_with("{0}_{1}".format([feature_id, vertex_id])):
-			mutex.lock()
-			connections.erase(id)
-			any_change_done = true
-			mutex.unlock()
-	
-	return any_change_done
-
-
-func remove_intermediate_connectors(feature_id: int, vertex_id: int):
-	var any_change_done := false 
-	for id in intermediate_connectors.keys():
-		if id.begins_with("{0}_{1}".format([feature_id, vertex_id])):
-			mutex.lock()
-			intermediate_connectors.erase(id)
-			any_change_done = true 
-			mutex.unlock()
-	
-	return any_change_done
-
-
 func refine_load():
+	mutex.lock()
+	
 	var any_change_done := false
 	
 	for geo_line in features:
 		# Skip index 0 because connecting requires two objects
 		for vert_id in range(1, geo_line.get_curve3d().get_point_count()):
-			var current_connector = instances[geo_line.get_id()].get_node(str(vert_id))
-			var previous_connector = instances[geo_line.get_id()].get_node(str(vert_id - 1))
+			var current_connector = instances[geo_line.get_id()].get_node(str(vert_id)).duplicate()
+			var previous_connector = instances[geo_line.get_id()].get_node(str(vert_id - 1)).duplicate()
 			
 			var access_str = "{0}_{1}".format([geo_line.get_id(), vert_id])
 			
 			if connection_radius < distance_to_center(current_connector.position):
 				for id in connections.keys():
-					if id.begins_with("{0}_{1}".format([geo_line.get_id(), vert_id])):
-						mutex.lock()
+					if id.begins_with(access_str):
 						connections.erase(id)
-						mutex.unlock()
 						any_change_done = true
 				
 				for id in intermediate_connectors.keys():
-					if id.begins_with("{0}_{1}".format([geo_line.get_id(), vert_id])):
-						mutex.lock()
+					if id.begins_with(access_str):
 						intermediate_connectors.erase(id)
-						mutex.unlock()
 						any_change_done = true
 			else:
 				# Decide whether to take intermediate connectors as there is a max length
@@ -110,8 +84,11 @@ func refine_load():
 				var distance = current_connector.position.distance_to(previous_connector.position)
 				var connector_scene = _get_scene_for_feature(geo_line, false)
 				var connection_scene = _get_scene_for_feature(geo_line, true)
-				var connection_max_length = connection_scene.instantiate().max_length
-			
+				# Sadly this is required for accessing member variable
+				var exemplary_connection = connection_scene.instantiate()
+				var connection_max_length = exemplary_connection.max_length
+				exemplary_connection.free()
+				
 				var num_connectors_between = int(distance / connection_max_length)
 				var make_intermediate_steps = connection_max_length > 0 and num_connectors_between >= 1
 				
@@ -139,26 +116,32 @@ func refine_load():
 						any_change_done = true
 				else:
 					if not connections.has(access_str):
-						mutex.lock()
-						connections[access_str] = explicit_connect(
+						var new_con = explicit_connect(
 							access_str,
 							previous_connector,
 							current_connector,
 							connection_scene,
 							[]
 						)
+						mutex.lock()
+						connections[access_str] = new_con
 						mutex.unlock()
 						any_change_done = true
 	
+	for access_str in connections.keys():
+		if not int(access_str.split("_")[0]) in instances:
+			connections.erase(access_str)
+			any_change_done = true
+	
 	if any_change_done:
 		call_deferred("apply_refined_data")
+	
+	mutex.unlock()
 
 
 func apply_refined_data():
 	for access_str in connections.keys():
-		if not int(access_str.split("_")[0]) in instances:
-			connections.erase(access_str)
-		elif not $Connections.has_node(access_str):
+		if not $Connections.has_node(access_str):
 			$Connections.add_child(connections[access_str])
 			if connections[access_str] is Node3D:
 				for connection in connections[access_str].get_children():
@@ -191,8 +174,14 @@ func explicit_connect(connection_name: String, previous_connector: Node3D,
 		var connection: AbstractConnection = connection_scene.instantiate()
 		var previous_dock: Node3D = previous_docks.get_node(String(dock.name))
 		
-		var p1: Vector3 = (current_connector.transform * current_docks.transform * dock.transform).origin
-		var p2: Vector3 = (previous_connector.transform * previous_docks.transform * previous_dock.transform).origin
+		var p1: Vector3 = (
+			current_connector.transform * 
+			current_docks.transform * 
+			dock.transform).origin
+		var p2: Vector3 = (
+			previous_connector.transform * 
+			previous_docks.transform * 
+			previous_dock.transform).origin
 		
 		connection_cache = connection.find_connection_points(p1, p2, 0.0013, [])
 		current_connections.add_child(connection)
@@ -208,14 +197,28 @@ func inner_connect(feature_id: int, vertex_id: int, num_connectors_between: int,
 	for intermediate_id in range(num_connectors_between):
 		var access_string = "{0}_{1}_{2}".format([feature_id, vertex_id, intermediate_id])
 		intermediate_connector = intermediate_connectors.get(access_string)
+		
+		var new_con = explicit_connect(
+			access_string, 
+			previous_connector, 
+			intermediate_connector, 
+			connection_scene, [])
+		
 		mutex.lock()
-		connections[access_string] = explicit_connect(access_string, previous_connector, intermediate_connector, connection_scene, [])
+		connections[access_string] = new_con
 		mutex.unlock()
+		
 		previous_connector = intermediate_connector
-
+	
+	var access_string = "{0}_{1}".format([feature_id, vertex_id])
+	var new_con = explicit_connect(
+		access_string, 
+		previous_connector, 
+		intermediate_connector, 
+		connection_scene, [])
+	
 	mutex.lock()
-	var access_str = "{0}_{1}".format([feature_id, vertex_id])
-	connections[access_str] = explicit_connect(access_str, intermediate_connector, current_connector, connection_scene, [])
+	connections[access_string] = new_con
 	mutex.unlock()
 
 
@@ -253,15 +256,15 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 	for index in range(engine_line.get_point_count()):
 		# Obtain current point and its height 
 		var current_point = engine_line.get_point_position(index)
-		current_point.y = _get_height_at_ground(current_point)
-		
+		current_point.y = object_packed_scene.instantiate()
+
 		# Try to obtain the next point on the line
 		if index+1 < engine_line.get_point_count():
 			next_point = engine_line.get_point_position(index + 1)
 			next_point.y = _get_height_at_ground(next_point)
-		
+
 		# Create a specified connector-object or use fallback
-		var current_object: Node3D = object_packed_scene.instantiate()
+		var current_object: Node3D = _get_scene_for_feature(geo_line)
 		current_object.name = str(index)
 		
 		#
@@ -271,11 +274,11 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 		# 2. x_i; i > 0 & i < n; previous and next point exist
 		# 3. Last point, only previous point exists
 		# 
-		
+
 		# Case 1 or 2 
 		if previous_point != Vector3.INF:
 			try_look_at_from_pos(current_object, current_point, previous_point)
-			
+
 			# Case 2 
 			if index+1 < engine_line.get_point_count():
 				# Find the angle between (p_before - p_now) and (p_now - p_next)
@@ -284,15 +287,15 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 				var angle = v1.signed_angle_to(v2, Vector3.UP)
 				# add this angle so its actually the mean between before and next
 				current_object.rotation.y += angle / 2
-			
+
 		# Case 3
 		elif index+1 < engine_line.get_point_count():
 			try_look_at_from_pos(current_object, current_point, next_point)
-		
+
 		# Only y rotation is relevant
 		current_object.rotation.x = 0
 		current_object.rotation.z = 0
-		
+
 		previous_point = current_point
 		
 		line_root.add_child(current_object)
@@ -300,7 +303,7 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 	return line_root
 
 
-func _get_scene_for_feature(geo_line: GeoFeature, is_connection: bool = false) -> PackedScene:
+func _get_scene_for_feature(geo_line: GeoFeature, is_connection: bool = false):
 	# Get the specifying attribute or null (=> fallbacks)
 	var attribute_name = layer_composition.render_info.selector_attribute_name
 	var selector_attribute = null
@@ -322,6 +325,8 @@ func _get_height_at_ground(query_position: Vector3) -> float:
 		center[0] + query_position.x, center[1] - query_position.z)
 
 
+# FIXME: Is this still necessary? Error came from: 
+# https://github.com/godotengine/godot/blob/4.0.1-stable/scene/resources/curve.cpp#L1784
 # avoid "look_at_from_position: Node origin and target are in the same position, look_at() failed."
 func try_look_at_from_pos(object: Node3D, from: Vector3, target: Vector3):
 	if not from.is_equal_approx(target) and not target.is_equal_approx(Vector3.ZERO):
