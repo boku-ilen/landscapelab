@@ -80,17 +80,7 @@ func remove_intermediate_connectors(feature_id: int, vertex_id: int):
 
 
 func refine_load():
-	var any_change_done := false 
-	
-	var get_nearest_vertex_instance = func(feature_id: int, vert_id: int, iterate_operation: Callable): 
-		var i = 0
-		while not instances[feature_id].has_node(str(vert_id)):
-			vert_id = iterate_operation.call(vert_id)
-			i += 1
-			if i > instances[feature_id].get_child_count():
-				return Node3D.new()
-		
-		return instances[feature_id].get_node(str(vert_id))
+	var any_change_done := false
 	
 	for geo_line in features:
 		# Skip index 0 because connecting requires two objects
