@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bl0ssjsx1qmfk"]
+[gd_scene load_steps=3 format=3 uid="uid://dwhnot0ti0cfa"]
 
 [ext_resource type="PackedScene" uid="uid://daq7rvn2ijcb8" path="res://Resources/Meshes/Power/HighVoltage.glb" id="1"]
 [ext_resource type="Script" path="res://Objects/Connection/Superclasses/Connector.gd" id="2_xviwf"]

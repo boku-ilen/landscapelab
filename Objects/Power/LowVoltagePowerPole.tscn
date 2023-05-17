@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://eiy01m3so13p"]
+[gd_scene load_steps=16 format=3 uid="uid://cflix0bug33ka"]
 
 [ext_resource type="Script" path="res://Objects/Connection/Superclasses/Connector.gd" id="1_4jrbn"]
 [ext_resource type="Material" uid="uid://bdvofpjc3sd3" path="res://Resources/Meshes/Power/Metal_Seamed.material" id="1_5wwsk"]
