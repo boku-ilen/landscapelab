@@ -16,13 +16,12 @@ albedo_texture = ExtResource("3")
 
 [node name="Catenary" type="Node3D"]
 script = ExtResource("1")
+load_radius = 800
 
-[node name="Node" type="Node" parent="."]
-
-[node name="Line" type="Path3D" parent="Node"]
+[node name="Line" type="Path3D" parent="."]
 curve = SubResource("3")
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Node/Line"]
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Line"]
 polygon = PackedVector2Array(0.025, 0, 0, 0.025, -0.025, 0, 0, -0.025)
 mode = 2
 path_node = NodePath("..")

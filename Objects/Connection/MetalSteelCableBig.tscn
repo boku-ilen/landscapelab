@@ -25,13 +25,12 @@ roughness_texture = ExtResource("5")
 
 [node name="Catenary" type="Node3D"]
 script = ExtResource("1")
+load_radius = 1200.0
 
-[node name="Node" type="Node" parent="."]
-
-[node name="Line" type="Path3D" parent="Node"]
+[node name="Line" type="Path3D" parent="."]
 curve = SubResource("3")
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Node/Line"]
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Line"]
 polygon = PackedVector2Array(0.04, 0, 0, 0.04, -0.04, 0, 0, -0.04)
 mode = 2
 path_node = NodePath("..")

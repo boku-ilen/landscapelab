@@ -1,5 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://dktgqed2ghifo"]
+[gd_scene load_steps=16 format=3 uid="uid://eiy01m3so13p"]
 
+[ext_resource type="Script" path="res://Objects/Connection/Superclasses/Connector.gd" id="1_4jrbn"]
 [ext_resource type="Material" uid="uid://bdvofpjc3sd3" path="res://Resources/Meshes/Power/Metal_Seamed.material" id="1_5wwsk"]
 [ext_resource type="Texture2D" uid="uid://drgyh0cidsgf8" path="res://Resources/Meshes/Power/Wood062_1K_Color.jpg" id="2_yqg8n"]
 
@@ -173,6 +174,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_24yig")
 
 [node name="LowVoltagePowerPole" type="Node3D"]
+script = ExtResource("1_4jrbn")
 
 [node name="Docks" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
