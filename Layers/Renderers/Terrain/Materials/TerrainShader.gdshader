@@ -46,9 +46,9 @@ varying vec3 world_pos;
 varying float world_distance;
 varying float camera_distance;
 
-uniform bool has_terrarforming_texture;
-uniform sampler2D terrarforming_texture: repeat_disable, filter_nearest;
-uniform sampler2D terrarforming_weights: repeat_disable, filter_nearest;
+uniform bool has_terraforming_texture;
+uniform sampler2D terraforming_texture: repeat_disable, filter_nearest;
+uniform sampler2D terraforming_weights: repeat_disable, filter_nearest;
 
 // Workaround for a bug in `texelFetch` - use this instead!
 // More info at https://github.com/godotengine/godot/issues/31732
@@ -60,8 +60,8 @@ vec4 texelGet ( sampler2D tg_tex, ivec2 tg_coord, int tg_lod ) {
 
 float get_height(vec2 uv) {
 	float height = texture(heightmap, uv).r * height_scale;
-	float correction = texture(terrarforming_texture, uv).r;
-	float weight = texture(terrarforming_weights, uv).r * float(has_terrarforming_texture);
+	float correction = texture(terraforming_texture, uv).r;
+	float weight = texture(terraforming_weights, uv).r * float(has_terraforming_texture);
 	height = mix(height, correction, weight);
 	
 	// Clamp to prevent weird behavior with extreme nodata values

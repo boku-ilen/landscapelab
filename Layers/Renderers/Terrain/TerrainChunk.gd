@@ -51,7 +51,7 @@ var changed = false
 signal updated_data
 
 
-var terrarforming_texture: TerraformingTexture
+var terraforming_texture: TerraformingTexture
 
 
 func _ready():
@@ -64,8 +64,8 @@ func rebuild_aabb():
 
 
 func build(center_x, center_y):
-	# Create a new TerrarformingTexture for this chunk
-	terrarforming_texture = TerraformingTexture.new(201)
+	# Create a new TerraformingTexture for this chunk
+	terraforming_texture = TerraformingTexture.new(201)
 	
 	var top_left_x = float(center_x - size / 2)
 	var top_left_y = float(center_y + size / 2)
@@ -210,7 +210,7 @@ func apply_textures():
 	changed = false
 
 
-func apply_terrarforming_texture() -> void:
-	material_override.set_shader_parameter("has_terrarforming_texture", true)
-	material_override.set_shader_parameter("terrarforming_texture", terrarforming_texture.texture)
-	material_override.set_shader_parameter("terrarforming_weights", terrarforming_texture.weights)
+func apply_terraforming_texture() -> void:
+	material_override.set_shader_parameter("has_terraforming_texture", true)
+	material_override.set_shader_parameter("terraforming_texture", terraforming_texture.texture)
+	material_override.set_shader_parameter("terraforming_weights", terraforming_texture.weights)

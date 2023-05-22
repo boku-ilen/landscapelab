@@ -45,10 +45,10 @@ func load_data() -> void:
 	
 	tic = Time.get_ticks_msec()
 	_create_roads(road_features)
-	# Set the new terrarforming textures in the chunk
+	# Set the new terraforming textures in the chunk
 	for chunk in chunks:
-		chunk.terrarforming_texture.update_texture()
-		chunk.apply_terrarforming_texture()
+		chunk.terraforming_texture.update_texture()
+		chunk.apply_terraforming_texture()
 	
 	toc = Time.get_ticks_msec()
 	print("Create Roads Time: %s" %[toc - tic])
@@ -299,9 +299,9 @@ func _set_terraforming_height(point: Vector3, road_width: float) -> void:
 	for i in range(required_points):
 		var offset: int = i - floori(required_points / 2.0)
 		
-		chunk.terrarforming_texture.set_pixel(
+		chunk.terraforming_texture.set_pixel(
 			_image_xy_to_index(image_x + offset, image_y, image_size), point.y, 1.0)
-		chunk.terrarforming_texture.set_pixel(
+		chunk.terraforming_texture.set_pixel(
 			_image_xy_to_index(image_x, image_y + offset, image_size), point.y, 1.0)
 	
 	var required_points_offset = floori(required_points / 2.0)
@@ -309,14 +309,14 @@ func _set_terraforming_height(point: Vector3, road_width: float) -> void:
 		var weight = 1.0 - float(i + 1) / float(TERRAFORMING_FALLOFF + 1)
 		# X-Axis left
 		var new_x_left = _image_xy_to_index(image_x - (required_points_offset + i + 1), image_y, image_size)
-		chunk.terrarforming_texture.set_pixel(new_x_left, point.y, weight)
+		chunk.terraforming_texture.set_pixel(new_x_left, point.y, weight)
 		# X-Axis right
 		var new_x_right = _image_xy_to_index(image_x + (required_points_offset + i + 1), image_y, image_size)
-		chunk.terrarforming_texture.set_pixel(new_x_right, point.y, weight)
+		chunk.terraforming_texture.set_pixel(new_x_right, point.y, weight)
 		# Z-Axis up
 		var new_z_up = _image_xy_to_index(image_x, image_y - (required_points_offset + i + 1), image_size)
-		chunk.terrarforming_texture.set_pixel(new_z_up, point.y, weight)
+		chunk.terraforming_texture.set_pixel(new_z_up, point.y, weight)
 		# Z-Axis down
 		var new_z_down = _image_xy_to_index(image_x, image_y + (required_points_offset + i + 1), image_size)
-		chunk.terrarforming_texture.set_pixel(new_z_down, point.y, weight)
+		chunk.terraforming_texture.set_pixel(new_z_down, point.y, weight)
 
