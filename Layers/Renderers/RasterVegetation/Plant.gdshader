@@ -127,7 +127,7 @@ void fragment() {
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
-	BACKLIGHT = vec3(1.0, 1.0, 1.0) * min(color.g * 5.0, 5.0);
+	BACKLIGHT = vec3(1.0) * min(color.g * 2.0, 1.0);
 	
 	// Make the plant darker at the bottom to simulate some shadowing
 	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)

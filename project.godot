@@ -21,7 +21,6 @@ config/icon="res://Resources/Icons/Meta/icon.png"
 
 Settings="*res://Config/Settings.gd"
 CommunicationServer="*res://Communication/CommunicationServer.gd"
-ThreadPool="*res://Global/ThreadPool/ThreadPool.gd"
 RenderStyle="*res://Global/RenderStyle.gd"
 Layers="*res://Layers/Singletons/Layers.gd"
 Scenarios="*res://Scenarios/Singletons/Scenarios.gd"

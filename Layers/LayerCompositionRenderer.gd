@@ -1,6 +1,7 @@
 extends Node3D
 class_name LayerCompositionRenderer
 
+@export var load_data_threaded = true 
 
 # Dependency comes from the LayerRenderers-Node which should always be above in the tree
 var layer_composition: LayerComposition

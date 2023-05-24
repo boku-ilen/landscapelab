@@ -82,7 +82,7 @@ void process() {
 	// The row in the spritesheets which corresponds to this splatmap ID
 	float row = id_to_row[splatmap_value];
 	
-	ACTIVE = !(abs(row + 1.0) < 0.0001);
+	ACTIVE = !(abs(row + 1.0) < 0.1);
 	
 	// Using the row, we can get the ID (the column) of the plant which should be here
 	ivec2 dist_pos = ivec2(int(pos.x * dist_scale) % DISTRIBUTION_RESOLUTION,
@@ -95,5 +95,5 @@ void process() {
 	
 	CUSTOM.r = size_scale; // To be multiplied by the maximum size before use!
 	CUSTOM.g = dist_id; // To be multiplied by 255.0 before use!
-	CUSTOM.b = row; // To be multiplied by 255.0 before use!
+	CUSTOM.b = row / 255.0; // To be multiplied by 255.0 before use!
 }

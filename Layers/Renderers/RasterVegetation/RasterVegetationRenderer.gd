@@ -60,9 +60,7 @@ func adapt_load(_diff: Vector3):
 		renderer.texture_update(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
 				world_position[0], world_position[1], uv_offset_x, uv_offset_y)
 
-	call_deferred("apply_new_data")
-	
-	needs_to_refine = true
+	call_deferred("apply_textures")
 
 
 func refine_load():
@@ -111,11 +109,20 @@ func _process(delta):
 		renderer.restart()
 
 
+func apply_textures():
+	for renderer in renderers.get_children():
+		renderer.apply_textures()
+	
+	needs_to_refine = true
+	
+	logger.info("Applied new RasterVegetationRenderer textures for %s" % [name])
+
+
 func apply_new_data():
 	for renderer in renderers.get_children():
 		renderer.apply_data()
 	
-	logger.info("Applied new RasterVegetationRenderer data for %s" % [name])
+	logger.info("Applied full new RasterVegetationRenderer data for %s" % [name])
 
 
 func get_debug_info() -> String:
