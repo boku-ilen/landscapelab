@@ -25,6 +25,7 @@ var max_connections = 100
 var intermediate_connectors := {}
 var connections := {}
 
+var connection_mutex = Mutex.new()
 var loaded_connection_scenes := {}
 var loaded_connector_scenes := {}
 
@@ -56,29 +57,34 @@ func load_scenes():
 
 
 func refine_load():
-	mutex.lock()
-	
 	var any_change_done := false
-	
+
 	for geo_line in features:
+		var engine_line = instances[geo_line.get_id()]
 		# Skip index 0 because connecting requires two objects
 		for vert_id in range(1, geo_line.get_curve3d().get_point_count()):
-			var current_connector = instances[geo_line.get_id()].get_node(str(vert_id)).duplicate()
-			var previous_connector = instances[geo_line.get_id()].get_node(str(vert_id - 1)).duplicate()
-			
+			var current_connector = engine_line.get_node(str(vert_id))
+			var previous_connector = engine_line.get_node(str(vert_id - 1))
+
 			var access_str = "{0}_{1}".format([geo_line.get_id(), vert_id])
-			
+
 			if connection_radius < distance_to_center(current_connector.position):
+				connection_mutex.lock()
 				for id in connections.keys():
 					if id.begins_with(access_str):
 						connections.erase(id)
 						any_change_done = true
-				
+
 				for id in intermediate_connectors.keys():
 					if id.begins_with(access_str):
 						intermediate_connectors.erase(id)
 						any_change_done = true
+				connection_mutex.unlock()
 			else:
+				if intermediate_connectors.has(access_str) \
+					and connections.has(access_str):
+						continue
+
 				# Decide whether to take intermediate connectors as there is a max length
 				# (e.g. for fences)
 				var distance = current_connector.position.distance_to(previous_connector.position)
@@ -87,11 +93,10 @@ func refine_load():
 				# Sadly this is required for accessing member variable
 				var exemplary_connection = connection_scene.instantiate()
 				var connection_max_length = exemplary_connection.max_length
-				exemplary_connection.free()
-				
+
 				var num_connectors_between = int(distance / connection_max_length)
 				var make_intermediate_steps = connection_max_length > 0 and num_connectors_between >= 1
-				
+
 				if make_intermediate_steps:
 					if not intermediate_connectors.has(access_str):
 						add_intermediate_connectors(
@@ -114,7 +119,8 @@ func refine_load():
 							connection_scene
 						)
 						any_change_done = true
-				else:
+				else: 
+					connection_mutex.lock()
 					if not connections.has(access_str):
 						var new_con = explicit_connect(
 							access_str,
@@ -123,38 +129,40 @@ func refine_load():
 							connection_scene,
 							[]
 						)
-						mutex.lock()
+
 						connections[access_str] = new_con
-						mutex.unlock()
 						any_change_done = true
-	
+					connection_mutex.unlock()
+
+	connection_mutex.lock()
 	for access_str in connections.keys():
 		if not int(access_str.split("_")[0]) in instances:
 			connections.erase(access_str)
 			any_change_done = true
-	
+	connection_mutex.unlock()
+
 	if any_change_done:
 		call_deferred("apply_refined_data")
-	
-	mutex.unlock()
 
 
 func apply_refined_data():
+	connection_mutex.lock()
 	for access_str in connections.keys():
 		if not $Connections.has_node(access_str):
 			$Connections.add_child(connections[access_str])
 			if connections[access_str] is Node3D:
 				for connection in connections[access_str].get_children():
 					connection.apply_connection()
-	
+
 	for child in $Connections.get_children():
-		if child.name not in connections.keys():
+		if not connections.has(child.name):
 			child.queue_free()
-	
+	connection_mutex.unlock()
+
 	for access_str in intermediate_connectors.keys():
 		if not has_node(access_str):
 			add_child(intermediate_connectors[access_str])
-	
+
 	for child in get_children():
 		if child.name.count("_") < 2: continue
 		if not intermediate_connectors.has(child.name):
@@ -256,7 +264,7 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 	for index in range(engine_line.get_point_count()):
 		# Obtain current point and its height 
 		var current_point = engine_line.get_point_position(index)
-		current_point.y = object_packed_scene.instantiate()
+		current_point.y = _get_height_at_ground(current_point)
 
 		# Try to obtain the next point on the line
 		if index+1 < engine_line.get_point_count():
@@ -264,7 +272,7 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 			next_point.y = _get_height_at_ground(next_point)
 
 		# Create a specified connector-object or use fallback
-		var current_object: Node3D = _get_scene_for_feature(geo_line)
+		var current_object: Node3D = object_packed_scene.instantiate()
 		current_object.name = str(index)
 		
 		#
