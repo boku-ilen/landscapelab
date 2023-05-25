@@ -1,5 +1,5 @@
-extends Node3D
-class_name PathRenderer
+extends LayerCompositionRenderer
+class_name RoadNetworkRenderer
 
 var road_layer: GeoFeatureLayer
 var intersection_layer: GeoFeatureLayer
@@ -10,7 +10,6 @@ var step_size = chunk_size / (200.0)
 
 var render_3d = false;
 
-var center = [0,0]
 var radius: float = 500.0
 var max_features = 1000
 
@@ -28,6 +27,29 @@ var intersections_to_delete = {}
 
 var chunk_dict = {}
 const TERRAFORMING_FALLOFF = 3
+
+
+func _ready():
+	super._ready()
+	
+	road_layer = layer_composition.render_info.road_roads
+	intersection_layer = layer_composition.render_info.road_intersections
+
+
+func is_new_loading_required(position_diff: Vector3) -> bool:
+	if Vector2(position_diff.x, position_diff.z).length_squared() >= pow(radius / 4.0, 2):
+		return true
+	
+	return false
+
+
+func full_load():
+	load_data()
+
+
+func adapt_load(diff):
+	call_deferred("load_data")
+
 
 func load_data() -> void:
 	$MouseInfo/RoadInfo.hide()

@@ -31,7 +31,7 @@ const RENDER_INFOS := {
 	"Wind Turbine": WindTurbineRenderInfo,
 	"Polygon": PolygonObjectInfo,
 	"Building": BuildingRenderInfo,
-	#"Path": PathRenderInfo,
+	"Road Network": RoadNetworkRenderInfo,
 	"Connected Object": ConnectedObjectInfo,
 	"Polygon Object": PolygonObjectInfo
 }
@@ -103,24 +103,41 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	var surface_height_layer: GeoRasterLayer
 	var texture_layer: GeoRasterLayer
 	var landuse_layer: GeoRasterLayer
-	var road_roads: GeoFeatureLayer
-	var road_intersections: GeoFeatureLayer
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Terrain/RealisticTerrainRenderer.tscn")
-		icon = preload("res://Resources/Icons/ModernLandscapeLab/raster.svg")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 	
 	func get_geolayers():
-		return [height_layer, surface_height_layer, texture_layer, landuse_layer, road_roads, road_intersections]
+		return [height_layer, surface_height_layer, texture_layer, landuse_layer]
 	
 	func get_described_geolayers() -> Dictionary:
 		return {"Height": height_layer, "Surface height": surface_height_layer,
-				"Texture": texture_layer, "Landuse": landuse_layer, "road_roads": road_roads, "road_intersections": road_intersections}
+				"Texture": texture_layer, "Landuse": landuse_layer}
 	
 	func is_valid():
 		return height_layer and surface_height_layer and texture_layer and landuse_layer
 	
 	func get_class_name() -> String: return "Realistic Terrain"
+
+class RoadNetworkRenderInfo extends RenderInfo:
+	var road_roads: GeoFeatureLayer
+	var road_intersections: GeoFeatureLayer
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/Path/RoadNetworkRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/raster.svg")
+	
+	func get_geolayers():
+		return [road_roads, road_intersections]
+	
+	func get_described_geolayers() -> Dictionary:
+		return {"road_roads": road_roads, "road_intersections": road_intersections}
+	
+	func is_valid():
+		return road_roads and road_intersections
+	
+	func get_class_name() -> String: return "RoadNetwork"
 
 class VegetationRenderInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
