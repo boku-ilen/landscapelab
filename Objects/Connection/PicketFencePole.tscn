@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://brcas5pc682wd"]
+[gd_scene load_steps=9 format=3 uid="uid://brcas5pc682wd"]
 
-[ext_resource type="Texture2D" uid="uid://btgp1urqyvctn" path="res://Resources/Textures/wood/PlankIndividual.png" id="1_5yaiu"]
+[ext_resource type="Script" path="res://Objects/Connection/Superclasses/Connector.gd" id="1_eiu18"]
+[ext_resource type="Texture2D" uid="uid://drgyh0cidsgf8" path="res://Resources/Meshes/Power/Wood062_1K_Color.jpg" id="1_sstth"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l2gho"]
 shading_mode = 2
 specular_mode = 2
-albedo_texture = ExtResource("1_5yaiu")
+albedo_texture = ExtResource("1_sstth")
 metallic = 0.1
 roughness = 0.7
 
@@ -15,7 +16,7 @@ size = Vector3(0.2, 3.4, 0.2)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyp1d"]
 shading_mode = 2
 specular_mode = 2
-albedo_texture = ExtResource("1_5yaiu")
+albedo_texture = ExtResource("1_sstth")
 metallic = 0.1
 roughness = 0.7
 
@@ -26,7 +27,7 @@ outer_radius = 0.2
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3v5p"]
 shading_mode = 2
 specular_mode = 2
-albedo_texture = ExtResource("1_5yaiu")
+albedo_texture = ExtResource("1_sstth")
 metallic = 0.1
 roughness = 0.7
 
@@ -37,6 +38,8 @@ bottom_radius = 0.1
 height = 0.3
 
 [node name="PicketFencePole" type="Node3D"]
+script = ExtResource("1_eiu18")
+load_radius = 100.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

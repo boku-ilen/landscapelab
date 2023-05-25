@@ -1,16 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://dmh04ek4yrh7g"]
+[gd_scene load_steps=7 format=3 uid="uid://cqg7qxywla58k"]
 
 [ext_resource type="Script" path="res://Objects/Connection/Superclasses/Straight.gd" id="1_eyjdg"]
+[ext_resource type="Shader" path="res://Objects/Connection/Shaders/UVRemapPaths.gdshader" id="2_6ipjv"]
+[ext_resource type="Texture2D" uid="uid://bccbtemfjo6x4" path="res://Resources/Textures/Debug.jpeg" id="3_oxtx3"]
 
 [sub_resource type="Curve3D" id="Curve3D_d0uss"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -10, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 21.4809, 3.29974, 9.17376, 0, 0, 0, 0, 0, 0, 14.6685, 5.26743, 21.7545),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -10, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 45.171, 3.03514, 10.0409, 0, 0, 0, 0, 0, 0, 14.6685, 5.26743, 21.7545),
 "tilts": PackedFloat32Array(0, 0, 0, 0)
 }
 point_count = 4
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2p7gp"]
-albedo_color = Color(1, 1, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_crk5h"]
+albedo_texture = ExtResource("3_oxtx3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eunpg"]
+render_priority = 0
+shader = ExtResource("2_6ipjv")
+shader_parameter/tex = ExtResource("3_oxtx3")
 
 [node name="DebugCon" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
@@ -21,9 +28,25 @@ load_radius = 120.0
 [node name="Line" type="Path3D" parent="."]
 curve = SubResource("Curve3D_d0uss")
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Line"]
-material_override = SubResource("StandardMaterial3D_2p7gp")
-polygon = PackedVector2Array(-1, 0, 1, 0, -1, 0, 1, 0)
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+material_override = SubResource("StandardMaterial3D_crk5h")
+polygon = PackedVector2Array(1, 5, 1, 0, -1, 0, -1, 5)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 1
+path_local = true
+path_continuous_u = true
+path_u_distance = 5.0
+path_joined = false
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+material_override = SubResource("ShaderMaterial_eunpg")
+polygon = PackedVector2Array(1, 5, 1, 0, -1, 0, -1, 5)
 mode = 2
 path_node = NodePath("..")
 path_interval_type = 0
