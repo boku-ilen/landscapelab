@@ -29,15 +29,17 @@ var number_of_lanes: int = 2
 
 var speed_forward: float = 0.0
 var speed_backwards: float = 0.0
-var lanes_forward: int = 0.0
-var lanes_backwards: int = 0.0
+var lanes_forward: int = 0
+var lanes_backwards: int = 0
 
 var custom_number_of_lanes: int = 0
 
 
 func update_road_lane() -> void:
 	super.update_road_lane()
-	$RoadLanePolygon.material.set_shader_parameter("lanes", number_of_lanes + custom_number_of_lanes)
+	
+	var lane_number = max(lanes_forward, 0) + max(lanes_backwards, 0)
+	$RoadLanePolygon.material.set_shader_parameter("lanes", lane_number)
 
 
 func reset_custom_values() -> void:
