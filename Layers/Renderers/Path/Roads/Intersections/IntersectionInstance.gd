@@ -176,6 +176,8 @@ func _set_road_point(road: RoadInstance, intersection_id: int, point: Vector3) -
 
 
 func _remove_road_point(road: RoadInstance, intersection_id: int, offset: int) -> void:
+	# FIXME: Seems like this is called too often, returning early fixes gaps at intersections
+	return
 	if road.from_intersection == intersection_id:
 		road.road_curve.remove_point(offset)
 	else:
