@@ -8,4 +8,5 @@
 script = ExtResource("1_rwxlc")
 
 [node name="RoadLanePolygon" parent="." index="0"]
+layers = 64
 material = ExtResource("2_afqel")

@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode unshaded;
 
 #include "res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.gdshaderinc"
 

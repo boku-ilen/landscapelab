@@ -8,6 +8,8 @@ var chunks = []
 var chunk_size = 1000.0
 var step_size = chunk_size / (200.0)
 
+var render_3d = false;
+
 var center = [0,0]
 var radius: float = 500.0
 var max_features = 1000
@@ -36,7 +38,7 @@ func load_data() -> void:
 	_create_heightmap_dictionary()
 	
 	# Get road data from db
-	var player_position = [int(center[0] + $"..".position_manager.center_node.position.x), int(center[1] - $"..".position_manager.center_node.position.z)]
+	var player_position = [int(center[0] + get_parent().position_manager.center_node.position.x), int(center[1] - get_parent().position_manager.center_node.position.z)]
 	var road_features = road_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
 	var intersection_features = intersection_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
 	
@@ -45,10 +47,12 @@ func load_data() -> void:
 	
 	tic = Time.get_ticks_msec()
 	_create_roads(road_features)
-	# Set the new terraforming textures in the chunk
-	for chunk in chunks:
-		chunk.terraforming_texture.update_texture()
-		chunk.apply_terraforming_texture()
+	
+	if render_3d:
+		# Set the new terraforming textures in the chunk
+		for chunk in chunks:
+			chunk.terraforming_texture.update_texture()
+			chunk.apply_terraforming_texture()
 	
 	toc = Time.get_ticks_msec()
 	print("Create Roads Time: %s" %[toc - tic])
@@ -96,75 +100,75 @@ func _create_roads(road_features) -> void:
 		# Get road data
 		var road_width = float(road_feature.get_attribute("width"))
 		
-		
-		#############################
-		# SET INITIAL POINT HEIGHTS #
-		#############################
-		var point_count = road_curve.get_point_count()
-		for index in range(point_count):
-			# Make sure all roads are facing up
-			#road_curve.set_point_tilt(index, 0)
+		if render_3d:
+			#############################
+			# SET INITIAL POINT HEIGHTS #
+			#############################
+			var point_count = road_curve.get_point_count()
+			for index in range(point_count):
+				# Make sure all roads are facing up
+				#road_curve.set_point_tilt(index, 0)
 
-			var point = road_curve.get_point_position(index)
-			point = get_triangular_interpolation_point(point, step_size)
-			road_curve.set_point_position(index, point)
-			_set_terraforming_height(point, road_width)
-		
-		#####################################################
-		# REFINE ROAD BY ADDING MESH TRIANGLE INTERSECTIONS #
-		#####################################################
-		var current_point_index: int = 0
-		
-		# GO THROUGH EACH CURVE EDGE
-		for index in range(point_count - 1):
-			var current_point: Vector3 = road_curve.get_point_position(current_point_index)
-			var next_point: Vector3 = road_curve.get_point_position(current_point_index + 1)
+				var point = road_curve.get_point_position(index)
+				point = get_triangular_interpolation_point(point, step_size)
+				road_curve.set_point_position(index, point)
+				_set_terraforming_height(point, road_width)
 			
-			var x_quad_point = null
-			var z_quad_point = null
+			#####################################################
+			# REFINE ROAD BY ADDING MESH TRIANGLE INTERSECTIONS #
+			#####################################################
+			var current_point_index: int = 0
 			
-			while true:
-				# INTERSECTION WITH DIAGONAL
-				var intersection_point = QuadUtil.get_diagonal_intersection(current_point, next_point, step_size)
-				if intersection_point != null:
-					intersection_point.y = _get_height(intersection_point)
+			# GO THROUGH EACH CURVE EDGE
+			for index in range(point_count - 1):
+				var current_point: Vector3 = road_curve.get_point_position(current_point_index)
+				var next_point: Vector3 = road_curve.get_point_position(current_point_index + 1)
+				
+				var x_quad_point = null
+				var z_quad_point = null
+				
+				while true:
+					# INTERSECTION WITH DIAGONAL
+					var intersection_point = QuadUtil.get_diagonal_intersection(current_point, next_point, step_size)
+					if intersection_point != null:
+						intersection_point.y = _get_height(intersection_point)
+						
+						# Add intersection to curve
+						road_curve.add_point(intersection_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
+						_set_terraforming_height(intersection_point, road_width)
+						current_point_index += 1
 					
-					# Add intersection to curve
-					road_curve.add_point(intersection_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
-					_set_terraforming_height(intersection_point, road_width)
+					# INTERSECTION WITH GRID AXES
+					# Only calculate grid point if we don't have one from last calculation
+					if x_quad_point == null:
+						x_quad_point = QuadUtil.get_horizontal_intersection(current_point, next_point, step_size)
+					
+					# Same for z
+					if z_quad_point == null:
+						z_quad_point = QuadUtil.get_vertical_intersection(current_point, next_point, step_size)
+					
+					# If no grid points, done with this curve edge
+					if x_quad_point == null && z_quad_point == null:
+						# Move to next points
+						current_point_index += 1
+						break
+					
+					# Add closest one
+					if z_quad_point == null || (x_quad_point != null && current_point.distance_squared_to(x_quad_point) <= current_point.distance_squared_to(z_quad_point)):
+						x_quad_point.y = _get_height(x_quad_point)
+						road_curve.add_point(x_quad_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
+						_set_terraforming_height(x_quad_point, road_width)
+						current_point = x_quad_point
+						x_quad_point = null
+					else:
+						z_quad_point.y = _get_height(z_quad_point)
+						road_curve.add_point(z_quad_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
+						_set_terraforming_height(z_quad_point, road_width)
+						current_point = z_quad_point
+						z_quad_point = null
+					
+					# Move to newly added point and start from there again
 					current_point_index += 1
-				
-				# INTERSECTION WITH GRID AXES
-				# Only calculate grid point if we don't have one from last calculation
-				if x_quad_point == null:
-					x_quad_point = QuadUtil.get_horizontal_intersection(current_point, next_point, step_size)
-				
-				# Same for z
-				if z_quad_point == null:
-					z_quad_point = QuadUtil.get_vertical_intersection(current_point, next_point, step_size)
-				
-				# If no grid points, done with this curve edge
-				if x_quad_point == null && z_quad_point == null:
-					# Move to next points
-					current_point_index += 1
-					break
-				
-				# Add closest one
-				if z_quad_point == null || (x_quad_point != null && current_point.distance_squared_to(x_quad_point) <= current_point.distance_squared_to(z_quad_point)):
-					x_quad_point.y = _get_height(x_quad_point)
-					road_curve.add_point(x_quad_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
-					_set_terraforming_height(x_quad_point, road_width)
-					current_point = x_quad_point
-					x_quad_point = null
-				else:
-					z_quad_point.y = _get_height(z_quad_point)
-					road_curve.add_point(z_quad_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
-					_set_terraforming_height(z_quad_point, road_width)
-					current_point = z_quad_point
-					z_quad_point = null
-				
-				# Move to newly added point and start from there again
-				current_point_index += 1
 				
 		road_instance.road_curve = road_curve
 		roads[road_id] = road_instance
@@ -254,10 +258,7 @@ func _get_height(point: Vector3) -> float:
 	var image_x = floori(((corrected_pos_x + chunk_size / 2.0) / chunk_size) * image_size)
 	var image_y = floori(((corrected_pos_z + chunk_size / 2.0) / chunk_size) * image_size)
 	
-	image_x = clamp(image_x, 0, image_size - 1)
-	image_y = clamp(image_y, 0, image_size - 1)
-	
-	var image_position: int = (image_y * image_size + image_x)
+	var image_position := _image_xy_to_index(image_x, image_y, image_size)
 	
 	# Read bytes from image
 	var value: float = data.decode_float(image_position * 4)
@@ -286,10 +287,7 @@ func _set_terraforming_height(point: Vector3, road_width: float) -> void:
 	var image_x = floori(((corrected_pos_x + chunk_size / 2.0) / chunk_size) * image_size)
 	var image_y = floori(((corrected_pos_z + chunk_size / 2.0) / chunk_size) * image_size)
 	
-	image_x = clamp(image_x, 0, image_size - 1)
-	image_y = clamp(image_y, 0, image_size - 1)
-	
-	var image_position: int = (image_y * image_size + image_x)
+	var image_position := _image_xy_to_index(image_x, image_y, image_size)
 	
 	var required_points = ceili(road_width / step_size) + 2
 	# Make sure the number is odd to avoid artifacts due to uneven extends to left and right

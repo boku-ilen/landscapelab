@@ -6,4 +6,5 @@
 [node name="RoadLaneBike" instance=ExtResource("1_87pua")]
 
 [node name="RoadLanePolygon" parent="." index="0"]
+layers = 64
 material = ExtResource("2_uwdp7")

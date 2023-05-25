@@ -158,6 +158,15 @@ func apply_new_data():
 	logger.info("Applied new RealisticTerrainRenderer data for %s" % [name])
 
 
+func _process(delta):
+	super._process(delta)
+	
+	$RoadDecal.update(position_manager.center_node.position)
+	$RoadDecal2.update(position_manager.center_node.position)
+	$RoadDecal3.update(position_manager.center_node.position)
+	$RoadDecal4.update(position_manager.center_node.position)
+
+
 func get_debug_info() -> String:
 	return "{0} chunks with a maximum size of {1} m.".format([
 		chunks.size(),

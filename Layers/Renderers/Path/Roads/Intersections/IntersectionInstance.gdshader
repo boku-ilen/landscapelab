@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode unshaded;
 
 uniform sampler2D intersection_texture: source_color;
 uniform float world_uv_scaling = 0.35;

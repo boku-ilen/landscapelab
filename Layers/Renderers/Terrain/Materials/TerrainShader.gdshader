@@ -4,7 +4,7 @@ shader_type spatial;
 
 // Basic Terrain
 uniform sampler2D orthophoto: source_color, repeat_disable;
-uniform sampler2D heightmap: repeat_disable, filter_nearest;
+uniform sampler2D heightmap: repeat_disable;
 uniform sampler2D normalmap: hint_normal, repeat_disable;
 uniform float height_scale = 1.0;
 uniform bool has_hole = false;
@@ -60,9 +60,9 @@ vec4 texelGet ( sampler2D tg_tex, ivec2 tg_coord, int tg_lod ) {
 
 float get_height(vec2 uv) {
 	float height = texture(heightmap, uv).r * height_scale;
-	float correction = texture(terraforming_texture, uv).r;
-	float weight = texture(terraforming_weights, uv).r * float(has_terraforming_texture);
-	height = mix(height, correction, weight);
+//	float correction = texture(terraforming_texture, uv).r;
+//	float weight = texture(terraforming_weights, uv).r * float(has_terraforming_texture);
+//	height = mix(height, correction, weight);
 	
 	// Clamp to prevent weird behavior with extreme nodata values
 	// TODO: Might have to be generalized further to be more robust
@@ -109,8 +109,6 @@ void vertex() {
 	
 	camera_pos = INV_VIEW_MATRIX[3].xyz;
 	camera_distance = length(world_pos - camera_pos);
-	
-	NORMAL = get_normal(UV);
 	
 //	if (has_surface_heights) {
 //		float surface_height_factor = float(world_distance > surface_heights_start_distance);
@@ -163,6 +161,8 @@ vec3 get_distance_color(vec3 uv, vec3 ortho_color) {
 
 
 void fragment() {
+	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
+	
 	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.006).rg - 0.5) * (50.0 / size);
 	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
 	

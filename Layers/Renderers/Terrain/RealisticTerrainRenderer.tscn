@@ -1,7 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://o435max2sluq"]
+[gd_scene load_steps=8 format=3 uid="uid://cjpdf2amkpvmu"]
 
 [ext_resource type="PackedScene" uid="uid://c1nwm7ncmmgu5" path="res://Layers/Renderers/Path/RoadRenderer.tscn" id="2_v5t6w"]
+[ext_resource type="PackedScene" uid="uid://ipcavb714fhb" path="res://Layers/Renderers/Terrain/RoadDecal.tscn" id="3_u3l2r"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" id="4"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_kdk4v"]
+viewport_path = NodePath("RoadViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_of8co"]
+viewport_path = NodePath("RoadViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_mncjr"]
+viewport_path = NodePath("RoadViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fkndu"]
+viewport_path = NodePath("RoadViewport")
 
 [node name="RealisticTerrainRenderer" type="Node3D"]
 script = ExtResource("4")
@@ -9,3 +22,23 @@ script = ExtResource("4")
 [node name="Chunks" type="Node3D" parent="."]
 
 [node name="RoadRenderer" parent="." instance=ExtResource("2_v5t6w")]
+
+[node name="RoadDecal4" parent="." instance=ExtResource("3_u3l2r")]
+texture_albedo = SubResource("ViewportTexture_kdk4v")
+render_distance = 500.0
+
+[node name="RoadDecal3" parent="." instance=ExtResource("3_u3l2r")]
+sorting_offset = 100.0
+texture_albedo = SubResource("ViewportTexture_of8co")
+render_distance = 150.0
+
+[node name="RoadDecal2" parent="." instance=ExtResource("3_u3l2r")]
+sorting_offset = 200.0
+texture_albedo = SubResource("ViewportTexture_mncjr")
+render_distance = 40.0
+
+[node name="RoadDecal" parent="." instance=ExtResource("3_u3l2r")]
+sorting_offset = 300.0
+texture_albedo = SubResource("ViewportTexture_fkndu")
+emission_energy = 0.0
+render_distance = 10.0

@@ -50,12 +50,13 @@ func set_pixel(position: int, value: float, weight: float) -> void:
 	if position < 0 || position >= width * width:
 		return
 	
-	# Check if height should be overwritten
 	var old_height = _texture_data.decode_float(position * 4)
+	var old_weight = _weights_data.decode_float(position * 4)
+	
+	# Check if height should be overwritten
 	if old_height == 0.0 or old_height > value:
 		_texture_data.encode_float(position * 4, value)
 	
 	# Check if weight should be overwritten
-	var old_weight = _weights_data.decode_float(position * 4)
 	if old_weight == 0.0 or old_weight < weight:
 		_weights_data.encode_float(position * 4, weight)

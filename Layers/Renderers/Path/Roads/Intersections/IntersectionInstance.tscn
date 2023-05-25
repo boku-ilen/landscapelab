@@ -8,5 +8,6 @@ script = ExtResource("1_jwvhi")
 
 [node name="IntersectionPolygon" type="CSGPolygon3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+layers = 64
 depth = 0.2
 material = ExtResource("2_toliy")
