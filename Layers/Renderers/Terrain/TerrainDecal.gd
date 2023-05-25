@@ -14,6 +14,8 @@ func _ready():
 	upper_fade = 0.0
 	lower_fade = 0.0
 	
+	sorting_offset = -render_distance
+	
 	$RoadViewport/Camera3D.size = render_distance
 	$RoadViewport.size = Vector2i(resolution, resolution)
 

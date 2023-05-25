@@ -1,19 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://cjpdf2amkpvmu"]
+[gd_scene load_steps=8 format=3 uid="uid://c0j8e2n4jy6f6"]
 
 [ext_resource type="PackedScene" uid="uid://c1nwm7ncmmgu5" path="res://Layers/Renderers/Path/RoadRenderer.tscn" id="2_v5t6w"]
-[ext_resource type="PackedScene" uid="uid://ipcavb714fhb" path="res://Layers/Renderers/Terrain/RoadDecal.tscn" id="3_u3l2r"]
+[ext_resource type="PackedScene" uid="uid://bkcdk4xgbexwe" path="res://Layers/Renderers/Terrain/TerrainDecal.tscn" id="3_dxri0"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" id="4"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_kdk4v"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_gwmlq"]
 viewport_path = NodePath("RoadViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_of8co"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_60lco"]
 viewport_path = NodePath("RoadViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_mncjr"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_c8ygh"]
 viewport_path = NodePath("RoadViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_fkndu"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_eb5bb"]
 viewport_path = NodePath("RoadViewport")
 
 [node name="RealisticTerrainRenderer" type="Node3D"]
@@ -23,22 +23,20 @@ script = ExtResource("4")
 
 [node name="RoadRenderer" parent="." instance=ExtResource("2_v5t6w")]
 
-[node name="RoadDecal4" parent="." instance=ExtResource("3_u3l2r")]
-texture_albedo = SubResource("ViewportTexture_kdk4v")
-render_distance = 500.0
+[node name="Decals" type="Node3D" parent="."]
 
-[node name="RoadDecal3" parent="." instance=ExtResource("3_u3l2r")]
-sorting_offset = 100.0
-texture_albedo = SubResource("ViewportTexture_of8co")
-render_distance = 150.0
-
-[node name="RoadDecal2" parent="." instance=ExtResource("3_u3l2r")]
-sorting_offset = 200.0
-texture_albedo = SubResource("ViewportTexture_mncjr")
-render_distance = 40.0
-
-[node name="RoadDecal" parent="." instance=ExtResource("3_u3l2r")]
-sorting_offset = 300.0
-texture_albedo = SubResource("ViewportTexture_fkndu")
-emission_energy = 0.0
+[node name="TerrainDecalNear" parent="Decals" instance=ExtResource("3_dxri0")]
+texture_albedo = SubResource("ViewportTexture_gwmlq")
 render_distance = 10.0
+
+[node name="TerrainDecalMidNear" parent="Decals" instance=ExtResource("3_dxri0")]
+texture_albedo = SubResource("ViewportTexture_60lco")
+render_distance = 30.0
+
+[node name="TerrainDecalMidFar" parent="Decals" instance=ExtResource("3_dxri0")]
+texture_albedo = SubResource("ViewportTexture_c8ygh")
+render_distance = 120.0
+
+[node name="TerrainDecalFar" parent="Decals" instance=ExtResource("3_dxri0")]
+texture_albedo = SubResource("ViewportTexture_eb5bb")
+render_distance = 500.0

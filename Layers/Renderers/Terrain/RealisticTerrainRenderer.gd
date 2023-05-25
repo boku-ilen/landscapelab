@@ -161,10 +161,8 @@ func apply_new_data():
 func _process(delta):
 	super._process(delta)
 	
-	$RoadDecal.update(position_manager.center_node.position)
-	$RoadDecal2.update(position_manager.center_node.position)
-	$RoadDecal3.update(position_manager.center_node.position)
-	$RoadDecal4.update(position_manager.center_node.position)
+	for decal in $Decals.get_children():
+		decal.update(position_manager.center_node.position)
 
 
 func get_debug_info() -> String:
