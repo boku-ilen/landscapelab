@@ -20,12 +20,6 @@ var position_diff_z
 var height_layer: GeoRasterLayer
 var texture_layer: GeoRasterLayer
 
-# Data shading specific
-var is_color_shaded
-var min_color: Color
-var max_color: Color
-
-# Terrain specific
 var landuse_layer: GeoRasterLayer
 var surface_height_layer: GeoRasterLayer
 
@@ -165,46 +159,42 @@ func apply_textures():
 			if child is ExtraLOD:
 				child.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)
 	
-	if not is_color_shaded:
-		if current_texture:
-			material_override.set_shader_parameter("orthophoto", current_texture)
+	if current_texture:
+		material_override.set_shader_parameter("orthophoto", current_texture)
+	
+	if current_landuse:
+		material_override.set_shader_parameter("landuse", current_landuse)
+		material_override.set_shader_parameter("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
 		
-		if current_landuse:
-			material_override.set_shader_parameter("landuse", current_landuse)
-			material_override.set_shader_parameter("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
-			
-			if not always_load_landuse:
-				# always_load_landuse doesn't load any detail textures (it just provides the landuse data to ExtraLODs)
-				# so in that case, don't apply the data to the shader
-				# FIXME: Make this more clear in the variable names
-				material_override.set_shader_parameter("has_landuse", true)
-		
-		if current_surface_heightmap:
-			material_override.set_shader_parameter("has_surface_heights", true)
-			# Start applying surface heights at the point where vegetation stops
-			material_override.set_shader_parameter("surface_heights_start_distance", Vegetation.get_max_extent() / 2.0)
-			material_override.set_shader_parameter("surface_heightmap", current_surface_heightmap)
-		
-		if current_metadata_map:
-			material_override.set_shader_parameter("metadata", current_metadata_map)
-		
-		if current_albedo_ground_textures:
-			material_override.set_shader_parameter("uses_detail_textures", true)
-			material_override.set_shader_parameter("albedo_tex", current_albedo_ground_textures)
-			material_override.set_shader_parameter("normal_tex", current_normal_ground_textures)
-			material_override.set_shader_parameter("ambient_tex", current_ambient_ground_textures)
-			material_override.set_shader_parameter("specular_tex", current_specular_ground_textures)
-			material_override.set_shader_parameter("roughness_tex", current_roughness_ground_textures)
-		
-		if current_albedo_fade_textures:
-			material_override.set_shader_parameter("uses_distance_textures", true)
-			material_override.set_shader_parameter("distance_tex", current_albedo_fade_textures)
-			material_override.set_shader_parameter("distance_normals", current_normal_fade_textures)
-			material_override.set_shader_parameter("distance_tex_switch_distance", Vegetation.plant_extent_factor * 5.0)
-			material_override.set_shader_parameter("fade_transition_space", Vegetation.plant_extent_factor * 2.0)
-	else:
-		if current_texture:
-			material_override.set_shader_parameter("tex", current_texture)
+		if not always_load_landuse:
+			# always_load_landuse doesn't load any detail textures (it just provides the landuse data to ExtraLODs)
+			# so in that case, don't apply the data to the shader
+			# FIXME: Make this more clear in the variable names
+			material_override.set_shader_parameter("has_landuse", true)
+	
+	if current_surface_heightmap:
+		material_override.set_shader_parameter("has_surface_heights", true)
+		# Start applying surface heights at the point where vegetation stops
+		material_override.set_shader_parameter("surface_heights_start_distance", Vegetation.get_max_extent() / 2.0)
+		material_override.set_shader_parameter("surface_heightmap", current_surface_heightmap)
+	
+	if current_metadata_map:
+		material_override.set_shader_parameter("metadata", current_metadata_map)
+	
+	if current_albedo_ground_textures:
+		material_override.set_shader_parameter("uses_detail_textures", true)
+		material_override.set_shader_parameter("albedo_tex", current_albedo_ground_textures)
+		material_override.set_shader_parameter("normal_tex", current_normal_ground_textures)
+		material_override.set_shader_parameter("ambient_tex", current_ambient_ground_textures)
+		material_override.set_shader_parameter("specular_tex", current_specular_ground_textures)
+		material_override.set_shader_parameter("roughness_tex", current_roughness_ground_textures)
+	
+	if current_albedo_fade_textures:
+		material_override.set_shader_parameter("uses_distance_textures", true)
+		material_override.set_shader_parameter("distance_tex", current_albedo_fade_textures)
+		material_override.set_shader_parameter("distance_normals", current_normal_fade_textures)
+		material_override.set_shader_parameter("distance_tex_switch_distance", Vegetation.plant_extent_factor * 5.0)
+		material_override.set_shader_parameter("fade_transition_space", Vegetation.plant_extent_factor * 2.0)
 	
 	visible = true
 	changed = false
