@@ -103,16 +103,16 @@ func update_intersection() -> void:
 			# Remove points until moved road fits
 			var intersection_edge_point = corner_b + road_shift_direction_left * (road.width / 2.0)
 			var index = 0
-			while true:
-				if road.road_curve.point_count < 3:
-					break
-				
-				var road_point = _get_road_point(road, intersection_id, index)
-				if road_point.distance_squared_to(intersection_center) > intersection_edge_point.distance_squared_to(intersection_center):
-					break
-				
-				_remove_road_point(road, intersection_id, 1)
-				index += 1
+#			while true:
+#				if road.road_curve.point_count < 3:
+#					break
+#
+#				var road_point = _get_road_point(road, intersection_id, index)
+#				if road_point.distance_squared_to(intersection_center) > intersection_edge_point.distance_squared_to(intersection_center):
+#					break
+#
+#				_remove_road_point(road, intersection_id, 1)
+#				index += 1
 			
 			# Move road to edge of intersection
 			_set_road_point(road, intersection_id, Vector3(intersection_edge_point.x, intersection_height, intersection_edge_point.y))
@@ -127,17 +127,17 @@ func update_intersection() -> void:
 		
 			# Remove points until moved road fits
 			var intersection_edge_point = corner_a + road_shift_direction_right * (road.width / 2.0)
-			var index = 0
-			while true:
-				if road.road_curve.point_count < 3:
-					break
-				
-				var road_point = _get_road_point(road, intersection_id, index)
-				if road_point.distance_squared_to(intersection_center) > intersection_edge_point.distance_squared_to(intersection_center):
-					break
-				
-				_remove_road_point(road, intersection_id, 1)
-				index += 1
+#			var index = 0
+#			while true:
+#				if road.road_curve.point_count < 3:
+#					break
+#
+#				var road_point = _get_road_point(road, intersection_id, index)
+#				if road_point.distance_squared_to(intersection_center) > intersection_edge_point.distance_squared_to(intersection_center):
+#					break
+#
+#				_remove_road_point(road, intersection_id, 1)
+#				index += 1
 			
 			# Move road to edge of intersection
 			_set_road_point(road, intersection_id, Vector3(intersection_edge_point.x, intersection_height, intersection_edge_point.y))
@@ -177,7 +177,6 @@ func _set_road_point(road: RoadInstance, intersection_id: int, point: Vector3) -
 
 func _remove_road_point(road: RoadInstance, intersection_id: int, offset: int) -> void:
 	# FIXME: Seems like this is called too often, returning early fixes gaps at intersections
-	return
 	if road.from_intersection == intersection_id:
 		road.road_curve.remove_point(offset)
 	else:
