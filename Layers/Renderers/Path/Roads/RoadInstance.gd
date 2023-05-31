@@ -19,6 +19,7 @@ var _road_lane_car_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/
 var _road_lane_bike_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneBike.tscn")
 var _road_lane_pedestrian_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLanePedestrian.tscn")
 var _road_lane_parking_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneParking.tscn")
+var _road_lane_rail_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneRail.tscn")
 
 var road_lanes: Array = []
 
@@ -45,8 +46,6 @@ func load_from_feature(road_feature) -> void:
 		# Lane type specific info
 		var lane_type = int(lane_infos[0])
 		match lane_type:
-			-1:
-				pass
 			0: # Car
 				road_lane = _road_lane_car_scene.instantiate()
 				road_lane.speed_forward = road_feature.get_attribute("speed_forward")
@@ -63,6 +62,8 @@ func load_from_feature(road_feature) -> void:
 				road_lane = _road_lane_parking_scene.instantiate()
 			4: # Multipurpose
 				road_lane = _road_lane_pedestrian_scene.instantiate()
+			5: # Rails
+				road_lane = _road_lane_rail_scene.instantiate()
 		
 		# General road lane info
 		if road_lane:

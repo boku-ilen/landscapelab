@@ -122,6 +122,16 @@ func _create_roads(road_features) -> void:
 		# Get road data
 		var road_width = float(road_feature.get_attribute("width"))
 		
+		# FIXME: Could be done in a more general way
+		# We check whether this feature contains rails, because rails are
+		#  rendered in 3D -> we need heights
+		if not render_3d and road_feature.get_attribute("lane_uses").contains("5,"):
+			var point_count = road_curve.get_point_count()
+			for index in range(point_count):
+				var point = road_curve.get_point_position(index)
+				point.y = get_basic_height(point)
+				road_curve.set_point_position(index, point)
+		
 		if render_3d:
 			#############################
 			# SET INITIAL POINT HEIGHTS #
@@ -135,7 +145,6 @@ func _create_roads(road_features) -> void:
 				point = get_triangular_interpolation_point(point, step_size)
 				road_curve.set_point_position(index, point)
 				_set_terraforming_height(point, road_width)
-			
 			#####################################################
 			# REFINE ROAD BY ADDING MESH TRIANGLE INTERSECTIONS #
 			#####################################################
@@ -264,6 +273,11 @@ func get_triangular_interpolation_point(point: Vector3, step_size: float) -> Vec
 	# Calculate triangle surface point with weights
 	point.y = _get_height(A) * weights.x + _get_height(B) * weights.y + _get_height(C) * weights.z
 	return point
+
+
+func get_basic_height(point: Vector3) -> float:
+	var coords = position_manager.to_world_coordinates(point)
+	return layer_composition.render_info.height_layer.get_value_at_position(float(coords.x), float(coords.z))
 
 
 func _get_height(point: Vector3) -> float:

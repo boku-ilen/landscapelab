@@ -16,9 +16,12 @@ const LANE_TYPE_TO_NAME: Dictionary = {
 var lane_type: int = -1
 
 # Road path info
+@export var road_height: float = 0.2
+@export var taper_top := 0.0
+@export var lower_into_ground := 0.0
+
 var road_width: float = 2.0
 var road_offset: float = 0.0
-var road_height: float = 0.2
 var percentage_from = 0.0
 var percentage_to = 100.0
 
@@ -45,10 +48,10 @@ func update_road_lane() -> void:
 	var half_width = (total_road_width) / 2.0
 	
 	var polygon: PackedVector2Array = [
-		Vector2(-half_width, total_road_height),
-		Vector2(half_width, total_road_height),
-		Vector2(half_width, 0.0),
-		Vector2(-half_width, 0.0)
+		Vector2(-half_width + taper_top, total_road_height),
+		Vector2(half_width - taper_top, total_road_height),
+		Vector2(half_width + taper_top, -lower_into_ground),
+		Vector2(-half_width - taper_top, -lower_into_ground)
 	]
 	
 	# Set polygon

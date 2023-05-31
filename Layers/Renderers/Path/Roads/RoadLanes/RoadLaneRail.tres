@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://d3oll2i6g6who"]
+
+[ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneRail.gdshader" id="1_w6mil"]
+[ext_resource type="Texture2D" uid="uid://vr7jmks053wd" path="res://Resources/Textures/RailGravel/Rocks006_2K_Color.jpg" id="2_2tsmp"]
+[ext_resource type="Texture2D" uid="uid://cfvamjj7qmfac" path="res://Resources/Textures/Concrete040_2K-JPG/Concrete040_2K_Color.jpg" id="2_5qihh"]
+[ext_resource type="Texture2D" uid="uid://blgpn5eexpsm4" path="res://Resources/Textures/Steel/Metal038_2K_Color.jpg" id="2_dxbij"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_w6mil")
+shader_parameter/width = 5.0
+shader_parameter/height = 0.2
+shader_parameter/world_uv_scaling = 0.35
+shader_parameter/rail_width = 0.5
+shader_parameter/rail_offset = 1.0
+shader_parameter/road_texture = ExtResource("2_2tsmp")
+shader_parameter/metal_texture = ExtResource("2_dxbij")
+shader_parameter/concrete_texture = ExtResource("2_5qihh")

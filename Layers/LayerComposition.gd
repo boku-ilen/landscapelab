@@ -123,6 +123,7 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 class RoadNetworkRenderInfo extends RenderInfo:
 	var road_roads: GeoFeatureLayer
 	var road_intersections: GeoFeatureLayer
+	var height_layer: GeoRasterLayer
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Path/RoadNetworkRenderer.tscn")
