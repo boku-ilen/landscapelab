@@ -31,7 +31,7 @@ load_radius = 1200.0
 curve = SubResource("3")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="Line"]
-polygon = PackedVector2Array(0.04, 0, 0, 0.04, -0.04, 0, 0, -0.04)
+polygon = PackedVector2Array(0.08, 0, 0, 0.08, -0.08, 0, 0, -0.08)
 mode = 2
 path_node = NodePath("..")
 path_interval_type = 0
