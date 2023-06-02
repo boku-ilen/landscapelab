@@ -45,15 +45,15 @@ func adapt_load(_diff: Vector3):
 func apply_new_data():
 	mutex.lock()
 	for feature in features:
-		var node_name = str(feature.get_id())	
+		var node_name = str(feature.get_id())
 		if not has_node(node_name):
 			apply_feature_instance(feature)
-	mutex.unlock()
 	
 	var valid_feature_ids = features.map(func(f): return f.get_id())
 	for id in instances.keys():
 		if not id in valid_feature_ids:
 			remove_feature(id)
+	mutex.unlock()
 	
 	super.apply_new_data()
 	
@@ -81,11 +81,13 @@ func _on_feature_removed(feature: GeoFeature):
 # Might be necessary to be overwritten by inherited class
 # Cannot be run in a thread
 func remove_feature(feature_id: int):
-	mutex.lock()
-	if has_node(str(feature_id)):
-		get_node(str(feature_id)).queue_free()
+	if instances.has(feature_id):
 		instances.erase(feature_id)
-	mutex.unlock()
+	if has_node(str(feature_id)):
+		# a simple queue_free() can cause crashes when multithreading! 
+		var node = get_node(str(feature_id))
+		remove_child(node)
+		node.free()
 
 
 # To be implemented by inherited class
@@ -99,12 +101,17 @@ func load_feature_instance(feature: GeoFeature) -> Node3D:
 # Apply feature to the main scene - not run in a thread
 func apply_feature_instance(feature: GeoFeature):
 	if not feature.feature_changed.is_connected(_on_feature_changed):
-		feature.feature_changed.connect(_on_feature_changed.bind(feature))
-	if not instances.has(feature.get_id()):
-		logger.error("No feature instance was created for ID: {}".format([feature.get_id()], "{}"))
-		return
+		feature.feature_changed.connect(
+			_on_feature_changed.bind(feature), CONNECT_DEFERRED)
 	
-	add_child(instances[feature.get_id()])
+	mutex.lock()
+	if instances.has(feature.get_id()) and instances[feature.get_id()] != null:
+		add_child(instances[feature.get_id()])
+	else:
+		logger.error("No feature instance was created for ID: {}".
+			format([feature.get_id()], "{}"))
+		return
+	mutex.unlock()
 
 
 func _on_feature_changed(feature: GeoFeature):
