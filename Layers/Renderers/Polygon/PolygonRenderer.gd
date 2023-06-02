@@ -26,8 +26,8 @@ func load_feature_instance(feature):
 	var building = building_base_scene.instantiate()
 
 	# Load the components based checked the building attributes
-	var height = str_to_var(feature.get_attribute(height_attribute)) \
-					if height_attribute != null else fallback_height
+	var height = util.str_to_var_or_default(
+		feature.get_attribute(height_attribute), fallback_height)
 
 	var num_floors = max(1, height / floor_height)
 
@@ -74,18 +74,22 @@ func load_feature_instance(feature):
 		var slope = feature.get_attribute(layer_composition.render_info.slope_attribute_name)
 		var roof = null
 
-		if str_to_var(slope) > 15:
+		if util.str_to_var_or_default(slope, 35) > 15:
 			roof = pointed_roof_scene.instantiate()
-			var height_stdev = str_to_var(feature.get_attribute(layer_composition.render_info.height_stdev_attribute_name))
+			var height_stdev = util.str_to_var_or_default(feature.get_attribute(
+				layer_composition.render_info.height_stdev_attribute_name), 10)
 			roof.set_height(fmod(height, floor_height) + height_stdev)
 
 		if roof == null or not roof.can_build(polygon):
 			roof = flat_roof_scene.instantiate()
 
 		var color = Color(
-				str_to_var(feature.get_attribute(layer_composition.render_info.red_attribute_name)) / 255.0,
-				str_to_var(feature.get_attribute(layer_composition.render_info.green_attribute_name)) / 255.0,
-				str_to_var(feature.get_attribute(layer_composition.render_info.blue_attribute_name)) / 255.0
+			util.str_to_var_or_default(
+				feature.get_attribute(layer_composition.render_info.red_attribute_name), 200) / 255.0,
+			util.str_to_var_or_default(
+				feature.get_attribute(layer_composition.render_info.green_attribute_name), 130) / 255.0,
+			util.str_to_var_or_default(
+				feature.get_attribute(layer_composition.render_info.blue_attribute_name), 130) / 255.0
 		)
 
 		# Increase contrast and saturation
