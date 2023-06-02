@@ -10,7 +10,7 @@ class_name GroundTexture
 var id: int
 var texture_name: String
 var type: String
-var size_m: float
+var size_m: float = 0.0
 var seasons: Seasons
 var description: String
 var applications: String

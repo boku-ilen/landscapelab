@@ -117,7 +117,8 @@ func take_screenshot():
 	# FIXME: Replace with a pendant to "Session"
 	var screenshot_filename = "user://screenshot-%s.png" % Time.get_datetime_string_from_system()
 	# Medium to low priority - we do want it to save sometime soon, but doesn't have to be immediate
-	ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_save_screenshot", [img, screenshot_filename]), 15)
+	# FIXME: Use a custom thread for this instead of the ThreadPool
+	#ThreadPool.enqueue_task(ThreadPool.Task.new(self, "_save_screenshot", [img, screenshot_filename]), 15)
 
 
 # Actually save a screenshot - to be run in a thread

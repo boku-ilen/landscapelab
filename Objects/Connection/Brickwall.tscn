@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfdmfibe3j6ip"]
+
+[ext_resource type="Script" path="res://Objects/Connection/Superclasses/Straight.gd" id="1_wxaqm"]
+[ext_resource type="Shader" path="res://Objects/Connection/Shaders/UVRemapPaths.gdshader" id="2_pk80j"]
+[ext_resource type="Texture2D" uid="uid://fjcltcw5dvpy" path="res://Resources/Textures/Fence/bricks_albedo.png" id="3_sovpb"]
+
+[sub_resource type="Curve3D" id="Curve3D_d0uss"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -10, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 21.4809, 3.29974, 9.17376, 0, 0, 0, 0, 0, 0, 14.6685, 5.26743, 21.7545),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_27bpx"]
+render_priority = 0
+shader = ExtResource("2_pk80j")
+shader_parameter/tex = ExtResource("3_sovpb")
+
+[node name="Bricks" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+script = ExtResource("1_wxaqm")
+max_length = 5.0
+
+[node name="Line" type="Path3D" parent="."]
+curve = SubResource("Curve3D_d0uss")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+material_override = SubResource("ShaderMaterial_27bpx")
+polygon = PackedVector2Array(1, 5, 1, 0, -1, 0, -1, 5)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 1
+path_local = true
+path_continuous_u = true
+path_u_distance = 10.0
+path_joined = false

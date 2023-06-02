@@ -28,6 +28,9 @@ extends Node3D
 
 @export var forward_for_rotation: Vector3 = Vector3(1, 0, 0)
 
+@onready var start_pos_hub = $Mesh/Hub.position
+@onready var start_pos_rotor = $Mesh/Rotor.position
+
 var weather_manager: WeatherManager :
 	get:
 		return weather_manager
@@ -41,10 +44,10 @@ var weather_manager: WeatherManager :
 		weather_manager = new_weather_manager
 		
 		_apply_new_wind_speed(weather_manager.wind_speed)
-		weather_manager.connect("wind_speed_changed",Callable(self,"_apply_new_wind_speed"))
+		weather_manager.wind_speed_changed.connect(_apply_new_wind_speed)
 		
 		_apply_new_wind_direction(weather_manager.wind_direction)
-		weather_manager.connect("wind_direction_changed",Callable(self,"_apply_new_wind_direction"))
+		weather_manager.wind_direction_changed.connect(_apply_new_wind_direction)
 
 
 var feature
@@ -68,20 +71,20 @@ func _ready():
 	# If is_inside_tree() in set_wind_direction() returned false, we need to catch up checked
 	#  setting the wind direction now.
 	update_rotation()
-	
+
 	# Randomize speed a little
 	speed += (randf() - 0.5) * (speed * 0.5)
-	
+
 	# Start at a random rotation
 	rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, randf() * PI * 2.0)
-	
+
 	if feature and render_info and render_info is LayerComposition.WindTurbineRenderInfo:
 		var height_attribute_name = render_info.height_attribute_name
 		var diameter_attribute_name = render_info.diameter_attribute_name
-		
+
 		var height = max(str_to_var(feature.get_attribute(height_attribute_name)), min_hub_height)
 		var diameter = max(str_to_var(feature.get_attribute(diameter_attribute_name)), min_rotor_diameter)
-		
+
 		set_hub_height(height)
 		set_rotor_diameter(diameter)
 
@@ -92,11 +95,10 @@ func update_rotation():
 
 
 # Updates the rotation of the rotor to make them rotate with the exported speed variable
-func _process(delta):
+func _process(delta): 
 	if delta > 0.8: return  # Avoid skipping
 	if is_inside_tree():
 		rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)
-		rotor.transform.basis = rotor.transform.basis.orthonormalized()
 
 
 func set_hub_height(height: float):
@@ -106,11 +108,11 @@ func set_hub_height(height: float):
 
 
 func set_rotor_diameter(diameter: float):
-	$Mesh/Rotor.scale.z = diameter / mesh_rotor_diameter
-	#$Mesh/Rotor.scale.y = diameter / mesh_rotor_diameter
-	
-	$Mesh/Hub.scale.z = diameter / mesh_rotor_diameter
-	#$Mesh/Hub.scale.y = diameter / mesh_rotor_diameter
+	var new_scale = Vector3.ONE * diameter / mesh_rotor_diameter
+	$Mesh/Rotor.scale = new_scale
+	$Mesh/Hub.scale = new_scale
+	$Mesh/Rotor.position.z = start_pos_rotor.z - new_scale.z * start_pos_rotor.z
+	$Mesh/Hub.position.z = start_pos_hub.z - new_scale.z * start_pos_hub.z
 
 
 func apply_daytime_change(is_daytime: bool):

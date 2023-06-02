@@ -21,11 +21,13 @@ func _ready():
 	super._ready()
 	renderers = Vegetation.get_renderers()
 	add_child(renderers)
+	_on_wind_speed_changed(weather_manager.wind_speed)
 
 
 func _on_wind_speed_changed(new_wind_speed):
-	for renderer in renderers.get_children():
-		renderer.apply_wind_speed(new_wind_speed)
+	if renderers:
+		for renderer in renderers.get_children():
+			renderer.apply_wind_speed(new_wind_speed)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -58,9 +60,7 @@ func adapt_load(_diff: Vector3):
 		renderer.texture_update(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
 				world_position[0], world_position[1], uv_offset_x, uv_offset_y)
 
-	call_deferred("apply_new_data")
-	
-	needs_to_refine = true
+	call_deferred("apply_textures")
 
 
 func refine_load():
@@ -109,11 +109,20 @@ func _process(delta):
 		renderer.restart()
 
 
+func apply_textures():
+	for renderer in renderers.get_children():
+		renderer.apply_textures()
+	
+	needs_to_refine = true
+	
+	logger.info("Applied new RasterVegetationRenderer textures for %s" % [name])
+
+
 func apply_new_data():
 	for renderer in renderers.get_children():
 		renderer.apply_data()
 	
-	logger.info("Applied new RasterVegetationRenderer data for %s" % [name])
+	logger.info("Applied full new RasterVegetationRenderer data for %s" % [name])
 
 
 func get_debug_info() -> String:

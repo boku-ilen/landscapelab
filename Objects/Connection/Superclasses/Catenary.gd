@@ -21,12 +21,13 @@ class CatenaryCache:
 
 func apply_connection():
 	if catenary_curve:
-		$Node/Line.curve = Curve3D.new()
+		$Line.curve = Curve3D.new()
 		for point in catenary_curve:
-			$Node/Line.curve.add_point(point)
+			$Line.curve.add_point(point)
 
 
-func find_connection_points(P1: Vector3, P2: Vector3, length_factor: float, cache_array: Array = []):
+func find_connection_points(P1: Vector3, P2: Vector3, length_factor: float, 
+		cache_array: Array = []):
 	var cache_index = _get_cache(P1, P2, cache_array)
 	if cache_index > -1:
 		var cache = cache_array[cache_index] as CatenaryCache

@@ -189,7 +189,10 @@ func get_ground_sheet(group_array, texture_name):
 	
 	for i in range(group_array.size()):
 		var group = group_array[i]
-		texture_table[i] = [group.get_ground_image(texture_name)]
+		var ground_image = group.get_ground_image(texture_name)
+		if ground_image == null: return 
+		
+		texture_table[i] = [ground_image]
 	
 	return SpritesheetHelper.create_layered_spritesheet(
 			Vector2(VegetationImages.GROUND_TEXTURE_SIZE, VegetationImages.GROUND_TEXTURE_SIZE),
@@ -221,8 +224,7 @@ func get_distribution_sheet(group_array):
 	texture_table[0] = []
 	
 	for group in group_array:
-		texture_table[0].append(generate_distribution(group, max_plant_height) \
-				if group.plants.size() > 0 else null)
+		texture_table[0].append(generate_distribution(group, max_plant_height))
 	
 	return SpritesheetHelper.create_layered_spritesheet(
 			Vector2(distribution_size, distribution_size),
@@ -235,9 +237,10 @@ func get_id_row_array(ids):
 	array.resize(256)
 	array.fill(-1.0)
 	
-	var row = 0
+	var row := 0.0
 	for id in ids:
-		array[id] = row / 255.0
+		array[id] = row
+		row += 1.0
 	
 	return array
 
@@ -312,9 +315,6 @@ var distribution_cache = {}
 #  the size scaling factors (between 0 and 1 relative to the given max_size) for each particular
 #  plant instance, taking into account its min and max size.
 func generate_distribution(group: PlantGroup, max_size: float):
-	if group.id in distribution_cache:
-		return distribution_cache[group.id]
-	
 	var distribution = Image.create(distribution_size, distribution_size,
 			false, Image.FORMAT_RG8)
 	

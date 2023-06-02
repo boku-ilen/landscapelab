@@ -6,5 +6,5 @@ extends HBoxContainer
 func _process(_delta):
 	label.text = ""
 	
-	for queue in ThreadPool.task_queues:
-		label.text += "%s: " % queue.get_size()
+#	for queue in ThreadPool.task_queues:
+#		label.text += "%s: " % queue.get_size()

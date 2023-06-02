@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://irhadvtwokr5"]
+[gd_scene load_steps=32 format=3 uid="uid://irhadvtwokr5"]
 
 [ext_resource type="Texture2D" uid="uid://b2i6gv6rjevem" path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" id="2"]
 [ext_resource type="PackedScene" uid="uid://csad5ev7rwtoe" path="res://UI/MenuBar/MenuBar.tscn" id="2_56a3o"]
@@ -16,8 +16,9 @@
 [ext_resource type="Script" path="res://UI/WorldViewPort.gd" id="11"]
 [ext_resource type="PackedScene" uid="uid://dkvdbwaqhrbnn" path="res://UI/Weather/WeatherUI.tscn" id="11_1mm7o"]
 [ext_resource type="Script" path="res://UI/Imaging/ImagingButton.gd" id="11_2gr6u"]
-[ext_resource type="PackedScene" uid="uid://b858h2ejta33m" path="res://Util/Imaging/Dolly/DollyWindow.tscn" id="12_5yhyn"]
+[ext_resource type="PackedScene" path="res://Util/Imaging/Dolly/DollyWindow.tscn" id="12_5yhyn"]
 [ext_resource type="Texture2D" uid="uid://copq7sq4f0uom" path="res://Resources/Icons/ModernLandscapeLab/loading.png" id="12_8oiw2"]
+[ext_resource type="PackedScene" uid="uid://88rg1t88n3e7" path="res://UI/Screenshot/ScreenshotMenu.tscn" id="12_xqn6f"]
 [ext_resource type="PackedScene" uid="uid://c63a11up3xcvk" path="res://UI/CustomElements/AutoTextureButton.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://dsaj5k71mnup0" path="res://UI/DebugInfo/DebugInfo.tscn" id="14"]
 [ext_resource type="Script" path="res://UI/LoadingCircle.gd" id="14_jjvhr"]
@@ -109,7 +110,11 @@ layout_mode = 2
 drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
+[node name="Control" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("12_xqn6f")]
+layout_mode = 2
+
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot"]
+visible = false
 layout_mode = 2
 
 [node name="ImagingButton" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot/VBoxContainer" instance=ExtResource("10_6fnux")]
@@ -161,7 +166,7 @@ script = ExtResource("11")
 handle_input_locally = false
 use_taa = true
 gui_disable_input = true
-size = Vector2i(766, 413)
+size = Vector2i(2, 2)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_xvbyv")]
@@ -211,12 +216,12 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="DebugInfo" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("14")]
-visible = false
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 layer_renderers_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/Terrain/LayerRenderers")
 
 [node name="GameUI" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("18")]
+visible = false
 layout_mode = 2
 viewport_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport")
 position_manager_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
@@ -240,7 +245,7 @@ custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 
 [node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewport" index="0"]
-size = Vector2i(206, 300)
+render_target_update_mode = 0
 
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]
 visible = false

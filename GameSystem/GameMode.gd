@@ -32,16 +32,8 @@ func add_score(score: GameScore):
 
 
 func get_starting_position():
-	# FIXME: Taken from LayerConfigurator for now; in the future this should probably come from
-	#  manually supplied Game Mode settings
-	var center_avg := Vector3.ZERO
-	var count := 0
-	for layer in Layers.layers:
-		for geolayer in Layers.layers[layer].render_info.get_geolayers():
-			center_avg += geolayer.get_center()
-			count += 1
-	
-	return center_avg / count
+	Layers.recalculate_center()
+	return Layers.current_center
 
 
 func set_extent(min_x, min_y, max_x, max_y):
