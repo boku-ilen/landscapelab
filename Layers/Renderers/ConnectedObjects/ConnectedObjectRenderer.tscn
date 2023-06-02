@@ -4,6 +4,5 @@
 
 [node name="ConnectedObjectRenderer" type="Node3D"]
 script = ExtResource("1_dgn4o")
-load_refined_threaded = false
 
 [node name="Connections" type="Node3D" parent="."]

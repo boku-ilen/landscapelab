@@ -42,6 +42,10 @@ func _ready():
 	
 	radius = loaded_connector_scenes["fallback"].instantiate().load_radius
 	connection_radius = loaded_connection_scenes["fallback"].instantiate().load_radius
+	
+	feature_instance_removed.connect(func(id):
+		_remove_by_access_str(str(id))
+		apply_refined_data())
 
 
 # Load in the scenes as configured in .ll to avoid having to load them continuously
@@ -60,18 +64,20 @@ func load_scenes():
 			load(layer_composition.render_info.get("connectors")[key])
 
 
-func _remove_by_access_str(access_str) -> bool:
+func _remove_by_access_str(access_str: String) -> bool:
+	connection_mutex.lock()
 	var any_change_done := false
 	
 	for id in connections.keys():
 		if id.begins_with(access_str):
-			connections[id] = null
+			connections.erase(id)
 			any_change_done = true
 
 	for id in intermediate_connectors.keys():
 		if id.begins_with(access_str):
 			intermediate_connectors.erase(id)
 			any_change_done = true
+	connection_mutex.unlock()
 	
 	return any_change_done
 
@@ -123,7 +129,7 @@ func _handle_standard(
 		connection_scene,
 		[]
 	)
-	logger.info("Inserting connection with id %s" % access_str)
+	
 	connections[access_str] = new_con
 	any_change_done = true
 	
@@ -132,18 +138,20 @@ func _handle_standard(
 
 func refine_load():
 	var center = position_manager.center_node.position
-	if last_update_pos.distance_to(Vector2(center.x, center.z)) < connection_radius / 4:
-		return
+#	if last_update_pos.distance_to(Vector2(center.x, center.z)) < connection_radius / 16:
+#		return
 	
 	var any_change_done := false
 	
+	# NOTE: is this necessary?
 	mutex.lock()
 	if local_connectors.keys() != instances.keys():
-		local_connectors = instances.duplicate(true)
+		local_connectors = instances.duplicate()
 	if features != local_features:
-		local_features = features.duplicate(true)
+		local_features = features.duplicate()
 	mutex.unlock()
 	
+	connection_mutex.lock()
 	for geo_line in local_features:
 		var specific_connectors: Node3D = local_connectors[geo_line.get_id()]
 		
@@ -155,18 +163,15 @@ func refine_load():
 		var connection_max_length: float = exemplary_connection.max_length
 		
 		var vertices: Curve3D = geo_line.get_curve3d()
+		# Connection requires at least two points
+		if vertices.get_point_count() < 2: continue
 		
 		var connector_i_0: Node3D = specific_connectors.get_node(str(0))
 		var connector_i_1: Node3D
 		
 		# Skip index 0 because connecting requires two objects
-#		connection_mutex.lock()
 		for vert_id in range(1, vertices.get_point_count()):
-			
 			connector_i_1 = specific_connectors.get_node(str(vert_id))
-			
-			if connector_i_1 == null:
-				break
 			
 			# Decide whether to take intermediate connectors
 			var distance: float = connector_i_0.position.distance_to(connector_i_1.position)
@@ -176,45 +181,42 @@ func refine_load():
 			# Define the id/name of the connection
 			var access_str = "{0}_{1}".format([geo_line.get_id(), vert_id])
 			
-			if not make_intermediate_steps: 
+			var avg_connection_pos = (connector_i_0.position + connector_i_1.position) / 2
+			if connection_radius + abs(distance) < distance_to_center(avg_connection_pos): 
+				any_change_done = _remove_by_access_str(access_str) or any_change_done
+			else:
 				if not connections.has(access_str):
-					any_change_done = _handle_standard(
-						geo_line, vert_id, 
-						connector_i_0, connector_i_1, connector_scene, connection_scene
-					) or any_change_done
-#			else:
-#				any_change_done = any_change_done or _handle_with_intermediate(
-#					geo_line, vert_id, intermediate_count, distance,
-#					connector_i_0, connector_i_1, connector_scene, connection_scene
-#				)
-			
-			if connection_radius < distance_to_center(connector_i_0.position): 
-				any_change_done = _remove_by_access_str(access_str) or any_change_done 
+					if not make_intermediate_steps:
+						any_change_done = _handle_standard(
+							geo_line, vert_id, 
+							connector_i_0, connector_i_1, connector_scene, connection_scene
+						) or any_change_done
+#				else:
+#					any_change_done = any_change_done or _handle_with_intermediate(
+#						geo_line, vert_id, intermediate_count, distance,
+#						connector_i_0, connector_i_1, connector_scene, connection_scene
+#					)
 			
 			connector_i_0 = connector_i_1
-#		connection_mutex.unlock()
-
+	connection_mutex.unlock()
+	
 	if any_change_done:
 		last_update_pos = Vector2(center.x, center.z)
 		call_deferred("apply_refined_data")
 
 
 func apply_refined_data():
-#	connection_mutex.lock()
+	connection_mutex.lock()
 	for access_str in connections.keys():
-		if connections[access_str] == null:
-			connections.erase(access_str)
-			continue
-		if not $Connections.has_node(access_str):
+		if not $Connections.has_node(access_str) and connections[access_str] is Node3D:
 			$Connections.add_child(connections[access_str])
-			if connections[access_str] is Node3D:
-				for connection in connections[access_str].get_children():
-					connection.apply_connection()
+			for connection in connections[access_str].get_children():
+				connection.apply_connection()
 
-#	for child in $Connections.get_children():
-#		if not connections.has(child.name):
-#			$Connections.remove_child(child)
-#			child.free()
+	for child in $Connections.get_children():
+		if not connections.has(child.name):
+			$Connections.remove_child(child)
+			child.free()
 #
 #	for access_str in intermediate_connectors.keys():
 #		if not has_node(access_str):
@@ -226,7 +228,7 @@ func apply_refined_data():
 #			remove_child(child)
 #			child.free()
 	
-#	connection_mutex.unlock()
+	connection_mutex.unlock()
 
 
 func explicit_connect(connection_name: String, previous_connector: Node3D, 
@@ -237,6 +239,7 @@ func explicit_connect(connection_name: String, previous_connector: Node3D,
 	
 	var current_connections = Node3D.new()
 	current_connections.name = connection_name
+	
 	for dock in current_docks.get_children():
 		# Create a specified connection-object or use fallback
 		var connection: AbstractConnection = connection_scene.instantiate()
@@ -407,7 +410,6 @@ func distance_to_center(pos: Vector3):
 
 
 func get_debug_info() -> String:
-	return str(connections.keys())
 	return """
 		{0} of maximally {1} features with 
 			{2} inside the radius ({3}) connectors loaded.

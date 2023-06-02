@@ -9,6 +9,8 @@ var instances := {}
 var radius = 6000.0
 var max_features = 2000
 
+signal feature_instance_removed(id: int)
+
 
 func _ready():
 	super._ready()
@@ -88,6 +90,8 @@ func remove_feature(feature_id: int):
 		var node = get_node(str(feature_id))
 		remove_child(node)
 		node.free()
+	
+	feature_instance_removed.emit(feature_id)
 
 
 # To be implemented by inherited class
