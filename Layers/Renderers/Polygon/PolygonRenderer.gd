@@ -27,7 +27,7 @@ func load_feature_instance(feature):
 
 	# Load the components based checked the building attributes
 	var height = str_to_var(feature.get_attribute(height_attribute)) \
-					if height_attribute else fallback_height
+					if height_attribute != null else fallback_height
 
 	var num_floors = max(1, height / floor_height)
 
