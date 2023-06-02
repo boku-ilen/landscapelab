@@ -399,7 +399,6 @@ limits/message_queue/max_size_kb=1048576
 
 [rendering]
 
-driver/threads/thread_model=2
 quality/shadows/filter_mode=2
 limits/buffers/canvas_polygon_buffer_size_kb=1000
 quality/filters/msaa=2
