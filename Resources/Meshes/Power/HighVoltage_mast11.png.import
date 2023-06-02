@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://um3tl0vdyor"
-path.s3tc="res://.godot/imported/Asphalt15_col.jpg-6ee3e4ff86b94bbeaf6bca933820bbcc.s3tc.ctex"
+uid="uid://mjh8tleeddu"
+path.s3tc="res://.godot/imported/HighVoltage_mast11.png-e6b4bb21adb137a18fbe5f0c546cf2f3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Resources/Textures/Asphalt/Asphalt15_col.jpg"
-dest_files=["res://.godot/imported/Asphalt15_col.jpg-6ee3e4ff86b94bbeaf6bca933820bbcc.s3tc.ctex"]
+source_file="res://Resources/Meshes/Power/HighVoltage_mast11.png"
+dest_files=["res://.godot/imported/HighVoltage_mast11.png-e6b4bb21adb137a18fbe5f0c546cf2f3.s3tc.ctex"]
 
 [params]
 
