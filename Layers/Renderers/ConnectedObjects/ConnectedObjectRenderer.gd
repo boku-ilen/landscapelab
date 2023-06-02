@@ -138,8 +138,6 @@ func _handle_standard(
 
 func refine_load():
 	var center = position_manager.center_node.position
-#	if last_update_pos.distance_to(Vector2(center.x, center.z)) < connection_radius / 16:
-#		return
 	
 	var any_change_done := false
 	
@@ -185,23 +183,22 @@ func refine_load():
 			if connection_radius + abs(distance) < distance_to_center(avg_connection_pos): 
 				any_change_done = _remove_by_access_str(access_str) or any_change_done
 			else:
-				if not connections.has(access_str):
-					if not make_intermediate_steps:
+				if not make_intermediate_steps:
+					if not connections.has(access_str):
 						any_change_done = _handle_standard(
 							geo_line, vert_id, 
 							connector_i_0, connector_i_1, connector_scene, connection_scene
 						) or any_change_done
-#				else:
-#					any_change_done = any_change_done or _handle_with_intermediate(
-#						geo_line, vert_id, intermediate_count, distance,
-#						connector_i_0, connector_i_1, connector_scene, connection_scene
-#					)
+				else:
+					any_change_done = _handle_with_intermediate(
+						geo_line, vert_id, intermediate_count, distance,
+						connector_i_0, connector_i_1, connector_scene, connection_scene
+					) or any_change_done
 			
 			connector_i_0 = connector_i_1
 	connection_mutex.unlock()
 	
 	if any_change_done:
-		last_update_pos = Vector2(center.x, center.z)
 		call_deferred("apply_refined_data")
 
 
@@ -218,15 +215,15 @@ func apply_refined_data():
 			$Connections.remove_child(child)
 			child.free()
 #
-#	for access_str in intermediate_connectors.keys():
-#		if not has_node(access_str):
-#			add_child(intermediate_connectors[access_str])
-#
-#	for child in get_children():
-#		if child.name.count("_") < 2: continue
-#		if not intermediate_connectors.has(child.name):
-#			remove_child(child)
-#			child.free()
+	for access_str in intermediate_connectors.keys():
+		if not has_node(access_str) and connections[access_str] is Node3D:
+			add_child(intermediate_connectors[access_str])
+
+	for child in get_children():
+		if child.name.count("_") < 2: continue
+		if not intermediate_connectors.has(child.name):
+			remove_child(child)
+			child.free()
 	
 	connection_mutex.unlock()
 
@@ -267,6 +264,7 @@ func inner_connect(feature_id: int, vertex_id: int, num_connectors_between: int,
 	var intermediate_connector
 	for intermediate_id in range(num_connectors_between):
 		var access_string = "{0}_{1}_{2}".format([feature_id, vertex_id, intermediate_id])
+		if connections.has(access_string): continue
 		intermediate_connector = intermediate_connectors.get(access_string)
 		
 		var new_con = explicit_connect(
@@ -299,13 +297,16 @@ func add_intermediate_connectors(feature_id: int, vertex_id: int, distance: floa
 	intermediate_connector.position = previous_connector.position
 
 	for intermediate_id in range(num_connectors_between):
+		var access_str = "{0}_{1}_{2}".format([feature_id, vertex_id, intermediate_id])
+		if intermediate_connectors.has(access_str): continue
+		
 		# As they will be strung on a line they have the same rotation
 		intermediate_connector.position += step_size * direction
 		intermediate_connector.name = "{0}_{1}_{2}".format([feature_id, vertex_id, intermediate_id])
 		
 		intermediate_connectors[intermediate_connector.name] = intermediate_connector
 		
-		intermediate_connector = intermediate_connector.duplicate()
+		intermediate_connector = intermediate_connector.duplicate(DUPLICATE_USE_INSTANTIATION)
 
 
 func load_feature_instance(geo_line: GeoFeature) -> Node3D:
