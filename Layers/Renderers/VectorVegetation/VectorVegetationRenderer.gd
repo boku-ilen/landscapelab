@@ -4,14 +4,14 @@ extends LayerCompositionRenderer
 var chunks = []
 
 var chunk_size = 200
-var extent = 3
+var extent = 10
 
 
 func _ready():
 	super._ready()
 	for x in range(-extent, extent + 1):
 		for y in range(-extent, extent + 1):
-			var chunk = preload("res://Layers/Renderers/VectorVegetation/PlantMultiMeshInstance.tscn").instantiate()
+			var chunk = preload("res://Layers/Renderers/VectorVegetation/PlantMultiMeshes.tscn").instantiate()
 
 			var size = chunk_size
 			var chunk_position = Vector3(x * size, 0.0, y * size)

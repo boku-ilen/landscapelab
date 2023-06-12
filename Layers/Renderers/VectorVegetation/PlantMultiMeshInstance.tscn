@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1fjilr5co6hf"]
-
-[ext_resource type="Script" path="res://Layers/Renderers/VectorVegetation/PlantMultiMeshInstance.gd" id="1_p5ld8"]
-
-[node name="PlantMultiMeshInstance" type="MultiMeshInstance3D"]
-script = ExtResource("1_p5ld8")
