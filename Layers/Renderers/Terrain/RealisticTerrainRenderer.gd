@@ -7,12 +7,13 @@ var chunk_size = 1000
 var extent = 7 # extent of chunks in every direction
 
 @export var basic_ortho_resolution := 100
-@export var basic_landuse_resolution := 10
+@export var basic_landuse_resolution := 100
 @export var basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_100x100.obj")
 @export var basic_mesh_resolution := 100
 
 @export var detailed_load_distance := 2000.0
 @export var detailed_ortho_resolution := 2000
+@export var detailed_landuse_resolution := 1000
 @export var detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_200x200.obj")
 @export var detailed_mesh_resolution := 200
 
@@ -92,7 +93,7 @@ func get_nearest_chunk_below_resolution(query_position: Vector3, resolution: int
 	
 	for chunk in chunks:
 		if chunk.ortho_resolution < resolution:
-			var distance = chunk.position.distance_to(query_position)
+			var distance = Vector2(chunk.position.x, chunk.position.z).distance_to(Vector2(query_position.x, query_position.z))
 			if distance < nearest_distance and distance < max_distance:
 				nearest_distance = distance
 				nearest_chunk = chunk
@@ -113,9 +114,12 @@ func refine_load():
 			chunk.mesh = basic_mesh
 			chunk.mesh_resolution = basic_mesh_resolution
 			chunk.ortho_resolution = basic_ortho_resolution
+			chunk.landuse_resolution = basic_landuse_resolution
 			chunk.build(center[0] + chunk.position.x + chunk.position_diff_x,
 				center[1] - chunk.position.z - chunk.position_diff_z)
 			chunk.changed = true
+			chunk.load_detail_textures = false
+			chunk.load_fade_textures = false
 			any_change_done = true
 	
 	# Upgrade nearby chunks
@@ -129,10 +133,13 @@ func refine_load():
 		nearest_chunk.mesh = detailed_mesh
 		nearest_chunk.mesh_resolution = detailed_mesh_resolution
 		nearest_chunk.ortho_resolution = detailed_ortho_resolution
+		nearest_chunk.landuse_resolution = detailed_landuse_resolution
 		
 		nearest_chunk.build(center[0] + nearest_chunk.position.x + nearest_chunk.position_diff_x,
 			center[1] - nearest_chunk.position.z - nearest_chunk.position_diff_z)
 		nearest_chunk.changed = true
+		nearest_chunk.load_detail_textures = true
+		nearest_chunk.load_fade_textures = true
 		any_change_done = true
 	elif load_roads:
 		load_roads = false

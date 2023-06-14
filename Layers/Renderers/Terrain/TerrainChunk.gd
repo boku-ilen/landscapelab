@@ -6,7 +6,7 @@ class_name TerrainChunk
 @export var size: float = 100
 
 @export var ortho_resolution: int = 1000
-@export var landuse_resolution: int = 100
+@export var landuse_resolution: int = 1000
 
 @export var load_detail_textures: bool = false
 @export var load_fade_textures: bool = false

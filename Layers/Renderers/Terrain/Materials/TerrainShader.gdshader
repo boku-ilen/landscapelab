@@ -50,6 +50,55 @@ uniform bool has_terraforming_texture;
 uniform sampler2D terraforming_texture: repeat_disable, filter_nearest;
 uniform sampler2D terraforming_weights: repeat_disable, filter_nearest;
 
+uniform float texture_thresholds[8];
+uniform sampler2D ground_textures[8]: source_color;
+uniform sampler2D ground_normals[8];
+
+// From https://www.shadertoy.com/view/mds3R4
+vec4 fractal_texture(sampler2D tex, vec2 uv, float depth) {
+    //Find the pixel level of detail
+	float LOD = log(depth);
+    //Round LOD down
+	float LOD_floor = floor(LOD);
+    //Compute the fract part for interpolating
+	float LOD_fract = LOD - LOD_floor;
+	
+    //Compute scaled uvs
+	vec2 uv1 = uv / exp(LOD_floor - 1.0);
+	vec2 uv2 = uv / exp(LOD_floor + 0.0);
+	vec2 uv3 = uv / exp(LOD_floor + 1.0);
+	
+    //Sample at 3 scales
+	vec4 tex0 = texture(tex, uv1);
+	vec4 tex1 = texture(tex, uv2);
+	vec4 tex2 = texture(tex, uv3);
+    
+    //Blend samples together
+	return (tex1 + mix(tex0, tex2, LOD_fract)) * 0.5;
+}
+
+vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
+    //Find the pixel level of detail
+	float LOD = log(depth);
+    //Round LOD down
+	float LOD_floor = floor(LOD);
+    //Compute the fract part for interpolating
+	float LOD_fract = LOD - LOD_floor;
+	
+    //Compute scaled uvs
+	vec3 uv1 = vec3(uv.xy / exp(LOD_floor - 1.0), uv.z);
+	vec3 uv2 = vec3(uv.xy / exp(LOD_floor + 0.0), uv.z);
+	vec3 uv3 = vec3(uv.xy / exp(LOD_floor + 1.0), uv.z);
+	
+    //Sample at 3 scales
+	vec4 tex0 = texture(tex, uv1);
+	vec4 tex1 = texture(tex, uv2);
+	vec4 tex2 = texture(tex, uv3);
+    
+    //Blend samples together
+	return (tex1 + mix(tex0, tex2, LOD_fract)) * 0.5;
+}
+
 // Workaround for a bug in `texelFetch` - use this instead!
 // More info at https://github.com/godotengine/godot/issues/31732
 vec4 texelGet ( sampler2D tg_tex, ivec2 tg_coord, int tg_lod ) {
@@ -160,65 +209,127 @@ vec3 get_distance_color(vec3 uv, vec3 ortho_color) {
 }
 
 
+vec3 hue_shift(vec3 from, vec3 hue_ref, float shift_scale) {
+	vec3 base_hcy = RGBtoHCY(hue_ref);
+	vec3 detail_hcy = RGBtoHCY(from);
+
+	float hue_difference = abs(base_hcy.x - detail_hcy.x);
+
+	// Adapt the detail texture hue and chroma to the orthophoto
+	if (true) {
+//		detail_hcy.x = mix(detail_hcy.x, base_hcy.x, shift_scale);
+		detail_hcy.y = mix(detail_hcy.y, base_hcy.y, shift_scale);
+		detail_hcy.z = mix(detail_hcy.z, base_hcy.z, shift_scale);
+	}
+	
+	return HCYtoRGB(detail_hcy);
+}
+
 void fragment() {
+	float depth = FRAGCOORD.z / FRAGCOORD.w;
+	
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 	
-	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.006).rg - 0.5) * (50.0 / size);
-	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
-	
-	// Check for water
-	// TODO: Expose these parameters
-	if (splat_id >= 60 && splat_id <= 66) {
-		discard;
-	}
-	
-	// Add some more noise for all non-water land-uses
-	vec2 random_fine_landuse_offset = (texture(offset_noise, world_pos.xz * 0.8).gb - 0.5) * (7.0 / size);
-	random_fine_landuse_offset += (texture(offset_noise, world_pos.xz * 0.55).rb - 0.5) * (6.0 / size);
-	
-	splat_id = int(round(texture(landuse, UV + random_landuse_offset + random_fine_landuse_offset).r * 255.0));
-	
-	vec3 metadata_value = texelGet(metadata, ivec2(splat_id, 0), 0).rgb;
-	
-	float plant_row = metadata_value.r * 255.0;
-	float ground_texture_scale = float(uses_detail_textures) * metadata_value.g * 128.0; // FIXME: Move scale to uniform
-	float fade_texture_scale = float(uses_distance_textures) * metadata_value.b * 128.0;
-	
-	vec3 scaled_near_uv = vec3(UV * size / ground_texture_scale, plant_row);
-	vec3 scaled_far_uv = vec3(UV * size / fade_texture_scale, plant_row);
-	
 	vec3 ortho_color = get_ortho_color(UV);
-	vec3 near_color = texture(albedo_tex, scaled_near_uv).rgb;
-	// If there is no distance texture, the distance color is just the orthophoto
-	vec3 distance_color = mix(ortho_color,
-			get_distance_color(scaled_far_uv, ortho_color),
-			float(fade_texture_scale > 0.0));
 	
-	vec3 near_normal = texture(normal_tex, scaled_near_uv).xyz;
-	vec3 far_normal = mix(vec3(0.5, 0.5, 1.0),
-			texture(distance_normals, scaled_far_uv).xyz,
-			float(fade_texture_scale > 0.0));
+	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.006).rg - 0.5) * (50.0 / size);
 	
-	if (ground_texture_scale > 0.0 && camera_distance < distance_tex_switch_distance + fade_transition_space / 2.0) {
-		// Lerp between near and distance texture
-		float lerp_factor = (camera_distance - distance_tex_switch_distance) / fade_transition_space;
-		lerp_factor = clamp(lerp_factor, 0.0, 1.0);
-		ALBEDO = mix(near_color, distance_color, lerp_factor);
-		NORMAL_MAP = mix(
-			near_normal,
-			far_normal,
-			lerp_factor);
-	} else {
-		// Lerp between distance texture and ortho
-		float lerp_factor = (camera_distance - ortho_switch_distance) / ortho_transition_space;
-		lerp_factor = clamp(lerp_factor, 0.0, 1.0);
-		ALBEDO = mix(distance_color, ortho_color, lerp_factor);
-		NORMAL_MAP = mix(
-			far_normal,
-			vec3(0.5, 0.5, 1.0),
-			lerp_factor);
+	vec3 detail_color = vec3(0.0);
+	vec2 scaled_near_uv = vec2(UV * size / 2.0);
+	
+	float count = 0.0;
+	
+	// Get detail texture sample, but blur the position to get nice transitions
+	for (float x_off = -1.0; x_off < 2.0; x_off += 0.25) {
+		for (float y_off = -1.0; y_off < 2.0; y_off += 0.25) {
+			vec2 offset_vector = vec2(x_off / size, y_off / size);
+			float splat_id = texture(landuse, UV + offset_vector).r;
+			
+			int texture_index = 0;
+			
+			for (int i = 0; i < 8; i++) {
+				if (splat_id < texture_thresholds[i]) {
+					texture_index = i;
+					break;
+				}
+			}
+			
+			detail_color += fractal_texture(ground_textures[texture_index], scaled_near_uv, depth).rgb;
+			count++;
+		}
 	}
 	
+	detail_color /= count;
+	
+	float dist_scale = min(depth / 300.0, 1.0);
+	
+	ALBEDO = hue_shift(detail_color, ortho_color, dist_scale);
+	
+	// Normal
+	float splat_id = texture(landuse, UV).r;
+	int texture_index = 0;
+	
+	for (int i = 0; i < 8; i++) {
+		if (splat_id < texture_thresholds[i]) {
+			texture_index = i;
+			break;
+		}
+	}
+	NORMAL_MAP = fractal_texture(ground_normals[texture_index], scaled_near_uv, depth).rgb;
+	
+//	// Check for water
+//	// TODO: Expose these parameters
+//	if (splat_id >= 60 && splat_id <= 66) {
+//		discard;
+//	}
+//
+////	// Add some more noise for all non-water land-uses
+////	vec2 random_fine_landuse_offset = (texture(offset_noise, world_pos.xz * 0.8).gb - 0.5) * (7.0 / size);
+////	random_fine_landuse_offset += (texture(offset_noise, world_pos.xz * 0.55).rb - 0.5) * (6.0 / size);
+////
+////	splat_id = int(round(texture(landuse, UV + random_landuse_offset + random_fine_landuse_offset).r * 255.0));
+//
+//	vec3 metadata_value = texelGet(metadata, ivec2(splat_id, 0), 0).rgb;
+//
+//	float plant_row = metadata_value.r * 255.0;
+//	float ground_texture_scale = float(uses_detail_textures) * metadata_value.g * 128.0; // FIXME: Move scale to uniform
+//	float fade_texture_scale = float(uses_distance_textures) * metadata_value.b * 128.0;
+//
+//	vec3 scaled_near_uv = vec3(UV * size / ground_texture_scale, plant_row);
+//	vec3 scaled_far_uv = vec3(UV * size / fade_texture_scale, plant_row);
+//
+//	vec3 ortho_color = get_ortho_color(UV);
+//	vec3 near_color = fractal_texture_array(albedo_tex, scaled_near_uv, depth).rgb;
+//	// If there is no distance texture, the distance color is just the orthophoto
+//	vec3 distance_color = mix(ortho_color,
+//			get_distance_color(scaled_far_uv, ortho_color),
+//			float(fade_texture_scale > 0.0));
+//
+//	vec3 near_normal = fractal_texture_array(normal_tex, scaled_near_uv, depth).xyz;
+//	vec3 far_normal = mix(vec3(0.5, 0.5, 1.0),
+//			texture(distance_normals, scaled_far_uv).xyz,
+//			float(fade_texture_scale > 0.0));
+//
+//	if (ground_texture_scale > 0.0) {
+//		// Lerp between near and distance texture
+//		float lerp_factor = (camera_distance - distance_tex_switch_distance) / fade_transition_space;
+//		lerp_factor = 0.0;//clamp(lerp_factor, 0.0, 1.0);
+//		ALBEDO = hue_shift(near_color, ortho_color);
+//		NORMAL_MAP = mix(
+//			near_normal,
+//			far_normal,
+//			lerp_factor);
+//	} else {
+//		// Lerp between distance texture and ortho
+//		float lerp_factor = (camera_distance - ortho_switch_distance) / ortho_transition_space;
+//		lerp_factor = 1.0;//clamp(lerp_factor, 0.0, 1.0);
+//		ALBEDO = mix(distance_color, ortho_color, lerp_factor);
+//		NORMAL_MAP = mix(
+//			far_normal,
+//			vec3(0.5, 0.5, 1.0),
+//			lerp_factor);
+//	}
+//
 	METALLIC = 0.0;
 	ROUGHNESS = 0.95;
 	NORMAL_MAP_DEPTH = 3.0;

@@ -1,7 +1,22 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://kbnb4iijyt0j"]
+[gd_resource type="ShaderMaterial" load_steps=18 format=3 uid="uid://kbnb4iijyt0j"]
 
 [ext_resource type="Shader" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.gdshader" id="1"]
-[ext_resource type="Texture2D" uid="uid://cg7dqlsthrgj3" path="res://Resources/Textures/ShaderUtil/rgb_solid_noise.png" id="2_oph0d"]
+[ext_resource type="Texture2D" uid="uid://d14ff172bly2g" path="res://Resources/Textures/BaseGround/Conrete/Concrete025_2K_NormalGL.jpg" id="2_7406u"]
+[ext_resource type="Texture2D" uid="uid://bhpc05ab8bhek" path="res://Resources/Textures/BaseGround/Conrete/Concrete025_2K_Color.jpg" id="2_ljald"]
+[ext_resource type="Texture2D" uid="uid://bpqxrw1vquu3b" path="res://Resources/Textures/BaseGround/Asphalt/Asphalt023S_2K_Color.jpg" id="3_1hcfn"]
+[ext_resource type="Texture2D" uid="uid://b0hmer8qk3p8y" path="res://Resources/Textures/BaseGround/Asphalt/Asphalt023S_2K_NormalGL.jpg" id="3_b7lms"]
+[ext_resource type="Texture2D" uid="uid://8m5ccu8y8xx5" path="res://Resources/Textures/BaseGround/Grass/Grass004_2K_Color.jpg" id="4_3v2m5"]
+[ext_resource type="Texture2D" uid="uid://c638g6wlcnx3u" path="res://Resources/Textures/BaseGround/Grass/Grass004_2K_NormalGL.jpg" id="4_dhf58"]
+[ext_resource type="Texture2D" uid="uid://ojinn2ik7v27" path="res://Resources/Textures/BaseGround/Gravel/Gravel037_2K_NormalGL.jpg" id="5_swtja"]
+[ext_resource type="Texture2D" uid="uid://evsptgj4i6lo" path="res://Resources/Textures/BaseGround/Gravel/Gravel037_2K_Color.jpg" id="5_uyuar"]
+[ext_resource type="Texture2D" uid="uid://b8acq4q602dyu" path="res://Resources/Textures/BaseGround/Riverbed/Gravel021_2K_NormalGL.jpg" id="6_865oa"]
+[ext_resource type="Texture2D" uid="uid://h5v06r8kp6dm" path="res://Resources/Textures/BaseGround/Riverbed/Gravel021_2K_Color.jpg" id="6_u6gl7"]
+[ext_resource type="Texture2D" uid="uid://v78625kscstv" path="res://Resources/Textures/BaseGround/Rock/Rock046S_2K_Color.jpg" id="7_gq7e8"]
+[ext_resource type="Texture2D" uid="uid://c5k760ffqr0mn" path="res://Resources/Textures/BaseGround/Rock/Rock046S_2K_NormalGL.jpg" id="7_v7k3o"]
+[ext_resource type="Texture2D" uid="uid://c8kraikx1g6tq" path="res://Resources/Textures/BaseGround/Forest/Ground024_2K_NormalGL.jpg" id="8_7ytqm"]
+[ext_resource type="Texture2D" uid="uid://bplrvwne6kbs5" path="res://Resources/Textures/BaseGround/Forest/Ground024_2K_Color.jpg" id="8_kbbjj"]
+[ext_resource type="Texture2D" uid="uid://b4ibc0ctlk0pu" path="res://Resources/Textures/BaseGround/Soil/Ground025_2K_Color.jpg" id="9_s1q7r"]
+[ext_resource type="Texture2D" uid="uid://bl12xvlel6xbq" path="res://Resources/Textures/BaseGround/Soil/Ground025_2K_NormalGL.jpg" id="9_wn8qv"]
 
 [resource]
 resource_local_to_scene = true
@@ -22,4 +37,8 @@ shader_parameter/normal_scale = 1.0
 shader_parameter/ortho_saturation = 1.2
 shader_parameter/ortho_blue_shift_factor = 0.9
 shader_parameter/size = null
-shader_parameter/distance_normal_noise = ExtResource("2_oph0d")
+shader_parameter/has_terraforming_texture = null
+shader_parameter/texture_thresholds = PackedFloat32Array(120, 140, 160, 250, 290, 300, 400, 1000)
+shader_parameter/strength = 2
+shader_parameter/ground_textures = Array[Texture2D]([ExtResource("2_ljald"), ExtResource("3_1hcfn"), ExtResource("4_3v2m5"), ExtResource("5_uyuar"), ExtResource("6_u6gl7"), ExtResource("7_gq7e8"), ExtResource("8_kbbjj"), ExtResource("9_s1q7r")])
+shader_parameter/ground_normals = Array[Texture2D]([ExtResource("2_7406u"), ExtResource("3_b7lms"), ExtResource("4_dhf58"), ExtResource("5_swtja"), ExtResource("6_865oa"), ExtResource("7_v7k3o"), ExtResource("8_7ytqm"), ExtResource("9_wn8qv")])
