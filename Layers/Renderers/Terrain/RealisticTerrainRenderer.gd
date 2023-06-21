@@ -19,10 +19,51 @@ var extent = 7 # extent of chunks in every direction
 
 func _ready():
 	super._ready()
+	
+	# TODO: Need to call generate_mipmaps on the images, but that makes things a bit more complicated
+	#  -> begin rewrite for more generic loading to do that properly
+	
+	var texture_folders = [
+		"Concrete",
+		"Asphalt",
+		"Grass",
+		"Gravel",
+		"Riverbed",
+		"Rock",
+		"Forest",
+		"Soil"
+	]
+	
+	var color_images = []
+	var normal_images = []
+	
+	for texture_folder in texture_folders:
+		var color_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/color.jpg")
+		var normal_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/normal.jpg")
+		
+		color_image.generate_mipmaps()
+		normal_image.generate_mipmaps()
+		
+		color_images.append(color_image)
+		normal_images.append(normal_image)
+	
+	var texture_array = Texture2DArray.new()
+	texture_array.create_from_images(color_images)
+	# FIXME: Doesn't work due to a Godot issue: https://github.com/godotengine/godot/issues/54202
+	# ResourceSaver.save(texture_array, "res://Layers/Renderers/Terrain/Materials/GroundTextures.tres")
+	
+	var normal_array = Texture2DArray.new()
+	normal_array.create_from_images(normal_images)
+	
+	var shader_material = preload("res://Layers/Renderers/Terrain/Materials/TerrainShader.tres")
+	shader_material.set_shader_parameter("ground_normals", normal_array)
+	shader_material.set_shader_parameter("ground_textures", texture_array)
+	
 	for x in range(-extent, extent + 1):
 		for y in range(-extent, extent + 1):
 			var chunk = preload("res://Layers/Renderers/Terrain/TerrainChunk.tscn").instantiate()
-
+			chunk.material_override = shader_material.duplicate()
+			
 			var size = chunk_size
 			var chunk_position = Vector3(x * size, 0.0, y * size)
 

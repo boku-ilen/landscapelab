@@ -51,8 +51,8 @@ uniform sampler2D terraforming_texture: repeat_disable, filter_nearest;
 uniform sampler2D terraforming_weights: repeat_disable, filter_nearest;
 
 uniform float texture_thresholds[8];
-uniform sampler2D ground_textures[8]: source_color;
-uniform sampler2D ground_normals[8];
+uniform sampler2DArray ground_textures: source_color;
+uniform sampler2DArray ground_normals;
 
 // From https://www.shadertoy.com/view/mds3R4
 vec4 fractal_texture(sampler2D tex, vec2 uv, float depth) {
@@ -254,7 +254,7 @@ void fragment() {
 				}
 			}
 			
-			detail_color += fractal_texture(ground_textures[texture_index], scaled_near_uv, depth).rgb;
+			detail_color += fractal_texture_array(ground_textures, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
 			count++;
 		}
 	}
@@ -275,7 +275,7 @@ void fragment() {
 			break;
 		}
 	}
-	NORMAL_MAP = fractal_texture(ground_normals[texture_index], scaled_near_uv, depth).rgb;
+	NORMAL_MAP = fractal_texture_array(ground_normals, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
 	
 //	// Check for water
 //	// TODO: Expose these parameters

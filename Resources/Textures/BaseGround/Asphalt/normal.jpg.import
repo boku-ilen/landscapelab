@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://hn44houyd7ap"
+path="res://.godot/imported/normal.jpg-27d43ab61ab5b793818531dee4c3b162.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Asphalt/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-27d43ab61ab5b793818531dee4c3b162.image"]
+
+[params]
+

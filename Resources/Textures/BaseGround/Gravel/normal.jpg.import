@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://d4h0fohu6uo55"
+path="res://.godot/imported/normal.jpg-fcfd2c04594b10c76a2629f64ab81d70.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Gravel/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-fcfd2c04594b10c76a2629f64ab81d70.image"]
+
+[params]
+

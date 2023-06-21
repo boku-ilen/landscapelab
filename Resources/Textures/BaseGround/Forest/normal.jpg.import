@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://c8401dpncx5hk"
+path="res://.godot/imported/normal.jpg-41f15c427dc145ce5ac2bd8847dd2679.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Forest/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-41f15c427dc145ce5ac2bd8847dd2679.image"]
+
+[params]
+

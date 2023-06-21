@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://btefm8olhbk5i"
+path="res://.godot/imported/color.jpg-0b7f6a0bd16d0ce8f512a48a0e475753.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Grass/color.jpg"
+dest_files=["res://.godot/imported/color.jpg-0b7f6a0bd16d0ce8f512a48a0e475753.image"]
+
+[params]
+

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://de62gq0phf8vx"
+path="res://.godot/imported/normal.jpg-bdc211edeb09581dc10b2a0602be0038.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Rock/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-bdc211edeb09581dc10b2a0602be0038.image"]
+
+[params]
+
