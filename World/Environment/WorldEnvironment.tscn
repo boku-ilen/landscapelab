@@ -44,7 +44,7 @@ sdfgi_max_distance = 1024.0
 glow_enabled = true
 fog_enabled = true
 fog_light_color = Color(0.517647, 0.552941, 0.607843, 1)
-fog_density = 0.001
+fog_density = 0.0002
 fog_aerial_perspective = 1.0
 fog_sky_affect = 0.0
 volumetric_fog_density = 0.01
@@ -60,7 +60,6 @@ script = ExtResource("1")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-2.91845e-08, -0.744463, 0.667664, -3.25415e-08, 0.667664, 0.744463, -1, 1.24345e-14, -4.37114e-08, 0, 0, 0)
 layers = 15
-light_energy = 0.0
 shadow_enabled = true
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 1000.0
