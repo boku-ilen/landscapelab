@@ -5,6 +5,8 @@ class_name FeatureLayerCompositionRenderer
 # Define variables for loading features
 var mutex = Mutex.new()
 var features := []
+var remove_features := []
+var load_features := []
 var instances := {}
 var radius = 6000.0
 var max_features = 2000
@@ -19,26 +21,34 @@ func _ready():
 
 
 func full_load():
+	mutex.lock()
 	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 		float(center[0]), float(center[1]), radius, max_features)
+	load_features = features
 	
-	mutex.lock()
 	for feature in features:
 		instances[feature.get_id()] = load_feature_instance(feature)
 	mutex.unlock()
 
 
 func adapt_load(_diff: Vector3):
-	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
+	mutex.lock()
+	var new_features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 		float(center[0]) + position_manager.center_node.position.x,
 		float(center[1]) - position_manager.center_node.position.z,
 		radius, max_features
 	)
 	
-	mutex.lock()
-	for feature in features:
-		if not instances.has(feature.get_id()): 
-			instances[feature.get_id()] = load_feature_instance(feature)
+	var old_feature_ids = features.map(func(f): return f.get_id())
+	var new_feature_ids = new_features.map(func(f): return f.get_id())
+	
+	remove_features = features.filter(func(f): return not f.get_id() in new_feature_ids)
+	load_features = new_features.filter(func(f): return not f.get_id() in old_feature_ids)
+	
+	features = new_features
+	
+	for feature in load_features:
+		instances[feature.get_id()] = load_feature_instance(feature)
 	mutex.unlock()
 	
 	call_deferred("apply_new_data")
@@ -46,15 +56,11 @@ func adapt_load(_diff: Vector3):
 
 func apply_new_data():
 	mutex.lock()
-	for feature in features:
-		var node_name = str(feature.get_id())
-		if not has_node(node_name):
-			apply_feature_instance(feature)
+	for feature in load_features:
+		apply_feature_instance(feature)
 	
-	var valid_feature_ids = features.map(func(f): return f.get_id())
-	for id in instances.keys():
-		if not id in valid_feature_ids:
-			remove_feature(id)
+	for feature in remove_features:
+		remove_feature(feature.get_id())
 	mutex.unlock()
 	
 	super.apply_new_data()
