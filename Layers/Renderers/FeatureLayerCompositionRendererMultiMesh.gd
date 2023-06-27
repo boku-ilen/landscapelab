@@ -62,12 +62,18 @@ func adapt_load(_diff: Vector3):
 func apply_new_data():
 	mutex.lock()
 	# Set the instance count to all cummulated vertecies
+	var intermediate_transforms = calculate_intermediate_transforms()
+	
 	multimesh.instance_count = features.reduce(
-		func(i, f): return i + f.get_curve3d().get_point_count(), 0)
+		func(i, f): return i + f.get_curve3d().get_point_count(), 0) + intermediate_transforms.size()
 	
 	var current_index := 0
 	for feature in features:
 		current_index = apply_feature_instance(feature, current_index)
+	
+	for t in intermediate_transforms:
+		multimesh.set_instance_transform(current_index, t)
+		current_index += 1
 	
 	build_aabb()
 	mutex.unlock()
@@ -79,7 +85,7 @@ func apply_new_data():
 
 # Might be necessary to be overwritten by inherited class
 # Apply feature to the main scene - not run in a thread
-func apply_feature_instance(feature: GeoFeature, current_index: int): 
+func apply_feature_instance(feature: GeoFeature, current_index: int):
 	mutex.lock()
 	if instances.has(feature.get_id()) and instances[feature.get_id()] != null:
 		var vertices: Curve3D = feature.get_curve3d()
@@ -95,6 +101,53 @@ func apply_feature_instance(feature: GeoFeature, current_index: int):
 	return current_index
 	mutex.unlock()
 
+
+func count_intermediate():
+	pass
+
+
+func calculate_intermediate_transforms():
+	var get_feature_child = func(f_id, v_id):
+		return instances[f_id].get_child(v_id)
+	
+	var transforms := []
+	for feature in features:
+		var f_id = feature.get_id()
+		var vertices: Curve3D = feature.get_curve3d()
+		var starting_point: Vector3 = get_feature_child.call(f_id, 0).position
+		var end_point: Vector3
+		var get_ground_height_at_pos = layer_composition.render_info.ground_height_layer.get_value_at_position
+		
+		var t: Transform3D
+		for v_id in range(1, vertices.get_point_count()):
+			t = get_feature_child.call(f_id, v_id).transform
+			end_point = get_feature_child.call(f_id, v_id).position
+			
+			var distance = starting_point.distance_to(end_point)
+			var width = 0.8
+			var num_between = ceil(distance / width)
+			var direction = end_point.direction_to(starting_point)
+			
+			t.basis.z = -direction
+			
+			var rand_angle := 0.0
+			for i in range(num_between):
+				var pos = t.origin + width * direction
+				# Randomly add 90, 180 or 270 degrees to previous rotation
+				var pseudo_random = int(pos.x + pos.z)
+				rand_angle = rand_angle + (PI / 2.0) * ((pseudo_random % 3) + 1.0)
+				t = t.rotated_local(Vector3.UP, rand_angle)
+				t.origin = pos
+				
+				# Set the mesh on ground and add some buffer for uneven grounds
+				t.origin.y = get_ground_height_at_pos.call(
+					center[0] + t.origin.x, center[1] - t.origin.z) - 0.2 
+				
+				transforms.append(t)
+			
+			starting_point = end_point
+	
+	return transforms
 
 # To be implemented by inherited class
 # Instantiate and initially configure (e.g. set position) of  the instance - run in a thread

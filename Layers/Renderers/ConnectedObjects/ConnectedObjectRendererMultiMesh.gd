@@ -37,7 +37,7 @@ var loaded_connector_scenes := {}
 func _ready():
 	super._ready()
 
-	max_features = 100
+	max_features = 500
 	
 	radius = 120.0
 	connection_radius = 100.0
