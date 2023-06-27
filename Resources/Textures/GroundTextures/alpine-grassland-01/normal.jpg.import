@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://ch5ti6no67gnf"
+path="res://.godot/imported/normal.jpg-7321a9e9e4212c02cb8dfd84288c8b03.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/alpine-grassland-01/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-7321a9e9e4212c02cb8dfd84288c8b03.image"]
+
+[params]
+

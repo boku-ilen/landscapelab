@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://dxo4ed0tjure1"]
+
+[ext_resource type="Material" uid="uid://kbnb4iijyt0j" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="1_edpx3"]
+[ext_resource type="Script" path="res://Layers/Renderers/Terrain/BasicTerrainChunk.gd" id="2_12tco"]
+
+[sub_resource type="PlaneMesh" id="1"]
+size = Vector2(1000, 1000)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_gsqtn"]
+
+[node name="BasicTerrainChunk" type="MeshInstance3D"]
+material_override = ExtResource("1_edpx3")
+extra_cull_margin = 10000.0
+mesh = SubResource("1")
+script = ExtResource("2_12tco")
+
+[node name="HeightmapCollider" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+collision_layer = 524289
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HeightmapCollider"]
+shape = SubResource("WorldBoundaryShape3D_gsqtn")

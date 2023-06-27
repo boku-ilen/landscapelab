@@ -1,7 +1,7 @@
 extends StaticBody3D
 
 #
-# Can be added as a child to a TerrainLOD to generate a collision StaticBody3D based checked its data and
+# Can be added as a child to a TerrainChunk to generate a collision StaticBody3D based checked its data and
 # shape.
 #
 

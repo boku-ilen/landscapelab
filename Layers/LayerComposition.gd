@@ -31,7 +31,7 @@ const RENDER_INFOS := {
 	"Wind Turbine": WindTurbineRenderInfo,
 	"Polygon": PolygonObjectInfo,
 	"Building": BuildingRenderInfo,
-	"Path": PathRenderInfo,
+	"Road Network": RoadNetworkRenderInfo,
 	"Connected Object": ConnectedObjectInfo,
 	"Polygon Object": PolygonObjectInfo
 }
@@ -106,7 +106,7 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Terrain/RealisticTerrainRenderer.tscn")
-		icon = preload("res://Resources/Icons/ModernLandscapeLab/raster.svg")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 	
 	func get_geolayers():
 		return [height_layer, surface_height_layer, texture_layer, landuse_layer]
@@ -119,6 +119,26 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 		return height_layer and surface_height_layer and texture_layer and landuse_layer
 	
 	func get_class_name() -> String: return "Realistic Terrain"
+
+class RoadNetworkRenderInfo extends RenderInfo:
+	var road_roads: GeoFeatureLayer
+	var road_intersections: GeoFeatureLayer
+	var height_layer: GeoRasterLayer
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/Path/RoadNetworkRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/raster.svg")
+	
+	func get_geolayers():
+		return [road_roads, road_intersections]
+	
+	func get_described_geolayers() -> Dictionary:
+		return {"road_roads": road_roads, "road_intersections": road_intersections}
+	
+	func is_valid():
+		return road_roads and road_intersections
+	
+	func get_class_name() -> String: return "RoadNetwork"
 
 class VegetationRenderInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
@@ -196,26 +216,6 @@ class BuildingRenderInfo extends PolygonRenderInfo:
 	var blue_attribute_name: String
 	
 	func get_class_name() -> String: return "Building"
-
-class PathRenderInfo extends RenderInfo:
-	var line_visualization: String
-	var ground_height_layer: GeoRasterLayer
-	var geo_feature_layer: GeoFeatureLayer
-	
-	func _init():
-		renderer = preload("res://Layers/Renderers/Path/PathRenderer.tscn")
-		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
-	
-	func get_geolayers():
-		return [ground_height_layer, geo_feature_layer]
-	
-	func get_described_geolayers() -> Dictionary:
-		return {"Ground-height": ground_height_layer, "Features": geo_feature_layer}
-	
-	func is_valid():
-		return geo_feature_layer != null && ground_height_layer != null
-	
-	func get_class_name() -> String: return "Path"
 
 class ConnectedObjectInfo extends RenderInfo:
 	# The geodata-key-attribute that determines which connector/connection to use

@@ -1,33 +1,13 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://cq2s41eq6mvmd"]
 
-[ext_resource type="Shader" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.gdshader" id="1"]
-[ext_resource type="PackedScene" path="res://Layers/Renderers/Terrain/TerrainLOD.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://Layers/LayerCompositionRenderer.tscn" id="3"]
+[ext_resource type="ArrayMesh" uid="uid://lqw0a5653sxf" path="res://Layers/Renderers/Terrain/lod_mesh_100x100.obj" id="3_drdtd"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/BasicTerrainRenderer.gd" id="4"]
 
-[sub_resource type="ShaderMaterial" id=1]
-resource_local_to_scene = true
-shader = ExtResource( 1 )
-shader_parameter/height_scale = 1.0
-shader_parameter/has_hole = false
-shader_parameter/has_surface_heights = false
-shader_parameter/surface_heights_start_distance = 800.0
-shader_parameter/has_landuse = false
-shader_parameter/uses_detail_textures = false
-shader_parameter/uses_distance_textures = false
-shader_parameter/distance_tex_switch_distance = 20.0
-shader_parameter/fade_transition_space = 8.0
-shader_parameter/ortho_switch_distance = 150.0
-shader_parameter/ortho_transition_space = 20.0
-shader_parameter/normal_scale = 1.0
-shader_parameter/ortho_saturation = 1.5
-shader_parameter/ortho_blue_shift_factor = 0.9
-shader_parameter/size = null
+[node name="BasicTerrainRenderer" instance=ExtResource("3")]
+script = ExtResource("4")
+basic_texture_resolution = 1000
+basic_mesh = ExtResource("3_drdtd")
+basic_mesh_resolution = 100
 
-[node name="BasicTerrainRenderer" instance=ExtResource( 3 )]
-script = ExtResource( 4 )
-
-[node name="TerrainLOD0" parent="." index="0" instance=ExtResource( 2 )]
-material_override = SubResource( 1 )
-size = 25000.0
-ortho_resolution = 10000
+[node name="Chunks" type="Node3D" parent="." index="0"]

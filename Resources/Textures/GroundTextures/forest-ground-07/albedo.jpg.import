@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://p02tsh5krwf5"
+path="res://.godot/imported/albedo.jpg-9fa7d5482531eb4cb9e3c27b0b66d73b.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/forest-ground-07/albedo.jpg"
+dest_files=["res://.godot/imported/albedo.jpg-9fa7d5482531eb4cb9e3c27b0b66d73b.image"]
+
+[params]
+
