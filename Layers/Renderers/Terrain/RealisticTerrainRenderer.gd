@@ -14,8 +14,8 @@ var extent = 7 # extent of chunks in every direction
 @export var detailed_load_distance := 2000.0
 @export var detailed_ortho_resolution := 2000
 @export var detailed_landuse_resolution := 1000
-@export var detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_200x200.obj")
-@export var detailed_mesh_resolution := 200
+@export var detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_500x500.obj")
+@export var detailed_mesh_resolution := 500
 
 func _ready():
 	super._ready()
@@ -147,8 +147,9 @@ func refine_load():
 	
 	# Downgrade chunks which are now too far away
 	for chunk in chunks:
+		var distance = Vector2(chunk.position.x, chunk.position.z).distance_to(Vector2(position_manager.center_node.position.x, position_manager.center_node.position.z))
 		if chunk.ortho_resolution >= detailed_ortho_resolution and \
-				chunk.position.distance_to(position_manager.center_node.position) > detailed_load_distance:
+				distance > detailed_load_distance:
 			chunk.position_diff_x = 0
 			chunk.position_diff_z = 0
 		
