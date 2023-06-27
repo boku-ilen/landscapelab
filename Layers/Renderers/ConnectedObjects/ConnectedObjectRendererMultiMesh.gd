@@ -25,9 +25,6 @@ var max_connections = 100
 # Connector = objects, connection = lines in-between
 var intermediate_connectors := {}
 var connections := {}
-# For getting a local deep copy of instances from parent
-var local_connectors: Dictionary
-var local_features: Array
 
 var connection_mutex = Mutex.new()
 var loaded_connection_scenes := {}

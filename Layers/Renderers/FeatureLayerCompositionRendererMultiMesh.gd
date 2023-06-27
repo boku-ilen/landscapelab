@@ -98,8 +98,9 @@ func apply_feature_instance(feature: GeoFeature, current_index: int):
 		logger.error("No feature instance was created for ID: {}".
 			format([feature.get_id()], "{}"))
 	
-	return current_index
 	mutex.unlock()
+	
+	return current_index
 
 
 func count_intermediate():
@@ -148,6 +149,7 @@ func calculate_intermediate_transforms():
 			starting_point = end_point
 	
 	return transforms
+
 
 # To be implemented by inherited class
 # Instantiate and initially configure (e.g. set position) of  the instance - run in a thread

@@ -10,7 +10,6 @@ mesh = ExtResource("2_oln0j")
 
 [node name="ConnectedObjectRenderer" type="Node3D"]
 script = ExtResource("1_0160e")
-load_adapt_threaded = false
 
 [node name="Connections" type="Node3D" parent="."]
 
