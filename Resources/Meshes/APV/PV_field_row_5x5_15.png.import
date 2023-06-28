@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bi3mfwruguqml"
 path.s3tc="res://.godot/imported/PV_field_row_5x5_15.png-0af51ce61fce4d9e9b632a33199ff339.s3tc.ctex"
-path.etc2="res://.godot/imported/PV_field_row_5x5_15.png-0af51ce61fce4d9e9b632a33199ff339.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Meshes/APV/PV_field_row_5x5_15.png"
-dest_files=["res://.godot/imported/PV_field_row_5x5_15.png-0af51ce61fce4d9e9b632a33199ff339.s3tc.ctex", "res://.godot/imported/PV_field_row_5x5_15.png-0af51ce61fce4d9e9b632a33199ff339.etc2.ctex"]
+dest_files=["res://.godot/imported/PV_field_row_5x5_15.png-0af51ce61fce4d9e9b632a33199ff339.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true

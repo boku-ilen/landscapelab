@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://jojc1yvifovs"
 path.s3tc="res://.godot/imported/schloss_217.png-62558db5fce9be3176cb4170a405c475.s3tc.ctex"
-path.etc2="res://.godot/imported/schloss_217.png-62558db5fce9be3176cb4170a405c475.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Meshes/Schloss/schloss_217.png"
-dest_files=["res://.godot/imported/schloss_217.png-62558db5fce9be3176cb4170a405c475.s3tc.ctex", "res://.godot/imported/schloss_217.png-62558db5fce9be3176cb4170a405c475.etc2.ctex"]
+dest_files=["res://.godot/imported/schloss_217.png-62558db5fce9be3176cb4170a405c475.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
