@@ -249,6 +249,7 @@ class ConnectedObjectInfo extends RenderInfo:
 class RepeatingObjectInfo extends RenderInfo:
 	# The geodata-key-attribute that determines which connector/connection to use
 	var selector_attribute_name: String
+	var meshes: Dictionary
 
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer

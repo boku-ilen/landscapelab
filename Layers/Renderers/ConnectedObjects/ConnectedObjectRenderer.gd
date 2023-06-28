@@ -38,7 +38,7 @@ func _ready():
 	super._ready()
 	radius = 800.0
 	max_features = 100
-	load_scenes()
+	_load_scenes()
 	
 	radius = loaded_connector_scenes["fallback"].instantiate().load_radius
 	connection_radius = loaded_connection_scenes["fallback"].instantiate().load_radius
@@ -49,7 +49,7 @@ func _ready():
 
 
 # Load in the scenes as configured in .ll to avoid having to load them continuously
-func load_scenes():
+func _load_scenes():
 	loaded_connection_scenes["fallback"] = load(
 		layer_composition.render_info.get("fallback_connection")
 	)
@@ -391,7 +391,6 @@ func _get_height_at_ground(query_position: Vector3) -> float:
 		center[0] + query_position.x, center[1] - query_position.z)
 
 
-# FIXME: Is this still necessary? Error came from: 
 # https://github.com/godotengine/godot/blob/4.0.1-stable/scene/resources/curve.cpp#L1784
 # avoid "look_at_from_position: Node origin and target are in the same position, look_at() failed."
 func try_look_at_from_pos(object: Node3D, from: Vector3, target: Vector3):

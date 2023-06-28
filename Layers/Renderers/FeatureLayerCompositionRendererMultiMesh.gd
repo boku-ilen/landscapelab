@@ -8,9 +8,7 @@ var features := []
 var instances := {}
 var radius = 6000.0
 var max_features = 2000
-@onready var multimesh: MultiMesh = $MultiMeshInstance3D.multimesh
 
-var remove_features := []
 var load_features := []
 
 signal feature_instance_removed(id: int)

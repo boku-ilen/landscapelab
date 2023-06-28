@@ -10,12 +10,31 @@ extends FeatureLayerCompositionRendererMultiMesh
 # - Extends the multimesh feature layer to drastically improve performance
 #
 
-func _ready():
-	super._ready()
 
+var multimeshes := {}
+
+
+func _ready():
+	mutex.lock()
+	_load_meshes()
+	mutex.unlock()
+	super._ready()
 	max_features = 500
-	
 	radius = 120.0
+
+
+func _load_meshes():
+	# FIXME: Does adding multiple multimeshes drastically decrease performance?
+	# FIXME: If so use different custom data and read according texture in shader 
+	for key in layer_composition.render_info.meshes.keys():
+		var multimesh_instance = MultiMeshInstance3D.new()
+		multimesh_instance.multimesh = MultiMesh.new()
+		multimesh_instance.multimesh.set_transform_format(MultiMesh.TRANSFORM_3D)
+		multimesh_instance.multimesh.mesh = load(layer_composition.render_info.meshes[key])
+		multimesh_instance.set_layer_mask_value(1, false)
+		multimesh_instance.set_layer_mask_value(3, true)
+		multimeshes[key] = multimesh_instance
+		add_child(multimesh_instance)
 
 
 func apply_new_data():
@@ -23,13 +42,27 @@ func apply_new_data():
 	# Set the instance count to all cummulated vertecies
 	var intermediate_transforms = _calculate_intermediate_transforms()
 	
-	multimesh.instance_count = features.reduce(
-		func(i, f): return i + f.get_curve3d().get_point_count(), 0) + intermediate_transforms.size()
+	# Reset
+	var attribute_name = layer_composition.render_info.selector_attribute_name
+	var compare_type = func(type: String, f: GeoFeature): 
+		return f.get_attribute(attribute_name) == type
 	
-	var current_index := 0
-	for t in intermediate_transforms:
-		multimesh.set_instance_transform(current_index, t)
-		current_index += 1
+	var indices = {}
+	for key in layer_composition.render_info.meshes.keys():
+		var filtered_features = features.filter(func(f): return compare_type.call(key, f))
+		
+		var instance_count = filtered_features.reduce(func(accum, f):
+			return accum + intermediate_transforms[f.get_id()].size(), 0
+		)
+
+		multimeshes[key].multimesh.instance_count = instance_count
+		indices[key] = 0
+	
+	for f in features:
+		for t in intermediate_transforms[f.get_id()]:
+			var type = f.get_attribute(attribute_name)
+			multimeshes[type].multimesh.set_instance_transform(indices[type], t)
+			indices[type] += 1
 	
 	build_aabb()
 	mutex.unlock()
@@ -56,7 +89,9 @@ func build_aabb():
 	begin.y -= 10
 	end.y += 10
 	var size = abs(end - begin)
-	$MultiMeshInstance3D.set_custom_aabb(AABB(begin, size))
+	
+	for multimesh in multimeshes.values():
+		multimesh.set_custom_aabb(AABB(begin, size))
 
 
 # Although we use a multimesh, we load the transforms via nodes as they drastically
@@ -92,7 +127,7 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 
 		# Case 1 or 2 
 		if previous_point != Vector3.INF:
-			current_object.look_at_from_position(current_point, previous_point, current_object.transform.basis.y)
+			try_look_at_from_pos(current_object, current_point, previous_point)
 
 			# Case 2 
 			if index+1 < engine_line.get_point_count():
@@ -105,7 +140,7 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 
 		# Case 3
 		elif index+1 < engine_line.get_point_count():
-			current_object.look_at_from_position(current_point, next_point, current_object.transform.basis.y)
+			try_look_at_from_pos(current_object, current_point, next_point)
 
 		# Only y rotation is relevant
 		current_object.rotation.x = 0
@@ -119,7 +154,7 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 
 
 func _calculate_intermediate_transforms():
-	var transforms := []
+	var transforms := {}
 	for feature in features:
 		var f_id = feature.get_id()
 		var vertices: Curve3D = feature.get_curve3d()
@@ -128,6 +163,7 @@ func _calculate_intermediate_transforms():
 		var get_ground_height_at_pos = layer_composition.render_info.ground_height_layer.get_value_at_position
 		
 		var t: Transform3D
+		transforms[f_id] = []
 		for v_id in range(1, vertices.get_point_count()):
 			t = instances[f_id].get_child(v_id).transform
 			end_point = instances[f_id].get_child(v_id).position
@@ -152,11 +188,21 @@ func _calculate_intermediate_transforms():
 				t.origin.y = get_ground_height_at_pos.call(
 					center[0] + t.origin.x, center[1] - t.origin.z) - 0.2 
 				
-				transforms.append(t)
+				transforms[f_id].append(t)
 			
 			starting_point = end_point
 	
 	return transforms
+
+
+# https://github.com/godotengine/godot/blob/4.0.1-stable/scene/resources/curve.cpp#L1784
+# avoid "look_at_from_position: Node origin and target are in the same position, look_at() failed."
+func try_look_at_from_pos(object: Node3D, from: Vector3, target: Vector3):
+	if not from.is_equal_approx(target) and not target.is_equal_approx(Vector3.ZERO):
+		object.position = from
+		object.look_at_from_position(from, target, object.transform.basis.y)
+	else:
+		object.position = from
 
 
 func _get_height_at_ground(query_position: Vector3) -> float:

@@ -1,15 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1mrg6plc4tkp"]
+[gd_scene load_steps=3 format=3 uid="uid://c1mrg6plc4tkp"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/RepeatingObject/RepeatingObjectRenderer.gd" id="1_n0jmc"]
-[ext_resource type="ArrayMesh" uid="uid://cgcsj56x4kya8" path="res://Objects/Connection/Hedge3D/hedge3dleaf2.tres" id="2_hoiw0"]
 
-[sub_resource type="MultiMesh" id="MultiMesh_8yikx"]
-transform_format = 1
-mesh = ExtResource("2_hoiw0")
+[sub_resource type="MultiMesh" id="MultiMesh_64sdv"]
 
 [node name="RepeatingObjectRenderer" type="Node3D"]
 script = ExtResource("1_n0jmc")
 
 [node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
-layers = 4
-multimesh = SubResource("MultiMesh_8yikx")
+multimesh = SubResource("MultiMesh_64sdv")
