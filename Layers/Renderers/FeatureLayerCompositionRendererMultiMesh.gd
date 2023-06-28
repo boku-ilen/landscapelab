@@ -60,7 +60,7 @@ func load_feature_instance(feature: GeoFeature) -> Node3D:
 
 # To be implemented by inherited class
 # AABBs have to be set manually in order to increase rendering performance
-func build_aabb():
+func build_aabb(instances):
 	return AABB()
 
 

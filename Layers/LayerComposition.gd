@@ -247,7 +247,8 @@ class ConnectedObjectInfo extends RenderInfo:
 	func get_class_name() -> String: return "Connected Object"
 
 class RepeatingObjectInfo extends RenderInfo:
-	# The geodata-key-attribute that determines which connector/connection to use
+	var width: float
+	var random_angle: bool
 	var selector_attribute_name: String
 	var meshes: Dictionary
 

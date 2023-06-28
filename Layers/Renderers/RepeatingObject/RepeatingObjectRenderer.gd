@@ -64,21 +64,20 @@ func apply_new_data():
 			multimeshes[type].multimesh.set_instance_transform(indices[type], t)
 			indices[type] += 1
 	
-	build_aabb()
+	build_aabb(intermediate_transforms)
 	mutex.unlock()
 	
 	super.apply_new_data()
 
 
-func build_aabb():
+func build_aabb(transforms):
 	var begin = Vector3(INF, INF, INF)
 	var end = Vector3(-INF, -INF, -INF)
 	
 	var height_at_pos = layer_composition.render_info.ground_height_layer.get_value_at_position
 	
-	for feature in features:
-		for vert_id in feature.get_curve3d().get_point_count():
-			var t: Transform3D = instances[feature.get_id()].get_child(vert_id).transform
+	for key in transforms:
+		for t in transforms[key]:
 			begin.x = min(begin.x, t.origin.x)
 			begin.y = min(begin.y, t.origin.y)
 			begin.z = min(begin.z, t.origin.z)
@@ -96,97 +95,58 @@ func build_aabb():
 
 # Although we use a multimesh, we load the transforms via nodes as they drastically
 # simplify some matrix calculations
+# FIXME: clean this up
 func load_feature_instance(geo_line: GeoFeature) -> Node3D:
-	var line_root = Node3D.new()
-	line_root.name = str(geo_line.get_id())
-
-	var engine_line: Curve3D = geo_line.get_offset_curve3d(-center[0], 0, -center[1])
-	var previous_point := Vector3.INF
-	var next_point := Vector3.INF
-
-	for index in range(engine_line.get_point_count()):
-		# Obtain current point and its height 
-		var current_point = engine_line.get_point_position(index)
-		current_point.y = _get_height_at_ground(current_point)
-
-		# Try to obtain the next point on the line
-		if index+1 < engine_line.get_point_count():
-			next_point = engine_line.get_point_position(index + 1)
-			next_point.y = _get_height_at_ground(next_point)
-
-		# Create a specified connector-object or use fallback
-		var current_object := Node3D.new()
-
-		#
-		# Try to resemble a realistic rotation of the connector-objects  
-		# (i.e. they have to face each other); 3 cases:
-		# 1. First point, only next point exists
-		# 2. x_i; i > 0 & i < n; previous and next point exist
-		# 3. Last point, only previous point exists
-		# 
-
-		# Case 1 or 2 
-		if previous_point != Vector3.INF:
-			try_look_at_from_pos(current_object, current_point, previous_point)
-
-			# Case 2 
-			if index+1 < engine_line.get_point_count():
-				# Find the angle between (p_before - p_now) and (p_now - p_next)
-				var v1 = current_point - previous_point
-				var v2 = next_point - current_point
-				var angle = v1.signed_angle_to(v2, Vector3.UP)
-				# add this angle so its actually the mean between before and next
-				current_object.rotation.y += angle / 2
-
-		# Case 3
-		elif index+1 < engine_line.get_point_count():
-			try_look_at_from_pos(current_object, current_point, next_point)
-
-		# Only y rotation is relevant
-		current_object.rotation.x = 0
-		current_object.rotation.z = 0
-
-		previous_point = current_point
-		# Prevent error p_elem->root != this ' is true via call_deferred
-		line_root.add_child(current_object)
-
-	return line_root
+	return Node3D.new()
 
 
 func _calculate_intermediate_transforms():
 	var transforms := {}
 	for feature in features:
 		var f_id = feature.get_id()
-		var vertices: Curve3D = feature.get_curve3d()
-		var starting_point: Vector3 = instances[f_id].get_child(0).position
+		var vertices: Curve3D = feature.get_offset_curve3d(-center[0], 0, -center[1])
+		var starting_point: Vector3
 		var end_point: Vector3
 		var get_ground_height_at_pos = layer_composition.render_info.ground_height_layer.get_value_at_position
 		
 		var t: Transform3D
 		transforms[f_id] = []
 		for v_id in range(1, vertices.get_point_count()):
-			t = instances[f_id].get_child(v_id).transform
-			end_point = instances[f_id].get_child(v_id).position
+			starting_point = vertices.get_point_position(v_id - 1)
+			t = Transform3D(Basis.IDENTITY, starting_point)
+			end_point = vertices.get_point_position(v_id)
 			
 			var distance = starting_point.distance_to(end_point)
-			var width = 0.8
+			var width = layer_composition.render_info.width
 			var num_between = ceil(distance / width)
-			var direction = end_point.direction_to(starting_point)
+			var scaled_width = distance / num_between
+			var scale_factor = scaled_width / width
 			
-			t.basis.z = -direction
+			var direction = starting_point.direction_to(end_point)
+			direction.y = 0
+			
+			t.basis.z = direction.normalized()
+			t.basis.y = Vector3.UP
+			t.basis.x = t.basis.y.cross(t.basis.z)
+			
+			t = t.scaled_local(Vector3(1, 1, scale_factor))
 			
 			var rand_angle := 0.0
 			for i in range(num_between):
-				var pos = t.origin + width * direction
+				var pos = t.origin + direction.normalized() * scaled_width
 				# Randomly add 90, 180 or 270 degrees to previous rotation
-				var pseudo_random = int(pos.x + pos.z)
-				rand_angle = rand_angle + (PI / 2.0) * ((pseudo_random % 3) + 1.0)
-				t = t.rotated_local(Vector3.UP, rand_angle)
-				t.origin = pos
+				if layer_composition.render_info.random_angle:
+					var pseudo_random = int(pos.x + pos.z)
+					rand_angle = rand_angle + (PI / 2.0) * ((pseudo_random % 3) + 1.0)
+					t = t.rotated_local(Vector3.UP, rand_angle)
+				t.origin = pos #* Vector3(1, 1, scale_factor)
 				
 				# Set the mesh on ground and add some buffer for uneven grounds
 				t.origin.y = get_ground_height_at_pos.call(
-					center[0] + t.origin.x, center[1] - t.origin.z) - 0.2 
+					center[0] + t.origin.x, center[1] - t.origin.z)
+				
+#				if i == num_between - 1 and num_between > 1:
+#					t.basis.z = -t.basis.z
 				
 				transforms[f_id].append(t)
 			
@@ -203,6 +163,7 @@ func try_look_at_from_pos(object: Node3D, from: Vector3, target: Vector3):
 		object.look_at_from_position(from, target, object.transform.basis.y)
 	else:
 		object.position = from
+		object.look_at(target, object.transform.basis.y)
 
 
 func _get_height_at_ground(query_position: Vector3) -> float:
