@@ -20,9 +20,6 @@ var extent = 7 # extent of chunks in every direction
 func _ready():
 	super._ready()
 	
-	# TODO: Need to call generate_mipmaps on the images, but that makes things a bit more complicated
-	#  -> begin rewrite for more generic loading to do that properly
-	
 	var texture_folders = [
 		"Concrete",
 		"Asphalt",
@@ -49,7 +46,9 @@ func _ready():
 	
 	var texture_array = Texture2DArray.new()
 	texture_array.create_from_images(color_images)
-	# FIXME: Doesn't work due to a Godot issue: https://github.com/godotengine/godot/issues/54202
+	
+	# FIXME: We'd want to save and re-use this texture, but that doesn't work due to a Godot issue:
+	#  https://github.com/godotengine/godot/issues/54202
 	# ResourceSaver.save(texture_array, "res://Layers/Renderers/Terrain/Materials/GroundTextures.tres")
 	
 	var normal_array = Texture2DArray.new()
@@ -141,7 +140,7 @@ func get_nearest_chunk_below_resolution(query_position: Vector3, resolution: int
 	
 	return nearest_chunk
 
-var load_roads = false
+
 func refine_load():
 	var any_change_done = false
 	
@@ -168,7 +167,6 @@ func refine_load():
 	var nearest_chunk = get_nearest_chunk_below_resolution(position_manager.center_node.position, detailed_ortho_resolution, detailed_load_distance)
 	
 	if nearest_chunk:
-		load_roads = true
 		nearest_chunk.position_diff_x = 0
 		nearest_chunk.position_diff_z = 0
 		
@@ -183,8 +181,6 @@ func refine_load():
 		nearest_chunk.load_detail_textures = true
 		nearest_chunk.load_fade_textures = true
 		any_change_done = true
-	elif load_roads:
-		load_roads = false
 	
 	if any_change_done:
 		call_deferred("apply_new_data")
