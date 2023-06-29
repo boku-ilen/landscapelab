@@ -18,11 +18,11 @@ void vertex() {
 
 
 void fragment() {
-	vec3 color = texture(road_texture, WORLD_UV.xz).rgb;
+	vec3 color;
 	// Map UV to the upper face of the polygon
 	vec2 uv = UV * 8.0 * width;
 	
-	float wood_pos = fract(uv.x * 0.1);
+	float wood_pos = fract(uv.x * 0.15);
 	
 	float left_rail_uv = uv.y - rail_offset;
 	float right_rail_uv = uv.y + rail_offset;
@@ -37,11 +37,15 @@ void fragment() {
 		color = texture(metal_texture, WORLD_UV.xz * 10.0).rgb * 0.7;
 		METALLIC = 1.0;
 		ROUGHNESS = 0.1;
-	} else if (wood_pos > 0.8 && wood_pos < 1.0
+	} else if (wood_pos > 0.7 && wood_pos < 1.0
 			&& uv.y + 1.5 > width / 2.0 && uv.y - 1.5 < width / 2.0) {
 		color = texture(concrete_texture, WORLD_UV.xz * 1.0).rgb;
 		METALLIC = 0.0;
 		ROUGHNESS = 0.7;
+	} else {
+		color = texture(road_texture, WORLD_UV.xz).rgb;
+		ROUGHNESS = 0.9;
+		METALLIC = 0.0;
 	}
 	
 	ALBEDO = min(color, vec3(1.0,1.0, 1.0));
