@@ -45,8 +45,8 @@ var billboard_tex
 var distribution_tex
 var heightmap
 var splatmap
-var uv_offset_x
-var uv_offset_y
+var uv_offset_x := 0.0
+var uv_offset_y := 0.0
 
 
 func _ready():
