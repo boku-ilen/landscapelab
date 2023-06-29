@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cejf5c8oyb02b"]
+[gd_scene load_steps=13 format=3 uid="uid://cejf5c8oyb02b"]
 
 [ext_resource type="Script" path="res://World/Environment/WorldEnvironment.gd" id="1"]
 [ext_resource type="Shader" path="res://addons/clouds/clouds.gdshader" id="1_p31xn"]
@@ -11,7 +11,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ywyjs"]
 shader = ExtResource("1_p31xn")
 shader_parameter/_density = 0.05
-shader_parameter/cloud_coverage = 0.15
+shader_parameter/cloud_coverage = 0.25
 shader_parameter/_time_scale = 0.1
 shader_parameter/_time_offset = 0.0
 shader_parameter/rayleigh = 2.0
@@ -53,6 +53,9 @@ adjustment_saturation = 1.2
 
 [sub_resource type="SphereMesh" id="SphereMesh_v0nf7"]
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_rc3o1"]
+size = Vector2(10, 10)
+
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("2")
 script = ExtResource("1")
@@ -76,3 +79,7 @@ visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_v0nf7")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.81092, 0)
+mesh = SubResource("PlaneMesh_rc3o1")
