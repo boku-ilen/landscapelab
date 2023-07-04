@@ -257,6 +257,7 @@ func explicit_connect(connection_name: String, previous_connector: Node3D,
 	return current_connections
 
 
+# FIXME: Do we still need this?
 # Connects objects and intermediate objects
 func inner_connect(feature_id: int, vertex_id: int, num_connectors_between: int, 
 		previous_connector: Node3D, current_connector: Node3D, connection_scene: PackedScene):
@@ -287,6 +288,8 @@ func inner_connect(feature_id: int, vertex_id: int, num_connectors_between: int,
 	connections[access_string] = new_con
 
 
+# FIXME: Do we still need this? 
+# FIXME: Seems obsolete by RepeatingObjects
 func add_intermediate_connectors(feature_id: int, vertex_id: int, distance: float, num_connectors_between: float,
 		previous_connector: Node3D, current_connector: Node3D, connector_scene: PackedScene): 
 	# Get the amount of connectors that shall be put between
