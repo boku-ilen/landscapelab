@@ -7,24 +7,26 @@ var edit_action: ActionHandler.Action
 
 
 func _ready():
-	$Edit.connect("toggled", self, "_on_edit")
-	$List.connect("toggled", self, "_on_list")
-	$List/ListWindow/ItemList.connect("item_selected", self, "_on_feature_list_item_selected")
+	$Edit.connect("toggled",Callable(self,"_on_edit"))
+	$List.connect("toggled",Callable(self,"_on_list"))
+	$List/ListWindow/ItemList.connect("item_selected",Callable(self,"_on_feature_list_item_selected"))
 	load_features_into_list()
 
 
 func set_player(player):
-	.set_player(player)
+	super.set_player(player)
 	if "action_handler" in pc_player:
-		edit_action = EditAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
-		add_action = AddFeatureAction.new(layer, pc_player.action_handler.cursor, pos_manager, pc_player, false)
+		edit_action = EditAction.new(layerc, pc_player.action_handler.cursor, pos_manager, pc_player, false)
+		add_action = AddFeatureAction.new(layerc, pc_player.action_handler.cursor, pos_manager, pc_player, false)
 
 class EditAction extends ActionHandler.Action:
-	var cursor: RayCast
-	var layer: Layer
+	var cursor: RayCast3D
+	var layer: LayerComposition
 	var pos_manager: PositionManager
 	
-	func _init(l, c, p_m, p, blocking).(p, blocking):
+	func _init(l,c,p_m,p,blocking):
+		super._init(p, blocking)
+		
 		cursor = c
 		layer = l
 		pos_manager = p_m
@@ -36,11 +38,13 @@ class EditAction extends ActionHandler.Action:
 
 
 class AddFeatureAction extends ActionHandler.Action:
-	var cursor: RayCast
-	var layer: Layer
+	var cursor: RayCast3D
+	var layer: LayerComposition
 	var pos_manager: PositionManager
 	
-	func _init(l, c, p_m, p, blocking).(p, blocking):
+	func _init(l,c,p_m,p,blocking):
+		super._init(p, blocking)
+		
 		cursor = c
 		layer = l
 		pos_manager = p_m
@@ -62,16 +66,16 @@ func _on_edit(toggled):
 
 
 func load_features_into_list():
-	var features = layer.get_all_features()
+	var feature_layer = layerc.render_info.geo_feature_layer
+	var features = feature_layer.get_all_features()
 	
 	for feature in features:
 		var new_id = $List/ListWindow/ItemList.get_item_count()
 		var position = feature.get_vector3()
-		# TODO: Why do we need to reverse the z coordinate? seems like an inconsistency in coordinate handling
-		position.z = -position.z
+		position.z = -position.z  # Convert to local -z forward coordinates
 		
-		var item_name = feature.get_attribute(layer.ui_info.name_attribute) \
-				if feature.get_attribute(layer.ui_info.name_attribute) != "" \
+		var item_name = feature.get_attribute(layerc.ui_info.name_attribute) \
+				if feature.get_attribute(layerc.ui_info.name_attribute) != "" \
 				else str(position)
 		
 		$List/ListWindow/ItemList.add_item(item_name)

@@ -5,7 +5,7 @@ var current_plant: Plant
 
 
 func _ready():
-	$DetailList/SaveButton.connect("pressed", self, "save_plant_values")
+	$DetailList/SaveButton.connect("pressed",Callable(self,"save_plant_values"))
 
 
 func set_plant(plant: Plant):

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/roughness.jpg-b532edb2279e1987e34c5dc160c95c32.image"
+uid="uid://4bj12sihk5c3"
+path="res://.godot/imported/roughness.jpg-b532edb2279e1987e34c5dc160c95c32.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/153-wheat/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-b532edb2279e1987e34c5dc160c95c32.image" ]
+dest_files=["res://.godot/imported/roughness.jpg-b532edb2279e1987e34c5dc160c95c32.image"]
 
 [params]
 

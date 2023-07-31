@@ -21,25 +21,25 @@ var name_de
 var name_en
 var snar_group
 
-const LOG_MODULE := "VEGETATION"
 
-
-func _init(id, name_en, plants = null, ground_texture = null, fade_texture = null, source="",
-		snar_code="", snarx10="", snar_name="", name_de="", snar_group=""):
-	self.id = int(id)
-	self.name_en = name_en
+func _init(initial_id, initial_name_en, initial_plants = null,
+		initial_ground_texture = null, initial_fade_texture = null,
+		initial_source="", initial_snar_code="", initial_snarx10="",
+		initial_snar_name="", initial_name_de="", initial_snar_group=""):
+	self.id = int(initial_id)
+	self.name_en = initial_name_en
 	
-	self.ground_texture = ground_texture
-	self.fade_texture = fade_texture
+	self.ground_texture = initial_ground_texture
+	self.fade_texture = initial_fade_texture
 	
-	self.plants = plants
+	self.plants = initial_plants
 	
-	self.source = source
-	self.snar_code = snar_code
-	self.snarx10 = snarx10
-	self.snar_name = snar_name
-	self.name_de = name_de
-	self.snar_group = snar_group
+	self.source = initial_source
+	self.snar_code = initial_snar_code
+	self.snarx10 = initial_snarx10
+	self.snar_name = initial_snar_name
+	self.name_de = initial_name_de
+	self.snar_group = initial_snar_group
 	
 func add_plant(plant: Plant):
 	plants.append(plant)
@@ -51,17 +51,16 @@ func _get_image(image_name, texture):
 	if not texture: return null
 	
 	var full_path = VegetationImages.ground_image_base_path \
-			.plus_file(texture.texture_name) \
-			.plus_file(image_name + ".jpg")
+			.path_join(texture.texture_name) \
+			.path_join(image_name + ".jpg")
 	
 	VegetationImages.ground_image_mutex.lock()
 	if not VegetationImages.ground_image_cache.has(full_path):
-		var path = VegetationImages.ground_image_base_path.plus_file(texture.texture_name)
-		if not File.new().file_exists(full_path):
-			logger.warn("Invalid ground texture file: %s (ID %s)" % [full_path, str(texture.id)], LOG_MODULE)
+		if not FileAccess.file_exists(full_path):
+			logger.warn("Invalid ground texture file: %s (ID %s)" % [full_path, str(texture.id)])
 		
 		var img = StructuredTexture.get_image(VegetationImages.ground_image_base_path \
-			.plus_file(texture.texture_name), image_name)
+			.path_join(texture.texture_name), image_name)
 		
 		VegetationImages.ground_image_cache[full_path] = img
 	VegetationImages.ground_image_mutex.unlock()
@@ -78,19 +77,13 @@ func get_ground_texture(image_name):
 	var image = get_ground_image(image_name)
 	if not image: return null
 	
-	var tex = ImageTexture.new()
-	tex.create_from_image(image, Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER + Texture.FLAG_REPEAT + Texture.FLAG_ANISOTROPIC_FILTER)
-	
-	return tex
+	return ImageTexture.create_from_image(image) #,Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER + Texture2D.FLAG_REPEAT + Texture2D.FLAG_ANISOTROPIC_FILTER
 
 func get_fade_texture(image_name):
 	var image = get_fade_image(image_name)
 	if not image: return null
 	
-	var tex = ImageTexture.new()
-	tex.create_from_image(image, Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER + Texture.FLAG_REPEAT)
-	
-	return tex
+	return ImageTexture.create_from_image(image) #,Texture2D.FLAG_MIPMAPS + Texture2D.FLAG_FILTER + Texture2D.FLAG_REPEAT
 
 
 func get_plant_ids():

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-9f3cddfa66bdf084501aa85a23b47138.image"
+uid="uid://dw44ahmk60g8u"
+path="res://.godot/imported/albedo.jpg-9f3cddfa66bdf084501aa85a23b47138.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/156-clover/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-9f3cddfa66bdf084501aa85a23b47138.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-9f3cddfa66bdf084501aa85a23b47138.image"]
 
 [params]
 

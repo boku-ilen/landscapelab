@@ -1,17 +1,17 @@
-extends Spatial
+extends Node3D
 
 # 
 # Automatically builds a large PV plant with a given number of rows and
 # columns of individual PV modules.
-# Note that the resulting rows and columns can be off by 1 to preserve
+# Note that the resulting rows and columns can be unchecked by 1 to preserve
 # symmetry.
 # 
 
-export(int) var rows
-export(int) var cols
+@export var rows: int
+@export var cols: int
 
-export(float) var row_spacing
-export(float) var col_spacing
+@export var row_spacing: float
+@export var col_spacing: float
 
 var mesh = load("res://Objects/Util/PVMesh.tscn")
 
@@ -25,11 +25,11 @@ func _ready():
 	# Add 1 to make sure we get an odd number - asymmetry otherwise
 	for row in range(-rows / 2, rows / 2 + 1):
 		for col in range(-cols / 2, cols / 2 + 1):
-			var new_scene = mesh.instance()
+			var new_scene = mesh.instantiate()
 			add_child(new_scene)
 			
-			new_scene.translation.x += col * col_spacing
-			new_scene.translation.z += row * row_spacing
+			new_scene.position.x += col * col_spacing
+			new_scene.position.z += row * row_spacing
 	
 	set_child_positions()
 	set_notify_transform(true)
@@ -43,15 +43,15 @@ func _notification(what):
 func set_child_positions():
 	for child in get_children():
 		var offset = render_info.ground_height_layer.get_value_at_position(
-				center[0] + (transform.origin.x + child.translation.x),
-				center[1] - (transform.origin.z + child.translation.z)) - transform.origin.y
-		child.translation.y = offset
+				center[0] + (transform.origin.x + child.position.x),
+				center[1] - (transform.origin.z + child.position.z)) - transform.origin.y
+		child.position.y = offset
 		
 		var right_add = 2.0
 		
 		var offset_right = render_info.ground_height_layer.get_value_at_position(
-				center[0] + (transform.origin.x + child.translation.x),
-				center[1] - (transform.origin.z + child.translation.z - right_add)) - transform.origin.y
+				center[0] + (transform.origin.x + child.position.x),
+				center[1] - (transform.origin.z + child.position.z - right_add)) - transform.origin.y
 		
 		var difference = offset_right - offset
 		var diagonal_vector = Vector2(right_add, difference)
@@ -59,8 +59,8 @@ func set_child_positions():
 		child.rotation.x = diagonal_vector.angle()
 		
 #		var offset_up = ground_height_layer.get_value_at_position(
-#				center[0] + (transform.origin.x + child.translation.x + right_add),
-#				center[1] - (transform.origin.z + child.translation.z)) - transform.origin.y
+#				center[0] + (transform.origin.x + child.position.x + right_add),
+#				center[1] - (transform.origin.z + child.position.z)) - transform.origin.y
 #
 #		difference = offset_up - offset
 #		diagonal_vector = Vector2(right_add, difference)

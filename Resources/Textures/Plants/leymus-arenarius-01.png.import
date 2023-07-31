@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/leymus-arenarius-01.png-56d9aa9f9e817e0f5ff80925f97cb596.image"
+uid="uid://b5msp7qr3pokr"
+path="res://.godot/imported/leymus-arenarius-01.png-56d9aa9f9e817e0f5ff80925f97cb596.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/leymus-arenarius-01.png"
-dest_files=[ "res://.import/leymus-arenarius-01.png-56d9aa9f9e817e0f5ff80925f97cb596.image" ]
+dest_files=["res://.godot/imported/leymus-arenarius-01.png-56d9aa9f9e817e0f5ff80925f97cb596.image"]
 
 [params]
 

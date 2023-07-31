@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/tilia-x21.png-811ba9282cc82ffef0a31bc332465195.image"
+uid="uid://c58vqho7br8gj"
+path="res://.godot/imported/tilia-x21.png-811ba9282cc82ffef0a31bc332465195.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/tilia-x21.png"
-dest_files=[ "res://.import/tilia-x21.png-811ba9282cc82ffef0a31bc332465195.image" ]
+dest_files=["res://.godot/imported/tilia-x21.png-811ba9282cc82ffef0a31bc332465195.image"]
 
 [params]
 

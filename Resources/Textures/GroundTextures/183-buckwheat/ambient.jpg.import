@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-126007ffa8e85cf19eb1939141877b56.image"
+uid="uid://dfuqc03q136cn"
+path="res://.godot/imported/ambient.jpg-126007ffa8e85cf19eb1939141877b56.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/183-buckwheat/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-126007ffa8e85cf19eb1939141877b56.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-126007ffa8e85cf19eb1939141877b56.image"]
 
 [params]
 

@@ -8,30 +8,20 @@ var docks = []
 signal ui_loaded
 
 # Often used nodes that can be injected to the UIDocks if required
-export var pc_player_path: NodePath
-export var pos_manager_path: NodePath
-export var time_manager_path: NodePath
-export var weather_manager_path: NodePath
-
-export var layer_configurator_path: NodePath
+@export var pc_player_path: NodePath
+@export var pos_manager_path: NodePath
+@export var time_manager_path: NodePath
+@export var weather_manager_path: NodePath
 
 var pos_manager: PositionManager
 
-
 func _ready():
-	docks.append($MarginContainer/VBoxContainer/Split/Left/Left/Top)
-	docks.append($MarginContainer/VBoxContainer/Split/Left/Left/Bot)
-	docks.append($MarginContainer/VBoxContainer/Split/Left/Right/Top)
-	docks.append($MarginContainer/VBoxContainer/Split/Left/Right/Bot)
-	docks.append($MarginContainer/VBoxContainer/Split/Right/Mid/VBoxContainer)
-	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Left/Top)
-	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Left/Bot)
-	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Right/Top)
-	docks.append($MarginContainer/VBoxContainer/Split/Right/Right/Right/Bot)
+	docks.append($MarginContainer/VBoxContainer/Left/Tabs/Top)
+	docks.append($MarginContainer/VBoxContainer/Left/Tabs/Bot)
+	docks.append($MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top)
+	docks.append($MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot)
+	docks.append($MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer)
 	
-	var layer_configurator = get_node(layer_configurator_path)
-	$MarginContainer/VBoxContainer/MenuBar.set_layer_configurator(layer_configurator)
-	layer_configurator.check_default()
 	
 	pos_manager = get_node(pos_manager_path)
 	
@@ -39,13 +29,13 @@ func _ready():
 	emit_signal("ui_loaded")
 
 
-func _process(delta):
-	var engine_pos = pos_manager.center_node.translation
+func _process(_delta):
+	var engine_pos = pos_manager.center_node.position
 	var geo_pos = pos_manager.to_world_coordinates(engine_pos)
 	var formatted = "x=%.2f, y=%.2f, z=%.2f\nx=%.0f, y=%.0f, z=%.0f"
-	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos[0], geo_pos[1], geo_pos[2]]
+	formatted = formatted % [engine_pos.x, engine_pos.y, engine_pos.z, geo_pos.x, geo_pos.y, geo_pos.z]
 	
-	$MarginContainer/VBoxContainer/Split/Right/Mid/HBoxContainer/DebugInfo/ScrollContainer/Settings/VBoxContainer/Info/PositionDisplay/Data.text = formatted
+	$MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer/DebugInfo/ScrollContainer/Settings/VBoxContainer/Info/PositionDisplay/Data.text = formatted
 
 
 func _inject():
@@ -60,6 +50,6 @@ func _inject():
 			if "weather_manager" in child:
 				child.weather_manager = get_node(weather_manager_path)
 			if child.has_method("_on_ui_loaded"):
-				connect("ui_loaded", child, "_on_ui_loaded")
+				connect("ui_loaded",Callable(child,"_on_ui_loaded"))
 
 

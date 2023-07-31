@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-f849c17fd1a2163f07e13935968dfcbf.image"
+uid="uid://dejwb0pfumcub"
+path="res://.godot/imported/ambient.jpg-f849c17fd1a2163f07e13935968dfcbf.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/159-triticale/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-f849c17fd1a2163f07e13935968dfcbf.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-f849c17fd1a2163f07e13935968dfcbf.image"]
 
 [params]
 

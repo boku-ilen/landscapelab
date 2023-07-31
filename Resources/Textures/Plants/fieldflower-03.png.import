@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/fieldflower-03.png-8e3e40d41008c184825b826174dda22b.image"
+uid="uid://bhkdpofrr75xq"
+path="res://.godot/imported/fieldflower-03.png-8e3e40d41008c184825b826174dda22b.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/fieldflower-03.png"
-dest_files=[ "res://.import/fieldflower-03.png-8e3e40d41008c184825b826174dda22b.image" ]
+dest_files=["res://.godot/imported/fieldflower-03.png-8e3e40d41008c184825b826174dda22b.image"]
 
 [params]
 

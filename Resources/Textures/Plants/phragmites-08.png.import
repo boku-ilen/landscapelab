@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/phragmites-08.png-9fe49a9fad15b084157becf771c5526b.image"
+uid="uid://30vtlmx2ee6a"
+path="res://.godot/imported/phragmites-08.png-9fe49a9fad15b084157becf771c5526b.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/phragmites-08.png"
-dest_files=[ "res://.import/phragmites-08.png-9fe49a9fad15b084157becf771c5526b.image" ]
+dest_files=["res://.godot/imported/phragmites-08.png-9fe49a9fad15b084157becf771c5526b.image"]
 
 [params]
 

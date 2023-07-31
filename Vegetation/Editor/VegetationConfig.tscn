@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Vegetation/Editor/ConfigButton.gd" type="Script" id=1]
-[ext_resource path="res://UI/Fonts/Text.tres" type="DynamicFont" id=2]
+[ext_resource path="res://UI/Fonts/Text.tres" type="FontFile" id=2]
 [ext_resource path="res://Vegetation/Editor/VegetationConfig.gd" type="Script" id=3]
 
 
@@ -18,10 +18,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -188.5
-margin_top = -213.0
-margin_right = 188.5
-margin_bottom = 213.0
+offset_left = -188.5
+offset_top = -213.0
+offset_right = 188.5
+offset_bottom = 213.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 __meta__ = {
@@ -29,123 +29,123 @@ __meta__ = {
 }
 
 [node name="SelectButtons" type="VBoxContainer" parent="PanelContainer"]
-margin_left = 14.0
-margin_top = 14.0
-margin_right = 363.0
-margin_bottom = 412.0
+offset_left = 14.0
+offset_top = 14.0
+offset_right = 363.0
+offset_bottom = 412.0
 
 [node name="Label" type="Label" parent="PanelContainer/SelectButtons"]
-margin_right = 349.0
-margin_bottom = 81.0
+offset_right = 349.0
+offset_bottom = 81.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 2 )
 text = "Set or change paths to the required CSV files. Green buttons imply that a path is already known, but it can be overwritten."
 autowrap = true
 
 [node name="PlantCSVButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 89.0
-margin_right = 349.0
-margin_bottom = 124.0
+offset_top = 89.0
+offset_right = 349.0
+offset_bottom = 124.0
 custom_fonts/font = ExtResource( 2 )
-text = "Set Plant CSV Path"
+text = "Set Plant CSV Path3D"
 script = ExtResource( 1 )
 vegetation_variable_name = "plant_csv_path"
 
 [node name="FileDialog" type="FileDialog" parent="PanelContainer/SelectButtons/PlantCSVButton"]
-margin_top = -33.0
-margin_right = 645.0
-margin_bottom = 215.0
-rect_min_size = Vector2( 800, 800 )
+offset_top = -33.0
+offset_right = 645.0
+offset_bottom = 215.0
+minimum_size = Vector2( 800, 800 )
 window_title = "Open a File"
 resizable = true
 mode = 0
 access = 2
-filters = PoolStringArray( "*.csv" )
+filters = PackedStringArray( "*.csv" )
 current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="GroupCSVButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 132.0
-margin_right = 349.0
-margin_bottom = 167.0
+offset_top = 132.0
+offset_right = 349.0
+offset_bottom = 167.0
 custom_fonts/font = ExtResource( 2 )
-text = "Set Group CSV Path"
+text = "Set Group CSV Path3D"
 script = ExtResource( 1 )
 vegetation_variable_name = "group_csv_path"
 
 [node name="FileDialog" type="FileDialog" parent="PanelContainer/SelectButtons/GroupCSVButton"]
-margin_top = -33.0
-margin_right = 645.0
-margin_bottom = 215.0
-rect_min_size = Vector2( 800, 800 )
+offset_top = -33.0
+offset_right = 645.0
+offset_bottom = 215.0
+minimum_size = Vector2( 800, 800 )
 window_title = "Open a File"
 resizable = true
 mode = 0
 access = 2
-filters = PoolStringArray( "*.csv" )
+filters = PackedStringArray( "*.csv" )
 current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="DensityCSVButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 175.0
-margin_right = 349.0
-margin_bottom = 210.0
+offset_top = 175.0
+offset_right = 349.0
+offset_bottom = 210.0
 custom_fonts/font = ExtResource( 2 )
-text = "Set Density Class CSV Path"
+text = "Set Density Class CSV Path3D"
 script = ExtResource( 1 )
 vegetation_variable_name = "density_csv_path"
 
 [node name="FileDialog" type="FileDialog" parent="PanelContainer/SelectButtons/DensityCSVButton"]
-margin_top = -33.0
-margin_right = 645.0
-margin_bottom = 215.0
-rect_min_size = Vector2( 800, 800 )
+offset_top = -33.0
+offset_right = 645.0
+offset_bottom = 215.0
+minimum_size = Vector2( 800, 800 )
 window_title = "Open a File"
 resizable = true
 mode = 0
 access = 2
-filters = PoolStringArray( "*.csv" )
+filters = PackedStringArray( "*.csv" )
 current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="TextureCSVButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 218.0
-margin_right = 349.0
-margin_bottom = 253.0
+offset_top = 218.0
+offset_right = 349.0
+offset_bottom = 253.0
 custom_fonts/font = ExtResource( 2 )
-text = "Set Ground Texture CSV Path"
+text = "Set Ground Texture2D CSV Path3D"
 script = ExtResource( 1 )
 vegetation_variable_name = "texture_csv_path"
 
 [node name="FileDialog" type="FileDialog" parent="PanelContainer/SelectButtons/TextureCSVButton"]
-margin_top = -33.0
-margin_right = 645.0
-margin_bottom = 215.0
-rect_min_size = Vector2( 800, 800 )
+offset_top = -33.0
+offset_right = 645.0
+offset_bottom = 215.0
+minimum_size = Vector2( 800, 800 )
 window_title = "Open a File"
 resizable = true
 mode = 0
 access = 2
-filters = PoolStringArray( "*.csv" )
+filters = PackedStringArray( "*.csv" )
 current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="PlantButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 261.0
-margin_right = 349.0
-margin_bottom = 296.0
-hint_tooltip = "The Plant Picture path must contain a folder with all billboard images. For preview images, it should also include downsized images prefixed with 'small-'."
+offset_top = 261.0
+offset_right = 349.0
+offset_bottom = 296.0
+tooltip_text = "The Plant Picture path must contain a folder with all billboard images. For preview images, it should also include downsized images prefixed with 'small-'."
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
-text = "Set Plant Picture Base Path"
+text = "Set Plant Picture Base Path3D"
 script = ExtResource( 1 )
 vegetation_variable_name = "plant_path"
 
 [node name="FileDialog" type="FileDialog" parent="PanelContainer/SelectButtons/PlantButton"]
-margin_top = -78.0
-margin_right = 825.0
-margin_bottom = 722.0
-rect_min_size = Vector2( 800, 800 )
+offset_top = -78.0
+offset_right = 825.0
+offset_bottom = 722.0
+minimum_size = Vector2( 800, 800 )
 window_title = "Open a Directory"
 resizable = true
 mode = 2
@@ -154,20 +154,20 @@ current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="GroundButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 304.0
-margin_right = 349.0
-margin_bottom = 339.0
-hint_tooltip = "The Plant Picture path must contain a folder with all billboard images. For preview images, it should also include downsized images prefixed with 'small-'."
+offset_top = 304.0
+offset_right = 349.0
+offset_bottom = 339.0
+tooltip_text = "The Plant Picture path must contain a folder with all billboard images. For preview images, it should also include downsized images prefixed with 'small-'."
 custom_fonts/font = ExtResource( 2 )
-text = "Set Ground Texture Base Path"
+text = "Set Ground Texture2D Base Path3D"
 script = ExtResource( 1 )
 vegetation_variable_name = "ground_path"
 
 [node name="FileDialog" type="FileDialog" parent="PanelContainer/SelectButtons/GroundButton"]
-margin_top = -123.0
-margin_right = 825.0
-margin_bottom = 677.0
-rect_min_size = Vector2( 800, 800 )
+offset_top = -123.0
+offset_right = 825.0
+offset_bottom = 677.0
+minimum_size = Vector2( 800, 800 )
 window_title = "Open a Directory"
 resizable = true
 mode = 2
@@ -176,16 +176,16 @@ current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/SelectButtons"]
-margin_top = 347.0
-margin_right = 349.0
-margin_bottom = 355.0
+offset_top = 347.0
+offset_right = 349.0
+offset_bottom = 355.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SaveButton" type="Button" parent="PanelContainer/SelectButtons"]
-margin_top = 363.0
-margin_right = 349.0
-margin_bottom = 398.0
+offset_top = 363.0
+offset_right = 349.0
+offset_bottom = 398.0
 custom_fonts/font = ExtResource( 2 )
 text = "Save and Return"

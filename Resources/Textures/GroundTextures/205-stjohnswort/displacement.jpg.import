@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-587c07311f575c69fcdafe48dea44db0.image"
+uid="uid://bmy8dnl11ic8p"
+path="res://.godot/imported/displacement.jpg-587c07311f575c69fcdafe48dea44db0.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/205-stjohnswort/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-587c07311f575c69fcdafe48dea44db0.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-587c07311f575c69fcdafe48dea44db0.image"]
 
 [params]
 

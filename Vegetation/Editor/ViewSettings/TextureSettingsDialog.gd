@@ -1,4 +1,4 @@
-extends WindowDialog
+extends Window
 
 
 signal new_normal_scale(scale)
@@ -8,10 +8,10 @@ signal new_ao_scale(scale, is_increase)
 
 
 func _ready():
-	$Settings/NormalScale/HSlider.connect("value_changed", self, "_on_new_normal_scale")
-	$Settings/Roughness/HSlider.connect("value_changed", self, "_on_new_asymmetric_scale", ["new_roughness_scale"])
-	$Settings/Specularity/HSlider.connect("value_changed", self, "_on_new_asymmetric_scale", ["new_specular_scale"])
-	$Settings/AmbientOcclusion/HSlider.connect("value_changed", self, "_on_new_asymmetric_scale", ["new_ao_scale"])
+	$Settings/NormalScale/HSlider.connect("value_changed",Callable(self,"_on_new_normal_scale"))
+	$Settings/Roughness/HSlider.connect("value_changed",Callable(self,"_on_new_asymmetric_scale").bind("new_roughness_scale"))
+	$Settings/Specularity/HSlider.connect("value_changed",Callable(self,"_on_new_asymmetric_scale").bind("new_specular_scale"))
+	$Settings/AmbientOcclusion/HSlider.connect("value_changed",Callable(self,"_on_new_asymmetric_scale").bind("new_ao_scale"))
 
 
 func _on_new_normal_scale(value: float):

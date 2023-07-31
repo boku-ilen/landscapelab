@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/echinacea-02.png-0ee22e00fa4a3e5b4d32e1be35c31bf7.image"
+uid="uid://cstqt427sgtvr"
+path="res://.godot/imported/echinacea-02.png-0ee22e00fa4a3e5b4d32e1be35c31bf7.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/echinacea-02.png"
-dest_files=[ "res://.import/echinacea-02.png-0ee22e00fa4a3e5b4d32e1be35c31bf7.image" ]
+dest_files=["res://.godot/imported/echinacea-02.png-0ee22e00fa4a3e5b4d32e1be35c31bf7.image"]
 
 [params]
 

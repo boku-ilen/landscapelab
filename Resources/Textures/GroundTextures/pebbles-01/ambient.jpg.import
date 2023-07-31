@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-088e4fa29d101eee4dba334b1c77b71d.image"
+uid="uid://bp1pv77q1hpl3"
+path="res://.godot/imported/ambient.jpg-088e4fa29d101eee4dba334b1c77b71d.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/pebbles-01/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-088e4fa29d101eee4dba334b1c77b71d.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-088e4fa29d101eee4dba334b1c77b71d.image"]
 
 [params]
 

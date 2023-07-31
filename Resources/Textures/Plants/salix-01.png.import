@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/salix-01.png-c043badfd924211d18eaecd85b3cb03d.image"
+uid="uid://dre6futwnu6e5"
+path="res://.godot/imported/salix-01.png-c043badfd924211d18eaecd85b3cb03d.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/salix-01.png"
-dest_files=[ "res://.import/salix-01.png-c043badfd924211d18eaecd85b3cb03d.image" ]
+dest_files=["res://.godot/imported/salix-01.png-c043badfd924211d18eaecd85b3cb03d.image"]
 
 [params]
 

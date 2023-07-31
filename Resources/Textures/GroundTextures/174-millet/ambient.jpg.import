@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-56f79eb3534f4f86686b619fca494fc1.image"
+uid="uid://c7au58ab2tpbx"
+path="res://.godot/imported/ambient.jpg-56f79eb3534f4f86686b619fca494fc1.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/174-millet/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-56f79eb3534f4f86686b619fca494fc1.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-56f79eb3534f4f86686b619fca494fc1.image"]
 
 [params]
 

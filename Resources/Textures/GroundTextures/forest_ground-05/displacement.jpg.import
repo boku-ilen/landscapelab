@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-7fd05f09555f39102791978ee7033178.image"
+uid="uid://bexxx78fgms0j"
+path="res://.godot/imported/displacement.jpg-7fd05f09555f39102791978ee7033178.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/forest_ground-05/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-7fd05f09555f39102791978ee7033178.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-7fd05f09555f39102791978ee7033178.image"]
 
 [params]
 

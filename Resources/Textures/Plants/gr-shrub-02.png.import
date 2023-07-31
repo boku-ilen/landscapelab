@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/gr-shrub-02.png-c3b62e9fcc5d750a8e5fc97f2c130ed0.image"
+uid="uid://ddnibhbaeml01"
+path="res://.godot/imported/gr-shrub-02.png-c3b62e9fcc5d750a8e5fc97f2c130ed0.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/gr-shrub-02.png"
-dest_files=[ "res://.import/gr-shrub-02.png-c3b62e9fcc5d750a8e5fc97f2c130ed0.image" ]
+dest_files=["res://.godot/imported/gr-shrub-02.png-c3b62e9fcc5d750a8e5fc97f2c130ed0.image"]
 
 [params]
 

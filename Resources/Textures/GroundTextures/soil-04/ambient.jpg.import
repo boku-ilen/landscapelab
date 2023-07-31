@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-64bd4010cf34d980cc691774ae91fc91.image"
+uid="uid://jnnhmxv7lhxo"
+path="res://.godot/imported/ambient.jpg-64bd4010cf34d980cc691774ae91fc91.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/soil-04/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-64bd4010cf34d980cc691774ae91fc91.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-64bd4010cf34d980cc691774ae91fc91.image"]
 
 [params]
 

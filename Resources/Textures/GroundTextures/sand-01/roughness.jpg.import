@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/roughness.jpg-87cb6a4a5c7454e04bc5f15aa84d77e1.image"
+uid="uid://j37nkr8w2kir"
+path="res://.godot/imported/roughness.jpg-87cb6a4a5c7454e04bc5f15aa84d77e1.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/sand-01/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-87cb6a4a5c7454e04bc5f15aa84d77e1.image" ]
+dest_files=["res://.godot/imported/roughness.jpg-87cb6a4a5c7454e04bc5f15aa84d77e1.image"]
 
 [params]
 

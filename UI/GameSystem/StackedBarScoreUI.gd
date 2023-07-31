@@ -1,7 +1,12 @@
 extends HBoxContainer
 
 
-var score: GameScore setget set_score
+var score: GameScore :
+	get:
+		return score
+	set(new_score):
+		set_score(new_score)
+
 var stacked_bar: StackedProgressBar
 
 
@@ -11,7 +16,7 @@ func set_score(new_score):
 	$Name.text = score.name
 	$MaxValue.text = str(score.target)
 	
-	stacked_bar = load("res://UI/CustomElements/StackedProgressBar.tscn").instance()
+	stacked_bar = load("res://UI/CustomElements/StackedProgressBar.tscn").instantiate()
 	stacked_bar.set_bar_count(score.contributors.size())
 	# TODO: think if it will always be 0?
 	stacked_bar.min_value = 0
@@ -26,7 +31,7 @@ func set_score(new_score):
 			stacked_bar.set_progress_bar_color_at_index(index, contrib.color_code)
 			
 		_update_data(score.value)
-		score.connect("value_changed", self, "_update_data")
+		score.connect("value_changed",Callable(self,"_update_data"))
 
 
 func _update_data(new_value):

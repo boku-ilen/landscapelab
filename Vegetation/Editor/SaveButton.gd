@@ -2,7 +2,7 @@ extends Button
 
 
 func _ready():
-	connect("pressed", self, "save_override")
+	connect("pressed",Callable(self,"save_override"))
 
 
 func save_override():

@@ -1,57 +1,35 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://cuiempx2ao4sm"]
 
-[ext_resource path="res://Perspectives/PC/MousePoint.gd" type="Script" id=1]
-[ext_resource path="res://UI/Theme/LandscapeLab.tres" type="Theme" id=2]
-[ext_resource path="res://Perspectives/PC/MouseFeedback/MouseCollisionIndicator.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Perspectives/PC/CursorInfoDialog.gd" type="Script" id=4]
+[ext_resource type="Script" path="res://Perspectives/PC/MousePoint.gd" id="1"]
+[ext_resource type="Theme" uid="uid://2acd0pfpr1ny" path="res://UI/Theme/LandscapeLab.tres" id="2"]
+[ext_resource type="PackedScene" path="res://Perspectives/PC/MouseFeedback/MouseCollisionIndicator.tscn" id="3"]
+[ext_resource type="Script" path="res://Perspectives/PC/CursorInfoDialog.gd" id="4"]
 
-[node name="MousePoint" type="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
+[node name="MousePoint" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0)
 visible = false
-script = ExtResource( 1 )
+script = ExtResource("1")
 
-[node name="InteractRay" type="RayCast" parent="."]
-enabled = true
-cast_to = Vector3( 0, 0, 0 )
+[node name="InteractRay" type="RayCast3D" parent="."]
 collision_mask = 540672
 collide_with_areas = true
 
-[node name="MouseCollisionIndicator" parent="." instance=ExtResource( 3 )]
+[node name="MouseCollisionIndicator" parent="." instance=ExtResource("3")]
 visible = false
 
-[node name="CursorInfoDialog" type="WindowDialog" parent="."]
-margin_right = 200.0
-margin_bottom = 50.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = ExtResource( 2 )
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="CursorInfoDialog" type="Window" parent="."]
+visible = false
+theme = ExtResource("2")
+script = ExtResource("4")
 
 [node name="Distance" type="HBoxContainer" parent="CursorInfoDialog"]
-margin_right = 122.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_right = 122.0
+offset_bottom = 40.0
 
 [node name="DistanceLabel" type="Label" parent="CursorInfoDialog/Distance"]
-margin_top = 4.0
-margin_right = 81.0
-margin_bottom = 35.0
+layout_mode = 2
 text = "Distance: "
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="DistanceValue" type="Label" parent="CursorInfoDialog/Distance"]
-margin_left = 85.0
-margin_top = 4.0
-margin_right = 100.0
-margin_bottom = 35.0
+layout_mode = 2
 text = "?"
-__meta__ = {
-"_edit_use_anchors_": false
-}

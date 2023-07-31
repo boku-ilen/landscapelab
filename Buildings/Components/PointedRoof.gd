@@ -1,5 +1,4 @@
-tool
-extends Spatial
+extends Node3D
 
 
 #
@@ -12,14 +11,14 @@ var color
 
 
 func _ready():
-	$MeshInstance.material_override = preload("res://Buildings/Components/PointedRoof.tres")
+	$MeshInstance3D.material_override = preload("res://Buildings/Components/PointedRoof.tres")
 
 
 func set_color(new_color):
 	color = new_color
 
 
-func get_center(footprint: PoolVector2Array):
+func get_center(footprint: PackedVector2Array):
 	# TODO: Consider caching the result, can be called repeatedly (first can_build, then build)
 	var center = Vector2.ZERO
 	
@@ -36,10 +35,10 @@ func set_height(new_height):
 
 
 func can_build(footprint):
-	return Geometry.is_point_in_polygon(get_center(footprint), footprint)
+	return Geometry2D.is_point_in_polygon(get_center(footprint), footprint)
 
 
-func build(footprint: PoolVector2Array):
+func build(footprint: PackedVector2Array):
 	# Get the center of the footprint by averaging out all points
 	var center = get_center(footprint)
 	
@@ -73,22 +72,21 @@ func build(footprint: PoolVector2Array):
 		var point2 = Vector3(next_2d.x, 0, next_2d.y)
 		var point3 = Vector3(center.x, roof_height, center.y)
 		
-		var tangent_plane = Plane(point1, point2, point3)
-		st.add_tangent(tangent_plane)
-		st.add_color(color)
+		st.set_color(color)
 		
-		st.add_uv(Vector2(0, 0))
+		st.set_uv(Vector2(0, 0))
 		st.add_vertex(point1)
 		
-		st.add_uv(Vector2(1, 0))
+		st.set_uv(Vector2(1, 0))
 		st.add_vertex(point2)
 		
-		st.add_uv(Vector2(0.5, 1))
+		st.set_uv(Vector2(0.5, 1))
 		st.add_vertex(point3)
 		# TODO: Set UV variables
 	
 	st.generate_normals()
+	st.generate_tangents()
 	
 	# Apply
 	var mesh = st.commit()
-	get_node("MeshInstance").mesh = mesh
+	get_node("MeshInstance3D").mesh = mesh

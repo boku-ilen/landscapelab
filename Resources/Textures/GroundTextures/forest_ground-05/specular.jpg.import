@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-3be169c7373031adce916dae55fbedac.image"
+uid="uid://4t2rmoeu7f6p"
+path="res://.godot/imported/specular.jpg-3be169c7373031adce916dae55fbedac.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/forest_ground-05/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-3be169c7373031adce916dae55fbedac.image" ]
+dest_files=["res://.godot/imported/specular.jpg-3be169c7373031adce916dae55fbedac.image"]
 
 [params]
 

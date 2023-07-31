@@ -1,7 +1,7 @@
 extends OptionButton
 
 
-export(String) var vegetation_field_to_access
+@export var vegetation_field_to_access: String
 
 signal new_texture_selected(texture_name)
 
@@ -24,7 +24,7 @@ func _ready():
 		
 		item_id += 1
 	
-	connect("item_selected", self, "_on_item_selected")
+	connect("item_selected",Callable(self,"_on_item_selected"))
 
 
 func _on_item_selected(item_id):

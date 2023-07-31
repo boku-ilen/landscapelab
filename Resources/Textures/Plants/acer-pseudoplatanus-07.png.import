@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/acer-pseudoplatanus-07.png-074cd014aab4ac659f52df2dfe3b0fd1.image"
+uid="uid://bdpoi3b6gksu0"
+path="res://.godot/imported/acer-pseudoplatanus-07.png-074cd014aab4ac659f52df2dfe3b0fd1.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/acer-pseudoplatanus-07.png"
-dest_files=[ "res://.import/acer-pseudoplatanus-07.png-074cd014aab4ac659f52df2dfe3b0fd1.image" ]
+dest_files=["res://.godot/imported/acer-pseudoplatanus-07.png-074cd014aab4ac659f52df2dfe3b0fd1.image"]
 
 [params]
 

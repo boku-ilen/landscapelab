@@ -40,48 +40,54 @@ class DragablePoint extends Dragable:
 	#
 	var profile_reference
 	
-	func _init(object, profile).(object):
+	func _init(object,profile):
+		super._init(object)
 		profile_reference = profile
 	
 	
 	func set_position(new_pos: Vector2):
-		.set_position(new_pos)
+		super.set_position(new_pos)
 		object_reference.set_position(new_pos)
 		profile_reference.drag()
 	
 	
 	func set_active(active: bool, profile_editor: Control):
-		.set_active(active, profile_editor)
+		super.set_active(active, profile_editor)
 		if active:
 			profile_editor.emit_signal("current_point_changed", object_reference)
 			profile_editor.emit_signal("current_profile_changed", profile_reference)
-			object_reference.color = Color.green
-			profile_reference.color = Color.green
+			object_reference.color = Color.GREEN
+			profile_reference.color = Color.GREEN
 		else:
 			if object_reference:
-				object_reference.color = Color.red
+				object_reference.color = Color.RED
 			if profile_reference:
-				profile_reference.color = Color.red
+				profile_reference.color = Color.RED
 
 
 class DragableObject extends Dragable:
 	#
 	# Dragable spatial (anything)
 	#
-	func _init(object).(object): pass
+	func _init(object):
+		super._init(object)
 	
 	
 	func set_position(new_pos: Vector2):
-		.set_position(new_pos)
-		object_reference.set_translation(Vector3(new_pos.x, new_pos.y, 0))
+		super.set_position(new_pos)
+		object_reference.set_position(Vector3(new_pos.x, new_pos.y, 0))
 	
 	
 	func set_active(active: bool, profile_editor: Control):
-		.set_active(active, profile_editor)
+		super.set_active(active, profile_editor)
 		if is_active: profile_editor.emit_signal("current_object_changed", object_reference)
 
 
-var current_dragable: Dragable setget set_current_dragable
+var current_dragable: Dragable :
+	get:
+		return current_dragable
+	set(mod_value):
+		set_current_dragable(mod_value)
 
 
 func set_current_dragable(dragable):
@@ -102,7 +108,7 @@ func add_dragable(dragable):
 	var new_dragable: Dragable
 	if dragable is PolygonPoint:
 		new_dragable = DragablePoint.new(dragable, dragable.get_parent())
-	elif dragable is Spatial:
+	elif dragable is Node3D:
 		new_dragable = DragableObject.new(dragable)
 	
 	dragables[dragable.name] = new_dragable
@@ -133,7 +139,7 @@ func snap_objects(mouse2d: Vector2, profiles: Array):
 
 
 func snap_grid(mouse2d: Vector2):
-	var rounded_mouse = Vector2(stepify(mouse2d.x, 1), stepify(mouse2d.y, 1))
+	var rounded_mouse = Vector2(snapped(mouse2d.x, 1), snapped(mouse2d.y, 1))
 	if rounded_mouse.distance_to(mouse2d) < SNAPPING_OFFSET:
 		return rounded_mouse
 	elif Vector2(rounded_mouse.x, mouse2d.y).distance_to(mouse2d) < SNAPPING_OFFSET:

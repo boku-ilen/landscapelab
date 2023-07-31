@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-9b4834d5930ca6a4946c953672d42698.image"
+uid="uid://c47hdcnqbcc43"
+path="res://.godot/imported/normal.jpg-9b4834d5930ca6a4946c953672d42698.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/gravel-03/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-9b4834d5930ca6a4946c953672d42698.image" ]
+dest_files=["res://.godot/imported/normal.jpg-9b4834d5930ca6a4946c953672d42698.image"]
 
 [params]
 

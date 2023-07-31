@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/carex-04.png-b69019c2c13a5d84bbf618eb0f8d0804.image"
+uid="uid://dc2tdlgnwxofh"
+path="res://.godot/imported/carex-04.png-b69019c2c13a5d84bbf618eb0f8d0804.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/carex-04.png"
-dest_files=[ "res://.import/carex-04.png-b69019c2c13a5d84bbf618eb0f8d0804.image" ]
+dest_files=["res://.godot/imported/carex-04.png-b69019c2c13a5d84bbf618eb0f8d0804.image"]
 
 [params]
 

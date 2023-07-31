@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-5d7d315387f0ec519d5196b924971f3f.image"
+uid="uid://bl1aaxcru5i40"
+path="res://.godot/imported/ambient.jpg-5d7d315387f0ec519d5196b924971f3f.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/155-barley/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-5d7d315387f0ec519d5196b924971f3f.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-5d7d315387f0ec519d5196b924971f3f.image"]
 
 [params]
 

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-dece6cfa67eb560d79ab8849a807ff29.image"
+uid="uid://dmnya8dtrjqle"
+path="res://.godot/imported/normal.jpg-dece6cfa67eb560d79ab8849a807ff29.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/152-corn-sp/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-dece6cfa67eb560d79ab8849a807ff29.image" ]
+dest_files=["res://.godot/imported/normal.jpg-dece6cfa67eb560d79ab8849a807ff29.image"]
 
 [params]
 

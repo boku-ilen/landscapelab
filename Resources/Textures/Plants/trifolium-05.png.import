@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/trifolium-05.png-0c39935cbddf0ff1c9f832ea7459a49e.image"
+uid="uid://cxieletlm6lhw"
+path="res://.godot/imported/trifolium-05.png-0c39935cbddf0ff1c9f832ea7459a49e.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/trifolium-05.png"
-dest_files=[ "res://.import/trifolium-05.png-0c39935cbddf0ff1c9f832ea7459a49e.image" ]
+dest_files=["res://.godot/imported/trifolium-05.png-0c39935cbddf0ff1c9f832ea7459a49e.image"]
 
 [params]
 

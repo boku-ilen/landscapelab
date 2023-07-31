@@ -1,14 +1,15 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://bk6oqvoa2n7bp"]
 
-[ext_resource path="res://Resources/Textures/Buildings/roof/flat_roof_white.jpg" type="Texture" id=1]
-[ext_resource path="res://Buildings/Components/RoofShader.gdshader" type="Shader" id=2]
+[ext_resource type="Texture2D" uid="uid://c8swkj5p24pcg" path="res://Resources/Textures/Buildings/roof/flat_roof_white.jpg" id="1"]
+[ext_resource type="Shader" path="res://Buildings/Components/RoofShader.gdshader" id="2"]
 
 [resource]
 resource_local_to_scene = true
-shader = ExtResource( 2 )
-shader_param/specular = 0.5
-shader_param/metallic = 1.0
-shader_param/roughness = 0.7
-shader_param/point_size = 1.0
-shader_param/normal_scale = null
-shader_param/texture_albedo = ExtResource( 1 )
+render_priority = 0
+shader = ExtResource("2")
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 1.0
+shader_parameter/roughness = 0.7
+shader_parameter/point_size = 1.0
+shader_parameter/normal_scale = null
+shader_parameter/texture_albedo = ExtResource("1")

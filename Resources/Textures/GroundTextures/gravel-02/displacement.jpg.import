@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-7d202b1893ec1fdfc9ca406304c0c529.image"
+uid="uid://fc6rd5my23tx"
+path="res://.godot/imported/displacement.jpg-7d202b1893ec1fdfc9ca406304c0c529.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/gravel-02/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-7d202b1893ec1fdfc9ca406304c0c529.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-7d202b1893ec1fdfc9ca406304c0c529.image"]
 
 [params]
 

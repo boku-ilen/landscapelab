@@ -1,38 +1,40 @@
 extends HBoxContainer
 
 
-export var text_placeholder := "..." setget set_text_placeholder
-export var filters: PoolStringArray = ["*.shp", "*.gpkg", "*.tif"]
-export var current_dir: String = "res://" setget set_dir
+@export var text_placeholder := "..." :
+	get:
+		return text_placeholder
+	set(text):
+		text_placeholder = text
+		
+		if has_node("FileName"):
+			get_node("FileName").placeholder_text = text
 
-onready var button = get_node("Button")
-onready var file_dialog = get_node("Button/FileDialog") 
-onready var file_name = get_node("FileName")
+@export var filters: PackedStringArray = ["*.shp", "*.gpkg", "*.tif"]
 
+@export var current_dir: String = "res://" :
+	get:
+		return current_dir
+	set(dir):
+		if dir:
+			$Button/FileDialog.set_current_dir(dir)
+
+@onready var button = get_node("Button")
+@onready var file_dialog = get_node("Button/FileDialog") 
+@onready var file_name = get_node("FileName")
+
+signal file_selected
 
 func _ready():
 	file_dialog.filters = filters
-	button.connect("pressed", self, "_pop_file_dialog")
-	file_dialog.connect("file_selected", self, "_file_selected")
-	
-	set_text_placeholder(text_placeholder)
+	button.connect("pressed",Callable(self,"_pop_file_dialog"))
+	file_dialog.connect("file_selected",Callable(self,"_file_selected"))
 
 
 func _pop_file_dialog():
-	file_dialog.popup(Rect2(button.rect_global_position, Vector2(500, 400)))
+	file_dialog.popup(Rect2(button.global_position, Vector2(500, 400)))
 
 
-func _file_selected(which: String):
-	file_name.set_text(which)
-
-
-func set_dir(dir: String):
-	if dir:
-		$Button/FileDialog.set_current_dir(dir)
-
-
-func set_text_placeholder(text: String):
-	text_placeholder = text
-	
-	if $FileName:
-		$FileName.placeholder_text = text
+func _file_selected(path: String):
+	file_name.set_text(path)
+	file_selected.emit(path)

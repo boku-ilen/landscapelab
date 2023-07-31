@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/gr-fertilitymeadow-02.png-27807c0a916c22029fc361b7a462a155.image"
+uid="uid://c4fqu3xrintfi"
+path="res://.godot/imported/gr-fertilitymeadow-02.png-27807c0a916c22029fc361b7a462a155.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/gr-fertilitymeadow-02.png"
-dest_files=[ "res://.import/gr-fertilitymeadow-02.png-27807c0a916c22029fc361b7a462a155.image" ]
+dest_files=["res://.godot/imported/gr-fertilitymeadow-02.png-27807c0a916c22029fc361b7a462a155.image"]
 
 [params]
 

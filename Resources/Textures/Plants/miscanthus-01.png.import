@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/miscanthus-01.png-e2f062eca73762950751977e9c9c7bae.image"
+uid="uid://kg6uuhvlo3ti"
+path="res://.godot/imported/miscanthus-01.png-e2f062eca73762950751977e9c9c7bae.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/miscanthus-01.png"
-dest_files=[ "res://.import/miscanthus-01.png-e2f062eca73762950751977e9c9c7bae.image" ]
+dest_files=["res://.godot/imported/miscanthus-01.png-e2f062eca73762950751977e9c9c7bae.image"]
 
 [params]
 

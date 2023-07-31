@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/vitis-vinifera-04.png-69202e05d264e36842ce02fb67baac4d.image"
+uid="uid://chavxchuoqymm"
+path="res://.godot/imported/vitis-vinifera-04.png-69202e05d264e36842ce02fb67baac4d.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/vitis-vinifera-04.png"
-dest_files=[ "res://.import/vitis-vinifera-04.png-69202e05d264e36842ce02fb67baac4d.image" ]
+dest_files=["res://.godot/imported/vitis-vinifera-04.png-69202e05d264e36842ce02fb67baac4d.image"]
 
 [params]
 

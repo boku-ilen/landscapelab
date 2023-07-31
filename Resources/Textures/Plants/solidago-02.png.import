@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/solidago-02.png-cb6da70df6d73217bb9cdef64cd2434f.image"
+uid="uid://dme8tqr7l4k6j"
+path="res://.godot/imported/solidago-02.png-cb6da70df6d73217bb9cdef64cd2434f.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/solidago-02.png"
-dest_files=[ "res://.import/solidago-02.png-cb6da70df6d73217bb9cdef64cd2434f.image" ]
+dest_files=["res://.godot/imported/solidago-02.png-cb6da70df6d73217bb9cdef64cd2434f.image"]
 
 [params]
 

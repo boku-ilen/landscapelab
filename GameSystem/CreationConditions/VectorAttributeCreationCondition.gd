@@ -8,7 +8,7 @@ var attribute_comparator
 var default_return
 
 
-func _init(initial_name, initial_vector_layer, initial_attribute_name, initial_attribute_comparator, initial_default_return=false):
+func _init(initial_name,initial_vector_layer,initial_attribute_name,initial_attribute_comparator,initial_default_return=false):
 	name = initial_name
 	vector_layer = initial_vector_layer
 	attribute_name = initial_attribute_name
@@ -19,7 +19,7 @@ func _init(initial_name, initial_vector_layer, initial_attribute_name, initial_a
 func is_creation_allowed_at_position(position):
 	var game_objects_at_position = vector_layer.get_features_near_position(position.x, -position.z, 0.1, 10)
 	
-	if game_objects_at_position.empty():
+	if game_objects_at_position.is_empty():
 		return default_return
 	
 	for game_object in game_objects_at_position:

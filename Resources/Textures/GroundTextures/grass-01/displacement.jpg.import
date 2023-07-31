@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-1e6a22e358e66540cf205ba2fa9a80cf.image"
+uid="uid://tg4duadtls6l"
+path="res://.godot/imported/displacement.jpg-1e6a22e358e66540cf205ba2fa9a80cf.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/grass-01/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-1e6a22e358e66540cf205ba2fa9a80cf.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-1e6a22e358e66540cf205ba2fa9a80cf.image"]
 
 [params]
 

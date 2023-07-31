@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-61810b155287784bacee327966f61907.image"
+uid="uid://cfwg382cpl5mx"
+path="res://.godot/imported/normal.jpg-61810b155287784bacee327966f61907.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/178-poppy/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-61810b155287784bacee327966f61907.image" ]
+dest_files=["res://.godot/imported/normal.jpg-61810b155287784bacee327966f61907.image"]
 
 [params]
 

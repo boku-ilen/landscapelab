@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/pisum-sativum-01.png-144340e57358dfe8afe0cb500f7b4cc4.image"
+uid="uid://cw8rdmeadsha1"
+path="res://.godot/imported/pisum-sativum-01.png-144340e57358dfe8afe0cb500f7b4cc4.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/pisum-sativum-01.png"
-dest_files=[ "res://.import/pisum-sativum-01.png-144340e57358dfe8afe0cb500f7b4cc4.image" ]
+dest_files=["res://.godot/imported/pisum-sativum-01.png-144340e57358dfe8afe0cb500f7b4cc4.image"]
 
 [params]
 

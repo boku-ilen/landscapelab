@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-2119d9f3263f8cfe7b0a93946fe869d6.image"
+uid="uid://c4b0tm20n6j8u"
+path="res://.godot/imported/specular.jpg-2119d9f3263f8cfe7b0a93946fe869d6.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/alpine_grassland-02/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-2119d9f3263f8cfe7b0a93946fe869d6.image" ]
+dest_files=["res://.godot/imported/specular.jpg-2119d9f3263f8cfe7b0a93946fe869d6.image"]
 
 [params]
 

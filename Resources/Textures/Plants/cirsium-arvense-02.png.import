@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/cirsium-arvense-02.png-a6d9c5a0f242cc444fc9939310c50dab.image"
+uid="uid://bhco2k4alaiik"
+path="res://.godot/imported/cirsium-arvense-02.png-a6d9c5a0f242cc444fc9939310c50dab.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/cirsium-arvense-02.png"
-dest_files=[ "res://.import/cirsium-arvense-02.png-a6d9c5a0f242cc444fc9939310c50dab.image" ]
+dest_files=["res://.godot/imported/cirsium-arvense-02.png-a6d9c5a0f242cc444fc9939310c50dab.image"]
 
 [params]
 

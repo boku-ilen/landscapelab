@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1opv6tggiwbx"]
+
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Management/GeoLayerManagement.gd" id="1_pfick"]
+[ext_resource type="PackedScene" uid="uid://b7edl76i03v20" path="res://UI/Layers/GeoLayers/Management/GeoFeatureLayerManagement.tscn" id="2_mv7hc"]
+[ext_resource type="PackedScene" uid="uid://ljx3yf4cns3v" path="res://UI/Layers/GeoLayers/Management/GeoRasterLayerManagement.tscn" id="3_ulsvp"]
+
+[node name="GeoLayerManagement" type="HBoxContainer"]
+script = ExtResource("1_pfick")
+action_handler_paths = Array[NodePath]([NodePath("../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/ActionHandler")])
+geo_layer_list_path = NodePath("../Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerUI/ItemList")
+
+[node name="GeoFeatureLayerManagement" parent="." instance=ExtResource("2_mv7hc")]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="GeoRasterLayerManagement" parent="." instance=ExtResource("3_ulsvp")]
+layout_mode = 2

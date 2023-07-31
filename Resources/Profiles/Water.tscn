@@ -4,16 +4,16 @@
 
 [sub_resource type="Curve3D" id=1]
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -3.45, 3.47209, 68.3872, 0, 0, 0, 0, 0, 0, 0.317411, 0.875589, -3.77566 ),
-"tilts": PoolRealArray( 0, 0 )
+"points": PackedVector3Array( 0, 0, 0, 0, 0, 0, -3.45, 3.47209, 68.3872, 0, 0, 0, 0, 0, 0, 0.317411, 0.875589, -3.77566 ),
+"tilts": PackedFloat32Array( 0, 0 )
 }
 
-[node name="Path" type="Path"]
+[node name="Path3D" type="Path3D"]
 curve = SubResource( 1 )
 
-[node name="CSGBox" type="CSGPolygon" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.500705, 0.304402, 0 )
-polygon = PoolVector2Array( -20, 2, 20, 2, 20, 2 )
+[node name="CSGBox3D" type="CSGPolygon3D" parent="."]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.500705, 0.304402, 0 )
+polygon = PackedVector2Array( -20, 2, 20, 2, 20, 2 )
 mode = 2
 path_node = NodePath("..")
 path_interval = 1.0

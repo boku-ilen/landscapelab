@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/aesculus-hippocastanum-03.png-18a3bf7b29c1f563460cbd0d41971c2d.image"
+uid="uid://dgxx7lvig8rbf"
+path="res://.godot/imported/aesculus-hippocastanum-03.png-18a3bf7b29c1f563460cbd0d41971c2d.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/aesculus-hippocastanum-03.png"
-dest_files=[ "res://.import/aesculus-hippocastanum-03.png-18a3bf7b29c1f563460cbd0d41971c2d.image" ]
+dest_files=["res://.godot/imported/aesculus-hippocastanum-03.png-18a3bf7b29c1f563460cbd0d41971c2d.image"]
 
 [params]
 

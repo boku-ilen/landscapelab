@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/fagus-sylvatica-06.png-41157f4337dd953d8d103127e810df4a.image"
+uid="uid://rndsddp3bo5l"
+path="res://.godot/imported/fagus-sylvatica-06.png-41157f4337dd953d8d103127e810df4a.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/fagus-sylvatica-06.png"
-dest_files=[ "res://.import/fagus-sylvatica-06.png-41157f4337dd953d8d103127e810df4a.image" ]
+dest_files=["res://.godot/imported/fagus-sylvatica-06.png-41157f4337dd953d8d103127e810df4a.image"]
 
 [params]
 

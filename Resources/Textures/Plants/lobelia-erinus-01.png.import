@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/lobelia-erinus-01.png-c3227265ae3f51b04396c069e17598db.image"
+uid="uid://b1vdv305btjx"
+path="res://.godot/imported/lobelia-erinus-01.png-c3227265ae3f51b04396c069e17598db.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/lobelia-erinus-01.png"
-dest_files=[ "res://.import/lobelia-erinus-01.png-c3227265ae3f51b04396c069e17598db.image" ]
+dest_files=["res://.godot/imported/lobelia-erinus-01.png-c3227265ae3f51b04396c069e17598db.image"]
 
 [params]
 

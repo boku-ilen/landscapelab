@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-eadb0a4d7776dab58a911ca89c389bc8.image"
+uid="uid://dq7mp4eh1swdl"
+path="res://.godot/imported/albedo.jpg-eadb0a4d7776dab58a911ca89c389bc8.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/152-corn-sp/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-eadb0a4d7776dab58a911ca89c389bc8.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-eadb0a4d7776dab58a911ca89c389bc8.image"]
 
 [params]
 

@@ -12,40 +12,29 @@ const distribution_size = 16
 # Maximum plant height -- height values in the distribution map are interpreted to be between 0.0
 #  and this value
 const max_plant_height = 40.0
-const LOG_MODULE := "VEGETATION"
 
 var plants = {}
 var groups = {}
 var density_classes = {}
 var ground_textures = {}
 var fade_textures = {}
+var paths := {}
+
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 5.5 setget set_plant_extent_factor, get_plant_extent_factor
-var max_extent = 0.0
+var plant_extent_factor = 3.0 :
+	get:
+		return plant_extent_factor
+	set(extent):
+		plant_extent_factor = extent
+		emit_signal("new_plant_extent_factor", extent)
+
+# Overwritten when data is loaded
+var max_extent = 1000.0
 signal new_plant_extent_factor(extent)
 
 signal new_data
-
-
-func _ready():
-	var config = ConfigFile.new()
-	var err = config.load("user://vegetation_paths.cfg")
-	
-	if err != OK:
-		logger.error("Couldn't load vegetation from config since none was available!", LOG_MODULE)
-		# TODO: Display the UI for entering paths instead
-		return
-
-
-func set_plant_extent_factor(extent):
-	plant_extent_factor = extent
-	emit_signal("new_plant_extent_factor", extent)
-
-
-func get_plant_extent_factor():
-	return plant_extent_factor
 
 
 func load_data_from_gpkg(db) -> void:
@@ -89,6 +78,12 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	max_extent = max_size_factor * plant_extent_factor
 	
 	emit_signal("new_data")
+	paths = {
+		"Densities": density_path,
+		"Groups": group_path,
+		"Plants": plant_path,
+		"Textures": texture_definition_path
+	}
 
 
 # Save the current Plant and Group data to CSV files at the given locations.
@@ -107,7 +102,7 @@ func get_group_array_for_ids(id_array):
 		if groups.has(id_array[i]):
 			group_array.append(groups[id_array[i]])
 		else:
-			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]], LOG_MODULE)
+			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]])
 	
 	return group_array
 
@@ -130,18 +125,18 @@ func filter_group_array_by_density_class(group_array: Array, density_class):
 	var new_array = []
 	
 	for group in group_array:
-		var plants = []
+		var filtered_plants = []
 		
 		for plant in group.plants:
 			if plant.density_class == density_class:
-				plants.append(plant)
+				filtered_plants.append(plant)
 		
-		if not plants.empty():
+		if not filtered_plants.is_empty():
 			# Append a new Group which is identical to the one in the passed
 			#  array, but with the filtered plants
 			new_array.append(PlantGroup.new(group.id,
 					group.name_en,
-					plants))
+					filtered_plants))
 	
 	return new_array
 
@@ -226,52 +221,35 @@ func get_distribution_sheet(group_array):
 	texture_table[0] = []
 	
 	for group in group_array:
-		texture_table[0].append(generate_distribution(group, max_plant_height) \
-				if group.plants.size() > 0 else null)
+		texture_table[0].append(generate_distribution(group, max_plant_height))
 	
 	return SpritesheetHelper.create_layered_spritesheet(
 			Vector2(distribution_size, distribution_size),
 			texture_table)[0]
 
 
-# To map land-use values to a row from 0-7, we use a 256x1 texture.
-# An array would be more straightforward, but shaders don't accept these as
-#  uniform parameters.
-func get_id_row_map_texture(ids):
-	var id_row_map = Image.new()
-	id_row_map.create(256, 1, false, Image.FORMAT_R8)
-	id_row_map.lock()
+# To map land-use values to a row from 0-7, we use a 256x1 array.
+func get_id_row_array(ids):
+	var array = []
+	array.resize(256)
+	array.fill(-1.0)
 	
-	# id_row_map.fill doesn't work here - if that is used, the set_pixel calls
-	#  later have no effect...
-	for i in range(0, 256):
-		id_row_map.set_pixel(i, 0, Color(1.0, 0.0, 0.0))
-	
-	# The pixel at x=id (0-255) is set to the row value (0-7).
-	var row = 0
+	var row := 0.0
 	for id in ids:
-		id_row_map.set_pixel(id, 0, Color(row / 255.0, 0.0, 0.0))
-		row += 1
+		array[id] = row
+		row += 1.0
 	
-	id_row_map.unlock()
-	
-	# Fill all parameters into the shader
-	var id_row_map_tex = ImageTexture.new()
-	id_row_map_tex.create_from_image(id_row_map, 0)
-	
-	return id_row_map_tex
+	return array
 
 
 # Creates a texture expressing various metadata of the groups in the given ID array.
 # The texture is 256 pixels wide, with the first row being an id-row-map (see above).
 # The following rows of the texture consist of the following data for each of the Groups:
-# [Ground Texture Scale | Fade Texture Scale]
+# [Ground Texture2D Scale | Fade Texture2D Scale]
 # A scale of 0 means that there is no texture of this type.
 # Note that each value needs to be scaled before use, since the texture only allows relative values in the 0..1 range.
 func get_metadata_map(ids):
-	var metadata = Image.new()
-	metadata.create(256, 1, false, Image.FORMAT_RGB8)
-	metadata.lock()
+	var metadata = Image.create(256, 1, false, Image.FORMAT_RGB8)
 	
 	# .fill doesn't work here - if that is used, the set_pixel calls later have no effect...
 	for i in range(0, 256):
@@ -284,24 +262,19 @@ func get_metadata_map(ids):
 			# Row value
 			var row_color = row / 255.0
 			
-			# Ground Texture Scale
+			# Ground Texture2D Scale
 			var ground_texture_scale = groups[id].ground_texture.size_m / GroundTexture.MAX_SIZE_M \
 					if groups[id].ground_texture else 0
 			
-			# Fade Texture Scale
+			# Fade Texture2D Scale
 			var fade_texture_scale = groups[id].fade_texture.size_m / GroundTexture.MAX_SIZE_M \
 					if groups[id].fade_texture else 0
 			
 			metadata.set_pixel(id, 0, Color(row_color, ground_texture_scale, fade_texture_scale))
 			row += 1
 	
-	metadata.unlock()
-	
 	# Fill all parameters into the shader
-	var metadata_tex = ImageTexture.new()
-	metadata_tex.create_from_image(metadata, 0)
-	
-	return metadata_tex
+	return ImageTexture.create_from_image(metadata) #,0
 
 
 # Wraps the result of get_ground_sheet in an ImageTexture.
@@ -320,21 +293,18 @@ func get_billboard_texture(group_array):
 	return _image_array_to_texture_array(get_billboard_sheet(group_array))
 
 
-# Utility function for turning an ImageArray into a TextureArray.
+# Utility function for turning an ImageArray into a Texture2DArray.
 func _image_array_to_texture_array(images):
-	if not images or images.size() == 0:
+	if images == null or images.size() == 0:
 		return null
 	
-	var texture_array = TextureArray.new()
-	texture_array.create(images[0].get_width(), images[0].get_height(), images.size(), images[0].get_format(),
-			TextureLayered.FLAG_FILTER + TextureLayered.FLAG_MIPMAPS + TextureLayered.FLAG_REPEAT)
-	
-	var current_layer = 0
-	for image in images:
-		texture_array.set_layer_data(image, current_layer)
-		current_layer += 1
+	var texture_array = Texture2DArray.new()
+	texture_array.create_from_images(images)
 	
 	return texture_array
+
+
+var distribution_cache = {}
 
 
 # Returns a newly generated distribution map for the plants in the given group.
@@ -342,14 +312,11 @@ func _image_array_to_texture_array(images):
 #  the size scaling factors (between 0 and 1 relative to the given max_size) for each particular
 #  plant instance, taking into account its min and max size.
 func generate_distribution(group: PlantGroup, max_size: float):
-	var distribution = Image.new()
-	distribution.create(distribution_size, distribution_size,
+	var distribution = Image.create(distribution_size, distribution_size,
 			false, Image.FORMAT_RG8)
 	
 	var dice = RandomNumberGenerator.new()
 	dice.randomize()
-	
-	distribution.lock()
 	
 	for y in range(0, distribution_size):
 		for x in range(0, distribution_size):
@@ -379,21 +346,22 @@ func generate_distribution(group: PlantGroup, max_size: float):
 			
 			distribution.set_pixel(x, y, Color(highest_roll_id / 255.0, scale_factor, 0.0, 0.0))
 	
-	distribution.unlock()
+	distribution_cache[group.id] = distribution
 	
 	return distribution
 
 
 # Return all renderers according to the set Density Classes. The renderers are children of the
-#  returned Spatial.
-func get_renderers() -> Spatial:
-	var root = Spatial.new()
+#  returned Node3D.
+func get_renderers() -> Node3D:
+	var root = Node3D.new()
 	root.name = "VegetationRenderers"
 	
 	for density_class in density_classes.values():
-		var renderer = preload("res://Layers/Renderers/RasterVegetation/VegetationParticles.tscn").instance()
+		var renderer = load("res://Layers/Renderers/RasterVegetation/VegetationParticles.tscn").instantiate()
 		
 		renderer.density_class = density_class
+		renderer.name = density_class.name
 		
 		root.add_child(renderer)
 	

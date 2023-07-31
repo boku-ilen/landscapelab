@@ -5,38 +5,38 @@ extends HBoxContainer
 #
 
 # All the ui elements for the PoI UI functionality
-onready var parent_button = get_parent()
-onready var input_field = get_node("VBoxContainer/TextEdit")
-onready var save_button = get_node("VBoxContainer/Save")
-onready var item_list = get_node("VBoxContainer/ItemList")
-onready var add_button = get_node("VBoxContainer/HBoxContainer/Add")
-onready var delete_button = get_node("VBoxContainer/HBoxContainer/Delete")
-onready var arrow_up = get_node("Arrows/ArrowUp")
-onready var arrow_down = get_node("Arrows/ArrowDown")
+@onready var parent_button = get_parent()
+@onready var input_field = get_node("VBoxContainer/TextEdit")
+@onready var save_button = get_node("VBoxContainer/Save")
+@onready var item_list = get_node("VBoxContainer/ItemList")
+@onready var add_button = get_node("VBoxContainer/HBoxContainer/Add")
+@onready var delete_button = get_node("VBoxContainer/HBoxContainer/Delete")
+@onready var arrow_up = get_node("Arrows/ArrowUp")
+@onready var arrow_down = get_node("Arrows/ArrowDown")
 
 var pos_manager: PositionManager
 var pc_player: AbstractPlayer
-var current_poi_layer: Layer
-
-const LOG_MODULE := "UI"
+var current_poi_layer: LayerComposition
 
 
 func _ready():
-	$VBoxContainer/TeleportToButton.connect("pressed", self, "_teleport_current_values")
-	$VBoxContainer/OptionButton.connect("item_selected", self, "_change_selected_layer")
-	$VBoxContainer/ItemList.connect("item_selected", self, "_on_feature_select")
-	add_button.connect("pressed", self, "_on_add_pressed")
-	save_button.connect("pressed", self, "_on_save_pressed")
-	delete_button.connect("pressed", self, "_on_delete_pressed")
-	arrow_up.connect("pressed", self, "_on_arrow_up")
-	arrow_down.connect("pressed", self, "_on_arrow_down")
+	$VBoxContainer/TeleportToButton.connect("pressed",Callable(self,"_teleport_current_values"))
+	$VBoxContainer/OptionButton.connect("item_selected",Callable(self,"_change_selected_layer"))
+	$VBoxContainer/ItemList.connect("item_selected",Callable(self,"_on_feature_select"))
+	add_button.connect("pressed",Callable(self,"_on_add_pressed"))
+	save_button.connect("pressed",Callable(self,"_on_save_pressed"))
+	delete_button.connect("pressed",Callable(self,"_on_delete_pressed"))
+	arrow_up.connect("pressed",Callable(self,"_on_arrow_up"))
+	arrow_down.connect("pressed",Callable(self,"_on_arrow_down"))
 	
-	var object_layers = Layers.get_layers_of_type(Layer.RenderType.OBJECT)
+	var object_layers = Layers.get_layers_with_render_info(LayerComposition.ObjectRenderInfo)
+	
 	for layer in object_layers:
 		_add_object_layer(layer)
 	
-	Layers.connect("new_layer", self, "_add_object_layer")
-	Layers.connect("removed_rendered_layer", self, "_remove_object_layer")
+	Layers.connect("new_layer",Callable(self,"_add_object_layer"))
+	Layers.connect("removed_rendered_layer_composition",
+		Callable(self,"_remove_object_layer_composition"))
 
 
 func _teleport_current_values():
@@ -49,22 +49,22 @@ func teleport_to_coordinates(xyz: Vector3, geo_coords=true):
 	if geo_coords:
 		xyz = pos_manager.to_engine_coordinates(xyz)
 	if pc_player:
-		pc_player.translation = xyz
+		pc_player.position = xyz
 	else:
 		# FIXME: what if center node is not a player?
 		pass
 
 
-func _add_object_layer(layer: Layer):
-	if layer.render_type == Layer.RenderType.OBJECT:
-		$VBoxContainer/OptionButton.add_item(layer.name)
+func _add_object_layer(layerc: LayerComposition):
+	if layerc.render_info is LayerComposition.ObjectRenderInfo:
+		$VBoxContainer/OptionButton.add_item(layerc.name)
 
 
-func _remove_object_layer(lname: String, render_type):
-	if render_type == Layer.RenderType.OBJECT:
+func _remove_object_layer_composition(lcname: String, render_info):
+	if render_info is LayerComposition.ObjectRenderInfo:
 		# Items in option buttons are so weird... Every fifth entry is the 
 		# name of another item
-		var index = $VBoxContainer/OptionButton.items.find(lname) / 5
+		var index = $VBoxContainer/OptionButton.items.find(lcname) / 5
 		$VBoxContainer/OptionButton.remove_item(index)
 
 
@@ -82,8 +82,7 @@ func _load_features_into_list():
 	for feature in features:
 		var new_id = $VBoxContainer/ItemList.get_item_count()
 		var position = feature.get_vector3()
-		# TODO: Why do we need to reverse the z coordinate? seems like an inconsistency in coordinate handling
-		position.z = -position.z
+		position.z = -position.z # Adapt to local -z forward coordinates
 		
 		var item_name = feature.get_attribute(current_poi_layer.ui_info.name_attribute) \
 				if feature.get_attribute(current_poi_layer.ui_info.name_attribute) != "" \
@@ -108,11 +107,11 @@ func _on_save_pressed():
 	var new_feature = current_poi_layer.create_feature()
 	
 	var global_center = pos_manager.get_center()
-	new_feature.set_offset_vector3(pc_player.translation, 
+	new_feature.set_offset_vector3(pc_player.position, 
 			global_center[0], 0, global_center[1])
 	
 	# FIXME: this is a limitation as of now as set_attribute only works
-	# FIXME: on an existing table row. This needs to be created first
+	# FIXME: checked an existing table row. This needs to be created first
 	var key = current_poi_layer.ui_info.name_attribute
 	var val = input_field.text 
 	new_feature.set_attribute(key, val)

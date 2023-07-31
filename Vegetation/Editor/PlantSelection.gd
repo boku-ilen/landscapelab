@@ -2,8 +2,8 @@ extends VBoxContainer
 
 
 func _ready():
-	Vegetation.connect("new_data", self, "rebuild_list")
-	$FilterContainer/PlantFilter.connect("item_selected", self, "_on_new_filter")
+	Vegetation.connect("new_data",Callable(self,"rebuild_list"))
+	$FilterContainer/PlantFilter.connect("item_selected",Callable(self,"_on_new_filter"))
 	
 	rebuild_list()
 

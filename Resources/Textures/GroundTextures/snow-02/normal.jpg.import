@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-31c660f3914031393dacc400d1aff46f.image"
+uid="uid://bjexec4agl315"
+path="res://.godot/imported/normal.jpg-31c660f3914031393dacc400d1aff46f.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/snow-02/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-31c660f3914031393dacc400d1aff46f.image" ]
+dest_files=["res://.godot/imported/normal.jpg-31c660f3914031393dacc400d1aff46f.image"]
 
 [params]
 

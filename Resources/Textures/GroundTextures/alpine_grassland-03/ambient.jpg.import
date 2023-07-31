@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-22bbe687dcf1f7a4027752f5bdbc9aca.image"
+uid="uid://cm2oep5fiadyw"
+path="res://.godot/imported/ambient.jpg-22bbe687dcf1f7a4027752f5bdbc9aca.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/alpine_grassland-03/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-22bbe687dcf1f7a4027752f5bdbc9aca.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-22bbe687dcf1f7a4027752f5bdbc9aca.image"]
 
 [params]
 

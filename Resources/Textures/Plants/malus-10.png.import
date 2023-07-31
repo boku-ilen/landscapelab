@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/malus-10.png-20d1583b9ff9816e1aff0c6464430439.image"
+uid="uid://dvkc6a3wh1k88"
+path="res://.godot/imported/malus-10.png-20d1583b9ff9816e1aff0c6464430439.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/malus-10.png"
-dest_files=[ "res://.import/malus-10.png-20d1583b9ff9816e1aff0c6464430439.image" ]
+dest_files=["res://.godot/imported/malus-10.png-20d1583b9ff9816e1aff0c6464430439.image"]
 
 [params]
 

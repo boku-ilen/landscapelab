@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/rosa-02.png-72f9152555d225cebed8d57a864c5a79.image"
+uid="uid://dq7ywn78dkyyn"
+path="res://.godot/imported/rosa-02.png-72f9152555d225cebed8d57a864c5a79.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/rosa-02.png"
-dest_files=[ "res://.import/rosa-02.png-72f9152555d225cebed8d57a864c5a79.image" ]
+dest_files=["res://.godot/imported/rosa-02.png-72f9152555d225cebed8d57a864c5a79.image"]
 
 [params]
 

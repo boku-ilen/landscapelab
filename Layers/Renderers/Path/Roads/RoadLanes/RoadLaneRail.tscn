@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdystdckttc1e"]
+
+[ext_resource type="PackedScene" uid="uid://viu3tawr4dl5" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.tscn" id="1_r3fr6"]
+[ext_resource type="Material" uid="uid://d3oll2i6g6who" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneRail.tres" id="2_v7fw3"]
+
+[node name="RoadLaneRail" instance=ExtResource("1_r3fr6")]
+road_height = 1.0
+taper_top = 2.0
+lower_into_ground = 1.0
+
+[node name="RoadLanePolygon" parent="." index="0"]
+layers = 1
+polygon = PackedVector2Array(-2.5, 0.2, 2.4398, 0.526214, 2.5, 0, -2.5, 0)
+material = ExtResource("2_v7fw3")

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/chaerophyllum-01.png-4a82f5c3766da0f5ccea0582bfc8cdc5.image"
+uid="uid://b254unowo243l"
+path="res://.godot/imported/chaerophyllum-01.png-4a82f5c3766da0f5ccea0582bfc8cdc5.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/chaerophyllum-01.png"
-dest_files=[ "res://.import/chaerophyllum-01.png-4a82f5c3766da0f5ccea0582bfc8cdc5.image" ]
+dest_files=["res://.godot/imported/chaerophyllum-01.png-4a82f5c3766da0f5ccea0582bfc8cdc5.image"]
 
 [params]
 

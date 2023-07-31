@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/roughness.jpg-8c7cbcac376b4f283dbee38b7ffe540d.image"
+uid="uid://cljl7ghldihbx"
+path="res://.godot/imported/roughness.jpg-8c7cbcac376b4f283dbee38b7ffe540d.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/156-clover/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-8c7cbcac376b4f283dbee38b7ffe540d.image" ]
+dest_files=["res://.godot/imported/roughness.jpg-8c7cbcac376b4f283dbee38b7ffe540d.image"]
 
 [params]
 

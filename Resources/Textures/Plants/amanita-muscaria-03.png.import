@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/amanita-muscaria-03.png-f436757759b52ce321bcc91efbdc75c8.image"
+uid="uid://cxdgpio68yy3n"
+path="res://.godot/imported/amanita-muscaria-03.png-f436757759b52ce321bcc91efbdc75c8.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/amanita-muscaria-03.png"
-dest_files=[ "res://.import/amanita-muscaria-03.png-f436757759b52ce321bcc91efbdc75c8.image" ]
+dest_files=["res://.godot/imported/amanita-muscaria-03.png-f436757759b52ce321bcc91efbdc75c8.image"]
 
 [params]
 

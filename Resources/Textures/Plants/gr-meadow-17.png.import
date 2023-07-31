@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/gr-meadow-17.png-c51bf26a07154556d8e1a43d1a9feca8.image"
+uid="uid://b4ssmshm174ic"
+path="res://.godot/imported/gr-meadow-17.png-c51bf26a07154556d8e1a43d1a9feca8.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/gr-meadow-17.png"
-dest_files=[ "res://.import/gr-meadow-17.png-c51bf26a07154556d8e1a43d1a9feca8.image" ]
+dest_files=["res://.godot/imported/gr-meadow-17.png-c51bf26a07154556d8e1a43d1a9feca8.image"]
 
 [params]
 

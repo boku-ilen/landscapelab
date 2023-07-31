@@ -9,7 +9,6 @@ class_name Plant
 
 # We assume all billboards to end with 'png' since they require transparency
 const BILLBOARD_ENDING = ".png"
-const LOG_MODULE := "VEGETATION"
 
 enum Size {XS, S, M, L, XL}
 enum Season {SPRING, SUMMER, AUTUMN, WINTER}
@@ -39,10 +38,10 @@ var plants_per_ha: int
 var cluster_width: float
 
 func _get_full_icon_path():
-	return VegetationImages.plant_image_base_path.plus_file("small-" + billboard_path) + BILLBOARD_ENDING
+	return VegetationImages.plant_image_base_path.path_join("small-" + billboard_path) + BILLBOARD_ENDING
 
 func _get_full_billboard_path():
-	return VegetationImages.plant_image_base_path.plus_file(billboard_path) + BILLBOARD_ENDING
+	return VegetationImages.plant_image_base_path.path_join(billboard_path) + BILLBOARD_ENDING
 
 func _load_into_cache_if_necessary(full_path):
 	if not VegetationImages.plant_image_cache.has(full_path):
@@ -50,34 +49,23 @@ func _load_into_cache_if_necessary(full_path):
 		var img = load(full_path)
 		
 		if img.is_empty():
-			logger.warning("Invalid billboard path in %s: %s"
-					 % [name_en, full_path], LOG_MODULE)
-
-		# Godot can crash with extremely large images, so we downscale it to a size appropriate
-		#  for further handling.
-		if img.get_width() > VegetationImages.SPRITE_SIZE or img.get_height() > VegetationImages.SPRITE_SIZE:
-			var new_size = SpritesheetHelper.get_size_keep_aspect(
-				Vector2(VegetationImages.SPRITE_SIZE, VegetationImages.SPRITE_SIZE), img.get_size())
-			img.resize(new_size.x, new_size.y)
+			logger.warn("Invalid billboard path in %s: %s"
+					% [name_en, full_path])
 		
 		VegetationImages.plant_image_cache[full_path] = img
-		
-		# Also load into the ImageTexture cache
-		var tex = ImageTexture.new()
-		tex.create_from_image(_get_image(full_path), Texture.FLAG_MIPMAPS + Texture.FLAG_FILTER)
-		VegetationImages.plant_image_texture_cache[full_path] = tex
+
 
 func _get_image(path):
-	if not File.new().file_exists(path):
-		logger.warn("Invalid Plant image (file does not exist): %s" % [path], LOG_MODULE)
+	if not FileAccess.file_exists(path):
+		logger.warn("Invalid Plant image (file does not exist): %s" % [path])
 		return null
 	
 	_load_into_cache_if_necessary(path)
 	return VegetationImages.plant_image_cache[path]
 
 func _get_texture(path):
-	if not File.new().file_exists(path):
-		logger.warn("Invalid Plant image (file does not exist): %s" % [path], LOG_MODULE)
+	if not FileAccess.file_exists(path):
+		logger.warn("Invalid Plant image (file does not exist): %s" % [path])
 		return null
 	
 	_load_into_cache_if_necessary(path)

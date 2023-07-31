@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-b21f5d048d8c83e5425baceacdd0fb62.image"
+uid="uid://ih1vpeah63y4"
+path="res://.godot/imported/displacement.jpg-b21f5d048d8c83e5425baceacdd0fb62.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/asphalt-01/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-b21f5d048d8c83e5425baceacdd0fb62.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-b21f5d048d8c83e5425baceacdd0fb62.image"]
 
 [params]
 

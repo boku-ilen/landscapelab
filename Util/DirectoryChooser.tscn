@@ -5,17 +5,17 @@
 [node name="DirectoryChooser" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -979.0
-rect_pivot_offset = Vector2( -1826.32, -684.311 )
+offset_bottom = -979.0
+pivot_offset = Vector2( -1826.32, -684.311 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="DirName" type="TextEdit" parent="."]
-margin_right = 1811.0
-margin_bottom = 101.0
-rect_min_size = Vector2( 0, 40 )
+offset_right = 1811.0
+offset_bottom = 101.0
+minimum_size = Vector2( 0, 40 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "..."
@@ -24,9 +24,9 @@ __meta__ = {
 }
 
 [node name="Button" type="Button" parent="."]
-margin_left = 1819.0
-margin_right = 1920.0
-margin_bottom = 101.0
+offset_left = 1819.0
+offset_right = 1920.0
+offset_bottom = 101.0
 size_flags_horizontal = 8
 text = "Open..."
 __meta__ = {
@@ -34,14 +34,14 @@ __meta__ = {
 }
 
 [node name="DirDialog" type="FileDialog" parent="Button"]
-margin_left = -264.0
-margin_top = 181.0
-margin_right = 459.0
-margin_bottom = 723.0
+offset_left = -264.0
+offset_top = 181.0
+offset_right = 459.0
+offset_bottom = 723.0
 window_title = "Open a Directory"
 mode = 2
 access = 2
-filters = PoolStringArray( "" )
+filters = PackedStringArray( "" )
 current_dir = "/boku/landscapelab"
 current_path = "/boku/landscapelab/"
 __meta__ = {

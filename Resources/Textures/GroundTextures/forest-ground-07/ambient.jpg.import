@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://baetlkauq54jk"
+path="res://.godot/imported/ambient.jpg-48ebae6e6ae1393565009c9a1ae2ce6a.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/forest-ground-07/ambient.jpg"
+dest_files=["res://.godot/imported/ambient.jpg-48ebae6e6ae1393565009c9a1ae2ce6a.image"]
+
+[params]
+

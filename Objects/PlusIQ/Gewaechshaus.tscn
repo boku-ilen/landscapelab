@@ -2,7 +2,7 @@
 
 [ext_resource path="res://External/PlusIQ/gewaechshaus.glb" type="PackedScene" id=1]
 
-[node name="Gewaechshaus" type="Spatial"]
+[node name="Gewaechshaus" type="Node3D"]
 
 [node name="gewaechshaus" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )

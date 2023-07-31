@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/hypericum-perforatum-08.png-ab5f6bff74c1ee6d6d0ff5441fc0241f.image"
+uid="uid://bc47bb26j72xf"
+path="res://.godot/imported/hypericum-perforatum-08.png-ab5f6bff74c1ee6d6d0ff5441fc0241f.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/hypericum-perforatum-08.png"
-dest_files=[ "res://.import/hypericum-perforatum-08.png-ab5f6bff74c1ee6d6d0ff5441fc0241f.image" ]
+dest_files=["res://.godot/imported/hypericum-perforatum-08.png-ab5f6bff74c1ee6d6d0ff5441fc0241f.image"]
 
 [params]
 

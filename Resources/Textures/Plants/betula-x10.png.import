@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/betula-x10.png-e494763ec6947c364eea7dc2b74f0dd9.image"
+uid="uid://elqlqq6keypx"
+path="res://.godot/imported/betula-x10.png-e494763ec6947c364eea7dc2b74f0dd9.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/betula-x10.png"
-dest_files=[ "res://.import/betula-x10.png-e494763ec6947c364eea7dc2b74f0dd9.image" ]
+dest_files=["res://.godot/imported/betula-x10.png-e494763ec6947c364eea7dc2b74f0dd9.image"]
 
 [params]
 

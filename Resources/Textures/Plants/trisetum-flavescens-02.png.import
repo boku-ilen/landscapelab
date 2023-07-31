@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/trisetum-flavescens-02.png-9fc774e63570b79feb175ada07c02281.image"
+uid="uid://cr3vr8gt2oi23"
+path="res://.godot/imported/trisetum-flavescens-02.png-9fc774e63570b79feb175ada07c02281.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/trisetum-flavescens-02.png"
-dest_files=[ "res://.import/trisetum-flavescens-02.png-9fc774e63570b79feb175ada07c02281.image" ]
+dest_files=["res://.godot/imported/trisetum-flavescens-02.png-9fc774e63570b79feb175ada07c02281.image"]
 
 [params]
 

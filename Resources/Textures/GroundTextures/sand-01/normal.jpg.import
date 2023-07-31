@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-5ed626a1f68c5123c7a609eeb6fadcc9.image"
+uid="uid://de7xqxtn5i20p"
+path="res://.godot/imported/normal.jpg-5ed626a1f68c5123c7a609eeb6fadcc9.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/sand-01/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-5ed626a1f68c5123c7a609eeb6fadcc9.image" ]
+dest_files=["res://.godot/imported/normal.jpg-5ed626a1f68c5123c7a609eeb6fadcc9.image"]
 
 [params]
 

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://bdkdmp5ewttme"
+path="res://.godot/imported/specular.jpg-e5a86edf9d65f1811e0bc8dec17dd06c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/GroundTextures/forest-ground-07/specular.jpg"
+dest_files=["res://.godot/imported/specular.jpg-e5a86edf9d65f1811e0bc8dec17dd06c.image"]
+
+[params]
+

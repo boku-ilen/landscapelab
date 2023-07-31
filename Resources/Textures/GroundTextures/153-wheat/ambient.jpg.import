@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-6cf3dcdf7b005bff90e433e54091c469.image"
+uid="uid://b4lvc78gj04sf"
+path="res://.godot/imported/ambient.jpg-6cf3dcdf7b005bff90e433e54091c469.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/153-wheat/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-6cf3dcdf7b005bff90e433e54091c469.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-6cf3dcdf7b005bff90e433e54091c469.image"]
 
 [params]
 

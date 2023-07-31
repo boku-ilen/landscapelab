@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-3aaa99c115d0559d289ed1d0017af462.image"
+uid="uid://cucanf1e2lwio"
+path="res://.godot/imported/ambient.jpg-3aaa99c115d0559d289ed1d0017af462.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/158-fallow/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-3aaa99c115d0559d289ed1d0017af462.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-3aaa99c115d0559d289ed1d0017af462.image"]
 
 [params]
 

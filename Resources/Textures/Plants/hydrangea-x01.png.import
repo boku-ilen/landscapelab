@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/hydrangea-x01.png-583aff14b83098ebf7714a91dd00806b.image"
+uid="uid://biumebgpsgdlj"
+path="res://.godot/imported/hydrangea-x01.png-583aff14b83098ebf7714a91dd00806b.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/hydrangea-x01.png"
-dest_files=[ "res://.import/hydrangea-x01.png-583aff14b83098ebf7714a91dd00806b.image" ]
+dest_files=["res://.godot/imported/hydrangea-x01.png-583aff14b83098ebf7714a91dd00806b.image"]
 
 [params]
 

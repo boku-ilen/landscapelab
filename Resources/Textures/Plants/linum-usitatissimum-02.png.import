@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/linum-usitatissimum-02.png-d346dd6e9ae6a17aaa7b16716ed01b76.image"
+uid="uid://cvqfsrp54psrx"
+path="res://.godot/imported/linum-usitatissimum-02.png-d346dd6e9ae6a17aaa7b16716ed01b76.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/linum-usitatissimum-02.png"
-dest_files=[ "res://.import/linum-usitatissimum-02.png-d346dd6e9ae6a17aaa7b16716ed01b76.image" ]
+dest_files=["res://.godot/imported/linum-usitatissimum-02.png-d346dd6e9ae6a17aaa7b16716ed01b76.image"]
 
 [params]
 

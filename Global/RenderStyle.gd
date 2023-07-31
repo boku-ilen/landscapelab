@@ -14,12 +14,12 @@ var current_style: Style = styles[0]
 
 
 func _ready():
-	connect("change_style", self, "_on_change_style")
+	connect("change_style",Callable(self,"_on_change_style"))
 	
 	# TODO: This probably has an unnecessary performance cost because it's
 	#  called every time a new node is added. However, there is currently
 	#  no other way to do something when a node of a certain group is added...
-	get_tree().connect("node_added", self, "_check_and_set_new_node")
+	get_tree().connect("node_added",Callable(self,"_check_and_set_new_node"))
 
 
 func _check_and_set_new_node(node: Node):
@@ -40,17 +40,17 @@ func update_clay_renderers(new_style):
 
 func update_clay_node(node, new_style):
 	if new_style.name == "Realistic":
-		node.material_override.set_shader_param("clay_rendering", false)
-		node.material_override.set_shader_param("simple_rendering", false)
+		node.material_override.set_shader_parameter("clay_rendering", false)
+		node.material_override.set_shader_parameter("simple_rendering", false)
 	elif new_style.name == "Abstract":
-		node.material_override.set_shader_param("clay_rendering", true)
-		node.material_override.set_shader_param("simple_rendering", false)
+		node.material_override.set_shader_parameter("clay_rendering", true)
+		node.material_override.set_shader_parameter("simple_rendering", false)
 	elif new_style.name == "Simple":
-		node.material_override.set_shader_param("simple_rendering", true)
+		node.material_override.set_shader_parameter("simple_rendering", true)
 
 
 class Style:
 	var name
 	
-	func _init(name: String):
-		self.name = name
+	func _init(initial_name: String):
+		self.name = initial_name

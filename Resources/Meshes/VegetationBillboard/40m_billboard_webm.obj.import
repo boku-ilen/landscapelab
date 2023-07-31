@@ -1,20 +1,21 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/40m_billboard_webm.obj-6fbf11fdbc9720900441acbe3bec4608.mesh"
+uid="uid://dao5m826ns5y3"
+path="res://.godot/imported/40m_billboard_webm.obj-6fbf11fdbc9720900441acbe3bec4608.mesh"
 
 [deps]
 
-files=[ "res://.import/40m_billboard_webm.obj-6fbf11fdbc9720900441acbe3bec4608.mesh" ]
+files=["res://.godot/imported/40m_billboard_webm.obj-6fbf11fdbc9720900441acbe3bec4608.mesh"]
 
 source_file="res://Resources/Meshes/VegetationBillboard/40m_billboard_webm.obj"
-dest_files=[ "res://.import/40m_billboard_webm.obj-6fbf11fdbc9720900441acbe3bec4608.mesh", "res://.import/40m_billboard_webm.obj-6fbf11fdbc9720900441acbe3bec4608.mesh" ]
+dest_files=["res://.godot/imported/40m_billboard_webm.obj-6fbf11fdbc9720900441acbe3bec4608.mesh", "res://.godot/imported/40m_billboard_webm.obj-6fbf11fdbc9720900441acbe3bec4608.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

@@ -5,11 +5,11 @@ extends VRInteractable
 #
 
 # Obtain the required nodes.
-onready var compass_plate = get_node("CompassPlate")
-onready var compass_mesh = get_node("CompassMesh")
+@onready var compass_plate = get_node("CompassPlate")
+@onready var compass_mesh = get_node("CompassMesh")
 
 # Initialize the transorm_before variable with the an identity matrix.
-var transform_before: Transform = Transform.IDENTITY
+var transform_before: Transform3D = Transform3D.IDENTITY
 
 func _process(delta):
 	if not transform_before == transform:

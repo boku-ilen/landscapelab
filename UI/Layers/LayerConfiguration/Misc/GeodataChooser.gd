@@ -2,8 +2,8 @@ class_name GeodataChooser
 extends VBoxContainer
 
 
-export var show_raster_layers: bool = true
-export var show_feature_layer: bool = true
+@export var show_raster_layers: bool = true
+@export var show_feature_layer: bool = true
 
 # For geodot there is a differentiation between datasets and single files ...
 var geo_dataset_extensions = [".shp", ".gpkg"]
@@ -13,18 +13,18 @@ signal new_layer_selected(layer)
 
 
 func _ready():
-	$FileChooser/Button/FileDialog.connect("file_selected", self, "_file_selected")
-	$FileChooser/FileName.connect("text_changed", self, "_check_path")
-	$OptionButton.connect("item_selected", self, "_on_item_selcted")
+	$FileChooser/Button/FileDialog.connect("file_selected",Callable(self,"_file_selected"))
+	$FileChooser/FileName.connect("text_changed",Callable(self,"_check_path"))
+	$OptionButton.connect("item_selected",Callable(self,"_on_item_selcted"))
 
 
 func _on_item_selcted(idx: int):
 	if not show_raster_layers:
-		var layer = get_geo_layer(false)
+		var layer #= get_geo_layer(false)
 		emit_signal("new_layer_selected", layer)
 
 
-func _check_path(which: String = ""):
+func _check_path(_which: String = ""):
 	if is_current_file_dataset():
 		_fill_dataset_options()
 
@@ -64,37 +64,39 @@ func is_current_file_dataset():
 
 
 func is_current_path_valid():
-	var f = File.new()
-	return f.file_exists($FileChooser/FileName.text)
+	return FileAccess.file_exists($FileChooser/FileName.text)
 
 
-func get_geo_layer(is_raster: bool = true):
+func get_full_dataset_string():
+	var access_str = $OptionButton.get_item_text($OptionButton.get_selected_id())
+	var dataset_str = $FileChooser/FileName.text
+	var access_mode = "w" if $HBoxContainer/CheckBox.pressed else "r"
+	return "{}:{}?{}".format([dataset_str, access_str, access_mode], "{}")
+
+
+func _get_geo_layer(function_str: String):
+	var dataset
+	var access_str: String
+	if is_current_file_dataset():
+		access_str = $OptionButton.get_item_text($OptionButton.get_selected_id())
+		dataset = Geodot.get_dataset($FileChooser/FileName.text)
+	else:
+		access_str = $FileChooser/FileName.text
+		dataset = Geodot
+	
+	return dataset.call(function_str, access_str)
+
+
+func get_geo_feature_layer():
 	if not is_current_path_valid(): return null
 	
-	if is_current_file_dataset():
-		var sub_layer_name = $OptionButton.get_item_text($OptionButton.get_selected_id())
-		var dataset = Geodot.get_dataset($FileChooser/FileName.text)
-		if is_raster:
-			var raster_layer = RasterLayer.new()
-			raster_layer.geo_raster_layer = dataset.get_raster_layer(sub_layer_name)
-			raster_layer.name = raster_layer.geo_raster_layer.resource_name
-			return raster_layer
-		else:
-			var feature_layer = FeatureLayer.new()
-			feature_layer.geo_feature_layer = dataset.get_feature_layer(sub_layer_name)
-			feature_layer.name = feature_layer.geo_feature_layer.resource_name
-			return feature_layer
-	else:
-		if is_raster:
-			var raster_layer = RasterLayer.new()
-			raster_layer.geo_raster_layer = Geodot.get_raster_layer($FileChooser/FileName.text)
-			raster_layer.name = $FileChooser/FileName.text.get_file() 
-			return raster_layer
-		else:
-			var feature_layer = FeatureLayer.new()
-			feature_layer.geo_feature_layer = Geodot.get_feature_layer($FileChooser/FileName.text)
-			feature_layer.name = $FileChooser/FileName.text.get_file() 
-			return feature_layer
+	return _get_geo_layer("get_feature_layer")
+
+
+func get_geo_raster_layer():
+	if not is_current_path_valid(): return null
+	
+	return _get_geo_layer("get_raster_layer")
 
 
 func _get_dataset_option_by_name(_name: String):
@@ -104,9 +106,15 @@ func _get_dataset_option_by_name(_name: String):
 			return i
 
 
-func init_from_layer(layer: Layer):
-	$FileChooser/FileName.text = layer.get_path()
+func init_from_layer(geolayer):
+	var path = geolayer.get_dataset().get_file_info()["path"] \
+			if geolayer is GeoFeatureLayer else geolayer.get_dataset().get_file_info()["path"]
+	
+	print(path)
+	
+	$FileChooser/FileName.text = path
+	
 	if is_current_file_dataset():
 		_fill_dataset_options()
-		var idx = _get_dataset_option_by_name(layer.get_name())
+		var idx = _get_dataset_option_by_name(geolayer.get_name())
 		if idx != null: $OptionButton.select(idx) 

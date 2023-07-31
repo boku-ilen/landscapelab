@@ -1,4 +1,4 @@
-[gd_resource type="Shader" format=2]
+[gd_resource type="Shader" format=3 uid="uid://cdhad0wjuso47"]
 
 [resource]
 code = "shader_type particles;
@@ -19,9 +19,6 @@ uniform float scale_y = 10.5;
 // To achieve west and south use minus numbers
 uniform float wind_force_north = 0.0;
 uniform float wind_force_east = 0.0;
-
-// INDEX will not be the right thing, as a semi-random index is calculated
-varying float semirandom_index;
 
 float rand_from_seed(inout uint seed) {
 	int k;
@@ -74,7 +71,7 @@ float get_shift_direction(float droplet_axis, float emission_axis) {
 	return 1.0 - 1.0 * 2.0 * float(is_negative_shift);
 }
 
-vec3 check_shift(vec3 droplet_pos, vec3 emission_pos) {
+vec3 check_shift(vec3 droplet_pos, vec3 emission_pos, float semirandom_index) {
 	bool xshift = shall_axis_shift(droplet_pos.x, emission_pos.x);
 	bool zshift = shall_axis_shift(droplet_pos.z, emission_pos.z);
 	float xshift_dir = get_shift_direction(droplet_pos.x, emission_pos.x);
@@ -88,7 +85,7 @@ vec3 check_shift(vec3 droplet_pos, vec3 emission_pos) {
 	return pos;
 }
 
-void vertex() {
+void process() {
 	uint base_number = NUMBER;
 	uint alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
 	if (RESTART) {
@@ -96,7 +93,8 @@ void vertex() {
 		
 		vec3 rand_offset = vec3(rand_from_seed_m1_p1(alt_seed), 0, rand_from_seed_m1_p1(alt_seed));
 		
-		semirandom_index = float((INDEX + int(alt_seed)) % int(amount));
+		float semirandom_index = float((INDEX + alt_seed) % uint(amount));
+		CUSTOM.w = semirandom_index;
 		
 		vec3 pos = compute_position(semirandom_index);
 		
@@ -111,14 +109,11 @@ void vertex() {
 		TRANSFORM[3].x -= wind_force_east * 0.65;
 		TRANSFORM[3].z += wind_force_north * 0.65;
 
-		// Store starting position
-		CUSTOM = TRANSFORM[3];
-
 		TRANSFORM[3] += EMISSION_TRANSFORM[3];
 
 		VELOCITY = vec3(wind_force_east, -9.8, -wind_force_north);
 	} else {
 		// Shift the rain particles behind the camera to the front of the camera
-		TRANSFORM[3].xz = check_shift(TRANSFORM[3].xyz, EMISSION_TRANSFORM[3].xyz).xz;
+		TRANSFORM[3].xz = check_shift(TRANSFORM[3].xyz, EMISSION_TRANSFORM[3].xyz, CUSTOM.w).xz;
 	}
 }"

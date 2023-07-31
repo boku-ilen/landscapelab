@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-6143178c4a2d81b09cd003b21fc0b39f.image"
+uid="uid://c47ybfx3lsxmf"
+path="res://.godot/imported/normal.jpg-6143178c4a2d81b09cd003b21fc0b39f.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/169-spelt/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-6143178c4a2d81b09cd003b21fc0b39f.image" ]
+dest_files=["res://.godot/imported/normal.jpg-6143178c4a2d81b09cd003b21fc0b39f.image"]
 
 [params]
 

@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://cib4g5bstb1xa"]
+
+[ext_resource type="Script" path="res://World/Environment/Lightning.gd" id="1_2eur0"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_schoq"]
+viewport_path = NodePath("MeshInstance3d/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dju3a"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_schoq")
+emission_enabled = true
+emission = Color(0.462745, 0.537255, 1, 1)
+emission_energy_multiplier = 0.8
+billboard_mode = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h6sm4"]
+size = Vector2(150, 750)
+orientation = 2
+
+[node name="Lightning" type="Node3D"]
+script = ExtResource("1_2eur0")
+eye_path = NodePath("Camera3D")
+
+[node name="MeshInstance3d" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -443.156, -88.0528, -0.99136)
+material_override = SubResource("StandardMaterial3D_dju3a")
+mesh = SubResource("PlaneMesh_h6sm4")
+
+[node name="SubViewport" type="SubViewport" parent="MeshInstance3d"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+msaa_2d = 3
+use_taa = true
+size = Vector2i(100, 500)
+render_target_update_mode = 4
+
+[node name="Line2d" type="Line2D" parent="MeshInstance3d/SubViewport"]
+width = 2.0
+default_color = Color(0.501961, 0.541176, 1, 1)
+
+[node name="Timer" type="Timer" parent="MeshInstance3d/SubViewport/Line2d"]
+autostart = true
+
+[node name="LightNing" type="DirectionalLight3D" parent="MeshInstance3d"]
+transform = Transform3D(-0.605916, -0.326285, 0.725538, 0, 0.912019, 0.410148, -0.795529, 0.248515, -0.552607, 0, -0.018, 0)
+rotation_edit_mode = 2
+light_color = Color(0.72549, 0.839216, 0.945098, 1)
+light_energy = 0.0
+light_indirect_energy = 5.0
+light_volumetric_fog_energy = 5.0
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 56, 0, 0)

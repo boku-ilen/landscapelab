@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmvtjca2kye4c"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/Path/RoadNetworkRenderer.gd" id="1_yty24"]
+[ext_resource type="PackedScene" uid="uid://1heb7ejjo6r8" path="res://Layers/Renderers/Path/MouseInteraction.tscn" id="2_1fmqr"]
+
+[node name="RoadNetworkRenderer" type="Node3D"]
+script = ExtResource("1_yty24")
+
+[node name="Roads" type="Node3D" parent="."]
+
+[node name="Intersections" type="Node3D" parent="."]
+
+[node name="Debug" type="Node3D" parent="."]
+
+[node name="MouseInfo" parent="." instance=ExtResource("2_1fmqr")]

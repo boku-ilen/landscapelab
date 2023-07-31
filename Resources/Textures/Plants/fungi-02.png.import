@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/fungi-02.png-f9a919a44deb8f85f93dd856a8f09a74.image"
+uid="uid://c6wt6qxtykwdb"
+path="res://.godot/imported/fungi-02.png-f9a919a44deb8f85f93dd856a8f09a74.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/fungi-02.png"
-dest_files=[ "res://.import/fungi-02.png-f9a919a44deb8f85f93dd856a8f09a74.image" ]
+dest_files=["res://.godot/imported/fungi-02.png-f9a919a44deb8f85f93dd856a8f09a74.image"]
 
 [params]
 

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/pinus-nigra-01.png-a7301c8ebac9fbbc0a638e2bd2237930.image"
+uid="uid://bl4y28xf2q108"
+path="res://.godot/imported/pinus-nigra-01.png-a7301c8ebac9fbbc0a638e2bd2237930.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/pinus-nigra-01.png"
-dest_files=[ "res://.import/pinus-nigra-01.png-a7301c8ebac9fbbc0a638e2bd2237930.image" ]
+dest_files=["res://.godot/imported/pinus-nigra-01.png-a7301c8ebac9fbbc0a638e2bd2237930.image"]
 
 [params]
 

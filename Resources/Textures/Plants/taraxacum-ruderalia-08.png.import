@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/taraxacum-ruderalia-08.png-6fd2b2538f13242039fe5e75b85a7b85.image"
+uid="uid://cktvfaq5tj4jr"
+path="res://.godot/imported/taraxacum-ruderalia-08.png-6fd2b2538f13242039fe5e75b85a7b85.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/taraxacum-ruderalia-08.png"
-dest_files=[ "res://.import/taraxacum-ruderalia-08.png-6fd2b2538f13242039fe5e75b85a7b85.image" ]
+dest_files=["res://.godot/imported/taraxacum-ruderalia-08.png-6fd2b2538f13242039fe5e75b85a7b85.image"]
 
 [params]
 

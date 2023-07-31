@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/anthemis-01.png-55c4ad96276de166cc3c94ae19f27aba.image"
+uid="uid://okrk1c84rndb"
+path="res://.godot/imported/anthemis-01.png-55c4ad96276de166cc3c94ae19f27aba.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/anthemis-01.png"
-dest_files=[ "res://.import/anthemis-01.png-55c4ad96276de166cc3c94ae19f27aba.image" ]
+dest_files=["res://.godot/imported/anthemis-01.png-55c4ad96276de166cc3c94ae19f27aba.image"]
 
 [params]
 

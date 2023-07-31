@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/robinia-pseudoacacia-02.png-affc6f4453e5e3c9e5549464a3e6cd5c.image"
+uid="uid://bbm87h5frb5my"
+path="res://.godot/imported/robinia-pseudoacacia-02.png-affc6f4453e5e3c9e5549464a3e6cd5c.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/robinia-pseudoacacia-02.png"
-dest_files=[ "res://.import/robinia-pseudoacacia-02.png-affc6f4453e5e3c9e5549464a3e6cd5c.image" ]
+dest_files=["res://.godot/imported/robinia-pseudoacacia-02.png-affc6f4453e5e3c9e5549464a3e6cd5c.image"]
 
 [params]
 

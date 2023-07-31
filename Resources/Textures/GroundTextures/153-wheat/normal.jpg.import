@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-01b2765e9861f245ef84714f1d6cc0c9.image"
+uid="uid://dks8tg5wcjx25"
+path="res://.godot/imported/normal.jpg-01b2765e9861f245ef84714f1d6cc0c9.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/153-wheat/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-01b2765e9861f245ef84714f1d6cc0c9.image" ]
+dest_files=["res://.godot/imported/normal.jpg-01b2765e9861f245ef84714f1d6cc0c9.image"]
 
 [params]
 

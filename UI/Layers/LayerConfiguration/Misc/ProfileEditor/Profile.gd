@@ -1,16 +1,16 @@
-extends CSGPolygon
+extends CSGPolygon3D
 
 
 var point_area = preload("res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.tscn")
 var profile_polygon: Array
 
-var color setget set_color
-
-
-func set_color(color):
-	color = color
-	for point in profile_polygon:
-		point.line_to_next.material_override.albedo_color = color
+var color :
+	get:
+		return color
+	set(color):
+		color = color
+		for point in profile_polygon:
+			point.line_to_next.material_override.albedo_color = color
 
 
 func _ready():
@@ -20,14 +20,14 @@ func _ready():
 
 func _create_collision_points():
 	for point in polygon:
-		var instance = point_area.instance()
+		var instance = point_area.instantiate()
 		profile_polygon.append(instance)
 		add_child(instance)
 		instance.set_position(point)
 
 
 func update():
-	var temp: PoolVector2Array = []
+	var temp: PackedVector2Array = []
 	var idx = 0
 	var point_before
 	for point in profile_polygon:
@@ -53,7 +53,7 @@ func draw_line(point1, point2):
 
 
 func drag():
-	var temp: PoolVector2Array = []
+	var temp: PackedVector2Array = []
 	for point in profile_polygon:
 		temp.append(point.position)
 	
@@ -63,7 +63,7 @@ func drag():
 
 func delete_point(idx: int):
 	var temp = profile_polygon[idx]
-	profile_polygon.remove(idx)
+	profile_polygon.remove_at(idx)
 	temp.queue_free()
 	update()
 
@@ -76,7 +76,7 @@ func add_point(point):
 
 
 func duplicate_as_primitive_material():
-	var primitive = CSGPolygon.new()
+	var primitive = CSGPolygon3D.new()
 	primitive.polygon = polygon
 	primitive.mode = mode
 	primitive.path_node = path_node

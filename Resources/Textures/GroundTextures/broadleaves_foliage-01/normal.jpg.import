@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-df51f4fc454b191382e86ff9a181f009.image"
+uid="uid://b0100wxi21ibt"
+path="res://.godot/imported/normal.jpg-df51f4fc454b191382e86ff9a181f009.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/broadleaves_foliage-01/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-df51f4fc454b191382e86ff9a181f009.image" ]
+dest_files=["res://.godot/imported/normal.jpg-df51f4fc454b191382e86ff9a181f009.image"]
 
 [params]
 

@@ -1,16 +1,16 @@
-extends Spatial
+extends Node3D
 
 
 #
 # Demo for creating simple buildings from geodata.
 # Polygon features near a given position are loaded. Each polygon is turned into a blocky building.
-# The number of floors is decided based on the height attribute of the building.
+# The number of floors is decided based checked the height attribute of the building.
 #
 
 
-export(String) var geodata_path
-export(String) var building_layer_name
-export(String) var height_attribute_name
+@export var geodata_path: String
+@export var building_layer_name: String
+@export var height_attribute_name: String
 
 
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
@@ -29,25 +29,25 @@ func _ready():
 	# Extract features
 	var features = layer.get_features_near_position(662456.130, 455465.165, 200, 100)
 	
-	var time_before = OS.get_ticks_usec()
+	var time_before = Time.get_ticks_usec()
 	
 	# Create the buildings
 	for feature in features:
 		var polygon = feature.get_outer_vertices()
 		var holes = feature.get_holes()
 		
-		var building = building_base_scene.instance()
+		var building = building_base_scene.instantiate()
 		
-		# Load the components based on the building attributes
+		# Load the components based checked the building attributes
 		var height = int(feature.get_attribute(height_attribute_name))
 		var num_floors = max(1, height / floor_height)
 		
 		# Add the floors
 		for i in range(num_floors):
-			building.add_child(plain_walls_scene.instance())
+			building.add_child(plain_walls_scene.instantiate())
 		
 		# Add the roof
-		var flat_roof = flat_roof_scene.instance()
+		var flat_roof = flat_roof_scene.instantiate()
 		flat_roof.set_texture(preload("res://Resources/Textures/Buildings/roof/roof_2-diffuse.jpg"))
 		building.add_child(flat_roof)
 		
@@ -61,6 +61,6 @@ func _ready():
 		
 		add_child(building)
 	
-	var time_after = OS.get_ticks_usec()
+	var time_after = Time.get_ticks_usec()
 	
 	print("Creating " + str(features.size()) + " buildings took " + str((time_after - time_before) * 0.000001) + " seconds")

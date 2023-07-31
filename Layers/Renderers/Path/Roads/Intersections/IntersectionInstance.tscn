@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://vwmwed7cffic"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/Path/Roads/Intersections/IntersectionInstance.gd" id="1_jwvhi"]
+[ext_resource type="Material" uid="uid://dmufssdbye00e" path="res://Layers/Renderers/Path/Roads/Intersections/IntersectionInstance.tres" id="2_toliy"]
+
+[node name="IntersectionInstance" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+script = ExtResource("1_jwvhi")
+
+[node name="IntersectionPolygon" type="CSGPolygon3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+layers = 64
+depth = 0.2
+material = ExtResource("2_toliy")

@@ -1,22 +1,25 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://kbnb4iijyt0j"]
 
-[ext_resource path="res://Layers/Renderers/Terrain/Materials/TerrainShader.shader" type="Shader" id=1]
+[ext_resource type="Shader" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://cg7dqlsthrgj3" path="res://Resources/Textures/ShaderUtil/rgb_solid_noise.png" id="2_oph0d"]
 
 [resource]
 resource_local_to_scene = true
-shader = ExtResource( 1 )
-shader_param/height_scale = 1.0
-shader_param/has_hole = false
-shader_param/has_surface_heights = false
-shader_param/surface_heights_start_distance = 800.0
-shader_param/has_landuse = false
-shader_param/uses_detail_textures = false
-shader_param/uses_distance_textures = false
-shader_param/distance_tex_switch_distance = 20.0
-shader_param/fade_transition_space = 8.0
-shader_param/ortho_switch_distance = 150.0
-shader_param/ortho_transition_space = 20.0
-shader_param/normal_scale = 1.0
-shader_param/ortho_saturation = 1.0
-shader_param/ortho_blue_shift_factor = 0.9
-shader_param/size = null
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/height_scale = 1.0
+shader_parameter/has_hole = false
+shader_parameter/has_surface_heights = false
+shader_parameter/surface_heights_start_distance = 800.0
+shader_parameter/has_landuse = false
+shader_parameter/uses_detail_textures = false
+shader_parameter/uses_distance_textures = false
+shader_parameter/distance_tex_switch_distance = 20.0
+shader_parameter/fade_transition_space = 8.0
+shader_parameter/ortho_switch_distance = 150.0
+shader_parameter/ortho_transition_space = 20.0
+shader_parameter/normal_scale = 1.0
+shader_parameter/ortho_saturation = 1.2
+shader_parameter/ortho_blue_shift_factor = 0.9
+shader_parameter/size = null
+shader_parameter/distance_normal_noise = ExtResource("2_oph0d")

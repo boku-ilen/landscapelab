@@ -1,16 +1,16 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
 
-[ext_resource path="res://Layers/Renderers/Terrain/TerrainDataShader.shader" type="Shader" id=1]
+[ext_resource type="Shader" path="res://Layers/Renderers/Terrain/TerrainDataShader.gdshader" id="1"]
 
 [resource]
 resource_local_to_scene = true
 shader = ExtResource( 1 )
-shader_param/height_scale = 1.0
-shader_param/min_color = null
-shader_param/max_color = null
-shader_param/min_value = null
-shader_param/max_value = null
-shader_param/alpha = null
-shader_param/has_surface_heights = true
-shader_param/surface_heights_start_distance = 800.0
-shader_param/size = null
+shader_parameter/height_scale = 1.0
+shader_parameter/min_color = null
+shader_parameter/max_color = null
+shader_parameter/min_value = null
+shader_parameter/max_value = null
+shader_parameter/alpha = null
+shader_parameter/has_surface_heights = true
+shader_parameter/surface_heights_start_distance = 800.0
+shader_parameter/size = null

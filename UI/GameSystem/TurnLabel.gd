@@ -3,7 +3,7 @@ extends Label
 
 func _ready():
 	_on_new_turn_beginning()
-	GameSystem.current_game_mode.connect("new_turn_beginning", self, "_on_new_turn_beginning")
+	GameSystem.current_game_mode.connect("new_turn_beginning",Callable(self,"_on_new_turn_beginning"))
 
 
 func _on_new_turn_beginning():

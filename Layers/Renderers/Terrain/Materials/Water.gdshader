@@ -1,12 +1,12 @@
 shader_type spatial;
-render_mode blend_mix, specular_phong;
+render_mode blend_mix;
 
 // Adapted from https://godotshaders.com/shader/stylized-water-shader/
 
 
 // LandscapeLab-specific uniforms
-uniform sampler2D heightmap;
-uniform sampler2D landuse;
+uniform sampler2D heightmap: repeat_disable;
+uniform sampler2D landuse: repeat_disable, filter_nearest;
 uniform sampler2D offset_noise;
 
 uniform float size;
@@ -20,8 +20,8 @@ uniform sampler2D noise1; // add Godot noise here
 uniform sampler2D noise2; // add Godot noise here
 uniform sampler2D normalmap : hint_normal; // add Godot noise here, enable as_normalmap
 uniform sampler2D normalmap2 : hint_normal; // add Godot noise here, enable as_normalmap
-uniform vec4 color : hint_color;
-uniform vec4 color_ground : hint_color;
+uniform vec4 color : source_color;
+uniform vec4 color_ground : source_color;
 
 //foam
 uniform float near = 0.1;
@@ -47,7 +47,7 @@ float waves(vec2 pos, float time){
 
 void vertex(){
 	VERTEX.y = texture(heightmap, UV).r;
-	world_pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
 
@@ -86,9 +86,9 @@ void fragment(){
 	vec3 normal_1 = texture(normalmap, scaled_uv_movement).rgb;
 	vec3 normal_2 = texture(normalmap, scaled_uv_movement2).rgb;
 	
-	NORMALMAP = mix(normal_1, normal_2, 0.4);
+	NORMAL_MAP = mix(normal_1, normal_2, 0.4);
 	ROUGHNESS = 0.05;
 	SPECULAR = 0.5;
 	METALLIC = 0.2;
-	NORMALMAP_DEPTH = 1.25;
+	NORMAL_MAP_DEPTH = 1.25;
 }

@@ -1,41 +1,38 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://jnqaoumole2t"]
 
-[ext_resource path="res://Objects/Connection/Superclasses/Catenary.gd" type="Script" id=1]
-[ext_resource path="res://Resources/Textures/Cable/albedo.jpg" type="Texture" id=2]
-[ext_resource path="res://Resources/Textures/Cable/metallic.jpg" type="Texture" id=3]
-[ext_resource path="res://Resources/Textures/Cable/normal.jpg" type="Texture" id=4]
-[ext_resource path="res://Resources/Textures/Cable/roughness.jpg" type="Texture" id=5]
+[ext_resource type="Script" path="res://Objects/Connection/Superclasses/Catenary.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c4vh1wdmxgyrs" path="res://Resources/Textures/Cable/albedo.jpg" id="2"]
+[ext_resource type="Texture2D" uid="uid://bqlcoeknmgg3j" path="res://Resources/Textures/Cable/metallic.jpg" id="3"]
+[ext_resource type="Texture2D" uid="uid://d3qtbhiq7tiuk" path="res://Resources/Textures/Cable/roughness.jpg" id="5"]
 
-[sub_resource type="Curve3D" id=3]
+[sub_resource type="Curve3D" id="3"]
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 12.0201, 5.63605, 0, 0, 0, 0, 0, 0, 0, 11.0719, 4.68793, 0, 0, 0, 0, 0, 0, 0, 10.1238, 4.37189, 0, 0, 0, 0, 0, 0, 0, 7.63763, 3.78194, 0, 0, 0, 0, 0, 0, 0, 5.19359, 3.55018, 0, 0, 0, 0, 0, 0, 0, 2.20175, 3.31842, 0, 0, 0, 0, 0, 0, 0, -2.22281, 3.33949, 0, 0, 0, 0, 0, 0, 0, -5.00397, 3.4027, 0, 0, 0, 0, 0, 0, 0, -7.67977, 4.01371, 0, 0, 0, 0, 0, 0, 0, -9.76563, 4.91969, 0, 0, 0, 0, 0, 0, 0, -11.1141, 6.0785, 0 ),
-"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 12.0201, 5.63605, 0, 0, 0, 0, 0, 0, 0, 11.0719, 4.68793, 0, 0, 0, 0, 0, 0, 0, 10.1238, 4.37189, 0, 0, 0, 0, 0, 0, 0, 7.63763, 3.78194, 0, 0, 0, 0, 0, 0, 0, 5.19359, 3.55018, 0, 0, 0, 0, 0, 0, 0, 2.20175, 3.31842, 0, 0, 0, 0, 0, 0, 0, -2.22281, 3.33949, 0, 0, 0, 0, 0, 0, 0, -5.00397, 3.4027, 0, 0, 0, 0, 0, 0, 0, -7.67977, 4.01371, 0, 0, 0, 0, 0, 0, 0, -9.76563, 4.91969, 0, 0, 0, 0, 0, 0, 0, -11.1141, 6.0785, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
+point_count = 11
 
-[sub_resource type="SpatialMaterial" id=2]
-flags_vertex_lighting = true
-params_specular_mode = 2
-albedo_color = Color( 0.894118, 0.894118, 0.894118, 1 )
-albedo_texture = ExtResource( 2 )
+[sub_resource type="StandardMaterial3D" id="2"]
+shading_mode = 2
+specular_mode = 2
+albedo_color = Color(0.894118, 0.894118, 0.894118, 1)
+albedo_texture = ExtResource("2")
 metallic = 0.66
 metallic_specular = 0.54
-metallic_texture = ExtResource( 3 )
+metallic_texture = ExtResource("3")
 roughness = 0.48
-roughness_texture = ExtResource( 5 )
-normal_enabled = true
-normal_scale = 1.0
-normal_texture = ExtResource( 4 )
+roughness_texture = ExtResource("5")
 
-[node name="Catenary" type="Spatial"]
-script = ExtResource( 1 )
+[node name="Catenary" type="Node3D"]
+script = ExtResource("1")
 
 [node name="Node" type="Node" parent="."]
 
-[node name="Line" type="Path" parent="Node"]
-curve = SubResource( 3 )
+[node name="Line" type="Path3D" parent="Node"]
+curve = SubResource("3")
 
-[node name="CSGPolygon" type="CSGPolygon" parent="Node/Line"]
-polygon = PoolVector2Array( 0.04, 0, 0, 0.04, -0.04, 0, 0, -0.04 )
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Node/Line"]
+polygon = PackedVector2Array(0.04, 0, 0, 0.04, -0.04, 0, 0, -0.04)
 mode = 2
 path_node = NodePath("..")
 path_interval_type = 0
@@ -47,4 +44,4 @@ path_continuous_u = true
 path_u_distance = 1.13
 path_joined = false
 smooth_faces = true
-material = SubResource( 2 )
+material = SubResource("2")
