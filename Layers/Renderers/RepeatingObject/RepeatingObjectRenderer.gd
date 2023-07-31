@@ -1,4 +1,4 @@
-extends FeatureLayerCompositionRendererMultiMesh
+extends LayerCompositionRenderer
 
 
 #
@@ -14,13 +14,46 @@ extends FeatureLayerCompositionRendererMultiMesh
 var multimeshes := {}
 
 
+# Define variables for loading features
+var mutex = Mutex.new()
+var features := []
+var load_features := []
+var radius = 120.0
+var max_features = 500
+
+
 func _ready():
 	mutex.lock()
 	_load_meshes()
 	mutex.unlock()
 	super._ready()
-	max_features = 500
-	radius = 120.0
+
+
+func full_load():
+	super.full_load()
+	
+	mutex.lock()
+	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
+		float(center[0]), float(center[1]), radius, max_features)
+	mutex.unlock()
+
+
+func adapt_load(_diff: Vector3):
+	super.adapt_load(_diff)
+	
+	mutex.lock()
+	var new_features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
+		float(center[0]) + position_manager.center_node.position.x,
+		float(center[1]) - position_manager.center_node.position.z,
+		radius, max_features
+	)
+	
+	var old_feature_ids = features.map(func(f): return f.get_id())
+	load_features = new_features.filter(func(f): return not f.get_id() in old_feature_ids)
+	features = new_features
+	mutex.unlock()
+	
+	call_deferred("apply_new_data")
 
 
 func _load_meshes():
@@ -42,14 +75,10 @@ func apply_new_data():
 	# Set the instance count to all cummulated vertecies
 	var intermediate_transforms = _calculate_intermediate_transforms()
 	
-	# Reset
 	var attribute_name = layer_composition.render_info.selector_attribute_name
-	var compare_type = func(type: String, f: GeoFeature): 
-		return f.get_attribute(attribute_name) == type
-	
 	var indices = {}
 	for key in layer_composition.render_info.meshes.keys():
-		var filtered_features = features.filter(func(f): return compare_type.call(key, f))
+		var filtered_features = features.filter(func(f): return f.get_attribute(attribute_name) == key)
 		
 		var instance_count = filtered_features.reduce(func(accum, f):
 			return accum + intermediate_transforms[f.get_id()].size(), 0
@@ -70,6 +99,7 @@ func apply_new_data():
 	super.apply_new_data()
 
 
+# AABBs have to be set manually in order to increase rendering performance
 func build_aabb(transforms):
 	var begin = Vector3(INF, INF, INF)
 	var end = Vector3(-INF, -INF, -INF)
@@ -91,13 +121,6 @@ func build_aabb(transforms):
 	
 	for multimesh in multimeshes.values():
 		multimesh.set_custom_aabb(AABB(begin, size))
-
-
-# Although we use a multimesh, we load the transforms via nodes as they drastically
-# simplify some matrix calculations
-# FIXME: clean this up
-func load_feature_instance(geo_line: GeoFeature) -> Node3D:
-	return Node3D.new()
 
 
 func _calculate_intermediate_transforms():
@@ -155,21 +178,12 @@ func _calculate_intermediate_transforms():
 	return transforms
 
 
-# https://github.com/godotengine/godot/blob/4.0.1-stable/scene/resources/curve.cpp#L1784
-# avoid "look_at_from_position: Node origin and target are in the same position, look_at() failed."
-func try_look_at_from_pos(object: Node3D, from: Vector3, target: Vector3):
-	if not from.is_equal_approx(target) and not target.is_equal_approx(Vector3.ZERO):
-		object.position = from
-		object.look_at_from_position(from, target, object.transform.basis.y)
-	else:
-		object.position = from
-		object.look_at(target, object.transform.basis.y)
-
-
-func _get_height_at_ground(query_position: Vector3) -> float:
-	return layer_composition.render_info.ground_height_layer.get_value_at_position(
-		center[0] + query_position.x, center[1] - query_position.z)
-
-
 func get_debug_info() -> String:
 	return ""
+
+
+func is_new_loading_required(position_diff: Vector3) -> bool:
+	if Vector2(position_diff.x, position_diff.z).length_squared() >= pow(radius / 4.0, 2):
+		return true
+	
+	return false
