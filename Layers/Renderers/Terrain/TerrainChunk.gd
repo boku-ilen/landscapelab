@@ -42,8 +42,6 @@ var current_normal_fade_textures
 
 var changed = false
 
-signal updated_data
-
 
 var terraforming_texture: TerraformingTexture
 
@@ -59,7 +57,7 @@ func rebuild_aabb():
 
 func build(center_x, center_y):
 	# Create a new TerraformingTexture for this chunk
-	terraforming_texture = TerraformingTexture.new(201)
+	#terraforming_texture = TerraformingTexture.new(201)
 	
 	var top_left_x = float(center_x - size / 2)
 	var top_left_y = float(center_y + size / 2)

@@ -6,6 +6,8 @@ var chunks = []
 var chunk_size = 1000
 var extent = 7 # extent of chunks in every direction
 
+var waiting_to_apply = false
+
 @export var basic_ortho_resolution := 100
 @export var basic_landuse_resolution := 100
 @export var basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_100x100.obj")
@@ -86,10 +88,7 @@ func _ready():
 
 
 func is_new_loading_required(position_diff: Vector3) -> bool:
-	if abs(position_diff.x) > chunk_size or abs(position_diff.z) > chunk_size:
-		return true
-	else:
-		return false
+	return not waiting_to_apply and (abs(position_diff.x) > chunk_size or abs(position_diff.z) > chunk_size)
 
 
 func full_load():
@@ -98,34 +97,41 @@ func full_load():
 		chunk.position_diff_z = 0
 		
 		chunk.build(center[0] + chunk.position.x, center[1] - chunk.position.z)
-	
 
 
 func adapt_load(_diff: Vector3):
 	super.adapt_load(_diff)
 	
+	var player_x = position_manager.center_node.position.x
+	var player_z = position_manager.center_node.position.z
+	
 	for chunk in chunks:
-		chunk.position_diff_x = 0.0
-		chunk.position_diff_z = 0.0
-
 		var changed = false
 
-		if chunk.position.x - position_manager.center_node.position.x >= chunk_size * extent:
+		if chunk.position.x - player_x >= chunk_size * extent + chunk_size / 2.0:
 			chunk.position_diff_x = -chunk_size * extent * 2 - chunk_size
 			changed = true
-		if chunk.position.x - position_manager.center_node.position.x <= -chunk_size * extent:
+		elif chunk.position.x - player_x <= -chunk_size * extent - chunk_size / 2.0:
 			chunk.position_diff_x = chunk_size * extent * 2 + chunk_size
 			changed = true
-		if chunk.position.z - position_manager.center_node.position.z >= chunk_size * extent:
+		
+		if chunk.position.z - player_z >= chunk_size * extent + chunk_size / 2.0:
 			chunk.position_diff_z = -chunk_size * extent * 2 - chunk_size
 			changed = true
-		if chunk.position.z - position_manager.center_node.position.z <= -chunk_size * extent:
+		elif chunk.position.z - player_z <= -chunk_size * extent - chunk_size / 2.0:
 			chunk.position_diff_z = chunk_size * extent * 2 + chunk_size
 			changed = true
 		
 		if changed:
+			chunk.changed = true
+			# Make sure the chunk is downgraded, then rebuild
+			chunk.mesh = basic_mesh
+			chunk.mesh_resolution = basic_mesh_resolution
+			chunk.ortho_resolution = basic_ortho_resolution
+			chunk.landuse_resolution = basic_landuse_resolution
 			chunk.build(center[0] + chunk.position.x + chunk.position_diff_x, center[1] - chunk.position.z - chunk.position_diff_z)
 	
+	waiting_to_apply = true
 	call_deferred("apply_new_data")
 
 
@@ -144,6 +150,8 @@ func get_nearest_chunk_below_resolution(query_position: Vector3, resolution: int
 
 
 func refine_load():
+	if waiting_to_apply: return
+	
 	super.refine_load()
 	
 	var any_change_done = false
@@ -153,27 +161,18 @@ func refine_load():
 		var distance = Vector2(chunk.position.x, chunk.position.z).distance_to(Vector2(position_manager.center_node.position.x, position_manager.center_node.position.z))
 		if chunk.ortho_resolution >= detailed_ortho_resolution and \
 				distance > detailed_load_distance:
-			chunk.position_diff_x = 0
-			chunk.position_diff_z = 0
-		
 			chunk.mesh = basic_mesh
 			chunk.mesh_resolution = basic_mesh_resolution
 			chunk.ortho_resolution = basic_ortho_resolution
 			chunk.landuse_resolution = basic_landuse_resolution
 			chunk.build(center[0] + chunk.position.x + chunk.position_diff_x,
 				center[1] - chunk.position.z - chunk.position_diff_z)
-			chunk.changed = true
-			chunk.load_detail_textures = false
-			chunk.load_fade_textures = false
 			any_change_done = true
 	
 	# Upgrade nearby chunks
 	var nearest_chunk = get_nearest_chunk_below_resolution(position_manager.center_node.position, detailed_ortho_resolution, detailed_load_distance)
 	
-	if nearest_chunk:
-		nearest_chunk.position_diff_x = 0
-		nearest_chunk.position_diff_z = 0
-		
+	if nearest_chunk and not nearest_chunk.changed:
 		nearest_chunk.mesh = detailed_mesh
 		nearest_chunk.mesh_resolution = detailed_mesh_resolution
 		nearest_chunk.ortho_resolution = detailed_ortho_resolution
@@ -181,24 +180,26 @@ func refine_load():
 		
 		nearest_chunk.build(center[0] + nearest_chunk.position.x + nearest_chunk.position_diff_x,
 			center[1] - nearest_chunk.position.z - nearest_chunk.position_diff_z)
-		nearest_chunk.changed = true
-		nearest_chunk.load_detail_textures = true
-		nearest_chunk.load_fade_textures = true
 		any_change_done = true
 	
 	if any_change_done:
+		waiting_to_apply = true
 		call_deferred("apply_new_data")
 
 
 func apply_new_data():
 	for chunk in $Chunks.get_children():
 		if chunk.changed:
+			chunk.apply_textures()
+			
 			chunk.position.x += chunk.position_diff_x
 			chunk.position.z += chunk.position_diff_z
 			
-			chunk.apply_textures()
+			chunk.position_diff_x = 0.0
+			chunk.position_diff_z = 0.0
 	
 	logger.info("Applied new RealisticTerrainRenderer data for %s" % [name])
+	waiting_to_apply = false
 
 
 func _process(delta):
