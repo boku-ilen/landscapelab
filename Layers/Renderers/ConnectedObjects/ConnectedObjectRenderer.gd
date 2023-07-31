@@ -137,6 +137,8 @@ func _handle_standard(
 
 
 func refine_load():
+	super.refine_load()
+	
 	var center = position_manager.center_node.position
 	
 	var any_change_done := false
