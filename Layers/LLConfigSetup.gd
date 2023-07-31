@@ -39,16 +39,16 @@ func load_ll_json(path: String):
 #		513950)
 
 #	# Wolkersdorf
-	define_pa3c3_game_mode(
-		623950,
-		493950,
-		648950,
-		513950,
-		-2,
-		-1,
-		4843000,
-		56100000
-	)
+#	define_pa3c3_game_mode(
+#		623950,
+#		493950,
+#		648950,
+#		513950,
+#		-2,
+#		-1,
+#		4843000,
+#		56100000
+#	)
 
 	# StStefan
 #	define_pa3c3_game_mode(
