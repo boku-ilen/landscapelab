@@ -1,6 +1,20 @@
 extends LayerCompositionRenderer
 class_name FeatureLayerCompositionRenderer
 
+#
+# This class is intended to be used as a base class for all feature-based rendering
+# (points, lines, polygons). The basic workflow uppon loading:
+# 1. get the features in within the loading radius in the new extent
+# 2. manipulate instanced features:
+# 	a. preserve features that have been loaded previously and should not be freed
+# 	b. delete features that are no longer within the radius
+# 	c. create newly and previously unloaded features
+#
+# The function load_feature_instance has to be defined by the inherited class.
+#
+# Furthermore, it handles manual adding/deleting of features via signals.
+#
+
 
 # Define variables for loading features
 var mutex = Mutex.new()
@@ -26,7 +40,7 @@ func full_load():
 		float(center[0]), float(center[1]), radius, max_features)
 	load_features = features
 	
-	for feature in features:
+	for feature in load_features:
 		instances[feature.get_id()] = load_feature_instance(feature)
 	mutex.unlock()
 
@@ -107,7 +121,7 @@ func load_feature_instance(feature: GeoFeature) -> Node3D:
 	return Node3D.new()
 
 
-# Might be necessary to be overwritten by inherited class
+# Might be necessary to overwrite by inherited class
 # Apply feature to the main scene - not run in a thread
 func apply_feature_instance(feature: GeoFeature):
 	if not feature.feature_changed.is_connected(_on_feature_changed):
