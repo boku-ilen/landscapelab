@@ -30,6 +30,8 @@ func full_load():
 
 
 func adapt_load(_diff: Vector3):
+	super.adapt_load(_diff)
+	
 	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 		float(center[0]) + position_manager.center_node.position.x,
 		float(center[1]) - position_manager.center_node.position.z,
@@ -48,6 +50,8 @@ func adapt_load(_diff: Vector3):
 
 
 func refine_load():
+	super.refine_load()
+	
 	for connector in connector_instances_refine.values():
 		for i in range(1, connector.get_child_count()):
 			_connect(

@@ -61,6 +61,8 @@ func full_load():
 
 
 func adapt_load(_diff: Vector3):
+	super.adapt_load(_diff)
+	
 	for chunk in chunks:
 		chunk.position_diff_x = 0.0
 		chunk.position_diff_z = 0.0
@@ -101,6 +103,8 @@ func get_nearest_chunk_below_resolution(query_position: Vector3, resolution: int
 
 var load_roads = false
 func refine_load():
+	super.refine_load()
+	
 	var any_change_done = false
 	
 	# Downgrade chunks which are now too far away

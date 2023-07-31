@@ -121,9 +121,11 @@ void fragment() {
 //	vec4 color = texture(test_texture, UV);
 
 	// Alpha Scissoring
-	if (color.a < 0.6) {
+	if (color.a < 0.3) {
 		discard;
 	}
+	
+//	ALPHA_HASH_SCALE = 2.0;
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
