@@ -9,6 +9,19 @@ class_name ActionHandler
 var current_action: EditingAction
 
 
+# The action class, which can be extended from anywhere the class is needed
+class Action:
+	var player: AbstractPlayer
+	var is_blocking: bool
+	
+	func _init(p,blocking):
+		player = p
+		is_blocking = blocking
+	
+	func apply(_event):
+		pass
+
+
 func set_current_action(action: EditingAction) -> void:
 	current_action = action
 	action.set_action_active(true)
