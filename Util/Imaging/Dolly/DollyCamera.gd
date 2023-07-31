@@ -48,8 +48,10 @@ func _process(delta):
 		rotation += Vector3(velocity.x, velocity.y, 0.0) * delta
 		
 		# Keep the view towards the object
-		if focus:
-			look_at(focus.global_transform.origin, Vector3.UP) 
+		if focus != null \
+			and not focus.position.is_equal_approx(Vector3.ZERO) \
+			and not focus.position.is_equal_approx(focus.transform.origin) :
+			look_at(focus.transform.origin, Vector3.UP) 
 
 
 func toggle_cam(enabled):

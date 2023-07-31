@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bjychto5ju8ms"
 path.s3tc="res://.godot/imported/PV_field_row_10x10_pv-module-texture-2000px1.png-4e2e131a3c3468c941777d84e002b941.s3tc.ctex"
-path.etc2="res://.godot/imported/PV_field_row_10x10_pv-module-texture-2000px1.png-4e2e131a3c3468c941777d84e002b941.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Meshes/APV/PV_field_row_10x10_pv-module-texture-2000px1.png"
-dest_files=["res://.godot/imported/PV_field_row_10x10_pv-module-texture-2000px1.png-4e2e131a3c3468c941777d84e002b941.s3tc.ctex", "res://.godot/imported/PV_field_row_10x10_pv-module-texture-2000px1.png-4e2e131a3c3468c941777d84e002b941.etc2.ctex"]
+dest_files=["res://.godot/imported/PV_field_row_10x10_pv-module-texture-2000px1.png-4e2e131a3c3468c941777d84e002b941.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true

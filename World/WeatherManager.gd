@@ -32,7 +32,7 @@ var wind_speed = 10 :
 		return wind_speed
 	set(new_wind_speed):
 		wind_speed = new_wind_speed
-		emit_signal("wind_speed_changed", wind_speed)
+		wind_speed_changed.emit(wind_speed)
 
 # in degrees
 var wind_direction = 0 :

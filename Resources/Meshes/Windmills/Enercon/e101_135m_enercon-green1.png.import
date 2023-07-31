@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cq02t0vlf0en"
 path.s3tc="res://.godot/imported/e101_135m_enercon-green1.png-65ef62b624c5b9c1d5188da3cd7a9cc2.s3tc.ctex"
-path.etc2="res://.godot/imported/e101_135m_enercon-green1.png-65ef62b624c5b9c1d5188da3cd7a9cc2.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Meshes/Windmills/Enercon/e101_135m_enercon-green1.png"
-dest_files=["res://.godot/imported/e101_135m_enercon-green1.png-65ef62b624c5b9c1d5188da3cd7a9cc2.s3tc.ctex", "res://.godot/imported/e101_135m_enercon-green1.png-65ef62b624c5b9c1d5188da3cd7a9cc2.etc2.ctex"]
+dest_files=["res://.godot/imported/e101_135m_enercon-green1.png-65ef62b624c5b9c1d5188da3cd7a9cc2.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true

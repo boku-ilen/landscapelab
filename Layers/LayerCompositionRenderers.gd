@@ -52,6 +52,9 @@ func add_composition(child: Node):
 		add_child(child)
 		return
 	
+	if weather_manager:
+		child.set("weather_manager", weather_manager)
+	
 	# Give the child a center position
 	if position_manager:
 		# Apply the center position from the PositionManager
@@ -90,7 +93,7 @@ func update_renderers(center_array):
 		if renderer is LayerCompositionRenderer:
 			renderer.center = center_array
 			
-			logger.debug("Child {} beginning to load")
+			logger.debug("Child {0} beginning to load".format([renderer.name]))
 
 			renderer.full_load()
 			call_deferred("_on_renderer_finished", renderer.name)

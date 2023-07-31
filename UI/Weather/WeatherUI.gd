@@ -4,14 +4,14 @@ extends VBoxContainer
 var weather_manager: WeatherManager
 
 func _ready():
-	$Visibility/HSlider.connect("value_changed",Callable(self,"_on_visibility_changed"))
-	$Clouds/HSlider.connect("value_changed",Callable(self,"_on_cloudiness_changed"))
-	$WindSpeed/HSlider.connect("value_changed",Callable(self,"_on_wind_speed_changed"))
-	$WindDirection/HSlider.connect("value_changed",Callable(self,"_on_wind_direction_changed"))
-	$Rain/CheckBox.connect("toggled",Callable(self,"_on_rain_enabled"))
-	$RainDensity/HSlider.connect("value_changed",Callable(self,"_on_rain_density_changed"))
-	$RainDropX/HSlider.connect("value_changed",Callable(self,"_on_rain_drop_changed"))
-	$RainDropY/HSlider.connect("value_changed",Callable(self,"_on_rain_drop_changed"))
+	$Visibility/HSlider.value_changed.connect(_on_visibility_changed)
+	$Clouds/HSlider.value_changed.connect(_on_cloudiness_changed)
+	$WindSpeed/HSlider.value_changed.connect(_on_wind_speed_changed)
+	$WindDirection/HSlider.value_changed.connect(_on_wind_direction_changed)
+	$Rain/CheckBox.toggled.connect(_on_rain_enabled)
+	$RainDensity/HSlider.value_changed.connect(_on_rain_density_changed)
+	$RainDropX/HSlider.value_changed.connect(_on_rain_drop_changed)
+	$RainDropY/HSlider.value_changed.connect(_on_rain_drop_changed)
 
 
 func _on_visibility_changed(value):
