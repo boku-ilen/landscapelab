@@ -35,24 +35,24 @@ func _ready():
 
 
 func full_load():
-	mutex.lock()
 	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 		float(center[0]), float(center[1]), radius, max_features)
 	load_features = features
 	
 	for feature in load_features:
 		instances[feature.get_id()] = load_feature_instance(feature)
-	mutex.unlock()
 
 
 func adapt_load(_diff: Vector3):
-	mutex.lock()
+	super.adapt_load(_diff)
+	
 	var new_features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 		float(center[0]) + position_manager.center_node.position.x,
 		float(center[1]) - position_manager.center_node.position.z,
 		radius, max_features
 	)
 	
+	# FIXME: might be a potential thread vulnerability
 	var old_feature_ids = features.map(func(f): return f.get_id())
 	var new_feature_ids = new_features.map(func(f): return f.get_id())
 	
@@ -61,6 +61,7 @@ func adapt_load(_diff: Vector3):
 	
 	features = new_features
 	
+	mutex.lock()
 	for feature in load_features:
 		instances[feature.get_id()] = load_feature_instance(feature)
 	mutex.unlock()
