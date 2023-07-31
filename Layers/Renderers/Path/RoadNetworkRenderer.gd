@@ -48,6 +48,7 @@ func full_load():
 
 
 func adapt_load(diff):
+	super.adapt_load(diff)
 	call_deferred("load_data")
 
 

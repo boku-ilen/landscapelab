@@ -36,6 +36,8 @@ func full_load():
 
 
 func adapt_load(_diff: Vector3):
+	super.adapt_load(_diff)
+	
 	var features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 				float(center[0]) + position_manager.center_node.position.x,
 				float(center[1]) - position_manager.center_node.position.z,

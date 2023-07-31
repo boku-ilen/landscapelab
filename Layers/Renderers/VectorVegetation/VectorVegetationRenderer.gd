@@ -4,7 +4,7 @@ extends LayerCompositionRenderer
 var chunks = []
 
 var chunk_size = 200
-var extent = 10
+var extent = 4
 
 
 func _ready():
@@ -45,6 +45,8 @@ func full_load():
 
 
 func adapt_load(_diff: Vector3):
+	super.adapt_load(_diff)
+	
 	for chunk in chunks:
 		chunk.position_diff_x = 0.0
 		chunk.position_diff_z = 0.0

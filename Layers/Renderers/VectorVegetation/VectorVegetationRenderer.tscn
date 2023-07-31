@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://sfn57dmiugla"]
 
-[ext_resource type="Script" path="res://Layers/Renderers/VectorVegetation/VectorVegetationRenderer.gd" id="1_qbibp"]
+[ext_resource type="Script" path="res://Layers/Renderers/VectorVegetation/VectorVegetationRenderer.gd" id="1_58nm7"]
 
 [node name="VectorVegetationRenderer" type="Node3D"]
-script = ExtResource("1_qbibp")
+script = ExtResource("1_58nm7")
 
 [node name="Chunks" type="Node3D" parent="."]

@@ -75,13 +75,17 @@ func full_load():
 # Likely implemented similarly to full_load, but re-using existing data where possible.
 # Run in a thread, so watch out for thread safety!
 func adapt_load(_position_diff: Vector3):
-	pass
+	# Workaround until we adapt to new multithreading system
+	# See https://github.com/godotengine/godot/pull/78000
+	Thread.set_thread_safety_checks_enabled(false)
 
 
 # Refine the currently loaded data, e.g. loading more detailed data near the camera.
 # Run in a thread, so watch out for thread safety!
 func refine_load():
-	pass
+	# Workaround until we adapt to new multithreading system
+	# See https://github.com/godotengine/godot/pull/78000
+	Thread.set_thread_safety_checks_enabled(false)
 
 
 # Overload to return a string with statistics and information about the current state of this
