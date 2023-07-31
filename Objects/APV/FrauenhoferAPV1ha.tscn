@@ -1,10 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6uho2orjawa3"]
+[gd_scene load_steps=3 format=3 uid="uid://bj8ddfapewfb6"]
 
 [ext_resource type="PackedScene" uid="uid://bh2hf5ikfnoiu" path="res://Resources/Meshes/APV/PV_field_module_fh_10x10m.glb" id="1"]
 [ext_resource type="Script" path="res://Objects/APV/APV.gd" id="2"]
 
 [node name="FrauenhoferAPV1ha" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.9, 0, 0, 0)
 script = ExtResource("2")
 apv_scene = ExtResource("1")
 apv_rotation = 0.0

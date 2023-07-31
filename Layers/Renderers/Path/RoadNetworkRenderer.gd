@@ -66,7 +66,6 @@ func load_data() -> void:
 	var intersection_features = intersection_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
 	
 	var toc = Time.get_ticks_msec()
-	print("RoadRenderer data prep: %s" %[toc - tic])
 	
 	tic = Time.get_ticks_msec()
 	_create_roads(road_features)
@@ -78,12 +77,10 @@ func load_data() -> void:
 			chunk.apply_terraforming_texture()
 	
 	toc = Time.get_ticks_msec()
-	print("Create Roads Time: %s" %[toc - tic])
 	
 	tic = Time.get_ticks_msec()
 	_create_intersections(intersection_features)
 	toc = Time.get_ticks_msec()
-	print("Create Intersections Time: %s" %[toc - tic])
 	
 	call_deferred("_add_objects")
 

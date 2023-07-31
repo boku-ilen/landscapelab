@@ -1,219 +1,430 @@
-extends LayerCompositionRenderer
+extends FeatureLayerCompositionRenderer
 
-var radius = 800.0
-var max_features = 100
-var connection_radius = 500.0
+
+#
+# Given at this moment: instances = {
+#   Node3D.name == 1 --- 1_2
+#      |     \   
+#     1_0    1_1 
+# }
+#
+# I.e. a dictionary with nodes to the geo-line roots (i.e. having vertex count connectors)
+#
+# Two cases for refine_load:
+#   - load new data (inside a given radius)
+#   - erase invalid data (outside a given radius)
+# 
+# The line data set must be cleaned with QGIS function 
+#	Remvoe duplicate vertices 
+# or this renderer will run into problems
+# 
+
+var last_update_pos := Vector2.INF
+var connection_radius = 800.0
 var max_connections = 100
-# Distinguish between diffferent types of powerlines
-# e.g. (line, minor_line)
-var selector_attribute: String
-
 # Connector = objects, connection = lines in-between
-var connector_instances = {}
-var connector_instances_refine = {}
-var connection_instances = []
+var intermediate_connectors := {}
+var connections := {}
+# For getting a local deep copy of instances from parent
+var local_connectors: Dictionary
+var local_features: Array
+
+var connection_mutex = Mutex.new()
+var loaded_connection_scenes := {}
+var loaded_connector_scenes := {}
 
 
-func is_new_loading_required(position_diff: Vector3) -> bool:
-	if Vector2(position_diff.x, position_diff.z).length_squared() >= pow(radius / 4.0, 2):
-		return true
+func _ready():
+	super._ready()
+	radius = 800.0
+	max_features = 100
+	_load_scenes()
 	
-	return false
-
-
-func full_load():
-	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(float(center[0]), float(center[1]), radius, max_features)
+	radius = loaded_connector_scenes["fallback"].instantiate().load_radius
+	connection_radius = loaded_connection_scenes["fallback"].instantiate().load_radius
 	
-	for geo_line in geo_lines:
-		connector_instances[str(geo_line.get_id())] = get_connected_objects(geo_line)
-		connector_instances_refine = connector_instances.duplicate()
+	feature_instance_removed.connect(func(id):
+		_remove_by_access_str(str(id))
+		apply_refined_data())
 
 
-func adapt_load(_diff: Vector3):
-	super.adapt_load(_diff)
+# Load in the scenes as configured in .ll to avoid having to load them continuously
+func _load_scenes():
+	loaded_connection_scenes["fallback"] = load(
+		layer_composition.render_info.get("fallback_connection")
+	)
+	loaded_connector_scenes["fallback"] = load(
+		layer_composition.render_info.get("fallback_connector")
+	)
+	for key in layer_composition.render_info.get("connections"):
+		loaded_connection_scenes[key] = \
+			load(layer_composition.render_info.get("connections")[key])
+	for key in layer_composition.render_info.get("connectors"):
+		loaded_connector_scenes[key] = \
+			load(layer_composition.render_info.get("connectors")[key])
+
+
+func _remove_by_access_str(access_str: String) -> bool:
+	connection_mutex.lock()
+	var any_change_done := false
 	
-	var geo_lines = layer_composition.render_info.geo_feature_layer.get_features_near_position(
-		float(center[0]) + position_manager.center_node.position.x,
-		float(center[1]) - position_manager.center_node.position.z,
-		radius, max_features
+	for id in connections.keys():
+		if id.begins_with(access_str):
+			connections.erase(id)
+			any_change_done = true
+
+	for id in intermediate_connectors.keys():
+		if id.begins_with(access_str):
+			intermediate_connectors.erase(id)
+			any_change_done = true
+	connection_mutex.unlock()
+	
+	return any_change_done
+
+
+func _handle_with_intermediate(
+	geo_line: GeoLine, vertex_id: int, intermediate_count: int, 
+	distance: float, connector_i_0: Node3D, connector_i_1: Node3D,
+	connector_scene: PackedScene, connection_scene: PackedScene):
+	
+	var any_change_done := false
+	var access_str = "{0}_{1}".format([geo_line.get_id(), vertex_id])
+	
+	if not intermediate_connectors.has(access_str):
+		add_intermediate_connectors(
+			geo_line.get_id(), 
+			vertex_id, 
+			distance, 
+			intermediate_count,
+			connector_i_0,
+			connector_i_1,
+			connector_scene
+		)
+		any_change_done = true
+	if not connections.has(access_str):
+		inner_connect(
+			geo_line.get_id(), 
+			vertex_id,
+			intermediate_count,
+			connector_i_0,
+			connector_i_1,
+			connection_scene
+		)
+		any_change_done = true
+	
+	return any_change_done
+
+
+func _handle_standard(
+	geo_line: GeoLine, vertex_id: int, connector_i_0: Node3D, connector_i_1: Node3D,
+	connector_scene: PackedScene, connection_scene: PackedScene):
+	
+	var any_change_done := false
+	var access_str = "{0}_{1}".format([geo_line.get_id(), vertex_id])
+	
+	var new_con = explicit_connect(
+		access_str,
+		connector_i_0,
+		connector_i_1,
+		connection_scene,
+		[]
 	)
 	
-	for geo_line in geo_lines:
-		if not has_node(str(geo_line.get_id())):
-			connector_instances[str(geo_line.get_id())] = get_connected_objects(geo_line)
-		else:
-			# Just set to "true" in order to specify that this line should remain
-			connector_instances[str(geo_line.get_id())] = true
-		connector_instances_refine = connector_instances.duplicate()
-		
-	call_deferred("apply_new_data")
+	connections[access_str] = new_con
+	any_change_done = true
+	
+	return any_change_done
 
 
 func refine_load():
 	super.refine_load()
 	
-	for connector in connector_instances_refine.values():
-		for i in range(1, connector.get_child_count()):
-			_connect(
-				connector.get_child(i),
-				connector.get_child(i - 1),
-				selector_attribute
-			)
-	connector_instances_refine.clear()
+	var center = position_manager.center_node.position
+	
+	var any_change_done := false
+	
+	# NOTE: is this necessary?
+	mutex.lock()
+	if local_connectors.keys() != instances.keys():
+		local_connectors = instances.duplicate()
+	if features != local_features:
+		local_features = features.duplicate()
+	mutex.unlock()
+	
+	connection_mutex.lock()
+	for geo_line in local_features:
+		var specific_connectors: Node3D = local_connectors[geo_line.get_id()]
+		
+		var connector_scene: PackedScene = _get_scene_for_feature(geo_line, false)
+		var connection_scene: PackedScene = _get_scene_for_feature(geo_line, true)
+		
+		# Required for accessing member variable max_length
+		var exemplary_connection = connection_scene.instantiate()
+		var connection_max_length: float = exemplary_connection.max_length
+		
+		var vertices: Curve3D = geo_line.get_curve3d()
+		# Connection requires at least two points
+		if vertices.get_point_count() < 2: continue
+		
+		var connector_i_0: Node3D = specific_connectors.get_node(str(0))
+		var connector_i_1: Node3D
+		
+		# Skip index 0 because connecting requires two objects
+		for vert_id in range(1, vertices.get_point_count()):
+			connector_i_1 = specific_connectors.get_node(str(vert_id))
+			
+			# Decide whether to take intermediate connectors
+			var distance: float = connector_i_0.position.distance_to(connector_i_1.position)
+			var intermediate_count := int(distance / connection_max_length)
+			var make_intermediate_steps := connection_max_length > 0 and intermediate_count >= 1
+			
+			# Define the id/name of the connection
+			var access_str = "{0}_{1}".format([geo_line.get_id(), vert_id])
+			
+			var avg_connection_pos = (connector_i_0.position + connector_i_1.position) / 2
+			if connection_radius + abs(distance) < distance_to_center(avg_connection_pos): 
+				any_change_done = _remove_by_access_str(access_str) or any_change_done
+			else:
+				if not make_intermediate_steps:
+					if not connections.has(access_str):
+						any_change_done = _handle_standard(
+							geo_line, vert_id, 
+							connector_i_0, connector_i_1, connector_scene, connection_scene
+						) or any_change_done
+				else:
+					any_change_done = _handle_with_intermediate(
+						geo_line, vert_id, intermediate_count, distance,
+						connector_i_0, connector_i_1, connector_scene, connection_scene
+					) or any_change_done
+			
+			connector_i_0 = connector_i_1
+	connection_mutex.unlock()
+	
+	if any_change_done:
+		call_deferred("apply_refined_data")
 
 
+func apply_refined_data():
+	connection_mutex.lock()
+	for access_str in connections.keys():
+		if not $Connections.has_node(access_str) and connections[access_str] is Node3D:
+			$Connections.add_child(connections[access_str])
+			for connection in connections[access_str].get_children():
+				connection.apply_connection()
 
-func apply_new_data():
-	# First clear the old objects, then add the new ones
-	# connectors as well as connections
-	for child in $Connectors.get_children():
-		if not child.name in connector_instances:
-			child.queue_free()
 	for child in $Connections.get_children():
-		child.queue_free()
+		if not connections.has(child.name):
+			$Connections.remove_child(child)
+			child.free()
+#
+	for access_str in intermediate_connectors.keys():
+		if not has_node(access_str) and connections[access_str] is Node3D:
+			add_child(intermediate_connectors[access_str])
+
+	for child in get_children():
+		if child.name.count("_") < 2: continue
+		if not intermediate_connectors.has(child.name):
+			remove_child(child)
+			child.free()
 	
-	for instance_id in connector_instances.keys():
-		if not has_node(instance_id):
-			$Connectors.add_child(connector_instances[instance_id])
-	
-	for instance in connection_instances:
-		$Connections.add_child(instance)
-		# AbstractConnection.apply_connection()
-		instance.apply_connection()
-	
-	connector_instances.clear()
-	connection_instances.clear()
-	
-	logger.info("Applied new ConnectedObjectRenderer data for %s" % [name])
+	connection_mutex.unlock()
 
 
-func get_connected_objects(geo_line):
+func explicit_connect(connection_name: String, previous_connector: Node3D, 
+		current_connector: Node3D, connection_scene: PackedScene, connection_cache: Array) -> Node3D:
+	# Dock parent might have a transform -> apply it too
+	var current_docks: Node3D = current_connector.get_node("Docks")
+	var previous_docks: Node3D = previous_connector.get_node("Docks")
+	
+	var current_connections = Node3D.new()
+	current_connections.name = connection_name
+	
+	for dock in current_docks.get_children():
+		# Create a specified connection-object or use fallback
+		var connection: AbstractConnection = connection_scene.instantiate()
+		var previous_dock: Node3D = previous_docks.get_node(String(dock.name))
+		
+		var p1: Vector3 = (
+			current_connector.transform * 
+			current_docks.transform * 
+			dock.transform).origin
+		var p2: Vector3 = (
+			previous_connector.transform * 
+			previous_docks.transform * 
+			previous_dock.transform).origin
+		
+		connection_cache = connection.find_connection_points(p1, p2, 0.0013, [])
+		current_connections.call_deferred("add_child", connection)
+	
+	return current_connections
+
+
+# FIXME: Do we still need this?
+# Connects objects and intermediate objects
+func inner_connect(feature_id: int, vertex_id: int, num_connectors_between: int, 
+		previous_connector: Node3D, current_connector: Node3D, connection_scene: PackedScene):
+	
+	var intermediate_connector
+	for intermediate_id in range(num_connectors_between):
+		var access_string = "{0}_{1}_{2}".format([feature_id, vertex_id, intermediate_id])
+		if connections.has(access_string): continue
+		intermediate_connector = intermediate_connectors.get(access_string)
+		
+		var new_con = explicit_connect(
+			access_string, 
+			previous_connector, 
+			intermediate_connector, 
+			connection_scene, [])
+		
+		connections[access_string] = new_con
+		
+		previous_connector = intermediate_connector
+	
+	var access_string = "{0}_{1}".format([feature_id, vertex_id])
+	var new_con = explicit_connect(
+		access_string, 
+		previous_connector, 
+		intermediate_connector, 
+		connection_scene, [])
+	
+	connections[access_string] = new_con
+
+
+# FIXME: Do we still need this? 
+# FIXME: Seems obsolete by RepeatingObjects
+func add_intermediate_connectors(feature_id: int, vertex_id: int, distance: float, num_connectors_between: float,
+		previous_connector: Node3D, current_connector: Node3D, connector_scene: PackedScene): 
+	# Get the amount of connectors that shall be put between
+	var step_size = distance / num_connectors_between
+	var direction = (current_connector.position - previous_connector.position).normalized()
+	var intermediate_connector: Node3D = connector_scene.instantiate()
+	intermediate_connector.transform = current_connector.transform
+	intermediate_connector.position = previous_connector.position
+
+	for intermediate_id in range(num_connectors_between):
+		var access_str = "{0}_{1}_{2}".format([feature_id, vertex_id, intermediate_id])
+		if intermediate_connectors.has(access_str): continue
+		
+		# As they will be strung on a line they have the same rotation
+		intermediate_connector.position += step_size * direction
+		intermediate_connector.name = "{0}_{1}_{2}".format([feature_id, vertex_id, intermediate_id])
+		
+		intermediate_connectors[intermediate_connector.name] = intermediate_connector
+		
+		intermediate_connector = intermediate_connector.duplicate(DUPLICATE_USE_INSTANTIATION)
+
+
+func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 	var line_root = Node3D.new()
 	line_root.name = str(geo_line.get_id())
 	
-	# Get the specifying attribute or null (=> fallbacks)
-	var attribute_name = layer_composition.render_info.selector_attribute_name
-	selector_attribute = geo_line.get_attribute(attribute_name) \
-										if attribute_name else null
+	var engine_line: Curve3D = geo_line.get_offset_curve3d(-center[0], 0, -center[1])
+	var previous_point := Vector3.INF
+	var next_point := Vector3.INF
 	
-	# The line-dataset
-	var course: Curve3D = geo_line.get_offset_curve3d(-center[0], 0, -center[1])
-	# Object and position of the previous connector
-	var object_before: Node3D = null
-	var point_before: Vector3
-	# Translation of the next connector
-	var point_next: Vector3
+	var object_packed_scene = _get_scene_for_feature(geo_line)
 	
-	for index in range(course.get_point_count()):
-		# Create a specified connector-object or use fallback
-		var object: Node3D
+	for index in range(engine_line.get_point_count()):
+		# Obtain current point and its height 
+		var current_point = engine_line.get_point_position(index)
+		current_point.y = _get_height_at_ground(current_point)
 
-		if selector_attribute and selector_attribute in layer_composition.render_info.connectors:
-			object = load(layer_composition.render_info.connectors[selector_attribute]).instantiate()
-		else:
-			object = load(layer_composition.render_info.fallback_connector).instantiate()
+		# Try to obtain the next point on the line
+		if index+1 < engine_line.get_point_count():
+			next_point = engine_line.get_point_position(index + 1)
+			next_point.y = _get_height_at_ground(next_point)
+
+		# Create a specified connector-object or use fallback
+		var current_object: Node3D = object_packed_scene.instantiate()
+		current_object.name = str(index)
 		
-		# Obtain the next point (required for the orientation of the current)
-		if index+1 < course.get_point_count():
-			point_next = course.get_point_position(index + 1)
-			point_next = Vector3(point_next.x, _get_height_at_ground(point_next), point_next.z)
-		
-		# Obtain the height at the current point
-		var point = course.get_point_position(index)
-		point = Vector3(point.x, _get_height_at_ground(point), point.z)
-		
-		if object_before:
-			# Vec3 cant be null so we check differently
-			# "if point_next:"
-			if index+1 < course.get_point_count():
-				# Look at the next object
-				object.look_at_from_position(point, point_before, object.transform.basis.y)
-				# Then find the angle between (p_before - p_now) and (p_now - p_next)
-				var v1 = point - point_before
-				var v2 = point_next - point
-				var angle = v1.angle_to(v2)
-				# FIXME: Godot has no signed_angle_to yet
-				# FIXME: Yes it does: v1.signed_angle_to()
-				if v1.cross(v2).dot(Vector3.UP) < 0: angle = -angle
+		#
+		# Try to resemble a realistic rotation of the connector-objects  
+		# (i.e. they have to face each other); 3 cases:
+		# 1. First point, only next point exists
+		# 2. x_i; i > 0 & i < n; previous and next point exist
+		# 3. Last point, only previous point exists
+		# 
+
+		# Case 1 or 2 
+		if previous_point != Vector3.INF:
+			try_look_at_from_pos(current_object, current_point, previous_point)
+
+			# Case 2 
+			if index+1 < engine_line.get_point_count():
+				# Find the angle between (p_before - p_now) and (p_now - p_next)
+				var v1 = current_point - previous_point
+				var v2 = next_point - current_point
+				var angle = v1.signed_angle_to(v2, Vector3.UP)
 				# add this angle so its actually the mean between before and next
-				object.rotation.y += angle / 2
-				
-			else:
-				object.look_at_from_position(point, point_before, object.transform.basis.y)
-				
-			# Only y rotation is relevant
-			object.rotation.x = 0
-			object.rotation.z = 0
-			# TODO: Do in refine_load step
-#			_connect(object, object_before, selector_attribute)
-			
-		# Vec3 cant be null so we check differently
-		# "if point_next:"
-		elif index+1 < course.get_point_count():
-			object.look_at_from_position(point, point_next, object.transform.basis.y)
-			# Only y rotation is relevant
-			object.rotation.x = 0
-			object.rotation.z = 0
-		
-		object_before = object
-		point_before = point
-		
-		line_root.add_child(object)
+				current_object.rotation.y += angle / 2
+
+		# Case 3
+		elif index+1 < engine_line.get_point_count():
+			try_look_at_from_pos(current_object, current_point, next_point)
+
+		# Only y rotation is relevant
+		current_object.rotation.x = 0
+		current_object.rotation.z = 0
+
+		previous_point = current_point
+		# Prevent error p_elem->root != this ' is true via call_deferred
+		line_root.call_deferred("add_child", current_object)
 		
 	return line_root
 
 
-func _connect(object: Node3D, object_before: Node3D, selector_attribute):
-	if not object.has_node("Docks"):
-		#logger.warn("Connected Object %s defines no Docks and cannot be connected" % [object.name])
-		return
+func _get_scene_for_feature(geo_line: GeoFeature, is_connection: bool = false):
+	# Get the specifying attribute or null (=> fallbacks)
+	var attribute_name = layer_composition.render_info.selector_attribute_name
+	var selector_attribute = null
+	if attribute_name:
+		selector_attribute = geo_line.get_attribute(attribute_name)
 	
-	if object.position.distance_to(position_manager.center_node.position) > connection_radius \
-		and object_before.position.distance_to(position_manager.center_node.position) > connection_radius:
-			return
+	var load_from = loaded_connector_scenes
+	if is_connection:
+		load_from = loaded_connection_scenes
 	
-	if max_connections <= connection_instances.size():
-		return
-	
-	# Dock parent might have a transform -> apply it too
-	var dock_parent: Node3D = object.get_node("Docks")
-	
-	# Vector between current and next dock of the current connection and it's predecessors 
-	# might be the same => cache!
-	var connection_cache = []
-	for dock in dock_parent.get_children():
-		# Create a specified connection-object or use fallback
-		var connection: AbstractConnection
-		if selector_attribute == null or not selector_attribute in layer_composition.render_info.connections:
-			connection = load(layer_composition.render_info.fallback_connection).instantiate()
-		else:
-			connection = load(layer_composition.render_info.connections[selector_attribute]).instantiate()
-		
-		var dock_before: Node3D = object_before.get_node("Docks/" + String(dock.name))
-		
-		var p1: Vector3 = (object.transform * dock_parent.transform * dock.transform).origin
-		var p2: Vector3 = (object_before.transform * dock_parent.transform * dock_before.transform).origin
-		
-		connection_cache = connection.find_connection_points(p1, p2, 0.0013, connection_cache)
-		connection_instances.append(connection)
+	if selector_attribute != null and selector_attribute in layer_composition.render_info.connectors:
+		return load_from[selector_attribute]
+	else:
+		return load_from["fallback"]
 
 
-# Returns the current ground height
 func _get_height_at_ground(query_position: Vector3) -> float:
 	return layer_composition.render_info.ground_height_layer.get_value_at_position(
 		center[0] + query_position.x, center[1] - query_position.z)
 
 
-func _ready():
-	super._ready()
-	if not layer_composition.is_valid():
-		logger.error("ConnectedObjectRenderer was given an invalid layer!")
+# https://github.com/godotengine/godot/blob/4.0.1-stable/scene/resources/curve.cpp#L1784
+# avoid "look_at_from_position: Node origin and target are in the same position, look_at() failed."
+func try_look_at_from_pos(object: Node3D, from: Vector3, target: Vector3):
+	if not from.is_equal_approx(target) and not target.is_equal_approx(Vector3.ZERO):
+		object.position = from
+		object.look_at_from_position(from, target, object.transform.basis.y)
+	else:
+		object.position = from
+
+
+func distance_to_center(pos: Vector3):
+	var pos2D = Vector2(pos.x, pos.z)
+	var center2D = Vector2(
+		position_manager.center_node.position.x,
+		position_manager.center_node.position.z)
+	return center2D.distance_to(pos2D)
 
 
 func get_debug_info() -> String:
-	return "{0} of maximally {1} connectors loaded.\n{2} of maximally {3} connections loaded.".format([
-		str($Connectors.get_child_count()),
-		str(max_features),
-		str($Connections.get_child_count()),
-		str(max_connections),
-	])
+	return """
+		{0} of maximally {1} features with 
+			{2} inside the radius ({3}) connectors loaded.
+			{4} of maximally {5} connections loaded.""".format([
+				str(get_child_count() - 1),
+				str(max_features),
+				str(get_children().reduce(
+					func(accum, c):
+						return accum + (c.get_child_count() if c.name != "Connections" else 0), 0)),
+				str(radius),
+				str($Connections.get_child_count()),
+				str(max_connections),
+			])

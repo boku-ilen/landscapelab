@@ -1,0 +1,16 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://4tuscj5rxrxh"]
+
+[ext_resource type="Texture2D" uid="uid://dloa1og7bctei" path="res://Resources/Textures/Barriers/Fence/plank_fence.png" id="1_gyobo"]
+[ext_resource type="Texture2D" uid="uid://c6h17h4p4252l" path="res://Resources/Textures/Barriers/Fence/plank_fence_normal.png" id="2_tjvhg"]
+
+[resource]
+resource_name = "None"
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_color = Color(0.8, 0.8, 0.8, 1)
+albedo_texture = ExtResource("1_gyobo")
+normal_enabled = true
+normal_scale = 1.5
+normal_texture = ExtResource("2_tjvhg")

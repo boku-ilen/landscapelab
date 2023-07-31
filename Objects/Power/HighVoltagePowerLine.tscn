@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dpi051bigbgmo"]
+[gd_scene load_steps=3 format=3 uid="uid://dpi051bigbgmo"]
 
 [ext_resource type="PackedScene" uid="uid://daq7rvn2ijcb8" path="res://Resources/Meshes/Power/HighVoltage.glb" id="1"]
+[ext_resource type="Script" path="res://Objects/Connection/Superclasses/Connector.gd" id="2_ldcx0"]
 
 [node name="HighVoltage" instance=ExtResource("1")]
+script = ExtResource("2_ldcx0")
+load_radius = 1000.0
 
 [node name="pole_3dmesh" parent="." index="0"]
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 4.5, 0, 4.35)

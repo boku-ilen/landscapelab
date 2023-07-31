@@ -16,11 +16,9 @@ func _ready():
 	
 	_connect_button_with_action(
 		$GeoFeatureLayerManagement/Add, 
-		func(): 
-			return $GeoFeatureLayerManagement.add_actions[
-				# FIXME: geodot will have an option to get the feature class directly
-				$GeoFeatureLayerManagement.geo_feature_layer.create_feature().get_class()
-			]
+		func():
+			var cls_feature: GeoFeature = $GeoFeatureLayerManagement.geo_feature_layer.create_feature()
+			return $GeoFeatureLayerManagement.add_actions[cls_feature.get_class()]
 	)
 	_connect_button_with_action(
 		$GeoRasterLayerManagement/TerraForm,

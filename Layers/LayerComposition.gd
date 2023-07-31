@@ -33,6 +33,7 @@ const RENDER_INFOS := {
 	"Building": BuildingRenderInfo,
 	"Road Network": RoadNetworkRenderInfo,
 	"Connected Object": ConnectedObjectInfo,
+	"Repeating Object": RepeatingObjectInfo,
 	"Polygon Object": PolygonObjectInfo
 }
 
@@ -244,6 +245,31 @@ class ConnectedObjectInfo extends RenderInfo:
 		return geo_feature_layer != null && ground_height_layer != null
 	
 	func get_class_name() -> String: return "Connected Object"
+
+
+class RepeatingObjectInfo extends RenderInfo:
+	var width: float
+	var random_angle: bool
+	var selector_attribute_name: String
+	var meshes: Dictionary
+
+	var ground_height_layer: GeoRasterLayer
+	var geo_feature_layer: GeoFeatureLayer
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/RepeatingObject/RepeatingObjectRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
+	
+	func get_geolayers():
+		return [ground_height_layer, geo_feature_layer]
+	
+	func get_described_geolayers() -> Dictionary:
+		return {"Ground-height": ground_height_layer, "Features": geo_feature_layer}
+	
+	func is_valid():
+		return geo_feature_layer != null && ground_height_layer != null
+	
+	func get_class_name() -> String: return "Repeating Object"
 
 class PolygonObjectInfo extends RenderInfo:
 	var ground_height_layer: GeoRasterLayer

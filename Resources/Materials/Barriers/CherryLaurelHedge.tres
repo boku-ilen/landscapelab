@@ -1,0 +1,16 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b0botflwdpirb"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ekgjt"]
+load_path = "res://.godot/imported/diffuse.tga-44a88c59f89bfc62363ef70aec5212b2.s3tc.ctex"
+
+[resource]
+resource_name = "Material.001"
+transparency = 2
+alpha_scissor_threshold = 0.2
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = SubResource("CompressedTexture2D_ekgjt")
+metallic = 0.5
+distance_fade_mode = 2
+distance_fade_min_distance = 120.0
+distance_fade_max_distance = 80.0

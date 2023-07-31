@@ -2,25 +2,24 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dn5c235ve482s"
+uid="uid://bc3d3fjewpc25"
 path.s3tc="res://.godot/imported/HighVoltage_Metal_Seamed.png-954d7dbfcff05a6f0f2a3195ff6a2166.s3tc.ctex"
-path.etc2="res://.godot/imported/HighVoltage_Metal_Seamed.png-954d7dbfcff05a6f0f2a3195ff6a2166.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Meshes/Power/HighVoltage_Metal_Seamed.png"
-dest_files=["res://.godot/imported/HighVoltage_Metal_Seamed.png-954d7dbfcff05a6f0f2a3195ff6a2166.s3tc.ctex", "res://.godot/imported/HighVoltage_Metal_Seamed.png-954d7dbfcff05a6f0f2a3195ff6a2166.etc2.ctex"]
+dest_files=["res://.godot/imported/HighVoltage_Metal_Seamed.png-954d7dbfcff05a6f0f2a3195ff6a2166.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
