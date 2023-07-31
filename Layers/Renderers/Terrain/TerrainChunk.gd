@@ -87,7 +87,7 @@ func build(center_x, center_y):
 		current_normalmap = current_height_image.get_normalmap_texture_for_heightmap(10.0)
 		current_heightmap_shape = current_height_image.get_shape_for_heightmap()
 	
-	# Texture2D
+	# Orthophoto
 	if texture_layer:
 		var current_ortho_image = texture_layer.get_image(
 			top_left_x,
@@ -100,6 +100,7 @@ func build(center_x, center_y):
 		if current_ortho_image.is_valid():
 			current_texture = current_ortho_image.get_image_texture()
 	
+	# Land use
 	var current_landuse_image = landuse_layer.get_image(
 		top_left_x,
 		top_left_y,
@@ -124,24 +125,6 @@ func build(center_x, center_y):
 		if current_surface_height_image.is_valid():
 			current_surface_heightmap = current_surface_height_image.get_image_texture()
 	
-	if landuse_layer and (always_load_landuse or load_detail_textures or load_fade_textures):
-		if load_detail_textures or load_fade_textures:
-			var most_common_groups = current_landuse_image.get_most_common(MAX_GROUPS)
-			var group_array = Vegetation.get_group_array_for_ids(most_common_groups)
-			
-			current_metadata_map = Vegetation.get_metadata_map(most_common_groups)
-			
-			if load_detail_textures:
-				current_albedo_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "albedo")
-				current_normal_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "normal")
-				current_specular_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "specular")
-				current_ambient_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "ambient")
-				current_roughness_ground_textures = Vegetation.get_ground_sheet_texture(group_array, "roughness")
-			
-			if load_fade_textures:
-				current_albedo_fade_textures = Vegetation.get_fade_sheet_texture(group_array, "albedo")
-				current_normal_fade_textures = Vegetation.get_fade_sheet_texture(group_array, "normal")
-	
 	changed = true
 
 func apply_textures():
@@ -165,12 +148,7 @@ func apply_textures():
 	if current_landuse:
 		material_override.set_shader_parameter("landuse", current_landuse)
 		material_override.set_shader_parameter("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
-		
-		if not always_load_landuse:
-			# always_load_landuse doesn't load any detail textures (it just provides the landuse data to ExtraLODs)
-			# so in that case, don't apply the data to the shader
-			# FIXME: Make this more clear in the variable names
-			material_override.set_shader_parameter("has_landuse", true)
+		material_override.set_shader_parameter("has_landuse", true)
 	
 	if current_surface_heightmap:
 		material_override.set_shader_parameter("has_surface_heights", true)
