@@ -20,7 +20,7 @@ func _add_current_plant_to_current_group():
 func _update_visualization():
 	var current_group = $HSplitContainer/GroupPanel/GroupDetails.current_group
 	
-	if (current_group):
+	if current_group != null:
 		$HSplitContainer/VBoxContainer/VisualizationUI/SubViewport/Visualization.update_visualization(current_group.id)
 
 
