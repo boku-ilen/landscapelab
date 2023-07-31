@@ -1,8 +1,6 @@
 extends Node3D
 class_name LayerCompositionRenderer
 
-@export var load_data_threaded = true 
-
 # Dependency comes from the LayerRenderers-Node which should always be above in the tree
 var layer_composition: LayerComposition
 
@@ -14,6 +12,9 @@ var center := [0, 0]
 var last_load_position := Vector3.ZERO
 
 var loading_thread := Thread.new()
+
+@export var load_refined_threaded := true
+@export var load_adapt_threaded := true
 
 # Time management
 var time_manager: TimeManager :
@@ -47,13 +48,13 @@ func _process(_delta):
 	if not loading_thread.is_started():
 		var diff = position_manager.center_node.position - last_load_position
 		if is_new_loading_required(diff):
-			if load_data_threaded:
+			if load_adapt_threaded:
 				loading_thread.start(adapt_load.bind(diff))
 			else:
 				adapt_load(diff)
 			last_load_position = position_manager.center_node.position
 		else:
-			if load_data_threaded:
+			if load_refined_threaded:
 				loading_thread.start(refine_load)
 			else:
 				refine_load()

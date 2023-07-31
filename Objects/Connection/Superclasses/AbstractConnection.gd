@@ -1,6 +1,11 @@
 extends Node
 class_name AbstractConnection
 
+# Maximum length the distance can have - a value "-1" indicates there is no max
+# length 
+@export var max_length := -1.0
+@export var load_radius := 500.0
+
 
 # Abstract method: can be thread unsafe
 func apply_connection():

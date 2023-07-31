@@ -21,11 +21,13 @@ func _ready():
 	super._ready()
 	renderers = Vegetation.get_renderers()
 	add_child(renderers)
+	_on_wind_speed_changed(weather_manager.wind_speed)
 
 
 func _on_wind_speed_changed(new_wind_speed):
-	for renderer in renderers.get_children():
-		renderer.apply_wind_speed(new_wind_speed)
+	if renderers:
+		for renderer in renderers.get_children():
+			renderer.apply_wind_speed(new_wind_speed)
 
 
 # Called when the node enters the scene tree for the first time.
