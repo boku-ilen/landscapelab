@@ -1,19 +1,23 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://c63a11up3xcvk"]
 
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.gd" type="Script" id=1]
-[ext_resource path="res://UI/CustomElements/AutoTextureButton.shader" type="Shader" id=3]
+[ext_resource type="Script" path="res://UI/CustomElements/AutoTextureButton.gd" id="1"]
+[ext_resource type="Shader" path="res://UI/CustomElements/AutoTextureButton.gdshader" id="3"]
 
-[sub_resource type="ShaderMaterial" id=1]
-shader = ExtResource( 3 )
-shader_param/color = null
-shader_param/rotation_radians = null
-shader_param/color_length_modulate_threshold = 1.5
+[sub_resource type="ShaderMaterial" id="1"]
+shader = ExtResource("3")
+shader_parameter/color = null
+shader_parameter/rotation_radians = null
+shader_parameter/color_length_modulate_threshold = 1.5
 
 [node name="AutoTextureButton" type="TextureButton"]
-material = SubResource( 1 )
+material = SubResource("1")
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
+default_color = Color(0, 0, 0, 1)
+pressed_color = Color(0, 0, 0, 1)
+hover_color = Color(0, 0, 0, 1)
+disabled_color = Color(0, 0, 0, 1)
+focused_color = Color(0, 0, 0, 1)
+texture_name = ""

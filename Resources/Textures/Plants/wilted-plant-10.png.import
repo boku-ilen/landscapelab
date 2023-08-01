@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/wilted-plant-10.png-2b31aff107fcaa190cb55e2b1ca2cf5d.image"
+uid="uid://1gjorcyjaphc"
+path="res://.godot/imported/wilted-plant-10.png-2b31aff107fcaa190cb55e2b1ca2cf5d.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/wilted-plant-10.png"
-dest_files=[ "res://.import/wilted-plant-10.png-2b31aff107fcaa190cb55e2b1ca2cf5d.image" ]
+dest_files=["res://.godot/imported/wilted-plant-10.png-2b31aff107fcaa190cb55e2b1ca2cf5d.image"]
 
 [params]
 

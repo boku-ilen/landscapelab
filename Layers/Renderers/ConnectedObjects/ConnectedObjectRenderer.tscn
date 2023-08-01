@@ -1,10 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://jm8kn8jes3p1"]
 
-[ext_resource path="res://Layers/Renderers/ConnectedObjects/ConnectedObjectRenderer.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Layers/Renderers/ConnectedObjects/ConnectedObjectRenderer.gd" id="1_abadb"]
 
-[node name="ConnectedObjectRenderer" type="Spatial"]
-script = ExtResource( 1 )
+[node name="ConnectedObjectRenderer" type="Node3D"]
+script = ExtResource("1_abadb")
 
-[node name="Connections" type="Spatial" parent="."]
-
-[node name="Connectors" type="Spatial" parent="."]
+[node name="Connections" type="Node3D" parent="."]

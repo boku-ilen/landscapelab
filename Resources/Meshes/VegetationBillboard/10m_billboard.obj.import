@@ -1,20 +1,21 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/10m_billboard.obj-e7c677b6c3c3ae78f463f8bbf391b316.mesh"
+uid="uid://brc368atq5ara"
+path="res://.godot/imported/10m_billboard.obj-e7c677b6c3c3ae78f463f8bbf391b316.mesh"
 
 [deps]
 
-files=[ "res://.import/10m_billboard.obj-e7c677b6c3c3ae78f463f8bbf391b316.mesh" ]
+files=["res://.godot/imported/10m_billboard.obj-e7c677b6c3c3ae78f463f8bbf391b316.mesh"]
 
 source_file="res://Resources/Meshes/VegetationBillboard/10m_billboard.obj"
-dest_files=[ "res://.import/10m_billboard.obj-e7c677b6c3c3ae78f463f8bbf391b316.mesh", "res://.import/10m_billboard.obj-e7c677b6c3c3ae78f463f8bbf391b316.mesh" ]
+dest_files=["res://.godot/imported/10m_billboard.obj-e7c677b6c3c3ae78f463f8bbf391b316.mesh", "res://.godot/imported/10m_billboard.obj-e7c677b6c3c3ae78f463f8bbf391b316.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

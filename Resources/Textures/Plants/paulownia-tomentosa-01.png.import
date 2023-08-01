@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/paulownia-tomentosa-01.png-7ea95e377b8310c000f1469da3bc8958.image"
+uid="uid://b28holb5oqq6r"
+path="res://.godot/imported/paulownia-tomentosa-01.png-7ea95e377b8310c000f1469da3bc8958.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/paulownia-tomentosa-01.png"
-dest_files=[ "res://.import/paulownia-tomentosa-01.png-7ea95e377b8310c000f1469da3bc8958.image" ]
+dest_files=["res://.godot/imported/paulownia-tomentosa-01.png-7ea95e377b8310c000f1469da3bc8958.image"]
 
 [params]
 

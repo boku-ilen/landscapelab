@@ -13,8 +13,8 @@
 
 [sub_resource type="Curve3D" id=1]
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -50 ),
-"tilts": PoolRealArray( 0, 0 )
+"points": PackedVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -50 ),
+"tilts": PackedFloat32Array( 0, 0 )
 }
 
 [sub_resource type="Environment" id=2]
@@ -25,14 +25,14 @@ ambient_light_color = Color( 0.141176, 0.141176, 0.141176, 1 )
 ambient_light_energy = 0.01
 
 [node name="ProfileEditor" type="AcceptDialog"]
-margin_left = 171.0
-margin_top = 58.0
-margin_right = 1882.0
-margin_bottom = 988.0
-rect_min_size = Vector2( 930, 500 )
+offset_left = 171.0
+offset_top = 58.0
+offset_right = 1882.0
+offset_bottom = 988.0
+minimum_size = Vector2( 930, 500 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-popup_exclusive = true
+exclusive = true
 window_title = "Profile Editor"
 resizable = true
 script = ExtResource( 3 )
@@ -44,310 +44,310 @@ __meta__ = {
 script = ExtResource( 10 )
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
-margin_left = 16.0
-margin_top = 16.0
-margin_right = 1695.0
-margin_bottom = 861.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 1695.0
+offset_bottom = 861.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ViewportContainer" type="ViewportContainer" parent="HSplitContainer"]
-margin_right = 827.0
-margin_bottom = 845.0
-rect_min_size = Vector2( 500, 500 )
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HSplitContainer"]
+offset_right = 827.0
+offset_bottom = 845.0
+minimum_size = Vector2( 500, 500 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/ViewportContainer"]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/SubViewportContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="ElevationViewButton" type="Button" parent="HSplitContainer/ViewportContainer/VBoxContainer"]
-margin_right = 206.0
-margin_bottom = 37.0
+[node name="ElevationViewButton" type="Button" parent="HSplitContainer/SubViewportContainer/VBoxContainer"]
+offset_right = 206.0
+offset_bottom = 37.0
 text = "Elevation View"
 
-[node name="PlanViewButton" type="Button" parent="HSplitContainer/ViewportContainer/VBoxContainer"]
-margin_top = 45.0
-margin_right = 206.0
-margin_bottom = 82.0
+[node name="PlanViewButton" type="Button" parent="HSplitContainer/SubViewportContainer/VBoxContainer"]
+offset_top = 45.0
+offset_right = 206.0
+offset_bottom = 82.0
 text = "Plan View"
 
-[node name="PerspectiveViewButton" type="Button" parent="HSplitContainer/ViewportContainer/VBoxContainer"]
-margin_top = 90.0
-margin_right = 206.0
-margin_bottom = 127.0
+[node name="PerspectiveViewButton" type="Button" parent="HSplitContainer/SubViewportContainer/VBoxContainer"]
+offset_top = 90.0
+offset_right = 206.0
+offset_bottom = 127.0
 text = "Perspective View"
 
-[node name="Viewport" type="Viewport" parent="HSplitContainer/ViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="HSplitContainer/SubViewportContainer"]
 size = Vector2( 827, 845 )
 handle_input_locally = false
 keep_3d_linear = true
 render_target_update_mode = 0
 
-[node name="Spatial" type="Spatial" parent="HSplitContainer/ViewportContainer/Viewport"]
+[node name="Node3D" type="Node3D" parent="HSplitContainer/SubViewportContainer/SubViewport"]
 
-[node name="Objects" type="Spatial" parent="HSplitContainer/ViewportContainer/Viewport/Spatial"]
+[node name="Objects" type="Node3D" parent="HSplitContainer/SubViewportContainer/SubViewport/Node3D"]
 
-[node name="Path" type="Path" parent="HSplitContainer/ViewportContainer/Viewport/Spatial"]
+[node name="Path3D" type="Path3D" parent="HSplitContainer/SubViewportContainer/SubViewport/Node3D"]
 curve = SubResource( 1 )
 script = ExtResource( 8 )
 
-[node name="Camera" type="Camera" parent="HSplitContainer/ViewportContainer/Viewport/Spatial"]
+[node name="Camera3D" type="Camera3D" parent="HSplitContainer/SubViewportContainer/SubViewport/Node3D"]
 projection = 1
 fov = 68.2899
 size = 10.35
 
-[node name="MousePoint" type="RayCast" parent="HSplitContainer/ViewportContainer/Viewport/Spatial/Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
+[node name="MousePoint" type="RayCast3D" parent="HSplitContainer/SubViewportContainer/SubViewport/Node3D/Camera3D"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
 enabled = true
 cast_to = Vector3( 0, 0, -1000 )
 collide_with_areas = true
 
-[node name="BottomGrid" parent="HSplitContainer/ViewportContainer/Viewport/Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.5, 0 )
+[node name="BottomGrid" parent="HSplitContainer/SubViewportContainer/SubViewport/Node3D" instance=ExtResource( 2 )]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.5, 0 )
 lines = 29
 
-[node name="FrontGrid" parent="HSplitContainer/ViewportContainer/Viewport/Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, -9.5 )
+[node name="FrontGrid" parent="HSplitContainer/SubViewportContainer/SubViewport/Node3D" instance=ExtResource( 2 )]
+transform = Transform3D( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, -9.5 )
 lines = 29
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="HSplitContainer/ViewportContainer/Viewport"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="HSplitContainer/SubViewportContainer/SubViewport"]
 environment = SubResource( 2 )
 
-[node name="DirectionalLight" type="DirectionalLight" parent="HSplitContainer/ViewportContainer/Viewport"]
-transform = Transform( 0.740652, 0.581873, -0.335944, 0, 0.5, 0.866025, 0.671889, -0.641424, 0.370326, -12.573, 3.132, 0 )
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="HSplitContainer/SubViewportContainer/SubViewport"]
+transform = Transform3D( 0.740652, 0.581873, -0.335944, 0, 0.5, 0.866025, 0.671889, -0.641424, 0.370326, -12.573, 3.132, 0 )
 light_energy = 0.2
 light_indirect_energy = 0.2
 
 [node name="Vbox" type="VBoxContainer" parent="HSplitContainer"]
-margin_left = 851.0
-margin_right = 1679.0
-margin_bottom = 845.0
+offset_left = 851.0
+offset_right = 1679.0
+offset_bottom = 845.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Vbox"]
-margin_right = 828.0
-margin_bottom = 800.0
-rect_min_size = Vector2( 0, 800 )
+offset_right = 828.0
+offset_bottom = 800.0
+minimum_size = Vector2( 0, 800 )
 size_flags_horizontal = 3
 size_flags_vertical = 11
 
 [node name="Vbox" type="VBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer"]
-margin_right = 828.0
-margin_bottom = 800.0
+offset_right = 828.0
+offset_bottom = 800.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ProfileContainer" type="VBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox"]
-margin_right = 828.0
-margin_bottom = 227.0
+offset_right = 828.0
+offset_bottom = 227.0
 script = ExtResource( 5 )
 
 [node name="Profile" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer"]
-margin_right = 828.0
-margin_bottom = 25.0
+offset_right = 828.0
+offset_bottom = 25.0
 text = "Profile"
 
 [node name="HSeparator" type="HSeparator" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer"]
-margin_top = 33.0
-margin_right = 828.0
-margin_bottom = 41.0
+offset_top = 33.0
+offset_right = 828.0
+offset_bottom = 41.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AddProfileButton" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer"]
-margin_top = 49.0
-margin_right = 828.0
-margin_bottom = 86.0
+offset_top = 49.0
+offset_right = 828.0
+offset_bottom = 86.0
 text = "Add Profile"
 
 [node name="RemoveProfileButton" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer"]
-margin_top = 94.0
-margin_right = 828.0
-margin_bottom = 131.0
+offset_top = 94.0
+offset_right = 828.0
+offset_bottom = 131.0
 text = "Remove Profile"
 
 [node name="StructuredTextureChooser" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer" instance=ExtResource( 9 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 139.0
-margin_right = 828.0
-margin_bottom = 179.0
+offset_top = 139.0
+offset_right = 828.0
+offset_bottom = 179.0
 
 [node name="AddMaterial" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer/StructuredTextureChooser"]
-margin_left = 665.0
-margin_right = 828.0
-margin_bottom = 40.0
+offset_left = 665.0
+offset_right = 828.0
+offset_bottom = 40.0
 text = "Add Material"
 
 [node name="FileChooser" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer" instance=ExtResource( 1 )]
-margin_top = 187.0
-margin_right = 828.0
-margin_bottom = 227.0
-filters = PoolStringArray( "*.jpg", "*.png" )
+offset_top = 187.0
+offset_right = 828.0
+offset_bottom = 227.0
+filters = PackedStringArray( "*.jpg", "*.png" )
 current_dir = "res://Resources/Textures/"
 
 [node name="AddText" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ProfileContainer/FileChooser"]
-margin_left = 672.0
-margin_right = 828.0
-margin_bottom = 40.0
-text = "Add Texture"
+offset_left = 672.0
+offset_right = 828.0
+offset_bottom = 40.0
+text = "Add Texture2D"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PointContainer" type="VBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox"]
-margin_top = 235.0
-margin_right = 828.0
-margin_bottom = 366.0
+offset_top = 235.0
+offset_right = 828.0
+offset_bottom = 366.0
 script = ExtResource( 7 )
 
 [node name="Point" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/PointContainer"]
-margin_right = 828.0
-margin_bottom = 25.0
+offset_right = 828.0
+offset_bottom = 25.0
 text = "Point"
 
 [node name="HSeparator2" type="HSeparator" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/PointContainer"]
-margin_top = 33.0
-margin_right = 828.0
-margin_bottom = 41.0
+offset_top = 33.0
+offset_right = 828.0
+offset_bottom = 41.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AddPointButton" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/PointContainer"]
-margin_top = 49.0
-margin_right = 828.0
-margin_bottom = 86.0
+offset_top = 49.0
+offset_right = 828.0
+offset_bottom = 86.0
 text = "Add Point"
 
 [node name="RemovePointButton" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/PointContainer"]
-margin_top = 94.0
-margin_right = 828.0
-margin_bottom = 131.0
+offset_top = 94.0
+offset_right = 828.0
+offset_bottom = 131.0
 text = "Remove Point"
 
 [node name="ObjectContainer" type="VBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox"]
-margin_top = 374.0
-margin_right = 828.0
-margin_bottom = 569.0
+offset_top = 374.0
+offset_right = 828.0
+offset_bottom = 569.0
 script = ExtResource( 6 )
 
 [node name="Object" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer"]
-margin_right = 828.0
-margin_bottom = 25.0
+offset_right = 828.0
+offset_bottom = 25.0
 text = "Object"
 
 [node name="HSeparator3" type="HSeparator" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer"]
-margin_top = 33.0
-margin_right = 828.0
-margin_bottom = 41.0
+offset_top = 33.0
+offset_right = 828.0
+offset_bottom = 41.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ObjectChooser" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer" instance=ExtResource( 1 )]
-margin_top = 49.0
-margin_right = 828.0
-margin_bottom = 89.0
-filters = PoolStringArray( "*.tscn" )
+offset_top = 49.0
+offset_right = 828.0
+offset_bottom = 89.0
+filters = PackedStringArray( "*.tscn" )
 
 [node name="AddObject" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/ObjectChooser"]
-margin_left = 685.0
-margin_right = 828.0
-margin_bottom = 40.0
+offset_left = 685.0
+offset_right = 828.0
+offset_bottom = 40.0
 text = "Add Object"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="DistanceBox" type="HBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer"]
-margin_top = 97.0
-margin_right = 828.0
-margin_bottom = 142.0
+offset_top = 97.0
+offset_right = 828.0
+offset_bottom = 142.0
 
 [node name="DistanceLabel" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/DistanceBox"]
-margin_top = 10.0
-margin_right = 92.0
-margin_bottom = 35.0
+offset_top = 10.0
+offset_right = 92.0
+offset_bottom = 35.0
 text = "Distance"
 
 [node name="SpinBox" type="SpinBox" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/DistanceBox"]
-margin_left = 100.0
-margin_right = 296.0
-margin_bottom = 45.0
+offset_left = 100.0
+offset_right = 296.0
+offset_bottom = 45.0
 align = 2
 suffix = "m"
 
 [node name="Apply" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/DistanceBox"]
-margin_left = 743.0
-margin_right = 828.0
-margin_bottom = 45.0
+offset_left = 743.0
+offset_right = 828.0
+offset_bottom = 45.0
 size_flags_horizontal = 10
 size_flags_vertical = 3
 text = "Apply"
 
 [node name="ScalingBox" type="HBoxContainer" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer"]
-margin_top = 150.0
-margin_right = 828.0
-margin_bottom = 195.0
+offset_top = 150.0
+offset_right = 828.0
+offset_bottom = 195.0
 
 [node name="ScaleLabel" type="Label" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/ScalingBox"]
-margin_top = 10.0
-margin_right = 56.0
-margin_bottom = 35.0
+offset_top = 10.0
+offset_right = 56.0
+offset_bottom = 35.0
 text = "Scale"
 
 [node name="X" type="SpinBox" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/ScalingBox"]
-margin_left = 64.0
-margin_right = 260.0
-margin_bottom = 45.0
+offset_left = 64.0
+offset_right = 260.0
+offset_bottom = 45.0
 min_value = -100.0
 step = 0.1
 align = 2
 prefix = "x"
 
 [node name="Y" type="SpinBox" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/ScalingBox"]
-margin_left = 268.0
-margin_right = 464.0
-margin_bottom = 45.0
+offset_left = 268.0
+offset_right = 464.0
+offset_bottom = 45.0
 min_value = -100.0
 step = 0.1
 align = 2
 prefix = "y"
 
 [node name="Z" type="SpinBox" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/ScalingBox"]
-margin_left = 472.0
-margin_right = 668.0
-margin_bottom = 45.0
+offset_left = 472.0
+offset_right = 668.0
+offset_bottom = 45.0
 min_value = -100.0
 step = 0.1
 align = 2
 prefix = "z"
 
 [node name="Apply" type="Button" parent="HSplitContainer/Vbox/ScrollContainer/Vbox/ObjectContainer/ScalingBox"]
-margin_left = 743.0
-margin_right = 828.0
-margin_bottom = 45.0
+offset_left = 743.0
+offset_right = 828.0
+offset_bottom = 45.0
 size_flags_horizontal = 10
 size_flags_vertical = 3
 text = "Apply"
 
 [node name="SaveButton" type="Button" parent="HSplitContainer/Vbox"]
-margin_top = 808.0
-margin_right = 828.0
-margin_bottom = 845.0
+offset_top = 808.0
+offset_right = 828.0
+offset_bottom = 845.0
 size_flags_vertical = 10
 text = "Save Configuration"
 
 [node name="SaveMenu" type="FileDialog" parent="HSplitContainer/Vbox/SaveButton"]
-margin_right = 645.0
-margin_bottom = 532.0
+offset_right = 645.0
+offset_bottom = 532.0
 resizable = true
-filters = PoolStringArray( "*.tscn" )
+filters = PackedStringArray( "*.tscn" )
 script = ExtResource( 4 )

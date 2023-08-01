@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-2418e794a9c989f3682d726f7bcd7f4d.image"
+uid="uid://2j1qv0dw3v8"
+path="res://.godot/imported/ambient.jpg-2418e794a9c989f3682d726f7bcd7f4d.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/152-corn/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-2418e794a9c989f3682d726f7bcd7f4d.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-2418e794a9c989f3682d726f7bcd7f4d.image"]
 
 [params]
 

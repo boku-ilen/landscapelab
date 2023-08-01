@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-e6e72670768d036ec10d595cbf06d508.image"
+uid="uid://c4pcwdnpqv2lq"
+path="res://.godot/imported/normal.jpg-e6e72670768d036ec10d595cbf06d508.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/bark_mulch-01/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-e6e72670768d036ec10d595cbf06d508.image" ]
+dest_files=["res://.godot/imported/normal.jpg-e6e72670768d036ec10d595cbf06d508.image"]
 
 [params]
 

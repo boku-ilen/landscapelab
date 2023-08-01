@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/roughness.jpg-e2ab054a016ee67ccdd3322740f448f7.image"
+uid="uid://b3v66qdelrvu6"
+path="res://.godot/imported/roughness.jpg-e2ab054a016ee67ccdd3322740f448f7.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/183-buckwheat/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-e2ab054a016ee67ccdd3322740f448f7.image" ]
+dest_files=["res://.godot/imported/roughness.jpg-e2ab054a016ee67ccdd3322740f448f7.image"]
 
 [params]
 

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/roughness.jpg-9021125ead1bf7d6ca58d0ccf8a0730f.image"
+uid="uid://cyl0tvt42lqwy"
+path="res://.godot/imported/roughness.jpg-9021125ead1bf7d6ca58d0ccf8a0730f.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/170-beans/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-9021125ead1bf7d6ca58d0ccf8a0730f.image" ]
+dest_files=["res://.godot/imported/roughness.jpg-9021125ead1bf7d6ca58d0ccf8a0730f.image"]
 
 [params]
 

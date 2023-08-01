@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-e15924758f58e8552b37757d537cef3b.image"
+uid="uid://bsu0wu3vo8abp"
+path="res://.godot/imported/ambient.jpg-e15924758f58e8552b37757d537cef3b.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/forest-ground-08/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-e15924758f58e8552b37757d537cef3b.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-e15924758f58e8552b37757d537cef3b.image"]
 
 [params]
 

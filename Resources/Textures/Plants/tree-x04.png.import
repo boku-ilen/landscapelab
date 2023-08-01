@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/tree-x04.png-06f2734b5c316dcf2b7ed3368857e57c.image"
+uid="uid://cpmof5k1jyp0m"
+path="res://.godot/imported/tree-x04.png-06f2734b5c316dcf2b7ed3368857e57c.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/tree-x04.png"
-dest_files=[ "res://.import/tree-x04.png-06f2734b5c316dcf2b7ed3368857e57c.image" ]
+dest_files=["res://.godot/imported/tree-x04.png-06f2734b5c316dcf2b7ed3368857e57c.image"]
 
 [params]
 

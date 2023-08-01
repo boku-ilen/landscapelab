@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dmufssdbye00e"]
+
+[ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/Intersections/IntersectionInstance.gdshader" id="1_llnvl"]
+[ext_resource type="Texture2D" uid="uid://um3tl0vdyor" path="res://Resources/Textures/Asphalt/Asphalt15_col.jpg" id="2_un6es"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_llnvl")
+shader_parameter/world_uv_scaling = 0.35
+shader_parameter/intersection_texture = ExtResource("2_un6es")

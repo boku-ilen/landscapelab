@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-ba1fd3baa201fe91597ad985d0c0ca2a.image"
+uid="uid://bbwgngaj8i8fy"
+path="res://.godot/imported/albedo.jpg-ba1fd3baa201fe91597ad985d0c0ca2a.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/205-stjohnswort/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-ba1fd3baa201fe91597ad985d0c0ca2a.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-ba1fd3baa201fe91597ad985d0c0ca2a.image"]
 
 [params]
 

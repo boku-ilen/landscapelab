@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-00b448f3a242a212c80a790aec984f85.image"
+uid="uid://cfvjqpxbu0yb"
+path="res://.godot/imported/specular.jpg-00b448f3a242a212c80a790aec984f85.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/155-barley/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-00b448f3a242a212c80a790aec984f85.image" ]
+dest_files=["res://.godot/imported/specular.jpg-00b448f3a242a212c80a790aec984f85.image"]
 
 [params]
 

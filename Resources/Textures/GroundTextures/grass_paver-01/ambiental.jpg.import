@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambiental.jpg-6a183c8498ab879df669212b1bdb4454.image"
+uid="uid://c3v0ntym2ivix"
+path="res://.godot/imported/ambiental.jpg-6a183c8498ab879df669212b1bdb4454.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/grass_paver-01/ambiental.jpg"
-dest_files=[ "res://.import/ambiental.jpg-6a183c8498ab879df669212b1bdb4454.image" ]
+dest_files=["res://.godot/imported/ambiental.jpg-6a183c8498ab879df669212b1bdb4454.image"]
 
 [params]
 

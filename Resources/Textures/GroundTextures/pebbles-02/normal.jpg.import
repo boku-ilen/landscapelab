@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-12c7777282d7cb15dc02b370c5b78aaf.image"
+uid="uid://di02lrkvkgvyg"
+path="res://.godot/imported/normal.jpg-12c7777282d7cb15dc02b370c5b78aaf.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/pebbles-02/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-12c7777282d7cb15dc02b370c5b78aaf.image" ]
+dest_files=["res://.godot/imported/normal.jpg-12c7777282d7cb15dc02b370c5b78aaf.image"]
 
 [params]
 

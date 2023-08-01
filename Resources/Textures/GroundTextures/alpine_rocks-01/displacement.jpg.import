@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-4f63fea952833d3c3faf23d2e8c2e05b.image"
+uid="uid://cx3ad2043lue8"
+path="res://.godot/imported/displacement.jpg-4f63fea952833d3c3faf23d2e8c2e05b.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/alpine_rocks-01/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-4f63fea952833d3c3faf23d2e8c2e05b.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-4f63fea952833d3c3faf23d2e8c2e05b.image"]
 
 [params]
 

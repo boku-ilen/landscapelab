@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/juglans-regia-02.png-9f28b3b91f950e26edc769fb55a9347a.image"
+uid="uid://cbgo5ghigimhe"
+path="res://.godot/imported/juglans-regia-02.png-9f28b3b91f950e26edc769fb55a9347a.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/juglans-regia-02.png"
-dest_files=[ "res://.import/juglans-regia-02.png-9f28b3b91f950e26edc769fb55a9347a.image" ]
+dest_files=["res://.godot/imported/juglans-regia-02.png-9f28b3b91f950e26edc769fb55a9347a.image"]
 
 [params]
 

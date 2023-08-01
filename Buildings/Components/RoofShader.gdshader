@@ -2,7 +2,7 @@
 
 shader_type spatial;
 render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
-uniform sampler2D texture_albedo : hint_albedo;
+uniform sampler2D texture_albedo : source_color;
 uniform float specular;
 uniform float metallic;
 uniform float roughness : hint_range(0,1);
@@ -18,6 +18,6 @@ void fragment() {
 	METALLIC = metallic;
 	ROUGHNESS = roughness;
 	SPECULAR = specular;
-	NORMALMAP = texture(texture_normal,base_uv).rgb;
-	NORMALMAP_DEPTH = normal_scale;
+	NORMAL_MAP = texture(texture_normal,base_uv).rgb;
+	NORMAL_MAP_DEPTH = normal_scale;
 }

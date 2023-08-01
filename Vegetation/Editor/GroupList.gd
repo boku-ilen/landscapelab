@@ -3,7 +3,7 @@ extends ItemList
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Vegetation.connect("new_data", self, "_build_list")
+	Vegetation.connect("new_data",Callable(self,"_build_list"))
 	
 	# Initial build - this node is created after the new_data signal is first emitted
 	_build_list()
@@ -19,7 +19,7 @@ func _build_list():
 		_update_background(item_id)
 
 
-# Highlight a group depending on the number of plants in it
+# Highlight a group depending checked the number of plants in it
 func _update_background(id):
 	if get_item_metadata(id).plants.size() > 0:
 		set_item_custom_bg_color(id, Color(0.1, 0.3, 0.1, min(get_item_metadata(id).plants.size() / 15.0, 3.0)))

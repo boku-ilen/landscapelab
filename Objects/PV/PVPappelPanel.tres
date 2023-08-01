@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://7atk34j5co6k"]
+
+[ext_resource type="Texture2D" uid="uid://ct2uaxa2weibo" path="res://Resources/Meshes/PV/PV_pappel_smaller_1.png" id="1_8sfn3"]
+
+[resource]
+albedo_texture = ExtResource("1_8sfn3")
+albedo_texture_force_srgb = true
+metallic = 1.0
+roughness = 0.4

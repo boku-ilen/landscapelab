@@ -8,7 +8,7 @@ class_name ExplicitGameObjectAttribute
 var geo_attribute_name
 
 
-func _init(initial_name, initial_geo_attribute_name):
+func _init(initial_name,initial_geo_attribute_name):
 	name = initial_name
 	geo_attribute_name = initial_geo_attribute_name
 

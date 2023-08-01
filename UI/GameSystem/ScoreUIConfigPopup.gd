@@ -2,12 +2,12 @@ extends TextureButton
 
 
 func _ready():
-	connect("toggled", self, "try_popup")
-	$PopupPanel.connect("popup_hide", self, "set_pressed", [false])
+	connect("toggled",Callable(self,"try_popup"))
+	$PopupPanel.connect("popup_hide",Callable(self,"set_pressed").bind(false))
 
 
 func try_popup(toggled: bool):
 	if toggled:
-		$PopupPanel.popup(Rect2(get_global_rect().position, rect_size))
+		$PopupPanel.popup(Rect2(get_global_rect().position, size))
 	else:
 		$PopupPanel.hide()

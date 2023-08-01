@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-461f1e34ac9bd2ee98f1c53529d2b832.image"
+uid="uid://dth1mwue2jwuw"
+path="res://.godot/imported/specular.jpg-461f1e34ac9bd2ee98f1c53529d2b832.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/grass-05/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-461f1e34ac9bd2ee98f1c53529d2b832.image" ]
+dest_files=["res://.godot/imported/specular.jpg-461f1e34ac9bd2ee98f1c53529d2b832.image"]
 
 [params]
 

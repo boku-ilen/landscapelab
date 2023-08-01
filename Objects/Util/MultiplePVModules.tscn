@@ -1,18 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://j61iixiyfry6"]
 
-[ext_resource path="res://Objects/Superclasses/MovableObject.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Objects/Util/MultiplePVModules.gd" type="Script" id=2]
+[ext_resource type="PackedScene" path="res://Objects/Superclasses/MovableObject.tscn" id="1"]
+[ext_resource type="Script" path="res://Objects/Util/MultiplePVModules.gd" id="2"]
 
-[sub_resource type="BoxShape" id=1]
-extents = Vector3( 45, 1.76459, 49 )
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(90, 3.52918, 98)
 
-[node name="MultiplePVModules" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="MultiplePVModules" instance=ExtResource("1")]
+script = ExtResource("2")
 rows = 14
 cols = 10
 row_spacing = 7.0
 col_spacing = 9.0
 
-[node name="CollisionShape" parent="PickupBody" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
-shape = SubResource( 1 )
+[node name="CollisionShape3D" parent="PickupBody" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("1")

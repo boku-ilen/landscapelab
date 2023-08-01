@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/triticale-02.png-80dd6667b16b7213dd138c99078db406.image"
+uid="uid://twh3dah3v5j0"
+path="res://.godot/imported/triticale-02.png-80dd6667b16b7213dd138c99078db406.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/triticale-02.png"
-dest_files=[ "res://.import/triticale-02.png-80dd6667b16b7213dd138c99078db406.image" ]
+dest_files=["res://.godot/imported/triticale-02.png-80dd6667b16b7213dd138c99078db406.image"]
 
 [params]
 

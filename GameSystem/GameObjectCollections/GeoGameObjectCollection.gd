@@ -13,7 +13,9 @@ signal game_object_added(new_game_object)
 signal game_object_removed(removed_game_object)
 
 
-func _init(initial_name, initial_feature_layer).(initial_name):
+func _init(initial_name, initial_feature_layer):
+	super._init(initial_name)
+	
 	feature_layer = initial_feature_layer
 	
 	# Register all existing features
@@ -21,8 +23,8 @@ func _init(initial_name, initial_feature_layer).(initial_name):
 		_add_game_object(feature)
 	
 	# Register future features automatically
-	feature_layer.connect("feature_added", self, "_add_game_object")
-	feature_layer.connect("feature_removed", self, "_remove_game_object")
+	feature_layer.connect("feature_added",Callable(self,"_add_game_object"))
+	feature_layer.connect("feature_removed",Callable(self,"_remove_game_object"))
 
 
 func _add_game_object(feature):
@@ -32,7 +34,7 @@ func _add_game_object(feature):
 	# TODO: Currently we only handle this signal, but we'd want to react to other changes as well
 	# This might warrant an addition in Geodot (a general "changed" signal)
 	if feature.has_signal("point_changed"):
-		feature.connect("point_changed", self, "_on_feature_changed")
+		feature.connect("point_changed",Callable(self,"_on_feature_changed"))
 	
 	emit_signal("game_object_added", game_object_for_feature)
 	emit_signal("changed")

@@ -1,7 +1,7 @@
 extends TextureRect
 
 #
-# Node that indicates the player orientation (north, east, south, west) as on
+# Node that indicates the player orientation (north, east, south, west) as checked
 # a usual compass. Comparable to google earht
 #
 
@@ -10,8 +10,8 @@ var pc_player: AbstractPlayer
 
 
 func _ready():
-	rect_pivot_offset = rect_size / 2
+	pivot_offset = size / 2
 
 
-func _process(delta):
-	rect_rotation = -rad2deg(pc_player.get_look_direction().signed_angle_to(Vector3.FORWARD, Vector3.UP))
+func _process(_delta):
+	rotation = -(pc_player.get_cardinal_direction().signed_angle_to(Vector3.FORWARD, Vector3.UP))

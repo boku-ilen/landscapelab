@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/petroselinum-01.png-633a622820b88b19b11dc1096612553c.image"
+uid="uid://dx23qapt4h11y"
+path="res://.godot/imported/petroselinum-01.png-633a622820b88b19b11dc1096612553c.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/petroselinum-01.png"
-dest_files=[ "res://.import/petroselinum-01.png-633a622820b88b19b11dc1096612553c.image" ]
+dest_files=["res://.godot/imported/petroselinum-01.png-633a622820b88b19b11dc1096612553c.image"]
 
 [params]
 

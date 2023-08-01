@@ -1,5 +1,4 @@
-tool
-extends Spatial
+extends Node3D
 
 
 #
@@ -11,18 +10,18 @@ var color
 
 
 func _ready():
-	$MeshInstance.material_override = preload("res://Buildings/Components/FlatRoof.tres")
+	$MeshInstance3D.material_override = preload("res://Buildings/Components/FlatRoof.tres")
 
 
 func set_color(new_color):
 	color = new_color
 
 
-func build(footprint: PoolVector2Array):
+func build(footprint: PackedVector2Array):
 	# Convert the footprint to a polygon
-	var polygon_indices = Geometry.triangulate_polygon(footprint)
+	var polygon_indices = Geometry2D.triangulate_polygon(footprint)
 	
-	if polygon_indices.empty():
+	if polygon_indices.is_empty():
 		# The triangualtion was unsuccessful
 		return
 	
@@ -31,12 +30,13 @@ func build(footprint: PoolVector2Array):
 	
 	for index in polygon_indices:
 		var vertex_2d = footprint[index]
-		st.add_color(color)
-		st.add_uv(vertex_2d * 0.1)
+		st.set_color(color)
+		st.set_uv(vertex_2d * 0.1)
 		st.add_vertex(Vector3(vertex_2d.x, 0, vertex_2d.y))
 	
 	st.generate_normals()
+	st.generate_tangents()
 	
 	# Apply
 	var mesh = st.commit()
-	get_node("MeshInstance").mesh = mesh
+	get_node("MeshInstance3D").mesh = mesh

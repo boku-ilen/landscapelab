@@ -1,31 +1,10 @@
-[gd_resource type="Shader" format=2]
+[gd_resource type="Shader" format=3 uid="uid://wnw8t32kt5yq"]
 
 [resource]
 code = "shader_type particles;
 
 uniform float radius = 0.1;
-uniform float PI = 3.1415926;
-
-
-uniform uint amount = 100;
-uniform uint rows = 5;
-uniform float randomness = 5.0;
-uniform float spacing = 2;
-uniform float droplet_start_height = 5;
-uniform float droplet_speed_modifier = 5;
-uniform float shift_threshold = 10;
-
-// Droplet scales
-uniform float scale_x = 10.5;
-uniform float scale_y = 10.5;
-
-// Cardinal wind direction forces
-// To achieve west and south use minus numbers
-uniform float wind_force_north = 0.0;
-uniform float wind_force_east = 0.0;
-
-// INDEX will not be the right thing, as a semi-random index is calculated
-varying float semirandom_index;
+uniform float amount = 50.0;
 
 float rand_from_seed(inout uint seed) {
 	int k;
@@ -52,53 +31,19 @@ uint hash(uint x) {
 	return x;
 }
 
-vec3 compute_position(float index) {
-	vec3 pos;
-	float rows_as_float = float(rows);
-	
-	pos.z = float(index);
-	pos.x = mod(pos.z, rows_as_float);
-	pos.z = (pos.z - pos.x) / rows_as_float;
-	
-	pos.x -= rows_as_float * 0.5;
-	pos.z -= rows_as_float * 0.5; 
-		
-	pos *= spacing; 
-	
-	return pos;
-}
-
-bool shall_axis_shift(float droplet_axis, float emission_axis) {
-	return abs(droplet_axis - emission_axis) > shift_threshold;
-}
-
 float get_shift_direction(float droplet_axis, float emission_axis) {
 	// 1.0 if positive shift, -1.0 if negative shift
 	bool is_negative_shift = droplet_axis - emission_axis < 0.0;
 	return 1.0 - 1.0 * 2.0 * float(is_negative_shift);
 }
 
-vec3 check_shift(vec3 droplet_pos, vec3 emission_pos) {
-	bool xshift = shall_axis_shift(droplet_pos.x, emission_pos.x);
-	bool zshift = shall_axis_shift(droplet_pos.z, emission_pos.z);
-	float xshift_dir = get_shift_direction(droplet_pos.x, emission_pos.x);
-	float zshift_dir = get_shift_direction(droplet_pos.z, emission_pos.z);
-	
-	float index = mod(semirandom_index, float(rows));
-	vec3 new_pos = compute_position(index);
-	vec3 pos;
-	pos.x = (emission_pos.x + new_pos.x * xshift_dir) * float(xshift) + droplet_pos.x * float(!xshift);
-	pos.z = (emission_pos.z + new_pos.z * zshift_dir) * float(zshift) + droplet_pos.z * float(!zshift);
-	return pos;
-}
-
-void vertex() {
+void process() {
 	uint base_number = NUMBER;
 	uint alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
 	if (RESTART) {
 		
 		vec3 rand_offset = vec3(rand_from_seed_m1_p1(alt_seed), 0, rand_from_seed_m1_p1(alt_seed));
-		semirandom_index = float((INDEX + int(alt_seed)) % int(amount));
+		float semirandom_index = float((int(INDEX) + int(alt_seed)) % int(amount));
 		
 		float theta = 2.0*PI / float(amount) * float(semirandom_index);
 		vec2 direction = vec2(sin(theta), cos(theta));

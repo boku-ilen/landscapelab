@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/quercus-03.png-5271663d70b07aca123959020c47c741.image"
+uid="uid://b7ynl7y0dd55o"
+path="res://.godot/imported/quercus-03.png-5271663d70b07aca123959020c47c741.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/quercus-03.png"
-dest_files=[ "res://.import/quercus-03.png-5271663d70b07aca123959020c47c741.image" ]
+dest_files=["res://.godot/imported/quercus-03.png-5271663d70b07aca123959020c47c741.image"]
 
 [params]
 

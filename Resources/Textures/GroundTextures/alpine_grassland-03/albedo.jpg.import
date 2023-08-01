@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-b08cb5f469516634a4a9b63b2b8c86d6.image"
+uid="uid://mf5eaqjm5k3l"
+path="res://.godot/imported/albedo.jpg-b08cb5f469516634a4a9b63b2b8c86d6.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/alpine_grassland-03/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-b08cb5f469516634a4a9b63b2b8c86d6.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-b08cb5f469516634a4a9b63b2b8c86d6.image"]
 
 [params]
 

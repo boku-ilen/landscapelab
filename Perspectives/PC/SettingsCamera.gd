@@ -1,4 +1,4 @@
-extends Camera
+extends Camera3D
 
 #
 # Automatically applies available settings such as view distance and FOV to the camera.
@@ -6,8 +6,8 @@ extends Camera
 # be used are in.
 #
 
-export(String) var setting_title
-export(String) var signal_title
+@export var setting_title: String
+@export var signal_title: String
 
 
 func _ready():
@@ -23,7 +23,7 @@ func _ready():
 
 # Display/hide a render layer.
 func _toggle_render_layer(activated, layer_id):
-	set_cull_mask_bit(layer_id, activated)
+	set_cull_mask_value(layer_id, activated)
 
 
 func _input(event):

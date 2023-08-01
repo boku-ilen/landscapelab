@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-fc17886d00d8f8c4b45918291e5fa514.image"
+uid="uid://bmfmgwtkce46w"
+path="res://.godot/imported/albedo.jpg-fc17886d00d8f8c4b45918291e5fa514.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/asphalt-01/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-fc17886d00d8f8c4b45918291e5fa514.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-fc17886d00d8f8c4b45918291e5fa514.image"]
 
 [params]
 

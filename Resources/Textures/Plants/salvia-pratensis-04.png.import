@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/salvia-pratensis-04.png-5f38da5edad32515cdc73f842b7e7324.image"
+uid="uid://bsgms3yr7q43u"
+path="res://.godot/imported/salvia-pratensis-04.png-5f38da5edad32515cdc73f842b7e7324.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/salvia-pratensis-04.png"
-dest_files=[ "res://.import/salvia-pratensis-04.png-5f38da5edad32515cdc73f842b7e7324.image" ]
+dest_files=["res://.godot/imported/salvia-pratensis-04.png-5f38da5edad32515cdc73f842b7e7324.image"]
 
 [params]
 

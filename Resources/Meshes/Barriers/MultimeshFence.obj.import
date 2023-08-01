@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://chpxm2b854rdi"
+path="res://.godot/imported/MultimeshFence.obj-4572bc88603fa0c5db9c3d04d641cb0b.mesh"
+
+[deps]
+
+files=["res://.godot/imported/MultimeshFence.obj-4572bc88603fa0c5db9c3d04d641cb0b.mesh"]
+
+source_file="res://Resources/Meshes/Barriers/MultimeshFence.obj"
+dest_files=["res://.godot/imported/MultimeshFence.obj-4572bc88603fa0c5db9c3d04d641cb0b.mesh", "res://.godot/imported/MultimeshFence.obj-4572bc88603fa0c5db9c3d04d641cb0b.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

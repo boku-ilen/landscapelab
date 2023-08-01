@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-ddb898d6b6f9a83e954f08217eb6e4d4.image"
+uid="uid://brgtw60xdwgpg"
+path="res://.godot/imported/normal.jpg-ddb898d6b6f9a83e954f08217eb6e4d4.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/riverbed-01/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-ddb898d6b6f9a83e954f08217eb6e4d4.image" ]
+dest_files=["res://.godot/imported/normal.jpg-ddb898d6b6f9a83e954f08217eb6e4d4.image"]
 
 [params]
 

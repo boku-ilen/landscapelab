@@ -7,8 +7,6 @@ enum SCALING {
 	KEEP_ASPECT
 }
 
-const LOG_MODULE := "SPRITESHEET"
-
 # Turn the images in the given array into a spritesheet.
 # The array is expected to be a 2-dimensional array with the first index being
 #  the row, and the second index being the column.
@@ -21,7 +19,7 @@ static func create_spritesheet(
 		sprite_size: Vector2,
 		images: Array,
 		scaling_method = SCALING.KEEP_ASPECT,
-		scale_factors = null):
+		scale_factors = []):
 	# The number of rows and columns is given by the amount of images in the
 	#  array
 	var num_rows = images.size()
@@ -39,7 +37,7 @@ static func create_spritesheet(
 	
 	if format == null:
 		# No valid images...
-		logger.error("No valid images in the array given to create_spritesheet", LOG_MODULE)
+		logger.error("No valid images in the array given to create_spritesheet")
 		return null
 	
 	# Get the largest row (the row with the most columns) and use it as the
@@ -54,12 +52,11 @@ static func create_spritesheet(
 	
 	# Create the image which will be filled with data, large enough to hold all
 	#  rows and columns.
-	var sheet = Image.new()
-	sheet.create(sprite_size.x * num_cols,
+	var sheet = Image.create(sprite_size.x * num_cols,
 			sprite_size.y * num_rows,
 			false, format)
 	
-	# The current position on the sheet
+	# The current position checked the sheet
 	var current_offset = Vector2(0, 0)
 	
 	for y in num_rows:
@@ -82,7 +79,7 @@ static func create_spritesheet(
 			elif scaling_method == SCALING.KEEP_ASPECT:
 				desired_size = get_size_keep_aspect(sprite_size, sprite.get_size())
 			
-			if scale_factors:
+			if not scale_factors.is_empty():
 				desired_size *= scale_factors[y][x]
 			
 			# Scale the sprite to the desired size
@@ -99,10 +96,10 @@ static func create_spritesheet(
 					Vector2(desired_size.x, desired_size.y)),
 					current_offset + centering_offset)
 			
-			# Increment column position on spritesheet
+			# Increment column position checked spritesheet
 			current_offset.x += sprite_size.x
 		
-		# Increment row position on spritesheet; reset column
+		# Increment row position checked spritesheet; reset column
 		current_offset.x = 0
 		current_offset.y += sprite_size.y
 	
@@ -131,7 +128,7 @@ static func create_layered_spritesheet(
 	
 	if format == null:
 		# No valid images...
-		logger.warning("No valid images in the array given to create_spritesheet!", LOG_MODULE)
+		logger.warn("No valid images in the array given to create_spritesheet!")
 		return null
 	
 	var number_of_layers = images.size()
@@ -143,10 +140,10 @@ static func create_layered_spritesheet(
 	for layer_data in images:
 		var number_of_images_in_layer = layer_data.size()
 		
-		var layer = Image.new()
-		layer.create(sprite_size.x, sprite_size.y * number_of_images_in_layer, false, format)
+		var layer = Image.create(
+			int(sprite_size.x), int(sprite_size.y * number_of_images_in_layer), false, format)
 		
-		# The current position on the sheet
+		# The current position checked the sheet
 		var current_offset = Vector2(0, 0)
 		
 		for image in layer_data:
@@ -173,8 +170,10 @@ static func create_layered_spritesheet(
 						Vector2(desired_size.x, desired_size.y)),
 						current_offset + centering_offset)
 			
-			# Increment column position on spritesheet
+			# Increment column position checked spritesheet
 			current_offset.y += sprite_size.y
+		
+		layer.generate_mipmaps()
 		
 		image_array[layer_depth] = layer
 		layer_depth += 1
@@ -185,19 +184,15 @@ static func create_layered_spritesheet(
 static func get_size_keep_aspect(max_size, original_size):
 	# Ratio of width to height -> Greater than 1 means the image is
 	#  wider than it is high ("landscape")
-	var current_aspect = original_size.x / original_size.y
-	var desired_aspect = max_size.x / max_size.y
+	var current_aspect = float(original_size.x) / float(original_size.y)
+	var desired_aspect = float(max_size.x) / float(max_size.y)
 	
 	if current_aspect == desired_aspect:
 		# The aspect matches -> Direct downscale
 		return max_size
 	elif current_aspect > desired_aspect:
 		# The current image is too wide -> Maximize width, smaller height
-		var current_width = original_size.x
-		
-		return Vector2(max_size.x, int(max_size.x / current_aspect))
+		return Vector2(max_size.x, floor(max_size.x / current_aspect))
 	else:
 		# The current image is too high -> Maximize height, smaller width
-		var current_height = original_size.y
-		
-		return Vector2(int(max_size.y * current_aspect), max_size.y)
+		return Vector2(floor(max_size.y * current_aspect), max_size.y)

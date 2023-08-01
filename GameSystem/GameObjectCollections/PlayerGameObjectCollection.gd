@@ -6,7 +6,9 @@ class_name PlayerGameObjectCollection
 #
 
 
-func _init(initial_name, initial_player_game_node).(initial_name):
+func _init(initial_name,initial_player_game_node):
+	super._init(initial_name)
+	
 	var id = GameSystem.acquire_game_object_id()
 	var player_game_object = PlayerGameObject.new(id, self, initial_player_game_node)
 	game_objects[id] = player_game_object

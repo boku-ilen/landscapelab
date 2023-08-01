@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/malva-sylvestris-01.png-6b5122116d1aff6a0be477f41cd5011c.image"
+uid="uid://dkk61orkgpts6"
+path="res://.godot/imported/malva-sylvestris-01.png-6b5122116d1aff6a0be477f41cd5011c.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/malva-sylvestris-01.png"
-dest_files=[ "res://.import/malva-sylvestris-01.png-6b5122116d1aff6a0be477f41cd5011c.image" ]
+dest_files=["res://.godot/imported/malva-sylvestris-01.png-6b5122116d1aff6a0be477f41cd5011c.image"]
 
 [params]
 

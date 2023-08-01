@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/roughness.jpg-8dff807bbcedd68e155c8a087b423700.image"
+uid="uid://dwvmihrxaet41"
+path="res://.godot/imported/roughness.jpg-8dff807bbcedd68e155c8a087b423700.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/forest-ground-09/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-8dff807bbcedd68e155c8a087b423700.image" ]
+dest_files=["res://.godot/imported/roughness.jpg-8dff807bbcedd68e155c8a087b423700.image"]
 
 [params]
 

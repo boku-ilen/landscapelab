@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/helianthus-annuus-06.png-1e131f28c20a10f864e83c819b2e829b.image"
+uid="uid://hg1ab6bc3pd7"
+path="res://.godot/imported/helianthus-annuus-06.png-1e131f28c20a10f864e83c819b2e829b.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/helianthus-annuus-06.png"
-dest_files=[ "res://.import/helianthus-annuus-06.png-1e131f28c20a10f864e83c819b2e829b.image" ]
+dest_files=["res://.godot/imported/helianthus-annuus-06.png-1e131f28c20a10f864e83c819b2e829b.image"]
 
 [params]
 

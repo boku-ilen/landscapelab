@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-ff69cc93b9423b9c6a230039f29ed8ab.image"
+uid="uid://c6mchw2ohq7lg"
+path="res://.godot/imported/specular.jpg-ff69cc93b9423b9c6a230039f29ed8ab.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/178-poppy/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-ff69cc93b9423b9c6a230039f29ed8ab.image" ]
+dest_files=["res://.godot/imported/specular.jpg-ff69cc93b9423b9c6a230039f29ed8ab.image"]
 
 [params]
 

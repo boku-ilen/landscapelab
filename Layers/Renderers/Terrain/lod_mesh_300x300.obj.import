@@ -1,20 +1,21 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/lod_mesh_300x300.obj-29aa8d44b5e7b9f3cc4fed650873f074.mesh"
+uid="uid://dq11tg3y6oi13"
+path="res://.godot/imported/lod_mesh_300x300.obj-29aa8d44b5e7b9f3cc4fed650873f074.mesh"
 
 [deps]
 
-files=[ "res://.import/lod_mesh_300x300.obj-29aa8d44b5e7b9f3cc4fed650873f074.mesh" ]
+files=["res://.godot/imported/lod_mesh_300x300.obj-29aa8d44b5e7b9f3cc4fed650873f074.mesh"]
 
 source_file="res://Layers/Renderers/Terrain/lod_mesh_300x300.obj"
-dest_files=[ "res://.import/lod_mesh_300x300.obj-29aa8d44b5e7b9f3cc4fed650873f074.mesh", "res://.import/lod_mesh_300x300.obj-29aa8d44b5e7b9f3cc4fed650873f074.mesh" ]
+dest_files=["res://.godot/imported/lod_mesh_300x300.obj-29aa8d44b5e7b9f3cc4fed650873f074.mesh", "res://.godot/imported/lod_mesh_300x300.obj-29aa8d44b5e7b9f3cc4fed650873f074.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

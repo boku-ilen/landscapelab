@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/lawn_01_a.png-c92489e22e23f2141ba9b39e8b9760c7.image"
+uid="uid://di3ef1n685pv5"
+path="res://.godot/imported/lawn_01_a.png-c92489e22e23f2141ba9b39e8b9760c7.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/lawn_01_a.png"
-dest_files=[ "res://.import/lawn_01_a.png-c92489e22e23f2141ba9b39e8b9760c7.image" ]
+dest_files=["res://.godot/imported/lawn_01_a.png-c92489e22e23f2141ba9b39e8b9760c7.image"]
 
 [params]
 

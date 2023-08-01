@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/brassica-napus-01.png-e5f0f913f57ffbe7b743e3decf42834a.image"
+uid="uid://dfda8yx6ahn3q"
+path="res://.godot/imported/brassica-napus-01.png-e5f0f913f57ffbe7b743e3decf42834a.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/brassica-napus-01.png"
-dest_files=[ "res://.import/brassica-napus-01.png-e5f0f913f57ffbe7b743e3decf42834a.image" ]
+dest_files=["res://.godot/imported/brassica-napus-01.png-e5f0f913f57ffbe7b743e3decf42834a.image"]
 
 [params]
 

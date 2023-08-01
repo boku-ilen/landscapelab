@@ -9,17 +9,12 @@ func _ready():
 	for license in Licenses.licenses:
 		add_license(Licenses.licenses[license])
 		
-	Licenses.connect("license_added", self, "add_license")
-	Licenses.connect("license_removed", self, "remove_license")
-	connect("item_activated", self, "popup_details")
+	Licenses.connect("license_added",Callable(self,"add_license"))
+	Licenses.connect("license_removed",Callable(self,"remove_license"))
+	connect("item_activated",Callable(self,"popup_details"))
 
 
-# FIXME: Do we really want to remove signals during runtime? 
-func remove_license(name: String):
-	pass
-
-
-func add_license(license: Licenses.License):
+func add_license(license):
 	add_item(license.to_string())
 	set_item_metadata(current_index, license)
 	current_index += 1

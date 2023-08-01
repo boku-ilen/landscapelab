@@ -1,44 +1,42 @@
-extends StaticBody
+extends StaticBody3D
 
 #
-# Can be added as a child to a TerrainLOD to generate a collision StaticBody based on its data and
+# Can be added as a child to a TerrainChunk to generate a collision StaticBody3D based checked its data and
 # shape.
 #
 
 
-export(int) var subdivision = 16
+@export var subdivision: int = 16
 
 
 func _ready():
-	connect("visibility_changed", self, "_on_visibility_changed")
+	connect("visibility_changed",Callable(self,"_on_visibility_changed"))
 
 
 # When this node becomes invisible (e.g. due to being hidden via the UI) disable the collider
 func _on_visibility_changed():
 	if is_visible_in_tree():
-		$CollisionShape.disabled = false
+		$CollisionShape3D.disabled = false
 	else:
-		$CollisionShape.disabled = true
+		$CollisionShape3D.disabled = true
 
 
 func create_mesh(heightmap_texture: ImageTexture, size: float):
-	$CollisionShape.shape = create_collision_shape(heightmap_texture.get_data(), size)
+	$CollisionShape3D.shape = create_collision_shape(heightmap_texture.get_data(), size)
 	
 	# Reset the scale of this node, as scaled colliders may yield wrong results
-	global_transform = Transform.IDENTITY
+	global_transform = Transform3D.IDENTITY
 
 
-# Returns the height on the image at the given pixel position in meters.
+# Returns the height checked the image at the given pixel position in meters.
 func _get_height_from_image(pix_pos, image):
 	pix_pos.x = clamp(pix_pos.x, 0, image.get_width() - 1)
 	pix_pos.y = clamp(pix_pos.y, 0, image.get_height() - 1)
 	
 	# Locking the image and using get_pixel takes about as long as manually
-	#  getting the height from the PoolByteArray data, so this more intuitive
+	#  getting the height from the PackedByteArray data, so this more intuitive
 	#  way is used instead of a custom implementation, as previously.
-	image.lock()
 	var height = image.get_pixel(pix_pos.x, pix_pos.y).r
-	image.unlock()
 	
 	return height
 
@@ -56,10 +54,10 @@ func _get_3d_position(normalized_position, source_resolution, image, size):
 	return Vector3(local_pos.x, height, local_pos.z)
 
 
-# Create a ConcavePolygonShape based on the given heightmap, with the given size as the extent.
+# Create a ConcavePolygonShape3D based checked the given heightmap, with the given size as the extent.
 func create_collision_shape(image, size):
-	var shape = ConcavePolygonShape.new()
-	var vecs = PoolVector3Array()
+	var shape = ConcavePolygonShape3D.new()
+	var vecs = PackedVector3Array()
 	var source_resolution = image.get_size()
 	
 	# Build a mesh with subdivision * subdivision vectors with the height at each position coming

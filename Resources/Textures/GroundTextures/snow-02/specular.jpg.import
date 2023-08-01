@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-95f81ebea8c76c98fa4658046c4b0f22.image"
+uid="uid://c2e7t8brhq4fj"
+path="res://.godot/imported/specular.jpg-95f81ebea8c76c98fa4658046c4b0f22.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/snow-02/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-95f81ebea8c76c98fa4658046c4b0f22.image" ]
+dest_files=["res://.godot/imported/specular.jpg-95f81ebea8c76c98fa4658046c4b0f22.image"]
 
 [params]
 

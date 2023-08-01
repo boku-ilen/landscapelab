@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-f2b5e69369dfd04cf6583de9854e8d67.image"
+uid="uid://dwk47rllhnmw8"
+path="res://.godot/imported/normal.jpg-f2b5e69369dfd04cf6583de9854e8d67.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/158-fallow/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-f2b5e69369dfd04cf6583de9854e8d67.image" ]
+dest_files=["res://.godot/imported/normal.jpg-f2b5e69369dfd04cf6583de9854e8d67.image"]
 
 [params]
 

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/arrhenatherum-elatius-03.png-84292cc234f4308e38b58d5bb343c9d8.image"
+uid="uid://b3lkb6tnk6ocf"
+path="res://.godot/imported/arrhenatherum-elatius-03.png-84292cc234f4308e38b58d5bb343c9d8.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/arrhenatherum-elatius-03.png"
-dest_files=[ "res://.import/arrhenatherum-elatius-03.png-84292cc234f4308e38b58d5bb343c9d8.image" ]
+dest_files=["res://.godot/imported/arrhenatherum-elatius-03.png-84292cc234f4308e38b58d5bb343c9d8.image"]
 
 [params]
 

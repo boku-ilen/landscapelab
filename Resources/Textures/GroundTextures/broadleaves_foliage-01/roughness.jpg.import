@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/roughness.jpg-418c400ffea66db7ce065cdc13a62cd6.image"
+uid="uid://chfl7yafrguwy"
+path="res://.godot/imported/roughness.jpg-418c400ffea66db7ce065cdc13a62cd6.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/broadleaves_foliage-01/roughness.jpg"
-dest_files=[ "res://.import/roughness.jpg-418c400ffea66db7ce065cdc13a62cd6.image" ]
+dest_files=["res://.godot/imported/roughness.jpg-418c400ffea66db7ce065cdc13a62cd6.image"]
 
 [params]
 

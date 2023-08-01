@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-e7a115f64bbbd71ebb33f43749661aa5.image"
+uid="uid://bvfs3bgjc0py1"
+path="res://.godot/imported/specular.jpg-e7a115f64bbbd71ebb33f43749661aa5.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/broadleaves_foliage-01/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-e7a115f64bbbd71ebb33f43749661aa5.image" ]
+dest_files=["res://.godot/imported/specular.jpg-e7a115f64bbbd71ebb33f43749661aa5.image"]
 
 [params]
 

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/acer-x36.png-1c9690121f4ed6eea4ef73c9e627599c.image"
+uid="uid://8qfgjiuw32bh"
+path="res://.godot/imported/acer-x36.png-1c9690121f4ed6eea4ef73c9e627599c.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/acer-x36.png"
-dest_files=[ "res://.import/acer-x36.png-1c9690121f4ed6eea4ef73c9e627599c.image" ]
+dest_files=["res://.godot/imported/acer-x36.png-1c9690121f4ed6eea4ef73c9e627599c.image"]
 
 [params]
 

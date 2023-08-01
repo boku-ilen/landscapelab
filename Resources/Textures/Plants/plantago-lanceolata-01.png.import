@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/plantago-lanceolata-01.png-19362ae87c5dcbea02d195c04a6ca002.image"
+uid="uid://dk2rfxnth8d6k"
+path="res://.godot/imported/plantago-lanceolata-01.png-19362ae87c5dcbea02d195c04a6ca002.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/plantago-lanceolata-01.png"
-dest_files=[ "res://.import/plantago-lanceolata-01.png-19362ae87c5dcbea02d195c04a6ca002.image" ]
+dest_files=["res://.godot/imported/plantago-lanceolata-01.png-19362ae87c5dcbea02d195c04a6ca002.image"]
 
 [params]
 

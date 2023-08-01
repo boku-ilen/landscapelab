@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/gr-papaver-01.png-40b6dc7e47920b351942ee5f0300bc44.image"
+uid="uid://dvl77aham8qw5"
+path="res://.godot/imported/gr-papaver-01.png-40b6dc7e47920b351942ee5f0300bc44.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/gr-papaver-01.png"
-dest_files=[ "res://.import/gr-papaver-01.png-40b6dc7e47920b351942ee5f0300bc44.image" ]
+dest_files=["res://.godot/imported/gr-papaver-01.png-40b6dc7e47920b351942ee5f0300bc44.image"]
 
 [params]
 

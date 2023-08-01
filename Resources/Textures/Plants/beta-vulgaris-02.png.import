@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/beta-vulgaris-02.png-9265d58e8d684023aeb4f76cd3a9fffc.image"
+uid="uid://bblgte5h16cl5"
+path="res://.godot/imported/beta-vulgaris-02.png-9265d58e8d684023aeb4f76cd3a9fffc.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/beta-vulgaris-02.png"
-dest_files=[ "res://.import/beta-vulgaris-02.png-9265d58e8d684023aeb4f76cd3a9fffc.image" ]
+dest_files=["res://.godot/imported/beta-vulgaris-02.png-9265d58e8d684023aeb4f76cd3a9fffc.image"]
 
 [params]
 

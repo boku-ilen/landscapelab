@@ -5,34 +5,27 @@ var time_manager: TimeManager
 
 
 func _ready():
-	$ConfirmButton.connect("pressed", self, "_on_confirm_pressed")
+	$Date/Year.value_changed.connect(update_date)
+	$Date/Month.value_changed.connect(update_date)
+	$Date/Day.value_changed.connect(update_date)
 	
-	$TimeSetting/TimeSlider.connect("value_changed", self, "_update_spinbox", 
-		[$TimeSetting/SpinBox])
-	$SeasonSetting/DaySlider.connect("value_changed", self, "_update_spinbox", 
-		[$SeasonSetting/SpinBox])
-	$YearSetting/YearSlider.connect("value_changed", self, "_update_spinbox", 
-		[$YearSetting/SpinBox])
+	$Time/Hour.value_changed.connect(update_time)
+	$Time/Minute.value_changed.connect(update_time)
 	
-	$TimeSetting/SpinBox.connect("value_changed", self, "_update_slider", 
-		[$TimeSetting/TimeSlider])
-	$SeasonSetting/SpinBox.connect("value_changed", self, "_update_slider", 
-		[$SeasonSetting/DaySlider])
-	$YearSetting/SpinBox.connect("value_changed", self, "_update_slider", 
-		[$YearSetting/YearSlider])
+	$Time/MinuteAddButton.pressed.connect(add_minutes)
 
 
-func _on_confirm_pressed():
-	time_manager.set_datetime(
-		$TimeSetting/TimeSlider.value,
-		$SeasonSetting/DaySlider.value,
-		$YearSetting/YearSlider.value
-	)
+func update_date(_v):
+	time_manager.set_date($Date/Year.value, $Date/Month.value, $Date/Day.value)
 
 
-func _update_spinbox(value, spinbox: SpinBox):
-	spinbox.value = value
+func update_time(_v):
+	time_manager.set_time($Time/Hour.value, $Time/Minute.value)
 
 
-func _update_slider(value, slider: HSlider):
-	slider.value = value
+func add_minutes():
+	if $Time/Minute.value < 50:
+		$Time/Minute.value += 10
+	else:
+		$Time/Minute.value -= 50
+		$Time/Hour.value += 1

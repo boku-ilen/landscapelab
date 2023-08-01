@@ -13,8 +13,8 @@ func _ready():
 		switch_to_config()
 	else:
 		# The paths exist -- let the user choose whether to change them or go to the editor
-		$SetupPanel/Buttons/ChangePathButton.connect("pressed", self, "switch_to_config")
-		$SetupPanel/Buttons/StartEditorButton.connect("pressed", self, "switch_to_vegetation_editor")
+		$SetupPanel/Buttons/ChangePathButton.connect("pressed",Callable(self,"switch_to_config"))
+		$SetupPanel/Buttons/StartEditorButton.connect("pressed",Callable(self,"switch_to_vegetation_editor"))
 
 
 func switch_to_vegetation_editor():
@@ -37,7 +37,7 @@ func _on_switch_to_vegetation_editor():
 	for child in get_children():
 		child.free()
 	
-	var vegetation_editor = preload("res://Vegetation/Editor/VegetationEditor.tscn").instance()
+	var vegetation_editor = preload("res://Vegetation/Editor/VegetationEditor.tscn").instantiate()
 	add_child(vegetation_editor)
 
 
@@ -48,6 +48,6 @@ func _on_switch_to_config():
 	for child in get_children():
 		child.free()
 	
-	var vegetation_config = preload("res://Vegetation/Editor/VegetationConfig.tscn").instance()
-	vegetation_config.connect("done", self, "switch_to_vegetation_editor")
+	var vegetation_config = preload("res://Vegetation/Editor/VegetationConfig.tscn").instantiate()
+	vegetation_config.connect("done",Callable(self,"switch_to_vegetation_editor"))
 	add_child(vegetation_config)

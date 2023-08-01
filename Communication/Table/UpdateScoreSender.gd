@@ -6,7 +6,7 @@ extends Node
 
 
 func _ready():
-	GameSystem.connect("score_changed", self, "_on_score_changed")
+	GameSystem.connect("score_changed",Callable(self,"_on_score_changed"))
 
 
 func _on_score_changed(score: GameScore):

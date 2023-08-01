@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/populus-03.png-69ff7660cdfc8b733611ff9554071ea0.image"
+uid="uid://jy6cp2i7gqij"
+path="res://.godot/imported/populus-03.png-69ff7660cdfc8b733611ff9554071ea0.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/populus-03.png"
-dest_files=[ "res://.import/populus-03.png-69ff7660cdfc8b733611ff9554071ea0.image" ]
+dest_files=["res://.godot/imported/populus-03.png-69ff7660cdfc8b733611ff9554071ea0.image"]
 
 [params]
 

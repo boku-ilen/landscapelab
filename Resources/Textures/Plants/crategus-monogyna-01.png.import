@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/crategus-monogyna-01.png-db2616f200a19246fcf326ff9c7d3f37.image"
+uid="uid://dkgt6x38yq211"
+path="res://.godot/imported/crategus-monogyna-01.png-db2616f200a19246fcf326ff9c7d3f37.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/crategus-monogyna-01.png"
-dest_files=[ "res://.import/crategus-monogyna-01.png-db2616f200a19246fcf326ff9c7d3f37.image" ]
+dest_files=["res://.godot/imported/crategus-monogyna-01.png-db2616f200a19246fcf326ff9c7d3f37.image"]
 
 [params]
 

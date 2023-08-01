@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/triticum-dicoccum-01.png-a8596b10678f76102b097b320857b84c.image"
+uid="uid://dt1ord6q6va15"
+path="res://.godot/imported/triticum-dicoccum-01.png-a8596b10678f76102b097b320857b84c.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/triticum-dicoccum-01.png"
-dest_files=[ "res://.import/triticum-dicoccum-01.png-a8596b10678f76102b097b320857b84c.image" ]
+dest_files=["res://.godot/imported/triticum-dicoccum-01.png-a8596b10678f76102b097b320857b84c.image"]
 
 [params]
 

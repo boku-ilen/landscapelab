@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/rubus-04.png-8d53e603dfa953549b0862e9ee92c896.image"
+uid="uid://dpm4urpek1go6"
+path="res://.godot/imported/rubus-04.png-8d53e603dfa953549b0862e9ee92c896.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/rubus-04.png"
-dest_files=[ "res://.import/rubus-04.png-8d53e603dfa953549b0862e9ee92c896.image" ]
+dest_files=["res://.godot/imported/rubus-04.png-8d53e603dfa953549b0862e9ee92c896.image"]
 
 [params]
 

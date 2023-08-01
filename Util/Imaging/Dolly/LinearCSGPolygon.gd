@@ -1,8 +1,8 @@
-extends CSGPolygon
+extends CSGPolygon3D
 class_name LinearCSGPolygon
 
 #
-# CSGPolygon with the ability to set the width and height - to be used
+# CSGPolygon3D with the ability to set the width and height - to be used
 # together with a linear drawer.
 #
 

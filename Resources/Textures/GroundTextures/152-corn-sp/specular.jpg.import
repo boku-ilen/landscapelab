@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-f8e33bde13415ea969bf6a7ffeccb212.image"
+uid="uid://8b7buam81hls"
+path="res://.godot/imported/specular.jpg-f8e33bde13415ea969bf6a7ffeccb212.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/152-corn-sp/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-f8e33bde13415ea969bf6a7ffeccb212.image" ]
+dest_files=["res://.godot/imported/specular.jpg-f8e33bde13415ea969bf6a7ffeccb212.image"]
 
 [params]
 

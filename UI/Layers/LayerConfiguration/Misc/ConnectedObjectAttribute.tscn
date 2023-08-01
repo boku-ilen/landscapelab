@@ -4,9 +4,9 @@
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ConnectedObjectAttribute.gd" type="Script" id=2]
 
 [node name="ConnectedObjectAttr" type="GridContainer"]
-margin_top = 81.0
-margin_right = 820.0
-margin_bottom = 126.0
+offset_top = 81.0
+offset_right = 820.0
+offset_bottom = 126.0
 columns = 4
 script = ExtResource( 2 )
 __meta__ = {
@@ -14,30 +14,30 @@ __meta__ = {
 }
 
 [node name="AttributeValue" type="LineEdit" parent="."]
-margin_right = 164.0
-margin_bottom = 45.0
+offset_right = 164.0
+offset_bottom = 45.0
 size_flags_horizontal = 3
 placeholder_text = "attribute value"
 
 [node name="ConnectorChooser" parent="." instance=ExtResource( 1 )]
-margin_left = 172.0
-margin_right = 445.0
-margin_bottom = 45.0
+offset_left = 172.0
+offset_right = 445.0
+offset_bottom = 45.0
 size_flags_horizontal = 3
 text_placeholder = "connector..."
-filters = PoolStringArray( "*.obj", "*.tscn" )
+filters = PackedStringArray( "*.obj", "*.tscn" )
 
 [node name="ConnectionChooser" parent="." instance=ExtResource( 1 )]
-margin_left = 453.0
-margin_right = 726.0
-margin_bottom = 45.0
+offset_left = 453.0
+offset_right = 726.0
+offset_bottom = 45.0
 size_flags_horizontal = 3
 text_placeholder = "connection..."
-filters = PoolStringArray( "*.obj", "*.tscn" )
+filters = PackedStringArray( "*.obj", "*.tscn" )
 
 [node name="Button" type="Button" parent="."]
-margin_left = 734.0
-margin_right = 846.0
-margin_bottom = 45.0
+offset_left = 734.0
+offset_right = 846.0
+offset_bottom = 45.0
 size_flags_horizontal = 3
 text = "Remove"

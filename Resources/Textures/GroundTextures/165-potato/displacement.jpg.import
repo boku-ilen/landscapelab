@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-eeb09def04cebc6f0782acb78ee172da.image"
+uid="uid://jro2d1sh21m5"
+path="res://.godot/imported/displacement.jpg-eeb09def04cebc6f0782acb78ee172da.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/165-potato/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-eeb09def04cebc6f0782acb78ee172da.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-eeb09def04cebc6f0782acb78ee172da.image"]
 
 [params]
 

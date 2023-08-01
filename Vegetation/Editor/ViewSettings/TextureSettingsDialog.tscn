@@ -2,16 +2,16 @@
 
 [ext_resource path="res://Vegetation/Editor/ViewSettings/TextureSettingsDialog.gd" type="Script" id=1]
 
-[node name="TextureSettingsDialog" type="WindowDialog"]
+[node name="TextureSettingsDialog" type="Window"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -250.0
-margin_top = -150.0
-margin_right = 250.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 500, 300 )
+offset_left = -250.0
+offset_top = -150.0
+offset_right = 250.0
+offset_bottom = 150.0
+minimum_size = Vector2( 500, 300 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -19,37 +19,37 @@ __meta__ = {
 
 [node name="Settings" type="VBoxContainer" parent="."]
 anchor_right = 1.0
-margin_bottom = 32.0
+offset_bottom = 32.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="Settings"]
-margin_right = 500.0
-margin_bottom = 56.0
+offset_right = 500.0
+offset_bottom = 56.0
 text = "Note: These changes are not persisted, they are only intended for temporary testing."
 autowrap = true
 
 [node name="HSeparator" type="HSeparator" parent="Settings"]
-margin_top = 64.0
-margin_right = 500.0
-margin_bottom = 72.0
+offset_top = 64.0
+offset_right = 500.0
+offset_bottom = 72.0
 
 [node name="NormalScale" type="HBoxContainer" parent="Settings"]
-margin_top = 80.0
-margin_right = 500.0
-margin_bottom = 112.0
+offset_top = 80.0
+offset_right = 500.0
+offset_bottom = 112.0
 
 [node name="Label" type="Label" parent="Settings/NormalScale"]
-margin_top = 3.0
-margin_right = 170.0
-margin_bottom = 28.0
+offset_top = 3.0
+offset_right = 170.0
+offset_bottom = 28.0
 text = "Normal Scale: 0"
 
 [node name="HSlider" type="HSlider" parent="Settings/NormalScale"]
-margin_left = 178.0
-margin_right = 479.0
-margin_bottom = 32.0
+offset_left = 178.0
+offset_right = 479.0
+offset_bottom = 32.0
 size_flags_horizontal = 3
 max_value = 5.0
 step = 0.05
@@ -58,89 +58,89 @@ tick_count = 6
 ticks_on_borders = true
 
 [node name="Label2" type="Label" parent="Settings/NormalScale"]
-margin_left = 487.0
-margin_top = 3.0
-margin_right = 500.0
-margin_bottom = 28.0
+offset_left = 487.0
+offset_top = 3.0
+offset_right = 500.0
+offset_bottom = 28.0
 text = "5"
 
 [node name="Roughness" type="HBoxContainer" parent="Settings"]
-margin_top = 120.0
-margin_right = 500.0
-margin_bottom = 152.0
+offset_top = 120.0
+offset_right = 500.0
+offset_bottom = 152.0
 
 [node name="Label" type="Label" parent="Settings/Roughness"]
-margin_top = 3.0
-margin_right = 151.0
-margin_bottom = 28.0
+offset_top = 3.0
+offset_right = 151.0
+offset_bottom = 28.0
 text = "Roughness: -1"
 
 [node name="HSlider" type="HSlider" parent="Settings/Roughness"]
-margin_left = 159.0
-margin_right = 479.0
-margin_bottom = 32.0
+offset_left = 159.0
+offset_right = 479.0
+offset_bottom = 32.0
 size_flags_horizontal = 3
 min_value = -1.0
 max_value = 1.0
 step = 0.05
 
 [node name="Label2" type="Label" parent="Settings/Roughness"]
-margin_left = 487.0
-margin_top = 3.0
-margin_right = 500.0
-margin_bottom = 28.0
+offset_left = 487.0
+offset_top = 3.0
+offset_right = 500.0
+offset_bottom = 28.0
 text = "1"
 
 [node name="Specularity" type="HBoxContainer" parent="Settings"]
-margin_top = 160.0
-margin_right = 500.0
-margin_bottom = 192.0
+offset_top = 160.0
+offset_right = 500.0
+offset_bottom = 192.0
 
 [node name="Label" type="Label" parent="Settings/Specularity"]
-margin_top = 3.0
-margin_right = 153.0
-margin_bottom = 28.0
+offset_top = 3.0
+offset_right = 153.0
+offset_bottom = 28.0
 text = "Specularity: -1"
 
 [node name="HSlider" type="HSlider" parent="Settings/Specularity"]
-margin_left = 161.0
-margin_right = 479.0
-margin_bottom = 32.0
+offset_left = 161.0
+offset_right = 479.0
+offset_bottom = 32.0
 size_flags_horizontal = 3
 min_value = -1.0
 max_value = 1.0
 step = 0.05
 
 [node name="Label2" type="Label" parent="Settings/Specularity"]
-margin_left = 487.0
-margin_top = 3.0
-margin_right = 500.0
-margin_bottom = 28.0
+offset_left = 487.0
+offset_top = 3.0
+offset_right = 500.0
+offset_bottom = 28.0
 text = "1"
 
 [node name="AmbientOcclusion" type="HBoxContainer" parent="Settings"]
-margin_top = 200.0
-margin_right = 500.0
-margin_bottom = 232.0
+offset_top = 200.0
+offset_right = 500.0
+offset_bottom = 232.0
 
 [node name="Label" type="Label" parent="Settings/AmbientOcclusion"]
-margin_top = 3.0
-margin_right = 236.0
-margin_bottom = 28.0
+offset_top = 3.0
+offset_right = 236.0
+offset_bottom = 28.0
 text = "Ambient Occlusion: -1"
 
 [node name="HSlider" type="HSlider" parent="Settings/AmbientOcclusion"]
-margin_left = 244.0
-margin_right = 479.0
-margin_bottom = 32.0
+offset_left = 244.0
+offset_right = 479.0
+offset_bottom = 32.0
 size_flags_horizontal = 3
 min_value = -1.0
 max_value = 1.0
 step = 0.05
 
 [node name="Label2" type="Label" parent="Settings/AmbientOcclusion"]
-margin_left = 487.0
-margin_top = 3.0
-margin_right = 500.0
-margin_bottom = 28.0
+offset_left = 487.0
+offset_top = 3.0
+offset_right = 500.0
+offset_bottom = 28.0
 text = "1"

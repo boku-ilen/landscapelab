@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-ece4d0174979172db0c21e60bb9efe10.image"
+uid="uid://djp7yom1tbtr4"
+path="res://.godot/imported/specular.jpg-ece4d0174979172db0c21e60bb9efe10.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/153-wheat/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-ece4d0174979172db0c21e60bb9efe10.image" ]
+dest_files=["res://.godot/imported/specular.jpg-ece4d0174979172db0c21e60bb9efe10.image"]
 
 [params]
 

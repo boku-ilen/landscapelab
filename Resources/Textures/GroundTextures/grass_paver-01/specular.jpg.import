@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-bea24e8ffcabe10ce8225dac2834eead.image"
+uid="uid://bojhltuautovn"
+path="res://.godot/imported/specular.jpg-bea24e8ffcabe10ce8225dac2834eead.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/grass_paver-01/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-bea24e8ffcabe10ce8225dac2834eead.image" ]
+dest_files=["res://.godot/imported/specular.jpg-bea24e8ffcabe10ce8225dac2834eead.image"]
 
 [params]
 

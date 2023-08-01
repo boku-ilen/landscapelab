@@ -6,5 +6,5 @@ var name := ""
 
 
 # To be implemented
-func get_value(game_object):
+func get_value(_game_object):
 	pass

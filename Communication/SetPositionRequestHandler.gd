@@ -2,7 +2,7 @@ extends AbstractRequestHandler
 class_name SetPositionRequestHandler
 
 #
-# Handles "set position" requests and sets the position on the target node accordingly.
+# Handles "set position" requests and sets the position checked the target node accordingly.
 #
 # Example request data:
 # {
@@ -13,8 +13,8 @@ class_name SetPositionRequestHandler
 #
 
 
-export(NodePath) var target_path
-onready var target = get_node(target_path)
+@export var target_path: NodePath
+@onready var target = get_node(target_path)
 
 
 # set the protocol keyword
@@ -28,9 +28,9 @@ func handle_request(request: Dictionary) -> Dictionary:
 			target.set_true_position(request.position)
 			return {"success": true}
 		else:
-			logger.warning(
-				"Target has no set_true_position method, can't convert to local coordinates!", LOG_MODULE
+			logger.warn(
+				"Target has no set_true_position method, can't convert to local coordinates!"
 			)
 	
-	logger.warning("Invalid target in SetPositionRequestHandler, couldn't handle request!", LOG_MODULE)
+	logger.warn("Invalid target in SetPositionRequestHandler, couldn't handle request!")
 	return {"success": false}

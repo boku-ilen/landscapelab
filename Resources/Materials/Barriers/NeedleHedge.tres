@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://bs5hgxrwwvttv"]
+
+[ext_resource type="Texture2D" uid="uid://chh5kd6iek6q4" path="res://Resources/Textures/Barriers/Hedge/needle_diffuse.tga" id="1_kjis6"]
+[ext_resource type="Texture2D" uid="uid://br3bixa41r868" path="res://Resources/Textures/Barriers/Hedge/needle_normal.tga" id="2_ruh5l"]
+
+[resource]
+transparency = 3
+alpha_hash_scale = 1.48
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_kjis6")
+normal_enabled = true
+normal_texture = ExtResource("2_ruh5l")
+rim = 0.2
+subsurf_scatter_strength = 0.25

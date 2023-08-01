@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/helianthus-tuberosus-02.png-db3a55fa2ad23496d0af807851b9fb88.image"
+uid="uid://bbqk4ylnc4qlk"
+path="res://.godot/imported/helianthus-tuberosus-02.png-db3a55fa2ad23496d0af807851b9fb88.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/helianthus-tuberosus-02.png"
-dest_files=[ "res://.import/helianthus-tuberosus-02.png-db3a55fa2ad23496d0af807851b9fb88.image" ]
+dest_files=["res://.godot/imported/helianthus-tuberosus-02.png-db3a55fa2ad23496d0af807851b9fb88.image"]
 
 [params]
 

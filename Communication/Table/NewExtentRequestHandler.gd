@@ -20,7 +20,7 @@ func _init():
 	protocol_keyword = "TABLE_EXTENT"
 
 
-func handle_request(request: Dictionary) -> Dictionary:
+func handle_request(_request: Dictionary) -> Dictionary:
 	var result = {}
 	
 	return result

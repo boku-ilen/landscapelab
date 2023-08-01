@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/allium-cepa-01.png-fcee3a878b7006366df1dd737fda0e52.image"
+uid="uid://burunn58r1i58"
+path="res://.godot/imported/allium-cepa-01.png-fcee3a878b7006366df1dd737fda0e52.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/allium-cepa-01.png"
-dest_files=[ "res://.import/allium-cepa-01.png-fcee3a878b7006366df1dd737fda0e52.image" ]
+dest_files=["res://.godot/imported/allium-cepa-01.png-fcee3a878b7006366df1dd737fda0e52.image"]
 
 [params]
 

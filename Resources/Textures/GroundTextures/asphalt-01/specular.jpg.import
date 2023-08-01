@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/specular.jpg-2206fefe2cbe97eecef846cd60a41893.image"
+uid="uid://ctxpdexdhlm32"
+path="res://.godot/imported/specular.jpg-2206fefe2cbe97eecef846cd60a41893.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/asphalt-01/specular.jpg"
-dest_files=[ "res://.import/specular.jpg-2206fefe2cbe97eecef846cd60a41893.image" ]
+dest_files=["res://.godot/imported/specular.jpg-2206fefe2cbe97eecef846cd60a41893.image"]
 
 [params]
 

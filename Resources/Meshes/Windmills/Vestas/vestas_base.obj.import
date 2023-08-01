@@ -1,20 +1,21 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/vestas_base.obj-7d86184f6118d073ce89c2371c1e0700.mesh"
+uid="uid://djgdba61yqu6u"
+path="res://.godot/imported/vestas_base.obj-7d86184f6118d073ce89c2371c1e0700.mesh"
 
 [deps]
 
-files=[ "res://.import/vestas_base.obj-7d86184f6118d073ce89c2371c1e0700.mesh" ]
+files=["res://.godot/imported/vestas_base.obj-7d86184f6118d073ce89c2371c1e0700.mesh"]
 
 source_file="res://Resources/Meshes/Windmills/Vestas/vestas_base.obj"
-dest_files=[ "res://.import/vestas_base.obj-7d86184f6118d073ce89c2371c1e0700.mesh", "res://.import/vestas_base.obj-7d86184f6118d073ce89c2371c1e0700.mesh" ]
+dest_files=["res://.godot/imported/vestas_base.obj-7d86184f6118d073ce89c2371c1e0700.mesh", "res://.godot/imported/vestas_base.obj-7d86184f6118d073ce89c2371c1e0700.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

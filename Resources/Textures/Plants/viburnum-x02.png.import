@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/viburnum-x02.png-1eb3f3a2f05f65c9a1c6249c31a06d97.image"
+uid="uid://bw0svi66vuy4o"
+path="res://.godot/imported/viburnum-x02.png-1eb3f3a2f05f65c9a1c6249c31a06d97.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/viburnum-x02.png"
-dest_files=[ "res://.import/viburnum-x02.png-1eb3f3a2f05f65c9a1c6249c31a06d97.image" ]
+dest_files=["res://.godot/imported/viburnum-x02.png-1eb3f3a2f05f65c9a1c6249c31a06d97.image"]
 
 [params]
 

@@ -1,84 +1,89 @@
-extends Particles
-tool
+extends GPUParticles3D
 
 
-export var spacing: float setget set_spacing
+@export var spacing: float :
+	get:
+		return spacing
+	set(space):
+		spacing = space
+		process_material.set_shader_parameter("spacing", spacing)
+
 # Cardinal wind direction forces
 # To achieve west and south use minus numbers
 # For north in the shader: Vector3.FORWARD *= force
 # For east in the shader: Vector3.RIGHT *= force
-export var wind_force_north: float setget set_wind_force_north
-export var wind_force_east: float setget set_wind_force_east
-export var scale_x := 1.5 setget set_scale_x
-export var scale_y := 1.5 setget set_scale_y
-export var shift_threshold := 30.0 setget set_shift_threshold
-export var rows := 10 setget set_rows
+@export var wind_force_north: float :
+	get:
+		return wind_force_north
+	set(force):
+		wind_force_north = force
+		process_material.set_shader_parameter("wind_force_north", force)
 
-var center_node: Spatial setget set_center_node
+@export var wind_force_east: float :
+	get:
+		return wind_force_east
+	set(force):
+		wind_force_east = force
+		process_material.set_shader_parameter("wind_force_east", force)
 
-func set_center_node(node: Spatial):
-	if center_node:
-		center_node.get_node("RainRemoteTransform").queue_free()
-	center_node = node
-	var rt = RemoteTransform.new()
-	rt.name = "RainRemoteTransform"
-	rt.remote_path = get_path()
-	rt.update_rotation = false
-	rt.update_scale = false
-	rt.update_position = true
-	node.add_child(rt)
+@export var scale_x := 1.5 :
+	get:
+		return scale_x
+	set(scl):
+		scale_x = scl
+		process_material.set_shader_parameter("scale_x", scale_x)
 
+@export var scale_y := 1.5 :
+	get:
+		return scale_y
+	set(scl):
+		scale_y = scl
+		process_material.set_shader_parameter("scale_y", scale_y)
 
-func set_rows(value: int):
-	rows = value
-	amount = pow(value, 2)
-	process_material.set_shader_param("rows", int(rows))
-	process_material.set_shader_param("amount", int(amount))
+@export var shift_threshold := 30.0 :
+	get:
+		return shift_threshold
+	set(thresh):
+		shift_threshold = thresh
+		process_material.set_shader_parameter("shift_threshold", shift_threshold)
 
+@export var rows := 10 :
+	get:
+		return rows
+	set(value):
+		rows = value
+		amount = int(pow(value, 2))
+		process_material.set_shader_parameter("rows", int(rows))
+		process_material.set_shader_parameter("amount", int(amount))
 
-func set_shift_threshold(thresh: float):
-	shift_threshold = thresh
-	process_material.set_shader_param("shift_threshold", shift_threshold)
-
-
-func set_visibility_aabb(a2b2: AABB):
-	visibility_aabb = a2b2
-	process_material.set_shader_param("droplet_start_height", a2b2.end.y)
-
-
-func set_wind_force_north(force: float):
-	wind_force_north = force
-	process_material.set_shader_param("wind_force_north", force)
-
-
-func set_wind_force_east(force: float):
-	wind_force_east = force
-	process_material.set_shader_param("wind_force_east", force)
-
-
-func set_spacing(space: float) -> void:
-	spacing = space
-	process_material.set_shader_param("spacing", spacing)
-
-
-func set_amount(how_many: int):
-	amount = how_many
-	process_material.set_shader_param("rows", int(sqrt(amount)))
-	process_material.set_shader_param("amount", int(amount))
-
-
-func set_scale_x(scl: float):
-	scale_x = scl
-	process_material.set_shader_param("scale_x", scale_x)
+var center_node: Node3D :
+	get:
+		return center_node
+	set(node):
+		if center_node:
+			center_node.get_node("RainRemoteTransform").queue_free()
+		center_node = node
+		var rt = RemoteTransform3D.new()
+		rt.name = "RainRemoteTransform"
+		rt.remote_path = get_path()
+		rt.update_rotation = false
+		rt.update_scale = false
+		rt.update_position = true
+		node.add_child(rt)
 
 
-func set_scale_y(scl: float):
-	scale_y = scl
-	process_material.set_shader_param("scale_y", scale_y)
+# Setters for native member variables
+func _set(property, value):
+	if property == "visibility_aabb":
+		visibility_aabb = value
+		process_material.set_shader_parameter("droplet_start_height", value.end.y)
+	elif property == "amount":
+		amount = value
+		process_material.set_shader_parameter("rows", int(sqrt(value)))
+		process_material.set_shader_parameter("amount", int(value))
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	process_material.set_shader_param("spacing", spacing)
-	process_material.set_shader_param("rows", int(sqrt(amount)))
-	process_material.set_shader_param("amount", int(amount))
+	process_material.set_shader_parameter("spacing", spacing)
+	process_material.set_shader_parameter("rows", int(sqrt(amount)))
+	process_material.set_shader_parameter("amount", int(amount))

@@ -7,10 +7,10 @@ class_name StaticAttribute
 var value
 
 
-func _init(initial_name, initial_value):
+func _init(initial_name,initial_value):
 	name = initial_name
 	value = initial_value
 
 
-func get_value(game_object):
+func get_value(_game_object):
 	return value

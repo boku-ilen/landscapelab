@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-3fdf2662f22909e1ee63ef40478831ed.image"
+uid="uid://kfq27ur75igu"
+path="res://.godot/imported/albedo.jpg-3fdf2662f22909e1ee63ef40478831ed.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/bark_mulch-01/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-3fdf2662f22909e1ee63ef40478831ed.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-3fdf2662f22909e1ee63ef40478831ed.image"]
 
 [params]
 

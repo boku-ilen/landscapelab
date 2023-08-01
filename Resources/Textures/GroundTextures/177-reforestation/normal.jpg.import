@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-3f898a6eed8e70938b1be3e76098024a.image"
+uid="uid://di5jm0m0ib0qo"
+path="res://.godot/imported/normal.jpg-3f898a6eed8e70938b1be3e76098024a.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/177-reforestation/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-3f898a6eed8e70938b1be3e76098024a.image" ]
+dest_files=["res://.godot/imported/normal.jpg-3f898a6eed8e70938b1be3e76098024a.image"]
 
 [params]
 

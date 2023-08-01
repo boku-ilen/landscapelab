@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://dsubaxihk027w"]
 
-[ext_resource path="res://Layers/Renderers/Polygon/PolygonRenderer.gd" type="Script" id=1]
-[ext_resource path="res://Layers/LayerRenderer.tscn" type="PackedScene" id=2]
+[ext_resource type="Script" path="res://Layers/Renderers/Polygon/PolygonRenderer.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://bnakv4rclkeyq" path="res://Layers/LayerCompositionRenderer.tscn" id="2"]
 
-[node name="PolygonRenderer" instance=ExtResource( 2 )]
-script = ExtResource( 1 )
+[node name="PolygonRenderer" instance=ExtResource("2")]
+script = ExtResource("1")

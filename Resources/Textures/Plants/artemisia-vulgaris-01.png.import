@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/artemisia-vulgaris-01.png-0adf65405c2a451524b8aa2e4e0101b3.image"
+uid="uid://da7ebk1vc38tp"
+path="res://.godot/imported/artemisia-vulgaris-01.png-0adf65405c2a451524b8aa2e4e0101b3.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/artemisia-vulgaris-01.png"
-dest_files=[ "res://.import/artemisia-vulgaris-01.png-0adf65405c2a451524b8aa2e4e0101b3.image" ]
+dest_files=["res://.godot/imported/artemisia-vulgaris-01.png-0adf65405c2a451524b8aa2e4e0101b3.image"]
 
 [params]
 

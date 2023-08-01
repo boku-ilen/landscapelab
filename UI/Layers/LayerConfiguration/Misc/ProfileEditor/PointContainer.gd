@@ -1,25 +1,26 @@
 extends VBoxContainer
 
 
-var current_profile setget set_current_profile
-var current_point setget set_current_point
+var current_profile :
+	get:
+		return current_profile
+	set(mod_value):
+		mod_value
 
-
-func set_current_profile(profile):
-	current_profile = profile
-
-
-func set_current_point(point):
-	current_point = point
+var current_point :
+	get:
+		return current_point
+	set(mod_value):
+		mod_value
 
 
 func _ready():
-	$RemovePointButton.connect("pressed", self, "_remove_point")
+	$RemovePointButton.connect("pressed",Callable(self,"_remove_point"))
 
 
 func _add_point(poly_point, drag_handler):
 	if current_profile:
-		var new_point = poly_point.instance()
+		var new_point = poly_point.instantiate()
 		current_profile.add_point(new_point)
 		drag_handler.dragables[new_point.name] = drag_handler.DragablePoint.new(new_point, current_profile)
 

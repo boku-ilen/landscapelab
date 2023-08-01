@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/avena-sativa-01.png-d72d66af389e160b60847323010e130d.image"
+uid="uid://codm1b53282jn"
+path="res://.godot/imported/avena-sativa-01.png-d72d66af389e160b60847323010e130d.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/avena-sativa-01.png"
-dest_files=[ "res://.import/avena-sativa-01.png-d72d66af389e160b60847323010e130d.image" ]
+dest_files=["res://.godot/imported/avena-sativa-01.png-d72d66af389e160b60847323010e130d.image"]
 
 [params]
 

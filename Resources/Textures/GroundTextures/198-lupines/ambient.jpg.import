@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-fdef4bea964ebdcc43e76db3375aba1c.image"
+uid="uid://mf0kj26i2or3"
+path="res://.godot/imported/ambient.jpg-fdef4bea964ebdcc43e76db3375aba1c.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/198-lupines/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-fdef4bea964ebdcc43e76db3375aba1c.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-fdef4bea964ebdcc43e76db3375aba1c.image"]
 
 [params]
 

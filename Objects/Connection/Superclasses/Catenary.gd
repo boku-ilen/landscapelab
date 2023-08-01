@@ -1,9 +1,9 @@
 extends AbstractConnection
 
 
-export var A := 0.015
-export var dA := 0.001
-export var line_step_size := 10
+@export var A := 0.015
+@export var dA := 0.001
+@export var line_step_size := 10
 
 var catenary_curve: Array
 
@@ -13,7 +13,7 @@ class CatenaryCache:
 	var prev_P1: Vector3
 	var prev_P2: Vector3
 	
-	func _init(c, P1, P2):
+	func _init(c,P1,P2):
 		curve = c
 		prev_P1 = P1
 		prev_P2 = P2
@@ -21,12 +21,13 @@ class CatenaryCache:
 
 func apply_connection():
 	if catenary_curve:
-		$Node/Line.curve = Curve3D.new()
+		$Line.curve = Curve3D.new()
 		for point in catenary_curve:
-			$Node/Line.curve.add_point(point)
+			$Line.curve.add_point(point)
 
 
-func find_connection_points(P1: Vector3, P2: Vector3, length_factor: float, cache_array: Array = []):
+func find_connection_points(P1: Vector3, P2: Vector3, length_factor: float, 
+		cache_array: Array = []):
 	var cache_index = _get_cache(P1, P2, cache_array)
 	if cache_index > -1:
 		var cache = cache_array[cache_index] as CatenaryCache
@@ -98,7 +99,7 @@ func _find_curve(_P1: Vector3, _P2: Vector3, length_factor: float) -> Array:
 	var b = xb - a * tanhi(dy / L)
 	var c = P1_2D.y - a * cosh((P1_2D.x - b) / a)
 
-	# With obtaining a, b and c we can find all the points on the curve,
+	# With obtaining a, b and c we can find all the points checked the curve,
 	# the step-size specifies how accurate the curve should be
 	var x = P1_2D.x
 	var y

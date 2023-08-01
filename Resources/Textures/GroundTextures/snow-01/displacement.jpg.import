@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/displacement.jpg-c11128b7a351529c72cca4ecb1b2b174.image"
+uid="uid://b5iex3gjasnw4"
+path="res://.godot/imported/displacement.jpg-c11128b7a351529c72cca4ecb1b2b174.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/snow-01/displacement.jpg"
-dest_files=[ "res://.import/displacement.jpg-c11128b7a351529c72cca4ecb1b2b174.image" ]
+dest_files=["res://.godot/imported/displacement.jpg-c11128b7a351529c72cca4ecb1b2b174.image"]
 
 [params]
 

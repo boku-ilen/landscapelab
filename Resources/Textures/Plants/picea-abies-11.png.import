@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/picea-abies-11.png-f33673c8d541c5b437ef4106126b6a29.image"
+uid="uid://80m6mdpxi2x8"
+path="res://.godot/imported/picea-abies-11.png-f33673c8d541c5b437ef4106126b6a29.image"
 
 [deps]
 
 source_file="res://Resources/Textures/Plants/picea-abies-11.png"
-dest_files=[ "res://.import/picea-abies-11.png-f33673c8d541c5b437ef4106126b6a29.image" ]
+dest_files=["res://.godot/imported/picea-abies-11.png-f33673c8d541c5b437ef4106126b6a29.image"]
 
 [params]
 

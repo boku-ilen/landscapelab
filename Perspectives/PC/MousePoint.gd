@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 #
 # This object is a child of a camera.
@@ -7,19 +7,17 @@ extends Spatial
 # the position the mouse is clicking at in the 3D world can be found. 
 #
 
-onready var camera: Camera = get_parent()
-onready var cursor: RayCast = get_node("InteractRay")
-onready var info := get_node("CursorInfoDialog")
+@export_node_path("Node") var position_manager_path
+@onready var position_manager: PositionManager = get_node(position_manager_path)
+@onready var camera: Camera3D = get_parent()
+@onready var cursor: RayCast3D = get_node("InteractRay")
+@onready var info := get_node("CursorInfoDialog")
 
 var RAY_LENGTH = Settings.get_setting("mouse-point", "camera-ray-length") # Distance that will be checked for collision with the ground
 
 
-func set_visible(is_visible):
-	visible = is_visible
-
-
 func _ready():
-	cursor.cast_to = Vector3(0, 0, -RAY_LENGTH)
+	cursor.target_position = Vector3(0, 0, -RAY_LENGTH)
 	$MouseCollisionIndicator.cursor = cursor
 	$MouseCollisionIndicator.camera = camera
 	
@@ -30,21 +28,35 @@ func _ready():
 	get_tree().get_root().call_deferred("add_child", info)
 
 
+# Return where the cursor object is hovering inside the world
+func get_cursor_world_position() -> Vector3:
+	# FIXME: to_world_coordinates is broken (or adding features)
+	var pos = position_manager.to_world_coordinates(cursor.get_collision_point())
+	var temp = pos
+	pos.z = -temp.z
+	return pos
+
+
+func get_cursor_engine_position() -> Vector3:
+	return cursor.get_collision_point()
+
+
 func _process(delta):
-	if not Engine.editor_hint:
-		# Direct the mouse position on the screen along the camera
+	if not Engine.is_editor_hint():
+		# Direct the mouse position checked the screen along the camera
 		# We use a local ray since it should be relative to the rotation of any parent node
 		# This is done here rather than in _input to prevent missing updates during framerate drops
 		var mouse_point_vector = camera.project_local_ray_normal(get_viewport().get_mouse_position())
 		
-		# Transform the forward vector to this projected vector (-z is forward)
+		# Transform3D the forward vector to this projected vector (-z is forward)
 		transform.basis.z = -mouse_point_vector
 
 
 # Whenever the mouse moves, align the rotation again
 func _input(event):
-	if event is InputEventMouseButton and event.button_index == BUTTON_MIDDLE and event.pressed:
-		# Fill the info window with values and display it
-		var distance = (cursor.get_collision_point() - camera.global_transform.origin).length()
-		info.set_distance(distance)
-		info.popup_at_mouse_position()
+	pass
+#	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
+#		# Fill the info window with values and display it
+#		var distance = (cursor.get_collision_point() - camera.global_transform.origin).length()
+#		info.set_distance(distance)
+#		info.popup_at_mouse_position()

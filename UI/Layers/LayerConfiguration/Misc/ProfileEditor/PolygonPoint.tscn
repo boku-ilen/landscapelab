@@ -1,14 +1,14 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/circle.svg" type="Texture" id=1]
+[ext_resource path="res://Resources/Icons/ColorOpenMoji/circle.svg" type="Texture2D" id=1]
 [ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.gd" type="Script" id=2]
-[ext_resource path="res://UI/Fonts/TextOutlined.tres" type="DynamicFont" id=3]
+[ext_resource path="res://UI/Fonts/TextOutlined.tres" type="FontFile" id=3]
 
-[sub_resource type="SphereShape" id=1]
+[sub_resource type="SphereShape3D" id=1]
 resource_local_to_scene = true
 radius = 0.862325
 
-[sub_resource type="SpatialMaterial" id=2]
+[sub_resource type="StandardMaterial3D" id=2]
 resource_local_to_scene = true
 flags_transparent = true
 flags_unshaded = true
@@ -22,45 +22,45 @@ albedo_texture = ExtResource( 1 )
 [sub_resource type="QuadMesh" id=3]
 size = Vector2( 0.05, 0.05 )
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="StandardMaterial3D" id=4]
 resource_local_to_scene = true
 flags_unshaded = true
 albedo_color = Color( 1, 0.176471, 0, 1 )
 
-[node name="PolygonPoint" type="Area"]
+[node name="PolygonPoint" type="Area3D"]
 script = ExtResource( 2 )
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource( 1 )
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = SubResource( 2 )
 cast_shadow = 0
 mesh = SubResource( 3 )
 material/0 = null
 
-[node name="Viewport" type="Viewport" parent="."]
+[node name="SubViewport" type="SubViewport" parent="."]
 size = Vector2( 600, 150 )
 transparent_bg = true
 usage = 0
 render_target_v_flip = true
 
-[node name="CenterContainer" type="CenterContainer" parent="Viewport"]
-margin_left = 300.0
-margin_top = 20.0
-margin_right = 397.0
-margin_bottom = 60.0
+[node name="CenterContainer" type="CenterContainer" parent="SubViewport"]
+offset_left = 300.0
+offset_top = 20.0
+offset_right = 397.0
+offset_bottom = 60.0
 
-[node name="Label" type="Label" parent="Viewport/CenterContainer"]
-margin_left = 14.0
-margin_top = 8.0
-margin_right = 82.0
-margin_bottom = 31.0
+[node name="Label" type="Label" parent="SubViewport/CenterContainer"]
+offset_left = 14.0
+offset_top = 8.0
+offset_right = 82.0
+offset_bottom = 31.0
 size_flags_horizontal = 4
 custom_fonts/font = ExtResource( 3 )
 text = "(3.1, 2.0)"
 
 [node name="Node" type="Node" parent="."]
 
-[node name="LineToNext" type="ImmediateGeometry" parent="Node"]
+[node name="LineToNext" type="ImmediateMesh" parent="Node"]
 material_override = SubResource( 4 )

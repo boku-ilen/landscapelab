@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/albedo.jpg-a75ebd678e669a864eaa08d1bb23dae1.image"
+uid="uid://c08v4sjo4bwjh"
+path="res://.godot/imported/albedo.jpg-a75ebd678e669a864eaa08d1bb23dae1.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/grass-04/albedo.jpg"
-dest_files=[ "res://.import/albedo.jpg-a75ebd678e669a864eaa08d1bb23dae1.image" ]
+dest_files=["res://.godot/imported/albedo.jpg-a75ebd678e669a864eaa08d1bb23dae1.image"]
 
 [params]
 

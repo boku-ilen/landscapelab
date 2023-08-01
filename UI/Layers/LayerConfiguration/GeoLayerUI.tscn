@@ -1,26 +1,39 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://bhicpel2rgc1f"]
 
-[ext_resource path="res://UI/Layers/LayerConfiguration/GeoLayerUIConfig.gd" type="Script" id=2]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayersList.gd" id="1_3hdh6"]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayerUIConfig.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://djgdeb68xdbg5" path="res://Resources/Icons/ModernLandscapeLab/vector_save.svg" id="2_3ylfg"]
+[ext_resource type="Texture2D" uid="uid://c3kuxlnuadbrl" path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" id="3_3nst3"]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayerOptions.gd" id="4_hvmms"]
 
-[node name="VBoxContainer" type="VBoxContainer"]
-margin_right = 332.0
-margin_bottom = 258.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="GeoLayerUI" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -270.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemList" type="ItemList" parent="."]
+custom_minimum_size = Vector2(0, 167)
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("1_3hdh6")
+
+[node name="GeoLayerOptions" type="PopupMenu" parent="ItemList"]
+size = Vector2i(207, 100)
+always_on_top = true
+item_count = 2
+item_0/text = "Show"
+item_0/icon = ExtResource("3_3nst3")
+item_0/checkable = 1
+item_0/id = 1
+item_1/text = "Save Layer Edits..."
+item_1/icon = ExtResource("2_3ylfg")
+item_1/id = 0
+script = ExtResource("4_hvmms")
 
 [node name="GeoLayerUIConfig" type="Node" parent="."]
-script = ExtResource( 2 )
-
-[node name="Tree" type="Tree" parent="."]
-margin_right = 332.0
-margin_bottom = 400.0
-rect_min_size = Vector2( 200, 400 )
-allow_reselect = true
-allow_rmb_select = true
-hide_folding = true
-hide_root = true
-drop_mode_flags = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("2")

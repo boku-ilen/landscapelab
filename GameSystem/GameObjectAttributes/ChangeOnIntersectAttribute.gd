@@ -10,7 +10,7 @@ var default_attribute
 var intersect_attribute
 
 
-func _init(initial_name, new_intersecting_game_object_collection, new_default_attribute, new_intersect_attribute):
+func _init(initial_name,new_intersecting_game_object_collection,new_default_attribute,new_intersect_attribute):
 	name = initial_name
 	intersecting_game_object_collection = new_intersecting_game_object_collection
 	default_attribute = new_default_attribute

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/normal.jpg-f7adfaabb7f48ebb9ad3c27a540a6a97.image"
+uid="uid://bc8smrhf45wkr"
+path="res://.godot/imported/normal.jpg-f7adfaabb7f48ebb9ad3c27a540a6a97.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/181-emmer/normal.jpg"
-dest_files=[ "res://.import/normal.jpg-f7adfaabb7f48ebb9ad3c27a540a6a97.image" ]
+dest_files=["res://.godot/imported/normal.jpg-f7adfaabb7f48ebb9ad3c27a540a6a97.image"]
 
 [params]
 

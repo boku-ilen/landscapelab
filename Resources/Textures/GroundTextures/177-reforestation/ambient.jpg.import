@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/ambient.jpg-615131d702b7400f1aa1b4760fad81d1.image"
+uid="uid://dos02861ese2h"
+path="res://.godot/imported/ambient.jpg-615131d702b7400f1aa1b4760fad81d1.image"
 
 [deps]
 
 source_file="res://Resources/Textures/GroundTextures/177-reforestation/ambient.jpg"
-dest_files=[ "res://.import/ambient.jpg-615131d702b7400f1aa1b4760fad81d1.image" ]
+dest_files=["res://.godot/imported/ambient.jpg-615131d702b7400f1aa1b4760fad81d1.image"]
 
 [params]
 
