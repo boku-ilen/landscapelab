@@ -1,0 +1,296 @@
+[gd_scene load_steps=35 format=3 uid="uid://b5nxph2mew1en"]
+
+[ext_resource type="Material" uid="uid://bllptn8dbfhrf" path="res://World/Environment/Rain/SplashesRipples/RainSplashMaterial.tres" id="1_omuh0"]
+[ext_resource type="Script" path="res://World/Environment/Rain/Rain.gd" id="1_sn4rj"]
+[ext_resource type="Material" path="res://World/Environment/Rain/Fog/RainFogMaterial.tres" id="2_cdord"]
+[ext_resource type="CompressedTexture3D" uid="uid://c4dp6g6gouj2b" path="res://addons/clouds/worlnoise.bmp" id="4_lni81"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cbhvf"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 10.0
+emission_ring_radius = 20.0
+emission_ring_inner_radius = 0.0
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 0.05
+initial_velocity_max = 0.1
+scale_min = 0.5
+scale_max = 1.5
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 2
+collision_mode = 2
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kxuqp"]
+load_path = "res://.godot/imported/rain_drop.png-d61568818c12b4d71218cfdbf7a0b3fe.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4hc0k"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 2
+diffuse_mode = 1
+albedo_texture = SubResource("CompressedTexture2D_kxuqp")
+rim = 0.0
+rim_tint = 0.0
+subsurf_scatter_strength = 1.0
+use_particle_trails = true
+distance_fade_mode = 1
+distance_fade_min_distance = 0.4
+distance_fade_max_distance = 1.2
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_dvask"]
+material = SubResource("StandardMaterial3D_4hc0k")
+size = 0.03
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ntu3q"]
+load_path = "res://.godot/imported/sheet_straight.png-9fba1f0f9ac8464ddecf8898d05141df.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fvpnq"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 2
+diffuse_mode = 1
+albedo_color = Color(1, 1, 1, 0.118367)
+albedo_texture = SubResource("CompressedTexture2D_ntu3q")
+rim = 0.0
+rim_tint = 0.0
+subsurf_scatter_strength = 1.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2sjlm"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.0
+emission_ring_radius = 40.0
+emission_ring_inner_radius = 20.0
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 2.0
+initial_velocity_max = 3.0
+scale_min = 0.5
+scale_max = 2.0
+color = Color(1, 1, 1, 0)
+turbulence_enabled = true
+turbulence_noise_strength = 0.01
+turbulence_noise_scale = 0.1
+turbulence_influence_min = 0.0
+turbulence_influence_max = 0.0
+attractor_interaction_enabled = false
+collision_mode = 2
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_wvsrd"]
+size = 1.75
+sections = 2
+section_length = 1.5
+section_segments = 1
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v40jt"]
+load_path = "res://.godot/imported/sheet_round.png-c053d3755438ec0959f9a9c0f1fb8724.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3pm0s"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 2
+diffuse_mode = 1
+albedo_color = Color(1, 1, 1, 0.118367)
+albedo_texture = SubResource("CompressedTexture2D_v40jt")
+rim = 0.0
+rim_tint = 0.0
+subsurf_scatter_strength = 1.0
+
+[sub_resource type="Gradient" id="Gradient_712mo"]
+offsets = PackedFloat32Array(0, 0.347826, 0.608696, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.364706)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dlavu"]
+gradient = SubResource("Gradient_712mo")
+
+[sub_resource type="Curve" id="Curve_glubg"]
+_data = [Vector2(0, 0), 0.0, 1.37354, 0, 0, Vector2(1, 0.8), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_n1tm6"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 0.8), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_gp6m0"]
+curve_x = SubResource("Curve_glubg")
+curve_y = SubResource("Curve_n1tm6")
+curve_z = SubResource("Curve_glubg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dj7ug"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.0
+emission_ring_radius = 5.0
+emission_ring_inner_radius = 0.0
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+scale_min = 0.285
+scale_max = 0.315
+scale_curve = SubResource("CurveXYZTexture_gp6m0")
+color_ramp = SubResource("GradientTexture1D_dlavu")
+sub_emitter_mode = 2
+sub_emitter_amount_at_end = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_kyx58"]
+material = ExtResource("1_omuh0")
+size = Vector2(0.6, 0.3)
+
+[sub_resource type="Gradient" id="Gradient_6mv7l"]
+offsets = PackedFloat32Array(0, 0.378049, 0.548781, 0.988506, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 0.768627, 0.768627, 0.768627, 1, 0.286275, 0.286275, 0.286275, 0, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wrvhn"]
+gradient = SubResource("Gradient_6mv7l")
+
+[sub_resource type="Curve" id="Curve_wwkfu"]
+_data = [Vector2(0, 0), 0.0, 2.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_3x5ir"]
+curve = SubResource("Curve_wwkfu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3yp0x"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.0
+emission_ring_radius = 5.0
+emission_ring_inner_radius = 0.0
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+angle_max = 360.0
+scale_min = 0.285
+scale_max = 0.315
+scale_curve = SubResource("CurveTexture_3x5ir")
+color = Color(1, 1, 1, 0.156863)
+color_ramp = SubResource("GradientTexture1D_wrvhn")
+attractor_interaction_enabled = false
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qlcru"]
+load_path = "res://.godot/imported/ripple.png-f827e06339b372959395798d5932771d.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ik4nc"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("CompressedTexture2D_qlcru")
+billboard_mode = 2
+billboard_keep_scale = true
+grow_amount = 0.1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jbmhl"]
+material = SubResource("StandardMaterial3D_ik4nc")
+size = Vector2(0.2, 0.2)
+
+[sub_resource type="Gradient" id="Gradient_26apf"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.37931, 0.62069, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.419608, 0.419608, 0.419608, 1, 0.545098, 0.545098, 0.545098, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tvn83"]
+gradient = SubResource("Gradient_26apf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_15msd"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 1.0
+emission_ring_radius = 55.0
+emission_ring_inner_radius = 45.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 0.01
+radial_accel_max = 0.1
+tangential_accel_min = 0.01
+tangential_accel_max = 0.1
+scale_min = 0.5
+scale_max = 1.5
+color_ramp = SubResource("GradientTexture1D_tvn83")
+
+[sub_resource type="QuadMesh" id="QuadMesh_dcw65"]
+material = ExtResource("2_cdord")
+size = Vector2(8, 8)
+
+[sub_resource type="FogMaterial" id="FogMaterial_88g57"]
+density = 0.3
+density_texture = ExtResource("4_lni81")
+
+[node name="Rain" type="Node3D"]
+script = ExtResource("1_sn4rj")
+enabled = true
+drop_size = 0.03
+density = 10.0
+wind_direction = Vector3(0, -1, 0)
+detailed_radius = 20
+distance_radius = 50
+
+[node name="RainDrops" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+amount = 10000
+sub_emitter = NodePath("../RainSplashes")
+collision_base_size = 0.1
+trail_enabled = true
+trail_lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_cbhvf")
+draw_pass_1 = SubResource("RibbonTrailMesh_dvask")
+
+[node name="RainSheetStraight" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+material_override = SubResource("StandardMaterial3D_fvpnq")
+amount = 1000
+lifetime = 3.0
+visibility_aabb = AABB(-10, -18, -10, 20, 18, 20)
+transform_align = 2
+trail_lifetime = 0.05
+process_material = SubResource("ParticleProcessMaterial_2sjlm")
+draw_pass_1 = SubResource("RibbonTrailMesh_wvsrd")
+
+[node name="RainSheetRound" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+material_override = SubResource("StandardMaterial3D_3pm0s")
+amount = 1000
+lifetime = 3.0
+randomness = 1.0
+visibility_aabb = AABB(-10, -18, -10, 20, 18, 20)
+transform_align = 2
+trail_lifetime = 0.05
+process_material = SubResource("ParticleProcessMaterial_2sjlm")
+draw_pass_1 = SubResource("RibbonTrailMesh_wvsrd")
+
+[node name="RainSplashes" type="GPUParticles3D" parent="."]
+layers = 4
+emitting = false
+amount = 5000
+sub_emitter = NodePath("RainRipples")
+lifetime = 0.8
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_dj7ug")
+draw_pass_1 = SubResource("QuadMesh_kyx58")
+
+[node name="RainRipples" type="GPUParticles3D" parent="RainSplashes"]
+layers = 4
+emitting = false
+amount = 5000
+lifetime = 1.5
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_3yp0x")
+draw_pass_1 = SubResource("PlaneMesh_jbmhl")
+
+[node name="RainDistantFog" type="GPUParticles3D" parent="."]
+layers = 4
+amount = 300
+lifetime = 8.0
+process_material = SubResource("ParticleProcessMaterial_15msd")
+draw_pass_1 = SubResource("QuadMesh_dcw65")
+
+[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="."]
+layers = 4
+size = Vector3(30, 10, 30)
+resolution = 3
+follow_camera_enabled = true
+
+[node name="RainVolumeFog" type="FogVolume" parent="."]
+size = Vector3(10, 10, 10)
+material = SubResource("FogMaterial_88g57")

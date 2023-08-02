@@ -1,18 +1,17 @@
-[gd_scene load_steps=12 format=3 uid="uid://cejf5c8oyb02b"]
+[gd_scene load_steps=11 format=3 uid="uid://cejf5c8oyb02b"]
 
 [ext_resource type="Script" path="res://World/Environment/WorldEnvironment.gd" id="1"]
 [ext_resource type="Shader" path="res://addons/clouds/clouds.gdshader" id="1_p31xn"]
 [ext_resource type="Texture2D" uid="uid://dfkye0uf4i6w1" path="res://addons/clouds/weather.bmp" id="2_ltw8f"]
 [ext_resource type="CompressedTexture3D" uid="uid://dbfbysid168mx" path="res://addons/clouds/perlworlnoise.tga" id="2_xrwak"]
 [ext_resource type="CompressedTexture3D" uid="uid://c4dp6g6gouj2b" path="res://addons/clouds/worlnoise.bmp" id="3_dh22h"]
-[ext_resource type="PackedScene" path="res://World/Environment/RainParticles.tscn" id="8"]
-[ext_resource type="PackedScene" uid="uid://b0i6716q110pc" path="res://World/Environment/RainSplashes.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://b5nxph2mew1en" path="res://World/Environment/Rain/Rain.tscn" id="6_wusnq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ywyjs"]
 shader = ExtResource("1_p31xn")
 shader_parameter/_density = 0.05
-shader_parameter/cloud_coverage = 0.15
-shader_parameter/_time_scale = 0.1
+shader_parameter/cloud_coverage = 0.25
+shader_parameter/_time_scale = 1.0
 shader_parameter/_time_offset = 0.0
 shader_parameter/rayleigh = 2.0
 shader_parameter/rayleigh_color = Color(0.26, 0.41, 0.58, 1)
@@ -47,6 +46,7 @@ fog_light_color = Color(0.517647, 0.552941, 0.607843, 1)
 fog_density = 0.001
 fog_aerial_perspective = 1.0
 fog_sky_affect = 0.0
+volumetric_fog_enabled = true
 volumetric_fog_density = 0.01
 adjustment_contrast = 1.15
 adjustment_saturation = 1.2
@@ -69,11 +69,7 @@ sky_mode = 1
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="DirectionalLight3D"]
 sky_mode = 2
 
-[node name="RainParticles" parent="." instance=ExtResource("8")]
-emitting = false
-
-[node name="RainSplashes" parent="." instance=ExtResource("9")]
-visible = false
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_v0nf7")
+
+[node name="Rain" parent="." instance=ExtResource("6_wusnq")]

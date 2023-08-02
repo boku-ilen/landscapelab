@@ -1,0 +1,7 @@
+[gd_resource type="PlaneMesh" load_steps=2 format=3 uid="uid://cun7khqfmwhew"]
+
+[ext_resource type="Material" uid="uid://bdjoth3ornabe" path="res://World/Environment/Rain/SplashesRipples/RainRippleMaterial.tres" id="1_i5hgi"]
+
+[resource]
+material = ExtResource("1_i5hgi")
+size = Vector2(0.2, 0.2)

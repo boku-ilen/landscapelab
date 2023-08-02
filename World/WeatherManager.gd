@@ -16,7 +16,7 @@ var visibility = 0 :
 		return visibility
 	set(new_visibility):
 		visibility = new_visibility
-		emit_signal("visibility_changed", visibility)
+		visibility_changed.emit(visibility)
 
 # 0..100 = "clear sky".."fully overcast"
 var cloudiness = 0 :
@@ -24,7 +24,7 @@ var cloudiness = 0 :
 		return cloudiness
 	set(new_cloudiness):
 		cloudiness = new_cloudiness
-		emit_signal("cloudiness_changed", cloudiness)
+		cloudiness_changed.emit(cloudiness)
 
 # in km/h
 var wind_speed = 10 :
@@ -40,25 +40,25 @@ var wind_direction = 0 :
 		return wind_direction
 	set(new_wind_direction):
 		wind_direction = new_wind_direction
-		emit_signal("wind_direction_changed", wind_direction)
+		wind_direction_changed.emit(wind_direction)
 
 var rain_enabled := false :
 	get:
 		return rain_enabled
 	set(enabled):
 		rain_enabled = enabled 
-		emit_signal("rain_enabled_changed", enabled)
+		rain_enabled_changed.emit(enabled)
 
 var rain_density := 100.0 :
 	get:
 		return rain_density
 	set(new_rain_density):
 		rain_density = new_rain_density 
-		emit_signal("rain_density_changed", rain_density)
+		rain_density_changed.emit(rain_density)
 
-var rain_drop_size := Vector2(0.5, 0.25) :
+var rain_drop_size := 0.5 :
 	get:
 		return rain_drop_size
 	set(new_rain_drop_size):
 		rain_drop_size = new_rain_drop_size
-		emit_signal("rain_drop_size_changed", new_rain_drop_size)
+		rain_drop_size_changed.emit(new_rain_drop_size)

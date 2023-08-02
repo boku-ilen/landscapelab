@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://World/PositionManager.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://cejf5c8oyb02b" path="res://World/Environment/WorldEnvironment.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://dcwf1v36d3m1x" path="res://Perspectives/PC/FirstPersonPC.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://3h4ychvi0yw0" path="res://Perspectives/PC/FirstPersonPC.tscn" id="3"]
 [ext_resource type="Script" path="res://World/TimeManager.gd" id="4"]
 [ext_resource type="Script" path="res://World/WeatherManager.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://vbxp2lb1dpj" path="res://Layers/LayerCompositionRenderers.tscn" id="6"]

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0i6716q110pc"]
-
-[ext_resource type="Script" path="res://World/Environment/RainSplashes.gd" id="1"]
-
-[node name="RainSplashes" type="Node3D"]
-script = ExtResource("1")

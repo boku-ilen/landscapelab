@@ -14,17 +14,16 @@ func apply_visibility(new_visibility):
 	environment.fog_density = new_visibility * 0.000008
 
 
-func apply_rain_enabled(enabled):
-	$RainParticles.emitting = enabled
+func apply_rain_enabled(enabled: bool):
+	$Rain.enabled = enabled
 
 
-func apply_rain_drop_size(rain_drop_size):
-	$RainParticles.scale_x = rain_drop_size.x
-	$RainParticles.scale_y = rain_drop_size.y
+func apply_rain_drop_size(rain_drop_size: float):
+	$Rain.drop_size = rain_drop_size
 
 
-func apply_rain_density(rain_density):
-	$RainParticles.amount = rain_density
+func apply_rain_density(rain_density: float):
+	$Rain.density = rain_density
 
 
 func apply_cloudiness(new_cloudiness):
@@ -45,12 +44,10 @@ func apply_wind_direction(new_wind_direction):
 
 func apply_wind():
 	var rotated_vector = Vector2.UP.rotated(deg_to_rad(wind_direction))
-	#var wind_vector = rotated_vector * wind_speed * 5.0
+	# FIXME: apply wind speed to clouds
 #	$CloudDome.cloud_speed = wind_vector
-	# FIXME: the angle should also be applied - it rotates with the camera however
-	# $Rain.process_material.angle = 
-	$RainParticles.wind_force_east = rotated_vector.x * wind_speed * 0.3
-	$RainParticles.wind_force_north = rotated_vector.y * wind_speed  * 0.3
+	$Rain.wind_direction = Vector3(rotated_vector.x, -1, rotated_vector.y)
+	$Rain.wind_speed = wind_speed
 
 
 func apply_datetime(datetime: Dictionary):

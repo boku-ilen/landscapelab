@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3]
+
+[ext_resource type="Texture2D" uid="uid://d1cxh40qkkqv7" path="res://World/Environment/Rain/Resources/rain_drop.png" id="1_5al4v"]
+
+[resource]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 2
+diffuse_mode = 1
+albedo_texture = ExtResource("1_5al4v")
+rim = 0.0
+rim_tint = 0.0
+subsurf_scatter_strength = 1.0
+use_particle_trails = true
