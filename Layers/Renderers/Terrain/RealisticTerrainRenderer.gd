@@ -107,6 +107,9 @@ func full_load():
 func adapt_load(_diff: Vector3):
 	super.adapt_load(_diff)
 	
+	# Because this function is called in a thread, the player position might change while the loop
+	#  below is running. In order to get consistent results, we need to cache one definitive
+	#  player position here.
 	var player_x = position_manager.center_node.position.x
 	var player_z = position_manager.center_node.position.z
 	

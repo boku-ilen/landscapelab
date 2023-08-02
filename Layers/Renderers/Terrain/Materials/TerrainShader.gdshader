@@ -191,14 +191,22 @@ vec3 get_ortho_color(vec2 uv) {
 }
 
 
-vec3 hue_shift(vec3 from, vec3 hue_ref, float shift_scale) {
-	vec3 base_hcy = RGBtoHCY(hue_ref);
-	vec3 detail_hcy = RGBtoHCY(from);
+// Takes two colors: one coming from a detailed texture, one from a more basic one.
+// Returns a color with the hue coming from the detailed texture and chroma and luminance blended
+//  between the detailed and the base color based on shift_scale.
+// Used for mixing orthophoto and detail textures: by using the hue from the detail textures, we get
+//  good colors and a nice transition, while we still get some large structures from the orthophoto
+//  at distances by using its chroma and luminance.
+vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
+	// Convert to Hue-Chroma-Luminance color space
+	vec3 base_hcy = RGBtoHCY(base);
+	vec3 detail_hcy = RGBtoHCY(detail);
 
 	// Adapt the detail texture hue and chroma to the orthophoto
 	detail_hcy.y = mix(detail_hcy.y, base_hcy.y, shift_scale);
 	detail_hcy.z = mix(detail_hcy.z, base_hcy.z, shift_scale);
 	
+	// Return RGB result
 	return HCYtoRGB(detail_hcy);
 }
 

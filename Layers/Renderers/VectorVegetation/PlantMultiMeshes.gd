@@ -14,6 +14,7 @@ var new_multimesh
 
 # Tree mesh data source:
 # https://l4m0s.itch.io/27-vegetation-3d-assets
+# TODO: Lots of duplicates at the moment - needs to be replaced with more specific plants!
 var species_to_mesh = {
 	"Abiesalbar": preload("res://Layers/Renderers/VectorVegetation/Pinus2.tres"),
 	"Abiessprpp": preload("res://Layers/Renderers/VectorVegetation/Pinus2.tres"),
