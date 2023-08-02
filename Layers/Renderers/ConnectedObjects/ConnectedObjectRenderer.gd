@@ -139,16 +139,6 @@ func _handle_standard(
 func refine_load():
 	super.refine_load()
 	
-<<<<<<< HEAD
-	for connector in connector_instances_refine.values():
-		for i in range(1, connector.get_child_count()):
-			_connect(
-				connector.get_child(i),
-				connector.get_child(i - 1),
-				selector_attribute
-			)
-	connector_instances_refine.clear()
-=======
 	var center = position_manager.center_node.position
 	
 	var any_change_done := false
@@ -212,7 +202,6 @@ func refine_load():
 	
 	if any_change_done:
 		call_deferred("apply_refined_data")
->>>>>>> master
 
 
 func apply_refined_data():
