@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://808tkk25u45k"
+path="res://.godot/imported/normal.jpg-d0b988a68ec48327795bf2fc8a7bb32b.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Meadow/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-d0b988a68ec48327795bf2fc8a7bb32b.image"]
+
+[params]
+

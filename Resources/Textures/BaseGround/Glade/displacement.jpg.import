@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://cmfbki43bgxnw"
+path="res://.godot/imported/displacement.jpg-3897a052f311946ac336e2f51179a756.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Glade/displacement.jpg"
+dest_files=["res://.godot/imported/displacement.jpg-3897a052f311946ac336e2f51179a756.image"]
+
+[params]
+

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://ca0oy0o3mjhjx"
+path="res://.godot/imported/ao.jpg-30fea5d721ff70af03f9a5e39d7a8848.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Asphalt/ao.jpg"
+dest_files=["res://.godot/imported/ao.jpg-30fea5d721ff70af03f9a5e39d7a8848.image"]
+
+[params]
+

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://c7meisrtdasoj"
+path="res://.godot/imported/ao.jpg-5edf9c9d70b2f20bdaaf05ce774513f2.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Rock/ao.jpg"
+dest_files=["res://.godot/imported/ao.jpg-5edf9c9d70b2f20bdaaf05ce774513f2.image"]
+
+[params]
+

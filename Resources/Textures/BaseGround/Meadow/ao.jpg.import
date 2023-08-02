@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://bgowm3ejtc5rn"
+path="res://.godot/imported/ao.jpg-0a4fb57010adc1421a298d2f9aa311f5.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Meadow/ao.jpg"
+dest_files=["res://.godot/imported/ao.jpg-0a4fb57010adc1421a298d2f9aa311f5.image"]
+
+[params]
+

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://ck432f8ubv1ah"
+path="res://.godot/imported/displacement.jpg-e58f7d8a92ac35886dfc55c7807efd07.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Mud/displacement.jpg"
+dest_files=["res://.godot/imported/displacement.jpg-e58f7d8a92ac35886dfc55c7807efd07.image"]
+
+[params]
+

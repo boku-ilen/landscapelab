@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://bqqx4cxp2hqwd"
+path="res://.godot/imported/ao.jpg-ed38d4597aa376bae19c52bd0594c6d4.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Concrete/ao.jpg"
+dest_files=["res://.godot/imported/ao.jpg-ed38d4597aa376bae19c52bd0594c6d4.image"]
+
+[params]
+

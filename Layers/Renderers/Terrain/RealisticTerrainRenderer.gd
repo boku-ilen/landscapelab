@@ -23,14 +23,19 @@ func _ready():
 	super._ready()
 	
 	var texture_folders = [
-		"Concrete",
-		"Asphalt",
-		"Grass",
-		"Gravel",
-		"Riverbed",
-		"Rock",
-		"Forest",
-		"Soil"
+		"Concrete", # to 120
+		"Asphalt", # to 140
+		"Lawn", # to 160
+		"Gravel", # to 250
+		"Riverbed", # to 260
+		"Mud", # to 290
+		"Glacier", # to 291
+		"Rock", # to 300
+		"Glade", # to 311
+		"Foliage", # to 330
+		"Moss", # to 340
+		"Soil", # to 700
+		"Meadow" # to 1000
 	]
 	
 	var color_images = []

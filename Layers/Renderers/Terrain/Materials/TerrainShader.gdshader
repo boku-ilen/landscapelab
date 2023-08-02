@@ -50,7 +50,7 @@ uniform bool has_terraforming_texture;
 uniform sampler2D terraforming_texture: repeat_disable, filter_nearest;
 uniform sampler2D terraforming_weights: repeat_disable, filter_nearest;
 
-uniform float texture_thresholds[8];
+uniform float texture_thresholds[14];
 uniform sampler2DArray ground_textures: source_color;
 uniform sampler2DArray ground_normals;
 
@@ -247,7 +247,7 @@ void fragment() {
 			
 			int texture_index = 0;
 			
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < 16; i++) {
 				if (splat_id < texture_thresholds[i]) {
 					texture_index = i;
 					break;
@@ -269,7 +269,7 @@ void fragment() {
 	float splat_id = texture(landuse, UV).r;
 	int texture_index = 0;
 	
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 16; i++) {
 		if (splat_id < texture_thresholds[i]) {
 			texture_index = i;
 			break;
@@ -332,5 +332,5 @@ void fragment() {
 //
 	METALLIC = 0.0;
 	ROUGHNESS = 0.95;
-	NORMAL_MAP_DEPTH = 3.0;
+	NORMAL_MAP_DEPTH = 2.0;
 }
