@@ -35,7 +35,6 @@ const RENDER_INFOS := {
 	"Road Network": RoadNetworkRenderInfo,
 	"Connected Object": ConnectedObjectInfo,
 	"Repeating Object": RepeatingObjectInfo,
-	"Polygon Object": PolygonObjectInfo
 }
 
 
@@ -209,13 +208,18 @@ class WindTurbineRenderInfo extends ObjectRenderInfo:
 	
 	func get_class_name() -> String: return "Wind Turbine"
 
-class PolygonRenderInfo extends RenderInfo:
+class BuildingRenderInfo extends RenderInfo:
+	var height_stdev_attribute_name: String
+	var slope_attribute_name: String
+	var red_attribute_name: String
+	var green_attribute_name: String
+	var blue_attribute_name: String
 	var height_attribute_name: String
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
 	
 	func _init():
-		renderer = preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn")
+		renderer = preload("res://Layers/Renderers/Building/BuildingRenderer.tscn")
 		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 	
 	func get_geolayers():
@@ -226,15 +230,6 @@ class PolygonRenderInfo extends RenderInfo:
 	
 	func is_valid():
 		return geo_feature_layer != null && ground_height_layer != null
-	
-	func get_class_name() -> String: return "Polygon"
-
-class BuildingRenderInfo extends PolygonRenderInfo:
-	var height_stdev_attribute_name: String
-	var slope_attribute_name: String
-	var red_attribute_name: String
-	var green_attribute_name: String
-	var blue_attribute_name: String
 	
 	func get_class_name() -> String: return "Building"
 
