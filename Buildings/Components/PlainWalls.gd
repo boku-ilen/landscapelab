@@ -35,7 +35,7 @@ func build(footprint: PackedVector2Array):
 	
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
-	# Generate flat normals
+	# Generate flat normals - shaded as if round otherwise
 	st.set_smooth_group(-1)
 	
 	# We want to essentially extrude the footprint, to create walls from lines.

@@ -27,6 +27,7 @@ const RENDER_INFOS := {
 	"Basic Terrain": BasicTerrainRenderInfo,
 	"Realistic Terrain": RealisticTerrainRenderInfo,
 	"Vegetation": VegetationRenderInfo,
+	"Vector Vegetation": VectorVegetationRenderInfo,
 	"Object": ObjectRenderInfo,
 	"Wind Turbine": WindTurbineRenderInfo,
 	"Polygon": PolygonObjectInfo,
@@ -158,6 +159,25 @@ class VegetationRenderInfo extends RenderInfo:
 		return height_layer != null and landuse_layer != null
 	
 	func get_class_name() -> String: return "Vegetation"
+
+class VectorVegetationRenderInfo extends RenderInfo:
+	var height_layer: GeoRasterLayer
+	var plant_layer: GeoFeatureLayer
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/VectorVegetation/VectorVegetationRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/grass.svg")
+	
+	func get_geolayers():
+		return [height_layer, plant_layer]
+	
+	func get_described_geolayers() -> Dictionary:
+		return {"Height": height_layer, "Plants": plant_layer}
+	
+	func is_valid():
+		return height_layer != null and plant_layer != null
+	
+	func get_class_name() -> String: return "VectorVegetation"
 
 class ParticlesRenderInfo extends RenderInfo:
 	pass

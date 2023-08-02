@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://cemgnnwyxiqb"
+path="res://.godot/imported/displacement.jpg-941e38c00aaf566c6221013960b93538.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Riverbed/displacement.jpg"
+dest_files=["res://.godot/imported/displacement.jpg-941e38c00aaf566c6221013960b93538.image"]
+
+[params]
+

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://c42ea57q8liqu"
+path="res://.godot/imported/normal.jpg-1f6de9b7d52a85d66598a0d82ee13567.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Lawn/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-1f6de9b7d52a85d66598a0d82ee13567.image"]
+
+[params]
+

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://b3n2g80kj0hyp"
+path="res://.godot/imported/normal.jpg-f4cfea57f0820983d997095042577b90.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Mud/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-f4cfea57f0820983d997095042577b90.image"]
+
+[params]
+

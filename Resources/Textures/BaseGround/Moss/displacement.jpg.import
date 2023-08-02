@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://baxykaoahc4n6"
+path="res://.godot/imported/displacement.jpg-db94d949c1437e57a3b39e01b332cf2c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Moss/displacement.jpg"
+dest_files=["res://.godot/imported/displacement.jpg-db94d949c1437e57a3b39e01b332cf2c.image"]
+
+[params]
+

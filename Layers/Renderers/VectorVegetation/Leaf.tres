@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://drpmywjjlx4dt"]
+
+[ext_resource type="Texture2D" path="res://Resources/Meshes/Trees/textures/beech_leaf_diff.dds" id="1_uox0k"]
+
+[resource]
+resource_name = "leaf"
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_color = Color(0.8, 0.8, 0.8, 1)
+albedo_texture = ExtResource("1_uox0k")
+metallic = 0.5
+roughness = 0.9
+backlight_enabled = true

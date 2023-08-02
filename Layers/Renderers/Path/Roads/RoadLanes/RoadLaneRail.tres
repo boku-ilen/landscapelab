@@ -12,6 +12,7 @@ shader_parameter/width = 5.0
 shader_parameter/height = 0.2
 shader_parameter/world_uv_scaling = 0.35
 shader_parameter/rail_width = 0.5
+shader_parameter/rail_width_bottom = 0.6
 shader_parameter/rail_offset = 1.0
 shader_parameter/road_texture = ExtResource("2_2tsmp")
 shader_parameter/metal_texture = ExtResource("2_dxbij")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b86sxvw5mjiua"]
+[gd_scene load_steps=24 format=3 uid="uid://b86sxvw5mjiua"]
 
 [ext_resource type="Script" path="res://Vegetation/Editor/ClickDragCamera.gd" id="1"]
 [ext_resource type="Script" path="res://Vegetation/Editor/DensityClassDropdown.gd" id="2"]
@@ -17,9 +17,26 @@
 [ext_resource type="Script" path="res://Vegetation/Editor/VegetationEditor.gd" id="16"]
 [ext_resource type="PackedScene" uid="uid://cejf5c8oyb02b" path="res://World/Environment/WorldEnvironment.tscn" id="17"]
 [ext_resource type="Script" path="res://Vegetation/Editor/Visualization.gd" id="18"]
+[ext_resource type="Shader" path="res://Vegetation/Editor/GroundShader.gdshader" id="19_5ddbs"]
 [ext_resource type="Script" path="res://Vegetation/Editor/PopupButton.gd" id="20"]
 [ext_resource type="PackedScene" path="res://Vegetation/Editor/ViewSettings/TextureSettingsDialog.tscn" id="21"]
 [ext_resource type="PackedScene" path="res://Vegetation/Editor/ViewSettings/ViewSettingsDialog.tscn" id="22"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gykfp"]
+render_priority = 0
+shader = ExtResource("19_5ddbs")
+shader_parameter/size_m = null
+shader_parameter/texture_size_m = null
+shader_parameter/normal_scale = 1.0
+shader_parameter/is_roughness_increase = null
+shader_parameter/roughness_scale = 0.0
+shader_parameter/is_specular_increase = null
+shader_parameter/specular_scale = 0.0
+shader_parameter/is_ao_increase = null
+shader_parameter/ao_scale = 0.0
+shader_parameter/has_distance_tex = false
+shader_parameter/distance_tex_start = null
+shader_parameter/distance_texture_size_m = null
 
 [sub_resource type="PlaneMesh" id="1"]
 size = Vector2(500, 500)
@@ -273,7 +290,7 @@ script = ExtResource("20")
 
 [node name="SubViewport" type="SubViewport" parent="HSplitContainer/VBoxContainer/VisualizationUI"]
 handle_input_locally = false
-size = Vector2i(1372, 994)
+size = Vector2i(778, 578)
 render_target_update_mode = 4
 
 [node name="Visualization" type="Node3D" parent="HSplitContainer/VBoxContainer/VisualizationUI/SubViewport"]
@@ -286,6 +303,7 @@ far = 500.0
 script = ExtResource("1")
 
 [node name="GroundMesh" type="MeshInstance3D" parent="HSplitContainer/VBoxContainer/VisualizationUI/SubViewport/Visualization"]
+material_override = SubResource("ShaderMaterial_gykfp")
 mesh = SubResource("1")
 
 [node name="WorldEnvironment" parent="HSplitContainer/VBoxContainer/VisualizationUI/SubViewport/Visualization" instance=ExtResource("17")]

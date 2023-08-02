@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://cx08ikptwm48d"
+path="res://.godot/imported/displacement.jpg-2212eb094fceee9989de9192cf368c64.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Glacier/displacement.jpg"
+dest_files=["res://.godot/imported/displacement.jpg-2212eb094fceee9989de9192cf368c64.image"]
+
+[params]
+

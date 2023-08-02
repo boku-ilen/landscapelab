@@ -164,7 +164,6 @@ script = ExtResource("11")
 
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort"]
 handle_input_locally = false
-use_taa = true
 gui_disable_input = true
 size = Vector2i(2, 2)
 render_target_update_mode = 4

@@ -9,7 +9,7 @@ signal new_texture_selected(texture_name)
 func _ready():
 	if not vegetation_field_to_access in Vegetation:
 		logger.error("Invalid vegetation field %s in dropdown %s!"
-				% [vegetation_field_to_access, name], "VEGETATION")
+				% [vegetation_field_to_access, name])
 		return
 	
 	var item_id = 0

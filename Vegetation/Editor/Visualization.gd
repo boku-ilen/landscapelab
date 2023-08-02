@@ -26,24 +26,24 @@ func update_visualization(group_id):
 	var roughness_texture = Vegetation.groups[group_id].get_ground_texture("roughness")
 	
 	if ground_texture:
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("size_m", 500)
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("texture_size_m",
+		$GroundMesh.material_override.set_shader_parameter("size_m", 500)
+		$GroundMesh.material_override.set_shader_parameter("texture_size_m",
 				Vegetation.groups[group_id].ground_texture.size_m)
 		
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("albedo_tex", ground_texture)
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("normal_tex", normal_texture)
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("ao_tex", ambient_texture)
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("specular_tex", specular_texture)
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("roughness_tex", roughness_texture)
+		$GroundMesh.material_override.set_shader_parameter("albedo_tex", ground_texture)
+		$GroundMesh.material_override.set_shader_parameter("normal_tex", normal_texture)
+		$GroundMesh.material_override.set_shader_parameter("ao_tex", ambient_texture)
+		$GroundMesh.material_override.set_shader_parameter("specular_tex", specular_texture)
+		$GroundMesh.material_override.set_shader_parameter("roughness_tex", roughness_texture)
 	
 	if Vegetation.groups[group_id].fade_texture:
 		var fade_texture = Vegetation.groups[group_id].get_fade_texture("albedo")
 		var fade_normals = Vegetation.groups[group_id].get_fade_texture("normal")
 		
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("has_distance_tex", true)
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("distance_tex", fade_texture)
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("distance_normals", fade_normals)
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("distance_tex_start", 10)
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("distance_texture_size_m", Vegetation.groups[group_id].fade_texture.size_m)
+		$GroundMesh.material_override.set_shader_parameter("has_distance_tex", true)
+		$GroundMesh.material_override.set_shader_parameter("distance_tex", fade_texture)
+		$GroundMesh.material_override.set_shader_parameter("distance_normals", fade_normals)
+		$GroundMesh.material_override.set_shader_parameter("distance_tex_start", 10)
+		$GroundMesh.material_override.set_shader_parameter("distance_texture_size_m", Vegetation.groups[group_id].fade_texture.size_m)
 	else:
-		$GroundMesh.get_surface_override_material(0).set_shader_parameter("has_distance_tex", false)
+		$GroundMesh.material_override.set_shader_parameter("has_distance_tex", false)

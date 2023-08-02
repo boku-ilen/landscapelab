@@ -38,7 +38,7 @@ var plants_per_ha: int
 var cluster_width: float
 
 func _get_full_icon_path():
-	return VegetationImages.plant_image_base_path.path_join("small-" + billboard_path) + BILLBOARD_ENDING
+	return VegetationImages.plant_image_base_path.path_join(billboard_path) + BILLBOARD_ENDING
 
 func _get_full_billboard_path():
 	return VegetationImages.plant_image_base_path.path_join(billboard_path) + BILLBOARD_ENDING
