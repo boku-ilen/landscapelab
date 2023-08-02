@@ -89,22 +89,15 @@ layout_mode = 2
 [node name="RainDensity" parent="." instance=ExtResource("2")]
 layout_mode = 2
 label = "Rain Density: "
-min_value = 20.0
-max_value = 500.0
-value = 100.0
-
-[node name="RainDropX" parent="." instance=ExtResource("2")]
-layout_mode = 2
-label = "Rain Drop Size X:"
-min_value = 0.1
-max_value = 5.0
-step = 0.1
+min_value = 0.01
+max_value = 10.0
+step = 0.01
 value = 1.0
 
-[node name="RainDropY" parent="." instance=ExtResource("2")]
+[node name="RainDropSize" parent="." instance=ExtResource("2")]
 layout_mode = 2
-label = "Rain Drop Size Y:"
-min_value = 0.1
-max_value = 5.0
-step = 0.1
-value = 0.5
+label = "Rain Drop Size:"
+min_value = 0.001
+max_value = 0.05
+step = 0.001
+value = 0.03
