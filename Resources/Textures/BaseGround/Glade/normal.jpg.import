@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://3or80od7hm74"
+path="res://.godot/imported/normal.jpg-30109d5d0b323b979040df24d5da6d69.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Glade/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-30109d5d0b323b979040df24d5da6d69.image"]
+
+[params]
+

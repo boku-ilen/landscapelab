@@ -29,7 +29,7 @@ func switch_to_vegetation_editor():
 	)
 	
 	VegetationImages.plant_image_base_path = config.get_value("paths", "plant_path")
-	VegetationImages.plant_image_base_path = config.get_value("paths", "ground_path")
+	VegetationImages.ground_image_base_path = config.get_value("paths", "ground_path")
 	
 	call_deferred("_on_switch_to_vegetation_editor")
 

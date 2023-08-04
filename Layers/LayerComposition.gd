@@ -27,6 +27,7 @@ const RENDER_INFOS := {
 	"Basic Terrain": BasicTerrainRenderInfo,
 	"Realistic Terrain": RealisticTerrainRenderInfo,
 	"Vegetation": VegetationRenderInfo,
+	"Vector Vegetation": VectorVegetationRenderInfo,
 	"Object": ObjectRenderInfo,
 	"Wind Turbine": WindTurbineRenderInfo,
 	"Polygon": PolygonObjectInfo,
@@ -34,7 +35,6 @@ const RENDER_INFOS := {
 	"Road Network": RoadNetworkRenderInfo,
 	"Connected Object": ConnectedObjectInfo,
 	"Repeating Object": RepeatingObjectInfo,
-	"Polygon Object": PolygonObjectInfo
 }
 
 
@@ -160,6 +160,25 @@ class VegetationRenderInfo extends RenderInfo:
 	
 	func get_class_name() -> String: return "Vegetation"
 
+class VectorVegetationRenderInfo extends RenderInfo:
+	var height_layer: GeoRasterLayer
+	var plant_layer: GeoFeatureLayer
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/VectorVegetation/VectorVegetationRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/grass.svg")
+	
+	func get_geolayers():
+		return [height_layer, plant_layer]
+	
+	func get_described_geolayers() -> Dictionary:
+		return {"Height": height_layer, "Plants": plant_layer}
+	
+	func is_valid():
+		return height_layer != null and plant_layer != null
+	
+	func get_class_name() -> String: return "VectorVegetation"
+
 class ParticlesRenderInfo extends RenderInfo:
 	pass
 
@@ -189,13 +208,18 @@ class WindTurbineRenderInfo extends ObjectRenderInfo:
 	
 	func get_class_name() -> String: return "Wind Turbine"
 
-class PolygonRenderInfo extends RenderInfo:
+class BuildingRenderInfo extends RenderInfo:
+	var height_stdev_attribute_name: String
+	var slope_attribute_name: String
+	var red_attribute_name: String
+	var green_attribute_name: String
+	var blue_attribute_name: String
 	var height_attribute_name: String
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
 	
 	func _init():
-		renderer = preload("res://Layers/Renderers/Polygon/PolygonRenderer.tscn")
+		renderer = preload("res://Layers/Renderers/Building/BuildingRenderer.tscn")
 		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 	
 	func get_geolayers():
@@ -206,15 +230,6 @@ class PolygonRenderInfo extends RenderInfo:
 	
 	func is_valid():
 		return geo_feature_layer != null && ground_height_layer != null
-	
-	func get_class_name() -> String: return "Polygon"
-
-class BuildingRenderInfo extends PolygonRenderInfo:
-	var height_stdev_attribute_name: String
-	var slope_attribute_name: String
-	var red_attribute_name: String
-	var green_attribute_name: String
-	var blue_attribute_name: String
 	
 	func get_class_name() -> String: return "Building"
 

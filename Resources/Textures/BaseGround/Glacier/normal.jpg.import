@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://21req8xphx0e"
+path="res://.godot/imported/normal.jpg-8c2a57739b39b97d2f62c7a14ebe31ca.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Glacier/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-8c2a57739b39b97d2f62c7a14ebe31ca.image"]
+
+[params]
+

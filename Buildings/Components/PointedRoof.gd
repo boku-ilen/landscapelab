@@ -64,6 +64,9 @@ func build(footprint: PackedVector2Array):
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
+	# Generate flat normals - shaded as if round otherwise
+	st.set_smooth_group(-1)
+	
 	for index in range(footprint.size()):
 		var vertex_2d = footprint[index]
 		var next_2d = footprint[(index + 1) % footprint.size()]

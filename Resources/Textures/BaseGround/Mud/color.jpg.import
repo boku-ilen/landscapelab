@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://dy41qki8mbb84"
+path="res://.godot/imported/color.jpg-1bfa7432ec401c77afe73617f67bb9c8.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Mud/color.jpg"
+dest_files=["res://.godot/imported/color.jpg-1bfa7432ec401c77afe73617f67bb9c8.image"]
+
+[params]
+

@@ -5,7 +5,7 @@ extends WorldEnvironment
 var wind_speed = 0
 var wind_direction = 0
 
-var brightest_light_energy = 0.75
+var brightest_light_energy = 1.5
 var light_darken_begin_altitude = 15.0
 var light_disabled_altitude = 3.0
 
@@ -28,7 +28,7 @@ func apply_rain_density(rain_density):
 
 
 func apply_cloudiness(new_cloudiness):
-	environment.sky.get_material().set_shader_parameter("cloud_coverage", new_cloudiness * 0.01)
+	environment.sky.get_material().set_shader_parameter("cloud_coverage", min(new_cloudiness * 0.01, 1.0))
 	
 	apply_light_energy()
 
@@ -50,7 +50,7 @@ func apply_wind():
 	# FIXME: the angle should also be applied - it rotates with the camera however
 	# $Rain.process_material.angle = 
 	$RainParticles.wind_force_east = rotated_vector.x * wind_speed * 0.3
-	$RainParticles.wind_force_north = rotated_vector.y * wind_speed  * 0.3
+	$RainParticles.wind_force_north = rotated_vector.y * wind_speed  * .30
 
 
 func apply_datetime(datetime: Dictionary):
@@ -66,7 +66,7 @@ func apply_light_energy():
 	var altitude = rad_to_deg(-light.rotation.x)
 	
 	# Light energy is halved when it is maximally cloudy
-	var brightest = brightest_light_energy - environment.sky.get_material().get_shader_parameter("cloud_coverage") * 0.000025
+	var brightest = brightest_light_energy - environment.sky.get_material().get_shader_parameter("cloud_coverage") * (brightest_light_energy * 0.7)
 	
 	if altitude > light_disabled_altitude and altitude < light_darken_begin_altitude:
 		_set_light_energy(inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude) * brightest)
