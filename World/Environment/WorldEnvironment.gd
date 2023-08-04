@@ -75,3 +75,7 @@ func apply_light_energy():
 
 func _set_light_energy(new_energy):
 	light.light_energy = new_energy
+
+
+func set_lightning_enabled(enabled: bool):
+	$Lightning.enabled = enabled

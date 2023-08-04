@@ -101,3 +101,13 @@ min_value = 0.001
 max_value = 0.05
 step = 0.001
 value = 0.03
+
+[node name="Lightning" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Lightning"]
+layout_mode = 2
+text = "Lighning enabled: "
+
+[node name="CheckBox" type="CheckBox" parent="Lightning"]
+layout_mode = 2

@@ -9,6 +9,7 @@ signal wind_direction_changed(new_wind_direction)
 signal rain_density_changed(new_rain_density)
 signal rain_drop_size_changed(new_rain_density)
 signal rain_enabled_changed(enabled)
+signal lightning_enabled_changed(enabled)
 
 # 0..100 = "clear visibility".."strong haziness"
 var visibility = 0 :
@@ -49,16 +50,23 @@ var rain_enabled := false :
 		rain_enabled = enabled 
 		rain_enabled_changed.emit(enabled)
 
-var rain_density := 100.0 :
+var rain_density := 1 :
 	get:
 		return rain_density
 	set(new_rain_density):
 		rain_density = new_rain_density 
 		rain_density_changed.emit(rain_density)
 
-var rain_drop_size := 0.5 :
+var rain_drop_size := 0.1 :
 	get:
 		return rain_drop_size
 	set(new_rain_drop_size):
 		rain_drop_size = new_rain_drop_size
 		rain_drop_size_changed.emit(new_rain_drop_size)
+
+var lightning_enabled := false :
+	get:
+		return lightning_enabled
+	set(enabled):
+		lightning_enabled = enabled
+

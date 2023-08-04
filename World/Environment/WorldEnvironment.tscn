@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cejf5c8oyb02b"]
+[gd_scene load_steps=12 format=3 uid="uid://cejf5c8oyb02b"]
 
 [ext_resource type="Script" path="res://World/Environment/WorldEnvironment.gd" id="1"]
 [ext_resource type="Shader" path="res://addons/clouds/clouds.gdshader" id="1_p31xn"]
@@ -6,6 +6,7 @@
 [ext_resource type="CompressedTexture3D" uid="uid://dbfbysid168mx" path="res://addons/clouds/perlworlnoise.tga" id="2_xrwak"]
 [ext_resource type="CompressedTexture3D" uid="uid://c4dp6g6gouj2b" path="res://addons/clouds/worlnoise.bmp" id="3_dh22h"]
 [ext_resource type="PackedScene" uid="uid://b5nxph2mew1en" path="res://World/Environment/Rain/Rain.tscn" id="6_wusnq"]
+[ext_resource type="PackedScene" uid="uid://cib4g5bstb1xa" path="res://World/Environment/Lightning.tscn" id="7_canqr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ywyjs"]
 shader = ExtResource("1_p31xn")
@@ -73,3 +74,6 @@ sky_mode = 2
 mesh = SubResource("SphereMesh_v0nf7")
 
 [node name="Rain" parent="." instance=ExtResource("6_wusnq")]
+
+[node name="Lightning" parent="." instance=ExtResource("7_canqr")]
+enabled = true

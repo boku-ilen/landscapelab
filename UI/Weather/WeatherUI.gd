@@ -18,3 +18,5 @@ func _ready():
 		weather_manager.rain_density = value)
 	$RainDropSize.value_changed.connect(func(value):
 		weather_manager.rain_drop_size = value)
+	$Lightning/CheckBox.toggled.connect(func(value):
+		weather_manager.lightning_enabled = value)
