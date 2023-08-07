@@ -48,8 +48,8 @@ var heavy_rain_threshold := 0.5
 
 func set_enabled(enabled: bool):
 	for child in get_children():
-		if child is FogVolume and not enabled:
-			child.material.density = 0
+		if child is FogVolume:
+			child.visible = enabled
 		if child is GPUParticles3D:
 			child.emitting = enabled
 

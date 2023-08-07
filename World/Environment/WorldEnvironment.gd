@@ -12,6 +12,8 @@ var light_disabled_altitude = 3.0
 
 func apply_visibility(new_visibility):
 	environment.fog_density = new_visibility * 0.000008
+	environment.volumetric_fog_enabled = new_visibility > 40
+	environment.volumetric_fog_density = new_visibility * 0.0003
 
 
 func apply_rain_enabled(enabled: bool):

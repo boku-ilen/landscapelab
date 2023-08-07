@@ -214,7 +214,7 @@ material = ExtResource("2_cdord")
 size = Vector2(8, 8)
 
 [sub_resource type="FogMaterial" id="FogMaterial_88g57"]
-density = 0.3
+density = 0.0
 density_texture = ExtResource("4_lni81")
 
 [node name="Rain" type="Node3D"]
@@ -292,5 +292,6 @@ resolution = 3
 follow_camera_enabled = true
 
 [node name="RainVolumeFog" type="FogVolume" parent="."]
+visible = false
 size = Vector3(10, 10, 10)
 material = SubResource("FogMaterial_88g57")
