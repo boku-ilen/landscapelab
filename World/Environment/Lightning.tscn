@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cib4g5bstb1xa"]
+[gd_scene load_steps=10 format=3 uid="uid://cib4g5bstb1xa"]
 
 [ext_resource type="Script" path="res://World/Environment/Lightning.gd" id="1_2eur0"]
+[ext_resource type="Texture2D" uid="uid://b3xdbcxmrvtvn" path="res://World/Environment/lightning_cloud_lighting.png" id="2_yil0v"]
 
 [sub_resource type="Gradient" id="Gradient_gnng6"]
 offsets = PackedFloat32Array(0, 0.431373, 1)
@@ -11,7 +12,7 @@ offsets = PackedFloat32Array(1)
 colors = PackedColorArray(1, 1, 1, 0)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_schoq"]
-viewport_path = NodePath("MeshInstance3d/SubViewport")
+viewport_path = NodePath("LightningMesh/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dju3a"]
 resource_local_to_scene = true
@@ -27,6 +28,19 @@ billboard_mode = 2
 size = Vector2(500, 500)
 orientation = 2
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x464h"]
+resource_local_to_scene = true
+transparency = 1
+cull_mode = 2
+albedo_texture = ExtResource("2_yil0v")
+emission_enabled = true
+emission = Color(0.462745, 0.537255, 1, 1)
+emission_energy_multiplier = 10.0
+billboard_mode = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_jseao"]
+size = Vector2(200, 200)
+
 [node name="Lightning" type="Node3D"]
 script = ExtResource("1_2eur0")
 enabled = true
@@ -39,11 +53,16 @@ rot_degrees = 180.0
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
-[node name="MeshInstance3d" type="MeshInstance3D" parent="."]
+[node name="LightningMesh" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_dju3a")
 mesh = SubResource("PlaneMesh_h6sm4")
 
-[node name="SubViewport" type="SubViewport" parent="MeshInstance3d"]
+[node name="LitCloudMesh" type="MeshInstance3D" parent="LightningMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 234.387, 0)
+material_override = SubResource("StandardMaterial3D_x464h")
+mesh = SubResource("QuadMesh_jseao")
+
+[node name="SubViewport" type="SubViewport" parent="LightningMesh"]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
@@ -52,12 +71,12 @@ use_taa = true
 size = Vector2i(500, 500)
 render_target_update_mode = 4
 
-[node name="Line2d" type="Line2D" parent="MeshInstance3d/SubViewport"]
+[node name="Line2d" type="Line2D" parent="LightningMesh/SubViewport"]
 width = 2.0
 default_color = Color(0.501961, 0.541176, 1, 1)
 gradient = SubResource("Gradient_gnng6")
 
-[node name="LightNing" type="DirectionalLight3D" parent="MeshInstance3d"]
+[node name="LightNing" type="DirectionalLight3D" parent="LightningMesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 500, 0)
 rotation_edit_mode = 2
 layers = 7
