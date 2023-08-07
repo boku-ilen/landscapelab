@@ -12,8 +12,9 @@ cull_mode = 2
 albedo_color = Color(0.8, 0.8, 0.8, 1)
 albedo_texture = ExtResource("1_ko8xe")
 roughness = 0.9
-rim_enabled = true
 subsurf_scatter_strength = 1.0
+backlight_enabled = true
+backlight = Color(1, 1, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6qo7w"]
 resource_name = "trunk"

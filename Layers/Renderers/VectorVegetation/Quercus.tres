@@ -17,8 +17,8 @@ cull_mode = 2
 albedo_color = Color(0.588235, 0.631373, 0.415686, 1)
 albedo_texture = ExtResource("2_o8n5r")
 roughness = 0.9
-rim_enabled = true
-rim = 0.7
+backlight_enabled = true
+backlight = Color(1, 1, 1, 1)
 
 [resource]
 _surfaces = [{
