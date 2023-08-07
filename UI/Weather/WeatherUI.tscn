@@ -111,3 +111,10 @@ text = "Lighning enabled: "
 
 [node name="CheckBox" type="CheckBox" parent="Lightning"]
 layout_mode = 2
+
+[node name="LightningRotation" parent="." instance=ExtResource("2")]
+layout_mode = 2
+label = "Rotation Degrees"
+max_value = 360.0
+step = 1.0
+value = 0.0
