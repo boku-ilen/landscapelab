@@ -49,7 +49,7 @@ func teleport_to_coordinates(xyz: Vector3, geo_coords=true):
 	if geo_coords:
 		xyz = pos_manager.to_engine_coordinates(xyz)
 	if pc_player:
-		pc_player.position = xyz
+		pc_player.teleport(xyz)
 	else:
 		# FIXME: what if center node is not a player?
 		pass

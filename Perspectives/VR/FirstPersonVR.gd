@@ -13,13 +13,7 @@ func _ready():
 
 
 func _process(_delta):
-	# Place checked ground
-	var space_state = get_world_3d().direct_space_state
-	var result = space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
-				Vector3(0, 5000, 0), Vector3(0, -5000, 0), 4294967295, [get_rid()]))
-	
-	if result:
-		transform.origin.y = result.position.y
+	place_onto_ground()
 
 
 func _input(event: InputEvent) -> void:
