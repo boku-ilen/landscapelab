@@ -78,7 +78,7 @@ func _ready():
 			
 			chunk.ortho_resolution = basic_ortho_resolution
 			chunk.landuse_resolution = basic_landuse_resolution
-			chunk.mesh = basic_mesh
+			chunk.mesh_to_apply = basic_mesh
 			chunk.mesh_resolution = basic_mesh_resolution
 			
 			chunk.height_layer = layer_composition.render_info.height_layer
@@ -133,7 +133,7 @@ func adapt_load(_diff: Vector3):
 		if changed:
 			chunk.changed = true
 			# Make sure the chunk is downgraded, then rebuild
-			chunk.mesh = basic_mesh
+			chunk.mesh_to_apply = basic_mesh
 			chunk.mesh_resolution = basic_mesh_resolution
 			chunk.ortho_resolution = basic_ortho_resolution
 			chunk.landuse_resolution = basic_landuse_resolution
@@ -169,7 +169,7 @@ func refine_load():
 		var distance = Vector2(chunk.position.x, chunk.position.z).distance_to(Vector2(position_manager.center_node.position.x, position_manager.center_node.position.z))
 		if chunk.ortho_resolution >= detailed_ortho_resolution and \
 				distance > detailed_load_distance:
-			chunk.mesh = basic_mesh
+			chunk.mesh_to_apply = basic_mesh
 			chunk.mesh_resolution = basic_mesh_resolution
 			chunk.ortho_resolution = basic_ortho_resolution
 			chunk.landuse_resolution = basic_landuse_resolution
@@ -181,7 +181,7 @@ func refine_load():
 	var nearest_chunk = get_nearest_chunk_below_resolution(position_manager.center_node.position, detailed_ortho_resolution, detailed_load_distance)
 	
 	if nearest_chunk and not nearest_chunk.changed:
-		nearest_chunk.mesh = detailed_mesh
+		nearest_chunk.mesh_to_apply = detailed_mesh
 		nearest_chunk.mesh_resolution = detailed_mesh_resolution
 		nearest_chunk.ortho_resolution = detailed_ortho_resolution
 		nearest_chunk.landuse_resolution = detailed_landuse_resolution

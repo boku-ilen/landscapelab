@@ -23,6 +23,8 @@ var texture_layer: GeoRasterLayer
 var landuse_layer: GeoRasterLayer
 var surface_height_layer: GeoRasterLayer
 
+var mesh_to_apply
+
 var current_heightmap
 var current_heightmap_shape
 var current_normalmap
@@ -62,12 +64,6 @@ func build(center_x, center_y):
 	var top_left_x = float(center_x - size / 2)
 	var top_left_y = float(center_y + size / 2)
 	
-	scale.x = size / mesh_resolution
-	scale.z = size / mesh_resolution
-	
-	$HeightmapCollider.position.x = 1.0 - (size / mesh_resolution) / scale.x 
-	$HeightmapCollider.position.z = 1.0 - (size / mesh_resolution) / scale.x
-	
 	# Heightmap
 	var sample_rate = size / mesh_resolution
 	
@@ -78,7 +74,6 @@ func build(center_x, center_y):
 		mesh_resolution + 1,
 		0
 	)
-	
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
@@ -127,6 +122,14 @@ func build(center_x, center_y):
 
 func apply_textures():
 	rebuild_aabb()
+	
+	mesh = mesh_to_apply
+	
+	scale.x = size / mesh_resolution
+	scale.z = size / mesh_resolution
+	
+	$HeightmapCollider.position.x = 1.0 - (size / mesh_resolution) / scale.x 
+	$HeightmapCollider.position.z = 1.0 - (size / mesh_resolution) / scale.x
 	
 	material_override.set_shader_parameter("size", size)
 	
