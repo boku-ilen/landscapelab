@@ -79,3 +79,7 @@ func _set_light_energy(new_energy):
 
 func set_lightning_enabled(enabled: bool):
 	$Lightning.enabled = enabled
+
+
+func set_lightning_rotation(rotation_deg: float):
+	$Lightning.rot_degrees = rotation_deg

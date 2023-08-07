@@ -10,6 +10,7 @@ signal rain_density_changed(new_rain_density)
 signal rain_drop_size_changed(new_rain_density)
 signal rain_enabled_changed(enabled)
 signal lightning_enabled_changed(enabled)
+signal lightning_rotation_changed(rotation_degrees)
 
 # 0..100 = "clear visibility".."strong haziness"
 var visibility = 0 :
@@ -69,4 +70,10 @@ var lightning_enabled := false :
 		return lightning_enabled
 	set(enabled):
 		lightning_enabled = enabled
+		lightning_enabled_changed.emit(lightning_enabled)
 
+
+var lightning_rotation := 0 :
+	set(val):
+		lightning_rotation = val
+		lightning_rotation_changed.emit(lightning_rotation)

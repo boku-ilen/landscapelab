@@ -76,4 +76,3 @@ mesh = SubResource("SphereMesh_v0nf7")
 [node name="Rain" parent="." instance=ExtResource("6_wusnq")]
 
 [node name="Lightning" parent="." instance=ExtResource("7_canqr")]
-enabled = true
