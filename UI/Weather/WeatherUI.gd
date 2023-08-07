@@ -87,6 +87,15 @@ var preconfigurations := {
 		rain_size: 0.015,
 		lightning_enabled: false
 	},
+	"Heavy Rain": {
+		haziness: 45,
+		cloudiness: 85,
+		wind_speed: 15,
+		rain_enabled: true,
+		rain_density: 7.5,
+		rain_size: 0.05,
+		lightning_enabled: false
+	},
 	"Gusts": {
 		haziness: 10,
 		cloudiness: 35,
