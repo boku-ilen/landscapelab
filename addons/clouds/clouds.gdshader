@@ -167,7 +167,7 @@ vec4 march(vec3 pos,  vec3 end, vec3 dir, int depth) {
 	vec3 p = pos + hash(pos * 10.0) * ss;
 	const float t_dist = sky_t_radius-sky_b_radius;
 	float lss = (t_dist / 36.0);
-	vec3 ldir = normalize(LIGHT0_DIRECTION);
+	vec3 ldir = normalize(LIGHT0_DIRECTION) * 0.6;
 	vec3 L = vec3(0.0);
 	int count=0;
 	float t = 1.0;

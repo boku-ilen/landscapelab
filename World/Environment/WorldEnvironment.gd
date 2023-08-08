@@ -1,19 +1,22 @@
 extends WorldEnvironment
 
-@onready var light = get_node("DirectionalLight3D")
+# Diffuse and specular
+@onready var light: DirectionalLight3D = get_node("DirectionalLight")
+# Ambient and sky
+@onready var sky_light: DirectionalLight3D = get_node("DirectionalLight/SkyLight")
 
 var wind_speed = 0
 var wind_direction = 0
 
-var brightest_light_energy = 0.75
+var brightest_light_energy = 1.5
 var light_darken_begin_altitude = 15.0
 var light_disabled_altitude = 3.0
 
 
 func apply_visibility(new_visibility):
-	environment.fog_density = new_visibility * 0.000008
-	environment.volumetric_fog_enabled = new_visibility > 40
-	environment.volumetric_fog_density = new_visibility * 0.0003
+	environment.fog_density = remap(new_visibility, 0., 100., 0, 0.00015)
+	# Enable volumetric fog only above a certain threshold
+	environment.volumetric_fog_density = remap(new_visibility, 30., 100., 0.0, 0.045)
 
 
 func apply_rain_enabled(enabled: bool):
@@ -62,20 +65,29 @@ func apply_datetime(datetime: Dictionary):
 
 
 func apply_light_energy():
+	# Directional light energy is 0 when cloud coverage is maximized
+	var cloud_coverage = environment.sky.get_material().get_shader_parameter("cloud_coverage")
+	var directional_energy = brightest_light_energy - remap(cloud_coverage, 0, 1, 0, brightest_light_energy)
+	
+	# Lower light quickly in the beginning when coverage/density are higher
+	# and lower light slower in the end (sqrt-curve-function), vice versa for ssao
+	var sqrt_cloud_cov = sqrt(cloud_coverage)
+	sky_light.light_energy = 4.0 - remap(sqrt_cloud_cov, 0, 1, 0, 2)
+	environment.ssao_intensity = 3.0 + remap(sqrt_cloud_cov, 0, 1, 0, 5)
+	
 	var altitude = rad_to_deg(-light.rotation.x)
-	
-	# Light energy is halved when it is maximally cloudy
-	var brightest = brightest_light_energy - environment.sky.get_material().get_shader_parameter("cloud_coverage") * 0.000025
-	
+	# Sunrise/sunset
 	if altitude > light_disabled_altitude and altitude < light_darken_begin_altitude:
-		_set_light_energy(inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude) * brightest)
+		_set_directional_light_energy(directional_energy * 
+			inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude))
+	# Night
 	elif altitude <= light_disabled_altitude:
-		_set_light_energy(0.0)
+		_set_directional_light_energy(0.0)
 	else:
-		_set_light_energy(brightest)
+		_set_directional_light_energy(directional_energy)
 
 
-func _set_light_energy(new_energy):
+func _set_directional_light_energy(new_energy):
 	light.light_energy = new_energy
 
 
