@@ -26,9 +26,7 @@ transform = Transform3D(1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0)
 cull_mask = 1079
 doppler_tracking = 2
 current = true
-fov = 60.0
-near = 0.01
-far = 25000.0
+near = 0.15
 script = ExtResource("2")
 setting_title = "player"
 
