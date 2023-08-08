@@ -1,7 +1,11 @@
 extends VBoxContainer
 
 
-var weather_manager: WeatherManager
+var weather_manager: WeatherManager : 
+	set(manager):
+		weather_manager = manager
+		_on_preconfiguration_selected(0)
+
 
 func _ready():
 	# Connect weather option signals with weather_manager
@@ -27,7 +31,6 @@ func _ready():
 	# Add/apply preconfigurated weather categories and connect signals
 	_add_preconfigured_options()
 	$Preconfigurations/OptionButton.item_selected.connect(_on_preconfiguration_selected)
-	$Preconfigurations/OptionButton.select(0)
 
 
 func _add_preconfigured_options():
