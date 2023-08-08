@@ -10,10 +10,10 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ywyjs"]
 shader = ExtResource("1_p31xn")
-shader_parameter/wind_direction = Vector2(1, 0)
-shader_parameter/_density = 0.137
-shader_parameter/cloud_coverage = 0.461
-shader_parameter/_time_scale = 1.0
+shader_parameter/wind_direction = Vector2(1, 1)
+shader_parameter/_density = 0.2
+shader_parameter/cloud_coverage = 0.32
+shader_parameter/_time_scale = 20.0
 shader_parameter/_time_offset = 0.0
 shader_parameter/rayleigh = 2.0
 shader_parameter/rayleigh_color = Color(0.26, 0.41, 0.58, 1)
