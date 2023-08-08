@@ -53,7 +53,7 @@ func _reload():
 			var geo_layer = described_geolayers[geo_layer_decription]
 			if geo_layer:
 				tree_item.set_text(0, "%s: %s" % 
-					[geo_layer_decription, geo_layer.resource_name])
+					[geo_layer_decription, geo_layer.get_file_info()["name"]])
 				tree_item.set_metadata(0, geo_layer)
 			
 		root.set_collapsed(true)

@@ -36,7 +36,7 @@ func set_layer_visibility(layer_name: String, is_visible: bool):
 		get_node(layer_name).visible = true
 
 
-func instantiate_geolayer_renderer(geo_layer: Resource):
+func instantiate_geolayer_renderer(geo_layer: RefCounted):
 	var renderer
 	if geo_layer is GeoRasterLayer:
 		renderer = raster_renderer.instantiate()
@@ -46,7 +46,7 @@ func instantiate_geolayer_renderer(geo_layer: Resource):
 		renderer.geo_feature_layer = geo_layer
 	
 	if renderer:
-		renderer.name = geo_layer.resource_name
+		renderer.name = geo_layer.get_file_info()["name"]
 		add_child(renderer)
 
 

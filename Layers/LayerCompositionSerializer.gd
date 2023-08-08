@@ -71,12 +71,12 @@ static func serialize(layer_composition: LayerComposition):
 			"GeoRasterLayer":
 				serialized = "{}:{}?{}".format(
 					[property_var.get_dataset().get_file_info()["path"],
-					property_var.resource_name,
+					property_var.get_file_info()["name"],
 					"w" if property_var.get_dataset().has_write_access() else "r"], "{}")
 			"GeoFeatureLayer": 
 				serialized = "{}:{}?{}".format(
 					[property_var.get_file_info()["path"],
-					property_var.resource_name,
+					property_var.get_file_info()["name"],
 					"w" if property_var.get_dataset().has_write_access() else "r"], "{}")
 			"Color": 
 				serialized = str(property_var)
