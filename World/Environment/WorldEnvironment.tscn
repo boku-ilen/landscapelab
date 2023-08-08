@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cejf5c8oyb02b"]
+[gd_scene load_steps=11 format=3 uid="uid://cejf5c8oyb02b"]
 
 [ext_resource type="Script" path="res://World/Environment/WorldEnvironment.gd" id="1"]
 [ext_resource type="Shader" path="res://addons/clouds/clouds.gdshader" id="1_p31xn"]
@@ -54,11 +54,6 @@ volumetric_fog_density = 0.0
 adjustment_contrast = 1.15
 adjustment_saturation = 1.2
 
-[sub_resource type="SphereMesh" id="SphereMesh_v0nf7"]
-
-[sub_resource type="QuadMesh" id="QuadMesh_l7xtl"]
-size = Vector2(2, 2)
-
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("2")
 script = ExtResource("1")
@@ -77,14 +72,8 @@ transform = Transform3D(0.998675, 0.0390908, -0.0334572, -0.0374992, 0.998193, 0
 light_energy = 4.0
 sky_mode = 2
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_v0nf7")
-
 [node name="Rain" parent="." instance=ExtResource("6_wusnq")]
 enabled = false
 
 [node name="Lightning" parent="." instance=ExtResource("7_canqr")]
 enabled = false
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-mesh = SubResource("QuadMesh_l7xtl")
