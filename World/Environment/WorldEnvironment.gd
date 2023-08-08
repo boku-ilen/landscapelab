@@ -14,9 +14,11 @@ var light_disabled_altitude = 3.0
 
 
 func apply_visibility(new_visibility):
-	environment.fog_density = remap(new_visibility, 0., 100., 0, 0.00015)
+	environment.fog_density = remap(new_visibility, 0., 100., 0.0001, 0.0005)
+	
 	# Enable volumetric fog only above a certain threshold
-	environment.volumetric_fog_density = remap(new_visibility, 30., 100., 0.0, 0.045)
+	environment.volumetric_fog_enabled = new_visibility > 40
+	environment.volumetric_fog_density = remap(new_visibility, 40., 100., 0.000, 0.045)
 
 
 func apply_rain_enabled(enabled: bool):
@@ -31,8 +33,14 @@ func apply_rain_density(rain_density: float):
 	$Rain.density = rain_density
 
 
-func apply_cloudiness(new_cloudiness):
+func apply_cloud_coverage(new_cloudiness):
 	environment.sky.get_material().set_shader_parameter("cloud_coverage", new_cloudiness * 0.01)
+	
+	apply_light_energy()
+
+
+func apply_cloud_density(new_density):
+	environment.sky.get_material().set_shader_parameter("_density", remap(new_density, 0, 100, 0.03, 0.2))
 	
 	apply_light_energy()
 
@@ -49,8 +57,7 @@ func apply_wind_direction(new_wind_direction):
 
 func apply_wind():
 	var rotated_vector = Vector2.UP.rotated(deg_to_rad(wind_direction))
-	# FIXME: apply wind speed to clouds
-#	$CloudDome.cloud_speed = wind_vector
+	
 	$Rain.wind_direction = Vector3(rotated_vector.x, -1, rotated_vector.y)
 	$Rain.wind_speed = wind_speed
 

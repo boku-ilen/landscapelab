@@ -11,8 +11,10 @@ func _ready():
 	# Connect weather option signals with weather_manager
 	$Visibility/HSlider.value_changed.connect(func(value): 
 		weather_manager.visibility = value)
-	$Clouds/HSlider.value_changed.connect(func(value):
-		weather_manager.cloudiness = value)
+	$CloudCoverage/HSlider.value_changed.connect(func(value):
+		weather_manager.cloud_coverage = value)
+	$CloudDensity.value_changed.connect(func(value):
+		weather_manager.cloud_density = value)
 	$WindSpeed/HSlider.value_changed.connect(func(value):
 		weather_manager.wind_speed = value)
 	$WindDirection/HSlider.value_changed.connect(func(value):
@@ -51,7 +53,8 @@ func _on_preconfiguration_selected(idx):
 
 # Access the wished UI property via node_path:property
 var haziness = "Visibility/HSlider:value"
-var cloudiness = "Clouds/HSlider:value"
+var cloud_coverage = "CloudCoverage/HSlider:value"
+var cloud_density = "CloudDensity:value"
 var wind_speed = "WindSpeed/HSlider:value"
 var rain_enabled = "Rain/CheckBox:button_pressed"
 var rain_density = "RainDensity:value"
@@ -62,28 +65,32 @@ var lightning_enabled = "Lightning/CheckBox:button_pressed"
 var preconfigurations := {
 	"Clear Sky": {
 		haziness: 3,
-		cloudiness: 10,
+		cloud_coverage: 8,
+		cloud_density: 15,
 		wind_speed: 5,
 		rain_enabled: false,
 		lightning_enabled: false
 	},
 	"Few Clouds": {
 		haziness: 10,
-		cloudiness: 20,
+		cloud_coverage: 15,
+		cloud_density: 50,
 		wind_speed: 15,
 		rain_enabled: false,
 		lightning_enabled: false
 	},
 	"Overcast": {
-		haziness: 45,
-		cloudiness: 90,
+		haziness: 35,
+		cloud_coverage: 45,
+		cloud_density: 25,
 		wind_speed: 20,
 		rain_enabled: false,
 		lightning_enabled: false
 	},
 	"Drizzle Rain": {
-		haziness: 25,
-		cloudiness: 65,
+		haziness: 35,
+		cloud_coverage: 45,
+		cloud_density: 50,
 		wind_speed: 5,
 		rain_enabled: true,
 		rain_density: 3.5,
@@ -92,7 +99,8 @@ var preconfigurations := {
 	},
 	"Heavy Rain": {
 		haziness: 45,
-		cloudiness: 85,
+		cloud_coverage: 75,
+		cloud_density: 35,
 		wind_speed: 15,
 		rain_enabled: true,
 		rain_density: 7.5,
@@ -101,14 +109,16 @@ var preconfigurations := {
 	},
 	"Gusts": {
 		haziness: 10,
-		cloudiness: 35,
+		cloud_coverage: 15,
+		cloud_density: 20,
 		wind_speed: 80,
 		rain_enabled: false,
 		lightning_enabled: false
 	},
 	"Thunderstorm": {
-		haziness: 70,
-		cloudiness: 85,
+		haziness: 60,
+		cloud_coverage: 85,
+		cloud_density: 80,
 		wind_speed: 5,
 		rain_enabled: true,
 		rain_density: 7.5,
@@ -117,7 +127,8 @@ var preconfigurations := {
 	},
 	"Foggy": {
 		haziness: 100,
-		cloudiness: 70,
+		cloud_coverage: 70,
+		cloud_density: 40,
 		wind_speed: 0,
 		rain_enabled: false,
 		lightning_enabled: false

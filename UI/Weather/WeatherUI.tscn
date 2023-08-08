@@ -34,18 +34,24 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "Hazy"
 
-[node name="Clouds" type="HBoxContainer" parent="."]
+[node name="CloudDensity" parent="." instance=ExtResource("2")]
+layout_mode = 2
+label = "Cloud Density: "
+step = 1.0
+value = 20.0
+
+[node name="CloudCoverage" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Clouds"]
+[node name="Label" type="Label" parent="CloudCoverage"]
 layout_mode = 2
-text = "Cloudiness: Clear"
+text = "Cloud Coverage: Clear"
 
-[node name="HSlider" type="HSlider" parent="Clouds"]
+[node name="HSlider" type="HSlider" parent="CloudCoverage"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="Clouds"]
+[node name="Label2" type="Label" parent="CloudCoverage"]
 layout_mode = 2
 text = "Overcast"
 

@@ -3,7 +3,8 @@ class_name WeatherManager
 
 
 signal visibility_changed(new_visibility)
-signal cloudiness_changed(new_cloudiness)
+signal cloud_coverage_changed(new_cloudiness)
+signal cloud_density_changed(new_density)
 signal wind_speed_changed(new_wind_speed)
 signal wind_direction_changed(new_wind_direction)
 signal rain_density_changed(new_rain_density)
@@ -21,12 +22,20 @@ var visibility = 0 :
 		visibility_changed.emit(visibility)
 
 # 0..100 = "clear sky".."fully overcast"
-var cloudiness = 0 :
+var cloud_coverage = 0 :
 	get:
-		return cloudiness
-	set(new_cloudiness):
-		cloudiness = new_cloudiness
-		cloudiness_changed.emit(cloudiness)
+		return cloud_coverage
+	set(coverage):
+		cloud_coverage = coverage
+		cloud_coverage_changed.emit(cloud_coverage)
+
+# 0..100 = "white clouds".."black clouds"
+var cloud_density = 0 :
+	get:
+		return cloud_density
+	set(density):
+		cloud_density = density
+		cloud_density_changed.emit(cloud_density)
 
 # in km/h
 var wind_speed = 10 :
