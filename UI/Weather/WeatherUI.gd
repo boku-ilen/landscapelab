@@ -25,8 +25,8 @@ func _ready():
 		weather_manager.rain_density = value)
 	$RainDropSize.value_changed.connect(func(value):
 		weather_manager.rain_drop_size = value)
-	$Lightning/CheckBox.toggled.connect(func(value):
-		weather_manager.lightning_enabled = value)
+	$LightningFrequency.value_changed.connect(func(value):
+		weather_manager.lightning_frequency = value)
 	$LightningRotation.value_changed.connect(func(value): 
 		weather_manager.lightning_rotation = value)
 	
@@ -59,7 +59,7 @@ var wind_speed = "WindSpeed/HSlider:value"
 var rain_enabled = "Rain/CheckBox:button_pressed"
 var rain_density = "RainDensity:value"
 var rain_size = "RainDropSize:value"
-var lightning_enabled = "Lightning/CheckBox:button_pressed"
+var lightning_frequency = "LightningFrequency:value"
 
 # Preconfigured weather categories
 var preconfigurations := {
@@ -69,7 +69,7 @@ var preconfigurations := {
 		cloud_density: 15,
 		wind_speed: 5,
 		rain_enabled: false,
-		lightning_enabled: false
+		lightning_frequency: 0
 	},
 	"Few Clouds": {
 		haziness: 10,
@@ -77,7 +77,7 @@ var preconfigurations := {
 		cloud_density: 50,
 		wind_speed: 15,
 		rain_enabled: false,
-		lightning_enabled: false
+		lightning_frequency: 0
 	},
 	"Overcast": {
 		haziness: 35,
@@ -85,7 +85,7 @@ var preconfigurations := {
 		cloud_density: 25,
 		wind_speed: 20,
 		rain_enabled: false,
-		lightning_enabled: false
+		lightning_frequency: 0
 	},
 	"Drizzle Rain": {
 		haziness: 35,
@@ -95,7 +95,7 @@ var preconfigurations := {
 		rain_enabled: true,
 		rain_density: 3.5,
 		rain_size: 0.015,
-		lightning_enabled: false
+		lightning_frequency: 0
 	},
 	"Heavy Rain": {
 		haziness: 45,
@@ -105,7 +105,7 @@ var preconfigurations := {
 		rain_enabled: true,
 		rain_density: 7.5,
 		rain_size: 0.05,
-		lightning_enabled: false
+		lightning_frequency: 0
 	},
 	"Gusts": {
 		haziness: 10,
@@ -113,7 +113,7 @@ var preconfigurations := {
 		cloud_density: 20,
 		wind_speed: 80,
 		rain_enabled: false,
-		lightning_enabled: false
+		lightning_frequency: 0
 	},
 	"Thunderstorm": {
 		haziness: 60,
@@ -123,7 +123,7 @@ var preconfigurations := {
 		rain_enabled: true,
 		rain_density: 7.5,
 		rain_size: 0.04,
-		lightning_enabled: true
+		lightning_frequency: 75
 	},
 	"Foggy": {
 		haziness: 100,
@@ -131,6 +131,6 @@ var preconfigurations := {
 		cloud_density: 40,
 		wind_speed: 0,
 		rain_enabled: false,
-		lightning_enabled: false
+		lightning_frequency: 0
 	}
 }

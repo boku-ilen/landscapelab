@@ -54,7 +54,7 @@ func _file_selected(which: String):
 func _fill_options(which: Array, start_idx: int = 0, clear = false) -> int:
 	if clear: $OptionButton.clear()
 	for option in which:
-		$OptionButton.add_item(option.resource_name)
+		$OptionButton.add_item(option.get_file_info()["name"])
 	
 	return start_idx
 

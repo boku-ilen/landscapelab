@@ -1,19 +1,27 @@
 extends Node3D
 
-func set_enabled(val):
-	if has_node("Timer"):
-		if enabled:
-			get_node("Timer").start()
-		else:
-			get_node("Timer").stop()
-@export var enabled := false : 
-	set(val): 
-		enabled = val 
-		set_enabled(val)
+
+func on_frequency_changed(frequency):
+	if frequency > 0.0:
+		# Reset timer because it might be very large from a low frequency before
+		get_node("Timer").wait_time = 0.5 
+		get_node("Timer").start()
+		# Higher frequency should result in lower wait time
+		frequency_multiplier = remap(frequency, 0, 100, 3, 0.5)
+		return
+	
+	get_node("Timer").stop()
+@export var frequency := 0.0 :
+	set(new_frequency): 
+		frequency = new_frequency 
+		on_frequency_changed(frequency)
+
+# Factor with which spawn_interval is multiplied
+var frequency_multiplier := 1.0
 
 # Randomly choose a number (in seconds) in the interval for 
 # spawning a new lightning 
-@export var spawn_interval_from := 0.5
+@export var spawn_interval_from := 1.0
 @export var spawn_interval_to := 10.0
 
 # Distance between center and lightning
@@ -24,7 +32,7 @@ func set_enabled(val):
 @export var gradient_on: Gradient
 @export var gradient_off: Gradient
 
-func set_color(val):
+func on_color_changed(val):
 	if has_node("LightningMesh/LightNing"):
 		get_node("LightningMesh/LightNing").light_color = color
 	if has_node("LightningMesh"):
@@ -34,7 +42,7 @@ func set_color(val):
 @export var color: Color : 
 	set(val): 
 		color = val
-		set_color(val)
+		on_color_changed(val)
 
 # 0 => north, 90 => east, 180 => south, 270 => west 
 @export var rot_degrees := 0.0 : 
@@ -48,14 +56,16 @@ var center_node: Node3D
 
 func _ready():
 	$Timer.timeout.connect(_on_timer_timeout)
-	set_enabled(enabled)
-	set_color(color)
+	on_frequency_changed(frequency)
+	on_color_changed(color)
 
 
 # Repeating call of this function on timer timeout
 func _on_timer_timeout():
 	fire()
-	$Timer.wait_time = randf_range(spawn_interval_from, spawn_interval_to)
+	var wait_time = randf_range(spawn_interval_from, spawn_interval_to) * frequency_multiplier
+	
+	$Timer.wait_time = wait_time
 
 
 func fire():

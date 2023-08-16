@@ -44,8 +44,6 @@ size = Vector2(200, 200)
 
 [node name="Lightning" type="Node3D"]
 script = ExtResource("1_2eur0")
-enabled = true
-spawn_interval_to = 3.0
 gradient_on = SubResource("Gradient_gnng6")
 gradient_off = SubResource("Gradient_kbe6e")
 color = Color(0.788235, 0.776471, 1, 1)

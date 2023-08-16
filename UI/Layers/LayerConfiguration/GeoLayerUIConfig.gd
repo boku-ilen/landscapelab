@@ -15,8 +15,8 @@ func _ready():
 	list.z_index_changed.emit(list.get_items())
 
 
-func add_geo_layer(geo_layer: Resource):
-	var new_layer_idx = list.add_item(geo_layer.resource_name)
+func add_geo_layer(geo_layer: RefCounted):
+	var new_layer_idx = list.add_item(geo_layer.get_file_info()["name"])
 	list.set_item_metadata(new_layer_idx, geo_layer)
 
 

@@ -11,7 +11,7 @@ signal geolayer_visibility_changed(layer_name, is_visible)
 
 func _ready():
 	item_clicked.connect(func(idx, pos, mouse_button):
-		var lname = get_item_metadata(idx).resource_name
+		var lname = get_item_metadata(idx).get_file_info()["name"]
 		geolayer_visibility_changed.emit(lname, true))
 
 
