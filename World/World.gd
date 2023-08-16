@@ -25,7 +25,7 @@ func _ready():
 	$WeatherManager.rain_enabled_changed.connect($WorldEnvironment.apply_rain_enabled)
 	$WeatherManager.rain_density_changed.connect($WorldEnvironment.apply_rain_density)
 	$WeatherManager.rain_drop_size_changed.connect($WorldEnvironment.apply_rain_drop_size)
-	$WeatherManager.lightning_enabled_changed.connect($WorldEnvironment.set_lightning_enabled)
+	$WeatherManager.lightning_frequency_changed.connect($WorldEnvironment.set_lightning_frequency)
 	$WeatherManager.lightning_rotation_changed.connect($WorldEnvironment.set_lightning_rotation)
 	
 	$PositionManager.new_center_node.connect(func(center_node: Node3D): 

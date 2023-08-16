@@ -77,4 +77,3 @@ sky_mode = 2
 enabled = false
 
 [node name="Lightning" parent="." instance=ExtResource("7_canqr")]
-enabled = false

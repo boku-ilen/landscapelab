@@ -10,7 +10,7 @@ signal wind_direction_changed(new_wind_direction)
 signal rain_density_changed(new_rain_density)
 signal rain_drop_size_changed(new_rain_density)
 signal rain_enabled_changed(enabled)
-signal lightning_enabled_changed(enabled)
+signal lightning_frequency_changed(frequency)
 signal lightning_rotation_changed(rotation_degrees)
 
 # 0..100 = "clear visibility".."strong haziness"
@@ -74,12 +74,12 @@ var rain_drop_size := 0.1 :
 		rain_drop_size = new_rain_drop_size
 		rain_drop_size_changed.emit(new_rain_drop_size)
 
-var lightning_enabled := false :
+var lightning_frequency := 0.0 :
 	get:
-		return lightning_enabled
-	set(enabled):
-		lightning_enabled = enabled
-		lightning_enabled_changed.emit(lightning_enabled)
+		return lightning_frequency
+	set(frequency):
+		lightning_frequency = frequency
+		lightning_frequency_changed.emit(lightning_frequency)
 
 
 var lightning_rotation := 0 :

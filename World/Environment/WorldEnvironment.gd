@@ -100,8 +100,8 @@ func _set_directional_light_energy(new_energy):
 	light.light_energy = new_energy
 
 
-func set_lightning_enabled(enabled: bool):
-	$Lightning.enabled = enabled
+func set_lightning_frequency(frequency: float):
+	$Lightning.frequency = frequency
 
 
 func set_lightning_rotation(rotation_deg: float):
