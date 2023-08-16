@@ -58,7 +58,7 @@ func apply_wind_direction(new_wind_direction):
 func apply_wind():
 	var rotated_vector = Vector2.UP.rotated(deg_to_rad(wind_direction))
 	
-	environment.sky.get_material().set_shader_parameter("_time_scale", remap(wind_speed, 0, 50, 0, 20))
+	environment.sky.get_material().set_shader_parameter("wind_speed", remap(wind_speed, 0, 50, 0, 20))
 	environment.sky.get_material().set_shader_parameter("wind_direction", -rotated_vector)
 	$Rain.wind_direction = Vector3(rotated_vector.x, -1, rotated_vector.y)
 	$Rain.wind_speed = wind_speed
