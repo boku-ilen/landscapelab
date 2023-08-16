@@ -18,13 +18,15 @@ func _ready():
 	$LLConfigSetup.applied_configuration.connect($PositionManager.reset_center)
 	$TimeManager.datetime_changed.connect($WorldEnvironment.apply_datetime)
 	$WeatherManager.visibility_changed.connect($WorldEnvironment.apply_visibility)
-	$WeatherManager.cloudiness_changed.connect($WorldEnvironment.apply_cloudiness)
+	$WeatherManager.cloud_coverage_changed.connect($WorldEnvironment.apply_cloud_coverage)
+	$WeatherManager.cloud_density_changed.connect($WorldEnvironment.apply_cloud_density)
 	$WeatherManager.wind_speed_changed.connect($WorldEnvironment.apply_wind_speed)
 	$WeatherManager.wind_direction_changed.connect($WorldEnvironment.apply_wind_direction)
 	$WeatherManager.rain_enabled_changed.connect($WorldEnvironment.apply_rain_enabled)
 	$WeatherManager.rain_density_changed.connect($WorldEnvironment.apply_rain_density)
 	$WeatherManager.rain_drop_size_changed.connect($WorldEnvironment.apply_rain_drop_size)
 	$WeatherManager.lightning_enabled_changed.connect($WorldEnvironment.set_lightning_enabled)
+	$WeatherManager.lightning_rotation_changed.connect($WorldEnvironment.set_lightning_rotation)
 	
 	$PositionManager.new_center_node.connect(func(center_node: Node3D): 
 		_add_remote_transform(center_node, $WorldEnvironment/Rain, "RainRemoteTransformer"))

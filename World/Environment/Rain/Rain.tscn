@@ -66,8 +66,6 @@ emission_ring_radius = 40.0
 emission_ring_inner_radius = 20.0
 direction = Vector3(0, -1, 0)
 spread = 0.0
-initial_velocity_min = 2.0
-initial_velocity_max = 3.0
 scale_min = 0.5
 scale_max = 2.0
 color = Color(1, 1, 1, 0)
@@ -214,7 +212,7 @@ material = ExtResource("2_cdord")
 size = Vector2(8, 8)
 
 [sub_resource type="FogMaterial" id="FogMaterial_88g57"]
-density = 0.3
+density = 0.0
 density_texture = ExtResource("4_lni81")
 
 [node name="Rain" type="Node3D"]
@@ -292,5 +290,6 @@ resolution = 3
 follow_camera_enabled = true
 
 [node name="RainVolumeFog" type="FogVolume" parent="."]
+visible = false
 size = Vector3(10, 10, 10)
 material = SubResource("FogMaterial_88g57")

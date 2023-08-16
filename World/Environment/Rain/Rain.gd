@@ -48,8 +48,8 @@ var heavy_rain_threshold := 0.5
 
 func set_enabled(enabled: bool):
 	for child in get_children():
-		if child is FogVolume and not enabled:
-			child.material.density = 0
+		if child is FogVolume:
+			child.visible = enabled
 		if child is GPUParticles3D:
 			child.emitting = enabled
 
@@ -74,6 +74,8 @@ func set_wind(direction: Vector3, speed: float):
 		material.direction = direction.normalized()
 		material.linear_accel_min = speed - speed * 0.25
 		material.linear_accel_max = speed + speed * 0.25
+		material.initial_velocity_min = (speed - speed * 0.25) * 0.5
+		material.initial_velocity_max = (speed + speed * 0.25) * 0.5
 
 	set_wind_for_material.call($RainDrops.process_material, direction, speed)
 	set_wind_for_material.call($RainSheetStraight.process_material, direction, speed)
@@ -89,8 +91,8 @@ func set_extents(detailed_radius: int, coarse_radius: int, distance_radius: int)
 	$RainSheetRound.process_material.emission_ring_inner_radius = detailed_radius
 	$RainSheetRound.process_material.emission_ring_radius = coarse_radius
 
-	$RainDistantFog.process_material.emission_ring_inner_radius = distance_radius - distance_radius * 0.1
-	$RainDistantFog.process_material.emission_ring_radius = distance_radius + distance_radius * 0.1
+	$RainDistantFog.process_material.emission_ring_inner_radius = distance_radius - distance_radius * 0.3
+	$RainDistantFog.process_material.emission_ring_radius = distance_radius + distance_radius * 0.3
 
 
 func set_drop_size(size):
