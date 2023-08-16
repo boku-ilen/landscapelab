@@ -39,7 +39,8 @@ func on_color_changed(val):
 		get_node("LightningMesh").material_override.emission = color
 	if has_node("LightningMesh/LitCloudMesh"):
 		get_node("LightningMesh/LitCloudMesh").material_override.emission = color
-@export var color: Color : 
+		get_node("LightningMesh/LitCloudMesh").material_override.albedo = color
+@export var color := Color.CORNFLOWER_BLUE : 
 	set(val): 
 		color = val
 		on_color_changed(val)
