@@ -26,7 +26,7 @@ func _ready():
 	$WeatherManager.rain_density_changed.connect($WorldEnvironment.apply_rain_density)
 	$WeatherManager.rain_drop_size_changed.connect($WorldEnvironment.apply_rain_drop_size)
 	$WeatherManager.lightning_frequency_changed.connect($WorldEnvironment.set_lightning_frequency)
-	$WeatherManager.lightning_rotation_changed.connect($WorldEnvironment.set_lightning_rotation)
+	$WeatherManager.lightning_orientation_changed.connect($WorldEnvironment.set_lightning_orientation)
 	
 	$PositionManager.new_center_node.connect(func(center_node: Node3D): 
 		_add_remote_transform(center_node, $WorldEnvironment/Rain, "RainRemoteTransformer"))

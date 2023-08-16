@@ -46,8 +46,6 @@ size = Vector2(200, 200)
 script = ExtResource("1_2eur0")
 gradient_on = SubResource("Gradient_gnng6")
 gradient_off = SubResource("Gradient_kbe6e")
-color = Color(0.788235, 0.776471, 1, 1)
-rot_degrees = 180.0
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true

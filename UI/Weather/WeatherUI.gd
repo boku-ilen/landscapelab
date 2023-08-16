@@ -27,8 +27,8 @@ func _ready():
 		weather_manager.rain_drop_size = value)
 	$LightningFrequency.value_changed.connect(func(value):
 		weather_manager.lightning_frequency = value)
-	$LightningRotation.value_changed.connect(func(value): 
-		weather_manager.lightning_rotation = value)
+	$LightningOrientation.value_changed.connect(func(value): 
+		weather_manager.lightning_orientation = value)
 	
 	# Add/apply preconfigurated weather categories and connect signals
 	_add_preconfigured_options()

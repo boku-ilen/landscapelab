@@ -45,9 +45,9 @@ func on_color_changed(val):
 		color = val
 		on_color_changed(val)
 
-# 0 => north, 90 => east, 180 => south, 270 => west 
-@export var rot_degrees := 0.0 : 
-	set(deg): rot_degrees = deg
+# Orientation of lightning center relative to the center_node position
+# in degrees; 0 => north, 90 => east, 180 => south, 270 => west 
+@export var orientation := 0.0
 
 @onready var light = $LightningMesh/LightNing
 @onready var line: Line2D = $LightningMesh/SubViewport/Line2d
@@ -125,7 +125,7 @@ func _animate_():
 
 
 func _position_lightning():
-	var rand_angle = randf_range(rot_degrees - 10, rot_degrees + 10)
+	var rand_angle = randf_range(orientation - 10, orientation + 10)
 	$LightningMesh.position = center_node.position + Vector3(
 		0, 0, randi_range(-min_distance, -max_distance))
 	$LightningMesh.position = center_node.position + \

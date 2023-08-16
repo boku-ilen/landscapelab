@@ -104,5 +104,5 @@ func set_lightning_frequency(frequency: float):
 	$Lightning.frequency = frequency
 
 
-func set_lightning_rotation(rotation_deg: float):
-	$Lightning.rot_degrees = rotation_deg
+func set_lightning_orientation(rotation_deg: float):
+	$Lightning.orientation = rotation_deg

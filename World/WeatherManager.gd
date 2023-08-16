@@ -11,7 +11,7 @@ signal rain_density_changed(new_rain_density)
 signal rain_drop_size_changed(new_rain_density)
 signal rain_enabled_changed(enabled)
 signal lightning_frequency_changed(frequency)
-signal lightning_rotation_changed(rotation_degrees)
+signal lightning_orientation_changed(rotation_degrees)
 
 # 0..100 = "clear visibility".."strong haziness"
 var visibility = 0 :
@@ -82,7 +82,8 @@ var lightning_frequency := 0.0 :
 		lightning_frequency_changed.emit(lightning_frequency)
 
 
-var lightning_rotation := 0 :
-	set(val):
-		lightning_rotation = val
-		lightning_rotation_changed.emit(lightning_rotation)
+# Orientation of lightning center relative to the center_node position in degrees
+var lightning_orientation := 0 :
+	set(new_orientation):
+		lightning_orientation = new_orientation
+		lightning_orientation_changed.emit(lightning_orientation)
