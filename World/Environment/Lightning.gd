@@ -92,6 +92,8 @@ func _animate_():
 		var energy_light_on = randf_range(1., 5.)
 		var energy_light_off = 0.15
 		
+		# Optimize performance by setting the viewport only visible when there are indeed visuals
+		visible = true
 		# Only in some cases let their be a real "lightning" otherwise "weather lights"
 		if randf() > 0.75:
 			_create_lightning_branch(randi_range(10, 50))
@@ -114,8 +116,11 @@ func _animate_():
 	# Reset to invisible
 	tween_light.tween_property(light, "light_energy", 0.0, 0.2)
 	tween_lighting.tween_property(line, "gradient", gradient_off, 0.2)
-	tween_cloud.tween_property($LightningMesh/LitCloudMesh.material_override, 
-		"albedo_color:a", 0.0, 0.2)
+	await tween_cloud.tween_property($LightningMesh/LitCloudMesh.material_override, 
+		"albedo_color:a", 0.0, 0.2).finished
+	
+	# Wait for anmiation to finish then set back to invisible
+	visible = false
 
 
 func _position_lightning():

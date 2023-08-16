@@ -67,7 +67,7 @@ transparent_bg = true
 handle_input_locally = false
 msaa_2d = 3
 size = Vector2i(500, 500)
-render_target_update_mode = 4
+render_target_update_mode = 3
 
 [node name="Line2d" type="Line2D" parent="LightningMesh/SubViewport"]
 width = 2.0
