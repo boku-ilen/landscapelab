@@ -43,6 +43,8 @@ extends Node3D
 		distance_radius = val
 		if get_child_count(): set_extents(detailed_radius, coarse_radius, val)
 
+# This threshold defines wether only individual droplets are visualized or
+# entire individual droplets + sheets + foggy billboards
 var heavy_rain_threshold := 0.5
 
 
