@@ -71,5 +71,5 @@ PROJCS["MGI / Austria Lambert",
 	
 	var engine_coordinates = pos_manager.to_engine_coordinates(transformed)
 	
-	pc_player.position = engine_coordinates
+	pc_player.teleport(engine_coordinates)
 	

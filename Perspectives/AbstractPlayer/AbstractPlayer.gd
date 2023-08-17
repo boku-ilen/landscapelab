@@ -16,6 +16,17 @@ func teleport(pos: Vector3):
 	transform.origin = pos
 
 
+func place_onto_ground():
+	var space_state = get_world_3d().direct_space_state
+	var result = space_state.intersect_ray(
+		PhysicsRayQueryParameters3D.create(
+			Vector3(position.x, 6000, position.z),
+			Vector3(position.x, -1000, position.z), 4294967295, [get_rid()]))
+
+	if result:
+		transform.origin.y = result.position.y
+
+
 # As in some cases the actual orientation node might be different, define this as function to
 # be overwritten
 func get_orientation_basis():

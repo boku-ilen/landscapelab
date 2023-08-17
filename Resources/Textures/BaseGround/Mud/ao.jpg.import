@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://dp3si0mht1d4u"
+path="res://.godot/imported/ao.jpg-793b96672ee34b2afb0d291c94a600a4.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Mud/ao.jpg"
+dest_files=["res://.godot/imported/ao.jpg-793b96672ee34b2afb0d291c94a600a4.image"]
+
+[params]
+

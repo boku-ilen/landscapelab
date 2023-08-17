@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://bvy8attbxgvhp"
+path="res://.godot/imported/roughness.jpg-de14e38f1d361b913d5b24a2b276eb7d.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Glacier/roughness.jpg"
+dest_files=["res://.godot/imported/roughness.jpg-de14e38f1d361b913d5b24a2b276eb7d.image"]
+
+[params]
+

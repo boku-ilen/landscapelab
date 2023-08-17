@@ -90,11 +90,6 @@ func get_center_node_world_position():
 	return to_world_coordinates(center_node.position)
 
 
-func translate_center_node(new_x, new_z):
-	if center_node:
-		center_node.position = Vector3(new_x, 0, new_z)
-
-
 func _process(delta):
 	# Calculate center node velocity
 	var current_center_node_position = Vector2(center_node.position.x, center_node.position.z)

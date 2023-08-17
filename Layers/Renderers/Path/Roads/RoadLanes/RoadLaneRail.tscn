@@ -4,11 +4,12 @@
 [ext_resource type="Material" uid="uid://d3oll2i6g6who" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneRail.tres" id="2_v7fw3"]
 
 [node name="RoadLaneRail" instance=ExtResource("1_r3fr6")]
-road_height = 1.0
-taper_top = 2.0
+road_height = 0.5
+taper_top = 1.2
 lower_into_ground = 1.0
 
 [node name="RoadLanePolygon" parent="." index="0"]
-layers = 1
-polygon = PackedVector2Array(-2.5, 0.2, 2.4398, 0.526214, 2.5, 0, -2.5, 0)
+layers = 4
+polygon = PackedVector2Array(-2.11396, 0.645999, 2.46929, 0.698681, 3.54926, -0.565666, -3.36514, -0.578836)
+smooth_faces = true
 material = ExtResource("2_v7fw3")

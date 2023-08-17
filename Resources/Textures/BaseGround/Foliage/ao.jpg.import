@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://cimfpwsw53ea6"
+path="res://.godot/imported/ao.jpg-8f6745be94ba36fdf2015205c9d36d57.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Foliage/ao.jpg"
+dest_files=["res://.godot/imported/ao.jpg-8f6745be94ba36fdf2015205c9d36d57.image"]
+
+[params]
+

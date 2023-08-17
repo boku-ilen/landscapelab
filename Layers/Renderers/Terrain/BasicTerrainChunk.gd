@@ -42,12 +42,6 @@ func build(center_x, center_y):
 	var top_left_x = float(center_x - size / 2)
 	var top_left_y = float(center_y + size / 2)
 	
-	scale.x = size / mesh_resolution
-	scale.z = size / mesh_resolution
-	
-	$HeightmapCollider.position.x = 1.0 - (size / mesh_resolution) / scale.x 
-	$HeightmapCollider.position.z = 1.0 - (size / mesh_resolution) / scale.x
-	
 	# Heightmap
 	var sample_rate = size / mesh_resolution
 	
@@ -98,6 +92,12 @@ func apply_textures():
 	else:
 		if current_texture:
 			material_override.set_shader_parameter("tex", current_texture)
+	
+	scale.x = size / mesh_resolution
+	scale.z = size / mesh_resolution
+	
+	$HeightmapCollider.position.x = 1.0 - (size / mesh_resolution) / scale.x 
+	$HeightmapCollider.position.z = 1.0 - (size / mesh_resolution) / scale.x
 	
 	visible = true
 	changed = false

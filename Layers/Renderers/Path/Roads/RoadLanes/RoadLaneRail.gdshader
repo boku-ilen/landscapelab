@@ -8,8 +8,12 @@ uniform float rail_width = 0.35;
 uniform float rail_width_bottom = 0.6;
 uniform float rail_offset = 0.717;
 
-uniform sampler2D metal_texture;
-uniform sampler2D concrete_texture;
+uniform sampler2D railway_texture: source_color;
+
+uniform sampler2D railway_normals: hint_normal;
+uniform sampler2D gravel_normals: hint_normal;
+
+uniform sampler2D railway_metal;
 
 
 void vertex() {
@@ -18,31 +22,17 @@ void vertex() {
 
 
 void fragment() {
-	vec3 color = texture(road_texture, WORLD_UV.xz).rgb;
+	vec3 color;
 	// Map UV to the upper face of the polygon
-	vec2 uv = UV * 8.0 * width;
+	vec2 uv = UV * vec2(1.0, 8.0);
 	
-	float wood_pos = fract(uv.x * 0.1);
+	vec4 railway_albedo = texture(railway_texture, uv);
+	vec4 gravel_albedo = texture(road_texture, WORLD_UV.xz);
 	
-	float left_rail_uv = uv.y - rail_offset;
-	float right_rail_uv = uv.y + rail_offset;
+	float rail_factor = 1.0 - min(1.0 - railway_albedo.a + float(uv.y > 1.0), 1.0);
 	
-	if ((left_rail_uv > width / 2.0 - rail_width / width && left_rail_uv < width / 2.0 + rail_width / width)
-			|| (right_rail_uv > width / 2.0 - rail_width / width && right_rail_uv < width / 2.0 + rail_width / width)) {
-		color = texture(metal_texture, WORLD_UV.xz * 10.0).rgb;
-		METALLIC = 1.0;
-		ROUGHNESS = 0.1;
-	} else if ((left_rail_uv > width / 2.0 - rail_width_bottom / width && left_rail_uv < width / 2.0 + rail_width_bottom / width)
-			|| (right_rail_uv > width / 2.0 - rail_width_bottom / width && right_rail_uv < width / 2.0 + rail_width_bottom / width)) {
-		color = texture(metal_texture, WORLD_UV.xz * 10.0).rgb * 0.7;
-		METALLIC = 1.0;
-		ROUGHNESS = 0.1;
-	} else if (wood_pos > 0.8 && wood_pos < 1.0
-			&& uv.y + 1.5 > width / 2.0 && uv.y - 1.5 < width / 2.0) {
-		color = texture(concrete_texture, WORLD_UV.xz * 1.0).rgb;
-		METALLIC = 0.0;
-		ROUGHNESS = 0.7;
-	}
-	
-	ALBEDO = min(color, vec3(1.0,1.0, 1.0));
+	ALBEDO = railway_albedo.rgb * rail_factor + gravel_albedo.rgb * (1.0 - rail_factor);
+	NORMAL_MAP = texture(railway_normals, uv).xyz * rail_factor + texture(gravel_normals, WORLD_UV.xz).xyz * (1.0 - rail_factor);
+	METALLIC = texture(railway_metal, uv).x * rail_factor;
+	ROUGHNESS = 1.0 - METALLIC;
 }
