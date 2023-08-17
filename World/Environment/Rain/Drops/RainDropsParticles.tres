@@ -1,0 +1,14 @@
+[gd_resource type="ParticleProcessMaterial" format=3 uid="uid://ba13qg6jbmduv"]
+
+[resource]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 10.0
+emission_ring_radius = 10.0
+emission_ring_inner_radius = 0.0
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 0.05
+initial_velocity_max = 0.1
+scale_min = 0.5
+scale_max = 1.5

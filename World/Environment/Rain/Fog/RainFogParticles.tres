@@ -1,0 +1,24 @@
+[gd_resource type="ParticleProcessMaterial" load_steps=3 format=3 uid="uid://bp75qpstcbiil"]
+
+[sub_resource type="Gradient" id="Gradient_26apf"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.37931, 0.62069, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.419608, 0.419608, 0.419608, 1, 0.545098, 0.545098, 0.545098, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tvn83"]
+gradient = SubResource("Gradient_26apf")
+
+[resource]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 1.0
+emission_ring_radius = 20.0
+emission_ring_inner_radius = 20.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 0.01
+radial_accel_max = 0.1
+tangential_accel_min = 0.01
+tangential_accel_max = 0.1
+scale_min = 0.5
+scale_max = 1.5
+color_ramp = SubResource("GradientTexture1D_tvn83")

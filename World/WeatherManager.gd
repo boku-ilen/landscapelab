@@ -3,12 +3,15 @@ class_name WeatherManager
 
 
 signal visibility_changed(new_visibility)
-signal cloudiness_changed(new_cloudiness)
+signal cloud_coverage_changed(new_cloudiness)
+signal cloud_density_changed(new_density)
 signal wind_speed_changed(new_wind_speed)
 signal wind_direction_changed(new_wind_direction)
 signal rain_density_changed(new_rain_density)
 signal rain_drop_size_changed(new_rain_density)
 signal rain_enabled_changed(enabled)
+signal lightning_frequency_changed(frequency)
+signal lightning_orientation_changed(rotation_degrees)
 
 # 0..100 = "clear visibility".."strong haziness"
 var visibility = 0 :
@@ -16,15 +19,23 @@ var visibility = 0 :
 		return visibility
 	set(new_visibility):
 		visibility = new_visibility
-		emit_signal("visibility_changed", visibility)
+		visibility_changed.emit(visibility)
 
 # 0..100 = "clear sky".."fully overcast"
-var cloudiness = 0 :
+var cloud_coverage = 0 :
 	get:
-		return cloudiness
-	set(new_cloudiness):
-		cloudiness = new_cloudiness
-		emit_signal("cloudiness_changed", cloudiness)
+		return cloud_coverage
+	set(coverage):
+		cloud_coverage = coverage
+		cloud_coverage_changed.emit(cloud_coverage)
+
+# 0..100 = "white clouds".."black clouds"
+var cloud_density = 0 :
+	get:
+		return cloud_density
+	set(density):
+		cloud_density = density
+		cloud_density_changed.emit(cloud_density)
 
 # in km/h
 var wind_speed = 10 :
@@ -40,25 +51,39 @@ var wind_direction = 0 :
 		return wind_direction
 	set(new_wind_direction):
 		wind_direction = new_wind_direction
-		emit_signal("wind_direction_changed", wind_direction)
+		wind_direction_changed.emit(wind_direction)
 
 var rain_enabled := false :
 	get:
 		return rain_enabled
 	set(enabled):
 		rain_enabled = enabled 
-		emit_signal("rain_enabled_changed", enabled)
+		rain_enabled_changed.emit(enabled)
 
-var rain_density := 100.0 :
+var rain_density := 1 :
 	get:
 		return rain_density
 	set(new_rain_density):
 		rain_density = new_rain_density 
-		emit_signal("rain_density_changed", rain_density)
+		rain_density_changed.emit(rain_density)
 
-var rain_drop_size := Vector2(0.5, 0.25) :
+var rain_drop_size := 0.1 :
 	get:
 		return rain_drop_size
 	set(new_rain_drop_size):
 		rain_drop_size = new_rain_drop_size
-		emit_signal("rain_drop_size_changed", new_rain_drop_size)
+		rain_drop_size_changed.emit(new_rain_drop_size)
+
+var lightning_frequency := 0.0 :
+	get:
+		return lightning_frequency
+	set(frequency):
+		lightning_frequency = frequency
+		lightning_frequency_changed.emit(lightning_frequency)
+
+
+# Orientation of lightning center relative to the center_node position in degrees
+var lightning_orientation := 0 :
+	set(new_orientation):
+		lightning_orientation = new_orientation
+		lightning_orientation_changed.emit(lightning_orientation)
