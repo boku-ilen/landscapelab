@@ -124,7 +124,7 @@ label = "Lightning Frequency"
 step = 1.0
 value = 0.0
 
-[node name="LightningRotation" parent="." instance=ExtResource("2")]
+[node name="LightningOrientation" parent="." instance=ExtResource("2")]
 layout_mode = 2
 label = "Rotation Degrees"
 max_value = 360.0
