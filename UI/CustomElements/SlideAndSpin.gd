@@ -2,6 +2,8 @@
 extends HBoxContainer
 class_name SlideAndSpin
 
+signal value_changed(value)
+
 @export var label := "" :
 	get:
 		return label
@@ -58,4 +60,5 @@ func _ready():
 
 
 func _update_value(new_value):
+	value_changed.emit(new_value)
 	self.value = new_value

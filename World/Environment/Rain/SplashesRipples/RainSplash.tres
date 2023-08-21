@@ -1,0 +1,22 @@
+[gd_resource type="QuadMesh" load_steps=3 format=3 uid="uid://uoktcfan6y4v"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_78fss"]
+load_path = "res://.godot/imported/splash.png-ccef1d605316677ce03929a45664b312.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d63gi"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+depth_draw_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("CompressedTexture2D_78fss")
+heightmap_scale = 9.444
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[resource]
+material = SubResource("StandardMaterial3D_d63gi")
+size = Vector2(0.6, 0.3)

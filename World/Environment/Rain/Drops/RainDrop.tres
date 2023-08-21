@@ -1,0 +1,7 @@
+[gd_resource type="RibbonTrailMesh" load_steps=2 format=3 uid="uid://bdiqaoc26vf6x"]
+
+[ext_resource type="Material" uid="uid://dmfg2objmxjia" path="res://Rain/Drops/RainDropMaterial.tres" id="1_tref2"]
+
+[resource]
+material = ExtResource("1_tref2")
+size = 0.25

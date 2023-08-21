@@ -91,7 +91,7 @@ func _ready():
 
 # Correctly orients the model depending checked the public wind_direction - automatically called when the wind direction is changed
 func update_rotation():
-	rotation.y = wind_direction
+	rotation.y = deg_to_rad(wind_direction)
 
 
 # Updates the rotation of the rotor to make them rotate with the exported speed variable
