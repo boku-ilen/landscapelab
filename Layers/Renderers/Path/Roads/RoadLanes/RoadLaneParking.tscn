@@ -6,4 +6,5 @@
 [node name="RoadLaneParking" instance=ExtResource("1_lld5y")]
 
 [node name="RoadLanePolygon" parent="." index="0"]
+use_collision = false
 material = ExtResource("2_rdie0")

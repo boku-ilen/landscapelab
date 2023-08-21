@@ -15,7 +15,6 @@ script = ExtResource("1_85n38")
 
 [node name="RoadLanePolygon" type="CSGPolygon3D" parent="."]
 layers = 64
-use_collision = true
 polygon = PackedVector2Array(-2.5, 0.2, 2.5, 0.2, 2.5, 0, -2.5, 0)
 mode = 2
 path_node = NodePath("..")

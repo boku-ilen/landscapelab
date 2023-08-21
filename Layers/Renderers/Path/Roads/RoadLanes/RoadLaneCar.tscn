@@ -9,4 +9,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 script = ExtResource("1_rwxlc")
 
 [node name="RoadLanePolygon" parent="." index="0"]
+use_collision = false
 material = ExtResource("2_afqel")
