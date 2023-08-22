@@ -45,6 +45,7 @@ func load_from_feature(road_feature) -> void:
 		
 		# Lane type specific info
 		var lane_type = int(lane_infos[0])
+		
 		match lane_type:
 			0: # Car
 				road_lane = _road_lane_car_scene.instantiate()

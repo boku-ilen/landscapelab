@@ -38,7 +38,7 @@ var custom_percentage_from = 0.0
 var custom_percentage_to = 0.0
 
 
-func update_road_lane() -> void:
+func update_road_lane() -> void: 
 	var total_road_width = road_width + custom_road_width
 	var total_road_height = road_height + custom_road_height
 	var total_road_offset = road_offset + custom_road_offset

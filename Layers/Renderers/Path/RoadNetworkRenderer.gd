@@ -8,7 +8,7 @@ var chunks = []
 var chunk_size = 1000.0
 var step_size = chunk_size / (200.0)
 
-var render_3d = false;
+var render_3d = false
 
 var radius: float = 500.0
 var max_features = 1000
@@ -49,14 +49,12 @@ func full_load():
 
 func adapt_load(diff):
 	super.adapt_load(diff)
-	call_deferred("load_data")
+	load_data.call_deferred()
 
 
 func load_data() -> void:
 	$MouseInfo/RoadInfo.hide()
 	
-	
-	var tic = Time.get_ticks_msec()
 	# Create dictionary for height lookup
 	_create_heightmap_dictionary()
 	
@@ -64,10 +62,7 @@ func load_data() -> void:
 	var player_position = [int(center[0] + get_parent().position_manager.center_node.position.x), int(center[1] - get_parent().position_manager.center_node.position.z)]
 	var road_features = road_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
 	var intersection_features = intersection_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
-	
-	var toc = Time.get_ticks_msec()
-	
-	tic = Time.get_ticks_msec()
+
 	_create_roads(road_features)
 	
 	if render_3d:
@@ -76,13 +71,8 @@ func load_data() -> void:
 			chunk.terraforming_texture.update_texture()
 			chunk.apply_terraforming_texture()
 	
-	toc = Time.get_ticks_msec()
-	
-	tic = Time.get_ticks_msec()
 	_create_intersections(intersection_features)
-	toc = Time.get_ticks_msec()
-	
-	call_deferred("_add_objects")
+	apply_new_data.call_deferred()
 
 
 # Creates and fills the dictionary with the chunk-heightmaps using their position as keys
@@ -232,7 +222,9 @@ func _create_intersections(intersection_features) -> void:
 		intersection_instance.update_intersection()
 
 
-func _add_objects() -> void:
+func apply_new_data() -> void:
+	super.apply_new_data()
+	
 	# Delete old roads
 	for road_id in roads_to_delete.keys():
 		roads.erase(road_id)
