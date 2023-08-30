@@ -6,6 +6,8 @@ extends Node3D
 #
 
 
+# Overhang factor
+@export var roof_overhang_size := 1.75
 var height
 var color
 
@@ -71,21 +73,38 @@ func build(footprint: PackedVector2Array):
 		var vertex_2d = footprint[index]
 		var next_2d = footprint[(index + 1) % footprint.size()]
 		
-		var point1 = Vector3(vertex_2d.x, 0, vertex_2d.y)
-		var point2 = Vector3(next_2d.x, 0, next_2d.y)
-		var point3 = Vector3(center.x, roof_height, center.y)
+		var point_current = Vector3(vertex_2d.x, 0, vertex_2d.y)
+		var point_next = Vector3(next_2d.x, 0, next_2d.y)
+		var point_center = Vector3(center.x, roof_height, center.y)
+		
+		# Create overhang over roof and scale with the extent of the building so
+		# it adequatly fits the size of the building
+		point_current -= (point_center - point_current) * roof_overhang_size / extent
+		point_next -= (point_center - point_next) * roof_overhang_size / extent
+		
+		var distance_to_next_point = max(0.1, point_current.distance_to(point_next)) # to prevent division by 0
 		
 		st.set_color(color)
 		
-		st.set_uv(Vector2(0, 0))
-		st.add_vertex(point1)
+		var texture_scale = Vector2(1, 4) / 2
+		st.set_uv(Vector2(0.0, 0.0) * texture_scale)
+		st.add_vertex(point_current)
 		
-		st.set_uv(Vector2(1, 0))
-		st.add_vertex(point2)
+		st.set_uv(Vector2(distance_to_next_point / 2, height) * texture_scale)
+		st.add_vertex(point_center)
 		
-		st.set_uv(Vector2(0.5, 1))
-		st.add_vertex(point3)
-		# TODO: Set UV variables
+		st.set_uv(Vector2(distance_to_next_point, 0.0) * texture_scale)
+		st.add_vertex(point_next)
+		
+		# Give some volume to the roof (otherwise it looks like a sheet strechted over the footprint)
+		st.set_color(Color.DIM_GRAY)
+		st.add_vertex(point_current + Vector3.DOWN * 0.2)
+		st.add_vertex(point_current)
+		st.add_vertex(point_next + Vector3.DOWN * 0.2)
+		
+		st.add_vertex(point_next + Vector3.DOWN * 0.2)
+		st.add_vertex(point_current)
+		st.add_vertex(point_next)
 	
 	st.generate_normals()
 	st.generate_tangents()
