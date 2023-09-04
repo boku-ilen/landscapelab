@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PlainWallResource" load_steps=4 format=3 uid="uid://bwgmy4i6uygof"]
+
+[ext_resource type="Script" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_1kv3i"]
+[ext_resource type="Resource" uid="uid://dpuuqa6sclduc" path="res://Resources/Textures/Buildings/basement/default_basement.tres" id="1_kd1yj"]
+[ext_resource type="Resource" uid="uid://doj0mvvr6qw4w" path="res://Resources/Textures/Buildings/facade/Office/Office.tres" id="2_he1fs"]
+
+[resource]
+script = ExtResource("1_1kv3i")
+basement_texture = ExtResource("1_kd1yj")
+ground_texture = ExtResource("1_kd1yj")
+middle_texture = ExtResource("2_he1fs")
+top_texture = ExtResource("1_kd1yj")
+random_colors = Array[Color]([Color(0.411765, 0.411765, 0.411765, 1), Color(0.878431, 1, 1, 1), Color(0.941176, 0.941176, 0.941176, 1), Color(0.0605303, 0.0605303, 0.0605303, 1)])
+apply_colors = 14
+wind_counterclockwise = null
