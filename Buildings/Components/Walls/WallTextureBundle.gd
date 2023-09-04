@@ -19,12 +19,6 @@ class_name WallTextureBundle
 		window_shading = true
 		_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture)
 
-@export_range(0, 1) var metallic = 0.0
-@export_range(0, 1) var roughness = 0.5
-@export_range(-16, 16) var normal_scale = 1.0
-
-@export var uv_scale := Vector3(1, 1, 1)
-
 var window_shading := false
 
 var bundled_texture
@@ -72,10 +66,9 @@ func _on_bundled_texture_changed(roughness: Texture, metallic: Texture, emission
 	# Save image to disk and store the resulting texture
 	var bundled_image = Image.create_from_data(width, height, false, Image.FORMAT_RGB8, bundled)
 	bundled_image.generate_mipmaps()
-	bundled_image.save_jpg(roughness.resource_path.substr(0, roughness.resource_path.rfind("/"))
-		+ "roughness_metallic_emission_bundled.jpg", 1.0)
+	bundled_image.save_jpg(path + "/roughness_metallic_emission_bundled.jpg", 1.0)
 	
-	var texture = ImageTexture.create_from_image(bundled_image)
+	bundled_texture = ImageTexture.create_from_image(bundled_image)
 
 
 func _get_texture_channel_data(texture: Texture) -> Array:
