@@ -1,14 +1,10 @@
-extends MeshInstance3D
+extends RenderChunk
 class_name BasicTerrainChunk
+
 
 # Note: the mesh must always be scaled so that one unit within the mesh resolution corresponds to 1m
 @export var mesh_resolution: int = 100
-@export var size: float = 100
-
 @export var texture_resolution: int = 1000
-
-var position_diff_x
-var position_diff_z
 
 var height_layer: GeoRasterLayer
 var texture_layer: GeoRasterLayer
@@ -24,21 +20,13 @@ var current_heightmap_shape
 var current_normalmap
 var current_texture
 
-var changed = false
-
-signal updated_data
-
-
-func _ready():
-	visible = false
-
 
 func rebuild_aabb():
 	var aabb = AABB(global_transform.origin - position - Vector3(size / 2.0, 0.0, size / 2.0), Vector3(size, 100000, size))
-	set_custom_aabb(aabb)
+	$Mesh.set_custom_aabb(aabb)
 
 
-func build(center_x, center_y):
+func override_build(center_x, center_y):
 	var top_left_x = float(center_x - size / 2)
 	var top_left_y = float(center_y + size / 2)
 	
@@ -52,7 +40,6 @@ func build(center_x, center_y):
 		mesh_resolution + 1,
 		0
 	)
-	
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
@@ -71,33 +58,28 @@ func build(center_x, center_y):
 		
 		if current_ortho_image.is_valid():
 			current_texture = current_ortho_image.get_image_texture()
-	
-	changed = true
 
 
-func apply_textures():
+func override_apply():
 	rebuild_aabb()
 	
-	material_override.set_shader_parameter("size", size)
+	$Mesh.material_override.set_shader_parameter("size", size)
 	
 	if current_heightmap:
-		material_override.set_shader_parameter("heightmap", current_heightmap)
-		material_override.set_shader_parameter("normalmap", current_normalmap)
+		$Mesh.material_override.set_shader_parameter("heightmap", current_heightmap)
+		$Mesh.material_override.set_shader_parameter("normalmap", current_normalmap)
 		
 		$HeightmapCollider/CollisionShape3D.shape = current_heightmap_shape
 	
 	if not is_color_shaded:
 		if current_texture:
-			material_override.set_shader_parameter("orthophoto", current_texture)
+			$Mesh.material_override.set_shader_parameter("orthophoto", current_texture)
 	else:
 		if current_texture:
-			material_override.set_shader_parameter("tex", current_texture)
+			$Mesh.material_override.set_shader_parameter("tex", current_texture)
 	
 	scale.x = size / mesh_resolution
 	scale.z = size / mesh_resolution
 	
 	$HeightmapCollider.position.x = 1.0 - (size / mesh_resolution) / scale.x 
 	$HeightmapCollider.position.z = 1.0 - (size / mesh_resolution) / scale.x
-	
-	visible = true
-	changed = false

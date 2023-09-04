@@ -5,7 +5,7 @@ class_name ChunkedLayerCompositionRenderer
 var chunks: Array[RenderChunk] = []
 var waiting_to_apply := false
 
-@export var chunk_size := 1000
+@export var chunk_size := 1000.0
 @export var extent := 5
 
 @export var chunk_scene: PackedScene
