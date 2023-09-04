@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://56rr6885pfcb"]
-
-[ext_resource type="PackedScene" uid="uid://ba4dacxh7qiw0" path="res://Buildings/Components/Walls/Walls.tscn" id="1_25ppb"]
-[ext_resource type="Material" uid="uid://ddxasasborbyk" path="res://Buildings/Components/Walls/IndustrialWalls.tres" id="2_4uohl"]
-
-[node name="Walls" instance=ExtResource("1_25ppb")]
-random_colors = Array[Color]([Color(0.560784, 0.560784, 0.560784, 1), Color(0.835294, 0.905882, 0.835294, 1), Color(0.831373, 0.890196, 0.952941, 1), Color(1, 1, 1, 1)])
-material = ExtResource("2_4uohl")
