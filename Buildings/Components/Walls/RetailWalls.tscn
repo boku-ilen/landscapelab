@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://dura742ph4qi3"]
+
+[ext_resource type="PackedScene" uid="uid://ba4dacxh7qiw0" path="res://Buildings/Components/Walls/Walls.tscn" id="1_otde1"]
+[ext_resource type="Shader" uid="uid://dtp2h5c0r7tl8" path="res://Buildings/Components/Walls/Walls.tres" id="2_awedk"]
+[ext_resource type="Texture2D" uid="uid://b1omgkm53ilnf" path="res://Resources/Textures/ShopFronts/shopfront_neon.png" id="3_h285g"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_18c34"]
+render_priority = 0
+shader = ExtResource("2_awedk")
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = null
+shader_parameter/point_size = null
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/roughness_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/emission = null
+shader_parameter/emission_energy = null
+shader_parameter/normal_scale = 1.0
+shader_parameter/uv1_scale = Vector3(0.5, -0.5, 0.5)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = null
+shader_parameter/lights_on = false
+shader_parameter/window_shading = true
+shader_parameter/texture_albedo = ExtResource("3_h285g")
+
+[node name="Walls" instance=ExtResource("1_otde1")]
+random_colors = Array[Color]([Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1)])
+material = SubResource("ShaderMaterial_18c34")

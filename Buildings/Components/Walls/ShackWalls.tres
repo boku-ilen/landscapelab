@@ -1,0 +1,30 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://k5vooxbefp1d"]
+
+[ext_resource type="Shader" uid="uid://dtp2h5c0r7tl8" path="res://Buildings/Components/Walls/Walls.tres" id="1_po57f"]
+[ext_resource type="Texture2D" uid="uid://btw43q2bpoiy4" path="res://Resources/Textures/Planks013_4K-JPG/Planks013_4K_Color.jpg" id="2_sewkj"]
+[ext_resource type="Texture2D" uid="uid://d2yc04s5jvs50" path="res://Resources/Textures/Planks013_4K-JPG/Planks013_4K_Metalness.jpg" id="3_rv56c"]
+[ext_resource type="Texture2D" uid="uid://f04t82pnagq0" path="res://Resources/Textures/Planks013_4K-JPG/Planks013_4K_NormalGL.jpg" id="4_0xxbs"]
+[ext_resource type="Texture2D" uid="uid://dhyffxr8wprcv" path="res://Resources/Textures/Planks013_4K-JPG/Planks013_4K_Roughness.jpg" id="5_uelbg"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_po57f")
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 1.0
+shader_parameter/point_size = null
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/roughness_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/emission = null
+shader_parameter/emission_energy = null
+shader_parameter/normal_scale = 3.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = null
+shader_parameter/lights_on = false
+shader_parameter/window_shading = true
+shader_parameter/texture_albedo = ExtResource("2_sewkj")
+shader_parameter/texture_metallic = ExtResource("3_rv56c")
+shader_parameter/texture_roughness = ExtResource("5_uelbg")
+shader_parameter/texture_normal = ExtResource("4_0xxbs")
