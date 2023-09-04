@@ -8,12 +8,16 @@ extends Node3D
 
 @export var wind_counterclockwise: bool = true
 @export var random_colors: Array[Color]
-@export var material: Material = preload("res://Buildings/Components/Walls/PlainWalls.tres")
+@export var material: Material = preload("res://Buildings/Components/Walls/PlainWalls.tres") :
+		set(new_material):
+			material = new_material
+			$MeshInstance3D.material_override = material
 
 var height = 2.5
 var texture_scale = 2.5  # Size of the texture in meters - likely identical to the height
 
 var color
+var texture_index
 
 
 func _ready():
@@ -22,6 +26,10 @@ func _ready():
 
 func set_color(new_color):
 	color = new_color
+
+
+func set_texture_index(idx: int):
+	texture_index = idx
 
 
 func set_lights_enabled(enabled):
@@ -64,7 +72,7 @@ func build(footprint: PackedVector2Array):
 		var distance_to_next_point = max(0.1, point_3d.distance_to(next_point_3d)) # to prevent division by 0
 		
 		if (wind_counterclockwise):
-			st.set_color(color)
+			st.set_color(Color(color, float(texture_index) / 255.0))
 			
 			# First triangle of the wall
 			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
@@ -86,7 +94,8 @@ func build(footprint: PackedVector2Array):
 			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
 			st.add_vertex(next_point_3d)
 		else:
-			st.add_color(color)
+			# Cast texture index to value between 0 and 1
+			st.set_color(Color(color, float(texture_index) / 255.0))
 			
 			# First triangle of the wall
 			st.set_uv(Vector2(0.0, 0.0))
