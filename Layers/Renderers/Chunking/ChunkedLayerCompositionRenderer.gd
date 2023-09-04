@@ -42,8 +42,7 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 
 func full_load():
 	for chunk in chunks:
-		chunk.position_diff_x = 0
-		chunk.position_diff_z = 0
+		chunk.position_diff = Vector3.ZERO
 		
 		chunk.build(center[0], center[1])
 
@@ -61,17 +60,17 @@ func adapt_load(_diff: Vector3):
 		var changed = false
 
 		if chunk.position.x - player_x >= chunk_size * extent + chunk_size / 2.0:
-			chunk.position_diff_x = -chunk_size * extent * 2 - chunk_size
+			chunk.position_diff.x = -chunk_size * extent * 2 - chunk_size
 			changed = true
 		elif chunk.position.x - player_x <= -chunk_size * extent - chunk_size / 2.0:
-			chunk.position_diff_x = chunk_size * extent * 2 + chunk_size
+			chunk.position_diff.x = chunk_size * extent * 2 + chunk_size
 			changed = true
 		
 		if chunk.position.z - player_z >= chunk_size * extent + chunk_size / 2.0:
-			chunk.position_diff_z = -chunk_size * extent * 2 - chunk_size
+			chunk.position_diff.z = -chunk_size * extent * 2 - chunk_size
 			changed = true
 		elif chunk.position.z - player_z <= -chunk_size * extent - chunk_size / 2.0:
-			chunk.position_diff_z = chunk_size * extent * 2 + chunk_size
+			chunk.position_diff.z = chunk_size * extent * 2 + chunk_size
 			changed = true
 		
 		if changed:
@@ -130,11 +129,8 @@ func apply_new_data():
 		if chunk.changed:
 			chunk.apply()
 			
-			chunk.position.x += chunk.position_diff_x
-			chunk.position.z += chunk.position_diff_z
-			
-			chunk.position_diff_x = 0.0
-			chunk.position_diff_z = 0.0
+			chunk.position += chunk.position_diff
+			chunk.position_diff = Vector3.ZERO
 	
 	logger.info("Applied new RealisticTerrainRenderer data for %s" % [name])
 	waiting_to_apply = false
