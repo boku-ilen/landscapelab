@@ -6,10 +6,12 @@
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pxxd3"]
 
-[node name="TerrainChunk" type="MeshInstance3D"]
+[node name="TerrainChunk" type="Node3D"]
+script = ExtResource("3_tgpu3")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
 material_override = ExtResource("4")
 mesh = ExtResource("1")
-script = ExtResource("3_tgpu3")
 
 [node name="HeightmapCollider" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
