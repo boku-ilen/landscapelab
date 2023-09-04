@@ -7,6 +7,8 @@ extends Node3D
 
 
 @export var wind_counterclockwise: bool = true
+@export var random_colors: Array[Color]
+@export var material: Material = preload("res://Buildings/Components/Walls/PlainWalls.tres")
 
 var height = 2.5
 var texture_scale = 2.5  # Size of the texture in meters - likely identical to the height
@@ -15,7 +17,7 @@ var color
 
 
 func _ready():
-	$MeshInstance3D.material_override = preload("res://Buildings/Components/PlainWalls.tres")
+	$MeshInstance3D.material_override = material
 
 
 func set_color(new_color):
