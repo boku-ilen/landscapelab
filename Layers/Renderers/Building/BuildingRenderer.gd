@@ -95,6 +95,48 @@ func _create_and_set_texture_arrays():
 	shader.set_shader_parameter("texture_roughness_metallic_emission", roughness_metallic_emission_texture_array)
 
 
+# To increase performance, create an array of textures which the same shader can
+# read from
+func _create_and_set_texture_arrays():
+	var albedo_images = []
+	var normal_images = []
+	var roughness_metallic_emission_images = []
+	# Build texture-arrays of format: 
+	# [type1_basement, type1_ground, type1_middle, type1_top, type2_basement, ...]
+	for r in wall_resources:
+		var res: PlainWallResource = r
+		for bundle in [res.basement_texture, res.ground_texture, res.middle_texture, res.top_texture]:
+			var images = []
+			for texture in [bundle.albedo_texture, bundle.normal_texture, bundle.bundled_texture]:
+				# Ensure all images are the same size and same format and have mipmaps generated
+				var new_image: Image = texture.get_image() \
+					if  texture != null else Image.create(
+						1024, 1024, false, Image.FORMAT_RGB8)
+				new_image.decompress()
+				new_image.flip_y()
+				new_image.resize(1024, 1024)
+				new_image.convert(Image.FORMAT_RGB8)
+				new_image.generate_mipmaps()
+				images.append(new_image)
+			
+			albedo_images.append(images[0])
+			normal_images.append(images[1])
+			roughness_metallic_emission_images.append(images[2])
+	
+	var albedo_texture_array = Texture2DArray.new()
+	var normal_texture_array = Texture2DArray.new()
+	var roughness_metallic_emission_texture_array = Texture2DArray.new()
+	
+	albedo_texture_array.create_from_images(albedo_images)
+	normal_texture_array.create_from_images(normal_images)
+	roughness_metallic_emission_texture_array.create_from_images(roughness_metallic_emission_images)
+	
+	var shader = preload("res://Buildings/Components/Walls/PlainWalls.tscn").instantiate().material
+	shader.set_shader_parameter("texture_albedo", albedo_texture_array)
+	shader.set_shader_parameter("texture_normal", normal_texture_array)
+	shader.set_shader_parameter("texture_roughness_metallic_emission", roughness_metallic_emission_texture_array)
+
+
 func load_feature_instance(feature):
 	var building = building_base_scene.instantiate()
 	var building_metadata: Dictionary = get_building_metadata(feature)
