@@ -1,10 +1,37 @@
 extends FeatureLayerCompositionRenderer
 
-
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
-var plain_walls_scene = preload("res://Buildings/Components/PlainWalls.tscn")
 var flat_roof_scene = preload("res://Buildings/Components/FlatRoof.tscn")
 var pointed_roof_scene = preload("res://Buildings/Components/PointedRoof.tscn")
+
+var fallback_wall = preload("res://Buildings/Components/Walls/PlainWalls.tscn")
+
+#"apartments": 0,
+#"house": 1,
+#"shack": 2,
+#"industrial": 3,
+#"office": 4,
+#"supermarket": 5,
+#"retail_restaurant": 6,
+#"historic": 7,
+#"religious": 8,
+#"roof": 9, 
+#"greenhouse": 10,
+#"concrete": 11
+var id_to_wall_map = {
+	"0": preload("res://Buildings/Components/Walls/ApartmentWalls.tscn"),
+	"1": preload("res://Buildings/Components/Walls/PlainWalls.tscn"),
+	"2": preload("res://Buildings/Components/Walls/ShackWalls.tscn"),
+	"3": preload("res://Buildings/Components/Walls/IndustrialWalls.tscn"),
+	"4": preload("res://Buildings/Components/Walls/OfficeWalls.tscn"),
+	"5": preload("res://Buildings/Components/Walls/IndustrialWalls.tscn"),
+	"6": preload("res://Buildings/Components/Walls/RetailWalls.tscn"),
+	"7": preload("res://Buildings/Components/Walls/HistoricWalls.tscn"),
+	"8": preload("res://Buildings/Components/Walls/HistoricWalls.tscn"),
+	"9": preload("res://Buildings/Components/Walls/ApartmentWalls.tscn"),
+	"10": preload("res://Buildings/Components/Walls/OfficeWalls.tscn"),
+	"11": preload("res://Buildings/Components/Walls/ApartmentWalls.tscn"),
+}
 
 var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
 var fallback_height = 10
@@ -30,9 +57,13 @@ func load_feature_instance(feature):
 		feature.get_attribute(height_attribute), fallback_height)
 
 	var num_floors = max(1, height / floor_height)
-
+	
+	var building_type = feature.get_attribute("render_type")
+	var walls_scene = id_to_wall_map[building_type] \
+		 if building_type in id_to_wall_map else fallback_wall
+	
 	# Add a cellar
-	var cellar = plain_walls_scene.instantiate()
+	var cellar = walls_scene.instantiate()
 	cellar.set_color(Color.LIGHT_GRAY)
 	building.add_child(cellar)
 
@@ -52,19 +83,20 @@ func load_feature_instance(feature):
 
 	var wall_color = Color.WHITE_SMOKE
 	var random = random_gen.randi_range(0, 10)
-
+	
+	var exemplary_scene = walls_scene.instantiate()
 	if random >= 0 and random <= 5:
-		wall_color = Color.LIGHT_YELLOW
+		wall_color = exemplary_scene.random_colors[0]
 	elif random > 5 and random <= 8:
-		wall_color = Color.WHITE_SMOKE
+		wall_color = exemplary_scene.random_colors[1]
 	elif random == 9:
-		wall_color = Color.DARK_SEA_GREEN
+		wall_color = exemplary_scene.random_colors[2]
 	elif random == 10:
-		wall_color = Color.LIGHT_BLUE
+		wall_color = exemplary_scene.random_colors[3]
 
 	# Add the floors
 	for i in range(num_floors):
-		var walls = plain_walls_scene.instantiate()
+		var walls = walls_scene.instantiate()
 		building.add_child(walls)
 
 		walls.set_color(wall_color)
@@ -81,6 +113,12 @@ func load_feature_instance(feature):
 			roof.set_height(fmod(height, floor_height) + height_stdev)
 
 		if roof == null or not roof.can_build(polygon):
+			# When there is no pointed roof we need to add and additional floor
+			# FIXME: Find proper logic for this
+			var walls = walls_scene.instantiate()
+			building.add_child(walls)
+			walls.set_color(wall_color)
+			
 			roof = flat_roof_scene.instantiate()
 
 		var color = Color(
