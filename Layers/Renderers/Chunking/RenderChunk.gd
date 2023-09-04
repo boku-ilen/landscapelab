@@ -33,7 +33,7 @@ func downgrade():
 
 func build(center_x, center_y):
 	center_x += position.x + position_diff_x
-	center_y -= position.z - position_diff_z
+	center_y -= position.z + position_diff_z
 	
 	override_build(center_x, center_y)
 	

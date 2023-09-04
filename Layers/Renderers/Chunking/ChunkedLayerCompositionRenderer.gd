@@ -75,7 +75,6 @@ func adapt_load(_diff: Vector3):
 			changed = true
 		
 		if changed:
-			chunk.changed = true
 			chunk.downgrade()
 			chunk.build(center[0], center[1])
 	

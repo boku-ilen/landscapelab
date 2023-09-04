@@ -57,7 +57,6 @@ func custom_chunk_setup(chunk):
 
 
 func _ready():
-	chunk_scene = preload("res://Layers/Renderers/Terrain/TerrainChunk.tscn")
 	_setup_ground_textures()
 	
 	super._ready()
