@@ -78,7 +78,8 @@ func apply_new_data():
 	var attribute_name = layer_composition.render_info.selector_attribute_name
 	var indices = {}
 	for key in layer_composition.render_info.meshes.keys():
-		var filtered_features = features.filter(func(f): return f.get_attribute(attribute_name) == key)
+		var filtered_features = features.filter(func(f): return f.get_attribute(attribute_name) == key) \
+				if not layer_composition.render_info.selector_attribute_name.is_empty() else features
 		
 		var instance_count = filtered_features.reduce(func(accum, f):
 			return accum + intermediate_transforms[f.get_id()].size(), 0
@@ -89,7 +90,7 @@ func apply_new_data():
 	
 	for f in features:
 		for t in intermediate_transforms[f.get_id()]:
-			var type = f.get_attribute(attribute_name)
+			var type = f.get_attribute(attribute_name) if not layer_composition.render_info.selector_attribute_name.is_empty() else "default"
 			multimeshes[type].multimesh.set_instance_transform(indices[type], t)
 			indices[type] += 1
 	
