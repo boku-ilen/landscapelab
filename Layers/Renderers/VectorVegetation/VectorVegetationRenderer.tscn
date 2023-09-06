@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://sfn57dmiugla"]
+[gd_scene load_steps=3 format=3 uid="uid://sfn57dmiugla"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/VectorVegetation/VectorVegetationRenderer.gd" id="1_58nm7"]
+[ext_resource type="PackedScene" uid="uid://ppd2jmmwfxin" path="res://Layers/Renderers/VectorVegetation/PlantMultiMeshes.tscn" id="2_8sbdj"]
 
 [node name="VectorVegetationRenderer" type="Node3D"]
 script = ExtResource("1_58nm7")
+chunk_size = 200
+chunk_scene = ExtResource("2_8sbdj")
+detailed_load_distance = 0.0
 
 [node name="Chunks" type="Node3D" parent="."]

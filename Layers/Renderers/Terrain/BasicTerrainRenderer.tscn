@@ -1,13 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://cq2s41eq6mvmd"]
 
-[ext_resource type="PackedScene" path="res://Layers/LayerCompositionRenderer.tscn" id="3"]
-[ext_resource type="ArrayMesh" uid="uid://lqw0a5653sxf" path="res://Layers/Renderers/Terrain/lod_mesh_100x100.obj" id="3_drdtd"]
+[ext_resource type="PackedScene" uid="uid://bnakv4rclkeyq" path="res://Layers/LayerCompositionRenderer.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://dxo4ed0tjure1" path="res://Layers/Renderers/Terrain/BasicTerrainChunk.tscn" id="3_4dp6k"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/BasicTerrainRenderer.gd" id="4"]
 
 [node name="BasicTerrainRenderer" instance=ExtResource("3")]
 script = ExtResource("4")
-basic_texture_resolution = 1000
-basic_mesh = ExtResource("3_drdtd")
-basic_mesh_resolution = 100
+chunk_size = 1000.0
+extent = 5
+chunk_scene = ExtResource("3_4dp6k")
+detailed_load_distance = 2000.0
 
 [node name="Chunks" type="Node3D" parent="." index="0"]

@@ -1,39 +1,42 @@
-[gd_scene load_steps=7 format=3 uid="uid://c0j8e2n4jy6f6"]
+[gd_scene load_steps=8 format=3 uid="uid://c0j8e2n4jy6f6"]
 
+[ext_resource type="PackedScene" uid="uid://ye3hpdk4tnpx" path="res://Layers/Renderers/Terrain/TerrainChunk.tscn" id="2_ib6li"]
 [ext_resource type="PackedScene" uid="uid://bkcdk4xgbexwe" path="res://Layers/Renderers/Terrain/TerrainDecal.tscn" id="3_dxri0"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" id="4"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_axcry"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_fiurn"]
 viewport_path = NodePath("DecalViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_65nkh"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_nd2da"]
 viewport_path = NodePath("DecalViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_2cobl"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_2wks8"]
 viewport_path = NodePath("DecalViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_v4pqs"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_h5ksv"]
 viewport_path = NodePath("DecalViewport")
 
 [node name="RealisticTerrainRenderer" type="Node3D"]
 script = ExtResource("4")
+extent = 6
+chunk_scene = ExtResource("2_ib6li")
 
 [node name="Chunks" type="Node3D" parent="."]
 
 [node name="Decals" type="Node3D" parent="."]
 
 [node name="TerrainDecalNear" parent="Decals" instance=ExtResource("3_dxri0")]
-texture_albedo = SubResource("ViewportTexture_axcry")
+texture_albedo = SubResource("ViewportTexture_fiurn")
 render_distance = 10.0
 
 [node name="TerrainDecalMidNear" parent="Decals" instance=ExtResource("3_dxri0")]
-texture_albedo = SubResource("ViewportTexture_65nkh")
+texture_albedo = SubResource("ViewportTexture_nd2da")
 render_distance = 30.0
 
 [node name="TerrainDecalMidFar" parent="Decals" instance=ExtResource("3_dxri0")]
-texture_albedo = SubResource("ViewportTexture_2cobl")
+texture_albedo = SubResource("ViewportTexture_2wks8")
 render_distance = 120.0
 
 [node name="TerrainDecalFar" parent="Decals" instance=ExtResource("3_dxri0")]
-texture_albedo = SubResource("ViewportTexture_v4pqs")
+texture_albedo = SubResource("ViewportTexture_h5ksv")
 render_distance = 500.0

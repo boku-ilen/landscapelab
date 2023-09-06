@@ -1,21 +1,25 @@
-extends MeshInstance3D
+extends RenderChunk
 class_name TerrainChunk
 
-# Note: the mesh must always be scaled so that one unit within the mesh resolution corresponds to 1m
-@export var mesh_resolution: int = 100
-@export var size: float = 100
+const basic_ortho_resolution := 100
+const basic_landuse_resolution := 100
+const basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_100x100.obj")
+const basic_mesh_resolution := 100
 
-@export var ortho_resolution: int = 1000
-@export var landuse_resolution: int = 1000
+const detailed_load_distance := 2000.0
+const detailed_ortho_resolution := 2000
+const detailed_landuse_resolution := 1000
+const detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_500x500.obj")
+const detailed_mesh_resolution := 500
+
+# Note: the mesh must always be scaled so that one unit within the mesh resolution corresponds to 1m
+var mesh_resolution: int
+var ortho_resolution: int
+var landuse_resolution: int
 
 @export var load_detail_textures: bool = false
 @export var load_fade_textures: bool = false
 @export var always_load_landuse: bool = false
-
-const MAX_GROUPS = 6
-
-var position_diff_x
-var position_diff_z
 
 var height_layer: GeoRasterLayer
 var texture_layer: GeoRasterLayer
@@ -31,7 +35,6 @@ var current_normalmap
 var current_texture
 var current_landuse
 var current_surface_heightmap
-var current_metadata_map
 
 var current_albedo_ground_textures
 var current_normal_ground_textures
@@ -39,25 +42,29 @@ var current_specular_ground_textures
 var current_ambient_ground_textures
 var current_roughness_ground_textures
 
-var current_albedo_fade_textures
-var current_normal_fade_textures
-
-var changed = false
-
-
 var terraforming_texture: TerraformingTexture
-
-
-func _ready():
-	visible = false
 
 
 func rebuild_aabb():
 	var aabb = AABB(global_transform.origin - position - Vector3(size / 2.0, 0.0, size / 2.0), Vector3(size, 100000, size))
-	set_custom_aabb(aabb)
+	$Mesh.set_custom_aabb(aabb)
 
 
-func build(center_x, center_y):
+func override_increase_quality():
+	mesh_to_apply = detailed_mesh
+	mesh_resolution = detailed_mesh_resolution
+	ortho_resolution = detailed_ortho_resolution
+	landuse_resolution = detailed_landuse_resolution
+
+
+func override_decrease_quality():
+	mesh_to_apply = basic_mesh
+	mesh_resolution = basic_mesh_resolution
+	ortho_resolution = basic_ortho_resolution
+	landuse_resolution = basic_landuse_resolution
+
+
+func override_build(center_x, center_y):
 	# Create a new TerraformingTexture for this chunk
 	#terraforming_texture = TerraformingTexture.new(201)
 	
@@ -117,13 +124,12 @@ func build(center_x, center_y):
 		
 		if current_surface_height_image.is_valid():
 			current_surface_heightmap = current_surface_height_image.get_image_texture()
-	
-	changed = true
 
-func apply_textures():
+
+func override_apply():
 	rebuild_aabb()
 	
-	mesh = mesh_to_apply
+	$Mesh.mesh = mesh_to_apply
 	
 	scale.x = size / mesh_resolution
 	scale.z = size / mesh_resolution
@@ -131,11 +137,11 @@ func apply_textures():
 	$HeightmapCollider.position.x = 1.0 - (size / mesh_resolution) / scale.x 
 	$HeightmapCollider.position.z = 1.0 - (size / mesh_resolution) / scale.x
 	
-	material_override.set_shader_parameter("size", size)
+	$Mesh.material_override.set_shader_parameter("size", size)
 	
 	if current_heightmap:
-		material_override.set_shader_parameter("heightmap", current_heightmap)
-		material_override.set_shader_parameter("normalmap", current_normalmap)
+		$Mesh.material_override.set_shader_parameter("heightmap", current_heightmap)
+		$Mesh.material_override.set_shader_parameter("normalmap", current_normalmap)
 		
 		$HeightmapCollider/CollisionShape3D.shape = current_heightmap_shape
 		
@@ -144,42 +150,21 @@ func apply_textures():
 				child.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)
 	
 	if current_texture:
-		material_override.set_shader_parameter("orthophoto", current_texture)
+		$Mesh.material_override.set_shader_parameter("orthophoto", current_texture)
 	
 	if current_landuse:
-		material_override.set_shader_parameter("landuse", current_landuse)
-		material_override.set_shader_parameter("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
-		material_override.set_shader_parameter("has_landuse", true)
+		$Mesh.material_override.set_shader_parameter("landuse", current_landuse)
+		$Mesh.material_override.set_shader_parameter("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
+		$Mesh.material_override.set_shader_parameter("has_landuse", true)
 	
 	if current_surface_heightmap:
-		material_override.set_shader_parameter("has_surface_heights", true)
+		$Mesh.material_override.set_shader_parameter("has_surface_heights", true)
 		# Start applying surface heights at the point where vegetation stops
-		material_override.set_shader_parameter("surface_heights_start_distance", Vegetation.get_max_extent() / 2.0)
-		material_override.set_shader_parameter("surface_heightmap", current_surface_heightmap)
-	
-	if current_metadata_map:
-		material_override.set_shader_parameter("metadata", current_metadata_map)
-	
-	if current_albedo_ground_textures:
-		material_override.set_shader_parameter("uses_detail_textures", true)
-		material_override.set_shader_parameter("albedo_tex", current_albedo_ground_textures)
-		material_override.set_shader_parameter("normal_tex", current_normal_ground_textures)
-		material_override.set_shader_parameter("ambient_tex", current_ambient_ground_textures)
-		material_override.set_shader_parameter("specular_tex", current_specular_ground_textures)
-		material_override.set_shader_parameter("roughness_tex", current_roughness_ground_textures)
-	
-	if current_albedo_fade_textures:
-		material_override.set_shader_parameter("uses_distance_textures", true)
-		material_override.set_shader_parameter("distance_tex", current_albedo_fade_textures)
-		material_override.set_shader_parameter("distance_normals", current_normal_fade_textures)
-		material_override.set_shader_parameter("distance_tex_switch_distance", Vegetation.plant_extent_factor * 5.0)
-		material_override.set_shader_parameter("fade_transition_space", Vegetation.plant_extent_factor * 2.0)
-	
-	visible = true
-	changed = false
+		$Mesh.material_override.set_shader_parameter("surface_heights_start_distance", Vegetation.get_max_extent() / 2.0)
+		$Mesh.material_override.set_shader_parameter("surface_heightmap", current_surface_heightmap)
 
 
 func apply_terraforming_texture() -> void:
-	material_override.set_shader_parameter("has_terraforming_texture", true)
-	material_override.set_shader_parameter("terraforming_texture", terraforming_texture.texture)
-	material_override.set_shader_parameter("terraforming_weights", terraforming_texture.weights)
+	$Mesh.material_override.set_shader_parameter("has_terraforming_texture", true)
+	$Mesh.material_override.set_shader_parameter("terraforming_texture", terraforming_texture.texture)
+	$Mesh.material_override.set_shader_parameter("terraforming_weights", terraforming_texture.weights)
