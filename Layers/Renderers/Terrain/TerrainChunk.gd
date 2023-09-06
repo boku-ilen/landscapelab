@@ -50,14 +50,14 @@ func rebuild_aabb():
 	$Mesh.set_custom_aabb(aabb)
 
 
-func override_upgrade():
+func override_increase_quality():
 	mesh_to_apply = detailed_mesh
 	mesh_resolution = detailed_mesh_resolution
 	ortho_resolution = detailed_ortho_resolution
 	landuse_resolution = detailed_landuse_resolution
 
 
-func override_downgrade():
+func override_decrease_quality():
 	mesh_to_apply = basic_mesh
 	mesh_resolution = basic_mesh_resolution
 	ortho_resolution = basic_ortho_resolution

@@ -27,8 +27,8 @@ func _ready():
 			
 			custom_chunk_setup(chunk)
 			
-			# Start as a downgraded (low resolution) chunk
-			chunk.downgrade()
+			# Start as a low quality chunk
+			chunk.decrease_quality()
 			
 			chunks.append(chunk)
 	
@@ -74,19 +74,19 @@ func adapt_load(_diff: Vector3):
 			changed = true
 		
 		if changed:
-			chunk.downgrade()
+			chunk.decrease_quality()
 			chunk.build(center[0], center[1])
 	
 	waiting_to_apply = true
 	call_deferred("apply_new_data")
 
 
-func get_nearest_downgraded_chunk(query_position: Vector3, max_distance: float):
+func get_nearest_low_quality_chunk(query_position: Vector3, max_distance: float):
 	var nearest_distance = INF
 	var nearest_chunk
 	
 	for chunk in chunks:
-		if not chunk.is_upgraded:
+		if not chunk.is_high_quality:
 			var distance = Vector2(chunk.position.x, chunk.position.z).distance_to(Vector2(query_position.x, query_position.z))
 			
 			if distance < nearest_distance and distance < max_distance:
@@ -106,16 +106,16 @@ func refine_load():
 	# Downgrade chunks which are now too far away
 	for chunk in chunks:
 		var distance = Vector2(chunk.position.x, chunk.position.z).distance_to(Vector2(position_manager.center_node.position.x, position_manager.center_node.position.z))
-		if chunk.is_upgraded and distance > detailed_load_distance:
-			chunk.downgrade()
+		if chunk.is_high_quality and distance > detailed_load_distance:
+			chunk.decrease_quality()
 			chunk.build(center[0], center[1])
 			any_change_done = true
 	
 	# Upgrade nearby chunks
-	var nearest_chunk = get_nearest_downgraded_chunk(position_manager.center_node.position, detailed_load_distance)
+	var nearest_chunk = get_nearest_low_quality_chunk(position_manager.center_node.position, detailed_load_distance)
 	
 	if nearest_chunk and not nearest_chunk.changed:
-		nearest_chunk.upgrade()
+		nearest_chunk.increase_quality()
 		nearest_chunk.build(center[0], center[1])
 		any_change_done = true
 	

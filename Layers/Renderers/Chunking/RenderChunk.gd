@@ -3,13 +3,13 @@ class_name RenderChunk
 
 var position_diff := Vector3.ZERO
 var changed := false
-var is_upgraded := false
+var is_high_quality := false
 var size: float
 
 
 # Functions to override
-func override_upgrade(): pass
-func override_downgrade(): pass
+func override_increase_quality(): pass
+func override_decrease_quality(): pass
 func override_build(center_x, center_y): pass
 func override_apply(): pass
 
@@ -18,16 +18,16 @@ func _ready():
 	visible = false
 
 
-func upgrade():
-	is_upgraded = true
+func increase_quality():
+	is_high_quality = true
 	
-	override_upgrade()
+	override_increase_quality()
 
 
-func downgrade():
-	is_upgraded = false
+func decrease_quality():
+	is_high_quality = false
 	
-	override_downgrade()
+	override_decrease_quality()
 
 
 func build(center_x, center_y):
