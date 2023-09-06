@@ -1,6 +1,6 @@
 extends ChunkedLayerCompositionRenderer
 
-var shader_material
+var shader_material = preload("res://Layers/Renderers/Terrain/Materials/TerrainShader.tres")
 
 func _setup_ground_textures():
 	var texture_folders = [
@@ -42,7 +42,6 @@ func _setup_ground_textures():
 	var normal_array = Texture2DArray.new()
 	normal_array.create_from_images(normal_images)
 	
-	shader_material = preload("res://Layers/Renderers/Terrain/Materials/TerrainShader.tres")
 	shader_material.set_shader_parameter("ground_normals", normal_array)
 	shader_material.set_shader_parameter("ground_textures", texture_array)
 
