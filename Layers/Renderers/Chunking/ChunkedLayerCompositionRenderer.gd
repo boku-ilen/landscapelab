@@ -132,7 +132,7 @@ func apply_new_data():
 			chunk.position += chunk.position_diff
 			chunk.position_diff = Vector3.ZERO
 	
-	logger.info("Applied new RealisticTerrainRenderer data for %s" % [name])
+	logger.info("Applied new chunked data for %s" % [name])
 	waiting_to_apply = false
 
 
