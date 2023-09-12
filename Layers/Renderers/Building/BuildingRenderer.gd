@@ -44,6 +44,13 @@ enum flag {
 	top = 0b1000
 }
 
+enum flag {
+	basement = 0b1,
+	ground = 0b10,
+	mid = 0b100,
+	top = 0b1000
+}
+
 @onready var height_attribute = layer_composition.render_info.height_attribute_name
 
 
