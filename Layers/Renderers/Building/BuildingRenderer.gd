@@ -37,6 +37,13 @@ var floor_height = 2.5 # Height of one building floor for calculating the number
 var fallback_height = 10
 var cellar_height = floor_height # For preventing partially floating buildings checked uneven surfaces
 
+enum flag {
+	basement = 0b1,
+	ground = 0b10,
+	mid = 0b100,
+	top = 0b1000
+}
+
 @onready var height_attribute = layer_composition.render_info.height_attribute_name
 
 
@@ -129,20 +136,29 @@ func load_feature_instance(feature):
 #			base_floor.set_color(Color.GRAY)
 #			building.add_child(base_floor)
 	
+	# Indexing textures from texture2Darray
+	# Each bundle consists of: basement, ground, mid, top
+	# => building_type 1 basement => 1 * 4 + 3
+	# => building_type 3 top => 3 * 4 + 3
+	var get_cellar_index = func(building_type): return int(building_type) * 4 + 0
+	var get_ground_index = func(building_type): return int(building_type) * 4 + 1
+	var get_mid_index = func(building_type): return int(building_type) * 4 + 2
+	var get_top_index = func(building_type): return int(building_type) * 4 + 3
+	
 	# Add a cellar
 	var cellar = walls_scene.instantiate()
 	cellar.set_color(Color.WHITE_SMOKE)
-	cellar.set_texture_index(int(building_type) * 4 + 0)
-	if walls_resource.apply_colors & 0b1:
+	cellar.set_texture_index(get_cellar_index.call(building_type))
+	if walls_resource.apply_colors & flag.basement:
 		cellar.set_color(wall_color)
 	building.add_child(cellar)
-
+	
 	# Add ground floor
 	num_floors -= 1
 	var ground_floor = walls_scene.instantiate()
-	ground_floor.set_texture_index(int(building_type) * 4 + 1)
+	ground_floor.set_texture_index(get_ground_index.call(building_type))
 	ground_floor.set_color(Color.WHITE_SMOKE)
-	if walls_resource.apply_colors & 0b10: 
+	if walls_resource.apply_colors & flag.ground: 
 		ground_floor.set_color(wall_color)
 		
 	building.add_child(ground_floor)
@@ -151,17 +167,17 @@ func load_feature_instance(feature):
 	if num_floors >= 1:
 		for i in range(num_floors - 1):
 			var walls = walls_scene.instantiate()
-			walls.set_texture_index(int(building_type) * 4 + 2)
+			walls.set_texture_index(get_mid_index.call(building_type))
 			walls.set_color(Color.WHITE_SMOKE)
-			if walls_resource.apply_colors & 0b100:
+			if walls_resource.apply_colors & flag.mid:
 				walls.set_color(wall_color)
 			building.add_child(walls)
 
 		# Add top floor
 		var top_floor = walls_scene.instantiate()
-		top_floor.set_texture_index(int(building_type) * 4 + 3)
+		top_floor.set_texture_index(get_top_index.call(building_type))
 		top_floor.set_color(Color.WHITE_SMOKE)
-		if walls_resource.apply_colors & 0b1000:
+		if walls_resource.apply_colors & flag.top:
 			top_floor.set_color(wall_color)
 		building.add_child(top_floor)
 
