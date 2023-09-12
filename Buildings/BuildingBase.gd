@@ -8,28 +8,15 @@ extends Node3D
 #
 
 
-var height
-var footprint: PackedVector2Array
-var holes: Array
-
-func set_footprint(new_footprint):
-	footprint = new_footprint
+var height: float :
+	set(new_height): height = new_height
+var footprint: PackedVector2Array : 
+	set(new_footprint): footprint = new_footprint
 
 
-func get_center():
-	var count = 0
-	var sum = Vector2.ZERO
-	
-	for vertex in footprint:
-		sum += vertex
-		count += 1
-	
-	sum /= count
-	return Vector3(sum.x, 0.0, sum.y)
-
-
-func set_holes(new_holes):
-	holes = new_holes
+func set_metadata(metadata: Dictionary):
+	height = metadata["height"]
+	footprint = metadata["footprint"]#.duplicate()
 
 
 # Offsets all vertices in the footprint by the given values.

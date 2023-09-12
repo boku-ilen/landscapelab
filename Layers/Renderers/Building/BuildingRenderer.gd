@@ -8,7 +8,7 @@ var fallback_wall = preload("res://Resources/Textures/Buildings/PlainWallResourc
 
 var wall_resources = [
 	# "apartments": 0
-	preload("res://Resources/Textures/Buildings/PlainWallResources/Office.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "house": 1
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "shack": 2
@@ -95,16 +95,10 @@ func _create_and_set_texture_arrays():
 
 
 func load_feature_instance(feature):
-	var polygon = feature.get_outer_vertices()
-	var holes = feature.get_holes()
-
 	var building = building_base_scene.instantiate()
-
-	# Load the components based checked the building attributes
-	var height = util.str_to_var_or_default(
-		feature.get_attribute(height_attribute), fallback_height)
+	var building_metadata: Dictionary = get_building_metadata(feature)
 	
-	var num_floors = max(1, height / floor_height)
+	var num_floors = max(1, building_metadata["height"] / floor_height)
 	var building_type = feature.get_attribute("render_type")
 	var walls_scene = preload("res://Buildings/Components/Walls/PlainWalls.tscn")
 	var walls_resource: PlainWallResource = wall_resources[int(building_type)] #\
@@ -112,7 +106,7 @@ func load_feature_instance(feature):
 	
 	# Random facade texture
 	var random_gen = RandomNumberGenerator.new()
-	random_gen.seed = hash(polygon)
+	random_gen.seed = hash(building_metadata["footprint"])
 
 	var wall_color = Color.WHITE_SMOKE
 	var random = random_gen.randi_range(0, 10)
@@ -127,14 +121,6 @@ func load_feature_instance(feature):
 		wall_color = walls_resource.random_colors[3]
 
 	# FIXME: Find a way not to have a half window texture here
-#		# In order to get a more accurate height, we add a building base if there's a remainder of
-#		# half a floor height; this also adds some variation and is probably realistic in many cases
-#		if fmod(height, floor_height) > floor_height / 2.0:
-#			var base_floor = plain_walls_scene.instantiate()
-#			base_floor.height = floor_height / 2.0
-#			base_floor.set_window_shading(false)
-#			base_floor.set_color(Color.GRAY)
-#			building.add_child(base_floor)
 	
 	# Indexing textures from texture2Darray
 	# Each bundle consists of: basement, ground, mid, top
@@ -188,11 +174,9 @@ func load_feature_instance(feature):
 
 		if util.str_to_var_or_default(slope, 35) > 15:
 			roof = pointed_roof_scene.instantiate()
-			var height_stdev = util.str_to_var_or_default(feature.get_attribute(
-				layer_composition.render_info.height_stdev_attribute_name), 10)
-			roof.set_height(fmod(height, floor_height) + height_stdev)
+			roof.set_metadata(building_metadata)
 
-		if roof == null or not roof.can_build(polygon):
+		if roof == null or not roof.can_build(building_metadata["footprint"]):
 			roof = flat_roof_scene.instantiate()
 
 		var color = Color(
@@ -208,26 +192,69 @@ func load_feature_instance(feature):
 		color.v *= 0.9
 		color.s *= 1.6
 
-		roof.set_color(color)
+		roof.color = color
 
 		building.add_child(roof)
 
 	# Set parameters in the building base
-	building.set_footprint(polygon)
-	building.set_holes(holes)
+	building.set_metadata(building_metadata)
 	building.set_offset(center[0], center[1])
-
 	building.name = str(feature.get_id())
 
 	# Build!
 	building.build()
 
 	building.position.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
-		building.get_center().x + center[0],
-		-building.get_center().z + center[1]
+		building_metadata["center"].x + center[0],
+		-building_metadata["center"].y + center[1]
 	) - cellar_height
 
 	return building
+
+
+func get_building_metadata(feature: GeoPolygon):
+	var polygon = feature.get_outer_vertices()
+	var holes = feature.get_holes()
+	
+	# Get the extent for calculating a good height
+	var min_vertex = Vector2(INF, INF)
+	var max_vertex = Vector2(-INF, -INF)
+	
+	for vertex in polygon:
+		if vertex.x < min_vertex.x:
+			min_vertex.x = vertex.x
+		if vertex.x > max_vertex.x:
+			max_vertex.x = vertex.x
+		
+		if vertex.y < min_vertex.y:
+			min_vertex.y = vertex.y
+		if vertex.y > max_vertex.y:
+			max_vertex.y = vertex.y
+	
+	var extent = (max_vertex - min_vertex).length()
+	
+	var center = Vector2.ZERO
+	for vector in polygon:
+		center += vector
+	center /= polygon.size()
+	
+	# Load the components based checked the building attributes
+	var height = util.str_to_var_or_default(
+		feature.get_attribute(height_attribute), fallback_height)
+	var height_stdev = util.str_to_var_or_default(feature.get_attribute(
+		layer_composition.render_info.height_stdev_attribute_name), 10)
+	var roof_height = fmod(height, floor_height) + height_stdev
+	
+	return {
+		"min_vertex": min_vertex,
+		"max_vertex": max_vertex,
+		"extent": extent,
+		"center": center,
+		"footprint": polygon,
+		"height": height,
+		"roof_height": roof_height,
+		"holes": holes
+	}
 
 
 func get_debug_info() -> String:
