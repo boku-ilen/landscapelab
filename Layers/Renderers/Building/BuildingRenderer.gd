@@ -51,7 +51,7 @@ func _ready():
 	_create_and_set_texture_arrays()
 	super._ready()
 	max_features = 2000
-	radius = Vegetation.get_max_extent()
+	radius = max(500, Vegetation.get_max_extent())
 
 
 # To increase performance, create an array of textures which the same shader can
