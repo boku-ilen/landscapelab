@@ -280,6 +280,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 		building.add_child(top_floor)
 
 
+<<<<<<< HEAD
 func get_building_metadata(feature: GeoPolygon):
 	# Actual geo coordinates
 	var geo_footprint = Array(feature.get_outer_vertices())
@@ -315,6 +316,43 @@ func get_building_metadata(feature: GeoPolygon):
 	var ground_height = layer_composition.render_info.ground_height_layer.get_value_at_position(
 		geo_center.x,
 		geo_center.y
+=======
+		if util.str_to_var_or_default(slope, 35) > 15:
+			roof = pointed_roof_scene.instantiate()
+			roof.set_metadata(building_metadata)
+
+		if roof == null or not roof.can_build(building_metadata["footprint"]):
+			roof = flat_roof_scene.instantiate()
+
+		var color = Color(
+			util.str_to_var_or_default(
+				feature.get_attribute(layer_composition.render_info.red_attribute_name), 200) / 255.0,
+			util.str_to_var_or_default(
+				feature.get_attribute(layer_composition.render_info.green_attribute_name), 130) / 255.0,
+			util.str_to_var_or_default(
+				feature.get_attribute(layer_composition.render_info.blue_attribute_name), 130) / 255.0
+		)
+
+		# Increase contrast and saturation
+		color.v *= 0.9
+		color.s *= 1.6
+
+		roof.color = color
+
+		building.add_child(roof)
+
+	# Set parameters in the building base
+	building.set_metadata(building_metadata)
+	building.set_offset(center[0], center[1])
+	building.name = str(feature.get_id())
+
+	# Build!
+	building.build()
+
+	building.position.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
+		building_metadata["center"].x + center[0],
+		-building_metadata["center"].y + center[1]
+>>>>>>> 997e222e (refactor/WIP: clean up duplicate building metadata computation and generalize in top-class)
 	) - cellar_height
 	var engine_center_pos = Vector3(engine_center.x, ground_height, engine_center.y)
 	
@@ -335,6 +373,51 @@ func get_building_metadata(feature: GeoPolygon):
 		"height": height,
 		"roof_height": roof_height,
 		"holes": geo_holes
+	}
+
+
+func get_building_metadata(feature: GeoPolygon):
+	var polygon = feature.get_outer_vertices()
+	var holes = feature.get_holes()
+	
+	# Get the extent for calculating a good height
+	var min_vertex = Vector2(INF, INF)
+	var max_vertex = Vector2(-INF, -INF)
+	
+	for vertex in polygon:
+		if vertex.x < min_vertex.x:
+			min_vertex.x = vertex.x
+		if vertex.x > max_vertex.x:
+			max_vertex.x = vertex.x
+		
+		if vertex.y < min_vertex.y:
+			min_vertex.y = vertex.y
+		if vertex.y > max_vertex.y:
+			max_vertex.y = vertex.y
+	
+	var extent = (max_vertex - min_vertex).length()
+	
+	var center = Vector2.ZERO
+	for vector in polygon:
+		center += vector
+	center /= polygon.size()
+	
+	# Load the components based checked the building attributes
+	var height = util.str_to_var_or_default(
+		feature.get_attribute(height_attribute), fallback_height)
+	var height_stdev = util.str_to_var_or_default(feature.get_attribute(
+		layer_composition.render_info.height_stdev_attribute_name), 10)
+	var roof_height = fmod(height, floor_height) + height_stdev
+	
+	return {
+		"min_vertex": min_vertex,
+		"max_vertex": max_vertex,
+		"extent": extent,
+		"center": center,
+		"footprint": polygon,
+		"height": height,
+		"roof_height": roof_height,
+		"holes": holes
 	}
 
 
