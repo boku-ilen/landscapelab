@@ -14,22 +14,21 @@ var color: Color :
 	set(new_color): color = new_color
 var extent: float :
 	set(new_extent): extent = new_extent
-var center: Vector2 : 
+var center := Vector2(0,0): 
 	set(new_center): center = new_center
 
 
 func set_metadata(metadata: Dictionary):
 	height = metadata["roof_height"]
 	extent = metadata["extent"]
-	center = metadata["center"]
 
 
 func _ready():
 	$MeshInstance3D.material_override = preload("res://Buildings/Components/PointedRoof.tres")
 
 
-func can_build(footprint):
-	return Geometry2D.is_point_in_polygon(center, footprint)
+func can_build(geo_center, geo_footprint):
+	return Geometry2D.is_point_in_polygon(geo_center, geo_footprint)
 
 
 func build(footprint: PackedVector2Array):

@@ -16,7 +16,7 @@ var footprint: PackedVector2Array :
 
 func set_metadata(metadata: Dictionary):
 	height = metadata["height"]
-	footprint = metadata["footprint"]#.duplicate()
+	footprint = metadata["footprint"]
 
 
 # Offsets all vertices in the footprint by the given values.
