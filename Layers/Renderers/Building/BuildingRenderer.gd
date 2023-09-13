@@ -280,7 +280,6 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 		building.add_child(top_floor)
 
 
-<<<<<<< HEAD
 func get_building_metadata(feature: GeoPolygon):
 	# Actual geo coordinates
 	var geo_footprint = Array(feature.get_outer_vertices())
@@ -316,12 +315,20 @@ func get_building_metadata(feature: GeoPolygon):
 	var ground_height = layer_composition.render_info.ground_height_layer.get_value_at_position(
 		geo_center.x,
 		geo_center.y
-=======
+
+	# Add the roof
+	if layer_composition.render_info is LayerComposition.BuildingRenderInfo:
+		var slope = feature.get_attribute(layer_composition.render_info.slope_attribute_name)
+		var roof = null
+		
+		var can_build_roof := false
 		if util.str_to_var_or_default(slope, 35) > 15:
 			roof = pointed_roof_scene.instantiate()
 			roof.set_metadata(building_metadata)
-
-		if roof == null or not roof.can_build(building_metadata["footprint"]):
+			can_build_roof = roof.can_build(
+				building_metadata.geo_center,feature.get_outer_vertices())
+		
+		if roof == null or not can_build_roof:
 			roof = flat_roof_scene.instantiate()
 
 		var color = Color(
@@ -343,7 +350,7 @@ func get_building_metadata(feature: GeoPolygon):
 
 	# Set parameters in the building base
 	building.set_metadata(building_metadata)
-	building.set_offset(center[0], center[1])
+	building.position = building_metadata["engine_center_position"]
 	building.name = str(feature.get_id())
 
 	# Build!
@@ -352,7 +359,6 @@ func get_building_metadata(feature: GeoPolygon):
 	building.position.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
 		building_metadata["center"].x + center[0],
 		-building_metadata["center"].y + center[1]
->>>>>>> 997e222e (refactor/WIP: clean up duplicate building metadata computation and generalize in top-class)
 	) - cellar_height
 	var engine_center_pos = Vector3(engine_center.x, ground_height, engine_center.y)
 	
@@ -375,32 +381,46 @@ func get_building_metadata(feature: GeoPolygon):
 		"holes": geo_holes
 	}
 
+	return building
+
 
 func get_building_metadata(feature: GeoPolygon):
-	var polygon = feature.get_outer_vertices()
-	var holes = feature.get_holes()
+	# Actual geo coordinates
+	var geo_footprint = Array(feature.get_outer_vertices())
+	var geo_holes = feature.get_holes()
+	var geo_center = geo_footprint.reduce(func(accum, vertex):
+		return accum + vertex, Vector2.ZERO) / geo_footprint.size()
 	
-	# Get the extent for calculating a good height
+	# Coordinates as used in engine
+	var engine_footprint = Array(
+		feature.get_offset_outer_vertices(center[0], center[1]))
+	
+	# Min and max value to get an extent of the footprint
 	var min_vertex = Vector2(INF, INF)
 	var max_vertex = Vector2(-INF, -INF)
 	
-	for vertex in polygon:
-		if vertex.x < min_vertex.x:
-			min_vertex.x = vertex.x
-		if vertex.x > max_vertex.x:
-			max_vertex.x = vertex.x
-		
-		if vertex.y < min_vertex.y:
-			min_vertex.y = vertex.y
-		if vertex.y > max_vertex.y:
-			max_vertex.y = vertex.y
+	for vertex in engine_footprint:
+		min_vertex.x = min(vertex.x, min_vertex.x)
+		max_vertex.x = max(vertex.x, max_vertex.x)
+		min_vertex.y = min(vertex.y, min_vertex.y)
+		max_vertex.y = max(vertex.y, max_vertex.y)
 	
 	var extent = (max_vertex - min_vertex).length()
 	
-	var center = Vector2.ZERO
-	for vector in polygon:
-		center += vector
-	center /= polygon.size()
+	# Swap z-value sign as godot uses -z for forward
+	engine_footprint = engine_footprint.map(
+		func(vert): return Vector2(vert.x, -vert.y))
+	var engine_center = engine_footprint.reduce(func(accum, vertex): 
+		return accum + vertex, Vector2.ZERO) / engine_footprint.size()
+	engine_footprint = engine_footprint.map(func(vert): 
+		return vert - engine_center)
+	
+	# Height at which the building center will be positioned
+	var ground_height = layer_composition.render_info.ground_height_layer.get_value_at_position(
+		geo_center.x,
+		geo_center.y
+	) - cellar_height
+	var engine_center_pos = Vector3(engine_center.x, ground_height, engine_center.y)
 	
 	# Load the components based checked the building attributes
 	var height = util.str_to_var_or_default(
@@ -410,14 +430,14 @@ func get_building_metadata(feature: GeoPolygon):
 	var roof_height = fmod(height, floor_height) + height_stdev
 	
 	return {
-		"min_vertex": min_vertex,
-		"max_vertex": max_vertex,
 		"extent": extent,
-		"center": center,
-		"footprint": polygon,
+		"geo_center": geo_center,
+		"engine_center_position": engine_center_pos,
+		"ground_height": ground_height,
+		"footprint": engine_footprint,
 		"height": height,
 		"roof_height": roof_height,
-		"holes": holes
+		"holes": geo_holes
 	}
 
 
