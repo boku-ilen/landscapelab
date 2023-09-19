@@ -19,17 +19,6 @@ func set_metadata(metadata: Dictionary):
 	footprint = metadata["footprint"]
 
 
-# Offsets all vertices in the footprint by the given values.
-func set_offset(offset_x: int, offset_y: int):
-	for i in range(0, footprint.size()):
-		footprint[i].x -= offset_x
-		footprint[i].y -= offset_y
-		
-		# We need to adjust the y value because -z is forward in 3D.
-		# TODO: This should really be somewhere else
-		footprint[i].y = -footprint[i].y
-
-
 # Build this building by calling "build" checked all children.
 func build():
 	# To stack the floors checked top of each other, the total height must be remembered
