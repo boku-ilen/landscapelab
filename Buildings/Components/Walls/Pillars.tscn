@@ -1,0 +1,23 @@
+[gd_scene load_steps=7 format=3 uid="uid://pli5c22wyml6"]
+
+[ext_resource type="Script" path="res://Buildings/Components/Walls/Pillars.gd" id="1_ua7od"]
+[ext_resource type="Texture2D" uid="uid://blgpn5eexpsm4" path="res://Resources/Textures/Steel/Metal038_2K_Color.jpg" id="2_fed27"]
+[ext_resource type="Texture2D" uid="uid://dnclycx3j0wap" path="res://Resources/Textures/Steel/Metal038_2K_Metalness.jpg" id="3_vq8w6"]
+[ext_resource type="Texture2D" uid="uid://da70r8pv02vm3" path="res://Resources/Textures/Steel/Metal038_2K_NormalGL.jpg" id="4_4fevk"]
+[ext_resource type="Texture2D" uid="uid://b42b1eo6gn4jw" path="res://Resources/Textures/Steel/Metal038_2K_Roughness.jpg" id="5_a71b8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nkjht"]
+albedo_texture = ExtResource("2_fed27")
+metallic = 1.0
+metallic_texture = ExtResource("3_vq8w6")
+roughness_texture = ExtResource("5_a71b8")
+normal_enabled = true
+normal_texture = ExtResource("4_4fevk")
+
+[node name="PoledWall" type="Node3D"]
+script = ExtResource("1_ua7od")
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
+top_level = true
+layers = 4
+material_override = SubResource("StandardMaterial3D_nkjht")
