@@ -1,11 +1,4 @@
-extends Node3D
-
-
-var size: float
-
-var position_diff_x
-var position_diff_z
-var changed := false
+extends RenderChunk
 
 var height_layer: GeoRasterLayer
 var plant_layer: GeoFeatureLayer
@@ -58,13 +51,13 @@ var species_to_mesh = {
 }
 
 var species_to_mmi = {}
-
 var species_to_transforms = {}
-
 var fresh_multimeshes = {}
 
 
 func _ready():
+	super._ready()
+	
 	# Create MultiMeshes
 	for species_string in species_to_mesh.keys():
 		var mmi = MultiMeshInstance3D.new()
@@ -78,7 +71,7 @@ func rebuild_aabb(node):
 	node.set_custom_aabb(aabb)
 
 
-func load_new_data(center_x, center_y):
+func override_build(center_x, center_y):
 	for species in species_to_mesh.keys():
 		fresh_multimeshes[species] = MultiMesh.new()
 		fresh_multimeshes[species].mesh = species_to_mesh[species]
@@ -94,7 +87,7 @@ func load_new_data(center_x, center_y):
 	
 	for feature in features:
 		var species = feature.get_attribute("layer")
-		var instance_scale = feature.get_attribute("height").to_float() * 1.5
+		var instance_scale = feature.get_attribute("height1").to_float() * 1.5
 
 		var pos = feature.get_offset_vector3(-int(center_x), 0, -int(center_y))
 		pos.y = height_layer.get_value_at_position(pos.x + center_x, center_y - pos.z)
@@ -110,11 +103,9 @@ func load_new_data(center_x, center_y):
 		
 		for i in range(species_to_transforms[species].size()):
 			fresh_multimeshes[species].set_instance_transform(i, species_to_transforms[species][i])
-	
-	changed = true
 
 
-func apply_new_data():
+func override_apply():
 	for species in fresh_multimeshes.keys():
 		if fresh_multimeshes[species].instance_count > 0:
 			species_to_mmi[species].visible = true
@@ -122,6 +113,3 @@ func apply_new_data():
 			rebuild_aabb(species_to_mmi[species])
 		else:
 			species_to_mmi[species].visible = false
-
-	visible = true
-	changed = false
