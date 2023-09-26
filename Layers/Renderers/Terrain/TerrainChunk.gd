@@ -3,12 +3,12 @@ class_name TerrainChunk
 
 const basic_ortho_resolution := 100
 const basic_landuse_resolution := 100
-const basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_100x100.obj")
-const basic_mesh_resolution := 100
+const basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_50x50.obj")
+const basic_mesh_resolution := 50
 
 const detailed_load_distance := 2000.0
 const detailed_ortho_resolution := 2000
-const detailed_landuse_resolution := 1000
+const detailed_landuse_resolution := 500
 const detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_500x500.obj")
 const detailed_mesh_resolution := 500
 
