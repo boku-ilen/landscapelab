@@ -2,8 +2,15 @@ extends MeshInstance3D
 class_name ExtraLOD
 
 
+@export var material: Material
+
+
+func _ready():
+	material_override = material.duplicate()
+
+
 func apply_textures(heightmap, surface_heightmap, landuse):
-	mesh = get_parent().mesh
+	mesh = get_parent().get_node("Mesh").mesh
 	
 	if not material_override:
 		logger.warn("ExtraLOD with no Material Override! This will have no effect.")

@@ -1,13 +1,31 @@
-[gd_scene load_steps=5 format=3 uid="uid://ye3hpdk4tnpx"]
+[gd_scene load_steps=8 format=3 uid="uid://ye3hpdk4tnpx"]
 
 [ext_resource type="ArrayMesh" uid="uid://lqw0a5653sxf" path="res://Layers/Renderers/Terrain/lod_mesh_100x100.obj" id="1"]
+[ext_resource type="PackedScene" uid="uid://c47kkouss1170" path="res://Layers/Renderers/Terrain/ExtraLOD.tscn" id="2_6w8bm"]
+[ext_resource type="Shader" path="res://Layers/Renderers/Terrain/Materials/Water.gdshader" id="3_a77bf"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/TerrainChunk.gd" id="3_tgpu3"]
 [ext_resource type="Material" uid="uid://kbnb4iijyt0j" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m8qqh"]
+render_priority = 0
+shader = ExtResource("3_a77bf")
+shader_parameter/size = null
+shader_parameter/speed = 0.01
+shader_parameter/color = null
+shader_parameter/color_ground = Color(0.709804, 0.709804, 0.709804, 1)
+shader_parameter/near = 0.1
+shader_parameter/far = 100.0
+shader_parameter/wave_strengh = Vector2(0.5, 0.25)
+shader_parameter/wave_frequency = Vector2(12, 12)
+shader_parameter/time_factor = Vector2(1, 2)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pxxd3"]
 
 [node name="TerrainChunk" type="Node3D"]
 script = ExtResource("3_tgpu3")
+
+[node name="Water" parent="." instance=ExtResource("2_6w8bm")]
+material = SubResource("ShaderMaterial_m8qqh")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 material_override = ExtResource("4")

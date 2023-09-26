@@ -217,8 +217,6 @@ void fragment() {
 	
 	vec3 ortho_color = get_ortho_color(UV);
 	
-	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.006).rg - 0.5) * (50.0 / size);
-	
 	vec3 detail_color = vec3(0.0);
 	vec2 scaled_near_uv = vec2(UV * size / 2.0);
 	
@@ -248,10 +246,16 @@ void fragment() {
 	
 	float dist_scale = min(depth / 300.0, 1.0);
 	
-	ALBEDO = hue_shift(detail_color, ortho_color, dist_scale);
+	float splat_id = texture(landuse, UV).r;
+	
+	if (splat_id < 250.0 || splat_id > 261.0) {
+		ALBEDO = hue_shift(detail_color, ortho_color, dist_scale);
+	} else {
+		// If we have water here, use only the detail color - the color can be very off otherwise
+		ALBEDO = detail_color;
+	}
 	
 	// Normal
-	float splat_id = texture(landuse, UV).r;
 	int texture_index = 0;
 	
 	for (int i = 0; i < 16; i++) {
@@ -265,5 +269,5 @@ void fragment() {
 	
 	METALLIC = 0.0;
 	ROUGHNESS = 0.95;
-	NORMAL_MAP_DEPTH = 2.0;
+	NORMAL_MAP_DEPTH = 1.0;
 }
