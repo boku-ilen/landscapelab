@@ -399,6 +399,7 @@ limits/message_queue/max_size_kb=1048576
 
 [rendering]
 
+vrs/mode=2
 quality/shadows/filter_mode=2
 limits/buffers/canvas_polygon_buffer_size_kb=1000
 quality/filters/msaa=2
@@ -418,4 +419,6 @@ ground_textures={
 [xr]
 
 openxr/enabled=true
+openxr/submit_depth_buffer=true
+openxr/startup_alert=false
 shaders/enabled=true
