@@ -30,6 +30,8 @@ shader_parameter/weathermap = ExtResource("2_ltw8f")
 
 [sub_resource type="Sky" id="Sky_gjwmw"]
 sky_material = SubResource("ShaderMaterial_ywyjs")
+process_mode = 2
+radiance_size = 4
 
 [sub_resource type="Environment" id="2"]
 background_mode = 2
