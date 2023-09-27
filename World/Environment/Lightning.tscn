@@ -78,6 +78,6 @@ rotation_edit_mode = 2
 layers = 7
 light_color = Color(0.72549, 0.839216, 0.945098, 1)
 light_energy = 0.0
-light_indirect_energy = 0.1
+light_indirect_energy = 0.05
 light_volumetric_fog_energy = 0.5
 shadow_enabled = true
