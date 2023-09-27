@@ -231,28 +231,25 @@ void sky() {
 	if (AT_CUBEMAP_PASS) {
 		vec3 dir = EYEDIR;
 
-		vec4 col = vec4(0.0);
-		if (dir.y>0.0) {
-			vec3 camPos = vec3(0.0, g_radius, 0.0);
-			vec3 start = camPos + dir * intersectSphere(camPos, dir, sky_b_radius);
-			vec3 end = camPos + dir * intersectSphere(camPos, dir, sky_t_radius);
-			float shelldist = (length(end-start));
-			// Take fewer steps towards horizon
-			float steps = (mix(96.0, 54.0, clamp(dot(dir, vec3(0.0, 1.0, 0.0)), 0.0, 1.0)));
-			vec3 raystep = dir * shelldist / steps;
-			vec4 volume = march(start, end, raystep, int(steps)); // make fewer steps altogehter by 0.1
-			vec3 background = atmosphere(dir);
-			// Draw cloud shape
-			col = vec4(background*(1.0-volume.a)+volume.xyz, 1.0);
-			// Blend distant clouds into the sky
-			col.xyz = mix(clamp(col.xyz, vec3(0.0), vec3(1.0)), clamp(background, vec3(0.0), vec3(1.0)), smoothstep(0.6, 1.0, 1.0-dir.y));
-		} else {
-			col = vec4(atmosphere(dir), 1.0);
-		}
-		
-		COLOR = col.xyz;
-		ALPHA = 1.0;
+	vec4 col = vec4(0.0);
+	if (dir.y>0.0) {
+		vec3 camPos = vec3(0.0, g_radius, 0.0);
+		vec3 start = camPos + dir * intersectSphere(camPos, dir, sky_b_radius);
+		vec3 end = camPos + dir * intersectSphere(camPos, dir, sky_t_radius);
+		float shelldist = (length(end-start));
+		// Take fewer steps towards horizon
+		float steps = (mix(96.0, 54.0, clamp(dot(dir, vec3(0.0, 1.0, 0.0)), 0.0, 1.0)));
+		vec3 raystep = dir * shelldist / steps;
+		vec4 volume = march(start, end, raystep, int(steps * 0.1)); // make fewer steps altogehter by 0.1
+		vec3 background = atmosphere(dir);
+		// Draw cloud shape
+		col = vec4(background*(1.0-volume.a)+volume.xyz, 1.0);
+		// Blend distant clouds into the sky
+		col.xyz = mix(clamp(col.xyz, vec3(0.0), vec3(1.0)), clamp(background, vec3(0.0), vec3(1.0)), smoothstep(0.6, 1.0, 1.0-dir.y));
 	} else {
-		COLOR = texture(RADIANCE, EYEDIR).rgb;
+		col = vec4(atmosphere(dir), 1.0);
 	}
+	
+	COLOR = col.xyz;
+	ALPHA = 1.0;
 }

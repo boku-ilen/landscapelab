@@ -8,6 +8,9 @@ func _ready():
 	if interface and interface.is_initialized():
 		print("OpenXR initialised successfully")
 		$VRViewport.use_xr = true
+		
+		# Turn off v-sync!
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	else:
 		print("OpenXR not initialised, please check if your headset is connected")
 

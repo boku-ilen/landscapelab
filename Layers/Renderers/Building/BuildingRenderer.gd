@@ -4,13 +4,13 @@ var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 var flat_roof_scene = preload("res://Buildings/Components/FlatRoof.tscn")
 var pointed_roof_scene = preload("res://Buildings/Components/PointedRoof.tscn")
 
-var fallback_wall = preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres")
+var fallback_wall = preload("res://Resources/Textures/Buildings/PlainWallResources/Industrial.tres")
 
 var wall_resources = [
 	# "apartments": 0
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "house": 1
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/Industrial.tres"),
 	# "shack": 2
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "industrial": 3
@@ -25,17 +25,17 @@ var wall_resources = [
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "religious": 8
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
-	# "roof": 9
+	# "greenhouse": 9
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
-	# "greenhouse": 10
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
-	# "concrete": 11
+	# "concrete": 10
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 ]
 
 var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
-var fallback_height = 10
+var fallback_height = 20
+var fallback_num_floors = 2
 var cellar_height = floor_height # For preventing partially floating buildings checked uneven surfaces
+var plinth_height_factor = 0.025
 
 enum flag {
 	basement = 0b1,
@@ -54,6 +54,7 @@ func _ready():
 
 # To increase performance, create an array of textures which the same shader can
 # read from
+# TODO: make utility function for this? (Might be useful in other places too)
 func _create_and_set_texture_arrays():
 	var albedo_images = []
 	var normal_images = []
@@ -98,75 +99,15 @@ func load_feature_instance(feature):
 	var building = building_base_scene.instantiate()
 	var building_metadata: Dictionary = get_building_metadata(feature)
 	
-	var num_floors = max(1, building_metadata["height"] / floor_height)
+	var num_floors = max(fallback_num_floors, building_metadata["height"] / floor_height)
 	var building_type = feature.get_attribute("render_type")
-	var walls_scene = preload("res://Buildings/Components/Walls/PlainWalls.tscn")
-	var walls_resource: PlainWallResource = wall_resources[int(building_type)] \
-		 if int(building_type) in range(0, wall_resources.size()) else fallback_wall
 	
-	# Random facade texture
-	var random_gen = RandomNumberGenerator.new()
-	random_gen.seed = hash(building_metadata["footprint"])
-
-	var wall_color = Color.WHITE_SMOKE
-	var random = random_gen.randi_range(0, 10)
+	# TODO: make subclasses for this? 
+	if int(building_type) != -1:
+		prepare_plain_walls(building_type, building_metadata, building, num_floors)
+	else:
+		prepare_pillars(building_metadata, building, num_floors)
 	
-	if random >= 0 and random <= 5:
-		wall_color = walls_resource.random_colors[0]
-	elif random > 5 and random <= 8:
-		wall_color = walls_resource.random_colors[1]
-	elif random == 9:
-		wall_color = walls_resource.random_colors[2]
-	elif random == 10:
-		wall_color = walls_resource.random_colors[3]
-
-	# FIXME: Find a way not to have a half window texture here
-	
-	# Indexing textures from texture2Darray
-	# Each bundle consists of: basement, ground, mid, top
-	# => building_type 1 basement => 1 * 4 + 3
-	# => building_type 3 top => 3 * 4 + 3
-	var get_cellar_index = func(building_type): return int(building_type) * 4 + 0
-	var get_ground_index = func(building_type): return int(building_type) * 4 + 1
-	var get_mid_index = func(building_type): return int(building_type) * 4 + 2
-	var get_top_index = func(building_type): return int(building_type) * 4 + 3
-	
-	# Add a cellar
-	var cellar = walls_scene.instantiate()
-	cellar.set_color(Color.WHITE_SMOKE)
-	cellar.set_texture_index(get_cellar_index.call(building_type))
-	if walls_resource.apply_colors & flag.basement:
-		cellar.set_color(wall_color)
-	building.add_child(cellar)
-	
-	# Add ground floor
-	num_floors -= 1
-	var ground_floor = walls_scene.instantiate()
-	ground_floor.set_texture_index(get_ground_index.call(building_type))
-	ground_floor.set_color(Color.WHITE_SMOKE)
-	if walls_resource.apply_colors & flag.ground: 
-		ground_floor.set_color(wall_color)
-		
-	building.add_child(ground_floor)
-	
-	# Add mid floors (only if there is are enough floors left)
-	if num_floors >= 1:
-		for i in range(num_floors - 1):
-			var walls = walls_scene.instantiate()
-			walls.set_texture_index(get_mid_index.call(building_type))
-			walls.set_color(Color.WHITE_SMOKE)
-			if walls_resource.apply_colors & flag.mid:
-				walls.set_color(wall_color)
-			building.add_child(walls)
-
-		# Add top floor
-		var top_floor = walls_scene.instantiate()
-		top_floor.set_texture_index(get_top_index.call(building_type))
-		top_floor.set_color(Color.WHITE_SMOKE)
-		if walls_resource.apply_colors & flag.top:
-			top_floor.set_color(wall_color)
-		building.add_child(top_floor)
-
 	# Add the roof
 	if layer_composition.render_info is LayerComposition.BuildingRenderInfo:
 		var slope = feature.get_attribute(layer_composition.render_info.slope_attribute_name)
@@ -208,6 +149,86 @@ func load_feature_instance(feature):
 	building.build()
 
 	return building
+
+
+func prepare_pillars(building_metadata: Dictionary, building: Node3D, num_floors: int):
+	var walls_scene = load("res://Buildings/Components/Walls/Pillars.tscn").instantiate()
+	walls_scene.ground_height_at_center = building_metadata["engine_center_position"].y
+	walls_scene.floors = num_floors
+	building.add_child(walls_scene)
+
+
+func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
+		building: Node3D, num_floors: int):
+	var walls_scene = preload("res://Buildings/Components/Walls/PlainWalls.tscn")
+	var walls_resource: PlainWallResource = wall_resources[int(building_type)] \
+		if int(building_type) in range(0, wall_resources.size()) \
+		else fallback_wall
+	
+	# Random facade texture
+	var random_gen = RandomNumberGenerator.new()
+	random_gen.seed = hash(building_metadata["footprint"])
+
+	var wall_color = Color.WHITE_SMOKE
+	var random = random_gen.randi_range(0, 10)
+	
+	if random >= 0 and random <= 5:
+		wall_color = walls_resource.random_colors[0]
+	elif random > 5 and random <= 8:
+		wall_color = walls_resource.random_colors[1]
+	elif random == 9:
+		wall_color = walls_resource.random_colors[2]
+	elif random == 10:
+		wall_color = walls_resource.random_colors[3]
+
+	# FIXME: Find a way not to have a half window texture here
+	
+	# Indexing textures from texture2Darray
+	# Each bundle consists of: basement, ground, mid, top
+	# => building_type 1 basement => 1 * 4 + 3
+	# => building_type 3 top => 3 * 4 + 3
+	var get_cellar_index = func(building_type): return int(building_type) * 4 + 0
+	var get_ground_index = func(building_type): return int(building_type) * 4 + 1
+	var get_mid_index = func(building_type): return int(building_type) * 4 + 2
+	var get_top_index = func(building_type): return int(building_type) * 4 + 3
+	
+	# Add a cellar
+	var cellar = walls_scene.instantiate()
+	cellar.set_color(Color.WHITE_SMOKE)
+	# Add an additional height to the cellar which acts as "plinth" scaled with the extent
+	cellar.height += plinth_height_factor * min(20., building_metadata["extent"])
+	cellar.set_texture_index(get_cellar_index.call(building_type))
+	if walls_resource.apply_colors & flag.basement:
+		cellar.set_color(wall_color)
+	building.add_child(cellar)
+	
+	# Add ground floor
+	num_floors -= 1
+	var ground_floor = walls_scene.instantiate()
+	ground_floor.set_texture_index(get_ground_index.call(building_type))
+	ground_floor.set_color(Color.WHITE_SMOKE)
+	if walls_resource.apply_colors & flag.ground: 
+		ground_floor.set_color(wall_color)
+		
+	building.add_child(ground_floor)
+	
+	# Add mid floors (only if there is are enough floors left)
+	if num_floors >= 1:
+		for i in range(num_floors - 1):
+			var walls = walls_scene.instantiate()
+			walls.set_texture_index(get_mid_index.call(building_type))
+			walls.set_color(Color.WHITE_SMOKE)
+			if walls_resource.apply_colors & flag.mid:
+				walls.set_color(wall_color)
+			building.add_child(walls)
+
+		# Add top floor
+		var top_floor = walls_scene.instantiate()
+		top_floor.set_texture_index(get_top_index.call(building_type))
+		top_floor.set_color(Color.WHITE_SMOKE)
+		if walls_resource.apply_colors & flag.top:
+			top_floor.set_color(wall_color)
+		building.add_child(top_floor)
 
 
 func get_building_metadata(feature: GeoPolygon):
@@ -255,6 +276,7 @@ func get_building_metadata(feature: GeoPolygon):
 		layer_composition.render_info.height_stdev_attribute_name), 10)
 	var roof_height = fmod(height, floor_height) + height_stdev
 	
+	# FIXME: create struct for this 
 	return {
 		"extent": extent,
 		"geo_center": geo_center,

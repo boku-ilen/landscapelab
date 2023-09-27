@@ -2,6 +2,7 @@
 
 [resource]
 code = "shader_type spatial;
+render_mode cull_disabled;
 
 uniform sampler2DArray texture_albedo : source_color;
 uniform float specular = 0.5;
