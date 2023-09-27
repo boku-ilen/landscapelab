@@ -5,3 +5,4 @@
 
 [node name="BuildingRenderer" instance=ExtResource("1_u27p3")]
 script = ExtResource("2_23560")
+load_adapt_threaded = false

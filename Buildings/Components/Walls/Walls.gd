@@ -71,7 +71,7 @@ func build(footprint: PackedVector2Array):
 		# The distance is needed for the UV coordinates, to make the texture not stretch but repeat
 		var distance_to_next_point = max(0.1, point_3d.distance_to(next_point_3d)) # to prevent division by 0
 		
-		if (wind_counterclockwise):
+		if not wind_counterclockwise:
 			st.set_color(Color(color, float(texture_index) / 255.0))
 			
 			# First triangle of the wall
