@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://smxcuwyafd66"]
+
+[node name="SubViewport" type="SubViewport"]
+use_xr = true
+screen_space_aa = 1
+positional_shadow_atlas_size = 0
+size = Vector2i(0, 0)
+render_target_update_mode = 4
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+current = true
+
+[node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+
+[node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67, 0)
+cull_mask = 1079
+current = true
+near = 0.15
