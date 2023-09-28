@@ -23,7 +23,7 @@ var paths := {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 3.0 :
+var plant_extent_factor = 2.0 :
 	get:
 		return plant_extent_factor
 	set(extent):
