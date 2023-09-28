@@ -347,10 +347,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62082e-07, 134.732, 5.30525
 [node name="Blink" type="MeshInstance3D" parent="Mesh/Hub" index="0"]
 transform = Transform3D(-9.23706e-14, 1.03951e-14, -1, 0, 1, 1.47009e-14, 1, 3.46503e-15, -9.23706e-14, -1.10515, 2.60886, -5.31687)
 visible = false
+layers = 4
 mesh = SubResource("5")
 
 [node name="Hub" type="MeshInstance3D" parent="Mesh/Hub" index="1"]
 transform = Transform3D(-1.78671e-22, 2.88658e-15, -0.0345999, 0.0345999, 2.06231e-09, 0, 2.06231e-09, -0.0345999, -2.88658e-15, -3.39244, -3.41234, -0.0180435)
+layers = 4
 gi_mode = 0
 mesh = SubResource("ArrayMesh_aythl")
 skeleton = NodePath("")
@@ -368,6 +370,7 @@ skeleton = NodePath("")
 
 [node name="Mast_135" type="MeshInstance3D" parent="Mesh/Mast" index="0"]
 transform = Transform3D(0, 0, -0.0254, 0, 0.0254, 0, 0.0254, 0, 0, -5.87347, 0, -5.87347)
+layers = 4
 gi_mode = 0
 mesh = SubResource("ArrayMesh_13bwe")
 skeleton = NodePath("")
