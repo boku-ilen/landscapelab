@@ -147,7 +147,7 @@ vec3 get_normal(vec2 normal_uv_pos) {
 
 void vertex() {
 	// Hide transition with a "skirt": outermost row of vertices is moved down to create a wall that fills holes
-	if (UV.x < 0.0 || UV.x > 1.0 || UV.y < 0.0 || UV.y > 1.0) {
+	if (UV.x < -0.5 || UV.x > 1.5 || UV.y < -0.5 || UV.y > 1.5) {
 		VERTEX.y = -1000.0;
 	} else {
 		VERTEX.y = get_height(UV);

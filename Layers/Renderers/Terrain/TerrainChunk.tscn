@@ -12,6 +12,7 @@
 script = ExtResource("3_tgpu3")
 
 [node name="Water" parent="." instance=ExtResource("2_6w8bm")]
+extra_cull_margin = 0.0
 material = ExtResource("3_co2jq")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]

@@ -45,9 +45,9 @@ var current_roughness_ground_textures
 var terraforming_texture: TerraformingTexture
 
 
-func rebuild_aabb():
+func rebuild_aabb(node):
 	var aabb = AABB(global_transform.origin - position - Vector3(size / 2.0, 0.0, size / 2.0), Vector3(size, 100000, size))
-	$Mesh.set_custom_aabb(aabb)
+	node.set_custom_aabb(aabb)
 
 
 func override_increase_quality():
@@ -127,7 +127,7 @@ func override_build(center_x, center_y):
 
 
 func override_apply():
-	rebuild_aabb()
+	rebuild_aabb($Mesh)
 	
 	$Mesh.mesh = mesh_to_apply
 	
@@ -147,6 +147,7 @@ func override_apply():
 		
 		for child in get_children():
 			if child is ExtraLOD:
+				rebuild_aabb(child)
 				child.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)
 	
 	if current_texture:

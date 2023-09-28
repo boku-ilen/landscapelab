@@ -4,16 +4,16 @@
 [ext_resource type="PackedScene" uid="uid://bkcdk4xgbexwe" path="res://Layers/Renderers/Terrain/TerrainDecal.tscn" id="3_dxri0"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" id="4"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ecx4j"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_4ivij"]
 viewport_path = NodePath("DecalViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_fw1eh"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_nvfuv"]
 viewport_path = NodePath("DecalViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_utdhf"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_2g31q"]
 viewport_path = NodePath("DecalViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ob6ym"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_0x7y8"]
 viewport_path = NodePath("DecalViewport")
 
 [node name="RealisticTerrainRenderer" type="Node3D"]
@@ -26,17 +26,17 @@ chunk_scene = ExtResource("2_ib6li")
 [node name="Decals" type="Node3D" parent="."]
 
 [node name="TerrainDecalNear" parent="Decals" instance=ExtResource("3_dxri0")]
-texture_albedo = SubResource("ViewportTexture_ecx4j")
+texture_albedo = SubResource("ViewportTexture_4ivij")
 render_distance = 10.0
 
 [node name="TerrainDecalMidNear" parent="Decals" instance=ExtResource("3_dxri0")]
-texture_albedo = SubResource("ViewportTexture_fw1eh")
+texture_albedo = SubResource("ViewportTexture_nvfuv")
 render_distance = 30.0
 
 [node name="TerrainDecalMidFar" parent="Decals" instance=ExtResource("3_dxri0")]
-texture_albedo = SubResource("ViewportTexture_utdhf")
+texture_albedo = SubResource("ViewportTexture_2g31q")
 render_distance = 120.0
 
 [node name="TerrainDecalFar" parent="Decals" instance=ExtResource("3_dxri0")]
-texture_albedo = SubResource("ViewportTexture_ob6ym")
+texture_albedo = SubResource("ViewportTexture_0x7y8")
 render_distance = 500.0
