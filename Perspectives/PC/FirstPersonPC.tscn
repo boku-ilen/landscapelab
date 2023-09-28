@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://3h4ychvi0yw0"]
+[gd_scene load_steps=11 format=3 uid="uid://3h4ychvi0yw0"]
 
 [ext_resource type="Script" path="res://Perspectives/PC/PlayerController.gd" id="1"]
 [ext_resource type="Script" path="res://Perspectives/PC/SettingsCamera.gd" id="2"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://Perspectives/Tracking/ParentTracker.tscn" id="7"]
 [ext_resource type="Script" path="res://Communication/SetPositionRequestHandler.gd" id="8"]
 [ext_resource type="Texture2D" uid="uid://bxy40aj51eghh" path="res://Resources/Icons/ModernLandscapeLab/positionindicator.svg" id="9"]
+[ext_resource type="PackedScene" uid="uid://smxcuwyafd66" path="res://Perspectives/PC/VRSubviewPort.tscn" id="9_sfca8"]
 
 [sub_resource type="SeparationRayShape3D" id="1"]
 length = 1.65
@@ -61,24 +62,9 @@ remote_path = NodePath("../SubViewport/XROrigin3D")
 update_rotation = false
 update_scale = false
 
-[node name="SubViewport" type="SubViewport" parent="."]
-use_xr = true
-screen_space_aa = 1
-positional_shadow_atlas_size = 0
-size = Vector2i(0, 0)
-render_target_update_mode = 4
+[node name="SubViewport" parent="." instance=ExtResource("9_sfca8")]
 
-[node name="XROrigin3D" type="XROrigin3D" parent="SubViewport"]
-current = true
+[node name="XRCamera3D" parent="SubViewport/XROrigin3D" index="2"]
+far = 10000.0
 
-[node name="LeftHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
-tracker = &"left_hand"
-
-[node name="RightHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
-tracker = &"right_hand"
-
-[node name="XRCamera3D" type="XRCamera3D" parent="SubViewport/XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67, 0)
-cull_mask = 1079
-current = true
-near = 0.15
+[editable path="SubViewport"]
