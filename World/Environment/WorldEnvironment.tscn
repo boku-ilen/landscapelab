@@ -30,7 +30,7 @@ shader_parameter/weathermap = ExtResource("2_ltw8f")
 
 [sub_resource type="Sky" id="Sky_gjwmw"]
 sky_material = SubResource("ShaderMaterial_ywyjs")
-process_mode = 2
+process_mode = 3
 radiance_size = 4
 
 [sub_resource type="Environment" id="2"]
@@ -39,9 +39,10 @@ sky = SubResource("Sky_gjwmw")
 ambient_light_source = 3
 reflected_light_source = 2
 tonemap_white = 6.0
-ssao_enabled = true
 ssao_radius = 5.0
 ssao_intensity = 6.15
+ssil_enabled = true
+sdfgi_bounce_feedback = 1.0
 sdfgi_min_cell_size = 1.0
 sdfgi_cascade0_distance = 64.0
 sdfgi_max_distance = 1024.0
@@ -66,8 +67,10 @@ transform = Transform3D(0.551073, -0.830715, 0.0789348, -0.498894, -0.252165, 0.
 layers = 15
 light_energy = 1.5
 shadow_enabled = true
+shadow_bias = 0.25
+shadow_blur = 2.0
 directional_shadow_blend_splits = true
-directional_shadow_max_distance = 1000.0
+directional_shadow_max_distance = 500.0
 sky_mode = 1
 
 [node name="SkyLight" type="DirectionalLight3D" parent="DirectionalLight"]
