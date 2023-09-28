@@ -4,3 +4,4 @@
 
 [node name="ObjectRenderer" type="Node3D"]
 script = ExtResource("1")
+radius = 60000.0
