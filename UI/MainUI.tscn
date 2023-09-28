@@ -24,7 +24,7 @@
 [ext_resource type="Script" path="res://UI/LoadingCircle.gd" id="14_jjvhr"]
 [ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="15"]
 [ext_resource type="PackedScene" uid="uid://dq360hhqtol4f" path="res://World/World.tscn" id="15_xvbyv"]
-[ext_resource type="Script" path="res://UI/StopRenderPCButton.gd" id="16_0ghn0"]
+[ext_resource type="Script" path="res://UI/StopRenderViewButton.gd" id="16_0ghn0"]
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="17_3pwcs"]
 [ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="18"]
 [ext_resource type="PackedScene" uid="uid://btpe1wyj5nbfg" path="res://UI/Layers/GeoLayers/GeoLayerViewport.tscn" id="18_gf1q8"]
