@@ -83,4 +83,5 @@ func build(footprint: PackedVector2Array):
 	
 	# Apply
 	var mesh = st.commit()
+	mesh.custom_aabb = st.get_aabb()
 	get_node("MeshInstance3D").mesh = mesh
