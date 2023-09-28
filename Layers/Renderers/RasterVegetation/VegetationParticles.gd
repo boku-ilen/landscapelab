@@ -127,7 +127,7 @@ func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0,
 		float(world_x - map_size / 2),
 		float(world_y + map_size / 2),
 		float(map_size), 
-		int(map_size / 10.0),
+		int(map_size),
 		0
 	)
 	

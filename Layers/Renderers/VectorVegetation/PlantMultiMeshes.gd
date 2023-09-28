@@ -91,6 +91,9 @@ func override_build(center_x, center_y):
 	for feature in features:
 		var species = feature.get_attribute("layer")
 		var instance_scale = feature.get_attribute("height1").to_float() * 1.5
+		
+		# FIXME: Load these in a later refinement step
+		if instance_scale < 5.0: continue
 
 		var pos = feature.get_offset_vector3(-int(center_x), 0, -int(center_y))
 		pos.y = height_layer.get_value_at_position(pos.x + center_x, center_y - pos.z)

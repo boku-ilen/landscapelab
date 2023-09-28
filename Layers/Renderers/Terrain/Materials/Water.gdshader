@@ -5,8 +5,8 @@ render_mode blend_mix;
 
 
 // LandscapeLab-specific uniforms
-uniform sampler2D heightmap: repeat_disable;
-uniform sampler2D surface_heightmap: repeat_disable;
+uniform sampler2D heightmap: repeat_disable, filter_nearest;
+uniform sampler2D surface_heightmap: repeat_disable, filter_nearest;
 uniform sampler2D landuse: repeat_disable, filter_nearest;
 uniform sampler2D offset_noise;
 
@@ -47,7 +47,7 @@ float waves(vec2 pos, float time){
 
 
 void vertex(){
-	VERTEX.y = texture(heightmap, UV).r + texture(surface_heightmap, UV).r;
+	VERTEX.y = texture(heightmap, UV).r;// + texture(surface_heightmap, UV).r;
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
