@@ -60,7 +60,10 @@ func _ready():
 	
 	# Create MultiMeshes
 	for species_string in species_to_mesh.keys():
-		var mmi = MultiMeshInstance3D.new()
+		var mmi := MultiMeshInstance3D.new()
+		# Set correct layer mask so streets are not rendered onto trees
+		mmi.set_layer_mask_value(1, false)
+		mmi.set_layer_mask_value(3, true)
 		mmi.name = species_string
 		species_to_mmi[species_string] = mmi
 		add_child(mmi)

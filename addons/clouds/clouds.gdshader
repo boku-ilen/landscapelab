@@ -1,7 +1,6 @@
 // Cloud Raymarching based on: A. Schneider. “The Real-Time Volumetric Cloudscapes Of Horizon: Zero Dawn”. ACM SIGGRAPH. Los Angeles, CA: ACM SIGGRAPH, 2015. Web. 26 Aug. 2015.
 
 shader_type sky;
-render_mode use_half_res_pass, use_quarter_res_pass;
 
 uniform sampler3D worlnoise : filter_linear_mipmap, repeat_enable;
 uniform sampler3D perlworlnoise : filter_linear_mipmap, repeat_enable;
@@ -229,38 +228,31 @@ vec4 march(vec3 pos,  vec3 end, vec3 dir, int depth) {
 }
 
 void sky() {
-	vec3 dir = EYEDIR;
+	if (AT_CUBEMAP_PASS) {
+		vec3 dir = EYEDIR;
 
-	vec4 col = vec4(0.0);
-	if (dir.y>0.0) {
-		vec3 camPos = vec3(0.0, g_radius, 0.0);
-		vec3 start = camPos + dir * intersectSphere(camPos, dir, sky_b_radius);
-		vec3 end = camPos + dir * intersectSphere(camPos, dir, sky_t_radius);
-		float shelldist = (length(end-start));
-		// Take fewer steps towards horizon
-		float steps = (mix(96.0, 54.0, clamp(dot(dir, vec3(0.0, 1.0, 0.0)), 0.0, 1.0)));
-		vec3 raystep = dir * shelldist / steps;
-		vec4 volume = march(start, end, raystep, int(steps));
-		vec3 background = atmosphere(dir);
-		// Draw cloud shape
-		col = vec4(background*(1.0-volume.a)+volume.xyz, 1.0);
-		// Blend distant clouds into the sky
-		col.xyz = mix(clamp(col.xyz, vec3(0.0), vec3(1.0)), clamp(background, vec3(0.0), vec3(1.0)), smoothstep(0.6, 1.0, 1.0-dir.y));
-	} else {
-		col = vec4(atmosphere(dir), 1.0);
-	}
-	
-	// Draw to quarter res buffer for reflections
-	// Draw to half res buffer for main sky
-	if (AT_QUARTER_RES_PASS && AT_CUBEMAP_PASS) {
+		vec4 col = vec4(0.0);
+		if (dir.y>0.0) {
+			vec3 camPos = vec3(0.0, g_radius, 0.0);
+			vec3 start = camPos + dir * intersectSphere(camPos, dir, sky_b_radius);
+			vec3 end = camPos + dir * intersectSphere(camPos, dir, sky_t_radius);
+			float shelldist = (length(end-start));
+			// Take fewer steps towards horizon
+			float steps = (mix(96.0, 54.0, clamp(dot(dir, vec3(0.0, 1.0, 0.0)), 0.0, 1.0)));
+			vec3 raystep = dir * shelldist / steps;
+			vec4 volume = march(start, end, raystep, int(steps)); // make fewer steps altogehter by 0.1
+			vec3 background = atmosphere(dir);
+			// Draw cloud shape
+			col = vec4(background*(1.0-volume.a)+volume.xyz, 1.0);
+			// Blend distant clouds into the sky
+			col.xyz = mix(clamp(col.xyz, vec3(0.0), vec3(1.0)), clamp(background, vec3(0.0), vec3(1.0)), smoothstep(0.6, 1.0, 1.0-dir.y));
+		} else {
+			col = vec4(atmosphere(dir), 1.0);
+		}
+		
 		COLOR = col.xyz;
 		ALPHA = 1.0;
-	} else if (AT_HALF_RES_PASS && !AT_CUBEMAP_PASS) {
-		COLOR = col.xyz;
-		ALPHA = 1.0;
-	} else if (AT_CUBEMAP_PASS) {
-		COLOR = QUARTER_RES_COLOR.rgb;
 	} else {
-		COLOR = HALF_RES_COLOR.rgb; // Change to col.rgb for full resolution
+		COLOR = texture(RADIANCE, EYEDIR).rgb;
 	}
 }

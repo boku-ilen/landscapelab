@@ -25,7 +25,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 transform = Transform3D(1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0)
 cull_mask = 1079
 doppler_tracking = 2
-current = true
 near = 0.15
 script = ExtResource("2")
 setting_title = "player"
@@ -50,15 +49,36 @@ target_path = NodePath("..")
 
 [node name="VRDirectionIndicator" type="TextureRect" parent="."]
 visible = false
-offset_right = 20.0
-offset_bottom = 20.0
+offset_right = 16.0
+offset_bottom = 16.0
 texture = ExtResource("9")
+expand_mode = 1
 script = ExtResource("4")
-
-[node name="SubViewport" type="SubViewport" parent="."]
-size = Vector2i(100, 100)
-render_target_update_mode = 3
+vr_camera_path = NodePath("../SubViewport/XROrigin3D/XRCamera3D")
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+remote_path = NodePath("../SubViewport/XROrigin3D")
 update_rotation = false
 update_scale = false
+
+[node name="SubViewport" type="SubViewport" parent="."]
+use_xr = true
+screen_space_aa = 1
+positional_shadow_atlas_size = 0
+size = Vector2i(0, 0)
+render_target_update_mode = 4
+
+[node name="XROrigin3D" type="XROrigin3D" parent="SubViewport"]
+current = true
+
+[node name="LeftHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
+tracker = &"left_hand"
+
+[node name="RightHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
+tracker = &"right_hand"
+
+[node name="XRCamera3D" type="XRCamera3D" parent="SubViewport/XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67, 0)
+cull_mask = 1079
+current = true
+near = 0.15
