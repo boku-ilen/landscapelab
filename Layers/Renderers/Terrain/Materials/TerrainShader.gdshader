@@ -4,7 +4,7 @@ shader_type spatial;
 
 // Basic Terrain
 uniform sampler2D orthophoto: source_color, repeat_disable;
-uniform sampler2D heightmap: repeat_disable;
+uniform sampler2D heightmap: repeat_disable, filter_nearest;
 uniform sampler2D normalmap: hint_normal, repeat_disable;
 uniform float height_scale = 1.0;
 uniform bool has_hole = false;

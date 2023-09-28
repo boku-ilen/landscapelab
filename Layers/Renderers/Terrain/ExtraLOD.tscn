@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://c47kkouss1170"]
+[gd_scene load_steps=2 format=3 uid="uid://hls5omqtjkj5"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/ExtraLOD.gd" id="1"]
 
