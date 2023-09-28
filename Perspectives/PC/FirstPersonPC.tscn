@@ -63,8 +63,10 @@ update_scale = false
 
 [node name="SubViewport" type="SubViewport" parent="."]
 use_xr = true
-vrs_mode = 3
+screen_space_aa = 1
+positional_shadow_atlas_size = 0
 size = Vector2i(0, 0)
+render_target_update_mode = 4
 
 [node name="XROrigin3D" type="XROrigin3D" parent="SubViewport"]
 current = true
