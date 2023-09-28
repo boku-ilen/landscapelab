@@ -12,6 +12,7 @@ func _ready():
 
 
 func _process(delta):
+	if vr_camera == null: return
 	# Find a projection in front of the camera
 	var pos = vr_camera.global_transform.origin + vr_camera.global_transform.basis.z * -10
 	# Project into screen space
