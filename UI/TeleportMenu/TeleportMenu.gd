@@ -11,8 +11,6 @@ extends HBoxContainer
 @onready var item_list = get_node("VBoxContainer/ItemList")
 @onready var add_button = get_node("VBoxContainer/HBoxContainer/Add")
 @onready var delete_button = get_node("VBoxContainer/HBoxContainer/Delete")
-@onready var arrow_up = get_node("Arrows/ArrowUp")
-@onready var arrow_down = get_node("Arrows/ArrowDown")
 
 var pos_manager: PositionManager
 var pc_player: AbstractPlayer
@@ -26,22 +24,22 @@ func _ready():
 	add_button.connect("pressed",Callable(self,"_on_add_pressed"))
 	save_button.connect("pressed",Callable(self,"_on_save_pressed"))
 	delete_button.connect("pressed",Callable(self,"_on_delete_pressed"))
-	arrow_up.connect("pressed",Callable(self,"_on_arrow_up"))
-	arrow_down.connect("pressed",Callable(self,"_on_arrow_down"))
 	
 	var object_layers = Layers.get_layers_with_render_info(LayerComposition.ObjectRenderInfo)
 	
 	for layer in object_layers:
 		_add_object_layer(layer)
 	
-	Layers.connect("new_layer",Callable(self,"_add_object_layer"))
-	Layers.connect("removed_rendered_layer_composition",
-		Callable(self,"_remove_object_layer_composition"))
+	Layers.new_layer_composition.connect(_add_object_layer)
+	Layers.removed_rendered_layer_composition.connect(_remove_object_layer_composition)
 
 
 func _teleport_current_values():
-	teleport_to_coordinates(Vector3($VBoxContainer/HBoxContainer2/X.value, 
-		$VBoxContainer/HBoxContainer2/Y.value, $VBoxContainer/HBoxContainer2/Z.value), true)
+	teleport_to_coordinates(Vector3(
+		$VBoxContainer/HBoxContainer2/X.value, 
+		$VBoxContainer/HBoxContainer2/Y.value, 
+		$VBoxContainer/HBoxContainer2/Z.value), 
+		true)
 
 
 # Teleports to engine- or geo-coordinates (of the current projection)
@@ -70,25 +68,27 @@ func _remove_object_layer_composition(lcname: String, render_info):
 
 func _change_selected_layer(id: int):
 	var layer_name = $VBoxContainer/OptionButton.get_item_text(id)
-	current_poi_layer = Layers.layers[layer_name]
+	current_poi_layer = Layers.layer_compositions[layer_name]
 	_load_features_into_list()
 
 
 func _load_features_into_list():
 	$VBoxContainer/ItemList.clear()
 	
-	var features = current_poi_layer.get_all_features()
+	var features = current_poi_layer.render_info.geo_feature_layer.get_all_features()
 	
 	for feature in features:
 		var new_id = $VBoxContainer/ItemList.get_item_count()
-		var position = feature.get_vector3()
-		position.z = -position.z # Adapt to local -z forward coordinates
+		var pos = feature.get_vector3()
+		pos.z = -pos.z # Adapt to engine -z forward
 		
-		var item_name = feature.get_attribute(current_poi_layer.ui_info.name_attribute) \
-				if feature.get_attribute(current_poi_layer.ui_info.name_attribute) != "" \
-				else str(position)
+		var item_name = str(pos)
+		var name_attribute = current_poi_layer.ui_info.name_attribute
+		name_attribute = name_attribute if name_attribute != null else "name"
+		if feature.get_attribute(name_attribute) != "" and feature.get_attribute(name_attribute) != null:
+			item_name = feature.get_attribute(name_attribute)
 		
-		var metadata = {"pos": position, "feature": feature}
+		var metadata = {"pos": pos, "feature": feature}
 		$VBoxContainer/ItemList.add_item(item_name)
 		$VBoxContainer/ItemList.set_item_metadata(new_id, metadata)
 
@@ -96,6 +96,7 @@ func _load_features_into_list():
 func _on_feature_select(item_id):
 	var global_pos = $VBoxContainer/ItemList.get_item_metadata(item_id)["pos"]
 	teleport_to_coordinates(global_pos, true)
+	release_focus()
 
 
 func _on_add_pressed():
@@ -113,6 +114,7 @@ func _on_save_pressed():
 	# FIXME: this is a limitation as of now as set_attribute only works
 	# FIXME: checked an existing table row. This needs to be created first
 	var key = current_poi_layer.ui_info.name_attribute
+	key = key if key != null else "name"
 	var val = input_field.text 
 	new_feature.set_attribute(key, val)
 	var test = new_feature.get_attribute(key)
@@ -129,23 +131,3 @@ func _on_delete_pressed():
 	var current_item = item_list.get_selected_items()[0]
 	var feature = item_list.get_item_metadata(current_item)["feature"]
 	current_poi_layer.remove_feature(feature)
-
-
-func _on_arrow_up():
-	# FIXME: this crashes the landscapelab if the POI list is empty
-	var current_item : int = item_list.get_selected_items()[0]
-	var item_text : String = item_list.get_item_text(current_item)
-	
-	#var result = ServerConnection.get_json("/location/increase_order/%s/%d" % [item_text, Session.scenario_id], false)
-	
-	item_list.move_item(current_item, current_item - 1)
-
-
-func _on_arrow_down():
-	# FIXME: this crashes the landscapelab if the POI list is empty
-	var current_item : int = item_list.get_selected_items()[0]
-	var item_text : String = item_list.get_item_text(current_item)
-	
-	#var result = ServerConnection.get_json("/location/increase_order/%s/%d" % [item_text, Session.scenario_id], false)
-	
-	item_list.move_item(current_item, current_item + 1)
