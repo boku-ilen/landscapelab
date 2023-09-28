@@ -420,5 +420,6 @@ ground_textures={
 [xr]
 
 openxr/enabled=true
+openxr/submit_depth_buffer=true
 openxr/startup_alert=false
 shaders/enabled=true
