@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlainWallResource" load_steps=3 format=3 uid="uid://csiu51f1altk1"]
+
+[ext_resource type="Resource" uid="uid://dsuc6pqsvmhph" path="res://Resources/Textures/Buildings/facade/Concrete/Concrete.tres" id="1_ioe4u"]
+[ext_resource type="Script" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_xuu7i"]
+
+[resource]
+script = ExtResource("1_xuu7i")
+basement_texture = ExtResource("1_ioe4u")
+ground_texture = ExtResource("1_ioe4u")
+middle_texture = ExtResource("1_ioe4u")
+top_texture = ExtResource("1_ioe4u")
+random_colors = Array[Color]([Color(1, 0.835294, 0.733333, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1)])
+apply_colors = 1
+wind_counterclockwise = null
