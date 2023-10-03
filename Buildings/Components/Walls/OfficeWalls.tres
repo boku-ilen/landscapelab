@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://dyh46olxk60km"]
+
+[ext_resource type="Shader" uid="uid://dtp2h5c0r7tl8" path="res://Buildings/Components/Walls/Walls.tres" id="1_0xpsh"]
+[ext_resource type="Texture2D" uid="uid://dbnhdx3wb0ues" path="res://Resources/Textures/Facade006_4K-JPG/Facade006_4K_Color.jpg" id="2_53cmj"]
+[ext_resource type="Texture2D" uid="uid://cqkyc3tjtbvdc" path="res://Resources/Textures/Facade006_4K-JPG/emission.jpg" id="3_nmyds"]
+[ext_resource type="Texture2D" uid="uid://cmpjb0002we01" path="res://Resources/Textures/Facade006_4K-JPG/Facade006_4K_Metalness.jpg" id="4_fqgdg"]
+[ext_resource type="Texture2D" uid="uid://vg0uu8ny6m5" path="res://Resources/Textures/Facade006_4K-JPG/Facade006_4K_NormalDX.jpg" id="5_eggh0"]
+[ext_resource type="Texture2D" uid="uid://5upn4fsliiu4" path="res://Resources/Textures/Facade006_4K-JPG/Facade006_4K_Roughness.jpg" id="6_kuhe5"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_0xpsh")
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 1.0
+shader_parameter/roughness = 0.0
+shader_parameter/point_size = 1.0
+shader_parameter/metallic_texture_channel = Vector4(1, 1, 1, 0)
+shader_parameter/roughness_texture_channel = Vector4(1, 1, 1, 0)
+shader_parameter/emission = Color(1, 0.843137, 0.611765, 1)
+shader_parameter/emission_energy = 5.0
+shader_parameter/normal_scale = 3.0
+shader_parameter/uv1_scale = Vector3(0.25, 0.25, 0.25)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = Vector3(0.25, 0.25, 0.25)
+shader_parameter/uv2_offset = null
+shader_parameter/lights_on = false
+shader_parameter/window_shading = true
+shader_parameter/texture_albedo = ExtResource("2_53cmj")
+shader_parameter/texture_metallic = ExtResource("4_fqgdg")
+shader_parameter/texture_roughness = ExtResource("6_kuhe5")
+shader_parameter/texture_emission = ExtResource("3_nmyds")
+shader_parameter/texture_normal = ExtResource("5_eggh0")

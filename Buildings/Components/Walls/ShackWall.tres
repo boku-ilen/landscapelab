@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=2 format=3 uid="uid://b5rutbfyq5amm"]
+
+[ext_resource type="Script" path="res://Buildings/Components/Walls/WallTextureBundle.gd" id="1_ftsx4"]
+
+[resource]
+script = ExtResource("1_ftsx4")
+metallic = 0.0
+roughness = 0.5
+normal_scale = 1.0
+uv_scale = Vector3(1, 1, 1)

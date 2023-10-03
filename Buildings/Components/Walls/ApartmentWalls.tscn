@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://dxkc5klplu58v"]
+
+[ext_resource type="PackedScene" uid="uid://ba4dacxh7qiw0" path="res://Buildings/Components/Walls/Walls.tscn" id="1_buugy"]
+[ext_resource type="Shader" uid="uid://dtp2h5c0r7tl8" path="res://Buildings/Components/Walls/Walls.tres" id="2_w4j8y"]
+[ext_resource type="Texture2D" uid="uid://qgsnskddvtd8" path="res://Resources/Textures/Apartment.jpg" id="3_rwkie"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_82xcw"]
+render_priority = 0
+shader = ExtResource("2_w4j8y")
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.951
+shader_parameter/point_size = null
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/roughness_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/emission = null
+shader_parameter/emission_energy = null
+shader_parameter/normal_scale = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = null
+shader_parameter/lights_on = false
+shader_parameter/window_shading = true
+shader_parameter/texture_albedo = ExtResource("3_rwkie")
+
+[node name="Walls" instance=ExtResource("1_buugy")]
+random_colors = Array[Color]([Color(1, 1, 1, 1), Color(1, 0.988235, 0.831373, 1), Color(0.909804, 1, 0.901961, 1), Color(0.882353, 0.921569, 1, 1)])
+material = SubResource("ShaderMaterial_82xcw")
