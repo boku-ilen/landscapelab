@@ -240,7 +240,7 @@ func get_building_metadata(feature: GeoPolygon):
 	
 	# Coordinates as used in engine
 	var engine_footprint = Array(
-		feature.get_offset_outer_vertices(center[0], center[1]))
+		feature.get_offset_outer_vertices(-center[0], -center[1]))
 	
 	# Min and max value to get an extent of the footprint
 	var min_vertex = Vector2(INF, INF)
