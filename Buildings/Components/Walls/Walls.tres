@@ -38,6 +38,7 @@ float rand(vec3 co){
 }
 
 void fragment() {
+	// Read from the alpha channel the index (depth) of the sampler2Darray
 	float depth = COLOR.a * 255.0;
 	vec3 base_uv = vec3(UV, depth);
 	vec4 albedo_tex = texture(texture_albedo,base_uv);

@@ -28,6 +28,7 @@ func set_color(new_color):
 	color = new_color
 
 
+# We need a way to find the correct index from the sampler2DArray
 func set_texture_index(idx: int):
 	texture_index = idx
 
@@ -72,6 +73,8 @@ func build(footprint: PackedVector2Array):
 		var distance_to_next_point = max(0.1, point_3d.distance_to(next_point_3d)) # to prevent division by 0
 		
 		if not wind_counterclockwise:
+			# Store the texture index in the alpha value to correctly choose
+			# from the sampler2DArray
 			st.set_color(Color(color, float(texture_index) / 255.0))
 			
 			# First triangle of the wall
