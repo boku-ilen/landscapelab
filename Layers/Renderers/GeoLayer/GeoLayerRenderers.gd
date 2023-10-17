@@ -29,12 +29,10 @@ func _ready():
 
 func set_layer_visibility(layer_name: String, is_visible: bool):
 	# geolayers shall not be instantiated by default only on user's wish
-	if layer_name not in get_children().map(func(child): child.name):
+	if not has_node(layer_name):
 		instantiate_geolayer_renderer(Layers.get_geo_layer_by_name(layer_name))
-	
-	# Find child with correct name and set its visibility
-	if has_node(layer_name):
-		get_node(layer_name).visible = true
+
+	get_node(layer_name).visible = true
 
 
 func instantiate_geolayer_renderer(geo_layer: RefCounted):
