@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PlainWallResource" load_steps=4 format=3 uid="uid://bh5dr8wrufw01"]
+[gd_resource type="Resource" script_class="PlainWallResource" load_steps=4 format=3 uid="uid://di4ogfnmfj255"]
 
 [ext_resource type="Script" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_6d6k1"]
 [ext_resource type="Resource" uid="uid://blf23sts03r2v" path="res://Resources/Textures/Buildings/facade/plaster.tres" id="1_hgsrk"]
@@ -10,11 +10,6 @@ basement_texture = ExtResource("1_yhvcp")
 ground_texture = ExtResource("1_hgsrk")
 middle_texture = ExtResource("1_hgsrk")
 top_texture = ExtResource("1_hgsrk")
-<<<<<<< HEAD
-random_colors = Array[Color]([Color(1, 1, 0.878431, 1), Color(0.960784, 0.960784, 0.960784, 1), Color(0.992157, 0.866667, 0.905882, 1), Color(0.678431, 0.847059, 0.901961, 1)])
+random_colors = Array[Color]([Color(0.913725, 0.913725, 0.913725, 1), Color(0.772549, 0.85098, 1, 1), Color(0.988235, 0.827451, 0.941176, 1), Color(0.901961, 0.878431, 0.737255, 1)])
 apply_colors = 14
-=======
-random_colors = Array[Color]([Color(1, 1, 0.878431, 1), Color(0.960784, 0.960784, 0.960784, 1), Color(0.560784, 0.737255, 0.560784, 1), Color(0.678431, 0.847059, 0.901961, 1)])
-apply_colors = 6
->>>>>>> c0534e94f030858f0307a80148e5d497c36e2e2f
-wind_counterclockwise = 0
+wind_counterclockwise = null
