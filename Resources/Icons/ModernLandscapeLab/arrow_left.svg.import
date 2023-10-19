@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmgbr6ijkdvs2"
-path="res://.godot/imported/arrow_down.svg-d5e409e0506847fc26666f3adf3fef13.ctex"
+uid="uid://domau2e7w2l0i"
+path="res://.godot/imported/arrow_left.svg-ee2f0b5686174baf2ccc90e4a74dbf00.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Icons/ModernLandscapeLab/arrow_down.svg"
-dest_files=["res://.godot/imported/arrow_down.svg-d5e409e0506847fc26666f3adf3fef13.ctex"]
+source_file="res://Resources/Icons/ModernLandscapeLab/arrow_left.svg"
+dest_files=["res://.godot/imported/arrow_left.svg-ee2f0b5686174baf2ccc90e4a74dbf00.ctex"]
 
 [params]
 
