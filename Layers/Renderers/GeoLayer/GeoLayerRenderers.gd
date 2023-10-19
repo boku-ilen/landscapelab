@@ -9,17 +9,25 @@ var raster_renderer = preload("res://Layers/Renderers/GeoLayer/GeoRasterLayerRen
 var feature_renderer = preload("res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.tscn")
 signal loading_finished
 signal loading_started
+signal center_changed(new_center)
 
 var renderers_finished := 0
 var renderers_count := 0
 
 # Center in geocordinates
 var center := Vector2.ZERO
+var current_center := Vector2.ZERO : 
+	set(new_center):
+		current_center = new_center 
+		center_changed.emit(new_center)
 var offset := Vector2.ZERO
 var zoom := Vector2.ONE
 
 
-func _ready():
+func _ready(): setup()
+
+
+func setup():
 	camera = get_node(camera_path)
 	camera.offset_changed.connect(apply_offset)
 	
@@ -52,7 +60,7 @@ func instantiate_geolayer_renderer(geo_layer: RefCounted):
 func apply_offset(new_offset, new_viewport_size, new_zoom):
 	zoom = new_zoom
 	offset = new_offset
-	var current_center = center
+	current_center = center
 	current_center.x += new_offset.x
 	current_center.y -= new_offset.y
 	logger.debug("Applying new center center to all children in %s" % [name])
