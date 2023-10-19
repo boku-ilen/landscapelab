@@ -1,0 +1,55 @@
+[gd_scene load_steps=10 format=3 uid="uid://dap4sx6pnitq4"]
+
+[ext_resource type="Script" path="res://UI/LegoTable/LegoTable.gd" id="1_714gw"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_l77mt"]
+[ext_resource type="PackedScene" uid="uid://b614v82srw120" path="res://UI/Layers/GeoLayers/GeoLayerSubViewport.tscn" id="2_opmh5"]
+[ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="3_fs5bq"]
+[ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="3_hcbry"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Cursor2D.gd" id="4_12y64"]
+[ext_resource type="PackedScene" uid="uid://d25827kd1r2xd" path="res://UI/LegoTable/ControlContainer.tscn" id="4_d680t"]
+[ext_resource type="Script" path="res://Editing/ActionHandler.gd" id="4_nsdnx"]
+[ext_resource type="Texture2D" uid="uid://bci3mglgy7h5k" path="res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg" id="4_yl3ng"]
+
+[node name="HSplitContainer" type="HSplitContainer" node_paths=PackedStringArray("geo_layers")]
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_714gw")
+geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 2
+script = ExtResource("1_l77mt")
+
+[node name="SubViewport" parent="SubViewportContainer" instance=ExtResource("2_opmh5")]
+
+[node name="Cursor2D" type="Sprite2D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d")]
+texture = ExtResource("4_yl3ng")
+script = ExtResource("4_12y64")
+camera_2d = NodePath("../Camera2D")
+
+[node name="Overlay" type="Node" parent="SubViewportContainer"]
+
+[node name="ControlContainer" parent="SubViewportContainer/Overlay" node_paths=PackedStringArray("camera_2d") instance=ExtResource("4_d680t")]
+offset_left = 563.0
+offset_top = 9.0
+offset_right = -356.0
+offset_bottom = -293.0
+camera_2d = NodePath("../../SubViewport/Camera2D")
+
+[node name="ActionHandler" type="Node" parent="SubViewportContainer"]
+script = ExtResource("4_nsdnx")
+perspective_prefix = "2D"
+cursor_path = NodePath("../SubViewport/Cursor2D")
+
+[node name="GeoLayerUI" parent="." node_paths=PackedStringArray("geo_layers") instance=ExtResource("3_fs5bq")]
+layout_mode = 2
+geo_layers = NodePath("../SubViewportContainer/SubViewport/GeoLayerRenderers")
+
+[node name="LLConfigSetup" parent="." instance=ExtResource("3_hcbry")]
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+toggle_mode = true
+text = "TestMode"
+
+[editable path="SubViewportContainer/SubViewport"]
