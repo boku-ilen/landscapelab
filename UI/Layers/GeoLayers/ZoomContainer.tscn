@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://mkaw0si7x87"]
+
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="1_3t862"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/ZoomContainer.gd" id="1_je6ju"]
+[ext_resource type="Texture2D" uid="uid://b3vd4ae021x8" path="res://Resources/Icons/ModernLandscapeLab/plus.svg" id="2_kx8ox"]
+[ext_resource type="Texture2D" uid="uid://dbl70h8vqdyiy" path="res://Resources/Icons/ModernLandscapeLab/minus.svg" id="3_10har"]
+
+[node name="ZoomContainer" type="HBoxContainer"]
+layout_direction = 3
+script = ExtResource("1_je6ju")
+
+[node name="ZoomIn" parent="." instance=ExtResource("1_3t862")]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+icon = ExtResource("2_kx8ox")
+
+[node name="ZoomOut" parent="." instance=ExtResource("1_3t862")]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+icon = ExtResource("3_10har")
