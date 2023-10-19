@@ -1,18 +1,13 @@
 extends ItemList
 
-#
-# Display of all geolayers and handling for z-index of geo-layers in the 2D space.
-#
 
-
-signal z_index_changed(item_array)
-signal geolayer_visibility_changed(layer_name, is_visible)
+@onready var geo_layer_ui = get_parent()
 
 
 func _ready():
 	item_clicked.connect(func(idx, pos, mouse_button):
 		var lname = get_item_metadata(idx).get_file_info()["name"]
-		geolayer_visibility_changed.emit(lname, true))
+		geo_layer_ui.geolayer_visibility_changed.emit(lname, true))
 
 
 func get_items():
@@ -42,7 +37,7 @@ func _can_drop_data(at_position, data):
 func _drop_data(at_position, data):
 	var item_idx = get_item_at_position(at_position)
 	move_item(data.idx, item_idx)
-	z_index_changed.emit(get_items())
+	geo_layer_ui.z_index_changed.emit(get_items())
 
 
 func _get_drag_data(at_position):

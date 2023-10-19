@@ -12,6 +12,14 @@ var zoom_action_counter = 0
 var zoom_reload_delay = 0.15
 
 
+# if the position from the camera is changed from outside of this script
+# it comes in handy to have a function that automatically emits the necessary
+# data too
+func change_offset_and_emit(offset_summand: Vector2):
+	position += offset_summand
+	offset_changed.emit(position, get_viewport_rect().size, zoom)
+
+
 func input(event: InputEvent):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
