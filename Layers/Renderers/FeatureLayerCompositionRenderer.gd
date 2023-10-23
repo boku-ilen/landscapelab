@@ -22,8 +22,8 @@ var features := []
 var remove_features := []
 var load_features := []
 var instances := {}
-var radius = 6000.0
-var max_features = 2000
+@export var radius := 6000.0
+@export var max_features := 2000
 
 signal feature_instance_removed(id: int)
 

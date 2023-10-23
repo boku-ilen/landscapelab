@@ -1,7 +1,7 @@
 # LandscapeLab
-![grafik](https://user-images.githubusercontent.com/33001106/158603649-06d7a34b-a12e-49d9-a0f5-85880b10bd83.png)
-![grafik](https://user-images.githubusercontent.com/33001106/158603895-3953a4e6-9603-4104-9763-e68e59da060a.png)
-
+![SiedlungWindraeder](https://github.com/boku-ilen/landscapelab/assets/33001106/12a42814-99f5-4fc5-8318-8e613977ccb3)
+![Landschaft](https://github.com/boku-ilen/landscapelab/assets/33001106/9541072e-5cf7-42ab-a649-b85191aeba6a)
+![NeusiedlerSee](https://github.com/boku-ilen/landscapelab/assets/33001106/3b51660e-d1d5-4cb9-8d57-5126ea85b8ed)
 
 ## Setup
 

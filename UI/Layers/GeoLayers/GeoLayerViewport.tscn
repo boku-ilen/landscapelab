@@ -1,31 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://btpe1wyj5nbfg"]
 
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_2ghtm"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/Viewport2DCamera.gd" id="2_wyko3"]
 [ext_resource type="PackedScene" uid="uid://dn25tsa6f10jw" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.tscn" id="3_1txlc"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="4_kacmt"]
 [ext_resource type="Texture2D" uid="uid://b3vd4ae021x8" path="res://Resources/Icons/ModernLandscapeLab/plus.svg" id="5_wyws0"]
 [ext_resource type="Texture2D" uid="uid://dbl70h8vqdyiy" path="res://Resources/Icons/ModernLandscapeLab/minus.svg" id="6_3xt3h"]
 [ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="7_dic5u"]
-
-[sub_resource type="GDScript" id="GDScript_yj6f2"]
-script/source = "extends SubViewportContainer
-
-@export var geo_layer_ui: NodePath
-
-
-func _gui_input(event):
-	$SubViewport/Camera2D.input(event)
-
-
-func _ready():
-	$ZoomContainer/ZoomIn.pressed.connect($SubViewport/Camera2D.do_zoom.bind(1.1))
-	$ZoomContainer/ZoomOut.pressed.connect($SubViewport/Camera2D.do_zoom.bind(0.9))
-	get_node(geo_layer_ui).get_node(\"ItemList\").z_index_changed.connect(
-		$SubViewport/GeoLayerRenderers.reclassify_z_indices)
-	get_node(geo_layer_ui).get_node(\"ItemList\").geolayer_visibility_changed.connect(
-		$SubViewport/GeoLayerRenderers.set_layer_visibility
-	)
-"
 
 [node name="GeoLayerUi" type="HSplitContainer"]
 anchors_preset = 15
@@ -41,7 +22,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.7
 mouse_filter = 0
 stretch = true
-script = SubResource("GDScript_yj6f2")
+script = ExtResource("1_2ghtm")
 geo_layer_ui = NodePath("../GeoLayerUI")
 
 [node name="SubViewport" type="SubViewport" parent="GeoLayerViewport"]

@@ -23,7 +23,7 @@ var paths := {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 3.0 :
+var plant_extent_factor = 2.0 :
 	get:
 		return plant_extent_factor
 	set(extent):
@@ -231,10 +231,10 @@ func get_distribution_sheet(group_array):
 			texture_table)[0]
 
 
-# To map land-use values to a row from 0-7, we use a 256x1 array.
+# To map land-use values to a row from 0-7, we use a 1000x1 array.
 func get_id_row_array(ids):
 	var array = []
-	array.resize(256)
+	array.resize(1000)
 	array.fill(-1.0)
 	
 	var row := 0.0
@@ -246,16 +246,16 @@ func get_id_row_array(ids):
 
 
 # Creates a texture expressing various metadata of the groups in the given ID array.
-# The texture is 256 pixels wide, with the first row being an id-row-map (see above).
+# The texture is 1000 pixels wide, with the first row being an id-row-map (see above).
 # The following rows of the texture consist of the following data for each of the Groups:
 # [Ground Texture2D Scale | Fade Texture2D Scale]
 # A scale of 0 means that there is no texture of this type.
 # Note that each value needs to be scaled before use, since the texture only allows relative values in the 0..1 range.
 func get_metadata_map(ids):
-	var metadata = Image.create(256, 1, false, Image.FORMAT_RGB8)
+	var metadata = Image.create(1000, 1, false, Image.FORMAT_RGB8)
 	
 	# .fill doesn't work here - if that is used, the set_pixel calls later have no effect...
-	for i in range(0, 256):
+	for i in range(0, 1000):
 		metadata.set_pixel(i, 0, Color(1.0, 0.0, 0.0))
 	
 	# The pixel at x=id (0-255) is set to the row value (0-7).

@@ -12,7 +12,7 @@ uniform float splatmap_size_meters;
 
 uniform sampler2D distribution_map : hint_default_black, repeat_enable;
 uniform float dist_scale = 5000.0;
-uniform float id_to_row[255]; // Rows are floats of integers between 0 and 255, divided by 255.0
+uniform float id_to_row[1000]; // Rows are floats of integers between 0 and 255, divided by 255.0
 
 uniform float amplitude = 1.0;
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
@@ -77,7 +77,7 @@ void process() {
 	vec2 splatmap_uv = pos.xz + 0.5 * splatmap_size_meters - uv_offset;
 	splatmap_uv /= splatmap_size_meters;
 	
-	int splatmap_value = int(round(texture(splatmap, splatmap_uv).r * 255.0));
+	int splatmap_value = int(round(texture(splatmap, splatmap_uv).r));
 	
 	// The row in the spritesheets which corresponds to this splatmap ID
 	float row = id_to_row[splatmap_value];

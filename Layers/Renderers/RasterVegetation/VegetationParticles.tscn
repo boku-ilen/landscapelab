@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cjefdo8nt3k1g"]
+[gd_scene load_steps=8 format=3 uid="uid://ble8u3qy6yftc"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/RasterVegetation/VegetationParticles.gd" id="1"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/Plant.gdshader" id="2"]
@@ -39,6 +39,7 @@ shader_parameter/uv_offset = null
 [node name="VegetationParticles" type="GPUParticles3D"]
 layers = 2
 material_override = SubResource("ShaderMaterial_oyqth")
+cast_shadow = 0
 amount = 1
 explosiveness = 1.0
 fixed_fps = 1

@@ -6,6 +6,7 @@ extends Node3D
 #
 
 
+@export var height = 0.5
 var color
 
 
@@ -28,11 +29,37 @@ func build(footprint: PackedVector2Array):
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
+	# Generate flat normals - shaded as if round otherwise
+	st.set_smooth_group(-1)
+	
+	# Create flat roof
 	for index in polygon_indices:
-		var vertex_2d = footprint[index]
+		var current_vertex_2d = footprint[index]
 		st.set_color(color)
-		st.set_uv(vertex_2d * 0.1)
-		st.add_vertex(Vector3(vertex_2d.x, 0, vertex_2d.y))
+		st.set_uv(current_vertex_2d * 0.1)
+		
+		st.add_vertex(Vector3(current_vertex_2d.x, height, current_vertex_2d.y))
+	
+	# Create a little bit of height for the roof
+	for index in polygon_indices:
+		var current_vertex_2d = footprint[index]
+		var next_vertex_2d = footprint[(index + 1) % footprint.size()]
+		st.set_color(color)
+		
+		var distance_to_next = current_vertex_2d.distance_to(next_vertex_2d)
+		st.set_uv(Vector2(0, 0))
+		st.add_vertex(Vector3(current_vertex_2d.x, 0, current_vertex_2d.y))
+		st.set_uv(Vector2(0, height))
+		st.add_vertex(Vector3(current_vertex_2d.x, height, current_vertex_2d.y))
+		st.set_uv(Vector2(distance_to_next, 0))
+		st.add_vertex(Vector3(next_vertex_2d.x, 0, next_vertex_2d.y))
+		
+		st.set_uv(Vector2(distance_to_next, height))
+		st.add_vertex(Vector3(next_vertex_2d.x, height, next_vertex_2d.y))
+		st.set_uv(Vector2(distance_to_next, 0))
+		st.add_vertex(Vector3(next_vertex_2d.x, 0, next_vertex_2d.y))
+		st.set_uv(Vector2(0, height))
+		st.add_vertex(Vector3(current_vertex_2d.x, height, current_vertex_2d.y))
 	
 	st.generate_normals()
 	st.generate_tangents()

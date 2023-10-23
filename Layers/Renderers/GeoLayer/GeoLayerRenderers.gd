@@ -1,7 +1,9 @@
 extends Node2D
 
 @export var camera_path: NodePath
-@onready var loading_thread = Thread.new()
+@export var load_data_threaded := true
+
+var loading_thread := Thread.new() 
 var camera: Camera2D
 var raster_renderer = preload("res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn")
 var feature_renderer = preload("res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.tscn")
@@ -10,7 +12,6 @@ signal loading_started
 
 var renderers_finished := 0
 var renderers_count := 0
-var load_data_threaded := true
 
 # Center in geocordinates
 var center := Vector2.ZERO
@@ -28,15 +29,13 @@ func _ready():
 
 func set_layer_visibility(layer_name: String, is_visible: bool):
 	# geolayers shall not be instantiated by default only on user's wish
-	if layer_name not in get_children().map(func(child): child.name):
+	if not has_node(layer_name):
 		instantiate_geolayer_renderer(Layers.get_geo_layer_by_name(layer_name))
-	
-	# Find child with correct name and set its visibility
-	if has_node(layer_name):
-		get_node(layer_name).visible = true
+
+	get_node(layer_name).visible = true
 
 
-func instantiate_geolayer_renderer(geo_layer: Resource):
+func instantiate_geolayer_renderer(geo_layer: RefCounted):
 	var renderer
 	if geo_layer is GeoRasterLayer:
 		renderer = raster_renderer.instantiate()
@@ -46,7 +45,7 @@ func instantiate_geolayer_renderer(geo_layer: Resource):
 		renderer.geo_feature_layer = geo_layer
 	
 	if renderer:
-		renderer.name = geo_layer.resource_name
+		renderer.name = geo_layer.get_file_info()["name"]
 		add_child(renderer)
 
 
@@ -79,6 +78,7 @@ func apply_offset(new_offset, new_viewport_size, new_zoom):
 
 
 func update_renderers(new_center, new_offset, new_viewport_size, new_zoom):
+	Thread.set_thread_safety_checks_enabled(false)
 	# The maximum radius is at the corners => get the diagonale divided by 2s
 	var radius = sqrt(
 		pow(new_viewport_size.x / new_zoom.x, 2) + pow(new_viewport_size.y / new_zoom.y, 2)) / 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://irhadvtwokr5"]
+[gd_scene load_steps=34 format=3 uid="uid://irhadvtwokr5"]
 
 [ext_resource type="Texture2D" uid="uid://b2i6gv6rjevem" path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" id="2"]
 [ext_resource type="PackedScene" uid="uid://csad5ev7rwtoe" path="res://UI/MenuBar/MenuBar.tscn" id="2_56a3o"]
@@ -11,12 +11,13 @@
 [ext_resource type="Script" path="res://UI/WorldUI.gd" id="7_fnvwn"]
 [ext_resource type="Script" path="res://UI/UISplit.gd" id="8"]
 [ext_resource type="PackedScene" path="res://UI/PlayerCompass.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://pmmpjdicjvjs" path="res://UI/TeleportMenu/TeleportMenu.tscn" id="9_he6fp"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="10_6fnux"]
 [ext_resource type="PackedScene" uid="uid://cckl23qaxw3h8" path="res://UI/Datetime/Datetime.tscn" id="10_x7hwk"]
 [ext_resource type="Script" path="res://UI/WorldViewPort.gd" id="11"]
 [ext_resource type="PackedScene" uid="uid://dkvdbwaqhrbnn" path="res://UI/Weather/WeatherUI.tscn" id="11_1mm7o"]
 [ext_resource type="Script" path="res://UI/Imaging/ImagingButton.gd" id="11_2gr6u"]
-[ext_resource type="PackedScene" path="res://Util/Imaging/Dolly/DollyWindow.tscn" id="12_5yhyn"]
+[ext_resource type="PackedScene" uid="uid://b858h2ejta33m" path="res://Util/Imaging/Dolly/DollyWindow.tscn" id="12_5yhyn"]
 [ext_resource type="Texture2D" uid="uid://copq7sq4f0uom" path="res://Resources/Icons/ModernLandscapeLab/loading.png" id="12_8oiw2"]
 [ext_resource type="PackedScene" uid="uid://88rg1t88n3e7" path="res://UI/Screenshot/ScreenshotMenu.tscn" id="12_xqn6f"]
 [ext_resource type="PackedScene" uid="uid://c63a11up3xcvk" path="res://UI/CustomElements/AutoTextureButton.tscn" id="13"]
@@ -24,6 +25,7 @@
 [ext_resource type="Script" path="res://UI/LoadingCircle.gd" id="14_jjvhr"]
 [ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="15"]
 [ext_resource type="PackedScene" uid="uid://dq360hhqtol4f" path="res://World/World.tscn" id="15_xvbyv"]
+[ext_resource type="Script" path="res://UI/StopRenderViewButton.gd" id="16_0ghn0"]
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="17_3pwcs"]
 [ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="18"]
 [ext_resource type="PackedScene" uid="uid://btpe1wyj5nbfg" path="res://UI/Layers/GeoLayers/GeoLayerViewport.tscn" id="18_gf1q8"]
@@ -94,7 +96,11 @@ custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 script = ExtResource("5")
 
+[node name="TeleportMenu" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("9_he6fp")]
+layout_mode = 2
+
 [node name="VRMenu" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("3")]
+visible = false
 layout_mode = 2
 
 [node name="Datetime" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("10_x7hwk")]
@@ -130,6 +136,14 @@ texture_name = "camera"
 mode = 0
 visible = false
 transient = true
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot"]
+visible = false
+layout_mode = 2
+toggle_mode = true
+text = "Stop/start render"
+script = ExtResource("16_0ghn0")
+viewport_path = NodePath("../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport")
 
 [node name="Mid" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left"]
 custom_minimum_size = Vector2(500, 500)
@@ -244,6 +258,7 @@ custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 
 [node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewport" index="0"]
+size = Vector2i(2, 2)
 render_target_update_mode = 0
 
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]

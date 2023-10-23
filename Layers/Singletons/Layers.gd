@@ -51,11 +51,11 @@ func add_layer_composition(layer_composition: LayerComposition):
 	emit_signal("new_layer_composition", layer_composition)
 
 
-func add_geo_layer(layer: Resource):
+func add_geo_layer(layer: RefCounted):
 	if layer is GeoRasterLayer:
-		geo_layers["rasters"][layer.resource_name] = layer
+		geo_layers["rasters"][layer.get_file_info()["name"]] = layer
 	elif layer is GeoFeatureLayer:
-		geo_layers["features"][layer.resource_name] = layer
+		geo_layers["features"][layer.get_file_info()["name"]] = layer
 	else:
 		logger.error("Added an invalid geolayer")
 		return

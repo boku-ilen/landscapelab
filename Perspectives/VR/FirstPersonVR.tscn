@@ -26,6 +26,7 @@ tracker = &"right_hand"
 
 [node name="XRCamera3D" type="XRCamera3D" parent="VRViewport/XROrigin3D"]
 current = true
+near = 0.15
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_yor8u")

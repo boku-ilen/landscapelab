@@ -12,6 +12,7 @@ var radius := 1000
 # Overload with the functionality to load new data, but not use (visualize) it yet. Run in a thread,
 #  so watch out for thread safety!
 func load_new_data():
+	Thread.set_thread_safety_checks_enabled(false)
 	pass
 
 

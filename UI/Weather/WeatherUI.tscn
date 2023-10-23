@@ -8,6 +8,16 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1")
 
+[node name="Preconfigurations" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Preconfigurations"]
+layout_mode = 2
+text = "Preconfiguration: "
+
+[node name="OptionButton" type="OptionButton" parent="Preconfigurations"]
+layout_mode = 2
+
 [node name="Visibility" type="HBoxContainer" parent="."]
 layout_mode = 2
 alignment = 1
@@ -24,18 +34,24 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "Hazy"
 
-[node name="Clouds" type="HBoxContainer" parent="."]
+[node name="CloudDensity" parent="." instance=ExtResource("2")]
+layout_mode = 2
+label = "Cloud Density: "
+step = 1.0
+value = 20.0
+
+[node name="CloudCoverage" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Clouds"]
+[node name="Label" type="Label" parent="CloudCoverage"]
 layout_mode = 2
-text = "Cloudiness: Clear"
+text = "Cloud Coverage: Clear"
 
-[node name="HSlider" type="HSlider" parent="Clouds"]
+[node name="HSlider" type="HSlider" parent="CloudCoverage"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="Clouds"]
+[node name="Label2" type="Label" parent="CloudCoverage"]
 layout_mode = 2
 text = "Overcast"
 
@@ -89,22 +105,28 @@ layout_mode = 2
 [node name="RainDensity" parent="." instance=ExtResource("2")]
 layout_mode = 2
 label = "Rain Density: "
-min_value = 20.0
-max_value = 500.0
-value = 100.0
-
-[node name="RainDropX" parent="." instance=ExtResource("2")]
-layout_mode = 2
-label = "Rain Drop Size X:"
-min_value = 0.1
-max_value = 5.0
-step = 0.1
+min_value = 0.01
+max_value = 10.0
+step = 0.01
 value = 1.0
 
-[node name="RainDropY" parent="." instance=ExtResource("2")]
+[node name="RainDropSize" parent="." instance=ExtResource("2")]
 layout_mode = 2
-label = "Rain Drop Size Y:"
-min_value = 0.1
-max_value = 5.0
-step = 0.1
-value = 0.5
+label = "Rain Drop Size:"
+min_value = 0.001
+max_value = 0.05
+step = 0.001
+value = 0.03
+
+[node name="LightningFrequency" parent="." instance=ExtResource("2")]
+layout_mode = 2
+label = "Lightning Frequency"
+step = 1.0
+value = 0.0
+
+[node name="LightningOrientation" parent="." instance=ExtResource("2")]
+layout_mode = 2
+label = "Rotation Degrees"
+max_value = 360.0
+step = 1.0
+value = 0.0

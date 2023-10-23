@@ -15,8 +15,6 @@ var cellar_height = floor_height # For preventing partially floating buildings c
 
 func _ready():
 	super._ready()
-	max_features = 2000
-	radius = Vegetation.get_max_extent()
 
 
 func load_feature_instance(feature):

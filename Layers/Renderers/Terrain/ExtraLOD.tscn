@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://hls5omqtjkj5"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/ExtraLOD.gd" id="1"]
 
 [node name="ExtraLOD" type="MeshInstance3D"]
 cast_shadow = 0
 extra_cull_margin = 10000.0
-script = ExtResource( 1 )
+script = ExtResource("1")

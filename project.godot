@@ -328,7 +328,7 @@ decrease_fov={
 }
 exit_fullscreen={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194305,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 layer_add_feature={
@@ -399,6 +399,8 @@ limits/message_queue/max_size_kb=1048576
 
 [rendering]
 
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=4
+vrs/mode=2
 quality/shadows/filter_mode=2
 limits/buffers/canvas_polygon_buffer_size_kb=1000
 quality/filters/msaa=2
@@ -418,4 +420,5 @@ ground_textures={
 [xr]
 
 openxr/enabled=true
+openxr/startup_alert=false
 shaders/enabled=true

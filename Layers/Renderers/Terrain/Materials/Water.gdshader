@@ -5,7 +5,8 @@ render_mode blend_mix;
 
 
 // LandscapeLab-specific uniforms
-uniform sampler2D heightmap: repeat_disable;
+uniform sampler2D heightmap: repeat_disable, filter_nearest;
+uniform sampler2D surface_heightmap: repeat_disable, filter_nearest;
 uniform sampler2D landuse: repeat_disable, filter_nearest;
 uniform sampler2D offset_noise;
 
@@ -32,7 +33,7 @@ uniform vec2 wave_strengh = vec2(0.5, 0.25);
 uniform vec2 wave_frequency = vec2(12.0, 12.0);
 uniform vec2 time_factor = vec2(1.0, 2.0);
 
-
+uniform sampler2D DEPTH_TEXTURE : hint_depth_texture, filter_linear_mipmap;
 
 float rim(float depth){
 	depth = 2.0 * depth - 1.0;
@@ -46,18 +47,17 @@ float waves(vec2 pos, float time){
 
 
 void vertex(){
-	VERTEX.y = texture(heightmap, UV).r;
+	VERTEX.y = texture(heightmap, UV).r;// + texture(surface_heightmap, UV).r;
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
 
 void fragment(){
 	// Check landuse for whether we need to do rendering here
-	vec2 random_landuse_offset = (texture(offset_noise, world_pos.xz * 0.006).rg - 0.5) * (50.0 / size);
-	int splat_id = int(round(texture(landuse, UV + random_landuse_offset).r * 255.0));
+	int splat_id = int(round(texture(landuse, UV).r));
 	
 	// TODO: Expose these parameters
-	if (splat_id < 60 || splat_id > 66) {
+	if (splat_id < 250 || splat_id > 261) {
 		discard;
 	}
 

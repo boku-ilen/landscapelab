@@ -210,14 +210,7 @@ func fly(delta):
 	move_and_slide()
 	
 	if walking:
-		var space_state = get_world_3d().direct_space_state
-		var result = space_state.intersect_ray(
-			PhysicsRayQueryParameters3D.create(
-				Vector3(position.x, 6000, position.z),
-				Vector3(position.x, -1000, position.z), 4294967295, [get_rid()]))
-
-		if result:
-			transform.origin.y = result.position.y
+		place_onto_ground()
 
 
 func get_world_position():
@@ -226,6 +219,4 @@ func get_world_position():
 
 func set_world_position(world_position):
 	var new_pos = position_manager.to_engine_coordinates(world_position)
-	position.x = new_pos.x
-	position.z = new_pos.z
-	# FIXME: Should probably get the ground height and use it for the y position
+	teleport(new_pos)

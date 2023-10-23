@@ -19,7 +19,7 @@ extends FeatureLayerCompositionRenderer
 # or this renderer will run into problems
 # 
 
-var last_update_pos := Vector2.INF
+var last_update_pos := Vector3.INF
 var connection_radius = 800.0
 var max_connections = 100
 # Connector = objects, connection = lines in-between
@@ -141,6 +141,9 @@ func refine_load():
 	
 	var center = position_manager.center_node.position
 	
+	if center.distance_squared_to(last_update_pos) < pow(connection_radius / 4.0, 2.0):
+		return
+	
 	var any_change_done := false
 	
 	# NOTE: is this necessary?
@@ -202,6 +205,8 @@ func refine_load():
 	
 	if any_change_done:
 		call_deferred("apply_refined_data")
+	
+	last_update_pos = center
 
 
 func apply_refined_data():

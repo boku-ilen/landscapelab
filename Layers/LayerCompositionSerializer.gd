@@ -11,8 +11,6 @@ static func deserialize(
 		type: String, attributes: Dictionary, 
 		layer_composition: LayerComposition = LayerComposition.new()):
 	
-	var db_cache = {}
-	
 	layer_composition.name = composition_name
 	layer_composition.render_info = layer_composition.RENDER_INFOS[type].new()
 	
@@ -34,10 +32,7 @@ static func deserialize(
 			var layer_name = layer_access_split[0]
 			var write_access = true if layer_access_split.size() > 1 and layer_access_split[1] == "w" else false
 			
-			if not abs_file_name in db_cache:
-				db_cache[abs_file_name] = Geodot.get_dataset(abs_file_name, write_access)
-			
-			var db = db_cache[abs_file_name]
+			var db = Geodot.get_dataset(abs_file_name, write_access)
 			
 			if render_attribute["class_name"] == "GeoRasterLayer":
 				attribute = db.get_raster_layer(layer_name)
@@ -71,12 +66,12 @@ static func serialize(layer_composition: LayerComposition):
 			"GeoRasterLayer":
 				serialized = "{}:{}?{}".format(
 					[property_var.get_dataset().get_file_info()["path"],
-					property_var.resource_name,
+					property_var.get_file_info()["name"],
 					"w" if property_var.get_dataset().has_write_access() else "r"], "{}")
 			"GeoFeatureLayer": 
 				serialized = "{}:{}?{}".format(
 					[property_var.get_file_info()["path"],
-					property_var.resource_name,
+					property_var.get_file_info()["name"],
 					"w" if property_var.get_dataset().has_write_access() else "r"], "{}")
 			"Color": 
 				serialized = str(property_var)

@@ -1,0 +1,7 @@
+[gd_resource type="QuadMesh" load_steps=2 format=3]
+
+[ext_resource type="Material" uid="uid://di3ypptceps5q" path="res://World/Environment/Rain/Fog/RainFogMaterial.tres" id="1_o7wn4"]
+
+[resource]
+material = ExtResource("1_o7wn4")
+size = Vector2(8, 8)
