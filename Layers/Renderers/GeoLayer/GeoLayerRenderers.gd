@@ -13,11 +13,10 @@ signal center_changed(new_center)
 var renderers_finished := 0
 var renderers_count := 0
 
-# Center in geocordinates
-var center := Vector2.ZERO
-var current_center := Vector2.ZERO : 
+# Center in geo-coordinates
+var center := Vector2.ZERO : 
 	set(new_center):
-		current_center = new_center 
+		center = new_center 
 		center_changed.emit(new_center)
 var offset := Vector2.ZERO
 var zoom := Vector2.ONE
@@ -36,31 +35,35 @@ func setup():
 func set_layer_visibility(layer_name: String, is_visible: bool):
 	# geolayers shall not be instantiated by default only on user's wish
 	if not has_node(layer_name):
-		instantiate_geolayer_renderer(Layers.get_geo_layer_by_name(layer_name))
+		instantiate_geolayer_renderer(layer_name)
 
 	get_node(layer_name).visible = true
 
 
-func instantiate_geolayer_renderer(geo_layer: RefCounted):
+func instantiate_geolayer_renderer(layer_name: String):
+	var geo_layer = Layers.get_geo_layer_by_name(layer_name)
 	var renderer
 	if geo_layer is GeoRasterLayer:
 		renderer = raster_renderer.instantiate()
 		renderer.geo_raster_layer = geo_layer
-	else: 
+	elif geo_layer is GeoFeatureLayer: 
 		renderer = feature_renderer.instantiate()
 		renderer.geo_feature_layer = geo_layer
+	else:
+		logger.error("Invalid geolayer or geolayer name for {}".format(geo_layer.name))
+		return
 	
 	if renderer:
 		renderer.name = geo_layer.get_file_info()["name"]
+		renderer.visibility_layer = visibility_layer
 		add_child(renderer)
 
 
 func apply_offset(new_offset, new_viewport_size, new_zoom):
 	zoom = new_zoom
 	offset = new_offset
-	current_center = center
-	current_center.x += new_offset.x
-	current_center.y -= new_offset.y
+	center.x += new_offset.x
+	center.y -= new_offset.y
 	logger.debug("Applying new center center to all children in %s" % [name])
 	emit_signal("loading_started")
 	
@@ -78,9 +81,9 @@ func apply_offset(new_offset, new_viewport_size, new_zoom):
 		
 		if not loading_thread.is_started():
 			loading_thread.start(update_renderers.bind(
-				current_center, new_offset, new_viewport_size, new_zoom), Thread.PRIORITY_NORMAL)
+				center, new_offset, new_viewport_size, new_zoom), Thread.PRIORITY_NORMAL)
 	else:
-		update_renderers(current_center, new_offset, new_viewport_size, new_zoom)
+		update_renderers(center, new_offset, new_viewport_size, new_zoom)
 
 
 func update_renderers(new_center, new_offset, new_viewport_size, new_zoom):
@@ -118,7 +121,7 @@ func _apply_renderers_data():
 			renderer.apply_new_data()
 			# Only apply the position after the new data has
 			# been applied otherwise it will look clunky
-			renderer.position = offset
+			renderer.position += offset
 	
 	emit_signal("loading_finished")
 

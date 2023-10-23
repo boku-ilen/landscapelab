@@ -3,6 +3,7 @@ extends Camera2D
 
 signal offset_changed(_offset, viewport_size, _zoom)
 
+var position_before := Vector2.ZERO
 var mouse_start_pos
 var screen_start_position
 
@@ -15,9 +16,9 @@ var zoom_reload_delay = 0.15
 # if the position from the camera is changed from outside of this script
 # it comes in handy to have a function that automatically emits the necessary
 # data too
-func change_offset_and_emit(offset_summand: Vector2):
+func add_offset_and_emit(offset_summand: Vector2):
 	position += offset_summand
-	offset_changed.emit(position, get_viewport_rect().size, zoom)
+	offset_changed.emit(offset_summand, get_viewport_rect().size, zoom)
 
 
 func input(event: InputEvent):
@@ -29,7 +30,8 @@ func input(event: InputEvent):
 				dragging = true
 			else:
 				dragging = false
-				offset_changed.emit(position, get_viewport_rect().size, zoom)
+				offset_changed.emit(position - position_before, get_viewport_rect().size, zoom)
+				position_before = position
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			do_zoom(1.1, get_viewport().get_mouse_position())
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
@@ -61,4 +63,5 @@ func do_zoom(factor: float, mouse_pos := get_viewport_rect().size / 2):
 	await get_tree().create_timer(zoom_reload_delay).timeout
 	zoom_action_counter -= 1
 	if not bool(zoom_action_counter):
-		offset_changed.emit(position, get_viewport_rect().size, zoom)
+		offset_changed.emit(position - position_before, get_viewport_rect().size, zoom)
+		position_before = position
