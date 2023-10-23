@@ -1,10 +1,9 @@
 extends Node2D
 
-@export var camera_path: NodePath
+@export var camera: Camera2D
 @export var load_data_threaded := true
 
 var loading_thread := Thread.new() 
-var camera: Camera2D
 var raster_renderer = preload("res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn")
 var feature_renderer = preload("res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.tscn")
 signal loading_finished
@@ -28,7 +27,6 @@ func _ready(): setup()
 
 
 func setup():
-	camera = get_node(camera_path)
 	camera.offset_changed.connect(apply_offset)
 	
 	center = Vector2(Layers.current_center.x, Layers.current_center.z)
