@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://d25827kd1r2xd"]
+[gd_scene load_steps=10 format=3 uid="uid://d25827kd1r2xd"]
 
-[ext_resource type="Script" path="res://UI/LegoTable/ControlContainer.gd" id="1_7nxly"]
+[ext_resource type="Script" path="res://UI/LabTable/ControlContainer.gd" id="1_7nxly"]
 [ext_resource type="PackedScene" uid="uid://mkaw0si7x87" path="res://UI/Layers/GeoLayers/ZoomContainer.tscn" id="1_pndxl"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="2_r33nv"]
 [ext_resource type="Texture2D" uid="uid://bmgbr6ijkdvs2" path="res://Resources/Icons/ModernLandscapeLab/arrow_down.svg" id="3_6xhmk"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://ctsu48nj4pl7a" path="res://Resources/Icons/ModernLandscapeLab/arrow_up.svg" id="3_gdqix"]
 [ext_resource type="Texture2D" uid="uid://domau2e7w2l0i" path="res://Resources/Icons/ModernLandscapeLab/arrow_left.svg" id="4_gvxxk"]
 [ext_resource type="Texture2D" uid="uid://dyspmrgksu1si" path="res://Resources/Icons/ModernLandscapeLab/arrow_right.svg" id="5_gg0v2"]
+[ext_resource type="PackedScene" uid="uid://c80mmsavbpqyk" path="res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn" id="9_yl31i"]
 
 [node name="ControlContainer" type="VBoxContainer"]
 anchors_preset = 15
@@ -17,10 +18,13 @@ offset_right = -919.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7nxly")
+map_layer_name = "ortho"
 
 [node name="SetVisible" parent="." instance=ExtResource("2_r33nv")]
-custom_minimum_size = Vector2(30, 30)
+custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 toggle_mode = true
 icon = ExtResource("3_g1m1p")
 texture_name = "eyes"
@@ -28,18 +32,17 @@ texture_name = "eyes"
 [node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="ZoomContainer" parent="VBox" instance=ExtResource("1_pndxl")]
-layout_direction = 0
+[node name="HBox" type="HBoxContainer" parent="VBox"]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="VBox"]
+[node name="GridContainer" type="GridContainer" parent="VBox/HBox"]
 layout_mode = 2
 columns = 3
 
-[node name="Spacer" type="Control" parent="VBox/GridContainer"]
+[node name="Spacer" type="Control" parent="VBox/HBox/GridContainer"]
 layout_mode = 2
 
-[node name="Up" parent="VBox/GridContainer" instance=ExtResource("2_r33nv")]
+[node name="Up" parent="VBox/HBox/GridContainer" instance=ExtResource("2_r33nv")]
 clip_contents = false
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
@@ -47,29 +50,53 @@ icon = ExtResource("3_gdqix")
 texture_name = "arrow_up"
 metadata/_edit_pinned_properties_ = [&"clip_contents"]
 
-[node name="Spacer2" type="Control" parent="VBox/GridContainer"]
+[node name="Spacer2" type="Control" parent="VBox/HBox/GridContainer"]
 layout_mode = 2
 
-[node name="Left" parent="VBox/GridContainer" instance=ExtResource("2_r33nv")]
+[node name="Left" parent="VBox/HBox/GridContainer" instance=ExtResource("2_r33nv")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 icon = ExtResource("4_gvxxk")
 texture_name = "arrow_left"
 
-[node name="Spacer3" type="Control" parent="VBox/GridContainer"]
+[node name="Spacer3" type="Control" parent="VBox/HBox/GridContainer"]
 layout_mode = 2
 
-[node name="Right" parent="VBox/GridContainer" instance=ExtResource("2_r33nv")]
+[node name="Right" parent="VBox/HBox/GridContainer" instance=ExtResource("2_r33nv")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 icon = ExtResource("5_gg0v2")
 texture_name = "arrow_right"
 
-[node name="Spacer4" type="Control" parent="VBox/GridContainer"]
+[node name="Spacer4" type="Control" parent="VBox/HBox/GridContainer"]
 layout_mode = 2
 
-[node name="Down" parent="VBox/GridContainer" instance=ExtResource("2_r33nv")]
+[node name="Down" parent="VBox/HBox/GridContainer" instance=ExtResource("2_r33nv")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 icon = ExtResource("3_6xhmk")
 texture_name = "arrow_down"
+
+[node name="ZoomContainer" parent="VBox/HBox" instance=ExtResource("1_pndxl")]
+layout_direction = 0
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="VBox"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="VBox/SubViewportContainer"]
+handle_input_locally = false
+canvas_cull_mask = 4294967294
+size = Vector2i(300, 300)
+render_target_update_mode = 4
+
+[node name="OverviewRenderer" parent="VBox/SubViewportContainer/SubViewport" instance=ExtResource("9_yl31i")]
+visibility_layer = 2
+
+[node name="Camera2D" type="Camera2D" parent="VBox/SubViewportContainer/SubViewport"]
+enabled = false

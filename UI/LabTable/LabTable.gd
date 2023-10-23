@@ -21,11 +21,11 @@ func set_workshop_mode(active: bool):
 		return
 	
 	var primary_func = func(event, cursor, state_dict):
-		var feature_layer: GeoFeatureLayer = Layers.get_geo_layer_by_name("WINDTURBINES")
+		var feature_layer: GeoFeatureLayer = Layers.get_geo_layer_by_name("windturbines")
 		var feature: GeoPoint = feature_layer.create_feature()
 		feature.set_offset_vector3(
 			Vector3(cursor.global_position.x, 0, cursor.global_position.y), 
-			geo_layers.center.x, 0, geo_layers.center.y)
+			geo_layers.current_center.x, 0, geo_layers.current_center.y)
 	
 	var edit_action = EditingAction.new(primary_func)
 	action_handler.set_current_action(edit_action)

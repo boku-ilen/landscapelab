@@ -1,4 +1,4 @@
-extends HBoxContainer
+extends BoxContainer
 
 
 @export var camera_2d: Camera2D :

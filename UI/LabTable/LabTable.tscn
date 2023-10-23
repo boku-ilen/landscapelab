@@ -1,12 +1,12 @@
 [gd_scene load_steps=10 format=3 uid="uid://dap4sx6pnitq4"]
 
-[ext_resource type="Script" path="res://UI/LegoTable/LegoTable.gd" id="1_714gw"]
+[ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_l77mt"]
 [ext_resource type="PackedScene" uid="uid://b614v82srw120" path="res://UI/Layers/GeoLayers/GeoLayerSubViewport.tscn" id="2_opmh5"]
 [ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="3_fs5bq"]
 [ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="3_hcbry"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/Cursor2D.gd" id="4_12y64"]
-[ext_resource type="PackedScene" uid="uid://d25827kd1r2xd" path="res://UI/LegoTable/ControlContainer.tscn" id="4_d680t"]
+[ext_resource type="PackedScene" uid="uid://d25827kd1r2xd" path="res://UI/LabTable/ControlContainer.tscn" id="4_d680t"]
 [ext_resource type="Script" path="res://Editing/ActionHandler.gd" id="4_nsdnx"]
 [ext_resource type="Texture2D" uid="uid://bci3mglgy7h5k" path="res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg" id="4_yl3ng"]
 
@@ -21,20 +21,33 @@ layout_mode = 2
 script = ExtResource("1_l77mt")
 
 [node name="SubViewport" parent="SubViewportContainer" instance=ExtResource("2_opmh5")]
+canvas_cull_mask = 4294967293
+
+[node name="GeoLayerRenderers" parent="SubViewportContainer/SubViewport" index="1" node_paths=PackedStringArray("camera")]
+camera = NodePath("../Camera2D")
 
 [node name="Cursor2D" type="Sprite2D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d")]
+visible = false
 texture = ExtResource("4_yl3ng")
 script = ExtResource("4_12y64")
 camera_2d = NodePath("../Camera2D")
 
 [node name="Overlay" type="Node" parent="SubViewportContainer"]
 
-[node name="ControlContainer" parent="SubViewportContainer/Overlay" node_paths=PackedStringArray("camera_2d") instance=ExtResource("4_d680t")]
-offset_left = 563.0
+[node name="ControlContainer" parent="SubViewportContainer/Overlay" node_paths=PackedStringArray("camera_2d", "configurator") instance=ExtResource("4_d680t")]
+anchors_preset = -1
+anchor_left = 0.369
+anchor_right = 0.706
+offset_left = 52.912
 offset_top = 9.0
-offset_right = -356.0
-offset_bottom = -293.0
+offset_right = -23.312
+offset_bottom = -23.0
 camera_2d = NodePath("../../SubViewport/Camera2D")
+map_layer_name = "DOP"
+configurator = NodePath("../../../LLConfigSetup")
+
+[node name="Camera2D" parent="SubViewportContainer/Overlay/ControlContainer/VBox/SubViewportContainer/SubViewport" index="1"]
+enabled = true
 
 [node name="ActionHandler" type="Node" parent="SubViewportContainer"]
 script = ExtResource("4_nsdnx")
@@ -53,3 +66,4 @@ toggle_mode = true
 text = "TestMode"
 
 [editable path="SubViewportContainer/SubViewport"]
+[editable path="SubViewportContainer/Overlay/ControlContainer"]
