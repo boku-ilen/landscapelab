@@ -17,7 +17,7 @@ var type: String
 var current_features: Array
 var renderers: Node2D
 
-var point_func = func(feature): 
+var point_func = func(feature: GeoPoint): 
 	var p = feature.get_vector3()
 	var marker = Sprite2D.new()
 	marker.set_texture(load("res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg"))
@@ -25,7 +25,7 @@ var point_func = func(feature):
 	marker.set_scale(Vector2.ONE / zoom)
 	return marker
 
-var line_func = func(feature):
+var line_func = func(feature: GeoLine):
 	var curve: Curve3D = feature.get_curve3d()
 	var line := Line2D.new()
 	line.set_default_color(Color.CRIMSON)
@@ -35,7 +35,7 @@ var line_func = func(feature):
 	line.width = 1 / zoom.x
 	return line
 
-var polygon_func = func(feature): 
+var polygon_func = func(feature: GeoPolygon): 
 	var p = feature.get_outer_vertices()
 	var polygon = Polygon2D.new()
 	polygon.set_polygon(Array(p).map(func(vec2): return vec2 - center))
