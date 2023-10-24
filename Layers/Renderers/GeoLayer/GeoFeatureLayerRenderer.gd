@@ -40,7 +40,7 @@ var func_dict = {
 }
 
 
-func load_new_data():
+func load_new_data(is_threaded := true):
 	var position_x = center[0]
 	var position_y = center[1]
 	
@@ -58,7 +58,11 @@ func load_new_data():
 			var visualizer = func_dict[feature.get_class()].call(feature)
 			renderers_thread_safe.add_child(visualizer)
 		
-		call_deferred("set_renderers", renderers_thread_safe)
+		if is_threaded:
+			call_deferred("set_renderers", renderers_thread_safe)
+			return
+		
+		renderers = renderers_thread_safe
 
 
 func set_renderers(visualizers: Node2D):
@@ -73,6 +77,8 @@ func apply_new_data():
 	add_child(renderers)
 
 
+# Currently all features are always deleted and loaded new
+# this might be necessary when persisting features
 func apply_zoom():
 	if geo_feature_layer.get_all_features()[0] is GeoPoint:
 		for child in get_children():
@@ -85,3 +91,7 @@ func apply_zoom():
 func get_debug_info() -> String:
 	return "GeoRasterLayer."
 
+
+func refresh():
+	load_new_data(false)
+	apply_new_data()
