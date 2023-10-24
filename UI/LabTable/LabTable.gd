@@ -6,7 +6,7 @@ extends Control
 
 func _ready():
 	$LLConfigSetup.applied_configuration.connect(geo_layers.setup)
-	$Button.toggled.connect(set_workshop_mode)
+	#$Button.toggled.connect(set_workshop_mode)
 	#geo_layers.center_changed.connect(func(new_center):
 	#	$GeoLayerUi/GeoLayerViewport/Node/Labl.text = var_to_str(new_center)
 	#)

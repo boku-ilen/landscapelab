@@ -61,9 +61,13 @@ func _on_data(id, message):
 			event.position = position_scaled
 			event.global_position = position_scaled
 			
-			print(position_scaled)
-			
 			get_viewport().push_input(event, true)
+			
+			# Send a mouse release event immediately after
+			var release_event = event.duplicate()
+			release_event.pressed = false
+			
+			get_viewport().push_input(release_event, true)
 	
 	elif data_dict["event"] == "brick_removed":
 		
