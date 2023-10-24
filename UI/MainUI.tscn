@@ -257,7 +257,7 @@ script = ExtResource("5")
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 
-[node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewport" index="0"]
+[node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewportContainer" index="0"]
 size = Vector2i(2, 2)
 render_target_update_mode = 0
 
@@ -294,6 +294,8 @@ layout_mode = 2
 
 [editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC"]
+[editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/SubViewport"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport"]
+[editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewportContainer/SubViewport"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerUI"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot/LayerCompositionUI"]
