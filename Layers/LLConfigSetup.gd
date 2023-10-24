@@ -24,7 +24,7 @@ func load_ll_json(path: String):
 		logger.error("Could not load config at " + path)
 		return
 
-	ll_file_access.apply(Vegetation, Layers, Scenarios)
+	ll_file_access.apply(Vegetation, Layers, Scenarios, GameSystem)
 
 	has_loaded = true
 	applied_configuration.emit()

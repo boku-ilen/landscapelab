@@ -65,10 +65,11 @@ func save():
 			+ str(json_object.get_error_line()))
 
 
-func apply(vegetation: Node, layers: Node, scenarios: Node):
+func apply(vegetation: Node, layers: Node, scenarios: Node, game_system: Node):
 	apply_vegetation(vegetation)
 	apply_layers(layers)
 	apply_scenarios(scenarios)
+	apply_game(game_system)
 
 
 static func get_rel_or_abs_path(base_path: String, file_path: String):
@@ -128,3 +129,26 @@ func apply_scenarios(scenarios: Node):
 			scenarios.add_scenario(scenario)
 		
 		logger.info("Done loading scenarios!")
+
+
+func apply_game(game_system: Node):
+	var ll_project = json_object.data
+	
+	# Load scenarios if in config
+	if ll_project.has("GameModes"):
+		logger.info("Loading game modes...")
+		for game_mode_name in ll_project["GameModes"].keys():
+			var game_mode = GameMode.new()
+			
+			for game_object_collection_name in ll_project["GameModes"][game_mode_name]["GameObjectCollections"]:
+				var layer_path = ll_project["GameModes"][game_mode_name]["GameObjectCollections"][game_object_collection_name]
+				
+				game_mode.add_game_object_collection_for_feature_layer(
+					game_object_collection_name,
+					LayerCompositionSerializer.get_feature_layer_from_string(layer_path, path)
+				)
+			
+			# FIXME: Another way to set this, this only works for 1 game mode
+			game_system.current_game_mode = game_mode
+		
+		logger.info("Done loading game logic!")
