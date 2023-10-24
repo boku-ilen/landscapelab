@@ -18,7 +18,8 @@ var zoom_reload_delay = 0.15
 # data too
 func add_offset_and_emit(offset_summand: Vector2):
 	position += offset_summand
-	offset_changed.emit(offset_summand, get_viewport_rect().size, zoom)
+	offset_changed.emit(position - position_before, get_viewport_rect().size, zoom)
+	position_before = position
 
 
 func input(event: InputEvent):

@@ -10,52 +10,69 @@
 [ext_resource type="Script" path="res://Editing/ActionHandler.gd" id="4_nsdnx"]
 [ext_resource type="Texture2D" uid="uid://bci3mglgy7h5k" path="res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg" id="4_yl3ng"]
 
-[node name="HSplitContainer" type="HSplitContainer" node_paths=PackedStringArray("geo_layers")]
-offset_right = 1152.0
-offset_bottom = 648.0
+[node name="LabTable" type="HSplitContainer" node_paths=PackedStringArray("geo_layers")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.85
+stretch = true
 script = ExtResource("1_l77mt")
 
 [node name="SubViewport" parent="SubViewportContainer" instance=ExtResource("2_opmh5")]
 canvas_cull_mask = 4294967293
+size = Vector2i(978, 648)
 
 [node name="GeoLayerRenderers" parent="SubViewportContainer/SubViewport" index="1" node_paths=PackedStringArray("camera")]
 camera = NodePath("../Camera2D")
+load_data_threaded = false
 
 [node name="Cursor2D" type="Sprite2D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d")]
-visible = false
+z_index = 1000
 texture = ExtResource("4_yl3ng")
 script = ExtResource("4_12y64")
 camera_2d = NodePath("../Camera2D")
 
-[node name="Overlay" type="Node" parent="SubViewportContainer"]
-
-[node name="ControlContainer" parent="SubViewportContainer/Overlay" node_paths=PackedStringArray("camera_2d", "configurator") instance=ExtResource("4_d680t")]
-anchors_preset = -1
-anchor_left = 0.369
-anchor_right = 0.706
-offset_left = 52.912
-offset_top = 9.0
-offset_right = -23.312
-offset_bottom = -23.0
-camera_2d = NodePath("../../SubViewport/Camera2D")
-map_layer_name = "DOP"
-configurator = NodePath("../../../LLConfigSetup")
-
-[node name="Camera2D" parent="SubViewportContainer/Overlay/ControlContainer/VBox/SubViewportContainer/SubViewport" index="1"]
-enabled = true
+[node name="Label" type="Label" parent="SubViewportContainer/SubViewport/Cursor2D"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 36.0
+text = "test"
 
 [node name="ActionHandler" type="Node" parent="SubViewportContainer"]
 script = ExtResource("4_nsdnx")
 perspective_prefix = "2D"
 cursor_path = NodePath("../SubViewport/Cursor2D")
 
+[node name="ControlContainer" parent="SubViewportContainer" node_paths=PackedStringArray("camera_2d", "configurator") instance=ExtResource("4_d680t")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+camera_2d = NodePath("../SubViewport/Camera2D")
+map_layer_name = "DOP"
+configurator = NodePath("../../LLConfigSetup")
+
+[node name="SubViewportContainer" parent="SubViewportContainer/ControlContainer/VBox" index="1"]
+stretch = false
+
+[node name="Camera2D" parent="SubViewportContainer/ControlContainer/VBox/SubViewportContainer/SubViewport" index="1"]
+enabled = true
+
 [node name="GeoLayerUI" parent="." node_paths=PackedStringArray("geo_layers") instance=ExtResource("3_fs5bq")]
 layout_mode = 2
+size_flags_stretch_ratio = 0.15
 geo_layers = NodePath("../SubViewportContainer/SubViewport/GeoLayerRenderers")
 
 [node name="LLConfigSetup" parent="." instance=ExtResource("3_hcbry")]
@@ -66,4 +83,4 @@ toggle_mode = true
 text = "TestMode"
 
 [editable path="SubViewportContainer/SubViewport"]
-[editable path="SubViewportContainer/Overlay/ControlContainer"]
+[editable path="SubViewportContainer/ControlContainer"]

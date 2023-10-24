@@ -36,7 +36,7 @@ func set_layer_visibility(layer_name: String, is_visible: bool):
 	# geolayers shall not be instantiated by default only on user's wish
 	if not has_node(layer_name):
 		instantiate_geolayer_renderer(layer_name)
-
+	
 	get_node(layer_name).visible = true
 
 
@@ -50,18 +50,27 @@ func instantiate_geolayer_renderer(layer_name: String):
 		renderer = feature_renderer.instantiate()
 		renderer.geo_feature_layer = geo_layer
 	else:
-		logger.error("Invalid geolayer or geolayer name for {}".format(geo_layer.name))
+		logger.error("Invalid geolayer or geolayer name for {}"
+						.format(geo_layer.name))
 		return
 	
 	if renderer:
+		renderer.position = offset
 		renderer.name = geo_layer.get_file_info()["name"]
 		renderer.visibility_layer = visibility_layer
+		
+		renderer.set_metadata(
+			center,
+			camera.get_viewport().size,
+			camera.zoom
+		)
 		add_child(renderer)
+		renderer.refresh()
 
 
 func apply_offset(new_offset, new_viewport_size, new_zoom):
 	zoom = new_zoom
-	offset = new_offset
+	offset += new_offset
 	center.x += new_offset.x
 	center.y -= new_offset.y
 	logger.debug("Applying new center center to all children in %s" % [name])
@@ -88,17 +97,14 @@ func apply_offset(new_offset, new_viewport_size, new_zoom):
 
 func update_renderers(new_center, new_offset, new_viewport_size, new_zoom):
 	Thread.set_thread_safety_checks_enabled(false)
-	# The maximum radius is at the corners => get the diagonale divided by 2s
-	var radius = sqrt(
-		pow(new_viewport_size.x / new_zoom.x, 2) + pow(new_viewport_size.y / new_zoom.y, 2)) / 2
 	# Now, load the data of each renderer
 	for renderer in get_children():
 		if renderer is GeoLayerRenderer:
-			renderer.center = new_center
-			renderer.viewport_size = new_viewport_size
-			renderer.zoom = new_zoom
-			renderer.radius = radius
-
+			renderer.set_metadata(
+				new_center,
+				new_viewport_size,
+				new_zoom
+			)
 			renderer.load_new_data()
 			_on_renderer_finished.call_deferred(renderer.name)
 
@@ -121,7 +127,7 @@ func _apply_renderers_data():
 			renderer.apply_new_data()
 			# Only apply the position after the new data has
 			# been applied otherwise it will look clunky
-			renderer.position += offset
+			renderer.position = offset
 	
 	emit_signal("loading_finished")
 
