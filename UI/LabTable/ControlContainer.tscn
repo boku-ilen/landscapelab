@@ -11,10 +11,11 @@
 [ext_resource type="PackedScene" uid="uid://c80mmsavbpqyk" path="res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn" id="9_yl31i"]
 
 [node name="ControlContainer" type="VBoxContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -919.0
+anchors_preset = -1
+anchor_right = 0.271
+anchor_bottom = 0.951
+offset_right = -0.192017
+offset_bottom = -0.248047
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7nxly")
@@ -90,9 +91,10 @@ size_flags_vertical = 3
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="VBox/SubViewportContainer"]
+transparent_bg = true
 handle_input_locally = false
 canvas_cull_mask = 4294967294
-size = Vector2i(300, 300)
+size = Vector2i(312, 300)
 render_target_update_mode = 4
 
 [node name="OverviewRenderer" parent="VBox/SubViewportContainer/SubViewport" instance=ExtResource("9_yl31i")]

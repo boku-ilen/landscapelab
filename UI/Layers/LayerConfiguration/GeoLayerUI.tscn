@@ -22,6 +22,7 @@ script = ExtResource("1_v25nd")
 custom_minimum_size = Vector2(0, 167)
 layout_mode = 2
 size_flags_vertical = 3
+allow_search = false
 script = ExtResource("2_wqrx3")
 
 [node name="GeoLayerOptions" type="PopupMenu" parent="ItemList"]
