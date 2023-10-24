@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d25827kd1r2xd"]
+[gd_scene load_steps=11 format=3 uid="uid://d25827kd1r2xd"]
 
 [ext_resource type="Script" path="res://UI/LabTable/ControlContainer.gd" id="1_7nxly"]
 [ext_resource type="PackedScene" uid="uid://mkaw0si7x87" path="res://UI/Layers/GeoLayers/ZoomContainer.tscn" id="1_pndxl"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://domau2e7w2l0i" path="res://Resources/Icons/ModernLandscapeLab/arrow_left.svg" id="4_gvxxk"]
 [ext_resource type="Texture2D" uid="uid://dyspmrgksu1si" path="res://Resources/Icons/ModernLandscapeLab/arrow_right.svg" id="5_gg0v2"]
 [ext_resource type="PackedScene" uid="uid://c80mmsavbpqyk" path="res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn" id="9_yl31i"]
+[ext_resource type="Script" path="res://UI/LabTable/OverviewCamera.gd" id="10_ksdla"]
 
 [node name="ControlContainer" type="VBoxContainer"]
 anchors_preset = -1
@@ -94,7 +95,7 @@ stretch = true
 transparent_bg = true
 handle_input_locally = false
 canvas_cull_mask = 4294967294
-size = Vector2i(312, 300)
+size = Vector2i(300, 300)
 render_target_update_mode = 4
 
 [node name="OverviewRenderer" parent="VBox/SubViewportContainer/SubViewport" instance=ExtResource("9_yl31i")]
@@ -102,3 +103,4 @@ visibility_layer = 2
 
 [node name="Camera2D" type="Camera2D" parent="VBox/SubViewportContainer/SubViewport"]
 enabled = false
+script = ExtResource("10_ksdla")

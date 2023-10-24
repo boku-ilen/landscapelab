@@ -5,13 +5,20 @@ extends Control
 
 
 func _ready():
+	# FIXME: this will probably removed/rewritten in a later step
 	$LLConfigSetup.applied_configuration.connect(geo_layers.setup)
 	$Button.toggled.connect(set_workshop_mode)
-	#geo_layers.center_changed.connect(func(new_center):
-	#	$GeoLayerUi/GeoLayerViewport/Node/Labl.text = var_to_str(new_center)
-	#)
-	
 	$LLConfigSetup.setup()
+	
+	# Display camera extent on overview
+	var extent_visualizer = $SubViewportContainer/ControlContainer/VBox/SubViewportContainer/SubViewport/ReferenceRect
+	geo_layers.camera_extent_changed.connect(func(camera_extent):
+		extent_visualizer.position = camera_extent.center - extent_visualizer.size / 2
+		extent_visualizer.size = camera_extent.extent)
+	
+	# Use input on overview map as "recenter"
+	$SubViewportContainer/ControlContainer.recenter.connect(func(center):
+		$SubViewportContainer/SubViewport/Camera2D.set_offset_and_emit(center))
 
 
 func set_workshop_mode(active: bool): 
@@ -21,11 +28,11 @@ func set_workshop_mode(active: bool):
 		return
 	
 	var primary_func = func(event, cursor, state_dict):
-		var feature_layer: GeoFeatureLayer = Layers.get_geo_layer_by_name("windturbines")
+		var feature_layer: GeoFeatureLayer = Layers.get_geo_layer_by_name("WINDTURBINES")
 		var feature: GeoPoint = feature_layer.create_feature()
 		feature.set_offset_vector3(
 			Vector3(cursor.global_position.x, 0, cursor.global_position.y), 
-			geo_layers.current_center.x, 0, geo_layers.current_center.y)
+			geo_layers.center.x, 0, geo_layers.center.y)
 	
 	var edit_action = EditingAction.new(primary_func)
 	action_handler.set_current_action(edit_action)

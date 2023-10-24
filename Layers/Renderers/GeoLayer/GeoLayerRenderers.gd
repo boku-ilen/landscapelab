@@ -8,18 +8,37 @@ var raster_renderer = preload("res://Layers/Renderers/GeoLayer/GeoRasterLayerRen
 var feature_renderer = preload("res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.tscn")
 signal loading_finished
 signal loading_started
-signal center_changed(new_center)
+signal camera_extent_changed(new_camera_extent)
 
 var renderers_finished := 0
 var renderers_count := 0
 
+class CameraExtent:
+	func _init(c: Vector2, e: Vector2):
+		center = c
+		extent = e
+	
+	var center: Vector2
+	var extent: Vector2
+
 # Center in geo-coordinates
+var camera_extent := CameraExtent.new(Vector2.ZERO, Vector2.ZERO) : 
+	set(new_camera_extent):
+		camera_extent = new_camera_extent
+		camera_extent_changed.emit(new_camera_extent)
 var center := Vector2.ZERO : 
 	set(new_center):
-		center = new_center 
-		center_changed.emit(new_center)
-var offset := Vector2.ZERO
-var zoom := Vector2.ONE
+		center = new_center
+var zoom := Vector2.ONE : 
+	set(new_zoom):
+		zoom = new_zoom
+		camera_extent.extent = camera.get_viewport_rect().size / zoom
+		camera_extent_changed.emit(camera_extent)
+var offset := Vector2.ZERO :
+	set(new_offset):
+		offset = new_offset
+		camera_extent.center = offset
+		camera_extent_changed.emit(camera_extent)
 
 
 func _ready(): setup()

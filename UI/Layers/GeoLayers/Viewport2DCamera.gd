@@ -22,6 +22,12 @@ func add_offset_and_emit(offset_summand: Vector2):
 	position_before = position
 
 
+func set_offset_and_emit(_offset: Vector2):
+	position = _offset
+	offset_changed.emit(position - position_before, get_viewport_rect().size, zoom)
+	position_before = position
+
+
 func input(event: InputEvent):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
@@ -45,6 +51,7 @@ func input(event: InputEvent):
 # such that zooming in and out feels fluent and intuitive
 func do_zoom(factor: float, mouse_pos := get_viewport_rect().size / 2):
 	zoom *= factor
+	
 	# On x and y axis calculate current mouse position normalized like between -0.5 and 0.5
 	#
 	# Example: 
