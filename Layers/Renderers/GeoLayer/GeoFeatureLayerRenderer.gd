@@ -3,17 +3,7 @@ extends GeoLayerRenderer
 
 @export var max_features := 10000
 
-var geo_feature_layer: GeoFeatureLayer :
-	get: return geo_feature_layer
-	set(feature_layer):
-		geo_feature_layer = feature_layer
-		# The feature-objects have different classes
-		# i.e. GeoPoint, GeoLine, GeoPolygon
-		var features = feature_layer.get_all_features()
-		if not features.is_empty():
-			type = feature_layer.get_all_features()[0].get_class()
-
-var type: String
+var geo_feature_layer: GeoFeatureLayer
 var current_features: Array
 var renderers: Node2D
 
@@ -65,7 +55,7 @@ func load_new_data():
 		# Create a scene-chunk and set it deferred so there are no thread unsafeties
 		var renderers_thread_safe = Node2D.new()
 		for feature in current_features:
-			var visualizer = func_dict[type].call(feature)
+			var visualizer = func_dict[feature.get_class()].call(feature)
 			renderers_thread_safe.add_child(visualizer)
 		
 		call_deferred("set_renderers", renderers_thread_safe)
@@ -84,13 +74,14 @@ func apply_new_data():
 
 
 func apply_zoom():
-	if type == "GeoPoint":
+	if geo_feature_layer.get_all_features()[0] is GeoPoint:
 		for child in get_children():
 			child.scale = Vector2.ONE / zoom
-	elif type == "GeoLine":
+	elif geo_feature_layer.get_all_features()[0] is GeoLine:
 		for child in get_children():
 			child.width = 1 / zoom.x
 
 
 func get_debug_info() -> String:
 	return "GeoRasterLayer."
+
