@@ -39,6 +39,29 @@ var func_dict = {
 	"GeoPolygon": polygon_func
 }
 
+var should_refresh := false
+
+
+func _ready():
+	geo_feature_layer.feature_added.connect(_on_feature_added)
+	geo_feature_layer.feature_removed.connect(_on_feature_removed)
+
+
+func _process(delta):
+	# FIXME: potentially thread unsafe if this happens on the main thread and on the loading thread
+	#  at the same time. Move this out and use the loading_thread.
+	if should_refresh:
+		should_refresh = false
+		refresh()
+
+
+func _on_feature_added(new_feature: GeoFeature):
+	should_refresh = true
+
+
+func _on_feature_removed(removed_feature: GeoFeature):
+	pass
+
 
 func load_new_data(is_threaded := true):
 	var position_x = center[0]
