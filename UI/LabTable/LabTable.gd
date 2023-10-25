@@ -14,6 +14,7 @@ func _ready():
 		var center = Layers.get_geo_layer_by_name(layer_name).get_center()
 		geo_layers.setup(Vector2(center.x, center.z))
 		geo_layers.set_layer_visibility(layer_name, true))
+	
 	$LabTableConfigurator.new_layer.connect(func(layer_name):
 		geo_layers.set_layer_visibility(layer_name, true))
 	$LabTableConfigurator.load_table_config()
