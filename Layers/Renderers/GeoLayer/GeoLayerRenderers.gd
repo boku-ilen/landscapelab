@@ -68,6 +68,9 @@ func instantiate_geolayer_renderer(layer_name: String):
 	elif geo_layer is GeoFeatureLayer: 
 		renderer = feature_renderer.instantiate()
 		renderer.geo_feature_layer = geo_layer
+		
+		geo_layer.feature_added.connect(_on_feature_added.bind(renderer))
+		geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer))
 	else:
 		logger.error("Invalid geolayer or geolayer name for {}"
 						.format(geo_layer.name))
@@ -83,6 +86,7 @@ func instantiate_geolayer_renderer(layer_name: String):
 			camera.get_viewport().size,
 			camera.zoom
 		)
+		
 		add_child(renderer)
 		renderer.refresh()
 
@@ -126,6 +130,32 @@ func update_renderers(new_center, new_offset, new_viewport_size, new_zoom):
 			)
 			renderer.load_new_data()
 			_on_renderer_finished.call_deferred(renderer.name)
+
+
+func _on_feature_added(feature, renderer):
+	update_renderer_threaded(renderer)
+
+
+func _on_feature_removed(feature, renderer):
+	update_renderer_threaded(renderer)
+
+
+func update_renderer_threaded(renderer):
+	Thread.set_thread_safety_checks_enabled(false)
+	renderer.load_new_data()
+	_on_renderer_finished.call_deferred(renderer.name)
+
+
+func update_renderer(renderer):
+	if load_data_threaded:
+		if loading_thread.is_started() and not loading_thread.is_alive():
+			loading_thread.wait_to_finish()
+		
+		if not loading_thread.is_started():
+			loading_thread.start(update_renderer_threaded.bind(renderer), Thread.PRIORITY_NORMAL)
+	else:
+		renderer.load_new_data()
+		renderer.apply_new_data()
 
 
 func _on_renderer_finished(renderer_name):
