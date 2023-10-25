@@ -64,14 +64,14 @@ cursor_path = NodePath("../SubViewport/Cursor2D")
 layout_mode = 2
 theme = ExtResource("8_2ddb4")
 
-[node name="ControlContainer" parent="SubViewportContainer/PanelContainer" node_paths=PackedStringArray("camera_2d", "configurator") instance=ExtResource("4_d680t")]
+[node name="ControlContainer" parent="SubViewportContainer/PanelContainer" node_paths=PackedStringArray("configurator", "camera_2d") instance=ExtResource("4_d680t")]
 layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 map_layer_name = "DOP"
-configurator = NodePath("../../LLConfigSetup")
-camera_2d = NodePath("../SubViewport/Camera2D")
+configurator = NodePath("../../../LLConfigSetup")
+camera_2d = NodePath("../../SubViewport/Camera2D")
 
 [node name="Up" parent="SubViewportContainer/PanelContainer/ControlContainer/VBox/HBox/GridContainer" index="1"]
 custom_minimum_size = Vector2(100, 100)
@@ -99,13 +99,13 @@ stretch = false
 [node name="Camera2D" parent="SubViewportContainer/PanelContainer/ControlContainer/VBox/SubViewportContainer/SubViewport" index="1"]
 enabled = true
 
-[node name="ReferenceRect" type="ReferenceRect" parent="SubViewportContainer/ControlContainer/VBox/SubViewportContainer/SubViewport" index="2"]
+[node name="ReferenceRect" type="ReferenceRect" parent="SubViewportContainer/PanelContainer/ControlContainer/VBox/SubViewportContainer/SubViewport" index="2"]
 visibility_layer = 2
-z_index = 1
+z_index = 10
 offset_right = 40.0
 offset_bottom = 40.0
-border_color = Color(0.972549, 0.603922, 1, 1)
-border_width = 400.0
+border_color = Color(0.933333, 0.654902, 1, 1)
+border_width = 250.0
 editor_only = false
 
 [node name="GeoLayerUI" parent="." node_paths=PackedStringArray("geo_layers") instance=ExtResource("3_fs5bq")]

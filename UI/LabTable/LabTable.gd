@@ -11,13 +11,13 @@ func _ready():
 	$LLConfigSetup.setup()
 	
 	# Display camera extent on overview
-	var extent_visualizer = $SubViewportContainer/ControlContainer/VBox/SubViewportContainer/SubViewport/ReferenceRect
+	var extent_visualizer = $SubViewportContainer/PanelContainer/ControlContainer/VBox/SubViewportContainer/SubViewport/ReferenceRect
 	geo_layers.camera_extent_changed.connect(func(camera_extent):
 		extent_visualizer.position = camera_extent.center - extent_visualizer.size / 2
 		extent_visualizer.size = camera_extent.extent)
 	
 	# Use input on overview map as "recenter"
-	$SubViewportContainer/ControlContainer.recenter.connect(func(center):
+	$SubViewportContainer/PanelContainer/ControlContainer.recenter.connect(func(center):
 		$SubViewportContainer/SubViewport/Camera2D.set_offset_and_emit(center))
 
 
