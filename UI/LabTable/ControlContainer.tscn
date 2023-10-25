@@ -15,7 +15,6 @@
 offset_right = 337.0
 offset_bottom = 616.0
 script = ExtResource("1_7nxly")
-map_layer_name = "ortho"
 
 [node name="SetVisible" parent="." instance=ExtResource("2_r33nv")]
 custom_minimum_size = Vector2(75, 75)
@@ -90,7 +89,7 @@ stretch = true
 transparent_bg = true
 handle_input_locally = false
 canvas_cull_mask = 4294967294
-size = Vector2i(337, 300)
+size = Vector2i(300, 300)
 render_target_update_mode = 4
 
 [node name="OverviewRenderer" parent="VBox/SubViewportContainer/SubViewport" instance=ExtResource("9_yl31i")]

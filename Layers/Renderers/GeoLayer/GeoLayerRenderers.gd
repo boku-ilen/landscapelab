@@ -41,22 +41,20 @@ var offset := Vector2.ZERO :
 		camera_extent_changed.emit(camera_extent)
 
 
-func _ready(): setup()
-
-
-func setup():
+func setup(initial_center):
 	camera.offset_changed.connect(apply_offset)
 	
-	center = Vector2(Layers.current_center.x, Layers.current_center.z)
+	center = initial_center
 	apply_offset(Vector2.ZERO, camera.get_viewport_rect().size, camera.zoom)
 
 
-func set_layer_visibility(layer_name: String, is_visible: bool):
+func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
 	# geolayers shall not be instantiated by default only on user's wish
 	if not has_node(layer_name):
 		instantiate_geolayer_renderer(layer_name)
 	
 	get_node(layer_name).visible = true
+	get_node(layer_name).z_index = l_z_index
 
 
 func instantiate_geolayer_renderer(layer_name: String):
