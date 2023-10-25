@@ -8,6 +8,8 @@ var current_goc_name = "Wind Turbines"
 
 
 func _ready():
+	$LLConfigSetup.setup()
+	
 	# Add map and layers from config
 	$LabTableConfigurator.map_added.connect(func(layer_name):
 		control_ui.init_overview_map(layer_name)
@@ -15,8 +17,8 @@ func _ready():
 		geo_layers.setup(Vector2(center.x, center.z))
 		geo_layers.set_layer_visibility(layer_name, true))
 	
-	$LabTableConfigurator.new_layer.connect(func(layer_name):
-		geo_layers.set_layer_visibility(layer_name, true))
+	$LabTableConfigurator.new_layer.connect(func(layer_name, z_index = 0):
+		geo_layers.add_layer_composition_renderer(layer_name, true, z_index))
 	$LabTableConfigurator.load_table_config()
 	
 	# Display camera extent on overview
@@ -29,9 +31,8 @@ func _ready():
 	# Use input on overview map as "recenter"
 	control_ui.recenter.connect(func(center):
 		$SubViewportContainer/SubViewport/Camera2D.set_offset_and_emit(center))
-	#set_workshop_mode(true)
 	
-	#print(GameSystem.current_game_mode.game_object_collections)
+	set_workshop_mode(true)
 
 
 func set_workshop_mode(active: bool): 

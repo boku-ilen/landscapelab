@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=16 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_l77mt"]
@@ -13,12 +13,12 @@
 [ext_resource type="PackedScene" uid="uid://vmfgu2mvoju5" path="res://UI/LabTable/LabTableCommunicator.tscn" id="10_wqhkf"]
 [ext_resource type="Texture2D" uid="uid://b7bv2oqkg5jkq" path="res://Resources/Icons/LabTable/right.png" id="11_xk4yu"]
 [ext_resource type="Texture2D" uid="uid://c6d6q3krv157o" path="res://Resources/Icons/LabTable/down.png" id="12_qe2to"]
+[ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="13_ibx33"]
 [ext_resource type="PackedScene" uid="uid://bjl2vfe4otxnj" path="res://UI/LabTable/LabTableConfigurator.tscn" id="15_esmpk"]
 
 [node name="Window" type="Window"]
-position = Vector2i(0, 36)
-size = Vector2i(1920, 1080)
-min_size = Vector2i(1920, 1080)
+position = Vector2i(3200, 500)
+size = Vector2i(1600, 900)
 
 [node name="LabTable" type="HBoxContainer" parent="." node_paths=PackedStringArray("geo_layers", "control_ui")]
 anchors_preset = 15
@@ -42,7 +42,7 @@ script = ExtResource("1_l77mt")
 
 [node name="SubViewport" parent="LabTable/SubViewportContainer" instance=ExtResource("2_opmh5")]
 canvas_cull_mask = 4294967293
-size = Vector2i(1926, 1080)
+size = Vector2i(1606, 900)
 
 [node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" index="1" node_paths=PackedStringArray("camera")]
 camera = NodePath("../Camera2D")
@@ -110,6 +110,8 @@ offset_bottom = 40.0
 border_color = Color(0.933333, 0.654902, 1, 1)
 border_width = 250.0
 editor_only = false
+
+[node name="LLConfigSetup" parent="LabTable" instance=ExtResource("13_ibx33")]
 
 [node name="LabTableCommunicator" parent="LabTable" instance=ExtResource("10_wqhkf")]
 

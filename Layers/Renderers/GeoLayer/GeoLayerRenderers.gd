@@ -57,6 +57,37 @@ func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
 	get_node(layer_name).z_index = l_z_index
 
 
+func add_layer_composition_renderer(layer_name: String, is_visible: bool, l_z_index := 0):
+	instantiate_layer_composition_renderer(layer_name)
+	get_node(layer_name).z_index = l_z_index
+
+
+# Similar to instantiate_geolayer_renderer, but adds a layer corresponding to
+# a feature LayerComposition
+func instantiate_layer_composition_renderer(lc_name: String):
+	var geo_layer = Layers.layer_compositions[lc_name].render_info.geo_feature_layer
+	
+	var renderer = feature_renderer.instantiate()
+	renderer.geo_feature_layer = geo_layer
+	
+	geo_layer.feature_added.connect(_on_feature_added.bind(renderer))
+	geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer))
+	
+	if renderer:
+		renderer.position = offset
+		renderer.name = lc_name
+		renderer.visibility_layer = visibility_layer
+		
+		renderer.set_metadata(
+			center,
+			camera.get_viewport().size,
+			camera.zoom
+		)
+		
+		add_child(renderer)
+		renderer.refresh()
+
+
 func instantiate_geolayer_renderer(layer_name: String):
 	var geo_layer = Layers.get_geo_layer_by_name(layer_name)
 	var renderer

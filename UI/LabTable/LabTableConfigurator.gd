@@ -14,7 +14,7 @@ func load_table_config():
 	var path = get_setting("config-path")
 	
 	var ll_file_access = LLFileAccess.open(path)
-	if ll_file_access == null:
+	if ll_file_access == null or not "TableSettings" in ll_file_access.json_object.data:
 		logger.error("Could not load config at " + path)
 		return
 	
@@ -22,7 +22,6 @@ func load_table_config():
 	
 	# Table config requires at least a basic map
 	var map := Geodot.get_raster_layer(table_config["Map"]["path"])
-	map = map.clone()
 	Layers.add_geo_layer(map)
 	map_added.emit(map.get_file_info()["name"])
 	
