@@ -19,6 +19,9 @@ func _ready():
 	# Use input on overview map as "recenter"
 	$SubViewportContainer/PanelContainer/ControlContainer.recenter.connect(func(center):
 		$SubViewportContainer/SubViewport/Camera2D.set_offset_and_emit(center))
+	set_workshop_mode(true)
+	
+	print(GameSystem.current_game_mode.game_object_collections)
 
 
 func set_workshop_mode(active: bool): 
@@ -28,11 +31,18 @@ func set_workshop_mode(active: bool):
 		return
 	
 	var primary_func = func(event, cursor, state_dict):
-		var feature_layer: GeoFeatureLayer = Layers.get_geo_layer_by_name("WINDTURBINES")
-		var feature: GeoPoint = feature_layer.create_feature()
-		feature.set_offset_vector3(
-			Vector3(cursor.global_position.x, 0, cursor.global_position.y), 
-			geo_layers.center.x, 0, geo_layers.center.y)
+		var collection = GameSystem.current_game_mode.game_object_collections["Wind Turbines"]
+		var new_game_object = GameSystem.create_new_game_object(collection,
+			Vector3(
+				cursor.global_position.x + geo_layers.center.x,
+				0,
+				cursor.global_position.y + geo_layers.center.y)
+		)
+		
+		print(new_game_object)
+		
+		if not new_game_object:
+			pass # TODO: Display "forbidden" symbol
 	
 	var edit_action = EditingAction.new(primary_func)
 	action_handler.set_current_action(edit_action)

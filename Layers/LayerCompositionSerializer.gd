@@ -44,6 +44,19 @@ static func deserialize(
 	return layer_composition
 
 
+static func get_feature_layer_from_string(path_string, abs_path):
+	var path_layer_split = path_string.split(":")
+	# => ["ortho", "w"]
+	var layer_access_split = path_layer_split[1].split("?")
+	var abs_file_name = LLFileAccess.get_rel_or_abs_path(abs_path, path_layer_split[0])
+	var layer_name = layer_access_split[0]
+	var write_access = true if layer_access_split.size() > 1 and layer_access_split[1] == "w" else false
+	
+	var db = Geodot.get_dataset(abs_file_name, write_access)
+	
+	return db.get_feature_layer(layer_name)
+
+
 static func serialize(layer_composition: LayerComposition):
 	# Create list of basic Object properties so we can ignore those later
 	var base_property_names = []
