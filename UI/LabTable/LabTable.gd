@@ -3,6 +3,8 @@ extends Control
 
 @export var geo_layers: Node2D
 
+var current_goc_name = "Wind Turbines"
+
 
 func _ready():
 	$LLConfigSetup.applied_configuration.connect(geo_layers.setup)
@@ -25,12 +27,12 @@ func set_workshop_mode(active: bool):
 		return
 	
 	var primary_func = func(event, cursor, state_dict):
-		var collection = GameSystem.current_game_mode.game_object_collections["Wind Turbines"]
+		var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
 		var new_game_object = GameSystem.create_new_game_object(collection,
 			Vector3(
-				cursor.global_position.x + geo_layers.center.x,
+				cursor.global_position.x - geo_layers.offset.x + geo_layers.center.x,
 				0,
-				cursor.global_position.y + geo_layers.center.y)
+				cursor.global_position.y - geo_layers.offset.y - geo_layers.center.y)
 		)
 		
 		print(new_game_object)
