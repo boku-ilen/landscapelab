@@ -17,6 +17,8 @@
 
 [node name="Window" type="Window"]
 position = Vector2i(0, 36)
+size = Vector2i(1920, 1080)
+min_size = Vector2i(1920, 1080)
 
 [node name="LabTable" type="HBoxContainer" parent="." node_paths=PackedStringArray("geo_layers", "control_ui")]
 anchors_preset = 15
@@ -40,7 +42,7 @@ script = ExtResource("1_l77mt")
 
 [node name="SubViewport" parent="LabTable/SubViewportContainer" instance=ExtResource("2_opmh5")]
 canvas_cull_mask = 4294967293
-size = Vector2i(106, 100)
+size = Vector2i(1926, 1080)
 
 [node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" index="1" node_paths=PackedStringArray("camera")]
 camera = NodePath("../Camera2D")
