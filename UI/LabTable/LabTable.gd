@@ -2,28 +2,35 @@ extends Control
 
 
 @export var geo_layers: Node2D
+@export var control_ui: Control
 
 var current_goc_name = "Wind Turbines"
 
 
 func _ready():
-	# FIXME: this will probably removed/rewritten in a later step
-	$LLConfigSetup.applied_configuration.connect(geo_layers.setup)
-	$Button.toggled.connect(set_workshop_mode)
-	$LLConfigSetup.setup()
+	# Add map and layers from config
+	$LabTableConfigurator.map_added.connect(func(layer_name):
+		control_ui.init_overview_map(layer_name)
+		var center = Layers.get_geo_layer_by_name(layer_name).get_center()
+		geo_layers.setup(Vector2(center.x, center.z))
+		geo_layers.set_layer_visibility(layer_name, true))
+	$LabTableConfigurator.new_layer.connect(func(layer_name):
+		geo_layers.set_layer_visibility(layer_name, true))
+	$LabTableConfigurator.load_table_config()
 	
 	# Display camera extent on overview
-	var extent_visualizer = $SubViewportContainer/PanelContainer/ControlContainer/VBox/SubViewportContainer/SubViewport/ReferenceRect
+	var extent_visualizer = control_ui.get_node(
+		"VBox/SubViewportContainer/SubViewport/ReferenceRect")
 	geo_layers.camera_extent_changed.connect(func(camera_extent):
 		extent_visualizer.position = camera_extent.center - extent_visualizer.size / 2
 		extent_visualizer.size = camera_extent.extent)
 	
 	# Use input on overview map as "recenter"
-	$SubViewportContainer/PanelContainer/ControlContainer.recenter.connect(func(center):
+	control_ui.recenter.connect(func(center):
 		$SubViewportContainer/SubViewport/Camera2D.set_offset_and_emit(center))
-	set_workshop_mode(true)
+	#set_workshop_mode(true)
 	
-	print(GameSystem.current_game_mode.game_object_collections)
+	#print(GameSystem.current_game_mode.game_object_collections)
 
 
 func set_workshop_mode(active: bool): 

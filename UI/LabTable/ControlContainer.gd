@@ -5,8 +5,6 @@ signal recenter(center)
 
 @export var shift_relative_x := 0.3
 @export var shift_relative_y := 0.3
-@export var map_layer_name: String
-@export var configurator: Configurator
 @export var camera_2d: Camera2D : 
 	set(new_camera_2d):
 		camera_2d = new_camera_2d
@@ -31,7 +29,6 @@ signal recenter(center)
 
 func _ready():
 	$SetVisible.toggled.connect(func(toggled): $VBox.visible = !toggled)
-	configurator.applied_configuration.connect(_init_overview_map)
 	overview_camera.recenter.connect(func(center): recenter.emit(center))
 
 
@@ -39,7 +36,7 @@ func _gui_input(event):
 	$VBox/SubViewportContainer/SubViewport/Camera2D._input(event)
 
 
-func _init_overview_map():
+func init_overview_map(map_layer_name: String):
 	var geo_raster_renderer = $VBox/SubViewportContainer/SubViewport/OverviewRenderer
 
 	# Duplicate resource otherwise it will be shares properties with
