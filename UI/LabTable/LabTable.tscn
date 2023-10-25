@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="13_ibx33"]
 [ext_resource type="PackedScene" uid="uid://bjl2vfe4otxnj" path="res://UI/LabTable/LabTableConfigurator.tscn" id="15_esmpk"]
 
-[node name="Window" type="Window"]
+[node name="LabTableWindow" type="Window"]
 position = Vector2i(3200, 500)
 size = Vector2i(1600, 900)
 

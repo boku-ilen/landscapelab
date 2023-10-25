@@ -33,6 +33,11 @@ func _ready():
 		$SubViewportContainer/SubViewport/Camera2D.set_offset_and_emit(center))
 	
 	set_workshop_mode(true)
+	
+	# Start at a sensible zoom
+	# We need to wait 1 frame because the Viewport must be done setting up
+	await get_tree().process_frame
+	$SubViewportContainer/SubViewport/Camera2D.do_zoom(0)
 
 
 func set_workshop_mode(active: bool): 
