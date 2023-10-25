@@ -7,14 +7,20 @@ var current_goc_name = "Wind Turbines"
 
 
 func _ready():
+	# FIXME: this will probably removed/rewritten in a later step
 	$LLConfigSetup.applied_configuration.connect(geo_layers.setup)
-	#$Button.toggled.connect(set_workshop_mode)
-	#geo_layers.center_changed.connect(func(new_center):
-	#	$GeoLayerUi/GeoLayerViewport/Node/Labl.text = var_to_str(new_center)
-	#)
-	
+	$Button.toggled.connect(set_workshop_mode)
 	$LLConfigSetup.setup()
 	
+	# Display camera extent on overview
+	var extent_visualizer = $SubViewportContainer/PanelContainer/ControlContainer/VBox/SubViewportContainer/SubViewport/ReferenceRect
+	geo_layers.camera_extent_changed.connect(func(camera_extent):
+		extent_visualizer.position = camera_extent.center - extent_visualizer.size / 2
+		extent_visualizer.size = camera_extent.extent)
+	
+	# Use input on overview map as "recenter"
+	$SubViewportContainer/PanelContainer/ControlContainer.recenter.connect(func(center):
+		$SubViewportContainer/SubViewport/Camera2D.set_offset_and_emit(center))
 	set_workshop_mode(true)
 	
 	print(GameSystem.current_game_mode.game_object_collections)
