@@ -6,7 +6,6 @@
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_13mti"]
 material = SubResource("StandardMaterial3D_tg0xl")
-size = Vector2(10000, 10000)
 orientation = 2
 
 [node name="GeoRasterLayerRenderer" type="Node2D"]

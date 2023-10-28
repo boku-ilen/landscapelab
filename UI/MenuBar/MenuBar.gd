@@ -30,7 +30,7 @@ func _ready():
 			logger.error("Could not load config at " + path)
 			return
 			
-		ll_file_access.apply(Vegetation, Layers, Scenarios)
+		ll_file_access.apply(Vegetation, Layers, Scenarios, GameSystem)
 	)
 	
 	# Connect selecting a file location for ll with serialization of current state

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d25827kd1r2xd"]
+[gd_scene load_steps=11 format=3 uid="uid://d25827kd1r2xd"]
 
 [ext_resource type="Script" path="res://UI/LabTable/ControlContainer.gd" id="1_7nxly"]
 [ext_resource type="PackedScene" uid="uid://mkaw0si7x87" path="res://UI/Layers/GeoLayers/ZoomContainer.tscn" id="1_pndxl"]
@@ -9,16 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://domau2e7w2l0i" path="res://Resources/Icons/ModernLandscapeLab/arrow_left.svg" id="4_gvxxk"]
 [ext_resource type="Texture2D" uid="uid://dyspmrgksu1si" path="res://Resources/Icons/ModernLandscapeLab/arrow_right.svg" id="5_gg0v2"]
 [ext_resource type="PackedScene" uid="uid://c80mmsavbpqyk" path="res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn" id="9_yl31i"]
+[ext_resource type="Script" path="res://UI/LabTable/OverviewCamera.gd" id="10_ksdla"]
 
 [node name="ControlContainer" type="VBoxContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -919.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 337.0
+offset_bottom = 616.0
 script = ExtResource("1_7nxly")
-map_layer_name = "ortho"
 
 [node name="SetVisible" parent="." instance=ExtResource("2_r33nv")]
 custom_minimum_size = Vector2(75, 75)
@@ -90,6 +86,7 @@ size_flags_vertical = 3
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="VBox/SubViewportContainer"]
+transparent_bg = true
 handle_input_locally = false
 canvas_cull_mask = 4294967294
 size = Vector2i(300, 300)
@@ -100,3 +97,4 @@ visibility_layer = 2
 
 [node name="Camera2D" type="Camera2D" parent="VBox/SubViewportContainer/SubViewport"]
 enabled = false
+script = ExtResource("10_ksdla")

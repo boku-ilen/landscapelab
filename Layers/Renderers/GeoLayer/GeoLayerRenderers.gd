@@ -8,36 +8,84 @@ var raster_renderer = preload("res://Layers/Renderers/GeoLayer/GeoRasterLayerRen
 var feature_renderer = preload("res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.tscn")
 signal loading_finished
 signal loading_started
-signal center_changed(new_center)
+signal camera_extent_changed(new_camera_extent)
 
 var renderers_finished := 0
 var renderers_count := 0
 
+class CameraExtent:
+	func _init(c: Vector2, e: Vector2):
+		center = c
+		extent = e
+	
+	var center: Vector2
+	var extent: Vector2
+
 # Center in geo-coordinates
+var camera_extent := CameraExtent.new(Vector2.ZERO, Vector2.ZERO) : 
+	set(new_camera_extent):
+		camera_extent = new_camera_extent
+		camera_extent_changed.emit(new_camera_extent)
 var center := Vector2.ZERO : 
 	set(new_center):
-		center = new_center 
-		center_changed.emit(new_center)
-var offset := Vector2.ZERO
-var zoom := Vector2.ONE
+		center = new_center
+var zoom := Vector2.ONE : 
+	set(new_zoom):
+		zoom = new_zoom
+		camera_extent.extent = camera.get_viewport_rect().size / zoom
+		camera_extent_changed.emit(camera_extent)
+var offset := Vector2.ZERO :
+	set(new_offset):
+		offset = new_offset
+		camera_extent.center = offset
+		camera_extent_changed.emit(camera_extent)
 
 
-func _ready(): setup()
-
-
-func setup():
+func setup(initial_center):
 	camera.offset_changed.connect(apply_offset)
 	
-	center = Vector2(Layers.current_center.x, Layers.current_center.z)
+	center = initial_center
 	apply_offset(Vector2.ZERO, camera.get_viewport_rect().size, camera.zoom)
 
 
-func set_layer_visibility(layer_name: String, is_visible: bool):
+func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
 	# geolayers shall not be instantiated by default only on user's wish
 	if not has_node(layer_name):
 		instantiate_geolayer_renderer(layer_name)
-
+	
 	get_node(layer_name).visible = true
+	get_node(layer_name).z_index = l_z_index
+
+
+func add_layer_composition_renderer(layer_name: String, is_visible: bool, l_z_index := 0):
+	instantiate_layer_composition_renderer(layer_name)
+	get_node(layer_name).z_index = l_z_index
+
+
+# Similar to instantiate_geolayer_renderer, but adds a layer corresponding to
+# a feature LayerComposition
+func instantiate_layer_composition_renderer(lc_name: String):
+	var geo_layer = Layers.layer_compositions[lc_name].render_info.geo_feature_layer
+	
+	var renderer = feature_renderer.instantiate()
+	renderer.geo_feature_layer = geo_layer
+	
+	geo_layer.feature_added.connect(_on_feature_added.bind(renderer))
+	geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer))
+	
+	if renderer:
+		renderer.position = offset
+		renderer.name = lc_name
+		renderer.visibility_layer = visibility_layer
+		
+		renderer.set_metadata(
+			center,
+			camera.get_viewport().size,
+			camera.zoom
+		)
+		
+		add_child(renderer)
+		renderer.refresh()
 
 
 func instantiate_geolayer_renderer(layer_name: String):
@@ -49,19 +97,32 @@ func instantiate_geolayer_renderer(layer_name: String):
 	elif geo_layer is GeoFeatureLayer: 
 		renderer = feature_renderer.instantiate()
 		renderer.geo_feature_layer = geo_layer
+		
+		geo_layer.feature_added.connect(_on_feature_added.bind(renderer))
+		geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer))
 	else:
-		logger.error("Invalid geolayer or geolayer name for {}".format(geo_layer.name))
+		logger.error("Invalid geolayer or geolayer name for {}"
+						.format(geo_layer.name))
 		return
 	
 	if renderer:
+		renderer.position = offset
 		renderer.name = geo_layer.get_file_info()["name"]
 		renderer.visibility_layer = visibility_layer
+		
+		renderer.set_metadata(
+			center,
+			camera.get_viewport().size,
+			camera.zoom
+		)
+		
 		add_child(renderer)
+		renderer.refresh()
 
 
 func apply_offset(new_offset, new_viewport_size, new_zoom):
 	zoom = new_zoom
-	offset = new_offset
+	offset += new_offset
 	center.x += new_offset.x
 	center.y -= new_offset.y
 	logger.debug("Applying new center center to all children in %s" % [name])
@@ -88,19 +149,42 @@ func apply_offset(new_offset, new_viewport_size, new_zoom):
 
 func update_renderers(new_center, new_offset, new_viewport_size, new_zoom):
 	Thread.set_thread_safety_checks_enabled(false)
-	# The maximum radius is at the corners => get the diagonale divided by 2s
-	var radius = sqrt(
-		pow(new_viewport_size.x / new_zoom.x, 2) + pow(new_viewport_size.y / new_zoom.y, 2)) / 2
 	# Now, load the data of each renderer
 	for renderer in get_children():
 		if renderer is GeoLayerRenderer:
-			renderer.center = new_center
-			renderer.viewport_size = new_viewport_size
-			renderer.zoom = new_zoom
-			renderer.radius = radius
-
+			renderer.set_metadata(
+				new_center,
+				new_viewport_size,
+				new_zoom
+			)
 			renderer.load_new_data()
 			_on_renderer_finished.call_deferred(renderer.name)
+
+
+func _on_feature_added(feature, renderer):
+	update_renderer_threaded(renderer)
+
+
+func _on_feature_removed(feature, renderer):
+	update_renderer_threaded(renderer)
+
+
+func update_renderer_threaded(renderer):
+	Thread.set_thread_safety_checks_enabled(false)
+	renderer.load_new_data()
+	_on_renderer_finished.call_deferred(renderer.name)
+
+
+func update_renderer(renderer):
+	if load_data_threaded:
+		if loading_thread.is_started() and not loading_thread.is_alive():
+			loading_thread.wait_to_finish()
+		
+		if not loading_thread.is_started():
+			loading_thread.start(update_renderer_threaded.bind(renderer), Thread.PRIORITY_NORMAL)
+	else:
+		renderer.load_new_data()
+		renderer.apply_new_data()
 
 
 func _on_renderer_finished(renderer_name):
@@ -121,7 +205,7 @@ func _apply_renderers_data():
 			renderer.apply_new_data()
 			# Only apply the position after the new data has
 			# been applied otherwise it will look clunky
-			renderer.position += offset
+			renderer.position = offset
 	
 	emit_signal("loading_finished")
 
