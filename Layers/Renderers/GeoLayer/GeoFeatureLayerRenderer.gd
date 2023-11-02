@@ -10,8 +10,8 @@ var renderers: Node2D
 var point_func = func(feature: GeoPoint): 
 	var p = feature.get_vector3()
 	var marker = Sprite2D.new()
-	marker.set_texture(load("res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg"))
-	marker.set_position(Vector2(p.x, p.z) + Vector2(-center.x, center.y))
+	marker.set_texture(preload("res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg"))
+	marker.set_position(global_vector3_to_local_vector2(p))
 	marker.set_scale(Vector2.ONE / zoom)
 	return marker
 
@@ -20,15 +20,15 @@ var line_func = func(feature: GeoLine):
 	var line := Line2D.new()
 	line.set_default_color(Color.CRIMSON)
 	line.points = Array(curve.tessellate()).map(
-		func(vec3): 
-			return Vector2(vec3.x, vec3.z) + Vector2(-center.x, center.y))
+		func(vec3): return global_vector3_to_local_vector2(vec3))
 	line.width = 1 / zoom.x
 	return line
 
 var polygon_func = func(feature: GeoPolygon): 
 	var p = feature.get_outer_vertices()
 	var polygon = Polygon2D.new()
-	polygon.set_polygon(Array(p).map(func(vec2): return vec2 - center))
+	polygon.set_polygon(Array(p).map(
+		func(vec2): return global_vector2_to_local_vector2(vec2)))
 	polygon.set_color(Color.CYAN)
 	polygon.scale.y = -1
 	return polygon
@@ -41,16 +41,17 @@ var func_dict = {
 
 
 func load_new_data(is_threaded := true):
-	var position_x = center[0]
-	var position_y = center[1]
+	var load_position = get_center_global()
 	
 	if geo_feature_layer:
 		current_features = geo_feature_layer.get_features_near_position(
-			float(position_x),
-			float(position_y),
+			load_position.x,
+			load_position.y,
 			float(radius),
 			max_features
 		)
+		
+		print(current_features.size())
 		
 		# Create a scene-chunk and set it deferred so there are no thread unsafeties
 		var renderers_thread_safe = Node2D.new()

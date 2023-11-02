@@ -6,6 +6,8 @@ extends Control
 
 var current_goc_name = "Wind Turbines"
 
+var geo_transform
+
 
 func _ready():
 	$LLConfigSetup.setup()
@@ -38,6 +40,9 @@ func _ready():
 	# We need to wait 1 frame because the Viewport must be done setting up
 	await get_tree().process_frame
 	$SubViewportContainer/SubViewport/Camera2D.do_zoom(0)
+	
+	geo_transform = GeoTransform.new()
+	geo_transform.set_transform(3857, 31287)
 
 
 func set_workshop_mode(active: bool): 
@@ -48,12 +53,18 @@ func set_workshop_mode(active: bool):
 	
 	var primary_func = func(event, cursor, state_dict):
 		var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
-		var new_game_object = GameSystem.create_new_game_object(collection,
-			Vector3(
+		
+		var vector_3857 = Vector3(
 				cursor.global_position.x - geo_layers.offset.x + geo_layers.center.x,
 				0,
-				cursor.global_position.y - geo_layers.offset.y - geo_layers.center.y)
-		)
+				-cursor.global_position.y + geo_layers.offset.y + geo_layers.center.y)
+		
+		var vector_local = geo_transform.transform_coordinates(vector_3857)
+		
+		# Swap -z forward/backward since we're in 2D space
+		vector_local.z = -vector_local.z
+		
+		var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
 		
 		print(new_game_object)
 		

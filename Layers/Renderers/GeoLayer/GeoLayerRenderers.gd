@@ -162,17 +162,17 @@ func update_renderers(new_center, new_offset, new_viewport_size, new_zoom):
 
 
 func _on_feature_added(feature, renderer):
-	update_renderer_threaded(renderer)
+	update_renderer(renderer)
 
 
 func _on_feature_removed(feature, renderer):
-	update_renderer_threaded(renderer)
+	update_renderer(renderer)
 
 
 func update_renderer_threaded(renderer):
 	Thread.set_thread_safety_checks_enabled(false)
 	renderer.load_new_data()
-	_on_renderer_finished.call_deferred(renderer.name)
+	renderer.apply_new_data.call_deferred()
 
 
 func update_renderer(renderer):
