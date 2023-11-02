@@ -32,6 +32,7 @@ size_flags_vertical = 3
 script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
+debug_mode = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
 layout_mode = 2
@@ -116,6 +117,7 @@ editor_only = false
 [node name="LabTableCommunicator" parent="LabTable" instance=ExtResource("10_wqhkf")]
 
 [node name="LabTableConfigurator" parent="LabTable" instance=ExtResource("15_esmpk")]
+category = null
 
 [editable path="LabTable/SubViewportContainer/SubViewport"]
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
