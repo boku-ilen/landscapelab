@@ -21,7 +21,8 @@ func load_table_config():
 	var table_config: Dictionary = ll_file_access.json_object.data["TableSettings"]
 	
 	# Table config requires at least a basic map
-	var map := Geodot.get_raster_layer(table_config["Map"]["path"])
+	var path_to_map := LLFileAccess.get_rel_or_abs_path(path, table_config["Map"]["path"])
+	var map := Geodot.get_raster_layer(path_to_map)
 	Layers.add_geo_layer(map)
 	map_added.emit(map.get_file_info()["name"])
 	
