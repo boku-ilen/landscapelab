@@ -1,13 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://by4jryfmd6lb5"]
 
-[ext_resource path="res://UI/Theme/LightTheme.tres" type="Theme" id=1]
-[ext_resource path="res://UI/CustomElements/StackedProgressBar.gd" type="Script" id=2]
+[ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1"]
+[ext_resource type="Script" path="res://UI/CustomElements/StackedProgressBar.gd" id="2"]
 
 [node name="Control" type="CenterContainer"]
 offset_right = 300.0
 offset_bottom = 29.0
-minimum_size = Vector2( 300, 0 )
-theme = ExtResource( 1 )
-script = ExtResource( 2 )
-bar_count = 0
+theme = ExtResource("1")
+script = ExtResource("2")
+bar_count = 1
 step = 1.0
+range0_value = null
+range0_bar_color = Color(1, 1, 1, 0.4)

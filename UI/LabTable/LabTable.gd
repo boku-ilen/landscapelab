@@ -3,6 +3,9 @@ extends Control
 
 @export var geo_layers: Node2D
 @export var control_ui: Control
+# To debug it as standalone (without running the rest of the landscapelab
+# it is necessary to load the configuration
+@export var debug_mode := false
 
 var current_goc_name = "Wind Turbines"
 
@@ -10,7 +13,7 @@ var geo_transform
 
 
 func _ready():
-	$LLConfigSetup.setup()
+	if debug_mode: $LLConfigSetup.setup()
 	
 	# Add map and layers from config
 	$LabTableConfigurator.map_added.connect(func(layer_name):
