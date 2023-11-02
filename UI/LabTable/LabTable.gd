@@ -51,6 +51,7 @@ func set_workshop_mode(active: bool):
 		action_handler.current_action = null
 		return
 	
+	# Primary function: creating game objects with left click
 	var primary_func = func(event, cursor, state_dict):
 		# Update may be 1 frame behind without this because input propagates down to cursor later
 		cursor.update_from_mouse_position(event.position)
@@ -72,5 +73,22 @@ func set_workshop_mode(active: bool):
 		if not new_game_object:
 			pass # TODO: Display "forbidden" symbol
 	
-	var edit_action = EditingAction.new(primary_func)
+	# Secondary function: removing game objects with right click
+	var secondary_func = func(event, cursor, state_dict):
+		# Update may be 1 frame behind without this because input propagates down to cursor later
+		cursor.update_from_mouse_position(event.position)
+		
+		var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
+		
+		var vector_3857 = Vector3(
+				cursor.global_position.x - geo_layers.offset.x + geo_layers.center.x,
+				0,
+				-cursor.global_position.y + geo_layers.offset.y + geo_layers.center.y)
+		
+		var vector_local = geo_transform.transform_coordinates(vector_3857)
+		
+		# Remove objects within a radius of 1m around the click
+		collection.remove_nearby_game_objects(vector_local, 1.0)
+	
+	var edit_action = EditingAction.new(primary_func, secondary_func)
 	action_handler.set_current_action(edit_action)

@@ -70,8 +70,10 @@ func instantiate_layer_composition_renderer(lc_name: String):
 	var renderer = feature_renderer.instantiate()
 	renderer.geo_feature_layer = geo_layer
 	
-	geo_layer.feature_added.connect(_on_feature_added.bind(renderer))
-	geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer))
+	# Note: CONNECT_DEFERRED is needed to consistently react to all changes that
+	#  happened within a given frame (e.g. when mass-deleting features).
+	geo_layer.feature_added.connect(_on_feature_added.bind(renderer), CONNECT_DEFERRED)
+	geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer), CONNECT_DEFERRED)
 	
 	if renderer:
 		renderer.position = offset
@@ -98,8 +100,10 @@ func instantiate_geolayer_renderer(layer_name: String):
 		renderer = feature_renderer.instantiate()
 		renderer.geo_feature_layer = geo_layer
 		
-		geo_layer.feature_added.connect(_on_feature_added.bind(renderer))
-		geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer))
+		# Note: CONNECT_DEFERRED is needed to consistently react to all changes that
+		#  happened within a given frame (e.g. when mass-deleting features).
+		geo_layer.feature_added.connect(_on_feature_added.bind(renderer), CONNECT_DEFERRED)
+		geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer), CONNECT_DEFERRED)
 	else:
 		logger.error("Invalid geolayer or geolayer name for {}"
 						.format(geo_layer.name))

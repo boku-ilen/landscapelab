@@ -12,6 +12,9 @@ var token_to_game_object_collection = {
 	}
 }
 
+# For reacting to deleted bricks
+var brick_id_to_position = {}
+
 func _ready():
 	_server.client_connected.connect(_connected)
 	_server.client_disconnected.connect(_disconnected)
@@ -37,7 +40,6 @@ func _on_data(id, message):
 	print("Got data from client %d: %s" % [id, data_dict])
 	
 	if data_dict["event"] == "brick_added":
-	
 		var viewport_position = data_dict["data"]["position"]
 		
 		var shape = data_dict["data"]["shape"]
@@ -55,7 +57,7 @@ func _on_data(id, message):
 					* Vector2(screen_size)
 			)
 			
-			print(position_scaled)
+			brick_id_to_position[data_dict["data"]["id"]] = position_scaled
 			
 			var event = InputEventMouseButton.new()
 			event.pressed = true
@@ -72,8 +74,22 @@ func _on_data(id, message):
 			get_viewport().push_input(release_event, true)
 	
 	elif data_dict["event"] == "brick_removed":
-		
-		pass
+		if brick_id_to_position.has(data_dict["data"]["id"]):
+			var position_scaled = brick_id_to_position[data_dict["data"]["id"]]
+			
+			var event = InputEventMouseButton.new()
+			event.pressed = true
+			event.button_index = 2
+			event.position = position_scaled
+			event.global_position = position_scaled
+			
+			get_viewport().push_input(event, true)
+			
+			# Send a mouse release event immediately after
+			var release_event = event.duplicate()
+			release_event.pressed = false
+			
+			get_viewport().push_input(release_event, true)
 
 
 func _process(delta):
