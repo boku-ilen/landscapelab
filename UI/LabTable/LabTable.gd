@@ -52,6 +52,9 @@ func set_workshop_mode(active: bool):
 		return
 	
 	var primary_func = func(event, cursor, state_dict):
+		# Update may be 1 frame behind without this because input propagates down to cursor later
+		cursor.update_from_mouse_position(event.position)
+		
 		var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
 		
 		var vector_3857 = Vector3(
@@ -65,8 +68,6 @@ func set_workshop_mode(active: bool):
 		vector_local.z = -vector_local.z
 		
 		var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
-		
-		print(new_game_object)
 		
 		if not new_game_object:
 			pass # TODO: Display "forbidden" symbol

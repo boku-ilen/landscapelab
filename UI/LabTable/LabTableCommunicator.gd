@@ -8,7 +8,7 @@ var _server = WebSocketServer.new()
 
 var token_to_game_object_collection = {
 	"BrickShape.SQUARE_BRICK": {
-		"BrickColor.RED_BRICK": "test"
+		"BrickColor.RED_BRICK": "Wind Turbines"
 	}
 }
 
@@ -54,6 +54,8 @@ func _on_data(id, message):
 					Vector2(viewport_position[0], viewport_position[1]) \
 					* Vector2(screen_size)
 			)
+			
+			print(position_scaled)
 			
 			var event = InputEventMouseButton.new()
 			event.pressed = true
