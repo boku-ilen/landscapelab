@@ -7,12 +7,15 @@ var geo_feature_layer: GeoFeatureLayer
 var current_features: Array
 var renderers: Node2D
 
+var icon = preload("res://Resources/Icons/LabTable/symbol_wind.png")
+var icon_scale = 0.1
+
 var point_func = func(feature: GeoPoint): 
 	var p = feature.get_vector3()
 	var marker = Sprite2D.new()
-	marker.set_texture(preload("res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg"))
+	marker.set_texture(icon)
 	marker.set_position(global_vector3_to_local_vector2(p))
-	marker.set_scale(Vector2.ONE / zoom)
+	marker.set_scale(Vector2.ONE * icon_scale / zoom)
 	return marker
 
 var line_func = func(feature: GeoLine):
