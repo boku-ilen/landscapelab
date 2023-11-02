@@ -70,8 +70,10 @@ func instantiate_layer_composition_renderer(lc_name: String):
 	var renderer = feature_renderer.instantiate()
 	renderer.geo_feature_layer = geo_layer
 	
-	geo_layer.feature_added.connect(_on_feature_added.bind(renderer))
-	geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer))
+	# Note: CONNECT_DEFERRED is needed to consistently react to all changes that
+	#  happened within a given frame (e.g. when mass-deleting features).
+	geo_layer.feature_added.connect(_on_feature_added.bind(renderer), CONNECT_DEFERRED)
+	geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer), CONNECT_DEFERRED)
 	
 	if renderer:
 		renderer.position = offset
@@ -98,8 +100,10 @@ func instantiate_geolayer_renderer(layer_name: String):
 		renderer = feature_renderer.instantiate()
 		renderer.geo_feature_layer = geo_layer
 		
-		geo_layer.feature_added.connect(_on_feature_added.bind(renderer))
-		geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer))
+		# Note: CONNECT_DEFERRED is needed to consistently react to all changes that
+		#  happened within a given frame (e.g. when mass-deleting features).
+		geo_layer.feature_added.connect(_on_feature_added.bind(renderer), CONNECT_DEFERRED)
+		geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer), CONNECT_DEFERRED)
 	else:
 		logger.error("Invalid geolayer or geolayer name for {}"
 						.format(geo_layer.name))
@@ -162,17 +166,17 @@ func update_renderers(new_center, new_offset, new_viewport_size, new_zoom):
 
 
 func _on_feature_added(feature, renderer):
-	update_renderer_threaded(renderer)
+	update_renderer(renderer)
 
 
 func _on_feature_removed(feature, renderer):
-	update_renderer_threaded(renderer)
+	update_renderer(renderer)
 
 
 func update_renderer_threaded(renderer):
 	Thread.set_thread_safety_checks_enabled(false)
 	renderer.load_new_data()
-	_on_renderer_finished.call_deferred(renderer.name)
+	renderer.apply_new_data.call_deferred()
 
 
 func update_renderer(renderer):

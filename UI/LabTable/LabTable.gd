@@ -9,6 +9,8 @@ extends Control
 
 var current_goc_name = "Wind Turbines"
 
+var geo_transform
+
 
 func _ready():
 	if debug_mode: $LLConfigSetup.setup()
@@ -41,6 +43,11 @@ func _ready():
 	# We need to wait 1 frame because the Viewport must be done setting up
 	await get_tree().process_frame
 	$SubViewportContainer/SubViewport/Camera2D.do_zoom(0)
+	
+	geo_transform = GeoTransform.new()
+	geo_transform.set_transform(3857, 31287)
+	
+	$SubViewportContainer/SubViewport/Camera2D.offset_changed.connect(_on_camera_offset_changed)
 
 
 func set_workshop_mode(active: bool): 
@@ -49,19 +56,48 @@ func set_workshop_mode(active: bool):
 		action_handler.current_action = null
 		return
 	
+	# Primary function: creating game objects with left click
 	var primary_func = func(event, cursor, state_dict):
+		# Update may be 1 frame behind without this because input propagates down to cursor later
+		cursor.update_from_mouse_position(event.position)
+		
 		var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
-		var new_game_object = GameSystem.create_new_game_object(collection,
-			Vector3(
+		
+		var vector_3857 = Vector3(
 				cursor.global_position.x - geo_layers.offset.x + geo_layers.center.x,
 				0,
-				cursor.global_position.y - geo_layers.offset.y - geo_layers.center.y)
-		)
+				-cursor.global_position.y + geo_layers.offset.y + geo_layers.center.y)
 		
-		print(new_game_object)
+		var vector_local = geo_transform.transform_coordinates(vector_3857)
+		
+		# Swap -z forward/backward since we're in 2D space
+		vector_local.z = -vector_local.z
+		
+		var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
 		
 		if not new_game_object:
 			pass # TODO: Display "forbidden" symbol
 	
-	var edit_action = EditingAction.new(primary_func)
+	# Secondary function: removing game objects with right click
+	var secondary_func = func(event, cursor, state_dict):
+		# Update may be 1 frame behind without this because input propagates down to cursor later
+		cursor.update_from_mouse_position(event.position)
+		
+		var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
+		
+		var vector_3857 = Vector3(
+				cursor.global_position.x - geo_layers.offset.x + geo_layers.center.x,
+				0,
+				-cursor.global_position.y + geo_layers.offset.y + geo_layers.center.y)
+		
+		var vector_local = geo_transform.transform_coordinates(vector_3857)
+		
+		# Remove objects within a radius of 1m around the click
+		collection.remove_nearby_game_objects(vector_local, 1.0)
+	
+	var edit_action = EditingAction.new(primary_func, secondary_func)
 	action_handler.set_current_action(edit_action)
+
+
+func _on_camera_offset_changed(_offset, _viewport_size, _zoom):
+	$LabTableCommunicator.clear_brick_memory()

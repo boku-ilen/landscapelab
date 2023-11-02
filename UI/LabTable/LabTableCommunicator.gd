@@ -8,9 +8,12 @@ var _server = WebSocketServer.new()
 
 var token_to_game_object_collection = {
 	"BrickShape.SQUARE_BRICK": {
-		"BrickColor.RED_BRICK": "test"
+		"BrickColor.RED_BRICK": "Wind Turbines"
 	}
 }
+
+# For reacting to deleted bricks
+var brick_id_to_position = {}
 
 func _ready():
 	_server.client_connected.connect(_connected)
@@ -37,7 +40,6 @@ func _on_data(id, message):
 	print("Got data from client %d: %s" % [id, data_dict])
 	
 	if data_dict["event"] == "brick_added":
-	
 		var viewport_position = data_dict["data"]["position"]
 		
 		var shape = data_dict["data"]["shape"]
@@ -55,6 +57,8 @@ func _on_data(id, message):
 					* Vector2(screen_size)
 			)
 			
+			brick_id_to_position[data_dict["data"]["id"]] = position_scaled
+			
 			var event = InputEventMouseButton.new()
 			event.pressed = true
 			event.button_index = 1
@@ -70,9 +74,29 @@ func _on_data(id, message):
 			get_viewport().push_input(release_event, true)
 	
 	elif data_dict["event"] == "brick_removed":
-		
-		pass
+		if brick_id_to_position.has(data_dict["data"]["id"]):
+			var position_scaled = brick_id_to_position[data_dict["data"]["id"]]
+			
+			var event = InputEventMouseButton.new()
+			event.pressed = true
+			event.button_index = 2
+			event.position = position_scaled
+			event.global_position = position_scaled
+			
+			get_viewport().push_input(event, true)
+			
+			# Send a mouse release event immediately after
+			var release_event = event.duplicate()
+			release_event.pressed = false
+			
+			get_viewport().push_input(release_event, true)
 
 
 func _process(delta):
 	_server.poll()
+
+
+# Call this to persist previously placed bricks (removing a brick no longer
+#  removes the corresponding game object).
+func clear_brick_memory():
+	brick_id_to_position.clear()
