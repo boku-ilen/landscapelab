@@ -43,8 +43,10 @@ func input(event: InputEvent):
 				dragging = true
 			else:
 				dragging = false
-				offset_changed.emit(position - position_before, get_viewport_rect().size, zoom)
-				position_before = position
+				
+				if position != position_before:
+					offset_changed.emit(position - position_before, get_viewport_rect().size, zoom)
+					position_before = position
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			do_zoom(1, get_viewport().get_mouse_position())
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:

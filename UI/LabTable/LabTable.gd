@@ -43,6 +43,8 @@ func _ready():
 	
 	geo_transform = GeoTransform.new()
 	geo_transform.set_transform(3857, 31287)
+	
+	$SubViewportContainer/SubViewport/Camera2D.offset_changed.connect(_on_camera_offset_changed)
 
 
 func set_workshop_mode(active: bool): 
@@ -92,3 +94,7 @@ func set_workshop_mode(active: bool):
 	
 	var edit_action = EditingAction.new(primary_func, secondary_func)
 	action_handler.set_current_action(edit_action)
+
+
+func _on_camera_offset_changed(_offset, _viewport_size, _zoom):
+	$LabTableCommunicator.clear_brick_memory()

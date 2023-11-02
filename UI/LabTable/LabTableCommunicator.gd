@@ -94,3 +94,9 @@ func _on_data(id, message):
 
 func _process(delta):
 	_server.poll()
+
+
+# Call this to persist previously placed bricks (removing a brick no longer
+#  removes the corresponding game object).
+func clear_brick_memory():
+	brick_id_to_position.clear()
