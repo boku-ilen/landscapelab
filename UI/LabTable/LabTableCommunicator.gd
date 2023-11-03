@@ -15,6 +15,7 @@ var token_to_game_object_collection = {
 # For reacting to deleted bricks
 var brick_id_to_position = {}
 
+
 func _ready():
 	_server.client_connected.connect(_connected)
 	_server.client_disconnected.connect(_disconnected)
@@ -45,17 +46,17 @@ func _on_data(id, message):
 		var shape = data_dict["data"]["shape"]
 		var color = data_dict["data"]["color"]
 		
+		var window = get_viewport()
+		var screen_size = DisplayServer.screen_get_size(window.current_screen)
+		
+		var position_scaled = Vector2i(
+				Vector2(viewport_position[0], viewport_position[1]) \
+				* Vector2(screen_size)
+		)
+		
 		if shape in token_to_game_object_collection \
 				and color in token_to_game_object_collection[shape]:
 			var collection = token_to_game_object_collection[shape][color]
-			
-			var window = get_viewport()
-			var screen_size = DisplayServer.screen_get_size(window.current_screen)
-			
-			var position_scaled = Vector2i(
-					Vector2(viewport_position[0], viewport_position[1]) \
-					* Vector2(screen_size)
-			)
 			
 			brick_id_to_position[data_dict["data"]["id"]] = position_scaled
 			
@@ -72,8 +73,14 @@ func _on_data(id, message):
 			release_event.pressed = false
 			
 			get_viewport().push_input(release_event, true)
+		else:
+			# This brick cannot be used - created an invalid marker
+			$LabTableMarkers.create_invalid_marker(position_scaled, data_dict["data"]["id"])
 	
 	elif data_dict["event"] == "brick_removed":
+		# If this was an outdated brick, remove the invalid marker
+		$LabTableMarkers.remove_marker(data_dict["data"]["id"])
+		
 		if brick_id_to_position.has(data_dict["data"]["id"]):
 			var position_scaled = brick_id_to_position[data_dict["data"]["id"]]
 			
@@ -90,6 +97,9 @@ func _on_data(id, message):
 			release_event.pressed = false
 			
 			get_viewport().push_input(release_event, true)
+			
+			# Remove this brick from brick_id_to_position
+			brick_id_to_position.erase(data_dict["data"]["id"])
 
 
 func _process(delta):
@@ -99,4 +109,8 @@ func _process(delta):
 # Call this to persist previously placed bricks (removing a brick no longer
 #  removes the corresponding game object).
 func clear_brick_memory():
+	# Add invalid markers for bricks which got invalid
+	for brick_id in brick_id_to_position.keys():
+		$LabTableMarkers.create_invalid_marker(brick_id_to_position[brick_id], brick_id)
+	
 	brick_id_to_position.clear()
