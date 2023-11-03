@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bjl2vfe4otxnj" path="res://UI/LabTable/LabTableConfigurator.tscn" id="15_esmpk"]
 
 [node name="LabTableWindow" type="Window"]
-position = Vector2i(3200, 500)
+position = Vector2i(0, 36)
 size = Vector2i(1600, 900)
 
 [node name="LabTable" type="HBoxContainer" parent="." node_paths=PackedStringArray("geo_layers", "control_ui")]
@@ -68,6 +68,8 @@ cursor_path = NodePath("../SubViewport/Cursor2D")
 
 [node name="PanelContainer" type="PanelContainer" parent="LabTable/SubViewportContainer"]
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
 theme = ExtResource("8_2ddb4")
 
 [node name="ControlContainer" parent="LabTable/SubViewportContainer/PanelContainer" node_paths=PackedStringArray("camera_2d") instance=ExtResource("4_d680t")]
@@ -112,12 +114,21 @@ border_color = Color(0.933333, 0.654902, 1, 1)
 border_width = 250.0
 editor_only = false
 
+[node name="ScoresContainer" type="PanelContainer" parent="LabTable"]
+top_level = true
+custom_minimum_size = Vector2(900, 900)
+layout_direction = 3
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LabTable/ScoresContainer"]
+layout_mode = 2
+
 [node name="LLConfigSetup" parent="LabTable" instance=ExtResource("13_ibx33")]
 
 [node name="LabTableCommunicator" parent="LabTable" instance=ExtResource("10_wqhkf")]
 
 [node name="LabTableConfigurator" parent="LabTable" instance=ExtResource("15_esmpk")]
-category = null
 
 [editable path="LabTable/SubViewportContainer/SubViewport"]
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
