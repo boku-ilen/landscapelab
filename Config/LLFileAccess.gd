@@ -72,7 +72,7 @@ func apply(vegetation: Node, layers: Node, scenarios: Node, game_system: Node):
 	apply_game(game_system, layers)
 
 
-static func get_rel_or_abs_path(base_path: String, file_path: String):
+static func get_rel_or_abs_path(base_path: String, file_path: String) -> String:
 	if file_path.begins_with("./"):
 		return base_path.get_base_dir().path_join(file_path)
 	else:

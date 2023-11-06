@@ -3,10 +3,15 @@ extends CenterContainer
 class_name StackedProgressBar
 
 
-@export var bar_count := 1 :
+@export var bar_count := 0 :
 	get:
 		return bar_count
 	set(count):
+		# Negative bar count is senseless
+		if count < 1:
+			bar_count = 0
+		else:
+			bar_count = count
 		set_bar_count(count)
 
 @export var min_value := 0.0 :
@@ -35,55 +40,47 @@ class_name StackedProgressBar
 
 var progress_bars: Array
 
-var progress_bar_values := [] :
-	get:
-		return progress_bar_values
-	set(vals):
-		progress_bar_values = vals
-		# For quick access from outside
-		summed_value = 0
-		for val in vals: summed_value += val
-		
-		_update_progress_bars()
-
+var progress_bar_values := []
 var summed_value: float
 
+func get_progress_bar_values():
+	return progress_bar_values
 
-func get_progress_bar_at_index(index: int):
-	return progress_bars[index] if index < progress_bars.size() else null
+func set_progress_bar_values(vals):
+	progress_bar_values = vals
+	# For quick access from outside
+	summed_value = 0
+	for val in vals: summed_value += val if val is float else 0
+	
+	_update_progress_bars()
 
-
-func set_progress_bar_value_at_index(index: int, value: float):
-	progress_bar_values[index] = value
+func set_progress_bar_value_at(idx, val):
+	progress_bar_values[idx] = val
+	set_progress_bar_values(progress_bar_values)
+	_update_progress_bars()
 
 
 func set_progress_bar_color_at_index(index: int, color: Color):
 	# Get current stylebox of the progress, duplicate so it only affects this node
 	# and only override the background color so it fits the rest of the theme
-	var new_stylebox = progress_bars[index].get_stylebox("fg").duplicate()
+	var new_stylebox = progress_bars[index].get_theme_stylebox("fill").duplicate()
 	# For many themes, a texture could be used which does not have a color
 	# in no styleboxflat is used, create one checked our own
 	if "bg_color" in new_stylebox:
 		new_stylebox.bg_color = color
-		progress_bars[index].add_theme_stylebox_override("fg", new_stylebox)
+		progress_bars[index].add_theme_stylebox_override("fill", new_stylebox)
 	else: 
 		new_stylebox = StyleBoxFlat.new()
 		new_stylebox.bg_color = color
-		progress_bars[index].add_theme_stylebox_override("fg", new_stylebox)
+		progress_bars[index].add_theme_stylebox_override("fill", new_stylebox)
 
 
 func get_progress_bar_color_at_index(index: int):
-	if "bg_color" in progress_bars[index].get_stylebox("fg"):
-		return progress_bars[index].get_stylebox("fg").bg_color
+	if "bg_color" in progress_bars[index].get_theme_stylebox("fill"):
+		return progress_bars[index].get_theme_stylebox("fill").bg_color
 
 
 func set_bar_count(count: int):
-	# Negative bar count is senseless
-	if count < 1:
-		bar_count = 0
-	else:
-		bar_count = count
-	
 	# Add/remove_at bars until adequate
 	while true:
 		if count > progress_bars.size():
@@ -91,7 +88,7 @@ func set_bar_count(count: int):
 			progress_bars.append(bar)
 			if not progress_bars.size() == 1:
 				bar.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-				bar.percent_visible = false
+				bar.show_percentage = false
 			progress_bar_values.append(0.0)
 			add_child(bar)
 		elif count < progress_bars.size():
@@ -102,7 +99,7 @@ func set_bar_count(count: int):
 	
 	# Adjust size so it will fit the center container
 	for child in get_children():
-		child.minimum_size = size
+		child.custom_minimum_size = size
 	
 	# If the bar count changes it must be displayed in the ui
 	notify_property_list_changed()
@@ -140,8 +137,8 @@ func _get(property):
 		if property.ends_with("_bar_color"):
 			var name_as_index: String = property.lstrip("range").rstrip("_value")
 			var index_from_name = str_to_var(name_as_index)
-			if "bg_color" in progress_bars[index_from_name].get_stylebox("fg"):
-				return progress_bars[index_from_name].get_stylebox("fg").bg_color
+			if "bg_color" in progress_bars[index_from_name].get_theme_stylebox("fill"):
+				return progress_bars[index_from_name].get_theme_stylebox("fill").bg_color
 
 
 # Custom setters  (i.e. setget) for custom properties
@@ -152,9 +149,7 @@ func _set(property, value):
 			# Get id from property string
 			var name_as_index: String = property.lstrip("range").rstrip("_value")
 			var index_from_name = str_to_var(name_as_index)
-			progress_bar_values[index_from_name] = value
-			# If any progress bar changes, potentially all will change
-			_update_progress_bars()
+			set_progress_bar_value_at(index_from_name, value) 
 			return true
 		
 		if property.ends_with("_bar_color"):
@@ -163,14 +158,23 @@ func _set(property, value):
 			var index_from_name = str_to_var(name_as_index)
 			set_progress_bar_color_at_index(index_from_name, value)
 			return true
+	
+	if property == "progress_bar_values":
+		set_progress_bar_values(value)
 
 
 func _update_progress_bars():
-	for i in range(progress_bars.size()): 
+	var len = progress_bars.size()
+	# Loop through all progress bars
+	for i in range(progress_bars.size()):
+		# Set current progress bar to zero
 		progress_bars[i].value = 0
-		print(get_progress_bar_color_at_index(i))
+		
+		# Then for the ith progressbar with all previous scores (i.e. last 
+		# progressbars score is all others combined, first one only its own value
 		for j in range(progress_bars.size() - i):
-			progress_bars[i].value += progress_bar_values[progress_bars.size() - 1 - j] 
+			var val = progress_bar_values[progress_bars.size() - 1 - j]
+			progress_bars[i].value += val if val is float else 0
 
 
 func _ready():

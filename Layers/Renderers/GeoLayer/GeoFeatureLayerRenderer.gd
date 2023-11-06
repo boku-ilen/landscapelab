@@ -7,12 +7,15 @@ var geo_feature_layer: GeoFeatureLayer
 var current_features: Array
 var renderers: Node2D
 
+var icon = preload("res://Resources/Icons/LabTable/symbol_wind.png")
+var icon_scale = 0.1
+
 var point_func = func(feature: GeoPoint): 
 	var p = feature.get_vector3()
 	var marker = Sprite2D.new()
-	marker.set_texture(load("res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg"))
-	marker.set_position(Vector2(p.x, p.z) + Vector2(-center.x, center.y))
-	marker.set_scale(Vector2.ONE / zoom)
+	marker.set_texture(icon)
+	marker.set_position(global_vector3_to_local_vector2(p))
+	marker.set_scale(Vector2.ONE * icon_scale / zoom)
 	return marker
 
 var line_func = func(feature: GeoLine):
@@ -20,15 +23,15 @@ var line_func = func(feature: GeoLine):
 	var line := Line2D.new()
 	line.set_default_color(Color.CRIMSON)
 	line.points = Array(curve.tessellate()).map(
-		func(vec3): 
-			return Vector2(vec3.x, vec3.z) + Vector2(-center.x, center.y))
+		func(vec3): return global_vector3_to_local_vector2(vec3))
 	line.width = 1 / zoom.x
 	return line
 
 var polygon_func = func(feature: GeoPolygon): 
 	var p = feature.get_outer_vertices()
 	var polygon = Polygon2D.new()
-	polygon.set_polygon(Array(p).map(func(vec2): return vec2 - center))
+	polygon.set_polygon(Array(p).map(
+		func(vec2): return global_vector2_to_local_vector2(vec2)))
 	polygon.set_color(Color.CYAN)
 	polygon.scale.y = -1
 	return polygon
@@ -39,41 +42,19 @@ var func_dict = {
 	"GeoPolygon": polygon_func
 }
 
-var should_refresh := false
-
-
-func _ready():
-	geo_feature_layer.feature_added.connect(_on_feature_added)
-	geo_feature_layer.feature_removed.connect(_on_feature_removed)
-
-
-func _process(delta):
-	# FIXME: potentially thread unsafe if this happens on the main thread and on the loading thread
-	#  at the same time. Move this out and use the loading_thread.
-	if should_refresh:
-		should_refresh = false
-		refresh()
-
-
-func _on_feature_added(new_feature: GeoFeature):
-	should_refresh = true
-
-
-func _on_feature_removed(removed_feature: GeoFeature):
-	pass
-
 
 func load_new_data(is_threaded := true):
-	var position_x = center[0]
-	var position_y = center[1]
+	var load_position = get_center_global()
 	
 	if geo_feature_layer:
 		current_features = geo_feature_layer.get_features_near_position(
-			float(position_x),
-			float(position_y),
+			load_position.x,
+			load_position.y,
 			float(radius),
 			max_features
 		)
+		
+		print(current_features.size())
 		
 		# Create a scene-chunk and set it deferred so there are no thread unsafeties
 		var renderers_thread_safe = Node2D.new()

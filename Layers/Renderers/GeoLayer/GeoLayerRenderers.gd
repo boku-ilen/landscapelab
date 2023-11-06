@@ -57,6 +57,39 @@ func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
 	get_node(layer_name).z_index = l_z_index
 
 
+func add_layer_composition_renderer(layer_name: String, is_visible: bool, l_z_index := 0):
+	instantiate_layer_composition_renderer(layer_name)
+	get_node(layer_name).z_index = l_z_index
+
+
+# Similar to instantiate_geolayer_renderer, but adds a layer corresponding to
+# a feature LayerComposition
+func instantiate_layer_composition_renderer(lc_name: String):
+	var geo_layer = Layers.layer_compositions[lc_name].render_info.geo_feature_layer
+	
+	var renderer = feature_renderer.instantiate()
+	renderer.geo_feature_layer = geo_layer
+	
+	# Note: CONNECT_DEFERRED is needed to consistently react to all changes that
+	#  happened within a given frame (e.g. when mass-deleting features).
+	geo_layer.feature_added.connect(_on_feature_added.bind(renderer), CONNECT_DEFERRED)
+	geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer), CONNECT_DEFERRED)
+	
+	if renderer:
+		renderer.position = offset
+		renderer.name = lc_name
+		renderer.visibility_layer = visibility_layer
+		
+		renderer.set_metadata(
+			center,
+			camera.get_viewport().size,
+			camera.zoom
+		)
+		
+		add_child(renderer)
+		renderer.refresh()
+
+
 func instantiate_geolayer_renderer(layer_name: String):
 	var geo_layer = Layers.get_geo_layer_by_name(layer_name)
 	var renderer
@@ -66,6 +99,11 @@ func instantiate_geolayer_renderer(layer_name: String):
 	elif geo_layer is GeoFeatureLayer: 
 		renderer = feature_renderer.instantiate()
 		renderer.geo_feature_layer = geo_layer
+		
+		# Note: CONNECT_DEFERRED is needed to consistently react to all changes that
+		#  happened within a given frame (e.g. when mass-deleting features).
+		geo_layer.feature_added.connect(_on_feature_added.bind(renderer), CONNECT_DEFERRED)
+		geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer), CONNECT_DEFERRED)
 	else:
 		logger.error("Invalid geolayer or geolayer name for {}"
 						.format(geo_layer.name))
@@ -81,6 +119,7 @@ func instantiate_geolayer_renderer(layer_name: String):
 			camera.get_viewport().size,
 			camera.zoom
 		)
+		
 		add_child(renderer)
 		renderer.refresh()
 
@@ -124,6 +163,32 @@ func update_renderers(new_center, new_offset, new_viewport_size, new_zoom):
 			)
 			renderer.load_new_data()
 			_on_renderer_finished.call_deferred(renderer.name)
+
+
+func _on_feature_added(feature, renderer):
+	update_renderer(renderer)
+
+
+func _on_feature_removed(feature, renderer):
+	update_renderer(renderer)
+
+
+func update_renderer_threaded(renderer):
+	Thread.set_thread_safety_checks_enabled(false)
+	renderer.load_new_data()
+	renderer.apply_new_data.call_deferred()
+
+
+func update_renderer(renderer):
+	if load_data_threaded:
+		if loading_thread.is_started() and not loading_thread.is_alive():
+			loading_thread.wait_to_finish()
+		
+		if not loading_thread.is_started():
+			loading_thread.start(update_renderer_threaded.bind(renderer), Thread.PRIORITY_NORMAL)
+	else:
+		renderer.load_new_data()
+		renderer.apply_new_data()
 
 
 func _on_renderer_finished(renderer_name):
