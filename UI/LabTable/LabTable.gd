@@ -11,6 +11,9 @@ var current_goc_name = "Wind Turbines"
 
 var geo_transform
 
+signal game_object_created(cursor_position)
+signal game_object_failed(cursor_position)
+
 
 func _ready():
 	if debug_mode: $LLConfigSetup.setup()
@@ -75,8 +78,10 @@ func set_workshop_mode(active: bool):
 		
 		var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
 		
-		if not new_game_object:
-			pass # TODO: Display "forbidden" symbol
+		if new_game_object:
+			game_object_created.emit(event.position)
+		else:
+			game_object_failed.emit(event.position)
 	
 	# Secondary function: removing game objects with right click
 	var secondary_func = func(event, cursor, state_dict):

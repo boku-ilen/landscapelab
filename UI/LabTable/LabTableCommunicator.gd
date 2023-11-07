@@ -26,6 +26,8 @@ func _ready():
 	if err != OK:
 		print("Unable to start server")
 		set_process(false)
+	
+	get_parent().game_object_failed.connect(_on_game_object_creation_failed)
 
 
 func _connected(id):
@@ -100,6 +102,27 @@ func _on_data(id, message):
 			
 			# Remove this brick from brick_id_to_position
 			brick_id_to_position.erase(data_dict["data"]["id"])
+
+
+func _on_game_object_creation_failed(event_position):
+	var id
+	
+	# The straightforward way would be this:
+	# id = brick_id_to_position.find_key(event_position)
+	# however, this doesn't seem to work, so we do it manually for the Vector2 components
+	for brick_id in brick_id_to_position.keys():
+		if brick_id_to_position[brick_id].x == event_position.x \
+				and brick_id_to_position[brick_id].y == event_position.y:
+			id = brick_id
+	
+	if id:
+		# This game object was created by a brick - create an invalid marker
+		# It will be automatically removed when a brick_removed event arrives
+		$LabTableMarkers.create_invalid_marker(event_position, id)
+		
+		# Remove this brick from brick_id_to_position since since no deletion query
+		# will be required here
+		brick_id_to_position.erase(id)
 
 
 func _process(delta):
