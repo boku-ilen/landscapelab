@@ -16,6 +16,7 @@ signal game_object_failed(cursor_position)
 
 
 func _ready():
+	# In the usual setting this will be handled by the landscapelab
 	if debug_mode: $LLConfigSetup.setup()
 	
 	# Add map and layers from config
