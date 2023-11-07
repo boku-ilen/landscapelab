@@ -26,8 +26,8 @@ func _ready():
 		geo_layers.setup(Vector2(center.x, center.z))
 		geo_layers.set_layer_visibility(layer_name, true))
 	
-	$LabTableConfigurator.new_layer.connect(func(layer_name, z_index = 0):
-		geo_layers.add_layer_composition_renderer(layer_name, true, z_index))
+	$LabTableConfigurator.new_layer.connect(func(layer_name, layer_icon, icon_scale, z_index = 0):
+		geo_layers.add_layer_composition_renderer(layer_name, layer_icon, icon_scale, true, z_index))
 	$LabTableConfigurator.load_table_config()
 	
 	# Display camera extent on overview
@@ -99,7 +99,8 @@ func set_workshop_mode(active: bool):
 		var vector_local = geo_transform.transform_coordinates(vector_3857)
 		
 		# Remove objects within a radius of 1m around the click
-		collection.remove_nearby_game_objects(vector_local, 1.0)
+		# TODO: Expose the radius, it'll likely depend on the current_goc_name
+		collection.remove_nearby_game_objects(vector_local, 200.0)
 	
 	var edit_action = EditingAction.new(primary_func, secondary_func)
 	action_handler.set_current_action(edit_action)

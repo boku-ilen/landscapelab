@@ -62,19 +62,27 @@ func _on_data(id, message):
 			
 			brick_id_to_position[data_dict["data"]["id"]] = position_scaled
 			
+			# First, delete anything that might have previously been at that position
 			var event = InputEventMouseButton.new()
 			event.pressed = true
-			event.button_index = 1
+			event.button_index = 2
 			event.position = position_scaled
 			event.global_position = position_scaled
-			
 			get_viewport().push_input(event, true)
 			
 			# Send a mouse release event immediately after
 			var release_event = event.duplicate()
 			release_event.pressed = false
-			
 			get_viewport().push_input(release_event, true)
+			
+			# Now, create a new object here
+			var new_event = event.duplicate()
+			event.button_index = 1
+			get_viewport().push_input(event, true)
+			
+			var new_release_event = release_event.duplicate()
+			new_release_event.button_index = 1
+			get_viewport().push_input(new_release_event, true)
 		else:
 			# This brick cannot be used - created an invalid marker
 			$LabTableMarkers.create_invalid_marker(position_scaled, data_dict["data"]["id"])

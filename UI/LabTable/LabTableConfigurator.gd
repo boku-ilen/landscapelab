@@ -39,7 +39,7 @@ func _load_layers(path: String, table_config: Dictionary) -> bool:
 	# Table config might load other (pre-existing) layers
 	for key in table_config["Layers"].keys():
 		var layer_conf = table_config["Layers"][key]
-		new_layer.emit(layer_conf["layer_name"], layer_conf["z_index"])
+		new_layer.emit(layer_conf["layer_name"], layer_conf["icon"], layer_conf["icon_scale"], layer_conf["z_index"])
 	
 	logger.info("LabTable has been setup")
 	return true
