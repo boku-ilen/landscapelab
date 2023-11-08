@@ -6,11 +6,7 @@ const PORT = 14541
 # Our WebSocketServer instance
 var _server = WebSocketServer.new()
 
-var token_to_game_object_collection = {
-	"BrickShape.SQUARE_BRICK": {
-		"BrickColor.RED_BRICK": "Wind Turbines"
-	}
-}
+var token_to_game_object_collection: Dictionary
 
 # For reacting to deleted bricks
 var brick_id_to_position = {}
