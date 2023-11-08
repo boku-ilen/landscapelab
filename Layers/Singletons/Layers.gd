@@ -3,8 +3,6 @@ extends Node
 var current_center := Vector3.ZERO
 var geo_layers: Dictionary = { "rasters": {}, "features": {}}
 var layer_compositions: Dictionary
-# The default geopackage
-var default_datset: GeoDataset
 
 signal new_rendered_layer_composition(layer_composition)
 signal new_scored_layer_composition(layer_composition)
@@ -72,14 +70,8 @@ func get_geo_layer_by_name(layer_name: String):
 	elif geo_layers["features"].has(layer_name):
 		return geo_layers["features"][layer_name]
 	# Try and use fallback if geo layer was not loaded
-	else:
-		var feature_layer = default_datset.get_feature_layer(layer_name)
-		if feature_layer != null: return feature_layer
-		var raster_layer = default_datset.get_raster_layer(layer_name)
-		if raster_layer != null: return raster_layer
-		
-		logger.warn("No layer with name %s could be found" % [layer_name])
-		return null
+
+	logger.warn("No layer with name %s could be found" % [layer_name])
 
 
 func remove_layer_composition(layer_composition_name: String):

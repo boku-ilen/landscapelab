@@ -1,6 +1,7 @@
 extends Configurator
 
 var has_loaded = false
+var path
 
 
 func _ready():
@@ -8,7 +9,7 @@ func _ready():
 
 
 func load_game_mode_config() -> void:
-	var path = get_setting("config-path")
+	path = get_setting("config-path")
 	
 	var ll_file_access = LLFileAccess.open(path)
 	if ll_file_access == null or not "GameModes" in ll_file_access.json_object.data:
@@ -60,15 +61,19 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 
 var mapping_type_to_construction_func = {
 	"ImplicitVectorGameObjectAttribute": func(_name, data):
+		var splits = LLFileAccess.split_dataset_string(path, data["layer_name"])
+		var layer = LLFileAccess.get_layer_from_splits(splits, false)
 		return ImplicitVectorGameObjectAttribute.new(
 			_name,
-			Layers.get_geo_layer_by_name(data["layer_name"]),
+			layer,
 			data["attribute"]
 		),
 	"ImplicitRasterGameObjectAttribute": func(_name, data):
+		var splits = LLFileAccess.split_dataset_string(path, data["layer_name"])
+		var layer = LLFileAccess.get_layer_from_splits(splits, true)
 		return ImplicitRasterGameObjectAttribute.new(
 			_name,
-			Layers.get_geo_layer_by_name(data["layer_name"])
+			layer
 		),
 	"StaticAttribute": func(_name, data):
 		return StaticAttribute.new(
@@ -81,9 +86,12 @@ func _deserialize_mappings(game_mode: GameMode,
 							attribute_mappings: Dictionary) -> void:
 	for mapping_name in attribute_mappings:
 		var mapping = attribute_mappings[mapping_name]
+		
+		# Search for the appropriate construction function in the dict above
 		var attribute: GameObjectAttribute = \
 			mapping_type_to_construction_func[mapping["type"]].call(mapping_name, mapping["data"])
 		
+		# Add mapping for all required collections
 		for collection_name in mapping["for_collections"]:
 			var collection_object = game_mode.game_object_collections[collection_name]
 			collection_object.add_attribute_mapping(attribute)
@@ -123,23 +131,29 @@ func _deserialize_scores(game_mode: GameMode, scores: Dictionary):
 
 var condition_type_to_construction_func = {
 	"VectorAttributeCreationCondition": func(_name, data):
+		var splits = LLFileAccess.split_dataset_string(path, data["layer_name"])
+		var layer = LLFileAccess.get_layer_from_splits(splits, false)
 		return VectorAttributeCreationCondition.new(
 			_name,
-			Layers.get_geo_layer_by_name(data["layer_name"]),
+			layer,
 			data["attribute_name"],
 			data["attribute_comparator"],
 			data["default_return"]
 		),
 	"GreaterThanRasterCreationCondition": func(_name, data):
+		var splits = LLFileAccess.split_dataset_string(path, data["layer_name"])
+		var layer = LLFileAccess.get_layer_from_splits(splits, true)
 		return GreaterThanRasterCreationCondition.new(
 			_name,
-			Layers.get_geo_layer_by_name(data["layer_name"]),
+			layer,
 			data["greater_than_comparator"]
 		),
 	"VectorExistsCreationCondition": func(_name, data):
+		var splits = LLFileAccess.split_dataset_string(path, data["layer_name"])
+		var layer = LLFileAccess.get_layer_from_splits(splits, false)
 		return VectorExistsCreationCondition.new(
 			_name,
-			Layers.get_geo_layer_by_name(data["layer_name"])
+			layer
 		)
 	# TODO: implement all possible attributes
 }
