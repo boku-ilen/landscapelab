@@ -7,7 +7,7 @@ var geo_feature_layer: GeoFeatureLayer
 var current_features: Array
 var renderers: Node2D
 
-var icon = preload("res://Resources/Icons/LabTable/symbol_wind.png")
+var icon
 var icon_scale = 0.1
 
 var point_func = func(feature: GeoPoint): 

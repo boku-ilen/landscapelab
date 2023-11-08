@@ -22,6 +22,8 @@ func _ready():
 	if err != OK:
 		print("Unable to start server")
 		set_process(false)
+	
+	get_parent().game_object_failed.connect(_on_game_object_creation_failed)
 
 
 func _connected(id):
@@ -56,19 +58,27 @@ func _on_data(id, message):
 			
 			brick_id_to_position[data_dict["data"]["id"]] = position_scaled
 			
+			# First, delete anything that might have previously been at that position
 			var event = InputEventMouseButton.new()
 			event.pressed = true
-			event.button_index = 1
+			event.button_index = 2
 			event.position = position_scaled
 			event.global_position = position_scaled
-			
 			get_viewport().push_input(event, true)
 			
 			# Send a mouse release event immediately after
 			var release_event = event.duplicate()
 			release_event.pressed = false
-			
 			get_viewport().push_input(release_event, true)
+			
+			# Now, create a new object here
+			var new_event = event.duplicate()
+			event.button_index = 1
+			get_viewport().push_input(event, true)
+			
+			var new_release_event = release_event.duplicate()
+			new_release_event.button_index = 1
+			get_viewport().push_input(new_release_event, true)
 		else:
 			# This brick cannot be used - created an invalid marker
 			$LabTableMarkers.create_invalid_marker(position_scaled, data_dict["data"]["id"])
@@ -96,6 +106,27 @@ func _on_data(id, message):
 			
 			# Remove this brick from brick_id_to_position
 			brick_id_to_position.erase(data_dict["data"]["id"])
+
+
+func _on_game_object_creation_failed(event_position):
+	var id
+	
+	# The straightforward way would be this:
+	# id = brick_id_to_position.find_key(event_position)
+	# however, this doesn't seem to work, so we do it manually for the Vector2 components
+	for brick_id in brick_id_to_position.keys():
+		if brick_id_to_position[brick_id].x == event_position.x \
+				and brick_id_to_position[brick_id].y == event_position.y:
+			id = brick_id
+	
+	if id:
+		# This game object was created by a brick - create an invalid marker
+		# It will be automatically removed when a brick_removed event arrives
+		$LabTableMarkers.create_invalid_marker(event_position, id)
+		
+		# Remove this brick from brick_id_to_position since since no deletion query
+		# will be required here
+		brick_id_to_position.erase(id)
 
 
 func _process(delta):
