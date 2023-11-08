@@ -27,8 +27,12 @@ func _ready():
 		geo_layers.setup(Vector2(center.x, center.z))
 		geo_layers.set_layer_visibility(layer_name, true))
 	
-	$LabTableConfigurator.new_layer.connect(func(layer_name, layer_icon, icon_scale, z_index = 0):
-		geo_layers.add_layer_composition_renderer(layer_name, layer_icon, icon_scale, true, z_index))
+	$LabTableConfigurator.new_layer.connect(func(layer_name, layer_icon, icon_scale, l_z_index = 0):
+		if layer_name in Layers.layer_compositions:
+			geo_layers.add_layer_composition_renderer(
+				layer_name, layer_icon, icon_scale, true, l_z_index)
+		else: 
+			geo_layers.set_layer_visibility(layer_name, true, l_z_index))
 	$LabTableConfigurator.load_table_config()
 	
 	# Display camera extent on overview
