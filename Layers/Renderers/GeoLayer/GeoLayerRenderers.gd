@@ -62,8 +62,10 @@ func add_layer_composition_renderer(layer_name: String, is_visible: bool, l_z_in
 	get_node(layer_name).z_index = l_z_index
 
 
+# FIXME: we should implement this in a cleaner way
 # Similar to instantiate_geolayer_renderer, but adds a layer corresponding to
-# a feature LayerComposition
+# a feature LayerComposition. Consequently changes applied will be applied for 
+# the layer composition as well as the geolayer
 func instantiate_layer_composition_renderer(lc_name: String):
 	var geo_layer = Layers.layer_compositions[lc_name].render_info.geo_feature_layer
 	
