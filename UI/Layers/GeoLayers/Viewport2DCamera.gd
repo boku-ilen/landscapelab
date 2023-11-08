@@ -47,9 +47,9 @@ func input(event: InputEvent):
 				if position != position_before:
 					offset_changed.emit(position - position_before, get_viewport_rect().size, zoom)
 					position_before = position
-		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
+		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.is_pressed():
 			do_zoom(1, get_viewport().get_mouse_position())
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.is_pressed():
 			do_zoom(-1, get_viewport().get_mouse_position())
 	elif event is InputEventMouseMotion and dragging:
 		position = (mouse_start_pos - event.position) / zoom + screen_start_position
