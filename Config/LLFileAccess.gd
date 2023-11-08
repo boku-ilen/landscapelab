@@ -97,6 +97,11 @@ func apply_vegetation(vegetation: Node):
 func apply_layers(layers: Node):
 	var ll_project = json_object.data
 	
+	# Set a default dataset which can be used for fallbacks
+	if "DefaultDataset" in ll_project:
+		var abs_path = LLFileAccess.get_rel_or_abs_path(path, ll_project["DefaultDataset"])
+		Layers.default_datset = Geodot.get_dataset(abs_path)
+	
 	for composition_name in ll_project["LayerCompositions"].keys():
 		logger.info("Loading layer composition " + composition_name + "...")
 		
