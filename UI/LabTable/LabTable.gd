@@ -7,7 +7,7 @@ extends Control
 # it is necessary to load the configuration
 @export var debug_mode := false
 
-var current_goc_name = "Wind Turbines"
+var current_goc_name = "APV Fraunhofer 1ha"
 
 var geo_transform
 
@@ -15,6 +15,7 @@ var geo_transform
 func _ready():
 	# In the usual setting this will be handled by the landscapelab
 	if debug_mode: $LLConfigSetup.setup()
+	if debug_mode: $GameModesConfigurator.load_game_mode_config()
 	
 	# Add map and layers from config
 	$LabTableConfigurator.map_added.connect(func(layer_name):
@@ -23,8 +24,10 @@ func _ready():
 		geo_layers.setup(Vector2(center.x, center.z))
 		geo_layers.set_layer_visibility(layer_name, true))
 	
-	$LabTableConfigurator.new_layer.connect(func(layer_name, z_index = 0):
-		geo_layers.add_layer_composition_renderer(layer_name, true, z_index))
+	if Layers.layer_compositions.has("layer_name"): 
+		$LabTableConfigurator.new_layer.connect(func(layer_name, z_index = 0):
+			geo_layers.instantiate_geolayer_renderer(layer_name, true, z_index))
+	
 	$LabTableConfigurator.load_table_config()
 	
 	# Display camera extent on overview
