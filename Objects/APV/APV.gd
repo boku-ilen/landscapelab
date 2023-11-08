@@ -1,7 +1,6 @@
 @tool
 extends Node3D
 
-
 @export var apv_scene: PackedScene
 @export var apv_rotation := -90.0
 
@@ -15,6 +14,8 @@ var center
 var height_layer
 var height_already_set = false
 
+var should_set_height_with_position
+
 
 func _ready():
 	for offset_x in range(-extent_x / 2.0, extent_x / 2.0, distance_x):
@@ -26,9 +27,18 @@ func _ready():
 			instance.position.z = offset_z
 			
 			add_child(instance)
+	
+	# If set_height was called before this object was in the scene tree, we waited with actually
+	#  doing it until now so that we have access to child nodes
+	if should_set_height_with_position:
+		set_height(should_set_height_with_position)
 
 
 func set_height(origin):
+	if not is_inside_tree():
+		should_set_height_with_position = origin
+		return
+	
 	if height_already_set: return
 	
 	for child in get_children():
