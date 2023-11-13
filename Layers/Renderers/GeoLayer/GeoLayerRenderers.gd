@@ -57,13 +57,18 @@ func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
 	get_node(layer_name).z_index = l_z_index
 
 
-func add_layer_composition_renderer(layer_name: String, is_visible: bool, l_z_index := 0):
+func add_layer_composition_renderer(layer_name: String, layer_icon_path: String,
+		layer_icon_scale: float, is_visible: bool, l_z_index := 0):
 	instantiate_layer_composition_renderer(layer_name)
+	get_node(layer_name).icon = load(layer_icon_path)
+	get_node(layer_name).icon_scale = layer_icon_scale
 	get_node(layer_name).z_index = l_z_index
 
 
+# FIXME: we should implement this in a cleaner way
 # Similar to instantiate_geolayer_renderer, but adds a layer corresponding to
-# a feature LayerComposition
+# a feature LayerComposition. Consequently changes applied will be applied for 
+# the layer composition as well as the geolayer
 func instantiate_layer_composition_renderer(lc_name: String):
 	var geo_layer = Layers.layer_compositions[lc_name].render_info.geo_feature_layer
 	

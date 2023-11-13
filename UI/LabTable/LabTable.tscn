@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=18 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_l77mt"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="13_ibx33"]
 [ext_resource type="PackedScene" uid="uid://bjl2vfe4otxnj" path="res://UI/LabTable/LabTableConfigurator.tscn" id="15_esmpk"]
 [ext_resource type="Script" path="res://UI/LabTable/LabTableMarkers.gd" id="15_j8x0r"]
+[ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="17_aru4m"]
 
 [node name="LabTableWindow" type="Window"]
 position = Vector2i(0, 36)
@@ -116,6 +117,7 @@ border_width = 250.0
 editor_only = false
 
 [node name="ScoresContainer" type="PanelContainer" parent="LabTable"]
+visible = false
 top_level = true
 custom_minimum_size = Vector2(900, 900)
 layout_direction = 3
@@ -132,7 +134,10 @@ layout_mode = 2
 [node name="LabTableMarkers" type="Node2D" parent="LabTable/LabTableCommunicator"]
 script = ExtResource("15_j8x0r")
 
-[node name="LabTableConfigurator" parent="LabTable" instance=ExtResource("15_esmpk")]
+[node name="LabTableConfigurator" parent="LabTable" node_paths=PackedStringArray("table_communicator") instance=ExtResource("15_esmpk")]
+table_communicator = NodePath("../LabTableCommunicator")
+
+[node name="GameModesConfigurator" parent="LabTable" instance=ExtResource("17_aru4m")]
 
 [editable path="LabTable/SubViewportContainer/SubViewport"]
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
