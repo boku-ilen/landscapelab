@@ -38,11 +38,17 @@ func _on_data(id, message):
 	var data_dict = JSON.parse_string(message)
 	print("Got data from client %d: %s" % [id, data_dict])
 	
+	var shape = data_dict["data"]["shape"]
+	var color = data_dict["data"]["color"]
+	
+	if shape in token_to_game_object_collection \
+			and color in token_to_game_object_collection[shape]:
+		get_parent().current_goc_name = token_to_game_object_collection[shape][color]
+	else:
+		get_parent().current_goc_name = null
+	
 	if data_dict["event"] == "brick_added":
 		var viewport_position = data_dict["data"]["position"]
-		
-		var shape = data_dict["data"]["shape"]
-		var color = data_dict["data"]["color"]
 		
 		var window = get_viewport()
 		var screen_size = DisplayServer.screen_get_size(window.current_screen)
@@ -51,37 +57,33 @@ func _on_data(id, message):
 				Vector2(viewport_position[0], viewport_position[1]) \
 				* Vector2(screen_size)
 		)
+			
+		brick_id_to_position[data_dict["data"]["id"]] = position_scaled
+			
+		# First, delete anything that might have previously been at that position
+		var event = InputEventMouseButton.new()
+		event.pressed = true
+		event.button_index = 2
+		event.position = position_scaled
+		event.global_position = position_scaled
+		get_viewport().push_input(event, true)
 		
-		if shape in token_to_game_object_collection \
-				and color in token_to_game_object_collection[shape]:
-			var collection = token_to_game_object_collection[shape][color]
-			
-			brick_id_to_position[data_dict["data"]["id"]] = position_scaled
-			
-			# First, delete anything that might have previously been at that position
-			var event = InputEventMouseButton.new()
-			event.pressed = true
-			event.button_index = 2
-			event.position = position_scaled
-			event.global_position = position_scaled
-			get_viewport().push_input(event, true)
-			
-			# Send a mouse release event immediately after
-			var release_event = event.duplicate()
-			release_event.pressed = false
-			get_viewport().push_input(release_event, true)
-			
-			# Now, create a new object here
-			var new_event = event.duplicate()
-			event.button_index = 1
-			get_viewport().push_input(event, true)
-			
-			var new_release_event = release_event.duplicate()
-			new_release_event.button_index = 1
-			get_viewport().push_input(new_release_event, true)
-		else:
-			# This brick cannot be used - created an invalid marker
-			$LabTableMarkers.create_invalid_marker(position_scaled, data_dict["data"]["id"])
+		# Send a mouse release event immediately after
+		var release_event = event.duplicate()
+		release_event.pressed = false
+		get_viewport().push_input(release_event, true)
+		
+		# Now, create a new object here
+		var new_event = event.duplicate()
+		event.button_index = 1
+		get_viewport().push_input(event, true)
+		
+		var new_release_event = release_event.duplicate()
+		new_release_event.button_index = 1
+		get_viewport().push_input(new_release_event, true)
+		#else:
+			## This brick cannot be used - created an invalid marker
+			#$LabTableMarkers.create_invalid_marker(position_scaled, data_dict["data"]["id"])
 	
 	elif data_dict["event"] == "brick_removed":
 		# If this was an outdated brick, remove the invalid marker
