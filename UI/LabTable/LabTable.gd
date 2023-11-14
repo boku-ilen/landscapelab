@@ -3,6 +3,7 @@ extends Control
 
 @export var geo_layers: Node2D
 @export var control_ui: Control
+@export var extent_visualizer: Control
 # To debug it as standalone (without running the rest of the landscapelab
 # it is necessary to load the configuration
 @export var debug_mode := false
@@ -37,15 +38,13 @@ func _ready():
 	$LabTableConfigurator.load_table_config()
 	
 	# Display camera extent on overview
-	var extent_visualizer = control_ui.get_node(
-		"VBox/SubViewportContainer/SubViewport/ReferenceRect")
 	geo_layers.camera_extent_changed.connect(func(camera_extent):
 		extent_visualizer.position = camera_extent.center - extent_visualizer.size / 2
 		extent_visualizer.size = camera_extent.extent)
 	
 	# Use input on overview map as "recenter"
-	control_ui.recenter.connect(func(center):
-		$SubViewportContainer/SubViewport/Camera2D.set_offset_and_emit(center))
+	control_ui.recenter.connect(
+		$SubViewportContainer/SubViewport/Camera2D.set_offset_and_emit)
 	
 	set_workshop_mode(true)
 	

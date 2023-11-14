@@ -8,36 +8,48 @@ signal recenter(center)
 @export var camera_2d: Camera2D : 
 	set(new_camera_2d):
 		camera_2d = new_camera_2d
-		$VBox/HBox/ZoomContainer.camera_2d = new_camera_2d
+		zoom_container.camera_2d = new_camera_2d
 		
 		# Shift relative to the current viewport size on button clicks
-		$VBox/HBox/GridContainer/Right.pressed.connect(func():
+		right.pressed.connect(func():
 			var shift_abs = (Vector2(camera_2d.get_viewport().size) / camera_2d.zoom).x * shift_relative_x
 			camera_2d.add_offset_and_emit(Vector2(shift_abs, 0)))
-		$VBox/HBox/GridContainer/Left.pressed.connect(func():
+		left.pressed.connect(func():
 			var shift_abs = (Vector2(camera_2d.get_viewport().size) / camera_2d.zoom).x * shift_relative_x
 			camera_2d.add_offset_and_emit(Vector2(-shift_abs, 0)))
-		$VBox/HBox/GridContainer/Up.pressed.connect(func():
+		up.pressed.connect(func():
 			var shift_abs = (Vector2(camera_2d.get_viewport().size) / camera_2d.zoom).y * shift_relative_y
 			camera_2d.add_offset_and_emit(Vector2(0, -shift_abs)))
-		$VBox/HBox/GridContainer/Down.pressed.connect(func():
+		down.pressed.connect(func():
 			var shift_abs = (Vector2(camera_2d.get_viewport().size) / camera_2d.zoom).y * shift_relative_y
 			camera_2d.add_offset_and_emit(Vector2(0, shift_abs)))
+@export var overview_camera: Camera2D
 
-@onready var overview_camera = $VBox/SubViewportContainer/SubViewport/Camera2D
+@export_group("Control Nodes")
+@export var visibility_button: Button
+@export var zoom_container: Container
+@export var grid_container: Container
+@export var subviewport_container: Container
+@export_subgroup("Shift Controls")
+@export var left: Button
+@export var right: Button
+@export var up: Button
+@export var down: Button
 
 
 func _ready():
-	$SetVisible.toggled.connect(func(toggled): $VBox.visible = !toggled)
+	visibility_button.toggled.connect(func(toggled):
+		for control in [zoom_container, grid_container, subviewport_container]:
+			control.visible = !toggled)
 	overview_camera.recenter.connect(func(center): recenter.emit(center))
 
 
 func _gui_input(event):
-	$VBox/SubViewportContainer/SubViewport/Camera2D._input(event)
+	overview_camera._input(event)
 
 
 func init_overview_map(map_layer_name: String):
-	var geo_raster_renderer = $VBox/SubViewportContainer/SubViewport/OverviewRenderer
+	var geo_raster_renderer = subviewport_container.get_node("SubViewport/OverviewRenderer")
 
 	# Duplicate resource otherwise it will be shares properties with
 	# other rasterlayers and will get influenced by its behaviour

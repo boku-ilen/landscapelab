@@ -5,19 +5,19 @@
 [ext_resource type="Texture2D" uid="uid://bgoppnu2763s0" path="res://Resources/Icons/LabTable/zoom_in.png" id="3_jr7v1"]
 [ext_resource type="Texture2D" uid="uid://bc7v3xetnu237" path="res://Resources/Icons/LabTable/zoom_out.png" id="4_fhv87"]
 
-[node name="ZoomContainer" type="VBoxContainer"]
+[node name="ZoomContainer" type="HBoxContainer"]
 layout_direction = 3
 script = ExtResource("1_je6ju")
 
 [node name="ZoomIn" parent="." instance=ExtResource("1_3t862")]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 icon = ExtResource("3_jr7v1")
 
 [node name="ZoomOut" parent="." instance=ExtResource("1_3t862")]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
