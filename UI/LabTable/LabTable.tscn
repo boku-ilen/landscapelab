@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=19 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_l77mt"]
@@ -13,14 +13,17 @@
 [ext_resource type="PackedScene" uid="uid://vmfgu2mvoju5" path="res://UI/LabTable/LabTableCommunicator.tscn" id="10_wqhkf"]
 [ext_resource type="Texture2D" uid="uid://b7bv2oqkg5jkq" path="res://Resources/Icons/LabTable/right.png" id="11_xk4yu"]
 [ext_resource type="Texture2D" uid="uid://c6d6q3krv157o" path="res://Resources/Icons/LabTable/down.png" id="12_qe2to"]
+[ext_resource type="Script" path="res://UI/LabTable/ScoreUI.gd" id="13_a5rra"]
 [ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="13_ibx33"]
 [ext_resource type="PackedScene" uid="uid://bjl2vfe4otxnj" path="res://UI/LabTable/LabTableConfigurator.tscn" id="15_esmpk"]
 [ext_resource type="Script" path="res://UI/LabTable/LabTableMarkers.gd" id="15_j8x0r"]
 [ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="17_aru4m"]
 
 [node name="LabTableWindow" type="Window"]
-position = Vector2i(0, 36)
+mode = 3
+initial_position = 3
 size = Vector2i(1600, 900)
+current_screen = 3
 
 [node name="LabTable" type="HBoxContainer" parent="." node_paths=PackedStringArray("geo_layers", "control_ui")]
 anchors_preset = 15
@@ -31,6 +34,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("8_2ddb4")
 script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
@@ -46,6 +50,9 @@ script = ExtResource("1_l77mt")
 [node name="SubViewport" parent="LabTable/SubViewportContainer" instance=ExtResource("2_opmh5")]
 canvas_cull_mask = 4294967293
 size = Vector2i(1606, 900)
+
+[node name="Camera2D" parent="LabTable/SubViewportContainer/SubViewport" index="0"]
+zoom = Vector2(0.1, 0.1)
 
 [node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" index="1" node_paths=PackedStringArray("camera")]
 camera = NodePath("../Camera2D")
@@ -101,8 +108,8 @@ custom_minimum_size = Vector2(100, 100)
 icon = ExtResource("12_qe2to")
 texture_name = ""
 
-[node name="SubViewportContainer" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/VBox" index="1"]
-stretch = false
+[node name="SubViewport" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/VBox/SubViewportContainer" index="0"]
+size = Vector2i(412, 300)
 
 [node name="Camera2D" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/VBox/SubViewportContainer/SubViewport" index="1"]
 enabled = true
@@ -117,15 +124,14 @@ border_width = 250.0
 editor_only = false
 
 [node name="ScoresContainer" type="PanelContainer" parent="LabTable"]
-visible = false
 top_level = true
-custom_minimum_size = Vector2(900, 900)
 layout_direction = 3
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="LabTable/ScoresContainer"]
+[node name="ScoreUI" type="VBoxContainer" parent="LabTable/ScoresContainer"]
 layout_mode = 2
+script = ExtResource("13_a5rra")
 
 [node name="LLConfigSetup" parent="LabTable" instance=ExtResource("13_ibx33")]
 

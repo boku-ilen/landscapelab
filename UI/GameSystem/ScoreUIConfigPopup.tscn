@@ -1,22 +1,22 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://ck0slvvndlhau"]
 
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/down.svg" type="Texture2D" id=1]
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/right.svg" type="Texture2D" id=2]
-[ext_resource path="res://UI/GameSystem/ScoreUIConfigPopup.gd" type="Script" id=3]
+[ext_resource type="Texture2D" uid="uid://ckxy4m3536hsu" path="res://Resources/Icons/ModernLandscapeLab/down.svg" id="1"]
+[ext_resource type="Texture2D" uid="uid://b1a816b5fvwif" path="res://Resources/Icons/ModernLandscapeLab/right.svg" id="2"]
+[ext_resource type="Script" path="res://UI/GameSystem/ScoreUIConfigPopup.gd" id="3"]
 
 [node name="AdditionalInfo" type="TextureButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 toggle_mode = true
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 1 )
-script = ExtResource( 3 )
+texture_normal = ExtResource("2")
+texture_pressed = ExtResource("1")
+script = ExtResource("3")
 
 [node name="PopupPanel" type="PopupPanel" parent="."]
 visible = true
 offset_right = 200.0
 offset_bottom = 50.0
-minimum_size = Vector2( 200, 50 )
+minimum_size = Vector2(200, 50)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel"]
 anchor_right = 1.0
@@ -25,7 +25,7 @@ offset_left = 8.0
 offset_top = 8.0
 offset_right = -8.0
 offset_bottom = -8.0
-minimum_size = Vector2( 200, 0 )
+minimum_size = Vector2(200, 0)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

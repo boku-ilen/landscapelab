@@ -34,6 +34,7 @@ func _ready():
 		$WorldEnvironment/Lightning.center_node = center_node)
 	
 	$LLConfigSetup.setup()
+	$GameModesConfigurator.load_game_mode_config()
 
 
 func _input(event):
