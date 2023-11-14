@@ -11,8 +11,6 @@ func _ready():
 
 func update_scores():
 	for score in GameSystem.current_game_mode.game_scores.values():
-		print(score)
-		
 		var score_ui = load("res://UI/GameSystem/%sScoreUI.tscn" % score.display_mode).instantiate()
 		score_ui.score = score
 		if score_ui.score.display_mode == GameScore.DisplayMode.ICONTEXT:

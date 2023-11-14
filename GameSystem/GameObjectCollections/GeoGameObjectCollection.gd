@@ -35,8 +35,6 @@ func remove_nearby_game_objects(position, radius):
 		10000
 	)
 	
-	print(features.size())
-	
 	for feature in features:
 		feature_layer.remove_feature(feature)
 
