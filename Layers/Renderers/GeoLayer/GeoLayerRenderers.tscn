@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dn25tsa6f10jw"]
+[gd_scene load_steps=3 format=3 uid="uid://dn25tsa6f10jw"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.gd" id="1_0a6iv"]
+[ext_resource type="Texture2D" uid="uid://bbq13nb7ioqvd" path="res://Resources/Icons/ClassicLandscapeLab/dot_marker_direction.svg" id="2_5aydh"]
 
 [node name="GeoLayerRenderers" type="Node2D"]
 script = ExtResource("1_0a6iv")
+
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+z_index = 100
+texture = ExtResource("2_5aydh")

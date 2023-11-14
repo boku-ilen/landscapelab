@@ -2,7 +2,11 @@ extends Node2D
 
 @export var camera: Camera2D
 @export var load_data_threaded := true
-
+@export var player_node: Node3D : 
+	set(new_player):
+		player_node = new_player
+		$PlayerSprite.visible = new_player != null
+var geo_transform: GeoTransform
 var loading_thread := Thread.new() 
 var raster_renderer = preload("res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn")
 var feature_renderer = preload("res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.tscn")
@@ -46,6 +50,26 @@ func setup(initial_center):
 	
 	center = initial_center
 	apply_offset(Vector2.ZERO, camera.get_viewport_rect().size, camera.zoom)
+
+
+func _process(delta):
+	# Draw a player if defined
+	if player_node != null:
+		var player_pos_2d = Vector2(player_node.get_world_position().x, player_node.get_world_position().z)
+		
+		# Transform to according map projection in case they are different
+		if geo_transform != null:
+			var player_pos_transformed = geo_transform.transform_coordinates(player_node.get_world_position()) 
+			player_pos_2d = Vector2(player_pos_transformed.x, player_pos_transformed.z) - center
+			# Reverse coordinates to bring them into engine form
+			player_pos_2d *= Vector2(1, -1)
+		
+		# Apply position and rotation to sprite
+		$PlayerSprite.position = player_pos_2d + offset
+		# For rotation, find the players forward and project it onto 2D space
+		var player_forward = -player_node.get_node("Head").transform.basis.z
+		var forward_2d = Plane.PLANE_XZ.project(player_forward)
+		$PlayerSprite.rotation = forward_2d.signed_angle_to(Vector3.FORWARD, Vector3.UP)
 
 
 func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
