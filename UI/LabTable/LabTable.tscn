@@ -11,15 +11,15 @@
 [ext_resource type="PackedScene" uid="uid://vmfgu2mvoju5" path="res://UI/LabTable/LabTableCommunicator.tscn" id="10_wqhkf"]
 [ext_resource type="Script" path="res://UI/LabTable/ScoreUI.gd" id="13_a5rra"]
 [ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="13_ibx33"]
+[ext_resource type="PackedScene" uid="uid://doohlbjfy3eyn" path="res://UI/GameSystem/ScoreContributorWeightSlider.tscn" id="14_mgrxv"]
 [ext_resource type="PackedScene" uid="uid://bjl2vfe4otxnj" path="res://UI/LabTable/LabTableConfigurator.tscn" id="15_esmpk"]
 [ext_resource type="Script" path="res://UI/LabTable/LabTableMarkers.gd" id="15_j8x0r"]
 [ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="17_aru4m"]
+[ext_resource type="Script" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
 
 [node name="LabTableWindow" type="Window"]
-mode = 3
-initial_position = 3
+initial_position = 1
 size = Vector2i(1600, 900)
-current_screen = 3
 
 [node name="LabTable" type="HBoxContainer" parent="." node_paths=PackedStringArray("geo_layers", "control_ui", "extent_visualizer")]
 anchors_preset = 15
@@ -113,5 +113,55 @@ table_communicator = NodePath("../LabTableCommunicator")
 
 [node name="GameModesConfigurator" parent="LabTable" instance=ExtResource("17_aru4m")]
 
+[node name="SliderContainer" type="PanelContainer" parent="."]
+top_level = true
+layout_direction = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 327.0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource("8_2ddb4")
+
+[node name="ScoreContributorWeightSlider" parent="SliderContainer" instance=ExtResource("14_mgrxv")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Name" parent="SliderContainer/ScoreContributorWeightSlider" index="0"]
+text = "0.03€"
+
+[node name="HSlider" parent="SliderContainer/ScoreContributorWeightSlider" index="1"]
+custom_minimum_size = Vector2(150, 0)
+min_value = 0.03
+max_value = 0.65
+step = 0.01
+value = 0.07
+
+[node name="Name2" type="Label" parent="SliderContainer/ScoreContributorWeightSlider"]
+layout_mode = 2
+text = "0.65€"
+
+[node name="Value" type="Label" parent="SliderContainer/ScoreContributorWeightSlider"]
+layout_mode = 2
+text = "(0.03)"
+
+[node name="NextGameModeButton" type="Button" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+offset_right = 137.0
+offset_bottom = -1.0
+grow_vertical = 0
+theme = ExtResource("8_2ddb4")
+text = "Next Game Mode"
+script = ExtResource("20_12202")
+
 [editable path="LabTable/SubViewportContainer/SubViewport"]
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
+[editable path="SliderContainer/ScoreContributorWeightSlider"]
