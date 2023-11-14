@@ -23,7 +23,6 @@ func load_table_config() -> void:
 	
 	var table_config: Dictionary = ll_file_access.json_object.data["TableSettings"]
 	_load_layers(path, table_config)
-	_load_tokens(path, table_config)
 
 
 func _load_layers(path: String, table_config: Dictionary):
@@ -42,11 +41,3 @@ func _load_layers(path: String, table_config: Dictionary):
 		new_layer.emit(layer_conf["layer_name"], layer_conf["icon"], layer_conf["icon_scale"], layer_conf["z_index"])
 	
 	logger.info("LabTable has been setup")
-
-
-func _load_tokens(path: String, table_config: Dictionary):
-	if not "Tokens" in table_config:
-		logger.info("No tokens were defined in config " + path)
-		return
-	
-	table_communicator.token_to_game_object_collection = table_config["Tokens"]
