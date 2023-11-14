@@ -4,12 +4,15 @@ extends Control
 @export var geo_layers: Node2D
 @export var control_ui: Control
 @export var extent_visualizer: Control
+@export var player_node: Node3D : 
+	set(new_player):
+		player_node = new_player
+		geo_layers.player_node = new_player
 # To debug it as standalone (without running the rest of the landscapelab
 # it is necessary to load the configuration
 @export var debug_mode := false
 
 var current_goc_name = null
-var player_node
 
 var geo_transform
 
@@ -55,6 +58,10 @@ func _ready():
 	
 	geo_transform = GeoTransform.new()
 	geo_transform.set_transform(3857, 31287)
+	
+	var inv_geo_transform = GeoTransform.new()
+	inv_geo_transform.set_transform(31287, 3857)
+	geo_layers.geo_transform = inv_geo_transform
 	
 	$SubViewportContainer/SubViewport/Camera2D.offset_changed.connect(_on_camera_offset_changed)
 

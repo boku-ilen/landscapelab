@@ -95,7 +95,7 @@ stretch = true
 transparent_bg = true
 handle_input_locally = false
 canvas_cull_mask = 4294967294
-size = Vector2i(337, 360)
+size = Vector2i(300, 300)
 render_target_update_mode = 4
 
 [node name="OverviewRenderer" parent="OverviewContainer/SubViewport" instance=ExtResource("9_yl31i")]
