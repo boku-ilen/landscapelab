@@ -7,7 +7,8 @@ extends Control
 # it is necessary to load the configuration
 @export var debug_mode := false
 
-var current_goc_name = "APV Fraunhofer 1ha"
+var current_goc_name = null
+var player_node
 
 var geo_transform
 
@@ -70,8 +71,6 @@ func set_workshop_mode(active: bool):
 		# Update may be 1 frame behind without this because input propagates down to cursor later
 		cursor.update_from_mouse_position(event.position)
 		
-		var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
-		
 		var vector_3857 = Vector3(
 				cursor.global_position.x - geo_layers.offset.x + geo_layers.center.x,
 				0,
@@ -82,19 +81,28 @@ func set_workshop_mode(active: bool):
 		# Swap -z forward/backward since we're in 2D space
 		vector_local.z = -vector_local.z
 		
-		var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
-		
-		if new_game_object:
-			game_object_created.emit(event.position)
-		else:
+		if not current_goc_name:
 			game_object_failed.emit(event.position)
+			return
+		elif current_goc_name == "Teleport":
+			if player_node:
+				player_node.set_world_position(vector_local)
+				game_object_created.emit(event.position)
+			else:
+				game_object_failed.emit(event.position)
+		else:
+			var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
+			var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
+			
+			if new_game_object:
+				game_object_created.emit(event.position)
+			else:
+				game_object_failed.emit(event.position)
 	
 	# Secondary function: removing game objects with right click
 	var secondary_func = func(event, cursor, state_dict):
 		# Update may be 1 frame behind without this because input propagates down to cursor later
 		cursor.update_from_mouse_position(event.position)
-		
-		var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
 		
 		var vector_3857 = Vector3(
 				cursor.global_position.x - geo_layers.offset.x + geo_layers.center.x,
@@ -102,6 +110,10 @@ func set_workshop_mode(active: bool):
 				-cursor.global_position.y + geo_layers.offset.y + geo_layers.center.y)
 		
 		var vector_local = geo_transform.transform_coordinates(vector_3857)
+		
+		if not current_goc_name or current_goc_name == "Teleport": return
+		
+		var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
 		
 		# Remove objects within a radius of 1m around the click
 		# TODO: Expose the radius, it'll likely depend on the current_goc_name
