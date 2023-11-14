@@ -119,6 +119,8 @@ func _deserialize_scores(game_mode: GameMode, scores: Dictionary):
 			]
 			
 			score.add_contributor.callv(args)
+		
+		game_mode.add_score(score)
 
 
 var condition_type_to_construction_func = {
