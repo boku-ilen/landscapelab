@@ -25,6 +25,10 @@ right = NodePath("GridContainer/Right")
 up = NodePath("GridContainer/Up")
 down = NodePath("GridContainer/Down")
 
+[node name="Padding" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
 [node name="HBox" type="HBoxContainer" parent="."]
 layout_mode = 2
 
