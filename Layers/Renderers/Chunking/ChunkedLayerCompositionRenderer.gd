@@ -58,19 +58,21 @@ func adapt_load(_diff: Vector3):
 	
 	for chunk in chunks:
 		var changed = false
+		chunk.position_diff.x = 0
+		chunk.position_diff.z = 0
 
-		if chunk.position.x - player_x >= chunk_size * extent + chunk_size / 2.0:
-			chunk.position_diff.x = -chunk_size * extent * 2 - chunk_size
+		while chunk.position.x + chunk.position_diff.x - player_x >= chunk_size * extent + chunk_size / 2.0:
+			chunk.position_diff.x += -chunk_size * extent * 2 - chunk_size
 			changed = true
-		elif chunk.position.x - player_x <= -chunk_size * extent - chunk_size / 2.0:
-			chunk.position_diff.x = chunk_size * extent * 2 + chunk_size
+		while chunk.position.x + chunk.position_diff.x - player_x <= -chunk_size * extent - chunk_size / 2.0:
+			chunk.position_diff.x += chunk_size * extent * 2 + chunk_size
 			changed = true
 		
-		if chunk.position.z - player_z >= chunk_size * extent + chunk_size / 2.0:
-			chunk.position_diff.z = -chunk_size * extent * 2 - chunk_size
+		while chunk.position.z + chunk.position_diff.z - player_z >= chunk_size * extent + chunk_size / 2.0:
+			chunk.position_diff.z += -chunk_size * extent * 2 - chunk_size
 			changed = true
-		elif chunk.position.z - player_z <= -chunk_size * extent - chunk_size / 2.0:
-			chunk.position_diff.z = chunk_size * extent * 2 + chunk_size
+		while chunk.position.z + chunk.position_diff.z - player_z <= -chunk_size * extent - chunk_size / 2.0:
+			chunk.position_diff.z += chunk_size * extent * 2 + chunk_size
 			changed = true
 		
 		if changed:

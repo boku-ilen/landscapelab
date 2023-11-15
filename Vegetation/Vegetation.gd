@@ -23,7 +23,7 @@ var paths := {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 2.0 :
+var plant_extent_factor = 3.0 :
 	get:
 		return plant_extent_factor
 	set(extent):
@@ -102,7 +102,7 @@ func get_group_array_for_ids(id_array):
 		if groups.has(id_array[i]):
 			group_array.append(groups[id_array[i]])
 		else:
-			logger.warn("Invalid ID in landuse data: %s" % [id_array[i]])
+			logger.debug("Invalid ID in landuse data: %s" % [id_array[i]])
 	
 	return group_array
 
@@ -217,14 +217,14 @@ func get_fade_sheet(group_array, texture_name):
 
 # Returns a 1x? spritesheet with each group's distribution texture in the
 #  rows.
-func get_distribution_sheet(group_array):
+func get_distribution_sheet(group_array, density_class):
 	var texture_table = Array()
 	texture_table.resize(1)
 	
 	texture_table[0] = []
 	
 	for group in group_array:
-		texture_table[0].append(generate_distribution(group, max_plant_height))
+		texture_table[0].append(generate_distribution(group, max_plant_height, density_class))
 	
 	return SpritesheetHelper.create_layered_spritesheet(
 			Vector2(distribution_size, distribution_size),
@@ -314,7 +314,12 @@ var distribution_cache = {}
 # This map is a 16x16 image whose R values correspond to the IDs of the plants; the G values are
 #  the size scaling factors (between 0 and 1 relative to the given max_size) for each particular
 #  plant instance, taking into account its min and max size.
-func generate_distribution(group: PlantGroup, max_size: float):
+func generate_distribution(group: PlantGroup, max_size: float, density_class):
+	var id = density_class.id * 1000 + group.id
+	
+	if id in distribution_cache:
+		return distribution_cache[id]
+	
 	var distribution = Image.create(distribution_size, distribution_size,
 			false, Image.FORMAT_RG8)
 	
@@ -349,7 +354,7 @@ func generate_distribution(group: PlantGroup, max_size: float):
 			
 			distribution.set_pixel(x, y, Color(highest_roll_id / 255.0, scale_factor, 0.0, 0.0))
 	
-	distribution_cache[group.id] = distribution
+	distribution_cache[id] = distribution
 	
 	return distribution
 

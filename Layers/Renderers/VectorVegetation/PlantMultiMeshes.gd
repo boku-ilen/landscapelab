@@ -50,8 +50,20 @@ var species_to_mesh = {
 	"Tiliasprpp": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres")
 }
 
-var species_to_mmi = {}
-var species_to_transforms = {}
+var mesh_name_to_spritesheet_index = {
+	"Fagus": 0,
+	"Pinus2": 1,
+	"Pinus": 1,
+	"Quercus": 2
+}
+
+var species_to_mesh_name = {}
+var mesh_name_to_mmi = {}
+
+var mesh_name_to_transforms = {}
+var mesh_name_to_color = {}
+var mesh_name_to_custom_data = {}
+
 var fresh_multimeshes = {}
 
 
@@ -60,13 +72,19 @@ func _ready():
 	
 	# Create MultiMeshes
 	for species_string in species_to_mesh.keys():
-		var mmi := MultiMeshInstance3D.new()
-		# Set correct layer mask so streets are not rendered onto trees
-		mmi.set_layer_mask_value(1, false)
-		mmi.set_layer_mask_value(3, true)
-		mmi.name = species_string
-		species_to_mmi[species_string] = mmi
-		add_child(mmi)
+		var mesh_name = species_to_mesh[species_string].resource_path.get_basename().get_file()
+		
+		species_to_mesh_name[species_string] = mesh_name
+		
+		if not mesh_name in mesh_name_to_mmi:
+			var mmi := MultiMeshInstance3D.new()
+			# Set correct layer mask so streets are not rendered onto trees
+			mmi.set_layer_mask_value(1, false)
+			mmi.set_layer_mask_value(3, true)
+			mmi.name = mesh_name
+			
+			mesh_name_to_mmi[mesh_name] = mmi
+			add_child(mmi)
 
 
 func rebuild_aabb(node):
@@ -76,12 +94,17 @@ func rebuild_aabb(node):
 
 func override_build(center_x, center_y):
 	for species in species_to_mesh.keys():
-		fresh_multimeshes[species] = MultiMesh.new()
-		fresh_multimeshes[species].mesh = species_to_mesh[species]
-		fresh_multimeshes[species].transform_format = MultiMesh.TRANSFORM_3D
-		fresh_multimeshes[species].instance_count = 0
+		var mesh_name = species_to_mesh_name[species]
+		fresh_multimeshes[mesh_name] = MultiMesh.new()
+		fresh_multimeshes[mesh_name].mesh = species_to_mesh[species]
+		fresh_multimeshes[mesh_name].transform_format = MultiMesh.TRANSFORM_3D
+		fresh_multimeshes[mesh_name].instance_count = 0
+		fresh_multimeshes[mesh_name].use_custom_data = true
 		
-		species_to_transforms[species] = []
+		# Done more than once, but shouldn't matter
+		mesh_name_to_transforms[mesh_name] = []
+		mesh_name_to_color[mesh_name] = []
+		mesh_name_to_custom_data[mesh_name] = []
 	
 	var top_left_x = float(center_x - size / 2)
 	var top_left_y = float(center_y + size / 2)
@@ -90,6 +113,7 @@ func override_build(center_x, center_y):
 	
 	for feature in features:
 		var species = feature.get_attribute("layer")
+		var mesh_name = species_to_mesh_name[species]
 		var instance_scale = feature.get_attribute("height1").to_float() * 1.5
 		
 		# FIXME: Load these in a later refinement step
@@ -98,24 +122,30 @@ func override_build(center_x, center_y):
 		var pos = feature.get_offset_vector3(-int(center_x), 0, -int(center_y))
 		pos.y = height_layer.get_value_at_position(pos.x + center_x, center_y - pos.z)
 
-		species_to_transforms[species].append(Transform3D()
+		mesh_name_to_transforms[mesh_name].append(Transform3D()
 				.scaled(Vector3(instance_scale, instance_scale, instance_scale)) \
-				.rotated(Vector3.UP, PI * 0.25 * randf()) \
+				.rotated(Vector3.UP, PI * 0.5 * randf()) \
 				.translated(pos - Vector3.UP)
 		)
+		mesh_name_to_custom_data[mesh_name].append(Color(
+			mesh_name_to_spritesheet_index[mesh_name], # Spritesheet index
+			randf(), # Randomness for shading
+			0.0
+		))
 	
-	for species in species_to_transforms.keys():
-		fresh_multimeshes[species].instance_count = species_to_transforms[species].size()
+	for mesh_name in mesh_name_to_transforms.keys():
+		fresh_multimeshes[mesh_name].instance_count = mesh_name_to_transforms[mesh_name].size()
 		
-		for i in range(species_to_transforms[species].size()):
-			fresh_multimeshes[species].set_instance_transform(i, species_to_transforms[species][i])
+		for i in range(mesh_name_to_transforms[mesh_name].size()):
+			fresh_multimeshes[mesh_name].set_instance_transform(i, mesh_name_to_transforms[mesh_name][i])
+			fresh_multimeshes[mesh_name].set_instance_custom_data(i, mesh_name_to_custom_data[mesh_name][i])
 
 
 func override_apply():
-	for species in fresh_multimeshes.keys():
-		if fresh_multimeshes[species].instance_count > 0:
-			species_to_mmi[species].visible = true
-			species_to_mmi[species].multimesh = fresh_multimeshes[species].duplicate()
-			rebuild_aabb(species_to_mmi[species])
+	for mesh_name in fresh_multimeshes.keys():
+		if fresh_multimeshes[mesh_name].instance_count > 0:
+			mesh_name_to_mmi[mesh_name].visible = true
+			mesh_name_to_mmi[mesh_name].multimesh = fresh_multimeshes[mesh_name].duplicate()
+			rebuild_aabb(mesh_name_to_mmi[mesh_name])
 		else:
-			species_to_mmi[species].visible = false
+			mesh_name_to_mmi[mesh_name].visible = false

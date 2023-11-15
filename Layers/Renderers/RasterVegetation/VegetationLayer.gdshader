@@ -11,7 +11,7 @@ uniform sampler2D splatmap: repeat_disable, filter_nearest;
 uniform float splatmap_size_meters;
 
 uniform sampler2D distribution_map : hint_default_black, repeat_enable;
-uniform float dist_scale = 5000.0;
+uniform float dist_scale = 10.0;
 uniform float id_to_row[1000]; // Rows are floats of integers between 0 and 255, divided by 255.0
 
 uniform float amplitude = 1.0;
@@ -21,7 +21,9 @@ uniform float row_spacing = 1.0;
 
 uniform vec2 uv_offset;
 
-uniform sampler2D noisemap;
+uniform vec3 view_direction;
+
+
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
@@ -59,6 +61,10 @@ void process() {
 	pos.x += rand(round((pos.xz) * 10.0) * 0.01) * spacing;
 	pos.z += rand(round((pos.xz) * 10.0) * 0.02) * spacing;
 	
+	// The particle only needs to be active if it's in front of the camera
+	// Do this before applying world-space position and height - easier to calculate in local space
+	bool is_in_front_of_camera = dot(normalize(view_direction.xz), normalize(pos.xz)) > 0.7;
+	
 	// apply our height
 	pos.y = get_height(pos.xz - uv_offset);
 	
@@ -82,11 +88,11 @@ void process() {
 	// The row in the spritesheets which corresponds to this splatmap ID
 	float row = id_to_row[splatmap_value];
 	
-	ACTIVE = !(abs(row + 1.0) < 0.1);
+	ACTIVE = !(abs(row + 1.0) < 0.1);// && is_in_front_of_camera;
 	
 	// Using the row, we can get the ID (the column) of the plant which should be here
-	ivec2 dist_pos = ivec2(int(pos.x * dist_scale) % DISTRIBUTION_RESOLUTION,
-			int(pos.z * dist_scale) % DISTRIBUTION_RESOLUTION);
+	ivec2 dist_pos = ivec2(int(pos.x / spacing) % DISTRIBUTION_RESOLUTION,
+			int(pos.z / spacing) % DISTRIBUTION_RESOLUTION);
 	
 	vec2 dist_value = texelFetch(distribution_map, ivec2(0, int(row) * 16) + dist_pos, 0).rg;
 	float dist_id = dist_value.r;
