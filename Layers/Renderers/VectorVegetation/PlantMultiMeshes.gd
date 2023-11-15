@@ -3,6 +3,24 @@ extends RenderChunk
 var height_layer: GeoRasterLayer
 var plant_layer: GeoFeatureLayer
 
+var weather_manager: WeatherManager :
+	get:
+		return weather_manager
+	set(new_weather_manager):
+		# FIXME: Seems like there's a condition where this is called once with a null
+		# weather manager. Not necessarily a problem since it's called again correctly
+		# later, but feels like it shouldn't be necessary.
+		if not new_weather_manager:
+			return
+		
+		weather_manager = new_weather_manager
+		
+		_apply_new_wind_speed(weather_manager.wind_speed)
+		weather_manager.wind_speed_changed.connect(_apply_new_wind_speed)
+		
+		_apply_new_wind_direction(weather_manager.wind_direction)
+		weather_manager.wind_direction_changed.connect(_apply_new_wind_direction)
+
 var new_multimesh
 
 # Tree mesh data source:
@@ -149,3 +167,26 @@ func override_apply():
 			rebuild_aabb(mesh_name_to_mmi[mesh_name])
 		else:
 			mesh_name_to_mmi[mesh_name].visible = false
+
+
+func _apply_new_wind_speed(wind_speed: float):
+	for species in species_to_mesh.keys():
+		var mesh: ArrayMesh = species_to_mesh[species]
+		var trunk_material: ShaderMaterial = mesh.surface_get_material(mesh.surface_find_by_name("trunk"))
+		var leaf_material: ShaderMaterial = mesh.surface_get_material(mesh.surface_find_by_name("leaf"))
+		#trunk_material.set_shader_parameter("sway_speed", wind_speed / 5)
+		trunk_material.set_shader_parameter("sway_strength", wind_speed * 0.01)
+		#leaf_material.set_shader_parameter("sway_speed", wind_speed / 4)
+		leaf_material.set_shader_parameter("sway_strength", wind_speed * 0.03)
+
+
+func _apply_new_wind_direction(wind_direction: int):
+	var wind_vector = Vector2.UP.rotated(deg_to_rad(wind_direction))
+	wind_vector = Vector3(wind_vector.x, randf_range(0.05, 0.2), wind_vector.y)
+	for species in species_to_mesh.keys():
+		var mesh: ArrayMesh = species_to_mesh[species]
+		var trunk_material: ShaderMaterial = mesh.surface_get_material(mesh.surface_find_by_name("trunk"))
+		var leaf_material: ShaderMaterial = mesh.surface_get_material(mesh.surface_find_by_name("leaf"))
+		trunk_material.set_shader_parameter("wind_dir", wind_vector)
+		leaf_material.set_shader_parameter("wind_dir", wind_vector)
+	
