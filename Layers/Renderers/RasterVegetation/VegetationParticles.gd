@@ -163,7 +163,7 @@ func update_textures_with_images(ids):
 	else:
 		visible = true
 	
-	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_groups)
+	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_groups, density_class)
 	
 	# All spritesheets are organized like this:
 	# The rows correspond to land-use values
