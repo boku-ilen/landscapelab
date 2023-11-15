@@ -6,8 +6,6 @@ const PORT = 14541
 # Our WebSocketServer instance
 var _server = WebSocketServer.new()
 
-var token_to_game_object_collection: Dictionary
-
 # For reacting to deleted bricks
 var brick_id_to_position = {}
 
@@ -41,9 +39,9 @@ func _on_data(id, message):
 	var shape = data_dict["data"]["shape"]
 	var color = data_dict["data"]["color"]
 	
-	if shape in token_to_game_object_collection \
-			and color in token_to_game_object_collection[shape]:
-		get_parent().current_goc_name = token_to_game_object_collection[shape][color]
+	if shape in GameSystem.current_game_mode.token_to_game_object_collection \
+			and color in GameSystem.current_game_mode.token_to_game_object_collection[shape]:
+		get_parent().current_goc_name = GameSystem.current_game_mode.token_to_game_object_collection[shape][color]
 	else:
 		get_parent().current_goc_name = null
 	
@@ -66,21 +64,21 @@ func _on_data(id, message):
 		event.button_index = 2
 		event.position = position_scaled
 		event.global_position = position_scaled
-		get_viewport().push_input(event, true)
+		get_viewport().push_input(event, false)
 		
 		# Send a mouse release event immediately after
 		var release_event = event.duplicate()
 		release_event.pressed = false
-		get_viewport().push_input(release_event, true)
+		get_viewport().push_input(release_event, false)
 		
 		# Now, create a new object here
 		var new_event = event.duplicate()
 		event.button_index = 1
-		get_viewport().push_input(event, true)
+		get_viewport().push_input(event, false)
 		
 		var new_release_event = release_event.duplicate()
 		new_release_event.button_index = 1
-		get_viewport().push_input(new_release_event, true)
+		get_viewport().push_input(new_release_event, false)
 		#else:
 			## This brick cannot be used - created an invalid marker
 			#$LabTableMarkers.create_invalid_marker(position_scaled, data_dict["data"]["id"])
@@ -98,13 +96,13 @@ func _on_data(id, message):
 			event.position = position_scaled
 			event.global_position = position_scaled
 			
-			get_viewport().push_input(event, true)
+			get_viewport().push_input(event, false)
 			
 			# Send a mouse release event immediately after
 			var release_event = event.duplicate()
 			release_event.pressed = false
 			
-			get_viewport().push_input(release_event, true)
+			get_viewport().push_input(release_event, false)
 			
 			# Remove this brick from brick_id_to_position
 			brick_id_to_position.erase(data_dict["data"]["id"])

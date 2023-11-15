@@ -28,15 +28,24 @@ func _load_game_modes(path: String, game_modes: Dictionary) -> void:
 		game_mode_object.extent = game_mode["Extent"]
 		
 		var game_object_collections = game_mode["GameObjectCollections"]
-		var attribute_mappings = game_mode["AttributeMappings"]
-		var scores = game_mode["Scores"]
-		var conditions = game_mode["CreationConditions"]
-		
 		_deserialize_object_colletion(game_mode_object, game_object_collections)
-		_deserialize_mappings(game_mode_object, attribute_mappings)
-		_deserialize_scores(game_mode_object, scores)
-		_deserialize_creation_conditions(game_mode_object, conditions)
-	
+		
+		if "AttributeMappings" in game_mode:
+			var attribute_mappings = game_mode["AttributeMappings"]
+			_deserialize_mappings(game_mode_object, attribute_mappings)
+		
+		if "Scores" in game_mode:
+			var scores = game_mode["Scores"]
+			_deserialize_scores(game_mode_object, scores)
+		
+		if "CreationConditions" in game_mode:
+			var conditions = game_mode["CreationConditions"]
+			_deserialize_creation_conditions(game_mode_object, conditions)
+		
+		if "Tokens" in game_mode:
+			var tokens = game_mode["Tokens"]
+			_deserialize_tokens(game_mode_object, tokens)
+		
 		GameSystem.game_modes.append(game_mode_object)
 	
 	GameSystem.activate_next_game_mode()
@@ -168,3 +177,7 @@ func _deserialize_creation_conditions(game_mode: GameMode, conditions: Dictionar
 		for collection_name in condition["for_collections"]:
 			var collection_object = game_mode.game_object_collections[collection_name]
 			collection_object.add_creation_condition(condition_object)
+
+func _deserialize_tokens(game_mode: GameMode, tokens: Dictionary):
+	game_mode.token_to_game_object_collection = tokens
+

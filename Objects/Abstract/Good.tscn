@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5e47rvrfqjq1"]
+
+[ext_resource type="PackedScene" uid="uid://d4f3qoqpxstrg" path="res://Objects/Abstract/Beam.tscn" id="1_1kijs"]
+
+[node name="Good" instance=ExtResource("1_1kijs")]
+color = Color(0.231373, 1, 0.231373, 0.254902)

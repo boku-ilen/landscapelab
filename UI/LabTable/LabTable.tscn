@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=15 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_l77mt"]
@@ -8,24 +8,20 @@
 [ext_resource type="Script" path="res://Editing/ActionHandler.gd" id="4_nsdnx"]
 [ext_resource type="Texture2D" uid="uid://bci3mglgy7h5k" path="res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg" id="4_yl3ng"]
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="8_2ddb4"]
-[ext_resource type="Texture2D" uid="uid://bid2x1jmo1v40" path="res://Resources/Icons/LabTable/up.png" id="9_o2boi"]
-[ext_resource type="Texture2D" uid="uid://bmh1aicjif420" path="res://Resources/Icons/LabTable/left.png" id="10_8m3i6"]
 [ext_resource type="PackedScene" uid="uid://vmfgu2mvoju5" path="res://UI/LabTable/LabTableCommunicator.tscn" id="10_wqhkf"]
-[ext_resource type="Texture2D" uid="uid://b7bv2oqkg5jkq" path="res://Resources/Icons/LabTable/right.png" id="11_xk4yu"]
-[ext_resource type="Texture2D" uid="uid://c6d6q3krv157o" path="res://Resources/Icons/LabTable/down.png" id="12_qe2to"]
 [ext_resource type="Script" path="res://UI/LabTable/ScoreUI.gd" id="13_a5rra"]
 [ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="13_ibx33"]
+[ext_resource type="PackedScene" uid="uid://doohlbjfy3eyn" path="res://UI/GameSystem/ScoreContributorWeightSlider.tscn" id="14_mgrxv"]
 [ext_resource type="PackedScene" uid="uid://bjl2vfe4otxnj" path="res://UI/LabTable/LabTableConfigurator.tscn" id="15_esmpk"]
 [ext_resource type="Script" path="res://UI/LabTable/LabTableMarkers.gd" id="15_j8x0r"]
 [ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="17_aru4m"]
+[ext_resource type="Script" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
 
 [node name="LabTableWindow" type="Window"]
-mode = 3
-initial_position = 3
+initial_position = 1
 size = Vector2i(1600, 900)
-current_screen = 3
 
-[node name="LabTable" type="HBoxContainer" parent="." node_paths=PackedStringArray("geo_layers", "control_ui")]
+[node name="LabTable" type="HBoxContainer" parent="." node_paths=PackedStringArray("geo_layers", "control_ui", "extent_visualizer")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -38,6 +34,7 @@ theme = ExtResource("8_2ddb4")
 script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
+extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
 debug_mode = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
@@ -58,6 +55,7 @@ zoom = Vector2(0.1, 0.1)
 camera = NodePath("../Camera2D")
 
 [node name="Cursor2D" type="Sprite2D" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d")]
+visible = false
 z_index = 1000
 texture = ExtResource("4_yl3ng")
 script = ExtResource("4_12y64")
@@ -88,40 +86,10 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 camera_2d = NodePath("../../SubViewport/Camera2D")
 
-[node name="Up" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/VBox/HBox/GridContainer" index="1"]
-custom_minimum_size = Vector2(100, 100)
-icon = ExtResource("9_o2boi")
-texture_name = ""
-
-[node name="Left" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/VBox/HBox/GridContainer" index="3"]
-custom_minimum_size = Vector2(100, 100)
-icon = ExtResource("10_8m3i6")
-texture_name = ""
-
-[node name="Right" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/VBox/HBox/GridContainer" index="5"]
-custom_minimum_size = Vector2(100, 100)
-icon = ExtResource("11_xk4yu")
-texture_name = ""
-
-[node name="Down" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/VBox/HBox/GridContainer" index="7"]
-custom_minimum_size = Vector2(100, 100)
-icon = ExtResource("12_qe2to")
-texture_name = ""
-
-[node name="SubViewport" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/VBox/SubViewportContainer" index="0"]
-size = Vector2i(412, 300)
-
-[node name="Camera2D" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/VBox/SubViewportContainer/SubViewport" index="1"]
-enabled = true
-
-[node name="ReferenceRect" type="ReferenceRect" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/VBox/SubViewportContainer/SubViewport" index="2"]
+[node name="ReferenceRect" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport" index="2"]
 visibility_layer = 2
 z_index = 10
-offset_right = 40.0
-offset_bottom = 40.0
-border_color = Color(0.933333, 0.654902, 1, 1)
 border_width = 250.0
-editor_only = false
 
 [node name="ScoresContainer" type="PanelContainer" parent="LabTable"]
 top_level = true
@@ -145,5 +113,55 @@ table_communicator = NodePath("../LabTableCommunicator")
 
 [node name="GameModesConfigurator" parent="LabTable" instance=ExtResource("17_aru4m")]
 
+[node name="SliderContainer" type="PanelContainer" parent="."]
+top_level = true
+layout_direction = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 327.0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource("8_2ddb4")
+
+[node name="ScoreContributorWeightSlider" parent="SliderContainer" instance=ExtResource("14_mgrxv")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Name" parent="SliderContainer/ScoreContributorWeightSlider" index="0"]
+text = "0.03€"
+
+[node name="HSlider" parent="SliderContainer/ScoreContributorWeightSlider" index="1"]
+custom_minimum_size = Vector2(150, 0)
+min_value = 0.03
+max_value = 0.65
+step = 0.01
+value = 0.07
+
+[node name="Name2" type="Label" parent="SliderContainer/ScoreContributorWeightSlider"]
+layout_mode = 2
+text = "0.65€"
+
+[node name="Value" type="Label" parent="SliderContainer/ScoreContributorWeightSlider"]
+layout_mode = 2
+text = "(0.03)"
+
+[node name="NextGameModeButton" type="Button" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+offset_right = 137.0
+offset_bottom = -1.0
+grow_vertical = 0
+theme = ExtResource("8_2ddb4")
+text = "Next Game Mode"
+script = ExtResource("20_12202")
+
 [editable path="LabTable/SubViewportContainer/SubViewport"]
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
+[editable path="SliderContainer/ScoreContributorWeightSlider"]
