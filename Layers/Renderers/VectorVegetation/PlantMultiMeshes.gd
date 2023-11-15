@@ -124,12 +124,12 @@ func override_build(center_x, center_y):
 
 		mesh_name_to_transforms[mesh_name].append(Transform3D()
 				.scaled(Vector3(instance_scale, instance_scale, instance_scale)) \
-				.rotated(Vector3.UP, PI * 0.25 * randf()) \
+				.rotated(Vector3.UP, PI * 0.5 * randf()) \
 				.translated(pos - Vector3.UP)
 		)
 		mesh_name_to_custom_data[mesh_name].append(Color(
-			mesh_name_to_spritesheet_index[mesh_name],
-			0.0,
+			mesh_name_to_spritesheet_index[mesh_name], # Spritesheet index
+			randf(), # Randomness for shading
 			0.0
 		))
 	

@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode cull_disabled;
+render_mode cull_disabled, depth_draw_opaque;
 
 uniform sampler2DArray texture_map : source_color, repeat_disable;
 uniform sampler2D normal_map : hint_normal;
@@ -86,7 +86,7 @@ void fragment() {
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
-	BACKLIGHT = vec3(0.5) * min(color.g * 2.0, 1.0);
+	BACKLIGHT = vec3(1.0, 1.0, 0.5) * min(color.g * 2.0, 1.0);
 	
 	// Make the plant darker at the bottom to simulate some shadowing
 	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)

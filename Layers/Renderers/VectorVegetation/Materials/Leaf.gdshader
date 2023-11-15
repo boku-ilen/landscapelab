@@ -11,7 +11,10 @@ uniform vec4 backlight : source_color;
 uniform sampler2D spritesheet_albedo: source_color, filter_linear_mipmap, repeat_disable;
 uniform sampler2D spritesheet_normal: hint_normal, filter_linear_mipmap, repeat_disable;
 
+uniform vec3 most_extreme_random_color: source_color;
+
 varying flat float spritesheet_index;
+varying flat float random_instance_factor;
 
 uniform float sway_speed = 5.0;
 uniform float sway_strength = 0.03;
@@ -31,6 +34,7 @@ void vertex() {
 	VERTEX.z += sin(VERTEX.z * sway_phase_len * 0.9123 + time * sway_speed * 1.3123) * strength * wind_dir.z;
 	
 	spritesheet_index = INSTANCE_CUSTOM.r;
+	random_instance_factor = INSTANCE_CUSTOM.g;
 }
 
 void fragment() {
@@ -44,7 +48,7 @@ void fragment() {
 	
 	vec4 albedo_tex = texture(spritesheet_albedo, base_uv);
 	
-	ALBEDO = albedo_tex.rgb;
+	ALBEDO = albedo_tex.rgb * mix(vec3(1.0), most_extreme_random_color, random_instance_factor);
 	NORMAL_MAP = texture(spritesheet_normal, base_uv).rgb;
 	
 	METALLIC = metallic;
