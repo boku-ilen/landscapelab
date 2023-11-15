@@ -16,6 +16,7 @@ signal camera_extent_changed(new_camera_extent)
 
 var renderers_finished := 0
 var renderers_count := 0
+var renderers_applied := 0
 
 class CameraExtent:
 	func _init(c: Vector2, e: Vector2):
@@ -116,7 +117,10 @@ func instantiate_layer_composition_renderer(lc_name: String):
 		)
 		
 		add_child(renderer)
+		renderers_count += 1
 		renderer.refresh()
+		renderers_finished += 1
+		renderers_applied += 1
 
 
 func instantiate_geolayer_renderer(layer_name: String):
@@ -150,23 +154,24 @@ func instantiate_geolayer_renderer(layer_name: String):
 		)
 		
 		add_child(renderer)
+		renderers_count += 1
 		renderer.refresh()
+		renderers_finished += 1
+		renderers_applied +=1 
 
-
+var mutex = Mutex.new()
 func apply_offset(new_offset, new_viewport_size, new_zoom):
+	# Before setting any new metadata, we need to ensure data has been applied
+	if renderers_applied != renderers_count:
+		await loading_finished
+	
+	logger.debug("Applying new metadata to all children in %s" % [name])
 	zoom = new_zoom
 	offset += new_offset
 	center.x += new_offset.x
 	center.y -= new_offset.y
-	logger.debug("Applying new center center to all children in %s" % [name])
-	emit_signal("loading_started")
 	
-	renderers_finished = 0
-	renderers_count = 0  
-	
-	# Get the number of renderers first to avoid race conditions
-	renderers_count = get_children() \
-		.filter(func(renderer): return renderer is GeoLayerRenderer).size()
+	loading_started.emit()
 	
 	# Start loading thread and load all geolayers in the thread
 	if load_data_threaded:
@@ -174,9 +179,13 @@ func apply_offset(new_offset, new_viewport_size, new_zoom):
 			loading_thread.wait_to_finish()
 		
 		if not loading_thread.is_started():
+			renderers_finished = 0
+			renderers_applied = 0
 			loading_thread.start(update_renderers.bind(
-				center, new_offset, new_viewport_size, new_zoom), Thread.PRIORITY_NORMAL)
+				center, new_offset, new_viewport_size, new_zoom), Thread.PRIORITY_HIGH)
 	else:
+		renderers_finished = 0
+		renderers_applied = 0
 		update_renderers(center, new_offset, new_viewport_size, new_zoom)
 
 
@@ -239,8 +248,9 @@ func _apply_renderers_data():
 			# Only apply the position after the new data has
 			# been applied otherwise it will look clunky
 			renderer.position = offset
+			renderers_applied += 1
 	
-	emit_signal("loading_finished")
+	loading_finished.emit()
 
 
 func reclassify_z_indices(item_array):

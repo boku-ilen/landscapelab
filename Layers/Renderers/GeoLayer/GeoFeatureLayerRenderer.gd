@@ -54,7 +54,6 @@ func load_new_data(is_threaded := true):
 			max_features
 		)
 		
-		print(current_features.size())
 		
 		# Create a scene-chunk and set it deferred so there are no thread unsafeties
 		var renderers_thread_safe = Node2D.new()
