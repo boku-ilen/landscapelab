@@ -39,13 +39,12 @@ func _load_layers(path: String, table_config: Dictionary):
 	for key in table_config["Layers"].keys():
 		# Emit args
 		var layer_conf = table_config["Layers"][key]
-		var args = [
+		
+		new_layer.emit(
 			layer_conf["layer_name"],
-			# Not strictly necessary emit args
-			layer_conf["icon"]  if "icon" in layer_conf else null, 
+			layer_conf["icon"]  if "icon" in layer_conf else null,
 			layer_conf["icon_scale"] if "icon_scale" in layer_conf else null, 
 			layer_conf["z_index"]  if "z_index" in layer_conf else null
-		]
-		new_layer.emit(args)
+		)
 	
 	logger.info("LabTable has been setup")

@@ -84,9 +84,6 @@ func set_workshop_mode(active: bool):
 		
 		var vector_local = geo_transform.transform_coordinates(vector_3857)
 		
-		# Swap -z forward/backward since we're in 2D space
-		vector_local.z = -vector_local.z
-		
 		if not current_goc_name:
 			game_object_failed.emit(event.position)
 			return
@@ -97,6 +94,9 @@ func set_workshop_mode(active: bool):
 			else:
 				game_object_failed.emit(event.position)
 		else:
+			# Swap -z forward/backward since we're in 2D space
+			vector_local.z = -vector_local.z
+			
 			var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
 			var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
 			
