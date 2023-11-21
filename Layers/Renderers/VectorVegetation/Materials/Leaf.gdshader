@@ -56,7 +56,7 @@ void fragment() {
 	SPECULAR = specular;
 	
 	ALPHA = albedo_tex.a;
-	ALPHA_HASH_SCALE = alpha_hash_scale;
+	ALPHA_SCISSOR_THRESHOLD = 0.35;
 	
 	BACKLIGHT = backlight.rgb;
 }

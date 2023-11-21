@@ -82,7 +82,7 @@ void fragment() {
 	diff_dot = max(diff_dot * 1.5 - 0.5, 0.0);
 
 	ALPHA = color.a - diff_dot + min(dist_alpha, 0.0);
-	ALPHA_HASH_SCALE = 1.0;
+	ALPHA_SCISSOR_THRESHOLD = 0.35;
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
