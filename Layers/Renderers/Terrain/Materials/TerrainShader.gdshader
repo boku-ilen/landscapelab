@@ -223,8 +223,8 @@ void fragment() {
 	float count = 0.0;
 	
 	// Get detail texture sample, but blur the position to get nice transitions
-	for (float x_off = -1.0; x_off <= 1.0; x_off += 0.5) {
-		for (float y_off = -1.0; y_off <= 1.0; y_off += 0.5) {
+	for (float x_off = -1.0; x_off < 1.0; x_off += 0.5) {
+		for (float y_off = -1.0; y_off < 1.0; y_off += 0.5) {
 			vec2 offset_vector = vec2(x_off / size, y_off / size);
 			float splat_id = texture(landuse, UV + offset_vector).r;
 			
