@@ -170,18 +170,16 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	random_gen.seed = hash(building_metadata["footprint"])
 
 	var wall_color = Color.WHITE_SMOKE
-	var random = random_gen.randi_range(0, 10)
+	var random = random_gen.randf_range(0, 1)
 	
-	if random >= 0 and random <= 5:
-		wall_color = walls_resource.random_colors[0]
-	elif random > 5 and random <= 8:
-		wall_color = walls_resource.random_colors[1]
-	elif random == 9:
-		wall_color = walls_resource.random_colors[2]
-	elif random == 10:
-		wall_color = walls_resource.random_colors[3]
-
-	# FIXME: Find a way not to have a half window texture here
+	var color_num := 0
+	var summed_weight := 0.
+	for weight in walls_resource.random_color_weights:
+		summed_weight += weight
+		if random <= summed_weight: break
+		color_num += 1
+	
+	wall_color = walls_resource.random_colors[color_num]
 	
 	# Indexing textures from texture2Darray
 	# Each bundle consists of: basement, ground, mid, top
