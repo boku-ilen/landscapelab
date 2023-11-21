@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=3 format=3 uid="uid://ce3kyk7a60m6t"]
+
+[ext_resource type="Texture2D" uid="uid://blntpa8k3qye" path="res://Resources/Textures/Buildings/facade/Retail/ground/albedo.jpg" id="1_4bc7b"]
+[ext_resource type="Script" path="res://Buildings/Components/Walls/WallTextureBundle.gd" id="1_soc7i"]
+
+[resource]
+script = ExtResource("1_soc7i")
+albedo_texture = ExtResource("1_4bc7b")

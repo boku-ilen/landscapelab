@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://2ing3u6wp6lx"
-path.s3tc="res://.godot/imported/plaster_roughness.jpg-e4beefbfb7f116125f353a4782d3870a.s3tc.ctex"
+path="res://.godot/imported/plaster_roughness.jpg-e4beefbfb7f116125f353a4782d3870a.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://Resources/Textures/Buildings/facade/plaster_roughness.jpg"
-dest_files=["res://.godot/imported/plaster_roughness.jpg-e4beefbfb7f116125f353a4782d3870a.s3tc.ctex"]
+dest_files=["res://.godot/imported/plaster_roughness.jpg-e4beefbfb7f116125f353a4782d3870a.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
