@@ -74,7 +74,7 @@ func _create_and_set_texture_arrays():
 				new_image.flip_y()
 				new_image.resize(1024, 1024)
 				new_image.convert(Image.FORMAT_RGB8)
-				new_image.generate_mipmaps()
+				if not new_image.has_mipmaps(): new_image.generate_mipmaps()
 				images.append(new_image)
 			
 			albedo_images.append(images[0])
