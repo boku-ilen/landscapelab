@@ -167,19 +167,19 @@ render_target_update_mode = 4
 [node name="MousePoint" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/Head/Camera3D" index="0"]
 position_manager_path = NodePath("../../../../PositionManager")
 
-[node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI" instance=ExtResource("9")]
-layout_mode = 1
+[node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC" index="5" node_paths=PackedStringArray("pc_player") instance=ExtResource("9")]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -38.0
 offset_top = 0.0
 offset_right = 0.0
-offset_bottom = 37.0
 grow_horizontal = 0
 size_flags_horizontal = 8
+pc_player = NodePath("..")
 
 [node name="LoadingCircle" type="TextureRect" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI"]
+visible = false
 custom_minimum_size = Vector2(20, 40)
 layout_mode = 1
 anchors_preset = 2
