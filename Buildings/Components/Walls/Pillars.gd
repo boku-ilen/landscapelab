@@ -39,7 +39,7 @@ func build(footprint: Array):
 		
 		# Make the poles face the appropriate direction
 		var t := Transform3D(Basis.IDENTITY, Vector3.ZERO)
-		t.basis.z = vertex.direction_to(vertex_after).normalized()
+		t.basis.z = vertex.direction_to(vertex_after)
 		t.basis.y = Vector3.UP
 		t.basis.x = t.basis.y.cross(t.basis.z)
 		
