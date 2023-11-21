@@ -8,10 +8,8 @@ extends Node3D
 #
 
 
-var height: float :
-	set(new_height): height = new_height
-var footprint: PackedVector2Array : 
-	set(new_footprint): footprint = new_footprint
+var height: float
+var footprint: PackedVector2Array
 
 
 func set_metadata(metadata: Dictionary):
