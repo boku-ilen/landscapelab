@@ -26,7 +26,9 @@ var bundled_texture
 
 func _on_bundled_texture_changed(roughness: Texture, metallic: Texture, emission: Texture):
 	# If no textures are set there is no sense in bundling
-	if roughness == null and metallic == null and emission == null: return
+	if roughness == null and metallic == null and emission == null: 
+		bundled_texture = null
+		return
 	
 	# Obtain raw data
 	var roughness_data = _get_texture_channel_data(roughness)
