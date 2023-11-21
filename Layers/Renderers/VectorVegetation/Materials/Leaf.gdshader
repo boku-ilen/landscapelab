@@ -8,6 +8,8 @@ uniform float specular;
 uniform float metallic;
 uniform vec4 backlight : source_color;
 
+uniform int sprite_count = 3;
+
 uniform sampler2D spritesheet_albedo: source_color, filter_linear_mipmap, repeat_disable;
 uniform sampler2D spritesheet_normal: hint_normal, filter_linear_mipmap, repeat_disable;
 
@@ -43,8 +45,8 @@ void fragment() {
 	base_uv.x -= floor(base_uv.x);
 	base_uv.y -= floor(base_uv.y);
 	
-	base_uv.y /= 3.0;
-	base_uv.y += spritesheet_index / 3.0;
+	base_uv.y /= float(sprite_count);
+	base_uv.y += spritesheet_index / float(sprite_count);
 	
 	vec4 albedo_tex = texture(spritesheet_albedo, base_uv);
 	
