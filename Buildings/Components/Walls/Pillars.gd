@@ -14,7 +14,8 @@ var floor_height = 2.5
 func build(footprint: Array):
 	var mm: MultiMesh = MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
-	mm.set_instance_count(footprint.size() * floors)
+	# Pillars are scaled vertically so the floors do not matter in the instance count
+	mm.set_instance_count(footprint.size())
 	
 	# Remap 2d vertices in 3d space
 	footprint = footprint.map(func(vert): 
