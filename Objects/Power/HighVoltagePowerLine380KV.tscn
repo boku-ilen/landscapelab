@@ -9,6 +9,7 @@ load_radius = 800.0
 
 [node name="pole_3dmesh" parent="." index="0"]
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 4.5, 0, 4.35)
+layers = 4
 
 [node name="Docks" type="Node3D" parent="." index="1"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
