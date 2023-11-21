@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=18 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_l77mt"]
@@ -16,6 +16,9 @@
 [ext_resource type="Script" path="res://UI/LabTable/LabTableMarkers.gd" id="15_j8x0r"]
 [ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="17_aru4m"]
 [ext_resource type="Script" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
+bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
 
 [node name="LabTableWindow" type="Window"]
 initial_position = 1
@@ -77,6 +80,7 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme = ExtResource("8_2ddb4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ha2ys")
 
 [node name="ControlContainer" parent="LabTable/SubViewportContainer/PanelContainer" node_paths=PackedStringArray("camera_2d") instance=ExtResource("4_d680t")]
 layout_direction = 2
@@ -108,9 +112,6 @@ custom_minimum_size = Vector2(90, 90)
 [node name="Down" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/GridContainer" index="7"]
 custom_minimum_size = Vector2(90, 90)
 
-[node name="SubViewport" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer" index="0"]
-size = Vector2i(300, 300)
-
 [node name="ReferenceRect" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport" index="2"]
 visibility_layer = 2
 z_index = 10
@@ -138,55 +139,75 @@ table_communicator = NodePath("../LabTableCommunicator")
 
 [node name="GameModesConfigurator" parent="LabTable" instance=ExtResource("17_aru4m")]
 
-[node name="SliderContainer" type="PanelContainer" parent="."]
-top_level = true
-layout_direction = 3
-anchors_preset = 2
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -40.0
-offset_right = 327.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("8_2ddb4")
+
+[node name="CenterContainer" type="CenterContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -172.0
+offset_top = -32.0
+offset_right = 143.0
+offset_bottom = 2.0
+grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 8
 size_flags_vertical = 8
-theme = ExtResource("8_2ddb4")
+use_top_left = true
+metadata/_edit_use_anchors_ = true
 
-[node name="ScoreContributorWeightSlider" parent="SliderContainer" instance=ExtResource("14_mgrxv")]
+[node name="ScoreContributorWeightSlider" parent="Panel/CenterContainer" instance=ExtResource("14_mgrxv")]
 layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme = ExtResource("8_2ddb4")
 
-[node name="Name" parent="SliderContainer/ScoreContributorWeightSlider" index="0"]
+[node name="Name" parent="Panel/CenterContainer/ScoreContributorWeightSlider" index="0"]
 text = "0.03€"
 
-[node name="HSlider" parent="SliderContainer/ScoreContributorWeightSlider" index="1"]
+[node name="HSlider" parent="Panel/CenterContainer/ScoreContributorWeightSlider" index="1"]
 custom_minimum_size = Vector2(150, 0)
 min_value = 0.03
 max_value = 0.65
 step = 0.01
 value = 0.07
 
-[node name="Name2" type="Label" parent="SliderContainer/ScoreContributorWeightSlider"]
+[node name="Name2" type="Label" parent="Panel/CenterContainer/ScoreContributorWeightSlider"]
 layout_mode = 2
 text = "0.65€"
 
-[node name="Value" type="Label" parent="SliderContainer/ScoreContributorWeightSlider"]
+[node name="Value" type="Label" parent="Panel/CenterContainer/ScoreContributorWeightSlider"]
 layout_mode = 2
 text = "(0.03)"
 
-[node name="NextGameModeButton" type="Button" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -32.0
-offset_right = 137.0
-offset_bottom = -1.0
+offset_left = 15.0
+offset_top = -46.0
+offset_right = 152.0
+offset_bottom = -15.0
 grow_vertical = 0
+
+[node name="NextGameModeButton" type="Button" parent="CenterContainer"]
+layout_mode = 2
 theme = ExtResource("8_2ddb4")
 text = "Next Game Mode"
 script = ExtResource("20_12202")
 
 [editable path="LabTable/SubViewportContainer/SubViewport"]
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
-[editable path="SliderContainer/ScoreContributorWeightSlider"]
+[editable path="Panel/CenterContainer/ScoreContributorWeightSlider"]
