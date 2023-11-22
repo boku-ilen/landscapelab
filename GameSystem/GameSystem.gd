@@ -10,16 +10,39 @@ var current_game_mode: GameMode :
 			current_game_mode.disconnect("score_changed",Callable(self,"_on_score_changed"))
 			current_game_mode.disconnect("score_target_reached",Callable(self,"_on_score_target_changed"))
 		
+		if not new_game_mode in game_modes:
+			game_modes.append(new_game_mode)
+		
 		current_game_mode = new_game_mode
 	
 		current_game_mode.connect("score_changed",Callable(self,"_on_score_changed"))
 		current_game_mode.connect("score_target_reached",Callable(self,"_on_score_target_changed"))
+		
+		game_mode_changed.emit()
+
+
+var game_modes: Array[GameMode] = []
 
 var _next_game_object_id := 0
 var _game_objects = {}
 
 signal score_changed(score)
 signal score_target_reached(score)
+
+signal game_mode_changed
+
+
+func activate_next_game_mode():
+	if game_modes.is_empty(): 
+		logger.error("No game modes have been defined, cannot move to next state.")
+		return
+	
+	if current_game_mode == null:
+		current_game_mode = game_modes[0]
+		return
+		
+	var current_game_mode_idx = game_modes.find(current_game_mode)
+	current_game_mode = game_modes[(current_game_mode_idx + 1) % game_modes.size()]
 
 
 func _on_score_changed(score):

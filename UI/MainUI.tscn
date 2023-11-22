@@ -67,6 +67,9 @@ layout_mode = 2
 [node name="MenuBar" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_56a3o")]
 layout_mode = 2
 
+[node name="TableButton" parent="MarginContainer/VBoxContainer/MenuBar" index="1" node_paths=PackedStringArray("player_node")]
+player_node = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
+
 [node name="GeoLayerManagement" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 script = ExtResource("4_ba7hm")
@@ -179,7 +182,7 @@ script = ExtResource("11")
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort"]
 handle_input_locally = false
 gui_disable_input = true
-size = Vector2i(2, 2)
+size = Vector2i(555, 432)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_xvbyv")]
@@ -257,9 +260,8 @@ script = ExtResource("5")
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 
-[node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewport" index="0"]
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+[node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewportContainer" index="0"]
+size = Vector2i(206, 300)
 
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]
 visible = false
@@ -292,8 +294,11 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[editable path="MarginContainer/VBoxContainer/MenuBar"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC"]
+[editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/SubViewport"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport"]
+[editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewportContainer/SubViewport"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerUI"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot/LayerCompositionUI"]

@@ -17,6 +17,7 @@ signal active_changed(is_active: bool)
 # duck typed, since it a Cursor can be 3D and 2D) plus the internal state-dict
 # of the class. With this simple state operations can be achieved without
 # extending the class.
+# Called via: action.call(event, cursor, current_action.state_dict)
 var primary_action: Callable
 var secondary_action: Callable
 var tertiary_action: Callable

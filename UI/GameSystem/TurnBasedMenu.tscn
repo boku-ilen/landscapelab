@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://dgdevarjc3wc"]
 
-[ext_resource path="res://UI/GameSystem/FinishTurnButton.gd" type="Script" id=1]
-[ext_resource path="res://UI/GameSystem/TurnLabel.gd" type="Script" id=2]
-[ext_resource path="res://UI/GameSystem/EventDialog.gd" type="Script" id=3]
-[ext_resource path="res://UI/GameSystem/GameOverDialog.gd" type="Script" id=4]
+[ext_resource type="Script" path="res://UI/GameSystem/FinishTurnButton.gd" id="1"]
+[ext_resource type="Script" path="res://UI/GameSystem/TurnLabel.gd" id="2"]
+[ext_resource type="Script" path="res://UI/GameSystem/EventDialog.gd" id="3"]
+[ext_resource type="Script" path="res://UI/GameSystem/GameOverDialog.gd" id="4"]
 
 [node name="TurnBased" type="VBoxContainer"]
 offset_left = 394.0
@@ -14,20 +14,20 @@ offset_bottom = 183.0
 offset_right = 226.0
 offset_bottom = 25.0
 text = "Turn ? of ?"
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="FinishTurnButton" type="Button" parent="."]
 offset_top = 33.0
 offset_right = 226.0
 offset_bottom = 70.0
 text = "Finish Turn"
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="EventDialog" type="AcceptDialog" parent="."]
 offset_top = 78.0
 offset_right = 154.0
 offset_bottom = 188.0
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="GameOverDialog" type="AcceptDialog" parent="."]
 visible = true
@@ -37,7 +37,7 @@ offset_bottom = 243.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 window_title = "Game Over!"
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="Scores" type="VBoxContainer" parent="GameOverDialog"]
 offset_right = 40.0

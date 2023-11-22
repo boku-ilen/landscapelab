@@ -69,6 +69,9 @@ func get_geo_layer_by_name(layer_name: String):
 		return geo_layers["rasters"][layer_name]
 	elif geo_layers["features"].has(layer_name):
 		return geo_layers["features"][layer_name]
+	# Try and use fallback if geo layer was not loaded
+
+	logger.warn("No layer with name %s could be found" % [layer_name])
 
 
 func remove_layer_composition(layer_composition_name: String):

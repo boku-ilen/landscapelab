@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bh0dmkle5q13h"]
+
+[ext_resource type="Shader" path="res://Layers/Renderers/VectorVegetation/Materials/Bark.gdshader" id="1_ba2ni"]
+[ext_resource type="Texture2D" uid="uid://duub73kyucqe7" path="res://Layers/Renderers/VectorVegetation/Materials/Albedo_Bark_Fagus_Pinus_Quercus.png" id="2_151lx"]
+[ext_resource type="Texture2D" uid="uid://1biijg65ravf" path="res://Layers/Renderers/VectorVegetation/Materials/Normal_Bark_Fagus_Pinus_Quercus.png" id="3_ta0t3"]
+
+[resource]
+resource_name = "branch.005"
+render_priority = 0
+shader = ExtResource("1_ba2ni")
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/spritesheet = 1
+shader_parameter/spritesheet_albedo = ExtResource("2_151lx")
+shader_parameter/spritesheet_normal = ExtResource("3_ta0t3")

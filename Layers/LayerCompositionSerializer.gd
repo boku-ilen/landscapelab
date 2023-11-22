@@ -23,25 +23,30 @@ static func deserialize(
 		var render_attribute = render_properties[attribute_name]
 
 		if render_attribute["class_name"] in ["GeoRasterLayer", "GeoFeatureLayer"]:
-			# E.g. ./LL.gpkg:ortho?w
-			# => ["./LL.gpkg", "ortho?w"]
-			var path_layer_split = attributes[attribute_name].split(":")
-			# => ["ortho", "w"]
-			var layer_access_split = path_layer_split[1].split("?")
-			var abs_file_name = LLFileAccess.get_rel_or_abs_path(abs_path, path_layer_split[0])
-			var layer_name = layer_access_split[0]
-			var write_access = true if layer_access_split.size() > 1 and layer_access_split[1] == "w" else false
-			
-			var db = Geodot.get_dataset(abs_file_name, write_access)
+			# Split data into {LL_xy.gpkg, layer_name, write_access}
+			var splits = LLFileAccess.split_dataset_string(abs_path, attributes[attribute_name])
 			
 			if render_attribute["class_name"] == "GeoRasterLayer":
-				attribute = db.get_raster_layer(layer_name)
+				attribute = LLFileAccess.get_layer_from_splits(splits, true)
 			elif render_attribute["class_name"] == "GeoFeatureLayer":
-				attribute = db.get_feature_layer(layer_name)
+				attribute = LLFileAccess.get_layer_from_splits(splits, false)
 		
 		layer_composition.render_info.set(attribute_name, attribute)
 	
 	return layer_composition
+
+
+static func get_feature_layer_from_string(path_string, abs_path):
+	var path_layer_split = path_string.split(":")
+	# => ["ortho", "w"]
+	var layer_access_split = path_layer_split[1].split("?")
+	var abs_file_name = LLFileAccess.get_rel_or_abs_path(abs_path, path_layer_split[0])
+	var layer_name = layer_access_split[0]
+	var write_access = true if layer_access_split.size() > 1 and layer_access_split[1] == "w" else false
+	
+	var db = Geodot.get_dataset(abs_file_name, write_access)
+	
+	return db.get_feature_layer(layer_name)
 
 
 static func serialize(layer_composition: LayerComposition):

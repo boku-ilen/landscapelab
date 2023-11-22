@@ -102,14 +102,20 @@ func _process(delta):
 			position_manager.center_node.position.z
 		)
 		
-		# Follow camera forward in order to only render in front
-		#renderer.position += position_manager.center_node.get_look_direction() * (renderer.spacing * renderer.rows * 0.5)
+#		# Follow camera forward in order to only render in front
+#		renderer.position += position_manager.center_node.get_look_direction() * (renderer.spacing * renderer.rows * 0.5)
 		
 		renderer.position = Vector3(
 			renderer.position.x - fposmod(renderer.position.x, renderer.spacing * (1.0 + (float(renderer.density_class.id == 6) * 2.0))),
 			0.0,
 			renderer.position.z - fposmod(renderer.position.z, renderer.spacing)
 		)
+		
+		renderer.process_material.set_shader_parameter(
+			"view_direction",
+			position_manager.center_node.get_look_direction()
+		)
+		
 		renderer.restart()
 
 

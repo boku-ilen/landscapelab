@@ -1,0 +1,192 @@
+[gd_scene load_steps=17 format=3 uid="uid://dap4sx6pnitq4"]
+
+[ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_l77mt"]
+[ext_resource type="PackedScene" uid="uid://b614v82srw120" path="res://UI/Layers/GeoLayers/GeoLayerSubViewport.tscn" id="2_opmh5"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Cursor2D.gd" id="4_12y64"]
+[ext_resource type="PackedScene" uid="uid://d25827kd1r2xd" path="res://UI/LabTable/ControlContainer.tscn" id="4_d680t"]
+[ext_resource type="Script" path="res://Editing/ActionHandler.gd" id="4_nsdnx"]
+[ext_resource type="Texture2D" uid="uid://bci3mglgy7h5k" path="res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg" id="4_yl3ng"]
+[ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="8_2ddb4"]
+[ext_resource type="PackedScene" uid="uid://vmfgu2mvoju5" path="res://UI/LabTable/LabTableCommunicator.tscn" id="10_wqhkf"]
+[ext_resource type="Script" path="res://UI/LabTable/ScoreUI.gd" id="13_a5rra"]
+[ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="13_ibx33"]
+[ext_resource type="PackedScene" uid="uid://doohlbjfy3eyn" path="res://UI/GameSystem/ScoreContributorWeightSlider.tscn" id="14_mgrxv"]
+[ext_resource type="PackedScene" uid="uid://bjl2vfe4otxnj" path="res://UI/LabTable/LabTableConfigurator.tscn" id="15_esmpk"]
+[ext_resource type="Script" path="res://UI/LabTable/LabTableMarkers.gd" id="15_j8x0r"]
+[ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="17_aru4m"]
+[ext_resource type="Script" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
+
+[node name="LabTableWindow" type="Window"]
+initial_position = 1
+size = Vector2i(1600, 900)
+
+[node name="LabTable" type="HBoxContainer" parent="." node_paths=PackedStringArray("geo_layers", "control_ui", "extent_visualizer")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("8_2ddb4")
+script = ExtResource("1_714gw")
+geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
+control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
+extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.85
+stretch = true
+script = ExtResource("1_l77mt")
+
+[node name="SubViewport" parent="LabTable/SubViewportContainer" instance=ExtResource("2_opmh5")]
+canvas_cull_mask = 4294967293
+size = Vector2i(1606, 900)
+
+[node name="Camera2D" parent="LabTable/SubViewportContainer/SubViewport" index="0"]
+zoom = Vector2(0.1, 0.1)
+
+[node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" index="1" node_paths=PackedStringArray("camera")]
+camera = NodePath("../Camera2D")
+
+[node name="Cursor2D" type="Sprite2D" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d")]
+visible = false
+z_index = 1000
+texture = ExtResource("4_yl3ng")
+script = ExtResource("4_12y64")
+camera_2d = NodePath("../Camera2D")
+
+[node name="Label" type="Label" parent="LabTable/SubViewportContainer/SubViewport/Cursor2D"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 36.0
+text = "test"
+
+[node name="ActionHandler" type="Node" parent="LabTable/SubViewportContainer"]
+script = ExtResource("4_nsdnx")
+perspective_prefix = "2D"
+cursor_path = NodePath("../SubViewport/Cursor2D")
+
+[node name="PanelContainer" type="PanelContainer" parent="LabTable/SubViewportContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource("8_2ddb4")
+
+[node name="ControlContainer" parent="LabTable/SubViewportContainer/PanelContainer" node_paths=PackedStringArray("camera_2d") instance=ExtResource("4_d680t")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+camera_2d = NodePath("../../SubViewport/Camera2D")
+
+[node name="HBox" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer" index="1"]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="SetVisible" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/HBox" index="0"]
+custom_minimum_size = Vector2(90, 90)
+
+[node name="GridContainer" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer" index="2"]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Up" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/GridContainer" index="1"]
+custom_minimum_size = Vector2(90, 90)
+
+[node name="Left" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/GridContainer" index="3"]
+custom_minimum_size = Vector2(90, 90)
+
+[node name="Right" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/GridContainer" index="5"]
+custom_minimum_size = Vector2(90, 90)
+
+[node name="Down" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/GridContainer" index="7"]
+custom_minimum_size = Vector2(90, 90)
+
+[node name="SubViewport" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer" index="0"]
+size = Vector2i(300, 300)
+
+[node name="ReferenceRect" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport" index="2"]
+visibility_layer = 2
+z_index = 10
+border_width = 250.0
+
+[node name="ScoresContainer" type="PanelContainer" parent="LabTable"]
+top_level = true
+layout_direction = 3
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="ScoreUI" type="VBoxContainer" parent="LabTable/ScoresContainer"]
+layout_mode = 2
+script = ExtResource("13_a5rra")
+
+[node name="LLConfigSetup" parent="LabTable" instance=ExtResource("13_ibx33")]
+
+[node name="LabTableCommunicator" parent="LabTable" instance=ExtResource("10_wqhkf")]
+
+[node name="LabTableMarkers" type="Node2D" parent="LabTable/LabTableCommunicator"]
+script = ExtResource("15_j8x0r")
+
+[node name="LabTableConfigurator" parent="LabTable" node_paths=PackedStringArray("table_communicator") instance=ExtResource("15_esmpk")]
+table_communicator = NodePath("../LabTableCommunicator")
+
+[node name="GameModesConfigurator" parent="LabTable" instance=ExtResource("17_aru4m")]
+
+[node name="SliderContainer" type="PanelContainer" parent="."]
+top_level = true
+layout_direction = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 327.0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource("8_2ddb4")
+
+[node name="ScoreContributorWeightSlider" parent="SliderContainer" instance=ExtResource("14_mgrxv")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Name" parent="SliderContainer/ScoreContributorWeightSlider" index="0"]
+text = "0.03€"
+
+[node name="HSlider" parent="SliderContainer/ScoreContributorWeightSlider" index="1"]
+custom_minimum_size = Vector2(150, 0)
+min_value = 0.03
+max_value = 0.65
+step = 0.01
+value = 0.07
+
+[node name="Name2" type="Label" parent="SliderContainer/ScoreContributorWeightSlider"]
+layout_mode = 2
+text = "0.65€"
+
+[node name="Value" type="Label" parent="SliderContainer/ScoreContributorWeightSlider"]
+layout_mode = 2
+text = "(0.03)"
+
+[node name="NextGameModeButton" type="Button" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+offset_right = 137.0
+offset_bottom = -1.0
+grow_vertical = 0
+theme = ExtResource("8_2ddb4")
+text = "Next Game Mode"
+script = ExtResource("20_12202")
+
+[editable path="LabTable/SubViewportContainer/SubViewport"]
+[editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
+[editable path="SliderContainer/ScoreContributorWeightSlider"]

@@ -1,11 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://btpe1wyj5nbfg"]
+[gd_scene load_steps=5 format=3 uid="uid://btpe1wyj5nbfg"]
 
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_2ghtm"]
-[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Viewport2DCamera.gd" id="2_wyko3"]
-[ext_resource type="PackedScene" uid="uid://dn25tsa6f10jw" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.tscn" id="3_1txlc"]
-[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="4_kacmt"]
-[ext_resource type="Texture2D" uid="uid://b3vd4ae021x8" path="res://Resources/Icons/ModernLandscapeLab/plus.svg" id="5_wyws0"]
-[ext_resource type="Texture2D" uid="uid://dbl70h8vqdyiy" path="res://Resources/Icons/ModernLandscapeLab/minus.svg" id="6_3xt3h"]
+[ext_resource type="PackedScene" uid="uid://b614v82srw120" path="res://UI/Layers/GeoLayers/GeoLayerSubViewport.tscn" id="2_4jb48"]
+[ext_resource type="PackedScene" uid="uid://mkaw0si7x87" path="res://UI/Layers/GeoLayers/ZoomContainer.tscn" id="3_vaqhl"]
 [ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="7_dic5u"]
 
 [node name="GeoLayerUi" type="HSplitContainer"]
@@ -16,52 +13,25 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="GeoLayerViewport" type="SubViewportContainer" parent="."]
+[node name="GeoLayerViewportContainer" type="SubViewportContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.7
 mouse_filter = 0
 stretch = true
 script = ExtResource("1_2ghtm")
-geo_layer_ui = NodePath("../GeoLayerUI")
 
-[node name="SubViewport" type="SubViewport" parent="GeoLayerViewport"]
-disable_3d = true
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(800, 648)
-size_2d_override_stretch = true
-render_target_update_mode = 4
+[node name="SubViewport" parent="GeoLayerViewportContainer" instance=ExtResource("2_4jb48")]
 
-[node name="Camera2D" type="Camera2D" parent="GeoLayerViewport/SubViewport"]
-ignore_rotation = false
-limit_left = -1000000000
-limit_top = -1000000000
-limit_right = 1000000000
-limit_bottom = 1000000000
-position_smoothing_speed = 30.0
-script = ExtResource("2_wyko3")
-
-[node name="GeoLayerRenderers" parent="GeoLayerViewport/SubViewport" instance=ExtResource("3_1txlc")]
-camera_path = NodePath("../Camera2D")
-
-[node name="ZoomContainer" type="HBoxContainer" parent="GeoLayerViewport"]
-layout_direction = 3
+[node name="ZoomContainer" parent="GeoLayerViewportContainer" node_paths=PackedStringArray("camera_2d") instance=ExtResource("3_vaqhl")]
 layout_mode = 2
+camera_2d = NodePath("../SubViewport/Camera2D")
 
-[node name="ZoomIn" parent="GeoLayerViewport/ZoomContainer" instance=ExtResource("4_kacmt")]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 2
-icon = ExtResource("5_wyws0")
-
-[node name="ZoomOut" parent="GeoLayerViewport/ZoomContainer" instance=ExtResource("4_kacmt")]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 2
-icon = ExtResource("6_3xt3h")
-
-[node name="GeoLayerUI" parent="." instance=ExtResource("7_dic5u")]
+[node name="GeoLayerUI" parent="." node_paths=PackedStringArray("geo_layers") instance=ExtResource("7_dic5u")]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 size_flags_stretch_ratio = 0.3
+geo_layers = NodePath("../GeoLayerViewportContainer/SubViewport/GeoLayerRenderers")
 
+[editable path="GeoLayerViewportContainer/SubViewport"]
 [editable path="GeoLayerUI"]

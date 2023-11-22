@@ -47,13 +47,18 @@ func load_new_data():
 	var long_side = max(viewport_size.x, viewport_size.y)
 	# Apply the size to the mesh and add some additional buffer
 	mesh_size = (Vector2.ONE * long_side) / zoom
-	var top_left_x = position_x - mesh_size.x / 2
-	var top_left_y = position_y + mesh_size.y / 2
+	var top_left = Vector2(
+		position_x - mesh_size.x / 2,
+	 	position_y + mesh_size.y / 2)
+	var bot_right = Vector2(
+		position_x + mesh_size.x / 2,
+		position_y - mesh_size.y / 2
+	)
 	
 	if geo_raster_layer:
 		var current_tex_image = geo_raster_layer.get_image(
-			top_left_x,
-			top_left_y,
+			top_left.x,
+			top_left.y,
 			long_side / zoom.x,
 			int(long_side * size_buffer_factor),
 			0
@@ -69,6 +74,7 @@ func apply_new_data():
 		# Only apply the mesh_size after the new texture has been applied
 		# otherwise it will look clunky
 		plane.mesh.size = mesh_size
+		plane.visibility_layer = visibility_layer
 
 
 func get_debug_info() -> String:
