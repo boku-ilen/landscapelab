@@ -10,12 +10,6 @@ func _ready():
 	connect("mouse_exited",Callable(self,"_disable_input").bind(true))
 
 
-func _enter_tree():
-	if $SubViewport.get_child_count() == 0:
-		var world = TreeHandler.state_stack.front()
-		$SubViewport.add_child(world)
-
-
 func _disable_input(disable: bool):
 	logger.debug("Gui input disable: " + var_to_str(disable))
 	$SubViewport.gui_disable_input = disable

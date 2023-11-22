@@ -120,8 +120,8 @@ func set_rotor_diameter(diameter: float):
 	var new_scale = Vector3.ONE * diameter / mesh_rotor_diameter
 	$Mesh/Rotor.scale = new_scale
 	$Mesh/Hub.scale = new_scale
-	$Mesh/Rotor.position.z = start_pos_rotor.z - new_scale.z * start_pos_rotor.z
-	$Mesh/Hub.position.z = start_pos_hub.z - new_scale.z * start_pos_hub.z
+#	$Mesh/Rotor.position.z = start_pos_rotor.z - new_scale.z * start_pos_rotor.z
+#	$Mesh/Hub.position.z = start_pos_hub.z - new_scale.z * start_pos_hub.z
 
 
 func apply_daytime_change(is_daytime: bool):
