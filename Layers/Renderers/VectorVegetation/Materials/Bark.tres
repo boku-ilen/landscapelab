@@ -11,5 +11,6 @@ shader = ExtResource("1_ba2ni")
 shader_parameter/roughness = 1.0
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
+shader_parameter/spritesheet = 1
 shader_parameter/spritesheet_albedo = ExtResource("2_151lx")
 shader_parameter/spritesheet_normal = ExtResource("3_ta0t3")

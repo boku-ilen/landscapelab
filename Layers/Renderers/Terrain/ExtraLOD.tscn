@@ -4,5 +4,4 @@
 
 [node name="ExtraLOD" type="MeshInstance3D"]
 cast_shadow = 0
-extra_cull_margin = 10000.0
 script = ExtResource("1")

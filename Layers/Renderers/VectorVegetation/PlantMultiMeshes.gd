@@ -3,6 +3,8 @@ extends RenderChunk
 var height_layer: GeoRasterLayer
 var plant_layer: GeoFeatureLayer
 
+var features
+
 var weather_manager: WeatherManager :
 	get:
 		return weather_manager
@@ -21,7 +23,7 @@ var weather_manager: WeatherManager :
 		_apply_new_wind_direction(weather_manager.wind_direction)
 		weather_manager.wind_direction_changed.connect(_apply_new_wind_direction)
 
-var new_multimesh
+var billboard_mesh = preload("res://Layers/Renderers/VectorVegetation/BillboardTree.tres")
 
 # Tree mesh data source:
 # https://l4m0s.itch.io/27-vegetation-3d-assets
@@ -75,6 +77,13 @@ var mesh_name_to_spritesheet_index = {
 	"Quercus": 2
 }
 
+var mesh_name_to_billboard_index = {
+	"Fagus": 0,
+	"Pinus2": 1,
+	"Pinus": 2,
+	"Quercus": 3
+}
+
 var species_to_mesh_name = {}
 var mesh_name_to_mmi = {}
 
@@ -84,9 +93,33 @@ var mesh_name_to_custom_data = {}
 
 var fresh_multimeshes = {}
 
+var is_detailed = false
+var is_refine_load = false
+
+
+func override_increase_quality():
+	is_detailed = true
+	is_refine_load = true
+
+
+func override_decrease_quality():
+	is_detailed = false
+
 
 func _ready():
 	super._ready()
+	create_multimeshes()
+
+
+func create_multimeshes():
+	species_to_mesh_name = {}
+	mesh_name_to_mmi = {}
+
+	mesh_name_to_transforms = {}
+	mesh_name_to_color = {}
+	mesh_name_to_custom_data = {}
+
+	fresh_multimeshes = {}
 	
 	# Create MultiMeshes
 	for species_string in species_to_mesh.keys():
@@ -103,6 +136,16 @@ func _ready():
 			
 			mesh_name_to_mmi[mesh_name] = mmi
 			add_child(mmi)
+	
+	var mmi := MultiMeshInstance3D.new()
+	# Set correct layer mask so streets are not rendered onto trees
+	mmi.set_layer_mask_value(1, false)
+	mmi.set_layer_mask_value(3, true)
+	mmi.name = "Billboard"
+	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	
+	mesh_name_to_mmi["Billboard"] = mmi
+	add_child(mmi)
 
 
 func rebuild_aabb(node):
@@ -111,10 +154,28 @@ func rebuild_aabb(node):
 
 
 func override_build(center_x, center_y):
-	for species in species_to_mesh.keys():
-		var mesh_name = species_to_mesh_name[species]
+	mesh_name_to_transforms = {}
+	mesh_name_to_color = {}
+	mesh_name_to_custom_data = {}
+	fresh_multimeshes = {}
+	
+	if is_detailed:
+		for species in species_to_mesh.keys():
+			var mesh_name = species_to_mesh_name[species]
+			fresh_multimeshes[mesh_name] = MultiMesh.new()
+			fresh_multimeshes[mesh_name].mesh = species_to_mesh[species]
+			fresh_multimeshes[mesh_name].transform_format = MultiMesh.TRANSFORM_3D
+			fresh_multimeshes[mesh_name].instance_count = 0
+			fresh_multimeshes[mesh_name].use_custom_data = true
+			
+			# Done more than once, but shouldn't matter
+			mesh_name_to_transforms[mesh_name] = []
+			mesh_name_to_color[mesh_name] = []
+			mesh_name_to_custom_data[mesh_name] = []
+	else:
+		var mesh_name = "Billboard"
 		fresh_multimeshes[mesh_name] = MultiMesh.new()
-		fresh_multimeshes[mesh_name].mesh = species_to_mesh[species]
+		fresh_multimeshes[mesh_name].mesh = billboard_mesh
 		fresh_multimeshes[mesh_name].transform_format = MultiMesh.TRANSFORM_3D
 		fresh_multimeshes[mesh_name].instance_count = 0
 		fresh_multimeshes[mesh_name].use_custom_data = true
@@ -127,11 +188,18 @@ func override_build(center_x, center_y):
 	var top_left_x = float(center_x - size / 2)
 	var top_left_y = float(center_y + size / 2)
 	
-	var features = plant_layer.get_features_in_square(top_left_x, top_left_y, size, 10000000)
+	if not is_refine_load:
+		features = plant_layer.get_features_in_square(top_left_x, top_left_y, size, 10000000)
 	
 	for feature in features:
-		var species = feature.get_attribute("layer")
-		var mesh_name = species_to_mesh_name[species]
+		var mesh_name
+		var species_mesh_name = species_to_mesh_name[feature.get_attribute("layer")]
+		
+		if is_detailed:
+			mesh_name = species_mesh_name
+		else:
+			mesh_name = "Billboard"
+		
 		var instance_scale = feature.get_attribute("height1").to_float() * 1.5
 		
 		# FIXME: Load these in a later refinement step
@@ -145,11 +213,19 @@ func override_build(center_x, center_y):
 				.rotated(Vector3.UP, PI * 0.5 * randf()) \
 				.translated(pos - Vector3.UP)
 		)
-		mesh_name_to_custom_data[mesh_name].append(Color(
-			mesh_name_to_spritesheet_index[mesh_name], # Spritesheet index
-			randf(), # Randomness for shading
-			0.0
-		))
+		
+		if is_detailed:
+			mesh_name_to_custom_data[mesh_name].append(Color(
+				mesh_name_to_spritesheet_index[species_mesh_name], # Spritesheet index
+				randf(), # Randomness for shading
+				0.0
+			))
+		else:
+			mesh_name_to_custom_data[mesh_name].append(Color(
+				mesh_name_to_billboard_index[species_mesh_name], # Spritesheet index
+				randf(), # Randomness for shading
+				0.0
+			))
 	
 	for mesh_name in mesh_name_to_transforms.keys():
 		fresh_multimeshes[mesh_name].instance_count = mesh_name_to_transforms[mesh_name].size()
@@ -157,9 +233,15 @@ func override_build(center_x, center_y):
 		for i in range(mesh_name_to_transforms[mesh_name].size()):
 			fresh_multimeshes[mesh_name].set_instance_transform(i, mesh_name_to_transforms[mesh_name][i])
 			fresh_multimeshes[mesh_name].set_instance_custom_data(i, mesh_name_to_custom_data[mesh_name][i])
+	
+	is_refine_load = false
 
 
 func override_apply():
+	for child in get_children():
+		if child.name not in fresh_multimeshes.keys() and child.multimesh:
+			child.multimesh.instance_count = 0
+	
 	for mesh_name in fresh_multimeshes.keys():
 		if fresh_multimeshes[mesh_name].instance_count > 0:
 			mesh_name_to_mmi[mesh_name].visible = true

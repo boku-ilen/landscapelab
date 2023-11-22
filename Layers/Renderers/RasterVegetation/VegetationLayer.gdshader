@@ -88,7 +88,9 @@ void process() {
 	// The row in the spritesheets which corresponds to this splatmap ID
 	float row = id_to_row[splatmap_value];
 	
-	ACTIVE = !(abs(row + 1.0) < 0.1);// && is_in_front_of_camera;
+	ACTIVE = !(abs(row + 1.0) < 0.1) &&
+			(splatmap_uv.x > 0.0 && splatmap_uv.x < 1.0 &&
+			 splatmap_uv.y > 0.0 && splatmap_uv.y < 1.0);// && is_in_front_of_camera;
 	
 	// Using the row, we can get the ID (the column) of the plant which should be here
 	ivec2 dist_pos = ivec2(int(pos.x / spacing) % DISTRIBUTION_RESOLUTION,
