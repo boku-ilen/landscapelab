@@ -1,8 +1,6 @@
-[gd_scene load_steps=34 format=3 uid="uid://irhadvtwokr5"]
+[gd_scene load_steps=28 format=3 uid="uid://irhadvtwokr5"]
 
-[ext_resource type="Texture2D" uid="uid://b2i6gv6rjevem" path="res://Resources/Icons/ModernLandscapeLab/fullscreen.svg" id="2"]
 [ext_resource type="PackedScene" uid="uid://csad5ev7rwtoe" path="res://UI/MenuBar/MenuBar.tscn" id="2_56a3o"]
-[ext_resource type="PackedScene" path="res://UI/VRMenu/VRMenu.tscn" id="3"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/Management/GeoLayerManagement.gd" id="4_ba7hm"]
 [ext_resource type="Script" path="res://UI/UIDock.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://b7edl76i03v20" path="res://UI/Layers/GeoLayers/Management/GeoFeatureLayerManagement.tscn" id="5_cyywb"]
@@ -12,15 +10,11 @@
 [ext_resource type="Script" path="res://UI/UISplit.gd" id="8"]
 [ext_resource type="PackedScene" path="res://UI/PlayerCompass.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://pmmpjdicjvjs" path="res://UI/TeleportMenu/TeleportMenu.tscn" id="9_he6fp"]
-[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="10_6fnux"]
 [ext_resource type="PackedScene" uid="uid://cckl23qaxw3h8" path="res://UI/Datetime/Datetime.tscn" id="10_x7hwk"]
 [ext_resource type="Script" path="res://UI/WorldViewPort.gd" id="11"]
 [ext_resource type="PackedScene" uid="uid://dkvdbwaqhrbnn" path="res://UI/Weather/WeatherUI.tscn" id="11_1mm7o"]
-[ext_resource type="Script" path="res://UI/Imaging/ImagingButton.gd" id="11_2gr6u"]
-[ext_resource type="PackedScene" uid="uid://b858h2ejta33m" path="res://Util/Imaging/Dolly/DollyWindow.tscn" id="12_5yhyn"]
 [ext_resource type="Texture2D" uid="uid://copq7sq4f0uom" path="res://Resources/Icons/ModernLandscapeLab/loading.png" id="12_8oiw2"]
 [ext_resource type="PackedScene" uid="uid://88rg1t88n3e7" path="res://UI/Screenshot/ScreenshotMenu.tscn" id="12_xqn6f"]
-[ext_resource type="PackedScene" uid="uid://c63a11up3xcvk" path="res://UI/CustomElements/AutoTextureButton.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://dsaj5k71mnup0" path="res://UI/DebugInfo/DebugInfo.tscn" id="14"]
 [ext_resource type="Script" path="res://UI/LoadingCircle.gd" id="14_jjvhr"]
 [ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="15"]
@@ -67,6 +61,14 @@ layout_mode = 2
 [node name="MenuBar" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_56a3o")]
 layout_mode = 2
 
+[node name="TableButton" parent="MarginContainer/VBoxContainer/MenuBar" index="1" node_paths=PackedStringArray("player_node")]
+player_node = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
+
+[node name="ViewButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" node_paths=PackedStringArray("world_ui", "docks")]
+world_ui = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI")
+docks = [NodePath("../../Left/Tabs"), NodePath("../../Left/Mid/Right"), NodePath("../../Left/Mid/MidVertical/HBoxContainer")]
+dock_names = Array[String](["Left dock", "Right dock", "Bottom dock"])
+
 [node name="GeoLayerManagement" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 script = ExtResource("4_ba7hm")
@@ -99,14 +101,6 @@ script = ExtResource("5")
 [node name="TeleportMenu" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("9_he6fp")]
 layout_mode = 2
 
-[node name="VRMenu" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("3")]
-visible = false
-layout_mode = 2
-
-[node name="Datetime" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("10_x7hwk")]
-visible = false
-layout_mode = 2
-
 [node name="WeatherUI" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("11_1mm7o")]
 visible = false
 layout_mode = 2
@@ -116,26 +110,12 @@ layout_mode = 2
 drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
-[node name="Control" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("12_xqn6f")]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot"]
+[node name="Datetime" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("10_x7hwk")]
 visible = false
 layout_mode = 2
 
-[node name="ImagingButton" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot/VBoxContainer" instance=ExtResource("10_6fnux")]
-custom_minimum_size = Vector2(30, 30)
+[node name="Screenshot" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("12_xqn6f")]
 layout_mode = 2
-toggle_mode = true
-script = ExtResource("11_2gr6u")
-action_handler_3d_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/ActionHandler")
-position_manager_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
-texture_name = "camera"
-
-[node name="Window" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot/VBoxContainer/ImagingButton" instance=ExtResource("12_5yhyn")]
-mode = 0
-visible = false
-transient = true
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot"]
 visible = false
@@ -179,7 +159,7 @@ script = ExtResource("11")
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort"]
 handle_input_locally = false
 gui_disable_input = true
-size = Vector2i(2, 2)
+size = Vector2i(555, 421)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_xvbyv")]
@@ -187,29 +167,19 @@ render_target_update_mode = 4
 [node name="MousePoint" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/Head/Camera3D" index="0"]
 position_manager_path = NodePath("../../../../PositionManager")
 
-[node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI" instance=ExtResource("9")]
-layout_mode = 1
+[node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC" index="5" node_paths=PackedStringArray("pc_player") instance=ExtResource("9")]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -38.0
 offset_top = 0.0
 offset_right = 0.0
-offset_bottom = 37.0
 grow_horizontal = 0
 size_flags_horizontal = 8
-
-[node name="FullscreenButton" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI" instance=ExtResource("13")]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 0
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 40.0
-offset_bottom = 40.0
-texture_normal = ExtResource("2")
+pc_player = NodePath("..")
 
 [node name="LoadingCircle" type="TextureRect" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI"]
+visible = false
 custom_minimum_size = Vector2(20, 40)
 layout_mode = 1
 anchors_preset = 2
@@ -227,14 +197,15 @@ layer_renderers_path = NodePath("../WorldViewPort/SubViewport/World/Terrain/Laye
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
+mouse_filter = 0
 
 [node name="DebugInfo" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("14")]
+visible = false
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 layer_renderers_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/Terrain/LayerRenderers")
 
 [node name="GameUI" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("18")]
-visible = false
 layout_mode = 2
 viewport_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport")
 position_manager_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
@@ -257,9 +228,8 @@ script = ExtResource("5")
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 
-[node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewport" index="0"]
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+[node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewportContainer" index="0"]
+size = Vector2i(206, 300)
 
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]
 visible = false
@@ -292,8 +262,11 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[editable path="MarginContainer/VBoxContainer/MenuBar"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC"]
+[editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/SubViewport"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport"]
+[editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewportContainer/SubViewport"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerUI"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot/LayerCompositionUI"]

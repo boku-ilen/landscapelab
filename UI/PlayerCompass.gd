@@ -5,8 +5,7 @@ extends TextureRect
 # a usual compass. Comparable to google earht
 #
 
-# injected from above
-var pc_player: AbstractPlayer
+@export var pc_player: AbstractPlayer
 
 
 func _ready():

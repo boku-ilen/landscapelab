@@ -11,13 +11,23 @@ var pc_player :
 
 
 func _ready():
-	get_node("FullscreenButton").connect("pressed",Callable(self,"on_fullscreen"))
+	pass#get_node("FullscreenButton").connect("pressed",Callable(self,"on_fullscreen"))
+
+
+func _enter_tree():
+	if TreeHandler.state_stack.front() == null \
+	or TreeHandler.state_stack.front() == self:
+			return
+	
+	var world_viewport = TreeHandler.state_stack.front()
+	add_child(world_viewport)
 
 
 func on_fullscreen():
-	var world = get_node("WorldViewPort/SubViewport/World")
+	var world_viewport = get_node("WorldViewPort")
+	var world = world_viewport.get_node("SubViewport/World")
 	
 	if not world.is_fullscreen:
 		world.is_fullscreen = true
-		$WorldViewPort/SubViewport.remove_child(world)
-		TreeHandler.switch_main_node(world)
+		remove_child(world_viewport)
+		TreeHandler.switch_main_node(world_viewport)

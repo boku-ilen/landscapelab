@@ -6,6 +6,43 @@ var path: String
 var file_access: FileAccess
 
 
+# Split dataset string into (absolute directory path, layer name, access)
+static func split_dataset_string(base_path: String, dataset_str: String):
+	# E.g. ./LL.gpkg:ortho?w
+	# => ["./LL.gpkg", "ortho?w"], ["ortho", "w"]
+	var split_step = dataset_str.split(":")
+	var split_step2 = split_step[1].split("?")
+	# => ["./LL.gpkg", "ortho", "w"]
+	var splits = { 
+		"file_name": split_step[0], 
+		"layer_name": split_step[1].split("?")[0],
+		"write_access": true if split_step2.size() > 1 and split_step2[1] == "w" else false
+	}
+	
+	splits["file_name"] = LLFileAccess.get_rel_or_abs_path(
+		base_path,
+		splits["file_name"])
+	
+	return splits
+
+
+static func get_layer_from_splits(splits: Dictionary, is_raster:=true):
+	var geo_ds = Geodot.get_dataset(
+		splits["file_name"], splits["write_access"])
+	
+	if is_raster:
+		return geo_ds.get_raster_layer(splits["layer_name"])
+	
+	return geo_ds.get_feature_layer(splits["layer_name"])
+
+
+static func get_rel_or_abs_path(base_path: String, file_path: String) -> String:
+	if file_path.begins_with("./"):
+		return base_path.get_base_dir().path_join(file_path)
+	else:
+		return file_path
+
+
 static func open(init_path: String) -> LLFileAccess:
 	logger.info("Loading LL project file from " + init_path + "...")
 	var file
@@ -65,17 +102,10 @@ func save():
 			+ str(json_object.get_error_line()))
 
 
-func apply(vegetation: Node, layers: Node, scenarios: Node):
+func apply(vegetation: Node, layers: Node, scenarios: Node, game_system: Node):
 	apply_vegetation(vegetation)
 	apply_layers(layers)
 	apply_scenarios(scenarios)
-
-
-static func get_rel_or_abs_path(base_path: String, file_path: String):
-	if file_path.begins_with("./"):
-		return base_path.get_base_dir().path_join(file_path)
-	else:
-		return file_path
 
 
 func apply_vegetation(vegetation: Node):
@@ -128,3 +158,27 @@ func apply_scenarios(scenarios: Node):
 			scenarios.add_scenario(scenario)
 		
 		logger.info("Done loading scenarios!")
+
+
+func apply_game(game_system: Node, layers: Node):
+	var ll_project = json_object.data
+	
+	# Load scenarios if in config
+	if ll_project.has("GameModes"):
+		logger.info("Loading game modes...")
+		for game_mode_name in ll_project["GameModes"].keys():
+			var game_mode = GameMode.new()
+			
+			for game_object_collection_name in ll_project["GameModes"][game_mode_name]["GameObjectCollections"]:
+				var lc_name = ll_project["GameModes"][game_mode_name]["GameObjectCollections"][game_object_collection_name]
+				var layer = layers.layer_compositions[lc_name].render_info.geo_feature_layer
+				
+				game_mode.add_game_object_collection_for_feature_layer(
+					game_object_collection_name,
+					layer
+				)
+			
+			# FIXME: Another way to set this, this only works for 1 game mode
+			game_system.current_game_mode = game_mode
+		
+		logger.info("Done loading game logic!")

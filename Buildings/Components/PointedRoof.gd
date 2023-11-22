@@ -8,60 +8,32 @@ extends Node3D
 
 # Overhang factor
 @export var roof_overhang_size := 1.75
-var height
-var color
+var height: float :
+	set(new_height): height = new_height
+var color: Color :
+	set(new_color): color = new_color
+var extent: float :
+	set(new_extent): extent = new_extent
+var center := Vector2(0,0): 
+	set(new_center): center = new_center
+
+
+func set_metadata(metadata: Dictionary):
+	height = metadata["roof_height"]
+	extent = metadata["extent"]
 
 
 func _ready():
 	$MeshInstance3D.material_override = preload("res://Buildings/Components/PointedRoof.tres")
 
 
-func set_color(new_color):
-	color = new_color
-
-
-func get_center(footprint: PackedVector2Array):
-	# TODO: Consider caching the result, can be called repeatedly (first can_build, then build)
-	var center = Vector2.ZERO
-	
-	for vector in footprint:
-		center += vector
-	
-	center /= footprint.size()
-	
-	return center
-
-
-func set_height(new_height):
-	height = new_height
-
-
-func can_build(footprint):
-	return Geometry2D.is_point_in_polygon(get_center(footprint), footprint)
+func can_build(geo_center, geo_footprint):
+	return Geometry2D.is_point_in_polygon(geo_center, geo_footprint)
 
 
 func build(footprint: PackedVector2Array):
 	# Get the center of the footprint by averaging out all points
-	var center = get_center(footprint)
-	
-	# Get the extent for calculating a good height
-	var min_vec = Vector2(INF, INF)
-	var max_vec = Vector2(-INF, -INF)
-	
-	for vector in footprint:
-		if vector.x < min_vec.x:
-			min_vec.x = vector.x
-		if vector.x > max_vec.x:
-			max_vec.x = vector.x
-		
-		if vector.y < min_vec.y:
-			min_vec.y = vector.y
-		if vector.y > max_vec.y:
-			max_vec.y = vector.y
-	
-	var extent = (max_vec - min_vec).length()
 	var roof_height = height if height else min(extent / 5.0, 5.0)
-		
 	
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -111,4 +83,5 @@ func build(footprint: PackedVector2Array):
 	
 	# Apply
 	var mesh = st.commit()
+	mesh.custom_aabb = st.get_aabb()
 	get_node("MeshInstance3D").mesh = mesh

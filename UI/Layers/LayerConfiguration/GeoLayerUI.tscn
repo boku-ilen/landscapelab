@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bhicpel2rgc1f"]
+[gd_scene load_steps=7 format=3 uid="uid://bhicpel2rgc1f"]
 
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayersList.gd" id="1_3hdh6"]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayersUI.gd" id="1_v25nd"]
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayerUIConfig.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://djgdeb68xdbg5" path="res://Resources/Icons/ModernLandscapeLab/vector_save.svg" id="2_3ylfg"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayersItemList.gd" id="2_wqrx3"]
 [ext_resource type="Texture2D" uid="uid://c3kuxlnuadbrl" path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" id="3_3nst3"]
 [ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayerOptions.gd" id="4_hvmms"]
 
@@ -15,12 +16,14 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_v25nd")
 
 [node name="ItemList" type="ItemList" parent="."]
 custom_minimum_size = Vector2(0, 167)
 layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource("1_3hdh6")
+allow_search = false
+script = ExtResource("2_wqrx3")
 
 [node name="GeoLayerOptions" type="PopupMenu" parent="ItemList"]
 size = Vector2i(207, 100)
@@ -35,5 +38,7 @@ item_1/icon = ExtResource("2_3ylfg")
 item_1/id = 0
 script = ExtResource("4_hvmms")
 
-[node name="GeoLayerUIConfig" type="Node" parent="."]
+[node name="GeoLayerUIConfig" type="Node" parent="." node_paths=PackedStringArray("geo_layer_ui", "list")]
 script = ExtResource("2")
+geo_layer_ui = NodePath("..")
+list = NodePath("../ItemList")

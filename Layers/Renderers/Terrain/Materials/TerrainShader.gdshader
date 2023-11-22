@@ -4,7 +4,7 @@ shader_type spatial;
 
 // Basic Terrain
 uniform sampler2D orthophoto: source_color, repeat_disable;
-uniform sampler2D heightmap: repeat_disable, filter_nearest;
+uniform sampler2D heightmap: repeat_disable;
 uniform sampler2D normalmap: hint_normal, repeat_disable;
 uniform float height_scale = 1.0;
 uniform bool has_hole = false;
@@ -223,8 +223,8 @@ void fragment() {
 	float count = 0.0;
 	
 	// Get detail texture sample, but blur the position to get nice transitions
-	for (float x_off = -1.0; x_off <= 1.0; x_off += 0.5) {
-		for (float y_off = -1.0; y_off <= 1.0; y_off += 0.5) {
+	for (float x_off = -1.0; x_off < 1.0; x_off += 0.5) {
+		for (float y_off = -1.0; y_off < 1.0; y_off += 0.5) {
 			vec2 offset_vector = vec2(x_off / size, y_off / size);
 			float splat_id = texture(landuse, UV + offset_vector).r;
 			

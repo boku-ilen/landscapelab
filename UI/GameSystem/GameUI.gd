@@ -17,6 +17,25 @@ func _ready():
 	if GameSystem.current_game_mode is TurnBasedGameMode:
 		add_child(preload("res://UI/GameSystem/TurnBasedMenu.tscn").instantiate())
 	
+	load_ui()
+	GameSystem.game_mode_changed.connect(load_ui)
+
+
+func load_ui():
+	# clear previous children
+	var containing_controls = [
+		$GameObjects/GameObjectCollections,
+		$Scores/ScrollContainer/HBoxContainer/ScrollContainer/IconTextContainer,
+		$Scores/ScrollContainer/HBoxContainer/BarContainer
+	]
+	for container in containing_controls: 
+		for child in container.get_children():
+			container.remove_child(child)
+			child.queue_free()
+		if container is ItemList:
+			for idx in range(container.item_count): 
+				container.remove_item(0)
+	
 	for collection in GameSystem.current_game_mode.game_object_collections.values():
 		$GameObjects/GameObjectCollections.add_item(collection.name)
 	
@@ -28,7 +47,7 @@ func _ready():
 		if score_ui.score.display_mode == GameScore.DisplayMode.ICONTEXT:
 			$Scores/ScrollContainer/HBoxContainer/ScrollContainer/IconTextContainer.add_child(score_ui)
 		else:
-			$Scores/ScrollContainer/HBoxContainer.add_child(score_ui)
+			$Scores/ScrollContainer/HBoxContainer/BarContainer.add_child(score_ui)
 
 
 func _on_game_object_collection_selected(item_id):

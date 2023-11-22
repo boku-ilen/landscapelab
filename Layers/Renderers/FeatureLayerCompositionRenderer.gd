@@ -30,8 +30,8 @@ signal feature_instance_removed(id: int)
 
 func _ready():
 	super._ready()
-	layer_composition.render_info.geo_feature_layer.feature_added.connect(_on_feature_added)
-	layer_composition.render_info.geo_feature_layer.feature_removed.connect(_on_feature_removed)
+	layer_composition.render_info.geo_feature_layer.feature_added.connect(_on_feature_added, CONNECT_DEFERRED)
+	layer_composition.render_info.geo_feature_layer.feature_removed.connect(_on_feature_removed, CONNECT_DEFERRED)
 
 
 func full_load():

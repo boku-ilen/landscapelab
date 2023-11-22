@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5e47rvrfqjq1"]
+
+[ext_resource type="PackedScene" uid="uid://d4f3qoqpxstrg" path="res://Objects/Abstract/Beam.tscn" id="1_1kijs"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7n5hh"]
+transparency = 1
+albedo_color = Color(0.231373, 1, 0.231373, 0.254902)
+emission = Color(0.270588, 1, 0.270588, 1)
+rim = 0.16
+
+[node name="Good" instance=ExtResource("1_1kijs")]
+color = Color(0.231373, 1, 0.231373, 0.254902)
+
+[node name="MeshInstance3D" parent="." index="0"]
+layers = 4
+material_override = SubResource("StandardMaterial3D_7n5hh")

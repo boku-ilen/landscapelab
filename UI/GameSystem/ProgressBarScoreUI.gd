@@ -33,7 +33,7 @@ var score: GameScore :
 	
 	
 		_update_data(score.value)
-		score.connect("value_changed",Callable(self,"_update_data"))
+		score.value_changed.connect(_update_data)
 
 
 func _update_data(new_value):

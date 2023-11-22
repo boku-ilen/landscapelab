@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://fdxy3e13umxv"]
+
+[ext_resource type="Script" path="res://GameSystem/GameModesConfigurator.gd" id="1_gur22"]
+
+[node name="GameModesConfigurator" type="Node"]
+script = ExtResource("1_gur22")

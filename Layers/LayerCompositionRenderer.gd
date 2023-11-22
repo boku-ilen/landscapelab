@@ -78,7 +78,8 @@ func full_load():
 func adapt_load(_position_diff: Vector3):
 	# Workaround until we adapt to new multithreading system
 	# See https://github.com/godotengine/godot/pull/78000
-	Thread.set_thread_safety_checks_enabled(false)
+	if load_adapt_threaded:
+		Thread.set_thread_safety_checks_enabled(false)
 
 
 # Refine the currently loaded data, e.g. loading more detailed data near the camera.
@@ -86,7 +87,8 @@ func adapt_load(_position_diff: Vector3):
 func refine_load():
 	# Workaround until we adapt to new multithreading system
 	# See https://github.com/godotengine/godot/pull/78000
-	Thread.set_thread_safety_checks_enabled(false)
+	if load_refined_threaded:
+		Thread.set_thread_safety_checks_enabled(false)
 
 
 # Overload to return a string with statistics and information about the current state of this

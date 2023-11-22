@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://doohlbjfy3eyn"]
+
+[ext_resource type="Script" path="res://UI/GameSystem/ScoreContributorWeightSlider.gd" id="1_n5qx7"]
+
+[node name="ScoreContributorWeightSlider" type="HBoxContainer"]
+offset_right = 56.0
+offset_bottom = 23.0
+script = ExtResource("1_n5qx7")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+text = "name"
+
+[node name="HSlider" type="HSlider" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2

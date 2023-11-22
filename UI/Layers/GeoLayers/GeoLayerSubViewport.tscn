@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://b614v82srw120"]
+
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Viewport2DCamera.gd" id="1_8qbtf"]
+[ext_resource type="PackedScene" uid="uid://dn25tsa6f10jw" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.tscn" id="2_6f28s"]
+
+[node name="SubViewport" type="SubViewport"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+canvas_cull_mask = 4294967294
+size = Vector2i(800, 648)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Camera2D" type="Camera2D" parent="."]
+ignore_rotation = false
+limit_left = -1000000000
+limit_top = -1000000000
+limit_right = 1000000000
+limit_bottom = 1000000000
+position_smoothing_speed = 30.0
+script = ExtResource("1_8qbtf")
+
+[node name="GeoLayerRenderers" parent="." instance=ExtResource("2_6f28s")]
+visibility_layer = 3
