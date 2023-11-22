@@ -10,8 +10,8 @@ uniform vec4 backlight : source_color;
 
 uniform int sprite_count = 3;
 
-uniform sampler2D spritesheet_albedo: source_color, filter_linear_mipmap, repeat_disable;
-uniform sampler2D spritesheet_normal: hint_normal, filter_linear_mipmap, repeat_disable;
+uniform sampler2D spritesheet_albedo: source_color, filter_linear_mipmap;
+uniform sampler2D spritesheet_normal: hint_normal, filter_linear_mipmap;
 
 uniform vec3 most_extreme_random_color: source_color;
 
