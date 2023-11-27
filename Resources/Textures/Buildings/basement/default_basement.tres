@@ -7,6 +7,7 @@
 
 [resource]
 script = ExtResource("1_4i41v")
+texture_scale = Vector2(1, 1)
 albedo_texture = ExtResource("1_ffj7n")
 normal_texture = ExtResource("2_qu43x")
 roughness_texture = ExtResource("3_ctt57")
