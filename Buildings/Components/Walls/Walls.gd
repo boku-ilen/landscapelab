@@ -7,14 +7,14 @@ extends Node3D
 
 
 @export var wind_counterclockwise: bool = true
-@export var random_colors: Array[Color]
 @export var material: Material = preload("res://Buildings/Components/Walls/PlainWalls.tres") :
 		set(new_material):
 			material = new_material
 			$MeshInstance3D.material_override = material
 
 var height = 2.5
-var texture_scale = 2.5  # Size of the texture in meters - likely identical to the height
+# How much the texture shall be scaled with respect to the height
+var texture_scale := Vector2(1., 1.)  
 
 var color
 var texture_index
@@ -72,29 +72,30 @@ func build(footprint: PackedVector2Array):
 		# The distance is needed for the UV coordinates, to make the texture not stretch but repeat
 		var distance_to_next_point = max(0.1, point_3d.distance_to(next_point_3d)) # to prevent division by 0
 		
+		var texture_scale_height = texture_scale * height
 		if not wind_counterclockwise:
 			# Store the texture index in the alpha value to correctly choose
 			# from the sampler2DArray
 			st.set_color(Color(color, float(texture_index) / 255.0))
 			
 			# First triangle of the wall
-			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale_height)
 			st.add_vertex(next_point_3d)
 			
-			st.set_uv(Vector2(0.0, height) / texture_scale)
+			st.set_uv(Vector2(0.0, height) / texture_scale_height)
 			st.add_vertex(point_up_3d)
 			
 			st.set_uv(Vector2(0.0, 0.0))
 			st.add_vertex(point_3d)
 			
 			# Second triangle of the wall
-			st.set_uv(Vector2(distance_to_next_point, height) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, height) / texture_scale_height)
 			st.add_vertex(next_point_up_3d)
 			
-			st.set_uv(Vector2(0.0, height) / texture_scale)
+			st.set_uv(Vector2(0.0, height) / texture_scale_height)
 			st.add_vertex(point_up_3d)
 			
-			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale_height)
 			st.add_vertex(next_point_3d)
 		else:
 			# Cast texture index to value between 0 and 1
@@ -104,20 +105,20 @@ func build(footprint: PackedVector2Array):
 			st.set_uv(Vector2(0.0, 0.0))
 			st.add_vertex(point_3d)
 			
-			st.set_uv(Vector2(0.0, height) / texture_scale)
+			st.set_uv(Vector2(0.0, height) / texture_scale_height)
 			st.add_vertex(point_up_3d)
 			
-			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale_height)
 			st.add_vertex(next_point_3d)
 			
 			# Second triangle of the wall
-			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale_height)
 			st.add_vertex(next_point_3d)
 			
-			st.set_uv(Vector2(0.0, height) / texture_scale)
+			st.set_uv(Vector2(0.0, height) / texture_scale_height)
 			st.add_vertex(point_up_3d)
 			
-			st.set_uv(Vector2(distance_to_next_point, height) / texture_scale)
+			st.set_uv(Vector2(distance_to_next_point, height) / texture_scale_height)
 			st.add_vertex(next_point_up_3d)
 	
 	st.generate_normals()

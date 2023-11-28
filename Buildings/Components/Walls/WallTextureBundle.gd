@@ -2,6 +2,8 @@
 extends Resource
 class_name WallTextureBundle
 
+
+@export var texture_scale := Vector2(1, 1)
 @export var albedo_texture: Texture
 @export var normal_texture: Texture
 

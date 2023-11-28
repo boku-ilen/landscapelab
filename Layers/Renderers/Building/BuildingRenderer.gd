@@ -196,6 +196,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	# Add an additional height to the cellar which acts as "plinth" scaled with the extent
 	cellar.height += plinth_height_factor * min(20., building_metadata["extent"])
 	cellar.set_texture_index(get_cellar_index.call(building_type))
+	cellar.texture_scale = walls_resource.basement_texture.texture_scale
 	if walls_resource.apply_colors & flag.basement:
 		cellar.set_color(wall_color)
 	building.add_child(cellar)
@@ -205,6 +206,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	var ground_floor = walls_scene.instantiate()
 	ground_floor.set_texture_index(get_ground_index.call(building_type))
 	ground_floor.set_color(Color.WHITE_SMOKE)
+	ground_floor.texture_scale = walls_resource.ground_texture.texture_scale
 	if walls_resource.apply_colors & flag.ground: 
 		ground_floor.set_color(wall_color)
 		
@@ -216,6 +218,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 			var walls = walls_scene.instantiate()
 			walls.set_texture_index(get_mid_index.call(building_type))
 			walls.set_color(Color.WHITE_SMOKE)
+			walls.texture_scale = walls_resource.middle_texture.texture_scale
 			if walls_resource.apply_colors & flag.mid:
 				walls.set_color(wall_color)
 			building.add_child(walls)
@@ -224,6 +227,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 		var top_floor = walls_scene.instantiate()
 		top_floor.set_texture_index(get_top_index.call(building_type))
 		top_floor.set_color(Color.WHITE_SMOKE)
+		top_floor.texture_scale = walls_resource.top_texture.texture_scale
 		if walls_resource.apply_colors & flag.top:
 			top_floor.set_color(wall_color)
 		building.add_child(top_floor)
