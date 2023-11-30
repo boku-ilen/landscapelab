@@ -4,15 +4,13 @@ var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 var flat_roof_scene = preload("res://Buildings/Components/FlatRoof.tscn")
 var pointed_roof_scene = preload("res://Buildings/Components/PointedRoof.tscn")
 
-var fallback_wall = preload("res://Resources/Textures/Buildings/PlainWallResources/Industrial.tres")
-
 var wall_resources = [
 	# "apartments": 0
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "house": 1
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "shack": 2
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/Shack.tres"),
 	# "industrial": 3
 	preload("res://Resources/Textures/Buildings/PlainWallResources/Industrial.tres"),
 	# "office": 4
@@ -28,8 +26,11 @@ var wall_resources = [
 	# "greenhouse": 9
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "concrete": 10
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/Concrete.tres"),
 ]
+
+# It is important to reference a wall_resource and not loading another 
+var fallback_wall_id := 3
 
 var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
 var fallback_height = 10
@@ -161,9 +162,11 @@ func prepare_pillars(building_metadata: Dictionary, building: Node3D, num_floors
 func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 		building: Node3D, num_floors: int):
 	var walls_scene = preload("res://Buildings/Components/Walls/PlainWalls.tscn")
-	var walls_resource: PlainWallResource = wall_resources[int(building_type)] \
-		if int(building_type) in range(0, wall_resources.size()) \
-		else fallback_wall
+	
+	var building_type_id = int(building_type) \
+		if building_type != "" and int(building_type) in range(0, wall_resources.size()) \
+		else fallback_wall_id
+	var walls_resource: PlainWallResource = wall_resources[building_type_id]
 	
 	# Random facade texture
 	var random_gen = RandomNumberGenerator.new()
@@ -185,17 +188,17 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	# Each bundle consists of: basement, ground, mid, top
 	# => building_type 1 basement => 1 * 4 + 3
 	# => building_type 3 top => 3 * 4 + 3
-	var get_cellar_index = func(building_type): return int(building_type) * 4 + 0
-	var get_ground_index = func(building_type): return int(building_type) * 4 + 1
-	var get_mid_index = func(building_type): return int(building_type) * 4 + 2
-	var get_top_index = func(building_type): return int(building_type) * 4 + 3
+	var get_cellar_index = func(building_id): return int(building_id) * 4 + 0
+	var get_ground_index = func(building_id): return int(building_id) * 4 + 1
+	var get_mid_index = func(building_id): return int(building_id) * 4 + 2
+	var get_top_index = func(building_id): return int(building_id) * 4 + 3
 	
 	# Add a cellar
 	var cellar = walls_scene.instantiate()
 	cellar.set_color(Color.WHITE_SMOKE)
 	# Add an additional height to the cellar which acts as "plinth" scaled with the extent
 	cellar.height += plinth_height_factor * min(20., building_metadata["extent"])
-	cellar.set_texture_index(get_cellar_index.call(building_type))
+	cellar.set_texture_index(get_cellar_index.call(building_type_id))
 	cellar.texture_scale = walls_resource.basement_texture.texture_scale
 	if walls_resource.apply_colors & flag.basement:
 		cellar.set_color(wall_color)
@@ -204,7 +207,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	# Add ground floor
 	num_floors -= 1
 	var ground_floor = walls_scene.instantiate()
-	ground_floor.set_texture_index(get_ground_index.call(building_type))
+	ground_floor.set_texture_index(get_ground_index.call(building_type_id))
 	ground_floor.set_color(Color.WHITE_SMOKE)
 	ground_floor.texture_scale = walls_resource.ground_texture.texture_scale
 	if walls_resource.apply_colors & flag.ground: 
@@ -216,7 +219,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	if num_floors >= 1:
 		for i in range(num_floors - 1):
 			var walls = walls_scene.instantiate()
-			walls.set_texture_index(get_mid_index.call(building_type))
+			walls.set_texture_index(get_mid_index.call(building_type_id))
 			walls.set_color(Color.WHITE_SMOKE)
 			walls.texture_scale = walls_resource.middle_texture.texture_scale
 			if walls_resource.apply_colors & flag.mid:
@@ -225,7 +228,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 
 		# Add top floor
 		var top_floor = walls_scene.instantiate()
-		top_floor.set_texture_index(get_top_index.call(building_type))
+		top_floor.set_texture_index(get_top_index.call(building_type_id))
 		top_floor.set_color(Color.WHITE_SMOKE)
 		top_floor.texture_scale = walls_resource.top_texture.texture_scale
 		if walls_resource.apply_colors & flag.top:
