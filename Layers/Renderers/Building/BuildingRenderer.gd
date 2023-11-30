@@ -31,7 +31,7 @@ var wall_resources = [
 ]
 
 # It is important to reference a wall_resource and not loading another 
-var fallback_wall_id := 3
+var fallback_wall_id := 0
 
 var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
 var fallback_height = 10
