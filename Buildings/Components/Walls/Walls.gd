@@ -72,7 +72,7 @@ func build(footprint: PackedVector2Array):
 		# The distance is needed for the UV coordinates, to make the texture not stretch but repeat
 		var distance_to_next_point = max(0.1, point_3d.distance_to(next_point_3d)) # to prevent division by 0
 		
-		var texture_scale_height = texture_scale * height
+		var texture_scale_height = texture_scale * Vector2(1, height)
 		if not wind_counterclockwise:
 			# Store the texture index in the alpha value to correctly choose
 			# from the sampler2DArray
