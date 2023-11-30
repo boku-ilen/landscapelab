@@ -3,6 +3,7 @@ extends FeatureLayerCompositionRenderer
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 var flat_roof_scene = preload("res://Buildings/Components/FlatRoof.tscn")
 var pointed_roof_scene = preload("res://Buildings/Components/PointedRoof.tscn")
+var saddle_roof_scene = preload("res://Buildings/Components/SaddleRoof.tscn")
 
 var fallback_wall = preload("res://Resources/Textures/Buildings/PlainWallResources/Industrial.tres")
 
@@ -114,7 +115,12 @@ func load_feature_instance(feature):
 		var roof = null
 		
 		var can_build_roof := false
-		if util.str_to_var_or_default(slope, 35) > 15:
+
+		if feature.get_outer_vertices().size() == 5:
+			roof = saddle_roof_scene.instantiate()
+			roof.set_metadata(building_metadata)
+			can_build_roof = true
+		elif util.str_to_var_or_default(slope, 35) > 15:
 			roof = pointed_roof_scene.instantiate()
 			roof.set_metadata(building_metadata)
 			can_build_roof = roof.can_build(
