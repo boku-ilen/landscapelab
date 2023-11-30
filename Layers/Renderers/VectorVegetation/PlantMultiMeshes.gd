@@ -5,6 +5,9 @@ var plant_layer: GeoFeatureLayer
 
 var features
 
+var rng := RandomNumberGenerator.new()
+var initial_rng_state
+
 var weather_manager: WeatherManager :
 	get:
 		return weather_manager
@@ -112,6 +115,9 @@ func _ready():
 
 
 func create_multimeshes():
+	rng.seed = name.hash()
+	initial_rng_state = rng.state
+	
 	species_to_mesh_name = {}
 	mesh_name_to_mmi = {}
 
@@ -159,6 +165,7 @@ func override_build(center_x, center_y):
 	mesh_name_to_custom_data = {}
 	fresh_multimeshes = {}
 	
+	
 	if is_detailed:
 		for species in species_to_mesh.keys():
 			var mesh_name = species_to_mesh_name[species]
@@ -191,6 +198,9 @@ func override_build(center_x, center_y):
 	if not is_refine_load:
 		features = plant_layer.get_features_in_square(top_left_x, top_left_y, size, 10000000)
 	
+	# Reset RNG to get the same random colors per feature every time
+	rng.state = initial_rng_state
+	
 	for feature in features:
 		var mesh_name
 		var species_mesh_name = species_to_mesh_name[feature.get_attribute("layer")]
@@ -210,20 +220,21 @@ func override_build(center_x, center_y):
 
 		mesh_name_to_transforms[mesh_name].append(Transform3D()
 				.scaled(Vector3(instance_scale, instance_scale, instance_scale)) \
-				.rotated(Vector3.UP, PI * 0.5 * randf()) \
+				.rotated(Vector3.UP, PI * 0.5 * rng.randf()) \
 				.translated(pos - Vector3.UP)
 		)
+		
 		
 		if is_detailed:
 			mesh_name_to_custom_data[mesh_name].append(Color(
 				mesh_name_to_spritesheet_index[species_mesh_name], # Spritesheet index
-				randf(), # Randomness for shading
+				rng.randf(), # Randomness for shading
 				0.0
 			))
 		else:
 			mesh_name_to_custom_data[mesh_name].append(Color(
 				mesh_name_to_billboard_index[species_mesh_name], # Spritesheet index
-				randf(), # Randomness for shading
+				rng.randf(), # Randomness for shading
 				0.0
 			))
 	

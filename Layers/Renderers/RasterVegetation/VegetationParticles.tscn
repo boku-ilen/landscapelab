@@ -52,5 +52,3 @@ draw_pass_1 = ExtResource("4_uhe77")
 script = ExtResource("1")
 rows = 300
 spacing = 0.5
-offset = null
-camera_facing_enabled = null

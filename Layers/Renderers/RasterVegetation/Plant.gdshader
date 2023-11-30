@@ -49,12 +49,15 @@ void vertex() {
 	if (VERTEX.y > 0.3) {
 		VERTEX.x += amplitude * sin(worldpos.x * scale.x * 0.75 + TIME * speed.x) * cos(worldpos.z * scale.x + TIME * speed.x * 0.25);
 		VERTEX.z += amplitude * sin(worldpos.x * scale.y + TIME * speed.y * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed.y);
+		
+		// Also bend them away from the camera to make it look better from above
+		VERTEX.xz += (inverse(MODELVIEW_MATRIX) * vec4(0.0, 0.5, 0.0, 0.0)).xz * VERTEX.y;
 	}
 
 	// Scale by the size
 	size = INSTANCE_CUSTOM.r * 40.0;
 	VERTEX *= size;
-
+	
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
@@ -75,14 +78,14 @@ void fragment() {
 	vec2 scaled_uv = UV / (vec2(sheet_size) / float(sprite_size));
 	vec2 uv_offset = vec2(0.0, row / float(cols_rows.y));
 
-	vec4 color = textureLod(texture_map, vec3(scaled_uv + uv_offset, dist_id), length(camera_pos - worldpos) * 0.135 * (1.0 / size));
+	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
 	
 	float diff = dot(mat3(INV_VIEW_MATRIX) * VIEW, mat3(INV_VIEW_MATRIX) * NORMAL);
 	float diff_dot = 1.0 - abs(diff);
 	diff_dot = max(diff_dot * 1.5 - 0.5, 0.0);
 
-	ALPHA = color.a - diff_dot + min(dist_alpha, 0.0);
-	ALPHA_SCISSOR_THRESHOLD = 0.35;
+	ALPHA = color.a;
+	ALPHA_SCISSOR_THRESHOLD = 0.25;
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
@@ -93,11 +96,11 @@ void fragment() {
 	color.rgb *= min(max(size_scaled_uv, fake_shadow_min_multiplier), fake_shadow_height) / fake_shadow_height;
 
 	ALBEDO = color.rgb;
-	
+
 	NORMAL_MAP = texture(normal_map, UV).xyz;
-	
+
 	// Other material parameters
 	RIM = 0.4;
 	METALLIC = 0.0;
-	ROUGHNESS = 1.0 - color.g * 0.5;
+	ROUGHNESS = 1.0;// - color.g * 0.5;
 }

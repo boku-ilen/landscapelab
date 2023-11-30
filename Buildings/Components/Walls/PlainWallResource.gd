@@ -21,5 +21,5 @@ func _init():
 func ready():
 	# These two things have to be true in order for the random color picking to work
 	assert(random_colors.size() == random_color_weights.size())
-	print(resource_name)
-	assert(random_color_weights.reduce(func(x, y): return x + y, 0.) == 1.0)
+	assert(is_equal_approx(
+		random_color_weights.reduce(func(x, y): return x + y, 0.), 1.0))
