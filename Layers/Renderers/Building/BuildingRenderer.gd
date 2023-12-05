@@ -3,6 +3,7 @@ extends FeatureLayerCompositionRenderer
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 var flat_roof_scene = preload("res://Buildings/Components/FlatRoof.tscn")
 var pointed_roof_scene = preload("res://Buildings/Components/PointedRoof.tscn")
+var saddle_roof_scene = preload("res://Buildings/Components/SaddleRoof.tscn")
 
 var wall_resources = [
 	# "apartments": 0
@@ -30,7 +31,7 @@ var wall_resources = [
 ]
 
 # It is important to reference a wall_resource and not loading another 
-var fallback_wall_id := 3
+var fallback_wall_id := 0
 
 var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
 var fallback_height = 10
@@ -115,7 +116,12 @@ func load_feature_instance(feature):
 		var roof = null
 		
 		var can_build_roof := false
-		if util.str_to_var_or_default(slope, 35) > 15:
+
+		if feature.get_outer_vertices().size() == 5:
+			roof = saddle_roof_scene.instantiate()
+			roof.set_metadata(building_metadata)
+			can_build_roof = true
+		elif util.str_to_var_or_default(slope, 35) > 15:
 			roof = pointed_roof_scene.instantiate()
 			roof.set_metadata(building_metadata)
 			can_build_roof = roof.can_build(
