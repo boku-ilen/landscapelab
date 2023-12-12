@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=4 format=3]
+[gd_resource type="ArrayMesh" load_steps=4 format=3 uid="uid://dtf18mvyhjmwg"]
 
 [ext_resource type="Texture2D" uid="uid://chh5kd6iek6q4" path="res://Resources/Textures/Barriers/Hedge/needle_diffuse.tga" id="1_cp8bm"]
 [ext_resource type="Texture2D" uid="uid://br3bixa41r868" path="res://Resources/Textures/Barriers/Hedge/needle_normal.tga" id="2_hiqj4"]

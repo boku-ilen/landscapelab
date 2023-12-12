@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=2 format=3]
+[gd_resource type="ArrayMesh" load_steps=2 format=3 uid="uid://c2k10p3lhpedv"]
 
 [ext_resource type="Material" uid="uid://b0botflwdpirb" path="res://Resources/Materials/Barriers/CherryLaurelHedge.tres" id="1_2u0aa"]
 
