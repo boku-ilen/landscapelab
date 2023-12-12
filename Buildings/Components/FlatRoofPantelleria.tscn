@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b53i8eix7jw75"]
+
+[ext_resource type="Script" path="res://Buildings/Components/FlatRoofPantelleria.gd" id="1_xqobk"]
+
+[node name="FlatRoofPantelleria" type="Node3D"]
+script = ExtResource("1_xqobk")
+height = 0.01
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+layers = 4
+cast_shadow = 0
