@@ -11,13 +11,8 @@ var dolly_cam: Camera3D :
 		dolly_cam = cam
 		dolly_cam.path_follow = $DollyRail/PathFollow3D
 
-@onready var path = $DollyRail
 
-
-func add_path_point(position):
-	var all_points = $DollyRail.curve.get_baked_points()
-	
-	$DollyRail.curve.add_point(position)
+@onready var path = $DollyRail.curve
 
 
 func set_focus_position(position_on_ground, path_height):
