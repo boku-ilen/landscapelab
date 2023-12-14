@@ -1,3 +1,4 @@
+@tool
 extends Node3D
 
 # 
@@ -7,29 +8,58 @@ extends Node3D
 # symmetry.
 # 
 
-@export var rows: int
-@export var cols: int
+@export var rows: int : 
+	set(new_rows): 
+		rows = new_rows
+		create_plants()
+@export var cols: int : 
+	set(new_cols): 
+		cols = new_cols
+		create_plants()
 
-@export var row_spacing: float
-@export var col_spacing: float
+@export var row_spacing: float :
+	set(new_row_spacing):
+		row_spacing = new_row_spacing
+		position_plants()
+@export var col_spacing: float :
+	set(new_col_spacing):
+		col_spacing = new_col_spacing
+		position_plants()
 
-var mesh = load("res://Objects/Util/PVMesh.tscn")
+@export var mesh := load("res://Objects/PhotovoltaicPlant/GroundMountedPVUnit.tscn")
+var plant_array: Array
 
 var render_info
 var center
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+func create_plants():
+	for child in get_children(): remove_child(child)
+	plant_array = []
+	
 	# Spawn rows * cols PV modules
 	# Add 1 to make sure we get an odd number - asymmetry otherwise
 	for row in range(-rows / 2, rows / 2 + 1):
+		plant_array.append([])
 		for col in range(-cols / 2, cols / 2 + 1):
 			var new_scene = mesh.instantiate()
+			plant_array[row + rows / 2].append(new_scene)
 			add_child(new_scene)
 			
 			new_scene.position.x += col * col_spacing
 			new_scene.position.z += row * row_spacing
+
+
+func position_plants():
+	for row in range(-rows / 2, rows / 2 + 1):
+		for col in range(-cols / 2, cols / 2 + 1):
+			var node = plant_array[row + rows / 2][col + cols / 2]
+			node.position.x = col * col_spacing
+			node.position.z = row * row_spacing
+
+
+func _ready():
+	create_plants()
 	
 	set_child_positions()
 	set_notify_transform(true)

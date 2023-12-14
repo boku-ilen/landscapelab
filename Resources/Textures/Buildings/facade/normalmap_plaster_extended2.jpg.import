@@ -3,29 +3,28 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b0d3eu5dk1mji"
-path.s3tc="res://.godot/imported/normalmap_plaster_extended2.jpg-332ba02c9149c79dc5bf482e12f8de6d.s3tc.ctex"
+path="res://.godot/imported/normalmap_plaster_extended2.jpg-332ba02c9149c79dc5bf482e12f8de6d.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://Resources/Textures/Buildings/facade/normalmap_plaster_extended2.jpg"
-dest_files=["res://.godot/imported/normalmap_plaster_extended2.jpg-332ba02c9149c79dc5bf482e12f8de6d.s3tc.ctex"]
+dest_files=["res://.godot/imported/normalmap_plaster_extended2.jpg-332ba02c9149c79dc5bf482e12f8de6d.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://Resources/Textures/Buildings/facade/normalmap_plaster_extended2.jpg"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

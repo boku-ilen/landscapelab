@@ -1,7 +1,9 @@
 extends FeatureLayerCompositionRenderer
 
+@export var check_roof_type := false
+
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
-var flat_roof_scene = preload("res://Buildings/Components/FlatRoof.tscn")
+var flat_roof_scene = preload("res://Buildings/Components/FlatRoofPantelleria.tscn")
 var pointed_roof_scene = preload("res://Buildings/Components/PointedRoof.tscn")
 var saddle_roof_scene = preload("res://Buildings/Components/SaddleRoof.tscn")
 
@@ -9,7 +11,7 @@ var wall_resources = [
 	# "apartments": 0
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "house": 1
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/PanterlleriaHouse.tres"),
 	# "shack": 2
 	preload("res://Resources/Textures/Buildings/PlainWallResources/Shack.tres"),
 	# "industrial": 3
@@ -31,7 +33,7 @@ var wall_resources = [
 ]
 
 # It is important to reference a wall_resource and not loading another 
-var fallback_wall_id := 0
+var fallback_wall_id := 1
 
 var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
 var fallback_height = 10
@@ -116,16 +118,17 @@ func load_feature_instance(feature):
 		var roof = null
 		
 		var can_build_roof := false
-
-		if feature.get_outer_vertices().size() == 5:
-			roof = saddle_roof_scene.instantiate()
-			roof.set_metadata(building_metadata)
-			can_build_roof = true
-		elif util.str_to_var_or_default(slope, 35) > 15:
-			roof = pointed_roof_scene.instantiate()
-			roof.set_metadata(building_metadata)
-			can_build_roof = roof.can_build(
-				building_metadata.geo_center,feature.get_outer_vertices())
+		
+		if check_roof_type:
+			if feature.get_outer_vertices().size() == 5:
+				roof = saddle_roof_scene.instantiate()
+				roof.set_metadata(building_metadata)
+				can_build_roof = true
+			elif util.str_to_var_or_default(slope, 35) > 15:
+				roof = pointed_roof_scene.instantiate()
+				roof.set_metadata(building_metadata)
+				can_build_roof = roof.can_build(
+					building_metadata.geo_center,feature.get_outer_vertices())
 		
 		if roof == null or not can_build_roof:
 			roof = flat_roof_scene.instantiate()
@@ -199,13 +202,16 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	var get_mid_index = func(building_id): return int(building_id) * 4 + 2
 	var get_top_index = func(building_id): return int(building_id) * 4 + 3
 	
+	# Random texture scale
+	var random_tex_scale = Vector2(random_gen.randf_range(0.7, 1.3), 1)
+	
 	# Add a cellar
 	var cellar = walls_scene.instantiate()
 	cellar.set_color(Color.WHITE_SMOKE)
 	# Add an additional height to the cellar which acts as "plinth" scaled with the extent
 	cellar.height += plinth_height_factor * min(20., building_metadata["extent"])
 	cellar.set_texture_index(get_cellar_index.call(building_type_id))
-	cellar.texture_scale = walls_resource.basement_texture.texture_scale
+	cellar.texture_scale = walls_resource.basement_texture.texture_scale * random_tex_scale
 	if walls_resource.apply_colors & flag.basement:
 		cellar.set_color(wall_color)
 	building.add_child(cellar)
@@ -215,7 +221,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	var ground_floor = walls_scene.instantiate()
 	ground_floor.set_texture_index(get_ground_index.call(building_type_id))
 	ground_floor.set_color(Color.WHITE_SMOKE)
-	ground_floor.texture_scale = walls_resource.ground_texture.texture_scale
+	ground_floor.texture_scale = walls_resource.ground_texture.texture_scale * random_tex_scale
 	if walls_resource.apply_colors & flag.ground: 
 		ground_floor.set_color(wall_color)
 		
@@ -227,7 +233,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 			var walls = walls_scene.instantiate()
 			walls.set_texture_index(get_mid_index.call(building_type_id))
 			walls.set_color(Color.WHITE_SMOKE)
-			walls.texture_scale = walls_resource.middle_texture.texture_scale
+			walls.texture_scale = walls_resource.middle_texture.texture_scale * random_tex_scale
 			if walls_resource.apply_colors & flag.mid:
 				walls.set_color(wall_color)
 			building.add_child(walls)
@@ -236,7 +242,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 		var top_floor = walls_scene.instantiate()
 		top_floor.set_texture_index(get_top_index.call(building_type_id))
 		top_floor.set_color(Color.WHITE_SMOKE)
-		top_floor.texture_scale = walls_resource.top_texture.texture_scale
+		top_floor.texture_scale = walls_resource.top_texture.texture_scale * random_tex_scale
 		if walls_resource.apply_colors & flag.top:
 			top_floor.set_color(wall_color)
 		building.add_child(top_floor)
