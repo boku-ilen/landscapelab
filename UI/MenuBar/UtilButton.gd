@@ -55,6 +55,10 @@ func _begin_dolly():
 	if not imaging_scene.is_inside_tree():
 		get_tree().get_root().add_child(imaging_scene)
 	
+	# Set starting position where we currently are
+	# otherwise it will load the terrain at position=Vector3.ZERO
+	imaging_scene.dolly_cam.position = position_manager.center_node.position
+	
 	imaging_options.set_item_disabled(ImagingOptions.OPEN, true)
 	imaging_options.set_item_disabled(ImagingOptions.SET_FULLSCREEN, false)
 	
