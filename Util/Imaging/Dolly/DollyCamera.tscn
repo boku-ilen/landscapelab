@@ -11,8 +11,9 @@ cull_mask = 55
 near = 0.01
 far = 25000.0
 script = ExtResource("1")
-move_speed = 0.7
-move_speed_decay = 0.97
+move_speed = 5.0
+orientation_speed = 0.7
+orientation_speed_decay = 0.97
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)

@@ -7,12 +7,15 @@ extends Camera3D
 
 var path_follow: PathFollow3D
 var focus: Node3D
+var focus_enabled := false
 var velocity: Vector3
 
 var is_enabled: bool = false
 
+
 @export var move_speed: float
-@export var move_speed_decay: float # (float, 0.0, 1.0)
+@export var orientation_speed: float
+@export var orientation_speed_decay: float # (float, 0.0, 1.0)
 
 
 func _ready():
@@ -28,17 +31,17 @@ func _process(delta):
 		if Input.is_action_pressed("camera_move_backward"):
 			velocity.z -= move_speed * delta
 		if Input.is_action_pressed("camera_move_right"):
-			velocity.x += move_speed * delta
+			velocity.x += orientation_speed * delta
 		if Input.is_action_pressed("camera_move_left"):
-			velocity.x -= move_speed * delta
+			velocity.x -= orientation_speed * delta
 		if Input.is_action_pressed("camera_move_up"):
-			velocity.y += move_speed * delta
+			velocity.y += orientation_speed * delta
 		if Input.is_action_pressed("camera_move_down"):
-			velocity.y -= move_speed * delta
+			velocity.y -= orientation_speed * delta
 		
 		# Make x and y velocity decay over time, z (forward/backward) velocity stays the same
-		velocity.x *= move_speed_decay
-		velocity.y *= move_speed_decay
+		velocity.x *= orientation_speed_decay
+		velocity.y *= orientation_speed_decay
 		
 		# Movement along rails
 		path_follow.progress += velocity.z * delta
@@ -50,8 +53,12 @@ func _process(delta):
 		# Keep the view towards the object
 		if focus != null \
 			and not focus.position.is_equal_approx(Vector3.ZERO) \
-			and not focus.position.is_equal_approx(focus.transform.origin) :
-			look_at(focus.transform.origin, Vector3.UP) 
+			and focus_enabled:
+				look_at(focus.transform.origin, Vector3.UP) 
+
+
+func get_look_direction():
+	return -global_transform.basis.z
 
 
 func toggle_cam(enabled):
