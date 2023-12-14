@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://1kjjm50c1mgs"]
+
+[ext_resource type="PackedScene" uid="uid://g4ieg84c0s1m" path="res://Resources/Meshes/Infrastructure/pantelleria_streetlamp_1.gltf" id="1_ua6ht"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_giwo1"]
+albedo_color = Color(0.92549, 0.898039, 0.823529, 1)
+
+[node name="pantelleria_streetlamp_1" instance=ExtResource("1_ua6ht")]
+
+[node name="Mesh2" parent="root/Node2" index="0"]
+material_override = SubResource("StandardMaterial3D_giwo1")
+
+[node name="Mesh32" parent="root/Node2" index="1"]
+material_override = SubResource("StandardMaterial3D_giwo1")
+
+[node name="Mesh42" parent="root/Lamp" index="0"]
+material_override = SubResource("StandardMaterial3D_giwo1")
+
+[node name="Mesh52" parent="root/Lamp" index="1"]
+material_override = SubResource("StandardMaterial3D_giwo1")

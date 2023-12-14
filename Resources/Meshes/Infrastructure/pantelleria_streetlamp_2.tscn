@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://bf1oy7eqfokd3"]
+
+[ext_resource type="PackedScene" uid="uid://b2oe2yl1l5b5n" path="res://Resources/Meshes/Infrastructure/pantelleria_streetlamp_2.gltf" id="1_u4ahv"]
+[ext_resource type="Material" uid="uid://chnkeiu0v0ks0" path="res://Resources/Meshes/Infrastructure/streetlamp_2.tres" id="2_hjv2t"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_seuvt"]
+transparency = 1
+albedo_color = Color(0.980392, 1, 0.854902, 0.627451)
+
+[node name="pantelleria_streetlamp_2" instance=ExtResource("1_u4ahv")]
+
+[node name="Lamp" parent="root" index="0"]
+material_override = SubResource("StandardMaterial3D_seuvt")
+
+[node name="Mesh2" parent="root" index="1"]
+material_override = ExtResource("2_hjv2t")
+
+[node name="Mesh32" parent="root/Node2/Node32" index="0"]
+material_override = ExtResource("2_hjv2t")
+
+[node name="Mesh42" parent="root/Node2/Node32" index="1"]
+material_override = ExtResource("2_hjv2t")
+
+[node name="Mesh52" parent="root/Node2/Node32" index="2"]
+material_override = ExtResource("2_hjv2t")
+
+[node name="Mesh62" parent="root/Node2/Node32" index="3"]
+material_override = ExtResource("2_hjv2t")
+
+[node name="Mesh72" parent="root/Node2/Node32" index="4"]
+material_override = ExtResource("2_hjv2t")
+
+[node name="Mesh82" parent="root/Node2/Node32" index="5"]
+material_override = ExtResource("2_hjv2t")
+
+[node name="Mesh92" parent="root/Node2" index="1"]
+material_override = ExtResource("2_hjv2t")
