@@ -15,32 +15,58 @@ var dolly_cam: Camera3D
 
 # DollyAction
 # primary action => set point
-# tertiary action => set focus
+# secondary action => set focus
+# tertiary action => close path to a ring
 class DollyAction extends EditingAction:
-	var set_focus = func(input: InputEvent, cursor, state_dict: Dictionary): 
-		var pos = cursor.get_cursor_engine_position()
+	func set_focus(input: InputEvent, cursor, state_dict: Dictionary): 
+		var pos: Vector3 = cursor.get_cursor_engine_position()
 		dolly_scene.set_focus_position(pos, Vector3.UP * height_correction)
-	var add_point = func(input: InputEvent, cursor, state_dict: Dictionary):
-		var pos = cursor.get_cursor_engine_position()
-		dolly_scene.add_path_point(pos + Vector3.UP * height_correction)
-		point_count += 1
-		dolly_scene.get_node("DollyRail/PathFollow3D/RemoteTransform3D").remote_path = dolly_cam.get_path()
-		dolly_scene.toggle_cam(point_count > 1)
+	
+	func add_point(input: InputEvent, cursor, state_dict: Dictionary):
+		var pos: Vector3 = cursor.get_cursor_engine_position()
+		var path: Curve3D = dolly_scene.path
+		
+		# In order to give usability feedback we add two points 
+		# The first one is the set point, the second one will show where the path would lead
+		if path.point_count == 0:
+			path.add_point(pos + Vector3.UP * height_correction)
+			# Avoid points having the same coordinates - errors otherwise
+			path.add_point(pos + Vector3.UP * height_correction + Vector3.FORWARD)
+			dolly_scene.toggle_cam(true)
+			dolly_scene.get_node("DollyRail/PathFollow3D/RemoteTransform3D").remote_path = dolly_cam.get_path()
+			return
+		
+		var height_corrected_point = pos + Vector3.UP * height_correction
+		path.set_point_position(path.point_count - 1, height_corrected_point)
+		path.add_point(height_corrected_point)
+	
+	func close_path(input: InputEvent, cursor, state_dict: Dictionary):
+		var path: Curve3D = dolly_scene.path
+		path.set_point_position(path.point_count - 1, path.get_point_position(0))
+		path.tessellate_even_length()
+		is_closed = true
 	
 	# FIXME: this logic should be rewritten to be a line-feature
 	var dolly_scene = load("res://Util/Imaging/Dolly/DollyScene.tscn").instantiate()
 	var dolly_cam = load("res://Util/Imaging/Dolly/DollyCamera.tscn").instantiate()
+	var is_closed = false
 	
 	var height_correction := 0.0 : set = set_height_correction
-	var point_count := 0
-	
 	func set_height_correction(new_height): height_correction = new_height
 	
 	func _init(viewport):
-		super._init(add_point, func(a,s,d): pass, set_focus, true)
+		super._init(add_point, set_focus, close_path, true)
 		dolly_scene.dolly_cam = dolly_cam
 		viewport.add_child(dolly_scene)
 		viewport.add_child(dolly_cam)
+	
+	func special_action(event: InputEvent, cursor):
+		if event is InputEventMouseMotion:
+			var path: Curve3D = dolly_scene.path
+			if path.point_count < 1 or is_closed: return
+			
+			var pos: Vector3 = cursor.get_cursor_engine_position()
+			path.set_point_position(path.point_count - 1, pos + Vector3.UP * height_correction)
 
 
 func on_set_handlers(handlers):
@@ -60,6 +86,7 @@ func on_set_handlers(handlers):
 	## Clears the set path
 	var clear = $Margin/VBox/ImagingMenu/Clear
 	clear.pressed.connect(set_action.dolly_scene.clear)
+	clear.pressed.connect(func(): set_action.is_closed = false)
 	
 	## Enables the set action for action handlers
 	var set = $Margin/VBox/ImagingMenu/Set
