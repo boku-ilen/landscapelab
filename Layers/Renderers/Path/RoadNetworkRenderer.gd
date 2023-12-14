@@ -110,17 +110,7 @@ func _create_roads(road_features) -> void:
 		# Get road data
 		var road_width = float(road_feature.get_attribute("width"))
 		
-		# FIXME: Could be done in a more general way
-		# We check whether this feature contains rails, because rails are
-		#  rendered in 3D -> we need heights
-		if not render_3d and road_feature.get_attribute("lane_uses").contains("5,"):
-			var point_count = road_curve.get_point_count()
-			for index in range(point_count):
-				var point = road_curve.get_point_position(index)
-				point.y = get_basic_height(point)
-				road_curve.set_point_position(index, point)
-		
-		if render_3d:
+		if render_3d or road_feature.get_attribute("lane_uses").contains("5,"):
 			#############################
 			# SET INITIAL POINT HEIGHTS #
 			#############################
