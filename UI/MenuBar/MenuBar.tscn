@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://csad5ev7rwtoe"]
+[gd_scene load_steps=12 format=3 uid="uid://csad5ev7rwtoe"]
 
 [ext_resource type="Script" path="res://UI/MenuBar/MenuBar.gd" id="1_ikqg2"]
 [ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="2_uetun"]
 [ext_resource type="PackedScene" uid="uid://ch15mdq8mk72s" path="res://Util/FileChooser.tscn" id="3_ckk4c"]
 [ext_resource type="Script" path="res://UI/LabTable/TableOptions.gd" id="4_kagcc"]
 [ext_resource type="Script" path="res://UI/MenuBar/View.gd" id="5_gwh6b"]
+[ext_resource type="Script" path="res://UI/MenuBar/UtilButton.gd" id="6_o54ls"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mra6b"]
 
@@ -81,7 +82,6 @@ text = "Densities: "
 layout_mode = 2
 size_flags_horizontal = 3
 text_placeholder = "*.csv"
-filters = ["*.csv"]
 
 [node name="GroupsLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths"]
 layout_mode = 2
@@ -90,7 +90,6 @@ text = "Groups:"
 [node name="Groups" parent="ProjectButton/VegetationDetails/VBox/Paths" instance=ExtResource("3_ckk4c")]
 layout_mode = 2
 text_placeholder = "*.csv"
-filters = ["*.csv"]
 
 [node name="PlantsLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths"]
 layout_mode = 2
@@ -99,7 +98,6 @@ text = "Plants:"
 [node name="Plants" parent="ProjectButton/VegetationDetails/VBox/Paths" instance=ExtResource("3_ckk4c")]
 layout_mode = 2
 text_placeholder = "*.csv"
-filters = ["*.csv"]
 
 [node name="TexturesLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths"]
 layout_mode = 2
@@ -108,7 +106,6 @@ text = "Textures:"
 [node name="Textures" parent="ProjectButton/VegetationDetails/VBox/Paths" instance=ExtResource("3_ckk4c")]
 layout_mode = 2
 text_placeholder = "*.csv"
-filters = ["*.csv"]
 
 [node name="TableButton" type="MenuButton" parent="."]
 layout_mode = 2
@@ -124,3 +121,8 @@ script = ExtResource("4_kagcc")
 layout_mode = 2
 text = "View"
 script = ExtResource("5_gwh6b")
+
+[node name="UtilButton" type="MenuButton" parent="."]
+layout_mode = 2
+text = "Util"
+script = ExtResource("6_o54ls")
