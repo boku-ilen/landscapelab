@@ -1,5 +1,17 @@
 extends VBoxContainer
 
+#
+# Simplifies choosing an explicit feature of a feature-layer
+#
+
+@export var geodata_chooser: GeodataChooser
+
+
+func _ready():
+	geodata_chooser.new_layer_selected.connect(func(new_layer):
+		set_visible(true)
+		load_from_layer(new_layer))
+
 
 func load_from_layer(geolayer: GeoFeatureLayer):
 	# Remove all previously loaded features
