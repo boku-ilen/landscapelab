@@ -4,27 +4,19 @@ extends Node3D
 # As we do not want to have the line directly checked the ground there will be a 
 # placeholder value
 
-var dolly_cam: Camera3D :
-	get:
-		return dolly_cam
-	set(cam):
-		dolly_cam = cam
-		dolly_cam.path_follow = $DollyRail/PathFollow3D
-
-
+@onready var dolly_cam := $DollyRail/PathFollow3D/DollyCamera
 @onready var path = $DollyRail.curve
+@onready var focus_path = $FocusPath.curve
 
 
-func set_focus_position(position_on_ground, path_height):
-	$Focus.visible = true
-	$Focus.set_position(position_on_ground)
-	$Focus/Sprite3D.set_position(path_height)
-	dolly_cam.focus = $Focus
+func _ready():
+	$DollyRail.curve_changed.connect(func(): toggle_cam(path.point_count > 0))
 
 
 func clear():
-	$Focus.visible = false
+	$FocusPath/PathFollow3D/Focus.visible = false
 	$DollyRail.get_curve().clear_points()
+	$FocusPath.get_curve().clear_points()
 
 
 func toggle_cam(is_enabled: bool):
