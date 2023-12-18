@@ -1,10 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://1lnw1ble4p1a"]
+[gd_scene load_steps=7 format=3 uid="uid://1lnw1ble4p1a"]
 
 [ext_resource type="Texture2D" uid="uid://b7iyg1lae2sx8" path="res://Resources/Icons/ColorOpenMoji/down.svg" id="1"]
 [ext_resource type="Script" path="res://Util/Imaging/Dolly/DollyScene.gd" id="3"]
-
-[sub_resource type="Curve3D" id="Curve3D_mk2ou"]
-resource_local_to_scene = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6j6br"]
 shading_mode = 2
@@ -36,7 +33,6 @@ billboard_mode = 2
 script = ExtResource("3")
 
 [node name="DollyRail" type="Path3D" parent="." groups=["PathShifting"]]
-curve = SubResource("Curve3D_mk2ou")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="DollyRail"]
 transform = Transform3D(-0.600223, 0.643639, 0.474823, 0.142112, -0.498388, 0.855225, 0.787103, 0.580805, 0.207677, 0, 0, 0)
@@ -45,7 +41,6 @@ transform = Transform3D(-0.600223, 0.643639, 0.474823, 0.142112, -0.498388, 0.85
 update_rotation = false
 
 [node name="Visualizer" type="CSGPolygon3D" parent="DollyRail"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
 layers = 64
 cast_shadow = 0
 polygon = PackedVector2Array(-3, -1, -3, 1, 3, 1, 3, -1)

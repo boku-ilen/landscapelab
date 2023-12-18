@@ -12,7 +12,11 @@ var dolly_cam: Camera3D :
 		dolly_cam.path_follow = $DollyRail/PathFollow3D
 
 
-@onready var path = $DollyRail.curve
+@onready var path = $DollyRail.curve : 
+	set(new_path):
+		path = new_path
+		$DollyRail.curve = path
+		toggle_cam(true)
 
 
 func set_focus_position(position_on_ground, path_height):

@@ -9,9 +9,14 @@ extends Window
 @export var scroll_step := 5.
 
 var action_handlers: Array : set = on_set_handlers
+var position_manager: PositionManager
 var set_action: DollyAction
 var dolly_cam: Camera3D
 
+@onready var geodata_chooser = $Margin/VBox/ImagingMenu/GeodataOptions/GeodataChooser
+@onready var feature_options = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions
+@onready var feature_chooser = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/FeatureChooser
+@onready var apply_button = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/Apply
 
 # DollyAction
 # primary action => set point
@@ -67,6 +72,20 @@ class DollyAction extends EditingAction:
 			
 			var pos: Vector3 = cursor.get_cursor_engine_position()
 			path.set_point_position(path.point_count - 1, pos + Vector3.UP * height_correction)
+
+
+func _ready():
+	apply_button.pressed.connect(apply_curve3D_to_path)
+
+
+func apply_curve3D_to_path():
+	var feature = feature_chooser.get_currently_selected_feature()
+	if not feature is GeoLine: return
+	
+	var center: Array = position_manager.get_center()
+	var curve: Curve3D = feature.get_offset_curve3d(-center[0], 0, -center[1])
+	
+	set_action.dolly_scene.path = feature.get_offset_curve3d(-center[0], 0, -center[1])
 
 
 func on_set_handlers(handlers):
