@@ -12,12 +12,7 @@ extends HBoxContainer
 
 @export var filters: PackedStringArray = ["*.shp", "*.gpkg", "*.tif"]
 
-@export var current_dir: String = "res://" :
-	get:
-		return current_dir
-	set(dir):
-		if dir:
-			$Button/FileDialog.set_current_dir(dir)
+@export var current_dir: String = "res://"
 
 @onready var button = get_node("Button")
 @onready var file_dialog = get_node("Button/FileDialog") 
@@ -25,10 +20,15 @@ extends HBoxContainer
 
 signal file_selected
 
+
 func _ready():
 	file_dialog.filters = filters
-	button.connect("pressed",Callable(self,"_pop_file_dialog"))
-	file_dialog.connect("file_selected",Callable(self,"_file_selected"))
+	
+	if current_dir:
+		$Button/FileDialog.set_current_dir(current_dir)
+	
+	button.pressed.connect(_pop_file_dialog)
+	file_dialog.file_selected.connect(_file_selected)
 
 
 func _pop_file_dialog():

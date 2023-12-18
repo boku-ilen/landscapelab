@@ -6,7 +6,11 @@ extends Node3D
 
 @onready var dolly_cam := $DollyRail/PathFollow3D/DollyCamera
 @onready var path = $DollyRail.curve
-@onready var focus_path = $FocusPath.curve
+@onready var focus_path = $FocusPath.curve : 
+	set(new_path):
+		path = new_path
+		$DollyRail.curve = path
+		toggle_cam(true)
 
 
 func _ready():
