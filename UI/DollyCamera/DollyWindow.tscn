@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cacte35ppt5m5" path="res://Resources/Icons/ModernLandscapeLab/clear.svg" id="5_keygn"]
 [ext_resource type="Texture2D" uid="uid://cr6tu5rgwm363" path="res://Resources/Icons/ModernLandscapeLab/focus.svg" id="6_hbw8f"]
 [ext_resource type="PackedScene" uid="uid://de45plwj80hwk" path="res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn" id="7_mqp31"]
-[ext_resource type="PackedScene" uid="uid://dcobcs1ua7tr7" path="res://UI/Layers/LayerConfiguration/Misc/FeatureChooser.tscn" id="8_y4h8q"]
+[ext_resource type="PackedScene" path="res://UI/Layers/LayerConfiguration/Misc/FeatureChooser.tscn" id="8_y4h8q"]
 
 [node name="Window" type="Window"]
 mode = 2
@@ -104,10 +104,18 @@ layout_mode = 2
 layout_mode = 2
 geodata_chooser = NodePath("../../GeodataChooser")
 
-[node name="Apply" type="Button" parent="Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions"]
+[node name="ApplyButtons" type="VBoxContainer" parent="Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions"]
+layout_mode = 2
+
+[node name="Camera" type="Button" parent="Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/ApplyButtons"]
 layout_mode = 2
 size_flags_vertical = 8
 text = "Apply to Camera"
+
+[node name="Focus" type="Button" parent="Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/ApplyButtons"]
+layout_mode = 2
+text = "Apply to Focus
+"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Margin/VBox"]
 layout_mode = 2
@@ -118,5 +126,5 @@ stretch = true
 handle_input_locally = false
 msaa_3d = 1
 scaling_3d_mode = 1
-size = Vector2i(674, 531)
+size = Vector2i(674, 523)
 render_target_update_mode = 4

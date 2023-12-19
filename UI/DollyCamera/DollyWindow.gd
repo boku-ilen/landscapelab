@@ -16,7 +16,8 @@ var dolly_scene: Node3D = load("res://Util/Imaging/Dolly/DollyScene.tscn").insta
 @onready var geodata_chooser = $Margin/VBox/ImagingMenu/GeodataOptions/GeodataChooser
 @onready var feature_options = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions
 @onready var feature_chooser = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/FeatureChooser
-@onready var apply_button = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/Apply
+@onready var apply_camera = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/ApplyButtons/Camera
+@onready var apply_focus = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/ApplyButtons/Focus
 
 # DollyAction
 # primary action => set point
@@ -37,8 +38,6 @@ class DollyAction extends EditingAction:
 		var height_corrected_point = pos + Vector3.UP * height_correction
 		path.set_point_position(path.point_count - 1, height_corrected_point)
 		path.add_point(height_corrected_point)
-	
-
 	
 	func close_path(input: InputEvent, cursor, state_dict: Dictionary):
 		var path: Curve3D = dolly_scene.path
@@ -71,17 +70,16 @@ class DollyAction extends EditingAction:
 
 
 func _ready():
-	apply_button.pressed.connect(apply_curve3D_to_path)
+	apply_camera.pressed.connect(apply_curve3D_to_path.bind("path"))
+	apply_focus.pressed.connect(apply_curve3D_to_path.bind("focus_path"))
 
 
-func apply_curve3D_to_path():
+func apply_curve3D_to_path(path_name: String):
 	var feature = feature_chooser.get_currently_selected_feature()
 	if not feature is GeoLine: return
 	
 	var center: Array = position_manager.get_center()
-	var curve: Curve3D = feature.get_offset_curve3d(-center[0], 0, -center[1])
-	
-	set_action.dolly_scene.path = feature.get_offset_curve3d(-center[0], 0, -center[1])
+	dolly_scene.set(path_name, feature.get_offset_curve3d(-center[0], 0, -center[1]))
 
 
 func on_set_handlers(handlers):
@@ -116,8 +114,10 @@ func on_set_handlers(handlers):
 	var focus = $Margin/VBox/ImagingMenu/Focus
 	focus.toggled.connect(enable_focus)
 
+
 func enable_focus(toggled: bool):
 	dolly_scene.dolly_cam.focus_enabled = toggled
+
 
 # For usability reasons let the height_correction be controlled via mouse wheel
 func _input(event):

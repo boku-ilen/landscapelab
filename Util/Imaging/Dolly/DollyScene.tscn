@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://1lnw1ble4p1a"]
+[gd_scene load_steps=9 format=3 uid="uid://1lnw1ble4p1a"]
 
 [ext_resource type="Script" path="res://Util/Imaging/Dolly/DollyCamera.gd" id="2_ehhqc"]
 [ext_resource type="Script" path="res://Util/Imaging/Dolly/DollyScene.gd" id="3"]
