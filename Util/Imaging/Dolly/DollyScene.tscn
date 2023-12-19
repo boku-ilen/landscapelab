@@ -6,6 +6,8 @@
 [sub_resource type="Curve3D" id="Curve3D_du2lb"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_4l7by"]
+radius = 10.0
+height = 20.0
 
 [sub_resource type="StandardMaterial3D" id="2"]
 shading_mode = 2
@@ -13,14 +15,6 @@ albedo_color = Color(0.0509804, 0.0627451, 0.380392, 1)
 metallic = 0.2
 emission_enabled = true
 emission = Color(0.247059, 0.603922, 0.980392, 1)
-emission_energy_multiplier = 4.4
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7qjdo"]
-shading_mode = 2
-albedo_color = Color(0.6, 0.584314, 1, 1)
-metallic = 0.2
-emission_enabled = true
-emission = Color(0.431373, 0.388235, 1, 1)
 emission_energy_multiplier = 4.4
 
 [sub_resource type="Curve3D" id="Curve3D_5r3co"]
@@ -52,7 +46,6 @@ mesh = SubResource("SphereMesh_4l7by")
 material = SubResource("2")
 
 [node name="Visualizer" type="CSGPolygon3D" parent="FocusPath"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
 layers = 64
 cast_shadow = 0
 polygon = PackedVector2Array(-3, -1, -3, 1, 3, 1, 3, -1)
@@ -66,17 +59,22 @@ path_local = false
 path_continuous_u = false
 path_u_distance = 1.0
 path_joined = false
-material = SubResource("StandardMaterial3D_7qjdo")
+material = SubResource("2")
 
 [node name="DollyRail" type="Path3D" parent="." groups=["PathShifting"]]
 curve = SubResource("Curve3D_5r3co")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="DollyRail"]
-transform = Transform3D(-0.600223, 0.643639, 0.474823, 0.142112, -0.498388, 0.855225, 0.787103, 0.580805, 0.207677, 0, 0, 0)
+transform = Transform3D(0.999997, 0, 0, 0, 0.999998, 0, 0, 0, 0.999998, 0, 0, 0)
 rotation_mode = 0
 
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="DollyRail/PathFollow3D"]
+remote_path = NodePath("../DollyCamera")
+update_rotation = false
+update_scale = false
+
 [node name="DollyCamera" type="Camera3D" parent="DollyRail/PathFollow3D" node_paths=PackedStringArray("path_follow", "path_follow_focus", "focus")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1349)
+top_level = true
 cull_mask = 55
 near = 0.01
 far = 25000.0
@@ -84,7 +82,7 @@ script = ExtResource("2_ehhqc")
 path_follow = NodePath("..")
 path_follow_focus = NodePath("../../../FocusPath/PathFollow3D")
 focus = NodePath("../../../FocusPath/PathFollow3D/Focus")
-move_speed = 10.0
+move_speed = 50.0
 orientation_speed = 0.7
 orientation_speed_decay = 0.97
 

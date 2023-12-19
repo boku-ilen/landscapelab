@@ -2,7 +2,8 @@ extends Camera3D
 
 #
 # Camera3D which goes along a PathFollow3D and keeps the view centered checked a certain target (any Node3D node).
-# Must be child of a PathFollow3D node!
+# Must be top level (i.e. position must return the "global" position). Can be achieved by e.g. pushing the
+# transform of the pathfollow using a a remotetransform
 #
 
 @export var path_follow: PathFollow3D
