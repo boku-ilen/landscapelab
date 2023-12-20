@@ -63,8 +63,9 @@ layout_mode = 2
 [node name="TableButton" parent="MarginContainer/VBoxContainer/MenuBar" index="1" node_paths=PackedStringArray("player_node")]
 player_node = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
 
-[node name="ViewButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" node_paths=PackedStringArray("world_ui", "docks")]
+[node name="ViewButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" node_paths=PackedStringArray("world_ui", "viewport", "docks")]
 world_ui = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI")
+viewport = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport")
 docks = [NodePath("../../Left/Tabs"), NodePath("../../Left/Mid/Right"), NodePath("../../Left/Mid/MidVertical/HBoxContainer")]
 dock_names = Array[String](["Left dock", "Right dock", "Bottom dock"])
 

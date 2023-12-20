@@ -1,31 +1,20 @@
-[gd_scene load_steps=12 format=3 uid="uid://csad5ev7rwtoe"]
+[gd_scene load_steps=6 format=3 uid="uid://csad5ev7rwtoe"]
 
-[ext_resource type="Script" path="res://UI/MenuBar/MenuBar.gd" id="1_ikqg2"]
+[ext_resource type="Script" path="res://UI/MenuBar/Project.gd" id="1_yv40a"]
 [ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="2_uetun"]
 [ext_resource type="PackedScene" uid="uid://ch15mdq8mk72s" path="res://Util/FileChooser.tscn" id="3_ckk4c"]
-[ext_resource type="Script" path="res://UI/LabTable/TableOptions.gd" id="4_kagcc"]
 [ext_resource type="Script" path="res://UI/MenuBar/View.gd" id="5_gwh6b"]
-[ext_resource type="Script" path="res://UI/MenuBar/UtilButton.gd" id="6_o54ls"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mra6b"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_whj0f"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bmvg7"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2dk7u"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n6qfh"]
+[ext_resource type="Script" path="res://UI/MenuBar/Util.gd" id="6_svjrn"]
 
 [node name="MenuBar" type="HBoxContainer"]
 offset_right = 1140.0
 offset_bottom = 31.0
-script = ExtResource("1_ikqg2")
 
 [node name="ProjectButton" type="MenuButton" parent="."]
 layout_mode = 2
 text = "Project"
 switch_on_hover = true
+script = ExtResource("1_yv40a")
 
 [node name="OpenCfg" type="FileDialog" parent="ProjectButton"]
 title = "Open a File"
@@ -107,16 +96,6 @@ text = "Textures:"
 layout_mode = 2
 text_placeholder = "*.csv"
 
-[node name="TableButton" type="MenuButton" parent="."]
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_mra6b")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_whj0f")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_bmvg7")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_2dk7u")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_n6qfh")
-text = "LabTable"
-script = ExtResource("4_kagcc")
-
 [node name="ViewButton" type="MenuButton" parent="."]
 layout_mode = 2
 text = "View"
@@ -125,4 +104,4 @@ script = ExtResource("5_gwh6b")
 [node name="UtilButton" type="MenuButton" parent="."]
 layout_mode = 2
 text = "Util"
-script = ExtResource("6_o54ls")
+script = ExtResource("6_svjrn")
