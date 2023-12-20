@@ -179,7 +179,7 @@ func update_textures_with_images(ids):
 func apply_data():
 	apply_textures()
 	
-	process_material.set_shader_parameter("id_to_row", id_row_array)
+	process_material.set_shader_parameter("row_ids", id_row_array)
 	process_material.set_shader_parameter("distribution_map", distribution_tex)
 	process_material.set_shader_parameter("splatmap_size_meters", get_map_size())
 	process_material.set_shader_parameter("dist_scale", 1.0 / spacing)
