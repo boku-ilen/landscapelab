@@ -23,7 +23,6 @@ var util_menu = Menu.new(
 	true, "UtilMenu", [imaging_menu, labtable_menu])
 
 var dolly_window: Window
-var previous_center_node: Node3D
 var labtable_window: Window
 
 
@@ -67,14 +66,8 @@ func _begin_dolly():
 	dolly_window.position_manager = position_manager
 	
 	imaging_menu.popup.set_item_disabled(imaging_menu.menu_items.find(open_dolly_item), true)
-	
-	# Swap center node
-	previous_center_node = position_manager.center_node
-	position_manager.center_node = dolly_window.dolly_scene.dolly_cam
 
 
 func _cleanup_dolly():
-	# Reset center node
-	position_manager.center_node = previous_center_node
 	dolly_window.hide()
 	imaging_menu.popup.set_item_disabled(imaging_menu.menu_items.find(open_dolly_item), false)

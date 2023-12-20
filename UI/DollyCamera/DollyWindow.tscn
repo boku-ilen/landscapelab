@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b858h2ejta33m"]
+[gd_scene load_steps=10 format=3 uid="uid://b858h2ejta33m"]
 
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1_phosr"]
 [ext_resource type="Script" path="res://UI/DollyCamera/DollyWindow.gd" id="2_rinuq"]
@@ -6,8 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://d2hitly1vb6sv" path="res://Resources/Icons/ModernLandscapeLab/paintbrush.svg" id="4_711kc"]
 [ext_resource type="Texture2D" uid="uid://cacte35ppt5m5" path="res://Resources/Icons/ModernLandscapeLab/clear.svg" id="5_keygn"]
 [ext_resource type="Texture2D" uid="uid://cr6tu5rgwm363" path="res://Resources/Icons/ModernLandscapeLab/focus.svg" id="6_hbw8f"]
+[ext_resource type="Texture2D" uid="uid://w4de3cfa2gks" path="res://Resources/Icons/ModernLandscapeLab/swap.svg" id="7_7mx8d"]
 [ext_resource type="PackedScene" uid="uid://de45plwj80hwk" path="res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn" id="7_mqp31"]
-[ext_resource type="PackedScene" path="res://UI/Layers/LayerConfiguration/Misc/FeatureChooser.tscn" id="8_y4h8q"]
+[ext_resource type="PackedScene" uid="uid://dcobcs1ua7tr7" path="res://UI/Layers/LayerConfiguration/Misc/FeatureChooser.tscn" id="8_y4h8q"]
 
 [node name="Window" type="Window"]
 mode = 2
@@ -42,7 +43,11 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="Set" parent="Margin/VBox/ImagingMenu" instance=ExtResource("3_ffo3w")]
+[node name="GridContainer" type="GridContainer" parent="Margin/VBox/ImagingMenu"]
+layout_mode = 2
+columns = 3
+
+[node name="Set" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 0
@@ -51,7 +56,7 @@ toggle_mode = true
 icon = ExtResource("4_711kc")
 texture_name = "paintbrush"
 
-[node name="Clear" parent="Margin/VBox/ImagingMenu" instance=ExtResource("3_ffo3w")]
+[node name="Clear" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 0
@@ -59,7 +64,7 @@ tooltip_text = "clear current path"
 icon = ExtResource("5_keygn")
 texture_name = "clear"
 
-[node name="Focus" parent="Margin/VBox/ImagingMenu" instance=ExtResource("3_ffo3w")]
+[node name="Focus" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 0
@@ -67,6 +72,14 @@ tooltip_text = "focus set point"
 toggle_mode = true
 icon = ExtResource("6_hbw8f")
 texture_name = "focus"
+
+[node name="CenterNode" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "Make Dolly Center Node"
+toggle_mode = true
+icon = ExtResource("7_7mx8d")
+texture_name = "swap"
 
 [node name="VSeparator" type="VSeparator" parent="Margin/VBox/ImagingMenu"]
 layout_mode = 2

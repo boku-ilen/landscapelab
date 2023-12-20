@@ -12,6 +12,7 @@ var action_handlers: Array : set = on_set_handlers
 var position_manager: PositionManager
 var set_action: DollyAction
 var dolly_scene: Node3D = load("res://Util/Imaging/Dolly/DollyScene.tscn").instantiate()
+var previous_center_node: Node3D 
 
 @onready var geodata_chooser = $Margin/VBox/ImagingMenu/GeodataOptions/GeodataChooser
 @onready var feature_options = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions
@@ -61,6 +62,7 @@ class DollyAction extends EditingAction:
 			true)
 	
 	func special_action(event: InputEvent, cursor):
+		# Give user feedback to where the path will be
 		if event is InputEventMouseMotion:
 			var path: Curve3D = dolly_scene.path
 			if path.point_count < 1 or is_closed: return
@@ -92,27 +94,39 @@ func on_set_handlers(handlers):
 	set_action = DollyAction.new(dolly_scene)
 	
 	# Connect ui-controls with the new action
-	## The height at which the newly set point of the dollyrail will be above ground
+	# The height at which the newly set point of the dollyrail will be above ground
 	var spinbox = $Margin/VBox/ImagingMenu/VBoxContainer/SpinBox
 	spinbox.value_changed.connect(set_action.set_height_correction)
-	### Set with initial value
+	# Set with initial value
 	set_action.set_height_correction(spinbox.value)
 	
-	## Clears the set path
-	var clear = $Margin/VBox/ImagingMenu/Clear
+	# Clears the set path
+	var clear = $Margin/VBox/ImagingMenu/GridContainer/Clear
 	clear.pressed.connect(set_action.dolly_scene.clear)
 	clear.pressed.connect(func(): set_action.is_closed = false)
 	
-	## Enables the set action for action handlers
-	var set = $Margin/VBox/ImagingMenu/Set
+	# Enables the set action for action handlers
+	var set = $Margin/VBox/ImagingMenu/GridContainer/Set
 	for handler in action_handlers:
 		set.toggled.connect(func(toggled: bool):
 			if toggled: handler.set_current_action(set_action)
 			else: handler.stop_current_action())
 	
-	## If the button is toggled, the camera will follow the set focus
-	var focus = $Margin/VBox/ImagingMenu/Focus
+	# If the button is toggled, the camera will follow the set focus
+	var focus = $Margin/VBox/ImagingMenu/GridContainer/Focus
 	focus.toggled.connect(enable_focus)
+	
+	# Change whether the dolly_camera is center node or not
+	var toggle_center = $Margin/VBox/ImagingMenu/GridContainer/CenterNode
+	toggle_center.toggled.connect(func(toggled): 
+		if toggled: toggle_center_node(dolly_scene.dolly_cam)
+		else: 		toggle_center_node(previous_center_node))
+
+
+func toggle_center_node(new_center_node: Node3D):
+	# Swap center node
+	previous_center_node = position_manager.center_node
+	position_manager.center_node = new_center_node
 
 
 func enable_focus(toggled: bool):
