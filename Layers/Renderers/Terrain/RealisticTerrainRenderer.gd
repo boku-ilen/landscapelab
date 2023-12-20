@@ -4,19 +4,16 @@ var shader_material = preload("res://Layers/Renderers/Terrain/Materials/TerrainS
 
 func _setup_ground_textures():
 	var texture_folders = [
-		"Concrete", # to 120
-		"Asphalt", # to 140
-		"Lawn", # to 160
-		"Gravel", # to 250
-		"Riverbed", # to 260
-		"Mud", # to 290
-		"Glacier", # to 291
-		"Rock", # to 300
-		"Glade", # to 311
-		"Foliage", # to 330
-		"Moss", # to 340
-		"Soil", # to 700
-		"Meadow" # to 1000
+		"Asphalt", # 1 Sealed
+		"Gravel", # 2 Semi-Sealed
+		"Lawn", # 3 Mixed Urban
+		"Rock", # 4 Open Ground
+		"Glacier", # 5 Snow and Ice
+		"Riverbed", # 6 Water
+		"Meadow", # 7 Grassland, Pastures, Fallows
+		"Foliage", # 8 Shrubs and Forests
+		"Glade", # 9 Agroforest and Permanent Cultures
+		"Soil", # 10 Agriculture
 	]
 	
 	var color_images = []

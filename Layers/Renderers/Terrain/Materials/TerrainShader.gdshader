@@ -238,14 +238,7 @@ void fragment() {
 			vec2 offset_vector = vec2(x_off / size, y_off / size);
 			float splat_id = texture(landuse, UV + offset_vector).r;
 			
-			int texture_index = 0;
-			
-			for (int i = 0; i < 16; i++) {
-				if (splat_id < texture_thresholds[i]) {
-					texture_index = i;
-					break;
-				}
-			}
+			int texture_index = int(splat_id / 1000.0) - 1;
 			
 			detail_color += fractal_texture_array(ground_textures, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
 			count++;
@@ -266,14 +259,7 @@ void fragment() {
 	}
 	
 	// Normal
-	int texture_index = 0;
-	
-	for (int i = 0; i < 16; i++) {
-		if (splat_id < texture_thresholds[i]) {
-			texture_index = i;
-			break;
-		}
-	}
+	int texture_index = int(splat_id / 1000.0) - 1;
 	
 	NORMAL_MAP = fractal_texture_array(ground_normals, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
 	
