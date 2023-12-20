@@ -11,25 +11,21 @@ extends Window
 var action_handlers: Array : set = on_set_handlers
 var position_manager: PositionManager
 var set_action: DollyAction
-var dolly_cam: Camera3D
+var dolly_scene: Node3D = load("res://Util/Imaging/Dolly/DollyScene.tscn").instantiate()
 
 @onready var geodata_chooser = $Margin/VBox/ImagingMenu/GeodataOptions/GeodataChooser
 @onready var feature_options = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions
 @onready var feature_chooser = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/FeatureChooser
-@onready var apply_button = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/Apply
+@onready var apply_camera = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/ApplyButtons/Camera
+@onready var apply_focus = $Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/ApplyButtons/Focus
 
 # DollyAction
 # primary action => set point
 # secondary action => set focus
 # tertiary action => close path to a ring
 class DollyAction extends EditingAction:
-	func set_focus(input: InputEvent, cursor, state_dict: Dictionary): 
+	func add_point(input: InputEvent, cursor, state_dict: Dictionary, path):
 		var pos: Vector3 = cursor.get_cursor_engine_position()
-		dolly_scene.set_focus_position(pos, Vector3.UP * height_correction)
-	
-	func add_point(input: InputEvent, cursor, state_dict: Dictionary):
-		var pos: Vector3 = cursor.get_cursor_engine_position()
-		var path: Curve3D = dolly_scene.path
 		
 		# In order to give usability feedback we add two points 
 		# The first one is the set point, the second one will show where the path would lead
@@ -37,8 +33,6 @@ class DollyAction extends EditingAction:
 			path.add_point(pos + Vector3.UP * height_correction)
 			# Avoid points having the same coordinates - errors otherwise
 			path.add_point(pos + Vector3.UP * height_correction + Vector3.FORWARD)
-			dolly_scene.toggle_cam(true)
-			dolly_scene.get_node("DollyRail/PathFollow3D/RemoteTransform3D").remote_path = dolly_cam.get_path()
 			return
 		
 		var height_corrected_point = pos + Vector3.UP * height_correction
@@ -52,18 +46,19 @@ class DollyAction extends EditingAction:
 		is_closed = true
 	
 	# FIXME: this logic should be rewritten to be a line-feature
-	var dolly_scene = load("res://Util/Imaging/Dolly/DollyScene.tscn").instantiate()
-	var dolly_cam = load("res://Util/Imaging/Dolly/DollyCamera.tscn").instantiate()
+	var dolly_scene: Node3D
 	var is_closed = false
 	
 	var height_correction := 0.0 : set = set_height_correction
 	func set_height_correction(new_height): height_correction = new_height
 	
-	func _init(viewport):
-		super._init(add_point, set_focus, close_path, true)
-		dolly_scene.dolly_cam = dolly_cam
-		viewport.add_child(dolly_scene)
-		viewport.add_child(dolly_cam)
+	func _init(new_dolly_scene):
+		dolly_scene = new_dolly_scene
+		super._init(
+			func(i, c, sd): add_point(i, c, sd, dolly_scene.path), 
+			func(i, c, sd): add_point(i, c, sd, dolly_scene.focus_path), 
+			close_path, 
+			true)
 	
 	func special_action(event: InputEvent, cursor):
 		if event is InputEventMouseMotion:
@@ -75,25 +70,26 @@ class DollyAction extends EditingAction:
 
 
 func _ready():
-	apply_button.pressed.connect(apply_curve3D_to_path)
+	apply_camera.pressed.connect(apply_curve3D_to_path.bind("path"))
+	apply_focus.pressed.connect(apply_curve3D_to_path.bind("focus_path"))
 
 
-func apply_curve3D_to_path():
+func apply_curve3D_to_path(path_name: String):
 	var feature = feature_chooser.get_currently_selected_feature()
 	if not feature is GeoLine: return
 	
 	var center: Array = position_manager.get_center()
-	var curve: Curve3D = feature.get_offset_curve3d(-center[0], 0, -center[1])
-	
-	set_action.dolly_scene.path = feature.get_offset_curve3d(-center[0], 0, -center[1])
+	dolly_scene.set(path_name, feature.get_offset_curve3d(-center[0], 0, -center[1]))
 
 
 func on_set_handlers(handlers):
 	action_handlers = handlers
 	
+	# Create dolly scene and add to tree
+	$Margin/VBox/SubViewportContainer/SubViewport.add_child(dolly_scene)
+	
 	# Create the set action for new handlers
-	set_action = DollyAction.new($Margin/VBox/SubViewportContainer/SubViewport)
-	dolly_cam = set_action.dolly_cam
+	set_action = DollyAction.new(dolly_scene)
 	
 	# Connect ui-controls with the new action
 	## The height at which the newly set point of the dollyrail will be above ground
@@ -116,7 +112,11 @@ func on_set_handlers(handlers):
 	
 	## If the button is toggled, the camera will follow the set focus
 	var focus = $Margin/VBox/ImagingMenu/Focus
-	focus.toggled.connect(func(toggled: bool): dolly_cam.focus_enabled = toggled)
+	focus.toggled.connect(enable_focus)
+
+
+func enable_focus(toggled: bool):
+	dolly_scene.dolly_cam.focus_enabled = toggled
 
 
 # For usability reasons let the height_correction be controlled via mouse wheel

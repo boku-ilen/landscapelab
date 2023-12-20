@@ -2,26 +2,20 @@ extends Camera3D
 
 #
 # Camera3D which goes along a PathFollow3D and keeps the view centered checked a certain target (any Node3D node).
-# Must be child of a PathFollow3D node!
+# Must be top level (i.e. position must return the "global" position). Can be achieved by e.g. pushing the
+# transform of the pathfollow using a a remotetransform
 #
 
-var path_follow: PathFollow3D
-var focus: Node3D
-var focus_enabled := false
-var velocity: Vector3
-
-var is_enabled: bool = false
-
-
+@export var path_follow: PathFollow3D
+@export var path_follow_focus: PathFollow3D
+@export var focus: Node3D
 @export var move_speed: float
 @export var orientation_speed: float
 @export var orientation_speed_decay: float # (float, 0.0, 1.0)
 
-
-func _ready():
-	if not path_follow:
-		logger.error("Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced")
-		assert(false) #,"Dolly-cam needs a path_follow. Usually this gets set when the path-scene is instanced")
+var focus_enabled := false
+var velocity: Vector3
+var is_enabled := false
 
 
 func _process(delta):
@@ -45,16 +39,16 @@ func _process(delta):
 		
 		# Movement along rails
 		path_follow.progress += velocity.z * delta
+		path_follow_focus.progress_ratio = path_follow.progress_ratio
 		
 		# Free movement relative to position checked rails
 		position += Vector3(velocity.x, velocity.y, 0.0) * delta
 		rotation += Vector3(velocity.x, velocity.y, 0.0) * delta
 		
 		# Keep the view towards the object
-		if focus != null \
-			and not focus.position.is_equal_approx(Vector3.ZERO) \
-			and focus_enabled:
-				look_at(focus.transform.origin, Vector3.UP) 
+		if focus != null and focus_enabled:
+			focus.visible = true
+			look_at(focus.global_transform.origin, Vector3.UP) 
 
 
 func get_look_direction():
