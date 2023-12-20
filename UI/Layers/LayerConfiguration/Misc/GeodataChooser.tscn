@@ -20,12 +20,12 @@ text_placeholder = "..."
 visible = false
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="WriteAccess" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="WriteAccess"]
 layout_mode = 2
 text = "Write-acess:"
 
-[node name="CheckBox" type="CheckBox" parent="HBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="WriteAccess"]
 layout_mode = 2
