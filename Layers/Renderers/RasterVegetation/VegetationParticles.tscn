@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://ble8u3qy6yftc"]
+[gd_scene load_steps=7 format=3 uid="uid://ble8u3qy6yftc"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/RasterVegetation/VegetationParticles.gd" id="1"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/Plant.gdshader" id="2"]
-[ext_resource type="Texture2D" uid="uid://dm0gu4kdjue6l" path="res://Resources/Meshes/VegetationBillboard/crossed_billboard_normal.png" id="2_w5kd1"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/VegetationLayer.gdshader" id="3"]
 [ext_resource type="ArrayMesh" uid="uid://kqa4x2tsefu5" path="res://Resources/Meshes/VegetationBillboard/1m_billboard.obj" id="4_uhe77"]
 
@@ -21,7 +20,9 @@ shader_parameter/camera_facing = null
 shader_parameter/billboard_enabled = false
 shader_parameter/fake_shadow_height = 1.2
 shader_parameter/fake_shadow_min_multiplier = 0.25
-shader_parameter/normal_map = ExtResource("2_w5kd1")
+shader_parameter/hue_factor = 1.0
+shader_parameter/chroma_factor = 2.0
+shader_parameter/luminance_factor = 2.0
 
 [sub_resource type="ShaderMaterial" id="2"]
 resource_local_to_scene = true

@@ -54,6 +54,10 @@ uniform float texture_thresholds[14];
 uniform sampler2DArray ground_textures: source_color;
 uniform sampler2DArray ground_normals;
 
+uniform float hue_factor: hint_range(0, 3.14) = 0.4;
+uniform float chroma_factor: hint_range(0.0, 3.0) = 2.0;
+uniform float luminance_factor: hint_range(0.0, 3.0) = 2.0;
+
 // From https://www.shadertoy.com/view/mds3R4
 vec4 fractal_texture(sampler2D tex, vec2 uv, float depth) {
     //Find the pixel level of detail
@@ -201,6 +205,12 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 	// Convert to Hue-Chroma-Luminance color space
 	vec3 base_hcy = RGBtoHCY(base);
 	vec3 detail_hcy = RGBtoHCY(detail);
+	
+	// TODO: Move out of this function
+	// Adapt detail_hcy to dryness here
+	detail_hcy.r += hue_factor;
+	detail_hcy.g *= chroma_factor;
+	detail_hcy.b *= luminance_factor;
 
 	// Adapt the detail texture hue and chroma to the orthophoto
 	detail_hcy.y = mix(detail_hcy.y, base_hcy.y, shift_scale);
