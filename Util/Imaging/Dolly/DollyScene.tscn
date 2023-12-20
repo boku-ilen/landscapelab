@@ -83,8 +83,8 @@ path_follow = NodePath("..")
 path_follow_focus = NodePath("../../../FocusPath/PathFollow3D")
 focus = NodePath("../../../FocusPath/PathFollow3D/Focus")
 move_speed = 50.0
-orientation_speed = 0.7
-orientation_speed_decay = 0.97
+pivot_speed = 0.7
+pivot_speed_decay = 0.97
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="DollyRail/PathFollow3D/DollyCamera"]
 transform = Transform3D(2, -2.98023e-08, 1.3027e-15, 0, -8.74228e-08, -2, 2.98023e-08, 2, -8.74228e-08, 0, 0, 0)

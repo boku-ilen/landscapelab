@@ -46,7 +46,6 @@ class DollyAction extends EditingAction:
 		path.tessellate_even_length()
 		is_closed = true
 	
-	# FIXME: this logic should be rewritten to be a line-feature
 	var dolly_scene: Node3D
 	var is_closed = false
 	

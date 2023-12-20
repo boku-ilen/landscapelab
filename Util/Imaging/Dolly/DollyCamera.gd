@@ -10,8 +10,8 @@ extends Camera3D
 @export var path_follow_focus: PathFollow3D
 @export var focus: Node3D
 @export var move_speed: float
-@export var orientation_speed: float
-@export var orientation_speed_decay: float # (float, 0.0, 1.0)
+@export var pivot_speed: float
+@export var pivot_speed_decay: float # (float, 0.0, 1.0)
 
 var focus_enabled := false
 var velocity: Vector3
@@ -25,17 +25,17 @@ func _process(delta):
 		if Input.is_action_pressed("camera_move_backward"):
 			velocity.z -= move_speed * delta
 		if Input.is_action_pressed("camera_move_right"):
-			velocity.x += orientation_speed * delta
+			velocity.x += pivot_speed * delta
 		if Input.is_action_pressed("camera_move_left"):
-			velocity.x -= orientation_speed * delta
+			velocity.x -= pivot_speed * delta
 		if Input.is_action_pressed("camera_move_up"):
-			velocity.y += orientation_speed * delta
+			velocity.y += pivot_speed * delta
 		if Input.is_action_pressed("camera_move_down"):
-			velocity.y -= orientation_speed * delta
+			velocity.y -= pivot_speed * delta
 		
 		# Make x and y velocity decay over time, z (forward/backward) velocity stays the same
-		velocity.x *= orientation_speed_decay
-		velocity.y *= orientation_speed_decay
+		velocity.x *= pivot_speed_decay
+		velocity.y *= pivot_speed_decay
 		
 		# Movement along rails
 		path_follow.progress += velocity.z * delta

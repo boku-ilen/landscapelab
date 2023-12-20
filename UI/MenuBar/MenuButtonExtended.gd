@@ -1,16 +1,35 @@
 extends MenuButton
 class_name MenuButtonExtended
 
+#
+# This class is a helper class for more easily creating menusbuttons and their
+# corresponding pupops. In order to create a menu for a button, create a Menu object
+# inside the button and make sure to check the is_top member variable.
+# This will create the first menu that will popup when clicking the button. 
+#
+# In order to create items for the PopupMenu, use MenuItem objects and reference 
+# them in the menu_items member array. MenuItems consist of:
+# - a label which defines the displayed text
+# - a callable function (anonymous lambda or any other function really)
+#		this function will be called once the item is clicked
+# - a bool whether it should be checkable
+# - a bool whether it should be checked initially
+# - an optional icon
+#
+# To add a submenu, create a menu and add it to the menu_items array
+
+
 # An item inside a popup menu
 class MenuItem:
 	var label: String
 	# function that will be called once the item is clicked
 	var callback: Callable
+	# optional
 	var checkable: bool
 	var checked: bool
 	var entry_icon: Texture2D
 	
-	func _init(_label: String, _callback:=Callable(), _checkable:=false,
+	func _init(_label: String, _callback: Callable, _checkable:=false,
 				 _checked:=false, _entry_icon:Texture2D=null):
 		label = _label
 		entry_icon = _entry_icon
