@@ -1,14 +1,18 @@
-[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://boubv733hsw1d"]
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://boubv733hsw1d"]
 
-[ext_resource type="Texture2D" uid="uid://dy66dgm6y25hu" path="res://Resources/Textures/Barriers/Stone/bricks_0019_color_2k.jpg" id="1_aawn6"]
-[ext_resource type="Texture2D" uid="uid://b5fshwsgv1lfp" path="res://Resources/Textures/Barriers/Stone/bricks_0019_normal_opengl_2k.png" id="2_5v26p"]
-[ext_resource type="Texture2D" uid="uid://8prmreex7p46" path="res://Resources/Textures/Barriers/Stone/bricks_0019_roughness_2k.jpg" id="3_py7q6"]
+[ext_resource type="Texture2D" uid="uid://7jbtvntmxr30" path="res://Resources/Textures/Barriers/Stone/stone_wall_diff_2k.jpg" id="1_yrgx4"]
+[ext_resource type="Texture2D" uid="uid://bkfyrswihhrq5" path="res://Resources/Textures/Barriers/Stone/stone_wall_arm_2k.jpg" id="2_3hr08"]
+[ext_resource type="Texture2D" uid="uid://c6ddav7lmho8" path="res://Resources/Textures/Barriers/Stone/stone_wall_disp_2k.jpg" id="3_m7cu5"]
+[ext_resource type="Texture2D" uid="uid://pn1pswtepkes" path="res://Resources/Textures/Barriers/Stone/stone_wall_nor_gl_2k.jpg" id="4_yew4b"]
 
 [resource]
-albedo_color = Color(0.709804, 0.658824, 0.596078, 1)
-albedo_texture = ExtResource("1_aawn6")
-roughness_texture = ExtResource("3_py7q6")
+albedo_texture = ExtResource("1_yrgx4")
+roughness_texture = ExtResource("2_3hr08")
+roughness_texture_channel = 1
 normal_enabled = true
-normal_scale = 4.0
-normal_texture = ExtResource("2_5v26p")
+normal_scale = 3.0
+normal_texture = ExtResource("4_yew4b")
+ao_texture = ExtResource("2_3hr08")
+heightmap_scale = 6.0
+heightmap_texture = ExtResource("3_m7cu5")
 uv1_scale = Vector3(2, 2, 2)
