@@ -10,7 +10,8 @@ var feature_layer
 var location_layer
 var instance_goc
 
-var cluster_size = 5
+var cluster_size = 8
+var search_radius = 4000.0
 var game_object_instances = {}
 
 signal game_object_added(new_game_object)
@@ -58,12 +59,21 @@ func _add_game_object(feature):
 func _on_feature_changed(feature):
 	# Activate locations
 	var feature_position = feature.get_vector3()
+	
 	var location_features = location_layer.get_features_near_position(
 		feature_position.x,
 		-feature_position.z,
-		2000.0,
-		cluster_size
+		search_radius,
+		1000
 	)
+	
+	location_features.sort_custom(func(a, b):
+		return a.get_vector3().distance_to(feature_position) < \
+				b.get_vector3().distance_to(feature_position)
+	)
+	
+	location_features.resize(cluster_size)
+	
 	for location_feature in location_features:
 		var location = location_feature.get_vector3()
 		var new_location_feature = instance_goc.feature_layer.create_feature()
