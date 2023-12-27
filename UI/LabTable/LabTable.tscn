@@ -24,7 +24,7 @@ bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
 initial_position = 1
 size = Vector2i(1600, 900)
 
-[node name="LabTable" type="HBoxContainer" parent="." node_paths=PackedStringArray("geo_layers", "control_ui", "extent_visualizer")]
+[node name="LabTable" type="HBoxContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -35,9 +35,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("8_2ddb4")
 script = ExtResource("1_714gw")
-geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
-control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
-extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
 layout_mode = 2
@@ -48,13 +45,10 @@ script = ExtResource("1_l77mt")
 
 [node name="SubViewport" parent="LabTable/SubViewportContainer" instance=ExtResource("2_opmh5")]
 canvas_cull_mask = 4294967293
-size = Vector2i(1606, 900)
+size = Vector2i(2, 2)
 
 [node name="Camera2D" parent="LabTable/SubViewportContainer/SubViewport" index="0"]
 zoom = Vector2(0.1, 0.1)
-
-[node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" index="1" node_paths=PackedStringArray("camera")]
-camera = NodePath("../Camera2D")
 
 [node name="Cursor2D" type="Sprite2D" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d")]
 visible = false
@@ -134,8 +128,7 @@ script = ExtResource("13_a5rra")
 [node name="LabTableMarkers" type="Node2D" parent="LabTable/LabTableCommunicator"]
 script = ExtResource("15_j8x0r")
 
-[node name="LabTableConfigurator" parent="LabTable" node_paths=PackedStringArray("table_communicator") instance=ExtResource("15_esmpk")]
-table_communicator = NodePath("../LabTableCommunicator")
+[node name="LabTableConfigurator" parent="LabTable" instance=ExtResource("15_esmpk")]
 
 [node name="GameModesConfigurator" parent="LabTable" instance=ExtResource("17_aru4m")]
 

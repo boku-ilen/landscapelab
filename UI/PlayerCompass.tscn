@@ -1,12 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://cnhf1t4exg0ww"]
 
-[ext_resource path="res://Resources/Icons/ModernLandscapeLab/compass_straight.svg" type="Texture2D" id=1]
-[ext_resource path="res://UI/PlayerCompass.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://css8qevv63xtq" path="res://Resources/Icons/ModernLandscapeLab/compass_straight.svg" id="1"]
+[ext_resource type="Script" path="res://UI/PlayerCompass.gd" id="2"]
 
 [node name="PlayerCompass" type="TextureRect"]
 offset_left = 1.0
 offset_top = 1.0
 offset_right = 38.0
 offset_bottom = 38.0
-texture = ExtResource( 1 )
-script = ExtResource( 2 )
+texture = ExtResource("1")
+script = ExtResource("2")

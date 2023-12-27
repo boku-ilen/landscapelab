@@ -11,7 +11,7 @@
 [ext_resource type="Script" path="res://Communication/GetObjectLayerDataRequestHandler.gd" id="9"]
 [ext_resource type="Script" path="res://Communication/SetObjectPositionRequestHandler.gd" id="10"]
 [ext_resource type="Script" path="res://Communication/CreateFeatureRequestHandler.gd" id="11"]
-[ext_resource type="PackedScene" path="res://GameSystem/TableCommunicator.tscn" id="12"]
+[ext_resource type="PackedScene" uid="uid://b1sbfd2r652rm" path="res://GameSystem/TableCommunicator.tscn" id="12"]
 [ext_resource type="Script" path="res://Communication/Table/PlayerPositionSender.gd" id="13"]
 [ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="14_lpgpe"]
 

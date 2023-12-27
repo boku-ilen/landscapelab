@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=3 uid="uid://ghjvn4yxhw6j"]
 
-[ext_resource path="res://External/PlusIQ/F2_HK_rows_relief.glb" type="PackedScene" id=1]
-
-[node name="F2_HK_rows_relief" instance=ExtResource( 1 )]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+[node name="F2_HK_rows_relief"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

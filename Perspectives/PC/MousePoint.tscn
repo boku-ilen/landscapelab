@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Perspectives/PC/MousePoint.gd" id="1"]
 [ext_resource type="Theme" uid="uid://2acd0pfpr1ny" path="res://UI/Theme/LandscapeLab.tres" id="2"]
-[ext_resource type="PackedScene" path="res://Perspectives/PC/MouseFeedback/MouseCollisionIndicator.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://qvsks1cuf3uh" path="res://Perspectives/PC/MouseFeedback/MouseCollisionIndicator.tscn" id="3"]
 [ext_resource type="Script" path="res://Perspectives/PC/CursorInfoDialog.gd" id="4"]
 
 [node name="MousePoint" type="Node3D"]

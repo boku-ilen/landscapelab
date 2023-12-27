@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://Python/PysolarInterface.py" type="Script" id=1]
+[gd_scene format=3 uid="uid://dwbhg1tn3pkt4"]
 
 [node name="PysolarInterface" type="Node"]
-script = ExtResource( 1 )
+script = null

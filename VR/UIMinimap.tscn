@@ -1,26 +1,26 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://cuu8yynawoea6"]
 
-[ext_resource path="res://VR/UIMinimap.gd" type="Script" id=1]
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/close.svg" type="Texture2D" id=2]
+[ext_resource type="Script" path="res://VR/UIMinimap.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cseb5r044bgsd" path="res://Resources/Icons/ColorOpenMoji/close.svg" id="2"]
 
-[sub_resource type="StandardMaterial3D" id=1]
-flags_transparent = true
-flags_no_depth_test = true
-flags_fixed_size = true
-params_billboard_mode = 1
+[sub_resource type="StandardMaterial3D" id="1"]
+transparency = 1
+no_depth_test = true
+billboard_mode = 1
+fixed_size = true
 
 [node name="Camera3D" type="Camera3D"]
-transform = Transform3D( 1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 50000, 0 )
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 50000, 0)
 cull_mask = 136
 projection = 1
 current = true
 size = 3000.0
 far = 50000.0
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 enabled = true
-cast_to = Vector3( 0, 0, -1e+06 )
+cast_to = Vector3(0, 0, -1e+06)
 
 [node name="Container" type="SubViewportContainer" parent="."]
 offset_left = 3.0
@@ -52,20 +52,20 @@ valign = 1
 offset_top = 33.0
 offset_right = 1000.0
 offset_bottom = 65.0
-minimum_size = Vector2( 1000, 0 )
+minimum_size = Vector2(1000, 0)
 max_value = 5.0
 
 [node name="Button" type="Button" parent="Container/HBoxContainer"]
 offset_left = 1008.0
 offset_right = 1208.0
 offset_bottom = 65.0
-minimum_size = Vector2( 200, 0 )
+minimum_size = Vector2(200, 0)
 text = "Done"
 
 [node name="MeshInstance3D" type="Sprite3D" parent="."]
 layers = 128
-material_override = SubResource( 1 )
-modulate = Color( 1, 0.0588235, 0.0588235, 1 )
+material_override = SubResource("1")
+modulate = Color(1, 0.0588235, 0.0588235, 1)
 pixel_size = 0.005
 billboard = 1
-texture = ExtResource( 2 )
+texture = ExtResource("2")

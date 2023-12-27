@@ -48,13 +48,9 @@ sdfgi_cascade0_distance = 64.0
 sdfgi_max_distance = 1024.0
 glow_enabled = true
 fog_enabled = true
-fog_light_color = Color(0.517647, 0.552941, 0.607843, 1)
-fog_density = 0.0119
+fog_density = 0.001
 fog_aerial_perspective = 1.0
 fog_sky_affect = 0.0
-fog_height_density = 2.0
-volumetric_fog_enabled = true
-volumetric_fog_density = 0.0
 adjustment_contrast = 1.15
 adjustment_saturation = 1.2
 

@@ -7,7 +7,8 @@ extends Control
 @export var player_node: Node3D : 
 	set(new_player):
 		player_node = new_player
-		geo_layers.player_node = new_player
+		if geo_layers:
+			geo_layers.player_node = new_player
 # To debug it as standalone (without running the rest of the landscapelab
 # it is necessary to load the configuration
 @export var debug_mode := false

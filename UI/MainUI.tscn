@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ljx3yf4cns3v" path="res://UI/Layers/GeoLayers/Management/GeoRasterLayerManagement.tscn" id="6_v04wd"]
 [ext_resource type="Script" path="res://UI/WorldUI.gd" id="7_fnvwn"]
 [ext_resource type="Script" path="res://UI/UISplit.gd" id="8"]
-[ext_resource type="PackedScene" path="res://UI/PlayerCompass.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://cnhf1t4exg0ww" path="res://UI/PlayerCompass.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://pmmpjdicjvjs" path="res://UI/TeleportMenu/TeleportMenu.tscn" id="9_he6fp"]
 [ext_resource type="PackedScene" uid="uid://cckl23qaxw3h8" path="res://UI/Datetime/Datetime.tscn" id="10_x7hwk"]
 [ext_resource type="Script" path="res://UI/WorldViewPort.gd" id="11"]
@@ -111,10 +111,10 @@ drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="Datetime" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("10_x7hwk")]
-visible = false
 layout_mode = 2
 
 [node name="Screenshot" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("12_xqn6f")]
+visible = false
 layout_mode = 2
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot"]
@@ -159,7 +159,7 @@ script = ExtResource("11")
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort"]
 handle_input_locally = false
 gui_disable_input = true
-size = Vector2i(555, 421)
+size = Vector2i(2, 2)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_xvbyv")]
@@ -200,12 +200,12 @@ size_flags_stretch_ratio = 0.3
 mouse_filter = 0
 
 [node name="DebugInfo" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("14")]
-visible = false
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 layer_renderers_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/Terrain/LayerRenderers")
 
 [node name="GameUI" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/HBoxContainer" instance=ExtResource("18")]
+visible = false
 layout_mode = 2
 viewport_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport")
 position_manager_path = NodePath("../../VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
@@ -229,7 +229,8 @@ custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 
 [node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewportContainer" index="0"]
-size = Vector2i(206, 300)
+size = Vector2i(2, 2)
+render_target_update_mode = 0
 
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]
 visible = false

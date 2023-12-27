@@ -1,3 +1,4 @@
+@tool
 extends Node3D
 
 #
@@ -23,8 +24,14 @@ extends Node3D
 @export var mesh_rotor_diameter := 100
 
 # Minimum height and diameter for features where this attribute is 0
-@export var min_hub_height := 50
-@export var min_rotor_diameter := 35
+@export var min_hub_height := 50:
+	set(new_min_height):
+		min_hub_height = new_min_height
+		set_hub_height(new_min_height)
+@export var min_rotor_diameter := 35:
+	set(new_min_diam):
+		min_rotor_diameter = new_min_diam
+		set_rotor_diameter(new_min_diam)
 
 @export var forward_for_rotation: Vector3 = Vector3(1, 0, 0)
 
@@ -105,6 +112,7 @@ func update_rotation():
 
 # Updates the rotation of the rotor to make them rotate with the exported speed variable
 func _process(delta): 
+	return
 	if delta > 0.8: return  # Avoid skipping
 	if is_inside_tree():
 		rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)

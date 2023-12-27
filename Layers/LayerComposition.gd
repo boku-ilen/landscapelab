@@ -264,6 +264,7 @@ class ConnectedObjectInfo extends RenderInfo:
 
 class RepeatingObjectInfo extends RenderInfo:
 	var width: float
+	var radius: float
 	var random_angle: bool
 	var selector_attribute_name: String
 	var meshes: Dictionary
