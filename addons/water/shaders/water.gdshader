@@ -17,8 +17,8 @@ uniform sampler2D SCREEN_TEXTURE : hint_screen_texture,repeat_disable;
 uniform vec3 surface_color:source_color;
 uniform vec3 depth_color:source_color;
 uniform float opacity:hint_range(0.0, 1.0)=0.5; 
-uniform sampler2D _foam:source_color; 
-uniform sampler2D normal_map:source_color; 
+uniform sampler2D _foam; 
+uniform sampler2D normal_map:hint_normal; 
 uniform float normal_scale:hint_range(-16.0, 16.0)=1.0;
 uniform float beer_factor:hint_range(0.0, 10.0)=0.1; 
 uniform float _roughness:hint_range(0.0, 1.0); 
@@ -112,8 +112,8 @@ void fragment() {
 	ROUGHNESS = _roughness;
 
 	//ALPHA = clamp(opacity+1.0-d-d2,0.0,1.0);
-	vec3 n_out = normal_blend2(n3,normal_blend(n,n2)); 
-	NORMAL_MAP = n_out;  
+	vec3 n_out = mix(n3,mix(n,n2, 0.5), 0.5); 
+	NORMAL_MAP = n_out;
 	NORMAL_MAP_DEPTH = normal_scale; 
 	vec2 n_distortion = n_out.xy - vec2(0.5, 0.5); //(mat3(TANGENT,BINORMAL,NORMAL) * n_out).rg * 2.0 - 1.0; 
 	vec3 color_out = mix(depth_color, surface_color,d);
