@@ -251,7 +251,7 @@ void fragment() {
 	
 	float splat_id = texture(landuse, UV).r;
 	
-	if (splat_id < 250.0 || splat_id > 261.0) {
+	if (int(splat_id / 1000.0) != 6) {
 		ALBEDO = hue_shift(detail_color, ortho_color, dist_scale);
 	} else {
 		// If we have water here, use only the detail color - the color can be very off otherwise
