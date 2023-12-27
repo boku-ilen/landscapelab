@@ -10,10 +10,6 @@ var pc_player :
 				child.pc_player = player
 
 
-func _ready():
-	pass#get_node("FullscreenButton").connect("pressed",Callable(self,"on_fullscreen"))
-
-
 func _enter_tree():
 	if TreeHandler.state_stack.front() == null \
 	or TreeHandler.state_stack.front() == self:
