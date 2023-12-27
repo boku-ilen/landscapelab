@@ -25,7 +25,9 @@ func _load_game_modes(path: String, game_modes: Dictionary) -> void:
 		var game_mode = game_modes[key]
 		
 		var game_mode_object = GameMode.new()
-		game_mode_object.extent = game_mode["Extent"]
+		
+		if "Extent" in game_mode:
+			game_mode_object.extent = game_mode["Extent"]
 		
 		var game_object_collections = game_mode["GameObjectCollections"]
 		_deserialize_object_colletion(game_mode_object, game_object_collections)
@@ -60,12 +62,26 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 		var layer: RefCounted = Layers.get_geo_layer_by_name(layer_name)
 		
 		var collection_object: GameObjectCollection
-		if layer is GeoFeatureLayer:
-			collection_object = \
-				game_mode.add_game_object_collection_for_feature_layer(collection_name, layer)
-		else:
-			# TODO: how to handle in case of GeoRasterLayer?
-			pass
+		
+		var type = collection["type"] if "type" in collection else "GeoGameObjectCollection"
+		
+		if type == "GeoGameObjectCollection":
+			collection_object = game_mode.add_game_object_collection_for_feature_layer(
+				collection_name, layer
+			)
+		elif type == "GameObjectClusterCollection":
+			var location_layer = LayerCompositionSerializer.get_feature_layer_from_string(
+				collection["location_layer"],
+				path
+			)
+			var instance_goc = game_mode.game_object_collections[collection["goc"]]
+			
+			collection_object = game_mode.add_cluster_game_object_collection(
+				collection_name,
+				layer,
+				location_layer,
+				instance_goc
+			)
 
 
 var mapping_type_to_construction_func = {

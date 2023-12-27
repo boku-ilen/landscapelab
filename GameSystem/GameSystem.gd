@@ -57,11 +57,11 @@ func create_new_game_object(collection, position := Vector3.ZERO):
 	# FIXME: This if should be removed, it's a hacky way to allow the PlayerGameObjectCollection to
 	#  move the player checked "NEW_TOKEN" while allowing the actual creation of new objects in
 	#  GeoGameObjectCollections
-	if is_instance_of(collection, GeoGameObjectCollection):
-		return create_new_geo_game_object(collection, position)
-	else:
+	if is_instance_of(collection, PlayerGameObjectCollection):
 		collection.game_objects.values()[0].set_position(position)
 		return collection.game_objects.values()[0]
+	else:
+		return create_new_geo_game_object(collection, position)
 
 
 func create_new_geo_game_object(collection, position := Vector3.ZERO):

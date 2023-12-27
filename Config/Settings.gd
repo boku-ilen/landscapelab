@@ -36,6 +36,8 @@ func load_settings():
 	_load_defaults()
 	_load_from_user_config()
 	_load_from_cl()
+	
+	logger.info("Finished setting up configuration")
 
 
 func _load_defaults():

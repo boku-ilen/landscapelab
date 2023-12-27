@@ -33,7 +33,9 @@ func _load_layers(path: String, table_config: Dictionary):
 	var path_to_map := LLFileAccess.get_rel_or_abs_path(path, table_config["Map"]["path"])
 	var map := Geodot.get_raster_layer(path_to_map)
 	Layers.add_geo_layer(map)
-	map_added.emit(map.get_file_info()["name"])
+	
+	var crs_from = table_config["Map"]["crs_from"]
+	map_added.emit(map.get_file_info()["name"], crs_from)
 	
 	# Table config might load other (pre-existing) layers
 	for key in table_config["Layers"].keys():
