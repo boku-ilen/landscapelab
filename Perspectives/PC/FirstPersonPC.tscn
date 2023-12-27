@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://Perspectives/PC/VRDirectionIndicator.gd" id="4"]
 [ext_resource type="Script" path="res://Editing/ActionHandler.gd" id="4_ru6dm"]
 [ext_resource type="PackedScene" uid="uid://cuiempx2ao4sm" path="res://Perspectives/PC/MousePoint.tscn" id="5"]
-[ext_resource type="PackedScene" path="res://Perspectives/Tracking/ParentTracker.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://4pb0ommg5l3g" path="res://Perspectives/Tracking/ParentTracker.tscn" id="7"]
 [ext_resource type="Script" path="res://Communication/SetPositionRequestHandler.gd" id="8"]
 [ext_resource type="Texture2D" uid="uid://bxy40aj51eghh" path="res://Resources/Icons/ModernLandscapeLab/positionindicator.svg" id="9"]
 [ext_resource type="PackedScene" uid="uid://smxcuwyafd66" path="res://Perspectives/PC/VRSubviewPort.tscn" id="9_sfca8"]
@@ -26,7 +26,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 transform = Transform3D(1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0)
 cull_mask = 1143
 doppler_tracking = 2
-near = 0.15
+near = 0.5
 script = ExtResource("2")
 setting_title = "player"
 
