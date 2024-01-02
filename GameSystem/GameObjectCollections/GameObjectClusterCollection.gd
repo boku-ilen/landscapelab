@@ -11,7 +11,8 @@ var location_layer
 var instance_goc
 
 var cluster_size = 8
-var search_radius = 4000.0
+var initial_search_radius = 200.0
+var max_search_radius = 5000.0
 var location_feature_instances = {}
 var used_locations = {}
 
@@ -61,19 +62,30 @@ func _on_feature_changed(feature):
 	# Activate locations
 	var feature_position = feature.get_vector3()
 	
-	var location_features = location_layer.get_features_near_position(
-		feature_position.x,
-		-feature_position.z,
-		search_radius,
-		1000
-	)
+	var location_features = []
+	var current_search_radius = initial_search_radius
+	
+	# Repeat search until we found enough features or the radius gets too big
+	while current_search_radius < max_search_radius:
+		location_features = location_layer.get_features_near_position(
+			feature_position.x,
+			-feature_position.z,
+			current_search_radius,
+			1000
+		)
+		
+		if location_features.size() >= cluster_size:
+			break
+		else:
+			current_search_radius *= 2.0
 	
 	location_features.sort_custom(func(a, b):
 		return a.get_vector3().distance_to(feature_position) < \
 				b.get_vector3().distance_to(feature_position)
 	)
 	
-	location_features.resize(cluster_size)
+	# Resize to a maximum of cluster_size
+	location_features.resize(min(cluster_size, location_features.size()))
 	var instances = []
 	
 	for location_feature in location_features:
