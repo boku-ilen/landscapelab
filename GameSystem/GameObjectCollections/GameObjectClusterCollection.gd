@@ -12,7 +12,8 @@ var instance_goc
 
 var cluster_size = 8
 var search_radius = 4000.0
-var game_object_instances = {}
+var location_feature_instances = {}
+var used_locations = {}
 
 signal game_object_added(new_game_object)
 signal game_object_removed(removed_game_object)
@@ -73,13 +74,20 @@ func _on_feature_changed(feature):
 	)
 	
 	location_features.resize(cluster_size)
+	var instances = []
 	
 	for location_feature in location_features:
 		var location = location_feature.get_vector3()
+		
+		# Is there already an instance here?
+		if location in used_locations: continue
+		
 		var new_location_feature = instance_goc.feature_layer.create_feature()
 		new_location_feature.set_vector3(location)
-		#var game_object_instance = GameSystem.create_game_object_for_geo_feature(location_feature, instance_goc)
-		#game_object_instances[game_object_instance.id] = game_object_instance
+		used_locations[location] = true
+		instances.append(new_location_feature)
+	
+	location_feature_instances[feature.get_id()] = instances
 	
 	emit_signal("changed")
 
@@ -94,7 +102,10 @@ func _remove_game_object(feature):
 			corresponding_game_object = game_object
 	
 	if corresponding_game_object:
-		# TODO: Remove cluster instances
+		# Remove cluster instances
+		for feature_instance in location_feature_instances[feature.get_id()]:
+			used_locations.erase(feature_instance.get_vector3())
+			instance_goc.feature_layer.remove_feature(feature_instance)
 		
 		GameSystem.apply_game_object_removal(name, corresponding_game_object.id)
 		
