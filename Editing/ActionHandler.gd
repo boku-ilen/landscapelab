@@ -49,11 +49,11 @@ func has_blocking_action() -> bool:
 
 func handle(event: InputEvent) -> void:
 	if has_action():
-		if event.is_action_pressed("{}_primary_action".format([perspective_prefix], "{}")):
+		if event.is_action_released("{}_primary_action".format([perspective_prefix], "{}")):
 			current_action.primary_action.call(event, cursor, current_action.state_dict)
-		elif event.is_action_pressed("{}_secondary_action".format([perspective_prefix], "{}")):
+		elif event.is_action_released("{}_secondary_action".format([perspective_prefix], "{}")):
 			current_action.secondary_action.call(event, cursor, current_action.state_dict)
-		elif event.is_action_pressed("{}_tertiary_action".format([perspective_prefix], "{}")):
+		elif event.is_action_released("{}_tertiary_action".format([perspective_prefix], "{}")):
 			current_action.tertiary_action.call(event, cursor, current_action.state_dict)
 		else:
 			current_action.special_action(event, cursor)
