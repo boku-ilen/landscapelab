@@ -16,6 +16,7 @@ extends Control
 var current_goc_name = "Wind Farms"
 
 var geo_transform
+var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
 
 signal game_object_created(cursor_position)
 signal game_object_failed(cursor_position)
@@ -100,6 +101,24 @@ func set_workshop_mode(active: bool):
 			vector_local.z = -vector_local.z
 			
 			var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
+			
+			# Let user configure the GoC via a popup if any change is allowed
+			var is_any_change_allowed = collection.attributes.values().any(
+				func(attrib): return attrib.allow_change)
+			
+			if is_any_change_allowed or collection is GameObjectClusterCollection:
+				var goc_popup: ConfirmationDialog = goc_configuration_popup.instantiate()
+				add_child(goc_popup)
+				if "cluster_size" in collection:
+					goc_popup.add_configuration_option("cluster_size", collection)
+				for attribute: GameObjectAttribute in collection.attributes.values():
+					if attribute.allow_change:
+						goc_popup.add_configuration_option(attribute.name, attribute)
+				
+				goc_popup.popup_on_parent(Rect2(event.global_position, goc_popup.size))
+				var success = await goc_popup.closed
+				if not success: return
+			
 			var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
 			
 			if new_game_object:
