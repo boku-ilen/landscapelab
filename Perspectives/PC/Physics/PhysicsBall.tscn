@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://ditgl5c7fqslp"]
 
-[sub_resource type="SphereShape3D" id=1]
+[sub_resource type="SphereShape3D" id="1"]
 radius = 8.0
 
-[sub_resource type="SphereMesh" id=2]
+[sub_resource type="SphereMesh" id="2"]
 radius = 8.0
 height = 16.0
 
@@ -12,8 +12,8 @@ mass = 100.0
 gravity_scale = 20.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource("1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource( 2 )
+mesh = SubResource("2")
 material/0 = null

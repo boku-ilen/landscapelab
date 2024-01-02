@@ -148,26 +148,35 @@ func _calculate_intermediate_transforms():
 			
 			var direction = starting_point.direction_to(end_point)
 			direction.y = 0
+			direction = direction.normalized()
 			
-			t.basis.z = direction.normalized()
+			t.basis.z = direction
 			t.basis.y = Vector3.UP
 			t.basis.x = t.basis.y.cross(t.basis.z)
 			
 			t = t.scaled_local(Vector3(1, 1, scale_factor))
 			
+			var previous_height = get_ground_height_at_pos.call(
+					center[0] + t.origin.x, center[1] - t.origin.z)
+			
 			var rand_angle := 0.0
+			
 			for i in range(num_between):
-				var pos = t.origin + direction.normalized() * scaled_width
+				var pos = t.origin + direction * scaled_width
 				# Randomly add 90, 180 or 270 degrees to previous rotation
 				if layer_composition.render_info.random_angle:
-					var pseudo_random = int(pos.x + pos.z)
+					var pseudo_random = int(pos.x * 12345.12345 + pos.z * 12345.12345)
 					rand_angle = rand_angle + (PI / 2.0) * ((pseudo_random % 3) + 1.0)
 					t = t.rotated_local(Vector3.UP, rand_angle)
 				t.origin = pos #* Vector3(1, 1, scale_factor)
 				
 				# Set the mesh on ground and add some buffer for uneven grounds
-				t.origin.y = get_ground_height_at_pos.call(
+				var new_height = get_ground_height_at_pos.call(
 					center[0] + t.origin.x, center[1] - t.origin.z)
+				
+				t.origin.y = lerp(previous_height, new_height, 0.5)
+				
+				previous_height = t.origin.y
 				
 #				if i == num_between - 1 and num_between > 1:
 #					t.basis.z = -t.basis.z

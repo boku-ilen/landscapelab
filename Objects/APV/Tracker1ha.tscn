@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://o2i67m5gh5lw"]
 
 [ext_resource type="Script" path="res://Objects/APV/Tracker1ha.gd" id="1_7o41o"]
-[ext_resource type="PackedScene" uid="uid://criei5y1cxt4a" path="res://Objects/APV/PVTrackerUnit.tscn" id="1_i1wx0"]
+[ext_resource type="PackedScene" uid="uid://boc58gnrqqrk2" path="res://Objects/APV/PVTrackerUnit.tscn" id="1_i1wx0"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_7o41o")

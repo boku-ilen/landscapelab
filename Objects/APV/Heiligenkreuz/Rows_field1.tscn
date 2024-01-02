@@ -1,9 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cabrm0x8ylwdj"]
-
-[ext_resource type="PackedScene" uid="uid://danf5wp6ph5qw" path="res://External/PlusIQ/F1_HK_rows_relief_ungrouped.glb" id="1"]
+[gd_scene format=3 uid="uid://cabrm0x8ylwdj"]
 
 [node name="Rows_field1" type="Node3D"]
 
-[node name="F1_HK_rows_relief_ungrouped" parent="." instance=ExtResource("1")]
+[node name="F1_HK_rows_relief_ungrouped" parent="."]
 
 [editable path="F1_HK_rows_relief_ungrouped"]

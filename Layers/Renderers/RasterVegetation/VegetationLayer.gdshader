@@ -12,7 +12,7 @@ uniform float splatmap_size_meters;
 
 uniform sampler2D distribution_map : hint_default_black, repeat_enable;
 uniform float dist_scale = 10.0;
-uniform float id_to_row[1000]; // Rows are floats of integers between 0 and 255, divided by 255.0
+uniform int row_ids[16];
 
 uniform float amplitude = 1.0;
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
@@ -53,6 +53,15 @@ void process() {
 	// Add single-dimension spacing for some crops
 	pos.x *= row_spacing;
 	
+//	// WIP: decrease density further away
+//	pos *= pos * 0.1 * sign(pos);
+// or:
+//	if (length(pos) > 20.0) {
+//		if (rand(round(pos.xz) * 10.0) < 0.5) {
+//			pos *= pos;
+//		}
+//	}
+	
 	// now center on our particle location but within our spacing
 	pos.x += EMISSION_TRANSFORM[3][0] - mod(EMISSION_TRANSFORM[3][0], spacing);
 	pos.z += EMISSION_TRANSFORM[3][2] - mod(EMISSION_TRANSFORM[3][2], spacing);
@@ -86,9 +95,15 @@ void process() {
 	int splatmap_value = int(round(texture(splatmap, splatmap_uv).r));
 	
 	// The row in the spritesheets which corresponds to this splatmap ID
-	float row = id_to_row[splatmap_value];
+	float row = -1.0;
+	for (int i = 0; i < 16; i++) {
+		if (splatmap_value == row_ids[i]) {
+			row = float(i);
+			break;
+		}
+	}
 	
-	ACTIVE = !(abs(row + 1.0) < 0.1) &&
+	ACTIVE = !(row < 0.0) &&
 			(splatmap_uv.x > 0.0 && splatmap_uv.x < 1.0 &&
 			 splatmap_uv.y > 0.0 && splatmap_uv.y < 1.0);// && is_in_front_of_camera;
 	

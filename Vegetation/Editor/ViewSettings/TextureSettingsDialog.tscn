@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://c714pdb42i563"]
 
-[ext_resource path="res://Vegetation/Editor/ViewSettings/TextureSettingsDialog.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Vegetation/Editor/ViewSettings/TextureSettingsDialog.gd" id="1"]
 
 [node name="TextureSettingsDialog" type="Window"]
 anchor_left = 0.5
@@ -11,8 +11,8 @@ offset_left = -250.0
 offset_top = -150.0
 offset_right = 250.0
 offset_bottom = 150.0
-minimum_size = Vector2( 500, 300 )
-script = ExtResource( 1 )
+minimum_size = Vector2(500, 300)
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }

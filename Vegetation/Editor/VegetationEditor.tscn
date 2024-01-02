@@ -19,8 +19,8 @@
 [ext_resource type="Script" path="res://Vegetation/Editor/Visualization.gd" id="18"]
 [ext_resource type="Shader" path="res://Vegetation/Editor/GroundShader.gdshader" id="19_5ddbs"]
 [ext_resource type="Script" path="res://Vegetation/Editor/PopupButton.gd" id="20"]
-[ext_resource type="PackedScene" path="res://Vegetation/Editor/ViewSettings/TextureSettingsDialog.tscn" id="21"]
-[ext_resource type="PackedScene" path="res://Vegetation/Editor/ViewSettings/ViewSettingsDialog.tscn" id="22"]
+[ext_resource type="PackedScene" uid="uid://c714pdb42i563" path="res://Vegetation/Editor/ViewSettings/TextureSettingsDialog.tscn" id="21"]
+[ext_resource type="PackedScene" uid="uid://dsbiss6x8n2fu" path="res://Vegetation/Editor/ViewSettings/ViewSettingsDialog.tscn" id="22"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gykfp"]
 render_priority = 0

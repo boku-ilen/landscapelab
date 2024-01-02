@@ -1,8 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dhmbmplwr02p6"]
-
-[ext_resource type="PackedScene" uid="uid://c6pc0lrqa767" path="res://External/PlusIQ/schloss.glb" id="1"]
+[gd_scene format=3 uid="uid://dhmbmplwr02p6"]
 
 [node name="Schloss" type="Node3D"]
 
-[node name="schloss" parent="." instance=ExtResource("1")]
+[node name="schloss" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3)

@@ -7,6 +7,7 @@ offset_right = 109.0
 offset_bottom = 40.0
 script = ExtResource("1")
 text_placeholder = ""
+current_dir = ""
 
 [node name="FileName" type="LineEdit" parent="."]
 layout_mode = 2

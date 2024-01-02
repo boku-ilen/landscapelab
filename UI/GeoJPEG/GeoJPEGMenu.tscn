@@ -1,15 +1,15 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://c0ixtutw327e6"]
 
-[ext_resource path="res://Python/PythonWrapper.tscn" type="PackedScene" id=1]
-[ext_resource path="res://UI/GeoJPEG/FileOpenButton.gd" type="Script" id=2]
-[ext_resource path="res://UI/GeoJPEG/GeoJPEGMenu.gd" type="Script" id=3]
+[ext_resource type="PackedScene" uid="uid://c3unw1h6lklbg" path="res://Python/PythonWrapper.tscn" id="1"]
+[ext_resource type="Script" path="res://UI/GeoJPEG/FileOpenButton.gd" id="2"]
+[ext_resource type="Script" path="res://UI/GeoJPEG/GeoJPEGMenu.gd" id="3"]
 
 [node name="GeoJPEGMenu" type="VBoxContainer"]
 offset_left = 14.0
 offset_top = 14.0
 offset_right = 364.0
 offset_bottom = 114.0
-script = ExtResource( 3 )
+script = ExtResource("3")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -24,26 +24,26 @@ offset_top = 33.0
 offset_right = 480.0
 offset_bottom = 70.0
 text = "Open"
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="FileDialog" type="FileDialog" parent="FileOpenButton"]
 offset_right = 645.0
 offset_bottom = 248.0
-minimum_size = Vector2( 1000, 600 )
+minimum_size = Vector2(1000, 600)
 window_title = "Open a File"
 mode = 0
 access = 2
 current_dir = "/home/karl/Nextcloud/Boku/landscapelab"
 current_path = "/home/karl/Nextcloud/Boku/landscapelab/"
 
-[node name="PythonWrapper" parent="." instance=ExtResource( 1 )]
+[node name="PythonWrapper" parent="." instance=ExtResource("1")]
 scene_to_load = "res://Python/ExifInterface.tscn"
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_top = 78.0
 offset_right = 480.0
 offset_bottom = 348.0
-minimum_size = Vector2( 480, 270 )
+minimum_size = Vector2(480, 270)
 expand = true
 stretch_mode = 6
 

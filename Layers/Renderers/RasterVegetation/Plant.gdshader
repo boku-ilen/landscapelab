@@ -1,6 +1,8 @@
 shader_type spatial;
 render_mode cull_disabled, depth_draw_opaque;
 
+#include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
+
 uniform sampler2DArray texture_map : source_color, repeat_disable;
 uniform sampler2D normal_map : hint_normal;
 uniform sampler2D specular_map : hint_default_black;
@@ -27,6 +29,10 @@ varying vec3 camera_pos;
 varying float size;
 varying float row;
 varying float dist_id;
+
+uniform float hue_factor: hint_range(0, 3.14) = 1.0;
+uniform float chroma_factor: hint_range(0.0, 3.0) = 2.0;
+uniform float luminance_factor: hint_range(0.0, 3.0) = 2.0;
 
 
 // Workaround for a bug in `texelFetch` - use this instead!
@@ -63,6 +69,8 @@ void vertex() {
 
 	dist_id = INSTANCE_CUSTOM.g * 255.0;
 	row = INSTANCE_CUSTOM.b * 255.0;
+	
+	NORMAL = vec3(0.0, 1.0, 0.0);
 }
 
 void fragment() {
@@ -85,22 +93,30 @@ void fragment() {
 	diff_dot = max(diff_dot * 1.5 - 0.5, 0.0);
 
 	ALPHA = color.a;
-	ALPHA_SCISSOR_THRESHOLD = 0.25;
+	ALPHA_SCISSOR_THRESHOLD = 0.6;
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
 	BACKLIGHT = vec3(1.0, 1.0, 0.5) * min(color.g * 2.0, 1.0);
 	
 	// Make the plant darker at the bottom to simulate some shadowing
-	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)
-	color.rgb *= min(max(size_scaled_uv, fake_shadow_min_multiplier), fake_shadow_height) / fake_shadow_height;
+//	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)
+//	color.rgb *= min(max(size_scaled_uv, fake_shadow_min_multiplier), fake_shadow_height) / fake_shadow_height;
 
-	ALBEDO = color.rgb;
+	// Hue shift to make plant appear e.g. dryer
+	vec3 hcy = RGBtoHCY(color.rgb);
+	
+	hcy.r += hue_factor;
+	hcy.g *= chroma_factor;
+	hcy.b *= luminance_factor;
 
-	NORMAL_MAP = texture(normal_map, UV).xyz;
+	ALBEDO = HCYtoRGB(hcy);
+
+	//NORMAL_MAP = texture(normal_map, UV).xyz;
 
 	// Other material parameters
-	RIM = 0.4;
+	//RIM = 0.4;
 	METALLIC = 0.0;
 	ROUGHNESS = 1.0;// - color.g * 0.5;
+	SPECULAR = 0.0;
 }

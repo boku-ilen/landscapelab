@@ -23,7 +23,7 @@ var paths := {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 3.0 :
+var plant_extent_factor = 10.0 :
 	get:
 		return plant_extent_factor
 	set(extent):
@@ -234,13 +234,11 @@ func get_distribution_sheet(group_array, density_class):
 # To map land-use values to a row from 0-7, we use a 1000x1 array.
 func get_id_row_array(ids):
 	var array = []
-	array.resize(1000)
-	array.fill(-1.0)
+	array.resize(16)
 	
-	var row := 0.0
-	for id in ids:
-		array[id] = row
-		row += 1.0
+	for i in range(16):
+		if i >= ids.size(): break
+		array[i] = ids[i]
 	
 	return array
 

@@ -117,7 +117,7 @@ func _create_roads(road_features) -> void:
 			var point_count = road_curve.get_point_count()
 			for index in range(point_count):
 				var point = road_curve.get_point_position(index)
-				point.y = get_basic_height(point)
+				point.y = max(0.0, get_basic_height(point))
 				road_curve.set_point_position(index, point)
 		
 		if render_3d:

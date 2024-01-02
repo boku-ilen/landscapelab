@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://cteogf0mgbyci"]
 
-[ext_resource path="res://UI/RenderingStyle/RenderingStyleSelect.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://UI/RenderingStyle/RenderingStyleSelect.gd" id="1"]
 
 [node name="RenderingStyleMenu" type="PanelContainer"]
 offset_right = 277.0
 offset_bottom = 61.0
-minimum_size = Vector2( 277, 161 )
+minimum_size = Vector2(277, 161)
 mouse_filter = 1
 size_flags_horizontal = 12
 size_flags_vertical = 12
@@ -26,6 +26,6 @@ text = "Select Rendering Mode"
 offset_top = 33.0
 offset_right = 249.0
 offset_bottom = 133.0
-minimum_size = Vector2( 0, 100 )
+minimum_size = Vector2(0, 100)
 size_flags_vertical = 2
-script = ExtResource( 1 )
+script = ExtResource("1")

@@ -57,7 +57,7 @@ void fragment(){
 	int splat_id = int(round(texture(landuse, UV).r));
 	
 	// TODO: Expose these parameters
-	if (splat_id < 250 || splat_id > 261) {
+	if (splat_id != 6001) {
 		discard;
 	}
 

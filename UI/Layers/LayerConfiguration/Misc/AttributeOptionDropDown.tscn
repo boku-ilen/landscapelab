@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://d1f7t2jb8scm7"]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id="1"]
 script/source = "extends OptionButton
 
 
@@ -37,4 +37,4 @@ func set_selected_by_text(tex: String):
 [node name="AttributOptionDropDown" type="OptionButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = SubResource( 1 )
+script = SubResource("1")

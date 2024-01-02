@@ -17,15 +17,15 @@ uniform sampler2D SCREEN_TEXTURE : hint_screen_texture,repeat_disable;
 uniform vec3 surface_color:source_color;
 uniform vec3 depth_color:source_color;
 uniform float opacity:hint_range(0.0, 1.0)=0.5; 
-uniform sampler2D _foam:source_color; 
-uniform sampler2D normal_map:source_color; 
+uniform sampler2D _foam; 
+uniform sampler2D normal_map:hint_normal; 
 uniform float normal_scale:hint_range(-16.0, 16.0)=1.0;
 uniform float beer_factor:hint_range(0.0, 10.0)=0.1; 
 uniform float _roughness:hint_range(0.0, 1.0); 
 uniform float _refraction:hint_range(0.00, 0.20); 
 uniform float _uv_scale:hint_range(0.0, 3.0)=1.0; 
 uniform float _foam_strength: hint_range(0.0, 1.0); 
-uniform float _foam_size: hint_range(0.0, 2.0); 
+uniform float _foam_size: hint_range(0.0, 10.0); 
 uniform float dullness: hint_range(0.0, 1.0);
 
 varying flat int should_render;
@@ -57,7 +57,7 @@ float linearize(float depth, float z_near, float z_far) {
 }
 
 void vertex() {
-	VERTEX.y = texture(heightmap, UV).r + texture(surface_heightmap, UV).r;
+	VERTEX.y = texture(surface_heightmap, UV).r;
 	
 	should_render = 0;
 	
@@ -67,7 +67,7 @@ void vertex() {
 			int splat_id = int(round(texture(landuse, UV + vec2(x, y) * 0.001).r));
 			
 			// TODO: Expose these parameters
-			if (splat_id >= 250 && splat_id <= 261) {
+			if (splat_id != 6001) {
 				should_render = 1;
 			}
 		}
@@ -75,7 +75,7 @@ void vertex() {
 }
 
 void fragment() {
-	if (should_render == 0) {discard;}
+	//if (should_render == 0) {discard;}
 	
 	vec3 vw = (INV_VIEW_MATRIX * vec4(VERTEX,1.0)).xyz; 
 	 
@@ -112,8 +112,8 @@ void fragment() {
 	ROUGHNESS = _roughness;
 
 	//ALPHA = clamp(opacity+1.0-d-d2,0.0,1.0);
-	vec3 n_out = normal_blend2(n3,normal_blend(n,n2)); 
-	NORMAL_MAP = n_out;  
+	vec3 n_out = mix(n3,mix(n,n2, 0.5), 0.5); 
+	NORMAL_MAP = n_out;
 	NORMAL_MAP_DEPTH = normal_scale; 
 	vec2 n_distortion = n_out.xy - vec2(0.5, 0.5); //(mat3(TANGENT,BINORMAL,NORMAL) * n_out).rg * 2.0 - 1.0; 
 	vec3 color_out = mix(depth_color, surface_color,d);
@@ -126,6 +126,7 @@ void fragment() {
 	depthfoam = pow(depthfoam,_foam_strength); 
 	vec3 foam = texture(_foam,uv_scale + n_distortion).rgb; 
 	ALBEDO = mix(foam,soft_light(_screen,color_out),depthfoam);
+	ALBEDO = clamp(ALBEDO, vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0));
 
 //	ALBEDO = soft_light(_screen,color_out);
 	

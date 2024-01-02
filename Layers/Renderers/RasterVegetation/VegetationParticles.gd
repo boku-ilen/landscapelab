@@ -101,7 +101,7 @@ func set_spacing(new_spacing):
 
 # Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
 func get_map_size():
-	return rows * spacing * 1.5 + 500 # Add 200 to allow for some movement within the data
+	return rows * spacing * 2.0 + 500 # Add to allow for some movement within the data
 
 
 func complete_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0, new_uv_offset_y=0):
@@ -179,7 +179,7 @@ func update_textures_with_images(ids):
 func apply_data():
 	apply_textures()
 	
-	process_material.set_shader_parameter("id_to_row", id_row_array)
+	process_material.set_shader_parameter("row_ids", id_row_array)
 	process_material.set_shader_parameter("distribution_map", distribution_tex)
 	process_material.set_shader_parameter("splatmap_size_meters", get_map_size())
 	process_material.set_shader_parameter("dist_scale", 1.0 / spacing)
