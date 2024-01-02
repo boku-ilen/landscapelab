@@ -1,0 +1,31 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://e2lx82wbo5bo"]
+
+[ext_resource type="Texture2D" uid="uid://bpf76g88ftvou" path="res://Resources/Icons/ModernLandscapeLab/slider_circle.svg" id="1_acaq1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pdrno"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a6nal"]
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4xv5g"]
+content_margin_top = 10.0
+bg_color = Color(0.611765, 0.627451, 0.827451, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[resource]
+HSlider/icons/grabber = ExtResource("1_acaq1")
+HSlider/icons/grabber_highlight = ExtResource("1_acaq1")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pdrno")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_a6nal")
+HSlider/styles/slider = SubResource("StyleBoxFlat_4xv5g")
