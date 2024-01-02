@@ -10,7 +10,9 @@ var feature_layer
 var location_layer
 var instance_goc
 
-var cluster_size = 8
+var cluster_size := 8
+var min_cluster_size := 1
+var max_cluster_size := 20
 var search_radius = 4000.0
 var location_feature_instances = {}
 var used_locations = {}

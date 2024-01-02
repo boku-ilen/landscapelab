@@ -22,11 +22,11 @@ func _init(initial_name):
 	name = initial_name
 
 
-func get_game_object(id):
+func get_game_object(id) -> GameObject:
 	return game_objects[id]
 
 
-func get_all_game_objects():
+func get_all_game_objects() -> Array[GameObject]:
 	return game_objects.values()
 
 

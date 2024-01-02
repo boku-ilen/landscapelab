@@ -109,8 +109,14 @@ func set_workshop_mode(active: bool):
 			if is_any_change_allowed or collection is GameObjectClusterCollection:
 				var goc_popup: ConfirmationDialog = goc_configuration_popup.instantiate()
 				add_child(goc_popup)
+				
 				if "cluster_size" in collection:
-					goc_popup.add_configuration_option("cluster_size", collection)
+					goc_popup.add_configuration_option(
+						"cluster_size", 
+						collection, 
+						collection.min_cluster_size, 
+						collection.max_cluster_size)
+				
 				for attribute: GameObjectAttribute in collection.attributes.values():
 					if attribute.allow_change:
 						goc_popup.add_configuration_option(attribute.name, attribute)
