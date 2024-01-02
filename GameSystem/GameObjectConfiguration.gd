@@ -15,7 +15,7 @@ func _ready():
 	canceled.connect(_on_any_button.bind(false))
 
 
-func add_configuration_option(option_name, reference):
+func add_configuration_option(option_name, reference, min=null, max=null):
 	var vbox = VBoxContainer.new()
 	vbox.name = option_name
 	var label = Label.new()
@@ -24,6 +24,10 @@ func add_configuration_option(option_name, reference):
 	slider.min_value = 1
 	slider.tick_count = 10
 	slider.step = 1
+	if min != null:
+		slider.min_value = float(min)
+	if max != null:
+		slider.max_value = float(max)
 	
 	name_to_ref_ui[option_name] = {"ref": reference, "ui": slider}
 	

@@ -10,11 +10,13 @@ var feature_layer
 var location_layer
 var instance_goc
 
-var cluster_size = 8
-var initial_search_radius = 200.0
-var max_search_radius = 5000.0
-var location_feature_instances = {}
-var used_locations = {}
+var cluster_size := 8
+var min_cluster_size := 1
+var max_cluster_size := 20
+var initial_search_radius := 200.0
+var max_search_radius := 5000.0
+var location_feature_instances := {}
+var used_locations := {}
 
 signal game_object_added(new_game_object)
 signal game_object_removed(removed_game_object)
