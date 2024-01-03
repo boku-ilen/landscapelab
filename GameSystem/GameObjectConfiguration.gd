@@ -42,16 +42,18 @@ func _on_any_button(confirmed := false):
 		queue_free()
 		return
 	
-	for option_name in name_to_ref_ui:
+	# 
+	for option_name in name_to_ref_ui.keys():
 		var ref = name_to_ref_ui[option_name]["ref"]
 		var ui = name_to_ref_ui[option_name]["ui"]
 		
 		# In some cases it might be necessary to set a property of 
 		# a reference that is not an attribute (i.e. cluster size of a goc)
-		if ref is GameObjectAttribute:
-			ref.set_value(ui.value)
-		else: 
+		if not ref is GameObjectAttribute:
 			ref.set(option_name, ui.value)
+			name_to_ref_ui.erase(option_name)
+		else:
+			name_to_ref_ui[option_name]["val"] = var_to_str(ui.value)
 	
-	closed.emit(true)
+	closed.emit(name_to_ref_ui)
 	queue_free()
