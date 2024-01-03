@@ -87,6 +87,7 @@ func set_workshop_mode(active: bool):
 		
 		var vector_local = geo_transform.transform_coordinates(vector_3857)
 		
+		var successful_configuration = null
 		if not current_goc_name:
 			game_object_failed.emit(event.position)
 			return
@@ -119,16 +120,16 @@ func set_workshop_mode(active: bool):
 				
 				for attribute: GameObjectAttribute in collection.attributes.values():
 					if attribute.allow_change:
-						goc_popup.add_configuration_option(attribute.name, attribute)
+						goc_popup.add_configuration_option(
+							attribute.name, attribute, attribute.min, attribute.max)
 				
 				goc_popup.popup_on_parent(Rect2(event.global_position, goc_popup.size))
-				var success = await goc_popup.closed
-				if not success: return
+				successful_configuration = await goc_popup.closed
+				if not successful_configuration: return
 			
 			var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
-			
-			# TODO: Using values set in the goc_popup, set the game object attributes here, e.g.:
-			# new_game_object.set_attribute("NABENH", 10000.0)
+			for option in successful_configuration:
+				new_game_object.set_attribute(option, successful_configuration[option]["val"])
 			
 			if new_game_object:
 				game_object_created.emit(event.position)
