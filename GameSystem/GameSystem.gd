@@ -110,10 +110,10 @@ func acquire_game_object_id():
 	return id
 
 
-func create_game_object_for_geo_feature(geo_feature, collection):
+func create_game_object_for_geo_feature(game_object_class, geo_feature, collection):
 	var id = acquire_game_object_id()
 	
-	var game_object = GeoGameObject.new(id, collection, geo_feature)
+	var game_object = game_object_class.new(id, collection, geo_feature)
 	_game_objects[id] = game_object
 	
 	return game_object
