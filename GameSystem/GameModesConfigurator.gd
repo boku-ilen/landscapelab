@@ -104,7 +104,9 @@ var mapping_type_to_construction_func = {
 		return StaticAttribute.new(
 			_name,
 			data["value"]
-		)
+		),
+	"ExplicitGameObjectAttribute": func(_name, data):
+		return ExplicitGameObjectAttribute.new(_name, data["attribute"])
 	# TODO: implement all possible attributes
 }
 func _deserialize_mappings(game_mode: GameMode,
@@ -120,6 +122,8 @@ func _deserialize_mappings(game_mode: GameMode,
 		for collection_name in mapping["for_collections"]:
 			var collection_object = game_mode.game_object_collections[collection_name]
 			collection_object.add_attribute_mapping(attribute)
+		
+		deserialize_reflective(attribute, mapping["reflections"])
 
 
 func _deserialize_scores(game_mode: GameMode, scores: Dictionary):
