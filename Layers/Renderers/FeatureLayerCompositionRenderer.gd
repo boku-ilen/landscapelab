@@ -35,6 +35,11 @@ func _ready():
 
 
 func full_load():
+	# Initially clear instances
+	for feature in instances.values():
+		feature.queue_free()
+	instances.clear()
+	
 	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 		float(center[0]), float(center[1]), radius, max_features)
 	load_features = features
