@@ -1,4 +1,3 @@
-@tool
 extends Node3D
 
 #
@@ -24,14 +23,8 @@ extends Node3D
 @export var mesh_rotor_diameter := 100
 
 # Minimum height and diameter for features where this attribute is 0
-@export var min_hub_height := 50:
-	set(new_min_height):
-		min_hub_height = new_min_height
-		set_hub_height(new_min_height)
-@export var min_rotor_diameter := 35:
-	set(new_min_diam):
-		min_rotor_diameter = new_min_diam
-		set_rotor_diameter(new_min_diam)
+@export var min_hub_height := 50
+@export var min_rotor_diameter := 35
 
 @export var forward_for_rotation: Vector3 = Vector3(1, 0, 0)
 
@@ -97,9 +90,12 @@ func _ready():
 		var height_raw = feature.get_attribute(height_attribute_name)
 		var diameter_raw = feature.get_attribute(diameter_attribute_name)
 		
-		if height_raw and diameter_raw:
-			height = max(str_to_var(feature.get_attribute(height_attribute_name)), min_hub_height)
-			diameter = max(str_to_var(feature.get_attribute(diameter_attribute_name)), min_rotor_diameter)
+		if height_raw:
+			var test = str_to_var(height_raw)
+			height = max(str_to_var(height_raw), min_hub_height)
+		
+		if diameter_raw:
+			diameter = max(str_to_var(diameter_raw), min_rotor_diameter)
 
 		set_hub_height(height)
 		set_rotor_diameter(diameter)
@@ -112,10 +108,33 @@ func update_rotation():
 
 # Updates the rotation of the rotor to make them rotate with the exported speed variable
 func _process(delta): 
-	return
 	if delta > 0.8: return  # Avoid skipping
 	if is_inside_tree():
 		rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)
+
+
+# Reload wind turbine with possible new attributes
+func reload():
+	if feature and render_info and render_info is LayerComposition.WindTurbineRenderInfo:
+		var height_attribute_name = render_info.height_attribute_name
+		var diameter_attribute_name = render_info.diameter_attribute_name
+		
+		# Defaults
+		var height = 140
+		var diameter = 112
+		
+		# Read more detailed data if available
+		var height_raw = feature.get_attribute(height_attribute_name)
+		var diameter_raw = feature.get_attribute(diameter_attribute_name)
+		
+		if height_raw:
+			height = max(str_to_var(feature.get_attribute(height_attribute_name)), min_hub_height)
+		
+		if diameter_raw:
+			diameter = max(str_to_var(feature.get_attribute(diameter_attribute_name)), min_rotor_diameter)
+
+		set_hub_height(height)
+		set_rotor_diameter(diameter)
 
 
 func set_hub_height(height: float):
