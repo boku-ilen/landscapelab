@@ -49,6 +49,7 @@ func _on_any_button(confirmed := false):
 		
 		# In some cases it might be necessary to set a property of 
 		# a reference that is not an attribute (i.e. cluster size of a goc)
+		# Otherwise store the attribute value in the mapping and emit it with the signal
 		if not ref is GameObjectAttribute:
 			ref.set(option_name, ui.value)
 			name_to_ref_ui.erase(option_name)
