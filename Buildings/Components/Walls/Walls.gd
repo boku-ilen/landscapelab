@@ -16,8 +16,11 @@ var height = 2.5
 # How much the texture shall be scaled with respect to the height
 var texture_scale := Vector2(1., 1.)  
 
+# Color modifier of the texture
 var color
-var texture_index
+# To find the correct index from the sampler2DArray
+var wall_idx := 0
+var window_idx := 0
 
 
 func _ready():
@@ -28,9 +31,12 @@ func set_color(new_color):
 	color = new_color
 
 
-# We need a way to find the correct index from the sampler2DArray
-func set_texture_index(idx: int):
-	texture_index = idx
+func set_wall_texture_index(new_wall_idx: int):
+	wall_idx = new_wall_idx
+
+
+func set_window_texture_index(new_window_idx: int):
+	window_idx = new_window_idx
 
 
 func set_lights_enabled(enabled):
@@ -72,11 +78,15 @@ func build(footprint: PackedVector2Array):
 		# The distance is needed for the UV coordinates, to make the texture not stretch but repeat
 		var distance_to_next_point = max(0.1, point_3d.distance_to(next_point_3d)) # to prevent division by 0
 		
+		# To add index for wall and window texture (repsectively in r, g)
+		st.set_custom_format(0, SurfaceTool.CUSTOM_RG_HALF)
+		
 		var texture_scale_height = texture_scale * Vector2(1, height)
 		if not wind_counterclockwise:
 			# Store the texture index in the alpha value to correctly choose
 			# from the sampler2DArray
-			st.set_color(Color(color, float(texture_index) / 255.0))
+			st.set_color(Color(color))
+			st.set_custom(0, Color(wall_idx, window_idx, 0., 0.))
 			
 			# First triangle of the wall
 			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale_height)
@@ -99,7 +109,8 @@ func build(footprint: PackedVector2Array):
 			st.add_vertex(next_point_3d)
 		else:
 			# Cast texture index to value between 0 and 1
-			st.set_color(Color(color, float(texture_index) / 255.0))
+			st.set_color(Color(color))
+			st.set_custom(0, Color(wall_idx, window_idx, 0., 0.))
 			
 			# First triangle of the wall
 			st.set_uv(Vector2(0.0, 0.0))

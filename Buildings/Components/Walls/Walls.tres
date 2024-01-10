@@ -4,18 +4,30 @@
 code = "shader_type spatial;
 render_mode cull_front;
 
-uniform sampler2DArray texture_albedo : source_color;
+// instance custom R channel => wall index for texture array
+// instance custom G channel => window index for texture array
+
+// rme => roughness/metallic/emission
+// possible wall textures, index is defined via alpha channel
+uniform sampler2DArray texture_wall_rme : hint_default_transparent;
+uniform sampler2DArray texture_wall_albedo : source_color;
+uniform sampler2DArray texture_wall_normal : hint_normal;
+// possible windows
+uniform sampler2DArray texture_window_rme : hint_default_transparent;
+uniform sampler2DArray texture_window_albedo : source_color, hint_default_transparent;
+uniform sampler2DArray texture_window_normal : hint_normal;
+
+uniform vec4 roughness_texture_channel = vec4(1,0,0,0);
+uniform vec4 metallic_texture_channel = vec4(0,1,0,0);
+uniform vec4 emission_texture_channel = vec4(0,0,1,0);
+
 uniform float specular = 0.5;
 uniform float metallic = 0.0;
 uniform float roughness : hint_range(0,1);
 uniform float point_size : hint_range(0,128);
-uniform sampler2DArray texture_roughness_metallic_emission : hint_default_white;
-uniform vec4 roughness_texture_channel = vec4(1,0,0,0);
-uniform vec4 metallic_texture_channel = vec4(0,1,0,0);
-uniform vec4 emission_texture_channel = vec4(0,0,1,0);
+
 uniform vec4 emission : source_color;
 uniform float emission_energy;
-uniform sampler2DArray texture_normal : hint_normal;
 uniform float normal_scale : hint_range(-16,16) = 1;
 uniform vec3 uv1_scale = vec3(1,1,1);
 uniform vec3 uv1_offset;
@@ -26,11 +38,17 @@ uniform bool lights_on = false;
 uniform bool window_shading = true;
 
 varying vec3 worldpos;
+varying flat float wall_index;
+varying flat float window_index;
 
 
 void vertex() {
 	UV=UV*uv1_scale.xy+uv1_offset.xy;
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+	
+	// Set the index/depth of the read texture from the texture array
+	wall_index = (CUSTOM0.r);// * 255.0;
+	window_index = (CUSTOM0.g);// * 255.0;
 }
 
 float rand(vec3 co){
@@ -38,19 +56,31 @@ float rand(vec3 co){
 }
 
 void fragment() {
-	// Read from the alpha channel the index (depth) of the sampler2Darray
-	float depth = COLOR.a * 255.0;
-	vec3 base_uv = vec3(UV, depth);
-	vec4 albedo_tex = texture(texture_albedo, base_uv);
+	vec3 wall_uv = vec3(UV, wall_index);
+	vec3 window_uv = vec3(UV, window_index);
 	
-	float metallic_tex = dot(
-		texture(texture_roughness_metallic_emission,base_uv),metallic_texture_channel);
+	// Obtain all wished textures (albedo, normal, rme) for wall/window
+	vec4 albedo_wall_tex = texture(texture_wall_albedo, wall_uv);
+	vec4 albedo_window_tex = texture(texture_window_albedo, window_uv);
+	vec4 albedo_tex = mix(albedo_wall_tex, albedo_window_tex, albedo_window_tex.a);
+	
+	vec4 rme_wall_tex = texture(texture_wall_rme, wall_uv);
+	vec4 rme_window_tex = texture(texture_window_rme, window_uv);
+	
+	float metallic_wall_tex = dot(rme_wall_tex, metallic_texture_channel);
+	float metallic_window_tex = dot(rme_window_tex, metallic_texture_channel);
+	float metallic_tex = mix(metallic_wall_tex, metallic_window_tex, rme_window_tex.a);
+	
+	float roughness_wall_tex = dot(rme_wall_tex, roughness_texture_channel);
+	float roughness_window_tex = dot(rme_window_tex, roughness_texture_channel);
+	float roughness_tex = mix(roughness_wall_tex, roughness_window_tex, rme_window_tex.a);
+	
+	float emission_wall_tex = dot(rme_wall_tex, emission_texture_channel);
+	float emission_window_tex = dot(rme_window_tex, emission_texture_channel);
+	float emission_tex = mix(emission_wall_tex, emission_window_tex, rme_window_tex.a);
+	
 	METALLIC = metallic_tex * metallic;
-	float roughness_tex = dot(
-		texture(texture_roughness_metallic_emission,base_uv),roughness_texture_channel);
 	ROUGHNESS = roughness_tex * roughness;
-	float emission_tex = dot(
-		texture(texture_roughness_metallic_emission,base_uv),emission_texture_channel);
 	
 	// Modulate color with vertex color - this is more performant than a color uniform
 	// Do not modulate glasses (i.e. where metallic is 1)
@@ -60,7 +90,9 @@ void fragment() {
 		ALBEDO = albedo_tex.rgb;
 	
 	SPECULAR = specular;
-	NORMAL_MAP = texture(texture_normal,base_uv).rgb;
+	vec4 wall_normal = texture(texture_wall_normal, wall_uv);
+	vec4 window_normal = texture(texture_window_normal, window_uv);
+	NORMAL_MAP = mix(wall_normal, window_normal, window_normal.a).rgb;
 	NORMAL_MAP_DEPTH = normal_scale;
 	
 	if (lights_on) {
