@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=6 format=3 uid="uid://bepms6ckfavl2"]
+
+[ext_resource type="Texture2D" uid="uid://cqj038wg3ifet" path="res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow_albedo.png" id="1_jr7l7"]
+[ext_resource type="Script" path="res://Buildings/Components/Walls/WallTextureBundle.gd" id="1_mw3ts"]
+[ext_resource type="Texture2D" uid="uid://cguhhjksb4htk" path="res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow_metallic.png" id="2_owdit"]
+[ext_resource type="Texture2D" uid="uid://358nrthn0mee" path="res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow_normal.png" id="3_b76rb"]
+[ext_resource type="Texture2D" uid="uid://cfwbapl216tp3" path="res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow_roughness.png" id="4_8vvng"]
+
+[resource]
+script = ExtResource("1_mw3ts")
+texture_scale = Vector2(1, 1)
+albedo_texture = ExtResource("1_jr7l7")
+normal_texture = ExtResource("3_b76rb")
+roughness_texture = ExtResource("4_8vvng")
+metallic_texture = ExtResource("2_owdit")
+emission_texture = ExtResource("2_owdit")

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=7 format=3 uid="uid://fmeku38aoptx"]
+
+[ext_resource type="Texture2D" uid="uid://bggbrknf0gsgd" path="res://Resources/Textures/Buildings/window/Shutter/Shutter_albedo.png" id="1_iubu1"]
+[ext_resource type="Script" path="res://Buildings/Components/Walls/WallTextureBundle.gd" id="1_wpjkx"]
+[ext_resource type="Texture2D" uid="uid://cf4lqhnhvj1ki" path="res://Resources/Textures/Buildings/window/Shutter/Shutter_emission.png" id="2_66tab"]
+[ext_resource type="Texture2D" uid="uid://btbg7djysny0p" path="res://Resources/Textures/Buildings/window/Shutter/Shutter_metallic.png" id="3_ovcbt"]
+[ext_resource type="Texture2D" uid="uid://chvfn2l5n7v3w" path="res://Resources/Textures/Buildings/window/Shutter/Shutter_normal.png" id="4_k3xhm"]
+[ext_resource type="Texture2D" uid="uid://bygult0sld1go" path="res://Resources/Textures/Buildings/window/Shutter/Shutter_roughness.png" id="5_lpug4"]
+
+[resource]
+script = ExtResource("1_wpjkx")
+texture_scale = Vector2(1, 1)
+albedo_texture = ExtResource("1_iubu1")
+normal_texture = ExtResource("4_k3xhm")
+roughness_texture = ExtResource("5_lpug4")
+metallic_texture = ExtResource("3_ovcbt")
+emission_texture = ExtResource("2_66tab")
