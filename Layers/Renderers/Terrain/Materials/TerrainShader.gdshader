@@ -2,6 +2,8 @@ shader_type spatial;
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 
+global uniform vec3 HCY_SHIFT;
+
 // Basic Terrain
 uniform sampler2D orthophoto: source_color, repeat_disable;
 uniform sampler2D heightmap: repeat_disable;
@@ -206,11 +208,9 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 	vec3 base_hcy = RGBtoHCY(base);
 	vec3 detail_hcy = RGBtoHCY(detail);
 	
-	// TODO: Move out of this function
-	// Adapt detail_hcy to dryness here
-	detail_hcy.r += hue_factor;
-	detail_hcy.g *= chroma_factor;
-	detail_hcy.b *= luminance_factor;
+	detail_hcy.r += HCY_SHIFT.r;
+	detail_hcy.g *= HCY_SHIFT.g;
+	detail_hcy.b *= HCY_SHIFT.b;
 
 	// Adapt the detail texture hue and chroma to the orthophoto
 	detail_hcy.y = mix(detail_hcy.y, base_hcy.y, shift_scale);

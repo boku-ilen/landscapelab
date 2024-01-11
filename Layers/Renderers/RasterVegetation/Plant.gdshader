@@ -3,6 +3,8 @@ render_mode cull_disabled, depth_draw_opaque;
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 
+global uniform vec3 HCY_SHIFT;
+
 uniform sampler2DArray texture_map : source_color, repeat_disable;
 uniform sampler2D normal_map : hint_normal;
 uniform sampler2D specular_map : hint_default_black;
@@ -106,9 +108,9 @@ void fragment() {
 	// Hue shift to make plant appear e.g. dryer
 	vec3 hcy = RGBtoHCY(color.rgb);
 	
-	hcy.r += hue_factor;
-	hcy.g *= chroma_factor;
-	hcy.b *= luminance_factor;
+	hcy.r += HCY_SHIFT.r * 2.0;  // These need more hue shift than the others for some reason
+	hcy.g *= HCY_SHIFT.g;
+	hcy.b *= HCY_SHIFT.b;
 
 	ALBEDO = HCYtoRGB(hcy);
 
