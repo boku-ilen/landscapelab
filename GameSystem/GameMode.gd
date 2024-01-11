@@ -27,6 +27,12 @@ func add_game_object_collection_for_feature_layer(collection_name, feature_layer
 	return collection
 
 
+func add_cluster_game_object_collection(collection_name, feature_layer, location_layer, instance_goc):
+	var collection = GameObjectClusterCollection.new(collection_name, feature_layer, location_layer, instance_goc)
+	add_game_object_collection(collection)
+	return collection
+
+
 func add_score(score: GameScore):
 	game_scores[score.name] = score
 	score.connect("value_changed",Callable(self,"_on_score_value_changed").bind(score))

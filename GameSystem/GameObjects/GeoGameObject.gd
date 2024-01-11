@@ -19,6 +19,13 @@ func get_attribute(attribute_name: String):
 	return collection.attributes[attribute_name].get_value(self)
 
 
+func set_attribute(attribute_name, value):
+	if not collection.attributes.has(attribute_name):
+		logger.error("Invalid attribute with name {n}".format({"n": attribute_name}))
+	else:
+		collection.attributes[attribute_name].set_value(self, value)
+
+
 func set_position(new_position: Vector3):
 	geo_feature.set_vector3(new_position)
 

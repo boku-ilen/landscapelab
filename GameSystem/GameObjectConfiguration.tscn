@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsajvfxo8bdwx"]
+
+[ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1_ohjqa"]
+[ext_resource type="Script" path="res://GameSystem/GameObjectConfiguration.gd" id="1_rpnwg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ua3n4"]
+bg_color = Color(0.831373, 0.831373, 0.831373, 1)
+
+[node name="GameObjectConfiguration" type="ConfirmationDialog"]
+title = "Configurate Game Object"
+position = Vector2i(0, 36)
+size = Vector2i(200, 196)
+borderless = true
+popup_window = true
+extend_to_title = true
+theme = ExtResource("1_ohjqa")
+dialog_hide_on_ok = false
+script = ExtResource("1_rpnwg")
+panel_style = SubResource("StyleBoxFlat_ua3n4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 147.0

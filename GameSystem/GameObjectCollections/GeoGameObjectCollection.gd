@@ -40,7 +40,7 @@ func remove_nearby_game_objects(position, radius):
 
 
 func _add_game_object(feature):
-	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(feature, self)
+	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(GeoGameObject, feature, self)
 	game_objects[game_object_for_feature.id] = game_object_for_feature
 	
 	# TODO: Currently we only handle this signal, but we'd want to react to other changes as well

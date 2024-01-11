@@ -13,9 +13,10 @@ extends Control
 # it is necessary to load the configuration
 @export var debug_mode := false
 
-var current_goc_name = null
+var current_goc_name = "Wind Farms"
 
 var geo_transform
+var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
 
 signal game_object_created(cursor_position)
 signal game_object_failed(cursor_position)
@@ -27,11 +28,19 @@ func _ready():
 	if debug_mode: $GameModesConfigurator.load_game_mode_config()
 	
 	# Add map and layers from config
-	$LabTableConfigurator.map_added.connect(func(layer_name):
+	$LabTableConfigurator.map_added.connect(func(layer_name, crs_from):
 		control_ui.init_overview_map(layer_name)
 		var center = Layers.get_geo_layer_by_name(layer_name).get_center()
-		geo_layers.setup(Vector2(center.x, center.z))
-		geo_layers.set_layer_visibility(layer_name, true))
+		geo_layers.setup(Vector2(center.x, center.z), crs_from)
+		geo_layers.set_layer_visibility(layer_name, true)
+		
+		geo_transform = GeoTransform.new()
+		geo_transform.set_transform(3857, crs_from)
+		
+		var inv_geo_transform = GeoTransform.new()
+		inv_geo_transform.set_transform(crs_from, 3857)
+		geo_layers.geo_transform = inv_geo_transform
+	)
 	
 	$LabTableConfigurator.new_layer.connect(func(layer_name, layer_icon, icon_scale, l_z_index = 0):
 		if layer_name in Layers.layer_compositions:
@@ -57,13 +66,6 @@ func _ready():
 	await get_tree().process_frame
 	$SubViewportContainer/SubViewport/Camera2D.do_zoom(0)
 	
-	geo_transform = GeoTransform.new()
-	geo_transform.set_transform(3857, 31287)
-	
-	var inv_geo_transform = GeoTransform.new()
-	inv_geo_transform.set_transform(31287, 3857)
-	geo_layers.geo_transform = inv_geo_transform
-	
 	$SubViewportContainer/SubViewport/Camera2D.offset_changed.connect(_on_camera_offset_changed)
 
 
@@ -85,6 +87,7 @@ func set_workshop_mode(active: bool):
 		
 		var vector_local = geo_transform.transform_coordinates(vector_3857)
 		
+		var successful_configuration = null
 		if not current_goc_name:
 			game_object_failed.emit(event.position)
 			return
@@ -99,7 +102,34 @@ func set_workshop_mode(active: bool):
 			vector_local.z = -vector_local.z
 			
 			var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
+			
+			# Let user configure the GoC via a popup if any change is allowed
+			var is_any_change_allowed = collection.attributes.values().any(
+				func(attrib): return attrib.allow_change)
+			
+			if is_any_change_allowed or collection is GameObjectClusterCollection:
+				var goc_popup: ConfirmationDialog = goc_configuration_popup.instantiate()
+				add_child(goc_popup)
+				
+				if "cluster_size" in collection:
+					goc_popup.add_configuration_option(
+						"cluster_size", 
+						collection, 
+						collection.min_cluster_size, 
+						collection.max_cluster_size)
+				
+				for attribute: GameObjectAttribute in collection.attributes.values():
+					if attribute.allow_change:
+						goc_popup.add_configuration_option(
+							attribute.name, attribute, attribute.min, attribute.max)
+				
+				goc_popup.popup_on_parent(Rect2(event.global_position, goc_popup.size))
+				successful_configuration = await goc_popup.closed
+				if not successful_configuration: return
+			
 			var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
+			for option in successful_configuration:
+				new_game_object.set_attribute(option, successful_configuration[option]["val"])
 			
 			if new_game_object:
 				game_object_created.emit(event.position)
