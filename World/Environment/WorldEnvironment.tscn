@@ -38,6 +38,7 @@ background_mode = 2
 sky = SubResource("Sky_gjwmw")
 ambient_light_source = 3
 reflected_light_source = 2
+tonemap_exposure = 0.75
 tonemap_white = 6.0
 ssao_radius = 5.0
 ssao_intensity = 6.15
