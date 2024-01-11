@@ -100,13 +100,25 @@ var is_detailed = false
 var is_refine_load = false
 
 
-func override_increase_quality():
-	is_detailed = true
-	is_refine_load = true
+func override_can_increase_quality(distance: float):
+	return distance < 1000 and not is_detailed
 
 
-func override_decrease_quality():
-	is_detailed = false
+func override_increase_quality(distance: float):
+	if distance < 1000 and not is_detailed:
+		is_detailed = true
+		is_refine_load = true
+		return true
+	else:
+		return false
+
+
+func override_decrease_quality(distance: float):
+	if distance > 1000 and is_detailed:
+		is_detailed = false
+		return true
+	else:
+		return false
 
 
 func _ready():
@@ -213,7 +225,7 @@ func override_build(center_x, center_y):
 		var instance_scale = feature.get_attribute("height1").to_float() * 1.5
 		
 		# FIXME: Load these in a later refinement step
-		if instance_scale < 5.0: continue
+		#if instance_scale < 5.0: continue
 
 		var pos = feature.get_offset_vector3(-int(center_x), 0, -int(center_y))
 		pos.y = height_layer.get_value_at_position(pos.x + center_x, center_y - pos.z)
