@@ -152,6 +152,8 @@ func set_rotor_diameter(diameter: float):
 
 
 func apply_daytime_change(is_daytime: bool):
+	if not has_node("BlinkAnimationPlayer"): return
+	
 	# During daytime, the light should not be blinking
 	if is_daytime:
 		$BlinkAnimationPlayer.stop()
