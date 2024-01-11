@@ -100,7 +100,7 @@ vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
 	vec4 tex2 = texture(tex, uv3);
     
     //Blend samples together
-	return (tex1 + mix(tex0, tex2, LOD_fract)) * 0.5;
+	return (tex1 + mix(tex0, tex2, clamp(LOD_fract, 0.0, 1.0))) * 0.5;
 }
 
 // Workaround for a bug in `texelFetch` - use this instead!
