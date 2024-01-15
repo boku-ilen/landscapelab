@@ -70,8 +70,6 @@ void vertex() {
 	BINORMAL = vec3(0.0, 0.0, 1.0);
 	
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	
-	ROUGHNESS = _roughness;
 }
 
 void fragment() {
@@ -118,7 +116,9 @@ void fragment() {
 	
 	ALBEDO = mix(foam,soft_light(_screen,color_out),depthfoam);
 	ALBEDO = clamp(ALBEDO, vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0));
-
+	
+	ROUGHNESS = _roughness;
+	
 //	ALBEDO = soft_light(_screen,color_out);
 	
 }
