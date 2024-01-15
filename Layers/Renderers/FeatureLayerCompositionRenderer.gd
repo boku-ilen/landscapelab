@@ -95,6 +95,7 @@ func _on_feature_added(feature: GeoFeature):
 	# Load the feature instance in a thread
 	loading_thread.start(load_feature_instance.bind(feature))
 	instances[feature.get_id()] = loading_thread.wait_to_finish()
+	features.append(feature)
 	
 	apply_feature_instance(feature)
 
