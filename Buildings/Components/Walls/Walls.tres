@@ -14,12 +14,17 @@ uniform sampler2DArray texture_wall_albedo : source_color;
 uniform sampler2DArray texture_wall_normal : hint_normal;
 // possible windows
 uniform sampler2DArray texture_window_rme : hint_default_transparent;
-uniform sampler2DArray texture_window_albedo : source_color, hint_default_transparent;
+uniform sampler2DArray texture_window_albedo : source_color, hint_default_transparent, repeat_enable;
 uniform sampler2DArray texture_window_normal : hint_normal;
 
 uniform vec4 roughness_texture_channel = vec4(1,0,0,0);
 uniform vec4 metallic_texture_channel = vec4(0,1,0,0);
 uniform vec4 emission_texture_channel = vec4(0,0,1,0);
+
+// There is an edge case 
+uniform float wall_height = 2.5;
+uniform float window_scale_y = 0.6;//vec2(0.5, 0.75);
+uniform vec2 distance_meter = vec2(2.5);
 
 uniform float specular = 0.5;
 uniform float metallic = 0.0;
@@ -56,12 +61,43 @@ float rand(vec3 co){
 }
 
 void fragment() {
+	
 	vec3 wall_uv = vec3(UV, wall_index);
-	vec3 window_uv = vec3(UV, window_index);
+	
+	ivec3 window_tex_size = textureSize(texture_window_albedo, 0);
+	
+	// the actual distance between the individual meters is the given distance 
+	// plus the UV-size of the texture. UVs are mapped such that UV equals meters. 
+	float dist = distance_meter.x + wall_height * window_scale_y;
+	// offset the window on x-axis in case scale is smaller than 1
+	float offset_x = (1. - window_scale_y) / 2.;
+	// center on y-axis
+	float offset_y = wall_height / 2. - (wall_height * window_scale_y) / 2.;
+	
+	// we need a 3-dimensional UV to obtain the wished texture from the sampler2darray
+	vec3 window_uv = vec3(
+		//
+		vec2(
+			// we repeat the texture with modulo, then scale it by according to the floor height,
+			// offset it so it is centered, then clamp it between 0 and 1 and add a floor for
+			// creating a horizontal space between the windows (conists texture in meters + distance)
+			clamp(mod(UV.x, dist) / (wall_height * window_scale_y) - offset_x, 0., 1.)
+					+ floor(UV.x / (wall_height * window_scale_y) / dist),
+			// clamp as we only want one window vertically per floor
+			clamp((UV.y  - offset_y) / (wall_height * window_scale_y), 0., 1.)
+		), window_index);
 	
 	// Obtain all wished textures (albedo, normal, rme) for wall/window
 	vec4 albedo_wall_tex = texture(texture_wall_albedo, wall_uv);
 	vec4 albedo_window_tex = texture(texture_window_albedo, window_uv);
+	
+	// Necessary to avoid artifacts when rendering
+	albedo_window_tex.a = fract(window_uv.x) < 0.05 ? 0.0 : albedo_window_tex.a;
+	albedo_window_tex.a = fract(window_uv.y) < 0.05 ? 0.0 : albedo_window_tex.a;
+	
+	// In case the window_index is -1 we dont want a texture
+	albedo_window_tex.a = window_index == -1. ? 0.0 : albedo_window_tex.a;
+	
 	vec4 albedo_tex = mix(albedo_wall_tex, albedo_window_tex, albedo_window_tex.a);
 	
 	vec4 rme_wall_tex = texture(texture_wall_rme, wall_uv);
@@ -69,15 +105,15 @@ void fragment() {
 	
 	float metallic_wall_tex = dot(rme_wall_tex, metallic_texture_channel);
 	float metallic_window_tex = dot(rme_window_tex, metallic_texture_channel);
-	float metallic_tex = mix(metallic_wall_tex, metallic_window_tex, rme_window_tex.a);
+	float metallic_tex = mix(metallic_wall_tex, metallic_window_tex, albedo_window_tex.a);
 	
 	float roughness_wall_tex = dot(rme_wall_tex, roughness_texture_channel);
 	float roughness_window_tex = dot(rme_window_tex, roughness_texture_channel);
-	float roughness_tex = mix(roughness_wall_tex, roughness_window_tex, rme_window_tex.a);
+	float roughness_tex = mix(roughness_wall_tex, roughness_window_tex, albedo_window_tex.a);
 	
 	float emission_wall_tex = dot(rme_wall_tex, emission_texture_channel);
 	float emission_window_tex = dot(rme_window_tex, emission_texture_channel);
-	float emission_tex = mix(emission_wall_tex, emission_window_tex, rme_window_tex.a);
+	float emission_tex = mix(emission_wall_tex, emission_window_tex, albedo_window_tex.a);
 	
 	METALLIC = metallic_tex * metallic;
 	ROUGHNESS = roughness_tex * roughness;
@@ -92,14 +128,14 @@ void fragment() {
 	SPECULAR = specular;
 	vec4 wall_normal = texture(texture_wall_normal, wall_uv);
 	vec4 window_normal = texture(texture_window_normal, window_uv);
-	NORMAL_MAP = mix(wall_normal, window_normal, window_normal.a).rgb;
+	NORMAL_MAP = mix(wall_normal, window_normal, albedo_window_tex.a).rgb;
 	NORMAL_MAP_DEPTH = normal_scale;
 	
 	if (lights_on) {
-		int random_seed = int(rand(round(worldpos)) * rand(vec3(floor(UV), 0.0)) * 100000.0);
+		int random_seed = int(rand(round(worldpos)) * rand(vec3(floor(window_uv.xy), 0.0)) * 100000.0);
 		bool light_here = random_seed % 3 == 2;
 		if (light_here) {
-			EMISSION = (emission.rgb*emission_tex) * (emission_energy * (0.1 + fract(float(int(floor(UV.x)) * random_seed) / 1000.0) * 0.9));
+			EMISSION = (emission.rgb*emission_tex) * (emission_energy * (0.1 + fract(float(int(floor(window_uv.x)) * random_seed) / 1000.0) * 0.9));
 		}
 	}
 }"

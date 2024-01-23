@@ -81,7 +81,7 @@ func build(footprint: PackedVector2Array):
 		# To add index for wall and window texture (repsectively in r, g)
 		st.set_custom_format(0, SurfaceTool.CUSTOM_RG_HALF)
 		
-		var texture_scale_height = texture_scale * Vector2(1, height)
+		var texture_scale_height = texture_scale #* height #Vector2(1, height)
 		if not wind_counterclockwise:
 			# Store the texture index in the alpha value to correctly choose
 			# from the sampler2DArray
