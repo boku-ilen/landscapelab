@@ -76,8 +76,8 @@ func adapt_load(_diff: Vector3):
 			changed = true
 		
 		if changed:
-			if chunk.decrease_quality(INF):  # Definitely maximally decrease quality here
-				chunk.build(center[0], center[1])
+			chunk.decrease_quality(INF)  # Definitely maximally decrease quality here
+			chunk.build(center[0], center[1])
 	
 	waiting_to_apply = true
 	call_deferred("apply_new_data")
