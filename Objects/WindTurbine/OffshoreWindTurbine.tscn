@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://44wqbgjaevlm"]
+[gd_scene load_steps=62 format=3 uid="uid://xgubocakqn7j"]
 
 [ext_resource type="Script" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="1_lasof"]
 [ext_resource type="Texture2D" uid="uid://dyh4ji8wp1xe2" path="res://Resources/Meshes/Windmills/Offshore/WKA-NREL-EIA-15MW-HUB158m_0.jpg" id="1_y4sxp"]
@@ -6,7 +6,6 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_viwo0"]
 resource_name = "default material"
 cull_mode = 2
-albedo_color = Color(1, 1, 1, 1)
 metallic = 0.1
 roughness = 0.5
 
@@ -1070,7 +1069,9 @@ mesh = SubResource("ArrayMesh_cx77t")
 skeleton = NodePath("")
 
 [node name="Hub" type="Node3D" parent="Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 158, 0)
 
 [node name="NREL-EIA-15MW HUB" type="MeshInstance3D" parent="Mesh/Hub"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -158, 0)
 mesh = SubResource("ArrayMesh_fg1cp")
 skeleton = NodePath("")
