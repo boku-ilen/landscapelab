@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dtqu4sxdm3nqa" path="res://Resources/Textures/Buildings/facade/Shack/metallic_extended.jpg" id="2_bk6lp"]
 [ext_resource type="Texture2D" uid="uid://b6o8aseyd1ksh" path="res://Resources/Textures/Buildings/facade/Shack/normal_extended.jpg" id="3_4u2tr"]
 [ext_resource type="Texture2D" uid="uid://rgheyxwd2sth" path="res://Resources/Textures/Buildings/facade/Shack/roughness_extended.jpg" id="4_4w5tg"]
-[ext_resource type="Script" path="res://Buildings/Components/Walls/WallTextureBundle.gd" id="5_cxln6"]
+[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="5_cxln6"]
 
 [resource]
 script = ExtResource("5_cxln6")

@@ -32,6 +32,11 @@ var wall_resources = [
 	preload("res://Resources/Textures/Buildings/PlainWallResources/Concrete.tres"),
 ]
 
+var window_bundles = [
+	preload("res://Resources/Textures/Buildings/window/Shutter/Shutter.tres"),
+	preload("res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow.tres"),
+]
+
 # It is important to reference a wall_resource and not loading another 
 var fallback_wall_id := 1
 
@@ -58,45 +63,31 @@ func _ready():
 
 # To increase performance, create an array of textures which the same shader can
 # read from
-# TODO: make utility function for this? (Might be useful in other places too)
 func _create_and_set_texture_arrays():
+	var shader = preload("res://Buildings/Components/Walls/PlainWalls.tscn").instantiate().material
+		
+	var wall_texture_arrays = TextureArrays.texture_arrays_from_wallres(wall_resources)
+	shader.set_shader_parameter("texture_wall_albedo", wall_texture_arrays[0])
+	shader.set_shader_parameter("texture_wall_normal", wall_texture_arrays[1])
+	shader.set_shader_parameter("texture_wall_rme", wall_texture_arrays[2])
+	
+	# TODO: implement logic for multiple windows
 	var albedo_images = []
 	var normal_images = []
 	var roughness_metallic_emission_images = []
-	# Build texture-arrays of format: 
-	# [type1_basement, type1_ground, type1_middle, type1_top, type2_basement, ...]
-	for r in wall_resources:
-		var res: PlainWallResource = r
-		for bundle in [res.basement_texture, res.ground_texture, res.middle_texture, res.top_texture]:
-			var images = []
-			for texture in [bundle.albedo_texture, bundle.normal_texture, bundle.bundled_texture]:
-				# Ensure all images are the same size and same format and have mipmaps generated
-				var new_image: Image = texture.get_image() \
-					if  texture != null else Image.create(
-						1024, 1024, false, Image.FORMAT_RGB8)
-				new_image.decompress()
-				new_image.flip_y()
-				new_image.resize(1024, 1024)
-				new_image.convert(Image.FORMAT_RGB8)
-				if not new_image.has_mipmaps(): new_image.generate_mipmaps()
-				images.append(new_image)
-			
-			albedo_images.append(images[0])
-			normal_images.append(images[1])
-			roughness_metallic_emission_images.append(images[2])
+	for bundle in window_bundles:
+		var images = TextureArrays.formatted_images_from_textures([
+				bundle.albedo_texture, 
+				bundle.normal_texture, 
+				bundle.bundled_texture])
+		
+		albedo_images.append(images[0])
+		normal_images.append(images[1])
+		roughness_metallic_emission_images.append(images[2])
 	
-	var albedo_texture_array = Texture2DArray.new()
-	var normal_texture_array = Texture2DArray.new()
-	var roughness_metallic_emission_texture_array = Texture2DArray.new()
-	
-	albedo_texture_array.create_from_images(albedo_images)
-	normal_texture_array.create_from_images(normal_images)
-	roughness_metallic_emission_texture_array.create_from_images(roughness_metallic_emission_images)
-	
-	var shader = preload("res://Buildings/Components/Walls/PlainWalls.tscn").instantiate().material
-	shader.set_shader_parameter("texture_albedo", albedo_texture_array)
-	shader.set_shader_parameter("texture_normal", normal_texture_array)
-	shader.set_shader_parameter("texture_roughness_metallic_emission", roughness_metallic_emission_texture_array)
+	shader.set_shader_parameter("texture_window_albedo", TextureArrays.texture2Darrays_from_images(albedo_images))
+	shader.set_shader_parameter("texture_window_normal", TextureArrays.texture2Darrays_from_images(normal_images))
+	shader.set_shader_parameter("texture_window_rme", TextureArrays.texture2Darrays_from_images(roughness_metallic_emission_images))
 
 
 func load_feature_instance(feature):
@@ -210,16 +201,19 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	cellar.set_color(Color.WHITE_SMOKE)
 	# Add an additional height to the cellar which acts as "plinth" scaled with the extent
 	cellar.height += plinth_height_factor * min(20., building_metadata["extent"])
-	cellar.set_texture_index(get_cellar_index.call(building_type_id))
+	cellar.set_wall_texture_index(get_cellar_index.call(building_type_id))
+	# Cellars usually do not have windows
+	cellar.set_window_texture_index(-1)
 	cellar.texture_scale = walls_resource.basement_texture.texture_scale * random_tex_scale
 	if walls_resource.apply_colors & flag.basement:
 		cellar.set_color(wall_color)
 	building.add_child(cellar)
 	
+	# TODO: add window indexing
 	# Add ground floor
 	num_floors -= 1
 	var ground_floor = walls_scene.instantiate()
-	ground_floor.set_texture_index(get_ground_index.call(building_type_id))
+	ground_floor.set_wall_texture_index(get_ground_index.call(building_type_id))
 	ground_floor.set_color(Color.WHITE_SMOKE)
 	ground_floor.texture_scale = walls_resource.ground_texture.texture_scale * random_tex_scale
 	if walls_resource.apply_colors & flag.ground: 
@@ -231,7 +225,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	if num_floors >= 1:
 		for i in range(num_floors - 1):
 			var walls = walls_scene.instantiate()
-			walls.set_texture_index(get_mid_index.call(building_type_id))
+			walls.set_wall_texture_index(get_mid_index.call(building_type_id))
 			walls.set_color(Color.WHITE_SMOKE)
 			walls.texture_scale = walls_resource.middle_texture.texture_scale * random_tex_scale
 			if walls_resource.apply_colors & flag.mid:
@@ -240,7 +234,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 
 		# Add top floor
 		var top_floor = walls_scene.instantiate()
-		top_floor.set_texture_index(get_top_index.call(building_type_id))
+		top_floor.set_wall_texture_index(get_top_index.call(building_type_id))
 		top_floor.set_color(Color.WHITE_SMOKE)
 		top_floor.texture_scale = walls_resource.top_texture.texture_scale * random_tex_scale
 		if walls_resource.apply_colors & flag.top:
