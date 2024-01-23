@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=3 format=3 uid="uid://bf13vqp1su5xh"]
+
+[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_emwps"]
+[ext_resource type="Texture2D" uid="uid://bccbtemfjo6x4" path="res://Resources/Textures/Debug.jpeg" id="1_huv44"]
+
+[resource]
+script = ExtResource("1_emwps")
+texture_scale = Vector2(1, 1)
+albedo_texture = ExtResource("1_huv44")

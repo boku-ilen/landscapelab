@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="WallTextureBundle" load_steps=6 format=3 uid="uid://bepms6ckfavl2"]
 
 [ext_resource type="Texture2D" uid="uid://cqj038wg3ifet" path="res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow_albedo.png" id="1_jr7l7"]
-[ext_resource type="Script" path="res://Buildings/Components/Walls/WallTextureBundle.gd" id="1_mw3ts"]
+[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_mw3ts"]
 [ext_resource type="Texture2D" uid="uid://cguhhjksb4htk" path="res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow_metallic.png" id="2_owdit"]
 [ext_resource type="Texture2D" uid="uid://358nrthn0mee" path="res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow_normal.png" id="3_b76rb"]
 [ext_resource type="Texture2D" uid="uid://cfwbapl216tp3" path="res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow_roughness.png" id="4_8vvng"]
