@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://jougwubt43m7"]
+[gd_scene load_steps=2 format=3 uid="uid://b5au14iwas5ae"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/Objects/ObjectRenderer.gd" id="1"]
 

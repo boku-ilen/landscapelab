@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://br8pyu55u58ft"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/Objects/ObjectMultiMesh.gd" id="1_wml4g"]
+
+[node name="ObjectMultiMesh" type="Node3D"]
+script = ExtResource("1_wml4g")
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
+layers = 4
