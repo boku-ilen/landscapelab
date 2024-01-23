@@ -90,9 +90,12 @@ func _ready():
 		var height_raw = feature.get_attribute(height_attribute_name)
 		var diameter_raw = feature.get_attribute(diameter_attribute_name)
 		
-		if height_raw and diameter_raw:
-			height = max(str_to_var(feature.get_attribute(height_attribute_name)), min_hub_height)
-			diameter = max(str_to_var(feature.get_attribute(diameter_attribute_name)), min_rotor_diameter)
+		if height_raw:
+			var test = str_to_var(height_raw)
+			height = max(str_to_var(height_raw), min_hub_height)
+		
+		if diameter_raw:
+			diameter = max(str_to_var(diameter_raw), min_rotor_diameter)
 
 		set_hub_height(height)
 		set_rotor_diameter(diameter)
@@ -110,6 +113,30 @@ func _process(delta):
 		rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)
 
 
+# Reload wind turbine with possible new attributes
+func reload():
+	if feature and render_info and render_info is LayerComposition.WindTurbineRenderInfo:
+		var height_attribute_name = render_info.height_attribute_name
+		var diameter_attribute_name = render_info.diameter_attribute_name
+		
+		# Defaults
+		var height = 140
+		var diameter = 112
+		
+		# Read more detailed data if available
+		var height_raw = feature.get_attribute(height_attribute_name)
+		var diameter_raw = feature.get_attribute(diameter_attribute_name)
+		
+		if height_raw:
+			height = max(str_to_var(feature.get_attribute(height_attribute_name)), min_hub_height)
+		
+		if diameter_raw:
+			diameter = max(str_to_var(feature.get_attribute(diameter_attribute_name)), min_rotor_diameter)
+
+		set_hub_height(height)
+		set_rotor_diameter(diameter)
+
+
 func set_hub_height(height: float):
 	$Mesh/Mast.scale = Vector3.ONE * (height / mesh_hub_height)
 	$Mesh/Rotor.position.y = height
@@ -125,6 +152,8 @@ func set_rotor_diameter(diameter: float):
 
 
 func apply_daytime_change(is_daytime: bool):
+	if not has_node("BlinkAnimationPlayer"): return
+	
 	# During daytime, the light should not be blinking
 	if is_daytime:
 		$BlinkAnimationPlayer.stop()

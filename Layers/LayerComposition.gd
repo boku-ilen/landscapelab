@@ -29,6 +29,7 @@ const RENDER_INFOS := {
 	"Vegetation": VegetationRenderInfo,
 	"Vector Vegetation": VectorVegetationRenderInfo,
 	"Object": ObjectRenderInfo,
+	"MultiMesh Object": MultiMeshObjectRenderInfo,
 	"Wind Turbine": WindTurbineRenderInfo,
 	"Polygon": PolygonObjectInfo,
 	"Building": BuildingRenderInfo,
@@ -201,6 +202,15 @@ class ObjectRenderInfo extends RenderInfo:
 		return geo_feature_layer != null && ground_height_layer != null
 	
 	func get_class_name() -> String: return "Object"
+
+
+class MultiMeshObjectRenderInfo extends ObjectRenderInfo:
+	func _init():
+		renderer = preload("res://Layers/Renderers/Objects/MultiMeshObjectRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
+	
+	func get_class_name() -> String: return "MultiMesh Object"
+
 
 class WindTurbineRenderInfo extends ObjectRenderInfo:
 	var height_attribute_name: String

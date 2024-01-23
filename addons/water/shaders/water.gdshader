@@ -17,18 +17,19 @@ uniform sampler2D SCREEN_TEXTURE : hint_screen_texture,repeat_disable;
 uniform vec3 surface_color:source_color;
 uniform vec3 depth_color:source_color;
 uniform float opacity:hint_range(0.0, 1.0)=0.5; 
-uniform sampler2D _foam; 
-uniform sampler2D normal_map:hint_normal; 
+uniform sampler2D _foam:repeat_enable; 
+uniform sampler2D normal_map:hint_normal,repeat_enable; 
 uniform float normal_scale:hint_range(-16.0, 16.0)=1.0;
 uniform float beer_factor:hint_range(0.0, 10.0)=0.1; 
 uniform float _roughness:hint_range(0.0, 1.0); 
 uniform float _refraction:hint_range(0.00, 0.20); 
 uniform float _uv_scale:hint_range(0.0, 3.0)=1.0; 
 uniform float _foam_strength: hint_range(0.0, 1.0); 
-uniform float _foam_size: hint_range(0.0, 10.0); 
+uniform float _foam_size: hint_range(0.0, 100.0); 
 uniform float dullness: hint_range(0.0, 1.0);
 
 varying flat int should_render;
+varying vec3 world_pos;
 
 
 float depth_proximity(float dist, vec3 vertex, sampler2D depthtex, vec2 screenuv,mat4 invproj){
@@ -57,37 +58,25 @@ float linearize(float depth, float z_near, float z_far) {
 }
 
 void vertex() {
-	VERTEX.y = texture(surface_heightmap, UV).r;
-	
-	should_render = 0;
-	
-	for (float x = -1.0; x <= 1.0; x += 1.0) {
-		for (float y = -1.0; y <= 1.0; y += 1.0) {
-			// Check landuse for whether we need to do rendering here
-			int splat_id = int(round(texture(landuse, UV + vec2(x, y) * 0.001).r));
-			
-			// TODO: Expose these parameters
-			if (splat_id != 6001) {
-				should_render = 1;
-			}
-		}
+	// Hide transition with a "skirt": outermost row of vertices is moved down to create a wall that fills holes
+	if (UV.x < -0.1 || UV.x > 1.1 || UV.y < -0.1 || UV.y > 1.1) {
+		VERTEX.y = -1000.0;
+	} else {
+		VERTEX.y = texture(surface_heightmap, UV).r;
 	}
+	
+	NORMAL = vec3(0.0, 1.0, 0.0);
+	TANGENT = vec3(1.0, 0.0, 0.0);
+	BINORMAL = vec3(0.0, 0.0, 1.0);
+	
+	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
 void fragment() {
-	//if (should_render == 0) {discard;}
-	
-	vec3 vw = (INV_VIEW_MATRIX * vec4(VERTEX,1.0)).xyz; 
-	 
-	vec2 uv_scale = vw.xz * _uv_scale; 
+	vec2 uv_scale = world_pos.xz * _uv_scale; 
  	vec3 n = texture(normal_map,uv_scale+TIME * 0.02).rgb;
 	vec3 n2 = texture(normal_map,uv_scale-TIME * 0.03).rgb;
 	vec3 n3 = texture(normal_map,uv_scale*0.3 +vec2(TIME * 0.01,TIME * -0.02)).rgb;
-	
-//	float depth_tex = textureLod(DEPTH_TEXTURE, SCREEN_UV, 0.0).r;
-//    vec4 upos = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth_tex, 1.0);
-//    vec3 pixel_position = upos.xyz / upos.w;
-//	float _depth_linear = pixel_position.z;
 
 	// Calculate z_near and z_far (required for the linearize function)
 	float z_near = abs(PROJECTION_MATRIX[3][2] / PROJECTION_MATRIX[2][2]);
@@ -108,26 +97,28 @@ void fragment() {
 	
 	d2 = 1.0-pow(d2,0.07); 
 	d = exp(-d * beer_factor); 
-	d += fresnel(4.0,NORMAL,VIEW); 
-	ROUGHNESS = _roughness;
 
 	//ALPHA = clamp(opacity+1.0-d-d2,0.0,1.0);
 	vec3 n_out = mix(n3,mix(n,n2, 0.5), 0.5); 
 	NORMAL_MAP = n_out;
 	NORMAL_MAP_DEPTH = normal_scale; 
+	
 	vec2 n_distortion = n_out.xy - vec2(0.5, 0.5); //(mat3(TANGENT,BINORMAL,NORMAL) * n_out).rg * 2.0 - 1.0; 
 	vec3 color_out = mix(depth_color, surface_color,d);
 
 	vec3 _screen = texture(SCREEN_TEXTURE,SCREEN_UV+n_distortion*_refraction*(1.0-d)).rgb; 
 	
-	_screen = mix(_screen, color_out, dullness * clamp(1.0 - d + (dullness * 0.5), 0.0, 1.0));
+	_screen = mix(_screen, color_out, dullness * clamp(1.0 - d + (dullness * 0.3), 0.0, 1.0));
 	
 	float depthfoam = depth_proximity_z(-abs(n_distortion.r+n_distortion.g) * _foam_size , l_screen_depth, l_fragment_depth); 
 	depthfoam = pow(depthfoam,_foam_strength); 
 	vec3 foam = texture(_foam,uv_scale + n_distortion).rgb; 
+	
 	ALBEDO = mix(foam,soft_light(_screen,color_out),depthfoam);
 	ALBEDO = clamp(ALBEDO, vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0));
-
+	
+	ROUGHNESS = _roughness;
+	
 //	ALBEDO = soft_light(_screen,color_out);
 	
 }

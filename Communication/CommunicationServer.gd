@@ -12,6 +12,8 @@ var _message_stack = {}
 
 # initialize the websocket server and listening for client connections
 func _ready():
+	logger.info("Starting up ws server...")
+	
 	self._ws_server = WebSocketServer.new()
 	# FIXME: Seems like this is not needed anymore?
 	# self._ws_server.bind_ip = Settings.get_setting("server", "bind_ip")

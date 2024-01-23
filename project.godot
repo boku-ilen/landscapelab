@@ -425,13 +425,9 @@ environment/default_environment="res://default_env.tres"
 
 [shader_globals]
 
-ground_normals={
-"type": "sampler2DArray",
-"value": ""
-}
-ground_textures={
-"type": "sampler2DArray",
-"value": ""
+HCY_SHIFT={
+"type": "vec3",
+"value": Vector3(0.5, 2, 2)
 }
 
 [xr]

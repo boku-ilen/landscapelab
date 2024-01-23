@@ -12,14 +12,6 @@ var global_to_local_transform
 var local_to_global_transform
 
 
-func _ready():
-	global_to_local_transform = GeoTransform.new()
-	global_to_local_transform.set_transform(31287, 3857)
-	
-	local_to_global_transform = GeoTransform.new()
-	local_to_global_transform.set_transform(3857, 31287)
-
-
 # Overload with the functionality to load new data, but not use (visualize) it yet. Run in a thread,
 #  so watch out for thread safety!
 func load_new_data():
@@ -59,13 +51,22 @@ func get_center_global():
 	return Vector2(transformed.x, transformed.z)
 
 
-func set_metadata(new_center: Vector2, new_viewport_size: Vector2, new_zoom: Vector2):
+func set_metadata(new_center: Vector2, new_viewport_size: Vector2, new_zoom: Vector2, crs_from: int):
 	center = new_center
 	viewport_size = new_viewport_size
 	zoom = new_zoom
 	# The maximum radius is at the corners => get the diagonale divided by 2
 	radius = sqrt(pow(new_viewport_size.x / new_zoom.x, 2) 
 				+ pow(new_viewport_size.y / new_zoom.y, 2)) / 2
+	
+	# The CRS shouldn't change at runtime, so we only need to do this once
+	if not global_to_local_transform:
+		global_to_local_transform = GeoTransform.new()
+		global_to_local_transform.set_transform(crs_from, 3857)
+	
+	if not local_to_global_transform:
+		local_to_global_transform = GeoTransform.new()
+		local_to_global_transform.set_transform(3857, crs_from)
 
 
 # Reload the data within this layer

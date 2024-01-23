@@ -55,6 +55,9 @@ func set_instance_pos(feature, obj_instance):
 	elif not obj_instance.transform.origin.y > 0.0:
 		local_object_pos.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
 			center[0] + local_object_pos.x, center[1] - local_object_pos.z)
+		
+		# FIXME: Workaround for nodata value when placing offshore wind turbines outside of data
+		local_object_pos.y = max(local_object_pos.y, 0.0)
 	else:
 		local_object_pos.y = obj_instance.transform.origin.y
 	

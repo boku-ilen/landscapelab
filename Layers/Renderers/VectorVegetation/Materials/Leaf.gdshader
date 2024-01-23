@@ -1,6 +1,10 @@
 shader_type spatial;
 render_mode cull_disabled, depth_draw_opaque;
 
+#include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
+
+global uniform vec3 HCY_SHIFT;
+
 uniform float alpha_hash_scale;
 
 uniform float roughness : hint_range(0,1);
@@ -50,7 +54,17 @@ void fragment() {
 	
 	vec4 albedo_tex = texture(spritesheet_albedo, base_uv);
 	
-	ALBEDO = albedo_tex.rgb * mix(vec3(1.0), most_extreme_random_color, random_instance_factor);
+	vec3 color = albedo_tex.rgb * mix(vec3(1.0), most_extreme_random_color, random_instance_factor);
+	
+	// Hue shift to make plant appear e.g. dryer
+	vec3 hcy = RGBtoHCY(color.rgb);
+	
+	hcy.r += HCY_SHIFT.r;
+	hcy.g *= HCY_SHIFT.g;
+	hcy.b *= HCY_SHIFT.b;
+
+	ALBEDO = HCYtoRGB(hcy);
+	
 	NORMAL_MAP = texture(spritesheet_normal, base_uv).rgb;
 	
 	METALLIC = metallic;

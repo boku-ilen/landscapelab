@@ -18,7 +18,7 @@ viewport_path = NodePath("DecalViewport")
 
 [node name="RealisticTerrainRenderer" type="Node3D"]
 script = ExtResource("4")
-extent = 6
+extent = 16
 chunk_scene = ExtResource("2_ib6li")
 
 [node name="Chunks" type="Node3D" parent="."]

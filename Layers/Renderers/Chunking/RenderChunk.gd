@@ -8,8 +8,9 @@ var size: float
 
 
 # Functions to override
-func override_increase_quality(): pass
-func override_decrease_quality(): pass
+func override_increase_quality(distance: float) -> bool: return false
+func override_decrease_quality(distance: float) -> bool: return false
+func override_can_increase_quality(distance: float) -> bool: return false
 func override_build(center_x, center_y): pass
 func override_apply(): pass
 
@@ -18,16 +19,20 @@ func _ready():
 	visible = false
 
 
-func increase_quality():
+func can_increase_quality(distance: float) -> bool:
+	return override_can_increase_quality(distance)
+
+
+func increase_quality(distance: float) -> bool:
 	is_high_quality = true
 	
-	override_increase_quality()
+	return override_increase_quality(distance)
 
 
-func decrease_quality():
+func decrease_quality(distance: float) -> bool:
 	is_high_quality = false
 	
-	override_decrease_quality()
+	return override_decrease_quality(distance)
 
 
 func build(center_x, center_y):
