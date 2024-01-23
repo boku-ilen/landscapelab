@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PlainWallResource" load_steps=3 format=3 uid="uid://tqkwbxroo5xa"]
+
+[ext_resource type="Script" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_8ko71"]
+[ext_resource type="Resource" uid="uid://caabrgpy0nt2f" path="res://Resources/Textures/Buildings/facade/Bricks/Bricks.tres" id="1_jraqh"]
+
+[resource]
+script = ExtResource("1_8ko71")
+basement_texture = ExtResource("1_jraqh")
+ground_texture = ExtResource("1_jraqh")
+middle_texture = ExtResource("1_jraqh")
+top_texture = ExtResource("1_jraqh")
+random_colors = Array[Color]([Color(1, 1, 1, 1), Color(0.364706, 0.364706, 0.364706, 1)])
+random_color_weights = Array[float]([0.7, 0.3])
+apply_colors = 15
+wind_counterclockwise = null
