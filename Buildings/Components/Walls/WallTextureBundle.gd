@@ -52,7 +52,10 @@ func _on_bundled_texture_changed(roughness: Texture, metallic: Texture,
 	# Try to obtain the alpha channel from the albedo
 	var alpha_data = []
 	if albedo != null:
-		var albedo_data = albedo.get_image().get_data()
+		var albedo_image = albedo.get_image().duplicate(true)
+		albedo_image.clear_mipmaps()
+		albedo_image.decompress()
+		var albedo_data = albedo_image.get_data()
 		var count = 0
 		for num in albedo_data:
 			if count % 4 == 3:
@@ -62,10 +65,14 @@ func _on_bundled_texture_changed(roughness: Texture, metallic: Texture,
 	# Check for same size
 	var OK = roughness_data.size() == metallic_data.size() \
 			and roughness_data.size() == emission_data.size()
-	# Alpha has to be either unset or same size
-	OK = OK and (alpha_data.is_empty() or alpha_data.size() == roughness_data.size())
 	if not OK:
 		push_error("Textures are not the same size!")
+		return
+	
+	# Alpha has to be either unset or same size
+	OK = alpha_data.is_empty() or alpha_data.size() == roughness_data.size()
+	if not OK:
+		push_error("Alpha channel size is not the same as roughness/metallic/emission!")
 		return
 	
 	# Bundle raw array
