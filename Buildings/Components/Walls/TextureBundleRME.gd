@@ -1,6 +1,6 @@
 @tool
 extends Resource
-class_name WallTextureBundle
+class_name TextureBundleRME
 
 
 @export var texture_scale := Vector2(1, 1)
