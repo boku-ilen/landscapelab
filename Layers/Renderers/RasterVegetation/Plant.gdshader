@@ -95,7 +95,7 @@ void fragment() {
 	diff_dot = max(diff_dot * 1.5 - 0.5, 0.0);
 
 	ALPHA = color.a;
-	ALPHA_SCISSOR_THRESHOLD = 0.6;
+	ALPHA_SCISSOR_THRESHOLD = 0.65;
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
@@ -108,7 +108,18 @@ void fragment() {
 	// Hue shift to make plant appear e.g. dryer
 	vec3 hcy = RGBtoHCY(color.rgb);
 	
-	hcy.r += HCY_SHIFT.r * 2.0;  // These need more hue shift than the others for some reason
+	float begin = -PI;
+	float end = 0.0;
+	
+	if (hcy.x > begin && hcy.x < end) {
+		float factor = hcy.x - begin;
+		factor /= end - begin;
+		factor -= 0.5;
+		factor *= PI;
+		
+		hcy.x += cos(factor);
+	}
+	
 	hcy.g *= HCY_SHIFT.g;
 	hcy.b *= HCY_SHIFT.b;
 
