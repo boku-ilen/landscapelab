@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://qhbp552ha7jf"]
+[gd_scene load_steps=7 format=3 uid="uid://dclm3h0co7lau"]
 
 [ext_resource type="ArrayMesh" uid="uid://lqw0a5653sxf" path="res://Layers/Renderers/Terrain/lod_mesh_100x100.obj" id="1"]
 [ext_resource type="PackedScene" uid="uid://hls5omqtjkj5" path="res://Layers/Renderers/Terrain/ExtraLOD.tscn" id="2_6w8bm"]
@@ -12,6 +12,7 @@
 script = ExtResource("3_tgpu3")
 
 [node name="Water" parent="." instance=ExtResource("2_6w8bm")]
+layers = 32
 material = ExtResource("3_co2jq")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]

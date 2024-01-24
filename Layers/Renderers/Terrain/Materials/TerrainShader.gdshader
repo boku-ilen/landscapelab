@@ -41,6 +41,9 @@ uniform float normal_scale = 1.0;
 uniform float ortho_saturation = 1.2;
 uniform float ortho_blue_shift_factor = 0.9;
 
+uniform float detail_only_range = 50.0;
+uniform float detail_ortho_blend_range = 700.0;
+
 uniform float size;
 
 varying vec3 camera_pos;
@@ -247,7 +250,7 @@ void fragment() {
 	
 	detail_color /= count;
 	
-	float dist_scale = min(depth / 300.0, 1.0);
+	float dist_scale = clamp((depth - detail_only_range) / detail_ortho_blend_range, 0.0, 1.0);
 	
 	float splat_id = texture(landuse, UV).r;
 	
