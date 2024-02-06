@@ -188,6 +188,17 @@ func override_apply():
 		$Mesh.material_override.set_shader_parameter("landuse", current_landuse)
 		$Mesh.material_override.set_shader_parameter("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
 		$Mesh.material_override.set_shader_parameter("has_landuse", true)
+		
+		if mesh_resolution == detailed_mesh_resolution:
+			if not has_node("LIDOverlay"):
+				add_child(preload("res://Layers/Renderers/Terrain/LIDOverlay.tscn").instantiate())
+			
+			$Mesh.material_override.set_shader_parameter("use_landuse_overlay", true)
+			$Mesh.material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlay/LIDViewport").get_texture())
+		else:
+			if has_node("LIDOverlay"):
+				$Mesh.material_override.set_shader_parameter("use_landuse_overlay", false)
+				get_node("LIDOverlay").queue_free()
 	
 	if current_surface_heightmap:
 		$Mesh.material_override.set_shader_parameter("has_surface_heights", true)
