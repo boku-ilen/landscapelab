@@ -65,6 +65,9 @@ func update_rows_spacing(extent_factor):
 	set_spacing(spacing)
 	
 	update_aabb()
+	
+	$LIDOverlayViewport/LIDViewport/CameraRoot/LIDCamera.size = get_map_size()
+	process_material.set_shader_parameter("splatmap_overlay", $LIDOverlayViewport/LIDViewport.get_texture())
 
 
 func set_mesh(new_mesh):
@@ -191,6 +194,10 @@ func apply_data():
 	material_override.set_shader_parameter("heightmap_size", size)
 	
 	material_override.set_shader_parameter("offset", Vector2(0, 0))
+	
+	# FIXME: This can cause discrepancies, especially while moving/loading. Not sure why? setting the position at load time doesn't help either
+	# I'm guessing we need to position according to world_pos in load
+	$LIDOverlayViewport.position = position
 	
 	## Row crops
 	#if density_class.id == 6:

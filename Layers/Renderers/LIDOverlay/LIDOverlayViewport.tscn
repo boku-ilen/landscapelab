@@ -3,7 +3,7 @@
 [sub_resource type="Environment" id="Environment_t6cpk"]
 background_mode = 1
 
-[node name="LIDOverlay" type="Node3D"]
+[node name="LIDOverlayViewport" type="Node3D"]
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
 remote_path = NodePath("../LIDViewport/CameraRoot")

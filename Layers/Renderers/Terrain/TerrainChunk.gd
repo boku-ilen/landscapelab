@@ -190,15 +190,15 @@ func override_apply():
 		$Mesh.material_override.set_shader_parameter("has_landuse", true)
 		
 		if mesh_resolution == detailed_mesh_resolution:
-			if not has_node("LIDOverlay"):
-				add_child(preload("res://Layers/Renderers/Terrain/LIDOverlay.tscn").instantiate())
+			if not has_node("LIDOverlayViewport"):
+				add_child(preload("res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn").instantiate())
 			
 			$Mesh.material_override.set_shader_parameter("use_landuse_overlay", true)
-			$Mesh.material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlay/LIDViewport").get_texture())
+			$Mesh.material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
 		else:
-			if has_node("LIDOverlay"):
+			if has_node("LIDOverlayViewport"):
 				$Mesh.material_override.set_shader_parameter("use_landuse_overlay", false)
-				get_node("LIDOverlay").queue_free()
+				get_node("LIDOverlayViewport").queue_free()
 	
 	if current_surface_heightmap:
 		$Mesh.material_override.set_shader_parameter("has_surface_heights", true)

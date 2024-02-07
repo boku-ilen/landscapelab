@@ -111,6 +111,7 @@ void fragment() {
 	float begin = -PI;
 	float end = 0.0;
 	
+	// FIXME: Make this scaleable by HCY_SHIFT.r
 	if (hcy.x > begin && hcy.x < end) {
 		float factor = hcy.x - begin;
 		factor /= end - begin;

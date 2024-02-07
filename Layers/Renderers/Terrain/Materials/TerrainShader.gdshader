@@ -228,7 +228,7 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 }
 
 float get_landuse(vec2 uv) {
-	float overlay = use_landuse_overlay ? texture(landuse_overlay, uv).r : 0.0;
+	float overlay = use_landuse_overlay ? round(texture(landuse_overlay, uv).r * 255.0) + round(texture(landuse_overlay, uv).g * 255.0 * 255.0) : 0.0;
 	
 	return overlay > 0.0 ? overlay : texture(landuse, uv).r;
 }

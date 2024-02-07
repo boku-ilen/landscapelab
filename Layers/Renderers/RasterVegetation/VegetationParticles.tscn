@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://ble8u3qy6yftc"]
+[gd_scene load_steps=8 format=3 uid="uid://ble8u3qy6yftc"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/RasterVegetation/VegetationParticles.gd" id="1"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/Plant.gdshader" id="2"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/VegetationLayer.gdshader" id="3"]
 [ext_resource type="ArrayMesh" uid="uid://kqa4x2tsefu5" path="res://Resources/Meshes/VegetationBillboard/1m_billboard.obj" id="4_uhe77"]
+[ext_resource type="PackedScene" uid="uid://cqv4mdm0thwg4" path="res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn" id="5_ud2b3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oyqth"]
 resource_local_to_scene = true
@@ -53,3 +54,6 @@ draw_pass_1 = ExtResource("4_uhe77")
 script = ExtResource("1")
 rows = 300
 spacing = 0.5
+
+[node name="LIDOverlayViewport" parent="." instance=ExtResource("5_ud2b3")]
+top_level = true
