@@ -47,6 +47,7 @@ var heightmap
 var splatmap
 var uv_offset_x := 0.0
 var uv_offset_y := 0.0
+var last_load_pos = Vector3.ZERO
 
 
 func _ready():
@@ -107,14 +108,16 @@ func get_map_size():
 	return rows * spacing * 2.0 + 500 # Add to allow for some movement within the data
 
 
-func complete_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0, new_uv_offset_y=0):
-	var splat = texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y)
+func complete_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y, clamped_pos_x, clamped_pos_y):
+	var splat = texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y, clamped_pos_x, clamped_pos_y)
 	
 	update_textures_with_images(splat.get_most_common(32))
 
 
-func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0, new_uv_offset_y=0):
+func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y, clamped_pos_x, clamped_pos_y):
 	var map_size = get_map_size()
+	
+	last_load_pos = Vector3(clamped_pos_x, 0.0, clamped_pos_y)
 	
 	var dhm = dhm_layer.get_image(
 		float(world_x - map_size / 2),
@@ -143,6 +146,8 @@ func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0,
 
 
 func apply_textures():
+	$LIDOverlayViewport.position = last_load_pos
+	
 	process_material.set_shader_parameter("splatmap", splatmap)
 	process_material.set_shader_parameter("heightmap", heightmap)
 	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, -uv_offset_y))
@@ -194,10 +199,6 @@ func apply_data():
 	material_override.set_shader_parameter("heightmap_size", size)
 	
 	material_override.set_shader_parameter("offset", Vector2(0, 0))
-	
-	# FIXME: This can cause discrepancies, especially while moving/loading. Not sure why? setting the position at load time doesn't help either
-	# I'm guessing we need to position according to world_pos in load
-	$LIDOverlayViewport.position = position
 	
 	## Row crops
 	#if density_class.id == 6:
