@@ -40,7 +40,7 @@ var cluster_width: float
 func _get_full_icon_path():
 	return VegetationImages.plant_image_base_path.path_join(billboard_path) + BILLBOARD_ENDING
 
-func _get_full_billboard_path():
+func get_full_billboard_path():
 	return VegetationImages.plant_image_base_path.path_join(billboard_path) + BILLBOARD_ENDING
 
 func _load_into_cache_if_necessary(full_path):
@@ -73,11 +73,11 @@ func _get_texture(path):
 
 # Return the billboard of this plant as an unmodified Image.
 func get_billboard():
-	return _get_image(_get_full_billboard_path())
+	return _get_image(get_full_billboard_path())
 
 # Return an ImageTexture with the billboard of this plant.
 func get_billboard_texture():
-	return _get_texture(_get_full_billboard_path())
+	return _get_texture(get_full_billboard_path())
 
 # Return an icon (a small version of the billboard) for this plant.
 func get_icon():
@@ -89,7 +89,7 @@ func get_icon_texture():
 
 # Preload the billboard texture to increase run-time loading speeds at the cost of the initial loading speed
 func preload_texture():
-	_load_into_cache_if_necessary(_get_full_billboard_path())
+	_load_into_cache_if_necessary(get_full_billboard_path())
 
 # Return a string in the form "ID: Name (Size Class)"
 func get_title_string():

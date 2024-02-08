@@ -5,9 +5,7 @@ render_mode cull_disabled, depth_draw_opaque;
 
 global uniform vec3 HCY_SHIFT;
 
-uniform sampler2DArray texture_map : source_color, repeat_disable;
-uniform sampler2D normal_map : hint_normal;
-uniform sampler2D specular_map : hint_default_black;
+uniform sampler2D[23] texture_map : source_color, repeat_disable;
 
 uniform int sprite_size = 2048;
 
@@ -29,7 +27,6 @@ varying vec3 worldpos;
 varying vec3 camera_pos;
 
 varying float size;
-varying float row;
 varying float dist_id;
 
 uniform float hue_factor: hint_range(0, 3.14) = 1.0;
@@ -70,7 +67,6 @@ void vertex() {
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	dist_id = INSTANCE_CUSTOM.g * 255.0;
-	row = INSTANCE_CUSTOM.b * 255.0;
 	
 	NORMAL = vec3(0.0, 1.0, 0.0);
 }
@@ -81,14 +77,7 @@ void fragment() {
 
 	float dist_alpha = (max_distance - dist) / (max_distance - blend_start_distance);
 
-	// Get the color from the right sprite in the spritesheet
-	ivec2 sheet_size = textureSize(texture_map, 0).xy;
-	ivec2 cols_rows = sheet_size / sprite_size;
-
-	vec2 scaled_uv = UV / (vec2(sheet_size) / float(sprite_size));
-	vec2 uv_offset = vec2(0.0, row / float(cols_rows.y));
-
-	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
+	vec4 color = texture(texture_map[int(round(dist_id))], UV);
 	
 	float diff = dot(mat3(INV_VIEW_MATRIX) * VIEW, mat3(INV_VIEW_MATRIX) * NORMAL);
 	float diff_dot = 1.0 - abs(diff);
