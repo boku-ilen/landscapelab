@@ -23,7 +23,7 @@ var paths := {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 12.0 :
+var plant_extent_factor = 6.0
 	get:
 		return plant_extent_factor
 	set(extent):
@@ -42,8 +42,6 @@ func load_data_from_gpkg(db) -> void:
 	groups = {}
 	
 	density_classes = VegetationGPKGUtil.create_density_classes_from_gpkg(db)
-	ground_textures = VegetationGPKGUtil.create_textures_from_gpkg(db, [], ["DISTANCE"])
-	fade_textures = VegetationGPKGUtil.create_textures_from_gpkg(db, ["DISTANCE"], [])
 	plants = VegetationGPKGUtil.create_plants_from_gpkg(db, density_classes)
 	groups = VegetationGPKGUtil.create_groups_from_gpkg(db, plants, ground_textures, fade_textures)
 	
@@ -64,8 +62,6 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	groups = {}
 	
 	density_classes = VegetationCSVUtil.create_density_classes_from_csv(density_path)
-	ground_textures = VegetationCSVUtil.create_textures_from_csv(texture_definition_path, [], ["DISTANCE"])
-	fade_textures = VegetationCSVUtil.create_textures_from_csv(texture_definition_path, ["DISTANCE"], [])
 	plants = VegetationCSVUtil.create_plants_from_csv(plant_path, density_classes)
 	groups = VegetationCSVUtil.create_groups_from_csv(group_path, plants, ground_textures, fade_textures)
 	
@@ -81,8 +77,7 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	paths = {
 		"Densities": density_path,
 		"Groups": group_path,
-		"Plants": plant_path,
-		"Textures": texture_definition_path
+		"Plants": plant_path
 	}
 
 
