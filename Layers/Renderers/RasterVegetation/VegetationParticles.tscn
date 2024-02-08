@@ -24,6 +24,7 @@ shader_parameter/fake_shadow_min_multiplier = 0.25
 shader_parameter/hue_factor = 1.0
 shader_parameter/chroma_factor = 2.0
 shader_parameter/luminance_factor = 2.0
+shader_parameter/texture_map = null
 
 [sub_resource type="ShaderMaterial" id="2"]
 resource_local_to_scene = true

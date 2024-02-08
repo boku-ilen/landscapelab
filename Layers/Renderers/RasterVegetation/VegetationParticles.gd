@@ -41,7 +41,6 @@ var previous_origin
 
 # Data
 var id_row_array
-var billboard_tex
 var distribution_tex
 var heightmap
 var splatmap
@@ -158,28 +157,17 @@ func apply_textures():
 # Should be called in a thread to avoid stalling the main thread.
 func update_textures_with_images(ids):
 	# Load the groups for these IDs and filter them by the given density class
-	var groups = Vegetation.get_group_array_for_ids(ids)
-	var filtered_groups = Vegetation.filter_group_array_by_density_class(groups, density_class)
-	
-	billboard_tex = Vegetation.get_billboard_texture(filtered_groups)
-	
-	# If billboards is null, this means that there were 0 plants in all of the
-	#  groups. Then, we don't need to render anything.
-	if not billboard_tex:
-		visible = false
-		return
-	else:
-		visible = true
-	
-	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_groups, density_class)
+	#var groups = Vegetation.get_group_array_for_ids(ids)
+	#var filtered_groups = Vegetation.filter_group_array_by_density_class(groups, density_class)
+	#var distribution_sheet = Vegetation.get_distribution_sheet(filtered_groups, density_class)
 	
 	# All spritesheets are organized like this:
 	# The rows correspond to land-use values
 	# The columns correspond to distribution values
 	
-	id_row_array = Vegetation.get_id_row_array(Vegetation.get_id_array_for_groups(filtered_groups))
-	
-	distribution_tex = ImageTexture.create_from_image(distribution_sheet) #,ImageTexture.FLAG_REPEAT
+	#id_row_array = Vegetation.get_id_row_array(Vegetation.get_id_array_for_groups(filtered_groups))
+	pass
+	#distribution_tex = ImageTexture.create_from_image(distribution_sheet) #,ImageTexture.FLAG_REPEAT
 
 
 # Apply data which has previously been loaded with `update_textures`.
@@ -187,12 +175,12 @@ func update_textures_with_images(ids):
 func apply_data():
 	apply_textures()
 	
-	process_material.set_shader_parameter("row_ids", id_row_array)
-	process_material.set_shader_parameter("distribution_map", distribution_tex)
+	process_material.set_shader_parameter("row_ids", Vegetation.row_ids)
+	process_material.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[density_class.id])
 	process_material.set_shader_parameter("splatmap_size_meters", get_map_size())
 	process_material.set_shader_parameter("dist_scale", 1.0 / spacing)
 	
-	material_override.set_shader_parameter("texture_map", billboard_tex)
+	material_override.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
 	
 	var size = Vector2(get_map_size(), get_map_size())
 	process_material.set_shader_parameter("heightmap_size", size)
