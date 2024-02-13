@@ -50,35 +50,8 @@ func adapt_load(_diff: Vector3):
 	
 	# Clamp to steps of 1 in order to maintain the land-use grid
 	# FIXME: actually depends on the resolution of the land-use and potentially other factors
-	var clamped_pos_x = position_manager.center_node.position.x - fposmod(position_manager.center_node.position.x, 1.0)
-	var clamped_pos_y = position_manager.center_node.position.z + fposmod(position_manager.center_node.position.z, 1.0)
-	
-	var world_position = [
-		center[0] + clamped_pos_x,
-		center[1] - clamped_pos_y
-	]
-	
-	var uv_offset_x = world_position[0] - center[0]
-	var uv_offset_y = world_position[1] - center[1]
-	
-	for renderer in renderers.get_children():
-		renderer.texture_update(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
-				world_position[0], world_position[1], uv_offset_x, uv_offset_y, clamped_pos_x, clamped_pos_y)
-
-	call_deferred("apply_textures")
-
-
-func refine_load():
-	if not needs_to_refine: return
-	
-	super.refine_load()
-	
-	# FIXME: Optimize, currently does the same as adapt_load, just with full_update
-	
-	# Clamp to steps of 1 in order to maintain the land-use grid
-	# FIXME: actually depends on the resolution of the land-use and potentially other factors
-	var clamped_pos_x = position_manager.center_node.position.x - fposmod(position_manager.center_node.position.x, 1.0)
-	var clamped_pos_y = position_manager.center_node.position.z + fposmod(position_manager.center_node.position.z, 1.0)
+	var clamped_pos_x = position_manager.center_node.position.x - fposmod(position_manager.center_node.position.x, 10.0)
+	var clamped_pos_y = position_manager.center_node.position.z + (10.0 - fposmod(position_manager.center_node.position.z, 10.0))
 	
 	var world_position = [
 		center[0] + clamped_pos_x,
@@ -93,6 +66,14 @@ func refine_load():
 				world_position[0], world_position[1], uv_offset_x, uv_offset_y, clamped_pos_x, clamped_pos_y)
 	
 	call_deferred("apply_new_data")
+
+
+func refine_load():
+	if not needs_to_refine: return
+	
+	super.refine_load()
+	
+
 	
 	needs_to_refine = false
 

@@ -104,7 +104,7 @@ func set_spacing(new_spacing):
 
 # Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
 func get_map_size():
-	return rows * spacing * 2.0 + 500 # Add to allow for some movement within the data
+	return rows * spacing * 2.0
 
 
 func complete_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y, clamped_pos_x, clamped_pos_y):
@@ -122,8 +122,8 @@ func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, n
 		float(world_x - map_size / 2),
 		float(world_y + map_size / 2),
 		float(map_size), 
-		int(map_size / 2.0),
-		1
+		int(map_size),
+		0
 	)
 	
 	heightmap = dhm.get_image_texture()

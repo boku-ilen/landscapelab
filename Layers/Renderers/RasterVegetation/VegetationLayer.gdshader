@@ -23,17 +23,8 @@ uniform vec2 uv_offset;
 
 uniform vec3 view_direction;
 
-
-
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
-}
-
-float get_height(vec2 pos) {
-	pos += 0.5 * heightmap_size;
-	pos /= heightmap_size;
-	
-	return texture(heightmap, pos).r;
 }
 
 void process() {
@@ -74,23 +65,23 @@ void process() {
 	// Do this before applying world-space position and height - easier to calculate in local space
 	bool is_in_front_of_camera = dot(normalize(view_direction.xz), normalize(pos.xz)) > 0.7;
 	
-	// apply our height
-	pos.y = get_height(pos.xz - uv_offset);
-	
 	// rotate our transform
 	TRANSFORM[0][0] = cos(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
 	TRANSFORM[0][2] = -sin(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
 	TRANSFORM[2][0] = sin(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
 	TRANSFORM[2][2] = cos(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
 	
+	// Read from splatmap based on world position
+	vec2 splatmap_uv = pos.xz + 0.5 * splatmap_size_meters - uv_offset;
+	splatmap_uv /= splatmap_size_meters;
+	
+	// apply our height
+	pos.y = texture(heightmap, splatmap_uv).r;
+	
 	// update our transform to place
 	TRANSFORM[3][0] = pos.x;
 	TRANSFORM[3][1] = pos.y;
 	TRANSFORM[3][2] = pos.z;
-	
-	// Read from splatmap based on world position
-	vec2 splatmap_uv = pos.xz + 0.5 * splatmap_size_meters - uv_offset;
-	splatmap_uv /= splatmap_size_meters;
 	
 	int overlay_value = int(round(texture(splatmap_overlay, splatmap_uv).r * 255.0) + round(texture(splatmap_overlay, splatmap_uv).g * 255.0 * 255.0));
 	int splatmap_value = overlay_value > 0 ? overlay_value : int(round(texture(splatmap, splatmap_uv).r));
