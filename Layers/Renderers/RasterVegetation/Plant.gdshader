@@ -72,19 +72,15 @@ void vertex() {
 }
 
 void fragment() {
-	float blend_start_distance = max_distance - max_distance / 8.0;
+	float blend_start_distance = max_distance - max_distance / 4.0;
 	float dist = length(camera_pos.xz - worldpos.xz);
 
-	float dist_alpha = (max_distance - dist) / (max_distance - blend_start_distance);
+	float dist_alpha = clamp((dist -  blend_start_distance) / (max_distance - blend_start_distance), 0.0, 1.0);
 
 	vec4 color = texture(texture_map[int(round(dist_id))], UV);
-	
-	float diff = dot(mat3(INV_VIEW_MATRIX) * VIEW, mat3(INV_VIEW_MATRIX) * NORMAL);
-	float diff_dot = 1.0 - abs(diff);
-	diff_dot = max(diff_dot * 1.5 - 0.5, 0.0);
 
 	ALPHA = color.a;
-	ALPHA_SCISSOR_THRESHOLD = 0.65;
+	ALPHA_SCISSOR_THRESHOLD = 0.75 + dist_alpha * 0.25;
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)

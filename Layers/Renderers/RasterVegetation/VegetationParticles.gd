@@ -91,7 +91,7 @@ func set_rows(new_rows):
 	
 	if process_material:
 		process_material.set_shader_parameter("rows", rows)
-		material_override.set_shader_parameter("max_distance", rows * spacing)
+		material_override.set_shader_parameter("max_distance", rows * spacing / 2.0)
 
 
 func set_spacing(new_spacing):
@@ -99,7 +99,7 @@ func set_spacing(new_spacing):
 	
 	if process_material:
 		process_material.set_shader_parameter("spacing", spacing)
-		material_override.set_shader_parameter("max_distance", rows * spacing)
+		material_override.set_shader_parameter("max_distance", rows * spacing / 2.0)
 
 
 # Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
