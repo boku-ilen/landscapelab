@@ -26,7 +26,7 @@ func get_game_object(id) -> GameObject:
 	return game_objects[id]
 
 
-func get_all_game_objects() -> Array[GameObject]:
+func get_all_game_objects() -> Array:
 	return game_objects.values()
 
 

@@ -9,9 +9,9 @@ var saddle_roof_scene = preload("res://Buildings/Components/SaddleRoof.tscn")
 
 var wall_resources = [
 	# "apartments": 0
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
-	# "house": 1
 	preload("res://Resources/Textures/Buildings/PlainWallResources/PanterlleriaHouse.tres"),
+	# "house": 1
+	preload("res://Resources/Textures/Buildings/PlainWallResources/BrickHouse.tres"),
 	# "shack": 2
 	preload("res://Resources/Textures/Buildings/PlainWallResources/Shack.tres"),
 	# "industrial": 3

@@ -123,7 +123,8 @@ func _deserialize_mappings(game_mode: GameMode,
 			var collection_object = game_mode.game_object_collections[collection_name]
 			collection_object.add_attribute_mapping(attribute)
 		
-		deserialize_reflective(attribute, mapping["reflections"])
+		if "reflections" in mapping:
+			deserialize_reflective(attribute, mapping["reflections"])
 
 
 func _deserialize_scores(game_mode: GameMode, scores: Dictionary):

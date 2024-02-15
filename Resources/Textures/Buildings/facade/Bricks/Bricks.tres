@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=5 format=3 uid="uid://caabrgpy0nt2f"]
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=5 format=3 uid="uid://caabrgpy0nt2f"]
 
 [ext_resource type="Texture2D" uid="uid://7jbtvntmxr30" path="res://Resources/Textures/Barriers/Stone/stone_wall_diff_2k.jpg" id="1_1cusy"]
 [ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_yrbj0"]
@@ -7,7 +7,7 @@
 
 [resource]
 script = ExtResource("1_yrbj0")
-texture_scale = Vector2(4, 1)
+texture_scale = Vector2(1, 1)
 albedo_texture = ExtResource("1_1cusy")
 normal_texture = ExtResource("2_3uiik")
 roughness_texture = ExtResource("3_ja7gh")

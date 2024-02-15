@@ -65,6 +65,7 @@ update_scale = false
 [node name="SubViewport" parent="." instance=ExtResource("9_sfca8")]
 
 [node name="XRCamera3D" parent="SubViewport/XROrigin3D" index="2"]
-far = 10000.0
+near = 0.5
+far = 20000.0
 
 [editable path="SubViewport"]

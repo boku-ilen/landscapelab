@@ -22,6 +22,7 @@ stretch = true
 script = ExtResource("1_2ghtm")
 
 [node name="SubViewport" parent="GeoLayerViewportContainer" instance=ExtResource("2_4jb48")]
+size = Vector2i(2, 2)
 
 [node name="ZoomContainer" parent="GeoLayerViewportContainer" node_paths=PackedStringArray("camera_2d") instance=ExtResource("3_vaqhl")]
 layout_mode = 2

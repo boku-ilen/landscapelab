@@ -59,7 +59,7 @@ signal value_changed(value)
 func _ready():
 	$HSlider.connect("value_changed",Callable(self,"_update_value"))
 	$SpinBox.connect("value_changed",Callable(self,"_update_value"))
-	value = value
+	value = clamp(value, min_value, max_value)
 	step = step
 	max_value = max_value
 	min_value = min_value

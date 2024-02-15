@@ -149,9 +149,9 @@ func refine_load():
 	# NOTE: is this necessary?
 	mutex.lock()
 	if local_connectors.keys() != instances.keys():
-		local_connectors = instances.duplicate()
+		local_connectors = instances.duplicate(true)
 	if features != local_features:
-		local_features = features.duplicate()
+		local_features = features.duplicate(true)
 	mutex.unlock()
 	
 	connection_mutex.lock()

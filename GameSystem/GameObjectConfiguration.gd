@@ -1,4 +1,4 @@
-extends ConfirmationDialog
+extends PanelContainer
 
 
 # Necessary while https://github.com/godotengine/godot/issues/86712 is not resolved
@@ -6,13 +6,25 @@ extends ConfirmationDialog
 
 signal closed(successful: bool)
 
-var name_to_ref_ui := {} 
+var name_to_ref_ui := {}
+
+var edge_buffer = 50
+
+
+func popup(rect: Rect2):
+	visible = true
+	position = rect.position
+	
+	if position.x + size.x + edge_buffer > get_viewport_rect().size.x:
+		position.x += get_viewport_rect().size.x - position.x - size.x - edge_buffer
+	if position.y + size.y + edge_buffer > get_viewport_rect().size.y:
+		position.y += get_viewport_rect().size.y - position.y - size.y - edge_buffer
 
 
 func _ready():
 	add_theme_stylebox_override("panel", panel_style)
-	confirmed.connect(_on_any_button.bind(true))
-	canceled.connect(_on_any_button.bind(false))
+	$Entries/Buttons/OKButton.pressed.connect(_on_any_button.bind(true))
+	$Entries/Buttons/CancelButton.pressed.connect(_on_any_button.bind(false))
 
 
 func add_configuration_option(option_name, reference, min=null, max=null):
@@ -33,7 +45,7 @@ func add_configuration_option(option_name, reference, min=null, max=null):
 	
 	vbox.add_child(label)
 	vbox.add_child(slider)
-	$VBoxContainer.add_child(vbox)
+	$Entries/Attributes.add_child(vbox)
 
 
 func _on_any_button(confirmed := false):

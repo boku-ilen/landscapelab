@@ -66,9 +66,10 @@ viewport = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewP
 docks = [NodePath("../../Left/Tabs"), NodePath("../../Left/Mid/Right"), NodePath("../../Left/Mid/MidVertical/HBoxContainer")]
 dock_names = Array[String](["Left dock", "Right dock", "Bottom dock"])
 
-[node name="UtilButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" node_paths=PackedStringArray("action_handler_3d_path", "position_manager")]
+[node name="UtilButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" node_paths=PackedStringArray("action_handler_3d_path", "position_manager", "player_node")]
 action_handler_3d_path = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/ActionHandler")
 position_manager = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
+player_node = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
 
 [node name="GeoLayerManagement" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -151,6 +152,7 @@ script = ExtResource("11")
 
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort"]
 handle_input_locally = false
+msaa_3d = 2
 gui_disable_input = true
 size = Vector2i(2, 2)
 render_target_update_mode = 4
@@ -222,7 +224,6 @@ custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 
 [node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewportContainer" index="0"]
-size = Vector2i(2, 2)
 render_target_update_mode = 0
 
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]

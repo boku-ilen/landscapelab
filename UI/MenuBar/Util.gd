@@ -38,7 +38,8 @@ func _ready():
 func _open_labtable():
 	if labtable_window == null:
 		labtable_window = TABLESCENE.instantiate()
-	if not dolly_window.is_inside_tree():
+		labtable_window.get_node("LabTable").player_node = player_node
+	if not labtable_window.is_inside_tree():
 		get_tree().get_root().add_child(labtable_window)
 	
 	labtable_menu.popup.set_item_disabled(
