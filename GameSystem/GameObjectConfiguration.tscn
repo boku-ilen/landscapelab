@@ -6,20 +6,33 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ua3n4"]
 bg_color = Color(0.831373, 0.831373, 0.831373, 1)
 
-[node name="GameObjectConfiguration" type="ConfirmationDialog"]
-title = "Configurate Game Object"
-position = Vector2i(0, 36)
-size = Vector2i(200, 196)
-borderless = true
-popup_window = true
-extend_to_title = true
+[node name="GameObjectConfiguration" type="PanelContainer"]
+top_level = true
+offset_right = 156.0
+offset_bottom = 43.0
+mouse_filter = 1
 theme = ExtResource("1_ohjqa")
-dialog_hide_on_ok = false
 script = ExtResource("1_rpnwg")
 panel_style = SubResource("StyleBoxFlat_ua3n4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 192.0
-offset_bottom = 147.0
+[node name="Entries" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Attributes" type="VBoxContainer" parent="Entries"]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Entries"]
+layout_mode = 2
+
+[node name="OKButton" type="Button" parent="Entries/Buttons"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_vertical = 8
+text = "OK"
+
+[node name="CancelButton" type="Button" parent="Entries/Buttons"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Cancel"

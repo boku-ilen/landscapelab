@@ -108,7 +108,11 @@ func set_workshop_mode(active: bool):
 				func(attrib): return attrib.allow_change)
 			
 			if is_any_change_allowed or collection is GameObjectClusterCollection:
-				var goc_popup: ConfirmationDialog = goc_configuration_popup.instantiate()
+				var goc_popup = goc_configuration_popup.instantiate()
+				goc_popup.name = "GOCPopup"
+				
+				if has_node("GOCPopup"): get_node("GOCPopup").free()
+				
 				add_child(goc_popup)
 				
 				if "cluster_size" in collection:
@@ -123,9 +127,9 @@ func set_workshop_mode(active: bool):
 						goc_popup.add_configuration_option(
 							attribute.name, attribute, attribute.min, attribute.max)
 				
-				goc_popup.popup_on_parent(Rect2(event.global_position, goc_popup.size))
+				goc_popup.popup(Rect2(event.global_position, goc_popup.size))
 				successful_configuration = await goc_popup.closed
-				if not successful_configuration: return
+				if successful_configuration is bool and successful_configuration == false: return
 			
 			var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
 			for option in successful_configuration:

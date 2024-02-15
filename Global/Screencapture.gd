@@ -15,7 +15,7 @@ func _input(event):
 
 
 func screenshot(
-					image_name := "user://photo-%s-%s.png" % \
+					image_name := "photo-%s-%s.png" % \
 						[Time.get_datetime_string_from_system(),
 						pos_manager.get_center_node_world_position()],
 					upscale_viewport := 1.5,
@@ -23,11 +23,13 @@ func screenshot(
 					name_extension := ""
 				):
 	if image_name == null or image_name == "": 
-		image_name = "user://photo-%s-%s%s.png" % \
+		image_name = "photo-%s-%s%s.png" % \
 					[Time.get_datetime_string_from_system(),
 					pos_manager.get_center_node_world_position(),
 					name_extension]
-						
+	
+	image_name = "user://" + image_name.validate_filename()
+	
 	var previous_viewport_size = pos_manager.get_viewport().size
 	var previous_plant_extent_factor = Vegetation.plant_extent_factor
 	
