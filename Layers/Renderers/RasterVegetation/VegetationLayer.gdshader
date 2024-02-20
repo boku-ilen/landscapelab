@@ -11,7 +11,7 @@ uniform sampler2D splatmap_overlay: repeat_disable, filter_nearest;
 
 uniform float splatmap_size_meters;
 
-uniform sampler2D[16] distribution_array: repeat_enable, filter_nearest;
+uniform sampler2D[64] distribution_array: repeat_enable, filter_nearest;
 uniform sampler2D row_ids;
 
 uniform float amplitude = 1.0;

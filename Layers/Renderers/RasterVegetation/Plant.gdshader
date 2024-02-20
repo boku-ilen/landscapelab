@@ -5,7 +5,7 @@ render_mode cull_disabled, depth_draw_opaque;
 
 global uniform vec3 HCY_SHIFT;
 
-uniform sampler2D[23] texture_map : source_color, repeat_disable;
+uniform sampler2D[100] texture_map : source_color, repeat_disable;
 
 uniform int sprite_size = 2048;
 
