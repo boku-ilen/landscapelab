@@ -5,9 +5,7 @@ render_mode cull_disabled, depth_draw_opaque;
 
 global uniform vec3 HCY_SHIFT;
 
-uniform sampler2DArray texture_map : source_color, repeat_disable;
-uniform sampler2D normal_map : hint_normal;
-uniform sampler2D specular_map : hint_default_black;
+uniform sampler2D[100] texture_map : source_color, repeat_disable;
 
 uniform int sprite_size = 2048;
 
@@ -29,7 +27,6 @@ varying vec3 worldpos;
 varying vec3 camera_pos;
 
 varying float size;
-varying float row;
 varying float dist_id;
 
 uniform float hue_factor: hint_range(0, 3.14) = 1.0;
@@ -70,32 +67,20 @@ void vertex() {
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	dist_id = INSTANCE_CUSTOM.g * 255.0;
-	row = INSTANCE_CUSTOM.b * 255.0;
 	
 	NORMAL = vec3(0.0, 1.0, 0.0);
 }
 
 void fragment() {
-	float blend_start_distance = max_distance - max_distance / 8.0;
+	float blend_start_distance = max_distance - max_distance / 4.0;
 	float dist = length(camera_pos.xz - worldpos.xz);
 
-	float dist_alpha = (max_distance - dist) / (max_distance - blend_start_distance);
+	float dist_alpha = clamp((dist -  blend_start_distance) / (max_distance - blend_start_distance), 0.0, 1.0);
 
-	// Get the color from the right sprite in the spritesheet
-	ivec2 sheet_size = textureSize(texture_map, 0).xy;
-	ivec2 cols_rows = sheet_size / sprite_size;
-
-	vec2 scaled_uv = UV / (vec2(sheet_size) / float(sprite_size));
-	vec2 uv_offset = vec2(0.0, row / float(cols_rows.y));
-
-	vec4 color = texture(texture_map, vec3(scaled_uv + uv_offset, dist_id));
-	
-	float diff = dot(mat3(INV_VIEW_MATRIX) * VIEW, mat3(INV_VIEW_MATRIX) * NORMAL);
-	float diff_dot = 1.0 - abs(diff);
-	diff_dot = max(diff_dot * 1.5 - 0.5, 0.0);
+	vec4 color = texture(texture_map[int(round(dist_id))], UV);
 
 	ALPHA = color.a;
-	ALPHA_SCISSOR_THRESHOLD = 0.65;
+	ALPHA_SCISSOR_THRESHOLD = 0.75 + dist_alpha * 0.25;
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
@@ -111,6 +96,7 @@ void fragment() {
 	float begin = -PI;
 	float end = 0.0;
 	
+	// FIXME: Make this scaleable by HCY_SHIFT.r
 	if (hcy.x > begin && hcy.x < end) {
 		float factor = hcy.x - begin;
 		factor /= end - begin;

@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://ckr82klb6whwc"]
+[gd_scene load_steps=8 format=3 uid="uid://cw2vjds0mmd2u"]
 
-[ext_resource type="PackedScene" uid="uid://qhbp552ha7jf" path="res://Layers/Renderers/Terrain/TerrainChunk.tscn" id="2_ib6li"]
+[ext_resource type="PackedScene" uid="uid://dclm3h0co7lau" path="res://Layers/Renderers/Terrain/TerrainChunk.tscn" id="2_ib6li"]
 [ext_resource type="PackedScene" uid="uid://bkcdk4xgbexwe" path="res://Layers/Renderers/Terrain/TerrainDecal.tscn" id="3_dxri0"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/RealisticTerrainRenderer.gd" id="4"]
 

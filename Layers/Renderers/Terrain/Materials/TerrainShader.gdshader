@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode depth_draw_opaque;
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 
@@ -19,6 +20,9 @@ uniform sampler2D surface_heightmap: repeat_disable;
 // Land use-based detail textures
 uniform sampler2D landuse: repeat_disable, filter_nearest;
 uniform bool has_landuse = false;
+
+uniform bool use_landuse_overlay = false;
+uniform sampler2D landuse_overlay: repeat_disable, filter_nearest, hint_default_black;
 
 uniform sampler2D offset_noise;
 
@@ -223,6 +227,12 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 	return HCYtoRGB(detail_hcy);
 }
 
+float get_landuse(vec2 uv) {
+	float overlay = use_landuse_overlay ? round(texture(landuse_overlay, uv).r * 255.0) + round(texture(landuse_overlay, uv).g * 255.0 * 255.0) : 0.0;
+	
+	return overlay > 0.0 ? overlay : texture(landuse, uv).r;
+}
+
 void fragment() {
 	float depth = FRAGCOORD.z / FRAGCOORD.w;
 	
@@ -239,7 +249,7 @@ void fragment() {
 	for (float x_off = -1.0; x_off < 1.0; x_off += 0.5) {
 		for (float y_off = -1.0; y_off < 1.0; y_off += 0.5) {
 			vec2 offset_vector = vec2(x_off / size, y_off / size);
-			float splat_id = texture(landuse, UV + offset_vector).r;
+			float splat_id = get_landuse(UV + offset_vector);
 			
 			int texture_index = int(splat_id / 1000.0) - 1;
 			
@@ -252,7 +262,7 @@ void fragment() {
 	
 	float dist_scale = clamp((depth - detail_only_range) / detail_ortho_blend_range, 0.0, 1.0);
 	
-	float splat_id = texture(landuse, UV).r;
+	float splat_id = get_landuse(UV);
 	
 	if (int(splat_id / 1000.0) != 6) {
 		ALBEDO = hue_shift(detail_color, ortho_color, dist_scale);

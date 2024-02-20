@@ -41,12 +41,12 @@ var previous_origin
 
 # Data
 var id_row_array
-var billboard_tex
 var distribution_tex
 var heightmap
 var splatmap
 var uv_offset_x := 0.0
 var uv_offset_y := 0.0
+var last_load_pos = Vector3.ZERO
 
 
 func _ready():
@@ -65,6 +65,9 @@ func update_rows_spacing(extent_factor):
 	set_spacing(spacing)
 	
 	update_aabb()
+	
+	$LIDOverlayViewport/LIDViewport/CameraRoot/LIDCamera.size = get_map_size()
+	process_material.set_shader_parameter("splatmap_overlay", $LIDOverlayViewport/LIDViewport.get_texture())
 
 
 func set_mesh(new_mesh):
@@ -88,7 +91,7 @@ func set_rows(new_rows):
 	
 	if process_material:
 		process_material.set_shader_parameter("rows", rows)
-		material_override.set_shader_parameter("max_distance", rows * spacing)
+		material_override.set_shader_parameter("max_distance", rows * spacing / 2.0)
 
 
 func set_spacing(new_spacing):
@@ -96,29 +99,31 @@ func set_spacing(new_spacing):
 	
 	if process_material:
 		process_material.set_shader_parameter("spacing", spacing)
-		material_override.set_shader_parameter("max_distance", rows * spacing)
+		material_override.set_shader_parameter("max_distance", rows * spacing / 2.0)
 
 
 # Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
 func get_map_size():
-	return rows * spacing * 2.0 + 500 # Add to allow for some movement within the data
+	return rows * spacing * 2.0
 
 
-func complete_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0, new_uv_offset_y=0):
-	var splat = texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y)
+func complete_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y, clamped_pos_x, clamped_pos_y):
+	var splat = texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y, clamped_pos_x, clamped_pos_y)
 	
 	update_textures_with_images(splat.get_most_common(32))
 
 
-func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0, new_uv_offset_y=0):
+func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y, clamped_pos_x, clamped_pos_y):
 	var map_size = get_map_size()
+	
+	last_load_pos = Vector3(clamped_pos_x, 0.0, clamped_pos_y)
 	
 	var dhm = dhm_layer.get_image(
 		float(world_x - map_size / 2),
 		float(world_y + map_size / 2),
 		float(map_size), 
-		int(map_size / 2.0),
-		1
+		int(map_size),
+		0
 	)
 	
 	heightmap = dhm.get_image_texture()
@@ -140,6 +145,8 @@ func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x=0,
 
 
 func apply_textures():
+	$LIDOverlayViewport.position = last_load_pos
+	
 	process_material.set_shader_parameter("splatmap", splatmap)
 	process_material.set_shader_parameter("heightmap", heightmap)
 	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, -uv_offset_y))
@@ -150,28 +157,17 @@ func apply_textures():
 # Should be called in a thread to avoid stalling the main thread.
 func update_textures_with_images(ids):
 	# Load the groups for these IDs and filter them by the given density class
-	var groups = Vegetation.get_group_array_for_ids(ids)
-	var filtered_groups = Vegetation.filter_group_array_by_density_class(groups, density_class)
-	
-	billboard_tex = Vegetation.get_billboard_texture(filtered_groups)
-	
-	# If billboards is null, this means that there were 0 plants in all of the
-	#  groups. Then, we don't need to render anything.
-	if not billboard_tex:
-		visible = false
-		return
-	else:
-		visible = true
-	
-	var distribution_sheet = Vegetation.get_distribution_sheet(filtered_groups, density_class)
+	#var groups = Vegetation.get_group_array_for_ids(ids)
+	#var filtered_groups = Vegetation.filter_group_array_by_density_class(groups, density_class)
+	#var distribution_sheet = Vegetation.get_distribution_sheet(filtered_groups, density_class)
 	
 	# All spritesheets are organized like this:
 	# The rows correspond to land-use values
 	# The columns correspond to distribution values
 	
-	id_row_array = Vegetation.get_id_row_array(Vegetation.get_id_array_for_groups(filtered_groups))
-	
-	distribution_tex = ImageTexture.create_from_image(distribution_sheet) #,ImageTexture.FLAG_REPEAT
+	#id_row_array = Vegetation.get_id_row_array(Vegetation.get_id_array_for_groups(filtered_groups))
+	pass
+	#distribution_tex = ImageTexture.create_from_image(distribution_sheet) #,ImageTexture.FLAG_REPEAT
 
 
 # Apply data which has previously been loaded with `update_textures`.
@@ -179,12 +175,12 @@ func update_textures_with_images(ids):
 func apply_data():
 	apply_textures()
 	
-	process_material.set_shader_parameter("row_ids", id_row_array)
-	process_material.set_shader_parameter("distribution_map", distribution_tex)
+	process_material.set_shader_parameter("row_ids", Vegetation.row_ids)
+	process_material.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[density_class.id])
 	process_material.set_shader_parameter("splatmap_size_meters", get_map_size())
 	process_material.set_shader_parameter("dist_scale", 1.0 / spacing)
 	
-	material_override.set_shader_parameter("texture_map", billboard_tex)
+	material_override.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
 	
 	var size = Vector2(get_map_size(), get_map_size())
 	process_material.set_shader_parameter("heightmap_size", size)

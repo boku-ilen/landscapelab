@@ -7,12 +7,12 @@ uniform float spacing = 1.0;
 
 uniform sampler2D heightmap: repeat_disable;
 uniform sampler2D splatmap: repeat_disable, filter_nearest;
+uniform sampler2D splatmap_overlay: repeat_disable, filter_nearest;
 
 uniform float splatmap_size_meters;
 
-uniform sampler2D distribution_map : hint_default_black, repeat_enable;
-uniform float dist_scale = 10.0;
-uniform int row_ids[16];
+uniform sampler2D[64] distribution_array: repeat_enable, filter_nearest;
+uniform sampler2D row_ids;
 
 uniform float amplitude = 1.0;
 uniform vec2 heightmap_size = vec2(300.0, 300.0);
@@ -23,17 +23,8 @@ uniform vec2 uv_offset;
 
 uniform vec3 view_direction;
 
-
-
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
-}
-
-float get_height(vec2 pos) {
-	pos += 0.5 * heightmap_size;
-	pos /= heightmap_size;
-	
-	return texture(heightmap, pos).r;
 }
 
 void process() {
@@ -74,49 +65,39 @@ void process() {
 	// Do this before applying world-space position and height - easier to calculate in local space
 	bool is_in_front_of_camera = dot(normalize(view_direction.xz), normalize(pos.xz)) > 0.7;
 	
-	// apply our height
-	pos.y = get_height(pos.xz - uv_offset);
-	
 	// rotate our transform
 	TRANSFORM[0][0] = cos(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
 	TRANSFORM[0][2] = -sin(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
 	TRANSFORM[2][0] = sin(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
 	TRANSFORM[2][2] = cos(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
 	
+	// Read from splatmap based on world position
+	vec2 splatmap_uv = pos.xz + 0.5 * splatmap_size_meters - uv_offset;
+	splatmap_uv /= splatmap_size_meters;
+	
+	// apply our height
+	pos.y = texture(heightmap, splatmap_uv).r;
+	
 	// update our transform to place
 	TRANSFORM[3][0] = pos.x;
 	TRANSFORM[3][1] = pos.y;
 	TRANSFORM[3][2] = pos.z;
 	
-	// Read from splatmap based on world position
-	vec2 splatmap_uv = pos.xz + 0.5 * splatmap_size_meters - uv_offset;
-	splatmap_uv /= splatmap_size_meters;
+	int overlay_value = int(round(texture(splatmap_overlay, splatmap_uv).r * 255.0) + round(texture(splatmap_overlay, splatmap_uv).g * 255.0 * 255.0));
+	int splatmap_value = overlay_value > 0 ? overlay_value : int(round(texture(splatmap, splatmap_uv).r));
 	
-	int splatmap_value = int(round(texture(splatmap, splatmap_uv).r));
+	int distribution_id = int(round(texelFetch(row_ids, ivec2(splatmap_value, 0), 0).r * 255.0));
 	
-	// The row in the spritesheets which corresponds to this splatmap ID
-	float row = -1.0;
-	for (int i = 0; i < 16; i++) {
-		if (splatmap_value == row_ids[i]) {
-			row = float(i);
-			break;
-		}
-	}
-	
-	ACTIVE = !(row < 0.0) &&
+	ACTIVE = !(distribution_id == 0) &&
 			(splatmap_uv.x > 0.0 && splatmap_uv.x < 1.0 &&
 			 splatmap_uv.y > 0.0 && splatmap_uv.y < 1.0);// && is_in_front_of_camera;
 	
-	// Using the row, we can get the ID (the column) of the plant which should be here
-	ivec2 dist_pos = ivec2(int(pos.x / spacing) % DISTRIBUTION_RESOLUTION,
-			int(pos.z / spacing) % DISTRIBUTION_RESOLUTION);
+	vec2 dist_value = texture(distribution_array[distribution_id - 1], pos.xz / spacing).rg;
 	
-	vec2 dist_value = texelFetch(distribution_map, ivec2(0, int(row) * 16) + dist_pos, 0).rg;
-	float dist_id = dist_value.r;
-	
+	float plant_id = dist_value.r;
 	float size_scale = dist_value.g;
 	
 	CUSTOM.r = size_scale; // To be multiplied by the maximum size before use!
-	CUSTOM.g = dist_id; // To be multiplied by 255.0 before use!
-	CUSTOM.b = row / 255.0; // To be multiplied by 255.0 before use!
+	CUSTOM.g = plant_id; // To be multiplied by 255.0 before use!
+	//CUSTOM.b = dist / 255.0; // To be multiplied by 255.0 before use!
 }
