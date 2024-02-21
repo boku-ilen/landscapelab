@@ -12,7 +12,7 @@ var instance_goc
 
 var cluster_size := 8
 var min_cluster_size := 1
-var max_cluster_size := 20
+var max_cluster_size := 40
 var initial_search_radius := 200.0
 var max_search_radius := 5000.0
 var location_feature_instances := {}
