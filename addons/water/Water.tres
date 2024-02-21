@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://0ef35wcbl7v7" path="res://addons/water/textures/water_normal.jpg" id="3_rjt5y"]
 
 [resource]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_ge2g2")
 shader_parameter/size = null
