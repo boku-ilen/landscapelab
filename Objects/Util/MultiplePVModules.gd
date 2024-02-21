@@ -11,30 +11,34 @@ extends Node3D
 @export var rows: int : 
 	set(new_rows): 
 		rows = new_rows
-		create_plants()
 @export var cols: int : 
 	set(new_cols): 
 		cols = new_cols
-		create_plants()
 
 @export var row_spacing: float :
 	set(new_row_spacing):
 		row_spacing = new_row_spacing
-		position_plants()
 @export var col_spacing: float :
 	set(new_col_spacing):
 		col_spacing = new_col_spacing
-		position_plants()
+@export var height: float :
+	set(new_height):
+		height = new_height
+@export var angle_ns := false
 
-@export var mesh := load("res://Objects/PhotovoltaicPlant/GroundMountedPVUnit.tscn")
+@export var mesh := preload("res://Objects/PhotovoltaicPlant/GroundMountedPVUnit.tscn")
 var plant_array: Array
 
 var render_info
 var center
 
 
+func get_pv_children():
+	return get_children().filter(func(object): return object.is_in_group("PV"))
+
+
 func create_plants():
-	for child in get_children(): remove_child(child)
+	for child in get_pv_children(): remove_child(child)
 	plant_array = []
 	
 	# Spawn rows * cols PV modules
@@ -55,6 +59,7 @@ func position_plants():
 		for col in range(-cols / 2, cols / 2 + 1):
 			var node = plant_array[row + rows / 2][col + cols / 2]
 			node.position.x = col * col_spacing
+			node.position.y = height
 			node.position.z = row * row_spacing
 
 
@@ -71,22 +76,23 @@ func _notification(what):
 
 
 func set_child_positions():
-	for child in get_children():
+	for child in get_pv_children():
 		var offset = render_info.ground_height_layer.get_value_at_position(
 				center[0] + (transform.origin.x + child.position.x),
 				center[1] - (transform.origin.z + child.position.z)) - transform.origin.y
 		child.position.y = offset
 		
-		var right_add = 2.0
-		
-		var offset_right = render_info.ground_height_layer.get_value_at_position(
-				center[0] + (transform.origin.x + child.position.x),
-				center[1] - (transform.origin.z + child.position.z - right_add)) - transform.origin.y
-		
-		var difference = offset_right - offset
-		var diagonal_vector = Vector2(right_add, difference)
-		
-		child.rotation.x = diagonal_vector.angle()
+		if (angle_ns):
+			var right_add = 2.0
+			
+			var offset_right = render_info.ground_height_layer.get_value_at_position(
+					center[0] + (transform.origin.x + child.position.x),
+					center[1] - (transform.origin.z + child.position.z - right_add)) - transform.origin.y
+			
+			var difference = offset_right - offset
+			var diagonal_vector = Vector2(right_add, difference)
+			
+			child.rotation.x = diagonal_vector.angle()
 		
 #		var offset_up = ground_height_layer.get_value_at_position(
 #				center[0] + (transform.origin.x + child.position.x + right_add),
