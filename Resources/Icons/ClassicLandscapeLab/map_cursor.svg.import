@@ -16,9 +16,9 @@ dest_files=["res://.godot/imported/map_cursor.svg-d8cf861b21e7e808076fa2a314c37b
 [params]
 
 compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false

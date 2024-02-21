@@ -16,9 +16,9 @@ dest_files=["res://.godot/imported/enercon-green4.jpg-368a1d769f44e186069f0ff351
 [params]
 
 compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false
