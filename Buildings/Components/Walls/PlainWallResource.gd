@@ -7,6 +7,10 @@ class_name PlainWallResource
 @export var middle_texture: TextureBundleRME
 @export var top_texture: TextureBundleRME
 
+@export var ground_window_id := -1
+@export var middle_window_id := -1
+@export var top_window_id := -1
+
 @export var random_colors: Array[Color]
 @export var random_color_weights: Array[float]
 @export_flags("basement", "ground", "middle", "top") var apply_colors

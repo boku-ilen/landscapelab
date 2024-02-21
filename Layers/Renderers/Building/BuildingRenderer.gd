@@ -1,6 +1,6 @@
 extends FeatureLayerCompositionRenderer
 
-@export var check_roof_type := false
+@export var check_roof_type := true
 
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 var flat_roof_scene = preload("res://Buildings/Components/FlatRoofPantelleria.tscn")
@@ -9,9 +9,9 @@ var saddle_roof_scene = preload("res://Buildings/Components/SaddleRoof.tscn")
 
 var wall_resources = [
 	# "apartments": 0
-	preload("res://Resources/Textures/Buildings/PlainWallResources/PanterlleriaHouse.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "house": 1
-	preload("res://Resources/Textures/Buildings/PlainWallResources/BrickHouse.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "shack": 2
 	preload("res://Resources/Textures/Buildings/PlainWallResources/Shack.tres"),
 	# "industrial": 3
@@ -23,9 +23,9 @@ var wall_resources = [
 	# "retail_restaurant": 6
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "historic": 7
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/PanterlleriaHouse.tres"),
 	# "religious": 8
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/PanterlleriaHouse.tres"),
 	# "greenhouse": 9
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "concrete": 10
@@ -202,6 +202,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	# Add an additional height to the cellar which acts as "plinth" scaled with the extent
 	cellar.height += plinth_height_factor * min(20., building_metadata["extent"])
 	cellar.set_wall_texture_index(get_cellar_index.call(building_type_id))
+	
 	# Cellars usually do not have windows
 	cellar.set_window_texture_index(-1)
 	cellar.texture_scale = walls_resource.basement_texture.texture_scale * random_tex_scale
@@ -214,6 +215,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 	num_floors -= 1
 	var ground_floor = walls_scene.instantiate()
 	ground_floor.set_wall_texture_index(get_ground_index.call(building_type_id))
+	ground_floor.set_window_texture_index(walls_resource.ground_window_id)
 	ground_floor.set_color(Color.WHITE_SMOKE)
 	ground_floor.texture_scale = walls_resource.ground_texture.texture_scale * random_tex_scale
 	if walls_resource.apply_colors & flag.ground: 
@@ -226,6 +228,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 		for i in range(num_floors - 1):
 			var walls = walls_scene.instantiate()
 			walls.set_wall_texture_index(get_mid_index.call(building_type_id))
+			walls.set_window_texture_index(walls_resource.middle_window_id)
 			walls.set_color(Color.WHITE_SMOKE)
 			walls.texture_scale = walls_resource.middle_texture.texture_scale * random_tex_scale
 			if walls_resource.apply_colors & flag.mid:
@@ -235,6 +238,7 @@ func prepare_plain_walls(building_type: String, building_metadata: Dictionary,
 		# Add top floor
 		var top_floor = walls_scene.instantiate()
 		top_floor.set_wall_texture_index(get_top_index.call(building_type_id))
+		top_floor.set_window_texture_index(walls_resource.top_window_id)
 		top_floor.set_color(Color.WHITE_SMOKE)
 		top_floor.texture_scale = walls_resource.top_texture.texture_scale * random_tex_scale
 		if walls_resource.apply_colors & flag.top:
