@@ -158,9 +158,11 @@ func override_build(center_x, center_y):
 
 
 func override_apply():
-	rebuild_aabb($Mesh)
-	
 	$Mesh.mesh = mesh_to_apply
+	$Water.mesh = get_node("Mesh").mesh
+	
+	rebuild_aabb($Mesh)
+	rebuild_aabb($Water)
 	
 	scale.x = size / mesh_resolution
 	scale.z = size / mesh_resolution
@@ -176,10 +178,10 @@ func override_apply():
 		
 		$HeightmapCollider/CollisionShape3D.shape = current_heightmap_shape
 		
-		for child in get_children():
-			if child is ExtraLOD:
-				rebuild_aabb(child)
-				child.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)
+		$Water.material_override.set_shader_parameter("heightmap", current_heightmap)
+		$Water.material_override.set_shader_parameter("surface_heightmap", current_surface_heightmap)
+		$Water.material_override.set_shader_parameter("landuse", current_landuse)
+		$Water.material_override.set_shader_parameter("size", size)
 	
 	if current_texture:
 		$Mesh.material_override.set_shader_parameter("orthophoto", current_texture)
