@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bhl8lkgb4i8iu"]
+[gd_scene load_steps=2 format=3 uid="uid://der5fpkyaqxoy"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/Path/Roads/RoadInstance.gd" id="1_cfnoq"]
 
