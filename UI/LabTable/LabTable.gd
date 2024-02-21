@@ -13,7 +13,7 @@ extends Control
 # it is necessary to load the configuration
 @export var debug_mode := false
 
-var current_goc_name = "Wind Farms"
+var current_goc_name = "PV Licht 1"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
@@ -87,7 +87,7 @@ func set_workshop_mode(active: bool):
 		
 		var vector_local = geo_transform.transform_coordinates(vector_3857)
 		
-		var successful_configuration = null
+		var successful_configuration = []
 		if not current_goc_name:
 			game_object_failed.emit(event.position)
 			return
