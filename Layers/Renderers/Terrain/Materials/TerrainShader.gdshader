@@ -10,12 +10,6 @@ uniform sampler2D orthophoto: source_color, repeat_disable;
 uniform sampler2D heightmap: repeat_disable;
 uniform sampler2D normalmap: hint_normal, repeat_disable;
 uniform float height_scale = 1.0;
-uniform bool has_hole = false;
-
-// Surface heights
-uniform bool has_surface_heights = false;
-uniform float surface_heights_start_distance = 800.0;
-uniform sampler2D surface_heightmap: repeat_disable;
 
 // Land use-based detail textures
 uniform sampler2D landuse: repeat_disable, filter_nearest;
@@ -24,24 +18,6 @@ uniform bool has_landuse = false;
 uniform bool use_landuse_overlay = false;
 uniform sampler2D landuse_overlay: repeat_disable, filter_nearest, hint_default_black;
 
-uniform sampler2D offset_noise;
-
-uniform bool uses_detail_textures = false;
-uniform sampler2DArray albedo_tex: source_color;
-uniform sampler2DArray normal_tex: hint_normal;
-
-// See Vegetation.get_metadata_texture for details
-uniform sampler2D metadata;
-
-uniform bool uses_distance_textures = false;
-uniform float distance_tex_switch_distance = 20.0;
-uniform float fade_transition_space = 8.0;
-uniform float ortho_switch_distance = 150.0;
-uniform float ortho_transition_space = 20.0;
-uniform sampler2DArray distance_tex: source_color;
-uniform sampler2DArray distance_normals: hint_normal;
-
-uniform float normal_scale = 1.0;
 uniform float ortho_saturation = 1.2;
 uniform float ortho_blue_shift_factor = 0.9;
 
@@ -55,13 +31,13 @@ varying vec3 world_pos;
 varying float world_distance;
 varying float camera_distance;
 
-uniform bool has_terraforming_texture;
-uniform sampler2D terraforming_texture: repeat_disable, filter_nearest;
-uniform sampler2D terraforming_weights: repeat_disable, filter_nearest;
+//uniform bool has_terraforming_texture;
+//uniform sampler2D terraforming_texture: repeat_disable, filter_nearest;
+//uniform sampler2D terraforming_weights: repeat_disable, filter_nearest;
 
 uniform float texture_thresholds[14];
 uniform sampler2DArray ground_textures: source_color;
-uniform sampler2DArray ground_normals;
+uniform sampler2DArray ground_normals: hint_normal;
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
@@ -238,8 +214,6 @@ void fragment() {
 	
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 	
-	vec3 ortho_color = get_ortho_color(UV);
-	
 	vec3 detail_color = vec3(0.0);
 	vec2 scaled_near_uv = vec2(UV * size / 2.0);
 	
@@ -273,6 +247,7 @@ void fragment() {
 	float splat_id = get_landuse(UV);
 	
 	if (int(splat_id / 1000.0) != 6) {
+		vec3 ortho_color = get_ortho_color(UV);
 		ALBEDO = hue_shift(detail_color, ortho_color, dist_scale);
 	} else {
 		// If we have water here, use only the detail color - the color can be very off otherwise
