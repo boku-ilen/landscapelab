@@ -67,5 +67,6 @@ size = Vector2(2.5, 2)
 
 [node name="Photovoltaik" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.6, 0)
+layers = 16
 material_override = SubResource("StandardMaterial3D_s2k4i")
 mesh = ExtResource("2_r24oi")
