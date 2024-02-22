@@ -38,7 +38,7 @@ func get_pv_children():
 
 
 func create_plants():
-	for child in get_pv_children(): remove_child(child)
+	for child in get_pv_children(): child.free()
 	plant_array = []
 	
 	# Spawn rows * cols PV modules
