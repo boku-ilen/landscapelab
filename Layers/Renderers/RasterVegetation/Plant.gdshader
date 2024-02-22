@@ -80,7 +80,7 @@ void fragment() {
 	vec4 color = texture(texture_map[int(round(dist_id))], UV);
 
 	ALPHA = color.a;
-	ALPHA_SCISSOR_THRESHOLD = 0.75 + dist_alpha * 0.25;
+	ALPHA_SCISSOR_THRESHOLD = 0.7 + dist_alpha * 0.3;
 	
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)

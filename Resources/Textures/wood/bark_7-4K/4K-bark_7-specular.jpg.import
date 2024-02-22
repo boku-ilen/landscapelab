@@ -16,9 +16,9 @@ dest_files=["res://.godot/imported/4K-bark_7-specular.jpg-1820a100091cd11c8b87ef
 [params]
 
 compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false

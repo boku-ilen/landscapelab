@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cqv4mdm0thwg4"]
+[gd_scene load_steps=3 format=3 uid="uid://cqv4mdm0thwg4"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.gd" id="1_xsciu"]
 
 [sub_resource type="Environment" id="Environment_t6cpk"]
 background_mode = 1
 
 [node name="LIDOverlayViewport" type="Node3D"]
+script = ExtResource("1_xsciu")
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
 remote_path = NodePath("../LIDViewport/CameraRoot")
@@ -12,7 +15,7 @@ remote_path = NodePath("../LIDViewport/CameraRoot")
 debug_draw = 1
 positional_shadow_atlas_size = 0
 size = Vector2i(1000, 1000)
-render_target_update_mode = 4
+render_target_update_mode = 1
 
 [node name="CameraRoot" type="Node3D" parent="LIDViewport"]
 

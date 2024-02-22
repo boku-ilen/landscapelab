@@ -193,7 +193,7 @@ func _deserialize_creation_conditions(game_mode: GameMode, conditions: Dictionar
 	for condition_name in conditions:
 		var condition = conditions[condition_name]
 		var condition_object: CreationCondition \
-			= condition_type_to_construction_func[condition["type"]].call(condition_name, condition)
+			= condition_type_to_construction_func[condition["type"]].call(condition_name, condition["data"])
 		
 		for collection_name in condition["for_collections"]:
 			var collection_object = game_mode.game_object_collections[collection_name]

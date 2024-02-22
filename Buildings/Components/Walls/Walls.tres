@@ -96,7 +96,7 @@ void fragment() {
 	albedo_window_tex.a = fract(window_uv.y) < 0.05 ? 0.0 : albedo_window_tex.a;
 	
 	// In case the window_index is -1 we dont want a texture
-	albedo_window_tex.a = window_index == -1. ? 0.0 : albedo_window_tex.a;
+	albedo_window_tex.a = window_index < 0.0 ? 0.0 : albedo_window_tex.a;
 	
 	vec4 albedo_tex = mix(albedo_wall_tex, albedo_window_tex, albedo_window_tex.a);
 	

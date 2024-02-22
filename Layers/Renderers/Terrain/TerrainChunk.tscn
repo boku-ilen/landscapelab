@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://dclm3h0co7lau"]
+[gd_scene load_steps=6 format=3 uid="uid://dclm3h0co7lau"]
 
 [ext_resource type="ArrayMesh" uid="uid://lqw0a5653sxf" path="res://Layers/Renderers/Terrain/lod_mesh_100x100.obj" id="1"]
-[ext_resource type="PackedScene" uid="uid://hls5omqtjkj5" path="res://Layers/Renderers/Terrain/ExtraLOD.tscn" id="2_6w8bm"]
 [ext_resource type="Material" uid="uid://c3mh5p2w5s8g7" path="res://addons/water/Water.tres" id="3_co2jq"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/TerrainChunk.gd" id="3_tgpu3"]
 [ext_resource type="Material" uid="uid://kbnb4iijyt0j" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="4"]
@@ -11,9 +10,10 @@
 [node name="TerrainChunk" type="Node3D"]
 script = ExtResource("3_tgpu3")
 
-[node name="Water" parent="." instance=ExtResource("2_6w8bm")]
+[node name="Water" type="MeshInstance3D" parent="."]
 layers = 32
-material = ExtResource("3_co2jq")
+material_override = ExtResource("3_co2jq")
+cast_shadow = 0
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 material_override = ExtResource("4")

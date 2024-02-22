@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://coygmsbhsiwdg"]
+
+[ext_resource type="Script" path="res://Objects/Util/MultiplePVModules.gd" id="1_w0ybh"]
+[ext_resource type="PackedScene" uid="uid://dhmlmgm0yc278" path="res://Layers/Renderers/LIDOverlay/LIDOverlay.tscn" id="3_qh1ur"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8w30l"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_color = Color(0.247059, 0.109804, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_b3xjg"]
+resource_local_to_scene = true
+size = Vector2(100, 110)
+
+[node name="ModularPVPlant" type="Node3D"]
+script = ExtResource("1_w0ybh")
+rows = 12
+cols = 40
+row_spacing = 8.46
+col_spacing = 2.31
+
+[node name="LIDOverlay" parent="." instance=ExtResource("3_qh1ur")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -100, 0)
+material_override = SubResource("StandardMaterial3D_8w30l")
+mesh = SubResource("PlaneMesh_b3xjg")
+lid = 7203
+size = Vector2(100, 110)

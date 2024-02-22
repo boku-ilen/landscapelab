@@ -120,6 +120,14 @@ func apply_vegetation(vegetation: Node):
 			get_rel_or_abs_path(path, ll_project["Vegetation"]["Densities"]),
 			get_rel_or_abs_path(path, ll_project["Vegetation"]["Textures"])
 		)
+		# Apply HCY shift
+		if "HCYShift" in ll_project["Vegetation"]:
+			RenderingServer.global_shader_parameter_set("HCY_SHIFT", Vector3(
+				ll_project["Vegetation"]["HCYShift"][0],
+				ll_project["Vegetation"]["HCYShift"][1],
+				ll_project["Vegetation"]["HCYShift"][2]
+			))
+		
 		logger.info("Done loading vegetation!")
 
 

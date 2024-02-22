@@ -65,6 +65,20 @@ void vertex() {
 		VERTEX.y = texture(surface_heightmap, UV).r;
 	}
 	
+	bool has_water = false;
+	
+	for (int x = -1; x <= 1; x++) {
+		for (int y = -1; y <= 1; y++) {
+			if (floor(texture(landuse, UV + vec2(float(x), float(y)) / size).r / 1000.0) == 6.0) {
+				has_water = true;
+			}
+		}
+	}
+	
+	if (!has_water) {
+		VERTEX.y = 0.0;
+	}
+	
 	NORMAL = vec3(0.0, 1.0, 0.0);
 	TANGENT = vec3(1.0, 0.0, 0.0);
 	BINORMAL = vec3(0.0, 0.0, 1.0);

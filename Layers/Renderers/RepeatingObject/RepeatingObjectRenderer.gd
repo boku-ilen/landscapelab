@@ -63,7 +63,7 @@ func _load_meshes():
 		var multimesh_instance = MultiMeshInstance3D.new()
 		multimesh_instance.multimesh = MultiMesh.new()
 		multimesh_instance.multimesh.set_transform_format(MultiMesh.TRANSFORM_3D)
-		multimesh_instance.multimesh.mesh = load(layer_composition.render_info.meshes[key])
+		multimesh_instance.multimesh.mesh = load(layer_composition.render_info.meshes[key]["path"])
 		multimesh_instance.set_layer_mask_value(1, false)
 		multimesh_instance.set_layer_mask_value(3, true)
 		multimeshes[key] = multimesh_instance
@@ -141,7 +141,10 @@ func _calculate_intermediate_transforms():
 			end_point = vertices.get_point_position(v_id)
 			
 			var distance = starting_point.distance_to(end_point)
-			var width = layer_composition.render_info.width
+			var attribute_name = layer_composition.render_info.selector_attribute_name
+			var attribute_value = feature.get_attribute(attribute_name) if not layer_composition.render_info.selector_attribute_name.is_empty() else "default"
+			
+			var width = layer_composition.render_info.meshes[attribute_value]["width"]
 			var num_between = ceil(distance / width)
 			var scaled_width = distance / num_between
 			var scale_factor = scaled_width / width
