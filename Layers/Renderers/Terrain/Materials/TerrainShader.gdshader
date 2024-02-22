@@ -63,9 +63,9 @@ uniform float texture_thresholds[14];
 uniform sampler2DArray ground_textures: source_color;
 uniform sampler2DArray ground_normals;
 
-uniform float hue_factor: hint_range(0, 3.14) = 0.4;
-uniform float chroma_factor: hint_range(0.0, 3.0) = 2.0;
-uniform float luminance_factor: hint_range(0.0, 3.0) = 2.0;
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
 
 // From https://www.shadertoy.com/view/mds3R4
 vec4 fractal_texture(sampler2D tex, vec2 uv, float depth) {
@@ -245,10 +245,18 @@ void fragment() {
 	
 	float count = 0.0;
 	
+	vec2 noise = vec2(
+		rand(SCREEN_UV),
+		rand(SCREEN_UV + vec2(0.123, 0.123))
+	);
+	
 	// Get detail texture sample, but blur the position to get nice transitions
-	for (float x_off = -1.0; x_off < 1.0; x_off += 0.5) {
-		for (float y_off = -1.0; y_off < 1.0; y_off += 0.5) {
-			vec2 offset_vector = vec2(x_off / size, y_off / size);
+	for (float x_off = -1.0; x_off <= 1.0; x_off += 0.5) {
+		for (float y_off = -1.0; y_off <= 1.0; y_off += 0.5) {
+			vec2 offset_vector = vec2(x_off, y_off);
+			offset_vector += (noise - vec2(0.5)) * 0.5;
+			offset_vector /= size;
+			
 			float splat_id = get_landuse(UV + offset_vector);
 			
 			int texture_index = int(splat_id / 1000.0) - 1;
