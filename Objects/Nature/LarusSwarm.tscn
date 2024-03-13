@@ -1,0 +1,143 @@
+[gd_scene load_steps=9 format=3 uid="uid://c4pjhwtdd53ry"]
+
+[ext_resource type="Texture2D" uid="uid://bfpnmf8scmtxl" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_BaseColor.png" id="1_cvn1a"]
+[ext_resource type="Texture2D" uid="uid://b8y7jy4pvbo66" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_Normal.png" id="2_3447l"]
+[ext_resource type="Texture2D" uid="uid://bwdho0nlh6k5x" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_Roughness.png" id="3_5jkje"]
+[ext_resource type="ArrayMesh" uid="uid://e15r303680r7" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/larus michahellis.obj" id="4_meeqg"]
+[ext_resource type="Shader" path="res://Objects/Nature/LarusSwarm.gdshader" id="5_h267j"]
+
+[sub_resource type="Shader" id="Shader_eqgj6"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.2.1.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_front,diffuse_burley,specular_schlick_ggx;
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+uniform float point_size : hint_range(0,128);
+uniform float roughness : hint_range(0,1);
+uniform sampler2D texture_metallic : hint_default_white,filter_linear_mipmap,repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r,filter_linear_mipmap,repeat_enable;
+uniform float specular;
+uniform float metallic;
+uniform sampler2D texture_normal : hint_roughness_normal,filter_linear_mipmap,repeat_enable;
+uniform float normal_scale : hint_range(-16,16);
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+
+uniform float time_scale = 15.0;
+uniform float side_to_side = 0.005;
+uniform float pivot = 0.05;
+uniform float wave = 0.05;
+uniform float twist = 1.5;
+
+uniform float mask_black = .2;
+uniform float mask_white = .2;
+
+float rand_from_seed(in uint seed) {
+  int k;
+  int s = int(seed);
+  if (s == 0)
+    s = 305420679;
+  k = s / 127773;
+  s = 16807 * (s - k * 127773) - 2836 * k;
+  if (s < 0)
+    s += 2147483647;
+  seed = uint(s);
+  return float(seed % uint(65536)) / 65535.0;
+}
+
+uint hash(uint x) {
+  x = ((x >> uint(16)) ^ x) * uint(73244475);
+  x = ((x >> uint(16)) ^ x) * uint(73244475);
+  x = (x >> uint(16)) ^ x;
+  return x;
+}
+
+
+void vertex() {
+	float intensity = clamp(max(0.1, cos(TIME * 0.5 + INSTANCE_CUSTOM.x * PI)) + INSTANCE_CUSTOM.y, 0.0, 1.0);
+
+	float time = TIME * time_scale * 0.8;
+	//VERTEX.y += cos(time) * side_to_side * 1.0;
+	
+	float body = (VERTEX.z + 1.0) / 2.0; //for a fish centered at (0, 0) with a length of 2
+	
+	
+	float pivot_angle = cos(time) * 0.5 * pivot * intensity;
+	mat2 rotation_matrix = mat2(vec2(cos(pivot_angle), -sin(pivot_angle)), vec2(sin(pivot_angle), cos(pivot_angle)));
+	VERTEX.yz = rotation_matrix * VERTEX.yz;
+	
+	VERTEX.y += cos(time + body) * wave * intensity;
+	
+	//twist is a uniform float
+	float twist_angle = cos(time) * 0.3 * twist * (VERTEX.x) * float(distance(0, VERTEX.x) > 0.2) * 1.5 * intensity;
+	twist_angle += cos(time - PI / 2.0) * 0.5 * twist * (VERTEX.x) * float(distance(0, VERTEX.x) > 0.4) * 0.5 * intensity;
+	mat2 twist_matrix = mat2(vec2(cos(twist_angle), -sin(twist_angle)), vec2(sin(twist_angle), cos(twist_angle)));
+	VERTEX.xy = twist_matrix * VERTEX.xy;
+}
+
+
+void fragment() {
+	vec2 base_uv = UV;
+	vec4 albedo_tex = texture(texture_albedo,base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
+	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	SPECULAR = specular;
+	NORMAL_MAP = texture(texture_normal,base_uv).rgb;
+	NORMAL_MAP_DEPTH = normal_scale;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8yf68"]
+render_priority = 0
+shader = SubResource("Shader_eqgj6")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/normal_scale = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/time_scale = 15.0
+shader_parameter/side_to_side = 0.005
+shader_parameter/pivot = 0.05
+shader_parameter/wave = 0.05
+shader_parameter/twist = 1.5
+shader_parameter/mask_black = 0.2
+shader_parameter/mask_white = 0.2
+shader_parameter/texture_albedo = ExtResource("1_cvn1a")
+shader_parameter/texture_roughness = ExtResource("3_5jkje")
+shader_parameter/texture_normal = ExtResource("2_3447l")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pnok0"]
+shader = ExtResource("5_h267j")
+shader_parameter/radius = 70.0
+shader_parameter/texture_weight = 40.0
+shader_parameter/random_weight = 30.0
+shader_parameter/total_weight = 20.0
+shader_parameter/time_scale = 0.0
+shader_parameter/y_scatter_factor = 200.0
+
+[node name="LarusSwarm" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+material_override = SubResource("ShaderMaterial_8yf68")
+extra_cull_margin = 500.0
+amount = 100
+lifetime = 1.23123e+11
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ShaderMaterial_pnok0")
+draw_pass_1 = ExtResource("4_meeqg")
