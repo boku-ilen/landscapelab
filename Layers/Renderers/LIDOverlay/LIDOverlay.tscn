@@ -15,6 +15,7 @@ size = Vector2(5, 5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.7, 0)
 layers = 65536
 material_override = SubResource("StandardMaterial3D_bgibe")
+cast_shadow = 0
 mesh = SubResource("PlaneMesh_f8eil")
 skeleton = NodePath("../..")
 script = ExtResource("1_06ls6")
