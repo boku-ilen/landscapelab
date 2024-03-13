@@ -72,6 +72,10 @@ void vertex() {
 }
 
 void fragment() {
+	if (!FRONT_FACING) {
+		NORMAL = -NORMAL;
+	}
+	
 	float blend_start_distance = max_distance - max_distance / 4.0;
 	float dist = length(camera_pos.xz - worldpos.xz);
 
