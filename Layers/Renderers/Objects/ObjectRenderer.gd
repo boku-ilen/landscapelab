@@ -15,6 +15,8 @@ func set_time_manager():
 
 
 func _ready():
+	radius = layer_composition.render_info.radius
+	
 	super._ready()
 
 
@@ -65,6 +67,12 @@ func set_instance_pos(feature, obj_instance):
 	
 	if feature.get_attribute("LL_rot"):
 		obj_instance.rotation.y = deg_to_rad(float(feature.get_attribute("LL_rot")))
+	
+	if feature.get_attribute("LL_scale"):
+		obj_instance.scale = Vector3.ONE * float(feature.get_attribute("LL_scale"))
+	
+	if feature.get_attribute("LL_h_off"):
+		obj_instance.transform.origin.y += float(feature.get_attribute("LL_h_off"))
 
 
 func get_debug_info() -> String:
