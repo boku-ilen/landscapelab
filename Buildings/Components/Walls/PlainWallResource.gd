@@ -17,6 +17,8 @@ class_name PlainWallResource
 # Wether to draw the vertices in clock- or counterclock-wise fashion
 @export_flags("basement", "ground", "middle", "top") var wind_counterclockwise
 
+@export var prefer_pointed_roof := true
+
 
 func _init():
 	call_deferred("ready")
