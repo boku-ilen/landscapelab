@@ -9,6 +9,11 @@ uniform float total_weight = 20.0;
 uniform float time_scale = 2.0;
 uniform float y_scatter_factor = 200.0;
 
+uniform float max_velocity = 10.0;
+uniform float random_direction_weight = 1.0;
+uniform float center_pull_weight = 0.01;
+uniform float y_center_pull_weight = 10.0;
+
 float rand_from_seed(in uint seed) {
   int k;
   int s = int(seed);
@@ -77,13 +82,13 @@ void process() {
 	                     rand_from_seed(alt_seed4) * 2.0 - 1.0);
 	
 	vec3 to_center = EMISSION_TRANSFORM[3].xyz - TRANSFORM[3].xyz;
-	to_center.y *= 20.0; // birds want to get to their default altitude much more than they want to get to the center
+	to_center.y *= y_center_pull_weight; // birds want to get to their default altitude much more than they want to get to the center
 	
-	vec3 velocity_addition = addition * 2.0 * DELTA + to_center * 0.03 * rand_from_seed(alt_seed1) * DELTA;
+	vec3 velocity_addition = addition * random_direction_weight * DELTA + to_center * center_pull_weight * rand_from_seed(alt_seed1) * DELTA;
 
 	VELOCITY += velocity_addition;
 	
-	VELOCITY = clamp(VELOCITY, vec3(-20.0, -10.0, -20.0), vec3(20.0, 10.0, 20.0));
+	VELOCITY = clamp(VELOCITY, vec3(-max_velocity, -max_velocity / 2.0, -max_velocity), vec3(max_velocity, max_velocity / 2.0, max_velocity));
 	
 	TRANSFORM[2].xyz = -normalize(VELOCITY);
 	TRANSFORM[0].xyz = -normalize(cross(vec3(0.0, 1.0, 0.0), TRANSFORM[2].xyz));
