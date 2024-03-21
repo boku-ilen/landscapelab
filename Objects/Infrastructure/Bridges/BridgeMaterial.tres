@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://dp34iegq57bpy"]
+
+[ext_resource type="Texture2D" uid="uid://dx2onrs2mkhuf" path="res://Resources/Meshes/_NEW assets/brücken/brücke AB/materials/bruecke_AB_BaseColor.png" id="1_eva4j"]
+[ext_resource type="Texture2D" uid="uid://ha0pce1c20nj" path="res://Resources/Meshes/_NEW assets/brücken/brücke AB/materials/bruecke_AB_Normal.png" id="2_3bcc2"]
+[ext_resource type="Texture2D" uid="uid://dwf5hwksivbqr" path="res://Resources/Meshes/_NEW assets/brücken/brücke AB/materials/bruecke_AB_Roughness.png" id="3_g3irc"]
+
+[resource]
+albedo_texture = ExtResource("1_eva4j")
+roughness_texture = ExtResource("3_g3irc")
+normal_enabled = true
+normal_texture = ExtResource("2_3bcc2")
