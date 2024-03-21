@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://brl0uh3shfchd"]
+
+[ext_resource type="PackedScene" uid="uid://cnvfal7al6up4" path="res://Objects/Nature/SwarmParticles.tscn" id="1_svn11"]
+[ext_resource type="Texture2D" uid="uid://pfcao2tjgxe" path="res://Resources/Meshes/_NEW assets/argynnis paphia/materials/argynnis base color.png" id="2_0aml0"]
+[ext_resource type="Shader" path="res://Objects/Nature/LarusSwarm.gdshader" id="2_frxu0"]
+[ext_resource type="ArrayMesh" uid="uid://bxdf4ypkb2gfi" path="res://Resources/Meshes/_NEW assets/argynnis paphia/argynnis paphia.obj" id="3_l0gow"]
+
+[sub_resource type="Shader" id="Shader_ih0b5"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.2.1.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_disabled,diffuse_burley,specular_schlick_ggx;
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+uniform float point_size : hint_range(0,128);
+uniform float roughness : hint_range(0,1);
+uniform sampler2D texture_metallic : hint_default_white,filter_linear_mipmap,repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r,filter_linear_mipmap,repeat_enable;
+uniform float specular;
+uniform float metallic;
+uniform vec4 backlight : source_color;
+uniform sampler2D texture_backlight : hint_default_black,filter_linear_mipmap,repeat_enable;
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+
+void vertex() {
+	UV=UV*uv1_scale.xy+uv1_offset.xy;
+	
+	VERTEX.y += abs(VERTEX.x) * cos(TIME * 30.0 + INSTANCE_CUSTOM.x * PI * 2.0) * 1.0;
+	VERTEX.y -= cos(TIME * 30.0 + INSTANCE_CUSTOM.x * PI * 2.0) * 1.0 * 0.007;
+}
+
+
+void fragment() {
+	vec2 base_uv = UV;
+	vec4 albedo_tex = texture(texture_albedo,base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
+	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	SPECULAR = specular;
+	vec3 backlight_tex = texture(texture_backlight,base_uv).rgb;
+	BACKLIGHT = (backlight.rgb+backlight_tex);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kf46k"]
+render_priority = 0
+shader = SubResource("Shader_ih0b5")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/backlight = Color(0.533333, 0.533333, 0.533333, 1)
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/texture_albedo = ExtResource("2_0aml0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_krruj"]
+shader = ExtResource("2_frxu0")
+shader_parameter/radius = 1.0
+shader_parameter/texture_weight = 4.0
+shader_parameter/random_weight = 1.0
+shader_parameter/total_weight = 2.0
+shader_parameter/time_scale = 0.0
+shader_parameter/y_scatter_factor = 200.0
+shader_parameter/max_velocity = 0.2
+shader_parameter/random_direction_weight = 1.0
+shader_parameter/center_pull_weight = 1.0
+shader_parameter/y_center_pull_weight = 5.0
+shader_parameter/change_pitch = false
+
+[node name="ArgynnisSwarm" type="Node3D"]
+
+[node name="SwarmParticles" parent="." instance=ExtResource("1_svn11")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("ShaderMaterial_kf46k")
+extra_cull_margin = 0.0
+emitting = true
+amount = 10
+process_material = SubResource("ShaderMaterial_krruj")
+draw_pass_1 = ExtResource("3_l0gow")

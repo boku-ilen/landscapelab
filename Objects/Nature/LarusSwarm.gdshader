@@ -14,6 +14,8 @@ uniform float random_direction_weight = 1.0;
 uniform float center_pull_weight = 0.01;
 uniform float y_center_pull_weight = 10.0;
 
+uniform bool change_pitch = true;
+
 float rand_from_seed(in uint seed) {
   int k;
   int s = int(seed);
@@ -54,23 +56,11 @@ void start() {
 
 	addition.y *= 0.5;
 	
-	VELOCITY = addition * 10.0;
+	//VELOCITY = addition * 10.0;
 }
 
 void process() {
 	CUSTOM.z += DELTA;
-	
-	vec3 texture_coords = TRANSFORM[3].xyz;
-	texture_coords.xyz -= EMISSION_TRANSFORM[3].xyz;
-	
-	vec2 texture_uv = ((texture_coords + vec3(radius)) / (radius * 2.0)).xz;
-	
-	// TODO: If texture_uv is larger than 1 or smaller than 0, increase the texture weight so that
-	// the particles tend towards staying in the texture
-	
-	COLOR = vec4(texture_uv, 0.0, 1.0) * 1.0;
-	
-	vec3 texture_sample = texture(directions, texture_uv).xyz - vec3(0.5);
 	
 	uint alt_seed1 = hash(NUMBER + uint(1) + RANDOM_SEED + uint(TIME * 0.1 + rand_from_seed(hash(INDEX)) * PI));
 	uint alt_seed2 = hash(NUMBER + uint(27) + RANDOM_SEED + uint(TIME * time_scale));
@@ -90,9 +80,9 @@ void process() {
 	
 	VELOCITY = clamp(VELOCITY, vec3(-max_velocity, -max_velocity / 2.0, -max_velocity), vec3(max_velocity, max_velocity / 2.0, max_velocity));
 	
-	TRANSFORM[2].xyz = -normalize(VELOCITY);
-	TRANSFORM[0].xyz = -normalize(cross(vec3(0.0, 1.0, 0.0), TRANSFORM[2].xyz));
-	TRANSFORM[1].xyz = cross(TRANSFORM[0].xyz, TRANSFORM[2].xyz);
+	TRANSFORM[2].xyz = change_pitch ? -normalize(VELOCITY) : -normalize(vec3(VELOCITY.x, 0.0, VELOCITY.z));
+	TRANSFORM[0].xyz = normalize(cross(vec3(0.0, 1.0, 0.0), TRANSFORM[2].xyz));
+	TRANSFORM[1].xyz = -cross(TRANSFORM[0].xyz, TRANSFORM[2].xyz);
 	
 	CUSTOM.y = VELOCITY.y;
 }
