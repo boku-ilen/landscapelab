@@ -9,7 +9,7 @@ func _ready():
 func apply_current_time():
 	var time = Time.get_datetime_dict_from_system(true)
 	
-	logger.info(time)
+	logger.info(str(time))
 	
 	get_node("../Date/Year").value = time["year"]
 	get_node("../Date/Month").value = time["month"]

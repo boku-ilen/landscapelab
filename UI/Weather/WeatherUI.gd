@@ -4,6 +4,7 @@ extends VBoxContainer
 var weather_manager: WeatherManager : 
 	set(manager):
 		weather_manager = manager
+		$LiveWeatherButton/LiveWeatherService.weather_manager = weather_manager
 		_on_preconfiguration_selected(0)
 
 
