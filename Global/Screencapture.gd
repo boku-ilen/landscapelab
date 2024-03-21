@@ -18,8 +18,8 @@ func screenshot(
 					image_name := "photo-%s-%s.png" % \
 						[Time.get_datetime_string_from_system(),
 						pos_manager.get_center_node_world_position()],
-					upscale_viewport := 1.5,
-					plant_extent := 5,
+					upscale_viewport := 2.0,
+					plant_extent := 30,
 					name_extension := ""
 				):
 	if image_name == null or image_name == "": 
