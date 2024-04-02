@@ -1,0 +1,6 @@
+var1: 19cm
+var2: 19cm
+var3: 13cm
+var4: 10cm
+var5: 9cm
+var6: 14cm
