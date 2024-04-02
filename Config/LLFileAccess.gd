@@ -103,9 +103,17 @@ func save():
 
 
 func apply(vegetation: Node, layers: Node, scenarios: Node, game_system: Node):
+	apply_meta(layers)
 	apply_vegetation(vegetation)
 	apply_layers(layers)
 	apply_scenarios(scenarios)
+
+
+func apply_meta(layers: Node):
+	var ll_project = json_object.data
+	
+	if "Meta" in ll_project:
+		if "crs" in ll_project["Meta"]: layers.crs = ll_project["Meta"]["crs"]
 
 
 func apply_vegetation(vegetation: Node):
