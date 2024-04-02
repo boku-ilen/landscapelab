@@ -19,5 +19,6 @@ normal_texture = ExtResource("2_sth1x")
 [node name="Phoenix" type="Node3D"]
 
 [node name="PhoenixCanariensis" type="MeshInstance3D" parent="."]
+layers = 4
 material_override = SubResource("StandardMaterial3D_4k8r5")
 mesh = ExtResource("4_l02sd")
