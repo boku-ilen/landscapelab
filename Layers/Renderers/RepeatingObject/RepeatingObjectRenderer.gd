@@ -143,7 +143,7 @@ func _calculate_intermediate_transforms():
 			var length = vertices.get_baked_length()
 			
 			var height_at_first = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + first_point.x, center[1] - first_point.z)
-			var height_at_last = layer_composition.render_info.ground_height_layert.get_value_at_position(center[0] + last_point.x, center[1] - last_point.z)
+			var height_at_last = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + last_point.x, center[1] - last_point.z)
 			
 			get_ground_height_at_pos = func(position_x, position_z):
 				var lerp_factor = first_point.distance_to(Vector3(position_x - center[0], 0.0, -position_z + center[1])) / length
