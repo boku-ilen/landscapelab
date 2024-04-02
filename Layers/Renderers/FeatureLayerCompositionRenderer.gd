@@ -97,6 +97,8 @@ func apply_new_data():
 
 
 func refine_load():
+	super.refine_load()
+	
 	if features_to_add.size() > 0:
 		var feature = features_to_add.pop_front()
 		instances[feature.get_id()] = load_feature_instance(feature)
