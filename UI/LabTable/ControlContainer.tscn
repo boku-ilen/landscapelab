@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://d25827kd1r2xd"]
 
 [ext_resource type="Script" path="res://UI/LabTable/ControlContainer.gd" id="1_7nxly"]
-[ext_resource type="PackedScene" uid="uid://mkaw0si7x87" path="res://UI/Layers/GeoLayers/ZoomContainer.tscn" id="1_pndxl"]
+[ext_resource type="PackedScene" uid="uid://qg0hrece07vm" path="res://UI/Layers/GeoLayers/ZoomContainer.tscn" id="1_pndxl"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="2_r33nv"]
 [ext_resource type="Texture2D" uid="uid://bmgbr6ijkdvs2" path="res://Resources/Icons/ModernLandscapeLab/arrow_down.svg" id="3_6xhmk"]
 [ext_resource type="Texture2D" uid="uid://c3kuxlnuadbrl" path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" id="3_g1m1p"]
@@ -99,7 +99,7 @@ stretch = true
 transparent_bg = true
 handle_input_locally = false
 canvas_cull_mask = 4294967294
-size = Vector2i(300, 300)
+size = Vector2i(337, 306)
 render_target_update_mode = 4
 
 [node name="OverviewRenderer" parent="OverviewContainer/SubViewport" instance=ExtResource("9_yl31i")]
