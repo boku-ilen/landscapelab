@@ -72,6 +72,7 @@ void vertex() {
 }
 
 void fragment() {
+	// See https://github.com/godotengine/godot/issues/42411
 	if (!FRONT_FACING) {
 		NORMAL = -NORMAL;
 	}

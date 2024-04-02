@@ -4,8 +4,6 @@ extends LayerCompositionRenderer
 var renderers
 var offset = Vector3.ZERO
 
-var needs_to_refine = false
-
 
 var weather_manager: WeatherManager :
 	get:
@@ -68,16 +66,6 @@ func adapt_load(_diff: Vector3):
 	call_deferred("apply_new_data")
 
 
-func refine_load():
-	if not needs_to_refine: return
-	
-	super.refine_load()
-	
-
-	
-	needs_to_refine = false
-
-
 func _process(delta):
 	super._process(delta)
 	
@@ -106,18 +94,9 @@ func _process(delta):
 		renderer.restart()
 
 
-func apply_textures():
-	for renderer in renderers.get_children():
-		renderer.apply_textures()
-	
-	needs_to_refine = true
-	
-	logger.info("Applied new RasterVegetationRenderer textures for %s" % [name])
-
-
 func apply_new_data():
 	for renderer in renderers.get_children():
-		renderer.apply_data()
+		renderer.apply_textures()
 	
 	logger.info("Applied full new RasterVegetationRenderer data for %s" % [name])
 
