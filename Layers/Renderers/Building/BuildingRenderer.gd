@@ -23,13 +23,17 @@ var wall_resources = [
 	# "retail_restaurant": 6
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "historic": 7
-	preload("res://Resources/Textures/Buildings/PlainWallResources/PanterlleriaHouse.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/BrickHouse.tres"),
 	# "religious": 8
-	preload("res://Resources/Textures/Buildings/PlainWallResources/PanterlleriaHouse.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/BrickHouse.tres"),
 	# "greenhouse": 9
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "concrete": 10
 	preload("res://Resources/Textures/Buildings/PlainWallResources/Concrete.tres"),
+	# "stone": 11
+	preload("res://Resources/Textures/Buildings/PlainWallResources/BrickHouse.tres"),
+	# "mediterranean": 12
+	preload("res://Resources/Textures/Buildings/PlainWallResources/PanterlleriaHouse.tres"),
 ]
 
 var window_bundles = [
@@ -103,6 +107,12 @@ func load_feature_instance(feature):
 	else:
 		prepare_pillars(building_metadata, building, num_floors)
 	
+	# FIXME: Code duplicaiton from prepare_plain_walls
+	var building_type_id = int(building_type) \
+		if building_type != "" and int(building_type) in range(0, wall_resources.size()) \
+		else fallback_wall_id
+	var walls_resource: PlainWallResource = wall_resources[building_type_id]
+	
 	# Add the roof
 	if layer_composition.render_info is LayerComposition.BuildingRenderInfo:
 		var slope = feature.get_attribute(layer_composition.render_info.slope_attribute_name)
@@ -110,7 +120,7 @@ func load_feature_instance(feature):
 		
 		var can_build_roof := false
 		
-		if check_roof_type:
+		if check_roof_type and walls_resource.prefer_pointed_roof:
 			if feature.get_outer_vertices().size() == 5:
 				roof = saddle_roof_scene.instantiate()
 				roof.set_metadata(building_metadata)

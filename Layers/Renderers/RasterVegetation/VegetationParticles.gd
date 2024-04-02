@@ -40,8 +40,6 @@ var time_passed = 0
 var previous_origin
 
 # Data
-var id_row_array
-var distribution_tex
 var heightmap
 var splatmap
 var uv_offset_x := 0.0
@@ -52,6 +50,14 @@ var last_load_pos = Vector3.ZERO
 func _ready():
 	self.camera_facing_enabled = camera_facing_enabled
 	Vegetation.connect("new_plant_extent_factor",Callable(self,"update_rows_spacing"))
+	
+	# Set static shader variables
+	process_material.set_shader_parameter("row_ids", Vegetation.row_ids)
+	process_material.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[density_class.id])
+	
+	material_override.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
+	
+	set_rows_spacing_in_shader()
 
 
 # Set the internal rows and spacing variables based checked the density_class and the given extent_factor.
@@ -68,6 +74,15 @@ func update_rows_spacing(extent_factor):
 	
 	$LIDOverlayViewport/LIDViewport/CameraRoot/LIDCamera.size = get_map_size()
 	process_material.set_shader_parameter("splatmap_overlay", $LIDOverlayViewport/LIDViewport.get_texture())
+
+
+func set_rows_spacing_in_shader():
+	var size = Vector2(get_map_size(), get_map_size())
+	process_material.set_shader_parameter("heightmap_size", size)
+	material_override.set_shader_parameter("heightmap_size", size)
+	
+	process_material.set_shader_parameter("splatmap_size_meters", size.x)
+	process_material.set_shader_parameter("dist_scale", 1.0 / spacing)
 
 
 func set_mesh(new_mesh):
@@ -92,6 +107,8 @@ func set_rows(new_rows):
 	if process_material:
 		process_material.set_shader_parameter("rows", rows)
 		material_override.set_shader_parameter("max_distance", rows * spacing / 2.0)
+		
+		set_rows_spacing_in_shader()
 
 
 func set_spacing(new_spacing):
@@ -100,6 +117,8 @@ func set_spacing(new_spacing):
 	if process_material:
 		process_material.set_shader_parameter("spacing", spacing)
 		material_override.set_shader_parameter("max_distance", rows * spacing / 2.0)
+		
+		set_rows_spacing_in_shader()
 
 
 # Return the size of the loaded GeoImage, which is at least as large as rows * spacing.
@@ -109,8 +128,6 @@ func get_map_size():
 
 func complete_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y, clamped_pos_x, clamped_pos_y):
 	var splat = texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y, clamped_pos_x, clamped_pos_y)
-	
-	update_textures_with_images(splat.get_most_common(32))
 
 
 func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, new_uv_offset_y, clamped_pos_x, clamped_pos_y):
@@ -150,47 +167,6 @@ func apply_textures():
 	process_material.set_shader_parameter("splatmap", splatmap)
 	process_material.set_shader_parameter("heightmap", heightmap)
 	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, -uv_offset_y))
-
-
-# Directly update the vegetation data with given ImageTextures. Can be used e.g. for testing with
-#  artificially created data. Is also called internally when `update_textures` is used.
-# Should be called in a thread to avoid stalling the main thread.
-func update_textures_with_images(ids):
-	# Load the groups for these IDs and filter them by the given density class
-	#var groups = Vegetation.get_group_array_for_ids(ids)
-	#var filtered_groups = Vegetation.filter_group_array_by_density_class(groups, density_class)
-	#var distribution_sheet = Vegetation.get_distribution_sheet(filtered_groups, density_class)
-	
-	# All spritesheets are organized like this:
-	# The rows correspond to land-use values
-	# The columns correspond to distribution values
-	
-	#id_row_array = Vegetation.get_id_row_array(Vegetation.get_id_array_for_groups(filtered_groups))
-	pass
-	#distribution_tex = ImageTexture.create_from_image(distribution_sheet) #,ImageTexture.FLAG_REPEAT
-
-
-# Apply data which has previously been loaded with `update_textures`.
-# Should not be called from a thread.
-func apply_data():
-	apply_textures()
-	
-	process_material.set_shader_parameter("row_ids", Vegetation.row_ids)
-	process_material.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[density_class.id])
-	process_material.set_shader_parameter("splatmap_size_meters", get_map_size())
-	process_material.set_shader_parameter("dist_scale", 1.0 / spacing)
-	
-	material_override.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
-	
-	var size = Vector2(get_map_size(), get_map_size())
-	process_material.set_shader_parameter("heightmap_size", size)
-	material_override.set_shader_parameter("heightmap_size", size)
-	
-	material_override.set_shader_parameter("offset", Vector2(0, 0))
-	
-	## Row crops
-	#if density_class.id == 6:
-		#process_material.set_shader_parameter("row_spacing", 2.0)
 
 
 func apply_wind_speed(wind_speed):

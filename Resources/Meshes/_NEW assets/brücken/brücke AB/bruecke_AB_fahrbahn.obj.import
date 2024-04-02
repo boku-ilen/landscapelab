@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://3skvl68mx7j1"
+path="res://.godot/imported/bruecke_AB_fahrbahn.obj-3f2db15a4f3abd6c683de5564d8e8e80.mesh"
+
+[deps]
+
+files=["res://.godot/imported/bruecke_AB_fahrbahn.obj-3f2db15a4f3abd6c683de5564d8e8e80.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/brücken/brücke AB/bruecke_AB_fahrbahn.obj"
+dest_files=["res://.godot/imported/bruecke_AB_fahrbahn.obj-3f2db15a4f3abd6c683de5564d8e8e80.mesh", "res://.godot/imported/bruecke_AB_fahrbahn.obj-3f2db15a4f3abd6c683de5564d8e8e80.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

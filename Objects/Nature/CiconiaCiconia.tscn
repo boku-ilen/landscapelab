@@ -1,0 +1,25 @@
+[gd_scene load_steps=7 format=3 uid="uid://cw016r36dbftd"]
+
+[ext_resource type="Script" path="res://Objects/Nature/CiconiaCiconia.gd" id="1_e5v8p"]
+[ext_resource type="Texture2D" uid="uid://b0al0g1738lbw" path="res://Resources/Meshes/_NEW assets/fauna/cicogna cicogna/materials/cicogna cicogna_BaseColor.png" id="2_w7jrg"]
+[ext_resource type="Texture2D" uid="uid://bjprgqwxa0681" path="res://Resources/Meshes/_NEW assets/fauna/cicogna cicogna/materials/cicogna cicogna_Normal.png" id="3_twehx"]
+[ext_resource type="Texture2D" uid="uid://b1o8qlrqf26hq" path="res://Resources/Meshes/_NEW assets/fauna/cicogna cicogna/materials/cicogna cicogna_Roughness.png" id="4_l7ciu"]
+[ext_resource type="ArrayMesh" uid="uid://duy75ywod7ihc" path="res://Resources/Meshes/_NEW assets/fauna/cicogna cicogna/cicogna cicogna.obj" id="5_01pll"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nfivg"]
+albedo_texture = ExtResource("2_w7jrg")
+roughness_texture = ExtResource("4_l7ciu")
+normal_enabled = true
+normal_texture = ExtResource("3_twehx")
+
+[node name="CiconiaCiconia" type="Node3D"]
+script = ExtResource("1_e5v8p")
+rotation_speed = 0.2
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="CicognaCicogna" type="MeshInstance3D" parent="Pivot"]
+transform = Transform3D(0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0, 0, 1, -20, 0, 0)
+material_override = SubResource("StandardMaterial3D_nfivg")
+mesh = ExtResource("5_01pll")
+skeleton = NodePath("../..")

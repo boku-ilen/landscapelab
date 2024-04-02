@@ -355,7 +355,7 @@ snapping_grid={
 }
 screenshot={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194324,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 3D_primary_action={
@@ -403,6 +403,7 @@ screenshot={
 3d_render/layer_10="3D VR"
 3d_render/layer_11="3D no VR"
 3d_render/layer_16="3D Terrain Overlay"
+3d_render/layer_17="LID"
 3d_physics/layer_20="MouseCollision"
 
 [locale]

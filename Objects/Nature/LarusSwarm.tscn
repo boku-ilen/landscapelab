@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4pjhwtdd53ry"]
+
+[ext_resource type="PackedScene" uid="uid://cnvfal7al6up4" path="res://Objects/Nature/SwarmParticles.tscn" id="1_07nhj"]
+
+[node name="LarusSwarm" type="Node3D"]
+
+[node name="SwarmParticles" parent="." instance=ExtResource("1_07nhj")]
+emitting = true

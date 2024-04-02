@@ -72,6 +72,11 @@ void vertex() {
 }
 
 void fragment() {
+	// See https://github.com/godotengine/godot/issues/42411
+	if (!FRONT_FACING) {
+		NORMAL = -NORMAL;
+	}
+	
 	float blend_start_distance = max_distance - max_distance / 4.0;
 	float dist = length(camera_pos.xz - worldpos.xz);
 

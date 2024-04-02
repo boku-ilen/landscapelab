@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://q77j1fxub5du"]
+
+[ext_resource type="ArrayMesh" uid="uid://dgpxosfv4n7mw" path="res://Objects/Nature/FigCactus.tres" id="1_4g7kp"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="FigCactus" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+mesh = ExtResource("1_4g7kp")

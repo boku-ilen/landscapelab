@@ -18,9 +18,15 @@ class_name FeatureLayerCompositionRenderer
 
 # Define variables for loading features
 var mutex = Mutex.new()
+
 var features := []
+
 var remove_features := []
 var load_features := []
+
+var features_to_add := []
+var features_to_remove := []
+
 var instances := {}
 @export var radius := 6000.0
 @export var max_features := 2000
@@ -71,6 +77,8 @@ func adapt_load(_diff: Vector3):
 		instances[feature.get_id()] = load_feature_instance(feature)
 	mutex.unlock()
 	
+	layer_composition.render_info.geo_feature_layer.clear_cache()
+	
 	call_deferred("apply_new_data")
 
 
@@ -88,23 +96,26 @@ func apply_new_data():
 	logger.info("Applied new feature data for %s" % [name])
 
 
+func refine_load():
+	super.refine_load()
+	
+	if features_to_add.size() > 0:
+		var feature = features_to_add.pop_front()
+		instances[feature.get_id()] = load_feature_instance(feature)
+		features.append(feature)
+		apply_feature_instance.call_deferred(feature)
+	
+	if features_to_remove.size() > 0:
+		var feature = features_to_remove.pop_front()
+		remove_feature.call_deferred(feature.get_id())
+
+
 func _on_feature_added(feature: GeoFeature):
-	if loading_thread.is_started() and not loading_thread.is_alive():
-		loading_thread.wait_to_finish()
-	
-	# Load the feature instance in a thread
-	loading_thread.start(load_feature_instance.bind(feature))
-	instances[feature.get_id()] = loading_thread.wait_to_finish()
-	features.append(feature)
-	
-	apply_feature_instance(feature)
+	features_to_add.push_back(feature)
 
 
 func _on_feature_removed(feature: GeoFeature):
-	if loading_thread.is_started() and not loading_thread.is_alive():
-		loading_thread.wait_to_finish()
-	
-	remove_feature(feature.get_id())
+	features_to_remove.push_back(feature)
 
 
 # Might be necessary to be overwritten by inherited class

@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkvdbwaqhrbnn"]
+[gd_scene load_steps=5 format=3 uid="uid://dkvdbwaqhrbnn"]
 
 [ext_resource type="Script" path="res://UI/Weather/WeatherUI.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://evcqemueid18" path="res://UI/CustomElements/SlideAndSpin.tscn" id="2"]
+[ext_resource type="Script" path="res://UI/Weather/LiveWeatherButton.gd" id="3_sk3p0"]
+[ext_resource type="PackedScene" uid="uid://byeo11my44w8v" path="res://World/LiveWeatherService.tscn" id="4_3u5su"]
 
 [node name="WeatherUI" type="VBoxContainer"]
 offset_right = 40.0
@@ -130,3 +132,10 @@ label = "Rotation Degrees"
 max_value = 360.0
 step = 1.0
 value = 0.0
+
+[node name="LiveWeatherButton" type="Button" parent="."]
+layout_mode = 2
+text = "Apply current weather"
+script = ExtResource("3_sk3p0")
+
+[node name="LiveWeatherService" parent="LiveWeatherButton" instance=ExtResource("4_3u5su")]

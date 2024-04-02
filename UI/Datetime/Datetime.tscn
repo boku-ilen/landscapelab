@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cckl23qaxw3h8"]
+[gd_scene load_steps=3 format=3 uid="uid://cckl23qaxw3h8"]
 
 [ext_resource type="Script" path="res://UI/Datetime/Datetime.gd" id="1"]
+[ext_resource type="Script" path="res://UI/Datetime/CurrentTimeButton.gd" id="2_x1knw"]
 
 [node name="Datetime" type="VBoxContainer"]
 offset_right = 698.0
@@ -70,3 +71,8 @@ value = 5.0
 [node name="MinuteAddButton" type="Button" parent="Time"]
 layout_mode = 2
 text = "+ 10 Minutes"
+
+[node name="CurrentTimeButton" type="Button" parent="."]
+layout_mode = 2
+text = "Apply current time"
+script = ExtResource("2_x1knw")

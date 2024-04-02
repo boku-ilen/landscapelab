@@ -187,6 +187,7 @@ class ObjectRenderInfo extends RenderInfo:
 	var object: String
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
+	var radius: float = 20000
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn")
@@ -275,6 +276,7 @@ class ConnectedObjectInfo extends RenderInfo:
 class RepeatingObjectInfo extends RenderInfo:
 	var width: float
 	var radius: float
+	var height_gradient := false
 	var random_angle: bool
 	var selector_attribute_name: String
 	var meshes: Dictionary

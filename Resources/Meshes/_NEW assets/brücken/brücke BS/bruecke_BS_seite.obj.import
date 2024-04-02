@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://r4x4kfvyjkiv"
+path="res://.godot/imported/bruecke_BS_seite.obj-f906cd77004ea5c1e90c94b9fd04a4b2.mesh"
+
+[deps]
+
+files=["res://.godot/imported/bruecke_BS_seite.obj-f906cd77004ea5c1e90c94b9fd04a4b2.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/brücken/brücke BS/bruecke_BS_seite.obj"
+dest_files=["res://.godot/imported/bruecke_BS_seite.obj-f906cd77004ea5c1e90c94b9fd04a4b2.mesh", "res://.godot/imported/bruecke_BS_seite.obj-f906cd77004ea5c1e90c94b9fd04a4b2.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -27,6 +27,8 @@ var directions = {
 var is_smooth_camera := false
 var current_mouse_velocity := Vector2.ZERO
 
+var geo_transform := GeoTransform.new()
+
 @onready var action_handler = $ActionHandler
 @onready var camera = $Head/Camera3D
 
@@ -215,6 +217,12 @@ func fly(delta):
 
 func get_world_position():
 	return position_manager.to_world_coordinates(position)
+
+
+func get_lat_lon():
+	# TODO: Do this only once
+	geo_transform.set_transform(Layers.crs, 4326)
+	return geo_transform.transform_coordinates(get_world_position())
 
 
 func set_world_position(world_position):

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://crdt3rgca6836"
+path="res://.godot/imported/zaun var6.obj-95017f5f9a5884d341bfb2944a2770af.mesh"
+
+[deps]
+
+files=["res://.godot/imported/zaun var6.obj-95017f5f9a5884d341bfb2944a2770af.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/zaun-vorher/zaun var6.obj"
+dest_files=["res://.godot/imported/zaun var6.obj-95017f5f9a5884d341bfb2944a2770af.mesh", "res://.godot/imported/zaun var6.obj-95017f5f9a5884d341bfb2944a2770af.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

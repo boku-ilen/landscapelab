@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bv4fbqk07t06q"
+path="res://.godot/imported/bruecke_AB_pfeiler.obj-0a3a8f2012c2d06ea42f41cd280e5b79.mesh"
+
+[deps]
+
+files=["res://.godot/imported/bruecke_AB_pfeiler.obj-0a3a8f2012c2d06ea42f41cd280e5b79.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/brücken/brücke AB/bruecke_AB_pfeiler.obj"
+dest_files=["res://.godot/imported/bruecke_AB_pfeiler.obj-0a3a8f2012c2d06ea42f41cd280e5b79.mesh", "res://.godot/imported/bruecke_AB_pfeiler.obj-0a3a8f2012c2d06ea42f41cd280e5b79.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
