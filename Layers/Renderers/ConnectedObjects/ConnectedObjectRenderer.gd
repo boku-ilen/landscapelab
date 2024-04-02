@@ -156,6 +156,8 @@ func refine_load():
 	
 	connection_mutex.lock()
 	for geo_line in local_features:
+		if not local_connectors.has(geo_line.get_id()): continue
+		
 		var specific_connectors: Node3D = local_connectors[geo_line.get_id()]
 		
 		var connector_scene: PackedScene = _get_scene_for_feature(geo_line, false)
