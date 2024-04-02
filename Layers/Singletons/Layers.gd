@@ -1,5 +1,6 @@
 extends Node
 
+var crs
 var current_center := Vector3.ZERO
 var geo_layers: Dictionary = { "rasters": {}, "features": {}}
 var layer_compositions: Dictionary
