@@ -17,3 +17,4 @@ random_colors = Array[Color]([Color(0.411765, 0.411765, 0.411765, 1), Color(0.87
 random_color_weights = Array[float]([0.25, 0.25, 0.25, 0.25])
 apply_colors = 14
 wind_counterclockwise = null
+prefer_pointed_roof = false
