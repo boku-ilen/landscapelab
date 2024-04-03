@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=19 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
+[ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_l77mt"]
 [ext_resource type="PackedScene" uid="uid://b614v82srw120" path="res://UI/Layers/GeoLayers/GeoLayerSubViewport.tscn" id="2_opmh5"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/Cursor2D.gd" id="4_12y64"]
@@ -33,7 +34,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource("8_2ddb4")
+theme = ExtResource("1_hpyhd")
 script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
@@ -79,7 +80,6 @@ cursor_path = NodePath("../SubViewport/Cursor2D")
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
-theme = ExtResource("8_2ddb4")
 theme_override_styles/panel = SubResource("StyleBoxFlat_ha2ys")
 
 [node name="ControlContainer" parent="LabTable/SubViewportContainer/PanelContainer" node_paths=PackedStringArray("camera_2d") instance=ExtResource("4_d680t")]
