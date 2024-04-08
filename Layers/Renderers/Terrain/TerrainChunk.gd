@@ -106,9 +106,9 @@ func override_build(center_x, center_y):
 	var sample_rate = size / mesh_resolution
 	
 	var current_height_image = height_layer.get_image(
-		top_left_x - sample_rate / 2.0,
-		top_left_y + sample_rate / 2.0,
-		size + sample_rate,
+		top_left_x,
+		top_left_y,
+		size,
 		mesh_resolution + 1,
 		0
 	)

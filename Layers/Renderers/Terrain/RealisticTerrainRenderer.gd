@@ -54,6 +54,7 @@ func custom_chunk_setup(chunk):
 
 func _ready():
 	_setup_ground_textures()
+	$DetailMesh.material_override = shader_material.duplicate()
 	
 	super._ready()
 

@@ -39,6 +39,9 @@ uniform float texture_thresholds[14];
 uniform sampler2DArray ground_textures: source_color;
 uniform sampler2DArray ground_normals: hint_normal;
 
+uniform bool make_hole = true;
+uniform sampler2D detail_noise;
+
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
 }
@@ -134,6 +137,12 @@ vec3 get_normal(vec2 normal_uv_pos) {
 	return normalize(long_normal);
 }
 
+float get_landuse(vec2 uv) {
+	float overlay = use_landuse_overlay ? round(texture(landuse_overlay, uv).r * 255.0) + round(texture(landuse_overlay, uv).g * 255.0 * 255.0) : 0.0;
+	
+	return overlay > 0.0 ? overlay : texture(landuse, uv).r;
+}
+
 void vertex() {
 	// Hide transition with a "skirt": outermost row of vertices is moved down to create a wall that fills holes
 	if (UV.x < -0.1 || UV.x > 1.1 || UV.y < -0.1 || UV.y > 1.1) {
@@ -146,7 +155,31 @@ void vertex() {
 	world_distance = length(world_pos.xz);
 	
 	camera_pos = INV_VIEW_MATRIX[3].xyz;
-	camera_distance = length(world_pos - camera_pos);
+	vec3 camera_to_world = world_pos - camera_pos;
+	camera_distance = length(camera_to_world);
+	
+	float max_distance = max(abs(camera_to_world.x), abs(camera_to_world.z));
+	if (make_hole && max_distance < 47.0) {
+		VERTEX.y -= 10.0;
+	}
+	
+	if (!make_hole) {
+		// This is the detail mesh
+		float splat_id = get_landuse(UV);
+		int texture_index = int(splat_id / 1000.0) - 1;
+		
+		vec2 scaled_near_uv = world_pos.xz / 2.0;
+		
+		float normal_y = fractal_texture_array(ground_normals, vec3(scaled_near_uv, float(texture_index)), camera_distance).b;
+		
+		// Attempt to scale this normal to about +- 0.025
+		normal_y = (normal_y - 0.95) * 0.5;
+		
+		// TODO: Add a way to scale this contribution, particularly the second line
+		//  e.g. to remove it on streets - perhaps metadata per texture_index
+		VERTEX.y += normal_y;
+		VERTEX.y += (texture(detail_noise, scaled_near_uv / 20.0).r - 0.5) * 0.5;
+	}
 	
 //	if (has_surface_heights) {
 //		float surface_height_factor = float(world_distance > surface_heights_start_distance);
@@ -203,19 +236,13 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 	return HCYtoRGB(detail_hcy);
 }
 
-float get_landuse(vec2 uv) {
-	float overlay = use_landuse_overlay ? round(texture(landuse_overlay, uv).r * 255.0) + round(texture(landuse_overlay, uv).g * 255.0 * 255.0) : 0.0;
-	
-	return overlay > 0.0 ? overlay : texture(landuse, uv).r;
-}
-
 void fragment() {
 	float depth = FRAGCOORD.z / FRAGCOORD.w;
 	
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 	
 	vec3 detail_color = vec3(0.0);
-	vec2 scaled_near_uv = vec2(UV * size / 2.0);
+	vec2 scaled_near_uv = world_pos.xz / 2.0;
 	
 	float count = 0.0;
 	
@@ -247,7 +274,7 @@ void fragment() {
 	float splat_id = get_landuse(UV);
 	
 	if (int(splat_id / 1000.0) != 6) {
-		vec3 ortho_color = get_ortho_color(UV);
+		vec3 ortho_color = texture(orthophoto, UV).rgb;
 		ALBEDO = hue_shift(detail_color, ortho_color, dist_scale);
 	} else {
 		// If we have water here, use only the detail color - the color can be very off otherwise
