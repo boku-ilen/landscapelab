@@ -13,7 +13,7 @@ extends Control
 # it is necessary to load the configuration
 @export var debug_mode := false
 
-var current_goc_name = "PV Licht 1"
+var current_goc_name = "Wind Farms"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")

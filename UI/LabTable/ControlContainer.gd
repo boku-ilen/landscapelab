@@ -40,7 +40,9 @@ signal recenter(center)
 func _ready():
 	visibility_button.toggled.connect(func(toggled):
 		for control in [zoom_container, grid_container, subviewport_container]:
-			control.visible = !toggled)
+			control.visible = !toggled
+		visibility_button.texture_name = "m_open" if toggled else "m_close"
+	)
 	overview_camera.recenter.connect(func(center): recenter.emit(center))
 
 
