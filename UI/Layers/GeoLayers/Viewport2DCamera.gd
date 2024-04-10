@@ -8,6 +8,7 @@ var mouse_start_pos
 var screen_start_position
 
 var dragging = false
+var dont_handle_next_release = false
 var zoom_action_counter = 0
 # Time to wait between scrolls before loading new data
 var zoom_reload_delay = 0.15
@@ -34,7 +35,7 @@ func set_offset_and_emit(_offset: Vector2):
 	position_before = position
 
 
-func input(event: InputEvent):
+func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.is_pressed():
@@ -47,6 +48,11 @@ func input(event: InputEvent):
 				if position != position_before:
 					offset_changed.emit(position - position_before, get_viewport_rect().size, zoom)
 					position_before = position
+				else:
+					if dont_handle_next_release:
+						dont_handle_next_release = false
+					elif has_node("ActionHandler"):
+						$ActionHandler.handle(event)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.is_pressed():
 			do_zoom(1, get_viewport().get_mouse_position())
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.is_pressed():

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b16b82ghd76q4"]
+
+[ext_resource type="Script" path="res://Layers/Renderers/GeoLayer/FeatureMarker.gd" id="1_6mxl7"]
+[ext_resource type="PackedScene" uid="uid://dsajvfxo8bdwx" path="res://GameSystem/GameObjectConfiguration.tscn" id="3_jcjmp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gv7kl"]
+radius = 150.0
+
+[node name="FeatureMarker" type="Sprite2D"]
+script = ExtResource("1_6mxl7")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_gv7kl")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="GameObjectConfiguration" parent="UI" instance=ExtResource("3_jcjmp")]
+visible = false
+offset_bottom = 52.0

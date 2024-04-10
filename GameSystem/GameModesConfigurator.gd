@@ -59,7 +59,7 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 	for collection_name in game_object_collections:
 		var collection = game_object_collections[collection_name]
 		var layer_name = collection["layer_name"]
-		var layer: RefCounted = Layers.get_geo_layer_by_name(layer_name)
+		var layer = Layers.layer_compositions[layer_name].render_info.geo_feature_layer
 		
 		var collection_object: GameObjectCollection
 		

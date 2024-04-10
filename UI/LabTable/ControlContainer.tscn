@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c80mmsavbpqyk" path="res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn" id="9_yl31i"]
 [ext_resource type="Script" path="res://UI/LabTable/OverviewCamera.gd" id="10_ksdla"]
 
-[node name="ControlContainer" type="VBoxContainer" node_paths=PackedStringArray("overview_camera", "visibility_button", "zoom_container", "grid_container", "subviewport_container", "left", "right", "up", "down")]
+[node name="ControlContainer" type="VBoxContainer" node_paths=PackedStringArray("overview_camera", "visibility_button", "zoom_container", "grid_container", "subviewport_container", "left", "right", "up", "down", "center")]
 offset_right = 337.0
 offset_bottom = 616.0
 script = ExtResource("1_7nxly")
@@ -25,6 +25,7 @@ left = NodePath("GridContainer/Left")
 right = NodePath("GridContainer/Right")
 up = NodePath("GridContainer/Up")
 down = NodePath("GridContainer/Down")
+center = NodePath("GridContainer/Center")
 
 [node name="Padding" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 20)

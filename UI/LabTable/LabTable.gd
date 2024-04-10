@@ -70,7 +70,7 @@ func _ready():
 
 
 func set_workshop_mode(active: bool): 
-	var action_handler = $SubViewportContainer/ActionHandler
+	var action_handler = $SubViewportContainer/SubViewport/Camera2D/ActionHandler
 	if not active: 
 		action_handler.current_action = null
 		return
@@ -103,40 +103,17 @@ func set_workshop_mode(active: bool):
 			
 			var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
 			
-			# Let user configure the GoC via a popup if any change is allowed
-			var is_any_change_allowed = collection.attributes.values().any(
-				func(attrib): return attrib.allow_change)
-			
-			if is_any_change_allowed or collection is GameObjectClusterCollection:
-				var goc_popup = goc_configuration_popup.instantiate()
-				goc_popup.name = "GOCPopup"
-				
-				if has_node("GOCPopup"): get_node("GOCPopup").free()
-				
-				add_child(goc_popup)
-				
-				if "cluster_size" in collection:
-					goc_popup.add_configuration_option(
-						"cluster_size", 
-						collection, 
-						collection.min_cluster_size, 
-						collection.max_cluster_size)
-				
-				for attribute: GameObjectAttribute in collection.attributes.values():
-					if attribute.allow_change:
-						goc_popup.add_configuration_option(
-							attribute.name, attribute, attribute.min, attribute.max)
-				
-				goc_popup.popup(Rect2(event.global_position, goc_popup.size))
-				successful_configuration = await goc_popup.closed
-				if successful_configuration is bool and successful_configuration == false: return
-			
 			var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
-			for option in successful_configuration:
-				new_game_object.set_attribute(option, successful_configuration[option]["val"])
 			
 			if new_game_object:
 				game_object_created.emit(event.position)
+				var renderer
+				for child in $SubViewportContainer/SubViewport/GeoLayerRenderers.get_children():
+					if "geo_feature_layer" in child and child.geo_feature_layer.get_file_info()["name"] == collection.feature_layer.get_file_info()["name"]:
+						renderer = child
+				var is_any_change_allowed = collection.attributes.values().any(func(attrib): return attrib.allow_change)
+				if is_any_change_allowed:
+					renderer.newest_feature = new_game_object.geo_feature
 			else:
 				game_object_failed.emit(event.position)
 	

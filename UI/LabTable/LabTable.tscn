@@ -3,11 +3,12 @@
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_l77mt"]
-[ext_resource type="PackedScene" uid="uid://b614v82srw120" path="res://UI/Layers/GeoLayers/GeoLayerSubViewport.tscn" id="2_opmh5"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/Cursor2D.gd" id="4_12y64"]
 [ext_resource type="PackedScene" uid="uid://d25827kd1r2xd" path="res://UI/LabTable/ControlContainer.tscn" id="4_d680t"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Viewport2DCamera.gd" id="4_klb3k"]
 [ext_resource type="Script" path="res://Editing/ActionHandler.gd" id="4_nsdnx"]
 [ext_resource type="Texture2D" uid="uid://bci3mglgy7h5k" path="res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg" id="4_yl3ng"]
+[ext_resource type="PackedScene" uid="uid://dn25tsa6f10jw" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.tscn" id="5_c4s8q"]
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="8_2ddb4"]
 [ext_resource type="PackedScene" uid="uid://vmfgu2mvoju5" path="res://UI/LabTable/LabTableCommunicator.tscn" id="10_wqhkf"]
 [ext_resource type="Script" path="res://UI/LabTable/ScoreUI.gd" id="13_a5rra"]
@@ -17,10 +18,6 @@
 [ext_resource type="Script" path="res://UI/LabTable/LabTableMarkers.gd" id="15_j8x0r"]
 [ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="17_aru4m"]
 [ext_resource type="Script" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
-
-[sub_resource type="Environment" id="Environment_hsxo3"]
-background_mode = 1
-background_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
@@ -53,14 +50,33 @@ focus_mode = 0
 stretch = true
 script = ExtResource("1_l77mt")
 
-[node name="SubViewport" parent="LabTable/SubViewportContainer" instance=ExtResource("2_opmh5")]
+[node name="SubViewport" type="SubViewport" parent="LabTable/SubViewportContainer"]
+disable_3d = true
+handle_input_locally = false
+physics_object_picking = true
+physics_object_picking_sort = true
 canvas_cull_mask = 4294967293
 size = Vector2i(1606, 900)
+size_2d_override_stretch = true
+render_target_update_mode = 4
 
-[node name="Camera2D" parent="LabTable/SubViewportContainer/SubViewport" index="0"]
+[node name="Camera2D" type="Camera2D" parent="LabTable/SubViewportContainer/SubViewport"]
+ignore_rotation = false
 zoom = Vector2(0.1, 0.1)
+limit_left = -1000000000
+limit_top = -1000000000
+limit_right = 1000000000
+limit_bottom = 1000000000
+position_smoothing_speed = 30.0
+script = ExtResource("4_klb3k")
 
-[node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" index="1" node_paths=PackedStringArray("camera")]
+[node name="ActionHandler" type="Node" parent="LabTable/SubViewportContainer/SubViewport/Camera2D"]
+script = ExtResource("4_nsdnx")
+perspective_prefix = "2D"
+cursor_path = NodePath("../../Cursor2D")
+
+[node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera") instance=ExtResource("5_c4s8q")]
+visibility_layer = 3
 camera = NodePath("../Camera2D")
 
 [node name="Cursor2D" type="Sprite2D" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d")]
@@ -76,14 +92,6 @@ offset_top = 10.0
 offset_right = 50.0
 offset_bottom = 36.0
 text = "test"
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="LabTable/SubViewportContainer/SubViewport"]
-environment = SubResource("Environment_hsxo3")
-
-[node name="ActionHandler" type="Node" parent="LabTable/SubViewportContainer"]
-script = ExtResource("4_nsdnx")
-perspective_prefix = "2D"
-cursor_path = NodePath("../SubViewport/Cursor2D")
 
 [node name="PanelContainer" type="PanelContainer" parent="LabTable/SubViewportContainer"]
 layout_mode = 2
@@ -134,6 +142,7 @@ top_level = true
 layout_direction = 3
 layout_mode = 2
 size_flags_horizontal = 8
+mouse_filter = 1
 
 [node name="ScoreUI" type="VBoxContainer" parent="LabTable/ScoresContainer"]
 layout_mode = 2
@@ -149,6 +158,9 @@ script = ExtResource("15_j8x0r")
 [node name="LabTableConfigurator" parent="LabTable" instance=ExtResource("15_esmpk")]
 
 [node name="GameModesConfigurator" parent="LabTable" instance=ExtResource("17_aru4m")]
+
+[node name="CenterContainer" type="CenterContainer" parent="LabTable"]
+layout_mode = 2
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 3
@@ -220,6 +232,5 @@ theme = ExtResource("8_2ddb4")
 text = "Next Game Mode"
 script = ExtResource("20_12202")
 
-[editable path="LabTable/SubViewportContainer/SubViewport"]
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
 [editable path="Panel/CenterContainer/ScoreContributorWeightSlider"]

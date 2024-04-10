@@ -119,6 +119,15 @@ func create_game_object_for_geo_feature(game_object_class, geo_feature, collecti
 	return game_object
 
 
+func get_game_object_for_geo_feature(geo_feature):
+	# FIXME: Implement properly
+	for go in _game_objects.values():
+		if go is GeoGameObject:
+			if "get_vector3" in go.geo_feature:
+				if go.geo_feature.get_vector3() == geo_feature.get_vector3():
+					return go
+
+
 func apply_game_object_removal(collection_name, game_object_id):
 	var collection = current_game_mode.game_object_collections[collection_name]
 	collection.game_objects.erase(game_object_id)

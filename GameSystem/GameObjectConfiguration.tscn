@@ -10,7 +10,6 @@ bg_color = Color(0.831373, 0.831373, 0.831373, 1)
 top_level = true
 offset_right = 156.0
 offset_bottom = 43.0
-mouse_filter = 1
 theme = ExtResource("1_ohjqa")
 script = ExtResource("1_rpnwg")
 panel_style = SubResource("StyleBoxFlat_ua3n4")

@@ -59,12 +59,28 @@ func _add_game_object(feature):
 	feature_id_to_game_object[feature.get_id()] = game_object_for_feature
 	
 	feature.connect("feature_changed",Callable(self,"_on_feature_changed").bind(feature))
+	game_object_for_feature.cluster_size_changed.connect(func(new_cluster_size):
+		cluster_size = new_cluster_size
+		_on_feature_changed(feature)
+	)
 	
 	emit_signal("game_object_added", game_object_for_feature)
 	emit_signal("changed")
 
 
 func _on_feature_changed(feature):
+	# Remove previous
+	if feature.get_id() in location_feature_instances:
+		var corresponding_game_object
+		
+		for game_object in game_objects.values():
+			if game_object.geo_feature.get_id() == feature.get_id():
+				corresponding_game_object = game_object
+		
+		for feature_instance in location_feature_instances[feature.get_id()]:
+			used_locations.erase(feature_instance.get_vector3())
+			instance_goc.feature_layer.remove_feature(feature_instance)
+	
 	# Activate locations
 	var feature_position = feature.get_vector3()
 	

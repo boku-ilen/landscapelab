@@ -7,15 +7,21 @@ var geo_feature_layer: GeoFeatureLayer
 var current_features: Array
 var renderers: Node2D
 
+var newest_feature = null
+
 var icon
 var icon_scale = 0.1
 
+signal popup_clicked
+
 var point_func = func(feature: GeoPoint): 
 	var p = feature.get_vector3()
-	var marker = Sprite2D.new()
+	var marker = preload("res://Layers/Renderers/GeoLayer/FeatureMarker.tscn").instantiate()
 	marker.set_texture(icon)
 	marker.set_position(global_vector3_to_local_vector2(p))
 	marker.set_scale(Vector2.ONE * icon_scale / zoom)
+	marker.feature = feature
+	marker.popup_clicked.connect(func(): popup_clicked.emit())
 	return marker
 
 var line_func = func(feature: GeoLine):
@@ -78,6 +84,12 @@ func apply_new_data():
 		feature_vis.queue_free()
 	
 	add_child(renderers)
+	
+	if newest_feature:
+		for visualizer in renderers.get_children():
+			if visualizer.feature.get_vector3() == newest_feature.get_vector3():
+				visualizer.popup()
+		newest_feature = null
 
 
 # Currently all features are always deleted and loaded new

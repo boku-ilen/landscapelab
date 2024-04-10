@@ -27,15 +27,17 @@ func _init(initial_name, initial_feature_layer):
 	feature_layer.connect("feature_removed",Callable(self,"_remove_game_object"))
 
 
-func remove_nearby_game_objects(position, radius):
-	var features = feature_layer.get_features_near_position(
+func get_nearby_game_objects(position, radius):
+	return feature_layer.get_features_near_position(
 		position.x,
 		position.z,
 		radius,
 		10000
 	)
-	
-	for feature in features:
+
+
+func remove_nearby_game_objects(position, radius):
+	for feature in get_nearby_game_objects(position, radius):
 		feature_layer.remove_feature(feature)
 
 

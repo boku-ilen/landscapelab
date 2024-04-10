@@ -6,6 +6,8 @@ extends PanelContainer
 
 signal closed(successful: bool)
 
+signal attribute_changed(reference, option_name, value)
+
 var name_to_ref_ui := {}
 
 var edge_buffer = 50
@@ -43,9 +45,26 @@ func add_configuration_option(option_name, reference, min=null, max=null):
 	
 	name_to_ref_ui[option_name] = {"ref": reference, "ui": slider}
 	
+	slider.value_changed.connect(func(new_value):
+		attribute_changed.emit(reference, option_name, new_value)
+	)
+	
 	vbox.add_child(label)
 	vbox.add_child(slider)
 	$Entries/Attributes.add_child(vbox)
+
+
+func add_attribute_information(attribute_name, attribute_value):
+	var hbox = HBoxContainer.new()
+	var label1 = Label.new()
+	var label2 = Label.new()
+	
+	label1.text = attribute_name
+	label2.text = attribute_value
+	
+	hbox.add_child(label1)
+	hbox.add_child(label2)
+	$Entries/Attributes.add_child(hbox)
 
 
 func _on_any_button(confirmed := false):
@@ -54,7 +73,6 @@ func _on_any_button(confirmed := false):
 		queue_free()
 		return
 	
-	# 
 	for option_name in name_to_ref_ui.keys():
 		var ref = name_to_ref_ui[option_name]["ref"]
 		var ui = name_to_ref_ui[option_name]["ui"]
