@@ -4,13 +4,19 @@ extends PanelContainer
 # Necessary while https://github.com/godotengine/godot/issues/86712 is not resolved
 @export var panel_style: StyleBoxFlat
 
-signal closed(successful: bool)
+@export var wait_time_before_close := 2.0
+
+signal opened
+signal closed
+signal delete
 
 signal attribute_changed(reference, option_name, value)
 
 var name_to_ref_ui := {}
 
 var edge_buffer = 50
+
+var input_since_close_pressed := false
 
 
 func popup(rect: Rect2):
@@ -21,12 +27,52 @@ func popup(rect: Rect2):
 		position.x += get_viewport_rect().size.x - position.x - size.x - edge_buffer
 	if position.y + size.y + edge_buffer > get_viewport_rect().size.y:
 		position.y += get_viewport_rect().size.y - position.y - size.y - edge_buffer
+	
+	opened.emit()
+
+
+func close():
+	visible = false
+	closed.emit()
 
 
 func _ready():
 	add_theme_stylebox_override("panel", panel_style)
-	$Entries/Buttons/OKButton.pressed.connect(_on_any_button.bind(true))
-	$Entries/Buttons/CancelButton.pressed.connect(_on_any_button.bind(false))
+	
+	$BrickSpace/Area2D.input_event.connect(_on_brick_space_input_event)
+	$DeleteSpace/Area2D.input_event.connect(_on_delete_space_input_event)
+	
+	attribute_changed.connect(_on_attribute_changed)
+
+
+# When an attribute is changed, remember this in order to interrupt the popup from closing 
+func _on_attribute_changed(reference, option_name, value):
+	input_since_close_pressed = true
+
+
+func _on_brick_space_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton:
+		viewport.set_input_as_handled()
+		
+		if event.pressed:
+			if event.button_index == MOUSE_BUTTON_RIGHT:
+				# Wait for a few seconds in case new input comes
+				input_since_close_pressed = false
+				await get_tree().create_timer(wait_time_before_close).timeout
+				if not input_since_close_pressed:
+					close()
+			elif event.button_index == MOUSE_BUTTON_MASK_LEFT:
+				# On left click (new brick placed), close immediately
+				get_parent().get_parent().popup_clicked.emit()  # FIXME: unclean
+				close()
+
+
+func _on_delete_space_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton:
+		viewport.set_input_as_handled()
+		
+		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			delete.emit()
 
 
 func add_configuration_option(option_name, reference, min=null, max=null):
@@ -67,24 +113,6 @@ func add_attribute_information(attribute_name, attribute_value):
 	$Entries/Attributes.add_child(hbox)
 
 
-func _on_any_button(confirmed := false):
-	if not confirmed:
-		closed.emit(false)
-		queue_free()
-		return
-	
-	for option_name in name_to_ref_ui.keys():
-		var ref = name_to_ref_ui[option_name]["ref"]
-		var ui = name_to_ref_ui[option_name]["ui"]
-		
-		# In some cases it might be necessary to set a property of 
-		# a reference that is not an attribute (i.e. cluster size of a goc)
-		# Otherwise store the attribute value in the mapping and emit it with the signal
-		if not ref is GameObjectAttribute:
-			ref.set(option_name, ui.value)
-			name_to_ref_ui.erase(option_name)
-		else:
-			name_to_ref_ui[option_name]["val"] = var_to_str(ui.value)
-	
-	closed.emit(name_to_ref_ui)
-	queue_free()
+func clear_attributes():
+	for child in $Entries/Attributes.get_children():
+		child.free()

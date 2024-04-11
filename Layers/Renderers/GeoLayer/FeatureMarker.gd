@@ -2,6 +2,7 @@ extends Sprite2D
 
 
 var feature
+var layer: GeoFeatureLayer
 
 signal popup_clicked
 
@@ -10,18 +11,35 @@ signal popup_clicked
 func _ready():
 	$Area2D.input_event.connect(on_input_event)
 	$UI/GameObjectConfiguration.attribute_changed.connect(_on_attribute_changed)
+	$UI/GameObjectConfiguration.opened.connect(_on_config_opened)
+	$UI/GameObjectConfiguration.closed.connect(_on_config_closed)
+	$UI/GameObjectConfiguration.delete.connect(_on_delete_pressed)
 
 
 func _on_attribute_changed(reference, option_name, value):
-	print(reference, option_name, value)
-	
 	if option_name == "cluster_size":
 		reference.change_cluster_size(value)
 	else:
 		reference.set(option_name, value)
 
 
+# When the pop-up is opened, disable the interaction Area2D to prevent conflicts
+func _on_config_opened():
+	$Area2D.process_mode = Node.PROCESS_MODE_DISABLED
+
+
+func _on_config_closed():
+	$Area2D.process_mode = Node.PROCESS_MODE_INHERIT
+
+
+func _on_delete_pressed():
+	popup_clicked.emit()
+	layer.remove_feature(feature)
+
+
 func popup():
+	$UI/GameObjectConfiguration.clear_attributes()
+	
 	var go = GameSystem.get_game_object_for_geo_feature(feature)
 	var attributes = go.get_attributes()
 	
@@ -44,9 +62,8 @@ func popup():
 
 func on_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
-		viewport.set_input_as_handled()
-		
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			viewport.set_input_as_handled()
 			popup()
 			popup_clicked.emit()
 

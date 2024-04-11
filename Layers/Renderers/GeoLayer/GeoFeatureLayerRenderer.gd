@@ -21,6 +21,7 @@ var point_func = func(feature: GeoPoint):
 	marker.set_position(global_vector3_to_local_vector2(p))
 	marker.set_scale(Vector2.ONE * icon_scale / zoom)
 	marker.feature = feature
+	marker.layer = geo_feature_layer
 	marker.popup_clicked.connect(func(): popup_clicked.emit())
 	return marker
 

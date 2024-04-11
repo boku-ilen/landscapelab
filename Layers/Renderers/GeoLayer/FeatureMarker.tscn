@@ -10,6 +10,7 @@ radius = 150.0
 script = ExtResource("1_6mxl7")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_priority = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_gv7kl")

@@ -9,6 +9,5 @@ func _ready():
 	
 	$SubViewport/GeoLayerRenderers.popup_clicked.connect(
 		func():
-			print("wont handle outermost")
 			$SubViewport/Camera2D.dont_handle_next_release = true
 	)
