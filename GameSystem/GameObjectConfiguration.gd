@@ -4,7 +4,8 @@ extends PanelContainer
 # Necessary while https://github.com/godotengine/godot/issues/86712 is not resolved
 @export var panel_style: StyleBoxFlat
 
-@export var wait_time_before_close := 3.0
+@export var wait_time_before_close := 2.0
+@export var grace_period_before_close := 2.0
 
 @export var marker_distance := 90.0
 
@@ -18,7 +19,7 @@ var name_to_ref_ui := {}
 
 var edge_buffer = 50
 
-var input_since_close_pressed := false
+var last_input_time := 0
 
 
 func popup(rect: Rect2):
@@ -56,7 +57,6 @@ func popup(rect: Rect2):
 
 func close():
 	visible = false
-	input_since_close_pressed = false
 	closed.emit()
 
 
@@ -68,41 +68,27 @@ func _ready():
 
 # When an attribute is changed, remember this in order to interrupt the popup from closing 
 func _on_attribute_changed(reference, option_name, value):
-	input_since_close_pressed = true
+	last_input_time = Time.get_ticks_msec()
 
 
 func _input(event):
 	if not is_visible_in_tree(): return
 	
-	if event is InputEventMouseButton:
-		if $BrickSpace.get_rect().has_point($BrickSpace.to_local(event.position)):
-			_on_brick_space_input_event(get_viewport(), event, 0)
-		elif $DeleteSpace.get_rect().has_point($DeleteSpace.to_local(event.position)):
-			_on_delete_space_input_event(get_viewport(), event, 0)
-
-
-func _on_brick_space_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton:
-		viewport.set_input_as_handled()
+	if event is InputEventMouseButton and not event.pressed:
+		get_viewport().set_input_as_handled()
 		
-		if not event.pressed:
-			if event.button_index == MOUSE_BUTTON_RIGHT:
-				# Wait for a few seconds in case new input comes
-				await get_tree().create_timer(wait_time_before_close).timeout
-				if not input_since_close_pressed:
-					close()
-			elif event.button_index == MOUSE_BUTTON_MASK_LEFT:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			# Wait for a few seconds in case new input comes
+			await get_tree().create_timer(wait_time_before_close).timeout
+			if last_input_time < Time.get_ticks_msec() - grace_period_before_close * 1000.0 - wait_time_before_close * 1000.0:
+				close()
+		else:
+			if $BrickSpace.get_rect().has_point($BrickSpace.to_local(event.position)):
 				# On left click (new brick placed), close immediately
 				get_parent().get_parent().popup_clicked.emit()  # FIXME: unclean
 				close()
-
-
-func _on_delete_space_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton:
-		viewport.set_input_as_handled()
-		
-		if not event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			delete.emit()
+			elif $DeleteSpace.get_rect().has_point($DeleteSpace.to_local(event.position)):
+				delete.emit()
 
 
 func add_configuration_option(option_name, reference, min=null, max=null):
