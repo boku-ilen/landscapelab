@@ -75,9 +75,9 @@ func _input(event):
 	if not is_visible_in_tree(): return
 	
 	if event is InputEventMouseButton and not event.pressed:
-		get_viewport().set_input_as_handled()
-		
 		if event.button_index == MOUSE_BUTTON_RIGHT:
+			get_viewport().set_input_as_handled()
+			
 			# Wait for a few seconds in case new input comes
 			await get_tree().create_timer(wait_time_before_close).timeout
 			if last_input_time < Time.get_ticks_msec() - grace_period_before_close * 1000.0 - wait_time_before_close * 1000.0:
@@ -85,9 +85,11 @@ func _input(event):
 		else:
 			if $BrickSpace.get_rect().has_point($BrickSpace.to_local(event.position)):
 				# On left click (new brick placed), close immediately
+				get_viewport().set_input_as_handled()
 				get_parent().get_parent().popup_clicked.emit()  # FIXME: unclean
 				close()
 			elif $DeleteSpace.get_rect().has_point($DeleteSpace.to_local(event.position)):
+				get_viewport().set_input_as_handled()
 				delete.emit()
 
 
