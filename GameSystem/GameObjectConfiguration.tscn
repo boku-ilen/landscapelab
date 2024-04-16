@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dsajvfxo8bdwx"]
+[gd_scene load_steps=6 format=3 uid="uid://dsajvfxo8bdwx"]
 
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1_ohjqa"]
 [ext_resource type="Script" path="res://GameSystem/GameObjectConfiguration.gd" id="1_rpnwg"]
@@ -7,9 +7,6 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ua3n4"]
 bg_color = Color(0.831373, 0.831373, 0.831373, 1)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_x0tqe"]
-radius = 40.0
 
 [node name="GameObjectConfiguration" type="PanelContainer"]
 top_level = true
@@ -22,31 +19,22 @@ panel_style = SubResource("StyleBoxFlat_ua3n4")
 [node name="BrickSpace" type="Sprite2D" parent="."]
 texture = ExtResource("3_xwldb")
 
-[node name="Area2D" type="Area2D" parent="BrickSpace"]
-z_index = 1
-priority = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BrickSpace/Area2D"]
-shape = SubResource("CircleShape2D_x0tqe")
-
 [node name="DeleteSpace" type="Sprite2D" parent="."]
 position = Vector2(90, 0)
 texture = ExtResource("4_8412a")
 
-[node name="Area2D" type="Area2D" parent="DeleteSpace"]
-z_index = 1
-priority = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DeleteSpace/Area2D"]
-shape = SubResource("CircleShape2D_x0tqe")
-
 [node name="Entries" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Spacer" type="HBoxContainer" parent="Entries"]
+[node name="SpacerTop" type="HBoxContainer" parent="Entries"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 alignment = 2
 
 [node name="Attributes" type="VBoxContainer" parent="Entries"]
 layout_mode = 2
+
+[node name="SpacerBottom" type="HBoxContainer" parent="Entries"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+alignment = 2

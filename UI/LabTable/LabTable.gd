@@ -42,10 +42,10 @@ func _ready():
 		geo_layers.geo_transform = inv_geo_transform
 	)
 	
-	$LabTableConfigurator.new_layer.connect(func(layer_name, layer_icon, icon_scale, l_z_index = 0):
+	$LabTableConfigurator.new_layer.connect(func(layer_name, layer_icon, icon_scale, min_zoom, l_z_index = 0):
 		if layer_name in Layers.layer_compositions:
 			geo_layers.add_layer_composition_renderer(
-				layer_name, layer_icon, icon_scale, true, l_z_index)
+				layer_name, layer_icon, icon_scale, min_zoom, true, l_z_index)
 		else: 
 			geo_layers.set_layer_visibility(layer_name, true, l_z_index))
 	$LabTableConfigurator.load_table_config()

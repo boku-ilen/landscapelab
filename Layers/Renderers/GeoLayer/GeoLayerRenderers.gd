@@ -87,10 +87,11 @@ func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
 
 
 func add_layer_composition_renderer(layer_name: String, layer_icon_path: String,
-		layer_icon_scale: float, is_visible: bool, l_z_index := 0):
+		layer_icon_scale: float, layer_min_zoom: float, is_visible: bool, l_z_index := 0):
 	instantiate_layer_composition_renderer(layer_name)
 	if layer_icon_path != null: get_node(layer_name).icon = load(layer_icon_path)
 	if layer_icon_scale != null: get_node(layer_name).icon_scale = layer_icon_scale
+	if layer_min_zoom != null: get_node(layer_name).min_zoom = layer_min_zoom
 	if l_z_index != null: get_node(layer_name).z_index = l_z_index
 
 

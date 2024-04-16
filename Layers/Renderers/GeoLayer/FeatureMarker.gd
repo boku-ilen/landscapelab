@@ -1,6 +1,8 @@
 extends Sprite2D
 
 
+@export var radius := 30.0
+
 var feature
 var layer: GeoFeatureLayer
 
@@ -9,7 +11,6 @@ signal popup_clicked
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Area2D.input_event.connect(on_input_event)
 	$UI/GameObjectConfiguration.attribute_changed.connect(_on_attribute_changed)
 	$UI/GameObjectConfiguration.opened.connect(_on_config_opened)
 	$UI/GameObjectConfiguration.closed.connect(_on_config_closed)
@@ -60,10 +61,15 @@ func popup():
 	$UI/GameObjectConfiguration.popup(Rect2(get_viewport().get_canvas_transform() * global_position, $UI/GameObjectConfiguration.size))
 
 
-func on_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton:
-		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			viewport.set_input_as_handled()
+func _unhandled_input(event):
+	if not is_visible_in_tree(): return
+	
+	if event is InputEventMouseButton and not event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var camera = get_viewport().get_camera_2d()
+		var global_event_position = camera.screen_to_global(event.position)
+		
+		if global_event_position.distance_to(global_position) < radius / camera.zoom.x:
+			get_viewport().set_input_as_handled()
 			popup()
 			popup_clicked.emit()
 

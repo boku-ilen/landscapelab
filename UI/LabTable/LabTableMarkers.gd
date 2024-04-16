@@ -18,3 +18,4 @@ func create_invalid_marker(marker_position, id):
 func remove_marker(id):
 	if id_to_marker.has(id):
 		id_to_marker[id].free()
+		id_to_marker.erase(id)

@@ -4,7 +4,9 @@ extends PanelContainer
 # Necessary while https://github.com/godotengine/godot/issues/86712 is not resolved
 @export var panel_style: StyleBoxFlat
 
-@export var wait_time_before_close := 2.0
+@export var wait_time_before_close := 3.0
+
+@export var marker_distance := 90.0
 
 signal opened
 signal closed
@@ -23,24 +25,43 @@ func popup(rect: Rect2):
 	visible = true
 	position = rect.position
 	
-	if position.x + size.x + edge_buffer > get_viewport_rect().size.x:
-		position.x += get_viewport_rect().size.x - position.x - size.x - edge_buffer
-	if position.y + size.y + edge_buffer > get_viewport_rect().size.y:
-		position.y += get_viewport_rect().size.y - position.y - size.y - edge_buffer
+	if position.x > get_viewport_rect().size.x / 2.0:
+		# On the right
+		$BrickSpace.position.x = size.x
+		$DeleteSpace.position.x = size.x - marker_distance
+		position.x -= size.x
+	else:
+		# On the left
+		$BrickSpace.position.x = 0.0
+		$DeleteSpace.position.x = marker_distance
+	
+	if position.y > get_viewport_rect().size.y / 2.0:
+		# On the bottom
+		$BrickSpace.position.y = size.y
+		$DeleteSpace.position.y = size.y
+		position.y -= size.y
+		
+		$Entries/SpacerTop.custom_minimum_size.y = 20.0
+		$Entries/SpacerBottom.custom_minimum_size.y = 40.0
+	else:
+		# On the top
+		$BrickSpace.position.y = 0.0
+		$DeleteSpace.position.y = 0.0
+		
+		$Entries/SpacerTop.custom_minimum_size.y = 40.0
+		$Entries/SpacerBottom.custom_minimum_size.y = 20.0
 	
 	opened.emit()
 
 
 func close():
 	visible = false
+	input_since_close_pressed = false
 	closed.emit()
 
 
 func _ready():
 	add_theme_stylebox_override("panel", panel_style)
-	
-	$BrickSpace/Area2D.input_event.connect(_on_brick_space_input_event)
-	$DeleteSpace/Area2D.input_event.connect(_on_delete_space_input_event)
 	
 	attribute_changed.connect(_on_attribute_changed)
 
@@ -50,14 +71,23 @@ func _on_attribute_changed(reference, option_name, value):
 	input_since_close_pressed = true
 
 
+func _input(event):
+	if not is_visible_in_tree(): return
+	
+	if event is InputEventMouseButton:
+		if $BrickSpace.get_rect().has_point($BrickSpace.to_local(event.position)):
+			_on_brick_space_input_event(get_viewport(), event, 0)
+		elif $DeleteSpace.get_rect().has_point($DeleteSpace.to_local(event.position)):
+			_on_delete_space_input_event(get_viewport(), event, 0)
+
+
 func _on_brick_space_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		viewport.set_input_as_handled()
 		
-		if event.pressed:
+		if not event.pressed:
 			if event.button_index == MOUSE_BUTTON_RIGHT:
 				# Wait for a few seconds in case new input comes
-				input_since_close_pressed = false
 				await get_tree().create_timer(wait_time_before_close).timeout
 				if not input_since_close_pressed:
 					close()
@@ -71,7 +101,7 @@ func _on_delete_space_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		viewport.set_input_as_handled()
 		
-		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if not event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			delete.emit()
 
 

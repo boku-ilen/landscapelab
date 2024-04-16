@@ -11,6 +11,7 @@ var newest_feature = null
 
 var icon
 var icon_scale = 0.1
+var min_zoom = 0.0
 
 signal popup_clicked
 
@@ -80,6 +81,12 @@ func set_renderers(visualizers: Node2D):
 
 
 func apply_new_data():
+	print(zoom.x)
+	if zoom.x > min_zoom:
+		visible = true
+	else:
+		visible = false
+	
 	# First remove all previous features
 	for feature_vis in get_children():
 		feature_vis.queue_free()

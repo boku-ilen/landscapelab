@@ -1,13 +1,20 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://e2lx82wbo5bo"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://e2lx82wbo5bo"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_xxu04"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_nhde8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pdrno"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a6nal"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apwyr"]
+bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
@@ -15,15 +22,16 @@ corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4xv5g"]
 content_margin_top = 10.0
-bg_color = Color(0.611765, 0.627451, 0.827451, 1)
+content_margin_bottom = 40.0
+bg_color = Color(0.760784, 0.760784, 0.760784, 1)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [resource]
-HSlider/icons/grabber = null
-HSlider/icons/grabber_highlight = null
+HSlider/icons/grabber = SubResource("ImageTexture_xxu04")
+HSlider/icons/grabber_highlight = SubResource("ImageTexture_nhde8")
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pdrno")
-HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_a6nal")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_apwyr")
 HSlider/styles/slider = SubResource("StyleBoxFlat_4xv5g")

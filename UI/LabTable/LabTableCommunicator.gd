@@ -71,18 +71,6 @@ func _on_data(id, message):
 		var release_event = event.duplicate()
 		release_event.pressed = false
 		get_viewport().push_input(release_event, false)
-		#
-		## Now, create a new object here
-		#var new_event = event.duplicate()
-		#event.button_index = 1
-		#get_viewport().push_input(event, false)
-		#
-		#var new_release_event = release_event.duplicate()
-		#new_release_event.button_index = 1
-		#get_viewport().push_input(new_release_event, false)
-		##else:
-			### This brick cannot be used - created an invalid marker
-			##$LabTableMarkers.create_invalid_marker(position_scaled, data_dict["data"]["id"])
 	
 	elif data_dict["event"] == "brick_removed":
 		# If this was an outdated brick, remove the invalid marker
@@ -112,7 +100,7 @@ func _on_data(id, message):
 
 
 func _on_game_object_creation_failed(event_position):
-	var id
+	var id = null
 	
 	# The straightforward way would be this:
 	# id = brick_id_to_position.find_key(event_position)
@@ -122,7 +110,7 @@ func _on_game_object_creation_failed(event_position):
 				and brick_id_to_position[brick_id].y == event_position.y:
 			id = brick_id
 	
-	if id:
+	if id != null:
 		# This game object was created by a brick - create an invalid marker
 		# It will be automatically removed when a brick_removed event arrives
 		$LabTableMarkers.create_invalid_marker(event_position, id)

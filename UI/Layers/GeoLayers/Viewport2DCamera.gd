@@ -7,7 +7,7 @@ var position_before := Vector2.ZERO
 var mouse_start_pos
 var screen_start_position
 
-var dragging = false
+# TODO: This (and the surrounding signals) can probably be removed \o/
 var dont_handle_next_release = false
 var zoom_action_counter = 0
 # Time to wait between scrolls before loading new data
@@ -41,23 +41,18 @@ func _unhandled_input(event):
 			if event.is_pressed():
 				mouse_start_pos = event.position
 				screen_start_position = position
-				dragging = true
 			else:
-				dragging = false
-				
 				if position != position_before:
 					offset_changed.emit(position - position_before, get_viewport_rect().size, zoom)
 					position_before = position
 				else:
-					if dont_handle_next_release:
-						dont_handle_next_release = false
-					elif has_node("ActionHandler"):
+					if has_node("ActionHandler"):
 						$ActionHandler.handle(event)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.is_pressed():
 			do_zoom(1, get_viewport().get_mouse_position())
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.is_pressed():
 			do_zoom(-1, get_viewport().get_mouse_position())
-	elif event is InputEventMouseMotion and dragging:
+	elif event is InputEventMouseMotion and event.button_mask & MOUSE_BUTTON_MASK_LEFT:
 		position = (mouse_start_pos - event.position) / zoom + screen_start_position
 
 
@@ -95,3 +90,8 @@ func do_zoom(factor: int, mouse_pos := get_viewport_rect().size / 2):
 	if not bool(zoom_action_counter):
 		offset_changed.emit(position - position_before, get_viewport_rect().size, zoom)
 		position_before = position
+
+
+func screen_to_global(screen_position):
+	return get_canvas_transform().affine_inverse() * screen_position 
+	#return position + get_global_transform().basis_xform(screen_position) / zoom
