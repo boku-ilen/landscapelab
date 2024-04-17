@@ -21,7 +21,7 @@ func _on_attribute_changed(reference, option_name, value):
 	if option_name == "cluster_size":
 		reference.change_cluster_size(value)
 	else:
-		reference.set(option_name, value)
+		GameSystem.get_game_object_for_geo_feature(feature).set_attribute(option_name, value)
 
 
 # When the pop-up is opened, disable the interaction Area2D to prevent conflicts
@@ -49,12 +49,13 @@ func popup():
 			"cluster_size", 
 			go, 
 			go.collection.min_cluster_size, 
-			go.collection.max_cluster_size)
+			go.collection.max_cluster_size,
+			go.collection.cluster_size)
 	
 	for attribute: GameObjectAttribute in go.collection.attributes.values():
 		if attribute.allow_change:
 			$UI/GameObjectConfiguration.add_configuration_option(
-				attribute.name, attribute, attribute.min, attribute.max)
+				attribute.name, attribute, attribute.min, attribute.max, attribute.get_value(go))
 		else:
 			$UI/GameObjectConfiguration.add_attribute_information(attribute.name, str(attribute.get_value(go)))
 	

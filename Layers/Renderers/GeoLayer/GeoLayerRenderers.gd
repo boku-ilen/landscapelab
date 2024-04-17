@@ -222,7 +222,9 @@ func update_renderer_with_new_data(renderer, new_center, new_offset, new_viewpor
 
 
 func _on_feature_added(feature, renderer):
-	feature.feature_changed.connect(_on_feature_changed.bind(renderer))
+	# FIXME: Keeping this would be preferable, but it causes reloads everytime an attribute is changed via slider.
+	# We might need to differentiate between movement (which should be applied) and attribute changes (which should not)
+	#feature.feature_changed.connect(_on_feature_changed.bind(renderer))
 	update_renderer(renderer)
 
 

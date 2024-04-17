@@ -93,7 +93,7 @@ func _input(event):
 				delete.emit()
 
 
-func add_configuration_option(option_name, reference, min=null, max=null):
+func add_configuration_option(option_name, reference, min=null, max=null, default=null):
 	var vbox = VBoxContainer.new()
 	vbox.name = option_name
 	var label = Label.new()
@@ -106,6 +106,8 @@ func add_configuration_option(option_name, reference, min=null, max=null):
 		slider.min_value = float(min)
 	if max != null:
 		slider.max_value = float(max)
+	if default != null:
+		slider.value = default
 	
 	name_to_ref_ui[option_name] = {"ref": reference, "ui": slider}
 	

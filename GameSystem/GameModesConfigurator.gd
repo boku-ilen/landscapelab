@@ -82,6 +82,10 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 				location_layer,
 				instance_goc
 			)
+			
+			if "min_cluster_size" in collection: collection_object.min_cluster_size = collection["min_cluster_size"]
+			if "max_cluster_size" in collection: collection_object.max_cluster_size = collection["max_cluster_size"]
+			if "default_cluster_size" in collection: collection_object.cluster_size = collection["default_cluster_size"]
 
 
 var mapping_type_to_construction_func = {
