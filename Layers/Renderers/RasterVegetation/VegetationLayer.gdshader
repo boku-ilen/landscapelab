@@ -44,15 +44,6 @@ void process() {
 	// Add single-dimension spacing for some crops
 	pos.x *= row_spacing;
 	
-//	// WIP: decrease density further away
-//	pos *= pos * 0.1 * sign(pos);
-// or:
-//	if (length(pos) > 20.0) {
-//		if (rand(round(pos.xz) * 10.0) < 0.5) {
-//			pos *= pos;
-//		}
-//	}
-	
 	// now center on our particle location but within our spacing
 	pos.x += EMISSION_TRANSFORM[3][0] - mod(EMISSION_TRANSFORM[3][0], spacing);
 	pos.z += EMISSION_TRANSFORM[3][2] - mod(EMISSION_TRANSFORM[3][2], spacing);
@@ -92,7 +83,8 @@ void process() {
 			(splatmap_uv.x > 0.0 && splatmap_uv.x < 1.0 &&
 			 splatmap_uv.y > 0.0 && splatmap_uv.y < 1.0);// && is_in_front_of_camera;
 	
-	vec2 dist_value = texture(distribution_array[distribution_id - 1], pos.xz / spacing).rg;
+	// Note that the pos.xz is already offset by a random normal vector here, so it does not really matter what exactly we do with it since it's already random
+	vec2 dist_value = texture(distribution_array[distribution_id - 1], pos.xz).rg;
 	
 	float plant_id = dist_value.r;
 	float size_scale = dist_value.g;

@@ -48,16 +48,16 @@ func adapt_load(_diff: Vector3):
 	
 	# Clamp to steps of 1 in order to maintain the land-use grid
 	# FIXME: actually depends on the resolution of the land-use and potentially other factors
-	var clamped_pos_x = position_manager.center_node.position.x - fposmod(position_manager.center_node.position.x, 10.0)
-	var clamped_pos_y = position_manager.center_node.position.z + (10.0 - fposmod(position_manager.center_node.position.z, 10.0))
+	var clamped_pos_x = position_manager.center_node.position.x - fposmod(position_manager.center_node.position.x, 2.0)
+	var clamped_pos_y = position_manager.center_node.position.z + (2.0 - fposmod(position_manager.center_node.position.z, 2.0))
 	
 	var world_position = [
 		center[0] + clamped_pos_x,
 		center[1] - clamped_pos_y
 	]
 	
-	var uv_offset_x = world_position[0] - center[0]
-	var uv_offset_y = world_position[1] - center[1]
+	var uv_offset_x = clamped_pos_x
+	var uv_offset_y = clamped_pos_y
 	
 	for renderer in renderers.get_children():
 		renderer.complete_update(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,

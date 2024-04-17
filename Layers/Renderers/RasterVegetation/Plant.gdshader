@@ -7,6 +7,9 @@ global uniform vec3 HCY_SHIFT;
 
 uniform sampler2D[100] texture_map : source_color, repeat_disable;
 
+uniform sampler2D world_space_normal_map: hint_normal, repeat_enable;
+uniform float world_space_normal_scale = 0.01;
+
 uniform int sprite_size = 2048;
 
 uniform float amplitude = 0.1;
@@ -63,12 +66,12 @@ void vertex() {
 	size = INSTANCE_CUSTOM.r * 40.0;
 	VERTEX *= size;
 	
+	NORMAL = (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0;
+	
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	dist_id = INSTANCE_CUSTOM.g * 255.0;
-	
-	NORMAL = vec3(0.0, 1.0, 0.0);
 }
 
 void fragment() {

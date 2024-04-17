@@ -166,7 +166,7 @@ func apply_textures():
 	
 	process_material.set_shader_parameter("splatmap", splatmap)
 	process_material.set_shader_parameter("heightmap", heightmap)
-	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, -uv_offset_y))
+	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, uv_offset_y))
 
 
 func apply_wind_speed(wind_speed):
