@@ -8,7 +8,7 @@ global uniform vec3 HCY_SHIFT;
 uniform sampler2D[100] texture_map : source_color, repeat_disable;
 
 uniform sampler2D world_space_normal_map: hint_normal, repeat_enable;
-uniform float world_space_normal_scale = 0.01;
+uniform float world_space_normal_scale = 0.007;
 
 uniform int sprite_size = 2048;
 
@@ -59,19 +59,22 @@ void vertex() {
 		VERTEX.z += amplitude * sin(worldpos.x * scale.y + TIME * speed.y * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed.y);
 		
 		// Also bend them away from the camera to make it look better from above
-		VERTEX.xz += (inverse(MODELVIEW_MATRIX) * vec4(0.0, 0.5, 0.0, 0.0)).xz * VERTEX.y;
+		//VERTEX.xz += (inverse(MODELVIEW_MATRIX) * vec4(0.0, 0.5, 0.0, 0.0)).xz * VERTEX.y;
 	}
 
 	// Scale by the size
 	size = INSTANCE_CUSTOM.r * 40.0;
 	VERTEX *= size;
 	
-	NORMAL = (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0;
+	NORMAL = mix(COLOR.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
 	
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	dist_id = INSTANCE_CUSTOM.g * 255.0;
+	
+	ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
+	VERTEX.xz *= float(texture_size.x) / float(texture_size.y);  // Account for the texture's aspect ratio
 }
 
 void fragment() {

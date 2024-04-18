@@ -8,20 +8,20 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_rt6mg"]
 seed = 2565
-frequency = 0.008
+frequency = 0.005
 fractal_gain = 0.6
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lkbu2"]
 seamless = true
 as_normal_map = true
-bump_strength = 32.0
+bump_strength = 64.0
 noise = SubResource("FastNoiseLite_rt6mg")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oyqth"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2")
-shader_parameter/world_space_normal_scale = 0.1
+shader_parameter/world_space_normal_scale = 0.007
 shader_parameter/sprite_size = 2048
 shader_parameter/amplitude = 0.1
 shader_parameter/speed = Vector2(0.1, 0.08)

@@ -57,17 +57,33 @@ void process() {
 	bool is_in_front_of_camera = dot(normalize(view_direction.xz), normalize(pos.xz)) > 0.7;
 	
 	// rotate our transform
-	TRANSFORM[0][0] = cos(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
-	TRANSFORM[0][2] = -sin(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
-	TRANSFORM[2][0] = sin(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
-	TRANSFORM[2][2] = cos(rand(round((pos.xz) * 10.0) * 0.03) * 3.0);
+	float angle = rand(round((pos.xz) * 10.0) * 0.03) * 3.0;
+	TRANSFORM[0][0] = cos(angle);
+	TRANSFORM[0][2] = -sin(angle);
+	TRANSFORM[2][0] = sin(angle);
+	TRANSFORM[2][2] = cos(angle);
 	
 	// Read from splatmap based on world position
 	vec2 splatmap_uv = pos.xz + 0.5 * splatmap_size_meters - uv_offset;
 	splatmap_uv /= splatmap_size_meters;
 	
+	float e = 2.0 / splatmap_size_meters;
+	
+	float height_here = texture(heightmap, splatmap_uv).r;
+	float height_right = texture(heightmap, splatmap_uv + vec2(e, 0.0)).r;
+	float height_above = texture(heightmap, splatmap_uv + vec2(0.0, -e)).r;
+	
+	// Save terrain normal into COLOR to use as an up vector later
+	mat3 inv_rot = mat3(1.0);
+	inv_rot[0][0] = cos(-angle);
+	inv_rot[0][2] = -sin(-angle);
+	inv_rot[2][0] = sin(-angle);
+	inv_rot[2][2] = cos(-angle);
+	
+	COLOR.xyz = inv_rot * normalize(cross(vec3(0.2, height_right - height_here, 0.0), vec3(0.0, height_above - height_here, -0.2)));
+	
 	// apply our height
-	pos.y = texture(heightmap, splatmap_uv).r;
+	pos.y = height_here;
 	
 	// update our transform to place
 	TRANSFORM[3][0] = pos.x;
@@ -84,7 +100,7 @@ void process() {
 			 splatmap_uv.y > 0.0 && splatmap_uv.y < 1.0);// && is_in_front_of_camera;
 	
 	// Note that the pos.xz is already offset by a random normal vector here, so it does not really matter what exactly we do with it since it's already random
-	vec2 dist_value = texture(distribution_array[distribution_id - 1], pos.xz).rg;
+	vec2 dist_value = texture(distribution_array[distribution_id - 1], (pos.xz / spacing) / float(DISTRIBUTION_RESOLUTION)).rg;
 	
 	float plant_id = dist_value.r;
 	float size_scale = dist_value.g;
