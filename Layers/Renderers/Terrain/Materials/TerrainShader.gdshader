@@ -35,12 +35,12 @@ varying float camera_distance;
 //uniform sampler2D terraforming_texture: repeat_disable, filter_nearest;
 //uniform sampler2D terraforming_weights: repeat_disable, filter_nearest;
 
-uniform float texture_thresholds[14];
 uniform sampler2DArray ground_textures: source_color;
 uniform sampler2DArray ground_normals: hint_normal;
 
 uniform bool make_hole = true;
 uniform sampler2D detail_noise;
+uniform float[10] detail_noise_lid_weights;
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
@@ -175,10 +175,11 @@ void vertex() {
 		// Attempt to scale this normal to about +- 0.025
 		normal_y = (normal_y - 0.95) * 0.5;
 		
-		// TODO: Add a way to scale this contribution, particularly the second line
-		//  e.g. to remove it on streets - perhaps metadata per texture_index
-		VERTEX.y += normal_y;
-		VERTEX.y += (texture(detail_noise, scaled_near_uv / 20.0).r - 0.5) * 0.5;
+		float offset = normal_y;
+		offset += (texture(detail_noise, scaled_near_uv / 20.0).r - 0.5) * 0.5;
+		offset *= detail_noise_lid_weights[texture_index];
+		
+		VERTEX.y += offset;
 	}
 	
 //	if (has_surface_heights) {

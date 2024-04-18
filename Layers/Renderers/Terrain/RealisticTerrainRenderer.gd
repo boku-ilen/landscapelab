@@ -6,7 +6,7 @@ func _setup_ground_textures():
 	var texture_folders = [
 		"Asphalt", # 1 Sealed
 		"Gravel", # 2 Semi-Sealed
-		"Lawn", # 3 Mixed Urban
+		"Dry", # 3 Mixed Urban TODO: Should be "Lawn", but not for Pantelleria - use project-specific settings?
 		"Rock", # 4 Open Ground
 		"Glacier", # 5 Snow and Ice
 		"Riverbed", # 6 Water
