@@ -84,6 +84,7 @@ shader_parameter/change_pitch = false
 
 [node name="SwarmParticles" parent="." instance=ExtResource("1_svn11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+layers = 4
 material_override = SubResource("ShaderMaterial_kf46k")
 extra_cull_margin = 0.0
 emitting = true
