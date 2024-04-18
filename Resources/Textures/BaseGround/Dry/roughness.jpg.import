@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://cp56jo6h3e4bu"
+path="res://.godot/imported/roughness.jpg-535790c3b6ab96a4dc81498b710fd2d0.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Dry/roughness.jpg"
+dest_files=["res://.godot/imported/roughness.jpg-535790c3b6ab96a4dc81498b710fd2d0.image"]
+
+[params]
+
