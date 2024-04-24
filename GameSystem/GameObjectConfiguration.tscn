@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dsajvfxo8bdwx"]
 
-[ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1_ohjqa"]
 [ext_resource type="Script" path="res://GameSystem/GameObjectConfiguration.gd" id="1_rpnwg"]
+[ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_wi86a"]
 [ext_resource type="Texture2D" uid="uid://bs6l1cbwkvg0f" path="res://Resources/Icons/ModernLandscapeLab/circle.svg" id="3_xwldb"]
 [ext_resource type="Texture2D" uid="uid://ys5warsfvwod" path="res://Resources/Icons/ModernLandscapeLab/trash.svg" id="4_8412a"]
 
@@ -10,9 +10,9 @@ bg_color = Color(0.831373, 0.831373, 0.831373, 1)
 
 [node name="GameObjectConfiguration" type="PanelContainer"]
 top_level = true
-offset_right = 156.0
-offset_bottom = 43.0
-theme = ExtResource("1_ohjqa")
+offset_right = 112.0
+offset_bottom = 70.0
+theme = ExtResource("1_wi86a")
 script = ExtResource("1_rpnwg")
 panel_style = SubResource("StyleBoxFlat_ua3n4")
 
@@ -33,6 +33,7 @@ alignment = 2
 
 [node name="Attributes" type="VBoxContainer" parent="Entries"]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="SpacerBottom" type="HBoxContainer" parent="Entries"]
 custom_minimum_size = Vector2(0, 20)

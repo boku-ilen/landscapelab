@@ -40,6 +40,7 @@ script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
+debug_mode = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
 layout_mode = 2

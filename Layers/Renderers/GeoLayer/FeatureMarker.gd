@@ -53,11 +53,17 @@ func popup():
 			go.collection.cluster_size)
 	
 	for attribute: GameObjectAttribute in go.collection.attributes.values():
-		if attribute.allow_change:
-			$UI/GameObjectConfiguration.add_configuration_option(
-				attribute.name, attribute, attribute.min, attribute.max, attribute.get_value(go))
-		else:
-			$UI/GameObjectConfiguration.add_attribute_information(attribute.name, str(attribute.get_value(go)))
+		if attribute.show_in_config:
+			if attribute.allow_change:
+				if attribute is ClassGameObjectAttribute:
+					$UI/GameObjectConfiguration.add_configuration_class_option(
+						attribute.name, attribute, attribute.class_names_to_attribute_values, attribute.get_value(go)
+					)
+				else:
+					$UI/GameObjectConfiguration.add_configuration_option(
+						attribute.name, attribute, attribute.min, attribute.max, attribute.get_value(go))
+			else:
+				$UI/GameObjectConfiguration.add_attribute_information(attribute.name, str(attribute.get_value(go)))
 	
 	$UI/GameObjectConfiguration.popup(Rect2(get_viewport().get_canvas_transform() * global_position, $UI/GameObjectConfiguration.size))
 

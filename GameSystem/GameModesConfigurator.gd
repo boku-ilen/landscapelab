@@ -110,7 +110,9 @@ var mapping_type_to_construction_func = {
 			data["value"]
 		),
 	"ExplicitGameObjectAttribute": func(_name, data):
-		return ExplicitGameObjectAttribute.new(_name, data["attribute"])
+		return ExplicitGameObjectAttribute.new(_name, data["attribute"]),
+	"ClassGameObjectAttribute": func(_name, data):
+		return ClassGameObjectAttribute.new(_name, data["class_to_attributes"])
 	# TODO: implement all possible attributes
 }
 func _deserialize_mappings(game_mode: GameMode,

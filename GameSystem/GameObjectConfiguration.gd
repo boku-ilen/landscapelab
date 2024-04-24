@@ -93,6 +93,27 @@ func _input(event):
 				delete.emit()
 
 
+func add_configuration_class_option(option_name, reference, classes, default):
+	var item_list = ItemList.new()
+	item_list.fixed_column_width = 80
+	item_list.icon_mode = ItemList.ICON_MODE_TOP
+	item_list.max_columns = 0
+	item_list.auto_height = true
+	item_list.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	item_list.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	item_list.custom_minimum_size.x = (classes.keys().size() + 1) * item_list.fixed_column_width
+	item_list.custom_minimum_size.y = item_list.fixed_column_width * 1.5
+	
+	for class_attribute_name in classes.keys():
+		item_list.add_item(class_attribute_name, preload("res://Resources/Icons/ModernLandscapeLab/circle.svg"))
+	
+	item_list.item_selected.connect(func(item_index):
+		attribute_changed.emit(reference, option_name, item_list.get_item_text(item_index))
+	)
+	
+	$Entries/Attributes.add_child(item_list)
+
+
 func add_configuration_option(option_name, reference, min=null, max=null, default=null):
 	var vbox = VBoxContainer.new()
 	vbox.name = option_name
