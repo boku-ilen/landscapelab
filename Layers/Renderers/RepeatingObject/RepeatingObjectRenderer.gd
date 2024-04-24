@@ -136,6 +136,10 @@ func _calculate_intermediate_transforms():
 		
 		var get_ground_height_at_pos
 		
+		var height_offset = 0.0
+		if feature.get_attribute("LL_h_off"):
+			height_offset = float(feature.get_attribute("LL_h_off"))
+		
 		if layer_composition.render_info.height_gradient:
 			# For things like bridges, we want to interpolate between the height at the first point and the height at the last point.
 			var first_point = vertices.get_point_position(0)
@@ -186,9 +190,13 @@ func _calculate_intermediate_transforms():
 			var rand_angle := 0.0
 
 			var pos = t.origin + direction * scaled_width
+			
+			# Rotate by base rotation (to account for assets rotated differently than needed)
+			t = t.rotated_local(Vector3.UP, deg_to_rad(layer_composition.render_info.base_rotation))
+			
 			# Randomly add 90, 180 or 270 degrees to previous rotation
 			if layer_composition.render_info.random_angle:
-				var pseudo_random = int(pos.x * 12345.12345 + pos.z * 12345.12345)
+				var pseudo_random = int(pos.x * 43758.5453 + pos.z * 78233.9898)
 				rand_angle = rand_angle + (PI / 2.0) * ((pseudo_random % 3) + 1.0)
 				t = t.rotated_local(Vector3.UP, rand_angle)
 			t.origin = pos #* Vector3(1, 1, scale_factor)
@@ -198,7 +206,7 @@ func _calculate_intermediate_transforms():
 				center[0] + t.origin.x, center[1] - t.origin.z)
 			
 			if previous_height == 0.0: previous_height = new_height  # for the first iteration
-			t.origin.y = lerp(previous_height, new_height, 0.5)
+			t.origin.y = lerp(previous_height, new_height, 0.5) + height_offset
 			
 			transforms[f_id].append(t)
 			
