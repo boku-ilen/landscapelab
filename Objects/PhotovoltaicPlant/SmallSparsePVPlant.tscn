@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://b54piu6sgh41a"]
+[gd_scene load_steps=5 format=3 uid="uid://b54piu6sgh41a"]
 
 [ext_resource type="Script" path="res://Objects/Util/MultiplePVModules.gd" id="1_u31s1"]
-[ext_resource type="PackedScene" uid="uid://bdpmyx1ejlixw" path="res://Objects/PhotovoltaicPlant/GroundMountedPVUnit.tscn" id="2_uekxj"]
 [ext_resource type="PackedScene" uid="uid://dhmlmgm0yc278" path="res://Layers/Renderers/LIDOverlay/LIDOverlay.tscn" id="3_rlsmb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o5rnw"]
@@ -20,7 +19,6 @@ rows = 8
 cols = 26
 row_spacing = 12.0
 col_spacing = 3.6
-mesh = ExtResource("2_uekxj")
 
 [node name="LIDOverlay" parent="." instance=ExtResource("3_rlsmb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
