@@ -278,6 +278,7 @@ class RepeatingObjectInfo extends RenderInfo:
 	var radius: float
 	var height_gradient := false
 	var random_angle: bool
+	var base_rotation := 0.0
 	var selector_attribute_name: String
 	var meshes: Dictionary
 
