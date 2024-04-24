@@ -15,4 +15,4 @@ shader_parameter/detail_only_range = 50.0
 shader_parameter/detail_ortho_blend_range = 700.0
 shader_parameter/size = null
 shader_parameter/make_hole = true
-shader_parameter/detail_noise_lid_weights = null
+shader_parameter/detail_noise_lid_weights = PackedFloat32Array()

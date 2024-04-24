@@ -53,16 +53,16 @@ func _process(delta):
 	material_override.set_shader_parameter("landuse", landuse.get_image_texture())
 	material_override.set_shader_parameter("detail_noise", preload("res://Layers/Renderers/Terrain/Materials/DetailNoise.tres"))
 	material_override.set_shader_parameter("detail_noise_lid_weights", [
-		0.2, # Asphalt
-		0.3, # Gravel
-		0.8, # Lawn
-		2.5, # Rock
+		0.15, # Asphalt
+		0.25, # Gravel
+		0.6, # Lawn
+		2.2, # Rock
 		0.7, # Ice
 		1.0, # Water
-		1.0, # Grassland
-		1.5, # Forest
+		0.9, # Grassland
+		1.3, # Forest
 		0.9, # Agroforest
-		1.2, # Agriculture
+		1.0, # Agriculture
 		
 	])
 	

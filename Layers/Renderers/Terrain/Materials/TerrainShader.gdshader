@@ -37,6 +37,7 @@ varying float camera_distance;
 
 uniform sampler2DArray ground_textures: source_color;
 uniform sampler2DArray ground_normals: hint_normal;
+uniform sampler2DArray ground_displacement: hint_default_black;
 
 uniform bool make_hole = true;
 uniform sampler2D detail_noise;
@@ -70,6 +71,9 @@ vec4 fractal_texture(sampler2D tex, vec2 uv, float depth) {
 }
 
 vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
+	depth = max(depth, 20.0);
+	depth *= 0.5;
+	
     //Find the pixel level of detail
 	float LOD = log(depth);
     //Round LOD down
@@ -170,13 +174,13 @@ void vertex() {
 		
 		vec2 scaled_near_uv = world_pos.xz / 2.0;
 		
-		float normal_y = fractal_texture_array(ground_normals, vec3(scaled_near_uv, float(texture_index)), camera_distance).b;
+		//float normal_y = fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(texture_index)), camera_distance).b;
 		
 		// Attempt to scale this normal to about +- 0.025
-		normal_y = (normal_y - 0.95) * 0.5;
+		//normal_y = (normal_y - 0.95) * 0.5;
 		
-		float offset = normal_y;
-		offset += (texture(detail_noise, scaled_near_uv / 20.0).r - 0.5) * 0.5;
+		float offset = fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(texture_index)), camera_distance).r - 0.5;
+		offset += (texture(detail_noise, scaled_near_uv / 40.0).r - 0.5);// * 0.5;
 		offset *= detail_noise_lid_weights[texture_index];
 		
 		VERTEX.y += offset;
