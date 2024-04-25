@@ -45,10 +45,7 @@ func _add_game_object(feature):
 	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(GeoGameObject, feature, self)
 	game_objects[game_object_for_feature.id] = game_object_for_feature
 	
-	# TODO: Currently we only handle this signal, but we'd want to react to other changes as well
-	# This might warrant an addition in Geodot (a general "changed" signal)
-	if feature.has_signal("point_changed"):
-		feature.connect("point_changed",Callable(self,"_on_feature_changed"))
+	feature.feature_changed.connect(_on_feature_changed)
 	
 	emit_signal("game_object_added", game_object_for_feature)
 	emit_signal("changed")

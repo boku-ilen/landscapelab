@@ -6,15 +6,23 @@
 [ext_resource type="Texture2D" uid="uid://ys5warsfvwod" path="res://Resources/Icons/ModernLandscapeLab/trash.svg" id="4_8412a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ua3n4"]
-bg_color = Color(0.831373, 0.831373, 0.831373, 1)
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.831373, 0.831373, 0.831373, 0.784314)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+shadow_color = Color(0, 0, 0, 0.0980392)
+shadow_size = 10
 
 [node name="GameObjectConfiguration" type="PanelContainer"]
 top_level = true
 offset_right = 112.0
 offset_bottom = 70.0
 theme = ExtResource("1_wi86a")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ua3n4")
 script = ExtResource("1_rpnwg")
-panel_style = SubResource("StyleBoxFlat_ua3n4")
 
 [node name="BrickSpace" type="Sprite2D" parent="."]
 texture = ExtResource("3_xwldb")

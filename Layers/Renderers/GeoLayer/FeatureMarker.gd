@@ -15,6 +15,8 @@ func _ready():
 	$UI/GameObjectConfiguration.opened.connect(_on_config_opened)
 	$UI/GameObjectConfiguration.closed.connect(_on_config_closed)
 	$UI/GameObjectConfiguration.delete.connect(_on_delete_pressed)
+	
+	feature.feature_changed.connect(popup, CONNECT_DEFERRED)
 
 
 func _on_attribute_changed(reference, option_name, value):

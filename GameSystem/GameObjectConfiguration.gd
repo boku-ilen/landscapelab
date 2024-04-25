@@ -1,9 +1,5 @@
 extends PanelContainer
 
-
-# Necessary while https://github.com/godotengine/godot/issues/86712 is not resolved
-@export var panel_style: StyleBoxFlat
-
 @export var wait_time_before_close := 2.0
 @export var grace_period_before_close := 2.0
 
@@ -61,8 +57,6 @@ func close():
 
 
 func _ready():
-	add_theme_stylebox_override("panel", panel_style)
-	
 	attribute_changed.connect(_on_attribute_changed)
 
 
@@ -103,15 +97,29 @@ func add_configuration_class_option(option_name, reference, classes, default):
 	item_list.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 	item_list.custom_minimum_size.x = (classes.keys().size() + 1) * item_list.fixed_column_width
 	item_list.custom_minimum_size.y = item_list.fixed_column_width * 1.5
+	item_list.focus_mode = Control.FOCUS_NONE
+	
+	var index = 0
+	var default_index
 	
 	for class_attribute_name in classes.keys():
 		item_list.add_item(class_attribute_name, preload("res://Resources/Icons/ModernLandscapeLab/circle.svg"))
+		
+		if class_attribute_name == default:
+			default_index = index
+		
+		index += 1
 	
 	item_list.item_selected.connect(func(item_index):
 		attribute_changed.emit(reference, option_name, item_list.get_item_text(item_index))
 	)
 	
 	$Entries/Attributes.add_child(item_list)
+	
+	await get_tree().process_frame
+	
+	item_list.select(default_index)
+	item_list.item_selected.emit(default_index)
 
 
 func add_configuration_option(option_name, reference, min=null, max=null, default=null):

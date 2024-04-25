@@ -17,7 +17,7 @@ func get_value(game_object):
 	# Insert attribute values into formula
 	var formated_string = formula
 	
-	while formated_string.find("$") > 0:
+	while formated_string.find("$") >= 0:
 		var begin_index = formated_string.find("$", 0)
 		var length = formated_string.find("$", begin_index + 1) - begin_index
 		var slice = formated_string.substr(begin_index + 1, length - 1)
@@ -29,5 +29,7 @@ func get_value(game_object):
 	var expression = Expression.new()
 	expression.parse(formated_string)
 	var result = expression.execute()
+	
+	if not result: result = 0.0
 	
 	return result
