@@ -89,15 +89,15 @@ func apply_new_data():
 func refine_load():
 	super.refine_load()
 	
-	if features_to_remove.size() > 0:
-		var feature = features_to_remove.pop_front()
-		remove_feature.call_deferred(feature.get_id())
-	
 	if features_to_add.size() > 0:
 		var feature = features_to_add.pop_front()
 		instances[feature.get_id()] = load_feature_instance(feature)
 		features.append(feature)
 		apply_feature_instance.call_deferred(feature)
+	
+	if features_to_remove.size() > 0:
+		var feature = features_to_remove.pop_front()
+		remove_feature.call_deferred(feature.get_id())
 
 
 func _on_feature_added(feature: GeoFeature):
