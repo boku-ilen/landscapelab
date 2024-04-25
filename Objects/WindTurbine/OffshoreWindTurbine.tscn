@@ -1,7 +1,8 @@
-[gd_scene load_steps=62 format=3 uid="uid://xgubocakqn7j"]
+[gd_scene load_steps=63 format=3 uid="uid://xgubocakqn7j"]
 
 [ext_resource type="Script" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="1_lasof"]
 [ext_resource type="Texture2D" uid="uid://dyh4ji8wp1xe2" path="res://Resources/Meshes/Windmills/Offshore/WKA-NREL-EIA-15MW-HUB158m_0.jpg" id="1_y4sxp"]
+[ext_resource type="PackedScene" uid="uid://hm7fhb8a5wfa" path="res://Resources/Meshes/Windmills/Offshore/wt_offshore_float_device.gltf" id="3_tkvrl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_viwo0"]
 resource_name = "default material"
@@ -947,7 +948,7 @@ shadow_mesh = SubResource("ArrayMesh_5iiyk")
 [node name="OffshoreWindTurbine" type="Node3D"]
 script = ExtResource("1_lasof")
 mesh_hub_height = 158
-mesh_rotor_diameter = 122
+mesh_rotor_diameter = 244
 
 [node name="Mesh" type="Node3D" parent="."]
 
@@ -960,6 +961,8 @@ skeleton = NodePath("")
 [node name="NREL-EIA-15MW SOCKET" type="MeshInstance3D" parent="Mesh/Mast"]
 mesh = SubResource("ArrayMesh_jvgl5")
 skeleton = NodePath("")
+
+[node name="wt_offshore_float_device" parent="Mesh/Mast" instance=ExtResource("3_tkvrl")]
 
 [node name="Rotor" type="Node3D" parent="Mesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 158, 0)
