@@ -32,6 +32,13 @@ signal score_target_reached(score)
 signal game_mode_changed
 
 
+func save():
+	for game_mode in game_modes:
+		for collection in game_mode.game_object_collections.values():
+			if "feature_layer" in collection:
+				collection.feature_layer.save_new("./game_layer_%s_%s.shp" % [collection.name, Time.get_datetime_string_from_system()])
+
+
 func activate_next_game_mode():
 	if game_modes.is_empty(): 
 		logger.error("No game modes have been defined, cannot move to next state.")
