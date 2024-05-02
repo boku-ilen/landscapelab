@@ -9,6 +9,10 @@ var _server = WebSocketServer.new()
 # For reacting to deleted bricks
 var brick_id_to_position = {}
 
+@export var save_log := true
+
+var current_log_file
+
 
 func _ready():
 	_server.client_connected.connect(_connected)
@@ -22,6 +26,9 @@ func _ready():
 		set_process(false)
 	
 	get_parent().game_object_failed.connect(_on_game_object_creation_failed)
+	
+	if save_log:
+		current_log_file = FileAccess.open("user://table_%s.log" % [Time.get_datetime_string_from_system()], FileAccess.WRITE)
 
 
 func _connected(id):
@@ -33,6 +40,9 @@ func _disconnected(id):
 
 
 func _on_data(id, message):
+	if save_log:
+		current_log_file.store_string(message + "\n")
+	
 	var data_dict = JSON.parse_string(message)
 	print("Got data from client %d: %s" % [id, data_dict])
 	
