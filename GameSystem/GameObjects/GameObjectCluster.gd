@@ -3,11 +3,13 @@ class_name GameObjectCluster
 
 
 var game_objects_in_cluster = []
+var cluster_size
 
 signal cluster_size_changed
 
 
 func change_cluster_size(new_cluster_size):
+	cluster_size = new_cluster_size
 	cluster_size_changed.emit(new_cluster_size)
 
 

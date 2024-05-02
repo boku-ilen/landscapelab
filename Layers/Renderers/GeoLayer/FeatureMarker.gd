@@ -20,7 +20,7 @@ func _ready():
 
 
 func _on_attribute_changed(reference, option_name, value):
-	if option_name == "cluster_size":
+	if option_name == "Amount":
 		reference.change_cluster_size(value)
 	else:
 		GameSystem.get_game_object_for_geo_feature(feature).set_attribute(option_name, value)
@@ -46,13 +46,13 @@ func popup():
 	var go = GameSystem.get_game_object_for_geo_feature(feature)
 	var attributes = go.get_attributes()
 	
-	if "cluster_size" in go.collection:
+	if go.collection is GameObjectClusterCollection:
 		$UI/GameObjectConfiguration.add_configuration_option(
-			"cluster_size", 
+			"Amount", 
 			go, 
 			go.collection.min_cluster_size, 
 			go.collection.max_cluster_size,
-			go.collection.cluster_size)
+			go.cluster_size)
 	
 	for attribute: GameObjectAttribute in go.collection.attributes.values():
 		if attribute.show_in_config:
