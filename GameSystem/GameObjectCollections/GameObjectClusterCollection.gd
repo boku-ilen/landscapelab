@@ -142,7 +142,7 @@ func _on_feature_changed(feature, game_object_for_feature):
 	location_feature_instances[feature.get_id()] = instances
 	
 	# Let this game object know its child game objects so it can e.g. set their attributes
-	feature_id_to_game_object[feature.get_id()].game_objects_in_cluster = current_new_game_objects
+	feature_id_to_game_object[feature.get_id()].set_game_objects_in_cluster(current_new_game_objects)
 	
 	instance_goc.game_object_added.disconnect(add_current_new_game_object)
 	
