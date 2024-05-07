@@ -160,8 +160,8 @@ void fragment() {
 	
 	float _depth_linear = l_depth_delta;
 	
-	float d = depth_proximity_z(-50.0, l_screen_depth, l_fragment_depth);
-	float d2 = depth_proximity_z(-20.0, l_screen_depth, l_fragment_depth);
+	float d = depth_proximity_z(-40.0, l_screen_depth, l_fragment_depth);
+	float d2 = depth_proximity_z(-15.0, l_screen_depth, l_fragment_depth);
 	
 	d2 = 1.0-pow(d2,0.07); 
 	d = exp(-d * beer_factor); 
@@ -177,7 +177,7 @@ void fragment() {
 	vec3 _screen = texture(SCREEN_TEXTURE,SCREEN_UV).rgb;
 	// TODO: blur effect could be added like +n_distortion*_refraction*(1.0-d), but it's hard not to affect nearby objects above the water
 	
-	_screen = mix(_screen, color_out, dullness * clamp(1.0 - d + (dullness * 0.3), 0.0, 1.0));
+	_screen = mix(_screen, color_out, clamp(1.0 - d + (dullness * 0.3), 0.0, 1.0));
 	
 	float depthfoam = depth_proximity_z(-abs(n_distortion.r+n_distortion.g) * _foam_size , l_screen_depth, l_fragment_depth);
 	depthfoam = pow(depthfoam,_foam_strength); 
@@ -187,7 +187,7 @@ void fragment() {
 	ALBEDO = mix(foam,soft_light(_screen,color_out),depthfoam);
 	ALBEDO = clamp(ALBEDO, vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0));
 	ROUGHNESS = _roughness;
-	SPECULAR = 1.0;
+	SPECULAR = 0.25;
 //	ALBEDO = soft_light(_screen,color_out);
 	
 }
