@@ -26,6 +26,8 @@ extends Node3D
 @export var min_hub_height := 50
 @export var min_rotor_diameter := 35
 
+var rotor_diameter = 100
+
 @export var forward_for_rotation: Vector3 = Vector3(1, 0, 0)
 
 @onready var start_pos_hub = $Mesh/Hub.position
@@ -55,7 +57,7 @@ var render_info
 
 
 func _apply_new_wind_speed(wind_speed):
-	speed = wind_speed / 15.0
+	speed = wind_speed / (rotor_diameter / 6.0)
 
 
 func _apply_new_wind_direction(wind_direction):
@@ -144,11 +146,14 @@ func set_hub_height(height: float):
 
 
 func set_rotor_diameter(diameter: float):
+	rotor_diameter = diameter
 	var new_scale = Vector3.ONE * diameter / mesh_rotor_diameter
 	$Mesh/Rotor.scale = new_scale
 	$Mesh/Hub.scale = new_scale
 #	$Mesh/Rotor.position.z = start_pos_rotor.z - new_scale.z * start_pos_rotor.z
 #	$Mesh/Hub.position.z = start_pos_hub.z - new_scale.z * start_pos_hub.z
+
+	_apply_new_wind_speed(weather_manager.wind_speed)
 
 
 func apply_daytime_change(is_daytime: bool):
