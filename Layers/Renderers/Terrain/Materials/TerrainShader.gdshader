@@ -183,6 +183,8 @@ void vertex() {
 		offset += (texture(detail_noise, scaled_near_uv / 40.0).r - 0.5);// * 0.5;
 		offset *= detail_noise_lid_weights[texture_index];
 		
+		offset *= float(texture_index >= 0 && texture_index <= 10);
+		
 		VERTEX.y += offset;
 	}
 	
