@@ -140,6 +140,10 @@ func _calculate_intermediate_transforms():
 		if feature.get_attribute("LL_h_off"):
 			height_offset = float(feature.get_attribute("LL_h_off"))
 		
+		var ll_scale = 1.0
+		if feature.get_attribute("LL_scale"):
+			ll_scale = float(feature.get_attribute("LL_scale"))
+		
 		if layer_composition.render_info.height_gradient:
 			# For things like bridges, we want to interpolate between the height at the first point and the height at the last point.
 			var first_point = vertices.get_point_position(0)
@@ -162,6 +166,8 @@ func _calculate_intermediate_transforms():
 		var attribute_name = layer_composition.render_info.selector_attribute_name
 		var attribute_value = feature.get_attribute(attribute_name) if not layer_composition.render_info.selector_attribute_name.is_empty() else "default"
 		var width = layer_composition.render_info.meshes[attribute_value]["width"]
+		
+		width *= ll_scale
 		
 		var curve_length = vertices.get_baked_length()
 		var distance_covered := 0.0
@@ -186,6 +192,7 @@ func _calculate_intermediate_transforms():
 			t.basis.x = t.basis.y.cross(t.basis.z)
 			
 			t = t.scaled_local(Vector3(1, 1, scale_factor))
+			t = t.scaled_local(Vector3.ONE * ll_scale)
 			
 			var rand_angle := 0.0
 
