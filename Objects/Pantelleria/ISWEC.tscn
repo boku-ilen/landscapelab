@@ -32,6 +32,6 @@ _surfaces = [{
 [node name="ISWEC" type="Node3D"]
 
 [node name="Iswec" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.999315, 0.0370043, 0, -0.0370043, 0.999315, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0)
 mesh = SubResource("ArrayMesh_uwkvx")
 script = ExtResource("5_nf8pe")
