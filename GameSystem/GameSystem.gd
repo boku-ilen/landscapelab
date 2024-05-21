@@ -49,6 +49,9 @@ func activate_next_game_mode():
 		return
 		
 	var current_game_mode_idx = game_modes.find(current_game_mode)
+	
+	if current_game_mode_idx >= game_modes.size() - 1: return
+	
 	current_game_mode = game_modes[(current_game_mode_idx + 1) % game_modes.size()]
 
 
