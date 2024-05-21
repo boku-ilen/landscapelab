@@ -28,7 +28,10 @@ func _ready():
 	get_parent().game_object_failed.connect(_on_game_object_creation_failed)
 	
 	if save_log:
-		current_log_file = FileAccess.open("user://table_%s.log" % [Time.get_datetime_string_from_system()], FileAccess.WRITE)
+		DirAccess.make_dir_absolute("user://table-log")
+		var filename = "user://table-log/%s.log" % [Time.get_unix_time_from_system()]
+		current_log_file = FileAccess.open(filename, FileAccess.WRITE)
+		current_log_file.store_string("test")
 
 
 func _connected(id):
@@ -41,7 +44,8 @@ func _disconnected(id):
 
 func _on_data(id, message):
 	if save_log:
-		current_log_file.store_string(message + "\n")
+		current_log_file.store_string(str(floor(Time.get_unix_time_from_system())) + ": " + message + "\n")
+		current_log_file.flush()
 	
 	var data_dict = JSON.parse_string(message)
 	print("Got data from client %d: %s" % [id, data_dict])
