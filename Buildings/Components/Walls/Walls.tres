@@ -62,7 +62,7 @@ float rand(vec3 co){
 
 void fragment() {
 	
-	vec3 wall_uv = vec3(UV, wall_index);
+	vec3 wall_uv = vec3(UV / wall_height, wall_index);
 	
 	ivec3 window_tex_size = textureSize(texture_window_albedo, 0);
 	
