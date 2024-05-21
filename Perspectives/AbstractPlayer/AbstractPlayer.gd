@@ -14,6 +14,7 @@ var position_manager: PositionManager  # Injected if needed
 func teleport(pos: Vector3):
 	logger.info("Teleporting player %s to coordinates: %s" % [name, pos])
 	transform.origin = pos
+	place_onto_ground()
 
 
 func place_onto_ground():
@@ -21,10 +22,12 @@ func place_onto_ground():
 	var result = space_state.intersect_ray(
 		PhysicsRayQueryParameters3D.create(
 			Vector3(position.x, 6000, position.z),
-			Vector3(position.x, -1000, position.z), 4294967295, [get_rid()]))
+			Vector3(position.x, 0.0, position.z), 4294967295, [get_rid()]))
 
 	if result:
 		transform.origin.y = result.position.y
+	else:
+		transform.origin.y = 0.0
 
 
 # As in some cases the actual orientation node might be different, define this as function to
