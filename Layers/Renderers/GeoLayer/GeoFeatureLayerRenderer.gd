@@ -81,7 +81,6 @@ func set_renderers(visualizers: Node2D):
 
 
 func apply_new_data():
-	print(zoom.x)
 	if zoom.x > min_zoom:
 		visible = true
 	else:

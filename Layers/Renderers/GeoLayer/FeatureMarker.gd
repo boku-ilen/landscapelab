@@ -75,6 +75,8 @@ func popup():
 func _unhandled_input(event):
 	if not is_visible_in_tree(): return
 	
+	if not GameSystem.get_game_object_for_geo_feature(feature) or not GameSystem.get_game_object_for_geo_feature(feature).collection.name in GameSystem.current_game_mode.game_object_collections.keys(): return
+	
 	if event is InputEventMouseButton and not event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var camera = get_viewport().get_camera_2d()
 		var global_event_position = camera.screen_to_global(event.position)

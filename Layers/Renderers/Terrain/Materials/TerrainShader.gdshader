@@ -180,7 +180,7 @@ void vertex() {
 		//normal_y = (normal_y - 0.95) * 0.5;
 		
 		float offset = fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(texture_index)), camera_distance).r - 0.5;
-		offset += (texture(detail_noise, scaled_near_uv / 40.0).r - 0.5);// * 0.5;
+		offset += texture(detail_noise, scaled_near_uv / 40.0).r - 0.5;
 		offset *= detail_noise_lid_weights[texture_index];
 		
 		offset *= float(texture_index >= 0 && texture_index <= 10);

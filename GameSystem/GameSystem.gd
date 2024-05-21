@@ -34,9 +34,9 @@ signal game_mode_changed
 
 func save():
 	for game_mode in game_modes:
-		for collection in game_mode.game_object_collections.values():
+		for collection in current_game_mode.game_object_collections.values():
 			if "feature_layer" in collection:
-				collection.feature_layer.save_new("./game_layer_%s_%s.shp" % [collection.name, Time.get_datetime_string_from_system()])
+				collection.feature_layer.save_new("./game_layer_%s_%s.shp" % [collection.name, floor(Time.get_unix_time_from_system())])
 
 
 func activate_next_game_mode():
@@ -49,6 +49,9 @@ func activate_next_game_mode():
 		return
 		
 	var current_game_mode_idx = game_modes.find(current_game_mode)
+	
+	if current_game_mode_idx >= game_modes.size() - 1: return
+	
 	current_game_mode = game_modes[(current_game_mode_idx + 1) % game_modes.size()]
 
 
@@ -136,9 +139,10 @@ func get_game_object_for_geo_feature(geo_feature):
 
 
 func apply_game_object_removal(collection_name, game_object_id):
-	var collection = current_game_mode.game_object_collections[collection_name]
-	collection.game_objects.erase(game_object_id)
-	_game_objects.erase(game_object_id)
+	if collection_name in current_game_mode.game_object_collections:
+		var collection = current_game_mode.game_object_collections[collection_name]
+		collection.game_objects.erase(game_object_id)
+		_game_objects.erase(game_object_id)
 
 
 func _on_new_game_layer(_layer):

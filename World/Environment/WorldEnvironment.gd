@@ -8,7 +8,7 @@ extends WorldEnvironment
 var wind_speed = 0
 var wind_direction = 0
 
-var brightest_light_energy = 1.5
+var brightest_light_energy = 1.0
 var light_darken_begin_altitude = 15.0
 var light_disabled_altitude = 3.0
 
