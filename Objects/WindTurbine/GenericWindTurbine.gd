@@ -54,6 +54,7 @@ var weather_manager: WeatherManager :
 
 var feature
 var render_info
+var center
 
 
 func _apply_new_wind_speed(wind_speed):
@@ -101,6 +102,16 @@ func _ready():
 
 		set_hub_height(height)
 		set_rotor_diameter(diameter)
+	
+	if weather_manager:
+		_apply_new_wind_speed(weather_manager.wind_speed)
+		_apply_new_wind_direction(weather_manager.wind_direction)
+	
+	var height_here = render_info.ground_height_layer.get_value_at_position(
+			center[0] + transform.origin.x, center[1] - transform.origin.z)
+	
+	if height_here > -60.0 and has_node("Mesh/Mast/wt_offshore_float_device"):
+		$Mesh/Mast/wt_offshore_float_device.visible = false
 
 
 # Correctly orients the model depending checked the public wind_direction - automatically called when the wind direction is changed
@@ -150,8 +161,8 @@ func set_rotor_diameter(diameter: float):
 	var new_scale = Vector3.ONE * diameter / mesh_rotor_diameter
 	$Mesh/Rotor.scale = new_scale
 	$Mesh/Hub.scale = new_scale
-#	$Mesh/Rotor.position.z = start_pos_rotor.z - new_scale.z * start_pos_rotor.z
-#	$Mesh/Hub.position.z = start_pos_hub.z - new_scale.z * start_pos_hub.z
+	$Mesh/Rotor.position.z = start_pos_rotor.z + (new_scale.z - 1.0) * start_pos_rotor.z
+	$Mesh/Hub.position.z = start_pos_hub.z + (new_scale.z - 1.0) * start_pos_hub.z
 
 	_apply_new_wind_speed(weather_manager.wind_speed)
 
