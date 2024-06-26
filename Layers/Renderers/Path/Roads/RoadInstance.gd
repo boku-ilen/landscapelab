@@ -14,8 +14,10 @@ var from_intersection: int = 0
 var to_intersection: int = 0
 var width: float = 0.0
 var length: float = 0.0
+var is_bridge := false
 
 var _road_lane_car_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneCar.tscn")
+var _road_lane_car_bridge_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneCarBridge.tscn")
 var _road_lane_bike_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneBike.tscn")
 var _road_lane_pedestrian_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLanePedestrian.tscn")
 var _road_lane_parking_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneParking.tscn")
@@ -36,6 +38,7 @@ func load_from_feature(road_feature) -> void:
 	road_subname = road_feature.get_attribute("road_subname")
 	from_intersection = int(road_feature.get_attribute("from_intersection"))
 	to_intersection = int(road_feature.get_attribute("to_intersection"))
+	is_bridge = road_feature.get_attribute("bridge") == "1"
 	var lane_uses = road_feature.get_attribute("lane_uses")
 	var lanes: PackedStringArray = lane_uses.split(';', false)
 	
@@ -67,13 +70,14 @@ func load_from_feature(road_feature) -> void:
 				road_lane = _road_lane_rail_scene.instantiate()
 		
 		# General road lane info
-		if road_lane:
+		if road_lane and lane_infos.size() >= 5:
 			road_lane.lane_type = lane_type
 			road_lane.road_curve = road_curve
 			road_lane.road_width = float(lane_infos[1])
 			road_lane.road_offset = float(lane_infos[2])
 			road_lane.percentage_from = float(lane_infos[3])
 			road_lane.percentage_to = float(lane_infos[4])
+			road_lane.is_bridge = is_bridge
 			
 			road_lane.road_instance = self
 			

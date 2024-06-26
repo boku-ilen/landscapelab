@@ -5,7 +5,6 @@
 [ext_resource type="Material" uid="uid://da5e3qw6yps85" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneCar.tres" id="2_afqel"]
 
 [node name="RoadLaneCar" instance=ExtResource("1_1wr8m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 script = ExtResource("1_rwxlc")
 
 [node name="RoadLanePolygon" parent="." index="0"]
