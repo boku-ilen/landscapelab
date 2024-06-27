@@ -1,7 +1,20 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://da5e3qw6yps85"]
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://da5e3qw6yps85"]
 
 [ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneCar.gdshader" id="1_k213g"]
-[ext_resource type="Texture2D" uid="uid://um3tl0vdyor" path="res://Resources/Textures/Asphalt/Asphalt15_col.jpg" id="2_e2qpp"]
+[ext_resource type="Texture2D" uid="uid://d220bdfgs5wsl" path="res://Resources/Textures/Asphalt/DamageOverlay/opacity.jpg" id="2_g5wpw"]
+[ext_resource type="Texture2D" uid="uid://c0tmjkx7qxokr" path="res://Resources/Textures/Asphalt/DamageOverlay/color.jpg" id="3_1gogp"]
+[ext_resource type="Texture2D" uid="uid://du0g66s8nc5vb" path="res://Resources/Textures/Asphalt/DamageGround/Asphalt021_2K-JPG_Color.jpg" id="4_2c0oj"]
+[ext_resource type="Texture2D" uid="uid://dfnvovkj1rg0b" path="res://Resources/Textures/Asphalt/Asphalt020S_2K-JPG_Color.jpg" id="4_pr3vi"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_trv7s"]
+noise_type = 4
+frequency = 0.0059
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3qcue"]
+width = 1024
+height = 1024
+seamless = true
+noise = SubResource("FastNoiseLite_trv7s")
 
 [resource]
 resource_local_to_scene = true
@@ -16,4 +29,8 @@ shader_parameter/innerline_width = 0.12
 shader_parameter/innerline_gap = 6.0
 shader_parameter/innerline_length = 3.0
 shader_parameter/lanes = 2
-shader_parameter/road_texture = ExtResource("2_e2qpp")
+shader_parameter/road_texture = ExtResource("4_pr3vi")
+shader_parameter/damage_texture = ExtResource("4_2c0oj")
+shader_parameter/damage_overlay = ExtResource("3_1gogp")
+shader_parameter/damage_opacity = ExtResource("2_g5wpw")
+shader_parameter/wear_factor = SubResource("NoiseTexture2D_3qcue")
