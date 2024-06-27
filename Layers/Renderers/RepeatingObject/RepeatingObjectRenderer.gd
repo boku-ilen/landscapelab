@@ -134,6 +134,8 @@ func _calculate_intermediate_transforms():
 		var starting_point: Vector3
 		var end_point: Vector3
 		
+		var height_fit_rotation = 0.0
+		
 		var get_ground_height_at_pos
 		
 		var height_offset = 0.0
@@ -152,6 +154,8 @@ func _calculate_intermediate_transforms():
 			
 			var height_at_first = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + first_point.x, center[1] - first_point.z)
 			var height_at_last = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + last_point.x, center[1] - last_point.z)
+			
+			height_fit_rotation = atan((height_at_last - height_at_first) / length)
 			
 			get_ground_height_at_pos = func(position_x, position_z):
 				var lerp_factor = first_point.distance_to(Vector3(position_x - center[0], 0.0, -position_z + center[1])) / length
@@ -194,7 +198,8 @@ func _calculate_intermediate_transforms():
 			t = t.scaled_local(Vector3(1, 1, scale_factor))
 			t = t.scaled_local(Vector3.ONE * ll_scale)
 			
-			var rand_angle := 0.0
+			# Rotate by height slant if needed
+			t = t.rotated_local(Vector3.RIGHT, -height_fit_rotation)
 
 			var pos = t.origin + direction * scaled_width
 			
@@ -203,6 +208,8 @@ func _calculate_intermediate_transforms():
 			
 			# Randomly add 90, 180 or 270 degrees to previous rotation
 			if layer_composition.render_info.random_angle:
+				var rand_angle := 0.0
+				
 				var pseudo_random = int(pos.x * 43758.5453 + pos.z * 78233.9898)
 				rand_angle = rand_angle + (PI / 2.0) * ((pseudo_random % 3) + 1.0)
 				t = t.rotated_local(Vector3.UP, rand_angle)
@@ -213,7 +220,10 @@ func _calculate_intermediate_transforms():
 				center[0] + t.origin.x, center[1] - t.origin.z)
 			
 			if previous_height == 0.0: previous_height = new_height  # for the first iteration
-			t.origin.y = lerp(previous_height, new_height, 0.5) + height_offset
+			if layer_composition.render_info.height_gradient:
+				t.origin.y = new_height
+			else:
+				t.origin.y = lerp(previous_height, new_height, 0.5) + height_offset
 			
 			transforms[f_id].append(t)
 			
