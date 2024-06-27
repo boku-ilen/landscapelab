@@ -144,8 +144,8 @@ func load_feature_instance(feature):
 		)
 
 		# Increase contrast and saturation
-		color.v *= 0.9
-		color.s *= 1.6
+		color.v *= 0.4
+		color.s *= 2.0
 
 		roof.color = color
 
