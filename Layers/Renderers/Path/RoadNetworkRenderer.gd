@@ -61,7 +61,7 @@ func load_data() -> void:
 	# Get road data from db
 	var player_position = [int(center[0] + get_parent().position_manager.center_node.position.x), int(center[1] - get_parent().position_manager.center_node.position.z)]
 	var road_features = road_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
-	var intersection_features = intersection_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
+	#var intersection_features = intersection_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
 
 	_create_roads(road_features)
 	

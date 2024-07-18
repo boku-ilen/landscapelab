@@ -16,6 +16,7 @@ const LANE_TYPE_TO_NAME: Dictionary = {
 var lane_type: int = -1
 
 # Road path info
+@export var always_3d := false
 @export var road_height: float = 0.2
 @export var taper_top := 0.0
 @export var lower_into_ground := 0.0
@@ -71,7 +72,7 @@ func update_road_lane() -> void:
 	$RoadLanePolygon.material.set_shader_parameter("width", total_road_width)
 	$RoadLanePolygon.material.set_shader_parameter("height", total_road_height)
 	
-	if is_bridge:
+	if always_3d or is_bridge:
 		$RoadLanePolygon.layers = 4 # 3D mesh
 	else:
 		$RoadLanePolygon.layers = 32768 # Terrain overlay
