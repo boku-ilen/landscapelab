@@ -45,14 +45,15 @@ func _add_game_object(feature):
 	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(GeoGameObject, feature, self)
 	game_objects[game_object_for_feature.id] = game_object_for_feature
 	
-	feature.feature_changed.connect(_on_feature_changed)
+	feature.feature_changed.connect(_on_feature_changed.bind(game_object_for_feature))
 	
+	game_object_changed.emit(game_object_for_feature)
 	emit_signal("game_object_added", game_object_for_feature)
 	emit_signal("changed")
 
 
-func _on_feature_changed():
-	emit_signal("changed")
+func _on_feature_changed(game_object):
+	game_object_changed.emit(game_object)
 
 
 func _remove_game_object(feature):
@@ -68,6 +69,7 @@ func _remove_game_object(feature):
 		GameSystem.apply_game_object_removal(name, corresponding_game_object.id)
 		
 		emit_signal("game_object_removed", corresponding_game_object)
+		game_object_changed.emit(corresponding_game_object)
 		emit_signal("changed")
 
 
