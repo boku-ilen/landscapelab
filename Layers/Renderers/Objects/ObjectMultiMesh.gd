@@ -3,6 +3,7 @@ extends RenderChunk
 var height_layer: GeoRasterLayer
 var object_layer: GeoFeatureLayer
 var object
+var randomize
 
 var features
 var fresh_multimesh
@@ -39,19 +40,24 @@ func override_build(center_x, center_y):
 
 	var i = 0
 	for feature in features:
-		var instance_scale = randf_range(0.9, 1.2) #feature.get_attribute("height1").to_float() * 1.5
-		var instance_rotation = float(feature.get_attribute("LL_rot")) or 1.0
+		var instance_scale = randf_range(0.9, 1.2) if randomize else 1.0
+		var instance_rotation = -float(feature.get_attribute("LL_rot"))
 		
 		var pos = feature.get_offset_vector3(-int(center_x), 0, -int(center_y))
 		pos.y = height_layer.get_value_at_position(pos.x + center_x, center_y - pos.z)
-
-		fresh_multimesh.set_instance_transform(i, (Transform3D()
-				.scaled(Vector3(instance_scale, instance_scale, instance_scale)) \
+		
+		var new_transform = Transform3D().scaled(Vector3(instance_scale, instance_scale, instance_scale))
+		
+		if randomize:
+			new_transform = new_transform \
 				.rotated(Vector3.RIGHT, rng.randi_range(0, 3) * PI * 0.5) \
-				.rotated(Vector3.FORWARD, rng.randi_range(0, 3) * PI * 0.5) \
-				.rotated(Vector3.UP, deg_to_rad(instance_rotation)) \
-				.translated(pos)
-		))
+				.rotated(Vector3.FORWARD, rng.randi_range(0, 3) * PI * 0.5)
+		
+		new_transform = new_transform \
+			.rotated(Vector3.UP, deg_to_rad(instance_rotation)) \
+			.translated(pos)
+		
+		fresh_multimesh.set_instance_transform(i, new_transform)
 		
 		i += 1
 

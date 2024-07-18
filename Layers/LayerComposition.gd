@@ -206,6 +206,10 @@ class ObjectRenderInfo extends RenderInfo:
 
 
 class MultiMeshObjectRenderInfo extends ObjectRenderInfo:
+	var chunk_size = null
+	var extent = null
+	var randomize = false
+	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Objects/MultiMeshObjectRenderer.tscn")
 		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
