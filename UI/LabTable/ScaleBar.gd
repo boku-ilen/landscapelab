@@ -2,6 +2,7 @@ extends VBoxContainer
 
 
 @export var camera: Camera2D
+@export var target_length_pixels := 150
 
 
 func _ready():
@@ -20,7 +21,7 @@ func _on_offset_changed(offset, viewport_size, zoom):
 	var meters = 1.0
 	
 	# Scale in nice increments until the bar has a sensible length
-	while new_length < 100.0:
+	while new_length < target_length_pixels:
 		var factor
 		
 		if str(meters)[0] == "1":
