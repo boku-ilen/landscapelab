@@ -7,4 +7,3 @@ script = ExtResource("1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 layers = 4
-cast_shadow = 0

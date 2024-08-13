@@ -185,7 +185,10 @@ void vertex() {
 		
 		offset *= float(texture_index >= 0 && texture_index <= 10);
 		
-		VERTEX.y += offset;
+		// Make transition more seamless by lerping between 1.0 in the center and 0.0 on the border
+		float center_distance_factor = (0.5 - min(abs(UV.x - 0.5), abs(UV.y - 0.5))) * 2.0;
+		
+		VERTEX.y += offset * center_distance_factor;
 	}
 	
 //	if (has_surface_heights) {

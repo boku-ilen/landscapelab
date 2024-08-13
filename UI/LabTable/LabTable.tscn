@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=23 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -17,7 +17,10 @@
 [ext_resource type="PackedScene" uid="uid://bjl2vfe4otxnj" path="res://UI/LabTable/LabTableConfigurator.tscn" id="15_esmpk"]
 [ext_resource type="Script" path="res://UI/LabTable/LabTableMarkers.gd" id="15_j8x0r"]
 [ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="17_aru4m"]
+[ext_resource type="Script" path="res://UI/LabTable/SaveButton.gd" id="19_bwlna"]
 [ext_resource type="Script" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
+[ext_resource type="Script" path="res://UI/LabTable/ScaleBar.gd" id="20_rfesq"]
+[ext_resource type="Texture2D" uid="uid://b0ggrqax876lq" path="res://Resources/Textures/UI/scalebar.png" id="21_8rx5g"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
@@ -78,6 +81,7 @@ cursor_path = NodePath("../../Cursor2D")
 [node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera") instance=ExtResource("5_c4s8q")]
 visibility_layer = 3
 camera = NodePath("../Camera2D")
+load_data_threaded = false
 
 [node name="Cursor2D" type="Sprite2D" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d")]
 visible = false
@@ -99,12 +103,13 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_ha2ys")
 
-[node name="ControlContainer" parent="LabTable/SubViewportContainer/PanelContainer" node_paths=PackedStringArray("camera_2d") instance=ExtResource("4_d680t")]
+[node name="ControlContainer" parent="LabTable/SubViewportContainer/PanelContainer" node_paths=PackedStringArray("camera_2d", "grid_container") instance=ExtResource("4_d680t")]
 layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 camera_2d = NodePath("../../SubViewport/Camera2D")
+grid_container = NodePath(".")
 
 [node name="HBox" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer" index="1"]
 size_flags_horizontal = 4
@@ -128,6 +133,12 @@ custom_minimum_size = Vector2(90, 90)
 
 [node name="Down" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/GridContainer" index="7"]
 custom_minimum_size = Vector2(90, 90)
+
+[node name="OverviewContainer" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer" index="3"]
+visible = false
+
+[node name="SubViewport" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer" index="0"]
+render_target_update_mode = 0
 
 [node name="ReferenceRect" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport" index="2"]
 visibility_layer = 2
@@ -228,6 +239,58 @@ layout_mode = 2
 theme = ExtResource("8_2ddb4")
 text = "Next Game Mode"
 script = ExtResource("20_12202")
+
+[node name="CenterContainer2" type="CenterContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -62.0
+offset_top = -46.0
+offset_right = -15.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="SaveButton" type="Button" parent="CenterContainer2"]
+layout_mode = 2
+theme = ExtResource("8_2ddb4")
+text = "Save"
+script = ExtResource("19_bwlna")
+
+[node name="CenterContainer3" type="CenterContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -136.5
+offset_top = -40.0
+offset_right = 136.5
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="ScaleBar" type="VBoxContainer" parent="CenterContainer3" node_paths=PackedStringArray("camera")]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+alignment = 1
+script = ExtResource("20_rfesq")
+camera = NodePath("../../LabTable/SubViewportContainer/SubViewport/Camera2D")
+
+[node name="Line2D" type="Line2D" parent="CenterContainer3/ScaleBar"]
+points = PackedVector2Array(0, 0, 100, 0)
+texture = ExtResource("21_8rx5g")
+texture_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer3/ScaleBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.443137, 0.443137, 0.443137, 1)
+text = "1000m"
+horizontal_alignment = 1
 
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
 [editable path="Panel/CenterContainer/ScoreContributorWeightSlider"]

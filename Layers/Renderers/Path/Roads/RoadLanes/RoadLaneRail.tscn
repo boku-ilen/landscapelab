@@ -4,6 +4,7 @@
 [ext_resource type="Material" uid="uid://d3oll2i6g6who" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneRail.tres" id="2_v7fw3"]
 
 [node name="RoadLaneRail" instance=ExtResource("1_r3fr6")]
+always_3d = true
 road_height = 0.5
 taper_top = 1.2
 lower_into_ground = 1.0

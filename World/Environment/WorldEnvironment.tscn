@@ -40,10 +40,12 @@ ambient_light_source = 3
 ambient_light_color = Color(0.835294, 0.858824, 1, 1)
 ambient_light_sky_contribution = 0.9
 reflected_light_source = 2
-tonemap_white = 6.0
+tonemap_white = 16.0
+ssao_enabled = true
 ssao_radius = 5.0
-ssao_intensity = 6.15
+ssao_intensity = 4.0
 ssil_enabled = true
+ssil_intensity = 2.0
 sdfgi_bounce_feedback = 1.0
 sdfgi_min_cell_size = 1.0
 sdfgi_cascade0_distance = 64.0
@@ -60,8 +62,9 @@ script = ExtResource("1")
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.551073, -0.830715, 0.0789348, -0.498894, -0.252165, 0.829167, -0.668897, -0.496311, -0.5534, 0, 0, 0)
-layers = 15
+layers = 23
 light_energy = 1.5
+light_bake_mode = 0
 shadow_enabled = true
 shadow_bias = 0.25
 shadow_blur = 2.0
@@ -71,7 +74,9 @@ sky_mode = 1
 
 [node name="SkyLight" type="DirectionalLight3D" parent="DirectionalLight"]
 transform = Transform3D(0.998675, 0.0390908, -0.0334572, -0.0374992, 0.998193, 0.0469456, 0.0352319, -0.0456288, 0.998337, 0, 0, 0)
+layers = 0
 light_energy = 4.0
+light_bake_mode = 0
 sky_mode = 2
 
 [node name="Rain" parent="." instance=ExtResource("6_wusnq")]

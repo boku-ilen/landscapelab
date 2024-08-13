@@ -6,6 +6,13 @@ var previous_player_position := Vector3.ZERO
 var min_load_distance := 1.0
 
 
+func _ready():
+	var vp = preload("res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn").instantiate()
+	vp.get_node("LIDViewport").size = Vector2(size, size)
+	vp.get_node("LIDViewport/CameraRoot/LIDCamera").size = size
+	add_child(vp)
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	# Only do an update if the player has moved sufficiently since last frame
@@ -65,5 +72,8 @@ func _process(delta):
 		0.7, # Agriculture
 		
 	])
+	
+	material_override.set_shader_parameter("use_landuse_overlay", true)
+	material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
 	
 	previous_player_position = get_parent().position_manager.center_node.position

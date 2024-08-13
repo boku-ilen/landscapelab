@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://dksbmoac1lugn"
+path="res://.godot/imported/normal.jpg-ef4e4650a031c5571c1ac4c5a8ea090f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/SoilGreen/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-ef4e4650a031c5571c1ac4c5a8ea090f.image"]
+
+[params]
+

@@ -46,7 +46,7 @@ var fallback_wall_id := 1
 
 var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
 var fallback_height = 10
-var fallback_num_floors = 2
+var fallback_num_floors = 1
 var cellar_height = floor_height # For preventing partially floating buildings checked uneven surfaces
 var plinth_height_factor = 0.025
 
@@ -144,8 +144,8 @@ func load_feature_instance(feature):
 		)
 
 		# Increase contrast and saturation
-		color.v *= 0.9
-		color.s *= 1.6
+		color.v *= 0.4
+		color.s *= 2.0
 
 		roof.color = color
 

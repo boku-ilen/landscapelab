@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://3h4ychvi0yw0"]
+[gd_scene load_steps=12 format=3 uid="uid://3h4ychvi0yw0"]
 
 [ext_resource type="Script" path="res://Perspectives/PC/PlayerController.gd" id="1"]
 [ext_resource type="Script" path="res://Perspectives/PC/SettingsCamera.gd" id="2"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Communication/SetPositionRequestHandler.gd" id="8"]
 [ext_resource type="Texture2D" uid="uid://bxy40aj51eghh" path="res://Resources/Icons/ModernLandscapeLab/positionindicator.svg" id="9"]
 [ext_resource type="PackedScene" uid="uid://smxcuwyafd66" path="res://Perspectives/PC/VRSubviewPort.tscn" id="9_sfca8"]
+[ext_resource type="Script" path="res://Perspectives/PC/AutoCamera.gd" id="10_cs7ku"]
 
 [sub_resource type="SeparationRayShape3D" id="1"]
 length = 1.65
@@ -26,7 +27,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 transform = Transform3D(1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0)
 cull_mask = 1143
 doppler_tracking = 2
-near = 0.5
+fov = 37.8493
+near = 1.0
 script = ExtResource("2")
 setting_title = "player"
 
@@ -67,5 +69,10 @@ update_scale = false
 [node name="XRCamera3D" parent="SubViewport/XROrigin3D" index="2"]
 near = 0.5
 far = 20000.0
+
+[node name="AutoCamera" type="Node3D" parent="." node_paths=PackedStringArray("automated_camera", "vr_camera")]
+script = ExtResource("10_cs7ku")
+automated_camera = NodePath("../Head/Camera3D")
+vr_camera = NodePath("../SubViewport/XROrigin3D/XRCamera3D")
 
 [editable path="SubViewport"]

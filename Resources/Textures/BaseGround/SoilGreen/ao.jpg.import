@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://cq3jikdamdiv2"
+path="res://.godot/imported/ao.jpg-cd9a8e81fdc2b6443fc6f2092ad27eb0.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/SoilGreen/ao.jpg"
+dest_files=["res://.godot/imported/ao.jpg-cd9a8e81fdc2b6443fc6f2092ad27eb0.image"]
+
+[params]
+

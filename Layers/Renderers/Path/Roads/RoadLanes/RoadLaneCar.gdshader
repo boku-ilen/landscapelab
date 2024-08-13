@@ -22,15 +22,31 @@ void vertex() {
 }
 
 void fragment() {
-	vec3 color = texture(road_texture, WORLD_UV.xz).rgb;
+	vec2 damage_uv = WORLD_UV.xz * 0.3;
+	vec2 wear_uv = WORLD_UV.xz * 0.05;
+	
+	float wear_noise = texture(wear_factor, wear_uv).r;
+	
+	float damage_opacity_sample = texture(damage_opacity, damage_uv).r;
+	damage_opacity_sample *= float(wear_noise > 0.7);
+	
+	vec3 color = mix(
+		texture(road_texture, WORLD_UV.xz).rgb,
+		texture(damage_texture, WORLD_UV.xz).rgb,
+		wear_noise);
+	
+	color *= 1.0 - damage_opacity_sample;
+	color += texture(damage_overlay, damage_uv).rgb * damage_opacity_sample;
 	// Map UV to the upper face of the polygon
 	vec2 uv = UV * 8.0  * width;
+	
+	float marking_multiplier = 1.0;
 	
 	// Outer lines
 	if ((uv.y > outerline_offset && uv.y < outerline_offset + outerline_width) ||
 		(uv.y > width - (outerline_offset + outerline_width) && uv.y < width - outerline_offset))
 	{
-		color *= 5.0;
+		marking_multiplier *= 2.0;
 	}
 	
 	// Map UV to inner part of road (between outerlines)
@@ -46,11 +62,16 @@ void fragment() {
 			float remainder = mod(uv.x, innerline_length + innerline_gap);
 			if (remainder > innerline_length)
 			{
-				color *= 5.0;
+				marking_multiplier *= 2.0;
 			}
 			
 		}
 	}
+	
+	color *= mix(1.0, marking_multiplier, 1.0 - damage_opacity_sample);
+	
+	// TODO: expose as brightness factor to alter type of asphalt
+	color *= 1.2;
 	
 	ALBEDO = min(color, vec3(1.0,1.0, 1.0));
 }

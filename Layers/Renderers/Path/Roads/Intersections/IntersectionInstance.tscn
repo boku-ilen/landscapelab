@@ -4,7 +4,7 @@
 [ext_resource type="Material" uid="uid://dmufssdbye00e" path="res://Layers/Renderers/Path/Roads/Intersections/IntersectionInstance.tres" id="2_toliy"]
 
 [node name="IntersectionInstance" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8000, 0)
 script = ExtResource("1_jwvhi")
 
 [node name="IntersectionPolygon" type="CSGPolygon3D" parent="."]
