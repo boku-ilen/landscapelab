@@ -67,7 +67,7 @@ func load_from_feature(road_feature) -> void:
 				road_lane = _road_lane_rail_scene.instantiate()
 		
 		# General road lane info
-		if road_lane:
+		if road_lane and lane_infos.size() >= 5:
 			road_lane.lane_type = lane_type
 			road_lane.road_curve = road_curve
 			road_lane.road_width = float(lane_infos[1])
