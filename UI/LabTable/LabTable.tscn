@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=26 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -21,9 +21,13 @@
 [ext_resource type="Script" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
 [ext_resource type="Script" path="res://UI/LabTable/ScaleBar.gd" id="20_rfesq"]
 [ext_resource type="Texture2D" uid="uid://b0ggrqax876lq" path="res://Resources/Textures/UI/scalebar.png" id="21_8rx5g"]
+[ext_resource type="Texture2D" uid="uid://bs6l1cbwkvg0f" path="res://Resources/Icons/ModernLandscapeLab/circle.svg" id="22_bfyho"]
+[ext_resource type="StyleBox" uid="uid://dg3l5xqfdgxff" path="res://UI/LabTable/Style/PopupPanel.tres" id="23_wb0c1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rqbs8"]
 
 [node name="LabTableWindow" type="Window"]
 initial_position = 1
@@ -291,6 +295,77 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.443137, 0.443137, 0.443137, 1)
 text = "1000m"
 horizontal_alignment = 1
+
+[node name="AtmosphereMenu" type="Sprite2D" parent="."]
+texture = ExtResource("22_bfyho")
+offset = Vector2(1520, 80)
+
+[node name="AtmospherePanel" type="PanelContainer" parent="AtmosphereMenu"]
+show_behind_parent = true
+custom_minimum_size = Vector2(200, 300)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1294.0
+offset_top = 75.0
+offset_right = 1444.0
+offset_bottom = 375.0
+grow_horizontal = 0
+theme_override_styles/panel = ExtResource("23_wb0c1")
+
+[node name="Content" type="VBoxContainer" parent="AtmosphereMenu/AtmospherePanel"]
+layout_mode = 2
+
+[node name="SpacerTop" type="HBoxContainer" parent="AtmosphereMenu/AtmospherePanel/Content"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+alignment = 2
+
+[node name="Settings" type="VBoxContainer" parent="AtmosphereMenu/AtmospherePanel/Content"]
+layout_mode = 2
+
+[node name="TimeLabel" type="Label" parent="AtmosphereMenu/AtmospherePanel/Content/Settings"]
+layout_mode = 2
+text = "Time:"
+
+[node name="TimeSelect" type="ItemList" parent="AtmosphereMenu/AtmospherePanel/Content/Settings"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rqbs8")
+item_count = 4
+max_columns = 4
+item_0/text = ""
+item_0/icon = ExtResource("22_bfyho")
+item_1/text = ""
+item_1/icon = ExtResource("22_bfyho")
+item_2/text = ""
+item_2/icon = ExtResource("22_bfyho")
+item_3/text = ""
+item_3/icon = ExtResource("22_bfyho")
+
+[node name="WeatherLabel" type="Label" parent="AtmosphereMenu/AtmospherePanel/Content/Settings"]
+layout_mode = 2
+text = "Weather:"
+
+[node name="WeatherSelect" type="ItemList" parent="AtmosphereMenu/AtmospherePanel/Content/Settings"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rqbs8")
+item_count = 4
+max_columns = 4
+item_0/text = ""
+item_0/icon = ExtResource("22_bfyho")
+item_1/text = ""
+item_1/icon = ExtResource("22_bfyho")
+item_2/text = ""
+item_2/icon = ExtResource("22_bfyho")
+item_3/text = ""
+item_3/icon = ExtResource("22_bfyho")
+
+[node name="SpacerBottom" type="HBoxContainer" parent="AtmosphereMenu/AtmospherePanel/Content"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+alignment = 2
 
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
 [editable path="Panel/CenterContainer/ScoreContributorWeightSlider"]
