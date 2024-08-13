@@ -13,6 +13,7 @@ material = SubResource("ShaderMaterial_kdxc6")
 size = Vector2(2, 2)
 
 [node name="debugviewer" type="MeshInstance3D"]
+visible = false
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_rismq")
 script = ExtResource("2_nkpqk")
