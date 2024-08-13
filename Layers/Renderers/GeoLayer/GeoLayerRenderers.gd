@@ -86,20 +86,16 @@ func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
 	get_node(layer_name).z_index = l_z_index
 
 
-func add_layer_composition_renderer(layer_name: String, layer_icon_path: String,
-		layer_icon_scale: float, layer_min_zoom: float, is_visible: bool, l_z_index := 0):
-	instantiate_layer_composition_renderer(layer_name)
-	if layer_icon_path != null: get_node(layer_name).icon = load(layer_icon_path)
-	if layer_icon_scale != null: get_node(layer_name).icon_scale = layer_icon_scale
-	if layer_min_zoom != null: get_node(layer_name).min_zoom = layer_min_zoom
-	if l_z_index != null: get_node(layer_name).z_index = l_z_index
+func add_layer_composition_renderer(layer_conf):
+	instantiate_layer_composition_renderer(layer_conf)
 
 
 # FIXME: we should implement this in a cleaner way
 # Similar to instantiate_geolayer_renderer, but adds a layer corresponding to
 # a feature LayerComposition. Consequently changes applied will be applied for 
 # the layer composition as well as the geolayer
-func instantiate_layer_composition_renderer(lc_name: String):
+func instantiate_layer_composition_renderer(layer_conf):
+	var lc_name = layer_conf["layer_name"]
 	var geo_layer = Layers.layer_compositions[lc_name].render_info.geo_feature_layer
 	
 	var renderer = feature_renderer.instantiate()
@@ -118,6 +114,7 @@ func instantiate_layer_composition_renderer(lc_name: String):
 		renderer.position = offset
 		renderer.name = lc_name
 		renderer.visibility_layer = visibility_layer
+		renderer.config = layer_conf
 		
 		renderer.set_metadata(
 			center,
