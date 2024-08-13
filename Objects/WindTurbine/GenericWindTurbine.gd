@@ -19,8 +19,8 @@ extends Node3D
 		if is_inside_tree():
 			update_rotation()
 
-@export var mesh_hub_height := 135
-@export var mesh_rotor_diameter := 100
+@export var mesh_hub_height := 135.0
+@export var mesh_rotor_diameter := 100.0
 
 # Minimum height and diameter for features where this attribute is 0
 @export var min_hub_height := 50
