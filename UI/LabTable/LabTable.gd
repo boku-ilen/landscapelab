@@ -9,6 +9,20 @@ extends Control
 		player_node = new_player
 		if geo_layers:
 			geo_layers.player_node = new_player
+			
+		get_parent().get_node("AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").player = new_player
+
+@export var time_manager: TimeManager:
+	set(new_time_manager):
+		time_manager = new_time_manager
+		get_parent().get_node("AtmosphereMenu").time_manager = new_time_manager
+
+@export var weather_manager: WeatherManager:
+	set(new_weather_manager):
+		weather_manager = new_weather_manager
+		get_parent().get_node("AtmosphereMenu").weather_manager = new_weather_manager
+		get_parent().get_node("AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").weather_manager = new_weather_manager
+
 # To debug it as standalone (without running the rest of the landscapelab
 # it is necessary to load the configuration
 @export var debug_mode := false

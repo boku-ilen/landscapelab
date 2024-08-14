@@ -42,6 +42,7 @@ func _http_request_completed(result, response_code, headers, body):
 	weather_manager.wind_speed = wind_speed
 	weather_manager.wind_direction = wind_direction - 180.0
 	weather_manager.cloud_coverage = pow(cloud_cover / 100.0, 1.75) * 100.0 # Scale to make percentage work as intended
+	weather_manager.rain_enabled = rain > 0.0 or showers > 0.0
 	
 	if rain > 0:
 		weather_manager.cloud_density = 66.0
