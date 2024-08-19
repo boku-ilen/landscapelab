@@ -156,7 +156,7 @@ func add_attribute_information(attribute_name, attribute_value):
 	
 	# Style fixes for long text
 	label2.autowrap_mode = TextServer.AUTOWRAP_WORD
-	label2.custom_minimum_size.x = min(attribute_value.length(), 600.0)
+	hbox.custom_minimum_size.x = min(attribute_value.length() + attribute_name.length(), 600.0)
 	
 	label1.text = attribute_name
 	label2.text = attribute_value

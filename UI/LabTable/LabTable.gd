@@ -9,11 +9,25 @@ extends Control
 		player_node = new_player
 		if geo_layers:
 			geo_layers.player_node = new_player
+			
+		get_parent().get_node("AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").player = new_player
+
+@export var time_manager: TimeManager:
+	set(new_time_manager):
+		time_manager = new_time_manager
+		get_parent().get_node("AtmosphereMenu").time_manager = new_time_manager
+
+@export var weather_manager: WeatherManager:
+	set(new_weather_manager):
+		weather_manager = new_weather_manager
+		get_parent().get_node("AtmosphereMenu").weather_manager = new_weather_manager
+		get_parent().get_node("AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").weather_manager = new_weather_manager
+
 # To debug it as standalone (without running the rest of the landscapelab
 # it is necessary to load the configuration
 @export var debug_mode := false
 
-var current_goc_name = "Onshore Wind Farms"
+var current_goc_name = "Offshore Wind Farms"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
@@ -42,12 +56,11 @@ func _ready():
 		geo_layers.geo_transform = inv_geo_transform
 	)
 	
-	$LabTableConfigurator.new_layer.connect(func(layer_name, layer_icon, icon_scale, min_zoom, l_z_index = 0):
-		if layer_name in Layers.layer_compositions:
-			geo_layers.add_layer_composition_renderer(
-				layer_name, layer_icon, icon_scale, min_zoom, true, l_z_index)
+	$LabTableConfigurator.new_layer.connect(func(layer_conf):
+		if layer_conf["layer_name"] in Layers.layer_compositions:
+			geo_layers.add_layer_composition_renderer(layer_conf)
 		else: 
-			geo_layers.set_layer_visibility(layer_name, true, l_z_index))
+			geo_layers.set_layer_visibility(layer_conf["layer_name"], true, layer_conf["z_index"]))
 	$LabTableConfigurator.load_table_config()
 	
 	# Display camera extent on overview

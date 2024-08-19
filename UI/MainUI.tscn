@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://irhadvtwokr5"]
+[gd_scene load_steps=28 format=3 uid="uid://irhadvtwokr5"]
 
 [ext_resource type="PackedScene" uid="uid://csad5ev7rwtoe" path="res://UI/MenuBar/MenuBar.tscn" id="2_56a3o"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/Management/GeoLayerManagement.gd" id="4_ba7hm"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="15"]
 [ext_resource type="PackedScene" uid="uid://dq360hhqtol4f" path="res://World/World.tscn" id="15_xvbyv"]
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="17_3pwcs"]
+[ext_resource type="PackedScene" uid="uid://dl4m3ovxk1e8q" path="res://Util/Debug/Rendering/debugviewer.tscn" id="17_u6ksd"]
 [ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="18"]
 [ext_resource type="PackedScene" uid="uid://btpe1wyj5nbfg" path="res://UI/Layers/GeoLayers/GeoLayerViewport.tscn" id="18_gf1q8"]
 [ext_resource type="PackedScene" uid="uid://dhe6mnba7w50y" path="res://UI/Scenarios/Scenarios.tscn" id="20"]
@@ -66,10 +67,12 @@ viewport = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewP
 docks = [NodePath("../../Left/Tabs"), NodePath("../../Left/Mid/Right"), NodePath("../../Left/Mid/MidVertical/HBoxContainer")]
 dock_names = Array[String](["Left dock", "Right dock", "Bottom dock"])
 
-[node name="UtilButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" node_paths=PackedStringArray("action_handler_3d_path", "position_manager", "player_node")]
+[node name="UtilButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" node_paths=PackedStringArray("action_handler_3d_path", "position_manager", "player_node", "weather_manager", "time_manager")]
 action_handler_3d_path = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/ActionHandler")
 position_manager = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 player_node = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
+weather_manager = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/WeatherManager")
+time_manager = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/TimeManager")
 
 [node name="GeoLayerManagement" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -174,6 +177,8 @@ offset_right = 0.0
 grow_horizontal = 0
 size_flags_horizontal = 8
 pc_player = NodePath("..")
+
+[node name="debugviewer" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World" instance=ExtResource("17_u6ksd")]
 
 [node name="LoadingCircle" type="TextureRect" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI"]
 visible = false

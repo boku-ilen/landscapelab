@@ -17,8 +17,8 @@ signal datetime_changed(new_datetime)
 signal daytime_changed(is_day)
 
 
-func set_datetime_by_dict(date):
-	datetime = date
+func set_datetime_by_dict(datetime_dict):
+	_update_datetime(datetime_dict)
 
 
 func set_date(year, month, day):

@@ -9,21 +9,26 @@ var renderers: Node2D
 
 var newest_feature = null
 
-var icon
-var icon_scale = 0.1
-var min_zoom = 0.0
+var config
 
 signal popup_clicked
 
 var point_func = func(feature: GeoPoint): 
 	var p = feature.get_vector3()
 	var marker = preload("res://Layers/Renderers/GeoLayer/FeatureMarker.tscn").instantiate()
-	marker.set_texture(icon)
+	
+	if "icon_near" in config and zoom.x >= config["icon_near_switch_zoom"]:
+		marker.set_texture(load(config["icon_near"]))
+		marker.set_scale(Vector2.ONE * config["icon_near_scale"])
+	else:
+		marker.set_texture(load(config["icon"]))
+		marker.set_scale(Vector2.ONE * config["icon_scale"] / zoom)
+	
 	marker.set_position(global_vector3_to_local_vector2(p))
-	marker.set_scale(Vector2.ONE * icon_scale / zoom)
 	marker.feature = feature
 	marker.layer = geo_feature_layer
 	marker.popup_clicked.connect(func(): popup_clicked.emit())
+	
 	return marker
 
 var line_func = func(feature: GeoLine):
@@ -81,7 +86,7 @@ func set_renderers(visualizers: Node2D):
 
 
 func apply_new_data():
-	if zoom.x > min_zoom:
+	if (not "min_zoom" in config) or (zoom.x > config["min_zoom"]):
 		visible = true
 	else:
 		visible = false

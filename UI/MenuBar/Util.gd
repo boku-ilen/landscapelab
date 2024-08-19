@@ -4,6 +4,9 @@ extends MenuButtonExtended
 @export var action_handler_3d_path: Node
 @export var position_manager: PositionManager
 @export var player_node: Node3D
+@export var weather_manager: WeatherManager
+@export var time_manager: TimeManager
+
 const TABLESCENE = preload("res://UI/LabTable/LabTable.tscn")
 const DOLLYSCENE = preload("res://UI/DollyCamera/DollyWindow.tscn")
 
@@ -39,6 +42,8 @@ func _open_labtable():
 	if labtable_window == null:
 		labtable_window = TABLESCENE.instantiate()
 		labtable_window.get_node("LabTable").player_node = player_node
+		labtable_window.get_node("LabTable").time_manager = time_manager
+		labtable_window.get_node("LabTable").weather_manager = weather_manager
 	if not labtable_window.is_inside_tree():
 		get_tree().get_root().add_child(labtable_window)
 	

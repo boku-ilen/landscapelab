@@ -44,7 +44,7 @@ window/size/height=1080
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/debugviewer_editor/plugin.cfg")
 
 [filesystem]
 
