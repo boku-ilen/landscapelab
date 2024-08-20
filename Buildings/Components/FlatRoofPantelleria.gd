@@ -1,4 +1,4 @@
-extends Node3D
+extends RoofBase
 
 
 #
@@ -6,7 +6,7 @@ extends Node3D
 #
 
 
-@export var height = 1.5
+@export var height = 0.5
 var color
 
 
@@ -34,7 +34,7 @@ func build(footprint: PackedVector2Array):
 		st.set_smooth_group(1)
 	
 	# Create dome-ish look by adding the heigher vertices offset inwards
-	var downscaled_footprint = footprint * Transform2D(0, Vector2.ONE * 0.9, 0, Vector2.ZERO) 
+	var downscaled_footprint = footprint * Transform2D(0, Vector2.ONE * 0.97, 0, Vector2.ZERO) 
 	
 	# Create flat roof
 	var polygon_indices_rev = Geometry2D.triangulate_polygon(downscaled_footprint)
@@ -75,3 +75,19 @@ func build(footprint: PackedVector2Array):
 	var mesh = st.commit()
 	mesh.custom_aabb = st.get_aabb()
 	get_node("MeshInstance3D").mesh = mesh
+	
+	add_domes()
+
+
+func add_domes():
+	for addon_id in addon_ids:
+		var offset_x = building_metadata["geo_offset"][0]
+		var offset_z = building_metadata["geo_offset"][1]
+		var pos: Vector3 = addon_layer.get_feature_by_id(addon_id) \
+			.get_offset_vector3(offset_x, 0, offset_z)
+		pos.x -= building_metadata["engine_center_position"].x
+		pos.z -= building_metadata["engine_center_position"].z
+		pos.z += height
+		var instance: Node3D = addon_object.instantiate() 
+		add_child(instance)
+		instance.translate(pos)
