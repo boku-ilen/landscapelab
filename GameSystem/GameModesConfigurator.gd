@@ -209,4 +209,3 @@ func _deserialize_creation_conditions(game_mode: GameMode, conditions: Dictionar
 
 func _deserialize_tokens(game_mode: GameMode, tokens: Dictionary):
 	game_mode.token_to_game_object_collection = tokens
-
