@@ -13,13 +13,39 @@ var config
 
 signal popup_clicked
 
+
+func parse_attribute_expression(feature, formula):
+	# Insert attribute values into formula
+	var formated_string = formula
+	
+	while formated_string.find("$") >= 0:
+		var begin_index = formated_string.find("$", 0)
+		var length = formated_string.find("$", begin_index + 1) - begin_index
+		var slice = formated_string.substr(begin_index + 1, length - 1)
+		
+		var value = feature.get_attribute(slice)
+		
+		formated_string = formated_string.left(begin_index) + str(value) + formated_string.right(-(begin_index + length + 1))
+	
+	var expression = Expression.new()
+	expression.parse(formated_string)
+	var result = expression.execute()
+	
+	if not result: result = 0.0
+	
+	return result
+
 var point_func = func(feature: GeoPoint): 
 	var p = feature.get_vector3()
 	var marker = preload("res://Layers/Renderers/GeoLayer/FeatureMarker.tscn").instantiate()
 	
 	if "icon_near" in config and zoom.x >= config["icon_near_switch_zoom"]:
 		marker.set_texture(load(config["icon_near"]))
-		marker.set_scale(Vector2.ONE * config["icon_near_scale"])
+		
+		if "icon_near_scale_formula" in config:
+			marker.set_scale(Vector2.ONE * parse_attribute_expression(feature, config["icon_near_scale_formula"]))
+		else:
+			marker.set_scale(Vector2.ONE * config["icon_near_scale"])
 	else:
 		marker.set_texture(load(config["icon"]))
 		marker.set_scale(Vector2.ONE * config["icon_scale"] / zoom)
