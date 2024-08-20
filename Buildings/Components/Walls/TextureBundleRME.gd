@@ -51,7 +51,7 @@ func _on_bundled_texture_changed(roughness: Texture, metallic: Texture,
 	
 	# Try to obtain the alpha channel from the albedo
 	var alpha_data = []
-	if albedo != null:
+	if albedo != null and albedo.get_image().detect_alpha() != Image.AlphaMode.ALPHA_NONE:
 		var albedo_image = albedo.get_image().duplicate(true)
 		albedo_image.clear_mipmaps()
 		albedo_image.decompress()
