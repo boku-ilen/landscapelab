@@ -11,7 +11,7 @@ uniform sampler2D splatmap_overlay: repeat_disable, filter_nearest;
 
 uniform float splatmap_size_meters;
 
-uniform sampler2D[64] distribution_array: repeat_enable, filter_nearest;
+uniform sampler2D[96] distribution_array: repeat_enable, filter_nearest;
 uniform sampler2D row_ids;
 
 uniform float amplitude = 1.0;
@@ -80,7 +80,11 @@ void process() {
 	inv_rot[2][0] = sin(-angle);
 	inv_rot[2][2] = cos(-angle);
 	
+	// TODO Write comment
 	COLOR.xyz = inv_rot * normalize(cross(vec3(0.2, height_right - height_here, 0.0), vec3(0.0, height_above - height_here, -0.2)));
+	
+	// TODO Scale by plant height, find good factor
+	height_here -= (1.0 - COLOR.y) * 0.15;
 	
 	// apply our height
 	pos.y = height_here;
