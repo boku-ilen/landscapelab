@@ -6,7 +6,7 @@ extends RoofBase
 #
 
 
-@export var height = 0.5
+@export var height = 0.05
 var color
 
 
@@ -24,17 +24,10 @@ func build(footprint: PackedVector2Array):
 	
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	
-	# Generate flat normals if it is a complex building
-	# Using smooth normals on complex buildings creates unwanted ligthing artifacts
-	if footprint.size() > 7:
-		st.set_smooth_group(-1)
-	# Otherwise fake the increase the dome-ish look by smoothing the normals
-	else:
-		st.set_smooth_group(1)
+	st.set_smooth_group(-1)
 	
 	# Create dome-ish look by adding the heigher vertices offset inwards
-	var downscaled_footprint = footprint * Transform2D(0, Vector2.ONE * 0.97, 0, Vector2.ZERO) 
+	var downscaled_footprint = footprint * Transform2D(0, Vector2.ONE * 0.99, 0, Vector2.ZERO) 
 	
 	# Create flat roof
 	var polygon_indices_rev = Geometry2D.triangulate_polygon(downscaled_footprint)
@@ -81,13 +74,22 @@ func build(footprint: PackedVector2Array):
 
 func add_domes():
 	for addon_id in addon_ids:
+		var addon_feature := addon_layer.get_feature_by_id(addon_id)
+			
 		var offset_x = building_metadata["geo_offset"][0]
 		var offset_z = building_metadata["geo_offset"][1]
-		var pos: Vector3 = addon_layer.get_feature_by_id(addon_id) \
-			.get_offset_vector3(offset_x, 0, offset_z)
+		
+		var pos: Vector3 = addon_feature.get_offset_vector3(offset_x, 0, offset_z)
 		pos.x -= building_metadata["engine_center_position"].x
 		pos.z -= building_metadata["engine_center_position"].z
 		pos.z += height
+		
+		var rot = float(addon_feature.get_attribute("LL_rot"))
+		var sca = float(addon_feature.get_attribute("LL_scale"))
+		
+		# Instance addon_object and apply transforms
 		var instance: Node3D = addon_object.instantiate() 
 		add_child(instance)
 		instance.translate(pos)
+		instance.rotation.y = deg_to_rad(rot)
+		if sca != 0.: instance.scale = Vector3.ONE * sca

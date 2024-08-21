@@ -4,7 +4,7 @@
 [ext_resource type="ArrayMesh" uid="uid://ch4c363hlc8th" path="res://Resources/Meshes/Projects/Pantelleria/dammuso2.obj" id="1_lsmj8"]
 
 [node name="Node3D" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 
 [node name="DammusoRoof" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.4, 0, 0, 0, 0.2, 0, 0, 0, 0.4, 0, 0, 0)
