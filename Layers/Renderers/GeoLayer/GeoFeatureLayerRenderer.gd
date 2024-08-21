@@ -93,22 +93,13 @@ func load_new_data(is_threaded := true):
 			max_features
 		)
 		
-		
 		# Create a scene-chunk and set it deferred so there are no thread unsafeties
-		var renderers_thread_safe = Node2D.new()
+		var new_renderers = Node2D.new()
 		for feature in current_features:
 			var visualizer = func_dict[feature.get_class()].call(feature)
-			renderers_thread_safe.add_child(visualizer)
+			new_renderers.add_child(visualizer)
 		
-		if is_threaded:
-			call_deferred("set_renderers", renderers_thread_safe)
-			return
-		
-		renderers = renderers_thread_safe
-
-
-func set_renderers(visualizers: Node2D):
-	renderers = visualizers
+		renderers = new_renderers
 
 
 func apply_new_data():
