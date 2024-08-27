@@ -110,8 +110,9 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
-[node name="LiveWeatherService" parent="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI/LiveWeatherButton" index="0" node_paths=PackedStringArray("player")]
-player = NodePath("../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
+[node name="LiveWeatherService" parent="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI/LiveWeather/LiveWeatherButton" index="0" node_paths=PackedStringArray("weather_manager", "player")]
+weather_manager = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/WeatherManager")
+player = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
 layout_mode = 2
