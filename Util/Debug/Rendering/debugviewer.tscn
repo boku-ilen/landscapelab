@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dl4m3ovxk1e8q"]
+[gd_scene load_steps=12 format=3 uid="uid://dl4m3ovxk1e8q"]
 
 [ext_resource type="Shader" path="res://Util/Debug/Shaders/DEBUG_normals_worldsp_rough.gdshader" id="1_3f5cl"]
 [ext_resource type="Script" path="res://Util/Debug/Rendering/debugviewer.gd" id="2_nkpqk"]
+[ext_resource type="Shader" path="res://Util/Debug/Shaders/DEBUG_objs_fixed_to_view.gdshader" id="3_2pi7m"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kdxc6"]
 render_priority = 0
@@ -12,8 +13,52 @@ shader_parameter/show_roughness = 0.0
 material = SubResource("ShaderMaterial_kdxc6")
 size = Vector2(2, 2)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mo81u"]
+render_priority = 0
+shader = ExtResource("3_2pi7m")
+shader_parameter/position_in_view = Vector3(-0.7, -0.5, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_u38t1"]
+material = SubResource("ShaderMaterial_mo81u")
+size = Vector3(0.25, 0.25, 0.25)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a5xh6"]
+render_priority = 0
+shader = ExtResource("3_2pi7m")
+shader_parameter/position_in_view = Vector3(0, -0.5, 2)
+
+[sub_resource type="SphereMesh" id="SphereMesh_p1nmw"]
+material = SubResource("ShaderMaterial_a5xh6")
+radius = 0.15
+height = 0.3
+radial_segments = 20
+rings = 20
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l8h58"]
+render_priority = 0
+shader = ExtResource("3_2pi7m")
+shader_parameter/position_in_view = Vector3(0.7, -0.5, 2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2ib7u"]
+material = SubResource("ShaderMaterial_l8h58")
+top_radius = 0.15
+bottom_radius = 0.15
+height = 0.25
+
 [node name="debugviewer" type="MeshInstance3D"]
 visible = false
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_rismq")
 script = ExtResource("2_nkpqk")
+
+[node name="debugviewer_cube" type="MeshInstance3D" parent="."]
+extra_cull_margin = 16384.0
+mesh = SubResource("BoxMesh_u38t1")
+
+[node name="debugviewer_sphere" type="MeshInstance3D" parent="."]
+extra_cull_margin = 16384.0
+mesh = SubResource("SphereMesh_p1nmw")
+
+[node name="debugviewer_cylinder" type="MeshInstance3D" parent="."]
+extra_cull_margin = 16384.0
+mesh = SubResource("CylinderMesh_2ib7u")
