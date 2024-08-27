@@ -4,6 +4,7 @@ render_mode unshaded;
 #include "res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.gdshaderinc"
 
 // Custom variables
+uniform bool draw_outer_lines = true;
 uniform float outerline_width = 0.25;
 uniform float outerline_offset = 0.1;
 
@@ -43,10 +44,12 @@ void fragment() {
 	float marking_multiplier = 1.0;
 	
 	// Outer lines
-	if ((uv.y > outerline_offset && uv.y < outerline_offset + outerline_width) ||
-		(uv.y > width - (outerline_offset + outerline_width) && uv.y < width - outerline_offset))
-	{
-		marking_multiplier *= 2.0;
+	if (draw_outer_lines) {
+		if ((uv.y > outerline_offset && uv.y < outerline_offset + outerline_width) ||
+			(uv.y > width - (outerline_offset + outerline_width) && uv.y < width - outerline_offset))
+		{
+			marking_multiplier *= 2.0;
+		}
 	}
 	
 	// Map UV to inner part of road (between outerlines)

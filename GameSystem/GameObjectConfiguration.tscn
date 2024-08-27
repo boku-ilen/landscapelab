@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bs6l1cbwkvg0f" path="res://Resources/Icons/ModernLandscapeLab/circle.svg" id="3_xwldb"]
 [ext_resource type="Texture2D" uid="uid://ys5warsfvwod" path="res://Resources/Icons/ModernLandscapeLab/trash.svg" id="4_8412a"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ua3n4"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kq20g"]
 content_margin_left = 10.0
 content_margin_right = 10.0
 bg_color = Color(0.831373, 0.831373, 0.831373, 0.784314)
@@ -21,7 +21,7 @@ top_level = true
 offset_right = 112.0
 offset_bottom = 70.0
 theme = ExtResource("1_wi86a")
-theme_override_styles/panel = SubResource("StyleBoxFlat_ua3n4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_kq20g")
 script = ExtResource("1_rpnwg")
 
 [node name="BrickSpace" type="Sprite2D" parent="."]

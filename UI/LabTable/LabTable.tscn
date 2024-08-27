@@ -36,9 +36,9 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rqbs8"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tqjw6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rqbs8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_63out"]
 
@@ -314,83 +314,91 @@ theme_override_colors/font_color = Color(0.443137, 0.443137, 0.443137, 1)
 text = "1000m"
 horizontal_alignment = 1
 
-[node name="AtmosphereMenu" type="Sprite2D" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(80, 80)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="AtmosphereMenu" type="Sprite2D" parent="MarginContainer"]
 texture = ExtResource("28_b1lmo")
-offset = Vector2(1520, 820)
 script = ExtResource("23_5pqbs")
 
-[node name="AtmosphereConfiguration" parent="AtmosphereMenu" instance=ExtResource("24_ty2jq")]
+[node name="AtmosphereConfiguration" parent="MarginContainer/AtmosphereMenu" instance=ExtResource("24_ty2jq")]
 
-[node name="AtmospherePanel" type="PanelContainer" parent="AtmosphereMenu"]
+[node name="AtmospherePanel" type="PanelContainer" parent="MarginContainer/AtmosphereMenu"]
 visible = false
 show_behind_parent = true
 custom_minimum_size = Vector2(200, 300)
-anchors_preset = 1
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = 964.0
-offset_top = 505.0
-offset_right = 1444.0
-offset_bottom = 823.0
+anchor_bottom = 1.0
+offset_left = -558.0
+offset_top = -396.0
+offset_right = -78.0
+offset_bottom = -78.0
 grow_horizontal = 0
+grow_vertical = 0
 theme_override_styles/panel = ExtResource("23_wb0c1")
 
-[node name="Content" type="VBoxContainer" parent="AtmosphereMenu/AtmospherePanel"]
+[node name="Content" type="VBoxContainer" parent="MarginContainer/AtmosphereMenu/AtmospherePanel"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="AtmosphereMenu/AtmospherePanel/Content"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content"]
 layout_mode = 2
 
-[node name="Settings" type="VBoxContainer" parent="AtmosphereMenu/AtmospherePanel/Content/HBoxContainer"]
+[node name="Settings" type="VBoxContainer" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer"]
 layout_mode = 2
 
-[node name="TimeLabel" type="Label" parent="AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+[node name="TimeLabel" type="Label" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
 layout_mode = 2
 text = "Time:"
 
-[node name="TimeSelect" type="ItemList" parent="AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+[node name="TimeSelect" type="ItemList" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
 custom_minimum_size = Vector2(380, 100)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_rqbs8")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_tqjw6")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rqbs8")
 theme_override_styles/hovered = SubResource("StyleBoxEmpty_63out")
 theme_override_styles/selected = SubResource("StyleBoxEmpty_rqkfr")
 theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_0v7wp")
 item_count = 4
 max_columns = 4
-item_0/text = ""
 item_0/icon = ExtResource("24_0xwd5")
-item_1/text = ""
 item_1/icon = ExtResource("25_302tt")
-item_2/text = ""
 item_2/icon = ExtResource("26_u2cwq")
-item_3/text = ""
 item_3/icon = ExtResource("27_elhq0")
 
-[node name="WeatherLabel" type="Label" parent="AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+[node name="WeatherLabel" type="Label" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
 layout_mode = 2
 text = "Weather:"
 
-[node name="WeatherSelect" type="ItemList" parent="AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+[node name="WeatherSelect" type="ItemList" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
 custom_minimum_size = Vector2(380, 100)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_rqbs8")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_tqjw6")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rqbs8")
 theme_override_styles/hovered = SubResource("StyleBoxEmpty_63out")
 theme_override_styles/selected = SubResource("StyleBoxEmpty_rqkfr")
 theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_0v7wp")
 item_count = 4
 max_columns = 4
-item_0/text = ""
 item_0/icon = ExtResource("25_302tt")
-item_1/text = ""
 item_1/icon = ExtResource("28_b1lmo")
-item_2/text = ""
 item_2/icon = ExtResource("29_76klx")
-item_3/text = ""
 item_3/icon = ExtResource("30_0vbkr")
 
-[node name="CurrentSettingsButton" type="TextureButton" parent="AtmosphereMenu/AtmospherePanel/Content/HBoxContainer"]
+[node name="CurrentSettingsButton" type="TextureButton" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4

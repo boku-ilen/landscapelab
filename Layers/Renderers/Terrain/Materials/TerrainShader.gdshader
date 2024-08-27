@@ -247,7 +247,7 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 }
 
 void fragment() {
-	float depth = FRAGCOORD.z / FRAGCOORD.w;
+	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 	
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 	

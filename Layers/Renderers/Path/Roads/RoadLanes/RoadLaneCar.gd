@@ -40,6 +40,10 @@ func update_road_lane() -> void:
 	
 	var lane_number = max(lanes_forward, 0) + max(lanes_backwards, 0)
 	$RoadLanePolygon.material.set_shader_parameter("lanes", lane_number)
+	
+	# For roads with less than 2 lanes, don't draw outer lines
+	if lane_number < 2:
+		$RoadLanePolygon.material.set_shader_parameter("draw_outer_lines", false)
 
 
 func reset_custom_values() -> void:
