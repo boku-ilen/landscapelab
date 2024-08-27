@@ -98,7 +98,7 @@ func load_feature_instance(feature):
 	var building = building_base_scene.instantiate()
 	var building_metadata: Dictionary = get_building_metadata(feature)
 	
-	var num_floors = max(fallback_num_floors, building_metadata["height"] / floor_height)
+	var num_floors = max(fallback_num_floors, round(building_metadata["height"] / floor_height))
 	var building_type = feature.get_attribute("render_type")
 	
 	# TODO: make subclasses for this? 
