@@ -52,7 +52,6 @@ sdfgi_cascade0_distance = 64.0
 sdfgi_max_distance = 1024.0
 glow_enabled = true
 fog_enabled = true
-fog_density = 0.001
 fog_aerial_perspective = 1.0
 fog_sky_affect = 0.0
 

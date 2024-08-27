@@ -14,7 +14,7 @@ var light_disabled_altitude = 3.0
 
 
 func apply_visibility(new_visibility):
-	environment.fog_density = remap(new_visibility, 0., 100., 0.0001, 0.0005)
+	environment.fog_density = remap(new_visibility, 0., 100., 0.00002, 0.0005)
 	
 	# Enable volumetric fog only above a certain threshold
 	environment.volumetric_fog_enabled = new_visibility > 40
