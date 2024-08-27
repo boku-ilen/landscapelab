@@ -357,4 +357,3 @@ func _set_terraforming_height(point: Vector3, road_width: float) -> void:
 		# Z-Axis down
 		var new_z_down = _image_xy_to_index(image_x, image_y + (required_points_offset + i + 1), image_size)
 		chunk.terraforming_texture.set_pixel(new_z_down, point.y, weight)
-
