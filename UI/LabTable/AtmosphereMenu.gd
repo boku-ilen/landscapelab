@@ -25,6 +25,8 @@ func _input(event):
 				$AtmospherePanel.visible = false
 			else:
 				$AtmospherePanel.visible = not $AtmospherePanel.visible
+			
+			get_viewport().set_input_as_handled()
 
 
 func _on_time_item_selected(index):
