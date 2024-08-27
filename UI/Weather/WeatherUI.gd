@@ -1,14 +1,28 @@
-extends VBoxContainer
+extends GridContainer
 
 
 var weather_manager: WeatherManager : 
 	set(manager):
 		weather_manager = manager
-		$LiveWeatherButton/LiveWeatherService.weather_manager = weather_manager
+		$LiveWeather/LiveWeatherButton/LiveWeatherService.weather_manager = weather_manager
 		_on_preconfiguration_selected(0)
 
 
+func _resort_children():
+	columns = 2
+	var children_index = 0
+	for child in get_children():
+		for subchild in child.get_children():
+			if subchild.name == "Label":
+				subchild.reparent(self)
+				move_child(subchild, children_index)
+				children_index += 1
+		children_index += 1
+
+
 func _ready():
+	_resort_children()
+	
 	# Connect weather option signals with weather_manager
 	$Visibility/HSlider.value_changed.connect(func(value): 
 		weather_manager.visibility = value)
