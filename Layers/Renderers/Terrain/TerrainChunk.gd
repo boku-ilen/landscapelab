@@ -6,7 +6,7 @@ const low_landuse_resolution := 10
 const low_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_10x10.obj")
 const low_mesh_resolution := 10
 
-const basic_load_distance := 4000.0
+const basic_load_distance := 10000.0
 const basic_ortho_resolution := 100
 const basic_landuse_resolution := 100
 const basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_100x100.obj")
