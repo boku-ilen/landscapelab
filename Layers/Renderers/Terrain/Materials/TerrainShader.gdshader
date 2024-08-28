@@ -71,11 +71,13 @@ vec4 fractal_texture(sampler2D tex, vec2 uv, float depth) {
 }
 
 vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
-	depth = max(depth, 20.0);
-	depth *= 0.5;
+	uv.xy *= 2.0;
+
+	float clamped_depth = max(depth, 10.0);
+	//depth *= 0.5;
 
     //Find the pixel level of detail
-	float LOD = log(depth);
+	float LOD = log(clamped_depth);
     //Round LOD down
 	float LOD_floor = floor(LOD);
     //Compute the fract part for interpolating
@@ -93,7 +95,7 @@ vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
 
     // Blend samples together
 	// Blend fully towards tex1 at close distances in order to have a clear detail view
-	return mix(tex1, mix(tex0, tex2, clamp(LOD_fract, 0.0, 1.0)), min(depth / 40.0, 0.5));
+	return mix(tex1, mix(tex0, tex2, clamp(LOD_fract, 0.0, 1.0)), min(depth / 20.0, 0.5));
 }
 
 // Workaround for a bug in `texelFetch` - use this instead!
