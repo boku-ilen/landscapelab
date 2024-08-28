@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=40 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://UI/LabTable/SaveButton.gd" id="19_bwlna"]
 [ext_resource type="Script" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
 [ext_resource type="Script" path="res://UI/LabTable/ScaleBar.gd" id="20_rfesq"]
+[ext_resource type="Script" path="res://UI/LabTable/LoadButton.gd" id="21_6fdux"]
 [ext_resource type="Texture2D" uid="uid://b0ggrqax876lq" path="res://Resources/Textures/UI/scalebar.png" id="21_8rx5g"]
 [ext_resource type="Script" path="res://UI/LabTable/AtmosphereMenu.gd" id="23_5pqbs"]
 [ext_resource type="StyleBox" uid="uid://dg3l5xqfdgxff" path="res://UI/LabTable/Style/PopupPanel.tres" id="23_wb0c1"]
@@ -280,6 +281,25 @@ layout_mode = 2
 theme = ExtResource("8_2ddb4")
 text = "Save"
 script = ExtResource("19_bwlna")
+
+[node name="CenterContainer4" type="CenterContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1300.0
+offset_top = -46.0
+offset_right = -1253.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="LoadButton" type="Button" parent="CenterContainer4"]
+layout_mode = 2
+theme = ExtResource("8_2ddb4")
+text = "Load"
+script = ExtResource("21_6fdux")
 
 [node name="CenterContainer3" type="CenterContainer" parent="."]
 anchors_preset = 7

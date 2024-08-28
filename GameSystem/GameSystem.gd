@@ -33,10 +33,51 @@ signal game_mode_changed
 
 
 func save():
+	var config = ConfigFile.new()
+	
 	for game_mode in game_modes:
 		for collection in current_game_mode.game_object_collections.values():
 			if "feature_layer" in collection:
-				collection.feature_layer.save_new("./game_layer_%s_%s.shp" % [collection.name, floor(Time.get_unix_time_from_system())])
+				if not DirAccess.dir_exists_absolute("user://saves"): DirAccess.make_dir_absolute("user://saves")
+				
+				var save_path = OS.get_user_data_dir().path_join("/saves/game_layer_%s_%s.shp" % [collection.name, floor(Time.get_unix_time_from_system())])
+				collection.feature_layer.save_new(save_path)
+				
+				# Remember "last save file location" for this feature layer
+				config.set_value("Savestate", collection.name, save_path)
+	
+	config.save("user://saves/savestate.cfg")
+
+
+
+func load_last_save():
+	var config = ConfigFile.new()
+	config.load("user://saves/savestate.cfg")
+	
+	for game_mode in game_modes:
+		for collection in current_game_mode.game_object_collections.values():
+			if "feature_layer" in collection:
+				var last_save_path = config.get_value("Savestate", collection.name)
+				
+				# Load features from that file into this feature_layer
+				var dataset = Geodot.get_dataset(last_save_path)
+				var layer = dataset.get_feature_layers()[0]
+				
+				for feature in layer.get_all_features():
+					# TODO: Might be nice to generalize this by adding feature.load_from_feature()
+					#  or even something like layer.load_from_layer() to Geodot
+					var position = feature.get_vector3()
+					var attributes = feature.get_attributes()
+					
+					var new_feature = collection.feature_layer.create_feature()
+					new_feature.set_vector3(position)
+					for attribute_name in attributes.keys():
+						new_feature.set_attribute(attribute_name, attributes[attribute_name])
+	
+	# FIXME: if a layer is involved in a ClusterCollection, don't instantiate features from that, leave that to the cluster
+	# TODO: this requires the cluster size to be saved into the feature, which it currently isn't!
+	# Alternatively: don't load clusters at all? these are mainly for editing, and loading that would be
+	#  tricky once manual changes to individual objects have been made...
 
 
 func activate_next_game_mode():
