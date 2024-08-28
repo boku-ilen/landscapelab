@@ -32,7 +32,12 @@ var density_class: DensityClass :
 				set_mesh(load("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
 				set_camera_facing(false)
 		else:
-			set_mesh(load("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
+			if density_class.id == 11:
+				# TODO: Move mesh path to Density Class config
+				set_mesh(load("res://Resources/Meshes/_NEW assets/shrub/small.obj"))
+				material_override.set_shader_parameter("is_billboard", false)
+			else:
+				set_mesh(load("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
 			set_camera_facing(false)
 
 var current_offset_from_shifting = Vector2.ZERO

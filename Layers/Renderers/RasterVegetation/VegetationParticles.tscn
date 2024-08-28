@@ -36,6 +36,7 @@ shader_parameter/fake_shadow_min_multiplier = 0.25
 shader_parameter/hue_factor = 1.0
 shader_parameter/chroma_factor = 2.0
 shader_parameter/luminance_factor = 2.0
+shader_parameter/is_billboard = false
 shader_parameter/texture_map = null
 shader_parameter/world_space_normal_map = SubResource("NoiseTexture2D_lkbu2")
 

@@ -36,6 +36,8 @@ uniform float hue_factor: hint_range(0, 3.14) = 1.0;
 uniform float chroma_factor: hint_range(0.0, 3.0) = 2.0;
 uniform float luminance_factor: hint_range(0.0, 3.0) = 2.0;
 
+uniform bool is_billboard = true;
+
 
 // Workaround for a bug in `texelFetch` - use this instead!
 // More info at https://github.com/godotengine/godot/issues/31732
@@ -66,15 +68,22 @@ void vertex() {
 	size = INSTANCE_CUSTOM.r * 40.0;
 	VERTEX *= size;
 
-	NORMAL = mix(COLOR.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
-
+	//if (is_billboard) {
+		NORMAL = mix(COLOR.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
+	//} else {
+		//NORMAL = mix(NORMAL.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
+	//}
+	
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	dist_id = INSTANCE_CUSTOM.g * 255.0;
 
 	ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
-	VERTEX.xz *= float(texture_size.x) / float(texture_size.y);  // Account for the texture's aspect ratio
+	
+	if (is_billboard) {
+		VERTEX.xz *= float(texture_size.x) / float(texture_size.y);  // Account for the texture's aspect ratio
+	}
 }
 
 void fragment() {
