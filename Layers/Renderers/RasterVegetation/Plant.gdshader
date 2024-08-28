@@ -20,7 +20,7 @@ uniform vec2 heightmap_size = vec2(300.0, 300.0);
 uniform vec2 offset;
 
 uniform float max_distance;
-uniform bool camera_facing;
+uniform bool camera_facing = false;
 uniform bool billboard_enabled = false;
 
 uniform float fake_shadow_height = 1.2;
@@ -54,6 +54,12 @@ float rand(vec2 co){
 void vertex() {
 	camera_pos = INV_VIEW_MATRIX[3].xyz;
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+	
+	// Account for the texture's aspect ratio
+	if (is_billboard) {
+		ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
+		VERTEX += NORMAL * (float(texture_size.x) / float(texture_size.y) - 1.0) * 0.5;
+	}
 
 	// Move the upper vertices around for a wind wave effect
 	if (VERTEX.y > 0.3) {
@@ -78,12 +84,6 @@ void vertex() {
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	dist_id = INSTANCE_CUSTOM.g * 255.0;
-
-	ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
-	
-	if (is_billboard) {
-		VERTEX.xz *= float(texture_size.x) / float(texture_size.y);  // Account for the texture's aspect ratio
-	}
 }
 
 void fragment() {

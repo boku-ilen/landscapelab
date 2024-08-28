@@ -23,7 +23,7 @@ var paths := {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 6.0 :
+var plant_extent_factor = 18.0 :
 	get:
 		return plant_extent_factor
 	set(extent):
@@ -101,7 +101,7 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	# Generate distribution megatexture
 	for density_class in density_classes.values():
 		density_class_to_distribution_megatexture[density_class.id] = []
-		density_class_to_distribution_megatexture[density_class.id].resize(64)
+		density_class_to_distribution_megatexture[density_class.id].resize(96)
 		
 		var filtered_groups = filter_group_array_by_density_class(groups.values(), density_class)
 		

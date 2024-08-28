@@ -15,7 +15,9 @@ static func _create_density_classes(densities_data: Array) -> Dictionary:
 			line["Image Type"],
 			line["Note"],
 			str_to_var(line["Godot Density per m"]),
-			str_to_var(line["Base Extent"])
+			str_to_var(line["Base Extent"]),
+			load(line["Mesh"]) if "Mesh" in line and not line["Mesh"].is_empty() else load("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"),
+			str_to_var(line["Is Billboard"]) if "Is Billboard" in line and not line["Is Billboard"].is_empty() else true
 		)
 		density_classes[density_class.id] = density_class
 		
