@@ -237,6 +237,9 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 	// Convert to Hue-Chroma-Luminance color space
 	vec3 base_hcy = RGBtoHCY(base);
 	vec3 detail_hcy = RGBtoHCY(detail);
+	
+	base_hcy.g *= HCY_SHIFT.g;
+	base_hcy.b *= HCY_SHIFT.b;
 
 	detail_hcy.r += HCY_SHIFT.r;
 	detail_hcy.g *= HCY_SHIFT.g;
