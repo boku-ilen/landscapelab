@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="LandscapeLab!"
-run/main_scene="res://UI/MainUI.tscn"
+run/main_scene="res://UI/WorkshopUI.tscn"
 config/features=PackedStringArray("4.3")
 boot_splash/image="res://Resources/Icons/Meta/splash.png"
 boot_splash/fullsize=false
@@ -388,6 +388,11 @@ screenshot={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":3,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
+save_debug_frame={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":72,"key_label":0,"unicode":104,"location":0,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -423,12 +428,13 @@ quality/shadows/filter_mode=2
 limits/buffers/canvas_polygon_buffer_size_kb=1000
 quality/filters/msaa=2
 environment/default_environment="res://default_env.tres"
+quality/main_scene="res://UI/MainUI.tscn"
 
 [shader_globals]
 
 HCY_SHIFT={
 "type": "vec3",
-"value": Vector3(0.15, 1, 1)
+"value": Vector3(0, 1, 1)
 }
 
 [xr]
