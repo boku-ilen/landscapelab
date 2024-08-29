@@ -5,6 +5,7 @@ extends Sprite2D
 
 var feature
 var layer: GeoFeatureLayer
+var go
 
 signal popup_clicked
 
@@ -17,13 +18,19 @@ func _ready():
 	$UI/GameObjectConfiguration.delete.connect(_on_delete_pressed)
 	
 	feature.feature_changed.connect(popup, CONNECT_DEFERRED)
+	
+	go = GameSystem.get_game_object_for_geo_feature(feature)
 
 
 func _on_attribute_changed(reference, option_name, value):
 	if option_name == "Amount":
 		reference.change_cluster_size(value)
 	else:
-		GameSystem.get_game_object_for_geo_feature(feature).set_attribute(option_name, value)
+		go.set_attribute(option_name, value)
+	
+	# FIXME: Hacky solution to the `feature_changed` signal not arriving in that script.
+	# Would probably be more sensible to move `set_feature_icon` into this class entirely.
+	get_parent().get_parent().set_feature_icon(feature, self)
 
 
 # When the pop-up is opened, disable the interaction Area2D to prevent conflicts
@@ -43,7 +50,6 @@ func _on_delete_pressed():
 func popup():
 	$UI/GameObjectConfiguration.clear_attributes()
 	
-	var go = GameSystem.get_game_object_for_geo_feature(feature)
 	var attributes = go.get_attributes()
 	
 	if go.collection is GameObjectClusterCollection:

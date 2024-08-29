@@ -36,24 +36,9 @@ func parse_attribute_expression(feature, formula):
 	return result
 
 var point_func = func(feature: GeoPoint): 
-	var p = feature.get_vector3()
 	var marker = preload("res://Layers/Renderers/GeoLayer/FeatureMarker.tscn").instantiate()
 	
-	if "icon_near" in config and zoom.x >= config["icon_near_switch_zoom"]:
-		marker.set_texture(load(config["icon_near"]))
-		
-		if "icon_near_scale_formula" in config:
-			marker.set_scale(Vector2.ONE * parse_attribute_expression(feature, config["icon_near_scale_formula"]))
-		else:
-			marker.set_scale(Vector2.ONE * config["icon_near_scale"])
-	else:
-		marker.set_texture(load(config["icon"]))
-		marker.set_scale(Vector2.ONE * config["icon_scale"] / zoom)
-	
-	marker.set_position(global_vector3_to_local_vector2(p))
-	marker.feature = feature
-	marker.layer = geo_feature_layer
-	marker.popup_clicked.connect(func(): popup_clicked.emit())
+	set_feature_icon(feature, marker)
 	
 	return marker
 
@@ -80,6 +65,25 @@ var func_dict = {
 	"GeoLine": line_func,
 	"GeoPolygon": polygon_func
 }
+
+
+func set_feature_icon(feature, marker):
+	if "icon_near" in config and zoom.x >= config["icon_near_switch_zoom"]:
+		marker.set_texture(load(config["icon_near"]))
+		
+		if "icon_near_scale_formula" in config:
+			marker.set_scale(Vector2.ONE * parse_attribute_expression(feature, config["icon_near_scale_formula"]))
+		else:
+			marker.set_scale(Vector2.ONE * config["icon_near_scale"])
+	else:
+		marker.set_texture(load(config["icon"]))
+		marker.set_scale(Vector2.ONE * config["icon_scale"] / zoom)
+	
+	var p = feature.get_vector3()
+	marker.set_position(global_vector3_to_local_vector2(p))
+	marker.feature = feature
+	marker.layer = geo_feature_layer
+	marker.popup_clicked.connect(func(): popup_clicked.emit())
 
 
 func load_new_data(is_threaded := true):

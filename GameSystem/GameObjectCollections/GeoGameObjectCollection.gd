@@ -54,6 +54,7 @@ func _add_game_object(feature):
 
 func _on_feature_changed(game_object):
 	game_object_changed.emit(game_object)
+	changed.emit()
 
 
 func _remove_game_object(feature):
