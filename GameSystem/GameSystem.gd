@@ -56,7 +56,15 @@ func load_last_save():
 	
 	for game_mode in game_modes:
 		for collection in current_game_mode.game_object_collections.values():
-			if "feature_layer" in collection:
+			if "feature_layer" in collection and not collection is GameObjectClusterCollection:
+				# TODO: We cannot fully recover a previous state here, since GameObjectClusters
+				# don't save their cluster_size in any attribute, and the connection between
+				# GameObject and Cluster exists only at runtime.
+				# In addition, persisting manual changes to a cluster (e.g. modifications to a
+				# single wind turbine) would require additional logic to remember those changes
+				# while still keeping it connected to the cluster.
+				# Until that is resolved, we simply don't restore GameObjectClusters, but only
+				# individual GameObjects (which may or may not have been created by clusters).
 				var last_save_path = config.get_value("Savestate", collection.name)
 				
 				# Load features from that file into this feature_layer
@@ -73,11 +81,6 @@ func load_last_save():
 					new_feature.set_vector3(position)
 					for attribute_name in attributes.keys():
 						new_feature.set_attribute(attribute_name, attributes[attribute_name])
-	
-	# FIXME: if a layer is involved in a ClusterCollection, don't instantiate features from that, leave that to the cluster
-	# TODO: this requires the cluster size to be saved into the feature, which it currently isn't!
-	# Alternatively: don't load clusters at all? these are mainly for editing, and loading that would be
-	#  tricky once manual changes to individual objects have been made...
 
 
 func activate_next_game_mode():
