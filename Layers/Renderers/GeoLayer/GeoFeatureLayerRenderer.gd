@@ -68,7 +68,17 @@ var func_dict = {
 
 
 func set_feature_icon(feature, marker):
-	if "icon_near" in config and zoom.x >= config["icon_near_switch_zoom"]:
+	if "attribute_icon" in config:
+		var attribute_name = config["attribute_icon"]["attribute"]
+		var go = GameSystem.get_game_object_for_geo_feature(feature)
+		var attribute_value = go.get_attribute(attribute_name)
+		
+		for threshold_value in config["attribute_icon"]["thresholds"].keys():
+			if attribute_value <= str_to_var(threshold_value):
+				marker.set_texture(load(config["attribute_icon"]["thresholds"][threshold_value]))
+				marker.set_scale(Vector2.ONE * config["icon_scale"] / zoom)
+				break
+	elif "icon_near" in config and zoom.x >= config["icon_near_switch_zoom"]:
 		marker.set_texture(load(config["icon_near"]))
 		
 		if "icon_near_scale_formula" in config:
