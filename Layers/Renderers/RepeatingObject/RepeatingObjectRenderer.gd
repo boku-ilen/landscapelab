@@ -217,13 +217,13 @@ func _calculate_intermediate_transforms():
 			
 			# Set the mesh on ground and add some buffer for uneven grounds
 			var new_height = get_ground_height_at_pos.call(
-				center[0] + t.origin.x, center[1] - t.origin.z)
+				center[0] + t.origin.x, center[1] - t.origin.z) + height_offset
 			
 			if previous_height == 0.0: previous_height = new_height  # for the first iteration
 			if layer_composition.render_info.height_gradient:
 				t.origin.y = new_height
 			else:
-				t.origin.y = lerp(previous_height, new_height, 0.5) + height_offset
+				t.origin.y = lerp(previous_height, new_height, 0.5)
 			
 			transforms[f_id].append(t)
 			
