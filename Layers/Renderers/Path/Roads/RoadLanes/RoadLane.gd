@@ -58,8 +58,6 @@ func update_road_lane() -> void:
 	
 	# Set polygon
 	$RoadLanePolygon.polygon = polygon
-	# Required for correct UV scaling
-	$RoadLanePolygon.path_u_distance = total_road_width
 	
 	# Set underlying PathFollowCurve values
 	self.curve_to_follow = road_curve

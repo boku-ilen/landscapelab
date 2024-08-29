@@ -8,7 +8,7 @@ uniform bool draw_outer_lines = true;
 uniform float outerline_width = 0.25;
 uniform float outerline_offset = 0.1;
 
-uniform float innerline_width = 0.12;
+uniform float innerline_width = 0.15;
 uniform float innerline_gap = 6.0;
 uniform float innerline_length = 3.0;
 uniform int lanes = 2;
@@ -70,8 +70,8 @@ void fragment() {
 			float pos = 1.0 * (float(i) / float(lanes));
 			if (uv.y > pos - half_width && uv.y < pos + half_width)
 			{
-				float remainder = mod(uv.x, innerline_length + innerline_gap);
-				if (remainder > innerline_length)
+				float remainder = fract(UV.x / (innerline_length + innerline_gap));
+				if (remainder > innerline_gap / (innerline_length + innerline_gap))
 				{
 					marking_multiplier *= 2.0;
 				}
