@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dulrq6xc61ejd"
+path="res://.godot/imported/Plane_BentNormals.obj-9ffc1639ce773a3608d0103580367c12.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Plane_BentNormals.obj-9ffc1639ce773a3608d0103580367c12.mesh"]
+
+source_file="res://Util/Debug/Meshes/Plane_BentNormals.obj"
+dest_files=["res://.godot/imported/Plane_BentNormals.obj-9ffc1639ce773a3608d0103580367c12.mesh", "res://.godot/imported/Plane_BentNormals.obj-9ffc1639ce773a3608d0103580367c12.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
