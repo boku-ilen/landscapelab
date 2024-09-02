@@ -16,9 +16,9 @@ dest_files=["res://.godot/imported/roughness.jpg-bd4d7f450c0eb069083b83976057880
 [params]
 
 compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false

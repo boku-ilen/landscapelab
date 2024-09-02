@@ -18,14 +18,22 @@ class_name FeatureLayerCompositionRenderer
 
 # Define variables for loading features
 var mutex = Mutex.new()
+
 var features := []
+
 var remove_features := []
 var load_features := []
+
+var features_to_add := []
+var features_to_remove := []
+
 var instances := {}
 @export var radius := 6000.0
 @export var max_features := 2000
 
 signal feature_instance_removed(id: int)
+
+var is_first_load := true
 
 
 func _ready():
@@ -35,12 +43,14 @@ func _ready():
 
 
 func full_load():
-	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
-		float(center[0]), float(center[1]), radius, max_features)
-	load_features = features
+	# Delete all previous features
+	features.clear()
+	for child in get_children():
+		# FIXME: Workaround for ConnectedObjectRenderer, would need some kind of override or extra parent node
+		if not child.name == "Connections":
+			child.free()
 	
-	for feature in load_features:
-		instances[feature.get_id()] = load_feature_instance(feature)
+	adapt_load(Vector3.ZERO)
 
 
 func adapt_load(_diff: Vector3):
@@ -66,16 +76,22 @@ func adapt_load(_diff: Vector3):
 		instances[feature.get_id()] = load_feature_instance(feature)
 	mutex.unlock()
 	
-	call_deferred("apply_new_data")
+	# FIXME: Workaround for not calling apply here after first load
+	if not is_first_load:
+		call_deferred("apply_new_data")
+	else:
+		is_first_load = false
 
 
 func apply_new_data():
 	mutex.lock()
-	for feature in load_features:
-		apply_feature_instance(feature)
 	
 	for feature in remove_features:
 		remove_feature(feature.get_id())
+	
+	for feature in load_features:
+		apply_feature_instance(feature)
+	
 	mutex.unlock()
 	
 	super.apply_new_data()
@@ -83,22 +99,26 @@ func apply_new_data():
 	logger.info("Applied new feature data for %s" % [name])
 
 
+func refine_load():
+	super.refine_load()
+	
+	if features_to_add.size() > 0:
+		var feature = features_to_add.pop_front()
+		instances[feature.get_id()] = load_feature_instance(feature)
+		features.append(feature)
+		apply_feature_instance.call_deferred(feature)
+	
+	if features_to_remove.size() > 0:
+		var feature = features_to_remove.pop_front()
+		remove_feature.call_deferred(feature.get_id())
+
+
 func _on_feature_added(feature: GeoFeature):
-	if loading_thread.is_started() and not loading_thread.is_alive():
-		loading_thread.wait_to_finish()
-	
-	# Load the feature instance in a thread
-	loading_thread.start(load_feature_instance.bind(feature))
-	instances[feature.get_id()] = loading_thread.wait_to_finish()
-	
-	apply_feature_instance(feature)
+	features_to_add.push_back(feature)
 
 
 func _on_feature_removed(feature: GeoFeature):
-	if loading_thread.is_started() and not loading_thread.is_alive():
-		loading_thread.wait_to_finish()
-	
-	remove_feature(feature.get_id())
+	features_to_remove.push_back(feature)
 
 
 # Might be necessary to be overwritten by inherited class
@@ -131,6 +151,11 @@ func apply_feature_instance(feature: GeoFeature):
 	
 	mutex.lock()
 	if instances.has(feature.get_id()) and instances[feature.get_id()] != null:
+		if has_node(str(feature.get_id())):
+			logger.warn("Feature with ID {} was already a child, this should not happen.
+					Removing it before adding a new one.".format([feature.get_id()], "{}"))
+			remove_child(get_node(str(feature.get_id())))
+		
 		add_child(instances[feature.get_id()])
 	else:
 		logger.error("No feature instance was created for ID: {}".

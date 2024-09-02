@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://d1b8q71l384p3"
+path="res://.godot/imported/displacement.jpg-e72c21cd46a9ac50e2784051013adacf.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Dry/displacement.jpg"
+dest_files=["res://.godot/imported/displacement.jpg-e72c21cd46a9ac50e2784051013adacf.image"]
+
+[params]
+

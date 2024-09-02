@@ -1,5 +1,3 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=3 uid="uid://ckpp8lwicbdi0"]
 
-[ext_resource path="res://Resources/Meshes/tractor/jd_8530b.glb" type="PackedScene" id=1]
-
-[node name="jd_8530b" instance=ExtResource( 1 )]
+[node name="jd_8530b"]

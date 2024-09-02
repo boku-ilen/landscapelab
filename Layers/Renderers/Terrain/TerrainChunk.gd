@@ -1,19 +1,25 @@
 extends RenderChunk
 class_name TerrainChunk
 
+const low_ortho_resolution := 10
+const low_landuse_resolution := 10
+const low_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_10x10.obj")
+const low_mesh_resolution := 10
+
+const basic_load_distance := 10000.0
 const basic_ortho_resolution := 100
 const basic_landuse_resolution := 100
-const basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_50x50.obj")
-const basic_mesh_resolution := 50
+const basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_100x100.obj")
+const basic_mesh_resolution := 100
 
 const detailed_load_distance := 2000.0
-const detailed_ortho_resolution := 2000
-const detailed_landuse_resolution := 500
+const detailed_ortho_resolution := 1000
+const detailed_landuse_resolution := 1000
 const detailed_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_500x500.obj")
 const detailed_mesh_resolution := 500
 
 # Note: the mesh must always be scaled so that one unit within the mesh resolution corresponds to 1m
-var mesh_resolution: int
+var mesh_resolution: int = 12345  # FIXME: required for override_decrease_quality(INF) to work when first instantiating chunks, but ugly
 var ortho_resolution: int
 var landuse_resolution: int
 
@@ -50,18 +56,43 @@ func rebuild_aabb(node):
 	node.set_custom_aabb(aabb)
 
 
-func override_increase_quality():
-	mesh_to_apply = detailed_mesh
-	mesh_resolution = detailed_mesh_resolution
-	ortho_resolution = detailed_ortho_resolution
-	landuse_resolution = detailed_landuse_resolution
+func override_can_increase_quality(distance: float):
+	return distance < basic_load_distance and mesh_resolution < basic_mesh_resolution \
+			or distance < detailed_load_distance and mesh_resolution < detailed_mesh_resolution
 
 
-func override_decrease_quality():
-	mesh_to_apply = basic_mesh
-	mesh_resolution = basic_mesh_resolution
-	ortho_resolution = basic_ortho_resolution
-	landuse_resolution = basic_landuse_resolution
+func override_increase_quality(distance: float):
+	if distance < detailed_load_distance and mesh_resolution < detailed_mesh_resolution:
+		mesh_to_apply = detailed_mesh
+		mesh_resolution = detailed_mesh_resolution
+		ortho_resolution = detailed_ortho_resolution
+		landuse_resolution = detailed_landuse_resolution
+		return true
+	elif distance < basic_load_distance and mesh_resolution < basic_mesh_resolution:
+		mesh_to_apply = basic_mesh
+		mesh_resolution = basic_mesh_resolution
+		ortho_resolution = basic_ortho_resolution
+		landuse_resolution = basic_landuse_resolution
+		return true
+	else:
+		return false
+
+
+func override_decrease_quality(distance: float):
+	if distance > basic_load_distance and mesh_resolution > low_mesh_resolution:
+		mesh_to_apply = low_mesh
+		mesh_resolution = low_mesh_resolution
+		ortho_resolution = low_ortho_resolution
+		landuse_resolution = low_landuse_resolution
+		return true
+	elif distance > detailed_load_distance and mesh_resolution > basic_mesh_resolution:
+		mesh_to_apply = basic_mesh
+		mesh_resolution = basic_mesh_resolution
+		ortho_resolution = basic_ortho_resolution
+		landuse_resolution = basic_landuse_resolution
+		return true
+	else:
+		return false
 
 
 func override_build(center_x, center_y):
@@ -75,9 +106,9 @@ func override_build(center_x, center_y):
 	var sample_rate = size / mesh_resolution
 	
 	var current_height_image = height_layer.get_image(
-		top_left_x - sample_rate / 2.0,
-		top_left_y + sample_rate / 2.0,
-		size + sample_rate,
+		top_left_x - 1,
+		top_left_y + 1,
+		size + 2,
 		mesh_resolution + 1,
 		0
 	)
@@ -127,9 +158,11 @@ func override_build(center_x, center_y):
 
 
 func override_apply():
-	rebuild_aabb($Mesh)
-	
 	$Mesh.mesh = mesh_to_apply
+	$Water.mesh = get_node("Mesh").mesh
+	
+	rebuild_aabb($Mesh)
+	rebuild_aabb($Water)
 	
 	scale.x = size / mesh_resolution
 	scale.z = size / mesh_resolution
@@ -145,10 +178,10 @@ func override_apply():
 		
 		$HeightmapCollider/CollisionShape3D.shape = current_heightmap_shape
 		
-		for child in get_children():
-			if child is ExtraLOD:
-				rebuild_aabb(child)
-				child.apply_textures(current_heightmap, current_surface_heightmap, current_landuse)
+		$Water.material_override.set_shader_parameter("heightmap", current_heightmap)
+		$Water.material_override.set_shader_parameter("surface_heightmap", current_surface_heightmap)
+		$Water.material_override.set_shader_parameter("landuse", current_landuse)
+		$Water.material_override.set_shader_parameter("size", size)
 	
 	if current_texture:
 		$Mesh.material_override.set_shader_parameter("orthophoto", current_texture)
@@ -157,6 +190,17 @@ func override_apply():
 		$Mesh.material_override.set_shader_parameter("landuse", current_landuse)
 		$Mesh.material_override.set_shader_parameter("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
 		$Mesh.material_override.set_shader_parameter("has_landuse", true)
+		
+		if mesh_resolution == detailed_mesh_resolution:
+			if not has_node("LIDOverlayViewport"):
+				add_child(preload("res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn").instantiate())
+			
+			$Mesh.material_override.set_shader_parameter("use_landuse_overlay", true)
+			$Mesh.material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
+		else:
+			if has_node("LIDOverlayViewport"):
+				$Mesh.material_override.set_shader_parameter("use_landuse_overlay", false)
+				get_node("LIDOverlayViewport").queue_free()
 	
 	if current_surface_heightmap:
 		$Mesh.material_override.set_shader_parameter("has_surface_heights", true)

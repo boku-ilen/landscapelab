@@ -19,12 +19,14 @@ extends Node3D
 		if is_inside_tree():
 			update_rotation()
 
-@export var mesh_hub_height := 135
-@export var mesh_rotor_diameter := 100
+@export var mesh_hub_height := 135.0
+@export var mesh_rotor_diameter := 100.0
 
 # Minimum height and diameter for features where this attribute is 0
 @export var min_hub_height := 50
 @export var min_rotor_diameter := 35
+
+var rotor_diameter = 100
 
 @export var forward_for_rotation: Vector3 = Vector3(1, 0, 0)
 
@@ -52,10 +54,11 @@ var weather_manager: WeatherManager :
 
 var feature
 var render_info
+var center
 
 
 func _apply_new_wind_speed(wind_speed):
-	speed = wind_speed / 15.0
+	speed = wind_speed / (rotor_diameter / 6.0)
 
 
 func _apply_new_wind_direction(wind_direction):
@@ -90,12 +93,25 @@ func _ready():
 		var height_raw = feature.get_attribute(height_attribute_name)
 		var diameter_raw = feature.get_attribute(diameter_attribute_name)
 		
-		if height_raw and diameter_raw:
-			height = max(str_to_var(feature.get_attribute(height_attribute_name)), min_hub_height)
-			diameter = max(str_to_var(feature.get_attribute(diameter_attribute_name)), min_rotor_diameter)
+		if height_raw:
+			var test = str_to_var(height_raw)
+			height = max(str_to_var(height_raw), min_hub_height)
+		
+		if diameter_raw:
+			diameter = max(str_to_var(diameter_raw), min_rotor_diameter)
 
 		set_hub_height(height)
 		set_rotor_diameter(diameter)
+	
+	if weather_manager:
+		_apply_new_wind_speed(weather_manager.wind_speed)
+		_apply_new_wind_direction(weather_manager.wind_direction)
+	
+	var height_here = render_info.ground_height_layer.get_value_at_position(
+			center[0] + transform.origin.x, center[1] - transform.origin.z)
+	
+	if height_here > -60.0 and has_node("Mesh/Mast/wt_offshore_float_device"):
+		$Mesh/Mast/wt_offshore_float_device.visible = false
 
 
 # Correctly orients the model depending checked the public wind_direction - automatically called when the wind direction is changed
@@ -110,6 +126,30 @@ func _process(delta):
 		rotor.transform.basis = rotor.transform.basis.rotated(forward_for_rotation, -speed * delta)
 
 
+# Reload wind turbine with possible new attributes
+func reload():
+	if feature and render_info and render_info is LayerComposition.WindTurbineRenderInfo:
+		var height_attribute_name = render_info.height_attribute_name
+		var diameter_attribute_name = render_info.diameter_attribute_name
+		
+		# Defaults
+		var height = 140
+		var diameter = 112
+		
+		# Read more detailed data if available
+		var height_raw = feature.get_attribute(height_attribute_name)
+		var diameter_raw = feature.get_attribute(diameter_attribute_name)
+		
+		if height_raw:
+			height = max(str_to_var(feature.get_attribute(height_attribute_name)), min_hub_height)
+		
+		if diameter_raw:
+			diameter = max(str_to_var(feature.get_attribute(diameter_attribute_name)), min_rotor_diameter)
+
+		set_hub_height(height)
+		set_rotor_diameter(diameter)
+
+
 func set_hub_height(height: float):
 	$Mesh/Mast.scale = Vector3.ONE * (height / mesh_hub_height)
 	$Mesh/Rotor.position.y = height
@@ -117,14 +157,19 @@ func set_hub_height(height: float):
 
 
 func set_rotor_diameter(diameter: float):
+	rotor_diameter = diameter
 	var new_scale = Vector3.ONE * diameter / mesh_rotor_diameter
 	$Mesh/Rotor.scale = new_scale
 	$Mesh/Hub.scale = new_scale
-#	$Mesh/Rotor.position.z = start_pos_rotor.z - new_scale.z * start_pos_rotor.z
-#	$Mesh/Hub.position.z = start_pos_hub.z - new_scale.z * start_pos_hub.z
+	$Mesh/Rotor.position.z = start_pos_rotor.z + (new_scale.z - 1.0) * start_pos_rotor.z
+	$Mesh/Hub.position.z = start_pos_hub.z + (new_scale.z - 1.0) * start_pos_hub.z
+
+	_apply_new_wind_speed(weather_manager.wind_speed)
 
 
 func apply_daytime_change(is_daytime: bool):
+	if not has_node("BlinkAnimationPlayer"): return
+	
 	# During daytime, the light should not be blinking
 	if is_daytime:
 		$BlinkAnimationPlayer.stop()

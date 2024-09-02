@@ -15,3 +15,8 @@ func _init(initial_name,initial_geo_attribute_name):
 
 func get_value(game_object):
 	return game_object.geo_feature.get_attribute(geo_attribute_name)
+
+
+func set_value(game_object, new_value):
+	if allow_change:
+		game_object.geo_feature.set_attribute(geo_attribute_name, str(new_value))

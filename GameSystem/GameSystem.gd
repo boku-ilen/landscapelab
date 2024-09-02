@@ -32,6 +32,57 @@ signal score_target_reached(score)
 signal game_mode_changed
 
 
+func save():
+	var config = ConfigFile.new()
+	
+	for game_mode in game_modes:
+		for collection in current_game_mode.game_object_collections.values():
+			if "feature_layer" in collection:
+				if not DirAccess.dir_exists_absolute("user://saves"): DirAccess.make_dir_absolute("user://saves")
+				
+				var save_path = OS.get_user_data_dir().path_join("/saves/game_layer_%s_%s.shp" % [collection.name, floor(Time.get_unix_time_from_system())])
+				collection.feature_layer.save_new(save_path)
+				
+				# Remember "last save file location" for this feature layer
+				config.set_value("Savestate", collection.name, save_path)
+	
+	config.save("user://saves/savestate.cfg")
+
+
+
+func load_last_save():
+	var config = ConfigFile.new()
+	config.load("user://saves/savestate.cfg")
+	
+	for game_mode in game_modes:
+		for collection in current_game_mode.game_object_collections.values():
+			if "feature_layer" in collection and not collection is GameObjectClusterCollection:
+				# TODO: We cannot fully recover a previous state here, since GameObjectClusters
+				# don't save their cluster_size in any attribute, and the connection between
+				# GameObject and Cluster exists only at runtime.
+				# In addition, persisting manual changes to a cluster (e.g. modifications to a
+				# single wind turbine) would require additional logic to remember those changes
+				# while still keeping it connected to the cluster.
+				# Until that is resolved, we simply don't restore GameObjectClusters, but only
+				# individual GameObjects (which may or may not have been created by clusters).
+				var last_save_path = config.get_value("Savestate", collection.name)
+				
+				# Load features from that file into this feature_layer
+				var dataset = Geodot.get_dataset(last_save_path)
+				var layer = dataset.get_feature_layers()[0]
+				
+				for feature in layer.get_all_features():
+					# TODO: Might be nice to generalize this by adding feature.load_from_feature()
+					#  or even something like layer.load_from_layer() to Geodot
+					var position = feature.get_vector3()
+					var attributes = feature.get_attributes()
+					
+					var new_feature = collection.feature_layer.create_feature()
+					new_feature.set_vector3(position)
+					for attribute_name in attributes.keys():
+						new_feature.set_attribute(attribute_name, attributes[attribute_name])
+
+
 func activate_next_game_mode():
 	if game_modes.is_empty(): 
 		logger.error("No game modes have been defined, cannot move to next state.")
@@ -42,6 +93,9 @@ func activate_next_game_mode():
 		return
 		
 	var current_game_mode_idx = game_modes.find(current_game_mode)
+	
+	if current_game_mode_idx >= game_modes.size() - 1: return
+	
 	current_game_mode = game_modes[(current_game_mode_idx + 1) % game_modes.size()]
 
 
@@ -57,11 +111,11 @@ func create_new_game_object(collection, position := Vector3.ZERO):
 	# FIXME: This if should be removed, it's a hacky way to allow the PlayerGameObjectCollection to
 	#  move the player checked "NEW_TOKEN" while allowing the actual creation of new objects in
 	#  GeoGameObjectCollections
-	if is_instance_of(collection, GeoGameObjectCollection):
-		return create_new_geo_game_object(collection, position)
-	else:
+	if is_instance_of(collection, PlayerGameObjectCollection):
 		collection.game_objects.values()[0].set_position(position)
 		return collection.game_objects.values()[0]
+	else:
+		return create_new_geo_game_object(collection, position)
 
 
 func create_new_geo_game_object(collection, position := Vector3.ZERO):
@@ -110,19 +164,29 @@ func acquire_game_object_id():
 	return id
 
 
-func create_game_object_for_geo_feature(geo_feature, collection):
+func create_game_object_for_geo_feature(game_object_class, geo_feature, collection):
 	var id = acquire_game_object_id()
 	
-	var game_object = GeoGameObject.new(id, collection, geo_feature)
+	var game_object = game_object_class.new(id, collection, geo_feature)
 	_game_objects[id] = game_object
 	
 	return game_object
 
 
+func get_game_object_for_geo_feature(geo_feature):
+	# FIXME: Implement properly
+	for go in _game_objects.values():
+		if go is GeoGameObject:
+			if "get_vector3" in go.geo_feature:
+				if go.geo_feature.get_vector3() == geo_feature.get_vector3():
+					return go
+
+
 func apply_game_object_removal(collection_name, game_object_id):
-	var collection = current_game_mode.game_object_collections[collection_name]
-	collection.game_objects.erase(game_object_id)
-	_game_objects.erase(game_object_id)
+	if collection_name in current_game_mode.game_object_collections:
+		var collection = current_game_mode.game_object_collections[collection_name]
+		collection.game_objects.erase(game_object_id)
+		_game_objects.erase(game_object_id)
 
 
 func _on_new_game_layer(_layer):

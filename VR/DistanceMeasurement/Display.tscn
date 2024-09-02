@@ -1,14 +1,14 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://dmx6wxakxn8ws"]
 
-[ext_resource path="res://VR/DistanceMeasurement/Display.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://VR/DistanceMeasurement/Display.gd" id="1"]
 
 [node name="CenterContainer" type="CenterContainer"]
 offset_right = 200.0
 offset_bottom = 200.0
-scale = Vector2( 0.995159, 0.991729 )
+scale = Vector2(0.995159, 0.991729)
 size_flags_horizontal = 0
 size_flags_vertical = 0
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -26,7 +26,7 @@ offset_bottom = 20.0
 [node name="Yards" type="Button" parent="VBoxContainer/HBoxContainer"]
 offset_right = 60.0
 offset_bottom = 20.0
-minimum_size = Vector2( 60, 0 )
+minimum_size = Vector2(60, 0)
 toggle_mode = true
 text = "Yards"
 
@@ -34,7 +34,7 @@ text = "Yards"
 offset_left = 64.0
 offset_right = 124.0
 offset_bottom = 20.0
-minimum_size = Vector2( 60, 0 )
+minimum_size = Vector2(60, 0)
 toggle_mode = true
 pressed = true
 text = "Metres"
@@ -46,7 +46,7 @@ __meta__ = {
 offset_top = 24.0
 offset_right = 124.0
 offset_bottom = 55.0
-minimum_size = Vector2( 0, 30 )
+minimum_size = Vector2(0, 30)
 text = "DISTANCE: 
 "
 align = 1

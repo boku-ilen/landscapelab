@@ -11,6 +11,7 @@ offset_bottom = 329.0
 script = ExtResource("1")
 
 [node name="ProgressBar" type="TextureProgressBar" parent="."]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_vertical = 4
 value = 90.0
@@ -21,7 +22,7 @@ stretch_margin_right = 10
 stretch_margin_bottom = 10
 texture_under = ExtResource("4")
 texture_progress = ExtResource("3")
-tint_progress = Color(0.690196, 0.690196, 0.690196, 1)
+tint_progress = Color(0.721569, 0.721569, 0.721569, 1)
 
 [node name="VBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2

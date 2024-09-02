@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bf1oy7eqfokd3"]
+[gd_scene load_steps=4 format=3 uid="uid://ccd5nubgqllbd"]
 
 [ext_resource type="PackedScene" uid="uid://b2oe2yl1l5b5n" path="res://Resources/Meshes/Infrastructure/pantelleria_streetlamp_2.gltf" id="1_u4ahv"]
 [ext_resource type="Material" uid="uid://chnkeiu0v0ks0" path="res://Resources/Meshes/Infrastructure/streetlamp_2.tres" id="2_hjv2t"]

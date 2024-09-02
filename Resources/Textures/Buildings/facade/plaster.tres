@@ -1,16 +1,15 @@
-[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=6 format=3 uid="uid://blf23sts03r2v"]
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=6 format=3 uid="uid://blf23sts03r2v"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Walls/WallTextureBundle.gd" id="1_gess4"]
-[ext_resource type="Texture2D" uid="uid://ba3ph0b72g2y6" path="res://Resources/Textures/Buildings/facade/plaster_white_extended.jpg" id="1_vieuo"]
-[ext_resource type="Texture2D" uid="uid://b62qa7m4cqcn2" path="res://Resources/Textures/Buildings/facade/metallic_plaster_extended.jpg" id="2_jxkqn"]
-[ext_resource type="Texture2D" uid="uid://b0d3eu5dk1mji" path="res://Resources/Textures/Buildings/facade/normalmap_plaster_extended2.jpg" id="3_ul10y"]
-[ext_resource type="Texture2D" uid="uid://77a4p2ep4isi" path="res://Resources/Textures/Buildings/facade/roughness_plaster_extended.jpg" id="4_8hgv4"]
+[ext_resource type="Texture2D" uid="uid://c16gdteiwduqu" path="res://Resources/Textures/Buildings/facade/Plaster/plaster_albedo.jpg" id="1_eo883"]
+[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_gess4"]
+[ext_resource type="Texture2D" uid="uid://jmolvx7cqdl1" path="res://Resources/Textures/Buildings/facade/Plaster/plaster_metallic.jpg" id="2_egwuo"]
+[ext_resource type="Texture2D" uid="uid://c27a8ecb0ngtk" path="res://Resources/Textures/Buildings/facade/Plaster/plaster_normal.jpg" id="3_ivfh7"]
+[ext_resource type="Texture2D" uid="uid://ddv5ygew4ylve" path="res://Resources/Textures/Buildings/facade/Plaster/plaster_roughness.jpg" id="4_v7bop"]
 
 [resource]
 script = ExtResource("1_gess4")
-texture_scale = Vector2(4, 1)
-albedo_texture = ExtResource("1_vieuo")
-normal_texture = ExtResource("3_ul10y")
-roughness_texture = ExtResource("4_8hgv4")
-metallic_texture = ExtResource("2_jxkqn")
-emission_texture = ExtResource("2_jxkqn")
+texture_scale = Vector2(1, 1)
+albedo_texture = ExtResource("1_eo883")
+normal_texture = ExtResource("3_ivfh7")
+roughness_texture = ExtResource("4_v7bop")
+metallic_texture = ExtResource("2_egwuo")

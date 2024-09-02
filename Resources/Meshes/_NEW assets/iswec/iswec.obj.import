@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dmjk4yc2vurmd"
+path="res://.godot/imported/iswec.obj-00f42d9738c14425083814811f13c071.mesh"
+
+[deps]
+
+files=["res://.godot/imported/iswec.obj-00f42d9738c14425083814811f13c071.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/iswec/iswec.obj"
+dest_files=["res://.godot/imported/iswec.obj-00f42d9738c14425083814811f13c071.mesh", "res://.godot/imported/iswec.obj-00f42d9738c14425083814811f13c071.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -62,12 +62,11 @@ func update_intersection() -> void:
 		point_b += Vector2(direction_b.y, -direction_b.x) * (road_b.width / 2.0)
 		
 		var angle = counter_clockwise_angle(direction_a, direction_b)
-		var intersection_point: Vector2
+		var intersection_point = Geometry2D.line_intersects_line(point_a, direction_a, point_b, direction_b)
+		
 		# Angle greater than 180° results in the corner being one of the roads shifted points
-		if angle >= ALMOST_STRAIGHT_ANGLE:
+		if not intersection_point:
 			intersection_point = point_a if road_a.width > road_b.width else point_b
-		else:
-			intersection_point = Geometry2D.line_intersects_line(point_a, direction_a, point_b, direction_b)
 		
 		vertices.push_back(intersection_point)
 	

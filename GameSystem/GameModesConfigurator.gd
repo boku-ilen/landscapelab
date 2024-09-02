@@ -25,7 +25,9 @@ func _load_game_modes(path: String, game_modes: Dictionary) -> void:
 		var game_mode = game_modes[key]
 		
 		var game_mode_object = GameMode.new()
-		game_mode_object.extent = game_mode["Extent"]
+		
+		if "Extent" in game_mode:
+			game_mode_object.extent = game_mode["Extent"]
 		
 		var game_object_collections = game_mode["GameObjectCollections"]
 		_deserialize_object_colletion(game_mode_object, game_object_collections)
@@ -57,15 +59,33 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 	for collection_name in game_object_collections:
 		var collection = game_object_collections[collection_name]
 		var layer_name = collection["layer_name"]
-		var layer: RefCounted = Layers.get_geo_layer_by_name(layer_name)
+		var layer = Layers.layer_compositions[layer_name].render_info.geo_feature_layer
 		
 		var collection_object: GameObjectCollection
-		if layer is GeoFeatureLayer:
-			collection_object = \
-				game_mode.add_game_object_collection_for_feature_layer(collection_name, layer)
-		else:
-			# TODO: how to handle in case of GeoRasterLayer?
-			pass
+		
+		var type = collection["type"] if "type" in collection else "GeoGameObjectCollection"
+		
+		if type == "GeoGameObjectCollection":
+			collection_object = game_mode.add_game_object_collection_for_feature_layer(
+				collection_name, layer
+			)
+		elif type == "GameObjectClusterCollection":
+			var location_layer = LayerCompositionSerializer.get_feature_layer_from_string(
+				collection["location_layer"],
+				path
+			)
+			var instance_goc = game_mode.game_object_collections[collection["goc"]]
+			
+			collection_object = game_mode.add_cluster_game_object_collection(
+				collection_name,
+				layer,
+				location_layer,
+				instance_goc
+			)
+			
+			if "min_cluster_size" in collection: collection_object.min_cluster_size = collection["min_cluster_size"]
+			if "max_cluster_size" in collection: collection_object.max_cluster_size = collection["max_cluster_size"]
+			if "default_cluster_size" in collection: collection_object.default_cluster_size = collection["default_cluster_size"]
 
 
 var mapping_type_to_construction_func = {
@@ -88,7 +108,13 @@ var mapping_type_to_construction_func = {
 		return StaticAttribute.new(
 			_name,
 			data["value"]
-		)
+		),
+	"ExplicitGameObjectAttribute": func(_name, data):
+		return ExplicitGameObjectAttribute.new(_name, data["attribute"]),
+	"ClassGameObjectAttribute": func(_name, data):
+		return ClassGameObjectAttribute.new(_name, data["class_to_attributes"]),
+	"CalculatedGameObjectAttribute": func(_name, data):
+		return CalculatedGameObjectAttribute.new(_name, data["formula"])
 	# TODO: implement all possible attributes
 }
 func _deserialize_mappings(game_mode: GameMode,
@@ -104,6 +130,9 @@ func _deserialize_mappings(game_mode: GameMode,
 		for collection_name in mapping["for_collections"]:
 			var collection_object = game_mode.game_object_collections[collection_name]
 			collection_object.add_attribute_mapping(attribute)
+		
+		if "reflections" in mapping:
+			deserialize_reflective(attribute, mapping["reflections"])
 
 
 func _deserialize_scores(game_mode: GameMode, scores: Dictionary):
@@ -172,7 +201,7 @@ func _deserialize_creation_conditions(game_mode: GameMode, conditions: Dictionar
 	for condition_name in conditions:
 		var condition = conditions[condition_name]
 		var condition_object: CreationCondition \
-			= condition_type_to_construction_func[condition["type"]].call(condition_name, condition)
+			= condition_type_to_construction_func[condition["type"]].call(condition_name, condition["data"])
 		
 		for collection_name in condition["for_collections"]:
 			var collection_object = game_mode.game_object_collections[collection_name]
@@ -180,4 +209,3 @@ func _deserialize_creation_conditions(game_mode: GameMode, conditions: Dictionar
 
 func _deserialize_tokens(game_mode: GameMode, tokens: Dictionary):
 	game_mode.token_to_game_object_collection = tokens
-

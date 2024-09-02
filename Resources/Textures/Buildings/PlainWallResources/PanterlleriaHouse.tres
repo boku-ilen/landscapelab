@@ -1,16 +1,20 @@
 [gd_resource type="Resource" script_class="PlainWallResource" load_steps=4 format=3 uid="uid://ce46b85qvavni"]
 
-[ext_resource type="Resource" uid="uid://dpuuqa6sclduc" path="res://Resources/Textures/Buildings/basement/default_basement.tres" id="1_dawfa"]
+[ext_resource type="Resource" uid="uid://dvn8df0swdm6j" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/UncleanPlaster.tres" id="1_02atr"]
 [ext_resource type="Script" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_g21ra"]
-[ext_resource type="Resource" uid="uid://bi50uoctgtuqm" path="res://Resources/Textures/Buildings/facade/plaster_Pantelleria.tres" id="2_f738c"]
+[ext_resource type="Resource" uid="uid://g1a0ac8ulvw7" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/UncleanPlasterTop.tres" id="3_5sjhm"]
 
 [resource]
 script = ExtResource("1_g21ra")
-basement_texture = ExtResource("1_dawfa")
-ground_texture = ExtResource("2_f738c")
-middle_texture = ExtResource("2_f738c")
-top_texture = ExtResource("2_f738c")
-random_colors = Array[Color]([Color(0.811765, 0.811765, 0.811765, 1), Color(1, 0.901961, 0.745098, 1), Color(0.917647, 0.713726, 0.756863, 1), Color(0.917647, 0.917647, 0.917647, 1)])
-random_color_weights = Array[float]([0.4, 0.2, 0.2, 0.2])
+basement_texture = ExtResource("1_02atr")
+ground_texture = ExtResource("1_02atr")
+middle_texture = ExtResource("1_02atr")
+top_texture = ExtResource("3_5sjhm")
+ground_window_id = 0
+middle_window_id = 0
+top_window_id = 0
+random_colors = Array[Color]([Color(0.811765, 0.811765, 0.811765, 1), Color(1, 0.929323, 0.816954, 1), Color(0.917647, 0.713726, 0.756863, 1), Color(0.917647, 0.917647, 0.917647, 1)])
+random_color_weights = Array[float]([0.35, 0.3, 0.1, 0.25])
 apply_colors = 14
 wind_counterclockwise = null
+prefer_pointed_roof = false

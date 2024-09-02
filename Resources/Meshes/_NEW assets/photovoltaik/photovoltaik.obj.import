@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://brwex2d0odhlr"
+path="res://.godot/imported/photovoltaik.obj-7c3a61d48686ccaf59376828fe445ba9.mesh"
+
+[deps]
+
+files=["res://.godot/imported/photovoltaik.obj-7c3a61d48686ccaf59376828fe445ba9.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/photovoltaik/photovoltaik.obj"
+dest_files=["res://.godot/imported/photovoltaik.obj-7c3a61d48686ccaf59376828fe445ba9.mesh", "res://.godot/imported/photovoltaik.obj-7c3a61d48686ccaf59376828fe445ba9.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

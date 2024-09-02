@@ -16,7 +16,7 @@ layout_mode = 2
 
 [node name="TeleportTo" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Move to"
+text = "Coordinates "
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -55,6 +55,9 @@ allow_lesser = true
 layout_mode = 2
 text = "Teleport"
 
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Points of Interest"
@@ -78,11 +81,13 @@ layout_mode = 2
 
 [node name="Add" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Hinzufügen"
+size_flags_horizontal = 3
+text = "Add"
 
 [node name="Delete" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Punkt löschen"
+size_flags_horizontal = 3
+text = "Remove"
 
 [node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
 visible = false

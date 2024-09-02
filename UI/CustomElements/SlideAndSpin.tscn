@@ -1,29 +1,36 @@
-[gd_scene load_steps=2 format=3 uid="uid://evcqemueid18"]
+[gd_scene load_steps=3 format=3 uid="uid://evcqemueid18"]
 
 [ext_resource type="Script" path="res://UI/CustomElements/SlideAndSpin.gd" id="1"]
+[ext_resource type="Theme" uid="uid://e2lx82wbo5bo" path="res://UI/Theme/SliderTheme.tres" id="2_a5gm5"]
 
 [node name="SlideAndSpin" type="HBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -1035.0
+offset_right = -852.0
+offset_bottom = -617.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
 script = ExtResource("1")
 step = 0.5
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_stretch_ratio = 4.0
 
 [node name="HSlider" type="HSlider" parent="."]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 4
+theme = ExtResource("2_a5gm5")
 step = 0.5
 value = 50.0
 
 [node name="SpinBox" type="SpinBox" parent="."]
 layout_mode = 2
+size_flags_horizontal = 0
 step = 0.5
 value = 50.0

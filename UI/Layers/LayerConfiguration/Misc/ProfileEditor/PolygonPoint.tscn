@@ -1,46 +1,46 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://c77hl775ou821"]
 
-[ext_resource path="res://Resources/Icons/ColorOpenMoji/circle.svg" type="Texture2D" id=1]
-[ext_resource path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.gd" type="Script" id=2]
-[ext_resource path="res://UI/Fonts/TextOutlined.tres" type="FontFile" id=3]
+[ext_resource type="Texture2D" uid="uid://dcj5ncl2ea1k6" path="res://Resources/Icons/ColorOpenMoji/circle.svg" id="1"]
+[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.gd" id="2"]
+[ext_resource type="FontFile" path="res://UI/Fonts/TextOutlined.tres" id="3"]
 
-[sub_resource type="SphereShape3D" id=1]
+[sub_resource type="SphereShape3D" id="1"]
 resource_local_to_scene = true
 radius = 0.862325
 
-[sub_resource type="StandardMaterial3D" id=2]
+[sub_resource type="StandardMaterial3D" id="2"]
 resource_local_to_scene = true
-flags_transparent = true
-flags_unshaded = true
-flags_no_depth_test = true
-flags_fixed_size = true
-params_billboard_mode = 1
-params_billboard_keep_scale = true
-albedo_color = Color( 1, 0.227451, 0, 1 )
-albedo_texture = ExtResource( 1 )
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 0.227451, 0, 1)
+albedo_texture = ExtResource("1")
+billboard_mode = 1
+billboard_keep_scale = true
+fixed_size = true
 
-[sub_resource type="QuadMesh" id=3]
-size = Vector2( 0.05, 0.05 )
+[sub_resource type="QuadMesh" id="3"]
+size = Vector2(0.05, 0.05)
 
-[sub_resource type="StandardMaterial3D" id=4]
+[sub_resource type="StandardMaterial3D" id="4"]
 resource_local_to_scene = true
-flags_unshaded = true
-albedo_color = Color( 1, 0.176471, 0, 1 )
+shading_mode = 0
+albedo_color = Color(1, 0.176471, 0, 1)
 
 [node name="PolygonPoint" type="Area3D"]
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource("1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-material_override = SubResource( 2 )
+material_override = SubResource("2")
 cast_shadow = 0
-mesh = SubResource( 3 )
+mesh = SubResource("3")
 material/0 = null
 
 [node name="SubViewport" type="SubViewport" parent="."]
-size = Vector2( 600, 150 )
+size = Vector2(600, 150)
 transparent_bg = true
 usage = 0
 render_target_v_flip = true
@@ -57,10 +57,10 @@ offset_top = 8.0
 offset_right = 82.0
 offset_bottom = 31.0
 size_flags_horizontal = 4
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource("3")
 text = "(3.1, 2.0)"
 
 [node name="Node" type="Node" parent="."]
 
 [node name="LineToNext" type="ImmediateMesh" parent="Node"]
-material_override = SubResource( 4 )
+material_override = SubResource("4")

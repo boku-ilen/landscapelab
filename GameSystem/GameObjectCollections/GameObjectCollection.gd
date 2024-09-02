@@ -16,17 +16,18 @@ var desired_color
 var desired_shape
 
 signal changed # Emitted whenever there is any change in the collection
+signal game_object_changed
 
 
 func _init(initial_name):
 	name = initial_name
 
 
-func get_game_object(id):
+func get_game_object(id) -> GameObject:
 	return game_objects[id]
 
 
-func get_all_game_objects():
+func get_all_game_objects() -> Array:
 	return game_objects.values()
 
 

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://cfit3biw0rp6u"
+path="res://.godot/imported/roughness.jpg-c5becb0a30445df30ecb810ea75f3dd6.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/DarkRock/roughness.jpg"
+dest_files=["res://.godot/imported/roughness.jpg-c5becb0a30445df30ecb810ea75f3dd6.image"]
+
+[params]
+

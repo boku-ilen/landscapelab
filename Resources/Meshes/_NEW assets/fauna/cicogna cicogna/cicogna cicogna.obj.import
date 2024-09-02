@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://duy75ywod7ihc"
+path="res://.godot/imported/cicogna cicogna.obj-3bdb26f38f9ba5df6c783f19f63898fc.mesh"
+
+[deps]
+
+files=["res://.godot/imported/cicogna cicogna.obj-3bdb26f38f9ba5df6c783f19f63898fc.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/fauna/cicogna cicogna/cicogna cicogna.obj"
+dest_files=["res://.godot/imported/cicogna cicogna.obj-3bdb26f38f9ba5df6c783f19f63898fc.mesh", "res://.godot/imported/cicogna cicogna.obj-3bdb26f38f9ba5df6c783f19f63898fc.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

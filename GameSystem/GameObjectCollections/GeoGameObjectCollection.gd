@@ -27,33 +27,34 @@ func _init(initial_name, initial_feature_layer):
 	feature_layer.connect("feature_removed",Callable(self,"_remove_game_object"))
 
 
-func remove_nearby_game_objects(position, radius):
-	var features = feature_layer.get_features_near_position(
+func get_nearby_game_objects(position, radius):
+	return feature_layer.get_features_near_position(
 		position.x,
 		position.z,
 		radius,
 		10000
 	)
-	
-	for feature in features:
+
+
+func remove_nearby_game_objects(position, radius):
+	for feature in get_nearby_game_objects(position, radius):
 		feature_layer.remove_feature(feature)
 
 
 func _add_game_object(feature):
-	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(feature, self)
+	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(GeoGameObject, feature, self)
 	game_objects[game_object_for_feature.id] = game_object_for_feature
 	
-	# TODO: Currently we only handle this signal, but we'd want to react to other changes as well
-	# This might warrant an addition in Geodot (a general "changed" signal)
-	if feature.has_signal("point_changed"):
-		feature.connect("point_changed",Callable(self,"_on_feature_changed"))
+	feature.feature_changed.connect(_on_feature_changed.bind(game_object_for_feature))
 	
+	game_object_changed.emit(game_object_for_feature)
 	emit_signal("game_object_added", game_object_for_feature)
 	emit_signal("changed")
 
 
-func _on_feature_changed():
-	emit_signal("changed")
+func _on_feature_changed(game_object):
+	game_object_changed.emit(game_object)
+	changed.emit()
 
 
 func _remove_game_object(feature):
@@ -69,10 +70,10 @@ func _remove_game_object(feature):
 		GameSystem.apply_game_object_removal(name, corresponding_game_object.id)
 		
 		emit_signal("game_object_removed", corresponding_game_object)
+		game_object_changed.emit(corresponding_game_object)
 		emit_signal("changed")
 
 
 func add_attribute_mapping(attribute):
 	attributes[attribute.name] = attribute
 	emit_signal("changed")
-

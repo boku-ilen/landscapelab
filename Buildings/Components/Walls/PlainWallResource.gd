@@ -2,16 +2,22 @@ extends Resource
 class_name PlainWallResource
 
 
-@export var basement_texture: WallTextureBundle
-@export var ground_texture: WallTextureBundle
-@export var middle_texture: WallTextureBundle
-@export var top_texture: WallTextureBundle
+@export var basement_texture: TextureBundleRME
+@export var ground_texture: TextureBundleRME
+@export var middle_texture: TextureBundleRME
+@export var top_texture: TextureBundleRME
+
+@export var ground_window_id := -1
+@export var middle_window_id := -1
+@export var top_window_id := -1
 
 @export var random_colors: Array[Color]
 @export var random_color_weights: Array[float]
 @export_flags("basement", "ground", "middle", "top") var apply_colors
 # Wether to draw the vertices in clock- or counterclock-wise fashion
 @export_flags("basement", "ground", "middle", "top") var wind_counterclockwise
+
+@export var prefer_pointed_roof := true
 
 
 func _init():

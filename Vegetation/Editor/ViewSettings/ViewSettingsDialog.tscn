@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://dsbiss6x8n2fu"]
 
-[ext_resource path="res://Vegetation/Editor/ViewSettings/ViewSettingsDialog.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Vegetation/Editor/ViewSettings/ViewSettingsDialog.gd" id="1"]
 
 [node name="ViewSettingsDialog" type="Window"]
 anchor_left = 0.5
@@ -11,10 +11,10 @@ offset_left = -250.0
 offset_top = -100.0
 offset_right = 250.0
 offset_bottom = 100.0
-minimum_size = Vector2( 500, 200 )
+minimum_size = Vector2(500, 200)
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }

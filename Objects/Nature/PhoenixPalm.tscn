@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://c06qd2bt8o6jc"]
+
+[ext_resource type="Texture2D" uid="uid://wjasgh1cpdml" path="res://Resources/Meshes/_NEW assets/phoenix/materials/phoenix base color.png" id="1_7bgur"]
+[ext_resource type="Texture2D" uid="uid://cddh7sdh7631f" path="res://Resources/Meshes/_NEW assets/phoenix/materials/phoenix normal.png" id="2_sth1x"]
+[ext_resource type="Texture2D" uid="uid://b7wejvf8w88jl" path="res://Resources/Meshes/_NEW assets/phoenix/materials/phoenix roughness.png" id="3_x43lm"]
+[ext_resource type="ArrayMesh" uid="uid://qnn0rbnnj34f" path="res://Resources/Meshes/_NEW assets/phoenix/phoenix canariensis.obj" id="4_l02sd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4k8r5"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_color = Color(0.921569, 0.796078, 0.72549, 1)
+albedo_texture = ExtResource("1_7bgur")
+roughness_texture = ExtResource("3_x43lm")
+normal_enabled = true
+normal_texture = ExtResource("2_sth1x")
+
+[node name="Phoenix" type="Node3D"]
+
+[node name="PhoenixCanariensis" type="MeshInstance3D" parent="."]
+layers = 4
+material_override = SubResource("StandardMaterial3D_4k8r5")
+mesh = ExtResource("4_l02sd")

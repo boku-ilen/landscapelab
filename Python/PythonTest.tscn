@@ -1,9 +1,7 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://Python/PythonTest.py" type="Script" id=1]
+[gd_scene format=3 uid="uid://dt67liyg6ns3w"]
 
 [node name="PythonTest" type="Node"]
-script = ExtResource( 1 )
+script = null
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_right = 40.0

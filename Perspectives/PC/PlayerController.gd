@@ -27,6 +27,8 @@ var directions = {
 var is_smooth_camera := false
 var current_mouse_velocity := Vector2.ZERO
 
+var geo_transform := GeoTransform.new()
+
 @onready var action_handler = $ActionHandler
 @onready var camera = $Head/Camera3D
 
@@ -69,14 +71,14 @@ func _handle_general_input(event):
 				current_mouse_velocity.y += -event.relative.x * MOUSE_ACCELERATION
 				current_mouse_velocity.x += -event.relative.y * MOUSE_ACCELERATION
 			else:
-				$Head.rotate_y(deg_to_rad(-event.relative.x * mouse_sensitivity))
+				$Head/Camera3D.rotation.y += deg_to_rad(-event.relative.x * mouse_sensitivity)
 				
 				var change = deg_to_rad(-event.relative.y * mouse_sensitivity)
 				
 				# Limit the view to between straight down and straight up
 				if change + $Head/Camera3D.rotation.x < PI/2 \
 						and change + $Head/Camera3D.rotation.x > -PI/2:
-					$Head/Camera3D.rotate_x(change)
+					$Head/Camera3D.rotation.x += change
 			
 			get_viewport().set_input_as_handled()
 			
@@ -215,6 +217,12 @@ func fly(delta):
 
 func get_world_position():
 	return position_manager.to_world_coordinates(position)
+
+
+func get_lat_lon():
+	# TODO: Do this only once
+	geo_transform.set_transform(Layers.crs, 4326)
+	return geo_transform.transform_coordinates(get_world_position())
 
 
 func set_world_position(world_position):

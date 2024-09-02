@@ -1,0 +1,2364 @@
+[gd_scene load_steps=6 format=3 uid="uid://blhju3cxqa5gd"]
+
+[ext_resource type="Script" path="res://Objects/Util/MultiplePVModules.gd" id="1_mn7m1"]
+[ext_resource type="PackedScene" uid="uid://dhmlmgm0yc278" path="res://Layers/Renderers/LIDOverlay/LIDOverlay.tscn" id="3_7v3ml"]
+[ext_resource type="PackedScene" uid="uid://bdpmyx1ejlixw" path="res://Objects/PhotovoltaicPlant/GroundMountedPVUnit.tscn" id="3_18ux4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yu2kf"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_color = Color(0.247059, 0.109804, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_41nec"]
+resource_local_to_scene = true
+size = Vector2(100, 106)
+
+[node name="ModularPVPlant" type="Node3D"]
+script = ExtResource("1_mn7m1")
+rows = 18
+cols = 40
+row_spacing = 5.46
+col_spacing = 2.31
+
+[node name="LIDOverlay" parent="." instance=ExtResource("3_7v3ml")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -100, 0)
+material_override = SubResource("StandardMaterial3D_yu2kf")
+mesh = SubResource("PlaneMesh_41nec")
+lid = 7203
+size = Vector2(100, 106)
+
+[node name="Unit" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, -49.14)
+
+[node name="@Node3D@38278" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, -49.14)
+
+[node name="@Node3D@38279" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, -49.14)
+
+[node name="@Node3D@38280" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, -49.14)
+
+[node name="@Node3D@38281" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, -49.14)
+
+[node name="@Node3D@38282" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, -49.14)
+
+[node name="@Node3D@38283" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, -49.14)
+
+[node name="@Node3D@38284" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, -49.14)
+
+[node name="@Node3D@38285" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, -49.14)
+
+[node name="@Node3D@38286" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, -49.14)
+
+[node name="@Node3D@38287" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, -49.14)
+
+[node name="@Node3D@38288" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, -49.14)
+
+[node name="@Node3D@38289" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, -49.14)
+
+[node name="@Node3D@38290" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, -49.14)
+
+[node name="@Node3D@38291" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, -49.14)
+
+[node name="@Node3D@38292" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, -49.14)
+
+[node name="@Node3D@38293" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, -49.14)
+
+[node name="@Node3D@38294" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, -49.14)
+
+[node name="@Node3D@38295" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, -49.14)
+
+[node name="@Node3D@38296" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, -49.14)
+
+[node name="@Node3D@38297" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -49.14)
+
+[node name="@Node3D@38298" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, -49.14)
+
+[node name="@Node3D@38299" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, -49.14)
+
+[node name="@Node3D@38300" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, -49.14)
+
+[node name="@Node3D@38301" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, -49.14)
+
+[node name="@Node3D@38302" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, -49.14)
+
+[node name="@Node3D@38303" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, -49.14)
+
+[node name="@Node3D@38304" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, -49.14)
+
+[node name="@Node3D@38305" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, -49.14)
+
+[node name="@Node3D@38306" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, -49.14)
+
+[node name="@Node3D@38307" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, -49.14)
+
+[node name="@Node3D@38308" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, -49.14)
+
+[node name="@Node3D@38309" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, -49.14)
+
+[node name="@Node3D@38310" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, -49.14)
+
+[node name="@Node3D@38311" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, -49.14)
+
+[node name="@Node3D@38312" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, -49.14)
+
+[node name="@Node3D@38313" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, -49.14)
+
+[node name="@Node3D@38314" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, -49.14)
+
+[node name="@Node3D@38315" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, -49.14)
+
+[node name="@Node3D@38316" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, -49.14)
+
+[node name="@Node3D@38317" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, -49.14)
+
+[node name="@Node3D@38318" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, -43.68)
+
+[node name="@Node3D@38319" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, -43.68)
+
+[node name="@Node3D@38320" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, -43.68)
+
+[node name="@Node3D@38321" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, -43.68)
+
+[node name="@Node3D@38322" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, -43.68)
+
+[node name="@Node3D@38323" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, -43.68)
+
+[node name="@Node3D@38324" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, -43.68)
+
+[node name="@Node3D@38325" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, -43.68)
+
+[node name="@Node3D@38326" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, -43.68)
+
+[node name="@Node3D@38327" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, -43.68)
+
+[node name="@Node3D@38328" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, -43.68)
+
+[node name="@Node3D@38329" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, -43.68)
+
+[node name="@Node3D@38330" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, -43.68)
+
+[node name="@Node3D@38331" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, -43.68)
+
+[node name="@Node3D@38332" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, -43.68)
+
+[node name="@Node3D@38333" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, -43.68)
+
+[node name="@Node3D@38334" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, -43.68)
+
+[node name="@Node3D@38335" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, -43.68)
+
+[node name="@Node3D@38336" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, -43.68)
+
+[node name="@Node3D@38337" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, -43.68)
+
+[node name="@Node3D@38338" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -43.68)
+
+[node name="@Node3D@38339" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, -43.68)
+
+[node name="@Node3D@38340" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, -43.68)
+
+[node name="@Node3D@38341" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, -43.68)
+
+[node name="@Node3D@38342" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, -43.68)
+
+[node name="@Node3D@38343" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, -43.68)
+
+[node name="@Node3D@38344" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, -43.68)
+
+[node name="@Node3D@38345" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, -43.68)
+
+[node name="@Node3D@38346" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, -43.68)
+
+[node name="@Node3D@38347" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, -43.68)
+
+[node name="@Node3D@38348" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, -43.68)
+
+[node name="@Node3D@38349" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, -43.68)
+
+[node name="@Node3D@38350" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, -43.68)
+
+[node name="@Node3D@38351" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, -43.68)
+
+[node name="@Node3D@38352" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, -43.68)
+
+[node name="@Node3D@38353" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, -43.68)
+
+[node name="@Node3D@38354" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, -43.68)
+
+[node name="@Node3D@38355" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, -43.68)
+
+[node name="@Node3D@38356" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, -43.68)
+
+[node name="@Node3D@38357" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, -43.68)
+
+[node name="@Node3D@38358" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, -43.68)
+
+[node name="@Node3D@38359" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, -38.22)
+
+[node name="@Node3D@38360" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, -38.22)
+
+[node name="@Node3D@38361" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, -38.22)
+
+[node name="@Node3D@38362" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, -38.22)
+
+[node name="@Node3D@38363" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, -38.22)
+
+[node name="@Node3D@38364" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, -38.22)
+
+[node name="@Node3D@38365" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, -38.22)
+
+[node name="@Node3D@38366" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, -38.22)
+
+[node name="@Node3D@38367" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, -38.22)
+
+[node name="@Node3D@38368" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, -38.22)
+
+[node name="@Node3D@38369" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, -38.22)
+
+[node name="@Node3D@38370" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, -38.22)
+
+[node name="@Node3D@38371" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, -38.22)
+
+[node name="@Node3D@38372" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, -38.22)
+
+[node name="@Node3D@38373" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, -38.22)
+
+[node name="@Node3D@38374" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, -38.22)
+
+[node name="@Node3D@38375" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, -38.22)
+
+[node name="@Node3D@38376" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, -38.22)
+
+[node name="@Node3D@38377" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, -38.22)
+
+[node name="@Node3D@38378" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, -38.22)
+
+[node name="@Node3D@38379" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -38.22)
+
+[node name="@Node3D@38380" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, -38.22)
+
+[node name="@Node3D@38381" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, -38.22)
+
+[node name="@Node3D@38382" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, -38.22)
+
+[node name="@Node3D@38383" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, -38.22)
+
+[node name="@Node3D@38384" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, -38.22)
+
+[node name="@Node3D@38385" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, -38.22)
+
+[node name="@Node3D@38386" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, -38.22)
+
+[node name="@Node3D@38387" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, -38.22)
+
+[node name="@Node3D@38388" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, -38.22)
+
+[node name="@Node3D@38389" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, -38.22)
+
+[node name="@Node3D@38390" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, -38.22)
+
+[node name="@Node3D@38391" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, -38.22)
+
+[node name="@Node3D@38392" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, -38.22)
+
+[node name="@Node3D@38393" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, -38.22)
+
+[node name="@Node3D@38394" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, -38.22)
+
+[node name="@Node3D@38395" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, -38.22)
+
+[node name="@Node3D@38396" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, -38.22)
+
+[node name="@Node3D@38397" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, -38.22)
+
+[node name="@Node3D@38398" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, -38.22)
+
+[node name="@Node3D@38399" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, -38.22)
+
+[node name="@Node3D@38400" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, -32.76)
+
+[node name="@Node3D@38401" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, -32.76)
+
+[node name="@Node3D@38402" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, -32.76)
+
+[node name="@Node3D@38403" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, -32.76)
+
+[node name="@Node3D@38404" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, -32.76)
+
+[node name="@Node3D@38405" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, -32.76)
+
+[node name="@Node3D@38406" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, -32.76)
+
+[node name="@Node3D@38407" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, -32.76)
+
+[node name="@Node3D@38408" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, -32.76)
+
+[node name="@Node3D@38409" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, -32.76)
+
+[node name="@Node3D@38410" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, -32.76)
+
+[node name="@Node3D@38411" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, -32.76)
+
+[node name="@Node3D@38412" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, -32.76)
+
+[node name="@Node3D@38413" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, -32.76)
+
+[node name="@Node3D@38414" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, -32.76)
+
+[node name="@Node3D@38415" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, -32.76)
+
+[node name="@Node3D@38416" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, -32.76)
+
+[node name="@Node3D@38417" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, -32.76)
+
+[node name="@Node3D@38418" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, -32.76)
+
+[node name="@Node3D@38419" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, -32.76)
+
+[node name="@Node3D@38420" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -32.76)
+
+[node name="@Node3D@38421" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, -32.76)
+
+[node name="@Node3D@38422" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, -32.76)
+
+[node name="@Node3D@38423" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, -32.76)
+
+[node name="@Node3D@38424" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, -32.76)
+
+[node name="@Node3D@38425" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, -32.76)
+
+[node name="@Node3D@38426" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, -32.76)
+
+[node name="@Node3D@38427" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, -32.76)
+
+[node name="@Node3D@38428" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, -32.76)
+
+[node name="@Node3D@38429" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, -32.76)
+
+[node name="@Node3D@38430" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, -32.76)
+
+[node name="@Node3D@38431" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, -32.76)
+
+[node name="@Node3D@38432" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, -32.76)
+
+[node name="@Node3D@38433" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, -32.76)
+
+[node name="@Node3D@38434" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, -32.76)
+
+[node name="@Node3D@38435" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, -32.76)
+
+[node name="@Node3D@38436" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, -32.76)
+
+[node name="@Node3D@38437" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, -32.76)
+
+[node name="@Node3D@38438" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, -32.76)
+
+[node name="@Node3D@38439" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, -32.76)
+
+[node name="@Node3D@38440" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, -32.76)
+
+[node name="@Node3D@38441" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, -27.3)
+
+[node name="@Node3D@38442" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, -27.3)
+
+[node name="@Node3D@38443" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, -27.3)
+
+[node name="@Node3D@38444" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, -27.3)
+
+[node name="@Node3D@38445" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, -27.3)
+
+[node name="@Node3D@38446" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, -27.3)
+
+[node name="@Node3D@38447" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, -27.3)
+
+[node name="@Node3D@38448" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, -27.3)
+
+[node name="@Node3D@38449" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, -27.3)
+
+[node name="@Node3D@38450" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, -27.3)
+
+[node name="@Node3D@38451" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, -27.3)
+
+[node name="@Node3D@38452" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, -27.3)
+
+[node name="@Node3D@38453" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, -27.3)
+
+[node name="@Node3D@38454" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, -27.3)
+
+[node name="@Node3D@38455" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, -27.3)
+
+[node name="@Node3D@38456" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, -27.3)
+
+[node name="@Node3D@38457" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, -27.3)
+
+[node name="@Node3D@38458" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, -27.3)
+
+[node name="@Node3D@38459" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, -27.3)
+
+[node name="@Node3D@38460" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, -27.3)
+
+[node name="@Node3D@38461" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -27.3)
+
+[node name="@Node3D@38462" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, -27.3)
+
+[node name="@Node3D@38463" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, -27.3)
+
+[node name="@Node3D@38464" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, -27.3)
+
+[node name="@Node3D@38465" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, -27.3)
+
+[node name="@Node3D@38466" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, -27.3)
+
+[node name="@Node3D@38467" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, -27.3)
+
+[node name="@Node3D@38468" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, -27.3)
+
+[node name="@Node3D@38469" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, -27.3)
+
+[node name="@Node3D@38470" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, -27.3)
+
+[node name="@Node3D@38471" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, -27.3)
+
+[node name="@Node3D@38472" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, -27.3)
+
+[node name="@Node3D@38473" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, -27.3)
+
+[node name="@Node3D@38474" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, -27.3)
+
+[node name="@Node3D@38475" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, -27.3)
+
+[node name="@Node3D@38476" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, -27.3)
+
+[node name="@Node3D@38477" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, -27.3)
+
+[node name="@Node3D@38478" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, -27.3)
+
+[node name="@Node3D@38479" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, -27.3)
+
+[node name="@Node3D@38480" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, -27.3)
+
+[node name="@Node3D@38481" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, -27.3)
+
+[node name="@Node3D@38482" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, -21.84)
+
+[node name="@Node3D@38483" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, -21.84)
+
+[node name="@Node3D@38484" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, -21.84)
+
+[node name="@Node3D@38485" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, -21.84)
+
+[node name="@Node3D@38486" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, -21.84)
+
+[node name="@Node3D@38487" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, -21.84)
+
+[node name="@Node3D@38488" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, -21.84)
+
+[node name="@Node3D@38489" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, -21.84)
+
+[node name="@Node3D@38490" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, -21.84)
+
+[node name="@Node3D@38491" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, -21.84)
+
+[node name="@Node3D@38492" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, -21.84)
+
+[node name="@Node3D@38493" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, -21.84)
+
+[node name="@Node3D@38494" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, -21.84)
+
+[node name="@Node3D@38495" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, -21.84)
+
+[node name="@Node3D@38496" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, -21.84)
+
+[node name="@Node3D@38497" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, -21.84)
+
+[node name="@Node3D@38498" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, -21.84)
+
+[node name="@Node3D@38499" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, -21.84)
+
+[node name="@Node3D@38500" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, -21.84)
+
+[node name="@Node3D@38501" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, -21.84)
+
+[node name="@Node3D@38502" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -21.84)
+
+[node name="@Node3D@38503" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, -21.84)
+
+[node name="@Node3D@38504" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, -21.84)
+
+[node name="@Node3D@38505" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, -21.84)
+
+[node name="@Node3D@38506" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, -21.84)
+
+[node name="@Node3D@38507" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, -21.84)
+
+[node name="@Node3D@38508" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, -21.84)
+
+[node name="@Node3D@38509" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, -21.84)
+
+[node name="@Node3D@38510" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, -21.84)
+
+[node name="@Node3D@38511" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, -21.84)
+
+[node name="@Node3D@38512" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, -21.84)
+
+[node name="@Node3D@38513" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, -21.84)
+
+[node name="@Node3D@38514" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, -21.84)
+
+[node name="@Node3D@38515" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, -21.84)
+
+[node name="@Node3D@38516" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, -21.84)
+
+[node name="@Node3D@38517" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, -21.84)
+
+[node name="@Node3D@38518" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, -21.84)
+
+[node name="@Node3D@38519" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, -21.84)
+
+[node name="@Node3D@38520" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, -21.84)
+
+[node name="@Node3D@38521" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, -21.84)
+
+[node name="@Node3D@38522" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, -21.84)
+
+[node name="@Node3D@38523" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, -16.38)
+
+[node name="@Node3D@38524" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, -16.38)
+
+[node name="@Node3D@38525" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, -16.38)
+
+[node name="@Node3D@38526" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, -16.38)
+
+[node name="@Node3D@38527" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, -16.38)
+
+[node name="@Node3D@38528" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, -16.38)
+
+[node name="@Node3D@38529" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, -16.38)
+
+[node name="@Node3D@38530" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, -16.38)
+
+[node name="@Node3D@38531" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, -16.38)
+
+[node name="@Node3D@38532" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, -16.38)
+
+[node name="@Node3D@38533" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, -16.38)
+
+[node name="@Node3D@38534" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, -16.38)
+
+[node name="@Node3D@38535" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, -16.38)
+
+[node name="@Node3D@38536" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, -16.38)
+
+[node name="@Node3D@38537" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, -16.38)
+
+[node name="@Node3D@38538" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, -16.38)
+
+[node name="@Node3D@38539" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, -16.38)
+
+[node name="@Node3D@38540" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, -16.38)
+
+[node name="@Node3D@38541" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, -16.38)
+
+[node name="@Node3D@38542" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, -16.38)
+
+[node name="@Node3D@38543" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16.38)
+
+[node name="@Node3D@38544" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, -16.38)
+
+[node name="@Node3D@38545" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, -16.38)
+
+[node name="@Node3D@38546" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, -16.38)
+
+[node name="@Node3D@38547" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, -16.38)
+
+[node name="@Node3D@38548" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, -16.38)
+
+[node name="@Node3D@38549" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, -16.38)
+
+[node name="@Node3D@38550" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, -16.38)
+
+[node name="@Node3D@38551" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, -16.38)
+
+[node name="@Node3D@38552" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, -16.38)
+
+[node name="@Node3D@38553" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, -16.38)
+
+[node name="@Node3D@38554" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, -16.38)
+
+[node name="@Node3D@38555" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, -16.38)
+
+[node name="@Node3D@38556" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, -16.38)
+
+[node name="@Node3D@38557" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, -16.38)
+
+[node name="@Node3D@38558" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, -16.38)
+
+[node name="@Node3D@38559" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, -16.38)
+
+[node name="@Node3D@38560" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, -16.38)
+
+[node name="@Node3D@38561" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, -16.38)
+
+[node name="@Node3D@38562" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, -16.38)
+
+[node name="@Node3D@38563" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, -16.38)
+
+[node name="@Node3D@38564" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, -10.92)
+
+[node name="@Node3D@38565" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, -10.92)
+
+[node name="@Node3D@38566" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, -10.92)
+
+[node name="@Node3D@38567" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, -10.92)
+
+[node name="@Node3D@38568" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, -10.92)
+
+[node name="@Node3D@38569" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, -10.92)
+
+[node name="@Node3D@38570" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, -10.92)
+
+[node name="@Node3D@38571" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, -10.92)
+
+[node name="@Node3D@38572" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, -10.92)
+
+[node name="@Node3D@38573" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, -10.92)
+
+[node name="@Node3D@38574" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, -10.92)
+
+[node name="@Node3D@38575" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, -10.92)
+
+[node name="@Node3D@38576" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, -10.92)
+
+[node name="@Node3D@38577" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, -10.92)
+
+[node name="@Node3D@38578" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, -10.92)
+
+[node name="@Node3D@38579" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, -10.92)
+
+[node name="@Node3D@38580" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, -10.92)
+
+[node name="@Node3D@38581" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, -10.92)
+
+[node name="@Node3D@38582" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, -10.92)
+
+[node name="@Node3D@38583" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, -10.92)
+
+[node name="@Node3D@38584" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10.92)
+
+[node name="@Node3D@38585" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, -10.92)
+
+[node name="@Node3D@38586" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, -10.92)
+
+[node name="@Node3D@38587" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, -10.92)
+
+[node name="@Node3D@38588" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, -10.92)
+
+[node name="@Node3D@38589" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, -10.92)
+
+[node name="@Node3D@38590" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, -10.92)
+
+[node name="@Node3D@38591" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, -10.92)
+
+[node name="@Node3D@38592" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, -10.92)
+
+[node name="@Node3D@38593" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, -10.92)
+
+[node name="@Node3D@38594" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, -10.92)
+
+[node name="@Node3D@38595" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, -10.92)
+
+[node name="@Node3D@38596" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, -10.92)
+
+[node name="@Node3D@38597" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, -10.92)
+
+[node name="@Node3D@38598" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, -10.92)
+
+[node name="@Node3D@38599" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, -10.92)
+
+[node name="@Node3D@38600" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, -10.92)
+
+[node name="@Node3D@38601" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, -10.92)
+
+[node name="@Node3D@38602" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, -10.92)
+
+[node name="@Node3D@38603" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, -10.92)
+
+[node name="@Node3D@38604" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, -10.92)
+
+[node name="@Node3D@38605" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, -5.46)
+
+[node name="@Node3D@38606" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, -5.46)
+
+[node name="@Node3D@38607" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, -5.46)
+
+[node name="@Node3D@38608" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, -5.46)
+
+[node name="@Node3D@38609" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, -5.46)
+
+[node name="@Node3D@38610" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, -5.46)
+
+[node name="@Node3D@38611" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, -5.46)
+
+[node name="@Node3D@38612" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, -5.46)
+
+[node name="@Node3D@38613" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, -5.46)
+
+[node name="@Node3D@38614" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, -5.46)
+
+[node name="@Node3D@38615" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, -5.46)
+
+[node name="@Node3D@38616" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, -5.46)
+
+[node name="@Node3D@38617" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, -5.46)
+
+[node name="@Node3D@38618" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, -5.46)
+
+[node name="@Node3D@38619" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, -5.46)
+
+[node name="@Node3D@38620" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, -5.46)
+
+[node name="@Node3D@38621" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, -5.46)
+
+[node name="@Node3D@38622" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, -5.46)
+
+[node name="@Node3D@38623" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, -5.46)
+
+[node name="@Node3D@38624" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, -5.46)
+
+[node name="@Node3D@38625" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.46)
+
+[node name="@Node3D@38626" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, -5.46)
+
+[node name="@Node3D@38627" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, -5.46)
+
+[node name="@Node3D@38628" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, -5.46)
+
+[node name="@Node3D@38629" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, -5.46)
+
+[node name="@Node3D@38630" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, -5.46)
+
+[node name="@Node3D@38631" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, -5.46)
+
+[node name="@Node3D@38632" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, -5.46)
+
+[node name="@Node3D@38633" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, -5.46)
+
+[node name="@Node3D@38634" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, -5.46)
+
+[node name="@Node3D@38635" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, -5.46)
+
+[node name="@Node3D@38636" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, -5.46)
+
+[node name="@Node3D@38637" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, -5.46)
+
+[node name="@Node3D@38638" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, -5.46)
+
+[node name="@Node3D@38639" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, -5.46)
+
+[node name="@Node3D@38640" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, -5.46)
+
+[node name="@Node3D@38641" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, -5.46)
+
+[node name="@Node3D@38642" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, -5.46)
+
+[node name="@Node3D@38643" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, -5.46)
+
+[node name="@Node3D@38644" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, -5.46)
+
+[node name="@Node3D@38645" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, -5.46)
+
+[node name="@Node3D@38646" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, 0)
+
+[node name="@Node3D@38647" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, 0)
+
+[node name="@Node3D@38648" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, 0)
+
+[node name="@Node3D@38649" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, 0)
+
+[node name="@Node3D@38650" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, 0)
+
+[node name="@Node3D@38651" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, 0)
+
+[node name="@Node3D@38652" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, 0)
+
+[node name="@Node3D@38653" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, 0)
+
+[node name="@Node3D@38654" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, 0)
+
+[node name="@Node3D@38655" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, 0)
+
+[node name="@Node3D@38656" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, 0)
+
+[node name="@Node3D@38657" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, 0)
+
+[node name="@Node3D@38658" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, 0)
+
+[node name="@Node3D@38659" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, 0)
+
+[node name="@Node3D@38660" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, 0)
+
+[node name="@Node3D@38661" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, 0)
+
+[node name="@Node3D@38662" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, 0)
+
+[node name="@Node3D@38663" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, 0)
+
+[node name="@Node3D@38664" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, 0)
+
+[node name="@Node3D@38665" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, 0)
+
+[node name="@Node3D@38666" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+
+[node name="@Node3D@38667" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, 0)
+
+[node name="@Node3D@38668" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, 0)
+
+[node name="@Node3D@38669" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, 0)
+
+[node name="@Node3D@38670" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, 0)
+
+[node name="@Node3D@38671" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, 0)
+
+[node name="@Node3D@38672" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, 0)
+
+[node name="@Node3D@38673" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, 0)
+
+[node name="@Node3D@38674" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, 0)
+
+[node name="@Node3D@38675" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, 0)
+
+[node name="@Node3D@38676" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, 0)
+
+[node name="@Node3D@38677" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, 0)
+
+[node name="@Node3D@38678" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, 0)
+
+[node name="@Node3D@38679" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, 0)
+
+[node name="@Node3D@38680" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, 0)
+
+[node name="@Node3D@38681" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, 0)
+
+[node name="@Node3D@38682" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, 0)
+
+[node name="@Node3D@38683" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, 0)
+
+[node name="@Node3D@38684" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, 0)
+
+[node name="@Node3D@38685" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, 0)
+
+[node name="@Node3D@38686" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, 0)
+
+[node name="@Node3D@38687" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, 5.46)
+
+[node name="@Node3D@38688" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, 5.46)
+
+[node name="@Node3D@38689" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, 5.46)
+
+[node name="@Node3D@38690" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, 5.46)
+
+[node name="@Node3D@38691" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, 5.46)
+
+[node name="@Node3D@38692" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, 5.46)
+
+[node name="@Node3D@38693" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, 5.46)
+
+[node name="@Node3D@38694" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, 5.46)
+
+[node name="@Node3D@38695" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, 5.46)
+
+[node name="@Node3D@38696" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, 5.46)
+
+[node name="@Node3D@38697" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, 5.46)
+
+[node name="@Node3D@38698" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, 5.46)
+
+[node name="@Node3D@38699" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, 5.46)
+
+[node name="@Node3D@38700" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, 5.46)
+
+[node name="@Node3D@38701" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, 5.46)
+
+[node name="@Node3D@38702" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, 5.46)
+
+[node name="@Node3D@38703" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, 5.46)
+
+[node name="@Node3D@38704" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, 5.46)
+
+[node name="@Node3D@38705" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, 5.46)
+
+[node name="@Node3D@38706" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, 5.46)
+
+[node name="@Node3D@38707" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.46)
+
+[node name="@Node3D@38708" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, 5.46)
+
+[node name="@Node3D@38709" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, 5.46)
+
+[node name="@Node3D@38710" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, 5.46)
+
+[node name="@Node3D@38711" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, 5.46)
+
+[node name="@Node3D@38712" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, 5.46)
+
+[node name="@Node3D@38713" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, 5.46)
+
+[node name="@Node3D@38714" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, 5.46)
+
+[node name="@Node3D@38715" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, 5.46)
+
+[node name="@Node3D@38716" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, 5.46)
+
+[node name="@Node3D@38717" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, 5.46)
+
+[node name="@Node3D@38718" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, 5.46)
+
+[node name="@Node3D@38719" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, 5.46)
+
+[node name="@Node3D@38720" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, 5.46)
+
+[node name="@Node3D@38721" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, 5.46)
+
+[node name="@Node3D@38722" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, 5.46)
+
+[node name="@Node3D@38723" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, 5.46)
+
+[node name="@Node3D@38724" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, 5.46)
+
+[node name="@Node3D@38725" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, 5.46)
+
+[node name="@Node3D@38726" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, 5.46)
+
+[node name="@Node3D@38727" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, 5.46)
+
+[node name="@Node3D@38728" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, 10.92)
+
+[node name="@Node3D@38729" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, 10.92)
+
+[node name="@Node3D@38730" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, 10.92)
+
+[node name="@Node3D@38731" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, 10.92)
+
+[node name="@Node3D@38732" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, 10.92)
+
+[node name="@Node3D@38733" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, 10.92)
+
+[node name="@Node3D@38734" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, 10.92)
+
+[node name="@Node3D@38735" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, 10.92)
+
+[node name="@Node3D@38736" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, 10.92)
+
+[node name="@Node3D@38737" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, 10.92)
+
+[node name="@Node3D@38738" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, 10.92)
+
+[node name="@Node3D@38739" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, 10.92)
+
+[node name="@Node3D@38740" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, 10.92)
+
+[node name="@Node3D@38741" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, 10.92)
+
+[node name="@Node3D@38742" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, 10.92)
+
+[node name="@Node3D@38743" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, 10.92)
+
+[node name="@Node3D@38744" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, 10.92)
+
+[node name="@Node3D@38745" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, 10.92)
+
+[node name="@Node3D@38746" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, 10.92)
+
+[node name="@Node3D@38747" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, 10.92)
+
+[node name="@Node3D@38748" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.92)
+
+[node name="@Node3D@38749" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, 10.92)
+
+[node name="@Node3D@38750" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, 10.92)
+
+[node name="@Node3D@38751" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, 10.92)
+
+[node name="@Node3D@38752" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, 10.92)
+
+[node name="@Node3D@38753" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, 10.92)
+
+[node name="@Node3D@38754" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, 10.92)
+
+[node name="@Node3D@38755" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, 10.92)
+
+[node name="@Node3D@38756" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, 10.92)
+
+[node name="@Node3D@38757" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, 10.92)
+
+[node name="@Node3D@38758" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, 10.92)
+
+[node name="@Node3D@38759" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, 10.92)
+
+[node name="@Node3D@38760" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, 10.92)
+
+[node name="@Node3D@38761" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, 10.92)
+
+[node name="@Node3D@38762" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, 10.92)
+
+[node name="@Node3D@38763" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, 10.92)
+
+[node name="@Node3D@38764" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, 10.92)
+
+[node name="@Node3D@38765" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, 10.92)
+
+[node name="@Node3D@38766" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, 10.92)
+
+[node name="@Node3D@38767" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, 10.92)
+
+[node name="@Node3D@38768" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, 10.92)
+
+[node name="@Node3D@38769" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, 16.38)
+
+[node name="@Node3D@38770" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, 16.38)
+
+[node name="@Node3D@38771" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, 16.38)
+
+[node name="@Node3D@38772" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, 16.38)
+
+[node name="@Node3D@38773" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, 16.38)
+
+[node name="@Node3D@38774" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, 16.38)
+
+[node name="@Node3D@38775" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, 16.38)
+
+[node name="@Node3D@38776" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, 16.38)
+
+[node name="@Node3D@38777" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, 16.38)
+
+[node name="@Node3D@38778" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, 16.38)
+
+[node name="@Node3D@38779" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, 16.38)
+
+[node name="@Node3D@38780" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, 16.38)
+
+[node name="@Node3D@38781" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, 16.38)
+
+[node name="@Node3D@38782" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, 16.38)
+
+[node name="@Node3D@38783" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, 16.38)
+
+[node name="@Node3D@38784" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, 16.38)
+
+[node name="@Node3D@38785" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, 16.38)
+
+[node name="@Node3D@38786" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, 16.38)
+
+[node name="@Node3D@38787" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, 16.38)
+
+[node name="@Node3D@38788" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, 16.38)
+
+[node name="@Node3D@38789" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16.38)
+
+[node name="@Node3D@38790" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, 16.38)
+
+[node name="@Node3D@38791" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, 16.38)
+
+[node name="@Node3D@38792" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, 16.38)
+
+[node name="@Node3D@38793" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, 16.38)
+
+[node name="@Node3D@38794" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, 16.38)
+
+[node name="@Node3D@38795" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, 16.38)
+
+[node name="@Node3D@38796" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, 16.38)
+
+[node name="@Node3D@38797" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, 16.38)
+
+[node name="@Node3D@38798" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, 16.38)
+
+[node name="@Node3D@38799" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, 16.38)
+
+[node name="@Node3D@38800" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, 16.38)
+
+[node name="@Node3D@38801" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, 16.38)
+
+[node name="@Node3D@38802" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, 16.38)
+
+[node name="@Node3D@38803" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, 16.38)
+
+[node name="@Node3D@38804" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, 16.38)
+
+[node name="@Node3D@38805" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, 16.38)
+
+[node name="@Node3D@38806" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, 16.38)
+
+[node name="@Node3D@38807" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, 16.38)
+
+[node name="@Node3D@38808" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, 16.38)
+
+[node name="@Node3D@38809" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, 16.38)
+
+[node name="@Node3D@38810" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, 21.84)
+
+[node name="@Node3D@38811" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, 21.84)
+
+[node name="@Node3D@38812" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, 21.84)
+
+[node name="@Node3D@38813" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, 21.84)
+
+[node name="@Node3D@38814" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, 21.84)
+
+[node name="@Node3D@38815" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, 21.84)
+
+[node name="@Node3D@38816" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, 21.84)
+
+[node name="@Node3D@38817" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, 21.84)
+
+[node name="@Node3D@38818" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, 21.84)
+
+[node name="@Node3D@38819" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, 21.84)
+
+[node name="@Node3D@38820" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, 21.84)
+
+[node name="@Node3D@38821" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, 21.84)
+
+[node name="@Node3D@38822" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, 21.84)
+
+[node name="@Node3D@38823" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, 21.84)
+
+[node name="@Node3D@38824" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, 21.84)
+
+[node name="@Node3D@38825" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, 21.84)
+
+[node name="@Node3D@38826" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, 21.84)
+
+[node name="@Node3D@38827" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, 21.84)
+
+[node name="@Node3D@38828" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, 21.84)
+
+[node name="@Node3D@38829" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, 21.84)
+
+[node name="@Node3D@38830" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 21.84)
+
+[node name="@Node3D@38831" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, 21.84)
+
+[node name="@Node3D@38832" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, 21.84)
+
+[node name="@Node3D@38833" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, 21.84)
+
+[node name="@Node3D@38834" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, 21.84)
+
+[node name="@Node3D@38835" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, 21.84)
+
+[node name="@Node3D@38836" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, 21.84)
+
+[node name="@Node3D@38837" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, 21.84)
+
+[node name="@Node3D@38838" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, 21.84)
+
+[node name="@Node3D@38839" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, 21.84)
+
+[node name="@Node3D@38840" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, 21.84)
+
+[node name="@Node3D@38841" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, 21.84)
+
+[node name="@Node3D@38842" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, 21.84)
+
+[node name="@Node3D@38843" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, 21.84)
+
+[node name="@Node3D@38844" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, 21.84)
+
+[node name="@Node3D@38845" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, 21.84)
+
+[node name="@Node3D@38846" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, 21.84)
+
+[node name="@Node3D@38847" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, 21.84)
+
+[node name="@Node3D@38848" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, 21.84)
+
+[node name="@Node3D@38849" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, 21.84)
+
+[node name="@Node3D@38850" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, 21.84)
+
+[node name="@Node3D@38851" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, 27.3)
+
+[node name="@Node3D@38852" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, 27.3)
+
+[node name="@Node3D@38853" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, 27.3)
+
+[node name="@Node3D@38854" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, 27.3)
+
+[node name="@Node3D@38855" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, 27.3)
+
+[node name="@Node3D@38856" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, 27.3)
+
+[node name="@Node3D@38857" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, 27.3)
+
+[node name="@Node3D@38858" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, 27.3)
+
+[node name="@Node3D@38859" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, 27.3)
+
+[node name="@Node3D@38860" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, 27.3)
+
+[node name="@Node3D@38861" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, 27.3)
+
+[node name="@Node3D@38862" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, 27.3)
+
+[node name="@Node3D@38863" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, 27.3)
+
+[node name="@Node3D@38864" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, 27.3)
+
+[node name="@Node3D@38865" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, 27.3)
+
+[node name="@Node3D@38866" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, 27.3)
+
+[node name="@Node3D@38867" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, 27.3)
+
+[node name="@Node3D@38868" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, 27.3)
+
+[node name="@Node3D@38869" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, 27.3)
+
+[node name="@Node3D@38870" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, 27.3)
+
+[node name="@Node3D@38871" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 27.3)
+
+[node name="@Node3D@38872" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, 27.3)
+
+[node name="@Node3D@38873" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, 27.3)
+
+[node name="@Node3D@38874" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, 27.3)
+
+[node name="@Node3D@38875" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, 27.3)
+
+[node name="@Node3D@38876" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, 27.3)
+
+[node name="@Node3D@38877" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, 27.3)
+
+[node name="@Node3D@38878" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, 27.3)
+
+[node name="@Node3D@38879" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, 27.3)
+
+[node name="@Node3D@38880" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, 27.3)
+
+[node name="@Node3D@38881" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, 27.3)
+
+[node name="@Node3D@38882" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, 27.3)
+
+[node name="@Node3D@38883" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, 27.3)
+
+[node name="@Node3D@38884" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, 27.3)
+
+[node name="@Node3D@38885" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, 27.3)
+
+[node name="@Node3D@38886" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, 27.3)
+
+[node name="@Node3D@38887" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, 27.3)
+
+[node name="@Node3D@38888" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, 27.3)
+
+[node name="@Node3D@38889" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, 27.3)
+
+[node name="@Node3D@38890" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, 27.3)
+
+[node name="@Node3D@38891" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, 27.3)
+
+[node name="@Node3D@38892" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, 32.76)
+
+[node name="@Node3D@38893" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, 32.76)
+
+[node name="@Node3D@38894" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, 32.76)
+
+[node name="@Node3D@38895" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, 32.76)
+
+[node name="@Node3D@38896" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, 32.76)
+
+[node name="@Node3D@38897" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, 32.76)
+
+[node name="@Node3D@38898" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, 32.76)
+
+[node name="@Node3D@38899" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, 32.76)
+
+[node name="@Node3D@38900" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, 32.76)
+
+[node name="@Node3D@38901" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, 32.76)
+
+[node name="@Node3D@38902" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, 32.76)
+
+[node name="@Node3D@38903" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, 32.76)
+
+[node name="@Node3D@38904" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, 32.76)
+
+[node name="@Node3D@38905" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, 32.76)
+
+[node name="@Node3D@38906" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, 32.76)
+
+[node name="@Node3D@38907" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, 32.76)
+
+[node name="@Node3D@38908" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, 32.76)
+
+[node name="@Node3D@38909" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, 32.76)
+
+[node name="@Node3D@38910" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, 32.76)
+
+[node name="@Node3D@38911" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, 32.76)
+
+[node name="@Node3D@38912" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 32.76)
+
+[node name="@Node3D@38913" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, 32.76)
+
+[node name="@Node3D@38914" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, 32.76)
+
+[node name="@Node3D@38915" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, 32.76)
+
+[node name="@Node3D@38916" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, 32.76)
+
+[node name="@Node3D@38917" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, 32.76)
+
+[node name="@Node3D@38918" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, 32.76)
+
+[node name="@Node3D@38919" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, 32.76)
+
+[node name="@Node3D@38920" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, 32.76)
+
+[node name="@Node3D@38921" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, 32.76)
+
+[node name="@Node3D@38922" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, 32.76)
+
+[node name="@Node3D@38923" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, 32.76)
+
+[node name="@Node3D@38924" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, 32.76)
+
+[node name="@Node3D@38925" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, 32.76)
+
+[node name="@Node3D@38926" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, 32.76)
+
+[node name="@Node3D@38927" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, 32.76)
+
+[node name="@Node3D@38928" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, 32.76)
+
+[node name="@Node3D@38929" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, 32.76)
+
+[node name="@Node3D@38930" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, 32.76)
+
+[node name="@Node3D@38931" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, 32.76)
+
+[node name="@Node3D@38932" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, 32.76)
+
+[node name="@Node3D@38933" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, 38.22)
+
+[node name="@Node3D@38934" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, 38.22)
+
+[node name="@Node3D@38935" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, 38.22)
+
+[node name="@Node3D@38936" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, 38.22)
+
+[node name="@Node3D@38937" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, 38.22)
+
+[node name="@Node3D@38938" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, 38.22)
+
+[node name="@Node3D@38939" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, 38.22)
+
+[node name="@Node3D@38940" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, 38.22)
+
+[node name="@Node3D@38941" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, 38.22)
+
+[node name="@Node3D@38942" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, 38.22)
+
+[node name="@Node3D@38943" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, 38.22)
+
+[node name="@Node3D@38944" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, 38.22)
+
+[node name="@Node3D@38945" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, 38.22)
+
+[node name="@Node3D@38946" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, 38.22)
+
+[node name="@Node3D@38947" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, 38.22)
+
+[node name="@Node3D@38948" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, 38.22)
+
+[node name="@Node3D@38949" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, 38.22)
+
+[node name="@Node3D@38950" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, 38.22)
+
+[node name="@Node3D@38951" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, 38.22)
+
+[node name="@Node3D@38952" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, 38.22)
+
+[node name="@Node3D@38953" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 38.22)
+
+[node name="@Node3D@38954" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, 38.22)
+
+[node name="@Node3D@38955" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, 38.22)
+
+[node name="@Node3D@38956" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, 38.22)
+
+[node name="@Node3D@38957" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, 38.22)
+
+[node name="@Node3D@38958" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, 38.22)
+
+[node name="@Node3D@38959" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, 38.22)
+
+[node name="@Node3D@38960" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, 38.22)
+
+[node name="@Node3D@38961" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, 38.22)
+
+[node name="@Node3D@38962" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, 38.22)
+
+[node name="@Node3D@38963" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, 38.22)
+
+[node name="@Node3D@38964" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, 38.22)
+
+[node name="@Node3D@38965" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, 38.22)
+
+[node name="@Node3D@38966" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, 38.22)
+
+[node name="@Node3D@38967" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, 38.22)
+
+[node name="@Node3D@38968" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, 38.22)
+
+[node name="@Node3D@38969" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, 38.22)
+
+[node name="@Node3D@38970" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, 38.22)
+
+[node name="@Node3D@38971" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, 38.22)
+
+[node name="@Node3D@38972" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, 38.22)
+
+[node name="@Node3D@38973" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, 38.22)
+
+[node name="@Node3D@38974" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, 43.68)
+
+[node name="@Node3D@38975" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, 43.68)
+
+[node name="@Node3D@38976" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, 43.68)
+
+[node name="@Node3D@38977" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, 43.68)
+
+[node name="@Node3D@38978" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, 43.68)
+
+[node name="@Node3D@38979" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, 43.68)
+
+[node name="@Node3D@38980" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, 43.68)
+
+[node name="@Node3D@38981" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, 43.68)
+
+[node name="@Node3D@38982" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, 43.68)
+
+[node name="@Node3D@38983" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, 43.68)
+
+[node name="@Node3D@38984" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, 43.68)
+
+[node name="@Node3D@38985" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, 43.68)
+
+[node name="@Node3D@38986" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, 43.68)
+
+[node name="@Node3D@38987" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, 43.68)
+
+[node name="@Node3D@38988" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, 43.68)
+
+[node name="@Node3D@38989" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, 43.68)
+
+[node name="@Node3D@38990" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, 43.68)
+
+[node name="@Node3D@38991" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, 43.68)
+
+[node name="@Node3D@38992" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, 43.68)
+
+[node name="@Node3D@38993" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, 43.68)
+
+[node name="@Node3D@38994" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 43.68)
+
+[node name="@Node3D@38995" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, 43.68)
+
+[node name="@Node3D@38996" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, 43.68)
+
+[node name="@Node3D@38997" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, 43.68)
+
+[node name="@Node3D@38998" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, 43.68)
+
+[node name="@Node3D@38999" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, 43.68)
+
+[node name="@Node3D@39000" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, 43.68)
+
+[node name="@Node3D@39001" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, 43.68)
+
+[node name="@Node3D@39002" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, 43.68)
+
+[node name="@Node3D@39003" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, 43.68)
+
+[node name="@Node3D@39004" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, 43.68)
+
+[node name="@Node3D@39005" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, 43.68)
+
+[node name="@Node3D@39006" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, 43.68)
+
+[node name="@Node3D@39007" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, 43.68)
+
+[node name="@Node3D@39008" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, 43.68)
+
+[node name="@Node3D@39009" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, 43.68)
+
+[node name="@Node3D@39010" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, 43.68)
+
+[node name="@Node3D@39011" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, 43.68)
+
+[node name="@Node3D@39012" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, 43.68)
+
+[node name="@Node3D@39013" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, 43.68)
+
+[node name="@Node3D@39014" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, 43.68)
+
+[node name="@Node3D@39015" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2, 0, 49.14)
+
+[node name="@Node3D@39016" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.89, 0, 49.14)
+
+[node name="@Node3D@39017" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.58, 0, 49.14)
+
+[node name="@Node3D@39018" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.27, 0, 49.14)
+
+[node name="@Node3D@39019" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.96, 0, 49.14)
+
+[node name="@Node3D@39020" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.65, 0, 49.14)
+
+[node name="@Node3D@39021" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.34, 0, 49.14)
+
+[node name="@Node3D@39022" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.03, 0, 49.14)
+
+[node name="@Node3D@39023" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 0, 49.14)
+
+[node name="@Node3D@39024" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.41, 0, 49.14)
+
+[node name="@Node3D@39025" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0, 49.14)
+
+[node name="@Node3D@39026" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.79, 0, 49.14)
+
+[node name="@Node3D@39027" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.48, 0, 49.14)
+
+[node name="@Node3D@39028" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.17, 0, 49.14)
+
+[node name="@Node3D@39029" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.86, 0, 49.14)
+
+[node name="@Node3D@39030" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.55, 0, 49.14)
+
+[node name="@Node3D@39031" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.24, 0, 49.14)
+
+[node name="@Node3D@39032" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.93, 0, 49.14)
+
+[node name="@Node3D@39033" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.62, 0, 49.14)
+
+[node name="@Node3D@39034" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.31, 0, 49.14)
+
+[node name="@Node3D@39035" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 49.14)
+
+[node name="@Node3D@39036" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31, 0, 49.14)
+
+[node name="@Node3D@39037" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.62, 0, 49.14)
+
+[node name="@Node3D@39038" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93, 0, 49.14)
+
+[node name="@Node3D@39039" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.24, 0, 49.14)
+
+[node name="@Node3D@39040" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.55, 0, 49.14)
+
+[node name="@Node3D@39041" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.86, 0, 49.14)
+
+[node name="@Node3D@39042" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.17, 0, 49.14)
+
+[node name="@Node3D@39043" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.48, 0, 49.14)
+
+[node name="@Node3D@39044" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.79, 0, 49.14)
+
+[node name="@Node3D@39045" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1, 0, 49.14)
+
+[node name="@Node3D@39046" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.41, 0, 49.14)
+
+[node name="@Node3D@39047" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.72, 0, 49.14)
+
+[node name="@Node3D@39048" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.03, 0, 49.14)
+
+[node name="@Node3D@39049" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.34, 0, 49.14)
+
+[node name="@Node3D@39050" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.65, 0, 49.14)
+
+[node name="@Node3D@39051" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.96, 0, 49.14)
+
+[node name="@Node3D@39052" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.27, 0, 49.14)
+
+[node name="@Node3D@39053" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.58, 0, 49.14)
+
+[node name="@Node3D@39054" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.89, 0, 49.14)
+
+[node name="@Node3D@39055" type="Node3D" parent="." groups=["PV"] instance=ExtResource("3_18ux4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.2, 0, 49.14)

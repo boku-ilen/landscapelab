@@ -23,7 +23,7 @@ var paths := {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 3.0 :
+var plant_extent_factor = 18.0 :
 	get:
 		return plant_extent_factor
 	set(extent):
@@ -37,13 +37,16 @@ signal new_plant_extent_factor(extent)
 signal new_data
 
 
+var plant_megatexture = []
+var density_class_to_distribution_megatexture = {}
+var row_ids = []
+
+
 func load_data_from_gpkg(db) -> void:
 	plants = {}
 	groups = {}
 	
 	density_classes = VegetationGPKGUtil.create_density_classes_from_gpkg(db)
-	ground_textures = VegetationGPKGUtil.create_textures_from_gpkg(db, [], ["DISTANCE"])
-	fade_textures = VegetationGPKGUtil.create_textures_from_gpkg(db, ["DISTANCE"], [])
 	plants = VegetationGPKGUtil.create_plants_from_gpkg(db, density_classes)
 	groups = VegetationGPKGUtil.create_groups_from_gpkg(db, plants, ground_textures, fade_textures)
 	
@@ -64,10 +67,50 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	groups = {}
 	
 	density_classes = VegetationCSVUtil.create_density_classes_from_csv(density_path)
-	ground_textures = VegetationCSVUtil.create_textures_from_csv(texture_definition_path, [], ["DISTANCE"])
-	fade_textures = VegetationCSVUtil.create_textures_from_csv(texture_definition_path, ["DISTANCE"], [])
 	plants = VegetationCSVUtil.create_plants_from_csv(plant_path, density_classes)
 	groups = VegetationCSVUtil.create_groups_from_csv(group_path, plants, ground_textures, fade_textures)
+	
+	# Create plant megatexture
+	var relevant_plants = []
+	var used_plants = {}
+	
+	for group in groups.values():
+		for plant in group.plants:
+			if plant.id in used_plants: continue
+			used_plants[plant.id] = true
+			
+			relevant_plants.append(plant)
+	
+	var current_new_id = 0
+	
+	plant_megatexture.resize(100)
+	
+	for plant in relevant_plants:
+		plant.id = current_new_id
+		plant_megatexture[current_new_id] = load(plant.get_full_billboard_path())
+		current_new_id += 1
+	
+	var row_id_image = Image.create(11000, 1, false, Image.FORMAT_R8);
+	var row_id = 1  # Start at 1 because 0 is "none"
+	for group in groups.values():
+		row_id_image.set_pixel(group.id, 0, Color8(row_id, 0, 0))
+		row_id += 1
+	
+	row_ids = ImageTexture.create_from_image(row_id_image)
+	
+	# Generate distribution megatexture
+	for density_class in density_classes.values():
+		density_class_to_distribution_megatexture[density_class.id] = []
+		density_class_to_distribution_megatexture[density_class.id].resize(96)
+		
+		var filtered_groups = filter_group_array_by_density_class(groups.values(), density_class)
+		
+		var id = 0
+		
+		for group in filtered_groups:
+			var distribution = generate_distribution(group, max_plant_height, density_class)
+			density_class_to_distribution_megatexture[density_class.id][id] = ImageTexture.create_from_image(distribution)
+			id += 1
 	
 	# Calculate the max extent here in order to cache it
 	var max_size_factor = 0.0
@@ -81,8 +124,7 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	paths = {
 		"Densities": density_path,
 		"Groups": group_path,
-		"Plants": plant_path,
-		"Textures": texture_definition_path
+		"Plants": plant_path
 	}
 
 
@@ -131,12 +173,12 @@ func filter_group_array_by_density_class(group_array: Array, density_class):
 			if plant.density_class == density_class:
 				filtered_plants.append(plant)
 		
-		if not filtered_plants.is_empty():
-			# Append a new Group which is identical to the one in the passed
-			#  array, but with the filtered plants
-			new_array.append(PlantGroup.new(group.id,
-					group.name_en,
-					filtered_plants))
+		#if not filtered_plants.is_empty():
+			## Append a new Group which is identical to the one in the passed
+			##  array, but with the filtered plants
+		new_array.append(PlantGroup.new(group.id,
+				group.name_en,
+				filtered_plants))
 	
 	return new_array
 
@@ -234,13 +276,11 @@ func get_distribution_sheet(group_array, density_class):
 # To map land-use values to a row from 0-7, we use a 1000x1 array.
 func get_id_row_array(ids):
 	var array = []
-	array.resize(1000)
-	array.fill(-1.0)
+	array.resize(16)
 	
-	var row := 0.0
-	for id in ids:
-		array[id] = row
-		row += 1.0
+	for i in range(16):
+		if i >= ids.size(): break
+		array[i] = ids[i]
 	
 	return array
 
@@ -315,13 +355,12 @@ var distribution_cache = {}
 #  the size scaling factors (between 0 and 1 relative to the given max_size) for each particular
 #  plant instance, taking into account its min and max size.
 func generate_distribution(group: PlantGroup, max_size: float, density_class):
-	var id = density_class.id * 1000 + group.id
-	
-	if id in distribution_cache:
-		return distribution_cache[id]
-	
 	var distribution = Image.create(distribution_size, distribution_size,
 			false, Image.FORMAT_RG8)
+	
+	if group.plants.size() == 0:
+		distribution.fill(Color.BLACK)
+		return distribution;
 	
 	var dice = RandomNumberGenerator.new()
 	dice.randomize()
@@ -352,9 +391,7 @@ func generate_distribution(group: PlantGroup, max_size: float, density_class):
 			var random_height = dice.randf_range(plant.height_min, plant.height_max)
 			var scale_factor = random_height / max_size
 			
-			distribution.set_pixel(x, y, Color(highest_roll_id / 255.0, scale_factor, 0.0, 0.0))
-	
-	distribution_cache[id] = distribution
+			distribution.set_pixel(x, y, Color(plant.id / 255.0, scale_factor, 0.0, 0.0))
 	
 	return distribution
 

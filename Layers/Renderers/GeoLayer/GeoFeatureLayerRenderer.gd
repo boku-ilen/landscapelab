@@ -7,15 +7,39 @@ var geo_feature_layer: GeoFeatureLayer
 var current_features: Array
 var renderers: Node2D
 
-var icon
-var icon_scale = 0.1
+var newest_feature = null
+
+var config
+
+signal popup_clicked
+
+
+func parse_attribute_expression(feature, formula):
+	# Insert attribute values into formula
+	var formated_string = formula
+	
+	while formated_string.find("$") >= 0:
+		var begin_index = formated_string.find("$", 0)
+		var length = formated_string.find("$", begin_index + 1) - begin_index
+		var slice = formated_string.substr(begin_index + 1, length - 1)
+		
+		var value = feature.get_attribute(slice)
+		
+		formated_string = formated_string.left(begin_index) + str(value) + formated_string.right(-(begin_index + length + 1))
+	
+	var expression = Expression.new()
+	expression.parse(formated_string)
+	var result = expression.execute()
+	
+	if not result: result = 0.0
+	
+	return result
 
 var point_func = func(feature: GeoPoint): 
-	var p = feature.get_vector3()
-	var marker = Sprite2D.new()
-	marker.set_texture(icon)
-	marker.set_position(global_vector3_to_local_vector2(p))
-	marker.set_scale(Vector2.ONE * icon_scale / zoom)
+	var marker = preload("res://Layers/Renderers/GeoLayer/FeatureMarker.tscn").instantiate()
+	
+	set_feature_icon(feature, marker)
+	
 	return marker
 
 var line_func = func(feature: GeoLine):
@@ -43,6 +67,35 @@ var func_dict = {
 }
 
 
+func set_feature_icon(feature, marker):
+	if "attribute_icon" in config:
+		var attribute_name = config["attribute_icon"]["attribute"]
+		var go = GameSystem.get_game_object_for_geo_feature(feature)
+		var attribute_value = go.get_attribute(attribute_name)
+		
+		for threshold_value in config["attribute_icon"]["thresholds"].keys():
+			if attribute_value <= str_to_var(threshold_value):
+				marker.set_texture(load(config["attribute_icon"]["thresholds"][threshold_value]))
+				marker.set_scale(Vector2.ONE * config["icon_scale"] / zoom)
+				break
+	elif "icon_near" in config and zoom.x >= config["icon_near_switch_zoom"]:
+		marker.set_texture(load(config["icon_near"]))
+		
+		if "icon_near_scale_formula" in config:
+			marker.set_scale(Vector2.ONE * parse_attribute_expression(feature, config["icon_near_scale_formula"]))
+		else:
+			marker.set_scale(Vector2.ONE * config["icon_near_scale"])
+	else:
+		marker.set_texture(load(config["icon"]))
+		marker.set_scale(Vector2.ONE * config["icon_scale"] / zoom)
+	
+	var p = feature.get_vector3()
+	marker.set_position(global_vector3_to_local_vector2(p))
+	marker.feature = feature
+	marker.layer = geo_feature_layer
+	marker.popup_clicked.connect(func(): popup_clicked.emit())
+
+
 func load_new_data(is_threaded := true):
 	var load_position = get_center_global()
 	
@@ -54,30 +107,32 @@ func load_new_data(is_threaded := true):
 			max_features
 		)
 		
-		
 		# Create a scene-chunk and set it deferred so there are no thread unsafeties
-		var renderers_thread_safe = Node2D.new()
+		var new_renderers = Node2D.new()
 		for feature in current_features:
 			var visualizer = func_dict[feature.get_class()].call(feature)
-			renderers_thread_safe.add_child(visualizer)
+			new_renderers.add_child(visualizer)
 		
-		if is_threaded:
-			call_deferred("set_renderers", renderers_thread_safe)
-			return
-		
-		renderers = renderers_thread_safe
-
-
-func set_renderers(visualizers: Node2D):
-	renderers = visualizers
+		renderers = new_renderers
 
 
 func apply_new_data():
+	if (not "min_zoom" in config) or (zoom.x > config["min_zoom"]):
+		visible = true
+	else:
+		visible = false
+	
 	# First remove all previous features
 	for feature_vis in get_children():
 		feature_vis.queue_free()
 	
 	add_child(renderers)
+	
+	if newest_feature:
+		for visualizer in renderers.get_children():
+			if visualizer.feature.get_vector3() == newest_feature.get_vector3():
+				visualizer.popup()
+		newest_feature = null
 
 
 # Currently all features are always deleted and loaded new

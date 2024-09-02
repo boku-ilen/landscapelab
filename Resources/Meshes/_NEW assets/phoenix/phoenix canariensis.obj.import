@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://qnn0rbnnj34f"
+path="res://.godot/imported/phoenix canariensis.obj-6caa70dc5f24bdc0ab6372451d67249a.mesh"
+
+[deps]
+
+files=["res://.godot/imported/phoenix canariensis.obj-6caa70dc5f24bdc0ab6372451d67249a.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/phoenix/phoenix canariensis.obj"
+dest_files=["res://.godot/imported/phoenix canariensis.obj-6caa70dc5f24bdc0ab6372451d67249a.mesh", "res://.godot/imported/phoenix canariensis.obj-6caa70dc5f24bdc0ab6372451d67249a.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

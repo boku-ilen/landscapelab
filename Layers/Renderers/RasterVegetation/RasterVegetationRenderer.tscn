@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dav2bpuwrj5rq"]
+[gd_scene load_steps=3 format=3 uid="uid://butnjw2h1n4ot"]
 
 [ext_resource type="PackedScene" uid="uid://bnakv4rclkeyq" path="res://Layers/LayerCompositionRenderer.tscn" id="1"]
 [ext_resource type="Script" path="res://Layers/Renderers/RasterVegetation/RasterVegetationRenderer.gd" id="2"]

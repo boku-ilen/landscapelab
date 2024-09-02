@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsajvfxo8bdwx"]
+
+[ext_resource type="Script" path="res://GameSystem/GameObjectConfiguration.gd" id="1_rpnwg"]
+[ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_wi86a"]
+[ext_resource type="Texture2D" uid="uid://bs6l1cbwkvg0f" path="res://Resources/Icons/ModernLandscapeLab/circle.svg" id="3_xwldb"]
+[ext_resource type="Texture2D" uid="uid://ys5warsfvwod" path="res://Resources/Icons/ModernLandscapeLab/trash.svg" id="4_8412a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kq20g"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.831373, 0.831373, 0.831373, 0.784314)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+shadow_color = Color(0, 0, 0, 0.0980392)
+shadow_size = 10
+
+[node name="GameObjectConfiguration" type="PanelContainer"]
+top_level = true
+offset_right = 112.0
+offset_bottom = 70.0
+theme = ExtResource("1_wi86a")
+theme_override_styles/panel = SubResource("StyleBoxFlat_kq20g")
+script = ExtResource("1_rpnwg")
+
+[node name="BrickSpace" type="Sprite2D" parent="."]
+texture = ExtResource("3_xwldb")
+
+[node name="DeleteSpace" type="Sprite2D" parent="."]
+position = Vector2(90, 0)
+texture = ExtResource("4_8412a")
+
+[node name="Entries" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SpacerTop" type="HBoxContainer" parent="Entries"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+alignment = 2
+
+[node name="Attributes" type="VBoxContainer" parent="Entries"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SpacerBottom" type="HBoxContainer" parent="Entries"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+alignment = 2

@@ -14,6 +14,10 @@ func get_attribute(_attribute_name):
 	return null # To be implemented
 
 
+func set_attribute(_attribute_name, _value):
+	pass # To be implemented
+
+
 func set_position(_new_position: Vector3):
 	pass # To be implemented
 

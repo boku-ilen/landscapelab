@@ -1,12 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://dn25tsa6f10jw"]
+[gd_scene load_steps=5 format=3 uid="uid://dn25tsa6f10jw"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.gd" id="1_0a6iv"]
 [ext_resource type="Texture2D" uid="uid://cyux4epajwtyh" path="res://Resources/Icons/ModernLandscapeLab/player_indicator.svg" id="2_qhkwi"]
+
+[sub_resource type="Shader" id="Shader_268l5"]
+code = "shader_type canvas_item;
+
+uniform float size = 0.3;
+
+
+void vertex() {
+	VERTEX /= CANVAS_MATRIX[0].x / size;
+}
+
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l80tl"]
+shader = SubResource("Shader_268l5")
+shader_parameter/size = 0.1
 
 [node name="GeoLayerRenderers" type="Node2D"]
 script = ExtResource("1_0a6iv")
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
-visible = false
 z_index = 100
+material = SubResource("ShaderMaterial_l80tl")
 texture = ExtResource("2_qhkwi")

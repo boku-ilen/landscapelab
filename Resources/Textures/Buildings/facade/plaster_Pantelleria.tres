@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="WallTextureBundle" load_steps=6 format=3 uid="uid://bi50uoctgtuqm"]
 
 [ext_resource type="Texture2D" uid="uid://do15yqg3can2w" path="res://Resources/Textures/Buildings/facade/plaster_white_extended_pantelleria.jpg" id="1_ha253"]
-[ext_resource type="Script" path="res://Buildings/Components/Walls/WallTextureBundle.gd" id="1_hxber"]
+[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_hxber"]
 [ext_resource type="Texture2D" uid="uid://cya1wk3tn0ovk" path="res://Resources/Textures/Buildings/facade/metallic_plaster_extended_pantelleria.jpg" id="2_hwlma"]
 [ext_resource type="Texture2D" uid="uid://cnnldibq5gyge" path="res://Resources/Textures/Buildings/facade/normalmap_plaster_extended_pantelleria.jpg" id="3_e7l0v"]
 [ext_resource type="Texture2D" uid="uid://77a4p2ep4isi" path="res://Resources/Textures/Buildings/facade/roughness_plaster_extended.jpg" id="4_aruum"]

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ljx3yf4cns3v" path="res://UI/Layers/GeoLayers/Management/GeoRasterLayerManagement.tscn" id="6_v04wd"]
 [ext_resource type="Script" path="res://UI/WorldUI.gd" id="7_fnvwn"]
 [ext_resource type="Script" path="res://UI/UISplit.gd" id="8"]
-[ext_resource type="PackedScene" path="res://UI/PlayerCompass.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://cnhf1t4exg0ww" path="res://UI/PlayerCompass.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://pmmpjdicjvjs" path="res://UI/TeleportMenu/TeleportMenu.tscn" id="9_he6fp"]
 [ext_resource type="PackedScene" uid="uid://cckl23qaxw3h8" path="res://UI/Datetime/Datetime.tscn" id="10_x7hwk"]
 [ext_resource type="Script" path="res://UI/WorldViewPort.gd" id="11"]
@@ -19,8 +19,8 @@
 [ext_resource type="Script" path="res://UI/LoadingCircle.gd" id="14_jjvhr"]
 [ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="15"]
 [ext_resource type="PackedScene" uid="uid://dq360hhqtol4f" path="res://World/World.tscn" id="15_xvbyv"]
-[ext_resource type="Script" path="res://UI/StopRenderViewButton.gd" id="16_0ghn0"]
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="17_3pwcs"]
+[ext_resource type="PackedScene" uid="uid://dl4m3ovxk1e8q" path="res://Util/Debug/Rendering/debugviewer.tscn" id="17_u6ksd"]
 [ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="18"]
 [ext_resource type="PackedScene" uid="uid://btpe1wyj5nbfg" path="res://UI/Layers/GeoLayers/GeoLayerViewport.tscn" id="18_gf1q8"]
 [ext_resource type="PackedScene" uid="uid://dhe6mnba7w50y" path="res://UI/Scenarios/Scenarios.tscn" id="20"]
@@ -61,13 +61,18 @@ layout_mode = 2
 [node name="MenuBar" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_56a3o")]
 layout_mode = 2
 
-[node name="TableButton" parent="MarginContainer/VBoxContainer/MenuBar" index="1" node_paths=PackedStringArray("player_node")]
-player_node = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
-
-[node name="ViewButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" node_paths=PackedStringArray("world_ui", "docks")]
+[node name="ViewButton" parent="MarginContainer/VBoxContainer/MenuBar" index="1" node_paths=PackedStringArray("world_ui", "viewport", "docks")]
 world_ui = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI")
+viewport = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport")
 docks = [NodePath("../../Left/Tabs"), NodePath("../../Left/Mid/Right"), NodePath("../../Left/Mid/MidVertical/HBoxContainer")]
 dock_names = Array[String](["Left dock", "Right dock", "Bottom dock"])
+
+[node name="UtilButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" node_paths=PackedStringArray("action_handler_3d_path", "position_manager", "player_node", "weather_manager", "time_manager")]
+action_handler_3d_path = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/ActionHandler")
+position_manager = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
+player_node = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
+weather_manager = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/WeatherManager")
+time_manager = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/TimeManager")
 
 [node name="GeoLayerManagement" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -105,25 +110,21 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[node name="LiveWeatherService" parent="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI/LiveWeather/LiveWeatherButton" index="0" node_paths=PackedStringArray("weather_manager", "player")]
+weather_manager = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/WeatherManager")
+player = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
+
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
 layout_mode = 2
 drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="Datetime" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("10_x7hwk")]
-visible = false
 layout_mode = 2
 
 [node name="Screenshot" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("12_xqn6f")]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot"]
 visible = false
 layout_mode = 2
-toggle_mode = true
-text = "Stop/start render"
-script = ExtResource("16_0ghn0")
-viewport_path = NodePath("../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport")
 
 [node name="Mid" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left"]
 custom_minimum_size = Vector2(500, 500)
@@ -159,7 +160,7 @@ script = ExtResource("11")
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort"]
 handle_input_locally = false
 gui_disable_input = true
-size = Vector2i(555, 421)
+size = Vector2i(368, 416)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_xvbyv")]
@@ -177,6 +178,8 @@ offset_right = 0.0
 grow_horizontal = 0
 size_flags_horizontal = 8
 pc_player = NodePath("..")
+
+[node name="debugviewer" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World" instance=ExtResource("17_u6ksd")]
 
 [node name="LoadingCircle" type="TextureRect" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI"]
 visible = false
@@ -263,6 +266,7 @@ visible = false
 layout_mode = 2
 
 [editable path="MarginContainer/VBoxContainer/MenuBar"]
+[editable path="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC"]
 [editable path="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/SubViewport"]

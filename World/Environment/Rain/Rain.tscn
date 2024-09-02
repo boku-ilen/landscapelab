@@ -17,9 +17,9 @@ initial_velocity_min = 0.05
 initial_velocity_max = 0.1
 scale_min = 0.5
 scale_max = 1.5
+collision_mode = 2
 sub_emitter_mode = 3
 sub_emitter_amount_at_collision = 2
-collision_mode = 2
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kxuqp"]
 load_path = "res://.godot/imported/rain_drop.png-d61568818c12b4d71218cfdbf7a0b3fe.s3tc.ctex"
@@ -66,6 +66,7 @@ emission_ring_radius = 40.0
 emission_ring_inner_radius = 20.0
 direction = Vector3(0, -1, 0)
 spread = 0.0
+attractor_interaction_enabled = false
 scale_min = 0.5
 scale_max = 2.0
 color = Color(1, 1, 1, 0)
@@ -74,7 +75,6 @@ turbulence_noise_strength = 0.01
 turbulence_noise_scale = 0.1
 turbulence_influence_min = 0.0
 turbulence_influence_max = 0.0
-attractor_interaction_enabled = false
 collision_mode = 2
 
 [sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_wvsrd"]
@@ -157,15 +157,15 @@ emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 0.0
 emission_ring_radius = 5.0
 emission_ring_inner_radius = 0.0
+angle_max = 360.0
 direction = Vector3(0, 0, 0)
 gravity = Vector3(0, 0, 0)
-angle_max = 360.0
+attractor_interaction_enabled = false
 scale_min = 0.285
 scale_max = 0.315
 scale_curve = SubResource("CurveTexture_3x5ir")
 color = Color(1, 1, 1, 0.156863)
 color_ramp = SubResource("GradientTexture1D_wrvhn")
-attractor_interaction_enabled = false
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qlcru"]
 load_path = "res://.godot/imported/ripple.png-f827e06339b372959395798d5932771d.s3tc.ctex"

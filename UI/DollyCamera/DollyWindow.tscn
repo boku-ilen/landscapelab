@@ -1,0 +1,143 @@
+[gd_scene load_steps=10 format=3 uid="uid://b858h2ejta33m"]
+
+[ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1_phosr"]
+[ext_resource type="Script" path="res://UI/DollyCamera/DollyWindow.gd" id="2_rinuq"]
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="3_ffo3w"]
+[ext_resource type="Texture2D" uid="uid://d2hitly1vb6sv" path="res://Resources/Icons/ModernLandscapeLab/paintbrush.svg" id="4_711kc"]
+[ext_resource type="Texture2D" uid="uid://cacte35ppt5m5" path="res://Resources/Icons/ModernLandscapeLab/clear.svg" id="5_keygn"]
+[ext_resource type="Texture2D" uid="uid://cr6tu5rgwm363" path="res://Resources/Icons/ModernLandscapeLab/focus.svg" id="6_hbw8f"]
+[ext_resource type="Texture2D" uid="uid://w4de3cfa2gks" path="res://Resources/Icons/ModernLandscapeLab/swap.svg" id="7_7mx8d"]
+[ext_resource type="PackedScene" uid="uid://de45plwj80hwk" path="res://UI/Layers/LayerConfiguration/Misc/GeodataChooser.tscn" id="7_mqp31"]
+[ext_resource type="PackedScene" uid="uid://dcobcs1ua7tr7" path="res://UI/Layers/LayerConfiguration/Misc/FeatureChooser.tscn" id="8_y4h8q"]
+
+[node name="Window" type="Window"]
+mode = 2
+title = "Dolly Camera"
+initial_position = 1
+size = Vector2i(512, 577)
+min_size = Vector2i(512, 577)
+content_scale_mode = 2
+content_scale_aspect = 4
+theme = ExtResource("1_phosr")
+script = ExtResource("2_rinuq")
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 162.0
+offset_bottom = 127.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ImagingMenu" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 0
+
+[node name="GridContainer" type="GridContainer" parent="Margin/VBox/ImagingMenu"]
+layout_mode = 2
+columns = 3
+
+[node name="Set" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "set path points and focus"
+toggle_mode = true
+icon = ExtResource("4_711kc")
+texture_name = "paintbrush"
+
+[node name="Clear" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "clear current path"
+icon = ExtResource("5_keygn")
+texture_name = "clear"
+
+[node name="Focus" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "focus set point"
+toggle_mode = true
+icon = ExtResource("6_hbw8f")
+texture_name = "focus"
+
+[node name="CenterNode" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "Make Dolly Center Node"
+toggle_mode = true
+icon = ExtResource("7_7mx8d")
+texture_name = "swap"
+
+[node name="VSeparator" type="VSeparator" parent="Margin/VBox/ImagingMenu"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin/VBox/ImagingMenu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/VBox/ImagingMenu/VBoxContainer"]
+layout_mode = 2
+text = "Height above ground"
+
+[node name="SpinBox" type="SpinBox" parent="Margin/VBox/ImagingMenu/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 9999.0
+value = 100.0
+
+[node name="GeodataOptions" type="VBoxContainer" parent="Margin/VBox/ImagingMenu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/VBox/ImagingMenu/GeodataOptions"]
+layout_mode = 2
+text = "Choose path from geodata"
+
+[node name="GeodataChooser" parent="Margin/VBox/ImagingMenu/GeodataOptions" instance=ExtResource("7_mqp31")]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+show_raster_layers = false
+show_write_access = false
+
+[node name="FeatureOptions" type="HBoxContainer" parent="Margin/VBox/ImagingMenu/GeodataOptions"]
+layout_mode = 2
+
+[node name="FeatureChooser" parent="Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions" node_paths=PackedStringArray("geodata_chooser") instance=ExtResource("8_y4h8q")]
+layout_mode = 2
+geodata_chooser = NodePath("../../GeodataChooser")
+
+[node name="ApplyButtons" type="VBoxContainer" parent="Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions"]
+layout_mode = 2
+
+[node name="Camera" type="Button" parent="Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/ApplyButtons"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Apply to Camera"
+
+[node name="Focus" type="Button" parent="Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/ApplyButtons"]
+layout_mode = 2
+text = "Apply to Focus
+"
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Margin/VBox/SubViewportContainer"]
+handle_input_locally = false
+msaa_3d = 1
+scaling_3d_mode = 1
+size = Vector2i(674, 523)
+render_target_update_mode = 4

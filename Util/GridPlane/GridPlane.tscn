@@ -1,7 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://bm6b32m86fdyi"]
 
-[ext_resource path="res://Util/GridPlane/GridPlane.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Util/GridPlane/GridPlane.gd" id="1"]
 
 [node name="Node3D" type="Node3D"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 lines = 9

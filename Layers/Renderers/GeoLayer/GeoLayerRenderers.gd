@@ -7,12 +7,14 @@ extends Node2D
 		player_node = new_player
 		$PlayerSprite.visible = new_player != null
 var geo_transform: GeoTransform
-var loading_thread := Thread.new() 
+var loading_threads = {}
 var raster_renderer = preload("res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn")
 var feature_renderer = preload("res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.tscn")
+var crs_from
 signal loading_finished
 signal loading_started
 signal camera_extent_changed(new_camera_extent)
+signal popup_clicked
 
 var renderers_finished := 0
 var renderers_count := 0
@@ -46,7 +48,9 @@ var offset := Vector2.ZERO :
 		camera_extent_changed.emit(camera_extent)
 
 
-func setup(initial_center):
+func setup(initial_center, initial_crs_from):
+	crs_from = initial_crs_from
+	
 	camera.offset_changed.connect(apply_offset)
 	
 	center = initial_center
@@ -82,23 +86,22 @@ func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
 	get_node(layer_name).z_index = l_z_index
 
 
-func add_layer_composition_renderer(layer_name: String, layer_icon_path: String,
-		layer_icon_scale: float, is_visible: bool, l_z_index := 0):
-	instantiate_layer_composition_renderer(layer_name)
-	if layer_icon_path != null: get_node(layer_name).icon = load(layer_icon_path)
-	if layer_icon_scale != null: get_node(layer_name).icon_scale = layer_icon_scale
-	if l_z_index != null: get_node(layer_name).z_index = l_z_index
+func add_layer_composition_renderer(layer_conf):
+	instantiate_layer_composition_renderer(layer_conf)
 
 
 # FIXME: we should implement this in a cleaner way
 # Similar to instantiate_geolayer_renderer, but adds a layer corresponding to
 # a feature LayerComposition. Consequently changes applied will be applied for 
 # the layer composition as well as the geolayer
-func instantiate_layer_composition_renderer(lc_name: String):
+func instantiate_layer_composition_renderer(layer_conf):
+	var lc_name = layer_conf["layer_name"]
 	var geo_layer = Layers.layer_compositions[lc_name].render_info.geo_feature_layer
 	
 	var renderer = feature_renderer.instantiate()
 	renderer.geo_feature_layer = geo_layer
+	
+	renderer.popup_clicked.connect(func(): popup_clicked.emit())
 	
 	# Note: CONNECT_DEFERRED is needed to consistently react to all changes that
 	#  happened within a given frame (e.g. when mass-deleting features).
@@ -106,14 +109,18 @@ func instantiate_layer_composition_renderer(lc_name: String):
 	geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer), CONNECT_DEFERRED)
 	
 	if renderer:
+		loading_threads[renderer] = Thread.new()
+		
 		renderer.position = offset
 		renderer.name = lc_name
 		renderer.visibility_layer = visibility_layer
+		renderer.config = layer_conf
 		
 		renderer.set_metadata(
 			center,
 			camera.get_viewport().size,
-			camera.zoom
+			camera.zoom,
+			crs_from
 		)
 		
 		add_child(renderer)
@@ -137,12 +144,16 @@ func instantiate_geolayer_renderer(layer_name: String):
 		#  happened within a given frame (e.g. when mass-deleting features).
 		geo_layer.feature_added.connect(_on_feature_added.bind(renderer), CONNECT_DEFERRED)
 		geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer), CONNECT_DEFERRED)
+		
+		renderer.popup_clicked.connect(func(): popup_clicked.emit())
 	else:
 		logger.error("Invalid geolayer or geolayer name for {}"
 						.format(geo_layer.name))
 		return
 	
 	if renderer:
+		loading_threads[renderer] = Thread.new()
+		
 		renderer.position = offset
 		renderer.name = geo_layer.get_file_info()["name"]
 		renderer.visibility_layer = visibility_layer
@@ -150,7 +161,8 @@ func instantiate_geolayer_renderer(layer_name: String):
 		renderer.set_metadata(
 			center,
 			camera.get_viewport().size,
-			camera.zoom
+			camera.zoom,
+			crs_from
 		)
 		
 		add_child(renderer)
@@ -174,40 +186,50 @@ func apply_offset(new_offset, new_viewport_size, new_zoom):
 	loading_started.emit()
 	
 	# Start loading thread and load all geolayers in the thread
+	renderers_finished = 0
+	renderers_applied = 0
+	
 	if load_data_threaded:
-		if loading_thread.is_started() and not loading_thread.is_alive():
-			loading_thread.wait_to_finish()
-		
-		if not loading_thread.is_started():
-			renderers_finished = 0
-			renderers_applied = 0
-			loading_thread.start(update_renderers.bind(
-				center, new_offset, new_viewport_size, new_zoom), Thread.PRIORITY_HIGH)
+		for renderer in get_children():
+			if renderer is GeoLayerRenderer:
+				if loading_threads[renderer].is_started() and not loading_threads[renderer].is_alive():
+					loading_threads[renderer].wait_to_finish()
+				
+				loading_threads[renderer].start(update_renderer_with_new_data.bind(
+					renderer, center, new_offset, new_viewport_size, new_zoom),
+					Thread.PRIORITY_HIGH)
 	else:
-		renderers_finished = 0
-		renderers_applied = 0
-		update_renderers(center, new_offset, new_viewport_size, new_zoom)
+		for renderer in get_children():
+			if renderer is GeoLayerRenderer:
+				update_renderer_with_new_data(renderer, center, new_offset, new_viewport_size, new_zoom)
 
 
-func update_renderers(new_center, new_offset, new_viewport_size, new_zoom):
+func update_renderer_with_new_data(renderer, new_center, new_offset, new_viewport_size, new_zoom):
 	Thread.set_thread_safety_checks_enabled(false)
-	# Now, load the data of each renderer
-	for renderer in get_children():
-		if renderer is GeoLayerRenderer:
-			renderer.set_metadata(
-				new_center,
-				new_viewport_size,
-				new_zoom
-			)
-			renderer.load_new_data()
-			_on_renderer_finished.call_deferred(renderer.name)
+	
+	renderer.set_metadata(
+		new_center,
+		new_viewport_size,
+		new_zoom,
+		crs_from
+	)
+	
+	renderer.load_new_data()
+	_on_renderer_finished.call_deferred(renderer.name)
 
 
 func _on_feature_added(feature, renderer):
+	# FIXME: Keeping this would be preferable, but it causes reloads everytime an attribute is changed via slider.
+	# We might need to differentiate between movement (which should be applied) and attribute changes (which should not)
+	#feature.feature_changed.connect(_on_feature_changed.bind(renderer))
 	update_renderer(renderer)
 
 
 func _on_feature_removed(feature, renderer):
+	update_renderer(renderer)
+
+
+func _on_feature_changed(renderer):
 	update_renderer(renderer)
 
 
@@ -219,11 +241,11 @@ func update_renderer_threaded(renderer):
 
 func update_renderer(renderer):
 	if load_data_threaded:
-		if loading_thread.is_started() and not loading_thread.is_alive():
-			loading_thread.wait_to_finish()
+		if loading_threads[renderer].is_started() and not loading_threads[renderer].is_alive():
+			loading_threads[renderer].wait_to_finish()
 		
-		if not loading_thread.is_started():
-			loading_thread.start(update_renderer_threaded.bind(renderer), Thread.PRIORITY_NORMAL)
+		if not loading_threads[renderer].is_started():
+			loading_threads[renderer].start(update_renderer_threaded.bind(renderer), Thread.PRIORITY_NORMAL)
 	else:
 		renderer.load_new_data()
 		renderer.apply_new_data()

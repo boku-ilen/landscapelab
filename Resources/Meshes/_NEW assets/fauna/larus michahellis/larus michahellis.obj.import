@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://e15r303680r7"
+path="res://.godot/imported/larus michahellis.obj-a1334c4edea8d9409d1cd4d3b46fac2b.mesh"
+
+[deps]
+
+files=["res://.godot/imported/larus michahellis.obj-a1334c4edea8d9409d1cd4d3b46fac2b.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/larus michahellis.obj"
+dest_files=["res://.godot/imported/larus michahellis.obj-a1334c4edea8d9409d1cd4d3b46fac2b.mesh", "res://.godot/imported/larus michahellis.obj-a1334c4edea8d9409d1cd4d3b46fac2b.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

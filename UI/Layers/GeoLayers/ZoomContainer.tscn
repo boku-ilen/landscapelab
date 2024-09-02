@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://mkaw0si7x87"]
+[gd_scene load_steps=5 format=3 uid="uid://qg0hrece07vm"]
 
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="1_3t862"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/ZoomContainer.gd" id="1_je6ju"]
-[ext_resource type="Texture2D" uid="uid://bgoppnu2763s0" path="res://Resources/Icons/LabTable/zoom_in.png" id="3_jr7v1"]
-[ext_resource type="Texture2D" uid="uid://bc7v3xetnu237" path="res://Resources/Icons/LabTable/zoom_out.png" id="4_fhv87"]
+[ext_resource type="Texture2D" uid="uid://ds2qb1dhe370r" path="res://Resources/Icons/LabTable/m_zoom_in.svg" id="3_thiep"]
+[ext_resource type="Texture2D" uid="uid://dnrtwjustgeqt" path="res://Resources/Icons/LabTable/m_zoom_out.svg" id="4_or1gy"]
 
 [node name="ZoomContainer" type="HBoxContainer"]
 layout_direction = 3
@@ -14,11 +14,17 @@ custom_minimum_size = Vector2(90, 90)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-icon = ExtResource("3_jr7v1")
+focus_mode = 0
+icon = ExtResource("3_thiep")
+icon_folder = "LabTable"
+texture_name = "m_zoom_in"
 
 [node name="ZoomOut" parent="." instance=ExtResource("1_3t862")]
 custom_minimum_size = Vector2(90, 90)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-icon = ExtResource("4_fhv87")
+focus_mode = 0
+icon = ExtResource("4_or1gy")
+icon_folder = "LabTable"
+texture_name = "m_zoom_out"

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ccthmcbn2sqjr"
+path="res://.godot/imported/lod_mesh_detail_100x100_clipmap.obj-457f2e31a935ed98924650bc409927ee.mesh"
+
+[deps]
+
+files=["res://.godot/imported/lod_mesh_detail_100x100_clipmap.obj-457f2e31a935ed98924650bc409927ee.mesh"]
+
+source_file="res://Layers/Renderers/Terrain/lod_mesh_detail_100x100_clipmap.obj"
+dest_files=["res://.godot/imported/lod_mesh_detail_100x100_clipmap.obj-457f2e31a935ed98924650bc409927ee.mesh", "res://.godot/imported/lod_mesh_detail_100x100_clipmap.obj-457f2e31a935ed98924650bc409927ee.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

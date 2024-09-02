@@ -5,5 +5,3 @@
 [node name="RepeatingObjectRenderer" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.708833)
 script = ExtResource("1_n0jmc")
-load_refined_threaded = null
-load_adapt_threaded = null

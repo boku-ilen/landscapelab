@@ -15,3 +15,11 @@ func get_setting(label, default=null):
 # Abstract function for handling a whole settings block 
 func _handle_settings():
 	pass
+
+
+# General reflective deserialization
+func deserialize_reflective(object: Object, serialized: Dictionary):
+	for key in serialized.keys():
+		if key in object:
+			object.set(key, serialized[key])
+	

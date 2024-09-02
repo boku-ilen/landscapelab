@@ -15,6 +15,8 @@ func set_time_manager():
 
 
 func _ready():
+	radius = layer_composition.render_info.radius
+	
 	super._ready()
 
 
@@ -55,6 +57,9 @@ func set_instance_pos(feature, obj_instance):
 	elif not obj_instance.transform.origin.y > 0.0:
 		local_object_pos.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
 			center[0] + local_object_pos.x, center[1] - local_object_pos.z)
+		
+		# FIXME: Workaround for nodata value when placing offshore wind turbines outside of data
+		local_object_pos.y = max(local_object_pos.y, 0.0)
 	else:
 		local_object_pos.y = obj_instance.transform.origin.y
 	
@@ -62,6 +67,12 @@ func set_instance_pos(feature, obj_instance):
 	
 	if feature.get_attribute("LL_rot"):
 		obj_instance.rotation.y = deg_to_rad(float(feature.get_attribute("LL_rot")))
+	
+	if feature.get_attribute("LL_scale"):
+		obj_instance.scale = Vector3.ONE * float(feature.get_attribute("LL_scale"))
+	
+	if feature.get_attribute("LL_h_off"):
+		obj_instance.transform.origin.y += float(feature.get_attribute("LL_h_off"))
 
 
 func get_debug_info() -> String:

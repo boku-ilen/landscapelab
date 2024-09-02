@@ -15,7 +15,9 @@ static func _create_density_classes(densities_data: Array) -> Dictionary:
 			line["Image Type"],
 			line["Note"],
 			str_to_var(line["Godot Density per m"]),
-			str_to_var(line["Base Extent"])
+			str_to_var(line["Base Extent"]),
+			load(line["Mesh"]) if "Mesh" in line and not line["Mesh"].is_empty() else load("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"),
+			str_to_var(line["Is Billboard"]) if "Is Billboard" in line and not line["Is Billboard"].is_empty() else true
 		)
 		density_classes[density_class.id] = density_class
 		
@@ -136,34 +138,7 @@ static func _create_groups(groups_data: Array, plants: Dictionary,
 				logger.warn("Non-existent plant with ID %s in line/row %s!"
 						% [plant_id, line])
 		
-		# null is encoded as the string "Null"
-		var ground_texture_id = line["TEXTURE_ID"] if not line["TEXTURE_ID"].is_empty() \
-														and line["TEXTURE_ID"] != "Null" \
-														and line["TEXTURE_ID"] != null \
-													else null
-		
-		if ground_texture_id == null or ground_texture_id.is_empty() or not ground_textures.has(str_to_var(ground_texture_id)):
-			logger.warn("Non-existent ground texture ID %s in group %s, using 1 as fallback"
-					% [ground_texture_id, id])
-			ground_texture_id = 1
-		else:
-			ground_texture_id = str_to_var(ground_texture_id)
-		
-		var fade_texture_id = line["DISTANCE_MAP_ID"] if not line["DISTANCE_MAP_ID"].is_empty() \
-														and line["DISTANCE_MAP_ID"] != "Null" \
-														and line["DISTANCE_MAP_ID"] != null \
-													else null
-		var fade_texture
-		
-		if fade_texture_id == null or not fade_textures.has(str_to_var(fade_texture_id)):
-			logger.warn("Non-existent fade texture ID %s in group %s, using null as fallback"
-					% [fade_texture_id, id])
-			fade_texture = null
-		else:
-			fade_texture = fade_textures[str_to_var(fade_texture_id)]
-		
-		var group = PlantGroup.new(id, line["LABEl_EN"], group_plants, ground_textures[ground_texture_id],
-				fade_texture)
+		var group = PlantGroup.new(id, line["LABEl_EN"], group_plants)
 		
 		groups[group.id] = group
 	

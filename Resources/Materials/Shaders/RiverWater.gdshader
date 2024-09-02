@@ -71,7 +71,7 @@ float ease(float p_x, float p_c) {
 		}
 	} else if (p_c < 0.0) {
 		//inout ease
-		
+
 		if (p_x < 0.5) {
 			return pow(p_x * 2.0, -p_c) * 0.5;
 		} else {
@@ -103,31 +103,31 @@ void fragment() {
 	// are left on the textures, so the UV2 needs to be rescaled to cut off
 	// the margins.
 	vec2 custom_UV = (UV2 + 1.0 / float(i_uv2_sides)) * (float(i_uv2_sides) / float(i_uv2_sides + 2));
-	
+
 	vec2 flow;
 	float distance_map;
 	float pressure_map;
 	float foam_mask;
-	
+
 	flow = vec2(0.5, 0.572);
 	distance_map = 0.5;
 	pressure_map = 0.5;
 	foam_mask = 0.0;
-	
+
 	flow = (flow - 0.5) * 2.0; // unpack the flow vectors
 	flow *= (0.6 - abs(UV.y - 0.5)) * 5.0;
 	float temp = flow.x;
 	flow.x = -flow.y;
 	flow.y = temp;
-	
+
 	// Calculate the steepness map
 	vec3 flow_viewspace = flow.x * TANGENT + flow.y * BINORMAL;
 	vec3 up_viewspace = (VIEW_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).xyz;
 	float steepness_map = max(0.0, dot(flow_viewspace, up_viewspace)) * 4.0;
-	
+
 	float flow_force = min(flow_base + steepness_map * flow_steepness + distance_map * flow_distance + pressure_map * flow_pressure, flow_max);
 	flow *= flow_force;
-	
+
 	vec2 jump1 = vec2(0.24, 0.2083333);
 	vec2 jump2 = vec2(0.20, 0.25);
 	vec2 jump3 = vec2(0.22, 0.27);
@@ -136,7 +136,7 @@ void fragment() {
 	vec3 flow_uvB = FlowUVW(UV, flow, jump1, uv_scale, time, true);
 	vec3 flowx2_uvA = FlowUVW(UV, flow, jump2, uv_scale * 2.5, time, false);
 	vec3 flowx2_uvB = FlowUVW(UV, flow, jump2, uv_scale * 2.5, time, true);
-	
+
 	// Level 1 Water
 	vec3 water_a = texture(normal_bump_texture, flow_uvA.xy).rgb;
 	vec3 water_b = texture(normal_bump_texture, flow_uvB.xy * 1.4).rgb;
@@ -155,7 +155,7 @@ void fragment() {
 		water_norFBM += waterx2.rg * 0.35;
 		water_foamFBM *= waterx2.b * 2.0;
 	}
-	
+
 	float foam_randomness = texture(i_texture_foam_noise, UV * uv_scale.xy).r;
 
 	// Depthtest
@@ -163,8 +163,8 @@ void fragment() {
 	float depth_tex_unpacked = depth_tex * 2.0 - 1.0;
 	float surface_dist = PROJECTION_MATRIX[3][2] / (depth_tex_unpacked + PROJECTION_MATRIX[2][2]);
 	float water_depth = surface_dist + VERTEX.z;
-	
-	
+
+
 	float alb_t = clamp(water_depth / albedo_depth, 0.0, 1.0);
 	alb_t = ease(alb_t, albedo_depth_curve);
 	SPECULAR = 0.25; // Supposedly clear water has approximately a 0.25 specular value
@@ -172,7 +172,7 @@ void fragment() {
 	NORMAL_MAP = vec3(water_norFBM, 0);
 	NORMAL_MAP_DEPTH = normal_scale;
 
-	
+
 	// Refraction - has to be done after normal is set
 	vec3 unpacted_normals = NORMAL_MAP * 2.0 - 1.0;
 	//vec3 ref_normal = normalize( mix(NORMAL, TANGENT * unpacted_normals.x + BINORMAL * unpacted_normals.y + NORMAL, NORMAL_MAP_DEPTH) );
@@ -186,7 +186,7 @@ void fragment() {
 	float depth_tex_unpacked2 = depth_tex2 * 2.0 - 1.0;
 	float surface_dist2 = PROJECTION_MATRIX[3][2] / (depth_tex_unpacked2 + PROJECTION_MATRIX[2][2]);
 	float water_depth2 = surface_dist2 + VERTEX.z;
-	
+
 	if (surface_dist2 < -VERTEX.z) {
 		ref_ofs = SCREEN_UV;
 	} else {

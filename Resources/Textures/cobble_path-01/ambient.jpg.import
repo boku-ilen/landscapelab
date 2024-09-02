@@ -16,9 +16,9 @@ dest_files=["res://.godot/imported/ambient.jpg-edd9c6de3295830dd32a08a8e201254e.
 [params]
 
 compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false

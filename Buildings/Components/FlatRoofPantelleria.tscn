@@ -4,8 +4,7 @@
 
 [node name="FlatRoofPantelleria" type="Node3D"]
 script = ExtResource("1_xqobk")
-height = 0.01
+height = 0.3
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 layers = 4
-cast_shadow = 0
