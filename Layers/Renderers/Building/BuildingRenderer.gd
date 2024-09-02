@@ -55,9 +55,10 @@ var slope_attribute_name: String
 
 # Roof addon logic (i.e. pantelleria domes, chimneys, ...)
 var roof_id_to_addon_ids = {}
-@onready var roof_addon_layer: GeoFeatureLayer = layer_composition.render_info.roof_addon_layer
-@onready var roof_addon_object_path: String = layer_composition.render_info.roof_addon_object
-@onready var roof_addon_object = load(roof_addon_object_path)
+@onready var addon_layer_paths: Dictionary = layer_composition.render_info.addon_layers
+@onready var addon_layers: Dictionary
+@onready var addon_object_paths: Dictionary = layer_composition.render_info.addon_objects
+@onready var addon_objects = {}
 
 enum flag {
 	basement = 0b1,
@@ -71,7 +72,14 @@ enum flag {
 
 func _ready():
 	_create_and_set_texture_arrays()
+	_prepare_addons()
 	super._ready()
+
+
+func _prepare_addons():
+	addon_layers = LLFileAccess.new().convert_dict_to_geolayers(addon_layer_paths)
+	for key in addon_object_paths.keys():
+		addon_objects[key] = load(addon_object_paths[key])
 
 
 # To increase performance, create an array of textures which the same shader can
@@ -129,25 +137,27 @@ func load_feature_instance(feature):
 	
 		var can_build_roof := false
 		
-		var addons = []
-		if roof_addon_layer != null:
-			addons = roof_addon_layer.get_features_by_attribute_filter("build_id = %s" % [feature.get_id()])
-		if addons.size() != 0:
-			print("Do something")
+		var addons = {}
+		for addon_key in addon_layers.keys():
+			var test_layer = addon_layers[addon_key]
+			var test_features = test_layer.get_features_by_attribute_filter(
+				"build_id = %s" % [feature.get_id()])
+			addons[addon_key] = addon_layers[addon_key].get_features_by_attribute_filter(
+				"build_id = %s" % [feature.get_id()])
 		
 		if check_roof_type and walls_resource.prefer_pointed_roof:
 			if feature.get_outer_vertices().size() == 5:
 				roof = saddle_roof_scene.instantiate().with_data(
-					roof_addon_layer, 
-					roof_addon_object, 
+					addon_layers, 
+					addon_objects, 
 					addons,
 					building_metadata)
 				roof.set_metadata(building_metadata)
 				can_build_roof = true
 			elif util.str_to_var_or_default(slope, 35) > 15:
 				roof = pointed_roof_scene.instantiate().with_data(
-					roof_addon_layer, 
-					roof_addon_object, 
+					addon_layers, 
+					addon_objects, 
 					addons,
 					building_metadata)
 				roof.set_metadata(building_metadata)
@@ -156,8 +166,8 @@ func load_feature_instance(feature):
 		
 		if roof == null or not can_build_roof:
 			roof = flat_roof_scene.instantiate().with_data(
-				roof_addon_layer, 
-				roof_addon_object, 
+				addon_layers, 
+				addon_objects, 
 				addons,
 				building_metadata)
 
