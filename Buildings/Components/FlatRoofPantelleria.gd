@@ -73,9 +73,7 @@ func build(footprint: PackedVector2Array):
 
 
 func add_domes():
-	for addon_id in addon_ids:
-		var addon_feature := addon_layer.get_feature_by_id(addon_id)
-			
+	for addon_feature in addons:
 		var offset_x = building_metadata["geo_offset"][0]
 		var offset_z = building_metadata["geo_offset"][1]
 		

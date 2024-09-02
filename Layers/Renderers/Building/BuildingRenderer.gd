@@ -71,17 +71,7 @@ enum flag {
 
 func _ready():
 	_create_and_set_texture_arrays()
-	_find_roof_addon_ids()
 	super._ready()
-
-
-func _find_roof_addon_ids():
-	if roof_addon_layer == null: return
-	
-	for addon_feature in roof_addon_layer.get_all_features():
-		var roof_id = int(addon_feature.get_attribute("build_id"))
-		if not roof_id_to_addon_ids.has(roof_id): roof_id_to_addon_ids[roof_id] = []
-		roof_id_to_addon_ids[roof_id].append(addon_feature.get_id())
 
 
 # To increase performance, create an array of textures which the same shader can
@@ -139,17 +129,18 @@ func load_feature_instance(feature):
 	
 		var can_build_roof := false
 		
-		# Load all addon ids (if there are any)
-		var all_addon_ids = []
-		if roof_id_to_addon_ids.has(feature.get_id()):
-			all_addon_ids = roof_id_to_addon_ids[feature.get_id()]
+		var addons = []
+		if roof_addon_layer != null:
+			addons = roof_addon_layer.get_features_by_attribute_filter("build_id = %s" % [feature.get_id()])
+		if addons.size() != 0:
+			print("Do something")
 		
 		if check_roof_type and walls_resource.prefer_pointed_roof:
 			if feature.get_outer_vertices().size() == 5:
 				roof = saddle_roof_scene.instantiate().with_data(
 					roof_addon_layer, 
 					roof_addon_object, 
-					all_addon_ids,
+					addons,
 					building_metadata)
 				roof.set_metadata(building_metadata)
 				can_build_roof = true
@@ -157,7 +148,7 @@ func load_feature_instance(feature):
 				roof = pointed_roof_scene.instantiate().with_data(
 					roof_addon_layer, 
 					roof_addon_object, 
-					all_addon_ids,
+					addons,
 					building_metadata)
 				roof.set_metadata(building_metadata)
 				can_build_roof = roof.can_build(
@@ -167,7 +158,7 @@ func load_feature_instance(feature):
 			roof = flat_roof_scene.instantiate().with_data(
 				roof_addon_layer, 
 				roof_addon_object, 
-				all_addon_ids,
+				addons,
 				building_metadata)
 
 		var color = Color(
