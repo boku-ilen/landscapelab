@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cksaswoui2q0"
+path="res://.godot/imported/argynnis paphia.obj-de945601b81d69201b456426da75315c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/argynnis paphia.obj-de945601b81d69201b456426da75315c.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/fauna/argynnis paphia/argynnis paphia.obj"
+dest_files=["res://.godot/imported/argynnis paphia.obj-de945601b81d69201b456426da75315c.mesh", "res://.godot/imported/argynnis paphia.obj-de945601b81d69201b456426da75315c.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
