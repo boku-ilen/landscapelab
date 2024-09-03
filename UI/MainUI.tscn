@@ -101,14 +101,17 @@ script = ExtResource("8")
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+current_tab = 0
 script = ExtResource("5")
 
 [node name="TeleportMenu" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("9_he6fp")]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="WeatherUI" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("11_1mm7o")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="LiveWeatherService" parent="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI/LiveWeather/LiveWeatherButton" index="0" node_paths=PackedStringArray("weather_manager", "player")]
 weather_manager = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/WeatherManager")
@@ -116,15 +119,18 @@ player = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/World
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
 layout_mode = 2
+current_tab = 0
 drag_to_rearrange_enabled = true
 script = ExtResource("5")
 
 [node name="Datetime" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("10_x7hwk")]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="Screenshot" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("12_xqn6f")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Mid" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left"]
 custom_minimum_size = Vector2(500, 500)
@@ -160,7 +166,7 @@ script = ExtResource("11")
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort"]
 handle_input_locally = false
 gui_disable_input = true
-size = Vector2i(368, 416)
+size = Vector2i(2, 2)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_xvbyv")]
@@ -225,34 +231,37 @@ script = ExtResource("8")
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs"]
 layout_mode = 2
+current_tab = 0
 script = ExtResource("5")
 
 [node name="GeoLayerViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top" instance=ExtResource("18_gf1q8")]
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
-
-[node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewportContainer" index="0"]
-size = Vector2i(206, 300)
+metadata/_tab_index = 0
 
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]
 visible = false
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 script = ExtResource("25")
+metadata/_tab_index = 1
 
 [node name="AcceptDialog" type="AcceptDialog" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/Licenses"]
 
 [node name="MinimapViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top" instance=ExtResource("17_3pwcs")]
 layout_mode = 2
 stretch = true
+metadata/_tab_index = 2
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs"]
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
 script = ExtResource("5")
 
 [node name="LayerCompositionUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("20_2333t")]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="LayerCompositionUIConfig" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot/LayerCompositionUI" index="0"]
 position_manager_path = NodePath("../../../../../MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
@@ -260,10 +269,12 @@ position_manager_path = NodePath("../../../../../MidVertical/VBoxContainer/World
 [node name="GeoLayerUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("15")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Scenarios" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("20")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 2
 
 [editable path="MarginContainer/VBoxContainer/MenuBar"]
 [editable path="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI"]

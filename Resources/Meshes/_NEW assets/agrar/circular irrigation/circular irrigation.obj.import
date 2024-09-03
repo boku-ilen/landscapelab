@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://lr14787mkp5h"
+path="res://.godot/imported/circular irrigation.obj-79d1f5f72d50de468e321bfe76802cad.mesh"
+
+[deps]
+
+files=["res://.godot/imported/circular irrigation.obj-79d1f5f72d50de468e321bfe76802cad.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/agrar/circular irrigation/circular irrigation.obj"
+dest_files=["res://.godot/imported/circular irrigation.obj-79d1f5f72d50de468e321bfe76802cad.mesh", "res://.godot/imported/circular irrigation.obj-79d1f5f72d50de468e321bfe76802cad.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

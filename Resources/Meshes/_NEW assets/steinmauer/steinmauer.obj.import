@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dgudjvjl0l4k"
+path="res://.godot/imported/steinmauer.obj-6610d7e21e65a98d541da64bc08fea96.mesh"
+
+[deps]
+
+files=["res://.godot/imported/steinmauer.obj-6610d7e21e65a98d541da64bc08fea96.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/steinmauer/steinmauer.obj"
+dest_files=["res://.godot/imported/steinmauer.obj-6610d7e21e65a98d541da64bc08fea96.mesh", "res://.godot/imported/steinmauer.obj-6610d7e21e65a98d541da64bc08fea96.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
