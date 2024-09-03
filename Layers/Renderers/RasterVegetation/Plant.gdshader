@@ -81,17 +81,20 @@ void fragment() {
 	// Hue shift to make plant appear e.g. dryer
 	vec3 hcy = RGBtoHCY(color.rgb);
 
-	float begin = -PI;
-	float end = 0.0;
+	float begin = mix(-0.6, -PI, min(HCY_SHIFT.r * 2.0, 1.0));
+	float end = -0.6;
 
-	// FIXME: Make this scaleable by HCY_SHIFT.r
 	if (hcy.x > begin && hcy.x < end) {
+		// `factor` is the position of hcy.x within the range of begin to end, scaled to -PI/2 to +PI/2.
+		// This way, by getting the cosine of the factor, we get a smooth curve from 0..1..0.
 		float factor = hcy.x - begin;
 		factor /= end - begin;
 		factor -= 0.5;
 		factor *= PI;
 
-		hcy.x += cos(factor);
+		float addition = cos(factor) * (end - begin) / 2.0;
+		hcy.x += addition;
+		hcy.y += addition * 0.01;
 	}
 
 	hcy.g *= HCY_SHIFT.g;
