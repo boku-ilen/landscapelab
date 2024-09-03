@@ -129,7 +129,7 @@ func add_configuration_option(option_name, reference, min=null, max=null, defaul
 	label.text = option_name
 	var slider = preload("res://UI/CustomElements/SlideAndSpin.tscn").instantiate()
 	slider.min_value = 1
-	slider.tick_count = 10
+	slider.tick_count = max - min + 1 if min and max else 0
 	slider.step = 1
 	if min != null:
 		slider.min_value = float(min)
