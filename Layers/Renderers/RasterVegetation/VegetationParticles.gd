@@ -62,7 +62,6 @@ func update_rows_spacing(extent_factor):
 func set_rows_spacing_in_shader():
 	var size = Vector2(get_map_size(), get_map_size())
 	process_material.set_shader_parameter("heightmap_size", size)
-	material_override.set_shader_parameter("heightmap_size", size)
 	
 	process_material.set_shader_parameter("splatmap_size_meters", size.x)
 	process_material.set_shader_parameter("dist_scale", 1.0 / spacing)
