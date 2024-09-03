@@ -3,6 +3,7 @@ extends FeatureLayerCompositionRenderer
 @export var check_roof_type := true
 
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
+
 var flat_roof_scene = preload("res://Buildings/Components/FlatRoofPantelleria.tscn")
 var pointed_roof_scene = preload("res://Buildings/Components/PointedRoof.tscn")
 var saddle_roof_scene = preload("res://Buildings/Components/SaddleRoof.tscn")
@@ -50,6 +51,15 @@ var fallback_num_floors = 1
 var cellar_height = floor_height # For preventing partially floating buildings checked uneven surfaces
 var plinth_height_factor = 0.025
 
+var slope_attribute_name: String
+
+# Roof addon logic (i.e. pantelleria domes, chimneys, ...)
+var roof_id_to_addon_ids = {}
+@onready var addon_layer_paths: Dictionary = layer_composition.render_info.addon_layers
+@onready var addon_layers: Dictionary
+@onready var addon_object_paths: Dictionary = layer_composition.render_info.addon_objects
+@onready var addon_objects = {}
+
 enum flag {
 	basement = 0b1,
 	ground = 0b10,
@@ -62,7 +72,14 @@ enum flag {
 
 func _ready():
 	_create_and_set_texture_arrays()
+	_prepare_addons()
 	super._ready()
+
+
+func _prepare_addons():
+	addon_layers = LLFileAccess.new().convert_dict_to_geolayers(addon_layer_paths)
+	for key in addon_object_paths.keys():
+		addon_objects[key] = load(addon_object_paths[key])
 
 
 # To increase performance, create an array of textures which the same shader can
@@ -117,22 +134,42 @@ func load_feature_instance(feature):
 	if layer_composition.render_info is LayerComposition.BuildingRenderInfo:
 		var slope = feature.get_attribute(layer_composition.render_info.slope_attribute_name)
 		var roof = null
-		
+	
 		var can_build_roof := false
+		
+		var addons = {}
+		for addon_key in addon_layers.keys():
+			var test_layer = addon_layers[addon_key]
+			var test_features = test_layer.get_features_by_attribute_filter(
+				"build_id = %s" % [feature.get_id()])
+			addons[addon_key] = addon_layers[addon_key].get_features_by_attribute_filter(
+				"build_id = %s" % [feature.get_id()])
 		
 		if check_roof_type and walls_resource.prefer_pointed_roof:
 			if feature.get_outer_vertices().size() == 5:
-				roof = saddle_roof_scene.instantiate()
+				roof = saddle_roof_scene.instantiate().with_data(
+					addon_layers, 
+					addon_objects, 
+					addons,
+					building_metadata)
 				roof.set_metadata(building_metadata)
 				can_build_roof = true
 			elif util.str_to_var_or_default(slope, 35) > 15:
-				roof = pointed_roof_scene.instantiate()
+				roof = pointed_roof_scene.instantiate().with_data(
+					addon_layers, 
+					addon_objects, 
+					addons,
+					building_metadata)
 				roof.set_metadata(building_metadata)
 				can_build_roof = roof.can_build(
 					building_metadata.geo_center,feature.get_outer_vertices())
 		
 		if roof == null or not can_build_roof:
-			roof = flat_roof_scene.instantiate()
+			roof = flat_roof_scene.instantiate().with_data(
+				addon_layers, 
+				addon_objects, 
+				addons,
+				building_metadata)
 
 		var color = Color(
 			util.str_to_var_or_default(
@@ -309,7 +346,8 @@ func get_building_metadata(feature: GeoPolygon):
 		"footprint": engine_footprint,
 		"height": height,
 		"roof_height": roof_height,
-		"holes": geo_holes
+		"holes": geo_holes,
+		"geo_offset": [-center[0], -center[1]]
 	}
 
 

@@ -3,6 +3,10 @@
 [ext_resource type="Material" uid="uid://c8evm4ty0vdf8" path="res://Buildings/Components/FlatRoofPantelleria.tres" id="1_3bxhw"]
 [ext_resource type="ArrayMesh" uid="uid://ch4c363hlc8th" path="res://Resources/Meshes/Projects/Pantelleria/dammuso2.obj" id="1_lsmj8"]
 
-[node name="DammusoRoof" type="MeshInstance3D"]
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="DammusoRoof" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.2, 0, 0, 0, 0.4, 0, 0, 0)
 material_override = ExtResource("1_3bxhw")
 mesh = ExtResource("1_lsmj8")

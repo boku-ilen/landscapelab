@@ -198,3 +198,17 @@ func apply_game(game_system: Node, layers: Node):
 			game_system.current_game_mode = game_mode
 		
 		logger.info("Done loading game logic!")
+
+
+# Convert dictionary of [String, String] to [String, Geolayer]
+func convert_dict_to_geolayers(dict: Dictionary) -> Dictionary:
+	var converted = {}
+	for key in dict.keys():
+		var path = dict[key]
+		
+		var splits = split_dataset_string(Settings.get_setting("geodata", "config-path"), path)
+		var layer = get_layer_from_splits(splits, false)
+		
+		converted[key] = layer
+	
+	return converted
