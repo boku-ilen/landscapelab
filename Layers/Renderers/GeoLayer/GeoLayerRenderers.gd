@@ -148,7 +148,7 @@ func instantiate_geolayer_renderer(layer_name: String):
 		renderer.popup_clicked.connect(func(): popup_clicked.emit())
 	else:
 		logger.error("Invalid geolayer or geolayer name for {}"
-						.format(geo_layer.name))
+						.format(geo_layer.name if geo_layer else "null layer"))
 		return
 	
 	if renderer:
