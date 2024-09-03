@@ -145,7 +145,7 @@ func instantiate_geolayer_renderer(layer_name: String):
 		geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer), CONNECT_DEFERRED)
 	else:
 		logger.error("Invalid geolayer or geolayer name for {}"
-						.format(geo_layer.name))
+						.format(geo_layer.name if geo_layer else "null layer"))
 		return
 	
 	if renderer:
