@@ -139,9 +139,6 @@ func load_feature_instance(feature):
 		
 		var addons = {}
 		for addon_key in addon_layers.keys():
-			var test_layer = addon_layers[addon_key]
-			var test_features = test_layer.get_features_by_attribute_filter(
-				"build_id = %s" % [feature.get_id()])
 			addons[addon_key] = addon_layers[addon_key].get_features_by_attribute_filter(
 				"build_id = %s" % [feature.get_id()])
 		
