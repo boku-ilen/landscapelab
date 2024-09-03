@@ -232,6 +232,8 @@ class BuildingRenderInfo extends RenderInfo:
 	var height_attribute_name: String
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
+	var addon_layers: Dictionary
+	var addon_objects: Dictionary
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Building/BuildingRenderer.tscn")
