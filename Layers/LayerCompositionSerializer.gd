@@ -6,6 +6,19 @@ const render_info_to_serialized_str := {
 	
 }
 
+
+static func get_geolayer_from_path(abs_path: String, attribute_name: String, cls_name: String):
+	# Split data into {LL_xy.gpkg, layer_name, write_access}
+	var splits = LLFileAccess.split_dataset_string(abs_path, attribute_name)
+	
+	if cls_name == "GeoRasterLayer":
+		return LLFileAccess.get_layer_from_splits(splits, true)
+	elif cls_name == "GeoFeatureLayer":
+		return LLFileAccess.get_layer_from_splits(splits, false)
+	
+	return null
+
+
 static func deserialize(
 		abs_path: String, composition_name: String, 
 		type: String, attributes: Dictionary, 
@@ -23,13 +36,7 @@ static func deserialize(
 		var render_attribute = render_properties[attribute_name]
 
 		if render_attribute["class_name"] in ["GeoRasterLayer", "GeoFeatureLayer"]:
-			# Split data into {LL_xy.gpkg, layer_name, write_access}
-			var splits = LLFileAccess.split_dataset_string(abs_path, attributes[attribute_name])
-			
-			if render_attribute["class_name"] == "GeoRasterLayer":
-				attribute = LLFileAccess.get_layer_from_splits(splits, true)
-			elif render_attribute["class_name"] == "GeoFeatureLayer":
-				attribute = LLFileAccess.get_layer_from_splits(splits, false)
+			attribute = get_geolayer_from_path(abs_path, attribute, render_attribute["class_name"])
 		
 		layer_composition.render_info.set(attribute_name, attribute)
 	

@@ -9,11 +9,25 @@ extends Control
 		player_node = new_player
 		if geo_layers:
 			geo_layers.player_node = new_player
+			
+		get_parent().get_node("MarginContainer/AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").player = new_player
+
+@export var time_manager: TimeManager:
+	set(new_time_manager):
+		time_manager = new_time_manager
+		get_parent().get_node("MarginContainer/AtmosphereMenu").time_manager = new_time_manager
+
+@export var weather_manager: WeatherManager:
+	set(new_weather_manager):
+		weather_manager = new_weather_manager
+		get_parent().get_node("MarginContainer/AtmosphereMenu").weather_manager = new_weather_manager
+		get_parent().get_node("MarginContainer/AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").weather_manager = new_weather_manager
+
 # To debug it as standalone (without running the rest of the landscapelab
 # it is necessary to load the configuration
 @export var debug_mode := false
 
-var current_goc_name = "PV Licht 1"
+var current_goc_name = "Offshore Wind Farms"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
@@ -42,12 +56,11 @@ func _ready():
 		geo_layers.geo_transform = inv_geo_transform
 	)
 	
-	$LabTableConfigurator.new_layer.connect(func(layer_name, layer_icon, icon_scale, l_z_index = 0):
-		if layer_name in Layers.layer_compositions:
-			geo_layers.add_layer_composition_renderer(
-				layer_name, layer_icon, icon_scale, true, l_z_index)
+	$LabTableConfigurator.new_layer.connect(func(layer_conf):
+		if layer_conf["layer_name"] in Layers.layer_compositions:
+			geo_layers.add_layer_composition_renderer(layer_conf)
 		else: 
-			geo_layers.set_layer_visibility(layer_name, true, l_z_index))
+			geo_layers.set_layer_visibility(layer_conf["layer_name"], true, layer_conf["z_index"]))
 	$LabTableConfigurator.load_table_config()
 	
 	# Display camera extent on overview
@@ -70,7 +83,7 @@ func _ready():
 
 
 func set_workshop_mode(active: bool): 
-	var action_handler = $SubViewportContainer/ActionHandler
+	var action_handler = $SubViewportContainer/SubViewport/Camera2D/ActionHandler
 	if not active: 
 		action_handler.current_action = null
 		return
@@ -103,40 +116,17 @@ func set_workshop_mode(active: bool):
 			
 			var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
 			
-			# Let user configure the GoC via a popup if any change is allowed
-			var is_any_change_allowed = collection.attributes.values().any(
-				func(attrib): return attrib.allow_change)
-			
-			if is_any_change_allowed or collection is GameObjectClusterCollection:
-				var goc_popup = goc_configuration_popup.instantiate()
-				goc_popup.name = "GOCPopup"
-				
-				if has_node("GOCPopup"): get_node("GOCPopup").free()
-				
-				add_child(goc_popup)
-				
-				if "cluster_size" in collection:
-					goc_popup.add_configuration_option(
-						"cluster_size", 
-						collection, 
-						collection.min_cluster_size, 
-						collection.max_cluster_size)
-				
-				for attribute: GameObjectAttribute in collection.attributes.values():
-					if attribute.allow_change:
-						goc_popup.add_configuration_option(
-							attribute.name, attribute, attribute.min, attribute.max)
-				
-				goc_popup.popup(Rect2(event.global_position, goc_popup.size))
-				successful_configuration = await goc_popup.closed
-				if successful_configuration is bool and successful_configuration == false: return
-			
 			var new_game_object = GameSystem.create_new_game_object(collection, vector_local)
-			for option in successful_configuration:
-				new_game_object.set_attribute(option, successful_configuration[option]["val"])
 			
 			if new_game_object:
 				game_object_created.emit(event.position)
+				var renderer
+				for child in $SubViewportContainer/SubViewport/GeoLayerRenderers.get_children():
+					if "geo_feature_layer" in child and child.geo_feature_layer.get_file_info()["name"] == collection.feature_layer.get_file_info()["name"]:
+						renderer = child
+				var is_any_change_allowed = collection.attributes.values().any(func(attrib): return attrib.allow_change)
+				if is_any_change_allowed:
+					renderer.newest_feature = new_game_object.geo_feature
 			else:
 				game_object_failed.emit(event.position)
 	

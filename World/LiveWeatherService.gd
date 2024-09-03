@@ -22,6 +22,8 @@ func apply_current_weather():
 
 # Called when the HTTP request is completed.
 func _http_request_completed(result, response_code, headers, body):
+	if response_code != 200: return
+	
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
 	var response = json.get_data()
@@ -38,8 +40,9 @@ func _http_request_completed(result, response_code, headers, body):
 	var wind_direction = response["current"]["wind_direction_10m"]
 	
 	weather_manager.wind_speed = wind_speed
-	weather_manager.wind_direction = wind_direction
+	weather_manager.wind_direction = wind_direction - 180.0
 	weather_manager.cloud_coverage = pow(cloud_cover / 100.0, 1.75) * 100.0 # Scale to make percentage work as intended
+	weather_manager.rain_enabled = rain > 0.0 or showers > 0.0
 	
 	if rain > 0:
 		weather_manager.cloud_density = 66.0

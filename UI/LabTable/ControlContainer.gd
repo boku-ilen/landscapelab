@@ -23,6 +23,8 @@ signal recenter(center)
 		down.pressed.connect(func():
 			var shift_abs = (Vector2(camera_2d.get_viewport().size) / camera_2d.zoom).y * shift_relative_y
 			camera_2d.add_offset_and_emit(Vector2(0, shift_abs)))
+		center.pressed.connect(func():
+			camera_2d.set_offset_and_emit(Vector2.ZERO))
 @export var overview_camera: Camera2D
 
 @export_group("Control Nodes")
@@ -35,12 +37,15 @@ signal recenter(center)
 @export var right: Button
 @export var up: Button
 @export var down: Button
+@export var center: Button
 
 
 func _ready():
 	visibility_button.toggled.connect(func(toggled):
 		for control in [zoom_container, grid_container, subviewport_container]:
-			control.visible = !toggled)
+			control.visible = !toggled
+		visibility_button.texture_name = "m_open" if toggled else "m_close"
+	)
 	overview_camera.recenter.connect(func(center): recenter.emit(center))
 
 

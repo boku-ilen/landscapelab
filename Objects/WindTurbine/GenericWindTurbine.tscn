@@ -26,7 +26,7 @@ resource_name = "enercon-white.001"
 cull_mode = 2
 vertex_color_use_as_albedo = true
 albedo_texture = ExtResource("3_p2ux2")
-roughness = 0.5
+roughness = 0.4
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_xibdq"]
 _surfaces = [{
@@ -353,8 +353,8 @@ transform = Transform3D(1.0253, 0, -1.02531, 0, 1.45, 0, 1.02531, 0, 1.0253, 0, 
 script = ExtResource("2")
 speed = 0.117919
 wind_direction = 315.0
-mesh_hub_height = 135
-mesh_rotor_diameter = 100
+mesh_hub_height = 135.0
+mesh_rotor_diameter = 100.0
 min_hub_height = 50
 min_rotor_diameter = 50
 forward_for_rotation = Vector3(0, 0, -1)

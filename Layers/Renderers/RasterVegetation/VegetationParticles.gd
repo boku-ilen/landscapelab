@@ -16,25 +16,6 @@ var density_class: DensityClass :
 
 @export var offset: Vector2 = Vector2.ZERO
 
-@export var camera_facing_enabled := false :
-	get:
-		return camera_facing_enabled
-	set(is_enabled):
-		camera_facing_enabled = is_enabled
-		# A density class is required for sensible setting of billboard mode
-		if not density_class: return
-		if is_enabled:
-			# Render solitary plants as camera-facing billboards, clusters as static meshes
-			if density_class.image_type == "Solitary":
-				set_mesh(load("res://Resources/Meshes/VegetationBillboard/1m_billboard_camerafacing.obj"))
-				set_camera_facing(true)
-			else:
-				set_mesh(load("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
-				set_camera_facing(false)
-		else:
-			set_mesh(load("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj"))
-			set_camera_facing(false)
-
 var current_offset_from_shifting = Vector2.ZERO
 var time_passed = 0
 var previous_origin
@@ -48,8 +29,10 @@ var last_load_pos = Vector3.ZERO
 
 
 func _ready():
-	self.camera_facing_enabled = camera_facing_enabled
 	Vegetation.connect("new_plant_extent_factor",Callable(self,"update_rows_spacing"))
+	
+	set_mesh(density_class.mesh)
+	material_override.set_shader_parameter("is_billboard", density_class.is_billboard)
 	
 	# Set static shader variables
 	process_material.set_shader_parameter("row_ids", Vegetation.row_ids)
@@ -87,11 +70,6 @@ func set_rows_spacing_in_shader():
 
 func set_mesh(new_mesh):
 	draw_pass_1 = new_mesh
-
-
-func set_camera_facing(is_camera_facing: bool) -> void:
-	material_override.set_shader_parameter("camera_facing", is_camera_facing)
-	material_override.set_shader_parameter("billboard_enabled", is_camera_facing)
 
 
 # Updates the visibility AABB which is used for culling.
@@ -140,7 +118,7 @@ func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, n
 		float(world_y + map_size / 2),
 		float(map_size), 
 		int(map_size),
-		0
+		1
 	)
 	
 	heightmap = dhm.get_image_texture()
@@ -166,7 +144,7 @@ func apply_textures():
 	
 	process_material.set_shader_parameter("splatmap", splatmap)
 	process_material.set_shader_parameter("heightmap", heightmap)
-	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, -uv_offset_y))
+	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, uv_offset_y))
 
 
 func apply_wind_speed(wind_speed):

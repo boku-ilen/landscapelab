@@ -1,13 +1,14 @@
-[gd_scene load_steps=19 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=40 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_l77mt"]
-[ext_resource type="PackedScene" uid="uid://b614v82srw120" path="res://UI/Layers/GeoLayers/GeoLayerSubViewport.tscn" id="2_opmh5"]
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/Cursor2D.gd" id="4_12y64"]
 [ext_resource type="PackedScene" uid="uid://d25827kd1r2xd" path="res://UI/LabTable/ControlContainer.tscn" id="4_d680t"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Viewport2DCamera.gd" id="4_klb3k"]
 [ext_resource type="Script" path="res://Editing/ActionHandler.gd" id="4_nsdnx"]
 [ext_resource type="Texture2D" uid="uid://bci3mglgy7h5k" path="res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg" id="4_yl3ng"]
+[ext_resource type="PackedScene" uid="uid://dn25tsa6f10jw" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.tscn" id="5_c4s8q"]
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="8_2ddb4"]
 [ext_resource type="PackedScene" uid="uid://vmfgu2mvoju5" path="res://UI/LabTable/LabTableCommunicator.tscn" id="10_wqhkf"]
 [ext_resource type="Script" path="res://UI/LabTable/ScoreUI.gd" id="13_a5rra"]
@@ -16,10 +17,35 @@
 [ext_resource type="PackedScene" uid="uid://bjl2vfe4otxnj" path="res://UI/LabTable/LabTableConfigurator.tscn" id="15_esmpk"]
 [ext_resource type="Script" path="res://UI/LabTable/LabTableMarkers.gd" id="15_j8x0r"]
 [ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="17_aru4m"]
+[ext_resource type="Script" path="res://UI/LabTable/SaveButton.gd" id="19_bwlna"]
 [ext_resource type="Script" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
+[ext_resource type="Script" path="res://UI/LabTable/ScaleBar.gd" id="20_rfesq"]
+[ext_resource type="Script" path="res://UI/LabTable/LoadButton.gd" id="21_6fdux"]
+[ext_resource type="Texture2D" uid="uid://b0ggrqax876lq" path="res://Resources/Textures/UI/scalebar.png" id="21_8rx5g"]
+[ext_resource type="Script" path="res://UI/LabTable/AtmosphereMenu.gd" id="23_5pqbs"]
+[ext_resource type="StyleBox" uid="uid://dg3l5xqfdgxff" path="res://UI/LabTable/Style/PopupPanel.tres" id="23_wb0c1"]
+[ext_resource type="Texture2D" uid="uid://dndroq8xw54we" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sunrise.svg" id="24_0xwd5"]
+[ext_resource type="PackedScene" uid="uid://d2biaicqh7bu5" path="res://World/AtmosphereConfiguration.tscn" id="24_ty2jq"]
+[ext_resource type="Texture2D" uid="uid://ds6wwes2a5wbq" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sun.svg" id="25_302tt"]
+[ext_resource type="Texture2D" uid="uid://cw0im4d30mbtf" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sunset.svg" id="26_u2cwq"]
+[ext_resource type="Texture2D" uid="uid://1gxcd6oo0in1" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/moon.svg" id="27_elhq0"]
+[ext_resource type="Texture2D" uid="uid://uuqtyv3ffdfj" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/cloudy.svg" id="28_b1lmo"]
+[ext_resource type="Texture2D" uid="uid://bdw0osv1mm0qr" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/rainy.svg" id="29_76klx"]
+[ext_resource type="Texture2D" uid="uid://b1fy3xneoa2h5" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/thunderstorm.svg" id="30_0vbkr"]
+[ext_resource type="Texture2D" uid="uid://ba1a3pe34nnto" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/now.svg" id="31_3y1be"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tqjw6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rqbs8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_63out"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rqkfr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0v7wp"]
 
 [node name="LabTableWindow" type="Window"]
 initial_position = 1
@@ -39,23 +65,45 @@ script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
+debug_mode = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.85
+focus_mode = 0
 stretch = true
 script = ExtResource("1_l77mt")
 
-[node name="SubViewport" parent="LabTable/SubViewportContainer" instance=ExtResource("2_opmh5")]
+[node name="SubViewport" type="SubViewport" parent="LabTable/SubViewportContainer"]
+disable_3d = true
+handle_input_locally = false
+physics_object_picking = true
+physics_object_picking_sort = true
 canvas_cull_mask = 4294967293
 size = Vector2i(1606, 900)
+size_2d_override_stretch = true
+render_target_update_mode = 4
 
-[node name="Camera2D" parent="LabTable/SubViewportContainer/SubViewport" index="0"]
+[node name="Camera2D" type="Camera2D" parent="LabTable/SubViewportContainer/SubViewport"]
+ignore_rotation = false
 zoom = Vector2(0.1, 0.1)
+limit_left = -1000000000
+limit_top = -1000000000
+limit_right = 1000000000
+limit_bottom = 1000000000
+position_smoothing_speed = 30.0
+script = ExtResource("4_klb3k")
 
-[node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" index="1" node_paths=PackedStringArray("camera")]
+[node name="ActionHandler" type="Node" parent="LabTable/SubViewportContainer/SubViewport/Camera2D"]
+script = ExtResource("4_nsdnx")
+perspective_prefix = "2D"
+cursor_path = NodePath("../../Cursor2D")
+
+[node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera") instance=ExtResource("5_c4s8q")]
+visibility_layer = 3
 camera = NodePath("../Camera2D")
+load_data_threaded = false
 
 [node name="Cursor2D" type="Sprite2D" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d")]
 visible = false
@@ -71,23 +119,19 @@ offset_right = 50.0
 offset_bottom = 36.0
 text = "test"
 
-[node name="ActionHandler" type="Node" parent="LabTable/SubViewportContainer"]
-script = ExtResource("4_nsdnx")
-perspective_prefix = "2D"
-cursor_path = NodePath("../SubViewport/Cursor2D")
-
 [node name="PanelContainer" type="PanelContainer" parent="LabTable/SubViewportContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_ha2ys")
 
-[node name="ControlContainer" parent="LabTable/SubViewportContainer/PanelContainer" node_paths=PackedStringArray("camera_2d") instance=ExtResource("4_d680t")]
+[node name="ControlContainer" parent="LabTable/SubViewportContainer/PanelContainer" node_paths=PackedStringArray("camera_2d", "grid_container") instance=ExtResource("4_d680t")]
 layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 camera_2d = NodePath("../../SubViewport/Camera2D")
+grid_container = NodePath(".")
 
 [node name="HBox" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer" index="1"]
 size_flags_horizontal = 4
@@ -112,20 +156,16 @@ custom_minimum_size = Vector2(90, 90)
 [node name="Down" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/GridContainer" index="7"]
 custom_minimum_size = Vector2(90, 90)
 
+[node name="OverviewContainer" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer" index="3"]
+visible = false
+
+[node name="SubViewport" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer" index="0"]
+render_target_update_mode = 0
+
 [node name="ReferenceRect" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport" index="2"]
 visibility_layer = 2
 z_index = 10
 border_width = 250.0
-
-[node name="ScoresContainer" type="PanelContainer" parent="LabTable"]
-top_level = true
-layout_direction = 3
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="ScoreUI" type="VBoxContainer" parent="LabTable/ScoresContainer"]
-layout_mode = 2
-script = ExtResource("13_a5rra")
 
 [node name="LLConfigSetup" parent="LabTable" instance=ExtResource("13_ibx33")]
 
@@ -137,6 +177,9 @@ script = ExtResource("15_j8x0r")
 [node name="LabTableConfigurator" parent="LabTable" instance=ExtResource("15_esmpk")]
 
 [node name="GameModesConfigurator" parent="LabTable" instance=ExtResource("17_aru4m")]
+
+[node name="CenterContainer" type="CenterContainer" parent="LabTable"]
+layout_mode = 2
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 3
@@ -192,6 +235,18 @@ text = "0.65€"
 layout_mode = 2
 text = "(0.03)"
 
+[node name="ScoresContainer" type="PanelContainer" parent="."]
+top_level = true
+layout_direction = 3
+offset_right = 20.0
+offset_bottom = 60.0
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("23_wb0c1")
+
+[node name="ScoreUI" type="VBoxContainer" parent="ScoresContainer"]
+layout_mode = 2
+script = ExtResource("13_a5rra")
+
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 2
 anchor_top = 1.0
@@ -208,6 +263,170 @@ theme = ExtResource("8_2ddb4")
 text = "Next Game Mode"
 script = ExtResource("20_12202")
 
-[editable path="LabTable/SubViewportContainer/SubViewport"]
+[node name="CenterContainer2" type="CenterContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1400.0
+offset_top = -46.0
+offset_right = -1353.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="SaveButton" type="Button" parent="CenterContainer2"]
+layout_mode = 2
+theme = ExtResource("8_2ddb4")
+text = "Save"
+script = ExtResource("19_bwlna")
+
+[node name="CenterContainer4" type="CenterContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1300.0
+offset_top = -46.0
+offset_right = -1253.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="LoadButton" type="Button" parent="CenterContainer4"]
+layout_mode = 2
+theme = ExtResource("8_2ddb4")
+text = "Load"
+script = ExtResource("21_6fdux")
+
+[node name="CenterContainer3" type="CenterContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -136.5
+offset_top = -40.0
+offset_right = 136.5
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="ScaleBar" type="VBoxContainer" parent="CenterContainer3" node_paths=PackedStringArray("camera")]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+alignment = 1
+script = ExtResource("20_rfesq")
+camera = NodePath("../../LabTable/SubViewportContainer/SubViewport/Camera2D")
+
+[node name="Line2D" type="Line2D" parent="CenterContainer3/ScaleBar"]
+points = PackedVector2Array(0, 0, 100, 0)
+texture = ExtResource("21_8rx5g")
+texture_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer3/ScaleBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.443137, 0.443137, 0.443137, 1)
+text = "1000m"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(80, 80)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="AtmosphereMenu" type="Sprite2D" parent="MarginContainer"]
+texture = ExtResource("28_b1lmo")
+script = ExtResource("23_5pqbs")
+
+[node name="AtmosphereConfiguration" parent="MarginContainer/AtmosphereMenu" instance=ExtResource("24_ty2jq")]
+
+[node name="AtmospherePanel" type="PanelContainer" parent="MarginContainer/AtmosphereMenu"]
+visible = false
+show_behind_parent = true
+custom_minimum_size = Vector2(200, 300)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -558.0
+offset_top = -396.0
+offset_right = -78.0
+offset_bottom = -78.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = ExtResource("23_wb0c1")
+
+[node name="Content" type="VBoxContainer" parent="MarginContainer/AtmosphereMenu/AtmospherePanel"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content"]
+layout_mode = 2
+
+[node name="Settings" type="VBoxContainer" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer"]
+layout_mode = 2
+
+[node name="TimeLabel" type="Label" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+layout_mode = 2
+text = "Time:"
+
+[node name="TimeSelect" type="ItemList" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+custom_minimum_size = Vector2(380, 100)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tqjw6")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rqbs8")
+theme_override_styles/hovered = SubResource("StyleBoxEmpty_63out")
+theme_override_styles/selected = SubResource("StyleBoxEmpty_rqkfr")
+theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_0v7wp")
+item_count = 4
+max_columns = 4
+item_0/icon = ExtResource("24_0xwd5")
+item_1/icon = ExtResource("25_302tt")
+item_2/icon = ExtResource("26_u2cwq")
+item_3/icon = ExtResource("27_elhq0")
+
+[node name="WeatherLabel" type="Label" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+layout_mode = 2
+text = "Weather:"
+
+[node name="WeatherSelect" type="ItemList" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+custom_minimum_size = Vector2(380, 100)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tqjw6")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rqbs8")
+theme_override_styles/hovered = SubResource("StyleBoxEmpty_63out")
+theme_override_styles/selected = SubResource("StyleBoxEmpty_rqkfr")
+theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_0v7wp")
+item_count = 4
+max_columns = 4
+item_0/icon = ExtResource("25_302tt")
+item_1/icon = ExtResource("28_b1lmo")
+item_2/icon = ExtResource("29_76klx")
+item_3/icon = ExtResource("30_0vbkr")
+
+[node name="CurrentSettingsButton" type="TextureButton" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("31_3y1be")
+texture_pressed = ExtResource("31_3y1be")
+texture_hover = ExtResource("31_3y1be")
+texture_disabled = ExtResource("31_3y1be")
+texture_focused = ExtResource("31_3y1be")
+
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
 [editable path="Panel/CenterContainer/ScoreContributorWeightSlider"]

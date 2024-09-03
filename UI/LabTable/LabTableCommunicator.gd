@@ -9,6 +9,10 @@ var _server = WebSocketServer.new()
 # For reacting to deleted bricks
 var brick_id_to_position = {}
 
+@export var save_log := true
+
+var current_log_file
+
 
 func _ready():
 	_server.client_connected.connect(_connected)
@@ -22,6 +26,12 @@ func _ready():
 		set_process(false)
 	
 	get_parent().game_object_failed.connect(_on_game_object_creation_failed)
+	
+	if save_log:
+		DirAccess.make_dir_absolute("user://table-log")
+		var filename = "user://table-log/%s.log" % [Time.get_unix_time_from_system()]
+		current_log_file = FileAccess.open(filename, FileAccess.WRITE)
+		current_log_file.store_string("test")
 
 
 func _connected(id):
@@ -33,6 +43,10 @@ func _disconnected(id):
 
 
 func _on_data(id, message):
+	if save_log:
+		current_log_file.store_string(str(floor(Time.get_unix_time_from_system())) + ": " + message + "\n")
+		current_log_file.flush()
+	
 	var data_dict = JSON.parse_string(message)
 	print("Got data from client %d: %s" % [id, data_dict])
 	
@@ -58,30 +72,19 @@ func _on_data(id, message):
 			
 		brick_id_to_position[data_dict["data"]["id"]] = position_scaled
 			
-		# First, delete anything that might have previously been at that position
 		var event = InputEventMouseButton.new()
 		event.pressed = true
-		event.button_index = 2
+		event.button_index = 1
 		event.position = position_scaled
 		event.global_position = position_scaled
 		get_viewport().push_input(event, false)
+		
+		await get_tree().process_frame
 		
 		# Send a mouse release event immediately after
 		var release_event = event.duplicate()
 		release_event.pressed = false
 		get_viewport().push_input(release_event, false)
-		
-		# Now, create a new object here
-		var new_event = event.duplicate()
-		event.button_index = 1
-		get_viewport().push_input(event, false)
-		
-		var new_release_event = release_event.duplicate()
-		new_release_event.button_index = 1
-		get_viewport().push_input(new_release_event, false)
-		#else:
-			## This brick cannot be used - created an invalid marker
-			#$LabTableMarkers.create_invalid_marker(position_scaled, data_dict["data"]["id"])
 	
 	elif data_dict["event"] == "brick_removed":
 		# If this was an outdated brick, remove the invalid marker
@@ -98,6 +101,8 @@ func _on_data(id, message):
 			
 			get_viewport().push_input(event, false)
 			
+			await get_tree().process_frame
+			
 			# Send a mouse release event immediately after
 			var release_event = event.duplicate()
 			release_event.pressed = false
@@ -109,7 +114,7 @@ func _on_data(id, message):
 
 
 func _on_game_object_creation_failed(event_position):
-	var id
+	var id = null
 	
 	# The straightforward way would be this:
 	# id = brick_id_to_position.find_key(event_position)
@@ -119,7 +124,7 @@ func _on_game_object_creation_failed(event_position):
 				and brick_id_to_position[brick_id].y == event_position.y:
 			id = brick_id
 	
-	if id:
+	if id != null:
 		# This game object was created by a brick - create an invalid marker
 		# It will be automatically removed when a brick_removed event arrives
 		$LabTableMarkers.create_invalid_marker(event_position, id)

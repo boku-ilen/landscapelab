@@ -4,75 +4,85 @@
 [ext_resource type="Script" path="res://UI/Datetime/CurrentTimeButton.gd" id="2_x1knw"]
 
 [node name="Datetime" type="VBoxContainer"]
-offset_right = 698.0
-offset_bottom = 196.0
+offset_top = 2.0
+offset_right = 277.0
+offset_bottom = 173.0
 script = ExtResource("1")
+
+[node name="DateLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Date"
 
 [node name="Date" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Heading" type="Label" parent="Date"]
-layout_mode = 2
-text = "Date:"
-
-[node name="YearLabel" type="Label" parent="Date"]
-layout_mode = 2
-text = "Year"
-
 [node name="Year" type="SpinBox" parent="Date"]
 layout_mode = 2
+size_flags_horizontal = 3
 min_value = 2000.0
 max_value = 2025.0
 value = 2023.0
 
 [node name="MonthLabel" type="Label" parent="Date"]
 layout_mode = 2
-text = "Month"
+text = "-"
 
 [node name="Month" type="SpinBox" parent="Date"]
 layout_mode = 2
+size_flags_horizontal = 3
 max_value = 12.0
 value = 3.0
 
 [node name="DayLabel" type="Label" parent="Date"]
 layout_mode = 2
-text = "Day"
+text = "-"
 
 [node name="Day" type="SpinBox" parent="Date"]
 layout_mode = 2
+size_flags_horizontal = 3
 max_value = 31.0
 value = 21.0
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 2
+
+[node name="Timelabel" type="Label" parent="."]
+layout_mode = 2
+text = "Time"
 
 [node name="Time" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Heading" type="Label" parent="Time"]
-layout_mode = 2
-text = "Time:"
-
-[node name="HourLabel" type="Label" parent="Time"]
-layout_mode = 2
-text = "Hour"
-
 [node name="Hour" type="SpinBox" parent="Time"]
 layout_mode = 2
+size_flags_horizontal = 3
 max_value = 23.0
 value = 11.0
 
 [node name="MinuteLabel" type="Label" parent="Time"]
 layout_mode = 2
-text = "Minute"
+text = ":"
 
 [node name="Minute" type="SpinBox" parent="Time"]
 layout_mode = 2
+size_flags_horizontal = 3
 max_value = 59.0
 value = 5.0
 
+[node name="Spacing" type="Label" parent="Time"]
+layout_mode = 2
+text = " "
+
 [node name="MinuteAddButton" type="Button" parent="Time"]
 layout_mode = 2
-text = "+ 10 Minutes"
+size_flags_horizontal = 3
+text = "+10m"
+
+[node name="HSeparator2" type="HSeparator" parent="."]
+layout_mode = 2
 
 [node name="CurrentTimeButton" type="Button" parent="."]
 layout_mode = 2
+size_flags_vertical = 2
 text = "Apply current time"
 script = ExtResource("2_x1knw")

@@ -134,7 +134,17 @@ func _calculate_intermediate_transforms():
 		var starting_point: Vector3
 		var end_point: Vector3
 		
+		var height_fit_rotation = 0.0
+		
 		var get_ground_height_at_pos
+		
+		var height_offset = 0.0
+		if feature.get_attribute("LL_h_off"):
+			height_offset = float(feature.get_attribute("LL_h_off"))
+		
+		var ll_scale = 1.0
+		if feature.get_attribute("LL_scale"):
+			ll_scale = float(feature.get_attribute("LL_scale"))
 		
 		if layer_composition.render_info.height_gradient:
 			# For things like bridges, we want to interpolate between the height at the first point and the height at the last point.
@@ -144,6 +154,8 @@ func _calculate_intermediate_transforms():
 			
 			var height_at_first = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + first_point.x, center[1] - first_point.z)
 			var height_at_last = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + last_point.x, center[1] - last_point.z)
+			
+			height_fit_rotation = atan((height_at_last - height_at_first) / length)
 			
 			get_ground_height_at_pos = func(position_x, position_z):
 				var lerp_factor = first_point.distance_to(Vector3(position_x - center[0], 0.0, -position_z + center[1])) / length
@@ -158,6 +170,8 @@ func _calculate_intermediate_transforms():
 		var attribute_name = layer_composition.render_info.selector_attribute_name
 		var attribute_value = feature.get_attribute(attribute_name) if not layer_composition.render_info.selector_attribute_name.is_empty() else "default"
 		var width = layer_composition.render_info.meshes[attribute_value]["width"]
+		
+		width *= ll_scale
 		
 		var curve_length = vertices.get_baked_length()
 		var distance_covered := 0.0
@@ -182,23 +196,34 @@ func _calculate_intermediate_transforms():
 			t.basis.x = t.basis.y.cross(t.basis.z)
 			
 			t = t.scaled_local(Vector3(1, 1, scale_factor))
+			t = t.scaled_local(Vector3.ONE * ll_scale)
 			
-			var rand_angle := 0.0
+			# Rotate by height slant if needed
+			t = t.rotated_local(Vector3.RIGHT, -height_fit_rotation)
 
 			var pos = t.origin + direction * scaled_width
+			
+			# Rotate by base rotation (to account for assets rotated differently than needed)
+			t = t.rotated_local(Vector3.UP, deg_to_rad(layer_composition.render_info.base_rotation))
+			
 			# Randomly add 90, 180 or 270 degrees to previous rotation
 			if layer_composition.render_info.random_angle:
-				var pseudo_random = int(pos.x * 12345.12345 + pos.z * 12345.12345)
+				var rand_angle := 0.0
+				
+				var pseudo_random = int(pos.x * 43758.5453 + pos.z * 78233.9898)
 				rand_angle = rand_angle + (PI / 2.0) * ((pseudo_random % 3) + 1.0)
 				t = t.rotated_local(Vector3.UP, rand_angle)
 			t.origin = pos #* Vector3(1, 1, scale_factor)
 			
 			# Set the mesh on ground and add some buffer for uneven grounds
 			var new_height = get_ground_height_at_pos.call(
-				center[0] + t.origin.x, center[1] - t.origin.z)
+				center[0] + t.origin.x, center[1] - t.origin.z) + height_offset
 			
 			if previous_height == 0.0: previous_height = new_height  # for the first iteration
-			t.origin.y = lerp(previous_height, new_height, 0.5)
+			if layer_composition.render_info.height_gradient:
+				t.origin.y = new_height
+			else:
+				t.origin.y = lerp(previous_height, new_height, 0.5)
 			
 			transforms[f_id].append(t)
 			

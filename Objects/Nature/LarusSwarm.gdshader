@@ -46,7 +46,7 @@ void start() {
 	vec3 position = vec3(rand_from_seed(alt_seed2) * 2.0 - 1.0,
 	                     0.0,//rand_from_seed(alt_seed3) * 2.0 - 1.0,
 	                     rand_from_seed(alt_seed4) * 2.0 - 1.0);
-	
+
 	TRANSFORM[3].xyz = EMISSION_TRANSFORM[3].xyz + position * radius;
 
 	// Initial velocity
@@ -55,13 +55,13 @@ void start() {
 	                     rand_from_seed(alt_seed4) * 2.0 - 1.0);
 
 	addition.y *= 0.5;
-	
+
 	//VELOCITY = addition * 10.0;
 }
 
 void process() {
 	CUSTOM.z += DELTA;
-	
+
 	uint alt_seed1 = hash(NUMBER + uint(1) + RANDOM_SEED + uint(TIME * 0.1 + rand_from_seed(hash(INDEX)) * PI));
 	uint alt_seed2 = hash(NUMBER + uint(27) + RANDOM_SEED + uint(TIME * time_scale));
 	uint alt_seed3 = hash(NUMBER + uint(43) + RANDOM_SEED + uint(TIME * time_scale));
@@ -70,19 +70,19 @@ void process() {
 	vec3 addition = vec3(rand_from_seed(alt_seed2) * 2.0 - 1.0,
 	                     rand_from_seed(alt_seed3) * 2.0 - 1.0,
 	                     rand_from_seed(alt_seed4) * 2.0 - 1.0);
-	
+
 	vec3 to_center = EMISSION_TRANSFORM[3].xyz - TRANSFORM[3].xyz;
 	to_center.y *= y_center_pull_weight; // birds want to get to their default altitude much more than they want to get to the center
-	
+
 	vec3 velocity_addition = addition * random_direction_weight * DELTA + to_center * center_pull_weight * rand_from_seed(alt_seed1) * DELTA;
 
 	VELOCITY += velocity_addition;
-	
+
 	VELOCITY = clamp(VELOCITY, vec3(-max_velocity, -max_velocity / 2.0, -max_velocity), vec3(max_velocity, max_velocity / 2.0, max_velocity));
-	
+
 	TRANSFORM[2].xyz = change_pitch ? -normalize(VELOCITY) : -normalize(vec3(VELOCITY.x, 0.0, VELOCITY.z));
 	TRANSFORM[0].xyz = normalize(cross(vec3(0.0, 1.0, 0.0), TRANSFORM[2].xyz));
 	TRANSFORM[1].xyz = -cross(TRANSFORM[0].xyz, TRANSFORM[2].xyz);
-	
+
 	CUSTOM.y = VELOCITY.y;
 }

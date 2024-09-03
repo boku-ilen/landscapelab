@@ -1,11 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://bdpmyx1ejlixw"]
+[gd_scene load_steps=9 format=3 uid="uid://bdpmyx1ejlixw"]
 
-[ext_resource type="Texture2D" uid="uid://cr7ly4si0djhx" path="res://Resources/Meshes/_NEW assets/photovoltaik/materials/photovoltaik_DefaultMaterial_BaseColor.png" id="2_eedjo"]
-[ext_resource type="ArrayMesh" uid="uid://brwex2d0odhlr" path="res://Resources/Meshes/_NEW assets/photovoltaik/photovoltaik.obj" id="2_r24oi"]
+[ext_resource type="ArrayMesh" uid="uid://bhspna5brc8k6" path="res://Objects/PhotovoltaicPlant/PV.tres" id="2_v146m"]
 [ext_resource type="PackedScene" uid="uid://dhmlmgm0yc278" path="res://Layers/Renderers/LIDOverlay/LIDOverlay.tscn" id="3_1cnhv"]
-[ext_resource type="Texture2D" uid="uid://clyfsx8as5wj2" path="res://Resources/Meshes/_NEW assets/photovoltaik/materials/photovoltaik_DefaultMaterial_Metallic.png" id="3_h7vx2"]
-[ext_resource type="Texture2D" uid="uid://cxyunujlwms3v" path="res://Resources/Meshes/_NEW assets/photovoltaik/materials/photovoltaik_DefaultMaterial_Normal.png" id="4_1lcvd"]
-[ext_resource type="Texture2D" uid="uid://vol86xyr0h7j" path="res://Resources/Meshes/_NEW assets/photovoltaik/materials/photovoltaik_DefaultMaterial_Roughness.png" id="5_hi6qc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qxqjn"]
 resource_local_to_scene = true
@@ -34,14 +30,6 @@ albedo_color = Color(0.239216, 0.109804, 0, 1)
 resource_local_to_scene = true
 size = Vector2(2.5, 2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2k4i"]
-albedo_texture = ExtResource("2_eedjo")
-metallic = 1.0
-metallic_texture = ExtResource("3_h7vx2")
-roughness_texture = ExtResource("5_hi6qc")
-normal_enabled = true
-normal_texture = ExtResource("4_1lcvd")
-
 [node name="Unit" type="Node3D" groups=["PV"]]
 
 [node name="Underneath" parent="." instance=ExtResource("3_1cnhv")]
@@ -66,7 +54,6 @@ lid = 7201
 size = Vector2(2.5, 2)
 
 [node name="Photovoltaik" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.7, 0)
 layers = 16
-material_override = SubResource("StandardMaterial3D_s2k4i")
-mesh = ExtResource("2_r24oi")
+mesh = ExtResource("2_v146m")

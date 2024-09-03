@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=5 format=3 uid="uid://g1a0ac8ulvw7"]
+
+[ext_resource type="Texture2D" uid="uid://dt20n6kluamu4" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Color_Top.jpg" id="1_i3hbd"]
+[ext_resource type="Texture2D" uid="uid://bi63buuda3f3j" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_NormalGL.jpg" id="2_vdvux"]
+[ext_resource type="Texture2D" uid="uid://bi73vhqd8cokg" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Roughness.jpg" id="3_26ewd"]
+[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="4_h75m3"]
+
+[resource]
+script = ExtResource("4_h75m3")
+texture_scale = Vector2(1, 1)
+albedo_texture = ExtResource("1_i3hbd")
+normal_texture = ExtResource("2_vdvux")
+roughness_texture = ExtResource("3_26ewd")

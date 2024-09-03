@@ -14,6 +14,7 @@ var crs_from
 signal loading_finished
 signal loading_started
 signal camera_extent_changed(new_camera_extent)
+signal popup_clicked
 
 var renderers_finished := 0
 var renderers_count := 0
@@ -85,23 +86,22 @@ func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
 	get_node(layer_name).z_index = l_z_index
 
 
-func add_layer_composition_renderer(layer_name: String, layer_icon_path: String,
-		layer_icon_scale: float, is_visible: bool, l_z_index := 0):
-	instantiate_layer_composition_renderer(layer_name)
-	if layer_icon_path != null: get_node(layer_name).icon = load(layer_icon_path)
-	if layer_icon_scale != null: get_node(layer_name).icon_scale = layer_icon_scale
-	if l_z_index != null: get_node(layer_name).z_index = l_z_index
+func add_layer_composition_renderer(layer_conf):
+	instantiate_layer_composition_renderer(layer_conf)
 
 
 # FIXME: we should implement this in a cleaner way
 # Similar to instantiate_geolayer_renderer, but adds a layer corresponding to
 # a feature LayerComposition. Consequently changes applied will be applied for 
 # the layer composition as well as the geolayer
-func instantiate_layer_composition_renderer(lc_name: String):
+func instantiate_layer_composition_renderer(layer_conf):
+	var lc_name = layer_conf["layer_name"]
 	var geo_layer = Layers.layer_compositions[lc_name].render_info.geo_feature_layer
 	
 	var renderer = feature_renderer.instantiate()
 	renderer.geo_feature_layer = geo_layer
+	
+	renderer.popup_clicked.connect(func(): popup_clicked.emit())
 	
 	# Note: CONNECT_DEFERRED is needed to consistently react to all changes that
 	#  happened within a given frame (e.g. when mass-deleting features).
@@ -114,6 +114,7 @@ func instantiate_layer_composition_renderer(lc_name: String):
 		renderer.position = offset
 		renderer.name = lc_name
 		renderer.visibility_layer = visibility_layer
+		renderer.config = layer_conf
 		
 		renderer.set_metadata(
 			center,
@@ -143,6 +144,8 @@ func instantiate_geolayer_renderer(layer_name: String):
 		#  happened within a given frame (e.g. when mass-deleting features).
 		geo_layer.feature_added.connect(_on_feature_added.bind(renderer), CONNECT_DEFERRED)
 		geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer), CONNECT_DEFERRED)
+		
+		renderer.popup_clicked.connect(func(): popup_clicked.emit())
 	else:
 		logger.error("Invalid geolayer or geolayer name for {}"
 						.format(geo_layer.name if geo_layer else "null layer"))
@@ -216,7 +219,9 @@ func update_renderer_with_new_data(renderer, new_center, new_offset, new_viewpor
 
 
 func _on_feature_added(feature, renderer):
-	feature.feature_changed.connect(_on_feature_changed.bind(renderer))
+	# FIXME: Keeping this would be preferable, but it causes reloads everytime an attribute is changed via slider.
+	# We might need to differentiate between movement (which should be applied) and attribute changes (which should not)
+	#feature.feature_changed.connect(_on_feature_changed.bind(renderer))
 	update_renderer(renderer)
 
 

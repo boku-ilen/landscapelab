@@ -16,6 +16,7 @@ var desired_color
 var desired_shape
 
 signal changed # Emitted whenever there is any change in the collection
+signal game_object_changed
 
 
 func _init(initial_name):

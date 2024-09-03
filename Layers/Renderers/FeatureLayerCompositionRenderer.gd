@@ -33,6 +33,8 @@ var instances := {}
 
 signal feature_instance_removed(id: int)
 
+var is_first_load := true
+
 
 func _ready():
 	super._ready()
@@ -41,17 +43,14 @@ func _ready():
 
 
 func full_load():
-	# Initially clear instances
-	for feature in instances.values():
-		feature.queue_free()
-	instances.clear()
+	# Delete all previous features
+	features.clear()
+	for child in get_children():
+		# FIXME: Workaround for ConnectedObjectRenderer, would need some kind of override or extra parent node
+		if not child.name == "Connections":
+			child.free()
 	
-	features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
-		float(center[0]), float(center[1]), radius, max_features)
-	load_features = features
-	
-	for feature in load_features:
-		instances[feature.get_id()] = load_feature_instance(feature)
+	adapt_load(Vector3.ZERO)
 
 
 func adapt_load(_diff: Vector3):
@@ -77,18 +76,22 @@ func adapt_load(_diff: Vector3):
 		instances[feature.get_id()] = load_feature_instance(feature)
 	mutex.unlock()
 	
-	layer_composition.render_info.geo_feature_layer.clear_cache()
-	
-	call_deferred("apply_new_data")
+	# FIXME: Workaround for not calling apply here after first load
+	if not is_first_load:
+		call_deferred("apply_new_data")
+	else:
+		is_first_load = false
 
 
 func apply_new_data():
 	mutex.lock()
-	for feature in load_features:
-		apply_feature_instance(feature)
 	
 	for feature in remove_features:
 		remove_feature(feature.get_id())
+	
+	for feature in load_features:
+		apply_feature_instance(feature)
+	
 	mutex.unlock()
 	
 	super.apply_new_data()
@@ -148,6 +151,11 @@ func apply_feature_instance(feature: GeoFeature):
 	
 	mutex.lock()
 	if instances.has(feature.get_id()) and instances[feature.get_id()] != null:
+		if has_node(str(feature.get_id())):
+			logger.warn("Feature with ID {} was already a child, this should not happen.
+					Removing it before adding a new one.".format([feature.get_id()], "{}"))
+			remove_child(get_node(str(feature.get_id())))
+		
 		add_child(instances[feature.get_id()])
 	else:
 		logger.error("No feature instance was created for ID: {}".

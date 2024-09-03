@@ -206,6 +206,10 @@ class ObjectRenderInfo extends RenderInfo:
 
 
 class MultiMeshObjectRenderInfo extends ObjectRenderInfo:
+	var chunk_size = null
+	var extent = null
+	var randomize = false
+	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Objects/MultiMeshObjectRenderer.tscn")
 		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
@@ -228,6 +232,8 @@ class BuildingRenderInfo extends RenderInfo:
 	var height_attribute_name: String
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
+	var addon_layers: Dictionary
+	var addon_objects: Dictionary
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Building/BuildingRenderer.tscn")
@@ -278,6 +284,7 @@ class RepeatingObjectInfo extends RenderInfo:
 	var radius: float
 	var height_gradient := false
 	var random_angle: bool
+	var base_rotation := 0.0
 	var selector_attribute_name: String
 	var meshes: Dictionary
 

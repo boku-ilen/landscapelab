@@ -17,6 +17,7 @@ cast_shadow = 0
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 material_override = ExtResource("4")
+cast_shadow = 0
 mesh = ExtResource("1")
 
 [node name="HeightmapCollider" type="StaticBody3D" parent="."]

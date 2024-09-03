@@ -11,7 +11,7 @@ var step_size = chunk_size / (200.0)
 var render_3d = false
 
 var radius: float = 500.0
-var max_features = 1000
+var max_features = 2000
 
 var _road_instance_scene = preload("res://Layers/Renderers/Path/Roads/RoadInstance.tscn")
 var _intersection_instance_scene = preload("res://Layers/Renderers/Path/Roads/Intersections/IntersectionInstance.tscn")
@@ -61,17 +61,18 @@ func load_data() -> void:
 	# Get road data from db
 	var player_position = [int(center[0] + get_parent().position_manager.center_node.position.x), int(center[1] - get_parent().position_manager.center_node.position.z)]
 	var road_features = road_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
-	var intersection_features = intersection_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
+	#var intersection_features = intersection_layer.get_features_near_position(float(player_position[0]), float(player_position[1]), radius, max_features)
 
 	_create_roads(road_features)
 	
-	if render_3d:
-		# Set the new terraforming textures in the chunk
-		for chunk in chunks:
-			chunk.terraforming_texture.update_texture()
-			chunk.apply_terraforming_texture()
+	#if render_3d:
+		## Set the new terraforming textures in the chunk
+		#for chunk in chunks:
+			#chunk.terraforming_texture.update_texture()
+			#chunk.apply_terraforming_texture()
+	#
 	
-	_create_intersections(intersection_features)
+	#_create_intersections(intersection_features)
 	apply_new_data.call_deferred()
 
 
@@ -95,7 +96,8 @@ func _create_roads(road_features) -> void:
 	roads_to_add.clear()
 	
 	for road_feature in road_features:
-		var road_id: int = int(road_feature.get_attribute("road_id"))
+		# FIXME: Must be "road_id" attribute for intersections logic
+		var road_id: int = int(road_feature.get_id())
 		
 		# Skip if road is already loaded
 		if roads.has(road_id):
@@ -113,11 +115,23 @@ func _create_roads(road_features) -> void:
 		# FIXME: Could be done in a more general way
 		# We check whether this feature contains rails, because rails are
 		#  rendered in 3D -> we need heights
-		if not render_3d and road_feature.get_attribute("lane_uses").contains("5,"):
+		if true:#not render_3d and road_feature.get_attribute("lane_uses").contains("5,"):
 			var point_count = road_curve.get_point_count()
+			
+			var first_point = road_curve.get_point_position(0)
+			var last_point = road_curve.get_point_position(road_curve.get_point_count() - 1)
+			var length = road_curve.get_baked_length()
+			
+			var height_at_first = layer_composition.render_info.height_layer.get_value_at_position(center[0] + first_point.x, center[1] - first_point.z)
+			var height_at_last = layer_composition.render_info.height_layer.get_value_at_position(center[0] + last_point.x, center[1] - last_point.z)
+			
 			for index in range(point_count):
 				var point = road_curve.get_point_position(index)
-				point.y = max(0.0, get_basic_height(point))
+				var lerp_factor = first_point.distance_to(Vector3(point.x, 0.0, point.z)) / length
+				if road_feature.get_attribute("bridge") == "1":
+					point.y = lerp(height_at_first, height_at_last, lerp_factor) + 0.1
+				else:
+					point.y = get_basic_height(point)
 				road_curve.set_point_position(index, point)
 		
 		if render_3d:
@@ -343,4 +357,3 @@ func _set_terraforming_height(point: Vector3, road_width: float) -> void:
 		# Z-Axis down
 		var new_z_down = _image_xy_to_index(image_x, image_y + (required_points_offset + i + 1), image_size)
 		chunk.terraforming_texture.set_pixel(new_z_down, point.y, weight)
-

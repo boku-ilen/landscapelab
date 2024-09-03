@@ -95,4 +95,3 @@ func preload_texture():
 func get_title_string():
 	return str(self.id) + ": " + self.name_de \
 			+ " (" + str(self.size_class) + ")"
-

@@ -4,17 +4,17 @@
 
 [sub_resource type="Curve3D" id="Curve3D_3nffp"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0.016, 0.004, 0, 0, 0, 0, 0, 0, 0, 0.014, 0, -4, 0, 0, 0, 0, 0, 0, -0.057, 0, -10, 0, 0, 0, 0, 0, 0, -0.982, 0, -19.067, 0, 0, 0, 0, 0, 0, -3.376, 0, -21.689, 0, 0, 0, 0, 0, 0, -6.63425, 0.0176964, -23.0225),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0.016, 0.004, 0, 0, 0, 0, 0, 0, 0, 0.014, 0, -4, 0, 0, 0, 0, 0, 0, -0.057, 0, -10, 0, 0, 0, 0, 0, 0, -0.982, 0, -19.067, 0, 0, 0, 0, 0, 0, -3.376, 0, -21.689, 0, 0, 0, 0, 0, 0, -6.63425, 0.0176964, -23.0225, 0, 0, 0, 0, 0, 0, -16.1317, -0.146595, -21.6151, 0, 0, 0, 0, 0, 0, -39.4402, -0.0992508, -11.6407, 0, 0, 0, 0, 0, 0, -30.3548, -2.51972, 23.4019),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
-point_count = 6
+point_count = 9
 
 [node name="RoadLane" type="Path3D"]
 curve = SubResource("Curve3D_3nffp")
 script = ExtResource("1_85n38")
 
 [node name="RoadLanePolygon" type="CSGPolygon3D" parent="."]
-layers = 32768
+layers = 98304
 calculate_tangents = false
 polygon = PackedVector2Array(-2.5, 0.2, 2.5, 0.2, 2.5, 0, -2.5, 0)
 mode = 2

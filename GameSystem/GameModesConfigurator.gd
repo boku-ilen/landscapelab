@@ -59,7 +59,7 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 	for collection_name in game_object_collections:
 		var collection = game_object_collections[collection_name]
 		var layer_name = collection["layer_name"]
-		var layer: RefCounted = Layers.get_geo_layer_by_name(layer_name)
+		var layer = Layers.layer_compositions[layer_name].render_info.geo_feature_layer
 		
 		var collection_object: GameObjectCollection
 		
@@ -82,6 +82,10 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 				location_layer,
 				instance_goc
 			)
+			
+			if "min_cluster_size" in collection: collection_object.min_cluster_size = collection["min_cluster_size"]
+			if "max_cluster_size" in collection: collection_object.max_cluster_size = collection["max_cluster_size"]
+			if "default_cluster_size" in collection: collection_object.default_cluster_size = collection["default_cluster_size"]
 
 
 var mapping_type_to_construction_func = {
@@ -106,7 +110,11 @@ var mapping_type_to_construction_func = {
 			data["value"]
 		),
 	"ExplicitGameObjectAttribute": func(_name, data):
-		return ExplicitGameObjectAttribute.new(_name, data["attribute"])
+		return ExplicitGameObjectAttribute.new(_name, data["attribute"]),
+	"ClassGameObjectAttribute": func(_name, data):
+		return ClassGameObjectAttribute.new(_name, data["class_to_attributes"]),
+	"CalculatedGameObjectAttribute": func(_name, data):
+		return CalculatedGameObjectAttribute.new(_name, data["formula"])
 	# TODO: implement all possible attributes
 }
 func _deserialize_mappings(game_mode: GameMode,
@@ -201,4 +209,3 @@ func _deserialize_creation_conditions(game_mode: GameMode, conditions: Dictionar
 
 func _deserialize_tokens(game_mode: GameMode, tokens: Dictionary):
 	game_mode.token_to_game_object_collection = tokens
-

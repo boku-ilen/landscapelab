@@ -6,7 +6,7 @@ const low_landuse_resolution := 10
 const low_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_10x10.obj")
 const low_mesh_resolution := 10
 
-const basic_load_distance := 4000.0
+const basic_load_distance := 10000.0
 const basic_ortho_resolution := 100
 const basic_landuse_resolution := 100
 const basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_100x100.obj")
@@ -106,9 +106,9 @@ func override_build(center_x, center_y):
 	var sample_rate = size / mesh_resolution
 	
 	var current_height_image = height_layer.get_image(
-		top_left_x - sample_rate / 2.0,
-		top_left_y + sample_rate / 2.0,
-		size + sample_rate,
+		top_left_x - 1,
+		top_left_y + 1,
+		size + 2,
 		mesh_resolution + 1,
 		0
 	)

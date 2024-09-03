@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2biaicqh7bu5"]
+
+[ext_resource type="Script" path="res://World/AtmosphereConfiguration.gd" id="1_ag1th"]
+[ext_resource type="PackedScene" uid="uid://byeo11my44w8v" path="res://World/LiveWeatherService.tscn" id="2_u8cv6"]
+
+[node name="AtmosphereConfiguration" type="Node"]
+script = ExtResource("1_ag1th")
+
+[node name="LiveWeatherService" parent="." instance=ExtResource("2_u8cv6")]
