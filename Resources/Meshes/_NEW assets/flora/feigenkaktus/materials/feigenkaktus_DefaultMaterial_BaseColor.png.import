@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b8pn7dmlhwe2v"
-path.s3tc="res://.godot/imported/feigenkaktus_DefaultMaterial_BaseColor.png-bf04db9290565e7b8cfbf98cfaa087bf.s3tc.ctex"
+path.s3tc="res://.godot/imported/feigenkaktus_DefaultMaterial_BaseColor.png-6f95a68077ac87eedb437c7127c0e7bf.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Resources/Meshes/_NEW assets/feigenkaktus/materials/feigenkaktus_DefaultMaterial_BaseColor.png"
-dest_files=["res://.godot/imported/feigenkaktus_DefaultMaterial_BaseColor.png-bf04db9290565e7b8cfbf98cfaa087bf.s3tc.ctex"]
+source_file="res://Resources/Meshes/_NEW assets/flora/feigenkaktus/materials/feigenkaktus_DefaultMaterial_BaseColor.png"
+dest_files=["res://.godot/imported/feigenkaktus_DefaultMaterial_BaseColor.png-6f95a68077ac87eedb437c7127c0e7bf.s3tc.ctex"]
 
 [params]
 
