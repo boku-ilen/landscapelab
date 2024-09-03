@@ -10,51 +10,23 @@ uniform sampler2D[100] texture_map : source_color, repeat_disable;
 uniform sampler2D world_space_normal_map: hint_normal, repeat_enable;
 uniform float world_space_normal_scale = 0.007;
 
-uniform int sprite_size = 2048;
-
 uniform float amplitude = 0.1;
 uniform vec2 speed = vec2(0.5, 0.4);
 uniform vec2 scale = vec2(0.06, 0.11);
 
-uniform vec2 heightmap_size = vec2(300.0, 300.0);
-uniform vec2 offset;
-
 uniform float max_distance;
-uniform bool camera_facing = false;
-uniform bool billboard_enabled = false;
-
-uniform float fake_shadow_height = 1.2;
-uniform float fake_shadow_min_multiplier = 0.25;
 
 varying vec3 worldpos;
 varying vec3 camera_pos;
 
-varying float size;
 varying float dist_id;
 
-uniform float hue_factor: hint_range(0, 3.14) = 1.0;
-uniform float chroma_factor: hint_range(0.0, 3.0) = 2.0;
-uniform float luminance_factor: hint_range(0.0, 3.0) = 2.0;
-
 uniform bool is_billboard = true;
-
-
-// Workaround for a bug in `texelFetch` - use this instead!
-// More info at https://github.com/godotengine/godot/issues/31732
-vec4 texelGet ( sampler2D tg_tex, ivec2 tg_coord, int tg_lod ) {
-	vec2 tg_texel = 1.0 / vec2(textureSize(tg_tex, 0));
-	vec2 tg_getpos = (vec2(tg_coord) * tg_texel) + (tg_texel * 0.5);
-	return texture(tg_tex, tg_getpos, float(tg_lod));
-}
-
-float rand(vec2 co){
-    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
-}
 
 void vertex() {
 	camera_pos = INV_VIEW_MATRIX[3].xyz;
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
-	
+
 	// Account for the texture's aspect ratio
 	if (is_billboard) {
 		ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
@@ -71,15 +43,11 @@ void vertex() {
 	}
 
 	// Scale by the size
-	size = INSTANCE_CUSTOM.r * 40.0;
-	VERTEX *= size;
+	VERTEX *= INSTANCE_CUSTOM.r * 40.0;
 
-	//if (is_billboard) {
-		NORMAL = mix(COLOR.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
-	//} else {
-		//NORMAL = mix(NORMAL.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
-	//}
-	
+	// TODO: Keep the normal of non-billboard meshes?
+	NORMAL = mix(COLOR.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
+
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
