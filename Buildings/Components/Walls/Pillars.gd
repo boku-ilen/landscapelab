@@ -54,4 +54,3 @@ func build(footprint: Array):
 		count += 1
 	
 	$MultiMeshInstance3D.multimesh = mm
-
