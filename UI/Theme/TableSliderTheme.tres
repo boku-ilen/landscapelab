@@ -1,0 +1,40 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://d2bw4jh2eki3h"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_j4hj4"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_4tpbb"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_tlqc7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pdrno"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.745098, 0.745098, 0.745098, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apwyr"]
+bg_color = Color(0.745098, 0.745098, 0.745098, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4xv5g"]
+content_margin_top = 10.0
+content_margin_bottom = 40.0
+bg_color = Color(0.873298, 0.873298, 0.873298, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[resource]
+HSlider/icons/grabber = SubResource("ImageTexture_j4hj4")
+HSlider/icons/grabber_disabled = SubResource("ImageTexture_4tpbb")
+HSlider/icons/grabber_highlight = SubResource("ImageTexture_tlqc7")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pdrno")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_apwyr")
+HSlider/styles/slider = SubResource("StyleBoxFlat_4xv5g")

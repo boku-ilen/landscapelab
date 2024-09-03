@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://clnsxbh0k0k2w"
+path="res://.godot/imported/picea abies.obj-56da9466e62e896e7a28d6a8ed6954af.mesh"
+
+[deps]
+
+files=["res://.godot/imported/picea abies.obj-56da9466e62e896e7a28d6a8ed6954af.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/flora/picea/picea abies.obj"
+dest_files=["res://.godot/imported/picea abies.obj-56da9466e62e896e7a28d6a8ed6954af.mesh", "res://.godot/imported/picea abies.obj-56da9466e62e896e7a28d6a8ed6954af.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

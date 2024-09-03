@@ -4,14 +4,14 @@ importer="wavefront_obj"
 importer_version=1
 type="Mesh"
 uid="uid://dwr2bna6625y6"
-path="res://.godot/imported/feigenkaktus.obj-3bf95a5ae74129c26141b8eb70fa3ed6.mesh"
+path="res://.godot/imported/feigenkaktus.obj-c77bcc8c6b7c33e4cb12fbc59199582a.mesh"
 
 [deps]
 
-files=["res://.godot/imported/feigenkaktus.obj-3bf95a5ae74129c26141b8eb70fa3ed6.mesh"]
+files=["res://.godot/imported/feigenkaktus.obj-c77bcc8c6b7c33e4cb12fbc59199582a.mesh"]
 
-source_file="res://Resources/Meshes/_NEW assets/feigenkaktus/feigenkaktus.obj"
-dest_files=["res://.godot/imported/feigenkaktus.obj-3bf95a5ae74129c26141b8eb70fa3ed6.mesh", "res://.godot/imported/feigenkaktus.obj-3bf95a5ae74129c26141b8eb70fa3ed6.mesh"]
+source_file="res://Resources/Meshes/_NEW assets/flora/feigenkaktus/feigenkaktus.obj"
+dest_files=["res://.godot/imported/feigenkaktus.obj-c77bcc8c6b7c33e4cb12fbc59199582a.mesh", "res://.godot/imported/feigenkaktus.obj-c77bcc8c6b7c33e4cb12fbc59199582a.mesh"]
 
 [params]
 
