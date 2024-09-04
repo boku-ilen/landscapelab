@@ -15,14 +15,14 @@ func _setup_ground_textures():
 	var texture_folders = [
 		"Asphalt", # 1 Sealed
 		"Gravel", # 2 Semi-Sealed
-		"Dry", # 3 Mixed Urban TODO: Should be "Lawn", but not for Pantelleria - use project-specific settings?
-		"DarkRock", # 4 Open Ground TODO: Could also be "Rock" depending on the project
+		"Lawn", # 3 Mixed Urban TODO: Should be "Lawn", but not for Pantelleria - use project-specific settings?
+		"Rock", # 4 Open Ground TODO: Could also be "Rock" depending on the project
 		"Glacier", # 5 Snow and Ice
 		"Riverbed", # 6 Water
 		"Meadow", # 7 Grassland, Pastures, Fallows
 		"Foliage", # 8 Shrubs and Forests
 		"Glade", # 9 Agroforest and Permanent Cultures
-		"Soil", # 10 Agriculture
+		"SoilGreen", # 10 Agriculture
 	]
 	
 	var color_images = []
