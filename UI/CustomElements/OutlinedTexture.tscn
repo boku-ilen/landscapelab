@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbavdo1fcbs66"]
+
+[ext_resource type="Script" path="res://UI/CustomElements/OutlinedTexture.gd" id="1_12xy0"]
+[ext_resource type="Material" uid="uid://bjbkx2lcxwxw" path="res://UI/CustomElements/OutlinedTexture.tres" id="2_kqiw3"]
+
+[node name="OutlinedTexture" type="MarginContainer"]
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("1_12xy0")
+
+[node name="Outline" type="TextureRect" parent="."]
+material = ExtResource("2_kqiw3")
+layout_mode = 2
+
+[node name="Texture" type="TextureRect" parent="."]
+layout_mode = 2
