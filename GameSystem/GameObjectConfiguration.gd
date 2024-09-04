@@ -149,21 +149,46 @@ func add_configuration_option(option_name, reference, min=null, max=null, defaul
 	$Entries/Attributes.add_child(vbox)
 
 
-func add_attribute_information(attribute_name, attribute_value):
-	var hbox = HBoxContainer.new()
-	var label1 = Label.new()
-	var label2 = Label.new()
-	
-	# Style fixes for long text
-	label2.autowrap_mode = TextServer.AUTOWRAP_WORD
-	hbox.custom_minimum_size.x = min(attribute_value.length() + attribute_name.length(), 600.0)
-	
-	label1.text = attribute_name
-	label2.text = attribute_value
-	
-	hbox.add_child(label1)
-	hbox.add_child(label2)
-	$Entries/Attributes.add_child(hbox)
+func add_attribute_information(attribute: GameObjectAttribute, attribute_value):
+	if attribute.icon_settings.is_empty():
+		# Standard icon: name to value as text
+		var hbox = HBoxContainer.new()
+		var label1 = Label.new()
+		var label2 = Label.new()
+		
+		var attribute_name = attribute.name
+		attribute_value = "%.1f" % attribute_value
+		
+		# Style fixes for long text
+		label2.autowrap_mode = TextServer.AUTOWRAP_WORD
+		hbox.custom_minimum_size.x = min(attribute_value.length() + attribute_name.length(), 600.0)
+		
+		label1.text = attribute_name
+		label2.text = attribute_value
+		
+		hbox.add_child(label1)
+		hbox.add_child(label2)
+		$Entries/Attributes.add_child(hbox)
+	else:
+		# Special icon
+		if attribute.icon_settings.type == "outlined":
+			if not $Entries/Attributes.has_node("OutlinedIcons"):
+				var hbox = HBoxContainer.new()
+				hbox.name = "OutlinedIcons"
+				$Entries/Attributes.add_child(hbox)
+			
+			var icon = load(attribute.icon_settings.icon)
+			var color
+			for threshold in attribute.icon_settings.color_thresholds.keys():
+				if attribute_value <= str_to_var(threshold):
+					color = attribute.icon_settings.color_thresholds[threshold]
+					break
+			
+			var icon_node = preload("res://UI/CustomElements/OutlinedTexture.tscn").instantiate()
+			icon_node.texture = icon
+			icon_node.outline_color = Color(color)
+			
+			$Entries/Attributes/OutlinedIcons.add_child(icon_node)
 
 
 func clear_attributes():

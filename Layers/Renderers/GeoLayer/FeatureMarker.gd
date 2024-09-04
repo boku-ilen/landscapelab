@@ -71,9 +71,7 @@ func popup():
 					$UI/GameObjectConfiguration.add_configuration_option(
 						attribute.name, attribute, attribute.min, attribute.max, attribute.get_value(go))
 			else:
-				var value = attribute.get_value(go)
-				if value is float: value = "%.1f" % value
-				$UI/GameObjectConfiguration.add_attribute_information(attribute.name, str(value))
+				$UI/GameObjectConfiguration.add_attribute_information(attribute, attribute.get_value(go))
 	
 	$UI/GameObjectConfiguration.popup(Rect2(get_viewport().get_canvas_transform() * global_position, $UI/GameObjectConfiguration.size))
 
