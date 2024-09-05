@@ -95,7 +95,7 @@ func add_configuration_class_option(option_name, reference, classes, default):
 	item_list.auto_height = true
 	item_list.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	item_list.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
-	item_list.custom_minimum_size.x = (classes.keys().size() + 1) * item_list.fixed_column_width
+	item_list.custom_minimum_size.x = (classes.keys().size() + 0.25) * item_list.fixed_column_width
 	item_list.custom_minimum_size.y = item_list.fixed_column_width * 1.5
 	item_list.focus_mode = Control.FOCUS_NONE
 	
@@ -157,7 +157,8 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value):
 		var label2 = Label.new()
 		
 		var attribute_name = attribute.name
-		attribute_value = "%.1f" % attribute_value
+		if float(attribute_value) > 0.0:
+			attribute_value = "%.1f" % attribute_value
 		
 		# Style fixes for long text
 		label2.autowrap_mode = TextServer.AUTOWRAP_WORD
@@ -166,9 +167,16 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value):
 		label1.text = attribute_name
 		label2.text = attribute_value
 		
+		label2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		
 		hbox.add_child(label1)
 		hbox.add_child(label2)
 		$Entries/Attributes.add_child(hbox)
+		
+		# FIXME: Required to work around https://github.com/godotengine/godot/issues/28818 in some edge cases
+		await get_tree().process_frame
+		await get_tree().process_frame
+		size = Vector2(0, 0)
 	else:
 		# Special icon
 		if attribute.icon_settings.type == "outlined":
