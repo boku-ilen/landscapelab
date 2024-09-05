@@ -40,7 +40,7 @@ func save():
 			if "feature_layer" in collection:
 				if not DirAccess.dir_exists_absolute("user://saves"): DirAccess.make_dir_absolute("user://saves")
 				
-				var save_path = OS.get_user_data_dir().path_join("/saves/game_layer_%s_%s.shp" % [collection.name, floor(Time.get_unix_time_from_system())])
+				var save_path = OS.get_user_data_dir().path_join("/saves/game_layer_%s_%s.gpkg" % [collection.name, floor(Time.get_unix_time_from_system())])
 				collection.feature_layer.save_new(save_path)
 				
 				# Remember "last save file location" for this feature layer
