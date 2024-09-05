@@ -150,27 +150,30 @@ func add_configuration_option(option_name, reference, min=null, max=null, defaul
 
 
 func add_attribute_information(attribute: GameObjectAttribute, attribute_value):
-	if attribute.icon_settings.is_empty():
+	if attribute.icon_settings.is_empty() or attribute.icon_settings.type == "unit":
 		# Standard icon: name to value as text
 		var hbox = HBoxContainer.new()
-		var label1 = Label.new()
-		var label2 = Label.new()
 		
-		var attribute_name = attribute.name
 		if float(attribute_value) > 0.0:
 			attribute_value = "%.1f" % attribute_value
+		hbox.custom_minimum_size.x = min(attribute_value.length() + attribute.name.length(), 600.0)
+		
+		var label1 = Label.new()
+		label1.text = attribute.name
+		hbox.add_child(label1)
+		
+		var label2 = Label.new()
 		
 		# Style fixes for long text
 		label2.autowrap_mode = TextServer.AUTOWRAP_WORD
-		hbox.custom_minimum_size.x = min(attribute_value.length() + attribute_name.length(), 600.0)
-		
-		label1.text = attribute_name
+		label2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		label2.text = attribute_value
 		
-		label2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		
-		hbox.add_child(label1)
 		hbox.add_child(label2)
+		
+		if not attribute.icon_settings.is_empty() and attribute.icon_settings.type == "unit":
+			label2.text += " " + attribute.icon_settings.postfix
+		
 		$Entries/Attributes.add_child(hbox)
 		
 		# FIXME: Required to work around https://github.com/godotengine/godot/issues/28818 in some edge cases
