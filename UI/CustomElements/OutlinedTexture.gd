@@ -2,7 +2,7 @@
 extends MarginContainer
 
 
-@export var texture := Texture2D:
+@export var texture :Texture2D:
 	set(new_texture):
 		texture = new_texture
 		$Outline.texture = new_texture
