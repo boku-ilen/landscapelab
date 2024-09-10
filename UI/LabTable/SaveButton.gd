@@ -7,7 +7,8 @@ extends Button
 
 func _ready():
 	pressed.connect(save)
-	$AutoSaveTimer.timeout.connect(save)
+	if has_node("AutoSaveTimer"):
+		$AutoSaveTimer.timeout.connect(save)
 
 
 func save():
