@@ -153,5 +153,4 @@ func _send_data(data: Dictionary, client_id=-1, message_id=null):
 			data["message_id"] = Time.get_ticks_msec()
 		logger.debug("send msg: %s to client %s" % [data, client_id])
 		var message = JSON.stringify(data)
-		print(message)
 		self._ws_server.get_peer(client_id).put_packet(message.to_utf8_buffer())
