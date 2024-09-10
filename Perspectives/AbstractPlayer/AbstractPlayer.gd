@@ -72,6 +72,9 @@ func _input(event):
 # Input for all Player classes - do not overwrite!
 func _handle_abstract_viewport_input(event):
 	if event is InputEventMouseButton and event.pressed:
+		# Without this, Windows can "swallow" the mouse when doing input without previously focusing
+		if not get_window().has_focus(): return
+		
 		if event.button_index == MOUSE_BUTTON_LEFT and not rotating: 
 			dragging = true
 			set_mouse_mode_captured()

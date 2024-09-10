@@ -59,6 +59,8 @@ func _physics_process(delta):
 			$Head/Camera3D.rotate_x(current_mouse_velocity.x)
 		
 		current_mouse_velocity *= MOUSE_DRAG
+	
+	position.y = max(position.y, get_ground_height())
 
 
 func _handle_general_input(event):
@@ -76,7 +78,6 @@ func _handle_general_input(event):
 				
 				#var height_above_ground = position.y - get_ground_height()
 				#var move_scale =  height_above_ground * cos($Head/Camera3D.rotation.x) * 4.0
-				#
 				#move_and_collide($Head/Camera3D.transform.basis.x * change_rad * move_scale)
 				
 				var change = deg_to_rad(-event.relative.y * mouse_sensitivity)
