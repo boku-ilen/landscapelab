@@ -11,6 +11,10 @@ signal delete
 
 signal attribute_changed(reference, option_name, value)
 
+# Maps node to attribute info
+# FIXME: Refactor attribute nodes to custom scene which persist this information themselves
+var attribute_objects_to_game_objects = {}
+
 var name_to_ref_ui := {}
 
 var edge_buffer = 50
@@ -149,10 +153,22 @@ func add_configuration_option(option_name, reference, min=null, max=null, defaul
 	$Entries/Attributes.add_child(vbox)
 
 
-func add_attribute_information(attribute: GameObjectAttribute, attribute_value):
+func reload_attribute_informations():
+	for attribute_object in attribute_objects_to_game_objects.keys():
+		if $Entries/Attributes.has_node(attribute_object.name):
+			var new_text = attribute_object.get_value(attribute_objects_to_game_objects[attribute_object])
+			if float(new_text) > 0.0:
+				new_text = "%.1f" % new_text
+			$Entries/Attributes.get_node(attribute_object.name).get_node("Value").text = new_text
+
+
+func add_attribute_information(attribute: GameObjectAttribute, attribute_value, game_object):
 	if attribute.icon_settings.is_empty() or attribute.icon_settings.type == "unit":
 		# Standard icon: name to value as text
 		var hbox = HBoxContainer.new()
+		hbox.name = attribute.name
+		
+		attribute_objects_to_game_objects[attribute] = game_object
 		
 		if float(attribute_value) > 0.0:
 			attribute_value = "%.1f" % attribute_value
@@ -163,6 +179,7 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value):
 		hbox.add_child(label1)
 		
 		var label2 = Label.new()
+		label2.name = "Value"
 		
 		# Style fixes for long text
 		label2.autowrap_mode = TextServer.AUTOWRAP_WORD
@@ -203,5 +220,7 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value):
 
 
 func clear_attributes():
+	attribute_objects_to_game_objects.clear()
+	
 	for child in $Entries/Attributes.get_children():
 		child.free()
