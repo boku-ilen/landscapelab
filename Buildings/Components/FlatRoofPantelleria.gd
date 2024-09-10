@@ -9,6 +9,8 @@ extends RoofBase
 @export var height = 0.05
 var color
 
+var has_domes = false
+
 
 func _ready():
 	$MeshInstance3D.material_override = preload("res://Buildings/Components/FlatRoofPantelleria.tres")
@@ -68,11 +70,22 @@ func build(footprint: PackedVector2Array):
 	var mesh = st.commit()
 	mesh.custom_aabb = st.get_aabb()
 	get_node("MeshInstance3D").mesh = mesh
-	
+
+
+func can_refine():
+	return not has_domes
+
+
+func refine():
 	add_domes()
 
 
 func add_domes():
+	var addons = {}
+	for addon_key in addon_layers.keys():
+			addons[addon_key] = addon_layers[addon_key].get_features_by_attribute_filter(
+				"build_id = %s" % [fid])
+	
 	for addon_key in addons.keys():
 		var addon_features = addons[addon_key]
 		for addon_feature in addon_features:
@@ -89,7 +102,9 @@ func add_domes():
 			
 			# Instance addon_object and apply transforms
 			var instance: Node3D = addon_objects[addon_key].instantiate() 
-			add_child(instance)
+			add_child.call_deferred(instance)
 			instance.translate(pos)
 			instance.rotation.y = deg_to_rad(rot)
 			if sca != 0.: instance.scale = Vector3.ONE * sca
+	
+	has_domes = true
