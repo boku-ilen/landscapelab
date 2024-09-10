@@ -34,6 +34,9 @@ void vertex() {
 	// TODO: Keep the normal of non-billboard meshes?
 	NORMAL = mix(COLOR.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
 	
+	// Also make normals follow a "half-dome" around the mesh to get some front- and back-lighting
+	NORMAL = normalize(mix(NORMAL, VERTEX, 0.5));
+	
 	// Account for the texture's aspect ratio
 	if (is_billboard) {
 		ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
