@@ -71,7 +71,13 @@ func _handle_general_input(event):
 				current_mouse_velocity.y += -event.relative.x * MOUSE_ACCELERATION
 				current_mouse_velocity.x += -event.relative.y * MOUSE_ACCELERATION
 			else:
-				$Head/Camera3D.rotation.y += deg_to_rad(-event.relative.x * mouse_sensitivity)
+				var change_rad = deg_to_rad(-event.relative.x * mouse_sensitivity)
+				$Head/Camera3D.rotation.y += change_rad
+				
+				#var height_above_ground = position.y - get_ground_height()
+				#var move_scale =  height_above_ground * cos($Head/Camera3D.rotation.x) * 4.0
+				#
+				#move_and_collide($Head/Camera3D.transform.basis.x * change_rad * move_scale)
 				
 				var change = deg_to_rad(-event.relative.y * mouse_sensitivity)
 				
@@ -103,15 +109,19 @@ func _handle_general_input(event):
 
 func _handle_viewport_input(event):
 	# Zoom out/in
+	var movement_amount = max(position.y - get_ground_height(), 1.0)
+	movement_amount /= 4.0
+	
 	if event.is_action_pressed("zoom_out"): # Move down when scrolling up
 		get_viewport().set_input_as_handled()
-		move_and_collide(Vector3.UP * -MOUSE_ZOOM_SPEED)
+		
+		move_and_collide(-Vector3.UP * movement_amount)
 		
 		# TODO: Instead of 0, use the ground height at this position
 		position.y = clamp(position.y, 0, MAX_DISTANCE_TO_GROUND)
 	elif event.is_action_pressed("zoom_in"): # Move up when scrolling down
 		get_viewport().set_input_as_handled()
-		move_and_collide(Vector3.UP * MOUSE_ZOOM_SPEED)
+		move_and_collide(Vector3.UP * movement_amount)
 		
 		# TODO: Instead of 0, use the ground height at this position
 		position.y = clamp(position.y, 0, MAX_DISTANCE_TO_GROUND)
@@ -121,7 +131,7 @@ func _handle_viewport_input(event):
 		var mouseMovement = Vector3(event.relative.x, 0, event.relative.y)
 		
 		# Rotate the movement along the Head to make it relative to the view direction
-		mouseMovement = mouseMovement.rotated(Vector3.UP, $Head.rotation.y)
+		mouseMovement = mouseMovement.rotated(Vector3.UP, $Head/Camera3D.rotation.y)
 		
 		move_and_collide(-mouseMovement * position.y / 1000)  # FIXME: hardcoded value
 		

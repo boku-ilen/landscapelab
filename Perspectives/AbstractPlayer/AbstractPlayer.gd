@@ -17,17 +17,18 @@ func teleport(pos: Vector3):
 	place_onto_ground()
 
 
-func place_onto_ground():
+func get_ground_height():
 	var space_state = get_world_3d().direct_space_state
 	var result = space_state.intersect_ray(
 		PhysicsRayQueryParameters3D.create(
 			Vector3(position.x, 6000, position.z),
 			Vector3(position.x, 0.0, position.z), 4294967295, [get_rid()]))
 
-	if result:
-		transform.origin.y = result.position.y
-	else:
-		transform.origin.y = 0.0
+	return result.position.y if result else 0.0
+
+
+func place_onto_ground():
+	transform.origin.y = get_ground_height()
 
 
 # As in some cases the actual orientation node might be different, define this as function to
