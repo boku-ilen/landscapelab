@@ -4,7 +4,7 @@ extends Node3D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# TODO: Check position of changed overlay and only update if overlaps
-	LIDOverlay.changed.connect(update)
+	LIDOverlay.updated.connect(update)
 	set_notify_transform(true)
 
 
