@@ -2,6 +2,10 @@
 extends Resource
 class_name TextureBundleRME
 
+# Editor tool to create bundled textures.
+# Should only be used in the editor, as new textures are not saved while running the game.
+# This is to prevent large loading times caused by all textures being created and saved on every startup.
+
 
 @export var texture_scale := Vector2(1, 1)
 @export var albedo_texture: Texture
@@ -10,16 +14,22 @@ class_name TextureBundleRME
 @export var roughness_texture: Texture : 
 	set(texture):
 		roughness_texture = texture
-		_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
+		
+		if Engine.is_editor_hint():
+			_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
 @export var metallic_texture: Texture: 
 	set(texture):
 		metallic_texture = texture
-		_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
+		
+		if Engine.is_editor_hint():
+			_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
 @export var emission_texture: Texture: 
 	set(texture):
 		emission_texture = texture
 		window_shading = true
-		_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
+		
+		if Engine.is_editor_hint():
+			_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
 
 var window_shading := false
 
