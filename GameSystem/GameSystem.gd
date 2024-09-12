@@ -36,7 +36,7 @@ func save():
 	var config = ConfigFile.new()
 	
 	for game_mode in game_modes:
-		for collection in current_game_mode.game_object_collections.values():
+		for collection in game_mode.game_object_collections.values():
 			if "feature_layer" in collection:
 				if not DirAccess.dir_exists_absolute("user://saves"): DirAccess.make_dir_absolute("user://saves")
 				
@@ -55,7 +55,7 @@ func load_last_save():
 	config.load("user://saves/savestate.cfg")
 	
 	for game_mode in game_modes:
-		for collection in current_game_mode.game_object_collections.values():
+		for collection in game_mode.game_object_collections.values():
 			if "feature_layer" in collection and not collection is GameObjectClusterCollection:
 				# TODO: We cannot fully recover a previous state here, since GameObjectClusters
 				# don't save their cluster_size in any attribute, and the connection between
