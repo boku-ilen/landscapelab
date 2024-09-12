@@ -8,11 +8,15 @@ extends Button
 func _ready():
 	pressed.connect(save)
 	if has_node("AutoSaveTimer"):
-		$AutoSaveTimer.timeout.connect(save)
+		$AutoSaveTimer.timeout.connect(_on_timeout)
+
+
+func _on_timeout():
+	if not visible:
+		save()
 
 
 func save():
-	if not visible:
-		logger.info("Saving GameSystem state...")
-		GameSystem.save()
-		logger.info("Done saving GameSystem state.")
+	logger.info("Saving GameSystem state...")
+	GameSystem.save()
+	logger.info("Done saving GameSystem state.")
