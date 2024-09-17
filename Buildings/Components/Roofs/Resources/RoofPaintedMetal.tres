@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://cysod1imx8e01"]
+
+[ext_resource type="Texture2D" uid="uid://4wpek0keuexo" path="res://Buildings/Components/Roofs/Resources/Metal027_2K-JPG/Metal027_2K-JPG_Gray.jpg" id="1_503hj"]
+[ext_resource type="Texture2D" uid="uid://c5hcg3188ox62" path="res://Buildings/Components/Roofs/Resources/Metal027_2K-JPG/Metal027_2K-JPG_Displacement.jpg" id="2_2gtqt"]
+[ext_resource type="Texture2D" uid="uid://8es31qc2tcx1" path="res://Buildings/Components/Roofs/Resources/Metal027_2K-JPG/Metal027_2K-JPG_NormalGL.jpg" id="3_yd1lb"]
+[ext_resource type="Texture2D" uid="uid://dpotkhofi8o31" path="res://Buildings/Components/Roofs/Resources/Metal027_2K-JPG/Metal027_2K-JPG_Roughness.jpg" id="4_ideky"]
+
+[resource]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.29, 0.29, 0.29, 1)
+albedo_texture = ExtResource("1_503hj")
+roughness_texture = ExtResource("4_ideky")
+normal_enabled = true
+normal_texture = ExtResource("3_yd1lb")
+heightmap_enabled = true
+heightmap_scale = 1.045
+heightmap_texture = ExtResource("2_2gtqt")
