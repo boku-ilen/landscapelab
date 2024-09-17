@@ -11,7 +11,7 @@ var color
 
 
 func _ready():
-	$MeshInstance3D.material_override = preload("res://Buildings/Components/FlatRoofPantelleria.tres")
+	$MeshInstance3D.material_override = preload("res://Buildings/Components/Roofs/FlatRoofPantelleria.tres")
 
 
 func build(footprint: PackedVector2Array):

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dkve68jwpb2dc"]
 
-[ext_resource type="Material" uid="uid://c8evm4ty0vdf8" path="res://Buildings/Components/FlatRoofPantelleria.tres" id="1_3bxhw"]
+[ext_resource type="Material" uid="uid://c8evm4ty0vdf8" path="res://Buildings/Components/Roofs/FlatRoofPantelleria.tres" id="1_3bxhw"]
 [ext_resource type="ArrayMesh" uid="uid://ch4c363hlc8th" path="res://Resources/Meshes/Projects/Pantelleria/dammuso2.obj" id="1_lsmj8"]
 
 [node name="Node3D" type="Node3D"]

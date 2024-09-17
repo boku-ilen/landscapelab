@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://bk6oqvoa2n7bp"]
 
 [ext_resource type="Texture2D" uid="uid://c8swkj5p24pcg" path="res://Resources/Textures/Buildings/roof/flat_roof_white.jpg" id="1"]
-[ext_resource type="Shader" path="res://Buildings/Components/RoofShader.gdshader" id="2"]
+[ext_resource type="Shader" path="res://Buildings/Components/Roofs/RoofShader.gdshader" id="2"]
 
 [resource]
 resource_local_to_scene = true

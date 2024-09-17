@@ -1,9 +1,11 @@
+@tool
 extends RoofBase
 
 
 
 # Overhang factor
 @export var roof_overhang_size := 1.75
+@export var roof_depth := 0.15
 @export var texture_scale := Vector2(3, 3)
 var height: float :
 	set(new_height): height = new_height
@@ -21,7 +23,7 @@ func set_metadata(metadata: Dictionary):
 
 
 func _ready():
-	$Roof.material_override = preload("res://Buildings/Components/PointedRoof.tres")
+	$Roof.material_override = preload("res://Buildings/Components/Roofs/PointedRoof.tres")
 
 
 func can_build(geo_center, geo_footprint):
@@ -91,41 +93,70 @@ func build(footprint: PackedVector2Array):
 	vertices[4] -= footprint3d[3].direction_to(vertices[2]) - forward
 	vertices[5] -= footprint3d[2].direction_to(vertices[3]) + forward
 	
+	var vertices_ordered = [
+		vertices[0], vertices[1], vertices[3], vertices[5], vertices[4], vertices[2]
+	]
+	
 	# Prevent z fighting with walls
 	vertices = vertices.map(func(vert): return vert + Vector3.UP * 0.05)
 	
 	var uvs = [
-		Vector2(1,0), Vector2(0,0), Vector2(1,0.5),
-		Vector2(0,0.5), Vector2(1,1), Vector2(0,1)
+		-Vector2(1,0), -Vector2(0,0), -Vector2(1,0.5),
+		-Vector2(0,0.5), -Vector2(1,1), -Vector2(0,1)
 	]
 	
 	st.set_color(color)
 	
 	for idx in range(vertices.size() - 2):
-		if idx % 2: _triangulate(st, vertices, uvs, idx, idx + 1, idx + 2)
-		else: 		_triangulate(st, vertices, uvs, idx + 1, idx, idx + 2)
+		var directed_uvs: Array 
+		
+		if idx >= 2: 
+			directed_uvs = uvs.map(func(uv): return -uv)
+		else:
+			directed_uvs = uvs
+		
+		if idx % 2: _triangulate(st, vertices, directed_uvs, idx + 2, idx + 1, idx)
+		else: 		_triangulate(st, vertices, directed_uvs, idx + 1, idx + 2, idx)
 	
 	#var distance_to_next_point = max(0.1, point_current.distance_to(point_next)) # to prevent division by 0
 	
-	
-	# Reorder according to graphic
+	# Reorder according to graphic (in order of triangles)
 	vertices = [
 		vertices[0], vertices[1], vertices[3], vertices[5], vertices[4], vertices[2]
 	]
+	
 	# Give some volume to the roof (otherwise it looks like a sheet strechted over the footprint)
 	for idx in vertices.size():
+		var plane: Plane
+		if idx < 3 or idx >5:
+			plane = Plane(vertices[0], vertices[1], vertices[2])
+		else:
+			plane = Plane(vertices[3], vertices[4], vertices[5])
+		
+		var point_prev = vertices[(idx - 1) % vertices.size()]
 		var point_current = vertices[idx]
 		var point_next = vertices[(idx + 1) % vertices.size()]
-		st.set_uv(Vector2(0,0))
 		
-		st.set_color(Color.DIM_GRAY)
-		st.add_vertex(point_current + Vector3.DOWN * 0.5)
+		var depth_uv_max_x := 0.01
+		var depth_uv_max_y := 20
+		var normal = plane.normal
+		
+		if idx == 2 or idx == 5:
+			normal = Vector3(-normal.x, normal.y, normal.z)
+			
+		st.set_uv(Vector2(depth_uv_max_x, depth_uv_max_y))
+		st.add_vertex(point_next - normal * roof_depth)
+		st.set_uv(Vector2(0., 0.))
 		st.add_vertex(point_current)
-		st.add_vertex(point_next + Vector3.DOWN * 0.5)
-
-		st.add_vertex(point_next + Vector3.DOWN * 0.5)
-		st.add_vertex(point_current)
+		st.set_uv(Vector2(0., depth_uv_max_y))
+		st.add_vertex(point_current - normal * roof_depth)
+		
+		st.set_uv(Vector2(depth_uv_max_x, 0.))
 		st.add_vertex(point_next)
+		st.set_uv(Vector2(0., 0.))
+		st.add_vertex(point_current)
+		st.set_uv(Vector2(depth_uv_max_x, depth_uv_max_y))
+		st.add_vertex(point_next - normal * roof_depth)
 	
 	st.generate_normals()
 	st.generate_tangents()
@@ -147,6 +178,27 @@ func build(footprint: PackedVector2Array):
 	mesh = st.commit()
 	mesh.custom_aabb = st.get_aabb()
 	get_node("WallFill").mesh = mesh
+	
+	vertices = vertices_ordered
+	
+		# We need 2 triangles for each saddle side
+		# p1------m1------p2
+		# |\      |\      |
+		# | \     | \     |
+		# |  \    |  \    |
+		# |   \   |   \   |
+		# |    \  |    \  |
+		# |     \ |     \ |
+		# p0------m0------p3
+	var edges = []
+	var directed_graph = {
+		#vertices[0]: [vertices[1]],
+		#vertices[1]: [vertices[2]],
+		vertices[2]: [vertices[1], vertices[3], vertices[5]],
+		#vertices[3]: [vertices[4]],
+		vertices[5]: [vertices[4], vertices[0]]
+	}
+	create_ridge_caps(directed_graph, color)
 
 
 func _triangulate(st, vertices, uvs, idx0=0, idx1=1, idx2=2):

@@ -1,3 +1,4 @@
+@tool
 extends RoofBase
 
 
@@ -8,23 +9,15 @@ extends RoofBase
 
 # Overhang factor
 @export var roof_overhang_size := 1.75
-var height: float :
-	set(new_height): height = new_height
-var color: Color :
-	set(new_color): color = new_color
-var extent: float :
-	set(new_extent): extent = new_extent
-var center := Vector2(0,0): 
-	set(new_center): center = new_center
+var height: float
+var color: Color
+var extent: float
+var center := Vector2(0,0)
 
 
 func set_metadata(metadata: Dictionary):
 	height = metadata["roof_height"]
 	extent = metadata["extent"]
-
-
-func _ready():
-	$MeshInstance3D.material_override = preload("res://Buildings/Components/PointedRoof.tres")
 
 
 func can_build(geo_center, geo_footprint):
@@ -41,28 +34,25 @@ func build(footprint: PackedVector2Array):
 	# Generate flat normals - shaded as if round otherwise
 	st.set_smooth_group(-1)
 	
+	var point_center = Vector3(center.x, roof_height, center.y)
+	var footprint3d = Array(footprint).map(func(vert: Vector2): return Vector3(vert.x, 0, vert.y))
+	# Create overhang over roof and scale with the extent of the building so
+	# it adequatly fits the size of the building
+	footprint3d = footprint3d.map(func(vert: Vector3): return vert + (vert - point_center) * roof_overhang_size / extent)
+	
 	for index in range(footprint.size()):
-		var vertex_2d = footprint[index]
-		var next_2d = footprint[(index + 1) % footprint.size()]
-		
-		var point_current = Vector3(vertex_2d.x, 0, vertex_2d.y)
-		var point_next = Vector3(next_2d.x, 0, next_2d.y)
-		var point_center = Vector3(center.x, roof_height, center.y)
-		
-		# Create overhang over roof and scale with the extent of the building so
-		# it adequatly fits the size of the building
-		point_current -= (point_center - point_current) * roof_overhang_size / extent
-		point_next -= (point_center - point_next) * roof_overhang_size / extent
+		var point_current = footprint3d[index]
+		var point_next = footprint3d[(index + 1) % footprint.size()]
 		
 		var distance_to_next_point = max(0.1, point_current.distance_to(point_next)) # to prevent division by 0
 		
 		st.set_color(color)
 		
-		var texture_scale = Vector2(1, 4) / 2
+		var texture_scale = -Vector2(0.2, 1)
 		st.set_uv(Vector2(0.0, 0.0) * texture_scale)
 		st.add_vertex(point_current)
 		
-		st.set_uv(Vector2(distance_to_next_point / 2, height) * texture_scale)
+		st.set_uv(Vector2(distance_to_next_point / 2, 1) * texture_scale)
 		st.add_vertex(point_center)
 		
 		st.set_uv(Vector2(distance_to_next_point, 0.0) * texture_scale)
@@ -80,6 +70,11 @@ func build(footprint: PackedVector2Array):
 	
 	st.generate_normals()
 	st.generate_tangents()
+	
+	var graph = {
+		point_center: footprint3d
+	}
+	create_ridge_caps(graph, color)
 	
 	# Apply
 	var mesh = st.commit()
