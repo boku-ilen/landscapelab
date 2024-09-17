@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://b25xcigruo37a"]
+
+[ext_resource type="Script" path="res://Buildings/BuildingEditor/BuildingEditor.gd" id="1_ti8qr"]
+[ext_resource type="PackedScene" uid="uid://dl4m3ovxk1e8q" path="res://Util/Debug/Rendering/debugviewer.tscn" id="2_bqrs7"]
+[ext_resource type="Material" uid="uid://bjrq7bthues8g" path="res://Resources/Textures/BaseGround/Gravel.tres" id="2_yxv15"]
+[ext_resource type="Material" uid="uid://cysod1imx8e01" path="res://Buildings/Components/Roofs/Resources/RoofPaintedMetal.tres" id="3_3u1su"]
+
+[node name="BuildingEditor" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0800095, -4.87594, -0.511397)
+script = ExtResource("1_ti8qr")
+roof_type = 2
+roof_color = Color(0.197937, 0.197937, 0.197937, 1)
+roof_material_0 = ExtResource("3_3u1su")
+roof_material_1 = ExtResource("2_yxv15")
+height = 5.0
+floors = 2
+footprint = PackedVector2Array(-10, -5, 10, -5, 10, 5, -10, 5, -10, -5)
+foot_print_presets = 3
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.984046, 0.0780684, -0.159869, 0.0726743, 0.643811, 0.761726, 0.162392, -0.761192, 0.627866, 0.00564957, 9.58815, 3.07853)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31399, 11.0508, 0.731724)
+visible = false
+omni_range = 12.876
+omni_attenuation = 1.061
+
+[node name="debugviewer" parent="." instance=ExtResource("2_bqrs7")]

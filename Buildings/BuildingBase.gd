@@ -1,3 +1,4 @@
+@tool
 extends Node3D
 
 
@@ -11,6 +12,10 @@ extends Node3D
 var height: float
 var footprint: PackedVector2Array
 
+var roof: RoofBase : 
+	set(new_roof): 
+		roof = new_roof
+		add_child(roof)
 
 func set_metadata(metadata: Dictionary):
 	height = metadata["height"]
