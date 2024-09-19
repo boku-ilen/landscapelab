@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bnj4pbg5at2rg"]
-
-[ext_resource type="Script" path="res://Util/ParentShaderUpdater_Runtime.gd" id="1_35cu6"]
-
-[node name="ParentShaderUpdater_AtRuntime" type="Node3D"]
-script = ExtResource("1_35cu6")
