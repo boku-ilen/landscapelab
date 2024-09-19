@@ -44,7 +44,7 @@ window/size/height=1080
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/debugviewer_editor/plugin.cfg")
+enabled=PackedStringArray("res://addons/debugviewer_editor/plugin.cfg", "res://addons/geodot/plugin.cfg", "res://addons/res_type_saved_messages/plugin.cfg")
 
 [filesystem]
 
