@@ -5,6 +5,9 @@ render_mode depth_draw_opaque;
 
 global uniform vec3 HCY_SHIFT;
 
+// Brigthness, Saturation and Contrast for terrain
+global uniform vec3 CES_TERRAIN_SHIFT;
+
 // Basic Terrain
 uniform sampler2D orthophoto: source_color, repeat_disable;
 uniform sampler2D heightmap: repeat_disable;
@@ -34,6 +37,46 @@ uniform sampler2DArray ground_displacement: hint_default_black;
 uniform bool make_hole = true;
 uniform sampler2D detail_noise;
 uniform float[10] detail_noise_lid_weights;
+
+
+mat4 saturation_matrix(float s) {
+	vec3 luminance = vec3(0.2126, 0.7152, 0.01);
+	//luminance = vec3(0.2, 0.75, 0.1);
+	float sr = (1.0 - s) * luminance.r;
+	float sg = (1.0 - s) * luminance.g;
+	float sb = (1.0 - s) * luminance.b;
+	return mat4(
+		vec4(sr + s, sr, sr, 0),
+		vec4(sg, sg + s, sg, 0),
+		vec4(sb, sb, sb + s, 0),
+		vec4(0, 0, 0, 1)
+	);
+}
+mat4 exposure_matrix(float e) {
+	return mat4(
+		vec4(e, 0, 0, 0),
+		vec4(0, e, 0, 0),
+		vec4(0, 0, e, 0),
+		vec4(0, 0, 0, 1)
+	);
+}
+mat4 brightness_matrix(float b) {
+	return mat4(
+		vec4(1, 0, 0, 0),
+		vec4(0, 1, 0, 0),
+		vec4(0, 0, 1, 0),
+		vec4(b, b, b, 1)
+	);
+}
+mat4 contrast_matrix(float c) {
+	float t = (1.0 - c) / 2.0;
+	return mat4(
+		vec4(c, 0, 0, 0),
+		vec4(0, c, 0, 0),
+		vec4(0, 0, c, 0),
+		vec4(t, t, t, 1)
+	);
+}
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
@@ -228,8 +271,13 @@ void fragment() {
 
 	float splat_id = get_landuse(UV);
 
+	mat4 color_correction =
+		contrast_matrix(CES_TERRAIN_SHIFT.x) *
+		exposure_matrix(CES_TERRAIN_SHIFT.y) *
+		saturation_matrix(CES_TERRAIN_SHIFT.z);
 	if (int(splat_id / 1000.0) != 6) {
 		vec3 ortho_color = texture(orthophoto, UV).rgb;
+		ortho_color = (color_correction * vec4(ortho_color, 0)).rgb;
 		ALBEDO = hue_shift(detail_color, ortho_color, dist_scale);
 	} else {
 		// If we have water here, use only the detail color - the color can be very off otherwise

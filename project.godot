@@ -441,6 +441,10 @@ HCY_SHIFT={
 "type": "vec3",
 "value": Vector3(0, 1, 1)
 }
+CES_TERRAIN_SHIFT={
+"type": "vec3",
+"value": Vector3(1, 1, 1)
+}
 
 [xr]
 
