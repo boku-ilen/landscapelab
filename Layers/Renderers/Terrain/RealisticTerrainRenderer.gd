@@ -76,6 +76,30 @@ func _ready():
 	super._ready()
 
 
+func full_load():
+	super.full_load()
+	if  layer_composition.render_info.water_color == null \
+		or not "surface_color" in layer_composition.render_info.water_color \
+		or not "depth_color" in layer_composition.render_info.water_color:
+		return
+	
+	var surface_color = _array_to_color(layer_composition.render_info.water_color["surface_color"])
+	var depth_color = _array_to_color(layer_composition.render_info.water_color["depth_color"])
+	_apply_water_color(surface_color, depth_color)
+
+
+func _apply_water_color(surface_color: Color, depth_color: Color) -> void:
+	for chunk in chunks:
+		chunk.get_node("Water").material_override.set_shader_parameter(
+			"surface_color", surface_color)
+		chunk.get_node("Water").material_override.set_shader_parameter(
+			"depth_color", depth_color)
+
+
+func _array_to_color(color_array: Array) -> Color:
+	return Color(color_array[0] / 255, color_array[1] / 255, color_array[2] / 255)
+
+
 func _process(delta):
 	super._process(delta)
 	
