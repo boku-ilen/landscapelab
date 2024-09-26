@@ -1,0 +1,33 @@
+[gd_resource type="Shader" format=3 uid="uid://cf8dy6m313m77"]
+
+[resource]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform vec4 color : source_color;
+
+uniform float border_width = 0.1;
+
+void vertex() {
+	// Add margins
+	VERTEX += (UV * 2.0 - 1.0) * border_width * 2.0;
+	UV += (UV * 2.0 - 1.0) * border_width * TEXTURE_PIXEL_SIZE * 2.0;
+}
+
+void fragment() {
+	vec2 uv = UV;
+	float alpha = 0.0;
+
+	for (float x = -1.0; x <= 1.0; x += 0.5) {
+		for (float y = -1.0; y <= 1.0; y += 0.5) {
+			vec2 new_uv = uv + vec2(x, y) * border_width * TEXTURE_PIXEL_SIZE;
+			float alpha_here = texture(TEXTURE, new_uv).a;
+			if (new_uv.x >= 0.0 && new_uv.x <= 1.0 && new_uv.y >= 0.0 && new_uv.y <= 1.0) {
+				alpha += alpha_here / 2.0;
+			}
+		}
+	}
+	COLOR.rgb = vec3(color.xyz);
+	COLOR.a = alpha;
+}
+"

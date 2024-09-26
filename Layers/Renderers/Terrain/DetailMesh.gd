@@ -8,7 +8,7 @@ var min_load_distance := 1.0
 
 func _ready():
 	var vp = preload("res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn").instantiate()
-	vp.get_node("LIDViewport").size = Vector2(size, size)
+	vp.get_node("LIDViewport").size = Vector2(size * 2, size * 2)
 	vp.get_node("LIDViewport/CameraRoot/LIDCamera").size = size
 	add_child(vp)
 
@@ -75,5 +75,8 @@ func _process(delta):
 	
 	material_override.set_shader_parameter("use_landuse_overlay", true)
 	material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
+	
+	if Input.is_action_pressed("save_debug_frame"):
+		get_node("LIDOverlayViewport/LIDViewport").get_texture().get_image().save_png("res://test.png")
 	
 	previous_player_position = get_parent().position_manager.center_node.position

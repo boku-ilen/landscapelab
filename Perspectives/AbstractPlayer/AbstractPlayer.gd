@@ -17,17 +17,18 @@ func teleport(pos: Vector3):
 	place_onto_ground()
 
 
-func place_onto_ground():
+func get_ground_height():
 	var space_state = get_world_3d().direct_space_state
 	var result = space_state.intersect_ray(
 		PhysicsRayQueryParameters3D.create(
 			Vector3(position.x, 6000, position.z),
 			Vector3(position.x, 0.0, position.z), 4294967295, [get_rid()]))
 
-	if result:
-		transform.origin.y = result.position.y
-	else:
-		transform.origin.y = 0.0
+	return result.position.y if result else 0.0
+
+
+func place_onto_ground():
+	transform.origin.y = get_ground_height()
 
 
 # As in some cases the actual orientation node might be different, define this as function to
@@ -71,6 +72,9 @@ func _input(event):
 # Input for all Player classes - do not overwrite!
 func _handle_abstract_viewport_input(event):
 	if event is InputEventMouseButton and event.pressed:
+		# Without this, Windows can "swallow" the mouse when doing input without previously focusing
+		if not get_window().has_focus(): return
+		
 		if event.button_index == MOUSE_BUTTON_LEFT and not rotating: 
 			dragging = true
 			set_mouse_mode_captured()

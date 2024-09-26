@@ -5,31 +5,26 @@ render_mode depth_draw_opaque;
 
 global uniform vec3 HCY_SHIFT;
 
+// Brigthness, Saturation and Contrast for terrain
+global uniform vec3 CES_TERRAIN_SHIFT;
+
 // Basic Terrain
 uniform sampler2D orthophoto: source_color, repeat_disable;
 uniform sampler2D heightmap: repeat_disable;
-uniform sampler2D normalmap: hint_normal, repeat_disable;
 uniform float height_scale = 1.0;
 
 // Land use-based detail textures
 uniform sampler2D landuse: repeat_disable, filter_nearest;
-uniform bool has_landuse = false;
 
 uniform bool use_landuse_overlay = false;
 uniform sampler2D landuse_overlay: repeat_disable, filter_nearest, hint_default_black;
-
-uniform float ortho_saturation = 1.2;
-uniform float ortho_blue_shift_factor = 0.9;
 
 uniform float detail_only_range = 50.0;
 uniform float detail_ortho_blend_range = 700.0;
 
 uniform float size;
 
-varying vec3 camera_pos;
 varying vec3 world_pos;
-varying float world_distance;
-varying float camera_distance;
 
 //uniform bool has_terraforming_texture;
 //uniform sampler2D terraforming_texture: repeat_disable, filter_nearest;
@@ -43,38 +38,55 @@ uniform bool make_hole = true;
 uniform sampler2D detail_noise;
 uniform float[10] detail_noise_lid_weights;
 
+
+mat4 saturation_matrix(float s) {
+	vec3 luminance = vec3(0.2126, 0.7152, 0.01);
+	//luminance = vec3(0.2, 0.75, 0.1);
+	float sr = (1.0 - s) * luminance.r;
+	float sg = (1.0 - s) * luminance.g;
+	float sb = (1.0 - s) * luminance.b;
+	return mat4(
+		vec4(sr + s, sr, sr, 0),
+		vec4(sg, sg + s, sg, 0),
+		vec4(sb, sb, sb + s, 0),
+		vec4(0, 0, 0, 1)
+	);
+}
+mat4 exposure_matrix(float e) {
+	return mat4(
+		vec4(e, 0, 0, 0),
+		vec4(0, e, 0, 0),
+		vec4(0, 0, e, 0),
+		vec4(0, 0, 0, 1)
+	);
+}
+mat4 brightness_matrix(float b) {
+	return mat4(
+		vec4(1, 0, 0, 0),
+		vec4(0, 1, 0, 0),
+		vec4(0, 0, 1, 0),
+		vec4(b, b, b, 1)
+	);
+}
+mat4 contrast_matrix(float c) {
+	float t = (1.0 - c) / 2.0;
+	return mat4(
+		vec4(c, 0, 0, 0),
+		vec4(0, c, 0, 0),
+		vec4(0, 0, c, 0),
+		vec4(t, t, t, 1)
+	);
+}
+
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
 }
 
-// From https://www.shadertoy.com/view/mds3R4
-vec4 fractal_texture(sampler2D tex, vec2 uv, float depth) {
-    //Find the pixel level of detail
-	float LOD = log(depth);
-    //Round LOD down
-	float LOD_floor = floor(LOD);
-    //Compute the fract part for interpolating
-	float LOD_fract = LOD - LOD_floor;
-
-    //Compute scaled uvs
-	vec2 uv1 = uv / exp(LOD_floor - 1.0);
-	vec2 uv2 = uv / exp(LOD_floor + 0.0);
-	vec2 uv3 = uv / exp(LOD_floor + 1.0);
-
-    //Sample at 3 scales
-	vec4 tex0 = texture(tex, uv1);
-	vec4 tex1 = texture(tex, uv2);
-	vec4 tex2 = texture(tex, uv3);
-
-    //Blend samples together
-	return (tex1 + mix(tex0, tex2, LOD_fract)) * 0.5;
-}
-
+// Adapted from https://www.shadertoy.com/view/mds3R4
 vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
 	uv.xy *= 2.0;
 
 	float clamped_depth = max(depth, 10.0);
-	//depth *= 0.5;
 
     //Find the pixel level of detail
 	float LOD = log(clamped_depth);
@@ -96,14 +108,6 @@ vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
     // Blend samples together
 	// Blend fully towards tex1 at close distances in order to have a clear detail view
 	return mix(tex1, mix(tex0, tex2, clamp(LOD_fract, 0.0, 1.0)), min(depth / 20.0, 0.5));
-}
-
-// Workaround for a bug in `texelFetch` - use this instead!
-// More info at https://github.com/godotengine/godot/issues/31732
-vec4 texelGet ( sampler2D tg_tex, ivec2 tg_coord, int tg_lod ) {
-	vec2 tg_texel = 1.0 / vec2(textureSize(tg_tex, 0));
-	vec2 tg_getpos = (vec2(tg_coord) * tg_texel) + (tg_texel * 0.5);
-	return texture(tg_tex, tg_getpos, float(tg_lod));
 }
 
 float get_height(vec2 uv) {
@@ -128,7 +132,7 @@ vec3 get_normal(vec2 normal_uv_pos) {
 	float bottom_right = get_height(normal_uv_pos + vec2(e, -e));
 
 	float center_left = get_height(normal_uv_pos + vec2(-e, 0));
-	float center_center = get_height(normal_uv_pos + vec2(0, 0));
+	//float center_center = get_height(normal_uv_pos + vec2(0, 0));
 	float center_right = get_height(normal_uv_pos + vec2(e, 0));
 
 	float top_left = get_height(normal_uv_pos + vec2(-e, e));
@@ -160,11 +164,9 @@ void vertex() {
 	}
 
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	world_distance = length(world_pos.xz);
 
-	camera_pos = INV_VIEW_MATRIX[3].xyz;
-	vec3 camera_to_world = world_pos - camera_pos;
-	camera_distance = length(camera_to_world);
+	vec3 camera_to_world = world_pos - INV_VIEW_MATRIX[3].xyz;
+	float camera_distance = length(camera_to_world);
 
 	float max_distance = max(abs(camera_to_world.x), abs(camera_to_world.z));
 	if (make_hole && max_distance < 47.0) {
@@ -205,27 +207,6 @@ void vertex() {
 //	}
 }
 
-// Decrase or increase the color saturation
-// Adapted from http://www.alienryderflex.com/saturation.html
-vec3 saturate_color(vec3 color, float change) {
-	float P = sqrt(color.r * color.r * 0.299
-			+ color.g * color.g * 0.587
-			+ color.b * color.b * 0.114);
-
-	return vec3(P, P, P) + (color - vec3(P, P, P)) * change;
-}
-
-vec3 shift_blue(vec3 color, float change) {
-	color.b *= change;
-	return color;
-}
-
-
-vec3 get_ortho_color(vec2 uv) {
-	vec3 blue_shifted_sample = shift_blue(texture(orthophoto, uv).rgb, ortho_blue_shift_factor);
-	return saturate_color(blue_shifted_sample, ortho_saturation);
-}
-
 
 // Takes two colors: one coming from a detailed texture, one from a more basic one.
 // Returns a color with the hue coming from the detailed texture and chroma and luminance blended
@@ -237,7 +218,7 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 	// Convert to Hue-Chroma-Luminance color space
 	vec3 base_hcy = RGBtoHCY(base);
 	vec3 detail_hcy = RGBtoHCY(detail);
-	
+
 	base_hcy.g *= HCY_SHIFT.g;
 	base_hcy.b *= HCY_SHIFT.b;
 
@@ -290,8 +271,13 @@ void fragment() {
 
 	float splat_id = get_landuse(UV);
 
+	mat4 color_correction =
+		contrast_matrix(CES_TERRAIN_SHIFT.x) *
+		exposure_matrix(CES_TERRAIN_SHIFT.y) *
+		saturation_matrix(CES_TERRAIN_SHIFT.z);
 	if (int(splat_id / 1000.0) != 6) {
 		vec3 ortho_color = texture(orthophoto, UV).rgb;
+		ortho_color = (color_correction * vec4(ortho_color, 0)).rgb;
 		ALBEDO = hue_shift(detail_color, ortho_color, dist_scale);
 	} else {
 		// If we have water here, use only the detail color - the color can be very off otherwise

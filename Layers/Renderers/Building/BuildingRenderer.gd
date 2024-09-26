@@ -137,25 +137,20 @@ func load_feature_instance(feature):
 	
 		var can_build_roof := false
 		
-		var addons = {}
-		for addon_key in addon_layers.keys():
-			addons[addon_key] = addon_layers[addon_key].get_features_by_attribute_filter(
-				"build_id = %s" % [feature.get_id()])
-		
 		if check_roof_type and walls_resource.prefer_pointed_roof:
 			if feature.get_outer_vertices().size() == 5:
 				roof = saddle_roof_scene.instantiate().with_data(
+					feature.get_id(),
 					addon_layers, 
-					addon_objects, 
-					addons,
+					addon_objects,
 					building_metadata)
 				roof.set_metadata(building_metadata)
 				can_build_roof = true
 			elif util.str_to_var_or_default(slope, 35) > 15:
 				roof = pointed_roof_scene.instantiate().with_data(
+					feature.get_id(),
 					addon_layers, 
-					addon_objects, 
-					addons,
+					addon_objects,
 					building_metadata)
 				roof.set_metadata(building_metadata)
 				can_build_roof = roof.can_build(
@@ -163,9 +158,9 @@ func load_feature_instance(feature):
 		
 		if roof == null or not can_build_roof:
 			roof = flat_roof_scene.instantiate().with_data(
+				feature.get_id(),
 				addon_layers, 
-				addon_objects, 
-				addons,
+				addon_objects,
 				building_metadata)
 
 		var color = Color(
@@ -192,8 +187,25 @@ func load_feature_instance(feature):
 
 	# Build!
 	building.build()
+	
+	buildings_to_refine.append(building)
 
 	return building
+
+
+var buildings_to_refine = []
+
+
+func refine_load():
+	super.refine_load()
+	
+	if buildings_to_refine.size() > 0:
+		var building = buildings_to_refine.pop_back()
+		
+		if building and is_instance_valid(building) and building.get_parent() == self:
+			for child in building.get_children():
+				if "can_refine" in child and child.can_refine():
+					child.refine()
 
 
 func prepare_pillars(building_metadata: Dictionary, building: Node3D, num_floors: int):

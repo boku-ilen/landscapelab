@@ -2,6 +2,10 @@
 extends Resource
 class_name TextureBundleRME
 
+# Editor tool to create bundled textures.
+# Should only be used in the editor, as new textures are not saved while running the game.
+# This is to prevent large loading times caused by all textures being created and saved on every startup.
+
 
 @export var texture_scale := Vector2(1, 1)
 @export var albedo_texture: Texture
@@ -10,19 +14,32 @@ class_name TextureBundleRME
 @export var roughness_texture: Texture : 
 	set(texture):
 		roughness_texture = texture
-		_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
+		
+		if Engine.is_editor_hint():
+			_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
+		else:
+			_load_bundled_texture(roughness_texture)
+
 @export var metallic_texture: Texture: 
 	set(texture):
 		metallic_texture = texture
-		_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
+		
+		if Engine.is_editor_hint():
+			_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
+		else:
+			_load_bundled_texture(metallic_texture)
+
 @export var emission_texture: Texture: 
 	set(texture):
 		emission_texture = texture
 		window_shading = true
-		_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
+		
+		if Engine.is_editor_hint():
+			_on_bundled_texture_changed(roughness_texture, metallic_texture, emission_texture, albedo_texture)
+		else:
+			_load_bundled_texture(emission_texture)
 
 var window_shading := false
-
 var bundled_texture
 
 
@@ -96,10 +113,18 @@ func _on_bundled_texture_changed(roughness: Texture, metallic: Texture,
 		bundled_image = Image.create_from_data(width, height, false, Image.FORMAT_RGB8, bundled)
 	
 	bundled_image.generate_mipmaps()
+	
 	bundled_image.save_png(path + "/roughness_metallic_emission_bundled.png")
 	bundled_image.save_jpg(path + "/roughness_metallic_emission_bundled.jpg", 1.0)
 	
 	bundled_texture = ImageTexture.create_from_image(bundled_image)
+
+
+func _load_bundled_texture(set_texture):
+	if not bundled_texture:
+		var path = set_texture.resource_path
+		path = path.substr(0, path.rfind("/"))
+		bundled_texture = load(path + "/roughness_metallic_emission_bundled.png")
 
 
 func _get_texture_channel_data(texture: Texture) -> Array:

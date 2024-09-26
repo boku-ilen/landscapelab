@@ -24,6 +24,8 @@ varying float dist_id;
 uniform bool is_billboard = true;
 
 void vertex() {
+	dist_id = INSTANCE_CUSTOM.g * 255.0;
+	
 	camera_pos = INV_VIEW_MATRIX[3].xyz;
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 	
@@ -31,7 +33,10 @@ void vertex() {
 	
 	// TODO: Keep the normal of non-billboard meshes?
 	NORMAL = mix(COLOR.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
-
+	
+	// Also make normals follow a "half-dome" around the mesh to get some front- and back-lighting
+	NORMAL = normalize(mix(NORMAL, VERTEX, 0.5));
+	
 	// Account for the texture's aspect ratio
 	if (is_billboard) {
 		ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
@@ -52,8 +57,6 @@ void vertex() {
 
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-
-	dist_id = INSTANCE_CUSTOM.g * 255.0;
 }
 
 void fragment() {
@@ -74,7 +77,7 @@ void fragment() {
 
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
-	BACKLIGHT = vec3(1.0, 1.0, 0.5) * min(color.g * 2.0, 1.0);
+	BACKLIGHT = vec3(1.0, 1.0, 0.5) * min(color.g * 2.0, 1.0) * 0.5;
 
 	// Make the plant darker at the bottom to simulate some shadowing
 //	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)

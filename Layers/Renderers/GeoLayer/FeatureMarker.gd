@@ -31,6 +31,9 @@ func _on_attribute_changed(reference, option_name, value):
 	# FIXME: Hacky solution to the `feature_changed` signal not arriving in that script.
 	# Would probably be more sensible to move `set_feature_icon` into this class entirely.
 	get_parent().get_parent().set_feature_icon(feature, self)
+	
+	# FIXME: We need to update the popup in order to refresh Attribute information
+	$UI/GameObjectConfiguration.call_deferred("reload_attribute_informations")
 
 
 # When the pop-up is opened, disable the interaction Area2D to prevent conflicts
@@ -71,9 +74,7 @@ func popup():
 					$UI/GameObjectConfiguration.add_configuration_option(
 						attribute.name, attribute, attribute.min, attribute.max, attribute.get_value(go))
 			else:
-				var value = attribute.get_value(go)
-				if value is float: value = "%.1f" % value
-				$UI/GameObjectConfiguration.add_attribute_information(attribute.name, str(value))
+				$UI/GameObjectConfiguration.add_attribute_information(attribute, attribute.get_value(go), go)
 	
 	$UI/GameObjectConfiguration.popup(Rect2(get_viewport().get_canvas_transform() * global_position, $UI/GameObjectConfiguration.size))
 

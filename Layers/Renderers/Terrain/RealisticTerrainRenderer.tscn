@@ -21,7 +21,7 @@ viewport_path = NodePath("DecalViewport")
 
 [node name="RealisticTerrainRenderer" type="Node3D"]
 script = ExtResource("4")
-extent = 16
+extent = 25
 chunk_scene = ExtResource("2_ib6li")
 
 [node name="DetailMesh" type="MeshInstance3D" parent="."]

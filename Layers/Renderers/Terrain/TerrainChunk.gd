@@ -189,7 +189,6 @@ func override_apply():
 	if current_landuse:
 		$Mesh.material_override.set_shader_parameter("landuse", current_landuse)
 		$Mesh.material_override.set_shader_parameter("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
-		$Mesh.material_override.set_shader_parameter("has_landuse", true)
 		
 		if mesh_resolution == detailed_mesh_resolution:
 			if not has_node("LIDOverlayViewport"):
