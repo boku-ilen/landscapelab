@@ -72,7 +72,7 @@ func _process(delta):
 		# Apply position and rotation to sprite
 		$PlayerSprite.position = player_pos_2d + offset
 		# For rotation, find the players forward and project it onto 2D space
-		var player_forward = -player_node.get_node("Head").transform.basis.z
+		var player_forward = -player_node.get_node("Head/Camera3D").transform.basis.z
 		var forward_2d = Plane.PLANE_XZ.project(player_forward)
 		$PlayerSprite.rotation = forward_2d.signed_angle_to(Vector3.FORWARD, Vector3.UP)
 
