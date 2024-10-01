@@ -86,6 +86,13 @@ func _ready():
 	
 	if run_brick_detection:
 		_table_detection_pid = OS.create_process("python3", ["-m", "LabTable"])
+		
+		# Check which screen the window should be on
+		var config_json := JSON.new()
+		var config_file = FileAccess.open("res://table-config.json", FileAccess.READ)
+		var error = config_json.parse(config_file.get_as_text())
+		
+		get_parent().current_screen = config_json.data.beamer_resolution.screen_id
 
 
 func _notification(what):
