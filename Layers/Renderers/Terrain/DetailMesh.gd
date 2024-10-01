@@ -8,7 +8,7 @@ var min_load_distance := 1.0
 
 func _ready():
 	var vp = preload("res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn").instantiate()
-	vp.get_node("LIDViewport").size = Vector2(size * 2, size * 2)
+	vp.get_node("LIDViewport").size = Vector2(size, size)
 	vp.get_node("LIDViewport/CameraRoot/LIDCamera").size = size
 	add_child(vp)
 
@@ -23,8 +23,7 @@ func _process(delta):
 	
 	# FIXME: This actually depends on the terrain chunk resolution at the highest LOD.
 	#  We use 2.0 here because at the highest LOD, one quad covers 2x2 meters.
-	position.x -= fposmod(position.x, 2.0)
-	position.z -= fposmod(position.z, 2.0)
+	position = position.snappedf(2.0)
 	
 	var origin_x = get_parent().center[0] - size / 2.0 + position.x
 	var origin_z = get_parent().center[1] + size / 2.0 - position.z
