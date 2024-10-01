@@ -26,11 +26,14 @@ extends Control
 # To debug it as standalone (without running the rest of the landscapelab
 # it is necessary to load the configuration
 @export var debug_mode := false
+@export var run_brick_detection := true
 
 var current_goc_name = "Offshore Wind Farms"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
+
+var _table_detection_pid: int
 
 signal game_object_created(cursor_position)
 signal game_object_failed(cursor_position)
@@ -80,6 +83,15 @@ func _ready():
 	$SubViewportContainer/SubViewport/Camera2D.do_zoom(0)
 	
 	$SubViewportContainer/SubViewport/Camera2D.offset_changed.connect(_on_camera_offset_changed)
+	
+	if run_brick_detection:
+		_table_detection_pid = OS.create_process("python3", ["-m", "LabTable"])
+
+
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST and _table_detection_pid > 0:
+		OS.kill(_table_detection_pid)
+		get_tree().quit()
 
 
 func set_workshop_mode(active: bool): 
@@ -113,6 +125,10 @@ func set_workshop_mode(active: bool):
 		else:
 			# Swap -z forward/backward since we're in 2D space
 			vector_local.z = -vector_local.z
+			
+			if current_goc_name not in GameSystem.current_game_mode.game_object_collections:
+				logger.error("[Table] Could not place goc with name %s in game mode %s" % [current_goc_name, GameSystem.current_game_mode])
+				return
 			
 			var collection = GameSystem.current_game_mode.game_object_collections[current_goc_name]
 			
