@@ -55,7 +55,7 @@ static var weather_presets := {
 		"visibility": 10,
 		"cloud_coverage": 15,
 		"cloud_density": 50,
-		"wind_speed": 15,
+		"wind_speed": 35,
 		"rain_enabled": false,
 		"lightning_frequency": 0
 	},
