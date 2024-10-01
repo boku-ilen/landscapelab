@@ -130,11 +130,13 @@ func apply_vegetation(vegetation: Node):
 		)
 		# Apply HCY shift
 		if "HCYShift" in ll_project["Vegetation"]:
-			RenderingServer.global_shader_parameter_set("HCY_SHIFT", Vector3(
+			var hcy_shift_vector = Vector3(
 				ll_project["Vegetation"]["HCYShift"][0],
 				ll_project["Vegetation"]["HCYShift"][1],
 				ll_project["Vegetation"]["HCYShift"][2]
-			))
+			)
+			RenderingServer.global_shader_parameter_set("HCY_SHIFT", hcy_shift_vector)
+			vegetation.hcy_shift_changed.emit(hcy_shift_vector)
 		
 		logger.info("Done loading vegetation!")
 

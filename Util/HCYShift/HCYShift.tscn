@@ -47,15 +47,15 @@ text = "Terrain
 
 [node name="Cont_SlideAndSpin" parent="." instance=ExtResource("1_acews")]
 layout_mode = 2
-label = "C:"
+label = "H:"
 min_value = -10.0
 max_value = 10.0
 step = 0.01
-value = 1.0
+value = 0.0
 
 [node name="Exp_SlideAndSpin" parent="." instance=ExtResource("1_acews")]
 layout_mode = 2
-label = "E:"
+label = "C:"
 min_value = -10.0
 max_value = 10.0
 step = 0.01
@@ -63,7 +63,7 @@ value = 1.0
 
 [node name="Sat_SlideAndSpin" parent="." instance=ExtResource("1_acews")]
 layout_mode = 2
-label = "S:"
+label = "Y:"
 min_value = -10.0
 max_value = 10.0
 step = 0.01
