@@ -113,5 +113,5 @@ void fragment() {
 	//RIM = 0.4;
 	METALLIC = 0.0;
 	ROUGHNESS = 1.0;// - color.g * 0.5;
-	SPECULAR = 0.0;
+	SPECULAR = 0.1;
 }
