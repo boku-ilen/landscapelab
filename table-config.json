@@ -131,10 +131,10 @@
   },
 
   "screen_resolution": {
-    "width": NaN,
-    "height": NaN,
-    "pos_x": NaN,
-    "pos_y": NaN
+    "width": -1,
+    "height": -1,
+    "pos_x": -1,
+    "pos_y": -1
   },
 
   "beamer_resolution": {
@@ -142,10 +142,10 @@
     "NOTE": ["screen id refers to the display the projector output should be started on",
       "if the id exceeds the currently attached screen count the screen with the highest id will be selected",
       "if the id is negative the projector output will be shown in a window instead of full-screen"],
-    "width": NaN,
-    "height": NaN,
-    "pos_x": NaN,
-    "pos_y": NaN
+    "width": -1,
+    "height": -1,
+    "pos_x": -1,
+    "pos_y": -1
   },
 
   "qr_code": {

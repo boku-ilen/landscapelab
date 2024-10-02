@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bl5lx26teq32x"]
+[gd_scene load_steps=26 format=3 uid="uid://bl5lx26teq32x"]
 
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1_camgg"]
 [ext_resource type="Script" path="res://UI/MainUI.gd" id="2_50bpg"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://UI/UIDock.gd" id="8_cvnpk"]
 [ext_resource type="PackedScene" uid="uid://pmmpjdicjvjs" path="res://UI/TeleportMenu/TeleportMenu.tscn" id="9_ihcun"]
 [ext_resource type="PackedScene" uid="uid://dkvdbwaqhrbnn" path="res://UI/Weather/WeatherUI.tscn" id="10_md1vd"]
+[ext_resource type="PackedScene" uid="uid://b8ds7fe8e4ej4" path="res://Util/HCYShift/HCYShift.tscn" id="11_4o42c"]
 [ext_resource type="PackedScene" uid="uid://cckl23qaxw3h8" path="res://UI/Datetime/Datetime.tscn" id="11_mx3ou"]
 [ext_resource type="PackedScene" uid="uid://88rg1t88n3e7" path="res://UI/Screenshot/ScreenshotMenu.tscn" id="12_uackt"]
 [ext_resource type="Script" path="res://UI/WorldUI.gd" id="13_flqmn"]
@@ -47,6 +48,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 17.0
 offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 5
@@ -85,10 +88,12 @@ script = ExtResource("7_qganc")
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+current_tab = 0
 script = ExtResource("8_cvnpk")
 
 [node name="WeatherUI" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("10_md1vd")]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="LiveWeatherService" parent="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI/LiveWeather/LiveWeatherButton" index="0" node_paths=PackedStringArray("weather_manager", "player")]
 weather_manager = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/WeatherManager")
@@ -97,18 +102,22 @@ player = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/World
 [node name="TeleportMenu" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("9_ihcun")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
 layout_mode = 2
+current_tab = 0
 drag_to_rearrange_enabled = true
 script = ExtResource("8_cvnpk")
 
 [node name="Datetime" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("11_mx3ou")]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="LayerCompositionUI" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("25_78xvv")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="LayerCompositionUIConfig" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot/LayerCompositionUI" index="0"]
 position_manager_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
@@ -116,6 +125,12 @@ position_manager_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/Worl
 [node name="Screenshot" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("12_uackt")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="HcyShift" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("11_4o42c")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
 
 [node name="Mid" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left"]
 custom_minimum_size = Vector2(500, 500)
@@ -153,7 +168,7 @@ script = ExtResource("14_dbua3")
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort"]
 handle_input_locally = false
 gui_disable_input = true
-size = Vector2i(852, 668)
+size = Vector2i(11, 58)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_w6bxo")]
@@ -220,14 +235,15 @@ script = ExtResource("7_qganc")
 
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs"]
 layout_mode = 2
+current_tab = 0
 script = ExtResource("8_cvnpk")
 
 [node name="GeoLayerViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top" instance=ExtResource("22_ormee")]
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewportContainer" index="0"]
-size = Vector2i(206, 300)
 render_target_update_mode = 0
 
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]
@@ -235,24 +251,29 @@ visible = false
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 script = ExtResource("23_0efql")
+metadata/_tab_index = 1
 
 [node name="AcceptDialog" type="AcceptDialog" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/Licenses"]
 
 [node name="MinimapViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top" instance=ExtResource("24_tvbf0")]
 layout_mode = 2
 stretch = true
+metadata/_tab_index = 2
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs"]
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
 script = ExtResource("8_cvnpk")
 
 [node name="GeoLayerUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("26_xg76v")]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="Scenarios" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("27_nxjw1")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [editable path="MarginContainer/VBoxContainer/MenuBar"]
 [editable path="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI"]
