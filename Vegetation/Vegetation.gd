@@ -23,7 +23,7 @@ var paths := {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 18.0 :
+var plant_extent_factor = 12 :
 	get:
 		return plant_extent_factor
 	set(extent):
@@ -35,6 +35,7 @@ var max_extent = 1000.0
 signal new_plant_extent_factor(extent)
 
 signal new_data
+signal hcy_shift_changed(hcy_shift_vector)
 
 
 var plant_megatexture = []
