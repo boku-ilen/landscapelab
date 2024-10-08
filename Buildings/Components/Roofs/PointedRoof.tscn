@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bs8e7jx6ncnym"]
+[gd_scene load_steps=2 format=3 uid="uid://bs8e7jx6ncnym"]
 
 [ext_resource type="Script" path="res://Buildings/Components/Roofs/PointedRoof.gd" id="1"]
-[ext_resource type="Material" uid="uid://ctbp5ya4g4nmu" path="res://Buildings/Components/Roofs/Resources/RoofBarrel.tres" id="3_b12si"]
 
 [node name="MansardRoof" type="Node3D" node_paths=PackedStringArray("roof_mesh")]
 script = ExtResource("1")
@@ -9,4 +8,3 @@ roof_mesh = NodePath("MeshInstance3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 layers = 4
-material_override = ExtResource("3_b12si")

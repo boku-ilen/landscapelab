@@ -1,32 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://vnjrliy3um35"]
+[gd_scene load_steps=3 format=3 uid="uid://vnjrliy3um35"]
 
 [ext_resource type="Script" path="res://Buildings/Components/Roofs/SaddleRoof.gd" id="1_uauxx"]
-[ext_resource type="Material" uid="uid://bvjw187l8hel" path="res://Buildings/Components/Roofs/PointedRoof.tres" id="2_cnq48"]
-[ext_resource type="Texture2D" uid="uid://dl05ekm427n2u" path="res://Resources/Textures/Buildings/basement/plaster_white.jpg" id="3_c7ru6"]
-[ext_resource type="Texture2D" uid="uid://ddyh3ey4o67g2" path="res://Resources/Textures/Buildings/basement/roughness_metallic_emission_bundled.jpg" id="4_h4gjp"]
-[ext_resource type="Texture2D" uid="uid://dp7jyu0xo3c8j" path="res://Resources/Textures/Buildings/basement/normal.jpg" id="5_4xy8n"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1wdyn"]
-albedo_texture = ExtResource("3_c7ru6")
-metallic = 1.0
-metallic_texture = ExtResource("4_h4gjp")
-metallic_texture_channel = 1
-roughness_texture = ExtResource("4_h4gjp")
-normal_enabled = true
-normal_texture = ExtResource("5_4xy8n")
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_5jsx7"]
 
 [node name="SaddleRoof" type="Node3D" node_paths=PackedStringArray("roof_mesh")]
 script = ExtResource("1_uauxx")
-roof_depth = null
 roof_mesh = NodePath("Roof")
 
 [node name="Roof" type="MeshInstance3D" parent="."]
 layers = 4
-material_override = ExtResource("2_cnq48")
 
 [node name="WallFill" type="MeshInstance3D" parent="."]
 layers = 4
-material_override = SubResource("StandardMaterial3D_1wdyn")
 mesh = SubResource("ArrayMesh_5jsx7")
