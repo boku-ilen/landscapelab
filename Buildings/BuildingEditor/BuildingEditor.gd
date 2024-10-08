@@ -21,8 +21,8 @@ extends Node3D
 @export_group("Roof")
 @export var roof_type: ROOF_TYPE 
 @export var roof_color: Color
-@export var roof_material_0 := preload("res://Buildings/Components/Roofs/Resources/RoofBarrel.tres")
-@export var roof_material_1 := preload("res://Buildings/Components/Roofs/Resources/RoofBarrel.tres")
+@export var roof_material_0 := preload("res://Buildings/Components/Roofs/Resources/_RoofBarrel.tres")
+@export var roof_material_1 := preload("res://Buildings/Components/Roofs/Resources/_RoofBarrel.tres")
 
 static func polar_vertices(num_verts: int, radius):
 	var angle: float = 2*PI / num_verts
