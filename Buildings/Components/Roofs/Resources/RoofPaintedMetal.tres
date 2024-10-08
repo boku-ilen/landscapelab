@@ -1,17 +1,12 @@
-[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://cysod1imx8e01"]
+[gd_resource type="Resource" script_class="RangeMaterial" load_steps=4 format=3 uid="uid://bgkvds53yj32q"]
 
-[ext_resource type="Texture2D" uid="uid://4wpek0keuexo" path="res://Buildings/Components/Roofs/Resources/Metal027_2K-JPG/Metal027_2K-JPG_Gray.jpg" id="1_503hj"]
-[ext_resource type="Texture2D" uid="uid://c5hcg3188ox62" path="res://Buildings/Components/Roofs/Resources/Metal027_2K-JPG/Metal027_2K-JPG_Displacement.jpg" id="2_2gtqt"]
-[ext_resource type="Texture2D" uid="uid://8es31qc2tcx1" path="res://Buildings/Components/Roofs/Resources/Metal027_2K-JPG/Metal027_2K-JPG_NormalGL.jpg" id="3_yd1lb"]
-[ext_resource type="Texture2D" uid="uid://dpotkhofi8o31" path="res://Buildings/Components/Roofs/Resources/Metal027_2K-JPG/Metal027_2K-JPG_Roughness.jpg" id="4_ideky"]
+[ext_resource type="Material" uid="uid://cysod1imx8e01" path="res://Buildings/Components/Roofs/Resources/_RoofPaintedMetal.tres" id="1_o4p2m"]
+[ext_resource type="Material" uid="uid://bjrq7bthues8g" path="res://Resources/Textures/BaseGround/Gravel.tres" id="2_6su11"]
+[ext_resource type="Script" path="res://Buildings/Components/Roofs/Resources/RangeMaterial.gd" id="2_70x8x"]
 
 [resource]
-vertex_color_use_as_albedo = true
-albedo_color = Color(0.29, 0.29, 0.29, 1)
-albedo_texture = ExtResource("1_503hj")
-roughness_texture = ExtResource("4_ideky")
-normal_enabled = true
-normal_texture = ExtResource("3_yd1lb")
-heightmap_enabled = true
-heightmap_scale = 1.045
-heightmap_texture = ExtResource("2_2gtqt")
+script = ExtResource("2_70x8x")
+from = Color(0.5, 0, 0, 1)
+to = Color(0.52, 0, 0.00866653, 1)
+material0 = ExtResource("1_o4p2m")
+material1 = ExtResource("2_6su11")
