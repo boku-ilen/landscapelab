@@ -15,10 +15,14 @@ extends RoofBase
 # Where the "#" are some form of small plateau before descending into the middle
 # part where the flat roof is filled with some form of pebbles
 
+const type := TYPES.FLAT
 
 @export var height := 0.25
 @export var offset := 0.25
 @export var inset := Vector2(1., 0.5)
+
+var uv_scale = 0.25
+
 var color
 
 
@@ -37,6 +41,11 @@ func build(footprint: PackedVector2Array):
 	st.set_color(color)
 	
 	var outer_verts := []
+	
+	var result = compute_vertex_directions_and_signs(footprint3d)
+	var directions = result["directions"]
+	var signs = result["signs"]
+	
 	for idx in footprint3d.size():
 		# Create the outer vertices (where the plateaus will start from)
 		var current_vert = footprint3d[idx]
@@ -45,7 +54,8 @@ func build(footprint: PackedVector2Array):
 		
 		if   current_vert == next_vert: next_vert = footprint3d[(idx + 2) % footprint.size()]
 		elif current_vert == prev_vert: prev_vert = footprint3d[(idx - 2) % footprint.size()]
-		outer_verts.append(current_vert + (-current_vert.direction_to(prev_vert) - current_vert.direction_to(next_vert)).normalized() * offset)
+		
+		outer_verts.append(current_vert + directions[idx] * offset)
 	
 	for idx in outer_verts.size():
 		var distance_to_next = outer_verts[idx].distance_to(outer_verts[(idx + 1) % outer_verts.size()])
@@ -53,35 +63,35 @@ func build(footprint: PackedVector2Array):
 		var offset_uv = (inner_dist - distance_to_next) / 2
 		
 		var next_idx = (idx + 1) % footprint3d.size()
-		st.set_uv(Vector2(0, 0))
+		st.set_uv(Vector2(0, 0) * uv_scale)
 		st.add_vertex(outer_verts[idx])
-		st.set_uv(Vector2(-offset_uv, offset_uv))
+		st.set_uv(Vector2(-offset_uv, offset_uv) * uv_scale)
 		st.add_vertex(footprint3d[idx])
-		st.set_uv(Vector2(distance_to_next, 0))
+		st.set_uv(Vector2(distance_to_next, 0) * uv_scale)
 		st.add_vertex(outer_verts[next_idx])
 		
-		st.set_uv(Vector2(distance_to_next, 0))
+		st.set_uv(Vector2(distance_to_next, 0) * uv_scale)
 		st.add_vertex(outer_verts[next_idx])
-		st.set_uv(Vector2(-offset_uv, offset_uv))
+		st.set_uv(Vector2(-offset_uv, offset_uv) * uv_scale)
 		st.add_vertex(footprint3d[idx])
-		st.set_uv(Vector2(distance_to_next + offset_uv, offset_uv))
+		st.set_uv(Vector2(distance_to_next + offset_uv, offset_uv) * uv_scale)
 		st.add_vertex(footprint3d[next_idx])
 	
 	var inner_verts := []
 	for idx in outer_verts.size():
 		# Give plateaus some height
 		var distance_to_next = outer_verts[idx].distance_to(outer_verts[(idx + 1) % outer_verts.size()])
-		st.set_uv(Vector2(0, 0))
+		st.set_uv(Vector2(0, 0) * uv_scale)
 		st.add_vertex(outer_verts[idx])
-		st.set_uv(Vector2(distance_to_next, 0))
+		st.set_uv(Vector2(distance_to_next, 0) * uv_scale)
 		st.add_vertex(outer_verts[(idx + 1) % outer_verts.size()])
-		st.set_uv(Vector2(distance_to_next, height))
+		st.set_uv(Vector2(distance_to_next, height) * uv_scale)
 		st.add_vertex(outer_verts[(idx + 1) % outer_verts.size()] + Vector3.UP * height)
 		
 		st.add_vertex(outer_verts[(idx + 1) % outer_verts.size()] + Vector3.UP * height)
-		st.set_uv(Vector2(0, height))
+		st.set_uv(Vector2(0, height) * uv_scale)
 		st.add_vertex(outer_verts[idx] + Vector3.UP * height)
-		st.set_uv(Vector2(0, 0))
+		st.set_uv(Vector2(0, 0) * uv_scale)
 		st.add_vertex(outer_verts[idx])
 		
 		# Create the inner vertices (where the plateaus end)
@@ -91,46 +101,54 @@ func build(footprint: PackedVector2Array):
 		
 		if   current_vert == next_vert: next_vert = outer_verts[(idx + 2) % outer_verts.size()] + Vector3.UP * height
 		elif current_vert == prev_vert: prev_vert = outer_verts[(idx - 2) % outer_verts.size()] + Vector3.UP * height
-		inner_verts.append(current_vert + (current_vert.direction_to(prev_vert) + current_vert.direction_to(next_vert)).normalized() * inset.x)
-	
+		
+		inner_verts.append(current_vert - directions[idx] * inset.x)
+		
 	outer_verts = outer_verts.map(func(vert): return vert + Vector3.UP * height)
+	
 	
 	# Plateaus
 	for idx in inner_verts.size():
-		var distance_to_next = outer_verts[idx].distance_to(outer_verts[(idx + 1) % outer_verts.size()])
-		var inner_dist = inner_verts[idx].distance_to(inner_verts[(idx + 1) % inner_verts.size()])
-		var offset_uv = (inner_dist - distance_to_next) / 2
+		var outer_distance = outer_verts[idx].distance_to(outer_verts[(idx + 1) % outer_verts.size()])
+		var inner_distance = inner_verts[idx].distance_to(inner_verts[(idx + 1) % inner_verts.size()])
+		
+		var offset_uv = (inner_distance - outer_distance) / 2
+		
+		var sign_change = 1.
+		if is_equal_approx(inner_distance, outer_distance):
+			offset_uv = (inner_verts[idx].x - outer_verts[idx].x) * -signs[idx]
+			sign_change = -1.
 		
 		var next_idx = (idx + 1) % footprint.size()
-		st.set_uv(Vector2(-offset_uv, offset_uv))
+		st.set_uv(Vector2(-offset_uv, offset_uv) * uv_scale)
 		st.add_vertex(inner_verts[idx])
-		st.set_uv(Vector2(0, 0))
+		st.set_uv(Vector2(0, 0) * uv_scale)
 		st.add_vertex(outer_verts[idx])
-		st.set_uv(Vector2(distance_to_next, 0))
+		st.set_uv(Vector2(outer_distance, 0) * uv_scale)
 		st.add_vertex(outer_verts[next_idx])
 		
 		st.add_vertex(outer_verts[next_idx])
-		st.set_uv(Vector2(distance_to_next + offset_uv, offset_uv))
+		st.set_uv(Vector2(outer_distance + offset_uv * sign_change, offset_uv) * uv_scale)
 		st.add_vertex(inner_verts[next_idx])
-		st.set_uv(Vector2(-offset_uv, offset_uv))
+		st.set_uv(Vector2(-offset_uv, offset_uv) * uv_scale)
 		st.add_vertex(inner_verts[idx])
-	
+		
 	# Descend
 	for idx in inner_verts.size():
 		var next_idx = (idx + 1) % footprint.size()
 		var distance_to_next = outer_verts[idx].distance_to(outer_verts[(idx + 1) % outer_verts.size()])
 		
-		st.set_uv(Vector2.ZERO)
+		st.set_uv(Vector2.ZERO * uv_scale)
 		st.add_vertex(inner_verts[idx])
-		st.set_uv(Vector2(distance_to_next, 0))
+		st.set_uv(Vector2(distance_to_next, 0) * uv_scale)
 		st.add_vertex(inner_verts[next_idx])
-		st.set_uv(Vector2(distance_to_next, -inset.y))
+		st.set_uv(Vector2(distance_to_next, -inset.y) * uv_scale)
 		st.add_vertex(inner_verts[next_idx] - Vector3.UP * inset.y)
 		
 		st.add_vertex(inner_verts[next_idx] - Vector3.UP * inset.y)
-		st.set_uv(Vector2(0, -inset.y))
+		st.set_uv(Vector2(0, -inset.y) * uv_scale)
 		st.add_vertex(inner_verts[idx] - Vector3.UP * inset.y)
-		st.set_uv(Vector2(0,0))
+		st.set_uv(Vector2(0,0) * uv_scale)
 		st.add_vertex(inner_verts[idx])
 	
 	st.generate_normals()
@@ -143,7 +161,7 @@ func build(footprint: PackedVector2Array):
 	for convex in convexs:
 		var polygon_indices = Geometry2D.triangulate_polygon(convex)
 		for index in polygon_indices:
-			var current_vertex_2d = footprint[index]
+			var current_vertex_2d = convex[index]
 			st.set_uv(current_vertex_2d * 0.1)
 			st.add_vertex(Vector3(current_vertex_2d.x, height-inset.y, current_vertex_2d.y))
 	
