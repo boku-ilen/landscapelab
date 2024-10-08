@@ -6,6 +6,7 @@ extends RoofBase
 # A pointed roof created by spanning triangles to the center of the polygon.
 #
 
+const type := TYPES.POINTED 
 
 # Overhang factor
 @export var roof_overhang_size := 1.75
@@ -14,6 +15,7 @@ var color: Color
 var extent: float
 var center := Vector2(0,0)
 
+var uv_scale = -0.25
 
 func set_metadata(metadata: Dictionary):
 	height = metadata["roof_height"]
@@ -44,18 +46,21 @@ func build(footprint: PackedVector2Array):
 		var point_current = footprint3d[index]
 		var point_next = footprint3d[(index + 1) % footprint.size()]
 		
-		var distance_to_next_point = max(0.1, point_current.distance_to(point_next)) # to prevent division by 0
+		var distance_to_next_point
+		var distance_to_center_point
+		
+		distance_to_next_point = max(0.1, point_current.distance_to(point_next)) # to prevent division by 0
+		distance_to_center_point = max(0.1, ((point_current + point_next) / 2).distance_to(point_center)) # to prevent division by 0
 		
 		st.set_color(color)
 		
-		var texture_scale = -Vector2(0.2, 1)
-		st.set_uv(Vector2(0.0, 0.0) * texture_scale)
+		st.set_uv(Vector2(0.0, 0.0) * uv_scale)
 		st.add_vertex(point_current)
 		
-		st.set_uv(Vector2(distance_to_next_point / 2, 1) * texture_scale)
+		st.set_uv(Vector2(distance_to_next_point / 2, distance_to_center_point) * uv_scale)
 		st.add_vertex(point_center)
 		
-		st.set_uv(Vector2(distance_to_next_point, 0.0) * texture_scale)
+		st.set_uv(Vector2(distance_to_next_point, 0.0) * uv_scale)
 		st.add_vertex(point_next)
 		
 		# Give some volume to the roof (otherwise it looks like a sheet strechted over the footprint)
