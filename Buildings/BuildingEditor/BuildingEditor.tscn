@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://b25xcigruo37a"]
+[gd_scene load_steps=5 format=3 uid="uid://b25xcigruo37a"]
 
 [ext_resource type="Script" path="res://Buildings/BuildingEditor/BuildingEditor.gd" id="1_ti8qr"]
-[ext_resource type="Material" uid="uid://bwe8x2p60353h" path="res://Buildings/Components/Roofs/Resources/_RoofFrench.tres" id="2_87jl3"]
 [ext_resource type="PackedScene" uid="uid://dl4m3ovxk1e8q" path="res://Util/Debug/Rendering/debugviewer.tscn" id="2_bqrs7"]
 [ext_resource type="Material" uid="uid://78xs57vvn0as" path="res://Buildings/Components/Roofs/Resources/_RoofWallWood.tres" id="3_xit3e"]
 
@@ -12,7 +11,6 @@ size = Vector3(0.2, 1, 0.2)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.407727, -4.98399, -0.664175)
 script = ExtResource("1_ti8qr")
 roof_color = Color(0.00556931, 0.0252061, 0.0482799, 1)
-roof_material_0 = ExtResource("2_87jl3")
 roof_material_1 = ExtResource("3_xit3e")
 height = 7.395
 floors = 2
@@ -29,5 +27,5 @@ omni_attenuation = 1.061
 [node name="debugviewer" parent="." instance=ExtResource("2_bqrs7")]
 
 [node name="ruler" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.85976, 12.8078, 0.0699272)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.95805, 7.13616, 0.0699272)
 mesh = SubResource("BoxMesh_snt8w")

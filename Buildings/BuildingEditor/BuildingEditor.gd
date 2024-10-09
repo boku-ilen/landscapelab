@@ -153,11 +153,11 @@ func build() -> void:
 	building_base.position = Vector3.ZERO
 	
 	building_base.build()
-	roof.roof_mesh.material_override = null
-	if roof_material_0 != null:
-		roof.roof_mesh.set_surface_override_material(0, roof_material_0)
 	if roof_material_1 != null and roof.roof_mesh.get_surface_override_material_count() > 1:
 		roof.roof_mesh.set_surface_override_material(1, roof_material_1)
+		roof.roof_mesh.material_override = null
+	if roof_material_0 != null:
+		roof.roof_mesh.set_surface_override_material(0, roof_material_0)
 
 
 func _enter_tree() -> void:
