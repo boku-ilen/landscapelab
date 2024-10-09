@@ -131,9 +131,9 @@ var preconfigurations := {
 		lightning_frequency: 0
 	},
 	"Thunderstorm": {
-		haziness: 90,
-		cloud_coverage: 85,
-		cloud_density: 80,
+		haziness: 80,
+		cloud_coverage: 80,
+		cloud_density: 50,
 		wind_speed: 50,
 		rain_enabled: true,
 		rain_density: 7.5,
