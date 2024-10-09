@@ -1,10 +1,12 @@
-[gd_resource type="Resource" script_class="RangeMaterial" load_steps=3 format=3 uid="uid://bf1u4raeik7db"]
+[gd_resource type="Resource" script_class="RangeMaterial" load_steps=4 format=3 uid="uid://bf1u4raeik7db"]
 
 [ext_resource type="Material" uid="uid://bwe8x2p60353h" path="res://Buildings/Components/Roofs/Resources/_RoofFrench.tres" id="1_8mq8r"]
 [ext_resource type="Script" path="res://Buildings/Components/Roofs/Resources/RangeMaterial.gd" id="2_8m1my"]
+[ext_resource type="Material" uid="uid://78xs57vvn0as" path="res://Buildings/Components/Roofs/Resources/_RoofWallWood.tres" id="2_vtfgk"]
 
 [resource]
 script = ExtResource("2_8m1my")
 from = Color(0.5, 0.0333333, 0, 1)
 to = Color(0.39, 0, 0.52, 1)
 material0 = ExtResource("1_8mq8r")
+material1 = ExtResource("2_vtfgk")
