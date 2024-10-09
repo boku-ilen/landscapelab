@@ -443,7 +443,7 @@ HCY_SHIFT={
 }
 HCY_TERRAIN_SHIFT={
 "type": "vec3",
-"value": Vector3(0, 1, 1)
+"value": Vector3(0, 1.2, 0.7)
 }
 
 [xr]
