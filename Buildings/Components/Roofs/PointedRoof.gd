@@ -41,6 +41,7 @@ func build(footprint: PackedVector2Array):
 	# Create overhang over roof and scale with the extent of the building so
 	# it adequatly fits the size of the building
 	footprint3d = footprint3d.map(func(vert: Vector3): return vert + (vert - point_center) * roof_overhang_size / extent)
+	footprint3d.reverse()
 	
 	for index in range(footprint.size()):
 		var point_current = footprint3d[index]
