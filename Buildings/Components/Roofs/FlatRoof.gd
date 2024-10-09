@@ -154,8 +154,9 @@ func build(footprint: PackedVector2Array):
 	st.generate_normals()
 	st.generate_tangents()
 	var mesh = st.commit()
-	
+	st.clear()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	
 	# Fill
 	var convexs = Geometry2D.decompose_polygon_in_convex(PackedVector2Array(inner_verts.map(func(vert): return Vector2(vert.x, vert.z))))
 	for convex in convexs:
