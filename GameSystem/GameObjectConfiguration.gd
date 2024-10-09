@@ -132,8 +132,11 @@ func add_configuration_option(option_name, reference, min=null, max=null, defaul
 	var label = Label.new()
 	label.text = option_name
 	var slider = preload("res://UI/CustomElements/SlideAndSpin.tscn").instantiate()
+	slider.custom_minimum_size.x = 350.0
 	slider.min_value = 1
 	slider.tick_count = max - min + 1 if min and max else 0
+	slider.is_text_editable = false
+	while slider.tick_count > 10.0: slider.tick_count /= 10.0
 	slider.step = 1
 	if min != null:
 		slider.min_value = float(min)
@@ -170,9 +173,9 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 		
 		attribute_objects_to_game_objects[attribute] = game_object
 		
-		if float(attribute_value) > 0.0:
+		if attribute_value is float or float(attribute_value) > 0.0:
 			attribute_value = "%.1f" % attribute_value
-		hbox.custom_minimum_size.x = min(attribute_value.length() + attribute.name.length(), 600.0)
+		hbox.custom_minimum_size.x = min(str(attribute_value).length() + attribute.name.length(), 600.0)
 		
 		var label1 = Label.new()
 		label1.text = attribute.name
