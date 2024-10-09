@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c7q6uook6d0py"
-path="res://.godot/imported/RidgeCap.glb-2534a4a3845819284632bb4cd0bf7b72.scn"
+uid="uid://c40tsq2qfoqna"
+path="res://.godot/imported/gutters.glb-571e5f01fd1254c1f7c6fd95f0688a86.scn"
 
 [deps]
 
-source_file="res://Buildings/Components/Roofs/Resources/RidgeCap.glb"
-dest_files=["res://.godot/imported/RidgeCap.glb-2534a4a3845819284632bb4cd0bf7b72.scn"]
+source_file="res://Buildings/Components/Roofs/Resources/gutters.glb"
+dest_files=["res://.godot/imported/gutters.glb-571e5f01fd1254c1f7c6fd95f0688a86.scn"]
 
 [params]
 
@@ -33,14 +33,14 @@ animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "meshes": {
-"RidgeCap_Plane": {
+"gutters_Plane_001": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 60.0,
 "lods/normal_split_angle": 25.0,
 "save_to_file/enabled": true,
-"save_to_file/path": "res://Buildings/Components/Roofs/Resources/RidgeCap.res"
+"save_to_file/path": "res://Buildings/Components/Roofs/Resources/Gutters.res"
 }
 }
 }

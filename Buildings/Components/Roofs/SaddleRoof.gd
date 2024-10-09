@@ -210,6 +210,11 @@ func build(footprint: PackedVector2Array):
 		vertices[5]: [vertices[0]]
 	}
 	create_ridge_caps(directed_graph, color)
+	directed_graph = {
+		vertices[0]: [vertices[1]],
+		vertices[4]: [vertices[3]]
+	}
+	create_gutters(directed_graph, color)
 
 
 func _triangulate(st, vertices, uvs, idx0=0, idx1=1, idx2=2):

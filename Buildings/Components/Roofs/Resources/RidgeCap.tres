@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://cpwuwuws33ed6" path="res://Buildings/Components/Roofs/Resources/RoofingTiles014A_2K-JPG/RoofingTiles014A_2K-JPG_Roughness.jpg" id="5_b46ac"]
 
 [resource]
-cull_mode = 2
 vertex_color_use_as_albedo = true
 albedo_texture = ExtResource("1_yv0hj")
 roughness_texture = ExtResource("5_b46ac")
