@@ -24,19 +24,19 @@ varying float dist_id;
 uniform bool is_billboard = true;
 
 void vertex() {
-	dist_id = INSTANCE_CUSTOM.g * 255.0;
-	
+	dist_id = INSTANCE_CUSTOM.r * 255.0;
+
 	camera_pos = INV_VIEW_MATRIX[3].xyz;
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
-	
+
 	vec3 mesh_normal = NORMAL;
-	
+
 	// TODO: Keep the normal of non-billboard meshes?
 	NORMAL = mix(COLOR.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
-	
+
 	// Also make normals follow a "half-dome" around the mesh to get some front- and back-lighting
-	NORMAL = normalize(mix(NORMAL, VERTEX, 0.5));
-	
+	NORMAL = normalize(mix(NORMAL, VERTEX, 0.8));
+
 	// Account for the texture's aspect ratio
 	if (is_billboard) {
 		ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
@@ -53,7 +53,7 @@ void vertex() {
 	}
 
 	// Scale by the size
-	VERTEX *= INSTANCE_CUSTOM.r * 40.0;
+	VERTEX *= INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b;
 
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;

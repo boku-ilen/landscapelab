@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://ble8u3qy6yftc"]
+[gd_scene load_steps=11 format=3 uid="uid://ble8u3qy6yftc"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/RasterVegetation/VegetationParticles.gd" id="1"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/Plant.gdshader" id="2"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/VegetationLayer.gdshader" id="3"]
 [ext_resource type="ArrayMesh" uid="uid://kqa4x2tsefu5" path="res://Resources/Meshes/VegetationBillboard/1m_billboard.obj" id="4_uhe77"]
 [ext_resource type="PackedScene" uid="uid://cqv4mdm0thwg4" path="res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn" id="5_ud2b3"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://Util/ParentShaderUpdater.tscn" id="6_4be15"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_rt6mg"]
 seed = 2565
@@ -22,20 +23,10 @@ resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2")
 shader_parameter/world_space_normal_scale = 0.007
-shader_parameter/sprite_size = 2048
 shader_parameter/amplitude = 0.1
 shader_parameter/speed = Vector2(0.1, 0.08)
 shader_parameter/scale = Vector2(0.06, 0.11)
-shader_parameter/heightmap_size = Vector2(300, 300)
-shader_parameter/offset = null
 shader_parameter/max_distance = null
-shader_parameter/camera_facing = false
-shader_parameter/billboard_enabled = false
-shader_parameter/fake_shadow_height = 1.2
-shader_parameter/fake_shadow_min_multiplier = 0.25
-shader_parameter/hue_factor = 1.0
-shader_parameter/chroma_factor = 2.0
-shader_parameter/luminance_factor = 2.0
 shader_parameter/is_billboard = false
 shader_parameter/texture_map = null
 shader_parameter/world_space_normal_map = SubResource("NoiseTexture2D_lkbu2")
@@ -71,3 +62,5 @@ spacing = 0.5
 
 [node name="LIDOverlayViewport" parent="." instance=ExtResource("5_ud2b3")]
 top_level = true
+
+[node name="ParentShaderUpdater" parent="." instance=ExtResource("6_4be15")]
