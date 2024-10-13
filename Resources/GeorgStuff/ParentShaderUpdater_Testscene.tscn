@@ -1,0 +1,96 @@
+[gd_scene load_steps=13 format=3 uid="uid://cfi2hi23eutna"]
+
+[ext_resource type="Material" uid="uid://2j2o2n1u42at" path="res://Resources/GeorgStuff/Test_GeoOR.tres" id="1_2bkan"]
+[ext_resource type="ArrayMesh" uid="uid://b11fg0nuolvig" path="res://Objects/Barriers/WireMesh.tres" id="1_5cw1u"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://Util/ParentShaderUpdater.tscn" id="1_kv3av"]
+[ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneBike.gdshader" id="2_7vlvx"]
+[ext_resource type="Material" uid="uid://bng2i6y7yg4j7" path="res://Resources/GeorgStuff/Test_ProcessMat.tres" id="4_xmlry"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_n35kj"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5vcfh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_23ph1"]
+render_priority = 0
+next_pass = SubResource("ParticleProcessMaterial_5vcfh")
+shader = ExtResource("2_7vlvx")
+shader_parameter/width = 5.0
+shader_parameter/height = 0.2
+shader_parameter/world_uv_scaling = 0.35
+shader_parameter/outerline_width = 0.25
+shader_parameter/outerline_offset = 0.1
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fmci8"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_e5g6w"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xjqdk"]
+
+[sub_resource type="Environment" id="Environment_sfkdv"]
+ambient_light_source = 2
+ambient_light_color = Color(0.00792405, 0.0126543, 0.0718883, 1)
+ambient_light_energy = 4.13
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D_Primitive" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.35875, 0, -2.88147)
+material_override = ExtResource("1_2bkan")
+mesh = SubResource("CapsuleMesh_n35kj")
+
+[node name="MeshInstance3D_ArrayMesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_5cw1u")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+visible = false
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+process_material = SubResource("ShaderMaterial_23ph1")
+
+[node name="CPUParticles3D_Primitive" type="CPUParticles3D" parent="."]
+mesh = SubResource("CapsuleMesh_fmci8")
+
+[node name="CPUParticles3D_ArrayMesh" type="CPUParticles3D" parent="."]
+mesh = ExtResource("1_5cw1u")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.32926, 0, -3.85503)
+material_override = ExtResource("1_2bkan")
+process_material = ExtResource("4_xmlry")
+draw_passes = 2
+draw_pass_1 = ExtResource("1_5cw1u")
+draw_pass_2 = null
+
+[node name="ParentShaderUpdater" parent="GPUParticles3D" instance=ExtResource("1_kv3av")]
+
+[node name="Container" type="Container" parent="."]
+material = SubResource("CanvasItemMaterial_e5g6w")
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+
+[node name="FogVolume" type="FogVolume" parent="."]
+material = SubResource("ShaderMaterial_xjqdk")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.71474, 0, 0.885666)
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.19561)
+transparency = 0.55
+pixel_size = 0.2099
+text = "Gaga"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sfkdv")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.555149, -0.266134, 0.788024, -1.49012e-08, 0.947428, 0.319968, -0.831751, -0.17763, 0.525964, 4.27553, 1.74246, 0.89538)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.63415, -0.699713, 0.329021, 0, 0.425527, 0.904946, -0.77321, -0.573872, 0.269848, 3.41973, 0, 0.29531)

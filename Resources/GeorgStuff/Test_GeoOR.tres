@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://2j2o2n1u42at"]
+
+[ext_resource type="Shader" path="res://Resources/GeorgStuff/Test_GeoOR.gdshader" id="1_yppfv"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_yppfv")
