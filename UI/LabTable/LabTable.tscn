@@ -49,6 +49,7 @@ bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0v7wp"]
 
 [node name="LabTableWindow" type="Window"]
+mode = 3
 initial_position = 1
 size = Vector2i(1600, 900)
 
@@ -66,6 +67,7 @@ script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
+debug_mode = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
 layout_mode = 2
@@ -280,6 +282,7 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="SaveButton" type="Button" parent="CenterContainer2"]
+visible = false
 layout_mode = 2
 theme = ExtResource("8_2ddb4")
 text = "Save"

@@ -239,6 +239,9 @@ custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 metadata/_tab_index = 0
 
+[node name="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top/GeoLayerViewport/GeoLayerViewportContainer" index="0"]
+render_target_update_mode = 0
+
 [node name="Licenses" type="ItemList" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top"]
 visible = false
 custom_minimum_size = Vector2(0, 100)

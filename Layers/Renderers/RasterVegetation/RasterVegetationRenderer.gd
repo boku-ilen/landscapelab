@@ -20,6 +20,8 @@ func _ready():
 	renderers = Vegetation.get_renderers()
 	add_child(renderers)
 	_on_wind_speed_changed(weather_manager.wind_speed)
+	
+	Vegetation.new_data.connect(full_load)
 
 
 func _on_wind_speed_changed(new_wind_speed):

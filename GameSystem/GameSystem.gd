@@ -25,6 +25,8 @@ var game_modes: Array[GameMode] = []
 
 var _next_game_object_id := 0
 var _game_objects = {}
+var save_dir := "saves-test"
+var user_save_dir := "user://%s" % [save_dir]
 
 signal score_changed(score)
 signal score_target_reached(score)
@@ -38,21 +40,23 @@ func save():
 	for game_mode in game_modes:
 		for collection in game_mode.game_object_collections.values():
 			if "feature_layer" in collection:
-				if not DirAccess.dir_exists_absolute("user://saves"): DirAccess.make_dir_absolute("user://saves")
+				if not DirAccess.dir_exists_absolute(user_save_dir): DirAccess.make_dir_absolute(user_save_dir)
 				
-				var save_path = OS.get_user_data_dir().path_join("/saves/game_layer_%s_%s.gpkg" % [collection.name, floor(Time.get_unix_time_from_system())])
+				var save_path = OS.get_user_data_dir().path_join("/%s/game_layer_%s_%s.gpkg" % [save_dir, collection.name, floor(Time.get_unix_time_from_system())])
 				collection.feature_layer.save_new(save_path)
 				
 				# Remember "last save file location" for this feature layer
 				config.set_value("Savestate", collection.name, save_path)
 	
-	config.save("user://saves/savestate.cfg")
+	config.save("user://%s/savestate.cfg" % [save_dir])
 
 
 
 func load_last_save():
 	var config = ConfigFile.new()
-	config.load("user://saves/savestate.cfg")
+	var load_result = config.load("user://%s/savestate.cfg" % [save_dir])
+	
+	if not load_result == OK: return
 	
 	for game_mode in game_modes:
 		for collection in game_mode.game_object_collections.values():
@@ -94,7 +98,7 @@ func activate_next_game_mode():
 		
 	var current_game_mode_idx = game_modes.find(current_game_mode)
 	
-	if current_game_mode_idx >= game_modes.size() - 1: return
+	#if current_game_mode_idx >= game_modes.size() - 1: return
 	
 	current_game_mode = game_modes[(current_game_mode_idx + 1) % game_modes.size()]
 

@@ -14,7 +14,7 @@ var zoom_action_counter = 0
 var zoom_reload_delay = 0.15
 
 const highest_zoom := 19
-const resolution_at_highest_zoom := 0.298582141738970
+const resolution_at_highest_zoom := 0.28
 
 var current_zoom_level = 13
 var tile_size_pixels := 256.0

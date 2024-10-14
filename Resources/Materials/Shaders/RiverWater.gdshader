@@ -9,6 +9,8 @@ render_mode depth_draw_always, specular_schlick_ggx;
 // Removed unecessary descriptions
 
 // Main
+uniform sampler2D depth: hint_depth_texture, filter_linear_mipmap;
+uniform sampler2D screen: hint_screen_texture, filter_linear_mipmap;
 uniform float normal_scale : hint_range(-16.0, 16.0) = 1.0;
 uniform sampler2D normal_bump_texture : hint_normal;
 uniform vec3 uv_scale = vec3(1.0, 1.0, 1.0);
@@ -159,7 +161,7 @@ void fragment() {
 	float foam_randomness = texture(i_texture_foam_noise, UV * uv_scale.xy).r;
 
 	// Depthtest
-	float depth_tex = textureLod(DEPTH_TEXTURE, SCREEN_UV, 0.0).r;
+	float depth_tex = texture(depth, SCREEN_UV, 0.0).r;
 	float depth_tex_unpacked = depth_tex * 2.0 - 1.0;
 	float surface_dist = PROJECTION_MATRIX[3][2] / (depth_tex_unpacked + PROJECTION_MATRIX[2][2]);
 	float water_depth = surface_dist + VERTEX.z;
@@ -182,7 +184,7 @@ void fragment() {
 	clar_t = ease(clar_t, transparency_depth_curve);
 
 	// Depthtest 2
-	float depth_tex2 = textureLod(DEPTH_TEXTURE, ref_ofs, 0.0).r;
+	float depth_tex2 = texture(depth, ref_ofs, 0.0).r;
 	float depth_tex_unpacked2 = depth_tex2 * 2.0 - 1.0;
 	float surface_dist2 = PROJECTION_MATRIX[3][2] / (depth_tex_unpacked2 + PROJECTION_MATRIX[2][2]);
 	float water_depth2 = surface_dist2 + VERTEX.z;
@@ -200,7 +202,7 @@ void fragment() {
 	vec3 albedo_color_far = vec3(albedo_color_srgb[1].x, albedo_color_srgb[1].y, albedo_color_srgb[1].z);
 	ALBEDO = mix(albedo_color_near.rgb, albedo_color_far.rgb, alb_t);
 	// TODO - Go over to using texelfetch to get the texture to avoid edge artifacts
-	EMISSION += textureLod(SCREEN_TEXTURE, ref_ofs, ROUGHNESS * water_depth2).rgb;// * ref_amount;
+	EMISSION += texture(screen, ref_ofs, ROUGHNESS * water_depth2).rgb;// * ref_amount;
 
 	//ALBEDO *= 1.0 - ref_amount;
 	ALPHA = 1.0;

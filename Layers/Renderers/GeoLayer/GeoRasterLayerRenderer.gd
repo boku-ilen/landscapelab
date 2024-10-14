@@ -39,28 +39,37 @@ var current_texture
 
 
 func load_new_data():
-	var position_x = center[0]
-	var position_y = center[1]
+	var position_x: float = center[0]
+	var position_y: float = center[1]
 	
 	# Geodot will always load a square and rectangles are not possible
 	# => get the long side to make sure the canvas is filled
 	var long_side = max(viewport_size.x, viewport_size.y)
 	# Apply the size to the mesh and add some additional buffer
 	mesh_size = (Vector2.ONE * long_side) / zoom
+	
+	var size_meters = long_side / zoom.x
+	var size_pixels = int(long_side)
+	
+	var pixel_size =  size_meters / size_pixels
+	print(pixel_size)
+	
 	var top_left = Vector2(
-		position_x - mesh_size.x / 2,
-	 	position_y + mesh_size.y / 2)
+		snappedf(position_x - mesh_size.x / 2, pixel_size),
+	 	snappedf(position_y + mesh_size.y / 2, pixel_size)
+	)
+	
 	var bot_right = Vector2(
-		position_x + mesh_size.x / 2,
-		position_y - mesh_size.y / 2
+		snappedf(position_x + mesh_size.x / 2, pixel_size),
+		snappedf(position_y - mesh_size.y / 2, pixel_size)
 	)
 	
 	if geo_raster_layer:
 		var current_tex_image = geo_raster_layer.get_image(
 			top_left.x,
 			top_left.y,
-			long_side / zoom.x,
-			int(long_side * size_buffer_factor),
+			size_meters,
+			size_pixels,
 			0
 		)
 		

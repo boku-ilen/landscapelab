@@ -155,14 +155,19 @@ func _calculate_intermediate_transforms():
 			var height_at_first = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + first_point.x, center[1] - first_point.z)
 			var height_at_last = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + last_point.x, center[1] - last_point.z)
 			
-			height_fit_rotation = atan((height_at_last - height_at_first) / length)
+			# FIXME: Multiplying by 0.9 shouldn't be necessary, but without it, the rotation is incorrect
+			height_fit_rotation = atan((height_at_last - height_at_first) / length) * 0.9
 			
 			get_ground_height_at_pos = func(position_x, position_z):
-				var lerp_factor = first_point.distance_to(Vector3(position_x - center[0], 0.0, -position_z + center[1])) / length
+				var lerp_factor = first_point.distance_to(Vector3(position_x, 0.0, position_z)) / length
 				return lerp(height_at_first, height_at_last, lerp_factor)
 		else:
 			# Otherwise, get heights for all individual points from the height dataset.
-			get_ground_height_at_pos = layer_composition.render_info.ground_height_layer.get_value_at_position
+			get_ground_height_at_pos = func(position_x, position_z):
+				return layer_composition.render_info.ground_height_layer.get_value_at_position(
+					center[0] + position_x,
+					center[1] - position_z,
+				)
 		
 		var t: Transform3D
 		transforms[f_id] = []
@@ -216,8 +221,7 @@ func _calculate_intermediate_transforms():
 			t.origin = pos #* Vector3(1, 1, scale_factor)
 			
 			# Set the mesh on ground and add some buffer for uneven grounds
-			var new_height = get_ground_height_at_pos.call(
-				center[0] + t.origin.x, center[1] - t.origin.z) + height_offset
+			var new_height = get_ground_height_at_pos.call(t.origin.x, t.origin.z) + height_offset
 			
 			if previous_height == 0.0: previous_height = new_height  # for the first iteration
 			if layer_composition.render_info.height_gradient:

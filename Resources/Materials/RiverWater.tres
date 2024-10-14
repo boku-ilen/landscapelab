@@ -1,18 +1,19 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dusetnfsxpjjc"]
 
-[ext_resource path="res://Resources/Materials/Shaders/RiverWater.gdshader" type="Shader" id=1]
-[ext_resource path="res://Resources/Textures/RiverWater/foam_noise.png" type="Texture2D" id=2]
-[ext_resource path="res://Resources/Textures/RiverWater/normal_river.png" type="Texture2D" id=3]
+[ext_resource type="Shader" path="res://Resources/Materials/Shaders/RiverWater.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://ccsd1jv8qnmtj" path="res://Resources/Textures/RiverWater/foam_noise.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://0pjx86eog740" path="res://Resources/Textures/RiverWater/normal_river.png" id="3"]
 
 [resource]
-shader = ExtResource( 1 )
+render_priority = 0
+shader = ExtResource("1")
 shader_parameter/normal_scale = 2.925
-shader_parameter/uv_scale = Vector3( 0.1, 1, 1000 )
+shader_parameter/uv_scale = Vector3(0.1, 1, 1000)
 shader_parameter/roughness = 0.527
 shader_parameter/edge_fade = 0.837
-shader_parameter/_albedo_color_near = Color( 0.27451, 0.505882, 0.615686, 1 )
-shader_parameter/_albedo_color_far = Color( 0.109804, 0.247059, 0.345098, 1 )
-shader_parameter/albedo_depth = 25.054
+shader_parameter/_albedo_color_near = Color(0.27451, 0.505882, 0.615686, 1)
+shader_parameter/_albedo_color_far = Color(0.109804, 0.247059, 0.345098, 1)
+shader_parameter/albedo_depth = 30.893
 shader_parameter/albedo_depth_curve = 0.25
 shader_parameter/transparency_clarity = 74.119
 shader_parameter/transparency_depth_curve = 0.25
@@ -25,5 +26,5 @@ shader_parameter/flow_pressure = 6.902
 shader_parameter/flow_max = 5.118
 shader_parameter/i_lod0_distance = 50.0
 shader_parameter/i_uv2_sides = 2
-shader_parameter/normal_bump_texture = ExtResource( 3 )
-shader_parameter/i_texture_foam_noise = ExtResource( 2 )
+shader_parameter/normal_bump_texture = ExtResource("3")
+shader_parameter/i_texture_foam_noise = ExtResource("2")

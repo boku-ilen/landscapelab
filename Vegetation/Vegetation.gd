@@ -7,7 +7,7 @@ extends Node
 
 
 # Width and height of the distribution picture -- increasing this may prevent repetitive patterns
-const distribution_size = 16
+const distribution_size = 64
 
 # Maximum plant height -- height values in the distribution map are interpreted to be between 0.0
 #  and this value
@@ -23,7 +23,7 @@ var paths := {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 18.0 :
+var plant_extent_factor = 12 :
 	get:
 		return plant_extent_factor
 	set(extent):
@@ -35,6 +35,7 @@ var max_extent = 1000.0
 signal new_plant_extent_factor(extent)
 
 signal new_data
+signal hcy_shift_changed(hcy_shift_vector)
 
 
 var plant_megatexture = []
@@ -120,12 +121,13 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	
 	max_extent = max_size_factor * plant_extent_factor
 	
-	emit_signal("new_data")
 	paths = {
 		"Densities": density_path,
 		"Groups": group_path,
 		"Plants": plant_path
 	}
+	
+	new_data.emit()
 
 
 # Save the current Plant and Group data to CSV files at the given locations.
@@ -356,7 +358,7 @@ var distribution_cache = {}
 #  plant instance, taking into account its min and max size.
 func generate_distribution(group: PlantGroup, max_size: float, density_class):
 	var distribution = Image.create(distribution_size, distribution_size,
-			false, Image.FORMAT_RG8)
+			false, Image.FORMAT_RGB8)
 	
 	if group.plants.size() == 0:
 		distribution.fill(Color.BLACK)
@@ -375,9 +377,8 @@ func generate_distribution(group: PlantGroup, max_size: float, density_class):
 			#  in the group's plant array).
 			var current_plant_in_group_id = 0
 			for plant in group.plants:
-				# Roll the dice weighed by the plant density. A small factor is
-				#  added because some plants never show up otherwise.
-				var roll = dice.randf_range(0.0, plant.density_ha + 800.0)
+				# Roll the dice weighed by the plant density.
+				var roll = dice.randf_range(0.0, plant.density_ha)
 				
 				if roll > highest_roll:
 					highest_roll_id = current_plant_in_group_id
@@ -389,9 +390,10 @@ func generate_distribution(group: PlantGroup, max_size: float, density_class):
 			#  (between the plant's min and max height)
 			var plant = group.plants[highest_roll_id]
 			var random_height = dice.randf_range(plant.height_min, plant.height_max)
-			var scale_factor = random_height / max_size
+			var scale_before_comma = random_height / 255.0
+			var scale_after_comma = random_height - floor(random_height)
 			
-			distribution.set_pixel(x, y, Color(plant.id / 255.0, scale_factor, 0.0, 0.0))
+			distribution.set_pixel(x, y, Color(plant.id / 255.0, scale_before_comma, scale_after_comma, 0.0))
 	
 	return distribution
 

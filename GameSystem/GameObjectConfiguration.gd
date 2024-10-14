@@ -26,6 +26,10 @@ func popup(rect: Rect2):
 	visible = true
 	position = rect.position
 	
+	# Required to get the actual UI container size - seems to take 2 frames to calculate...
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
 	if position.x > get_viewport_rect().size.x / 2.0:
 		# On the right
 		$BrickSpace.position.x = size.x
@@ -132,8 +136,11 @@ func add_configuration_option(option_name, reference, min=null, max=null, defaul
 	var label = Label.new()
 	label.text = option_name
 	var slider = preload("res://UI/CustomElements/SlideAndSpin.tscn").instantiate()
+	slider.custom_minimum_size.x = 350.0
 	slider.min_value = 1
 	slider.tick_count = max - min + 1 if min and max else 0
+	slider.is_text_editable = false
+	while slider.tick_count > 10.0: slider.tick_count /= 10.0
 	slider.step = 1
 	if min != null:
 		slider.min_value = float(min)
@@ -170,9 +177,9 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 		
 		attribute_objects_to_game_objects[attribute] = game_object
 		
-		if float(attribute_value) > 0.0:
+		if attribute_value is float or float(attribute_value) > 0.0:
 			attribute_value = "%.1f" % attribute_value
-		hbox.custom_minimum_size.x = min(attribute_value.length() + attribute.name.length(), 600.0)
+		hbox.custom_minimum_size.x = min(str(attribute_value).length() + attribute.name.length(), 600.0)
 		
 		var label1 = Label.new()
 		label1.text = attribute.name
@@ -200,6 +207,7 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 	else:
 		# Special icon
 		if attribute.icon_settings.type == "outlined":
+			# Icon with outline which is colored based on threshold values
 			if not $Entries/Attributes.has_node("OutlinedIcons"):
 				var hbox = HBoxContainer.new()
 				hbox.name = "OutlinedIcons"
@@ -217,6 +225,17 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 			icon_node.outline_color = Color(color)
 			
 			$Entries/Attributes/OutlinedIcons.add_child(icon_node)
+		elif attribute.icon_settings.type == "show_if_exceeds":
+			# Icon which only shows up if the attribute value exceeds a certain threshold
+			if not $Entries/Attributes.has_node("OutlinedIcons"):
+				var hbox = HBoxContainer.new()
+				hbox.name = "OutlinedIcons"
+				$Entries/Attributes.add_child(hbox)
+			if attribute_value >= attribute.icon_settings.threshold:
+				var icon = load(attribute.icon_settings.icon)
+				var icon_node = TextureRect.new()
+				icon_node.texture = icon
+				$Entries/Attributes/OutlinedIcons.add_child(icon_node)
 
 
 func clear_attributes():

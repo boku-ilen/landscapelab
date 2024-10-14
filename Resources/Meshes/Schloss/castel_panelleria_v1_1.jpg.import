@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://bk0vr8lnr5xyu"
+path.s3tc="res://.godot/imported/castel_panelleria_v1_1.jpg-c1587b66ae61fba0a82c0eb2b121087b.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "c7e5e2a2bac44e292b78388bea967e68"
+}
+
+[deps]
+
+source_file="res://Resources/Meshes/Schloss/castel_panelleria_v1_1.jpg"
+dest_files=["res://.godot/imported/castel_panelleria_v1_1.jpg-c1587b66ae61fba0a82c0eb2b121087b.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0
