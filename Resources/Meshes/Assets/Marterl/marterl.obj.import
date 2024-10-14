@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://4lv1tsj0t4e7"
+path="res://.godot/imported/marterl.obj-2b20970beb37324c714c2a71bd38f22f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/marterl.obj-2b20970beb37324c714c2a71bd38f22f.mesh"]
+
+source_file="res://Resources/Meshes/Assets/Marterl/marterl.obj"
+dest_files=["res://.godot/imported/marterl.obj-2b20970beb37324c714c2a71bd38f22f.mesh", "res://.godot/imported/marterl.obj-2b20970beb37324c714c2a71bd38f22f.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
