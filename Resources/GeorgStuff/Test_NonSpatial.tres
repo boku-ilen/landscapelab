@@ -1,7 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c0eb4gkym8k2h"]
-
-[ext_resource type="Shader" path="res://Resources/GeorgStuff/Test_NonSpatial.gdshader" id="1_kqbku"]
-
-[resource]
-shader = ExtResource("1_kqbku")
-shader_parameter/multiplier = 1.0

@@ -1,192 +1,95 @@
 # Set this ParentShaderUpdater (PSU) on a Node parented to a Node which has 3D Mesh & Material/Shader.
 # By pressing a button, the Parent's shader is updated from its source file.
 # Make changes to the Shader, press button to manually update or use "res_type_saved_messages" plugin for auto-update when saving.
-
-# TO DO: Rework so "current_" arrays are structs of [Material, Path=String, MaterialUsage (what is now CurrentMaterialType)]
-# TO DO: current_updatable_mats should be paths, so multiple mats using the same shader file, won't update multiple times
 extends Node
 
 var parent : Node
-var canvasitem_mat : Array[Material] # NOT YET IMPLEMENTED, MAYBE NOT NECESSARY
-var surfacemats : Array[Material] # Low priority mat: For Primitive meshes, property "material". For Array meshes, property "surface_0-n/material".
-var surfacemats_overrides: Array[Material] # Medium priority mat: For both Primitive and Array meshes, property "surface_material_override/0-n". Not available on Particles.
-var geometrymats_overrides : Array[Material] # High priority mat: Only 1, but Array for compatability, property "material_override"
-var processmats : Array[Material] # Only 1, only available on GPU particles. Only requires PSU if class ShaderMaterial (ParticleProcessMaterial itself wouldn't require PSU)
-var current_any_mats: Array[Material] # The material(s) in the highest priority slot, could be any type.
-var current_any_mats_plus_nextpasses: Array[Material] # Material(s) in the highest priority slots, plus their potential "Next Pass" materials
-var current_updatable_mats: Array[ShaderMaterial] # Final collection of type ShaderMaterial that will be updated - other types wouldn't require PSU.
-var current_updatable_mats_paths: Array[String] # Final collection of the paths for the corresponding Mats. Used by Auto-Update to check if saved Resource matches one of the handled mats.
-enum CurrentMaterialType { # Tracking which is the highest priority Material (= the one displayed and updated) and printing debugs. Not really accurate now
-	INIT = 0, # State when no update procedure has yet started
-	NO_VALIDPARENT = 1, # If PSU is parented to something that doesn't use Materials
-	NO_MAT_FOUND = 2, # No mat of any type is assigned to geo
-	NO_SHADERMAT_FOUND = 3, # Mat is assigned, but isn't of class ShaderMat
-	NO_SHADER_FOUND = 4,  # Mat is assigned and of class ShaderMat, but has no Shader assigned
-	CANVASITEM_MAT = 5, # Mat is assigned for a CanvasItem # NOT YET IMPLEMENTED, MAYBE NOT NECESSARY
-	SURFACEMAT = 6, # Low priority: property "material", only used if no SurfaceMat Override exists for that slot
-	SURFACEMAT_OVERRIDE = 7,  # Medium priority: property "surface_material_override"
-	MIXED_SURFACEMAT_PLUS_OVERRIDE = 8, # When both SurfaceMat + SurfaceMat Override are used == highest priority on Multi-Material meshes
-	GEOMETRYMAT_OVERRIDE = 9, # High priority: property "material_override"
+var geometrymat_override : Material
+var surfacemat_override: Material
+var meshmat : Material
+var current_material: ShaderMaterial # Is validated to make sure it's of type ShaderMaterial - other types wouldn't require PSU.
+enum CurrentMaterialType { # For tracking the state and printing debugs
+	NO_GEOMETRYINSTANCE3D = 0, # If PSU is parented to something that doesn't render geometry
+	NO_MAT_FOUND = 1, # No mat of any type is assigned to geo
+	NO_SHADERMAT_FOUND = 2, # Mat is assigned, but isn't of class ShaderMat
+	NO_SHADER_FOUND = 3,  # Mat is assigned and of class ShaderMat, but has no Shader assigned
+	MESHMAT = 4, # Low level priority mat: property "material"
+	SURFACEMAT_OVERRIDE = 5,  # Mid Level priority mat: property "surface_material_override"
+	GEOMETRYMAT_OVERRIDE = 6, # Highest level override: property "material_override"
 }
 var current_material_type : CurrentMaterialType
 var saved_path: String # Path of the shader that was recently saved in Editor.
+var current_path: String # Path of the shader being handled by ParentShaderUpdater. # Superfluos? Just use .
+
 
 # Checks messages in session sent via ResTypeSavedMessages for key string
 func _ready() -> void:
 	EngineDebugger.register_message_capture("res_shader_saved", _auto_update_chain)
 
-func _input(event):
-	if event.is_action_pressed("parent_shader_updater"):
-		_manual_update_chain()
-
 func _manual_update_chain() -> void:
-	if _get_current_mats_validate():
-		for index in current_updatable_mats:
-			_update_shader(index)
+	if _validate_current_material():
+		_update_shader()
 	return
 
 func _auto_update_chain(message_string: String, data: Array[String]) -> void:
 	saved_path = data[0]
-	var found_in_current_paths: int
-	if _get_current_mats_validate():
-		found_in_current_paths = _find_res_shader_saved_in_current_paths()
-		if found_in_current_paths >= 0:
-			_update_shader(current_updatable_mats[found_in_current_paths])
+	if _validate_current_material():
+		if _compare_res_shader_saved_with_current():
+			_update_shader()
 	return
 
-func _find_res_shader_saved_in_current_paths() -> int: # If saved path not found within currently handled PSU-mats, returns -1 - otherwise index of Array where the updated mat sits.
-	if saved_path not in current_updatable_mats_paths: 
-		print("PSU: Saved Shader at '", saved_path, "' not part of PSU-handled Shader(s) at '", current_updatable_mats_paths, "' -> No Update!")
-	return current_updatable_mats_paths.find(saved_path)
+func _compare_res_shader_saved_with_current() -> bool:
+	if saved_path != current_path: 
+		print("PSU: Saved Shader at '", saved_path, "' != PSU-handled Shader at '", current_path, "' -> No Update!")
+	return saved_path == current_path
 
-func _update_shader(material: Material) -> void:
-	var current_path = material.shader.resource_path
+func _update_shader() -> void:
 	var shadertext = FileAccess.open(current_path, FileAccess.READ).get_as_text()
-	material.shader.code = shadertext
-	print("PSU: On parent '", parent.name, "' updated Shader '", current_path, "'\n (for Mat '", material, "' in slot '", CurrentMaterialType.keys()[current_material_type], "'.")
+	current_material.shader.code = shadertext
+	print("PSU: On parent '", parent.name, "' updated Shader '", current_path, "'\n (for Mat '", current_material, "' in slot '", CurrentMaterialType.keys()[current_material_type], "'.")
 	return
 
-func _get_current_mats_validate() -> bool:
-	canvasitem_mat.clear()
-	surfacemats.clear()
-	surfacemats_overrides.clear()
-	geometrymats_overrides.clear()
-	processmats.clear()
-	current_any_mats.clear()
-	current_any_mats_plus_nextpasses.clear()
-	current_updatable_mats.clear()
-	current_updatable_mats_paths.clear()
-	current_material_type = CurrentMaterialType.INIT
-	
+func _validate_current_material() -> bool:
 	parent = get_parent()
-	
-	# Fail if Parent is not of following type (which could use ShaderUpdates)
-	if parent is not MeshInstance3D and \
-		parent is not MultiMeshInstance3D and \
-		parent is not GPUParticles3D and \
-		parent is not CPUParticles3D and \
-		parent is not GPUParticles2D and \
-		parent is not SpriteBase3D and \
-		parent is not FogVolume and \
-		parent is not CSGShape3D:
-		
-		current_material_type = CurrentMaterialType.NO_VALIDPARENT
-		print("PSU: NO REQUIRED CLASS AS PARENT '", parent.name, " (Class: '", parent.get_class(), "')'  -> No valid Shaders to update!")
+	if parent is not GeometryInstance3D:
+		current_material_type = CurrentMaterialType.NO_GEOMETRYINSTANCE3D
+		print("PSU: NO 3D GEOMETRY in parent '", parent.name, "'  -> Can't update Shader!")
 		return false
-		
-	# If GPUParticle2D/3D, and their ProcessMat is class ShaderMaterial, add that to to current_any_mats
-	if parent is GPUParticles3D or parent is GPUParticles2D :
-		if parent.process_material is ShaderMaterial:
-			print("PSU: On parent '", parent.name, "' detected ShaderMaterial in ProcessMaterial slot, using Shader '", parent.process_material.shader.resource_path, "'.")
-			_append_unique_mat_to_array(parent.process_material, processmats)
-			if processmats.size() > 0:
-				for index in processmats:
-					_append_unique_mat_to_array(index, current_any_mats)
 	
-	# Highest Level - Check for Geometry Mat Override - available nearly everywhere. Return True if any found (= skip any further searches).
-	if parent is not GPUParticles2D and \
-		parent is not FogVolume:
-		_append_unique_mat_to_array(parent.material_override, geometrymats_overrides)
-		if geometrymats_overrides.size() > 0:
-			for index in geometrymats_overrides:
-				_append_unique_mat_to_array(index, current_any_mats)
-			
-			if _validate_all_current_mats_chain(CurrentMaterialType.GEOMETRYMAT_OVERRIDE):
-				current_material_type = CurrentMaterialType.GEOMETRYMAT_OVERRIDE
-				return true
-		
-	# Medium Level - Check for SurfaceMat Overrides (for Primitive Meshes, different method to get them)
-	#if parent is MeshInstance3D:
-		#surfacemats_overrides = parent.get_surface_override_material(0) #  SWITCH TO LOOP
-		#if surfacemats_overrides != null:
-			#_validate_mat_for_mattype_and_shader(surfacemats_overrides, CurrentMaterialType.SURFACEMAT_OVERRIDE)
+	geometrymat_override = parent.material_override
+	surfacemat_override = parent.get_surface_override_material(0)
+	meshmat = parent.mesh.material
 	
-	# Check low-priority = SurfaceMats (for Primitive Meshes, different method to get them)		
-	#
-	#
-	#
-	
-	if parent is GPUParticles3D:
-		for index in parent.draw_passes:
-			var current_mesh = parent.get_draw_pass_mesh(index)
-			var current_mesh_surfacecount = current_mesh.get_surface_count()
-			
-			for surfaceindex in current_mesh_surfacecount:
-				var current_surface_mat = current_mesh.surface_get_material(surfaceindex)
-				_append_unique_mat_to_array(current_surface_mat, surfacemats)
+	if geometrymat_override != null:
+		return _validate_shadermaterial_and_path(geometrymat_override, CurrentMaterialType.GEOMETRYMAT_OVERRIDE)
 
-	
-	# If nothing else has triggered True yet, do a final validation
-	return _validate_all_current_mats_chain(current_material_type)
+	if surfacemat_override != null:
+		return _validate_shadermaterial_and_path(surfacemat_override, CurrentMaterialType.SURFACEMAT_OVERRIDE)
 
-
-func _append_unique_mat_to_array(material: Material, array: Array) -> bool: # returns true if material wasn't already in array
-	if material not in array:
-		array.append(material)
-	return material not in array
-
-func _validate_mat_for_mattype_and_shader(material : Material, materialtype : CurrentMaterialType) -> bool:	
-	if material is not ShaderMaterial:
-			print("PSU: NOT OF CLASS SHADERMATERIAL in Mat '", material, "' (Class: '", material.get_class(), "') in slot '", CurrentMaterialType.keys()[materialtype], "' on parent '", parent.name, "' -> Not updatable!")
-			current_material_type = CurrentMaterialType.NO_SHADERMAT_FOUND
-			return false
-	if material.shader == null:
-		print("PSU: NO SHADER ASSIGNED to Mat '", material, "' in slot '", CurrentMaterialType.keys()[materialtype], "' on parent '", parent.name, "' -> Not updatable!")
-		current_material_type = CurrentMaterialType.NO_SHADER_FOUND
-		return false
-	return true
-	
-func _validate_all_current_mats_chain(materialtype : CurrentMaterialType) -> bool:
-	# Recurse through current_any_mats to see if some of those contain other next_pass materials, append everything found to current_any_mats_plus_nextpasses array.
-	if current_any_mats.size() > 0:
-		for index in current_any_mats:
-			_append_unique_mat_to_array(index, current_any_mats_plus_nextpasses)
-			_recurse_nextpass_mat_append_to_array(index, current_any_mats_plus_nextpasses)		
-
-		# Validate then copy Materials from current_any_mats_plus_nextpasses to current_updatable_mats array.
-		if current_any_mats_plus_nextpasses.size() > 0:
-			for index in current_any_mats_plus_nextpasses:
-				if _validate_mat_for_mattype_and_shader(index, materialtype):
-					_append_unique_mat_to_array(index, current_updatable_mats)
-
-			# Final check for any mats in current_updatable_mats, write their path to String Array (for Auto Update)
-			if current_updatable_mats.size() > 0:
-				current_updatable_mats_paths.resize(current_updatable_mats.size())
-				for index in range(current_updatable_mats.size()):
-					current_updatable_mats_paths[index] = current_updatable_mats[index].shader.resource_path
-				return true
+	if meshmat != null:
+		return _validate_shadermaterial_and_path(meshmat, CurrentMaterialType.MESHMAT)
 
 	print("PSU: NO MAT OF ANY TYPE FOUND found on parent '", parent.name, "' -> Can't Update!")
 	current_material_type = CurrentMaterialType.NO_MAT_FOUND
 	return false
 
-func _recurse_nextpass_mat_append_to_array(material: Material, array: Array[Material], recursionloop: int = 1) -> void:
-	if material is ShaderMaterial or material is StandardMaterial3D or material is ORMMaterial3D:
-		var nextpass_mat : Material = material.next_pass
-		
-		if nextpass_mat != null:
-			_append_unique_mat_to_array(nextpass_mat, array)
-			print("PSU: Recursion Loop #", recursionloop, " on Mat '", material, "' to get NextPass-Mat '", nextpass_mat, "'.")
-			_recurse_nextpass_mat_append_to_array(nextpass_mat, array, recursionloop + 1)
-			
-	return
+func _validate_shadermaterial_and_path(material : Material, materialtype : CurrentMaterialType) -> bool:
+	if material.get_class() != "ShaderMaterial":
+		current_material_type = CurrentMaterialType.NO_SHADERMAT_FOUND
+		print("PSU: NOT OF TYPE SHADER_MATERIAL in Mat '", material, "' in slot '", CurrentMaterialType.keys()[materialtype], "' on parent '", parent.name, "' -> Can't Update Shader!")
+		return false
+	
+	if material.shader == null:
+		current_material_type = CurrentMaterialType.NO_SHADER_FOUND
+		print("PSU: NO SHADER ASSIGNED to Mat '", material, "' in slot '", CurrentMaterialType.keys()[materialtype], "' on parent '", parent.name, "' -> Can't Update Shader!")
+		return false
+	
+	current_material = material
+	current_material_type = materialtype
+	current_path = current_material.shader.resource_path
+	#print("PSU: On parent '", parent.name, "' found Mat '", current_material, "' in highest-priority slot '", CurrentMaterialType.keys()[materialtype], "', using this for Shader Update.")
+	return true
+
+func _input(event):
+	if event.is_action_pressed("parent_shader_updater"):
+		_manual_update_chain()
