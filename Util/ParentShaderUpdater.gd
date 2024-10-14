@@ -115,7 +115,7 @@ func _get_current_mats_validate() -> bool:
 				current_material_type = CurrentMaterialType.GEOMETRYMAT_OVERRIDE
 				return true
 		
-	# Check medium-priority = SurfaceMat Overrides (for Primitive Meshes, different method to get them)
+	# Medium Level - Check for SurfaceMat Overrides (for Primitive Meshes, different method to get them)
 	#if parent is MeshInstance3D:
 		#surfacemats_overrides = parent.get_surface_override_material(0) #  SWITCH TO LOOP
 		#if surfacemats_overrides != null:
