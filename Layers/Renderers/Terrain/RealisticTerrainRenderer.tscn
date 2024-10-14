@@ -6,7 +6,7 @@
 [ext_resource type="Material" uid="uid://kbnb4iijyt0j" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="4_dbgng"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/DetailMesh.gd" id="5_f6rbb"]
 [ext_resource type="ArrayMesh" uid="uid://ccthmcbn2sqjr" path="res://Layers/Renderers/Terrain/lod_mesh_detail_100x100_clipmap.obj" id="5_mins8"]
-[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://Util/ParentShaderUpdater_Runtime.tscn" id="6_pvbpk"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://Util/ParentShaderUpdater.tscn" id="6_pvbpk"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_2jrny"]
 viewport_path = NodePath("DecalViewport")
@@ -32,7 +32,7 @@ custom_aabb = AABB(-20, 0, -20, 40, 8000, 40)
 mesh = ExtResource("5_mins8")
 script = ExtResource("5_f6rbb")
 
-[node name="ParentShaderUpdater_AtRuntime" parent="DetailMesh" instance=ExtResource("6_pvbpk")]
+[node name="ParentShaderUpdater" parent="DetailMesh" instance=ExtResource("6_pvbpk")]
 
 [node name="Chunks" type="Node3D" parent="."]
 

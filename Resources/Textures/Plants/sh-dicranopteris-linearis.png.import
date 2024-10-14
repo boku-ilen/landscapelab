@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cq2fck75bxai1"
-path.s3tc="res://.godot/imported/roughness_metallic_emission_bundled.jpg-eb8f9df9665c72d6f581e973d15800f7.s3tc.ctex"
+uid="uid://bnxwx8ll3rhux"
+path.s3tc="res://.godot/imported/sh-dicranopteris-linearis.png-911f6b1e97a061880ae14fffcd9da557.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Resources/Textures/Barriers/Stone/roughness_metallic_emission_bundled.jpg"
-dest_files=["res://.godot/imported/roughness_metallic_emission_bundled.jpg-eb8f9df9665c72d6f581e973d15800f7.s3tc.ctex"]
+source_file="res://Resources/Textures/Plants/sh-dicranopteris-linearis.png"
+dest_files=["res://.godot/imported/sh-dicranopteris-linearis.png-911f6b1e97a061880ae14fffcd9da557.s3tc.ctex"]
 
 [params]
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="1_2ghtm"]
 [ext_resource type="PackedScene" uid="uid://b614v82srw120" path="res://UI/Layers/GeoLayers/GeoLayerSubViewport.tscn" id="2_4jb48"]
-[ext_resource type="PackedScene" uid="uid://mkaw0si7x87" path="res://UI/Layers/GeoLayers/ZoomContainer.tscn" id="3_vaqhl"]
+[ext_resource type="PackedScene" uid="uid://qg0hrece07vm" path="res://UI/Layers/GeoLayers/ZoomContainer.tscn" id="3_vaqhl"]
 [ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="7_dic5u"]
 
 [node name="GeoLayerUi" type="HSplitContainer"]
