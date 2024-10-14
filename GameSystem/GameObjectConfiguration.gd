@@ -203,6 +203,7 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 	else:
 		# Special icon
 		if attribute.icon_settings.type == "outlined":
+			# Icon with outline which is colored based on threshold values
 			if not $Entries/Attributes.has_node("OutlinedIcons"):
 				var hbox = HBoxContainer.new()
 				hbox.name = "OutlinedIcons"
@@ -220,6 +221,17 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 			icon_node.outline_color = Color(color)
 			
 			$Entries/Attributes/OutlinedIcons.add_child(icon_node)
+		elif attribute.icon_settings.type == "show_if_exceeds":
+			# Icon which only shows up if the attribute value exceeds a certain threshold
+			if not $Entries/Attributes.has_node("OutlinedIcons"):
+				var hbox = HBoxContainer.new()
+				hbox.name = "OutlinedIcons"
+				$Entries/Attributes.add_child(hbox)
+			if attribute_value >= attribute.icon_settings.threshold:
+				var icon = load(attribute.icon_settings.icon)
+				var icon_node = TextureRect.new()
+				icon_node.texture = icon
+				$Entries/Attributes/OutlinedIcons.add_child(icon_node)
 
 
 func clear_attributes():
