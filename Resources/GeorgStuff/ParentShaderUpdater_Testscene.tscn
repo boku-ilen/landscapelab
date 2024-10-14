@@ -1,12 +1,22 @@
-[gd_scene load_steps=13 format=3 uid="uid://cfi2hi23eutna"]
+[gd_scene load_steps=25 format=3 uid="uid://cfi2hi23eutna"]
 
 [ext_resource type="Material" uid="uid://2j2o2n1u42at" path="res://Resources/GeorgStuff/Test_GeoOR.tres" id="1_2bkan"]
 [ext_resource type="ArrayMesh" uid="uid://b11fg0nuolvig" path="res://Objects/Barriers/WireMesh.tres" id="1_5cw1u"]
+[ext_resource type="Material" uid="uid://dpcefd240ljwg" path="res://Resources/GeorgStuff/Test_Surface.tres" id="1_72hhq"]
 [ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://Util/ParentShaderUpdater.tscn" id="1_kv3av"]
 [ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneBike.gdshader" id="2_7vlvx"]
+[ext_resource type="Material" uid="uid://b2pys0u3qv5m1" path="res://Resources/GeorgStuff/Test_SurfaceOR.tres" id="2_hwvgu"]
 [ext_resource type="Material" uid="uid://bng2i6y7yg4j7" path="res://Resources/GeorgStuff/Test_ProcessMat.tres" id="4_xmlry"]
+[ext_resource type="Script" path="res://Layers/Renderers/Terrain/ExtraLOD.gd" id="8_sdcif"]
+[ext_resource type="Script" path="res://Layers/Renderers/LIDOverlay/LIDOverlay.gd" id="9_ofu3b"]
+
+[sub_resource type="Environment" id="Environment_sfkdv"]
+ambient_light_source = 2
+ambient_light_color = Color(0.00792405, 0.0126543, 0.0718883, 1)
+ambient_light_energy = 4.13
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_n35kj"]
+material = ExtResource("1_72hhq")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5vcfh"]
 
@@ -20,23 +30,52 @@ shader_parameter/world_uv_scaling = 0.35
 shader_parameter/outerline_width = 0.25
 shader_parameter/outerline_offset = 0.1
 
+[sub_resource type="MultiMesh" id="MultiMesh_kyim4"]
+transform_format = 1
+instance_count = 10
+mesh = ExtResource("1_5cw1u")
+buffer = PackedFloat32Array(-1.001, 0, 0, -4.28549, 0, 1.001, 0, 0, 0, 0, -1.001, -0.655015, 0, 0, -1.001, 1.47736, 0, 1.001, 0, 0, 1.001, 0, 0, -0.849853, -1.001, 0, 0, 2.23737, 0, 1.001, 0, 0, 0, 0, -1.001, -5.37458, -1.001, 0, 0, -2.73258, 0, 1.001, 0, 0, 0, 0, -1.001, -2.88786, 0, 0, -1.001, 1.45217, 0, 1.001, 0, 0, 1.001, 0, 0, 0.243591, -1.001, 0, 0, -4.29885, 0, 1.001, 0, 0, 0, 0, -1.001, 0.285982, 0, 0, -1.001, -2.3967, 0, 1.001, 0, 0, 1.001, 0, 0, -0.479305, 0, 0, -1.001, 2.15322, 0, 1.001, 0, 0, 1.001, 0, 0, -2.28358, 0, 0, -1.001, 1.66667, 0, 1.001, 0, 0, 1.001, 0, 0, -2.68583, -1.001, 0, 0, -0.260682, 0, 1.001, 0, 0, 0, 0, -1.001, -3.85443)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_fmci8"]
+material = ExtResource("1_72hhq")
+
+[sub_resource type="Gradient" id="Gradient_lgesv"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ohgbv"]
+gradient = SubResource("Gradient_lgesv")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ylc5"]
+
+[sub_resource type="Gradient" id="Gradient_ira8b"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5r6ce"]
+gradient = SubResource("Gradient_ira8b")
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_e5g6w"]
+blend_mode = 2
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xjqdk"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_e2rr5"]
 
-[sub_resource type="Environment" id="Environment_sfkdv"]
-ambient_light_source = 2
-ambient_light_color = Color(0.00792405, 0.0126543, 0.0718883, 1)
-ambient_light_energy = 4.13
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_b4m5c"]
+material = ExtResource("1_72hhq")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vvp3l"]
 
 [node name="Node3D" type="Node3D"]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sfkdv")
+
+[node name="Camera3D" type="Camera3D" parent="WorldEnvironment"]
+transform = Transform3D(0.555149, -0.266134, 0.788024, -1.49012e-08, 0.947428, 0.319968, -0.831751, -0.17763, 0.525964, 4.27553, 1.74246, 0.89538)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(0.63415, -0.699713, 0.329022, 0, 0.425527, 0.904946, -0.77321, -0.573871, 0.269848, 3.41973, 0, 0.29531)
+
 [node name="MeshInstance3D_Primitive" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.35875, 0, -2.88147)
-material_override = ExtResource("1_2bkan")
 mesh = SubResource("CapsuleMesh_n35kj")
+surface_material_override/0 = ExtResource("2_hwvgu")
 
 [node name="MeshInstance3D_ArrayMesh" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_5cw1u")
@@ -47,7 +86,12 @@ visible = false
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 process_material = SubResource("ShaderMaterial_23ph1")
 
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.32926, 0, -5.90145)
+multimesh = SubResource("MultiMesh_kyim4")
+
 [node name="CPUParticles3D_Primitive" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.08003)
 mesh = SubResource("CapsuleMesh_fmci8")
 
 [node name="CPUParticles3D_ArrayMesh" type="CPUParticles3D" parent="."]
@@ -63,34 +107,62 @@ draw_pass_2 = null
 
 [node name="ParentShaderUpdater" parent="GPUParticles3D" instance=ExtResource("1_kv3av")]
 
+[node name="Sprite3D" type="Sprite3D" parent="."]
+texture = SubResource("GradientTexture2D_ohgbv")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.908081, 0, 1.73292)
+material = ExtResource("1_72hhq")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D/CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.306107, 0, -0.381396)
+operation = 1
+material = SubResource("StandardMaterial3D_3ylc5")
+
+[node name="FogVolume" type="FogVolume" parent="."]
+material = ExtResource("1_72hhq")
+
+[node name="Decal" type="Decal" parent="."]
+visible = false
+texture_albedo = SubResource("GradientTexture2D_5r6ce")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.19561)
+visible = false
+transparency = 0.55
+pixel_size = 0.2099
+text = "Gaga"
+
 [node name="Container" type="Container" parent="."]
 material = SubResource("CanvasItemMaterial_e5g6w")
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+material = SubResource("CanvasItemMaterial_e2rr5")
+position = Vector2(28.75, 55.0764)
+scale = Vector2(58.5, 56.0764)
+mesh = SubResource("CapsuleMesh_b4m5c")
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+[node name="PlaneForMultimesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(3.99702, 0, 0, 0, 1, 0, 0, 0, 3.59238, 1.00084, 0, -7.73959)
+mesh = SubResource("PlaneMesh_vvp3l")
+skeleton = NodePath("../MultiMeshInstance3D")
 
-[node name="FogVolume" type="FogVolume" parent="."]
-material = SubResource("ShaderMaterial_xjqdk")
+[node name="ExtraLOD" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.96175)
+mesh = ExtResource("1_5cw1u")
+skeleton = NodePath("../MeshInstance3D_ArrayMesh")
+script = ExtResource("8_sdcif")
+material = ExtResource("1_72hhq")
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.71474, 0, 0.885666)
+[node name="LIDOverlay" type="MeshInstance3D" parent="ExtraLOD"]
+mesh = ExtResource("1_5cw1u")
+script = ExtResource("9_ofu3b")
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
-
-[node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.19561)
-transparency = 0.55
-pixel_size = 0.2099
-text = "Gaga"
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_sfkdv")
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.555149, -0.266134, 0.788024, -1.49012e-08, 0.947428, 0.319968, -0.831751, -0.17763, 0.525964, 4.27553, 1.74246, 0.89538)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.63415, -0.699713, 0.329021, 0, 0.425527, 0.904946, -0.77321, -0.573872, 0.269848, 3.41973, 0, 0.29531)
+[node name="SoftBody3D" type="SoftBody3D" parent="ExtraLOD/LIDOverlay"]
+mesh = ExtResource("1_5cw1u")
