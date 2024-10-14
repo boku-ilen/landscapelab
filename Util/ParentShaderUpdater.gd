@@ -6,7 +6,7 @@
 extends Node
 
 var parent : Node
-var surface_count : int # To get different SurfaceMats + Overrides on MeshInstance3Ds.
+var surface_count : int # To get multiple SurfaceMats + Overrides on MeshInstance3Ds and Particles.
 var canvasitem_mat : Array[Material] # NOT YET IMPLEMENTED, MAYBE NOT NECESSARY?
 var surfacemats : Array[Material] # Low priority mat: For Primitive meshes, property "material". For Array meshes, property "surface_0-n/material".
 var surfacemats_overrides: Array[Material] # Medium priority mat: For both Primitive and Array meshes, property "surface_material_override/0-n". Not available on Particles.
@@ -72,7 +72,7 @@ func _get_current_mats_validate() -> bool:
 	# If GPUParticle2D/3D, and their ProcessMat is class ShaderMaterial, add that to to current_any_mats
 	if parent is GPUParticles3D or parent is GPUParticles2D :
 		if parent.process_material is ShaderMaterial:
-			print("PSU: On parent '", parent.name, "' detected ShaderMaterial in ProcessMaterial slot, using Shader '", parent.process_material.shader.resource_path, "'.")
+			print("PSU: On parent '", parent.name, "' detected ShaderMaterial '", parent.process_material.resource_path.get_file(), "' in ProcessMaterial slot, using Shader '", parent.process_material.shader.resource_path, "'.")
 			_append_unique_mat_to_array(parent.process_material, processmats)
 			if processmats.size() > 0:
 				for index in processmats:
@@ -81,23 +81,31 @@ func _get_current_mats_validate() -> bool:
 	# Highest Level - Check for Geometry Mat Override - available nearly everywhere. Return True if any found (= skip any further searches).
 	if parent is not GPUParticles2D and \
 		parent is not FogVolume:
-		_append_unique_mat_to_array(parent.material_override, geometrymats_overrides)
-		if geometrymats_overrides.size() > 0:
-			for index in geometrymats_overrides:
-				_append_unique_mat_to_array(index, current_any_mats)
-			
-			if _validate_all_current_mats_chain(CurrentMaterialType.GEOMETRYMAT_OVERRIDE):
-				current_material_type = CurrentMaterialType.GEOMETRYMAT_OVERRIDE
-				return true
+		
+		if parent.material_override != null:
+			_append_unique_mat_to_array(parent.material_override, geometrymats_overrides)
+		
+			for index in geometrymats_overrides: 
+				if index != null:
+					_append_unique_mat_to_array(index, current_any_mats)
+			if current_any_mats.size() > 0: # Unnecessary check, but maybe for future compatibility
+				if _validate_all_current_mats_chain(CurrentMaterialType.GEOMETRYMAT_OVERRIDE):
+					current_material_type = CurrentMaterialType.GEOMETRYMAT_OVERRIDE
+					return true
 		
 	# Medium Level - Check for Surface Mat Overrides (only available on MeshInstance3D classes)
 	if parent is MeshInstance3D:
 		surface_count = parent.mesh.get_surface_count()
+		surfacemats_overrides.resize(surface_count)
 		print("Surface Count on MeshInstance3D '", parent.name, "': '", surface_count, "'.")
-		#surfacemats_overrides = parent.get_surface_override_material(0) #  SWITCH TO LOOP
-		#if surfacemats_overrides != null:
-			#_validate_mat_for_mattype_and_shader(surfacemats_overrides, CurrentMaterialType.SURFACEMAT_OVERRIDE)
-	
+		
+		for index in surface_count:
+			print("Surface OR Mat Index: ", index)
+			if parent.get_surface_override_material(index) != null:
+				print("Gaga")
+				#surfacemats_overrides[index] =   ## ERROR
+		print("Surface Mats Overrides Array: ", surfacemats_overrides)
+
 	# Check low-priority = SurfaceMats (for Primitive Meshes, different method to get them)		
 	#
 	#
@@ -128,18 +136,18 @@ func _recurse_nextpass_mat_append_to_array(material: Material, array: Array, rec
 		
 		if nextpass_mat != null:
 			_append_unique_mat_to_array(nextpass_mat, array)
-			print("PSU: Recursion Loop #", recursionloop, " on Mat '", material, "' to get NextPass-Mat '", nextpass_mat, "'.")
+			print("PSU: Recursion Loop #", recursionloop, " on Mat '", material.resource_path.get_file(), "' to get NextPass-Mat '", nextpass_mat.resource_path.get_file(), "'.")
 			_recurse_nextpass_mat_append_to_array(nextpass_mat, array, recursionloop + 1)
 			
 	return
 
 func _validate_mat_for_mattype_and_shader(material : Material, materialtype : CurrentMaterialType) -> bool:	
 	if material is not ShaderMaterial:
-			print("PSU: NOT OF CLASS SHADERMATERIAL in Mat '", material, "' (Class: '", material.get_class(), "') in slot '", CurrentMaterialType.keys()[materialtype], "' on parent '", parent.name, "' -> Not updatable!")
+			print("PSU: NOT OF CLASS SHADERMATERIAL in Mat '", material.resource_path.get_file(), "' (Class: '", material.get_class(), "') in slot '", CurrentMaterialType.keys()[materialtype], "' on parent '", parent.name, "' -> Not updatable!")
 			current_material_type = CurrentMaterialType.NO_SHADERMAT_FOUND
 			return false
 	if material.shader == null:
-		print("PSU: NO SHADER ASSIGNED to Mat '", material, "' in slot '", CurrentMaterialType.keys()[materialtype], "' on parent '", parent.name, "' -> Not updatable!")
+		print("PSU: NO SHADER ASSIGNED to Mat '", material.resource_path.get_file(), "' in slot '", CurrentMaterialType.keys()[materialtype], "' on parent '", parent.name, "' -> Not updatable!")
 		current_material_type = CurrentMaterialType.NO_SHADER_FOUND
 		return false
 	return true
@@ -193,5 +201,5 @@ func _update_shader(material: Material) -> void:
 	var current_path = material.shader.resource_path
 	var shadertext = FileAccess.open(current_path, FileAccess.READ).get_as_text()
 	material.shader.code = shadertext
-	print("PSU: On parent '", parent.name, "' updated Shader '", current_path, "'\n (for Mat '", material, "' in slot '", CurrentMaterialType.keys()[current_material_type], "'.")
+	print("PSU: On parent '", parent.name, "' updated Shader '", current_path, "'\n (for Mat '", material.resource_path.get_file(), "' in slot '", CurrentMaterialType.keys()[current_material_type], "')")
 	return

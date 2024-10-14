@@ -1,7 +1,8 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dpcefd240ljwg"]
 
-[ext_resource type="Shader" path="res://Resources/GeorgStuff/Test_GeoOR.gdshader" id="1_dxe46"]
+[ext_resource type="Shader" path="res://Resources/GeorgStuff/Test_Surface.gdshader" id="1_ogcpd"]
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_dxe46")
+shader = ExtResource("1_ogcpd")
+shader_parameter/multiplier = 1.0
