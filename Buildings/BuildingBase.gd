@@ -23,7 +23,7 @@ func set_metadata(metadata: Dictionary):
 
 
 # Build this building by calling "build" checked all children.
-func build():
+func build(callbacks: Array = []):
 	# To stack the floors checked top of each other, the total height must be remembered
 	var next_floor_height_offset = 0
 	
@@ -35,6 +35,9 @@ func build():
 		
 		if "height" in child:
 			next_floor_height_offset += child.height
+	
+	for callback in callbacks:
+		callback.call()
 
 
 func apply_daytime_change(is_daytime):
