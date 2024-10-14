@@ -17,7 +17,9 @@ func _ready():
 	$UI/GameObjectConfiguration.closed.connect(_on_config_closed)
 	$UI/GameObjectConfiguration.delete.connect(_on_delete_pressed)
 
-	feature.feature_changed.connect(popup, CONNECT_DEFERRED)
+	# FIXME: Previously required to update attributes - possibly not anymore with new Geodot update?
+	# https://github.com/boku-ilen/geodot-plugin/commit/bf8029d9518fc8c7600ffd52970b72961e9bec8c
+	#feature.feature_changed.connect(popup, CONNECT_DEFERRED)
 
 	go = GameSystem.get_game_object_for_geo_feature(feature)
 
