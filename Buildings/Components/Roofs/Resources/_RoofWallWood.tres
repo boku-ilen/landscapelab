@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://co7d041jl2g7r" path="res://Buildings/Components/Roofs/Resources/BrownPlanks003-2K-JPG/brown_planks_03_rough_2k.jpg" id="6_crm3c"]
 
 [resource]
+albedo_color = Color(0.43, 0.2365, 0, 1)
 albedo_texture = ExtResource("1_n2pdv")
 metallic = 1.0
 metallic_texture = ExtResource("2_dvwjs")

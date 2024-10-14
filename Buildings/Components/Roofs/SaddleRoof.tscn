@@ -1,16 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://vnjrliy3um35"]
+[gd_scene load_steps=2 format=3 uid="uid://vnjrliy3um35"]
 
 [ext_resource type="Script" path="res://Buildings/Components/Roofs/SaddleRoof.gd" id="1_uauxx"]
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_5jsx7"]
-
 [node name="SaddleRoof" type="Node3D" node_paths=PackedStringArray("roof_mesh")]
 script = ExtResource("1_uauxx")
+roof_depth = 0.15
 roof_mesh = NodePath("Roof")
 
 [node name="Roof" type="MeshInstance3D" parent="."]
 layers = 4
-
-[node name="WallFill" type="MeshInstance3D" parent="."]
-layers = 4
-mesh = SubResource("ArrayMesh_5jsx7")

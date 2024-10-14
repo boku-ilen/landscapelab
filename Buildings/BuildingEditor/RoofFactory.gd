@@ -36,8 +36,6 @@ static func prepare_roof(
 	var roof: RoofBase
 	if layer_composition.render_info is LayerComposition.BuildingRenderInfo:
 		var slope = feature.get_attribute(layer_composition.render_info.slope_attribute_name)
-		var roof = null
-	
 		var can_build_roof := false
 		
 		if check_roof_type and walls_resource.prefer_pointed_roof:

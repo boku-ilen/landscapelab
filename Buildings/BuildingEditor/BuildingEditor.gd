@@ -140,13 +140,13 @@ func build() -> void:
 	WallFactory.prepare_plain_walls(wall_type, metadata, building_base, floors)
 	
 	var roof
-
+	
 	roof = roof_type_to_scene[roof_type]
 	if roof_type == ROOF_TYPE.SADDLE and footprint.size() > 5:
 		print("Saddle roof requires 4-5 vertices")
 		roof = roof_type_to_scene[ROOF_TYPE.FALLBACK]
 	
-	roof = roof.instantiate().with_data({}, {}, {}, metadata)
+	roof = roof.instantiate().with_data(0, {}, {}, metadata)
 	roof.set_metadata(metadata)
 	building_base.roof = roof
 	roof.color = roof_color

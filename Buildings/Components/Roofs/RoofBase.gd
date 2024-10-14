@@ -5,9 +5,9 @@ class_name RoofBase
 
 @export var roof_mesh: Node3D
 
+var fid: int
 var addon_layers: Dictionary # String to GeoLayer
 var addon_objects: Dictionary # String to Object
-var addons: Dictionary
 var building_metadata: Dictionary
 
 enum TYPES {
@@ -43,14 +43,14 @@ class Edge3:
 
 # Use after instantiate as constructor
 func with_data(
+	_fid,
 	_addon_layers: Dictionary, 
-	_addon_objects: Dictionary, 
-	_addons: Dictionary, 
+	_addon_objects: Dictionary,
 	_building_metadata: Dictionary):
 	
+	fid = _fid
 	addon_layers = _addon_layers
 	addon_objects = _addon_objects
-	addons = _addons
 	building_metadata = _building_metadata
 	return self
 

@@ -114,7 +114,7 @@ func load_feature_instance(feature):
 	
 	var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
 	# Build!
-	building.build()
+	building.build([roof_surface_material_callback])
 	
 	buildings_to_refine.append(building)
 
