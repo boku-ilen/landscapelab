@@ -26,6 +26,10 @@ func popup(rect: Rect2):
 	visible = true
 	position = rect.position
 	
+	# Required to get the actual UI container size - seems to take 2 frames to calculate...
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
 	if position.x > get_viewport_rect().size.x / 2.0:
 		# On the right
 		$BrickSpace.position.x = size.x
