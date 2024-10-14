@@ -44,7 +44,7 @@ window/size/height=1080
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/debugviewer_editor/plugin.cfg")
+enabled=PackedStringArray("res://addons/debugviewer_editor/plugin.cfg", "res://addons/geodot/plugin.cfg", "res://addons/res_type_saved_messages/plugin.cfg")
 
 [filesystem]
 
@@ -393,6 +393,11 @@ save_debug_frame={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":72,"key_label":0,"unicode":104,"location":0,"echo":false,"script":null)
 ]
 }
+parent_shader_updater={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":75,"key_label":0,"unicode":107,"location":0,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -435,6 +440,10 @@ quality/main_scene="res://UI/MainUI.tscn"
 HCY_SHIFT={
 "type": "vec3",
 "value": Vector3(0, 1, 1)
+}
+CES_TERRAIN_SHIFT={
+"type": "vec3",
+"value": Vector3(1, 1, 1)
 }
 
 [xr]

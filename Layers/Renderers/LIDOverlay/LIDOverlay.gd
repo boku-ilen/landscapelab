@@ -12,9 +12,9 @@ static var removed: Signal = (func():
 	(LIDOverlay as Object).add_user_signal("removed")
 	return Signal(LIDOverlay, "removed")).call()
 
-static var changed: Signal = (func():
-	(LIDOverlay as Object).add_user_signal("changed")
-	return Signal(LIDOverlay, "changed")).call()
+static var updated: Signal = (func():
+	(LIDOverlay as Object).add_user_signal("updated")
+	return Signal(LIDOverlay, "updated")).call()
 
 
 @export var lid := 0 :
@@ -37,17 +37,17 @@ func _ready():
 
 func _enter_tree():
 	added.emit(lid)
-	changed.emit()
+	updated.emit()
 
 
 func _exit_tree():
 	removed.emit(lid)
-	changed.emit()
+	updated.emit()
 
 
 func _notification(what):
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
-		changed.emit()
+		updated.emit()
 
 
 func update_mesh_color():

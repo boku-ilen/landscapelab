@@ -1,9 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://dsajvfxo8bdwx"]
+[gd_scene load_steps=11 format=3 uid="uid://dsajvfxo8bdwx"]
 
 [ext_resource type="Script" path="res://GameSystem/GameObjectConfiguration.gd" id="1_rpnwg"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_wi86a"]
 [ext_resource type="Texture2D" uid="uid://bs6l1cbwkvg0f" path="res://Resources/Icons/ModernLandscapeLab/circle.svg" id="3_xwldb"]
 [ext_resource type="Texture2D" uid="uid://ys5warsfvwod" path="res://Resources/Icons/ModernLandscapeLab/trash.svg" id="4_8412a"]
+[ext_resource type="PackedScene" uid="uid://cbavdo1fcbs66" path="res://UI/CustomElements/OutlinedTexture.tscn" id="5_8igjy"]
+[ext_resource type="Texture2D" uid="uid://mcv2yba23t35" path="res://Resources/Icons/LabTable/marine_mammal.svg" id="6_n2ce2"]
+[ext_resource type="Texture2D" uid="uid://d338s7nvvrymw" path="res://Resources/Icons/LabTable/fish.svg" id="7_sw5vh"]
+[ext_resource type="Texture2D" uid="uid://ca3t7wykg8j7l" path="res://Resources/Icons/LabTable/turtle.svg" id="8_4lffu"]
+[ext_resource type="Texture2D" uid="uid://b1ov6mdl3s1wg" path="res://Resources/Icons/LabTable/shark.svg" id="9_u6r3p"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kq20g"]
 content_margin_left = 10.0
@@ -42,6 +47,29 @@ alignment = 2
 [node name="Attributes" type="VBoxContainer" parent="Entries"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="OutlinedIcons" type="HBoxContainer" parent="Entries/Attributes"]
+layout_mode = 2
+
+[node name="OutlinedTexture" parent="Entries/Attributes/OutlinedIcons" instance=ExtResource("5_8igjy")]
+layout_mode = 2
+texture = ExtResource("6_n2ce2")
+outline_color = Color(0.636333, 0.92, 0.46, 1)
+
+[node name="OutlinedTexture2" parent="Entries/Attributes/OutlinedIcons" instance=ExtResource("5_8igjy")]
+layout_mode = 2
+texture = ExtResource("7_sw5vh")
+outline_color = Color(0.636333, 0.92, 0.46, 1)
+
+[node name="OutlinedTexture3" parent="Entries/Attributes/OutlinedIcons" instance=ExtResource("5_8igjy")]
+layout_mode = 2
+texture = ExtResource("8_4lffu")
+outline_color = Color(0.636333, 0.92, 0.46, 1)
+
+[node name="OutlinedTexture4" parent="Entries/Attributes/OutlinedIcons" instance=ExtResource("5_8igjy")]
+layout_mode = 2
+texture = ExtResource("9_u6r3p")
+outline_color = Color(0.636333, 0.92, 0.46, 1)
 
 [node name="SpacerBottom" type="HBoxContainer" parent="Entries"]
 custom_minimum_size = Vector2(0, 20)

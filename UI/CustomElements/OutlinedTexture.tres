@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bjbkx2lcxwxw"]
+
+[ext_resource type="Shader" uid="uid://cf8dy6m313m77" path="res://UI/CustomElements/OutlineShader.tres" id="1_lddvp"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_lddvp")
+shader_parameter/color = Color(0.636333, 0.92, 0.46, 1)
+shader_parameter/border_width = 6.0

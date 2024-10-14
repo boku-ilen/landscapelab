@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8ds7fe8e4ej4"]
+
+[ext_resource type="Script" path="res://Util/HCYShift/hcy_shift.gd" id="1_612by"]
+[ext_resource type="PackedScene" uid="uid://evcqemueid18" path="res://UI/CustomElements/SlideAndSpin.tscn" id="1_acews"]
+
+[node name="HcyShift" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_612by")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Entire Project
+"
+
+[node name="Hue_SlideAndSpin" parent="." instance=ExtResource("1_acews")]
+layout_mode = 2
+label = "H:"
+min_value = -1.0
+max_value = 5.0
+step = 0.01
+value = 0.15
+
+[node name="Chroma_SlideAndSpin" parent="." instance=ExtResource("1_acews")]
+layout_mode = 2
+label = "C:"
+min_value = -1.0
+max_value = 5.0
+step = 0.01
+value = 1.0
+
+[node name="Y_SlideAndSpin" parent="." instance=ExtResource("1_acews")]
+layout_mode = 2
+label = "Y:"
+min_value = -1.0
+max_value = 5.0
+step = 0.01
+value = 1.0
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+text = "Terrain
+"
+
+[node name="Cont_SlideAndSpin" parent="." instance=ExtResource("1_acews")]
+layout_mode = 2
+label = "C:"
+min_value = -10.0
+max_value = 10.0
+step = 0.01
+value = 1.0
+
+[node name="Exp_SlideAndSpin" parent="." instance=ExtResource("1_acews")]
+layout_mode = 2
+label = "E:"
+min_value = -10.0
+max_value = 10.0
+step = 0.01
+value = 1.0
+
+[node name="Sat_SlideAndSpin" parent="." instance=ExtResource("1_acews")]
+layout_mode = 2
+label = "S:"
+min_value = -10.0
+max_value = 10.0
+step = 0.01
+value = 1.0

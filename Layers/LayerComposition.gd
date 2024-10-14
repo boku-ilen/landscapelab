@@ -105,6 +105,7 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	var surface_height_layer: GeoRasterLayer
 	var texture_layer: GeoRasterLayer
 	var landuse_layer: GeoRasterLayer
+	var water_color: Dictionary
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Terrain/RealisticTerrainRenderer.tscn")

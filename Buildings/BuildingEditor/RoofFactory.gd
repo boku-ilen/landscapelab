@@ -35,29 +35,25 @@ static func prepare_roof(
 	var roof_material = preload("res://Buildings/Components/Roofs/Resources/RoofSlate.tres")
 	var roof: RoofBase
 	if layer_composition.render_info is LayerComposition.BuildingRenderInfo:
-		var slope = feature.get_attribute(layer_composition.render_info.slope_attribute_name)		
+		var slope = feature.get_attribute(layer_composition.render_info.slope_attribute_name)
+		var roof = null
+	
 		var can_build_roof := false
-		
-		var addons = {}
-		
-		for addon_key in addon_layers.keys():
-			addons[addon_key] = addon_layers[addon_key].get_features_by_attribute_filter(
-				"build_id = %s" % [feature.get_id()])
 		
 		if check_roof_type and walls_resource.prefer_pointed_roof:
 			if feature.get_outer_vertices().size() == 5:
 				roof = saddle_roof_scene.instantiate().with_data(
+					feature.get_id(),
 					addon_layers, 
-					addon_objects, 
-					addons,
+					addon_objects,
 					building_metadata)
 				roof.set_metadata(building_metadata)
 				can_build_roof = true
 			elif util.str_to_var_or_default(slope, 35) > 15:
 				roof = pointed_roof_scene.instantiate().with_data(
+					feature.get_id(),
 					addon_layers, 
-					addon_objects, 
-					addons,
+					addon_objects,
 					building_metadata)
 				roof.set_metadata(building_metadata)
 				can_build_roof = roof.can_build(
@@ -65,9 +61,9 @@ static func prepare_roof(
 		
 		if roof == null or not can_build_roof:
 			roof = flat_roof_scene.instantiate().with_data(
+				feature.get_id(),
 				addon_layers, 
-				addon_objects, 
-				addons,
+				addon_objects,
 				building_metadata)
 
 		var color = Color(

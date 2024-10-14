@@ -5,6 +5,7 @@ class_name GameObjectAttribute
 var name := ""
 var allow_change = false
 var show_in_config = true
+var icon_settings := {}
 
 var min: float
 var max: float

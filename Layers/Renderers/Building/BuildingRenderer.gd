@@ -114,9 +114,26 @@ func load_feature_instance(feature):
 	
 	var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
 	# Build!
-	building.build([roof_surface_material_callback])
+	building.build()
 	
+	buildings_to_refine.append(building)
+
 	return building
+
+
+var buildings_to_refine = []
+
+
+func refine_load():
+	super.refine_load()
+	
+	if buildings_to_refine.size() > 0:
+		var building = buildings_to_refine.pop_back()
+		
+		if building and is_instance_valid(building) and building.get_parent() == self:
+			for child in building.get_children():
+				if "can_refine" in child and child.can_refine():
+					child.refine()
 
 
 func prepare_pillars(building_metadata: Dictionary, building: Node3D, num_floors: int):
