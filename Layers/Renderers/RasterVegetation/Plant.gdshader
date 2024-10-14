@@ -20,6 +20,7 @@ varying vec3 worldpos;
 varying vec3 camera_pos;
 
 varying float dist_id;
+varying float random_hue_shift;
 
 uniform bool is_billboard = true;
 
@@ -30,6 +31,9 @@ void vertex() {
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 
 	vec3 mesh_normal = NORMAL;
+	
+	random_hue_shift = (0.9 - texture(world_space_normal_map, worldpos.xz / 512.0).z) * 2.0;
+
 
 	// TODO: Keep the normal of non-billboard meshes?
 	NORMAL = mix(COLOR.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
@@ -101,9 +105,10 @@ void fragment() {
 		hcy.x += addition;
 		hcy.y += addition * 0.01;
 	}
-
-	hcy.g *= HCY_SHIFT.g;
-	hcy.b *= HCY_SHIFT.b;
+	
+	hcy.r += random_hue_shift;
+	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0);
+	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0);
 
 	ALBEDO = HCYtoRGB(hcy);
 
