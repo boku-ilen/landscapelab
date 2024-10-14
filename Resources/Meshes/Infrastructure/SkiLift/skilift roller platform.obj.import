@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bgutvb7s1ifmg"
+path="res://.godot/imported/skilift roller platform.obj-9d141a324b119c7d8de2b96351554ee7.mesh"
+
+[deps]
+
+files=["res://.godot/imported/skilift roller platform.obj-9d141a324b119c7d8de2b96351554ee7.mesh"]
+
+source_file="res://Resources/Meshes/Infrastructure/SkiLift/skilift roller platform.obj"
+dest_files=["res://.godot/imported/skilift roller platform.obj-9d141a324b119c7d8de2b96351554ee7.mesh", "res://.godot/imported/skilift roller platform.obj-9d141a324b119c7d8de2b96351554ee7.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
