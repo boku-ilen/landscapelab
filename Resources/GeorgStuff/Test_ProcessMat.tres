@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bng2i6y7yg4j7"]
+
+[ext_resource type="Shader" path="res://Resources/GeorgStuff/Test_SurfaceOR.gdshader" id="1_iax5d"]
+[ext_resource type="Material" uid="uid://b26nu6gpqlovf" path="res://Buildings/Components/Walls/PlainWalls.tres" id="1_pqllg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_68rtn"]
+next_pass = ExtResource("1_pqllg")
+
+[resource]
+render_priority = 0
+next_pass = SubResource("StandardMaterial3D_68rtn")
+shader = ExtResource("1_iax5d")
+shader_parameter/multiplier = 50.0
