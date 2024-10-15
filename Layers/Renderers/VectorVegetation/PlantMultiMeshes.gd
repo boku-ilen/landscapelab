@@ -8,7 +8,7 @@ var features
 var rng := RandomNumberGenerator.new()
 var initial_rng_state
 
-var refine_load_distance = 250
+var refine_load_distance = 1000
 
 var weather_manager: WeatherManager :
 	get:
