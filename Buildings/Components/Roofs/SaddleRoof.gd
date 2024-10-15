@@ -82,19 +82,18 @@ func build(footprint: PackedVector2Array):
 	# |     \ |     \ | 	# |     \ |     \ |
 	# p0------m0------p3	# v0------v2------v5
 	
-	footprint3d = footprint3d.map(func(v): return v + Vector3.UP * roof_height_correction)
 	vertices = [
 		footprint3d[0], footprint3d[1], m0, m1, footprint3d[3], footprint3d[2]
 	]
 	
 	# Create overhang over roof and scale with the extent of the building so
 	# it adequatly fits the size of the building
-	vertices[0] -= footprint3d[0].direction_to(vertices[2]) - forward #p0
-	vertices[1] -= footprint3d[1].direction_to(vertices[3]) + forward #p1
+	vertices[0] -= footprint3d[0].direction_to(vertices[2]) - forward + Vector3.DOWN * roof_height_correction#p0
+	vertices[1] -= footprint3d[1].direction_to(vertices[3]) + forward + Vector3.DOWN * roof_height_correction #p1
 	vertices[2] += forward # m0
 	vertices[3] -= forward # m1
-	vertices[4] -= footprint3d[3].direction_to(vertices[2]) - forward #p2
-	vertices[5] -= footprint3d[2].direction_to(vertices[3]) + forward #p3
+	vertices[4] -= footprint3d[3].direction_to(vertices[2]) - forward + Vector3.DOWN * roof_height_correction #p2
+	vertices[5] -= footprint3d[2].direction_to(vertices[3]) + forward + Vector3.DOWN * roof_height_correction #p3
 	
 	var vertices_ordered = [
 		vertices[0], vertices[1], vertices[3], vertices[5], vertices[4], vertices[2]
