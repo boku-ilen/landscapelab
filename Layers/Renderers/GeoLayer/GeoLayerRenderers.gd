@@ -205,7 +205,7 @@ func apply_offset(new_offset, new_viewport_size, new_zoom):
 
 
 func update_renderer_with_new_data(renderer, new_center, new_offset, new_viewport_size, new_zoom):
-	Thread.set_thread_safety_checks_enabled(false)
+	if load_data_threaded: Thread.set_thread_safety_checks_enabled(false)
 	
 	renderer.set_metadata(
 		new_center,
