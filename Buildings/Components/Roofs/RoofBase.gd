@@ -102,22 +102,26 @@ func _create_edge_meshes(
 	mesh: Mesh, 
 	_transform:=Transform3D.IDENTITY, 
 	color=null,
-	extend_factor:=1.0):
+	extend_factor:=1.0,
+	threaded=true):
 	for start_node in directed_graph:
 		for connected_node in directed_graph[start_node]:
 			var mesh_inst = MeshInstance3D.new()
 			var edge = Edge3.new(start_node, connected_node)
 			mesh_inst.mesh = mesh.duplicate()
 			
-			var mdt = MeshDataTool.new()
+			var mdt := MeshDataTool.new()
 			mdt.create_from_surface(mesh_inst.mesh, 0)
 			for i in range(mdt.get_vertex_count()):
 				mdt.set_vertex_uv(i, Vector2(mdt.get_vertex_uv(i).x, mdt.get_vertex_uv(i).y * edge.get_length() * 3.572 / 1.5))
 				if color: mdt.set_vertex_color(i, color)
 			
+			mesh_inst.mesh = ArrayMesh.new()
 			mdt.commit_to_surface(mesh_inst.mesh)
 			
-			add_child(mesh_inst)
+			if threaded: add_child.call_deferred(mesh_inst)
+			else:		 add_child(mesh_inst)
+			
 			mesh_inst.transform = edge.get_transform()
 			mesh_inst.position = edge.get_center() 
 			mesh_inst.position += _transform.origin * edge.get_transform().basis
