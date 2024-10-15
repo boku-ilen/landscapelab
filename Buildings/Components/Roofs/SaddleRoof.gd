@@ -17,6 +17,11 @@ var extent: float :
 var center := Vector2(0,0): 
 	set(new_center): center = new_center
 
+var vertices := []
+
+# Prevent the roof from intersecting with walls 
+var roof_height_correction := 0.05
+
 
 func set_metadata(metadata: Dictionary):
 	height = metadata["roof_height"]
@@ -77,18 +82,18 @@ func build(footprint: PackedVector2Array):
 	# |     \ |     \ | 	# |     \ |     \ |
 	# p0------m0------p3	# v0------v2------v5
 	
-	var vertices = [
+	vertices = [
 		footprint3d[0], footprint3d[1], m0, m1, footprint3d[3], footprint3d[2]
 	]
 	
 	# Create overhang over roof and scale with the extent of the building so
 	# it adequatly fits the size of the building
-	vertices[0] -= footprint3d[0].direction_to(vertices[2]) - forward #p0
-	vertices[1] -= footprint3d[1].direction_to(vertices[3]) + forward #p1
+	vertices[0] -= footprint3d[0].direction_to(vertices[2]) - forward + Vector3.DOWN * roof_height_correction#p0
+	vertices[1] -= footprint3d[1].direction_to(vertices[3]) + forward + Vector3.DOWN * roof_height_correction #p1
 	vertices[2] += forward # m0
 	vertices[3] -= forward # m1
-	vertices[4] -= footprint3d[3].direction_to(vertices[2]) - forward #p2
-	vertices[5] -= footprint3d[2].direction_to(vertices[3]) + forward #p3
+	vertices[4] -= footprint3d[3].direction_to(vertices[2]) - forward + Vector3.DOWN * roof_height_correction #p2
+	vertices[5] -= footprint3d[2].direction_to(vertices[3]) + forward + Vector3.DOWN * roof_height_correction #p3
 	
 	var vertices_ordered = [
 		vertices[0], vertices[1], vertices[3], vertices[5], vertices[4], vertices[2]
@@ -189,23 +194,23 @@ func build(footprint: PackedVector2Array):
 	
 	get_node("Roof").mesh = mesh
 	
+	# Save for refine
 	vertices = vertices_ordered
-	
-		# We need 2 triangles for each saddle side
-		# p1------m1------p2
-		# |\      |\      |
-		# | \     | \     |
-		# |  \    |  \    |
-		# |   \   |   \   |
-		# |    \  |    \  |
-		# |     \ |     \ |
-		# p0------m0------p3
+
+
+func refine():
+	# We need 2 triangles for each saddle side
+	# p1------m1------p2
+	# |\      |\      |
+	# | \     | \     |
+	# |  \    |  \    |
+	# |   \   |   \   |
+	# |    \  |    \  |
+	# |     \ |     \ |
+	# p0------m0------p3
 	var edges = []
 	var directed_graph = {
-		#vertices[0]: [vertices[1]],
-		#vertices[1]: [vertices[2]],
 		vertices[2]: [vertices[1], vertices[3], vertices[5]],
-		#vertices[3]: [vertices[4]],
 		vertices[4]: [vertices[5]],
 		vertices[5]: [vertices[0]]
 	}
@@ -215,6 +220,8 @@ func build(footprint: PackedVector2Array):
 		vertices[4]: [vertices[3]]
 	}
 	create_gutters(directed_graph, color)
+	
+	is_refined = true
 
 
 func _triangulate(st, vertices, uvs, idx0=0, idx1=1, idx2=2):
