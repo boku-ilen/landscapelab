@@ -172,3 +172,6 @@ func build(footprint: PackedVector2Array):
 	
 	mesh.custom_aabb = st.get_aabb()
 	get_node("MeshInstance3D").mesh = mesh
+
+
+func can_refine(): return false

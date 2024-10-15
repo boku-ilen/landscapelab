@@ -85,8 +85,6 @@ static func prepare_roof(
 		if material_candidates.size():
 			roof_material = material_candidates[hash(feature.get_id()) % material_candidates.size()]
 		
-		roof.roof_mesh.material_override = roof_material.material0
-		
 		roof.color = color
 	
 		return {"roof": roof, "material": roof_material}

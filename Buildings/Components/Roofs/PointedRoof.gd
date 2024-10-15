@@ -17,6 +17,9 @@ var center := Vector2(0,0)
 
 var uv_scale = -0.25
 
+var vertices := []
+var point_center: Vector3
+
 func set_metadata(metadata: Dictionary):
 	height = metadata["roof_height"]
 	extent = metadata["extent"]
@@ -28,7 +31,8 @@ func can_build(geo_center, geo_footprint):
 
 func build(footprint: PackedVector2Array):
 	# Get the center of the footprint by averaging out all points
-	var roof_height = height if height else min(extent / 5.0, 5.0)
+	height = height if height else min(extent / 5.0, 5.0)
+	point_center = Vector3(center.x, height, center.y)
 	
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -36,7 +40,6 @@ func build(footprint: PackedVector2Array):
 	# Generate flat normals - shaded as if round otherwise
 	st.set_smooth_group(-1)
 	
-	var point_center = Vector3(center.x, roof_height, center.y)
 	var footprint3d = Array(footprint).map(func(vert: Vector2): return Vector3(vert.x, 0, vert.y))
 	# Create overhang over roof and scale with the extent of the building so
 	# it adequatly fits the size of the building
@@ -77,12 +80,19 @@ func build(footprint: PackedVector2Array):
 	st.generate_normals()
 	st.generate_tangents()
 	
-	var graph = {
-		point_center: footprint3d
-	}
-	create_ridge_caps(graph, color)
+	# Save for refine
+	vertices = footprint3d
 	
 	# Apply
 	var mesh = st.commit()
 	mesh.custom_aabb = st.get_aabb()
 	get_node("MeshInstance3D").mesh = mesh
+
+
+func refine():
+	var graph = {
+		point_center: vertices
+	}
+	create_ridge_caps(graph, color)
+	
+	is_refined = true
