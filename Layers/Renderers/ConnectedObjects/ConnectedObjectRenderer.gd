@@ -354,7 +354,7 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 		# 3. Last point, only previous point exists
 		# 
 
-		# Case 1 or 2 
+		# Case 2 or 3
 		if previous_point != Vector3.INF:
 			try_look_at_from_pos(current_object, current_point, previous_point)
 
@@ -363,17 +363,30 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 				# Find the angle between (p_before - p_now) and (p_now - p_next)
 				var v1 = current_point - previous_point
 				var v2 = next_point - current_point
+				
+				v1.y = 0.0
+				v2.y = 0.0
+				
 				var angle = v1.signed_angle_to(v2, Vector3.UP)
 				# add this angle so its actually the mean between before and next
 				current_object.rotation.y += angle / 2
 
-		# Case 3
+		# Case 1
 		elif index+1 < engine_line.get_point_count():
-			try_look_at_from_pos(current_object, current_point, next_point)
+			var pseudo_previous = current_point - (next_point - current_point) * 2.0
+			try_look_at_from_pos(current_object, current_point, pseudo_previous)
 
 		# Only y rotation is relevant
 		current_object.rotation.x = 0
 		current_object.rotation.z = 0
+		
+		# Does the object have elements that rotate with the slant?
+		if current_object.has_node("RotatingElements"):
+			for element in current_object.get_node("RotatingElements").get_children():
+				var rotation_addition = atan((previous_point.y - next_point.y) / next_point.distance_to(previous_point))
+				if abs(abs(element.rotation.y) - PI) < 0.1: rotation_addition = -rotation_addition
+				
+				element.rotation.x += rotation_addition
 
 		previous_point = current_point
 		# Prevent error p_elem->root != this ' is true via call_deferred
