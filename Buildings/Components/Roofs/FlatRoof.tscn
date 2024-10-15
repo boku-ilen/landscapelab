@@ -5,7 +5,6 @@
 [node name="FlatRoof" type="Node3D" node_paths=PackedStringArray("roof_mesh")]
 script = ExtResource("1")
 height = 0.3
-offset = 0.2
 inset = Vector2(0.5, 0.2)
 roof_mesh = NodePath("MeshInstance3D")
 

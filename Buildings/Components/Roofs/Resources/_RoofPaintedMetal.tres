@@ -7,7 +7,7 @@
 
 [resource]
 vertex_color_use_as_albedo = true
-albedo_color = Color(0.29, 0.29, 0.29, 1)
+albedo_color = Color(0.419813, 0.419813, 0.419813, 1)
 albedo_texture = ExtResource("1_503hj")
 roughness = 0.7
 roughness_texture = ExtResource("4_ideky")

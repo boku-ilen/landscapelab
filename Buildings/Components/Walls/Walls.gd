@@ -86,7 +86,7 @@ func build(footprint: PackedVector2Array):
 		if not wind_counterclockwise:
 			# Store the texture index in the alpha value to correctly choose
 			# from the sampler2DArray
-			st.set_color(Color(color))
+			st.set_color(color.srgb_to_linear())
 			st.set_custom(0, Color(wall_idx, window_idx, 0., 0.))
 			
 			# First triangle of the wall
@@ -110,7 +110,7 @@ func build(footprint: PackedVector2Array):
 			st.add_vertex(next_point_3d)
 		else:
 			# Cast texture index to value between 0 and 1
-			st.set_color(Color(color))
+			st.set_color(color.srgb_to_linear())
 			st.set_custom(0, Color(wall_idx, window_idx, 0., 0.))
 			
 			# First triangle of the wall

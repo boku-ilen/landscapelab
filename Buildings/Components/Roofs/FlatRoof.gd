@@ -17,9 +17,9 @@ extends RoofBase
 
 const type := TYPES.FLAT
 
-@export var height := 0.25
-@export var offset := 0.25
-@export var inset := Vector2(1., 0.5)
+@export var height := 0.2
+@export var offset := 0.2
+@export var inset := Vector2(1., 0.4)
 
 var uv_scale = 0.25
 
