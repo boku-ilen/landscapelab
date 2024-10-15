@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnsskjxroy78b"]
+
+[ext_resource type="Script" path="res://Buildings/Components/Roofs/FlatRoof.gd" id="1"]
+
+[node name="FlatRoof" type="Node3D" node_paths=PackedStringArray("roof_mesh")]
+script = ExtResource("1")
+height = 0.3
+offset = 0.2
+inset = Vector2(0.5, 0.2)
+roof_mesh = NodePath("MeshInstance3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+layers = 4

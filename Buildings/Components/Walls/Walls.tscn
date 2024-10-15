@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://ba4dacxh7qiw0"]
+[gd_scene load_steps=3 format=3 uid="uid://ba4dacxh7qiw0"]
 
 [ext_resource type="Script" path="res://Buildings/Components/Walls/Walls.gd" id="1_st0pt"]
+[ext_resource type="Material" uid="uid://bpfaokrfnx65c" path="res://Buildings/Components/Walls/PlainWalls.tres" id="2_qy6v2"]
 
 [node name="Walls" type="Node3D"]
 script = ExtResource("1_st0pt")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 layers = 4
+material_override = ExtResource("2_qy6v2")

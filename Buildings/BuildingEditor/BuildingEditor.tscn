@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://b25xcigruo37a"]
+
+[ext_resource type="Script" path="res://Buildings/BuildingEditor/BuildingEditor.gd" id="1_ti8qr"]
+[ext_resource type="PackedScene" uid="uid://dl4m3ovxk1e8q" path="res://Util/Debug/Rendering/debugviewer.tscn" id="2_bqrs7"]
+[ext_resource type="Material" uid="uid://78xs57vvn0as" path="res://Buildings/Components/Roofs/Resources/_RoofWallWood.tres" id="3_xit3e"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_snt8w"]
+size = Vector3(0.2, 1, 0.2)
+
+[node name="BuildingEditor" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.407727, -4.98399, -0.664175)
+script = ExtResource("1_ti8qr")
+roof_color = Color(0.00556931, 0.0252061, 0.0482799, 1)
+roof_material_1 = ExtResource("3_xit3e")
+height = 7.395
+floors = 2
+footprint = PackedVector2Array(-5, -5, 5, -5, 5, 5, -5, 5, -5, -5)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.984046, 0.0780684, -0.159869, 0.0726743, 0.643811, 0.761726, 0.162392, -0.761192, 0.627866, 0.00564957, 9.58815, 3.07853)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.985597, 4.3919, 8.62852)
+omni_range = 15.1276
+omni_attenuation = 1.061
+
+[node name="debugviewer" parent="." instance=ExtResource("2_bqrs7")]
+
+[node name="ruler" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.95805, 7.13616, 0.0699272)
+mesh = SubResource("BoxMesh_snt8w")
