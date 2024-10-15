@@ -79,7 +79,7 @@ var lightning_frequency = "LightningFrequency:value"
 # Preconfigured weather categories
 var preconfigurations := {
 	"Clear Sky": {
-		haziness: 3,
+		haziness: 18,
 		cloud_coverage: 8,
 		cloud_density: 15,
 		wind_speed: 5,
@@ -87,7 +87,7 @@ var preconfigurations := {
 		lightning_frequency: 0
 	},
 	"Few Clouds": {
-		haziness: 10,
+		haziness: 22,
 		cloud_coverage: 15,
 		cloud_density: 50,
 		wind_speed: 15,
