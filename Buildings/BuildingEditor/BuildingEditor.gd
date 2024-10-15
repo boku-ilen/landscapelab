@@ -158,6 +158,10 @@ func build() -> void:
 		roof.roof_mesh.material_override = null
 	if roof_material_0 != null:
 		roof.roof_mesh.set_surface_override_material(0, roof_material_0)
+	
+	for child in building_base.get_children():
+		if "can_refine" in child and child.can_refine():
+			child.refine()
 
 
 func _enter_tree() -> void:

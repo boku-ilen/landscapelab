@@ -10,6 +10,8 @@ var addon_layers: Dictionary # String to GeoLayer
 var addon_objects: Dictionary # String to Object
 var building_metadata: Dictionary
 
+var is_refined: bool
+
 enum TYPES {
 	FLAT,
 	SADDLE,
@@ -53,6 +55,15 @@ func with_data(
 	addon_objects = _addon_objects
 	building_metadata = _building_metadata
 	return self
+
+# To be overwritten
+func can_refine() -> bool:
+	return not is_refined
+
+
+func refine():
+	is_refined = true
+	return
 
 
 func set_metadata(metadata):
