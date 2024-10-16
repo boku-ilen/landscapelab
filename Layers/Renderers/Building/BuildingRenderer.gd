@@ -89,7 +89,7 @@ func load_feature_instance(feature):
 	if building_type != -1:
 		WallFactory.prepare_plain_walls(building_type, building_metadata, building, num_floors)
 	else:
-		prepare_pillars(building_metadata, building, num_floors)
+		WallFactory.prepare_pillars(building_metadata, building, num_floors)
 	
 	if building_type not in range(0, WallFactory.wall_resources.size()):
 		building_type = fallback_wall_id
@@ -134,13 +134,6 @@ func refine_load():
 			for child in building.get_children():
 				if "can_refine" in child and child.can_refine():
 					child.refine()
-
-
-func prepare_pillars(building_metadata: Dictionary, building: Node3D, num_floors: int):
-	var walls_scene = load("res://Buildings/Components/Walls/Pillars.tscn").instantiate()
-	walls_scene.ground_height_at_center = building_metadata["engine_center_position"].y
-	walls_scene.floors = num_floors
-	building.add_child(walls_scene)
 
 
 func get_building_metadata(feature: GeoPolygon):

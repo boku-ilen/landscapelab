@@ -111,7 +111,8 @@ enum WALL_TYPE {
 	GREENHOUSE,
 	CONCRETE,
 	STONE,
-	MEDITERRANEAN
+	MEDITERRANEAN,
+	PILLARS
 }
 
 ## meta
@@ -125,6 +126,7 @@ var metadata = {
 func set_metadata(key, val):
 	metadata[key] = val
 	metadata["roof_height"] = height - floors * 2.5
+	metadata["engine_center_position"] = Vector3.ZERO
 
 
 var building_base
@@ -137,7 +139,10 @@ func build() -> void:
 	
 	building_base.set_metadata(metadata)
 	
-	WallFactory.prepare_plain_walls(wall_type, metadata, building_base, floors)
+	if wall_type != WALL_TYPE.PILLARS:
+		WallFactory.prepare_plain_walls(wall_type, metadata, building_base, floors)
+	else:
+		WallFactory.prepare_pillars(metadata, building_base, floors)
 	
 	var roof
 	
