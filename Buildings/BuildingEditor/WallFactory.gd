@@ -131,3 +131,10 @@ static func prepare_plain_walls(
 		if walls_resource.apply_colors & FLOOR_FLAG.TOP:
 			top_floor.set_color(wall_color)
 		building.add_child(top_floor)
+
+
+static func prepare_pillars(building_metadata: Dictionary, building: Node3D, num_floors: int):
+	var walls_scene = load("res://Buildings/Components/Walls/Pillars.tscn").instantiate()
+	walls_scene.ground_height_at_center = building_metadata["engine_center_position"].y
+	walls_scene.floors = num_floors
+	building.add_child(walls_scene)
