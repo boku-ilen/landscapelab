@@ -56,3 +56,5 @@ func build(footprint: Array):
 	instance.multimesh = mm
 	instance.material_override = material
 	call_deferred("add_child", instance)
+	
+	height = floors * floor_height
