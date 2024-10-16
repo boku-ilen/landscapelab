@@ -2,6 +2,7 @@ shader_type spatial;
 render_mode cull_disabled, depth_draw_opaque;
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
+#include "res://Util/Shading/generate_gradients_from_uvs.gdshaderinc"
 
 global uniform vec3 HCY_SHIFT;
 
@@ -31,8 +32,8 @@ void vertex() {
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 
 	vec3 mesh_normal = NORMAL;
-	
-	random_hue_shift = (0.9 - texture(world_space_normal_map, worldpos.xz / 512.0).z) * 2.0;
+
+	random_hue_shift = (0.9 - texture(world_space_normal_map, worldpos.xz / 512.0).z) * 1.6;
 
 
 	// TODO: Keep the normal of non-billboard meshes?
@@ -105,17 +106,19 @@ void fragment() {
 		hcy.x += addition;
 		hcy.y += addition * 0.01;
 	}
-	
+
 	hcy.r += random_hue_shift;
 	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0);
 	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0);
 
-	ALBEDO = HCYtoRGB(hcy);
+	ALBEDO = HCYtoRGB(hcy) * generate_darken_gradient(UV.y, 0.35, 0.66, 0.0); // Gradient is wrong here, in future should be in AO (but currently not doing much)
+	//ALBEDO = HCYtoRGB(hcy);
 
 	//NORMAL_MAP = texture(normal_map, UV).xyz;
 
 	// Other material parameters
 	//RIM = 0.4;
+	//AO = generate_darken_gradient(UV.y, 1.0, 0.6, 0.0); // Currently not doing much, because Rough + Spec are wrong. In future, use Gradient here instead of Albedo!
 	METALLIC = 0.0;
 	ROUGHNESS = 1.0;// - color.g * 0.5;
 	SPECULAR = 0.1;
