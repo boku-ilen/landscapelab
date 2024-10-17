@@ -23,6 +23,7 @@ tracker = &"right_hand"
 
 [node name="XRCamera3D" type="XRCamera3D" parent="VRViewport/XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67, 0)
+cull_mask = 949367
 current = true
 near = 0.15
 
