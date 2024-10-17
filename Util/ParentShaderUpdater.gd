@@ -57,17 +57,17 @@ func _validate_current_material() -> bool:
 		return false
 	
 	geometrymat_override = parent.material_override
-	surfacemat_override = parent.get_surface_override_material(0)
-	meshmat = parent.mesh.material
+	#surfacemat_override = parent.get_surface_override_material(0)
+	#meshmat = parent.mesh.material
 	
 	if geometrymat_override != null:
 		return _validate_shadermaterial_and_path(geometrymat_override, CurrentMaterialType.GEOMETRYMAT_OVERRIDE)
 
-	if surfacemat_override != null:
-		return _validate_shadermaterial_and_path(surfacemat_override, CurrentMaterialType.SURFACEMAT_OVERRIDE)
+	#if surfacemat_override != null:
+		#return _validate_shadermaterial_and_path(surfacemat_override, CurrentMaterialType.SURFACEMAT_OVERRIDE)
 
-	if meshmat != null:
-		return _validate_shadermaterial_and_path(meshmat, CurrentMaterialType.MESHMAT)
+	#if meshmat != null:
+		#return _validate_shadermaterial_and_path(meshmat, CurrentMaterialType.MESHMAT)
 
 	print("PSU: NO MAT OF ANY TYPE FOUND found on parent '", parent.name, "' -> Can't Update!")
 	current_material_type = CurrentMaterialType.NO_MAT_FOUND
