@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://UI/LabTable/ControlContainer.gd" id="1_7nxly"]
 [ext_resource type="PackedScene" uid="uid://qg0hrece07vm" path="res://UI/Layers/GeoLayers/ZoomContainer.tscn" id="1_pndxl"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="2_r33nv"]
-[ext_resource type="Texture2D" uid="uid://dv8p3wjnqamkh" path="res://Resources/Icons/LabTable/m_close.svg" id="3_c23in"]
+[ext_resource type="Texture2D" uid="uid://duy7cly3qvn4m" path="res://Resources/Icons/LabTable/m_overview.svg" id="3_pedwm"]
 [ext_resource type="Texture2D" uid="uid://b3rawlygno8yp" path="res://Resources/Icons/LabTable/m_up.svg" id="5_kqb6x"]
 [ext_resource type="Texture2D" uid="uid://cpap7jqaridb3" path="res://Resources/Icons/LabTable/m_left.svg" id="6_cplru"]
 [ext_resource type="Texture2D" uid="uid://bvruwujtfdrwt" path="res://Resources/Icons/LabTable/m_center.svg" id="7_643fb"]
@@ -12,12 +12,12 @@
 [ext_resource type="PackedScene" uid="uid://c80mmsavbpqyk" path="res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn" id="9_yl31i"]
 [ext_resource type="Script" path="res://UI/LabTable/OverviewCamera.gd" id="10_ksdla"]
 
-[node name="ControlContainer" type="VBoxContainer" node_paths=PackedStringArray("overview_camera", "visibility_button", "zoom_container", "grid_container", "subviewport_container", "left", "right", "up", "down", "center")]
+[node name="ControlContainer" type="VBoxContainer" node_paths=PackedStringArray("overview_camera", "overview_zoom_button", "zoom_container", "grid_container", "subviewport_container", "left", "right", "up", "down", "center")]
 offset_right = 337.0
 offset_bottom = 616.0
 script = ExtResource("1_7nxly")
 overview_camera = NodePath("OverviewContainer/SubViewport/OverviewCamera")
-visibility_button = NodePath("HBox/SetVisible")
+overview_zoom_button = NodePath("HBox/OverviewZoom")
 zoom_container = NodePath("HBox/ZoomContainer")
 grid_container = NodePath("GridContainer")
 subviewport_container = NodePath("OverviewContainer")
@@ -34,16 +34,15 @@ layout_mode = 2
 [node name="HBox" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="SetVisible" parent="HBox" instance=ExtResource("2_r33nv")]
-custom_minimum_size = Vector2(60, 60)
+[node name="OverviewZoom" parent="HBox" instance=ExtResource("2_r33nv")]
+custom_minimum_size = Vector2(90, 90)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 focus_mode = 0
-toggle_mode = true
-icon = ExtResource("3_c23in")
+icon = ExtResource("3_pedwm")
 icon_folder = "LabTable"
-texture_name = "m_close"
+texture_name = "m_overview"
 
 [node name="ZoomContainer" parent="HBox" instance=ExtResource("1_pndxl")]
 layout_direction = 0
@@ -116,7 +115,7 @@ stretch = true
 transparent_bg = true
 handle_input_locally = false
 canvas_cull_mask = 4294967294
-size = Vector2i(300, 300)
+size = Vector2i(337, 306)
 render_target_update_mode = 4
 
 [node name="OverviewRenderer" parent="OverviewContainer/SubViewport" instance=ExtResource("9_yl31i")]

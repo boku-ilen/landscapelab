@@ -11,6 +11,7 @@ extends Control
 			geo_layers.player_node = new_player
 			
 		get_parent().get_node("MarginContainer/AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").player = new_player
+		get_node("SubViewportContainer/PanelContainer/ControlContainer").player_sprite = $SubViewportContainer/SubViewport/GeoLayerRenderers/PlayerSprite
 
 @export var time_manager: TimeManager:
 	set(new_time_manager):
