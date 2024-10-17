@@ -1,17 +1,17 @@
-[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://bvyo4xfhr57p0"]
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://c8u0xhxnxwovm"]
 
-[ext_resource type="Texture2D" uid="uid://bp5jdjjmrnh4p" path="res://Buildings/Components/Roofs/Resources/Gravel/color.jpg" id="1_07um6"]
-[ext_resource type="Texture2D" uid="uid://7q67xcqtgnth" path="res://Buildings/Components/Roofs/Resources/Gravel/ao.jpg" id="2_4s1wj"]
-[ext_resource type="Texture2D" uid="uid://cuojmr7fjgc28" path="res://Buildings/Components/Roofs/Resources/Gravel/displacement.jpg" id="3_5dras"]
-[ext_resource type="Texture2D" uid="uid://sb7sm3vhm8ng" path="res://Buildings/Components/Roofs/Resources/Gravel/normal.jpg" id="4_3m1mo"]
-[ext_resource type="Texture2D" uid="uid://bigp3tnxcpwsy" path="res://Buildings/Components/Roofs/Resources/Gravel/roughness.jpg" id="5_t4ldn"]
+[ext_resource type="Texture2D" uid="uid://bp5jdjjmrnh4p" path="res://Buildings/Components/Roofs/Resources/Gravel/color.jpg" id="1_4itrv"]
+[ext_resource type="Texture2D" uid="uid://7q67xcqtgnth" path="res://Buildings/Components/Roofs/Resources/Gravel/ao.jpg" id="2_fvbvv"]
+[ext_resource type="Texture2D" uid="uid://cuojmr7fjgc28" path="res://Buildings/Components/Roofs/Resources/Gravel/displacement.jpg" id="3_s42tm"]
+[ext_resource type="Texture2D" uid="uid://sb7sm3vhm8ng" path="res://Buildings/Components/Roofs/Resources/Gravel/normal.jpg" id="4_k1dxv"]
+[ext_resource type="Texture2D" uid="uid://bigp3tnxcpwsy" path="res://Buildings/Components/Roofs/Resources/Gravel/roughness.jpg" id="5_u4ibo"]
 
 [resource]
-albedo_texture = ExtResource("1_07um6")
-roughness_texture = ExtResource("5_t4ldn")
+albedo_texture = ExtResource("1_4itrv")
+roughness_texture = ExtResource("5_u4ibo")
 normal_enabled = true
-normal_texture = ExtResource("4_3m1mo")
+normal_texture = ExtResource("4_k1dxv")
 ao_enabled = true
-ao_texture = ExtResource("2_4s1wj")
+ao_texture = ExtResource("2_fvbvv")
 heightmap_enabled = true
-heightmap_texture = ExtResource("3_5dras")
+heightmap_texture = ExtResource("3_s42tm")
