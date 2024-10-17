@@ -159,6 +159,9 @@ func build(footprint: PackedVector2Array):
 	
 	# Fill
 	var convexs = Geometry2D.decompose_polygon_in_convex(PackedVector2Array(inner_verts.map(func(vert): return Vector2(vert.x, vert.z))))
+	
+	if convexs.is_empty(): return  # The function may fail, printing "Convex decomposing failed!"
+	
 	for convex in convexs:
 		var polygon_indices = Geometry2D.triangulate_polygon(convex)
 		for index in polygon_indices:
