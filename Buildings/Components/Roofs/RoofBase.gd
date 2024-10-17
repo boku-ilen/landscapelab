@@ -119,14 +119,17 @@ func _create_edge_meshes(
 			mesh_inst.mesh = ArrayMesh.new()
 			mdt.commit_to_surface(mesh_inst.mesh)
 			
-			if threaded: add_child.call_deferred(mesh_inst)
-			else:		 add_child(mesh_inst)
-			
-			mesh_inst.transform = edge.get_transform()
-			mesh_inst.position = edge.get_center() 
-			mesh_inst.position += _transform.origin * edge.get_transform().basis
-			mesh_inst.transform.basis *= _transform.basis
-			mesh_inst.scale.z = edge.get_length() / mesh_inst.mesh.get_aabb().size.z * extend_factor
+			prepare_mesh_inst.call_deferred(mesh_inst, edge, _transform, extend_factor)
+
+
+func prepare_mesh_inst(mesh_inst, edge, _transform, extend_factor):
+	mesh_inst.transform = edge.get_transform()
+	mesh_inst.position = edge.get_center() 
+	mesh_inst.position += _transform.origin * edge.get_transform().basis
+	mesh_inst.transform.basis *= _transform.basis
+	mesh_inst.scale.z = edge.get_length() / mesh_inst.mesh.get_aabb().size.z * extend_factor
+	
+	add_child(mesh_inst)
 
 
 func create_ridge_caps(directed_graph: Dictionary, color: Color):
