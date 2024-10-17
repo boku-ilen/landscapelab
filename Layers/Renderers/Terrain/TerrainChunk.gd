@@ -33,7 +33,7 @@ var texture_layer: GeoRasterLayer
 var landuse_layer: GeoRasterLayer
 var surface_height_layer: GeoRasterLayer
 
-var mesh_to_apply
+var mesh_to_apply := low_mesh
 
 var current_heightmap
 var current_heightmap_shape
