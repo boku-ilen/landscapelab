@@ -49,14 +49,12 @@ func full_load():
 
 func adapt_load(diff):
 	super.adapt_load(diff)
-	load_data.call_deferred()
+	load_data()
 
 
 func load_data() -> void:
-	$MouseInfo/RoadInfo.hide()
-	
-	# Create dictionary for height lookup
-	_create_heightmap_dictionary()
+	## Create dictionary for height lookup
+	#_create_heightmap_dictionary()
 	
 	# Get road data from db
 	var player_position = [int(center[0] + get_parent().position_manager.center_node.position.x), int(center[1] - get_parent().position_manager.center_node.position.z)]
@@ -105,8 +103,10 @@ func _create_roads(road_features) -> void:
 			continue
 		
 		# Get point curve from feature
-		var road_curve: Curve3D = road_feature.get_offset_curve3d(-center[0], 0, -center[1])
+		var road_curve: Curve3D = road_feature.get_offset_curve3d(-center[0] - position_manager.center_node.position.x, 0, -center[1] + position_manager.center_node.position.z)
 		var road_instance: RoadInstance = _road_instance_scene.instantiate()
+		road_instance.position.x = position_manager.center_node.position.x
+		road_instance.position.z = position_manager.center_node.position.z
 		road_instance.id = road_id
 		
 		# Get road data
@@ -115,100 +115,36 @@ func _create_roads(road_features) -> void:
 		# FIXME: Could be done in a more general way
 		# We check whether this feature contains rails, because rails are
 		#  rendered in 3D -> we need heights
-		if true:#not render_3d and road_feature.get_attribute("lane_uses").contains("5,"):
-			var point_count = road_curve.get_point_count()
-			
-			var first_point = road_curve.get_point_position(0)
-			var last_point = road_curve.get_point_position(road_curve.get_point_count() - 1)
-			var length = road_curve.get_baked_length()
-			
-			var height_at_first = layer_composition.render_info.height_layer.get_value_at_position(center[0] + first_point.x, center[1] - first_point.z)
-			var height_at_last = layer_composition.render_info.height_layer.get_value_at_position(center[0] + last_point.x, center[1] - last_point.z)
-			
-			for index in range(point_count):
-				var point = road_curve.get_point_position(index)
-				var lerp_factor = first_point.distance_to(Vector3(point.x, 0.0, point.z)) / length
-				if road_feature.get_attribute("bridge") == "1":
-					point.y = lerp(height_at_first, height_at_last, lerp_factor) + 0.1
-				else:
-					point.y = get_basic_height(point)
-				road_curve.set_point_position(index, point)
+		var point_count = road_curve.get_point_count()
 		
-		if render_3d:
-			#############################
-			# SET INITIAL POINT HEIGHTS #
-			#############################
-			var point_count = road_curve.get_point_count()
-			for index in range(point_count):
-				# Make sure all roads are facing up
-				#road_curve.set_point_tilt(index, 0)
-
-				var point = road_curve.get_point_position(index)
-				point = get_triangular_interpolation_point(point, step_size)
-				road_curve.set_point_position(index, point)
-				_set_terraforming_height(point, road_width)
-			#####################################################
-			# REFINE ROAD BY ADDING MESH TRIANGLE INTERSECTIONS #
-			#####################################################
-			var current_point_index: int = 0
+		var first_point = road_curve.get_point_position(0)
+		var last_point = road_curve.get_point_position(road_curve.get_point_count() - 1)
+		var length = road_curve.get_baked_length()
+		
+		var height_at_first = layer_composition.render_info.height_layer.get_value_at_position(position_manager.center_node.position.x + center[0] + first_point.x, -position_manager.center_node.position.z + center[1] - first_point.z)
+		var height_at_last = layer_composition.render_info.height_layer.get_value_at_position(position_manager.center_node.position.x + center[0] + last_point.x, -position_manager.center_node.position.z + center[1] - last_point.z)
+		
+		var new_curve = Curve3D.new()
+		new_curve.point_count = point_count / max(1, ceil(point_count /10))
+		var current_new_point_index = 0
+		
+		for index in range(point_count):
+			var point = road_curve.get_point_position(index)
 			
-			# GO THROUGH EACH CURVE EDGE
-			for index in range(point_count - 1):
-				var current_point: Vector3 = road_curve.get_point_position(current_point_index)
-				var next_point: Vector3 = road_curve.get_point_position(current_point_index + 1)
-				
-				var x_quad_point = null
-				var z_quad_point = null
-				
-				while true:
-					# INTERSECTION WITH DIAGONAL
-					var intersection_point = QuadUtil.get_diagonal_intersection(current_point, next_point, step_size)
-					if intersection_point != null:
-						intersection_point.y = _get_height(intersection_point)
-						
-						# Add intersection to curve
-						road_curve.add_point(intersection_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
-						_set_terraforming_height(intersection_point, road_width)
-						current_point_index += 1
-					
-					# INTERSECTION WITH GRID AXES
-					# Only calculate grid point if we don't have one from last calculation
-					if x_quad_point == null:
-						x_quad_point = QuadUtil.get_horizontal_intersection(current_point, next_point, step_size)
-					
-					# Same for z
-					if z_quad_point == null:
-						z_quad_point = QuadUtil.get_vertical_intersection(current_point, next_point, step_size)
-					
-					# If no grid points, done with this curve edge
-					if x_quad_point == null && z_quad_point == null:
-						# Move to next points
-						current_point_index += 1
-						break
-					
-					# Add closest one
-					if z_quad_point == null || (x_quad_point != null && current_point.distance_squared_to(x_quad_point) <= current_point.distance_squared_to(z_quad_point)):
-						x_quad_point.y = _get_height(x_quad_point)
-						road_curve.add_point(x_quad_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
-						_set_terraforming_height(x_quad_point, road_width)
-						current_point = x_quad_point
-						x_quad_point = null
-					else:
-						z_quad_point.y = _get_height(z_quad_point)
-						road_curve.add_point(z_quad_point, Vector3.ZERO, Vector3.ZERO, current_point_index + 1)
-						_set_terraforming_height(z_quad_point, road_width)
-						current_point = z_quad_point
-						z_quad_point = null
-					
-					# Move to newly added point and start from there again
-					current_point_index += 1
-				
+			if road_feature.get_attribute("bridge") == "1":
+				var lerp_factor = first_point.distance_to(Vector3(point.x, 0.0, point.z)) / length
+				point.y = lerp(height_at_first, height_at_last, lerp_factor) + 0.1
+			else:
+				point.y = get_basic_height(point)
+			
+			road_curve.set_point_position(index, point)
+			current_new_point_index += 1
+		
 		road_instance.road_curve = road_curve
 		roads[road_id] = road_instance
 		roads_to_add[road_id] = road_instance
 		
 		road_instance.load_from_feature(road_feature)
-		road_instance.update_road_lanes()
 
 
 func _create_intersections(intersection_features) -> void:
@@ -251,6 +187,7 @@ func apply_new_data() -> void:
 	
 	# Add new roads
 	for road in roads_to_add.values():
+		road.update_road_lanes()
 		$Roads.add_child(road)
 	roads_to_add.clear()
 	
@@ -281,6 +218,9 @@ func get_triangular_interpolation_point(point: Vector3, step_size: float) -> Vec
 
 func get_basic_height(point: Vector3) -> float:
 	var coords = position_manager.to_world_coordinates(point)
+	coords.x += position_manager.center_node.position.x
+	coords.z -= position_manager.center_node.position.z
+	
 	return layer_composition.render_info.height_layer.get_value_at_position(float(coords.x), float(coords.z))
 
 
