@@ -9,6 +9,10 @@ var window_bundles = [
 	preload("res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow.tres"),
 ]
 
+# Circle through distances loading new refinments (squared distances!)
+var refine_distances := [100, 2500, 10000]
+var refined_buildings: Array[Node3D] = []
+
 # It is important to reference a wall_resource and not loading another 
 var fallback_wall_id := 1
 
@@ -128,12 +132,43 @@ func refine_load():
 	super.refine_load()
 	
 	if buildings_to_refine.size() > 0:
-		var building = buildings_to_refine.pop_back()
+		var building = buildings_to_refine.pop_front()
 		
-		if building and is_instance_valid(building) and building.get_parent() == self:
+		# No longer loaded
+		if not building or not is_instance_valid(building) or building.get_parent() != self:
+			return
+		
+		for distance in refine_distances:
+			if building.position.distance_squared_to(position_manager.center_node.position) < distance:
+				building.is_refined = true
+				for child in building.get_children():
+					if "can_refine" in child and child.can_refine():
+						child.refine()
+				
+				refined_buildings.append(building)
+		
+		if not building.is_refined:
+			buildings_to_refine.push_back(building)
+		
+		# Start undoing refinments only after all necessary instances are loaded
+		return 
+	
+	# Undo all refinments no longer in render distances
+	if refined_buildings.size() > 0:
+		var building = refined_buildings.pop_back()
+		if not building.is_refined:
+			return
+		
+		if not building or not is_instance_valid(building) or building.get_parent() != self:
+			return
+		
+		if building.position.distance_squared_to(position_manager.center_node.position) > refine_distances.back():
 			for child in building.get_children():
-				if "can_refine" in child and child.can_refine():
-					child.refine()
+				if "undo_refinment" in child:
+					child.undo_refinment()
+			return
+		
+		refined_buildings.push_back(building)
 
 
 func get_building_metadata(feature: GeoPolygon):
