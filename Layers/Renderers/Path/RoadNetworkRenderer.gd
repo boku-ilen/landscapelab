@@ -124,10 +124,6 @@ func _create_roads(road_features) -> void:
 		var height_at_first = layer_composition.render_info.height_layer.get_value_at_position(position_manager.center_node.position.x + center[0] + first_point.x, -position_manager.center_node.position.z + center[1] - first_point.z)
 		var height_at_last = layer_composition.render_info.height_layer.get_value_at_position(position_manager.center_node.position.x + center[0] + last_point.x, -position_manager.center_node.position.z + center[1] - last_point.z)
 		
-		var new_curve = Curve3D.new()
-		new_curve.point_count = point_count / max(1, ceil(point_count /10))
-		var current_new_point_index = 0
-		
 		for index in range(point_count):
 			var point = road_curve.get_point_position(index)
 			
@@ -138,7 +134,6 @@ func _create_roads(road_features) -> void:
 				point.y = get_basic_height(point)
 			
 			road_curve.set_point_position(index, point)
-			current_new_point_index += 1
 		
 		road_instance.road_curve = road_curve
 		roads[road_id] = road_instance
@@ -180,21 +175,21 @@ func apply_new_data() -> void:
 		roads.erase(road_id)
 		roads_to_delete[road_id].queue_free()
 	
-	# Delete old intersections
-	for intersection_id in intersections_to_delete.keys():
-		intersections.erase(intersection_id)
-		intersections_to_delete[intersection_id].queue_free()
+	## Delete old intersections
+	#for intersection_id in intersections_to_delete.keys():
+		#intersections.erase(intersection_id)
+		#intersections_to_delete[intersection_id].queue_free()
 	
 	# Add new roads
 	for road in roads_to_add.values():
-		road.update_road_lanes()
 		$Roads.add_child(road)
+		road.update_road_lanes()
 	roads_to_add.clear()
 	
-	# Add new intersections
-	for intersection in intersections_to_add.values():
-		$Intersections.add_child(intersection)
-	intersections_to_add.clear()
+	## Add new intersections
+	#for intersection in intersections_to_add.values():
+		#$Intersections.add_child(intersection)
+	#intersections_to_add.clear()
 
 
 # Returns the triangle surface point at the given point-position

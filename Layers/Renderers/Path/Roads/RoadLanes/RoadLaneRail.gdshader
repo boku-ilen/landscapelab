@@ -25,12 +25,12 @@ void fragment() {
 	vec3 color;
 	// Map UV to the upper face of the polygon
 	vec2 uv = UV * vec2(1.0, 8.0);
-	
+
 	vec4 railway_albedo = texture(railway_texture, uv);
 	vec4 gravel_albedo = texture(road_texture, WORLD_UV.xz);
-	
+
 	float rail_factor = 1.0 - min(1.0 - railway_albedo.a + float(uv.y > 1.0), 1.0);
-	
+
 	ALBEDO = railway_albedo.rgb * rail_factor + gravel_albedo.rgb * (1.0 - rail_factor);
 	NORMAL_MAP = texture(railway_normals, uv).xyz * rail_factor + texture(gravel_normals, WORLD_UV.xz).xyz * (1.0 - rail_factor);
 	METALLIC = texture(railway_metal, uv).x * rail_factor;
