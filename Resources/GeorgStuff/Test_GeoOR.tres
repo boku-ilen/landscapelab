@@ -1,7 +1,9 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://2j2o2n1u42at"]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://2j2o2n1u42at"]
 
+[ext_resource type="Material" uid="uid://b2pys0u3qv5m1" path="res://Resources/GeorgStuff/Test_SurfaceOR.tres" id="1_jp73t"]
 [ext_resource type="Shader" path="res://Resources/GeorgStuff/Test_GeoOR.gdshader" id="1_yppfv"]
 
 [resource]
 render_priority = 0
+next_pass = ExtResource("1_jp73t")
 shader = ExtResource("1_yppfv")

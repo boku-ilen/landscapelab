@@ -1,8 +1,10 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b2pys0u3qv5m1"]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://b2pys0u3qv5m1"]
 
 [ext_resource type="Shader" path="res://Resources/GeorgStuff/Test_SurfaceOR.gdshader" id="1_ugc28"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xn5gg"]
+
 [resource]
-render_priority = 0
+render_priority = 5
+next_pass = SubResource("StandardMaterial3D_xn5gg")
 shader = ExtResource("1_ugc28")
-shader_parameter/multiplier = 1.0
