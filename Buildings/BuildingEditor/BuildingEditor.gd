@@ -157,12 +157,13 @@ func build() -> void:
 	roof.color = roof_color
 	building_base.position = Vector3.ZERO
 	
-	building_base.build()
-	if roof_material_1 != null and roof.roof_mesh.get_surface_override_material_count() > 1:
-		roof.roof_mesh.set_surface_override_material(1, roof_material_1)
-		roof.roof_mesh.material_override = null
-	if roof_material_0 != null:
-		roof.roof_mesh.set_surface_override_material(0, roof_material_0)
+	var build_success = building_base.build()
+	if build_success:
+		if roof_material_1 != null and roof.roof_mesh.get_surface_override_material_count() > 1:
+			roof.roof_mesh.set_surface_override_material(1, roof_material_1)
+			roof.roof_mesh.material_override = null
+		if roof_material_0 != null:
+			roof.roof_mesh.set_surface_override_material(0, roof_material_0)
 	
 	for child in building_base.get_children():
 		if "can_refine" in child and child.can_refine():

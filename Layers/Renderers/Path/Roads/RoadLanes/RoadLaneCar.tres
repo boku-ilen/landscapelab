@@ -32,6 +32,7 @@ shader_parameter/innerline_length = 3.0
 shader_parameter/lanes = 2
 shader_parameter/banquet_width = null
 shader_parameter/lid_color = null
+shader_parameter/render_lid = true
 shader_parameter/road_texture = ExtResource("4_pr3vi")
 shader_parameter/damage_texture = ExtResource("4_2c0oj")
 shader_parameter/damage_overlay = ExtResource("3_1gogp")

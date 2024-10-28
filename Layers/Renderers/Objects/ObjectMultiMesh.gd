@@ -27,8 +27,8 @@ func rebuild_aabb(node):
 func override_build(center_x, center_y):
 	fresh_multimesh = MultiMesh.new()
 	
-	fresh_multimesh.mesh = object
 	fresh_multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	fresh_multimesh.mesh = object
 	
 	var top_left_x = float(center_x - size / 2)
 	var top_left_y = float(center_y + size / 2)

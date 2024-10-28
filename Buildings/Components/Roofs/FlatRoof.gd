@@ -160,7 +160,7 @@ func build(footprint: PackedVector2Array):
 	# Fill
 	var convexs = Geometry2D.decompose_polygon_in_convex(PackedVector2Array(inner_verts.map(func(vert): return Vector2(vert.x, vert.z))))
 	
-	if convexs.is_empty(): return  # The function may fail, printing "Convex decomposing failed!"
+	if convexs.is_empty(): return false # The function may fail, printing "Convex decomposing failed!"
 	
 	for convex in convexs:
 		var polygon_indices = Geometry2D.triangulate_polygon(convex)
@@ -175,6 +175,8 @@ func build(footprint: PackedVector2Array):
 	
 	mesh.custom_aabb = st.get_aabb()
 	get_node("MeshInstance3D").mesh = mesh
+	
+	return true
 
 
 func can_refine(): return false
