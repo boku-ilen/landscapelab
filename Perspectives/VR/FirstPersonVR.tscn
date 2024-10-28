@@ -15,17 +15,12 @@ render_target_update_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 222.675, 0)
 current = true
 
-[node name="LeftHand" type="XRController3D" parent="VRViewport/XROrigin3D"]
-tracker = &"left_hand"
-
-[node name="RightHand" type="XRController3D" parent="VRViewport/XROrigin3D"]
-tracker = &"right_hand"
-
 [node name="XRCamera3D" type="XRCamera3D" parent="VRViewport/XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67, 0)
 cull_mask = 949367
 current = true
 near = 0.15
+far = 17500.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_yor8u")
