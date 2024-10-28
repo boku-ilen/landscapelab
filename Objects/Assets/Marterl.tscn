@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cg3k0xu207iom"]
+
+[ext_resource type="ArrayMesh" uid="uid://cjhunklhtt6oj" path="res://Objects/Assets/Marterl.tres" id="1_k58nu"]
+
+[node name="Marterl" type="Node3D"]
+
+[node name="Marterl" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_k58nu")
