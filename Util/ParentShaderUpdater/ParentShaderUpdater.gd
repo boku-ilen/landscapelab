@@ -5,7 +5,6 @@
 extends Node
 	
 var parent : Node
-var psu := PSU_MatLib.new() ### PLACEHOLDER TO CALL THE FUNCTION. Wieso funktioniert das nicht wenn ich kein .new mach?
 var surface_count : int # To get multiple SurfaceMats + Overrides on MeshInstance3Ds and Particles.
 var canvasitem_mat : Array[Material] # NOT YET IMPLEMENTED, MAYBE NOT NECESSARY?
 var surfacemats : Array[Material] # Low priority mat: For Primitive meshes, property "material". For Array meshes, property "surface_0-n/material".
@@ -28,9 +27,9 @@ enum GetCurrentMatsProgress {
 	CANVASITEMMAT = 5, # Mat is assigned on CanvasItem # NOT YET IMPLEMENTED, MAYBE NOT NECESSARY
 	NEXTPASS_MAT = 9, # Iterating through Mats assigned in nextpass-Slots of other materials
 	VAL_INIT = 10, # Start of Validation Phase
-	VAL_ANY = 11,
-	VAL_ANY_PLUS_NEXTPASSES = 12,
-	VAL_UPDATABLE = 13,
+	VAL_ANY_MATS = 11,
+	VAL_ANY_MATS_PLUS_NEXTPASSES = 12,
+	VAL_UPDATABLE_MATS = 13,
 	SUCCESS = 20, # Found at least one updatable Mat 
 	NO_VALIDPARENT = 21, # If PSU is parented to something that can't use ShaderMaterials.
 	NO_MAT_FOUND = 22, # No mat of any type is assigned to geo.
@@ -109,7 +108,7 @@ func _get_current_mats_validate() -> bool:
 			_append_unique_mat_to_array(parent.process_material, processmats)
 			if processmats.size() > 0:
 				for index in processmats:
-					psu.convert_to_matlib_append_unique_to_array(index, PSU_MatLib.MaterialSlot.PARTICLEPROCESSMAT, parent, current_any_mats, "Current_Any_Mats")
+					PSU_MatLib.convert_to_matlib_append_unique_to_array(index, PSU_MatLib.MaterialSlot.PARTICLEPROCESSMAT, parent, current_any_mats, "Current_Any_Mats")
 	
 	
 	# Highest Level - Check for Geometry Mat Override - available nearly everywhere. Return True if any found (= skip any further searches).
@@ -121,10 +120,11 @@ func _get_current_mats_validate() -> bool:
 			
 			if parent.material_override != null:
 				_append_unique_mat_to_array(parent.material_override, geometrymats_overrides)
+				continue_get_mats_in_next_prio = false
 			
 				for index in geometrymats_overrides: 
 					if index != null:
-						psu.convert_to_matlib_append_unique_to_array(index, PSU_MatLib.MaterialSlot.GEOMETRYMAT_OVERRIDE, parent, current_any_mats, "Current_Any_Mats")
+						PSU_MatLib.convert_to_matlib_append_unique_to_array(index, PSU_MatLib.MaterialSlot.GEOMETRYMAT_OVERRIDE, parent, current_any_mats, "Current_Any_Mats")
 				if current_any_mats.size() > 0: # Unnecessary check, but maybe for future compatibility
 					if _validate_all_current_mats_chain(): ### EDGE CASE WENN ZWAR GEO OR EXISTIERT, aber nicht validated (weil Shader fehlt oder kein ShaderMaterial)
 						####
@@ -180,9 +180,9 @@ func _recurse_nextpass_mat_append_to_array(matlib: PSU_MatLib, array_matlib: Arr
 			if not mat_slot_manipulated % 2:
 				mat_slot_manipulated += 1
 			
-			var nextpass_conv_to_matlib : PSU_MatLib = psu.convert_to_matlib(nextpass_mat, mat_slot_manipulated, parent)
+			var nextpass_conv_to_matlib : PSU_MatLib = PSU_MatLib.convert_to_matlib(nextpass_mat, mat_slot_manipulated, parent)
 			print("PSU: On Parent '", parent.name, "' Recursion Loop #", recursionloop, " on Mat '", matlib.material.resource_path.get_file(), "' in slot '", matlib.MaterialSlot.keys()[matlib.material_slot], "' to get NextPass-Mat '", nextpass_mat.resource_path.get_file(), "'.")
-			psu.append_unique_matlib_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname)
+			PSU_MatLib.append_unique_matlib_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname)
 			_recurse_nextpass_mat_append_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname, recursionloop + 1)
 			
 	return
@@ -203,22 +203,23 @@ func _validate_all_current_mats_chain() -> bool:
 	
 	# Recurse through current_any_mats to see if some of those contain other next_pass materials, append everything found to current_any_mats_plus_nextpasses array.
 	if current_any_mats.size() > 0:
-		get_current_mats_progress = GetCurrentMatsProgress.VAL_ANY
+		get_current_mats_progress = GetCurrentMatsProgress.VAL_ANY_MATS
 		for index in current_any_mats:
-			psu.append_unique_matlib_to_array(index, current_any_mats_plus_nextpasses, "Current_Any_Mats_Plus_Nextpasses")
+			PSU_MatLib.append_unique_matlib_to_array(index, current_any_mats_plus_nextpasses, "Current_Any_Mats_Plus_Nextpasses")
 			_recurse_nextpass_mat_append_to_array(index, current_any_mats_plus_nextpasses, "Current_Any_Mats_Plus_Nextpasses")		
 
 		# Validate then copy Materials from current_any_mats_plus_nextpasses to current_updatable_mats array.
 		if current_any_mats_plus_nextpasses.size() > 0: ## Make this addition to Any, not union?
-			get_current_mats_progress = GetCurrentMatsProgress.VAL_ANY_PLUS_NEXTPASSES
+			get_current_mats_progress = GetCurrentMatsProgress.VAL_ANY_MATS_PLUS_NEXTPASSES
 			for index in current_any_mats_plus_nextpasses:
 				if _validate_matlib_for_mattype_and_shader(index):
-					psu.append_unique_matlib_to_array(index, current_updatable_mats, "Current_Updatable_Mats")
+					PSU_MatLib.append_unique_matlib_to_array(index, current_updatable_mats, "Current_Updatable_Mats")
 
-			# Final check for any mats in current_updatable_mats, write their path to String Array (for Auto Update)
+			## Do this in manager only once on final array, when all PSUs have sent their updatable_mats
+			## Final check for any mats in current_updatable_mats, write their path to String Array (for Auto Update)
 			if current_updatable_mats.size() > 0:
-				get_current_mats_progress = GetCurrentMatsProgress.VAL_UPDATABLE
-				psu.fill_shader_paths(current_updatable_mats, "Current_Updatable_Mats")
+				get_current_mats_progress = GetCurrentMatsProgress.VAL_UPDATABLE_MATS
+				PSU_MatLib.fill_shader_paths(current_updatable_mats, "Current_Updatable_Mats")
 				return true
 	
 	get_current_mats_progress = GetCurrentMatsProgress.NO_MAT_FOUND
@@ -231,12 +232,12 @@ func _get_matlibs_matching_shader_path(search_in_shader_path : String, array_mat
 	var matching_matlibs : Array[PSU_MatLib]
 	for index in array_matlib:
 		if search_in_shader_path == index.shader_path:
-			psu.append_unique_matlib_to_array(index, matching_matlibs, "Matching_MatLibs")
+			PSU_MatLib.append_unique_matlib_to_array(index, matching_matlibs, "Matching_MatLibs")
 	return matching_matlibs
 
 func _update_shader(matlib : PSU_MatLib) -> void:
 	var shader_text = FileAccess.open(matlib.shader_path, FileAccess.READ).get_as_text()
 	matlib.material.shader.code = shader_text
 	print("PSU: Updated Material '", matlib.material.resource_path.get_file(), "' from Shader '", matlib.shader_path, "'\n \
-	(found on parent '", matlib.source_node.name, "' in slot '", psu.MaterialSlot.keys()[matlib.material_slot], "')")
+	(found on parent '", matlib.source_node.name, "' in slot '", PSU_MatLib.MaterialSlot.keys()[matlib.material_slot], "')")
 	return
