@@ -15,6 +15,7 @@ enum MaterialSlot {
 	GEOMETRYMAT_OVERRIDE_NEXTPASS = 9, # Nextpass Mat	
 }
 
+static var debug_mode := true ## Change this to a global Debug_Mode in the future Manager!
 var material : Material # Only ShaderMaterial types are required for final Update functionality, but in between all types of materials need to be handled.
 var material_slot : MaterialSlot # In which slot the material was found
 var source_node : Node # On which Node(s) in the level this material was found
@@ -34,13 +35,14 @@ static func append_unique_matlib_to_array(matlib : PSU_MatLib, array_matlib : Ar
 	# Abort if Check via lambda (if input matlib.material already exists in input array_matlib) triggers
 	if array_matlib.filter(func(matlib_from_array): return matlib_from_array.material == matlib.material).size() > 0:
 		return false
+		
 	array_matlib.append(matlib)
-	print("PSU: Added new Mat '", matlib.material.resource_path.get_file(), "' to MatLib '", debug_arrayname, "'.")
+	if debug_mode: print("PSU: MatLib '", debug_arrayname, "' added new Mat '", matlib.material.resource_path.get_file(), "'.")
 	return true
 
 static func fill_shader_paths(array_matlib : Array[PSU_MatLib], debug_arrayname : String) -> bool:
 	if array_matlib.size() < 1:
-		print("PSU: ERROR: Targeted MatLib '", debug_arrayname, "' doesn't contain any Mats to get resource_path from!")
+		print("PSU: MatLib '", debug_arrayname, "' doesn't contain any Mats to get resource_path from!")
 		return false
 		
 	for index in array_matlib:
