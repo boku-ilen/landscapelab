@@ -26,7 +26,7 @@ signal recenter(center)
 		center.pressed.connect(func():
 			if player_sprite:
 				camera_2d.set_offset_and_emit(player_sprite.position)
-				camera_2d.set_zoom_level(16)
+				camera_2d.set_zoom_level(14)
 		)
 		overview_zoom_button.pressed.connect(func():
 			camera_2d.set_offset_and_emit(Vector2.ZERO)
