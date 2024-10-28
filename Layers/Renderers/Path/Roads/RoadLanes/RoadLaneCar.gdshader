@@ -13,7 +13,7 @@ uniform float innerline_gap = 6.0;
 uniform float innerline_length = 3.0;
 uniform int lanes = 2;
 
-uniform float banquet_width;
+uniform float banquet_width = 1.0;
 uniform vec3 lid_color: source_color;
 
 uniform bool render_lid = true;
@@ -23,7 +23,7 @@ float map_to_range(float value, float old_from, float old_to, float new_from, fl
 }
 
 void vertex() {
-	if ((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16))) {
+	if (render_lid && ((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16)))) {
 		VERTEX += NORMAL * banquet_width;
 	}
 	WORLD_UV = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz * world_uv_scaling;

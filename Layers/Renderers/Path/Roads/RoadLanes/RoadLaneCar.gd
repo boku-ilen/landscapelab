@@ -50,7 +50,7 @@ func update_road_lane() -> void:
 		0
 	))
 	
-	$RoadLanePolygon.material.set_shader_parameter("banquet_width", road_width / 6.0 if road_width > 5.0 else 0.5)
+	$RoadLanePolygon.material.set_shader_parameter("banquet_width", max(road_width / 5.0, 1.2))
 	
 	# For roads with less than 2 lanes, don't draw outer lines
 	if lane_number < 2:
