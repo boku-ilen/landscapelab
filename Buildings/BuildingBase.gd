@@ -11,6 +11,7 @@ extends Node3D
 
 var height: float
 var footprint: PackedVector2Array
+var is_refined := false
 
 var roof: RoofBase : 
 	set(new_roof): 
