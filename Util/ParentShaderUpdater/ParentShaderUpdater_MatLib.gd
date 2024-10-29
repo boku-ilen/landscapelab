@@ -32,7 +32,7 @@ static func append_unique_mat_to_array(material: Material, array: Array[Material
 static func append_unique_matlib_to_array(matlib : PSU_MatLib, array_matlib : Array[PSU_MatLib], debug_arrayname : String) -> bool:
 	# Abort if Check via lambda (if input matlib.material already exists in input array_matlib) triggers
 	if array_matlib.filter(func(matlib_from_array): return matlib_from_array.material == matlib.material).size() > 0 or \
-		matlib == null:
+		matlib == null or matlib.material == null:
 		return false
 		
 	array_matlib.append(matlib)
