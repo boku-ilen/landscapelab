@@ -4,7 +4,7 @@
 
 extends Node
 	
-var debug_mode := true
+var debug_mode := true ## Change this to a global Debug_Mode in the future Manager!
 var parent : Node
 var particleprocessmats : Array[Material] # Only 1 (Array for compatability), only available on GPU particles. Only requires PSU if class ShaderMaterial (ParticleProcessMaterial itself wouldn't require PSU).
 var geometrymats_overrides : Array[Material] # Highest priority mat: Only 1 (Array for compatability), property "material_override".
@@ -52,7 +52,6 @@ func _input(event):
 
 func _parent_is_valid_class():
 	parent = get_parent()
-	## Future TO DO: Implement for CanvasItem/2D stuff as well
 	if parent is MeshInstance3D or \
 		parent is GPUParticles3D or \
 		parent is MultiMeshInstance3D or \
@@ -80,7 +79,7 @@ func _auto_update_chain(message_string: String, data: Array[String]) -> void:
 			for index in current_updatable_mats_match_saved:
 				_update_shader(index)
 		else:
-			if debug_mode: print("PSU: Saved Shader '", saved_path, "' not part of PSU-handled Materials ->  -> Can't Update!")
+			if debug_mode: print("PSU: Saved Shader '", saved_path, "' not part of PSU-handled Materials -> Can't Update!")
 	return
 
 
@@ -110,7 +109,7 @@ func _get_current_mats_validate() -> bool:
 		get_current_mats_progress = GetCurrentMatsProgress.PARTICLEPROCESSMAT
 		
 		if parent.process_material is ShaderMaterial:
-			if debug_mode: print("PSU: Parent '", parent.name, "' found ShaderMat '", parent.process_material.resource_path.get_file(), "' in ProcessMaterial slot, using Shader '", parent.process_material.shader.resource_path, "'.")
+			if debug_mode: print("PSU: Parent '", parent.name, "': ShaderMat '", parent.process_material.resource_path.get_file(), "' in ProcessMaterial slot, using Shader '", parent.process_material.shader.resource_path, "'.")
 			PSU_MatLib.append_unique_mat_to_array(parent.process_material, particleprocessmats)
 			if particleprocessmats.size() > 0:
 				for index in particleprocessmats:
