@@ -16,7 +16,7 @@ var processmats : Array[Material] # Only 1, only available on GPU particles. Onl
 var current_any_mats : Array[PSU_MatLib] # Material(s) in the highest priority slot(s), could be any type.
 var current_any_nextpass_mats : Array[PSU_MatLib] # Material(s) that were recursively found in "next_pass" Slots of current_any_mats
 var current_updatable_mats : Array[PSU_MatLib] # Final collection of type ShaderMaterial that will be updated - other types wouldn't require PSU.
-var current_updatable_mats_matching_saved : Array[PSU_MatLib] # Collects only Mats that match the saved resource = Shader.
+var current_updatable_mats_match_saved : Array[PSU_MatLib] # Collects only Mats that match the saved resource = Shader.
 
 # Tracks at which stage of gathering current mats the func "_get_current_mats" is, and the result.
 enum GetCurrentMatsProgress {
@@ -42,12 +42,27 @@ var saved_path: String # Path of the shader that was recently saved in Editor.
 
 # Checks messages in session sent via ResTypeSavedMessages for key string.
 func _ready() -> void:
-	EngineDebugger.register_message_capture("res_shader_saved", _auto_update_chain)
+	if _parent_is_valid_class():
+		EngineDebugger.register_message_capture("res_shader_saved", _auto_update_chain)
 
 func _input(event):
 	if event.is_action_pressed("parent_shader_updater"):
 		_manual_update_chain()
 
+func _parent_is_valid_class():
+	parent = get_parent()
+	## Future TO DO: Implement for CanvasItem/2D stuff as well
+	if parent is MeshInstance3D or \
+		parent is MultiMeshInstance3D or \
+		parent is GPUParticles3D or \
+		parent is CPUParticles3D or \
+		parent is GPUParticles2D or \
+		parent is SpriteBase3D or \
+		parent is FogVolume or \
+		parent is CSGShape3D:
+		return true
+	print("PSU: NO REQUIRED CLASS AS PARENT '", parent.name, "', (Class '", parent.get_class(), "')' -> PSU doesn't belong there!")
+	return false
 
 func _manual_update_chain() -> void:
 	if _get_current_mats_validate():
@@ -58,20 +73,19 @@ func _manual_update_chain() -> void:
 func _auto_update_chain(message_string: String, data: Array[String]) -> void:
 	saved_path = data[0]
 	if _get_current_mats_validate():
-		current_updatable_mats_matching_saved = _get_matlibs_matching_shader_path(saved_path, current_updatable_mats)
-		if current_updatable_mats_matching_saved.size() > 0:
-			for index in current_updatable_mats_matching_saved:
+		current_updatable_mats_match_saved = _get_matlibs_matching_shader_path(saved_path, current_updatable_mats)
+		if current_updatable_mats_match_saved.size() > 0:
+			for index in current_updatable_mats_match_saved:
 				_update_shader(index)
 		else:
-			if debug_mode: print("PSU: Saved Shader '", saved_path, "' not part of PSU-handled Materials -> Not updatable!")
+			if debug_mode: print("PSU: Saved Shader '", saved_path, "' not part of PSU-handled Materials ->  -> Can't Update!")
 	return
 
 
 func _get_current_mats_validate() -> bool:
 	get_current_mats_progress = GetCurrentMatsProgress.INIT
 	
-	# Toogle to decide if it's necessary to dive deeper and get materials from the next-lower priority "layer".
-	var continue_get_mats_in_next_prio := true
+	var continue_get_mats_in_next_prio := true # Toogle to decide if it's necessary to dive deeper and get materials from the next-lower priority "layer".
 	parent = get_parent()
 	canvasitem_mat.clear()
 	surfacemats.clear()
@@ -81,31 +95,18 @@ func _get_current_mats_validate() -> bool:
 	current_any_mats.clear()
 	current_any_nextpass_mats.clear()
 	current_updatable_mats.clear()
-	current_updatable_mats_matching_saved.clear()
-	
-
-	
-	# Fail direclty if Parent is not of following type (which could use ShaderUpdates)
-	## Future TO DO: Implement for CanvasItem/2D stuff as well
-	if parent is not MeshInstance3D and \
-		parent is not MultiMeshInstance3D and \
-		parent is not GPUParticles3D and \
-		parent is not CPUParticles3D and \
-		parent is not GPUParticles2D and \
-		parent is not SpriteBase3D and \
-		parent is not FogVolume and \
-		parent is not CSGShape3D:
+	current_updatable_mats_match_saved.clear()
 		
+	# Fail directly if Parent is not of certain type (which could use ShaderUpdates)
+	if not _parent_is_valid_class():
 		get_current_mats_progress = GetCurrentMatsProgress.NO_VALIDPARENT
-		print("PSU: NO REQUIRED CLASS AS PARENT '", parent.name, " (Class: '", parent.get_class(), "')'  -> No valid Shaders to update!")
 		return false
 	
-	
-	# Edge Case: If GPUParticle2D/3D, and their ProcessMat is class ShaderMaterial, add that to to current_any_mats
+	# Edge Case: If GPUParticle2D/3D and ProcessMat is class ShaderMaterial, add that to to current_any_mats
 	if parent is GPUParticles3D or parent is GPUParticles2D :
 		get_current_mats_progress = GetCurrentMatsProgress.PARTICLEPROCESSMAT
 		if parent.process_material is ShaderMaterial:
-			if debug_mode: print("PSU: Parent '", parent.name, "' detected ShaderMaterial '", parent.process_material.resource_path.get_file(), "' in ProcessMaterial slot, using Shader '", parent.process_material.shader.resource_path, "'.")
+			if debug_mode: print("PSU: Parent '", parent.name, "' found ShaderMat '", parent.process_material.resource_path.get_file(), "' in ProcessMaterial slot, using Shader '", parent.process_material.shader.resource_path, "'.")
 			_append_unique_mat_to_array(parent.process_material, processmats)
 			if processmats.size() > 0:
 				for index in processmats:
@@ -170,7 +171,8 @@ func _get_current_mats_validate() -> bool:
 func _append_unique_mat_to_array(material: Material, array: Array) -> bool: # returns true if material wasn't already in array
 	if material not in array:
 		array.append(material)
-	return material not in array # Ist Blödsinn, weil es dann ja am Ende drinlandet...
+		return true
+	return false
 
 func _recurse_nextpass_mats_append_to_array(matlib: PSU_MatLib, array_matlib: Array[PSU_MatLib], debug_arrayname : String, recursionloop: int = 1 ) -> void:
 	if matlib.material is ShaderMaterial \
@@ -186,7 +188,7 @@ func _recurse_nextpass_mats_append_to_array(matlib: PSU_MatLib, array_matlib: Ar
 				mat_slot_manip += 1
 			
 			var nextpass_conv_to_matlib : PSU_MatLib = PSU_MatLib.convert_to_matlib(nextpass_mat, mat_slot_manip, parent)
-			if debug_mode: print("PSU: Parent '", parent.name, "' Recursion Loop #", recursionloop, " on Mat '", matlib.material.resource_path.get_file(), "' in slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "' to get NextPass-Mat '", nextpass_mat.resource_path.get_file(), "'.")
+			if debug_mode: print("PSU: Recursion #", recursionloop, " on Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "', Parent '", parent.name, "') got NextPass-Mat '", nextpass_mat.resource_path.get_file(), "'.")
 			PSU_MatLib.append_unique_matlib_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname)
 			_recurse_nextpass_mats_append_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname, recursionloop + 1)
 			
@@ -195,17 +197,18 @@ func _recurse_nextpass_mats_append_to_array(matlib: PSU_MatLib, array_matlib: Ar
 func _validate_matlib_for_mattype_and_shader(matlib : PSU_MatLib) -> bool:	
 	if matlib.material is not ShaderMaterial:
 			get_current_mats_progress = GetCurrentMatsProgress.NO_SHADERMAT_FOUND ## Does this make sense, when only some faulty mats trigger this?
-			if debug_mode: print("PSU: NOT OF CLASS SHADERMATERIAL in Mat '", matlib.material.resource_path.get_file(), "' (Class: '", matlib.material.get_class(), "') in slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "' on '", parent.name, "' -> Not updatable!")
+			if debug_mode: print("PSU: NOT OF CLASS SHADERMATERIAL in Mat '", matlib.material.resource_path.get_file(), "' (Class '", matlib.material.get_class(), "', Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "', Parent '", parent.name, "') -> Not updatable!")
 			return false
 	if matlib.material.shader == null:
 		get_current_mats_progress = GetCurrentMatsProgress.NO_SHADER_FOUND ## Does this make sense, when only some faulty mats set this?
-		if debug_mode: print("PSU: NO SHADER ASSIGNED to Mat '", matlib.material.resource_path.get_file(), "' in slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "' on '", parent.name, "' -> Not updatable!")
+		if debug_mode: print("PSU: NO SHADER ASSIGNED to Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "', Parent '", parent.name, "') -> Not updatable!")
 		return false
 	return true
 	
 func _validate_all_current_mats_chain() -> bool:
 	get_current_mats_progress = GetCurrentMatsProgress.VAL_INIT
 	
+	# Abort if no Mats in current_any_mats.
 	if current_any_mats.size() <= 0:
 		get_current_mats_progress = GetCurrentMatsProgress.NO_MAT_FOUND
 		print("PSU: ", GetCurrentMatsProgress.find_key(get_current_mats_progress), " on parent '", parent.name, "' -> Can't Update!")
@@ -234,18 +237,17 @@ func _validate_all_current_mats_chain() -> bool:
 	PSU_MatLib.fill_shader_paths(current_updatable_mats, "Current_Updatable_Mats")
 	return true
 
-# Returns an array of all Materials in MatLib format that match the input string (usually Saved Shader Path)
-## Auch auf Lambda umbauen!
+
+# Returns array of all Materials in MatLib format that match input string (usually Saved Shader Path)
 func _get_matlibs_matching_shader_path(search_in_shader_path : String, array_matlib : Array[PSU_MatLib]) -> Array[PSU_MatLib]:
-	var matching_matlibs : Array[PSU_MatLib]
-	for index in array_matlib:
-		if search_in_shader_path == index.shader_path:
-			PSU_MatLib.append_unique_matlib_to_array(index, matching_matlibs, "Current_Updatable_Mats_Matching_Saved")
-	return matching_matlibs
+	var matlibs_matching_saved : Array[PSU_MatLib]
+	for index in array_matlib.filter(func(matlib_from_array): return matlib_from_array.shader_path == search_in_shader_path):
+		PSU_MatLib.append_unique_matlib_to_array(index, matlibs_matching_saved, "Current_Updatable_Mats_Match_Saved")
+	return matlibs_matching_saved
 
 func _update_shader(matlib : PSU_MatLib) -> void:
 	var shader_text = FileAccess.open(matlib.shader_path, FileAccess.READ).get_as_text()
 	matlib.material.shader.code = shader_text
-	print("PSU: Updated Material '", matlib.material.resource_path.get_file(), "' from Shader '", matlib.shader_path, "'\n \
-	(found on parent '", matlib.source_node.name, "' in slot '", PSU_MatLib.MaterialSlot.find_key(matlib.material_slot), "')")
+	print("PSU: Updated Mat '", matlib.material.resource_path.get_file(), "' from Shader '", matlib.shader_path, "'\n \
+	(on '", matlib.source_node.name, "' in slot '", PSU_MatLib.MaterialSlot.find_key(matlib.material_slot), "')")
 	return

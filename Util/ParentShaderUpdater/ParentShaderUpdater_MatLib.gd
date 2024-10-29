@@ -37,12 +37,12 @@ static func append_unique_matlib_to_array(matlib : PSU_MatLib, array_matlib : Ar
 		return false
 		
 	array_matlib.append(matlib)
-	if debug_mode: print("PSU: MatLib '", debug_arrayname, "' added new Mat '", matlib.material.resource_path.get_file(), "'.")
+	if debug_mode: print("PSU: MatLib '", debug_arrayname, "' added Mat '", matlib.material.resource_path.get_file(), "'.")
 	return true
 
 static func fill_shader_paths(array_matlib : Array[PSU_MatLib], debug_arrayname : String) -> bool:
 	if array_matlib.size() < 1:
-		print("PSU: MatLib '", debug_arrayname, "' doesn't contain any Mats to get resource_path from!")
+		print("PSU: MatLib '", debug_arrayname, "' contains no Mats to get 'resource_path'!")
 		return false
 		
 	for index in array_matlib:
