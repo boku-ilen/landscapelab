@@ -118,7 +118,13 @@ func _get_current_mats_validate() -> bool:
 		
 		if parent.process_material is ShaderMaterial:
 			PSU_MatLib.append_unique_mat_to_array(parent.process_material, particleprocessmats)
-			if debug_mode: print("PSU: Parent '", parent.name, "': ShaderMat '", parent.process_material.resource_path.get_file(), "' in ProcessMaterial slot.")
+			if debug_mode:
+				var shader: String
+				if parent.process_material.shader == null:
+					shader = "NULL"
+				else:
+					shader = parent.process_material.shader.resource_path.get_file()
+				print("PSU: Parent '", parent.name, "': ShaderMat '", parent.process_material.resource_path.get_file(), "' from Shader '", shader, "' in ProcessMaterial slot.")
 			for index in particleprocessmats:
 				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.PARTICLEPROCESSMAT, parent, current_any_mats, "Current_Any_Mats")
 	

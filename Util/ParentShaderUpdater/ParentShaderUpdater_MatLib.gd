@@ -36,7 +36,11 @@ static func append_unique_matlib_to_array(matlib : PSU_MatLib, array_matlib : Ar
 		return false
 		
 	array_matlib.append(matlib)
-	if debug_mode: print("PSU: Parent '", matlib.source_node.name, "': MatLib '", debug_arrayname, "' added Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "').")
+	if debug_mode:
+		if matlib.material is ShaderMaterial and matlib.material.shader != null:
+			print("PSU: Parent '", matlib.source_node.name, "': MatLib '", debug_arrayname, "' added Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "', Shader '", matlib.material.shader.resource_path.get_file(), "')")
+		else:
+			print("PSU: Parent '", matlib.source_node.name, "': MatLib '", debug_arrayname, "' added Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "')")
 	return true
 
 static func convert_to_matlib(mat : Material, mat_slot : MaterialSlot, src_node : Node):
