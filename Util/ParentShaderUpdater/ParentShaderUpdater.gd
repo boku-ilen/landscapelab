@@ -7,10 +7,10 @@ extends Node
 var debug_mode := true ## Change this to a global Debug_Mode in the future Manager!
 var parent : Node
 var particleprocessmats : Array[Material] # Only 1 (Array for compatability), only available on GPU particles. Only requires PSU if class ShaderMaterial (ParticleProcessMaterial itself wouldn't require PSU).
+var canvasitemmats : Array[Material] # Only for materials found on CanvasItems.
 var geometrymats_overrides : Array[Material] # Highest priority mat: Only 1 (Array for compatability), property "material_override".
 var surfacemats_overrides: Array[Material] # Medium priority mat: For both Primitive and Array meshes, property "surface_material_override/0-n". Not available on Particles.
-var surfacemats : Array[Material] # Low priority mat: For Primitive meshes, property "material". For Array meshes, property "surface_0-n/material".
-var canvasitemmats : Array[Material] # Only for materials found on CanvasItems.
+var surfacemats : Array[Material] # Low priority mat: Materials from various sources (Meshes, FogVolume, Particles3D).
 
 var current_any_mats : Array[PSU_MatLib] # Collection of Material(s) found in the highest priority slot(s), could be any type.
 var current_any_nextpass_mats : Array[PSU_MatLib] # Material(s) that were recursively found in "next_pass" Slots of current_any_mats
@@ -31,13 +31,15 @@ enum GetCurrentMatsProgress {
 	VAL_ANY_NEXTPASS_MATS = 12,
 	SUCCESS = 20, # Found at least one updatable Mat 
 	NO_VALIDPARENT = 21, # If PSU is parented to something that can't use ShaderMaterials.
-	NO_MESH_FOUND = 22, # For Parents that requires a Mesh, but has none set.
+	NO_MESH_FOUND = 22, # For Parents that require a Mesh, but has none set.
 	NO_MAT_FOUND = 23, # No mat of any type is assigned to geo.
 	NO_SHADERMAT_FOUND = 24, # Mat is assigned, but isn't of class ShaderMat.
 	NO_SHADER_FOUND = 25,  # Mat is assigned and of class ShaderMat, but has no Shader assigned.
 }
 var get_current_mats_progress : GetCurrentMatsProgress
 
+var current_mesh : Mesh # Used in most 3D things, GPUParticles3D use this in a for loop - therefore it's cycling through multiple meshes
+var surface_count : int # Used in MeshInstance3Ds 
 var saved_path: String ## MOVE TO MANAGER # Path of the shader that was recently saved in Editor.
 
 # Checks messages in session sent via ResTypeSavedMessages for key string.
@@ -60,6 +62,8 @@ func _manual_update_chain() -> void:
 
 func _auto_update_chain(message_string: String, data: Array[String]) -> void:
 	saved_path = data[0]
+	current_updatable_mats_match_saved.clear()
+	
 	if _get_current_mats():
 		if _validate_all_current_mats():
 			PSU_MatLib.fill_shader_paths(current_updatable_mats, "Current_Updatable_Mats")
@@ -107,8 +111,10 @@ func _get_current_mats() -> bool:
 	
 	current_any_mats.clear()
 	current_any_nextpass_mats.clear()
-	current_updatable_mats.clear()
-	current_updatable_mats_match_saved.clear()
+	
+	surface_count = -1
+	current_mesh = null
+
 		
 	# Fail directly if Parent is not of certain type (which could use ShaderUpdates)
 	if not _parent_is_valid_class():
@@ -119,7 +125,7 @@ func _get_current_mats() -> bool:
 	if parent is GPUParticles3D or parent is GPUParticles2D:
 		_set_get_current_mats_progress(GetCurrentMatsProgress.GET_PARTICLEPROCESSMAT)
 		
-		if parent.process_material is ShaderMaterial:
+		if parent.process_material is ShaderMaterial: ## Rework so it fits the rest
 			PSU_MatLib.append_unique_mat_to_array(parent.process_material, particleprocessmats)
 			if debug_mode:
 				var shader: String
@@ -131,7 +137,7 @@ func _get_current_mats() -> bool:
 			for index in particleprocessmats:
 				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.PARTICLEPROCESSMAT, parent, current_any_mats, "Current_Any_Mats")
 	
-	# CanvasItem Mats, potentially skips any further searches by setting continue_get_mats (which is not ideal).
+	# CanvasItem Mats (also Particles2D classes!), potentially skips any further searches by setting continue_get_mats (which is not ideal).
 	if parent is CanvasItem:
 		_set_get_current_mats_progress(GetCurrentMatsProgress.GET_CANVASITEMMAT)
 		continue_get_mats_in_next_prio = false
@@ -147,6 +153,7 @@ func _get_current_mats() -> bool:
 		parent is not FogVolume:
 		_set_get_current_mats_progress(GetCurrentMatsProgress.GET_GEOMETRYMAT_OVERRIDE)
 		
+		# If valid GeometryMat Override was found, append it to current_any_mats and skip getting of lower levels.
 		if parent.material_override != null:
 			continue_get_mats_in_next_prio = false
 			PSU_MatLib.append_unique_mat_to_array(parent.material_override, geometrymats_overrides)
@@ -156,38 +163,65 @@ func _get_current_mats() -> bool:
 	# Medium Level - Check for Surface Mat Overrides (only available on MeshInstance3D)
 	if continue_get_mats_in_next_prio and parent is MeshInstance3D:
 		_set_get_current_mats_progress(GetCurrentMatsProgress.GET_SURFACEMAT_OVERRIDE)
+		current_mesh = parent.mesh
 		
-		if not _mesh_is_valid(parent.mesh):
+		if not _mesh_is_valid(current_mesh):
 			_set_get_current_mats_progress(GetCurrentMatsProgress.NO_MESH_FOUND)
-			# Potentially dangerous return, because skips validation, but MeshInstance3D that executed this far shouldn't have any valid materials.
+			# Potentially dangerous return, because skips validation, but MeshInstance3D without mesh that executed this far shouldn't have any valid materials.
 			return false
 			
-		var surface_count : int
+		
 		surface_count = parent.mesh.get_surface_count()
 		surfacemats_overrides.resize(surface_count)
 		if debug_mode: print("PSU: Parent '", parent.name, "': SurfaceCount '", surface_count, "'.")
 		
 		for index in surface_count:
-			if parent.get_surface_override_material(index) != null: # Required this way, because copying Nulls over to array later don't count as "real nulls"...
+			if parent.get_surface_override_material(index) != null: # Required this way, because copying Nulls over to array later doesn't count as "real nulls"...
 				surfacemats_overrides[index] = parent.get_surface_override_material(index)
 		if debug_mode: print("PSU: Parent '", parent.name, "': SurfaceMats Overrides ", _generate_filename_array_from_obj_array(surfacemats_overrides), ".")
 		
-		# If all surface overrides are filled (no lower level mats required), add those to current_any_mats and skip next level.
+		# If all surface overrides are filled (no lower level mats required), append those to current_any_mats and skip lower levels.
 		if not null in surfacemats_overrides:
 			continue_get_mats_in_next_prio = false
 			for index in surfacemats_overrides:
 				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.SURFACEMAT_OVERRIDE, parent, current_any_mats, "Current_Any_Mats")
 	
-	# Low Level = SurfaceMats (Lots of different methods to get them)
-	if continue_get_mats_in_next_prio:
+	# Low Level = SurfaceMats (different methods to get them)
+	if continue_get_mats_in_next_prio and \
+		(parent is MeshInstance3D or
+		parent is MultiMeshInstance3D or 
+		parent is CPUParticles3D or
+		parent is GPUParticles3D or
+		parent is FogVolume or
+		parent is CSGPrimitive3D):
 		_set_get_current_mats_progress(GetCurrentMatsProgress.GET_SURFACEMAT)
+		var check_next_class_type := true
 		
-		if parent is GPUParticles3D:
+		if check_next_class_type and \
+			(parent is MeshInstance3D or parent is CPUParticles3D or parent is MultiMeshInstance3D):
+			check_next_class_type = false
+			
+			if parent is MultiMeshInstance3D:
+				current_mesh = parent.multimesh.mesh
+			else: current_mesh = parent.mesh
+			
+			if not _mesh_is_valid(current_mesh):
+				_set_get_current_mats_progress(GetCurrentMatsProgress.NO_MESH_FOUND)
+				return false
+				
+			var current_mesh_surfacecount = current_mesh.get_surface_count()
+			for index in current_mesh_surfacecount:
+				var current_surface_mat = current_mesh.surface_get_material(index)
+				PSU_MatLib.append_unique_mat_to_array(current_surface_mat, surfacemats)
+				
+		if check_next_class_type and parent is GPUParticles3D:
+			check_next_class_type = false
 			var has_min_1_valid_mesh := false
+			
 			for index in parent.draw_passes:
-				var current_mesh = parent.get_draw_pass_mesh(index)
+				current_mesh = parent.get_draw_pass_mesh(index)
 				if current_mesh == null:
-					print("PSU: Parent '", parent.name, "': DrawPass '", index, "' contains no valid Mesh!")
+					print("PSU: Parent '", parent.name, "': DrawPass '", index+1, "' contains no valid Mesh!")
 					continue
 				
 				has_min_1_valid_mesh = true
@@ -196,16 +230,22 @@ func _get_current_mats() -> bool:
 					var current_surface_mat = current_mesh.surface_get_material(surfaceindex)
 					PSU_MatLib.append_unique_mat_to_array(current_surface_mat, surfacemats)
 			
-			
+			# Fails if no mesh(es) AND no ParticleProcessMat were found = nothing to update
 			if not has_min_1_valid_mesh and particleprocessmats.size() <= 0:
 				_set_get_current_mats_progress(GetCurrentMatsProgress.NO_MESH_FOUND)
 				print("PSU: Parent '", parent.name, "': ", GetCurrentMatsProgress.find_key(get_current_mats_progress), "' -> Can't Update!")
 				return false
-			else:
-				for index in surfacemats:
-					PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.SURFACEMAT, parent, current_any_mats, "Current_Any_Mats")
-	
-	
+				
+
+		if check_next_class_type and (parent is FogVolume or parent is CSGPrimitive3D):
+			check_next_class_type = false
+			
+			PSU_MatLib.append_unique_mat_to_array(parent.material, surfacemats)
+		
+		# Append surfacemats to current_any_mats.
+		for index in surfacemats:
+			PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.SURFACEMAT, parent, current_any_mats, "Current_Any_Mats")
+				
 	# Return false if no Mats in current_any_mats.
 	if current_any_mats.size() <= 0:
 		_set_get_current_mats_progress(GetCurrentMatsProgress.NO_MAT_FOUND)
@@ -239,9 +279,11 @@ func _recurse_nextpass_mats_append_to_array(matlib: PSU_MatLib, array_matlib: Ar
 			
 	return
 
+# Copies all valid Mats (is ShaderMaterial and has Shader) from current_any arrays to updatable array
 func _validate_all_current_mats() -> bool:
-	_set_get_current_mats_progress(GetCurrentMatsProgress.VAL_INIT)
-	
+	_set_get_current_mats_progress(GetCurrentMatsProgress.VAL_INIT)	
+	current_updatable_mats.clear()
+
 	# From "current_any_mats" copy validated ShaderMats to updatable array.
 	_set_get_current_mats_progress(GetCurrentMatsProgress.VAL_ANY_MATS)
 	for index in current_any_mats:
@@ -264,7 +306,7 @@ func _validate_all_current_mats() -> bool:
 	_set_get_current_mats_progress(GetCurrentMatsProgress.SUCCESS)
 	return true
 
-func _validate_matlib_for_mattype_and_shader(matlib : PSU_MatLib) -> bool:	
+func _validate_matlib_for_mattype_and_shader(matlib : PSU_MatLib) -> bool: # Return ENUM Errors or SUCCESS depending of outcome, that gets collected and tested on the Caller?
 	if matlib.material is not ShaderMaterial:
 			_set_get_current_mats_progress(GetCurrentMatsProgress.NO_SHADERMAT_FOUND) # This state might be overriden if a loop finds another valid material later.
 			if debug_mode: print("PSU: Parent '", parent.name, "': NOT OF CLASS SHADERMATERIAL in Mat '", matlib.material.resource_path.get_file(), "' (Class '", matlib.material.get_class(), "', Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "') -> Not updatable!")
