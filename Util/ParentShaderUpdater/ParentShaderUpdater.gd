@@ -323,7 +323,7 @@ func _validate_all_current_mats() -> bool:
 			_set_get_current_mats_progress(GetCurrentMatsProgress.EDGE_CASE)
 		return false
 
-func _validate_matlib_for_mattype_and_shader(matlib : PSU_MatLib) -> GetCurrentMatsProgress: # Return ENUM Errors or SUCCESS depending of outcome, that gets collected and tested on the Caller
+func _validate_matlib_for_mattype_and_shader(matlib : PSU_MatLib) -> GetCurrentMatsProgress: # Return ENUM Errors or success depending of outcome, that gets collected and tested on the Caller
 	if matlib.material is not ShaderMaterial:
 			if debug_mode: print("PSU: Parent '", parent.name, "': - NOT OF CLASS SHADERMATERIAL in Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "' Class '", matlib.material.get_class(), "') -> Not updatable!")
 			return GetCurrentMatsProgress.NO_SHADERMAT_FOUND
