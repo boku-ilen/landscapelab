@@ -38,9 +38,9 @@ static func append_unique_matlib_to_array(matlib : PSU_MatLib, array_matlib : Ar
 	array_matlib.append(matlib)
 	if debug_mode:
 		if matlib.material is ShaderMaterial and matlib.material.shader != null:
-			print("PSU: Parent '", matlib.source_node.name, "': MatLib '", debug_arrayname, "' added Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "', Shader '", matlib.material.shader.resource_path.get_file(), "')")
+			print("PSU: Parent '", matlib.source_node.name, "': - MatLib '", debug_arrayname, "' added Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "', Shader '", matlib.material.shader.resource_path.get_file(), "')")
 		else:
-			print("PSU: Parent '", matlib.source_node.name, "': MatLib '", debug_arrayname, "' added Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "')")
+			print("PSU: Parent '", matlib.source_node.name, "': - MatLib '", debug_arrayname, "' added Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "', Class '", matlib.material.get_class(), "').")
 	return true
 
 static func convert_to_matlib(mat : Material, mat_slot : MaterialSlot, src_node : Node):
@@ -53,17 +53,35 @@ static func convert_to_matlib(mat : Material, mat_slot : MaterialSlot, src_node 
 static func convert_append_unique_matlib_to_array(mat : Material, mat_slot : MaterialSlot, src_node : Node, array_matlib : Array[PSU_MatLib], debug_arrayname : String) -> bool:
 	return append_unique_matlib_to_array(convert_to_matlib(mat, mat_slot, src_node), array_matlib, debug_arrayname)
 
+static func recurse_nextpass_mats_append_to_array(matlib: PSU_MatLib, array_matlib: Array[PSU_MatLib], debug_arrayname : String, recursionloop: int = 1 ) -> void:
+	if matlib.material is ShaderMaterial \
+		or matlib.material is StandardMaterial3D \
+		or matlib.material is ORMMaterial3D:
+			
+		var nextpass_mat := matlib.material.next_pass
+		
+		if nextpass_mat != null:
+			# Checks if material_slot is even, if yes, increase the enum to store the "Nextpass" Version of the current slot
+			var mat_slot_manip = matlib.material_slot
+			if not mat_slot_manip % 2:
+				mat_slot_manip = mat_slot_manip + 1 as MaterialSlot
+			
+			var nextpass_conv_to_matlib : PSU_MatLib = PSU_MatLib.convert_to_matlib(nextpass_mat, mat_slot_manip, matlib.source_node)
+			if debug_mode: print("PSU: Parent '", matlib.source_node.name, "': - Recursion #", recursionloop, " on Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "') got NextPass-Mat '", nextpass_mat.resource_path.get_file(), "'.")
+			PSU_MatLib.append_unique_matlib_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname)
+			recurse_nextpass_mats_append_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname, recursionloop + 1)
+
+static func fill_shader_paths(array_matlib : Array[PSU_MatLib], debug_arrayname : String) -> bool:
+	if array_matlib.size() < 1:
+		print("PSU: - MatLib '", debug_arrayname, "' contains no Mats to get 'resource_path'!")
+		return false
+	for index in array_matlib:
+		index.shader_path = index.material.shader.resource_path
+	return true
+
 # Returns array of all Materials in MatLib format whose "shader_path" matches input string
 static func get_matlibs_matching_shader_path(find_in_shader_path : String, array_matlib : Array[PSU_MatLib]) -> Array[PSU_MatLib]:
 	var matlibs_matching_saved : Array[PSU_MatLib]
 	for index in array_matlib.filter(func(matlib_from_array): return matlib_from_array.shader_path == find_in_shader_path):
 		append_unique_matlib_to_array(index, matlibs_matching_saved, "Current_Updatable_Mats_Match_Saved")
 	return matlibs_matching_saved
-
-static func fill_shader_paths(array_matlib : Array[PSU_MatLib], debug_arrayname : String) -> bool:
-	if array_matlib.size() < 1:
-		print("PSU: MatLib '", debug_arrayname, "' contains no Mats to get 'resource_path'!")
-		return false
-	for index in array_matlib:
-		index.shader_path = index.material.shader.resource_path
-	return true
