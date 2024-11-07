@@ -5,9 +5,7 @@ var material : Material # Only ShaderMaterial types are required for final Updat
 var material_slot : MaterialSlot # In which slot the material was found
 var source_node : Node # On which Node in the level this material was first found, usually the Parent of the "ParentShaderUpdater" node.
 var shader_path : String # Filled later by running fill_shader_paths() only on arrays containing valid ShaderMaterials to reduce overhead.
-# Storing in which usage slot the material was found first.
-# Similar enum in ParentShaderUpdater.gd tracks progress of func "get_current_mats_validate".
-enum MaterialSlot {
+enum MaterialSlot { # Storing in which usage slot the material was found first. Similar enum in ParentShaderUpdater.gd tracks progress of func "get_current_mats_validate".
 	PARTICLEPROCESSMAT = 0, # Additional type found on GPU particles
 	PARTICLEPROCESSMAT_NEXTPASS = 1, # Found on a ParticleProcessMat's NextPass slot.
 	CANVASITEMMAT = 2, # Mat is assigned on CanvasItem.
@@ -78,8 +76,7 @@ static func fill_shader_paths(array_matlib : Array[PSU_MatLib], debug_arrayname 
 		index.shader_path = index.material.shader.resource_path
 	return true
 
-# Returns array of all Materials in MatLib format whose "shader_path" matches input string
-static func get_matlibs_matching_shader_path(find_in_shader_path : String, array_matlib : Array[PSU_MatLib]) -> Array[PSU_MatLib]:
+static func get_matlibs_matching_shader_path(find_in_shader_path : String, array_matlib : Array[PSU_MatLib]) -> Array[PSU_MatLib]: # Returns array of all Materials in MatLib format whose "shader_path" matches input string
 	var matlibs_matching_saved : Array[PSU_MatLib]
 	for index in array_matlib.filter(func(matlib_from_array): return matlib_from_array.shader_path == find_in_shader_path):
 		append_unique_matlib_to_array(index, matlibs_matching_saved, "Current_Updatable_Mats_Match_Saved")
