@@ -1,7 +1,12 @@
 class_name PSU_MatLib extends RefCounted
 
+static var debug_mode := true ## Change this to a global Debug_Mode in the future Manager!
+var material : Material # Only ShaderMaterial types are required for final Update functionality, but in between all types of materials need to be handled.
+var material_slot : MaterialSlot # In which slot the material was found
+var source_node : Node # On which Node in the level this material was first found, usually the Parent of the "ParentShaderUpdater" node.
+var shader_path : String # Filled later by running fill_shader_paths() only on arrays containing valid ShaderMaterials to reduce overhead.
 # Storing in which usage slot the material was found first.
-# Should match a similar enum in ParentShaderUpdater.gd which tracks progress of func "get_current_mats_validate".
+# Similar enum in ParentShaderUpdater.gd tracks progress of func "get_current_mats_validate".
 enum MaterialSlot {
 	PARTICLEPROCESSMAT = 0, # Additional type found on GPU particles
 	PARTICLEPROCESSMAT_NEXTPASS = 1, # Found on a ParticleProcessMat's NextPass slot.
@@ -13,14 +18,7 @@ enum MaterialSlot {
 	SURFACEMAT_OVERRIDE_NEXTPASS = 7,  # Found on a Surfacemat_Override's NextPass slot.
 	SURFACEMAT = 8, # Low priority: property "material", only used if no SurfaceMat Override exists for that slot.
 	SURFACEMAT_NEXTPASS = 9, # Found on a SurfaceMat's NextPass slot..
-
 }
-
-static var debug_mode := true ## Change this to a global Debug_Mode in the future Manager!
-var material : Material # Only ShaderMaterial types are required for final Update functionality, but in between all types of materials need to be handled.
-var material_slot : MaterialSlot # In which slot the material was found
-var source_node : Node # On which Node in the level this material was first found, usually the Parent of the "ParentShaderUpdater" node.
-var shader_path : String # Filled later by running fill_shader_paths() only on arrays containing valid ShaderMaterials to reduce overhead.
 
 
 static func append_unique_mat_to_array(material: Material, array: Array[Material]) -> bool: # True if material was added
