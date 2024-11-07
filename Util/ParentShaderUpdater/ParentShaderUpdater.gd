@@ -134,7 +134,7 @@ func _get_current_mats() -> bool: # Searches parent for any type of Materials, w
 				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.CANVASITEMMAT, parent, current_any_mats, "Current_Any_Mats")
 	
 	# ------------------------------
-	# GeometryMats Overrides = Highest Level - available on all GeometryInstance3Ds except Label3D.
+	# GeometryMats Overrides = Highest Level - available on all GeometryInstance3Ds except Label3D (which is already excluded by _parent_is_valid_class).
 	if continue_get_mats_in_next_prio and parent is GeometryInstance3D:
 		_set_get_current_mats_progress(GetCurrentMatsProgress.GET_GEOMETRYMAT_OVERRIDE)
 		
@@ -145,6 +145,8 @@ func _get_current_mats() -> bool: # Searches parent for any type of Materials, w
 			# Only one should exist in array, but made for loop for future compatibility
 			for index in geometrymats_overrides: 
 				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.GEOMETRYMAT_OVERRIDE, parent, current_any_mats, "Current_Any_Mats")
+			
+			## Add some Mesh testing here (to print warnings of GeoMatOR exists, but no Mesh) because valid GeometryMat skips Mesh checks happening lat
 	
 	# ------------------------------
 	# SurfaceMats Overrides = Medium Level (only available on MeshInstance3D)
@@ -215,7 +217,7 @@ func _get_current_mats() -> bool: # Searches parent for any type of Materials, w
 					surfacemats[index] = current_surface_mat
 			if debug_mode: print("PSU: Parent '", parent.name, "': + SurfaceMats ", _generate_filename_array_from_obj_array(surfacemats), ".")		
 		
-		## Add correct printing and append method from MeshInstance 3D here too
+		## Add correct printing and append method from MeshInstance 3D here too?
 		# Handling of GPUParticles3D
 		if check_next_class_type and parent is GPUParticles3D:
 			check_next_class_type = false
@@ -233,7 +235,7 @@ func _get_current_mats() -> bool: # Searches parent for any type of Materials, w
 					current_surface_mat = current_mesh.surface_get_material(surfaceindex)
 					PSU_MatLib.append_unique_mat_to_array(current_surface_mat, surfacemats)
 			
-			# Fails if no mesh(es) AND no ParticleProcessMat were found = nothing to update
+			# Fails if no mesh(es) AND no ParticleProcessMat were found = nothing to update.
 			if not has_min_1_valid_mesh and particleprocessmats.size() <= 0:
 				_set_get_current_mats_progress(GetCurrentMatsProgress.NO_MESH_NOR_PARTICLEPROCESSMAT_FOUND)
 				return false
@@ -330,7 +332,7 @@ func _validate_matlib_for_mattype_and_shader(matlib : PSU_MatLib) -> GetCurrentM
 		return GetCurrentMatsProgress.NO_SHADER_FOUND
 	return GetCurrentMatsProgress.FOUND_SHADERMAT_WITH_SHADER
 
-func _parent_is_valid_class() -> bool: # Everything inheriting from CanvasItem and GeometryInstance3D is valid (except for Label3D), plus additional things like CanvasItem or FogVolume.
+func _parent_is_valid_class() -> bool: # Everything inheriting from CanvasItem and GeometryInstance3D is valid (except for Label3D), plus additional things like FogVolume.
 	if parent is MeshInstance3D or \
 		parent is GPUParticles3D or \
 		parent is MultiMeshInstance3D or \
@@ -344,6 +346,7 @@ func _parent_is_valid_class() -> bool: # Everything inheriting from CanvasItem a
 	print("PSU: Parent '", parent.name, "': - INVALID CLASS '", parent.get_class(), "' -> PSU doesn't belong there!")
 	return false
 
+## Maybe rework to automatically test on parent, if necessary with loops for particles3D?
 func _mesh_is_valid(test_mesh: Mesh, additional_printinfo: String = "") -> bool:
 	if test_mesh != null:
 		return true
