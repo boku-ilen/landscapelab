@@ -57,7 +57,7 @@ static func recurse_nextpass_mats_append_to_array(matlib: PSU_MatLib, array_matl
 			
 		var nextpass_mat := matlib.material.next_pass
 		
-		if nextpass_mat != null:
+		if nextpass_mat != null and nextpass_mat != matlib.material:
 			# Checks if material_slot is even, if yes, increase the enum to store the "Nextpass" Version of the current slot
 			var mat_slot_manip = matlib.material_slot
 			if not mat_slot_manip % 2:
