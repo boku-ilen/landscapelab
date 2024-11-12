@@ -156,10 +156,11 @@ func refine_load():
 	# Undo all refinments no longer in render distances
 	if refined_buildings.size() > 0:
 		var building = refined_buildings.pop_back()
-		if not building.is_refined:
-			return
 		
 		if not building or not is_instance_valid(building) or building.get_parent() != self:
+			return
+		
+		if not building.is_refined:
 			return
 		
 		if building.position.distance_squared_to(position_manager.center_node.position) > refine_distances.back():
