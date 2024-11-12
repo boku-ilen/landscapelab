@@ -37,7 +37,6 @@ func _on_screenshot():
 			Screencapture.screenshot(
 				$Inputs/ScreenShotName.text,
 				$Inputs/UpscaleViewport.value,
-				$Inputs/PlantExtent.value,
 				"-%d" % interval_idx
 			)
 			await Screencapture.screenshot_finished

@@ -19,7 +19,6 @@ func screenshot(
 						[Time.get_datetime_string_from_system(),
 						pos_manager.get_center_node_world_position()],
 					upscale_viewport := 2.0,
-					plant_extent := 30,
 					name_extension := ""
 				):
 	if image_name == null or image_name == "": 
@@ -31,7 +30,6 @@ func screenshot(
 	image_name = "user://" + image_name.validate_filename()
 	
 	var previous_viewport_size = pos_manager.get_viewport().size
-	var previous_plant_extent_factor = Vegetation.plant_extent_factor
 	
 	# Tweak anti-aliasing to be optimal for screenshotting and
 	# disable taa because it messes up the image
@@ -41,10 +39,7 @@ func screenshot(
 	pos_manager.get_viewport().set_msaa_3d(Viewport.MSAA_MAX)
 	
 	pos_manager.get_viewport().get_parent().stretch = false
-	pos_manager.get_viewport().size = previous_viewport_size * upscale_viewport
-	Vegetation.plant_extent_factor = plant_extent
-	
-	#await get_tree().create_timer(1).timeout
+	pos_manager.get_viewport().size = previous_viewport_size * upscale_viewport		
 	
 	RenderingServer.force_sync()
 	RenderingServer.force_draw()
@@ -60,7 +55,6 @@ func screenshot(
 	
 	# Reset to prior configuration
 	pos_manager.get_viewport().get_parent().stretch = true
-	Vegetation.plant_extent_factor = previous_plant_extent_factor
 	pos_manager.get_viewport().set_use_taa(taa_before)
 	pos_manager.get_viewport().set_msaa_3d(msaa_before)
 	
