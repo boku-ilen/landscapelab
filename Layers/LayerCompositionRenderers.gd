@@ -73,7 +73,7 @@ func add_composition(child: Node):
 
 # Apply a new center position to all child nodes
 func apply_center(center_array):
-	logger.debug("Applying new center center to all children in %s" % [name])
+	logger.info("Applying new center to all children in %s with center %s" % [name, str(center_array)])
 	emit_signal("loading_started")
 	
 	renderers_finished = 0
