@@ -69,7 +69,7 @@ static func recurse_nextpass_mats_append_to_array(matlib: PSU_MatLib, array_matl
 			recurse_nextpass_mats_append_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname, recursionloop + 1, additional_printinfo)
 
 static func fill_shader_paths(array_matlib : Array[PSU_MatLib], debug_arrayname : String) -> bool:
-	if array_matlib.size() < 1:
+	if array_matlib.is_empty():
 		print("PSU: - MatLib '", debug_arrayname, "' contains no Mats to get 'resource_path'!")
 		return false
 	for index in array_matlib:
@@ -79,5 +79,5 @@ static func fill_shader_paths(array_matlib : Array[PSU_MatLib], debug_arrayname 
 static func get_matlibs_matching_shader_path(find_in_shader_path : String, array_matlib : Array[PSU_MatLib]) -> Array[PSU_MatLib]: # Returns array of all Materials in MatLib format whose "shader_path" matches input string
 	var matlibs_matching_saved : Array[PSU_MatLib]
 	for index in array_matlib.filter(func(matlib_from_array): return matlib_from_array.shader_path == find_in_shader_path):
-		append_unique_matlib_to_array(index, matlibs_matching_saved, "Current_Updatable_Mats_Match_Saved")
+		append_unique_matlib_to_array(index, matlibs_matching_saved, "Getted_Updatable_Mats_Match_Saved")
 	return matlibs_matching_saved
