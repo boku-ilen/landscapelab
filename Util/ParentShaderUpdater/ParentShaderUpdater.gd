@@ -13,7 +13,7 @@ var particleprocessmats: Array[Material] # Only 1 (Array for compatability), onl
 var canvasitemmats: Array[Material] # Mats on CanvasItems.
 var geometrymats_overrides: Array[Material] # Highest priority mats: Only 1 (Array for compatability) available on nearly all GeometryInstance3Ds, overrides all lower priority Mats (property "material_override").
 var surfacemats_overrides: Array[Material] # Medium priority mats: Only on MeshInstance3Ds, property "surface_material_override/0-n". overrides the corresponding Surface Mats.
-var surfacemats: Array[Material] # Low priority mat: Various sources (MeshInstance, Particle3D, CSGPrimitive, FogVolume, ...).
+var surfacemats: Array[Array] # Low priority mat: Various sources (MeshInstance, Particle3D, CSGPrimitive, FogVolume, ...). Nested Array: Dimension1 = Mesh Index, Dimension2 = Surface Index (because GPUParticles3D can have multiple meshes, each with individual surface arrays).
 
 var matlib_any_direct_getted: Array[PSU_MatLib] # Materials gathered directly from Material slots, can be any Material Class.
 var matlib_any_nextpass_getted: Array[PSU_MatLib] # Materials recursively found in "next_pass" Slots of Materials contained within matlib_any_direct_getted, can be any Material Class.
@@ -100,7 +100,7 @@ func _get_mats() -> bool:
 	
 	var meshes: Array[Mesh] # Used in most 3D things (Array for GPUParticles3D, which can have multiple meshes via DrawPass).
 	var meshes_surfacecount: Array[int] # Used for getting materials in 3D stuff from loops (Array for GPUParticles3D, which can have multiple meshes via DrawPass).
-	var debugprint_sign := "-" # Used in Debug Prints to show if something good or bad is happening.
+	var debugprint_sign := "-" # Denote good or bad things in debug prints.
 
 	parent = get_parent()
 	
@@ -131,7 +131,7 @@ func _get_mats() -> bool:
 		if debug_mode:
 			debugprint_sign = "-"
 			if not particleprocessmats.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ParticleProcessMats ", particleprocessmats.size(), "/1: ", _generate_filename_array_from_obj_array(particleprocessmats), ".")
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ParticleProcessMats ", particleprocessmats.size(), "/1: ", _generate_filename_array_from_resource_array(particleprocessmats), ".")
 		
 		for index in particleprocessmats:
 			PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.PARTICLEPROCESSMAT, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted")
@@ -147,7 +147,7 @@ func _get_mats() -> bool:
 		if debug_mode:
 			debugprint_sign = "-"
 			if not canvasitemmats.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " CanvasItemMats ", canvasitemmats.size(), "/1: ", _generate_filename_array_from_obj_array(canvasitemmats), ".")
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " CanvasItemMats ", canvasitemmats.size(), "/1: ", _generate_filename_array_from_resource_array(canvasitemmats), ".")
 		
 		if parent is GPUParticles2D and particleprocessmats.is_empty() and canvasitemmats.is_empty():
 			_set_gather_mats_progress(GatherMatsProgress.NO_CANVASITEMMAT_NOR_PARTICLEPROCESSMAT_FOUND)
@@ -165,7 +165,7 @@ func _get_mats() -> bool:
 		if debug_mode:
 			debugprint_sign = "-"
 			if not geometrymats_overrides.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " GeometryMats Overrides ", geometrymats_overrides.size(), "/1: ", _generate_filename_array_from_obj_array(geometrymats_overrides), ".")
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " GeometryMats Overrides ", geometrymats_overrides.size(), "/1: ", _generate_filename_array_from_resource_array(geometrymats_overrides), ".")
 		
 		for index in geometrymats_overrides:
 			PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.GEOMETRYMAT_OVERRIDE, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted")
@@ -181,7 +181,7 @@ func _get_mats() -> bool:
 		# Get Mesh(es), different methods depending on parent class.
 		if parent is GPUParticles3D:
 			for mesh_index in parent.draw_passes:
-				if _mesh_is_valid(parent.get_draw_pass_mesh(mesh_index), str("in DrawPass '", mesh_index+1, "'")):
+				if _mesh_is_valid(parent.get_draw_pass_mesh(mesh_index), str("in ParticleDrawPass '", mesh_index+1, "'")):
 					if meshes.is_empty(): # To only trigger resize once
 						meshes.resize(parent.draw_passes)
 					meshes[mesh_index] = parent.get_draw_pass_mesh(mesh_index)
@@ -192,7 +192,7 @@ func _get_mats() -> bool:
 					meshes[0] = parent.multimesh.mesh
 			else:
 				print("PSU: Parent '", parent.name, "': - WARNING: NO MULTI-MESH SET -> Can't get Mesh!")
-		else: # Should cover getting Mat for all other cases where Parent uses Mesh.
+		else: # Should get Mesh for all other cases where Parent uses Mesh.
 			if _mesh_is_valid(parent.mesh):
 				meshes.resize(1)
 				meshes[0] = parent.mesh
@@ -208,9 +208,9 @@ func _get_mats() -> bool:
 			debugprint_sign = "-"
 			if not meshes.is_empty(): debugprint_sign = "+"
 			if parent is GPUParticles3D:
-				print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ParticleDrawPass Meshes ", meshes.filter(func(mesh): return mesh != null).size(), "/", parent.draw_passes, ": ", _generate_filename_array_from_obj_array(meshes), ", Surfaces ", meshes_surfacecount, ".")
+				print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ParticleDrawPass Meshes ", meshes.filter(func(mesh): return mesh != null).size(), "/", parent.draw_passes, ": ", _generate_filename_array_from_resource_array(meshes), ", Surf ", meshes_surfacecount, ".")
 			else:
-				print("PSU: Parent '", parent.name, "': ", debugprint_sign, " Mesh ", meshes.filter(func(mesh): return mesh != null).size(), "/1: ", _generate_filename_array_from_obj_array(meshes), ", Surfaces ", meshes_surfacecount, ".")
+				print("PSU: Parent '", parent.name, "': ", debugprint_sign, " Mesh ", meshes.filter(func(mesh): return mesh != null).size(), "/1: ", _generate_filename_array_from_resource_array(meshes), ", Surf ", meshes_surfacecount, ".")
 		
 		if not _array_has_min_1_valid(meshes): # Fail & Return if neither Mesh nor Special Mats (different error types). GPUParticles3D or MeshInstance2D/3Ds without meshes but existing special mats don't fail, just stop _get_mats.
 			if parent is GPUParticles3D:
@@ -241,7 +241,7 @@ func _get_mats() -> bool:
 		if debug_mode:
 			debugprint_sign = "-"
 			if _array_has_min_1_valid(surfacemats_overrides): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " SurfaceMats Overrides ", surfacemats_overrides.filter(func(surfacemat): return surfacemat != null).size(), "/", meshes_surfacecount[0], ": ", _generate_filename_array_from_obj_array(surfacemats_overrides), ".")
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " SurfaceMats Overrides ", surfacemats_overrides.filter(func(surfmat): return surfmat != null).size(), "/", meshes_surfacecount[0], ": ", _generate_filename_array_from_resource_array(surfacemats_overrides), ".")
 		
 		for index in surfacemats_overrides.size():
 			PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats_overrides[index], PSU_MatLib.MaterialSlot.SURFACEMAT_OVERRIDE, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted", str(" from SurfaceMat OR '", index, "'"))
@@ -251,49 +251,70 @@ func _get_mats() -> bool:
 
 	# ------------------------------
 	# SurfaceMats = Low Level (different methods to get them)
-	## Maybe add warning if material(s) missing?
 	if continue_get_mats and (_parent_is_mesh_class() or parent is CSGPrimitive3D or parent is FogVolume):
 		_set_gather_mats_progress(GatherMatsProgress.GET_SURFACEMAT)
 		
-		# Getting Mesh+SurfaceMats for MeshInstance2D/3D, CPUParticles3D and MultiMeshInstance2D/3D
-		if parent is MeshInstance3D or parent is MultiMeshInstance3D or \
-		parent is CPUParticles3D or \
-		parent is MeshInstance2D or parent is MultiMeshInstance2D:
-			# Fill surfacemats array unconventionally (so empty slots show up for better debugging)
-			surfacemats.resize(meshes_surfacecount[0])
-			for surface_index in meshes_surfacecount[0]:
-				if meshes[0].surface_get_material(surface_index) != null: # Required this way, because copying Nulls over to array later doesn't count as "real nulls"...
-					surfacemats[surface_index] = meshes[0].surface_get_material(surface_index)
-			if debug_mode and _array_has_min_1_valid(surfacemats):
-				print("PSU: Parent '", parent.name, "': + SurfaceMats ", _generate_filename_array_from_obj_array(surfacemats), ".")		
-		
-		# Getting Meshes+SurfaceMats for GPUParticles3D
-		## Make Surfacemats 2dimensional, fill Array similar to MeshInstace, so printing can account for the correct Mesh and Surface the material originated from
-		elif parent is GPUParticles3D:
+		## Rework this
+		# Getting SurfaceMats for MeshClasses.
+		# Made complicated by SurfaceMats being nested Array [MeshIndex[SurfaceIndex]] and needing to leave empty slots in array if no Mat found, so MeshInstance3D can compare against its corresponding SurfaceMatOverrides...
+		if _parent_is_mesh_class():
+			surfacemats.resize(meshes.size()) ## Do resizing differently so SurfaceMats stays empty if no Mesh found (do resizing later in the for loops...)
 			for mesh_index in meshes.size():
+				surfacemats[mesh_index].resize(meshes_surfacecount[mesh_index])
 				for surface_index in meshes_surfacecount[mesh_index]:
-					PSU_MatLib.append_unique_mat_to_array(meshes[mesh_index].surface_get_material(surface_index), surfacemats)
+					if meshes[mesh_index].surface_get_material(surface_index) != null:
+						surfacemats[mesh_index][surface_index] = meshes[mesh_index].surface_get_material(surface_index)
 		
-		# Getting SurfaceMat for CSGPrimitive3D (only one material, either have no mesh or is fixed from CSG primitive type) or FogVolume.
+		# Getting and evaluating for CSGPrimitive3D (only one material, either have no mesh or is fixed from CSG primitive type) or FogVolume.
 		elif parent is CSGPrimitive3D or parent is FogVolume:
-			PSU_MatLib.append_unique_mat_to_array(parent.material, surfacemats)
+			surfacemats.resize(1) ## Make it so if parent.material != null, then size 0
+			if parent.material != null:
+				#surfacemats.resize(1) ## Use this
+				surfacemats[0].resize(1)
+				surfacemats[0][0] = parent.material
+			
+			if debug_mode:
+				debugprint_sign = "-"
+				if _nested_array_has_min_1_valid(surfacemats): debugprint_sign = "+"
+				print("PSU: Parent '", parent.name, "': ", debugprint_sign, " SurfaceMats ", surfacemats[0].filter(func(surfmat): return surfmat !=null).size(), "/1: ", _generate_filename_array_from_resource_array(surfacemats[0]), ".")
+			
+			if _nested_array_has_min_1_valid(surfacemats):
+				for mesh_index in surfacemats.size():
+					for surface_index in surfacemats[mesh_index].size():
+						if surfacemats[mesh_index][surface_index] != null:
+							PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats[0][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted", str(" from Surf '", surface_index, "'"))
+						else: ## Currently not reachable because here only 1 in array. But might be reusable if surface stays partially empty after rework
+							print("PSU: Parent '", parent.name, "': - WARNING: NO MAT SET in Surf '", surface_index, "'!")
+			else: print("PSU: Parent '", parent.name, "': - WARNING: NO MAT SET!")
 			
 		# Unhandled Getting error.
 		else: _set_gather_mats_progress(GatherMatsProgress.EDGE_CASE)
 		
-		# Append Surfacemats to matlib_any_direct_getted. Special handling of MeshInstance3D (if no full search, because of SurfaceMats Overrides).
-		if _array_has_min_1_valid(surfacemats):
-			if parent is MeshInstance3D and full_search == false:
-				for surface_index in meshes_surfacecount[0]:
-					if surfacemats_overrides[surface_index] == null: # If no Surface Override Mat is found, tries to get the corresponding Non-Override Surface Mat.
-						if surfacemats[surface_index] != null:
-							PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats[surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted", str(" from Surface '", surface_index, "'"))
-						else: print("PSU: Parent '", parent.name, "': - WARNING: TRIED GETTING, BUT FOUND NO MAT in Surface '", surface_index, "'!")
-			## elif parent is GPUParticles3D:
-			else:
-				for surface_index in surfacemats.size():
-					PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats[surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted", str(" from Surface '", surface_index, "'"))
-		else:
+		## Rework this so it fits into the upper Getting SurfaceMats for MeshClasses! Also CPUParticles need to work.
+		# Copy from SurfaceMats to updatable array differently, Special handling of MeshInstance3D if no full search, because of SurfaceMats Overrides.
+		if parent is GPUParticles3D:
+			for mesh_index in meshes.size():
+				if debug_mode:
+					debugprint_sign = "-"
+					if _array_has_min_1_valid(surfacemats[mesh_index]): debugprint_sign = "+"
+					print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ParticleDrawPass '", mesh_index+1, "', Mesh '", _generate_filename_from_resource(meshes[mesh_index]), "', SurfaceMats ", surfacemats[mesh_index].filter(func(surfmat): return surfmat !=null).size(), "/", clamp(meshes_surfacecount[mesh_index], 0, 666), ": ", _generate_filename_array_from_resource_array(surfacemats[mesh_index]), ".")
+				if meshes[mesh_index] == null:
+					print("PSU: Parent '", parent.name, "': - WARNING: NO MAT BECAUSE NO MESH SET in DrawPass '", mesh_index+1, "'!")
+				for surface_index in meshes_surfacecount[mesh_index]:
+					# Iterating through meshes_surfacecount[mesh_index] instead of surfacemats[mesh_index], because surfacemats[mesh_index] could be empty if no Mat was found previously!
+					if surfacemats[mesh_index][surface_index] == null:
+						print("PSU: Parent '", parent.name, "': - WARNING: NO MAT SET in DrawPass '", mesh_index+1, "' Surf '", surface_index, "'!")
+					else:
+						PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats[mesh_index][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted", str(" from DrawPass '", mesh_index+1, "', Surf '", surface_index, "'"))
+		elif parent is MeshInstance3D and full_search == false:
+			for surface_index in meshes_surfacecount[0]:
+				if surfacemats_overrides[surface_index] == null: # If no Surface Override Mat is found, tries to get the corresponding Non-Override Surface Mat.
+					if surfacemats[surface_index] != null:
+						PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats[0][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted", str(" from Surf '", surface_index, "'"))
+					else: print("PSU: Parent '", parent.name, "': - WARNING: TRIED GETTING, BUT NO MAT SET in Surf '", surface_index, "'!")
+		
+		# One final Warning if absolutely no SurfaceMats were found...
+		if not _nested_array_has_min_1_valid(surfacemats):
 			print("PSU: Parent '", parent.name, "': - WARNING: ZERO SURFACEMATS FOUND!")
 	
 	# ------------------------------
@@ -333,7 +354,7 @@ func _validate_gathered_mats() -> bool: # Copies all valid Mats (if ShaderMateri
 			var unpacked_updatable_mats: Array[Material]
 			for matlib in matlib_updatable:
 				unpacked_updatable_mats.append(matlib.material)
-			print("PSU: Parent '", parent.name, "': Updatable Mats '", matlib_updatable.size(), "': ", _generate_filename_array_from_obj_array(unpacked_updatable_mats), ".")
+			print("PSU: Parent '", parent.name, "': Updatable Mats '", matlib_updatable.size(), "': ", _generate_filename_array_from_resource_array(unpacked_updatable_mats), ".")
 		return true
 	else:
 		if counter_no_shadermat == counter_mats_validated:
@@ -369,8 +390,8 @@ func _validate_matlib_for_mattype_and_shader(matlib: PSU_MatLib) -> GatherMatsPr
 
 func _parent_is_valid_class() -> bool: # Everything inheriting from CanvasItem and GeometryInstance3D is valid (except for Label3D), plus additional things like FogVolume.
 	if (parent is GeometryInstance3D and parent is not Label3D) or \
-		parent is CanvasItem or \
-		parent is FogVolume:
+	parent is CanvasItem or \
+	parent is FogVolume:
 		return true
 	print("PSU: Parent '", parent.name, "': - INVALID CLASS '", parent.get_class(), "' -> PSU doesn't belong there!")
 	return false
@@ -392,6 +413,13 @@ func _mesh_is_valid(test_mesh: Mesh, additional_printinfo: String = "") -> bool:
 	
 func _array_has_min_1_valid(test_array: Array) -> bool:
 	return test_array.filter(func(element): return element != null).size() > 0
+	
+func _nested_array_has_min_1_valid(test_array: Array[Array]) -> bool: ## Rebuild this better?
+	var has_1_valid := false
+	for index in test_array:
+		if index.filter(func(element): return element != null).size() > 0:
+			has_1_valid = true
+	return has_1_valid
 
 func _stop_get_mats() -> void:
 	continue_get_mats = false
@@ -408,12 +436,20 @@ func _set_gather_mats_progress(progress: GatherMatsProgress) -> void: # For trac
 			return
 		print("PSU: Parent '", parent.name, "': ", GatherMatsProgress.find_key(progress)) # Print for everything thats not SUCCESS or ERROR
 
-func _generate_filename_array_from_obj_array(obj_array: Array) -> Array[String]: # Sets NULL String in output String Array if corresponding obj was null. Required for some Debug Prints.
+func _generate_filename_array_from_resource_array(res_array: Array) -> Array[String]: # Sets NULL String in output String Array if corresponding obj was null. Required for some Debug Prints.
 	var filename_array: Array[String]
-	filename_array.resize(obj_array.size())
-	for index in obj_array.size():
-		if obj_array[index] != null:
-			filename_array[index] = obj_array[index].resource_path.get_file()
+	filename_array.resize(res_array.size())
+	for index in res_array.size():
+		if res_array[index] != null:
+			filename_array[index] = res_array[index].resource_path.get_file()
 		else:
 			filename_array[index] = "NULL"
 	return filename_array
+
+func _generate_filename_from_resource(res: Resource) -> String: # Return NULL String if null obj is fed into it. For Debug Printing.
+	var filename: String
+	if res != null:
+		filename = res.resource_path.get_file()
+	else:
+		filename = "NULL"
+	return filename
