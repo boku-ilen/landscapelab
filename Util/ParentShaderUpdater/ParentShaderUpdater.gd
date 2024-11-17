@@ -193,6 +193,15 @@ func _get_mats() -> bool:
 					meshes[0] = parent.multimesh.mesh
 			else:
 				print("PSU: Parent '", parent.name, "': - WARNING: NO MULTI-MESH SET -> Can't get Mesh!")
+		# ATTENTION: Meshes assigned here are only placeholders for resizing arrays & validations & prints, don't use them for directly getting Mats or similar!
+		# Actual mesh is hardcoded depending on the CSGPrimitive3D class!
+		elif parent is CSGPrimitive3D and parent is not CSGMesh3D:
+			meshes.resize(1)
+			if parent is CSGBox3D: meshes[0] = SphereMesh.new()
+			if parent is CSGCylinder3D: meshes[0] = CylinderMesh.new()
+			if parent is CSGPolygon3D: meshes[0]  = BoxMesh.new() # Could've used PlaceholderMesh, but that doesn't have a Surface => would require more code changes
+			if parent is CSGSphere3D: meshes[0] = SphereMesh.new()
+			if parent is CSGTorus3D: meshes[0] = TorusMesh.new()
 		else: # Should get Mesh for all other cases where Parent uses Mesh.
 			if _mesh_is_valid(parent.mesh):
 				meshes.resize(1)
@@ -397,14 +406,15 @@ func _parent_is_valid_class() -> bool: # Everything inheriting from CanvasItem a
 	print("PSU: Parent '", parent.name, "': - INVALID CLASS '", parent.get_class(), "' -> PSU doesn't belong there!")
 	return false
 
-func _parent_is_mesh_class() -> bool: # If Parent is class that COULD have 1+ meshes (in order of suspected occurences). CSGPrimitive not here because always has predetermined mesh = can't get .mesh!
+func _parent_is_mesh_class() -> bool: # If Parent is class that COULD have 1+ meshes (in order of suspected occurences). CSGPrimitive except CSGMesh3D can't get .mesh, but included for consistency (and have its corresponding meshes and meshes_surfacecount set in _get func)!
 	return \
 	parent is MeshInstance3D or \
 	parent is GPUParticles3D or \
 	parent is MultiMeshInstance3D or \
 	parent is CPUParticles3D or \
 	parent is MeshInstance2D or \
-	parent is MultiMeshInstance2D
+	parent is MultiMeshInstance2D or \
+	parent is CSGPrimitive3D
 
 func _mesh_is_valid(test_mesh: Mesh, additional_printinfo: String = "") -> bool:
 	if test_mesh != null:
