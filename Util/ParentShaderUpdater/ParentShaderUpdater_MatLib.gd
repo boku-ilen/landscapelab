@@ -7,15 +7,17 @@ var source_node: Node # On which Node in level Mat was first found (subsequent o
 var shader_path: String # Filled later by running fill_shader_paths() only on arrays containing valid ShaderMaterials to reduce overhead.
 enum MaterialSlot { # In which usage slot Mat was found. _Nextpass version always is +1 of original mat, this is relevant!
 	PARTICLEPROCESSMAT = 0, # Additional type found on GPU particles
-	PARTICLEPROCESSMAT_NEXTPASS = 1, # Found on a ParticleProcessMat's NextPass slot.
-	CANVASITEMMAT = 2, # Mat is assigned on CanvasItem.
-	CANVASITEMMAT_NEXTPASS = 3, # Found on a CanvasItemMat's NextPass slot..
-	GEOMETRYMAT_OVERRIDE = 4, # Highest priority: property "material_override"
-	GEOMETRYMAT_OVERRIDE_NEXTPASS = 5, # Found on a GeometryMat's NextPass slot.
-	SURFACEMAT_OVERRIDE = 6,  # Medium priority: property "surface_material_override"
-	SURFACEMAT_OVERRIDE_NEXTPASS = 7,  # Found on a Surfacemat_Override's NextPass slot.
-	SURFACEMAT = 8, # Low priority: property "material", only used if no SurfaceMat Override exists for that slot.
-	SURFACEMAT_NEXTPASS = 9, # Found on a SurfaceMat's NextPass slot..
+	PARTICLEPROCESSMAT_NEXTPASS = 1, # In ParticleProcessMat's NextPass slot.
+	CANVASITEMMAT = 2, # In CanvasItem.
+	CANVASITEMMAT_NEXTPASS = 3, # In CanvasItemMat's NextPass slot.
+	GEOMETRYMAT_OVERRIDE = 4, # Highest priority: In nearly all GeometryInstance3Ds, property "material_override".
+	GEOMETRYMAT_OVERRIDE_NEXTPASS = 5, # In GeometryMat's NextPass slot.
+	EXTRAMAT = 6, # Mid-High priority, only used on CSGPrimitive3D and FogVolume. On CSGMesh3Ds this can override the Mesh Surfacemats!
+	EXTRAMAT_NEXTPASS = 7, # In ExtraMat's Nextpass slot.
+	SURFACEMAT_OVERRIDE = 8,  # Medium priority: property "surface_material_override"
+	SURFACEMAT_OVERRIDE_NEXTPASS = 9,  # In Surfacemat_Override's NextPass slot.
+	SURFACEMAT = 10, # Low priority: property "material", only used if no SurfaceMat Override exists for that slot.
+	SURFACEMAT_NEXTPASS = 11, # In SurfaceMat's NextPass slot..
 }
 
 
@@ -29,7 +31,6 @@ static func append_unique_matlib_to_array(matlib: PSU_MatLib, array_matlib: Arra
 	# Abort if Check via lambda (if input matlib.material already exists in input array_matlib) triggers
 	if array_matlib.filter(func(matlib_from_array): return matlib_from_array.material == matlib.material).size() > 0 or \
 		matlib == null or matlib.material == null:
-		## Could create some Prints for those cases
 		return false
 		
 	array_matlib.append(matlib)
