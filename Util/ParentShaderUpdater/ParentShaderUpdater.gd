@@ -45,7 +45,8 @@ enum GatherMatsProgress { # Tracks at which stage of gettings Mats the func "_ge
 	NO_MESH_NOR_GEOMETRYMAT_OVERRIDE_FOUND = 31, # During Getting: Parent has neither Mesh(es) nor GeometryOverrideMat.
 	NO_MESH_NOR_CANVASITEMMAT_FOUND = 32, # During Getting: Special Case for Multi)MeshInstance2D: Has neither Mesh nor CanvasItemMat.
 	NO_MESH_NOR_PARTICLEPROCESSMAT_NOR_GEOMETRYMAT_OVERRIDE_FOUND = 33, # During Getting: Special Case for GPUParticles3D: Has neither mesh nor ParticleProcess nor GeometryOverrideMat.
-	NO_CANVASITEMMAT_NOR_PARTICLEPROCESSMAT_FOUND = 34, # During Getting: Special Case for GPUParticles2D: Has neither CanvasItemMat nor ParticleProcessMat.
+	NO_MESH_NOR_EXTRAMAT_NOR_GEOMETRYMAT_OVERRIDE_FOUND = 34, # During Getting: Special Case for CSGMesh3D: Has neither mesh, nor extra CSG Mat nor GeometryOverrideMat.
+	NO_CANVASITEMMAT_NOR_PARTICLEPROCESSMAT_FOUND = 35, # During Getting: Special Case for GPUParticles2D: Has neither CanvasItemMat nor ParticleProcessMat.
 	NO_ANY_MAT_FOUND = 40, # During Getting: No mat of any type is assigned to geo.
 	NO_CLASS_SHADERMAT_FOUND = 41, # During Validation: All found mats are NOT of class ShaderMat.
 	NO_SHADER_ASSIGNED = 42,  # During Validation: All found mats are of class ShaderMat, but have NO Shader assigned.
@@ -178,7 +179,7 @@ func _get_mats() -> bool:
 			_stop_get_mats()
 
 	# ------------------------------
-	# ExtraMat = Mid-High Level - only 1, available on all CSGs (looks like their Surface Mat, but isn't connected to Mesh) and FogVolume. Can stop further search.
+	# ExtraMat = Mid-High Level - only 1, available on all CSGs (looks like their Surface Mat, but isn't connected to Mesh) and FogVolume. Can stop further search. For CSGMesh3D, this can override Surface Mats!
 	if (parent is CSGPrimitive3D or parent is FogVolume) and continue_get_mats:
 		_set_gather_mats_progress(GatherMatsProgress.GET_EXTRAMAT)
 		
@@ -190,17 +191,17 @@ func _get_mats() -> bool:
 			if not extramats.is_empty(): debugprint_sign = "+"
 			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ExtraMats ", extramats.size(), "/1: ", _generate_filename_array_from_resource_array(extramats), ".")
 		
-		if extramats.is_empty() and not parent is CSGMesh3D: 
-			print("PSU: Parent '", parent.name, "': - WARNING: NO EXTRA MAT SET!")
-		else:
+		if not extramats.is_empty():
 			for index in extramats:
 				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.EXTRAMAT, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted")
+			if full_search == false and parent is CSGMesh3D:
+				_stop_get_mats()
+		else:
+			if not parent is CSGMesh3D:
+				print("PSU: Parent '", parent.name, "': - WARNING: NO EXTRA MAT SET!")
 		
-		if full_search == false and parent is CSGMesh3D and not extramats.is_empty():
-			_stop_get_mats()
-			
 	# ------------------------------
-	# Get Mesh(es) and SurfaceCounts for certain classes (ATTENTION: CSGPrimitive3D doesn't count, except for CSGMesh3D). Can fail & return if finds neither Mesh nor Special Mat (GeometryMat Override, CanvasItemMat, ParticleProcessMat).
+	# Get Mesh(es) and SurfaceCounts for certain classes (ATTENTION: CSGPrimitive3Ds DON'T count, except for CSGMesh3D). Can fail & return if finds neither Mesh nor Special Mat (GeometryMat Override, CanvasItemMat, ExtraMat, ParticleProcessMat).
 	if _parent_is_mesh_class() and continue_get_mats:
 		_set_gather_mats_progress(GatherMatsProgress.GET_MESH)
 		
@@ -244,17 +245,19 @@ func _get_mats() -> bool:
 				if particleprocessmats.is_empty() and geometrymats_overrides.is_empty():
 					_set_gather_mats_progress(GatherMatsProgress.NO_MESH_NOR_PARTICLEPROCESSMAT_NOR_GEOMETRYMAT_OVERRIDE_FOUND)
 					return false
-##UNCOMMENT THIS LATER!				#else: _stop_get_mats() ##UNCOMMENT THIS LATER!
 			elif parent is MeshInstance2D or parent is MultiMeshInstance2D:
 				if canvasitemmats.is_empty():
 					_set_gather_mats_progress(GatherMatsProgress.NO_MESH_NOR_CANVASITEMMAT_FOUND)
 					return false
-				else: _stop_get_mats()
+			elif parent is CSGMesh3D:
+				if extramats.is_empty() and geometrymats_overrides.is_empty():
+					_set_gather_mats_progress(GatherMatsProgress.NO_MESH_NOR_EXTRAMAT_NOR_GEOMETRYMAT_OVERRIDE_FOUND)
+					return false
 			else:
 				if geometrymats_overrides.is_empty():
 					_set_gather_mats_progress(GatherMatsProgress.NO_MESH_NOR_GEOMETRYMAT_OVERRIDE_FOUND)
 					return false
-				_stop_get_mats()
+			_stop_get_mats()
 	
 	# ------------------------------
 	# SurfaceMats Overrides = Medium Level (only available on MeshInstance3D)
@@ -299,28 +302,7 @@ func _get_mats() -> bool:
 							array_prepared_for_fill = true
 						surfacemats[mesh_index][surface_index] = meshes[mesh_index].surface_get_material(surface_index) # Actually write Mat to surfacemats.
 		
-		# Getting for CSGPrimitive3D (only 1 material) or FogVolume.
-		# ATTENTION: CSGMesh3D makes this Edge Case, because it has both Mesh Materials and parent.material.
-		# Therefore this statement is "if" and "array.append", and not "elif" and direct setting = CSGMesh3D can have 1 more SurfaceMat than Surfaces!
-		if parent is CSGPrimitive3D or parent is FogVolume:
-			if parent.material != null:
-				if surfacemats.is_empty():
-					surfacemats.resize(1)
-				surfacemats[0].append(parent.material)
-		
-		
-		
-		
-		
-		
-			if debug_mode:
-				if not surfacemats.is_empty():
-					print("PSU: Parent '", parent.name, "': + SurfaceMats ", surfacemats[0].filter(func(surfmat): return surfmat !=null).size(), "/1: ", _generate_filename_array_from_resource_array(surfacemats[0]), ".")
-				else:
-					print("PSU: Parent '", parent.name, "': - SurfaceMats 0/1: [].")
-			for surfacemat in surfacemats[0]:
-				PSU_MatLib.convert_append_unique_matlib_to_array(surfacemat, PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted")
-				
+
 			
 			#if debug_mode:
 				#debugprint_sign = "-"
