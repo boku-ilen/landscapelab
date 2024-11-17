@@ -96,7 +96,6 @@ func _update_shader(matlib: PSU_MatLib) -> void:
 func _get_mats() -> bool:
 	# Search parent for any type of Materials, write them first to respective "layer" array, then copy from there to "matlib_any_direct_getted".
 	# Iterate through that to write "nextpass" materials to "matlib_any_nextpass_getted". Return false if no mat was found at all.
-	_set_gather_mats_progress(GatherMatsProgress.GET_INIT)
 	
 	var meshes: Array[Mesh] # Used in most 3D things (Array for GPUParticles3D, which can have multiple meshes via DrawPass).
 	var meshes_surfacecount: Array[int] # Used for getting materials in 3D stuff from loops (Array for GPUParticles3D, which can have multiple meshes via DrawPass).
@@ -115,6 +114,7 @@ func _get_mats() -> bool:
 	matlib_any_direct_getted.clear()
 	matlib_any_nextpass_getted.clear()
 	
+	_set_gather_mats_progress(GatherMatsProgress.GET_INIT)
 	
 	# ------------------------------
 	# Check Parent for required class (which could use ShaderUpdates). Can fail & return.
@@ -162,6 +162,7 @@ func _get_mats() -> bool:
 		_set_gather_mats_progress(GatherMatsProgress.GET_GEOMETRYMAT_OVERRIDE)
 		
 		PSU_MatLib.append_unique_mat_to_array(parent.material_override, geometrymats_overrides) # If valid GeometryMat Override found (only one can exist), append to Array matlib_any_direct_getted and potentially halt search of lower layers.
+		
 		if debug_mode:
 			debugprint_sign = "-"
 			if not geometrymats_overrides.is_empty(): debugprint_sign = "+"
@@ -170,7 +171,7 @@ func _get_mats() -> bool:
 		for index in geometrymats_overrides:
 			PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.GEOMETRYMAT_OVERRIDE, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted")
 		
-		if not geometrymats_overrides.is_empty() and full_search == false:
+		if full_search == false and geometrymats_overrides.is_empty():
 			_stop_get_mats()
 	
 	# ------------------------------
@@ -278,9 +279,9 @@ func _get_mats() -> bool:
 				if _nested_array_has_min_1_valid(surfacemats): debugprint_sign = "+"
 				print("PSU: Parent '", parent.name, "': ", debugprint_sign, " SurfaceMats ", surfacemats[0].filter(func(surfmat): return surfmat !=null).size(), "/1: ", _generate_filename_array_from_resource_array(surfacemats[0]), ".")
 			
-			if _nested_array_has_min_1_valid(surfacemats):
-				for mesh_index in surfacemats.size():
-					for surface_index in surfacemats[mesh_index].size():
+			if _array_has_min_1_valid(surfacemats[0]):
+				for mesh_index in meshes.size():
+					for surface_index in meshes_surfacecount[mesh_index]:
 						if surfacemats[mesh_index][surface_index] != null:
 							PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats[0][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted", str(" from Surf '", surface_index, "'"))
 						else: ## Currently not reachable because here only 1 in array. But might be reusable if surface stays partially empty after rework
@@ -297,7 +298,7 @@ func _get_mats() -> bool:
 				if debug_mode:
 					debugprint_sign = "-"
 					if _array_has_min_1_valid(surfacemats[mesh_index]): debugprint_sign = "+"
-					print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ParticleDrawPass '", mesh_index+1, "', Mesh '", _generate_filename_from_resource(meshes[mesh_index]), "', SurfaceMats ", surfacemats[mesh_index].filter(func(surfmat): return surfmat !=null).size(), "/", clamp(meshes_surfacecount[mesh_index], 0, 666), ": ", _generate_filename_array_from_resource_array(surfacemats[mesh_index]), ".")
+					print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ParticleDrawPass '", mesh_index+1, "', Mesh '", _generate_filename_from_resource(meshes[mesh_index]), "', SurfaceMats ", surfacemats[mesh_index].filter(func(surfmat): return surfmat !=null).size(), "/", meshes_surfacecount[mesh_index], ": ", _generate_filename_array_from_resource_array(surfacemats[mesh_index]), ".")
 				if meshes[mesh_index] == null:
 					print("PSU: Parent '", parent.name, "': - WARNING: NO MAT BECAUSE NO MESH SET in DrawPass '", mesh_index+1, "'!")
 				for surface_index in meshes_surfacecount[mesh_index]:
@@ -306,7 +307,7 @@ func _get_mats() -> bool:
 						print("PSU: Parent '", parent.name, "': - WARNING: NO MAT SET in DrawPass '", mesh_index+1, "' Surf '", surface_index, "'!")
 					else:
 						PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats[mesh_index][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, "MatLib_Any_Direct_Getted", str(" from DrawPass '", mesh_index+1, "', Surf '", surface_index, "'"))
-		elif parent is MeshInstance3D and full_search == false:
+		elif parent is MeshInstance3D and full_search == false: ## Using if not surfacemats_overrides.is_empty() it could be used also for GPUParticles?
 			for surface_index in meshes_surfacecount[0]:
 				if surfacemats_overrides[surface_index] == null: # If no Surface Override Mat is found, tries to get the corresponding Non-Override Surface Mat.
 					if surfacemats[surface_index] != null:
@@ -415,11 +416,11 @@ func _array_has_min_1_valid(test_array: Array) -> bool:
 	return test_array.filter(func(element): return element != null).size() > 0
 	
 func _nested_array_has_min_1_valid(test_array: Array[Array]) -> bool: ## Rebuild this better?
-	var has_1_valid := false
+	var has_min_1_valid := false
 	for index in test_array:
 		if index.filter(func(element): return element != null).size() > 0:
-			has_1_valid = true
-	return has_1_valid
+			has_min_1_valid = true
+	return has_min_1_valid
 
 func _stop_get_mats() -> void:
 	continue_get_mats = false
