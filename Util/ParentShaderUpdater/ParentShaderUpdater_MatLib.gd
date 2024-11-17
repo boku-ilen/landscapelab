@@ -10,7 +10,7 @@ enum MaterialSlot { # In which usage slot Mat was found. _Nextpass version alway
 	PARTICLEPROCESSMAT_NEXTPASS = 1, # In ParticleProcessMat's NextPass slot.
 	CANVASITEMMAT = 2, # In CanvasItem.
 	CANVASITEMMAT_NEXTPASS = 3, # In CanvasItemMat's NextPass slot.
-	GEOMETRYMAT_OVERRIDE = 4, # Highest priority: In nearly all GeometryInstance3Ds, property "material_override".
+	GEOMETRYMAT_OVERRIDE = 4, # Highest priority: In all GeometryInstance3Ds except Label3D, property "material_override".
 	GEOMETRYMAT_OVERRIDE_NEXTPASS = 5, # In GeometryMat's NextPass slot.
 	EXTRAMAT = 6, # Mid-High priority, only used on CSGPrimitive3D and FogVolume. On CSGMesh3Ds this can override the Mesh Surfacemats!
 	EXTRAMAT_NEXTPASS = 7, # In ExtraMat's Nextpass slot.
