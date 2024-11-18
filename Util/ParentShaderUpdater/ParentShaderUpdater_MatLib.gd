@@ -77,8 +77,5 @@ static func fill_matlib_shader_paths(array_matlib: Array[PSU_MatLib], debug_arra
 		matlib.shader_path = matlib.material.shader.resource_path
 	return true
 
-static func filter_matlibs_matching_shader_path(array_matlib: Array[PSU_MatLib], find_in_shader_path: String) -> Array[PSU_MatLib]: # Returns array of all Materials in MatLib format whose "shader_path" matches input string
-	var matlibs_matching_saved: Array[PSU_MatLib]
-	for index in array_matlib.filter(func(matlib_from_array): return matlib_from_array.shader_path == find_in_shader_path):
-		append_unique_matlib_to_array(index, matlibs_matching_saved, "MatLib_Updatable_Matching_Saved")
-	return matlibs_matching_saved
+static func filter_array_matlibs_matching_shader_path(array_matlib: Array[PSU_MatLib], find_in_shader_path: String) -> Array[PSU_MatLib]: # Returns array of all Materials in MatLib format whose "shader_path" matches input string
+	return array_matlib.filter(func(matlib_from_array): return matlib_from_array.shader_path == find_in_shader_path)
