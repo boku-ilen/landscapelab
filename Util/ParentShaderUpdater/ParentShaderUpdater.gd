@@ -4,7 +4,7 @@
 class_name PSU_Gatherer extends Node
 
 var debug_mode := true ## Change this to a global Debug_Mode in the future Manager!
-var full_search := true ## Change this to a global in Manager! # False: Faster, gets only the currently visible materials for update -> skips materials in "lower layers". But for better Geo & Material checks should be true.
+var full_search := false ## Change this to a global in Manager! # False: Faster, gets only the currently visible materials for update -> skips materials in "lower layers". But for better Geo & Material checks should be true.
 var continue_get_mats := true # Falsified dynamically during _get_mats to shorten execution = not getting mats from "lower layers"
 
 var parent : Node
@@ -89,10 +89,11 @@ func _auto_update_chain(message_string: String, data: Array[String]) -> void:
 			PSU_MatLib.fill_matlib_shader_paths(matlib_updatable, matlib_updatable_printstr)
 			matlib_updatable_matching_saved = PSU_MatLib.filter_array_matlibs_matching_shader_path(matlib_updatable, saved_path)
 			if matlib_updatable_matching_saved.is_empty():
-				if debug_mode: print("PSU: - Saved Shader '", saved_path, "' not part of PSU-handled Materials ", matlib_updatable, " -> Can't Update!") ## Should print Material, not Matlib via _generate_filename_array_from_resource_array
+				if debug_mode: print("PSU: - Saved Shader '", saved_path, "' not part of PSU-handled Materials: ", _return_filename_array_from_res_array(PSU_MatLib.unpack_mat_array_from_matlib_array(matlib_updatable)), " -> Can't Update!")
 				return
+				
+			if debug_mode: print("PSU: + Saved Shader '", saved_path, "' matching these PSU-handled Materials: ", _return_filename_array_from_res_array(PSU_MatLib.unpack_mat_array_from_matlib_array(matlib_updatable_matching_saved)), " -> Trigger Update...")
 			for index in matlib_updatable_matching_saved:
-				if debug_mode: print("PSU: + Saved Shader '", saved_path, "' matching these PSU-handled Materials ", matlib_updatable_matching_saved, ", triggering Update...") ## Should print Material, not Matlib via _generate_filename_array_from_resource_array
 				_update_shader(index)
 
 func _update_shader(matlib: PSU_MatLib) -> void:
@@ -142,7 +143,7 @@ func _get_mats() -> bool:
 		if debug_mode:
 			debugprint_sign = "-"
 			if not particleprocessmats.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ParticleProcessMats ", particleprocessmats.size(), "/1: ", _generate_filename_array_from_resource_array(particleprocessmats), ".")
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ParticleProcessMats '", particleprocessmats.size(), "/1': ", _return_filename_array_from_res_array(particleprocessmats), ".")
 		
 		if not particleprocessmats.is_empty():
 			for index in particleprocessmats:
@@ -162,7 +163,7 @@ func _get_mats() -> bool:
 		if debug_mode:
 			debugprint_sign = "-"
 			if not canvasitemmats.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " CanvasItemMats ", canvasitemmats.size(), "/1: ", _generate_filename_array_from_resource_array(canvasitemmats), ".")
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " CanvasItemMats '", canvasitemmats.size(), "/1': ", _return_filename_array_from_res_array(canvasitemmats), ".")
 			
 		if not canvasitemmats.is_empty():
 			for index in canvasitemmats: 
@@ -188,7 +189,7 @@ func _get_mats() -> bool:
 		if debug_mode:
 			debugprint_sign = "~"
 			if not geometrymats_overrides.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " GeometryMats Overrides ", geometrymats_overrides.size(), "/1: ", _generate_filename_array_from_resource_array(geometrymats_overrides), ".")
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " GeometryMats Overrides '", geometrymats_overrides.size(), "/1': ", _return_filename_array_from_res_array(geometrymats_overrides), ".")
 		
 		if not geometrymats_overrides.is_empty():
 			for index in geometrymats_overrides:
@@ -208,7 +209,7 @@ func _get_mats() -> bool:
 			if parent is CSGMesh3D: debugprint_sign = "~"
 			else: debugprint_sign = "-" # Missing Material for all other classes is considered bad
 			if not extramats.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ExtraMats ", extramats.size(), "/1: ", _generate_filename_array_from_resource_array(extramats), ".")
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ExtraMats '", extramats.size(), "/1': ", _return_filename_array_from_res_array(extramats), ".")
 		
 		if not extramats.is_empty():
 			for index in extramats:
@@ -257,9 +258,9 @@ func _get_mats() -> bool:
 				if not null in meshes: debugprint_sign = "+"
 				else: debugprint_sign = "~"
 			if parent is GPUParticles3D:
-				print("PSU: Parent '", parent.name, "': ", debugprint_sign, " PARTICLEDRAWPASSES Meshes ", meshes.filter(func(mesh): return mesh != null).size(), "/", parent.draw_passes, ": ", _generate_filename_array_from_resource_array(meshes), ", Surfaces ", meshes_surfacecount, ".")
+				print("PSU: Parent '", parent.name, "': ", debugprint_sign, " PARTICLEDRAWPASSES Meshes '", meshes.filter(func(mesh): return mesh != null).size(), "/", parent.draw_passes, "': ", _return_filename_array_from_res_array(meshes), ", Surfaces: ", meshes_surfacecount, ".")
 			else:
-				print("PSU: Parent '", parent.name, "': ", debugprint_sign, " Mesh ", meshes.filter(func(mesh): return mesh != null).size(), "/1: ", _generate_filename_array_from_resource_array(meshes), ", Surfaces ", meshes_surfacecount, ".")
+				print("PSU: Parent '", parent.name, "': ", debugprint_sign, " Mesh '", meshes.filter(func(mesh): return mesh != null).size(), "/1': ", _return_filename_array_from_res_array(meshes), ", Surfaces: ", meshes_surfacecount, ".")
 		
 		# Fail & Return if neither Mesh nor Special Mats (different error types).
 		# GPUParticles3D or MeshInstance2D/3Ds without meshes but existing special mats don't fail, just stop _get_mats.
@@ -298,7 +299,7 @@ func _get_mats() -> bool:
 		if debug_mode:
 			debugprint_sign = "~"
 			if not surfacemats_overrides.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " SurfaceMats Overrides ", surfacemats_overrides.filter(func(surfmat): return surfmat != null).size(), "/", meshes_surfacecount[0], ": ", _generate_filename_array_from_resource_array(surfacemats_overrides), ".")
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " SurfaceMats Overrides '", surfacemats_overrides.filter(func(surfmat): return surfmat != null).size(), "/", meshes_surfacecount[0], "': ", _return_filename_array_from_res_array(surfacemats_overrides), ".")
 		
 		if not surfacemats_overrides.is_empty():
 			for index in surfacemats_overrides.size():
@@ -345,9 +346,9 @@ func _get_mats() -> bool:
 					max_surfcount_for_match: debugprint_sign = "+"
 					_: debugprint_sign = "~"
 				if parent is GPUParticles3D:
-					print("PSU: Parent '", parent.name, "': ", debugprint_sign, " PARTICLEDRAWPASS '", mesh_index+1, "', Mesh '", _generate_filename_from_resource(meshes[mesh_index]), "', SurfaceMats ", surfacemats_failsafed[mesh_index].filter(func(surfmat): return surfmat !=null).size(), "/", meshes_surfacecount[mesh_index], ": ", _generate_filename_array_from_resource_array(surfacemats_failsafed[mesh_index]), ".")
+					print("PSU: Parent '", parent.name, "': ", debugprint_sign, " PARTICLEDRAWPASS '", mesh_index+1, "', Mesh ", _return_filename_array_from_res_array([meshes[mesh_index]]), ", SurfaceMats '", surfacemats_failsafed[mesh_index].filter(func(surfmat): return surfmat !=null).size(), "/", meshes_surfacecount[mesh_index], "': ", _return_filename_array_from_res_array(surfacemats_failsafed[mesh_index]), ".")
 				else:
-					print("PSU: Parent '", parent.name, "': ", debugprint_sign, " SurfaceMats ", surfacemats_failsafed[mesh_index].filter(func(surfmat): return surfmat !=null).size(), "/", meshes_surfacecount[mesh_index], ": ", _generate_filename_array_from_resource_array(surfacemats_failsafed[mesh_index]), ".")
+					print("PSU: Parent '", parent.name, "': ", debugprint_sign, " SurfaceMats '", surfacemats_failsafed[mesh_index].filter(func(surfmat): return surfmat !=null).size(), "/", meshes_surfacecount[mesh_index], "': ", _return_filename_array_from_res_array(surfacemats_failsafed[mesh_index]), ".")
 				
 			if meshes[mesh_index] == null: # Exit loop if no mesh, only possible for GPUParticles3D (otherwise would have already failed)
 				print("PSU: Parent '", parent.name, "': - WARNING: NO SURFACEMATS BECAUSE NO MESH in DrawPass '", mesh_index+1, "'!")
@@ -367,7 +368,7 @@ func _get_mats() -> bool:
 					if surfacemats_overrides[surface_index] == null: # Check corresponding SurfaceMat Override at Index: Only append if that is empty.
 						PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats_failsafed[mesh_index][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, matlib_any_direct_getted_printstr, str(" from Surf '", surface_index, "'"))
 					else:
-						if debug_mode: print("PSU: Parent '", parent.name, "': ~ Override in Surf '", surface_index, "' ignored SurfaceMat '", _generate_filename_from_resource(surfacemats_failsafed[mesh_index][surface_index]), "'.")
+						if debug_mode: print("PSU: Parent '", parent.name, "': ~ Override in Surf '", surface_index, "' -> ignored SurfaceMat ", _return_filename_array_from_res_array([surfacemats_failsafed[mesh_index][surface_index]]), ".")
 				else: # Append to MatLib array with default print
 					PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats_failsafed[mesh_index][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, matlib_any_direct_getted_printstr, str(" from Surf '", surface_index, "'"))
 		
@@ -411,10 +412,7 @@ func _validate_gathered_mats() -> bool: # Copies all valid Mats (if ShaderMateri
 	if not matlib_updatable.is_empty():
 		_set_gather_mats_progress(GatherMatsProgress.SUCCESS) ## Make concatenated succes with printing number of updatable mats?
 		if debug_mode:
-			var unpacked_updatable_mats: Array[Material] ## Make this reusable func in _MatLib to use in Auto Update Chain
-			for matlib in matlib_updatable:
-				unpacked_updatable_mats.append(matlib.material)
-			print("PSU: Parent '", parent.name, "': Updatable Mats '", matlib_updatable.size(), "': ", _generate_filename_array_from_resource_array(unpacked_updatable_mats), ".")
+			print("PSU: Parent '", parent.name, "': Updatable Mats '", matlib_updatable.size(), "': ", _return_filename_array_from_res_array(PSU_MatLib.unpack_mat_array_from_matlib_array(matlib_updatable)), ".")
 		return true
 	else:
 		if counter_no_shadermat == counter_mats_validated:
@@ -483,16 +481,16 @@ func _stop_get_mats() -> void:
 
 func _set_gather_mats_progress(progress: GatherMatsProgress) -> void: # For tracking and printing the Get Material progress.
 	gather_mats_progress = progress
-	if progress >= 30: # means it's in the range reserved for errors!
+	if progress >= 30: # Range reserved for errors!
 		print("PSU: Parent '", parent.name, "': => ERROR: ", GatherMatsProgress.find_key(gather_mats_progress), " -> Can't Update!")
 		return
 	if debug_mode:
 		if progress == GatherMatsProgress.SUCCESS:
 			print("PSU: Parent '", parent.name, "': => SUCCESS!")
 			return
-		print("PSU: Parent '", parent.name, "': ", GatherMatsProgress.find_key(progress)) # Print for everything thats not SUCCESS or ERROR
+		else: print("PSU: Parent '", parent.name, "': ", GatherMatsProgress.find_key(progress)) # Print for everything thats not SUCCESS or ERROR
 
-func _generate_filename_array_from_resource_array(res_array: Array) -> Array[String]: # Sets NULL String in output String Array if corresponding obj was null. Required for some Debug Prints.
+func _return_filename_array_from_res_array(res_array: Array) -> Array[String]: # Sets NULL String in output String Array if corresponding resource was null. Required for some Debug Prints.
 	var filename_array: Array[String]
 	filename_array.resize(res_array.size())
 	for index in res_array.size():
@@ -501,11 +499,3 @@ func _generate_filename_array_from_resource_array(res_array: Array) -> Array[Str
 		else:
 			filename_array[index] = "NULL"
 	return filename_array
-
-func _generate_filename_from_resource(res: Resource) -> String: # Return NULL String if null obj is fed into it. For Debug Printing. ## Try to remove this
-	var filename: String
-	if res != null:
-		filename = res.resource_path.get_file()
-	else:
-		filename = "NULL"
-	return filename

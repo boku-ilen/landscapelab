@@ -69,6 +69,12 @@ static func recurse_matlib_for_nextpass_mat_append_to_array(matlib: PSU_MatLib, 
 			recurse_matlib_for_nextpass_mat_append_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname, recursionloop + 1, additional_printinfo)
 		return
 
+static func unpack_mat_array_from_matlib_array(matlib_array) -> Array[Material]:
+	var unpacked_mat_array: Array[Material]
+	for matlib in matlib_array:
+		unpacked_mat_array.append(matlib.material)
+	return unpacked_mat_array
+
 static func fill_matlib_shader_paths(array_matlib: Array[PSU_MatLib], debug_arrayname: String) -> bool:
 	if array_matlib.is_empty():
 		print("PSU: - '", debug_arrayname, "' contains no Mats to fill Shader_Path for!")
