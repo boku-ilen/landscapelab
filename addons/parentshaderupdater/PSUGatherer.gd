@@ -61,29 +61,16 @@ var _counter_no_shader: int # Number ShaderMaterials but are missing assigned Sh
 
 func _ready() -> void:
 	parent = get_parent()
-	_parent_is_valid_class()
+	if _parent_is_valid_class():
+		PSUManager.gather_mats.connect(_gather_matlibs)
 
 
-## Remove _input, _manual_update_chain, _update_shader once PSU_Manager is finished. Triggered from there!
-func _input(event):
-	if event.is_action_pressed("parent_shader_updater"):
-		_manual_update_chain()
-
-
-func _manual_update_chain() -> void:
+func _gather_matlibs() -> bool:
 	if _get_mats():
 		if _validate_gathered_mats():
-			PSUMatLib.fill_matlib_shader_paths(_matlib_updatable, _matlib_updatable_printstr)
-			for matlib in _matlib_updatable:
-				_update_shader(matlib)
-
-
-func _update_shader(matlib: PSUMatLib) -> void:
-	var shader_text = FileAccess.open(matlib.shader_path, FileAccess.READ).get_as_text()
-	matlib.material.shader.code = shader_text
-	print("PSU: + Updated Mat '", matlib.material.resource_path.get_file(), "' from Shader '", matlib.shader_path, "'\n \
-	(on '", matlib.source_node.name, "' in slot '", PSUMatLib.MaterialSlot.find_key(matlib.material_slot), "')")
-## _______
+			PSUManager.receive_matlib_array(_matlib_updatable)
+			return true
+	return false
 
 
 func _get_mats() -> bool:
@@ -372,7 +359,7 @@ func _get_mats() -> bool:
 		PSUMatLib.recurse_matlib_for_nextpass_mat_append_to_array(matlib, _matlib_any_nextpass_getted, _matlib_any_nextpass_getted_printstr)
 	
 	# ------------------------------
-	# Finally finished!
+	# Finally finished! Now Validation func should take over.
 	return true
 
 
@@ -479,7 +466,7 @@ func _set_gather_mats_progress(progress: GatherMatsProgress) -> void: # For trac
 	
 	if PSUManager.debug_mode:
 		if progress == GatherMatsProgress.SUCCESS:
-			print("PSU: Parent '", parent.name, "': => SUCCESS! Updatable Mats '", _matlib_updatable.size(), "': ", _return_filename_array_from_res_array(PSUMatLib.unpack_mat_array_from_matlib_array(_matlib_updatable)))
+			print("PSU: Parent '", parent.name, "': => SUCCESS! Sending Updatable Mats '", _matlib_updatable.size(), "': ", _return_filename_array_from_res_array(PSUMatLib.unpack_mat_array_from_matlib_array(_matlib_updatable)), " to PSUManager.")
 			return
 		print("PSU: Parent '", parent.name, "': ", GatherMatsProgress.find_key(progress)) # Print for everything thats not SUCCESS or ERROR.
 
