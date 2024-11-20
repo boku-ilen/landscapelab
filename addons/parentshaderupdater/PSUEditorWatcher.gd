@@ -10,7 +10,7 @@
 @tool
 extends EditorPlugin
 
-class PSUCommunicator extends EditorDebuggerPlugin:
+class PSUEditorCommunicator extends EditorDebuggerPlugin:
 	var session_id: int
 	var session: EditorDebuggerSession
 	var debugtext: RichTextLabel
@@ -41,13 +41,13 @@ class PSUCommunicator extends EditorDebuggerPlugin:
 			)
 
 
-var communicator: PSUCommunicator
+var communicator: PSUEditorCommunicator
 var debug_print: bool = false # Use this to quickly disable Output printing (Reload Plugin!)
 
 
 func _enter_tree() -> void:
 	add_autoload_singleton("PSUManager", "res://addons/parentshaderupdater/PSUManager.gd")
-	communicator = PSUCommunicator.new()
+	communicator = PSUEditorCommunicator.new()
 	resource_saved.connect(_on_resource_saved) # Connect to EditorPlugin's Resource_Saved signal.
 	add_debugger_plugin(communicator)
 
