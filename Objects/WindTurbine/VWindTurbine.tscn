@@ -1,0 +1,80 @@
+[gd_scene load_steps=10 format=3 uid="uid://bk1j0drxmtba3"]
+
+[ext_resource type="Script" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="1_euh7k"]
+[ext_resource type="ArrayMesh" uid="uid://fn60asgrp3gw" path="res://Resources/Meshes/Windmills/V/WKA_V_Mast.res" id="2_swtu4"]
+[ext_resource type="ArrayMesh" uid="uid://b666wxd5jp26s" path="res://Resources/Meshes/Windmills/V/WKA_V_Rotor.res" id="3_c8lje"]
+[ext_resource type="ArrayMesh" uid="uid://cevopxp4utikl" path="res://Resources/Meshes/Windmills/V/WKA_V_Hub.res" id="4_2yhci"]
+[ext_resource type="Texture2D" uid="uid://bj0adoua3ekv" path="res://Resources/Textures/ShaderUtil/spotlight.png" id="5_4q6q7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rnf0k"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 1)
+albedo_texture = ExtResource("5_4q6q7")
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 2.0
+billboard_mode = 1
+grow_amount = 16.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_io4bv"]
+size = Vector2(20, 20)
+
+[sub_resource type="Animation" id="8"]
+resource_name = "Blink"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mesh/Hub/Blink:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 2.5, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [false, true, false, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n7nt5"]
+_data = {
+"Blink": SubResource("8")
+}
+
+[node name="VWindTurbine" type="Node3D"]
+script = ExtResource("1_euh7k")
+mesh_hub_height = 162.8
+mesh_rotor_diameter = 162.0
+forward_for_rotation = Vector3(0, 0, 1)
+
+[node name="Mesh" type="Node3D" parent="."]
+
+[node name="Mast" type="MeshInstance3D" parent="Mesh"]
+layers = 4
+mesh = ExtResource("2_swtu4")
+skeleton = NodePath("")
+
+[node name="Rotor" type="Marker3D" parent="Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 162.8, 0)
+
+[node name="Sphere" type="MeshInstance3D" parent="Mesh/Rotor"]
+mesh = ExtResource("3_c8lje")
+skeleton = NodePath("")
+
+[node name="Hub" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 162.8, 0)
+layers = 4
+mesh = ExtResource("4_2yhci")
+skeleton = NodePath("")
+
+[node name="Blink" type="MeshInstance3D" parent="Mesh/Hub"]
+transform = Transform3D(-9.23706e-14, 1.03951e-14, -1, 0, 1, 1.47009e-14, 1, 3.46503e-15, -9.23706e-14, 0, -160.191, -5.317)
+layers = 4
+material_override = SubResource("StandardMaterial3D_rnf0k")
+mesh = SubResource("QuadMesh_io4bv")
+skeleton = NodePath("../../..")
+
+[node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_n7nt5")
+}
