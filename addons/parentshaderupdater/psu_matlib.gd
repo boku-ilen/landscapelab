@@ -1,6 +1,5 @@
 class_name PSU_MatLib extends RefCounted
 
-static var debug_mode := true ## Change this to a global Debug_Mode in the future Manager!
 var material: Material # Only ShaderMaterial types are required for final Update functionality, but in between all Material Classes need to be handled.
 var material_slot: MaterialSlot # In which slot Mat was found
 var source_node: Node # On which Node in level Mat was first found (subsequent occurences of same Mat are ignored).
@@ -34,7 +33,7 @@ static func append_unique_matlib_to_array(matlib: PSU_MatLib, array_matlib: Arra
 		return false
 		
 	array_matlib.append(matlib)
-	if debug_mode:
+	if PSU_Manager.debug_mode:
 		if matlib.material is ShaderMaterial and matlib.material.shader != null:
 			print("PSU: Parent '", matlib.source_node.name, "': + '", debug_arrayname, "' added Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "', Shader '", matlib.material.shader.resource_path.get_file(), "')", additional_printinfo, ".")
 		else:
@@ -64,7 +63,7 @@ static func recurse_matlib_for_nextpass_mat_append_to_array(matlib: PSU_MatLib, 
 				mat_slot_manip = mat_slot_manip + 1 as MaterialSlot
 			
 			var nextpass_conv_to_matlib: PSU_MatLib = PSU_MatLib.convert_mat_to_matlib(nextpass_mat, mat_slot_manip, matlib.source_node)
-			if debug_mode: print("PSU: Parent '", matlib.source_node.name, "': + Recursion #", recursionloop, " on Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "') got NextPass-Mat '", nextpass_mat.resource_path.get_file(), "'", additional_printinfo, ".")
+			if PSU_Manager.debug_mode: print("PSU: Parent '", matlib.source_node.name, "': + Recursion #", recursionloop, " on Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "') got NextPass-Mat '", nextpass_mat.resource_path.get_file(), "'", additional_printinfo, ".")
 			PSU_MatLib.append_unique_matlib_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname)
 			recurse_matlib_for_nextpass_mat_append_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname, recursionloop + 1, additional_printinfo)
 		return

@@ -3,29 +3,6 @@
 # Currently 3D nodes and CanvasItems are supported.
 class_name PSU_Gatherer extends Node
 
-var debug_mode := true ## Change this to a global Debug_Mode in the future Manager!
-var full_search := false ## Change this to a global in Manager! # False: Faster, gets only the currently visible materials for update -> skips materials in "lower layers". But for better Geo & Material checks should be true.
-var continue_get_mats := true # Falsified dynamically during _get_mats to shorten execution = not getting mats from "lower layers"
-
-var parent : Node
-
-var particleprocessmats: Array[Material] # Only 1 (Array for compatability), only available on GPU particles. Only requires PSU if class ShaderMaterial (ParticleProcessMaterial itself wouldn't require PSU).
-var canvasitemmats: Array[Material] # Mats on CanvasItems.
-var geometrymats_overrides: Array[Material] # Highest priority mats: Only 1 (Array for compatability) available on nearly all GeometryInstance3Ds, overrides all lower priority Mats (property "material_override").
-var extramats: Array[Material] # Mid-High priority mats: Only 1 (Array for compatability) available on CSGPrimitive3D (looks like their SurfaceMat but isn't connected to Mesh, for CSGMeshInstance3D it can override their SurfaceMats) or FogVolume.
-var surfacemats_overrides: Array[Material] # Medium priority mats: Only on MeshInstance3Ds, property "surface_material_override/0-n". overrides the corresponding SurfaceMats.
-var surfacemats: Array[Array] # Low priority mat: Various sources (MeshInstance, Particle3D, CSGPrimitive, FogVolume, ...). Nested Array: Dimension1 = Mesh Index, Dimension2 = Surface Index (because GPUParticles3D can have multiple meshes, each with individual surface arrays).
-
-var matlib_any_direct_getted: Array[PSU_MatLib] # Materials gathered directly from Material slots, can be any Material Class.
-var matlib_any_nextpass_getted: Array[PSU_MatLib] # Materials recursively found in "next_pass" Slots of Materials contained within matlib_any_direct_getted, can be any Material Class.
-var matlib_updatable: Array[PSU_MatLib] # Final validated collection of class ShaderMaterial that will be updated - other types wouldn't require PSU.
-var matlib_updatable_matching_saved: Array[PSU_MatLib] # Filters only ShaderMaterials that match the saved resource = Shader.
-var matlib_any_direct_getted_printstr: String = "ML_DirectGet" # String used in prints to denote the array. ## Move to Manager
-var matlib_any_nextpass_getted_printstr: String = "ML_NextPassGet" # String used in prints to denote the array. ## Move to Manager
-var matlib_updatable_printstr: String = "ML_Updatable" # String used in prints to denote the array. ## Move to Manager
-var matlib_updatable_matching_saved_printstr: String = "ML_Updatable_Matching_Saved" # String used in prints to denote the array. ## Move to Manager
-
-var gather_mats_progress: GatherMatsProgress
 enum GatherMatsProgress { # Tracks at which stage of gettings Mats the func "_get_mats" is, and later the validation results.
 	# Getting Section
 	GET_INIT = 0, # State when GetMaterials procedure has just started.
@@ -57,11 +34,31 @@ enum GatherMatsProgress { # Tracks at which stage of gettings Mats the func "_ge
 	NO_CLASS_SHADERMAT_MIXED_WITH_NO_SHADER_ASSIGNED = 43, # During Validation: Found mats are a mix of "not class ShaderMat" and "have no Shader".
 	EDGE_CASE = 666 # This shouldn't be possible...unhandled error...
 }
-var counter_mats_validated: int # Overall number materials that have tried validation.
-var counter_no_shadermat: int # Number materials not of class ShaderMat.
-var counter_no_shader: int # Number ShaderMaterials but are missing assigned Shader.
+var gather_mats_progress: GatherMatsProgress
+var parent : Node
 
 var saved_path: String ## MOVE TO MANAGER # Path of the shader that was recently saved in Editor.
+
+var _continue_get_mats := true # Falsified dynamically during _get_mats to shorten execution = not getting mats from "lower layers"
+var _particleprocessmats: Array[Material] # Only 1 (Array for compatability), only available on GPU particles. Only requires PSU if class ShaderMaterial (ParticleProcessMaterial itself wouldn't require PSU).
+var _canvasitemmats: Array[Material] # Mats on CanvasItems.
+var _geometrymats_overrides: Array[Material] # Highest priority mats: Only 1 (Array for compatability) available on nearly all GeometryInstance3Ds, overrides all lower priority Mats (property "material_override").
+var _extramats: Array[Material] # Mid-High priority mats: Only 1 (Array for compatability) available on CSGPrimitive3D (looks like their SurfaceMat but isn't connected to Mesh, for CSGMeshInstance3D it can override their SurfaceMats) or FogVolume.
+var _surfacemats_overrides: Array[Material] # Medium priority mats: Only on MeshInstance3Ds, property "surface_material_override/0-n". overrides the corresponding SurfaceMats.
+var _surfacemats: Array[Array] # Low priority mat: Various sources (MeshInstance, Particle3D, CSGPrimitive, FogVolume, ...). Nested Array: Dimension1 = Mesh Index, Dimension2 = Surface Index (because GPUParticles3D can have multiple meshes, each with individual surface arrays).
+
+var _matlib_any_direct_getted: Array[PSU_MatLib] # Materials gathered directly from Material slots, can be any Material Class.
+var _matlib_any_nextpass_getted: Array[PSU_MatLib] # Materials recursively found in "next_pass" Slots of Materials contained within matlib_any_direct_getted, can be any Material Class.
+var _matlib_updatable: Array[PSU_MatLib] # Final validated collection of class ShaderMaterial that will be updated - other types wouldn't require PSU.
+var _matlib_updatable_matching_saved: Array[PSU_MatLib] # Filters only ShaderMaterials that match the saved resource = Shader.
+var _matlib_any_direct_getted_printstr: String = "ML_DirectGet" # String used in prints to denote the array.
+var _matlib_any_nextpass_getted_printstr: String = "ML_NextPassGet" # String used in prints to denote the array.
+var _matlib_updatable_printstr: String = "ML_Updatable" # String used in prints to denote the array.
+var _matlib_updatable_matching_saved_printstr: String = "ML_Updatable_Matching_Saved" # String used in prints to denote the array.
+
+var _counter_mats_validated: int # Overall number materials that have tried validation.
+var _counter_no_shadermat: int # Number materials not of class ShaderMat.
+var _counter_no_shader: int # Number ShaderMaterials but are missing assigned Shader.
 
 # Checks messages in session sent via ResTypeSavedMessages for key string.
 func _ready() -> void:
@@ -76,24 +73,24 @@ func _input(event):
 func _manual_update_chain() -> void:
 	if _get_mats():
 		if _validate_gathered_mats():
-			PSU_MatLib.fill_matlib_shader_paths(matlib_updatable, matlib_updatable_printstr)
-			for matlib in matlib_updatable:
+			PSU_MatLib.fill_matlib_shader_paths(_matlib_updatable, _matlib_updatable_printstr)
+			for matlib in _matlib_updatable:
 				_update_shader(matlib)
 
 func _auto_update_chain(message_string: String, data: Array[String]) -> void:
 	saved_path = data[0]
-	matlib_updatable_matching_saved.clear()
+	_matlib_updatable_matching_saved.clear()
 	
 	if _get_mats():
 		if _validate_gathered_mats():
-			PSU_MatLib.fill_matlib_shader_paths(matlib_updatable, matlib_updatable_printstr)
-			matlib_updatable_matching_saved = PSU_MatLib.filter_array_matlibs_matching_shader_path(matlib_updatable, saved_path)
-			if matlib_updatable_matching_saved.is_empty():
-				if debug_mode: print("PSU: - Saved Shader '", saved_path, "' not part of PSU-handled Materials: ", _return_filename_array_from_res_array(PSU_MatLib.unpack_mat_array_from_matlib_array(matlib_updatable)), " -> Can't Update!")
+			PSU_MatLib.fill_matlib_shader_paths(_matlib_updatable, _matlib_updatable_printstr)
+			_matlib_updatable_matching_saved = PSU_MatLib.filter_array_matlibs_matching_shader_path(_matlib_updatable, saved_path)
+			if _matlib_updatable_matching_saved.is_empty():
+				if PSU_Manager.debug_mode: print("PSU: - Saved Shader '", saved_path, "' not part of PSU-handled Materials: ", _return_filename_array_from_res_array(PSU_MatLib.unpack_mat_array_from_matlib_array(_matlib_updatable)), " -> Can't Update!")
 				return
 				
-			if debug_mode: print("PSU: + Saved Shader '", saved_path, "' matching these PSU-handled Materials: ", _return_filename_array_from_res_array(PSU_MatLib.unpack_mat_array_from_matlib_array(matlib_updatable_matching_saved)), " -> Trigger Update...")
-			for index in matlib_updatable_matching_saved:
+			if PSU_Manager.debug_mode: print("PSU: + Saved Shader '", saved_path, "' matching these PSU-handled Materials: ", _return_filename_array_from_res_array(PSU_MatLib.unpack_mat_array_from_matlib_array(_matlib_updatable_matching_saved)), " -> Trigger Update...")
+			for index in _matlib_updatable_matching_saved:
 				_update_shader(index)
 
 func _update_shader(matlib: PSU_MatLib) -> void:
@@ -113,17 +110,17 @@ func _get_mats() -> bool:
 
 	parent = get_parent()
 	
-	continue_get_mats = true
-	particleprocessmats.clear()
-	canvasitemmats.clear()
-	geometrymats_overrides.clear()
-	extramats.clear()
+	_continue_get_mats = true
+	_particleprocessmats.clear()
+	_canvasitemmats.clear()
+	_geometrymats_overrides.clear()
+	_extramats.clear()
 	meshes.clear()
 	meshes_surfacecount.clear()
-	surfacemats_overrides.clear()
-	surfacemats.clear()
-	matlib_any_direct_getted.clear()
-	matlib_any_nextpass_getted.clear()
+	_surfacemats_overrides.clear()
+	_surfacemats.clear()
+	_matlib_any_direct_getted.clear()
+	_matlib_any_nextpass_getted.clear()
 	
 	_set_gather_mats_progress(GatherMatsProgress.GET_INIT)
 	
@@ -136,85 +133,85 @@ func _get_mats() -> bool:
 	
 	# ------------------------------
 	# ParticleProcess Mat - only 1, on GPU Particles2D/3D
-	if (parent is GPUParticles3D or parent is GPUParticles2D) and continue_get_mats:
+	if (parent is GPUParticles3D or parent is GPUParticles2D) and _continue_get_mats:
 		_set_gather_mats_progress(GatherMatsProgress.GET_PARTICLEPROCESSMAT)
 		
-		PSU_MatLib.append_unique_mat_to_array(parent.process_material, particleprocessmats)
-		if debug_mode:
+		PSU_MatLib.append_unique_mat_to_array(parent.process_material, _particleprocessmats)
+		if PSU_Manager.debug_mode:
 			debugprint_sign = "-"
-			if not particleprocessmats.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ParticleProcessMats '", particleprocessmats.size(), "/1': ", _return_filename_array_from_res_array(particleprocessmats), ".")
+			if not _particleprocessmats.is_empty(): debugprint_sign = "+"
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ParticleProcessMats '", _particleprocessmats.size(), "/1': ", _return_filename_array_from_res_array(_particleprocessmats), ".")
 		
-		if not particleprocessmats.is_empty():
-			for index in particleprocessmats:
-				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.PARTICLEPROCESSMAT, parent, matlib_any_direct_getted, matlib_any_direct_getted_printstr)
+		if not _particleprocessmats.is_empty():
+			for index in _particleprocessmats:
+				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.PARTICLEPROCESSMAT, parent, _matlib_any_direct_getted, _matlib_any_direct_getted_printstr)
 		else: print("PSU: Parent '", parent.name, "': - WARNING: NO ParticleProcessMat SET!")
 	
 	# ------------------------------
 	# CanvasItem Mat - only 1.
 	# Includes Particles2D classes, GPUParticles2D will fail here if no special mats!
 	# Can stop further search (except for (Multi)MeshInstance2D, this has other layers to get from).
-	if parent is CanvasItem and continue_get_mats:
+	if parent is CanvasItem and _continue_get_mats:
 		_set_gather_mats_progress(GatherMatsProgress.GET_CANVASITEMMAT)
 		
 		if not parent.use_parent_material: ## Implement recursive search through parents that have this
-			PSU_MatLib.append_unique_mat_to_array(parent.material, canvasitemmats)
+			PSU_MatLib.append_unique_mat_to_array(parent.material, _canvasitemmats)
 		
-		if debug_mode:
+		if PSU_Manager.debug_mode:
 			debugprint_sign = "-"
-			if not canvasitemmats.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " CanvasItemMats '", canvasitemmats.size(), "/1': ", _return_filename_array_from_res_array(canvasitemmats), ".")
+			if not _canvasitemmats.is_empty(): debugprint_sign = "+"
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " CanvasItemMats '", _canvasitemmats.size(), "/1': ", _return_filename_array_from_res_array(_canvasitemmats), ".")
 			
-		if not canvasitemmats.is_empty():
-			for index in canvasitemmats: 
-				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.CANVASITEMMAT, parent, matlib_any_direct_getted, matlib_any_direct_getted_printstr)
+		if not _canvasitemmats.is_empty():
+			for index in _canvasitemmats: 
+				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.CANVASITEMMAT, parent, _matlib_any_direct_getted, _matlib_any_direct_getted_printstr)
 		else:
 			print("PSU: Parent '", parent.name, "': - WARNING: NO CanvasItemMat SET!")
-			if parent is GPUParticles2D and particleprocessmats.is_empty():
+			if parent is GPUParticles2D and _particleprocessmats.is_empty():
 				_set_gather_mats_progress(GatherMatsProgress.NO_CANVASITEMMAT_NOR_PARTICLEPROCESSMAT_FOUND)
 				return false
 			
-		if not full_search and parent is not MeshInstance2D and parent is not MultiMeshInstance2D:
+		if not PSU_Manager.full_search and parent is not MeshInstance2D and parent is not MultiMeshInstance2D:
 			_stop_get_mats()
 	
 	# ------------------------------
 	# GeometryMats Overrides = Highest Level - only 1, optional, available on all GeometryInstance3Ds except Label3D (already excluded by _parent_is_valid_class).
 	# Can Override ExtraMats, SurfaceMats Overrides & SurfaceMats.
 	# Can stop further search if found (because overrides lower layer Mats).
-	if parent is GeometryInstance3D and continue_get_mats:
+	if parent is GeometryInstance3D and _continue_get_mats:
 		_set_gather_mats_progress(GatherMatsProgress.GET_GEOMETRYMAT_OVERRIDE)
 		
-		PSU_MatLib.append_unique_mat_to_array(parent.material_override, geometrymats_overrides)
+		PSU_MatLib.append_unique_mat_to_array(parent.material_override, _geometrymats_overrides)
 		
-		if debug_mode:
+		if PSU_Manager.debug_mode:
 			debugprint_sign = "~"
-			if not geometrymats_overrides.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " GeometryMats Overrides '", geometrymats_overrides.size(), "/1': ", _return_filename_array_from_res_array(geometrymats_overrides), ".")
+			if not _geometrymats_overrides.is_empty(): debugprint_sign = "+"
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " GeometryMats Overrides '", _geometrymats_overrides.size(), "/1': ", _return_filename_array_from_res_array(_geometrymats_overrides), ".")
 		
-		if not geometrymats_overrides.is_empty():
-			for index in geometrymats_overrides:
-				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.GEOMETRYMAT_OVERRIDE, parent, matlib_any_direct_getted, matlib_any_direct_getted_printstr)
-			if not full_search: _stop_get_mats()
+		if not _geometrymats_overrides.is_empty():
+			for index in _geometrymats_overrides:
+				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.GEOMETRYMAT_OVERRIDE, parent, _matlib_any_direct_getted, _matlib_any_direct_getted_printstr)
+			if not PSU_Manager.full_search: _stop_get_mats()
 	
 	# ------------------------------
 	# ExtraMat = Mid-High Level - only 1, available on all CSGs (looks like their SurfaceMat, but isn't connected to Mesh) and FogVolume.
 	# Can override SurfaceMats in CSGMesh3D.
 	# Can stop further search if found (because overrides lower layer Mats).
-	if (parent is CSGPrimitive3D or parent is FogVolume) and continue_get_mats:
+	if (parent is CSGPrimitive3D or parent is FogVolume) and _continue_get_mats:
 		_set_gather_mats_progress(GatherMatsProgress.GET_EXTRAMAT)
 		
-		PSU_MatLib.append_unique_mat_to_array(parent.material, extramats)
+		PSU_MatLib.append_unique_mat_to_array(parent.material, _extramats)
 		
-		if debug_mode:
+		if PSU_Manager.debug_mode:
 			if parent is CSGMesh3D: debugprint_sign = "~"
 			else: debugprint_sign = "-" # Missing Material for all other classes is considered bad
-			if not extramats.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ExtraMats '", extramats.size(), "/1': ", _return_filename_array_from_res_array(extramats), ".")
+			if not _extramats.is_empty(): debugprint_sign = "+"
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " ExtraMats '", _extramats.size(), "/1': ", _return_filename_array_from_res_array(_extramats), ".")
 		
-		if not extramats.is_empty():
-			for index in extramats:
-				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.EXTRAMAT, parent, matlib_any_direct_getted, matlib_any_direct_getted_printstr)
-			if not full_search and parent is CSGMesh3D: # Means existing extramat would override any lower layer mats.
+		if not _extramats.is_empty():
+			for index in _extramats:
+				PSU_MatLib.convert_append_unique_matlib_to_array(index, PSU_MatLib.MaterialSlot.EXTRAMAT, parent, _matlib_any_direct_getted, _matlib_any_direct_getted_printstr)
+			if not PSU_Manager.full_search and parent is CSGMesh3D: # Means existing extramat would override any lower layer mats.
 				_stop_get_mats()
 		else:
 			if not parent is CSGMesh3D: print("PSU: Parent '", parent.name, "': - WARNING: NO ExtraMat SET!")
@@ -222,7 +219,7 @@ func _get_mats() -> bool:
 	# ------------------------------
 	# Mesh(es) and SurfaceCounts - only for certain classes (ATTENTION: CSGPrimitive3Ds DON'T count, except for CSGMesh3D).
 	# Can stop further search if none - or fail & return if no Mesh(es) and no Special Mat (GeometryMat Override, CanvasItemMat, ExtraMat, ParticleProcessMat).
-	if _parent_is_mesh_class() and continue_get_mats:
+	if _parent_is_mesh_class() and _continue_get_mats:
 		_set_gather_mats_progress(GatherMatsProgress.GET_MESH)
 		
 		# Get Mesh(es), different methods depending on parent class. Remains empty if none found.
@@ -252,7 +249,7 @@ func _get_mats() -> bool:
 					meshes_surfacecount.fill(-1)
 				meshes_surfacecount[mesh_index] = meshes[mesh_index].get_surface_count()
 		
-		if debug_mode:
+		if PSU_Manager.debug_mode:
 			debugprint_sign = "-"
 			if not meshes.is_empty():
 				if not null in meshes: debugprint_sign = "+"
@@ -266,19 +263,19 @@ func _get_mats() -> bool:
 		# GPUParticles3D or MeshInstance2D/3Ds without meshes but existing special mats don't fail, just stop _get_mats.
 		if meshes.is_empty():
 			if parent is GPUParticles3D:
-				if particleprocessmats.is_empty() and geometrymats_overrides.is_empty():
+				if _particleprocessmats.is_empty() and _geometrymats_overrides.is_empty():
 					_set_gather_mats_progress(GatherMatsProgress.NO_MESH_NOR_PARTICLEPROCESSMAT_NOR_GEOMETRYMAT_OVERRIDE_FOUND)
 					return false
 			elif parent is MeshInstance2D or parent is MultiMeshInstance2D:
-				if canvasitemmats.is_empty():
+				if _canvasitemmats.is_empty():
 					_set_gather_mats_progress(GatherMatsProgress.NO_MESH_NOR_CANVASITEMMAT_FOUND)
 					return false
 			elif parent is CSGMesh3D:
-				if extramats.is_empty() and geometrymats_overrides.is_empty():
+				if _extramats.is_empty() and _geometrymats_overrides.is_empty():
 					_set_gather_mats_progress(GatherMatsProgress.NO_MESH_NOR_EXTRAMAT_NOR_GEOMETRYMAT_OVERRIDE_FOUND)
 					return false
 			else:
-				if geometrymats_overrides.is_empty():
+				if _geometrymats_overrides.is_empty():
 					_set_gather_mats_progress(GatherMatsProgress.NO_MESH_NOR_GEOMETRYMAT_OVERRIDE_FOUND)
 					return false
 			_stop_get_mats()
@@ -287,24 +284,24 @@ func _get_mats() -> bool:
 	# SurfaceMats Overrides = Medium Level (only available on MeshInstance3D), optional.
 	# Can override SurfaceMats.
 	# Can stop further search if all valid (because overrides lower layer Mats).
-	if parent is MeshInstance3D and continue_get_mats:
+	if parent is MeshInstance3D and _continue_get_mats:
 		_set_gather_mats_progress(GatherMatsProgress.GET_SURFACEMAT_OVERRIDE)
 		
 		for surface_index in meshes_surfacecount[0]:
 			if parent.get_surface_override_material(surface_index) != null: # Required this way, because copying Nulls over to array later doesn't count as "real nulls"...
-				if surfacemats_overrides.is_empty(): # Should happen only once
-					surfacemats_overrides.resize(meshes_surfacecount[0])
-				surfacemats_overrides[surface_index] = parent.get_surface_override_material(surface_index)
+				if _surfacemats_overrides.is_empty(): # Should happen only once
+					_surfacemats_overrides.resize(meshes_surfacecount[0])
+				_surfacemats_overrides[surface_index] = parent.get_surface_override_material(surface_index)
 		
-		if debug_mode:
+		if PSU_Manager.debug_mode:
 			debugprint_sign = "~"
-			if not surfacemats_overrides.is_empty(): debugprint_sign = "+"
-			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " SurfaceMats Overrides '", surfacemats_overrides.filter(func(surfmat): return surfmat != null).size(), "/", meshes_surfacecount[0], "': ", _return_filename_array_from_res_array(surfacemats_overrides), ".")
+			if not _surfacemats_overrides.is_empty(): debugprint_sign = "+"
+			print("PSU: Parent '", parent.name, "': ", debugprint_sign, " SurfaceMats Overrides '", _surfacemats_overrides.filter(func(surfmat): return surfmat != null).size(), "/", meshes_surfacecount[0], "': ", _return_filename_array_from_res_array(_surfacemats_overrides), ".")
 		
-		if not surfacemats_overrides.is_empty():
-			for index in surfacemats_overrides.size():
-				PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats_overrides[index], PSU_MatLib.MaterialSlot.SURFACEMAT_OVERRIDE, parent, matlib_any_direct_getted, matlib_any_direct_getted_printstr, str(" from SurfaceMat OR '", index, "'"))
-			if not null in surfacemats_overrides:
+		if not _surfacemats_overrides.is_empty():
+			for index in _surfacemats_overrides.size():
+				PSU_MatLib.convert_append_unique_matlib_to_array(_surfacemats_overrides[index], PSU_MatLib.MaterialSlot.SURFACEMAT_OVERRIDE, parent, _matlib_any_direct_getted, _matlib_any_direct_getted_printstr, str(" from SurfaceMat OR '", index, "'"))
+			if not PSU_Manager.full_search and not null in _surfacemats_overrides:
 				_stop_get_mats()
 
 	# ------------------------------
@@ -313,7 +310,7 @@ func _get_mats() -> bool:
 	# "surfacemats" array should stay empty if absolutely no mats were found (for easier debugging), so resize only if min 1 valid mat is found.
 	# For GPUParticles3D: If a drawpass has absolutely no Mats, then corresponding nested array in "surfacemats" stays empty.
 	# Meshes array should already be filled (else get_mats will have failed before)...so no "index out of bounds" for meshes.
-	if continue_get_mats and _parent_is_mesh_class():
+	if _continue_get_mats and _parent_is_mesh_class():
 		_set_gather_mats_progress(GatherMatsProgress.GET_SURFACEMAT)
 		
 		## Try to unify both steps
@@ -328,18 +325,18 @@ func _get_mats() -> bool:
 			for surface_index in meshes_surfacecount[mesh_index]:
 				if meshes[mesh_index].surface_get_material(surface_index) != null:
 					if not array_prepared_for_fill: # Bool for faster loop iteration.
-						if surfacemats.is_empty():
-							surfacemats.resize(meshes.size())
-						surfacemats[mesh_index].resize(meshes_surfacecount[mesh_index])
+						if _surfacemats.is_empty():
+							_surfacemats.resize(meshes.size())
+						_surfacemats[mesh_index].resize(meshes_surfacecount[mesh_index])
 						array_prepared_for_fill = true
-					surfacemats[mesh_index][surface_index] = meshes[mesh_index].surface_get_material(surface_index) # Actually write Mat to surfacemats.
+					_surfacemats[mesh_index][surface_index] = meshes[mesh_index].surface_get_material(surface_index) # Actually write Mat to surfacemats.
 		
 		# Step 2 - Loop again using previously filled "surfacemats" and "surfacemats_failsafed"
 		# Using "surfacemats_failsafed" to not incur "index out of bounds", loop-assign only valid subarrays of "surfacemats" to it.
 		for mesh_index in meshes.size(): 
-			if not surfacemats.is_empty() and not surfacemats[mesh_index].is_empty(): surfacemats_failsafed[mesh_index] = surfacemats[mesh_index]
+			if not _surfacemats.is_empty() and not _surfacemats[mesh_index].is_empty(): surfacemats_failsafed[mesh_index] = _surfacemats[mesh_index]
 			
-			if debug_mode:
+			if PSU_Manager.debug_mode:
 				var max_surfcount_for_match = meshes_surfacecount[mesh_index]
 				match surfacemats_failsafed[mesh_index].filter(func(surfmats): return surfmats != null).size():
 					0: debugprint_sign = "-"
@@ -363,30 +360,30 @@ func _get_mats() -> bool:
 					continue
 				
 				if parent is GPUParticles3D: # Append valid Mats to MatLib array with DrawPass-specific printing
-					PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats_failsafed[mesh_index][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, matlib_any_direct_getted_printstr, str(" from DrawPass '", mesh_index+1, "', Surf '", surface_index, "'"))
-				elif not full_search and not surfacemats_overrides.is_empty(): # means it's MeshInstance3D: Speed hack to skip check. Special handling for full_search == false.
-					if surfacemats_overrides[surface_index] == null: # Check corresponding SurfaceMat Override at Index: Only append if that is empty.
-						PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats_failsafed[mesh_index][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, matlib_any_direct_getted_printstr, str(" from Surf '", surface_index, "'"))
+					PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats_failsafed[mesh_index][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, _matlib_any_direct_getted, _matlib_any_direct_getted_printstr, str(" from DrawPass '", mesh_index+1, "', Surf '", surface_index, "'"))
+				elif not PSU_Manager.full_search and not _surfacemats_overrides.is_empty(): # means it's MeshInstance3D: Speed hack to skip check. Special handling for full_search == false.
+					if _surfacemats_overrides[surface_index] == null: # Check corresponding SurfaceMat Override at Index: Only append if that is empty.
+						PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats_failsafed[mesh_index][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, _matlib_any_direct_getted, _matlib_any_direct_getted_printstr, str(" from Surf '", surface_index, "'"))
 					else:
-						if debug_mode: print("PSU: Parent '", parent.name, "': ~ Override in Surf '", surface_index, "' -> ignored SurfaceMat ", _return_filename_array_from_res_array([surfacemats_failsafed[mesh_index][surface_index]]), ".")
+						if PSU_Manager.debug_mode: print("PSU: Parent '", parent.name, "': ~ Override in Surf '", surface_index, "' -> ignored SurfaceMat ", _return_filename_array_from_res_array([surfacemats_failsafed[mesh_index][surface_index]]), ".")
 				else: # Append to MatLib array with default print
-					PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats_failsafed[mesh_index][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, matlib_any_direct_getted, matlib_any_direct_getted_printstr, str(" from Surf '", surface_index, "'"))
+					PSU_MatLib.convert_append_unique_matlib_to_array(surfacemats_failsafed[mesh_index][surface_index], PSU_MatLib.MaterialSlot.SURFACEMAT, parent, _matlib_any_direct_getted, _matlib_any_direct_getted_printstr, str(" from Surf '", surface_index, "'"))
 		
 		 # Final additional Warning
-		if surfacemats.is_empty():
+		if _surfacemats.is_empty():
 			print("PSU: Parent '", parent.name, "': - WARNING: ZERO SURFACEMATS FOUND!")
 	
 	# ------------------------------
 	# Check directly set Mats - if none, fail & return.
-	if matlib_any_direct_getted.is_empty():
+	if _matlib_any_direct_getted.is_empty():
 		_set_gather_mats_progress(GatherMatsProgress.NO_ANY_MAT_FOUND)
 		return false
 	
 	# ------------------------------
 	# Recurse/Get NextPass Mats from matlib_any_direct_getted.
 	_set_gather_mats_progress(GatherMatsProgress.RECURSE_NEXTPASSMATS)
-	for matlib in matlib_any_direct_getted:
-		PSU_MatLib.recurse_matlib_for_nextpass_mat_append_to_array(matlib, matlib_any_nextpass_getted, matlib_any_nextpass_getted_printstr)
+	for matlib in _matlib_any_direct_getted:
+		PSU_MatLib.recurse_matlib_for_nextpass_mat_append_to_array(matlib, _matlib_any_nextpass_getted, _matlib_any_nextpass_getted_printstr)
 	
 	# ------------------------------
 	# Finally finished!
@@ -394,32 +391,32 @@ func _get_mats() -> bool:
 
 func _validate_gathered_mats() -> bool: # Copies all valid Mats (if ShaderMaterial and has Shader) from Getted arrays to Updatable array.
 	_set_gather_mats_progress(GatherMatsProgress.VAL_INIT)	
-	matlib_updatable.clear()
-	counter_mats_validated = 0
-	counter_no_shadermat = 0
-	counter_no_shader = 0
+	_matlib_updatable.clear()
+	_counter_mats_validated = 0
+	_counter_no_shadermat = 0
+	_counter_no_shader = 0
 
 	# From "matlib_any_direct_getted" copy valid ShaderMats to updatable array.
 	_set_gather_mats_progress(GatherMatsProgress.VAL_ANY_DIRECT_MATS)
-	_validate_matlib_array_with_counter_write_to_updatable(matlib_any_direct_getted)
+	_validate_matlib_array_with_counter_write_to_updatable(_matlib_any_direct_getted)
 	
 	# From "matlib_any_nextpass_getted" (if filled) copy valid ShaderMats to updatable array.
-	if not matlib_any_nextpass_getted.is_empty():
+	if not _matlib_any_nextpass_getted.is_empty():
 		_set_gather_mats_progress(GatherMatsProgress.VAL_ANY_NEXTPASS_MATS)
-		_validate_matlib_array_with_counter_write_to_updatable(matlib_any_nextpass_getted)
+		_validate_matlib_array_with_counter_write_to_updatable(_matlib_any_nextpass_getted)
 	
 	# Final check on matlib_updatable returns true, or Error tracking
-	if not matlib_updatable.is_empty():
+	if not _matlib_updatable.is_empty():
 		_set_gather_mats_progress(GatherMatsProgress.SUCCESS) ## Make concatenated succes with printing number of updatable mats?
-		if debug_mode:
-			print("PSU: Parent '", parent.name, "': Updatable Mats '", matlib_updatable.size(), "': ", _return_filename_array_from_res_array(PSU_MatLib.unpack_mat_array_from_matlib_array(matlib_updatable)), ".")
+		if PSU_Manager.debug_mode:
+			print("PSU: Parent '", parent.name, "': Updatable Mats '", _matlib_updatable.size(), "': ", _return_filename_array_from_res_array(PSU_MatLib.unpack_mat_array_from_matlib_array(_matlib_updatable)), ".")
 		return true
 	else:
-		if counter_no_shadermat == counter_mats_validated:
+		if _counter_no_shadermat == _counter_mats_validated:
 			_set_gather_mats_progress(GatherMatsProgress.NO_CLASS_SHADERMAT_FOUND)
-		elif counter_no_shader == counter_mats_validated:
+		elif _counter_no_shader == _counter_mats_validated:
 			_set_gather_mats_progress(GatherMatsProgress.NO_SHADER_ASSIGNED)
-		elif counter_no_shadermat + counter_no_shader == counter_mats_validated:
+		elif _counter_no_shadermat + _counter_no_shader == _counter_mats_validated:
 			_set_gather_mats_progress(GatherMatsProgress.NO_CLASS_SHADERMAT_MIXED_WITH_NO_SHADER_ASSIGNED)
 		else:
 			_set_gather_mats_progress(GatherMatsProgress.EDGE_CASE)
@@ -427,19 +424,19 @@ func _validate_gathered_mats() -> bool: # Copies all valid Mats (if ShaderMateri
 
 func _validate_matlib_array_with_counter_write_to_updatable(array_matlib: Array[PSU_MatLib]) -> void:
 	for matlib in array_matlib:
-		counter_mats_validated += 1
+		_counter_mats_validated += 1
 	
 		match _validate_matlib_for_mattype_and_shader(matlib):
 			GatherMatsProgress.FOUND_SHADERMAT_WITH_SHADER:
-				PSU_MatLib.append_unique_matlib_to_array(matlib, matlib_updatable, matlib_updatable_printstr)
+				PSU_MatLib.append_unique_matlib_to_array(matlib, _matlib_updatable, _matlib_updatable_printstr)
 			GatherMatsProgress.NO_CLASS_SHADERMAT_FOUND:
-				counter_no_shadermat += 1
+				_counter_no_shadermat += 1
 			GatherMatsProgress.NO_SHADER_ASSIGNED:
-				counter_no_shader += 1
+				_counter_no_shader += 1
 
 func _validate_matlib_for_mattype_and_shader(matlib: PSU_MatLib) -> GatherMatsProgress: # Return ENUM Errors or success depending of outcome, that gets collected and tested on the Caller
 	if matlib.material is not ShaderMaterial:
-			if debug_mode: print("PSU: Parent '", parent.name, "': - NOT OF CLASS SHADERMATERIAL in Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "' Class '", matlib.material.get_class(), "') -> Not updatable!")
+			if PSU_Manager.debug_mode: print("PSU: Parent '", parent.name, "': - NOT OF CLASS SHADERMATERIAL in Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "' Class '", matlib.material.get_class(), "') -> Not updatable!")
 			return GatherMatsProgress.NO_CLASS_SHADERMAT_FOUND
 	if matlib.material.shader == null:
 		print("PSU: Parent '", parent.name, "': - WARNING: NO SHADER ASSIGNED in Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "') -> Not updatable!")
@@ -476,15 +473,15 @@ func _array_has_min_1_valid(array: Array) -> bool:
 	return array.filter(func(element): return element != null).size() > 0
 
 func _stop_get_mats() -> void:
-	continue_get_mats = false
-	if debug_mode: print("PSU: Parent '", parent.name, "': => Stopped getting Mats...")
+	_continue_get_mats = false
+	if PSU_Manager.debug_mode: print("PSU: Parent '", parent.name, "': => Stopped getting Mats...")
 
 func _set_gather_mats_progress(progress: GatherMatsProgress) -> void: # For tracking and printing the Get Material progress.
 	gather_mats_progress = progress
 	if progress >= 30: # Range reserved for errors!
 		print("PSU: Parent '", parent.name, "': => ERROR: ", GatherMatsProgress.find_key(gather_mats_progress), " -> Can't Update!")
 		return
-	if debug_mode:
+	if PSU_Manager.debug_mode:
 		if progress == GatherMatsProgress.SUCCESS:
 			print("PSU: Parent '", parent.name, "': => SUCCESS!")
 			return
