@@ -3,7 +3,7 @@
 [ext_resource type="Material" uid="uid://2j2o2n1u42at" path="res://Resources/GeorgStuff/Test_GeoOR.tres" id="1_2bkan"]
 [ext_resource type="ArrayMesh" uid="uid://b11fg0nuolvig" path="res://Objects/Barriers/WireMesh.tres" id="1_5cw1u"]
 [ext_resource type="Material" uid="uid://dpcefd240ljwg" path="res://Resources/GeorgStuff/Test_Surface.tres" id="1_72hhq"]
-[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://Util/ParentShaderUpdater/ParentShaderUpdater.tscn" id="1_kv3av"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="1_kv3av"]
 [ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneBike.gdshader" id="2_7vlvx"]
 [ext_resource type="Material" uid="uid://b2pys0u3qv5m1" path="res://Resources/GeorgStuff/Test_SurfaceOR.tres" id="2_hwvgu"]
 [ext_resource type="Material" uid="uid://bng2i6y7yg4j7" path="res://Resources/GeorgStuff/Test_ProcessMat.tres" id="4_xmlry"]
@@ -78,13 +78,13 @@ surface_material_override/0 = ExtResource("2_hwvgu")
 
 [node name="MeshInstance3D_ArrayMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.69781, 0, 0)
-material_override = ExtResource("1_2bkan")
 mesh = ExtResource("1_5cw1u")
 surface_material_override/0 = ExtResource("2_hwvgu")
 surface_material_override/1 = ExtResource("2_hwvgu")
+surface_material_override/2 = ExtResource("2_hwvgu")
 
-[node name="ParentShaderUpdater" parent="MeshInstance3D_ArrayMesh" instance=ExtResource("1_kv3av")]
-transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 1.49012e-08, -2.98023e-08, 0, 1, -1.36855, 1.19209e-07, -5.90145)
+[node name="PSUGatherer" parent="MeshInstance3D_ArrayMesh" instance=ExtResource("1_kv3av")]
+script = null
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 visible = false

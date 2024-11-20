@@ -1,4 +1,4 @@
-class_name PSU_MatLib extends RefCounted
+class_name PSUMatLib extends RefCounted
 
 var material: Material # Only ShaderMaterial types are required for final Update functionality, but in between all Material Classes need to be handled.
 var material_slot: MaterialSlot # In which slot Mat was found
@@ -26,31 +26,31 @@ static func append_unique_mat_to_array(material: Material, array: Array[Material
 	array.append(material)
 	return true
 
-static func append_unique_matlib_to_array(matlib: PSU_MatLib, array_matlib: Array[PSU_MatLib], debug_arrayname: String, additional_printinfo: String = "") -> bool:
+static func append_unique_matlib_to_array(matlib: PSUMatLib, array_matlib: Array[PSUMatLib], debug_arrayname: String, additional_printinfo: String = "") -> bool:
 	# Abort if Check via lambda (if input matlib.material already exists in input array_matlib) triggers
 	if array_matlib.filter(func(matlib_from_array): return matlib_from_array.material == matlib.material).size() > 0 or \
 		matlib == null or matlib.material == null:
 		return false
 		
 	array_matlib.append(matlib)
-	if PSU_Manager.debug_mode:
+	if PSUManager.debug_mode:
 		if matlib.material is ShaderMaterial and matlib.material.shader != null:
 			print("PSU: Parent '", matlib.source_node.name, "': + '", debug_arrayname, "' added Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "', Shader '", matlib.material.shader.resource_path.get_file(), "')", additional_printinfo, ".")
 		else:
 			print("PSU: Parent '", matlib.source_node.name, "': + '", debug_arrayname, "' added Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "', Class '", matlib.material.get_class(), "')", additional_printinfo, ".")
 	return true
 
-static func convert_mat_to_matlib(mat: Material, mat_slot: MaterialSlot, src_node: Node) -> PSU_MatLib:
-	var converted_to_matlib := PSU_MatLib.new()
+static func convert_mat_to_matlib(mat: Material, mat_slot: MaterialSlot, src_node: Node) -> PSUMatLib:
+	var converted_to_matlib := PSUMatLib.new()
 	converted_to_matlib.material = mat
 	converted_to_matlib.material_slot = mat_slot
 	converted_to_matlib.source_node = src_node
 	return converted_to_matlib
 
-static func convert_append_unique_matlib_to_array(mat: Material, mat_slot: MaterialSlot, src_node: Node, array_matlib: Array[PSU_MatLib], debug_arrayname: String, additional_printinfo: String = "") -> bool:
+static func convert_append_unique_matlib_to_array(mat: Material, mat_slot: MaterialSlot, src_node: Node, array_matlib: Array[PSUMatLib], debug_arrayname: String, additional_printinfo: String = "") -> bool:
 	return append_unique_matlib_to_array(convert_mat_to_matlib(mat, mat_slot, src_node), array_matlib, debug_arrayname, additional_printinfo)
 
-static func recurse_matlib_for_nextpass_mat_append_to_array(matlib: PSU_MatLib, array_matlib: Array[PSU_MatLib], debug_arrayname: String, recursionloop: int = 1, additional_printinfo: String = "") -> void:
+static func recurse_matlib_for_nextpass_mat_append_to_array(matlib: PSUMatLib, array_matlib: Array[PSUMatLib], debug_arrayname: String, recursionloop: int = 1, additional_printinfo: String = "") -> void:
 	if matlib.material is ShaderMaterial \
 	or matlib.material is StandardMaterial3D \
 	or matlib.material is ORMMaterial3D:
@@ -62,9 +62,9 @@ static func recurse_matlib_for_nextpass_mat_append_to_array(matlib: PSU_MatLib, 
 			if not mat_slot_manip % 2:
 				mat_slot_manip = mat_slot_manip + 1 as MaterialSlot
 			
-			var nextpass_conv_to_matlib: PSU_MatLib = PSU_MatLib.convert_mat_to_matlib(nextpass_mat, mat_slot_manip, matlib.source_node)
-			if PSU_Manager.debug_mode: print("PSU: Parent '", matlib.source_node.name, "': + Recursion #", recursionloop, " on Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "') got NextPass-Mat '", nextpass_mat.resource_path.get_file(), "'", additional_printinfo, ".")
-			PSU_MatLib.append_unique_matlib_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname)
+			var nextpass_conv_to_matlib: PSUMatLib = PSUMatLib.convert_mat_to_matlib(nextpass_mat, mat_slot_manip, matlib.source_node)
+			if PSUManager.debug_mode: print("PSU: Parent '", matlib.source_node.name, "': + Recursion #", recursionloop, " on Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "') got NextPass-Mat '", nextpass_mat.resource_path.get_file(), "'", additional_printinfo, ".")
+			PSUMatLib.append_unique_matlib_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname)
 			recurse_matlib_for_nextpass_mat_append_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname, recursionloop + 1, additional_printinfo)
 		return
 
@@ -74,7 +74,7 @@ static func unpack_mat_array_from_matlib_array(matlib_array) -> Array[Material]:
 		unpacked_mat_array.append(matlib.material)
 	return unpacked_mat_array
 
-static func fill_matlib_shader_paths(array_matlib: Array[PSU_MatLib], debug_arrayname: String) -> bool:
+static func fill_matlib_shader_paths(array_matlib: Array[PSUMatLib], debug_arrayname: String) -> bool:
 	if array_matlib.is_empty():
 		print("PSU: - '", debug_arrayname, "' contains no Mats to fill Shader_Path for!")
 		return false
@@ -82,5 +82,5 @@ static func fill_matlib_shader_paths(array_matlib: Array[PSU_MatLib], debug_arra
 		matlib.shader_path = matlib.material.shader.resource_path
 	return true
 
-static func filter_array_matlibs_matching_shader_path(array_matlib: Array[PSU_MatLib], find_in_shader_path: String) -> Array[PSU_MatLib]: # Returns array of all Materials in MatLib format whose "shader_path" matches input string
+static func filter_array_matlibs_matching_shader_path(array_matlib: Array[PSUMatLib], find_in_shader_path: String) -> Array[PSUMatLib]: # Returns array of all Materials in MatLib format whose "shader_path" matches input string
 	return array_matlib.filter(func(matlib_from_array): return matlib_from_array.shader_path == find_in_shader_path)
