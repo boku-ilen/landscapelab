@@ -75,12 +75,11 @@ static func unpack_mat_array_from_matlib_array(matlib_array) -> Array[Material]:
 		unpacked_mat_array.append(matlib.material)
 	return unpacked_mat_array
 
-static func fill_matlib_shader_paths(array_matlib: Array[PSUMatLib], debug_arrayname: String) -> bool:
-	if array_matlib.is_empty():
+static func fill_matlib_shader_paths(matlib: PSUMatLib, debug_arrayname: String) -> bool:
+	if matlib == null:
 		print("PSU: - '", debug_arrayname, "' contains no Mats to fill Shader_Path for!")
 		return false
-	for matlib in array_matlib:
-		matlib.shader_path = matlib.material.shader.resource_path
+	matlib.shader_path = matlib.material.shader.resource_path
 	return true
 
 static func filter_array_matlibs_matching_shader_path(array_matlib: Array[PSUMatLib], find_in_shader_path: String) -> Array[PSUMatLib]: # Returns array of all Materials in MatLib format whose "shader_path" matches input string
