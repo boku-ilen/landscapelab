@@ -1,9 +1,5 @@
 class_name PSUMatLib extends RefCounted
 
-var material: Material # Only ShaderMaterial types are required for final Update functionality, but in between all Material Classes need to be handled.
-var material_slot: MaterialSlot # In which slot Mat was found
-var source_node: Node # On which Node in level Mat was first found (subsequent occurences of same Mat are ignored).
-var shader_path: String # Filled later by running fill_shader_paths() only on arrays containing valid ShaderMaterials to reduce overhead.
 enum MaterialSlot { # In which usage slot Mat was found. _Nextpass version always is +1 of original mat, this is relevant!
 	PARTICLEPROCESSMAT = 0, # Additional type found on GPU particles
 	PARTICLEPROCESSMAT_NEXTPASS = 1, # In ParticleProcessMat's NextPass slot.
@@ -17,7 +13,12 @@ enum MaterialSlot { # In which usage slot Mat was found. _Nextpass version alway
 	SURFACEMAT_OVERRIDE_NEXTPASS = 9,  # In Surfacemat_Override's NextPass slot.
 	SURFACEMAT = 10, # Low priority: property "material", only used if no SurfaceMat Override exists for that slot.
 	SURFACEMAT_NEXTPASS = 11, # In SurfaceMat's NextPass slot..
-}
+	}
+var material: Material # Only ShaderMaterial types are required for final Update functionality, but in between all Material Classes need to be handled.
+var material_slot: MaterialSlot # In which slot Mat was found
+var source_node: Node # On which Node in level Mat was first found (subsequent occurences of same Mat are ignored).
+var shader_path: String # Filled later by running fill_shader_paths() only on arrays containing valid ShaderMaterials to reduce overhead.
+
 
 
 static func append_unique_mat_to_array(material: Material, array: Array[Material]) -> bool: # True if material was appended.
