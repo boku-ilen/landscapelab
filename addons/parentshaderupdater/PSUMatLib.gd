@@ -28,6 +28,7 @@ static func append_unique_mat_to_array(material: Material, array: Array[Material
 	return true
 
 static func append_unique_matlib_to_array(matlib: PSUMatLib, array_matlib: Array[PSUMatLib], debug_arrayname: String, additional_printinfo: String = "") -> bool:
+	# Only appends if matlib.material isn't yet in array_matlib!
 	# Abort if Check via lambda (if input matlib.material already exists in input array_matlib) triggers
 	if array_matlib.filter(func(matlib_from_array): return matlib_from_array.material == matlib.material).size() > 0 or \
 		matlib == null or matlib.material == null:
@@ -74,6 +75,16 @@ static func unpack_mat_array_from_matlib_array(matlib_array) -> Array[Material]:
 	for matlib in matlib_array:
 		unpacked_mat_array.append(matlib.material)
 	return unpacked_mat_array
+	
+static func return_filename_array_from_res_array(res_array: Array) -> Array[String]: # Sets NULL String in output String Array if corresponding resource was null. Required for some Debug Prints.
+	var filename_array: Array[String]
+	filename_array.resize(res_array.size())
+	for index in res_array.size():
+		if res_array[index] != null:
+			filename_array[index] = res_array[index].resource_path.get_file()
+		else:
+			filename_array[index] = "NULL"
+	return filename_array
 
 static func fill_matlib_shader_paths(matlib: PSUMatLib, debug_arrayname: String) -> bool:
 	if matlib == null:
