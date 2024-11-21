@@ -4,7 +4,7 @@ extends Node
 signal gather_mats
 
 static var debug_mode := false # Print lots of debugs -> turn off when not needed for better performance!
-static var full_search := false # False: Faster, gets only the currently visible materials for update -> skips materials in "lower layers". But for better Geo & Material checks should be true.
+static var full_search := true # False: Faster, gets only the currently visible materials for update -> skips materials in "lower layers". But for better Geo & Material checks should be true.
 var saved_path: String # Path of the shader that was recently saved in Editor. Relevant for Auto Update.
 var _matlib_master_updatable: Array[PSUMatLib]
 var _matlib_master_updatable_printstr: String = "ML_Master_Updatable" # String used in prints to denote the array.
@@ -62,7 +62,7 @@ func receive_matlib_array(matlib_array: Array[PSUMatLib]):
 						#print("PSUManager: Added new Mat '", matlib.material.resource_path.get_file(), "' matching Saved Shader '", saved_path, "' -> Trigger Update...")
 						_update_shader(matlib)
 				else:
-					print("PSUManager: Gathered Mat '", matlib.material.resource_path.get_file(), "', Shader '", matlib.shader_path, "' NOT matching Saved Shader '", saved_path, "' -> No Update.")
+					#print("PSUManager: Gathered Mat '", matlib.material.resource_path.get_file(), "', Shader '", matlib.shader_path, "' NOT matching Saved Shader '", saved_path, "' -> No Update.")
 					pass
 		## In future, Auto update should be more like this, to let user now if resource saved wasn't found by Gatherers.
 		#if _get_mats():
