@@ -5,7 +5,7 @@
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/VegetationLayer.gdshader" id="3"]
 [ext_resource type="ArrayMesh" uid="uid://kqa4x2tsefu5" path="res://Resources/Meshes/VegetationBillboard/1m_billboard.obj" id="4_uhe77"]
 [ext_resource type="PackedScene" uid="uid://cqv4mdm0thwg4" path="res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn" id="5_ud2b3"]
-[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://Util/ParentShaderUpdater.tscn" id="6_4be15"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="6_8ltxd"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_rt6mg"]
 seed = 2565
@@ -63,4 +63,4 @@ spacing = 0.5
 [node name="LIDOverlayViewport" parent="." instance=ExtResource("5_ud2b3")]
 top_level = true
 
-[node name="ParentShaderUpdater" parent="." instance=ExtResource("6_4be15")]
+[node name="PSUGatherer" parent="." instance=ExtResource("6_8ltxd")]

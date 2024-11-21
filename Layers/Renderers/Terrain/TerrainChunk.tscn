@@ -4,7 +4,7 @@
 [ext_resource type="Material" uid="uid://c3mh5p2w5s8g7" path="res://addons/water/Water.tres" id="3_co2jq"]
 [ext_resource type="Script" path="res://Layers/Renderers/Terrain/TerrainChunk.gd" id="3_tgpu3"]
 [ext_resource type="Material" uid="uid://kbnb4iijyt0j" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="4"]
-[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://Util/ParentShaderUpdater.tscn" id="5_2hpqf"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="5_64ly2"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pxxd3"]
 
@@ -21,7 +21,7 @@ material_override = ExtResource("4")
 cast_shadow = 0
 mesh = ExtResource("1")
 
-[node name="ParentShaderUpdater" parent="Mesh" instance=ExtResource("5_2hpqf")]
+[node name="PSUGatherer" parent="Mesh" instance=ExtResource("5_64ly2")]
 
 [node name="HeightmapCollider" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
