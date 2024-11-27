@@ -6,8 +6,10 @@
 
 [node name="RoadLanePedestrian" instance=ExtResource("1_43xus")]
 script = ExtResource("1_3naa5")
+lid = 2002
 
 [node name="RoadLanePolygon" parent="." index="0"]
-layers = 32772
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+layers = 32768
 polygon = PackedVector2Array(-0.5, 0.2, 0.5, 0.2, 0.5, 0, -0.5, 0)
 material = ExtResource("2_g57b5")

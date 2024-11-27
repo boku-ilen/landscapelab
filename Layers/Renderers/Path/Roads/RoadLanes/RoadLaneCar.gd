@@ -39,8 +39,9 @@ func update_road_lane() -> void:
 	super.update_road_lane()
 	
 	var lane_number = max(lanes_forward, 0) + max(lanes_backwards, 0)
-	# Don't render lanes thinner than 2m - those streets likely don't have markings
-	lane_number = min(lane_number, floor(road_width / 2.0))
+	# Don't render lanes for thin roads, these likely don't have markings
+	if road_width < 6.0:
+		lane_number = 1
 	$RoadLanePolygon.material.set_shader_parameter("lanes", lane_number)
 	
 	var lid := 2002
@@ -50,10 +51,10 @@ func update_road_lane() -> void:
 		0
 	))
 	
-	$RoadLanePolygon.material.set_shader_parameter("banquet_width", max(road_width / 5.0, 1.2))
+	$RoadLanePolygon.material.set_shader_parameter("banquet_width", max(road_width / 5.0, 1.4))
 	
-	# For roads with less than 2 lanes, don't draw outer lines
-	if lane_number < 2:
+	# Don't draw outer lines for thin roads
+	if road_width < 8.0:
 		$RoadLanePolygon.material.set_shader_parameter("draw_outer_lines", false)
 
 
