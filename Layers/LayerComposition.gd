@@ -222,6 +222,10 @@ class WindTurbineRenderInfo extends ObjectRenderInfo:
 	var height_attribute_name: String
 	var diameter_attribute_name: String
 	
+	func _init():
+		super._init()
+		radius = 40000  # Higher detault radius since they're large
+	
 	func get_class_name() -> String: return "Wind Turbine"
 
 class BuildingRenderInfo extends RenderInfo:
