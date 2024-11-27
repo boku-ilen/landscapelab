@@ -2,7 +2,7 @@ shader_type spatial;
 render_mode cull_disabled, depth_draw_opaque;
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
-#include "res://Layers/Renderers/RasterVegetation/generate_normal_from_albedo.gdshaderinc"
+#include "res://Util/Shading/generate_normal_from_albedo.gdshaderinc"
 
 global uniform vec3 HCY_SHIFT;
 
