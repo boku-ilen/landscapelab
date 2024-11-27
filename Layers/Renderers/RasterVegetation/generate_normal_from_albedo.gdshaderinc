@@ -1,10 +1,10 @@
-/** 1 creates Normal information from Albedo, 0 creates empty */
+/** == 0 creates neutral NormalMap values, == 1 creates Normal information from Albedo,  */
 uniform float create_normal : hint_range(0.0, 1.0) = 1.0;
 
 /** Distance that Normal effect is generated along. Keep very small. TODO: Influenced by Texture Size?? */
 uniform float offset_normal_from_albedo : hint_range(0, 1) = 0.0025;
 
-/** Influence of RGBA channels of the Albedo Map. Default = 1.0, only A = lower. Maybe change this value on a per material basis before calling the function. */
+/** Influence of RGBA channels of the Albedo Map. Default == 1.0, only A == lower. Maybe change this value on a per material basis before calling the function. */
 uniform vec4 albedo_channel_influence_for_normalgen = vec4(1.0, 1.0, 1.0, 0.6);
 
 vec3 generate_normal_from_albedo(sampler2D albedo_sampler2d, vec2 uv) {
