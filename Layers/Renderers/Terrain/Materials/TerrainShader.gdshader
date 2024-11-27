@@ -152,8 +152,10 @@ void vertex() {
 
 				float local_splat_id = get_landuse(UV + offset_vector);
 				int local_texture_index = int(local_splat_id / 1000.0) - 1;
-
+	
 				float weight_here = detail_noise_lid_weights[local_texture_index];
+				weight_here *= float(local_texture_index >= 0 && local_texture_index <= 10);
+				
 				average_weight += weight_here;
 
 				offset += (fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(local_texture_index)), camera_distance).r - 0.5) * weight_here;
