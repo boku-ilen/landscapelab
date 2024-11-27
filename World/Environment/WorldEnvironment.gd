@@ -81,7 +81,7 @@ func apply_light_energy():
 	# Lower light quickly in the beginning when coverage/density are higher
 	# and lower light slower in the end (sqrt-curve-function), vice versa for ssao
 	var sqrt_cloud_cov = sqrt(cloud_coverage)
-	sky_light.light_energy = 4.0 - remap(sqrt_cloud_cov, 0, 1, 0, 2)
+	sky_light.light_energy = 2.0 - remap(sqrt_cloud_cov, 0, 1, 0, 1)
 	environment.ssao_intensity = 3.0 + remap(sqrt_cloud_cov, 0, 1, 0, 5)
 	
 	var altitude = rad_to_deg(-light.rotation.x)
@@ -92,12 +92,16 @@ func apply_light_energy():
 	# Night
 	elif altitude <= light_disabled_altitude:
 		_set_directional_light_energy(0.0)
+		environment.ambient_light_energy = 0.0
 	else:
 		_set_directional_light_energy(directional_energy)
+		environment.ambient_light_energy = directional_energy / brightest_light_energy
 
 
 func _set_directional_light_energy(new_energy):
 	light.light_energy = new_energy
+	light.shadow_blur = 8.0 - (new_energy / brightest_light_energy) * 7.5
+	light.shadow_opacity = 0.4 + (new_energy / brightest_light_energy) * 0.4
 
 
 func set_lightning_frequency(frequency: float):
