@@ -147,6 +147,8 @@ func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, n
 func apply_textures():
 	$LIDOverlayViewport.position = last_load_pos
 	
+	await get_tree().process_frame # Wait for the LID Overlay update to be done
+	
 	process_material.set_shader_parameter("splatmap", splatmap)
 	process_material.set_shader_parameter("heightmap", heightmap)
 	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, uv_offset_y))
