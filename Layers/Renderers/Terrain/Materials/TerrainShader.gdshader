@@ -140,14 +140,31 @@ void vertex() {
 
 		vec2 scaled_near_uv = world_pos.xz;
 
-		//float normal_y = fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(texture_index)), camera_distance).b;
+		float average_weight = 0.0;
+		float count = 0.0;
+		float offset = 0.0;
 
-		// Attempt to scale this normal to about +- 0.025
-		//normal_y = (normal_y - 0.95) * 0.5;
+		// Get detail texture sample, but blur the position to get nice transitions
+		for (float x_off = -0.5; x_off <= 0.5; x_off += 0.5) {
+			for (float y_off = -0.5; y_off <= 0.5; y_off += 0.5) {
+				vec2 offset_vector = vec2(x_off, y_off);
+				offset_vector /= size;
 
-		float offset = fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(texture_index)), camera_distance).r - 0.75;
-		offset += texture(detail_noise, scaled_near_uv / 40.0).r - 0.75;
-		offset *= detail_noise_lid_weights[texture_index];
+				float local_splat_id = get_landuse(UV + offset_vector);
+				int local_texture_index = int(local_splat_id / 1000.0) - 1;
+
+				float weight_here = detail_noise_lid_weights[local_texture_index];
+				average_weight += weight_here;
+
+				offset += (fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(local_texture_index)), camera_distance).r - 0.5) * weight_here;
+				count++;
+			}
+		}
+
+		average_weight /= count;
+		offset /= count;
+
+		offset += (texture(detail_noise, scaled_near_uv / 40.0).r - 0.5) * average_weight;
 
 		offset *= float(texture_index >= 0 && texture_index <= 10);
 
@@ -200,6 +217,7 @@ void fragment() {
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 
 	vec3 detail_color = vec3(0.0);
+	vec3 detail_normal = vec3(0.0);
 	vec2 scaled_near_uv = world_pos.xz;
 
 	float count = 0.0;
@@ -221,13 +239,18 @@ void fragment() {
 			int texture_index = int(splat_id / 1000.0) - 1;
 
 			detail_color += fractal_texture_array(ground_textures, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
+			detail_normal += fractal_texture_array(ground_normals, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
+
 			count++;
 		}
 	}
 
 	detail_color /= count;
+	detail_normal /= count;
 
-	float dist_scale = clamp((depth - detail_only_range) / detail_ortho_blend_range, 0.0, 1.0);
+	// TODO: Expose last parameter (maximum dist_scale), since it can control how much the orthophoto should affect the color
+	// 1.0 means full ortho at distance, 0.5 means half ortho at distance, etc.
+	float dist_scale = clamp((depth - detail_only_range) / detail_ortho_blend_range, 0.0, 0.5);
 
 	float splat_id = get_landuse(UV);
 
@@ -239,11 +262,7 @@ void fragment() {
 		ALBEDO = detail_color;
 	}
 
-	// Normal
-	int texture_index = int(splat_id / 1000.0) - 1;
-
-	NORMAL_MAP = fractal_texture_array(ground_normals, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
-
+	NORMAL_MAP = detail_normal;
 	METALLIC = 0.0;
 	ROUGHNESS = 0.95;
 	NORMAL_MAP_DEPTH = 1.0;

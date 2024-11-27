@@ -1,10 +1,12 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://kbnb4iijyt0j"]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://kbnb4iijyt0j"]
 
 [ext_resource type="Shader" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.gdshader" id="1"]
+[ext_resource type="Material" uid="uid://c3mh5p2w5s8g7" path="res://addons/water/Water.tres" id="1_u3as2"]
 
 [resource]
 resource_local_to_scene = true
 render_priority = 0
+next_pass = ExtResource("1_u3as2")
 shader = ExtResource("1")
 shader_parameter/height_scale = 1.0
 shader_parameter/use_landuse_overlay = false
