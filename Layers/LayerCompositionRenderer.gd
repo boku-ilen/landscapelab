@@ -16,7 +16,7 @@ var loading_thread := Thread.new()
 @export var load_refined_threaded := true
 @export var load_adapt_threaded := true
 
-@export var distance_thread_threshold := 100.0
+@export var distance_thread_threshold := 1000.0
 
 # Time management
 var time_manager: TimeManager :
