@@ -10,6 +10,7 @@ var weather_manager: WeatherManager :
 		_on_wind_speed_changed(weather_manager.wind_speed)
 
 var shader_material = preload("res://Layers/Renderers/Terrain/Materials/TerrainShader.tres")
+var water_material = preload("res://addons/water/Water.tres")
 
 func _setup_ground_textures():
 	var texture_folders = [
@@ -67,6 +68,7 @@ func custom_chunk_setup(chunk):
 	chunk.surface_height_layer = layer_composition.render_info.surface_height_layer
 	
 	chunk.get_node("Mesh").material_override = shader_material.duplicate()
+	chunk.get_node("Mesh").material_override.next_pass = water_material.duplicate()
 
 
 func _ready():
@@ -90,9 +92,9 @@ func full_load():
 
 func _apply_water_color(surface_color: Color, depth_color: Color) -> void:
 	for chunk in chunks:
-		chunk.get_node("Water").material_override.set_shader_parameter(
+		chunk.get_node("Mesh").material_override.next_pass.set_shader_parameter(
 			"surface_color", surface_color)
-		chunk.get_node("Water").material_override.set_shader_parameter(
+		chunk.get_node("Mesh").material_override.next_pass.set_shader_parameter(
 			"depth_color", depth_color)
 
 
@@ -109,4 +111,4 @@ func _process(delta):
 
 func _on_wind_speed_changed(new_wind_speed):
 	for chunk in chunks:
-		chunk.get_node("Water").material_override.set_shader_parameter("wind_speed", new_wind_speed)
+		chunk.get_node("Mesh").material_override.next_pass.set_shader_parameter("wind_speed", new_wind_speed)
