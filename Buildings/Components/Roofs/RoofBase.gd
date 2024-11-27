@@ -116,6 +116,7 @@ func _create_edge_meshes(
 			var mesh_inst = MeshInstance3D.new()
 			var edge = Edge3.new(start_node, connected_node)
 			mesh_inst.mesh = mesh.duplicate()
+			mesh_inst.layers = 4  # 3D Detail Mesh without roads
 			
 			var mdt := MeshDataTool.new()
 			mdt.create_from_surface(mesh_inst.mesh, 0)
