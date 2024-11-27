@@ -111,7 +111,7 @@ void fragment() {
 	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0);
 	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0);
 
-	ALBEDO = HCYtoRGB(hcy) * generate_darken_gradient(UV.y, 0.35, 0.66, 0.0); // Gradient is wrong here, in future should be in AO (but currently not doing much)
+	ALBEDO = HCYtoRGB(hcy) * generate_darken_gradient(UV.y, 0.55, 0.75, 0.0); // Gradient is wrong here, in future should be in AO (but currently not doing much)
 	//ALBEDO = HCYtoRGB(hcy);
 
 	//NORMAL_MAP = texture(normal_map, UV).xyz;
