@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7c37jf7y7tt7"]
+
+[ext_resource type="Script" path="res://Buildings/Components/Floor/Floor.gd" id="1_wjjxp"]
+
+[node name="Floor" type="MeshInstance3D"]
+script = ExtResource("1_wjjxp")

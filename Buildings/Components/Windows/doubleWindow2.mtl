@@ -1,0 +1,181 @@
+# doubleWindow2.mtl
+#
+# Created by SEBER RIDER 
+# https://sourceforge.net/p/sweethome3d/d-models/561/
+#
+# This file is distributed under Free Art License, see http://artlibre.org/licence/lal/en for more informations
+# and under CC-BY Creative Commons Attribution 3.0 Unported license, see http://creativecommons.org/licenses/by/3.0/
+# at your choice
+#
+
+newmtl Outside_Outer_Frame
+illum 1
+Ka 0.2 0.2 0.2
+Kd 0.2 0.2 0.2
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Inside_Outer_Frame
+illum 1
+Ka 0.2 0.2 0.2
+Kd 1.0 1.0 1.0
+Ks 0.0 0.0 0.0
+Ns 1.0
+map_Kd birch.jpg
+
+newmtl Roller_Shutter_Crank_Stub
+illum 1
+Ka 0.8666667 0.8666667 0.8666667
+Kd 0.8666667 0.8666667 0.8666667
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Inside_Walls
+illum 1
+Ka 0.9411765 0.9411765 0.9411765
+Kd 0.9411765 0.9411765 0.9411765
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Outside_Walls
+illum 1
+Ka 0.9411765 0.9411765 0.9411765
+Kd 0.9411765 0.9411765 0.9411765
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Inside_Ledge
+illum 1
+Ka 0.2 0.2 0.2
+Kd 1.0 1.0 1.0
+Ks 0.0 0.0 0.0
+Ns 1.0
+map_Kd birch.jpg
+
+newmtl Outside_Ledge
+illum 1
+Ka 0.6 0.6 0.59607846
+Kd 0.6 0.6 0.59607846
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Window_Hinges_1
+illum 1
+Ka 1.0 1.0 1.0
+Kd 1.0 1.0 1.0
+Ks 0.0 0.0 0.0
+Ns 1.0
+Ni 1.0
+
+newmtl Window_Handle_Button
+illum 1
+Ka 0.4 0.4 0.4
+Kd 0.4 0.4 0.4
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Window_Handle
+illum 1
+Ka 0.6 0.6 0.6
+Kd 0.6 0.6 0.6
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Inside_Inner_Frame_1
+illum 1
+Ka 0.2 0.2 0.2
+Kd 1.0 1.0 1.0
+Ks 0.0 0.0 0.0
+Ns 1.0
+map_Kd birch.jpg
+
+newmtl Outside_Inner_Frame_1
+illum 1
+Ka 0.2 0.2 0.2
+Kd 0.2 0.2 0.2
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Window_Pane_1
+illum 1
+Ka 0.2 0.2 0.2
+Kd 1.0 1.0 1.0
+Ks 0.0 0.0 0.0
+Ns 1.0
+Ni 1.0
+d 0.5
+
+newmtl Window_Hinges_2
+illum 1
+Ka 1.0 1.0 1.0
+Kd 1.0 1.0 1.0
+Ks 0.0 0.0 0.0
+Ns 1.0
+Ni 1.0
+
+newmtl Inside_Inner_Frame_2
+illum 1
+Ka 0.2 0.2 0.2
+Kd 1.0 1.0 1.0
+Ks 0.0 0.0 0.0
+Ns 1.0
+map_Kd birch.jpg
+
+newmtl Outside_Inner_Frame_2
+illum 1
+Ka 0.2 0.2 0.2
+Kd 0.2 0.2 0.2
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Window_Pane_2
+illum 1
+Ka 0.2 0.2 0.2
+Kd 1.0 1.0 1.0
+Ks 0.0 0.0 0.0
+Ns 1.0
+Ni 1.0
+d 0.5
+
+newmtl Roller_Shutter_Crank_Connector
+illum 1
+Ka 0.8666667 0.8666667 0.8666667
+Kd 0.8666667 0.8666667 0.8666667
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Roller_Shutter_Crank_Handles
+illum 1
+Ka 0.6666667 0.6666667 0.6666667
+Kd 0.6666667 0.6666667 0.6666667
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Roller_Shutter_Crank
+illum 1
+Ka 0.8666667 0.8666667 0.8666667
+Kd 0.8666667 0.8666667 0.8666667
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Roller_Shutter_Hinge
+illum 1
+Ka 1.0 0.0 0.0
+Kd 1.0 0.0 0.0
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Roller_Shutter_Foot
+illum 1
+Ka 0.4 0.4 0.39607844
+Kd 0.4 0.4 0.39607844
+Ks 0.0 0.0 0.0
+Ns 1.0
+
+newmtl Roller_Shutter
+illum 1
+Ka 0.2 0.2 0.2
+Kd 1.0 1.0 1.0
+Ks 0.0 0.0 0.0
+Ns 1.0
+map_Kd rollerShutter.jpg

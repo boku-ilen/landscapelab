@@ -1,0 +1,16 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://dfmjed5ufdugm"]
+
+[ext_resource type="Texture2D" uid="uid://be3vkp7rjr0ea" path="res://Buildings/Components/Windows/Resources/Wood/Wood030_1K-JPG_Color.jpg" id="1_wl2vm"]
+[ext_resource type="Texture2D" uid="uid://bnglcw08fhqth" path="res://Buildings/Components/Windows/Resources/Wood/Wood030_1K-JPG_Displacement.jpg" id="2_nm524"]
+[ext_resource type="Texture2D" uid="uid://heqcennvhlc" path="res://Buildings/Components/Windows/Resources/Wood/Wood030_1K-JPG_NormalGL.jpg" id="3_ryxyh"]
+[ext_resource type="Texture2D" uid="uid://bt5afcq8eswp8" path="res://Buildings/Components/Windows/Resources/Wood/Wood030_1K-JPG_Roughness.jpg" id="4_7lvj6"]
+
+[resource]
+albedo_color = Color(0.57, 0.57, 0.57, 1)
+albedo_texture = ExtResource("1_wl2vm")
+roughness_texture = ExtResource("4_7lvj6")
+normal_enabled = true
+normal_texture = ExtResource("3_ryxyh")
+heightmap_scale = 0.245
+heightmap_texture = ExtResource("2_nm524")
+uv1_scale = Vector3(-7.93, 7.93, 7.93)
