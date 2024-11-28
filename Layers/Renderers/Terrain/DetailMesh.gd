@@ -58,6 +58,7 @@ func _process(delta):
 	material_override.set_shader_parameter("orthophoto", texture.get_image_texture())
 	material_override.set_shader_parameter("landuse", landuse.get_image_texture())
 	material_override.set_shader_parameter("detail_noise", preload("res://Layers/Renderers/Terrain/Materials/DetailNoise.tres"))
+	material_override.set_shader_parameter("detail_noise_normals", preload("res://Layers/Renderers/Terrain/Materials/DetailNoiseNormals.tres"))
 	material_override.set_shader_parameter("detail_noise_lid_weights", [
 		0.16, # Asphalt
 		0.19, # Gravel

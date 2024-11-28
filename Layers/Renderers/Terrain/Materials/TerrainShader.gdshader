@@ -36,6 +36,7 @@ uniform sampler2DArray ground_displacement: hint_default_black;
 
 uniform bool make_hole = true;
 uniform sampler2D detail_noise;
+uniform sampler2D detail_noise_normals: hint_normal;
 uniform float[10] detail_noise_lid_weights;
 
 float rand(vec2 co){
@@ -152,10 +153,10 @@ void vertex() {
 
 				float local_splat_id = get_landuse(UV + offset_vector);
 				int local_texture_index = int(local_splat_id / 1000.0) - 1;
-	
+
 				float weight_here = detail_noise_lid_weights[local_texture_index];
 				weight_here *= float(local_texture_index >= 0 && local_texture_index <= 10);
-				
+
 				average_weight += weight_here;
 
 				offset += (fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(local_texture_index)), camera_distance).r - 0.5) * weight_here;
@@ -174,6 +175,8 @@ void vertex() {
 		float center_distance_factor = (0.5 - min(abs(UV.x - 0.5), abs(UV.y - 0.5))) * 2.0;
 
 		VERTEX.y += offset * center_distance_factor;
+
+		NORMAL = texture(detail_noise_normals, scaled_near_uv / 40.0).rgb;
 	}
 
 //	if (has_surface_heights) {
@@ -216,7 +219,7 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 void fragment() {
 	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 
-	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
+	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;// normalize(NORMAL + (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz);
 
 	vec3 detail_color = vec3(0.0);
 	vec3 detail_normal = vec3(0.0);
