@@ -114,10 +114,15 @@ script = ExtResource("8_cvnpk")
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="LayerCompositionUI" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("25_78xvv")]
+[node name="Scenarios" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("27_nxjw1")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
+
+[node name="LayerCompositionUI" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("25_78xvv")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
 
 [node name="LayerCompositionUIConfig" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot/LayerCompositionUI" index="0"]
 position_manager_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
@@ -125,12 +130,12 @@ position_manager_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/Worl
 [node name="Screenshot" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("12_uackt")]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 2
+metadata/_tab_index = 3
 
 [node name="HcyShift" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("11_4o42c")]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 3
+metadata/_tab_index = 4
 
 [node name="Mid" type="HSplitContainer" parent="MarginContainer/VBoxContainer/Left"]
 custom_minimum_size = Vector2(500, 500)
@@ -168,13 +173,10 @@ script = ExtResource("14_dbua3")
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort"]
 handle_input_locally = false
 gui_disable_input = true
-size = Vector2i(11, 58)
+size = Vector2i(852, 808)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_w6bxo")]
-
-[node name="MousePoint" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/Head/Camera3D" index="0"]
-position_manager_path = NodePath("../../../../PositionManager")
 
 [node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC" index="5" node_paths=PackedStringArray("pc_player") instance=ExtResource("16_gc550")]
 anchors_preset = 1

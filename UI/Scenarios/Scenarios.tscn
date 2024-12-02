@@ -14,8 +14,8 @@ size_flags_vertical = 3
 script = ExtResource("4")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-offset_right = 1152.0
-offset_bottom = 648.0
+layout_mode = 2
 
 [node name="Scenarios" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
 mouse_filter = 0
