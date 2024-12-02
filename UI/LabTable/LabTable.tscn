@@ -82,7 +82,7 @@ handle_input_locally = false
 physics_object_picking = true
 physics_object_picking_sort = true
 canvas_cull_mask = 4294967293
-size = Vector2i(1606, 900)
+size = Vector2i(2, 2)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
