@@ -174,6 +174,7 @@ func apply_new_data() -> void:
 	for road_id in roads_to_delete.keys():
 		roads.erase(road_id)
 		roads_to_delete[road_id].queue_free()
+		roads_to_delete.erase(road_id)
 	
 	## Delete old intersections
 	#for intersection_id in intersections_to_delete.keys():
