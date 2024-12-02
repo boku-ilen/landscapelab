@@ -28,6 +28,6 @@ func _toggle_render_layer(activated, layer_id):
 
 func _input(event):
 	if event.is_action_pressed("increase_fov"):
-		fov += 5
+		fov += 15
 	elif event.is_action_pressed("decrease_fov"):
-		fov -= 5
+		fov -= 15

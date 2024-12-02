@@ -14,7 +14,7 @@ var position_manager: PositionManager  # Injected if needed
 func teleport(pos: Vector3):
 	logger.info("Teleporting player %s to coordinates: %s" % [name, pos])
 	transform.origin = pos
-	place_onto_ground()
+	place_onto_ground(true)
 
 
 func get_ground_height():
@@ -27,8 +27,12 @@ func get_ground_height():
 	return result.position.y if result else 0.0
 
 
-func place_onto_ground():
-	transform.origin.y = get_ground_height()
+func place_onto_ground(add_height = false):
+	if add_height:
+		print(transform.origin.y)
+		transform.origin.y += get_ground_height()
+	else:
+		transform.origin.y = get_ground_height()
 
 
 # As in some cases the actual orientation node might be different, define this as function to
