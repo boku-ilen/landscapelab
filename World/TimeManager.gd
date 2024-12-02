@@ -64,7 +64,8 @@ func _update_datetime(new_datetime):
 
 func is_nighttime():
 	# TODO: Consider a more sophisticated check
-	return datetime["hour"] < 8 or datetime["hour"] > 17
+	# FIXME: Previously return datetime["hour"] < 8 or datetime["hour"] > 17
+	return datetime["hour"] > 17
 
 
 func is_daytime():
