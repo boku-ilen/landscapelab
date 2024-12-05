@@ -1,0 +1,13 @@
+[gd_resource type="NoiseTexture2D" load_steps=2 format=3 uid="uid://cogsw8157tafs"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wq48l"]
+noise_type = 0
+seed = 5902
+fractal_octaves = 2
+
+[resource]
+width = 1024
+height = 1024
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_wq48l")
