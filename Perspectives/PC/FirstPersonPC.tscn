@@ -63,7 +63,7 @@ update_scale = false
 
 [node name="XRCamera3D" parent="SubViewport/XROrigin3D" index="2"]
 near = 0.5
-far = 20000.0
+far = 30000.0
 
 [node name="AutoCamera" type="Node3D" parent="." node_paths=PackedStringArray("automated_camera", "vr_camera")]
 script = ExtResource("10_cs7ku")
