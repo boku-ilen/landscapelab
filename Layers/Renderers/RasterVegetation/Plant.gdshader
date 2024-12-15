@@ -1,5 +1,8 @@
 shader_type spatial;
 render_mode cull_disabled, depth_draw_opaque;
+// Used in combination with Fragmentshader's "ALPHA_ANTIALIASING_EDGE" & "ALPHA_TEXTURE_COORDINATE" for nicer Foliage, but currently costs too much
+//render_mode cull_disabled, depth_draw_opaque, alpha_to_coverage_and_one;
+//
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 #include "res://Util/Shading/generate_gradients_from_uvs.gdshaderinc"
@@ -79,7 +82,11 @@ void fragment() {
 	vec4 color = texture(texture_map[int(round(dist_id))], UV);
 
 	ALPHA = color.a;
-	ALPHA_SCISSOR_THRESHOLD = 0.7 + dist_alpha * 0.3;
+	ALPHA_SCISSOR_THRESHOLD = 0.55 + dist_alpha * 0.5;
+	// Used in combination with rendermode "alpha_to_coverage_and_one", but currently costs too much
+	//ALPHA_ANTIALIASING_EDGE = 0.6;
+	//ALPHA_TEXTURE_COORDINATE = UV * vec2(textureSize(texture_map[int(round(dist_id))], 0));
+	//
 
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
