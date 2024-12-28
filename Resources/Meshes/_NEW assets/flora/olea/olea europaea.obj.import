@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bq7odjqq4c2bv"
+path="res://.godot/imported/olea europaea.obj-e46f55175761d9a8d4c159928fd93e75.mesh"
+
+[deps]
+
+files=["res://.godot/imported/olea europaea.obj-e46f55175761d9a8d4c159928fd93e75.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/flora/olea/olea europaea.obj"
+dest_files=["res://.godot/imported/olea europaea.obj-e46f55175761d9a8d4c159928fd93e75.mesh", "res://.godot/imported/olea europaea.obj-e46f55175761d9a8d4c159928fd93e75.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

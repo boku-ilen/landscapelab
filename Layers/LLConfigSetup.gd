@@ -32,6 +32,14 @@ func load_ll_json(path: String):
 	logger.info("Done loading layers!")
 
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.keycode == KEY_V and event.is_pressed():
+			var path = get_setting("config-path")
+			var ll_file_access = LLFileAccess.open(path)
+			ll_file_access.apply_vegetation(Vegetation)
+
+
 #	define_probing_game_mode(
 #		623950,
 #		493950,

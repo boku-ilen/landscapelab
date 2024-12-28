@@ -5,31 +5,26 @@ render_mode depth_draw_opaque;
 
 global uniform vec3 HCY_SHIFT;
 
+// Brigthness, Saturation and Contrast for terrain
+global uniform vec3 HCY_TERRAIN_SHIFT;
+
 // Basic Terrain
 uniform sampler2D orthophoto: source_color, repeat_disable;
 uniform sampler2D heightmap: repeat_disable;
-uniform sampler2D normalmap: hint_normal, repeat_disable;
 uniform float height_scale = 1.0;
 
 // Land use-based detail textures
 uniform sampler2D landuse: repeat_disable, filter_nearest;
-uniform bool has_landuse = false;
 
 uniform bool use_landuse_overlay = false;
 uniform sampler2D landuse_overlay: repeat_disable, filter_nearest, hint_default_black;
-
-uniform float ortho_saturation = 1.2;
-uniform float ortho_blue_shift_factor = 0.9;
 
 uniform float detail_only_range = 50.0;
 uniform float detail_ortho_blend_range = 700.0;
 
 uniform float size;
 
-varying vec3 camera_pos;
 varying vec3 world_pos;
-varying float world_distance;
-varying float camera_distance;
 
 //uniform bool has_terraforming_texture;
 //uniform sampler2D terraforming_texture: repeat_disable, filter_nearest;
@@ -41,40 +36,18 @@ uniform sampler2DArray ground_displacement: hint_default_black;
 
 uniform bool make_hole = true;
 uniform sampler2D detail_noise;
+uniform sampler2D detail_noise_normals: hint_normal;
 uniform float[10] detail_noise_lid_weights;
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
 }
 
-// From https://www.shadertoy.com/view/mds3R4
-vec4 fractal_texture(sampler2D tex, vec2 uv, float depth) {
-    //Find the pixel level of detail
-	float LOD = log(depth);
-    //Round LOD down
-	float LOD_floor = floor(LOD);
-    //Compute the fract part for interpolating
-	float LOD_fract = LOD - LOD_floor;
-
-    //Compute scaled uvs
-	vec2 uv1 = uv / exp(LOD_floor - 1.0);
-	vec2 uv2 = uv / exp(LOD_floor + 0.0);
-	vec2 uv3 = uv / exp(LOD_floor + 1.0);
-
-    //Sample at 3 scales
-	vec4 tex0 = texture(tex, uv1);
-	vec4 tex1 = texture(tex, uv2);
-	vec4 tex2 = texture(tex, uv3);
-
-    //Blend samples together
-	return (tex1 + mix(tex0, tex2, LOD_fract)) * 0.5;
-}
-
+// Adapted from https://www.shadertoy.com/view/mds3R4
 vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
 	uv.xy *= 2.0;
 
 	float clamped_depth = max(depth, 10.0);
-	//depth *= 0.5;
 
     //Find the pixel level of detail
 	float LOD = log(clamped_depth);
@@ -96,14 +69,6 @@ vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
     // Blend samples together
 	// Blend fully towards tex1 at close distances in order to have a clear detail view
 	return mix(tex1, mix(tex0, tex2, clamp(LOD_fract, 0.0, 1.0)), min(depth / 20.0, 0.5));
-}
-
-// Workaround for a bug in `texelFetch` - use this instead!
-// More info at https://github.com/godotengine/godot/issues/31732
-vec4 texelGet ( sampler2D tg_tex, ivec2 tg_coord, int tg_lod ) {
-	vec2 tg_texel = 1.0 / vec2(textureSize(tg_tex, 0));
-	vec2 tg_getpos = (vec2(tg_coord) * tg_texel) + (tg_texel * 0.5);
-	return texture(tg_tex, tg_getpos, float(tg_lod));
 }
 
 float get_height(vec2 uv) {
@@ -128,7 +93,7 @@ vec3 get_normal(vec2 normal_uv_pos) {
 	float bottom_right = get_height(normal_uv_pos + vec2(e, -e));
 
 	float center_left = get_height(normal_uv_pos + vec2(-e, 0));
-	float center_center = get_height(normal_uv_pos + vec2(0, 0));
+	//float center_center = get_height(normal_uv_pos + vec2(0, 0));
 	float center_right = get_height(normal_uv_pos + vec2(e, 0));
 
 	float top_left = get_height(normal_uv_pos + vec2(-e, e));
@@ -160,11 +125,9 @@ void vertex() {
 	}
 
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	world_distance = length(world_pos.xz);
 
-	camera_pos = INV_VIEW_MATRIX[3].xyz;
-	vec3 camera_to_world = world_pos - camera_pos;
-	camera_distance = length(camera_to_world);
+	vec3 camera_to_world = world_pos - INV_VIEW_MATRIX[3].xyz;
+	float camera_distance = length(camera_to_world);
 
 	float max_distance = max(abs(camera_to_world.x), abs(camera_to_world.z));
 	if (make_hole && max_distance < 47.0) {
@@ -178,14 +141,33 @@ void vertex() {
 
 		vec2 scaled_near_uv = world_pos.xz;
 
-		//float normal_y = fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(texture_index)), camera_distance).b;
+		float average_weight = 0.0;
+		float count = 0.0;
+		float offset = 0.0;
 
-		// Attempt to scale this normal to about +- 0.025
-		//normal_y = (normal_y - 0.95) * 0.5;
+		// Get detail texture sample, but blur the position to get nice transitions
+		for (float x_off = -0.5; x_off <= 0.5; x_off += 0.5) {
+			for (float y_off = -0.5; y_off <= 0.5; y_off += 0.5) {
+				vec2 offset_vector = vec2(x_off, y_off);
+				offset_vector /= size;
 
-		float offset = fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(texture_index)), camera_distance).r - 0.75;
-		offset += texture(detail_noise, scaled_near_uv / 40.0).r - 0.75;
-		offset *= detail_noise_lid_weights[texture_index];
+				float local_splat_id = get_landuse(UV + offset_vector);
+				int local_texture_index = int(local_splat_id / 1000.0) - 1;
+
+				float weight_here = detail_noise_lid_weights[local_texture_index];
+				weight_here *= float(local_texture_index >= 0 && local_texture_index <= 10);
+
+				average_weight += weight_here;
+
+				offset += (fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(local_texture_index)), camera_distance).r - 0.5) * weight_here;
+				count++;
+			}
+		}
+
+		average_weight /= count;
+		offset /= count;
+
+		offset += (texture(detail_noise, scaled_near_uv / 40.0).r - 0.5) * average_weight;
 
 		offset *= float(texture_index >= 0 && texture_index <= 10);
 
@@ -193,6 +175,8 @@ void vertex() {
 		float center_distance_factor = (0.5 - min(abs(UV.x - 0.5), abs(UV.y - 0.5))) * 2.0;
 
 		VERTEX.y += offset * center_distance_factor;
+
+		NORMAL = texture(detail_noise_normals, scaled_near_uv / 40.0).rgb;
 	}
 
 //	if (has_surface_heights) {
@@ -203,27 +187,6 @@ void vertex() {
 //			VERTEX.y += texture_read * height_scale * surface_height_factor;
 //		}
 //	}
-}
-
-// Decrase or increase the color saturation
-// Adapted from http://www.alienryderflex.com/saturation.html
-vec3 saturate_color(vec3 color, float change) {
-	float P = sqrt(color.r * color.r * 0.299
-			+ color.g * color.g * 0.587
-			+ color.b * color.b * 0.114);
-
-	return vec3(P, P, P) + (color - vec3(P, P, P)) * change;
-}
-
-vec3 shift_blue(vec3 color, float change) {
-	color.b *= change;
-	return color;
-}
-
-
-vec3 get_ortho_color(vec2 uv) {
-	vec3 blue_shifted_sample = shift_blue(texture(orthophoto, uv).rgb, ortho_blue_shift_factor);
-	return saturate_color(blue_shifted_sample, ortho_saturation);
 }
 
 
@@ -237,9 +200,9 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 	// Convert to Hue-Chroma-Luminance color space
 	vec3 base_hcy = RGBtoHCY(base);
 	vec3 detail_hcy = RGBtoHCY(detail);
-	
-	base_hcy.g *= HCY_SHIFT.g;
-	base_hcy.b *= HCY_SHIFT.b;
+
+	base_hcy.g *= HCY_SHIFT.g * HCY_TERRAIN_SHIFT.g;
+	base_hcy.b *= HCY_SHIFT.b * HCY_TERRAIN_SHIFT.b;
 
 	detail_hcy.r += HCY_SHIFT.r;
 	detail_hcy.g *= HCY_SHIFT.g;
@@ -256,9 +219,10 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 void fragment() {
 	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 
-	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
+	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;// normalize(NORMAL + (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz);
 
 	vec3 detail_color = vec3(0.0);
+	vec3 detail_normal = vec3(0.0);
 	vec2 scaled_near_uv = world_pos.xz;
 
 	float count = 0.0;
@@ -280,13 +244,18 @@ void fragment() {
 			int texture_index = int(splat_id / 1000.0) - 1;
 
 			detail_color += fractal_texture_array(ground_textures, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
+			detail_normal += fractal_texture_array(ground_normals, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
+
 			count++;
 		}
 	}
 
 	detail_color /= count;
+	detail_normal /= count;
 
-	float dist_scale = clamp((depth - detail_only_range) / detail_ortho_blend_range, 0.0, 1.0);
+	// TODO: Expose last parameter (maximum dist_scale), since it can control how much the orthophoto should affect the color
+	// 1.0 means full ortho at distance, 0.5 means half ortho at distance, etc.
+	float dist_scale = clamp((depth - detail_only_range) / detail_ortho_blend_range, 0.0, 0.5);
 
 	float splat_id = get_landuse(UV);
 
@@ -298,11 +267,7 @@ void fragment() {
 		ALBEDO = detail_color;
 	}
 
-	// Normal
-	int texture_index = int(splat_id / 1000.0) - 1;
-
-	NORMAL_MAP = fractal_texture_array(ground_normals, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
-
+	NORMAL_MAP = detail_normal;
 	METALLIC = 0.0;
 	ROUGHNESS = 0.95;
 	NORMAL_MAP_DEPTH = 1.0;

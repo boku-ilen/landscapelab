@@ -14,7 +14,7 @@ var zoom_action_counter = 0
 var zoom_reload_delay = 0.15
 
 const highest_zoom := 19
-const resolution_at_highest_zoom := 0.298582141738970
+const resolution_at_highest_zoom := 0.28
 
 var current_zoom_level = 13
 var tile_size_pixels := 256.0
@@ -56,11 +56,19 @@ func _unhandled_input(event):
 		position = (mouse_start_pos - event.position) / zoom + screen_start_position
 
 
+func set_zoom_level(new_level):
+	current_zoom_level = new_level
+	_apply_zoom()
+
+
 # Zoom and keep the current pixel at it's relative same position
 # such that zooming in and out feels fluent and intuitive
 func do_zoom(factor: int, mouse_pos := get_viewport_rect().size / 2):
 	current_zoom_level += factor
+	_apply_zoom(mouse_pos)
 	
+
+func _apply_zoom(mouse_pos := get_viewport_rect().size / 2):
 	# Calculate the tile size we need for 1:1 pixel:meter for this zoom level
 	var tile_size_meters = tile_size_pixels * \
 		(resolution_at_highest_zoom * \

@@ -29,7 +29,8 @@ var last_load_pos = Vector3.ZERO
 
 
 func _ready():
-	Vegetation.connect("new_plant_extent_factor",Callable(self,"update_rows_spacing"))
+	Vegetation.new_plant_extent_factor.connect(update_rows_spacing)
+	Vegetation.new_data.connect(_on_vegetation_data_update)
 	
 	set_mesh(density_class.mesh)
 	material_override.set_shader_parameter("is_billboard", density_class.is_billboard)
@@ -37,10 +38,15 @@ func _ready():
 	# Set static shader variables
 	process_material.set_shader_parameter("row_ids", Vegetation.row_ids)
 	process_material.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[density_class.id])
-	
 	material_override.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
 	
 	set_rows_spacing_in_shader()
+
+
+func _on_vegetation_data_update():
+	process_material.set_shader_parameter("row_ids", Vegetation.row_ids)
+	process_material.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[density_class.id])
+	material_override.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
 
 
 # Set the internal rows and spacing variables based checked the density_class and the given extent_factor.
@@ -62,7 +68,6 @@ func update_rows_spacing(extent_factor):
 func set_rows_spacing_in_shader():
 	var size = Vector2(get_map_size(), get_map_size())
 	process_material.set_shader_parameter("heightmap_size", size)
-	material_override.set_shader_parameter("heightmap_size", size)
 	
 	process_material.set_shader_parameter("splatmap_size_meters", size.x)
 	process_material.set_shader_parameter("dist_scale", 1.0 / spacing)
@@ -141,6 +146,8 @@ func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, n
 
 func apply_textures():
 	$LIDOverlayViewport.position = last_load_pos
+	
+	await get_tree().process_frame # Wait for the LID Overlay update to be done
 	
 	process_material.set_shader_parameter("splatmap", splatmap)
 	process_material.set_shader_parameter("heightmap", heightmap)

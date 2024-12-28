@@ -1,0 +1,228 @@
+{
+  "developer_read_me": {
+    "1": "keys are generally denoted in snake_case",
+    "2": "in some cases NOTES are added to clear things up, these are cosmetic and will be ignored by the program",
+    "3": "if keys are written in UPPERCASE_WITH_UNDERSCORES the program does not reference them by string constant",
+    "4": "instead the key name will be generated dynamically based on enum names",
+    "5": "be careful when renaming these keys, as it is easy to miss instances, where the program accesses these"
+  },
+
+  "camera": {
+    "implementation": "Realsense",
+    "base_distance": 3.0,
+    "opencv_device_nr": 0
+  },
+
+  "resources": {
+    "relative_path": ["resources"],
+
+    "qr_bottom_left": {
+      "path": ["QR_Codes", "bottom_left.png"]
+    },
+    "qr_bottom_right": {
+      "path": ["QR_Codes", "bottom_right.png"]
+    },
+    "qr_top_left": {
+      "path": ["QR_Codes", "top_left.png"]
+    },
+    "qr_top_right": {
+      "path": ["QR_Codes", "top_right.png"]
+    },
+    "outdated_brick": {
+      "path": ["brick_overlays", "outdated.png"],
+      "center": [32,32]
+    },
+    "unknown_brick": {
+      "path": ["brick_overlays", "unknown.png"],
+      "center": [32,32]
+    },
+    "windmill_brick": {
+      "path":["brick_overlays", "wind_brick_indicator.png"],
+      "size": [100,100],
+      "center": [50,50]
+    },
+    "pv_brick": {
+      "path": ["brick_overlays", "pv_brick_indicator.png"],
+      "size": [100, 100],
+      "center": [50, 50]
+    },
+    "internal_brick": {
+      "path": ["brick_overlays", "internal_indicator.png"],
+      "size": [20, 20],
+      "center": [10, 10]
+    },
+    "windmill_icon": {
+      "path":["brick_overlays", "symbol_wind.png"],
+      "size": [50,50],
+      "center": [25,25]
+    },
+    "pv_icon": {
+      "path": ["brick_overlays", "symbol_pv.png"],
+      "size": [50, 50],
+      "center": [25, 25]
+    },
+    "yes_icon": {
+      "path": ["brick_overlays", "symbol_yes.png"],
+      "size": [50, 50],
+      "center": [25, 25]
+    },
+    "no_icon": {
+      "path": ["brick_overlays", "symbol_no.png"],
+      "size": [50, 50],
+      "center": [25, 25]
+    },
+    "player_teleport": {
+      "path": ["brick_overlays", "symbol_player_teleport.png"],
+      "size": [50, 50],
+      "center": [25, 25]
+    },
+    "player_position": {
+      "path": ["brick_overlays", "symbol_player_position.png"],
+      "size": [50, 50],
+      "center": [25, 25]
+    },
+    "": {
+      "path": ["brick_overlays", "not_a_.png"],
+      "size": [50, 50],
+      "center": [25, 25]
+    },
+    "button_left": {
+      "path": ["button_icons", "left.png"]
+    },
+    "button_right": {
+      "path": ["button_icons", "right.png"]
+    },
+    "button_up": {
+      "path": ["button_icons", "up.png"]
+    },
+    "button_down": {
+      "path": ["button_icons", "down.png"]
+    },
+    "button_zoom_in": {
+      "path": ["button_icons", "zoom_in.png"]
+    },
+    "button_zoom_out": {
+      "path": ["button_icons", "zoom_out.png"]
+    },
+    "button_confirm": {
+      "path": ["button_icons", "confirm.png"]
+    }
+  },
+
+  "video_output": {
+    "name": "shape_detection_output.avi"
+  },
+
+  "landscapelab": {
+    "ip": "127.0.0.1",
+    "port": 5004,
+    "ssl_pem_file": null
+    },
+
+  "qgis": {
+    "ip": "127.0.1.1",
+    "port": 5005,
+    "ssl_pem_file": null
+  },
+
+  "video_resolution": {
+    "width": 1280,
+    "height": 720
+  },
+
+  "screen_resolution": {
+    "width": -1,
+    "height": -1,
+    "pos_x": -1,
+    "pos_y": -1
+  },
+
+  "beamer_resolution": {
+    "screen_id": 1,
+    "NOTE": ["screen id refers to the display the projector output should be started on",
+      "if the id exceeds the currently attached screen count the screen with the highest id will be selected",
+      "if the id is negative the projector output will be shown in a window instead of full-screen"],
+    "width": -1,
+    "height": -1,
+    "pos_x": -1,
+    "pos_y": -1
+  },
+
+  "qr_code": {
+    "size": 500
+  },
+
+  "tracker_thresholds": {
+    "min_distance": 6,
+    "external_min_appeared": 6,
+    "external_max_disappeared": 40,
+    "internal_min_appeared": 3,
+    "internal_max_disappeared": 10
+  },
+
+  "brick_colors": {
+    "RED_BRICK": [[[0, 100, 50], [20, 255, 255]], [[160, 100, 50], [180, 255, 255]]],
+    "BLUE_BRICK": [[[95, 100, 50], [120, 255, 255]]],
+    "GREEN_BRICK": [[[60, 100, 50], [95, 255, 255]]],
+    "YELLOW_BRICK": [[[10, 100, 100], [20, 255, 200]]]
+  },
+
+  "ui_settings": {
+    "ui_refreshed": true,
+
+    "scale_factor": 1.25,
+    "nav_block_toggle": true,
+
+    "button_background_color": [255, 255, 255],
+    "button_active_background_color": [200, 200, 200],
+    "button_border_color": [200, 200, 200],
+    "button_border_weight": 2,
+
+    "nav_block_background_color": [255, 255, 255],
+    "nav_block_border_color": [200, 200, 200],
+    "nav_block_border_weight": 2,
+
+    "progress_bar_color": [[202, 86, 99], [215, 126, 84], [210, 193, 75], [146, 185, 79], [88, 117, 219], [255, 255, 255]],
+
+    "mini_map_extent_color": [128, 128, 128]
+  },
+
+  "button_map": {
+    "PAN_UP": "w",
+    "PAN_DOWN": "s",
+    "PAN_LEFT": "a",
+    "PAN_RIGHT": "d",
+    "ZOOM_IN": "q",
+    "ZOOM_OUT": "e",
+
+    "MINI_MAP_PAN_UP": "i",
+    "MINI_MAP_PAN_DOWN": "k",
+    "MINI_MAP_PAN_LEFT": "j",
+    "MINI_MAP_PAN_RIGHT": "l",
+    "MINI_MAP_ZOOM_IN": "u",
+    "MINI_MAP_ZOOM_OUT": "o",
+    "MINI_MAP_FOCUS": "p",
+
+    "CHANNEL_UP": "r",
+    "CHANNEL_DOWN": "f",
+    "CONFIRM_BRICKS": "x",
+
+    "TOGGLE_NAV_BLOCK": "1",
+    "SET_NAV_BLOCK_VISIBLE": "2",
+    "SET_NAV_BLOCK_INVISIBLE": "3"
+  },
+
+  "map_settings": {
+    "start_zoom": 20000,
+    "start_x": 592639,
+    "start_y": 393945,
+    "coordinate_reference_system": 31287,
+    "extent_changed": false,
+    "map_refreshed": true,
+    "pan_distance": [0.5, 0.75, 0.85],
+    "zoom_strength": [0.2, 0.5, 0.9],
+    "map_zoom_limits": [1000, 100000],
+    "mini_map_extent": null,
+    "mini_map_zoom_limits": [10000, 1000000]
+  }
+}

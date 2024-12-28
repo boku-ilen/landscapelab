@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://chagq3d3llh1n"
+path="res://.godot/imported/vitis vinifera.obj-b918dc1661894177979e467869aeb503.mesh"
+
+[deps]
+
+files=["res://.godot/imported/vitis vinifera.obj-b918dc1661894177979e467869aeb503.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/flora/vitis/vitis vinifera.obj"
+dest_files=["res://.godot/imported/vitis vinifera.obj-b918dc1661894177979e467869aeb503.mesh", "res://.godot/imported/vitis vinifera.obj-b918dc1661894177979e467869aeb503.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

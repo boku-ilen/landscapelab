@@ -48,7 +48,7 @@ func _on_data(id, message):
 		current_log_file.flush()
 	
 	var data_dict = JSON.parse_string(message)
-	print("Got data from client %d: %s" % [id, data_dict])
+	logger.info("Got data from client %d: %s" % [id, data_dict])
 	
 	var shape = data_dict["data"]["shape"]
 	var color = data_dict["data"]["color"]

@@ -1,14 +1,14 @@
 extends RenderChunk
 class_name TerrainChunk
 
-const low_ortho_resolution := 10
-const low_landuse_resolution := 10
+const low_ortho_resolution := 40
+const low_landuse_resolution := 40
 const low_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_10x10.obj")
 const low_mesh_resolution := 10
 
-const basic_load_distance := 10000.0
-const basic_ortho_resolution := 100
-const basic_landuse_resolution := 100
+const basic_load_distance := 5000.0
+const basic_ortho_resolution := 200
+const basic_landuse_resolution := 200
 const basic_mesh := preload("res://Layers/Renderers/Terrain/lod_mesh_100x100.obj")
 const basic_mesh_resolution := 100
 
@@ -33,7 +33,7 @@ var texture_layer: GeoRasterLayer
 var landuse_layer: GeoRasterLayer
 var surface_height_layer: GeoRasterLayer
 
-var mesh_to_apply
+var mesh_to_apply := low_mesh
 
 var current_heightmap
 var current_heightmap_shape
@@ -159,10 +159,8 @@ func override_build(center_x, center_y):
 
 func override_apply():
 	$Mesh.mesh = mesh_to_apply
-	$Water.mesh = get_node("Mesh").mesh
 	
 	rebuild_aabb($Mesh)
-	rebuild_aabb($Water)
 	
 	scale.x = size / mesh_resolution
 	scale.z = size / mesh_resolution
@@ -178,10 +176,10 @@ func override_apply():
 		
 		$HeightmapCollider/CollisionShape3D.shape = current_heightmap_shape
 		
-		$Water.material_override.set_shader_parameter("heightmap", current_heightmap)
-		$Water.material_override.set_shader_parameter("surface_heightmap", current_surface_heightmap)
-		$Water.material_override.set_shader_parameter("landuse", current_landuse)
-		$Water.material_override.set_shader_parameter("size", size)
+		$Mesh.material_override.next_pass.set_shader_parameter("heightmap", current_heightmap)
+		$Mesh.material_override.next_pass.set_shader_parameter("surface_heightmap", current_surface_heightmap)
+		$Mesh.material_override.next_pass.set_shader_parameter("landuse", current_landuse)
+		$Mesh.material_override.next_pass.set_shader_parameter("size", size)
 	
 	if current_texture:
 		$Mesh.material_override.set_shader_parameter("orthophoto", current_texture)
@@ -189,7 +187,6 @@ func override_apply():
 	if current_landuse:
 		$Mesh.material_override.set_shader_parameter("landuse", current_landuse)
 		$Mesh.material_override.set_shader_parameter("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
-		$Mesh.material_override.set_shader_parameter("has_landuse", true)
 		
 		if mesh_resolution == detailed_mesh_resolution:
 			if not has_node("LIDOverlayViewport"):

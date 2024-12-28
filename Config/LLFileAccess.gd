@@ -130,11 +130,13 @@ func apply_vegetation(vegetation: Node):
 		)
 		# Apply HCY shift
 		if "HCYShift" in ll_project["Vegetation"]:
-			RenderingServer.global_shader_parameter_set("HCY_SHIFT", Vector3(
+			var hcy_shift_vector = Vector3(
 				ll_project["Vegetation"]["HCYShift"][0],
 				ll_project["Vegetation"]["HCYShift"][1],
 				ll_project["Vegetation"]["HCYShift"][2]
-			))
+			)
+			RenderingServer.global_shader_parameter_set("HCY_SHIFT", hcy_shift_vector)
+			vegetation.hcy_shift_changed.emit(hcy_shift_vector)
 		
 		logger.info("Done loading vegetation!")
 
@@ -198,3 +200,17 @@ func apply_game(game_system: Node, layers: Node):
 			game_system.current_game_mode = game_mode
 		
 		logger.info("Done loading game logic!")
+
+
+# Convert dictionary of [String, String] to [String, Geolayer]
+func convert_dict_to_geolayers(dict: Dictionary) -> Dictionary:
+	var converted = {}
+	for key in dict.keys():
+		var path = dict[key]
+		
+		var splits = split_dataset_string(Settings.get_setting("geodata", "config-path"), path)
+		var layer = get_layer_from_splits(splits, false)
+		
+		converted[key] = layer
+	
+	return converted

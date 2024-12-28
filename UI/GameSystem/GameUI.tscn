@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://osbeo8c4meg5"]
 
 [ext_resource type="Script" path="res://UI/GameSystem/GameUI.gd" id="1"]
-[ext_resource type="Script" path="res://UI/GameSystem/SaveButton.gd" id="2"]
+[ext_resource type="Script" path="res://UI/LabTable/SaveButton.gd" id="2_b8auh"]
 
 [node name="GameUI" type="HBoxContainer"]
 size_flags_horizontal = 3
@@ -12,7 +12,7 @@ script = ExtResource("1")
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Save"
-script = ExtResource("2")
+script = ExtResource("2_b8auh")
 
 [node name="GameObjects" type="VBoxContainer" parent="."]
 layout_mode = 2

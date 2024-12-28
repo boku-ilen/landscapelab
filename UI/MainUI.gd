@@ -51,5 +51,3 @@ func _inject():
 				child.weather_manager = get_node(weather_manager_path)
 			if child.has_method("_on_ui_loaded"):
 				connect("ui_loaded",Callable(child,"_on_ui_loaded"))
-
-

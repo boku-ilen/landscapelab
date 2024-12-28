@@ -24,8 +24,17 @@ var features := []
 var remove_features := []
 var load_features := []
 
-var features_to_add := []
-var features_to_remove := []
+class FeatureChange:
+	enum ChangeType { ADD, REMOVE }
+	
+	var change_type: ChangeType
+	var feature: GeoFeature
+	
+	func _init(new_change_type, new_feature):
+		change_type = new_change_type
+		feature = new_feature
+
+var change_queue: Array[FeatureChange] = []
 
 var instances := {}
 @export var radius := 6000.0
@@ -102,23 +111,24 @@ func apply_new_data():
 func refine_load():
 	super.refine_load()
 	
-	if features_to_add.size() > 0:
-		var feature = features_to_add.pop_front()
-		instances[feature.get_id()] = load_feature_instance(feature)
-		features.append(feature)
-		apply_feature_instance.call_deferred(feature)
-	
-	if features_to_remove.size() > 0:
-		var feature = features_to_remove.pop_front()
-		remove_feature.call_deferred(feature.get_id())
+	if change_queue.size() > 0:
+		var changeset = change_queue.pop_front()
+		var feature = changeset.feature
+		
+		if changeset.change_type == FeatureChange.ChangeType.ADD:
+			instances[feature.get_id()] = load_feature_instance(feature)
+			features.append(feature)
+			apply_feature_instance.call_deferred(feature)
+		elif changeset.change_type == FeatureChange.ChangeType.REMOVE:
+			remove_feature.call_deferred(feature.get_id())
 
 
 func _on_feature_added(feature: GeoFeature):
-	features_to_add.push_back(feature)
+	change_queue.push_back(FeatureChange.new(FeatureChange.ChangeType.ADD, feature))
 
 
 func _on_feature_removed(feature: GeoFeature):
-	features_to_remove.push_back(feature)
+	change_queue.push_back(FeatureChange.new(FeatureChange.ChangeType.REMOVE, feature))
 
 
 # Might be necessary to be overwritten by inherited class

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://3xt32qb73ulv"
+path="res://.godot/imported/WKA_E_Mast.obj-088454fe883439701c9940ae241eada0.mesh"
+
+[deps]
+
+files=["res://.godot/imported/WKA_E_Mast.obj-088454fe883439701c9940ae241eada0.mesh"]
+
+source_file="res://Resources/Meshes/Windmills/E/WKA_E_Mast.obj"
+dest_files=["res://.godot/imported/WKA_E_Mast.obj-088454fe883439701c9940ae241eada0.mesh", "res://.godot/imported/WKA_E_Mast.obj-088454fe883439701c9940ae241eada0.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

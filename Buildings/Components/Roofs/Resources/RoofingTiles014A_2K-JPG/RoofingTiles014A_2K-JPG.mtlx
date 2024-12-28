@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<materialx version="1.38" fileprefix="./">
+  <standard_surface type="surfaceshader" ypos="-1.879310" xpos="6.159420" name="RoofingTiles014A_2K_JPG_StandardSurface">
+    <input type="float" value="0" name="specular" />
+    <input type="float" value="1" name="coat" />
+    <input type="color3" value="1, 1, 1" name="coat_color" />
+    <input type="float" value="1" name="base" />
+    <input type="color3" nodename="RoofingTiles014A_2K_JPG_Color" name="base_color" />
+    <input type="vector3" nodename="normalmap" name="normal" />
+    <input type="vector3" nodename="normalmap" name="coat_normal" />
+    <input type="color3" nodename="RoofingTiles014A_2K_JPG_Opacity" name="opacity" />
+    <input type="float" nodename="RoofingTiles014A_2K_JPG_Roughness" name="specular_roughness" />
+    <input type="float" nodename="RoofingTiles014A_2K_JPG_Roughness" name="coat_roughness" />
+  </standard_surface>
+  <surfacematerial type="material" ypos="0.000000" xpos="8.695652" name="RoofingTiles014A_2K_JPG">
+    <input type="surfaceshader" nodename="RoofingTiles014A_2K_JPG_StandardSurface" name="surfaceshader" />
+    <input type="displacementshader" nodename="displacement" name="displacementshader" />
+  </surfacematerial>
+  <tiledimage type="color3" ypos="-3.103448" xpos="3.623188" name="RoofingTiles014A_2K_JPG_Color">
+    <input type="filename" colorspace="srgb_texture" value="RoofingTiles014A_2K-JPG_Color.jpg" name="file" />
+    <input type="vector2" value="1.0, 1.0" name="uvtiling" />
+  </tiledimage>
+  <tiledimage type="float" ypos="5.163793" xpos="3.623188" name="RoofingTiles014A_2K_JPG_Displacement">
+    <input type="filename" value="RoofingTiles014A_2K-JPG_Displacement.jpg" name="file" />
+    <input type="vector2" value="1.0, 1.0" name="uvtiling" />
+  </tiledimage>
+  <displacement type="displacementshader" ypos="1.879310" xpos="6.159420" name="displacement">
+    <input type="float" nodename="RoofingTiles014A_2K_JPG_Displacement" name="displacement" />
+    <input type="float" value="1.0" name="scale" />
+  </displacement>
+  <tiledimage type="vector3" ypos="0.879310" xpos="1.086957" name="RoofingTiles014A_2K_JPG_NormalGL">
+    <input type="filename" value="RoofingTiles014A_2K-JPG_NormalGL.jpg" name="file" />
+    <input type="vector2" value="1.0, 1.0" name="uvtiling" />
+  </tiledimage>
+  <normalmap type="vector3" ypos="3.586207" xpos="3.623188" name="normalmap">
+    <input type="vector3" nodename="RoofingTiles014A_2K_JPG_NormalGL" name="in" />
+    <input type="float" value="1.0" name="scale" />
+  </normalmap>
+  <tiledimage type="color3" ypos="2.250000" xpos="3.623188" name="RoofingTiles014A_2K_JPG_Opacity">
+    <input type="filename" value="RoofingTiles014A_2K-JPG_Opacity.jpg" name="file" />
+    <input type="vector2" value="1.0, 1.0" name="uvtiling" />
+  </tiledimage>
+  <tiledimage type="float" ypos="-0.413793" xpos="3.623188" name="RoofingTiles014A_2K_JPG_Roughness">
+    <input type="filename" value="RoofingTiles014A_2K-JPG_Roughness.jpg" name="file" />
+    <input type="vector2" value="1.0, 1.0" name="uvtiling" />
+  </tiledimage>
+</materialx>

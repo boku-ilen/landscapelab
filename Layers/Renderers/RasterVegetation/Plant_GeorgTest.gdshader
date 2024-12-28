@@ -2,7 +2,7 @@ shader_type spatial;
 render_mode cull_disabled, depth_draw_opaque;
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
-#include "res://Layers/Renderers/RasterVegetation/generate_normal_from_albedo.gdshaderinc"
+#include "res://Util/Shading/generate_normal_from_albedo.gdshaderinc"
 
 global uniform vec3 HCY_SHIFT;
 
@@ -58,7 +58,7 @@ void vertex() {
 	if (VERTEX.y > 0.3) {
 		VERTEX.x += amplitude * sin(worldpos.x * scale.x * 0.75 + TIME * speed.x) * cos(worldpos.z * scale.x + TIME * speed.x * 0.25);
 		VERTEX.z += amplitude * sin(worldpos.x * scale.y + TIME * speed.y * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed.y);
-		
+
 		// Also bend them away from the camera to make it look better from above
 		//VERTEX.xz += (inverse(MODELVIEW_MATRIX) * vec4(0.0, 0.5, 0.0, 0.0)).xz * VERTEX.y;
 	}
@@ -67,16 +67,16 @@ void vertex() {
 	size = INSTANCE_CUSTOM.r * 40.0;
 	// Georg Test
 	//VERTEX *= size;
-	
+
 	// Georg Test //
 	NORMAL = mix(vec3(0.0, 1.0, 1.0), (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
 	//NORMAL = mix(COLOR.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
-	
+
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	dist_id = INSTANCE_CUSTOM.g * 255.0;
-	
+
 	ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
 	VERTEX.xz *= float(texture_size.x) / float(texture_size.y);  // Account for the texture's aspect ratio
 }
@@ -86,7 +86,7 @@ void fragment() {
 	if (!FRONT_FACING) {
 		NORMAL = -NORMAL;
 	}
-	
+
 	float blend_start_distance = max_distance - max_distance / 4.0;
 	float dist = length(camera_pos.xz - worldpos.xz);
 
@@ -99,34 +99,34 @@ void fragment() {
 	ALPHA_SCISSOR_THRESHOLD = 0.7;
 	//ALPHA = color.a;
 	//ALPHA_SCISSOR_THRESHOLD = 0.7 + dist_alpha * 0.3;
-	
+
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
 	BACKLIGHT = vec3(1.0, 1.0, 0.5) * min(color.g * 2.0, 1.0);
-	
+
 	// Make the plant darker at the bottom to simulate some shadowing
 //	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)
 //	color.rgb *= min(max(size_scaled_uv, fake_shadow_min_multiplier), fake_shadow_height) / fake_shadow_height;
 
 	// Hue shift to make plant appear e.g. dryer
 	vec3 hcy = RGBtoHCY(color.rgb);
-	
+
 	float begin = -PI;
 	float end = 0.0;
-	
+
 	// FIXME: Make this scaleable by HCY_SHIFT.r
 	if (hcy.x > begin && hcy.x < end) {
 		float factor = hcy.x - begin;
 		factor /= end - begin;
 		factor -= 0.5;
 		factor *= PI;
-		
+
 		hcy.x += cos(factor);
 	}
-	
+
 	hcy.g *= HCY_SHIFT.g;
 	hcy.b *= HCY_SHIFT.b;
-	
+
 	//Georg Test
 	ALBEDO = texture(albedo_test_map, UV).rgb;
 	//ALBEDO = HCYtoRGB(hcy);

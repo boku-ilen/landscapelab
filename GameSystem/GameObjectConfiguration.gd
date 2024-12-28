@@ -11,6 +11,10 @@ signal delete
 
 signal attribute_changed(reference, option_name, value)
 
+# Maps node to attribute info
+# FIXME: Refactor attribute nodes to custom scene which persist this information themselves
+var attribute_objects_to_game_objects = {}
+
 var name_to_ref_ui := {}
 
 var edge_buffer = 50
@@ -21,6 +25,10 @@ var last_input_time := 0
 func popup(rect: Rect2):
 	visible = true
 	position = rect.position
+	
+	# Required to get the actual UI container size - seems to take 2 frames to calculate...
+	await get_tree().process_frame
+	await get_tree().process_frame
 	
 	if position.x > get_viewport_rect().size.x / 2.0:
 		# On the right
@@ -95,7 +103,7 @@ func add_configuration_class_option(option_name, reference, classes, default):
 	item_list.auto_height = true
 	item_list.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	item_list.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
-	item_list.custom_minimum_size.x = (classes.keys().size() + 1) * item_list.fixed_column_width
+	item_list.custom_minimum_size.x = (classes.keys().size() + 0.25) * item_list.fixed_column_width
 	item_list.custom_minimum_size.y = item_list.fixed_column_width * 1.5
 	item_list.focus_mode = Control.FOCUS_NONE
 	
@@ -128,8 +136,11 @@ func add_configuration_option(option_name, reference, min=null, max=null, defaul
 	var label = Label.new()
 	label.text = option_name
 	var slider = preload("res://UI/CustomElements/SlideAndSpin.tscn").instantiate()
+	slider.custom_minimum_size.x = 350.0
 	slider.min_value = 1
-	slider.tick_count = 10
+	slider.tick_count = max - min + 1 if min and max else 0
+	slider.is_text_editable = false
+	while slider.tick_count > 10.0: slider.tick_count /= 10.0
 	slider.step = 1
 	if min != null:
 		slider.min_value = float(min)
@@ -149,23 +160,86 @@ func add_configuration_option(option_name, reference, min=null, max=null, defaul
 	$Entries/Attributes.add_child(vbox)
 
 
-func add_attribute_information(attribute_name, attribute_value):
-	var hbox = HBoxContainer.new()
-	var label1 = Label.new()
-	var label2 = Label.new()
-	
-	# Style fixes for long text
-	label2.autowrap_mode = TextServer.AUTOWRAP_WORD
-	hbox.custom_minimum_size.x = min(attribute_value.length() + attribute_name.length(), 600.0)
-	
-	label1.text = attribute_name
-	label2.text = attribute_value
-	
-	hbox.add_child(label1)
-	hbox.add_child(label2)
-	$Entries/Attributes.add_child(hbox)
+func reload_attribute_informations():
+	for attribute_object in attribute_objects_to_game_objects.keys():
+		if $Entries/Attributes.has_node(attribute_object.name):
+			var new_text = attribute_object.get_value(attribute_objects_to_game_objects[attribute_object])
+			if float(new_text) > 0.0:
+				new_text = "%.1f" % new_text
+			$Entries/Attributes.get_node(attribute_object.name).get_node("Value").text = new_text
+
+
+func add_attribute_information(attribute: GameObjectAttribute, attribute_value, game_object):
+	if attribute.icon_settings.is_empty() or attribute.icon_settings.type == "unit":
+		# Standard icon: name to value as text
+		var hbox = HBoxContainer.new()
+		hbox.name = attribute.name
+		
+		attribute_objects_to_game_objects[attribute] = game_object
+		
+		if attribute_value is float or float(attribute_value) > 0.0:
+			attribute_value = "%.1f" % attribute_value
+		hbox.custom_minimum_size.x = min(str(attribute_value).length() + attribute.name.length(), 600.0)
+		
+		var label1 = Label.new()
+		label1.text = attribute.name
+		hbox.add_child(label1)
+		
+		var label2 = Label.new()
+		label2.name = "Value"
+		
+		# Style fixes for long text
+		label2.autowrap_mode = TextServer.AUTOWRAP_WORD
+		label2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		label2.text = attribute_value
+		
+		hbox.add_child(label2)
+		
+		if not attribute.icon_settings.is_empty() and attribute.icon_settings.type == "unit":
+			label2.text += " " + attribute.icon_settings.postfix
+		
+		$Entries/Attributes.add_child(hbox)
+		
+		# FIXME: Required to work around https://github.com/godotengine/godot/issues/28818 in some edge cases
+		await get_tree().process_frame
+		await get_tree().process_frame
+		size = Vector2(0, 0)
+	else:
+		# Special icon
+		if attribute.icon_settings.type == "outlined":
+			# Icon with outline which is colored based on threshold values
+			if not $Entries/Attributes.has_node("OutlinedIcons"):
+				var hbox = HBoxContainer.new()
+				hbox.name = "OutlinedIcons"
+				$Entries/Attributes.add_child(hbox)
+			
+			var icon = load(attribute.icon_settings.icon)
+			var color
+			for threshold in attribute.icon_settings.color_thresholds.keys():
+				if attribute_value <= str_to_var(threshold):
+					color = attribute.icon_settings.color_thresholds[threshold]
+					break
+			
+			var icon_node = preload("res://UI/CustomElements/OutlinedTexture.tscn").instantiate()
+			icon_node.texture = icon
+			icon_node.outline_color = Color(color)
+			
+			$Entries/Attributes/OutlinedIcons.add_child(icon_node)
+		elif attribute.icon_settings.type == "show_if_exceeds":
+			# Icon which only shows up if the attribute value exceeds a certain threshold
+			if not $Entries/Attributes.has_node("OutlinedIcons"):
+				var hbox = HBoxContainer.new()
+				hbox.name = "OutlinedIcons"
+				$Entries/Attributes.add_child(hbox)
+			if attribute_value >= attribute.icon_settings.threshold:
+				var icon = load(attribute.icon_settings.icon)
+				var icon_node = preload("res://UI/CustomElements/MarginTexture.tscn").instantiate()
+				icon_node.texture = icon
+				$Entries/Attributes/OutlinedIcons.add_child(icon_node)
 
 
 func clear_attributes():
+	attribute_objects_to_game_objects.clear()
+	
 	for child in $Entries/Attributes.get_children():
 		child.free()

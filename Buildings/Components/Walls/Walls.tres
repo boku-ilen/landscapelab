@@ -21,7 +21,7 @@ uniform vec4 roughness_texture_channel = vec4(1,0,0,0);
 uniform vec4 metallic_texture_channel = vec4(0,1,0,0);
 uniform vec4 emission_texture_channel = vec4(0,0,1,0);
 
-// There is an edge case 
+// There is an edge case
 uniform float wall_height = 2.5;
 uniform float window_scale_y = 0.6;//vec2(0.5, 0.75);
 uniform vec2 distance_meter = vec2(2.5);
@@ -50,7 +50,7 @@ varying flat float window_index;
 void vertex() {
 	UV=UV*uv1_scale.xy+uv1_offset.xy;
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
-	
+
 	// Set the index/depth of the read texture from the texture array
 	wall_index = (CUSTOM0.r);// * 255.0;
 	window_index = (CUSTOM0.g);// * 255.0;
@@ -61,19 +61,19 @@ float rand(vec3 co){
 }
 
 void fragment() {
-	
+
 	vec3 wall_uv = vec3(UV / wall_height, wall_index);
-	
+
 	ivec3 window_tex_size = textureSize(texture_window_albedo, 0);
-	
-	// the actual distance between the individual meters is the given distance 
-	// plus the UV-size of the texture. UVs are mapped such that UV equals meters. 
+
+	// the actual distance between the individual meters is the given distance
+	// plus the UV-size of the texture. UVs are mapped such that UV equals meters.
 	float dist = distance_meter.x + wall_height * window_scale_y;
 	// offset the window on x-axis in case scale is smaller than 1
 	float offset_x = (1. - window_scale_y) / 2.;
 	// center on y-axis
 	float offset_y = wall_height / 2. - (wall_height * window_scale_y) / 2.;
-	
+
 	// we need a 3-dimensional UV to obtain the wished texture from the sampler2darray
 	vec3 window_uv = vec3(
 		//
@@ -86,51 +86,51 @@ void fragment() {
 			// clamp as we only want one window vertically per floor
 			clamp((UV.y  - offset_y) / (wall_height * window_scale_y), 0., 1.)
 		), window_index);
-	
+
 	// Obtain all wished textures (albedo, normal, rme) for wall/window
 	vec4 albedo_wall_tex = texture(texture_wall_albedo, wall_uv);
 	vec4 albedo_window_tex = texture(texture_window_albedo, window_uv);
-	
+
 	// Necessary to avoid artifacts when rendering
 	albedo_window_tex.a = fract(window_uv.x) < 0.05 ? 0.0 : albedo_window_tex.a;
 	albedo_window_tex.a = fract(window_uv.y) < 0.05 ? 0.0 : albedo_window_tex.a;
-	
+
 	// In case the window_index is -1 we dont want a texture
 	albedo_window_tex.a = window_index < 0.0 ? 0.0 : albedo_window_tex.a;
-	
+
 	vec4 albedo_tex = mix(albedo_wall_tex, albedo_window_tex, albedo_window_tex.a);
-	
+
 	vec4 rme_wall_tex = texture(texture_wall_rme, wall_uv);
 	vec4 rme_window_tex = texture(texture_window_rme, window_uv);
-	
+
 	float metallic_wall_tex = dot(rme_wall_tex, metallic_texture_channel);
 	float metallic_window_tex = dot(rme_window_tex, metallic_texture_channel);
 	float metallic_tex = mix(metallic_wall_tex, metallic_window_tex, albedo_window_tex.a);
-	
+
 	float roughness_wall_tex = dot(rme_wall_tex, roughness_texture_channel);
 	float roughness_window_tex = dot(rme_window_tex, roughness_texture_channel);
 	float roughness_tex = mix(roughness_wall_tex, roughness_window_tex, albedo_window_tex.a);
-	
+
 	float emission_wall_tex = dot(rme_wall_tex, emission_texture_channel);
 	float emission_window_tex = dot(rme_window_tex, emission_texture_channel);
 	float emission_tex = mix(emission_wall_tex, emission_window_tex, albedo_window_tex.a);
-	
+
 	METALLIC = metallic_tex * metallic;
 	ROUGHNESS = roughness_tex * roughness;
-	
+
 	// Modulate color with vertex color - this is more performant than a color uniform
 	// Do not modulate glasses (i.e. where metallic is 1)
 	if(emission_tex < 0.5)
 		ALBEDO = COLOR.rgb * albedo_tex.rgb;
 	else
 		ALBEDO = albedo_tex.rgb;
-	
+
 	SPECULAR = specular;
 	vec4 wall_normal = texture(texture_wall_normal, wall_uv);
 	vec4 window_normal = texture(texture_window_normal, window_uv);
 	NORMAL_MAP = mix(wall_normal, window_normal, albedo_window_tex.a).rgb;
 	NORMAL_MAP_DEPTH = normal_scale;
-	
+
 	if (lights_on) {
 		int random_seed = int(rand(round(worldpos)) * rand(vec3(floor(window_uv.xy), 0.0)) * 100000.0);
 		bool light_here = random_seed % 3 == 2;

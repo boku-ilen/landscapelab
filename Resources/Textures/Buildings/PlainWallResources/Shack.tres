@@ -1,20 +1,19 @@
-[gd_resource type="Resource" script_class="PlainWallResource" load_steps=4 format=3 uid="uid://dqc07nlbth3sq"]
+[gd_resource type="Resource" script_class="PlainWallResource" load_steps=3 format=3 uid="uid://dqc07nlbth3sq"]
 
-[ext_resource type="Resource" uid="uid://d2w2y5wyajotn" path="res://Resources/Textures/Buildings/facade/Planks/Planks.tres" id="1_glmlx"]
 [ext_resource type="Script" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_j6lt4"]
 [ext_resource type="Resource" uid="uid://ry4n6ovt6my7" path="res://Resources/Textures/Buildings/facade/Shack/Shack.tres" id="2_0pstj"]
 
 [resource]
 script = ExtResource("1_j6lt4")
-basement_texture = ExtResource("1_glmlx")
+basement_texture = ExtResource("2_0pstj")
 ground_texture = ExtResource("2_0pstj")
 middle_texture = ExtResource("2_0pstj")
 top_texture = ExtResource("2_0pstj")
-ground_window_id = 1
+ground_window_id = -1
 middle_window_id = -1
 top_window_id = -1
-random_colors = Array[Color]([Color(1, 1, 1, 1), Color(0.607843, 0.321569, 0.215686, 1), Color(0.592157, 0.592157, 0.592157, 1)])
-random_color_weights = Array[float]([0.4, 0.3, 0.3])
+random_colors = Array[Color]([Color(0.431373, 0.235294, 0, 1)])
+random_color_weights = Array[float]([1.0])
 apply_colors = 15
 wind_counterclockwise = null
-prefer_pointed_roof = false
+prefer_pointed_roof = true

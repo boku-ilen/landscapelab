@@ -1,16 +1,13 @@
-[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=6 format=3 uid="uid://ry4n6ovt6my7"]
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=5 format=3 uid="uid://ry4n6ovt6my7"]
 
-[ext_resource type="Texture2D" uid="uid://dsg312x0t8e0t" path="res://Resources/Textures/Buildings/facade/Shack/albedo_extended.jpg" id="1_qlt8k"]
-[ext_resource type="Texture2D" uid="uid://dtqu4sxdm3nqa" path="res://Resources/Textures/Buildings/facade/Shack/metallic_extended.jpg" id="2_bk6lp"]
-[ext_resource type="Texture2D" uid="uid://b6o8aseyd1ksh" path="res://Resources/Textures/Buildings/facade/Shack/normal_extended.jpg" id="3_4u2tr"]
-[ext_resource type="Texture2D" uid="uid://rgheyxwd2sth" path="res://Resources/Textures/Buildings/facade/Shack/roughness_extended.jpg" id="4_4w5tg"]
+[ext_resource type="Texture2D" uid="uid://skhvtkw6cs8a" path="res://Buildings/Components/Roofs/Resources/BrownPlanks003-2K-JPG/brown_planks_03_diff_2k.jpg" id="1_ji8g4"]
+[ext_resource type="Texture2D" uid="uid://cicii0w5v6kio" path="res://Buildings/Components/Roofs/Resources/BrownPlanks003-2K-JPG/brown_planks_03_nor_gl_2k.jpg" id="2_p1k8v"]
+[ext_resource type="Texture2D" uid="uid://co7d041jl2g7r" path="res://Buildings/Components/Roofs/Resources/BrownPlanks003-2K-JPG/brown_planks_03_rough_2k.jpg" id="3_yyu18"]
 [ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="5_cxln6"]
 
 [resource]
 script = ExtResource("5_cxln6")
-texture_scale = Vector2(4, 1)
-albedo_texture = ExtResource("1_qlt8k")
-normal_texture = ExtResource("3_4u2tr")
-roughness_texture = ExtResource("4_4w5tg")
-metallic_texture = ExtResource("2_bk6lp")
-emission_texture = ExtResource("2_bk6lp")
+texture_scale = Vector2(0.75, 1)
+albedo_texture = ExtResource("1_ji8g4")
+normal_texture = ExtResource("2_p1k8v")
+roughness_texture = ExtResource("3_yyu18")

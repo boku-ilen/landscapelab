@@ -16,6 +16,8 @@ var loading_thread := Thread.new()
 @export var load_refined_threaded := true
 @export var load_adapt_threaded := true
 
+@export var distance_thread_threshold := 1000.0
+
 # Time management
 var time_manager: TimeManager :
 	get:
@@ -47,8 +49,9 @@ func _process(_delta):
 	
 	if not loading_thread.is_started():
 		var diff = position_manager.center_node.position - last_load_position
+		# FIXME: Display loading screen if diff is too large
 		if is_new_loading_required(diff):
-			if load_adapt_threaded:
+			if diff.length() < distance_thread_threshold and load_adapt_threaded:
 				loading_thread.start(adapt_load.bind(diff))
 			else:
 				adapt_load(diff)
@@ -78,7 +81,7 @@ func full_load():
 func adapt_load(_position_diff: Vector3):
 	# Workaround until we adapt to new multithreading system
 	# See https://github.com/godotengine/godot/pull/78000
-	if load_adapt_threaded:
+	if OS.get_thread_caller_id() != OS.get_main_thread_id():
 		Thread.set_thread_safety_checks_enabled(false)
 
 
@@ -87,7 +90,7 @@ func adapt_load(_position_diff: Vector3):
 func refine_load():
 	# Workaround until we adapt to new multithreading system
 	# See https://github.com/godotengine/godot/pull/78000
-	if load_refined_threaded:
+	if OS.get_thread_caller_id() != OS.get_main_thread_id():
 		Thread.set_thread_safety_checks_enabled(false)
 
 

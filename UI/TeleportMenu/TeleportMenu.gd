@@ -47,6 +47,7 @@ func teleport_to_coordinates(xyz: Vector3, geo_coords=true):
 	if geo_coords:
 		xyz = pos_manager.to_engine_coordinates(xyz)
 	if pc_player:
+		print(xyz)
 		pc_player.teleport(xyz)
 	else:
 		# FIXME: what if center node is not a player?
@@ -88,13 +89,18 @@ func _load_features_into_list():
 		if feature.get_attribute(name_attribute) != "" and feature.get_attribute(name_attribute) != null:
 			item_name = feature.get_attribute(name_attribute)
 		
-		var metadata = {"pos": pos, "feature": feature}
+		var height = 0
+		if feature.get_attribute("hoehe") != null and feature.get_attribute("hoehe") != "":
+			height = float(feature.get_attribute("hoehe"))
+		
+		var metadata = {"pos": pos, "feature": feature, "height": height}
 		$VBoxContainer/ItemList.add_item(item_name)
 		$VBoxContainer/ItemList.set_item_metadata(new_id, metadata)
 
 
 func _on_feature_select(item_id):
 	var global_pos = $VBoxContainer/ItemList.get_item_metadata(item_id)["pos"]
+	global_pos.y = $VBoxContainer/ItemList.get_item_metadata(item_id)["height"]
 	teleport_to_coordinates(global_pos, true)
 	release_focus()
 

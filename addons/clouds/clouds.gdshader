@@ -250,7 +250,7 @@ void sky() {
 			col = vec4(atmosphere(dir), 1.0);
 		}
 		
-		COLOR = col.xyz;
+		COLOR = max(vec3(0.03, 0.03, 0.03), col.xyz);
 		ALPHA = 1.0;
 	} else {
 		COLOR = texture(RADIANCE, EYEDIR).rgb;

@@ -1,3 +1,4 @@
+@tool
 extends Node3D
 
 
@@ -10,7 +11,12 @@ extends Node3D
 
 var height: float
 var footprint: PackedVector2Array
+var is_refined := false
 
+var roof: RoofBase : 
+	set(new_roof): 
+		roof = new_roof
+		add_child(roof)
 
 func set_metadata(metadata: Dictionary):
 	height = metadata["height"]
@@ -18,7 +24,7 @@ func set_metadata(metadata: Dictionary):
 
 
 # Build this building by calling "build" checked all children.
-func build():
+func build(callbacks: Array = []):
 	# To stack the floors checked top of each other, the total height must be remembered
 	var next_floor_height_offset = 0
 	
@@ -30,6 +36,9 @@ func build():
 		
 		if "height" in child:
 			next_floor_height_offset += child.height
+	
+	for callback in callbacks:
+		callback.call()
 
 
 func apply_daytime_change(is_daytime):

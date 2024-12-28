@@ -1,0 +1,22 @@
+[gd_scene load_steps=7 format=3 uid="uid://ncguvbkhd82y"]
+
+[ext_resource type="Texture2D" uid="uid://bfnjenkehtuyn" path="res://Resources/Meshes/_NEW assets/hero/materials/schloss trautenfels 3_DefaultMaterial_BaseColor.png" id="1_o85nr"]
+[ext_resource type="ArrayMesh" uid="uid://ckq4rveeau7n8" path="res://Resources/Meshes/_NEW assets/hero/schloss trautenfels.obj" id="1_yam1i"]
+[ext_resource type="Texture2D" uid="uid://nhwbbewaci30" path="res://Resources/Meshes/_NEW assets/hero/materials/schloss trautenfels 3_DefaultMaterial_Metallic.png" id="2_i6dd8"]
+[ext_resource type="Texture2D" uid="uid://ci3pk33afwsnb" path="res://Resources/Meshes/_NEW assets/hero/materials/schloss trautenfels 3_DefaultMaterial_Normal.png" id="3_84y7g"]
+[ext_resource type="Texture2D" uid="uid://cbpyl5pivt5u6" path="res://Resources/Meshes/_NEW assets/hero/materials/schloss trautenfels 3_DefaultMaterial_Roughness.png" id="4_e6ks3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_osw3r"]
+albedo_texture = ExtResource("1_o85nr")
+metallic = 1.0
+metallic_texture = ExtResource("2_i6dd8")
+roughness_texture = ExtResource("4_e6ks3")
+normal_enabled = true
+normal_texture = ExtResource("3_84y7g")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="SchlossTrautenfels" type="MeshInstance3D" parent="."]
+transform = Transform3D(4.42175, 0, 1.66546, 0, 4.725, 0, -1.66546, 0, 4.42175, -3.08201, -12.5179, 15.1425)
+material_override = SubResource("StandardMaterial3D_osw3r")
+mesh = ExtResource("1_yam1i")

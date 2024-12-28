@@ -63,9 +63,9 @@ func activate_view(view_name):
 	emit_signal("view_activated", current_view)
 
 
-func _on_score_value_changed(_value, score):
+func _on_score_value_changed(score):
 	emit_signal("score_changed", score)
 
 
-func _on_score_target_reached(_value, score):
+func _on_score_target_reached(score):
 	emit_signal("score_target_reached", score)

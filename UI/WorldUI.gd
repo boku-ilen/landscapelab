@@ -11,7 +11,8 @@ var pc_player :
 
 
 func _enter_tree():
-	if TreeHandler.state_stack.front() == null \
+	if TreeHandler.state_stack.is_empty() \
+	or TreeHandler.state_stack.front() == null \
 	or TreeHandler.state_stack.front() == self:
 			return
 	

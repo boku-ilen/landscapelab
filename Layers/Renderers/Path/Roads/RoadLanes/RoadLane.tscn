@@ -14,6 +14,7 @@ curve = SubResource("Curve3D_3nffp")
 script = ExtResource("1_85n38")
 
 [node name="RoadLanePolygon" type="CSGPolygon3D" parent="."]
+top_level = true
 layers = 98304
 calculate_tangents = false
 polygon = PackedVector2Array(-2.5, 0.2, 2.5, 0.2, 2.5, 0, -2.5, 0)

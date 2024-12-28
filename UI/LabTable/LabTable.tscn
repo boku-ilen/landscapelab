@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=41 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" path="res://UI/LabTable/LabTableMarkers.gd" id="15_j8x0r"]
 [ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="17_aru4m"]
 [ext_resource type="Script" path="res://UI/LabTable/SaveButton.gd" id="19_bwlna"]
+[ext_resource type="Texture2D" uid="uid://culwy6sl2k8sy" path="res://Resources/Icons/LabTable/next.svg" id="19_xgrje"]
 [ext_resource type="Script" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
 [ext_resource type="Script" path="res://UI/LabTable/ScaleBar.gd" id="20_rfesq"]
 [ext_resource type="Script" path="res://UI/LabTable/LoadButton.gd" id="21_6fdux"]
@@ -48,6 +49,7 @@ bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0v7wp"]
 
 [node name="LabTableWindow" type="Window"]
+mode = 3
 initial_position = 1
 size = Vector2i(1600, 900)
 
@@ -65,7 +67,6 @@ script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
-debug_mode = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
 layout_mode = 2
@@ -81,7 +82,7 @@ handle_input_locally = false
 physics_object_picking = true
 physics_object_picking_sort = true
 canvas_cull_mask = 4294967293
-size = Vector2i(1606, 900)
+size = Vector2i(2, 2)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
@@ -103,7 +104,6 @@ cursor_path = NodePath("../../Cursor2D")
 [node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera") instance=ExtResource("5_c4s8q")]
 visibility_layer = 3
 camera = NodePath("../Camera2D")
-load_data_threaded = false
 
 [node name="Cursor2D" type="Sprite2D" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d")]
 visible = false
@@ -137,9 +137,6 @@ grid_container = NodePath(".")
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="SetVisible" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/HBox" index="0"]
-custom_minimum_size = Vector2(90, 90)
-
 [node name="GridContainer" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer" index="2"]
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -160,6 +157,7 @@ custom_minimum_size = Vector2(90, 90)
 visible = false
 
 [node name="SubViewport" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer" index="0"]
+size = Vector2i(300, 300)
 render_target_update_mode = 0
 
 [node name="ReferenceRect" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport" index="2"]
@@ -247,20 +245,23 @@ theme_override_styles/panel = ExtResource("23_wb0c1")
 layout_mode = 2
 script = ExtResource("13_a5rra")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="GameModeMarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = -46.0
-offset_right = 152.0
-offset_bottom = -15.0
+offset_top = -84.0
+offset_right = 217.0
 grow_vertical = 0
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
 
-[node name="NextGameModeButton" type="Button" parent="CenterContainer"]
+[node name="NextGameModeButton" type="Button" parent="GameModeMarginContainer"]
 layout_mode = 2
 theme = ExtResource("8_2ddb4")
-text = "Next Game Mode"
+icon = ExtResource("19_xgrje")
+flat = true
 script = ExtResource("20_12202")
 
 [node name="CenterContainer2" type="CenterContainer" parent="."]
@@ -277,10 +278,15 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="SaveButton" type="Button" parent="CenterContainer2"]
+visible = false
 layout_mode = 2
 theme = ExtResource("8_2ddb4")
 text = "Save"
 script = ExtResource("19_bwlna")
+
+[node name="AutoSaveTimer" type="Timer" parent="CenterContainer2/SaveButton"]
+wait_time = 10.0
+autostart = true
 
 [node name="CenterContainer4" type="CenterContainer" parent="."]
 anchors_preset = 3

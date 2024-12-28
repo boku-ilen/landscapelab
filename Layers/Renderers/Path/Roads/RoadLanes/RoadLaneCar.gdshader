@@ -13,22 +13,24 @@ uniform float innerline_gap = 6.0;
 uniform float innerline_length = 3.0;
 uniform int lanes = 2;
 
-uniform float banquet_width;
+uniform float banquet_width = 1.0;
 uniform vec3 lid_color: source_color;
+
+uniform bool render_lid = true;
 
 float map_to_range(float value, float old_from, float old_to, float new_from, float new_to){
 	return new_from + ((new_to - new_from) / (old_to - old_from)) * (value - old_from);
 }
 
 void vertex() {
-	if ((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16))) {
+	if (render_lid && ((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16)))) {
 		VERTEX += NORMAL * banquet_width;
 	}
 	WORLD_UV = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz * world_uv_scaling;
 }
 
 void fragment() {
-	if ((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16))) {
+	if (render_lid && ((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16)))) {
 		ALBEDO = lid_color;
 	} else {
 		vec2 damage_uv = WORLD_UV.xz * 0.3;
@@ -37,7 +39,7 @@ void fragment() {
 		float wear_noise = texture(wear_factor, wear_uv).r;
 
 		float damage_opacity_sample = texture(damage_opacity, damage_uv).r;
-		damage_opacity_sample *= float(wear_noise > 0.7);
+		damage_opacity_sample *= float(wear_noise > 0.8);
 
 		vec3 color = mix(
 			texture(road_texture, WORLD_UV.xz).rgb,

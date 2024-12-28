@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://082evkb5hwy1"]
 
-[ext_resource type="Material" path="res://Resources/Materials/RiverWater.tres" id="1"]
+[ext_resource type="Material" uid="uid://dusetnfsxpjjc" path="res://Resources/Materials/RiverWater.tres" id="1"]
 
 [sub_resource type="Curve3D" id="1"]
 _data = {
@@ -17,9 +17,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.500705, 0.304402, 0)
 polygon = PackedVector2Array(-20, 2, 20, 2, 20, 2)
 mode = 2
 path_node = NodePath("..")
+path_interval_type = 0
 path_interval = 1.0
+path_simplify_angle = 0.0
 path_rotation = 2
 path_local = false
 path_continuous_u = true
+path_u_distance = 1.0
 path_joined = false
 material = ExtResource("1")

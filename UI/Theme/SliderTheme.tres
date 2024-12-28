@@ -27,6 +27,9 @@ corner_radius_bottom_left = 10
 corner_detail = 4
 
 [resource]
+HSlider/icons/grabber = null
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = null
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pdrno")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_1kdxw")
 HSlider/styles/slider = SubResource("StyleBoxFlat_pgsmq")

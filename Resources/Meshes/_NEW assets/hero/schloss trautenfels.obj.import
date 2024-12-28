@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ckq4rveeau7n8"
+path="res://.godot/imported/schloss trautenfels.obj-9404a5a1751a170c49abb7ff5f5b83a0.mesh"
+
+[deps]
+
+files=["res://.godot/imported/schloss trautenfels.obj-9404a5a1751a170c49abb7ff5f5b83a0.mesh"]
+
+source_file="res://Resources/Meshes/_NEW assets/hero/schloss trautenfels.obj"
+dest_files=["res://.godot/imported/schloss trautenfels.obj-9404a5a1751a170c49abb7ff5f5b83a0.mesh", "res://.godot/imported/schloss trautenfels.obj-9404a5a1751a170c49abb7ff5f5b83a0.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

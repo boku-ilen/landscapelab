@@ -71,7 +71,8 @@ func update_road_lane() -> void:
 	$RoadLanePolygon.material.set_shader_parameter("height", total_road_height)
 	
 	if always_3d or is_bridge:
-		$RoadLanePolygon.layers = 4 + 65536 # 3D mesh and LID
+		$RoadLanePolygon.layers = 4 # 3D mesh only
+		$RoadLanePolygon.material.set_shader_parameter("render_lid", false)
 	else:
 		$RoadLanePolygon.layers = 32768 + 65536 # Terrain overlay and LID
 

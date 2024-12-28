@@ -8,7 +8,7 @@ var features
 var rng := RandomNumberGenerator.new()
 var initial_rng_state
 
-var refine_load_distance = 250
+var refine_load_distance = 450
 
 var weather_manager: WeatherManager :
 	get:
@@ -234,7 +234,7 @@ func override_build(center_x, center_y):
 
 		mesh_name_to_transforms[mesh_name].append(Transform3D()
 				.scaled(Vector3(instance_scale, instance_scale, instance_scale)) \
-				.rotated(Vector3.UP, PI * 0.5 * rng.randf()) \
+				.rotated(Vector3.UP, PI * 0.5 * rng.randf_range(-1.0, 1.0)) \
 				.translated(pos - Vector3.UP)
 		)
 		

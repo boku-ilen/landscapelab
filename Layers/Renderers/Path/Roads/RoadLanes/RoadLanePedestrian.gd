@@ -2,12 +2,17 @@ extends RoadLane
 class_name RoadLanePedestrian
 
 
+@export var lid = 2002
+
+
 
 func update_road_lane() -> void:
-	self.road_height = 0.21
 	super.update_road_lane()
-	$RoadLanePolygon.material.set_shader_parameter("has_curbside_left", true)
-	$RoadLanePolygon.material.set_shader_parameter("has_curbside_right", true)
+	$RoadLanePolygon.material.set_shader_parameter("lid_color", Color8(
+		lid % 255,
+		floor(lid / 255),
+		0
+	))
 
 
 func reset_custom_values() -> void:

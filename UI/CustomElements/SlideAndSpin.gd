@@ -44,9 +44,14 @@ signal value_changed(value)
 		return value 
 	set(val):
 		value = val
-		if has_node("SpinBox") and has_node("HSlider"):
+		if has_node("SpinBox"):
 			$SpinBox.value = val
+			
+		if has_node("HSlider"):
 			$HSlider.value = val
+		
+		if has_node("ValueLabel"):
+			$ValueLabel.text = "%1d" % val
 
 
 @export var tick_count := 0 : 
@@ -54,6 +59,13 @@ signal value_changed(value)
 		tick_count = new_tick_counter
 		if has_node("HSlider"):
 			$HSlider.tick_count = tick_count
+
+
+@export var is_text_editable := false : 
+	set(new_is_text_editable):
+		is_text_editable = new_is_text_editable
+		$SpinBox.visible = is_text_editable
+		$ValueLabel.visible = not is_text_editable
 
 
 func _ready():
@@ -64,6 +76,7 @@ func _ready():
 	max_value = max_value
 	min_value = min_value
 	label = label
+	is_text_editable = is_text_editable
 
 
 func _update_value(new_value):

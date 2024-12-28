@@ -93,11 +93,15 @@ func is_layer_composition_rendered(layer_composition: LayerComposition):
 # Return the middle of all layers for initial loading
 # FIXME: also include GeoFeatureLayers  
 func recalculate_center():
-	var center_avg := Vector3.ZERO
-	var count := 0
-	for geolayer in geo_layers["rasters"].values():
-		if geolayer is GeoRasterLayer:
-			center_avg += geolayer.get_center()
-			count += 1
-	
-	current_center = center_avg / count
+	if "START" in geo_layers["features"]:
+		current_center = geo_layers["features"]["START"].get_all_features()[0].get_vector3()
+		current_center.z = -current_center.z
+	else:
+		var center_avg := Vector3.ZERO
+		var count := 0
+		for geolayer in geo_layers["rasters"].values():
+			if geolayer is GeoRasterLayer:
+				center_avg += geolayer.get_center()
+				count += 1
+		
+		current_center = center_avg / count

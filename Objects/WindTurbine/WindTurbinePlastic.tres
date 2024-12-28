@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://ejq4pqf8hc4p"]
+
+[ext_resource type="Texture2D" uid="uid://crx8wp46m2s8f" path="res://Resources/Textures/PlasticClean/PX_Plastic_Desktop_01_albedo.jpg" id="1_24lbm"]
+[ext_resource type="Texture2D" uid="uid://dp22lt4lecot0" path="res://Resources/Textures/PlasticClean/PX_Plastic_Desktop_01_normal.jpg" id="2_08lf0"]
+[ext_resource type="Texture2D" uid="uid://bi2padjphgrou" path="res://Resources/Textures/PlasticClean/PX_Plastic_Desktop_01_roughness.jpg" id="3_an6i2"]
+
+[resource]
+albedo_texture = ExtResource("1_24lbm")
+roughness_texture = ExtResource("3_an6i2")
+normal_enabled = true
+normal_texture = ExtResource("2_08lf0")

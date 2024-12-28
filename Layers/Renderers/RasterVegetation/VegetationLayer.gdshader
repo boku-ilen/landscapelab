@@ -1,6 +1,6 @@
 shader_type particles;
 
-#define DISTRIBUTION_RESOLUTION 16
+#define DISTRIBUTION_RESOLUTION 64
 
 uniform float rows = 300;
 uniform float spacing = 1.0;
@@ -105,12 +105,13 @@ void process() {
 			 splatmap_uv.y > 0.0 && splatmap_uv.y < 1.0);// && is_in_front_of_camera;
 
 	// Note that the pos.xz is already offset by a random normal vector here, so it does not really matter what exactly we do with it since it's already random
-	vec2 dist_value = texture(distribution_array[distribution_id - 1], (pos.xz / spacing) / float(DISTRIBUTION_RESOLUTION)).rg;
+	vec3 dist_value = texture(distribution_array[distribution_id - 1], (pos.xz / spacing) / float(DISTRIBUTION_RESOLUTION)).rgb;
 
 	float plant_id = dist_value.r;
-	float size_scale = dist_value.g;
+	float size_scale_whole = dist_value.g;
+	float size_scale_comma = dist_value.b;
 
-	CUSTOM.r = size_scale; // To be multiplied by the maximum size before use!
-	CUSTOM.g = plant_id; // To be multiplied by 255.0 before use!
-	//CUSTOM.b = dist / 255.0; // To be multiplied by 255.0 before use!
+	CUSTOM.r = plant_id; // To be multiplied by 255.0 before use!
+	CUSTOM.g = size_scale_whole; // To be multiplied by 255.0 before use!
+	CUSTOM.b = size_scale_comma; // No multiplication required
 }

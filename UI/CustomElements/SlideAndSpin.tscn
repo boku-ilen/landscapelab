@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://evcqemueid18"]
+[gd_scene load_steps=4 format=3 uid="uid://evcqemueid18"]
 
 [ext_resource type="Script" path="res://UI/CustomElements/SlideAndSpin.gd" id="1"]
-[ext_resource type="Theme" uid="uid://e2lx82wbo5bo" path="res://UI/Theme/SliderTheme.tres" id="2_a5gm5"]
+[ext_resource type="Theme" uid="uid://d2bw4jh2eki3h" path="res://UI/Theme/TableSliderTheme.tres" id="2_aw1xo"]
+[ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="3_oprnp"]
 
 [node name="SlideAndSpin" type="HBoxContainer"]
 anchors_preset = 15
@@ -25,12 +26,18 @@ custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-theme = ExtResource("2_a5gm5")
+theme = ExtResource("2_aw1xo")
 step = 0.5
 value = 50.0
 
 [node name="SpinBox" type="SpinBox" parent="."]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
+theme = ExtResource("3_oprnp")
 step = 0.5
 value = 50.0
+
+[node name="ValueLabel" type="Label" parent="."]
+layout_mode = 2
+text = "50"

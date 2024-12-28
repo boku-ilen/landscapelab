@@ -21,9 +21,7 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseButton and not event.pressed:
 		if get_rect().has_point(to_local(event.position)):
-			if event.button_index == MOUSE_BUTTON_RIGHT:
-				$AtmospherePanel.visible = false
-			else:
+			if event.button_index == MOUSE_BUTTON_LEFT:
 				$AtmospherePanel.visible = not $AtmospherePanel.visible
 			
 			get_viewport().set_input_as_handled()

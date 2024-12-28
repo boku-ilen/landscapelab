@@ -50,7 +50,7 @@ func _process(delta):
 			current_target_basis = Basis.from_euler(vr_euler)
 	else:
 		if current_target_location:
-			var look_at_vector = current_target_location - global_position
+			var look_at_vector = current_target_location - global_position * Vector3(1.0, 0.0, 1.0)
 			current_target_basis = Basis.looking_at(look_at_vector)
 			
 			current_target_fov = lerp(max_fov, min_fov, clamp(look_at_vector.length() / 10000, 0.0, 1.0))

@@ -105,6 +105,7 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	var surface_height_layer: GeoRasterLayer
 	var texture_layer: GeoRasterLayer
 	var landuse_layer: GeoRasterLayer
+	var water_color: Dictionary
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Terrain/RealisticTerrainRenderer.tscn")
@@ -221,6 +222,10 @@ class WindTurbineRenderInfo extends ObjectRenderInfo:
 	var height_attribute_name: String
 	var diameter_attribute_name: String
 	
+	func _init():
+		super._init()
+		radius = 40000  # Higher detault radius since they're large
+	
 	func get_class_name() -> String: return "Wind Turbine"
 
 class BuildingRenderInfo extends RenderInfo:
@@ -232,6 +237,8 @@ class BuildingRenderInfo extends RenderInfo:
 	var height_attribute_name: String
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
+	var addon_layers: Dictionary
+	var addon_objects: Dictionary
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Building/BuildingRenderer.tscn")

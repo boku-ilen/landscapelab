@@ -20,6 +20,8 @@ var _road_lane_car_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/
 var _road_lane_car_bridge_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneCarBridge.tscn")
 var _road_lane_bike_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneBike.tscn")
 var _road_lane_pedestrian_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLanePedestrian.tscn")
+var _road_lane_gravel_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneGravel.tscn")
+var _road_lane_dirt_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneDirt.tscn")
 var _road_lane_parking_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneParking.tscn")
 var _road_lane_rail_scene = preload("res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneRail.tscn")
 
@@ -68,6 +70,12 @@ func load_from_feature(road_feature) -> void:
 				road_lane = _road_lane_pedestrian_scene.instantiate()
 			5: # Rails
 				road_lane = _road_lane_rail_scene.instantiate()
+			6: # Asphalt path
+				road_lane = _road_lane_pedestrian_scene.instantiate()
+			7: # Gravel path
+				road_lane = _road_lane_gravel_scene.instantiate()
+			8: # Dirt path
+				road_lane = _road_lane_dirt_scene.instantiate()
 		
 		# General road lane info
 		if road_lane and lane_infos.size() >= 5:
