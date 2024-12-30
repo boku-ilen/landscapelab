@@ -52,7 +52,6 @@ func load_new_data():
 	var size_pixels = int(long_side)
 	
 	var pixel_size =  size_meters / size_pixels
-	print(pixel_size)
 	
 	var top_left = Vector2(
 		snappedf(position_x - mesh_size.x / 2, pixel_size),

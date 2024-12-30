@@ -19,6 +19,6 @@ void fragment() {
 	current_val = invLerp(min_val, max_val, current_val);
 	// Interpolate the color between the start- and endcolor
 	vec3 data_color = mix(min_col, max_col, current_val);
-	
+
 	COLOR = vec4(data_color, alpha);
 }

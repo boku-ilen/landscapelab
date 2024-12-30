@@ -62,7 +62,7 @@ func _ready():
 	
 	$LabTableConfigurator.new_layer.connect(func(layer_conf):
 		if layer_conf["layer_name"] in Layers.layer_compositions:
-			geo_layers.add_layer_composition_renderer(layer_conf)
+			geo_layers.add_layer_from_config(layer_conf)
 		else: 
 			geo_layers.set_layer_visibility(layer_conf["layer_name"], true, layer_conf["z_index"]))
 	$LabTableConfigurator.load_table_config()

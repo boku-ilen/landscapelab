@@ -117,7 +117,7 @@ func load_new_data(is_threaded := true):
 
 
 func apply_new_data():
-	if (not "min_zoom" in config) or (zoom.x > config["min_zoom"]):
+	if (not config) or (not "min_zoom" in config) or (zoom.x > config["min_zoom"]):
 		visible = true
 	else:
 		visible = false
