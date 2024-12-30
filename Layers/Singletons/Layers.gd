@@ -4,11 +4,13 @@ var crs
 var current_center := Vector3.ZERO
 var geo_layers: Dictionary = { "rasters": {}, "features": {}}
 var layer_compositions: Dictionary
+var layer_definitions: Dictionary
 
 signal new_rendered_layer_composition(layer_composition)
 signal new_scored_layer_composition(layer_composition)
 signal new_layer_composition(layer_composition)
 signal new_geo_layer(geo_layer)
+signal new_layer_definition(layer_definition)
 signal removed_rendered_layer_composition(layer_composition_name, render_info)
 signal removed_scored_layer_composition(layer_composition_name)
 signal removed_layer_composition(layer_composition_name)
@@ -50,6 +52,16 @@ func add_layer_composition(layer_composition: LayerComposition):
 		emit_signal("new_rendered_layer_composition", layer_composition)
 	
 	emit_signal("new_layer_composition", layer_composition)
+
+
+func add_layer_definition(layer_definition: LayerDefinition):
+	layer_definitions[layer_definition.name] = layer_definition
+
+	# Only add the layer if it is not already in the geo_layers
+	if layer_definition.geo_layer not in geo_layers["rasters"].values() and layer_definition not in geo_layers["features"].values():
+		add_geo_layer(layer_definition.geo_layer)
+	
+	new_layer_definition.emit(layer_definition)
 
 
 func add_geo_layer(layer: RefCounted):
