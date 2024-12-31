@@ -49,10 +49,10 @@ static func convert_mat_to_matlib(mat: Material, mat_slot: MaterialSlot, src_nod
 	converted_to_matlib.source_node = src_node
 	return converted_to_matlib
 
-static func convert_append_unique_matlib_to_array(mat: Material, mat_slot: MaterialSlot, src_node: Node, array_matlib: Array[PSUMatLib], debug_arrayname: String, additional_printinfo: String = "") -> bool:
+static func convert_append_unique_mat_to_matlib_array(mat: Material, mat_slot: MaterialSlot, src_node: Node, array_matlib: Array[PSUMatLib], debug_arrayname: String, additional_printinfo: String = "") -> bool:
 	return append_unique_matlib_to_array(convert_mat_to_matlib(mat, mat_slot, src_node), array_matlib, debug_arrayname, additional_printinfo)
 
-static func recurse_matlib_for_nextpass_mat_append_to_array(matlib: PSUMatLib, array_matlib: Array[PSUMatLib], debug_arrayname: String, recursionloop: int = 1, additional_printinfo: String = "") -> void:
+static func recurse_matlib_for_nextpass_mat_append_to_matlib_array(matlib: PSUMatLib, array_matlib: Array[PSUMatLib], debug_arrayname: String, recursionloop: int = 1, additional_printinfo: String = "") -> void:
 	if matlib.material is ShaderMaterial \
 	or matlib.material is StandardMaterial3D \
 	or matlib.material is ORMMaterial3D:
@@ -67,7 +67,7 @@ static func recurse_matlib_for_nextpass_mat_append_to_array(matlib: PSUMatLib, a
 			var nextpass_conv_to_matlib: PSUMatLib = PSUMatLib.convert_mat_to_matlib(nextpass_mat, mat_slot_manip, matlib.source_node)
 			if PSUManager.debug_mode: print("PSU: Parent '", matlib.source_node.name, "': + Recursion #", recursionloop, " on Mat '", matlib.material.resource_path.get_file(), "' (Slot '", matlib.MaterialSlot.find_key(matlib.material_slot), "') got NextPass-Mat '", nextpass_mat.resource_path.get_file(), "'", additional_printinfo, ".")
 			PSUMatLib.append_unique_matlib_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname)
-			recurse_matlib_for_nextpass_mat_append_to_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname, recursionloop + 1, additional_printinfo)
+			recurse_matlib_for_nextpass_mat_append_to_matlib_array(nextpass_conv_to_matlib, array_matlib, debug_arrayname, recursionloop + 1, additional_printinfo)
 		return
 
 static func unpack_mat_array_from_matlib_array(matlib_array) -> Array[Material]:
