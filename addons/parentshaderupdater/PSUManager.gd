@@ -70,7 +70,7 @@ func receive_matlib_array(matlib_array: Array[PSUMatLib]):
 						#print("PSUManager: Received new Mat '", matlib.material.resource_path.get_file(), "' == Saved Shader '", saved_path, "' -> Updating...")
 						_update_shader(matlib)
 				else:
-					print("PSUManager: Received Mat '", matlib.material.resource_path.get_file(), "', Shader '", matlib.shader_path, "' != Saved Shader '", saved_path, "' -> No Update!")
+					#print("PSUManager: Received Mat '", matlib.material.resource_path.get_file(), "', Shader '", matlib.shader_path, "' != Saved Shader '", saved_path, "' -> No Update!")
 					pass
 		## In future, Auto update should be more like this, to let user now if resource saved wasn't found by Gatherers.
 		#if _get_mats():
