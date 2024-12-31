@@ -1,5 +1,5 @@
 # Used to automatically update Materials at runtime when a Shader file is saved.
-# EditorPlugin (PSUEditorWatcher) detects when any resource is saved, if it's a Shader, sends message via subclass (PSUEditorCommunicator)'s EditorDebuggerPlugin "session", which is received by (PSUManager).
+# EditorPlugin (PSUEditorWatcher) detects when any resource is saved, if it's a Shader, sends message via inner class (PSUEditorCommunicator)'s EditorDebuggerPlugin "session", which is received by (PSUManager).
 # PSUManager then triggers Material Gathering on the Gatherers (which need to be added as Children of Nodes in the scene tree), then updates Materials using the saved Shader file.
 # PSUManager is added as auto-load singleton from here.
 #
