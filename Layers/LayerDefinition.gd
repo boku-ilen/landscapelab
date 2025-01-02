@@ -1,6 +1,9 @@
 extends Node
 class_name LayerDefinition
 
+signal z_index_changed(index)
+signal visibility_changed(visible)
+
 var geo_layer: RefCounted
 
 class RenderInfo:
@@ -13,6 +16,8 @@ class FeatureRenderInfo extends RenderInfo:
 	var marker
 
 class RasterRenderInfo extends RenderInfo:
+	var min_color: Color
+	var max_color: Color
 	var min_value: float
 	var max_value: float
 
@@ -29,8 +34,14 @@ enum TYPE {
 var ui_info: UIInfo
 var render_info: RenderInfo
 
-var is_visible: bool
-var z_index: int
+var is_visible: bool :
+	set(visible):
+		is_visible = visible
+		visibility_changed.emit(visible)
+var z_index: int : 
+	set(index):
+		z_index = index
+		z_index_changed.emit(index)
 
 var type := TYPE.RASTER
 

@@ -1,8 +1,8 @@
 shader_type canvas_item;
 
 uniform sampler2D tex: repeat_disable;
-uniform float min_val;
-uniform float max_val;
+uniform float min_val = -10;
+uniform float max_val = 10;
 uniform vec3 max_col = vec3(1.0, 1.0, 1.0);
 uniform vec3 min_col = vec3(0.0, 0.0, 0.0);
 uniform float alpha = 1.0;
@@ -20,5 +20,6 @@ void fragment() {
 	// Interpolate the color between the start- and endcolor
 	vec3 data_color = mix(min_col, max_col, current_val);
 
-	COLOR = vec4(data_color, alpha);
+	COLOR.rgb = data_color;
+	COLOR.a = alpha;
 }

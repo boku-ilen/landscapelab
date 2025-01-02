@@ -128,8 +128,10 @@ func instantiate_geolayer_renderer(layer_definition: LayerDefinition, crs_from:=
 		return
 	
 	if renderer:
+		renderer.layer_definition = layer_definition
+		
 		if center == -Vector2.INF:
-			setup(geo_layer, Vector2(1789886.4,6116594.2), crs_from)
+			setup(geo_layer, Vector2(1783620.0,6121789.0), crs_from)
 		
 		loading_threads[renderer] = Thread.new()
 		
