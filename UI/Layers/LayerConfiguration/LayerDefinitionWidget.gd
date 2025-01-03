@@ -25,7 +25,7 @@ func _ready():
 
 
 func _reload():
-	icon.texture = layer_definition.render_info.icon
+	icon.texture = layer_definition.ui_info.icon
 	
 	if layer_definition != null:
 		layer_name.text = layer_definition.name
