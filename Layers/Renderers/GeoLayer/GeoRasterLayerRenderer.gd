@@ -15,12 +15,9 @@ var r_func = func(existing_plane, texture):
 		existing_plane.material = ShaderMaterial.new()
 		existing_plane.material.shader = load("res://Layers/Renderers/GeoLayer/FORMAT_RF.gdshader")
 	existing_plane.get_material().set_shader_parameter("tex", texture)
-	existing_plane.get_material().set_shader_parameter("min_val", layer_definition.render_info.min_value)
-	existing_plane.get_material().set_shader_parameter("max_val", layer_definition.render_info.max_value)
-	existing_plane.get_material().set_shader_parameter("min_col", Color.RED)# layer_definition.render_info.min_color)
-	existing_plane.get_material().set_shader_parameter("max_col", Color.BLUE)#layer_definition.render_info.max_color)
-	print(existing_plane.get_material().get_shader_parameter("min_val"))
-	print(existing_plane.get_material().get_shader_parameter("max_val"))
+	existing_plane.get_material().set_shader_parameter("values", layer_definition.render_info.values)
+	existing_plane.get_material().set_shader_parameter("colors", layer_definition.render_info.colors)
+	existing_plane.get_material().set_shader_parameter("NODATA", layer_definition.render_info.no_data)
 var rgb_func = func(existing_plane, texture): existing_plane.texture = texture
 
 var format_function_dict = {

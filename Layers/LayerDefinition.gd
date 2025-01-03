@@ -7,23 +7,18 @@ signal visibility_changed(visible)
 var geo_layer: RefCounted
 
 class RenderInfo:
-	var icon: Texture
-	var shader: Shader
-	var texture: Texture
-	var color: Color
+	var no_data
 
 class FeatureRenderInfo extends RenderInfo:
 	var marker
 
 class RasterRenderInfo extends RenderInfo:
-	var min_color: Color
-	var max_color: Color
-	var min_value: float
-	var max_value: float
+	var colors: Array
+	var values: Array
 
 class UIInfo:
 	var name: String
-	var icon: Texture
+	var icon: Texture = preload("res://Resources/Icons/ModernLandscapeLab/file.svg")
 	var description: String
 
 enum TYPE {
@@ -31,7 +26,7 @@ enum TYPE {
 	FEATURE
 }
 
-var ui_info: UIInfo
+var ui_info: UIInfo = UIInfo.new()
 var render_info: RenderInfo
 
 var is_visible: bool :
