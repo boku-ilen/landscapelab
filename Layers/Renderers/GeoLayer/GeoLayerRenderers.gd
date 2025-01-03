@@ -129,6 +129,7 @@ func instantiate_geolayer_renderer(layer_definition: LayerDefinition, crs_from:=
 	
 	if renderer:
 		renderer.layer_definition = layer_definition
+		renderer.z_index = layer_definition.z_index
 		
 		if center == -Vector2.INF:
 			setup(geo_layer, Vector2(1783620.0,6121789.0), crs_from)
