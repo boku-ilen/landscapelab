@@ -47,9 +47,7 @@ func _ready():
 	
 	# Add map and layers from config
 	$LabTableConfigurator.map_added.connect(func(layer_name, crs_from):
-		control_ui.init_overview_map(layer_name)
 		var center = Layers.get_geo_layer_by_name(layer_name).get_center()
-		geo_layers.setup(Vector2(center.x, center.z), crs_from)
 		geo_layers.set_layer_visibility(layer_name, true)
 		
 		geo_transform = GeoTransform.new()
