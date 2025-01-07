@@ -2,23 +2,31 @@ extends Resource
 class_name Colors
 
 
-static func create_legend(
-		color_ramp_id: String, 
+static func create_smybology(
+		colors: PackedColorArray,
+		values: PackedFloat32Array,
 		vertical:=true, 
-		min_size:=Vector2(50,200), 
-		min_size_per_bucket:=Vector2(1,1)) -> BoxContainer:
-	var box: BoxContainer = VBoxContainer.new() if vertical else HBoxContainer.new() as BoxContainer
-	box.custom_minimum_size = min_size
-	box.add_theme_constant_override("separation", 0)
-	for color in color_ramps[color_ramp_id]:
-		var color_bucket = ColorRect.new()
-		box.add_child(color_bucket)
-		color_bucket.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		color_bucket.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		color_bucket.custom_minimum_size = min_size_per_bucket
-		color_bucket.color = color
+		interpolation_mode: Gradient.InterpolationMode = Gradient.GRADIENT_INTERPOLATE_LINEAR) -> TextureRect:
+	var tex_rect = TextureRect.new()
+	var texture = GradientTexture2D.new()
+	var gradient = Gradient.new()
+	texture.gradient = gradient
+	tex_rect.texture = texture
 	
-	return box
+	assert(values.size() == colors.size())
+	
+	var max = Array(values).max()
+	if max > 1.:
+		values = PackedFloat32Array(Array(values).map(func(v): return v / max))
+		
+	gradient.set_colors(colors)
+	gradient.set_offsets(values)
+	
+	gradient.interpolation_mode = interpolation_mode
+	texture.fill_to = Vector2(0, 1) if vertical else Vector2(1, 0)
+	if vertical: gradient.reverse()
+	
+	return tex_rect
 
 
 const color_ramps = {
@@ -41,12 +49,10 @@ const color_ramps = {
 		Color(0.9922, 0.9059, 0.1451),
 	],
 	"WindSpeed": [
-		Color.WHITE_SMOKE,
-		Color(0.792, 0.8, 0.851), 
-		Color(0.659, 0.694, 0.89), 
-		Color(0.522, 0.584, 0.925), 
-		Color(0.376, 0.463, 0.929), 
-		Color(0.251, 0.373, 1),
-		Color.NAVY_BLUE
+		Color(0.745, 0.643, 0.333),
+		Color(0.890, 0.937, 0.941),
+		Color(0.522, 0.769, 0.871),
+		Color(0.765, 0.812, 0.976),
+		Color(0.898, 0.686, 1.000)
 	]
 }
