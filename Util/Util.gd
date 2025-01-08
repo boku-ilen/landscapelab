@@ -7,5 +7,5 @@ static func str_to_var_or_default(value: String, default):
 
 
 static func rangef(start: float, stop: float, step: float):
-	var range = range(start * 10000, stop * 10000, step * 10000)
-	return range.map(func(i): return i / 10000)
+	var range = range(start * 100000, stop * 100000, step * 100000)
+	return range.map(func(i): return float(i) / 100000.)
