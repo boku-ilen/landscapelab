@@ -1,0 +1,152 @@
+[gd_scene load_steps=11 format=3 uid="uid://rsu3v53hrpl1"]
+
+[ext_resource type="PackedScene" uid="uid://c3vw6dihrnygo" path="res://UI/Layers/LayerConfiguration/LayerDefinitionUI.tscn" id="1_nhoa5"]
+[ext_resource type="Script" path="res://GeolayersUiTest.gd" id="1_wksrc"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayerViewport.gd" id="3_dy1yl"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Viewport2DCamera.gd" id="4_pt8oh"]
+[ext_resource type="Script" path="res://Editing/ActionHandler.gd" id="5_exslq"]
+[ext_resource type="PackedScene" uid="uid://dn25tsa6f10jw" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.tscn" id="6_qx2un"]
+[ext_resource type="Texture2D" uid="uid://bci3mglgy7h5k" path="res://Resources/Icons/ClassicLandscapeLab/dot_marker.svg" id="7_id6w0"]
+[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Cursor2D.gd" id="8_2np1r"]
+[ext_resource type="PackedScene" uid="uid://d25827kd1r2xd" path="res://UI/LabTable/ControlContainer.tscn" id="9_pbpai"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gu4xp"]
+bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
+
+[node name="GeolayersUiTest" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wksrc")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LayerDefinitionUi" parent="HBoxContainer" node_paths=PackedStringArray("layer_definition_container") instance=ExtResource("1_nhoa5")]
+layout_mode = 2
+layer_definition_container = NodePath("../SubViewportContainer/PanelContainer/ControlContainer")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.85
+focus_mode = 0
+stretch = true
+script = ExtResource("3_dy1yl")
+
+[node name="Control" type="Control" parent="HBoxContainer/SubViewportContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/SubViewportContainer/Control"]
+z_index = 7
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer"]
+disable_3d = true
+handle_input_locally = false
+physics_object_picking = true
+physics_object_picking_sort = true
+canvas_cull_mask = 4294967293
+size = Vector2i(1050, 648)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Camera2D" type="Camera2D" parent="HBoxContainer/SubViewportContainer/SubViewport"]
+ignore_rotation = false
+zoom = Vector2(0.1, 0.1)
+limit_left = -1000000000
+limit_top = -1000000000
+limit_right = 1000000000
+limit_bottom = 1000000000
+position_smoothing_speed = 30.0
+script = ExtResource("4_pt8oh")
+
+[node name="ActionHandler" type="Node" parent="HBoxContainer/SubViewportContainer/SubViewport/Camera2D"]
+script = ExtResource("5_exslq")
+perspective_prefix = "2D"
+cursor_path = NodePath("../../Cursor2D")
+
+[node name="GeoLayerRenderers" parent="HBoxContainer/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera") instance=ExtResource("6_qx2un")]
+visibility_layer = 3
+z_index = 6
+camera = NodePath("../Camera2D")
+
+[node name="Cursor2D" type="Sprite2D" parent="HBoxContainer/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d", "label")]
+z_index = 1000
+texture = ExtResource("7_id6w0")
+script = ExtResource("8_2np1r")
+camera_2d = NodePath("../Camera2D")
+label = NodePath("../../Control/Label")
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/SubViewportContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_gu4xp")
+
+[node name="ControlContainer" parent="HBoxContainer/SubViewportContainer/PanelContainer" node_paths=PackedStringArray("camera_2d", "grid_container") instance=ExtResource("9_pbpai")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+camera_2d = NodePath("../../SubViewport/Camera2D")
+grid_container = NodePath(".")
+
+[node name="HBox" parent="HBoxContainer/SubViewportContainer/PanelContainer/ControlContainer" index="1"]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GridContainer" parent="HBoxContainer/SubViewportContainer/PanelContainer/ControlContainer" index="2"]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Up" parent="HBoxContainer/SubViewportContainer/PanelContainer/ControlContainer/GridContainer" index="1"]
+custom_minimum_size = Vector2(90, 90)
+
+[node name="Left" parent="HBoxContainer/SubViewportContainer/PanelContainer/ControlContainer/GridContainer" index="3"]
+custom_minimum_size = Vector2(90, 90)
+
+[node name="Right" parent="HBoxContainer/SubViewportContainer/PanelContainer/ControlContainer/GridContainer" index="5"]
+custom_minimum_size = Vector2(90, 90)
+
+[node name="Down" parent="HBoxContainer/SubViewportContainer/PanelContainer/ControlContainer/GridContainer" index="7"]
+custom_minimum_size = Vector2(90, 90)
+
+[node name="OverviewContainer" parent="HBoxContainer/SubViewportContainer/PanelContainer/ControlContainer" index="3"]
+visible = false
+
+[node name="SubViewport" parent="HBoxContainer/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer" index="0"]
+render_target_update_mode = 0
+
+[node name="ReferenceRect" parent="HBoxContainer/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport" index="2"]
+visibility_layer = 2
+z_index = 10
+border_width = 250.0
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 209.0
+offset_top = 502.0
+offset_right = 250.0
+offset_bottom = 533.0
+text = "Test"
+
+[editable path="HBoxContainer/SubViewportContainer/PanelContainer/ControlContainer"]
