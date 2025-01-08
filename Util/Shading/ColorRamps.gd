@@ -1,36 +1,52 @@
 extends Resource
-class_name Colors
+class_name ColorRamps
 
 
-static func create_smybology(
-		colors: PackedColorArray,
-		values: PackedFloat32Array,
-		vertical:=true, 
-		interpolation_mode: Gradient.InterpolationMode = Gradient.GRADIENT_INTERPOLATE_LINEAR) -> TextureRect:
+static func create_smybology(gradient: Gradient, ticks_at: Array[float] = [], vertical:=true) -> TextureRect:
 	var tex_rect = TextureRect.new()
 	var texture = GradientTexture2D.new()
-	var gradient = Gradient.new()
 	texture.gradient = gradient
 	tex_rect.texture = texture
 	
-	assert(values.size() == colors.size())
-	
-	var max = Array(values).max()
-	if max > 1.:
-		values = PackedFloat32Array(Array(values).map(func(v): return v / max))
-		
-	gradient.set_colors(colors)
-	gradient.set_offsets(values)
-	
-	gradient.interpolation_mode = interpolation_mode
 	texture.fill_to = Vector2(0, 1) if vertical else Vector2(1, 0)
-	if vertical: gradient.reverse()
+	tex_rect.flip_h = true
+	tex_rect.flip_v = true
 	
 	return tex_rect
 
 
-const color_ramps = {
-	"Viridis": [
+class ColorRamp:
+	var offsets: PackedFloat32Array
+	var colors: PackedColorArray
+	var interpolation: Gradient.InterpolationMode
+	
+	enum OffsetInit {
+		EQUIDISTANT,
+		RELATIVE
+	}
+	
+	func _init(_offset_init: OffsetInit, _colors: PackedColorArray, _interpolation: Gradient.InterpolationMode, _offsets: Variant = null):
+		if _offset_init == OffsetInit.EQUIDISTANT:
+			offsets = util.rangef(0., 1., 1. / colors.size())
+		elif _offset_init == OffsetInit.RELATIVE:
+			assert(_offsets is PackedFloat32Array and _offsets.size() == _colors.size())
+			offsets = _offsets
+		
+		colors = _colors
+		interpolation = _interpolation
+	
+	func as_gradient():
+		var gradient = Gradient.new()
+		gradient.set_colors(colors)
+		gradient.set_offsets(offsets)
+		gradient.set_interpolation_mode(interpolation)
+		
+		return gradient
+
+
+static var viridis = ColorRamp.new(
+	ColorRamp.OffsetInit.EQUIDISTANT,
+	PackedColorArray([
 		Color(0.2667, 0.0039, 0.3294),
 		Color(0.2824, 0.1020, 0.4235),
 		Color(0.2784, 0.1843, 0.4902),
@@ -47,12 +63,25 @@ const color_ramps = {
 		Color(0.6471, 0.8588, 0.2118),
 		Color(0.8235, 0.8863, 0.1059),
 		Color(0.9922, 0.9059, 0.1451),
-	],
-	"WindSpeed": [
+	]),
+	Gradient.GRADIENT_INTERPOLATE_LINEAR
+).as_gradient().duplicate()
+
+static var wind_speed = ColorRamp.new(
+	ColorRamp.OffsetInit.RELATIVE,
+	PackedColorArray([
 		Color(0.745, 0.643, 0.333),
 		Color(0.890, 0.937, 0.941),
 		Color(0.522, 0.769, 0.871),
 		Color(0.765, 0.812, 0.976),
 		Color(0.898, 0.686, 1.000)
-	]
-}
+	]),
+	Gradient.GRADIENT_INTERPOLATE_LINEAR,
+	PackedFloat32Array([
+		0.,
+		0.45,
+		0.75,
+		0.965,
+		1.
+	])
+).as_gradient().duplicate()

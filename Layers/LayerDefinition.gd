@@ -1,10 +1,12 @@
-extends Node
+extends Resource
 class_name LayerDefinition
 
 signal z_index_changed(index)
 signal visibility_changed(visible)
 
 var geo_layer: RefCounted
+var crs_from:=3857
+var name: String
 
 class RenderInfo:
 	var no_data
@@ -13,8 +15,9 @@ class FeatureRenderInfo extends RenderInfo:
 	var marker
 
 class RasterRenderInfo extends RenderInfo:
-	var colors: Array
-	var values: Array
+	var gradient: Gradient
+	var min_val: float
+	var max_val: float
 
 class UIInfo:
 	var name: String
@@ -41,7 +44,7 @@ var z_index: int :
 var type := TYPE.RASTER
 
 
-func _init(_geo_layer: RefCounted) -> void:
+func _init(_geo_layer: RefCounted=GeoFeatureLayer.new(), _z_index=null) -> void:
 	geo_layer = _geo_layer
 	name = geo_layer.get_file_info()["name"]
 	if geo_layer is GeoRasterLayer:
@@ -54,4 +57,12 @@ func _init(_geo_layer: RefCounted) -> void:
 		logger.error("Invalid geo layer has been passed to LayerDefinition")
 
 	is_visible = true
-	z_index = 0
+	
+	if _z_index == null:
+		var max_z = Layers.layer_definitions.values().reduce(func(ld1: LayerDefinition, ld2): 
+			return max(ld1.z_index, ld2.z_index))
+		if max_z == null: max_z = -1
+		
+		z_index = max_z + 1
+	else: 
+		z_index = _z_index

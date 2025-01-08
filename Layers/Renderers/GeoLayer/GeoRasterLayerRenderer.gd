@@ -14,10 +14,13 @@ var r_func = func(existing_plane, texture):
 	if not existing_plane.material:
 		existing_plane.material = ShaderMaterial.new()
 		existing_plane.material.shader = load("res://Layers/Renderers/GeoLayer/FORMAT_RF.gdshader")
+		var gradient_tex = GradientTexture1D.new()
+		gradient_tex.gradient = layer_definition.render_info.gradient.duplicate()
+		existing_plane.get_material().set_shader_parameter("gradient", gradient_tex)
+		existing_plane.get_material().set_shader_parameter("min_val", layer_definition.render_info.min_val)
+		existing_plane.get_material().set_shader_parameter("max_val", layer_definition.render_info.max_val)
+		existing_plane.get_material().set_shader_parameter("NODATA", layer_definition.render_info.no_data)
 	existing_plane.get_material().set_shader_parameter("tex", texture)
-	existing_plane.get_material().set_shader_parameter("values", layer_definition.render_info.values)
-	existing_plane.get_material().set_shader_parameter("colors", layer_definition.render_info.colors)
-	existing_plane.get_material().set_shader_parameter("NODATA", layer_definition.render_info.no_data)
 var rgb_func = func(existing_plane, texture): existing_plane.texture = texture
 
 var format_function_dict = {

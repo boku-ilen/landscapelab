@@ -106,7 +106,7 @@ func add_layer_from_config(layer_conf):
 	Layers.add_layer_definition(layer_def)
 
 
-func instantiate_geolayer_renderer(layer_definition: LayerDefinition, crs_from:=3857):
+func instantiate_geolayer_renderer(layer_definition: LayerDefinition):
 	var renderer: GeoLayerRenderer
 	var geo_layer: RefCounted = layer_definition.geo_layer
 	if geo_layer is GeoRasterLayer:
@@ -132,13 +132,14 @@ func instantiate_geolayer_renderer(layer_definition: LayerDefinition, crs_from:=
 		renderer.z_index = layer_definition.z_index
 		
 		if center == -Vector2.INF:
-			setup(geo_layer, Vector2(1783620.0,6121789.0), crs_from)
+			setup(geo_layer, Vector2(geo_layer.get_center().x, geo_layer.get_center().z), layer_definition.crs_from)
 		
 		loading_threads[renderer] = Thread.new()
 		
 		renderer.position = offset
 		renderer.name = geo_layer.get_file_info()["name"]
 		renderer.visibility_layer = visibility_layer
+		layer_definition.visibility_changed.connect(func(is_visible): renderer.set_visible(is_visible))
 		
 		renderer.set_metadata(
 			center,
