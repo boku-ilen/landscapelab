@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://u8mojc2eibn6"]
+
+[ext_resource type="Script" path="res://Util/Shading/ColorRampSymbology.gd" id="1_onltc"]
+
+[sub_resource type="Gradient" id="Gradient_qoiuj"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0.266667, 1, 0.677515, 0.580706, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_d6gfr"]
+gradient = SubResource("Gradient_qoiuj")
+fill_to = Vector2(0, 1)
+
+[node name="ColorRampSymbology" type="MarginContainer"]
+custom_minimum_size = Vector2(0, 500)
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_onltc")
+ticks_at = Array[float]([0.0, 0.5, 1.0])
+ticks_val = Array[float]([5.0, 15.0, 20.0])
+
+[node name="ColorRamp" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Gradient" type="TextureRect" parent="ColorRamp"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_d6gfr")
+flip_h = true
+flip_v = true
+
+[node name="Ticks" type="Control" parent="ColorRamp"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
