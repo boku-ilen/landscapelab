@@ -22,6 +22,7 @@ func _ready():
 	_reload()
 	
 	layer_definition.connect("layer_changed",Callable(self,"_reload"))
+	visibility_button.toggled.connect(_layer_change_visibility)
 
 
 func _reload():
