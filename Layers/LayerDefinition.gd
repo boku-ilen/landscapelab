@@ -58,11 +58,18 @@ func _init(_geo_layer: RefCounted=GeoFeatureLayer.new(), _z_index=null) -> void:
 
 	is_visible = true
 	
-	if _z_index == null:
-		var max_z = Layers.layer_definitions.values().reduce(func(ld1: LayerDefinition, ld2): 
-			return max(ld1.z_index, ld2.z_index))
-		if max_z == null: max_z = -1
-		
-		z_index = max_z + 1
-	else: 
+	if _z_index != null:
 		z_index = _z_index
+		return
+		
+	if Layers.layer_definitions.is_empty():
+		z_index = 0
+		return
+	
+	if Layers.layer_definitions.size() < 2:
+		z_index = Layers.layer_definitions.values()[0].z_index + 1
+		return
+	
+	var max_z = Layers.layer_definitions.values().reduce(
+		func(ld1, ld2): return ld1 if ld1.z_index > ld2.z_index else ld2).z_index
+	z_index = max_z
