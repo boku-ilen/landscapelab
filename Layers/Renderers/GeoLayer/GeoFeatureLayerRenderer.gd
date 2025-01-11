@@ -9,8 +9,6 @@ var renderers: Node2D
 
 var newest_feature = null
 
-var config
-
 signal popup_clicked
 
 
@@ -36,6 +34,9 @@ func parse_attribute_expression(feature, formula):
 	return result
 
 var point_func = func(feature: GeoPoint): 
+	#if layer_definition.render_info.marker != null:
+	#	return layer_definition.render_info.marker
+	
 	var marker = preload("res://Layers/Renderers/GeoLayer/FeatureMarker.tscn").instantiate()
 	
 	set_feature_icon(feature, marker)
@@ -67,7 +68,9 @@ var func_dict = {
 }
 
 
+# FIXME: There is a lot of logic which really should not be handled here (i.e. deserialization of a config)
 func set_feature_icon(feature, marker):
+	var config = layer_definition.render_info.config
 	if "attribute_icon" in config:
 		var attribute_name = config["attribute_icon"]["attribute"]
 		var go = GameSystem.get_game_object_for_geo_feature(feature)
@@ -98,7 +101,7 @@ func set_feature_icon(feature, marker):
 
 func load_new_data(is_threaded := true):
 	var load_position = get_center_global()
-	
+
 	if geo_feature_layer:
 		current_features = geo_feature_layer.get_features_near_position(
 			load_position.x,
@@ -117,7 +120,7 @@ func load_new_data(is_threaded := true):
 
 
 func apply_new_data():
-	if (not config) or (not "min_zoom" in config) or (zoom.x > config["min_zoom"]):
+	if (not layer_definition.render_info.config) or (not "min_zoom" in layer_definition.render_info.config) or (zoom.x > layer_definition.render_info.config["min_zoom"]):
 		visible = true
 	else:
 		visible = false

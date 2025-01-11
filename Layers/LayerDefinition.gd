@@ -12,7 +12,15 @@ class RenderInfo:
 	var no_data
 
 class FeatureRenderInfo extends RenderInfo:
-	var marker
+	var marker: Texture
+	var marker_scale: float
+	var attribute_name: String 
+	var thresholds: Array
+	var marker_near: Texture
+	var marker_near_switch_zoom: float
+	var marker_near_scale_formula: float
+	var marker_near_scale: float
+	var config: Dictionary # FIXME: corresponds to the func set_feature_icon(feature, marker): in GeoFeatureLayerRenderer
 
 class RasterRenderInfo extends RenderInfo:
 	var gradient: Gradient
@@ -23,6 +31,7 @@ class UIInfo:
 	var name: String
 	var icon: Texture = preload("res://Resources/Icons/ModernLandscapeLab/file.svg")
 	var description: String
+
 
 enum TYPE {
 	RASTER,
