@@ -63,9 +63,6 @@ func setup(geo_layer, initial_center, initial_crs_from):
 	# Minimum of zoom vector -> the smaller the zoom the more will be rendered
 	var zoom_factor = min(zoom.x, zoom.y)
 	zoom = Vector2(zoom_factor, zoom_factor)
-
-	# Set metadata
-	crs_from = initial_crs_from
 	
 	camera.offset_changed.connect(apply_offset)
 	
@@ -96,14 +93,6 @@ func _process(delta):
 func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
 	get_node(layer_name).visible = true
 	get_node(layer_name).z_index = l_z_index
-
-
-func add_layer_from_config(layer_conf):
-	var lc_name = layer_conf["layer_name"]
-	var geo_layer = Layers.layer_compositions[lc_name].render_info.geo_feature_layer
-	var layer_def = LayerDefinition.new(geo_layer)
-
-	Layers.add_layer_definition(layer_def)
 
 
 func instantiate_geolayer_renderer(layer_definition: LayerDefinition):
