@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=46 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -28,6 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://b0ggrqax876lq" path="res://Resources/Textures/UI/scalebar.png" id="21_8rx5g"]
 [ext_resource type="Texture2D" uid="uid://cvuvaob2b58oa" path="res://Resources/Icons/ModernLandscapeLab/table_wind.svg" id="21_teit2"]
 [ext_resource type="Script" path="res://UI/LabTable/AtmosphereMenu.gd" id="23_5pqbs"]
+[ext_resource type="PackedScene" uid="uid://u8mojc2eibn6" path="res://Util/Shading/ColorRampSymbology.tscn" id="23_5380g"]
 [ext_resource type="StyleBox" uid="uid://dg3l5xqfdgxff" path="res://UI/LabTable/Style/PopupPanel.tres" id="23_wb0c1"]
 [ext_resource type="Texture2D" uid="uid://dndroq8xw54we" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sunrise.svg" id="24_0xwd5"]
 [ext_resource type="PackedScene" uid="uid://d2biaicqh7bu5" path="res://World/AtmosphereConfiguration.tscn" id="24_ty2jq"]
@@ -110,6 +111,7 @@ cursor_path = NodePath("../../Cursor2D")
 [node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera") instance=ExtResource("5_c4s8q")]
 visibility_layer = 3
 camera = NodePath("../Camera2D")
+load_data_threaded = false
 
 [node name="Cursor2D" type="Sprite2D" parent="LabTable/SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera_2d")]
 visible = false
@@ -177,7 +179,8 @@ border_width = 250.0
 [node name="LabTableMarkers" type="Node2D" parent="LabTable/LabTableCommunicator"]
 script = ExtResource("15_j8x0r")
 
-[node name="LabTableConfigurator" parent="LabTable" instance=ExtResource("15_esmpk")]
+[node name="LabTableConfigurator" parent="LabTable" node_paths=PackedStringArray("renderers") instance=ExtResource("15_esmpk")]
+renderers = NodePath("../SubViewportContainer/SubViewport/GeoLayerRenderers")
 
 [node name="GameModesConfigurator" parent="LabTable" instance=ExtResource("17_aru4m")]
 
@@ -265,15 +268,15 @@ theme_override_constants/margin_bottom = 40
 [node name="HBoxContainer" type="HBoxContainer" parent="GameModeMarginContainer"]
 layout_mode = 2
 
-[node name="LayersButton" type="Button" parent="GameModeMarginContainer/HBoxContainer"]
+[node name="LayersButton" type="Button" parent="GameModeMarginContainer/HBoxContainer" node_paths=PackedStringArray("rendering_subviewport")]
 layout_mode = 2
 theme = ExtResource("8_2ddb4")
 icon = ExtResource("19_lvue8")
 flat = true
 script = ExtResource("20_55y0a")
+rendering_subviewport = NodePath("../../../LabTable/SubViewportContainer")
 
 [node name="LayersPanel" type="PanelContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton"]
-visible = false
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 3
@@ -281,10 +284,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -48.0
-offset_top = -287.01
-offset_right = 60.0
-offset_bottom = -55.01
+offset_left = -98.0
+offset_top = -295.275
+offset_right = 10.0
+offset_bottom = -63.275
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_styles/panel = ExtResource("23_wb0c1")
@@ -305,6 +308,15 @@ size_flags_horizontal = 4
 theme = ExtResource("8_2ddb4")
 icon = ExtResource("21_teit2")
 flat = true
+
+[node name="ColorRampSymbology" parent="GameModeMarginContainer/HBoxContainer/LayersButton" instance=ExtResource("23_5380g")]
+visible = false
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 2
+offset_left = 105.0
+offset_top = -246.465
+offset_right = 219.0
+offset_bottom = 3.535
 
 [node name="NextGameModeButton" type="Button" parent="GameModeMarginContainer/HBoxContainer"]
 layout_mode = 2

@@ -45,24 +45,6 @@ func _ready():
 	if debug_mode: $LLConfigSetup.setup()
 	if debug_mode: $GameModesConfigurator.load_game_mode_config()
 	
-	# Add map and layers from config
-	$LabTableConfigurator.map_added.connect(func(layer_name, crs_from):
-		var center = Layers.get_geo_layer_by_name(layer_name).get_center()
-		geo_layers.set_layer_visibility(layer_name, true)
-		
-		geo_transform = GeoTransform.new()
-		geo_transform.set_transform(3857, crs_from)
-		
-		var inv_geo_transform = GeoTransform.new()
-		inv_geo_transform.set_transform(crs_from, 3857)
-		geo_layers.geo_transform = inv_geo_transform
-	)
-	
-	$LabTableConfigurator.new_layer.connect(func(layer_conf):
-		if layer_conf["layer_name"] in Layers.layer_compositions:
-			geo_layers.add_layer_from_config(layer_conf)
-		else: 
-			geo_layers.set_layer_visibility(layer_conf["layer_name"], true, layer_conf["z_index"]))
 	$LabTableConfigurator.load_table_config()
 	
 	# Display camera extent on overview
