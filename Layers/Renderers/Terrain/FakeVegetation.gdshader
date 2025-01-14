@@ -120,9 +120,27 @@ void vertex() {
 }
 
 void fragment() {
-	int splatmap_value = int(round(get_landuse(UV)));
-	int distribution_id = int(round(texelFetch(row_ids, ivec2(splatmap_value, 0), 0).r * 255.0));
-	vec3 dist_value = texture(distribution_array[distribution_id - 1], (worldpos.xz) / float(DISTRIBUTION_RESOLUTION)).rgb;
+	int distribution_id = 0;
+	vec3 dist_value;
+	
+	float highest_height = 0.0;
+	
+	for (float x_off = -1.0; x_off <= 1.0; x_off += 1.0) {
+		for (float y_off = -1.0; y_off <= 1.0; y_off += 1.0) {
+			vec2 offset = vec2(x_off, y_off) / size;
+			int splatmap_value = int(round(get_landuse(UV + offset)));
+			int distribution_id_here = int(round(texelFetch(row_ids, ivec2(splatmap_value, 0), 0).r * 255.0));
+			vec3 dist_value_here = texture(distribution_array[distribution_id_here - 1], (worldpos.xz) / float(DISTRIBUTION_RESOLUTION)).rgb;
+			
+			float height_here = max(0.2, (dist_value_here.g * 255.0 + dist_value_here.b) * float(distribution_id_here > 0));
+			
+			if (distribution_id_here != 0 && height_here > highest_height) {
+				distribution_id = distribution_id_here;
+				dist_value = dist_value_here;
+				highest_height = height_here;
+			}
+		}
+	}
 
 	float dist_id = dist_value.r * 255.0;
 	float active = float(distribution_id != 0);
