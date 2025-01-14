@@ -65,6 +65,7 @@ func override_build(center_x, center_y):
 func override_apply():
 	if fresh_multimesh.instance_count > 0:
 		visible = true
-		$MultiMeshInstance3D.multimesh = fresh_multimesh.duplicate()
 	else:
 		visible = false
+	
+	$MultiMeshInstance3D.multimesh = fresh_multimesh.duplicate()
