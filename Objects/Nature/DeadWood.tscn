@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bf4ttxhdl02yq"]
+
+[ext_resource type="PackedScene" uid="uid://b70d16ou7efhp" path="res://Resources/Meshes/Trees/DeadWood.glb" id="1_vhved"]
+
+[node name="DeadWood" type="Node3D"]
+
+[node name="DeadWood" parent="." instance=ExtResource("1_vhved")]
+transform = Transform3D(18, 0, 0, 0, 18, 0, 0, 0, 18, -1, 0, 0)
