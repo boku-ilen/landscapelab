@@ -6,8 +6,8 @@
 [node name="VectorVegetationRenderer" type="Node3D"]
 script = ExtResource("1_58nm7")
 chunk_size = 200.0
-extent = 12
+extent = 14
 chunk_scene = ExtResource("2_8sbdj")
-detailed_load_distance = 250.0
+detailed_load_distance = 500.0
 
 [node name="Chunks" type="Node3D" parent="."]

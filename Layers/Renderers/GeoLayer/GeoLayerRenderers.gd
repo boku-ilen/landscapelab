@@ -171,7 +171,7 @@ func instantiate_geolayer_renderer(layer_name: String):
 		renderers_finished += 1
 		renderers_applied +=1 
 
-var mutex = Mutex.new()
+
 func apply_offset(new_offset, new_viewport_size, new_zoom):
 	# Before setting any new metadata, we need to ensure data has been applied
 	if renderers_applied != renderers_count:

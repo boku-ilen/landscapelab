@@ -18,8 +18,8 @@ var multimeshes := {}
 var mutex = Mutex.new()
 var features := []
 var load_features := []
-var radius = 120.0
-var max_features = 500
+var radius = 250.0
+var max_features = 1000
 
 
 func _ready():

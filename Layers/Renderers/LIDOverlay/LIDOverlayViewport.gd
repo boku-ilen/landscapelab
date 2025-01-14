@@ -1,5 +1,7 @@
 extends Node3D
 
+signal update_done
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,5 +15,11 @@ func _notification(what):
 		update()
 
 
+func _process(delta: float) -> void:
+	update()
+
+
 func update():
 	$LIDViewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	await get_tree().process_frame
+	update_done.emit()
