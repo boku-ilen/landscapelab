@@ -112,15 +112,16 @@ static func prepare_plain_walls(
 	
 	# Add mid floors (only if there is are enough floors left)
 	if num_floors >= 1:
-		for i in range(num_floors - 1):
-			var walls = walls_scene.instantiate()
-			walls.set_wall_texture_index(get_mid_index.call(building_type_id))
-			walls.set_window_texture_index(walls_resource.middle_window_id)
-			walls.set_color(Color.WHITE_SMOKE)
-			walls.texture_scale = walls_resource.middle_texture.texture_scale * random_tex_scale
-			if walls_resource.apply_colors & FLOOR_FLAG.MIDDLE:
-				walls.set_color(wall_color)
-			building.add_child(walls)
+		if num_floors >= 2:
+			for i in range(num_floors - 2):
+				var walls = walls_scene.instantiate()
+				walls.set_wall_texture_index(get_mid_index.call(building_type_id))
+				walls.set_window_texture_index(walls_resource.middle_window_id)
+				walls.set_color(Color.WHITE_SMOKE)
+				walls.texture_scale = walls_resource.middle_texture.texture_scale * random_tex_scale
+				if walls_resource.apply_colors & FLOOR_FLAG.MIDDLE:
+					walls.set_color(wall_color)
+				building.add_child(walls)
 		
 		# Add top floor
 		var top_floor = walls_scene.instantiate()
