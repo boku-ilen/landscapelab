@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://b0y6umovu0cfh"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gnt1e"]
+load_path = "res://.godot/imported/eucalyptus_globulus_trunk_albedo.png-24428e9b2d0306ef16402e0a08c83a44.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hn88c"]
+load_path = "res://.godot/imported/eucalyptus_globulus_trunk_raotrans.png-110d17586e3a17ac62c61aebca3d571e.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7ywhr"]
+load_path = "res://.godot/imported/eucalyptus_globulus_trunk_normal.png-3572ff02fa17e9c6d71fb40d95913530.s3tc.ctex"
+
+[resource]
+albedo_texture = SubResource("CompressedTexture2D_gnt1e")
+roughness_texture = SubResource("CompressedTexture2D_hn88c")
+normal_enabled = true
+normal_texture = SubResource("CompressedTexture2D_7ywhr")
+ao_enabled = true
+ao_light_affect = 1.0
+ao_texture = SubResource("CompressedTexture2D_hn88c")
+ao_texture_channel = 1

@@ -1,0 +1,24 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://bqle8qu53atpj"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1i6ft"]
+load_path = "res://.godot/imported/eucalyptus_globulus_branches_albedo.png-121d18965a6613514e6d590b228c376e.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_g1gcy"]
+load_path = "res://.godot/imported/eucalyptus_globulus_branches_raotrans.png-d30314e27dc95a68cc9f32fe054c3988.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mp6i2"]
+load_path = "res://.godot/imported/eucalyptus_globulus_branches_normal.png-c76e6269d52f83646100a2676168e02c.s3tc.ctex"
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.15
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = SubResource("CompressedTexture2D_1i6ft")
+roughness_texture = SubResource("CompressedTexture2D_g1gcy")
+normal_enabled = true
+normal_texture = SubResource("CompressedTexture2D_mp6i2")
+ao_enabled = true
+ao_light_affect = 1.0
+ao_texture = SubResource("CompressedTexture2D_g1gcy")
+ao_texture_channel = 1
