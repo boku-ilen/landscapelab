@@ -11,6 +11,7 @@ var weather_manager: WeatherManager :
 
 var shader_material = preload("res://Layers/Renderers/Terrain/Materials/TerrainShader.tres")
 var water_material = preload("res://addons/water/Water.tres")
+var fake_plant_material = preload("res://Layers/Renderers/Terrain/Materials/FakePlantMaterial.tres")
 
 func _setup_ground_textures():
 	var texture_folders = [
@@ -69,6 +70,24 @@ func custom_chunk_setup(chunk):
 	
 	chunk.get_node("Mesh").material_override = shader_material.duplicate()
 	chunk.get_node("Mesh").material_override.next_pass = water_material.duplicate()
+	chunk.get_node("Mesh").material_override.next_pass.next_pass = fake_plant_material.duplicate()
+	
+	# Set static shader variables
+	chunk.get_node("Mesh").material_override.next_pass.next_pass.set_shader_parameter("row_ids", Vegetation.row_ids[1])
+	chunk.get_node("Mesh").material_override.next_pass.next_pass.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[1])
+	chunk.get_node("Mesh").material_override.next_pass.next_pass.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
+	
+	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass = fake_plant_material.duplicate()
+	
+	# FIXME: Try to combine all density classes into one shader
+	
+	# Set static shader variables
+	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass.set_shader_parameter("row_ids", Vegetation.row_ids[6])
+	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[6])
+	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
+	
+	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass.next_pass = fake_plant_material.duplicate()
+
 
 
 func _ready():

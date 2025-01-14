@@ -13,6 +13,7 @@ uniform float splatmap_size_meters;
 
 uniform sampler2D[96] distribution_array: repeat_enable, filter_nearest;
 uniform sampler2D row_ids;
+uniform sampler2D[100] texture_map : source_color, repeat_disable;
 
 uniform float amplitude = 1.0;
 uniform vec2 heightmap_size = vec2(300.0, 300.0);

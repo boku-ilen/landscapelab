@@ -31,16 +31,25 @@ void vertex() {
 	camera_pos = INV_VIEW_MATRIX[3].xyz;
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 
+	float world_distance = length(camera_pos - worldpos);
+
 	vec3 mesh_normal = NORMAL;
 
 	random_hue_shift = (0.9 - texture(world_space_normal_map, worldpos.xz / 512.0).z) * 1.6;
 
+	// FIXME: scale this and the vec3(0.0, 4.0, 0.0) to look good and match the LOD plane
+	vec3 n_up = normalize(COLOR.xyz + vec3(0.0, 1.0, 0.0));
+	vec3 n_forward = cross(vec3(1.0, 0.0, 0.0), n_up);
+	vec3 n_right = cross(n_up, n_forward);
+	
+	mat3 basis = mat3(n_right, n_up, n_forward);
 
 	// TODO: Keep the normal of non-billboard meshes?
-	NORMAL = mix(COLOR.xyz, (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0, 0.5);
+	vec3 texture_normal = (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0;
+	NORMAL = basis * normalize(texture_normal + vec3(0.0, 4.0, 0.0));
 
 	// Also make normals follow a "half-dome" around the mesh to get some front- and back-lighting
-	NORMAL = normalize(mix(NORMAL, VERTEX, 0.8));
+	NORMAL = mix(NORMAL, basis * normalize(VERTEX), smoothstep(40.0, 10.0, world_distance) * 0.8); // Scale by distance for smooth transition to LOD
 
 	// Account for the texture's aspect ratio
 	if (is_billboard) {
@@ -70,15 +79,15 @@ void fragment() {
 		NORMAL = -NORMAL;
 	}
 
-	float blend_start_distance = max_distance - max_distance / 4.0;
+	float blend_start_distance = max_distance - max_distance / 6.0;
 	float dist = length(camera_pos.xz - worldpos.xz);
 
-	float dist_alpha = clamp((dist -  blend_start_distance) / (max_distance - blend_start_distance), 0.0, 1.0);
+	float dist_alpha = smoothstep(80.0, 120.0, dist);
 
 	vec4 color = texture(texture_map[int(round(dist_id))], UV);
 
 	ALPHA = color.a;
-	ALPHA_SCISSOR_THRESHOLD = 0.7 + dist_alpha * 0.3;
+	ALPHA_SCISSOR_THRESHOLD = 0.5 + dist_alpha * 0.5;
 
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)

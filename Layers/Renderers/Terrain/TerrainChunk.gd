@@ -175,11 +175,6 @@ func override_apply():
 		$Mesh.material_override.set_shader_parameter("normalmap", current_normalmap)
 		
 		$HeightmapCollider/CollisionShape3D.shape = current_heightmap_shape
-		
-		$Mesh.material_override.next_pass.set_shader_parameter("heightmap", current_heightmap)
-		$Mesh.material_override.next_pass.set_shader_parameter("surface_heightmap", current_surface_heightmap)
-		$Mesh.material_override.next_pass.set_shader_parameter("landuse", current_landuse)
-		$Mesh.material_override.next_pass.set_shader_parameter("size", size)
 	
 	if current_texture:
 		$Mesh.material_override.set_shader_parameter("orthophoto", current_texture)
@@ -204,6 +199,22 @@ func override_apply():
 		# Start applying surface heights at the point where vegetation stops
 		$Mesh.material_override.set_shader_parameter("surface_heights_start_distance", Vegetation.get_max_extent() / 2.0)
 		$Mesh.material_override.set_shader_parameter("surface_heightmap", current_surface_heightmap)
+	
+	var next_pass = $Mesh.material_override.next_pass
+		
+	while next_pass:
+		next_pass.set_shader_parameter("heightmap", current_heightmap)
+		next_pass.set_shader_parameter("surface_heightmap", current_surface_heightmap)
+		next_pass.set_shader_parameter("landuse", current_landuse)
+		if has_node("LIDOverlayViewport"):
+			next_pass.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
+			next_pass.set_shader_parameter("use_landuse_overlay", true)
+		else:
+			next_pass.set_shader_parameter("use_landuse_overlay", false)
+		
+		next_pass.set_shader_parameter("size", size)
+		
+		next_pass = next_pass.next_pass
 
 
 func apply_terraforming_texture() -> void:

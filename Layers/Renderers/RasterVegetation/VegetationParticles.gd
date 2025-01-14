@@ -36,7 +36,7 @@ func _ready():
 	material_override.set_shader_parameter("is_billboard", density_class.is_billboard)
 	
 	# Set static shader variables
-	process_material.set_shader_parameter("row_ids", Vegetation.row_ids)
+	process_material.set_shader_parameter("row_ids", Vegetation.row_ids[density_class.id])
 	process_material.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[density_class.id])
 	material_override.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
 	
@@ -44,14 +44,14 @@ func _ready():
 
 
 func _on_vegetation_data_update():
-	process_material.set_shader_parameter("row_ids", Vegetation.row_ids)
+	process_material.set_shader_parameter("row_ids", Vegetation.row_ids[density_class.id])
 	process_material.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[density_class.id])
 	material_override.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
 
 
 # Set the internal rows and spacing variables based checked the density_class and the given extent_factor.
 func update_rows_spacing(extent_factor):
-	var size = extent_factor * density_class.size_factor
+	var size = extent_factor# * density_class.size_factor
 	
 	rows = floor(size * density_class.density_per_m)
 	spacing = 1.0 / density_class.density_per_m
@@ -89,7 +89,7 @@ func set_rows(new_rows):
 	
 	if process_material:
 		process_material.set_shader_parameter("rows", rows)
-		material_override.set_shader_parameter("max_distance", rows * spacing / 2.0)
+		material_override.set_shader_parameter("max_distance", Vegetation.plant_extent_factor / 2.0)
 		
 		set_rows_spacing_in_shader()
 
@@ -99,7 +99,7 @@ func set_spacing(new_spacing):
 	
 	if process_material:
 		process_material.set_shader_parameter("spacing", spacing)
-		material_override.set_shader_parameter("max_distance", rows * spacing / 2.0)
+		material_override.set_shader_parameter("max_distance", Vegetation.plant_extent_factor / 2.0)
 		
 		set_rows_spacing_in_shader()
 

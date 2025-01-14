@@ -1,22 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://ble8u3qy6yftc"]
+[gd_scene load_steps=10 format=3 uid="uid://ble8u3qy6yftc"]
 
 [ext_resource type="Script" path="res://Layers/Renderers/RasterVegetation/VegetationParticles.gd" id="1"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/Plant.gdshader" id="2"]
+[ext_resource type="Texture2D" uid="uid://bya3n1u326m70" path="res://Layers/Renderers/RasterVegetation/WorldSpaceNormal.tres" id="2_kxjlo"]
 [ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/VegetationLayer.gdshader" id="3"]
 [ext_resource type="ArrayMesh" uid="uid://kqa4x2tsefu5" path="res://Resources/Meshes/VegetationBillboard/1m_billboard.obj" id="4_uhe77"]
 [ext_resource type="PackedScene" uid="uid://cqv4mdm0thwg4" path="res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn" id="5_ud2b3"]
 [ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="6_8ltxd"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_rt6mg"]
-seed = 2565
-frequency = 0.005
-fractal_gain = 0.6
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lkbu2"]
-seamless = true
-as_normal_map = true
-bump_strength = 64.0
-noise = SubResource("FastNoiseLite_rt6mg")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oyqth"]
 resource_local_to_scene = true
@@ -29,7 +19,7 @@ shader_parameter/scale = Vector2(0.06, 0.11)
 shader_parameter/max_distance = null
 shader_parameter/is_billboard = false
 shader_parameter/texture_map = null
-shader_parameter/world_space_normal_map = SubResource("NoiseTexture2D_lkbu2")
+shader_parameter/world_space_normal_map = ExtResource("2_kxjlo")
 
 [sub_resource type="ShaderMaterial" id="2"]
 resource_local_to_scene = true
@@ -43,6 +33,7 @@ shader_parameter/row_spacing = 1.0
 shader_parameter/uv_offset = null
 shader_parameter/view_direction = null
 shader_parameter/distribution_array = null
+shader_parameter/texture_map = null
 
 [node name="VegetationParticles" type="GPUParticles3D"]
 layers = 2

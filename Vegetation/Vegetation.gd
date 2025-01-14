@@ -23,7 +23,7 @@ var paths := {}
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
-var plant_extent_factor = 12 :
+var plant_extent_factor = 240 :
 	get:
 		return plant_extent_factor
 	set(extent):
@@ -40,7 +40,7 @@ signal hcy_shift_changed(hcy_shift_vector)
 
 var plant_megatexture = []
 var density_class_to_distribution_megatexture = {}
-var row_ids = []
+var row_ids = {}
 
 
 func load_data_from_gpkg(db) -> void:
@@ -91,15 +91,7 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 		plant_megatexture[current_new_id] = load(plant.get_full_billboard_path())
 		current_new_id += 1
 	
-	var row_id_image = Image.create(11000, 1, false, Image.FORMAT_R8);
-	var row_id = 1  # Start at 1 because 0 is "none"
-	for group in groups.values():
-		row_id_image.set_pixel(group.id, 0, Color8(row_id, 0, 0))
-		row_id += 1
-	
-	row_ids = ImageTexture.create_from_image(row_id_image)
-	
-	# Generate distribution megatexture
+	# Generate distribution megatexture and row_id maps
 	for density_class in density_classes.values():
 		density_class_to_distribution_megatexture[density_class.id] = []
 		density_class_to_distribution_megatexture[density_class.id].resize(96)
@@ -108,10 +100,17 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 		
 		var id = 0
 		
+		var row_id_image = Image.create(11000, 1, false, Image.FORMAT_R8);
+		
 		for group in filtered_groups:
+			if group.plants.is_empty(): continue
+			
 			var distribution = generate_distribution(group, max_plant_height, density_class)
 			density_class_to_distribution_megatexture[density_class.id][id] = ImageTexture.create_from_image(distribution)
+			row_id_image.set_pixel(group.id, 0, Color8(id + 1, 0, 0))
 			id += 1
+		
+		row_ids[density_class.id] = ImageTexture.create_from_image(row_id_image)
 	
 	# Calculate the max extent here in order to cache it
 	var max_size_factor = 0.0
