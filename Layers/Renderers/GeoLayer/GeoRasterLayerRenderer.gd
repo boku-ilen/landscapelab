@@ -14,9 +14,13 @@ var r_func = func(existing_plane, texture):
 	if not existing_plane.material:
 		existing_plane.material = ShaderMaterial.new()
 		existing_plane.material.shader = load("res://Layers/Renderers/GeoLayer/FORMAT_RF.gdshader")
+		var gradient_tex = GradientTexture1D.new()
+		gradient_tex.gradient = layer_definition.render_info.gradient.duplicate()
+		existing_plane.get_material().set_shader_parameter("gradient", gradient_tex)
+		existing_plane.get_material().set_shader_parameter("min_val", layer_definition.render_info.min_val)
+		existing_plane.get_material().set_shader_parameter("max_val", layer_definition.render_info.max_val)
+		existing_plane.get_material().set_shader_parameter("NODATA", layer_definition.render_info.no_data)
 	existing_plane.get_material().set_shader_parameter("tex", texture)
-	existing_plane.get_material().set_shader_parameter("min_val", geo_raster_layer.get_min())
-	existing_plane.get_material().set_shader_parameter("max_val", geo_raster_layer.get_max())
 var rgb_func = func(existing_plane, texture): existing_plane.texture = texture
 
 var format_function_dict = {
@@ -32,8 +36,7 @@ var geo_raster_layer: GeoRasterLayer :
 		geo_raster_layer = raster_layer
 		
 		# Just some dummy values for getting the format
-		format = raster_layer.get_image(
-			0,0,1.0,1,0).get_image_texture().get_format()
+		format = raster_layer.get_format()
 
 var current_texture
 
@@ -52,7 +55,6 @@ func load_new_data():
 	var size_pixels = int(long_side)
 	
 	var pixel_size =  size_meters / size_pixels
-	print(pixel_size)
 	
 	var top_left = Vector2(
 		snappedf(position_x - mesh_size.x / 2, pixel_size),

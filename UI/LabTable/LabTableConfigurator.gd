@@ -2,11 +2,9 @@ extends Configurator
 
 
 @export var table_communicator: Node
+@export var renderers: Node2D
 
 var has_loaded = false
-
-signal new_layer(layer_name: String, z_index: int)
-signal map_added(layer_name: String)
 
 
 func _ready():
@@ -21,27 +19,50 @@ func load_table_config() -> void:
 		logger.error("Could not load table config at " + path)
 		return
 	
-	var table_config: Dictionary = ll_file_access.json_object.data["TableSettings"]
+	var config: Dictionary = ll_file_access.json_object.data
+	renderers.crs_from = config["Meta"]["crs"]
+	var table_config: Dictionary = config["TableSettings"]
+	
 	_load_layers(path, table_config)
 
 
 func _load_layers(path: String, table_config: Dictionary):
-	# Table config requires at least a basic map
-	if not "Map" in table_config:
-		logger.error("No map was defined in config " + path)
+	# FIXME: proper deserialization/seralization options
 	
-	var path_to_map := LLFileAccess.get_rel_or_abs_path(path, table_config["Map"]["path"])
-	var map := Geodot.get_raster_layer(path_to_map)
-	Layers.add_geo_layer(map)
-	
-	var crs_from = table_config["Map"]["crs_from"]
-	map_added.emit(map.get_file_info()["name"], crs_from)
-	
-	# Table config might load other (pre-existing) layers
-	for key in table_config["Layers"].keys():
-		# Emit args
-		var layer_conf = table_config["Layers"][key]
+	for key in table_config["LayerDefinitions"].keys():
+		var layer_conf = table_config["LayerDefinitions"][key]
 		
-		new_layer.emit(layer_conf)
+		# Pre-existing layer composition which strictly needs to use the same data background
+		var geo_layer: RefCounted
+		if "from_composition_name" in layer_conf:
+			geo_layer = Layers.layer_compositions[layer_conf["from_composition_name"]].render_info.geo_feature_layer
+		else:
+			geo_layer = Geodot.get_raster_layer(layer_conf["path"])
+		
+		var t = geo_layer.get_epsg_code()
+		
+		var layer_def = LayerDefinition.new(geo_layer, layer_conf["z_index"])
+		layer_def.name = key
+		
+		if "color_ramp" in layer_conf:
+			layer_def.render_info.gradient = ColorRamps.gradients[layer_conf["color_ramp"]]
+			layer_def.render_info.min_val = layer_conf["min_val"]
+			layer_def.render_info.max_val = layer_conf["max_val"]
+		
+		if "marker" in layer_conf:
+			layer_def.render_info.marker = load(layer_conf["marker"])
+			layer_def.render_info.marker_scale = layer_conf["marker_scale"] if "marker_scale" in layer_conf else 0.1
+		
+		if "no_data" in layer_conf:
+			layer_def.render_info.no_data = layer_conf["no_data"]
+		
+		if "config" in layer_def.render_info:
+			layer_def.render_info.config = layer_conf
+			
+		Layers.add_layer_definition(layer_def)
 	
 	logger.info("LabTable has been setup")
+
+
+
+	

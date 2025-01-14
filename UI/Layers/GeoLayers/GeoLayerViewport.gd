@@ -11,3 +11,6 @@ func _ready():
 		func():
 			$SubViewport/Camera2D.dont_handle_next_release = true
 	)
+	
+	var camera = $SubViewport/Camera2D
+	$SubViewport/GeoLayerRenderers.apply_offset(Vector2.ZERO, camera.get_viewport_rect().size, camera.zoom)

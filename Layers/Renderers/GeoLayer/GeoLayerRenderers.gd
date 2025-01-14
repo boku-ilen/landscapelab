@@ -33,7 +33,7 @@ var camera_extent := CameraExtent.new(Vector2.ZERO, Vector2.ZERO) :
 	set(new_camera_extent):
 		camera_extent = new_camera_extent
 		camera_extent_changed.emit(new_camera_extent)
-var center := Vector2.ZERO : 
+var center := -Vector2.INF : 
 	set(new_center):
 		center = new_center
 var zoom := Vector2.ONE : 
@@ -48,8 +48,21 @@ var offset := Vector2.ZERO :
 		camera_extent_changed.emit(camera_extent)
 
 
-func setup(initial_center, initial_crs_from):
-	crs_from = initial_crs_from
+func _ready():
+	for layer_def in Layers.layer_definitions.values():
+		instantiate_geolayer_renderer(layer_def)
+	
+	Layers.new_layer_definition.connect(instantiate_geolayer_renderer)
+
+
+func setup(geo_layer, initial_center, initial_crs_from):
+	# Obtain metadata for correctly loading the full extent of the layer
+	var extent = geo_layer.get_extent().size
+	var zoom = Vector2(camera.get_viewport().size) / abs(extent)
+
+	# Minimum of zoom vector -> the smaller the zoom the more will be rendered
+	var zoom_factor = min(zoom.x, zoom.y)
+	zoom = Vector2(zoom_factor, zoom_factor)
 	
 	camera.offset_changed.connect(apply_offset)
 	
@@ -78,61 +91,13 @@ func _process(delta):
 
 
 func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
-	# geolayers shall not be instantiated by default only on user's wish
-	if not has_node(layer_name):
-		instantiate_geolayer_renderer(layer_name)
-	
 	get_node(layer_name).visible = true
 	get_node(layer_name).z_index = l_z_index
 
 
-func add_layer_composition_renderer(layer_conf):
-	instantiate_layer_composition_renderer(layer_conf)
-
-
-# FIXME: we should implement this in a cleaner way
-# Similar to instantiate_geolayer_renderer, but adds a layer corresponding to
-# a feature LayerComposition. Consequently changes applied will be applied for 
-# the layer composition as well as the geolayer
-func instantiate_layer_composition_renderer(layer_conf):
-	var lc_name = layer_conf["layer_name"]
-	var geo_layer = Layers.layer_compositions[lc_name].render_info.geo_feature_layer
-	
-	var renderer = feature_renderer.instantiate()
-	renderer.geo_feature_layer = geo_layer
-	
-	renderer.popup_clicked.connect(func(): popup_clicked.emit())
-	
-	# Note: CONNECT_DEFERRED is needed to consistently react to all changes that
-	#  happened within a given frame (e.g. when mass-deleting features).
-	geo_layer.feature_added.connect(_on_feature_added.bind(renderer), CONNECT_DEFERRED)
-	geo_layer.feature_removed.connect(_on_feature_removed.bind(renderer), CONNECT_DEFERRED)
-	
-	if renderer:
-		loading_threads[renderer] = Thread.new()
-		
-		renderer.position = offset
-		renderer.name = lc_name
-		renderer.visibility_layer = visibility_layer
-		renderer.config = layer_conf
-		
-		renderer.set_metadata(
-			center,
-			camera.get_viewport().size,
-			camera.zoom,
-			crs_from
-		)
-		
-		add_child(renderer)
-		renderers_count += 1
-		renderer.refresh()
-		renderers_finished += 1
-		renderers_applied += 1
-
-
-func instantiate_geolayer_renderer(layer_name: String):
-	var geo_layer = Layers.get_geo_layer_by_name(layer_name)
-	var renderer
+func instantiate_geolayer_renderer(layer_definition: LayerDefinition):
+	var renderer: GeoLayerRenderer
+	var geo_layer: RefCounted = layer_definition.geo_layer
 	if geo_layer is GeoRasterLayer:
 		renderer = raster_renderer.instantiate()
 		renderer.geo_raster_layer = geo_layer
@@ -152,11 +117,18 @@ func instantiate_geolayer_renderer(layer_name: String):
 		return
 	
 	if renderer:
+		renderer.layer_definition = layer_definition
+		renderer.z_index = layer_definition.z_index
+		
+		if center == -Vector2.INF:
+			setup(geo_layer, Vector2(geo_layer.get_center().x, geo_layer.get_center().z), layer_definition.crs_from)
+		
 		loading_threads[renderer] = Thread.new()
 		
 		renderer.position = offset
 		renderer.name = geo_layer.get_file_info()["name"]
 		renderer.visibility_layer = visibility_layer
+		layer_definition.visibility_changed.connect(func(is_visible): renderer.set_visible(is_visible))
 		
 		renderer.set_metadata(
 			center,
@@ -169,7 +141,7 @@ func instantiate_geolayer_renderer(layer_name: String):
 		renderers_count += 1
 		renderer.refresh()
 		renderers_finished += 1
-		renderers_applied +=1 
+		renderers_applied +=1
 
 
 func apply_offset(new_offset, new_viewport_size, new_zoom):

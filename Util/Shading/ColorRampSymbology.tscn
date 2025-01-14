@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://u8mojc2eibn6"]
+
+[ext_resource type="Script" path="res://Util/Shading/ColorRampSymbology.gd" id="1_onltc"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_d6gfr"]
+fill_to = Vector2(0, 1)
+
+[node name="ColorRampSymbology" type="MarginContainer"]
+custom_minimum_size = Vector2(0, 500)
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_onltc")
+
+[node name="ColorRamp" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Gradient" type="TextureRect" parent="ColorRamp"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_d6gfr")
+flip_h = true
+flip_v = true
+
+[node name="Ticks" type="Control" parent="ColorRamp"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
