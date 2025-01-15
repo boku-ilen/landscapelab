@@ -22,3 +22,5 @@ ao_enabled = true
 ao_light_affect = 1.0
 ao_texture = SubResource("CompressedTexture2D_g1gcy")
 ao_texture_channel = 1
+backlight_enabled = true
+backlight = Color(0.724643, 0.724643, 0.724643, 1)
