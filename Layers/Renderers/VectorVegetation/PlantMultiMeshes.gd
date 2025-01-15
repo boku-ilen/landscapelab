@@ -72,21 +72,24 @@ var species_to_mesh = {
 	"Robiniapse": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
 	"Salixcapre": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
 	"Sorbusaucu": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Tiliasprpp": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres")
+	"Tiliasprpp": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
+	"eucalyptus": preload("res://Layers/Renderers/VectorVegetation/Eucalyptus.tres")
 }
 
 var mesh_name_to_spritesheet_index = {
 	"Fagus": 0,
 	"Pinus2": 1,
 	"Pinus": 1,
-	"Quercus": 2
+	"Quercus": 2,
+	"Eucalyptus": 2
 }
 
 var mesh_name_to_billboard_index = {
 	"Fagus": 0,
 	"Pinus2": 1,
 	"Pinus": 2,
-	"Quercus": 3
+	"Quercus": 3,
+	"Eucalyptus": 3
 }
 
 var species_to_mesh_name = {}

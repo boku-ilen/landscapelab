@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dew0s6e6rdwfi"
+path="res://.godot/imported/Eucalyptus_normal_test.obj-adafb6b21624ac50317479e1a1bc9870.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Eucalyptus_normal_test.obj-adafb6b21624ac50317479e1a1bc9870.mesh"]
+
+source_file="res://Resources/Meshes/Trees/Eucalyptus_Globulus/Eucalyptus_normal_test.obj"
+dest_files=["res://.godot/imported/Eucalyptus_normal_test.obj-adafb6b21624ac50317479e1a1bc9870.mesh", "res://.godot/imported/Eucalyptus_normal_test.obj-adafb6b21624ac50317479e1a1bc9870.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
