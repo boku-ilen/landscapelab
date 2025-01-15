@@ -35,7 +35,6 @@ item_0/checkable = 1
 item_0/id = 1
 item_1/text = "Save Layer Edits..."
 item_1/icon = ExtResource("2_3ylfg")
-item_1/id = 0
 script = ExtResource("4_hvmms")
 
 [node name="GeoLayerUIConfig" type="Node" parent="." node_paths=PackedStringArray("geo_layer_ui", "list")]

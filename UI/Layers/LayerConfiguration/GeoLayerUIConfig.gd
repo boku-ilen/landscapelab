@@ -14,7 +14,7 @@ func _ready():
 		add_geo_layer(Layers.geo_layers["features"][layer])
 	
 	Layers.new_geo_layer.connect(add_geo_layer)
-	geo_layer_ui.z_index_changed.emit(list.get_items())
+	#geo_layer_ui.z_index_changed.emit(list.get_items())
 
 
 func add_geo_layer(geo_layer: RefCounted):

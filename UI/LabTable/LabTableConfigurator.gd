@@ -23,6 +23,10 @@ func load_table_config() -> void:
 	renderers.crs_from = config["Meta"]["crs"]
 	var table_config: Dictionary = config["TableSettings"]
 	
+	# TODO: Should this be moved somewhere else to allow other projections than 3857? 
+	get_parent().geo_transform = GeoTransform.new()
+	get_parent().geo_transform.set_transform(3857, config["Meta"]["crs"])
+	
 	_load_layers(path, table_config)
 
 
@@ -34,12 +38,10 @@ func _load_layers(path: String, table_config: Dictionary):
 		
 		# Pre-existing layer composition which strictly needs to use the same data background
 		var geo_layer: RefCounted
-		if "from_composition_name" in layer_conf:
-			geo_layer = Layers.layer_compositions[layer_conf["from_composition_name"]].render_info.geo_feature_layer
+		if "layer_name" in layer_conf:
+			geo_layer = Layers.layer_compositions[layer_conf["layer_name"]].render_info.geo_feature_layer
 		else:
 			geo_layer = Geodot.get_raster_layer(layer_conf["path"])
-		
-		var t = geo_layer.get_epsg_code()
 		
 		var layer_def = LayerDefinition.new(geo_layer, layer_conf["z_index"])
 		layer_def.name = key
@@ -49,9 +51,9 @@ func _load_layers(path: String, table_config: Dictionary):
 			layer_def.render_info.min_val = layer_conf["min_val"]
 			layer_def.render_info.max_val = layer_conf["max_val"]
 		
-		if "marker" in layer_conf:
-			layer_def.render_info.marker = load(layer_conf["marker"])
-			layer_def.render_info.marker_scale = layer_conf["marker_scale"] if "marker_scale" in layer_conf else 0.1
+		if "icon" in layer_conf:
+			layer_def.render_info.marker = load(layer_conf["icon"])
+			layer_def.render_info.marker_scale = layer_conf["icon_scale"] if "icon_scale" in layer_conf else 0.1
 		
 		if "no_data" in layer_conf:
 			layer_def.render_info.no_data = layer_conf["no_data"]

@@ -28,7 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://b0ggrqax876lq" path="res://Resources/Textures/UI/scalebar.png" id="21_8rx5g"]
 [ext_resource type="Texture2D" uid="uid://cvuvaob2b58oa" path="res://Resources/Icons/ModernLandscapeLab/table_wind.svg" id="21_teit2"]
 [ext_resource type="Script" path="res://UI/LabTable/AtmosphereMenu.gd" id="23_5pqbs"]
-[ext_resource type="PackedScene" uid="uid://u8mojc2eibn6" path="res://Util/Shading/ColorRampSymbology.tscn" id="23_5380g"]
+[ext_resource type="PackedScene" path="res://Util/Shading/ColorRampSymbology.tscn" id="23_5380g"]
 [ext_resource type="StyleBox" uid="uid://dg3l5xqfdgxff" path="res://UI/LabTable/Style/PopupPanel.tres" id="23_wb0c1"]
 [ext_resource type="Texture2D" uid="uid://dndroq8xw54we" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sunrise.svg" id="24_0xwd5"]
 [ext_resource type="PackedScene" uid="uid://d2biaicqh7bu5" path="res://World/AtmosphereConfiguration.tscn" id="24_ty2jq"]
@@ -72,7 +72,6 @@ script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
-debug_mode = true
 run_brick_detection = false
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
@@ -165,6 +164,7 @@ custom_minimum_size = Vector2(90, 90)
 visible = false
 
 [node name="SubViewport" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer" index="0"]
+size = Vector2i(300, 300)
 render_target_update_mode = 0
 
 [node name="ReferenceRect" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport" index="2"]
@@ -339,7 +339,6 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="SaveButton" type="Button" parent="CenterContainer2"]
-visible = false
 layout_mode = 2
 theme = ExtResource("8_2ddb4")
 text = "Save"
