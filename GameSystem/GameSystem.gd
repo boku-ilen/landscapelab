@@ -75,6 +75,10 @@ func load_last_save():
 				var dataset = Geodot.get_dataset(last_save_path)
 				var layer = dataset.get_feature_layers()[0]
 				
+				# Remove all previously loaded features 
+				for feature in collection.feature_layer.get_all_features():
+					collection.feature_layer.remove_feature(feature)
+				
 				for feature in layer.get_all_features():
 					# TODO: Might be nice to generalize this by adding feature.load_from_feature()
 					#  or even something like layer.load_from_layer() to Geodot
