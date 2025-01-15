@@ -21,6 +21,7 @@ uniform vec3 most_extreme_random_color: source_color;
 
 varying flat float spritesheet_index;
 varying flat float random_instance_factor;
+varying flat float is_detailed;
 
 uniform float sway_speed = 5.0;
 uniform float sway_strength = 0.03;
@@ -41,6 +42,7 @@ void vertex() {
 
 	spritesheet_index = INSTANCE_CUSTOM.r;
 	random_instance_factor = INSTANCE_CUSTOM.g;
+	is_detailed = INSTANCE_CUSTOM.b;
 }
 
 void fragment() {
@@ -59,9 +61,25 @@ void fragment() {
 	// Hue shift to make plant appear e.g. dryer
 	vec3 hcy = RGBtoHCY(color.rgb);
 
-	hcy.r += HCY_SHIFT.r;
-	hcy.g *= HCY_SHIFT.g;
-	hcy.b *= HCY_SHIFT.b;
+	float begin = mix(-0.6, -PI, min(HCY_SHIFT.r * 2.0, 1.0));
+	float end = -0.6;
+
+	if (hcy.x > begin && hcy.x < end) {
+		// `factor` is the position of hcy.x within the range of begin to end, scaled to -PI/2 to +PI/2.
+		// This way, by getting the cosine of the factor, we get a smooth curve from 0..1..0.
+		float factor = hcy.x - begin;
+		factor /= end - begin;
+		factor -= 0.5;
+		factor *= PI;
+
+		float addition = cos(factor) * (end - begin) / 2.0;
+		hcy.x += addition;
+		hcy.y += addition * 0.01;
+	}
+
+	//hcy.r += random_hue_shift;
+	//hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0);
+	//hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0);
 
 	ALBEDO = HCYtoRGB(hcy);
 
@@ -74,5 +92,6 @@ void fragment() {
 	ALPHA = albedo_tex.a;
 	ALPHA_SCISSOR_THRESHOLD = 0.35;
 
-	BACKLIGHT = backlight.rgb;
+	BACKLIGHT = backlight.rgb * (0.3 + is_detailed * 0.7);
+	RIM = 0.3 * (0.3 + is_detailed * 0.7);
 }

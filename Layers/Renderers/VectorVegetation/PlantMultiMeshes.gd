@@ -224,9 +224,9 @@ func override_build(center_x, center_y):
 		else:
 			mesh_name = "Billboard"
 		
-		var instance_scale = feature.get_attribute("height1").to_float() * 1.5
+		var instance_scale = feature.get_attribute("height1").to_float() * 1.3
 		
-		if instance_scale < 2.0: continue
+		if instance_scale < 1.0: continue
 		elif instance_scale < 8.0 and not is_detailed: continue
 
 		var pos = feature.get_offset_vector3(-int(center_x), 0, -int(center_y))
@@ -243,7 +243,7 @@ func override_build(center_x, center_y):
 			mesh_name_to_custom_data[mesh_name].append(Color(
 				mesh_name_to_spritesheet_index[species_mesh_name], # Spritesheet index
 				rng.randf(), # Randomness for shading
-				0.0
+				1.0
 			))
 		else:
 			mesh_name_to_custom_data[mesh_name].append(Color(
