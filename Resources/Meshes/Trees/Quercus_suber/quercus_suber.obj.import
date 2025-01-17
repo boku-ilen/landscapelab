@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bnygqfcf4n2rh"
+path="res://.godot/imported/quercus_suber.obj-83bb09c3e1e2bd2e06827151e07a7091.mesh"
+
+[deps]
+
+files=["res://.godot/imported/quercus_suber.obj-83bb09c3e1e2bd2e06827151e07a7091.mesh"]
+
+source_file="res://Resources/Meshes/Trees/Quercus_suber/quercus_suber.obj"
+dest_files=["res://.godot/imported/quercus_suber.obj-83bb09c3e1e2bd2e06827151e07a7091.mesh", "res://.godot/imported/quercus_suber.obj-83bb09c3e1e2bd2e06827151e07a7091.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
