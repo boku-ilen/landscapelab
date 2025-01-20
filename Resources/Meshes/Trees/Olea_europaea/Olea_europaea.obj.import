@@ -4,14 +4,14 @@ importer="wavefront_obj"
 importer_version=1
 type="Mesh"
 uid="uid://fbejwau85u00"
-path="res://.godot/imported/olea_europaea.obj-c53c6dd0283273b9614e1a6a29d1c4e4.mesh"
+path="res://.godot/imported/Olea_europaea.obj-eb28f47c78affa985e670205c02f06ba.mesh"
 
 [deps]
 
-files=["res://.godot/imported/olea_europaea.obj-c53c6dd0283273b9614e1a6a29d1c4e4.mesh"]
+files=["res://.godot/imported/Olea_europaea.obj-eb28f47c78affa985e670205c02f06ba.mesh"]
 
-source_file="res://Resources/Meshes/Trees/Olea_europaea/olea_europaea.obj"
-dest_files=["res://.godot/imported/olea_europaea.obj-c53c6dd0283273b9614e1a6a29d1c4e4.mesh", "res://.godot/imported/olea_europaea.obj-c53c6dd0283273b9614e1a6a29d1c4e4.mesh"]
+source_file="res://Resources/Meshes/Trees/Olea_europaea/Olea_europaea.obj"
+dest_files=["res://.godot/imported/Olea_europaea.obj-eb28f47c78affa985e670205c02f06ba.mesh", "res://.godot/imported/Olea_europaea.obj-eb28f47c78affa985e670205c02f06ba.mesh"]
 
 [params]
 
