@@ -39,6 +39,7 @@ var change_queue: Array[FeatureChange] = []
 var instances := {}
 @export var radius := 6000.0
 @export var max_features := 2000
+@export var increase_radius_until_max_features := false
 
 signal feature_instance_removed(id: int)
 
@@ -65,11 +66,29 @@ func full_load():
 func adapt_load(_diff: Vector3):
 	super.adapt_load(_diff)
 	
-	var new_features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
-		float(center[0]) + position_manager.center_node.position.x,
-		float(center[1]) - position_manager.center_node.position.z,
-		radius, max_features
-	)
+	var new_features = []
+	
+	if increase_radius_until_max_features:
+		var previous_features = null
+		for i in range(1, 5):
+			print("Attempt ", i)
+			new_features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
+				float(center[0]) + position_manager.center_node.position.x,
+				float(center[1]) - position_manager.center_node.position.z,
+				radius * i, max_features
+			)
+			
+			if new_features.size() == max_features and previous_features:
+				new_features = previous_features
+				break
+			else:
+				previous_features = new_features
+	else:
+		new_features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
+			float(center[0]) + position_manager.center_node.position.x,
+			float(center[1]) - position_manager.center_node.position.z,
+			radius, max_features
+		)
 	
 	# FIXME: might be a potential thread vulnerability
 	var old_feature_ids = features.map(func(f): return f.get_id())
@@ -170,6 +189,7 @@ func apply_feature_instance(feature: GeoFeature):
 	else:
 		logger.error("No feature instance was created for ID: {}".
 			format([feature.get_id()], "{}"))
+		mutex.unlock()
 		return
 	mutex.unlock()
 
