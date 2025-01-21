@@ -99,7 +99,7 @@ func _ready():
 		
 		if diameter_raw:
 			diameter = max(str_to_var(diameter_raw), min_rotor_diameter)
-
+		
 		set_hub_height(height)
 		set_rotor_diameter(diameter)
 	
@@ -112,6 +112,14 @@ func _ready():
 	
 	if height_here > -60.0 and has_node("Mesh/Mast/wt_offshore_float_device"):
 		$Mesh/Mast/wt_offshore_float_device.visible = false
+	
+	var blacktip_attribute = feature.get_attribute("blacktip")
+	if blacktip_attribute and blacktip_attribute != "0":
+		$Mesh/Rotor/BlackTip.visible = true
+		$Mesh/Rotor/White.visible = false
+	else:
+		$Mesh/Rotor/BlackTip.visible = false
+		$Mesh/Rotor/White.visible = true
 
 
 # Correctly orients the model depending checked the public wind_direction - automatically called when the wind direction is changed
