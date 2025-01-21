@@ -11,6 +11,9 @@
    id="svg1"
    sodipodi:docname="table_map.svg"
    inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   inkscape:export-filename="table_map.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -26,14 +29,14 @@
    inkscape:deskcolor="#d1d1d1"
    inkscape:document-units="mm"
    inkscape:zoom="22.627417"
-   inkscape:cx="4.4194174"
-   inkscape:cy="12.109204"
+   inkscape:cx="2.7621359"
+   inkscape:cy="12.131301"
    inkscape:window-width="2560"
-   inkscape:window-height="1372"
-   inkscape:window-x="3840"
+   inkscape:window-height="1360"
+   inkscape:window-x="0"
    inkscape:window-y="0"
    inkscape:window-maximized="1"
-   inkscape:current-layer="Ebene_x0020_1-7" />
+   inkscape:current-layer="_105553249722496" />
     <g
    id="Ebene_x0020_1"
    inkscape:label="Ebene 1">
@@ -63,33 +66,30 @@
    id="CorelCorpID_0Corel-Layer-5" />
         <g
    id="_105553249722496">
-            <polygon
-   points="11436.67,0 11436.67,11436.78 0,11436.78 0,0 "
-   style="fill:#ffffff"
-   id="polygon1" />
+            
             <polygon
    points="11151.69,445.82 11139.11,1161.24 7766.12,5286.24 403.61,3191.66 295.17,270.32 "
-   style="fill:#99cc66;stroke:#99cc66;stroke-width:412.15;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+   style="fill:#b5d094;stroke:none;stroke-width:412.15;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;fill-opacity:0.5"
    id="polygon2"
    transform="matrix(0.9175247,0,0,0.9175247,472.04162,469.34055)" />
             <polygon
    points="3161.3,11110 340.92,11111.04 311.7,3885.56 4720.95,5140.89 "
-   style="fill:#b3b3b3;stroke:#b3b3b3;stroke-width:412.15;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+   style="fill:#b3b3b3;stroke:none;stroke-width:412.15;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;fill-opacity:0.5"
    id="polygon3"
    transform="matrix(0.9175247,0,0,0.9175247,472.04162,469.34055)" />
             <polygon
    points="8109.95,11089.62 3819.22,11019.86 5278.65,5361.41 8759.35,6454.03 "
-   style="fill:#4d4d4d;stroke:#4d4d4d;stroke-width:412.15;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+   style="fill:#e6d1be;stroke:none;stroke-width:412.15;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;fill-opacity:0.5"
    id="polygon4"
    transform="matrix(0.9175247,0,0,0.9175247,472.04162,469.34055)" />
             <polygon
    points="9465.72,6548.74 11097.42,7041.77 11115.2,11092.33 8709.13,11083.18 "
-   style="fill:#cccc33;fill-opacity:1;stroke:#cccc33;stroke-width:382.176;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+   style="fill:#93d0e4;fill-opacity:0.5;stroke:none;stroke-width:382.176;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
    id="polygon5"
    transform="matrix(0.9175247,0,0,0.9175247,472.04162,469.34054)" />
             <polygon
    points="8601.73,5687.35 11062.17,2438.4 11099.81,6258.46 "
-   style="fill:#808080;stroke:#808080;stroke-width:412.15;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+   style="fill:#808080;stroke:none;stroke-width:412.15;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;fill-opacity:0.5"
    id="polygon6"
    transform="matrix(0.9175247,0,0,0.9175247,472.04162,469.34055)" />
         </g>
