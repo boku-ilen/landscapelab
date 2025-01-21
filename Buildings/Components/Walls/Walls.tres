@@ -87,13 +87,14 @@ void fragment() {
 			clamp((UV.y  - offset_y) / (wall_height * window_scale_y), 0., 1.)
 		), window_index);
 
+
 	// Obtain all wished textures (albedo, normal, rme) for wall/window
 	vec4 albedo_wall_tex = texture(texture_wall_albedo, wall_uv);
 	vec4 albedo_window_tex = texture(texture_window_albedo, window_uv);
 
 	// Necessary to avoid artifacts when rendering
 	albedo_window_tex.a = fract(window_uv.x) < 0.05 ? 0.0 : albedo_window_tex.a;
-	albedo_window_tex.a = fract(window_uv.y) < 0.05 ? 0.0 : albedo_window_tex.a;
+	albedo_window_tex.a = fract(window_uv.y) < 0.02 ? 0.0 : albedo_window_tex.a;
 
 	// In case the window_index is -1 we dont want a texture
 	albedo_window_tex.a = window_index < 0.0 ? 0.0 : albedo_window_tex.a;
@@ -119,8 +120,8 @@ void fragment() {
 	ROUGHNESS = roughness_tex * roughness;
 
 	// Modulate color with vertex color - this is more performant than a color uniform
-	// Do not modulate glasses (i.e. where metallic is 1)
-	if(emission_tex < 0.5)
+	// Do not modulate glasses
+	if (albedo_window_tex.a == 0.)
 		ALBEDO = COLOR.rgb * albedo_tex.rgb;
 	else
 		ALBEDO = albedo_tex.rgb;
@@ -129,7 +130,8 @@ void fragment() {
 	vec4 wall_normal = texture(texture_wall_normal, wall_uv);
 	vec4 window_normal = texture(texture_window_normal, window_uv);
 	NORMAL_MAP = mix(wall_normal, window_normal, albedo_window_tex.a).rgb;
-	NORMAL_MAP_DEPTH = normal_scale;
+	// Stronger normals for windows
+	NORMAL_MAP_DEPTH = normal_scale + albedo_window_tex.a * 2.;
 
 	if (lights_on) {
 		int random_seed = int(rand(round(worldpos)) * rand(vec3(floor(window_uv.xy), 0.0)) * 100000.0);
