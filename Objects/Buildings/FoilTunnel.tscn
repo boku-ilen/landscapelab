@@ -24,9 +24,11 @@ normal_texture = ExtResource("5_kp1k0")
 [node name="Node3D" type="Node3D"]
 
 [node name="FoilTunnelFrame" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 0.93, 0, 0, 0, 0.81, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_ric8r")
 mesh = ExtResource("4_acg57")
 
 [node name="FoilTunnelTarp" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 0.93, 0, 0, 0, 0.81, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_xjlie")
 mesh = ExtResource("6_xgc40")
