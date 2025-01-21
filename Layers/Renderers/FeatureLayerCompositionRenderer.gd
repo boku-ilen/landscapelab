@@ -71,7 +71,6 @@ func adapt_load(_diff: Vector3):
 	if increase_radius_until_max_features:
 		var previous_features = null
 		for i in range(1, 5):
-			print("Attempt ", i)
 			new_features = layer_composition.render_info.geo_feature_layer.get_features_near_position(
 				float(center[0]) + position_manager.center_node.position.x,
 				float(center[1]) - position_manager.center_node.position.z,

@@ -12,7 +12,7 @@ var density_class: DensityClass :
 	set(new_density_class):
 		density_class = new_density_class
 		
-		update_rows_spacing(Vegetation.plant_extent_factor)
+		update_rows_spacing(get_plant_extent_factor())
 
 @export var offset: Vector2 = Vector2.ZERO
 
@@ -47,6 +47,12 @@ func _on_vegetation_data_update():
 	process_material.set_shader_parameter("row_ids", Vegetation.row_ids[density_class.id])
 	process_material.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[density_class.id])
 	material_override.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
+
+
+func get_plant_extent_factor():
+	var extent_scale = 1.0
+	if density_class.name == "Shrubs": extent_scale = 6.0  # FIXME: Use config for this
+	return Vegetation.plant_extent_factor * extent_scale
 
 
 # Set the internal rows and spacing variables based checked the density_class and the given extent_factor.
@@ -89,7 +95,7 @@ func set_rows(new_rows):
 	
 	if process_material:
 		process_material.set_shader_parameter("rows", rows)
-		material_override.set_shader_parameter("max_distance", Vegetation.plant_extent_factor / 2.0)
+		material_override.set_shader_parameter("max_distance", get_plant_extent_factor() / 2.0)
 		
 		set_rows_spacing_in_shader()
 
@@ -99,7 +105,7 @@ func set_spacing(new_spacing):
 	
 	if process_material:
 		process_material.set_shader_parameter("spacing", spacing)
-		material_override.set_shader_parameter("max_distance", Vegetation.plant_extent_factor / 2.0)
+		material_override.set_shader_parameter("max_distance", get_plant_extent_factor() / 2.0)
 		
 		set_rows_spacing_in_shader()
 

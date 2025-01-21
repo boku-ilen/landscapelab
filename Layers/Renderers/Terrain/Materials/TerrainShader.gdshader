@@ -159,7 +159,7 @@ void vertex() {
 
 				average_weight += weight_here;
 
-				offset += (fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(local_texture_index)), camera_distance).r - 0.5) * weight_here;
+				offset += (fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(local_texture_index)), camera_distance).r - 0.6) * weight_here;
 				count++;
 			}
 		}
@@ -167,7 +167,7 @@ void vertex() {
 		average_weight /= count;
 		offset /= count;
 
-		offset += (texture(detail_noise, scaled_near_uv / 40.0).r - 0.5) * average_weight;
+		//offset += (texture(detail_noise, scaled_near_uv / 40.0).r - 0.5) * average_weight;
 
 		offset *= float(texture_index >= 0 && texture_index <= 10);
 

@@ -45,7 +45,7 @@ void vertex() {
 	vec3 n_up = normalize(COLOR.xyz + vec3(0.0, 1.0, 0.0));
 	vec3 n_forward = cross(vec3(1.0, 0.0, 0.0), n_up);
 	vec3 n_right = cross(n_up, n_forward);
-	
+
 	mat3 basis = mat3(n_right, n_up, n_forward);
 
 	// TODO: Keep the normal of non-billboard meshes?
@@ -86,7 +86,7 @@ void fragment() {
 	float blend_start_distance = max_distance - max_distance / 6.0;
 	float dist = length(camera_pos.xz - worldpos.xz);
 
-	float dist_alpha = smoothstep(80.0, 120.0, dist);
+	float dist_alpha = smoothstep(max_distance - 20.0, max_distance + 20.0, dist);
 
 	vec4 color = texture(texture_map[int(round(dist_id))], UV);
 
@@ -138,6 +138,6 @@ void fragment() {
 	//AO = generate_darken_gradient(UV.y, 1.0, 0.6, 0.0); // Currently not doing much, because Rough + Spec are wrong. In future, use Gradient here instead of Albedo!
 	NORMAL_MAP = generate_normal_from_albedo(texture_map[int(round(dist_id))], UV, vec4(0.7, 0.7, 0.7, 0.8), 0.05, 1.0);
 	METALLIC = 0.0;
-	ROUGHNESS = 1.0;// - color.g * 0.5;
+	ROUGHNESS = 0.95;// - color.g * 0.5;
 	SPECULAR = 0.1;
 }
