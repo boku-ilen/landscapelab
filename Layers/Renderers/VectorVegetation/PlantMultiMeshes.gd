@@ -73,7 +73,9 @@ var species_to_mesh = {
 	"Salixcapre": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
 	"Sorbusaucu": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
 	"Tiliasprpp": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
-	"eucalyptus": preload("res://Layers/Renderers/VectorVegetation/Eucalyptus.tres")
+	"Eucalyptus": preload("res://Layers/Renderers/VectorVegetation/Eucalyptus.tres"),
+	"Quercussuber": preload("res://Layers/Renderers/VectorVegetation/Quercussuber.tres"),
+	"Oleaeuropaea": preload("res://Layers/Renderers/VectorVegetation/Oleaeuropaea.tres")
 }
 
 var mesh_name_to_spritesheet_index = {
@@ -81,7 +83,9 @@ var mesh_name_to_spritesheet_index = {
 	"Pinus2": 1,
 	"Pinus": 1,
 	"Quercus": 2,
-	"Eucalyptus": 2
+	"Eucalyptus": 2,
+	"Oleaeuropaea": 2,
+	"Quercussuber": 2
 }
 
 var mesh_name_to_billboard_index = {
@@ -89,7 +93,9 @@ var mesh_name_to_billboard_index = {
 	"Pinus2": 1,
 	"Pinus": 2,
 	"Quercus": 3,
-	"Eucalyptus": 3
+	"Eucalyptus": 4,
+	"Quercussuber": 3,
+	"Oleaeuropaea": 3
 }
 
 var species_to_mesh_name = {}
@@ -238,7 +244,7 @@ func override_build(center_x, center_y):
 		mesh_name_to_transforms[mesh_name].append(Transform3D()
 				.scaled(Vector3(instance_scale, instance_scale, instance_scale)) \
 				.rotated(Vector3.UP, PI * 0.5 * rng.randf_range(-1.0, 1.0)) \
-				.translated(pos - Vector3.UP)
+				.translated(pos)
 		)
 		
 		
