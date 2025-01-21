@@ -1,0 +1,28 @@
+[gd_scene load_steps=8 format=3 uid="uid://bw6f3uvgwvtv5"]
+
+[ext_resource type="Texture2D" uid="uid://virq4jo4usgl" path="res://Resources/Textures/Buildings/Glasshouse/glasshouse base color.png" id="1_mg0pt"]
+[ext_resource type="Texture2D" uid="uid://y2kofahjpn5i" path="res://Resources/Textures/Buildings/Glasshouse/glasshouse metallic.png" id="2_oth6f"]
+[ext_resource type="Texture2D" uid="uid://cfgidlm0qoo64" path="res://Resources/Textures/Buildings/Glasshouse/glasshouse roughness.png" id="3_s1fti"]
+[ext_resource type="ArrayMesh" uid="uid://bmnkwa82lygqh" path="res://Resources/Textures/Buildings/Glasshouse/glasshouse big frame.obj" id="4_617p7"]
+[ext_resource type="ArrayMesh" uid="uid://bjqhf1w511k04" path="res://Resources/Textures/Buildings/Glasshouse/glasshouse big glass.obj" id="5_mqt6y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xm1ta"]
+albedo_texture = ExtResource("1_mg0pt")
+metallic = 1.0
+metallic_texture = ExtResource("2_oth6f")
+roughness_texture = ExtResource("3_s1fti")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6yavb"]
+transparency = 1
+cull_mode = 2
+albedo_texture = ExtResource("1_mg0pt")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="GlasshouseBigFrame" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_xm1ta")
+mesh = ExtResource("4_617p7")
+
+[node name="GlasshouseBigGlass" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_6yavb")
+mesh = ExtResource("5_mqt6y")

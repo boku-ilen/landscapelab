@@ -1,0 +1,32 @@
+[gd_scene load_steps=9 format=3 uid="uid://bmx56ycbtepk7"]
+
+[ext_resource type="Texture2D" uid="uid://dk71vdjngtbjy" path="res://Resources/Textures/Buildings/Glasshouse/foil tunnel base color.png" id="1_cxomr"]
+[ext_resource type="Texture2D" uid="uid://ct4l5afrphsj8" path="res://Resources/Textures/Buildings/Glasshouse/foil tunnel metallic.png" id="2_hnboj"]
+[ext_resource type="Texture2D" uid="uid://c04rmph0px1ec" path="res://Resources/Textures/Buildings/Glasshouse/foil tunnel roughness.png" id="3_obr1h"]
+[ext_resource type="ArrayMesh" uid="uid://qwdocts6oli0" path="res://Resources/Textures/Buildings/Glasshouse/foil tunnel frame.obj" id="4_acg57"]
+[ext_resource type="Texture2D" uid="uid://clt072ahdoxvt" path="res://Resources/Textures/Buildings/Glasshouse/foil tunnel normal.png" id="5_kp1k0"]
+[ext_resource type="ArrayMesh" uid="uid://bteqf8gu5q4jg" path="res://Resources/Textures/Buildings/Glasshouse/foil tunnel tarp.obj" id="6_xgc40"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ric8r"]
+albedo_texture = ExtResource("1_cxomr")
+metallic = 1.0
+metallic_texture = ExtResource("2_hnboj")
+roughness_texture = ExtResource("3_obr1h")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xjlie"]
+blend_mode = 1
+cull_mode = 2
+albedo_texture = ExtResource("1_cxomr")
+roughness_texture = ExtResource("3_obr1h")
+normal_enabled = true
+normal_texture = ExtResource("5_kp1k0")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="FoilTunnelFrame" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_ric8r")
+mesh = ExtResource("4_acg57")
+
+[node name="FoilTunnelTarp" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_xjlie")
+mesh = ExtResource("6_xgc40")

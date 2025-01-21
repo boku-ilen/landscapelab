@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bctkh5u7i3csr"
+path="res://.godot/imported/glasshouse small frame.obj-be1e8eacd869f2b2125237d4de1489ab.mesh"
+
+[deps]
+
+files=["res://.godot/imported/glasshouse small frame.obj-be1e8eacd869f2b2125237d4de1489ab.mesh"]
+
+source_file="res://Resources/Textures/Buildings/Glasshouse/glasshouse small frame.obj"
+dest_files=["res://.godot/imported/glasshouse small frame.obj-be1e8eacd869f2b2125237d4de1489ab.mesh", "res://.godot/imported/glasshouse small frame.obj-be1e8eacd869f2b2125237d4de1489ab.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

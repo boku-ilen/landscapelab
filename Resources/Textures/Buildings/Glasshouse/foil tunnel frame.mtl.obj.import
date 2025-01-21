@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bee8l7ys5gwag"
+path="res://.godot/imported/foil tunnel frame.mtl.obj-68eb46d0a9f944177b02cb9c47c8a2ad.mesh"
+
+[deps]
+
+files=["res://.godot/imported/foil tunnel frame.mtl.obj-68eb46d0a9f944177b02cb9c47c8a2ad.mesh"]
+
+source_file="res://Resources/Textures/Buildings/Glasshouse/foil tunnel frame.mtl.obj"
+dest_files=["res://.godot/imported/foil tunnel frame.mtl.obj-68eb46d0a9f944177b02cb9c47c8a2ad.mesh", "res://.godot/imported/foil tunnel frame.mtl.obj-68eb46d0a9f944177b02cb9c47c8a2ad.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
