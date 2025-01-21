@@ -81,7 +81,7 @@ static func prepare_plain_walls(
 	var get_top_index = func(building_id): return int(building_id) * 4 + 3
 	
 	# Random texture scale
-	var random_tex_scale = Vector2(random_gen.randf_range(0.7, 1.3), 1)
+	var random_tex_scale = Vector2(random_gen.randf_range(0.85, 1.15), 1)
 	
 	# Add a cellar
 	var cellar = walls_scene.instantiate()
