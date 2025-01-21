@@ -10,6 +10,7 @@ alpha_scissor_threshold = 0.15
 alpha_antialiasing_mode = 0
 cull_mode = 2
 albedo_texture = ExtResource("1_2d28o")
+metallic_specular = 0.2
 roughness_texture = ExtResource("2_uinms")
 normal_enabled = true
 normal_texture = ExtResource("3_yp8jp")

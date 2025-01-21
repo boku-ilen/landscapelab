@@ -125,8 +125,8 @@ void fragment() {
 	
 	float highest_height = 0.0;
 	
-	for (float x_off = -1.0; x_off <= 1.0; x_off += 1.0) {
-		for (float y_off = -1.0; y_off <= 1.0; y_off += 1.0) {
+	for (float x_off = -2.0; x_off <= 2.0; x_off += 2.0) {
+		for (float y_off = -2.0; y_off <= 2.0; y_off += 2.0) {
 			vec2 offset = vec2(x_off, y_off) / size;
 			int splatmap_value = int(round(get_landuse(UV + offset)));
 			int distribution_id_here = int(round(texelFetch(row_ids, ivec2(splatmap_value, 0), 0).r * 255.0));

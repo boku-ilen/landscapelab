@@ -1,8 +1,9 @@
 extends Node
 class_name RoofFactory
 
-const extent_threshold := 500.
+const extent_threshold := 200.
 const height_threshold := 15.
+const vertex_count_threshold := 16
 
 const flat_roof_scene = preload("res://Buildings/Components/Roofs/FlatRoof.tscn")
 const pointed_roof_scene = preload("res://Buildings/Components/Roofs/PointedRoof.tscn")
@@ -43,7 +44,8 @@ static func prepare_roof(
 		# In case it is a very tall/big building, a flat roof will be most sensible
 		var is_tall = building_metadata["height"] > height_threshold
 		var is_big = building_metadata["extent"] > extent_threshold
-		if is_tall or is_big:
+		var is_complex = building_metadata["footprint"].size() > vertex_count_threshold
+		if is_tall or is_big or is_complex:
 			roof = null # Will result in a flatroof (line if roof == null or not can_build_roof)
 		elif check_roof_type and walls_resource.prefer_pointed_roof:
 			if feature.get_outer_vertices().size() == 5:
