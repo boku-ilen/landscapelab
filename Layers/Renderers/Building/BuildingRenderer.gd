@@ -6,7 +6,7 @@ var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 
 var window_bundles = [
 	preload("res://Resources/Textures/Buildings/window/Shutter/Shutter.tres"),
-	preload("res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow.tres"),
+	preload("res://Resources/Textures/Buildings/window/Window/Window.tres"),
 ]
 
 # Circle through distances loading new refinments (squared distances!)
