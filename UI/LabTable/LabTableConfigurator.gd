@@ -56,7 +56,7 @@ func _load_layers(path: String, table_config: Dictionary):
 			layer_def.render_info.marker_scale = layer_conf["icon_scale"] if "icon_scale" in layer_conf else 0.1
 		
 		if "no_data" in layer_conf:
-			layer_def.render_info.no_data = layer_conf["no_data"]
+			layer_def.render_info.no_data = Color(layer_conf["no_data"][0], layer_conf["no_data"][1], layer_conf["no_data"][2])
 		
 		if "config" in layer_def.render_info:
 			layer_def.render_info.config = layer_conf
