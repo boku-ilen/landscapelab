@@ -12,7 +12,7 @@ config_version=5
 
 config/name="LandscapeLab!"
 run/main_scene="res://UI/WorkshopUI.tscn"
-config/features=PackedStringArray("4.3")
+config/features=PackedStringArray("4.4")
 boot_splash/image="res://Resources/Icons/Meta/splash.png"
 boot_splash/fullsize=false
 config/icon="res://Resources/Icons/Meta/icon.png"
