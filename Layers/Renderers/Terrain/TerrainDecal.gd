@@ -49,7 +49,7 @@ func update(player_position):
 	
 	position = new_pos
 	
-	# Workaround
+	# Workaround, see https://github.com/godotengine/godot/issues/73400
 	var texture_albedo_buffer = texture_albedo
 	texture_albedo = null
 	texture_albedo = texture_albedo_buffer
