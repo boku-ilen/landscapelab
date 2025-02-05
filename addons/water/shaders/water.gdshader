@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode depth_draw_opaque;
 
 // Adapted from https://www.youtube.com/watch?v=wkRFtEgy2Qg
 // With waves from https://github.com/godot-extended-libraries/godot-realistic-water
@@ -91,22 +92,22 @@ void vertex() {
 	if (UV.x < -0.1 || UV.x > 1.1 || UV.y < -0.1 || UV.y > 1.1) {
 		VERTEX.y = -1000.0;
 	} else {
-		VERTEX.y = texture(surface_heightmap, UV).r;
+		VERTEX.y = texture(surface_heightmap, UV).r - 0.5;
 	}
 
-	bool has_water = false;
-
-	for (int x = -3; x <= 3; x += 3) {
-		for (int y = -3; y <= 3; y += 3) {
-			if (floor(texture(landuse, UV + vec2(float(x), float(y)) / size).r / 1000.0) == 6.0) {
-				has_water = true;
-			}
-		}
-	}
-
-	if (!has_water) {
-		VERTEX.y -= 10.0;
-	}
+	//bool has_water = false;
+//
+	//for (int x = -3; x <= 3; x += 3) {
+		//for (int y = -3; y <= 3; y += 3) {
+			//if (floor(texture(landuse, UV + vec2(float(x), float(y)) / size).r / 1000.0) == 6.0) {
+				//has_water = true;
+			//}
+		//}
+	//}
+//
+	//if (!has_water) {
+		//VERTEX.y -= 10.0;
+	//}
 
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 

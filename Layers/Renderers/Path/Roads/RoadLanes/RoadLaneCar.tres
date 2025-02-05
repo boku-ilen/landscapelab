@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://da5e3qw6yps85"]
 
-[ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneCar.gdshader" id="1_k213g"]
+[ext_resource type="Shader" uid="uid://bxs0uoxf264co" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneCar.gdshader" id="1_k213g"]
 [ext_resource type="Texture2D" uid="uid://d220bdfgs5wsl" path="res://Resources/Textures/Asphalt/DamageOverlay/opacity.jpg" id="2_g5wpw"]
 [ext_resource type="Texture2D" uid="uid://c0tmjkx7qxokr" path="res://Resources/Textures/Asphalt/DamageOverlay/color.jpg" id="3_1gogp"]
 [ext_resource type="Texture2D" uid="uid://du0g66s8nc5vb" path="res://Resources/Textures/Asphalt/DamageGround/Asphalt021_2K-JPG_Color.jpg" id="4_2c0oj"]
@@ -22,6 +22,11 @@ render_priority = 0
 shader = ExtResource("1_k213g")
 shader_parameter/width = 5.0
 shader_parameter/height = 0.2
+shader_parameter/road_texture = ExtResource("4_pr3vi")
+shader_parameter/damage_texture = ExtResource("4_2c0oj")
+shader_parameter/damage_overlay = ExtResource("3_1gogp")
+shader_parameter/damage_opacity = ExtResource("2_g5wpw")
+shader_parameter/wear_factor = SubResource("NoiseTexture2D_3qcue")
 shader_parameter/world_uv_scaling = 0.35
 shader_parameter/draw_outer_lines = true
 shader_parameter/outerline_width = 0.25
@@ -33,8 +38,3 @@ shader_parameter/lanes = 2
 shader_parameter/banquet_width = 1.0
 shader_parameter/lid_color = null
 shader_parameter/render_lid = true
-shader_parameter/road_texture = ExtResource("4_pr3vi")
-shader_parameter/damage_texture = ExtResource("4_2c0oj")
-shader_parameter/damage_overlay = ExtResource("3_1gogp")
-shader_parameter/damage_opacity = ExtResource("2_g5wpw")
-shader_parameter/wear_factor = SubResource("NoiseTexture2D_3qcue")

@@ -116,7 +116,7 @@ void vertex() {
 
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
-	VERTEX.y += max(0.2, (dist_value.g * 255.0 + dist_value.b) * float(distribution_id > 0));
+	VERTEX.y += max(0.1, (dist_value.g * 255.0 + dist_value.b) * float(distribution_id > 0) * 0.75);
 }
 
 void fragment() {
@@ -183,8 +183,8 @@ void fragment() {
 
 	ALBEDO = HCYtoRGB(hcy);
 	//ALBEDO = plant_sample.rgb * 1.3;
-	ALPHA = min(0.95, plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)));
-	ALPHA *= smoothstep(50.0, 110.0, length((camera_pos - worldpos)));
+	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), 0.75, 0.99);
+	ALPHA *= smoothstep(90.0, 110.0, length((camera_pos - worldpos)));
 
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 

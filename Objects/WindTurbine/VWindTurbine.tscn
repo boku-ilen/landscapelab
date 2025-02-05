@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://bk1j0drxmtba3"]
 
-[ext_resource type="Script" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="1_euh7k"]
+[ext_resource type="Script" uid="uid://dww016r1dhraa" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="1_euh7k"]
 [ext_resource type="ArrayMesh" uid="uid://fn60asgrp3gw" path="res://Resources/Meshes/Windmills/V/WKA_V_Mast.res" id="2_swtu4"]
 [ext_resource type="ArrayMesh" uid="uid://catnoohrdygps" path="res://Resources/Meshes/Windmills/V/WKA_V_Rotor_White.res" id="3_pjrm2"]
 [ext_resource type="ArrayMesh" uid="uid://cevopxp4utikl" path="res://Resources/Meshes/Windmills/V/WKA_V_Hub.res" id="4_2yhci"]
@@ -39,7 +39,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_n7nt5"]
 _data = {
-"Blink": SubResource("8")
+&"Blink": SubResource("8")
 }
 
 [node name="VWindTurbine" type="Node3D"]
@@ -84,5 +84,5 @@ skeleton = NodePath("../../..")
 
 [node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_n7nt5")
+&"": SubResource("AnimationLibrary_n7nt5")
 }

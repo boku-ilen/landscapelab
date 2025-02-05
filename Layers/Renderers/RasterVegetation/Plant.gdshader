@@ -91,7 +91,7 @@ void fragment() {
 	vec4 color = texture(texture_map[int(round(dist_id))], UV);
 
 	ALPHA = color.a;
-	ALPHA_SCISSOR_THRESHOLD = 0.5 + dist_alpha * 0.5;
+	ALPHA_SCISSOR_THRESHOLD = 0.2 + dist_alpha * 0.8;
 
 	// Used in combination with rendermode "alpha_to_coverage_and_one", but currently costs too much
 	//ALPHA_ANTIALIASING_EDGE = 0.6;

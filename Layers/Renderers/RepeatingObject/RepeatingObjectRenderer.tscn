@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c1mrg6plc4tkp"]
 
-[ext_resource type="Script" path="res://Layers/Renderers/RepeatingObject/RepeatingObjectRenderer.gd" id="1_n0jmc"]
+[ext_resource type="Script" uid="uid://cua5qlgh162me" path="res://Layers/Renderers/RepeatingObject/RepeatingObjectRenderer.gd" id="1_n0jmc"]
 
 [node name="RepeatingObjectRenderer" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.708833)

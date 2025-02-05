@@ -10,13 +10,17 @@
 render_priority = 0
 shader = ExtResource("2_ey5o4")
 shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("3_vltmr")
 shader_parameter/alpha_scissor_threshold = 0.15
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 1.0
 shader_parameter/metallic_texture_channel = null
+shader_parameter/texture_roughness = ExtResource("4_5etxg")
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
+shader_parameter/texture_normal = ExtResource("5_sgqq5")
 shader_parameter/normal_scale = 1.0
+shader_parameter/texture_ambient_occlusion = ExtResource("4_5etxg")
 shader_parameter/ao_texture_channel = Vector4(0, 1, 0, 0)
 shader_parameter/ao_light_affect = 1.0
 shader_parameter/backlight = Color(0, 0, 0, 1)
@@ -24,10 +28,6 @@ shader_parameter/uv1_scale = Vector3(1, 1, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/texture_albedo = ExtResource("3_vltmr")
-shader_parameter/texture_roughness = ExtResource("4_5etxg")
-shader_parameter/texture_normal = ExtResource("5_sgqq5")
-shader_parameter/texture_ambient_occlusion = ExtResource("4_5etxg")
 
 [resource]
 _surfaces = [{

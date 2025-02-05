@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cckl23qaxw3h8"]
 
-[ext_resource type="Script" path="res://UI/Datetime/Datetime.gd" id="1"]
-[ext_resource type="Script" path="res://UI/Datetime/CurrentTimeButton.gd" id="2_x1knw"]
+[ext_resource type="Script" uid="uid://blrt82lmbs03b" path="res://UI/Datetime/Datetime.gd" id="1"]
+[ext_resource type="Script" uid="uid://f7yh8gasngje" path="res://UI/Datetime/CurrentTimeButton.gd" id="2_x1knw"]
 
 [node name="Datetime" type="VBoxContainer"]
 offset_top = 2.0
