@@ -1,20 +1,20 @@
 extends WorldEnvironment
 
 # Diffuse and specular
-@onready var light: DirectionalLight3D = get_node("DirectionalLight")
+@onready var light: DirectionalLight3D = get_node("SkyLight/WorldLight")
 # Ambient and sky
-@onready var sky_light: DirectionalLight3D = get_node("DirectionalLight/SkyLight")
+@onready var sky_light: DirectionalLight3D = get_node("SkyLight")
 
 var wind_speed = 0
 var wind_direction = 0
 
-var brightest_light_energy = 1.5
+var brightest_light_energy = 3.5
 var light_darken_begin_altitude = 15.0
 var light_disabled_altitude = 3.0
 
 
 func apply_visibility(new_visibility):
-	environment.fog_density = remap(new_visibility, 0., 100., 0.00002, 0.0005)
+	environment.fog_density = remap(new_visibility, 0., 100., 0.00002, 0.0008)
 	
 	# Enable volumetric fog only above a certain threshold
 	environment.volumetric_fog_enabled = new_visibility > 40
@@ -65,10 +65,11 @@ func apply_wind():
 
 
 func apply_datetime(datetime: Dictionary):
+	brightest_light_energy = 3.0
 	# TODO: Replace with real lon/lat values
 	var angles = SunPosition.get_solar_angles_for_datetime(datetime, 48.0, 15.0)
 	
-	light.rotation = Vector3(-angles["altitude"], PI - angles["azimuth"], 0)
+	sky_light.rotation = Vector3(-angles["altitude"], PI - angles["azimuth"], 0)
 	
 	apply_light_energy()
 
@@ -84,7 +85,7 @@ func apply_light_energy():
 	sky_light.light_energy = 2.0 - remap(sqrt_cloud_cov, 0, 1, 0, 1)
 	environment.ssao_intensity = 3.0 + remap(sqrt_cloud_cov, 0, 1, 0, 5)
 	
-	var altitude = rad_to_deg(-light.rotation.x)
+	var altitude = rad_to_deg(-sky_light.rotation.x)
 	# Sunrise/sunset
 	if altitude > light_disabled_altitude and altitude < light_darken_begin_altitude:
 		_set_directional_light_energy(directional_energy * 
@@ -95,7 +96,7 @@ func apply_light_energy():
 		environment.ambient_light_energy = 0.0
 	else:
 		_set_directional_light_energy(directional_energy)
-		environment.ambient_light_energy = directional_energy / brightest_light_energy
+		environment.ambient_light_energy = (directional_energy / brightest_light_energy) * 0.1
 
 
 func _set_directional_light_energy(new_energy):
