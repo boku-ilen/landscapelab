@@ -191,12 +191,17 @@ void fragment() {
 	vec3 normal = texture(uv_normals, UV * 10.0).rgb;
 	vec3 world_normal = texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz;
 	vec3 high_frequency_normal = texture(high_frequency_noise, worldpos.xz * world_space_normal_scale * 2.0).xyz;
-	NORMAL_MAP = world_normal + high_frequency_normal * 2.0;//mix(world_normal, high_frequency_normal, 0.5);
+	NORMAL_MAP = normalize(world_normal + high_frequency_normal * 2.0);//mix(world_normal, high_frequency_normal, 0.5);
 	NORMAL_MAP_DEPTH = 0.15;
 
 	METALLIC = 0.0;
-	ROUGHNESS = 1.0;// - color.g * 0.5;
-	SPECULAR = 0.1;
+	
+	// hue of -1.6 is approximately the middle of green.
+	// we want the roughness to go from small (when green) to large (when not green)
+	float greenness = clamp(pow(abs(hcy.r + 1.6) * 4.0, 4.0), 0.0, 1.0);
+	
+	ROUGHNESS = mix(0.65, 0.95, greenness);
+	SPECULAR = 0.15;
 }
 
 //void light() {

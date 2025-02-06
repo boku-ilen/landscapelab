@@ -130,14 +130,24 @@ void fragment() {
 	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0);
 	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0);
 
-	ALBEDO = HCYtoRGB(hcy) * generate_darken_gradient(UV.y, 0.65, 0.75, 0.0); // Gradient is wrong here, in future should be in AO (but currently not doing much there)
-	//ALBEDO = HCYtoRGB(hcy);
+	ALBEDO = HCYtoRGB(hcy);
 
 	// Other material parameters
 	//RIM = 0.4;
-	//AO = generate_darken_gradient(UV.y, 1.0, 0.6, 0.0); // Currently not doing much, because Rough + Spec are wrong. In future, use Gradient here instead of Albedo!
+	AO_LIGHT_AFFECT = 0.9;
+	AO = generate_darken_gradient(UV.y, 1.0, 0.6, 0.0); // Currently not doing much, because Rough + Spec are wrong. In future, use Gradient here instead of Albedo!
 	NORMAL_MAP = generate_normal_from_albedo(texture_map[int(round(dist_id))], UV, vec4(0.7, 0.7, 0.7, 0.8), 0.05, 1.0);
+	NORMAL_MAP_DEPTH = 1.0;
 	METALLIC = 0.0;
-	ROUGHNESS = 0.95;// - color.g * 0.5;
-	SPECULAR = 0.1;
+	
+	// hue of -1.6 is approximately the middle of green.
+	// we want the roughness to go from small (when green) to large (when not green)
+	float greenness = clamp(pow(abs(hcy.r + 1.6) * 4.0, 4.0), 0.0, 1.0);
+	
+	ROUGHNESS = mix(0.65, 0.95, greenness);
+	SPECULAR = mix(0.05, 0.17, AO);
+	
+	//ALBEDO = mix(ALBEDO,
+		//vec3(mix(0.25, 0.85, pow(abs(hcy.r + 1.7), 2.0))),
+		//step(0.0, sin(TIME * 2.0)));
 }
