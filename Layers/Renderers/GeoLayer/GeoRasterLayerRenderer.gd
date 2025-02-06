@@ -22,10 +22,17 @@ var r_func = func(existing_plane, texture):
 		existing_plane.get_material().set_shader_parameter("NODATA", layer_definition.render_info.no_data)
 	existing_plane.get_material().set_shader_parameter("tex", texture)
 var rgb_func = func(existing_plane, texture): existing_plane.texture = texture
+var rgba_func = func(existing_plane, texture): 
+	if not existing_plane.material:
+		existing_plane.material = ShaderMaterial.new()
+		existing_plane.material.shader = load("res://Layers/Renderers/GeoLayer/FORMAT_RGBA.gdshader")
+		existing_plane.get_material().set_shader_parameter("NODATA", layer_definition.render_info.no_data)
+	existing_plane.get_material().set_shader_parameter("tex", texture)
+	
 
 var format_function_dict = {
 	Image.FORMAT_RGB8: rgb_func,
-	Image.FORMAT_RGBA8: rgb_func,
+	Image.FORMAT_RGBA8: rgba_func,
 	Image.FORMAT_RF: r_func, 
 	Image.FORMAT_R8: r_func
 }
