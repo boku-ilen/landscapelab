@@ -15,6 +15,9 @@ extends HBoxContainer
 var pos_manager: PositionManager
 var pc_player: AbstractPlayer
 var current_poi_layer: LayerComposition
+var last_teleport_name: String
+
+signal teleported(poi_name: String)
 
 
 func _ready():
@@ -103,6 +106,9 @@ func _on_feature_select(item_id):
 	global_pos.y = $VBoxContainer/ItemList.get_item_metadata(item_id)["height"]
 	teleport_to_coordinates(global_pos, true)
 	release_focus()
+	
+	last_teleport_name = $VBoxContainer/ItemList.get_item_text(item_id)
+	teleported.emit(last_teleport_name)
 
 
 func _on_add_pressed():

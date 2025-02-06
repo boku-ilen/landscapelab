@@ -4,6 +4,9 @@ extends BoxContainer
 var pos_manager: PositionManager
 var time_manager: TimeManager
 
+@export var teleport_menu: Control
+@export var scenario_menu: Control
+
 #FIXME: use a calendar for timeseries
 
 func _ready():
@@ -18,11 +21,21 @@ func _toggle_time_series(toggled: bool):
 
 func _on_screenshot():
 	if not $Inputs/CheckBoxTimeSeries.is_pressed():
-		Screencapture.screenshot(
-			$Inputs/ScreenShotName.text,
-			$Inputs/UpscaleViewport.value,
-			$Inputs/PlantExtent.value
-		)
+		if $Inputs/CheckBoxAllScenarios.is_pressed():
+			for scenario in Scenarios.scenarios:
+				scenario.activate()
+				
+				Screencapture.screenshot(
+					$Inputs/UpscaleViewport.value,
+					teleport_menu.last_teleport_name + "-" + scenario.name
+				)
+				
+				await Screencapture.screenshot_finished
+		else:
+			Screencapture.screenshot(
+					$Inputs/UpscaleViewport.value,
+					teleport_menu.last_teleport_name
+				)
 	else:
 		var prev_datetime = time_manager.datetime
 		var current_datetime = $Inputs/TimeSeriesContainer/From.value
@@ -35,7 +48,6 @@ func _on_screenshot():
 			time_manager.set_time(current_datetime, 0)
 			await get_tree().process_frame
 			Screencapture.screenshot(
-				$Inputs/ScreenShotName.text,
 				$Inputs/UpscaleViewport.value,
 				"-%d" % interval_idx
 			)
