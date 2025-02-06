@@ -65,7 +65,6 @@ func apply_wind():
 
 
 func apply_datetime(datetime: Dictionary):
-	brightest_light_energy = 3.0
 	# TODO: Replace with real lon/lat values
 	var angles = SunPosition.get_solar_angles_for_datetime(datetime, 48.0, 15.0)
 	
@@ -86,6 +85,10 @@ func apply_light_energy():
 	environment.ssao_intensity = 3.0 + remap(sqrt_cloud_cov, 0, 1, 0, 5)
 	
 	var altitude = rad_to_deg(-sky_light.rotation.x)
+	
+	# Light is more intensely yellow in the morning and evening
+	light.light_color.s = clamp(remap(abs(altitude), 5.0, 35.0, 0.4, 0.15), 0.15, 0.5)
+	
 	# Sunrise/sunset
 	if altitude > light_disabled_altitude and altitude < light_darken_begin_altitude:
 		_set_directional_light_energy(directional_energy * 

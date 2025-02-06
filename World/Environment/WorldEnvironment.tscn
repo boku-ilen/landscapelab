@@ -19,10 +19,10 @@ shader_parameter/_density = 0.05
 shader_parameter/cloud_coverage = 0.32
 shader_parameter/_time_offset = 0.0
 shader_parameter/rayleigh = 2.0
-shader_parameter/rayleigh_color = Color(0.186, 0.2945, 0.62, 1)
+shader_parameter/rayleigh_color = Color(0.065, 0.21125, 0.65, 1)
 shader_parameter/mie = 0.005
 shader_parameter/mie_eccentricity = 0.8
-shader_parameter/mie_color = Color(0.2673, 0.529605, 0.81, 1)
+shader_parameter/mie_color = Color(0.648, 0.6885, 0.81, 1)
 shader_parameter/turbidity = 10.0
 shader_parameter/sun_disk_scale = 1.0
 shader_parameter/ground_color = Color(1, 1, 1, 1)
@@ -58,8 +58,8 @@ fog_enabled = true
 fog_aerial_perspective = 1.0
 fog_sky_affect = 0.0
 adjustment_enabled = true
-adjustment_contrast = 1.2
-adjustment_saturation = 1.15
+adjustment_contrast = 1.1
+adjustment_saturation = 1.1
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("2")
@@ -76,7 +76,7 @@ sky_mode = 2
 [node name="WorldLight" type="DirectionalLight3D" parent="SkyLight"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 layers = 34679
-light_color = Color(1, 0.996078, 0.901961, 1)
+light_color = Color(1, 0.995, 0.85, 1)
 light_energy = 4.0
 light_bake_mode = 0
 shadow_enabled = true
