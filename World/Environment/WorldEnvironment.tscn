@@ -19,7 +19,7 @@ shader_parameter/_density = 0.05
 shader_parameter/cloud_coverage = 0.32
 shader_parameter/_time_offset = 0.0
 shader_parameter/rayleigh = 2.0
-shader_parameter/rayleigh_color = Color(0.065, 0.21125, 0.65, 1)
+shader_parameter/rayleigh_color = Color(0.0975, 0.235625, 0.65, 1)
 shader_parameter/mie = 0.005
 shader_parameter/mie_eccentricity = 0.8
 shader_parameter/mie_color = Color(0.648, 0.6885, 0.81, 1)
@@ -74,7 +74,6 @@ directional_shadow_max_distance = 500.0
 sky_mode = 2
 
 [node name="WorldLight" type="DirectionalLight3D" parent="SkyLight"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 layers = 34679
 light_color = Color(1, 0.995, 0.85, 1)
 light_energy = 4.0

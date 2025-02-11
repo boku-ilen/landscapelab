@@ -139,14 +139,14 @@ void fragment() {
 	NORMAL_MAP = generate_normal_from_albedo(texture_map[int(round(dist_id))], UV, vec4(0.7, 0.7, 0.7, 0.8), 0.05, 1.0);
 	NORMAL_MAP_DEPTH = 1.0;
 	METALLIC = 0.0;
-	
+
 	// hue of -1.6 is approximately the middle of green.
 	// we want the roughness to go from small (when green) to large (when not green)
 	float greenness = clamp(pow(abs(hcy.r + 1.6) * 4.0, 4.0), 0.0, 1.0);
-	
+
 	ROUGHNESS = mix(0.65, 0.95, greenness);
 	SPECULAR = mix(0.05, 0.17, AO);
-	
+
 	//ALBEDO = mix(ALBEDO,
 		//vec3(mix(0.25, 0.85, pow(abs(hcy.r + 1.7), 2.0))),
 		//step(0.0, sin(TIME * 2.0)));

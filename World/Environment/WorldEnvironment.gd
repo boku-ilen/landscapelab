@@ -14,11 +14,20 @@ var light_disabled_altitude = 3.0
 
 
 func apply_visibility(new_visibility):
-	environment.fog_density = remap(new_visibility, 0., 100., 0.00002, 0.0008)
+	environment.fog_density = remap(new_visibility, 0., 100., 0.00004, 0.001)
 	
 	# Enable volumetric fog only above a certain threshold
-	environment.volumetric_fog_enabled = new_visibility > 40
-	environment.volumetric_fog_density = remap(new_visibility, 40., 100., 0.000, 0.045)
+	environment.volumetric_fog_enabled = new_visibility > 70
+	environment.volumetric_fog_density = remap(new_visibility, 70., 100., 0.000, 0.045)
+	
+	const blue_color = Color("#193ca6")
+	const gray_color = Color("#426994")
+	var new_color = Color.from_hsv(
+		lerp(blue_color.h, gray_color.h, new_visibility / 100.0),
+		lerp(blue_color.s, gray_color.s, new_visibility / 100.0),
+		lerp(blue_color.v, gray_color.v, new_visibility / 100.0)
+	)
+	environment.sky.get_material().set_shader_parameter("rayleigh_color", new_color)
 
 
 func apply_rain_enabled(enabled: bool):
