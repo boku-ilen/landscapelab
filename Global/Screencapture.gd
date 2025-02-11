@@ -15,14 +15,10 @@ func _input(event):
 
 
 func screenshot(
-					image_name := "photo-%s-%s.png" % \
-						[Time.get_datetime_string_from_system(),
-						pos_manager.get_center_node_world_position()],
 					upscale_viewport := 2.0,
 					name_extension := ""
 				):
-	if image_name == null or image_name == "": 
-		image_name = "photo-%s-%s%s.png" % \
+	var image_name = "photo-%s-%s%s.png" % \
 					[Time.get_datetime_string_from_system(),
 					pos_manager.get_center_node_world_position(),
 					name_extension]

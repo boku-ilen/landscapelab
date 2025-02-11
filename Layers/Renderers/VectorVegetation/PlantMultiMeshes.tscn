@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ppd2jmmwfxin"]
 
-[ext_resource type="Script" path="res://Layers/Renderers/VectorVegetation/PlantMultiMeshes.gd" id="1_anpk1"]
+[ext_resource type="Script" uid="uid://ccn5eo6kujrbf" path="res://Layers/Renderers/VectorVegetation/PlantMultiMeshes.gd" id="1_anpk1"]
 
 [node name="PlantMultiMeshes" type="Node3D"]
 script = ExtResource("1_anpk1")

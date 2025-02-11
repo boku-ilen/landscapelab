@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=9 format=3 uid="uid://cvsqs2g3lwdiv"]
 
-[ext_resource type="Shader" path="res://Layers/Renderers/Terrain/FakeVegetation.gdshader" id="1_gith2"]
+[ext_resource type="Shader" uid="uid://bxnew4mm7p0yn" path="res://Layers/Renderers/Terrain/FakeVegetation.gdshader" id="1_gith2"]
 [ext_resource type="Texture2D" uid="uid://duhjv68uoyu3c" path="res://Resources/Textures/Plants/gr-triticum-01.png" id="2_a0cxw"]
 [ext_resource type="Texture2D" uid="uid://bok1q0cfq8nab" path="res://Resources/Textures/ShaderUtil/distance_plant_uv.png" id="3_r6lg5"]
 [ext_resource type="Texture2D" uid="uid://bya3n1u326m70" path="res://Layers/Renderers/RasterVegetation/WorldSpaceNormal.tres" id="4_1wf6m"]
@@ -28,12 +28,12 @@ render_priority = 0
 shader = ExtResource("1_gith2")
 shader_parameter/height_scale = 1.0
 shader_parameter/use_landuse_overlay = true
-shader_parameter/world_space_normal_scale = 0.007
-shader_parameter/size = null
 shader_parameter/uv_offset = ExtResource("3_r6lg5")
 shader_parameter/uv_normals = SubResource("NoiseTexture2D_ty70j")
 shader_parameter/plant = ExtResource("2_a0cxw")
 shader_parameter/world_space_normal_map = ExtResource("4_1wf6m")
+shader_parameter/world_space_normal_scale = 0.007
 shader_parameter/high_frequency_noise = SubResource("NoiseTexture2D_m8fxp")
 shader_parameter/distribution_array = null
 shader_parameter/texture_map = null
+shader_parameter/size = null

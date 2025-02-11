@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://88rg1t88n3e7"]
 
-[ext_resource type="Script" path="res://UI/Screenshot/ScreenshotMenu.gd" id="1"]
+[ext_resource type="Script" uid="uid://g6t53p30si8y" path="res://UI/Screenshot/ScreenshotMenu.gd" id="1"]
 
 [node name="Control" type="HBoxContainer"]
 anchors_preset = 15
@@ -29,6 +29,10 @@ text = "Plant extent: "
 layout_mode = 2
 text = "Enable time-series:"
 
+[node name="TimeSeries2" type="Label" parent="Labels"]
+layout_mode = 2
+text = "All Scenarios:"
+
 [node name="TimeSeriesLabels" type="VBoxContainer" parent="Labels"]
 visible = false
 layout_mode = 2
@@ -56,7 +60,7 @@ placeholder_text = "user://image.png"
 layout_mode = 2
 max_value = 4.0
 step = 0.1
-value = 1.0
+value = 2.0
 
 [node name="PlantExtent" type="SpinBox" parent="Inputs"]
 layout_mode = 2
@@ -65,6 +69,10 @@ step = 0.5
 value = 6.0
 
 [node name="CheckBoxTimeSeries" type="CheckBox" parent="Inputs"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="CheckBoxAllScenarios" type="CheckBox" parent="Inputs"]
 layout_mode = 2
 size_flags_horizontal = 0
 

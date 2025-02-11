@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxfhgvhgn0avm"]
 
-[ext_resource type="Script" path="res://UI/Scenarios/ScenarioWidget.gd" id="1"]
+[ext_resource type="Script" uid="uid://dpa5emcfwsslh" path="res://UI/Scenarios/ScenarioWidget.gd" id="1"]
 [ext_resource type="Theme" uid="uid://dsbyviyb5cpke" path="res://UI/Theme/LayerWidget.tres" id="2"]
 
 [node name="ScenarioWidget" type="VBoxContainer"]

@@ -1,14 +1,14 @@
 [gd_scene load_steps=11 format=3 uid="uid://3h4ychvi0yw0"]
 
-[ext_resource type="Script" path="res://Perspectives/PC/PlayerController.gd" id="1"]
-[ext_resource type="Script" path="res://Perspectives/PC/SettingsCamera.gd" id="2"]
-[ext_resource type="Script" path="res://Perspectives/PC/VRDirectionIndicator.gd" id="4"]
-[ext_resource type="Script" path="res://Editing/ActionHandler.gd" id="4_ru6dm"]
+[ext_resource type="Script" uid="uid://cd55afwvr1us6" path="res://Perspectives/PC/PlayerController.gd" id="1"]
+[ext_resource type="Script" uid="uid://4bmau4ddb5y3" path="res://Perspectives/PC/SettingsCamera.gd" id="2"]
+[ext_resource type="Script" uid="uid://durwbagcuka0q" path="res://Perspectives/PC/VRDirectionIndicator.gd" id="4"]
+[ext_resource type="Script" uid="uid://bld78qvrrickc" path="res://Editing/ActionHandler.gd" id="4_ru6dm"]
 [ext_resource type="PackedScene" uid="uid://4pb0ommg5l3g" path="res://Perspectives/Tracking/ParentTracker.tscn" id="7"]
-[ext_resource type="Script" path="res://Communication/SetPositionRequestHandler.gd" id="8"]
+[ext_resource type="Script" uid="uid://bkswbepj5vxif" path="res://Communication/SetPositionRequestHandler.gd" id="8"]
 [ext_resource type="Texture2D" uid="uid://bxy40aj51eghh" path="res://Resources/Icons/ModernLandscapeLab/positionindicator.svg" id="9"]
 [ext_resource type="PackedScene" uid="uid://smxcuwyafd66" path="res://Perspectives/PC/VRSubviewPort.tscn" id="9_sfca8"]
-[ext_resource type="Script" path="res://Perspectives/PC/AutoCamera.gd" id="10_cs7ku"]
+[ext_resource type="Script" uid="uid://dhush7q68w75n" path="res://Perspectives/PC/AutoCamera.gd" id="10_cs7ku"]
 
 [sub_resource type="SeparationRayShape3D" id="1"]
 length = 1.65

@@ -75,20 +75,20 @@ void fragment() {
 render_priority = 0
 shader = SubResource("Shader_g7p5j")
 shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_kvngk")
 shader_parameter/alpha_scissor_threshold = 0.15
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 0.8
 shader_parameter/metallic_texture_channel = null
 shader_parameter/specular = 0.1
 shader_parameter/metallic = 0.0
+shader_parameter/texture_normal = ExtResource("3_s3y5q")
 shader_parameter/normal_scale = 1.0
 shader_parameter/backlight = Color(0.3, 0.3, 0.213, 1)
 shader_parameter/uv1_scale = Vector3(1, 1, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/texture_albedo = ExtResource("2_kvngk")
-shader_parameter/texture_normal = ExtResource("3_s3y5q")
 
 [resource]
 _surfaces = [{

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://hls5omqtjkj5"]
 
-[ext_resource type="Script" path="res://Layers/Renderers/Terrain/ExtraLOD.gd" id="1"]
+[ext_resource type="Script" uid="uid://b62yi27l1x7d7" path="res://Layers/Renderers/Terrain/ExtraLOD.gd" id="1"]
 
 [node name="ExtraLOD" type="MeshInstance3D"]
 cast_shadow = 0

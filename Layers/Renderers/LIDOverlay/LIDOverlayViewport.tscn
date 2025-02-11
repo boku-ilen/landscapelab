@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cqv4mdm0thwg4"]
 
-[ext_resource type="Script" path="res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.gd" id="1_xsciu"]
+[ext_resource type="Script" uid="uid://brws7xjn1owkt" path="res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.gd" id="1_xsciu"]
 
 [sub_resource type="Environment" id="Environment_t6cpk"]
 background_mode = 1

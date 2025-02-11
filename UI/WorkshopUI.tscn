@@ -1,25 +1,25 @@
 [gd_scene load_steps=25 format=3 uid="uid://bl5lx26teq32x"]
 
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1_camgg"]
-[ext_resource type="Script" path="res://UI/MainUI.gd" id="2_50bpg"]
+[ext_resource type="Script" uid="uid://do2srxetpcg3x" path="res://UI/MainUI.gd" id="2_50bpg"]
 [ext_resource type="PackedScene" uid="uid://csad5ev7rwtoe" path="res://UI/MenuBar/MenuBar.tscn" id="3_0e7kf"]
-[ext_resource type="Script" path="res://UI/UISplit.gd" id="7_qganc"]
-[ext_resource type="Script" path="res://UI/UIDock.gd" id="8_cvnpk"]
+[ext_resource type="Script" uid="uid://c6rt0tsv5pxkt" path="res://UI/UISplit.gd" id="7_qganc"]
+[ext_resource type="Script" uid="uid://cmahpgw7xcr3j" path="res://UI/UIDock.gd" id="8_cvnpk"]
 [ext_resource type="PackedScene" uid="uid://pmmpjdicjvjs" path="res://UI/TeleportMenu/TeleportMenu.tscn" id="9_ihcun"]
 [ext_resource type="PackedScene" uid="uid://dkvdbwaqhrbnn" path="res://UI/Weather/WeatherUI.tscn" id="10_md1vd"]
 [ext_resource type="PackedScene" uid="uid://b8ds7fe8e4ej4" path="res://Util/HCYShift/HCYShift.tscn" id="11_4o42c"]
 [ext_resource type="PackedScene" uid="uid://cckl23qaxw3h8" path="res://UI/Datetime/Datetime.tscn" id="11_mx3ou"]
 [ext_resource type="PackedScene" uid="uid://88rg1t88n3e7" path="res://UI/Screenshot/ScreenshotMenu.tscn" id="12_uackt"]
-[ext_resource type="Script" path="res://UI/WorldUI.gd" id="13_flqmn"]
-[ext_resource type="Script" path="res://UI/WorldViewPort.gd" id="14_dbua3"]
+[ext_resource type="Script" uid="uid://cetrkuf4xyl22" path="res://UI/WorldUI.gd" id="13_flqmn"]
+[ext_resource type="Script" uid="uid://cpbqfleeytn3v" path="res://UI/WorldViewPort.gd" id="14_dbua3"]
 [ext_resource type="PackedScene" uid="uid://dq360hhqtol4f" path="res://World/World.tscn" id="15_w6bxo"]
 [ext_resource type="PackedScene" uid="uid://cnhf1t4exg0ww" path="res://UI/PlayerCompass.tscn" id="16_gc550"]
 [ext_resource type="PackedScene" uid="uid://dl4m3ovxk1e8q" path="res://Util/Debug/Rendering/debugviewer.tscn" id="17_bf01u"]
 [ext_resource type="Texture2D" uid="uid://copq7sq4f0uom" path="res://Resources/Icons/ModernLandscapeLab/loading.png" id="18_4cale"]
-[ext_resource type="Script" path="res://UI/LoadingCircle.gd" id="19_kawgs"]
+[ext_resource type="Script" uid="uid://d1m24f3helx0l" path="res://UI/LoadingCircle.gd" id="19_kawgs"]
 [ext_resource type="PackedScene" uid="uid://dsaj5k71mnup0" path="res://UI/DebugInfo/DebugInfo.tscn" id="20_31opc"]
 [ext_resource type="PackedScene" uid="uid://osbeo8c4meg5" path="res://UI/GameSystem/GameUI.tscn" id="21_imvbf"]
-[ext_resource type="Script" path="res://UI/UILicenses.gd" id="23_0efql"]
+[ext_resource type="Script" uid="uid://diyolclp7868s" path="res://UI/UILicenses.gd" id="23_0efql"]
 [ext_resource type="PackedScene" uid="uid://b6afbctk6vsju" path="res://UI/Minimap/MinimapViewport.tscn" id="24_tvbf0"]
 [ext_resource type="PackedScene" uid="uid://c1qrnycjr7pqq" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.tscn" id="25_78xvv"]
 [ext_resource type="PackedScene" uid="uid://bhicpel2rgc1f" path="res://UI/Layers/LayerConfiguration/GeoLayerUI.tscn" id="26_xg76v"]
@@ -87,10 +87,11 @@ script = ExtResource("7_qganc")
 [node name="Top" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-current_tab = 0
+current_tab = 1
 script = ExtResource("8_cvnpk")
 
 [node name="WeatherUI" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("10_md1vd")]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -99,17 +100,17 @@ weather_manager = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/Worl
 player = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
 
 [node name="TeleportMenu" parent="MarginContainer/VBoxContainer/Left/Tabs/Top" instance=ExtResource("9_ihcun")]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs"]
 layout_mode = 2
-current_tab = 0
+current_tab = 3
 drag_to_rearrange_enabled = true
 script = ExtResource("8_cvnpk")
 
 [node name="Datetime" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("11_mx3ou")]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -126,9 +127,10 @@ metadata/_tab_index = 2
 [node name="LayerCompositionUIConfig" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot/LayerCompositionUI" index="0"]
 position_manager_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 
-[node name="Screenshot" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("12_uackt")]
-visible = false
+[node name="Screenshot" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" node_paths=PackedStringArray("teleport_menu", "scenario_menu") instance=ExtResource("12_uackt")]
 layout_mode = 2
+teleport_menu = NodePath("../../Top/TeleportMenu")
+scenario_menu = NodePath("../Scenarios")
 metadata/_tab_index = 3
 
 [node name="HcyShift" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" instance=ExtResource("11_4o42c")]
@@ -173,7 +175,7 @@ script = ExtResource("14_dbua3")
 handle_input_locally = false
 texture_mipmap_bias = -1.0
 gui_disable_input = true
-size = Vector2i(852, 808)
+size = Vector2i(833, 668)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_w6bxo")]

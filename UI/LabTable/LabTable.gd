@@ -29,7 +29,7 @@ extends Control
 @export var debug_mode := false
 @export var run_brick_detection := true
 
-var current_goc_name = "Placed Wind Turbines"
+var current_goc_name = "Placed Wind Farms"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")

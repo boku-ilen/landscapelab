@@ -116,7 +116,7 @@ void vertex() {
 
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
-	VERTEX.y += max(0.2, (dist_value.g * 255.0 + dist_value.b) * float(distribution_id > 0));
+	VERTEX.y += max(0.1, (dist_value.g * 255.0 + dist_value.b) * float(distribution_id > 0) * 0.75);
 }
 
 void fragment() {
@@ -183,20 +183,25 @@ void fragment() {
 
 	ALBEDO = HCYtoRGB(hcy);
 	//ALBEDO = plant_sample.rgb * 1.3;
-	ALPHA = min(0.95, plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)));
-	ALPHA *= smoothstep(50.0, 110.0, length((camera_pos - worldpos)));
+	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), 0.75, 0.99);
+	ALPHA *= smoothstep(90.0, 110.0, length((camera_pos - worldpos)));
 
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 
 	vec3 normal = texture(uv_normals, UV * 10.0).rgb;
 	vec3 world_normal = texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz;
 	vec3 high_frequency_normal = texture(high_frequency_noise, worldpos.xz * world_space_normal_scale * 2.0).xyz;
-	NORMAL_MAP = world_normal + high_frequency_normal * 2.0;//mix(world_normal, high_frequency_normal, 0.5);
+	NORMAL_MAP = normalize(world_normal + high_frequency_normal * 2.0);//mix(world_normal, high_frequency_normal, 0.5);
 	NORMAL_MAP_DEPTH = 0.15;
 
 	METALLIC = 0.0;
-	ROUGHNESS = 1.0;// - color.g * 0.5;
-	SPECULAR = 0.1;
+	
+	// hue of -1.6 is approximately the middle of green.
+	// we want the roughness to go from small (when green) to large (when not green)
+	float greenness = clamp(pow(abs(hcy.r + 1.6) * 4.0, 4.0), 0.0, 1.0);
+	
+	ROUGHNESS = mix(0.65, 0.95, greenness);
+	SPECULAR = 0.15;
 }
 
 //void light() {
