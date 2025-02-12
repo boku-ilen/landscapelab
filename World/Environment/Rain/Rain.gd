@@ -54,6 +54,8 @@ func set_enabled(enabled: bool):
 			child.visible = enabled
 		if child is GPUParticles3D:
 			child.emitting = enabled
+		if child is GPUParticlesCollisionHeightField3D:
+			child.heightfield_mask = 5 * float(enabled)
 
 
 func set_rain_density(_density: float):

@@ -1,7 +1,8 @@
 [gd_scene load_steps=35 format=3 uid="uid://b5nxph2mew1en"]
 
 [ext_resource type="Material" uid="uid://bllptn8dbfhrf" path="res://World/Environment/Rain/SplashesRipples/RainSplashMaterial.tres" id="1_omuh0"]
-[ext_resource type="Script" path="res://World/Environment/Rain/Rain.gd" id="1_sn4rj"]
+[ext_resource type="Script" uid="uid://dgm1f50o5wvby" path="res://World/Environment/Rain/Rain.gd" id="1_sn4rj"]
+[ext_resource type="Texture2D" uid="uid://d1cxh40qkkqv7" path="res://World/Environment/Rain/Resources/rain_drop.png" id="2_5suog"]
 [ext_resource type="Material" path="res://World/Environment/Rain/Fog/RainFogMaterial.tres" id="2_cdord"]
 [ext_resource type="CompressedTexture3D" uid="uid://c4dp6g6gouj2b" path="res://addons/clouds/worlnoise.bmp" id="4_lni81"]
 
@@ -11,18 +12,17 @@ emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 10.0
 emission_ring_radius = 20.0
 emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
 direction = Vector3(0, -1, 0)
 spread = 0.0
-initial_velocity_min = 0.05
-initial_velocity_max = 0.1
-scale_min = 0.5
-scale_max = 1.5
+initial_velocity_min = 10.0
+initial_velocity_max = 12.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.4
+scale_max = 0.6
 collision_mode = 2
 sub_emitter_mode = 3
 sub_emitter_amount_at_collision = 2
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kxuqp"]
-load_path = "res://.godot/imported/rain_drop.png-d61568818c12b4d71218cfdbf7a0b3fe.s3tc.ctex"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4hc0k"]
 transparency = 1
@@ -30,7 +30,7 @@ blend_mode = 1
 cull_mode = 2
 shading_mode = 2
 diffuse_mode = 1
-albedo_texture = SubResource("CompressedTexture2D_kxuqp")
+albedo_texture = ExtResource("2_5suog")
 rim = 0.0
 rim_tint = 0.0
 subsurf_scatter_strength = 1.0
@@ -41,7 +41,9 @@ distance_fade_max_distance = 1.2
 
 [sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_dvask"]
 material = SubResource("StandardMaterial3D_4hc0k")
-size = 0.03
+size = 0.02
+section_length = 0.5
+section_segments = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ntu3q"]
 load_path = "res://.godot/imported/sheet_straight.png-9fba1f0f9ac8464ddecf8898d05141df.s3tc.ctex"
@@ -64,6 +66,7 @@ emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 0.0
 emission_ring_radius = 40.0
 emission_ring_inner_radius = 20.0
+emission_ring_cone_angle = 90.0
 direction = Vector3(0, -1, 0)
 spread = 0.0
 attractor_interaction_enabled = false
@@ -124,6 +127,7 @@ emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 0.0
 emission_ring_radius = 5.0
 emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
 direction = Vector3(0, 0, 0)
 gravity = Vector3(0, 0, 0)
 scale_min = 0.285
@@ -136,6 +140,7 @@ sub_emitter_amount_at_end = 1
 [sub_resource type="QuadMesh" id="QuadMesh_kyx58"]
 material = ExtResource("1_omuh0")
 size = Vector2(0.6, 0.3)
+center_offset = Vector3(0, 0.59, 0)
 
 [sub_resource type="Gradient" id="Gradient_6mv7l"]
 offsets = PackedFloat32Array(0, 0.378049, 0.548781, 0.988506, 1)
@@ -157,6 +162,7 @@ emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 0.0
 emission_ring_radius = 5.0
 emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
 angle_max = 360.0
 direction = Vector3(0, 0, 0)
 gravity = Vector3(0, 0, 0)
@@ -198,6 +204,7 @@ emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 1.0
 emission_ring_radius = 55.0
 emission_ring_inner_radius = 45.0
+emission_ring_cone_angle = 90.0
 gravity = Vector3(0, 0, 0)
 radial_accel_min = 0.01
 radial_accel_max = 0.1
@@ -230,7 +237,7 @@ amount = 10000
 sub_emitter = NodePath("../RainSplashes")
 collision_base_size = 0.1
 trail_enabled = true
-trail_lifetime = 0.1
+trail_lifetime = 0.2
 process_material = SubResource("ParticleProcessMaterial_cbhvf")
 draw_pass_1 = SubResource("RibbonTrailMesh_dvask")
 
@@ -284,10 +291,11 @@ process_material = SubResource("ParticleProcessMaterial_15msd")
 draw_pass_1 = SubResource("QuadMesh_dcw65")
 
 [node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="."]
-layers = 4
+layers = 5
+cull_mask = 4293918725
 size = Vector3(30, 10, 30)
-resolution = 3
 follow_camera_enabled = true
+heightfield_mask = 5
 
 [node name="RainVolumeFog" type="FogVolume" parent="."]
 visible = false

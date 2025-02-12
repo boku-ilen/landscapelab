@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3]
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b2uknoxn0liji"]
 
 [ext_resource type="Texture2D" uid="uid://d1cxh40qkkqv7" path="res://World/Environment/Rain/Resources/rain_drop.png" id="1_5al4v"]
 
