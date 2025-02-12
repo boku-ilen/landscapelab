@@ -122,18 +122,18 @@ void vertex() {
 void fragment() {
 	int distribution_id = 0;
 	vec3 dist_value;
-	
+
 	float highest_height = 0.0;
-	
+
 	for (float x_off = -2.0; x_off <= 2.0; x_off += 2.0) {
 		for (float y_off = -2.0; y_off <= 2.0; y_off += 2.0) {
 			vec2 offset = vec2(x_off, y_off) / size;
 			int splatmap_value = int(round(get_landuse(UV + offset)));
 			int distribution_id_here = int(round(texelFetch(row_ids, ivec2(splatmap_value, 0), 0).r * 255.0));
 			vec3 dist_value_here = texture(distribution_array[distribution_id_here - 1], (worldpos.xz) / float(DISTRIBUTION_RESOLUTION)).rgb;
-			
+
 			float height_here = max(0.2, (dist_value_here.g * 255.0 + dist_value_here.b) * float(distribution_id_here > 0));
-			
+
 			if (distribution_id_here != 0 && height_here > highest_height) {
 				distribution_id = distribution_id_here;
 				dist_value = dist_value_here;
@@ -178,28 +178,33 @@ void fragment() {
 //
 	float random_hue_shift = (0.9 - texture(world_space_normal_map, worldpos.xz / 512.0).z) * 1.6;
 	hcy.r += random_hue_shift;
-	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0) * 1.2;
-	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0) * 1.2;
-
+	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0);
+	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0);
+	
 	ALBEDO = HCYtoRGB(hcy);
-	//ALBEDO = plant_sample.rgb * 1.3;
+	
+	// At steeper angles, the vegetation tends to look darker since we see through more plants and
+	//  therefore see more of the self-shadowing
+	float view_angle = max(dot((INV_VIEW_MATRIX  * vec4(NORMAL, 0.0)).xyz, CAMERA_DIRECTION_WORLD), 0.0);
+	ALBEDO *= mix(0.85, 1.0, view_angle);
+	
 	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), 0.75, 0.99);
 	ALPHA *= smoothstep(90.0, 110.0, length((camera_pos - worldpos)));
-
+	ALPHA_HASH_SCALE = 1.0;
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 
 	vec3 normal = texture(uv_normals, UV * 10.0).rgb;
 	vec3 world_normal = texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz;
 	vec3 high_frequency_normal = texture(high_frequency_noise, worldpos.xz * world_space_normal_scale * 2.0).xyz;
 	NORMAL_MAP = normalize(world_normal + high_frequency_normal * 2.0);//mix(world_normal, high_frequency_normal, 0.5);
-	NORMAL_MAP_DEPTH = 0.15;
+	NORMAL_MAP_DEPTH = 0.5;
 
 	METALLIC = 0.0;
-	
+
 	// hue of -1.6 is approximately the middle of green.
 	// we want the roughness to go from small (when green) to large (when not green)
 	float greenness = clamp(pow(abs(hcy.r + 1.6) * 4.0, 4.0), 0.0, 1.0);
-	
+
 	ROUGHNESS = mix(0.65, 0.95, greenness);
 	SPECULAR = 0.15;
 }
