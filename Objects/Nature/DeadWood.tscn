@@ -1,8 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://bf4ttxhdl02yq"]
+[gd_scene load_steps=3 format=3 uid="uid://bf4ttxhdl02yq"]
 
 [ext_resource type="PackedScene" uid="uid://b70d16ou7efhp" path="res://Resources/Meshes/Trees/DeadWood.glb" id="1_vhved"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mn2jw"]
+radius = 6.0
+height = 22.0
 
 [node name="DeadWood" type="Node3D"]
 
 [node name="DeadWood" parent="." instance=ExtResource("1_vhved")]
 transform = Transform3D(18, 0, 0, 0, 18, 0, 0, 0, 18, -1, 0, 0)
+
+[node name="RemovalShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_mn2jw")
+disabled = true
