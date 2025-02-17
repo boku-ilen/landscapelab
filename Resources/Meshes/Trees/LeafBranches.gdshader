@@ -1,10 +1,18 @@
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_burley, specular_schlick_ggx;
+render_mode blend_mix, depth_prepass_alpha, cull_disabled, diffuse_burley, specular_schlick_ggx;
+
+#include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 
 uniform float alpha_scissor_threshold : hint_range(0.0, 1.0, 0.01) = 0.15;
 
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec3 albedo_multiply : source_color = vec3(1.0);
+uniform float albedo_node_rand_hue_branch : hint_range(0.0, 1.0) = 0.08;
+uniform float albedo_node_rand_hue_leaf : hint_range(0.0, 1.0) = 0.1;
+uniform float albedo_node_rand_chroma_branch : hint_range(0.0, 1.0) = 0.01;
+uniform float albedo_node_rand_chroma_leaf : hint_range(0.0, 1.0) = 0.005;
+uniform float albedo_node_rand_luma_branch : hint_range(0.0, 1.0) = 0.02;
+uniform float albedo_node_rand_luma_leaf : hint_range(0.0, 1.0) = 0.01;
 
 uniform sampler2D normal_tex : hint_normal, filter_linear_mipmap, repeat_enable;
 uniform float normal_strength : hint_range(-16.0, 16.0) = 1.0;
@@ -83,7 +91,25 @@ void fragment() {
 
 	vec4 albedo_w_alpha = texture(albedo_tex, base_uv);
 	vec3 rough_ao_trans = texture(rough_ao_transmission_tex, base_uv).rgb;
-
+	
+	// Randomised HYC Shifts of whole Albedo Tex depending on Node's Worldspace Position.
+	// Separate settings for Branch or Leaf (using Transmission Tex, unfortunately Branch changes mip-bleed over into Leaf) -> Make sure Trunk shader uses same calculation as branches!
+	// For organic randomisation: WS PosX shifts Hue, PosY shifts Chroma, PosZ shifts Luminance.
+	vec3 albedo_hcy = RGBtoHCY(albedo_w_alpha.rgb);
+	albedo_hcy.r += mix(
+		sin(NODE_POSITION_WORLD.x * 2.0 * PI * 71.33) * PI * albedo_node_rand_hue_branch,
+		sin(NODE_POSITION_WORLD.x * 2.0 * PI * 62.691) * PI * albedo_node_rand_hue_leaf,
+		rough_ao_trans.b);
+	albedo_hcy.g += mix(
+		sin(NODE_POSITION_WORLD.y * 132.935) * albedo_node_rand_chroma_branch,
+		sin(NODE_POSITION_WORLD.y * 538.217) * albedo_node_rand_chroma_leaf,
+		rough_ao_trans.b);
+	albedo_hcy.b += mix(
+		sin(NODE_POSITION_WORLD.z * 387.247) * albedo_node_rand_luma_branch,
+		sin(NODE_POSITION_WORLD.z * 239.871) * albedo_node_rand_luma_leaf,
+		rough_ao_trans.b);
+	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
+	
 	ALPHA = albedo_w_alpha.a;
 	ALPHA_SCISSOR_THRESHOLD = alpha_scissor_threshold;
 	ALBEDO = albedo_w_alpha.rgb * albedo_multiply.rgb;
