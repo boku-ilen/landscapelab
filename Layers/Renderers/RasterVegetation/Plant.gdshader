@@ -13,6 +13,7 @@ global uniform vec3 HCY_SHIFT;
 uniform sampler2D[100] texture_map : source_color, repeat_disable;
 
 uniform sampler2D world_space_normal_map: hint_normal, repeat_enable;
+uniform sampler2D wind_map;
 uniform float world_space_normal_scale = 0.007;
 
 uniform float amplitude = 0.1;
@@ -26,6 +27,7 @@ varying vec3 camera_pos;
 
 varying float dist_id;
 varying float random_hue_shift;
+varying float wind_strength;
 
 uniform bool is_billboard = true;
 
@@ -60,18 +62,30 @@ void vertex() {
 		ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
 		VERTEX += mesh_normal * (float(texture_size.x) / float(texture_size.y) - 1.0) * 0.5;
 	}
+	
+	float size = INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b;
 
+	// Scale by the size
+	VERTEX *= size;
+	
+	float wind_amount = texture(wind_map, worldpos.xz / 512.0 - TIME * speed / 2500.0).r;
+	vec2 wind_offset_vector = (inverse(MODEL_MATRIX) * vec4(speed.x, 0.0, speed.y, 0.0)).xz * wind_amount * 0.04;
+	
+	wind_strength = length(wind_offset_vector);
+	
 	// Move the upper vertices around for a wind wave effect
-	if (VERTEX.y > 0.3) {
-		VERTEX.x += amplitude * sin(worldpos.x * scale.x * 0.75 + TIME * speed.x) * cos(worldpos.z * scale.x + TIME * speed.x * 0.25);
-		VERTEX.z += amplitude * sin(worldpos.x * scale.y + TIME * speed.y * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed.y);
+	if (UV.y < 0.3) {
+		
+		VERTEX.xz += wind_offset_vector;
+		//NORMAL -= vec3(wind_offset_vector.x, 0.0, wind_offset_vector.y) * 0.8;
+		
+		float speed_length = length(speed);
+		VERTEX.x += 0.002 * sin(worldpos.x * scale.x * 0.75 + TIME * speed_length) * cos(worldpos.z * scale.x + TIME * speed_length * 0.25);
+		VERTEX.z += 0.002 * sin(worldpos.x * scale.y + TIME * speed_length * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed_length);
 
 		// Also bend them away from the camera to make it look better from above
 		//VERTEX.xz += (inverse(MODELVIEW_MATRIX) * vec4(0.0, 0.5, 0.0, 0.0)).xz * VERTEX.y;
 	}
-
-	// Scale by the size
-	VERTEX *= INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b;
 
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -135,7 +149,7 @@ void fragment() {
 	// Other material parameters
 	//RIM = 0.4;
 	AO_LIGHT_AFFECT = 0.9;
-	AO = generate_darken_gradient(UV.y, 1.0, 0.6, 0.0); // Currently not doing much, because Rough + Spec are wrong. In future, use Gradient here instead of Albedo!
+	AO = max(generate_darken_gradient(UV.y, 1.0, 0.6, 0.0) - wind_strength * 0.5, 0.0);
 	NORMAL_MAP = generate_normal_from_albedo(texture_map[int(round(dist_id))], UV, vec4(0.7, 0.7, 0.7, 0.8), 0.05, 1.0);
 	NORMAL_MAP_DEPTH = 1.0;
 	METALLIC = 0.0;

@@ -160,6 +160,5 @@ func apply_textures():
 	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, uv_offset_y))
 
 
-func apply_wind_speed(wind_speed):
-	material_override.set_shader_parameter("speed", Vector2(wind_speed, wind_speed) / 160.0)
-	material_override.set_shader_parameter("amplitude", wind_speed / 300.0)
+func apply_wind(wind_force):
+	material_override.set_shader_parameter("speed", wind_force)

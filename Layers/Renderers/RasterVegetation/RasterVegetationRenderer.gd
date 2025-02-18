@@ -11,23 +11,31 @@ var weather_manager: WeatherManager :
 	set(new_weather_manager):
 		weather_manager = new_weather_manager
 
-		weather_manager.connect("wind_speed_changed",Callable(self,"_on_wind_speed_changed"))
-		_on_wind_speed_changed(weather_manager.wind_speed)
+		weather_manager.connect("wind_speed_changed", func(new_speed):
+			_on_wind_changed(weather_manager.wind_speed, weather_manager.wind_direction)
+		)
+		
+		
+		weather_manager.connect("wind_direction_changed", func(new_direction):
+			_on_wind_changed(weather_manager.wind_speed, weather_manager.wind_direction)
+		)
+		_on_wind_changed(weather_manager.wind_speed, weather_manager.wind_direction)
 
 
 func _ready():
 	super._ready()
 	renderers = Vegetation.get_renderers()
 	add_child(renderers)
-	_on_wind_speed_changed(weather_manager.wind_speed)
+	_on_wind_changed(weather_manager.wind_speed, weather_manager.wind_direction)
 	
 	Vegetation.new_data.connect(full_load)
 
 
-func _on_wind_speed_changed(new_wind_speed):
+func _on_wind_changed(new_wind_speed, new_wind_direction):
 	if renderers:
 		for renderer in renderers.get_children():
-			renderer.apply_wind_speed(new_wind_speed)
+			var force = Vector2.UP.rotated(deg_to_rad(new_wind_direction)) * new_wind_speed
+			renderer.apply_wind(force)
 
 
 # Called when the node enters the scene tree for the first time.
