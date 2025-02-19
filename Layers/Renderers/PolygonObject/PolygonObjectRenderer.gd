@@ -1,14 +1,68 @@
 extends LayerCompositionRenderer
 
 
-@export var create_objects_as_geodata: bool = false
 var radius = 10000.0
-var max_features = 2000
-var distance_between_objects = 10
+@export var check_aabb_collision: bool = false
+@export var max_features = 50
+@export var distance_between_objects := Vector2(10, 10)
+
 # Stores if the object-layer has been processed previously
 var processed = false
 
 var object_instances = []
+
+enum DIRECTION {
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT
+}
+
+
+func spiral(start_position: Vector2, min_pos: Vector2, max_pos: Vector2, max_features: float, callback: Callable):
+	var x := start_position.x
+	var y := start_position.y
+	var dx := distance_between_objects.x
+	var dy := distance_between_objects.y
+	
+	var stop_flags = 0b0000
+	
+	var direction = DIRECTION.UP
+	var i = 0
+	var step_size = 0
+	DIRECTION.size()
+	var instance_count = 0
+	while instance_count < max_features:
+		var multiplier = i + (1 * int(direction % 2 == 0))
+		for step in range(step_size):
+			stop_flags |= int(x < min_pos.x) * 0b1
+			stop_flags |= int(y < min_pos.y) * 0b10
+			stop_flags |= int(x > max_pos.x) * 0b100
+			stop_flags |= int(y > max_pos.y) * 0b1000
+			
+			if stop_flags == 0b1111:
+				return
+
+			if callback.call(x, y, instance_count):
+				instance_count += 1
+			
+			if instance_count > max_features:
+				break
+			
+			match direction:
+				DIRECTION.UP:
+					y += dy
+				DIRECTION.DOWN:
+					y -= dy
+				DIRECTION.RIGHT:
+					x += dx
+				DIRECTION.LEFT:
+					x -= dx
+		
+		i += 1
+		if direction % 2 == 0:
+			step_size += 1
+		direction = i % DIRECTION.size()
 
 
 func full_load():
@@ -25,63 +79,68 @@ func full_load():
 		max_features):
 		
 		# Extract polygons
-		var pos = activation_point.get_vector3()#get_offset_vector3(-center[0], 0, -center[1])
+		var pos = activation_point.get_vector3()
+		var engine_pos = activation_point.get_offset_vector3(-center[0], 0, -center[1])
 		var poly_features = polygon_layer.get_features_near_position(pos.x, -pos.z, 0.2, 1)
 		
 		for poly_feature in poly_features:
-			var polygon = poly_feature.get_float_offset_outer_vertices(-center[0], -center[1])
+			var engine_polygon = poly_feature.get_float_offset_outer_vertices(-center[0], -center[1])
+			var polygon = poly_feature.get_outer_vertices()
 			
 			# Find left-most and bottom-most and right-most, top-most point in polygon
 			var min_pos = Vector3(INF, 0, INF)
 			var max_pos = Vector3(-INF, 0, -INF)
-			for vertex in polygon: 
-				min_pos.x = vertex.x if vertex.x < min_pos.x else min_pos.x
-				min_pos.z = vertex.y if vertex.y < min_pos.z else min_pos.z
+			for vertex in engine_polygon:
+				min_pos.x = min(min_pos.x, vertex.x)
+				min_pos.z = min(min_pos.z, vertex.y)
+				max_pos.x = max(max_pos.x, vertex.x)
+				max_pos.z = max(max_pos.z, vertex.y)
+			
+			var object_scene = load(layer_composition.render_info.object)
+			var object: Node3D = object_scene.instantiate()
+			
+			# Obtain aabb over all visual instances
+			var aabb
+			var bounds
+			if check_aabb_collision:
+				aabb = util.get_summed_aabb(object)
+				bounds = [
+					Vector2(aabb.position.x, aabb.position.z), 
+					Vector2(aabb.position.x, aabb.end.z),
+					Vector2(aabb.end.x, aabb.end.z),
+					Vector2(aabb.end.x, aabb.position.z)
+				]
+			
+			var set_object = func(x: float, y: float, instance_count: int):
+				# Add relative position to absolute object position
+				var current_pos_2d := Vector2(x, y)
 				
-				max_pos.x = vertex.x if vertex.x > max_pos.x else max_pos.x
-				max_pos.z = vertex.y if vertex.y > max_pos.z else max_pos.z
-			
-			var object: Node3D = load(layer_composition.render_info.object).instantiate()
-			
-			var aabb = util.get_summed_aabb(object)
-			
-			var current_pos = min_pos
-			while current_pos.x <= max_pos.x:
-				current_pos.z = min_pos.z
-				while current_pos.z <= max_pos.z:
-					# Predefined points in the object that have to be inside the polygon
-					# (i.e. in most cases some form of foothold)
-					var fully_inside = true
-					var bounds = [
-						Vector2(aabb.position.x, aabb.position.z), 
-						Vector2(aabb.position.x, aabb.end.z),
-						Vector2(aabb.end.x, aabb.end.z),
-						Vector2(aabb.end.x, aabb.position.z)
-					]
-					
-					# Add relative foothold position to absolute object position
-					var current_pos_2d = Vector2(current_pos.x, current_pos.z)
+				var fully_inside: bool
+				if check_aabb_collision:
 					fully_inside = bounds.reduce(func(still_inside, b): 
-						return Geometry2D.is_point_in_polygon(b + current_pos_2d, polygon) and still_inside, true)
-					var engine_pos = current_pos
-					engine_pos.z = -engine_pos.z
-					#engine_pos.x -= position_manager.center_node.position.x
-					#engine_pos.z -= position_manager.center_node.position.z
-					
-					engine_pos.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
-							center[0] + engine_pos.x, (center[1] - engine_pos.z))
-					print(engine_pos)
-					print(center[0] + engine_pos.x, " - ", center[1] - engine_pos.z)
-					
-					if fully_inside:
-						var new_object = object.duplicate()
-						new_object.rotation.y = deg_to_rad(layer_composition.render_info.individual_rotation)
-						new_object.position = engine_pos
-						object_instances.append(new_object)
-					
-					# Go up and right
-					current_pos += Vector3.BACK * distance_between_objects
-				current_pos += Vector3.RIGHT * distance_between_objects
+						return Geometry2D.is_point_in_polygon(b + current_pos_2d, engine_polygon) and still_inside, true)
+				else:
+					fully_inside = Geometry2D.is_point_in_polygon(current_pos_2d, engine_polygon)
+				
+				var object_y_pos = layer_composition.render_info.ground_height_layer.get_value_at_position(
+					center[0] + engine_pos.x, (center[1] - engine_pos.z))
+				var object_pos = Vector3(x, object_y_pos, y)
+				
+				if fully_inside:
+					var new_object = object_scene.instantiate()
+					new_object.rotation.y = deg_to_rad(layer_composition.render_info.individual_rotation)
+					new_object.position = object_pos
+					object_instances.append(new_object)
+				
+				return fully_inside
+				
+			spiral(
+				Vector2(engine_pos.x, engine_pos.z), 
+				Vector2(min_pos.x, min_pos.z), 
+				Vector2(max_pos.x, max_pos.z), 
+				max_features, 
+				set_object
+			)
 
 
 func apply_new_data():
