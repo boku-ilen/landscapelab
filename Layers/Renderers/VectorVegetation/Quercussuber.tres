@@ -1,6 +1,6 @@
 [gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://dj4tmj0vw5wr4"]
 
-[ext_resource type="Material" uid="uid://bvfgui5d3iseu" path="res://Resources/Meshes/Trees/Quercus_suber/quercus_suber_trunk.tres" id="1_54t0c"]
+[ext_resource type="Material" uid="uid://cwrewflu32ssm" path="res://Resources/Meshes/Trees/Quercus_suber/quercus_suber_trunk.tres" id="1_54t0c"]
 [ext_resource type="Material" uid="uid://ixtjlpu0j6j7" path="res://Resources/Meshes/Trees/Quercus_suber/quercus_suber_branches.tres" id="2_nkwhr"]
 
 [resource]

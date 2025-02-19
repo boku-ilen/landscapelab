@@ -1,6 +1,6 @@
 [gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://ci7mgoitphhtp"]
 
-[ext_resource type="Material" uid="uid://bd6nk0fdo5ty6" path="res://Resources/Meshes/Trees/Olea_europaea/olea_europaea_trunk.tres" id="1_w0ld4"]
+[ext_resource type="Material" uid="uid://d5viq2gl7rnc" path="res://Resources/Meshes/Trees/Olea_europaea/olea_europaea_trunk.tres" id="1_w0ld4"]
 [ext_resource type="Material" uid="uid://c53b7s1pmw257" path="res://Resources/Meshes/Trees/Olea_europaea/olea_europaea_branches.tres" id="2_dyqt8"]
 
 [resource]

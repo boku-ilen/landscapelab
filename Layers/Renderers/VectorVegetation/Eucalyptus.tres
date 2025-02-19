@@ -1,6 +1,6 @@
 [gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://dmhid66av3pgs"]
 
-[ext_resource type="Material" uid="uid://b0y6umovu0cfh" path="res://Resources/Meshes/Trees/Eucalyptus_Globulus/eucalyptus_globulus_trunk.tres" id="1_2h4b2"]
+[ext_resource type="Material" uid="uid://gsl8x5e67cta" path="res://Resources/Meshes/Trees/Eucalyptus_Globulus/eucalyptus_globulus_trunk.tres" id="1_2h4b2"]
 [ext_resource type="Material" uid="uid://dfmquuoj546a" path="res://Resources/Meshes/Trees/Eucalyptus_Globulus/eucalyptus_globulus_branches.tres" id="2_x0a7j"]
 
 [resource]

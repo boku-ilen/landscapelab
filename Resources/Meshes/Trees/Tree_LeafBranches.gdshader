@@ -88,13 +88,14 @@ void fragment() {
 	if (!FRONT_FACING) {
 		NORMAL = -NORMAL;
 	}
-
+	
 	vec4 albedo_w_alpha = texture(albedo_tex, base_uv);
 	vec3 rough_ao_trans = texture(rough_ao_transmission_tex, base_uv).rgb;
 	
 	// Randomised HYC Shifts of whole Albedo Tex depending on Node's Worldspace Position.
-	// Separate settings for Branch or Leaf (using Transmission Tex, unfortunately Branch changes mip-bleed over into Leaf) -> Make sure Trunk shader uses same calculation as branches!
+	// Separate settings for Branch or Leaf (using Transmission Tex, unfortunately Branch changes mip-bleed over into Leaf)
 	// For organic randomisation: WS PosX shifts Hue, PosY shifts Chroma, PosZ shifts Luminance.
+	// -> Make sure Trunk Shader/Material uses same calculation/value as branches!
 	vec3 albedo_hcy = RGBtoHCY(albedo_w_alpha.rgb);
 	albedo_hcy.r += mix(
 		sin(NODE_POSITION_WORLD.x * 2.0 * PI * 71.33) * PI * albedo_node_rand_hue_branch,
@@ -113,27 +114,27 @@ void fragment() {
 	ALPHA = albedo_w_alpha.a;
 	ALPHA_SCISSOR_THRESHOLD = alpha_scissor_threshold;
 	ALBEDO = albedo_w_alpha.rgb * albedo_multiply.rgb;
-
+	
 	METALLIC = 0.0;
 	SPECULAR = 0.5;
 	ROUGHNESS = rough_ao_trans.r + roughness_offset;
-
+	
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = normal_strength;
-
+	
 	AO = mix(1.0, rough_ao_trans.g, ao_strength);
 	AO_LIGHT_AFFECT = ao_light_affect;
-
-
+	
+	
 	vec3 overall_backlight =
 	rough_ao_trans.b
 	* backlight_strength
 	* backlight_tint
 	* mix(vec3(0.3), albedo_w_alpha.rgb, backlight_color_from_albedo)
 	* mix(1.0, rough_ao_trans.g, backlight_affected_by_ao);
-
+	
 	BACKLIGHT = clamp(overall_backlight, 0.0, 500.0);
-
+	
 	RIM = rim_strength;
 	RIM_TINT = rim_color_from_albedo;
 }
