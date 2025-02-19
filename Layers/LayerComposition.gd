@@ -311,11 +311,12 @@ class RepeatingObjectInfo extends RenderInfo:
 	
 	func get_class_name() -> String: return "Repeating Object"
 
+
 class PolygonObjectInfo extends RenderInfo:
 	var ground_height_layer: GeoRasterLayer
 	var polygon_layer: GeoFeatureLayer
 	# "virtual" layer which serves solely for using gdal features
-	var object_layer: GeoFeatureLayer
+	var activation_layer: GeoFeatureLayer
 	var object: String
 	var individual_rotation: float
 	var group_rotation: float
@@ -325,6 +326,6 @@ class PolygonObjectInfo extends RenderInfo:
 		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 	
 	func get_geolayers() -> Array:
-		return [polygon_layer, object_layer]
+		return [polygon_layer, activation_layer]
 	
 	func get_class_name() -> String: return "Polygon Object"
