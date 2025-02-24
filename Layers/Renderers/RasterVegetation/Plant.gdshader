@@ -22,9 +22,6 @@ uniform vec2 scale = vec2(0.06, 0.11);
 
 uniform float max_distance;
 
-varying vec3 worldpos;
-varying vec3 camera_pos;
-
 varying float dist_id;
 varying float random_hue_shift;
 varying float wind_strength;
@@ -34,8 +31,8 @@ uniform bool is_billboard = true;
 void vertex() {
 	dist_id = INSTANCE_CUSTOM.r * 255.0;
 
-	camera_pos = INV_VIEW_MATRIX[3].xyz;
-	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+	vec3 camera_pos = INV_VIEW_MATRIX[3].xyz;
+	vec3 worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 
 	float world_distance = length(camera_pos - worldpos);
 
@@ -62,23 +59,23 @@ void vertex() {
 		ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
 		VERTEX += mesh_normal * (float(texture_size.x) / float(texture_size.y) - 1.0) * 0.5;
 	}
-	
+
 	float size = INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b;
 
 	// Scale by the size
 	VERTEX *= size;
-	
+
 	float wind_amount = texture(wind_map, worldpos.xz / 512.0 - TIME * speed / 2500.0).r;
 	vec2 wind_offset_vector = (inverse(MODEL_MATRIX) * vec4(speed.x, 0.0, speed.y, 0.0)).xz * wind_amount * 0.04;
-	
+
 	wind_strength = length(wind_offset_vector);
-	
+
 	// Move the upper vertices around for a wind wave effect
 	if (UV.y < 0.3) {
-		
-		VERTEX.xz += wind_offset_vector;
+
+		VERTEX.xz += wind_offset_vector * min(size, 1.0);
 		//NORMAL -= vec3(wind_offset_vector.x, 0.0, wind_offset_vector.y) * 0.8;
-		
+
 		float speed_length = length(speed);
 		VERTEX.x += 0.002 * sin(worldpos.x * scale.x * 0.75 + TIME * speed_length) * cos(worldpos.z * scale.x + TIME * speed_length * 0.25);
 		VERTEX.z += 0.002 * sin(worldpos.x * scale.y + TIME * speed_length * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed_length);
@@ -89,6 +86,14 @@ void vertex() {
 
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	
+	// Move vertices down when they are far away - makes the plants "grow out" as they fade in,
+	//  which produces a nice fade-in result since it avoids sampling the lower parts of plants
+	//  that are usually darker
+	float dist = length(camera_pos.xz - worldpos.xz);
+	float dist_alpha = smoothstep(max_distance - 20.0, max_distance + 20.0, dist);
+	
+	VERTEX.y -= dist_alpha;
 }
 
 void fragment() {
@@ -97,29 +102,14 @@ void fragment() {
 		NORMAL = -NORMAL;
 	}
 
-	float blend_start_distance = max_distance - max_distance / 6.0;
-	float dist = length(camera_pos.xz - worldpos.xz);
-
-	float dist_alpha = smoothstep(max_distance - 20.0, max_distance + 20.0, dist);
-
 	vec4 color = texture(texture_map[int(round(dist_id))], UV);
 
 	ALPHA = color.a;
-	ALPHA_SCISSOR_THRESHOLD = 0.2 + dist_alpha * 0.8;
-
-	// Used in combination with rendermode "alpha_to_coverage_and_one", but currently costs too much
-	//ALPHA_ANTIALIASING_EDGE = 0.6;
-	//ALPHA_TEXTURE_COORDINATE = UV * vec2(textureSize(texture_map[int(round(dist_id))], 0));
-	//
-
+	ALPHA_SCISSOR_THRESHOLD = 0.2;
 
 	// Vary the transmission based on how bright and/or green the plant is here
 	// (This is to approximate a higher transmission for leaves)
 	BACKLIGHT = vec3(1.0, 1.0, 0.5) * min(color.g * 2.0, 1.0) * 0.5;
-
-	// Make the plant darker at the bottom to simulate some shadowing
-//	float size_scaled_uv = (1.0 - UV.y) * size; // ranges from 0 (bottom) to size (top)
-//	color.rgb *= min(max(size_scaled_uv, fake_shadow_min_multiplier), fake_shadow_height) / fake_shadow_height;
 
 	// Hue shift to make plant appear e.g. dryer
 	vec3 hcy = RGBtoHCY(color.rgb);
