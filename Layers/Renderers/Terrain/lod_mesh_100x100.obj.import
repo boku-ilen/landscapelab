@@ -16,7 +16,7 @@ dest_files=["res://.godot/imported/lod_mesh_100x100.obj-6de29ae415a7a1d802f6b97c
 [params]
 
 generate_tangents=true
-generate_lods=true
+generate_lods=false
 generate_shadow_mesh=true
 generate_lightmap_uv2=false
 generate_lightmap_uv2_texel_size=0.2
