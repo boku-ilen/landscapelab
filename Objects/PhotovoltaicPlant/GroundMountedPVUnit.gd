@@ -8,7 +8,13 @@ func _ready():
 	
 	if cultivation == "0":
 		$CultivationGood.visible = true
+		$CultivationMid.visible = false
 		$CultivationBad.visible = false
 	elif cultivation == "1":
 		$CultivationGood.visible = false
+		$CultivationMid.visible = true
+		$CultivationBad.visible = false
+	elif cultivation == "2":
+		$CultivationGood.visible = false
+		$CultivationMid.visible = false
 		$CultivationBad.visible = true
