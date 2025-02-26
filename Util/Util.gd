@@ -13,13 +13,13 @@ static func rangef(start: float, stop: float, step: float):
 
 static func get_summed_aabb(node: Node3D) -> AABB:
 	var summed_aabb = AABB()
-	if node is VisualInstance3D:
+	if node is VisualInstance3D and not node.layers == 65536:  # Ignore LID meshes
 		var aabb = node.get_aabb()
-		summed_aabb = summed_aabb.intersection(aabb)
+		summed_aabb = summed_aabb.merge(aabb)
 	
 	for child in node.get_children():
 		if child is Node3D:
 			var child_aabb = get_summed_aabb(child)
-			summed_aabb = summed_aabb.intersection(child_aabb)
+			summed_aabb = summed_aabb.merge(child_aabb)
 	
 	return summed_aabb
