@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3000jsk1ayd5"]
+[gd_scene load_steps=2 format=3 uid="uid://d3000jsk1ayd5"]
 
-[ext_resource type="Script" path="res://Objects/Util/MultiplePVModules.gd" id="1_wtltr"]
-[ext_resource type="PackedScene" uid="uid://bdpmyx1ejlixw" path="res://Objects/PhotovoltaicPlant/GroundMountedPVUnit.tscn" id="2_kbl8r"]
+[ext_resource type="Script" uid="uid://cvongk8jbxgft" path="res://Objects/Util/MultiplePVModules.gd" id="1_wtltr"]
 
 [node name="ModularPVPlant" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9492, 0, 0)
@@ -10,4 +9,3 @@ rows = 7
 cols = 11
 row_spacing = 6.63
 col_spacing = 3.6
-mesh = ExtResource("2_kbl8r")

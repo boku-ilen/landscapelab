@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bl658udqi5xdy"]
+
+[ext_resource type="Script" uid="uid://dagf8xxhc3kr3" path="res://Objects/PhotovoltaicPlant/ParametricPVPlant.gd" id="1_lhu5w"]
+
+[node name="ParametricPVPlant" type="Node3D"]
+script = ExtResource("1_lhu5w")

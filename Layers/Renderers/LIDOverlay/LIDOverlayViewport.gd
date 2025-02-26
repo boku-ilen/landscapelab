@@ -2,6 +2,8 @@ extends Node3D
 
 signal update_done
 
+var has_updated_this_frame = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,10 +18,12 @@ func _notification(what):
 
 
 func _process(delta: float) -> void:
-	update()
+	has_updated_this_frame = false
 
 
 func update():
-	$LIDViewport.render_target_update_mode = SubViewport.UPDATE_ONCE
-	await get_tree().process_frame
-	update_done.emit()
+	if not has_updated_this_frame:
+		$LIDViewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+		has_updated_this_frame = true
+		await get_tree().process_frame
+		update_done.emit()

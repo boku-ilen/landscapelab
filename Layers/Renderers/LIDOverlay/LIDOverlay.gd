@@ -33,6 +33,7 @@ func _ready():
 	update_size()
 	update_mesh_color()
 	set_notify_transform(true)
+	visibility_changed.connect(func(): updated.emit())
 
 
 func _enter_tree():
@@ -51,11 +52,11 @@ func _notification(what):
 
 
 func update_mesh_color():
-	material_override.albedo_color = Color8(
+	material_override.set_shader_parameter("color", Color8(
 		lid % 255,
 		floor(lid / 255),
 		0
-	)
+	))
 
 
 func update_size():
