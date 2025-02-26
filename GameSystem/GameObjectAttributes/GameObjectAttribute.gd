@@ -9,6 +9,7 @@ var icon_settings := {}
 
 var min: float
 var max: float
+var default: float
 
 
 # To be implemented
