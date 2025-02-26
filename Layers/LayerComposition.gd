@@ -31,7 +31,7 @@ const RENDER_INFOS := {
 	"Object": ObjectRenderInfo,
 	"MultiMesh Object": MultiMeshObjectRenderInfo,
 	"Wind Turbine": WindTurbineRenderInfo,
-	"Polygon": PolygonObjectInfo,
+	"PolygonObject": PolygonObjectInfo,
 	"Building": BuildingRenderInfo,
 	"Road Network": RoadNetworkRenderInfo,
 	"Connected Object": ConnectedObjectInfo,
@@ -316,16 +316,26 @@ class PolygonObjectInfo extends RenderInfo:
 	var ground_height_layer: GeoRasterLayer
 	var polygon_layer: GeoFeatureLayer
 	# "virtual" layer which serves solely for using gdal features
-	var activation_layer: GeoFeatureLayer
+	var geo_feature_layer: GeoFeatureLayer
 	var object: String
-	var individual_rotation: float
-	var group_rotation: float
+	
+	var spacing_x := -1.0
+	var spacing_x_attribute: String
+	
+	var spacing_y := -1.0
+	var spacing_y_attribute: String
+	
+	var amount: int
+	var amount_attribute: String
+	
+	var individual_rotation := 0.0
+	var group_rotation := 0.0
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/PolygonObject/PolygonObjectRenderer.tscn")
 		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 	
 	func get_geolayers() -> Array:
-		return [polygon_layer, activation_layer]
+		return [polygon_layer, geo_feature_layer]
 	
 	func get_class_name() -> String: return "Polygon Object"

@@ -184,6 +184,7 @@ func apply_feature_instance(feature: GeoFeature):
 					Removing it before adding a new one.".format([feature.get_id()], "{}"))
 			remove_child(get_node(str(feature.get_id())))
 		
+		instances[feature.get_id()].name = str(feature.get_id())
 		add_child(instances[feature.get_id()])
 	else:
 		logger.error("No feature instance was created for ID: {}".
