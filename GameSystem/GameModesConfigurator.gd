@@ -59,7 +59,13 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 	for collection_name in game_object_collections:
 		var collection = game_object_collections[collection_name]
 		var layer_name = collection["layer_name"]
-		var layer = Layers.layer_compositions[layer_name].render_info.geo_feature_layer
+		
+		var layer
+		
+		if "geo_feature_layer" in Layers.layer_compositions[layer_name].render_info:
+			layer = Layers.layer_compositions[layer_name].render_info.geo_feature_layer
+		else:
+			assert(false, "Invalid layer!")
 		
 		var collection_object: GameObjectCollection
 		
@@ -157,8 +163,9 @@ func _deserialize_scores(game_mode: GameMode, scores: Dictionary):
 			# Argument arary for add_contributor
 			var args = [
 				# Have to be set
-				collection, contributor["mapping_name"], contributor["weight"],
+				collection, contributor["mapping_name"],
 				# Optional
+				contributor["weight"] if "weight" in contributor else 1.0,
 				Color(contributor["color"]) if "color" in contributor else Color.GRAY,
 				contributor["min_weight"] if "min_weight" in contributor else null,
 				contributor["max_weight"] if "max_weight" in contributor else null

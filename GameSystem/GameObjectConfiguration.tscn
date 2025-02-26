@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://dsajvfxo8bdwx"]
 
-[ext_resource type="Script" path="res://GameSystem/GameObjectConfiguration.gd" id="1_rpnwg"]
+[ext_resource type="Script" uid="uid://di8tqdy4bncoj" path="res://GameSystem/GameObjectConfiguration.gd" id="1_rpnwg"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_wi86a"]
 [ext_resource type="Texture2D" uid="uid://bs6l1cbwkvg0f" path="res://Resources/Icons/ModernLandscapeLab/circle.svg" id="3_xwldb"]
 [ext_resource type="Texture2D" uid="uid://ys5warsfvwod" path="res://Resources/Icons/ModernLandscapeLab/trash.svg" id="4_8412a"]

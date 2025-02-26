@@ -3,6 +3,7 @@ extends LayerCompositionRenderer
 
 var renderers
 var offset = Vector3.ZERO
+var position_last_frame := Vector3.ZERO
 
 
 var weather_manager: WeatherManager :
@@ -82,9 +83,9 @@ func _process(delta):
 	# Continuously reposition the Vegetation particles in the most optimal way
 	for renderer in renderers.get_children():
 		renderer.position = Vector3(
-			position_manager.center_node.position.x,
+			position_last_frame.x,
 			0.0,
-			position_manager.center_node.position.z
+			position_last_frame.z
 		)
 		
 #		# Follow camera forward in order to only render in front
@@ -102,6 +103,8 @@ func _process(delta):
 		)
 		
 		renderer.restart()
+	
+	position_last_frame = position_manager.center_node.position
 
 
 func apply_new_data():

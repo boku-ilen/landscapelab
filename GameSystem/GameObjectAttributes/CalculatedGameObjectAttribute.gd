@@ -30,6 +30,8 @@ func get_value(game_object):
 	expression.parse(formated_string)
 	var result = expression.execute()
 	
-	if not result: result = 0.0
+	if not result:
+		logger.warn("Parse error with expression: %s" % [formated_string])
+		result = 0.0
 	
 	return result

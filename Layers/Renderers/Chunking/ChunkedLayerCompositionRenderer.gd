@@ -50,6 +50,8 @@ func full_load():
 func adapt_load(_diff: Vector3):
 	super.adapt_load(_diff)
 	
+	if waiting_to_apply: return
+	
 	# Because this function is called in a thread, the player position might change while the loop
 	#  below is running. In order to get consistent results, we need to cache one definitive
 	#  player position here.
@@ -97,9 +99,9 @@ func get_nearest_low_quality_chunk(query_position: Vector3):
 
 
 func refine_load():
-	if waiting_to_apply: return
-	
 	super.refine_load()
+	
+	if waiting_to_apply: return
 	
 	var any_change_done = false
 	

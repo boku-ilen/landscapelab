@@ -8,7 +8,7 @@ var min_load_distance := 1.0
 
 func _ready():
 	var vp = preload("res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn").instantiate()
-	vp.get_node("LIDViewport").size = Vector2(size, size)
+	vp.get_node("LIDViewport").size = Vector2(size * 2.0, size * 2.0)  # 0.5m resolution
 	vp.get_node("LIDViewport/CameraRoot/LIDCamera").size = size
 	add_child(vp)
 
