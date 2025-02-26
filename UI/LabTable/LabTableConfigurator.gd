@@ -39,7 +39,10 @@ func _load_layers(path: String, table_config: Dictionary):
 		# Pre-existing layer composition which strictly needs to use the same data background
 		var geo_layer: RefCounted
 		if "layer_name" in layer_conf:
-			geo_layer = Layers.layer_compositions[layer_conf["layer_name"]].render_info.geo_feature_layer
+			if "geo_feature_layer" in Layers.layer_compositions[layer_conf["layer_name"]].render_info:
+				geo_layer = Layers.layer_compositions[layer_conf["layer_name"]].render_info.geo_feature_layer
+			else:
+				assert(false, "Invalid layer!")
 		else:
 			geo_layer = Geodot.get_raster_layer(layer_conf["path"])
 		
