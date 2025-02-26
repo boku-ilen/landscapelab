@@ -86,13 +86,13 @@ void vertex() {
 
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	
+
 	// Move vertices down when they are far away - makes the plants "grow out" as they fade in,
 	//  which produces a nice fade-in result since it avoids sampling the lower parts of plants
 	//  that are usually darker
 	float dist = length(camera_pos.xz - worldpos.xz);
 	float dist_alpha = smoothstep(max_distance - 20.0, max_distance + 20.0, dist);
-	
+
 	VERTEX.y -= dist_alpha;
 }
 
