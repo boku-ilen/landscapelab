@@ -74,6 +74,8 @@ func popup():
 						attribute.name, attribute, attribute.class_names_to_attribute_values, attribute.get_value(go)
 					)
 				else:
+					if attribute.default > 0 and float(attribute.get_value(go)) == 0:
+						attribute.set_value(go, attribute.default)
 					$UI/GameObjectConfiguration.add_configuration_option(
 						attribute.name, attribute, attribute.min, attribute.max, attribute.get_value(go))
 			else:
