@@ -28,7 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://b0ggrqax876lq" path="res://Resources/Textures/UI/scalebar.png" id="21_8rx5g"]
 [ext_resource type="Texture2D" uid="uid://cvuvaob2b58oa" path="res://Resources/Icons/ModernLandscapeLab/table_wind.svg" id="21_teit2"]
 [ext_resource type="Script" uid="uid://62hra75kk18d" path="res://UI/LabTable/AtmosphereMenu.gd" id="23_5pqbs"]
-[ext_resource type="PackedScene" path="res://Util/Shading/ColorRampSymbology.tscn" id="23_5380g"]
+[ext_resource type="PackedScene" uid="uid://u8mojc2eibn6" path="res://Util/Shading/ColorRampSymbology.tscn" id="23_5380g"]
 [ext_resource type="StyleBox" uid="uid://dg3l5xqfdgxff" path="res://UI/LabTable/Style/PopupPanel.tres" id="23_wb0c1"]
 [ext_resource type="Texture2D" uid="uid://dndroq8xw54we" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sunrise.svg" id="24_0xwd5"]
 [ext_resource type="PackedScene" uid="uid://d2biaicqh7bu5" path="res://World/AtmosphereConfiguration.tscn" id="24_ty2jq"]
@@ -54,7 +54,6 @@ bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0v7wp"]
 
 [node name="LabTableWindow" type="Window"]
-mode = 3
 initial_position = 1
 size = Vector2i(1600, 900)
 
@@ -89,7 +88,7 @@ handle_input_locally = false
 physics_object_picking = true
 physics_object_picking_sort = true
 canvas_cull_mask = 4294967293
-size = Vector2i(2, 2)
+size = Vector2i(1606, 900)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
@@ -494,6 +493,14 @@ texture_pressed = ExtResource("31_3y1be")
 texture_hover = ExtResource("31_3y1be")
 texture_disabled = ExtResource("31_3y1be")
 texture_focused = ExtResource("31_3y1be")
+
+[node name="HSlider" type="HSlider" parent="."]
+custom_minimum_size = Vector2(7.81, 8.125)
+offset_left = 8.0
+offset_top = 9.0
+offset_right = 877.0
+offset_bottom = 115.0
+size_flags_horizontal = 2
 
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
 [editable path="Panel/CenterContainer/ScoreContributorWeightSlider"]

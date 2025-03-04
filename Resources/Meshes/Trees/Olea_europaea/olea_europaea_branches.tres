@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://c53b7s1pmw257"]
 
 [ext_resource type="Texture2D" uid="uid://br3x07ldf56ww" path="res://Resources/Meshes/Trees/Olea_europaea/olea_europaea_branches_albedo.png" id="1_2d28o"]
-[ext_resource type="Shader" path="res://Resources/Meshes/Trees/Tree_LeafBranches.gdshader" id="1_4u67w"]
+[ext_resource type="Shader" uid="uid://cvfj6bo1g0nqt" path="res://Resources/Meshes/Trees/Tree_LeafBranches.gdshader" id="1_4u67w"]
 [ext_resource type="Texture2D" uid="uid://c5vnhj7tciaip" path="res://Resources/Meshes/Trees/Olea_europaea/olea_europaea_branches_raotrans.png" id="2_uinms"]
 [ext_resource type="Texture2D" uid="uid://d11ss27fnti54" path="res://Resources/Meshes/Trees/Olea_europaea/olea_europaea_branches_normal.png" id="3_yp8jp"]
 
@@ -9,6 +9,7 @@
 render_priority = 0
 shader = ExtResource("1_4u67w")
 shader_parameter/alpha_scissor_threshold = 0.15
+shader_parameter/albedo_tex = ExtResource("1_2d28o")
 shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
 shader_parameter/albedo_node_rand_hue_branch = 0.08
 shader_parameter/albedo_node_rand_hue_leaf = 0.1
@@ -16,7 +17,9 @@ shader_parameter/albedo_node_rand_chroma_branch = 0.02
 shader_parameter/albedo_node_rand_chroma_leaf = 0.005
 shader_parameter/albedo_node_rand_luma_branch = 0.06
 shader_parameter/albedo_node_rand_luma_leaf = 0.01
+shader_parameter/normal_tex = ExtResource("3_yp8jp")
 shader_parameter/normal_strength = 1.0
+shader_parameter/rough_ao_transmission_tex = ExtResource("2_uinms")
 shader_parameter/roughness_offset = 0.0
 shader_parameter/ao_strength = 0.9
 shader_parameter/ao_light_affect = 0.8
@@ -26,6 +29,3 @@ shader_parameter/backlight_affected_by_ao = 0.5
 shader_parameter/backlight_strength = 1.0
 shader_parameter/rim_strength = 0.03
 shader_parameter/rim_color_from_albedo = 0.5
-shader_parameter/albedo_tex = ExtResource("1_2d28o")
-shader_parameter/normal_tex = ExtResource("3_yp8jp")
-shader_parameter/rough_ao_transmission_tex = ExtResource("2_uinms")

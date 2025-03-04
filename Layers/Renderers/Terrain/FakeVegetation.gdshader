@@ -180,14 +180,14 @@ void fragment() {
 	hcy.r += random_hue_shift;
 	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0);
 	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0);
-	
+
 	ALBEDO = HCYtoRGB(hcy);
-	
+
 	// At steeper angles, the vegetation tends to look darker since we see through more plants and
 	//  therefore see more of the self-shadowing
 	float view_angle = max(dot((INV_VIEW_MATRIX  * vec4(NORMAL, 0.0)).xyz, CAMERA_DIRECTION_WORLD), 0.0);
 	ALBEDO *= mix(0.85, 1.0, view_angle);
-	
+
 	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), 0.75, 0.99);
 	ALPHA *= smoothstep(90.0, 110.0, length((camera_pos - worldpos)));
 	ALPHA_HASH_SCALE = 1.0;

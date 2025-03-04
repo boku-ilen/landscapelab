@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bhicpel2rgc1f"]
+[gd_scene load_steps=6 format=3 uid="uid://bhicpel2rgc1f"]
 
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayersUI.gd" id="1_v25nd"]
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayerUIConfig.gd" id="2"]
+[ext_resource type="Script" uid="uid://da4tiehgi2tg8" path="res://UI/Layers/LayerConfiguration/GeoLayerUIConfig.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://djgdeb68xdbg5" path="res://Resources/Icons/ModernLandscapeLab/vector_save.svg" id="2_3ylfg"]
-[ext_resource type="Script" path="res://UI/Layers/GeoLayers/GeoLayersItemList.gd" id="2_wqrx3"]
+[ext_resource type="Script" uid="uid://sgur70g65xki" path="res://UI/Layers/GeoLayers/GeoLayersItemList.gd" id="2_wqrx3"]
 [ext_resource type="Texture2D" uid="uid://c3kuxlnuadbrl" path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" id="3_3nst3"]
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/GeoLayerOptions.gd" id="4_hvmms"]
+[ext_resource type="Script" uid="uid://jih5yvkgwg17" path="res://UI/Layers/LayerConfiguration/GeoLayerOptions.gd" id="4_hvmms"]
 
 [node name="GeoLayerUI" type="VBoxContainer"]
 anchors_preset = 15
@@ -16,7 +15,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("1_v25nd")
 
 [node name="ItemList" type="ItemList" parent="."]
 custom_minimum_size = Vector2(0, 167)
@@ -26,7 +24,7 @@ allow_search = false
 script = ExtResource("2_wqrx3")
 
 [node name="GeoLayerOptions" type="PopupMenu" parent="ItemList"]
-size = Vector2i(207, 100)
+size = Vector2i(223, 100)
 always_on_top = true
 item_count = 2
 item_0/text = "Show"
@@ -35,6 +33,7 @@ item_0/checkable = 1
 item_0/id = 1
 item_1/text = "Save Layer Edits..."
 item_1/icon = ExtResource("2_3ylfg")
+item_1/id = 1
 script = ExtResource("4_hvmms")
 
 [node name="GeoLayerUIConfig" type="Node" parent="." node_paths=PackedStringArray("geo_layer_ui", "list")]

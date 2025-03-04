@@ -263,7 +263,6 @@ script = ExtResource("8_cvnpk")
 
 [node name="GeoLayerUI" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("26_xg76v")]
 layout_mode = 2
-script = null
 metadata/_tab_index = 0
 
 [node name="Scenarios" parent="MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Bot" instance=ExtResource("27_nxjw1")]

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cnvfal7al6up4" path="res://Objects/Nature/SwarmParticles.tscn" id="1_svn11"]
 [ext_resource type="Texture2D" uid="uid://pfcao2tjgxe" path="res://Resources/Meshes/_NEW assets/argynnis paphia/materials/argynnis base color.png" id="2_0aml0"]
-[ext_resource type="Shader" path="res://Objects/Nature/LarusSwarm.gdshader" id="2_frxu0"]
+[ext_resource type="Shader" uid="uid://cgn6ilm6ym4wa" path="res://Objects/Nature/LarusSwarm.gdshader" id="2_frxu0"]
 [ext_resource type="ArrayMesh" uid="uid://bxdf4ypkb2gfi" path="res://Resources/Meshes/_NEW assets/argynnis paphia/argynnis paphia.obj" id="3_l0gow"]
 
 [sub_resource type="Shader" id="Shader_ih0b5"]
@@ -54,9 +54,10 @@ void fragment() {
 render_priority = 0
 shader = SubResource("Shader_ih0b5")
 shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_0aml0")
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
 shader_parameter/backlight = Color(0.533333, 0.533333, 0.533333, 1)
@@ -64,7 +65,6 @@ shader_parameter/uv1_scale = Vector3(1, 1, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/texture_albedo = ExtResource("2_0aml0")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_krruj"]
 shader = ExtResource("2_frxu0")
