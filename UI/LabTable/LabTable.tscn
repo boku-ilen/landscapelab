@@ -494,13 +494,5 @@ texture_hover = ExtResource("31_3y1be")
 texture_disabled = ExtResource("31_3y1be")
 texture_focused = ExtResource("31_3y1be")
 
-[node name="HSlider" type="HSlider" parent="."]
-custom_minimum_size = Vector2(7.81, 8.125)
-offset_left = 8.0
-offset_top = 9.0
-offset_right = 877.0
-offset_bottom = 115.0
-size_flags_horizontal = 2
-
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
 [editable path="Panel/CenterContainer/ScoreContributorWeightSlider"]
