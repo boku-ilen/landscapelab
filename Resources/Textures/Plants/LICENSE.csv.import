@@ -1,0 +1,15 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dyn35b778tvu4"
+valid=false
+
+[deps]
+
+source_file="res://Resources/Textures/Plants/LICENSE.csv"
+
+[params]
+
+compress=true
+delimiter=0
