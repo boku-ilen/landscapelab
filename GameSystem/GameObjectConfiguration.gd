@@ -164,8 +164,11 @@ func reload_attribute_informations():
 	for attribute_object in attribute_objects_to_game_objects.keys():
 		if $Entries/Attributes.has_node(attribute_object.name):
 			var new_text = attribute_object.get_value(attribute_objects_to_game_objects[attribute_object])
-			if float(new_text) > 0.0:
-				new_text = "%.1f" % new_text
+			if new_text is float or (new_text is String and new_text.is_valid_float()):
+				new_text = "%.1f" % float(new_text)
+			else:
+				if not new_text is String: new_text = ""
+			
 			$Entries/Attributes.get_node(attribute_object.name).get_node("Value").text = new_text
 
 
