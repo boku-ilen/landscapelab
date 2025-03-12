@@ -4,11 +4,16 @@
 [ext_resource type="Texture2D" uid="uid://br3bixa41r868" path="res://Resources/Textures/Barriers/Hedge/needle_normal.tga" id="2_ruh5l"]
 
 [resource]
-transparency = 3
-alpha_hash_scale = 1.48
+transparency = 2
+alpha_scissor_threshold = 0.7
 alpha_antialiasing_mode = 0
+cull_mode = 2
 albedo_texture = ExtResource("1_kjis6")
+roughness = 0.6
 normal_enabled = true
+normal_scale = 3.0
 normal_texture = ExtResource("2_ruh5l")
 rim = 0.2
 subsurf_scatter_strength = 0.25
+backlight_enabled = true
+backlight = Color(0.4875, 0.75, 0, 1)
