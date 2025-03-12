@@ -3,7 +3,7 @@ class_name GeometryUtil
 
 
 
-static func get_polygon_vertex_directions(polygon: Array[Vector2]) -> Array[Vector2]:
+static func get_polygon_vertex_directions(polygon: Array) -> Array[Vector2]:
 	var directions: Array[Vector2] = []
 	directions.resize(polygon.size())
 	
@@ -23,7 +23,10 @@ static func get_polygon_vertex_directions(polygon: Array[Vector2]) -> Array[Vect
 		# Find the vertex direction given the two previous vertices 
 		var angle: float = current_to_prev.angle_to(current_to_next)
 		var direction: Vector2 = (-current_to_prev - current_to_next).normalized()
-		direction *= -sign(angle)
+		if direction == Vector2.ZERO:
+			direction = current_to_prev.rotated(PI / 2)
+		else:
+			direction *= -sign(angle)
 		
 		directions[idx] = direction
 	
@@ -31,10 +34,10 @@ static func get_polygon_vertex_directions(polygon: Array[Vector2]) -> Array[Vect
 
 
 static func offset_polygon_vertices(
-	polygon: Array[Vector2], directions: Array[Vector2], offset: float):
+	polygon: Array, directions: Array[Vector2], offset: float):
 	assert(polygon.size() == directions.size())
 	
 	for idx in polygon.size():
-		polygon[idx] += directions[idx] * offset
+		polygon[idx] += directions[idx] * -offset
 	
 	return polygon
