@@ -24,6 +24,10 @@ var features := []
 var remove_features := []
 var load_features := []
 
+signal applied(new_features: Array, removed_features: Array)
+
+
+
 class FeatureChange:
 	enum ChangeType { ADD, REMOVE }
 	
@@ -121,6 +125,7 @@ func apply_new_data():
 	
 	mutex.unlock()
 	
+	applied.emit(load_features, remove_features)
 	super.apply_new_data()
 	
 	logger.info("Applied new feature data for %s" % [name])
