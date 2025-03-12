@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://ber2b7vcgbsaa"
+path="res://.godot/imported/normal.jpg-2844a4fb2ca9bd615c807412a9429615.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/SparseGrass/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-2844a4fb2ca9bd615c807412a9429615.image"]
+
+[params]
+

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://coxvma7228bvf"
+path="res://.godot/imported/ao.jpg-d973f72e3ad6648bb60909c9ea3689fc.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Forest/ao.jpg"
+dest_files=["res://.godot/imported/ao.jpg-d973f72e3ad6648bb60909c9ea3689fc.image"]
+
+[params]
+

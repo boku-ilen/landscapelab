@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://ki25prinfr0d"
+path="res://.godot/imported/arm.jpg-e0b53e021e366c2276c1e17f46356e7c.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/SparseGrass/arm.jpg"
+dest_files=["res://.godot/imported/arm.jpg-e0b53e021e366c2276c1e17f46356e7c.image"]
+
+[params]
+

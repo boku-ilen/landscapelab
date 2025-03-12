@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://dd8get5kh3ejm"
+path="res://.godot/imported/roughness.jpg-58ac7d4e43f8118e7419055a71f61e52.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/SparseGrass/roughness.jpg"
+dest_files=["res://.godot/imported/roughness.jpg-58ac7d4e43f8118e7419055a71f61e52.image"]
+
+[params]
+
