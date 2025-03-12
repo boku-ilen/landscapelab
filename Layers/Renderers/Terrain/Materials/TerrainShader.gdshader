@@ -26,13 +26,10 @@ uniform float size;
 
 varying vec3 world_pos;
 
-//uniform bool has_terraforming_texture;
-//uniform sampler2D terraforming_texture: repeat_disable, filter_nearest;
-//uniform sampler2D terraforming_weights: repeat_disable, filter_nearest;
-
 uniform sampler2DArray ground_textures: source_color;
 uniform sampler2DArray ground_normals: hint_normal;
 uniform sampler2DArray ground_displacement: hint_default_black;
+uniform sampler2DArray ground_roughness: hint_default_black;
 
 uniform bool make_hole = true;
 uniform sampler2D detail_noise;
@@ -45,7 +42,7 @@ float rand(vec2 co){
 
 // Adapted from https://www.shadertoy.com/view/mds3R4
 vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
-	uv.xy *= 2.0;
+	uv.xy *= 3.0;
 
 	float clamped_depth = max(depth, 10.0);
 
@@ -116,6 +113,14 @@ float get_landuse(vec2 uv) {
 	return overlay > 0.0 ? overlay : texture(landuse, uv).r;
 }
 
+vec3 blend_normals(vec3 n1, vec3 n2)
+{
+    vec3 t = n1.xyz*vec3( 2,  2, 2) + vec3(-1, -1,  0);
+    vec3 u = n2.xyz*vec3(-2, -2, 2) + vec3( 1,  1, -1);
+    vec3 r = t*dot(t, u) - u*t.z;
+    return normalize(r) * 0.5 + 0.5;
+}
+
 void vertex() {
 	// Hide transition with a "skirt": outermost row of vertices is moved down to create a wall that fills holes
 	if (UV.x < -0.1 || UV.x > 1.1 || UV.y < -0.1 || UV.y > 1.1) {
@@ -133,6 +138,8 @@ void vertex() {
 	if (make_hole && max_distance < 47.0) {
 		VERTEX.y -= 10.0;
 	}
+
+	NORMAL = get_normal(UV);
 
 	if (!make_hole) {
 		// This is the detail mesh
@@ -167,7 +174,7 @@ void vertex() {
 		average_weight /= count;
 		offset /= count;
 
-		//offset += (texture(detail_noise, scaled_near_uv / 40.0).r - 0.5) * average_weight;
+		offset += (texture(detail_noise, scaled_near_uv / 40.0).r - 0.5) * average_weight;
 
 		offset *= float(texture_index >= 0 && texture_index <= 10);
 
@@ -175,18 +182,7 @@ void vertex() {
 		float center_distance_factor = (0.5 - min(abs(UV.x - 0.5), abs(UV.y - 0.5))) * 2.0;
 
 		VERTEX.y += offset * center_distance_factor;
-
-		NORMAL = texture(detail_noise_normals, scaled_near_uv / 40.0).rgb;
 	}
-
-//	if (has_surface_heights) {
-//		float surface_height_factor = float(world_distance > surface_heights_start_distance);
-//		float texture_read = texture(surface_heightmap, UV).r;
-//		if (texture_read < 80.0) {
-//			// Nodata may be encoded as infinity
-//			VERTEX.y += texture_read * height_scale * surface_height_factor;
-//		}
-//	}
 }
 
 
@@ -258,6 +254,7 @@ void fragment() {
 	float dist_scale = clamp((depth - detail_only_range) / detail_ortho_blend_range, 0.0, 0.5);
 
 	float splat_id = get_landuse(UV);
+	int texture_index = int(splat_id / 1000.0) - 1;
 
 	if (int(splat_id / 1000.0) != 6) {
 		vec3 ortho_color = texture(orthophoto, UV).rgb;
@@ -267,8 +264,14 @@ void fragment() {
 		ALBEDO = detail_color;
 	}
 
-	NORMAL_MAP = detail_normal;
+	vec3 semi_detail_normal = texture(detail_noise_normals, scaled_near_uv / 40.0).rgb;
+
+	NORMAL_MAP = mix(
+		blend_normals(semi_detail_normal, detail_normal),
+		detail_normal,
+		max(1.0 - detail_noise_lid_weights[texture_index] * 2.0, 0.0));
 	METALLIC = 0.0;
-	ROUGHNESS = 0.95;
-	NORMAL_MAP_DEPTH = 1.0;
+	ROUGHNESS = fractal_texture_array(ground_roughness, vec3(scaled_near_uv, float(texture_index)), depth).r;
+	SPECULAR = 0.2;
+	NORMAL_MAP_DEPTH = 1.5;
 }
