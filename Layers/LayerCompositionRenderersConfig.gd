@@ -18,14 +18,15 @@ func _ready():
 
 
 func add_layer_composition(layer_composition: LayerComposition):
-	var new_layer_composition = layer_composition.render_info.renderer.instantiate()
+	var new_renderer = layer_composition.render_info.renderer.instantiate()
+	layer_composition.render_info.render_scene = new_renderer
 	
-	new_layer_composition.layer_composition = layer_composition
+	new_renderer.layer_composition = layer_composition
 	if layer_composition.name.is_empty():
 		layer_composition.name = layer_composition.render_info.get_class_name()
-	new_layer_composition.name = layer_composition.name
+	new_renderer.name = layer_composition.name
 	
-	layer_composition_renderers.add_composition(new_layer_composition)
+	layer_composition_renderers.add_composition(new_renderer)
 
 
 func remove_layer_composition(name_to_remove, _render_info):

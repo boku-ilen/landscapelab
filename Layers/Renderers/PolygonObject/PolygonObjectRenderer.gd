@@ -1,10 +1,10 @@
 extends FeatureLayerCompositionRenderer
 
 @export var check_aabb_collision: bool = false
-@export var distance_between_objects := Vector2(10, 10)
 
 # Stores if the object-layer has been processed previously
 var processed = false
+const offset = -5.0
 
 var object_instances = []
 
@@ -29,6 +29,7 @@ func spiral(start_position: Vector2, min_pos: Vector2, max_pos: Vector2, max_fea
 	var step_size = 0
 	DIRECTION.size()
 	var instance_count = 0
+	var matrix_pos := Vector2i(0, 0)
 	while instance_count < max_features:
 		var multiplier = i + (1 * int(direction % 2 == 0))
 		for step in range(step_size):
@@ -44,6 +45,7 @@ func spiral(start_position: Vector2, min_pos: Vector2, max_pos: Vector2, max_fea
 
 			if new_node:
 				instance_count += 1
+				new_node.name = "%d_%d" % [matrix_pos.x, matrix_pos.y]
 				parent.add_child(new_node)
 			
 			if instance_count > max_features:
@@ -51,12 +53,16 @@ func spiral(start_position: Vector2, min_pos: Vector2, max_pos: Vector2, max_fea
 			
 			match direction:
 				DIRECTION.UP:
+					matrix_pos += Vector2i.UP
 					y += dy
 				DIRECTION.DOWN:
+					matrix_pos += Vector2i.DOWN
 					y -= dy
 				DIRECTION.RIGHT:
+					matrix_pos += Vector2i.RIGHT
 					x += dx
 				DIRECTION.LEFT:
+					matrix_pos += Vector2i.LEFT
 					x -= dx
 		
 		i += 1
@@ -79,11 +85,9 @@ func load_feature_instance(activation_point: GeoFeature) -> Node3D:
 	if poly_features.is_empty(): return Node3D.new()
 	
 	var poly_feature = poly_features[0]
-	
 	var engine_polygon = poly_feature.get_float_offset_outer_vertices(-center[0], -center[1])
 	
 	# Inset polygon
-	var offset = 5.0
 	var directions = GeometryUtil.get_polygon_vertex_directions(engine_polygon)
 	engine_polygon = GeometryUtil.offset_polygon_vertices(engine_polygon, directions, offset)
 	
@@ -151,8 +155,8 @@ func load_feature_instance(activation_point: GeoFeature) -> Node3D:
 	var amount = layer_composition.render_info.amount
 	if not amount > 0.0:
 		amount = float(activation_point.get_attribute(layer_composition.render_info.amount_attribute))
-		
-	return spiral(
+	
+	var per_feature_parent = spiral(
 		Vector2(engine_pos.x, -engine_pos.z), 
 		Vector2(min_pos.x, min_pos.z), 
 		Vector2(max_pos.x, max_pos.z), 
@@ -161,6 +165,9 @@ func load_feature_instance(activation_point: GeoFeature) -> Node3D:
 		spacing_y,
 		set_object,
 	)
+	per_feature_parent.name = var_to_str(activation_point.get_id())
+	
+	return per_feature_parent
 
 
 func _ready():

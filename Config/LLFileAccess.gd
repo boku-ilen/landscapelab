@@ -158,6 +158,17 @@ func apply_layers(layers: Node):
 		
 		layers.add_layer_composition(layer_composition)
 		layers.recalculate_center()
+	
+	if "LayerCompositionConnections" in ll_project:
+		for connection_name in ll_project["LayerCompositionConnections"].keys():
+			logger.info("Loading layer composition connection" + connection_name + "...")
+			
+			var connection_data = ll_project["LayerCompositionConnections"][connection_name]
+			var layer_comp_connection = LayerCompositionConnectionSerializer.deserialize(
+				connection_data["type"],
+				connection_data["source"],
+				connection_data["target"]
+			)
 
 
 func apply_scenarios(scenarios: Node):
