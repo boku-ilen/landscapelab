@@ -57,7 +57,8 @@ func _ready():
 
 
 func full_load():
-	# Delete all previous features
+	# Delete all previous features, also emit signal stating this deletion
+	applied.emit([], features)
 	features.clear()
 	for child in get_children():
 		# FIXME: Workaround for ConnectedObjectRenderer, would need some kind of override or extra parent node

@@ -1,5 +1,8 @@
 extends LayerCompositionConnection
-class_name OutlinePolygon
+class_name PolygonObjectToRepeatingObject
+
+
+var instanced_geo_lines := {}
 
 
 func _build_grid_from_names(node_names: Array) -> Dictionary:
@@ -59,34 +62,34 @@ func _filter_grid_by_num_neighbors(grid, neighbor_counts, num_neighbors: int):
 func extract_relevant_data(source: LayerComposition, 
 							new_features: Array, 
 							removed_features: Array) -> Variant:
-	# 1. Filter new features for a set "outline" field to create a barrier around it
-	# 2. Obtain the nodes from renderer with outline set
-	var relevant_new = new_features \
-			.filter(func(feature: GeoFeature): 
-				return feature.get_attribute("outline") != "") \
-			.map(func(f: GeoFeature): 
-				return source_composition.render_info.render_scene.get_node(var_to_str(f.get_id())))
-	var relevant_old = removed_features \
-			.filter(func(feature: GeoFeature): 
-				return feature.get_attribute("outline") != "") \
-			.map(func(f: GeoFeature): 
-				return source_composition.render_info.render_scene.get_node(var_to_str(f.get_id())))
+	# Filter new features for a set "outline" field to create a barrier around it
+	var relevant_new = new_features.filter(func(feature: GeoFeature): 
+				return feature.get_attribute("outline") != "")
+	var relevant_old = removed_features.filter(func(feature: GeoFeature): 
+				return feature.get_attribute("outline") != "")
 	return {"new": relevant_new, "removed": relevant_old}
 
 
-func apply_to_target(target: LayerComposition, parent_nodes: Variant):
-	var new_parents = parent_nodes["new"]
-	var removed_parents = parent_nodes["removed"]
+func apply_to_target(target: LayerComposition, features: Variant):
+	var new_features = features["new"]
+	var removed_features = features["removed"]
 	
-	# FIXME: this does not appear to work yet
-	for parent in removed_parents:
-		var feature_id = parent.name
+	# Remove all outdated features
+	for feature in removed_features:
 		var line_layer: GeoFeatureLayer = target.render_info.geo_feature_layer
-		line_layer.remove_feature(line_layer.get_feature_by_id(str_to_var(feature_id)))
+		var geo_line = instanced_geo_lines[feature.get_id()]
+		line_layer.remove_feature(geo_line)
 	
-	for parent in new_parents:
+	# Create new features
+	for feature in new_features:
+		# Obtain the source composition parent node for the feature
+		var parent = source_composition.render_info.render_scene.get_node(
+			var_to_str(feature.get_id()))
+		# Obtain all positions of the set objects in this parent node
 		var node_positions = parent.get_children().map(
 			func(c: Node): return Vector2(c.position.x, c.position.z))
+		
+		# Statically typed arrays in godot require this
 		var node_positions_typed: Array[Vector2]
 		node_positions_typed.assign(node_positions)
 		# TODO: try large areas and see whether filtering the nodes improves performance
@@ -100,14 +103,20 @@ func apply_to_target(target: LayerComposition, parent_nodes: Variant):
 			#for y in grid[x].keys():
 				#pass#relevant_positions.append(parent.get_node("%f_%f" % [x, y]).position)
 		
+		# Calculate concave hull boundary
 		var hulls = ConcaveHull.get_hulls(node_positions_typed)
 		
 		var line_layer: GeoFeatureLayer = target.render_info.geo_feature_layer
 		var height_layer: GeoRasterLayer = target.render_info.ground_height_layer
 		var center = target.render_info.render_scene.center
+		
 		for hull in hulls:
+			# Offset the boundary so it does not intersect with the objects
 			var directions = GeometryUtil.get_polygon_vertex_directions(hull)
-			var offset_verts = GeometryUtil.offset_polygon_vertices(hull, directions, -source_composition.render_info.render_scene.offset)
+			var offset_verts = GeometryUtil.offset_polygon_vertices(
+				hull, directions, -source_composition.render_info.render_scene.offset)
+			
+			# Create geoline and its underlying curve3d
 			var curve := Curve3D.new()
 			curve.bake_interval = 0.
 			for point in hull: 
@@ -121,3 +130,14 @@ func apply_to_target(target: LayerComposition, parent_nodes: Variant):
 			
 			var geo_line = line_layer.create_feature()
 			geo_line.set_offset_curve3d(curve, center[0], 0, center[1])
+			
+			# Now set the attribute for the hedge from the activation point
+			geo_line.set_attribute(
+				target_composition.render_info.selector_attribute_name, 
+				feature.get_attribute("outline")
+			)
+			
+			# Store the geo_line to delete when the feature is deleted
+			instanced_geo_lines[feature.get_id()] = geo_line
+	
+	target.render_info.render_scene.full_load()
