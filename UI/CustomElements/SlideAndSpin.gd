@@ -51,7 +51,7 @@ signal value_changed(value)
 			$HSlider.value = val
 		
 		if has_node("ValueLabel"):
-			$ValueLabel.text = "%1d" % val
+			$ValueLabel.text = "%1.2f" % val
 
 
 @export var tick_count := 0 : 
