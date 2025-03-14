@@ -5,6 +5,9 @@ var renderers
 var offset = Vector3.ZERO
 var position_last_frame := Vector3.ZERO
 
+var done_applying := true
+var load_position := Vector3.ZERO
+
 
 var weather_manager: WeatherManager :
 	get:
@@ -48,7 +51,7 @@ func full_load():
 
 func is_new_loading_required(position_diff: Vector3) -> bool:
 	# Small radius for grass?
-	if Vector2(position_diff.x, position_diff.z).length_squared() >= 100:
+	if Vector2(position_diff.x, position_diff.z).length_squared() >= 100 and done_applying:
 		return true
 	
 	return false
@@ -56,6 +59,11 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 
 func adapt_load(_diff: Vector3):
 	super.adapt_load(_diff)
+	
+	# Stop loading new data until applying this load is finished
+	done_applying = false
+	
+	load_position =  position_manager.center_node.position
 	
 	# Clamp to steps of 1 in order to maintain the land-use grid
 	# FIXME: actually depends on the resolution of the land-use and potentially other factors
@@ -77,41 +85,31 @@ func adapt_load(_diff: Vector3):
 	call_deferred("apply_new_data")
 
 
-func _process(delta):
-	super._process(delta)
-	
-	# Continuously reposition the Vegetation particles in the most optimal way
+func apply_new_data():
 	for renderer in renderers.get_children():
-		renderer.position = Vector3(
-			position_last_frame.x,
-			0.0,
-			position_last_frame.z
-		)
+		renderer.apply_textures()
 		
-#		# Follow camera forward in order to only render in front
-#		renderer.position += position_manager.center_node.get_look_direction() * (renderer.spacing * renderer.rows * 0.5)
+		# Continuously reposition the Vegetation particles in the most optimal way
+		renderer.position = Vector3(
+			load_position.x,
+			0.0,
+			load_position.z
+		)
 		
 		renderer.position = Vector3(
 			renderer.position.x - fposmod(renderer.position.x, renderer.spacing * (1.0 + (float(renderer.density_class.id == 6) * 2.0))),
 			0.0,
 			renderer.position.z - fposmod(renderer.position.z, renderer.spacing)
 		)
-		
-		renderer.process_material.set_shader_parameter(
-			"view_direction",
-			position_manager.center_node.get_look_direction()
-		)
-		
-		renderer.restart()
-	
-	position_last_frame = position_manager.center_node.position
-
-
-func apply_new_data():
-	for renderer in renderers.get_children():
-		renderer.apply_textures()
 	
 	logger.info("Applied full new RasterVegetationRenderer data for %s" % [name])
+	
+	# Make sure to wait until the LIDOverlay viewport is finished until we set done_applying to true
+	#  (check the `await`s in VegetationParticles.gd)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
+	done_applying = true
 
 
 func get_debug_info() -> String:

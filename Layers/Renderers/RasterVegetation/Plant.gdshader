@@ -62,7 +62,7 @@ void vertex() {
 
 	// Read plant size
 	float size = (INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b);
-	
+
 	// Scale size by hue-shift
 	size  *= (1.0 + random_hue_shift * 2.0);
 
@@ -95,7 +95,7 @@ void vertex() {
 	//  which produces a nice fade-in result since it avoids sampling the lower parts of plants
 	//  that are usually darker
 	float dist = length(camera_pos.xz - worldpos.xz);
-	float dist_alpha = smoothstep(max_distance - 20.0, max_distance + 20.0, dist);
+	float dist_alpha = smoothstep(max_distance - 30.0, max_distance + 10.0, dist);
 
 	VERTEX.y -= dist_alpha;
 }

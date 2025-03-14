@@ -5,6 +5,8 @@ extends GPUParticles3D
 @export var rows = 4
 @export var spacing = 1.0
 
+var waiting_for_update := false
+
 # Density class of this plant renderer -- influences the density of the rendered particles.
 var density_class: DensityClass :
 	get:
@@ -153,11 +155,15 @@ func texture_update(dhm_layer, splat_layer, world_x, world_y, new_uv_offset_x, n
 func apply_textures():
 	$LIDOverlayViewport.position = last_load_pos
 	
-	await $LIDOverlayViewport.update_done
+	# Wait for the LIDOverlayViewport to render
+	await get_tree().process_frame
+	await get_tree().process_frame
 	
 	process_material.set_shader_parameter("splatmap", splatmap)
 	process_material.set_shader_parameter("heightmap", heightmap)
 	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, uv_offset_y))
+	
+	restart()
 
 
 func apply_wind(wind_force):

@@ -189,7 +189,7 @@ void fragment() {
 	ALBEDO *= mix(0.85, 1.0, view_angle);
 
 	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), 0.75, 0.99);
-	ALPHA *= smoothstep(90.0, 110.0, length((camera_pos - worldpos)));
+	ALPHA *= smoothstep(70.0, 90.0, length((camera_pos - worldpos)));
 	//ALPHA_HASH_SCALE = 1.0;
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 
