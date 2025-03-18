@@ -31,13 +31,13 @@ func _ready():
 
 func _on_item_selcted(idx: int):
 	if not show_raster_layers:
-		var layer = _get_geo_layer()
-		new_layer_selected.emit(layer)
+		new_layer_selected.emit(_get_geo_layer())
 
 
 func _check_path(_which: String = ""):
 	if is_current_file_dataset():
 		_fill_dataset_options()
+		new_layer_selected.emit(_get_geo_layer())
 
 
 func _fill_dataset_options():

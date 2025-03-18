@@ -32,6 +32,8 @@ func _process(delta):
 			velocity.y += pivot_speed * delta
 		if Input.is_action_pressed("camera_move_down"):
 			velocity.y -= pivot_speed * delta
+		if Input.is_action_pressed("camera_stop"):
+			velocity = Vector3.ZERO
 		
 		# Make x and y velocity decay over time, z (forward/backward) velocity stays the same
 		velocity.x *= pivot_speed_decay
