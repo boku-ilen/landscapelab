@@ -24,6 +24,10 @@ var features := []
 var remove_features := []
 var load_features := []
 
+signal applied(new_features: Array, removed_features: Array)
+
+
+
 class FeatureChange:
 	enum ChangeType { ADD, REMOVE }
 	
@@ -53,7 +57,8 @@ func _ready():
 
 
 func full_load():
-	# Delete all previous features
+	# Delete all previous features, also emit signal stating this deletion
+	applied.emit([], features)
 	features.clear()
 	for child in get_children():
 		# FIXME: Workaround for ConnectedObjectRenderer, would need some kind of override or extra parent node
@@ -121,6 +126,7 @@ func apply_new_data():
 	
 	mutex.unlock()
 	
+	applied.emit(load_features, remove_features)
 	super.apply_new_data()
 	
 	logger.info("Applied new feature data for %s" % [name])
