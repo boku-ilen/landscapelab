@@ -12,7 +12,7 @@ extends Node3D
 		toggle_cam(true)
 @onready var focus_path = $FocusPath.curve : 
 	set(new_path):
-		path = new_path
+		focus_path = new_path
 		$FocusPath.curve = path
 
 

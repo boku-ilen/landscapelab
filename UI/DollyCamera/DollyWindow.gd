@@ -76,11 +76,34 @@ func _ready():
 
 
 func apply_curve3D_to_path(path_name: String):
-	var feature = feature_chooser.get_currently_selected_feature()
+	var feature: GeoLine = feature_chooser.get_currently_selected_feature()
 	if not feature is GeoLine: return
 	
 	var center: Array = position_manager.get_center()
-	dolly_scene.set(path_name, feature.get_offset_curve3d(-center[0], 0, -center[1]))
+	
+	# Obtain the actual geo positions (curve does not have an option to get the unbaked points
+	# unfortunately)
+	var geo_points = []
+	var geo_curve = feature.get_curve3d()
+	geo_points.resize(geo_curve.point_count)
+	for i in geo_curve.point_count:
+		geo_points[i] = geo_curve.get_point_position(i)
+	
+	# Now sample on the DTM
+	geo_points = GeoUtil.sample_points_on_height_model(
+		geo_points, 
+		Layers.layer_compositions["Terrain"].render_info.height_layer,
+		true
+	)
+	
+	# And apply back to the engine curve
+	var engine_curve: Curve3D = feature.get_offset_curve3d(-center[0], 0, -center[1])
+	for i in geo_points.size():
+		var pos = engine_curve.get_point_position(i)
+		pos.y = geo_points[i].y
+		engine_curve.set_point_position(i, pos)
+	
+	dolly_scene.set(path_name, engine_curve)
 
 
 func on_set_handlers(handlers):
@@ -105,9 +128,10 @@ func on_set_handlers(handlers):
 	clear.pressed.connect(func(): set_action.is_closed = false)
 	
 	# Enables the set action for action handlers
-	var set = $Margin/VBox/ImagingMenu/GridContainer/Set
+	$Margin/VBox/ImagingMenu/GridContainer/Set
+	var set_button = $Margin/VBox/ImagingMenu/GridContainer/Set
 	for handler in action_handlers:
-		set.toggled.connect(func(toggled: bool):
+		set_button.toggled.connect(func(toggled: bool):
 			if toggled: handler.set_current_action(set_action)
 			else: handler.stop_current_action())
 	
@@ -139,3 +163,4 @@ func _input(event):
 			$Margin/VBox/ImagingMenu/VBoxContainer/SpinBox.value += scroll_step
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			$Margin/VBox/ImagingMenu/VBoxContainer/SpinBox.value -= scroll_step
+	

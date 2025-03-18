@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://bx1s762fjir8s"
+path="res://.godot/imported/displacement.jpg-80aa65b61b1d2830c5729fe1f4a02467.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/MudLeaves/displacement.jpg"
+dest_files=["res://.godot/imported/displacement.jpg-80aa65b61b1d2830c5729fe1f4a02467.image"]
+
+[params]
+

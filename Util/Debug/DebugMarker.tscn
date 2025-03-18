@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://ultqi5855nr3"]
+[gd_scene load_steps=2 format=3 uid="uid://ultqi5855nr3"]
 
 [sub_resource type="SphereMesh" id="1"]
 radius = 50.0
@@ -6,13 +6,7 @@ height = 100.0
 radial_segments = 32
 rings = 24
 
-[sub_resource type="StandardMaterial3D" id="2"]
-emission_enabled = true
-emission = Color(1, 0, 0, 1)
-emission_energy_multiplier = 10.0
-
 [node name="DebugMarker" type="Node3D" groups=["SpatialShifting"]]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("1")
-material/0 = SubResource("2")

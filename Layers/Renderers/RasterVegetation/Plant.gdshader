@@ -10,7 +10,7 @@ render_mode cull_disabled, depth_draw_opaque;
 
 global uniform vec3 HCY_SHIFT;
 
-uniform sampler2D[100] texture_map : source_color, repeat_disable;
+uniform sampler2D[100] texture_map : source_color, repeat_disable, filter_linear_mipmap_anisotropic;
 
 uniform sampler2D world_space_normal_map: hint_normal, repeat_enable;
 uniform sampler2D wind_map;
@@ -60,7 +60,11 @@ void vertex() {
 		VERTEX += mesh_normal * (float(texture_size.x) / float(texture_size.y) - 1.0) * 0.5;
 	}
 
-	float size = INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b;
+	// Read plant size
+	float size = (INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b);
+
+	// Scale size by hue-shift
+	size  *= (1.0 + random_hue_shift * 2.0);
 
 	// Scale by the size
 	VERTEX *= size;
@@ -91,7 +95,7 @@ void vertex() {
 	//  which produces a nice fade-in result since it avoids sampling the lower parts of plants
 	//  that are usually darker
 	float dist = length(camera_pos.xz - worldpos.xz);
-	float dist_alpha = smoothstep(max_distance - 20.0, max_distance + 20.0, dist);
+	float dist_alpha = smoothstep(max_distance - 30.0, max_distance + 10.0, dist);
 
 	VERTEX.y -= dist_alpha;
 }
@@ -139,7 +143,7 @@ void fragment() {
 	// Other material parameters
 	//RIM = 0.4;
 	AO_LIGHT_AFFECT = 0.9;
-	AO = max(generate_darken_gradient(UV.y, 1.0, 0.6, 0.0) - wind_strength * 0.5, 0.0);
+	AO = max(generate_darken_gradient(UV.y, 0.6, 0.6, 0.0) - wind_strength * 0.5, 0.0);
 	NORMAL_MAP = generate_normal_from_albedo(texture_map[int(round(dist_id))], UV, vec4(0.7, 0.7, 0.7, 0.8), 0.05, 1.0);
 	NORMAL_MAP_DEPTH = 1.0;
 	METALLIC = 0.0;
@@ -149,7 +153,7 @@ void fragment() {
 	float greenness = clamp(pow(abs(hcy.r + 1.6) * 4.0, 4.0), 0.0, 1.0);
 
 	ROUGHNESS = mix(0.65, 0.95, greenness);
-	SPECULAR = mix(0.05, 0.17, AO);
+	SPECULAR = mix(0.05, 0.2, AO);
 
 	//ALBEDO = mix(ALBEDO,
 		//vec3(mix(0.25, 0.85, pow(abs(hcy.r + 1.7), 2.0))),

@@ -120,7 +120,9 @@ var mapping_type_to_construction_func = {
 	"ClassGameObjectAttribute": func(_name, data):
 		return ClassGameObjectAttribute.new(_name, data["class_to_attributes"]),
 	"CalculatedGameObjectAttribute": func(_name, data):
-		return CalculatedGameObjectAttribute.new(_name, data["formula"])
+		return CalculatedGameObjectAttribute.new(_name, data["formula"], data["attribute"] if "attribute" in data else ""),
+	"AggregatedGameObjectAttribute": func(_name, data):
+		return AggregatedGameObjectAttribute.new(_name, data["attributes"], data["values"])
 	# TODO: implement all possible attributes
 }
 func _deserialize_mappings(game_mode: GameMode,
