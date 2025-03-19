@@ -16,6 +16,7 @@ var score: GameScore :
 			
 			$VBoxContainer/Name.text = score.name
 			$VBoxContainer/MaxValue.text = str(score.target)
+			$VBoxContainer/Unit.text = score.unit
 			$ProgressBar.min_value = 0.0
 			$ProgressBar.max_value = score.target
 			
@@ -42,6 +43,8 @@ var score: GameScore :
 			$ProgressBar.visible = false
 			$VBoxContainer/ValueSeparator.visible = false
 			$VBoxContainer/MaxValue.visible = false
+			$VBoxContainer/CurrentValue.visible = false
+			$VBoxContainer/Unit.visible = false
 	
 	
 		_update_data(score.value)

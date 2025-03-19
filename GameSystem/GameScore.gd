@@ -14,6 +14,7 @@ var target := 0.0
 # descriptor -> energy-symbol; subject -> household
 var icon_descriptor := ""
 var icon_subject := ""
+var unit := ""
 
 const DisplayMode = {
 	PROGRESSBAR = "ProgressBar",

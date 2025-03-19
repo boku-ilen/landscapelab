@@ -155,6 +155,7 @@ func _deserialize_scores(game_mode: GameMode, scores: Dictionary):
 		# Might not be set for all display_modes
 		score.icon_subject = metadata["icon_subject"] if "icon_subject" in metadata else ""
 		score.icon_descriptor = metadata["icon_descriptor"] if "icon_descriptor" in metadata else ""
+		score.unit = metadata["unit"] if "unit" in metadata else ""
 		
 		# Add all possible contributors
 		var contributors = scores[score_name]["contributors"]
