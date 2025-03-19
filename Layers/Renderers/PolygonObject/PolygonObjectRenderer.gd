@@ -158,7 +158,7 @@ func load_feature_instance(activation_point: GeoFeature) -> Node3D:
 		spacing_y = float(activation_point.get_attribute(layer_composition.render_info.spacing_y_attribute))
 	
 	spacing_x += aabb.size.x
-	spacing_y += aabb.size.y
+	spacing_y += aabb.size.z
 	
 	var amount = layer_composition.render_info.amount
 	if not amount > 0.0:
