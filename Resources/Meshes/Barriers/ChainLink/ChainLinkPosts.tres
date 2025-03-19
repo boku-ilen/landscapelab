@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://dslajqb821ki5"]
+
+[ext_resource type="Texture2D" uid="uid://dxoosgwnu5s0" path="res://Resources/Meshes/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_posts_diff_2k.png" id="1_1qe00"]
+[ext_resource type="Texture2D" uid="uid://cg0ue06ee83cw" path="res://Resources/Meshes/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_posts_metal-modular_chainlink_fence_posts_rough.png" id="2_er6dk"]
+[ext_resource type="Texture2D" uid="uid://cdrx2e1tr0bo7" path="res://Resources/Meshes/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_posts_nor_gl_2k.png" id="3_iq8w4"]
+
+[resource]
+resource_name = "modular_chainlink_fence_posts"
+cull_mode = 2
+albedo_texture = ExtResource("1_1qe00")
+metallic = 1.0
+metallic_texture = ExtResource("2_er6dk")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_er6dk")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_iq8w4")
