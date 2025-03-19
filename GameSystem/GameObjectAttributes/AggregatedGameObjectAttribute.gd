@@ -19,7 +19,10 @@ func get_value(game_object):
 	var current_table_level = values
 	
 	for attribute in attributes:
-		var attribute_value = "%d" % [int(game_object.get_attribute(attribute))]
+		var attribute_value =  game_object.get_attribute(attribute)
+		
+		if attribute_value is float or (attribute_value is String and attribute_value.is_valid_int()):
+			attribute_value = "%d" % [int(game_object.get_attribute(attribute))]
 		
 		# Return 0 if this was not defined
 		if not attribute_value in current_table_level: return 0
