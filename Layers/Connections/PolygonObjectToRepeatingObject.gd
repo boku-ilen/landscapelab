@@ -100,10 +100,12 @@ func apply_to_target(target: LayerComposition, features: Variant):
 		#var grid = _build_grid_from_names(node_names)
 		#var neighbor_counts = _count_neighbors(grid)
 		#_filter_grid_by_num_neighbors(grid, neighbor_counts, 4)
-		#var relevant_positions = []
+		#var relevant_positions: Array[Vector2] = []
 		#for x in grid.keys():
 			#for y in grid[x].keys():
-				#pass#relevant_positions.append(parent.get_node("%f_%f" % [x, y]).position)
+				#var node_name = "%s_%s" % [x, y]
+				#var node_position = Vector2(parent.get_node(node_name).position.x, parent.get_node(node_name).position.z)
+				#relevant_positions.append(node_position)
 		
 		# Calculate concave hull boundary
 		var hulls = ConcaveHull.get_hulls(node_positions_typed)

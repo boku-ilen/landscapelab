@@ -4,7 +4,7 @@ extends FeatureLayerCompositionRenderer
 
 # Stores if the object-layer has been processed previously
 var processed = false
-const offset = -5.0
+const offset = -8.0
 
 var object_instances = []
 
@@ -130,9 +130,17 @@ func load_feature_instance(activation_point: GeoFeature) -> Node3D:
 			center[0] + current_pos_2d.x, center[1] - current_pos_2d.y)
 		var object_pos = Vector3(current_pos_2d.x, object_y_pos, current_pos_2d.y)
 		
+		var object_y_pos_right = layer_composition.render_info.ground_height_layer.get_value_at_position(
+			center[0] + current_pos_2d.x - 4, center[1] - current_pos_2d.y)
+		
+		var angle = atan((object_y_pos - object_y_pos_right) / 4)
+		
+		
 		if fully_inside:
-			var new_object = object_scene.instantiate()
+			var geom_tick = Time.get_ticks_usec()
+			var new_object = object.duplicate(DUPLICATE_SCRIPTS)
 			new_object.rotation.y = deg_to_rad(layer_composition.render_info.individual_rotation)
+			new_object.rotation.z = angle
 			new_object.position = object_pos
 			
 			if "feature" in new_object: new_object.feature = activation_point
@@ -150,7 +158,7 @@ func load_feature_instance(activation_point: GeoFeature) -> Node3D:
 		spacing_y = float(activation_point.get_attribute(layer_composition.render_info.spacing_y_attribute))
 	
 	spacing_x += aabb.size.x
-	spacing_y += aabb.size.y
+	spacing_y += aabb.size.z
 	
 	var amount = layer_composition.render_info.amount
 	if not amount > 0.0:
