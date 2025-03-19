@@ -129,6 +129,31 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 	new_data.emit()
 
 
+func get_overlay_row_id_and_distribution():
+	var overlay_density_class_to_distribution_megatexture = []
+	overlay_density_class_to_distribution_megatexture.resize(96)
+	
+	var filtered_groups = filter_group_array_by_density_class(groups.values(), density_classes[1], density_classes[4])
+		
+	var id = 0
+	
+	var row_id_image = Image.create(11000, 1, false, Image.FORMAT_R8);
+	
+	for group in filtered_groups:
+		if group.plants.is_empty(): continue
+		
+		var distribution = generate_distribution(group, max_plant_height, 0)
+		overlay_density_class_to_distribution_megatexture[id] = ImageTexture.create_from_image(distribution)
+		row_id_image.set_pixel(group.id, 0, Color8(id + 1, 0, 0))
+		id += 1
+	
+	var overlay_row_id_image = ImageTexture.create_from_image(row_id_image)
+	
+	return [overlay_row_id_image, overlay_density_class_to_distribution_megatexture]
+	
+	
+
+
 # Save the current Plant and Group data to CSV files at the given locations.
 # If the files exist, their content is replaced by the new data.
 func save_to_files(plant_csv_path: String, group_csv_path: String):
@@ -164,7 +189,7 @@ func get_id_array_for_groups(group_array):
 # Returns an array with the same groups as were given in the function,
 #  but with each group's plant array only consisting of plants with the
 #  given density class.
-func filter_group_array_by_density_class(group_array: Array, density_class):
+func filter_group_array_by_density_class(group_array: Array, density_class, density_class_2 = null):
 	var new_array = []
 	
 	for group in group_array:
@@ -172,6 +197,8 @@ func filter_group_array_by_density_class(group_array: Array, density_class):
 		
 		for plant in group.plants:
 			if plant.density_class == density_class:
+				filtered_plants.append(plant)
+			elif density_class_2 and plant.density_class == density_class_2:
 				filtered_plants.append(plant)
 		
 		#if not filtered_plants.is_empty():

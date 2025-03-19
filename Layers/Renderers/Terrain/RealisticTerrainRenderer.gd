@@ -12,6 +12,12 @@ var weather_manager: WeatherManager :
 var shader_material = preload("res://Layers/Renderers/Terrain/Materials/TerrainShader.tres")
 var water_material = preload("res://addons/water/Water.tres")
 var fake_plant_material = preload("res://Layers/Renderers/Terrain/Materials/FakePlantMaterial.tres")
+var overlay_row_id_and_distribution
+
+
+func _init():
+	overlay_row_id_and_distribution = Vegetation.get_overlay_row_id_and_distribution()
+
 
 func _setup_ground_textures():
 	var texture_folders = [
@@ -81,20 +87,11 @@ func custom_chunk_setup(chunk):
 	chunk.get_node("Mesh").material_override.next_pass.next_pass = fake_plant_material.duplicate()
 	
 	# Set static shader variables
-	chunk.get_node("Mesh").material_override.next_pass.next_pass.set_shader_parameter("row_ids", Vegetation.row_ids[1])
-	chunk.get_node("Mesh").material_override.next_pass.next_pass.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[1])
+	chunk.get_node("Mesh").material_override.next_pass.next_pass.set_shader_parameter("row_ids", overlay_row_id_and_distribution[0])
+	chunk.get_node("Mesh").material_override.next_pass.next_pass.set_shader_parameter("distribution_array", overlay_row_id_and_distribution[1])
 	chunk.get_node("Mesh").material_override.next_pass.next_pass.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
 	
-	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass = fake_plant_material.duplicate()
-	
-	# FIXME: Try to combine all density classes into one shader
-	
-	# Set static shader variables
-	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass.set_shader_parameter("row_ids", Vegetation.row_ids[6])
-	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[6])
-	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
-	
-	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass.next_pass = fake_plant_material.duplicate()
+	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass = null
 
 
 func _setup_detail_noise():

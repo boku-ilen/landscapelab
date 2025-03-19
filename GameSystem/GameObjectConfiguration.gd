@@ -122,7 +122,7 @@ func add_configuration_class_option(option_name, reference, classes, default):
 		attribute_changed.emit(reference, option_name, item_list.get_item_text(item_index))
 	)
 	
-	$Entries/Attributes.add_child(item_list)
+	$Entries/Attributes/Settings.add_child(item_list)
 	
 	await get_tree().process_frame
 	
@@ -157,51 +157,73 @@ func add_configuration_option(option_name, reference, min=null, max=null, defaul
 	
 	vbox.add_child(label)
 	vbox.add_child(slider)
-	$Entries/Attributes.add_child(vbox)
+	$Entries/Attributes/Settings.add_child(vbox)
 
 
 func reload_attribute_informations():
 	for attribute_object in attribute_objects_to_game_objects.keys():
-		if $Entries/Attributes.has_node(attribute_object.name):
-			var new_text = attribute_object.get_value(attribute_objects_to_game_objects[attribute_object])
-			if new_text is float or (new_text is String and new_text.is_valid_float()):
-				new_text = "%.2f" % float(new_text)
+		if $Entries/Attributes/Information.has_node(attribute_object.name):
+			set_attribute_value_text($Entries/Attributes/Information.get_node(attribute_object.name).get_node("Value"), attribute_object)
+
+
+func set_attribute_value_text(label, attribute):
+	var new_text = attribute.get_value(attribute_objects_to_game_objects[attribute])
+	if new_text is float or (new_text is String and new_text.is_valid_float()):
+		new_text = "%.1f" % float(new_text)
+	else:
+		if not new_text is String: new_text = ""
+	
+	if not attribute.icon_settings.is_empty():
+		if attribute.icon_settings.type == "unit":
+			new_text += " " + attribute.icon_settings.postfix
+		elif attribute.icon_settings.type == "plus_minus":
+			if new_text.to_float() > attribute.icon_settings.threshold:
+				new_text = "+"
+			elif new_text.to_float() < -attribute.icon_settings.threshold:
+				new_text = "-"
 			else:
-				if not new_text is String: new_text = ""
-			
-			$Entries/Attributes.get_node(attribute_object.name).get_node("Value").text = new_text
+				new_text = "0"
+	
+	label.text = new_text
+
 
 
 func add_attribute_information(attribute: GameObjectAttribute, attribute_value, game_object):
-	if attribute.icon_settings.is_empty() or attribute.icon_settings.type == "unit":
+	if attribute.icon_settings.is_empty() or attribute.icon_settings.type == "unit" \
+			or attribute.icon_settings.type == "plus_minus":
 		# Standard icon: name to value as text
-		var hbox = HBoxContainer.new()
+		var hbox = VBoxContainer.new()
 		hbox.name = attribute.name
 		
 		attribute_objects_to_game_objects[attribute] = game_object
 		
 		if attribute_value is float or float(attribute_value) > 0.0:
-			attribute_value = "%.2f" % attribute_value
-		hbox.custom_minimum_size.x = min(str(attribute_value).length() + attribute.name.length(), 600.0)
+			attribute_value = "%.1f" % attribute_value
+		
+		hbox.custom_minimum_size.x = min(attribute_value.length() + attribute.name.length(), 600.0)
 		
 		var label1 = Label.new()
 		label1.text = attribute.name
+		label1.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		hbox.add_child(label1)
 		
 		var label2 = Label.new()
+		label2.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label2.name = "Value"
 		
 		# Style fixes for long text
 		label2.autowrap_mode = TextServer.AUTOWRAP_WORD
 		label2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		label2.text = attribute_value
 		
+		set_attribute_value_text(label2, attribute)
+	
 		hbox.add_child(label2)
 		
-		if not attribute.icon_settings.is_empty() and attribute.icon_settings.type == "unit":
-			label2.text += " " + attribute.icon_settings.postfix
+		var margin = HBoxContainer.new()
+		margin.custom_minimum_size.y = 30.0
+		hbox.add_child(margin)
 		
-		$Entries/Attributes.add_child(hbox)
+		$Entries/Attributes/Information.add_child(hbox)
 		
 		# FIXME: Required to work around https://github.com/godotengine/godot/issues/28818 in some edge cases
 		await get_tree().process_frame
@@ -211,10 +233,10 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 		# Special icon
 		if attribute.icon_settings.type == "outlined":
 			# Icon with outline which is colored based on threshold values
-			if not $Entries/Attributes.has_node("OutlinedIcons"):
+			if not $Entries/Attributes/Information.has_node("OutlinedIcons"):
 				var hbox = HBoxContainer.new()
 				hbox.name = "OutlinedIcons"
-				$Entries/Attributes.add_child(hbox)
+				$Entries/Attributes/Information.add_child(hbox)
 			
 			var icon = load(attribute.icon_settings.icon)
 			var color
@@ -227,22 +249,25 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 			icon_node.texture = icon
 			icon_node.outline_color = Color(color)
 			
-			$Entries/Attributes/OutlinedIcons.add_child(icon_node)
+			$Entries/Attributes/Information/OutlinedIcons.add_child(icon_node)
 		elif attribute.icon_settings.type == "show_if_exceeds":
 			# Icon which only shows up if the attribute value exceeds a certain threshold
-			if not $Entries/Attributes.has_node("OutlinedIcons"):
+			if not $Entries/Attributes/Information.has_node("OutlinedIcons"):
 				var hbox = HBoxContainer.new()
 				hbox.name = "OutlinedIcons"
-				$Entries/Attributes.add_child(hbox)
+				$Entries/Attributes/Information.add_child(hbox)
 			if attribute_value >= attribute.icon_settings.threshold:
 				var icon = load(attribute.icon_settings.icon)
 				var icon_node = preload("res://UI/CustomElements/MarginTexture.tscn").instantiate()
 				icon_node.texture = icon
-				$Entries/Attributes/OutlinedIcons.add_child(icon_node)
+				$Entries/Attributes/Information/OutlinedIcons.add_child(icon_node)
 
 
 func clear_attributes():
 	attribute_objects_to_game_objects.clear()
 	
-	for child in $Entries/Attributes.get_children():
+	for child in $Entries/Attributes/Information.get_children():
+		child.free()
+	
+	for child in $Entries/Attributes/Settings.get_children():
 		child.free()

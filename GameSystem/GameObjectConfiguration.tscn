@@ -44,29 +44,41 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 alignment = 2
 
-[node name="Attributes" type="VBoxContainer" parent="Entries"]
+[node name="Attributes" type="HBoxContainer" parent="Entries"]
+layout_mode = 2
+
+[node name="Settings" type="VBoxContainer" parent="Entries/Attributes"]
+layout_mode = 2
+alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="Entries/Attributes"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+
+[node name="Information" type="VBoxContainer" parent="Entries/Attributes"]
 layout_mode = 2
 size_flags_vertical = 3
+alignment = 1
 
-[node name="OutlinedIcons" type="HBoxContainer" parent="Entries/Attributes"]
+[node name="OutlinedIcons" type="HBoxContainer" parent="Entries/Attributes/Information"]
 layout_mode = 2
 
-[node name="OutlinedTexture" parent="Entries/Attributes/OutlinedIcons" instance=ExtResource("5_8igjy")]
+[node name="OutlinedTexture" parent="Entries/Attributes/Information/OutlinedIcons" instance=ExtResource("5_8igjy")]
 layout_mode = 2
 texture = ExtResource("6_n2ce2")
 outline_color = Color(0.636333, 0.92, 0.46, 1)
 
-[node name="OutlinedTexture2" parent="Entries/Attributes/OutlinedIcons" instance=ExtResource("5_8igjy")]
+[node name="OutlinedTexture2" parent="Entries/Attributes/Information/OutlinedIcons" instance=ExtResource("5_8igjy")]
 layout_mode = 2
 texture = ExtResource("7_sw5vh")
 outline_color = Color(0.636333, 0.92, 0.46, 1)
 
-[node name="OutlinedTexture3" parent="Entries/Attributes/OutlinedIcons" instance=ExtResource("5_8igjy")]
+[node name="OutlinedTexture3" parent="Entries/Attributes/Information/OutlinedIcons" instance=ExtResource("5_8igjy")]
 layout_mode = 2
 texture = ExtResource("8_4lffu")
 outline_color = Color(0.636333, 0.92, 0.46, 1)
 
-[node name="OutlinedTexture4" parent="Entries/Attributes/OutlinedIcons" instance=ExtResource("5_8igjy")]
+[node name="OutlinedTexture4" parent="Entries/Attributes/Information/OutlinedIcons" instance=ExtResource("5_8igjy")]
 layout_mode = 2
 texture = ExtResource("9_u6r3p")
 outline_color = Color(0.636333, 0.92, 0.46, 1)
