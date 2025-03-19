@@ -103,14 +103,12 @@ func override_build(center_x, center_y):
 	var top_left_y = float(center_y + size / 2)
 	
 	# Heightmap
-	var sample_rate = size / mesh_resolution
-	
 	var current_height_image = height_layer.get_image(
 		top_left_x - 1,
 		top_left_y + 1,
 		size + 2,
 		mesh_resolution + 1,
-		0
+		1
 	)
 	
 	if current_height_image.is_valid():

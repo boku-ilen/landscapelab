@@ -12,5 +12,4 @@ lid = 2002
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 layers = 32768
 polygon = PackedVector2Array(-0.5, 0.2, 0.5, 0.2, 0.5, 0, -0.5, 0)
-path_rotation_accurate = false
 material = ExtResource("2_g57b5")

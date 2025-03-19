@@ -5,7 +5,6 @@ class_name GameObjectClusterCollection
 # A collection of clusters of GameObjects at pre-defined locations.
 #
 
-var attributes = {}
 var feature_layer
 var location_layer
 var instance_goc

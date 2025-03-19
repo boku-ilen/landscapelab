@@ -164,8 +164,11 @@ func reload_attribute_informations():
 	for attribute_object in attribute_objects_to_game_objects.keys():
 		if $Entries/Attributes.has_node(attribute_object.name):
 			var new_text = attribute_object.get_value(attribute_objects_to_game_objects[attribute_object])
-			if float(new_text) > 0.0:
-				new_text = "%.1f" % new_text
+			if new_text is float or (new_text is String and new_text.is_valid_float()):
+				new_text = "%.2f" % float(new_text)
+			else:
+				if not new_text is String: new_text = ""
+			
 			$Entries/Attributes.get_node(attribute_object.name).get_node("Value").text = new_text
 
 
@@ -178,7 +181,7 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 		attribute_objects_to_game_objects[attribute] = game_object
 		
 		if attribute_value is float or float(attribute_value) > 0.0:
-			attribute_value = "%.1f" % attribute_value
+			attribute_value = "%.2f" % attribute_value
 		hbox.custom_minimum_size.x = min(str(attribute_value).length() + attribute.name.length(), 600.0)
 		
 		var label1 = Label.new()

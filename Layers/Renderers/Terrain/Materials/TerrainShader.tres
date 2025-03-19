@@ -9,7 +9,7 @@
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_diwcu")
-shader_parameter/size = null
+shader_parameter/size = 0.0
 shader_parameter/surface_color = Color(0.654902, 0.768627, 0.705882, 1)
 shader_parameter/depth_color = Color(0.384314, 0.478431, 0.478431, 1)
 shader_parameter/opacity = 0.5
@@ -37,6 +37,6 @@ shader_parameter/height_scale = 1.0
 shader_parameter/use_landuse_overlay = false
 shader_parameter/detail_only_range = 50.0
 shader_parameter/detail_ortho_blend_range = 700.0
-shader_parameter/size = null
+shader_parameter/size = 0.0
 shader_parameter/make_hole = true
 shader_parameter/detail_noise_lid_weights = PackedFloat32Array()

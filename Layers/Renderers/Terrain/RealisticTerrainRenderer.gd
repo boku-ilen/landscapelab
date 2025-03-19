@@ -21,28 +21,32 @@ func _setup_ground_textures():
 		"Rock", # 4 Open Ground TODO: Could also be "Rock" depending on the project
 		"Glacier", # 5 Snow and Ice
 		"Riverbed", # 6 Water
-		"Meadow", # 7 Grassland, Pastures, Fallows
-		"Foliage", # 8 Shrubs and Forests
+		"SparseGrass", # 7 Grassland, Pastures, Fallows
+		"MudLeaves", # 8 Shrubs and Forests
 		"Glade", # 9 Agroforest and Permanent Cultures
-		"SoilGreen", # 10 Agriculture
+		"Soil", # 10 Agriculture
 	]
 	
 	var color_images = []
 	var normal_images = []
 	var displacement_images = []
+	var roughness_images = []
 	
 	for texture_folder in texture_folders:
 		var color_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/color.jpg")
 		var normal_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/normal.jpg")
 		var displacement_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/displacement.jpg")
+		var roughness_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/roughness.jpg")
 		
 		color_image.generate_mipmaps()
 		normal_image.generate_mipmaps()
 		displacement_image.generate_mipmaps()
+		roughness_image.generate_mipmaps()
 		
 		color_images.append(color_image)
 		normal_images.append(normal_image)
 		displacement_images.append(displacement_image)
+		roughness_images.append(roughness_image)
 	
 	var texture_array = Texture2DArray.new()
 	texture_array.create_from_images(color_images)
@@ -57,9 +61,13 @@ func _setup_ground_textures():
 	var displacement_array = Texture2DArray.new()
 	displacement_array.create_from_images(displacement_images)
 	
+	var roughness_array = Texture2DArray.new()
+	roughness_array.create_from_images(roughness_images)
+	
 	shader_material.set_shader_parameter("ground_normals", normal_array)
 	shader_material.set_shader_parameter("ground_textures", texture_array)
 	shader_material.set_shader_parameter("ground_displacement", displacement_array)
+	shader_material.set_shader_parameter("ground_roughness", roughness_array)
 
 
 func custom_chunk_setup(chunk):
@@ -89,15 +97,36 @@ func custom_chunk_setup(chunk):
 	chunk.get_node("Mesh").material_override.next_pass.next_pass.next_pass.next_pass = fake_plant_material.duplicate()
 
 
+func _setup_detail_noise():
+	shader_material.set_shader_parameter("detail_noise", preload("res://Layers/Renderers/Terrain/Materials/DetailNoise.tres"))
+	shader_material.set_shader_parameter("detail_noise_normals", preload("res://Layers/Renderers/Terrain/Materials/DetailNoiseNormals.tres"))
+	shader_material.set_shader_parameter("detail_noise_lid_weights", [
+		0.16, # Asphalt
+		0.19, # Gravel
+		0.25, # Lawn
+		1.8, # Rock
+		0.7, # Ice
+		0.9, # Water
+		0.5, # Grassland
+		0.9, # Forest
+		0.7, # Agroforest
+		0.7, # Agriculture
+		
+	])
+
+
 
 func _ready():
 	_setup_ground_textures()
+	_setup_detail_noise()
 	$DetailMesh.material_override = shader_material.duplicate()
 	
 	super._ready()
 
 
 func full_load():
+	_setup_ground_textures()
+	
 	super.full_load()
 	if  layer_composition.render_info.water_color == null \
 		or not "surface_color" in layer_composition.render_info.water_color \

@@ -11,4 +11,4 @@ shader_parameter/width = 1.0
 shader_parameter/height = 0.2
 shader_parameter/road_texture = ExtResource("3_a73qq")
 shader_parameter/world_uv_scaling = 0.35
-shader_parameter/lid_color = null
+shader_parameter/lid_color = Vector3(0, 0, 0)

@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://c4pjhwtdd53ry"]
+[gd_scene load_steps=3 format=3 uid="uid://c4pjhwtdd53ry"]
 
 [ext_resource type="PackedScene" uid="uid://cnvfal7al6up4" path="res://Objects/Nature/SwarmParticles.tscn" id="1_07nhj"]
+[ext_resource type="PackedScene" uid="uid://cejf5c8oyb02b" path="res://World/Environment/WorldEnvironment.tscn" id="2_3gg3q"]
 
 [node name="LarusSwarm" type="Node3D"]
 
 [node name="SwarmParticles" parent="." instance=ExtResource("1_07nhj")]
 emitting = true
+
+[node name="WorldEnvironment" parent="." instance=ExtResource("2_3gg3q")]

@@ -16,7 +16,7 @@ vec3 RGBtoHCY(vec3 color) {
     // Calculate the hue and chroma
     float   hue     = atan (Q, I);
     float   chroma  = sqrt (I * I + Q * Q);
-	
+
 	return vec3(hue, chroma, YPrime);
 }
 
@@ -31,6 +31,6 @@ vec3 HCYtoRGB(vec3 hcy) {
     color.r = dot (yIQ, kYIQToR);
     color.g = dot (yIQ, kYIQToG);
     color.b = dot (yIQ, kYIQToB);
-	
+
 	return color;
 }

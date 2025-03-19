@@ -24,6 +24,10 @@ var features := []
 var remove_features := []
 var load_features := []
 
+signal applied(new_features: Array, removed_features: Array)
+
+
+
 class FeatureChange:
 	enum ChangeType { ADD, REMOVE }
 	
@@ -53,7 +57,8 @@ func _ready():
 
 
 func full_load():
-	# Delete all previous features
+	# Delete all previous features, also emit signal stating this deletion
+	applied.emit([], features)
 	features.clear()
 	for child in get_children():
 		# FIXME: Workaround for ConnectedObjectRenderer, would need some kind of override or extra parent node
@@ -121,6 +126,7 @@ func apply_new_data():
 	
 	mutex.unlock()
 	
+	applied.emit(load_features, remove_features)
 	super.apply_new_data()
 	
 	logger.info("Applied new feature data for %s" % [name])
@@ -133,12 +139,21 @@ func refine_load():
 		var changeset = change_queue.pop_front()
 		var feature = changeset.feature
 		
+		var new_features = []
+		var removed_features = []
+		
 		if changeset.change_type == FeatureChange.ChangeType.ADD:
 			instances[feature.get_id()] = load_feature_instance(feature)
 			features.append(feature)
 			apply_feature_instance.call_deferred(feature)
+			
+			new_features.append(feature)
 		elif changeset.change_type == FeatureChange.ChangeType.REMOVE:
 			remove_feature.call_deferred(feature.get_id())
+			
+			removed_features.append(feature)
+		
+		applied.emit(new_features, removed_features)
 
 
 func _on_feature_added(feature: GeoFeature):

@@ -52,31 +52,13 @@ func _process(delta):
 		0
 	)
 	
+	material_override.set_shader_parameter("use_landuse_overlay", true)
 	material_override.set_shader_parameter("make_hole", false)
 	material_override.set_shader_parameter("size", size)
+	
 	material_override.set_shader_parameter("heightmap", heightmap.get_image_texture())
 	material_override.set_shader_parameter("orthophoto", texture.get_image_texture())
 	material_override.set_shader_parameter("landuse", landuse.get_image_texture())
-	material_override.set_shader_parameter("detail_noise", preload("res://Layers/Renderers/Terrain/Materials/DetailNoise.tres"))
-	material_override.set_shader_parameter("detail_noise_normals", preload("res://Layers/Renderers/Terrain/Materials/DetailNoiseNormals.tres"))
-	material_override.set_shader_parameter("detail_noise_lid_weights", [
-		0.16, # Asphalt
-		0.19, # Gravel
-		0.45, # Lawn
-		1.8, # Rock
-		0.7, # Ice
-		0.9, # Water
-		0.5, # Grassland
-		0.9, # Forest
-		0.7, # Agroforest
-		0.7, # Agriculture
-		
-	])
-	
-	material_override.set_shader_parameter("use_landuse_overlay", true)
 	material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
-	
-	if Input.is_action_pressed("save_debug_frame"):
-		get_node("LIDOverlayViewport/LIDViewport").get_texture().get_image().save_png("res://test.png")
 	
 	previous_player_position = get_parent().position_manager.center_node.position

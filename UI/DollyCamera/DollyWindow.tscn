@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://b858h2ejta33m"]
 
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1_phosr"]
-[ext_resource type="Script" path="res://UI/DollyCamera/DollyWindow.gd" id="2_rinuq"]
+[ext_resource type="Script" uid="uid://b14io6nkg1yug" path="res://UI/DollyCamera/DollyWindow.gd" id="2_rinuq"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="3_ffo3w"]
 [ext_resource type="Texture2D" uid="uid://d2hitly1vb6sv" path="res://Resources/Icons/ModernLandscapeLab/paintbrush.svg" id="4_711kc"]
 [ext_resource type="Texture2D" uid="uid://cacte35ppt5m5" path="res://Resources/Icons/ModernLandscapeLab/clear.svg" id="5_keygn"]
@@ -41,45 +41,41 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-mouse_filter = 0
 
 [node name="GridContainer" type="GridContainer" parent="Margin/VBox/ImagingMenu"]
 layout_mode = 2
+mouse_filter = 2
 columns = 3
 
 [node name="Set" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
-custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 0
 tooltip_text = "set path points and focus"
 toggle_mode = true
 icon = ExtResource("4_711kc")
-texture_name = "paintbrush"
+script = null
 
 [node name="Clear" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
-custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 0
 tooltip_text = "clear current path"
 icon = ExtResource("5_keygn")
-texture_name = "clear"
+script = null
 
 [node name="Focus" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
-custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 0
 tooltip_text = "focus set point"
 toggle_mode = true
 icon = ExtResource("6_hbw8f")
-texture_name = "focus"
+script = null
 
 [node name="CenterNode" parent="Margin/VBox/ImagingMenu/GridContainer" instance=ExtResource("3_ffo3w")]
-custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 tooltip_text = "Make Dolly Center Node"
 toggle_mode = true
 icon = ExtResource("7_7mx8d")
-texture_name = "swap"
+script = null
 
 [node name="VSeparator" type="VSeparator" parent="Margin/VBox/ImagingMenu"]
 layout_mode = 2
@@ -127,8 +123,12 @@ text = "Apply to Camera"
 
 [node name="Focus" type="Button" parent="Margin/VBox/ImagingMenu/GeodataOptions/FeatureOptions/ApplyButtons"]
 layout_mode = 2
+toggle_mode = true
 text = "Apply to Focus
 "
+
+[node name="Button" type="Button" parent="Margin/VBox/ImagingMenu"]
+layout_mode = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Margin/VBox"]
 layout_mode = 2
@@ -139,5 +139,5 @@ stretch = true
 handle_input_locally = false
 msaa_3d = 1
 scaling_3d_mode = 1
-size = Vector2i(674, 523)
+size = Vector2i(2, 2)
 render_target_update_mode = 4

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://dvyxngl7pdxb5"
+path="res://.godot/imported/ao.jpg-c2ee882cc6cdcccdd8dd2eb8286920eb.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/SparseGrass/ao.jpg"
+dest_files=["res://.godot/imported/ao.jpg-c2ee882cc6cdcccdd8dd2eb8286920eb.image"]
+
+[params]
+

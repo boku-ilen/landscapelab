@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://ds2gsghqvrm2q"
+path="res://.godot/imported/color.jpg-8fb0f13801fd10e6dc4d876b70333743.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/SparseGrass/color.jpg"
+dest_files=["res://.godot/imported/color.jpg-8fb0f13801fd10e6dc4d876b70333743.image"]
+
+[params]
+

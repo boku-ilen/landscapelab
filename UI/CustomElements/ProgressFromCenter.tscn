@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://cryclcxob61k3"]
+
+[ext_resource type="Script" uid="uid://dgj5npv3phdf" path="res://UI/CustomElements/ProgressFromCenter.gd" id="1_wbr7r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_76lfl"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color(0.909804, 0.909804, 0.909804, 1)
+corner_radius_top_left = 10
+corner_radius_bottom_left = 10
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ogh4c"]
+bg_color = Color(1, 0.91, 0.91, 1)
+corner_radius_top_left = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wcs60"]
+bg_color = Color(1, 1, 1, 1)
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.91, 0.91, 0.91, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_560la"]
+bg_color = Color(0.854208, 0.95, 0.8455, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
+[node name="ProgressFromCenter" type="HBoxContainer"]
+theme_override_constants/separation = 0
+script = ExtResource("1_wbr7r")
+
+[node name="Below" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(100, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_76lfl")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ogh4c")
+max_value = 50.0
+value = 18.38
+fill_mode = 1
+show_percentage = false
+
+[node name="Above" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(100, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_wcs60")
+theme_override_styles/fill = SubResource("StyleBoxFlat_560la")
+max_value = 50.0
+value = 20.0
+show_percentage = false

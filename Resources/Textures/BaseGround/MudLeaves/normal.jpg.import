@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://c33nv3v4aym5u"
+path="res://.godot/imported/normal.jpg-1d0b223807017a19089664d24a83cb1f.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/MudLeaves/normal.jpg"
+dest_files=["res://.godot/imported/normal.jpg-1d0b223807017a19089664d24a83cb1f.image"]
+
+[params]
+

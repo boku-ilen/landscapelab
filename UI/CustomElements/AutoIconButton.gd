@@ -20,6 +20,16 @@ class_name AutoIconButton
 		_update_texture()
 
 
+func _input(event):
+	if not is_visible_in_tree(): return
+	
+	if event is InputEventMouseButton and event.pressed:
+		if get_global_rect().has_point(event.position):
+				pressed.emit()
+				get_viewport().set_input_as_handled()
+
+
+
 func _enter_tree() -> void:
 	_update_texture()
 

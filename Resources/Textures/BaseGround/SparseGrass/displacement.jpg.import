@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://b31ekqxflcgva"
+path="res://.godot/imported/displacement.jpg-390baf808118302feb046d8b85c353fa.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/SparseGrass/displacement.jpg"
+dest_files=["res://.godot/imported/displacement.jpg-390baf808118302feb046d8b85c353fa.image"]
+
+[params]
+

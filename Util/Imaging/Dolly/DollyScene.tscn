@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://1lnw1ble4p1a"]
 
-[ext_resource type="Script" path="res://Util/Imaging/Dolly/DollyCamera.gd" id="2_ehhqc"]
-[ext_resource type="Script" path="res://Util/Imaging/Dolly/DollyScene.gd" id="3"]
+[ext_resource type="Script" uid="uid://bkvmp10u2pag" path="res://Util/Imaging/Dolly/DollyCamera.gd" id="2_ehhqc"]
+[ext_resource type="Script" uid="uid://dbp6hpg13v3vc" path="res://Util/Imaging/Dolly/DollyScene.gd" id="3"]
 
 [sub_resource type="Curve3D" id="Curve3D_du2lb"]
 
@@ -55,6 +55,7 @@ path_interval_type = 0
 path_interval = 3.0
 path_simplify_angle = 0.0
 path_rotation = 2
+path_rotation_accurate = false
 path_local = false
 path_continuous_u = false
 path_u_distance = 1.0
@@ -102,6 +103,7 @@ path_interval_type = 0
 path_interval = 3.0
 path_simplify_angle = 0.0
 path_rotation = 2
+path_rotation_accurate = false
 path_local = false
 path_continuous_u = false
 path_u_distance = 1.0

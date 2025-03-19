@@ -130,7 +130,7 @@ void fragment() {
 			vec2 offset = vec2(x_off, y_off) / size;
 			int splatmap_value = int(round(get_landuse(UV + offset)));
 			int distribution_id_here = int(round(texelFetch(row_ids, ivec2(splatmap_value, 0), 0).r * 255.0));
-			vec3 dist_value_here = texture(distribution_array[distribution_id_here - 1], (worldpos.xz) / float(DISTRIBUTION_RESOLUTION)).rgb;
+			vec3 dist_value_here = texture(distribution_array[distribution_id_here - 1], (worldpos.xz * 2.0) / float(DISTRIBUTION_RESOLUTION)).rgb;
 
 			float height_here = max(0.2, (dist_value_here.g * 255.0 + dist_value_here.b) * float(distribution_id_here > 0));
 
@@ -180,17 +180,17 @@ void fragment() {
 	hcy.r += random_hue_shift;
 	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0);
 	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0);
-	
+
 	ALBEDO = HCYtoRGB(hcy);
-	
+
 	// At steeper angles, the vegetation tends to look darker since we see through more plants and
 	//  therefore see more of the self-shadowing
 	float view_angle = max(dot((INV_VIEW_MATRIX  * vec4(NORMAL, 0.0)).xyz, CAMERA_DIRECTION_WORLD), 0.0);
 	ALBEDO *= mix(0.85, 1.0, view_angle);
-	
+
 	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), 0.75, 0.99);
-	ALPHA *= smoothstep(90.0, 110.0, length((camera_pos - worldpos)));
-	ALPHA_HASH_SCALE = 1.0;
+	ALPHA *= smoothstep(70.0, 90.0, length((camera_pos - worldpos)));
+	//ALPHA_HASH_SCALE = 1.0;
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 
 	vec3 normal = texture(uv_normals, UV * 10.0).rgb;
