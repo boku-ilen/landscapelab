@@ -112,6 +112,8 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 	
 	var mesh_key = _get_mesh_dict_key_from_feature(feature)
 	var width = layer_composition.render_info.meshes[mesh_key]["width"]
+	var random_angle = layer_composition.render_info.meshes[mesh_key]["random_angle"] \
+			if "random_angle" in layer_composition.render_info.meshes[mesh_key] else layer_composition.render_info.random_angle
 	
 	width *= ll_scale
 	
@@ -149,7 +151,7 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 		t = t.rotated_local(Vector3.UP, deg_to_rad(layer_composition.render_info.base_rotation))
 		
 		# Randomly add 90, 180 or 270 degrees to previous rotation
-		if layer_composition.render_info.random_angle:
+		if random_angle:
 			var rand_angle := 0.0
 			
 			var pseudo_random = int(pos.x * 43758.5453 + pos.z * 78233.9898)
