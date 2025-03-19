@@ -10,12 +10,28 @@ func _init(initial_id: int, initial_collection):
 	collection = initial_collection
 
 
-func get_attribute(_attribute_name):
-	return null # To be implemented
+func get_attributes():
+	var attributes = {}
+	
+	for attribute_name in collection.attributes.keys():
+		attributes[attribute_name] = get_attribute(attribute_name)
+	
+	return attributes
 
 
-func set_attribute(_attribute_name, _value):
-	pass # To be implemented
+func get_attribute(attribute_name: String):
+	if not collection.attributes.has(attribute_name):
+		logger.error("Invalid attribute with name {n}".format({"n": attribute_name}))
+		return null
+	
+	return collection.attributes[attribute_name].get_value(self)
+
+
+func set_attribute(attribute_name, value):
+	if not collection.attributes.has(attribute_name):
+		logger.error("Invalid attribute with name {n}".format({"n": attribute_name}))
+	else:
+		collection.attributes[attribute_name].set_value(self, value)
 
 
 func set_position(_new_position: Vector3):
