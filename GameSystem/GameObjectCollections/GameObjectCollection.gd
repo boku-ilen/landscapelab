@@ -9,6 +9,7 @@ var name = ""
 var icon_name = ""
 var game_objects = {}
 var creation_conditions = {}
+var attributes = {}
 
 # Table-specific
 # FIXME: Should be somewhere else, GameObjectCollections shouldn't need to know about tables
@@ -33,3 +34,8 @@ func get_all_game_objects() -> Array:
 
 func add_creation_condition(creation_condition):
 	creation_conditions[creation_condition.name] = creation_condition
+
+
+func add_attribute_mapping(attribute):
+	attributes[attribute.name] = attribute
+	emit_signal("changed")

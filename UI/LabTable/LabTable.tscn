@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=50 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" uid="uid://ylwjxiuxk7ef" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -39,6 +39,10 @@
 [ext_resource type="Texture2D" uid="uid://bdw0osv1mm0qr" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/rainy.svg" id="29_76klx"]
 [ext_resource type="Texture2D" uid="uid://b1fy3xneoa2h5" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/thunderstorm.svg" id="30_0vbkr"]
 [ext_resource type="Texture2D" uid="uid://ba1a3pe34nnto" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/now.svg" id="31_3y1be"]
+[ext_resource type="Texture2D" uid="uid://ohib05kii4bp" path="res://Resources/Icons/ModernLandscapeLab/roof_pv.svg" id="40_slfp8"]
+[ext_resource type="Script" uid="uid://csx2vkf67ss1u" path="res://UI/LabTable/RoofPV.gd" id="41_wsk5n"]
+[ext_resource type="Texture2D" uid="uid://cy1d4q6oyarvh" path="res://Resources/Icons/ModernLandscapeLab/park_pv.svg" id="42_65qsu"]
+[ext_resource type="Script" uid="uid://fqi2nfcjd6pf" path="res://UI/LabTable/ParkPV.gd" id="42_wsk5n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
@@ -493,6 +497,16 @@ texture_pressed = ExtResource("31_3y1be")
 texture_hover = ExtResource("31_3y1be")
 texture_disabled = ExtResource("31_3y1be")
 texture_focused = ExtResource("31_3y1be")
+
+[node name="RoofPV" type="Sprite2D" parent="MarginContainer"]
+position = Vector2(0, -87.5)
+texture = ExtResource("40_slfp8")
+script = ExtResource("41_wsk5n")
+
+[node name="ParkPV" type="Sprite2D" parent="MarginContainer"]
+position = Vector2(0, -175)
+texture = ExtResource("42_65qsu")
+script = ExtResource("42_wsk5n")
 
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
 [editable path="Panel/CenterContainer/ScoreContributorWeightSlider"]
