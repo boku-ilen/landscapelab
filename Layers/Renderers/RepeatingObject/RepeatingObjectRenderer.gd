@@ -10,12 +10,15 @@ extends FeatureLayerCompositionRenderer
 # - Extends the multimesh feature layer to drastically improve performance
 #
 
+var rand_angle := 0.0
+
 
 func _ready() -> void:
 	radius = layer_composition.render_info.radius
 
 
 func load_feature_instance(feature: GeoFeature):
+	rand_angle = 0.0
 	mutex.lock()
 	# Get the configured path or default
 	var mesh_key = _get_mesh_dict_key_from_feature(feature)
@@ -151,10 +154,8 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 		t = t.rotated_local(Vector3.UP, deg_to_rad(layer_composition.render_info.base_rotation))
 		
 		# Randomly add 90, 180 or 270 degrees to previous rotation
-		if random_angle:
-			var rand_angle := 0.0
-			
-			var pseudo_random = int(pos.x * 43758.5453 + pos.z * 78233.9898)
+		if  random_angle:
+			var pseudo_random = abs(int(pos.x * 43758.5453 + pos.z * 78233.9898))
 			rand_angle = rand_angle + (PI / 2.0) * ((pseudo_random % 3) + 1.0)
 			t = t.rotated_local(Vector3.UP, rand_angle)
 		t.origin = pos #* Vector3(1, 1, scale_factor)
