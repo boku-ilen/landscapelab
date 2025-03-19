@@ -19,7 +19,7 @@ func _ready():
 
 func add_layer_composition(layer_composition: LayerComposition):
 	var new_renderer = layer_composition.render_info.renderer.instantiate()
-	layer_composition.render_info.render_scene = new_renderer
+	layer_composition.render_info.renderer_instance = new_renderer
 	
 	new_renderer.layer_composition = layer_composition
 	if layer_composition.name.is_empty():

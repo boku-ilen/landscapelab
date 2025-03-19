@@ -85,7 +85,7 @@ func apply_to_target(target: LayerComposition, features: Variant):
 	# Create new features
 	for feature in new_features:
 		# Obtain the source composition parent node for the feature
-		var parent = source_composition.render_info.render_scene.get_node(
+		var parent = source_composition.render_info.renderer_instance.get_node(
 			var_to_str(feature.get_id()))
 		# Obtain all positions of the set objects in this parent node
 		var node_positions = parent.get_children().map(
@@ -112,12 +112,12 @@ func apply_to_target(target: LayerComposition, features: Variant):
 		
 		var line_layer: GeoFeatureLayer = target.render_info.geo_feature_layer
 		var height_layer: GeoRasterLayer = target.render_info.ground_height_layer
-		var center = target.render_info.render_scene.center
+		var center = target.render_info.renderer_instance.center
 		
 		for hull in hulls:
 			# Offset the boundary so it does not intersect with the objects
 			var directions = GeometryUtil.get_polygon_vertex_directions(hull)
-			var offset = source_composition.render_info.render_scene.offset
+			var offset = source_composition.render_info.renderer_instance.offset
 			if Geometry2D.is_polygon_clockwise(directions): offset *= -1
 			
 			var offset_verts = GeometryUtil.offset_polygon_vertices(
@@ -147,4 +147,4 @@ func apply_to_target(target: LayerComposition, features: Variant):
 			# Store the geo_line to delete when the feature is deleted
 			instanced_geo_lines[feature.get_id()] = geo_line
 	
-	target.render_info.render_scene.full_load()
+	target.render_info.renderer_instance.full_load()

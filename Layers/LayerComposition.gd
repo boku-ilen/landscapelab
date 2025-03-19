@@ -61,7 +61,7 @@ class UIInfo:
 # RenderInfo data classes
 class RenderInfo extends RefCounted:
 	var renderer = null
-	var render_scene: Node3D
+	var renderer_instance: Node3D
 	var icon = preload("res://Resources/Icons/ModernLandscapeLab/file.svg")
 	
 	func get_geolayers() -> Array:
