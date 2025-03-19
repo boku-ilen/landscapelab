@@ -139,12 +139,21 @@ func refine_load():
 		var changeset = change_queue.pop_front()
 		var feature = changeset.feature
 		
+		var new_features = []
+		var removed_features = []
+		
 		if changeset.change_type == FeatureChange.ChangeType.ADD:
 			instances[feature.get_id()] = load_feature_instance(feature)
 			features.append(feature)
 			apply_feature_instance.call_deferred(feature)
+			
+			new_features.append(feature)
 		elif changeset.change_type == FeatureChange.ChangeType.REMOVE:
 			remove_feature.call_deferred(feature.get_id())
+			
+			removed_features.append(feature)
+		
+		applied.emit(new_features, removed_features)
 
 
 func _on_feature_added(feature: GeoFeature):

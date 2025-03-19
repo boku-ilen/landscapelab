@@ -11,7 +11,8 @@ func _init(source: LayerComposition, target: LayerComposition):
 	target_composition = target
 
 	# Observe the source layer composition’s application of data
-	source_composition.render_info.render_scene.applied.connect(_on_fully_applied)
+	if source_composition.render_info.render_scene:
+		source_composition.render_info.render_scene.applied.connect(_on_fully_applied, CONNECT_DEFERRED)
 
 
 func _on_fully_applied(new_features, removed_features):

@@ -65,8 +65,7 @@ func extract_relevant_data(source: LayerComposition,
 	# Filter new features for a set "outline" field to create a barrier around it
 	var relevant_new = new_features.filter(func(feature: GeoFeature): 
 				return feature.get_attribute("outline") != "")
-	var relevant_old = removed_features.filter(func(feature: GeoFeature): 
-				return feature.get_attribute("outline") != "")
+	var relevant_old = removed_features
 	return {"new": relevant_new, "removed": relevant_old}
 
 
@@ -77,8 +76,11 @@ func apply_to_target(target: LayerComposition, features: Variant):
 	# Remove all outdated features
 	for feature in removed_features:
 		var line_layer: GeoFeatureLayer = target.render_info.geo_feature_layer
-		var geo_line = instanced_geo_lines[feature.get_id()]
-		line_layer.remove_feature(geo_line)
+		
+		var feature_id = feature.get_id()
+		if feature_id in instanced_geo_lines:
+			var geo_line = instanced_geo_lines[feature_id]
+			line_layer.remove_feature(geo_line)
 	
 	# Create new features
 	for feature in new_features:
@@ -113,8 +115,11 @@ func apply_to_target(target: LayerComposition, features: Variant):
 		for hull in hulls:
 			# Offset the boundary so it does not intersect with the objects
 			var directions = GeometryUtil.get_polygon_vertex_directions(hull)
+			var offset = source_composition.render_info.render_scene.offset
+			if Geometry2D.is_polygon_clockwise(directions): offset *= -1
+			
 			var offset_verts = GeometryUtil.offset_polygon_vertices(
-				hull, directions, -source_composition.render_info.render_scene.offset)
+				hull, directions, offset)
 			
 			# Create geoline and its underlying curve3d
 			var curve := Curve3D.new()
