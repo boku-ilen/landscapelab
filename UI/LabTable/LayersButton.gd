@@ -7,16 +7,20 @@ extends Button
 # FIXME: make this more responsive to the actual layers instead of hardcoding
 func _ready() -> void:
 	pressed.connect(func(): $LayersPanel.visible = !$LayersPanel.visible)
+	var energy_potential = Layers.layer_definitions["EnergyPotential"]
+	var conflict_areas = Layers.layer_definitions["ConflictAreas"]
 	
 	$LayersPanel/Content/MapButton.pressed.connect(func(): 
-			Layers.layer_definitions["Wind"].z_index = -1
-			$ColorRampSymbology.visible = false
+			energy_potential.z_index = -1
+			conflict_areas.z_index = -1
 			rendering_subviewport.set_mouse_filter(MouseFilter.MOUSE_FILTER_PASS))
 			
-	$LayersPanel/Content/WindButton.pressed.connect(func():
-			var wind_layer = Layers.layer_definitions["Wind"]
-			wind_layer.z_index = 1
-			$ColorRampSymbology.gradient = wind_layer.render_info.gradient
-			$ColorRampSymbology.ticks_from_relative_values([0, 0.25, 0.5, 0.75, 1.], wind_layer.render_info.min_val, wind_layer.render_info.max_val)
-			$ColorRampSymbology.visible = true
+	$LayersPanel/Content/SunButton.pressed.connect(func():
+			energy_potential.z_index = 1
+			conflict_areas.z_index = -1
+			rendering_subviewport.set_mouse_filter(MouseFilter.MOUSE_FILTER_IGNORE))
+	
+	$LayersPanel/Content/BioDivButton.pressed.connect(func():
+			conflict_areas.z_index = 1
+			energy_potential.z_index = -1
 			rendering_subviewport.set_mouse_filter(MouseFilter.MOUSE_FILTER_IGNORE))
