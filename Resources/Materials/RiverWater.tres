@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dusetnfsxpjjc"]
 
-[ext_resource type="Shader" path="res://Resources/Materials/Shaders/RiverWater.gdshader" id="1"]
+[ext_resource type="Shader" uid="uid://bdppv2pfnraoi" path="res://Resources/Shader/RiverWater.gdshader" id="1"]
 [ext_resource type="Texture2D" uid="uid://ccsd1jv8qnmtj" path="res://Resources/Textures/RiverWater/foam_noise.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://0pjx86eog740" path="res://Resources/Textures/RiverWater/normal_river.png" id="3"]
 

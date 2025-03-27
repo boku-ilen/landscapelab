@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://cwrewflu32ssm"]
 
-[ext_resource type="Shader" path="res://Resources/Meshes/Trees/Tree_Trunk.gdshader" id="1_87b25"]
+[ext_resource type="Shader" uid="uid://fit86afg6pjs" path="res://Resources/Meshes/Trees/Tree_Trunk.gdshader" id="1_87b25"]
 [ext_resource type="Texture2D" uid="uid://dvq6jqpb51euy" path="res://Resources/Meshes/Trees/Quercus_suber/quercus_suber_trunk_albedo.png" id="2_20btc"]
 [ext_resource type="Texture2D" uid="uid://daf0efi0lwfpk" path="res://Resources/Meshes/Trees/Quercus_suber/quercus_suber_trunk_normal.png" id="3_gkkd8"]
 [ext_resource type="Texture2D" uid="uid://btiokac5pw7xc" path="res://Resources/Meshes/Trees/Quercus_suber/quercus_suber_trunk_raotrans.png" id="4_27wsp"]
@@ -8,16 +8,16 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_87b25")
+shader_parameter/albedo_tex = ExtResource("2_20btc")
 shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
 shader_parameter/albedo_node_rand_hue = 0.02
 shader_parameter/albedo_node_rand_chroma = 0.02
 shader_parameter/albedo_node_rand_luma = 0.03
+shader_parameter/normal_tex = ExtResource("3_gkkd8")
 shader_parameter/normal_strength = 1.0
+shader_parameter/rough_ao_transmission_tex = ExtResource("4_27wsp")
 shader_parameter/roughness_offset = 0.0
 shader_parameter/ao_strength = 1.0
 shader_parameter/ao_light_affect = 0.8
 shader_parameter/rim_strength = 0.03
 shader_parameter/rim_color_from_albedo = 0.5
-shader_parameter/albedo_tex = ExtResource("2_20btc")
-shader_parameter/normal_tex = ExtResource("3_gkkd8")
-shader_parameter/rough_ao_transmission_tex = ExtResource("4_27wsp")
