@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cc5n6nb5ac3ua"]
 
-[ext_resource type="Shader" path="res://Util/Debug/Shaders/DEBUG_normals_worldsp_rough.gdshader" id="1_725x7"]
+[ext_resource type="Shader" uid="uid://c5wl5rlo2in30" path="res://Util/Debug/Rendering/DEBUG_normals_worldsp_rough.gdshader" id="1_725x7"]
 
 [resource]
 render_priority = 0
