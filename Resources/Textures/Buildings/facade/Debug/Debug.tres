@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="WallTextureBundle" load_steps=3 format=3 uid="uid://bf13vqp1su5xh"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_emwps"]
-[ext_resource type="Texture2D" uid="uid://bccbtemfjo6x4" path="res://Resources/Textures/Debug.jpeg" id="1_huv44"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_emwps"]
+[ext_resource type="Texture2D" uid="uid://bccbtemfjo6x4" path="res://Util/Debug/Textures/Debug.jpeg" id="1_huv44"]
 
 [resource]
 script = ExtResource("1_emwps")
