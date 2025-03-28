@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ueixf4jnuvj"
-path.s3tc="res://.godot/imported/DEBUG_testimage_RGBA.png-5501be5fb4fb9bc652abe14b3a3303da.s3tc.ctex"
+uid="uid://ndyv7vm3xbeu"
+path.s3tc="res://.godot/imported/T_Checker_C_01_512.PNG-3198d468ef7a69fdd607486a12205a84.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Util/Debug/Textures/DEBUG_testimage_RGBA.png"
-dest_files=["res://.godot/imported/DEBUG_testimage_RGBA.png-5501be5fb4fb9bc652abe14b3a3303da.s3tc.ctex"]
+source_file="res://Util/Debug/Textures/T_Checker_C_01_512.PNG"
+dest_files=["res://.godot/imported/T_Checker_C_01_512.PNG-3198d468ef7a69fdd607486a12205a84.s3tc.ctex"]
 
 [params]
 
