@@ -20,6 +20,7 @@ static func get_summed_aabb(node: Node3D) -> AABB:
 	for child in node.get_children():
 		if child is Node3D:
 			var child_aabb = get_summed_aabb(child)
+			child_aabb.position += child.position
 			summed_aabb = summed_aabb.merge(child_aabb)
 	
 	return summed_aabb

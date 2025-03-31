@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://dl4m3ovxk1e8q"]
 
-[ext_resource type="Shader" path="res://Util/Debug/Shaders/DEBUG_normals_worldsp_rough.gdshader" id="1_3f5cl"]
-[ext_resource type="Script" path="res://Util/Debug/Rendering/debugviewer.gd" id="2_nkpqk"]
-[ext_resource type="Shader" path="res://Util/Debug/Shaders/DEBUG_objs_fixed_to_view.gdshader" id="3_2pi7m"]
+[ext_resource type="Shader" uid="uid://c5wl5rlo2in30" path="res://Util/Debug/Rendering/DEBUG_normals_worldsp_rough.gdshader" id="1_3f5cl"]
+[ext_resource type="Script" uid="uid://brlhfc1p01ol5" path="res://Util/Debug/Rendering/debugviewer.gd" id="2_nkpqk"]
+[ext_resource type="Shader" uid="uid://d3am33r7tv8vn" path="res://Util/Debug/Rendering/DEBUG_objs_fixed_to_view.gdshader" id="3_2pi7m"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kdxc6"]
 render_priority = 0

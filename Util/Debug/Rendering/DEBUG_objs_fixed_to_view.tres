@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://doa31wt5d2o0e"]
+
+[ext_resource type="Shader" uid="uid://d3am33r7tv8vn" path="res://Util/Debug/Rendering/DEBUG_objs_fixed_to_view.gdshader" id="1_sfgd7"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_sfgd7")
+shader_parameter/position_in_view = Vector3(0, 0, 1)

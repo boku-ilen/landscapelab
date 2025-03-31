@@ -6,7 +6,7 @@ extends Node2D
 	set(new_player):
 		player_node = new_player
 		$PlayerSprite.visible = new_player != null
-var geo_transform: GeoTransform
+var geo_transform: GeoTransform = GeoTransform.new()
 var loading_threads = {}
 var raster_renderer = preload("res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn")
 var feature_renderer = preload("res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.tscn")
@@ -49,6 +49,8 @@ var offset := Vector2.ZERO :
 
 
 func _ready():
+	geo_transform.set_transform(Layers.crs, 3857)
+	
 	for layer_def in Layers.layer_definitions.values():
 		instantiate_geolayer_renderer(layer_def)
 	
@@ -121,7 +123,21 @@ func instantiate_geolayer_renderer(layer_definition: LayerDefinition):
 		renderer.z_index = layer_definition.z_index
 		
 		if center == -Vector2.INF:
-			setup(geo_layer, Vector2(geo_layer.get_center().x, geo_layer.get_center().z), layer_definition.crs_from)
+			var initial_center
+			if player_node:
+				var coords = geo_transform.transform_coordinates(
+					player_node.get_true_position()
+				)
+				initial_center = Vector2(
+					coords.x,
+					coords.z
+			)
+			else:
+				initial_center = Vector2(
+				geo_layer.get_center().x,
+					geo_layer.get_center().z
+			)
+			setup(geo_layer, initial_center, layer_definition.crs_from)
 		
 		loading_threads[renderer] = Thread.new()
 		

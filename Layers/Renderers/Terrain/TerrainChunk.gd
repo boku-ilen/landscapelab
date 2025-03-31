@@ -177,6 +177,8 @@ func override_apply():
 	if current_texture:
 		$Mesh.material_override.set_shader_parameter("orthophoto", current_texture)
 	
+	var using_overlay = false
+	
 	if current_landuse:
 		$Mesh.material_override.set_shader_parameter("landuse", current_landuse)
 		$Mesh.material_override.set_shader_parameter("offset_noise", preload("res://Resources/Textures/ShaderUtil/rgb_solid_noise.png"))
@@ -185,6 +187,7 @@ func override_apply():
 			if not has_node("LIDOverlayViewport"):
 				add_child(preload("res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn").instantiate())
 			
+			using_overlay = true
 			$Mesh.material_override.set_shader_parameter("use_landuse_overlay", true)
 			$Mesh.material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
 		else:
@@ -204,7 +207,7 @@ func override_apply():
 		next_pass.set_shader_parameter("heightmap", current_heightmap)
 		next_pass.set_shader_parameter("surface_heightmap", current_surface_heightmap)
 		next_pass.set_shader_parameter("landuse", current_landuse)
-		if has_node("LIDOverlayViewport"):
+		if using_overlay:
 			next_pass.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
 			next_pass.set_shader_parameter("use_landuse_overlay", true)
 		else:

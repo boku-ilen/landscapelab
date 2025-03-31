@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://cp5l8atp6t04d"]
+
+[ext_resource type="Shader" uid="uid://cdilnv5fh0cs6" path="res://Resources/Shader/SpatialAssets_RandomUVOffset.gdshader" id="1_kfswr"]
+[ext_resource type="Texture2D" uid="uid://cq1mxr47cm27o" path="res://Resources/Meshes/Barriers/Fence_Pasture_WoodenPoles/Fence_Pasture_WoodenPoles_Albedo.png" id="2_77nn2"]
+[ext_resource type="Texture2D" uid="uid://ceuc4nn2yws26" path="res://Resources/Meshes/Barriers/Fence_Pasture_WoodenPoles/Fence_Pasture_WoodenPoles_MRAo.png" id="3_ehq1j"]
+[ext_resource type="Texture2D" uid="uid://nt3u2ps1vgdr" path="res://Resources/Meshes/Barriers/Fence_Pasture_WoodenPoles/Fence_Pasture_WoodenPoles_Normal.png" id="4_u4coc"]
+[ext_resource type="Texture2D" uid="uid://cot8aqnc3kq" path="res://Resources/Meshes/Barriers/Fence_Pasture_WoodenPoles/Fence_Pasture_WoodenPoles_UVMask.png" id="5_8206u"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_kfswr")
+shader_parameter/max_uv_offset = Vector2(0, 0.101)
+shader_parameter/uv_offsetmask_tex = ExtResource("5_8206u")
+shader_parameter/albedo_tex = ExtResource("2_77nn2")
+shader_parameter/normal_tex = ExtResource("4_u4coc")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metal_rough_ao_tex = ExtResource("3_ehq1j")
+shader_parameter/ao_strength = 2.0
