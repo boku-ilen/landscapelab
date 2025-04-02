@@ -16,6 +16,8 @@ uniform sampler2D world_space_normal_map: hint_normal, repeat_enable;
 uniform sampler2D wind_map;
 uniform float world_space_normal_scale = 0.007;
 
+uniform sampler2D stripe_noise: filter_linear;
+
 uniform float amplitude = 0.1;
 uniform vec2 speed = vec2(0.5, 0.4);
 uniform vec2 scale = vec2(0.06, 0.11);
@@ -24,6 +26,7 @@ uniform float max_distance;
 
 varying float dist_id;
 varying float random_hue_shift;
+varying float stripe_sample;
 varying float wind_strength;
 
 uniform bool is_billboard = true;
@@ -37,8 +40,14 @@ void vertex() {
 	float world_distance = length(camera_pos - worldpos);
 
 	vec3 mesh_normal = NORMAL;
+	
+	float angle = INSTANCE_CUSTOM.a;
+	vec2 stripe_position = worldpos.xz / 256.0;
+	mat2 rotation = mat2(vec2(cos(angle), sin(angle)), vec2(-sin(angle), cos(angle)));
+	stripe_position = rotation * stripe_position;
 
-	random_hue_shift = (0.9 - texture(world_space_normal_map, worldpos.xz / 512.0).z) * 1.6;
+	random_hue_shift = (0.9 - texture(world_space_normal_map, worldpos.xz / 512.0).z) * 1.2;
+	stripe_sample = 0.1 + texture(stripe_noise, stripe_position).r * 0.9;
 
 	// FIXME: scale this and the vec3(0.0, 4.0, 0.0) to look good and match the LOD plane
 	vec3 n_up = normalize(COLOR.xyz + vec3(0.0, 1.0, 0.0));
@@ -65,6 +74,9 @@ void vertex() {
 
 	// Scale size by hue-shift
 	size  *= (1.0 + random_hue_shift * 2.0);
+	
+	//if (stripe_sample < 0.6)
+	//size *= stripe_sample;
 
 	// Scale by the size
 	VERTEX *= size;
@@ -135,8 +147,8 @@ void fragment() {
 	}
 
 	hcy.r += random_hue_shift;
-	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0);
-	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0);
+	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0) * 0.8 * stripe_sample;
+	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0) * 0.8 * stripe_sample;
 
 	ALBEDO = HCYtoRGB(hcy);
 

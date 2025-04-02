@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://ble8u3qy6yftc"]
+[gd_scene load_steps=13 format=3 uid="uid://ble8u3qy6yftc"]
 
 [ext_resource type="Script" uid="uid://ctcooojcx3ooc" path="res://Layers/Renderers/RasterVegetation/VegetationParticles.gd" id="1"]
 [ext_resource type="Shader" uid="uid://ccqx25hlxfd1d" path="res://Layers/Renderers/RasterVegetation/Plant.gdshader" id="2"]
 [ext_resource type="Texture2D" uid="uid://bya3n1u326m70" path="res://Layers/Renderers/RasterVegetation/WorldSpaceNormal.tres" id="2_kxjlo"]
 [ext_resource type="Shader" uid="uid://qbq2v76udkxr" path="res://Layers/Renderers/RasterVegetation/VegetationLayer.gdshader" id="3"]
+[ext_resource type="Texture2D" uid="uid://dcnwqv1t70nym" path="res://Resources/Textures/ShaderUtil/abstract_fine_stripe_noise.png" id="4_21eiu"]
 [ext_resource type="ArrayMesh" uid="uid://kqa4x2tsefu5" path="res://Resources/Meshes/VegetationBillboard/1m_billboard.obj" id="4_uhe77"]
 [ext_resource type="PackedScene" uid="uid://cqv4mdm0thwg4" path="res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn" id="5_ud2b3"]
 [ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="7_qonti"]
@@ -29,6 +30,7 @@ shader_parameter/texture_map = null
 shader_parameter/world_space_normal_map = ExtResource("2_kxjlo")
 shader_parameter/wind_map = SubResource("NoiseTexture2D_21eiu")
 shader_parameter/world_space_normal_scale = 0.007
+shader_parameter/stripe_noise = ExtResource("4_21eiu")
 shader_parameter/amplitude = 0.1
 shader_parameter/speed = Vector2(0.1, 0.08)
 shader_parameter/scale = Vector2(0.06, 0.11)

@@ -21,6 +21,7 @@ uniform sampler2D world_space_normal_map: hint_normal, repeat_enable;
 uniform float world_space_normal_scale = 0.007;
 
 uniform sampler2D high_frequency_noise: repeat_enable;
+uniform sampler2D stripe_noise: repeat_enable;
 
 uniform sampler2D[96] distribution_array: repeat_enable, filter_nearest;
 uniform sampler2D row_ids;
@@ -120,6 +121,7 @@ void vertex() {
 }
 
 void fragment() {
+	int splatmap_value = 0;
 	int distribution_id = 0;
 	vec3 dist_value;
 
@@ -128,8 +130,8 @@ void fragment() {
 	for (float x_off = -2.0; x_off <= 2.0; x_off += 2.0) {
 		for (float y_off = -2.0; y_off <= 2.0; y_off += 2.0) {
 			vec2 offset = vec2(x_off, y_off) / size;
-			int splatmap_value = int(round(get_landuse(UV + offset)));
-			int distribution_id_here = int(round(texelFetch(row_ids, ivec2(splatmap_value, 0), 0).r * 255.0));
+			int splatmap_value_here = int(round(get_landuse(UV + offset)));
+			int distribution_id_here = int(round(texelFetch(row_ids, ivec2(splatmap_value_here, 0), 0).r * 255.0));
 			vec3 dist_value_here = texture(distribution_array[distribution_id_here - 1], (worldpos.xz * 2.0) / float(DISTRIBUTION_RESOLUTION)).rgb;
 
 			float height_here = max(0.2, (dist_value_here.g * 255.0 + dist_value_here.b) * float(distribution_id_here > 0));
@@ -139,11 +141,15 @@ void fragment() {
 				dist_value = dist_value_here;
 				highest_height = height_here;
 			}
+			
+			if (offset == vec2(0.0, 0.0)) {
+				splatmap_value = splatmap_value_here;
+			}
 		}
 	}
 
 	float dist_id = dist_value.r * 255.0;
-	float active = float(distribution_id != 0);
+	float active = float(distribution_id != 0 && (splatmap_value < 6000 || splatmap_value > 6999));
 
 	dist_id = clamp(dist_id, 0.0, 99.0); // To ensure we don't read invalid data
 
@@ -151,7 +157,7 @@ void fragment() {
 
 	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 
-	vec2 uv = texture(uv_offset, UV * 30.0).rg;
+	vec2 uv = texture(uv_offset, UV * 20.0).rg;
 
 	vec4 plant_sample = texture(texture_map[int(round(dist_id))], uv, depth * 0.002);
 
@@ -176,24 +182,31 @@ void fragment() {
 		//hcy.y += addition * 0.01;
 	//}
 //
-	float random_hue_shift = (0.9 - texture(world_space_normal_map, worldpos.xz / 512.0).z) * 1.6;
+	float random_hue_shift = (0.9 - texture(world_space_normal_map, worldpos.xz / 512.0).z) * 1.2;
+	
+	float angle = float(splatmap_value) / 10.0;
+	vec2 stripe_position = worldpos.xz / 256.0;
+	mat2 rotation = mat2(vec2(cos(angle), sin(angle)), vec2(-sin(angle), cos(angle)));
+	stripe_position = rotation * stripe_position;
+	
+	float stripe_noise_sample = texture(stripe_noise, stripe_position).r;
+	stripe_noise_sample = 0.1 + stripe_noise_sample * 0.9;
+	
 	hcy.r += random_hue_shift;
-	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0);
-	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0);
+	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0) * stripe_noise_sample;
+	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0) * stripe_noise_sample;
 
 	ALBEDO = HCYtoRGB(hcy);
+	
+	// Scale the lower alpha bound by the plant size in order to have more transparency with small plants
+	float size_alpha_scale = smoothstep(0.4, 0.8, dist_value.g * 255.0 + dist_value.b);
 
-	// At steeper angles, the vegetation tends to look darker since we see through more plants and
-	//  therefore see more of the self-shadowing
-	float view_angle = max(dot((INV_VIEW_MATRIX  * vec4(NORMAL, 0.0)).xyz, CAMERA_DIRECTION_WORLD), 0.0);
-	ALBEDO *= mix(0.85, 1.0, view_angle);
-
-	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), 0.75, 0.99);
+	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), size_alpha_scale, 0.99);
 	ALPHA *= smoothstep(70.0, 90.0, length((camera_pos - worldpos)));
 	//ALPHA_HASH_SCALE = 1.0;
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 
-	vec3 normal = texture(uv_normals, UV * 10.0).rgb;
+	vec3 normal = texture(uv_normals, UV * 20.0).rgb;
 	vec3 world_normal = texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz;
 	vec3 high_frequency_normal = texture(high_frequency_noise, worldpos.xz * world_space_normal_scale * 2.0).xyz;
 	NORMAL_MAP = normalize(world_normal + high_frequency_normal * 2.0);//mix(world_normal, high_frequency_normal, 0.5);
