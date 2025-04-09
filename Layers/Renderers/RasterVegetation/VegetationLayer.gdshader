@@ -115,4 +115,5 @@ void process() {
 	CUSTOM.r = plant_id; // To be multiplied by 255.0 before use!
 	CUSTOM.g = size_scale_whole; // To be multiplied by 255.0 before use!
 	CUSTOM.b = size_scale_comma; // No multiplication required
+	CUSTOM.a = mod(float(splatmap_value) / 10.0, PI * 2.0);
 }

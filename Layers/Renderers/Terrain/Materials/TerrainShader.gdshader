@@ -204,7 +204,7 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 	detail_hcy.g *= HCY_SHIFT.g;
 	detail_hcy.b *= HCY_SHIFT.b;
 
-	// Adapt the detail texture hue and chroma to the orthophoto
+	// Adapt the detail texture chroma and Y to the orthophoto
 	detail_hcy.y = mix(detail_hcy.y, base_hcy.y, shift_scale);
 	detail_hcy.z = mix(detail_hcy.z, base_hcy.z, shift_scale);
 
@@ -214,11 +214,12 @@ vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
 
 void fragment() {
 	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
-
-	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;// normalize(NORMAL + (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz);
+	vec3 normal_sample = get_normal(UV);
+	NORMAL = (VIEW_MATRIX * vec4(normal_sample, 0.0)).xyz;// normalize(NORMAL + (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz);
 
 	vec3 detail_color = vec3(0.0);
 	vec3 detail_normal = vec3(0.0);
+	
 	vec2 scaled_near_uv = world_pos.xz;
 
 	float count = 0.0;
