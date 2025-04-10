@@ -25,7 +25,9 @@ func get_value(game_object):
 			attribute_value = "%d" % [int(game_object.get_attribute(attribute))]
 		
 		# Return 0 if this was not defined
-		if not attribute_value in current_table_level: return 0
+		if not attribute_value in current_table_level:
+			logger.warn("Attribute %s not found in level: %s !" % [attribute_value, current_table_level])
+			return 0
 		
 		var value_here = current_table_level[attribute_value]
 		
@@ -33,3 +35,5 @@ func get_value(game_object):
 			current_table_level = value_here
 		else:
 			return value_here
+	
+	logger.warn("Attribute for %s not found!" % [attributes])

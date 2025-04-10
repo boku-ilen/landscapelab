@@ -32,6 +32,11 @@ func get_value(game_object):
 	var sum = 0.0
 	
 	for current_game_object in game_objects_at_position:
-		sum += float(current_game_object.get_attribute(attribute_name))
+		var attribute = current_game_object.get_attribute(attribute_name)
+		
+		if attribute.is_valid_float():
+			sum += float(current_game_object.get_attribute(attribute_name))
+		else:
+			return attribute
 	
 	return sum
