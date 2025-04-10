@@ -1,0 +1,29 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dqlwesucedq35"]
+
+[ext_resource type="Shader" uid="uid://dysllp2r2xyg6" path="res://Resources/Meshes/Trees/Tree_LeafBranches.gdshader" id="1_cr2sa"]
+[ext_resource type="Texture2D" uid="uid://8nwhhfjw1j58" path="res://Resources/Meshes/Trees/EZTree/Pine/pine_joined_Image_4.png" id="2_ydnaj"]
+[ext_resource type="Texture2D" uid="uid://ddo5lp0c4tify" path="res://Resources/Meshes/Trees/EZTree/Pine/pine_joined_Image_4_normal.png" id="3_ydnaj"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_cr2sa")
+shader_parameter/alpha_scissor_threshold = 0.15
+shader_parameter/albedo_tex = ExtResource("2_ydnaj")
+shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
+shader_parameter/albedo_node_rand_hue_branch = 0.08
+shader_parameter/albedo_node_rand_hue_leaf = 0.1
+shader_parameter/albedo_node_rand_chroma_branch = 0.01
+shader_parameter/albedo_node_rand_chroma_leaf = 0.005
+shader_parameter/albedo_node_rand_luma_branch = 0.02
+shader_parameter/albedo_node_rand_luma_leaf = 0.01
+shader_parameter/normal_tex = ExtResource("3_ydnaj")
+shader_parameter/normal_strength = 2.0
+shader_parameter/roughness_offset = 0.0
+shader_parameter/ao_strength = 1.0
+shader_parameter/ao_light_affect = 0.8
+shader_parameter/backlight_color_from_albedo = 1.0
+shader_parameter/backlight_tint = Color(1, 1, 1, 1)
+shader_parameter/backlight_affected_by_ao = 0.5
+shader_parameter/backlight_strength = 1.0
+shader_parameter/rim_strength = 0.03
+shader_parameter/rim_color_from_albedo = 0.5
