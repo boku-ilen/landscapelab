@@ -56,7 +56,7 @@ static func prepare_roof(
 					building_metadata)
 				roof.set_metadata(building_metadata)
 				can_build_roof = true
-			elif util.str_to_var_or_default(slope, 35) > 15:
+			elif util.str_to_var_or_default(slope, 20) > 15:
 				roof = pointed_roof_scene.instantiate().with_data(
 					feature.get_id(),
 					addon_layers, 

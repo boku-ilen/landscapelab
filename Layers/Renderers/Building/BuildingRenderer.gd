@@ -17,7 +17,7 @@ var refined_buildings: Array[Node3D] = []
 var fallback_wall_id := 1
 
 var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
-var fallback_height = 10
+var fallback_height = 4
 var fallback_num_floors = 1
 var cellar_height = floor_height # For preventing partially floating buildings checked uneven surfaces
 var plinth_height_factor = 0.025
@@ -214,7 +214,7 @@ func get_building_metadata(feature: GeoPolygon):
 	var height = util.str_to_var_or_default(
 		feature.get_attribute(height_attribute), fallback_height)
 	var height_stdev = util.str_to_var_or_default(feature.get_attribute(
-		layer_composition.render_info.height_stdev_attribute_name), 10)
+		layer_composition.render_info.height_stdev_attribute_name), 2)
 	var roof_height = fmod(height, floor_height) + height_stdev
 	
 	return {
