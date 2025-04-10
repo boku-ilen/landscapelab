@@ -44,7 +44,7 @@ static var time_presets := {
 
 static var weather_presets := {
 	"Clear": {
-		"visibility": 18,
+		"visibility": 12,
 		"cloud_coverage": 8,
 		"cloud_density": 15,
 		"wind_speed": 5,
