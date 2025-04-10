@@ -29,7 +29,7 @@ extends Control
 @export var debug_mode := false
 @export var run_brick_detection := true
 
-var current_goc_name = "Placed Wind Farms"
+var current_goc_name = "Dead Wood"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
@@ -74,6 +74,7 @@ func _ready():
 		var error = config_json.parse(config_file.get_as_text())
 		
 		get_parent().current_screen = config_json.data.beamer_resolution.screen_id
+		get_parent().mode = Window.MODE_FULLSCREEN
 
 
 func _notification(what):

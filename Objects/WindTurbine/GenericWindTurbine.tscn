@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://3egxq5ke5lqo"]
 
 [ext_resource type="PackedScene" uid="uid://eai86bf7mjhu" path="res://Objects/Superclasses/MovableObject.tscn" id="1"]
-[ext_resource type="Script" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="2"]
+[ext_resource type="Script" uid="uid://dww016r1dhraa" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="2"]
 [ext_resource type="ArrayMesh" uid="uid://bes40cnrujgaq" path="res://Resources/Meshes/Windmills/E/WKA_E_Hub.res" id="3_8oppf"]
 [ext_resource type="Texture2D" uid="uid://bj0adoua3ekv" path="res://Resources/Textures/ShaderUtil/spotlight.png" id="4_2wm53"]
 [ext_resource type="ArrayMesh" uid="uid://diovhx0k8lirx" path="res://Resources/Meshes/Windmills/E/WKA_E_Rotor.res" id="4_qkf23"]
@@ -76,9 +76,10 @@ void fragment() {
 render_priority = 0
 shader = SubResource("Shader_hscc8")
 shader_parameter/albedo = Color(1, 0, 0, 1)
+shader_parameter/texture_albedo = ExtResource("4_2wm53")
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
 shader_parameter/emission = Color(1, 0, 0, 1)
@@ -87,7 +88,6 @@ shader_parameter/uv1_scale = Vector3(1, 1, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/texture_albedo = ExtResource("4_2wm53")
 
 [sub_resource type="QuadMesh" id="QuadMesh_gy03l"]
 size = Vector2(20, 20)
@@ -111,7 +111,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_n7nt5"]
 _data = {
-"Blink": SubResource("8")
+&"Blink": SubResource("8")
 }
 
 [node name="Windmill" instance=ExtResource("1")]
@@ -159,5 +159,5 @@ skeleton = NodePath("")
 
 [node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="." index="1"]
 libraries = {
-"": SubResource("AnimationLibrary_n7nt5")
+&"": SubResource("AnimationLibrary_n7nt5")
 }

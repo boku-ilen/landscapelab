@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bfpnmf8scmtxl" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_BaseColor.png" id="1_na86u"]
 [ext_resource type="Texture2D" uid="uid://b8y7jy4pvbo66" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_Normal.png" id="2_rpxyv"]
 [ext_resource type="Texture2D" uid="uid://bwdho0nlh6k5x" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_Roughness.png" id="3_3cmc2"]
-[ext_resource type="Shader" path="res://Objects/Nature/LarusSwarm.gdshader" id="4_622f0"]
+[ext_resource type="Shader" uid="uid://cgn6ilm6ym4wa" path="res://Objects/Nature/LarusSwarm.gdshader" id="4_622f0"]
 [ext_resource type="ArrayMesh" uid="uid://e15r303680r7" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/larus michahellis.obj" id="5_himec"]
 
 [sub_resource type="Shader" id="Shader_eqgj6"]
@@ -100,11 +100,14 @@ void fragment() {
 render_priority = 0
 shader = SubResource("Shader_eqgj6")
 shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("1_na86u")
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/texture_roughness = ExtResource("3_3cmc2")
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
+shader_parameter/texture_normal = ExtResource("2_rpxyv")
 shader_parameter/normal_scale = 1.0
 shader_parameter/uv1_scale = Vector3(1, 1, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
@@ -117,9 +120,6 @@ shader_parameter/wave = 0.05
 shader_parameter/twist = 1.5
 shader_parameter/mask_black = 0.2
 shader_parameter/mask_white = 0.2
-shader_parameter/texture_albedo = ExtResource("1_na86u")
-shader_parameter/texture_roughness = ExtResource("3_3cmc2")
-shader_parameter/texture_normal = ExtResource("2_rpxyv")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pnok0"]
 shader = ExtResource("4_622f0")
@@ -133,6 +133,7 @@ shader_parameter/max_velocity = 10.0
 shader_parameter/random_direction_weight = 1.0
 shader_parameter/center_pull_weight = 0.01
 shader_parameter/y_center_pull_weight = 10.0
+shader_parameter/change_pitch = true
 
 [node name="SwarmParticles" type="GPUParticles3D"]
 material_override = SubResource("ShaderMaterial_8yf68")

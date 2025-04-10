@@ -157,6 +157,7 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 		if  random_angle:
 			var pseudo_random = abs(int(pos.x * 43758.5453 + pos.z * 78233.9898))
 			rand_angle = rand_angle + (PI / 2.0) * ((pseudo_random % 3) + 1.0)
+			rand_angle = fmod(rand_angle, PI * 2.0)
 			t = t.rotated_local(Vector3.UP, rand_angle)
 		t.origin = pos #* Vector3(1, 1, scale_factor)
 		
