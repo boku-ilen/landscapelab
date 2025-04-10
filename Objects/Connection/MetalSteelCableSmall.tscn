@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bvhau567iae7j"]
 
-[ext_resource type="Script" path="res://Objects/Connection/Superclasses/Catenary.gd" id="1"]
+[ext_resource type="Script" uid="uid://cmb66e0ofk5cq" path="res://Objects/Connection/Superclasses/Catenary.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://c4vh1wdmxgyrs" path="res://Resources/Textures/Cable/albedo.jpg" id="3"]
 
 [sub_resource type="Curve3D" id="3"]

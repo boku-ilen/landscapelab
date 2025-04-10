@@ -34,14 +34,14 @@ func _toggle_roof_pv(toggled: bool):
 		var game_collection = GameObjectCollection.new("Roof PV")
 		GameSystem.current_game_mode.add_game_object_collection(game_collection)
 		
-		var attrib = StaticAttribute.new("Roof PV", 20000.)
+		var attrib = StaticAttribute.new("Roof PV", 54335)
 		game_collection.add_attribute_mapping(attrib)
 		
 		game_collection.game_objects[0] = GameObject.new(0, game_collection)
 		
-		#GameSystem.current_game_mode.game_scores["Energieziel 2030"].add_contributor(game_collection, "Roof PV", 0.2)
-		GameSystem.current_game_mode.game_scores["Energieziel 2050"].add_contributor(game_collection, "Roof PV", 0.5)
+		GameSystem.current_game_mode.game_scores["Energieziel 2030"].add_contributor(game_collection, "Roof PV", 0.15)
+		GameSystem.current_game_mode.game_scores["Energieziel 2040"].add_contributor(game_collection, "Roof PV", 0.3)
 	else:
 		GameSystem.current_game_mode.game_object_collections["Roof PV"].game_objects.erase(0)
-		#GameSystem.current_game_mode.game_scores["Energieziel 2030"].recalculate_score()
-		GameSystem.current_game_mode.game_scores["Energieziel 2050"].recalculate_score()
+		GameSystem.current_game_mode.game_scores["Energieziel 2030"].recalculate_score()
+		GameSystem.current_game_mode.game_scores["Energieziel 2040"].recalculate_score()

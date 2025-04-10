@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PlainWallResource" load_steps=3 format=3 uid="uid://dqc07nlbth3sq"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_j6lt4"]
+[ext_resource type="Script" uid="uid://buajipufsmvon" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_j6lt4"]
 [ext_resource type="Resource" uid="uid://ry4n6ovt6my7" path="res://Resources/Textures/Buildings/facade/Shack/Shack.tres" id="2_0pstj"]
 
 [resource]

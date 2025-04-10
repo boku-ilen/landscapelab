@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bkcdk4xgbexwe"]
 
-[ext_resource type="Script" path="res://Layers/Renderers/Terrain/TerrainDecal.gd" id="1_6b8bn"]
+[ext_resource type="Script" uid="uid://bqetfoombdbhh" path="res://Layers/Renderers/Terrain/TerrainDecal.gd" id="1_6b8bn"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ksy4w"]
 viewport_path = NodePath("DecalViewport")

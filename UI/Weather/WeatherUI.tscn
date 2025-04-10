@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dkvdbwaqhrbnn"]
 
-[ext_resource type="Script" path="res://UI/Weather/WeatherUI.gd" id="1"]
+[ext_resource type="Script" uid="uid://b7ud6oeykx5gs" path="res://UI/Weather/WeatherUI.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://evcqemueid18" path="res://UI/CustomElements/SlideAndSpin.tscn" id="2"]
-[ext_resource type="Script" path="res://UI/Weather/LiveWeatherButton.gd" id="3_sk3p0"]
+[ext_resource type="Script" uid="uid://dch0wishnyf4e" path="res://UI/Weather/LiveWeatherButton.gd" id="3_sk3p0"]
 [ext_resource type="PackedScene" uid="uid://byeo11my44w8v" path="res://World/LiveWeatherService.tscn" id="4_3u5su"]
 
 [node name="WeatherUI" type="GridContainer"]

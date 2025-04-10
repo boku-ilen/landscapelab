@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dsbiss6x8n2fu"]
 
-[ext_resource type="Script" path="res://Vegetation/Editor/ViewSettings/ViewSettingsDialog.gd" id="1"]
+[ext_resource type="Script" uid="uid://box72ho0s4ord" path="res://Vegetation/Editor/ViewSettings/ViewSettingsDialog.gd" id="1"]
 
 [node name="ViewSettingsDialog" type="Window"]
 anchor_left = 0.5

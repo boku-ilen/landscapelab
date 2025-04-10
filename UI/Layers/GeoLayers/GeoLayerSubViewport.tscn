@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b614v82srw120"]
 
-[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Viewport2DCamera.gd" id="1_8qbtf"]
+[ext_resource type="Script" uid="uid://l6nqbwms3sxp" path="res://UI/Layers/GeoLayers/Viewport2DCamera.gd" id="1_8qbtf"]
 [ext_resource type="PackedScene" uid="uid://dn25tsa6f10jw" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.tscn" id="2_6f28s"]
 
 [node name="SubViewport" type="SubViewport"]

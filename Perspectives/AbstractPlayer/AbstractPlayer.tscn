@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bo7h8naluvs8c"]
 
-[ext_resource type="Script" path="res://Perspectives/AbstractPlayer/AbstractPlayer.gd" id="1"]
+[ext_resource type="Script" uid="uid://c0w38cskslf7y" path="res://Perspectives/AbstractPlayer/AbstractPlayer.gd" id="1"]
 
 [node name="Player" type="CharacterBody3D" groups=["SpatialShifting"]]
 script = ExtResource("1")

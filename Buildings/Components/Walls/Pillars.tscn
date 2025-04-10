@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://pli5c22wyml6"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Walls/Pillars.gd" id="1_ua7od"]
+[ext_resource type="Script" uid="uid://bg4y4sg83hafe" path="res://Buildings/Components/Walls/Pillars.gd" id="1_ua7od"]
 
 [node name="PoledWall" type="Node3D"]
 script = ExtResource("1_ua7od")

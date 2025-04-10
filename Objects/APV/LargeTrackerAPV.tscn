@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dbbb5tyqdpao6"]
 
-[ext_resource type="PackedScene" path="res://Objects/APV/PV_field_tracker_5x5.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://cmdaj36t6svwd" path="res://Objects/APV/PV_field_tracker_5x5.tscn" id="1"]
 
 [node name="Node3D" type="Node3D"]
 

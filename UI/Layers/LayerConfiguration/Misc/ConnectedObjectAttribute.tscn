@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b8gevh70pamca"]
 
 [ext_resource type="PackedScene" uid="uid://ch15mdq8mk72s" path="res://Util/FileChooser.tscn" id="1"]
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/ConnectedObjectAttribute.gd" id="2"]
+[ext_resource type="Script" uid="uid://bocldtqe4dx2" path="res://UI/Layers/LayerConfiguration/Misc/ConnectedObjectAttribute.gd" id="2"]
 
 [node name="ConnectedObjectAttr" type="GridContainer"]
 offset_top = 81.0

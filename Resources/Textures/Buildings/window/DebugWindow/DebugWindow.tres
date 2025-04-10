@@ -1,9 +1,7 @@
-[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=3 format=3 uid="uid://4u7v8onxpy56"]
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=2 format=3 uid="uid://4u7v8onxpy56"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_luhbr"]
-[ext_resource type="Texture2D" uid="uid://b1ftd35ga2glb" path="res://debugtexturegood.png" id="1_lxgku"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_luhbr"]
 
 [resource]
 script = ExtResource("1_luhbr")
 texture_scale = Vector2(1, 1)
-albedo_texture = ExtResource("1_lxgku")

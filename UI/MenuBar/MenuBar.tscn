@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://csad5ev7rwtoe"]
 
-[ext_resource type="Script" path="res://UI/MenuBar/Project.gd" id="1_yv40a"]
+[ext_resource type="Script" uid="uid://bkql7dme6fwg3" path="res://UI/MenuBar/Project.gd" id="1_yv40a"]
 [ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="2_uetun"]
 [ext_resource type="PackedScene" uid="uid://ch15mdq8mk72s" path="res://Util/FileChooser.tscn" id="3_ckk4c"]
-[ext_resource type="Script" path="res://UI/MenuBar/View.gd" id="5_gwh6b"]
-[ext_resource type="Script" path="res://UI/MenuBar/Util.gd" id="6_svjrn"]
+[ext_resource type="Script" uid="uid://c4dua6833v7uu" path="res://UI/MenuBar/View.gd" id="5_gwh6b"]
+[ext_resource type="Script" uid="uid://brxr716rbtt8h" path="res://UI/MenuBar/Util.gd" id="6_svjrn"]
 
 [node name="MenuBar" type="HBoxContainer"]
 offset_right = 1140.0

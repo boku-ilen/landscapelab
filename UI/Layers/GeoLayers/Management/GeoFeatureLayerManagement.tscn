@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b7edl76i03v20"]
 
-[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Management/GeoFeatureLayerManagement.gd" id="1_c2go0"]
+[ext_resource type="Script" uid="uid://d24a62oip1plb" path="res://UI/Layers/GeoLayers/Management/GeoFeatureLayerManagement.gd" id="1_c2go0"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="2_xm7b5"]
 [ext_resource type="Texture2D" uid="uid://3l8mvamphk8h" path="res://Resources/Icons/ModernLandscapeLab/vector_add.svg" id="3_m3nyt"]
 [ext_resource type="Texture2D" uid="uid://qtod1bt3a6xa" path="res://Resources/Icons/ModernLandscapeLab/vector_remove.svg" id="4_lb5vd"]

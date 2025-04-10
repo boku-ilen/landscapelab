@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://byeo11my44w8v"]
 
-[ext_resource type="Script" path="res://World/LiveWeatherService.gd" id="1_4xdaq"]
+[ext_resource type="Script" uid="uid://ormsnk44ktx4" path="res://World/LiveWeatherService.gd" id="1_4xdaq"]
 
 [node name="LiveWeatherService" type="Node"]
 script = ExtResource("1_4xdaq")

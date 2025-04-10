@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ud3y4y0ah58y"]
 
-[ext_resource type="Script" path="res://Util/DirectoryChooser.gd" id="1"]
+[ext_resource type="Script" uid="uid://c28p05r2ufdac" path="res://Util/DirectoryChooser.gd" id="1"]
 
 [node name="DirectoryChooser" type="HBoxContainer"]
 anchor_right = 1.0

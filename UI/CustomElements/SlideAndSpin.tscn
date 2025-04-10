@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://evcqemueid18"]
 
-[ext_resource type="Script" path="res://UI/CustomElements/SlideAndSpin.gd" id="1"]
+[ext_resource type="Script" uid="uid://dh8fds3fq4leo" path="res://UI/CustomElements/SlideAndSpin.gd" id="1"]
 [ext_resource type="Theme" uid="uid://d2bw4jh2eki3h" path="res://UI/Theme/TableSliderTheme.tres" id="2_aw1xo"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="3_oprnp"]
 

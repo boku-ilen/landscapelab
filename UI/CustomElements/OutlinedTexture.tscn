@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cbavdo1fcbs66"]
 
-[ext_resource type="Script" path="res://UI/CustomElements/OutlinedTexture.gd" id="1_12xy0"]
+[ext_resource type="Script" uid="uid://ut528gnoffo1" path="res://UI/CustomElements/OutlinedTexture.gd" id="1_12xy0"]
 [ext_resource type="Material" uid="uid://bjbkx2lcxwxw" path="res://UI/CustomElements/OutlinedTexture.tres" id="2_kqiw3"]
 
 [node name="OutlinedTexture" type="MarginContainer"]

@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cuiempx2ao4sm"]
 
-[ext_resource type="Script" path="res://Perspectives/PC/MousePoint.gd" id="1"]
+[ext_resource type="Script" uid="uid://cwrsfjuhd3jl6" path="res://Perspectives/PC/MousePoint.gd" id="1"]
 [ext_resource type="Theme" uid="uid://2acd0pfpr1ny" path="res://UI/Theme/LandscapeLab.tres" id="2"]
 [ext_resource type="PackedScene" uid="uid://qvsks1cuf3uh" path="res://Perspectives/PC/MouseFeedback/MouseCollisionIndicator.tscn" id="3"]
-[ext_resource type="Script" path="res://Perspectives/PC/CursorInfoDialog.gd" id="4"]
+[ext_resource type="Script" uid="uid://cvd1dvfyj0xxi" path="res://Perspectives/PC/CursorInfoDialog.gd" id="4"]
 
 [node name="MousePoint" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0)

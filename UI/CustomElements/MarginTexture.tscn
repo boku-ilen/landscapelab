@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cdy8pv0g44r23"]
 
-[ext_resource type="Script" path="res://UI/CustomElements/MarginTexture.gd" id="1_t3vxk"]
+[ext_resource type="Script" uid="uid://dftsb7vlxenuf" path="res://UI/CustomElements/MarginTexture.gd" id="1_t3vxk"]
 
 [node name="MarginTexture" type="MarginContainer"]
 size_flags_horizontal = 6

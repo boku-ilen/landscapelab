@@ -1,14 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://b8fut67ktnrvg"]
+[gd_scene load_steps=18 format=3 uid="uid://b8fut67ktnrvg"]
 
-[ext_resource type="Shader" path="res://uv.gdshader" id="1_yg1a3"]
-[ext_resource type="Shader" path="res://Layers/Renderers/RasterVegetation/VegetationLayer.gdshader" id="2_3u4al"]
-[ext_resource type="Script" path="res://Util/SaveViewport.gd" id="3_51m8t"]
-[ext_resource type="Shader" path="res://Util/DistancePlantUV_TestSurface.gdshader" id="4_q0j6c"]
+[ext_resource type="Shader" uid="uid://qbq2v76udkxr" path="res://Layers/Renderers/RasterVegetation/VegetationLayer.gdshader" id="2_3u4al"]
+[ext_resource type="Script" uid="uid://bb4no4gusinwh" path="res://Util/SaveViewport.gd" id="3_51m8t"]
+[ext_resource type="Shader" uid="uid://4vp14vinutvf" path="res://Util/DistancePlantUV_TestSurface.gdshader" id="4_q0j6c"]
 [ext_resource type="Texture2D" uid="uid://duhjv68uoyu3c" path="res://Resources/Textures/Plants/gr-triticum-01.png" id="5_3st8c"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p0tdb"]
-render_priority = 0
-shader = ExtResource("1_yg1a3")
 
 [sub_resource type="QuadMesh" id="QuadMesh_iysap"]
 
@@ -19,13 +16,14 @@ size = Vector2(100, 100)
 shader = ExtResource("2_3u4al")
 shader_parameter/rows = 300.0
 shader_parameter/spacing = 0.25
-shader_parameter/splatmap_size_meters = null
+shader_parameter/splatmap_size_meters = 0.0
+shader_parameter/distribution_array = null
+shader_parameter/texture_map = null
 shader_parameter/amplitude = 1.0
 shader_parameter/heightmap_size = Vector2(300, 300)
 shader_parameter/row_spacing = 1.0
-shader_parameter/uv_offset = null
-shader_parameter/view_direction = null
-shader_parameter/distribution_array = null
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/view_direction = Vector3(0, 0, 0)
 
 [sub_resource type="QuadMesh" id="QuadMesh_xqov1"]
 
@@ -63,13 +61,14 @@ albedo_texture = ExtResource("5_3st8c")
 shader = ExtResource("2_3u4al")
 shader_parameter/rows = 100.0
 shader_parameter/spacing = 0.2
-shader_parameter/splatmap_size_meters = null
+shader_parameter/splatmap_size_meters = 0.0
+shader_parameter/distribution_array = null
+shader_parameter/texture_map = null
 shader_parameter/amplitude = 1.0
 shader_parameter/heightmap_size = Vector2(300, 300)
 shader_parameter/row_spacing = 1.0
-shader_parameter/uv_offset = null
-shader_parameter/view_direction = null
-shader_parameter/distribution_array = null
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/view_direction = Vector3(0, 0, 0)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_gmfdy"]
 size = Vector2(200, 100)

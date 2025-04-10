@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bs8e7jx6ncnym"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Roofs/PointedRoof.gd" id="1"]
+[ext_resource type="Script" uid="uid://ctbpoxpxhubg" path="res://Buildings/Components/Roofs/PointedRoof.gd" id="1"]
 
 [node name="MansardRoof" type="Node3D" node_paths=PackedStringArray("roof_mesh")]
 script = ExtResource("1")

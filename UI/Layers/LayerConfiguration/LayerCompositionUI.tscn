@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://c1qrnycjr7pqq"]
 
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.gd" id="1_h6fpr"]
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerCompositionUIConfig.gd" id="2_5bpvu"]
+[ext_resource type="Script" uid="uid://bx6xfqy43dbuj" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.gd" id="1_h6fpr"]
+[ext_resource type="Script" uid="uid://grp8y00ws4vp" path="res://UI/Layers/LayerConfiguration/LayerCompositionUIConfig.gd" id="2_5bpvu"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="3_crf05"]
 [ext_resource type="Texture2D" uid="uid://cs4tv7bap36pw" path="res://Resources/Icons/ModernLandscapeLab/new_file.svg" id="4_yh728"]
 [ext_resource type="Texture2D" uid="uid://bm7bb3ha1w18o" path="res://Resources/Icons/ModernLandscapeLab/delete_file.svg" id="5_7o63i"]

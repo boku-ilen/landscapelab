@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TextureBundleRME" load_steps=5 format=3 uid="uid://dvn8df0swdm6j"]
 
 [ext_resource type="Texture2D" uid="uid://c72cxxcyrg6ln" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Color.jpg" id="1_8jxhb"]
-[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_wa0dd"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_wa0dd"]
 [ext_resource type="Texture2D" uid="uid://bi63buuda3f3j" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_NormalGL.jpg" id="2_0r1hd"]
 [ext_resource type="Texture2D" uid="uid://bi73vhqd8cokg" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Roughness.jpg" id="3_201mp"]
 

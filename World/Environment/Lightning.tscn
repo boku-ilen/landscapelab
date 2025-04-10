@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://cib4g5bstb1xa"]
 
-[ext_resource type="Script" path="res://World/Environment/Lightning.gd" id="1_2eur0"]
+[ext_resource type="Script" uid="uid://bmrlk47hmq7mu" path="res://World/Environment/Lightning.gd" id="1_2eur0"]
 [ext_resource type="Texture2D" uid="uid://b3xdbcxmrvtvn" path="res://World/Environment/lightning_cloud_lighting.png" id="2_yil0v"]
 
 [sub_resource type="Gradient" id="Gradient_gnng6"]

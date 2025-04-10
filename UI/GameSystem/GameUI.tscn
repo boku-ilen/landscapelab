@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://osbeo8c4meg5"]
 
-[ext_resource type="Script" path="res://UI/GameSystem/GameUI.gd" id="1"]
-[ext_resource type="Script" path="res://UI/LabTable/SaveButton.gd" id="2_b8auh"]
+[ext_resource type="Script" uid="uid://bynk1j17hmfxu" path="res://UI/GameSystem/GameUI.gd" id="1"]
+[ext_resource type="Script" uid="uid://ccfu86pkyv1n6" path="res://UI/LabTable/SaveButton.gd" id="2_b8auh"]
 
 [node name="GameUI" type="HBoxContainer"]
 size_flags_horizontal = 3

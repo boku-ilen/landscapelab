@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://o84tjyjkbjgt"]
 
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1_wg5if"]
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerCompositionConfigurationWindow.gd" id="2_jvxn0"]
+[ext_resource type="Script" uid="uid://ccsu0jotbl03b" path="res://UI/Layers/LayerConfiguration/LayerCompositionConfigurationWindow.gd" id="2_jvxn0"]
 [ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="3_odowl"]
 [ext_resource type="PackedScene" uid="uid://ce363ya7o8glf" path="res://UI/Layers/LayerConfiguration/Misc/ColorTag.tscn" id="4_pcifh"]
 

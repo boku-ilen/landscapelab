@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PlainWallResource" load_steps=4 format=3 uid="uid://dn6y40cs6tm1v"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_6vfqk"]
+[ext_resource type="Script" uid="uid://buajipufsmvon" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_6vfqk"]
 [ext_resource type="Resource" uid="uid://bk6k2qqs2qghp" path="res://Resources/Textures/Buildings/facade/CorrugatedSteel/CorrugatedSteel.tres" id="1_n3gdq"]
 [ext_resource type="Resource" uid="uid://dpuuqa6sclduc" path="res://Resources/Textures/Buildings/basement/default_basement.tres" id="1_yexvr"]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://jnqaoumole2t"]
 
-[ext_resource type="Script" path="res://Objects/Connection/Superclasses/Catenary.gd" id="1"]
+[ext_resource type="Script" uid="uid://cmb66e0ofk5cq" path="res://Objects/Connection/Superclasses/Catenary.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://c4vh1wdmxgyrs" path="res://Resources/Textures/Cable/albedo.jpg" id="2"]
 [ext_resource type="Texture2D" uid="uid://bqlcoeknmgg3j" path="res://Resources/Textures/Cable/metallic.jpg" id="3"]
 [ext_resource type="Texture2D" uid="uid://d3qtbhiq7tiuk" path="res://Resources/Textures/Cable/roughness.jpg" id="5"]

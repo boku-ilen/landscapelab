@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dmx6wxakxn8ws"]
 
-[ext_resource type="Script" path="res://VR/DistanceMeasurement/Display.gd" id="1"]
+[ext_resource type="Script" uid="uid://bo8spv4oseevo" path="res://VR/DistanceMeasurement/Display.gd" id="1"]
 
 [node name="CenterContainer" type="CenterContainer"]
 offset_right = 200.0

@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://hkjp1g1uuwmw"]
 
-[ext_resource type="Script" path="res://Vegetation/Editor/ConfigButton.gd" id="1"]
+[ext_resource type="Script" uid="uid://coh1bvs7f4u24" path="res://Vegetation/Editor/ConfigButton.gd" id="1"]
 [ext_resource type="FontFile" path="res://UI/Fonts/Text.tres" id="2"]
-[ext_resource type="Script" path="res://Vegetation/Editor/VegetationConfig.gd" id="3"]
+[ext_resource type="Script" uid="uid://crallp41otckl" path="res://Vegetation/Editor/VegetationConfig.gd" id="3"]
 
 [node name="VegetationConfig" type="Control"]
 anchor_right = 1.0

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c77hl775ou821"]
 
 [ext_resource type="Texture2D" uid="uid://dcj5ncl2ea1k6" path="res://Resources/Icons/ColorOpenMoji/circle.svg" id="1"]
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.gd" id="2"]
+[ext_resource type="Script" uid="uid://bmvuh5v83d1pv" path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/PolygonPoint.gd" id="2"]
 [ext_resource type="FontFile" path="res://UI/Fonts/TextOutlined.tres" id="3"]
 
 [sub_resource type="SphereShape3D" id="1"]
