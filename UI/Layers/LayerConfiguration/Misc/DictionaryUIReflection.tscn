@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://g3omcyx8utux"]
 
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/DictionaryUIReflection.gd" id="1_hqicn"]
+[ext_resource type="Script" uid="uid://c48liak6owvc0" path="res://UI/Layers/LayerConfiguration/Misc/DictionaryUIReflection.gd" id="1_hqicn"]
 
 [node name="DictionaryUIReflection" type="VBoxContainer"]
 anchors_preset = 15

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="PlainWallResource" load_steps=4 format=3 uid="uid://ce46b85qvavni"]
 
 [ext_resource type="Resource" uid="uid://dvn8df0swdm6j" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/UncleanPlaster.tres" id="1_02atr"]
-[ext_resource type="Script" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_g21ra"]
+[ext_resource type="Script" uid="uid://buajipufsmvon" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_g21ra"]
 [ext_resource type="Resource" uid="uid://g1a0ac8ulvw7" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/UncleanPlasterTop.tres" id="3_5sjhm"]
 
 [resource]

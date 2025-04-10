@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dwd1w1bsi1byw"]
 
-[ext_resource type="Script" path="res://Layers/Renderers/Path/Roads/RoadUI/RoadLaneInfo.gd" id="1_xmbgb"]
+[ext_resource type="Script" uid="uid://8gwn3bmvovk6" path="res://Layers/Renderers/Path/Roads/RoadUI/RoadLaneInfo.gd" id="1_xmbgb"]
 
 [node name="RoadLaneInfo" type="HSplitContainer"]
 split_offset = 200

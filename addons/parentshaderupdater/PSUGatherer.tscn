@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bnj4pbg5at2rg"]
 
-[ext_resource type="Script" path="res://addons/parentshaderupdater/PSUGatherer.gd" id="1_w6mf0"]
+[ext_resource type="Script" uid="uid://3iincujx7lpw" path="res://addons/parentshaderupdater/PSUGatherer.gd" id="1_w6mf0"]
 
 [node name="PSUGatherer" type="Node3D"]
 script = ExtResource("1_w6mf0")

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PlainWallResource" load_steps=4 format=3 uid="uid://di4ogfnmfj255"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_6d6k1"]
+[ext_resource type="Script" uid="uid://buajipufsmvon" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_6d6k1"]
 [ext_resource type="Resource" uid="uid://blf23sts03r2v" path="res://Resources/Textures/Buildings/facade/plaster.tres" id="1_hgsrk"]
 [ext_resource type="Resource" uid="uid://dpuuqa6sclduc" path="res://Resources/Textures/Buildings/basement/default_basement.tres" id="1_yhvcp"]
 

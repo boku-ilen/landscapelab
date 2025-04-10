@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://cykaq53hrglno"]
 
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerCompositionWidget.gd" id="1"]
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/EditWindow.gd" id="2"]
+[ext_resource type="Script" uid="uid://bcbnpi5ljeros" path="res://UI/Layers/LayerConfiguration/LayerCompositionWidget.gd" id="1"]
+[ext_resource type="Script" uid="uid://qmit6soahmki" path="res://UI/Layers/LayerConfiguration/EditWindow.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://23k0cl4yv3b3" path="res://Resources/Icons/ModernLandscapeLab/eye_crossed.svg" id="3"]
 [ext_resource type="Texture2D" uid="uid://dugrgepqgf6ik" path="res://Resources/Icons/ModernLandscapeLab/three_points.svg" id="4"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="5"]

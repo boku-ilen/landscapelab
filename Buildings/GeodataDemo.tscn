@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://crcw4vrhppls6"]
 
-[ext_resource type="Script" path="res://Buildings/GeodataDemo.gd" id="1"]
+[ext_resource type="Script" uid="uid://b41akmqysvqt0" path="res://Buildings/GeodataDemo.gd" id="1"]
 
 [node name="GeodataDemo" type="Node3D"]
 script = ExtResource("1")

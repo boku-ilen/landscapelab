@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dhcx2oqc2rehm"]
 
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Profile.gd" id="1"]
+[ext_resource type="Script" uid="uid://7fqerd6t4p6d" path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Profile.gd" id="1"]
 
 [sub_resource type="StandardMaterial3D" id="1"]
 resource_local_to_scene = true

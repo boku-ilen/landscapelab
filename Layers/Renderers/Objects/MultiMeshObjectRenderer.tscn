@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dd84aik2vulpv"]
 
-[ext_resource type="Script" path="res://Layers/Renderers/Objects/MultiMeshObjectRenderer.gd" id="1_oumye"]
+[ext_resource type="Script" uid="uid://dbobanufh4qdr" path="res://Layers/Renderers/Objects/MultiMeshObjectRenderer.gd" id="1_oumye"]
 [ext_resource type="PackedScene" uid="uid://br8pyu55u58ft" path="res://Layers/Renderers/Objects/ObjectMultiMesh.tscn" id="2_hr07y"]
 
 [node name="MultiMeshObjectRenderer" type="Node3D"]

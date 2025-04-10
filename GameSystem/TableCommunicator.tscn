@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://b1sbfd2r652rm"]
 
-[ext_resource type="Script" path="res://Communication/Table/NewExtentRequestHandler.gd" id="1"]
-[ext_resource type="Script" path="res://GameSystem/TableCommunicator.gd" id="2"]
-[ext_resource type="Script" path="res://Communication/Table/NewTokenRequestHandler.gd" id="3"]
-[ext_resource type="Script" path="res://Communication/Table/RemoveTokenRequestHandler.gd" id="4"]
-[ext_resource type="Script" path="res://Communication/Table/TableHandshakeRequestHandler.gd" id="5"]
-[ext_resource type="Script" path="res://Communication/Table/TokenPositionRequestHandler.gd" id="6"]
-[ext_resource type="Script" path="res://Communication/Table/UpdateScoreSender.gd" id="7"]
+[ext_resource type="Script" uid="uid://cuao0h4qqknpj" path="res://Communication/Table/NewExtentRequestHandler.gd" id="1"]
+[ext_resource type="Script" uid="uid://b8rlbd0krpl7h" path="res://GameSystem/TableCommunicator.gd" id="2"]
+[ext_resource type="Script" uid="uid://duqtylgea5mc7" path="res://Communication/Table/NewTokenRequestHandler.gd" id="3"]
+[ext_resource type="Script" uid="uid://bgvsgj7dx1l5g" path="res://Communication/Table/RemoveTokenRequestHandler.gd" id="4"]
+[ext_resource type="Script" uid="uid://daftke1iolol0" path="res://Communication/Table/TableHandshakeRequestHandler.gd" id="5"]
+[ext_resource type="Script" uid="uid://big71xus1tx4w" path="res://Communication/Table/TokenPositionRequestHandler.gd" id="6"]
+[ext_resource type="Script" uid="uid://0dxxb3mgud4w" path="res://Communication/Table/UpdateScoreSender.gd" id="7"]
 
 [node name="TableCommunicator" type="Node"]
 script = ExtResource("2")

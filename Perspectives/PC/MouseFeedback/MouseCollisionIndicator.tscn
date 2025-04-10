@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://qvsks1cuf3uh"]
 
-[ext_resource type="Script" path="res://Perspectives/PC/MouseFeedback/MouseCollisionIndicator.gd" id="1"]
-[ext_resource type="PackedScene" path="res://Perspectives/PC/MouseFeedback/Particle.tscn" id="2"]
+[ext_resource type="Script" uid="uid://c37hpjiy5d2ib" path="res://Perspectives/PC/MouseFeedback/MouseCollisionIndicator.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://cj4lb3ihaay13" path="res://Perspectives/PC/MouseFeedback/Particle.tscn" id="2"]
 
 [node name="MouseCollisionIndicator" type="Node3D"]
 script = ExtResource("1")

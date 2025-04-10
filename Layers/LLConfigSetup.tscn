@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://codhp1gd8miem"]
 
-[ext_resource type="Script" path="res://Layers/LLConfigSetup.gd" id="1_ioq8f"]
+[ext_resource type="Script" uid="uid://dgr0kjm4lsv5l" path="res://Layers/LLConfigSetup.gd" id="1_ioq8f"]
 
 [node name="LLConfigSetup" type="Node"]
 script = ExtResource("1_ioq8f")

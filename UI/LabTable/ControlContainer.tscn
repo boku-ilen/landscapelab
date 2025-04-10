@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://d25827kd1r2xd"]
 
-[ext_resource type="Script" path="res://UI/LabTable/ControlContainer.gd" id="1_7nxly"]
+[ext_resource type="Script" uid="uid://thn7bcxgy8xp" path="res://UI/LabTable/ControlContainer.gd" id="1_7nxly"]
 [ext_resource type="PackedScene" uid="uid://qg0hrece07vm" path="res://UI/Layers/GeoLayers/ZoomContainer.tscn" id="1_pndxl"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="2_r33nv"]
 [ext_resource type="Texture2D" uid="uid://duy7cly3qvn4m" path="res://Resources/Icons/LabTable/m_overview.svg" id="3_pedwm"]
@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dqa08ihhn17ji" path="res://Resources/Icons/LabTable/m_right.svg" id="8_dkvif"]
 [ext_resource type="Texture2D" uid="uid://bcl4dprbho0o2" path="res://Resources/Icons/LabTable/m_down.svg" id="9_wey23"]
 [ext_resource type="PackedScene" uid="uid://c80mmsavbpqyk" path="res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn" id="9_yl31i"]
-[ext_resource type="Script" path="res://UI/LabTable/OverviewCamera.gd" id="10_ksdla"]
+[ext_resource type="Script" uid="uid://64gukijqyct" path="res://UI/LabTable/OverviewCamera.gd" id="10_ksdla"]
 
 [node name="ControlContainer" type="VBoxContainer" node_paths=PackedStringArray("overview_camera", "overview_zoom_button", "zoom_container", "grid_container", "subviewport_container", "left", "right", "up", "down", "center")]
 offset_right = 337.0

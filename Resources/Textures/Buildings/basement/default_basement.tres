@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=5 format=3 uid="uid://dpuuqa6sclduc"]
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=5 format=3 uid="uid://dpuuqa6sclduc"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_4i41v"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_4i41v"]
 [ext_resource type="Texture2D" uid="uid://dl05ekm427n2u" path="res://Resources/Textures/Buildings/basement/plaster_white.jpg" id="1_ffj7n"]
 [ext_resource type="Texture2D" uid="uid://dp7jyu0xo3c8j" path="res://Resources/Textures/Buildings/basement/normal.jpg" id="2_qu43x"]
 [ext_resource type="Texture2D" uid="uid://cgbw3h7n8v8in" path="res://Resources/Textures/Buildings/basement/roughness.jpg" id="3_ctt57"]

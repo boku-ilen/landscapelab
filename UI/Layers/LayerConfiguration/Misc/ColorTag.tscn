@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ce363ya7o8glf"]
 
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/ColorTag.gd" id="1"]
+[ext_resource type="Script" uid="uid://omrh7m3jqxw8" path="res://UI/Layers/LayerConfiguration/Misc/ColorTag.gd" id="1"]
 
 [node name="ColorTagMenu" type="HBoxContainer"]
 anchors_preset = 15

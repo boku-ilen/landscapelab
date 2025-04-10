@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="RangeMaterial" load_steps=4 format=3 uid="uid://brss6t1m5f3p4"]
 
 [ext_resource type="Material" uid="uid://ctbp5ya4g4nmu" path="res://Buildings/Components/Roofs/Resources/_RoofBarrel.tres" id="1_3xadq"]
-[ext_resource type="Script" path="res://Buildings/Components/Roofs/Resources/RangeMaterial.gd" id="1_v3h6m"]
+[ext_resource type="Script" uid="uid://q3os2i4taod8" path="res://Buildings/Components/Roofs/Resources/RangeMaterial.gd" id="1_v3h6m"]
 [ext_resource type="Material" uid="uid://78xs57vvn0as" path="res://Buildings/Components/Roofs/Resources/_RoofWallWood.tres" id="2_pdpfv"]
 
 [resource]

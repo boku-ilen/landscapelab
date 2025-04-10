@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cteogf0mgbyci"]
 
-[ext_resource type="Script" path="res://UI/RenderingStyle/RenderingStyleSelect.gd" id="1"]
+[ext_resource type="Script" uid="uid://dw2t0tu7vj0ar" path="res://UI/RenderingStyle/RenderingStyleSelect.gd" id="1"]
 
 [node name="RenderingStyleMenu" type="PanelContainer"]
 offset_right = 277.0

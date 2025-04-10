@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://5bx3gdv747un"]
 
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/ColorButton.gd" id="1"]
+[ext_resource type="Script" uid="uid://cda71w087tx7p" path="res://UI/Layers/LayerConfiguration/Misc/ColorButton.gd" id="1"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_cqpmg"]
 

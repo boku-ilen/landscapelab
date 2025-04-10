@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ch15mdq8mk72s"]
 
-[ext_resource type="Script" path="res://Util/FileChooser.gd" id="1"]
+[ext_resource type="Script" uid="uid://d3hh8cs1ioh43" path="res://Util/FileChooser.gd" id="1"]
 
 [node name="FileChooser" type="HBoxContainer"]
 offset_right = 109.0

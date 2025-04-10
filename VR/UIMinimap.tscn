@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cuu8yynawoea6"]
 
-[ext_resource type="Script" path="res://VR/UIMinimap.gd" id="1"]
+[ext_resource type="Script" uid="uid://bot7jpg26y744" path="res://VR/UIMinimap.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://cseb5r044bgsd" path="res://Resources/Icons/ColorOpenMoji/close.svg" id="2"]
 
 [sub_resource type="StandardMaterial3D" id="1"]

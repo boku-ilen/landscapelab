@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b25xcigruo37a"]
 
-[ext_resource type="Script" path="res://Buildings/BuildingEditor/BuildingEditor.gd" id="1_ti8qr"]
+[ext_resource type="Script" uid="uid://btmcfaip0x2gt" path="res://Buildings/BuildingEditor/BuildingEditor.gd" id="1_ti8qr"]
 [ext_resource type="PackedScene" uid="uid://dl4m3ovxk1e8q" path="res://Util/Debug/Rendering/debugviewer.tscn" id="2_bqrs7"]
 [ext_resource type="Material" uid="uid://78xs57vvn0as" path="res://Buildings/Components/Roofs/Resources/_RoofWallWood.tres" id="3_xit3e"]
 

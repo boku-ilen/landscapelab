@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://ckxy4m3536hsu" path="res://Resources/Icons/ModernLandscapeLab/down.svg" id="1"]
 [ext_resource type="Texture2D" uid="uid://b1a816b5fvwif" path="res://Resources/Icons/ModernLandscapeLab/right.svg" id="2"]
-[ext_resource type="Script" path="res://UI/GameSystem/ScoreUIConfigPopup.gd" id="3"]
+[ext_resource type="Script" uid="uid://d2wo3vnf5nk52" path="res://UI/GameSystem/ScoreUIConfigPopup.gd" id="3"]
 
 [node name="AdditionalInfo" type="TextureButton"]
 anchor_right = 1.0

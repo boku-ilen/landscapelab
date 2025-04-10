@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://biicnain5nrwv" path="res://Resources/Icons/ModernLandscapeLab/vr.svg" id="3"]
-[ext_resource type="Script" path="res://UI/VRMenu/VRMenu.gd" id="4"]
+[ext_resource type="Script" uid="uid://cpss4n3skmabl" path="res://UI/VRMenu/VRMenu.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://bdwvqeiu1s8ou" path="res://Perspectives/VR/FirstPersonVR.tscn" id="5"]
 
 [node name="VRMenu" type="VBoxContainer"]

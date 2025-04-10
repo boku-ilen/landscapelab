@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bnakv4rclkeyq" path="res://Layers/LayerCompositionRenderer.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://csnccafm04kjc" path="res://Layers/Renderers/Terrain/BasicTerrainChunk.tscn" id="3_4dp6k"]
-[ext_resource type="Script" path="res://Layers/Renderers/Terrain/BasicTerrainRenderer.gd" id="4"]
+[ext_resource type="Script" uid="uid://dwerabwywp8jq" path="res://Layers/Renderers/Terrain/BasicTerrainRenderer.gd" id="4"]
 
 [node name="BasicTerrainRenderer" instance=ExtResource("3")]
 script = ExtResource("4")

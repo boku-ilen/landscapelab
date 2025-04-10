@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://by4jryfmd6lb5"]
 
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="1"]
-[ext_resource type="Script" path="res://UI/CustomElements/StackedProgressBar.gd" id="2"]
+[ext_resource type="Script" uid="uid://bwtv85boxvej2" path="res://UI/CustomElements/StackedProgressBar.gd" id="2"]
 
 [node name="Control" type="CenterContainer"]
 offset_right = 300.0

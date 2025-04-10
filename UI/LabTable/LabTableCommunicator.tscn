@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://vmfgu2mvoju5"]
 
-[ext_resource type="Script" path="res://UI/LabTable/LabTableCommunicator.gd" id="1_sue8g"]
+[ext_resource type="Script" uid="uid://jw8y7uu5ffea" path="res://UI/LabTable/LabTableCommunicator.gd" id="1_sue8g"]
 
 [node name="LabTableCommunicator" type="Node"]
 script = ExtResource("1_sue8g")
