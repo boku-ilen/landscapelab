@@ -20,8 +20,6 @@ config/icon="res://Resources/Icons/Meta/icon.png"
 [autoload]
 
 Settings="*res://Config/Settings.gd"
-CommunicationServer="*res://Communication/CommunicationServer.gd"
-RenderStyle="*res://Global/RenderStyle.gd"
 Layers="*res://Layers/Singletons/Layers.gd"
 Scenarios="*res://Scenarios/Singletons/Scenarios.gd"
 TreeHandler="*res://Global/TreeHandler.gd"
