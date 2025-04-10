@@ -19,14 +19,14 @@ shader_parameter/_density = 0.05
 shader_parameter/cloud_coverage = 0.32
 shader_parameter/_time_offset = 0.0
 shader_parameter/rayleigh = 2.0
-shader_parameter/rayleigh_color = Color(0.0975, 0.235625, 0.65, 1)
+shader_parameter/rayleigh_color = Color(0.0325, 0.186875, 0.65, 1)
 shader_parameter/mie = 0.005
 shader_parameter/mie_eccentricity = 0.8
 shader_parameter/mie_color = Color(0.648, 0.6885, 0.81, 1)
 shader_parameter/turbidity = 10.0
 shader_parameter/sun_disk_scale = 1.0
 shader_parameter/ground_color = Color(1, 1, 1, 1)
-shader_parameter/exposure = 0.1
+shader_parameter/exposure = 0.3
 
 [sub_resource type="Sky" id="Sky_gjwmw"]
 sky_material = SubResource("ShaderMaterial_ywyjs")
@@ -35,11 +35,10 @@ radiance_size = 4
 
 [sub_resource type="Environment" id="2"]
 background_mode = 2
-background_energy_multiplier = 1.4
 sky = SubResource("Sky_gjwmw")
 ambient_light_source = 3
 ambient_light_color = Color(0.835294, 0.858824, 1, 1)
-ambient_light_sky_contribution = 0.55
+ambient_light_sky_contribution = 0.09
 ambient_light_energy = 0.01
 reflected_light_source = 2
 tonemap_mode = 4
@@ -47,7 +46,6 @@ tonemap_white = 16.0
 ssao_enabled = true
 ssao_intensity = 4.0
 ssil_intensity = 2.0
-sdfgi_enabled = true
 glow_enabled = true
 fog_enabled = true
 fog_aerial_perspective = 1.0

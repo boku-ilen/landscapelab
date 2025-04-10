@@ -20,7 +20,7 @@ func apply_visibility(new_visibility):
 	environment.volumetric_fog_enabled = new_visibility > 70
 	environment.volumetric_fog_density = remap(new_visibility, 70., 100., 0.000, 0.045)
 	
-	const blue_color = Color("#193ca6")
+	const blue_color = Color("#0830a6")
 	const gray_color = Color("#426994")
 	var new_color = Color.from_hsv(
 		lerp(blue_color.h, gray_color.h, new_visibility / 100.0),
