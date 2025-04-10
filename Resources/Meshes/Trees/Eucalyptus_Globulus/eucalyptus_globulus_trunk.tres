@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://gsl8x5e67cta"]
 
-[ext_resource type="Shader" uid="uid://fit86afg6pjs" path="res://Resources/Meshes/Trees/Tree_Trunk.gdshader" id="1_3lx2n"]
+[ext_resource type="Shader" uid="uid://ivlh4mqftaq7" path="res://Resources/Meshes/Trees/Tree_Trunk.gdshader" id="1_3lx2n"]
 [ext_resource type="Texture2D" uid="uid://deaqwk6dnv8fe" path="res://Resources/Meshes/Trees/Eucalyptus_Globulus/eucalyptus_globulus_trunk_albedo.png" id="1_r5dk2"]
 [ext_resource type="Texture2D" uid="uid://120jyqquqyp" path="res://Resources/Meshes/Trees/Eucalyptus_Globulus/eucalyptus_globulus_trunk_normal.png" id="2_343hu"]
 [ext_resource type="Texture2D" uid="uid://ckxybaqx2hkkm" path="res://Resources/Meshes/Trees/Eucalyptus_Globulus/eucalyptus_globulus_trunk_raotrans.png" id="4_as4kt"]

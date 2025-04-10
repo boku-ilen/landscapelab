@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://d2wo3vnf5nk52" path="res://UI/GameSystem/ScoreUIConfigPopup.gd" id="3"]
 
 [node name="AdditionalInfo" type="TextureButton"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 toggle_mode = true
@@ -14,21 +15,17 @@ script = ExtResource("3")
 
 [node name="PopupPanel" type="PopupPanel" parent="."]
 visible = true
-offset_right = 200.0
-offset_bottom = 50.0
-minimum_size = Vector2(200, 50)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -8.0
-minimum_size = Vector2(200, 0)
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 96.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HSlider" type="HSlider" parent="PopupPanel/VBoxContainer"]
-offset_right = 200.0
-offset_bottom = 32.0
+layout_mode = 2
