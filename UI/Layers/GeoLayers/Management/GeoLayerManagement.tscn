@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://d1opv6tggiwbx"]
 
-[ext_resource type="Script" path="res://UI/Layers/GeoLayers/Management/GeoLayerManagement.gd" id="1_pfick"]
+[ext_resource type="Script" uid="uid://d2m86t0kdreyw" path="res://UI/Layers/GeoLayers/Management/GeoLayerManagement.gd" id="1_pfick"]
 [ext_resource type="PackedScene" uid="uid://b7edl76i03v20" path="res://UI/Layers/GeoLayers/Management/GeoFeatureLayerManagement.tscn" id="2_mv7hc"]
 [ext_resource type="PackedScene" uid="uid://ljx3yf4cns3v" path="res://UI/Layers/GeoLayers/Management/GeoRasterLayerManagement.tscn" id="3_ulsvp"]
 

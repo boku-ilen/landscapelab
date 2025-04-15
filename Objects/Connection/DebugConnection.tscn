@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cqg7qxywla58k"]
 
-[ext_resource type="Script" path="res://Objects/Connection/Superclasses/Straight.gd" id="1_eyjdg"]
-[ext_resource type="Shader" path="res://Objects/Connection/Shaders/UVRemapPaths.gdshader" id="2_6ipjv"]
+[ext_resource type="Script" uid="uid://cr1pqatl0m5an" path="res://Objects/Connection/Superclasses/Straight.gd" id="1_eyjdg"]
+[ext_resource type="Shader" uid="uid://3qvhaq1fx28p" path="res://Objects/Connection/Shaders/UVRemapPaths.gdshader" id="2_6ipjv"]
 [ext_resource type="Texture2D" uid="uid://bccbtemfjo6x4" path="res://Resources/Textures/Debug.jpeg" id="3_oxtx3"]
 
 [sub_resource type="Curve3D" id="Curve3D_d0uss"]

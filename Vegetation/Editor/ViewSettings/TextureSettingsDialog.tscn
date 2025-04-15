@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c714pdb42i563"]
 
-[ext_resource type="Script" path="res://Vegetation/Editor/ViewSettings/TextureSettingsDialog.gd" id="1"]
+[ext_resource type="Script" uid="uid://cjswxslyqbok5" path="res://Vegetation/Editor/ViewSettings/TextureSettingsDialog.gd" id="1"]
 
 [node name="TextureSettingsDialog" type="Window"]
 anchor_left = 0.5

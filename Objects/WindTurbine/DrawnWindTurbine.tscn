@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bt0nhfrixwki3"]
 
 [ext_resource type="PackedScene" uid="uid://eai86bf7mjhu" path="res://Objects/Superclasses/MovableObject.tscn" id="1_1bu7l"]
-[ext_resource type="Script" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="2_wlnal"]
+[ext_resource type="Script" uid="uid://dww016r1dhraa" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="2_wlnal"]
 [ext_resource type="Texture2D" uid="uid://diu7lbi0hqpus" path="res://Resources/Textures/DrawnObjects/wind_turbine_hub.png" id="10_dmx5y"]
 [ext_resource type="Texture2D" uid="uid://wbuid5547166" path="res://Resources/Textures/DrawnObjects/wind_turbine_rotor.png" id="11_eynyf"]
 

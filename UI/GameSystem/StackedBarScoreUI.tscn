@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cbhfhugvyogdq"]
 
-[ext_resource type="Script" path="res://UI/GameSystem/StackedBarScoreUI.gd" id="1"]
+[ext_resource type="Script" uid="uid://c6b7xquymxh7q" path="res://UI/GameSystem/StackedBarScoreUI.gd" id="1"]
 
 [node name="StackedBarScoreUI" type="HBoxContainer"]
 offset_right = 65.0

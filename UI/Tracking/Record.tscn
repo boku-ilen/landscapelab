@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://ckkf4gosb22k4"]
 
 [ext_resource type="Texture2D" uid="uid://c6t7522gocagn" path="res://Resources/Icons/ModernLandscapeLab/pause.svg" id="1"]
-[ext_resource type="Shader" path="res://UI/CustomElements/AutoTextureButton.gdshader" id="2"]
+[ext_resource type="Shader" uid="uid://bth6pa0cgccpw" path="res://UI/CustomElements/AutoTextureButton.gdshader" id="2"]
 [ext_resource type="Texture2D" uid="uid://c6fh53dbthab0" path="res://Resources/Icons/ModernLandscapeLab/play.svg" id="3"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://c8q5x8h6oteud" path="res://Resources/Icons/ModernLandscapeLab/stop.svg" id="5"]
@@ -10,7 +10,7 @@
 resource_local_to_scene = true
 shader = ExtResource("2")
 shader_parameter/color = Vector3(0, 0, 0)
-shader_parameter/rotation_radians = null
+shader_parameter/rotation_radians = 0.0
 shader_parameter/color_length_modulate_threshold = 1.5
 
 [node name="Record" type="HBoxContainer"]

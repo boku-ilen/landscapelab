@@ -7,28 +7,32 @@
 [ext_resource type="Texture2D" uid="uid://c3kuxlnuadbrl" path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" id="5"]
 [ext_resource type="PackedScene" uid="uid://ckkf4gosb22k4" path="res://UI/Tracking/Record.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://1gks7vfqwpfx" path="res://UI/Tools/ToolsButton.tscn" id="7"]
-[ext_resource type="Script" path="res://UI/Imaging/ImagingButton.gd" id="8"]
-[ext_resource type="Shader" path="res://UI/CustomElements/AutoTextureButton.gdshader" id="9"]
-[ext_resource type="Script" path="res://UI/UiTeleport.gd" id="10"]
-[ext_resource type="Script" path="res://UI/Tools/ToolsPanel/ToolsPanel.gd" id="11"]
+[ext_resource type="Shader" uid="uid://bth6pa0cgccpw" path="res://UI/CustomElements/AutoTextureButton.gdshader" id="9"]
+[ext_resource type="Script" uid="uid://df2j7weav3hcd" path="res://UI/UiTeleport.gd" id="10"]
+[ext_resource type="Script" uid="uid://cr4tgvub77m0y" path="res://UI/Tools/ToolsPanel/ToolsPanel.gd" id="11"]
 [ext_resource type="PackedScene" uid="uid://88rg1t88n3e7" path="res://UI/Screenshot/ScreenshotMenu.tscn" id="12"]
-[ext_resource type="Script" path="res://UI/Tracking/Record.gd" id="13"]
+[ext_resource type="Script" uid="uid://bkv51yvjaoyrv" path="res://UI/Tracking/Record.gd" id="13"]
 [ext_resource type="Texture2D" uid="uid://cxpdblpym3mwl" path="res://Resources/Icons/ModernLandscapeLab/camera.svg" id="14"]
 [ext_resource type="Texture2D" uid="uid://d2hitly1vb6sv" path="res://Resources/Icons/ModernLandscapeLab/paintbrush.svg" id="15"]
 [ext_resource type="Texture2D" uid="uid://ddwa4m8llca2e" path="res://Resources/Icons/ModernLandscapeLab/footprint.svg" id="16"]
 [ext_resource type="PackedScene" uid="uid://cckl23qaxw3h8" path="res://UI/Datetime/Datetime.tscn" id="17"]
 [ext_resource type="PackedScene" uid="uid://pmmpjdicjvjs" path="res://UI/TeleportMenu/TeleportMenu.tscn" id="18"]
-[ext_resource type="PackedScene" uid="uid://dvcv477i0h85l" path="res://UI/Imaging/ImagingMenu.tscn" id="19"]
-[ext_resource type="Script" path="res://UI/Viewshed/ViewshedButton.gd" id="20"]
+[ext_resource type="Script" uid="uid://bbipvm7ug80nu" path="res://UI/Viewshed/ViewshedButton.gd" id="20"]
 [ext_resource type="PackedScene" uid="uid://cteogf0mgbyci" path="res://UI/RenderingStyle/RenderingStyleMenu.tscn" id="22"]
 [ext_resource type="Texture2D" uid="uid://r04ni1kmbdmh" path="res://Resources/Icons/ModernLandscapeLab/energy.svg" id="23"]
 [ext_resource type="PackedScene" uid="uid://dkvdbwaqhrbnn" path="res://UI/Weather/WeatherUI.tscn" id="24"]
+
+[sub_resource type="Resource" id="Resource_stgdw"]
+metadata/__load_path__ = "res://UI/Imaging/ImagingButton.gd"
+
+[sub_resource type="Resource" id="Resource_nx5ed"]
+metadata/__load_path__ = "res://UI/Imaging/ImagingMenu.tscn"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_668dd"]
 resource_local_to_scene = true
 shader = ExtResource("9")
 shader_parameter/color = Vector3(0, 0, 0)
-shader_parameter/rotation_radians = null
+shader_parameter/rotation_radians = 0.0
 shader_parameter/color_length_modulate_threshold = 1.5
 
 [node name="ToolsPanel" type="VBoxContainer"]
@@ -114,11 +118,11 @@ offset_bottom = 50.0
 material = null
 layout_mode = 2
 expand_icon = false
-script = ExtResource("8")
+script = SubResource("Resource_stgdw")
 action_handler_3d_path = NodePath("")
 texture_name = "record"
 
-[node name="ImagingMenu" parent="ScrollContainer/ToolsBar/Imaging" instance=ExtResource("19")]
+[node name="ImagingMenu" parent="ScrollContainer/ToolsBar/Imaging"]
 visible = false
 layout_mode = 0
 

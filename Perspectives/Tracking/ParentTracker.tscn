@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://4pb0ommg5l3g"]
 
-[ext_resource type="Script" path="res://Perspectives/Tracking/ParentTracker.gd" id="1"]
+[ext_resource type="Script" uid="uid://b2lgxrq86p5yv" path="res://Perspectives/Tracking/ParentTracker.gd" id="1"]
 
 [node name="ParentTracker" type="Node"]
 script = ExtResource("1")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b8ds7fe8e4ej4"]
 
-[ext_resource type="Script" path="res://Util/HCYShift/hcy_shift.gd" id="1_612by"]
+[ext_resource type="Script" uid="uid://cpib1imlp1mnh" path="res://Util/HCYShift/hcy_shift.gd" id="1_612by"]
 [ext_resource type="PackedScene" uid="uid://evcqemueid18" path="res://UI/CustomElements/SlideAndSpin.tscn" id="1_acews"]
 
 [node name="HcyShift" type="VBoxContainer"]

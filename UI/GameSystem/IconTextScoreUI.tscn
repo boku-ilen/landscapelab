@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dxbsg6isn54qx"]
 
-[ext_resource type="Script" path="res://UI/GameSystem/IconTextScoreUI.gd" id="1"]
+[ext_resource type="Script" uid="uid://dqdv0iosxtu2r" path="res://UI/GameSystem/IconTextScoreUI.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://r04ni1kmbdmh" path="res://Resources/Icons/ModernLandscapeLab/energy.svg" id="2"]
 [ext_resource type="Texture2D" uid="uid://dnin33mcsbahk" path="res://Resources/Icons/ModernLandscapeLab/household.svg" id="3"]
 

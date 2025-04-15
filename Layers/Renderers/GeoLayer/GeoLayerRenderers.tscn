@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dn25tsa6f10jw"]
 
-[ext_resource type="Script" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.gd" id="1_0a6iv"]
+[ext_resource type="Script" uid="uid://sjy5y1ttnt18" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.gd" id="1_0a6iv"]
 [ext_resource type="Texture2D" uid="uid://cyux4epajwtyh" path="res://Resources/Icons/ModernLandscapeLab/player_indicator.svg" id="2_qhkwi"]
 
 [sub_resource type="Shader" id="Shader_268l5"]

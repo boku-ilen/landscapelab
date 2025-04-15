@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://boc58gnrqqrk2"]
 
-[ext_resource type="Script" path="res://Objects/APV/PVTracker.gd" id="2"]
+[ext_resource type="Script" uid="uid://b7dndyxauhiws" path="res://Objects/APV/PVTracker.gd" id="2"]
 
 [node name="PVTrackerUnit"]
 script = ExtResource("2")

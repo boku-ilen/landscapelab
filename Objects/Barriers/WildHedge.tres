@@ -57,15 +57,11 @@ uniform vec3 uv2_offset;
 varying float gradient;
 
 void vertex() {
-	//gradient = max(0.0, VERTEX.y * 1.0);
-	
 	gradient = pow(length(VERTEX) * 0.5, 2.0);
-	
-	//gradient *= 0.1;
 	
 	UV = UV * uv1_scale.xy + uv1_offset.xy;
 	
-	NORMAL = normalize(VERTEX);
+	NORMAL = normalize(VERTEX * 2.0 + NORMAL);
 }
 
 void fragment() {

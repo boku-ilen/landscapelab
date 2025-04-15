@@ -1,12 +1,9 @@
-[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=3 format=3 uid="uid://cnnx2qng8sv4u"]
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=3 format=3 uid="uid://cnnx2qng8sv4u"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_3pu6t"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_3pu6t"]
 [ext_resource type="Texture2D" uid="uid://bgmk2xp4yr6no" path="res://Resources/Textures/Buildings/facade/Retail/mid/albedo.jpg" id="1_ajgbx"]
 
 [resource]
 script = ExtResource("1_3pu6t")
+texture_scale = Vector2(1, 1)
 albedo_texture = ExtResource("1_ajgbx")
-metallic = 0.0
-roughness = 0.5
-normal_scale = 1.0
-uv_scale = Vector3(1, 1, 1)

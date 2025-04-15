@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b54piu6sgh41a"]
 
-[ext_resource type="Script" path="res://Objects/Util/MultiplePVModules.gd" id="1_u31s1"]
+[ext_resource type="Script" uid="uid://cvongk8jbxgft" path="res://Objects/Util/MultiplePVModules.gd" id="1_u31s1"]
 [ext_resource type="PackedScene" uid="uid://dhmlmgm0yc278" path="res://Layers/Renderers/LIDOverlay/LIDOverlay.tscn" id="3_rlsmb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o5rnw"]

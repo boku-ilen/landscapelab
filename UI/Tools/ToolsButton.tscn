@@ -1,14 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://1gks7vfqwpfx"]
 
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="1"]
-[ext_resource type="Script" path="res://UI/Tools/ToolsButton.gd" id="2"]
-[ext_resource type="Shader" path="res://UI/CustomElements/AutoTextureButton.gdshader" id="3"]
+[ext_resource type="Script" uid="uid://cjmsg0xpxjpi7" path="res://UI/Tools/ToolsButton.gd" id="2"]
+[ext_resource type="Shader" uid="uid://bth6pa0cgccpw" path="res://UI/CustomElements/AutoTextureButton.gdshader" id="3"]
 
 [sub_resource type="ShaderMaterial" id="1"]
 resource_local_to_scene = true
 shader = ExtResource("3")
 shader_parameter/color = Vector3(0, 0, 0)
-shader_parameter/rotation_radians = null
+shader_parameter/rotation_radians = 0.0
 shader_parameter/color_length_modulate_threshold = 1.5
 
 [node name="ToolsButton" instance=ExtResource("1")]

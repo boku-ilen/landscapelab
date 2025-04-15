@@ -1,42 +1,42 @@
 [gd_scene load_steps=24 format=3 uid="uid://b86sxvw5mjiua"]
 
-[ext_resource type="Script" path="res://Vegetation/Editor/ClickDragCamera.gd" id="1"]
-[ext_resource type="Script" path="res://Vegetation/Editor/DensityClassDropdown.gd" id="2"]
-[ext_resource type="Script" path="res://Vegetation/Editor/GroupPlantList.gd" id="3"]
-[ext_resource type="Script" path="res://Vegetation/Editor/GroupPanel.gd" id="4"]
-[ext_resource type="Script" path="res://Vegetation/Editor/GroupList.gd" id="5"]
-[ext_resource type="Script" path="res://Vegetation/Editor/GroupDetails.gd" id="6"]
-[ext_resource type="Script" path="res://Vegetation/Editor/PlantSelection.gd" id="8"]
-[ext_resource type="Script" path="res://Vegetation/Editor/PlantPanel.gd" id="9"]
-[ext_resource type="Script" path="res://Vegetation/Editor/PlantFilter.gd" id="10"]
-[ext_resource type="Script" path="res://Vegetation/Editor/PlantDetails.gd" id="11"]
-[ext_resource type="Script" path="res://Vegetation/Editor/PlantList.gd" id="12"]
-[ext_resource type="Script" path="res://Vegetation/Editor/SaveButton.gd" id="13"]
-[ext_resource type="Script" path="res://Vegetation/Editor/TextureOptionButton.gd" id="14"]
-[ext_resource type="Script" path="res://Vegetation/Editor/VisualizationUI.gd" id="15"]
-[ext_resource type="Script" path="res://Vegetation/Editor/VegetationEditor.gd" id="16"]
+[ext_resource type="Script" uid="uid://dyo5ffba6ckp5" path="res://Vegetation/Editor/ClickDragCamera.gd" id="1"]
+[ext_resource type="Script" uid="uid://bltysqe2yx2fb" path="res://Vegetation/Editor/DensityClassDropdown.gd" id="2"]
+[ext_resource type="Script" uid="uid://cm3pu7tr3xelp" path="res://Vegetation/Editor/GroupPlantList.gd" id="3"]
+[ext_resource type="Script" uid="uid://ck317qjx1lhes" path="res://Vegetation/Editor/GroupPanel.gd" id="4"]
+[ext_resource type="Script" uid="uid://caenlybyx4jln" path="res://Vegetation/Editor/GroupList.gd" id="5"]
+[ext_resource type="Script" uid="uid://456ho0u2q2ax" path="res://Vegetation/Editor/GroupDetails.gd" id="6"]
+[ext_resource type="Script" uid="uid://dg6m63v0008qr" path="res://Vegetation/Editor/PlantSelection.gd" id="8"]
+[ext_resource type="Script" uid="uid://elktnepoxp84" path="res://Vegetation/Editor/PlantPanel.gd" id="9"]
+[ext_resource type="Script" uid="uid://cdvumeuwi0u2h" path="res://Vegetation/Editor/PlantFilter.gd" id="10"]
+[ext_resource type="Script" uid="uid://bwe1g13ycwyou" path="res://Vegetation/Editor/PlantDetails.gd" id="11"]
+[ext_resource type="Script" uid="uid://cl3t7h1eoikgr" path="res://Vegetation/Editor/PlantList.gd" id="12"]
+[ext_resource type="Script" uid="uid://dnvgxpp15ufxm" path="res://Vegetation/Editor/SaveButton.gd" id="13"]
+[ext_resource type="Script" uid="uid://dyvq7fkmidh5e" path="res://Vegetation/Editor/TextureOptionButton.gd" id="14"]
+[ext_resource type="Script" uid="uid://d2b2ugr004oc" path="res://Vegetation/Editor/VisualizationUI.gd" id="15"]
+[ext_resource type="Script" uid="uid://dk5ye7aym3mr0" path="res://Vegetation/Editor/VegetationEditor.gd" id="16"]
 [ext_resource type="PackedScene" uid="uid://cejf5c8oyb02b" path="res://World/Environment/WorldEnvironment.tscn" id="17"]
-[ext_resource type="Script" path="res://Vegetation/Editor/Visualization.gd" id="18"]
-[ext_resource type="Shader" path="res://Vegetation/Editor/GroundShader.gdshader" id="19_5ddbs"]
-[ext_resource type="Script" path="res://Vegetation/Editor/PopupButton.gd" id="20"]
+[ext_resource type="Script" uid="uid://bqy4681c1w666" path="res://Vegetation/Editor/Visualization.gd" id="18"]
+[ext_resource type="Shader" uid="uid://bdxynj23p1he3" path="res://Vegetation/Editor/GroundShader.gdshader" id="19_5ddbs"]
+[ext_resource type="Script" uid="uid://b5qc2xd24okie" path="res://Vegetation/Editor/PopupButton.gd" id="20"]
 [ext_resource type="PackedScene" uid="uid://c714pdb42i563" path="res://Vegetation/Editor/ViewSettings/TextureSettingsDialog.tscn" id="21"]
 [ext_resource type="PackedScene" uid="uid://dsbiss6x8n2fu" path="res://Vegetation/Editor/ViewSettings/ViewSettingsDialog.tscn" id="22"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gykfp"]
 render_priority = 0
 shader = ExtResource("19_5ddbs")
-shader_parameter/size_m = null
-shader_parameter/texture_size_m = null
+shader_parameter/size_m = 0.0
+shader_parameter/texture_size_m = 0.0
 shader_parameter/normal_scale = 1.0
-shader_parameter/is_roughness_increase = null
+shader_parameter/is_roughness_increase = false
 shader_parameter/roughness_scale = 0.0
-shader_parameter/is_specular_increase = null
+shader_parameter/is_specular_increase = false
 shader_parameter/specular_scale = 0.0
-shader_parameter/is_ao_increase = null
+shader_parameter/is_ao_increase = false
 shader_parameter/ao_scale = 0.0
 shader_parameter/has_distance_tex = false
-shader_parameter/distance_tex_start = null
-shader_parameter/distance_texture_size_m = null
+shader_parameter/distance_tex_start = 0.0
+shader_parameter/distance_texture_size_m = 0.0
 
 [sub_resource type="PlaneMesh" id="1"]
 size = Vector2(500, 500)

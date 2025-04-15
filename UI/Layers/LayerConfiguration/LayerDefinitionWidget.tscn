@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://v3jycx4ohi87"]
 
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/LayerDefinitionWidget.gd" id="1_wq2kp"]
+[ext_resource type="Script" uid="uid://dje7k28q4alj" path="res://UI/Layers/LayerConfiguration/LayerDefinitionWidget.gd" id="1_wq2kp"]
 [ext_resource type="Texture2D" uid="uid://c3kuxlnuadbrl" path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" id="2_bn2mo"]
 [ext_resource type="Texture2D" uid="uid://23k0cl4yv3b3" path="res://Resources/Icons/ModernLandscapeLab/eye_crossed.svg" id="3_vu1ip"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="4_qgva4"]
 [ext_resource type="Texture2D" uid="uid://bgla5bw7tc34a" path="res://Resources/Icons/ModernLandscapeLab/rotate.svg" id="5_r83vu"]
 [ext_resource type="Texture2D" uid="uid://dugrgepqgf6ik" path="res://Resources/Icons/ModernLandscapeLab/three_points.svg" id="6_x3x3i"]
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/EditWindow.gd" id="7_2bbxs"]
+[ext_resource type="Script" uid="uid://qmit6soahmki" path="res://UI/Layers/LayerConfiguration/EditWindow.gd" id="7_2bbxs"]
 
 [node name="LayerDefinitionWidget" type="HBoxContainer"]
 anchors_preset = 15

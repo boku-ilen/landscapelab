@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bdwvqeiu1s8ou"]
 
-[ext_resource type="Script" path="res://Perspectives/VR/FirstPersonVR.gd" id="1"]
+[ext_resource type="Script" uid="uid://dsid7penjd3lj" path="res://Perspectives/VR/FirstPersonVR.gd" id="1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yor8u"]
 

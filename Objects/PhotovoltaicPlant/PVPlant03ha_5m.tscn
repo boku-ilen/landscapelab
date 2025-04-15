@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://crkagma0o1tmc"]
 
-[ext_resource type="Script" path="res://Objects/Util/MultiplePVModules.gd" id="1_i4qco"]
+[ext_resource type="Script" uid="uid://cvongk8jbxgft" path="res://Objects/Util/MultiplePVModules.gd" id="1_i4qco"]
 [ext_resource type="PackedScene" uid="uid://bdpmyx1ejlixw" path="res://Objects/PhotovoltaicPlant/GroundMountedPVUnit.tscn" id="3_5f6jt"]
 [ext_resource type="PackedScene" uid="uid://dhmlmgm0yc278" path="res://Layers/Renderers/LIDOverlay/LIDOverlay.tscn" id="3_7fnsm"]
 

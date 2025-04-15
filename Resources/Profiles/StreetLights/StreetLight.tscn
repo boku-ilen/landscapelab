@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://hjnhqf8wockr"]
 
-[ext_resource type="Script" path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Path.gd" id="1"]
+[ext_resource type="Script" uid="uid://gpmhaxebxmpr" path="res://UI/Layers/LayerConfiguration/Misc/ProfileEditor/Path.gd" id="1"]
 [ext_resource type="Material" path="res://Resources/Meshes/APV/Steel_Brushed_Stainless.material" id="2"]
 
 [sub_resource type="Curve3D" id="1"]

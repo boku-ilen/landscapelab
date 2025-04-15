@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dgdevarjc3wc"]
 
-[ext_resource type="Script" path="res://UI/GameSystem/FinishTurnButton.gd" id="1"]
-[ext_resource type="Script" path="res://UI/GameSystem/TurnLabel.gd" id="2"]
-[ext_resource type="Script" path="res://UI/GameSystem/EventDialog.gd" id="3"]
-[ext_resource type="Script" path="res://UI/GameSystem/GameOverDialog.gd" id="4"]
+[ext_resource type="Script" uid="uid://un1w4rx6u8tr" path="res://UI/GameSystem/FinishTurnButton.gd" id="1"]
+[ext_resource type="Script" uid="uid://ca0a78b3k3lfb" path="res://UI/GameSystem/TurnLabel.gd" id="2"]
+[ext_resource type="Script" uid="uid://2v57nkbdl04e" path="res://UI/GameSystem/EventDialog.gd" id="3"]
+[ext_resource type="Script" uid="uid://ch1h8w248arvl" path="res://UI/GameSystem/GameOverDialog.gd" id="4"]
 
 [node name="TurnBased" type="VBoxContainer"]
 offset_left = 394.0

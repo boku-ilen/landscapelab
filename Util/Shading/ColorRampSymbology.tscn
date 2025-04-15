@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://u8mojc2eibn6"]
 
-[ext_resource type="Script" path="res://Util/Shading/ColorRampSymbology.gd" id="1_onltc"]
+[ext_resource type="Script" uid="uid://k2gc24opg8yr" path="res://Util/Shading/ColorRampSymbology.gd" id="1_onltc"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_d6gfr"]
 fill_to = Vector2(0, 1)

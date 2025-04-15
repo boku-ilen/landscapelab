@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dsaj5k71mnup0"]
 
-[ext_resource type="Script" path="res://UI/DebugInfo/DebugInfo.gd" id="1"]
-[ext_resource type="Script" path="res://UI/DebugInfo/FPSDisplay.gd" id="3"]
-[ext_resource type="Script" path="res://UI/DebugInfo/ThreadPoolDisplay.gd" id="4"]
+[ext_resource type="Script" uid="uid://cb58ovdutirdr" path="res://UI/DebugInfo/DebugInfo.gd" id="1"]
+[ext_resource type="Script" uid="uid://m8b8y3p1h11t" path="res://UI/DebugInfo/FPSDisplay.gd" id="3"]
+[ext_resource type="Script" uid="uid://bjtejvyjisve2" path="res://UI/DebugInfo/ThreadPoolDisplay.gd" id="4"]
 
 [sub_resource type="Theme" id="1"]
 

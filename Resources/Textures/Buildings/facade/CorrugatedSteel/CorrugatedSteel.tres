@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=6 format=3 uid="uid://bk6k2qqs2qghp"]
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=6 format=3 uid="uid://bk6k2qqs2qghp"]
 
 [ext_resource type="Texture2D" uid="uid://u6hbwptxpkw2" path="res://Resources/Textures/Buildings/facade/CorrugatedSteel/color.png" id="1_eqgwl"]
-[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_rb8iq"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_rb8iq"]
 [ext_resource type="Texture2D" uid="uid://ddvtrglun75m" path="res://Resources/Textures/Buildings/facade/CorrugatedSteel/metallic.png" id="2_c58r4"]
 [ext_resource type="Texture2D" uid="uid://ctrsfaw0wgvv5" path="res://Resources/Textures/Buildings/facade/CorrugatedSteel/normal.png" id="3_uh8b5"]
 [ext_resource type="Texture2D" uid="uid://dtbsf64ntbqht" path="res://Resources/Textures/Buildings/facade/CorrugatedSteel/roughness.png" id="4_1ll6e"]

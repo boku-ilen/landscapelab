@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://skhvtkw6cs8a" path="res://Buildings/Components/Roofs/Resources/BrownPlanks003-2K-JPG/brown_planks_03_diff_2k.jpg" id="1_ji8g4"]
 [ext_resource type="Texture2D" uid="uid://cicii0w5v6kio" path="res://Buildings/Components/Roofs/Resources/BrownPlanks003-2K-JPG/brown_planks_03_nor_gl_2k.jpg" id="2_p1k8v"]
 [ext_resource type="Texture2D" uid="uid://co7d041jl2g7r" path="res://Buildings/Components/Roofs/Resources/BrownPlanks003-2K-JPG/brown_planks_03_rough_2k.jpg" id="3_yyu18"]
-[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="5_cxln6"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="5_cxln6"]
 
 [resource]
 script = ExtResource("5_cxln6")

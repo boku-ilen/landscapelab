@@ -138,7 +138,7 @@
   },
 
   "beamer_resolution": {
-    "screen_id": 1,
+    "screen_id": 0,
     "NOTE": ["screen id refers to the display the projector output should be started on",
       "if the id exceeds the currently attached screen count the screen with the highest id will be selected",
       "if the id is negative the projector output will be shown in a window instead of full-screen"],

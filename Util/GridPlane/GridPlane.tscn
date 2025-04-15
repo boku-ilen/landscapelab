@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bm6b32m86fdyi"]
 
-[ext_resource type="Script" path="res://Util/GridPlane/GridPlane.gd" id="1"]
+[ext_resource type="Script" uid="uid://cvs8wvl12q41u" path="res://Util/GridPlane/GridPlane.gd" id="1"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1")

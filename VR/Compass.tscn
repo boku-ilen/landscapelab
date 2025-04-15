@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ctargl5iox81n"]
 
-[ext_resource type="Script" path="res://VR/Compass.gd" id="2"]
+[ext_resource type="Script" uid="uid://blilmpq7iu8y4" path="res://VR/Compass.gd" id="2"]
 
 [sub_resource type="CylinderMesh" id="1"]
 top_radius = 0.12
