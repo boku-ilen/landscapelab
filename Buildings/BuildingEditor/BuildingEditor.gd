@@ -139,8 +139,10 @@ func build() -> void:
 	
 	building_base.set_metadata(metadata)
 	
+	var shader = _create_and_set_texture_arrays()
+	var walls_scene = preload("res://Buildings/Components/Walls/PlainWalls.tscn").duplicate(true)
 	if wall_type != WALL_TYPE.PILLARS:
-		WallFactory.prepare_plain_walls(wall_type, metadata, building_base, floors)
+		WallFactory.prepare_plain_walls(wall_type, metadata, building_base, floors, walls_scene, shader)
 	else:
 		WallFactory.prepare_pillars(metadata, building_base, floors)
 	
@@ -171,7 +173,6 @@ func build() -> void:
 
 
 func _enter_tree() -> void:
-	_create_and_set_texture_arrays()
 	preset_definitions[1] = polar_vertices(8, 10)
 
 
@@ -183,8 +184,8 @@ func _create_and_set_texture_arrays():
 		preload("res://Resources/Textures/Buildings/window/DefaultWindow/DefaultWindow.tres"),
 	]
 
-	var shader = preload("res://Buildings/Components/Walls/PlainWalls.tscn").instantiate().material
-		
+	var shader = preload("res://Buildings/Components/Walls/PlainWalls.tres").duplicate()
+	
 	var wall_texture_arrays = TextureArrays.texture_arrays_from_wallres(WallFactory.wall_resources)
 	shader.set_shader_parameter("texture_wall_albedo", wall_texture_arrays[0])
 	shader.set_shader_parameter("texture_wall_normal", wall_texture_arrays[1])
@@ -207,3 +208,5 @@ func _create_and_set_texture_arrays():
 	shader.set_shader_parameter("texture_window_albedo", TextureArrays.texture2Darrays_from_images(albedo_images))
 	shader.set_shader_parameter("texture_window_normal", TextureArrays.texture2Darrays_from_images(normal_images))
 	shader.set_shader_parameter("texture_window_rme", TextureArrays.texture2Darrays_from_images(roughness_metallic_emission_images))
+	
+	return shader
