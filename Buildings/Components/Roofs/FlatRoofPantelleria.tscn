@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b53i8eix7jw75"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Roofs/FlatRoofPantelleria.gd" id="1_xqobk"]
+[ext_resource type="Script" uid="uid://tddf41uop0gh" path="res://Buildings/Components/Roofs/FlatRoofPantelleria.gd" id="1_xqobk"]
 
 [node name="FlatRoofPantelleria" type="Node3D" node_paths=PackedStringArray("roof_mesh")]
 script = ExtResource("1_xqobk")

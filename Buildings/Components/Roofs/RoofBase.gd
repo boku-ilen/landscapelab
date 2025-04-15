@@ -141,7 +141,7 @@ func _create_edge_meshes(
 func create_ridge_caps(directed_graph: Dictionary, color: Color):
 	_create_edge_meshes(
 		directed_graph, 
-		preload("res://Buildings/Components/Roofs/Resources/RidgeCapMesh.tres"), 
+		load("res://Buildings/Components/Roofs/Resources/RidgeCapMesh.tres"), 
 		Transform3D.IDENTITY.translated(Vector3.UP * 0.2).scaled(Vector3(0.25,0.1,0.2)),
 		color)
 
@@ -149,7 +149,7 @@ func create_ridge_caps(directed_graph: Dictionary, color: Color):
 func create_gutters(directed_graph: Dictionary, color: Color):
 	_create_edge_meshes(
 		directed_graph, 
-		preload("res://Buildings/Components/Roofs/Resources/Gutters.res"), 
+		load("res://Buildings/Components/Roofs/Resources/Gutters.res"), 
 		Transform3D.IDENTITY.translated(Vector3(0., 0.8, 0.)).scaled(Vector3(0.25,-0.2,0.2)),
 		color,
 		1.01)

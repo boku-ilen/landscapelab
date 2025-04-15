@@ -61,21 +61,21 @@ func build(footprint: PackedVector2Array):
 		st.set_uv(Vector2(0.0, 0.0) * uv_scale)
 		st.add_vertex(point_current)
 		
-		st.set_uv(Vector2(distance_to_next_point / 2, distance_to_center_point) * uv_scale)
-		st.add_vertex(point_center)
-		
 		st.set_uv(Vector2(distance_to_next_point, 0.0) * uv_scale)
 		st.add_vertex(point_next)
+		
+		st.set_uv(Vector2(distance_to_next_point / 2, distance_to_center_point) * uv_scale)
+		st.add_vertex(point_center)
 		
 		# Give some volume to the roof (otherwise it looks like a sheet strechted over the footprint)
 		st.set_color(Color.DIM_GRAY)
 		st.add_vertex(point_current + Vector3.DOWN * 0.2)
-		st.add_vertex(point_current)
 		st.add_vertex(point_next + Vector3.DOWN * 0.2)
+		st.add_vertex(point_current)
 		
 		st.add_vertex(point_next + Vector3.DOWN * 0.2)
-		st.add_vertex(point_current)
 		st.add_vertex(point_next)
+		st.add_vertex(point_current)
 	
 	st.generate_normals()
 	st.generate_tangents()
