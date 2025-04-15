@@ -20,7 +20,7 @@ class_name TextureBundleRME
 		else:
 			_load_bundled_texture(roughness_texture)
 
-@export var metallic_texture: Texture: 
+@export var metallic_texture: Texture : 
 	set(texture):
 		metallic_texture = texture
 		
@@ -29,7 +29,7 @@ class_name TextureBundleRME
 		else:
 			_load_bundled_texture(metallic_texture)
 
-@export var emission_texture: Texture: 
+@export var emission_texture: Texture :
 	set(texture):
 		emission_texture = texture
 		window_shading = true

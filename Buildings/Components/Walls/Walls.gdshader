@@ -1,8 +1,5 @@
-[gd_resource type="Shader" format=3 uid="uid://dtp2h5c0r7tl8"]
+shader_type spatial;
 
-[resource]
-code = "shader_type spatial;
-render_mode unshaded;
 
 // instance custom R channel => wall index for texture array
 // instance custom G channel => window index for texture array
@@ -132,7 +129,7 @@ void fragment() {
 	// Stronger normals for windows
 	NORMAL_MAP_DEPTH = normal_scale + albedo_window_tex.a * 2.;
 
-	ALBEDO = vec3(wall_uv);
+	//ALBEDO = vec3(wall_uv.xy, 0.);
 
 	if (lights_on) {
 		int random_seed = int(rand(round(worldpos)) * rand(vec3(floor(window_uv.xy), 0.0)) * 100000.0);
@@ -141,4 +138,4 @@ void fragment() {
 			EMISSION = (emission.rgb*emission_tex) * (emission_energy * (0.1 + fract(float(int(floor(window_uv.x)) * random_seed) / 1000.0) * 0.9));
 		}
 	}
-}"
+}
