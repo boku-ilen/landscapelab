@@ -10,11 +10,12 @@ size = Vector3(0.2, 1, 0.2)
 [node name="BuildingEditor" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.407727, -4.98399, -0.664175)
 script = ExtResource("1_ti8qr")
+roof_type = 1
 roof_color = Color(0.00556931, 0.0252061, 0.0482799, 1)
 roof_material_1 = ExtResource("3_xit3e")
 height = 7.395
 floors = 2
-footprint = PackedVector2Array(-5, -5, 5, -5, 5, 5, -5, 5, -5, -5)
+footprint = PackedVector2Array(-5, -5, -5, 5, 5, 5, 5, -5, -5, -5)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.984046, 0.0780684, -0.159869, 0.0726743, 0.643811, 0.761726, 0.162392, -0.761192, 0.627866, 0.00564957, 9.58815, 3.07853)

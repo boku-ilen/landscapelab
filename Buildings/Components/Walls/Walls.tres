@@ -2,7 +2,7 @@
 
 [resource]
 code = "shader_type spatial;
-render_mode cull_front;
+render_mode unshaded;
 
 // instance custom R channel => wall index for texture array
 // instance custom G channel => window index for texture array
@@ -48,7 +48,7 @@ varying flat float window_index;
 
 
 void vertex() {
-	UV=UV*uv1_scale.xy+uv1_offset.xy;
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
 	worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 
 	// Set the index/depth of the read texture from the texture array
@@ -61,7 +61,6 @@ float rand(vec3 co){
 }
 
 void fragment() {
-
 	vec3 wall_uv = vec3(UV / wall_height, wall_index);
 
 	ivec3 window_tex_size = textureSize(texture_window_albedo, 0);
@@ -81,10 +80,10 @@ void fragment() {
 			// we repeat the texture with modulo, then scale it by according to the floor height,
 			// offset it so it is centered, then clamp it between 0 and 1 and add a floor for
 			// creating a horizontal space between the windows (conists texture in meters + distance)
-			clamp(mod(UV.x, dist) / (wall_height * window_scale_y) - offset_x, 0., 1.)
-					+ floor(UV.x / (wall_height * window_scale_y) / dist),
+			clamp(mod(UV2.x, dist) / (wall_height * window_scale_y) - offset_x, 0., 1.)
+					+ floor(UV2.x / (wall_height * window_scale_y) / dist),
 			// clamp as we only want one window vertically per floor
-			clamp((UV.y  - offset_y) / (wall_height * window_scale_y), 0., 1.)
+			clamp((UV2.y  - offset_y) / (wall_height * window_scale_y), 0., 1.)
 		), window_index);
 
 
@@ -132,6 +131,8 @@ void fragment() {
 	NORMAL_MAP = mix(wall_normal, window_normal, albedo_window_tex.a).rgb;
 	// Stronger normals for windows
 	NORMAL_MAP_DEPTH = normal_scale + albedo_window_tex.a * 2.;
+
+	ALBEDO = vec3(wall_uv);
 
 	if (lights_on) {
 		int random_seed = int(rand(round(worldpos)) * rand(vec3(floor(window_uv.xy), 0.0)) * 100000.0);

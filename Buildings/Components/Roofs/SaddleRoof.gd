@@ -126,8 +126,8 @@ func build(footprint: PackedVector2Array):
 	
 	# Add an underside for the roof
 	# Go done to where the "volume" will be created
-	var plane1 = Plane(vertices[2], vertices[1], vertices[3])
-	var plane2 = Plane(vertices[2], vertices[3], vertices[5])
+	var plane1 = Plane(vertices[2], vertices[3], vertices[1])
+	var plane2 = Plane(vertices[2], vertices[5], vertices[3])
 	
 	var lowered_vertices = vertices.duplicate()
 	
@@ -164,17 +164,17 @@ func build(footprint: PackedVector2Array):
 		
 		st.set_uv(Vector2(uvs.x, uvs.y))
 		st.add_vertex(lowered_vertices[next_idx])
-		st.set_uv(Vector2(0., 0.))
-		st.add_vertex(vertices[idx])
 		st.set_uv(Vector2(0., uvs.y))
 		st.add_vertex(lowered_vertices[idx])
+		st.set_uv(Vector2(0., 0.))
+		st.add_vertex(vertices[idx])
 		
 		st.set_uv(Vector2(uvs.x, 0.))
 		st.add_vertex(vertices[next_idx])
-		st.set_uv(Vector2(0., 0.))
-		st.add_vertex(vertices[idx])
 		st.set_uv(Vector2(uvs.x, uvs.y))
 		st.add_vertex(lowered_vertices[next_idx])
+		st.set_uv(Vector2(0., 0.))
+		st.add_vertex(vertices[idx])
 	
 	# Create a wall where the triangle of the saddle roof leaves an open space
 	uv_x = footprint3d[0].distance_to(footprint3d[3])
@@ -227,7 +227,7 @@ func refine():
 func _triangulate(st, vertices, uvs, idx0=0, idx1=1, idx2=2):
 	st.set_uv(uvs[idx0] * texture_scale)
 	st.add_vertex(vertices[idx0])
-	st.set_uv(uvs[idx1] * texture_scale)
-	st.add_vertex(vertices[idx1])
 	st.set_uv(uvs[idx2] * texture_scale)
 	st.add_vertex(vertices[idx2])
+	st.set_uv(uvs[idx1] * texture_scale)
+	st.add_vertex(vertices[idx1])

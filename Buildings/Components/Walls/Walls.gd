@@ -15,7 +15,9 @@ extends Node3D
 
 var height = 2.5
 # How much the texture shall be scaled with respect to the height
-var texture_scale := Vector2(1., 1.)  
+var texture_scale := Vector2(1., 1.)
+var random_rotation := 0.
+var random_90_rotation_rate := 0.
 
 # Color modifier of the texture
 var color
@@ -24,7 +26,7 @@ var wall_idx := 0
 var window_idx := 0
 
 
-func _ready():
+func _ready() -> void:
 	$MeshInstance3D.material_override = material
 
 
@@ -49,6 +51,11 @@ func set_window_shading(enabled: bool):
 
 
 func build(footprint: PackedVector2Array):
+	var rng = RandomNumberGenerator.new()
+	rng.seed = hash(footprint)
+	if rng.randf() < random_90_rotation_rate:
+		random_rotation = PI/2
+	
 	var st = SurfaceTool.new()
 	
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -62,6 +69,9 @@ func build(footprint: PackedVector2Array):
 	# These triangles are created as follows when iterating over all points in the footprint:
 	# First triangle: Current footprint point -> point above -> next footprint point
 	# Second triangle: Next footprint point -> point above -> point above next footprint point
+	
+	if not Geometry2D.is_polygon_clockwise(footprint):
+		footprint.reverse()
 	
 	for i in range(0, footprint.size()):
 		var point_3d = Vector3(footprint[i].x, 0, footprint[i].y)
@@ -81,57 +91,36 @@ func build(footprint: PackedVector2Array):
 		
 		# To add index for wall and window texture (repsectively in r, g)
 		st.set_custom_format(0, SurfaceTool.CUSTOM_RG_HALF)
+		 
+		# Cast texture index to value between 0 and 1
+		st.set_color(color.srgb_to_linear())
+		st.set_custom(0, Color(wall_idx, window_idx, 0., 0.))
 		
-		var texture_scale_height = texture_scale #* height #Vector2(1, height)
-		if not wind_counterclockwise:
-			# Store the texture index in the alpha value to correctly choose
-			# from the sampler2DArray
-			st.set_color(color.srgb_to_linear())
-			st.set_custom(0, Color(wall_idx, window_idx, 0., 0.))
-			
-			# First triangle of the wall
-			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale_height)
-			st.add_vertex(next_point_3d)
-			
-			st.set_uv(Vector2(0.0, height) / texture_scale_height)
-			st.add_vertex(point_up_3d)
-			
-			st.set_uv(Vector2(0.0, 0.0))
-			st.add_vertex(point_3d)
-			
-			# Second triangle of the wall
-			st.set_uv(Vector2(distance_to_next_point, height) / texture_scale_height)
-			st.add_vertex(next_point_up_3d)
-			
-			st.set_uv(Vector2(0.0, height) / texture_scale_height)
-			st.add_vertex(point_up_3d)
-			
-			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale_height)
-			st.add_vertex(next_point_3d)
-		else:
-			# Cast texture index to value between 0 and 1
-			st.set_color(color.srgb_to_linear())
-			st.set_custom(0, Color(wall_idx, window_idx, 0., 0.))
-			
-			# First triangle of the wall
-			st.set_uv(Vector2(0.0, 0.0))
-			st.add_vertex(point_3d)
-			
-			st.set_uv(Vector2(0.0, height) / texture_scale_height)
-			st.add_vertex(point_up_3d)
-			
-			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale_height)
-			st.add_vertex(next_point_3d)
-			
-			# Second triangle of the wall
-			st.set_uv(Vector2(distance_to_next_point, 0.0) / texture_scale_height)
-			st.add_vertex(next_point_3d)
-			
-			st.set_uv(Vector2(0.0, height) / texture_scale_height)
-			st.add_vertex(point_up_3d)
-			
-			st.set_uv(Vector2(distance_to_next_point, height) / texture_scale_height)
-			st.add_vertex(next_point_up_3d)
+		# First triangle of the wall
+		st.set_uv((Vector2(0.0, height) / texture_scale).rotated(random_rotation))
+		st.set_uv2(Vector2(0.0, height))
+		st.add_vertex(point_3d)
+		
+		st.set_uv(Vector2(0.0, 0.0) / texture_scale)
+		st.set_uv2(Vector2(0.0, 0.0))
+		st.add_vertex(point_up_3d)
+		
+		st.set_uv((Vector2(distance_to_next_point, height) / texture_scale).rotated(random_rotation))
+		st.set_uv2(Vector2(distance_to_next_point, height))
+		st.add_vertex(next_point_3d)
+		
+		# Second triangle of the wall
+		st.set_uv((Vector2(distance_to_next_point, height) / texture_scale).rotated(random_rotation))
+		st.set_uv2(Vector2(distance_to_next_point, height))
+		st.add_vertex(next_point_3d)
+		
+		st.set_uv((Vector2(0.0, 0.0) / texture_scale).rotated(random_rotation))
+		st.set_uv2(Vector2(0.0, 0.0))
+		st.add_vertex(point_up_3d)
+		
+		st.set_uv((Vector2(distance_to_next_point, 0.0) / texture_scale).rotated(random_rotation))
+		st.set_uv2(Vector2(distance_to_next_point, 0.0))
+		st.add_vertex(next_point_up_3d)
 	
 	st.generate_normals()
 	st.generate_tangents()
@@ -140,5 +129,4 @@ func build(footprint: PackedVector2Array):
 	var mesh = st.commit()
 	mesh.custom_aabb = st.get_aabb()
 	$MeshInstance3D.mesh = mesh
-	
 	

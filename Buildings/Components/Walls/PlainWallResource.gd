@@ -7,6 +7,8 @@ class_name PlainWallResource
 @export var middle_texture: TextureBundleRME
 @export var top_texture: TextureBundleRME
 
+@export var random_90_rotation_rate: float = 0.
+
 @export var ground_window_id := -1
 @export var middle_window_id := -1
 @export var top_window_id := -1

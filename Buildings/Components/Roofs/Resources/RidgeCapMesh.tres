@@ -1,6 +1,6 @@
 [gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://b5ysnli7ebbui"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ybpyc"]
+[ext_resource type="Material" uid="uid://ctbp5ya4g4nmu" path="res://Buildings/Components/Roofs/Resources/_RoofBarrel.tres" id="1_ww68l"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_ww68l"]
 _surfaces = [{
@@ -25,7 +25,7 @@ _surfaces = [{
 "index_count": 72,
 "index_data": PackedByteArray("GAARABkAGAAaABEAGwASABwAGwAdABIAHQAJABIAHQAQAAkAHgATAB8AHgAIABMAIAABACEAIAAAAAEAIgADACMAIgACAAMACgAkAAwACgAlACQACwAkACUACwAlABQAFAAmAAsADQAnABUAFQAWAA0ADQAXACcAFwAPACcAFwAOAA8ABAAFAAYABAAHAAUA"),
 "lods": [0.0942758, PackedByteArray("EAARAAkAEAAJABIAEAAAABEAAAABABEACAAQABIACAASABMACAATAAIAAgADAAgACgALAAwACwAKABQADQAPABUAFQAWAA0ADQAXAA8AFwAOAA8ABAAFAAYABAAHAAUA"), 0.464968, PackedByteArray("CAAAAAIAAgADAAgAAAAJAAIAAAABAAkACgALAAwADQAOAA8ABAAFAAYABAAHAAUA"), 0.762658, PackedByteArray("AAABAAIAAgADAAAABAAFAAYABAAHAAUA")],
-"material": SubResource("StandardMaterial3D_ybpyc"),
+"material": ExtResource("1_ww68l"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 40,

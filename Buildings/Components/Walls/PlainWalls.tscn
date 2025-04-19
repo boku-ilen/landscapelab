@@ -1,5 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://be5mpkv0cwqea"]
+[gd_scene load_steps=3 format=3 uid="uid://be5mpkv0cwqea"]
 
 [ext_resource type="PackedScene" uid="uid://ba4dacxh7qiw0" path="res://Buildings/Components/Walls/Walls.tscn" id="1_rrnih"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="2_nd2vr"]
 
 [node name="Walls" instance=ExtResource("1_rrnih")]
+wind_counterclockwise = false
+
+[node name="PSUGatherer" parent="MeshInstance3D" index="0" instance=ExtResource("2_nd2vr")]
