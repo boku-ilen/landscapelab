@@ -1,0 +1,24 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://ceq1v8yirj0rc"]
+
+[ext_resource type="Shader" uid="uid://fit86afg6pjs" path="res://Resources/Meshes/Trees/Tree_Trunk.gdshader" id="1_fpfwa"]
+[ext_resource type="Texture2D" uid="uid://cmr5wgvx038p5" path="res://Resources/Meshes/Trees/Betula/Betula_trunk_albedo.png" id="2_v4pv7"]
+[ext_resource type="Texture2D" uid="uid://dswvfiymep617" path="res://Resources/Meshes/Trees/Betula/Betula_trunk_normal.png" id="3_gbrcf"]
+[ext_resource type="Texture2D" uid="uid://cuw2juh1mwufm" path="res://Resources/Meshes/Trees/Betula/Betula_trunk_raotrans.png" id="4_5r466"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_fpfwa")
+shader_parameter/tex_tiling = Vector2(1.5, 1.5)
+shader_parameter/albedo_tex = ExtResource("2_v4pv7")
+shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
+shader_parameter/albedo_node_rand_hue = 0.3
+shader_parameter/albedo_node_rand_chroma = 0.2
+shader_parameter/albedo_node_rand_luma = 0.05
+shader_parameter/normal_tex = ExtResource("3_gbrcf")
+shader_parameter/normal_strength = 1.0
+shader_parameter/rough_ao_transmission_tex = ExtResource("4_5r466")
+shader_parameter/roughness_offset = -0.35
+shader_parameter/ao_strength = 1.0
+shader_parameter/ao_light_affect = 0.8
+shader_parameter/rim_strength = 0.01
+shader_parameter/rim_color_from_albedo = 0.5
