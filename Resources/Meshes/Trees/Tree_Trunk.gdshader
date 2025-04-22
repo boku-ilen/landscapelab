@@ -47,15 +47,18 @@ uniform float rim_strength : hint_range(0.0, 1.0) = 0.0;
 uniform float rim_color_from_albedo : hint_range(0.0, 1.0) = 0.5;
 
 
-void vertex() {
-}
+//void vertex() {
+	//if (VERTEX.y < 0.5 && abs(VERTEX.x) > 0.03 && abs(VERTEX.z) > 0.03) {
+		//VERTEX = vec3(1.0 / 0.0);
+	//}
+//}
 
 void fragment() {
 	vec2 base_uv = UV * tex_tiling;
-	
+
 	vec3 albedo_rgb = texture(albedo_tex, base_uv).rgb;
 	vec3 rough_ao_trans = texture(rough_ao_transmission_tex, base_uv).rgb;
-	
+
 	// Randomised HYC Shifts of whole Albedo Tex depending on Node's Worldspace Position.
 	// For organic randomisation: WS PosX shifts Hue, PosY shifts Chroma, PosZ shifts Luminance.
 	// Make sure LeafBranches Shader/Mats uses same calculation/values as Trunk ones!
@@ -63,21 +66,21 @@ void fragment() {
 	albedo_hcy.r += sin(NODE_POSITION_WORLD.x * 2.0 * PI * 71.33) * PI * albedo_node_rand_hue;
 	albedo_hcy.g += sin(NODE_POSITION_WORLD.y * 132.935) * albedo_node_rand_chroma;
 	albedo_hcy.b += sin(NODE_POSITION_WORLD.z * 387.247) * albedo_node_rand_luma;
-	
+
 	albedo_rgb = HCYtoRGB(albedo_hcy);
-	
+
 	ALBEDO = albedo_rgb * albedo_multiply;
-	
+
 	METALLIC = 0.0;
 	SPECULAR = 0.5;
 	ROUGHNESS = rough_ao_trans.r + roughness_offset;
-	
+
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = normal_strength;
-	
+
 	AO = mix(1.0, rough_ao_trans.g, ao_strength);
 	AO_LIGHT_AFFECT = ao_light_affect;
-	
+
 	RIM = rim_strength;
 	RIM_TINT = rim_color_from_albedo;
 }

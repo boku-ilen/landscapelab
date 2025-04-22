@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://dysllp2r2xyg6" path="res://Resources/Meshes/Trees/Tree_LeafBranches.gdshader" id="1_cr2sa"]
 [ext_resource type="Texture2D" uid="uid://8nwhhfjw1j58" path="res://Resources/Meshes/Trees/EZTree/Pine/pine_joined_Image_4.png" id="2_ydnaj"]
-[ext_resource type="Texture2D" uid="uid://ddo5lp0c4tify" path="res://Resources/Meshes/Trees/EZTree/Pine/pine_joined_Image_4_normal.png" id="3_ydnaj"]
+[ext_resource type="Texture2D" uid="uid://ddo5lp0c4tify" path="res://Resources/Meshes/Trees/EZTree/Pine/pine_joined_Image_4_normal.png" id="3_aeukk"]
 
 [resource]
 render_priority = 0
@@ -16,8 +16,8 @@ shader_parameter/albedo_node_rand_chroma_branch = 0.01
 shader_parameter/albedo_node_rand_chroma_leaf = 0.005
 shader_parameter/albedo_node_rand_luma_branch = 0.02
 shader_parameter/albedo_node_rand_luma_leaf = 0.01
-shader_parameter/normal_tex = ExtResource("3_ydnaj")
-shader_parameter/normal_strength = 2.0
+shader_parameter/normal_tex = ExtResource("3_aeukk")
+shader_parameter/normal_strength = 1.0
 shader_parameter/roughness_offset = 0.0
 shader_parameter/ao_strength = 1.0
 shader_parameter/ao_light_affect = 0.8

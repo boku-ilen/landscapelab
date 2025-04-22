@@ -28,39 +28,39 @@ var weather_manager: WeatherManager :
 		_apply_new_wind_direction(weather_manager.wind_direction)
 		weather_manager.wind_direction_changed.connect(_apply_new_wind_direction)
 
-var billboard_mesh = preload("res://Layers/Renderers/VectorVegetation/BillboardTree.tres")
+static var billboard_mesh = preload("res://Layers/Renderers/VectorVegetation/BillboardTree.tres")
 
 # Tree mesh data source:
 # https://l4m0s.itch.io/27-vegetation-3d-assets
 # TODO: Lots of duplicates at the moment - needs to be replaced with more specific plants!
-var species_to_mesh = {
-	"Abiesalbar": preload("res://Layers/Renderers/VectorVegetation/Pinus2.tres"),
-	"Abiessprpp": preload("res://Layers/Renderers/VectorVegetation/Pinus2.tres"),
+static var species_to_mesh = {
+	"Abiesalbar": preload("res://Layers/Renderers/VectorVegetation/PinusHigh.tres"),
+	"Abiessprpp": preload("res://Layers/Renderers/VectorVegetation/PinusHigh.tres"),
 	"Acercampes": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
 	"Acerpseudo": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
 	"Alnusgluti": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
 	"Alnusincan": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Betulasprp": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
+	"Betulasprp": preload("res://Layers/Renderers/VectorVegetation/Betula.tres"),
 	"Carpinusbe": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Castaneasa": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
 	"Corylusave": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
 	"Fagussylva": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Fraxinusex": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Fraxinusor": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
-	"Larixdecid": preload("res://Layers/Renderers/VectorVegetation/Pinus2.tres"),
-	"Piceaabies": preload("res://Layers/Renderers/VectorVegetation/Pinus.tres"),
-	"Piceasitch": preload("res://Layers/Renderers/VectorVegetation/Pinus.tres"),
-	"Pinuscembr": preload("res://Layers/Renderers/VectorVegetation/Pinus.tres"),
-	"Pinushalep": preload("res://Layers/Renderers/VectorVegetation/Pinus.tres"),
-	"Pinusmugor": preload("res://Layers/Renderers/VectorVegetation/Pinus.tres"),
-	"Pinusnigra": preload("res://Layers/Renderers/VectorVegetation/Pinus.tres"),
-	"Pinuspinas": preload("res://Layers/Renderers/VectorVegetation/Pinus.tres"),
-	"Pinuspinea": preload("res://Layers/Renderers/VectorVegetation/Pinus.tres"),
-	"Pinussylve": preload("res://Layers/Renderers/VectorVegetation/Pinus.tres"),
+	"Larixdecid": preload("res://Layers/Renderers/VectorVegetation/PinusHigh.tres"),
+	"Piceaabies": preload("res://Layers/Renderers/VectorVegetation/Picea_abies.tres"),
+	"Piceasitch": preload("res://Layers/Renderers/VectorVegetation/Picea_abies.tres"),
+	"Pinuscembr": preload("res://Layers/Renderers/VectorVegetation/Pinus_sylvestris.tres"),
+	"Pinushalep": preload("res://Layers/Renderers/VectorVegetation/Pinus_sylvestris.tres"),
+	"Pinusmugor": preload("res://Layers/Renderers/VectorVegetation/Pinus_sylvestris.tres"),
+	"Pinusnigra": preload("res://Layers/Renderers/VectorVegetation/Pinus_sylvestris.tres"),
+	"Pinuspinas": preload("res://Layers/Renderers/VectorVegetation/Pinus_sylvestris.tres"),
+	"Pinuspinea": preload("res://Layers/Renderers/VectorVegetation/Pinus_sylvestris.tres"),
+	"Pinussylve": preload("res://Layers/Renderers/VectorVegetation/Pinus_sylvestris.tres"),
 	"Populusnig": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Populustre": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Prunusaviu": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Pseudotsug": preload("res://Layers/Renderers/VectorVegetation/Pinus.tres"),
+	"Pseudotsug": preload("res://Layers/Renderers/VectorVegetation/PinusHigh.tres"),
 	"Quercuscer": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
 	"Quercusfra": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
 	"Quercusile": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
@@ -78,20 +78,25 @@ var species_to_mesh = {
 	"Oleaeuropaea": preload("res://Layers/Renderers/VectorVegetation/Oleaeuropaea.tres")
 }
 
-var mesh_name_to_spritesheet_index = {
+static var mesh_name_to_spritesheet_index = {
 	"Fagus": 0,
 	"Pinus2": 1,
 	"Pinus": 1,
+	"PinusHigh": 1,
 	"Quercus": 2,
 	"Eucalyptus": 2,
 	"Oleaeuropaea": 2,
 	"Quercussuber": 2
 }
 
-var mesh_name_to_billboard_index = {
+static var mesh_name_to_billboard_index = {
 	"Fagus": 0,
+	"Betula": 0,
 	"Pinus2": 1,
 	"Pinus": 2,
+	"Pinus_sylvestris": 2,
+	"PinusHigh": 2,
+	"Picea_abies": 2,
 	"Quercus": 3,
 	"Eucalyptus": 4,
 	"Quercussuber": 3,
@@ -250,7 +255,8 @@ func override_build(center_x, center_y):
 		
 		if is_detailed:
 			mesh_name_to_custom_data[mesh_name].append(Color(
-				mesh_name_to_spritesheet_index[species_mesh_name], # Spritesheet index
+				mesh_name_to_spritesheet_index[species_mesh_name] \
+						if species_mesh_name in mesh_name_to_spritesheet_index else 0, # Spritesheet index
 				rng.randf(), # Randomness for shading
 				1.0
 			))
@@ -288,8 +294,10 @@ func override_apply():
 func _apply_new_wind_speed(wind_speed: float):
 	# All use the same material so it is not required to change it for every type
 	var mesh: ArrayMesh = species_to_mesh.values()[0]
-	var leaf_material: ShaderMaterial = mesh.surface_get_material(mesh.surface_find_by_name("leaf"))
-	leaf_material.set_shader_parameter("sway_strength", wind_speed * 0.03)
+	var mat_index = mesh.surface_find_by_name("leaf")
+	if mat_index > -1:
+		var leaf_material: ShaderMaterial = mesh.surface_get_material(mat_index)
+		leaf_material.set_shader_parameter("sway_strength", wind_speed * 0.03)
 
 
 func _apply_new_wind_direction(wind_direction: int):
@@ -300,6 +308,8 @@ func _apply_new_wind_direction(wind_direction: int):
 	
 	# All use the same material so it is not required to change it for every type
 	var mesh: ArrayMesh = species_to_mesh.values()[0]
-	var leaf_material: ShaderMaterial = mesh.surface_get_material(mesh.surface_find_by_name("leaf"))
-	leaf_material.set_shader_parameter("wind_dir", wind_vector)
+	var mat_index = mesh.surface_find_by_name("leaf")
+	if mat_index > -1:
+		var leaf_material: ShaderMaterial = mesh.surface_get_material(mat_index)
+		leaf_material.set_shader_parameter("wind_dir", wind_vector)
 	
