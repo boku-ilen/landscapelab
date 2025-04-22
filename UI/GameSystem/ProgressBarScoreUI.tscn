@@ -45,3 +45,6 @@ text = " / "
 
 [node name="MaxValue" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+
+[node name="Unit" type="Label" parent="VBoxContainer"]
+layout_mode = 2
