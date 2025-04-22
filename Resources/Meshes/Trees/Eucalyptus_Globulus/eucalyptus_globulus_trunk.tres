@@ -8,6 +8,7 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_3lx2n")
+shader_parameter/tex_tiling = Vector2(1, 1)
 shader_parameter/albedo_tex = ExtResource("1_r5dk2")
 shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
 shader_parameter/albedo_node_rand_hue = 0.03

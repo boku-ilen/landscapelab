@@ -3,6 +3,7 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_sc
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 
+uniform vec2 tex_tiling = vec2(1.0, 1.0);
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec3 albedo_multiply : source_color = vec3(1.0);
 uniform float albedo_node_rand_hue : hint_range(0.0, 1.0) = 0.03;
@@ -50,8 +51,7 @@ void vertex() {
 }
 
 void fragment() {
-	vec2 base_uv = UV;
-	
+	vec2 base_uv = UV * tex_tiling;
 	
 	vec3 albedo_rgb = texture(albedo_tex, base_uv).rgb;
 	vec3 rough_ao_trans = texture(rough_ao_transmission_tex, base_uv).rgb;

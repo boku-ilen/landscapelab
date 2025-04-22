@@ -19,7 +19,7 @@ void fragment() {
 	vec2 uv_offsetamount = fract((NODE_POSITION_WORLD.x + NODE_POSITION_WORLD.z) * 100.0) * max_uv_offset;
 	float uv_offsetmask = texture(uv_offsetmask_tex, UV).r;
 	vec2 uv_manipulated = mix(UV, UV + uv_offsetamount, uv_offsetmask);
-	
+
 	ALBEDO = texture(albedo_tex, UV).rgb;
 	ALBEDO = texture(albedo_tex, uv_manipulated).rgb;
 	METALLIC = texture(metal_rough_ao_tex, uv_manipulated).r;
