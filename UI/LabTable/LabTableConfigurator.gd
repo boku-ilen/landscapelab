@@ -32,7 +32,7 @@ func load_table_config() -> void:
 
 func _load_layers(path: String, table_config: Dictionary):
 	# FIXME: proper deserialization/seralization options
-	
+	var base_path = get_setting("config-path")
 	for key in table_config["LayerDefinitions"].keys():
 		var layer_conf = table_config["LayerDefinitions"][key]
 		
@@ -44,7 +44,8 @@ func _load_layers(path: String, table_config: Dictionary):
 			else:
 				assert(false, "Invalid layer!")
 		else:
-			geo_layer = Geodot.get_raster_layer(layer_conf["path"])
+			var splits = LLFileAccess.split_dataset_string(base_path, layer_conf["path"])
+			geo_layer = LLFileAccess.get_layer_from_splits(splits, true)
 		
 		var layer_def = LayerDefinition.new(geo_layer, layer_conf["z_index"])
 		layer_def.name = key

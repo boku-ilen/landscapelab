@@ -11,11 +11,11 @@ static func split_dataset_string(base_path: String, dataset_str: String):
 	# E.g. ./LL.gpkg:ortho?w
 	# => ["./LL.gpkg", "ortho?w"], ["ortho", "w"]
 	var split_step = dataset_str.split(":")
-	var split_step2 = split_step[1].split("?")
+	var split_step2 = split_step[1].split("?") if split_step.size() > 1 else [""]
 	# => ["./LL.gpkg", "ortho", "w"]
 	var splits = { 
 		"file_name": split_step[0], 
-		"layer_name": split_step[1].split("?")[0],
+		"layer_name": split_step2[0],
 		"write_access": true if split_step2.size() > 1 and split_step2[1] == "w" else false
 	}
 	
@@ -27,6 +27,9 @@ static func split_dataset_string(base_path: String, dataset_str: String):
 
 
 static func get_layer_from_splits(splits: Dictionary, is_raster:=true):
+	if splits["layer_name"] == "":
+		return Geodot.get_raster_layer(splits["file_name"], splits["write_access"])
+	
 	var geo_ds = Geodot.get_dataset(
 		splits["file_name"], splits["write_access"])
 	
