@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=7 format=3 uid="uid://dcyyc2wrft00m"]
+
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_fmhfg"]
+[ext_resource type="Texture2D" uid="uid://depdcm2wgu4dv" path="res://Resources/Textures/Buildings/window/GridWindows/albedo.png" id="1_wolyq"]
+[ext_resource type="Texture2D" uid="uid://t3nlhjn0olb8" path="res://Resources/Textures/Buildings/window/GridWindows/emission.png" id="2_e7dy6"]
+[ext_resource type="Texture2D" uid="uid://c2ai1w6pj8ygd" path="res://Resources/Textures/Buildings/window/GridWindows/metallic.png" id="4_3sw0y"]
+[ext_resource type="Texture2D" uid="uid://bndjp02d3orf5" path="res://Resources/Textures/Buildings/window/GridWindows/normal.png" id="5_eek3g"]
+[ext_resource type="Texture2D" uid="uid://bf7qjetvugtt" path="res://Resources/Textures/Buildings/window/GridWindows/roughness.png" id="6_5wcn1"]
+
+[resource]
+script = ExtResource("1_fmhfg")
+texture_scale = Vector2(1, 1)
+albedo_texture = ExtResource("1_wolyq")
+normal_texture = ExtResource("5_eek3g")
+roughness_texture = ExtResource("6_5wcn1")
+metallic_texture = ExtResource("4_3sw0y")
+emission_texture = ExtResource("2_e7dy6")
+metadata/_custom_type_script = ExtResource("1_fmhfg")

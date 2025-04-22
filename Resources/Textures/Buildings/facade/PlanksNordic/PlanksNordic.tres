@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=5 format=3 uid="uid://b4heup850gx8k"]
+
+[ext_resource type="Texture2D" uid="uid://bebogpwburcde" path="res://Resources/Textures/Buildings/facade/PlanksNordic/albedo.jpg" id="1_0ud1r"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_cbo2g"]
+[ext_resource type="Texture2D" uid="uid://f18b4l6fc7qa" path="res://Resources/Textures/Buildings/facade/PlanksNordic/normal.jpg" id="3_mul2b"]
+[ext_resource type="Texture2D" uid="uid://blp5b2juwv86c" path="res://Resources/Textures/Buildings/facade/PlanksNordic/roughness.jpg" id="4_0ud1r"]
+
+[resource]
+script = ExtResource("1_cbo2g")
+texture_scale = Vector2(1, 0.7)
+albedo_texture = ExtResource("1_0ud1r")
+normal_texture = ExtResource("3_mul2b")
+roughness_texture = ExtResource("4_0ud1r")
+metadata/_custom_type_script = ExtResource("1_cbo2g")
