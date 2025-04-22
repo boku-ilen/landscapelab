@@ -1,5 +1,7 @@
 shader_type spatial;
 
+#include "res://Resources/Shader/Wind/Wind.gdshaderinc"
+
 uniform float roughness : hint_range(0,1);
 uniform float specular;
 uniform float metallic;
@@ -10,6 +12,8 @@ uniform sampler2D spritesheet_normal: hint_normal, filter_linear_mipmap, repeat_
 varying flat float spritesheet_index;
 
 void vertex() {
+	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
+	
 	spritesheet_index = INSTANCE_CUSTOM.r;
 }
 

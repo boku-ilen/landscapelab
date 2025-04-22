@@ -14,8 +14,8 @@ uniform vec4 backlight : source_color;
 
 uniform int sprite_count = 3;
 
-uniform sampler2D spritesheet_albedo: source_color, filter_linear_mipmap;
-uniform sampler2D spritesheet_normal: hint_normal, filter_linear_mipmap;
+uniform sampler2D spritesheet_albedo: source_color, filter_linear_mipmap, repeat_disable;
+uniform sampler2D spritesheet_normal: hint_normal, filter_linear_mipmap, repeat_disable;
 
 uniform vec3 most_extreme_random_color: source_color;
 
@@ -23,22 +23,10 @@ varying flat float spritesheet_index;
 varying flat float random_instance_factor;
 varying flat float is_detailed;
 
-uniform float sway_speed = 5.0;
-uniform float sway_strength = 0.03;
-uniform float sway_phase_len = 8.0;
-uniform vec3 wind_dir = vec3(1, 1, 0.5);
+#include "res://Resources/Shader/Wind/Wind.gdshaderinc"
 
 void vertex() {
-	float start_point = 0.25;
-	vec3 mid_point = vec3(0., 0.5, 0.);
-	float dist = distance(VERTEX, mid_point) * 0.1;
-
-	float time = TIME + float(INSTANCE_ID) / 10.0;
-
-	float strength = dist * sway_strength * float(VERTEX.y > start_point);
-	VERTEX.x += sin(VERTEX.x * sway_phase_len * 1.123 + time * sway_speed) * strength * wind_dir.x;
-	VERTEX.y += sin(VERTEX.y * sway_phase_len + time * sway_speed * 1.12412) * strength * wind_dir.y;
-	VERTEX.z += sin(VERTEX.z * sway_phase_len * 0.9123 + time * sway_speed * 1.3123) * strength * wind_dir.z;
+	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
 
 	spritesheet_index = INSTANCE_CUSTOM.r;
 	random_instance_factor = INSTANCE_CUSTOM.g;

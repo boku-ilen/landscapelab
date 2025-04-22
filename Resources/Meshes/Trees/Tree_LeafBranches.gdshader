@@ -78,10 +78,14 @@ uniform float rim_strength : hint_range(0.0, 1.0) = 0.03;
 */
 uniform float rim_color_from_albedo : hint_range(0.0, 1.0) = 0.5;
 
+#include "res://Resources/Shader/Wind/Wind.gdshaderinc"
 
-//void vertex() {
+void vertex() {
+	// Concept for forest trees:
 	//if (VERTEX.y < 0.5) VERTEX = vec3(1.0 / 0.0);
-//}
+	
+	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
+}
 
 void fragment() {
 	vec2 base_uv = UV;

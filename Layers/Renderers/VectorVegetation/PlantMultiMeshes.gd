@@ -22,11 +22,10 @@ var weather_manager: WeatherManager :
 		
 		weather_manager = new_weather_manager
 		
-		_apply_new_wind_speed(weather_manager.wind_speed)
 		weather_manager.wind_speed_changed.connect(_apply_new_wind_speed)
-		
-		_apply_new_wind_direction(weather_manager.wind_direction)
 		weather_manager.wind_direction_changed.connect(_apply_new_wind_direction)
+		
+		_apply_new_wind()
 
 static var billboard_mesh = preload("res://Layers/Renderers/VectorVegetation/BillboardTree.tres")
 
@@ -36,14 +35,14 @@ static var billboard_mesh = preload("res://Layers/Renderers/VectorVegetation/Bil
 static var species_to_mesh = {
 	"Abiesalbar": preload("res://Layers/Renderers/VectorVegetation/PinusHigh.tres"),
 	"Abiessprpp": preload("res://Layers/Renderers/VectorVegetation/PinusHigh.tres"),
-	"Acercampes": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Acerpseudo": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Alnusgluti": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Alnusincan": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
+	"Acercampes": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Acerpseudo": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Alnusgluti": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Alnusincan": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Betulasprp": preload("res://Layers/Renderers/VectorVegetation/Betula.tres"),
 	"Carpinusbe": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
-	"Castaneasa": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Corylusave": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
+	"Castaneasa": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Corylusave": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Fagussylva": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Fraxinusex": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Fraxinusor": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
@@ -59,22 +58,22 @@ static var species_to_mesh = {
 	"Pinussylve": preload("res://Layers/Renderers/VectorVegetation/Pinus_sylvestris.tres"),
 	"Populusnig": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Populustre": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
-	"Prunusaviu": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
+	"Prunusaviu": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Pseudotsug": preload("res://Layers/Renderers/VectorVegetation/PinusHigh.tres"),
-	"Quercuscer": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Quercusfra": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Quercusile": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Quercuspet": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Quercuspub": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Quercuspyr": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Quercusrob": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Quercussub": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Robiniapse": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Salixcapre": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
-	"Sorbusaucu": preload("res://Layers/Renderers/VectorVegetation/Quercus.tres"),
+	"Quercuscer": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Quercusfra": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Quercusile": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Quercuspet": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Quercuspub": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Quercuspyr": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Quercusrob": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Quercussub": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Robiniapse": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Salixcapre": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Sorbusaucu": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Tiliasprpp": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Eucalyptus": preload("res://Layers/Renderers/VectorVegetation/Eucalyptus.tres"),
-	"Quercussuber": preload("res://Layers/Renderers/VectorVegetation/Quercussuber.tres"),
+	"Quercussuber": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Oleaeuropaea": preload("res://Layers/Renderers/VectorVegetation/Oleaeuropaea.tres")
 }
 
@@ -83,10 +82,9 @@ static var mesh_name_to_spritesheet_index = {
 	"Pinus2": 1,
 	"Pinus": 1,
 	"PinusHigh": 1,
-	"Quercus": 2,
+	"Quercus2": 2,
 	"Eucalyptus": 2,
-	"Oleaeuropaea": 2,
-	"Quercussuber": 2
+	"Oleaeuropaea": 2
 }
 
 static var mesh_name_to_billboard_index = {
@@ -97,9 +95,8 @@ static var mesh_name_to_billboard_index = {
 	"Pinus_sylvestris": 2,
 	"PinusHigh": 2,
 	"Picea_abies": 2,
-	"Quercus": 3,
+	"Quercus2": 3,
 	"Eucalyptus": 4,
-	"Quercussuber": 3,
 	"Oleaeuropaea": 3
 }
 
@@ -292,24 +289,19 @@ func override_apply():
 
 
 func _apply_new_wind_speed(wind_speed: float):
-	# All use the same material so it is not required to change it for every type
-	var mesh: ArrayMesh = species_to_mesh.values()[0]
-	var mat_index = mesh.surface_find_by_name("leaf")
-	if mat_index > -1:
-		var leaf_material: ShaderMaterial = mesh.surface_get_material(mat_index)
-		leaf_material.set_shader_parameter("sway_strength", wind_speed * 0.03)
+	_apply_new_wind()
 
 
 func _apply_new_wind_direction(wind_direction: int):
-	# Wind vector is a degree integer -> caclulate a vector from it
-	var wind_vector = Vector2.UP.rotated(deg_to_rad(wind_direction))
-	# Add some random "up" wind for smoother animation
-	wind_vector = Vector3(wind_vector.x, 0.5, wind_vector.y)
-	
-	# All use the same material so it is not required to change it for every type
-	var mesh: ArrayMesh = species_to_mesh.values()[0]
-	var mat_index = mesh.surface_find_by_name("leaf")
-	if mat_index > -1:
-		var leaf_material: ShaderMaterial = mesh.surface_get_material(mat_index)
-		leaf_material.set_shader_parameter("wind_dir", wind_vector)
+	_apply_new_wind()
+
+
+func _apply_new_wind():
+	for mesh in species_to_mesh.values():
+		for surface_id in mesh.get_surface_count():
+			var material = mesh.surface_get_material(surface_id)
+			
+			if material is ShaderMaterial:
+				var force = Vector2.UP.rotated(deg_to_rad(weather_manager.wind_direction)) * weather_manager.wind_speed
+				material.set_shader_parameter("wind_speed", force)
 	

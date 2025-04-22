@@ -16,7 +16,7 @@ dest_files=["res://.godot/imported/Betula.obj-239b69cc3e2889b448ba8b3ce3222773.m
 [params]
 
 generate_tangents=true
-generate_lods=true
+generate_lods=false
 generate_shadow_mesh=true
 generate_lightmap_uv2=false
 generate_lightmap_uv2_texel_size=0.2

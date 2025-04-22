@@ -1,9 +1,10 @@
-[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://bebnxpaufnhed"]
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://bebnxpaufnhed"]
 
 [ext_resource type="Shader" uid="uid://dysllp2r2xyg6" path="res://Resources/Meshes/Trees/Tree_LeafBranches.gdshader" id="1_u77g8"]
 [ext_resource type="Texture2D" uid="uid://dl8ay5du08cac" path="res://Resources/Meshes/Trees/Picea_abies/Picea_abies_branches_albedo.png" id="2_ae0yq"]
 [ext_resource type="Texture2D" uid="uid://i25y0sywk1yt" path="res://Resources/Meshes/Trees/Picea_abies/Picea_abies_branches_normal.png" id="3_dg441"]
 [ext_resource type="Texture2D" uid="uid://cnn3hoqo0l2uu" path="res://Resources/Meshes/Trees/Picea_abies/Picea_abies_branches_raotrans.png" id="4_cnxee"]
+[ext_resource type="Texture2D" uid="uid://543il10phdwv" path="res://Resources/Shader/Wind/WindNoise.tres" id="5_dg441"]
 
 [resource]
 render_priority = 0
@@ -29,3 +30,5 @@ shader_parameter/backlight_affected_by_ao = 0.5
 shader_parameter/backlight_strength = 1.0
 shader_parameter/rim_strength = 0.03
 shader_parameter/rim_color_from_albedo = 0.5
+shader_parameter/wind_map = ExtResource("5_dg441")
+shader_parameter/wind_speed = Vector2(12, 12)
