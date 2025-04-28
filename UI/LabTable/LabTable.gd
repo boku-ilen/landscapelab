@@ -38,12 +38,15 @@ var _table_detection_pid: int
 
 signal game_object_created(cursor_position)
 signal game_object_failed(cursor_position)
+signal debug_setup_done
 
 
 func _ready():
 	# In the usual setting this will be handled by the landscapelab
-	if debug_mode: $LLConfigSetup.setup()
-	if debug_mode: $GameModesConfigurator.load_game_mode_config()
+	if debug_mode: 
+		$LLConfigSetup.setup()
+		$GameModesConfigurator.load_game_mode_config()
+		debug_setup_done.emit()
 	
 	$LabTableConfigurator.load_table_config()
 	

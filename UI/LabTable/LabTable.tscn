@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=52 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" uid="uid://ylwjxiuxk7ef" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -34,6 +34,7 @@
 [ext_resource type="Texture2D" uid="uid://dndroq8xw54we" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sunrise.svg" id="24_0xwd5"]
 [ext_resource type="PackedScene" uid="uid://d2biaicqh7bu5" path="res://World/AtmosphereConfiguration.tscn" id="24_ty2jq"]
 [ext_resource type="Texture2D" uid="uid://ds6wwes2a5wbq" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sun.svg" id="25_302tt"]
+[ext_resource type="Texture2D" uid="uid://cvuvaob2b58oa" path="res://Resources/Icons/ModernLandscapeLab/table_wind.svg" id="25_xtv11"]
 [ext_resource type="Texture2D" uid="uid://cw0im4d30mbtf" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sunset.svg" id="26_u2cwq"]
 [ext_resource type="Texture2D" uid="uid://1gxcd6oo0in1" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/moon.svg" id="27_elhq0"]
 [ext_resource type="Texture2D" uid="uid://uuqtyv3ffdfj" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/cloudy.svg" id="28_b1lmo"]
@@ -77,6 +78,7 @@ script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
+debug_mode = true
 run_brick_detection = false
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
@@ -321,6 +323,14 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("8_2ddb4")
 icon = ExtResource("23_65qsu")
+flat = true
+script = ExtResource("22_ywe3r")
+
+[node name="WindButton" type="Button" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/Content"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("8_2ddb4")
+icon = ExtResource("25_xtv11")
 flat = true
 script = ExtResource("22_ywe3r")
 
