@@ -1,9 +1,10 @@
-[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://756y35mjie2d"]
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://756y35mjie2d"]
 
 [ext_resource type="Shader" uid="uid://dysllp2r2xyg6" path="res://Resources/Meshes/Trees/Tree_LeafBranches.gdshader" id="1_ovfdm"]
 [ext_resource type="Texture2D" uid="uid://beurahm3fb2ob" path="res://Resources/Meshes/Trees/Betula/Betula_branches_albedo.png" id="2_pqo7x"]
 [ext_resource type="Texture2D" uid="uid://1dkur4lq5tso" path="res://Resources/Meshes/Trees/Betula/Betula_branches_normal.png" id="3_eafxu"]
 [ext_resource type="Texture2D" uid="uid://bx2u1l8hyv17t" path="res://Resources/Meshes/Trees/Betula/Betula_branches_raotrans.png" id="4_hkufe"]
+[ext_resource type="Texture2D" uid="uid://543il10phdwv" path="res://Resources/Shader/Wind/WindNoise.tres" id="5_eafxu"]
 
 [resource]
 render_priority = 0
@@ -29,3 +30,6 @@ shader_parameter/backlight_affected_by_ao = 0.5
 shader_parameter/backlight_strength = 1.0
 shader_parameter/rim_strength = 0.03
 shader_parameter/rim_color_from_albedo = 0.5
+shader_parameter/wind_map = ExtResource("5_eafxu")
+shader_parameter/wind_speed = Vector2(0.5, 0.5)
+shader_parameter/wind_factor = 0.8

@@ -2,6 +2,7 @@ shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
+#include "res://Resources/Shader/Wind/Wind.gdshaderinc"
 
 uniform vec2 tex_tiling = vec2(1.0, 1.0);
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
@@ -46,12 +47,14 @@ uniform float rim_strength : hint_range(0.0, 1.0) = 0.0;
 */
 uniform float rim_color_from_albedo : hint_range(0.0, 1.0) = 0.5;
 
-
-//void vertex() {
+void vertex() {
+	// Concept for forest trees:
 	//if (VERTEX.y < 0.5 && abs(VERTEX.x) > 0.03 && abs(VERTEX.z) > 0.03) {
 		//VERTEX = vec3(1.0 / 0.0);
 	//}
-//}
+
+	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
+}
 
 void fragment() {
 	vec2 base_uv = UV * tex_tiling;

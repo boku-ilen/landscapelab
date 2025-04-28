@@ -1,0 +1,26 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://cgbgrt8esgwki"]
+
+[ext_resource type="Shader" uid="uid://fit86afg6pjs" path="res://Resources/Meshes/Trees/Tree_Trunk.gdshader" id="1_qkj3m"]
+[ext_resource type="Texture2D" uid="uid://rr5asafln3qb" path="res://Resources/Meshes/Trees/EZTree/Quercus/quercus_Image_1.png" id="2_3v06w"]
+[ext_resource type="Texture2D" uid="uid://xogq3pp4vw01" path="res://Resources/Meshes/Trees/EZTree/Quercus/quercus_Image_2.png" id="3_se6kd"]
+[ext_resource type="Texture2D" uid="uid://543il10phdwv" path="res://Resources/Shader/Wind/WindNoise.tres" id="4_k7mdj"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_qkj3m")
+shader_parameter/wind_map = ExtResource("4_k7mdj")
+shader_parameter/wind_speed = Vector2(12, 12)
+shader_parameter/wind_factor = 0.5
+shader_parameter/tex_tiling = Vector2(1, -0.24)
+shader_parameter/albedo_tex = ExtResource("2_3v06w")
+shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
+shader_parameter/albedo_node_rand_hue = 0.03
+shader_parameter/albedo_node_rand_chroma = 0.04
+shader_parameter/albedo_node_rand_luma = 0.05
+shader_parameter/normal_tex = ExtResource("3_se6kd")
+shader_parameter/normal_strength = 2.0
+shader_parameter/roughness_offset = 0.0
+shader_parameter/ao_strength = 1.0
+shader_parameter/ao_light_affect = 0.8
+shader_parameter/rim_strength = 0.0
+shader_parameter/rim_color_from_albedo = 0.5

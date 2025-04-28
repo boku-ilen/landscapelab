@@ -1,9 +1,10 @@
-[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://dcxxjq3imr4dd"]
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://dcxxjq3imr4dd"]
 
 [ext_resource type="Shader" uid="uid://dysllp2r2xyg6" path="res://Resources/Meshes/Trees/Tree_LeafBranches.gdshader" id="1_kf6h3"]
 [ext_resource type="Texture2D" uid="uid://b5ej6y4te5rw" path="res://Resources/Meshes/Trees/Pinus_sylvestris/Pinus_sylvestris_branches_albedo.png" id="2_v7ah2"]
 [ext_resource type="Texture2D" uid="uid://bpehlcs15rq6r" path="res://Resources/Meshes/Trees/Pinus_sylvestris/Pinus_sylvestris_branches_normal.png" id="3_vxbqk"]
 [ext_resource type="Texture2D" uid="uid://bkbq3x3ssxlkt" path="res://Resources/Meshes/Trees/Pinus_sylvestris/Pinus_sylvestris_branches_raotrans.png" id="4_fdv4m"]
+[ext_resource type="Texture2D" uid="uid://543il10phdwv" path="res://Resources/Shader/Wind/WindNoise.tres" id="5_vxbqk"]
 
 [resource]
 render_priority = 0
@@ -29,3 +30,6 @@ shader_parameter/backlight_affected_by_ao = 0.5
 shader_parameter/backlight_strength = 0.2
 shader_parameter/rim_strength = 0.03
 shader_parameter/rim_color_from_albedo = 0.5
+shader_parameter/wind_map = ExtResource("5_vxbqk")
+shader_parameter/wind_speed = Vector2(12, 12)
+shader_parameter/wind_factor = 0.8

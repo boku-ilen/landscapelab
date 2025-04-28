@@ -1,0 +1,24 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://hgijo4uvd1yh"]
+
+[ext_resource type="Texture2D" uid="uid://b1wk8kqldkwnf" path="res://Resources/Meshes/Vehicles/Boats/Powerboat_Albedo.png" id="1_i15lr"]
+[ext_resource type="Texture2D" uid="uid://1o8mkqqa2fwg" path="res://Resources/Meshes/Vehicles/Boats/Powerboat_MRAO.png" id="2_2g781"]
+[ext_resource type="Texture2D" uid="uid://cs0h0rsccm75s" path="res://Resources/Meshes/Vehicles/Boats/Powerboat_Normal.png" id="3_tasdd"]
+
+[resource]
+transparency = 1
+albedo_color = Color(0.664, 0.7524, 0.8, 0.258824)
+albedo_texture = ExtResource("1_i15lr")
+metallic = 0.91
+roughness_texture = ExtResource("2_2g781")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_scale = 6.55
+normal_texture = ExtResource("3_tasdd")
+rim_enabled = true
+rim_tint = 0.0
+clearcoat_enabled = true
+clearcoat = 0.95
+clearcoat_roughness = 1.0
+ao_enabled = true
+ao_texture = ExtResource("2_2g781")
+ao_texture_channel = 2

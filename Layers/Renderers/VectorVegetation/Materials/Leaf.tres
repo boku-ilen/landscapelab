@@ -1,8 +1,9 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bc7wd2h44722t"]
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://bc7wd2h44722t"]
 
 [ext_resource type="Shader" uid="uid://dqn4el7i26k3j" path="res://Layers/Renderers/VectorVegetation/Materials/Leaf.gdshader" id="1_hl0le"]
 [ext_resource type="Texture2D" uid="uid://c31x34m7l23e3" path="res://Layers/Renderers/VectorVegetation/Materials/Albedo_Leaves_Fagus_Pinus_Quercus.png" id="2_321v5"]
 [ext_resource type="Texture2D" uid="uid://cdfeim3bvetvj" path="res://Layers/Renderers/VectorVegetation/Materials/Normal_Leaves_Fagus_Pinus_Quercus.png" id="3_ybtry"]
+[ext_resource type="Texture2D" uid="uid://543il10phdwv" path="res://Resources/Shader/Wind/WindNoise.tres" id="4_0m7ns"]
 
 [resource]
 resource_name = "leaf"
@@ -17,7 +18,6 @@ shader_parameter/sprite_count = 3
 shader_parameter/spritesheet_albedo = ExtResource("2_321v5")
 shader_parameter/spritesheet_normal = ExtResource("3_ybtry")
 shader_parameter/most_extreme_random_color = Color(0.784314, 0.72549, 0, 1)
-shader_parameter/sway_speed = 1.0
-shader_parameter/sway_strength = 0.03
-shader_parameter/sway_phase_len = 8.0
-shader_parameter/wind_dir = Vector3(1, 1, 0.5)
+shader_parameter/wind_map = ExtResource("4_0m7ns")
+shader_parameter/wind_speed = Vector2(12, 12)
+shader_parameter/wind_factor = 1.0

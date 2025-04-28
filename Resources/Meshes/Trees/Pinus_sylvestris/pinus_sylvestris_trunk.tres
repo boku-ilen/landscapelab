@@ -1,13 +1,17 @@
-[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://uupxqrjghaim"]
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://uupxqrjghaim"]
 
 [ext_resource type="Shader" uid="uid://fit86afg6pjs" path="res://Resources/Meshes/Trees/Tree_Trunk.gdshader" id="1_atn4s"]
 [ext_resource type="Texture2D" uid="uid://c0jdt2uhj6v5c" path="res://Resources/Meshes/Trees/Pinus_sylvestris/Pinus_sylvestris_trunk_albedo.png" id="2_6ofkl"]
 [ext_resource type="Texture2D" uid="uid://e003ifphsnmk" path="res://Resources/Meshes/Trees/Pinus_sylvestris/Pinus_sylvestris_trunk_normal.png" id="3_ivxrk"]
 [ext_resource type="Texture2D" uid="uid://cgehsh0sn4i5u" path="res://Resources/Meshes/Trees/Pinus_sylvestris/Pinus_sylvestris_trunk_raotrans.png" id="4_neuxo"]
+[ext_resource type="Texture2D" uid="uid://543il10phdwv" path="res://Resources/Shader/Wind/WindNoise.tres" id="5_ivxrk"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_atn4s")
+shader_parameter/wind_map = ExtResource("5_ivxrk")
+shader_parameter/wind_speed = Vector2(12, 12)
+shader_parameter/wind_factor = 0.8
 shader_parameter/tex_tiling = Vector2(2, 2)
 shader_parameter/albedo_tex = ExtResource("2_6ofkl")
 shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
