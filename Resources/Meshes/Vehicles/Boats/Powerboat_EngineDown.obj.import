@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cmqxd7q4mtjxp"
+path="res://.godot/imported/Powerboat_EngineDown.obj-a9e90771140ac5ee1b5c66c43c34dedb.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Powerboat_EngineDown.obj-a9e90771140ac5ee1b5c66c43c34dedb.mesh"]
+
+source_file="res://Resources/Meshes/Vehicles/Boats/Powerboat_EngineDown.obj"
+dest_files=["res://.godot/imported/Powerboat_EngineDown.obj-a9e90771140ac5ee1b5c66c43c34dedb.mesh", "res://.godot/imported/Powerboat_EngineDown.obj-a9e90771140ac5ee1b5c66c43c34dedb.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

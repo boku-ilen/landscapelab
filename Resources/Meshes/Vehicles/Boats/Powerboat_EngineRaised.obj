@@ -1,7 +1,7 @@
 # Blender 4.3.1
 # www.blender.org
-mtllib Powerboat.mtl
-o Powerboat_LP
+mtllib Powerboat_EngineRaised.mtl
+o Powerboat_EngineRaised_LP
 v -0.803969 0.118929 -1.719426
 v -0.718504 0.090004 -1.970790
 v -0.823348 0.337807 -1.769655
