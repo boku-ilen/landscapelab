@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cu4lb43fcy6rf"]
+
+[ext_resource type="PackedScene" uid="uid://bcohil54yyt7r" path="res://Resources/Meshes/Infrastructure/streetlamp.glb" id="1_qeday"]
+[ext_resource type="Material" path="res://Resources/Meshes/APV/Metal037_2K_Color.material" id="2_53pva"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qeday"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="streetlamp" parent="." instance=ExtResource("1_qeday")]
+
+[node name="Cylinder" parent="streetlamp" index="0"]
+material_override = ExtResource("2_53pva")
+
+[node name="Cylinder_001" parent="streetlamp" index="1"]
+material_override = ExtResource("2_53pva")
+
+[node name="Circle" parent="streetlamp" index="2"]
+transform = Transform3D(0.108555, 0, 0, 0, 0.179429, 0.0462708, 0, -0.0462708, 0.179429, 0, 9.1188, 0.439159)
+material_override = SubResource("StandardMaterial3D_qeday")
+
+[editable path="streetlamp"]
