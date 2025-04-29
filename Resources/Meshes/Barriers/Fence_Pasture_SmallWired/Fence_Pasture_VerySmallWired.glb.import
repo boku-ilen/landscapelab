@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dptgfqftglrol"
-path="res://.godot/imported/Fence_Pasture_SmallWired.glb-9cb6ab9333a7421c448ab0f917739bec.scn"
+uid="uid://dynmfthxih7ib"
+path="res://.godot/imported/Fence_Pasture_VerySmallWired.glb-7278bb151aa375c0c8d08e1fb1cfff82.scn"
 
 [deps]
 
-source_file="res://Resources/Meshes/Barriers/Fence_Pasture_SmallWired/Fence_Pasture_SmallWired.glb"
-dest_files=["res://.godot/imported/Fence_Pasture_SmallWired.glb-9cb6ab9333a7421c448ab0f917739bec.scn"]
+source_file="res://Resources/Meshes/Barriers/Fence_Pasture_SmallWired/Fence_Pasture_VerySmallWired.glb"
+dest_files=["res://.godot/imported/Fence_Pasture_VerySmallWired.glb-7278bb151aa375c0c8d08e1fb1cfff82.scn"]
 
 [params]
 
@@ -33,20 +33,14 @@ animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
-"materials": {
-"@MATERIAL:0": {
-"use_external/enabled": true,
-"use_external/path": "uid://b0ri2pvn2h2nx"
-}
-},
 "meshes": {
-"Fence_Pasture_SmallWired_Fence_Pasture_SmallWired": {
+"Fence_Pasture_VerySmallWired_Fence_Pasture_SmallWired": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 60.0,
 "save_to_file/enabled": true,
-"save_to_file/path": "res://Objects/Barriers/Fence_Pasture_SmallWired.tres"
+"save_to_file/path": "res://Objects/Barriers/Fence_Pasture_VerySmallWired.tres"
 }
 }
 }
