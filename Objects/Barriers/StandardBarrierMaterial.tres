@@ -1,9 +1,9 @@
 [gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://u7375d0sud04"]
 
-[ext_resource type="Texture2D" uid="uid://dxauxuv0terjw" path="res://Resources/Meshes/_NEW assets/zaun/materials/zaun base color.png" id="1_0sryj"]
-[ext_resource type="Texture2D" uid="uid://clooei0geou5o" path="res://Resources/Meshes/_NEW assets/zaun/materials/zaun metallic.png" id="2_vpw6o"]
-[ext_resource type="Texture2D" uid="uid://c8irq03cvqkh" path="res://Resources/Meshes/_NEW assets/zaun/materials/zaun normals.png" id="3_bt6tv"]
-[ext_resource type="Texture2D" uid="uid://dn0c8lcjbux24" path="res://Resources/Meshes/_NEW assets/zaun/materials/zaun roughness.png" id="4_s161h"]
+[ext_resource type="Texture2D" uid="uid://dxauxuv0terjw" path="res://Resources/Meshes/_NEW assets/zaun-vorher/materials/zaun base color.png" id="1_0sryj"]
+[ext_resource type="Texture2D" uid="uid://clooei0geou5o" path="res://Resources/Meshes/_NEW assets/zaun-vorher/materials/zaun metallic.png" id="2_vpw6o"]
+[ext_resource type="Texture2D" uid="uid://c8irq03cvqkh" path="res://Resources/Meshes/_NEW assets/zaun-vorher/materials/zaun normals.png" id="3_bt6tv"]
+[ext_resource type="Texture2D" uid="uid://dn0c8lcjbux24" path="res://Resources/Meshes/_NEW assets/zaun-vorher/materials/zaun roughness.png" id="4_s161h"]
 
 [resource]
 albedo_texture = ExtResource("1_0sryj")
