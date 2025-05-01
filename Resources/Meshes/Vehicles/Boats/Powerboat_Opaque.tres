@@ -13,5 +13,6 @@ roughness_texture_channel = 1
 normal_enabled = true
 normal_texture = ExtResource("3_yqcrf")
 ao_enabled = true
+ao_light_affect = 0.5
 ao_texture = ExtResource("2_oiqp5")
 ao_texture_channel = 2
