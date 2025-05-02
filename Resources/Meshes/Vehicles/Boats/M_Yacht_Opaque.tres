@@ -1,0 +1,40 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://b4e1v7hu2bnxu"]
+
+[ext_resource type="Shader" uid="uid://dyrc4f487d682" path="res://Resources/Meshes/Vehicles/Boats/Boats_WaveRocking_Opaque_RandMaskColor.gdshader" id="1_02oln"]
+[ext_resource type="Texture2D" uid="uid://cukmpne68x5ev" path="res://Resources/Meshes/Vehicles/Boats/Yacht_Albedo.png" id="2_02oln"]
+[ext_resource type="Texture2D" uid="uid://illl43rsy8kh" path="res://Resources/Meshes/Vehicles/Boats/Yacht_Mask.png" id="3_u47qk"]
+[ext_resource type="Texture2D" uid="uid://firfj1nlafox" path="res://Resources/Meshes/Vehicles/Boats/Yacht_MRAO.png" id="4_woi4k"]
+[ext_resource type="Texture2D" uid="uid://ch5e1npfys5lr" path="res://Resources/Meshes/Vehicles/Boats/Yacht_Normal.png" id="5_513mk"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_02oln")
+shader_parameter/albedo_tex = ExtResource("2_02oln")
+shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
+shader_parameter/mask_tex = ExtResource("3_u47qk")
+shader_parameter/color1_mixstart = Color(0.93, 0.93, 0.93, 1)
+shader_parameter/color1_mixend = Color(0.66, 0.64416, 0.6072, 1)
+shader_parameter/color2_a = Color(0.72, 0.18408, 0.1656, 1)
+shader_parameter/color2_b = Color(0.1617, 0.216417, 0.49, 1)
+shader_parameter/color2_c = Color(0.0644, 0.07, 0.0644, 1)
+shader_parameter/color2_d = Color(0.2184, 0.2184, 0.56, 1)
+shader_parameter/color3_a = Color(0.215686, 0.215686, 0.478431, 1)
+shader_parameter/color3_b = Color(0.251448, 0.276318, 0.78977, 1)
+shader_parameter/color3_c = Color(0.17, 0.238, 0.68, 1)
+shader_parameter/color3_d = Color(0.137255, 0.145098, 0.164706, 1)
+shader_parameter/metal_rough_ao_tex = ExtResource("4_woi4k")
+shader_parameter/roughness_multiply = 1.0
+shader_parameter/ao_gamma = 1.0
+shader_parameter/ao_light_affect = 0.5
+shader_parameter/normal_tex = ExtResource("5_513mk")
+shader_parameter/normal_scale = 1.0
+shader_parameter/specular = 0.5
+shader_parameter/rotation_damping = 1.0
+shader_parameter/velocity_damping = 0.5
+shader_parameter/wave_timer_min = 5.0
+shader_parameter/wave_timer_max = 8.0
+shader_parameter/wave_height = 0.5
+shader_parameter/wind_speed = 110.0
+shader_parameter/time_offset = 0.0
+shader_parameter/rand_seed = 1.0
+shader_parameter/wind_direction = Vector3(1, 0, 0)
