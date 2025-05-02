@@ -21,18 +21,27 @@ func _ready() -> void:
 
 func wimby_setup():
 	$LayersPanel/Content/SunButton.set_visible(false)
-	$LayersPanel/Content/BioDivButton.set_visible(false)
 	
 	var wind_potential = Layers.layer_definitions["WindPotential"]
-	$ColorRampSymbology.ticks_at = Array([0., 0.5, 1.], TYPE_FLOAT, "", null)
-	$ColorRampSymbology.ticks_val = Array([11., 7., 3.], TYPE_FLOAT,  "", null)
-	$ColorRampSymbology.gradient = Layers.layer_definitions["WindPotential"].render_info.gradient
+	var ecology = Layers.layer_definitions["BirdEcology"]
 	
 	$LayersPanel/Content/MapButton.pressed.connect(func(): 
 		wind_potential.z_index = -1
+		ecology.z_index = -1
 		$ColorRampSymbology.visible = false)
 	$LayersPanel/Content/WindButton.pressed.connect(func(): 
 		wind_potential.z_index = 1
+		ecology.z_index = -1
+		$ColorRampSymbology.ticks_at = Array([0., 0.5, 1.], TYPE_FLOAT, "", null)
+		$ColorRampSymbology.ticks_val = Array([11., 7., 3.], TYPE_FLOAT,  "", null)
+		$ColorRampSymbology.gradient = wind_potential.render_info.gradient
+		$ColorRampSymbology.visible = true)
+	$LayersPanel/Content/BioDivButton.pressed.connect(func():
+		wind_potential.z_index = -1
+		ecology.z_index = 1
+		$ColorRampSymbology.ticks_at = Array([0., 0.5, 1.], TYPE_FLOAT, "", null)
+		$ColorRampSymbology.ticks_val = Array([1., .5, .0], TYPE_FLOAT,  "", null)
+		$ColorRampSymbology.gradient = ecology.render_info.gradient
 		$ColorRampSymbology.visible = true)
 
 
