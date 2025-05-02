@@ -8,6 +8,8 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_3lx2n")
+shader_parameter/wind_speed = Vector2(12, 12)
+shader_parameter/wind_factor = 1.0
 shader_parameter/tex_tiling = Vector2(1, 1)
 shader_parameter/albedo_tex = ExtResource("1_r5dk2")
 shader_parameter/albedo_multiply = Color(1, 1, 1, 1)

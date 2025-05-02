@@ -44,8 +44,8 @@ static var species_to_mesh = {
 	"Castaneasa": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Corylusave": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Fagussylva": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
-	"Fraxinusex": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
-	"Fraxinusor": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
+	"Fraxinusex": preload("res://Layers/Renderers/VectorVegetation/Fraxinus.tres"),
+	"Fraxinusor": preload("res://Layers/Renderers/VectorVegetation/Fraxinus.tres"),
 	"Larixdecid": preload("res://Layers/Renderers/VectorVegetation/PinusHigh.tres"),
 	"Piceaabies": preload("res://Layers/Renderers/VectorVegetation/Picea_abies.tres"),
 	"Piceasitch": preload("res://Layers/Renderers/VectorVegetation/Picea_abies.tres"),
@@ -68,8 +68,8 @@ static var species_to_mesh = {
 	"Quercuspyr": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Quercusrob": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Quercussub": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
-	"Robiniapse": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
-	"Salixcapre": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Robiniapse": preload("res://Layers/Renderers/VectorVegetation/Fraxinus.tres"),
+	"Salixcapre": preload("res://Layers/Renderers/VectorVegetation/Fraxinus.tres"),
 	"Sorbusaucu": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Tiliasprpp": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Eucalyptus": preload("res://Layers/Renderers/VectorVegetation/Eucalyptus.tres"),
@@ -83,6 +83,7 @@ static var mesh_name_to_spritesheet_index = {
 	"Pinus": 1,
 	"PinusHigh": 1,
 	"Quercus2": 2,
+	"Fraxinus": 2,
 	"Eucalyptus": 2,
 	"Oleaeuropaea": 2
 }
@@ -96,6 +97,7 @@ static var mesh_name_to_billboard_index = {
 	"PinusHigh": 2,
 	"Picea_abies": 2,
 	"Quercus2": 3,
+	"Fraxinus": 3,
 	"Eucalyptus": 4,
 	"Oleaeuropaea": 3
 }

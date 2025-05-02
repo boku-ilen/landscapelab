@@ -13,7 +13,7 @@ varying flat float spritesheet_index;
 
 void vertex() {
 	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
-	
+
 	spritesheet_index = INSTANCE_CUSTOM.r;
 }
 
