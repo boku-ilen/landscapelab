@@ -10,6 +10,7 @@ basement_texture = ExtResource("1_yhvcp")
 ground_texture = ExtResource("1_hgsrk")
 middle_texture = ExtResource("1_hgsrk")
 top_texture = ExtResource("1_hgsrk")
+random_90_rotation_rate = 0.0
 ground_window_id = 1
 middle_window_id = 1
 top_window_id = 1

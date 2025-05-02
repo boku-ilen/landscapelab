@@ -30,6 +30,7 @@ func build(footprint: Array):
 	mm.mesh = box_mesh
 	
 	var count = 0
+	
 	for footprint_num in footprint.size():
 		var vertex: Vector3 = footprint[footprint_num]
 		var vertex_after = footprint[(footprint_num + 1) % footprint.size()]

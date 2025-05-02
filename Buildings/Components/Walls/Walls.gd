@@ -70,9 +70,6 @@ func build(footprint: PackedVector2Array):
 	# First triangle: Current footprint point -> point above -> next footprint point
 	# Second triangle: Next footprint point -> point above -> point above next footprint point
 	
-	if not Geometry2D.is_polygon_clockwise(footprint):
-		footprint.reverse()
-	
 	for i in range(0, footprint.size()):
 		var point_3d = Vector3(footprint[i].x, 0, footprint[i].y)
 		var point_up_3d = point_3d + Vector3.UP * height

@@ -1,20 +1,21 @@
 [gd_resource type="Resource" script_class="PlainWallResource" load_steps=4 format=3 uid="uid://dn6y40cs6tm1v"]
 
 [ext_resource type="Script" uid="uid://buajipufsmvon" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_6vfqk"]
-[ext_resource type="Resource" uid="uid://bk6k2qqs2qghp" path="res://Resources/Textures/Buildings/facade/CorrugatedSteel/CorrugatedSteel.tres" id="1_n3gdq"]
 [ext_resource type="Resource" uid="uid://dpuuqa6sclduc" path="res://Resources/Textures/Buildings/basement/default_basement.tres" id="1_yexvr"]
+[ext_resource type="Resource" uid="uid://cicx2mvaelo6n" path="res://Resources/Textures/Buildings/facade/MetalSheet/MetalSheet.tres" id="2_wicdt"]
 
 [resource]
 script = ExtResource("1_6vfqk")
 basement_texture = ExtResource("1_yexvr")
-ground_texture = ExtResource("1_n3gdq")
-middle_texture = ExtResource("1_n3gdq")
-top_texture = ExtResource("1_n3gdq")
+ground_texture = ExtResource("2_wicdt")
+middle_texture = ExtResource("2_wicdt")
+top_texture = ExtResource("2_wicdt")
+random_90_rotation_rate = 0.0
 ground_window_id = -1
 middle_window_id = -1
-top_window_id = -1
-random_colors = Array[Color]([Color(1, 1, 1, 1)])
-random_color_weights = Array[float]([1.0])
+top_window_id = 4
+random_colors = Array[Color]([Color(1, 1, 1, 1), Color(0.74558, 0.74558, 0.74558, 1), Color(0.53, 0.15688, 0.0636, 1), Color(0, 0.333333, 1, 1), Color(0.89, 0.815833, 0, 1)])
+random_color_weights = Array[float]([0.35, 0.35, 0.1, 0.1, 0.1])
 apply_colors = 14
 wind_counterclockwise = null
 prefer_pointed_roof = false

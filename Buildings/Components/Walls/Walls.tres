@@ -132,8 +132,6 @@ void fragment() {
 	// Stronger normals for windows
 	NORMAL_MAP_DEPTH = normal_scale + albedo_window_tex.a * 2.;
 
-	ALBEDO = vec3(wall_uv);
-
 	if (lights_on) {
 		int random_seed = int(rand(round(worldpos)) * rand(vec3(floor(window_uv.xy), 0.0)) * 100000.0);
 		bool light_here = random_seed % 3 == 2;
