@@ -127,8 +127,10 @@ void fragment() {
 
 	float highest_height = 0.0;
 
-	for (float x_off = -2.0; x_off <= 2.0; x_off += 2.0) {
-		for (float y_off = -2.0; y_off <= 2.0; y_off += 2.0) {
+	float different_sample_count = 0.0;
+
+	for (float x_off = -1.0; x_off <= 1.0; x_off += 1.0) {
+		for (float y_off = -1.0; y_off <= 1.0; y_off += 1.0) {
 			vec2 offset = vec2(x_off, y_off) / size;
 			int splatmap_value_here = int(round(get_landuse(UV + offset)));
 			int distribution_id_here = int(round(texelFetch(row_ids, ivec2(splatmap_value_here, 0), 0).r * 255.0));
@@ -136,6 +138,9 @@ void fragment() {
 
 			float height_here = max(0.2, (dist_value_here.g * 255.0 + dist_value_here.b) * float(distribution_id_here > 0));
 
+			if (distribution_id_here != distribution_id) {
+				different_sample_count += 1.0;
+			}
 			if (distribution_id_here != 0 && height_here > highest_height) {
 				distribution_id = distribution_id_here;
 				dist_value = dist_value_here;
@@ -203,7 +208,10 @@ void fragment() {
 
 	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), size_alpha_scale, 0.99);
 	ALPHA *= smoothstep(70.0, 90.0, length((camera_pos - worldpos)));
-	//ALPHA_HASH_SCALE = 1.0;
+	ALPHA_HASH_SCALE = 1.0;
+	
+	ALPHA *= smoothstep(9.0, 0.0, different_sample_count);
+	
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 
 	vec3 normal = texture(uv_normals, UV * 20.0).rgb;
