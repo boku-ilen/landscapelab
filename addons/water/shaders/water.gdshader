@@ -36,6 +36,7 @@ uniform	vec4	wave_b			 = vec4(0.2, 0.6, 0.30, 2.55);	// xy = Direction, z = Stee
 uniform	vec4	wave_c			 = vec4(0.5, 1.3, 0.5, 1.5); 	// xy = Direction, z = Steepness, w = Length
 
 uniform float wind_speed = 30.0;
+uniform vec2 wind_direction = vec2(1.0, 1.0);
 
 varying flat int should_render;
 varying vec3 world_pos;
@@ -95,20 +96,6 @@ void vertex() {
 		VERTEX.y = texture(surface_heightmap, UV).r - 0.5;
 	}
 
-	//bool has_water = false;
-//
-	//for (int x = -3; x <= 3; x += 3) {
-		//for (int y = -3; y <= 3; y += 3) {
-			//if (floor(texture(landuse, UV + vec2(float(x), float(y)) / size).r / 1000.0) == 6.0) {
-				//has_water = true;
-			//}
-		//}
-	//}
-//
-	//if (!has_water) {
-		//VERTEX.y -= 10.0;
-	//}
-
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	vec3 camera_pos = INV_VIEW_MATRIX[3].xyz;
@@ -143,9 +130,9 @@ void fragment() {
 	float time = TIME;// + sin(TIME * 3.0) * 0.1;
 
 	vec2 uv_scale = world_pos.xz * _uv_scale;
- 	vec3 n = texture(normal_map,uv_scale+time * 0.02).rgb;
-	vec3 n2 = texture(normal_map,uv_scale-time * 0.03).rgb;
-	vec3 n3 = texture(normal_map,uv_scale*0.3 +vec2(time * 0.01,time * -0.02)).rgb;
+ 	vec3 n = texture(normal_map,uv_scale * 1.5 - time * 0.02 * wind_direction).rgb;
+	vec3 n2 = texture(normal_map,uv_scale * 1.0 + time * 0.035 * wind_direction).rgb;
+	vec3 n3 = texture(normal_map,uv_scale * 2.0 + time * 0.003 * wind_direction).rgb;
 
 	// Calculate z_near and z_far (required for the linearize function)
 	float z_near = abs(PROJECTION_MATRIX[3][2] / PROJECTION_MATRIX[2][2]);
@@ -161,16 +148,16 @@ void fragment() {
 
 	float _depth_linear = l_depth_delta;
 
-	float d = depth_proximity_z(-40.0, l_screen_depth, l_fragment_depth);
-	float d2 = depth_proximity_z(-15.0, l_screen_depth, l_fragment_depth);
-
-	d2 = 1.0-pow(d2,0.07);
+	float d = depth_proximity_z(-10.0, l_screen_depth, l_fragment_depth);
 	d = exp(-d * beer_factor);
+	
+	//float d2 = depth_proximity_z(-40.0, l_screen_depth, l_fragment_depth);
+	//d2 = 1.0-pow(d2,0.07);
 
 	//ALPHA = clamp(opacity+1.0-d-d2,0.0,1.0);
 	vec3 n_out = mix(n3,mix(n,n2, 0.5), 0.5);
 	NORMAL_MAP = n_out;
-	NORMAL_MAP_DEPTH = normal_scale;
+	NORMAL_MAP_DEPTH = smoothstep(-2.0, 50.0, wind_speed) * 2.0;
 
 	vec2 n_distortion = n_out.xy - vec2(0.5, 0.5); //(mat3(TANGENT,BINORMAL,NORMAL) * n_out).rg * 2.0 - 1.0;
 	vec3 color_out = mix(depth_color, surface_color,d);

@@ -7,7 +7,9 @@ var weather_manager: WeatherManager :
 		weather_manager = new_weather_manager
 
 		weather_manager.connect("wind_speed_changed",Callable(self,"_on_wind_speed_changed"))
+		weather_manager.connect("wind_direction_changed",Callable(self,"_on_wind_direction_changed"))
 		_on_wind_speed_changed(weather_manager.wind_speed)
+		_on_wind_direction_changed(weather_manager.wind_direction)
 
 var shader_material = preload("res://Layers/Renderers/Terrain/Materials/TerrainShader.tres")
 var water_material = preload("res://addons/water/Water.tres")
@@ -157,3 +159,9 @@ func _process(delta):
 func _on_wind_speed_changed(new_wind_speed):
 	for chunk in chunks:
 		chunk.get_node("Mesh").material_override.next_pass.set_shader_parameter("wind_speed", new_wind_speed)
+
+
+func _on_wind_direction_changed(new_wind_direction):
+	var wind_dir_vector = Vector2.DOWN.rotated(deg_to_rad(new_wind_direction))
+	for chunk in chunks:
+		chunk.get_node("Mesh").material_override.next_pass.set_shader_parameter("wind_direction", wind_dir_vector)

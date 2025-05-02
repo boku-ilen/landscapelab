@@ -1,0 +1,26 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://cgca3mvvhtcxo"]
+
+[ext_resource type="Texture2D" uid="uid://cp17cy3jf24lf" path="res://Resources/Meshes/Trees/EZTree/Fraxinus/Fraxinus_Image_1.png" id="1_57roq"]
+[ext_resource type="Shader" uid="uid://fit86afg6pjs" path="res://Resources/Meshes/Trees/Tree_Trunk.gdshader" id="1_rf0ec"]
+[ext_resource type="Texture2D" uid="uid://543il10phdwv" path="res://Resources/Shader/Wind/WindNoise.tres" id="2_57roq"]
+[ext_resource type="Texture2D" uid="uid://dq7uap1hoa2px" path="res://Resources/Meshes/Trees/EZTree/Fraxinus/Fraxinus_Image_2.png" id="3_7dcic"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_rf0ec")
+shader_parameter/wind_map = ExtResource("2_57roq")
+shader_parameter/wind_speed = Vector2(12, 12)
+shader_parameter/wind_factor = 0.75
+shader_parameter/tex_tiling = Vector2(1, 1)
+shader_parameter/albedo_tex = ExtResource("1_57roq")
+shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
+shader_parameter/albedo_node_rand_hue = 0.03
+shader_parameter/albedo_node_rand_chroma = 0.04
+shader_parameter/albedo_node_rand_luma = 0.05
+shader_parameter/normal_tex = ExtResource("3_7dcic")
+shader_parameter/normal_strength = 1.0
+shader_parameter/roughness_offset = 0.0
+shader_parameter/ao_strength = 1.0
+shader_parameter/ao_light_affect = 0.8
+shader_parameter/rim_strength = 0.0
+shader_parameter/rim_color_from_albedo = 0.5
