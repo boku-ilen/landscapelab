@@ -41,7 +41,7 @@ func override_build(center_x, center_y):
 	var i = 0
 	for feature in features:
 		var instance_scale = randf_range(0.9, 1.2) if randomize else 1.0
-		var instance_rotation = -float(feature.get_attribute("LL_rot"))
+		var instance_rotation = float(feature.get_attribute("LL_rot"))
 		
 		var pos = feature.get_offset_vector3(-int(center_x), 0, -int(center_y))
 		pos.y = height_layer.get_value_at_position(pos.x + center_x, center_y - pos.z)
