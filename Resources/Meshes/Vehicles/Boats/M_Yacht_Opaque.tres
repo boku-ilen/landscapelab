@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://b4e1v7hu2bnxu"]
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://cak41f10p0d4s"]
 
 [ext_resource type="Shader" uid="uid://dyrc4f487d682" path="res://Resources/Meshes/Vehicles/Boats/Boats_WaveRocking_Opaque_RandMaskColor.gdshader" id="1_02oln"]
 [ext_resource type="Texture2D" uid="uid://cukmpne68x5ev" path="res://Resources/Meshes/Vehicles/Boats/Yacht_Albedo.png" id="2_02oln"]
@@ -29,12 +29,8 @@ shader_parameter/ao_light_affect = 0.5
 shader_parameter/normal_tex = ExtResource("5_513mk")
 shader_parameter/normal_scale = 1.0
 shader_parameter/specular = 0.5
-shader_parameter/rotation_damping = 1.0
-shader_parameter/velocity_damping = 0.5
-shader_parameter/wave_timer_min = 5.0
-shader_parameter/wave_timer_max = 8.0
-shader_parameter/wave_height = 0.5
-shader_parameter/wind_speed = 110.0
-shader_parameter/time_offset = 0.0
-shader_parameter/rand_seed = 1.0
-shader_parameter/wind_direction = Vector3(1, 0, 0)
+shader_parameter/wave_height = 0.015
+shader_parameter/wave_frequency = 1.5
+shader_parameter/wave_speed = 1.0
+shader_parameter/wave_direction = Vector2(1, 0.3)
+shader_parameter/tilt_strength = 0.025
