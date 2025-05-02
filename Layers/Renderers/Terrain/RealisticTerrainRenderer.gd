@@ -26,7 +26,7 @@ func _setup_ground_textures():
 		"Asphalt", # 1 Sealed
 		"Gravel", # 2 Semi-Sealed
 		"Lawn", # 3 Mixed Urban TODO: Should be "Lawn", but not for Pantelleria - use project-specific settings?
-		"Rock", # 4 Open Ground TODO: Could also be "Rock" depending on the project
+		"Granite", # 4 Open Ground TODO: Could also be "Rock" depending on the project
 		"Glacier", # 5 Snow and Ice
 		"Riverbed", # 6 Water
 		"SparseGrass", # 7 Grassland, Pastures, Fallows
@@ -103,9 +103,9 @@ func _setup_detail_noise():
 		0.16, # Asphalt
 		0.19, # Gravel
 		0.25, # Lawn
-		1.8, # Rock
+		1.1, # Rock
 		0.7, # Ice
-		0.9, # Water
+		0.8, # Water
 		0.5, # Grassland
 		0.9, # Forest
 		0.7, # Agroforest

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://dwbmigfdirvrc"
+path="res://.godot/imported/ao.jpg-16bbe44f3aa1482769aec81493868114.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Granite/ao.jpg"
+dest_files=["res://.godot/imported/ao.jpg-16bbe44f3aa1482769aec81493868114.image"]
+
+[params]
+

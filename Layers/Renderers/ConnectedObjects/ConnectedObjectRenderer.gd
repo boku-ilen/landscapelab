@@ -161,6 +161,10 @@ func refine_load():
 		
 		var specific_connectors: Node3D = local_connectors[geo_line.get_id()]
 		
+		if not (specific_connectors.has_node("0") and specific_connectors.has_node("1")):
+			# FIXME: This happens sometimes, but it shouldn't!
+			continue
+		
 		var connector_scene: PackedScene = _get_scene_for_feature(geo_line, false)
 		var connection_scene: PackedScene = _get_scene_for_feature(geo_line, true)
 		

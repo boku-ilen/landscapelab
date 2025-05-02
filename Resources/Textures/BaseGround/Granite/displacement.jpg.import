@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://422p5uxfhj6p"
+path="res://.godot/imported/displacement.jpg-a4081bd2fc7f9d5d3ab62092dead810b.image"
+
+[deps]
+
+source_file="res://Resources/Textures/BaseGround/Granite/displacement.jpg"
+dest_files=["res://.godot/imported/displacement.jpg-a4081bd2fc7f9d5d3ab62092dead810b.image"]
+
+[params]
+
