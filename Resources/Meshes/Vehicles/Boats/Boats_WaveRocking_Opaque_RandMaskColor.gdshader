@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
+render_mode world_vertex_coords, blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
 
 // Shading
 
@@ -28,67 +28,77 @@ uniform float normal_scale : hint_range(-16.0, 16.0) = 1.0;
 
 uniform float specular : hint_range(0.0, 1.0, 0.01) = 0.5;
 
-// Wave Rocking Motion
-uniform float rotation_damping = 1.0;
-uniform float velocity_damping = 0.5;
-uniform float wave_timer_min = 5.0;
-uniform float wave_timer_max = 8.0;
-uniform float wave_height  = 0.5;
-uniform float wind_speed = 110.0;
-uniform float time_offset = 0.0;
-uniform float rand_seed = 1.0;
-uniform vec3 wind_direction = vec3(1.0, 0.0, 0.0);
-
-float rand(float x) {
-    return fract(sin(x * 12.9898) * 43758.5453);
-}
-
-float rand_range(float x, float min_val, float max_val) {
-    return mix(min_val, max_val, rand(x));
-}
-
-float smooth_noise(float t, float seed) {
-    float t0 = floor(t);
-    float t1 = t0 + 1.0;
-    float fade = smoothstep(0.0, 1.0, fract(t));
-    float r0 = rand_range(t0 + seed, wind_speed / 4.0, wind_speed / 2.0);
-    float r1 = rand_range(t1 + seed, wind_speed / 4.0, wind_speed / 2.0);
-    return mix(r0, r1, fade);
-}
-
 float hash_2dpos_to_float(vec2 p) {
-    p = fract(p * vec2(123.34, 456.21));
-    p += dot(p, p + 78.233);
-    return fract(p.x * p.y);
+	return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.545);
+}
+
+// Wave Rocking Motion
+uniform float wave_height = 0.015;
+uniform float wave_frequency = 1.5;
+uniform float wave_speed = 1.0;
+uniform vec2 wave_direction = vec2(1.0, 0.3);
+uniform float tilt_strength = 0.025;
+
+varying flat vec3 local_center;
+
+float get_wave(vec3 world_pos, float time) {
+	vec2 dir = normalize(wave_direction);
+	float phase = dot(world_pos.xz, dir);
+	return sin(phase * wave_frequency + time * wave_speed);
+}
+
+float get_slope(vec3 world_pos, float time, vec2 axis_offset) {
+	vec2 dir = normalize(wave_direction);
+	float delta = 0.1;
+
+	vec3 pos1 = world_pos;
+	pos1.xz += dir * delta;
+	vec3 pos2 = world_pos;
+	pos2.xz -= dir * delta;
+
+	float wave1 = get_wave(pos1, time);
+	float wave2 = get_wave(pos2, time);
+
+	return (wave1 - wave2) / (2.0 * delta);
 }
 
 void vertex() {
+	float time_offset = hash_2dpos_to_float(NODE_POSITION_WORLD.xz);
 	float time = TIME + time_offset;
 
-    // Determine duration of one gust cycle per instance
-    float wave_duration = mix(wave_timer_min, wave_timer_max, rand(rand_seed + 0.123));
-    float t_wave = time / wave_duration;
+	// Dynamically determine center (fallback)
+	local_center = NODE_POSITION_WORLD;
 
-    // Smoothed gust strength (wind strength over time)
-    float gust_strength = smooth_noise(t_wave, rand_seed + 42.0);
+	vec3 world_center = (MODEL_MATRIX * vec4(local_center, 1.0)).xyz;
+	float wave_val = get_wave(world_center, time);
+	float height_offset = wave_val * wave_height;
 
-    // Use vertex position to offset wave phase
-    float local_phase = 
-        VERTEX.y * (2.0 + rand(VERTEX.y)) +
-        VERTEX.x * (2.5 + rand(VERTEX.x)) +
-        VERTEX.z * (3.0 + rand(VERTEX.z));
+	// Estimate slope for tilt
+	float slope_x = get_slope(world_center, time, vec2(1.0, 0.0));
+	float slope_z = get_slope(world_center, time, vec2(0.0, 1.0));
 
-    // Compute wind-influenced waving
-    float wave = sin(local_phase + time * velocity_damping);
-    float displacement = wave * gust_strength * 0.001;
+	vec3 local_pos = VERTEX - local_center;
 
-    // Normalize wind direction to avoid scaling artifacts
-    vec3 wind_dir = normalize(wind_direction);
+	// Tilt angles from slope
+	float angle_x = -slope_z * tilt_strength;
+	float angle_z = slope_x * tilt_strength;
 
-    // Offset the vertex along wind direction
-    VERTEX += wind_dir * displacement;
-    VERTEX.y += sin(TIME) * 0.05;
+	mat3 rot_x = mat3(
+		vec3(1.0,        0.0,         0.0),
+		vec3(0.0, cos(angle_x), -sin(angle_x)),
+		vec3(0.0, sin(angle_x),  cos(angle_x))
+	);
 
+	mat3 rot_z = mat3(
+		vec3( cos(angle_z), -sin(angle_z), 0.0),
+		vec3( sin(angle_z),  cos(angle_z), 0.0),
+		vec3(        0.0,          0.0, 1.0)
+	);
+
+	local_pos = rot_z * rot_x * local_pos;
+
+	VERTEX = local_pos + local_center;
+	VERTEX.y += sin(time) * height_offset;
 }
 
 void fragment() {
@@ -96,30 +106,28 @@ void fragment() {
 	vec3 mask = texture(mask_tex, base_uv).rgb;
 	vec3 color2[4] = {color2_a, color2_b, color2_c, color2_d};
 	vec3 color3[4] = {color3_a, color3_b, color3_c, color3_d};
-	vec3 random_color1 = mix(color1_mixstart, color1_mixend, hash_2dpos_to_float(NODE_POSITION_WORLD.xz));
-	vec3 random_color2 = color2[int(hash_2dpos_to_float(NODE_POSITION_WORLD.xz*1.33)*4.0)];
-	vec3 random_color3 = color3[int(hash_2dpos_to_float(NODE_POSITION_WORLD.xz*0.82)*4.0)];
-	
-	
+	vec3 random_color1 = mix(color1_mixstart, color1_mixend, fract(hash_2dpos_to_float(local_center.xz - local_center.yx)));
+	vec3 random_color2 = color2[int(hash_2dpos_to_float(local_center.xz) * 1000.0) % 4];
+	vec3 random_color3 = color3[int(hash_2dpos_to_float(local_center.xz - local_center.zy) * 1000.0) % 4];
+
 	// Creates a multipliable map, where pixels who have no mask value, remain white
 	vec3 masked_resulting_colors = vec3(1.0);
 	masked_resulting_colors = mix(masked_resulting_colors, random_color1, mask.r);
 	masked_resulting_colors = mix(masked_resulting_colors, random_color2, mask.g);
 	masked_resulting_colors = mix(masked_resulting_colors, random_color3, mask.b);
-	
 
 	vec3 albedo = texture(albedo_tex, base_uv).rgb;
 	ALBEDO = albedo * albedo_multiply * masked_resulting_colors;
-	//ALBEDO = masked_resulting_colors;
-	
+	//ALBEDO = vec3(fract(local_center.z));
+
 	SPECULAR = specular;
-	
+
 	vec3 metal_rough_ao = texture(metal_rough_ao_tex, base_uv).rgb;
 	METALLIC = metal_rough_ao.r;
 	ROUGHNESS = metal_rough_ao.g * roughness_multiply;
 	AO = clamp(pow(metal_rough_ao.b, ao_gamma), 0.0, 1.0);
 	AO_LIGHT_AFFECT = ao_light_affect;
-	
+
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = normal_scale;
 }
