@@ -4,11 +4,6 @@ extends FeatureLayerCompositionRenderer
 
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 
-var window_bundles = [
-	preload("res://Resources/Textures/Buildings/window/Shutter/Shutter.tres"),
-	preload("res://Resources/Textures/Buildings/window/Window/Window.tres"),
-]
-
 # Circle through distances loading new refinments (squared distances!)
 var refine_distances := [100, 2500, 10000]
 var refined_buildings: Array[Node3D] = []
@@ -59,28 +54,15 @@ func _create_and_set_texture_arrays():
 	var shader = preload("res://Buildings/Components/Walls/PlainWalls.tscn").instantiate().material
 		
 	var wall_texture_arrays = TextureArrays.texture_arrays_from_wallres(WallFactory.wall_resources)
+	var window_texture_arrays = TextureArrays.texture_arrays_from_window_bundle(WallFactory.window_bundles)
 	
 	shader.set_shader_parameter("texture_wall_albedo", wall_texture_arrays[0])
 	shader.set_shader_parameter("texture_wall_normal", wall_texture_arrays[1])
 	shader.set_shader_parameter("texture_wall_rme", wall_texture_arrays[2])
 	
-	# TODO: implement logic for multiple windows
-	var albedo_images = []
-	var normal_images = []
-	var roughness_metallic_emission_images = []
-	for bundle in window_bundles:
-		var images = TextureArrays.formatted_images_from_textures([
-				bundle.albedo_texture, 
-				bundle.normal_texture, 
-				bundle.bundled_texture])
-		
-		albedo_images.append(images[0])
-		normal_images.append(images[1])
-		roughness_metallic_emission_images.append(images[2])
-	
-	shader.set_shader_parameter("texture_window_albedo", TextureArrays.texture2Darrays_from_images(albedo_images))
-	shader.set_shader_parameter("texture_window_normal", TextureArrays.texture2Darrays_from_images(normal_images))
-	shader.set_shader_parameter("texture_window_rme", TextureArrays.texture2Darrays_from_images(roughness_metallic_emission_images))
+	shader.set_shader_parameter("texture_window_albedo", window_texture_arrays[0])
+	shader.set_shader_parameter("texture_window_normal", window_texture_arrays[1])
+	shader.set_shader_parameter("texture_window_rme", window_texture_arrays[2])
 
 
 func load_feature_instance(feature):
@@ -90,6 +72,9 @@ func load_feature_instance(feature):
 	var num_floors = max(fallback_num_floors, round(building_metadata["height"] / floor_height))
 	var building_type = util.str_to_var_or_default(feature.get_attribute("render_type"), fallback_wall_id)
 	
+	if not Geometry2D.is_polygon_clockwise(building_metadata["footprint"]):
+		building_metadata["footprint"].reverse()
+		
 	if building_type != -1:
 		WallFactory.prepare_plain_walls(building_type, building_metadata, building, num_floors)
 	else:

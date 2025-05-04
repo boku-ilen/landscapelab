@@ -10,7 +10,7 @@ const wall_resources = [
 	# "house": 1
 	preload("res://Resources/Textures/Buildings/PlainWallResources/Nordic.tres"),
 	# "shack": 2
-	preload("res://Resources/Textures/Buildings/PlainWallResources/Shack.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/NordicRural.tres"),
 	# "industrial": 3
 	preload("res://Resources/Textures/Buildings/PlainWallResources/Industrial.tres"),
 	# "office": 4
@@ -32,6 +32,14 @@ const wall_resources = [
 	# "mediterranean": 12
 	preload("res://Resources/Textures/Buildings/PlainWallResources/PanterlleriaHouse.tres"),
 ]
+const window_bundles = [
+	preload("res://Resources/Textures/Buildings/window/Shutter/Shutter.tres"),
+	preload("res://Resources/Textures/Buildings/window/Window/Window.tres"),
+	preload("res://Resources/Textures/Buildings/window/GridWindows/2x2Window.tres"),
+	preload("res://Resources/Textures/Buildings/window/OldWindow/OldWindow.tres"),
+	preload("res://Resources/Textures/Buildings/window/SmallVertical/SmallVerticalWindow.tres")
+]
+
 const plinth_height_factor = 0.025
 
 enum FLOOR_FLAG {

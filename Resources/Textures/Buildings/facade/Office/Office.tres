@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="WallTextureBundle" load_steps=6 format=3 uid="uid://doj0mvvr6qw4w"]
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=6 format=3 uid="uid://doj0mvvr6qw4w"]
 
-[ext_resource type="Script" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_e5gc7"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_e5gc7"]
 [ext_resource type="Texture2D" uid="uid://bxn1wb1slqqpq" path="res://Resources/Textures/Buildings/facade/Office/color.jpg" id="1_m0sim"]
 [ext_resource type="Texture2D" uid="uid://b50ry3h87lwv4" path="res://Resources/Textures/Buildings/facade/Office/metallic.jpg" id="2_yyx0g"]
 [ext_resource type="Texture2D" uid="uid://4ekealaui5k" path="res://Resources/Textures/Buildings/facade/Office/normal.jpg" id="3_dw76b"]
@@ -8,7 +8,7 @@
 
 [resource]
 script = ExtResource("1_e5gc7")
-texture_scale = Vector2(2, 1)
+texture_scale = Vector2(1, 1)
 albedo_texture = ExtResource("1_m0sim")
 normal_texture = ExtResource("3_dw76b")
 roughness_texture = ExtResource("4_6b8gn")

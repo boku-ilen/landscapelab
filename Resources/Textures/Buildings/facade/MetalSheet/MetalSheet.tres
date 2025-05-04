@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=6 format=3 uid="uid://cicx2mvaelo6n"]
+
+[ext_resource type="Texture2D" uid="uid://b0n21sfy506tf" path="res://Resources/Textures/Buildings/facade/MetalSheet/albedo.jpg" id="1_68egq"]
+[ext_resource type="Texture2D" uid="uid://bo3vg72niw232" path="res://Resources/Textures/Buildings/facade/MetalSheet/metallic.jpg" id="2_xum5j"]
+[ext_resource type="Texture2D" uid="uid://c54lved3xexoe" path="res://Resources/Textures/Buildings/facade/MetalSheet/normal.jpg" id="3_vrgpw"]
+[ext_resource type="Texture2D" uid="uid://bfsvscq0yh861" path="res://Resources/Textures/Buildings/facade/MetalSheet/roughness.jpg" id="4_idqx1"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="5_y5j6w"]
+
+[resource]
+script = ExtResource("5_y5j6w")
+texture_scale = Vector2(1, 1)
+albedo_texture = ExtResource("1_68egq")
+normal_texture = ExtResource("3_vrgpw")
+roughness_texture = ExtResource("4_idqx1")
+metallic_texture = ExtResource("2_xum5j")

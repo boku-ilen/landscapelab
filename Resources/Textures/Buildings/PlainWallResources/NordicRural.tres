@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PlainWallResource" load_steps=4 format=3 uid="uid://eu3c1716ipnc"]
+
+[ext_resource type="Resource" uid="uid://dpuuqa6sclduc" path="res://Resources/Textures/Buildings/basement/default_basement.tres" id="1_yn5yk"]
+[ext_resource type="Resource" uid="uid://d2w2y5wyajotn" path="res://Resources/Textures/Buildings/facade/Planks/Planks.tres" id="2_yn5yk"]
+[ext_resource type="Script" uid="uid://buajipufsmvon" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="3_31gmd"]
+
+[resource]
+script = ExtResource("3_31gmd")
+basement_texture = ExtResource("1_yn5yk")
+ground_texture = ExtResource("2_yn5yk")
+middle_texture = ExtResource("2_yn5yk")
+top_texture = ExtResource("2_yn5yk")
+random_90_rotation_rate = 0.5
+ground_window_id = 2
+middle_window_id = 2
+top_window_id = 2
+random_colors = Array[Color]([Color(1, 1, 1, 1), Color(0.502573, 0.384651, 0.230929, 1), Color(0.817521, 0.817521, 0.817521, 1), Color(0.99997, 0.143643, 0.166566, 1)])
+random_color_weights = Array[float]([0.25, 0.25, 0.25, 0.25])
+apply_colors = 14
+wind_counterclockwise = null
+prefer_pointed_roof = true
+metadata/_custom_type_script = ExtResource("3_31gmd")

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=6 format=3 uid="uid://cxatqsxbu5mda"]
+
+[ext_resource type="Texture2D" uid="uid://dvqrjjebgvat3" path="res://Resources/Textures/Buildings/window/SmallVertical/color.jpg" id="1_mg76l"]
+[ext_resource type="Texture2D" uid="uid://bwwsj5jq4vi84" path="res://Resources/Textures/Buildings/window/SmallVertical/metallic.jpg" id="2_e1pcl"]
+[ext_resource type="Texture2D" uid="uid://bp47chmvtfsaw" path="res://Resources/Textures/Buildings/window/SmallVertical/normal.jpg" id="3_bcpgs"]
+[ext_resource type="Texture2D" uid="uid://c6nlqappeb7wp" path="res://Resources/Textures/Buildings/window/SmallVertical/roughness.jpg" id="4_cxwcu"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="5_7t71i"]
+
+[resource]
+script = ExtResource("5_7t71i")
+texture_scale = Vector2(0.5, 0.5)
+albedo_texture = ExtResource("1_mg76l")
+normal_texture = ExtResource("3_bcpgs")
+roughness_texture = ExtResource("4_cxwcu")
+metallic_texture = ExtResource("2_e1pcl")
+emission_texture = ExtResource("2_e1pcl")
