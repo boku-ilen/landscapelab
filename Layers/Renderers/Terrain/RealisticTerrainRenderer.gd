@@ -119,6 +119,8 @@ func _ready():
 	_setup_ground_textures()
 	_setup_detail_noise()
 	$DetailMesh.material_override = shader_material.duplicate()
+	$FarMesh.material_override = shader_material.duplicate()
+	$FarMesh.material_override.next_pass = water_material.duplicate()
 	
 	super._ready()
 
