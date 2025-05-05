@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cw2vjds0mmd2u"]
+[gd_scene load_steps=12 format=3 uid="uid://cw2vjds0mmd2u"]
 
 [ext_resource type="PackedScene" uid="uid://dclm3h0co7lau" path="res://Layers/Renderers/Terrain/TerrainChunk.tscn" id="2_ib6li"]
 [ext_resource type="PackedScene" uid="uid://bkcdk4xgbexwe" path="res://Layers/Renderers/Terrain/TerrainDecal.tscn" id="3_dxri0"]
@@ -6,6 +6,11 @@
 [ext_resource type="Material" uid="uid://kbnb4iijyt0j" path="res://Layers/Renderers/Terrain/Materials/TerrainShader.tres" id="4_dbgng"]
 [ext_resource type="Script" uid="uid://8rg80la44b7b" path="res://Layers/Renderers/Terrain/DetailMesh.gd" id="5_f6rbb"]
 [ext_resource type="ArrayMesh" uid="uid://ccthmcbn2sqjr" path="res://Layers/Renderers/Terrain/lod_mesh_detail_100x100_clipmap.obj" id="5_mins8"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_b82fe"]
+size = Vector2(40000, 40000)
+subdivide_width = 800
+subdivide_depth = 800
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_2jrny"]
 viewport_path = NodePath("DecalViewport")
@@ -30,6 +35,21 @@ extra_cull_margin = 10000.0
 custom_aabb = AABB(-20, 0, -20, 40, 8000, 40)
 mesh = ExtResource("5_mins8")
 script = ExtResource("5_f6rbb")
+
+[node name="FarMesh" type="MeshInstance3D" parent="."]
+material_override = ExtResource("4_dbgng")
+extra_cull_margin = 10000.0
+custom_aabb = AABB(-20, 0, -20, 40, 8000, 40)
+mesh = SubResource("PlaneMesh_b82fe")
+script = ExtResource("5_f6rbb")
+size = 40000
+height_resolution = 800
+ortho_resolution = 400
+lu_resolution = 800
+add_lid_overlay = false
+is_inner = false
+hole_size = 4000.0
+min_load_distance = 1000.0
 
 [node name="Chunks" type="Node3D" parent="."]
 

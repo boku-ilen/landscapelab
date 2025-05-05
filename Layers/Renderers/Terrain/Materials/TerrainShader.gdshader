@@ -32,6 +32,7 @@ uniform sampler2DArray ground_displacement: hint_default_black;
 uniform sampler2DArray ground_roughness: hint_default_black;
 
 uniform bool make_hole = true;
+uniform float hole_size = 47.0;
 uniform sampler2D detail_noise;
 uniform sampler2D detail_noise_normals: hint_normal;
 uniform float[10] detail_noise_lid_weights;
@@ -135,8 +136,8 @@ void vertex() {
 	float camera_distance = length(camera_to_world);
 
 	float max_distance = max(abs(camera_to_world.x), abs(camera_to_world.z));
-	if (make_hole && max_distance < 47.0) {
-		VERTEX.y -= 10.0;
+	if (make_hole && max_distance < hole_size) {
+		VERTEX.y -= hole_size / 5.0;
 	}
 
 	NORMAL = get_normal(UV);
