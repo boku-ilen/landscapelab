@@ -26,6 +26,27 @@ static func texture_arrays_from_wallres(wall_resources: Array):
 	return [albedo_texture_array, normal_texture_array, roughness_metallic_emission_texture_array]
 
 
+static func texture_arrays_from_window_bundle(window_bundles):
+	var albedo_images = []
+	var normal_images = []
+	var roughness_metallic_emission_images = []
+	for bundle in window_bundles:
+		var images = TextureArrays.formatted_images_from_textures([
+				bundle.albedo_texture, 
+				bundle.normal_texture, 
+				bundle.bundled_texture])
+		
+		albedo_images.append(images[0])
+		normal_images.append(images[1])
+		roughness_metallic_emission_images.append(images[2])
+	
+	var albedo_texture_array = texture2Darrays_from_images(albedo_images)
+	var normal_texture_array = texture2Darrays_from_images(normal_images)
+	var roughness_metallic_emission_texture_array = texture2Darrays_from_images(roughness_metallic_emission_images)
+	
+	return [albedo_texture_array, normal_texture_array, roughness_metallic_emission_texture_array]
+
+
 static func formatted_images_from_textures(textures: Array[Texture], width := 1024, height := 1024):
 	var images = []
 	
@@ -35,7 +56,6 @@ static func formatted_images_from_textures(textures: Array[Texture], width := 10
 			if  texture != null else Image.create(
 				width, height, false, Image.FORMAT_RGBA8)
 		new_image.decompress()
-		new_image.flip_y()
 		new_image.resize(width, height)
 		new_image.convert(Image.FORMAT_RGBA8)
 		if not new_image.has_mipmaps(): new_image.generate_mipmaps()
