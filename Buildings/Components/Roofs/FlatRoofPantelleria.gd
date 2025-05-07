@@ -89,12 +89,12 @@ func add_domes():
 	for addon_key in addons.keys():
 		var addon_features = addons[addon_key]
 		for addon_feature in addon_features:
-			var offset_x = building_metadata["geo_offset"][0]
-			var offset_z = building_metadata["geo_offset"][1]
+			var offset_x = building_metadata.geo_offset[0]
+			var offset_z = building_metadata.geo_offset[1]
 			
 			var pos: Vector3 = addon_feature.get_offset_vector3(offset_x, 0, offset_z)
-			pos.x -= building_metadata["engine_center_position"].x
-			pos.z -= building_metadata["engine_center_position"].z
+			pos.x -= building_metadata.engine_center_position.x
+			pos.z -= building_metadata.engine_center_position.z
 			pos.z += height
 			
 			var rot = float(addon_feature.get_attribute("LL_rot"))

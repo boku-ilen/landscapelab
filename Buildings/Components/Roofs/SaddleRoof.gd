@@ -23,9 +23,9 @@ var vertices := []
 var roof_height_correction := 0.05
 
 
-func set_metadata(metadata: Dictionary):
-	height = metadata["roof_height"]
-	extent = metadata["extent"]
+func set_metadata(metadata: BuildingMetadata):
+	height = metadata.roof_height
+	extent = metadata.extent
 
 
 func can_build(geo_center, geo_footprint):

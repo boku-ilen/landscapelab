@@ -67,13 +67,13 @@ func _create_and_set_texture_arrays():
 
 func load_feature_instance(feature):
 	var building := building_base_scene.instantiate()
-	var building_metadata: Dictionary = get_building_metadata(feature)
+	var building_metadata = BuildingMetadata.new(feature, center, layer_composition.render_info)
 	
-	var num_floors = max(fallback_num_floors, round(building_metadata["height"] / floor_height))
+	var num_floors = max(fallback_num_floors, round(building_metadata.height / floor_height))
 	var building_type = util.str_to_var_or_default(feature.get_attribute("render_type"), fallback_wall_id)
 	
-	if not Geometry2D.is_polygon_clockwise(building_metadata["footprint"]):
-		building_metadata["footprint"].reverse()
+	if not Geometry2D.is_polygon_clockwise(building_metadata.footprint):
+		building_metadata.footprint.reverse()
 		
 	if building_type != -1:
 		WallFactory.prepare_plain_walls(building_type, building_metadata, building, num_floors)
@@ -98,7 +98,7 @@ func load_feature_instance(feature):
 
 	# Set parameters in the building base
 	building.set_metadata(building_metadata)
-	building.position = building_metadata["engine_center_position"]
+	building.position = building_metadata.engine_center
 	building.name = str(feature.get_id())
 	
 	var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
@@ -155,64 +155,6 @@ func refine_load():
 			return
 		
 		refined_buildings.push_back(building)
-
-
-func get_building_metadata(feature: GeoPolygon):
-	# Actual geo coordinates
-	var geo_footprint = Array(feature.get_outer_vertices())
-	var geo_holes = feature.get_holes()
-	var geo_center = geo_footprint.reduce(func(accum, vertex):
-		return accum + vertex, Vector2.ZERO) / geo_footprint.size()
-	
-	# Coordinates as used in engine
-	var engine_footprint = Array(
-		feature.get_offset_outer_vertices(-center[0], -center[1]))
-	
-	# Min and max value to get an extent of the footprint
-	var min_vertex = Vector2(INF, INF)
-	var max_vertex = Vector2(-INF, -INF)
-	
-	for vertex in engine_footprint:
-		min_vertex.x = min(vertex.x, min_vertex.x)
-		max_vertex.x = max(vertex.x, max_vertex.x)
-		min_vertex.y = min(vertex.y, min_vertex.y)
-		max_vertex.y = max(vertex.y, max_vertex.y)
-	
-	var extent = (max_vertex - min_vertex).length()
-	
-	# Swap z-value sign as godot uses -z for forward
-	engine_footprint = engine_footprint.map(
-		func(vert): return Vector2(vert.x, -vert.y))
-	var engine_center = engine_footprint.reduce(func(accum, vertex): 
-		return accum + vertex, Vector2.ZERO) / engine_footprint.size()
-	engine_footprint = engine_footprint.map(func(vert): 
-		return vert - engine_center)
-	
-	# Height at which the building center will be positioned
-	var ground_height = layer_composition.render_info.ground_height_layer.get_value_at_position(
-		geo_center.x,
-		geo_center.y
-	) - cellar_height
-	var engine_center_pos = Vector3(engine_center.x, ground_height, engine_center.y)
-	
-	# Load the components based checked the building attributes
-	var height = util.str_to_var_or_default(
-		feature.get_attribute(height_attribute), fallback_height)
-	var height_stdev = util.str_to_var_or_default(feature.get_attribute(
-		layer_composition.render_info.height_stdev_attribute_name), 2)
-	var roof_height = fmod(height, floor_height) + height_stdev
-	
-	return {
-		"extent": extent,
-		"geo_center": geo_center,
-		"engine_center_position": engine_center_pos,
-		"ground_height": ground_height,
-		"footprint": engine_footprint,
-		"height": height,
-		"roof_height": roof_height,
-		"holes": geo_holes,
-		"geo_offset": [-center[0], -center[1]]
-	}
 
 
 func get_debug_info() -> String:
