@@ -287,7 +287,7 @@ class ConnectedObjectInfo extends RenderInfo:
 
 class RepeatingObjectInfo extends RenderInfo:
 	var width: float
-	var radius: float
+	var radius := 1000.0
 	var height_gradient := false
 	var random_angle: bool
 	var base_rotation := 0.0

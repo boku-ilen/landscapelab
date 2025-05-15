@@ -40,7 +40,7 @@ const window_bundles = [
 	preload("res://Resources/Textures/Buildings/window/SmallVertical/SmallVerticalWindow.tres")
 ]
 
-const plinth_height_factor = 0.025
+const plinth_height_factor = 1.1
 
 enum FLOOR_FLAG {
 	BASEMENT = 0b1,
@@ -69,7 +69,7 @@ static func prepare_plain_walls(
 	
 	# Random facade texture
 	var random_gen = RandomNumberGenerator.new()
-	random_gen.seed = hash(building_metadata["footprint"])
+	random_gen.seed = hash(building_metadata.footprint)
 
 	var wall_color = Color.WHITE_SMOKE
 	var random = random_gen.randf_range(0, 1)
@@ -99,7 +99,7 @@ static func prepare_plain_walls(
 	var cellar = walls_node.duplicate()
 	cellar.set_color(Color.WHITE_SMOKE)
 	# Add an additional height to the cellar which acts as "plinth" scaled with the extent
-	cellar.height += plinth_height_factor * min(20., building_metadata.extent)
+	cellar.height = building_metadata.cellar_height * plinth_height_factor
 	cellar.set_wall_texture_index(get_cellar_index.call(building_type_id))
 	
 	# Cellars usually do not have windows
@@ -150,7 +150,7 @@ static func prepare_plain_walls(
 		building.add_child(top_floor)
 
 
-static func prepare_pillars(building_metadata: Dictionary, building: Node3D, num_floors: int):
+static func prepare_pillars(building_metadata: BuildingMetadata, building: Node3D, num_floors: int):
 	var walls_scene = load("res://Buildings/Components/Walls/Pillars.tscn").instantiate()
 	walls_scene.ground_height_at_center = building_metadata.engine_center.y
 	walls_scene.floors = num_floors
