@@ -38,6 +38,8 @@ func on_game_object_changed(game_object):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if Input.is_action_just_pressed("set_autolook_active"): active = not active
+	
 	if not active: return
 	
 	if is_vr_active:
@@ -56,10 +58,11 @@ func _process(delta):
 			current_target_fov = lerp(max_fov, min_fov, clamp(look_at_vector.length() / 10000, 0.0, 1.0))
 	
 	if get_parent().rotating:
-		automated_camera.fov = lerp(automated_camera.fov, rotating_fov, (1.0 / smoothness_snappy) * delta)
+		pass
+		#automated_camera.fov = lerp(automated_camera.fov, rotating_fov, (1.0 / smoothness_snappy) * delta)
 	else:
-		if current_target_fov:
-			automated_camera.fov = lerp(automated_camera.fov, current_target_fov, (1.0 / smoothness) * delta)
+		#if current_target_fov:
+			#automated_camera.fov = lerp(automated_camera.fov, current_target_fov, (1.0 / smoothness) * delta)
 		
 		if current_target_basis and not get_parent().rotating:
 			automated_camera.global_transform.basis = lerp(automated_camera.global_transform.basis, current_target_basis, (1.0 / smoothness) * delta)
