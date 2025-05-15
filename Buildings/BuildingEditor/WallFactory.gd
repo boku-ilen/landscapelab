@@ -8,9 +8,9 @@ const wall_resources = [
 	# "apartments": 0
 	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "house": 1
-	preload("res://Resources/Textures/Buildings/PlainWallResources/Nordic.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
 	# "shack": 2
-	preload("res://Resources/Textures/Buildings/PlainWallResources/NordicRural.tres"),
+	preload("res://Resources/Textures/Buildings/PlainWallResources/Shack.tres"),
 	# "industrial": 3
 	preload("res://Resources/Textures/Buildings/PlainWallResources/Industrial.tres"),
 	# "office": 4
