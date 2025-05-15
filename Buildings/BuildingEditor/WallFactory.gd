@@ -51,7 +51,7 @@ enum FLOOR_FLAG {
 
 static func prepare_plain_walls(
 		building_type: int, 
-		building_metadata: Dictionary,
+		building_metadata: BuildingMetadata,
 		building: Node3D, 
 		num_floors: int,
 		walls_scene: PackedScene = preload("res://Buildings/Components/Walls/PlainWalls.tscn"),
@@ -99,7 +99,7 @@ static func prepare_plain_walls(
 	var cellar = walls_node.duplicate()
 	cellar.set_color(Color.WHITE_SMOKE)
 	# Add an additional height to the cellar which acts as "plinth" scaled with the extent
-	cellar.height += plinth_height_factor * min(20., building_metadata["extent"])
+	cellar.height += plinth_height_factor * min(20., building_metadata.extent)
 	cellar.set_wall_texture_index(get_cellar_index.call(building_type_id))
 	
 	# Cellars usually do not have windows
@@ -152,6 +152,6 @@ static func prepare_plain_walls(
 
 static func prepare_pillars(building_metadata: Dictionary, building: Node3D, num_floors: int):
 	var walls_scene = load("res://Buildings/Components/Walls/Pillars.tscn").instantiate()
-	walls_scene.ground_height_at_center = building_metadata["engine_center_position"].y
+	walls_scene.ground_height_at_center = building_metadata.engine_center.y
 	walls_scene.floors = num_floors
 	building.add_child(walls_scene)

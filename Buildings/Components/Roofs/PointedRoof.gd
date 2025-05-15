@@ -20,9 +20,10 @@ var uv_scale = -0.25
 var vertices := []
 var point_center: Vector3
 
-func set_metadata(metadata: Dictionary):
-	height = metadata["roof_height"]
-	extent = metadata["extent"]
+
+func set_metadata(metadata: BuildingMetadata):
+	height = metadata.roof_height
+	extent = metadata.extent
 
 
 func can_build(geo_center, geo_footprint):

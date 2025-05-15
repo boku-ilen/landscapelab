@@ -158,7 +158,7 @@ object_interact={
 }
 toggle_vr={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":77,"physical_keycode":0,"key_label":0,"unicode":109,"location":0,"echo":false,"script":null)
 ]
 }
 pc_activate_first_person={
@@ -402,6 +402,11 @@ camera_stop={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
 ]
 }
+set_autolook_active={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":84,"key_label":0,"unicode":116,"location":0,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -435,10 +440,10 @@ lights_and_shadows/directional_shadow/soft_shadow_filter_quality=4
 environment/defaults/default_clear_color=Color(0.866667, 0.976471, 1, 1)
 vrs/mode=2
 quality/shadows/filter_mode=2
-limits/buffers/canvas_polygon_buffer_size_kb=1000
 quality/filters/msaa=2
 environment/default_environment="res://default_env.tres"
 quality/main_scene="res://UI/MainUI.tscn"
+limits/buffers/canvas_polygon_buffer_size_kb=1000
 
 [shader_globals]
 

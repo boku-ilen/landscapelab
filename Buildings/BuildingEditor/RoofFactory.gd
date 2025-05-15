@@ -42,9 +42,9 @@ static func prepare_roof(
 		var can_build_roof := false
 		
 		# In case it is a very tall/big building, a flat roof will be most sensible
-		var is_tall = building_metadata["height"] > height_threshold
-		var is_big = building_metadata["extent"] > extent_threshold
-		var is_complex = building_metadata["footprint"].size() > vertex_count_threshold
+		var is_tall = building_metadata.height > height_threshold
+		var is_big = building_metadata.extent > extent_threshold
+		var is_complex = building_metadata.footprint.size() > vertex_count_threshold
 		if is_tall or is_big or is_complex:
 			roof = null # Will result in a flatroof (line if roof == null or not can_build_roof)
 		elif check_roof_type and walls_resource.prefer_pointed_roof:

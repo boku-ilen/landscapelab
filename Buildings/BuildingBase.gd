@@ -18,9 +18,9 @@ var roof: RoofBase :
 		roof = new_roof
 		add_child(roof)
 
-func set_metadata(metadata: Dictionary):
-	height = metadata["height"]
-	footprint = metadata["footprint"]
+func set_metadata(metadata: BuildingMetadata):
+	height = metadata.height
+	footprint = metadata.footprint
 
 
 # Build this building by calling "build" checked all children.

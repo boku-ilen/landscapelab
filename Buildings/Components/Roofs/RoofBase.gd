@@ -8,7 +8,7 @@ class_name RoofBase
 var fid: int
 var addon_layers: Dictionary # String to GeoLayer
 var addon_objects: Dictionary # String to Object
-var building_metadata: Dictionary
+var building_metadata: BuildingMetadata
 
 var is_refined: bool
 var refinments: Array[Node3D] = []
@@ -49,13 +49,14 @@ func with_data(
 	_fid,
 	_addon_layers: Dictionary, 
 	_addon_objects: Dictionary,
-	_building_metadata: Dictionary):
+	_building_metadata: BuildingMetadata):
 	
 	fid = _fid
 	addon_layers = _addon_layers
 	addon_objects = _addon_objects
 	building_metadata = _building_metadata
 	return self
+
 
 # To be overwritten
 func can_refine() -> bool:

@@ -48,7 +48,7 @@ ortho_resolution = 400
 lu_resolution = 800
 add_lid_overlay = false
 is_inner = false
-hole_size = 4000.0
+hole_size = 3500.0
 min_load_distance = 1000.0
 
 [node name="Chunks" type="Node3D" parent="."]

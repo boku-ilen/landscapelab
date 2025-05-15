@@ -94,6 +94,8 @@ func _process(delta):
 			next_pass.set_shader_parameter("heightmap", heightmap.get_image_texture())
 			next_pass.set_shader_parameter("surface_heightmap", surface_heightmap.get_image_texture())
 			next_pass.set_shader_parameter("landuse", landuse.get_image_texture())
+			next_pass.set_shader_parameter("hole_size", hole_size)
+			next_pass.set_shader_parameter("make_hole", true)
 			if add_lid_overlay:
 				next_pass.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
 				next_pass.set_shader_parameter("use_landuse_overlay", true)

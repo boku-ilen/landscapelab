@@ -50,6 +50,16 @@ func get_cardinal_direction() -> Vector3:
 func _physics_process(delta):
 	fly(delta)
 	
+	if Input.is_action_just_pressed("toggle_vr"):
+		if $SubViewport.render_target_update_mode == SubViewport.UpdateMode.UPDATE_ALWAYS:
+			$SubViewport.render_target_update_mode = SubViewport.UpdateMode.UPDATE_DISABLED
+			$VRDirectionIndicator.visible = false
+			print("VR disabled")
+		else:
+			$SubViewport.render_target_update_mode = SubViewport.UpdateMode.UPDATE_ALWAYS
+			$VRDirectionIndicator.visible = true
+			print("VR enabled")
+	
 	if is_smooth_camera:
 		$Head.rotate_y(current_mouse_velocity.y)
 		
