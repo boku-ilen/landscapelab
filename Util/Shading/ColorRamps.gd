@@ -70,7 +70,30 @@ static var gradients = {
 			0.965,
 			1.
 		])
+	).as_gradient(),
+	"mako": ColorRamp.new(
+		ColorRamp.OffsetInit.EQUIDISTANT,
+		PackedColorArray([
+			Color(0.0431, 0.0157, 0.0196),   # (11, 4, 5)
+			Color(0.1216, 0.0706, 0.1451),   # between (11,4,5) and (51,35,69)
+			Color(0.2000, 0.1373, 0.2706),   # (51, 35, 69)
+			Color(0.2353, 0.1765, 0.3490),   # between (51,35,69) and (63,54,109)
+			Color(0.2471, 0.2118, 0.4275),   # (63, 54, 109)
+			Color(0.2549, 0.2667, 0.5333),   # (65, 68, 136)
+			Color(0.2314, 0.3647, 0.5961),   # between (65,68,136) and (53,115,161)
+			Color(0.2078, 0.4510, 0.6314),   # (53, 115, 161)
+			Color(0.2039, 0.5843, 0.6627),   # (52, 149, 169)
+			Color(0.2353, 0.6353, 0.6706),   # between (52,149,169) and (68,174,173)
+			Color(0.2667, 0.6824, 0.6784),   # (68, 174, 173)
+			Color(0.2588, 0.7255, 0.6784),   # (66, 185, 173)
+			Color(0.4510, 0.8039, 0.7333),   # between (66,185,173) and (164,224,187)
+			Color(0.6431, 0.8784, 0.7333),   # (164, 224, 187)
+			Color(0.7529, 0.9137, 0.8000),   # (192, 233, 204)
+			Color(0.8706, 0.9608, 0.8980)    # (222, 245, 229)
+		]),
+		Gradient.GRADIENT_INTERPOLATE_LINEAR
 	).as_gradient()
 }
 static var viridis = gradients["viridis"]
 static var wind_speed = gradients["wind_speed"]
+static var mako = gradients["mako"]
