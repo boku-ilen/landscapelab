@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode depth_draw_opaque;
+render_mode depth_draw_always;
 
 // Adapted from https://www.youtube.com/watch?v=wkRFtEgy2Qg
 // With waves from https://github.com/godot-extended-libraries/godot-realistic-water
@@ -147,7 +147,7 @@ void fragment() {
 	float z_far = abs((PROJECTION_MATRIX[3][2] * z_near) / (PROJECTION_MATRIX[3][2] + z_near));
 
 	// Get the depth difference between the object we want to overdraw and the other objects
-	float screen_depth = 100.0;//textureLod(DEPTH_TEXTURE, SCREEN_UV, 0.0).r;
+	float screen_depth = textureLod(DEPTH_TEXTURE, SCREEN_UV, 0.0).r;
 	float fragment_depth = FRAGCOORD.z;
 
 	float l_screen_depth = linearize(screen_depth, z_near, z_far);
@@ -180,7 +180,7 @@ void fragment() {
 	depthfoam = pow(depthfoam,_foam_strength);
 	depthfoam += pow(max(vertex_height, 0.0), 1.0) * 2.0;  // Foam on the top of large waves
 	vec3 foam = vec3(1.0 - depthfoam);// * texture(_foam,uv_scale * 1.0 + n_distortion).rgb;
-
+	
 	ALBEDO = mix(foam,soft_light(_screen,color_out),depthfoam);
 	ALBEDO = clamp(ALBEDO, vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0));
 	ROUGHNESS = _roughness;

@@ -29,6 +29,8 @@ script = ExtResource("4")
 extent = 4
 chunk_scene = ExtResource("2_ib6li")
 
+[node name="Chunks" type="Node3D" parent="."]
+
 [node name="DetailMesh" type="MeshInstance3D" parent="."]
 material_override = ExtResource("4_dbgng")
 extra_cull_margin = 10000.0
@@ -37,7 +39,9 @@ mesh = ExtResource("5_mins8")
 script = ExtResource("5_f6rbb")
 
 [node name="FarMesh" type="MeshInstance3D" parent="."]
+sorting_offset = -1000.0
 material_override = ExtResource("4_dbgng")
+cast_shadow = 0
 extra_cull_margin = 10000.0
 custom_aabb = AABB(-20, 0, -20, 40, 8000, 40)
 mesh = SubResource("PlaneMesh_b82fe")
@@ -48,10 +52,8 @@ ortho_resolution = 400
 lu_resolution = 800
 add_lid_overlay = false
 is_inner = false
-hole_size = 3500.0
+hole_size = 3000.0
 min_load_distance = 1000.0
-
-[node name="Chunks" type="Node3D" parent="."]
 
 [node name="Decals" type="Node3D" parent="."]
 

@@ -140,6 +140,11 @@ func full_load():
 
 
 func _apply_water_color(surface_color: Color, depth_color: Color) -> void:
+	$FarMesh.material_override.next_pass.set_shader_parameter(
+		"surface_color", surface_color)
+	$FarMesh.material_override.next_pass.set_shader_parameter(
+		"depth_color", depth_color)
+	
 	for chunk in chunks:
 		chunk.get_node("Mesh").material_override.next_pass.set_shader_parameter(
 			"surface_color", surface_color)
