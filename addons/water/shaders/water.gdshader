@@ -42,6 +42,9 @@ varying flat int should_render;
 varying vec3 world_pos;
 varying float vertex_height;
 
+uniform bool make_hole = false;
+uniform float hole_size = 50.0;
+
 
 float depth_proximity(float dist, vec3 vertex, sampler2D depthtex, vec2 screenuv,mat4 invproj){
 	float depth_tex = textureLod(depthtex, screenuv, 0.0).r;
@@ -93,13 +96,18 @@ void vertex() {
 	if (UV.x < -0.1 || UV.x > 1.1 || UV.y < -0.1 || UV.y > 1.1) {
 		VERTEX.y = -1000.0;
 	} else {
-		VERTEX.y = texture(surface_heightmap, UV).r - 0.5;
+		VERTEX.y = max(0.0, texture(surface_heightmap, UV).r - 0.1);
 	}
 
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	vec3 camera_pos = INV_VIEW_MATRIX[3].xyz;
 	vec3 camera_to_world = world_pos - camera_pos;
+	
+	float max_distance = max(abs(camera_to_world.x), abs(camera_to_world.z));
+	if (make_hole && max_distance < hole_size) {
+		VERTEX.y -= hole_size / 5.0;
+	}
 
 	// Waves
 	vec3 tang = vec3(1.0, 0.0, 0.0);
@@ -139,7 +147,7 @@ void fragment() {
 	float z_far = abs((PROJECTION_MATRIX[3][2] * z_near) / (PROJECTION_MATRIX[3][2] + z_near));
 
 	// Get the depth difference between the object we want to overdraw and the other objects
-	float screen_depth = textureLod(DEPTH_TEXTURE, SCREEN_UV, 0.0).r;
+	float screen_depth = 100.0;//textureLod(DEPTH_TEXTURE, SCREEN_UV, 0.0).r;
 	float fragment_depth = FRAGCOORD.z;
 
 	float l_screen_depth = linearize(screen_depth, z_near, z_far);
@@ -162,10 +170,11 @@ void fragment() {
 	vec2 n_distortion = n_out.xy - vec2(0.5, 0.5); //(mat3(TANGENT,BINORMAL,NORMAL) * n_out).rg * 2.0 - 1.0;
 	vec3 color_out = mix(depth_color, surface_color,d);
 
-	vec3 _screen = texture(SCREEN_TEXTURE,SCREEN_UV).rgb;
+	//vec3 _screen = texture(SCREEN_TEXTURE,SCREEN_UV).rgb;
 	// TODO: blur effect could be added like +n_distortion*_refraction*(1.0-d), but it's hard not to affect nearby objects above the water
-
-	_screen = mix(_screen, color_out, clamp(1.0 - d + (dullness * 0.3), 0.0, 1.0));
+	
+	vec3 _screen = color_out;
+	//_screen = mix(_screen, color_out, clamp(1.0 - d + (dullness * 0.3), 0.0, 1.0));
 
 	float depthfoam = depth_proximity_z(-abs(n_distortion.r+n_distortion.g) * _foam_size , l_screen_depth, l_fragment_depth);
 	depthfoam = pow(depthfoam,_foam_strength);
