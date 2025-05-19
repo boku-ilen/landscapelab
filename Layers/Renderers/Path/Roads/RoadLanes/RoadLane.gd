@@ -20,6 +20,7 @@ var lane_type: int = -1
 @export var road_height: float = 0.2
 @export var taper_top := 0.0
 @export var lower_into_ground := 0.0
+@export var dynamic_width := true
 
 var road_width: float = 2.0
 var road_offset: float = 0.0
@@ -40,7 +41,7 @@ var custom_percentage_from = 0.0
 var custom_percentage_to = 0.0
 
 
-func update_road_lane() -> void: 
+func update_road_lane() -> void:
 	var total_road_width = road_width + custom_road_width
 	var total_road_height = road_height + custom_road_height
 	var total_road_offset = road_offset + custom_road_offset
@@ -49,15 +50,16 @@ func update_road_lane() -> void:
 	
 	var half_width = (total_road_width) / 2.0
 	
-	var polygon: PackedVector2Array = [
-		Vector2(-half_width + taper_top, total_road_height),
-		Vector2(half_width - taper_top, total_road_height),
-		Vector2(half_width + taper_top, -lower_into_ground),
-		Vector2(-half_width - taper_top, -lower_into_ground)
-	]
-	
-	# Set polygon
-	$RoadLanePolygon.polygon = polygon
+	if dynamic_width:
+		var polygon: PackedVector2Array = [
+			Vector2(-half_width + taper_top, total_road_height),
+			Vector2(half_width - taper_top, total_road_height),
+			Vector2(half_width + taper_top, -lower_into_ground),
+			Vector2(-half_width - taper_top, -lower_into_ground)
+		]
+		
+		# Set polygon
+		$RoadLanePolygon.polygon = polygon
 	
 	# Set underlying PathFollowCurve values
 	self.curve_to_follow = road_curve
