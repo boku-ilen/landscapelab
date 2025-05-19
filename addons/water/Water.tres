@@ -52,3 +52,6 @@ shader_parameter/wave_a = Vector4(1, 1, 0.35, 2.3)
 shader_parameter/wave_b = Vector4(0.2, 0.6, 0.3, 2.55)
 shader_parameter/wave_c = Vector4(0.5, 1.3, 0.5, 1.5)
 shader_parameter/wind_speed = 5.0
+shader_parameter/wind_direction = Vector2(1, 1)
+shader_parameter/make_hole = false
+shader_parameter/hole_size = 50.0

@@ -142,7 +142,7 @@ func build() -> void:
 	var shader = _create_and_set_texture_arrays()
 	var walls_scene = preload("res://Buildings/Components/Walls/PlainWalls.tscn").duplicate(true)
 	if wall_type != WALL_TYPE.PILLARS:
-		WallFactory.prepare_plain_walls(wall_type, metadata, building_base, floors, walls_scene, shader)
+		WallFactory.prepare_plain_walls(wall_type, metadata, building_base, floors)
 	else:
 		WallFactory.prepare_pillars(metadata, building_base, floors)
 	

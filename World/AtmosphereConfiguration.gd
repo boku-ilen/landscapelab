@@ -44,7 +44,7 @@ static var time_presets := {
 
 static var weather_presets := {
 	"Clear": {
-		"visibility": 12,
+		"visibility": 8,
 		"cloud_coverage": 8,
 		"cloud_density": 15,
 		"wind_speed": 5,
@@ -52,7 +52,7 @@ static var weather_presets := {
 		"lightning_frequency": 0
 	},
 	"Few Clouds": {
-		"visibility": 22,
+		"visibility": 16,
 		"cloud_coverage": 15,
 		"cloud_density": 50,
 		"wind_speed": 35,
@@ -60,7 +60,7 @@ static var weather_presets := {
 		"lightning_frequency": 0
 	},
 	"Overcast": {
-		"visibility": 35,
+		"visibility": 22,
 		"cloud_coverage": 45,
 		"cloud_density": 25,
 		"wind_speed": 20,

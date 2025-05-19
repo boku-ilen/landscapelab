@@ -1,11 +1,15 @@
 extends Node
 
-var crs
+var crs: int : 
+	set(new_crs):
+		crs = new_crs
+		applied_crs.emit(crs)
 var current_center := Vector3.ZERO
 var geo_layers: Dictionary = { "rasters": {}, "features": {}}
 var layer_compositions: Dictionary
 var layer_definitions: Dictionary
 
+signal applied_crs(crs)
 signal new_rendered_layer_composition(layer_composition)
 signal new_scored_layer_composition(layer_composition)
 signal new_layer_composition(layer_composition)

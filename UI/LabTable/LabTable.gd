@@ -38,7 +38,6 @@ var _table_detection_pid: int
 
 signal game_object_created(cursor_position)
 signal game_object_failed(cursor_position)
-signal debug_setup_done
 
 
 func _ready():
@@ -46,7 +45,6 @@ func _ready():
 	if debug_mode: 
 		$LLConfigSetup.setup()
 		$GameModesConfigurator.load_game_mode_config()
-		debug_setup_done.emit()
 	
 	$LabTableConfigurator.load_table_config()
 	

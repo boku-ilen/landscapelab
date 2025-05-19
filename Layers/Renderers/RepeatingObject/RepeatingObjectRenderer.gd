@@ -134,6 +134,9 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 		t = Transform3D(Basis.IDENTITY, starting_point)
 		end_point = vertices.sample_baked(distance_covered + scaled_width)
 		
+		var real_distance = (end_point - starting_point).length()
+		var instance_scale_factor = real_distance / width
+		
 		var direction = starting_point.direction_to(end_point)
 		direction.y = 0
 		direction = direction.normalized()
@@ -142,13 +145,13 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 		t.basis.y = Vector3.UP
 		t.basis.x = t.basis.y.cross(t.basis.z)
 		
-		t = t.scaled_local(Vector3(1, 1, scale_factor))
+		t = t.scaled_local(Vector3(1, 1, instance_scale_factor))
 		t = t.scaled_local(Vector3.ONE * ll_scale)
 		
 		# Rotate by height slant if needed
 		t = t.rotated_local(Vector3.RIGHT, -height_fit_rotation)
 
-		var pos = t.origin + direction * scaled_width
+		var pos = t.origin + direction * real_distance
 		
 		# Rotate by base rotation (to account for assets rotated differently than needed)
 		t = t.rotated_local(Vector3.UP, deg_to_rad(layer_composition.render_info.base_rotation))

@@ -8,6 +8,7 @@
 script = ExtResource("1_rwxlc")
 
 [node name="RoadLanePolygon" parent="." index="0"]
+gi_mode = 2
 path_u_distance = 1.0
 smooth_faces = true
 material = ExtResource("2_afqel")

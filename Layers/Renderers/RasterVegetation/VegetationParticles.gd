@@ -53,7 +53,7 @@ func _on_vegetation_data_update():
 
 func get_plant_extent_factor():
 	var extent_scale = 1.0
-	if density_class.name == "Shrubs": extent_scale = 6.0  # FIXME: Use config for this
+	if "Shrubs" in density_class.name: extent_scale = 6.0  # FIXME: Use config for this
 	return Vegetation.plant_extent_factor * extent_scale
 
 
