@@ -49,7 +49,8 @@ var offset := Vector2.ZERO :
 
 
 func _ready():
-	# FIXME: this breaks debug_mode
+	if Layers.crs == null:
+		await Layers.applied_crs
 	geo_transform.set_transform(Layers.crs, 3857)
 	
 	for layer_def in Layers.layer_definitions.values():
