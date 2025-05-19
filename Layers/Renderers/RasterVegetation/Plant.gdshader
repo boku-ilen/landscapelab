@@ -32,7 +32,7 @@ varying float wind_strength;
 uniform bool is_billboard = true;
 
 void vertex() {
-	dist_id = INSTANCE_CUSTOM.r * 255.0;
+	dist_id = clamp(INSTANCE_CUSTOM.r * 255.0, 0.0, 99.0);
 
 	vec3 camera_pos = INV_VIEW_MATRIX[3].xyz;
 	vec3 worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
@@ -40,7 +40,7 @@ void vertex() {
 	float world_distance = length(camera_pos - worldpos);
 
 	vec3 mesh_normal = NORMAL;
-	
+
 	float angle = INSTANCE_CUSTOM.a;
 	vec2 stripe_position = worldpos.xz / 256.0;
 	mat2 rotation = mat2(vec2(cos(angle), sin(angle)), vec2(-sin(angle), cos(angle)));
@@ -74,7 +74,7 @@ void vertex() {
 
 	// Scale size by hue-shift
 	size  *= (1.0 + random_hue_shift * 2.0);
-	
+
 	//if (stripe_sample < 0.6)
 	//size *= stripe_sample;
 
@@ -106,10 +106,9 @@ void vertex() {
 	// Move vertices down when they are far away - makes the plants "grow out" as they fade in,
 	//  which produces a nice fade-in result since it avoids sampling the lower parts of plants
 	//  that are usually darker
-	float dist = length(camera_pos.xz - worldpos.xz);
-	float dist_alpha = smoothstep(max_distance - 30.0, max_distance + 10.0, dist);
+	float dist_alpha = smoothstep(max_distance - 5.0, max_distance + 5.0, world_distance);
 
-	VERTEX.y -= dist_alpha;
+	VERTEX.y -= dist_alpha * size;
 }
 
 void fragment() {
@@ -157,7 +156,7 @@ void fragment() {
 	AO_LIGHT_AFFECT = 0.9;
 	AO = max(generate_darken_gradient(UV.y, 0.6, 0.6, 0.0) - wind_strength * 0.5, 0.0);
 	NORMAL_MAP = generate_normal_from_albedo(texture_map[int(round(dist_id))], UV, vec4(0.7, 0.7, 0.7, 0.8), 0.05, 1.0);
-	NORMAL_MAP_DEPTH = 1.0;
+	NORMAL_MAP_DEPTH = 1.5;
 	METALLIC = 0.0;
 
 	// hue of -1.6 is approximately the middle of green.
