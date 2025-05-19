@@ -40,7 +40,7 @@ void vertex() {
 	float world_distance = length(camera_pos - worldpos);
 
 	vec3 mesh_normal = NORMAL;
-	
+
 	float angle = INSTANCE_CUSTOM.a;
 	vec2 stripe_position = worldpos.xz / 256.0;
 	mat2 rotation = mat2(vec2(cos(angle), sin(angle)), vec2(-sin(angle), cos(angle)));
@@ -71,10 +71,13 @@ void vertex() {
 
 	// Read plant size
 	float size = (INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b);
+	
+	// Safeguard against potential erroneous values
+	size = max(size, 0.1);
 
 	// Scale size by hue-shift
 	size  *= (1.0 + random_hue_shift * 2.0);
-	
+
 	//if (stripe_sample < 0.6)
 	//size *= stripe_sample;
 
@@ -87,18 +90,14 @@ void vertex() {
 	wind_strength = length(wind_offset_vector);
 
 	// Move the upper vertices around for a wind wave effect
-	if (UV.y < 0.3) {
+	float inv_y = 1.0 - UV.y;
 
-		VERTEX.xz += wind_offset_vector * min(size, 1.0);
-		//NORMAL -= vec3(wind_offset_vector.x, 0.0, wind_offset_vector.y) * 0.8;
+	VERTEX.xz += inv_y * wind_offset_vector * min(size, 1.0);
+	//NORMAL -= vec3(wind_offset_vector.x, 0.0, wind_offset_vector.y) * 0.8;
 
-		float speed_length = length(speed);
-		VERTEX.x += 0.002 * sin(worldpos.x * scale.x * 0.75 + TIME * speed_length) * cos(worldpos.z * scale.x + TIME * speed_length * 0.25);
-		VERTEX.z += 0.002 * sin(worldpos.x * scale.y + TIME * speed_length * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed_length);
-
-		// Also bend them away from the camera to make it look better from above
-		//VERTEX.xz += (inverse(MODELVIEW_MATRIX) * vec4(0.0, 0.5, 0.0, 0.0)).xz * VERTEX.y;
-	}
+	float speed_length = length(speed);
+	VERTEX.x += inv_y * 0.002 * sin(worldpos.x * scale.x * 0.75 + TIME * speed_length) * cos(worldpos.z * scale.x + TIME * speed_length * 0.25);
+	VERTEX.z += inv_y * 0.002 * sin(worldpos.x * scale.y + TIME * speed_length * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed_length);
 
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
