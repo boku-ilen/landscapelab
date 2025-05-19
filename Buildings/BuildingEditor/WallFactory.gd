@@ -40,6 +40,8 @@ const window_bundles = [
 	preload("res://Resources/Textures/Buildings/window/SmallVertical/SmallVerticalWindow.tres")
 ]
 
+static var walls_scene = preload("res://Buildings/Components/Walls/PlainWalls.tscn").instantiate()
+
 const plinth_height_factor = 1.1
 
 enum FLOOR_FLAG {
@@ -61,7 +63,7 @@ static func prepare_plain_walls(
 		round(building_metadata.height / building_metadata.floor_height)
 	)
 	
-	var walls_node = walls_scene.instantiate()
+	var walls_node = walls_scene.duplicate(7)
 	if walls_material != null:
 		walls_node.material = walls_material
 	
@@ -100,7 +102,7 @@ static func prepare_plain_walls(
 	var random_tex_scale = Vector2(random_gen.randf_range(0.85, 1.15), 1)
 	
 	# Add a cellar
-	var cellar = walls_node.duplicate()
+	var cellar = walls_node.duplicate(7)
 	cellar.set_color(Color.WHITE_SMOKE)
 	# Add an additional height to the cellar which acts as "plinth" scaled with the extent
 	cellar.height = building_metadata.cellar_height * plinth_height_factor
@@ -117,10 +119,12 @@ static func prepare_plain_walls(
 	# TODO: add window indexing
 	# Add ground floor
 	num_floors -= 1
-	var ground_floor = walls_node.duplicate()
+	var ground_floor = walls_node.duplicate(7)
+	
 	ground_floor.set_wall_texture_index(get_ground_index.call(building_type_id))
 	ground_floor.set_window_texture_index(walls_resource.ground_window_id)
 	ground_floor.set_color(Color.WHITE_SMOKE)
+	
 	ground_floor.texture_scale = walls_resource.ground_texture.texture_scale * random_tex_scale
 	ground_floor.random_90_rotation_rate = walls_resource.random_90_rotation_rate
 	if walls_resource.apply_colors & FLOOR_FLAG.GROUND: 
@@ -132,7 +136,7 @@ static func prepare_plain_walls(
 	if num_floors >= 1:
 		if num_floors >= 2:
 			for i in range(num_floors - 2):
-				var walls = walls_node.duplicate()
+				var walls = walls_node.duplicate(7)
 				walls.set_wall_texture_index(get_mid_index.call(building_type_id))
 				walls.set_window_texture_index(walls_resource.middle_window_id)
 				walls.set_color(Color.WHITE_SMOKE)
@@ -143,7 +147,7 @@ static func prepare_plain_walls(
 				building.add_child(walls)
 		
 		# Add top floor
-		var top_floor = walls_node.duplicate()
+		var top_floor = walls_node.duplicate(7)
 		top_floor.set_wall_texture_index(get_top_index.call(building_type_id))
 		top_floor.set_window_texture_index(walls_resource.top_window_id)
 		top_floor.set_color(Color.WHITE_SMOKE)

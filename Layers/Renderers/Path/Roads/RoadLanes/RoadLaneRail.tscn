@@ -8,6 +8,7 @@ always_3d = true
 road_height = 0.5
 taper_top = 1.2
 lower_into_ground = 1.0
+dynamic_width = false
 
 [node name="RoadLanePolygon" parent="." index="0"]
 layers = 4

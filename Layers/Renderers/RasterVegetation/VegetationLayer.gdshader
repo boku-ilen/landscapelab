@@ -7,7 +7,7 @@ uniform float spacing = 1.0;
 
 uniform sampler2D heightmap: repeat_disable;
 uniform sampler2D splatmap: repeat_disable, filter_nearest;
-uniform sampler2D splatmap_overlay: repeat_disable, filter_nearest;
+uniform sampler2D splatmap_overlay: repeat_disable, filter_nearest, hint_default_black;
 
 uniform float splatmap_size_meters;
 
@@ -98,6 +98,7 @@ void process() {
 
 	int overlay_value = int(round(texture(splatmap_overlay, splatmap_uv).r * 255.0) + round(texture(splatmap_overlay, splatmap_uv).g * 255.0 * 255.0));
 	int splatmap_value = overlay_value > 0 ? overlay_value : int(round(texture(splatmap, splatmap_uv).r));
+	splatmap_value = clamp(splatmap_value, 0, 12000);
 
 	int distribution_id = int(round(texelFetch(row_ids, ivec2(splatmap_value, 0), 0).r * 255.0));
 
