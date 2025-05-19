@@ -182,7 +182,8 @@ void vertex() {
 		// Make transition more seamless by lerping between 1.0 in the center and 0.0 on the border
 		float center_distance_factor = (0.5 - min(abs(UV.x - 0.5), abs(UV.y - 0.5))) * 2.0;
 
-		VERTEX.y += offset * center_distance_factor;
+		// FIXME: handle streets more nicely; we don't want to use random offsets for streets (i.e. 2002)
+		VERTEX.y += offset * center_distance_factor * float(splat_id != 2002.0);
 	}
 }
 
