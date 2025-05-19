@@ -52,10 +52,14 @@ enum FLOOR_FLAG {
 static func prepare_plain_walls(
 		building_type: int, 
 		building_metadata: BuildingMetadata,
-		building: Node3D, 
-		num_floors: int,
+		building: Node3D,
 		walls_scene: PackedScene = preload("res://Buildings/Components/Walls/PlainWalls.tscn"),
 		walls_material: ShaderMaterial = null):
+	
+	var num_floors = max(
+		building_metadata.fallback_floors, 
+		round(building_metadata.height / building_metadata.floor_height)
+	)
 	
 	var walls_node = walls_scene.instantiate()
 	if walls_material != null:
@@ -150,8 +154,7 @@ static func prepare_plain_walls(
 		building.add_child(top_floor)
 
 
-static func prepare_pillars(building_metadata: BuildingMetadata, building: Node3D, num_floors: int):
+static func prepare_pillars(building_metadata: BuildingMetadata, building: Node3D):
 	var walls_scene = load("res://Buildings/Components/Walls/Pillars.tscn").instantiate()
-	walls_scene.ground_height_at_center = building_metadata.engine_center.y
-	walls_scene.floors = num_floors
+	walls_scene.building_metadata = building_metadata
 	building.add_child(walls_scene)

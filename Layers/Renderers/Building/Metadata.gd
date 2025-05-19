@@ -1,7 +1,8 @@
 extends RefCounted
 class_name BuildingMetadata
 
-const fallback_height := 4.
+const fallback_floors := 1
+const fallback_height := 3.
 const floor_height := 2.5
 
 var extent: float
