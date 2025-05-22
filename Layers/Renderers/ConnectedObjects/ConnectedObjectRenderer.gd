@@ -149,9 +149,9 @@ func refine_load():
 	# NOTE: is this necessary?
 	mutex.lock()
 	if local_connectors.keys() != instances.keys():
-		local_connectors = instances.duplicate(true)
+		local_connectors = instances.duplicate(false)
 	if features != local_features:
-		local_features = features.duplicate(true)
+		local_features = features.duplicate(false)
 	mutex.unlock()
 	
 	connection_mutex.lock()
@@ -171,6 +171,7 @@ func refine_load():
 		# Required for accessing member variable max_length
 		var exemplary_connection = connection_scene.instantiate()
 		var connection_max_length: float = exemplary_connection.max_length
+		exemplary_connection.free()
 		
 		var vertices: Curve3D = geo_line.get_curve3d()
 		# Connection requires at least two points
