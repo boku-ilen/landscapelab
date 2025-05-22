@@ -98,7 +98,7 @@ void process() {
 
 	int overlay_value = int(round(texture(splatmap_overlay, splatmap_uv).r * 255.0) + round(texture(splatmap_overlay, splatmap_uv).g * 255.0 * 255.0));
 	int splatmap_value = overlay_value > 0 ? overlay_value : int(round(texture(splatmap, splatmap_uv).r));
-	splatmap_value = clamp(splatmap_value, 0, 12000);
+	splatmap_value = clamp(splatmap_value, 0, 10999);
 
 	int distribution_id = int(round(texelFetch(row_ids, ivec2(splatmap_value, 0), 0).r * 255.0));
 
