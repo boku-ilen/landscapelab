@@ -7,7 +7,7 @@
 [ext_resource type="ArrayMesh" uid="uid://diovhx0k8lirx" path="res://Resources/Meshes/Windmills/E/WKA_E_Rotor.res" id="4_qkf23"]
 [ext_resource type="ArrayMesh" uid="uid://befdf647yie1a" path="res://Resources/Meshes/Windmills/E/WKA_E_Mast.res" id="5_xr745"]
 
-[sub_resource type="Shader" id="Shader_hscc8"]
+[sub_resource type="Shader" id="Shader_dggax"]
 code = "// NOTE: Shader automatically converted from Godot Engine 4.3.stable's StandardMaterial3D.
 
 shader_type spatial;
@@ -74,7 +74,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xmkat"]
 render_priority = 0
-shader = SubResource("Shader_hscc8")
+shader = SubResource("Shader_dggax")
 shader_parameter/albedo = Color(1, 0, 0, 1)
 shader_parameter/texture_albedo = ExtResource("4_2wm53")
 shader_parameter/point_size = 1.0
@@ -115,7 +115,6 @@ _data = {
 }
 
 [node name="Windmill" instance=ExtResource("1")]
-transform = Transform3D(1.45, 0, 0, 0, 1.45, 0, 0, 0, 1.45, 0, 0, 0)
 script = ExtResource("2")
 speed = 0.117919
 wind_direction = 315.0
@@ -132,6 +131,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62082e-07, 134.732, 5.30525
 
 [node name="Blink" type="MeshInstance3D" parent="Mesh/Hub" index="0"]
 transform = Transform3D(-9.23706e-14, 1.03951e-14, -1, 0, 1, 1.47009e-14, 1, 3.46503e-15, -9.23706e-14, 0, 2.609, -5.317)
+visible = false
 layers = 4
 material_override = SubResource("ShaderMaterial_xmkat")
 cast_shadow = 0
