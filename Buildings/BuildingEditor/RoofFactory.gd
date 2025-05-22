@@ -67,6 +67,7 @@ static func prepare_roof(
 					building_metadata.geo_center,feature.get_outer_vertices())
 		
 		if roof == null or not can_build_roof:
+			if roof and is_instance_valid(roof): roof.free()
 			roof = flat_roof_scene.instantiate().with_data(
 				feature.get_id(),
 				addon_layers, 

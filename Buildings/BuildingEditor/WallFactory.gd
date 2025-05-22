@@ -40,7 +40,7 @@ const window_bundles = [
 	preload("res://Resources/Textures/Buildings/window/SmallVertical/SmallVerticalWindow.tres")
 ]
 
-static var walls_scene = preload("res://Buildings/Components/Walls/PlainWalls.tscn").instantiate()
+static var walls_node = preload("res://Buildings/Components/Walls/PlainWalls.tscn").instantiate()
 
 const plinth_height_factor = 1.1
 
@@ -56,8 +56,6 @@ static func prepare_plain_walls(
 		building_metadata: BuildingMetadata,
 		building: Node3D, 
 		num_floors: int):
-	
-	var walls_node = walls_scene.duplicate(7)
 	
 	var building_type_id = building_type \
 		if building_type in range(wall_resources.size()) \
