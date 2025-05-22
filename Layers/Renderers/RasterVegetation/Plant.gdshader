@@ -24,7 +24,7 @@ uniform vec2 scale = vec2(0.06, 0.11);
 
 uniform float max_distance;
 
-varying float dist_id;
+varying flat float dist_id;
 varying float random_hue_shift;
 varying float stripe_sample;
 varying float wind_strength;
@@ -71,7 +71,7 @@ void vertex() {
 
 	// Read plant size
 	float size = (INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b);
-	
+
 	// Safeguard against potential erroneous values
 	size = max(size, 0.1);
 
@@ -116,7 +116,9 @@ void fragment() {
 		NORMAL = -NORMAL;
 	}
 
-	vec4 color = texture(texture_map[int(round(dist_id))], UV);
+	int texture_index = clamp(int(round(dist_id)), 0, 99);
+
+	vec4 color = texture(texture_map[texture_index], UV);
 
 	ALPHA = color.a;
 	ALPHA_SCISSOR_THRESHOLD = 0.2;
@@ -127,24 +129,24 @@ void fragment() {
 
 	// Hue shift to make plant appear e.g. dryer
 	vec3 hcy = RGBtoHCY(color.rgb);
+//
+	//float begin = mix(-0.6, -PI, min(HCY_SHIFT.r * 2.0, 1.0));
+	//float end = -0.6;
+//
+	//if (hcy.x > begin && hcy.x < end) {
+		//// `factor` is the position of hcy.x within the range of begin to end, scaled to -PI/2 to +PI/2.
+		//// This way, by getting the cosine of the factor, we get a smooth curve from 0..1..0.
+		//float factor = hcy.x - begin;
+		//factor /= end - begin;
+		//factor -= 0.5;
+		//factor *= PI;
+//
+		//float addition = cos(factor) * (end - begin) / 2.0;
+		//hcy.x += addition;
+		//hcy.y += addition * 0.01;
+	//}
 
-	float begin = mix(-0.6, -PI, min(HCY_SHIFT.r * 2.0, 1.0));
-	float end = -0.6;
-
-	if (hcy.x > begin && hcy.x < end) {
-		// `factor` is the position of hcy.x within the range of begin to end, scaled to -PI/2 to +PI/2.
-		// This way, by getting the cosine of the factor, we get a smooth curve from 0..1..0.
-		float factor = hcy.x - begin;
-		factor /= end - begin;
-		factor -= 0.5;
-		factor *= PI;
-
-		float addition = cos(factor) * (end - begin) / 2.0;
-		hcy.x += addition;
-		hcy.y += addition * 0.01;
-	}
-
-	hcy.r += random_hue_shift;
+	hcy.r += HCY_SHIFT.r + random_hue_shift;
 	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0) * 0.8 * stripe_sample;
 	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0) * 0.8 * stripe_sample;
 
@@ -154,7 +156,7 @@ void fragment() {
 	//RIM = 0.4;
 	AO_LIGHT_AFFECT = 0.9;
 	AO = max(generate_darken_gradient(UV.y, 0.6, 0.6, 0.0) - wind_strength * 0.5, 0.0);
-	NORMAL_MAP = generate_normal_from_albedo(texture_map[int(round(dist_id))], UV, vec4(0.7, 0.7, 0.7, 0.8), 0.05, 1.0);
+	NORMAL_MAP = generate_normal_from_albedo(texture_map[texture_index], UV, vec4(0.7, 0.7, 0.7, 0.8), 0.05, 1.0);
 	NORMAL_MAP_DEPTH = 1.5;
 	METALLIC = 0.0;
 
