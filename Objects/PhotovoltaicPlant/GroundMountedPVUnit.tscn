@@ -34,7 +34,7 @@ shader_parameter/color = Color(0.239216, 0.109804, 0, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1xkkd"]
 resource_local_to_scene = true
-size = Vector2(10, 12)
+size = Vector2(22, 22)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wg45y"]
 render_priority = 0
@@ -70,7 +70,7 @@ shader_parameter/color = Color(0.243137, 0.109804, 0, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_m0yll"]
 resource_local_to_scene = true
-size = Vector2(10, 12)
+size = Vector2(22, 22)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mfwnx"]
 render_priority = 0
@@ -106,7 +106,7 @@ shader_parameter/color = Color(0.25098, 0.109804, 0, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_gnr6n"]
 resource_local_to_scene = true
-size = Vector2(10, 12)
+size = Vector2(22, 22)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s6yn2"]
 render_priority = 0
@@ -164,7 +164,7 @@ material_override = SubResource("ShaderMaterial_m0yll")
 mesh = SubResource("PlaneMesh_1xkkd")
 skeleton = NodePath("../../..")
 lid = 7201
-size = Vector2(10, 12)
+size = Vector2(22, 22)
 
 [node name="Front" parent="CultivationGood" instance=ExtResource("3_1cnhv")]
 transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, -1.5, 2.9493)
@@ -199,7 +199,7 @@ material_override = SubResource("ShaderMaterial_nxlyk")
 mesh = SubResource("PlaneMesh_m0yll")
 skeleton = NodePath("../../..")
 lid = 7202
-size = Vector2(10, 12)
+size = Vector2(22, 22)
 
 [node name="Front" parent="CultivationMid" instance=ExtResource("3_1cnhv")]
 transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, -1.5, 2.9493)
@@ -234,7 +234,7 @@ material_override = SubResource("ShaderMaterial_gnr6n")
 mesh = SubResource("PlaneMesh_gnr6n")
 skeleton = NodePath("../../..")
 lid = 7204
-size = Vector2(10, 12)
+size = Vector2(22, 22)
 
 [node name="Front" parent="CultivationBad" instance=ExtResource("3_1cnhv")]
 transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, -1.5, 2.9493)
