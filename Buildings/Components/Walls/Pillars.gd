@@ -1,18 +1,19 @@
 @tool
 extends Node3D
 
-
-# Needs to be set prior to build
-var ground_height_at_center: float
-var floors: int
-const floor_height = 2.5
 var height: float
+var building_metadata: BuildingMetadata
 
 var material = preload("res://Resources/Meshes/PV/Aluminum.material")
 
 func build(footprint: Array):
-	# Add "cellar" as it is required for walls, also helps at terrain with high slope
-	floors += 1
+	var ground_height_at_center = building_metadata.ground_height - building_metadata.cellar_height - 5.
+	
+	var num_floors = max(
+		building_metadata.fallback_floors, 
+		round(building_metadata.height / building_metadata.floor_height)
+	)
+	num_floors = num_floors + floor(building_metadata.cellar_height / building_metadata.floor_height)
 	
 	var instance = MultiMeshInstance3D.new()
 	var mm: MultiMesh = MultiMesh.new()
@@ -26,7 +27,7 @@ func build(footprint: Array):
 	# Instead of placing multiple "floors" of poles make one larger pole in case
 	# of multiple floors
 	var box_mesh := BoxMesh.new()
-	box_mesh.size = Vector3(0.25, floors * floor_height, 0.25)
+	box_mesh.size = Vector3(0.2, num_floors * building_metadata.floor_height, 0.2)
 	mm.mesh = box_mesh
 	
 	var count = 0
@@ -58,4 +59,4 @@ func build(footprint: Array):
 	instance.material_override = material
 	call_deferred("add_child", instance)
 	
-	height = floors * floor_height
+	height = num_floors * building_metadata.floor_height

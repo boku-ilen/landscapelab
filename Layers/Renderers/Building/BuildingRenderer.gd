@@ -66,16 +66,15 @@ func load_feature_instance(feature):
 	var building := building_base_scene.instantiate()
 	var building_metadata = BuildingMetadata.new(feature, center, layer_composition.render_info)
 	
-	var num_floors = max(fallback_num_floors, round(building_metadata.height / floor_height))
 	var building_type = util.str_to_var_or_default(feature.get_attribute("render_type"), fallback_wall_id)
 	
 	if not Geometry2D.is_polygon_clockwise(building_metadata.footprint):
 		building_metadata.footprint.reverse()
 		
 	if building_type != -1:
-		WallFactory.prepare_plain_walls(building_type, building_metadata, building, num_floors)
+		WallFactory.prepare_plain_walls(building_type, building_metadata, building)
 	else:
-		WallFactory.prepare_pillars(building_metadata, building, num_floors)
+		WallFactory.prepare_pillars(building_metadata, building)
 	
 	if building_type not in range(0, WallFactory.wall_resources.size()):
 		building_type = fallback_wall_id
