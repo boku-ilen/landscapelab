@@ -1,0 +1,18 @@
+[gd_resource type="Sky" load_steps=3 format=3 uid="uid://b6ffjku47471j"]
+
+[ext_resource type="Script" uid="uid://5prbsrdvqd8v" path="res://addons/cloud_sky/cloud_sky.gd" id="1_ck7j2"]
+[ext_resource type="Material" uid="uid://d15xlqtr7vk3d" path="res://addons/cloud_sky/clouds_material.tres" id="2_m3o4j"]
+
+[resource]
+sky_material = ExtResource("2_m3o4j")
+process_mode = 2
+radiance_size = 1
+script = ExtResource("1_ck7j2")
+wind_direction = Vector2(1, 0)
+wind_speed = 1.0
+density = 0.05
+cloud_coverage = 0.25
+time_offset = 0.0
+sun_disk_scale = 1.0
+ground_color = Color(1, 1, 1, 1)
+texture_size = 768

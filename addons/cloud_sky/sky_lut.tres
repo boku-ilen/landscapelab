@@ -1,0 +1,6 @@
+[gd_resource type="Texture2DRD" load_steps=2 format=3 uid="uid://ctiv7he6yc5y0"]
+
+[ext_resource type="Script" uid="uid://rq4pxbbq4fq5" path="res://addons/cloud_sky/sky_lut.gd" id="1_cy3k3"]
+
+[resource]
+script = ExtResource("1_cy3k3")

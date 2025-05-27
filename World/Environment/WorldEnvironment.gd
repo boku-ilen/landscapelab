@@ -8,7 +8,7 @@ extends WorldEnvironment
 var wind_speed = 0
 var wind_direction = 0
 
-var brightest_light_energy = 3.5
+var brightest_light_energy = 4.0
 var light_darken_begin_altitude = 15.0
 var light_disabled_altitude = 3.0
 
@@ -27,7 +27,8 @@ func apply_visibility(new_visibility):
 		lerp(blue_color.s, gray_color.s, new_visibility / 100.0),
 		lerp(blue_color.v, gray_color.v, new_visibility / 100.0)
 	)
-	environment.sky.get_material().set_shader_parameter("rayleigh_color", new_color)
+	# FIXME: how to set with new sky?
+	#environment.sky.get_material().set_shader_parameter("rayleigh_color", new_color)
 
 
 func apply_rain_enabled(enabled: bool):
@@ -43,13 +44,13 @@ func apply_rain_density(rain_density: float):
 
 
 func apply_cloud_coverage(new_cloudiness):
-	environment.sky.get_material().set_shader_parameter("cloud_coverage", new_cloudiness * 0.01)
+	environment.sky.cloud_coverage = new_cloudiness * 0.01
 	
 	apply_light_energy()
 
 
 func apply_cloud_density(new_density):
-	environment.sky.get_material().set_shader_parameter("_density", remap(new_density, 0, 100, 0.03, 0.2))
+	environment.sky.density = remap(new_density, 0, 100, 0.0, 0.3)
 	
 	apply_light_energy()
 
@@ -67,8 +68,8 @@ func apply_wind_direction(new_wind_direction):
 func apply_wind():
 	var rotated_vector = Vector2.UP.rotated(deg_to_rad(wind_direction))
 	
-	environment.sky.get_material().set_shader_parameter("wind_speed", remap(wind_speed, 0, 50, 0, 20))
-	environment.sky.get_material().set_shader_parameter("wind_direction", -rotated_vector)
+	environment.sky.wind_speed = wind_speed * 0.2
+	environment.sky.wind_direction = -rotated_vector
 	$Rain.wind_direction = Vector3(rotated_vector.x, -1, rotated_vector.y)
 	$Rain.wind_speed = wind_speed
 
@@ -84,13 +85,13 @@ func apply_datetime(datetime: Dictionary):
 
 func apply_light_energy():
 	# Directional light energy is 0 when cloud coverage is maximized
-	var cloud_coverage = environment.sky.get_material().get_shader_parameter("cloud_coverage")
-	var directional_energy = brightest_light_energy - remap(cloud_coverage, 0, 1, 0, brightest_light_energy)
+	var cloud_coverage = environment.sky.cloud_coverage
+	var directional_energy = brightest_light_energy - remap(cloud_coverage, 0, 1, 0, brightest_light_energy * 0.8)
 	
 	# Lower light quickly in the beginning when coverage/density are higher
 	# and lower light slower in the end (sqrt-curve-function), vice versa for ssao
 	var sqrt_cloud_cov = sqrt(cloud_coverage)
-	sky_light.light_energy = 2.0 - remap(sqrt_cloud_cov, 0, 1, 0, 1)
+	environment.background_energy_multiplier = 5.0 - sqrt_cloud_cov * 3.0
 	environment.ssao_intensity = 3.0 + remap(sqrt_cloud_cov, 0, 1, 0, 5)
 	
 	var altitude = rad_to_deg(-sky_light.rotation.x)
@@ -108,7 +109,7 @@ func apply_light_energy():
 		environment.ambient_light_energy = 0.0
 	else:
 		_set_directional_light_energy(directional_energy)
-		environment.ambient_light_energy = (directional_energy / brightest_light_energy) * 0.1
+		environment.ambient_light_energy = remap(cloud_coverage, 0, 1, 0, 0.5)
 
 
 func _set_directional_light_energy(new_energy):

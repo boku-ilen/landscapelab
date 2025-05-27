@@ -1,41 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://cejf5c8oyb02b"]
+[gd_scene load_steps=7 format=3 uid="uid://cejf5c8oyb02b"]
 
 [ext_resource type="Script" uid="uid://cvmfigm70dv3y" path="res://World/Environment/WorldEnvironment.gd" id="1"]
-[ext_resource type="Shader" uid="uid://cexmevsgbiujb" path="res://addons/clouds/clouds.gdshader" id="1_p31xn"]
-[ext_resource type="Texture2D" uid="uid://dfkye0uf4i6w1" path="res://addons/clouds/weather.bmp" id="2_ltw8f"]
-[ext_resource type="CompressedTexture3D" uid="uid://dbfbysid168mx" path="res://addons/clouds/perlworlnoise.tga" id="2_xrwak"]
-[ext_resource type="CompressedTexture3D" uid="uid://c4dp6g6gouj2b" path="res://addons/clouds/worlnoise.bmp" id="3_dh22h"]
+[ext_resource type="Sky" uid="uid://b6ffjku47471j" path="res://addons/cloud_sky/clouds_sky.tres" id="1_t6q4q"]
+[ext_resource type="Script" uid="uid://l8e462d0rtv2" path="res://addons/cloud_sky/sun_child.gd" id="3_5em3b"]
 [ext_resource type="PackedScene" uid="uid://b5nxph2mew1en" path="res://World/Environment/Rain/Rain.tscn" id="6_wusnq"]
 [ext_resource type="PackedScene" uid="uid://cib4g5bstb1xa" path="res://World/Environment/Lightning.tscn" id="7_canqr"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ywyjs"]
-shader = ExtResource("1_p31xn")
-shader_parameter/worlnoise = ExtResource("3_dh22h")
-shader_parameter/perlworlnoise = ExtResource("2_xrwak")
-shader_parameter/weathermap = ExtResource("2_ltw8f")
-shader_parameter/wind_direction = Vector2(1, 1)
-shader_parameter/wind_speed = 1.0
-shader_parameter/_density = 0.05
-shader_parameter/cloud_coverage = 0.32
-shader_parameter/_time_offset = 0.0
-shader_parameter/rayleigh = 2.0
-shader_parameter/rayleigh_color = Color(0.0325, 0.186875, 0.65, 1)
-shader_parameter/mie = 0.005
-shader_parameter/mie_eccentricity = 0.8
-shader_parameter/mie_color = Color(0.648, 0.6885, 0.81, 1)
-shader_parameter/turbidity = 10.0
-shader_parameter/sun_disk_scale = 1.0
-shader_parameter/ground_color = Color(1, 1, 1, 1)
-shader_parameter/exposure = 0.3
-
-[sub_resource type="Sky" id="Sky_gjwmw"]
-sky_material = SubResource("ShaderMaterial_ywyjs")
-process_mode = 3
-radiance_size = 4
-
 [sub_resource type="Environment" id="2"]
 background_mode = 2
-sky = SubResource("Sky_gjwmw")
+background_energy_multiplier = 5.0
+sky = ExtResource("1_t6q4q")
 ambient_light_source = 3
 ambient_light_color = Color(0.835294, 0.858824, 1, 1)
 ambient_light_sky_contribution = 0.09
@@ -50,6 +24,7 @@ glow_enabled = true
 fog_enabled = true
 fog_aerial_perspective = 1.0
 fog_sky_affect = 0.0
+adjustment_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("2")
@@ -66,11 +41,15 @@ sky_mode = 2
 [node name="WorldLight" type="DirectionalLight3D" parent="SkyLight"]
 layers = 34679
 light_color = Color(1, 0.995, 0.85, 1)
+light_energy = 5.0
 light_bake_mode = 0
 shadow_enabled = true
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 500.0
 sky_mode = 1
+
+[node name="SunChild" type="Node3D" parent="SkyLight"]
+script = ExtResource("3_5em3b")
 
 [node name="Rain" parent="." instance=ExtResource("6_wusnq")]
 enabled = false
