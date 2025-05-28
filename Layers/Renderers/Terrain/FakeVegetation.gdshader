@@ -117,7 +117,7 @@ void vertex() {
 
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
-	VERTEX.y += max(0.1, (dist_value.g * 255.0 + dist_value.b) * float(distribution_id > 0) * 0.75);
+	VERTEX.y += max(0.1, (dist_value.g * 255.0 + dist_value.b) * float(distribution_id > 0) * 0.85);
 }
 
 void fragment() {
@@ -138,7 +138,7 @@ void fragment() {
 
 			float height_here = max(0.2, (dist_value_here.g * 255.0 + dist_value_here.b) * float(distribution_id_here > 0));
 
-			if (distribution_id_here != distribution_id) {
+			if (distribution_id_here != distribution_id && distribution_id_here == 0) {
 				different_sample_count += 1.0;
 			}
 			if (distribution_id_here != 0 && height_here > highest_height) {
@@ -146,7 +146,7 @@ void fragment() {
 				dist_value = dist_value_here;
 				highest_height = height_here;
 			}
-			
+
 			if (offset == vec2(0.0, 0.0)) {
 				splatmap_value = splatmap_value_here;
 			}
@@ -188,30 +188,30 @@ void fragment() {
 	//}
 //
 	float random_hue_shift = (0.9 - texture(world_space_normal_map, worldpos.xz / 512.0).z) * 1.2;
-	
+
 	float angle = float(splatmap_value) / 10.0;
 	vec2 stripe_position = worldpos.xz / 256.0;
 	mat2 rotation = mat2(vec2(cos(angle), sin(angle)), vec2(-sin(angle), cos(angle)));
 	stripe_position = rotation * stripe_position;
-	
+
 	float stripe_noise_sample = texture(stripe_noise, stripe_position).r;
 	stripe_noise_sample = 0.1 + stripe_noise_sample * 0.9;
-	
+
 	hcy.r += random_hue_shift;
 	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0) * stripe_noise_sample;
 	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0) * stripe_noise_sample;
 
 	ALBEDO = HCYtoRGB(hcy);
-	
+
 	// Scale the lower alpha bound by the plant size in order to have more transparency with small plants
 	float size_alpha_scale = smoothstep(0.4, 0.8, dist_value.g * 255.0 + dist_value.b);
 
 	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), size_alpha_scale, 0.99);
 	ALPHA *= smoothstep(70.0, 90.0, length((camera_pos - worldpos)));
 	ALPHA_HASH_SCALE = 1.0;
-	
-	ALPHA *= smoothstep(9.0, 0.0, different_sample_count);
-	
+
+	ALPHA *= smoothstep(6.0, 0.0, different_sample_count);// + smoothstep(0.0, 1.5, highest_height);
+
 	NORMAL = (VIEW_MATRIX * vec4(get_normal(UV), 0.0)).xyz;
 
 	vec3 normal = texture(uv_normals, UV * 20.0).rgb;
