@@ -21,9 +21,17 @@ func _ready():
 
 
 func load_feature_instance(feature: GeoFeature) -> Node3D:
-	var instance = load(layer_composition.render_info.object).instantiate()
+	var path_to_object_scene = layer_composition.render_info.objects["default"]
+	# If selector attribute is set and we find an object then overwrite
+	var selector_attrib = layer_composition.render_info.selector_attribute_name
+	if feature.get_attribute(selector_attrib) in layer_composition.render_info.objects:
+		path_to_object_scene = layer_composition.render_info.objects[
+			feature.get_attribute(selector_attrib)]
+	
+	var instance = load(path_to_object_scene).instantiate()
 	instance.name = str(feature.get_id())
 	
+	# Set meta infos
 	if "weather_manager" in instance and weather_manager:
 		instance.set("weather_manager", weather_manager)
 	

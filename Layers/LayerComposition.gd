@@ -29,7 +29,6 @@ const RENDER_INFOS := {
 	"Vegetation": VegetationRenderInfo,
 	"Vector Vegetation": VectorVegetationRenderInfo,
 	"Object": ObjectRenderInfo,
-	"MultiMesh Object": MultiMeshObjectRenderInfo,
 	"Wind Turbine": WindTurbineRenderInfo,
 	"PolygonObject": PolygonObjectInfo,
 	"Building": BuildingRenderInfo,
@@ -186,10 +185,24 @@ class ParticlesRenderInfo extends RenderInfo:
 	pass
 
 class ObjectRenderInfo extends RenderInfo:
-	var object: String
+	# The geodata-key-attribute that determines which connector/connection to use
+	var selector_attribute_name: String
+	# Either objects or meshes have to be set 
+	# - objects define scenes
+	# - meshes define *.tres and can be handled as multimeshinstance
+	var objects: Dictionary
+	var meshes: Dictionary : 
+		set(new_meshes):
+			meshes = new_meshes
+			renderer = preload("res://Layers/Renderers/Objects/MultiMeshObjectRenderer.tscn")
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
 	var radius: float = 20000
+	
+	# For multimesh rendering
+	var chunk_size: float = 1000.0
+	var extent: int = 5
+	var randomize: bool = false
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn")
@@ -205,19 +218,6 @@ class ObjectRenderInfo extends RenderInfo:
 		return geo_feature_layer != null && ground_height_layer != null
 	
 	func get_class_name() -> String: return "Object"
-
-
-class MultiMeshObjectRenderInfo extends ObjectRenderInfo:
-	var chunk_size = null
-	var extent = null
-	var randomize = false
-	
-	func _init():
-		renderer = preload("res://Layers/Renderers/Objects/MultiMeshObjectRenderer.tscn")
-		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
-	
-	func get_class_name() -> String: return "MultiMesh Object"
-
 
 class WindTurbineRenderInfo extends ObjectRenderInfo:
 	var height_attribute_name: String
