@@ -1,0 +1,37 @@
+[gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://dp71bpehsaw85"]
+
+[ext_resource type="Material" uid="uid://c27evetdl11k4" path="res://Objects/Infrastructure/Traffic/RoadInfrastructure1.tres" id="1_2irww"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_1xxvj"]
+_surfaces = [{
+"aabb": AABB(-0.575, -0.125, 0, 1.15, 0.25, 0.026732),
+"format": 34896613377,
+"index_count": 84,
+"index_data": PackedByteArray("CAAJAAoACAAKAAsACwAFAAgACAAFAAAACAAAAAkABQADAAAABQALAAMACQAAAAEAAAADAAEADAABAAMACQABAAwAAwALAAwACQAMAA0ACgAJAA0ADAALAA4ADQAMAA4ACwAKAA8ADgALAA8AAgAKAA0ADQAOAAIABgAKAAIADwAKAAcABwAKAAYADwAHAA4AAgAHAAYADgAHAAQABAAHAAIAAgAOAAQA"),
+"lods": [0.115148, PackedByteArray("AAABAAIAAQADAAIAAAADAAEAAgADAAQABQADAAAABgAAAAIABQAHAAMAAwAHAAQABwAFAAAABAAHAAIABwAAAAYAAgAHAAYA")],
+"name": "aiStandardSurface1SG",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("AAAy8///AAAAADLzAAAAAP//MvMAAAAAAADMDAAAAAD//8wMAAAAAAAAzAz//wAA//8y8///AAD//8wM//8AAMgC/////wAAyAL//wAAAAA2/f////8AAMgCAAD//wAAyAIAAAAAAAA2/f//AAAAADb9AAAAAAAANv0AAP//AAA=")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "Mesh"
+_surfaces = [{
+"aabb": AABB(-0.575, -0.125, 0, 1.15, 0.25, 0.026732),
+"attribute_data": PackedByteArray("UljWVhFYIFY6dSFW/nTTVrZXjlymV9pWYViKXKl101YBdYhcrXWHXCRYOl1DdT1dAXWIXFJY1lb+dNNWYViKXBl1amNAWMddHnXHXTxYaWOiWI9WhVjnVa10jVZSWNZWznTlVf5001aQWHddsljPXM90dl1hWIpcsnTOXAF1iFyMWLljkFh3Xcl0umPPdHZdsnTOXK10jVayWM9coliPVg=="),
+"format": 34896613399,
+"index_count": 84,
+"index_data": PackedByteArray("FAAVABYAFAAXABUAFQAXAAEAFgAVABgAAgAWABgAGQAWAAIAGgAbABwACgAbABoAHQAbAAoAHAAbAB4AHgAfABwAHAAfAAsACQAIAAcABwAIAAMABgAEAAAAAAAEAAUAIAATACEAIQATABEAIAAhACIAIgAhACMAIgAjABAAEAAjABIAJAAlAAwADAAlAA4AJgAlACQAJwAlACYAJgAPACcAJwAPAA0A"),
+"lods": [0.115148, PackedByteArray("AAABAAIAAwAAAAIAAAAEAAUABgAEAAAABwAIAAMACQAIAAcABgAIAAoACgAIAAsADAANAA4ADAAPAA0AEAARABIAEwARABAA")],
+"material": ExtResource("1_2irww"),
+"name": "aiStandardSurface1SG",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 40,
+"vertex_data": PackedByteArray("AAAy8///DsAAADLzAAC3yP//MvMAAGDH//8y8///BcAAAMwMAAABwAAAMvMAAA7AAADMDP//AsD//zLzAAAFwP//zAz//wjA///MDAAACMAAAMwMAABJx///zAwAAJjI///MDP//4YQAADLz///3hP//MvP//5CFAADMDP//TYX//zLzAAD//wAAzAwAAP/////MDAAA//8AADLzAAD//8gC/////0TByAL//wAA58A2/f////8WwQAAMvP///XGNv3//wAA+8D//zLz///dxsgCAAAAAALByAIAAP//GME2/QAAAADpwAAAzAz//9/GNv0AAP//O8H//8wM//8Ix8gC//8AAP//yAIAAAAA//82/f//AAD//zb9AAAAAP//Nv0AAP//soE2/f////+egcgCAAD//9mByAL/////aYHPgZr5scOJ3PGhgUBkhnMDmXmR+8uBmvmZeZX7ZIZ2Azh9ZAY8fWQGKV64v5Q8UyP///////////9//3//f/9/wv/Cf9f/13/D/8R/yf/Kf2Xdz5F64cuPG+9FX2m/kd6374BgT6ErP24Qzp/sEM2gnx4mcK1ezsBCIlpuZECEIez/7H/w//F/7P/sf+3/7X///////3//f/9//3//////")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_1xxvj")

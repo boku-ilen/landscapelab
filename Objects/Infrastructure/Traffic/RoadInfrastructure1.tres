@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://c27evetdl11k4"]
+
+[ext_resource type="Texture2D" uid="uid://dfnht7wbqybj5" path="res://Resources/Meshes/RoadInfrastructure/Textures/straßeninfra base color.png" id="1_agfll"]
+[ext_resource type="Texture2D" uid="uid://dbmgettrhcp8k" path="res://Resources/Meshes/RoadInfrastructure/Textures/straßeninfra metallic.png" id="2_5r05p"]
+[ext_resource type="Texture2D" uid="uid://ce8discmnk2er" path="res://Resources/Meshes/RoadInfrastructure/Textures/straßeninfra normal.png" id="3_goaqg"]
+[ext_resource type="Texture2D" uid="uid://dnjn7nw3ol2to" path="res://Resources/Meshes/RoadInfrastructure/Textures/straßeninfra roughness.png" id="4_vwsvy"]
+
+[resource]
+albedo_texture = ExtResource("1_agfll")
+metallic = 1.0
+metallic_texture = ExtResource("2_5r05p")
+roughness_texture = ExtResource("4_vwsvy")
+normal_enabled = true
+normal_texture = ExtResource("3_goaqg")

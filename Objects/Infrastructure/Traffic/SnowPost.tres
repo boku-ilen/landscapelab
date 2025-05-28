@@ -1,0 +1,37 @@
+[gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://dcfxj8wwmipt4"]
+
+[ext_resource type="Material" uid="uid://c27evetdl11k4" path="res://Objects/Infrastructure/Traffic/RoadInfrastructure1.tres" id="1_4rjkm"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_iqr6n"]
+_surfaces = [{
+"aabb": AABB(-0.027254, -0.226824, -0.023603, 0.054508, 2.22682, 0.047206),
+"format": 34896613377,
+"index_count": 54,
+"index_data": PackedByteArray("AAABAAcABwABAAIAAQAGAAIACAAAAAcAAwAAAAgABwACAAkACAAHAAkAAgAGAAoAAgAKAAkABgAFAAoACwADAAgACwAIAAkABAADAAsACgAFAAwABQAEAAwACgAMAAkADAAEAAsADAALAAkA"),
+"lods": [0.0324091, PackedByteArray("AAABAAIAAwAAAAIABAADAAIAAgABAAIABQAEAAIAAQAGAAIABgAFAAIA")],
+"name": "aiStandardSurface1SG",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 13,
+"vertex_data": PackedByteArray("/z8AAAAAAAD/vwAAAAAAAP+///8AAAAAAAAAAP9/AAD/PwAA//8AAP+/AAD//wAA//8AAP9/AAD/P///AAAAAAAA////fwAA/3////9/AAD//////38AAP8//////wAA/7//////AAA=")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "Mesh"
+_surfaces = [{
+"aabb": AABB(-0.027254, -0.226824, -0.023603, 0.054508, 2.22682, 0.047206),
+"attribute_data": PackedByteArray("7riSqT+4lKkBvOJx67focZy5kalKupCp+bqPqae7jqlWvI2pmbjncUe55nH2ueVxpLrkcVO743FXvEtxAbzicam7THFTu+Nx/7u0cPu6TXFRu7Vw"),
+"format": 34896613399,
+"index_count": 54,
+"index_data": PackedByteArray("AAABAAkACQABAAMACgAAAAkABAAAAAoACwAEAAoABQAEAAsADAAFAAsABgAFAAwADQAGAAwABwAGAA0AAgAHAA0ACAAHAAIADgAPABAADwARABAAEgAOABAAEQATABAAFAASABAAEwAUABAA"),
+"lods": [0.0324091, PackedByteArray("AAABAAIAAgABAAMABAAAAAIABQAEAAIABgAFAAIABwAGAAIACAAHAAIA")],
+"material": ExtResource("1_4rjkm"),
+"name": "aiStandardSurface1SG",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 21,
+"vertex_data": PackedByteArray("/z8AAAAAqer/vwAAAACp6v+///8AAKnq/7///wAAqeoAAAAA/3//v/8/AAD//1WV/78AAP//VZX//wAA/3//v/+/AAAAAKnq/z///wAAqeoAAP///3//v/8//////1WV/7//////VZX//////3//v/8///8AAGbi/7///wAAZOL/f////39k4v//////f2PiAAD///9/ZuL/v/////9j4v8//////2Tijn9v/3CAjwBwgI8AcICPAI5/Hf+Tf/39a4ABAnCA4QBwgI8AkX9z/5J/JP+Pf+39b4ARAnCA4QBnztEcaM7SHGjO0hxpztMcZ87RHGnO0xxoztIc")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_iqr6n")
