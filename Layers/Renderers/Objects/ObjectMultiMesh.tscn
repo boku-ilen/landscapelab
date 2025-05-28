@@ -4,6 +4,3 @@
 
 [node name="ObjectMultiMesh" type="Node3D"]
 script = ExtResource("1_wml4g")
-
-[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
-layers = 4
