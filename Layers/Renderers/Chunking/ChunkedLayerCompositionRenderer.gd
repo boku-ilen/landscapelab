@@ -141,5 +141,5 @@ func apply_new_data():
 func get_debug_info() -> String:
 	return "{0} chunks with a maximum size of {1} m.".format([
 		chunks.size(),
-		chunks.back().size
+		chunks.back().size if not chunks.is_empty() else ""
 	])
