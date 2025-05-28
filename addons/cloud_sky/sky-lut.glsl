@@ -82,9 +82,9 @@ const float ozone_mean_monthly_dobson = 350.0;
  * "A Physically-Based Spatio-Temporal Sky Model"
  * by Guimera et al. (2018).
  */
-const vec4 aerosol_absorption_cross_section = vec4(2.8722e-24, 4.6168e-24, 7.9706e-24, 1.3578e-23);
-const vec4 aerosol_scattering_cross_section = vec4(1.5908e-22, 1.7711e-22, 2.0942e-22, 2.4033e-22);
-const float aerosol_base_density = 1.3681e20;
+const vec4 aerosol_absorption_cross_section = vec4(5.0393e-23, 8.0765e-23, 1.3823e-22, 2.3383e-22);
+const vec4 aerosol_scattering_cross_section = vec4(2.6004e-22, 2.4844e-22, 2.8362e-22, 2.7494e-22);
+const float aerosol_base_density = 8.544e18;
 const float aerosol_background_density = 2e6;
 const float aerosol_height_scale = 0.73;
 
@@ -310,6 +310,7 @@ void main()
 
     vec4 transmittance;
     vec4 L = compute_inscattering(ray_origin, ray_dir, t_d, transmittance);
+    L = max(L, vec4(0.0005));
     imageStore(current_image, pos, vec4(linear_srgb_from_spectral_samples(L), 1.0));
 
 }

@@ -18,5 +18,5 @@ shader_parameter/blend_to_texture = SubResource("Texture2DRD_b0b6a")
 shader_parameter/sky_blend_from_texture = SubResource("Texture2DRD_ghkfs")
 shader_parameter/sky_blend_to_texture = SubResource("Texture2DRD_feyn2")
 shader_parameter/source_transmittance = ExtResource("2_ydq55")
-shader_parameter/blend_amount = 0.609375
+shader_parameter/blend_amount = 0.625
 shader_parameter/sun_disk_scale = 1.0
