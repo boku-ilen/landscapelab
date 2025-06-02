@@ -10,7 +10,7 @@
 render_priority = 0
 shader = ExtResource("1_atn4s")
 shader_parameter/wind_map = ExtResource("5_ivxrk")
-shader_parameter/wind_speed = Vector2(12, 12)
+shader_parameter/wind_speed = Vector2(0, 0)
 shader_parameter/wind_factor = 0.8
 shader_parameter/tex_tiling = Vector2(2, 2)
 shader_parameter/albedo_tex = ExtResource("2_6ofkl")

@@ -22,6 +22,7 @@ uniform vec3 most_extreme_random_color: source_color;
 varying flat float spritesheet_index;
 varying flat float random_instance_factor;
 varying flat float is_detailed;
+varying float camera_distance;
 
 #include "res://Resources/Shader/Wind/Wind.gdshaderinc"
 
@@ -31,6 +32,8 @@ void vertex() {
 	spritesheet_index = INSTANCE_CUSTOM.r;
 	random_instance_factor = INSTANCE_CUSTOM.g;
 	is_detailed = INSTANCE_CUSTOM.b;
+	
+	camera_distance = distance((MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz, CAMERA_POSITION_WORLD);
 }
 
 void fragment() {
@@ -78,7 +81,7 @@ void fragment() {
 	SPECULAR = specular;
 
 	ALPHA = albedo_tex.a;
-	ALPHA_SCISSOR_THRESHOLD = 0.35;
+	ALPHA_SCISSOR_THRESHOLD = mix(0.3, 0.8, smoothstep(20.0, 5.0, camera_distance));
 
 	BACKLIGHT = backlight.rgb * (0.3 + is_detailed * 0.7);
 	RIM = 0.3 * (0.3 + is_detailed * 0.7);

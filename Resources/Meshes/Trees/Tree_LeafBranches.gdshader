@@ -3,7 +3,8 @@ render_mode blend_mix, depth_prepass_alpha, cull_disabled, diffuse_burley, specu
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 
-uniform float alpha_scissor_threshold : hint_range(0.0, 1.0, 0.01) = 0.15;
+uniform float alpha_scissor_threshold : hint_range(0.0, 1.0, 0.01) = 0.7;
+uniform float alpha_scissor_threshold_low : hint_range(0.0, 1.0, 0.01) = 0.1;
 
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec3 albedo_multiply : source_color = vec3(1.0);
@@ -78,6 +79,8 @@ uniform float rim_strength : hint_range(0.0, 1.0) = 0.03;
 */
 uniform float rim_color_from_albedo : hint_range(0.0, 1.0) = 0.5;
 
+varying float camera_distance;
+
 #include "res://Resources/Shader/Wind/Wind.gdshaderinc"
 
 void vertex() {
@@ -85,6 +88,8 @@ void vertex() {
 	//if (VERTEX.y < 0.5) VERTEX = vec3(1.0 / 0.0);
 
 	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
+	
+	camera_distance = distance((MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz, CAMERA_POSITION_WORLD);
 }
 
 void fragment() {
@@ -117,7 +122,7 @@ void fragment() {
 	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
 
 	ALPHA = albedo_w_alpha.a;
-	ALPHA_SCISSOR_THRESHOLD = alpha_scissor_threshold;
+	ALPHA_SCISSOR_THRESHOLD = mix(alpha_scissor_threshold_low, alpha_scissor_threshold, smoothstep(20.0, 5.0, camera_distance));
 	ALBEDO = albedo_w_alpha.rgb * albedo_multiply.rgb;
 
 	METALLIC = 0.0;
@@ -125,7 +130,7 @@ void fragment() {
 	ROUGHNESS = rough_ao_trans.r + roughness_offset;
 
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
-	NORMAL_MAP_DEPTH = normal_strength;
+	NORMAL_MAP_DEPTH = smoothstep(300.0, 100.0, camera_distance) * normal_strength;
 
 	AO = mix(1.0, rough_ao_trans.g, ao_strength);
 	AO_LIGHT_AFFECT = ao_light_affect;

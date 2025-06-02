@@ -8,7 +8,7 @@ var features
 var rng := RandomNumberGenerator.new()
 var initial_rng_state
 
-var refine_load_distance = 750
+var refine_load_distance = 500
 
 var weather_manager: WeatherManager :
 	get:
@@ -77,29 +77,14 @@ static var species_to_mesh = {
 	"Oleaeuropaea": preload("res://Layers/Renderers/VectorVegetation/Oleaeuropaea.tres")
 }
 
-static var mesh_name_to_spritesheet_index = {
-	"Fagus": 0,
-	"Pinus2": 1,
-	"Pinus": 1,
-	"PinusHigh": 1,
-	"Quercus2": 2,
-	"Fraxinus": 2,
-	"Eucalyptus": 2,
-	"Oleaeuropaea": 2
-}
-
 static var mesh_name_to_billboard_index = {
-	"Fagus": 0,
-	"Betula": 0,
-	"Pinus2": 1,
-	"Pinus": 2,
-	"Pinus_sylvestris": 2,
-	"PinusHigh": 2,
-	"Picea_abies": 2,
-	"Quercus2": 3,
-	"Fraxinus": 3,
-	"Eucalyptus": 4,
-	"Oleaeuropaea": 3
+	"PinusHigh": 0,
+	"Quercus2": 1,
+	"Betula": 2,
+	"Fagus": 3,
+	"Fraxinus": 4,
+	"Picea_abies": 5,
+	"Pinus_sylvestris": 6
 }
 
 var species_to_mesh_name = {}
@@ -168,6 +153,9 @@ func create_multimeshes():
 			mmi.name = mesh_name
 			
 			mesh_name_to_mmi[mesh_name] = mmi
+			
+			mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
+			
 			add_child(mmi)
 	
 	var mmi := MultiMeshInstance3D.new()
@@ -175,7 +163,8 @@ func create_multimeshes():
 	mmi.set_layer_mask_value(1, false)
 	mmi.set_layer_mask_value(3, true)
 	mmi.name = "Billboard"
-	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
 	
 	mesh_name_to_mmi["Billboard"] = mmi
 	add_child(mmi)
@@ -240,7 +229,7 @@ func override_build(center_x, center_y):
 		var instance_scale = feature.get_attribute("height1").to_float() * 1.3
 		
 		if instance_scale < 1.0: continue
-		elif instance_scale < 8.0 and not is_detailed: continue
+		elif instance_scale < 5.0 and not is_detailed: continue
 
 		var pos = feature.get_offset_vector3(-int(center_x), 0, -int(center_y))
 		pos.y = height_layer.get_value_at_position(pos.x + center_x, center_y - pos.z)
@@ -254,8 +243,7 @@ func override_build(center_x, center_y):
 		
 		if is_detailed:
 			mesh_name_to_custom_data[mesh_name].append(Color(
-				mesh_name_to_spritesheet_index[species_mesh_name] \
-						if species_mesh_name in mesh_name_to_spritesheet_index else 0, # Spritesheet index
+				0.0,
 				rng.randf(), # Randomness for shading
 				1.0
 			))

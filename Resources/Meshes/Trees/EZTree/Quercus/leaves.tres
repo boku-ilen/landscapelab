@@ -9,6 +9,7 @@
 render_priority = 0
 shader = ExtResource("1_17cdd")
 shader_parameter/alpha_scissor_threshold = 0.5
+shader_parameter/alpha_scissor_threshold_low = 0.25
 shader_parameter/albedo_tex = ExtResource("2_2jt06")
 shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
 shader_parameter/albedo_node_rand_hue_branch = 0.08
@@ -29,5 +30,5 @@ shader_parameter/backlight_strength = 1.0
 shader_parameter/rim_strength = 0.03
 shader_parameter/rim_color_from_albedo = 0.5
 shader_parameter/wind_map = ExtResource("4_s7mie")
-shader_parameter/wind_speed = Vector2(12, 12)
+shader_parameter/wind_speed = Vector2(0, 0)
 shader_parameter/wind_factor = 0.5

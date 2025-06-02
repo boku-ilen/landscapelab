@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://dev4ae0w02tgs"]
+
+[ext_resource type="Shader" uid="uid://eiebi7w23ol5" path="res://Layers/Renderers/VectorVegetation/Materials/Spritesheet.gdshader" id="1_ve2sn"]
+[ext_resource type="Texture2D" uid="uid://bx2u1l8hyv17t" path="res://Resources/Meshes/Trees/Betula/Betula_branches_raotrans.png" id="2_dtbta"]
+[ext_resource type="Texture2D" uid="uid://h4esbpddd2ji" path="res://Layers/Renderers/VectorVegetation/Materials/spritesheet_albedo.png" id="2_hd1uf"]
+[ext_resource type="Texture2D" uid="uid://cm1xaoy7qca2g" path="res://Layers/Renderers/VectorVegetation/Materials/spritesheet_normal.png" id="3_vary6"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ve2sn")
+shader_parameter/alpha_scissor_threshold = 0.5
+shader_parameter/albedo_tex = ExtResource("2_hd1uf")
+shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
+shader_parameter/albedo_node_rand_hue_branch = 0.08
+shader_parameter/albedo_node_rand_hue_leaf = 0.1
+shader_parameter/albedo_node_rand_chroma_branch = 0.01
+shader_parameter/albedo_node_rand_chroma_leaf = 0.005
+shader_parameter/albedo_node_rand_luma_branch = 0.02
+shader_parameter/albedo_node_rand_luma_leaf = 0.01
+shader_parameter/normal_tex = ExtResource("3_vary6")
+shader_parameter/normal_strength = -16.0
+shader_parameter/rough_ao_transmission_tex = ExtResource("2_dtbta")
+shader_parameter/roughness_offset = 0.1
+shader_parameter/ao_strength = 1.0
+shader_parameter/ao_light_affect = 0.8
+shader_parameter/backlight_color_from_albedo = 1.0
+shader_parameter/backlight_tint = Color(1, 1, 1, 1)
+shader_parameter/backlight_affected_by_ao = 0.5
+shader_parameter/backlight_strength = 1.0
+shader_parameter/rim_strength = 0.03
+shader_parameter/rim_color_from_albedo = 0.5
+shader_parameter/sprite_count = 7
