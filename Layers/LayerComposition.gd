@@ -190,7 +190,10 @@ class ObjectRenderInfo extends RenderInfo:
 	# Either objects or meshes have to be set 
 	# - objects define scenes
 	# - meshes define *.tres and can be handled as multimeshinstance
-	var objects: Dictionary
+	var objects: Dictionary :
+		set(new_objects):
+			objects = new_objects
+			renderer = preload("res://Layers/Renderers/Objects/ObjectRenderer.tscn")
 	var meshes: Dictionary : 
 		set(new_meshes):
 			meshes = new_meshes

@@ -9,6 +9,8 @@ var objects_mapping: Dictionary :
 			var new_mmi = MultiMeshInstance3D.new()
 			new_mmi.name = key
 			add_child(new_mmi)
+			instance_mapping[key] = load(objects_mapping[key])
+var instance_mapping: Dictionary 
 var selector_attribute_name: String = ""
 var randomize: bool
 
@@ -31,6 +33,19 @@ func rebuild_aabb(node):
 	node.set_custom_aabb(aabb)
 
 
+# Function to filter objects depending on their attribute type
+func filter_features_per_mesh(f, key): 
+	# Check for defaults (if unset and key is default then we set to default)
+	if  selector_attribute_name == "" and key == "default": 
+		return true
+	var type = f.get_attribute(selector_attribute_name)
+	if type not in objects_mapping.keys() and key == "default":
+		return true
+	
+	# Check for right type (otherwise check if the feature of attribute is the key)
+	return type == key
+
+
 func override_build(center_x, center_y):
 	fresh_multimesh_mapping = {}
 	
@@ -39,21 +54,9 @@ func override_build(center_x, center_y):
 	
 	features = object_layer.get_features_in_square(top_left_x, top_left_y, size, 10000000)
 	
-	# Function to filter objects depending on their attribute type
-	var filter = func(f, key): 
-		# Check for defaults
-		if  selector_attribute_name == "": 
-			return true
-		var type = f.get_attribute(selector_attribute_name)
-		if type not in objects_mapping.keys() and key == "default":
-			return true
-		
-		# Check for right type
-		return type == key
-		
 	for key in objects_mapping:
-		var filtered = features.filter(filter.bind(key))
-		var object = load(objects_mapping[key])
+		var filtered = features.filter(filter_features_per_mesh.bind(key))
+		var object = instance_mapping[key].duplicate(5)
 		fresh_multimesh_mapping[key] = MultiMesh.new()
 		
 		fresh_multimesh_mapping[key].transform_format = MultiMesh.TRANSFORM_3D

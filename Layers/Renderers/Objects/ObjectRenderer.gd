@@ -1,6 +1,7 @@
 extends FeatureLayerCompositionRenderer
 
 
+var instance_mapping: Dictionary
 var weather_manager: WeatherManager :
 	get:
 		return weather_manager 
@@ -17,18 +18,21 @@ func set_time_manager():
 func _ready():
 	radius = layer_composition.render_info.radius
 	
+	# "Pre"load instances to save time during instantiation (duplicate with FLAG=5)
+	for key in layer_composition.render_info.objects:
+		instance_mapping[key] = load(layer_composition.render_info.objects[key]).instantiate()
+	
 	super._ready()
 
 
 func load_feature_instance(feature: GeoFeature) -> Node3D:
-	var path_to_object_scene = layer_composition.render_info.objects["default"]
+	var instance_key = "default"
 	# If selector attribute is set and we find an object then overwrite
 	var selector_attrib = layer_composition.render_info.selector_attribute_name
 	if feature.get_attribute(selector_attrib) in layer_composition.render_info.objects:
-		path_to_object_scene = layer_composition.render_info.objects[
-			feature.get_attribute(selector_attrib)]
+		instance_key = feature.get_attribute(selector_attrib)
 	
-	var instance = load(path_to_object_scene).instantiate()
+	var instance = instance_mapping[instance_key].duplicate(5)
 	instance.name = str(feature.get_id())
 	
 	# Set meta infos
