@@ -19,5 +19,5 @@ shader_parameter/spritesheet_albedo = ExtResource("2_321v5")
 shader_parameter/spritesheet_normal = ExtResource("3_ybtry")
 shader_parameter/most_extreme_random_color = Color(0.784314, 0.72549, 0, 1)
 shader_parameter/wind_map = ExtResource("4_0m7ns")
-shader_parameter/wind_speed = Vector2(12, 12)
+shader_parameter/wind_speed = Vector2(0, 0)
 shader_parameter/wind_factor = 1.0

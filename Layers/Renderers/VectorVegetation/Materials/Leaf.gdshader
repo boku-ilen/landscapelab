@@ -78,7 +78,7 @@ void fragment() {
 	SPECULAR = specular;
 
 	ALPHA = albedo_tex.a;
-	ALPHA_SCISSOR_THRESHOLD = 0.35;
+	ALPHA_SCISSOR_THRESHOLD = mix(0.3, 0.8, smoothstep(20.0, 5.0, (1.0 - FRAGCOORD.z) / FRAGCOORD.w));
 
 	BACKLIGHT = backlight.rgb * (0.3 + is_detailed * 0.7);
 	RIM = 0.3 * (0.3 + is_detailed * 0.7);

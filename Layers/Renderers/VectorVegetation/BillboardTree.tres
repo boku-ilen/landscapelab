@@ -1,6 +1,6 @@
 [gd_resource type="ArrayMesh" load_steps=2 format=4 uid="uid://bg0kbvy7ijboa"]
 
-[ext_resource type="Material" uid="uid://cd8wgswpf1pon" path="res://Layers/Renderers/VectorVegetation/Materials/BillboardTree.tres" id="1_pntiy"]
+[ext_resource type="Material" uid="uid://dev4ae0w02tgs" path="res://Layers/Renderers/VectorVegetation/Materials/Spritesheet.tres" id="1_2312i"]
 
 [resource]
 _surfaces = [{
@@ -9,7 +9,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 12,
 "index_data": PackedByteArray("AAABAAIAAgABAAMABAAFAAYABgAFAAcA"),
-"material": ExtResource("1_pntiy"),
+"material": ExtResource("1_2312i"),
 "name": "None",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
