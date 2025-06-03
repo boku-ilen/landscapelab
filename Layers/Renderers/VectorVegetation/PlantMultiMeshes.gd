@@ -84,7 +84,8 @@ static var mesh_name_to_billboard_index = {
 	"Fagus": 3,
 	"Fraxinus": 4,
 	"Picea_abies": 5,
-	"Pinus_sylvestris": 6
+	"Pinus_sylvestris": 6,
+	"Eucalyptus": 7
 }
 
 var species_to_mesh_name = {}

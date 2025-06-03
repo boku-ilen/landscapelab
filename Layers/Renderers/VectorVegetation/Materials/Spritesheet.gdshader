@@ -34,7 +34,7 @@ uniform vec3 backlight_tint : source_color = vec3(1.0);
 */
 uniform float backlight_strength : hint_range (0.0, 10.0) = 1.0;
 
-uniform int sprite_count = 7;
+uniform int sprite_count = 8;
 varying flat float spritesheet_index;
 varying flat float random_instance_factor;
 varying flat float is_detailed;
