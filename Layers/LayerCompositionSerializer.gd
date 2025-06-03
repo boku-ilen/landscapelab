@@ -19,6 +19,15 @@ static func get_geolayer_from_path(abs_path: String, attribute_name: String, cls
 	return null
 
 
+static func get_virtual_layer(abs_path: String, sub_config: Dictionary) -> GeoFeatureLayer:
+	var splits = LLFileAccess.split_dataset_string(abs_path, sub_config["dataset"])
+	
+	var geo_ds = Geodot.get_dataset(
+		splits["file_name"], splits["write_access"])
+	
+	return geo_ds.get_sql_feature_layer(sub_config["sql_query"])
+
+
 static func deserialize(
 		abs_path: String, composition_name: String, 
 		type: String, attributes: Dictionary, 
@@ -36,7 +45,10 @@ static func deserialize(
 		var render_attribute = render_properties[attribute_name]
 
 		if render_attribute["class_name"] in ["GeoRasterLayer", "GeoFeatureLayer"]:
-			attribute = get_geolayer_from_path(abs_path, attribute, render_attribute["class_name"])
+			if attribute is Dictionary and attribute["_type"] == "virtual":
+				attribute = get_virtual_layer(abs_path, attribute)
+			else:
+				attribute = get_geolayer_from_path(abs_path, attribute, render_attribute["class_name"])
 		
 		layer_composition.render_info.set(attribute_name, attribute)
 	
