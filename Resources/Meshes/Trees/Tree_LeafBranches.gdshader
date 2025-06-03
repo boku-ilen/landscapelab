@@ -8,12 +8,6 @@ uniform float alpha_scissor_threshold_low : hint_range(0.0, 1.0, 0.01) = 0.1;
 
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec3 albedo_multiply : source_color = vec3(1.0);
-uniform float albedo_node_rand_hue_branch : hint_range(0.0, 1.0) = 0.08;
-uniform float albedo_node_rand_hue_leaf : hint_range(0.0, 1.0) = 0.1;
-uniform float albedo_node_rand_chroma_branch : hint_range(0.0, 1.0) = 0.01;
-uniform float albedo_node_rand_chroma_leaf : hint_range(0.0, 1.0) = 0.005;
-uniform float albedo_node_rand_luma_branch : hint_range(0.0, 1.0) = 0.02;
-uniform float albedo_node_rand_luma_leaf : hint_range(0.0, 1.0) = 0.01;
 
 uniform sampler2D normal_tex : hint_normal, filter_linear_mipmap, repeat_enable;
 uniform float normal_strength : hint_range(-16.0, 16.0) = 1.0;
@@ -82,6 +76,7 @@ uniform float rim_color_from_albedo : hint_range(0.0, 1.0) = 0.5;
 varying float camera_distance;
 
 #include "res://Resources/Shader/Wind/Wind.gdshaderinc"
+#include "res://Resources/Meshes/Trees/Tree_HueMix.gdshaderinc"
 
 void vertex() {
 	// Concept for forest trees:
@@ -90,6 +85,9 @@ void vertex() {
 	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
 	
 	camera_distance = distance((MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz, CAMERA_POSITION_WORLD);
+	
+	hue_mix_from = get_hue_mix_from_values(NODE_POSITION_WORLD);
+	hue_mix_to = get_hue_mix_to_values(NODE_POSITION_WORLD);
 }
 
 void fragment() {
@@ -108,16 +106,16 @@ void fragment() {
 	// -> Make sure Trunk Shader/Material uses same calculation/value as branches!
 	vec3 albedo_hcy = RGBtoHCY(albedo_w_alpha.rgb);
 	albedo_hcy.r += mix(
-		sin(NODE_POSITION_WORLD.x * 2.0 * PI * 71.33) * PI * albedo_node_rand_hue_branch,
-		sin(NODE_POSITION_WORLD.x * 2.0 * PI * 62.691) * PI * albedo_node_rand_hue_leaf,
+		hue_mix_from.r,
+		hue_mix_to.r,
 		rough_ao_trans.b);
 	albedo_hcy.g += mix(
-		sin(NODE_POSITION_WORLD.y * 132.935) * albedo_node_rand_chroma_branch,
-		sin(NODE_POSITION_WORLD.y * 538.217) * albedo_node_rand_chroma_leaf,
+		hue_mix_from.g,
+		hue_mix_to.g,
 		rough_ao_trans.b);
 	albedo_hcy.b += mix(
-		sin(NODE_POSITION_WORLD.z * 387.247) * albedo_node_rand_luma_branch,
-		sin(NODE_POSITION_WORLD.z * 239.871) * albedo_node_rand_luma_leaf,
+		hue_mix_from.b,
+		hue_mix_to.b,
 		rough_ao_trans.b);
 	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
 

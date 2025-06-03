@@ -10,6 +10,7 @@
 render_priority = 0
 shader = ExtResource("1_kf6h3")
 shader_parameter/alpha_scissor_threshold = 0.6
+shader_parameter/alpha_scissor_threshold_low = 0.1
 shader_parameter/albedo_tex = ExtResource("2_v7ah2")
 shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
 shader_parameter/albedo_node_rand_hue_branch = 0.03
