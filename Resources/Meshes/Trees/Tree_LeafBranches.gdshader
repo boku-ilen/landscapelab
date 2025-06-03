@@ -31,7 +31,7 @@ uniform float roughness_offset : hint_range(-1.0, 1.0) = 0.0;
 * [b]0[/b]: No AO.
 * [b]>0[/b]: Uses Green channel of "Rough AO Transmission Tex".
  */
-uniform float ao_strength : hint_range(0.0, 10.0) = 1.0;
+uniform float ao_strength : hint_range(0.0, 10.0) = 0.6;
 
 /**
 * [b]0[/b]: AO only affects ambient light.
@@ -128,7 +128,7 @@ void fragment() {
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = smoothstep(300.0, 100.0, depth) * normal_strength;
 
-	AO = mix(1.0, rough_ao_trans.g, ao_strength);
+	AO = rough_ao_trans.g * ao_strength;
 	AO_LIGHT_AFFECT = ao_light_affect;
 
 
