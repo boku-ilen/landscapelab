@@ -73,8 +73,6 @@ uniform float rim_strength : hint_range(0.0, 1.0) = 0.03;
 */
 uniform float rim_color_from_albedo : hint_range(0.0, 1.0) = 0.5;
 
-varying float camera_distance;
-
 #include "res://Resources/Shader/Wind/Wind.gdshaderinc"
 #include "res://Resources/Meshes/Trees/Tree_HueMix.gdshaderinc"
 
@@ -83,8 +81,6 @@ void vertex() {
 	//if (VERTEX.y < 0.5) VERTEX = vec3(1.0 / 0.0);
 
 	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
-	
-	camera_distance = distance((MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz, CAMERA_POSITION_WORLD);
 	
 	hue_mix_from = get_hue_mix_from_values(NODE_POSITION_WORLD);
 	hue_mix_to = get_hue_mix_to_values(NODE_POSITION_WORLD);
@@ -118,9 +114,11 @@ void fragment() {
 		hue_mix_to.b,
 		rough_ao_trans.b);
 	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
+	
+	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 
 	ALPHA = albedo_w_alpha.a;
-	ALPHA_SCISSOR_THRESHOLD = mix(alpha_scissor_threshold_low, alpha_scissor_threshold, smoothstep(20.0, 5.0, camera_distance));
+	ALPHA_SCISSOR_THRESHOLD = mix(alpha_scissor_threshold_low, alpha_scissor_threshold, smoothstep(20.0, 5.0, depth));
 	ALBEDO = albedo_w_alpha.rgb * albedo_multiply.rgb;
 
 	METALLIC = 0.0;
@@ -128,7 +126,7 @@ void fragment() {
 	ROUGHNESS = rough_ao_trans.r + roughness_offset;
 
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
-	NORMAL_MAP_DEPTH = smoothstep(300.0, 100.0, camera_distance) * normal_strength;
+	NORMAL_MAP_DEPTH = smoothstep(300.0, 100.0, depth) * normal_strength;
 
 	AO = mix(1.0, rough_ao_trans.g, ao_strength);
 	AO_LIGHT_AFFECT = ao_light_affect;

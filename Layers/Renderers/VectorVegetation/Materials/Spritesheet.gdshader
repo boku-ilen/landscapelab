@@ -39,8 +39,6 @@ varying flat float spritesheet_index;
 varying flat float random_instance_factor;
 varying flat float is_detailed;
 
-varying float camera_distance;
-
 void vertex() {
 	// Increase the width as the camera gets towards the middle between the two intersecting planes
 	// to compensate for the perspective decreasing the perceived size in that angle
@@ -54,8 +52,6 @@ void vertex() {
 	spritesheet_index = INSTANCE_CUSTOM.r;
 	random_instance_factor = INSTANCE_CUSTOM.g;
 	is_detailed = INSTANCE_CUSTOM.b;
-
-	camera_distance = distance((MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz, CAMERA_POSITION_WORLD);
 	
 	hue_mix_to = get_hue_mix_to_values(NODE_POSITION_WORLD);
 }
@@ -81,9 +77,11 @@ void fragment() {
 	albedo_hcy.g += hue_mix_to.g;
 	albedo_hcy.b += hue_mix_to.b;
 	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
+	
+	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 
 	ALPHA = albedo_w_alpha.a;
-	ALPHA_SCISSOR_THRESHOLD = mix(0.3, 0.6, smoothstep(1500.0, 500.0, camera_distance));
+	ALPHA_SCISSOR_THRESHOLD = mix(0.3, 0.6, smoothstep(1500.0, 500.0, depth));
 	ALBEDO = albedo_w_alpha.rgb * albedo_multiply.rgb;
 
 	METALLIC = 0.0;
