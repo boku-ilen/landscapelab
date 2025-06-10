@@ -52,8 +52,8 @@ void vertex() {
 	//}
 
 	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
-	
-	hue_mix_to = get_hue_mix_to_values(NODE_POSITION_WORLD);
+
+	hue_mix_leaf = get_hue_mix_leaf_values(NODE_POSITION_WORLD);
 }
 
 void fragment() {
@@ -66,9 +66,9 @@ void fragment() {
 	// For organic randomisation: WS PosX shifts Hue, PosY shifts Chroma, PosZ shifts Luminance.
 	// Make sure LeafBranches Shader/Mats uses same calculation/values as Trunk ones!
 	vec3 albedo_hcy = RGBtoHCY(albedo_rgb);
-	albedo_hcy.r += hue_mix_to.r;
-	albedo_hcy.g += hue_mix_to.g;
-	albedo_hcy.b += hue_mix_to.b;
+	albedo_hcy.r += hue_mix_leaf.r;
+	albedo_hcy.g += hue_mix_leaf.g;
+	albedo_hcy.b += hue_mix_leaf.b;
 
 	albedo_rgb = HCYtoRGB(albedo_hcy);
 

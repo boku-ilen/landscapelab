@@ -52,7 +52,7 @@ void vertex() {
 	spritesheet_index = INSTANCE_CUSTOM.r;
 	random_instance_factor = INSTANCE_CUSTOM.g;
 	is_detailed = INSTANCE_CUSTOM.b;
-	
+
 	hue_mix_leaf = get_hue_mix_leaf_values(NODE_POSITION_WORLD);
 }
 
@@ -77,7 +77,7 @@ void fragment() {
 	albedo_hcy.g += hue_mix_leaf.g;
 	albedo_hcy.b += hue_mix_leaf.b;
 	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
-	
+
 	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 
 	ALPHA = albedo_w_alpha.a;

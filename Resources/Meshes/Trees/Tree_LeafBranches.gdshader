@@ -82,8 +82,8 @@ void vertex() {
 
 	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
 	
-	hue_mix_from = get_hue_mix_from_values(NODE_POSITION_WORLD);
-	hue_mix_to = get_hue_mix_to_values(NODE_POSITION_WORLD);
+	hue_mix_branch = get_hue_mix_branch_values(NODE_POSITION_WORLD);
+	hue_mix_leaf = get_hue_mix_leaf_values(NODE_POSITION_WORLD);
 }
 
 void fragment() {
@@ -102,22 +102,25 @@ void fragment() {
 	// -> Make sure Trunk Shader/Material uses same calculation/value as branches!
 	vec3 albedo_hcy = RGBtoHCY(albedo_w_alpha.rgb);
 	albedo_hcy.r += mix(
-		hue_mix_from.r,
-		hue_mix_to.r,
+		hue_mix_branch.r,
+		hue_mix_leaf.r,
 		rough_ao_trans.b);
 	albedo_hcy.g += mix(
-		hue_mix_from.g,
-		hue_mix_to.g,
+		hue_mix_branch.g,
+		hue_mix_leaf.g,
 		rough_ao_trans.b);
 	albedo_hcy.b += mix(
-		hue_mix_from.b,
-		hue_mix_to.b,
+		hue_mix_branch.b,
+		hue_mix_leaf.b,
 		rough_ao_trans.b);
 	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
 	
 	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 
 	ALPHA = albedo_w_alpha.a;
+	
+	// To get fine detail up-close and good coverage at a distance, we lerp the threshold based on
+	//  the distance of this fragment to the camera, with min threshold at 20m and max at 5m
 	ALPHA_SCISSOR_THRESHOLD = mix(alpha_scissor_threshold_low, alpha_scissor_threshold, smoothstep(20.0, 5.0, depth));
 	ALBEDO = albedo_w_alpha.rgb * albedo_multiply.rgb;
 

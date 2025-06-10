@@ -156,7 +156,7 @@ func create_multimeshes():
 			mesh_name_to_mmi[mesh_name] = mmi
 			
 			# For debugging:
-			# mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
+			#mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
 			
 			add_child(mmi)
 	
@@ -168,7 +168,7 @@ func create_multimeshes():
 	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 	
 	# For debugging:
-	# mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
+	#mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
 	
 	mesh_name_to_mmi["Billboard"] = mmi
 	add_child(mmi)

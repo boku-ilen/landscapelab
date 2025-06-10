@@ -1,0 +1,27 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://b5o0sobrgf1s8"]
+
+[ext_resource type="Shader" uid="uid://fit86afg6pjs" path="res://Resources/Meshes/Trees/Tree_Trunk.gdshader" id="1_4b8cl"]
+[ext_resource type="Texture2D" uid="uid://bsqgnlkapvn1m" path="res://Resources/Meshes/Trees/EZTree/Fagus/Bark005_2K-JPG_Color.jpg" id="2_44ddk"]
+[ext_resource type="Texture2D" uid="uid://decgedese5y3l" path="res://Resources/Meshes/Trees/EZTree/Fagus/Bark005_2K-JPG_NormalGL.jpg" id="3_lue6g"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_4b8cl")
+shader_parameter/wind_speed = Vector2(0, 0)
+shader_parameter/wind_factor = 1.0
+shader_parameter/albedo_node_rand_hue_branch = 0.08
+shader_parameter/albedo_node_rand_hue_leaf = 0.1
+shader_parameter/albedo_node_rand_chroma_branch = 0.01
+shader_parameter/albedo_node_rand_chroma_leaf = 0.005
+shader_parameter/albedo_node_rand_luma_branch = 0.02
+shader_parameter/albedo_node_rand_luma_leaf = 0.01
+shader_parameter/tex_tiling = Vector2(1, 0.73)
+shader_parameter/albedo_tex = ExtResource("2_44ddk")
+shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
+shader_parameter/normal_tex = ExtResource("3_lue6g")
+shader_parameter/normal_strength = 3.0
+shader_parameter/roughness_offset = 0.0
+shader_parameter/ao_strength = 1.0
+shader_parameter/ao_light_affect = 0.8
+shader_parameter/rim_strength = 0.0
+shader_parameter/rim_color_from_albedo = 0.5
