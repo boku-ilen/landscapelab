@@ -38,6 +38,7 @@ uniform int sprite_count = 8;
 varying flat float spritesheet_index;
 varying flat float random_instance_factor;
 varying flat float is_detailed;
+varying float vertex_distance_from_zero;
 
 void vertex() {
 	// Increase the width as the camera gets towards the middle between the two intersecting planes
@@ -48,6 +49,8 @@ void vertex() {
 	vec4 view_vertex = MODELVIEW_MATRIX * vec4(VERTEX, 0.0);
 	view_vertex.x *= 1.0 + normal_to_camera;
 	VERTEX = (inverse(MODELVIEW_MATRIX) * view_vertex).xyz;
+	
+	vertex_distance_from_zero = pow(length(VERTEX), 2.0);
 
 	spritesheet_index = INSTANCE_CUSTOM.r;
 	random_instance_factor = INSTANCE_CUSTOM.g;
@@ -86,12 +89,12 @@ void fragment() {
 
 	METALLIC = 0.0;
 	SPECULAR = 0.15;
-	ROUGHNESS = 0.1 + roughness_offset;
+	ROUGHNESS = 0.4 + roughness_offset;
 
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = 1.0;
 
-	AO = 0.4;
+	AO = mix(0.0, 0.2, vertex_distance_from_zero);
 	AO_LIGHT_AFFECT = 0.8;
 
 	vec3 overall_backlight = backlight_strength

@@ -76,11 +76,15 @@ uniform float rim_color_from_albedo : hint_range(0.0, 1.0) = 0.5;
 #include "res://Resources/Shader/Wind/Wind.gdshaderinc"
 #include "res://Resources/Meshes/Trees/Tree_HueMix.gdshaderinc"
 
+varying float vertex_distance_from_zero;
+
 void vertex() {
 	// Concept for forest trees:
 	//if (VERTEX.y < 0.5) VERTEX = vec3(1.0 / 0.0);
 
 	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
+	
+	vertex_distance_from_zero = pow(length(VERTEX), 2.0);
 	
 	hue_mix_branch = get_hue_mix_branch_values(NODE_POSITION_WORLD);
 	hue_mix_leaf = get_hue_mix_leaf_values(NODE_POSITION_WORLD);
@@ -129,9 +133,9 @@ void fragment() {
 	ROUGHNESS = rough_ao_trans.r + roughness_offset;
 
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
-	NORMAL_MAP_DEPTH = smoothstep(300.0, 100.0, depth) * normal_strength;
+	NORMAL_MAP_DEPTH = mix(0.35, 1.0, smoothstep(300.0, 100.0, depth)) * normal_strength;
 
-	AO = rough_ao_trans.g * ao_strength;
+	AO = rough_ao_trans.g * ao_strength * mix(0.2, 0.6, vertex_distance_from_zero);
 	AO_LIGHT_AFFECT = ao_light_affect;
 
 
