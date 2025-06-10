@@ -3,16 +3,11 @@ render_mode blend_mix, depth_prepass_alpha, cull_disabled, diffuse_burley, specu
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 
-uniform float alpha_scissor_threshold : hint_range(0.0, 1.0, 0.01) = 0.15;
+uniform float alpha_scissor_threshold : hint_range(0.0, 1.0, 0.01) = 0.7;
+uniform float alpha_scissor_threshold_low : hint_range(0.0, 1.0, 0.01) = 0.1;
 
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec3 albedo_multiply : source_color = vec3(1.0);
-uniform float albedo_node_rand_hue_branch : hint_range(0.0, 1.0) = 0.08;
-uniform float albedo_node_rand_hue_leaf : hint_range(0.0, 1.0) = 0.1;
-uniform float albedo_node_rand_chroma_branch : hint_range(0.0, 1.0) = 0.01;
-uniform float albedo_node_rand_chroma_leaf : hint_range(0.0, 1.0) = 0.005;
-uniform float albedo_node_rand_luma_branch : hint_range(0.0, 1.0) = 0.02;
-uniform float albedo_node_rand_luma_leaf : hint_range(0.0, 1.0) = 0.01;
 
 uniform sampler2D normal_tex : hint_normal, filter_linear_mipmap, repeat_enable;
 uniform float normal_strength : hint_range(-16.0, 16.0) = 1.0;
@@ -36,7 +31,7 @@ uniform float roughness_offset : hint_range(-1.0, 1.0) = 0.0;
 * [b]0[/b]: No AO.
 * [b]>0[/b]: Uses Green channel of "Rough AO Transmission Tex".
  */
-uniform float ao_strength : hint_range(0.0, 10.0) = 1.0;
+uniform float ao_strength : hint_range(0.0, 10.0) = 0.6;
 
 /**
 * [b]0[/b]: AO only affects ambient light.
@@ -79,12 +74,16 @@ uniform float rim_strength : hint_range(0.0, 1.0) = 0.03;
 uniform float rim_color_from_albedo : hint_range(0.0, 1.0) = 0.5;
 
 #include "res://Resources/Shader/Wind/Wind.gdshaderinc"
+#include "res://Resources/Meshes/Trees/Tree_HueMix.gdshaderinc"
 
 void vertex() {
 	// Concept for forest trees:
 	//if (VERTEX.y < 0.5) VERTEX = vec3(1.0 / 0.0);
 
 	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
+	
+	hue_mix_branch = get_hue_mix_branch_values(NODE_POSITION_WORLD);
+	hue_mix_leaf = get_hue_mix_leaf_values(NODE_POSITION_WORLD);
 }
 
 void fragment() {
@@ -103,21 +102,26 @@ void fragment() {
 	// -> Make sure Trunk Shader/Material uses same calculation/value as branches!
 	vec3 albedo_hcy = RGBtoHCY(albedo_w_alpha.rgb);
 	albedo_hcy.r += mix(
-		sin(NODE_POSITION_WORLD.x * 2.0 * PI * 71.33) * PI * albedo_node_rand_hue_branch,
-		sin(NODE_POSITION_WORLD.x * 2.0 * PI * 62.691) * PI * albedo_node_rand_hue_leaf,
+		hue_mix_branch.r,
+		hue_mix_leaf.r,
 		rough_ao_trans.b);
 	albedo_hcy.g += mix(
-		sin(NODE_POSITION_WORLD.y * 132.935) * albedo_node_rand_chroma_branch,
-		sin(NODE_POSITION_WORLD.y * 538.217) * albedo_node_rand_chroma_leaf,
+		hue_mix_branch.g,
+		hue_mix_leaf.g,
 		rough_ao_trans.b);
 	albedo_hcy.b += mix(
-		sin(NODE_POSITION_WORLD.z * 387.247) * albedo_node_rand_luma_branch,
-		sin(NODE_POSITION_WORLD.z * 239.871) * albedo_node_rand_luma_leaf,
+		hue_mix_branch.b,
+		hue_mix_leaf.b,
 		rough_ao_trans.b);
 	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
+	
+	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 
 	ALPHA = albedo_w_alpha.a;
-	ALPHA_SCISSOR_THRESHOLD = alpha_scissor_threshold;
+	
+	// To get fine detail up-close and good coverage at a distance, we lerp the threshold based on
+	//  the distance of this fragment to the camera, with min threshold at 20m and max at 5m
+	ALPHA_SCISSOR_THRESHOLD = mix(alpha_scissor_threshold_low, alpha_scissor_threshold, smoothstep(20.0, 5.0, depth));
 	ALBEDO = albedo_w_alpha.rgb * albedo_multiply.rgb;
 
 	METALLIC = 0.0;
@@ -125,9 +129,9 @@ void fragment() {
 	ROUGHNESS = rough_ao_trans.r + roughness_offset;
 
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
-	NORMAL_MAP_DEPTH = normal_strength;
+	NORMAL_MAP_DEPTH = smoothstep(300.0, 100.0, depth) * normal_strength;
 
-	AO = mix(1.0, rough_ao_trans.g, ao_strength);
+	AO = rough_ao_trans.g * ao_strength;
 	AO_LIGHT_AFFECT = ao_light_affect;
 
 

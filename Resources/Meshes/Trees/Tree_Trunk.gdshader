@@ -3,13 +3,11 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_sc
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 #include "res://Resources/Shader/Wind/Wind.gdshaderinc"
+#include "res://Resources/Meshes/Trees/Tree_HueMix.gdshaderinc"
 
 uniform vec2 tex_tiling = vec2(1.0, 1.0);
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec3 albedo_multiply : source_color = vec3(1.0);
-uniform float albedo_node_rand_hue : hint_range(0.0, 1.0) = 0.03;
-uniform float albedo_node_rand_chroma : hint_range(0.0, 1.0) = 0.04;
-uniform float albedo_node_rand_luma : hint_range(0.0, 1.0) = 0.05;
 
 uniform sampler2D normal_tex : hint_normal, filter_linear_mipmap, repeat_enable;
 uniform float normal_strength : hint_range(-16.0, 16.0) = 1.0;
@@ -54,6 +52,8 @@ void vertex() {
 	//}
 
 	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
+
+	hue_mix_leaf = get_hue_mix_leaf_values(NODE_POSITION_WORLD);
 }
 
 void fragment() {
@@ -66,9 +66,9 @@ void fragment() {
 	// For organic randomisation: WS PosX shifts Hue, PosY shifts Chroma, PosZ shifts Luminance.
 	// Make sure LeafBranches Shader/Mats uses same calculation/values as Trunk ones!
 	vec3 albedo_hcy = RGBtoHCY(albedo_rgb);
-	albedo_hcy.r += sin(NODE_POSITION_WORLD.x * 2.0 * PI * 71.33) * PI * albedo_node_rand_hue;
-	albedo_hcy.g += sin(NODE_POSITION_WORLD.y * 132.935) * albedo_node_rand_chroma;
-	albedo_hcy.b += sin(NODE_POSITION_WORLD.z * 387.247) * albedo_node_rand_luma;
+	albedo_hcy.r += hue_mix_leaf.r;
+	albedo_hcy.g += hue_mix_leaf.g;
+	albedo_hcy.b += hue_mix_leaf.b;
 
 	albedo_rgb = HCYtoRGB(albedo_hcy);
 
