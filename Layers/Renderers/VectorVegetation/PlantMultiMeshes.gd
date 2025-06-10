@@ -155,7 +155,8 @@ func create_multimeshes():
 			
 			mesh_name_to_mmi[mesh_name] = mmi
 			
-			mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
+			# For debugging:
+			# mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
 			
 			add_child(mmi)
 	
@@ -165,7 +166,9 @@ func create_multimeshes():
 	mmi.set_layer_mask_value(3, true)
 	mmi.name = "Billboard"
 	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-	mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
+	
+	# For debugging:
+	# mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
 	
 	mesh_name_to_mmi["Billboard"] = mmi
 	add_child(mmi)
@@ -244,15 +247,15 @@ func override_build(center_x, center_y):
 		
 		if is_detailed:
 			mesh_name_to_custom_data[mesh_name].append(Color(
-				0.0,
+				0.0,  # Currently unused
 				rng.randf(), # Randomness for shading
-				1.0
+				1.0  # is_detailed
 			))
 		else:
 			mesh_name_to_custom_data[mesh_name].append(Color(
 				mesh_name_to_billboard_index[species_mesh_name], # Spritesheet index
 				rng.randf(), # Randomness for shading
-				0.0
+				0.0  # not is_detailed
 			))
 	
 	for mesh_name in mesh_name_to_transforms.keys():

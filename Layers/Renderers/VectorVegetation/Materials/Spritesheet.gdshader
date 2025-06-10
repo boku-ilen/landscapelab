@@ -53,7 +53,7 @@ void vertex() {
 	random_instance_factor = INSTANCE_CUSTOM.g;
 	is_detailed = INSTANCE_CUSTOM.b;
 	
-	hue_mix_to = get_hue_mix_to_values(NODE_POSITION_WORLD);
+	hue_mix_leaf = get_hue_mix_leaf_values(NODE_POSITION_WORLD);
 }
 
 void fragment() {
@@ -73,9 +73,9 @@ void fragment() {
 	// For organic randomisation: WS PosX shifts Hue, PosY shifts Chroma, PosZ shifts Luminance.
 	// -> Make sure Trunk Shader/Material uses same calculation/value as branches!
 	vec3 albedo_hcy = RGBtoHCY(albedo_w_alpha.rgb);
-	albedo_hcy.r += hue_mix_to.r;
-	albedo_hcy.g += hue_mix_to.g;
-	albedo_hcy.b += hue_mix_to.b;
+	albedo_hcy.r += hue_mix_leaf.r;
+	albedo_hcy.g += hue_mix_leaf.g;
+	albedo_hcy.b += hue_mix_leaf.b;
 	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
 	
 	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;

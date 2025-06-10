@@ -78,6 +78,9 @@ void fragment() {
 	SPECULAR = specular;
 
 	ALPHA = albedo_tex.a;
+	
+	// To get fine detail up-close and good coverage at a distance, we lerp from 0.3 to 0.8 based on
+	//  the distance of this fragment to the camera, with threshold 0.3 at 20m and 0.8 at 5m
 	ALPHA_SCISSOR_THRESHOLD = mix(0.3, 0.8, smoothstep(20.0, 5.0, (1.0 - FRAGCOORD.z) / FRAGCOORD.w));
 
 	BACKLIGHT = backlight.rgb * (0.3 + is_detailed * 0.7);
