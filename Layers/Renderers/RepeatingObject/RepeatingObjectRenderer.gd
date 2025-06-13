@@ -62,8 +62,14 @@ func build_aabb(transforms: Array, multimesh_instance: MultiMeshInstance3D):
 		end.y = max(end.y, t.origin.y)
 		end.z = max(end.z, t.origin.z)
 	
-	begin.y -= 10
-	end.y += 10
+	var mesh_aabb = multimesh_instance.multimesh.mesh.get_aabb()
+	
+	begin.x -= mesh_aabb.size.x / 2.0
+	end.x += mesh_aabb.size.x / 2.0
+	
+	begin.y -= mesh_aabb.size.y / 2.0
+	end.y += mesh_aabb.size.y / 2.0
+	
 	var size = abs(end - begin)
 	
 	multimesh_instance.set_custom_aabb(AABB(begin, size))
