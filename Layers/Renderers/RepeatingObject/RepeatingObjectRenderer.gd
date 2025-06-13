@@ -78,8 +78,6 @@ func build_aabb(transforms: Array, multimesh_instance: MultiMeshInstance3D):
 func _calculate_intermediate_transforms(feature: GeoFeature):
 	var f_id = feature.get_id()
 	var vertices: Curve3D = feature.get_offset_curve3d(-center[0], 0, -center[1])
-	var starting_point: Vector3
-	var end_point: Vector3
 	
 	var height_fit_rotation = 0.0
 	
@@ -117,7 +115,6 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 			)
 	
 	var transforms := []
-	var t: Transform3D
 	
 	var mesh_key = _get_mesh_dict_key_from_feature(feature)
 	var width = layer_composition.render_info.meshes[mesh_key]["width"]
@@ -136,9 +133,10 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 	var previous_height := 0.0
 	
 	for i in range(how_many_fit):
-		starting_point = vertices.sample_baked(distance_covered)
-		t = Transform3D(Basis.IDENTITY, starting_point)
-		end_point = vertices.sample_baked(distance_covered + scaled_width)
+		# Note that we sample from end to start because that aligns with how we expect objects
+		#  to be oriented (+X forward)
+		var starting_point = vertices.sample_baked(curve_length - distance_covered)
+		var end_point = vertices.sample_baked(curve_length - distance_covered - scaled_width)
 		
 		var real_distance = (end_point - starting_point).length()
 		var instance_scale_factor = real_distance / width
@@ -147,7 +145,10 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 		direction.y = 0
 		direction = direction.normalized()
 		
-		t.basis.z = direction
+		var t = Transform3D(Basis.IDENTITY, starting_point)
+		
+		# Construct a basis using Forward, Up, and Right vectors
+		t.basis.z = -direction
 		t.basis.y = Vector3.UP
 		t.basis.x = t.basis.y.cross(t.basis.z)
 		
@@ -156,33 +157,31 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 		
 		# Rotate by height slant if needed
 		t = t.rotated_local(Vector3.RIGHT, -height_fit_rotation)
-
-		var pos = t.origin + direction * real_distance
 		
 		# Rotate by base rotation (to account for assets rotated differently than needed)
 		t = t.rotated_local(Vector3.UP, deg_to_rad(layer_composition.render_info.base_rotation))
 		
 		# Randomly add 90, 180 or 270 degrees to previous rotation
 		if  random_angle:
-			var pseudo_random = abs(int(pos.x * 43758.5453 + pos.z * 78233.9898))
+			var pseudo_random = abs(int(t.origin.x * 43758.5453 + t.origin.z * 78233.9898))
 			rand_angle = rand_angle + (PI / 2.0) * ((pseudo_random % 3) + 1.0)
 			rand_angle = fmod(rand_angle, PI * 2.0)
 			t = t.rotated_local(Vector3.UP, rand_angle)
-		t.origin = pos #* Vector3(1, 1, scale_factor)
 		
 		# Set the mesh on ground and add some buffer for uneven grounds
-		var new_height = get_ground_height_at_pos.call(t.origin.x, t.origin.z) + height_offset
+		var height_position = t.origin
 		
-		if previous_height == 0.0: previous_height = new_height  # for the first iteration
-		if layer_composition.render_info.height_gradient:
-			t.origin.y = new_height
-		else:
-			t.origin.y = lerp(previous_height, new_height, 0.5)
+		# For some objects, like fences ,we want to sample the height in the middle, for others,
+		#  like reflector posts,we want to sample the height at the start, since that's where the
+		#  object is.
+		if layer_composition.render_info.sample_height_at_center:
+			height_position += direction * scaled_width  / 2.0
+		var new_height = get_ground_height_at_pos.call(height_position.x, height_position.z) + height_offset
+		
+		t.origin.y = new_height
 		
 		transforms.append(t)
 		
-		previous_height = t.origin.y
-		starting_point = end_point
 		distance_covered += scaled_width
 	
 	return transforms
