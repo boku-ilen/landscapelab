@@ -13,6 +13,9 @@ var last_load_position := Vector3.ZERO
 
 var loading_thread := Thread.new()
 
+static var use_load_mutex := true
+static var load_mutex := Mutex.new()
+
 @export var load_refined_threaded := true
 @export var load_adapt_threaded := true
 
@@ -52,13 +55,17 @@ func _process(_delta):
 		# FIXME: Display loading screen if diff is too large
 		if is_new_loading_required(diff):
 			if diff.length() < distance_thread_threshold and load_adapt_threaded:
+				if use_load_mutex: load_mutex.lock()
 				loading_thread.start(adapt_load.bind(diff))
+				if use_load_mutex: load_mutex.unlock()
 			else:
 				adapt_load(diff)
 			last_load_position = position_manager.center_node.position
 		else:
 			if load_refined_threaded:
+				if use_load_mutex: load_mutex.lock()
 				loading_thread.start(refine_load)
+				if use_load_mutex: load_mutex.unlock()
 			else:
 				refine_load()
 
