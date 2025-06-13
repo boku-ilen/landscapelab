@@ -94,7 +94,8 @@ void fragment() {
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = 1.0;
 
-	AO = mix(0.0, 0.2, vertex_distance_from_zero);
+	AO = mix(0.0, 0.1, vertex_distance_from_zero);
+	AO *= mix(1.0, 0.6, smoothstep(100.0, 300.0, depth));
 	AO_LIGHT_AFFECT = 0.8;
 
 	vec3 overall_backlight = backlight_strength
