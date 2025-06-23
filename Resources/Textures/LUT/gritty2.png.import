@@ -1,0 +1,26 @@
+[remap]
+
+importer="3d_texture"
+type="CompressedTexture3D"
+uid="uid://cwa1gsitvg31j"
+path="res://.godot/imported/gritty2.png-293082c24763d19d36e4ed3d3a5b704f.ctex3d"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Resources/Textures/LUT/gritty2.png"
+dest_files=["res://.godot/imported/gritty2.png-293082c24763d19d36e4ed3d3a5b704f.ctex3d"]
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/channel_pack=0
+mipmaps/generate=false
+mipmaps/limit=-1
+slices/horizontal=33
+slices/vertical=1

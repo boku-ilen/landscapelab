@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cejf5c8oyb02b"]
+[gd_scene load_steps=8 format=3 uid="uid://cejf5c8oyb02b"]
 
 [ext_resource type="Script" uid="uid://cvmfigm70dv3y" path="res://World/Environment/WorldEnvironment.gd" id="1"]
+[ext_resource type="CompressedTexture3D" uid="uid://cwa1gsitvg31j" path="res://Resources/Textures/LUT/gritty2.png" id="1_d7nfd"]
 [ext_resource type="Sky" uid="uid://b6ffjku47471j" path="res://addons/cloud_sky/clouds_sky.tres" id="1_t6q4q"]
 [ext_resource type="Script" uid="uid://l8e462d0rtv2" path="res://addons/cloud_sky/sun_child.gd" id="3_5em3b"]
 [ext_resource type="PackedScene" uid="uid://b5nxph2mew1en" path="res://World/Environment/Rain/Rain.tscn" id="6_wusnq"]
@@ -8,23 +9,32 @@
 
 [sub_resource type="Environment" id="2"]
 background_mode = 2
-background_energy_multiplier = 4.0
+background_energy_multiplier = 3.0
 sky = ExtResource("1_t6q4q")
 ambient_light_source = 3
 ambient_light_color = Color(0.835294, 0.858824, 1, 1)
 ambient_light_sky_contribution = 0.09
-ambient_light_energy = 0.01
-reflected_light_source = 2
 tonemap_mode = 4
 tonemap_white = 0.36
+ssr_enabled = true
+ssr_max_steps = 512
+ssr_depth_tolerance = 0.01
 ssao_enabled = true
 ssao_intensity = 4.0
 ssil_intensity = 2.0
+sdfgi_read_sky_light = false
 glow_enabled = true
+glow_levels/2 = 0.44
+glow_levels/3 = 1.02
+glow_levels/4 = 0.44
+glow_levels/5 = 0.0
 fog_enabled = true
 fog_aerial_perspective = 1.0
 fog_sky_affect = 0.0
+volumetric_fog_density = 0.001
+volumetric_fog_sky_affect = 0.0
 adjustment_enabled = true
+adjustment_color_correction = ExtResource("1_d7nfd")
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("2")
@@ -45,7 +55,7 @@ light_energy = 4.0
 light_bake_mode = 0
 shadow_enabled = true
 directional_shadow_blend_splits = true
-directional_shadow_max_distance = 500.0
+directional_shadow_max_distance = 1500.0
 sky_mode = 1
 
 [node name="SunChild" type="Node3D" parent="SkyLight"]

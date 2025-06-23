@@ -8,9 +8,18 @@ extends WorldEnvironment
 var wind_speed = 0
 var wind_direction = 0
 
-var brightest_light_energy = 5.0
+var brightest_light_energy = 4.0
 var light_darken_begin_altitude = 15.0
-var light_disabled_altitude = 3.0
+var light_disabled_altitude = 0.0
+
+
+var current_target_light_rotation: Vector3
+var current_target_light_energy: float
+
+
+func _physics_process(delta: float) -> void:
+	sky_light.rotation = lerp(sky_light.rotation, current_target_light_rotation, 0.01)
+	apply_light_energy()
 
 
 func apply_visibility(new_visibility):
@@ -78,9 +87,7 @@ func apply_datetime(datetime: Dictionary):
 	# TODO: Replace with real lon/lat values
 	var angles = SunPosition.get_solar_angles_for_datetime(datetime, 48.0, 15.0)
 	
-	sky_light.rotation = Vector3(-angles["altitude"], PI - angles["azimuth"], 0)
-	
-	apply_light_energy()
+	current_target_light_rotation = Vector3(-angles["altitude"], PI - angles["azimuth"], 0)
 
 
 func apply_light_energy():
@@ -91,7 +98,7 @@ func apply_light_energy():
 	# Lower light quickly in the beginning when coverage/density are higher
 	# and lower light slower in the end (sqrt-curve-function), vice versa for ssao
 	var sqrt_cloud_cov = sqrt(cloud_coverage)
-	environment.background_energy_multiplier = 4.0 - sqrt_cloud_cov
+	environment.background_energy_multiplier = 3.0 - sqrt_cloud_cov
 	environment.ssao_intensity = 3.0 + remap(sqrt_cloud_cov, 0, 1, 0, 5)
 	
 	var altitude = rad_to_deg(-sky_light.rotation.x)
@@ -100,16 +107,13 @@ func apply_light_energy():
 	light.light_color.s = clamp(remap(abs(altitude), 5.0, 35.0, 0.4, 0.05), 0.05, 0.4)
 	
 	# Sunrise/sunset
-	if altitude > light_disabled_altitude and altitude < light_darken_begin_altitude:
+	if altitude < light_darken_begin_altitude:
+		environment.ambient_light_energy = inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude)
 		_set_directional_light_energy(directional_energy * 
 			inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude))
-	# Night
-	elif altitude <= light_disabled_altitude:
-		_set_directional_light_energy(0.0)
-		environment.ambient_light_energy = 0.01
 	else:
 		_set_directional_light_energy(directional_energy)
-		environment.ambient_light_energy = remap(cloud_coverage, 0, 1, 0.0, 0.5)
+		environment.ambient_light_energy = 1.0 + remap(cloud_coverage, 0, 1, 0.0, 0.5)
 
 
 func _set_directional_light_energy(new_energy):
