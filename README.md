@@ -1,7 +1,5 @@
 # LandscapeLab
-![SiedlungWindraeder](https://github.com/boku-ilen/landscapelab/assets/33001106/12a42814-99f5-4fc5-8318-8e613977ccb3)
-![Landschaft](https://github.com/boku-ilen/landscapelab/assets/33001106/9541072e-5cf7-42ab-a649-b85191aeba6a)
-![NeusiedlerSee](https://github.com/boku-ilen/landscapelab/assets/33001106/3b51660e-d1d5-4cb9-8d57-5126ea85b8ed)
+![vegetation-collage-small-white](https://github.com/user-attachments/assets/81130a50-b326-43bb-814d-829b8999a49d)
 
 ## Setup
 
