@@ -10,8 +10,8 @@ var step_size = chunk_size / (200.0)
 
 var render_3d = false
 
-var radius: float = 500.0
-var max_features = 2000
+var radius: float = 2000.0
+var max_features = 5000
 
 var _road_instance_scene = preload("res://Layers/Renderers/Path/Roads/RoadInstance.tscn")
 var _intersection_instance_scene = preload("res://Layers/Renderers/Path/Roads/Intersections/IntersectionInstance.tscn")

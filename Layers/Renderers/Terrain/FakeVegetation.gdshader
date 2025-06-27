@@ -28,6 +28,7 @@ uniform sampler2D row_ids;
 uniform sampler2D[100] texture_map : source_color, repeat_disable;
 
 uniform float size;
+uniform float max_distance = 90.0;
 
 varying vec3 camera_pos;
 varying vec3 worldpos;
@@ -207,7 +208,7 @@ void fragment() {
 	float size_alpha_scale = smoothstep(0.4, 0.8, dist_value.g * 255.0 + dist_value.b);
 
 	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), size_alpha_scale, 0.99);
-	ALPHA *= smoothstep(70.0, 90.0, length((camera_pos - worldpos)));
+	ALPHA *= smoothstep(max_distance - 20.0, max_distance, length((camera_pos - worldpos)));
 	ALPHA_HASH_SCALE = 1.0;
 
 	ALPHA *= smoothstep(6.0, 0.0, different_sample_count);// + smoothstep(0.0, 1.5, highest_height);

@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://d3oll2i6g6who"]
 
-[ext_resource type="Shader" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneRail.gdshader" id="1_w6mil"]
+[ext_resource type="Shader" uid="uid://dupy8tug41on4" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLaneRail.gdshader" id="1_w6mil"]
 [ext_resource type="Texture2D" uid="uid://u2tiecgbjtnu" path="res://Resources/Textures/Railway/normal_gravel.jpg" id="2_ev7it"]
 [ext_resource type="Texture2D" uid="uid://c8chm16lkehmr" path="res://Resources/Textures/Railway/albedo_rails.png" id="2_uxfkg"]
 [ext_resource type="Texture2D" uid="uid://b6r71nbwir03r" path="res://Resources/Textures/Railway/albedo_gravel.png" id="3_tyjtm"]
@@ -12,11 +12,11 @@ render_priority = 0
 shader = ExtResource("1_w6mil")
 shader_parameter/width = 5.0
 shader_parameter/height = 0.2
-shader_parameter/world_uv_scaling = 0.35
+shader_parameter/road_texture = ExtResource("3_tyjtm")
+shader_parameter/world_uv_scaling = Vector3(0.2, 1, -0.2)
 shader_parameter/rail_width = 0.5
 shader_parameter/rail_width_bottom = 0.6
 shader_parameter/rail_offset = 1.0
-shader_parameter/road_texture = ExtResource("3_tyjtm")
 shader_parameter/railway_texture = ExtResource("2_uxfkg")
 shader_parameter/railway_normals = ExtResource("4_1dfau")
 shader_parameter/gravel_normals = ExtResource("2_ev7it")

@@ -121,6 +121,16 @@ func _ready():
 	$DetailMesh.material_override = shader_material.duplicate()
 	$FarMesh.material_override = shader_material.duplicate()
 	$FarMesh.material_override.next_pass = water_material.duplicate()
+	$FarMesh.material_override.next_pass.next_pass = fake_plant_material.duplicate()
+	
+	# Set static shader variables
+	# FIXME: do this once and then duplicate that material
+	$FarMesh.material_override.next_pass.next_pass.set_shader_parameter("row_ids", overlay_row_id_and_distribution[0])
+	$FarMesh.material_override.next_pass.next_pass.set_shader_parameter("distribution_array", overlay_row_id_and_distribution[1])
+	$FarMesh.material_override.next_pass.next_pass.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
+	$FarMesh.material_override.next_pass.next_pass.set_shader_parameter("max_distance", $FarMesh.hole_size)
+	
+	$FarMesh.material_override.next_pass.next_pass.next_pass = null
 	
 	super._ready()
 
@@ -164,11 +174,18 @@ func _process(delta):
 
 
 func _on_wind_speed_changed(new_wind_speed):
+	if is_inside_tree():
+		$FarMesh.material_override.next_pass.set_shader_parameter("wind_speed", new_wind_speed)
+	
 	for chunk in chunks:
 		chunk.get_node("Mesh").material_override.next_pass.set_shader_parameter("wind_speed", new_wind_speed)
 
 
 func _on_wind_direction_changed(new_wind_direction):
 	var wind_dir_vector = Vector2.DOWN.rotated(deg_to_rad(new_wind_direction))
+	
+	if is_inside_tree():
+		$FarMesh.material_override.next_pass.set_shader_parameter("wind_direction", wind_dir_vector)
+	
 	for chunk in chunks:
 		chunk.get_node("Mesh").material_override.next_pass.set_shader_parameter("wind_direction", wind_dir_vector)

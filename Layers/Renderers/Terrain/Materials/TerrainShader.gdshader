@@ -10,7 +10,7 @@ global uniform vec3 HCY_TERRAIN_SHIFT;
 
 // Basic Terrain
 uniform sampler2D orthophoto: source_color, repeat_disable;
-uniform sampler2D heightmap: repeat_disable;
+uniform sampler2D heightmap: repeat_disable, filter_linear;
 uniform float height_scale = 1.0;
 
 // Land use-based detail textures
@@ -18,6 +18,9 @@ uniform sampler2D landuse: repeat_disable, filter_nearest;
 
 uniform bool use_landuse_overlay = false;
 uniform sampler2D landuse_overlay: repeat_disable, filter_nearest, hint_default_black;
+
+uniform bool use_height_overlay = false;
+uniform sampler2D height_overlay: repeat_disable, filter_linear, hint_default_transparent;
 
 uniform float detail_only_range = 50.0;
 uniform float detail_ortho_blend_range = 700.0;
@@ -69,40 +72,56 @@ vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
 	return mix(tex1, mix(tex0, tex2, clamp(LOD_fract, 0.0, 1.0)), min(depth / 20.0, 0.5));
 }
 
-float get_height(vec2 uv) {
-	float height = texture(heightmap, uv).r * height_scale;
-//	float correction = texture(terraforming_texture, uv).r;
-//	float weight = texture(terraforming_weights, uv).r * float(has_terraforming_texture);
-//	height = mix(height, correction, weight);
+float get_height(vec2 uv, bool local_use_height_overlay) {
+	// R: Integer part of the overlay height (divided by 10)
+	// G: Fractional part of the overlay height (divided by 10)
+	// B: Mixing factor from overlay height (1.0) to heightmap height (0.0)
+	vec4 overlay_height_sample = texture(height_overlay, uv) * height_scale;
+	
+	// Height directly from the heightmap
+	float heightmap_height = texture(heightmap, uv).r * height_scale;
+	
+	// Interpolating from a valid value to an invalid value presents us with faulty results,
+	//  since the result will seem valid (> 0.0), but actually be far lower than anything sensible.
+	// 	Therefore, we check all 4 values surrounding the sample position and don't use the overlay
+	//  height if any of them is invalid.
+	vec4 near_values = textureGather(height_overlay, uv);
+	bool is_surrounded_by_valid = (near_values.x > 0.0 && near_values.y > 0.0
+			&& near_values.z > 0.0 && near_values.w > 0.0);
+	
+	if (is_surrounded_by_valid && local_use_height_overlay && use_height_overlay && overlay_height_sample.b > 0.01) {
+		// Blend between heightmap height and overlay height by the blue channel of the overlay height
+		return mix(heightmap_height, (overlay_height_sample.r + overlay_height_sample.g) * 10.0, overlay_height_sample.b);
+	}
 
 	// Clamp to prevent weird behavior with extreme nodata values
 	// TODO: Might have to be generalized further to be more robust
-	return clamp(height, -1000.0, 50000.0);
+	return clamp(heightmap_height, -1000.0, 50000.0);
 }
 
 vec3 get_normal(vec2 normal_uv_pos) {
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor.
-	float e = 10.0 / size;
+	float e = 1.0 / size;
 
 	// Sobel filter for getting the normal at this position
-	float bottom_left = get_height(normal_uv_pos + vec2(-e, -e));
-	float bottom_center = get_height(normal_uv_pos + vec2(0, -e));
-	float bottom_right = get_height(normal_uv_pos + vec2(e, -e));
+	float bottom_left = get_height(normal_uv_pos + vec2(-e, -e), true);
+	float bottom_center = get_height(normal_uv_pos + vec2(0, -e), true);
+	float bottom_right = get_height(normal_uv_pos + vec2(e, -e), true);
 
-	float center_left = get_height(normal_uv_pos + vec2(-e, 0));
+	float center_left = get_height(normal_uv_pos + vec2(-e, 0), true);
 	//float center_center = get_height(normal_uv_pos + vec2(0, 0));
-	float center_right = get_height(normal_uv_pos + vec2(e, 0));
+	float center_right = get_height(normal_uv_pos + vec2(e, 0), true);
 
-	float top_left = get_height(normal_uv_pos + vec2(-e, e));
-	float top_center = get_height(normal_uv_pos + vec2(0, e));
-	float top_right = get_height(normal_uv_pos + vec2(e, e));
+	float top_left = get_height(normal_uv_pos + vec2(-e, e), true);
+	float top_center = get_height(normal_uv_pos + vec2(0, e), true);
+	float top_right = get_height(normal_uv_pos + vec2(e, e), true);
 
 	vec3 long_normal;
 
 	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left) / (size * e);
 	long_normal.z = -(top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right) / (size * e);
-	long_normal.y = size * e * 0.1; // scaling by <1.0 makes the normals more drastic
+	long_normal.y = size * e; // scaling by <1.0 makes the normals more drastic
 
 	return normalize(long_normal);
 }
@@ -127,7 +146,7 @@ void vertex() {
 	if (UV.x < -0.1 || UV.x > 1.1 || UV.y < -0.1 || UV.y > 1.1) {
 		VERTEX.y = -1000.0;
 	} else {
-		VERTEX.y = get_height(UV);
+		VERTEX.y = get_height(UV, true);
 	}
 
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -221,7 +240,7 @@ void fragment() {
 
 	vec3 detail_color = vec3(0.0);
 	vec3 detail_normal = vec3(0.0);
-	
+
 	vec2 scaled_near_uv = world_pos.xz;
 
 	float count = 0.0;

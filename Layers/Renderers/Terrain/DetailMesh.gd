@@ -7,6 +7,7 @@ extends MeshInstance3D
 @export var lu_resolution := 100
 
 @export var add_lid_overlay := true
+@export var add_height_overlay := false
 @export var is_inner := true
 
 # Only relevant if is_inner is false
@@ -20,13 +21,20 @@ var previous_player_position := Vector3.ZERO
 func _ready():
 	if add_lid_overlay:
 		var vp = preload("res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn").instantiate()
-		vp.get_node("LIDViewport").size = Vector2(size * 2.0, size * 2.0)  # 0.5m resolution
+		vp.get_node("LIDViewport").size = Vector2(size * 4.0, size * 4.0)  # 0.25m resolution
+		vp.get_node("LIDViewport/CameraRoot/LIDCamera").size = size
+		add_child(vp)
+	
+	if add_height_overlay:
+		var vp = preload("res://Layers/Renderers/LIDOverlay/HeightOverlayViewport.tscn").instantiate()
+		vp.get_node("LIDViewport").size = Vector2(size * 4.0, size * 4.0)  # 0.25m resolution
 		vp.get_node("LIDViewport/CameraRoot/LIDCamera").size = size
 		add_child(vp)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if has_node("HeightOverlayViewport"): get_node("HeightOverlayViewport").get_node("LIDViewport").size = Vector2(size * 4.0, size * 4.0)
 	# Only do an update if the player has moved sufficiently since last frame
 	if previous_player_position.distance_squared_to(get_parent().position_manager.center_node.position) < min_load_distance: return
 	
@@ -37,7 +45,7 @@ func _process(delta):
 	
 	# FIXME: This actually depends on the terrain chunk resolution at the highest LOD.
 	#  We use 2.0 here because at the highest LOD, one quad covers 2x2 meters.
-	position = position.snappedf(2.0)
+	position = position.snappedf(size / height_resolution)
 	
 	var origin_x = get_parent().center[0] - size / 2.0 + position.x
 	var origin_z = get_parent().center[1] + size / 2.0 - position.z
@@ -77,6 +85,10 @@ func _process(delta):
 	
 	if add_lid_overlay:
 		material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
+	
+	if add_height_overlay:
+		material_override.set_shader_parameter("use_height_overlay", true)
+		material_override.set_shader_parameter("height_overlay", get_node("HeightOverlayViewport/LIDViewport").get_texture())
 	
 	# Next pass (water etc)
 	var next_pass = material_override.next_pass

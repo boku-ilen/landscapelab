@@ -19,6 +19,8 @@ func _notification(what):
 
 func _process(delta: float) -> void:
 	has_updated_this_frame = false
+	#if name == "HeightOverlayViewport" and get_parent().name == "DetailMesh":
+		#$LIDViewport.get_texture().get_image().save_png("res://vp.png")
 
 
 func update():
