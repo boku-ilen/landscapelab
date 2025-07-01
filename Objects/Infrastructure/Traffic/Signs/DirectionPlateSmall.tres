@@ -1,6 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://dp71bpehsaw85"]
-
-[ext_resource type="Material" uid="uid://c27evetdl11k4" path="res://Objects/Infrastructure/Traffic/RoadInfrastructure1.tres" id="1_2irww"]
+[gd_resource type="ArrayMesh" load_steps=2 format=4 uid="uid://dp71bpehsaw85"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_1xxvj"]
 _surfaces = [{
@@ -26,7 +24,6 @@ _surfaces = [{
 "index_count": 84,
 "index_data": PackedByteArray("FAAVABYAFAAXABUAFQAXAAEAFgAVABgAAgAWABgAGQAWAAIAGgAbABwACgAbABoAHQAbAAoAHAAbAB4AHgAfABwAHAAfAAsACQAIAAcABwAIAAMABgAEAAAAAAAEAAUAIAATACEAIQATABEAIAAhACIAIgAhACMAIgAjABAAEAAjABIAJAAlAAwADAAlAA4AJgAlACQAJwAlACYAJgAPACcAJwAPAA0A"),
 "lods": [0.115148, PackedByteArray("AAABAAIAAwAAAAIAAAAEAAUABgAEAAAABwAIAAMACQAIAAcABgAIAAoACgAIAAsADAANAA4ADAAPAA0AEAARABIAEwARABAA")],
-"material": ExtResource("1_2irww"),
 "name": "aiStandardSurface1SG",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
