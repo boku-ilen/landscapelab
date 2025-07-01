@@ -18,7 +18,6 @@ uniform vec3 lid_color: source_color;
 uniform bool render_lid = true;
 
 varying float global_height;
-varying float vertex_x;
 
 float map_to_range(float value, float old_from, float old_to, float new_from, float new_to){
 	return new_from + ((new_to - new_from) / (old_to - old_from)) * (value - old_from);
@@ -26,7 +25,6 @@ float map_to_range(float value, float old_from, float old_to, float new_from, fl
 
 void vertex() {
 	global_height = (MODEL_MATRIX * vec4(VERTEX, 1.0)).y;
-	vertex_x = VERTEX.x;
 
 	if (render_lid && ((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16)))) {
 		VERTEX += NORMAL * banquet_width;
@@ -34,10 +32,16 @@ void vertex() {
 		VERTEX += NORMAL * 8.0;
 		global_height -= 0.15;
 	}
+	
+	//VERTEX += NORMAL * 8.0;
 
 	WORLD_UV = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz * world_uv_scaling;
 
-	NORMAL = mix(NORMAL, vec3(0.0, 1.0, 0.0), 0.25);
+	//NORMAL = mix(NORMAL, vec3(0.0, 1.0, 0.0), 0.25);
+	
+	//if ((UV.y * 8.0 <= 1.0)) {
+		//VERTEX.y += (1.0 - NORMAL.y) * 4.0;
+	//}
 }
 
 void fragment() {

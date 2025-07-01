@@ -23,6 +23,7 @@ var lane_type: int = -1
 @export var render_lid := true
 @export var write_into_height_overlay := false
 @export var write_into_texture_overlay := true
+@export var render_3d := true
 
 var road_width: float = 2.0
 var road_offset: float = 0.0
@@ -87,7 +88,8 @@ func update_road_lane() -> void:
 	if write_into_texture_overlay:
 		# Write into texture overlay (terrain decal)
 		$RoadLanePolygon.layers += pow(2, 15)
-	else:
+	
+	if render_3d:
 		# Write into detail mesh (normal 3D object rendering)
 		$RoadLanePolygon.layers += pow(2, 2)
 	

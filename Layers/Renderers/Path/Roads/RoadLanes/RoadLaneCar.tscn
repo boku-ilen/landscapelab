@@ -16,6 +16,8 @@ write_into_texture_overlay = false
 [node name="RoadLanePolygon" parent="." index="0"]
 layers = 196612
 gi_mode = 2
+calculate_tangents = true
+path_simplify_angle = 1.0
 path_u_distance = 1.0
 smooth_faces = true
 material = ExtResource("2_afqel")

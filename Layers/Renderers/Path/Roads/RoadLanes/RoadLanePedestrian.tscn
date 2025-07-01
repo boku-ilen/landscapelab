@@ -8,6 +8,7 @@
 [node name="RoadLanePedestrian" instance=ExtResource("1_43xus")]
 script = ExtResource("1_3naa5")
 lid = 2002
+lid_center = 7201
 
 [node name="RoadLanePolygon" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
