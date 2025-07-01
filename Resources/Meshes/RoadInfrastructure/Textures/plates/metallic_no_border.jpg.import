@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://iadjlegjqcxs"
-path.s3tc="res://.godot/imported/Vorschriftszeichen_1.svg-9a05993e24c760f76653dea6b13e2dda.s3tc.ctex"
+uid="uid://b0fl7ep7s4v08"
+path.s3tc="res://.godot/imported/metallic_no_border.jpg-d389fa193d5b74647c4d44725a03cae7.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Resources/Meshes/RoadInfrastructure/Textures/plates/Vorschriftszeichen_1.svg"
-dest_files=["res://.godot/imported/Vorschriftszeichen_1.svg-9a05993e24c760f76653dea6b13e2dda.s3tc.ctex"]
+source_file="res://Resources/Meshes/RoadInfrastructure/Textures/plates/metallic_no_border.jpg"
+dest_files=["res://.godot/imported/metallic_no_border.jpg-d389fa193d5b74647c4d44725a03cae7.s3tc.ctex"]
 
 [params]
 
@@ -33,6 +33,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=0
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

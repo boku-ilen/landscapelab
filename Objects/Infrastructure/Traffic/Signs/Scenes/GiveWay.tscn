@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqjp8g807j867"]
+
+[ext_resource type="Material" uid="uid://c27evetdl11k4" path="res://Objects/Infrastructure/Traffic/RoadInfrastructure1.tres" id="2_mgcjw"]
+[ext_resource type="ArrayMesh" uid="uid://dkf3508scw2nm" path="res://Objects/Infrastructure/Traffic/Signs/PostRound.tres" id="3_idya0"]
+[ext_resource type="ArrayMesh" uid="uid://c83wd5viqkbsk" path="res://Objects/Infrastructure/Traffic/Signs/Danger.tres" id="4_fmx87"]
+
+[node name="GiveWay" type="Node3D"]
+
+[node name="PostRound" type="MeshInstance3D" parent="."]
+material_override = ExtResource("2_mgcjw")
+mesh = ExtResource("3_idya0")
+
+[node name="Danger" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0, 1, 0, 2.1, 0)
+material_override = ExtResource("2_mgcjw")
+mesh = ExtResource("4_fmx87")

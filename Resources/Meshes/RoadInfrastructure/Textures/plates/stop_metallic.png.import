@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bnq1t85kuwn2t"
-path.s3tc="res://.godot/imported/PX_Speed_Limit_Sign_01_albedo.jpg-5e9066410f141679a21580d80e724c59.s3tc.ctex"
+uid="uid://dut47njnddwo4"
+path.s3tc="res://.godot/imported/stop_metallic.png-63b3587d9629911a74bbce011205c7d9.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Resources/Meshes/RoadInfrastructure/Textures/plates/PX_Speed_Limit_Sign_01_albedo.jpg"
-dest_files=["res://.godot/imported/PX_Speed_Limit_Sign_01_albedo.jpg-5e9066410f141679a21580d80e724c59.s3tc.ctex"]
+source_file="res://Resources/Meshes/RoadInfrastructure/Textures/plates/stop_metallic.png"
+dest_files=["res://.godot/imported/stop_metallic.png-63b3587d9629911a74bbce011205c7d9.s3tc.ctex"]
 
 [params]
 

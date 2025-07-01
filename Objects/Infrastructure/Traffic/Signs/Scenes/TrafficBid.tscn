@@ -1,0 +1,54 @@
+[gd_scene load_steps=13 format=3 uid="uid://dq8d5w7wiklac"]
+
+[ext_resource type="Script" uid="uid://bdg85dy3xxe5p" path="res://Objects/Infrastructure/Traffic/Signs/Scenes/SpeedLimit.gd" id="1_yfqxl"]
+[ext_resource type="Material" uid="uid://ddbs4oysuneg3" path="res://Objects/Infrastructure/Traffic/RoadInfrastructure2.tres" id="2_6eqii"]
+[ext_resource type="ArrayMesh" uid="uid://nwup31ab5vry" path="res://Objects/Infrastructure/Traffic/Signs/Round.tres" id="3_7ejoi"]
+[ext_resource type="Material" uid="uid://c27evetdl11k4" path="res://Objects/Infrastructure/Traffic/RoadInfrastructure1.tres" id="4_co2vy"]
+[ext_resource type="ArrayMesh" uid="uid://dkf3508scw2nm" path="res://Objects/Infrastructure/Traffic/Signs/PostRound.tres" id="5_cybpq"]
+[ext_resource type="FontFile" uid="uid://bmds64862qenv" path="res://Resources/Fonts/DIN1451/din1451alt G.ttf" id="6_45ir5"]
+[ext_resource type="Texture2D" uid="uid://bcnk1w5bkgnj2" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/albedo_bid.png" id="7_yfqxl"]
+[ext_resource type="Texture2D" uid="uid://b0fl7ep7s4v08" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/metallic_no_border.jpg" id="8_6eqii"]
+[ext_resource type="Texture2D" uid="uid://cb0wioegudj28" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/normal_no_border.jpg" id="9_7ejoi"]
+[ext_resource type="Texture2D" uid="uid://c6dwu01vmv73b" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/roughness_no_border.jpg" id="10_co2vy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hwwsn"]
+transparency = 1
+albedo_texture = ExtResource("7_yfqxl")
+metallic = 1.0
+metallic_texture = ExtResource("8_6eqii")
+roughness_texture = ExtResource("10_co2vy")
+normal_enabled = true
+normal_texture = ExtResource("9_7ejoi")
+
+[sub_resource type="ExternalTexture" id="ExternalTexture_hwwsn"]
+size = Vector2(635, 635)
+
+[node name="SpeedLimit" type="Node3D"]
+script = ExtResource("1_yfqxl")
+
+[node name="Forbidden" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.03783, 0)
+material_override = ExtResource("2_6eqii")
+mesh = ExtResource("3_7ejoi")
+
+[node name="PostRound" type="MeshInstance3D" parent="."]
+material_override = ExtResource("4_co2vy")
+mesh = ExtResource("5_cybpq")
+
+[node name="Begin" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0.03)
+sorting_offset = 0.3
+pixel_size = 0.001
+shaded = true
+modulate = Color(0.0885599, 0.0885599, 0.0885599, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "70"
+font = ExtResource("6_45ir5")
+font_size = 317
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 2.041, 0.027)
+sorting_offset = 0.2
+material_override = SubResource("StandardMaterial3D_hwwsn")
+cast_shadow = 0
+texture = SubResource("ExternalTexture_hwwsn")

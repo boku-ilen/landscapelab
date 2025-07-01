@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://v6302oa6ntob"
-path.s3tc="res://.godot/imported/PX_Speed_Limit_Sign_01_roughness.jpg-b32592989d2844e1046f878f1c630df2.s3tc.ctex"
+uid="uid://de1f7nox2121a"
+path.s3tc="res://.godot/imported/stop_normal.png-52563c36bcc254204e373e9f222af405.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Resources/Meshes/RoadInfrastructure/Textures/plates/PX_Speed_Limit_Sign_01_roughness.jpg"
-dest_files=["res://.godot/imported/PX_Speed_Limit_Sign_01_roughness.jpg-b32592989d2844e1046f878f1c630df2.s3tc.ctex"]
+source_file="res://Resources/Meshes/RoadInfrastructure/Textures/plates/stop_normal.png"
+dest_files=["res://.godot/imported/stop_normal.png-52563c36bcc254204e373e9f222af405.s3tc.ctex"]
 
 [params]
 
@@ -20,12 +20,12 @@ compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://Resources/Meshes/RoadInfrastructure/Textures/plates/stop_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

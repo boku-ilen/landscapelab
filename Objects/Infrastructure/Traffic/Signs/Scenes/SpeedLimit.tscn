@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b0l5rbd2caude"]
+[gd_scene load_steps=13 format=3 uid="uid://b0l5rbd2caude"]
 
 [ext_resource type="Script" uid="uid://bdg85dy3xxe5p" path="res://Objects/Infrastructure/Traffic/Signs/Scenes/SpeedLimit.gd" id="1_5doyp"]
 [ext_resource type="Material" uid="uid://ddbs4oysuneg3" path="res://Objects/Infrastructure/Traffic/RoadInfrastructure2.tres" id="2_11vym"]
@@ -6,14 +6,12 @@
 [ext_resource type="FontFile" uid="uid://bmds64862qenv" path="res://Resources/Fonts/DIN1451/din1451alt G.ttf" id="3_11vym"]
 [ext_resource type="Material" uid="uid://c27evetdl11k4" path="res://Objects/Infrastructure/Traffic/RoadInfrastructure1.tres" id="4_uphna"]
 [ext_resource type="ArrayMesh" uid="uid://dkf3508scw2nm" path="res://Objects/Infrastructure/Traffic/Signs/PostRound.tres" id="5_271g8"]
-[ext_resource type="Texture2D" uid="uid://chwexojlknod2" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/PX_Speed_Limit_Sign_01_albedo.png" id="7_43g4l"]
-[ext_resource type="Texture2D" uid="uid://1pkjhq0mu6yu" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/PX_Speed_Limit_Sign_01_displacement.jpg" id="8_bg1mx"]
-[ext_resource type="Texture2D" uid="uid://cy52a1p5oboju" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/PX_Speed_Limit_Sign_01_glossiness.jpg" id="9_mu6c5"]
-[ext_resource type="Texture2D" uid="uid://chwl2p4os53gf" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/PX_Speed_Limit_Sign_01_normal.jpg" id="10_g58xr"]
-[ext_resource type="Texture2D" uid="uid://v6302oa6ntob" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/PX_Speed_Limit_Sign_01_roughness.jpg" id="11_2lyli"]
-[ext_resource type="Texture2D" uid="uid://iadjlegjqcxs" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/Vorschriftszeichen_1.svg" id="12_qobff"]
+[ext_resource type="Texture2D" uid="uid://chwexojlknod2" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/albedo.png" id="7_43g4l"]
+[ext_resource type="Texture2D" uid="uid://cy52a1p5oboju" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/metallic_border.jpg" id="9_mu6c5"]
+[ext_resource type="Texture2D" uid="uid://chwl2p4os53gf" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/normal_border.jpg" id="10_g58xr"]
+[ext_resource type="Texture2D" uid="uid://v6302oa6ntob" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/roughness_border.jpg" id="11_2lyli"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h611c"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hwwsn"]
 transparency = 1
 albedo_texture = ExtResource("7_43g4l")
 metallic = 1.0
@@ -21,7 +19,9 @@ metallic_texture = ExtResource("9_mu6c5")
 roughness_texture = ExtResource("11_2lyli")
 normal_enabled = true
 normal_texture = ExtResource("10_g58xr")
-heightmap_texture = ExtResource("8_bg1mx")
+
+[sub_resource type="ExternalTexture" id="ExternalTexture_hwwsn"]
+size = Vector2(635, 635)
 
 [node name="SpeedLimit" type="Node3D"]
 script = ExtResource("1_5doyp")
@@ -47,8 +47,8 @@ font = ExtResource("3_11vym")
 font_size = 317
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.067, 0, 0, 0, 0.067, 0, 0, 0, 0.067, 0, 2.041, 0.027)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 2.041, 0.027)
 sorting_offset = 0.2
-material_override = SubResource("StandardMaterial3D_h611c")
+material_override = SubResource("StandardMaterial3D_hwwsn")
 cast_shadow = 0
-texture = ExtResource("12_qobff")
+texture = SubResource("ExternalTexture_hwwsn")
