@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ble8u3qy6yftc"]
+[gd_scene load_steps=14 format=3 uid="uid://ble8u3qy6yftc"]
 
 [ext_resource type="Script" uid="uid://ctcooojcx3ooc" path="res://Layers/Renderers/RasterVegetation/VegetationParticles.gd" id="1"]
 [ext_resource type="Shader" uid="uid://ccqx25hlxfd1d" path="res://Layers/Renderers/RasterVegetation/Plant.gdshader" id="2"]
@@ -8,6 +8,7 @@
 [ext_resource type="ArrayMesh" uid="uid://kqa4x2tsefu5" path="res://Resources/Meshes/VegetationBillboard/1m_billboard.obj" id="4_uhe77"]
 [ext_resource type="PackedScene" uid="uid://cqv4mdm0thwg4" path="res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn" id="5_ud2b3"]
 [ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="7_qonti"]
+[ext_resource type="PackedScene" uid="uid://y2so1tovigxv" path="res://Layers/Renderers/LIDOverlay/HeightOverlayViewport.tscn" id="8_83top"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_qonti"]
 noise_type = 0
@@ -70,6 +71,9 @@ rows = 300
 spacing = 0.5
 
 [node name="LIDOverlayViewport" parent="." instance=ExtResource("5_ud2b3")]
+top_level = true
+
+[node name="HeightOverlayViewport" parent="." instance=ExtResource("8_83top")]
 top_level = true
 
 [node name="PSUGatherer" parent="." instance=ExtResource("7_qonti")]
