@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3 uid="uid://dewm0rc3u2vrh"]
+
+[ext_resource type="Material" uid="uid://bxejggbqsoewi" path="res://Objects/Roads/RoadCar.tres" id="1_1l7wr"]
+[ext_resource type="ArrayMesh" uid="uid://7pwspfn3leuj" path="res://Resources/Meshes/RoadInfrastructure/road_segment.obj" id="2_g0uys"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="3_g0uys"]
+[ext_resource type="Script" uid="uid://dinwn45dvlpui" path="res://Objects/Roads/RoadSegmentCar.gd" id="3_q5wgh"]
+
+[node name="RoadSegmentCar" type="MeshInstance3D"]
+layers = 196612
+material_override = ExtResource("1_1l7wr")
+mesh = ExtResource("2_g0uys")
+script = ExtResource("3_q5wgh")
+
+[node name="PSUGatherer" parent="." instance=ExtResource("3_g0uys")]

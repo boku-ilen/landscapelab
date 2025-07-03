@@ -35,6 +35,7 @@ const RENDER_INFOS := {
 	"Road Network": RoadNetworkRenderInfo,
 	"Connected Object": ConnectedObjectInfo,
 	"Repeating Object": RepeatingObjectInfo,
+	"Repeating Road": RepeatingRoadInfo,
 }
 
 
@@ -315,6 +316,20 @@ class RepeatingObjectInfo extends RenderInfo:
 		return geo_feature_layer != null && ground_height_layer != null
 	
 	func get_class_name() -> String: return "Repeating Object"
+
+
+class RepeatingRoadInfo extends RenderInfo:
+	var radius := 1000.0
+	
+	var selector_attribute_name: String
+	var meshes: Dictionary
+	
+	var ground_height_layer: GeoRasterLayer
+	var geo_feature_layer: GeoFeatureLayer
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/RepeatingRoad/RepeatingRoadRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 
 
 class PolygonObjectInfo extends RenderInfo:
