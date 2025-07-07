@@ -44,5 +44,4 @@ func setup(new_feature):
 	material_override.set_shader_parameter("width", width)
 	
 	var lanes = max(int(feature.get_attribute("lanes")), 1)
-	
-	material_override.set_shader_parameter("lanes", lanes)
+	material_override.set_shader_parameter("lanes", lanes if width >= 5.0 else 1) # Avoid lanes smaller than 2.5

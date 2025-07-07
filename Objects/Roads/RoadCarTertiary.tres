@@ -1,0 +1,50 @@
+[gd_resource type="ShaderMaterial" load_steps=11 format=3 uid="uid://bxejggbqsoewi"]
+
+[ext_resource type="Shader" uid="uid://bgkt7kb2x71rr" path="res://Objects/Roads/RoadCar.gdshader" id="1_kolgf"]
+[ext_resource type="Texture2D" uid="uid://cim2tnu0ohupx" path="res://Resources/Textures/Asphalt/DamageGround/Asphalt021_2K-JPG_NormalGL.jpg" id="2_omyva"]
+[ext_resource type="Texture2D" uid="uid://d220bdfgs5wsl" path="res://Resources/Textures/Asphalt/DamageOverlay/opacity.jpg" id="3_mflvr"]
+[ext_resource type="Texture2D" uid="uid://c0tmjkx7qxokr" path="res://Resources/Textures/Asphalt/DamageOverlay/color.jpg" id="4_i65nw"]
+[ext_resource type="Texture2D" uid="uid://bx0ctq7jg4ydm" path="res://Resources/Textures/Asphalt/DamageOverlay/normal.jpg" id="5_esdex"]
+[ext_resource type="Texture2D" uid="uid://du0g66s8nc5vb" path="res://Resources/Textures/Asphalt/DamageGround/Asphalt021_2K-JPG_Color.jpg" id="6_qt484"]
+[ext_resource type="Texture2D" uid="uid://bh42waplqru2h" path="res://Resources/Textures/Asphalt/Asphalt020S_2K-JPG_NormalGL.jpg" id="7_idojj"]
+[ext_resource type="Texture2D" uid="uid://dfnvovkj1rg0b" path="res://Resources/Textures/Asphalt/Asphalt020S_2K-JPG_Color.jpg" id="8_g1ckp"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_trv7s"]
+noise_type = 4
+frequency = 0.0059
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bmx7n"]
+width = 1024
+height = 1024
+seamless = true
+noise = SubResource("FastNoiseLite_trv7s")
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_kolgf")
+shader_parameter/start = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 29.795, 1)
+shader_parameter/end = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/width = 5.0
+shader_parameter/height = 0.2
+shader_parameter/road_texture = ExtResource("8_g1ckp")
+shader_parameter/road_normals = ExtResource("7_idojj")
+shader_parameter/damage_texture = ExtResource("6_qt484")
+shader_parameter/damage_normals = ExtResource("2_omyva")
+shader_parameter/damage_overlay = ExtResource("4_i65nw")
+shader_parameter/damage_overlay_normals = ExtResource("5_esdex")
+shader_parameter/damage_opacity = ExtResource("3_mflvr")
+shader_parameter/wear_factor = SubResource("NoiseTexture2D_bmx7n")
+shader_parameter/world_uv_scaling = Vector3(0.4, 1, -0.4)
+shader_parameter/draw_outer_lines = false
+shader_parameter/outerline_width = 0.25
+shader_parameter/outerline_offset = 0.1
+shader_parameter/innerline_width = 0.15
+shader_parameter/innerline_gap = 6.0
+shader_parameter/innerline_length = 3.0
+shader_parameter/lanes = 2
+shader_parameter/wear_scale = 1.0
+shader_parameter/color_modulate = Color(1, 1, 1, 1)
+shader_parameter/banquet_width = 1.0
+shader_parameter/lid_color = Color(0, 0, 0, 1)
+shader_parameter/render_lid = true

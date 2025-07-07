@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbeijkotqqad3"]
+
+[ext_resource type="ArrayMesh" uid="uid://c56g3tb4gc0uf" path="res://Objects/Infrastructure/Bridges/BridgeLane.tres" id="1_w2ym6"]
+
+[node name="BridgeSegment" type="Node3D"]
+
+[node name="BridgeLane" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.994101, 0, -0.66467)
+mesh = ExtResource("1_w2ym6")

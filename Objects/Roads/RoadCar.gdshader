@@ -13,6 +13,9 @@ uniform float innerline_gap = 6.0;
 uniform float innerline_length = 3.0;
 uniform int lanes = 2;
 
+uniform float wear_scale = 1.0;
+uniform vec3 color_modulate: source_color = vec3(1.0);
+
 uniform float banquet_width = 1.0;
 uniform vec3 lid_color: source_color;
 
@@ -30,7 +33,7 @@ float map_to_range(float value, float old_from, float old_to, float new_from, fl
 void vertex() {
 	// Remember the normalized values (X from -0.5 to 0.5, Z from 0.0 to 1.0)
 	untransformed_vertex = VERTEX;
-	
+
 	// Scale by width
 	VERTEX.x += sign(VERTEX.x) * width / 2.0;
 
@@ -39,16 +42,16 @@ void vertex() {
 	} else if (((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 17))) == int(pow(2, 17)))) {
 		VERTEX.x += sign(VERTEX.x) * (banquet_width + 2.0);
 	}
-	
+
 	// Bend the road segment to the desired start and end positions
 	float mix_factor = -VERTEX.z;
 	VERTEX = get_interpolated_vertex(VERTEX, mix_factor);
 	NORMAL = get_interpolated_normal(NORMAL, mix_factor);
-	
+
 	global_height = (MODEL_MATRIX * vec4(VERTEX, 1.0)).y - 0.15;
-	
+
 	WORLD_UV = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz * world_uv_scaling;
-	
+
 	segment_length = length((end * vec4(0.0, 0.0, 0.0, 1.0)).xyz - (start * vec4(0.0, 0.0, 0.0, 1.0)).xyz);
 }
 
@@ -66,11 +69,12 @@ void fragment() {
 		// Encode the overlay height and the falloff parameter into the RGB channels of this
 		//  16 bit float RGB viewport texture
 		ALBEDO = vec3(floor(global_height / 10.0), fract(global_height / 10.0), edge_falloff);
-	} else {
+	} else
+	{
 		vec2 damage_uv = WORLD_UV.xz * 0.3;
 		vec2 wear_uv = WORLD_UV.xz * 0.05;
 
-		float wear_noise = texture(wear_factor, wear_uv).r;
+		float wear_noise = texture(wear_factor, wear_uv).r * wear_scale;
 
 		float damage_opacity_sample = texture(damage_opacity, damage_uv).r;
 		damage_opacity_sample *= float(wear_noise > 0.8);
@@ -82,16 +86,17 @@ void fragment() {
 
 		color *= 1.0 - damage_opacity_sample;
 		color += texture(damage_overlay, damage_uv).rgb * damage_opacity_sample;
-		// Map UV to the upper face of the polygon
 
-		float marking_multiplier = 1.0;
+		color *= color_modulate;
+
+		float marking = 0.0;
 
 		// Outer lines
 		if (draw_outer_lines) {
 			if ((uv.y > outerline_offset && uv.y < outerline_offset + outerline_width) ||
 				(uv.y > width - (outerline_offset + outerline_width) && uv.y < width - outerline_offset))
 			{
-				marking_multiplier *= 2.0;
+				marking += 1.0;
 			}
 		}
 
@@ -99,7 +104,7 @@ void fragment() {
 		uv.y = map_to_range(uv.y, outerline_offset + outerline_width, width - outerline_offset - outerline_width, 0.0, 1.0);
 		float scale = 1.0 / (width - (outerline_offset + outerline_width) * 2.0);
 		float half_width = innerline_width / 2.0 * scale;
-		
+
 		// Check each line
 		for (int i = 1; i < lanes; ++i)
 		{
@@ -110,13 +115,16 @@ void fragment() {
 				float remainder = fract(progress_meters / (innerline_length + innerline_gap));
 				if (remainder > innerline_gap / (innerline_length + innerline_gap))
 				{
-					marking_multiplier *= 2.0;
+					marking += 1.0;
 				}
 
 			}
 		}
 
-		color *= mix(1.0, marking_multiplier, 1.0 - damage_opacity_sample);
+		color = mix(color, vec3(1.0), (1.0 - damage_opacity_sample) * marking
+				* (length(color) * 1.0));
+
+		//color *= mix(1.0, marking_multiplier, 1.0 - damage_opacity_sample);
 
 		ALBEDO = min(color, vec3(1.0,1.0, 1.0));
 		NORMAL_MAP = mix(
