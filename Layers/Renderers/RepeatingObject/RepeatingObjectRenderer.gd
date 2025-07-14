@@ -14,6 +14,8 @@ var rand_angle := 0.0
 
 
 func _ready() -> void:
+	super._ready()
+	
 	radius = layer_composition.render_info.radius
 
 
@@ -21,13 +23,13 @@ func load_feature_instance(feature: GeoFeature):
 	rand_angle = 0.0
 	mutex.lock()
 	# Get the configured path or default
-	var mesh_key = _get_mesh_dict_key_from_feature(feature)
+	var mesh_key_dict = _get_mesh_dict_key_from_feature(feature)
 	
 	# Create one multimesh per feature
 	var multimesh_instance = MultiMeshInstance3D.new()
 	multimesh_instance.multimesh = MultiMesh.new()
 	multimesh_instance.multimesh.set_transform_format(MultiMesh.TRANSFORM_3D)
-	var mesh_path = layer_composition.render_info.meshes[mesh_key]["path"]
+	var mesh_path = mesh_key_dict["path"]
 	multimesh_instance.multimesh.mesh = load(mesh_path)
 	multimesh_instance.set_layer_mask_value(1, false)
 	multimesh_instance.set_layer_mask_value(3, true)
@@ -52,8 +54,6 @@ func build_aabb(transforms: Array, multimesh_instance: MultiMeshInstance3D):
 	var begin = Vector3(INF, INF, INF)
 	var end = Vector3(-INF, -INF, -INF)
 	
-	var height_at_pos = layer_composition.render_info.ground_height_layer.get_value_at_position
-	
 	for t in transforms:
 		begin.x = min(begin.x, t.origin.x)
 		begin.y = min(begin.y, t.origin.y)
@@ -76,12 +76,7 @@ func build_aabb(transforms: Array, multimesh_instance: MultiMeshInstance3D):
 
 
 func _calculate_intermediate_transforms(feature: GeoFeature):
-	var f_id = feature.get_id()
 	var vertices: Curve3D = feature.get_offset_curve3d(-center[0], 0, -center[1])
-	
-	var height_fit_rotation = 0.0
-	
-	var get_ground_height_at_pos
 	
 	var height_offset = 0.0
 	if feature.get_attribute("LL_h_off"):
@@ -91,35 +86,33 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 	if feature.get_attribute("LL_scale"):
 		ll_scale = float(feature.get_attribute("LL_scale"))
 	
-	if layer_composition.render_info.height_gradient:
-		# For things like bridges, we want to interpolate between the height at the first point and the height at the last point.
-		var first_point = vertices.get_point_position(0)
-		var last_point = vertices.get_point_position(vertices.get_point_count() - 1)
-		var length = vertices.get_baked_length()
-		
-		var height_at_first = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + first_point.x, center[1] - first_point.z)
-		var height_at_last = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + last_point.x, center[1] - last_point.z)
-		
-		# FIXME: Multiplying by 0.9 shouldn't be necessary, but without it, the rotation is incorrect
-		height_fit_rotation = atan((height_at_last - height_at_first) / length) * 0.9
-		
-		get_ground_height_at_pos = func(position_x, position_z):
-			var lerp_factor = first_point.distance_to(Vector3(position_x, 0.0, position_z)) / length
-			return lerp(height_at_first, height_at_last, lerp_factor)
-	else:
-		# Otherwise, get heights for all individual points from the height dataset.
-		get_ground_height_at_pos = func(position_x, position_z):
-			return layer_composition.render_info.ground_height_layer.get_value_at_position(
-				center[0] + position_x,
-				center[1] - position_z,
-			)
-	
 	var transforms := []
 	
-	var mesh_key = _get_mesh_dict_key_from_feature(feature)
-	var width = layer_composition.render_info.meshes[mesh_key]["width"]
-	var random_angle = layer_composition.render_info.meshes[mesh_key]["random_angle"] \
-			if "random_angle" in layer_composition.render_info.meshes[mesh_key] else layer_composition.render_info.random_angle
+	var mesh_key_dict = _get_mesh_dict_key_from_feature(feature)
+	var width = mesh_key_dict["width"]
+	var random_angle = mesh_key_dict["random_angle"] \
+			if "random_angle" in mesh_key_dict else layer_composition.render_info.random_angle
+	
+	var base_rotation = mesh_key_dict["base_rotation"] \
+			if "base_rotation" in mesh_key_dict else layer_composition.render_info.base_rotation
+	
+	var height_getter
+	
+	if layer_composition.render_info.height_gradient:
+		height_getter = CurveHeightGetters.LerpedLineCurveHeightGetter.new(
+			vertices,  layer_composition.render_info.ground_height_layer, center)
+	else:
+		height_getter = CurveHeightGetters.ExactCurveHeightGetter.new(
+			vertices,  layer_composition.render_info.ground_height_layer, center)
+	
+	# Per-mesh override, if available
+	if "height_type" in mesh_key_dict:
+		if mesh_key_dict["height_type"] == "Lerped Vertex":
+			height_getter = CurveHeightGetters.LerpedVertexCurveHeightGetter.new(
+				vertices, layer_composition.render_info.ground_height_layer, center)
+		elif mesh_key_dict["height_type"] == "Lerped Line":
+			height_getter = CurveHeightGetters.LerpedLineCurveHeightGetter.new(
+				vertices, layer_composition.render_info.ground_height_layer, center)
 	
 	width *= ll_scale
 	
@@ -129,8 +122,6 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 	# Make an exact number of objects fit between start and end
 	var how_many_fit = ceil(curve_length / width)
 	var scaled_width = curve_length / how_many_fit
-	var scale_factor = scaled_width / width
-	var previous_height := 0.0
 	
 	for i in range(how_many_fit):
 		# Note that we sample from end to start because that aligns with how we expect objects
@@ -152,14 +143,36 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 		t.basis.y = Vector3.UP
 		t.basis.x = t.basis.y.cross(t.basis.z)
 		
+		# Set the mesh on ground and add some buffer for uneven grounds
+		var height_progress = curve_length - distance_covered
+		
+		# For some objects, like fences ,we want to sample the height in the middle, for others,
+		#  like reflector posts,we want to sample the height at the start, since that's where the
+		#  object is.
+		if layer_composition.render_info.sample_height_at_center:
+			height_progress += scaled_width  / 2.0
+		var new_height = height_getter.get_height(height_progress) + height_offset
+		
+		t.origin.y = new_height
+		
+		if "offset" in mesh_key_dict:
+			var offset = mesh_key_dict["offset"]
+			t = t.translated_local(Vector3.RIGHT * offset)
+			
+			# TODO: We need to adapt the scale to this offset as well, otherwise we get overlaps in
+			#  curves which get more narrow and gaps in curves which get more wide.
+		
 		t = t.scaled_local(Vector3(1, 1, instance_scale_factor))
 		t = t.scaled_local(Vector3.ONE * ll_scale)
 		
 		# Rotate by height slant if needed
-		t = t.rotated_local(Vector3.RIGHT, -height_fit_rotation)
+		t = t.rotated_local(Vector3.RIGHT, height_getter.get_angle(curve_length - distance_covered))
 		
 		# Rotate by base rotation (to account for assets rotated differently than needed)
-		t = t.rotated_local(Vector3.UP, deg_to_rad(layer_composition.render_info.base_rotation))
+		t = t.rotated_local(Vector3.UP, deg_to_rad(base_rotation))
+		
+		# FIXME: Generalize, currently only works for flipping
+		if base_rotation == 180.0: t = t.translated_local(-Vector3.FORWARD * width)
 		
 		# Randomly add 90, 180 or 270 degrees to previous rotation
 		if  random_angle:
@@ -167,18 +180,6 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 			rand_angle = rand_angle + (PI / 2.0) * ((pseudo_random % 3) + 1.0)
 			rand_angle = fmod(rand_angle, PI * 2.0)
 			t = t.rotated_local(Vector3.UP, rand_angle)
-		
-		# Set the mesh on ground and add some buffer for uneven grounds
-		var height_position = t.origin
-		
-		# For some objects, like fences ,we want to sample the height in the middle, for others,
-		#  like reflector posts,we want to sample the height at the start, since that's where the
-		#  object is.
-		if layer_composition.render_info.sample_height_at_center:
-			height_position += direction * scaled_width  / 2.0
-		var new_height = get_ground_height_at_pos.call(height_position.x, height_position.z) + height_offset
-		
-		t.origin.y = new_height
 		
 		transforms.append(t)
 		
@@ -194,4 +195,13 @@ func _get_mesh_dict_key_from_feature(feature: GeoFeature):
 	mesh_key = mesh_key if mesh_key != "" else "default"
 	mesh_key = possible_meshes[0] if not mesh_key in possible_meshes else mesh_key
 	
-	return mesh_key
+	var mesh_key_dict = layer_composition.render_info.meshes[mesh_key].duplicate(true)
+	
+	# Add extra attributes
+	for att_con in layer_composition.render_info.attributes_to_mesh_settings:
+		var value_here = feature.get_attribute(att_con["attribute_name"])
+		
+		if value_here == att_con["attribute_value"]:
+			mesh_key_dict.merge(att_con["mesh_settings"], true)
+	
+	return mesh_key_dict

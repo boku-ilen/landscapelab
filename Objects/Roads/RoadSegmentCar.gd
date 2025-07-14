@@ -1,4 +1,9 @@
-extends RoadSegment
+extends LineSegment
+
+
+func _ready():
+	LIDOverlay.updated.emit()
+	visibility_changed.connect(func(): LIDOverlay.updated.emit())
 
 
 func setup(new_feature):
@@ -42,6 +47,10 @@ func setup(new_feature):
 			width = 4.0
 	
 	material_override.set_shader_parameter("width", width)
+	
+	# Don't make bridges write into the overlay layers
+	material_override.set_shader_parameter("render_lid", feature.get_attribute("bridge") != "yes")
+	material_override.set_shader_parameter("render_height", feature.get_attribute("bridge") != "yes")
 	
 	var lanes = max(int(feature.get_attribute("lanes")), 1)
 	material_override.set_shader_parameter("lanes", lanes if width >= 5.0 else 1) # Avoid lanes smaller than 2.5

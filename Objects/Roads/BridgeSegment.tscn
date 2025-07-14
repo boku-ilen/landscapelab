@@ -1,9 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://bbeijkotqqad3"]
+[gd_scene load_steps=8 format=3 uid="uid://bbeijkotqqad3"]
 
-[ext_resource type="ArrayMesh" uid="uid://c56g3tb4gc0uf" path="res://Objects/Infrastructure/Bridges/BridgeLane.tres" id="1_w2ym6"]
+[ext_resource type="Shader" uid="uid://drhvgh5tke5tr" path="res://Layers/Renderers/LineObject/BasicLineSegment.gdshader" id="1_iw4m0"]
+[ext_resource type="ArrayMesh" uid="uid://c4dmt58bjr8m3" path="res://Resources/Meshes/_NEW assets/brücken/brücke BS/bruecke_BS_mitte.obj" id="1_w2ym6"]
+[ext_resource type="Texture2D" uid="uid://da51jx3mr8y8m" path="res://Resources/Meshes/_NEW assets/brücken/brücke BS/materials/bruecke_BS_BaseColor.png" id="2_w8yd1"]
+[ext_resource type="Texture2D" uid="uid://bmwegwfhk4psv" path="res://Resources/Meshes/_NEW assets/brücken/brücke BS/materials/bruecke_BS_Normal.png" id="3_6spfw"]
+[ext_resource type="Texture2D" uid="uid://bf45c0jy3qbvg" path="res://Resources/Meshes/_NEW assets/brücken/brücke BS/materials/bruecke_BS_Roughness.png" id="4_gu0n2"]
+[ext_resource type="Script" uid="uid://b2u71kx6pcp0e" path="res://Objects/Roads/BridgeSegment.gd" id="6_gu0n2"]
 
-[node name="BridgeSegment" type="Node3D"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gu0n2"]
+render_priority = 0
+shader = ExtResource("1_iw4m0")
+shader_parameter/start = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/end = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -5.155, 1)
+shader_parameter/mesh_length = 1.0
+shader_parameter/albedo = ExtResource("2_w8yd1")
+shader_parameter/normal = ExtResource("3_6spfw")
+shader_parameter/roughness = ExtResource("4_gu0n2")
 
-[node name="BridgeLane" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.994101, 0, -0.66467)
+[node name="BridgeLane" type="MeshInstance3D"]
+material_override = SubResource("ShaderMaterial_gu0n2")
 mesh = ExtResource("1_w2ym6")
+script = ExtResource("6_gu0n2")

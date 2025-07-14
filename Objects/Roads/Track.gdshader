@@ -1,6 +1,6 @@
 shader_type spatial;
 
-#include "res://Objects/Roads/Road.gdshaderinc"
+#include "res://Layers/Renderers/LineObject/LineObject.gdshaderinc"
 #include "res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.gdshaderinc"
 
 uniform vec3 lid_color_edge: source_color;
@@ -32,9 +32,8 @@ void vertex() {
 	}
 
 	// Bend the road segment to the desired start and end positions
-	float mix_factor = -VERTEX.z;
-	VERTEX = get_interpolated_vertex(VERTEX, mix_factor);
-	NORMAL = get_interpolated_normal(NORMAL, mix_factor);
+	NORMAL = get_interpolated_normal(VERTEX, NORMAL);
+	VERTEX = get_interpolated_vertex(VERTEX);
 
 	global_height = (MODEL_MATRIX * vec4(VERTEX, 1.0)).y - 0.15;
 

@@ -1,6 +1,6 @@
 shader_type spatial;
 
-#include "res://Objects/Roads/Road.gdshaderinc"
+#include "res://Layers/Renderers/LineObject/LineObject.gdshaderinc"
 #include "res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.gdshaderinc"
 
 // Custom variables
@@ -19,6 +19,7 @@ uniform vec3 color_modulate: source_color = vec3(1.0);
 uniform float banquet_width = 1.0;
 uniform vec3 lid_color: source_color;
 
+uniform bool render_height = true;
 uniform bool render_lid = true;
 
 varying float global_height;
@@ -35,18 +36,17 @@ void vertex() {
 	untransformed_vertex = VERTEX;
 
 	// Scale by width
-	VERTEX.x += sign(VERTEX.x) * width / 2.0;
+	VERTEX.x += sign(VERTEX.x) * (width - 1.0) / 2.0;
 
 	if (render_lid && ((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16)))) {
 		VERTEX.x += sign(VERTEX.x) * banquet_width;
 	} else if (((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 17))) == int(pow(2, 17)))) {
-		VERTEX.x += sign(VERTEX.x) * (banquet_width + 2.0);
+		VERTEX.x += sign(VERTEX.x) * (banquet_width + 3.0);
 	}
 
 	// Bend the road segment to the desired start and end positions
-	float mix_factor = -VERTEX.z;
-	VERTEX = get_interpolated_vertex(VERTEX, mix_factor);
-	NORMAL = get_interpolated_normal(NORMAL, mix_factor);
+	NORMAL = get_interpolated_normal(VERTEX, NORMAL);
+	VERTEX = get_interpolated_vertex(VERTEX);
 
 	global_height = (MODEL_MATRIX * vec4(VERTEX, 1.0)).y - 0.15;
 
@@ -58,8 +58,9 @@ void vertex() {
 void fragment() {
 	vec2 uv = vec2(-untransformed_vertex.z, (untransformed_vertex.x + 0.5) * width);
 
-	if (render_lid && ((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16)))) {
+	if ((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16))) {
 		ALBEDO = lid_color;
+		ALPHA = float(render_lid);
 	} else if (((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 17))) == int(pow(2, 17)))) {
 		// We want to fully use the overlay height at and beside the street and then blend into the
 		//  heightmap height. This edge_falloff value is the factor for this blending.
@@ -69,6 +70,7 @@ void fragment() {
 		// Encode the overlay height and the falloff parameter into the RGB channels of this
 		//  16 bit float RGB viewport texture
 		ALBEDO = vec3(floor(global_height / 10.0), fract(global_height / 10.0), edge_falloff);
+		ALPHA = float(render_height);
 	} else
 	{
 		vec2 damage_uv = WORLD_UV.xz * 0.3;

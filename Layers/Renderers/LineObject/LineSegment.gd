@@ -1,13 +1,8 @@
-class_name RoadSegment
+class_name LineSegment
 extends MeshInstance3D
 
 
 var feature
-
-
-func _ready():
-	LIDOverlay.updated.emit()
-	visibility_changed.connect(func(): LIDOverlay.updated.emit())
 
 
 func set_segment_start_end(start_transform, end_transform):
@@ -18,3 +13,7 @@ func set_segment_start_end(start_transform, end_transform):
 # To be implemented by derived classes
 func setup(new_feature):
 	pass
+
+
+func set_mesh_length(new_length):
+	material_override.set_shader_parameter("mesh_length", new_length)

@@ -16,8 +16,8 @@ func _ready() -> void:
 func load_feature_instance(feature: GeoFeature):
 	mutex.lock()
 	
-	var mesh_key = _get_mesh_dict_key_from_feature(feature)
-	var object_path = layer_composition.render_info.meshes[mesh_key]["path"]
+	var mesh_key_dict = _get_mesh_dict_key_from_feature(feature)
+	var object_path = mesh_key_dict["path"]
 	
 	# Root node of all Nodes for this Feature
 	var instances = Node3D.new()
@@ -29,28 +29,29 @@ func load_feature_instance(feature: GeoFeature):
 	var prototype_scene = load(object_path).instantiate()
 	prototype_scene.setup(feature)
 	
-	# FIXME: Move this logic to the RepeatingObjectRenderer
+	if "length" in mesh_key_dict:
+		prototype_scene.set_mesh_length(mesh_key_dict["length"])
+	
 	var height_getter
 	
-	if feature.get_attribute("bridge") == "yes":
-		var first_point = vertices.get_point_position(0)
-		var last_point = vertices.get_point_position(vertices.get_point_count() - 1)
-		var length = vertices.get_baked_length()
-		
-		var height_at_first = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + first_point.x, center[1] - first_point.z)
-		var height_at_last = layer_composition.render_info.ground_height_layer.get_value_at_position(center[0] + last_point.x, center[1] - last_point.z)
-		
-		height_getter = func(position_x, position_z):
-			var lerp_factor = first_point.distance_to(Vector3(position_x, 0.0, position_z)) / length
-			return lerp(height_at_first, height_at_last, lerp_factor)
-	else:
-		height_getter = func(position_x, position_z):
-			return layer_composition.render_info.ground_height_layer.get_value_at_position(
-				center[0] + position_x,
-				center[1] - position_z,
+	if "height_type" in mesh_key_dict:
+		if mesh_key_dict["height_type"] == "Lerped Line":
+			height_getter = CurveHeightGetters.LerpedLineCurveHeightGetter.new(
+				vertices,
+				layer_composition.render_info.ground_height_layer,
+				center
 			)
+	
+	# Default
+	if not height_getter:
+		height_getter = CurveHeightGetters.ExactCurveHeightGetter.new(
+			vertices,
+			layer_composition.render_info.ground_height_layer,
+			center
+		)
 		
 	# Iterate over the Curve and stretch the object between every Vertex
+	# Ignore the last vertex since we're really looking at segments (current vertex -> next vertex)
 	for i in range(vertices.point_count - 1):
 		# We require three points: the starting point of this segment, the end point of this
 		#  segment, and the point after that in order to line up the directions
@@ -64,9 +65,9 @@ func load_feature_instance(feature: GeoFeature):
 			next_next_point = next_point + direction
 		
 		# Set heights for all points
-		point.y = height_getter.call(point.x, point.z)
-		next_point.y = height_getter.call(next_point.x, next_point.z)
-		next_next_point.y = height_getter.call(next_next_point.x, next_next_point.z)
+		point.y = height_getter.get_height(vertices.get_closest_offset(point))
+		next_point.y = height_getter.get_height(vertices.get_closest_offset(next_point))
+		next_next_point.y = height_getter.get_height(vertices.get_closest_offset(next_next_point))
 		
 		# Duplicate our prototype instance to get the instance for this segment
 		var instance = prototype_scene.duplicate()
@@ -106,4 +107,13 @@ func _get_mesh_dict_key_from_feature(feature: GeoFeature):
 	mesh_key = mesh_key if mesh_key != "" else "default"
 	mesh_key = possible_meshes[0] if not mesh_key in possible_meshes else mesh_key
 	
-	return mesh_key
+	var mesh_key_dict = layer_composition.render_info.meshes[mesh_key].duplicate(true)
+	
+	# Add extra attributes
+	for att_con in layer_composition.render_info.attributes_to_mesh_settings:
+		var value_here = feature.get_attribute(att_con["attribute_name"])
+		
+		if value_here == att_con["attribute_value"]:
+			mesh_key_dict.merge(att_con["mesh_settings"], true)
+	
+	return mesh_key_dict

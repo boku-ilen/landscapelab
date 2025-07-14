@@ -8,6 +8,7 @@ render_priority = 0
 shader = ExtResource("1_os2de")
 shader_parameter/start = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
 shader_parameter/end = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/mesh_length = 1.0
 shader_parameter/width = 5.0
 shader_parameter/height = 0.2
 shader_parameter/world_uv_scaling = Vector3(0.4, 1, -0.4)
