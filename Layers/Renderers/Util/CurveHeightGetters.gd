@@ -31,9 +31,10 @@ class ExactCurveHeightGetter extends AbstractCurveHeightGetter:
 			center[1] - position.z,
 		)
 	
-	# FIXME: Does it make sense to implement this?
 	func get_angle(offset):
-		return 0.0
+		var next_offset = offset + 1.0  # TODO: To we want this 1.0 to be modifyable?
+		
+		return atan((get_height(offset) - get_height(next_offset)) / (next_offset - offset))
 
 
 # Linearly interpolates the height between the height at the last vertex and the height at the next
