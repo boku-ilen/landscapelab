@@ -1,6 +1,9 @@
 extends LineSegment
 
 
+var width
+
+
 func _ready():
 	LIDOverlay.updated.emit()
 	visibility_changed.connect(func(): LIDOverlay.updated.emit())
@@ -9,7 +12,7 @@ func _ready():
 func setup(new_feature):
 	feature = new_feature
 	
-	var width = float(feature.get_attribute("width"))
+	width = float(feature.get_attribute("width"))
 	var highway_attr = feature.get_attribute("highway")
 	
 	if width == 0.0:
@@ -42,3 +45,7 @@ func setup(new_feature):
 		floor(lid_edge / 255),
 		0
 	))
+
+
+func get_mesh_aabb():
+	return mesh.get_aabb().grow(width)

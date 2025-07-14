@@ -26,7 +26,7 @@ func load_feature_instance(feature: GeoFeature):
 	
 	# We setup a prototype scene which we re-use (by duplicating) for all subsequent scenes
 	# That way, we only have to do the setup (reading Feature attributes, etc.) once per Feature.
-	var prototype_scene = load(object_path).instantiate()
+	var prototype_scene = load(object_path).instantiate() as LineSegment
 	prototype_scene.setup(feature)
 	
 	if "length" in mesh_key_dict:
@@ -49,6 +49,8 @@ func load_feature_instance(feature: GeoFeature):
 			layer_composition.render_info.ground_height_layer,
 			center
 		)
+	
+	var mesh_aabb = prototype_scene.get_mesh_aabb()
 		
 	# Iterate over the Curve and stretch the object between every Vertex
 	# Ignore the last vertex since we're really looking at segments (current vertex -> next vertex)
@@ -84,14 +86,18 @@ func load_feature_instance(feature: GeoFeature):
 		
 		# Since the object gets its position and size purely from the start and end matrices in the
 		#  custom shader, the default AABB is entirely wrong and we need to construct it ourselves.
-		instance.custom_aabb = AABB(
+		var custom_aabb = AABB(
 			Vector3(
 				min(point.x, next_point.x),
 				min(point.y, next_point.y),
 				min(point.z, next_point.z),
 			),
 			abs(next_point - point)
-		).grow(3.0)  # FIXME: Growing by width would be best, but we don't know the width here
+		)
+		
+		# Grow by the mesh and apply
+		custom_aabb = custom_aabb.grow(max(mesh_aabb.size.x, mesh_aabb.size.y, mesh_aabb.size.z))
+		instance.custom_aabb = custom_aabb
 		
 		instances.add_child(instance)
 	

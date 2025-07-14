@@ -1,6 +1,9 @@
 extends LineSegment
 
 
+var width
+
+
 func _ready():
 	LIDOverlay.updated.emit()
 	visibility_changed.connect(func(): LIDOverlay.updated.emit())
@@ -16,7 +19,7 @@ func setup(new_feature):
 		0
 	))
 	
-	var width = float(feature.get_attribute("width"))
+	width = float(feature.get_attribute("width"))
 	var highway_attr = feature.get_attribute("highway")
 	
 	if width == 0.0:
@@ -54,3 +57,7 @@ func setup(new_feature):
 	
 	var lanes = max(int(feature.get_attribute("lanes")), 1)
 	material_override.set_shader_parameter("lanes", lanes if width >= 5.0 else 1) # Avoid lanes smaller than 2.5
+
+
+func get_mesh_aabb():
+	return mesh.get_aabb().grow(width)
