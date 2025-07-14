@@ -1,0 +1,69 @@
+<PAMDataset>
+  <Metadata domain="IMAGE_STRUCTURE">
+    <MDI key="SOURCE_COLOR_SPACE">YCbCr</MDI>
+    <MDI key="INTERLEAVE">PIXEL</MDI>
+    <MDI key="COMPRESSION">JPEG</MDI>
+  </Metadata>
+  <Metadata domain="xml:XMP" format="xml">
+    <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d"?>
+    <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.4-c002 1.000000, 0000/00/00-00:00:00        ">
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/">
+          <xmp:CreatorTool>Substance Designer</xmp:CreatorTool>
+        </rdf:Description>
+        <rdf:Description rdf:about="" xmlns:exif="http://ns.adobe.com/exif/1.0/">
+          <exif:ExifVersion>0220</exif:ExifVersion>
+          <exif:PixelXDimension>8192</exif:PixelXDimension>
+          <exif:PixelYDimension>8192</exif:PixelYDimension>
+        </rdf:Description>
+        <rdf:Description rdf:about="" xmlns:tiff="http://ns.adobe.com/tiff/1.0/">
+          <tiff:ImageWidth>8192</tiff:ImageWidth>
+          <tiff:ImageLength>8192</tiff:ImageLength>
+          <tiff:XResolution>1417/50</tiff:XResolution>
+          <tiff:YResolution>1417/50</tiff:YResolution>
+          <tiff:ResolutionUnit>2</tiff:ResolutionUnit>
+        </rdf:Description>
+      </rdf:RDF>
+    </x:xmpmeta>
+    <?xpacket end="w"?>
+  </Metadata>
+  <PAMRasterBand band="1">
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MINIMUM">59</MDI>
+      <MDI key="STATISTICS_MAXIMUM">137</MDI>
+      <MDI key="STATISTICS_MEAN">96.128128051758</MDI>
+      <MDI key="STATISTICS_STDDEV">8.832839854029</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+    <Metadata domain="IMAGE_STRUCTURE">
+      <MDI key="COMPRESSION">JPEG</MDI>
+    </Metadata>
+  </PAMRasterBand>
+  <PAMRasterBand band="2">
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MINIMUM">54</MDI>
+      <MDI key="STATISTICS_MAXIMUM">136</MDI>
+      <MDI key="STATISTICS_MEAN">96.145629882812</MDI>
+      <MDI key="STATISTICS_STDDEV">10.109030939553</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+    <Metadata domain="IMAGE_STRUCTURE">
+      <MDI key="COMPRESSION">JPEG</MDI>
+    </Metadata>
+  </PAMRasterBand>
+  <PAMRasterBand band="3">
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MINIMUM">50</MDI>
+      <MDI key="STATISTICS_MAXIMUM">131</MDI>
+      <MDI key="STATISTICS_MEAN">91.863983154297</MDI>
+      <MDI key="STATISTICS_STDDEV">9.982979247791</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+    <Metadata domain="IMAGE_STRUCTURE">
+      <MDI key="COMPRESSION">JPEG</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>
