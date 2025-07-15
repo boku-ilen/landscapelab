@@ -16,8 +16,11 @@ func _ready() -> void:
 func load_feature_instance(feature: GeoFeature):
 	mutex.lock()
 	
-	var mesh_key_dict = _get_mesh_dict_key_from_feature(feature)
-	var object_path = mesh_key_dict["path"]
+	var property_dict = AttributeToPropertyInterpreter.get_properties_for_feature(
+		feature,
+		layer_composition.render_info.attributes_to_properties
+	)
+	var object_path = property_dict["path"]
 	
 	# Root node of all Nodes for this Feature
 	var instances = Node3D.new()
@@ -29,13 +32,13 @@ func load_feature_instance(feature: GeoFeature):
 	var prototype_scene = load(object_path).instantiate() as LineSegment
 	prototype_scene.setup(feature)
 	
-	if "length" in mesh_key_dict:
-		prototype_scene.set_mesh_length(mesh_key_dict["length"])
+	if "length" in property_dict:
+		prototype_scene.set_mesh_length(property_dict["length"])
 	
 	var height_getter
 	
-	if "height_type" in mesh_key_dict:
-		if mesh_key_dict["height_type"] == "Lerped Line":
+	if "height_type" in property_dict:
+		if property_dict["height_type"] == "Lerped Line":
 			height_getter = CurveHeightGetters.LerpedLineCurveHeightGetter.new(
 				vertices,
 				layer_composition.render_info.ground_height_layer,
@@ -104,22 +107,3 @@ func load_feature_instance(feature: GeoFeature):
 	mutex.unlock()
 	
 	return instances
-
-
-func _get_mesh_dict_key_from_feature(feature: GeoFeature):
-	var attribute_name = layer_composition.render_info.selector_attribute_name
-	var possible_meshes = layer_composition.render_info.meshes.keys()
-	var mesh_key = feature.get_attribute(attribute_name) if attribute_name != null else "default"
-	mesh_key = mesh_key if mesh_key != "" else "default"
-	mesh_key = possible_meshes[0] if not mesh_key in possible_meshes else mesh_key
-	
-	var mesh_key_dict = layer_composition.render_info.meshes[mesh_key].duplicate(true)
-	
-	# Add extra attributes
-	for att_con in layer_composition.render_info.attributes_to_mesh_settings:
-		var value_here = feature.get_attribute(att_con["attribute_name"])
-		
-		if value_here == att_con["attribute_value"]:
-			mesh_key_dict.merge(att_con["mesh_settings"], true)
-	
-	return mesh_key_dict

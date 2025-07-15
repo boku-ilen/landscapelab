@@ -297,8 +297,9 @@ class RepeatingObjectInfo extends RenderInfo:
 	var random_angle: bool
 	var base_rotation := 0.0
 	var selector_attribute_name: String
-	var meshes: Dictionary
-	var attributes_to_mesh_settings: Array
+	var attributes_to_properties: Dictionary	# New way of defining
+	var meshes: Dictionary						# Old way of defining
+	var attributes_to_mesh_settings: Array		# Old way of defining
 
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer
@@ -322,9 +323,8 @@ class RepeatingObjectInfo extends RenderInfo:
 class LineObjectInfo extends RenderInfo:
 	var radius := 1000.0
 	
-	var selector_attribute_name: String
 	var meshes: Dictionary
-	var attributes_to_mesh_settings: Array
+	var attributes_to_properties: Dictionary
 	
 	var ground_height_layer: GeoRasterLayer
 	var geo_feature_layer: GeoFeatureLayer

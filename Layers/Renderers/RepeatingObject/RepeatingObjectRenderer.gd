@@ -22,20 +22,32 @@ func _ready() -> void:
 func load_feature_instance(feature: GeoFeature):
 	rand_angle = 0.0
 	mutex.lock()
-	# Get the configured path or default
-	var mesh_key_dict = _get_mesh_dict_key_from_feature(feature)
+	
+	# Get the configured properties
+	var property_dict
+	if not layer_composition.render_info.attributes_to_properties.is_empty():
+		property_dict = AttributeToPropertyInterpreter.get_properties_for_feature(
+			feature,
+			layer_composition.render_info.attributes_to_properties
+		)
+	elif not layer_composition.render_info.meshes.is_empty():
+		property_dict = AttributeToPropertyInterpreter.get_mesh_dict_key_from_feature(
+			feature,
+			layer_composition.render_info.selector_attribute_name,
+			layer_composition.render_info.meshes
+		)
 	
 	# Create one multimesh per feature
 	var multimesh_instance = MultiMeshInstance3D.new()
 	multimesh_instance.multimesh = MultiMesh.new()
 	multimesh_instance.multimesh.set_transform_format(MultiMesh.TRANSFORM_3D)
-	var mesh_path = mesh_key_dict["path"]
+	var mesh_path = property_dict["path"]
 	multimesh_instance.multimesh.mesh = load(mesh_path)
 	multimesh_instance.set_layer_mask_value(1, false)
 	multimesh_instance.set_layer_mask_value(3, true)
 	
 	# Calculate transforms for the intermediate meshes
-	var intermediate_transforms = _calculate_intermediate_transforms(feature)
+	var intermediate_transforms = _calculate_intermediate_transforms(feature, property_dict)
 	
 	# Set the instance count to all cummulated vertecies and populate multimesh
 	multimesh_instance.multimesh.instance_count = intermediate_transforms.size()
@@ -75,7 +87,7 @@ func build_aabb(transforms: Array, multimesh_instance: MultiMeshInstance3D):
 	multimesh_instance.set_custom_aabb(AABB(begin, size))
 
 
-func _calculate_intermediate_transforms(feature: GeoFeature):
+func _calculate_intermediate_transforms(feature: GeoFeature, property_dict: Dictionary):
 	var vertices: Curve3D = feature.get_offset_curve3d(-center[0], 0, -center[1])
 	
 	var height_offset = 0.0
@@ -88,13 +100,12 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 	
 	var transforms := []
 	
-	var mesh_key_dict = _get_mesh_dict_key_from_feature(feature)
-	var width = mesh_key_dict["width"]
-	var random_angle = mesh_key_dict["random_angle"] \
-			if "random_angle" in mesh_key_dict else layer_composition.render_info.random_angle
+	var width = property_dict["width"]
+	var random_angle = property_dict["random_angle"] \
+			if "random_angle" in property_dict else layer_composition.render_info.random_angle
 	
-	var base_rotation = mesh_key_dict["base_rotation"] \
-			if "base_rotation" in mesh_key_dict else layer_composition.render_info.base_rotation
+	var base_rotation = property_dict["base_rotation"] \
+			if "base_rotation" in property_dict else layer_composition.render_info.base_rotation
 	
 	var height_getter
 	
@@ -106,11 +117,11 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 			vertices,  layer_composition.render_info.ground_height_layer, center)
 	
 	# Per-mesh override, if available
-	if "height_type" in mesh_key_dict:
-		if mesh_key_dict["height_type"] == "Lerped Vertex":
+	if "height_type" in property_dict:
+		if property_dict["height_type"] == "Lerped Vertex":
 			height_getter = CurveHeightGetters.LerpedVertexCurveHeightGetter.new(
 				vertices, layer_composition.render_info.ground_height_layer, center)
-		elif mesh_key_dict["height_type"] == "Lerped Line":
+		elif property_dict["height_type"] == "Lerped Line":
 			height_getter = CurveHeightGetters.LerpedLineCurveHeightGetter.new(
 				vertices, layer_composition.render_info.ground_height_layer, center)
 	
@@ -155,8 +166,8 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 		
 		t.origin.y = new_height
 		
-		if "offset" in mesh_key_dict:
-			var offset = mesh_key_dict["offset"]
+		if "offset" in property_dict:
+			var offset = property_dict["offset"]
 			t = t.translated_local(Vector3.RIGHT * offset)
 			
 			# TODO: We need to adapt the scale to this offset as well, otherwise we get overlaps in
@@ -186,22 +197,3 @@ func _calculate_intermediate_transforms(feature: GeoFeature):
 		distance_covered += scaled_width
 	
 	return transforms
-
-
-func _get_mesh_dict_key_from_feature(feature: GeoFeature):
-	var attribute_name = layer_composition.render_info.selector_attribute_name
-	var possible_meshes = layer_composition.render_info.meshes.keys()
-	var mesh_key = feature.get_attribute(attribute_name) if attribute_name != null else "default"
-	mesh_key = mesh_key if mesh_key != "" else "default"
-	mesh_key = possible_meshes[0] if not mesh_key in possible_meshes else mesh_key
-	
-	var mesh_key_dict = layer_composition.render_info.meshes[mesh_key].duplicate(true)
-	
-	# Add extra attributes
-	for att_con in layer_composition.render_info.attributes_to_mesh_settings:
-		var value_here = feature.get_attribute(att_con["attribute_name"])
-		
-		if value_here == att_con["attribute_value"]:
-			mesh_key_dict.merge(att_con["mesh_settings"], true)
-	
-	return mesh_key_dict
