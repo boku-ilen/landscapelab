@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://djm0wu4kh64ah"]
-
-[node name="Warning" type="Label"]
-offset_top = 300.0
-offset_right = 867.0
-offset_bottom = 338.0
-text = "Configuration is not valid!"

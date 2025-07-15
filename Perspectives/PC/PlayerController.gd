@@ -21,10 +21,12 @@ var directions = {
 	"up": false,
 	"down": false,
 	"right": false,
-	"left": false
+	"left": false,
+	"sky": false,
+	"ground": false
 }
 
-var is_smooth_camera := false
+var is_smooth_camera := true
 var current_mouse_velocity := Vector2.ZERO
 
 var geo_transform := GeoTransform.new()
@@ -61,14 +63,14 @@ func _physics_process(delta):
 			print("VR enabled")
 	
 	if is_smooth_camera:
-		$Head.rotate_y(current_mouse_velocity.y)
+		$Head.rotate_y(current_mouse_velocity.y * 10.0)
 		
 		# Limit the view to between straight down and straight up
 		if current_mouse_velocity.x + $Head/Camera3D.rotation.x < PI/2.0 \
 				and current_mouse_velocity.x + $Head/Camera3D.rotation.x > -PI/2.0:
-			$Head/Camera3D.rotate_x(current_mouse_velocity.x)
+			$Head/Camera3D.rotate_x(current_mouse_velocity.x * 10.0)
 		
-		current_mouse_velocity *= MOUSE_DRAG
+		current_mouse_velocity *= 0.9
 	
 	position.y = max(position.y, get_ground_height())
 
@@ -115,6 +117,14 @@ func _handle_general_input(event):
 			directions.right = true
 		elif event.is_action_released("pc_move_right"):
 			directions.right = false
+		if event.is_action_pressed("pc_move_sky"):
+			directions.sky = true
+		elif event.is_action_released("pc_move_sky"):
+			directions.sky = false
+		if event.is_action_pressed("pc_move_ground"):
+			directions.ground = true
+		elif event.is_action_released("pc_move_ground"):
+			directions.ground = false
 
 
 
@@ -213,6 +223,11 @@ func fly(delta):
 	
 	direction = direction.normalized()
 	
+	if directions.sky:
+		direction += Vector3.UP * 0.2
+	if directions.ground:
+		direction -= Vector3.UP * 0.2
+	
 	if Input.is_action_pressed("pc_sprint"):
 		direction *= SPRINT_SPEED
 	elif Input.is_action_pressed("pc_sneak"):
@@ -229,7 +244,11 @@ func fly(delta):
 	if future_world_coordinates.z < boundary[2]: target.z -= (boundary[2] - future_world_coordinates.z) / delta
 	if future_world_coordinates.z > boundary[3]: target.z += (future_world_coordinates.z - boundary[3]) / delta
 	
-	set_velocity(target)
+	if is_smooth_camera:
+		set_velocity(lerp(velocity, target, 0.1))
+	else:
+		set_velocity(target)
+	
 	move_and_slide()
 	
 	if walking:

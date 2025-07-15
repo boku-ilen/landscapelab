@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://3fhq2hsbidl5"]
-
-[node name="Pfarrhaus" type="Node3D"]
-
-[node name="pfarrhaus" parent="."]

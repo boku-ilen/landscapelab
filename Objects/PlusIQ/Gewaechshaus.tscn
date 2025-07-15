@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://b3k0svkot1bhw"]
-
-[node name="Gewaechshaus" type="Node3D"]
-
-[node name="gewaechshaus" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)

@@ -83,6 +83,11 @@ func _load_features_into_list():
 	
 	for feature in features:
 		var new_id = $VBoxContainer/ItemList.get_item_count()
+		
+		if not feature is GeoPoint: 
+			logger.info("Loaded feature: %s is not a geopoint and cannot be loaded" % [feature])
+			continue
+		
 		var pos = feature.get_vector3()
 		pos.z = -pos.z # Adapt to engine -z forward
 		

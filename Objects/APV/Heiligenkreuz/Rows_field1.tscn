@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://cabrm0x8ylwdj"]
-
-[node name="Rows_field1" type="Node3D"]
-
-[node name="F1_HK_rows_relief_ungrouped" parent="."]
-
-[editable path="F1_HK_rows_relief_ungrouped"]

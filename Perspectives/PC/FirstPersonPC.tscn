@@ -22,9 +22,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 transform = Transform3D(1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0)
-cull_mask = 1143
+cull_mask = 33911
 doppler_tracking = 2
-fov = 37.8493
+fov = 48.4
 near = 1.0
 script = ExtResource("2")
 setting_title = "player"

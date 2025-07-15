@@ -1,11 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://cc2s06lgmsmxq"]
+[gd_scene load_steps=2 format=3 uid="uid://boy1yluvjqnr2"]
 
-[ext_resource type="Script" uid="uid://mgpn2kidemjl" path="res://UI/CustomElements/ShowHideChildrenButton.gd" id="1"]
+[sub_resource type="GDScript" id="GDScript_d2eoo"]
+script/source = "extends TextureButton
+
+#
+# This button shows/hides its child elements when pressed.
+# They are hidden by default.
+#
+
+
+func _ready():
+	for child in get_children():
+		child.visible = false
+
+
+func _toggled(button_pressed) -> void:
+	for child in get_children():
+		child.visible = !child.visible
+"
 
 [node name="ShowHideChildrenButton" type="Button"]
 offset_right = 12.0
 offset_bottom = 20.0
-script = ExtResource("1")
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = SubResource("GDScript_d2eoo")

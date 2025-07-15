@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://d25827kd1r2xd"]
 
 [ext_resource type="Script" uid="uid://thn7bcxgy8xp" path="res://UI/LabTable/ControlContainer.gd" id="1_7nxly"]
-[ext_resource type="PackedScene" uid="uid://qg0hrece07vm" path="res://UI/Layers/GeoLayers/ZoomContainer.tscn" id="1_pndxl"]
+[ext_resource type="PackedScene" uid="uid://qg0hrece07vm" path="res://UI/LabTable/ZoomContainer.tscn" id="1_pndxl"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="2_r33nv"]
 [ext_resource type="Texture2D" uid="uid://duy7cly3qvn4m" path="res://Resources/Icons/LabTable/m_overview.svg" id="3_pedwm"]
 [ext_resource type="Texture2D" uid="uid://b3rawlygno8yp" path="res://Resources/Icons/LabTable/m_up.svg" id="5_kqb6x"]

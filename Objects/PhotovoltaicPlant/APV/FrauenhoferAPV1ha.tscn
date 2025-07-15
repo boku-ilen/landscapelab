@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bj8ddfapewfb6"]
+
+[ext_resource type="PackedScene" uid="uid://bh2hf5ikfnoiu" path="res://Resources/Meshes/APV/PV_field_module_fh_10x10m.glb" id="1"]
+[ext_resource type="Script" uid="uid://dud2pcpl0rpal" path="res://Objects/PhotovoltaicPlant/APV/APV.gd" id="2"]
+
+[node name="FrauenhoferAPV1ha" type="Node3D"]
+script = ExtResource("2")
+apv_scene = ExtResource("1")
+apv_rotation = 0.0
+distance_x = 20.0
+distance_z = 30.0

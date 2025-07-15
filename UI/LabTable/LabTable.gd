@@ -29,7 +29,7 @@ extends Control
 @export var debug_mode := false
 @export var run_brick_detection := true
 
-var current_goc_name = "Dead Wood"
+var current_goc_name = "PV"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
@@ -103,6 +103,7 @@ func set_workshop_mode(active: bool):
 		var vector_local = geo_transform.transform_coordinates(vector_3857)
 		
 		var successful_configuration = []
+		current_goc_name = "Placed Wind Farms"
 		if not current_goc_name:
 			game_object_failed.emit(event.position)
 			return
