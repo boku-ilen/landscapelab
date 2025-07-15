@@ -37,6 +37,7 @@ extra_cull_margin = 10000.0
 custom_aabb = AABB(-20, 0, -20, 40, 8000, 40)
 mesh = ExtResource("5_mins8")
 script = ExtResource("5_f6rbb")
+add_height_overlay = true
 
 [node name="FarMesh" type="MeshInstance3D" parent="."]
 sorting_offset = -1000.0

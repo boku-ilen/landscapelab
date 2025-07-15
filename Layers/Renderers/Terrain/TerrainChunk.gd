@@ -185,15 +185,23 @@ func override_apply():
 		
 		if mesh_resolution == detailed_mesh_resolution:
 			if not has_node("LIDOverlayViewport"):
-				add_child(preload("res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn").instantiate())
+				add_child(preload("res://Layers/Renderers/Overlay/LIDOverlayViewport.tscn").instantiate())
+			if not has_node("HeightOverlayViewport"):
+				add_child(preload("res://Layers/Renderers/Overlay/HeightOverlayViewport.tscn").instantiate())
 			
 			using_overlay = true
 			$Mesh.material_override.set_shader_parameter("use_landuse_overlay", true)
-			$Mesh.material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
+			$Mesh.material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport").get_texture())
+			
+			$Mesh.material_override.set_shader_parameter("use_height_overlay", true)
+			$Mesh.material_override.set_shader_parameter("height_overlay", get_node("HeightOverlayViewport").get_texture())
 		else:
 			if has_node("LIDOverlayViewport"):
 				$Mesh.material_override.set_shader_parameter("use_landuse_overlay", false)
 				get_node("LIDOverlayViewport").queue_free()
+			if has_node("HeightOverlayViewport"):
+				$Mesh.material_override.set_shader_parameter("use_height_overlay", false)
+				get_node("HeightOverlayViewport").queue_free()
 	
 	if current_surface_heightmap:
 		$Mesh.material_override.set_shader_parameter("has_surface_heights", true)
@@ -208,7 +216,7 @@ func override_apply():
 		next_pass.set_shader_parameter("surface_heightmap", current_surface_heightmap)
 		next_pass.set_shader_parameter("landuse", current_landuse)
 		if using_overlay:
-			next_pass.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
+			next_pass.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport").get_texture())
 			next_pass.set_shader_parameter("use_landuse_overlay", true)
 		else:
 			next_pass.set_shader_parameter("use_landuse_overlay", false)

@@ -46,7 +46,7 @@ func _on_wind_changed(new_wind_speed, new_wind_direction):
 func full_load():
 	for renderer in renderers.get_children():
 		renderer.complete_update(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
-				center[0], center[1], 0.0, 0.0, 0.0, 0.0)
+				center, Vector3(0.0, 0.0, 0.0))
 
 
 func is_new_loading_required(position_diff: Vector3) -> bool:
@@ -65,22 +65,9 @@ func adapt_load(_diff: Vector3):
 	
 	load_position =  position_manager.center_node.position
 	
-	# Clamp to steps of 1 in order to maintain the land-use grid
-	# FIXME: actually depends on the resolution of the land-use and potentially other factors
-	var clamped_pos_x = position_manager.center_node.position.x - fposmod(position_manager.center_node.position.x, 2.0)
-	var clamped_pos_y = position_manager.center_node.position.z + (2.0 - fposmod(position_manager.center_node.position.z, 2.0))
-	
-	var world_position = [
-		center[0] + clamped_pos_x,
-		center[1] - clamped_pos_y
-	]
-	
-	var uv_offset_x = clamped_pos_x
-	var uv_offset_y = clamped_pos_y
-	
 	for renderer in renderers.get_children():
 		renderer.complete_update(layer_composition.render_info.height_layer, layer_composition.render_info.landuse_layer,
-				world_position[0], world_position[1], uv_offset_x, uv_offset_y, clamped_pos_x, clamped_pos_y)
+				center, position_manager.center_node.position)
 	
 	call_deferred("apply_new_data")
 

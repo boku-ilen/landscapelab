@@ -424,6 +424,7 @@ set_autolook_active={
 3d_render/layer_11="3D no VR"
 3d_render/layer_16="3D Terrain Overlay"
 3d_render/layer_17="LID"
+3d_render/layer_18="3D Terrain Height"
 3d_physics/layer_20="MouseCollision"
 
 [locale]

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://s4ba5b18q011"]
+
+[ext_resource type="Script" uid="uid://claryq0bnqfip" path="res://Layers/Renderers/LineObject/LineObjectRenderer.gd" id="1_kcxld"]
+
+[node name="LineObjectRenderer" type="Node3D"]
+script = ExtResource("1_kcxld")
