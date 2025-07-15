@@ -9,6 +9,15 @@ extends FeatureLayerCompositionRenderer
 # - To remove the repetitiveness of the mesh it will be randomly rotated
 # - Extends the multimesh feature layer to drastically improve performance
 #
+# Possible properties in attributes_to_properties:
+# - "path" (required): path to the mesh resource
+# - "width" (required): size of the mesh
+# - "random_angle" (default false): whether to rotate the asset randomly in 90° steps
+# - "base_rotation" (default 0): rotation to apply to all instances
+# - "height_type" (default "Exact"): How the height of individual objects should be calculated ("Exact", "Lerped Vertex", "Lerped Line")
+# - "offset" (default 0): sideways offset from the curve to apply to the object. Height is still sampled in the center.
+# - "height_sample_offset" (default 0): offset along the curve in 0..1 for where to sample height. 0.5 means that height is sampled in the middle of the object.
+#
 
 var rand_angle := 0.0
 
@@ -25,6 +34,7 @@ func load_feature_instance(feature: GeoFeature):
 	
 	# Get the configured properties
 	var property_dict
+	
 	if not layer_composition.render_info.attributes_to_properties.is_empty():
 		property_dict = AttributeToPropertyInterpreter.get_properties_for_feature(
 			feature,
@@ -101,29 +111,21 @@ func _calculate_intermediate_transforms(feature: GeoFeature, property_dict: Dict
 	var transforms := []
 	
 	var width = property_dict["width"]
-	var random_angle = property_dict["random_angle"] \
-			if "random_angle" in property_dict else layer_composition.render_info.random_angle
-	
-	var base_rotation = property_dict["base_rotation"] \
-			if "base_rotation" in property_dict else layer_composition.render_info.base_rotation
+	var random_angle = property_dict.get("random_angle", layer_composition.render_info.random_angle)
+	var base_rotation = property_dict.get("base_rotation", layer_composition.render_info.base_rotation)
 	
 	var height_getter
+	var height_type = property_dict.get("height_type", "Exact")
 	
-	if layer_composition.render_info.height_gradient:
+	if height_type == "Lerped Vertex":
+		height_getter = CurveHeightGetters.LerpedVertexCurveHeightGetter.new(
+			vertices, layer_composition.render_info.ground_height_layer, center)
+	elif height_type == "Lerped Line":
 		height_getter = CurveHeightGetters.LerpedLineCurveHeightGetter.new(
-			vertices,  layer_composition.render_info.ground_height_layer, center)
-	else:
+			vertices, layer_composition.render_info.ground_height_layer, center)
+	elif height_type == "Exact":
 		height_getter = CurveHeightGetters.ExactCurveHeightGetter.new(
 			vertices,  layer_composition.render_info.ground_height_layer, center)
-	
-	# Per-mesh override, if available
-	if "height_type" in property_dict:
-		if property_dict["height_type"] == "Lerped Vertex":
-			height_getter = CurveHeightGetters.LerpedVertexCurveHeightGetter.new(
-				vertices, layer_composition.render_info.ground_height_layer, center)
-		elif property_dict["height_type"] == "Lerped Line":
-			height_getter = CurveHeightGetters.LerpedLineCurveHeightGetter.new(
-				vertices, layer_composition.render_info.ground_height_layer, center)
 	
 	width *= ll_scale
 	
@@ -158,10 +160,9 @@ func _calculate_intermediate_transforms(feature: GeoFeature, property_dict: Dict
 		var height_progress = curve_length - distance_covered
 		
 		# For some objects, like fences ,we want to sample the height in the middle, for others,
-		#  like reflector posts,we want to sample the height at the start, since that's where the
+		#  like reflector posts, we want to sample the height at the start, since that's where the
 		#  object is.
-		if layer_composition.render_info.sample_height_at_center:
-			height_progress += scaled_width  / 2.0
+		height_progress += scaled_width * property_dict.get("height_sample_offset", 0.0)
 		var new_height = height_getter.get_height(height_progress) + height_offset
 		
 		t.origin.y = new_height

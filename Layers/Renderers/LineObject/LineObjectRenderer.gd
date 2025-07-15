@@ -5,6 +5,11 @@ extends FeatureLayerCompositionRenderer
 # Instantiates an object for every segment of a GeoLine. The object is expected to have a custom
 # shader which deals with stretching it from the start to end of the vertex.
 #
+# Possible properties in attributes_to_properties:
+# - "path" (required): path to a scene derived from LineSegment
+# - "length" (default 1.0): size of the mesh
+# - "height_type" (default "Exact"): How the height of individual objects should be calculated ("Exact", "Lerped Line")
+#
 
 
 func _ready() -> void:
@@ -32,21 +37,18 @@ func load_feature_instance(feature: GeoFeature):
 	var prototype_scene = load(object_path).instantiate() as LineSegment
 	prototype_scene.setup(feature)
 	
-	if "length" in property_dict:
-		prototype_scene.set_mesh_length(property_dict["length"])
+	prototype_scene.set_mesh_length(property_dict.get("length", 1.0))
 	
 	var height_getter
+	var height_type = property_dict.get("height_type", "Exact")
 	
-	if "height_type" in property_dict:
-		if property_dict["height_type"] == "Lerped Line":
-			height_getter = CurveHeightGetters.LerpedLineCurveHeightGetter.new(
-				vertices,
-				layer_composition.render_info.ground_height_layer,
-				center
-			)
-	
-	# Default
-	if not height_getter:
+	if height_type == "Lerped Line":
+		height_getter = CurveHeightGetters.LerpedLineCurveHeightGetter.new(
+			vertices,
+			layer_composition.render_info.ground_height_layer,
+			center
+		)
+	else:
 		height_getter = CurveHeightGetters.ExactCurveHeightGetter.new(
 			vertices,
 			layer_composition.render_info.ground_height_layer,
