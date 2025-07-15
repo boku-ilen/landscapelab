@@ -17,6 +17,7 @@ extends FeatureLayerCompositionRenderer
 # - "height_type" (default "Exact"): How the height of individual objects should be calculated ("Exact", "Lerped Vertex", "Lerped Line")
 # - "offset" (default 0): sideways offset from the curve to apply to the object. Height is still sampled in the center.
 # - "height_sample_offset" (default 0): offset along the curve in 0..1 for where to sample height. 0.5 means that height is sampled in the middle of the object.
+# - "rotate_with_height" (default false): follow the slant of the height map with the objects' X-rotation
 #
 
 var rand_angle := 0.0
@@ -178,7 +179,8 @@ func _calculate_intermediate_transforms(feature: GeoFeature, property_dict: Dict
 		t = t.scaled_local(Vector3.ONE * ll_scale)
 		
 		# Rotate by height slant if needed
-		t = t.rotated_local(Vector3.RIGHT, height_getter.get_angle(curve_length - distance_covered))
+		if property_dict.get("rotate_with_height"):
+			t = t.rotated_local(Vector3.RIGHT, height_getter.get_angle(curve_length - distance_covered))
 		
 		# Rotate by base rotation (to account for assets rotated differently than needed)
 		t = t.rotated_local(Vector3.UP, deg_to_rad(base_rotation))
