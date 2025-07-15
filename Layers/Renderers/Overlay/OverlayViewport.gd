@@ -17,15 +17,25 @@ func _notification(what):
 		update()
 
 
+func set_resolution(new_resolution):
+	$Viewport.size = Vector2(new_resolution, new_resolution)
+
+
+func set_size(new_size):
+	$Viewport/CameraRoot/Camera.size = new_size
+
+
+func get_texture():
+	return $Viewport.get_texture()
+
+
 func _process(delta: float) -> void:
 	has_updated_this_frame = false
-	#if name == "HeightOverlayViewport" and get_parent() is GPUParticles3D:
-		#$LIDViewport.get_texture().get_image().save_png("res://vp.png")
 
 
 func update():
 	if not has_updated_this_frame:
-		$LIDViewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+		$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 		has_updated_this_frame = true
 		await get_tree().process_frame
 		update_done.emit()

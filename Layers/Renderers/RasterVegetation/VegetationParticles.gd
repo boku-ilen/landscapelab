@@ -62,20 +62,20 @@ func update_rows_spacing(extent_factor):
 	var size = extent_factor# * density_class.size_factor
 	
 	rows = floor(size * density_class.density_per_m)
-	spacing = (1.0 / density_class.density_per_m) * 0.995037196291074
+	spacing = (1.0 / density_class.density_per_m)
 	
 	set_rows(rows)
 	set_spacing(spacing)
 	
 	update_aabb()
 	
-	$LIDOverlayViewport/LIDViewport/CameraRoot/LIDCamera.size = get_map_size()
-	$LIDOverlayViewport/LIDViewport.size = Vector2(get_map_size() / 0.995037196291074, get_map_size() / 0.995037196291074)
-	process_material.set_shader_parameter("splatmap_overlay", $LIDOverlayViewport/LIDViewport.get_texture())
+	$LIDOverlayViewport.set_size(get_map_size())
+	$LIDOverlayViewport.set_resolution(get_map_size())
+	process_material.set_shader_parameter("splatmap_overlay", $LIDOverlayViewport.get_texture())
 	
-	$HeightOverlayViewport/LIDViewport/CameraRoot/LIDCamera.size = get_map_size()
-	$HeightOverlayViewport/LIDViewport.size = Vector2(get_map_size() / 0.995037196291074, get_map_size() / 0.995037196291074)
-	process_material.set_shader_parameter("height_overlay", $HeightOverlayViewport/LIDViewport.get_texture())
+	$HeightOverlayViewport.set_size(get_map_size())
+	$HeightOverlayViewport.set_resolution(get_map_size())  # 1m resolution
+	process_material.set_shader_parameter("height_overlay", $HeightOverlayViewport.get_texture())
 
 
 func set_rows_spacing_in_shader():
@@ -124,8 +124,9 @@ func get_map_size():
 
 func complete_update(dhm_layer, splat_layer, center, center_position):
 	# Clamp to the spacing in order to have a matching grid
-	var clamped_pos_x = center_position.x - fposmod(center_position.x, 0.995037196291074)
-	var clamped_pos_y = center_position.z + (0.995037196291074 - fposmod(center_position.z, 0.995037196291074))
+	# TODO: 1.0 should probably be replaced by the pixel size (in meters) of the raster
+	var clamped_pos_x = center_position.x - fposmod(center_position.x, 1.0)
+	var clamped_pos_y = center_position.z + (1.0 - fposmod(center_position.z, 1.0))
 	
 	var world_position = [
 		center[0] + clamped_pos_x,
@@ -143,7 +144,7 @@ func complete_update(dhm_layer, splat_layer, center, center_position):
 		float(world_position[0] - map_size / 2),
 		float(world_position[1] + map_size / 2),
 		float(map_size), 
-		int(map_size / 0.995037196291074),
+		int(map_size),  # FIXME: Ideally divide by the raster pixel size
 		0
 	)
 	
@@ -153,7 +154,7 @@ func complete_update(dhm_layer, splat_layer, center, center_position):
 		float(world_position[0] - map_size / 2),
 		float(world_position[1] + map_size / 2),
 		float(map_size), 
-		int(map_size / 0.995037196291074),
+		int(map_size),  # FIXME: Ideally divide by the raster pixel size
 		0
 	)
 	
