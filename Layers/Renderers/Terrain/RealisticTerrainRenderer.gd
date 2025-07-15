@@ -168,9 +168,6 @@ func _array_to_color(color_array: Array) -> Color:
 
 func _process(delta):
 	super._process(delta)
-	
-	for decal in $Decals.get_children():
-		decal.update(position_manager.center_node.position)
 
 
 func _on_wind_speed_changed(new_wind_speed):
