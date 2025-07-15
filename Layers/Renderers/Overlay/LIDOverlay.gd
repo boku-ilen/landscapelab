@@ -60,4 +60,5 @@ func update_mesh_color():
 
 
 func update_size():
-	mesh.size = size
+	if "size" in mesh:
+		mesh.size = size

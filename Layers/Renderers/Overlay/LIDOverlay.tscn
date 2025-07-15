@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dhmlmgm0yc278"]
 
-[ext_resource type="Script" uid="uid://btb5njjmy3y7f" path="res://Layers/Renderers/LIDOverlay/LIDOverlay.gd" id="1_06ls6"]
+[ext_resource type="Script" uid="uid://btb5njjmy3y7f" path="res://Layers/Renderers/Overlay/LIDOverlay.gd" id="1_06ls6"]
 
 [sub_resource type="Shader" id="Shader_4e7hi"]
 code = "shader_type spatial;
