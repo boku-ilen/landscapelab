@@ -3,7 +3,7 @@ extends FeatureLayerCompositionRenderer
 
 #
 # Instantiates an object for every segment of a GeoLine. The object is expected to have a custom
-# shader which deals with stretching it from the start to end of the vertex.
+# shader which deals with stretching it from the start to end of the segment.
 #
 # Possible properties in attributes_to_properties:
 # - "path" (required): path to a scene derived from LineSegment
