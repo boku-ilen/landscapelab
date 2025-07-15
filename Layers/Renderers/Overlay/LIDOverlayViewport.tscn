@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://cqv4mdm0thwg4"]
 
-[ext_resource type="Script" uid="uid://brws7xjn1owkt" path="res://Layers/Renderers/Overlay/OverlayViewport.gd" id="1_xsciu"]
+[ext_resource type="Script" uid="uid://bhdfug0da4jso" path="res://Layers/Renderers/Overlay/LIDOverlayViewport.gd" id="1_s445j"]
 
 [sub_resource type="Environment" id="Environment_t6cpk"]
 background_mode = 1
 
 [node name="LIDOverlayViewport" type="Node3D"]
-script = ExtResource("1_xsciu")
+script = ExtResource("1_s445j")
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
 remote_path = NodePath("../Viewport/CameraRoot")

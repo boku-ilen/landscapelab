@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://y2so1tovigxv"]
 
-[ext_resource type="Script" uid="uid://brws7xjn1owkt" path="res://Layers/Renderers/Overlay/OverlayViewport.gd" id="1_i173a"]
+[ext_resource type="Script" uid="uid://csoa12n72eknr" path="res://Layers/Renderers/Overlay/HeightOverlayViewport.gd" id="1_g7xle"]
 
 [sub_resource type="Environment" id="Environment_t6cpk"]
 background_mode = 1
 
 [node name="HeightOverlayViewport" type="Node3D"]
-script = ExtResource("1_i173a")
+script = ExtResource("1_g7xle")
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
 remote_path = NodePath("../Viewport/CameraRoot")

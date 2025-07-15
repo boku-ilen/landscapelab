@@ -1,4 +1,5 @@
 extends Node3D
+class_name OverlayViewport
 
 signal update_done
 
@@ -7,8 +8,6 @@ var has_updated_this_frame = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# TODO: Check position of changed overlay and only update if overlaps
-	LIDOverlay.updated.connect(update)
 	set_notify_transform(true)
 
 

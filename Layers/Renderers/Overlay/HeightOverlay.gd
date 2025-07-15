@@ -1,19 +1,22 @@
 extends Node3D
-class_name LIDOverlay
+class_name HeightOverlay
+
+# Utility Node to add to scenes which write into HeightOverlay.
+# Automatically emits global signals for responding to updates.
 
 
 # Static signal workaround from https://stackoverflow.com/questions/77026156/how-to-write-a-static-event-emitter-in-gdscript/77026952#77026952
 static var added: Signal = (func():
-	(LIDOverlay as Object).add_user_signal("added")
-	return Signal(LIDOverlay, "added")).call()
+	(HeightOverlay as Object).add_user_signal("added")
+	return Signal(HeightOverlay, "added")).call()
 
 static var removed: Signal = (func():
-	(LIDOverlay as Object).add_user_signal("removed")
-	return Signal(LIDOverlay, "removed")).call()
+	(HeightOverlay as Object).add_user_signal("removed")
+	return Signal(HeightOverlay, "removed")).call()
 
 static var updated: Signal = (func():
-	(LIDOverlay as Object).add_user_signal("updated")
-	return Signal(LIDOverlay, "updated")).call()
+	(HeightOverlay as Object).add_user_signal("updated")
+	return Signal(HeightOverlay, "updated")).call()
 
 
 # Called when the node enters the scene tree for the first time.

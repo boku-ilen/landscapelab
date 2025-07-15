@@ -4,11 +4,6 @@ extends LineSegment
 var width
 
 
-func _ready():
-	LIDOverlay.updated.emit()
-	visibility_changed.connect(func(): LIDOverlay.updated.emit())
-
-
 func setup(new_feature):
 	feature = new_feature
 	
