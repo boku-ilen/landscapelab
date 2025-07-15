@@ -60,19 +60,25 @@ void fragment() {
 
 	if ((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16))) {
 		ALBEDO = lid_color;
-		ALPHA = float(render_lid);
+		DEPTH = FRAGCOORD.z;
 	} else if (((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 17))) == int(pow(2, 17)))) {
+		if (!render_height) discard;
+
 		// We want to fully use the overlay height at and beside the street and then blend into the
 		//  heightmap height. This edge_falloff value is the factor for this blending.
 		float edge_falloff = 1.0 - (abs(untransformed_vertex.x) * 2.0);
-		edge_falloff = min(edge_falloff * 3.0, 1.0);
+		edge_falloff = clamp(edge_falloff * 3.0, 0.0, 1.0);
+
+		// Make sure that pixels with higher overlay contribution are above pixels with lower
+		//  overlay contribution
+		DEPTH = edge_falloff;
 
 		// Encode the overlay height and the falloff parameter into the RGB channels of this
 		//  16 bit float RGB viewport texture
 		ALBEDO = vec3(floor(global_height / 10.0), fract(global_height / 10.0), edge_falloff);
-		ALPHA = float(render_height);
-	} else
-	{
+	} else {
+		DEPTH = FRAGCOORD.z;
+
 		vec2 damage_uv = WORLD_UV.xz * 0.3;
 		vec2 wear_uv = WORLD_UV.xz * 0.05;
 
