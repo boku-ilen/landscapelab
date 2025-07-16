@@ -3,7 +3,6 @@ extends MeshInstance3D
 @export var size := 100
 
 @export var height_resolution := 100
-@export var ortho_resolution := 50
 @export var lu_resolution := 100
 
 @export var add_lid_overlay := true
@@ -43,8 +42,7 @@ func _process(delta):
 	position.x = get_parent().position_manager.center_node.position.x
 	position.z = get_parent().position_manager.center_node.position.z
 	
-	# FIXME: This actually depends on the terrain chunk resolution at the highest LOD.
-	#  We use 2.0 here because at the highest LOD, one quad covers 2x2 meters.
+	# Snap to the resolution to avoid constant "jumps" in the height
 	position = position.snappedf(size / height_resolution)
 	
 	var origin_x = get_parent().center[0] - size / 2.0 + position.x
@@ -55,14 +53,6 @@ func _process(delta):
 		origin_z,
 		size,
 		height_resolution,
-		0
-	)
-	
-	var texture = get_parent().layer_composition.render_info.texture_layer.get_image(
-		origin_x,
-		origin_z,
-		size,
-		ortho_resolution,
 		0
 	)
 	
@@ -80,7 +70,6 @@ func _process(delta):
 	material_override.set_shader_parameter("hole_size", hole_size)
 	
 	material_override.set_shader_parameter("heightmap", heightmap.get_image_texture())
-	material_override.set_shader_parameter("orthophoto", texture.get_image_texture())
 	material_override.set_shader_parameter("landuse", landuse.get_image_texture())
 	
 	if add_lid_overlay:

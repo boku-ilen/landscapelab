@@ -9,7 +9,6 @@ global uniform vec3 HCY_SHIFT;
 global uniform vec3 HCY_TERRAIN_SHIFT;
 
 // Basic Terrain
-uniform sampler2D orthophoto: source_color, repeat_disable;
 uniform sampler2D heightmap: repeat_disable, filter_linear;
 uniform float height_scale = 1.0;
 
@@ -201,36 +200,8 @@ void vertex() {
 		// Make transition more seamless by lerping between 1.0 in the center and 0.0 on the border
 		float center_distance_factor = (0.5 - min(abs(UV.x - 0.5), abs(UV.y - 0.5))) * 2.0;
 
-		// FIXME: handle streets more nicely; we don't want to use random offsets for streets (i.e. 2002)
-		VERTEX.y += offset * center_distance_factor * float(splat_id != 2002.0);
+		VERTEX.y += offset * center_distance_factor;
 	}
-}
-
-
-// Takes two colors: one coming from a detailed texture, one from a more basic one.
-// Returns a color with the hue coming from the detailed texture and chroma and luminance blended
-//  between the detailed and the base color based on shift_scale.
-// Used for mixing orthophoto and detail textures: by using the hue from the detail textures, we get
-//  good colors and a nice transition, while we still get some large structures from the orthophoto
-//  at distances by using its chroma and luminance.
-vec3 hue_shift(vec3 detail, vec3 base, float shift_scale) {
-	// Convert to Hue-Chroma-Luminance color space
-	vec3 base_hcy = RGBtoHCY(base);
-	vec3 detail_hcy = RGBtoHCY(detail);
-
-	base_hcy.g *= HCY_SHIFT.g * HCY_TERRAIN_SHIFT.g;
-	base_hcy.b *= HCY_SHIFT.b * HCY_TERRAIN_SHIFT.b;
-
-	detail_hcy.r += HCY_SHIFT.r;
-	detail_hcy.g *= HCY_SHIFT.g;
-	detail_hcy.b *= HCY_SHIFT.b;
-
-	// Adapt the detail texture chroma and Y to the orthophoto
-	detail_hcy.y = mix(detail_hcy.y, base_hcy.y, shift_scale);
-	detail_hcy.z = mix(detail_hcy.z, base_hcy.z, shift_scale);
-
-	// Return RGB result
-	return HCYtoRGB(detail_hcy);
 }
 
 void fragment() {
@@ -271,20 +242,10 @@ void fragment() {
 	detail_color /= count;
 	detail_normal /= count;
 
-	// TODO: Expose last parameter (maximum dist_scale), since it can control how much the orthophoto should affect the color
-	// 1.0 means full ortho at distance, 0.5 means half ortho at distance, etc.
-	float dist_scale = clamp((depth - detail_only_range) / detail_ortho_blend_range, 0.0, 0.5);
-
 	float splat_id = get_landuse(UV);
 	int texture_index = int(splat_id / 1000.0) - 1;
 
-	if (int(splat_id / 1000.0) != 6) {
-		vec3 ortho_color = texture(orthophoto, UV).rgb;
-		ALBEDO = hue_shift(detail_color, ortho_color, dist_scale);
-	} else {
-		// If we have water here, use only the detail color - the color can be very off otherwise
-		ALBEDO = detail_color;
-	}
+	ALBEDO = detail_color;
 
 	vec3 semi_detail_normal = texture(detail_noise_normals, scaled_near_uv / 40.0).rgb;
 

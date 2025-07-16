@@ -100,7 +100,7 @@ func _setup_detail_noise():
 	shader_material.set_shader_parameter("detail_noise", preload("res://Layers/Renderers/Terrain/Materials/DetailNoise.tres"))
 	shader_material.set_shader_parameter("detail_noise_normals", preload("res://Layers/Renderers/Terrain/Materials/DetailNoiseNormals.tres"))
 	shader_material.set_shader_parameter("detail_noise_lid_weights", [
-		0.16, # Asphalt
+		0.02, # Asphalt
 		0.19, # Gravel
 		0.25, # Lawn
 		1.1, # Rock
@@ -109,7 +109,7 @@ func _setup_detail_noise():
 		0.5, # Grassland
 		0.9, # Forest
 		0.7, # Agroforest
-		0.7, # Agriculture
+		0.55, # Agriculture
 		
 	])
 

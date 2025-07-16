@@ -36,7 +36,6 @@ mesh = SubResource("PlaneMesh_b82fe")
 script = ExtResource("5_f6rbb")
 size = 40000
 height_resolution = 800
-ortho_resolution = 400
 lu_resolution = 800
 add_lid_overlay = false
 is_inner = false
