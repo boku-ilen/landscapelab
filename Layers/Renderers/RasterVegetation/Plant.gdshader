@@ -69,6 +69,12 @@ void vertex() {
 	if (is_billboard) {
 		ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
 		VERTEX += mesh_normal * (float(texture_size.x) / float(texture_size.y) - 1.0) * 0.5;
+	} else {
+		ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
+		VERTEX += mesh_normal * (float(texture_size.x) / float(texture_size.y * 2) - 1.0) * 0.3;
+
+		// Also make it less spread-out
+		VERTEX.xz += VERTEX.xz * (float(texture_size.x) / float(texture_size.y * 2) - 1.0) * 0.7;
 	}
 
 	// Read plant size
