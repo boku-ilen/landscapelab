@@ -4,7 +4,9 @@ shader_type spatial;
 #include "res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.gdshaderinc"
 
 uniform vec3 lid_color_edge: source_color;
+uniform vec3 lid_color_outer_edge: source_color;
 uniform vec3 lid_color_center: source_color;
+uniform vec3 lid_color_track: source_color;
 
 uniform float banquet_width = 0.0;
 
@@ -26,9 +28,9 @@ void vertex() {
 	VERTEX.x += sign(VERTEX.x) * width / 2.0;
 
 	if (((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16)))) {
-		VERTEX.x += sign(VERTEX.x) * banquet_width;
+		VERTEX.x += sign(VERTEX.x) * 2.5;
 	} else if (((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 17))) == int(pow(2, 17)))) {
-		VERTEX.x += sign(VERTEX.x) * (banquet_width + 2.0);
+		VERTEX.x += sign(VERTEX.x) * 2.7;
 	}
 
 	// Bend the road segment to the desired start and end positions
@@ -44,13 +46,17 @@ void fragment() {
 	if (((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16)))) {
 		DEPTH = FRAGCOORD.z;
 		float zero_to_one_from_center = abs(untransformed_vertex.x) * 2.0;
-		if (zero_to_one_from_center < 0.15 || zero_to_one_from_center > 0.9) {
+		if (zero_to_one_from_center < 0.1) {
 			ALBEDO = lid_color_center;
-		} else {
+		} else if (zero_to_one_from_center > 0.9) {
+			ALBEDO = lid_color_outer_edge;
+		} else if (zero_to_one_from_center > 0.75) {
 			ALBEDO = lid_color_edge;
+		} else {
+			ALBEDO = lid_color_track;
 		}
 	} else if (((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 17))) == int(pow(2, 17)))) {
-		float edge_falloff = 1.0 - (abs(untransformed_vertex.x) * 2.0);
+		float edge_falloff = 1.0 - (abs(untransformed_vertex.x) * 3.0);
 		DEPTH = edge_falloff;
 
 		float height_here = global_height;
