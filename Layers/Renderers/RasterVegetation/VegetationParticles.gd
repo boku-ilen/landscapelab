@@ -173,6 +173,8 @@ func apply_textures():
 	process_material.set_shader_parameter("heightmap", heightmap)
 	process_material.set_shader_parameter("uv_offset", Vector2(uv_offset_x, uv_offset_y))
 	
+	RenderingServer.global_shader_parameter_set("VEGETATION_CENTER", last_load_pos)
+	
 	restart()
 
 

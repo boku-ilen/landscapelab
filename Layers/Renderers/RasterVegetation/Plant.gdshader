@@ -29,12 +29,14 @@ varying float random_hue_shift;
 varying float stripe_sample;
 varying float wind_strength;
 
+global uniform vec3 VEGETATION_CENTER;
+
 uniform bool is_billboard = true;
 
 void vertex() {
 	dist_id = clamp(INSTANCE_CUSTOM.r * 255.0, 0.0, 99.0);
 
-	vec3 camera_pos = INV_VIEW_MATRIX[3].xyz;
+	vec3 camera_pos = VEGETATION_CENTER + vec3(0.0, 1.0, 0.0) * INV_VIEW_MATRIX[3].xyz;
 	vec3 worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 
 	float world_distance = length(camera_pos - worldpos);

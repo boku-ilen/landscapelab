@@ -457,6 +457,10 @@ HCY_TERRAIN_SHIFT={
 "type": "vec3",
 "value": Vector3(0, 1.2, 0.7)
 }
+VEGETATION_CENTER={
+"type": "vec3",
+"value": Vector3(0, 0, 0)
+}
 
 [xr]
 
