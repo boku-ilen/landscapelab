@@ -81,10 +81,6 @@ void process() {
 	pos.x += rand(round((pos.xz) * 10.0) * 0.01) * spacing;
 	pos.z += rand(round((pos.xz) * 10.0) * 0.02) * spacing;
 
-	// The particle only needs to be active if it's in front of the camera
-	// Do this before applying world-space position and height - easier to calculate in local space
-	bool is_in_front_of_camera = dot(normalize(view_direction.xz), normalize(pos.xz)) > 0.7;
-
 	// rotate our transform
 	float angle = rand(round((pos.xz) * 10.0) * 0.03) * 3.0;
 	TRANSFORM[0][0] = cos(angle);
@@ -132,7 +128,7 @@ void process() {
 
 	ACTIVE = !(distribution_id == 0) &&
 			(splatmap_uv.x > 0.0 && splatmap_uv.x < 1.0 &&
-			 splatmap_uv.y > 0.0 && splatmap_uv.y < 1.0);// && is_in_front_of_camera;
+			 splatmap_uv.y > 0.0 && splatmap_uv.y < 1.0);
 
 	// Note that the pos.xz is already offset by a random normal vector here, so it does not really matter what exactly we do with it since it's already random
 	vec3 dist_value = texture(distribution_array[distribution_id - 1], (pos.xz / spacing) / float(DISTRIBUTION_RESOLUTION)).rgb;

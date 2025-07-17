@@ -45,8 +45,8 @@ func _process(delta):
 	# Snap to the resolution to avoid constant "jumps" in the height
 	position = position.snappedf(size / height_resolution)
 	
-	var origin_x = get_parent().center[0] - size / 2.0 + position.x
-	var origin_z = get_parent().center[1] + size / 2.0 - position.z
+	var origin_x = get_parent().center[0] - size / 2.0 + position.x - 0.25
+	var origin_z = get_parent().center[1] + size / 2.0 - position.z + 0.25
 	
 	var heightmap = get_parent().layer_composition.render_info.height_layer.get_image(
 		origin_x,
