@@ -92,8 +92,7 @@ void fragment() {
 			texture(damage_texture, WORLD_UV.xz).rgb,
 			wear_noise);
 
-		color *= 1.0 - damage_opacity_sample;
-		color += texture(damage_overlay, damage_uv).rgb * damage_opacity_sample;
+		color = mix(color, texture(damage_overlay, damage_uv).rgb, damage_opacity_sample);
 
 		color *= color_modulate;
 
@@ -131,8 +130,9 @@ void fragment() {
 
 		color = mix(color, vec3(1.0), (1.0 - damage_opacity_sample) * marking
 				* (length(color) * 1.0));
-
-		//color *= mix(1.0, marking_multiplier, 1.0 - damage_opacity_sample);
+		
+		// Make the road darker where it's most often driven over (2 strips per lane with a smooth fade)
+		color *= mix(1.0, smoothstep(-3.0, 1.0, cos(untransformed_vertex.x * 4.0 * PI * float(lanes))), wear_noise);
 
 		ALBEDO = min(color, vec3(1.0,1.0, 1.0));
 		NORMAL_MAP = mix(
