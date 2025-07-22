@@ -36,6 +36,7 @@ const RENDER_INFOS := {
 	"Connected Object": ConnectedObjectInfo,
 	"Repeating Object": RepeatingObjectInfo,
 	"Line Object": LineObjectInfo,
+	"Scattered Object": ScatteredObjectInfo,
 }
 
 
@@ -329,6 +330,17 @@ class LineObjectInfo extends RenderInfo:
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/LineObject/LineObjectRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
+
+
+class ScatteredObjectInfo extends RenderInfo:
+	var height_layer: GeoRasterLayer
+	var scatter_layer: GeoRasterLayer
+	var objects: Dictionary
+	var density: float
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/ScatteredObject/ScatteredObjectRenderer.tscn")
 		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 
 
