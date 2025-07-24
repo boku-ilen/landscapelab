@@ -17,3 +17,4 @@ func custom_chunk_setup(chunk):
 	chunk.scatter_layer = layer_composition.render_info.scatter_layer
 	chunk.objects = layer_composition.render_info.objects 
 	chunk.density = layer_composition.render_info.density
+	chunk.randomness = layer_composition.render_info.randomness

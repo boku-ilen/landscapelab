@@ -4,6 +4,7 @@ var height_layer: GeoRasterLayer
 var scatter_layer: GeoRasterLayer
 var objects: Dictionary
 var density: float
+var randomness: float
 
 var rng := RandomNumberGenerator.new()
 var initial_rng_state
@@ -131,6 +132,7 @@ func override_build(center_x, center_y):
 		center_y,
 		size,
 		density,
+		randomness,
 		scatter_layer,
 		height_layer,
 		objects

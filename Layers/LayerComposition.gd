@@ -183,9 +183,6 @@ class VectorVegetationRenderInfo extends RenderInfo:
 	
 	func get_class_name() -> String: return "VectorVegetation"
 
-class ParticlesRenderInfo extends RenderInfo:
-	pass
-
 class ObjectRenderInfo extends RenderInfo:
 	# The geodata-key-attribute that determines which connector/connection to use
 	var selector_attribute_name: String
@@ -338,6 +335,7 @@ class ScatteredObjectInfo extends RenderInfo:
 	var scatter_layer: GeoRasterLayer
 	var objects: Dictionary
 	var density: float
+	var randomness: float
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/ScatteredObject/ScatteredObjectRenderer.tscn")
