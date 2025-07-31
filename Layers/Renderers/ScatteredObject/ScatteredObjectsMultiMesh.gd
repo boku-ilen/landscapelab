@@ -3,8 +3,6 @@ extends RenderChunk
 var height_layer: GeoRasterLayer
 var scatter_layer: GeoRasterLayer
 var objects: Dictionary
-var density: float
-var randomness: float
 
 var rng := RandomNumberGenerator.new()
 var initial_rng_state
@@ -60,19 +58,15 @@ func create_multimeshes():
 	fresh_multimeshes = {}
 	
 	# Create MultiMeshes
-	for object_raster_value in objects.keys():
-		var mesh_name = objects[object_raster_value].get_basename().get_file()
-		
-		object_to_mesh_name[object_raster_value] = mesh_name
-		
-		if not mesh_name in mesh_name_to_mmi:
+	for object_name in objects.keys():
+		if not object_name in mesh_name_to_mmi:
 			var mmi := MultiMeshInstance3D.new()
 			# Set correct layer mask so streets are not rendered onto trees
 			mmi.set_layer_mask_value(1, false)
 			mmi.set_layer_mask_value(3, true)
-			mmi.name = mesh_name
+			mmi.name = object_name
 			
-			mesh_name_to_mmi[mesh_name] = mmi
+			mesh_name_to_mmi[object_name] = mmi
 			
 			# For debugging:
 			mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
@@ -104,16 +98,15 @@ func override_build(center_x, center_y):
 	fresh_multimeshes = {}
 	
 	if is_detailed:
-		for object_raster_id in objects.keys():
-			var mesh_name = object_to_mesh_name[object_raster_id]
-			fresh_multimeshes[mesh_name] = MultiMesh.new()
-			fresh_multimeshes[mesh_name].mesh = load(objects[object_raster_id])
-			fresh_multimeshes[mesh_name].transform_format = MultiMesh.TRANSFORM_3D
-			fresh_multimeshes[mesh_name].instance_count = 0
-			fresh_multimeshes[mesh_name].use_custom_data = true
+		for object_name in objects.keys():
+			fresh_multimeshes[object_name] = MultiMesh.new()
+			fresh_multimeshes[object_name].mesh = load(objects[object_name]["mesh"])
+			fresh_multimeshes[object_name].transform_format = MultiMesh.TRANSFORM_3D
+			fresh_multimeshes[object_name].instance_count = 0
+			fresh_multimeshes[object_name].use_custom_data = true
 			
 			# Done more than once, but shouldn't matter
-			mesh_name_to_transforms[mesh_name] = []
+			mesh_name_to_transforms[object_name] = []
 	#else:
 		#var mesh_name = "Billboard"
 		#fresh_multimeshes[mesh_name] = MultiMesh.new()
@@ -127,20 +120,21 @@ func override_build(center_x, center_y):
 		#mesh_name_to_color[mesh_name] = []
 		#mesh_name_to_custom_data[mesh_name] = []
 	
-	var location_getter = ScatteredLocationsGetter.new(
-		center_x,
-		center_y,
-		size,
-		density,
-		randomness,
-		scatter_layer,
-		height_layer,
-		objects
-	)
-	var object_locations = location_getter.get_object_locations()
-	
-	for object_value in object_locations.keys():
-		var object_mesh_name = object_to_mesh_name[object_value]
+	for object_name in objects.keys():
+		var object = objects[object_name]
+		
+		var location_getter = ScatteredLocationsGetter.new(
+			center_x,
+			center_y,
+			size,
+			object["density"],
+			object.get("randomness", 1.0),
+			scatter_layer,
+			height_layer,
+			object["condition"]
+		)
+		
+		var object_locations = location_getter.get_object_locations()
 		
 		# FIXME: Get scale based on other layer?
 		#var instance_scale = feature.get_attribute("height1").to_float() * 1.3
@@ -148,10 +142,8 @@ func override_build(center_x, center_y):
 		#if instance_scale < 1.0: continue
 		#elif instance_scale < 5.0 and not is_detailed: continue
 
-		for location in object_locations[object_value]:
-			location.y = height_layer.get_value_at_position(location.x + center_x, center_y - location.z)
-
-			mesh_name_to_transforms[object_mesh_name].append(Transform3D()
+		for location in object_locations:
+			mesh_name_to_transforms[object_name].append(Transform3D()
 					# FIXME: Make rotation optional
 					.rotated(Vector3.UP, PI * 0.5 * rng.randf_range(-1.0, 1.0)) \
 					.translated(location)

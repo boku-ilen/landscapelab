@@ -9,10 +9,10 @@ var density
 var randomness
 var scatter_layer
 var height_layer
-var objects
+var condition
 
 
-func _init(new_center_x, new_center_y, new_size, new_density, new_randomness, new_scatter_layer, new_height_layer, new_objects):
+func _init(new_center_x, new_center_y, new_size, new_density, new_randomness, new_scatter_layer, new_height_layer, new_condition):
 	center_x = new_center_x
 	center_y = new_center_y
 	size = new_size
@@ -20,7 +20,7 @@ func _init(new_center_x, new_center_y, new_size, new_density, new_randomness, ne
 	randomness = new_randomness
 	scatter_layer = new_scatter_layer
 	height_layer = new_height_layer
-	objects = new_objects
+	condition = new_condition
 
 
 # TODO: Make the random locations deterministic by using a custom RNG object
@@ -29,7 +29,7 @@ func _init(new_center_x, new_center_y, new_size, new_density, new_randomness, ne
 # https://www.vertexfragment.com/ramblings/variable-density-poisson-sampler/
 
 func get_object_locations():
-	var object_locations = {}
+	var object_locations = []
 	
 	var resolution = int(size * density * 2.0)
 	
@@ -57,14 +57,12 @@ func get_object_locations():
 				candidate.z * density * 2.0
 			).r
 			
-			for potential_id in objects.keys():
-				var value_here_stringed = str(int(value_here))
-				
-				if value_here_stringed.match(potential_id):
-					if not potential_id in object_locations: object_locations[potential_id] = []
-					candidate.x -= size / 2
-					candidate.z -= size / 2 
-					candidate.y = height_layer.get_value_at_position(candidate.x + center_x, center_y - candidate.z)
-					object_locations[potential_id].append(candidate)
+			var value_here_stringed = str(int(value_here))
+			
+			if value_here_stringed.match(condition):
+				candidate.x -= size / 2
+				candidate.z -= size / 2 
+				candidate.y = height_layer.get_value_at_position(candidate.x + center_x, center_y - candidate.z)
+				object_locations.append(candidate)
 	
 	return object_locations
