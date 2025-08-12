@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ugm54ojgp7b4"]
+[gd_scene load_steps=10 format=3 uid="uid://ugm54ojgp7b4"]
 
 [ext_resource type="Material" uid="uid://c27evetdl11k4" path="res://Objects/Infrastructure/Traffic/RoadInfrastructure1.tres" id="1_c7yvl"]
 [ext_resource type="ArrayMesh" uid="uid://dkf3508scw2nm" path="res://Objects/Infrastructure/Traffic/Signs/PostRound.tres" id="2_3w3k4"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://dut47njnddwo4" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/stop_metallic.png" id="5_g2lor"]
 [ext_resource type="Texture2D" uid="uid://de1f7nox2121a" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/stop_normal.png" id="6_5y4c0"]
 [ext_resource type="Texture2D" uid="uid://dfkstefs7tjwt" path="res://Resources/Meshes/RoadInfrastructure/Textures/plates/stop_roughness.png" id="7_7som0"]
-[ext_resource type="FontFile" uid="uid://bmds64862qenv" path="res://Resources/Fonts/DIN1451/din1451alt G.ttf" id="8_bo6g3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ukx72"]
 transparency = 1
@@ -36,14 +35,3 @@ mesh = ExtResource("3_ofi8r")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0.02)
 material_override = SubResource("StandardMaterial3D_ukx72")
 texture = SubResource("ExternalTexture_100uh")
-
-[node name="Begin" type="Label3D" parent="Sprite3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00605536, 0.03)
-sorting_offset = 0.3
-pixel_size = 0.001
-shaded = true
-modulate = Color(0.67069, 0.67069, 0.67069, 1)
-outline_modulate = Color(0, 0, 0, 0)
-text = "STOP"
-font = ExtResource("8_bo6g3")
-font_size = 250
