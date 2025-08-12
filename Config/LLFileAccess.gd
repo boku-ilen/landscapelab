@@ -105,16 +105,27 @@ func save():
 			+ str(json_object.get_error_line()))
 
 
-func apply(vegetation: Node, layers: Node, scenarios: Node, game_system: Node):
-	apply_meta(layers)
-	apply_vegetation(vegetation)
-	apply_layers(layers)
-	apply_scenarios(scenarios)
+func apply(vegetation: Node, layers: Node, scenarios: Node, game_system: Node, override=false):
+	if override: 
+		logger.warn("Trying to override vegetation, layers and scenarios. This could lead to errors!")
+	
+	for node in [vegetation, layers, scenarios, game_system]:
+		if node.was_loaded: 
+			logger.info("%s has been loaded already, skipping..." % node)
+	
+	if not layers.was_loaded or override:
+		apply_meta(layers)
+	if not vegetation.was_loaded or override:
+		apply_vegetation(vegetation)
+	if not layers.was_loaded or override:
+		apply_layers(layers)
+	if not scenarios.was_loaded or override:
+		apply_scenarios(scenarios)
 
 
 func apply_meta(layers: Node):
 	var ll_project = json_object.data
-	
+	 
 	if "Meta" in ll_project:
 		if "crs" in ll_project["Meta"]: layers.crs = ll_project["Meta"]["crs"]
 
@@ -142,6 +153,7 @@ func apply_vegetation(vegetation: Node):
 			vegetation.hcy_shift_changed.emit(hcy_shift_vector)
 		
 		logger.info("Done loading vegetation!")
+		vegetation.was_loaded = true
 
 
 func apply_layers(layers: Node):
@@ -172,6 +184,9 @@ func apply_layers(layers: Node):
 				connection_data["source"],
 				connection_data["target"]
 			)
+	
+	logger.info("Done loading layer-compositions!")
+	layers.was_loaded = true
 
 
 func apply_scenarios(scenarios: Node):
@@ -190,6 +205,7 @@ func apply_scenarios(scenarios: Node):
 			scenarios.add_scenario(scenario)
 		
 		logger.info("Done loading scenarios!")
+		scenarios.was_loaded = true
 
 
 func apply_game(game_system: Node, layers: Node):

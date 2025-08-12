@@ -9,6 +9,10 @@ func _ready():
 
 
 func load_game_mode_config() -> void:
+	if GameSystem.was_loaded: 
+		logger.info("GameSystem was loaded already, skipping ...")
+		return
+	
 	path = get_setting("config-path")
 	
 	var ll_file_access = LLFileAccess.open(path)
