@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://d2mcnkjsqu2sc"]
+
+[ext_resource type="Shader" uid="uid://drhvgh5tke5tr" path="res://Layers/Renderers/LineObject/BasicLineSegment.gdshader" id="1_riui8"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_riui8")
+shader_parameter/start = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/end = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -5.155, 1)
+shader_parameter/mesh_length = 1.0

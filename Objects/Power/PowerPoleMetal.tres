@@ -1,0 +1,16 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://b7cdlfm1pn6mx"]
+
+[ext_resource type="Texture2D" uid="uid://bww6y2y8ks08m" path="res://Resources/Textures/PowerPoleMetal/Metal039_1K-JPG_Color.jpg" id="1_n71gd"]
+[ext_resource type="Texture2D" uid="uid://rqdsryvfq4g3" path="res://Resources/Textures/PowerPoleMetal/Metal039_1K-JPG_Metalness.jpg" id="2_q7vmb"]
+[ext_resource type="Texture2D" uid="uid://btweyka0exi6i" path="res://Resources/Textures/PowerPoleMetal/Metal039_1K-JPG_NormalGL.jpg" id="3_rbyu2"]
+[ext_resource type="Texture2D" uid="uid://b1ma7edpm1wus" path="res://Resources/Textures/PowerPoleMetal/Metal039_1K-JPG_Roughness.jpg" id="4_jseud"]
+
+[resource]
+resource_name = "Metal_Seamed"
+cull_mode = 2
+albedo_texture = ExtResource("1_n71gd")
+metallic = 1.0
+metallic_texture = ExtResource("2_q7vmb")
+roughness_texture = ExtResource("4_jseud")
+normal_enabled = true
+normal_texture = ExtResource("3_rbyu2")

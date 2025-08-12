@@ -1,6 +1,5 @@
-[gd_scene load_steps=12 format=3 uid="uid://3egxq5ke5lqo"]
+[gd_scene load_steps=11 format=3 uid="uid://3egxq5ke5lqo"]
 
-[ext_resource type="PackedScene" uid="uid://eai86bf7mjhu" path="res://Objects/Superclasses/MovableObject.tscn" id="1"]
 [ext_resource type="Script" uid="uid://dww016r1dhraa" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="2"]
 [ext_resource type="ArrayMesh" uid="uid://bes40cnrujgaq" path="res://Resources/Meshes/Windmills/E/WKA_E_Hub.res" id="3_8oppf"]
 [ext_resource type="Texture2D" uid="uid://bj0adoua3ekv" path="res://Resources/Textures/ShaderUtil/spotlight.png" id="4_2wm53"]
@@ -114,22 +113,19 @@ _data = {
 &"Blink": SubResource("8")
 }
 
-[node name="Windmill" instance=ExtResource("1")]
+[node name="Windmill" type="Node3D" groups=["SpatialShifting"]]
 script = ExtResource("2")
 speed = 0.117919
 wind_direction = 315.0
-mesh_hub_height = 135.0
-mesh_rotor_diameter = 100.0
-min_hub_height = 50
 min_rotor_diameter = 50
 forward_for_rotation = Vector3(0, 0, 1)
 
-[node name="Mesh" type="Node3D" parent="." index="0"]
+[node name="Mesh" type="Node3D" parent="."]
 
-[node name="Hub" type="Node3D" parent="Mesh" index="0"]
+[node name="Hub" type="Node3D" parent="Mesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62082e-07, 134.732, 5.30525)
 
-[node name="Blink" type="MeshInstance3D" parent="Mesh/Hub" index="0"]
+[node name="Blink" type="MeshInstance3D" parent="Mesh/Hub"]
 transform = Transform3D(-9.23706e-14, 1.03951e-14, -1, 0, 1, 1.47009e-14, 1, 3.46503e-15, -9.23706e-14, 0, 2.609, -5.317)
 visible = false
 layers = 4
@@ -137,27 +133,27 @@ material_override = SubResource("ShaderMaterial_xmkat")
 cast_shadow = 0
 mesh = SubResource("QuadMesh_gy03l")
 
-[node name="Hub" type="MeshInstance3D" parent="Mesh/Hub" index="1"]
+[node name="Hub" type="MeshInstance3D" parent="Mesh/Hub"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.62268e-07, 0, 6)
 mesh = ExtResource("3_8oppf")
 skeleton = NodePath("")
 
-[node name="Rotor" type="Node3D" parent="Mesh" index="1"]
+[node name="Rotor" type="Node3D" parent="Mesh"]
 transform = Transform3D(0.999931, 0, 0, 0, 1, 0, 0, 0, 0.999931, 2.62082e-07, 134.732, 5.30525)
 
-[node name="Rotor" type="MeshInstance3D" parent="Mesh/Rotor" index="0"]
+[node name="Rotor" type="MeshInstance3D" parent="Mesh/Rotor"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.62268e-07, 0, 6)
 mesh = ExtResource("4_qkf23")
 skeleton = NodePath("")
 
-[node name="Mast" type="Node3D" parent="Mesh" index="2"]
+[node name="Mast" type="Node3D" parent="Mesh"]
 
-[node name="Mast_135" type="MeshInstance3D" parent="Mesh/Mast" index="0"]
+[node name="Mast_135" type="MeshInstance3D" parent="Mesh/Mast"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 mesh = ExtResource("5_xr745")
 skeleton = NodePath("")
 
-[node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="." index="1"]
+[node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_n7nt5")
 }

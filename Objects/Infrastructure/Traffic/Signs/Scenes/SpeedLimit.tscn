@@ -36,7 +36,7 @@ material_override = ExtResource("4_uphna")
 mesh = ExtResource("5_271g8")
 
 [node name="Begin" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0.03)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0.031)
 sorting_offset = 0.3
 pixel_size = 0.001
 shaded = true
@@ -47,7 +47,7 @@ font = ExtResource("3_11vym")
 font_size = 317
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.067, 0, 0, 0, 0.067, 0, 0, 0, 0.067, 0, 2.041, 0.027)
+transform = Transform3D(0.067, 0, 0, 0, 0.067, 0, 0, 0, 0.067, 0, 2.041, 0.0287675)
 sorting_offset = 0.2
 material_override = SubResource("StandardMaterial3D_h611c")
 cast_shadow = 0

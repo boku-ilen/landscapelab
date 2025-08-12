@@ -29,12 +29,14 @@ varying float random_hue_shift;
 varying float stripe_sample;
 varying float wind_strength;
 
+global uniform vec3 VEGETATION_CENTER;
+
 uniform bool is_billboard = true;
 
 void vertex() {
 	dist_id = clamp(INSTANCE_CUSTOM.r * 255.0, 0.0, 99.0);
 
-	vec3 camera_pos = INV_VIEW_MATRIX[3].xyz;
+	vec3 camera_pos = VEGETATION_CENTER + vec3(0.0, 1.0, 0.0) * INV_VIEW_MATRIX[3].xyz;
 	vec3 worldpos = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 
 	float world_distance = length(camera_pos - worldpos);
@@ -61,12 +63,18 @@ void vertex() {
 	NORMAL = basis * normalize(texture_normal + vec3(0.0, 4.0, 0.0));
 
 	// Also make normals follow a "half-dome" around the mesh to get some front- and back-lighting
-	NORMAL = mix(NORMAL, basis * normalize(VERTEX), smoothstep(40.0, 10.0, world_distance) * 0.8); // Scale by distance for smooth transition to LOD
+	NORMAL = mix(NORMAL, basis * normalize(VERTEX), smoothstep(40.0, 10.0, length(INV_VIEW_MATRIX[3].xyz - worldpos)) * 0.8); // Scale by distance for smooth transition to LOD
 
 	// Account for the texture's aspect ratio
 	if (is_billboard) {
 		ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
 		VERTEX += mesh_normal * (float(texture_size.x) / float(texture_size.y) - 1.0) * 0.5;
+	} else {
+		ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);
+		VERTEX += mesh_normal * (float(texture_size.x) / float(texture_size.y * 2) - 1.0) * 0.3;
+
+		// Also make it less spread-out
+		VERTEX.xz += VERTEX.xz * (float(texture_size.x) / float(texture_size.y * 2) - 1.0) * 0.7;
 	}
 
 	// Read plant size
@@ -78,26 +86,26 @@ void vertex() {
 	// Scale size by hue-shift
 	size  *= (1.0 + random_hue_shift * 2.0);
 
-	//if (stripe_sample < 0.6)
-	//size *= stripe_sample;
-
 	// Scale by the size
 	VERTEX *= size;
 
 	float wind_amount = texture(wind_map, worldpos.xz / 512.0 - TIME * speed / 2500.0).r;
 	vec2 wind_offset_vector = (inverse(MODEL_MATRIX) * vec4(speed.x, 0.0, speed.y, 0.0)).xz * wind_amount * 0.04;
 
-	wind_strength = length(wind_offset_vector);
-
 	// Move the upper vertices around for a wind wave effect
 	float inv_y = 1.0 - UV.y;
 
-	VERTEX.xz += inv_y * wind_offset_vector * min(size, 1.0);
-	//NORMAL -= vec3(wind_offset_vector.x, 0.0, wind_offset_vector.y) * 0.8;
+	// Bring the wind offset into a good scale based on the height along the plant, the plant size,
+	// and the wind speed (the offset increases more slowly than the speed)
+	wind_offset_vector *= inv_y;
+	wind_offset_vector *= min(size, 1.0);
+	wind_offset_vector *= inversesqrt(length(speed));
+	wind_offset_vector *= 4.0;
 
-	float speed_length = length(speed);
-	VERTEX.x += inv_y * 0.002 * sin(worldpos.x * scale.x * 0.75 + TIME * speed_length) * cos(worldpos.z * scale.x + TIME * speed_length * 0.25);
-	VERTEX.z += inv_y * 0.002 * sin(worldpos.x * scale.y + TIME * speed_length * 0.35) * cos(worldpos.z * scale.y * 0.80 + TIME * speed_length);
+	wind_strength = length(wind_offset_vector);
+
+	VERTEX.xz += wind_offset_vector;
+	VERTEX.y -= length(wind_offset_vector) * 0.5;
 
 	// Update the world position again with the scaled Vertex (otherwise the distance fade-out is off)
 	worldpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -154,10 +162,10 @@ void fragment() {
 
 	// Other material parameters
 	//RIM = 0.4;
-	AO_LIGHT_AFFECT = 0.9;
+	AO_LIGHT_AFFECT = 0.8;
 	AO = max(generate_darken_gradient(UV.y, 0.6, 0.6, 0.0) - wind_strength * 0.5, 0.0);
-	NORMAL_MAP = generate_normal_from_albedo(texture_map[texture_index], UV, vec4(0.7, 0.7, 0.7, 0.8), 0.05, 1.0);
-	NORMAL_MAP_DEPTH = 1.5;
+	NORMAL_MAP = generate_normal_from_albedo(texture_map[texture_index], UV, vec4(1.0, 0.7, 0.5, 0.2), 0.03, 1.0);
+	NORMAL_MAP_DEPTH = 3.0;
 	METALLIC = 0.0;
 
 	// hue of -1.6 is approximately the middle of green.

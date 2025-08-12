@@ -8,7 +8,7 @@ enum PROJECT {
 	WIMBY,
 	NONE
 }
-var current_project = PROJECT.WIMBY
+var current_project = PROJECT.NONE
 
 
 # FIXME: make this more responsive to the actual layers instead of hardcoding

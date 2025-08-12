@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3 uid="uid://dqecbimwimv3p"]
+
+[ext_resource type="Material" uid="uid://bmcxp6o1ulogn" path="res://Objects/Roads/RoadCarSecondary.tres" id="1_y38fb"]
+[ext_resource type="ArrayMesh" uid="uid://7pwspfn3leuj" path="res://Resources/Meshes/RoadInfrastructure/road_segment.obj" id="2_fpnh7"]
+[ext_resource type="Script" uid="uid://dinwn45dvlpui" path="res://Objects/Roads/RoadSegmentCar.gd" id="3_wqdng"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="4_s3wpy"]
+
+[node name="RoadSegmentBridge" type="MeshInstance3D"]
+layers = 4
+material_override = ExtResource("1_y38fb")
+mesh = ExtResource("2_fpnh7")
+script = ExtResource("3_wqdng")
+
+[node name="PSUGatherer" parent="." instance=ExtResource("4_s3wpy")]

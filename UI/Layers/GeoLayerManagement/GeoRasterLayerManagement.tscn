@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://ljx3yf4cns3v"]
+
+[ext_resource type="Script" uid="uid://bvoylga52q6jh" path="res://UI/Layers/GeoLayerManagement/GeoRasterLayerManagement.gd" id="1_4dtff"]
+[ext_resource type="Texture2D" uid="uid://cfp1qlptoav0t" path="res://Resources/Icons/ModernLandscapeLab/up.svg" id="2_58u7h"]
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="2_jdp8o"]
+[ext_resource type="Texture2D" uid="uid://d2hitly1vb6sv" path="res://Resources/Icons/ModernLandscapeLab/paintbrush.svg" id="3_xdcax"]
+
+[node name="GeoRasterLayerManagement" type="HBoxContainer"]
+script = ExtResource("1_4dtff")
+
+[node name="TerraForm" parent="." instance=ExtResource("2_jdp8o")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+toggle_mode = true
+icon = ExtResource("2_58u7h")
+texture_name = "up"
+
+[node name="Paint" parent="." instance=ExtResource("2_jdp8o")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+toggle_mode = true
+icon = ExtResource("3_xdcax")
+texture_name = "paintbrush"

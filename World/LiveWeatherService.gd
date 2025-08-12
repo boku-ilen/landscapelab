@@ -13,7 +13,6 @@ func apply_current_weather():
 	var position = player.get_lat_lon()
 
 	# Perform a GET request. The URL below returns JSON as of writing.
-	# FIXME: use real lat/lon from player position
 	var error = http_request.request("https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current=temperature_2m,relative_humidity_2m,rain,showers,snowfall,cloud_cover,wind_speed_10m,wind_direction_10m"
 			% [position.z, position.x])
 	if error != OK:

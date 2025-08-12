@@ -419,7 +419,7 @@ func generate_distribution(group: PlantGroup, max_size: float, density_class):
 			#  (between the plant's min and max height)
 			var plant = group.plants[highest_roll_id]
 			var random_height = dice.randf_range(plant.height_min, plant.height_max)
-			var scale_before_comma = random_height / 255.0
+			var scale_before_comma = floor(random_height) / 255.0
 			var scale_after_comma = random_height - floor(random_height)
 			
 			distribution.set_pixel(x, y, Color(plant.id / 255.0, scale_before_comma, scale_after_comma, 0.0))

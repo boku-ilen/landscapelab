@@ -37,8 +37,6 @@ var mesh_to_apply := low_mesh
 
 var current_heightmap
 var current_heightmap_shape
-var current_normalmap
-var current_texture
 var current_landuse
 var current_surface_heightmap
 
@@ -47,8 +45,6 @@ var current_normal_ground_textures
 var current_specular_ground_textures
 var current_ambient_ground_textures
 var current_roughness_ground_textures
-
-var terraforming_texture: TerraformingTexture
 
 
 func rebuild_aabb(node):
@@ -96,38 +92,23 @@ func override_decrease_quality(distance: float):
 
 
 func override_build(center_x, center_y):
-	# Create a new TerraformingTexture for this chunk
-	#terraforming_texture = TerraformingTexture.new(201)
+	var top_left_x = float(center_x - size / 2) - 0.25
+	var top_left_y = float(center_y + size / 2) + 0.25
 	
-	var top_left_x = float(center_x - size / 2)
-	var top_left_y = float(center_y + size / 2)
+	var res = (size / (mesh_resolution + 1))
 	
 	# Heightmap
 	var current_height_image = height_layer.get_image(
-		top_left_x - 1,
-		top_left_y + 1,
-		size + 2,
-		mesh_resolution + 1,
-		1
+		top_left_x,
+		top_left_y,
+		size,
+		mesh_resolution,
+		0
 	)
 	
 	if current_height_image.is_valid():
 		current_heightmap = current_height_image.get_image_texture()
-		current_normalmap = current_height_image.get_normalmap_texture_for_heightmap(10.0)
 		current_heightmap_shape = current_height_image.get_shape_for_heightmap()
-	
-	# Orthophoto
-	if texture_layer:
-		var current_ortho_image = texture_layer.get_image(
-			top_left_x,
-			top_left_y,
-			size,
-			ortho_resolution,
-			1
-		)
-		
-		if current_ortho_image.is_valid():
-			current_texture = current_ortho_image.get_image_texture()
 	
 	# Land use
 	var current_landuse_image = landuse_layer.get_image(
@@ -170,12 +151,8 @@ func override_apply():
 	
 	if current_heightmap:
 		$Mesh.material_override.set_shader_parameter("heightmap", current_heightmap)
-		$Mesh.material_override.set_shader_parameter("normalmap", current_normalmap)
 		
 		$HeightmapCollider/CollisionShape3D.shape = current_heightmap_shape
-	
-	if current_texture:
-		$Mesh.material_override.set_shader_parameter("orthophoto", current_texture)
 	
 	var using_overlay = false
 	
@@ -185,15 +162,23 @@ func override_apply():
 		
 		if mesh_resolution == detailed_mesh_resolution:
 			if not has_node("LIDOverlayViewport"):
-				add_child(preload("res://Layers/Renderers/LIDOverlay/LIDOverlayViewport.tscn").instantiate())
+				add_child(preload("res://Layers/Renderers/Overlay/LIDOverlayViewport.tscn").instantiate())
+			if not has_node("HeightOverlayViewport"):
+				add_child(preload("res://Layers/Renderers/Overlay/HeightOverlayViewport.tscn").instantiate())
 			
 			using_overlay = true
 			$Mesh.material_override.set_shader_parameter("use_landuse_overlay", true)
-			$Mesh.material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
+			$Mesh.material_override.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport").get_texture())
+			
+			$Mesh.material_override.set_shader_parameter("use_height_overlay", true)
+			$Mesh.material_override.set_shader_parameter("height_overlay", get_node("HeightOverlayViewport").get_texture())
 		else:
 			if has_node("LIDOverlayViewport"):
 				$Mesh.material_override.set_shader_parameter("use_landuse_overlay", false)
 				get_node("LIDOverlayViewport").queue_free()
+			if has_node("HeightOverlayViewport"):
+				$Mesh.material_override.set_shader_parameter("use_height_overlay", false)
+				get_node("HeightOverlayViewport").queue_free()
 	
 	if current_surface_heightmap:
 		$Mesh.material_override.set_shader_parameter("has_surface_heights", true)
@@ -208,7 +193,7 @@ func override_apply():
 		next_pass.set_shader_parameter("surface_heightmap", current_surface_heightmap)
 		next_pass.set_shader_parameter("landuse", current_landuse)
 		if using_overlay:
-			next_pass.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport/LIDViewport").get_texture())
+			next_pass.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport").get_texture())
 			next_pass.set_shader_parameter("use_landuse_overlay", true)
 		else:
 			next_pass.set_shader_parameter("use_landuse_overlay", false)
@@ -216,9 +201,3 @@ func override_apply():
 		next_pass.set_shader_parameter("size", size)
 		
 		next_pass = next_pass.next_pass
-
-
-func apply_terraforming_texture() -> void:
-	$Mesh.material_override.set_shader_parameter("has_terraforming_texture", true)
-	$Mesh.material_override.set_shader_parameter("terraforming_texture", terraforming_texture.texture)
-	$Mesh.material_override.set_shader_parameter("terraforming_weights", terraforming_texture.weights)

@@ -10,8 +10,8 @@ var step_size = chunk_size / (200.0)
 
 var render_3d = false
 
-var radius: float = 500.0
-var max_features = 2000
+var radius: float = 2000.0
+var max_features = 5000
 
 var _road_instance_scene = preload("res://Layers/Renderers/Path/Roads/RoadInstance.tscn")
 var _intersection_instance_scene = preload("res://Layers/Renderers/Path/Roads/Intersections/IntersectionInstance.tscn")
@@ -217,7 +217,7 @@ func get_basic_height(point: Vector3) -> float:
 	coords.x += position_manager.center_node.position.x
 	coords.z -= position_manager.center_node.position.z
 	
-	return layer_composition.render_info.height_layer.get_value_at_position(float(coords.x), float(coords.z))
+	return layer_composition.render_info.height_layer.get_value_at_position(coords.x, coords.z)
 
 
 func _get_height(point: Vector3) -> float:

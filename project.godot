@@ -424,6 +424,7 @@ set_autolook_active={
 3d_render/layer_11="3D no VR"
 3d_render/layer_16="3D Terrain Overlay"
 3d_render/layer_17="LID"
+3d_render/layer_18="3D Terrain Height"
 3d_physics/layer_20="MouseCollision"
 
 [locale]
@@ -455,6 +456,10 @@ HCY_SHIFT={
 HCY_TERRAIN_SHIFT={
 "type": "vec3",
 "value": Vector3(0, 1.2, 0.7)
+}
+VEGETATION_CENTER={
+"type": "vec3",
+"value": Vector3(0, 0, 0)
 }
 
 [xr]

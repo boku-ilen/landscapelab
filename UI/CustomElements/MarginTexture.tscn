@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdy8pv0g44r23"]
+[gd_scene load_steps=2 format=3 uid="uid://b3o7yorwojy7n"]
 
-[ext_resource type="Script" uid="uid://dftsb7vlxenuf" path="res://UI/CustomElements/MarginTexture.gd" id="1_t3vxk"]
+[sub_resource type="GDScript" id="GDScript_q3t2u"]
+script/source = "@tool
+extends MarginContainer
+
+
+@export var texture :Texture2D:
+	set(new_texture):
+		texture = new_texture
+		$Texture.texture = new_texture
+"
 
 [node name="MarginTexture" type="MarginContainer"]
 size_flags_horizontal = 6
@@ -9,7 +18,7 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
-script = ExtResource("1_t3vxk")
+script = SubResource("GDScript_q3t2u")
 
 [node name="Texture" type="TextureRect" parent="."]
 layout_mode = 2

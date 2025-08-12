@@ -30,7 +30,6 @@ filters = PackedStringArray("*.ll")
 size = Vector2i(737, 400)
 min_size = Vector2i(531, 400)
 theme = ExtResource("2_uetun")
-ok_button_text = "Save"
 access = 2
 filters = PackedStringArray("*.ll")
 

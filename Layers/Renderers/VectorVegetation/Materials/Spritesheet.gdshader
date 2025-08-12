@@ -49,7 +49,7 @@ void vertex() {
 	vec4 view_vertex = MODELVIEW_MATRIX * vec4(VERTEX, 0.0);
 	view_vertex.x *= 1.0 + normal_to_camera;
 	VERTEX = (inverse(MODELVIEW_MATRIX) * view_vertex).xyz;
-	
+
 	vertex_distance_from_zero = pow(length(VERTEX), 2.0);
 
 	spritesheet_index = INSTANCE_CUSTOM.r;
@@ -94,7 +94,7 @@ void fragment() {
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = 1.0;
 
-	AO = mix(0.0, 0.1, vertex_distance_from_zero);
+	AO = mix(0.0, 0.2, vertex_distance_from_zero);
 	AO *= mix(1.0, 0.6, smoothstep(100.0, 300.0, depth));
 	AO_LIGHT_AFFECT = 0.8;
 

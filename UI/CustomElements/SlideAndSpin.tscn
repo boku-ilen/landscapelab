@@ -40,4 +40,4 @@ value = 50.0
 
 [node name="ValueLabel" type="Label" parent="."]
 layout_mode = 2
-text = "50"
+text = "50.00"

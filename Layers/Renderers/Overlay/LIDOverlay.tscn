@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfav3tiv42xkt"]
+
+[ext_resource type="Script" uid="uid://bjk2x3brw6pt" path="res://Layers/Renderers/Overlay/LIDOverlay.gd" id="1_06ls6"]
+
+[node name="LIDOverlay" type="Node3D"]
+script = ExtResource("1_06ls6")

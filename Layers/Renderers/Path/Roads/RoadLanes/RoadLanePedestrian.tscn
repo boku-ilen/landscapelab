@@ -1,15 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://byx3fhu0a8mik"]
+[gd_scene load_steps=5 format=3 uid="uid://byx3fhu0a8mik"]
 
 [ext_resource type="Script" uid="uid://p46ata10f5sg" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLanePedestrian.gd" id="1_3naa5"]
 [ext_resource type="PackedScene" uid="uid://viu3tawr4dl5" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLane.tscn" id="1_43xus"]
 [ext_resource type="Material" uid="uid://d4e7kkob5nuhm" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLanePedestrian.tres" id="2_g57b5"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="4_7px34"]
 
 [node name="RoadLanePedestrian" instance=ExtResource("1_43xus")]
 script = ExtResource("1_3naa5")
 lid = 2002
+lid_center = 7201
 
 [node name="RoadLanePolygon" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 layers = 32768
 polygon = PackedVector2Array(-0.5, 0.2, 0.5, 0.2, 0.5, 0, -0.5, 0)
 material = ExtResource("2_g57b5")
+
+[node name="PSUGatherer" parent="RoadLanePolygon" index="0" instance=ExtResource("4_7px34")]
