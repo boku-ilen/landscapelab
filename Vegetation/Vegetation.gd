@@ -20,6 +20,7 @@ var ground_textures = {}
 var fade_textures = {}
 var paths := {}
 
+var was_loaded: bool = false
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
@@ -59,6 +60,7 @@ func load_data_from_gpkg(db) -> void:
 	
 	max_extent = max_size_factor * plant_extent_factor
 	
+	was_loaded = true
 	emit_signal("new_data")
 
 
@@ -126,6 +128,7 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 		"Plants": plant_path
 	}
 	
+	was_loaded = true
 	new_data.emit()
 
 
