@@ -61,8 +61,9 @@ bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
 
 [node name="LabTableWindow" type="Window"]
 mode = 3
-initial_position = 1
+initial_position = 3
 size = Vector2i(1600, 900)
+current_screen = 0
 
 [node name="LabTable" type="HBoxContainer" parent="." node_paths=PackedStringArray("geo_layers", "control_ui", "extent_visualizer")]
 anchors_preset = 15
@@ -78,7 +79,6 @@ script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
-debug_mode = true
 run_brick_detection = false
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]

@@ -24,12 +24,9 @@ extends Control
 		get_parent().get_node("MarginContainer/AtmosphereMenu").weather_manager = new_weather_manager
 		get_parent().get_node("MarginContainer/AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").weather_manager = new_weather_manager
 
-# To debug it as standalone (without running the rest of the landscapelab
-# it is necessary to load the configuration
-@export var debug_mode := false
 @export var run_brick_detection := true
 
-var current_goc_name = "Dead Wood"
+var current_goc_name = "Teleport"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
@@ -41,10 +38,9 @@ signal game_object_failed(cursor_position)
 
 
 func _ready():
-	# In the usual setting this will be handled by the landscapelab
-	if debug_mode: 
-		$LLConfigSetup.setup()
-		$GameModesConfigurator.load_game_mode_config()
+	# In the usual setting this will be handled by the 3D env, but these calls do not overwrite
+	$LLConfigSetup.setup()
+	$GameModesConfigurator.load_game_mode_config()
 	
 	$LabTableConfigurator.load_table_config()
 	
