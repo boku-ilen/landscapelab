@@ -33,6 +33,7 @@ static var deserialization_lookup = {
 			else:
 				attribute = get_geolayer_from_path(abs_path, attribute, "GeoFeatureLayer")
 			return attribute,
+	"Texture": func(attribute, abs_path): return load(attribute),
 	"LayerCompositionReference":
 		func(attribute, abs_path):
 			if not attribute in Layers.layer_compositions: 
