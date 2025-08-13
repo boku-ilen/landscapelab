@@ -34,13 +34,8 @@ func parse_attribute_expression(feature, formula):
 	return result
 
 var point_func = func(feature: GeoPoint): 
-	#if layer_definition.render_info.marker != null:
-	#	return layer_definition.render_info.marker
-	
 	var marker = preload("res://Layers/Renderers/GeoLayer/FeatureMarker.tscn").instantiate()
-	
 	set_feature_icon(feature, marker)
-	
 	return marker
 
 var line_func = func(feature: GeoLine):
