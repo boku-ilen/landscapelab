@@ -1,10 +1,18 @@
 extends Object
 class_name AbstractLayerSerializer
 
+# Wrapper class for serialization logic
+class SerializationWrapper:
+	# To be overridden
+	static func get_class_name() -> String:
+		# Fake abstract class behavior
+		logger.warn("Abstract classes function of \"SeralizationWrapper\" was called")
+		assert(false, "Abstract class")
+		return "SerializationWrapper"
+
 
 # to be overwritten by inheriting class
 static var base_render_info = RefCounted.new()
-
 
 static var deserialization_lookup = {
 	"GeoRasterLayer": 
@@ -49,19 +57,20 @@ static func deserialize(
 		render_properties[property["name"]] = property
 	
 	for attribute_name in attributes:
+		if not attribute_name in render_properties:
+			logger.warn("An attribute \"%s\" was found for \"%s\" in the config file, 
+				but it is not a valid property of that resource" % [attribute_name, name])
+			continue
+		
 		var config_attribute = attributes[attribute_name]
 		var render_info_attribute = render_properties[attribute_name]
 		var deserialized_attribute = config_attribute
-		if render_info_attribute["class_name"] in deserialization_lookup:
-			deserialized_attribute = deserialization_lookup[render_info_attribute["class_name"]] \
-										.call(config_attribute, abs_path)
 		
-		elif render_info_attribute.type == TYPE_OBJECT and layer_resource.render_info.get(render_info_attribute.name) != null:
-			if layer_resource.render_info.get(render_info_attribute.name).has_method("get_class"):
-				var lookup_string = layer_resource.render_info.get(render_info_attribute.name).call("get_class")
-				if lookup_string in deserialization_lookup:
-					deserialized_attribute = deserialization_lookup[lookup_string] \
-											.call(config_attribute, abs_path)
+		# See if there is a non-trivial deserialization function
+		var deserialized = _lookup_deserialization(
+			config_attribute, render_info_attribute, layer_resource, abs_path)
+		if deserialized != null: 
+			deserialized_attribute = deserialized
 		
 		layer_resource.render_info.set(attribute_name, deserialized_attribute)
 	
@@ -104,6 +113,27 @@ static func serialize(layer_resource):
 		attributes[property["name"]] = serialized 
 	
 	return dictify(layer_resource, attributes)
+
+
+static func _lookup_deserialization(config_attribute, render_info_attribute, layer_res, abs_path):
+	# Check if it is a class name (e.g. GeoRasterLayer or GeoFeatureLayer do have as they are
+	# gdnative objects)
+	if render_info_attribute["class_name"] in deserialization_lookup:
+		var deserializer_func = deserialization_lookup[render_info_attribute["class_name"]]
+		return deserializer_func.call(config_attribute, abs_path)
+	
+	# If the to be configured attribute in the render_info is not an object, deserialization
+	# needs to be trivial, otherwise it needs to be wrapped
+	if render_info_attribute.type != TYPE_OBJECT:
+		return
+	if not layer_res.render_info.get(render_info_attribute.name) is SerializationWrapper:
+		return
+	
+	# The lookup the class name in the lookup dictionary
+	var lookup_string = layer_res.render_info.get(render_info_attribute.name).call("get_class_name")
+	if lookup_string in deserialization_lookup:
+		var deserializer_func = deserialization_lookup[lookup_string]
+		return deserializer_func.call(config_attribute, abs_path)
 
 
 # to be implemented by sub-class

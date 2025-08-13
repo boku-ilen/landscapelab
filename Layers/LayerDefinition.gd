@@ -6,7 +6,7 @@ var crs_from:=3857
 var name: String
 
 # wrapper class for serialization logic
-class LayerCompositionReference:
+class LayerCompositionReference extends AbstractLayerSerializer.SerializationWrapper:
 	var composition_name: String : 
 		set(new_name):
 			composition_name = new_name
@@ -17,15 +17,15 @@ class LayerCompositionReference:
 	 
 	var geo_feature_layer: GeoFeatureLayer
 	
-	@warning_ignore("native_method_override")
-	func get_class():
+	static func get_class_name():
 		return "LayerCompositionReference"
+
 
 class RenderInfo:
 	signal z_index_changed(index)
 	signal visibility_changed(visible)
 	
-	var layer_composition_reference: LayerCompositionReference = LayerDefinition.LayerCompositionReference.new() : 
+	var layer_composition_reference := LayerCompositionReference.new() : 
 		set(new_reference):
 			layer_composition_reference = new_reference
 			if "geo_layer" in self:
