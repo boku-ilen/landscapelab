@@ -26,7 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://d0hqaatci6i8p" path="res://Resources/Icons/ModernLandscapeLab/table_map.svg" id="20_ydkr2"]
 [ext_resource type="Script" uid="uid://dh6lfyxcoclyw" path="res://UI/LabTable/LoadButton.gd" id="21_6fdux"]
 [ext_resource type="Texture2D" uid="uid://b0ggrqax876lq" path="res://Resources/Textures/UI/scalebar.png" id="21_8rx5g"]
-[ext_resource type="Script" path="res://UI/LabTable/TableButton.gd" id="22_ywe3r"]
+[ext_resource type="Script" uid="uid://3vvk84ipyk5y" path="res://UI/LabTable/TableButton.gd" id="22_ywe3r"]
 [ext_resource type="Script" uid="uid://62hra75kk18d" path="res://UI/LabTable/AtmosphereMenu.gd" id="23_5pqbs"]
 [ext_resource type="Texture2D" uid="uid://b802dq4lcuyre" path="res://Resources/Icons/ModernLandscapeLab/biodiv.svg" id="23_65qsu"]
 [ext_resource type="PackedScene" uid="uid://u8mojc2eibn6" path="res://Util/Shading/ColorRampSymbology.tscn" id="23_5380g"]
@@ -80,6 +80,7 @@ geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
 run_brick_detection = false
+current_goc_name = "PV"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
 layout_mode = 2
