@@ -22,6 +22,7 @@ func load_game_mode_config() -> void:
 	
 	var game_modes_config: Dictionary = ll_file_access.json_object.data["GameModes"]
 	_load_game_modes(path, game_modes_config)
+	GameSystem.was_loaded = true
 
 
 func _load_game_modes(path: String, game_modes: Dictionary) -> void:

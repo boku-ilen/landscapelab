@@ -28,7 +28,7 @@ var _game_objects = {}
 var save_dir := "saves-test"
 var user_save_dir := "user://%s" % [save_dir]
 
-var was_loaded: bool = true
+var was_loaded: bool = false
 
 signal score_changed(score)
 signal score_target_reached(score)
