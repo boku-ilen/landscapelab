@@ -31,41 +31,24 @@ func load_table_config() -> void:
 
 
 func _load_layers(path: String, table_config: Dictionary):
-	# FIXME: proper deserialization/seralization options
 	var base_path = get_setting("config-path")
-	for key in table_config["LayerDefinitions"].keys():
-		var layer_conf = table_config["LayerDefinitions"][key]
+	for definition_name in table_config["LayerDefinitions"].keys():
+		var attributes_config = table_config["LayerDefinitions"][definition_name]["attributes"]
+		var type = table_config["LayerDefinitions"][definition_name]["type"]
+		match type:
+			"Raster": type = LayerDefinition.TYPE.RASTER
+			"Feature": type = LayerDefinition.TYPE.FEATURE
+			_: logger.error(
+				"LayerDefinition %s: wrong type in config (expected <Raster/Feature>, got %s)" %
+				[definition_name, type])
 		
-		# Pre-existing layer composition which strictly needs to use the same data background
-		var geo_layer: RefCounted
-		if "layer_name" in layer_conf:
-			if "geo_feature_layer" in Layers.layer_compositions[layer_conf["layer_name"]].render_info:
-				geo_layer = Layers.layer_compositions[layer_conf["layer_name"]].render_info.geo_feature_layer
-			else:
-				assert(false, "Invalid layer!")
-		else:
-			var splits = LLFileAccess.split_dataset_string(base_path, layer_conf["path"])
-			geo_layer = LLFileAccess.get_layer_from_splits(splits, true)
-		
-		var layer_def = LayerDefinition.new(geo_layer, layer_conf["z_index"])
-		layer_def.name = key
-		
-		if "color_ramp" in layer_conf:
-			layer_def.render_info.gradient = ColorRamps.gradients[layer_conf["color_ramp"]]
-			layer_def.render_info.min_val = layer_conf["min_val"]
-			layer_def.render_info.max_val = layer_conf["max_val"]
-		
-		if "icon" in layer_conf:
-			layer_def.render_info.marker = load(layer_conf["icon"])
-			layer_def.render_info.marker_scale = layer_conf["icon_scale"] if "icon_scale" in layer_conf else 0.1
-		
-		if "no_data" in layer_conf:
-			layer_def.render_info.no_data = Color(layer_conf["no_data"][0], layer_conf["no_data"][1], layer_conf["no_data"][2])
-		
-		if "config" in layer_def.render_info:
-			layer_def.render_info.config = layer_conf
+		var layer_definition = LayerDefinitionSerializer.deserialize(
+			base_path,
+			definition_name,
+			type,
+			attributes_config)
 			
-		Layers.add_layer_definition(layer_def)
+		Layers.add_layer_definition(layer_definition)
 	
 	logger.info("LabTable has been setup")
 
