@@ -62,8 +62,9 @@ func add_layer_definition(layer_definition: LayerDefinition):
 	layer_definitions[layer_definition.name] = layer_definition
 
 	# Only add the layer if it is not already in the geo_layers
-	if layer_definition.geo_layer not in geo_layers["rasters"].values() and layer_definition not in geo_layers["features"].values():
-		add_geo_layer(layer_definition.geo_layer)
+	var geo_layer = layer_definition.render_info.geo_layer 
+	if geo_layer not in geo_layers["rasters"].values() and geo_layer not in geo_layers["features"].values():
+		add_geo_layer(geo_layer)
 	
 	new_layer_definition.emit(layer_definition)
 
