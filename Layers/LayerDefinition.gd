@@ -63,6 +63,10 @@ class RasterRenderInfo extends RenderInfo:
 class UIInfo:
 	var name: String
 	var icon: Texture = preload("res://Resources/Icons/ModernLandscapeLab/file.svg")
+	var ticks_at: Array
+	var ticks_val: Array
+	var as_table_button: bool
+	var toggle_z_indices: Array[int] = [0, 1]
 	var description: String
 
 

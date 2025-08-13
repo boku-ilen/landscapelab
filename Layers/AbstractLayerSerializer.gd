@@ -34,6 +34,11 @@ static var deserialization_lookup = {
 				attribute = get_geolayer_from_path(abs_path, attribute, "GeoFeatureLayer")
 			return attribute,
 	"Texture": func(attribute, abs_path): return load(attribute),
+	"Gradient": 
+		func(attribute, abs_path):
+			if not attribute in ColorRamps.gradients:
+				assert(false, "Not implemented yet")
+			return ColorRamps.gradients[attribute],
 	"LayerCompositionReference":
 		func(attribute, abs_path):
 			if not attribute in Layers.layer_compositions: 
@@ -56,6 +61,8 @@ static func deserialize(
 	var render_properties = {}
 	for property in layer_resource.render_info.get_property_list():
 		render_properties[property["name"]] = property
+	for property in layer_resource.ui_info.get_property_list():
+		render_properties[property["name"]] = property
 	
 	for attribute_name in attributes:
 		if not attribute_name in render_properties:
@@ -73,7 +80,10 @@ static func deserialize(
 		if deserialized != null: 
 			deserialized_attribute = deserialized
 		
-		layer_resource.render_info.set(attribute_name, deserialized_attribute)
+		if attribute_name in layer_resource.render_info:
+			layer_resource.render_info.set(attribute_name, deserialized_attribute)
+		else:
+			layer_resource.ui_info.set(attribute_name, deserialized_attribute)
 	
 	return layer_resource
 

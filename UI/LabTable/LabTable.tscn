@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=48 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" uid="uid://ylwjxiuxk7ef" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -23,18 +23,14 @@
 [ext_resource type="Script" uid="uid://cieinv8upemid" path="res://UI/LabTable/LayersButton.gd" id="20_55y0a"]
 [ext_resource type="Script" uid="uid://cvfcshy6pwjcv" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
 [ext_resource type="Script" uid="uid://cevara535ckby" path="res://UI/LabTable/ScaleBar.gd" id="20_rfesq"]
-[ext_resource type="Texture2D" uid="uid://d0hqaatci6i8p" path="res://Resources/Icons/ModernLandscapeLab/table_map.svg" id="20_ydkr2"]
 [ext_resource type="Script" uid="uid://dh6lfyxcoclyw" path="res://UI/LabTable/LoadButton.gd" id="21_6fdux"]
 [ext_resource type="Texture2D" uid="uid://b0ggrqax876lq" path="res://Resources/Textures/UI/scalebar.png" id="21_8rx5g"]
-[ext_resource type="Script" uid="uid://3vvk84ipyk5y" path="res://UI/LabTable/TableButton.gd" id="22_ywe3r"]
 [ext_resource type="Script" uid="uid://62hra75kk18d" path="res://UI/LabTable/AtmosphereMenu.gd" id="23_5pqbs"]
-[ext_resource type="Texture2D" uid="uid://b802dq4lcuyre" path="res://Resources/Icons/ModernLandscapeLab/biodiv.svg" id="23_65qsu"]
 [ext_resource type="PackedScene" uid="uid://u8mojc2eibn6" path="res://Util/Shading/ColorRampSymbology.tscn" id="23_5380g"]
 [ext_resource type="StyleBox" uid="uid://dg3l5xqfdgxff" path="res://UI/LabTable/Style/PopupPanel.tres" id="23_wb0c1"]
 [ext_resource type="Texture2D" uid="uid://dndroq8xw54we" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sunrise.svg" id="24_0xwd5"]
 [ext_resource type="PackedScene" uid="uid://d2biaicqh7bu5" path="res://World/AtmosphereConfiguration.tscn" id="24_ty2jq"]
 [ext_resource type="Texture2D" uid="uid://ds6wwes2a5wbq" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sun.svg" id="25_302tt"]
-[ext_resource type="Texture2D" uid="uid://cvuvaob2b58oa" path="res://Resources/Icons/ModernLandscapeLab/table_wind.svg" id="25_xtv11"]
 [ext_resource type="Texture2D" uid="uid://cw0im4d30mbtf" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sunset.svg" id="26_u2cwq"]
 [ext_resource type="Texture2D" uid="uid://1gxcd6oo0in1" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/moon.svg" id="27_elhq0"]
 [ext_resource type="Texture2D" uid="uid://uuqtyv3ffdfj" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/cloudy.svg" id="28_b1lmo"]
@@ -302,38 +298,6 @@ theme_override_styles/panel = ExtResource("23_wb0c1")
 
 [node name="Content" type="VBoxContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel"]
 layout_mode = 2
-
-[node name="MapButton" type="Button" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/Content"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("8_2ddb4")
-icon = ExtResource("20_ydkr2")
-flat = true
-script = ExtResource("22_ywe3r")
-
-[node name="SunButton" type="Button" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/Content"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("8_2ddb4")
-icon = ExtResource("25_302tt")
-flat = true
-script = ExtResource("22_ywe3r")
-
-[node name="BioDivButton" type="Button" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/Content"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("8_2ddb4")
-icon = ExtResource("23_65qsu")
-flat = true
-script = ExtResource("22_ywe3r")
-
-[node name="WindButton" type="Button" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/Content"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("8_2ddb4")
-icon = ExtResource("25_xtv11")
-flat = true
-script = ExtResource("22_ywe3r")
 
 [node name="ColorRampSymbology" parent="GameModeMarginContainer/HBoxContainer/LayersButton" instance=ExtResource("23_5380g")]
 visible = false
