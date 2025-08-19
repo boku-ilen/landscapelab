@@ -7,7 +7,7 @@ var objects: Dictionary
 var rng := RandomNumberGenerator.new()
 var initial_rng_state
 
-var refine_load_distance = 500
+var refine_load_distance := 200
 
 var object_to_mesh_name = {}
 var mesh_name_to_mmi = {}
@@ -20,25 +20,25 @@ var is_detailed = true
 var is_refine_load = false
 
 
-#func override_can_increase_quality(distance: float):
-	#return distance < refine_load_distance and not is_detailed
-#
-#
-#func override_increase_quality(distance: float):
-	#if distance < refine_load_distance and not is_detailed:
-		#is_detailed = true
-		#is_refine_load = true
-		#return true
-	#else:
-		#return false
-#
-#
-#func override_decrease_quality(distance: float):
-	#if distance > refine_load_distance and is_detailed:
-		#is_detailed = false
-		#return true
-	#else:
-		#return false
+func override_can_increase_quality(distance: float):
+	return distance < refine_load_distance and not is_detailed
+
+
+func override_increase_quality(distance: float):
+	if distance < refine_load_distance and not is_detailed:
+		is_detailed = true
+		is_refine_load = true
+		return true
+	else:
+		return false
+
+
+func override_decrease_quality(distance: float):
+	if distance > refine_load_distance and is_detailed:
+		is_detailed = false
+		return true
+	else:
+		return false
 
 
 func _ready():
@@ -72,20 +72,6 @@ func create_multimeshes():
 			mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
 			
 			add_child(mmi)
-	
-	# FIXME: Optional Billboard LOD System?
-	#var mmi := MultiMeshInstance3D.new()
-	## Set correct layer mask so streets are not rendered onto trees
-	#mmi.set_layer_mask_value(1, false)
-	#mmi.set_layer_mask_value(3, true)
-	#mmi.name = "Billboard"
-	#mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-	#
-	## For debugging:
-	#mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
-	#
-	#mesh_name_to_mmi["Billboard"] = mmi
-	#add_child(mmi)
 
 
 func rebuild_aabb(node):
@@ -97,28 +83,20 @@ func override_build(center_x, center_y):
 	mesh_name_to_transforms = {}
 	fresh_multimeshes = {}
 	
-	if is_detailed:
-		for object_name in objects.keys():
-			fresh_multimeshes[object_name] = MultiMesh.new()
+	for object_name in objects.keys():
+		fresh_multimeshes[object_name] = MultiMesh.new()
+		
+		if is_detailed or not "billboard" in objects[object_name]:
 			fresh_multimeshes[object_name].mesh = load(objects[object_name]["mesh"])
-			fresh_multimeshes[object_name].transform_format = MultiMesh.TRANSFORM_3D
-			fresh_multimeshes[object_name].instance_count = 0
-			fresh_multimeshes[object_name].use_custom_data = true
+		else:
+			fresh_multimeshes[object_name].mesh = load(objects[object_name]["billboard"])
+		
+		fresh_multimeshes[object_name].transform_format = MultiMesh.TRANSFORM_3D
+		fresh_multimeshes[object_name].instance_count = 0
+		fresh_multimeshes[object_name].use_custom_data = true
 			
-			# Done more than once, but shouldn't matter
-			mesh_name_to_transforms[object_name] = []
-	#else:
-		#var mesh_name = "Billboard"
-		#fresh_multimeshes[mesh_name] = MultiMesh.new()
-		#fresh_multimeshes[mesh_name].mesh = billboard_mesh
-		#fresh_multimeshes[mesh_name].transform_format = MultiMesh.TRANSFORM_3D
-		#fresh_multimeshes[mesh_name].instance_count = 0
-		#fresh_multimeshes[mesh_name].use_custom_data = true
-		#
-		## Done more than once, but shouldn't matter
-		#mesh_name_to_transforms[mesh_name] = []
-		#mesh_name_to_color[mesh_name] = []
-		#mesh_name_to_custom_data[mesh_name] = []
+		# Done more than once, but shouldn't matter
+		mesh_name_to_transforms[object_name] = []
 	
 	for object_name in objects.keys():
 		var object = objects[object_name]
@@ -154,7 +132,6 @@ func override_build(center_x, center_y):
 		
 		for i in range(mesh_name_to_transforms[mesh_name].size()):
 			fresh_multimeshes[mesh_name].set_instance_transform(i, mesh_name_to_transforms[mesh_name][i])
-			#fresh_multimeshes[mesh_name].set_instance_custom_data(i, mesh_name_to_custom_data[mesh_name][i])
 	
 	is_refine_load = false
 

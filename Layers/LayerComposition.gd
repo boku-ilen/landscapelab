@@ -334,8 +334,9 @@ class ScatteredObjectInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
 	var scatter_layer: GeoRasterLayer
 	var objects: Dictionary
-	var density: float
-	var randomness: float
+	var chunk_size := 100.0
+	var extent := 3
+	var detail_distance := 100.0
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/ScatteredObject/ScatteredObjectRenderer.tscn")

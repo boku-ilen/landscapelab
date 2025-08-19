@@ -7,7 +7,7 @@ var objects: Dictionary
 var rng := RandomNumberGenerator.new()
 var initial_rng_state
 
-var refine_load_distance = 500
+var refine_load_distance := 200.0
 
 var fresh_scenes = {}
 

@@ -11,6 +11,8 @@ var scatter_layer
 var height_layer
 var condition
 
+var rng = RandomNumberGenerator.new()
+
 
 func _init(new_center_x, new_center_y, new_size, new_density, new_randomness, new_scatter_layer, new_height_layer, new_condition):
 	center_x = new_center_x
@@ -21,6 +23,8 @@ func _init(new_center_x, new_center_y, new_size, new_density, new_randomness, ne
 	scatter_layer = new_scatter_layer
 	height_layer = new_height_layer
 	condition = new_condition
+	
+	rng.seed = new_center_x + new_center_y
 
 
 # TODO: Make the random locations deterministic by using a custom RNG object
@@ -47,9 +51,9 @@ func get_object_locations():
 	for x in range(0, size, 1.0 / density):
 		for y in range(0, size, 1.0 / density):
 			var candidate = Vector3(
-				x + (1.0 / density) * randf() * randomness,
+				x + (1.0 / density) * rng.randf_range(-0.5, 0.5) * randomness,
 				0.0,
-				y + (1.0 / density) * randf() * randomness
+				y + (1.0 / density) * rng.randf_range(-0.5, 0.5) * randomness
 			)
 			
 			var value_here = validation_image.get_pixel(
