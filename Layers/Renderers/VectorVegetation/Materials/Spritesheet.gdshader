@@ -40,7 +40,11 @@ varying flat float random_instance_factor;
 varying flat float is_detailed;
 varying float vertex_distance_from_zero;
 
+uniform float scale_factor = 1.0;
+
 void vertex() {
+	VERTEX *= scale_factor;
+	
 	// Increase the width as the camera gets towards the middle between the two intersecting planes
 	// to compensate for the perspective decreasing the perceived size in that angle
 	float normal_to_camera = abs(dot(normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xz), normalize((INV_VIEW_MATRIX * vec4(0.0, 0.0, -1.0, 0.0)).xz)));
