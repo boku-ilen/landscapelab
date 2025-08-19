@@ -2,15 +2,33 @@ extends Object
 class_name ScatteredLocationsGetter
 
 
-var center_x
-var center_y
-var size
-var density
-var randomness
-var scatter_layer
-var height_layer
-var condition
+# Map-space coordinates of the center of this chunk
+var center_x: int
+var center_y: int
 
+# Size of the chunk (length of the rectangle's sides), in meters
+var size: float
+
+# How many objects should be placed per meter
+# For example, 0.5 would place one object every 2 meters
+var density: float
+
+# How much we should randomly deviate from a coordinate-aligned grid
+# 0.0 means no deviation (perfect grid), 1.0 means full random deviation
+var randomness: float
+
+# Layer containing the values to compare against with the `condition`
+var scatter_layer: GeoRasterLayer
+
+# Layer containing the y-coordinate-values for the placed objects
+var height_layer: GeoRasterLayer
+
+# Condition which the `scatter_layer` must fulfill in order for an object to be placed there.
+# * matches zero or more arbitrary characters.
+# ? matches any single character except a period.
+var condition: String
+
+# Own RNG in order to get deterministic results each time the chunk is loaded
 var rng = RandomNumberGenerator.new()
 
 

@@ -69,7 +69,8 @@ func create_multimeshes():
 			mesh_name_to_mmi[object_name] = mmi
 			
 			# For debugging:
-			mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
+			if OS.is_debug_build():
+				mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
 			
 			add_child(mmi)
 
@@ -114,12 +115,6 @@ func override_build(center_x, center_y):
 		
 		var object_locations = location_getter.get_object_locations()
 		
-		# FIXME: Get scale based on other layer?
-		#var instance_scale = feature.get_attribute("height1").to_float() * 1.3
-		
-		#if instance_scale < 1.0: continue
-		#elif instance_scale < 5.0 and not is_detailed: continue
-
 		for location in object_locations:
 			mesh_name_to_transforms[object_name].append(Transform3D()
 					# FIXME: Make rotation optional
