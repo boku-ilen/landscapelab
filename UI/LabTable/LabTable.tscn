@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=53 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" uid="uid://ylwjxiuxk7ef" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -39,6 +39,7 @@
 [ext_resource type="Texture2D" uid="uid://1gxcd6oo0in1" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/moon.svg" id="27_elhq0"]
 [ext_resource type="Texture2D" uid="uid://uuqtyv3ffdfj" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/cloudy.svg" id="28_b1lmo"]
 [ext_resource type="Texture2D" uid="uid://bdw0osv1mm0qr" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/rainy.svg" id="29_76klx"]
+[ext_resource type="Script" uid="uid://dwacadyiruclp" path="res://UI/LabTable/SpecificGameModeButtons.gd" id="29_sid1k"]
 [ext_resource type="Texture2D" uid="uid://b1fy3xneoa2h5" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/thunderstorm.svg" id="30_0vbkr"]
 [ext_resource type="Texture2D" uid="uid://ba1a3pe34nnto" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/now.svg" id="31_3y1be"]
 [ext_resource type="Texture2D" uid="uid://ohib05kii4bp" path="res://Resources/Icons/ModernLandscapeLab/roof_pv.svg" id="40_slfp8"]
@@ -79,6 +80,7 @@ script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
+debug_mode = true
 run_brick_detection = false
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
@@ -350,6 +352,10 @@ action_mode = 0
 icon = ExtResource("19_xgrje")
 flat = true
 script = ExtResource("20_12202")
+
+[node name="SpecificGameModeButtons" type="HBoxContainer" parent="GameModeMarginContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("29_sid1k")
 
 [node name="CenterContainer2" type="CenterContainer" parent="."]
 anchors_preset = 3

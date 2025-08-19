@@ -22,6 +22,7 @@ var current_game_mode: GameMode :
 
 
 var game_modes: Array[GameMode] = []
+var game_mode_names_to_objects: Dictionary[String, GameMode] = {}
 
 var _next_game_object_id := 0
 var _game_objects = {}
@@ -107,6 +108,14 @@ func activate_next_game_mode():
 	#if current_game_mode_idx >= game_modes.size() - 1: return
 	
 	current_game_mode = game_modes[(current_game_mode_idx + 1) % game_modes.size()]
+
+
+func activate_game_mode_by_name(game_mode_name: String):
+	if not game_mode_name in game_mode_names_to_objects:
+		logger.error("No game mode with the name %s exists!" % [game_mode_name])
+		return
+	
+	current_game_mode = game_mode_names_to_objects[game_mode_name]
 
 
 func _on_score_changed(score):
