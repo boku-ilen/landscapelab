@@ -7,7 +7,7 @@ signal new_active(layer_def: LayerDefinition)
 
 
 func _ready() -> void:
-	pressed.connect(func(): $LayersPanel.visible = !$LayersPanel.visible)
+	toggled.connect($LayersPanel.set_visible)
 	Layers.new_layer_definition.connect(_setup_layer_def)
 	for layer_def in Layers.layer_definitions.values():
 		_setup_layer_def(layer_def)

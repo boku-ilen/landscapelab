@@ -1,39 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfs8w5yeraydb"]
+[gd_scene load_steps=3 format=3 uid="uid://cfs8w5yeraydb"]
 
 [ext_resource type="Texture2D" uid="uid://ohib05kii4bp" path="res://Resources/Icons/ModernLandscapeLab/roof_pv.svg" id="1_288qh"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_288qh"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2lvv"]
-content_margin_left = 3.0
-bg_color = Color(1, 1, 1, 0)
-corner_radius_top_left = 500
-corner_radius_top_right = 500
-corner_radius_bottom_right = 500
-corner_radius_bottom_left = 500
-shadow_color = Color(0.388235, 0.831373, 0, 0.705882)
-shadow_size = 6
-shadow_offset = Vector2(1.3, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_288qh"]
-content_margin_left = 3.0
-bg_color = Color(1, 1, 1, 0)
-border_color = Color(0.623529, 0.623529, 0.623529, 1)
-corner_radius_top_left = 500
-corner_radius_top_right = 500
-corner_radius_bottom_right = 500
-corner_radius_bottom_left = 500
-shadow_color = Color(0, 0, 0, 0.160784)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3tjp1"]
-bg_color = Color(1, 1, 1, 0)
-corner_radius_top_left = 500
-corner_radius_top_right = 500
-corner_radius_bottom_right = 500
-corner_radius_bottom_left = 500
-shadow_color = Color(0, 0, 0, 0.160784)
-shadow_size = 1
-shadow_offset = Vector2(3, 0)
+[ext_resource type="Theme" uid="uid://bmrrl65wn4876" path="res://UI/Theme/TableButton.tres" id="1_p2lvv"]
 
 [node name="LayerToggleButton" type="Button"]
 anchors_preset = 8
@@ -49,10 +17,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/focus = SubResource("StyleBoxEmpty_288qh")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_p2lvv")
-theme_override_styles/hover = SubResource("StyleBoxFlat_288qh")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_p2lvv")
-theme_override_styles/normal = SubResource("StyleBoxFlat_3tjp1")
+theme = ExtResource("1_p2lvv")
 toggle_mode = true
 icon = ExtResource("1_288qh")
