@@ -34,6 +34,7 @@ static var deserialization_lookup = {
 				attribute = get_geolayer_from_path(abs_path, attribute, "GeoFeatureLayer")
 			return attribute,
 	"Texture": func(attribute, abs_path, serializer): return load(attribute),
+	"Texture2D": func(attribute, abs_path, serializer): return load(attribute),
 	"Gradient": 
 		func(attribute, abs_path, serializer):
 			if not attribute in ColorRamps.gradients:
