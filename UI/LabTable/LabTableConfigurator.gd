@@ -37,14 +37,6 @@ func load_table_config() -> void:
 func _load_layers(path: String, table_config: Dictionary):
 	var base_path = get_setting("config-path")
 	for definition_name in table_config["LayerDefinitions"].keys():
-		var attributes_config = table_config["LayerDefinitions"][definition_name]["attributes"]
-		var type = table_config["LayerDefinitions"][definition_name]["type"]
-		match type:
-			"Raster": type = LayerDefinition.TYPE.RASTER
-			"Feature": type = LayerDefinition.TYPE.FEATURE
-			_: logger.error(
-				"LayerDefinition %s: wrong type in config (expected <Raster/Feature>, got %s)" %
-				[definition_name, type])
 		
 		var layer_definition = LayerDefinitionSerializer.deserialize(
 			base_path,
@@ -75,5 +67,3 @@ func _load_game_ui(path: String, table_config: Dictionary):
 			# Check if it is already active and connect to signal
 			toggle_button.set_pressed(goc.active)
 			toggle_button.toggled.connect(goc.toggle)
-
-	

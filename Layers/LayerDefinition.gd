@@ -2,6 +2,7 @@ extends Resource
 class_name LayerDefinition
 
 
+var group: LayerResourceGroup = null
 var crs_from:=3857
 var name: String
 
@@ -19,7 +20,6 @@ class LayerCompositionReference extends AbstractLayerSerializer.SerializationWra
 	
 	static func get_class_name():
 		return "LayerCompositionReference"
-
 
 class RenderInfo:
 	signal z_index_changed(index)

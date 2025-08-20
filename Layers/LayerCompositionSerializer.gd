@@ -8,11 +8,11 @@ func _init() -> void:
 # override default arg
 static func deserialize(
 		abs_path: String, composition_name: String, 
-		type: Variant, attributes: Dictionary, 
+		data: Dictionary, 
 		layer_composition := LayerComposition.new(),
 		serializer = LayerCompositionSerializer) -> Variant:
 	
-	return super.deserialize(abs_path, composition_name, type, attributes, layer_composition, serializer)
+	return super.deserialize(abs_path, composition_name, data, layer_composition, serializer)
 
 
 static func get_render_info_from_config(type: String, layer_resource: Resource) -> RefCounted:

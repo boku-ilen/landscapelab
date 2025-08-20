@@ -8,11 +8,11 @@ func _init() -> void:
 # override default arg
 static func deserialize(
 		abs_path: String, definition_name: String, 
-		type: Variant, attributes: Dictionary, 
+		data: Dictionary, 
 		layer_definition := LayerDefinition.new(),
 		serializer = LayerDefinitionSerializer) -> Variant:
 	
-	return super.deserialize(abs_path, definition_name, type, attributes, layer_definition, serializer)
+	return super.deserialize(abs_path, definition_name, data, layer_definition, serializer)
 
 
 static func get_render_info_from_config(type: Variant, layer_resource: Resource) -> RefCounted:
@@ -28,3 +28,12 @@ static func dictify(layer_resource: Variant, attributes: Dictionary) -> Dictiona
 			"attributes": attributes
 		}
 	}
+
+
+static func interpret_type(type: String, name: String):
+	match type:
+		"Raster": return LayerDefinition.TYPE.RASTER
+		"Feature": return LayerDefinition.TYPE.FEATURE
+		_: logger.error(
+			"LayerDefinition %s: wrong type in config (expected <Raster/Feature>, got %s)" %
+			[name, type])

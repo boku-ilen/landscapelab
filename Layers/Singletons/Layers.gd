@@ -8,8 +8,12 @@ var current_center := Vector3.ZERO
 var geo_layers: Dictionary = { "rasters": {}, "features": {}}
 var layer_compositions: Dictionary
 var layer_definitions: Dictionary
+var layer_groups: Dictionary
+
+var was_loaded: bool = false
 
 signal applied_crs(crs)
+signal new_layer_group(layer_group)
 signal new_rendered_layer_composition(layer_composition)
 signal new_scored_layer_composition(layer_composition)
 signal new_layer_composition(layer_composition)
@@ -44,6 +48,12 @@ func get_rendered_layer_compositions():
 	return returned_layers
 
 
+func add_layer_group(layer_group: LayerResourceGroup):
+	layer_groups[layer_group.name] = layer_group
+	
+	new_layer_group.emit(layer_group)
+
+
 func add_layer_composition(layer_composition: LayerComposition):
 	layer_compositions[layer_composition.name] = layer_composition
 	
@@ -73,6 +83,7 @@ func add_geo_layer(layer: RefCounted):
 	if layer is GeoRasterLayer:
 		geo_layers["rasters"][layer.get_file_info()["name"]] = layer
 	elif layer is GeoFeatureLayer:
+		var test = layer.get_file_info()
 		geo_layers["features"][layer.get_file_info()["name"]] = layer
 	else:
 		logger.error("Added an invalid geolayer")

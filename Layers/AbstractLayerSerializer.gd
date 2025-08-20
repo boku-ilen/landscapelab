@@ -16,14 +16,14 @@ static var base_render_info = RefCounted.new()
 
 static var deserialization_lookup = {
 	"GeoRasterLayer": 
-		func(attribute, abs_path):
+		func(attribute, abs_path, serializer):
 			# easy reference to pre existing
 			if attribute in Layers.geo_layers["features"]:
 				return Layers.geo_layers["features"][attribute]
 			
 			return get_geolayer_from_path(abs_path, attribute, "GeoRasterLayer"),
 	"GeoFeatureLayer": 
-		func(attribute, abs_path):
+		func(attribute, abs_path, serializer):
 			# easy reference to pre existing
 			if attribute in Layers.geo_layers["features"]:
 				return Layers.geo_layers["features"][attribute]
@@ -33,57 +33,48 @@ static var deserialization_lookup = {
 			else:
 				attribute = get_geolayer_from_path(abs_path, attribute, "GeoFeatureLayer")
 			return attribute,
-	"Texture": func(attribute, abs_path): return load(attribute),
+	"Texture": func(attribute, abs_path, serializer): return load(attribute),
 	"Gradient": 
-		func(attribute, abs_path):
+		func(attribute, abs_path, serializer):
 			if not attribute in ColorRamps.gradients:
 				assert(false, "Not implemented yet")
 			return ColorRamps.gradients[attribute],
 	"LayerCompositionReference":
-		func(attribute, abs_path):
+		func(attribute, abs_path, serializer):
 			if not attribute in Layers.layer_compositions: 
 				logger.error("Wrong configuration, LayerComposition with name %s could not be found.")
 				return
 			
 			var reference = LayerDefinition.LayerCompositionReference.new()
 			reference.composition_name = attribute
-			return reference
+			return reference,
+	"LayerResourcesContainer":
+		func(layers_dict, abs_path, serializer):
+			var layer_resources_container = LayerResourceGroup.new()
+			for layer_name in layers_dict:
+				serializer.deserialize(abs_path, layer_name, layers_dict[layer_name])
 }
 static func deserialize(
 		abs_path: String, name: String, 
-		type: Variant, attributes: Dictionary, 
+		data: Dictionary, 
 		layer_resource, # layer is either a layer_composition or layer_definition
 		serializer): # gdscript does not support static polymorphism, we need to give the context, see https://github.com/godotengine/godot/issues/72973
+	var raw_type: String = data["type"]
+	var attributes: Dictionary = data["attributes"]
 	
+	if raw_type == "Group":
+		var group = LayerResourceGroup.new()
+		group.name = name
+		Serialization.deserialize(attributes, group, abs_path, _lookup_deserialization.bind(serializer))
+		Layers.add_layer_group(group)
+		return
+	
+	var type = serializer.interpret_type(raw_type, name)
 	layer_resource.name = name
 	layer_resource.render_info = serializer.get_render_info_from_config(type, layer_resource)
 	
-	var render_properties = {}
-	for property in layer_resource.render_info.get_property_list():
-		render_properties[property["name"]] = property
-	for property in layer_resource.ui_info.get_property_list():
-		render_properties[property["name"]] = property
-	
-	for attribute_name in attributes:
-		if not attribute_name in render_properties:
-			logger.warn("An attribute \"%s\" was found for \"%s\" in the config file, 
-				but it is not a valid property of that resource" % [attribute_name, name])
-			continue
-		
-		var config_attribute = attributes[attribute_name]
-		var render_info_attribute = render_properties[attribute_name]
-		var deserialized_attribute = config_attribute
-		
-		# See if there is a non-trivial deserialization function
-		var deserialized = _lookup_deserialization(
-			config_attribute, render_info_attribute, layer_resource, abs_path)
-		if deserialized != null: 
-			deserialized_attribute = deserialized
-		
-		if attribute_name in layer_resource.render_info:
-			layer_resource.render_info.set(attribute_name, deserialized_attribute)
-		else:
-			layer_resource.ui_info.set(attribute_name, deserialized_attribute)
+	layer_resource.render_info = Serialization.deserialize(attributes, layer_resource.render_info, abs_path, _lookup_deserialization.bind(serializer))
+	layer_resource.ui_info = Serialization.deserialize(attributes, layer_resource.ui_info, abs_path, _lookup_deserialization.bind(serializer))
 	
 	return layer_resource
 
@@ -126,25 +117,25 @@ static func serialize(layer_resource):
 	return dictify(layer_resource, attributes)
 
 
-static func _lookup_deserialization(config_attribute, render_info_attribute, layer_res, abs_path):
+static func _lookup_deserialization(config_attribute, render_info_attribute, info, abs_path, serializer):
 	# Check if it is a class name (e.g. GeoRasterLayer or GeoFeatureLayer do have as they are
 	# gdnative objects)
 	if render_info_attribute["class_name"] in deserialization_lookup:
 		var deserializer_func = deserialization_lookup[render_info_attribute["class_name"]]
-		return deserializer_func.call(config_attribute, abs_path)
+		return deserializer_func.call(config_attribute, abs_path, serializer)
 	
 	# If the to be configured attribute in the render_info is not an object, deserialization
 	# needs to be trivial, otherwise it needs to be wrapped
 	if render_info_attribute.type != TYPE_OBJECT:
 		return
-	if not layer_res.render_info.get(render_info_attribute.name) is SerializationWrapper:
+	if not info.get(render_info_attribute.name) is SerializationWrapper:
 		return
 	
 	# The lookup the class name in the lookup dictionary
-	var lookup_string = layer_res.render_info.get(render_info_attribute.name).call("get_class_name")
+	var lookup_string = info.get(render_info_attribute.name).call("get_class_name")
 	if lookup_string in deserialization_lookup:
 		var deserializer_func = deserialization_lookup[lookup_string]
-		return deserializer_func.call(config_attribute, abs_path)
+		return deserializer_func.call(config_attribute, abs_path, serializer)
 
 
 # to be implemented by sub-class
@@ -190,3 +181,7 @@ static func get_feature_layer_from_string(path_string, abs_path):
 	var db = Geodot.get_dataset(abs_file_name, write_access)
 	
 	return db.get_feature_layer(layer_name)
+
+
+static func interpret_type(type: String, name: String):
+	return type

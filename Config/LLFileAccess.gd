@@ -163,13 +163,14 @@ func apply_layers(layers: Node):
 		logger.info("Loading layer composition " + composition_name + "...")
 		
 		var composition_data = ll_project["LayerCompositions"][composition_name]
-		var type = composition_data["type"]
 		
 		var layer_composition = LayerCompositionSerializer.deserialize(
 			path, 
 			composition_name, 
-			type, 
-			composition_data["attributes"])
+			composition_data)
+		
+		if layer_composition == null:
+			continue
 		
 		layers.add_layer_composition(layer_composition)
 		layers.recalculate_center()
