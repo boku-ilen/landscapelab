@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=45 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" uid="uid://ylwjxiuxk7ef" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://dn25tsa6f10jw" path="res://Layers/Renderers/GeoLayer/GeoLayerRenderers.tscn" id="5_c4s8q"]
 [ext_resource type="Theme" uid="uid://bo8yf6woasovm" path="res://UI/Theme/LightTheme.tres" id="8_2ddb4"]
 [ext_resource type="PackedScene" uid="uid://vmfgu2mvoju5" path="res://UI/LabTable/LabTableCommunicator.tscn" id="10_wqhkf"]
-[ext_resource type="Theme" uid="uid://bmrrl65wn4876" path="res://UI/Theme/TableButton.tres" id="10_x84ob"]
 [ext_resource type="Script" uid="uid://byelbuqnbhq7u" path="res://UI/LabTable/ScoreUI.gd" id="13_a5rra"]
 [ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="13_ibx33"]
 [ext_resource type="PackedScene" uid="uid://doohlbjfy3eyn" path="res://UI/GameSystem/ScoreContributorWeightSlider.tscn" id="14_mgrxv"]
@@ -145,9 +144,6 @@ grid_container = NodePath(".")
 [node name="HBox" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer" index="1"]
 size_flags_horizontal = 4
 size_flags_vertical = 4
-
-[node name="OverviewZoom" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/HBox" index="0"]
-theme = ExtResource("10_x84ob")
 
 [node name="GridContainer" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer" index="2"]
 size_flags_horizontal = 4
@@ -299,12 +295,13 @@ theme_override_styles/panel = ExtResource("23_wb0c1")
 layout_mode = 2
 
 [node name="ColorRampSymbology" parent="GameModeMarginContainer/HBoxContainer/LayersButton" instance=ExtResource("23_5380g")]
+visible = false
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 0
-offset_left = 111.0
-offset_top = -257.0
-offset_right = 225.0
-offset_bottom = -10.0
+offset_left = 107.0
+offset_top = -243.0
+offset_right = 177.0
+offset_bottom = 4.0
 
 [node name="NextGameModeButton" parent="GameModeMarginContainer/HBoxContainer" instance=ExtResource("28_x84ob")]
 layout_mode = 2
