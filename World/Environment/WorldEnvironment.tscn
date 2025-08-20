@@ -1,60 +1,66 @@
-[gd_scene load_steps=8 format=3 uid="uid://cejf5c8oyb02b"]
+[gd_scene load_steps=12 format=3 uid="uid://cejf5c8oyb02b"]
 
 [ext_resource type="Script" uid="uid://cvmfigm70dv3y" path="res://World/Environment/WorldEnvironment.gd" id="1"]
-[ext_resource type="CompressedTexture3D" uid="uid://cwa1gsitvg31j" path="res://Resources/Textures/LUT/gritty2.png" id="1_d7nfd"]
 [ext_resource type="Sky" uid="uid://b6ffjku47471j" path="res://addons/cloud_sky/clouds_sky.tres" id="1_t6q4q"]
 [ext_resource type="Script" uid="uid://l8e462d0rtv2" path="res://addons/cloud_sky/sun_child.gd" id="3_5em3b"]
+[ext_resource type="Shader" uid="uid://ddnilaw76vnbu" path="res://World/Environment/LensFlare.gdshader" id="6_d7nfd"]
 [ext_resource type="PackedScene" uid="uid://b5nxph2mew1en" path="res://World/Environment/Rain/Rain.tscn" id="6_wusnq"]
 [ext_resource type="PackedScene" uid="uid://cib4g5bstb1xa" path="res://World/Environment/Lightning.tscn" id="7_canqr"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="7_y8fda"]
 
 [sub_resource type="Environment" id="2"]
 background_mode = 2
-background_energy_multiplier = 3.0
 sky = ExtResource("1_t6q4q")
-ambient_light_source = 3
-ambient_light_color = Color(0.835294, 0.858824, 1, 1)
-ambient_light_sky_contribution = 0.09
 tonemap_mode = 4
 ssr_enabled = true
 ssr_max_steps = 512
 ssao_enabled = true
 ssao_radius = 2.0
-ssao_intensity = 5.0
 ssao_power = 2.0
 ssao_light_affect = 0.5
 ssao_ao_channel_affect = 1.0
-ssil_intensity = 2.0
+ssil_enabled = true
 glow_enabled = true
-glow_bloom = 0.2
+glow_bloom = 0.1
+glow_blend_mode = 1
 fog_enabled = true
 fog_aerial_perspective = 1.0
 fog_sky_affect = 0.0
-adjustment_enabled = true
-adjustment_color_correction = ExtResource("1_d7nfd")
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_d7nfd"]
+auto_exposure_enabled = true
+auto_exposure_scale = 0.5
+auto_exposure_min_exposure_value = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d7nfd"]
+render_priority = 0
+shader = ExtResource("6_d7nfd")
+shader_parameter/sun_position = Vector2(0, 0)
+shader_parameter/tint = Vector3(1.4, 1.2, 1)
+shader_parameter/intensity = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_y8fda"]
+flip_faces = true
+size = Vector2(2, 2)
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("2")
+camera_attributes = SubResource("CameraAttributesPhysical_d7nfd")
 script = ExtResource("1")
 
-[node name="SkyLight" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.551075, -0.830715, 0.0789277, -0.696749, -0.406023, 0.591337, -0.459179, -0.380854, -0.802565, 0, 0, 0)
-layers = 55
-light_bake_mode = 0
-directional_shadow_blend_splits = true
-directional_shadow_max_distance = 500.0
-sky_mode = 2
-
-[node name="WorldLight" type="DirectionalLight3D" parent="SkyLight"]
+[node name="WorldLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.551078, -0.830713, 0.0789232, -0.696753, -0.406032, 0.591332, -0.459182, -0.38086, -0.802557, 0, 0, 0)
 layers = 34679
-light_color = Color(1, 0.995, 0.85, 1)
-light_energy = 4.0
+light_temperature = 6000.0
 light_bake_mode = 0
 shadow_enabled = true
+shadow_bias = 0.025
+directional_shadow_split_1 = 0.05
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 1500.0
-sky_mode = 1
 
-[node name="SunChild" type="Node3D" parent="SkyLight"]
+[node name="SunChild" type="Node3D" parent="WorldLight"]
+transform = Transform3D(1, 4.47035e-08, 0, -1.49012e-08, 1, 0, -2.98023e-08, -2.98023e-08, 1, 0, 0, 0)
 script = ExtResource("3_5em3b")
 
 [node name="Rain" parent="." instance=ExtResource("6_wusnq")]
@@ -62,3 +68,10 @@ enabled = false
 
 [node name="Lightning" parent="." instance=ExtResource("7_canqr")]
 visible = false
+
+[node name="LensFlare" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_d7nfd")
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_y8fda")
+
+[node name="PSUGatherer" parent="LensFlare" instance=ExtResource("7_y8fda")]

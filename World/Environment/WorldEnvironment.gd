@@ -1,9 +1,6 @@
 extends WorldEnvironment
 
-# Diffuse and specular
-@onready var light: DirectionalLight3D = get_node("SkyLight/WorldLight")
-# Ambient and sky
-@onready var sky_light: DirectionalLight3D = get_node("SkyLight")
+@onready var light: DirectionalLight3D = get_node("WorldLight")
 
 var wind_speed = 0
 var wind_direction = 0
@@ -17,8 +14,25 @@ var current_target_light_rotation: Vector3
 var current_target_light_energy: float
 
 
+func _process(delta: float) -> void:
+	var camera = get_viewport().get_camera_3d()
+	var relative_sun_position = camera.global_position + light.global_transform.basis.z * 10.0
+	
+	# Pass the sun position to the lens flare
+	$LensFlare.material_override.set_shader_parameter(
+		"sun_position",
+		camera.unproject_position(relative_sun_position) / get_viewport().get_visible_rect().size
+	)
+	
+	# Scale the lens flare by the sun intensity, and make sure it's disabled if the sun is behind the player
+	$LensFlare.material_override.set_shader_parameter("intensity",
+		(light.light_intensity_lux / 120000)\
+		 * float(not camera.is_position_behind(relative_sun_position))
+	)
+
+
 func _physics_process(delta: float) -> void:
-	sky_light.rotation = lerp(sky_light.rotation, current_target_light_rotation, 0.01)
+	light.rotation = lerp(light.rotation, current_target_light_rotation, 0.01)
 	apply_light_energy()
 
 
@@ -93,27 +107,32 @@ func apply_datetime(datetime: Dictionary):
 func apply_light_energy():
 	# Directional light energy is 0 when cloud coverage is maximized
 	var cloud_coverage = environment.sky.cloud_coverage
-	var directional_energy = brightest_light_energy - remap(cloud_coverage, 0, 1, 0, brightest_light_energy * 0.8)
+	
+	var new_light_intensity = lerp(120000, 0, cloud_coverage)
+	var new_light_temperature = lerp(5500, 6500, cloud_coverage)
 	
 	# Lower light quickly in the beginning when coverage/density are higher
 	# and lower light slower in the end (sqrt-curve-function), vice versa for ssao
 	var sqrt_cloud_cov = sqrt(cloud_coverage)
-	environment.background_energy_multiplier = 3.0 - sqrt_cloud_cov
 	environment.ssao_intensity = 3.0 + remap(sqrt_cloud_cov, 0, 1, 0, 5)
 	
-	var altitude = rad_to_deg(-sky_light.rotation.x)
+	var altitude = rad_to_deg(-light.rotation.x)
 	
 	# Light is more intensely yellow in the morning and evening
-	light.light_color.s = clamp(remap(abs(altitude), 5.0, 35.0, 0.4, 0.05), 0.05, 0.4)
+	#light.light_color.s = clamp(remap(abs(altitude), 5.0, 35.0, 0.4, 0.05), 0.05, 0.4)
 	
 	# Sunrise/sunset
 	if altitude < light_darken_begin_altitude:
-		environment.ambient_light_energy = inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude)
-		_set_directional_light_energy(directional_energy * 
-			inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude))
+		var altitude_factor = inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude)
+		environment.ambient_light_energy = altitude_factor
+		new_light_intensity *= inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude)
+		
+		new_light_temperature = lerp(1850.0, new_light_temperature, altitude_factor)
 	else:
-		_set_directional_light_energy(directional_energy)
 		environment.ambient_light_energy = 1.0 + remap(cloud_coverage, 0, 1, 0.0, 0.5)
+	
+	light.light_intensity_lux = new_light_intensity
+	light.light_temperature = new_light_temperature
 
 
 func _set_directional_light_energy(new_energy):
