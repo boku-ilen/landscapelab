@@ -17,11 +17,8 @@ func _setup_layer_def(layer_def: LayerDefinition):
 	if not layer_def.ui_info.as_table_button:
 		return
 	
-	var button = Button.new()
-	# TODO: is this still necessary?
-	button.set_script(load("res://UI/LabTable/TableButton.gd"))
+	var button = preload("res://UI/LabTable/TableToggleButton.tscn").instantiate()
 	button.icon = layer_def.ui_info.icon
-	button.toggle_mode = true
 	button.toggled.connect(func(pressed: bool):
 		_toggle_z_index(layer_def, pressed)
 		if pressed:

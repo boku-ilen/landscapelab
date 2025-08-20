@@ -3,6 +3,7 @@ extends Configurator
 
 @export var table_communicator: Node
 @export var renderers: Node2D
+@export var game_ui: Control
 
 var has_loaded = false
 
@@ -28,6 +29,9 @@ func load_table_config() -> void:
 	get_parent().geo_transform.set_transform(3857, config["Meta"]["crs"])
 	
 	_load_layers(path, table_config)
+	_load_game_ui(path, table_config)
+	
+	logger.info("LabTable has been setup")
 
 
 func _load_layers(path: String, table_config: Dictionary):
@@ -45,13 +49,31 @@ func _load_layers(path: String, table_config: Dictionary):
 		var layer_definition = LayerDefinitionSerializer.deserialize(
 			base_path,
 			definition_name,
-			type,
-			attributes_config)
+			table_config["LayerDefinitions"][definition_name])
 			
 		Layers.add_layer_definition(layer_definition)
-	
-	logger.info("LabTable has been setup")
 
 
+func _load_game_ui(path: String, table_config: Dictionary):
+	for goc_name in table_config["GameUI"].keys():
+		# Find game mode that contains the goc
+		var relevant_game_mode = GameSystem.game_modes.filter(func(game_mode: GameMode): 
+			return goc_name in game_mode.game_object_collections
+		)[0]
+		var goc = relevant_game_mode.game_object_collections[goc_name]
+		
+		if goc is ToggleGameObjectCollection:
+			var toggle_button: Button = preload("res://UI/LabTable/TableToggleButton.tscn").instantiate()
+			game_ui.add_child(toggle_button)
+			
+			# Check if goc is in the current game mode otherwise hide and connect to signal
+			var is_relevant_game_mode = func():
+				toggle_button.visible = GameSystem.current_game_mode == relevant_game_mode
+			is_relevant_game_mode.call()
+			GameSystem.game_mode_changed.connect(is_relevant_game_mode)
+			
+			# Check if it is already active and connect to signal
+			toggle_button.set_pressed(goc.active)
+			toggle_button.toggled.connect(goc.toggle)
 
 	

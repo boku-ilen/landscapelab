@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=44 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" uid="uid://ylwjxiuxk7ef" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -37,10 +37,6 @@
 [ext_resource type="Texture2D" uid="uid://bdw0osv1mm0qr" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/rainy.svg" id="29_76klx"]
 [ext_resource type="Texture2D" uid="uid://b1fy3xneoa2h5" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/thunderstorm.svg" id="30_0vbkr"]
 [ext_resource type="Texture2D" uid="uid://ba1a3pe34nnto" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/now.svg" id="31_3y1be"]
-[ext_resource type="Texture2D" uid="uid://ohib05kii4bp" path="res://Resources/Icons/ModernLandscapeLab/roof_pv.svg" id="40_slfp8"]
-[ext_resource type="Script" uid="uid://csx2vkf67ss1u" path="res://UI/LabTable/RoofPV.gd" id="41_wsk5n"]
-[ext_resource type="Texture2D" uid="uid://cy1d4q6oyarvh" path="res://Resources/Icons/ModernLandscapeLab/park_pv.svg" id="42_65qsu"]
-[ext_resource type="Script" uid="uid://fqi2nfcjd6pf" path="res://UI/LabTable/ParkPV.gd" id="42_wsk5n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
@@ -183,8 +179,9 @@ border_width = 250.0
 [node name="LabTableMarkers" type="Node2D" parent="LabTable/LabTableCommunicator"]
 script = ExtResource("15_j8x0r")
 
-[node name="LabTableConfigurator" parent="LabTable" node_paths=PackedStringArray("renderers") instance=ExtResource("15_esmpk")]
+[node name="LabTableConfigurator" parent="LabTable" node_paths=PackedStringArray("renderers", "game_ui") instance=ExtResource("15_esmpk")]
 renderers = NodePath("../SubViewportContainer/SubViewport/GeoLayerRenderers")
+game_ui = NodePath("../../MarginContainer/GameUI")
 
 [node name="GameModesConfigurator" parent="LabTable" instance=ExtResource("17_aru4m")]
 
@@ -281,6 +278,7 @@ script = ExtResource("20_55y0a")
 rendering_subviewport = NodePath("../../../LabTable/SubViewportContainer")
 
 [node name="LayersPanel" type="PanelContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton"]
+visible = false
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 3
@@ -398,14 +396,15 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
+offset_left = -112.0
+offset_top = -106.0
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
 [node name="AtmosphereMenu" type="Sprite2D" parent="MarginContainer"]
+position = Vector2(-34, 46)
 texture = ExtResource("28_b1lmo")
 script = ExtResource("23_5pqbs")
 
@@ -485,17 +484,8 @@ texture_hover = ExtResource("31_3y1be")
 texture_disabled = ExtResource("31_3y1be")
 texture_focused = ExtResource("31_3y1be")
 
-[node name="RoofPV" type="Sprite2D" parent="MarginContainer"]
-visible = false
-position = Vector2(0, -87.5)
-texture = ExtResource("40_slfp8")
-script = ExtResource("41_wsk5n")
-
-[node name="ParkPV" type="Sprite2D" parent="MarginContainer"]
-visible = false
-position = Vector2(0, -175)
-texture = ExtResource("42_65qsu")
-script = ExtResource("42_wsk5n")
+[node name="GameUI" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
 
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
 [editable path="Panel/CenterContainer/ScoreContributorWeightSlider"]
