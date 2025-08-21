@@ -18,6 +18,8 @@ var current_game_mode: GameMode :
 		current_game_mode.connect("score_changed",Callable(self,"_on_score_changed"))
 		current_game_mode.connect("score_target_reached",Callable(self,"_on_score_target_changed"))
 		
+		current_game_mode.activate()
+		
 		game_mode_changed.emit()
 
 
@@ -29,7 +31,7 @@ var _game_objects = {}
 var save_dir := "saves-test"
 var user_save_dir := "user://%s" % [save_dir]
 
-var was_loaded: bool = true
+var was_loaded: bool = false
 
 signal score_changed(score)
 signal score_target_reached(score)

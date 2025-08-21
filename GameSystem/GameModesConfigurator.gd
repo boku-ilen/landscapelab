@@ -100,7 +100,32 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 			if "min_cluster_size" in collection: collection_object.min_cluster_size = collection["min_cluster_size"]
 			if "max_cluster_size" in collection: collection_object.max_cluster_size = collection["max_cluster_size"]
 			if "default_cluster_size" in collection: collection_object.default_cluster_size = collection["default_cluster_size"]
-
+		elif type == "GameObjectClusterFromZonesCollection":
+			var cluster_centroid_layer = LayerCompositionSerializer.get_feature_layer_from_string(
+				collection["cluster_centroid_layer"],
+				path
+			)
+			var cluster_points_layer = LayerCompositionSerializer.get_feature_layer_from_string(
+				collection["cluster_points_layer"],
+				path
+			)
+			
+			var insert_goc = game_mode.game_object_collections[collection["insert_goc"]]
+			var good_zone_goc = game_mode.game_object_collections[collection["good_zone_goc"]]
+			var bad_zone_goc = game_mode.game_object_collections[collection["bad_zone_goc"]]
+			
+			var target_score_name = collection["target_score"]
+			
+			collection_object = game_mode.add_cluster_from_zones_game_object_collection(
+				collection_name,
+				layer,
+				cluster_centroid_layer,
+				cluster_points_layer,
+				good_zone_goc,
+				bad_zone_goc,
+				insert_goc,
+				target_score_name
+			)
 
 var mapping_type_to_construction_func = {
 	"ImplicitVectorGameObjectAttribute": func(_name, data):
