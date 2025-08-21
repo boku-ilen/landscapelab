@@ -15,13 +15,11 @@ var layer_resource_group: LayerResourceGroup
 
 func _ready():
 	_reload()
-	
-	
 	visibility_button.toggled.connect(layer_resource_group.set_is_visible)
+	layer_resource_group.visibility_changed.connect(visibility_button.set_pressed_no_signal)
+
 
 func _reload():
-	#$VBox/RightContainer/Icon.texture = 
-	
 	if layer_resource_group != null:
 		layer_group_name.text = layer_resource_group.name
 		tooltip_text = layer_resource_group.name
