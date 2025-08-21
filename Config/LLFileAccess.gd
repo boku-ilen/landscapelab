@@ -169,7 +169,7 @@ func apply_layers(layers: Node):
 			composition_name, 
 			composition_data)
 		
-		if layer_composition == null:
+		if layer_composition == null or not layer_composition is LayerComposition:
 			continue
 		
 		layers.add_layer_composition(layer_composition)

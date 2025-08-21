@@ -49,11 +49,18 @@ static var deserialization_lookup = {
 			var reference = LayerDefinition.LayerCompositionReference.new()
 			reference.composition_name = attribute
 			return reference,
-	"LayerResourcesContainer":
+	"LayerResourceContainer":
 		func(layers_dict, abs_path, serializer):
-			var layer_resources_container = LayerResourceGroup.new()
+			var layer_resources_container = LayerResourceGroup.LayerResourceContainer.new()
 			for layer_name in layers_dict:
-				serializer.deserialize(abs_path, layer_name, layers_dict[layer_name])
+				var l = serializer.deserialize(abs_path, layer_name, layers_dict[layer_name])
+				layer_resources_container.container.append(l)
+				if l is LayerComposition: 
+					Layers.add_layer_composition(l)
+				elif l is LayerDefinition: 
+					Layers.add_layer_definition(l)
+				
+			return layer_resources_container
 }
 static func deserialize(
 		abs_path: String, name: String, 
@@ -63,12 +70,15 @@ static func deserialize(
 	var raw_type: String = data["type"]
 	var attributes: Dictionary = data["attributes"]
 	
+	# TODO: we could potentially refactor this in away that serialization is fully independent
+	# of the underlying type. This would require a major restructure of the config however.
 	if raw_type == "Group":
-		var group = LayerResourceGroup.new()
+		var group := LayerResourceGroup.new()
 		group.name = name
-		Serialization.deserialize(attributes, group, abs_path, _lookup_deserialization.bind(serializer))
+		group = Serialization.deserialize(attributes, group, abs_path, _lookup_deserialization.bind(serializer))
+		group.layer_resources.container.map(func(lr): lr.group = group)
 		Layers.add_layer_group(group)
-		return
+		return group
 	
 	var type = serializer.interpret_type(raw_type, name)
 	layer_resource.name = name

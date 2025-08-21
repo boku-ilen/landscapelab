@@ -66,10 +66,11 @@ func _delete_layer_composition():
 
 
 func _on_layer_select(event: InputEvent, layer_composition_widget):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:# and event.pressed:
-			selected_layer_composition = layer_composition_widget
-			emit_signal("new_layer_selected", layer_composition_widget.layer_composition)
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if not "layer_composition" in layer_composition_widget:
+			return
+		selected_layer_composition = layer_composition_widget
+		emit_signal("new_layer_selected", layer_composition_widget.layer_composition)
 
 
 func _setup_filters():

@@ -6,14 +6,13 @@ class_name LayerComposition
 # Does caching and some logic, is the basic resource for all other scenes that work with layers
 # 
 
+var group: LayerResourceGroup
 
 var is_scored: bool = false
-var is_visible: bool = true :
-	get:
-		return is_visible
-	set(visible):
-		is_visible = visible
-		emit_signal("visibility_changed", is_visible)
+func set_is_visible(new_is_visible: bool):
+	is_visible = new_is_visible
+	visibility_changed.emit(is_visible)
+var is_visible: bool = true : set=set_is_visible
 
 var name: String = "Not set"
 

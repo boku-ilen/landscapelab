@@ -6,9 +6,17 @@ class LayerResourceContainer extends AbstractLayerSerializer.SerializationWrappe
 	var container := []
 	
 	static func get_class_name():
-		return "LayerCompositionReference"
+		return "LayerResourceContainer"
 
+signal visibility_changed(visible)
 
+var is_visible: bool = true : set=set_is_visible
 var name: String
 var group: LayerResourceGroup
 var layer_resources := LayerResourceContainer.new()
+
+
+func set_is_visible(new_is_visible: bool):
+	is_visible = new_is_visible
+	layer_resources.container.map(func(l): l.is_visible = new_is_visible)
+	visibility_changed.emit()

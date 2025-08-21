@@ -14,7 +14,7 @@
 [node name="LayerCompositionWidget" type="VBoxContainer"]
 offset_left = 343.0
 offset_right = 655.0
-offset_bottom = 30.0
+offset_bottom = 38.0
 focus_mode = 1
 theme = ExtResource("7")
 script = ExtResource("1")
@@ -39,8 +39,9 @@ color = Color(1, 1, 1, 0)
 [node name="VisibilityButton" type="TextureButton" parent="VBox/RightContainer/VisibilityBox"]
 layout_mode = 2
 toggle_mode = true
-texture_normal = ExtResource("10")
-texture_pressed = ExtResource("3")
+button_pressed = true
+texture_normal = ExtResource("3")
+texture_pressed = ExtResource("10")
 
 [node name="VSeparator" type="VSeparator" parent="VBox/RightContainer"]
 layout_mode = 2
@@ -107,12 +108,15 @@ script = ExtResource("2")
 [node name="ObjectMenu" type="PopupMenu" parent="VBox/EditMenu"]
 
 [node name="GeoLayers" type="Tree" parent="."]
-custom_minimum_size = Vector2(0, 10)
+visible = false
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 0
 mouse_filter = 1
 theme_override_styles/focus = SubResource("StyleBoxEmpty_gihmj")
-allow_reselect = true
+allow_search = false
+enable_recursive_folding = false
+scroll_horizontal_enabled = false
+scroll_vertical_enabled = false
 
 [node name="HSeparator" type="HSeparator" parent="."]
 layout_mode = 2
