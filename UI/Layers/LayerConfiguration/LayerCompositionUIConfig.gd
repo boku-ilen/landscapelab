@@ -44,6 +44,10 @@ func remove_layer_composition_widget(layer_composition_name: String):
 
 
 func add_layer_group_widget(layer_group: LayerResourceGroup):
+	# Could be for layerdefinitions
+	if layer_group.layer_resources.container.any(func(lr): return not lr is LayerComposition):
+		return
+	
 	var new_layer_group = group_widget_res.instantiate()
 	new_layer_group.layer_resource_group = layer_group
 	new_layer_group.name = layer_group.name

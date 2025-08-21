@@ -280,28 +280,25 @@ script = ExtResource("20_55y0a")
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.248
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -2.0
-offset_top = -264.848
-offset_right = 11.0
-offset_bottom = -24.0
-grow_horizontal = 0
+offset_left = -4.0
+offset_top = -345.0
+offset_right = 90.0
+offset_bottom = 14.0
 grow_vertical = 0
 theme_override_styles/panel = ExtResource("23_wb0c1")
 
-[node name="Content" type="VBoxContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
-[node name="ColorRampSymbology" parent="GameModeMarginContainer/HBoxContainer/LayersButton" instance=ExtResource("23_5380g")]
+[node name="Content" type="VBoxContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="ColorRampSymbology" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/HBoxContainer" instance=ExtResource("23_5380g")]
 visible = false
 custom_minimum_size = Vector2(0, 200)
-layout_mode = 0
-offset_left = 107.0
-offset_top = -243.0
-offset_right = 177.0
-offset_bottom = 4.0
+layout_mode = 2
 
 [node name="NextGameModeButton" parent="GameModeMarginContainer/HBoxContainer" instance=ExtResource("28_x84ob")]
 layout_mode = 2

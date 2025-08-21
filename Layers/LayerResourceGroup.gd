@@ -12,6 +12,7 @@ signal visibility_changed(visible)
 
 var is_visible: bool = true : set=set_is_visible
 var name: String
+var icon: Texture
 var group: LayerResourceGroup
 var layer_resources := LayerResourceContainer.new()
 

@@ -42,8 +42,9 @@ func _load_layers(path: String, table_config: Dictionary):
 			base_path,
 			definition_name,
 			table_config["LayerDefinitions"][definition_name])
-			
-		Layers.add_layer_definition(layer_definition)
+		
+		if layer_definition is LayerDefinition:
+			Layers.add_layer_definition(layer_definition)
 
 
 func _load_game_ui(path: String, table_config: Dictionary):
