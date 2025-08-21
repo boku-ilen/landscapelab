@@ -165,7 +165,6 @@ custom_minimum_size = Vector2(90, 90)
 visible = false
 
 [node name="SubViewport" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer" index="0"]
-size = Vector2i(300, 300)
 render_target_update_mode = 0
 
 [node name="ReferenceRect" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport" index="2"]
