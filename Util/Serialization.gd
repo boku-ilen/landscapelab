@@ -1,8 +1,8 @@
 extends Object
 class_name Serialization
 
-
-static func deserialize(attributes: Dictionary, object: RefCounted, absolute_path: String, look_up_funtion := Callable(func(): return)):
+static var empty_callable := Callable(func(): return)
+static func deserialize(attributes: Dictionary, object: Object, absolute_path: String, look_up_funtion := empty_callable):
 	var named_properties = {}
 	for property in object.get_property_list():
 		named_properties[property["name"]] = property
@@ -18,7 +18,7 @@ static func deserialize(attributes: Dictionary, object: RefCounted, absolute_pat
 		var deserialized_attribute = config_attribute
 		
 		# See if there is a non-trivial deserialization function
-		if look_up_funtion != Callable(func(): return):
+		if look_up_funtion != empty_callable:
 			var deserialized = look_up_funtion.call(
 				config_attribute, attribute, object, absolute_path)
 			if deserialized != null: 
