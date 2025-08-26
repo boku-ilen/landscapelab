@@ -169,6 +169,9 @@ func apply_layers(layers: Node):
 			composition_name, 
 			composition_data)
 		
+		# TODO: layer-compositions and layer-groups may appear under the same section
+		# in some cases, the returned value of the deserialization thus is not of class
+		# LayerComposition, refer to https://github.com/boku-ilen/landscapelab/issues/362
 		if layer_composition == null or not layer_composition is LayerComposition:
 			continue
 		
