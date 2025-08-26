@@ -21,17 +21,14 @@ signal translate_to_layer(x, z)
 func _ready():
 	_reload()
 	
-	edit_button.connect("pressed",Callable(self,"_pop_edit"))
-	reload_button.connect("pressed",Callable(self,"_on_layer_reload_pressed"))
-	edit_window.connect("change_color_tag",Callable(self,"_change_color_tag"))
-	edit_window.connect("translate_to_layer",Callable(self,"_emit_translate_to_layer"))
-	visibility_button.connect("toggled",Callable(self,"_layer_change_visibility"))
-	layer_composition.connect("layer_changed",Callable(self,"_reload"))
-	$GeoLayers.connect(
-		"item_collapsed", 
-		func(treeitem: TreeItem): 
-			if treeitem.is_any_collapsed(): $GeoLayers.set_custom_minimum_size(Vector2i(0, 8))
-			else: $GeoLayers.set_custom_minimum_size(Vector2i(0, 80)))
+	edit_button.pressed.connect(_pop_edit)
+	reload_button.pressed.connect(_on_layer_reload_pressed)
+	edit_window.change_color_tag.connect(_change_color_tag)
+	edit_window.translate_to_layer.connect(_emit_translate_to_layer)
+	visibility_button.toggled.connect(layer_composition.set_is_visible)
+	layer_composition.layer_changed.connect(_reload)
+	layer_composition.visibility_changed.connect(visibility_button.set_pressed_no_signal)
+
 
 func _reload():
 	icon.texture = layer_composition.render_info.icon
@@ -69,10 +66,6 @@ func _on_layer_reload_pressed():
 
 func _change_color_tag(color: Color):
 	color_tag.color = color
-
-
-func _layer_change_visibility(is_hidden: bool):
-	layer_composition.is_visible = !is_hidden
 
 
 func _emit_translate_to_layer():

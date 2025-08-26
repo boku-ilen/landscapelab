@@ -23,29 +23,22 @@
 [ext_resource type="Script" uid="uid://cieinv8upemid" path="res://UI/LabTable/LayersButton.gd" id="20_55y0a"]
 [ext_resource type="Script" uid="uid://cvfcshy6pwjcv" path="res://UI/LabTable/NextGameModeButton.gd" id="20_12202"]
 [ext_resource type="Script" uid="uid://cevara535ckby" path="res://UI/LabTable/ScaleBar.gd" id="20_rfesq"]
-[ext_resource type="Texture2D" uid="uid://d0hqaatci6i8p" path="res://Resources/Icons/ModernLandscapeLab/table_map.svg" id="20_ydkr2"]
 [ext_resource type="Script" uid="uid://dh6lfyxcoclyw" path="res://UI/LabTable/LoadButton.gd" id="21_6fdux"]
 [ext_resource type="Texture2D" uid="uid://b0ggrqax876lq" path="res://Resources/Textures/UI/scalebar.png" id="21_8rx5g"]
-[ext_resource type="Script" path="res://UI/LabTable/TableButton.gd" id="22_ywe3r"]
-[ext_resource type="Script" uid="uid://62hra75kk18d" path="res://UI/LabTable/AtmosphereMenu.gd" id="23_5pqbs"]
-[ext_resource type="Texture2D" uid="uid://b802dq4lcuyre" path="res://Resources/Icons/ModernLandscapeLab/biodiv.svg" id="23_65qsu"]
 [ext_resource type="PackedScene" uid="uid://u8mojc2eibn6" path="res://Util/Shading/ColorRampSymbology.tscn" id="23_5380g"]
 [ext_resource type="StyleBox" uid="uid://dg3l5xqfdgxff" path="res://UI/LabTable/Style/PopupPanel.tres" id="23_wb0c1"]
 [ext_resource type="Texture2D" uid="uid://dndroq8xw54we" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sunrise.svg" id="24_0xwd5"]
 [ext_resource type="PackedScene" uid="uid://d2biaicqh7bu5" path="res://World/AtmosphereConfiguration.tscn" id="24_ty2jq"]
 [ext_resource type="Texture2D" uid="uid://ds6wwes2a5wbq" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sun.svg" id="25_302tt"]
-[ext_resource type="Texture2D" uid="uid://cvuvaob2b58oa" path="res://Resources/Icons/ModernLandscapeLab/table_wind.svg" id="25_xtv11"]
 [ext_resource type="Texture2D" uid="uid://cw0im4d30mbtf" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/sunset.svg" id="26_u2cwq"]
 [ext_resource type="Texture2D" uid="uid://1gxcd6oo0in1" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/moon.svg" id="27_elhq0"]
 [ext_resource type="Texture2D" uid="uid://uuqtyv3ffdfj" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/cloudy.svg" id="28_b1lmo"]
+[ext_resource type="PackedScene" uid="uid://cfs8w5yeraydb" path="res://UI/LabTable/TableToggleButton.tscn" id="28_x84ob"]
 [ext_resource type="Texture2D" uid="uid://bdw0osv1mm0qr" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/rainy.svg" id="29_76klx"]
 [ext_resource type="Script" uid="uid://dwacadyiruclp" path="res://UI/LabTable/SpecificGameModeButtons.gd" id="29_sid1k"]
 [ext_resource type="Texture2D" uid="uid://b1fy3xneoa2h5" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/thunderstorm.svg" id="30_0vbkr"]
+[ext_resource type="Script" uid="uid://dh1j20ris3du1" path="res://UI/LabTable/AtmosphereButton.gd" id="30_6tf8m"]
 [ext_resource type="Texture2D" uid="uid://ba1a3pe34nnto" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/now.svg" id="31_3y1be"]
-[ext_resource type="Texture2D" uid="uid://ohib05kii4bp" path="res://Resources/Icons/ModernLandscapeLab/roof_pv.svg" id="40_slfp8"]
-[ext_resource type="Script" uid="uid://csx2vkf67ss1u" path="res://UI/LabTable/RoofPV.gd" id="41_wsk5n"]
-[ext_resource type="Texture2D" uid="uid://cy1d4q6oyarvh" path="res://Resources/Icons/ModernLandscapeLab/park_pv.svg" id="42_65qsu"]
-[ext_resource type="Script" uid="uid://fqi2nfcjd6pf" path="res://UI/LabTable/ParkPV.gd" id="42_wsk5n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
@@ -82,6 +75,7 @@ control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
 debug_mode = true
 run_brick_detection = false
+current_goc_name = "PV"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
 layout_mode = 2
@@ -173,7 +167,6 @@ custom_minimum_size = Vector2(90, 90)
 visible = false
 
 [node name="SubViewport" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer" index="0"]
-size = Vector2i(300, 300)
 render_target_update_mode = 0
 
 [node name="ReferenceRect" parent="LabTable/SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport" index="2"]
@@ -188,8 +181,9 @@ border_width = 250.0
 [node name="LabTableMarkers" type="Node2D" parent="LabTable/LabTableCommunicator"]
 script = ExtResource("15_j8x0r")
 
-[node name="LabTableConfigurator" parent="LabTable" node_paths=PackedStringArray("renderers") instance=ExtResource("15_esmpk")]
+[node name="LabTableConfigurator" parent="LabTable" node_paths=PackedStringArray("renderers", "game_ui") instance=ExtResource("15_esmpk")]
 renderers = NodePath("../SubViewportContainer/SubViewport/GeoLayerRenderers")
+game_ui = NodePath("../../MarginContainer/HBoxContainer/GameUI")
 
 [node name="GameModesConfigurator" parent="LabTable" instance=ExtResource("17_aru4m")]
 
@@ -266,8 +260,8 @@ script = ExtResource("13_a5rra")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -84.0
-offset_right = 217.0
+offset_top = -164.0
+offset_right = 260.0
 grow_vertical = 0
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 40
@@ -276,81 +270,41 @@ theme_override_constants/margin_bottom = 40
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GameModeMarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
-[node name="LayersButton" type="Button" parent="GameModeMarginContainer/HBoxContainer" node_paths=PackedStringArray("rendering_subviewport")]
+[node name="LayersButton" parent="GameModeMarginContainer/HBoxContainer" instance=ExtResource("28_x84ob")]
 layout_mode = 2
-theme = ExtResource("8_2ddb4")
 icon = ExtResource("19_lvue8")
-flat = true
 script = ExtResource("20_55y0a")
-rendering_subviewport = NodePath("../../../LabTable/SubViewportContainer")
 
 [node name="LayersPanel" type="PanelContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton"]
 show_behind_parent = true
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -98.0
-offset_top = -295.275
-offset_right = 10.0
-offset_bottom = -63.275
-grow_horizontal = 0
+anchors_preset = -1
+offset_left = -4.0
+offset_top = -345.0
+offset_right = 90.0
+offset_bottom = 14.0
 grow_vertical = 0
 theme_override_styles/panel = ExtResource("23_wb0c1")
 
-[node name="Content" type="VBoxContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
-[node name="MapButton" type="Button" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/Content"]
+[node name="Content" type="VBoxContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("8_2ddb4")
-icon = ExtResource("20_ydkr2")
-flat = true
-script = ExtResource("22_ywe3r")
+theme_override_constants/separation = 15
 
-[node name="SunButton" type="Button" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/Content"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("8_2ddb4")
-icon = ExtResource("25_302tt")
-flat = true
-script = ExtResource("22_ywe3r")
-
-[node name="BioDivButton" type="Button" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/Content"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("8_2ddb4")
-icon = ExtResource("23_65qsu")
-flat = true
-script = ExtResource("22_ywe3r")
-
-[node name="WindButton" type="Button" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/Content"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("8_2ddb4")
-icon = ExtResource("25_xtv11")
-flat = true
-script = ExtResource("22_ywe3r")
-
-[node name="ColorRampSymbology" parent="GameModeMarginContainer/HBoxContainer/LayersButton" instance=ExtResource("23_5380g")]
+[node name="ColorRampSymbology" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel/HBoxContainer" instance=ExtResource("23_5380g")]
 visible = false
-custom_minimum_size = Vector2(0, 0)
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
-offset_left = 105.0
-offset_top = -246.465
-offset_right = 219.0
-offset_bottom = 3.535
 
-[node name="NextGameModeButton" type="Button" parent="GameModeMarginContainer/HBoxContainer"]
+[node name="NextGameModeButton" parent="GameModeMarginContainer/HBoxContainer" instance=ExtResource("28_x84ob")]
 layout_mode = 2
-theme = ExtResource("8_2ddb4")
-action_mode = 0
+toggle_mode = false
 icon = ExtResource("19_xgrje")
-flat = true
 script = ExtResource("20_12202")
 
 [node name="SpecificGameModeButtons" type="HBoxContainer" parent="GameModeMarginContainer/HBoxContainer"]
@@ -439,50 +393,63 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
+offset_left = -125.0
+offset_top = -108.0
+offset_right = -1.0
+offset_bottom = -1.0
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
 
-[node name="AtmosphereMenu" type="Sprite2D" parent="MarginContainer"]
-texture = ExtResource("28_b1lmo")
-script = ExtResource("23_5pqbs")
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 15
 
-[node name="AtmosphereConfiguration" parent="MarginContainer/AtmosphereMenu" instance=ExtResource("24_ty2jq")]
+[node name="AtmosphereButton" parent="MarginContainer/HBoxContainer" instance=ExtResource("28_x84ob")]
+layout_mode = 2
+icon = ExtResource("28_b1lmo")
+script = ExtResource("30_6tf8m")
 
-[node name="AtmospherePanel" type="PanelContainer" parent="MarginContainer/AtmosphereMenu"]
+[node name="AtmosphereConfiguration" parent="MarginContainer/HBoxContainer/AtmosphereButton" instance=ExtResource("24_ty2jq")]
+
+[node name="AtmospherePanel" type="PanelContainer" parent="MarginContainer/HBoxContainer/AtmosphereButton"]
 visible = false
 show_behind_parent = true
 custom_minimum_size = Vector2(200, 300)
+layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -558.0
-offset_top = -396.0
-offset_right = -78.0
-offset_bottom = -78.0
+offset_left = -484.0
+offset_top = -322.0
+offset_right = -4.0
+offset_bottom = -4.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_styles/panel = ExtResource("23_wb0c1")
 
-[node name="Content" type="VBoxContainer" parent="MarginContainer/AtmosphereMenu/AtmospherePanel"]
+[node name="Content" type="VBoxContainer" parent="MarginContainer/HBoxContainer/AtmosphereButton/AtmospherePanel"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/AtmosphereButton/AtmospherePanel/Content"]
 layout_mode = 2
 
-[node name="Settings" type="VBoxContainer" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer"]
+[node name="Settings" type="VBoxContainer" parent="MarginContainer/HBoxContainer/AtmosphereButton/AtmospherePanel/Content/HBoxContainer"]
 layout_mode = 2
 
-[node name="TimeLabel" type="Label" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+[node name="TimeLabel" type="Label" parent="MarginContainer/HBoxContainer/AtmosphereButton/AtmospherePanel/Content/HBoxContainer/Settings"]
 layout_mode = 2
 text = "Time:"
 
-[node name="TimeSelect" type="ItemList" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+[node name="TimeSelect" type="ItemList" parent="MarginContainer/HBoxContainer/AtmosphereButton/AtmospherePanel/Content/HBoxContainer/Settings"]
 custom_minimum_size = Vector2(380, 100)
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_tqjw6")
@@ -497,11 +464,11 @@ item_1/icon = ExtResource("25_302tt")
 item_2/icon = ExtResource("26_u2cwq")
 item_3/icon = ExtResource("27_elhq0")
 
-[node name="WeatherLabel" type="Label" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+[node name="WeatherLabel" type="Label" parent="MarginContainer/HBoxContainer/AtmosphereButton/AtmospherePanel/Content/HBoxContainer/Settings"]
 layout_mode = 2
 text = "Weather:"
 
-[node name="WeatherSelect" type="ItemList" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer/Settings"]
+[node name="WeatherSelect" type="ItemList" parent="MarginContainer/HBoxContainer/AtmosphereButton/AtmospherePanel/Content/HBoxContainer/Settings"]
 custom_minimum_size = Vector2(380, 100)
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_tqjw6")
@@ -516,7 +483,7 @@ item_1/icon = ExtResource("28_b1lmo")
 item_2/icon = ExtResource("29_76klx")
 item_3/icon = ExtResource("30_0vbkr")
 
-[node name="CurrentSettingsButton" type="TextureButton" parent="MarginContainer/AtmosphereMenu/AtmospherePanel/Content/HBoxContainer"]
+[node name="CurrentSettingsButton" type="TextureButton" parent="MarginContainer/HBoxContainer/AtmosphereButton/AtmospherePanel/Content/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -526,17 +493,10 @@ texture_hover = ExtResource("31_3y1be")
 texture_disabled = ExtResource("31_3y1be")
 texture_focused = ExtResource("31_3y1be")
 
-[node name="RoofPV" type="Sprite2D" parent="MarginContainer"]
-visible = false
-position = Vector2(0, -87.5)
-texture = ExtResource("40_slfp8")
-script = ExtResource("41_wsk5n")
-
-[node name="ParkPV" type="Sprite2D" parent="MarginContainer"]
-visible = false
-position = Vector2(0, -175)
-texture = ExtResource("42_65qsu")
-script = ExtResource("42_wsk5n")
+[node name="GameUI" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [editable path="LabTable/SubViewportContainer/PanelContainer/ControlContainer"]
 [editable path="Panel/CenterContainer/ScoreContributorWeightSlider"]

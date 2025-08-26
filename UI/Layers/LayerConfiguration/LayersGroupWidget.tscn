@@ -1,0 +1,133 @@
+[gd_scene load_steps=13 format=3 uid="uid://6hjjdwy3ahy8"]
+
+[ext_resource type="Theme" uid="uid://dsbyviyb5cpke" path="res://UI/Theme/LayerWidget.tres" id="1_acm6s"]
+[ext_resource type="Script" uid="uid://dii6tu2vlkcqu" path="res://UI/Layers/LayerConfiguration/LayersGroupWidget.gd" id="2_7tm0h"]
+[ext_resource type="Texture2D" uid="uid://c3kuxlnuadbrl" path="res://Resources/Icons/ModernLandscapeLab/eyes.svg" id="2_rejkx"]
+[ext_resource type="Texture2D" uid="uid://dyspmrgksu1si" path="res://Resources/Icons/ModernLandscapeLab/arrow_right.svg" id="3_jxskb"]
+[ext_resource type="Texture2D" uid="uid://23k0cl4yv3b3" path="res://Resources/Icons/ModernLandscapeLab/eye_crossed.svg" id="3_m1oj2"]
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="4_gj84v"]
+[ext_resource type="Texture2D" uid="uid://bmgbr6ijkdvs2" path="res://Resources/Icons/ModernLandscapeLab/arrow_down.svg" id="4_rqado"]
+[ext_resource type="Texture2D" uid="uid://bgla5bw7tc34a" path="res://Resources/Icons/ModernLandscapeLab/rotate.svg" id="5_agox1"]
+[ext_resource type="Script" uid="uid://ldq48r32fgoe" path="res://UI/Layers/LayerConfiguration/ShowMoreInfoButton.gd" id="5_agpdg"]
+[ext_resource type="Texture2D" uid="uid://d2cl4a14y5e2f" path="res://Resources/Icons/ModernLandscapeLab/folder.svg" id="6_4ymqo"]
+[ext_resource type="Texture2D" uid="uid://dugrgepqgf6ik" path="res://Resources/Icons/ModernLandscapeLab/three_points.svg" id="6_yoopm"]
+[ext_resource type="Script" uid="uid://qmit6soahmki" path="res://UI/Layers/LayerConfiguration/EditWindow.gd" id="7_wd0ek"]
+
+[node name="LayerGroupWidget" type="VBoxContainer"]
+offset_right = 159.0
+offset_bottom = 34.0
+focus_mode = 1
+theme = ExtResource("1_acm6s")
+script = ExtResource("2_7tm0h")
+
+[node name="VBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 1
+
+[node name="RightContainer" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MoreInfo" type="TextureButton" parent="VBox/RightContainer" node_paths=PackedStringArray("more_info_nodes")]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+texture_normal = ExtResource("3_jxskb")
+texture_pressed = ExtResource("4_rqado")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("5_agpdg")
+more_info_nodes = [NodePath("../../../MarginContainer/Layers")]
+
+[node name="VisibilityBox" type="MarginContainer" parent="VBox/RightContainer"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="VBox/RightContainer/VisibilityBox"]
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="VisibilityButton" type="TextureButton" parent="VBox/RightContainer/VisibilityBox"]
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+texture_normal = ExtResource("3_m1oj2")
+texture_pressed = ExtResource("2_rejkx")
+
+[node name="VSeparator" type="VSeparator" parent="VBox/RightContainer"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="VBox/RightContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("6_4ymqo")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="NameSizeFix" type="Control" parent="VBox/RightContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+
+[node name="Name" type="Label" parent="VBox/RightContainer/NameSizeFix"]
+clip_contents = true
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 29.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "123456789101112"
+
+[node name="LeftContainer" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+alignment = 2
+
+[node name="Reload" parent="VBox/LeftContainer" instance=ExtResource("4_gj84v")]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 1
+icon = ExtResource("5_agox1")
+texture_name = "rotate"
+
+[node name="Edit" parent="VBox/LeftContainer" instance=ExtResource("4_gj84v")]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 1
+icon = ExtResource("6_yoopm")
+texture_name = "three_points"
+
+[node name="EditMenu" type="PopupMenu" parent="VBox"]
+auto_translate_mode = 1
+size = Vector2i(184, 100)
+item_count = 3
+item_0/text = "Configure..."
+item_0/id = 0
+item_1/text = "Translate to layer"
+item_1/id = 1
+item_2/text = "Show geolayers"
+item_2/checkable = 1
+item_2/checked = true
+item_2/id = 2
+script = ExtResource("7_wd0ek")
+
+[node name="ColorMenu" type="PopupMenu" parent="VBox/EditMenu"]
+auto_translate_mode = 1
+
+[node name="ObjectMenu" type="PopupMenu" parent="VBox/EditMenu"]
+auto_translate_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+
+[node name="Layers" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2

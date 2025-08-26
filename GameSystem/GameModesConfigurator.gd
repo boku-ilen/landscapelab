@@ -22,6 +22,7 @@ func load_game_mode_config() -> void:
 	
 	var game_modes_config: Dictionary = ll_file_access.json_object.data["GameModes"]
 	_load_game_modes(path, game_modes_config)
+	GameSystem.was_loaded = true
 
 
 func _load_game_modes(path: String, game_modes: Dictionary) -> void:
@@ -62,44 +63,47 @@ func _load_game_modes(path: String, game_modes: Dictionary) -> void:
 
 
 # TODO: similarly to layercomposition an own class for deserialization could be created
-# TODO: this would enhance readability
+# this would enhance readability
 func _deserialize_object_colletion(game_mode: GameMode, game_object_collections: Dictionary):
 	for collection_name in game_object_collections:
 		var collection = game_object_collections[collection_name]
-		var layer_name = collection["layer_name"]
+		var type = collection["type"] if "type" in collection else "GeoGameObjectCollection"
 		
-		var layer
-		
-		if "geo_feature_layer" in Layers.layer_compositions[layer_name].render_info:
-			layer = Layers.layer_compositions[layer_name].render_info.geo_feature_layer
-		else:
+		var obtain_geo_feature_layer = func(layer_name):
+			if "geo_feature_layer" in Layers.layer_compositions[layer_name].render_info:
+				return Layers.layer_compositions[layer_name].render_info.geo_feature_layer
 			assert(false, "Invalid layer!")
 		
 		var collection_object: GameObjectCollection
-		
-		var type = collection["type"] if "type" in collection else "GeoGameObjectCollection"
-		
-		if type == "GeoGameObjectCollection":
-			collection_object = game_mode.add_game_object_collection_for_feature_layer(
-				collection_name, layer
-			)
-		elif type == "GameObjectClusterCollection":
-			var location_layer = LayerCompositionSerializer.get_feature_layer_from_string(
-				collection["location_layer"],
-				path
-			)
-			var instance_goc = game_mode.game_object_collections[collection["goc"]]
-			
-			collection_object = game_mode.add_cluster_game_object_collection(
-				collection_name,
-				layer,
-				location_layer,
-				instance_goc
-			)
-			
-			if "min_cluster_size" in collection: collection_object.min_cluster_size = collection["min_cluster_size"]
-			if "max_cluster_size" in collection: collection_object.max_cluster_size = collection["max_cluster_size"]
-			if "default_cluster_size" in collection: collection_object.default_cluster_size = collection["default_cluster_size"]
+		match type:
+			"GeoGameObjectCollection":
+				var layer = obtain_geo_feature_layer.call(collection["layer_name"])
+				collection_object = game_mode.add_game_object_collection_for_feature_layer(
+					collection_name, layer
+				)
+			"GameObjectClusterCollection":
+				var layer = obtain_geo_feature_layer.call(collection["layer_name"])
+				var location_layer = LayerCompositionSerializer.get_feature_layer_from_string(
+					collection["location_layer"],
+					path
+				)
+				var instance_goc = game_mode.game_object_collections[collection["goc"]]
+				collection_object = game_mode.add_cluster_game_object_collection(
+					collection_name,
+					layer,
+					location_layer,
+					instance_goc
+				)
+				
+				if "min_cluster_size" in collection: collection_object.min_cluster_size = collection["min_cluster_size"]
+				if "max_cluster_size" in collection: collection_object.max_cluster_size = collection["max_cluster_size"]
+				if "default_cluster_size" in collection: collection_object.default_cluster_size = collection["default_cluster_size"]
+			"ToggleGameObjectCollection":
+				var toggle_goc = ToggleGameObjectCollection.new(collection_name)
+				toggle_goc.active = collection["active"]
+				game_mode.add_game_object_collection(toggle_goc)
+			_:
+				pass
 
 
 var mapping_type_to_construction_func = {
