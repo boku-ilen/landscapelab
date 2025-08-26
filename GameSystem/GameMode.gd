@@ -20,6 +20,10 @@ signal score_changed(score)
 signal score_target_reached(score)
 
 func activate():
+	# FIXME: this resolves a race condition which causes events to be run before the new game mode
+	# has been fully set up. Hacky and unstable solution though!
+	await RenderingServer.frame_post_draw
+	
 	for game_event in game_events.values():
 		game_event.apply_event(self)
 
