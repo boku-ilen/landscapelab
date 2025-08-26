@@ -67,9 +67,8 @@ func apply(_game_mode: GameMode):
 			
 			var distance = activation_point_center.distance_to(zone_center)
 			
-			# If the object is somewhat close, add a fixed value of 2.0 as well as a value between
-			#  0.0 and 1.0 depending on the distance, so that we prefer points closer to the zone
-			#  centers
+			# If the activation point is right inside the go-zone, add a value between 1.0 and 2.0.
+			# If the zones are just overlapping, add a value between 0.0 and 1.0.
 			if distance < zone_radius:
 				score += 1.0 + inverse_lerp(zone_radius + activation_point_radius, 0.0, distance)
 			elif distance < zone_radius + activation_point_radius:
@@ -81,9 +80,9 @@ func apply(_game_mode: GameMode):
 			
 			var distance = activation_point_center.distance_to(zone_center)
 			
-			# If the object is somewhat close, add a fixed value of 2.0 as well as a value between
-			#  0.0 and 1.0 depending on the distance, so that we prefer clusters closer to the
-			#  zone centers
+			# Essentially the inverse of go-zones.
+			# We could add an option to weigh these negative zones higher in case we really want to
+			# avoid placing objects in conflicting areas.
 			if distance < zone_radius:
 				score -= 1.0 + inverse_lerp(zone_radius + activation_point_radius, 0.0, distance)
 			elif distance < zone_radius + activation_point_radius:

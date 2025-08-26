@@ -36,8 +36,8 @@ func _init(initial_name, initial_feature_layer, initial_instance_goc,
 		_add_game_object(feature)
 	
 	# Register future features automatically
-	feature_layer.connect("feature_added",Callable(self,"_add_game_object"))
-	feature_layer.connect("feature_removed",Callable(self,"_remove_game_object"))
+	feature_layer.feature_added.connect(_add_game_object)
+	feature_layer.feature_removed.connect(_remove_game_object)
 
 
 func remove_nearby_game_objects(position, radius):
@@ -56,12 +56,10 @@ func _add_game_object(feature):
 	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(GameObjectCluster, feature, self)
 	game_objects[game_object_for_feature.id] = game_object_for_feature
 	
-	# We use CONNNECT_ONE_SHOT because we only really need this to run once, after setting the position
-	# FIXME: That's a bit hacky
-	feature.connect("feature_changed",Callable(self,"_on_feature_changed").bind(feature))
+	feature.feature_changed.connect(_on_feature_changed.bind(feature))
 	
-	emit_signal("game_object_added", game_object_for_feature)
-	emit_signal("changed")
+	game_object_added.emit(game_object_for_feature)
+	changed.emit()
 
 
 func _on_feature_changed(feature):
@@ -112,7 +110,7 @@ func _on_feature_changed(feature):
 			
 			cluster_feature_instances[feature.get_id()].append(new_location_feature)
 		
-		emit_signal("changed")
+		changed.emit()
 
 
 func _remove_game_object(feature):
@@ -132,10 +130,10 @@ func _remove_game_object(feature):
 		
 		GameSystem.apply_game_object_removal(name, corresponding_game_object.id)
 		
-		emit_signal("game_object_removed", corresponding_game_object)
-		emit_signal("changed")
+		game_object_removed.emit(corresponding_game_object)
+		changed.emit()
 
 
 func add_attribute_mapping(attribute):
 	attributes[attribute.name] = attribute
-	emit_signal("changed")
+	changed.emit()

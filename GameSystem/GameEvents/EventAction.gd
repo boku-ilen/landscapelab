@@ -2,7 +2,7 @@ extends Object
 class_name EventAction
 
 
-var name
+var name: String
 
 
 # To be implemented by inheriting classes
