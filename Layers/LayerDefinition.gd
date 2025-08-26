@@ -53,6 +53,11 @@ class FeatureRenderInfo extends RenderInfo:
 	var marker_near_scale_formula: float
 	var marker_near_scale: float
 	var config: Dictionary # FIXME: corresponds to the func set_feature_icon(feature, marker): in GeoFeatureLayerRenderer
+	var attribute_icon := AttributeIcon.new()
+
+class AttributeIcon:
+	var attribute: String = ""
+	var thresholds: Dictionary
 
 class RasterRenderInfo extends RenderInfo:
 	var geo_layer: GeoRasterLayer

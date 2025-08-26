@@ -65,18 +65,16 @@ var func_dict = {
 
 func set_feature_icon(feature, marker):
 	var render_info: LayerDefinition.FeatureRenderInfo = layer_definition.render_info
-	# FIXME: Do we ever use this anymore?
-	#if "attribute_icon" in config:
-		#var attribute_name = config["attribute_icon"]["attribute"]
-		#var go = GameSystem.get_game_object_for_geo_feature(feature)
-		#var attribute_value = go.get_attribute(attribute_name)
-		#
-		#for threshold_value in config["attribute_icon"]["thresholds"].keys():
-			#if attribute_value <= str_to_var(threshold_value):
-				#marker.set_texture(load(config["attribute_icon"]["thresholds"][threshold_value]))
-				#marker.set_scale(Vector2.ONE * config["marker_scale"] / zoom)
-				#break
-	if render_info.marker_near != null and zoom.x >= render_info.marker_near_switch_zoom:
+	if render_info.attribute_icon.attribute != "":
+		var go = GameSystem.get_game_object_for_geo_feature(feature)
+		var attribute_value = go.get_attribute(render_info.attribute_icon.attribute)
+		
+		for threshold in render_info.attribute_icon.thresholds.keys():
+			if attribute_value <= str_to_var(threshold):
+				marker.set_texture(load(render_info.attribute_icon.thresholds[threshold]))
+				marker.set_scale(Vector2.ONE * render_info.marker_scale / zoom)
+				break
+	elif render_info.marker_near != null and zoom.x >= render_info.marker_near_switch_zoom:
 		marker.set_texture(render_info.marker_near)
 		
 		if render_info.marker_near_scale_formula != null:
