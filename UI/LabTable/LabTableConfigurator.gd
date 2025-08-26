@@ -49,33 +49,36 @@ func _load_layers(path: String, table_config: Dictionary):
 
 func _load_game_ui(path: String, table_config: Dictionary):
 	var base_path = get_setting("config-path")
+	if not "GameUI" in table_config: 
+		return
 	for goc_name in table_config["GameUI"].keys():
 		# Find game mode that contains the goc
-		var relevant_game_mode = GameSystem.game_modes.filter(func(game_mode: GameMode): 
+		var relevant_game_modes = GameSystem.game_modes.filter(func(game_mode: GameMode): 
 			return goc_name in game_mode.game_object_collections
-		)[0]
-		var goc = relevant_game_mode.game_object_collections[goc_name]
-		
-		var ui_element: Control
-		if goc is ToggleGameObjectCollection:
-			ui_element = preload("res://UI/LabTable/TableToggleButton.tscn").instantiate() as Button
-			ui_element.name = goc_name
-			game_ui.add_child(ui_element)
-			
-			# Check if goc is in the current game mode otherwise hide and connect to signal
-			var is_relevant_game_mode = func():
-				ui_element.visible = GameSystem.current_game_mode == relevant_game_mode
-			is_relevant_game_mode.call()
-			GameSystem.game_mode_changed.connect(is_relevant_game_mode)
-			
-			# Check if it is already active and connect to signal
-			ui_element.set_pressed(goc.active)
-			ui_element.toggled.connect(goc.toggle)
-		
-		# Finally deserialize properties
-		Serialization.deserialize(
-			table_config["GameUI"][goc_name]["attributes"],
-			ui_element,
-			base_path,
-			AbstractLayerSerializer._lookup_deserialization.bind(AbstractLayerSerializer)
 		)
+		for relevant_game_mode in relevant_game_modes:
+			var goc = relevant_game_mode.game_object_collections[goc_name]
+			
+			var ui_element: Control
+			if goc is ToggleGameObjectCollection:
+				ui_element = preload("res://UI/LabTable/TableToggleButton.tscn").instantiate() as Button
+				ui_element.name = goc_name
+				game_ui.add_child(ui_element)
+				
+				# Check if goc is in the current game mode otherwise hide and connect to signal
+				var is_relevant_game_mode = func():
+					ui_element.visible = GameSystem.current_game_mode == relevant_game_mode
+				is_relevant_game_mode.call()
+				GameSystem.game_mode_changed.connect(is_relevant_game_mode)
+				
+				# Check if it is already active and connect to signal
+				ui_element.set_pressed(goc.active)
+				ui_element.toggled.connect(goc.toggle)
+			
+			# Finally deserialize properties
+			Serialization.deserialize(
+				table_config["GameUI"][goc_name]["attributes"],
+				ui_element,
+				base_path,
+				AbstractLayerSerializer._lookup_deserialization.bind(AbstractLayerSerializer)
+			)
