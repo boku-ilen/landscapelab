@@ -11,15 +11,11 @@ var instance_goc: GameObjectCollection
 var cluster_centroid_layer: GeoFeatureLayer
 var cluster_points_layer: GeoFeatureLayer
 
-var initial_search_radius := 200.0
-var max_search_radius := 5000.0
+var initial_search_radius := 100.0
+var max_search_radius := 2000.0
 
 var cluster_feature_instances := {}
-
 var location_feature_instances := {}
-var used_locations := {}
-
-var feature_id_to_game_object = {}
 
 signal game_object_added(new_game_object)
 signal game_object_removed(removed_game_object)
@@ -59,38 +55,24 @@ func remove_nearby_game_objects(position, radius):
 func _add_game_object(feature):
 	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(GameObjectCluster, feature, self)
 	game_objects[game_object_for_feature.id] = game_object_for_feature
-	feature_id_to_game_object[feature.get_id()] = game_object_for_feature
 	
 	# We use CONNNECT_ONE_SHOT because we only really need this to run once, after setting the position
 	# FIXME: That's a bit hacky
-	feature.connect("feature_changed",Callable(self,"_on_feature_changed").bind(feature, game_object_for_feature))
-	game_object_for_feature.cluster_size_changed.connect(func(new_cluster_size):
-		_on_feature_changed(feature, game_object_for_feature), CONNECT_ONE_SHOT
-	)
+	feature.connect("feature_changed",Callable(self,"_on_feature_changed").bind(feature))
 	
 	emit_signal("game_object_added", game_object_for_feature)
 	emit_signal("changed")
 
 
-func _on_feature_changed(feature, game_object_for_feature):
-	var cluster_size = game_object_for_feature.cluster_size
-	
+func _on_feature_changed(feature):
 	# Remove previous
 	if feature.get_id() in location_feature_instances:
-		var corresponding_game_object
-		
-		for game_object in game_objects.values():
-			if game_object.geo_feature.get_id() == feature.get_id():
-				corresponding_game_object = game_object
-		
 		for feature_instance in location_feature_instances[feature.get_id()]:
-			used_locations.erase(feature_instance.get_vector3())
 			instance_goc.feature_layer.remove_feature(feature_instance)
 	
 	# Activate locations
 	var feature_position = feature.get_vector3()
 	
-	var location_features = []
 	var chosen_centroids
 	var chosen_centroid
 	
