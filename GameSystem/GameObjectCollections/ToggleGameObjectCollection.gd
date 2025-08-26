@@ -3,7 +3,6 @@ class_name ToggleGameObjectCollection
 
 
 var active: bool : set=toggle
-var attribute_store = {}
 
 
 func toggle(new_active: bool):
@@ -18,8 +17,5 @@ func toggle(new_active: bool):
 
 
 func add_attribute_mapping(attribute):
-	if active:
-		attributes[attribute.name] = attribute
-	
-	attribute_store[attribute.name] = attribute
+	attributes[attribute.name] = attribute
 	changed.emit()
