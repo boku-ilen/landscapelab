@@ -49,7 +49,7 @@ func _setup_layer_group(layer_group: LayerResourceGroup):
 		
 	var group_ui = preload("res://UI/LabTable/LayerDefinitionGroup.tscn").instantiate()
 	if layer_group.icon: 
-		group_ui.get_node("Control/TextureRect").texture = layer_group.icon
+		group_ui.get_node("Margin/Control/TextureRect").texture = layer_group.icon
 	
 	$LayersPanel/HBoxContainer/Content.add_child(group_ui)
 	
