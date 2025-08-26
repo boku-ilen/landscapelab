@@ -75,7 +75,7 @@ static func deserialize(
 	if raw_type == "Group":
 		var group := LayerResourceGroup.new()
 		group.name = name
-		group = Serialization.deserialize(attributes, group, abs_path, _lookup_deserialization.bind(serializer))
+		group = Serialization.deserialize(attributes, group, abs_path, _lookup_deserialization.bind(serializer, layer_resource))
 		group.layer_resources.container.map(func(lr): lr.group = group)
 		Layers.add_layer_group(group)
 		return group
@@ -84,8 +84,8 @@ static func deserialize(
 	layer_resource.name = name
 	layer_resource.render_info = serializer.get_render_info_from_config(type, layer_resource)
 	
-	layer_resource.render_info = Serialization.deserialize(attributes, layer_resource.render_info, abs_path, _lookup_deserialization.bind(serializer))
-	layer_resource.ui_info = Serialization.deserialize(attributes, layer_resource.ui_info, abs_path, _lookup_deserialization.bind(serializer))
+	layer_resource.render_info = Serialization.deserialize(attributes, layer_resource.render_info, abs_path, _lookup_deserialization.bind(serializer, layer_resource))
+	layer_resource.ui_info = Serialization.deserialize(attributes, layer_resource.ui_info, abs_path, _lookup_deserialization.bind(serializer, layer_resource))
 	
 	return layer_resource
 
@@ -128,7 +128,7 @@ static func serialize(layer_resource):
 	return dictify(layer_resource, attributes)
 
 
-static func _lookup_deserialization(config_attribute, render_info_attribute, info, abs_path, serializer):
+static func _lookup_deserialization(config_attribute, render_info_attribute, info, abs_path, serializer, layer_res=null):
 	# Check if it is a class name (e.g. GeoRasterLayer or GeoFeatureLayer do have as they are
 	# gdnative objects)
 	if render_info_attribute["class_name"] in deserialization_lookup:
@@ -139,8 +139,14 @@ static func _lookup_deserialization(config_attribute, render_info_attribute, inf
 	# needs to be trivial, otherwise it needs to be wrapped
 	if render_info_attribute.type != TYPE_OBJECT:
 		return
+	# Do a default serialization
 	if not info.get(render_info_attribute.name) is SerializationWrapper:
-		return
+		return Serialization.deserialize(
+			config_attribute, 
+			layer_res.render_info.get(render_info_attribute["name"]), 
+			abs_path, 
+			serializer._lookup_deserialization.bind(serializer, layer_res)
+		)
 	
 	# The lookup the class name in the lookup dictionary
 	var lookup_string = info.get(render_info_attribute.name).call("get_class_name")

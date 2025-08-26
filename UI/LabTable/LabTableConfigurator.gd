@@ -80,5 +80,5 @@ func _load_game_ui(path: String, table_config: Dictionary):
 				table_config["GameUI"][goc_name]["attributes"],
 				ui_element,
 				base_path,
-				AbstractLayerSerializer._lookup_deserialization.bind(AbstractLayerSerializer)
+				AbstractLayerSerializer._lookup_deserialization.bind(AbstractLayerSerializer, null)
 			)
