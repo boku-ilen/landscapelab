@@ -39,12 +39,20 @@ func add_cluster_game_object_collection(collection_name, feature_layer, location
 	return collection
 
 
-func add_cluster_from_zones_game_object_collection(collection_name, feature_layer,
-		cluster_centroid_layer, cluster_points_layer, good_zone_goc, bad_zone_goc, insert_goc,
-		target_score_name):
-	var collection = GameObjectClusterFromZonesCollection.new(collection_name, feature_layer,
-		cluster_centroid_layer, cluster_points_layer, good_zone_goc, bad_zone_goc, insert_goc,
-		target_score_name)
+func add_fixed_cluster_game_object_collection(collection_name, feature_layer, instance_goc,
+		cluster_centroid_layer, cluster_points_layer):
+	var collection = FixedGameObjectClusterCollection.new(collection_name, feature_layer,
+			instance_goc, cluster_centroid_layer, cluster_points_layer)
+	
+	add_game_object_collection(collection)
+	return collection
+
+
+func add_game_object_from_zones_game_object_collection(collection_name, feature_layer,
+		activation_point_layer, good_zone_goc, bad_zone_goc, target_score_name):
+	var collection = GameObjectFromZonesCollection.new(collection_name, feature_layer,
+		activation_point_layer, good_zone_goc, bad_zone_goc, target_score_name)
+	
 	add_game_object_collection(collection)
 	return collection
 

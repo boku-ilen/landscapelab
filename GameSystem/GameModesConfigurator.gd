@@ -100,7 +100,7 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 			if "min_cluster_size" in collection: collection_object.min_cluster_size = collection["min_cluster_size"]
 			if "max_cluster_size" in collection: collection_object.max_cluster_size = collection["max_cluster_size"]
 			if "default_cluster_size" in collection: collection_object.default_cluster_size = collection["default_cluster_size"]
-		elif type == "GameObjectClusterFromZonesCollection":
+		elif type == "FixedGameObjectClusterCollection":
 			var cluster_centroid_layer = LayerCompositionSerializer.get_feature_layer_from_string(
 				collection["cluster_centroid_layer"],
 				path
@@ -110,20 +110,32 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 				path
 			)
 			
-			var insert_goc = game_mode.game_object_collections[collection["insert_goc"]]
+			var instance_goc = game_mode.game_object_collections[collection["instance_goc"]]
+			
+			collection_object = game_mode.add_fixed_cluster_game_object_collection(
+				collection_name,
+				layer,
+				instance_goc,
+				cluster_centroid_layer,
+				cluster_points_layer
+			)
+		elif type == "GameObjectFromZonesCollection":
+			var activation_points_layer = LayerCompositionSerializer.get_feature_layer_from_string(
+				collection["activation_points_layer"],
+				path
+			)
+			
 			var good_zone_goc = game_mode.game_object_collections[collection["good_zone_goc"]]
 			var bad_zone_goc = game_mode.game_object_collections[collection["bad_zone_goc"]]
 			
 			var target_score_name = collection["target_score"]
 			
-			collection_object = game_mode.add_cluster_from_zones_game_object_collection(
+			collection_object = game_mode.add_game_object_from_zones_game_object_collection(
 				collection_name,
 				layer,
-				cluster_centroid_layer,
-				cluster_points_layer,
+				activation_points_layer,
 				good_zone_goc,
 				bad_zone_goc,
-				insert_goc,
 				target_score_name
 			)
 
