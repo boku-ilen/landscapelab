@@ -239,7 +239,7 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 				$Entries/Attributes/Information.add_child(hbox)
 			
 			var icon = load(attribute.icon_settings.icon)
-			var color
+			var color =  attribute.icon_settings.color_thresholds.values().back()
 			for threshold in attribute.icon_settings.color_thresholds.keys():
 				if attribute_value <= str_to_var(threshold):
 					color = attribute.icon_settings.color_thresholds[threshold]
