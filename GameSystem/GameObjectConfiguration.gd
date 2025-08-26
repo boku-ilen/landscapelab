@@ -199,6 +199,8 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 		
 		if attribute_value is float or float(attribute_value) > 0.0:
 			attribute_value = "%.1f" % attribute_value
+		elif attribute_value is int:
+			attribute_value = "%d" % attribute_value
 		
 		hbox.custom_minimum_size.x = min(attribute_value.length() + attribute.name.length(), 600.0)
 		

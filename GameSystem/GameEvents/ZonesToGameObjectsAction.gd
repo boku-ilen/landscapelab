@@ -18,6 +18,8 @@ var bad_zone_goc: GeoGameObjectCollection
 #  scores, it doesn't exist when this object is being created. We'd need a way to lazy initialize
 var target_score_name: String
 
+const FEATURE_LIMIT = 100
+
 
 func _init(
 		initial_name,
@@ -92,7 +94,12 @@ func apply(_game_mode: GameMode):
 	
 	activation_point_and_score.sort_custom(func(a, b): return a[1] > b[1])
 	
+	var amount_of_added_features = 0
+	
 	while true:
+		# Exit conditions: feature limit reached
+		if amount_of_added_features > FEATURE_LIMIT: break
+		
 		# Exit condition: score reached
 		GameSystem.current_game_mode.game_scores[target_score_name].recalculate_score()
 		if GameSystem.current_game_mode.game_scores[target_score_name].is_target_reached(): break
@@ -108,3 +115,7 @@ func apply(_game_mode: GameMode):
 		# Activate this point
 		var new_cluster_feature = feature_layer.create_feature()
 		new_cluster_feature.set_vector3(activation_point[0].get_vector3())
+		
+		amount_of_added_features += 1
+		
+		

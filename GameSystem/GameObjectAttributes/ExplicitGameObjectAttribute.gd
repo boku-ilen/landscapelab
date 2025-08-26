@@ -14,7 +14,12 @@ func _init(initial_name,initial_geo_attribute_name):
 
 
 func get_value(game_object):
-	return game_object.geo_feature.get_attribute(geo_attribute_name)
+	var attribute_value = game_object.geo_feature.get_attribute(geo_attribute_name)
+	
+	if attribute_value == "" and default != 0.0:
+		return default
+	else:
+		return attribute_value
 
 
 func set_value(game_object, new_value):
