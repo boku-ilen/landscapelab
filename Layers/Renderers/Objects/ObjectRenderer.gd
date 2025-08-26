@@ -78,7 +78,7 @@ func set_instance_pos(feature, obj_instance):
 	obj_instance.transform.origin = local_object_pos
 	
 	if feature.get_attribute("LL_rot"):
-		obj_instance.rotation.y = -deg_to_rad(float(feature.get_attribute("LL_rot")))
+		obj_instance.rotation_degrees.y = -float(feature.get_attribute("LL_rot"))
 	
 	if feature.get_attribute("LL_scale"):
 		obj_instance.scale = Vector3.ONE * float(feature.get_attribute("LL_scale"))
