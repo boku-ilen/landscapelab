@@ -85,9 +85,9 @@ func set_feature_icon(feature, marker):
 		near_sprite.texture = render_info.marker_near
 
 		if render_info.marker_near_scale_formula != null:
-			marker.set_scale(Vector2.ONE * parse_attribute_expression(feature, render_info.marker_near_scale_formula))
+			near_sprite.set_scale((Vector2.ONE / marker.scale) * parse_attribute_expression(feature, render_info.marker_near_scale_formula))
 		else:
-			marker.set_scale(Vector2.ONE * render_info.marker_near_scale)
+			near_sprite.set_scale((Vector2.ONE / marker.scale) * render_info.marker_near_scale)
 		
 		marker.add_child(near_sprite)
 	

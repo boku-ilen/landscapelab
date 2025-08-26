@@ -132,8 +132,3 @@ func _remove_game_object(feature):
 		
 		game_object_removed.emit(corresponding_game_object)
 		changed.emit()
-
-
-func add_attribute_mapping(attribute):
-	attributes[attribute.name] = attribute
-	changed.emit()

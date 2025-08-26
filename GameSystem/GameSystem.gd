@@ -18,9 +18,9 @@ var current_game_mode: GameMode :
 		current_game_mode.connect("score_changed",Callable(self,"_on_score_changed"))
 		current_game_mode.connect("score_target_reached",Callable(self,"_on_score_target_changed"))
 		
-		current_game_mode.activate()
-		
 		game_mode_changed.emit()
+		
+		current_game_mode.activate()
 
 
 var game_modes: Array[GameMode] = []
@@ -199,7 +199,8 @@ func get_game_object_for_geo_feature(geo_feature):
 	for go in _game_objects.values():
 		if go is GeoGameObject:
 			if "get_vector3" in go.geo_feature:
-				if go.geo_feature.get_vector3() == geo_feature.get_vector3():
+				if go.geo_feature.get_vector3() == geo_feature.get_vector3() \
+						and go.geo_feature.get_id() == geo_feature.get_id():
 					return go
 
 

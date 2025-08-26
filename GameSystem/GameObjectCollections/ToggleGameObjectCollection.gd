@@ -14,8 +14,3 @@ func toggle(new_active: bool):
 		game_objects.erase(0)
 		
 	changed.emit()
-
-
-func add_attribute_mapping(attribute):
-	attributes[attribute.name] = attribute
-	changed.emit()
