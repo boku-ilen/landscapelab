@@ -34,13 +34,8 @@ func parse_attribute_expression(feature, formula):
 	return result
 
 var point_func = func(feature: GeoPoint): 
-	#if layer_definition.render_info.marker != null:
-	#	return layer_definition.render_info.marker
-	
 	var marker = preload("res://Layers/Renderers/GeoLayer/FeatureMarker.tscn").instantiate()
-	
 	set_feature_icon(feature, marker)
-	
 	return marker
 
 var line_func = func(feature: GeoLine):
@@ -68,29 +63,27 @@ var func_dict = {
 }
 
 
-# FIXME: There is a lot of logic which really should not be handled here (i.e. deserialization of a config)
 func set_feature_icon(feature, marker):
-	var config = layer_definition.render_info.config
-	if "attribute_icon" in config:
-		var attribute_name = config["attribute_icon"]["attribute"]
+	var render_info: LayerDefinition.FeatureRenderInfo = layer_definition.render_info
+	if render_info.attribute_icon.attribute != "":
 		var go = GameSystem.get_game_object_for_geo_feature(feature)
-		var attribute_value = go.get_attribute(attribute_name)
+		var attribute_value = go.get_attribute(render_info.attribute_icon.attribute)
 		
-		for threshold_value in config["attribute_icon"]["thresholds"].keys():
-			if attribute_value <= str_to_var(threshold_value):
-				marker.set_texture(load(config["attribute_icon"]["thresholds"][threshold_value]))
-				marker.set_scale(Vector2.ONE * config["icon_scale"] / zoom)
+		for threshold in render_info.attribute_icon.thresholds.keys():
+			if attribute_value <= str_to_var(threshold):
+				marker.set_texture(load(render_info.attribute_icon.thresholds[threshold]))
+				marker.set_scale(Vector2.ONE * render_info.marker_scale / zoom)
 				break
-	elif "icon_near" in config and zoom.x >= config["icon_near_switch_zoom"]:
-		marker.set_texture(load(config["icon_near"]))
+	elif render_info.marker_near != null and zoom.x >= render_info.marker_near_switch_zoom:
+		marker.set_texture(render_info.marker_near)
 		
-		if "icon_near_scale_formula" in config:
-			marker.set_scale(Vector2.ONE * parse_attribute_expression(feature, config["icon_near_scale_formula"]))
+		if render_info.marker_near_scale_formula != null:
+			marker.set_scale(Vector2.ONE * parse_attribute_expression(feature, render_info.marker_near_scale_formula))
 		else:
-			marker.set_scale(Vector2.ONE * config["icon_near_scale"])
+			marker.set_scale(Vector2.ONE * render_info.marker_near_scale)
 	else:
-		marker.set_texture(load(config["icon"]))
-		marker.set_scale(Vector2.ONE * config["icon_scale"] / zoom)
+		marker.set_texture(layer_definition.render_info.marker)
+		marker.set_scale(Vector2.ONE * layer_definition.render_info.marker_scale / zoom)
 	
 	var p = feature.get_vector3()
 	marker.set_position(global_vector3_to_local_vector2(p))

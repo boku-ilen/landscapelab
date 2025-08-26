@@ -6,13 +6,13 @@ class_name LayerComposition
 # Does caching and some logic, is the basic resource for all other scenes that work with layers
 # 
 
+var group: LayerResourceGroup
+
 var is_scored: bool = false
-var is_visible: bool = true :
-	get:
-		return is_visible
-	set(visible):
-		is_visible = visible
-		emit_signal("visibility_changed", is_visible)
+func set_is_visible(new_is_visible: bool):
+	is_visible = new_is_visible
+	visibility_changed.emit(is_visible)
+var is_visible: bool = true : set=set_is_visible
 
 var name: String = "Not set"
 
@@ -36,6 +36,7 @@ const RENDER_INFOS := {
 	"Connected Object": ConnectedObjectInfo,
 	"Repeating Object": RepeatingObjectInfo,
 	"Line Object": LineObjectInfo,
+	"Scattered Object": ScatteredObjectInfo,
 }
 
 
@@ -182,9 +183,6 @@ class VectorVegetationRenderInfo extends RenderInfo:
 	
 	func get_class_name() -> String: return "VectorVegetation"
 
-class ParticlesRenderInfo extends RenderInfo:
-	pass
-
 class ObjectRenderInfo extends RenderInfo:
 	# The geodata-key-attribute that determines which connector/connection to use
 	var selector_attribute_name: String
@@ -329,6 +327,19 @@ class LineObjectInfo extends RenderInfo:
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/LineObject/LineObjectRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
+
+
+class ScatteredObjectInfo extends RenderInfo:
+	var height_layer: GeoRasterLayer
+	var scatter_layer: GeoRasterLayer
+	var objects: Dictionary
+	var chunk_size := 100.0
+	var extent := 3
+	var detail_distance := 100.0
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/ScatteredObject/ScatteredObjectRenderer.tscn")
 		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 
 

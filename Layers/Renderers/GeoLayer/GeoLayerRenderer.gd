@@ -5,7 +5,7 @@ class_name GeoLayerRenderer
 var layer_definition: LayerDefinition : 
 	set(new_layer_def): 
 		layer_definition = new_layer_def
-		layer_definition.z_index_changed.connect(func(new_z_idx): z_index = new_z_idx)
+		layer_definition.render_info.z_index_changed.connect(func(new_z_idx): z_index = new_z_idx)
 
 # Offset to use as the center position
 var center := Vector2.ZERO

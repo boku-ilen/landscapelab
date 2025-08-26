@@ -101,7 +101,7 @@ func set_layer_visibility(layer_name: String, is_visible: bool, l_z_index := 0):
 
 func instantiate_geolayer_renderer(layer_definition: LayerDefinition):
 	var renderer: GeoLayerRenderer
-	var geo_layer: RefCounted = layer_definition.geo_layer
+	var geo_layer: RefCounted = layer_definition.render_info.geo_layer
 	if geo_layer is GeoRasterLayer:
 		renderer = raster_renderer.instantiate()
 		renderer.geo_raster_layer = geo_layer
@@ -122,7 +122,7 @@ func instantiate_geolayer_renderer(layer_definition: LayerDefinition):
 	
 	if renderer:
 		renderer.layer_definition = layer_definition
-		renderer.z_index = layer_definition.z_index
+		renderer.z_index = layer_definition.render_info.z_index
 		
 		if center == -Vector2.INF:
 			var initial_center
@@ -146,7 +146,7 @@ func instantiate_geolayer_renderer(layer_definition: LayerDefinition):
 		renderer.position = offset
 		renderer.name = geo_layer.get_file_info()["name"]
 		renderer.visibility_layer = visibility_layer
-		layer_definition.visibility_changed.connect(func(is_visible): renderer.set_visible(is_visible))
+		layer_definition.render_info.visibility_changed.connect(func(is_visible): renderer.set_visible(is_visible))
 		
 		renderer.set_metadata(
 			center,

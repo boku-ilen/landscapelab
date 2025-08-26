@@ -1,8 +1,38 @@
-[gd_scene load_steps=2 format=3 uid="uid://c4pjhwtdd53ry"]
+[gd_scene load_steps=7 format=3 uid="uid://c4pjhwtdd53ry"]
 
 [ext_resource type="PackedScene" uid="uid://cnvfal7al6up4" path="res://Objects/Nature/SwarmParticles.tscn" id="1_07nhj"]
+[ext_resource type="Shader" uid="uid://6hnfmyykba1p" path="res://Objects/Nature/FlappyBird.gdshader" id="2_5jxg8"]
+[ext_resource type="Texture2D" uid="uid://bfpnmf8scmtxl" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_BaseColor.png" id="3_v12vs"]
+[ext_resource type="Texture2D" uid="uid://b8y7jy4pvbo66" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_Normal.png" id="4_kla81"]
+[ext_resource type="Texture2D" uid="uid://bwdho0nlh6k5x" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_Roughness.png" id="5_y88w1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_116q5"]
+render_priority = 0
+shader = ExtResource("2_5jxg8")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("3_v12vs")
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/texture_roughness = ExtResource("5_y88w1")
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/texture_normal = ExtResource("4_kla81")
+shader_parameter/normal_scale = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/time_scale = 15.0
+shader_parameter/side_to_side = 0.005
+shader_parameter/pivot = 0.05
+shader_parameter/wave = 0.05
+shader_parameter/twist = 1.5
+shader_parameter/mask_black = 0.2
+shader_parameter/mask_white = 0.2
 
 [node name="LarusSwarm" type="Node3D"]
 
 [node name="SwarmParticles" parent="." instance=ExtResource("1_07nhj")]
+material_override = SubResource("ShaderMaterial_116q5")
 emitting = true
