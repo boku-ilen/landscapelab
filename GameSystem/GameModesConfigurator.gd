@@ -39,6 +39,10 @@ func _load_game_modes(path: String, game_modes: Dictionary) -> void:
 		var game_object_collections = game_mode["GameObjectCollections"]
 		_deserialize_object_colletion(game_mode_object, game_object_collections)
 		
+		if "Events" in game_mode:
+			var events = game_mode["Events"]
+			_deserialize_events(game_mode_object, events)
+		
 		if "AttributeMappings" in game_mode:
 			var attribute_mappings = game_mode["AttributeMappings"]
 			_deserialize_mappings(game_mode_object, attribute_mappings)
@@ -119,25 +123,46 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 				cluster_centroid_layer,
 				cluster_points_layer
 			)
-		elif type == "GameObjectFromZonesCollection":
-			var activation_points_layer = LayerCompositionSerializer.get_feature_layer_from_string(
-				collection["activation_points_layer"],
-				path
-			)
+
+
+func _deserialize_events(game_mode: GameMode, events: Dictionary):
+	for event_name in events.keys():
+		var event_config = events[event_name]
+		
+		var event_object = GameEvent.new()
+		
+		for event_action_name in event_config["actions"].keys():
+			var event_action_config = event_config["actions"][event_action_name]
 			
-			var good_zone_goc = game_mode.game_object_collections[collection["good_zone_goc"]]
-			var bad_zone_goc = game_mode.game_object_collections[collection["bad_zone_goc"]]
-			
-			var target_score_name = collection["target_score"]
-			
-			collection_object = game_mode.add_game_object_from_zones_game_object_collection(
-				collection_name,
-				layer,
-				activation_points_layer,
-				good_zone_goc,
-				bad_zone_goc,
-				target_score_name
-			)
+			if event_action_config["type"] == "ZonesToGameObjectsAction":
+				var activation_points_layer = LayerCompositionSerializer.get_feature_layer_from_string(
+					event_action_config["activation_points_layer"],
+					path
+				)
+				
+				var insert_goc =game_mode.game_object_collections[event_action_config["insert_goc"]]
+				
+				var good_zone_goc = game_mode.game_object_collections[event_action_config["good_zone_goc"]]
+				var bad_zone_goc = game_mode.game_object_collections[event_action_config["bad_zone_goc"]]
+				
+				var target_score_name = event_action_config["target_score"]
+				
+				var event_action = ZonesToGameObjectsAction.new(
+					event_action_name,
+					insert_goc.feature_layer,
+					activation_points_layer,
+					good_zone_goc,
+					bad_zone_goc,
+					target_score_name
+				)
+				
+				event_object.add_action(event_action)
+		
+		game_mode.game_events[event_name] = event_object
+		
+		# FIXME: we should also check event_config["trigger"] for when the event should be applied
+		# Currently all Events are handled as having the "GameModeBegin" trigger
+
 
 var mapping_type_to_construction_func = {
 	"ImplicitVectorGameObjectAttribute": func(_name, data):

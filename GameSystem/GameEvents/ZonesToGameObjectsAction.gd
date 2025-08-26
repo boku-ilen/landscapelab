@@ -1,5 +1,5 @@
-extends GameObjectCollection
-class_name GameObjectFromZonesCollection
+extends EventAction
+class_name ZonesToGameObjectsAction
 
 #
 # A collection of clusters of GameObjects at pre-defined locations.
@@ -40,37 +40,18 @@ func _init(
 		initial_bad_zone_goc,
 		initial_target_score_name
 	):
-	super._init(initial_name)
 	
 	feature_layer = initial_feature_layer
 	activation_layer = initial_activation_layer
 	good_zone_goc = initial_good_zone_goc
 	bad_zone_goc = initial_bad_zone_goc
 	target_score_name = initial_target_score_name
-	
-	## Register all existing features
-	#for feature in feature_layer.get_all_features():
-		#_add_game_object(feature)
-	
-	# Register future features automatically
-	feature_layer.connect("feature_added",Callable(self,"_add_game_object"))
-	feature_layer.connect("feature_removed",Callable(self,"_remove_game_object"))
 
 
-func remove_nearby_game_objects(position, radius):
-	var features = feature_layer.get_features_near_position(
-		position.x,
-		position.z,
-		radius,
-		10000
-	)
-	
-	for feature in features:
-		feature_layer.remove_feature(feature)
-
-
-func activate():
+func apply(_game_mode: GameMode):
 	# Delete all previous features
+	# FIXME: Maybe don't do that and try to preserve changes made there, in case the game mode is
+	#  switched back and forth
 	for feature in feature_layer.get_all_features():
 		feature_layer.remove_feature(feature)
 	
