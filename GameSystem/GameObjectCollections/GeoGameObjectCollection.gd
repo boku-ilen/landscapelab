@@ -6,7 +6,7 @@ class_name GeoGameObjectCollection
 # Has a 1:1 relationship to a Layer.
 #
 
-var feature_layer
+var feature_layer: GeoFeatureLayer
 
 signal game_object_added(new_game_object)
 signal game_object_removed(removed_game_object)

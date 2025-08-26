@@ -6,6 +6,7 @@ class_name GameMode
 var game_object_collections = {}
 var game_scores = {}
 var game_views = {}
+var game_events = {}
 
 var token_to_game_object_collection = {}
 
@@ -17,6 +18,10 @@ var icon
 signal view_activated(view)
 signal score_changed(score)
 signal score_target_reached(score)
+
+func activate():
+	for game_event in game_events.values():
+		game_event.apply_event(self)
 
 
 func add_game_object_collection(collection):
@@ -31,6 +36,15 @@ func add_game_object_collection_for_feature_layer(collection_name, feature_layer
 
 func add_cluster_game_object_collection(collection_name, feature_layer, location_layer, instance_goc):
 	var collection = GameObjectClusterCollection.new(collection_name, feature_layer, location_layer, instance_goc)
+	add_game_object_collection(collection)
+	return collection
+
+
+func add_fixed_cluster_game_object_collection(collection_name, feature_layer, instance_goc,
+		cluster_centroid_layer, cluster_points_layer):
+	var collection = FixedGameObjectClusterCollection.new(collection_name, feature_layer,
+			instance_goc, cluster_centroid_layer, cluster_points_layer)
+	
 	add_game_object_collection(collection)
 	return collection
 

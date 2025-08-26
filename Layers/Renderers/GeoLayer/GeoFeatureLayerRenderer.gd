@@ -74,16 +74,22 @@ func set_feature_icon(feature, marker):
 				marker.set_texture(load(render_info.attribute_icon.thresholds[threshold]))
 				marker.set_scale(Vector2.ONE * render_info.marker_scale / zoom)
 				break
-	elif render_info.marker_near != null and zoom.x >= render_info.marker_near_switch_zoom:
-		marker.set_texture(render_info.marker_near)
-		
-		if render_info.marker_near_scale_formula != null:
-			marker.set_scale(Vector2.ONE * parse_attribute_expression(feature, render_info.marker_near_scale_formula))
-		else:
-			marker.set_scale(Vector2.ONE * render_info.marker_near_scale)
 	else:
 		marker.set_texture(layer_definition.render_info.marker)
 		marker.set_scale(Vector2.ONE * layer_definition.render_info.marker_scale / zoom)
+
+	if render_info.marker_near != null and zoom.x >= render_info.marker_near_switch_zoom:
+		var near_sprite = Sprite2D.new() if not marker.has_node("IconNear") else marker.get_node("IconNear")
+
+		near_sprite.name = "IconNear"
+		near_sprite.texture = render_info.marker_near
+
+		if render_info.marker_near_scale_formula != null:
+			near_sprite.set_scale((Vector2.ONE / marker.scale) * parse_attribute_expression(feature, render_info.marker_near_scale_formula))
+		else:
+			near_sprite.set_scale((Vector2.ONE / marker.scale) * render_info.marker_near_scale)
+		
+		marker.add_child(near_sprite)
 	
 	var p = feature.get_vector3()
 	marker.set_position(global_vector3_to_local_vector2(p))
