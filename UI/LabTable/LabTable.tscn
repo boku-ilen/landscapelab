@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://dap4sx6pnitq4"]
+[gd_scene load_steps=53 format=3 uid="uid://dap4sx6pnitq4"]
 
 [ext_resource type="Script" uid="uid://ylwjxiuxk7ef" path="res://UI/LabTable/LabTable.gd" id="1_714gw"]
 [ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_hpyhd"]
@@ -35,6 +35,7 @@
 [ext_resource type="Texture2D" uid="uid://uuqtyv3ffdfj" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/cloudy.svg" id="28_b1lmo"]
 [ext_resource type="PackedScene" uid="uid://cfs8w5yeraydb" path="res://UI/LabTable/TableToggleButton.tscn" id="28_x84ob"]
 [ext_resource type="Texture2D" uid="uid://bdw0osv1mm0qr" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/rainy.svg" id="29_76klx"]
+[ext_resource type="Script" uid="uid://dwacadyiruclp" path="res://UI/LabTable/SpecificGameModeButtons.gd" id="29_sid1k"]
 [ext_resource type="Texture2D" uid="uid://b1fy3xneoa2h5" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/thunderstorm.svg" id="30_0vbkr"]
 [ext_resource type="Script" uid="uid://dh1j20ris3du1" path="res://UI/LabTable/AtmosphereButton.gd" id="30_6tf8m"]
 [ext_resource type="Texture2D" uid="uid://ba1a3pe34nnto" path="res://Resources/Icons/ModernLandscapeLab/atmosphere/now.svg" id="31_3y1be"]
@@ -72,6 +73,7 @@ script = ExtResource("1_714gw")
 geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
+debug_mode = true
 run_brick_detection = false
 current_goc_name = "PV"
 
@@ -304,6 +306,10 @@ layout_mode = 2
 toggle_mode = false
 icon = ExtResource("19_xgrje")
 script = ExtResource("20_12202")
+
+[node name="SpecificGameModeButtons" type="HBoxContainer" parent="GameModeMarginContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("29_sid1k")
 
 [node name="CenterContainer2" type="CenterContainer" parent="."]
 anchors_preset = 3

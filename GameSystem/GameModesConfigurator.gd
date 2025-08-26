@@ -26,13 +26,16 @@ func load_game_mode_config() -> void:
 
 
 func _load_game_modes(path: String, game_modes: Dictionary) -> void:
-	for key in game_modes:
-		var game_mode = game_modes[key]
+	for game_mode_name in game_modes:
+		var game_mode = game_modes[game_mode_name]
 		
 		var game_mode_object = GameMode.new()
 		
 		if "Extent" in game_mode:
 			game_mode_object.extent = game_mode["Extent"]
+		
+		if "Icon" in game_mode:
+			game_mode_object.icon = load(game_mode["Icon"])
 		
 		var game_object_collections = game_mode["GameObjectCollections"]
 		_deserialize_object_colletion(game_mode_object, game_object_collections)
@@ -54,6 +57,7 @@ func _load_game_modes(path: String, game_modes: Dictionary) -> void:
 			_deserialize_tokens(game_mode_object, tokens)
 		
 		GameSystem.game_modes.append(game_mode_object)
+		GameSystem.game_mode_names_to_objects[game_mode_name] = game_mode_object
 	
 	GameSystem.activate_next_game_mode()
 
