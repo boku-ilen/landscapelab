@@ -83,7 +83,6 @@ func add_geo_layer(layer: RefCounted):
 	if layer is GeoRasterLayer:
 		geo_layers["rasters"][layer.get_file_info()["name"]] = layer
 	elif layer is GeoFeatureLayer:
-		var test = layer.get_file_info()
 		geo_layers["features"][layer.get_file_info()["name"]] = layer
 	else:
 		logger.error("Added an invalid geolayer")
