@@ -1,4 +1,4 @@
-extends Sprite2D
+extends "res://UI/LabTable/TableButton.gd"
 
 
 var time_manager: TimeManager:
@@ -18,13 +18,8 @@ func _ready():
 	$AtmospherePanel/Content/HBoxContainer/CurrentSettingsButton.pressed.connect(_on_current_settings_pressed)
 
 
-func _input(event):
-	if event is InputEventMouseButton and not event.pressed:
-		if get_rect().has_point(to_local(event.position)):
-			if event.button_index == MOUSE_BUTTON_LEFT:
-				$AtmospherePanel.visible = not $AtmospherePanel.visible
-			
-			get_viewport().set_input_as_handled()
+func _toggled(toggled_on: bool) -> void:
+	$AtmospherePanel.visible = not $AtmospherePanel.visible
 
 
 func _on_time_item_selected(index):

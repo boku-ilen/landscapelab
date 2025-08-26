@@ -1,13 +1,67 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--Creator: CorelDRAW 2021.5-->
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="10mm" height="10mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 30.58 30.58" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
-    <defs/>
-    <g id="Ebene_x0020_1">
-        <metadata id="CorelCorpID_0Corel-Layer"/>
-        <circle cx="15.29" cy="15.29" r="10.7" style="stroke:#C5C6C6;stroke-width:1.08;stroke-miterlimit:22.9256;fill:#D9DADA"/>
-        <line x1="9.17" y1="15.29" x2="21.41" y2="15.29" style="stroke:#FEFEFE;stroke-width:2.16;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256;fill:none"/>
-        <line x1="15.29" y1="21.41" x2="15.29" y2="9.17" style="stroke:#FEFEFE;stroke-width:2.16;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256;fill:none"/>
-        <rect x="0" width="30.58" height="30.58" style="fill:none"/>
-    </g>
+
+<svg
+   xml:space="preserve"
+   width="6.9980378mm"
+   height="6.9980378mm"
+   version="1.1"
+   style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+   viewBox="0 0 21.4 21.4"
+   id="svg2"
+   sodipodi:docname="m_zoom_in.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   id="namedview2"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:document-units="mm"
+   inkscape:zoom="9.6444209"
+   inkscape:cx="0.36290411"
+   inkscape:cy="14.049573"
+   inkscape:window-width="1912"
+   inkscape:window-height="1217"
+   inkscape:window-x="2560"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Ebene_x0020_1" />
+    <defs
+   id="defs1" />
+    <g
+   id="Ebene_x0020_1"
+   inkscape:label="Ebene 1"
+   inkscape:groupmode="layer"
+   transform="translate(1.8872871,-4.5854788)">
+        <metadata
+   id="CorelCorpID_0Corel-Layer" />
+        
+        
+        
+        
+    <circle
+   cx="8.8127127"
+   cy="15.285479"
+   r="10.7"
+   style="clip-rule:evenodd;fill:#d9dada;fill-rule:evenodd;stroke:none;stroke-width:1.08;stroke-miterlimit:22.9256;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+   id="circle1" /><line
+   x1="2.6927125"
+   y1="15.285479"
+   x2="14.932713"
+   y2="15.285479"
+   style="clip-rule:evenodd;fill:none;fill-rule:evenodd;stroke:#fefefe;stroke-width:2.16;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+   id="line1" /><line
+   x1="8.8127127"
+   y1="21.405479"
+   x2="8.8127127"
+   y2="9.1654787"
+   style="clip-rule:evenodd;fill:none;fill-rule:evenodd;stroke:#fefefe;stroke-width:2.16;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+   id="line2" /></g>
 </svg>

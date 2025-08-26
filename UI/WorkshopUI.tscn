@@ -44,7 +44,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 17.0
-offset_bottom = 104.0
+offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 5
@@ -173,7 +173,7 @@ script = ExtResource("14_dbua3")
 handle_input_locally = false
 msaa_3d = 1
 gui_disable_input = true
-size = Vector2i(833, 668)
+size = Vector2i(11, 58)
 render_target_update_mode = 4
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" instance=ExtResource("15_w6bxo")]

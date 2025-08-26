@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b26nu6gpqlovf"]
 
-[ext_resource type="Shader" path="res://Buildings/Components/Walls/Walls.gdshader" id="1_us2is"]
+[ext_resource type="Shader" uid="uid://ltipn02653vs" path="res://Buildings/Components/Walls/Walls.gdshader" id="1_us2is"]
 
 [resource]
 resource_local_to_scene = true

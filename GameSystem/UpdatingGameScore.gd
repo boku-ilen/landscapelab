@@ -12,9 +12,10 @@ func add_contributor(game_object_collection: GameObjectCollection, attribute_nam
 		game_object_collection.changed.connect(recalculate_score, CONNECT_DEFERRED)
 	
 	# FIXME: Hacky
-	if game_object_collection.attributes[attribute_name] is ChangeOnIntersectAttribute:
-		game_object_collection.attributes[attribute_name] \
-				.intersecting_game_object_collection.changed.connect(recalculate_score, CONNECT_DEFERRED)
+	if attribute_name in game_object_collection:
+		if game_object_collection.attributes[attribute_name] is ChangeOnIntersectAttribute:
+			game_object_collection.attributes[attribute_name] \
+					.intersecting_game_object_collection.changed.connect(recalculate_score, CONNECT_DEFERRED)
 	
 	# Update the score to reflect this new contributor
 	recalculate_score()

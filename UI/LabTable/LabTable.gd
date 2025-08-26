@@ -10,23 +10,23 @@ extends Control
 		if geo_layers:
 			geo_layers.player_node = new_player
 			
-		get_parent().get_node("MarginContainer/AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").player = new_player
+		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton/AtmosphereConfiguration/LiveWeatherService").player = new_player
 		get_node("SubViewportContainer/PanelContainer/ControlContainer").player_sprite = $SubViewportContainer/SubViewport/GeoLayerRenderers/PlayerSprite
 
 @export var time_manager: TimeManager:
 	set(new_time_manager):
 		time_manager = new_time_manager
-		get_parent().get_node("MarginContainer/AtmosphereMenu").time_manager = new_time_manager
+		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton").time_manager = new_time_manager
 
 @export var weather_manager: WeatherManager:
 	set(new_weather_manager):
 		weather_manager = new_weather_manager
-		get_parent().get_node("MarginContainer/AtmosphereMenu").weather_manager = new_weather_manager
-		get_parent().get_node("MarginContainer/AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").weather_manager = new_weather_manager
+		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton").weather_manager = new_weather_manager
+		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton/AtmosphereConfiguration/LiveWeatherService").weather_manager = new_weather_manager
 
 @export var run_brick_detection := true
 
-var current_goc_name = "Teleport"
+@export var current_goc_name := "Acceptable Zones"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
@@ -99,7 +99,6 @@ func set_workshop_mode(active: bool):
 		var vector_local = geo_transform.transform_coordinates(vector_3857)
 		
 		var successful_configuration = []
-		current_goc_name = "Placed Wind Farms"
 		if not current_goc_name:
 			game_object_failed.emit(event.position)
 			return

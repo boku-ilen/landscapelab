@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfs8w5yeraydb"]
+
+[ext_resource type="Theme" uid="uid://bmrrl65wn4876" path="res://UI/Theme/TableButton.tres" id="1_p2lvv"]
+[ext_resource type="Texture2D" uid="uid://bs6l1cbwkvg0f" path="res://Resources/Icons/ModernLandscapeLab/circle.svg" id="2_p2lvv"]
+
+[node name="LayerToggleButton" type="Button"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -243.0
+offset_right = 96.0
+offset_bottom = -167.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_p2lvv")
+toggle_mode = true
+icon = ExtResource("2_p2lvv")
