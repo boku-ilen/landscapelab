@@ -60,7 +60,7 @@ func load_feature_instance(feature: GeoFeature) -> Node3D:
 
 
 func set_instance_pos(feature, obj_instance):
-	if not feature.has_method("get_offset_vector3"):
+	if not feature is GeoPoint:
 		logger.warn("Provided feature: %s is not a valid GeoPoint" % [feature])
 		return
 	
