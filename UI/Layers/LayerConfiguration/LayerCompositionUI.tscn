@@ -36,19 +36,16 @@ custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
 [node name="NewLayer" parent="VBoxContainer/Menu" instance=ExtResource("3_crf05")]
-custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("4_yh728")
 texture_name = "new_file"
 
 [node name="DeleteLayer" parent="VBoxContainer/Menu" instance=ExtResource("3_crf05")]
-custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("5_7o63i")
 texture_name = "delete_file"
 
 [node name="Filter" parent="VBoxContainer/Menu" instance=ExtResource("3_crf05")]
-custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("6_yg0yl")
 texture_name = "filter"

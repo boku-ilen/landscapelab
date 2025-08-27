@@ -1,4 +1,0 @@
-[gd_scene format=3 uid="uid://ghjvn4yxhw6j"]
-
-[node name="F2_HK_rows_relief"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

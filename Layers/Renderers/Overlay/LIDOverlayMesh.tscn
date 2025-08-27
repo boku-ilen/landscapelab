@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://dhmlmgm0yc278"]
+
+[ext_resource type="Script" uid="uid://btb5njjmy3y7f" path="res://Layers/Renderers/Overlay/LIDOverlayMesh.gd" id="1_fxk4n"]
+[ext_resource type="PackedScene" uid="uid://cfav3tiv42xkt" path="res://Layers/Renderers/Overlay/LIDOverlay.tscn" id="2_s711f"]
+
+[sub_resource type="Shader" id="Shader_4e7hi"]
+code = "shader_type spatial;
+render_mode unshaded;
+
+uniform vec4 color: source_color;
+
+void fragment() {
+	ALBEDO = color.rgb;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nf2l1"]
+render_priority = 0
+shader = SubResource("Shader_4e7hi")
+shader_parameter/color = Color(0, 0, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_f8eil"]
+resource_local_to_scene = true
+size = Vector2(5, 5)
+
+[node name="LIDOverlayMesh" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.7, 0)
+layers = 65536
+material_override = SubResource("ShaderMaterial_nf2l1")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_f8eil")
+skeleton = NodePath("../..")
+script = ExtResource("1_fxk4n")
+
+[node name="LIDOverlay" parent="." instance=ExtResource("2_s711f")]

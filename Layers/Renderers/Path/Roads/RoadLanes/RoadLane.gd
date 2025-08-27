@@ -16,11 +16,14 @@ const LANE_TYPE_TO_NAME: Dictionary = {
 var lane_type: int = -1
 
 # Road path info
-@export var always_3d := false
 @export var road_height: float = 0.2
-@export var taper_top := 0.0
+@export var width_extension_bottom := 0.0
 @export var lower_into_ground := 0.0
 @export var dynamic_width := true
+@export var render_lid := true
+@export var write_into_height_overlay := false
+@export var write_into_texture_overlay := true
+@export var render_3d := true
 
 var road_width: float = 2.0
 var road_offset: float = 0.0
@@ -41,6 +44,11 @@ var custom_percentage_from = 0.0
 var custom_percentage_to = 0.0
 
 
+func _ready():
+	LIDOverlay.updated.emit()
+	visibility_changed.connect(func(): LIDOverlay.updated.emit())
+
+
 func update_road_lane() -> void:
 	var total_road_width = road_width + custom_road_width
 	var total_road_height = road_height + custom_road_height
@@ -52,10 +60,10 @@ func update_road_lane() -> void:
 	
 	if dynamic_width:
 		var polygon: PackedVector2Array = [
-			Vector2(-half_width + taper_top, total_road_height),
-			Vector2(half_width - taper_top, total_road_height),
-			Vector2(half_width + taper_top, -lower_into_ground),
-			Vector2(-half_width - taper_top, -lower_into_ground)
+			Vector2(-half_width + width_extension_bottom, total_road_height),
+			Vector2(half_width, total_road_height),
+			Vector2(half_width + width_extension_bottom, -lower_into_ground),
+			Vector2(-half_width, -lower_into_ground)
 		]
 		
 		# Set polygon
@@ -72,11 +80,21 @@ func update_road_lane() -> void:
 	$RoadLanePolygon.material.set_shader_parameter("width", total_road_width)
 	$RoadLanePolygon.material.set_shader_parameter("height", total_road_height)
 	
-	if always_3d or is_bridge:
-		$RoadLanePolygon.layers = 4 # 3D mesh only
-		$RoadLanePolygon.material.set_shader_parameter("render_lid", false)
+	if render_lid:
+		$RoadLanePolygon.layers = pow(2, 16) # LID
 	else:
-		$RoadLanePolygon.layers = 32768 + 65536 # Terrain overlay and LID
+		$RoadLanePolygon.material.set_shader_parameter("render_lid", false)
+	
+	if write_into_texture_overlay:
+		# Write into texture overlay (terrain decal)
+		$RoadLanePolygon.layers += pow(2, 15)
+	
+	if render_3d:
+		# Write into detail mesh (normal 3D object rendering)
+		$RoadLanePolygon.layers += pow(2, 2)
+	
+	if write_into_height_overlay:
+		$RoadLanePolygon.layers += pow(2, 17)
 
 
 func reset_custom_values() -> void:

@@ -94,7 +94,6 @@ func _ready():
 		var diameter_raw = feature.get_attribute(diameter_attribute_name)
 		
 		if height_raw:
-			var test = str_to_var(height_raw)
 			height = max(str_to_var(height_raw), min_hub_height)
 		
 		if diameter_raw:

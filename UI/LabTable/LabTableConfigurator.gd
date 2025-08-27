@@ -3,6 +3,7 @@ extends Configurator
 
 @export var table_communicator: Node
 @export var renderers: Node2D
+@export var game_ui: Control
 
 var has_loaded = false
 
@@ -28,47 +29,56 @@ func load_table_config() -> void:
 	get_parent().geo_transform.set_transform(3857, config["Meta"]["crs"])
 	
 	_load_layers(path, table_config)
-
-
-func _load_layers(path: String, table_config: Dictionary):
-	# FIXME: proper deserialization/seralization options
-	var base_path = get_setting("config-path")
-	for key in table_config["LayerDefinitions"].keys():
-		var layer_conf = table_config["LayerDefinitions"][key]
-		
-		# Pre-existing layer composition which strictly needs to use the same data background
-		var geo_layer: RefCounted
-		if "layer_name" in layer_conf:
-			if "geo_feature_layer" in Layers.layer_compositions[layer_conf["layer_name"]].render_info:
-				geo_layer = Layers.layer_compositions[layer_conf["layer_name"]].render_info.geo_feature_layer
-			else:
-				assert(false, "Invalid layer!")
-		else:
-			var splits = LLFileAccess.split_dataset_string(base_path, layer_conf["path"])
-			geo_layer = LLFileAccess.get_layer_from_splits(splits, true)
-		
-		var layer_def = LayerDefinition.new(geo_layer, layer_conf["z_index"])
-		layer_def.name = key
-		
-		if "color_ramp" in layer_conf:
-			layer_def.render_info.gradient = ColorRamps.gradients[layer_conf["color_ramp"]]
-			layer_def.render_info.min_val = layer_conf["min_val"]
-			layer_def.render_info.max_val = layer_conf["max_val"]
-		
-		if "icon" in layer_conf:
-			layer_def.render_info.marker = load(layer_conf["icon"])
-			layer_def.render_info.marker_scale = layer_conf["icon_scale"] if "icon_scale" in layer_conf else 0.1
-		
-		if "no_data" in layer_conf:
-			layer_def.render_info.no_data = Color(layer_conf["no_data"][0], layer_conf["no_data"][1], layer_conf["no_data"][2])
-		
-		if "config" in layer_def.render_info:
-			layer_def.render_info.config = layer_conf
-			
-		Layers.add_layer_definition(layer_def)
+	_load_game_ui(path, table_config)
 	
 	logger.info("LabTable has been setup")
 
 
+func _load_layers(path: String, table_config: Dictionary):
+	var base_path = get_setting("config-path")
+	for definition_name in table_config["LayerDefinitions"].keys():
+		
+		var layer_definition = LayerDefinitionSerializer.deserialize(
+			base_path,
+			definition_name,
+			table_config["LayerDefinitions"][definition_name])
+		
+		if layer_definition is LayerDefinition:
+			Layers.add_layer_definition(layer_definition)
 
-	
+
+func _load_game_ui(path: String, table_config: Dictionary):
+	var base_path = get_setting("config-path")
+	if not "GameUI" in table_config: 
+		return
+	for goc_name in table_config["GameUI"].keys():
+		# Find game mode that contains the goc
+		var relevant_game_modes = GameSystem.game_modes.filter(func(game_mode: GameMode): 
+			return goc_name in game_mode.game_object_collections
+		)
+		for relevant_game_mode in relevant_game_modes:
+			var goc = relevant_game_mode.game_object_collections[goc_name]
+			
+			var ui_element: Control
+			if goc is ToggleGameObjectCollection:
+				ui_element = preload("res://UI/LabTable/TableToggleButton.tscn").instantiate() as Button
+				ui_element.name = goc_name
+				game_ui.add_child(ui_element)
+				
+				# Check if goc is in the current game mode otherwise hide and connect to signal
+				var is_relevant_game_mode = func():
+					ui_element.visible = GameSystem.current_game_mode == relevant_game_mode
+				is_relevant_game_mode.call()
+				GameSystem.game_mode_changed.connect(is_relevant_game_mode)
+				
+				# Check if it is already active and connect to signal
+				ui_element.set_pressed(goc.active)
+				ui_element.toggled.connect(goc.toggle)
+			
+			# Finally deserialize properties
+			Serialization.deserialize(
+				table_config["GameUI"][goc_name]["attributes"],
+				ui_element,
+				base_path,
+				AbstractLayerSerializer._lookup_deserialization.bind(AbstractLayerSerializer, null)
+			)

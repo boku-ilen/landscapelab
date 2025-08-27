@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bk1j0drxmtba3"]
+[gd_scene load_steps=13 format=3 uid="uid://bk1j0drxmtba3"]
 
 [ext_resource type="Script" uid="uid://dww016r1dhraa" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="1_euh7k"]
 [ext_resource type="ArrayMesh" uid="uid://fn60asgrp3gw" path="res://Resources/Meshes/Windmills/V/WKA_V_Mast.res" id="2_swtu4"]
@@ -6,6 +6,7 @@
 [ext_resource type="ArrayMesh" uid="uid://cevopxp4utikl" path="res://Resources/Meshes/Windmills/V/WKA_V_Hub.res" id="4_2yhci"]
 [ext_resource type="ArrayMesh" uid="uid://dy7qok6e74xyq" path="res://Resources/Meshes/Windmills/V/WKA_V_Rotor_Black.res" id="4_6laur"]
 [ext_resource type="Texture2D" uid="uid://bj0adoua3ekv" path="res://Resources/Textures/ShaderUtil/spotlight.png" id="5_4q6q7"]
+[ext_resource type="PackedScene" uid="uid://dhmlmgm0yc278" path="res://Layers/Renderers/Overlay/LIDOverlayMesh.tscn" id="7_7dm2n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rnf0k"]
 transparency = 1
@@ -41,6 +42,10 @@ tracks/0/keys = {
 _data = {
 &"Blink": SubResource("8")
 }
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jgxyh"]
+top_radius = 20.0
+bottom_radius = 20.0
 
 [node name="VWindTurbine" type="Node3D"]
 script = ExtResource("1_euh7k")
@@ -86,3 +91,7 @@ skeleton = NodePath("../../..")
 libraries = {
 &"": SubResource("AnimationLibrary_n7nt5")
 }
+
+[node name="LIDOverlay" parent="." instance=ExtResource("7_7dm2n")]
+mesh = SubResource("CylinderMesh_jgxyh")
+lid = 1002

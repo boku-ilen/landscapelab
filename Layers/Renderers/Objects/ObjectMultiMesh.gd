@@ -4,13 +4,13 @@ var height_layer: GeoRasterLayer
 var object_layer: GeoFeatureLayer
 var objects_mapping: Dictionary : 
 	set(new_objects_mapping): 
-		objects_mapping = new_objects_mapping
-		for key in objects_mapping:
+		for key in new_objects_mapping:
+			objects_mapping[key] = new_objects_mapping[key]
 			var new_mmi = MultiMeshInstance3D.new()
 			new_mmi.name = key
 			add_child(new_mmi)
 			instance_mapping[key] = load(objects_mapping[key])
-var instance_mapping: Dictionary 
+var instance_mapping: Dictionary = {}
 var selector_attribute_name: String = ""
 var randomize: bool
 

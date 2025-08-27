@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Creator: CorelDRAW 2021.5-->
+
+<svg
+   xml:space="preserve"
+   width="7.0004077mm"
+   height="7.0004077mm"
+   version="1.1"
+   style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+   viewBox="0 0 17.200001 17.200001"
+   id="svg1"
+   sodipodi:docname="m_overview.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   id="namedview1"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:document-units="mm"
+   showgrid="true"
+   inkscape:zoom="10.24"
+   inkscape:cx="7.8125"
+   inkscape:cy="27.880859"
+   inkscape:window-width="1912"
+   inkscape:window-height="1217"
+   inkscape:window-x="2560"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Ebene_x0020_1"><inkscape:grid
+     visible="true"
+     id="grid1"
+     units="mm"
+     originx="15.976"
+     originy="10.317099"
+     spacingx="2.4569999"
+     spacingy="2.4569999"
+     empcolor="#0099e5"
+     empopacity="0.30196078"
+     color="#0099e5"
+     opacity="0.14901961"
+     empspacing="5"
+     dotted="false"
+     gridanglex="30"
+     gridanglez="30" /></sodipodi:namedview>
+    <defs
+   id="defs1" />
+    <g
+   id="Ebene_x0020_1"
+   inkscape:label="Ebene 1"
+   inkscape:groupmode="layer"
+   transform="translate(15.976,10.317099)">
+        <metadata
+   id="CorelCorpID_0Corel-Layer" />
+        
+        
+        
+    <circle
+   cx="-7.3759999"
+   cy="-1.7170988"
+   style="clip-rule:evenodd;fill:#d9dada;fill-rule:evenodd;stroke:none;stroke-width:0.87;stroke-miterlimit:22.9256;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+   id="circle1"
+   r="8.6000004" /><path
+   id="rect2"
+   style="clip-rule:evenodd;fill:#000000;fill-opacity:0;fill-rule:evenodd;stroke:#fefefe;stroke-width:1.4898;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+   d="M -11.5401,-5.881199 V 2.457 h 8.3381994 v -8.338199 z" /></g>
+</svg>

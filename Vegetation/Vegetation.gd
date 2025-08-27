@@ -20,6 +20,7 @@ var ground_textures = {}
 var fade_textures = {}
 var paths := {}
 
+var was_loaded: bool = false
 
 # Global plant view distance modifyer (plants per renderer row)
 # TODO: Consider moving to settings
@@ -59,6 +60,7 @@ func load_data_from_gpkg(db) -> void:
 	
 	max_extent = max_size_factor * plant_extent_factor
 	
+	was_loaded = true
 	emit_signal("new_data")
 
 
@@ -126,6 +128,7 @@ func load_data_from_csv(plant_path: String, group_path: String, density_path: St
 		"Plants": plant_path
 	}
 	
+	was_loaded = true
 	new_data.emit()
 
 
@@ -416,7 +419,7 @@ func generate_distribution(group: PlantGroup, max_size: float, density_class):
 			#  (between the plant's min and max height)
 			var plant = group.plants[highest_roll_id]
 			var random_height = dice.randf_range(plant.height_min, plant.height_max)
-			var scale_before_comma = random_height / 255.0
+			var scale_before_comma = floor(random_height) / 255.0
 			var scale_after_comma = random_height - floor(random_height)
 			
 			distribution.set_pixel(x, y, Color(plant.id / 255.0, scale_before_comma, scale_after_comma, 0.0))

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c3unw1h6lklbg"]
-
-[ext_resource type="Script" uid="uid://bcrbcvpv4kumg" path="res://Python/PythonWrapper.gd" id="1"]
-
-[node name="PythonWrapper" type="Node"]
-script = ExtResource("1")

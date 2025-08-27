@@ -1,6 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://5mxenlqcnre4"]
-
-[ext_resource type="Material" uid="uid://ddbs4oysuneg3" path="res://Objects/Infrastructure/Traffic/RoadInfrastructure2.tres" id="1_t3nag"]
+[gd_resource type="ArrayMesh" load_steps=2 format=4 uid="uid://5mxenlqcnre4"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_g6785"]
 _surfaces = [{
@@ -24,7 +22,6 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 192,
 "index_data": PackedByteArray("AAABAAIAAgABAAMAAQAEAAMABQAEAAEABgAHAAgACAAHAAkACgALAAwADAALAA0ADgAPABAAEAAPABEAEgATABQAFAATABUAFgAXABgAGAAXABkAGgAbABwAHAAbAB0AGgAeABsAGwAeAB8AIAAhACIAIgAhACMAIAAkACEAIQAkACUAJgAnACgAKAAnACkAKgArACwALAArAC0ALgAvADAAMAAvADEAMgAzADQANAAzADUANgA3ADgAOAA3ADkAOgA7ADwAPAA7AD0APgA/AEAAQAA/AEEAPgBCAD8APwBCAEMARABFAEYARgBFAEcARQBIAEcASQBIAEUASgBLAEwATABLAE0ATgBPAFAAUABPAFEAUgBTAFQAVABTAFUAVgBXAFgAWABXAFkAWgBbAFwAXABbAF0AXgBfAGAAYABfAGEAYgBjAGQAZABjAGUAZgBiAGQAZwBiAGYAaABpAGoAagBpAGsAbABtAG4AbgBtAG8AcABxAHIAcgBxAHMA"),
-"material": ExtResource("1_t3nag"),
 "name": "Mesh",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),

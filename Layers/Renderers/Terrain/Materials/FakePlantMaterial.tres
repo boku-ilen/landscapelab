@@ -39,3 +39,4 @@ shader_parameter/stripe_noise = ExtResource("3_ghvk1")
 shader_parameter/distribution_array = null
 shader_parameter/texture_map = null
 shader_parameter/size = 0.0
+shader_parameter/max_distance = 90.0

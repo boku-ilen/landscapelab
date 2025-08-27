@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://vp52cbi5mye1"]
-
-[node name="Overhead_field1" type="Node3D"]
-
-[node name="F1_HK_overhead_relief_merged" parent="."]

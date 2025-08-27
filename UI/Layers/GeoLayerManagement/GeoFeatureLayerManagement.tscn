@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://b7edl76i03v20"]
+
+[ext_resource type="Script" uid="uid://d24a62oip1plb" path="res://UI/Layers/GeoLayerManagement/GeoFeatureLayerManagement.gd" id="1_c2go0"]
+[ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="2_xm7b5"]
+[ext_resource type="Texture2D" uid="uid://3l8mvamphk8h" path="res://Resources/Icons/ModernLandscapeLab/vector_add.svg" id="3_m3nyt"]
+[ext_resource type="Texture2D" uid="uid://qtod1bt3a6xa" path="res://Resources/Icons/ModernLandscapeLab/vector_remove.svg" id="4_lb5vd"]
+[ext_resource type="Texture2D" uid="uid://b5vbuejsrm8o7" path="res://Resources/Icons/ModernLandscapeLab/vector_modify.svg" id="5_q72td"]
+[ext_resource type="Texture2D" uid="uid://b3pbwu5eqrdlv" path="res://Resources/Icons/ModernLandscapeLab/vector_edit.svg" id="6_m4r24"]
+
+[node name="GeoFeatureLayerManagement" type="HBoxContainer"]
+script = ExtResource("1_c2go0")
+
+[node name="Add" parent="." instance=ExtResource("2_xm7b5")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+toggle_mode = true
+icon = ExtResource("3_m3nyt")
+texture_name = "vector_add"
+
+[node name="Remove" parent="." instance=ExtResource("2_xm7b5")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+toggle_mode = true
+icon = ExtResource("4_lb5vd")
+texture_name = "vector_remove"
+
+[node name="Modify" parent="." instance=ExtResource("2_xm7b5")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+toggle_mode = true
+icon = ExtResource("5_q72td")
+texture_name = "vector_modify"
+
+[node name="Edit" parent="." instance=ExtResource("2_xm7b5")]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+toggle_mode = true
+icon = ExtResource("6_m4r24")
+texture_name = "vector_edit"

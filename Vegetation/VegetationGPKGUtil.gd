@@ -26,5 +26,3 @@ static func create_groups_from_gpkg(db, plants: Dictionary,
 		ground_textures: Dictionary, fade_textures: Dictionary) -> Dictionary:
 	return super._create_groups(db.select_rows("Vegetation_Group", "", ["*"]).duplicate(), 
 								plants, ground_textures, fade_textures)
-
-

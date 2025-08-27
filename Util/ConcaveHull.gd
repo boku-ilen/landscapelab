@@ -27,8 +27,9 @@ static func remove_redundant(boundaries: Array) -> Array:
 		var current = boundaries[i]
 		var next = boundaries[(i + 1) % n]
 	
-		if prev.direction_to(current) != current.direction_to(next):
-			result.append(current)
+		if not is_equal_approx(prev.direction_to(current).x, current.direction_to(next).x) \
+			and not is_equal_approx(prev.direction_to(current).y, current.direction_to(next).y):
+				result.append(current)
 	
 	return result
 

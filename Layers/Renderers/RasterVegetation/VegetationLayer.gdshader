@@ -8,6 +8,7 @@ uniform float spacing = 1.0;
 uniform sampler2D heightmap: repeat_disable;
 uniform sampler2D splatmap: repeat_disable, filter_nearest;
 uniform sampler2D splatmap_overlay: repeat_disable, filter_nearest, hint_default_black;
+uniform sampler2D height_overlay: repeat_disable, filter_linear, hint_default_black;
 
 uniform float splatmap_size_meters;
 
@@ -26,6 +27,33 @@ uniform vec3 view_direction;
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+float get_height(vec2 uv, bool local_use_height_overlay) {
+	// R: Integer part of the overlay height (divided by 10)
+	// G: Fractional part of the overlay height (divided by 10)
+	// B: Mixing factor from overlay height (1.0) to heightmap height (0.0)
+	vec4 overlay_height_sample = texture(height_overlay, uv);
+
+	// Height directly from the heightmap
+	float heightmap_height = texture(heightmap, uv).r;
+
+	// Interpolating from a valid value to an invalid value presents us with faulty results,
+	//  since the result will seem valid (> 0.0), but actually be far lower than anything sensible.
+	// 	Therefore, we check all 4 values surrounding the sample position and don't use the overlay
+	//  height if any of them is invalid.
+	vec4 near_values = textureGather(height_overlay, uv);
+	bool is_surrounded_by_valid = (near_values.x > 0.0 && near_values.y > 0.0
+			&& near_values.z > 0.0 && near_values.w > 0.0);
+
+	if (is_surrounded_by_valid && local_use_height_overlay && overlay_height_sample.b > 0.01) {
+		// Blend between heightmap height and overlay height by the blue channel of the overlay height
+		return mix(heightmap_height, (overlay_height_sample.r + overlay_height_sample.g) * 10.0, overlay_height_sample.b);
+	}
+
+	// Clamp to prevent weird behavior with extreme nodata values
+	// TODO: Might have to be generalized further to be more robust
+	return clamp(heightmap_height, -1000.0, 50000.0);
 }
 
 void process() {
@@ -53,10 +81,6 @@ void process() {
 	pos.x += rand(round((pos.xz) * 10.0) * 0.01) * spacing;
 	pos.z += rand(round((pos.xz) * 10.0) * 0.02) * spacing;
 
-	// The particle only needs to be active if it's in front of the camera
-	// Do this before applying world-space position and height - easier to calculate in local space
-	bool is_in_front_of_camera = dot(normalize(view_direction.xz), normalize(pos.xz)) > 0.7;
-
 	// rotate our transform
 	float angle = rand(round((pos.xz) * 10.0) * 0.03) * 3.0;
 	TRANSFORM[0][0] = cos(angle);
@@ -70,9 +94,9 @@ void process() {
 
 	float e = 2.0 / splatmap_size_meters;
 
-	float height_here = texture(heightmap, splatmap_uv).r;
-	float height_right = texture(heightmap, splatmap_uv + vec2(e, 0.0)).r;
-	float height_above = texture(heightmap, splatmap_uv + vec2(0.0, -e)).r;
+	float height_here = get_height(splatmap_uv, true);
+	float height_right = get_height(splatmap_uv  + vec2(e, 0.0), true);
+	float height_above = get_height(splatmap_uv + vec2(0.0, -e), true);
 
 	// Save terrain normal into COLOR to use as an up vector later
 	mat3 inv_rot = mat3(1.0);
@@ -104,7 +128,7 @@ void process() {
 
 	ACTIVE = !(distribution_id == 0) &&
 			(splatmap_uv.x > 0.0 && splatmap_uv.x < 1.0 &&
-			 splatmap_uv.y > 0.0 && splatmap_uv.y < 1.0);// && is_in_front_of_camera;
+			 splatmap_uv.y > 0.0 && splatmap_uv.y < 1.0);
 
 	// Note that the pos.xz is already offset by a random normal vector here, so it does not really matter what exactly we do with it since it's already random
 	vec3 dist_value = texture(distribution_array[distribution_id - 1], (pos.xz / spacing) / float(DISTRIBUTION_RESOLUTION)).rgb;

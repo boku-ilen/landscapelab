@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://motl2splk4tu"]
-
-[node name="F2_HK_overhead" type="Node3D"]
-
-[node name="F2_HK_overhead_relief" parent="."]

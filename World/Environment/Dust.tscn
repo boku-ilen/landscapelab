@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://bcxm06p4c3kj"]
+
+[ext_resource type="Texture2D" uid="uid://ev7jeana1s7r" path="res://Resources/Textures/ShaderUtil/dust_particle.png" id="1_g1tfh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qiuv1"]
+transparency = 1
+blend_mode = 1
+albedo_texture = ExtResource("1_g1tfh")
+backlight = Color(1, 1, 1, 1)
+billboard_mode = 1
+billboard_keep_scale = true
+distance_fade_mode = 1
+distance_fade_min_distance = 2.0
+
+[sub_resource type="Curve" id="Curve_qiuv1"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.185615, 1), 0.0, 0.0, 0, 0, Vector2(0.74478, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_g1tfh"]
+curve = SubResource("Curve_qiuv1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g1tfh"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 6.0
+emission_ring_radius = 50.0
+emission_ring_inner_radius = 10.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(1, -1, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_g1tfh")
+turbulence_enabled = true
+turbulence_influence_min = 0.01
+turbulence_influence_max = 0.01
+
+[sub_resource type="QuadMesh" id="QuadMesh_voawx"]
+size = Vector2(0.1, 0.1)
+
+[node name="Dust" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3, 0)
+material_override = SubResource("StandardMaterial3D_qiuv1")
+cast_shadow = 0
+extra_cull_margin = 4329.11
+amount = 200
+lifetime = 5.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_g1tfh")
+draw_pass_1 = SubResource("QuadMesh_voawx")

@@ -3,47 +3,25 @@
 [ext_resource type="Script" uid="uid://c28p05r2ufdac" path="res://Util/DirectoryChooser.gd" id="1"]
 
 [node name="DirectoryChooser" type="HBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = -979.0
 pivot_offset = Vector2(-1826.32, -684.311)
 script = ExtResource("1")
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="DirName" type="TextEdit" parent="."]
-offset_right = 1811.0
-offset_bottom = 101.0
-minimum_size = Vector2(0, 40)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "..."
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="Button" type="Button" parent="."]
-offset_left = 1819.0
-offset_right = 1920.0
-offset_bottom = 101.0
+layout_mode = 2
 size_flags_horizontal = 8
 text = "Open..."
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="DirDialog" type="FileDialog" parent="Button"]
-offset_left = -264.0
-offset_top = 181.0
-offset_right = 459.0
-offset_bottom = 723.0
-window_title = "Open a Directory"
 mode = 2
 access = 2
 filters = PackedStringArray("")
-current_dir = "/boku/landscapelab"
-current_path = "/boku/landscapelab/"
-__meta__ = {
-"_editor_description_": ""
-}

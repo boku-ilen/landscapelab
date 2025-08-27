@@ -10,26 +10,23 @@ extends Control
 		if geo_layers:
 			geo_layers.player_node = new_player
 			
-		get_parent().get_node("MarginContainer/AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").player = new_player
+		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton/AtmosphereConfiguration/LiveWeatherService").player = new_player
 		get_node("SubViewportContainer/PanelContainer/ControlContainer").player_sprite = $SubViewportContainer/SubViewport/GeoLayerRenderers/PlayerSprite
 
 @export var time_manager: TimeManager:
 	set(new_time_manager):
 		time_manager = new_time_manager
-		get_parent().get_node("MarginContainer/AtmosphereMenu").time_manager = new_time_manager
+		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton").time_manager = new_time_manager
 
 @export var weather_manager: WeatherManager:
 	set(new_weather_manager):
 		weather_manager = new_weather_manager
-		get_parent().get_node("MarginContainer/AtmosphereMenu").weather_manager = new_weather_manager
-		get_parent().get_node("MarginContainer/AtmosphereMenu/AtmosphereConfiguration/LiveWeatherService").weather_manager = new_weather_manager
+		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton").weather_manager = new_weather_manager
+		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton/AtmosphereConfiguration/LiveWeatherService").weather_manager = new_weather_manager
 
-# To debug it as standalone (without running the rest of the landscapelab
-# it is necessary to load the configuration
-@export var debug_mode := false
 @export var run_brick_detection := true
 
-var current_goc_name = "Dead Wood"
+@export var current_goc_name := "Acceptable Zones"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
@@ -41,10 +38,9 @@ signal game_object_failed(cursor_position)
 
 
 func _ready():
-	# In the usual setting this will be handled by the landscapelab
-	if debug_mode: 
-		$LLConfigSetup.setup()
-		$GameModesConfigurator.load_game_mode_config()
+	# In the usual setting this will be handled by the 3D env, but these calls do not overwrite
+	$LLConfigSetup.setup()
+	$GameModesConfigurator.load_game_mode_config()
 	
 	$LabTableConfigurator.load_table_config()
 	

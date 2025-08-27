@@ -171,8 +171,3 @@ func _remove_game_object(feature):
 		
 		emit_signal("game_object_removed", corresponding_game_object)
 		emit_signal("changed")
-
-
-func add_attribute_mapping(attribute):
-	attributes[attribute.name] = attribute
-	emit_signal("changed")

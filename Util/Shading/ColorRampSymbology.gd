@@ -44,7 +44,6 @@ func draw_on_child():
 
 
 func ensure_same_size(changed: Array, to_change: Array, is_enlarged: bool):
-	print(is_enlarged)
 	if is_enlarged:
 		while changed.size() > to_change.size():
 			to_change.append(0.)

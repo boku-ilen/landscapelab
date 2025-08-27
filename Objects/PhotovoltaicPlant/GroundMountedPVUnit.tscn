@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dulla14wk4at4" path="res://Objects/PhotovoltaicPlant/GroundMountedPVUnit.gd" id="1_0nrgk"]
 [ext_resource type="ArrayMesh" uid="uid://bhspna5brc8k6" path="res://Objects/PhotovoltaicPlant/PV.tres" id="2_v146m"]
-[ext_resource type="PackedScene" uid="uid://dhmlmgm0yc278" path="res://Layers/Renderers/LIDOverlay/LIDOverlay.tscn" id="3_1cnhv"]
+[ext_resource type="PackedScene" uid="uid://dhmlmgm0yc278" path="res://Layers/Renderers/Overlay/LIDOverlayMesh.tscn" id="3_1cnhv"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_1xkkd"]
 radius = 2.0

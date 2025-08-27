@@ -1,6 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://bx4vuo3xusqup"]
-
-[ext_resource type="Material" uid="uid://c27evetdl11k4" path="res://Objects/Infrastructure/Traffic/RoadInfrastructure1.tres" id="1_o7xl4"]
+[gd_resource type="ArrayMesh" load_steps=2 format=4 uid="uid://bx4vuo3xusqup"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_hckhb"]
 _surfaces = [{
@@ -26,7 +24,6 @@ _surfaces = [{
 "index_count": 132,
 "index_data": PackedByteArray("AAABAAIAAgABAAMABwAGAAgACAAGAAkAGAAXACAAIAAXABkAFgAVACEAIQAVABQAIgAdACMAIwAdAB8AJAAOABsAJQAmAAQABAAmACcAKAApACoAKgApAAoAKwAsAC0ALQAsAAUALgAvAAsACwAvADAADAAxABoAMQAyABoAGgAyADMADAA0ADEADwA0AAwADwAcADQANAA1ADEANAAcADUAMQA1ADIANQAcADYANQA2AA0ANQANADIAMgANADcAOAA5ADoAOAA7ABAAOAAQADkAOQAQABMAOQATAB4AOQAeADwAOgA5ADwAPAAeAD0APAA9ABEAEgA8ABEAOgA8ABIAEgA+ADoA"),
 "lods": [0.00570606, PackedByteArray("AAABAAIAAgABAAMABAAAABQAAAAVABQAFgAVAAAAFgAGABUAFQAGAAUABwAGAAgACAAGAAkACQAXAAsACwAXABgAGAAXAAoACgAXABkAGQACAAoAGgAOABsAGgANAA4AHAANABoADAAcABoADwAcAAwAHQAeABIAEgAeABEAHQAQAB4AHgAQABMAHQAfABAA"), 0.0554462, PackedByteArray("AAABAAIAAgABAAMABAAAAAUAAAAGAAUABwAGAAgACAAGAAkACQACAAoACwAJAAoADAANAA4ADwANAAwAEAARABIAEQAQABMA")],
-"material": ExtResource("1_o7xl4"),
 "name": "aiStandardSurface1SG",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),

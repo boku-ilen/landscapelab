@@ -42,5 +42,3 @@ func _on_offset_changed(offset, viewport_size, zoom):
 	
 	custom_minimum_size.x = new_length
 	$Line2D.points[1].x = new_length
-	
-	print(pixel_size)

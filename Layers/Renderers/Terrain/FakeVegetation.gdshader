@@ -28,6 +28,9 @@ uniform sampler2D row_ids;
 uniform sampler2D[100] texture_map : source_color, repeat_disable;
 
 uniform float size;
+uniform float max_distance = 90.0;
+
+global uniform vec3 VEGETATION_CENTER;
 
 varying vec3 camera_pos;
 varying vec3 worldpos;
@@ -102,7 +105,8 @@ vec3 get_normal(vec2 normal_uv_pos) {
 }
 
 void vertex() {
-	camera_pos = CAMERA_POSITION_WORLD;
+	// We want the camera's latest Y coordinate, but the X and Z values of the last vegetation load
+	camera_pos = VEGETATION_CENTER + vec3(0.0, 1.0, 0.0) * INV_VIEW_MATRIX[3].xyz;
 
 	// Hide transition with a "skirt": outermost row of vertices is moved down to create a wall that fills holes
 	if (UV.x < -0.1 || UV.x > 1.1 || UV.y < -0.1 || UV.y > 1.1) {
@@ -160,11 +164,11 @@ void fragment() {
 
 	if (active < 0.5) discard;
 
-	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
+	float depth = length(camera_pos - worldpos);
 
 	vec2 uv = texture(uv_offset, UV * 20.0).rg;
 
-	vec4 plant_sample = texture(texture_map[int(round(dist_id))], uv, depth * 0.002);
+	vec4 plant_sample = texture(texture_map[int(round(dist_id))], uv);
 
 	BACKLIGHT = vec3(1.0, 1.0, 0.5) * min(plant_sample.g * 2.0, 1.0) * 0.5;
 
@@ -207,7 +211,7 @@ void fragment() {
 	float size_alpha_scale = smoothstep(0.4, 0.8, dist_value.g * 255.0 + dist_value.b);
 
 	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), size_alpha_scale, 0.99);
-	ALPHA *= smoothstep(70.0, 90.0, length((camera_pos - worldpos)));
+	ALPHA *= smoothstep(max_distance - 20.0, max_distance, depth);
 	ALPHA_HASH_SCALE = 1.0;
 
 	ALPHA *= smoothstep(6.0, 0.0, different_sample_count);// + smoothstep(0.0, 1.5, highest_height);
@@ -226,11 +230,9 @@ void fragment() {
 	// we want the roughness to go from small (when green) to large (when not green)
 	float greenness = clamp(pow(abs(hcy.r + 1.6) * 4.0, 4.0), 0.0, 1.0);
 
+	AO = 0.8 - greenness * 0.1;
+	AO_LIGHT_AFFECT = 0.8;
+
 	ROUGHNESS = mix(0.65, 0.95, greenness);
 	SPECULAR = 0.15;
 }
-
-//void light() {
-	// Called for every pixel for every light affecting the material.
-	// Uncomment to replace the default light processing function with this one.
-//}

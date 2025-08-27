@@ -125,12 +125,16 @@ func _on_confirm():
 		layer_composition = LayerComposition.new()
 		is_new = true
 	
+	var attributes: Dictionary = _build_attributes_dictionary()
+	var data := {
+		"type": current_type,
+		"attributes": attributes
+	}
 	# "Fake" an *.ll file
 	layer_composition = LayerCompositionSerializer.deserialize(
 		"",
 		layer_composition_name.text,
-		current_type,
-		_build_attributes_dictionary(),
+		data,
 		layer_composition
 	)
 	
@@ -155,8 +159,8 @@ func _on_confirm():
 
 
 # Build an attribute-dictionary like in the ".ll" config out of the ui
-func _build_attributes_dictionary():
-	var attributes = {}
+func _build_attributes_dictionary() -> Dictionary:
+	var attributes := {}
 	for element_name in specific_layer_composition_ui:
 		if element_name.begins_with("object_"):
 			var ui_element = specific_layer_composition_ui[element_name]

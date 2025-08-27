@@ -8,6 +8,7 @@ render_priority = 0
 shader = ExtResource("1")
 shader_parameter/height_scale = 1.0
 shader_parameter/use_landuse_overlay = false
+shader_parameter/use_height_overlay = false
 shader_parameter/detail_only_range = 50.0
 shader_parameter/detail_ortho_blend_range = 700.0
 shader_parameter/size = 0.0

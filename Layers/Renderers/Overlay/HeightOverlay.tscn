@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0eukmxx38kvr"]
+
+[ext_resource type="Script" uid="uid://djuionpsjk41v" path="res://Layers/Renderers/Overlay/HeightOverlay.gd" id="1_x3jcj"]
+
+[node name="HeightOverlay" type="Node3D"]
+script = ExtResource("1_x3jcj")

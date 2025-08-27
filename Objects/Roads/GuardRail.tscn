@@ -1,0 +1,25 @@
+[gd_scene load_steps=9 format=3 uid="uid://c7rs0jli0wapl"]
+
+[ext_resource type="Shader" uid="uid://drhvgh5tke5tr" path="res://Layers/Renderers/LineObject/BasicLineSegment.gdshader" id="1_672aj"]
+[ext_resource type="Texture2D" uid="uid://dfnht7wbqybj5" path="res://Resources/Meshes/RoadInfrastructure/Textures/straßeninfra base color.png" id="2_icnv2"]
+[ext_resource type="Texture2D" uid="uid://dbmgettrhcp8k" path="res://Resources/Meshes/RoadInfrastructure/Textures/straßeninfra metallic.png" id="3_icnv2"]
+[ext_resource type="Texture2D" uid="uid://dnjn7nw3ol2to" path="res://Resources/Meshes/RoadInfrastructure/Textures/straßeninfra roughness.png" id="3_nw30h"]
+[ext_resource type="ArrayMesh" uid="uid://ddgsb5i4hk3ur" path="res://Objects/Infrastructure/Traffic/GuardRail.tres" id="4_05nkk"]
+[ext_resource type="Texture2D" uid="uid://ce8discmnk2er" path="res://Resources/Meshes/RoadInfrastructure/Textures/straßeninfra normal.png" id="4_nw30h"]
+[ext_resource type="Script" uid="uid://djlci6wgfcwp0" path="res://Layers/Renderers/LineObject/LineSegment.gd" id="5_ubo1s"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cc3e0"]
+render_priority = 0
+shader = ExtResource("1_672aj")
+shader_parameter/start = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/end = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -5.155, 1)
+shader_parameter/mesh_length = 1.0
+shader_parameter/albedo = ExtResource("2_icnv2")
+shader_parameter/normal = ExtResource("4_nw30h")
+shader_parameter/roughness = ExtResource("3_nw30h")
+shader_parameter/metallic = ExtResource("3_icnv2")
+
+[node name="GuardRail" type="MeshInstance3D"]
+material_override = SubResource("ShaderMaterial_cc3e0")
+mesh = ExtResource("4_05nkk")
+script = ExtResource("5_ubo1s")

@@ -41,3 +41,27 @@ static func offset_polygon_vertices(
 		polygon[idx] += directions[idx] * -offset
 	
 	return polygon
+
+
+static func project_triangle_to_uv(p0: Vector3, p1: Vector3, p2: Vector3) -> Array:
+	# 1. Plane normal
+	var e0 = p1 - p0
+	var e1 = p2 - p0
+	var normal = e0.cross(e1).normalized()
+
+	# 2. Pick a tangent that isn't parallel to the normal.
+	var tangent : Vector3
+	if abs(normal.y) < 0.999:             # normal not almost straight up
+		tangent = Vector3.UP.cross(normal).normalized()
+	else:                                  # fallback if normal is ~UP
+		tangent = Vector3.RIGHT.cross(normal).normalized()
+
+	# 3. Bitangent completes the 2D basis
+	var bitangent = normal.cross(tangent).normalized()
+
+	# 4. Project each vertex into that basis
+	var uv0 = Vector2(0, 0)                                   # p0 is origin
+	var uv1 = Vector2(e0.dot(tangent), e0.dot(bitangent))     # p1 relative to p0
+	var uv2 = Vector2(e1.dot(tangent), e1.dot(bitangent))     # p2 relative to p0
+
+	return [uv0, uv1, uv2]

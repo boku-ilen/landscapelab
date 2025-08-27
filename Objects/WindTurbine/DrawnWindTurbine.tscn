@@ -1,11 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bt0nhfrixwki3"]
+[gd_scene load_steps=4 format=3 uid="uid://bt0nhfrixwki3"]
 
-[ext_resource type="PackedScene" uid="uid://eai86bf7mjhu" path="res://Objects/Superclasses/MovableObject.tscn" id="1_1bu7l"]
 [ext_resource type="Script" uid="uid://dww016r1dhraa" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="2_wlnal"]
 [ext_resource type="Texture2D" uid="uid://diu7lbi0hqpus" path="res://Resources/Textures/DrawnObjects/wind_turbine_hub.png" id="10_dmx5y"]
 [ext_resource type="Texture2D" uid="uid://wbuid5547166" path="res://Resources/Textures/DrawnObjects/wind_turbine_rotor.png" id="11_eynyf"]
 
-[node name="Windmill" instance=ExtResource("1_1bu7l")]
+[node name="Windmill" type="Node3D" groups=["SpatialShifting"]]
 transform = Transform3D(1.0253, 0, -1.02531, 0, 1.45, 0, 1.02531, 0, 1.0253, 0, 0, 0)
 script = ExtResource("2_wlnal")
 speed = 0.117919
@@ -16,18 +15,18 @@ min_hub_height = 25
 min_rotor_diameter = 25
 forward_for_rotation = Vector3(0, 0, -1)
 
-[node name="Mesh" type="Node3D" parent="." index="0"]
+[node name="Mesh" type="Node3D" parent="."]
 
-[node name="Rotor" type="Sprite3D" parent="Mesh" index="0"]
+[node name="Rotor" type="Sprite3D" parent="Mesh"]
 transform = Transform3D(1, 0, 1.49012e-07, 0, 1, 0, -1.49012e-07, 0, 1, -0.625, 23.589, 0.5)
 alpha_cut = 1
 texture = ExtResource("11_eynyf")
 
-[node name="Mast" type="Node3D" parent="Mesh" index="1"]
+[node name="Mast" type="Node3D" parent="Mesh"]
 
-[node name="Mast" type="Sprite3D" parent="Mesh/Mast" index="0"]
+[node name="Mast" type="Sprite3D" parent="Mesh/Mast"]
 transform = Transform3D(1, 0, 1.49012e-07, 0, 1, 0, -1.49012e-07, 0, 1, 0, 13, 0)
 alpha_cut = 1
 texture = ExtResource("10_dmx5y")
 
-[node name="Hub" type="Node3D" parent="Mesh" index="2"]
+[node name="Hub" type="Node3D" parent="Mesh"]

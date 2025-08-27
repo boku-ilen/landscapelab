@@ -70,4 +70,3 @@ func _ready():
 		var line_z_child = MeshInstance3D.new()
 		line_z_child.mesh = line_z
 		add_child(line_z_child)
-

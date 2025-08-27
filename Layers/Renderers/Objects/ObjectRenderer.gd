@@ -60,6 +60,10 @@ func load_feature_instance(feature: GeoFeature) -> Node3D:
 
 
 func set_instance_pos(feature, obj_instance):
+	if not feature is GeoPoint:
+		logger.warn("Provided feature: %s is not a valid GeoPoint" % [feature])
+		return
+	
 	var local_object_pos = feature.get_offset_vector3(-center[0], 0, -center[1])
 	
 	if obj_instance.has_method("set_height"):
@@ -78,7 +82,7 @@ func set_instance_pos(feature, obj_instance):
 	obj_instance.transform.origin = local_object_pos
 	
 	if feature.get_attribute("LL_rot"):
-		obj_instance.rotation.y = -deg_to_rad(float(feature.get_attribute("LL_rot")))
+		obj_instance.rotation_degrees.y = -float(feature.get_attribute("LL_rot"))
 	
 	if feature.get_attribute("LL_scale"):
 		obj_instance.scale = Vector3.ONE * float(feature.get_attribute("LL_scale"))

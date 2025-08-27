@@ -100,7 +100,7 @@ func _setup_detail_noise():
 	shader_material.set_shader_parameter("detail_noise", preload("res://Layers/Renderers/Terrain/Materials/DetailNoise.tres"))
 	shader_material.set_shader_parameter("detail_noise_normals", preload("res://Layers/Renderers/Terrain/Materials/DetailNoiseNormals.tres"))
 	shader_material.set_shader_parameter("detail_noise_lid_weights", [
-		0.16, # Asphalt
+		0.02, # Asphalt
 		0.19, # Gravel
 		0.25, # Lawn
 		1.1, # Rock
@@ -109,7 +109,7 @@ func _setup_detail_noise():
 		0.5, # Grassland
 		0.9, # Forest
 		0.7, # Agroforest
-		0.7, # Agriculture
+		0.55, # Agriculture
 		
 	])
 
@@ -121,6 +121,16 @@ func _ready():
 	$DetailMesh.material_override = shader_material.duplicate()
 	$FarMesh.material_override = shader_material.duplicate()
 	$FarMesh.material_override.next_pass = water_material.duplicate()
+	$FarMesh.material_override.next_pass.next_pass = fake_plant_material.duplicate()
+	
+	# Set static shader variables
+	# FIXME: do this once and then duplicate that material
+	$FarMesh.material_override.next_pass.next_pass.set_shader_parameter("row_ids", overlay_row_id_and_distribution[0])
+	$FarMesh.material_override.next_pass.next_pass.set_shader_parameter("distribution_array", overlay_row_id_and_distribution[1])
+	$FarMesh.material_override.next_pass.next_pass.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
+	$FarMesh.material_override.next_pass.next_pass.set_shader_parameter("max_distance", $FarMesh.hole_size)
+	
+	$FarMesh.material_override.next_pass.next_pass.next_pass = null
 	
 	super._ready()
 
@@ -158,17 +168,21 @@ func _array_to_color(color_array: Array) -> Color:
 
 func _process(delta):
 	super._process(delta)
-	
-	for decal in $Decals.get_children():
-		decal.update(position_manager.center_node.position)
 
 
 func _on_wind_speed_changed(new_wind_speed):
+	if is_inside_tree():
+		$FarMesh.material_override.next_pass.set_shader_parameter("wind_speed", new_wind_speed)
+	
 	for chunk in chunks:
 		chunk.get_node("Mesh").material_override.next_pass.set_shader_parameter("wind_speed", new_wind_speed)
 
 
 func _on_wind_direction_changed(new_wind_direction):
 	var wind_dir_vector = Vector2.DOWN.rotated(deg_to_rad(new_wind_direction))
+	
+	if is_inside_tree():
+		$FarMesh.material_override.next_pass.set_shader_parameter("wind_direction", wind_dir_vector)
+	
 	for chunk in chunks:
 		chunk.get_node("Mesh").material_override.next_pass.set_shader_parameter("wind_direction", wind_dir_vector)

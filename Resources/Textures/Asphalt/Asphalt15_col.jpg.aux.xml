@@ -1,0 +1,70 @@
+<PAMDataset>
+  <Metadata>
+    <MDI key="EXIF_ColorSpace">1</MDI>
+    <MDI key="EXIF_DateTime">2023:05:25 11:26:42</MDI>
+    <MDI key="EXIF_Orientation">1</MDI>
+    <MDI key="EXIF_ResolutionUnit">3</MDI>
+    <MDI key="EXIF_Software">GIMP 2.10.34</MDI>
+    <MDI key="EXIF_XResolution">(28)</MDI>
+    <MDI key="EXIF_YResolution">(28)</MDI>
+  </Metadata>
+  <Metadata domain="IMAGE_STRUCTURE">
+    <MDI key="SOURCE_COLOR_SPACE">YCbCr</MDI>
+    <MDI key="INTERLEAVE">PIXEL</MDI>
+    <MDI key="COMPRESSION">JPEG</MDI>
+  </Metadata>
+  <Metadata domain="xml:XMP" format="xml">
+    <?xpacket begin="&#xFEFF;" id="W5M0MpCehiHzreSzNTczkc9d"?>
+    <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        <rdf:Description rdf:about="" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stEvt="http://ns.adobe.com/xap/1.0/sType/ResourceEvent#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:GIMP="http://www.gimp.org/xmp/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmpMM:DocumentID="gimp:docid:gimp:de847bb5-a3c3-4572-b292-fd0e8259b889" xmpMM:InstanceID="xmp.iid:9b46b495-e516-408e-a305-8fae2e7795d0" xmpMM:OriginalDocumentID="xmp.did:aaf4c107-6441-4ac1-bfa5-a7b1ce31d4f7" dc:Format="image/jpeg" GIMP:API="2.0" GIMP:Platform="Linux" GIMP:TimeStamp="1685006804652157" GIMP:Version="2.10.34" xmp:CreatorTool="GIMP 2.10" xmp:MetadataDate="2023:05:25T11:26:42+02:00" xmp:ModifyDate="2023:05:25T11:26:42+02:00">
+          <xmpMM:History>
+            <rdf:Seq>
+              <rdf:li stEvt:action="saved" stEvt:changed="/" stEvt:instanceID="xmp.iid:5d73e298-8ec7-49ab-8e83-0ae8d0b18c50" stEvt:softwareAgent="Gimp 2.10 (Linux)" stEvt:when="2023-05-25T11:26:44+02:00" />
+            </rdf:Seq>
+          </xmpMM:History>
+        </rdf:Description>
+      </rdf:RDF>
+    </x:xmpmeta>
+    <?xpacket end="w"?>
+  </Metadata>
+  <PAMRasterBand band="1">
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MINIMUM">85</MDI>
+      <MDI key="STATISTICS_MAXIMUM">241</MDI>
+      <MDI key="STATISTICS_MEAN">156.66926574707</MDI>
+      <MDI key="STATISTICS_STDDEV">14.484187658424</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+    <Metadata domain="IMAGE_STRUCTURE">
+      <MDI key="COMPRESSION">JPEG</MDI>
+    </Metadata>
+  </PAMRasterBand>
+  <PAMRasterBand band="2">
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MINIMUM">88</MDI>
+      <MDI key="STATISTICS_MAXIMUM">242</MDI>
+      <MDI key="STATISTICS_MEAN">157.04911804199</MDI>
+      <MDI key="STATISTICS_STDDEV">14.383792152982</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+    <Metadata domain="IMAGE_STRUCTURE">
+      <MDI key="COMPRESSION">JPEG</MDI>
+    </Metadata>
+  </PAMRasterBand>
+  <PAMRasterBand band="3">
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MINIMUM">94</MDI>
+      <MDI key="STATISTICS_MAXIMUM">244</MDI>
+      <MDI key="STATISTICS_MEAN">158.85467529297</MDI>
+      <MDI key="STATISTICS_STDDEV">14.124149764131</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+    <Metadata domain="IMAGE_STRUCTURE">
+      <MDI key="COMPRESSION">JPEG</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>

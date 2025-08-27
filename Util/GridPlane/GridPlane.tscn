@@ -4,4 +4,4 @@
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1")
-lines = 9
+lines = 10

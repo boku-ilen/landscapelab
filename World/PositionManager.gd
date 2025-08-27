@@ -191,7 +191,7 @@ func to_world_coordinates(pos):
 	if pos is Vector2:
 		return Vector3i(x - int(pos.x), 0,  z - int(pos.y))
 	elif pos is Vector3:
-		return Vector3i(x + int(pos.x), int(pos.y), z - int(pos.z))
+		return Vector3(x + int(pos.x), int(pos.y), z - int(pos.z))
 	else:
 		logger.warn("Invalid type for to_world_coordinates: %s;"\
 			+ "supported types: Vector2, Vector3" % [typeof(pos)])

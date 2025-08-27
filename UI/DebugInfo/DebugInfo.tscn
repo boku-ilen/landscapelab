@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsaj5k71mnup0"]
+[gd_scene load_steps=4 format=3 uid="uid://dsaj5k71mnup0"]
 
 [ext_resource type="Script" uid="uid://cb58ovdutirdr" path="res://UI/DebugInfo/DebugInfo.gd" id="1"]
 [ext_resource type="Script" uid="uid://m8b8y3p1h11t" path="res://UI/DebugInfo/FPSDisplay.gd" id="3"]
-[ext_resource type="Script" uid="uid://bjtejvyjisve2" path="res://UI/DebugInfo/ThreadPoolDisplay.gd" id="4"]
 
 [sub_resource type="Theme" id="1"]
 
@@ -41,17 +40,6 @@ size_flags_horizontal = 3
 layout_mode = 2
 
 [node name="Info" type="VBoxContainer" parent="ScrollContainer/Settings/VBoxContainer"]
-layout_mode = 2
-
-[node name="ThreadPoolDisplay" type="HBoxContainer" parent="ScrollContainer/Settings/VBoxContainer/Info"]
-layout_mode = 2
-script = ExtResource("4")
-
-[node name="Name" type="Label" parent="ScrollContainer/Settings/VBoxContainer/Info/ThreadPoolDisplay"]
-layout_mode = 2
-text = "Thread queue sizes:"
-
-[node name="Data" type="Label" parent="ScrollContainer/Settings/VBoxContainer/Info/ThreadPoolDisplay"]
 layout_mode = 2
 
 [node name="FPSDisplay" type="HBoxContainer" parent="ScrollContainer/Settings/VBoxContainer/Info"]

@@ -116,17 +116,13 @@ enum WALL_TYPE {
 }
 
 ## meta
-var metadata = {
-	"footprint": footprint,
-	"height": height,
-	"roof_height": floors * 2.5 - height, 
-	"extent": 10 }
+var metadata = BuildingMetadata.new(null, [0,0], null)
 
 
 func set_metadata(key, val):
-	metadata[key] = val
-	metadata["roof_height"] = height - floors * 2.5
-	metadata["engine_center_position"] = Vector3.ZERO
+	metadata.set(key, val)
+	metadata.roof_height = height - floors * 2.5
+	metadata.engine_center_position = Vector3.ZERO
 
 
 var building_base

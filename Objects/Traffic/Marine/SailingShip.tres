@@ -1,6 +1,6 @@
 [gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://bocmjwsmhx7ik"]
 
-[ext_resource type="Material" uid="uid://2pfuwu116mky" path="res://Resources/Meshes/Vehicles/Boats/M_SailingYacht.tres" id="1_sliwx"]
+[ext_resource type="Material" uid="uid://cy1ktme5ycq28" path="res://Resources/Meshes/Vehicles/Boats/M_SailingYacht.tres" id="1_sliwx"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_x72wh"]
 _surfaces = [{

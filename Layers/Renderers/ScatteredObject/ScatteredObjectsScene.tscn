@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://tomrgg2d8ebp"]
+
+[ext_resource type="Script" uid="uid://dnrtgtr7qs1pd" path="res://Layers/Renderers/ScatteredObject/ScatteredObjectsScene.gd" id="1_w2ia6"]
+
+[node name="ScatteredObjectsScene" type="Node3D"]
+script = ExtResource("1_w2ia6")

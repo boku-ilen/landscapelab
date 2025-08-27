@@ -105,16 +105,27 @@ func save():
 			+ str(json_object.get_error_line()))
 
 
-func apply(vegetation: Node, layers: Node, scenarios: Node, game_system: Node):
-	apply_meta(layers)
-	apply_vegetation(vegetation)
-	apply_layers(layers)
-	apply_scenarios(scenarios)
+func apply(vegetation: Node, layers: Node, scenarios: Node, game_system: Node, override=false):
+	if override: 
+		logger.warn("Trying to override vegetation, layers and scenarios. This could lead to errors!")
+	
+	for node in [vegetation, layers, scenarios, game_system]:
+		if node.was_loaded: 
+			logger.info("%s has been loaded already, skipping..." % node)
+	
+	if not layers.was_loaded or override:
+		apply_meta(layers)
+	if not vegetation.was_loaded or override:
+		apply_vegetation(vegetation)
+	if not layers.was_loaded or override:
+		apply_layers(layers)
+	if not scenarios.was_loaded or override:
+		apply_scenarios(scenarios)
 
 
 func apply_meta(layers: Node):
 	var ll_project = json_object.data
-	
+	 
 	if "Meta" in ll_project:
 		if "crs" in ll_project["Meta"]: layers.crs = ll_project["Meta"]["crs"]
 
@@ -142,6 +153,7 @@ func apply_vegetation(vegetation: Node):
 			vegetation.hcy_shift_changed.emit(hcy_shift_vector)
 		
 		logger.info("Done loading vegetation!")
+		vegetation.was_loaded = true
 
 
 func apply_layers(layers: Node):
@@ -151,13 +163,17 @@ func apply_layers(layers: Node):
 		logger.info("Loading layer composition " + composition_name + "...")
 		
 		var composition_data = ll_project["LayerCompositions"][composition_name]
-		var type = composition_data["type"]
 		
 		var layer_composition = LayerCompositionSerializer.deserialize(
 			path, 
 			composition_name, 
-			type, 
-			composition_data["attributes"])
+			composition_data)
+		
+		# TODO: layer-compositions and layer-groups may appear under the same section
+		# in some cases, the returned value of the deserialization thus is not of class
+		# LayerComposition, refer to https://github.com/boku-ilen/landscapelab/issues/362
+		if layer_composition == null or not layer_composition is LayerComposition:
+			continue
 		
 		layers.add_layer_composition(layer_composition)
 		layers.recalculate_center()
@@ -172,6 +188,9 @@ func apply_layers(layers: Node):
 				connection_data["source"],
 				connection_data["target"]
 			)
+	
+	logger.info("Done loading layer-compositions!")
+	layers.was_loaded = true
 
 
 func apply_scenarios(scenarios: Node):
@@ -190,6 +209,7 @@ func apply_scenarios(scenarios: Node):
 			scenarios.add_scenario(scenario)
 		
 		logger.info("Done loading scenarios!")
+		scenarios.was_loaded = true
 
 
 func apply_game(game_system: Node, layers: Node):

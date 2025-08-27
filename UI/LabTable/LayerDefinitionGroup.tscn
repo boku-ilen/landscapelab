@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://vyb61yhgriov"]
+
+[ext_resource type="StyleBox" uid="uid://dg3l5xqfdgxff" path="res://UI/LabTable/Style/PopupPanel.tres" id="1_2ox8n"]
+[ext_resource type="Texture2D" uid="uid://c4mxruo0x0n4g" path="res://Resources/Icons/SimpleOpenMoji/settings.svg" id="1_5ycpf"]
+
+[node name="Panel" type="PanelContainer"]
+offset_left = 15.0
+offset_top = 5.0
+offset_right = 1147.0
+offset_bottom = 643.0
+theme_override_styles/panel = ExtResource("1_2ox8n")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = -15
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Control" type="Control" parent="Margin"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Margin/Control"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 9.0
+offset_bottom = 9.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_5ycpf")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 15
