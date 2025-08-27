@@ -9,7 +9,6 @@ motion_mode = 1
 script = ExtResource("1")
 
 [node name="VRViewport" type="SubViewport" parent="."]
-render_target_update_mode = 4
 
 [node name="XROrigin3D" type="XROrigin3D" parent="VRViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 222.675, 0)

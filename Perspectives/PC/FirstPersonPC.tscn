@@ -55,6 +55,8 @@ update_rotation = false
 update_scale = false
 
 [node name="SubViewport" parent="." instance=ExtResource("9_sfca8")]
+msaa_3d = 2
+render_target_update_mode = 0
 
 [node name="XRCamera3D" parent="SubViewport/XROrigin3D" index="2"]
 near = 0.5
@@ -64,6 +66,5 @@ far = 30000.0
 script = ExtResource("10_cs7ku")
 automated_camera = NodePath("../Head/Camera3D")
 vr_camera = NodePath("../SubViewport/XROrigin3D/XRCamera3D")
-active = false
 
 [editable path="SubViewport"]

@@ -40,29 +40,31 @@ func on_game_object_changed(game_object):
 func _process(delta):
 	if Input.is_action_just_pressed("set_autolook_active"): active = not active
 	
-	if not active: return
-	
-	if is_vr_active:
-		var vr_quat = vr_camera.global_transform.basis.get_rotation_quaternion()
-		var au_quat = automated_camera.global_transform.basis.get_rotation_quaternion()
+	if not active:
+		automated_camera.global_transform.basis = vr_camera.global_transform.basis
 		
-		if vr_quat.angle_to(au_quat) > rotation_start_threshold:
-			var vr_euler = vr_camera.transform.basis.get_euler()
-			vr_euler.z = 0.0
-			current_target_basis = Basis.from_euler(vr_euler)
-	else:
-		if current_target_location:
-			var look_at_vector = current_target_location - global_position * Vector3(1.0, 0.0, 1.0)
-			current_target_basis = Basis.looking_at(look_at_vector)
-			
-			current_target_fov = lerp(max_fov, min_fov, clamp(look_at_vector.length() / 10000, 0.0, 1.0))
-	
-	if get_parent().rotating:
-		pass
-		#automated_camera.fov = lerp(automated_camera.fov, rotating_fov, (1.0 / smoothness_snappy) * delta)
-	else:
-		#if current_target_fov:
-			#automated_camera.fov = lerp(automated_camera.fov, current_target_fov, (1.0 / smoothness) * delta)
-		
-		if current_target_basis and not get_parent().rotating:
-			automated_camera.global_transform.basis = lerp(automated_camera.global_transform.basis, current_target_basis, (1.0 / smoothness) * delta)
+		return
+	return
+		#var vr_quat = vr_camera.global_transform.basis.get_rotation_quaternion()
+		#var au_quat = automated_camera.global_transform.basis.get_rotation_quaternion()
+		#
+		#if vr_quat.angle_to(au_quat) > rotation_start_threshold:
+			#var vr_euler = vr_camera.transform.basis.get_euler()
+			#vr_euler.z = 0.0
+			#current_target_basis = Basis.from_euler(vr_euler)
+	#else:
+		#if current_target_location:
+			#var look_at_vector = current_target_location - global_position * Vector3(1.0, 0.0, 1.0)
+			#current_target_basis = Basis.looking_at(look_at_vector)
+			#
+			#current_target_fov = lerp(max_fov, min_fov, clamp(look_at_vector.length() / 10000, 0.0, 1.0))
+	#
+	#if get_parent().rotating:
+		#pass
+		##automated_camera.fov = lerp(automated_camera.fov, rotating_fov, (1.0 / smoothness_snappy) * delta)
+	#else:
+		##if current_target_fov:
+			##automated_camera.fov = lerp(automated_camera.fov, current_target_fov, (1.0 / smoothness) * delta)
+		#
+		#if current_target_basis and not get_parent().rotating:
+			#automated_camera.global_transform.basis = lerp(automated_camera.global_transform.basis, current_target_basis, (1.0 / smoothness) * delta)
