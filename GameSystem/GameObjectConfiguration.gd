@@ -164,6 +164,8 @@ func reload_attribute_informations():
 	for attribute_object in attribute_objects_to_game_objects.keys():
 		if $Entries/Attributes/Information.has_node(attribute_object.name):
 			set_attribute_value_text($Entries/Attributes/Information.get_node(attribute_object.name).get_node("Value"), attribute_object)
+		elif $Entries/Attributes/Information/OutlinedIcons.has_node(attribute_object.name):
+			set_attribute_value_color($Entries/Attributes/Information/OutlinedIcons.get_node(attribute_object.name), attribute_object)
 
 
 func set_attribute_value_text(label, attribute):
@@ -187,15 +189,28 @@ func set_attribute_value_text(label, attribute):
 	label.text = new_text
 
 
+func set_attribute_value_color(icon_node, attribute):
+	var new_value = attribute.get_value(attribute_objects_to_game_objects[attribute])
+	
+	var color =  attribute.icon_settings.color_thresholds.values().back()
+	
+	for threshold in attribute.icon_settings.color_thresholds.keys():
+		if new_value <= str_to_var(threshold):
+			color = attribute.icon_settings.color_thresholds[threshold]
+			break
+	
+	icon_node.outline_color = Color(color)
+
+
 
 func add_attribute_information(attribute: GameObjectAttribute, attribute_value, game_object):
+	attribute_objects_to_game_objects[attribute] = game_object
+	
 	if attribute.icon_settings.is_empty() or attribute.icon_settings.type == "unit" \
 			or attribute.icon_settings.type == "plus_minus":
 		# Standard icon: name to value as text
 		var hbox = VBoxContainer.new()
 		hbox.name = attribute.name
-		
-		attribute_objects_to_game_objects[attribute] = game_object
 		
 		if attribute_value is float or float(attribute_value) > 0.0:
 			attribute_value = "%.1f" % attribute_value
@@ -241,15 +256,11 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 				$Entries/Attributes/Information.add_child(hbox)
 			
 			var icon = load(attribute.icon_settings.icon)
-			var color =  attribute.icon_settings.color_thresholds.values().back()
-			for threshold in attribute.icon_settings.color_thresholds.keys():
-				if attribute_value <= str_to_var(threshold):
-					color = attribute.icon_settings.color_thresholds[threshold]
-					break
-			
 			var icon_node = preload("res://UI/CustomElements/OutlinedTexture.tscn").instantiate()
 			icon_node.texture = icon
-			icon_node.outline_color = Color(color)
+			icon_node.name = attribute.name
+			
+			set_attribute_value_color(icon_node, attribute)
 			
 			$Entries/Attributes/Information/OutlinedIcons.add_child(icon_node)
 		elif attribute.icon_settings.type == "show_if_exceeds":
