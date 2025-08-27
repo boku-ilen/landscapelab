@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://onpsxlkipx3b"
-path="res://.godot/imported/no_indicator.svg-0dd9f7fd454d07b8e687bf8f7e93997f.ctex"
+uid="uid://qu2qux3qe5o"
+path="res://.godot/imported/yes_indicator_wind.svg-6af67ab68cc9f89ccf1056a615ab4f52.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Icons/LabTable/no_indicator.svg"
-dest_files=["res://.godot/imported/no_indicator.svg-0dd9f7fd454d07b8e687bf8f7e93997f.ctex"]
+source_file="res://Resources/Icons/LabTable/indicators/yes_indicator_wind.svg"
+dest_files=["res://.godot/imported/yes_indicator_wind.svg-6af67ab68cc9f89ccf1056a615ab4f52.ctex"]
 
 [params]
 

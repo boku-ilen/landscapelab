@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvruwujtfdrwt"
-path="res://.godot/imported/m_center.svg-9e42bed572ed98eede95a0b66608c3bc.ctex"
+uid="uid://dp6btu0k1l2f2"
+path="res://.godot/imported/yes_indicator_pv.svg-35f561214943456286fcd7048bc40a18.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Icons/LabTable/buttons/m_center.svg"
-dest_files=["res://.godot/imported/m_center.svg-9e42bed572ed98eede95a0b66608c3bc.ctex"]
+source_file="res://Resources/Icons/LabTable/indicators/yes_indicator_pv.svg"
+dest_files=["res://.godot/imported/yes_indicator_pv.svg-35f561214943456286fcd7048bc40a18.ctex"]
 
 [params]
 

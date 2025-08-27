@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b28o156egmbcu"
-path="res://.godot/imported/no_indicator_wind.svg-198870ca1b71c93847dcf9b8859ac1c5.ctex"
+uid="uid://bvruwujtfdrwt"
+path="res://.godot/imported/m_center.svg-89e82d1c291a81a2c21aad99dc7caa7a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Icons/LabTable/no_indicator_wind.svg"
-dest_files=["res://.godot/imported/no_indicator_wind.svg-198870ca1b71c93847dcf9b8859ac1c5.ctex"]
+source_file="res://Resources/Icons/LabTable/navigation/m_center.svg"
+dest_files=["res://.godot/imported/m_center.svg-89e82d1c291a81a2c21aad99dc7caa7a.ctex"]
 
 [params]
 

@@ -4,12 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://qg0hrece07vm" path="res://UI/LabTable/ZoomContainer.tscn" id="1_pndxl"]
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="2_r33nv"]
 [ext_resource type="Theme" uid="uid://bmrrl65wn4876" path="res://UI/Theme/TableButton.tres" id="3_bcx5o"]
-[ext_resource type="Texture2D" uid="uid://duy7cly3qvn4m" path="res://Resources/Icons/LabTable/m_overview.svg" id="3_pedwm"]
-[ext_resource type="Texture2D" uid="uid://b3rawlygno8yp" path="res://Resources/Icons/LabTable/m_up.svg" id="5_kqb6x"]
-[ext_resource type="Texture2D" uid="uid://cpap7jqaridb3" path="res://Resources/Icons/LabTable/m_left.svg" id="6_cplru"]
-[ext_resource type="Texture2D" uid="uid://bvruwujtfdrwt" path="res://Resources/Icons/LabTable/m_center.svg" id="7_643fb"]
-[ext_resource type="Texture2D" uid="uid://dqa08ihhn17ji" path="res://Resources/Icons/LabTable/m_right.svg" id="8_dkvif"]
-[ext_resource type="Texture2D" uid="uid://bcl4dprbho0o2" path="res://Resources/Icons/LabTable/m_down.svg" id="9_wey23"]
+[ext_resource type="Texture2D" uid="uid://duy7cly3qvn4m" path="res://Resources/Icons/LabTable/navigation/m_overview.svg" id="3_pedwm"]
+[ext_resource type="Texture2D" uid="uid://b3rawlygno8yp" path="res://Resources/Icons/LabTable/navigation/m_up.svg" id="5_kqb6x"]
+[ext_resource type="Texture2D" uid="uid://cpap7jqaridb3" path="res://Resources/Icons/LabTable/navigation/m_left.svg" id="6_cplru"]
+[ext_resource type="Texture2D" uid="uid://bvruwujtfdrwt" path="res://Resources/Icons/LabTable/navigation/m_center.svg" id="7_643fb"]
+[ext_resource type="Texture2D" uid="uid://dqa08ihhn17ji" path="res://Resources/Icons/LabTable/navigation/m_right.svg" id="8_dkvif"]
+[ext_resource type="Texture2D" uid="uid://bcl4dprbho0o2" path="res://Resources/Icons/LabTable/navigation/m_down.svg" id="9_wey23"]
 [ext_resource type="PackedScene" uid="uid://c80mmsavbpqyk" path="res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn" id="9_yl31i"]
 [ext_resource type="Script" uid="uid://64gukijqyct" path="res://UI/LabTable/OverviewCamera.gd" id="10_ksdla"]
 
@@ -44,7 +44,7 @@ size_flags_vertical = 4
 focus_mode = 0
 theme = ExtResource("3_bcx5o")
 icon = ExtResource("3_pedwm")
-icon_folder = "LabTable"
+icon_folder = "LabTable/navigation"
 texture_name = "m_overview"
 
 [node name="ZoomContainer" parent="HBox" instance=ExtResource("1_pndxl")]
@@ -66,7 +66,7 @@ custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 focus_mode = 0
 icon = ExtResource("5_kqb6x")
-icon_folder = "LabTable"
+icon_folder = "LabTable/navigation"
 texture_name = "m_up"
 metadata/_edit_pinned_properties_ = [&"clip_contents"]
 
@@ -78,7 +78,7 @@ custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 focus_mode = 0
 icon = ExtResource("6_cplru")
-icon_folder = "LabTable"
+icon_folder = "LabTable/navigation"
 texture_name = "m_left"
 
 [node name="Center" parent="GridContainer" instance=ExtResource("2_r33nv")]
@@ -86,7 +86,7 @@ custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 focus_mode = 0
 icon = ExtResource("7_643fb")
-icon_folder = "LabTable"
+icon_folder = "LabTable/navigation"
 texture_name = "m_center"
 
 [node name="Right" parent="GridContainer" instance=ExtResource("2_r33nv")]
@@ -94,7 +94,7 @@ custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 focus_mode = 0
 icon = ExtResource("8_dkvif")
-icon_folder = "LabTable"
+icon_folder = "LabTable/navigation"
 texture_name = "m_right"
 
 [node name="Spacer4" type="Control" parent="GridContainer"]
@@ -105,7 +105,7 @@ custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 focus_mode = 0
 icon = ExtResource("9_wey23")
-icon_folder = "LabTable"
+icon_folder = "LabTable/navigation"
 texture_name = "m_down"
 
 [node name="OverviewContainer" type="SubViewportContainer" parent="."]

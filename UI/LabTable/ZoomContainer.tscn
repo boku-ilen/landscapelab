@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://p6cm0acpl15r" path="res://UI/CustomElements/AutoIconButton.tscn" id="1_3t862"]
 [ext_resource type="Script" uid="uid://uqtgqr4s4rh6" path="res://UI/LabTable/ZoomContainer.gd" id="1_je6ju"]
 [ext_resource type="Theme" uid="uid://bmrrl65wn4876" path="res://UI/Theme/TableButton.tres" id="3_bf017"]
-[ext_resource type="Texture2D" uid="uid://ds2qb1dhe370r" path="res://Resources/Icons/LabTable/m_zoom_out.svg" id="3_thiep"]
-[ext_resource type="Texture2D" uid="uid://dnrtwjustgeqt" path="res://Resources/Icons/LabTable/m_zoom_in.svg" id="4_or1gy"]
+[ext_resource type="Texture2D" uid="uid://ds2qb1dhe370r" path="res://Resources/Icons/LabTable/navigation/m_zoom_out.svg" id="3_thiep"]
+[ext_resource type="Texture2D" uid="uid://dnrtwjustgeqt" path="res://Resources/Icons/LabTable/navigation/m_zoom_in.svg" id="4_or1gy"]
 
 [node name="ZoomContainer" type="HBoxContainer"]
 layout_direction = 3
@@ -19,7 +19,7 @@ size_flags_vertical = 4
 focus_mode = 0
 theme = ExtResource("3_bf017")
 icon = ExtResource("4_or1gy")
-icon_folder = "LabTable"
+icon_folder = "LabTable/navigation"
 texture_name = "m_zoom_in"
 
 [node name="ZoomOut" parent="." instance=ExtResource("1_3t862")]
@@ -30,5 +30,5 @@ size_flags_vertical = 4
 focus_mode = 0
 theme = ExtResource("3_bf017")
 icon = ExtResource("3_thiep")
-icon_folder = "LabTable"
+icon_folder = "LabTable/navigation"
 texture_name = "m_zoom_out"

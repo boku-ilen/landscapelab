@@ -7,7 +7,7 @@ var marker_scale = 0.1
 
 func create_invalid_marker(marker_position, id):
 	var marker = Sprite2D.new()
-	marker.set_texture(preload("res://Resources/Icons/LabTable/symbol_no.png"))
+	marker.set_texture(preload("res://Resources/Icons/LabTable/indicators/symbol_no.png"))
 	marker.set_position(marker_position)
 	marker.set_scale(Vector2.ONE * marker_scale)
 	
