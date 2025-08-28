@@ -5,7 +5,11 @@
 [node name="Bad" instance=ExtResource("1_re3ny")]
 color = Color(1, 0, 0, 1)
 default_radius = 250.0
-min_radius = null
+min_radius = 50.0
 
 [node name="Light" parent="." index="0"]
-light_color = Color(1, 0, 0, 1)
+light_color = Color(1, 0.233333, 0, 1)
+
+[node name="Marker" parent="." index="1"]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 1, 0)
+instance_shader_parameters/color = Color(1, 0, 0, 1)

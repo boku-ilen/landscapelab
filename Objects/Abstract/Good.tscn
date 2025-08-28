@@ -3,9 +3,13 @@
 [ext_resource type="PackedScene" uid="uid://d4f3qoqpxstrg" path="res://Objects/Abstract/Beam.tscn" id="1_1kijs"]
 
 [node name="Good" instance=ExtResource("1_1kijs")]
-color = Color(0.23, 1, 0.23, 1)
+color = Color(0, 1, 0.0833333, 1)
 default_radius = 250.0
-min_radius = null
+min_radius = 50.0
 
 [node name="Light" parent="." index="0"]
 light_color = Color(0.23, 1, 0.23, 1)
+
+[node name="Marker" parent="." index="1"]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 1, 0)
+instance_shader_parameters/color = Color(0.23, 1, 0.23, 1)
