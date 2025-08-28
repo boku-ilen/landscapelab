@@ -92,8 +92,52 @@ static var gradients = {
 			Color(0.8706, 0.9608, 0.8980)    # (222, 245, 229)
 		]),
 		Gradient.GRADIENT_INTERPOLATE_LINEAR
-	).as_gradient()
+	).as_gradient(),
+	"reds_pastell": ColorRamp.new(
+		ColorRamp.OffsetInit.RELATIVE,
+		PackedColorArray([
+			Color.html("#fef9f5"),
+			Color.html('#a3666e')
+		]),
+		Gradient.GRADIENT_INTERPOLATE_LINEAR,
+		PackedFloat32Array([
+			0.,
+			1.
+		])
+	),
+	"sun": ColorRamp.new(
+		ColorRamp.OffsetInit.EQUIDISTANT,
+		PackedColorArray([
+			Color.html("#fffef9"),
+			Color.html('#fff8e3'),
+			Color.html("#fff2cb"),
+			Color.html("#ffdda9"),
+			Color.html("#ffcd93"),
+		]),
+		Gradient.GRADIENT_INTERPOLATE_LINEAR,
+	),
+	"biodiv": ColorRamp.new(
+		ColorRamp.OffsetInit.EQUIDISTANT,
+		PackedColorArray([
+			Color.html("#d6ecb6"),
+			Color.html("#ece0be"),
+			Color.html("#e7c3bc"),
+		]),
+		Gradient.GRADIENT_INTERPOLATE_CONSTANT
+	),
+	"good-bad": ColorRamp.new(
+		ColorRamp.OffsetInit.EQUIDISTANT,
+		PackedColorArray([
+			Color.html("#de161d"),
+			Color.html("#e84d3d"),
+			Color.html("#fd7432"),
+			Color.html("#fda54f"),
+			Color.html("#a6d96a"),
+		]),
+		Gradient.GRADIENT_INTERPOLATE_CONSTANT
+	)
 }
 static var viridis = gradients["viridis"]
 static var wind_speed = gradients["wind_speed"]
 static var mako = gradients["mako"]
+static var reds_pastell = gradients["reds_pastell"]
