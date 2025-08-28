@@ -1,23 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://d4f3qoqpxstrg"]
+[gd_scene load_steps=5 format=3 uid="uid://d4f3qoqpxstrg"]
 
 [ext_resource type="Script" uid="uid://pkvlnqq7vrxa" path="res://Objects/Abstract/Beam.gd" id="1_1qshu"]
+[ext_resource type="Shader" uid="uid://dlygtxjri0q3d" path="res://Objects/Abstract/BeamMarker.gdshader" id="2_g8x56"]
+[ext_resource type="ArrayMesh" uid="uid://rr10d6wboibp" path="res://Resources/Meshes/Abstract/map_marker.obj" id="3_gxv74"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xydkf"]
-transparency = 1
-albedo_color = Color(0, 0, 0, 1)
-emission = Color(0.270588, 1, 0.270588, 1)
-rim = 0.16
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_1woj8"]
-top_radius = 100.0
-bottom_radius = 100.0
-height = 100000.0
-cap_top = false
-cap_bottom = false
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gxv74"]
+render_priority = 0
+shader = ExtResource("2_g8x56")
 
 [node name="Beam" type="Node3D"]
 script = ExtResource("1_1qshu")
+default_radius = null
+min_radius = null
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-material_override = SubResource("StandardMaterial3D_xydkf")
-mesh = SubResource("CylinderMesh_1woj8")
+[node name="Light" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 250, 0)
+light_intensity_lumens = 4e+06
+light_color = Color(0.15, 1, 0, 1)
+light_indirect_energy = 0.0
+light_specular = 0.0
+omni_range = 375.0
+omni_attenuation = 0.0
+
+[node name="Marker" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0)
+material_override = SubResource("ShaderMaterial_gxv74")
+mesh = ExtResource("3_gxv74")

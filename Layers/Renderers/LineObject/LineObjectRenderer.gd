@@ -30,6 +30,9 @@ func load_feature_instance(feature: GeoFeature):
 	# Root node of all Nodes for this Feature
 	var instances = Node3D.new()
 	
+	# If there's wrong geometry in this layer, skip it
+	if not feature is GeoLine: return instances
+	
 	var vertices: Curve3D = feature.get_offset_curve3d(-center[0], 0, -center[1])
 	
 	# We setup a prototype scene which we re-use (by duplicating) for all subsequent scenes
