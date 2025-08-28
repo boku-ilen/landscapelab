@@ -130,7 +130,7 @@ void fragment() {
 
 		color = mix(color, vec3(1.0), (1.0 - damage_opacity_sample) * marking
 				* (length(color) * 1.0));
-		
+
 		// Make the road darker where it's most often driven over (2 strips per lane with a smooth fade)
 		color *= mix(1.0, smoothstep(-3.0, 1.0, cos(untransformed_vertex.x * 4.0 * PI * float(lanes))), wear_noise);
 
