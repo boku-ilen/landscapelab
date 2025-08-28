@@ -3,18 +3,20 @@ extends LineSegment
 
 var width
 
+# Standard width values for 2 lanes
 static var highway_to_width_fallback = {
-	"motorway": 10.0,
-	"motorway_link": 6.0,
-	"primary": 10.0,
-	"primary_link": 6.0,
-	"secondary": 8.0,
-	"secondary_link": 7.0,
-	"tertiary": 7.4,
-	"tertiary_link": 7.0,
-	"track": 3.0,
-	"trunk": 5.0,
-	"trunk_link": 4.0
+	"motorway": 7.0,
+	"motorway_link": 7.0,
+	"primary": 7.0,
+	"primary_link": 7.0,
+	"trunk": 7.0,
+	"trunk_link": 7.0,
+	"secondary": 6.0,
+	"secondary_link": 6.0,
+	"tertiary": 6.0,
+	"tertiary_link": 6.0,
+	"residential": 5.0,
+	"track": 5.0,
 }
 
 
@@ -31,8 +33,13 @@ func setup(new_feature):
 	width = float(feature.get_attribute("width"))
 	var highway_attr = feature.get_attribute("highway")
 	
+	var lanes = int(feature.get_attribute("lanes"))
+	if lanes == 0: lanes = 2
+	
 	if width == 0.0:
 		width = highway_to_width_fallback.get(highway_attr, 4.0)
+	
+	width *= (lanes / 2.0)
 	
 	material_override.set_shader_parameter("width", width)
 	
@@ -40,8 +47,7 @@ func setup(new_feature):
 	material_override.set_shader_parameter("render_lid", feature.get_attribute("bridge") != "yes")
 	material_override.set_shader_parameter("render_height", feature.get_attribute("bridge") != "yes")
 	
-	var lanes = max(int(feature.get_attribute("lanes")), 1)
-	material_override.set_shader_parameter("lanes", lanes if width >= 5.0 else 1) # Avoid lanes smaller than 2.5
+	material_override.set_shader_parameter("lanes", lanes)
 
 
 func get_mesh_aabb():
