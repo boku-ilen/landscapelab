@@ -39,11 +39,11 @@ func _init(
 
 
 func apply(_game_mode: GameMode):
-	# Delete all previous features
-	# FIXME: Maybe don't do that and try to preserve changes made there, in case the game mode is
-	#  switched back and forth
+	# Delete all previous features which have not been modified - keep features where manual changes
+	#  have been made
 	for feature in feature_layer.get_all_features():
-		feature_layer.remove_feature(feature)
+		if feature.get_attribute("modified") != "1":
+			feature_layer.remove_feature(feature)
 	
 	var good_zone_features = good_zone_goc.feature_layer.get_all_features()
 	var bad_zone_features = bad_zone_goc.feature_layer.get_all_features()
@@ -69,12 +69,12 @@ func apply(_game_mode: GameMode):
 			
 			var distance = activation_point_center.distance_to(zone_center)
 			
-			# If the activation point is right inside the go-zone, add a value between 1.0 and 2.0.
+			# If the activation point is right inside the go-zone, add a value between 0.5 and 2.0.
 			# If the zones are just overlapping, add a value between 0.0 and 1.0.
 			if distance < zone_radius:
-				score += 1.0 + inverse_lerp(zone_radius + activation_point_radius, 0.0, distance)
+				score += 0.5 + inverse_lerp(zone_radius + activation_point_radius, 0.0, distance) * 1.5
 			elif distance < zone_radius + activation_point_radius:
-				score += inverse_lerp(zone_radius + activation_point_radius, zone_radius, distance)
+				score += inverse_lerp(zone_radius + activation_point_radius, zone_radius, distance) * 0.5
 		
 		for bad_zone in bad_zone_features:
 			var zone_center = bad_zone.get_vector3()
@@ -86,9 +86,9 @@ func apply(_game_mode: GameMode):
 			# We could add an option to weigh these negative zones higher in case we really want to
 			# avoid placing objects in conflicting areas.
 			if distance < zone_radius:
-				score -= 1.0 + inverse_lerp(zone_radius + activation_point_radius, 0.0, distance)
+				score -= 0.5 + inverse_lerp(zone_radius + activation_point_radius, 0.0, distance) * 1.5
 			elif distance < zone_radius + activation_point_radius:
-				score -= inverse_lerp(zone_radius + activation_point_radius, zone_radius, distance)
+				score -= inverse_lerp(zone_radius + activation_point_radius, zone_radius, distance) * 0.5
 		
 		activation_point_and_score.append([activation_point, score])
 	
@@ -112,9 +112,11 @@ func apply(_game_mode: GameMode):
 		# Exit condition: no good points left
 		if activation_point[1] <= 0: break
 		
-		# Activate this point
-		var new_cluster_feature = feature_layer.create_feature()
-		new_cluster_feature.set_vector3(activation_point[0].get_vector3())
+		# Activate this point if there isn't already a feature here
+		var position = activation_point[0].get_vector3()
+		if feature_layer.get_features_near_position(position.x, -position.z, 1.0, 1).size() == 0:
+			var new_cluster_feature = feature_layer.create_feature()
+			new_cluster_feature.set_vector3(position)
 		
 		amount_of_added_features += 1
 		

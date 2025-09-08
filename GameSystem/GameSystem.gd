@@ -40,18 +40,27 @@ signal game_mode_changed
 
 
 func save():
+	if not DirAccess.dir_exists_absolute(user_save_dir): DirAccess.make_dir_absolute(user_save_dir)
+	
 	var config = ConfigFile.new()
 	
 	for game_mode in game_modes:
 		for collection in game_mode.game_object_collections.values():
 			if "feature_layer" in collection:
-				if not DirAccess.dir_exists_absolute(user_save_dir): DirAccess.make_dir_absolute(user_save_dir)
-				
 				var save_path = OS.get_user_data_dir().path_join("/%s/game_layer_%s_%s.gpkg" % [save_dir, collection.name, floor(Time.get_unix_time_from_system())])
 				collection.feature_layer.save_new(save_path)
 				
 				# Remember "last save file location" for this feature layer
 				config.set_value("Savestate", collection.name, save_path)
+			
+			if "cluster_points_layer" in collection:
+				# We handle the "cluster_points_layer" of clusters separately
+				# We need to save them to remember which ones have been activated
+				var save_path = OS.get_user_data_dir().path_join("/%s/cluster_point_layer_%s_%s.gpkg" % [save_dir, collection.name, floor(Time.get_unix_time_from_system())])
+				collection.cluster_points_layer.save_new(save_path)
+				
+				# Remember "last save file location" for this layer
+				config.set_value("Cluster Point Savestate", collection.name, save_path)
 	
 	config.save("user://%s/savestate.cfg" % [save_dir])
 
@@ -65,15 +74,24 @@ func load_last_save():
 	
 	for game_mode in game_modes:
 		for collection in game_mode.game_object_collections.values():
-			if "feature_layer" in collection and not collection is GameObjectClusterCollection:
-				# TODO: We cannot fully recover a previous state here, since GameObjectClusters
-				# don't save their cluster_size in any attribute, and the connection between
-				# GameObject and Cluster exists only at runtime.
-				# In addition, persisting manual changes to a cluster (e.g. modifications to a
-				# single wind turbine) would require additional logic to remember those changes
-				# while still keeping it connected to the cluster.
-				# Until that is resolved, we simply don't restore GameObjectClusters, but only
-				# individual GameObjects (which may or may not have been created by clusters).
+			if "cluster_points_layer" in collection:
+				# First, load cluster points so that activated points are not instantiated again
+				# by clusters later
+				var last_cluster_point_save_path = config.get_value("Cluster Point Savestate", collection.name)
+				
+				# Load features from that file into this layer
+				var dataset = Geodot.get_dataset(last_cluster_point_save_path)
+				var layer = dataset.get_feature_layers()[0]
+				
+				# Set modified attributes
+				for feature in layer.get_all_features():
+					var this_feature = collection.cluster_points_layer.get_feature_by_id(feature.get_id())
+					var attributes = feature.get_attributes()
+					
+					for attribute_name in feature.get_attributes().keys():
+						this_feature.set_attribute(attribute_name, attributes[attribute_name])
+			
+			if "feature_layer" in collection:
 				var last_save_path = config.get_value("Savestate", collection.name)
 				
 				# Load features from that file into this feature_layer
@@ -157,6 +175,10 @@ func create_new_geo_game_object(collection, position := Vector3.ZERO):
 	# conditions, so we can't just create an object and set it later
 	if new_feature.has_method("set_vector3") and position != Vector3.ZERO:
 		new_feature.set_vector3(position)
+	
+	# Set the "modified" attribute since this is a manually created game object
+	# FIXME: once we have something like "has_attribute", check that first
+	new_feature.set_attribute("modified", "1")
 	
 	# No need to do anything else because the collection reacts to the `feature_added` signal
 	
