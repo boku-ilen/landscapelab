@@ -227,10 +227,11 @@ func get_game_object_for_geo_feature(geo_feature):
 
 
 func apply_game_object_removal(collection_name, game_object_id):
-	if collection_name in current_game_mode.game_object_collections:
-		var collection = current_game_mode.game_object_collections[collection_name]
-		collection.game_objects.erase(game_object_id)
-		_game_objects.erase(game_object_id)
+	for game_mode in game_modes:
+		if collection_name in game_mode.game_object_collections:
+			var collection = game_mode.game_object_collections[collection_name]
+			collection.game_objects.erase(game_object_id)
+			_game_objects.erase(game_object_id)
 
 
 func _on_new_game_layer(_layer):
