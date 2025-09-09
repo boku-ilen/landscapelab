@@ -139,6 +139,14 @@ func _on_feature_changed(feature):
 		new_location_feature.set_vector3(point_feature.get_vector3())
 		new_location_feature.set_attribute("origin", str(cluster_id))
 		
+		# If an individual location feature gets "modified" set to "true", we also want this to
+		#  propagate to the cluster feature. The reason is this: if this cluster was automatically
+		#  placed by a ZonesToGameObjectsAction, it should be considered "modified" (and therefore
+		#  persisted) even if it is not itself modified, but if a feature of it is modified, since
+		#  that also means we don't want to delete the cluster (and with it the modified features).
+		new_location_feature.feature_changed.connect(
+			_on_location_feature_changed.bind(new_location_feature, feature))
+		
 		point_feature.set_attribute("activated", "1")
 	
 	instance_goc.game_object_added.disconnect(add_current_new_game_object)
@@ -188,3 +196,8 @@ func _remove_game_object(feature):
 		game_object_removed.emit(corresponding_game_object)
 	
 		changed.emit()
+
+
+func _on_location_feature_changed(feature, cluster_feature):
+	if feature.get_attribute("modified") == "1":
+		cluster_feature.set_attribute("modified", "1")
