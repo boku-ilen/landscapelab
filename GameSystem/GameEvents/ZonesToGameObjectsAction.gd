@@ -86,9 +86,9 @@ func apply(_game_mode: GameMode):
 			# We could add an option to weigh these negative zones higher in case we really want to
 			# avoid placing objects in conflicting areas.
 			if distance < zone_radius:
-				score -= 0.5 + inverse_lerp(zone_radius + activation_point_radius, 0.0, distance) * 1.5
+				score -= (0.5 + inverse_lerp(zone_radius + activation_point_radius, 0.0, distance) * 1.5) * 2.0
 			elif distance < zone_radius + activation_point_radius:
-				score -= inverse_lerp(zone_radius + activation_point_radius, zone_radius, distance) * 0.5
+				score -= (inverse_lerp(zone_radius + activation_point_radius, zone_radius, distance) * 0.5) * 2.0
 		
 		activation_point_and_score.append([activation_point, score])
 	
@@ -119,5 +119,3 @@ func apply(_game_mode: GameMode):
 			new_cluster_feature.set_vector3(position)
 		
 		amount_of_added_features += 1
-		
-		
