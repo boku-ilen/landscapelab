@@ -213,6 +213,11 @@ func create_game_object_for_geo_feature(game_object_class, geo_feature, collecti
 	var game_object = game_object_class.new(id, collection, geo_feature)
 	_game_objects[id] = game_object
 	
+	# Apply default attribute values
+	for attribute: GameObjectAttribute in collection.attributes.values():
+		if attribute.default > 0 and float(attribute.get_value(game_object)) == 0:
+			attribute.set_value(game_object, attribute.default)
+	
 	return game_object
 
 
