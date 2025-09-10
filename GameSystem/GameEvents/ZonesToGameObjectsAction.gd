@@ -48,10 +48,13 @@ func apply(_game_mode: GameMode):
 	var good_zone_features = good_zone_goc.feature_layer.get_all_features()
 	var bad_zone_features = bad_zone_goc.feature_layer.get_all_features()
 	
-	# FIXME: This method of checking points to activate is wastefully slow.
-	#  I tried optimizing by first selecting activation_points which are near a good_zone, but this
-	#  ended up not really causing an improvement. I guess we would need full spatial filtering
-	#  for something better
+	# This is quite unoptimized, but the low-hanging fruit optimizations (selecting
+	# activation_points which are near a good _zone first) did not cause improvements.
+	# We'd probably need proper spatial filtering for a significant change.
+	# Overall though, this call always seems to take significantly less than 1 second (around
+	# 200 ms seems typical, with the bulk of the time used by the `get_all_features` calls).
+	# So if we were to optimize, we should probably start somewhere else, e.g. in all the
+	# reactions to new features in the UI and 3D world.
 	
 	var activation_point_and_score = []
 	
