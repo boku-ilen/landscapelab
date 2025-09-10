@@ -18,6 +18,8 @@ var feature_id_to_game_object = {}
 var current_new_game_objects = []
 var feature_id_to_cluster_id = {}
 
+var last_change_from_within = false
+
 signal game_object_added(new_game_object)
 signal game_object_removed(removed_game_object)
 
@@ -104,6 +106,15 @@ func _add_game_object(feature):
 
 
 func _on_feature_changed(feature):
+	# Hotfix for an undesired signal connection: when we set `modified` to true from within this
+	# class (when deleting a feature within the cluster), this causes `_on_feature_changed` to be
+	# called again, even though nothing really changed except for this internal attribute.
+	# Therefore, we use this variable to skip updating after an internal change.
+	# Since the signal is connected directly (not deferred), this should not cause race conditions.
+	if last_change_from_within:
+		last_change_from_within = false
+		return
+	
 	# Get the closest cluster corresponding to this feature
 	var feature_position = feature.get_vector3()
 	
@@ -186,6 +197,14 @@ func _on_feature_changed(feature):
 		new_location_feature.feature_changed.connect(
 			_on_location_feature_changed.bind(new_location_feature, feature))
 		
+		# Same for deletion: if we delete a feature within a cluster, we consider that having
+		#  manually modified the cluster.
+		instance_goc.feature_layer.feature_removed.connect(func(removed_feature):
+			if removed_feature == new_location_feature:
+				last_change_from_within = true
+				feature.set_attribute("modified", "1")
+		)
+		
 		point_feature.set_attribute("activated", "1")
 	
 	instance_goc.game_object_added.disconnect(add_current_new_game_object)
@@ -237,6 +256,6 @@ func _remove_game_object(feature):
 		changed.emit()
 
 
-func _on_location_feature_changed(feature, cluster_feature):
-	if feature.get_attribute("modified") == "1":
+func _on_location_feature_changed(location_feature, cluster_feature):
+	if location_feature.get_attribute("modified") == "1":
 		cluster_feature.set_attribute("modified", "1")
