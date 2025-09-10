@@ -28,7 +28,10 @@ func get_value(game_object):
 			return default_class
 
 
+# Checks all classes and, if all current attribute values match that class, returns its name.
+# If no class perfectly matches the current attribute values, an empty string is returned.
 func find_class_for_attributes(game_object) -> String:
+	# `class_name` is a reserved keyword, as are `class` and `name`, so `class_namey` it is
 	for class_namey in class_names_to_attribute_values.keys():
 		var number_of_attributes_here = class_names_to_attribute_values[class_namey].size()
 		var number_of_matching_attributes = 0
