@@ -177,8 +177,8 @@ func create_new_geo_game_object(collection, position := Vector3.ZERO):
 		new_feature.set_vector3(position)
 	
 	# Set the "modified" attribute since this is a manually created game object
-	# FIXME: once we have something like "has_attribute", check that first
-	new_feature.set_attribute("modified", "1")
+	if collection.feature_layer.has_attribute("modified"):
+		new_feature.set_attribute("modified", "1")
 	
 	# No need to do anything else because the collection reacts to the `feature_added` signal
 	

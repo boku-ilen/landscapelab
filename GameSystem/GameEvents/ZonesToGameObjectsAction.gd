@@ -36,6 +36,31 @@ func _init(
 	good_zone_goc = initial_good_zone_goc
 	bad_zone_goc = initial_bad_zone_goc
 	target_score_name = initial_target_score_name
+	
+	# Check whether necessary attributes exist and warn if not
+	if not feature_layer.has_attribute("modified"):
+		logger.error("""
+			Feature layer in EventAction %s does not have `modified` attribute, this will
+			make saving and loading inconsistent!
+		""" % [initial_name])
+	
+	if not activation_layer.has_attribute("radius"):
+		logger.error("""
+			Activation layer in EventAction %s does not have `radius` attribute, this will
+			cause activation points not to work properly!
+		""" % [initial_name])
+	
+	if not good_zone_goc.feature_layer.has_attribute("radius"):
+		logger.error("""
+			Good zone layer in EventAction %s does not have `radius` attribute, this will
+			cause activation points not to work properly!
+		""" % [initial_name])
+	
+	if not bad_zone_goc.feature_layer.has_attribute("radius"):
+		logger.error("""
+			Bad zone layer in EventAction %s does not have `radius` attribute, this will
+			cause activation points not to work properly!
+		""" % [initial_name])
 
 
 func apply(_game_mode: GameMode):

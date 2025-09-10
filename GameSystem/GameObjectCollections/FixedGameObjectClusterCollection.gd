@@ -39,6 +39,45 @@ func _init(initial_name, initial_feature_layer, initial_instance_goc,
 	# Register future features automatically
 	feature_layer.feature_added.connect(_add_game_object)
 	feature_layer.feature_removed.connect(_remove_game_object)
+	
+	# Check whether necessary attributes exist and warn if not
+	if not feature_layer.has_attribute("modified"):
+		logger.error("""
+			Feature layer in GameObjectCollection %s does not have `modified` attribute, this will
+			make saving and loading inconsistent!
+		""" % [initial_name])
+	
+	if not instance_goc.feature_layer.has_attribute("modified"):
+		logger.error("""
+			Instance feature layer in GameObjectCollection %s does not have `modified` attribute, this will
+			make saving and loading inconsistent!
+		""" % [initial_name])
+	
+	if not cluster_centroid_layer.has_attribute("CLUSTER_ID"):
+		logger.error("""
+			Cluster centroid layer in GameObjectCollection %s does not have `CLUSTER_ID` attribute,
+			it cannot activate locations without it!
+		""" % [initial_name])
+	
+	if not cluster_points_layer.has_attribute("CLUSTER_ID"):
+		logger.error("""
+			Cluster points layer in GameObjectCollection %s does not have `CLUSTER_ID` attribute,
+			it cannot activate locations without it!
+		""" % [initial_name])
+	
+	if not instance_goc.feature_layer.has_attribute("origin"):
+		logger.error("""
+			Instance feature layer in GameObjectCollection %s does not have `origin` attribute,
+			this will cause the mapping of clusters to instances to be broken!
+		""" % [initial_name])
+	
+	if not cluster_points_layer.has_attribute("activated"):
+		logger.error("""
+			Cluster points layer in GameObjectCollection %s does not have `activated` attribute,
+			this will allow duplicate cluster activations!
+		""" % [initial_name])
+		
+		
 
 
 func remove_nearby_game_objects(position, radius):
