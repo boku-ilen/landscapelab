@@ -10,6 +10,6 @@ fractal_weighted_strength = 0.21
 metadata/_preview_in_3d_space_ = true
 
 [resource]
+noise = SubResource("FastNoiseLite_s7klj")
 seamless = true
 seamless_blend_skirt = 0.761
-noise = SubResource("FastNoiseLite_s7klj")

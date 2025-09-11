@@ -6,7 +6,7 @@ frequency = 0.005
 fractal_gain = 0.6
 
 [resource]
+noise = SubResource("FastNoiseLite_rt6mg")
 seamless = true
 as_normal_map = true
 bump_strength = 64.0
-noise = SubResource("FastNoiseLite_rt6mg")
