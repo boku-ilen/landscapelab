@@ -33,14 +33,14 @@ static func get_polygon_vertex_directions(polygon: Array) -> Array[Vector2]:
 	return directions
 
 
+# Offsets all vertices in the given polygon by the direction corresponding to the vertex
+# Operates in place!
 static func offset_polygon_vertices(
 	polygon: Array, directions: Array[Vector2], offset: float):
 	assert(polygon.size() == directions.size())
 	
 	for idx in polygon.size():
 		polygon[idx] += directions[idx] * -offset
-	
-	return polygon
 
 
 static func project_triangle_to_uv(p0: Vector3, p1: Vector3, p2: Vector3) -> Array:

@@ -89,7 +89,7 @@ func load_feature_instance(activation_point: GeoFeature) -> Node3D:
 	
 	# Inset polygon
 	var directions = GeometryUtil.get_polygon_vertex_directions(engine_polygon)
-	engine_polygon = GeometryUtil.offset_polygon_vertices(engine_polygon, directions, offset)
+	GeometryUtil.offset_polygon_vertices(engine_polygon, directions, offset)
 	
 	# Find left-most and bottom-most and right-most, top-most point in polygon
 	var min_pos = Vector3(INF, 0, INF)

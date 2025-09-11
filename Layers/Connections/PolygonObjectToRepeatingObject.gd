@@ -65,7 +65,8 @@ func extract_relevant_data(source: LayerComposition,
 	# Filter new features for a set "outline" field to create a barrier around it
 	var relevant_new = new_features.filter(func(feature: GeoFeature): 
 				return feature.get_attribute("outline") != "")
-	var relevant_old = removed_features
+	var relevant_old = removed_features.filter(func(feature: GeoFeature): 
+				return feature.get_attribute("outline") != "")
 	return {"new": relevant_new, "removed": relevant_old}
 
 
@@ -120,8 +121,7 @@ func apply_to_target(target: LayerComposition, features: Variant):
 			var offset = source_composition.render_info.renderer_instance.offset
 			if Geometry2D.is_polygon_clockwise(directions): offset *= -1
 			
-			var offset_verts = GeometryUtil.offset_polygon_vertices(
-				hull, directions, offset)
+			GeometryUtil.offset_polygon_vertices(hull, directions, offset)
 			
 			# Create geoline and its underlying curve3d
 			var curve := Curve3D.new()
@@ -147,4 +147,6 @@ func apply_to_target(target: LayerComposition, features: Variant):
 			# Store the geo_line to delete when the feature is deleted
 			instanced_geo_lines[feature.get_id()] = geo_line
 	
-	target.render_info.renderer_instance.full_load()
+	# If any change was made, apply in the target renderer
+	if new_features.size() + removed_features.size() > 0:
+		target.render_info.renderer_instance.full_load()
