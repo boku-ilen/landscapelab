@@ -27,6 +27,9 @@ uniform sampler2D[96] distribution_array: repeat_enable, filter_nearest;
 uniform sampler2D row_ids;
 uniform sampler2D[100] texture_map : source_color, repeat_disable;
 
+uniform bool use_height_overlay = false;
+uniform sampler2D height_overlay: repeat_disable, filter_linear, hint_default_black;
+
 uniform float size;
 uniform float max_distance = 90.0;
 
@@ -65,9 +68,31 @@ vec4 fractal_texture(sampler2D tex, vec2 uv, float depth) {
 }
 
 
-float get_height(vec2 uv) {
-	float height = texture(heightmap, uv).r * height_scale;
-	return clamp(height, -1000.0, 50000.0);
+float get_height(vec2 uv, bool local_use_height_overlay) {
+	// R: Integer part of the overlay height (divided by 10)
+	// G: Fractional part of the overlay height (divided by 10)
+	// B: Mixing factor from overlay height (1.0) to heightmap height (0.0)
+	vec4 overlay_height_sample = texture(height_overlay, uv ) * height_scale;
+
+	// Height directly from the heightmap
+	float heightmap_height = texture(heightmap, uv).r * height_scale;
+
+	// Interpolating from a valid value to an invalid value presents us with faulty results,
+	//  since the result will seem valid (> 0.0), but actually be far lower than anything sensible.
+	// 	Therefore, we check all 4 values surrounding the sample position and don't use the overlay
+	//  height if any of them is invalid.
+	vec4 near_values = textureGather(height_overlay, uv);
+	bool is_surrounded_by_valid = (near_values.x > 0.0 && near_values.y > 0.0
+			&& near_values.z > 0.0 && near_values.w > 0.0);
+
+	if (is_surrounded_by_valid && local_use_height_overlay && use_height_overlay && overlay_height_sample.b > 0.01) {
+		// Blend between heightmap height and overlay height by the blue channel of the overlay height
+		return mix(heightmap_height, (overlay_height_sample.r + overlay_height_sample.g) * 10.0, overlay_height_sample.b);
+	}
+
+	// Clamp to prevent weird behavior with extreme nodata values
+	// TODO: Might have to be generalized further to be more robust
+	return clamp(heightmap_height, -1000.0, 50000.0);
 }
 
 float get_landuse(vec2 uv) {
@@ -83,17 +108,17 @@ vec3 get_normal(vec2 normal_uv_pos) {
 	float e = 10.0 / size;
 
 	// Sobel filter for getting the normal at this position
-	float bottom_left = get_height(normal_uv_pos + vec2(-e, -e));
-	float bottom_center = get_height(normal_uv_pos + vec2(0, -e));
-	float bottom_right = get_height(normal_uv_pos + vec2(e, -e));
+	float bottom_left = get_height(normal_uv_pos + vec2(-e, -e), true);
+	float bottom_center = get_height(normal_uv_pos + vec2(0, -e), true);
+	float bottom_right = get_height(normal_uv_pos + vec2(e, -e), true);
 
-	float center_left = get_height(normal_uv_pos + vec2(-e, 0));
+	float center_left = get_height(normal_uv_pos + vec2(-e, 0), true);
 	//float center_center = get_height(normal_uv_pos + vec2(0, 0));
-	float center_right = get_height(normal_uv_pos + vec2(e, 0));
+	float center_right = get_height(normal_uv_pos + vec2(e, 0), true);
 
-	float top_left = get_height(normal_uv_pos + vec2(-e, e));
-	float top_center = get_height(normal_uv_pos + vec2(0, e));
-	float top_right = get_height(normal_uv_pos + vec2(e, e));
+	float top_left = get_height(normal_uv_pos + vec2(-e, e), true);
+	float top_center = get_height(normal_uv_pos + vec2(0, e), true);
+	float top_right = get_height(normal_uv_pos + vec2(e, e), true);
 
 	vec3 long_normal;
 
@@ -112,7 +137,7 @@ void vertex() {
 	if (UV.x < -0.1 || UV.x > 1.1 || UV.y < -0.1 || UV.y > 1.1) {
 		VERTEX.y = -1000.0;
 	} else {
-		VERTEX.y = get_height(UV);
+		VERTEX.y = get_height(UV, true);
 	}
 
 	int splatmap_value = int(round(get_landuse(UV)));
