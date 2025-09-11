@@ -150,12 +150,15 @@ func load_feature_instance(activation_point: GeoFeature) -> Node3D:
 		return fully_inside
 	
 	var spacing_x = layer_composition.render_info.spacing_x
-	if not spacing_x > -1.0:
+	if not spacing_x > 0.0:
 		spacing_x = float(activation_point.get_attribute(layer_composition.render_info.spacing_x_attribute))
 	
 	var spacing_y = layer_composition.render_info.spacing_y
-	if not spacing_y > -1.0:
-		spacing_y = float(activation_point.get_attribute(layer_composition.render_info.spacing_y_attribute))
+	if not layer_composition.render_info.spacing_y_attribute.is_empty():
+		var spacing_from_attribute = float(activation_point.get_attribute(layer_composition.render_info.spacing_y_attribute))
+		
+		if spacing_from_attribute > 0.0:
+			spacing_y = spacing_from_attribute
 	
 	spacing_x += aabb.size.x
 	spacing_y += aabb.size.z

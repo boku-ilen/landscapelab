@@ -14,8 +14,11 @@ var cluster_points_layer: GeoFeatureLayer
 var initial_search_radius := 100.0
 var max_search_radius := 2000.0
 
-var cluster_feature_instances := {}
-var location_feature_instances := {}
+var feature_id_to_game_object = {}
+var current_new_game_objects = []
+var feature_id_to_cluster_id = {}
+
+var last_change_from_within = false
 
 signal game_object_added(new_game_object)
 signal game_object_removed(removed_game_object)
@@ -38,6 +41,45 @@ func _init(initial_name, initial_feature_layer, initial_instance_goc,
 	# Register future features automatically
 	feature_layer.feature_added.connect(_add_game_object)
 	feature_layer.feature_removed.connect(_remove_game_object)
+	
+	# Check whether necessary attributes exist and warn if not
+	if not feature_layer.has_attribute("modified"):
+		logger.error("""
+			Feature layer in GameObjectCollection %s does not have `modified` attribute, this will
+			make saving and loading inconsistent!
+		""" % [initial_name])
+	
+	if not instance_goc.feature_layer.has_attribute("modified"):
+		logger.error("""
+			Instance feature layer in GameObjectCollection %s does not have `modified` attribute, this will
+			make saving and loading inconsistent!
+		""" % [initial_name])
+	
+	if not cluster_centroid_layer.has_attribute("CLUSTER_ID"):
+		logger.error("""
+			Cluster centroid layer in GameObjectCollection %s does not have `CLUSTER_ID` attribute,
+			it cannot activate locations without it!
+		""" % [initial_name])
+	
+	if not cluster_points_layer.has_attribute("CLUSTER_ID"):
+		logger.error("""
+			Cluster points layer in GameObjectCollection %s does not have `CLUSTER_ID` attribute,
+			it cannot activate locations without it!
+		""" % [initial_name])
+	
+	if not instance_goc.feature_layer.has_attribute("origin"):
+		logger.error("""
+			Instance feature layer in GameObjectCollection %s does not have `origin` attribute,
+			this will cause the mapping of clusters to instances to be broken!
+		""" % [initial_name])
+	
+	if not cluster_points_layer.has_attribute("activated"):
+		logger.error("""
+			Cluster points layer in GameObjectCollection %s does not have `activated` attribute,
+			this will allow duplicate cluster activations!
+		""" % [initial_name])
+		
+		
 
 
 func remove_nearby_game_objects(position, radius):
@@ -55,6 +97,7 @@ func remove_nearby_game_objects(position, radius):
 func _add_game_object(feature):
 	var game_object_for_feature = GameSystem.create_game_object_for_geo_feature(GameObjectCluster, feature, self)
 	game_objects[game_object_for_feature.id] = game_object_for_feature
+	feature_id_to_game_object[feature.get_id()] = game_object_for_feature
 	
 	feature.feature_changed.connect(_on_feature_changed.bind(feature))
 	
@@ -63,12 +106,16 @@ func _add_game_object(feature):
 
 
 func _on_feature_changed(feature):
-	# Remove previous
-	if feature.get_id() in location_feature_instances:
-		for feature_instance in location_feature_instances[feature.get_id()]:
-			instance_goc.feature_layer.remove_feature(feature_instance)
+	# Hotfix for an undesired signal connection: when we set `modified` to true from within this
+	# class (when deleting a feature within the cluster), this causes `_on_feature_changed` to be
+	# called again, even though nothing really changed except for this internal attribute.
+	# Therefore, we use this variable to skip updating after an internal change.
+	# Since the signal is connected directly (not deferred), this should not cause race conditions.
+	if last_change_from_within:
+		last_change_from_within = false
+		return
 	
-	# Activate locations
+	# Get the closest cluster corresponding to this feature
 	var feature_position = feature.get_vector3()
 	
 	var chosen_centroids
@@ -91,26 +138,85 @@ func _on_feature_changed(feature):
 		else:
 			current_search_radius *= 2.0
 	
-	if chosen_centroids:
-		chosen_centroids.sort_custom(func(a, b):
-			return a.get_vector3().distance_to(feature_position) < \
-					b.get_vector3().distance_to(feature_position)
+	if not chosen_centroids: return
+	
+	chosen_centroids.sort_custom(func(a, b):
+		return a.get_vector3().distance_to(feature_position) < \
+				b.get_vector3().distance_to(feature_position)
+	)
+	
+	chosen_centroid = chosen_centroids[0]
+	
+	# Now that we have a "chosen_centroid", check whether we have previous features for it
+	var cluster_id = chosen_centroid.get_attribute("CLUSTER_ID")
+	
+	feature_id_to_cluster_id[feature.get_id()] = cluster_id
+	
+	# Remove unmodified existing features, but remember their locations to recreate them later
+	# We do this to make attribute changes propagate down
+	var existing_locations = []
+	var existing_features = instance_goc.feature_layer\
+			.get_features_by_attribute_filter("origin = '%s'" % [cluster_id])
+	
+	for existing_feature in existing_features:
+		if not str_to_var(existing_feature.get_attribute("modified")):
+			existing_locations.append(existing_feature.get_vector3())
+			instance_goc.feature_layer.remove_feature(existing_feature)
+	
+	# React to new game objects so that we know about GameObjects created
+	# as a reaction to `instance_goc.feature_layer.create_feature()`
+	current_new_game_objects.clear()
+	instance_goc.game_object_added.connect(add_current_new_game_object)
+	
+	# Recreate removed unmodified existing features
+	for existing_location in existing_locations:
+		var new_location_feature = instance_goc.feature_layer.create_feature()
+		new_location_feature.set_vector3(existing_location)
+		new_location_feature.set_attribute("origin", str(cluster_id))
+	
+	# Activate all unactivated points within this cluster
+	# (This is likely only ever relevant for when this function is first called, since later, all
+	#  are activated)
+	var points_to_activate = cluster_points_layer.get_features_by_attribute_filter(
+		"CLUSTER_ID = %s" % [cluster_id]
+	)
+	
+	for point_feature in points_to_activate:
+		var activated = point_feature.get_attribute("activated")
+		if str_to_var(activated): continue
+		
+		var new_location_feature = instance_goc.feature_layer.create_feature()
+		new_location_feature.set_vector3(point_feature.get_vector3())
+		new_location_feature.set_attribute("origin", str(cluster_id))
+		
+		# If an individual location feature gets "modified" set to "true", we also want this to
+		#  propagate to the cluster feature. The reason is this: if this cluster was automatically
+		#  placed by a ZonesToGameObjectsAction, it should be considered "modified" (and therefore
+		#  persisted) even if it is not itself modified, but if a feature of it is modified, since
+		#  that also means we don't want to delete the cluster (and with it the modified features).
+		new_location_feature.feature_changed.connect(
+			_on_location_feature_changed.bind(new_location_feature, feature))
+		
+		# Same for deletion: if we delete a feature within a cluster, we consider that having
+		#  manually modified the cluster.
+		instance_goc.feature_layer.feature_removed.connect(func(removed_feature):
+			if removed_feature == new_location_feature:
+				last_change_from_within = true
+				feature.set_attribute("modified", "1")
 		)
 		
-		chosen_centroid = chosen_centroids[0]
+		point_feature.set_attribute("activated", "1")
 	
-		cluster_feature_instances[feature.get_id()] = []
-		
-		# Activate all points within this cluster
-		var points_to_activate = cluster_points_layer.get_features_by_attribute_filter("CLUSTER_ID = %s" % [chosen_centroid.get_attribute("CLUSTER_ID")])
-		
-		for point_feature in points_to_activate:
-			var new_location_feature = instance_goc.feature_layer.create_feature()
-			new_location_feature.set_vector3(point_feature.get_vector3())
-			
-			cluster_feature_instances[feature.get_id()].append(new_location_feature)
-		
-		changed.emit()
+	instance_goc.game_object_added.disconnect(add_current_new_game_object)
+	
+	# Let this game object know its child game objects so it can e.g. set their attributes
+	feature_id_to_game_object[feature.get_id()].set_game_objects_in_cluster(current_new_game_objects)
+	
+	changed.emit()
+
+
+func add_current_new_game_object(new_game_object):
+	current_new_game_objects.append(new_game_object)
 
 
 func _remove_game_object(feature):
@@ -123,12 +229,33 @@ func _remove_game_object(feature):
 			corresponding_game_object = game_object
 	
 	if corresponding_game_object:
-		# Remove cluster instances if there are any
-		if feature.get_id() in cluster_feature_instances:
-			for feature_instance in cluster_feature_instances[feature.get_id()]:
+		# Have we activated a cluster for this feature?
+		if feature.get_id() in feature_id_to_cluster_id:
+			var cluster_id = feature_id_to_cluster_id[feature.get_id()]
+			
+			# Get the features which have this cluster set as origin
+			var relevant_features = instance_goc.feature_layer\
+					.get_features_by_attribute_filter("origin = '%s'" % [cluster_id])
+			
+			# Remove them
+			for feature_instance in relevant_features:
 				instance_goc.feature_layer.remove_feature(feature_instance)
+			
+			# Set the underlying activation points to unactivated
+			var points_to_set_inactive = cluster_points_layer.get_features_by_attribute_filter(
+				"CLUSTER_ID = %s" % [cluster_id]
+			)
+			
+			for point_feature in points_to_set_inactive:
+				point_feature.set_attribute("activated", "0")
 		
 		GameSystem.apply_game_object_removal(name, corresponding_game_object.id)
 		
 		game_object_removed.emit(corresponding_game_object)
+	
 		changed.emit()
+
+
+func _on_location_feature_changed(location_feature, cluster_feature):
+	if location_feature.get_attribute("modified") == "1":
+		cluster_feature.set_attribute("modified", "1")

@@ -69,7 +69,7 @@ func _ready():
 
 
 # When an attribute is changed, remember this in order to interrupt the popup from closing 
-func _on_attribute_changed(reference, option_name, value):
+func _on_attribute_changed(reference, option_name, value, is_manual_change := false):
 	last_input_time = Time.get_ticks_msec()
 
 
@@ -119,15 +119,16 @@ func add_configuration_class_option(option_name, reference, classes, default):
 		index += 1
 	
 	item_list.item_selected.connect(func(item_index):
-		attribute_changed.emit(reference, option_name, item_list.get_item_text(item_index))
+		attribute_changed.emit(reference, option_name, item_list.get_item_text(item_index), true)
 	)
 	
 	$Entries/Attributes/Settings.add_child(item_list)
 	
-	await get_tree().process_frame
+	# FIXME: Why did we ever need this?
+	#await get_tree().process_frame
 	
 	item_list.select(default_index)
-	item_list.item_selected.emit(default_index)
+	attribute_changed.emit(reference, option_name, item_list.get_item_text(default_index), false)
 
 
 func add_configuration_option(option_name, reference, min=null, max=null, default=null):
@@ -152,7 +153,7 @@ func add_configuration_option(option_name, reference, min=null, max=null, defaul
 	name_to_ref_ui[option_name] = {"ref": reference, "ui": slider}
 	
 	slider.value_changed.connect(func(new_value):
-		attribute_changed.emit(reference, option_name, new_value)
+		attribute_changed.emit(reference, option_name, new_value, true)
 	)
 	
 	vbox.add_child(label)
@@ -212,6 +213,10 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 		var hbox = VBoxContainer.new()
 		hbox.name = attribute.name
 		
+		var margin_top = HBoxContainer.new()
+		margin_top.custom_minimum_size.y = 30.0
+		hbox.add_child(margin_top)
+		
 		if attribute_value is float or float(attribute_value) > 0.0:
 			attribute_value = "%.1f" % attribute_value
 		elif attribute_value is int:
@@ -220,7 +225,7 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 		hbox.custom_minimum_size.x = min(attribute_value.length() + attribute.name.length(), 600.0)
 		
 		var label1 = Label.new()
-		label1.text = attribute.name
+		label1.text = attribute.name + ":"
 		label1.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		hbox.add_child(label1)
 		
@@ -274,6 +279,17 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 				var icon_node = preload("res://UI/CustomElements/MarginTexture.tscn").instantiate()
 				icon_node.texture = icon
 				$Entries/Attributes/Information/OutlinedIcons.add_child(icon_node)
+		elif attribute.icon_settings.type == "text_if_exceeds":
+			if float(attribute_value) >= attribute.icon_settings.threshold:
+				var label = Label.new()
+				label.text = attribute.icon_settings.text
+				
+				# Give the text a red hue to signify that a threshold was exceeded
+				# TODO: Make this color configurable? This text could also be something positive
+				label.label_settings = LabelSettings.new()
+				label.label_settings.font_color = Color(0.7, 0.27, 0.18)
+				
+				$Entries/Attributes/Information.add_child(label)
 
 
 func clear_attributes():
