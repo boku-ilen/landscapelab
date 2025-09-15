@@ -75,8 +75,8 @@ func get_object_locations():
 			)
 			
 			var value_here = validation_image.get_pixel(
-				candidate.x * density * 2.0,
-				candidate.z * density * 2.0
+				min(candidate.x * density * 2.0, resolution - 1),
+				min(candidate.z * density * 2.0, resolution - 1)
 			).r
 			
 			var value_here_stringed = str(int(value_here))

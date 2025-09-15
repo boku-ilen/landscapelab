@@ -3,35 +3,25 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_288qh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0eo0w"]
-content_margin_left = 3.0
 bg_color = Color(1, 1, 1, 0)
 corner_radius_top_left = 500
 corner_radius_top_right = 500
 corner_radius_bottom_right = 500
 corner_radius_bottom_left = 500
-shadow_color = Color(0.388235, 0.831373, 0, 0.705882)
-shadow_offset = Vector2(1.3, 0)
+shadow_color = Color(0.6086666, 0.83, 0.415, 0.7058824)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3tjp1"]
 bg_color = Color(1, 1, 1, 0)
 corner_radius_top_left = 500
-corner_radius_top_right = 500
-corner_radius_bottom_right = 500
-corner_radius_bottom_left = 500
-shadow_color = Color(0, 0, 0, 0.160784)
-shadow_size = 1
-shadow_offset = Vector2(3, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2lvv"]
-content_margin_left = 3.0
 bg_color = Color(1, 1, 1, 0)
 corner_radius_top_left = 500
 corner_radius_top_right = 500
 corner_radius_bottom_right = 500
 corner_radius_bottom_left = 500
-shadow_color = Color(0.388235, 0.831373, 0, 0.705882)
+shadow_color = Color(0.60784316, 0.83137256, 0.41568628, 0.7058824)
 shadow_size = 6
-shadow_offset = Vector2(1.3, 0)
 
 [resource]
 Button/styles/focus = SubResource("StyleBoxEmpty_288qh")

@@ -99,10 +99,10 @@ func override_build(center_x, center_y):
 	
 	# Heightmap
 	var current_height_image = height_layer.get_image(
-		top_left_x,
-		top_left_y,
-		size,
-		mesh_resolution,
+		top_left_x - 1,
+		top_left_y + 1,
+		size + 2,
+		mesh_resolution + 1,
 		0
 	)
 	
@@ -197,6 +197,12 @@ func override_apply():
 			next_pass.set_shader_parameter("use_landuse_overlay", true)
 		else:
 			next_pass.set_shader_parameter("use_landuse_overlay", false)
+		
+		if has_node("HeightOverlayViewport"):
+			next_pass.set_shader_parameter("use_height_overlay", true)
+			next_pass.set_shader_parameter("height_overlay", get_node("HeightOverlayViewport").get_texture())
+		else:
+			next_pass.set_shader_parameter("use_height_overlay", false)
 		
 		next_pass.set_shader_parameter("size", size)
 		

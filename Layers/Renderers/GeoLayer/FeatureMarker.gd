@@ -17,18 +17,14 @@ func _ready():
 	$UI/GameObjectConfiguration.closed.connect(_on_config_closed)
 	$UI/GameObjectConfiguration.delete.connect(_on_delete_pressed)
 
-	# FIXME: Previously required to update attributes - possibly not anymore with new Geodot update?
-	# https://github.com/boku-ilen/geodot-plugin/commit/bf8029d9518fc8c7600ffd52970b72961e9bec8c
-	#feature.feature_changed.connect(popup, CONNECT_DEFERRED)
-
 	go = GameSystem.get_game_object_for_geo_feature(feature)
 
 
-func _on_attribute_changed(reference, option_name, value):
+func _on_attribute_changed(reference, option_name, value, is_manual_change := false):
 	if option_name == "Amount":
 		reference.change_cluster_size(value)
 	else:
-		go.set_attribute(option_name, value)
+		go.set_attribute(option_name, value, is_manual_change)
 
 	# FIXME: Hacky solution to the `feature_changed` signal not arriving in that script.
 	# Would probably be more sensible to move `set_feature_icon` into this class entirely.
@@ -41,7 +37,7 @@ func _on_attribute_changed(reference, option_name, value):
 # When the pop-up is opened, disable the interaction Area2D to prevent conflicts
 func _on_config_opened():
 	$Area2D.process_mode = Node.PROCESS_MODE_DISABLED
-	go.collection.game_object_changed.emit(go)  # To make AutoCamera center on this object
+	#go.collection.game_object_changed.emit(go)  # To make AutoCamera center on this object
 
 
 func _on_config_closed():
@@ -74,8 +70,6 @@ func popup():
 						attribute.name, attribute, attribute.class_names_to_attribute_values, attribute.get_value(go)
 					)
 				else:
-					if attribute.default > 0 and float(attribute.get_value(go)) == 0:
-						attribute.set_value(go, attribute.default)
 					$UI/GameObjectConfiguration.add_configuration_option(
 						attribute.name, attribute, attribute.min, attribute.max, attribute.get_value(go))
 			else:

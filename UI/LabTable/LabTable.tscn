@@ -43,9 +43,9 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tqjw6"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rqbs8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tqjw6"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_63out"]
 
@@ -54,6 +54,7 @@ bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0v7wp"]
 
 [node name="LabTableWindow" type="Window"]
+oversampling_override = 1.0
 mode = 3
 initial_position = 3
 size = Vector2i(1600, 900)
@@ -74,7 +75,7 @@ geo_layers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 control_ui = NodePath("SubViewportContainer/PanelContainer/ControlContainer")
 extent_visualizer = NodePath("SubViewportContainer/PanelContainer/ControlContainer/OverviewContainer/SubViewport/ReferenceRect")
 run_brick_detection = false
-current_goc_name = "PV"
+current_goc_name = "PV Go"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable"]
 layout_mode = 2
@@ -451,8 +452,8 @@ text = "Time:"
 [node name="TimeSelect" type="ItemList" parent="MarginContainer/HBoxContainer/AtmosphereButton/AtmospherePanel/Content/HBoxContainer/Settings"]
 custom_minimum_size = Vector2(380, 100)
 layout_mode = 2
-theme_override_styles/focus = SubResource("StyleBoxEmpty_tqjw6")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_rqbs8")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tqjw6")
 theme_override_styles/hovered = SubResource("StyleBoxEmpty_63out")
 theme_override_styles/selected = SubResource("StyleBoxEmpty_rqkfr")
 theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_0v7wp")
@@ -470,8 +471,8 @@ text = "Weather:"
 [node name="WeatherSelect" type="ItemList" parent="MarginContainer/HBoxContainer/AtmosphereButton/AtmospherePanel/Content/HBoxContainer/Settings"]
 custom_minimum_size = Vector2(380, 100)
 layout_mode = 2
-theme_override_styles/focus = SubResource("StyleBoxEmpty_tqjw6")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_rqbs8")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tqjw6")
 theme_override_styles/hovered = SubResource("StyleBoxEmpty_63out")
 theme_override_styles/selected = SubResource("StyleBoxEmpty_rqkfr")
 theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_0v7wp")

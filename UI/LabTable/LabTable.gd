@@ -99,6 +99,7 @@ func set_workshop_mode(active: bool):
 		var vector_local = geo_transform.transform_coordinates(vector_3857)
 		
 		var successful_configuration = []
+		
 		if not current_goc_name:
 			game_object_failed.emit(event.position)
 			return
@@ -126,8 +127,8 @@ func set_workshop_mode(active: bool):
 				for child in $SubViewportContainer/SubViewport/GeoLayerRenderers.get_children():
 					if "geo_feature_layer" in child and child.geo_feature_layer.get_file_info()["name"] == collection.feature_layer.get_file_info()["name"]:
 						renderer = child
-				var is_any_change_allowed = collection.attributes.values().any(func(attrib): return attrib.allow_change)
-				if is_any_change_allowed:
+				var has_attributes = collection.attributes.values().size() > 0
+				if has_attributes:
 					renderer.newest_feature = new_game_object.geo_feature
 			else:
 				game_object_failed.emit(event.position)

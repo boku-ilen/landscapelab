@@ -1,0 +1,74 @@
+[gd_scene load_steps=11 format=3 uid="uid://bhxlmw0uutiag"]
+
+[ext_resource type="PackedScene" uid="uid://dhmlmgm0yc278" path="res://Layers/Renderers/Overlay/LIDOverlayMesh.tscn" id="1_eyjy2"]
+[ext_resource type="Shader" uid="uid://bl5nl2qfka5ww" path="res://Layers/Renderers/Overlay/LIDOverlayMesh.gdshader" id="2_25dpw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gxfcc"]
+render_priority = 0
+shader = ExtResource("2_25dpw")
+shader_parameter/color = Color(0.843137, 0.027451, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gxfcc"]
+resource_local_to_scene = true
+size = Vector2(5, 4.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gnr6n"]
+render_priority = 0
+shader = ExtResource("2_25dpw")
+shader_parameter/color = Color(0.25098, 0.109804, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gnr6n"]
+resource_local_to_scene = true
+size = Vector2(22, 22)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s6yn2"]
+render_priority = 0
+shader = ExtResource("2_25dpw")
+shader_parameter/color = Color(0.25098, 0.109804, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_s6yn2"]
+resource_local_to_scene = true
+size = Vector2(2.5, 1.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sga6y"]
+render_priority = 0
+shader = ExtResource("2_25dpw")
+shader_parameter/color = Color(0.25098, 0.109804, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_sga6y"]
+resource_local_to_scene = true
+size = Vector2(5, 1.5)
+
+[node name="CultivationBad" type="Node3D"]
+
+[node name="Underneath" parent="." instance=ExtResource("1_eyjy2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.070376)
+material_override = SubResource("ShaderMaterial_gxfcc")
+mesh = SubResource("PlaneMesh_gxfcc")
+skeleton = NodePath("../../..")
+lid = 2000
+size = Vector2(5, 4.5)
+
+[node name="Surrounding" parent="." instance=ExtResource("1_eyjy2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0.07)
+material_override = SubResource("ShaderMaterial_gnr6n")
+mesh = SubResource("PlaneMesh_gnr6n")
+skeleton = NodePath("../../..")
+lid = 7204
+size = Vector2(22, 22)
+
+[node name="Front" parent="." instance=ExtResource("1_eyjy2")]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, -1.5, 2.9493)
+material_override = SubResource("ShaderMaterial_s6yn2")
+mesh = SubResource("PlaneMesh_s6yn2")
+skeleton = NodePath("../../..")
+lid = 7204
+size = Vector2(2.5, 1.5)
+
+[node name="Back" parent="." instance=ExtResource("1_eyjy2")]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, -1, -2.81032)
+material_override = SubResource("ShaderMaterial_sga6y")
+mesh = SubResource("PlaneMesh_sga6y")
+skeleton = NodePath("../../..")
+lid = 7204
+size = Vector2(5, 1.5)

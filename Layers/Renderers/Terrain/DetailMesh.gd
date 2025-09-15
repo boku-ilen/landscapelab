@@ -51,8 +51,8 @@ func _process(delta):
 	var heightmap = get_parent().layer_composition.render_info.height_layer.get_image(
 		origin_x,
 		origin_z,
-		size,
-		height_resolution,
+		size + 2,
+		height_resolution + 1,
 		0
 	)
 	
@@ -102,6 +102,12 @@ func _process(delta):
 				next_pass.set_shader_parameter("use_landuse_overlay", true)
 			else:
 				next_pass.set_shader_parameter("use_landuse_overlay", false)
+			
+			if add_height_overlay:
+				next_pass.set_shader_parameter("use_height_overlay", true)
+				next_pass.set_shader_parameter("height_overlay", get_node("HeightOverlayViewport").get_texture())
+			else:
+				next_pass.set_shader_parameter("use_height_overlay", false)
 			
 			next_pass.set_shader_parameter("size", size)
 		

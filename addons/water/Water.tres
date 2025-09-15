@@ -12,9 +12,9 @@ frequency = 0.0657
 fractal_type = 2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ty70j"]
+noise = SubResource("FastNoiseLite_wcwlk")
 as_normal_map = true
 bump_strength = 2.9
-noise = SubResource("FastNoiseLite_wcwlk")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5oiep"]
 render_priority = 0
@@ -27,7 +27,9 @@ shader_parameter/plant = ExtResource("2_vprah")
 shader_parameter/world_space_normal_scale = 0.007
 shader_parameter/distribution_array = null
 shader_parameter/texture_map = null
+shader_parameter/use_height_overlay = false
 shader_parameter/size = 0.0
+shader_parameter/max_distance = 90.0
 
 [resource]
 resource_local_to_scene = true

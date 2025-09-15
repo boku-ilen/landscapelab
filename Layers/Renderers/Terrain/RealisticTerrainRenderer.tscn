@@ -20,7 +20,6 @@ chunk_scene = ExtResource("2_ib6li")
 
 [node name="DetailMesh" type="MeshInstance3D" parent="."]
 material_override = ExtResource("4_dbgng")
-extra_cull_margin = 10000.0
 custom_aabb = AABB(-20, 0, -20, 40, 8000, 40)
 mesh = ExtResource("5_mins8")
 script = ExtResource("5_f6rbb")

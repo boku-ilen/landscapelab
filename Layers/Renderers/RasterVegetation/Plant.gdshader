@@ -50,6 +50,15 @@ void vertex() {
 
 	random_hue_shift = (0.9 - texture(world_space_normal_map, worldpos.xz / 512.0).z) * 1.2;
 	stripe_sample = 0.1 + texture(stripe_noise, stripe_position).r * 0.9;
+	
+	// Read plant size
+	float size = (INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b);
+
+	// Safeguard against potential erroneous values
+	size = max(size, 0.1);
+
+	// Scale size by hue-shift
+	size  *= (1.0 + random_hue_shift * 2.0);
 
 	// FIXME: scale this and the vec3(0.0, 4.0, 0.0) to look good and match the LOD plane
 	vec3 n_up = normalize(COLOR.xyz + vec3(0.0, 1.0, 0.0));
@@ -59,11 +68,11 @@ void vertex() {
 	mat3 basis = mat3(n_right, n_up, n_forward);
 
 	// TODO: Keep the normal of non-billboard meshes?
-	vec3 texture_normal = (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.5)).xzy * 2.0;
+	vec3 texture_normal = (texture(world_space_normal_map, worldpos.xz * world_space_normal_scale).xyz - vec3(0.5, 0.5, 0.0)).xzy * vec3(2.0, 1.0, 2.0);
 	NORMAL = basis * normalize(texture_normal + vec3(0.0, 4.0, 0.0));
 
 	// Also make normals follow a "half-dome" around the mesh to get some front- and back-lighting
-	NORMAL = mix(NORMAL, basis * normalize(VERTEX), smoothstep(40.0, 10.0, length(INV_VIEW_MATRIX[3].xyz - worldpos)) * 0.8); // Scale by distance for smooth transition to LOD
+	NORMAL = mix(NORMAL, basis * normalize(VERTEX), smoothstep(100.0 * size, 50.0 * size, length(INV_VIEW_MATRIX[3].xyz - worldpos)) * 0.8); // Scale by distance for smooth transition to LOD
 
 	// Account for the texture's aspect ratio
 	if (is_billboard) {
@@ -76,15 +85,6 @@ void vertex() {
 		// Also make it less spread-out
 		VERTEX.xz += VERTEX.xz * (float(texture_size.x) / float(texture_size.y * 2) - 1.0) * 0.7;
 	}
-
-	// Read plant size
-	float size = (INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b);
-
-	// Safeguard against potential erroneous values
-	size = max(size, 0.1);
-
-	// Scale size by hue-shift
-	size  *= (1.0 + random_hue_shift * 2.0);
 
 	// Scale by the size
 	VERTEX *= size;
@@ -137,22 +137,6 @@ void fragment() {
 
 	// Hue shift to make plant appear e.g. dryer
 	vec3 hcy = RGBtoHCY(color.rgb);
-//
-	//float begin = mix(-0.6, -PI, min(HCY_SHIFT.r * 2.0, 1.0));
-	//float end = -0.6;
-//
-	//if (hcy.x > begin && hcy.x < end) {
-		//// `factor` is the position of hcy.x within the range of begin to end, scaled to -PI/2 to +PI/2.
-		//// This way, by getting the cosine of the factor, we get a smooth curve from 0..1..0.
-		//float factor = hcy.x - begin;
-		//factor /= end - begin;
-		//factor -= 0.5;
-		//factor *= PI;
-//
-		//float addition = cos(factor) * (end - begin) / 2.0;
-		//hcy.x += addition;
-		//hcy.y += addition * 0.01;
-	//}
 
 	hcy.r += HCY_SHIFT.r + random_hue_shift;
 	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0) * 0.8 * stripe_sample;
@@ -162,7 +146,7 @@ void fragment() {
 
 	// Other material parameters
 	//RIM = 0.4;
-	AO_LIGHT_AFFECT = 0.8;
+	AO_LIGHT_AFFECT = 0.7;
 	AO = max(generate_darken_gradient(UV.y, 0.6, 0.6, 0.0) - wind_strength * 0.5, 0.0);
 	NORMAL_MAP = generate_normal_from_albedo(texture_map[texture_index], UV, vec4(1.0, 0.7, 0.5, 0.2), 0.03, 1.0);
 	NORMAL_MAP_DEPTH = 3.0;
@@ -174,8 +158,4 @@ void fragment() {
 
 	ROUGHNESS = mix(0.65, 0.95, greenness);
 	SPECULAR = mix(0.05, 0.2, AO);
-
-	//ALBEDO = mix(ALBEDO,
-		//vec3(mix(0.25, 0.85, pow(abs(hcy.r + 1.7), 2.0))),
-		//step(0.0, sin(TIME * 2.0)));
 }

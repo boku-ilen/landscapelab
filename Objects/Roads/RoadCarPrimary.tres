@@ -16,8 +16,8 @@ frequency = 0.0059
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bmx7n"]
 width = 1024
 height = 1024
-seamless = true
 noise = SubResource("FastNoiseLite_trv7s")
+seamless = true
 
 [resource]
 resource_local_to_scene = true

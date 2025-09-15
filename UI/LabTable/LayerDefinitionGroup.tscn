@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://vyb61yhgriov"]
 
 [ext_resource type="StyleBox" uid="uid://dg3l5xqfdgxff" path="res://UI/LabTable/Style/PopupPanel.tres" id="1_2ox8n"]
-[ext_resource type="Texture2D" uid="uid://c4mxruo0x0n4g" path="res://Resources/Icons/SimpleOpenMoji/settings.svg" id="1_5ycpf"]
+[ext_resource type="Texture2D" uid="uid://d1l305tuwswl0" path="res://Resources/Icons/ModernLandscapeLab/settings.svg" id="1_5ycpf"]
 
 [node name="Panel" type="PanelContainer"]
 offset_left = 15.0

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="LandscapeLab!"
 run/main_scene="res://UI/WorkshopUI.tscn"
-config/features=PackedStringArray("4.4")
+config/features=PackedStringArray("4.5")
 run/max_fps=90
 boot_splash/image="uid://ftqy22gtpg7w"
 config/icon="uid://c7qcnpyerda4w"
