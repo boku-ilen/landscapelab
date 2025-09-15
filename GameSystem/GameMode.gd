@@ -13,6 +13,7 @@ var token_to_game_object_collection = {}
 var current_view: GameView
 var extent = [0.0, 0.0, 0.0, 0.0]
 
+var name
 var icon
 
 signal view_activated(view)

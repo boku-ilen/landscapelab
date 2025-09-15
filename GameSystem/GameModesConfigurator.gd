@@ -30,6 +30,7 @@ func _load_game_modes(path: String, game_modes: Dictionary) -> void:
 		var game_mode = game_modes[game_mode_name]
 		
 		var game_mode_object = GameMode.new()
+		game_mode_object.name = game_mode_name
 		
 		if "Extent" in game_mode:
 			game_mode_object.extent = game_mode["Extent"]

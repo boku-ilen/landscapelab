@@ -220,6 +220,7 @@ func apply_game(game_system: Node, layers: Node):
 		logger.info("Loading game modes...")
 		for game_mode_name in ll_project["GameModes"].keys():
 			var game_mode = GameMode.new()
+			game_mode.name = game_mode_name
 			
 			for game_object_collection_name in ll_project["GameModes"][game_mode_name]["GameObjectCollections"]:
 				var lc_name = ll_project["GameModes"][game_mode_name]["GameObjectCollections"][game_object_collection_name]
