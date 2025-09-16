@@ -24,7 +24,7 @@ var features := []
 var remove_features := []
 var load_features := []
 
-signal applied(new_features: Array, removed_features: Array)
+signal applied
 
 
 
@@ -39,6 +39,7 @@ class FeatureChange:
 		feature = new_feature
 
 var change_queue: Array[FeatureChange] = []
+var feature_to_last_change_ticks = {}
 
 var instances := {}
 @export var radius := 6000.0
@@ -210,8 +211,14 @@ func apply_feature_instance(feature: GeoFeature):
 
 
 func _on_feature_changed(feature: GeoFeature):
+	if feature in feature_to_last_change_ticks and feature_to_last_change_ticks[feature] == Engine.get_process_frames():
+		# This feature is already in the change reaction queue, no need to place it there again
+		return
+	
 	_on_feature_removed(feature)
 	_on_feature_added(feature)
+	
+	feature_to_last_change_ticks[feature] = Engine.get_process_frames()
 
 
 func is_new_loading_required(position_diff: Vector3) -> bool:
