@@ -19,7 +19,7 @@ uniform bool use_landuse_overlay = false;
 uniform sampler2D landuse_overlay: repeat_disable, filter_nearest, hint_default_black;
 
 uniform bool use_height_overlay = false;
-uniform sampler2D height_overlay: repeat_disable, filter_linear, hint_default_transparent;
+uniform sampler2D height_overlay: repeat_disable, filter_linear, hint_default_black;
 
 uniform float detail_only_range = 50.0;
 uniform float detail_ortho_blend_range = 700.0;
@@ -28,10 +28,10 @@ uniform float size;
 
 varying vec3 world_pos;
 
-uniform sampler2DArray ground_textures: source_color;
-uniform sampler2DArray ground_normals: hint_normal;
-uniform sampler2DArray ground_displacement: hint_default_black;
-uniform sampler2DArray ground_roughness: hint_default_black;
+uniform sampler2D[10] ground_textures: source_color;
+uniform sampler2D[10] ground_normals;
+uniform sampler2D[10] ground_displacement;
+uniform sampler2D[10] ground_roughness;
 
 uniform bool make_hole = true;
 uniform float hole_size = 47.0;
@@ -44,7 +44,7 @@ float rand(vec2 co){
 }
 
 // Adapted from https://www.shadertoy.com/view/mds3R4
-vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
+vec4 fractal_texture(sampler2D tex, vec2 uv, float depth) {
 	uv.xy *= 3.0;
 
 	float clamped_depth = max(depth, 10.0);
@@ -57,9 +57,9 @@ vec4 fractal_texture_array(sampler2DArray tex, vec3 uv, float depth) {
 	float LOD_fract = LOD - LOD_floor;
 
     //Compute scaled uvs
-	vec3 uv1 = vec3(uv.xy / exp(LOD_floor - 1.0), uv.z);
-	vec3 uv2 = vec3(uv.xy / exp(LOD_floor + 0.0), uv.z);
-	vec3 uv3 = vec3(uv.xy / exp(LOD_floor + 1.0), uv.z);
+	vec2 uv1 = uv / exp(LOD_floor - 1.0);
+	vec2 uv2 = uv / exp(LOD_floor + 0.0);
+	vec2 uv3 = uv / exp(LOD_floor + 1.0);
 
     //Sample at 3 scales
 	vec4 tex0 = texture(tex, uv1);
@@ -75,11 +75,11 @@ float get_height(vec2 uv, bool local_use_height_overlay) {
 	// R: Integer part of the overlay height (divided by 10)
 	// G: Fractional part of the overlay height (divided by 10)
 	// B: Mixing factor from overlay height (1.0) to heightmap height (0.0)
-	vec4 overlay_height_sample = texture(height_overlay, uv) * height_scale;
-	
+	vec4 overlay_height_sample = texture(height_overlay, uv ) * height_scale;
+
 	// Height directly from the heightmap
 	float heightmap_height = texture(heightmap, uv).r * height_scale;
-	
+
 	// Interpolating from a valid value to an invalid value presents us with faulty results,
 	//  since the result will seem valid (> 0.0), but actually be far lower than anything sensible.
 	// 	Therefore, we check all 4 values surrounding the sample position and don't use the overlay
@@ -87,7 +87,7 @@ float get_height(vec2 uv, bool local_use_height_overlay) {
 	vec4 near_values = textureGather(height_overlay, uv);
 	bool is_surrounded_by_valid = (near_values.x > 0.0 && near_values.y > 0.0
 			&& near_values.z > 0.0 && near_values.w > 0.0);
-	
+
 	if (is_surrounded_by_valid && local_use_height_overlay && use_height_overlay && overlay_height_sample.b > 0.01) {
 		// Blend between heightmap height and overlay height by the blue channel of the overlay height
 		return mix(heightmap_height, (overlay_height_sample.r + overlay_height_sample.g) * 10.0, overlay_height_sample.b);
@@ -118,9 +118,9 @@ vec3 get_normal(vec2 normal_uv_pos) {
 
 	vec3 long_normal;
 
-	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left) / (size * e);
-	long_normal.z = -(top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right) / (size * e);
-	long_normal.y = size * e; // scaling by <1.0 makes the normals more drastic
+	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left);
+	long_normal.z = -(top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right);
+	long_normal.y = 1.5; // smaller values make the normals more drastic 
 
 	return normalize(long_normal);
 }
@@ -163,7 +163,7 @@ void vertex() {
 	if (!make_hole) {
 		// This is the detail mesh
 		float splat_id = get_landuse(UV);
-		int texture_index = int(splat_id / 1000.0) - 1;
+		int texture_index = clamp(int(splat_id / 1000.0) - 1, 0, 9);
 
 		vec2 scaled_near_uv = world_pos.xz;
 
@@ -178,14 +178,14 @@ void vertex() {
 				offset_vector /= size;
 
 				float local_splat_id = get_landuse(UV + offset_vector);
-				int local_texture_index = int(local_splat_id / 1000.0) - 1;
+				int local_texture_index = clamp(int(splat_id / 1000.0) - 1, 0, 9);
 
 				float weight_here = detail_noise_lid_weights[local_texture_index];
 				weight_here *= float(local_texture_index >= 0 && local_texture_index <= 10);
 
 				average_weight += weight_here;
 
-				offset += (fractal_texture_array(ground_displacement, vec3(scaled_near_uv, float(local_texture_index)), camera_distance).r - 0.6) * weight_here;
+				offset += (fractal_texture(ground_displacement[local_texture_index], scaled_near_uv, camera_distance).r - 0.6) * weight_here;
 				count++;
 			}
 		}
@@ -230,10 +230,10 @@ void fragment() {
 
 			float splat_id = get_landuse(UV + offset_vector);
 
-			int texture_index = int(splat_id / 1000.0) - 1;
+			int texture_index = clamp(int(splat_id / 1000.0) - 1, 0, 9);
 
-			detail_color += fractal_texture_array(ground_textures, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
-			detail_normal += fractal_texture_array(ground_normals, vec3(scaled_near_uv, float(texture_index)), depth).rgb;
+			detail_color += fractal_texture(ground_textures[texture_index], scaled_near_uv, depth).rgb;
+			detail_normal += fractal_texture(ground_normals[texture_index], scaled_near_uv, depth).rgb;
 
 			count++;
 		}
@@ -243,7 +243,7 @@ void fragment() {
 	detail_normal /= count;
 
 	float splat_id = get_landuse(UV);
-	int texture_index = int(splat_id / 1000.0) - 1;
+	int texture_index = clamp(int(splat_id / 1000.0) - 1, 0, 9);
 
 	ALBEDO = detail_color;
 
@@ -254,7 +254,7 @@ void fragment() {
 		detail_normal,
 		max(1.0 - detail_noise_lid_weights[texture_index] * 2.0, 0.0));
 	METALLIC = 0.0;
-	ROUGHNESS = fractal_texture_array(ground_roughness, vec3(scaled_near_uv, float(texture_index)), depth).r;
+	ROUGHNESS = fractal_texture(ground_roughness[texture_index], scaled_near_uv, depth).r;
 	SPECULAR = 0.2;
 	NORMAL_MAP_DEPTH = 1.5;
 }

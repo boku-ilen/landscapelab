@@ -46,36 +46,15 @@ func _setup_ground_textures():
 		var displacement_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/displacement.jpg")
 		var roughness_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/roughness.jpg")
 		
-		color_image.generate_mipmaps()
-		normal_image.generate_mipmaps()
-		displacement_image.generate_mipmaps()
-		roughness_image.generate_mipmaps()
-		
 		color_images.append(color_image)
 		normal_images.append(normal_image)
 		displacement_images.append(displacement_image)
 		roughness_images.append(roughness_image)
 	
-	var texture_array = Texture2DArray.new()
-	texture_array.create_from_images(color_images)
-	
-	# FIXME: We'd want to save and re-use this texture, but that doesn't work due to a Godot issue:
-	#  https://github.com/godotengine/godot/issues/54202
-	# ResourceSaver.save(texture_array, "res://Layers/Renderers/Terrain/Materials/GroundTextures.tres")
-	
-	var normal_array = Texture2DArray.new()
-	normal_array.create_from_images(normal_images)
-	
-	var displacement_array = Texture2DArray.new()
-	displacement_array.create_from_images(displacement_images)
-	
-	var roughness_array = Texture2DArray.new()
-	roughness_array.create_from_images(roughness_images)
-	
-	shader_material.set_shader_parameter("ground_normals", normal_array)
-	shader_material.set_shader_parameter("ground_textures", texture_array)
-	shader_material.set_shader_parameter("ground_displacement", displacement_array)
-	shader_material.set_shader_parameter("ground_roughness", roughness_array)
+	shader_material.set_shader_parameter("ground_normals", normal_images)
+	shader_material.set_shader_parameter("ground_textures", color_images)
+	shader_material.set_shader_parameter("ground_displacement", displacement_images)
+	shader_material.set_shader_parameter("ground_roughness", roughness_images)
 
 
 func custom_chunk_setup(chunk):
