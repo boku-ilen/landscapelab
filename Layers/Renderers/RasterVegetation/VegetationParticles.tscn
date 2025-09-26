@@ -19,9 +19,9 @@ fractal_weighted_strength = 0.21
 metadata/_preview_in_3d_space_ = true
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_21eiu"]
+noise = SubResource("FastNoiseLite_qonti")
 seamless = true
 seamless_blend_skirt = 0.761
-noise = SubResource("FastNoiseLite_qonti")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oyqth"]
 resource_local_to_scene = true

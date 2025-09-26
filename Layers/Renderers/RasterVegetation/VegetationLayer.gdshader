@@ -104,10 +104,10 @@ void process() {
 	inv_rot[0][2] = -sin(-angle);
 	inv_rot[2][0] = sin(-angle);
 	inv_rot[2][2] = cos(-angle);
-
+	
 	// Write the normal vector of the terrain here into the vertex color.
 	// That way we can use it as the NORMAL in the plant shader later.
-	COLOR.xyz = inv_rot * normalize(cross(vec3(0.2, height_right - height_here, 0.0), vec3(0.0, height_above - height_here, -0.2)));
+	COLOR.xyz = inv_rot * normalize(cross(vec3(1.0, height_right - height_here, 0.0), vec3(0.0, height_above - height_here, -1.0)));
 
 	// Depending on the normal steepness, we move the plant down a bit to prevent (half-)flying plants
 	height_here -= (1.0 - COLOR.y) * 0.1;

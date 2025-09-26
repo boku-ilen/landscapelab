@@ -233,10 +233,10 @@ void fragment() {
 	ALBEDO = HCYtoRGB(hcy);
 
 	// Scale the lower alpha bound by the plant size in order to have more transparency with small plants
-	float size_alpha_scale = smoothstep(0.4, 0.8, dist_value.g * 255.0 + dist_value.b);
+	float size_alpha_scale = smoothstep(0.4, 0.8, dist_value.g * 255.0 + dist_value.b) * 0.75;
 
 	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), size_alpha_scale, 0.99);
-	ALPHA *= smoothstep(max_distance - 20.0, max_distance, depth);
+	ALPHA *= smoothstep(max_distance, max_distance + 20.0, depth);
 	ALPHA_HASH_SCALE = 1.0;
 
 	ALPHA *= smoothstep(6.0, 0.0, different_sample_count);// + smoothstep(0.0, 1.5, highest_height);
@@ -256,7 +256,7 @@ void fragment() {
 	float greenness = clamp(pow(abs(hcy.r + 1.6) * 4.0, 4.0), 0.0, 1.0);
 
 	AO = 0.8 - greenness * 0.1;
-	AO_LIGHT_AFFECT = 0.8;
+	AO_LIGHT_AFFECT = 0.7;
 
 	ROUGHNESS = mix(0.65, 0.95, greenness);
 	SPECULAR = 0.15;
