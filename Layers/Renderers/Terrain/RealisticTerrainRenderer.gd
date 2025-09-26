@@ -88,8 +88,7 @@ func _setup_detail_noise():
 		0.5, # Grassland
 		0.9, # Forest
 		0.7, # Agroforest
-		0.55, # Agriculture
-		
+		0.4, # Agriculture
 	])
 
 
