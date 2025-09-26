@@ -44,7 +44,7 @@ uniform float scale_factor = 1.0;
 
 void vertex() {
 	VERTEX *= scale_factor;
-	
+
 	// Increase the width as the camera gets towards the middle between the two intersecting planes
 	// to compensate for the perspective decreasing the perceived size in that angle
 	float normal_to_camera = abs(dot(normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xz), normalize((INV_VIEW_MATRIX * vec4(0.0, 0.0, -1.0, 0.0)).xz)));
@@ -100,7 +100,7 @@ void fragment() {
 
 	AO = mix(0.0, 0.2, vertex_distance_from_zero);
 	AO *= mix(1.0, 0.6, smoothstep(100.0, 300.0, depth));
-	AO_LIGHT_AFFECT = 0.8;
+	AO_LIGHT_AFFECT = 0.7;
 
 	vec3 overall_backlight = backlight_strength
 	* backlight_tint
