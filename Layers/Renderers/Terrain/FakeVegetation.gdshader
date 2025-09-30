@@ -105,7 +105,7 @@ float get_landuse(vec2 uv) {
 vec3 get_normal(vec2 normal_uv_pos) {
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor.
-	float e = 10.0 / size;
+	float e = 2.0 / size;
 
 	// Sobel filter for getting the normal at this position
 	float bottom_left = get_height(normal_uv_pos + vec2(-e, -e), true);
@@ -124,7 +124,7 @@ vec3 get_normal(vec2 normal_uv_pos) {
 
 	long_normal.x = -(bottom_right - bottom_left + 2.0 * (center_right - center_left) + top_right - top_left) / (size * e);
 	long_normal.z = -(top_left - bottom_left + 2.0 * (top_center - bottom_center) + top_right - bottom_right) / (size * e);
-	long_normal.y = size * e * 0.1; // scaling by <1.0 makes the normals more drastic
+	long_normal.y = 1.0; // scaling by <1.0 makes the normals more drastic
 
 	return normalize(long_normal);
 }
@@ -163,7 +163,7 @@ void fragment() {
 			vec2 offset = vec2(x_off, y_off) / size;
 			int splatmap_value_here = int(round(get_landuse(UV + offset)));
 			int distribution_id_here = int(round(texelFetch(row_ids, ivec2(splatmap_value_here, 0), 0).r * 255.0));
-			vec3 dist_value_here = texture(distribution_array[distribution_id_here - 1], (worldpos.xz * 2.0) / float(DISTRIBUTION_RESOLUTION)).rgb;
+			vec3 dist_value_here = texture(distribution_array[distribution_id_here - 1], (worldpos.xz) / float(DISTRIBUTION_RESOLUTION)).rgb;
 
 			float height_here = max(0.2, (dist_value_here.g * 255.0 + dist_value_here.b) * float(distribution_id_here > 0));
 
@@ -192,6 +192,11 @@ void fragment() {
 	float depth = length(camera_pos - worldpos);
 
 	vec2 uv = texture(uv_offset, UV * 20.0).rg;
+	
+	// The more horizontal the camera angle, the more we want to lean uv.y towards 0.0, since we
+	// want to simulate only the tips of the plants being visible (e.g. only the flowers, not the
+	// greenery below)
+	uv.y = min(uv.y, dot(VIEW, NORMAL));
 
 	vec4 plant_sample = texture(texture_map[int(round(dist_id))], uv);
 
@@ -227,15 +232,19 @@ void fragment() {
 	stripe_noise_sample = 0.1 + stripe_noise_sample * 0.9;
 
 	hcy.r += random_hue_shift;
-	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0) * stripe_noise_sample;
-	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0) * stripe_noise_sample;
+	hcy.g *= HCY_SHIFT.g * (random_hue_shift + 1.0) * 0.8 * stripe_noise_sample;
+	hcy.b *= HCY_SHIFT.b * (random_hue_shift + 1.0) * 0.8 * stripe_noise_sample;
 
 	ALBEDO = HCYtoRGB(hcy);
 
 	// Scale the lower alpha bound by the plant size in order to have more transparency with small plants
-	float size_alpha_scale = smoothstep(0.4, 0.8, dist_value.g * 255.0 + dist_value.b) * 0.75;
+	//float size_alpha_scale = smoothstep(0.8, 0.4, dist_value.g * 255.0 + dist_value.b) * 0.5;
+	
+	// The more horizontal the camera angle, the less ground is visible between the plants
+	// Therefore, the higher the minimum alpha
+	float min_alpha = mix(0.4, 1.0, 1.0 - dot(VIEW, NORMAL));
 
-	ALPHA = clamp(plant_sample.a * mix(4.0, 1.5, dot(VIEW, NORMAL)), size_alpha_scale, 0.99);
+	ALPHA = clamp(plant_sample.a * 2.0, min_alpha, 0.99);
 	ALPHA *= smoothstep(max_distance, max_distance + 20.0, depth);
 	ALPHA_HASH_SCALE = 1.0;
 

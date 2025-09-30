@@ -34,6 +34,9 @@ uniform vec3 backlight_tint : source_color = vec3(1.0);
 */
 uniform float backlight_strength : hint_range (0.0, 10.0) = 1.0;
 
+uniform float alpha_scissor_min = 0.3;
+uniform float alpha_scissor_max = 0.6;
+
 uniform int sprite_count = 8;
 varying flat float spritesheet_index;
 varying flat float random_instance_factor;
@@ -88,7 +91,7 @@ void fragment() {
 	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 
 	ALPHA = albedo_w_alpha.a;
-	ALPHA_SCISSOR_THRESHOLD = mix(0.3, 0.6, smoothstep(1500.0, 500.0, depth));
+	ALPHA_SCISSOR_THRESHOLD = mix(alpha_scissor_min, alpha_scissor_max, smoothstep(1500.0, 500.0, depth));
 	ALBEDO = albedo_w_alpha.rgb * albedo_multiply.rgb;
 
 	METALLIC = 0.0;

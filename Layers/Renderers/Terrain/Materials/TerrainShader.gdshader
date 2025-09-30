@@ -101,7 +101,7 @@ float get_height(vec2 uv, bool local_use_height_overlay) {
 vec3 get_normal(vec2 normal_uv_pos) {
 	// To calculate the normal vector, height values on the left/right/top/bottom of the current pixel are compared.
 	// e is the offset factor.
-	float e = 1.0 / size;
+	float e = 2.0 / size;
 
 	// Sobel filter for getting the normal at this position
 	float bottom_left = get_height(normal_uv_pos + vec2(-e, -e), true);

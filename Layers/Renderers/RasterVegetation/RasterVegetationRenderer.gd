@@ -51,7 +51,7 @@ func full_load():
 
 func is_new_loading_required(position_diff: Vector3) -> bool:
 	# Small radius for grass?
-	if Vector2(position_diff.x, position_diff.z).length_squared() >= 100 and done_applying:
+	if Vector2(position_diff.x, position_diff.z).length_squared() >= 20 and done_applying:
 		return true
 	
 	return false
