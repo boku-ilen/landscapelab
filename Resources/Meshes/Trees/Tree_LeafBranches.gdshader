@@ -3,6 +3,8 @@ render_mode blend_mix, depth_prepass_alpha, cull_disabled, diffuse_burley, specu
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 
+global uniform vec3 HCY_SHIFT;
+
 uniform float alpha_scissor_threshold : hint_range(0.0, 1.0, 0.01) = 0.7;
 uniform float alpha_scissor_threshold_low : hint_range(0.0, 1.0, 0.01) = 0.1;
 
@@ -117,6 +119,11 @@ void fragment() {
 		hue_mix_branch.b,
 		hue_mix_leaf.b,
 		rough_ao_trans.b);
+	
+	albedo_hcy.r += HCY_SHIFT.r;
+	albedo_hcy.g *= HCY_SHIFT.g;
+	albedo_hcy.b *= HCY_SHIFT.b;
+	
 	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
 
 	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
