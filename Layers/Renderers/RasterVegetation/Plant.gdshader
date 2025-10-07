@@ -65,7 +65,7 @@ void vertex() {
 	size  *= (1.0 + random_hue_shift * 2.0);
 
 	// FIXME: scale this and the vec3(0.0, 4.0, 0.0) to look good and match the LOD plane
-	vec3 n_up = normalize(COLOR.xyz + vec3(0.0, 0.0, 0.0));
+	vec3 n_up = normalize(COLOR.xyz + vec3(0.0, size, 0.0));
 	vec3 n_forward = cross(vec3(1.0, 0.0, 0.0), n_up);
 	vec3 n_right = cross(n_up, n_forward);
 
@@ -87,6 +87,8 @@ void vertex() {
 
 	// Also make normals follow a "half-dome" around the mesh to get some front- and back-lighting
 	NORMAL = normalize(VERTEX + NORMAL * mix(0.3, 1.0, smoothstep(5.0, 50.0, length(INV_VIEW_MATRIX[3].xyz - worldpos))));
+	
+	if (!is_billboard) NORMAL.y = (1.0 - UV.y) * 0.2;
 
 	// Account for the texture's aspect ratio
 	ivec2 texture_size = textureSize(texture_map[int(round(dist_id))], 0);

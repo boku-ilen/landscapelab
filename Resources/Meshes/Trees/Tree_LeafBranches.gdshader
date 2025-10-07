@@ -142,7 +142,7 @@ void fragment() {
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = mix(0.35, 1.0, smoothstep(300.0, 100.0, depth)) * normal_strength;
 
-	AO = rough_ao_trans.g * ao_strength * mix(0.0, 0.5, vertex_distance_from_zero * 1.25);
+	AO = rough_ao_trans.g * ao_strength * mix(0.0, 0.75, vertex_distance_from_zero * 1.25);
 	
 	// With our settings, the sunlight has its first split at 75 units. This causes a lot of
 	// self-shadowing to be lost. Therefore, we make AO more drastic at that distance
