@@ -4,41 +4,6 @@ extends Resource
 
 # It is important to reference a wall_resource and not loading another 
 const fallback_wall_id := 1
-const wall_resources = [
-	# "apartments": 0
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
-	# "house": 1
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
-	# "shack": 2
-	preload("res://Resources/Textures/Buildings/PlainWallResources/Shack.tres"),
-	# "industrial": 3
-	preload("res://Resources/Textures/Buildings/PlainWallResources/Industrial.tres"),
-	# "office": 4
-	preload("res://Resources/Textures/Buildings/PlainWallResources/Office.tres"),
-	# "supermarket": 5
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
-	# "retail_restaurant": 6
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
-	# "historic": 7
-	preload("res://Resources/Textures/Buildings/PlainWallResources/BrickHouse.tres"),
-	# "religious": 8
-	preload("res://Resources/Textures/Buildings/PlainWallResources/BrickHouse.tres"),
-	# "greenhouse": 9
-	preload("res://Resources/Textures/Buildings/PlainWallResources/House.tres"),
-	# "concrete": 10
-	preload("res://Resources/Textures/Buildings/PlainWallResources/Concrete.tres"),
-	# "stone": 11
-	preload("res://Resources/Textures/Buildings/PlainWallResources/BrickHouse.tres"),
-	# "mediterranean": 12
-	preload("res://Resources/Textures/Buildings/PlainWallResources/PanterlleriaHouse.tres"),
-]
-const window_bundles = [
-	preload("res://Resources/Textures/Buildings/window/Shutter/Shutter.tres"),
-	preload("res://Resources/Textures/Buildings/window/Window/Window.tres"),
-	preload("res://Resources/Textures/Buildings/window/GridWindows/2x2Window.tres"),
-	preload("res://Resources/Textures/Buildings/window/OldWindow/OldWindow.tres"),
-	preload("res://Resources/Textures/Buildings/window/SmallVertical/SmallVerticalWindow.tres")
-]
 
 static var walls_node = preload("res://Buildings/Components/Walls/PlainWalls.tscn").instantiate()
 
@@ -51,12 +16,12 @@ enum FLOOR_FLAG {
 	TOP = 0b1000
 }
 
+
 static func prepare_plain_walls(
 		building_type: int, 
 		building_metadata: BuildingMetadata,
 		building: Node3D,
-		walls_scene: PackedScene = preload("res://Buildings/Components/Walls/PlainWalls.tscn"),
-		walls_material: ShaderMaterial = null):
+		building_render_info: LayerComposition.BuildingRenderInfo):
 	
 	var num_floors = max(
 		building_metadata.fallback_floors, 
@@ -64,10 +29,10 @@ static func prepare_plain_walls(
 	)
 	
 	var building_type_id = building_type \
-		if building_type in range(wall_resources.size()) \
+		if building_type in range(building_render_info.wall_resources.size()) \
 		else fallback_wall_id
 	
-	var walls_resource: PlainWallResource = wall_resources[building_type_id]
+	var walls_resource: PlainWallResource = building_render_info.wall_resources[building_type_id]
 	
 	# Random facade texture
 	var random_gen = RandomNumberGenerator.new()
