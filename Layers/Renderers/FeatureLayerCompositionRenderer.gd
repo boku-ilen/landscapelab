@@ -99,12 +99,12 @@ func adapt_load(_diff: Vector3):
 	var old_feature_ids = features.map(func(f): return f.get_id())
 	var new_feature_ids = new_features.map(func(f): return f.get_id())
 	
+	mutex.lock()
 	remove_features = features.filter(func(f): return not f.get_id() in new_feature_ids)
 	load_features = new_features.filter(func(f): return not f.get_id() in old_feature_ids)
 	
 	features = new_features
 	
-	mutex.lock()
 	for feature in load_features:
 		instances[feature.get_id()] = load_feature_instance(feature)
 	mutex.unlock()
