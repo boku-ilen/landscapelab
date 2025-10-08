@@ -20,5 +20,7 @@ shader_parameter/roughness_offset = 0.0
 shader_parameter/backlight_color_from_albedo = 1.0
 shader_parameter/backlight_tint = Color(1, 1, 1, 1)
 shader_parameter/backlight_strength = 1.0
+shader_parameter/alpha_scissor_min = 0.4
+shader_parameter/alpha_scissor_max = 0.8
 shader_parameter/sprite_count = 8
 shader_parameter/scale_factor = 1.0

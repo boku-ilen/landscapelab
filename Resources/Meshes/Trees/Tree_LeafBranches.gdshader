@@ -3,6 +3,8 @@ render_mode blend_mix, depth_prepass_alpha, cull_disabled, diffuse_burley, specu
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 
+global uniform vec3 HCY_SHIFT;
+
 uniform float alpha_scissor_threshold : hint_range(0.0, 1.0, 0.01) = 0.7;
 uniform float alpha_scissor_threshold_low : hint_range(0.0, 1.0, 0.01) = 0.1;
 
@@ -83,9 +85,9 @@ void vertex() {
 	//if (VERTEX.y < 0.5) VERTEX = vec3(1.0 / 0.0);
 
 	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
-	
+
 	vertex_distance_from_zero = pow(length(VERTEX), 2.0);
-	
+
 	hue_mix_branch = get_hue_mix_branch_values(NODE_POSITION_WORLD);
 	hue_mix_leaf = get_hue_mix_leaf_values(NODE_POSITION_WORLD);
 }
@@ -117,12 +119,17 @@ void fragment() {
 		hue_mix_branch.b,
 		hue_mix_leaf.b,
 		rough_ao_trans.b);
-	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
 	
+	albedo_hcy.r += HCY_SHIFT.r;
+	albedo_hcy.g *= HCY_SHIFT.g;
+	albedo_hcy.b *= HCY_SHIFT.b;
+	
+	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
+
 	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 
 	ALPHA = albedo_w_alpha.a;
-	
+
 	// To get fine detail up-close and good coverage at a distance, we lerp the threshold based on
 	//  the distance of this fragment to the camera, with min threshold at 20m and max at 5m
 	ALPHA_SCISSOR_THRESHOLD = mix(alpha_scissor_threshold_low, alpha_scissor_threshold, smoothstep(20.0, 5.0, depth));
@@ -135,9 +142,13 @@ void fragment() {
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = mix(0.35, 1.0, smoothstep(300.0, 100.0, depth)) * normal_strength;
 
-	AO = rough_ao_trans.g * ao_strength * mix(0.2, 0.6, vertex_distance_from_zero);
+	AO = rough_ao_trans.g * ao_strength * mix(0.0, 0.75, vertex_distance_from_zero * 1.25);
+	
+	// With our settings, the sunlight has its first split at 75 units. This causes a lot of
+	// self-shadowing to be lost. Therefore, we make AO more drastic at that distance
+	AO *= mix(1.0, AO, mix(0.2, 0.8, smoothstep(55.0, 75.0, depth)));
+	
 	AO_LIGHT_AFFECT = ao_light_affect;
-
 
 	vec3 overall_backlight =
 	rough_ao_trans.b

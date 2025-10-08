@@ -46,7 +46,7 @@ void fragment() {
 	if (((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16)))) {
 		DEPTH = FRAGCOORD.z;
 		float zero_to_one_from_center = abs(untransformed_vertex.x) * 2.0;
-		if (zero_to_one_from_center < 0.1) {
+		if (zero_to_one_from_center < 0.08) {
 			ALBEDO = lid_color_center;
 		} else if (zero_to_one_from_center > 0.9) {
 			ALBEDO = lid_color_outer_edge;
@@ -60,7 +60,7 @@ void fragment() {
 		DEPTH = edge_falloff;
 
 		float height_here = global_height;
-		height_here -= sin(edge_falloff * PI) * 0.3;
+		height_here -= sin(min(edge_falloff + 0.25, 1.0) * PI) * 0.3;
 
 		// Encode the overlay height and the falloff parameter into the RGB channels of this
 		//  16 bit float RGB viewport texture

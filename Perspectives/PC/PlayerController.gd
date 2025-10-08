@@ -66,8 +66,8 @@ func _physics_process(delta):
 		$Head.rotate_y(current_mouse_velocity.y * 10.0)
 		
 		# Limit the view to between straight down and straight up
-		if current_mouse_velocity.x + $Head/Camera3D.rotation.x < PI/2.0 \
-				and current_mouse_velocity.x + $Head/Camera3D.rotation.x > -PI/2.0:
+		if current_mouse_velocity.x * 10.0 + $Head/Camera3D.rotation.x < PI/2.0 \
+				and current_mouse_velocity.x * 10.0 + $Head/Camera3D.rotation.x > -PI/2.0:
 			$Head/Camera3D.rotate_x(current_mouse_velocity.x * 10.0)
 		
 		current_mouse_velocity *= 0.9

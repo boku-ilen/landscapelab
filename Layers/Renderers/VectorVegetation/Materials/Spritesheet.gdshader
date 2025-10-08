@@ -4,6 +4,10 @@ render_mode blend_mix, depth_prepass_alpha, cull_disabled, diffuse_burley, specu
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 #include "res://Resources/Meshes/Trees/Tree_HueMix.gdshaderinc"
 
+global uniform vec3 HCY_SHIFT;
+
+uniform float ao_max = 0.25;
+
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec3 albedo_multiply : source_color = vec3(1.0);
 
@@ -34,6 +38,9 @@ uniform vec3 backlight_tint : source_color = vec3(1.0);
 */
 uniform float backlight_strength : hint_range (0.0, 10.0) = 1.0;
 
+uniform float alpha_scissor_min = 0.4;
+uniform float alpha_scissor_max = 0.8;
+
 uniform int sprite_count = 8;
 varying flat float spritesheet_index;
 varying flat float random_instance_factor;
@@ -43,8 +50,10 @@ varying float vertex_distance_from_zero;
 uniform float scale_factor = 1.0;
 
 void vertex() {
-	VERTEX *= scale_factor;
+	vertex_distance_from_zero = VERTEX.y;
 	
+	VERTEX *= scale_factor;
+
 	// Increase the width as the camera gets towards the middle between the two intersecting planes
 	// to compensate for the perspective decreasing the perceived size in that angle
 	float normal_to_camera = abs(dot(normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xz), normalize((INV_VIEW_MATRIX * vec4(0.0, 0.0, -1.0, 0.0)).xz)));
@@ -53,8 +62,6 @@ void vertex() {
 	vec4 view_vertex = MODELVIEW_MATRIX * vec4(VERTEX, 0.0);
 	view_vertex.x *= 1.0 + normal_to_camera;
 	VERTEX = (inverse(MODELVIEW_MATRIX) * view_vertex).xyz;
-
-	vertex_distance_from_zero = pow(length(VERTEX), 2.0);
 
 	spritesheet_index = INSTANCE_CUSTOM.r;
 	random_instance_factor = INSTANCE_CUSTOM.g;
@@ -83,12 +90,17 @@ void fragment() {
 	albedo_hcy.r += hue_mix_leaf.r;
 	albedo_hcy.g += hue_mix_leaf.g;
 	albedo_hcy.b += hue_mix_leaf.b;
+	
+	albedo_hcy.r += HCY_SHIFT.r;
+	albedo_hcy.g *= HCY_SHIFT.g;
+	albedo_hcy.b *= HCY_SHIFT.b;
+	
 	albedo_w_alpha.rgb = HCYtoRGB(albedo_hcy);
 
 	float depth = (1.0 - FRAGCOORD.z) / FRAGCOORD.w;
 
 	ALPHA = albedo_w_alpha.a;
-	ALPHA_SCISSOR_THRESHOLD = mix(0.3, 0.6, smoothstep(1500.0, 500.0, depth));
+	ALPHA_SCISSOR_THRESHOLD = mix(alpha_scissor_min, alpha_scissor_max, smoothstep(1500.0, 500.0, depth));
 	ALBEDO = albedo_w_alpha.rgb * albedo_multiply.rgb;
 
 	METALLIC = 0.0;
@@ -98,9 +110,13 @@ void fragment() {
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = 1.0;
 
-	AO = mix(0.0, 0.2, vertex_distance_from_zero);
-	AO *= mix(1.0, 0.6, smoothstep(100.0, 300.0, depth));
-	AO_LIGHT_AFFECT = 0.8;
+	// TODO: We have the problem that pine trees have much more self-shadowing than broadleave trees.
+	// Based on our spritesheets, we have no way to tell that (the normal map is too low-res).
+	// I guess the only proper solution would be to bake AO?
+
+	AO = mix(0.0, ao_max, pow(vertex_distance_from_zero, 3.0));
+	//AO *= mix(1.0, 0.6, smoothstep(100.0, 300.0, depth));
+	AO_LIGHT_AFFECT = 0.95;
 
 	vec3 overall_backlight = backlight_strength
 	* backlight_tint
