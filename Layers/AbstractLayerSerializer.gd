@@ -140,6 +140,15 @@ static func _lookup_deserialization(config_attribute, render_info_attribute, inf
 		var deserializer_func = deserialization_lookup[render_info_attribute["hint_string"]]
 		return deserializer_func.call(config_attribute, abs_path, serializer)
 	
+	if render_info_attribute.type == TYPE_DICTIONARY and render_info_attribute["hint_string"] != "":
+		# hint string of format "String;Resource"
+		var value_type = render_info_attribute["hint_string"].split(";")[1]
+		if not value_type in deserialization_lookup:
+			return
+		var deserializer_func = deserialization_lookup[value_type]
+		return deserializer_func.call(config_attribute, abs_path, serializer)
+		
+	
 	# If the to be configured attribute in the render_info is not an object, deserialization
 	# needs to be trivial, otherwise it needs to be wrapped
 	if render_info_attribute.type != TYPE_OBJECT:
