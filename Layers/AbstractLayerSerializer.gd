@@ -33,6 +33,7 @@ static var deserialization_lookup = {
 			else:
 				attribute = get_geolayer_from_path(abs_path, attribute, "GeoFeatureLayer")
 			return attribute,
+	"Resource": func(attribute, abs_path, serializer): return load(attribute),
 	"Texture": func(attribute, abs_path, serializer): return load(attribute),
 	"Texture2D": func(attribute, abs_path, serializer): return load(attribute),
 	"Gradient": 
@@ -134,6 +135,19 @@ static func _lookup_deserialization(config_attribute, render_info_attribute, inf
 	if render_info_attribute["class_name"] in deserialization_lookup:
 		var deserializer_func = deserialization_lookup[render_info_attribute["class_name"]]
 		return deserializer_func.call(config_attribute, abs_path, serializer)
+	
+	if render_info_attribute.type == TYPE_ARRAY and render_info_attribute["hint_string"] in deserialization_lookup:
+		var deserializer_func = deserialization_lookup[render_info_attribute["hint_string"]]
+		return deserializer_func.call(config_attribute, abs_path, serializer)
+	
+	if render_info_attribute.type == TYPE_DICTIONARY and render_info_attribute["hint_string"] != "":
+		# hint string of format "String;Resource"
+		var value_type = render_info_attribute["hint_string"].split(";")[1]
+		if not value_type in deserialization_lookup:
+			return
+		var deserializer_func = deserialization_lookup[value_type]
+		return deserializer_func.call(config_attribute, abs_path, serializer)
+		
 	
 	# If the to be configured attribute in the render_info is not an object, deserialization
 	# needs to be trivial, otherwise it needs to be wrapped

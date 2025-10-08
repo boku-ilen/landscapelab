@@ -5,10 +5,6 @@ const extent_threshold := 200.
 const height_threshold := 15.
 const vertex_count_threshold := 16
 
-const flat_roof_scene = preload("res://Buildings/Components/Roofs/FlatRoof.tscn")
-const pointed_roof_scene = preload("res://Buildings/Components/Roofs/PointedRoof.tscn")
-const saddle_roof_scene = preload("res://Buildings/Components/Roofs/SaddleRoof.tscn")
-
 const roof_materials = {
 	RoofBase.TYPES.FLAT: [
 		preload("res://Buildings/Components/Roofs/Resources/RoofPaintedMetal.tres")
@@ -35,6 +31,7 @@ static func prepare_roof(
 	check_roof_type,
 	walls_resource):
 	
+	var roof_resources = layer_composition.render_info.roof_resources 
 	var roof_material = preload("res://Buildings/Components/Roofs/Resources/RoofSlate.tres")
 	var roof: RoofBase
 	if layer_composition.render_info is LayerComposition.BuildingRenderInfo:
@@ -49,7 +46,7 @@ static func prepare_roof(
 			roof = null # Will result in a flatroof (line if roof == null or not can_build_roof)
 		elif check_roof_type and walls_resource.prefer_pointed_roof:
 			if feature.get_outer_vertices().size() == 5:
-				roof = saddle_roof_scene.instantiate().with_data(
+				roof = roof_resources["saddle_roof"].instantiate().with_data(
 					feature.get_id(),
 					addon_layers, 
 					addon_objects,
@@ -57,7 +54,7 @@ static func prepare_roof(
 				roof.set_metadata(building_metadata)
 				can_build_roof = true
 			elif util.str_to_var_or_default(slope, 20) > 15:
-				roof = pointed_roof_scene.instantiate().with_data(
+				roof = roof_resources["pointed_roof"].instantiate().with_data(
 					feature.get_id(),
 					addon_layers, 
 					addon_objects,
@@ -68,7 +65,7 @@ static func prepare_roof(
 		
 		if roof == null or not can_build_roof:
 			if roof and is_instance_valid(roof): roof.free()
-			roof = flat_roof_scene.instantiate().with_data(
+			roof = roof_resources["flat_roof"].instantiate().with_data(
 				feature.get_id(),
 				addon_layers, 
 				addon_objects,

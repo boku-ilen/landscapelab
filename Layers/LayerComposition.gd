@@ -242,6 +242,9 @@ class BuildingRenderInfo extends RenderInfo:
 	var geo_feature_layer: GeoFeatureLayer
 	var addon_layers: Dictionary
 	var addon_objects: Dictionary
+	var wall_resources: Array[Resource]
+	var window_resources: Array[Resource]
+	var roof_resources: Dictionary[String, Resource]
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Building/BuildingRenderer.tscn")

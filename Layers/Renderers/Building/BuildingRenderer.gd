@@ -50,8 +50,8 @@ func _prepare_addons():
 func _create_and_set_texture_arrays():
 	var shader = preload("res://Buildings/Components/Walls/PlainWalls.tscn").instantiate().material
 		
-	var wall_texture_arrays = TextureArrays.texture_arrays_from_wallres(WallFactory.wall_resources)
-	var window_texture_arrays = TextureArrays.texture_arrays_from_window_bundle(WallFactory.window_bundles)
+	var wall_texture_arrays = TextureArrays.texture_arrays_from_wallres(layer_composition.render_info.wall_resources)
+	var window_texture_arrays = TextureArrays.texture_arrays_from_window_bundle(layer_composition.render_info.window_resources)
 	
 	shader.set_shader_parameter("texture_wall_albedo", wall_texture_arrays[0])
 	shader.set_shader_parameter("texture_wall_normal", wall_texture_arrays[1])
@@ -62,7 +62,7 @@ func _create_and_set_texture_arrays():
 	shader.set_shader_parameter("texture_window_rme", window_texture_arrays[2])
 
 
-func load_feature_instance(feature):
+func load_feature_instance(feature: GeoFeature):
 	var building := building_base_scene.instantiate()
 	var building_metadata = BuildingMetadata.new(feature, center, layer_composition.render_info)
 	
@@ -72,14 +72,14 @@ func load_feature_instance(feature):
 		building_metadata.footprint.reverse()
 		
 	if building_type != -1:
-		WallFactory.prepare_plain_walls(building_type, building_metadata, building)
+		WallFactory.prepare_plain_walls(building_type, building_metadata, building, layer_composition.render_info)
 	else:
 		WallFactory.prepare_pillars(building_metadata, building)
 	
-	if building_type not in range(0, WallFactory.wall_resources.size()):
+	if building_type not in range(0, layer_composition.render_info.wall_resources.size()):
 		building_type = fallback_wall_id
 	
-	var walls_resource: PlainWallResource = WallFactory.wall_resources[building_type]
+	var walls_resource: PlainWallResource = layer_composition.render_info.wall_resources[building_type]
 	
 	# Add the roof
 	var roof_and_material = RoofFactory.prepare_roof(
