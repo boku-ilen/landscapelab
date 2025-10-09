@@ -112,12 +112,20 @@ var buildings_to_refine = []
 func refine_load():
 	super.refine_load()
 	
+	mutex.lock()
+	
+	buildings_to_refine = buildings_to_refine.filter(
+		func(building): return building and is_instance_valid(building) and building.get_parent() == self
+	)
+	
+	buildings_to_refine.sort_custom(func(building1, building2):
+		return \
+				building1.position.distance_squared_to(position_manager.center_node.position) < \
+				building2.position.distance_squared_to(position_manager.center_node.position)
+		)
+	
 	if buildings_to_refine.size() > 0:
 		var building = buildings_to_refine.pop_front()
-		
-		# No longer loaded
-		if not building or not is_instance_valid(building) or building.get_parent() != self:
-			return
 		
 		for distance in refine_distances:
 			if building.position.distance_squared_to(position_manager.center_node.position) < distance:
@@ -132,6 +140,7 @@ func refine_load():
 			buildings_to_refine.push_back(building)
 		
 		# Start undoing refinments only after all necessary instances are loaded
+		mutex.unlock()
 		return 
 	
 	# Undo all refinments no longer in render distances
@@ -139,18 +148,23 @@ func refine_load():
 		var building = refined_buildings.pop_back()
 		
 		if not building or not is_instance_valid(building) or building.get_parent() != self:
+			mutex.unlock()
 			return
 		
 		if not building.is_refined:
+			mutex.unlock()
 			return
 		
 		if building.position.distance_squared_to(position_manager.center_node.position) > refine_distances.back():
 			for child in building.get_children():
 				if "undo_refinment" in child:
 					child.undo_refinment()
+			mutex.unlock()
 			return
 		
 		refined_buildings.push_back(building)
+	
+	mutex.unlock()
 
 
 func get_debug_info() -> String:
