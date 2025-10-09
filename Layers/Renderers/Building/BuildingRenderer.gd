@@ -101,7 +101,8 @@ func load_feature_instance(feature: GeoFeature):
 	# Build!
 	building.build([roof_surface_material_callback])
 	
-	buildings_to_refine.append(building)
+	if "can_refine" in building:
+		buildings_to_refine.append(building)
 
 	return building
 
