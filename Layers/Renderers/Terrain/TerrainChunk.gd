@@ -95,8 +95,6 @@ func override_build(center_x, center_y):
 	var top_left_x = float(center_x - size / 2) - 0.25
 	var top_left_y = float(center_y + size / 2) + 0.25
 	
-	var res = (size / (mesh_resolution + 1))
-	
 	# Heightmap
 	var current_height_image = height_layer.get_image(
 		top_left_x - 1,
@@ -173,11 +171,12 @@ func override_apply():
 			$Mesh.material_override.set_shader_parameter("use_height_overlay", true)
 			$Mesh.material_override.set_shader_parameter("height_overlay", get_node("HeightOverlayViewport").get_texture())
 		else:
+			$Mesh.material_override.set_shader_parameter("use_landuse_overlay", false)
+			$Mesh.material_override.set_shader_parameter("use_height_overlay", false)
+			
 			if has_node("LIDOverlayViewport"):
-				$Mesh.material_override.set_shader_parameter("use_landuse_overlay", false)
 				get_node("LIDOverlayViewport").queue_free()
 			if has_node("HeightOverlayViewport"):
-				$Mesh.material_override.set_shader_parameter("use_height_overlay", false)
 				get_node("HeightOverlayViewport").queue_free()
 	
 	if current_surface_heightmap:
@@ -192,16 +191,15 @@ func override_apply():
 		next_pass.set_shader_parameter("heightmap", current_heightmap)
 		next_pass.set_shader_parameter("surface_heightmap", current_surface_heightmap)
 		next_pass.set_shader_parameter("landuse", current_landuse)
-		if using_overlay:
-			next_pass.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport").get_texture())
-			next_pass.set_shader_parameter("use_landuse_overlay", true)
-		else:
-			next_pass.set_shader_parameter("use_landuse_overlay", false)
 		
-		if has_node("HeightOverlayViewport"):
+		if using_overlay:
+			next_pass.set_shader_parameter("use_landuse_overlay", true)
+			next_pass.set_shader_parameter("landuse_overlay", get_node("LIDOverlayViewport").get_texture())
+			
 			next_pass.set_shader_parameter("use_height_overlay", true)
 			next_pass.set_shader_parameter("height_overlay", get_node("HeightOverlayViewport").get_texture())
 		else:
+			next_pass.set_shader_parameter("use_landuse_overlay", false)
 			next_pass.set_shader_parameter("use_height_overlay", false)
 		
 		next_pass.set_shader_parameter("size", size)
