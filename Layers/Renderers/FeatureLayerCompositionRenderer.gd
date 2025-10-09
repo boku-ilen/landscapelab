@@ -168,6 +168,8 @@ func _on_feature_removed(feature: GeoFeature):
 # Might be necessary to be overwritten by inherited class
 # Cannot be run in a thread
 func remove_feature(feature_id: int):
+	mutex.lock()
+	
 	if instances.has(feature_id):
 		instances.erase(feature_id)
 	if has_node(str(feature_id)):
@@ -177,6 +179,8 @@ func remove_feature(feature_id: int):
 		node.free()
 	
 	feature_instance_removed.emit(feature_id)
+	
+	mutex.unlock()
 
 
 # To be implemented by inherited class

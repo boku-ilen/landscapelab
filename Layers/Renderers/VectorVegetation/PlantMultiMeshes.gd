@@ -73,7 +73,7 @@ static var species_to_mesh = {
 	"Sorbusaucu": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Tiliasprpp": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Eucalyptus": preload("res://Layers/Renderers/VectorVegetation/Eucalyptus.tres"),
-	"Quercussuber": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Quercussuber": preload("res://Layers/Renderers/VectorVegetation/Quercussuber.tres"),
 	"Oleaeuropaea": preload("res://Layers/Renderers/VectorVegetation/Oleaeuropaea.tres")
 }
 
@@ -85,7 +85,9 @@ static var mesh_name_to_billboard_index = {
 	"Fraxinus": 4,
 	"Picea_abies": 5,
 	"Pinus_sylvestris": 6,
-	"Eucalyptus": 7
+	"Eucalyptus": 7,
+	"Oleaeuropaea": 7,
+	"Quercussuber": 7
 }
 
 var species_to_mesh_name = {}
