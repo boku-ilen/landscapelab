@@ -34,12 +34,13 @@ func setup(new_feature):
 	var highway_attr = feature.get_attribute("highway")
 	
 	var lanes = int(feature.get_attribute("lanes"))
-	if lanes == 0: lanes = 2
+	if lanes == 0: lanes = 1
 	
 	if width == 0.0:
-		width = highway_to_width_fallback.get(highway_attr, 4.0)
-	
-	width *= (lanes / 2.0)
+		width = highway_to_width_fallback.get(highway_attr, 5.0)
+		
+		if lanes == 1: width *= 0.7
+		else: width *= (lanes / 2.0)
 	
 	material_override.set_shader_parameter("width", width)
 	
