@@ -5,6 +5,7 @@ extends RoofBase
 # A simple flat roof, created by triangulating the footprint.
 #
 
+const type := TYPES.FLAT
 
 @export var height = 0.05
 var color
@@ -93,8 +94,8 @@ func add_domes():
 			var offset_z = building_metadata.geo_offset[1]
 			
 			var pos: Vector3 = addon_feature.get_offset_vector3(offset_x, 0, offset_z)
-			pos.x -= building_metadata.engine_center_position.x
-			pos.z -= building_metadata.engine_center_position.z
+			pos.x -= building_metadata.engine_center.x
+			pos.z -= building_metadata.engine_center .z
 			pos.z += height
 			
 			var rot = float(addon_feature.get_attribute("LL_rot"))
