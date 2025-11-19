@@ -29,6 +29,10 @@ func _ready():
 		vp.set_resolution(size * 4.0)  # 0.25m resolution
 		vp.set_size(size)
 		add_child(vp)
+	
+	# Avoid resolution higher than data resolution
+	var height_pixel_size = get_parent().layer_composition.render_info.height_layer.get_pixel_size()
+	height_resolution = min(height_resolution, size / height_pixel_size)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -51,8 +55,8 @@ func _process(delta):
 	var heightmap = get_parent().layer_composition.render_info.height_layer.get_image(
 		origin_x,
 		origin_z,
-		size,
-		height_resolution,
+		size + 1,
+		height_resolution + 1,
 		0
 	)
 	

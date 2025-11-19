@@ -92,8 +92,8 @@ func override_decrease_quality(distance: float):
 
 
 func override_build(center_x, center_y):
-	var top_left_x = float(center_x - size / 2) - 0.25
-	var top_left_y = float(center_y + size / 2) + 0.25
+	var top_left_x = float(center_x - size / 2) - 1
+	var top_left_y = float(center_y + size / 2) + 1
 	
 	# Heightmap
 	var current_height_image = height_layer.get_image(
