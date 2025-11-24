@@ -124,9 +124,8 @@ func get_map_size():
 
 func complete_update(dhm_layer, splat_layer, center, center_position):
 	# Clamp to the spacing in order to have a matching grid
-	# TODO: 1.0 should probably be replaced by the pixel size (in meters) of the raster
-	var clamped_pos_x = center_position.x - fposmod(center_position.x, 1.0)
-	var clamped_pos_y = center_position.z + (1.0 - fposmod(center_position.z, 1.0))
+	var clamped_pos_x = center_position.x - fposmod(center_position.x, dhm_layer.get_pixel_size())
+	var clamped_pos_y = center_position.z + (dhm_layer.get_pixel_size() - fposmod(center_position.z, dhm_layer.get_pixel_size()))
 	
 	var world_position = [
 		center[0] + clamped_pos_x,
@@ -141,20 +140,20 @@ func complete_update(dhm_layer, splat_layer, center, center_position):
 	last_load_pos = Vector3(clamped_pos_x, 0.0, clamped_pos_y)
 	
 	var dhm = dhm_layer.get_image(
-		float(world_position[0] - map_size / 2),
-		float(world_position[1] + map_size / 2),
+		float(world_position[0] - map_size / 2) - 1,
+		float(world_position[1] + map_size / 2) + 1,
 		float(map_size), 
-		int(map_size),  # FIXME: Ideally divide by the raster pixel size
+		int(map_size / dhm_layer.get_pixel_size()) + 1,
 		0
 	)
 	
 	heightmap = dhm.get_image_texture()
 	
 	var splat = splat_layer.get_image(
-		float(world_position[0] - map_size / 2),
-		float(world_position[1] + map_size / 2),
+		float(world_position[0] - map_size / 2) - 1,
+		float(world_position[1] + map_size / 2) + 1,
 		float(map_size), 
-		int(map_size),  # FIXME: Ideally divide by the raster pixel size
+		int(map_size / splat_layer.get_pixel_size()) + 1,
 		0
 	)
 	
