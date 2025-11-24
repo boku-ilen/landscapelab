@@ -68,7 +68,3 @@ Superficially, the process of setting up the LandscapeLab requires the following
 ## Contribution
 
 Collaboration is greatly appreciated! As mentioned previously, if you require help for the setup to contribute, feel free to contact us. You can test and report bugs, fix known issues or submit new functionality by opening pull requests.
-
-## Credits
-
-A build of our [Geodot plugin](https://github.com/boku-ilen/geodot-plugin) is included, along with the required GDAL library. All credits for GDAL go to [OSGeo/gdal](https://github.com/OSGeo/gdal/) ([license](https://raw.githubusercontent.com/OSGeo/gdal/master/gdal/LICENSE.TXT)).
