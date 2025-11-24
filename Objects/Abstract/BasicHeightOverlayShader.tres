@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://vge06f5r8id6"]
+
+[ext_resource type="Shader" uid="uid://dg58p6hunq6wy" path="res://Objects/Abstract/HydroPowerPlant.gdshader" id="1_dwtwu"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_dwtwu")
+shader_parameter/height = 0.0

@@ -5,24 +5,24 @@
 [ext_resource type="ArrayMesh" uid="uid://rr10d6wboibp" path="res://Resources/Meshes/Abstract/map_marker.obj" id="3_gxv74"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gxv74"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_g8x56")
+shader_parameter/color = Color(0, 1, 0, 1)
 
 [node name="Beam" type="Node3D"]
 script = ExtResource("1_1qshu")
-default_radius = null
-min_radius = null
 
 [node name="Light" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 250, 0)
-light_intensity_lumens = 4e+06
-light_color = Color(0.15, 1, 0, 1)
+light_intensity_lumens = 4000000.0
+light_color = Color(0, 0, 0, 1)
 light_indirect_energy = 0.0
 light_specular = 0.0
 omni_range = 375.0
 omni_attenuation = 0.0
 
 [node name="Marker" type="MeshInstance3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0)
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 1, 0)
 material_override = SubResource("ShaderMaterial_gxv74")
 mesh = ExtResource("3_gxv74")

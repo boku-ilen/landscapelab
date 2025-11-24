@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8rvsco0diods"]
+
+[ext_resource type="Script" uid="uid://dx8oieuxj56ga" path="res://Objects/Abstract/Label.gd" id="1_hiffy"]
+
+[node name="Label" type="Node3D"]
+script = ExtResource("1_hiffy")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+pixel_size = 0.05
+billboard = 2
+double_sided = false
+alpha_cut = 1
+alpha_antialiasing_mode = 1
+text = "Label Text"
+font_size = 64
+outline_size = 18
