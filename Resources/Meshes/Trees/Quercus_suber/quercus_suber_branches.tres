@@ -1,19 +1,21 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ixtjlpu0j6j7"]
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://ixtjlpu0j6j7"]
 
 [ext_resource type="Shader" uid="uid://dysllp2r2xyg6" path="res://Resources/Meshes/Trees/Tree_LeafBranches.gdshader" id="1_yhowf"]
+[ext_resource type="Texture2D" uid="uid://c5f2idoouyjro" path="res://Resources/Meshes/Trees/Quercus_suber/quercus_suber_branches_albedo.png" id="2_pflyc"]
+[ext_resource type="Texture2D" uid="uid://bmcp3k4mlkpcn" path="res://Resources/Meshes/Trees/Quercus_suber/quercus_suber_branches_normal.png" id="3_dr80l"]
+[ext_resource type="Texture2D" uid="uid://d3tum42o12hpj" path="res://Resources/Meshes/Trees/Quercus_suber/quercus_suber_branches_raotrans.png" id="4_ukqn1"]
+[ext_resource type="Texture2D" uid="uid://543il10phdwv" path="res://Resources/Shader/Wind/WindNoise.tres" id="5_t0h7w"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_yhowf")
 shader_parameter/alpha_scissor_threshold = 0.15
+shader_parameter/alpha_scissor_threshold_low = 0.1
+shader_parameter/albedo_tex = ExtResource("2_pflyc")
 shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
-shader_parameter/albedo_node_rand_hue_branch = 0.08
-shader_parameter/albedo_node_rand_hue_leaf = 0.1
-shader_parameter/albedo_node_rand_chroma_branch = 0.01
-shader_parameter/albedo_node_rand_chroma_leaf = 0.005
-shader_parameter/albedo_node_rand_luma_branch = 0.02
-shader_parameter/albedo_node_rand_luma_leaf = 0.01
+shader_parameter/normal_tex = ExtResource("3_dr80l")
 shader_parameter/normal_strength = 1.0
+shader_parameter/rough_ao_transmission_tex = ExtResource("4_ukqn1")
 shader_parameter/roughness_offset = 0.0
 shader_parameter/ao_strength = 1.0
 shader_parameter/ao_light_affect = 0.8
@@ -23,5 +25,12 @@ shader_parameter/backlight_affected_by_ao = 0.5
 shader_parameter/backlight_strength = 1.0
 shader_parameter/rim_strength = 0.03
 shader_parameter/rim_color_from_albedo = 0.5
+shader_parameter/wind_map = ExtResource("5_t0h7w")
 shader_parameter/wind_speed = Vector2(12, 12)
 shader_parameter/wind_factor = 0.15
+shader_parameter/albedo_node_rand_hue_branch = 0.08
+shader_parameter/albedo_node_rand_hue_leaf = 0.1
+shader_parameter/albedo_node_rand_chroma_branch = 0.01
+shader_parameter/albedo_node_rand_chroma_leaf = 0.005
+shader_parameter/albedo_node_rand_luma_branch = 0.02
+shader_parameter/albedo_node_rand_luma_leaf = 0.01
