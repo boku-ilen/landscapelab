@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://dl8tsatdw7ylg"
+path="res://.godot/imported/downsample.glsl-440ef8d666bfe0ff38a98dba9c03351a.res"
+
+[deps]
+
+source_file="res://addons/compositor-lens-flare/downsample.glsl"
+dest_files=["res://.godot/imported/downsample.glsl-440ef8d666bfe0ff38a98dba9c03351a.res"]
+
+[params]
+
