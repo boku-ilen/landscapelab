@@ -26,8 +26,8 @@ void main() {
 
     vec4 color = imageLoad(color_image, uv);
 
-    vec3 scale = vec3(1.0) * 0.3;
-    vec3 bias = vec3(-1.0) * 0.5;
+    vec3 scale = vec3(1.0) * 0.05;
+    vec3 bias = vec3(-1.0) * 2.0;
 
     color.rgb = max(vec3(0.0, 0.0, 0.0), color.rgb + bias) * scale;
 

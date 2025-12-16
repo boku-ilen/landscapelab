@@ -1,0 +1,16 @@
+[gd_resource type="CompositorEffect" script_class="PostProcessShader" format=3 uid="uid://cpnwkm1swg8u0"]
+
+[ext_resource type="Texture2D" uid="uid://dawnxeg62rkll" path="res://addons/compositor-lens-flare/lens_color_ramp.tres" id="1_1jo43"]
+[ext_resource type="Script" uid="uid://0dlqdm6ci0xm" path="res://addons/compositor-lens-flare/post_process_shader.gd" id="2_v4on2"]
+
+[resource]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("2_v4on2")
+gaussian_blur_size = 16.0
+lens_flare_color_ramp = ExtResource("1_1jo43")
+metadata/_custom_type_script = "uid://0dlqdm6ci0xm"

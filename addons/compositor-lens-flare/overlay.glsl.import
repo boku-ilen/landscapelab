@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://c1rq8g3b4ci41"
+path="res://.godot/imported/overlay.glsl-39d5630b163e8c81fa676fad2b9ace7e.res"
+
+[deps]
+
+source_file="res://addons/compositor-lens-flare/overlay.glsl"
+dest_files=["res://.godot/imported/overlay.glsl-39d5630b163e8c81fa676fad2b9ace7e.res"]
+
+[params]
+
