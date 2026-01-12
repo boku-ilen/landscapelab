@@ -50,7 +50,8 @@ vec3 sunWithBloom(vec3 rayDir, vec3 sunDir) {
     float minSunCosTheta = cos(sunSolidAngle);
 
     float cosTheta = dot(rayDir, sunDir);
-    if (cosTheta >= minSunCosTheta) return vec3(1.0);
+	// Return 1.0 at the edge and 100.0 in the center to react nicely with HDR effects like glare and lens flare
+    if (cosTheta >= minSunCosTheta) return vec3(1.0 + smoothstep(minSunCosTheta + 0.00003, 1.0, cosTheta) * 99.0);
 
     float offset = minSunCosTheta - cosTheta;
     float gaussianBloom = exp(-offset*50000.0)*0.5;
@@ -88,7 +89,7 @@ vec3 get_atmo(vec3 dir) {
 	vec3 col = getValFromSkyLUT(dir);
 	vec3 sunLum = sunWithBloom(dir, LIGHT0_DIRECTION);
     // Use smoothstep to limit the effect, so it drops off to actual zero.
-    sunLum = smoothstep(0.002, 1.0, sunLum);
+    //sunLum = smoothstep(0.002, 1.0, sunLum);
     if (length(sunLum) > 0.0) {
         if (rayIntersectSphere(viewPos, dir, groundRadiusMM) >= 0.0) {
             sunLum *= 0.0;
