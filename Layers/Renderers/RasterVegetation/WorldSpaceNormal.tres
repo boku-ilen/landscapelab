@@ -1,4 +1,4 @@
-[gd_resource type="NoiseTexture2D" load_steps=2 format=3 uid="uid://bya3n1u326m70"]
+[gd_resource type="NoiseTexture2D" format=3 uid="uid://bya3n1u326m70"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_rt6mg"]
 seed = 2565

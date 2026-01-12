@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=4 format=4 uid="uid://cbraw7xs40a6a"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://m1smnl5m7mxj"]
 
 [ext_resource type="Material" uid="uid://cgbgrt8esgwki" path="res://Resources/Meshes/Trees/EZTree/Quercus/branches.tres" id="1_dvvjn"]
 [ext_resource type="Material" uid="uid://b64xio24r8q06" path="res://Resources/Meshes/Trees/EZTree/Quercus/leaves.tres" id="2_dwghr"]

@@ -156,8 +156,8 @@ void fragment() {
 	* backlight_tint
 	* mix(vec3(0.3), albedo_w_alpha.rgb, backlight_color_from_albedo)
 	* mix(1.0, rough_ao_trans.g, backlight_affected_by_ao);
-
-	BACKLIGHT = clamp(overall_backlight, 0.0, 500.0);
+	
+	BACKLIGHT = clamp(overall_backlight, 0.0, 1.0);
 
 	RIM = rim_strength;
 	RIM_TINT = rim_color_from_albedo;

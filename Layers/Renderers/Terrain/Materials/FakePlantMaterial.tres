@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=10 format=3 uid="uid://cvsqs2g3lwdiv"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cvsqs2g3lwdiv"]
 
 [ext_resource type="Shader" uid="uid://bxnew4mm7p0yn" path="res://Layers/Renderers/Terrain/FakeVegetation.gdshader" id="1_gith2"]
 [ext_resource type="Texture2D" uid="uid://duhjv68uoyu3c" path="res://Resources/Textures/Plants/gr-triticum-01.png" id="2_a0cxw"]

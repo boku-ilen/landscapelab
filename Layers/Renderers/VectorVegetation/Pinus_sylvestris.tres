@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=4 format=4 uid="uid://cj7tjwfh3lqmu"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://cj7tjwfh3lqmu"]
 
 [ext_resource type="Material" uid="uid://uupxqrjghaim" path="res://Resources/Meshes/Trees/Pinus_sylvestris/pinus_sylvestris_trunk.tres" id="1_tq46s"]
 [ext_resource type="Material" uid="uid://dcxxjq3imr4dd" path="res://Resources/Meshes/Trees/Pinus_sylvestris/pinus_sylvestris_branches.tres" id="2_mbebp"]

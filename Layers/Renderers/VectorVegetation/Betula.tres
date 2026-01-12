@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=4 format=4 uid="uid://ccjyonf8md21y"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://ccjyonf8md21y"]
 
 [ext_resource type="Material" uid="uid://ceq1v8yirj0rc" path="res://Resources/Meshes/Trees/Betula/betula_trunk.tres" id="1_i0r5v"]
 [ext_resource type="Material" uid="uid://756y35mjie2d" path="res://Resources/Meshes/Trees/Betula/betula_branches.tres" id="2_n5ry0"]
