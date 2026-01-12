@@ -1,7 +1,16 @@
 [gd_resource type="CompositorEffect" script_class="PostProcessShader" format=3 uid="uid://cpnwkm1swg8u0"]
 
 [ext_resource type="Texture2D" uid="uid://dawnxeg62rkll" path="res://addons/compositor-lens-flare/lens_color_ramp.tres" id="1_1jo43"]
+[ext_resource type="Texture2D" uid="uid://detsilp12nioo" path="res://addons/compositor-lens-flare/lens-dirt.png" id="1_v4on2"]
 [ext_resource type="Script" uid="uid://0dlqdm6ci0xm" path="res://addons/compositor-lens-flare/post_process_shader.gd" id="2_v4on2"]
+
+[sub_resource type="Gradient" id="Gradient_v4on2"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wwdrl"]
+gradient = SubResource("Gradient_v4on2")
+width = 1
 
 [resource]
 resource_local_to_scene = false
@@ -11,6 +20,16 @@ effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_v4on2")
-gaussian_blur_size = 16.0
-lens_flare_color_ramp = ExtResource("1_1jo43")
+downsample_scale = 0.01
+downsample_bias = 0.5
+glare_attenuation = 0.92
+glare_samples = 3
+flare_color_ramp = ExtResource("1_1jo43")
+flare_ghost_count = 4
+flare_ghost_dispersal = 0.5
+flare_chromatic_abberation_scale = 5.0
+gaussian_blur_size = 32.0
+overlay_dirt_texture = ExtResource("1_v4on2")
+overlay_white_texture = SubResource("GradientTexture1D_wwdrl")
+overlay_dirt_texture_power = 0.9
 metadata/_custom_type_script = "uid://0dlqdm6ci0xm"

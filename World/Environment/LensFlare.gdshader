@@ -73,8 +73,8 @@ void fragment() {
 
 	for (float way = 0.0; way <= 2.0 * PI; way += PI / 4.0) {
 		vec2 offset = vec2(cos(way), sin(way));
-		float depth = texture(DEPTH_TEXTURE, ((sun_position.xy + offset * 0.01))).r;
-		number_of_good_depth_samples += float(depth <= 0.01);
+		float depth = texture(DEPTH_TEXTURE, ((sun_position.xy + offset * 0.005))).r;
+		number_of_good_depth_samples += float(depth == 0.0);
 	}
 
 	color *= mix(0.0, 1.0, smoothstep(0.0, 8.0, number_of_good_depth_samples));
