@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=11 format=3 uid="uid://bmcxp6o1ulogn"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bmcxp6o1ulogn"]
 
 [ext_resource type="Shader" uid="uid://bgkt7kb2x71rr" path="res://Objects/Roads/RoadCar.gdshader" id="1_b5itu"]
 [ext_resource type="Texture2D" uid="uid://cim2tnu0ohupx" path="res://Resources/Textures/Asphalt/DamageGround/Asphalt021_2K-JPG_NormalGL.jpg" id="2_0pfw6"]

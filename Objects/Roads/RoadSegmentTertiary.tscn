@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dgai1rmepibh2"]
+[gd_scene format=3 uid="uid://dgai1rmepibh2"]
 
 [ext_resource type="Material" uid="uid://bxejggbqsoewi" path="res://Objects/Roads/RoadCarTertiary.tres" id="1_uqkjh"]
 [ext_resource type="ArrayMesh" uid="uid://7pwspfn3leuj" path="res://Resources/Meshes/RoadInfrastructure/road_segment.obj" id="2_vaujn"]
@@ -6,12 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://d0eukmxx38kvr" path="res://Layers/Renderers/Overlay/HeightOverlay.tscn" id="4_vaujn"]
 [ext_resource type="PackedScene" uid="uid://cfav3tiv42xkt" path="res://Layers/Renderers/Overlay/LIDOverlay.tscn" id="5_cc2dw"]
 
-[node name="RoadSegmentTertiary" type="MeshInstance3D"]
+[node name="RoadSegmentTertiary" type="MeshInstance3D" unique_id=716934333]
 layers = 196612
 material_override = ExtResource("1_uqkjh")
+cast_shadow = 0
 mesh = ExtResource("2_vaujn")
 script = ExtResource("3_cc2dw")
 
-[node name="HeightOverlay" parent="." instance=ExtResource("4_vaujn")]
+[node name="HeightOverlay" parent="." unique_id=386538743 instance=ExtResource("4_vaujn")]
 
-[node name="LIDOverlay" parent="." instance=ExtResource("5_cc2dw")]
+[node name="LIDOverlay" parent="." unique_id=1886613830 instance=ExtResource("5_cc2dw")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://yy633f0hgra5"]
+[gd_scene format=3 uid="uid://yy633f0hgra5"]
 
 [ext_resource type="Material" uid="uid://brc4piavgmap0" path="res://Objects/Roads/RoadCarPrimary.tres" id="1_xnwoq"]
 [ext_resource type="ArrayMesh" uid="uid://7pwspfn3leuj" path="res://Resources/Meshes/RoadInfrastructure/road_segment.obj" id="2_y6cyi"]
@@ -7,14 +7,15 @@
 [ext_resource type="PackedScene" uid="uid://d0eukmxx38kvr" path="res://Layers/Renderers/Overlay/HeightOverlay.tscn" id="5_s8jf3"]
 [ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="6_s8jf3"]
 
-[node name="RoadSegmentCar" type="MeshInstance3D"]
+[node name="RoadSegmentCar" type="MeshInstance3D" unique_id=1137876233]
 layers = 196612
 material_override = ExtResource("1_xnwoq")
+cast_shadow = 0
 mesh = ExtResource("2_y6cyi")
 script = ExtResource("3_s8jf3")
 
-[node name="LIDOverlay" parent="." instance=ExtResource("4_y6cyi")]
+[node name="LIDOverlay" parent="." unique_id=1856798612 instance=ExtResource("4_y6cyi")]
 
-[node name="HeightOverlay" parent="." instance=ExtResource("5_s8jf3")]
+[node name="HeightOverlay" parent="." unique_id=1506760020 instance=ExtResource("5_s8jf3")]
 
-[node name="PSUGatherer" parent="." instance=ExtResource("6_s8jf3")]
+[node name="PSUGatherer" parent="." unique_id=1596783908 instance=ExtResource("6_s8jf3")]
