@@ -56,10 +56,16 @@ update_scale = false
 
 [node name="SubViewport" parent="." instance=ExtResource("9_sfca8")]
 msaa_3d = 2
+screen_space_aa = 0
+positional_shadow_atlas_size = 4096
+positional_shadow_atlas_16_bits = false
+positional_shadow_atlas_quad_0 = 1
+positional_shadow_atlas_quad_2 = 2
+positional_shadow_atlas_quad_3 = 3
 render_target_update_mode = 0
 
 [node name="XRCamera3D" parent="SubViewport/XROrigin3D" index="2"]
-near = 0.5
+near = 0.2
 far = 30000.0
 
 [node name="AutoCamera" type="Node3D" parent="." node_paths=PackedStringArray("automated_camera", "vr_camera")]
