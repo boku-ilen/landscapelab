@@ -69,6 +69,16 @@ Superficially, the process of setting up the LandscapeLab requires the following
 
 Collaboration is greatly appreciated! As mentioned previously, if you require help for the setup to contribute, feel free to contact us. You can test and report bugs, fix known issues or submit new functionality by opening pull requests.
 
-## Credits
+## License
 
-A build of our [Geodot plugin](https://github.com/boku-ilen/geodot-plugin) is included, along with the required GDAL library. All credits for GDAL go to [OSGeo/gdal](https://github.com/OSGeo/gdal/) ([license](https://raw.githubusercontent.com/OSGeo/gdal/master/gdal/LICENSE.TXT)).
+The LandscapeLab code is licensed under GPL v3, unless specified otherwise in an additional LICENSE file or directly within a script. All code is GPL-compatible (e.g. MIT).
+
+Assets are licensed under CC BY-SA 4.0, unless specified otherwise in an additional LICENSE file. Most assets are self-made or from CC0 sources, some are licensed under other CC licenses.
+
+## Acknowledgements
+
+[Godot](https://godotengine.org/) is a keystone for this open source GIS visualization stack and we are immensely grateful for the core team as well as the surrounding community.
+
+The LandscapeLab depends on [Geodot](https://github.com/boku-ilen/geodot-plugin), which in turn depends on [GDAL](https://gdal.org/en/stable/), a powerful geospatial library without which it wouldn't be possible to visualize such large datasets at real-time speeds.
+
+[Polyhaven](https://polyhaven.com/), [AmbientCG](https://ambientcg.com/), and [PBRPX](https://pbrpx.com/) are the sources of most of our PBR textures, it's amazing to have such high-quality assets in the public domain thanks to their work. [EZTree](https://github.com/dgreenheck/ez-tree) is also an important part of our asset creation process.

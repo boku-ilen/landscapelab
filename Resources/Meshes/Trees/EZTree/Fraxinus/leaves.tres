@@ -8,8 +8,8 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_lfpna")
-shader_parameter/alpha_scissor_threshold = 0.8
-shader_parameter/alpha_scissor_threshold_low = 0.15
+shader_parameter/alpha_scissor_threshold = 0.499999988824
+shader_parameter/alpha_scissor_threshold_low = 0.1
 shader_parameter/albedo_tex = ExtResource("1_t44n4")
 shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
 shader_parameter/normal_tex = ExtResource("3_rqq8y")

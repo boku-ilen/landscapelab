@@ -83,7 +83,7 @@ func adapt_load(_diff: Vector3):
 				radius * i, max_features
 			)
 			
-			if new_features.size() == max_features and previous_features:
+			if new_features.size() >= max_features and previous_features:
 				new_features = previous_features
 				break
 			else:

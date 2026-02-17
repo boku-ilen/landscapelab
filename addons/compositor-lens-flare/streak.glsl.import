@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://c3wo2okvinjbs"
+path="res://.godot/imported/streak.glsl-e84466ab4d8ec552c71d8362b0bf731b.res"
+
+[deps]
+
+source_file="res://addons/compositor-lens-flare/streak.glsl"
+dest_files=["res://.godot/imported/streak.glsl-e84466ab4d8ec552c71d8362b0bf731b.res"]
+
+[params]
+

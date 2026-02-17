@@ -34,4 +34,5 @@ func _update_buttons_for_current_game_mode():
 	for child in get_children():
 		child.set_pressed_no_signal(false)
 	
-	get_node(GameSystem.current_game_mode.name).set_pressed_no_signal(true)
+	if has_node(GameSystem.current_game_mode.name):
+		get_node(GameSystem.current_game_mode.name).set_pressed_no_signal(true)

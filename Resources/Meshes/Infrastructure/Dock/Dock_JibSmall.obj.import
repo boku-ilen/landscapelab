@@ -1,25 +1,52 @@
 [remap]
 
-importer="wavefront_obj"
+importer="scene"
 importer_version=1
-type="Mesh"
+type="PackedScene"
 uid="uid://dgjvm6lg38ndj"
-path="res://.godot/imported/Dock_JibSmall.obj-bc1975971e65ba08680fca1e82123d19.mesh"
+path="res://.godot/imported/Dock_JibSmall.obj-bc1975971e65ba08680fca1e82123d19.scn"
 
 [deps]
 
-files=["res://.godot/imported/Dock_JibSmall.obj-bc1975971e65ba08680fca1e82123d19.mesh"]
-
 source_file="res://Resources/Meshes/Infrastructure/Dock/Dock_JibSmall.obj"
-dest_files=["res://.godot/imported/Dock_JibSmall.obj-bc1975971e65ba08680fca1e82123d19.mesh", "res://.godot/imported/Dock_JibSmall.obj-bc1975971e65ba08680fca1e82123d19.mesh"]
+dest_files=["res://.godot/imported/Dock_JibSmall.obj-bc1975971e65ba08680fca1e82123d19.scn"]
 
 [params]
 
-generate_tangents=true
-generate_lods=true
-generate_shadow_mesh=true
-generate_lightmap_uv2=false
-generate_lightmap_uv2_texel_size=0.2
-scale_mesh=Vector3(1, 1, 1)
-offset_mesh=Vector3(0, 0, 0)
-force_disable_mesh_compression=false
+nodes/root_type=""
+nodes/root_name=""
+nodes/root_script=null
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+nodes/use_name_suffixes=true
+nodes/use_node_type_suffixes=true
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+materials/extract=0
+materials/extract_format=0
+materials/extract_path=""
+_subresources={
+"meshes": {
+"Dock_JibSmall": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 60.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Objects/Infrastructure/Piers/Jib.tres",
+"save_to_file/path": "uid://bedss3xuj2e7s"
+}
+}
+}

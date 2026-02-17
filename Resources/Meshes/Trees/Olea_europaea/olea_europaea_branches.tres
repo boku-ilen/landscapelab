@@ -1,14 +1,21 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c53b7s1pmw257"]
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://c53b7s1pmw257"]
 
 [ext_resource type="Shader" uid="uid://dysllp2r2xyg6" path="res://Resources/Meshes/Trees/Tree_LeafBranches.gdshader" id="1_4u67w"]
+[ext_resource type="Texture2D" uid="uid://br3x07ldf56ww" path="res://Resources/Meshes/Trees/Olea_europaea/olea_europaea_branches_albedo.png" id="2_g2ebl"]
+[ext_resource type="Texture2D" uid="uid://d11ss27fnti54" path="res://Resources/Meshes/Trees/Olea_europaea/olea_europaea_branches_normal.png" id="3_6tk7f"]
+[ext_resource type="Texture2D" uid="uid://c5vnhj7tciaip" path="res://Resources/Meshes/Trees/Olea_europaea/olea_europaea_branches_raotrans.png" id="4_y1ln2"]
+[ext_resource type="Texture2D" uid="uid://543il10phdwv" path="res://Resources/Shader/Wind/WindNoise.tres" id="5_svbb1"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_4u67w")
 shader_parameter/alpha_scissor_threshold = 0.15
 shader_parameter/alpha_scissor_threshold_low = 0.1
+shader_parameter/albedo_tex = ExtResource("2_g2ebl")
 shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
+shader_parameter/normal_tex = ExtResource("3_6tk7f")
 shader_parameter/normal_strength = 1.0
+shader_parameter/rough_ao_transmission_tex = ExtResource("4_y1ln2")
 shader_parameter/roughness_offset = 0.0
 shader_parameter/ao_strength = 1.0
 shader_parameter/ao_light_affect = 0.8
@@ -18,6 +25,7 @@ shader_parameter/backlight_affected_by_ao = 0.5
 shader_parameter/backlight_strength = 1.0
 shader_parameter/rim_strength = 0.03
 shader_parameter/rim_color_from_albedo = 0.5
+shader_parameter/wind_map = ExtResource("5_svbb1")
 shader_parameter/wind_speed = Vector2(12, 12)
 shader_parameter/wind_factor = 1.0
 shader_parameter/albedo_node_rand_hue_branch = 0.08

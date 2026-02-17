@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://3h4ychvi0yw0"]
+[gd_scene format=3 uid="uid://3h4ychvi0yw0"]
 
 [ext_resource type="Script" uid="uid://cd55afwvr1us6" path="res://Perspectives/PC/PlayerController.gd" id="1"]
 [ext_resource type="Script" uid="uid://4bmau4ddb5y3" path="res://Perspectives/PC/SettingsCamera.gd" id="2"]
+[ext_resource type="CompositorEffect" uid="uid://cpnwkm1swg8u0" path="res://addons/compositor-lens-flare/lens_flare_compositor_effect.tres" id="2_1alhb"]
 [ext_resource type="Script" uid="uid://durwbagcuka0q" path="res://Perspectives/PC/VRDirectionIndicator.gd" id="4"]
 [ext_resource type="Script" uid="uid://bld78qvrrickc" path="res://Editing/ActionHandler.gd" id="4_ru6dm"]
 [ext_resource type="PackedScene" uid="uid://4pb0ommg5l3g" path="res://Perspectives/Tracking/ParentTracker.tscn" id="7"]
@@ -9,38 +10,42 @@
 [ext_resource type="PackedScene" uid="uid://smxcuwyafd66" path="res://Perspectives/PC/VRSubviewPort.tscn" id="9_sfca8"]
 [ext_resource type="Script" uid="uid://dhush7q68w75n" path="res://Perspectives/PC/AutoCamera.gd" id="10_cs7ku"]
 
+[sub_resource type="Compositor" id="Compositor_prr13"]
+compositor_effects = Array[CompositorEffect]([ExtResource("2_1alhb")])
+
 [sub_resource type="SeparationRayShape3D" id="1"]
 length = 1.65
 
-[node name="FirstPersonPC" type="CharacterBody3D" groups=["ShiftingSpatial"]]
+[node name="FirstPersonPC" type="CharacterBody3D" unique_id=2014935406 groups=["ShiftingSpatial"]]
 collision_layer = 16387
 collision_mask = 16385
 script = ExtResource("1")
 
-[node name="Head" type="Node3D" parent="."]
+[node name="Head" type="Node3D" parent="." unique_id=2025759550]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 
-[node name="Camera3D" type="Camera3D" parent="Head"]
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=454553800]
 transform = Transform3D(1.00002, 0, 0, 0, 1, 0, 0, 0, 1.00002, 0, 0, 0)
 cull_mask = 33911
+compositor = SubResource("Compositor_prr13")
 doppler_tracking = 2
 fov = 48.4
 near = 1.0
 script = ExtResource("2")
 setting_title = "player"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1160488883]
 transform = Transform3D(1, 0, 1.77636e-15, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.656, 0.1)
 shape = SubResource("1")
 
-[node name="ActionHandler" type="Node" parent="."]
+[node name="ActionHandler" type="Node" parent="." unique_id=919360916]
 script = ExtResource("4_ru6dm")
 perspective_prefix = "3D"
 cursor_path = NodePath("")
 
-[node name="ParentTracker" parent="." instance=ExtResource("7")]
+[node name="ParentTracker" parent="." unique_id=268126056 instance=ExtResource("7")]
 
-[node name="VRDirectionIndicator" type="TextureRect" parent="."]
+[node name="VRDirectionIndicator" type="TextureRect" parent="." unique_id=774340054]
 visible = false
 offset_right = 16.0
 offset_bottom = 16.0
@@ -49,28 +54,21 @@ expand_mode = 1
 script = ExtResource("4")
 vr_camera_path = NodePath("../SubViewport/XROrigin3D/XRCamera3D")
 
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=243613895]
 remote_path = NodePath("../SubViewport/XROrigin3D")
 update_rotation = false
 update_scale = false
 
-[node name="SubViewport" parent="." instance=ExtResource("9_sfca8")]
-msaa_3d = 2
-screen_space_aa = 0
-positional_shadow_atlas_size = 4096
-positional_shadow_atlas_16_bits = false
-positional_shadow_atlas_quad_0 = 1
-positional_shadow_atlas_quad_2 = 2
-positional_shadow_atlas_quad_3 = 3
-render_target_update_mode = 0
+[node name="SubViewport" parent="." unique_id=863564569 instance=ExtResource("9_sfca8")]
 
 [node name="XRCamera3D" parent="SubViewport/XROrigin3D" index="2"]
-near = 0.2
+near = 0.5
 far = 30000.0
 
-[node name="AutoCamera" type="Node3D" parent="." node_paths=PackedStringArray("automated_camera", "vr_camera")]
+[node name="AutoCamera" type="Node3D" parent="." unique_id=661084038 node_paths=PackedStringArray("automated_camera", "vr_camera")]
 script = ExtResource("10_cs7ku")
 automated_camera = NodePath("../Head/Camera3D")
 vr_camera = NodePath("../SubViewport/XROrigin3D/XRCamera3D")
+active = false
 
 [editable path="SubViewport"]

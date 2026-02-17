@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=4 format=4 uid="uid://clxd6rctgoum4"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://clxd6rctgoum4"]
 
 [ext_resource type="Material" uid="uid://cgca3mvvhtcxo" path="res://Resources/Meshes/Trees/EZTree/Fraxinus/branches.tres" id="1_snek8"]
 [ext_resource type="Material" uid="uid://b6mmxam7l2hxv" path="res://Resources/Meshes/Trees/EZTree/Fraxinus/leaves.tres" id="2_ul8ls"]

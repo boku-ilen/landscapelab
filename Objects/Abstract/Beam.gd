@@ -22,7 +22,7 @@ var feature: GeoFeature:
 
 func _ready():
 	$Light.light_color = color
-	$Marker.set_instance_shader_parameter("color", color)
+	$Marker.material_override.set_shader_parameter("color", color)
 	
 	if not feature:
 		set_radius(default_radius)

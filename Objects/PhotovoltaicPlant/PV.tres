@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=6 format=4 uid="uid://bhspna5brc8k6"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://bhspna5brc8k6"]
 
 [ext_resource type="Texture2D" uid="uid://cr7ly4si0djhx" path="res://Resources/Meshes/_NEW assets/photovoltaik/materials/photovoltaik_DefaultMaterial_BaseColor.png" id="1_v178y"]
 [ext_resource type="Texture2D" uid="uid://clyfsx8as5wj2" path="res://Resources/Meshes/_NEW assets/photovoltaik/materials/photovoltaik_DefaultMaterial_Metallic.png" id="2_lidfa"]

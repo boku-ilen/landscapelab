@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://cywvpsaxe2trg"]
+
+[ext_resource type="Script" uid="uid://cdi8yhm6rxbad" path="res://Objects/Abstract/HydroPowerPlant.gd" id="1_68em7"]
+[ext_resource type="Shader" uid="uid://dg58p6hunq6wy" path="res://Objects/Abstract/HydroPowerPlant.gdshader" id="3_i6mfp"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_xgp00"]
+size = Vector3(30, 6, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_aagv0"]
+size = Vector3(5, 10, 110)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i6mfp"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_i6mfp")
+shader_parameter/height = 0.0
+shader_parameter/fade_towards_front = 1000.0
+shader_parameter/fade_towards_side = 5.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xgp00"]
+size = Vector2(35, 100)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u5acn"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_i6mfp")
+shader_parameter/height = 0.0
+shader_parameter/fade_towards_front = 0.0
+shader_parameter/fade_towards_side = 0.5
+
+[node name="HydroPowerPlant" type="Node3D"]
+script = ExtResource("1_68em7")
+
+[node name="Weir" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.996195, -0.0871557, 0, 0.0871557, 0.996195, 0, 0, 0)
+mesh = SubResource("BoxMesh_xgp00")
+
+[node name="Side1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5, 0, 50)
+mesh = SubResource("BoxMesh_aagv0")
+
+[node name="Side2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0, 50)
+mesh = SubResource("BoxMesh_aagv0")
+
+[node name="HigherBack" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 50)
+layers = 131072
+material_override = SubResource("ShaderMaterial_i6mfp")
+mesh = SubResource("PlaneMesh_xgp00")
+
+[node name="BackHeightSamplePoint" type="Marker3D" parent="HigherBack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 50)
+
+[node name="LowerFront" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, -50)
+layers = 131072
+material_override = SubResource("ShaderMaterial_u5acn")
+mesh = SubResource("PlaneMesh_xgp00")
+
+[node name="FrontHeightSamplePoint" type="Marker3D" parent="LowerFront"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50)

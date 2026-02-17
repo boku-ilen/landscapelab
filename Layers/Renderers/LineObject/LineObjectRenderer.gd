@@ -19,8 +19,6 @@ func _ready() -> void:
 
 
 func load_feature_instance(feature: GeoFeature):
-	mutex.lock()
-	
 	var property_dict = AttributeToPropertyInterpreter.get_properties_for_feature(
 		feature,
 		layer_composition.render_info.attributes_to_properties
@@ -39,8 +37,6 @@ func load_feature_instance(feature: GeoFeature):
 	# That way, we only have to do the setup (reading Feature attributes, etc.) once per Feature.
 	var prototype_scene = load(object_path).instantiate() as LineSegment
 	prototype_scene.setup(feature)
-	
-	prototype_scene.set_mesh_length(property_dict.get("length", 1.0))
 	
 	var height_getter
 	var height_type = property_dict.get("height_type", "Exact")
@@ -81,7 +77,6 @@ func load_feature_instance(feature: GeoFeature):
 		
 		# Duplicate our prototype instance to get the instance for this segment
 		var instance = prototype_scene.duplicate()
-		instance.material_override = instance.material_override.duplicate()
 		
 		# Setup the matrices for the start and end of this object
 		var start_transform = Transform3D(Basis.IDENTITY, point)
@@ -91,6 +86,7 @@ func load_feature_instance(feature: GeoFeature):
 		end_transform = end_transform.looking_at(next_next_point)
 		
 		instance.set_segment_start_end(start_transform, end_transform)
+		instance.set_mesh_length(property_dict.get("length", 1.0))
 		
 		# Since the object gets its position and size purely from the start and end matrices in the
 		#  custom shader, the default AABB is entirely wrong and we need to construct it ourselves.
@@ -108,7 +104,5 @@ func load_feature_instance(feature: GeoFeature):
 		instance.custom_aabb = custom_aabb
 		
 		instances.add_child(instance)
-	
-	mutex.unlock()
 	
 	return instances
