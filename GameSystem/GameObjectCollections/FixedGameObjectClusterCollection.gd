@@ -257,5 +257,6 @@ func _remove_game_object(feature):
 
 
 func _on_location_feature_changed(location_feature, cluster_feature):
-	if location_feature.get_attribute("modified") == "1":
+	if location_feature.get_attribute("modified") == "1" \
+			and cluster_feature.get_attribute("modified") != "1":
 		cluster_feature.set_attribute("modified", "1")
