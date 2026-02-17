@@ -9,6 +9,7 @@
 [node name="RoadSegmentTertiary" type="MeshInstance3D"]
 layers = 196612
 material_override = ExtResource("1_uqkjh")
+cast_shadow = 0
 mesh = ExtResource("2_vaujn")
 script = ExtResource("3_cc2dw")
 

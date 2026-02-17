@@ -8,6 +8,7 @@
 [node name="RoadSegmentBridge" type="MeshInstance3D"]
 layers = 4
 material_override = ExtResource("1_y38fb")
+cast_shadow = 0
 mesh = ExtResource("2_fpnh7")
 script = ExtResource("3_wqdng")
 

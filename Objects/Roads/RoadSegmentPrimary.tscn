@@ -10,6 +10,7 @@
 [node name="RoadSegmentCar" type="MeshInstance3D"]
 layers = 196612
 material_override = ExtResource("1_xnwoq")
+cast_shadow = 0
 mesh = ExtResource("2_y6cyi")
 script = ExtResource("3_s8jf3")
 
