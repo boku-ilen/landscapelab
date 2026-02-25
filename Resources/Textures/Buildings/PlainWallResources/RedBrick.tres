@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PlainWallResource" format=3 uid="uid://dk1ig8auhbfg7"]
+
+[ext_resource type="Resource" uid="uid://bask2aweg8lxt" path="res://Resources/Textures/Buildings/brick/red_brick.tres" id="1_1kfq5"]
+[ext_resource type="Script" uid="uid://buajipufsmvon" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_qyi3h"]
+
+[resource]
+script = ExtResource("1_qyi3h")
+basement_texture = ExtResource("1_1kfq5")
+ground_texture = ExtResource("1_1kfq5")
+middle_texture = ExtResource("1_1kfq5")
+top_texture = ExtResource("1_1kfq5")
+ground_window_id = 1
+middle_window_id = 1
+top_window_id = 1
+random_colors = Array[Color]([Color(1, 1, 1, 1)])
+random_color_weights = Array[float]([1.0])
+apply_colors = 15
+wind_counterclockwise = null
+metadata/_custom_type_script = "uid://buajipufsmvon"
