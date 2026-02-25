@@ -104,7 +104,7 @@ static var gradients = {
 			0.,
 			1.
 		])
-	),
+	).as_gradient(),
 	"sun": ColorRamp.new(
 		ColorRamp.OffsetInit.EQUIDISTANT,
 		PackedColorArray([
@@ -115,7 +115,7 @@ static var gradients = {
 			Color.html("#ffcd93"),
 		]),
 		Gradient.GRADIENT_INTERPOLATE_LINEAR,
-	),
+	).as_gradient(),
 	"biodiv": ColorRamp.new(
 		ColorRamp.OffsetInit.EQUIDISTANT,
 		PackedColorArray([
@@ -124,8 +124,8 @@ static var gradients = {
 			Color.html("#e7c3bc"),
 		]),
 		Gradient.GRADIENT_INTERPOLATE_CONSTANT
-	),
-	"good-bad": ColorRamp.new(
+	).as_gradient(),
+	"good_bad": ColorRamp.new(
 		ColorRamp.OffsetInit.EQUIDISTANT,
 		PackedColorArray([
 			Color.html("#de161d"),
@@ -135,7 +135,7 @@ static var gradients = {
 			Color.html("#a6d96a"),
 		]),
 		Gradient.GRADIENT_INTERPOLATE_CONSTANT
-	)
+	).as_gradient()
 }
 static var viridis = gradients["viridis"]
 static var wind_speed = gradients["wind_speed"]

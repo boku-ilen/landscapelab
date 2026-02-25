@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://v6m57w1axyf6"]
+
+[ext_resource type="Shader" uid="uid://bgkt7kb2x71rr" path="res://Objects/Roads/RoadCar.gdshader" id="1_ko8g7"]
+[ext_resource type="Texture2D" uid="uid://cim2tnu0ohupx" path="res://Resources/Textures/Asphalt/DamageGround/Asphalt021_2K-JPG_NormalGL.jpg" id="2_2cp1p"]
+[ext_resource type="ArrayMesh" uid="uid://7pwspfn3leuj" path="res://Resources/Meshes/RoadInfrastructure/road_segment.obj" id="2_2giwo"]
+[ext_resource type="Texture2D" uid="uid://d220bdfgs5wsl" path="res://Resources/Textures/Asphalt/DamageOverlay/opacity.jpg" id="3_2cpgg"]
+[ext_resource type="Script" uid="uid://dinwn45dvlpui" path="res://Objects/Roads/RoadSegmentCar.gd" id="3_6kxfn"]
+[ext_resource type="PackedScene" uid="uid://d0eukmxx38kvr" path="res://Layers/Renderers/Overlay/HeightOverlay.tscn" id="4_b27t4"]
+[ext_resource type="Texture2D" uid="uid://c0tmjkx7qxokr" path="res://Resources/Textures/Asphalt/DamageOverlay/color.jpg" id="4_cp0yw"]
+[ext_resource type="PackedScene" uid="uid://cfav3tiv42xkt" path="res://Layers/Renderers/Overlay/LIDOverlay.tscn" id="5_bc6av"]
+[ext_resource type="Texture2D" uid="uid://bx0ctq7jg4ydm" path="res://Resources/Textures/Asphalt/DamageOverlay/normal.jpg" id="5_mbcqo"]
+[ext_resource type="Texture2D" uid="uid://du0g66s8nc5vb" path="res://Resources/Textures/Asphalt/DamageGround/Asphalt021_2K-JPG_Color.jpg" id="6_n6dw7"]
+[ext_resource type="Texture2D" uid="uid://budkmnagj71rb" path="res://Resources/Textures/Roads/RedBrick/herringbone_brick_03_nor_gl_2k.jpg" id="7_ko8g7"]
+[ext_resource type="Texture2D" uid="uid://byd78duw5mtpr" path="res://Resources/Textures/Roads/RedBrick/herringbone_brick_03_diff_2k.jpg" id="8_2cp1p"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_trv7s"]
+noise_type = 4
+frequency = 0.0059
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bmx7n"]
+width = 1024
+height = 1024
+noise = SubResource("FastNoiseLite_trv7s")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qd66o"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_ko8g7")
+shader_parameter/start = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 29.795, 1)
+shader_parameter/end = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/mesh_length = 1.0
+shader_parameter/width = 5.0
+shader_parameter/height = 0.2
+shader_parameter/road_texture = ExtResource("8_2cp1p")
+shader_parameter/road_normals = ExtResource("7_ko8g7")
+shader_parameter/damage_texture = ExtResource("6_n6dw7")
+shader_parameter/damage_normals = ExtResource("2_2cp1p")
+shader_parameter/damage_overlay = ExtResource("4_cp0yw")
+shader_parameter/damage_overlay_normals = ExtResource("5_mbcqo")
+shader_parameter/damage_opacity = ExtResource("3_2cpgg")
+shader_parameter/wear_factor = SubResource("NoiseTexture2D_bmx7n")
+shader_parameter/world_uv_scaling = Vector3(0.4, 1, -0.4)
+shader_parameter/draw_outer_lines = false
+shader_parameter/outerline_width = 0.25
+shader_parameter/outerline_offset = 0.1
+shader_parameter/innerline_width = 0.15
+shader_parameter/innerline_gap = 6.0
+shader_parameter/innerline_length = 3.0
+shader_parameter/lanes = 2
+shader_parameter/wear_scale = 0.5
+shader_parameter/color_modulate = Color(0.88, 0.82250667, 0.8096, 1)
+shader_parameter/banquet_width = 1.0
+shader_parameter/lid_color = Color(0, 0, 0, 1)
+shader_parameter/render_height = true
+shader_parameter/render_lid = true
+
+[node name="RoadSegmentBikeBrick" type="MeshInstance3D" unique_id=1110109031]
+layers = 196612
+material_override = SubResource("ShaderMaterial_qd66o")
+cast_shadow = 0
+mesh = ExtResource("2_2giwo")
+script = ExtResource("3_6kxfn")
+
+[node name="HeightOverlay" parent="." unique_id=1316111253 instance=ExtResource("4_b27t4")]
+
+[node name="LIDOverlay" parent="." unique_id=212597275 instance=ExtResource("5_bc6av")]

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TextureBundleRME" format=3 uid="uid://bcgd0hlrkiaup"]
+
+[ext_resource type="Texture2D" uid="uid://p33op0an1nrh" path="res://Resources/Textures/Buildings/brick/whitewashed_brick_diff_2k.jpg" id="1_8qo7l"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_du88p"]
+[ext_resource type="Texture2D" uid="uid://ds2u4nenkmm74" path="res://Resources/Textures/Buildings/brick/whitewashed_brick_nor_gl_2k.jpg" id="2_041dt"]
+[ext_resource type="Texture2D" uid="uid://1wx2xym6ttrk" path="res://Resources/Textures/Buildings/brick/whitewashed_brick_rough_2k.jpg" id="3_ehv2s"]
+
+[resource]
+script = ExtResource("1_du88p")
+albedo_texture = ExtResource("1_8qo7l")
+normal_texture = ExtResource("2_041dt")
+roughness_texture = ExtResource("3_ehv2s")
+metadata/_custom_type_script = "uid://c1lds5gnkeyag"

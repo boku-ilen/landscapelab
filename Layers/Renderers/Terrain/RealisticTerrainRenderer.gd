@@ -35,6 +35,9 @@ func _setup_ground_textures():
 		"Soil", # 10 Agriculture
 	]
 	
+	if layer_composition.render_info.textures and layer_composition.render_info.textures.size() > 0:
+		texture_folders = layer_composition.render_info.textures
+	
 	var color_images = []
 	var normal_images = []
 	var displacement_images = []

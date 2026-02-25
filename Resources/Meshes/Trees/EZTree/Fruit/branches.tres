@@ -1,0 +1,29 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://2vvn7ergkb6g"]
+
+[ext_resource type="Shader" uid="uid://fit86afg6pjs" path="res://Resources/Meshes/Trees/Tree_Trunk.gdshader" id="1_rcbgx"]
+[ext_resource type="Texture2D" uid="uid://ob32idyr5swq" path="res://Resources/Meshes/Trees/EZTree/Fruit/Bark007_1K-JPG_Color.jpg" id="2_rcbgx"]
+[ext_resource type="Texture2D" uid="uid://da5xus1ni53c2" path="res://Resources/Meshes/Trees/EZTree/Fruit/Bark007_1K-JPG_NormalGL.jpg" id="3_ru85c"]
+[ext_resource type="Texture2D" uid="uid://cunw435jk8syu" path="res://Resources/Meshes/Trees/EZTree/Fruit/Bark007_1K-JPG_AmbientOcclusion.jpg" id="4_ru85c"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_rcbgx")
+shader_parameter/wind_speed = Vector2(0.06, 0)
+shader_parameter/wind_factor = 1.0
+shader_parameter/albedo_node_rand_hue_branch = 0.08
+shader_parameter/albedo_node_rand_hue_leaf = 0.1
+shader_parameter/albedo_node_rand_chroma_branch = 0.01
+shader_parameter/albedo_node_rand_chroma_leaf = 0.005
+shader_parameter/albedo_node_rand_luma_branch = 0.02
+shader_parameter/albedo_node_rand_luma_leaf = 0.01
+shader_parameter/tex_tiling = Vector2(0.5, 0.2)
+shader_parameter/albedo_tex = ExtResource("2_rcbgx")
+shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
+shader_parameter/normal_tex = ExtResource("3_ru85c")
+shader_parameter/normal_strength = 1.0
+shader_parameter/rough_ao_transmission_tex = ExtResource("4_ru85c")
+shader_parameter/roughness_offset = 0.5000000712500001
+shader_parameter/ao_strength = 1.0
+shader_parameter/ao_light_affect = 0.8
+shader_parameter/rim_strength = 0.0
+shader_parameter/rim_color_from_albedo = 0.5

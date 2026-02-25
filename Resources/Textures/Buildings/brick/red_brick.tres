@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TextureBundleRME" format=3 uid="uid://bask2aweg8lxt"]
+
+[ext_resource type="Texture2D" uid="uid://tckour56kbqp" path="res://Resources/Textures/Buildings/brick/red_brick_diff_2k.jpg" id="1_vx01d"]
+[ext_resource type="Script" uid="uid://c1lds5gnkeyag" path="res://Buildings/Components/Walls/TextureBundleRME.gd" id="1_ypais"]
+[ext_resource type="Texture2D" uid="uid://b5q67evqfgu43" path="res://Resources/Textures/Buildings/brick/red_brick_nor_gl_2k.jpg" id="2_lj25p"]
+[ext_resource type="Texture2D" uid="uid://b2pfnlhywpixt" path="res://Resources/Textures/Buildings/brick/red_brick_rough_2k.jpg" id="3_u8rs0"]
+
+[resource]
+script = ExtResource("1_ypais")
+albedo_texture = ExtResource("1_vx01d")
+normal_texture = ExtResource("2_lj25p")
+roughness_texture = ExtResource("3_u8rs0")
+metadata/_custom_type_script = "uid://c1lds5gnkeyag"
