@@ -77,7 +77,8 @@ static func non_trivial_deserialize(
 		deserialized = look_up_function.call(
 			config_attribute, attribute, object, absolute_path)
 	
-	if deserialized != null: 
+	# Arrays can be not null, but size 0, if deserialization failed
+	if deserialized != null and ((not deserialized is Array) or (deserialized.size() == config_attribute.size())): 
 		return deserialized
 	
 	return config_attribute
