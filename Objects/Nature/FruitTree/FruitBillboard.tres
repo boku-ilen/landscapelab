@@ -1,0 +1,43 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://c4puw3w5clw14"]
+
+[ext_resource type="Shader" uid="uid://eiebi7w23ol5" path="res://Layers/Renderers/VectorVegetation/Materials/Spritesheet.gdshader" id="1_iwn2p"]
+[ext_resource type="Texture2D" uid="uid://cbuid6li14cib" path="res://Objects/Nature/FruitTree/Fruit_albedo.png" id="2_8wrpk"]
+[ext_resource type="Texture2D" uid="uid://b36x0gplt81jc" path="res://Objects/Nature/FruitTree/Fruit_normal.png" id="3_u7qnb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2gnbk"]
+render_priority = 0
+shader = ExtResource("1_iwn2p")
+shader_parameter/albedo_node_rand_hue_branch = 0.08
+shader_parameter/albedo_node_rand_hue_leaf = 0.1
+shader_parameter/albedo_node_rand_chroma_branch = 0.01
+shader_parameter/albedo_node_rand_chroma_leaf = 0.005
+shader_parameter/albedo_node_rand_luma_branch = 0.02
+shader_parameter/albedo_node_rand_luma_leaf = 0.01
+shader_parameter/ao_max = 0.25
+shader_parameter/ao_light_affect = 0.5
+shader_parameter/albedo_tex = ExtResource("2_8wrpk")
+shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
+shader_parameter/normal_tex = ExtResource("3_u7qnb")
+shader_parameter/roughness_offset = 0.0
+shader_parameter/backlight_color_from_albedo = 1.0
+shader_parameter/backlight_tint = Color(1, 1, 1, 1)
+shader_parameter/backlight_strength = 1.0
+shader_parameter/alpha_scissor_min = 0.1
+shader_parameter/alpha_scissor_max = 0.3
+shader_parameter/sprite_count = 1
+shader_parameter/scale_factor = 1.0
+
+[resource]
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.500001, 1, 1, 1),
+"attribute_data": PackedByteArray("AAAAAAAAAD8AAAAAAAAAAAAAAD8AAAA/AAAAPwAAAAAAAIA/AAAAPwAAgD8AAAAAAAAAPwAAAD8AAAA/AAAAAA=="),
+"format": 34359742487,
+"index_count": 12,
+"index_data": PackedByteArray("AAABAAIAAgABAAMABAAFAAYABgAFAAcA"),
+"material": SubResource("ShaderMaterial_2gnbk"),
+"name": "None",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAvwAAAAAAAAAAAAAAvwAAgD8AAAAAAAAAPwAAAAAAAAAAAAAAPwAAgD8AAAAAAAAAAAAAAAARAAA/AAAAAAAAgD8RAAA/AAAAAAAAAAARAAC/AAAAAAAAgD8RAAC//3//f////7//f/9/////v/9//3////+//3//f////7////9//3//P////3//f/8/////f/9//z////9//3//Pw==")
+}]
