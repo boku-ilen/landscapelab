@@ -2,21 +2,22 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n1jw70m06b1n"
-path="res://.godot/imported/table_bird_map.svg-0af59c9ab65ec6ef9db0cff39ae27539.ctex"
+uid="uid://byfnoi2kst2th"
+path.bptc="res://.godot/imported/bird_map.svg-f7d2989498b03f1e2158fb41f63e612e.bptc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://Resources/Icons/LabTable/buttons/layers/table_bird_map.svg"
-dest_files=["res://.godot/imported/table_bird_map.svg-0af59c9ab65ec6ef9db0cff39ae27539.ctex"]
+source_file="res://Resources/Icons/LabTable/buttons/layers/bird_map.svg"
+dest_files=["res://.godot/imported/bird_map.svg-f7d2989498b03f1e2158fb41f63e612e.bptc.ctex"]
 
 [params]
 
-compress/mode=0
-compress/high_quality=false
+compress/mode=2
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
@@ -38,6 +39,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=4.0
+svg/scale=0.25
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false
