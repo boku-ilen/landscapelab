@@ -1,0 +1,29 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c21olg0224fht"]
+
+[ext_resource type="Shader" uid="uid://fit86afg6pjs" path="res://Resources/Meshes/Trees/Tree_Trunk.gdshader" id="1_edbpi"]
+[ext_resource type="Texture2D" uid="uid://dbuvakqrr5ef7" path="res://Resources/Meshes/flora/populus/materials/populus_color.png" id="2_erlua"]
+[ext_resource type="Texture2D" uid="uid://bhdupupgkfvcs" path="res://Resources/Meshes/flora/populus/materials/populus normal.png" id="3_83ydv"]
+[ext_resource type="Texture2D" uid="uid://dooagefvlevrp" path="res://Resources/Meshes/flora/populus/materials/populus roughness.png" id="4_02e5n"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_edbpi")
+shader_parameter/wind_speed = Vector2(0.19, 0)
+shader_parameter/wind_factor = 1.0
+shader_parameter/albedo_node_rand_hue_branch = 0.08
+shader_parameter/albedo_node_rand_hue_leaf = 0.1
+shader_parameter/albedo_node_rand_chroma_branch = 0.01
+shader_parameter/albedo_node_rand_chroma_leaf = 0.005
+shader_parameter/albedo_node_rand_luma_branch = 0.02
+shader_parameter/albedo_node_rand_luma_leaf = 0.01
+shader_parameter/tex_tiling = Vector2(1, 1)
+shader_parameter/albedo_tex = ExtResource("2_erlua")
+shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
+shader_parameter/normal_tex = ExtResource("3_83ydv")
+shader_parameter/normal_strength = 1.0
+shader_parameter/rough_ao_transmission_tex = ExtResource("4_02e5n")
+shader_parameter/roughness_offset = 0.0
+shader_parameter/ao_strength = 1.0
+shader_parameter/ao_light_affect = 0.8
+shader_parameter/rim_strength = 0.0
+shader_parameter/rim_color_from_albedo = 0.5
