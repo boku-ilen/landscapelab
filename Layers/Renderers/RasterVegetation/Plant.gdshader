@@ -86,7 +86,7 @@ void vertex() {
 	NORMAL = basis * normalize(texture_normal + vec3(0.0, 4.0, 0.0));
 
 	// Also make normals follow a "half-dome" around the mesh to get some front- and back-lighting
-	NORMAL = normalize(VERTEX + NORMAL * mix(0.3, 1.0, smoothstep(5.0, 50.0, length(INV_VIEW_MATRIX[3].xyz - worldpos))));
+	NORMAL = normalize(VERTEX + NORMAL * mix(0.0, 1.0, smoothstep(5.0, 50.0, length(INV_VIEW_MATRIX[3].xyz - worldpos))));
 	
 	if (!is_billboard) NORMAL.y = (1.0 - UV.y) * 0.2;
 
@@ -157,7 +157,7 @@ void fragment() {
 	ALBEDO = HCYtoRGB(hcy);
 
 	// Other material parameters
-	AO_LIGHT_AFFECT = 0.7;
+	AO_LIGHT_AFFECT = 1.0;
 	AO = max(generate_darken_gradient(UV.y, 0.6, 0.6, 0.0) - wind_strength * 0.5, 0.0);
 	NORMAL_MAP = generate_normal_from_albedo(texture_map[texture_index], UV, vec4(1.0, 0.7, 0.5, 0.2), 0.03, 1.0);
 	NORMAL_MAP_DEPTH = 3.0;
@@ -168,5 +168,5 @@ void fragment() {
 	float greenness = clamp(pow(abs(hcy.r + 1.6) * 4.0, 4.0), 0.0, 1.0);
 
 	ROUGHNESS = mix(0.65, 0.95, greenness);
-	SPECULAR = mix(0.05, 0.2, AO);
+	SPECULAR = mix(0.05, 0.1, AO);
 }

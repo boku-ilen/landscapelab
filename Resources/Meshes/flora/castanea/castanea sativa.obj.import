@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://duwx3a3laf4i0"
+path="res://.godot/imported/castanea sativa.obj-e9a5b59de7aab80591a28f477d39107c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/castanea sativa.obj-e9a5b59de7aab80591a28f477d39107c.mesh"]
+
+source_file="res://Resources/Meshes/flora/castanea/castanea sativa.obj"
+dest_files=["res://.godot/imported/castanea sativa.obj-e9a5b59de7aab80591a28f477d39107c.mesh", "res://.godot/imported/castanea sativa.obj-e9a5b59de7aab80591a28f477d39107c.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

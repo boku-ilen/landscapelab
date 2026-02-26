@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://do6nbyvj4xg5l"
+path="res://.godot/imported/opuntia ficus indica.obj-2d27f57be45a6b5a63da4de34a995aca.mesh"
+
+[deps]
+
+files=["res://.godot/imported/opuntia ficus indica.obj-2d27f57be45a6b5a63da4de34a995aca.mesh"]
+
+source_file="res://Resources/Meshes/flora/opuntia/opuntia ficus indica.obj"
+dest_files=["res://.godot/imported/opuntia ficus indica.obj-2d27f57be45a6b5a63da4de34a995aca.mesh", "res://.godot/imported/opuntia ficus indica.obj-2d27f57be45a6b5a63da4de34a995aca.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

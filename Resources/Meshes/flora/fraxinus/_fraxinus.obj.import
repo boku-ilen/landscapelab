@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://duekgivv5hyxx"
+path="res://.godot/imported/_fraxinus.obj-3dda31eee0d34d43d172f7dc9843daf2.mesh"
+
+[deps]
+
+files=["res://.godot/imported/_fraxinus.obj-3dda31eee0d34d43d172f7dc9843daf2.mesh"]
+
+source_file="res://Resources/Meshes/flora/fraxinus/_fraxinus.obj"
+dest_files=["res://.godot/imported/_fraxinus.obj-3dda31eee0d34d43d172f7dc9843daf2.mesh", "res://.godot/imported/_fraxinus.obj-3dda31eee0d34d43d172f7dc9843daf2.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
