@@ -153,6 +153,16 @@ static var gradients = {
 			Color.html("#489987")
 		]),
 		Gradient.GRADIENT_INTERPOLATE_LINEAR
+	).as_gradient(),
+	"light_greens": ColorRamp.new(
+		ColorRamp.OffsetInit.EQUIDISTANT,
+		PackedColorArray([
+			Color.html("#f0f1c7"),
+			Color.html("#cfe090"),
+			Color.html("#94c099"),
+			Color.html("#70ab84")
+		]),
+		Gradient.GRADIENT_INTERPOLATE_LINEAR
 	).as_gradient()
 }
 static var viridis = gradients["viridis"]
