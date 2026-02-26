@@ -24,8 +24,8 @@ class ColorRamp:
 	
 	func as_gradient():
 		var gradient = Gradient.new()
-		gradient.set_colors(colors)
-		gradient.set_offsets(offsets)
+		gradient.offsets = offsets
+		gradient.colors = colors
 		gradient.set_interpolation_mode(interpolation)
 		
 		return gradient
@@ -135,6 +135,24 @@ static var gradients = {
 			Color.html("#a6d96a"),
 		]),
 		Gradient.GRADIENT_INTERPOLATE_CONSTANT
+	).as_gradient(),
+	"light_yellows": ColorRamp.new(
+		ColorRamp.OffsetInit.EQUIDISTANT,
+		PackedColorArray([
+			Color.html("#fefcf5"),
+			Color.html("#f6e19e"),
+			Color.html("#efc747")
+		]),
+		Gradient.GRADIENT_INTERPOLATE_LINEAR
+	).as_gradient(),
+	"light_blues": ColorRamp.new(
+		ColorRamp.OffsetInit.EQUIDISTANT,
+		PackedColorArray([
+			Color.html("#c9f5ef"),
+			Color.html("#89c7bb"),
+			Color.html("#489987")
+		]),
+		Gradient.GRADIENT_INTERPOLATE_LINEAR
 	).as_gradient()
 }
 static var viridis = gradients["viridis"]
