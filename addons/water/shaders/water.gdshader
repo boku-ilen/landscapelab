@@ -96,14 +96,20 @@ void vertex() {
 	if (UV.x < -0.1 || UV.x > 1.1 || UV.y < -0.1 || UV.y > 1.1) {
 		VERTEX.y = -1000.0;
 	} else {
-		VERTEX.y = max(0.0, texture(surface_heightmap, UV).r - 0.1);
+		float height_here = texture(surface_heightmap, UV).r;
+		
+		if (height_here != 0.0) {
+			VERTEX.y = max(-100.0, height_here - 0.25);
+		} else {
+			VERTEX.y = -100.0;
+		}
 	}
 
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	vec3 camera_pos = INV_VIEW_MATRIX[3].xyz;
 	vec3 camera_to_world = world_pos - camera_pos;
-	
+
 	float max_distance = max(abs(camera_to_world.x), abs(camera_to_world.z));
 	if (make_hole && max_distance < hole_size) {
 		VERTEX.y -= hole_size / 5.0;
@@ -147,7 +153,7 @@ void fragment() {
 	float z_far = abs((PROJECTION_MATRIX[3][2] * z_near) / (PROJECTION_MATRIX[3][2] + z_near));
 
 	// Get the depth difference between the object we want to overdraw and the other objects
-	float screen_depth = textureLod(DEPTH_TEXTURE, SCREEN_UV, 0.0).r;
+	float screen_depth = 0.5;//textureLod(DEPTH_TEXTURE, SCREEN_UV, 0.0).r;
 	float fragment_depth = FRAGCOORD.z;
 
 	float l_screen_depth = linearize(screen_depth, z_near, z_far);
@@ -158,21 +164,21 @@ void fragment() {
 
 	float d = depth_proximity_z(-10.0, l_screen_depth, l_fragment_depth);
 	d = exp(-d * beer_factor);
-	
+
 	//float d2 = depth_proximity_z(-40.0, l_screen_depth, l_fragment_depth);
 	//d2 = 1.0-pow(d2,0.07);
 
 	//ALPHA = clamp(opacity+1.0-d-d2,0.0,1.0);
 	vec3 n_out = mix(n3,mix(n,n2, 0.5), 0.5);
 	NORMAL_MAP = n_out;
-	NORMAL_MAP_DEPTH = smoothstep(-2.0, 50.0, wind_speed) * 2.0;
+	NORMAL_MAP_DEPTH = smoothstep(-2.0, 100.0, wind_speed);
 
 	vec2 n_distortion = n_out.xy - vec2(0.5, 0.5); //(mat3(TANGENT,BINORMAL,NORMAL) * n_out).rg * 2.0 - 1.0;
 	vec3 color_out = mix(depth_color, surface_color,d);
 
 	//vec3 _screen = texture(SCREEN_TEXTURE,SCREEN_UV).rgb;
 	// TODO: blur effect could be added like +n_distortion*_refraction*(1.0-d), but it's hard not to affect nearby objects above the water
-	
+
 	vec3 _screen = color_out;
 	//_screen = mix(_screen, color_out, clamp(1.0 - d + (dullness * 0.3), 0.0, 1.0));
 
@@ -180,7 +186,7 @@ void fragment() {
 	depthfoam = pow(depthfoam,_foam_strength);
 	depthfoam += pow(max(vertex_height, 0.0), 1.0) * 2.0;  // Foam on the top of large waves
 	vec3 foam = vec3(1.0 - depthfoam);// * texture(_foam,uv_scale * 1.0 + n_distortion).rgb;
-	
+
 	ALBEDO = mix(foam,soft_light(_screen,color_out),depthfoam);
 	ALBEDO = clamp(ALBEDO, vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0));
 	ROUGHNESS = _roughness;

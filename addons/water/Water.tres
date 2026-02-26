@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=10 format=3 uid="uid://c3mh5p2w5s8g7"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c3mh5p2w5s8g7"]
 
 [ext_resource type="Shader" uid="uid://wbeifpq1kise" path="res://addons/water/shaders/water.gdshader" id="1_ge2g2"]
 [ext_resource type="Shader" uid="uid://bxnew4mm7p0yn" path="res://Layers/Renderers/Terrain/FakeVegetation.gdshader" id="1_pvfx2"]
