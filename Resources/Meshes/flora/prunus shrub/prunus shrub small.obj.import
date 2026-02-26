@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bqdja4g16bc8q"
+path="res://.godot/imported/prunus shrub small.obj-cbe49d50d62921a62f25cb4567ca6f65.mesh"
+
+[deps]
+
+files=["res://.godot/imported/prunus shrub small.obj-cbe49d50d62921a62f25cb4567ca6f65.mesh"]
+
+source_file="res://Resources/Meshes/flora/prunus shrub/prunus shrub small.obj"
+dest_files=["res://.godot/imported/prunus shrub small.obj-cbe49d50d62921a62f25cb4567ca6f65.mesh", "res://.godot/imported/prunus shrub small.obj-cbe49d50d62921a62f25cb4567ca6f65.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
