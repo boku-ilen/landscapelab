@@ -1,4 +1,5 @@
 extends Button
+class_name TableButton
 
 
 func _input(event):

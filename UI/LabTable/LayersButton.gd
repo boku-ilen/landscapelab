@@ -1,4 +1,4 @@
-extends Button
+extends TableButton
 
 
 @export var rendering_subviewport: SubViewportContainer
