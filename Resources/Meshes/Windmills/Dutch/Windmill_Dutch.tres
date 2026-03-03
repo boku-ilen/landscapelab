@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ewishnuaat05"]
+
+[resource]
+metallic = 1.0
+roughness_texture_channel = 1
+normal_enabled = true
+ao_enabled = true
+ao_light_affect = 0.5
+ao_texture_channel = 2
