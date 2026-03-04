@@ -10,6 +10,7 @@ signal cluster_size_changed
 
 func change_cluster_size(new_cluster_size):
 	cluster_size = new_cluster_size
+	geo_feature.set_attribute("amount", str(new_cluster_size))
 	cluster_size_changed.emit(new_cluster_size)
 
 
