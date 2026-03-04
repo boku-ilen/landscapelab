@@ -41,7 +41,8 @@ static var species_to_mesh = {
 	"Alnusincan": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Betulasprp": preload("res://Layers/Renderers/VectorVegetation/Betula.tres"),
 	"Carpinusbe": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
-	"Castaneasa": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
+	"Castanea": preload("res://Objects/Nature/Castanea/Castanea.tres"),
+	"Castaneasa": preload("res://Objects/Nature/Castanea/Castanea.tres"),
 	"Corylusave": preload("res://Layers/Renderers/VectorVegetation/Quercus2.tres"),
 	"Fagussylva": preload("res://Layers/Renderers/VectorVegetation/Fagus.tres"),
 	"Fraxinusex": preload("res://Layers/Renderers/VectorVegetation/Fraxinus.tres"),
@@ -86,6 +87,7 @@ static var mesh_name_to_billboard_index = {
 	"Picea_abies": 5,
 	"Pinus_sylvestris": 6,
 	"Eucalyptus": 7,
+	"Castanea": 7,
 	"Oleaeuropaea": 7,
 	"Quercussuber": 7
 }
@@ -154,6 +156,7 @@ func create_multimeshes():
 			mmi.set_layer_mask_value(1, false)
 			mmi.set_layer_mask_value(3, true)
 			mmi.name = mesh_name
+			mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 			
 			mesh_name_to_mmi[mesh_name] = mmi
 			
@@ -167,7 +170,7 @@ func create_multimeshes():
 	mmi.set_layer_mask_value(1, false)
 	mmi.set_layer_mask_value(3, true)
 	mmi.name = "Billboard"
-	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	
 	# For debugging:
 	#mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
@@ -245,7 +248,6 @@ func override_build(center_x, center_y):
 				.rotated(Vector3.UP, PI * 0.5 * rng.randf_range(-1.0, 1.0)) \
 				.translated(pos)
 		)
-		
 		
 		if is_detailed:
 			mesh_name_to_custom_data[mesh_name].append(Color(
