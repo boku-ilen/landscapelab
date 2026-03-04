@@ -43,6 +43,15 @@ func override_decrease_quality(distance: float):
 
 func _ready():
 	super._ready()
+	
+	$LIDOverlayViewport.set_resolution(size)  # 1m resolution
+	$LIDOverlayViewport.set_size(size)
+	
+	## FIXME: This causes the first load to be practically redundant
+	#$LIDOverlayViewport.update_done.connect(func():
+		#build(get_parent().get_parent().center[0], get_parent().get_parent().center[1])
+	#)
+	
 	create_multimeshes()
 
 
@@ -106,11 +115,13 @@ func override_build(center_x, center_y):
 			center_x,
 			center_y,
 			size,
-			object["density"],
+			object["density_x"] if "density_x" in object else object["density"],
+			object["density_y"] if "density_y" in object else object["density"],
 			object.get("randomness", 1.0),
 			scatter_layer,
 			height_layer,
 			object["condition"]
+			# $LIDOverlayViewport.get_texture().get_image()
 		)
 		
 		var object_locations = location_getter.get_object_locations()
@@ -118,6 +129,7 @@ func override_build(center_x, center_y):
 		for location in object_locations:
 			mesh_name_to_transforms[object_name].append(Transform3D()
 					# FIXME: Make rotation optional
+					.scaled(Vector3.ONE * (objects[object_name]["scale"] if "scale" in objects[object_name] else 1.0))
 					.rotated(Vector3.UP, PI * 0.5 * rng.randf_range(-1.0, 1.0)) \
 					.translated(location)
 			)
@@ -133,7 +145,7 @@ func override_build(center_x, center_y):
 
 func override_apply():
 	for child in get_children():
-		if child.name not in fresh_multimeshes.keys() and child.multimesh:
+		if child is MultiMeshInstance3D and (child.name not in fresh_multimeshes.keys() and child.multimesh):
 			child.multimesh.instance_count = 0
 	
 	for mesh_name in fresh_multimeshes.keys():

@@ -1,4 +1,5 @@
 extends GeoLayerRenderer
+class_name GeoFeatureLayerRenderer
 
 
 @export var max_features := 10000
@@ -69,6 +70,12 @@ func set_feature_icon(feature, marker):
 		var go = GameSystem.get_game_object_for_geo_feature(feature)
 		var attribute_value = go.get_attribute(render_info.attribute_icon.attribute)
 		
+		# Default: last entry
+		var last_threshold = render_info.attribute_icon.thresholds.keys().back()
+		marker.set_texture(load(render_info.attribute_icon.thresholds[last_threshold]))
+		marker.set_scale(Vector2.ONE * render_info.marker_scale / zoom)
+		
+		# Check if an earlier entry applies
 		for threshold in render_info.attribute_icon.thresholds.keys():
 			if attribute_value <= str_to_var(threshold):
 				marker.set_texture(load(render_info.attribute_icon.thresholds[threshold]))

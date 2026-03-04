@@ -2,21 +2,22 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4imramr1cop1"
-path="res://.godot/imported/grass.svg-29f21896df29e19b0ac8fa057bc98b39.ctex"
+uid="uid://b1su5gkf05w2x"
+path.bptc="res://.godot/imported/infrastructure_map.svg-9fae60101a487a41968ed2ccd97b4897.bptc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://Resources/Icons/ModernLandscapeLab/grass.svg"
-dest_files=["res://.godot/imported/grass.svg-29f21896df29e19b0ac8fa057bc98b39.ctex"]
+source_file="res://Resources/Icons/LabTable/buttons/layers/infrastructure_map.svg"
+dest_files=["res://.godot/imported/infrastructure_map.svg-9fae60101a487a41968ed2ccd97b4897.bptc.ctex"]
 
 [params]
 
-compress/mode=0
-compress/high_quality=false
+compress/mode=2
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
@@ -38,6 +39,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=5.0
+svg/scale=0.25
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

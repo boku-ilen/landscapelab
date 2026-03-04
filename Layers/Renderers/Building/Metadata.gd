@@ -63,9 +63,9 @@ func _init(feature: GeoPolygon, center: Array, render_info: LayerComposition.Ren
 	)
 	var height_stdev = util.str_to_var_or_default(
 		feature.get_attribute(render_info.height_stdev_attribute_name),
-		2
+		1.5
 	)
-	roof_height = fmod(height, floor_height) + height_stdev
+	roof_height = height_stdev
 
 
 

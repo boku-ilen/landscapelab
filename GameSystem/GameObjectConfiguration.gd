@@ -274,7 +274,7 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 				var hbox = HBoxContainer.new()
 				hbox.name = "OutlinedIcons"
 				$Entries/Attributes/Information.add_child(hbox)
-			if attribute_value >= attribute.icon_settings.threshold:
+			if float(attribute_value) >= attribute.icon_settings.threshold:
 				var icon = load(attribute.icon_settings.icon)
 				var icon_node = preload("res://UI/CustomElements/MarginTexture.tscn").instantiate()
 				icon_node.texture = icon

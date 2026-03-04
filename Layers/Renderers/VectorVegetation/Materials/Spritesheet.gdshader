@@ -7,6 +7,7 @@ render_mode blend_mix, depth_prepass_alpha, cull_disabled, diffuse_burley, specu
 global uniform vec3 HCY_SHIFT;
 
 uniform float ao_max = 0.25;
+uniform float ao_light_affect = 0.95;
 
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec3 albedo_multiply : source_color = vec3(1.0);
@@ -115,8 +116,8 @@ void fragment() {
 	// I guess the only proper solution would be to bake AO?
 
 	AO = mix(0.0, ao_max, pow(vertex_distance_from_zero, 3.0));
-	//AO *= mix(1.0, 0.6, smoothstep(100.0, 300.0, depth));
-	AO_LIGHT_AFFECT = 0.95;
+	AO *= mix(1.0, 0.6, smoothstep(100.0, 300.0, depth));
+	AO_LIGHT_AFFECT = ao_light_affect;
 
 	vec3 overall_backlight = backlight_strength
 	* backlight_tint

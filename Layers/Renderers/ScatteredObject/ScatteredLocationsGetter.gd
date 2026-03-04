@@ -11,7 +11,8 @@ var size: float
 
 # How many objects should be placed per meter
 # For example, 0.5 would place one object every 2 meters
-var density: float
+var density_x: float
+var density_y: float
 
 # How much we should randomly deviate from a coordinate-aligned grid
 # 0.0 means no deviation (perfect grid), 1.0 means full random deviation
@@ -31,16 +32,21 @@ var condition: String
 # Own RNG in order to get deterministic results each time the chunk is loaded
 var rng = RandomNumberGenerator.new()
 
+# Image from an OverlayViewport
+var overlay
 
-func _init(new_center_x, new_center_y, new_size, new_density, new_randomness, new_scatter_layer, new_height_layer, new_condition):
+
+func _init(new_center_x, new_center_y, new_size, new_density_x, new_density_y, new_randomness, new_scatter_layer, new_height_layer, new_condition, new_overlay=null):
 	center_x = new_center_x
 	center_y = new_center_y
 	size = new_size
-	density = new_density
+	density_x = new_density_x
+	density_y = new_density_y
 	randomness = new_randomness
 	scatter_layer = new_scatter_layer
 	height_layer = new_height_layer
 	condition = new_condition
+	overlay = new_overlay
 	
 	rng.seed = new_center_x + new_center_y
 
@@ -53,7 +59,8 @@ func _init(new_center_x, new_center_y, new_size, new_density, new_randomness, ne
 func get_object_locations():
 	var object_locations = []
 	
-	var resolution = int(size * density * 2.0)
+	var max_density = max(density_x, density_y)
+	var resolution = int(size * max_density * 2.0)
 	
 	var top_left_x = float(center_x - size / 2)
 	var top_left_y = float(center_y + size / 2)
@@ -66,22 +73,33 @@ func get_object_locations():
 		0
 	).get_image()
 	
-	for x in range(0, size, 1.0 / density):
-		for y in range(0, size, 1.0 / density):
+	for x in range(0, size, 1.0 / density_x):
+		for y in range(0, size, 1.0 / density_y):
 			var candidate = Vector3(
-				x + (1.0 / density) * rng.randf_range(-0.5, 0.5) * randomness,
+				x + (1.0 / density_x) * rng.randf_range(-0.5, 0.5) * randomness,
 				0.0,
-				y + (1.0 / density) * rng.randf_range(-0.5, 0.5) * randomness
+				y + (1.0 / density_y) * rng.randf_range(-0.5, 0.5) * randomness
 			)
 			
 			var value_here = validation_image.get_pixel(
-				min(candidate.x * density * 2.0, resolution - 1),
-				min(candidate.z * density * 2.0, resolution - 1)
+				min(candidate.x * max_density * 2.0, resolution - 1),
+				min(candidate.z * max_density * 2.0, resolution - 1)
 			).r
 			
 			var value_here_stringed = str(int(value_here))
 			
-			if value_here_stringed.match(condition):
+			var candidate_valid = value_here_stringed.match(condition)
+			
+			if candidate_valid and overlay:
+				var overlay_value = overlay.get_pixel(
+					min(candidate.x, size - 1),
+					min(candidate.z, size - 1)
+				).r
+				var overlay_value_here_stringed = str(int(overlay_value))
+				
+				if overlay_value > 0 and not overlay_value_here_stringed.match(condition): candidate_valid = false
+			
+			if candidate_valid:
 				candidate.x -= size / 2
 				candidate.z -= size / 2 
 				candidate.y = height_layer.get_value_at_position(candidate.x + center_x, center_y - candidate.z)

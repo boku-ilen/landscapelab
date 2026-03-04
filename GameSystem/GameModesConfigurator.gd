@@ -89,15 +89,15 @@ func _deserialize_object_colletion(game_mode: GameMode, game_object_collections:
 				)
 			"GameObjectClusterCollection":
 				var layer = obtain_geo_feature_layer.call(collection["layer_name"])
-				var location_layer = LayerCompositionSerializer.get_feature_layer_from_string(
-					collection["location_layer"],
+				var cluster_points_layer = LayerCompositionSerializer.get_feature_layer_from_string(
+					collection["cluster_points_layer"],
 					path
 				)
 				var instance_goc = game_mode.game_object_collections[collection["goc"]]
 				collection_object = game_mode.add_cluster_game_object_collection(
 					collection_name,
 					layer,
-					location_layer,
+					cluster_points_layer,
 					instance_goc
 				)
 				

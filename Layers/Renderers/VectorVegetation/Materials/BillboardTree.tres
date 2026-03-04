@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cd8wgswpf1pon"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cd8wgswpf1pon"]
 
 [ext_resource type="Shader" uid="uid://dqn4el7i26k3j" path="res://Layers/Renderers/VectorVegetation/Materials/Leaf.gdshader" id="1_ykqho"]
 [ext_resource type="Texture2D" uid="uid://h4esbpddd2ji" path="res://Layers/Renderers/VectorVegetation/Materials/spritesheet_albedo.png" id="2_krpuy"]

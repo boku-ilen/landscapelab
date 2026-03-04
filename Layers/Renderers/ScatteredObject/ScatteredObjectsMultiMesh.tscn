@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpuqidsixkhmv"]
+[gd_scene format=3 uid="uid://bpuqidsixkhmv"]
 
 [ext_resource type="Script" uid="uid://d158uk6hmmr3x" path="res://Layers/Renderers/ScatteredObject/ScatteredObjectsMultiMesh.gd" id="1_7qlb4"]
+[ext_resource type="PackedScene" uid="uid://cqv4mdm0thwg4" path="res://Layers/Renderers/Overlay/LIDOverlayViewport.tscn" id="2_u4q5h"]
 
-[node name="ScatteredObjects" type="Node3D"]
+[node name="ScatteredObjects" type="Node3D" unique_id=742183166]
 script = ExtResource("1_7qlb4")
+
+[node name="LIDOverlayViewport" parent="." unique_id=1766583896 instance=ExtResource("2_u4q5h")]
