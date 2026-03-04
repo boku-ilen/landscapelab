@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Creator: CorelDRAW 2021.5-->
+<svg xml:space="preserve" width="318.05542" height="318.05542" version="1.1" style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision" viewBox="0 0 57.313976 57.369996" id="svg13" sodipodi:docname="map_layer_icon_legal_set.svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+    <sodipodi:namedview id="namedview13" pagecolor="#ffffff" bordercolor="#000000" borderopacity="0.25" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1">
+        <inkscape:page x="0" y="0" width="57.313976" height="57.369995" id="page2" margin="0" bleed="0"/>
+    </sodipodi:namedview>
+    <defs id="defs1">
+        <style type="text/css" id="style1">
+            <![CDATA[.str1{stroke:#008DD2;stroke-width:0.43;stroke-miterlimit:22.9256;stroke-dasharray:0.850000 1.280000;stroke-opacity:0.600000}.str2{stroke:#C5C6C6;stroke-width:0.43;stroke-miterlimit:22.9256}.str4{stroke:#BBC274;stroke-width:0.43;stroke-miterlimit:22.9256;stroke-dasharray:0.850000 1.280000}.fil1{fill:none}.fil3{fill:#C5C6C6}.fil6{fill:#B9C599;fill-opacity:0.501961}.fil5{fill:#98A27F;fill-opacity:0.501961}.fil2{fill:#AE4A84;fill-rule:nonzero;fill-opacity:0.729412}]]>
+        </style>
+    </defs>
+    <g id="Ebene_x0020_1" inkscape:label="Ebene 1" inkscape:groupmode="layer" transform="translate(-148.70566,0.00499901)">
+        <metadata id="CorelCorpID_0Corel-Layer"/>
+        <circle cx="177.28999" cy="28.68" r="28.469999" id="circle6" style="stroke:#EBECEC;stroke-width:0.43;stroke-miterlimit:22.9256;fill:#EBECEC"/>
+        <polyline points="193.43,5.23 174.22,21.07 178.74,32.7 184.65,33.96 178.37,45.72 179.81,57.03 " id="polyline7" style="stroke:#7E71B1;stroke-width:0.43;stroke-miterlimit:22.9256;stroke-dasharray:0.850000 1.280000;fill:none"/>
+        <polyline points="156.16,9.61 163.4,16.35 157.18,31.57 148.89,30.55 " id="polyline8" style="stroke:#7E71B1;stroke-width:0.43;stroke-miterlimit:22.9256;stroke-dasharray:0.850000 1.280000;fill:none"/>
+        <circle cx="192.19" cy="24.469999" r="5.1799998" id="circle12" style="fill:#EDC9CB"/>
+        <circle cx="192.19" cy="24.469999" r="4.5500002" id="circle13" style="fill:#FEFEFE"/>
+        <path d="m 193.69,21.05 c -0.06,0.02 -0.15,0.07 -0.23,0.13 -0.25,0.18 -0.85,0.79 -1.72,1.72 l -0.1,0.11 h -0.6 -0.59 v 1.46 1.46 h 0.6 0.6 l 0.16,0.17 c 0.37,0.41 0.69,0.75 1.03,1.09 0.45,0.45 0.62,0.6 0.79,0.67 0.15,0.06 0.25,0.02 0.29,-0.11 0.01,-0.03 0.01,-0.06 0.01,-0.12 0,-0.05 0,-0.09 0,-0.09 0,-0.17 0,-1.9 0,-2.08 V 23.4 l -0.01,-2.17 -0.01,-0.04 c 0,-0.02 -0.01,-0.04 -0.02,-0.05 -0.01,-0.03 -0.05,-0.07 -0.08,-0.08 -0.02,-0.01 -0.08,-0.02 -0.12,-0.01 z" id="path13" style="fill:#C5C6C6;fill-rule:nonzero"/>
+        <rect transform="matrix(0.164462,-0.164462,0.283278,0.283278,188.413,21.3331)" width="3.9300001" height="24.41" id="rect13" x="0" y="0" style="fill:#EDC9CB"/>
+    </g>
+</svg>
