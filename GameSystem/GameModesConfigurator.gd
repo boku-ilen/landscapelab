@@ -275,6 +275,14 @@ var condition_type_to_construction_func = {
 			layer,
 			data["greater_than_comparator"]
 		),
+	"CalculatedRasterCreationCondition": func(_name, data):
+		var splits = LLFileAccess.split_dataset_string(path, data["layer_name"])
+		var layer = LLFileAccess.get_layer_from_splits(splits, true)
+		return CalculatedRasterCreationCondition.new(
+			_name,
+			layer,
+			data["formula"]
+		),
 	"VectorExistsCreationCondition": func(_name, data):
 		var splits = LLFileAccess.split_dataset_string(path, data["layer_name"])
 		var layer = LLFileAccess.get_layer_from_splits(splits, false)
