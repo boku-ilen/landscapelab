@@ -19,6 +19,9 @@ signal popup_clicked
 var renderers_finished := 0
 var renderers_count := 0
 var renderers_applied := 0
+var last_loaded_renderers = []
+
+var renderers_last_loaded_at_tick = {}
 
 class CameraExtent:
 	func _init(c: Vector2, e: Vector2):
@@ -237,8 +240,13 @@ func update_renderer(renderer):
 		if not loading_threads[renderer].is_started():
 			loading_threads[renderer].start(update_renderer_threaded.bind(renderer), Thread.PRIORITY_NORMAL)
 	else:
-		renderer.load_new_data()
-		renderer.apply_new_data()
+		# Ensure that we don't do multiple updates per frame even if only 1 is needed thanks to CONNECT_DEFERRED
+		if (not renderer in renderers_last_loaded_at_tick) \
+				or renderers_last_loaded_at_tick[renderer] < Engine.get_process_frames():
+			renderer.load_new_data()
+			renderer.apply_new_data()
+			
+			renderers_last_loaded_at_tick[renderer] = Engine.get_process_frames()
 
 
 func _on_renderer_finished(renderer_name):
