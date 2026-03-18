@@ -12,7 +12,7 @@ background_mode = 2
 sky = ExtResource("1_t6q4q")
 tonemap_mode = 4
 ssr_enabled = true
-ssr_max_steps = 512
+ssr_fade_out = 1.0
 ssao_enabled = true
 ssao_radius = 2.0
 ssao_power = 2.0
@@ -24,11 +24,15 @@ glow_bloom = 0.2
 glow_map_strength = 0.7
 glow_map = ExtResource("1_d7nfd")
 fog_enabled = true
-fog_aerial_perspective = 1.0
+fog_light_color = Color(0.5708375, 0.62570363, 0.71438473, 1)
+fog_density = 0.001
 fog_sky_affect = 0.0
+volumetric_fog_density = 0.01
+volumetric_fog_sky_affect = 0.0
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_d7nfd"]
 auto_exposure_enabled = true
+frustum_focal_length = 1.0
 auto_exposure_min_exposure_value = -2.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" unique_id=152241178]

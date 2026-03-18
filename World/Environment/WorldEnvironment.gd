@@ -20,21 +20,9 @@ func _physics_process(delta: float) -> void:
 
 
 func apply_visibility(new_visibility):
-	environment.fog_density = remap(new_visibility, 0., 100., 0.00004, 0.001)
-	
-	# Enable volumetric fog only above a certain threshold
-	environment.volumetric_fog_enabled = new_visibility > 70
-	environment.volumetric_fog_density = remap(new_visibility, 70., 100., 0.000, 0.045)
-	
-	#const blue_color = Color("#0830a6")
-	#const gray_color = Color("#426994")
-	#var new_color = Color.from_hsv(
-		#lerp(blue_color.h, gray_color.h, new_visibility / 100.0),
-		#lerp(blue_color.s, gray_color.s, new_visibility / 100.0),
-		#lerp(blue_color.v, gray_color.v, new_visibility / 100.0)
-	#)
-	# FIXME: how to set with new sky?
-	#environment.sky.get_material().set_shader_parameter("rayleigh_color", new_color)
+	environment.fog_density = remap(pow(new_visibility / 10.0, 2.0), 0., 100., 0.00004, 0.004)
+	environment.fog_sky_affect = min(remap(new_visibility, 0., 70., 0.0, 1.0), 1.0)
+	environment.fog_aerial_perspective = max(remap(new_visibility, 0., 70., 1.0, 0.0), 0.01)
 
 
 func apply_rain_enabled(enabled: bool):
