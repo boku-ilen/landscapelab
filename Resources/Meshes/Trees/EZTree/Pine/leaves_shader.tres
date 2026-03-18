@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://dqlwesucedq35"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dqlwesucedq35"]
 
 [ext_resource type="Shader" uid="uid://dysllp2r2xyg6" path="res://Resources/Meshes/Trees/Tree_LeafBranches.gdshader" id="1_cr2sa"]
 [ext_resource type="Texture2D" uid="uid://8nwhhfjw1j58" path="res://Resources/Meshes/Trees/EZTree/Pine/pine_joined_Image_4.png" id="2_ydnaj"]
@@ -8,8 +8,8 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_cr2sa")
-shader_parameter/alpha_scissor_threshold = 0.15
-shader_parameter/alpha_scissor_threshold_low = 0.1
+shader_parameter/alpha_scissor_threshold = 0.06999999843536
+shader_parameter/alpha_scissor_threshold_low = 0.35999999195328
 shader_parameter/albedo_tex = ExtResource("2_ydnaj")
 shader_parameter/albedo_multiply = Color(1, 1, 1, 1)
 shader_parameter/normal_tex = ExtResource("3_aeukk")
