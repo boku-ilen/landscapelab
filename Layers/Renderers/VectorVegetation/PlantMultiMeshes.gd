@@ -22,8 +22,11 @@ var weather_manager: WeatherManager :
 		
 		weather_manager = new_weather_manager
 		
-		weather_manager.wind_speed_changed.connect(_apply_new_wind_speed)
-		weather_manager.wind_direction_changed.connect(_apply_new_wind_direction)
+		if not weather_manager.wind_speed_changed.is_connected(_apply_new_wind_speed):
+			weather_manager.wind_speed_changed.connect(_apply_new_wind_speed)
+		
+		if not weather_manager.wind_direction_changed.is_connected(_apply_new_wind_direction):
+			weather_manager.wind_direction_changed.connect(_apply_new_wind_direction)
 		
 		_apply_new_wind()
 
