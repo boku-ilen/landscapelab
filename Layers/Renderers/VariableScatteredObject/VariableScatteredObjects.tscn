@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dfh8tufor0ul4"]
+
+[ext_resource type="Script" uid="uid://b846tp64300c8" path="res://Layers/Renderers/VariableScatteredObject/VariableScatteredObjects.gd" id="1_deg5q"]
+
+[node name="VariableScatteredObjects" type="Node3D" unique_id=935331339]
+script = ExtResource("1_deg5q")

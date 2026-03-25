@@ -37,6 +37,7 @@ const RENDER_INFOS := {
 	"Repeating Object": RepeatingObjectInfo,
 	"Line Object": LineObjectInfo,
 	"Scattered Object": ScatteredObjectInfo,
+	"Variable Scattered Object": VariableScatteredObjectInfo
 }
 
 
@@ -344,6 +345,29 @@ class ScatteredObjectInfo extends RenderInfo:
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/ScatteredObject/ScatteredObjectRenderer.tscn")
+		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
+
+
+class VariableScatteredObjectInfo extends RenderInfo:
+	var height_layer: GeoRasterLayer
+
+	var placement_formula: String
+	var placement_inputs: Dictionary[String, GeoRasterLayer]
+
+	var placement_min_radius: float
+	var placement_max_radius: float
+
+	var probability_layer: GeoFeatureLayer
+	var meshes: Dictionary[String, Dictionary]
+
+	var scale_layer: GeoRasterLayer
+	
+	var chunk_size := 200.0
+	var extent := 3
+	var detail_distance := 100.0
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/VariableScatteredObject/VariableScatteredObjectRenderer.tscn")
 		icon = preload("res://Resources/Icons/ModernLandscapeLab/vector.svg")
 
 

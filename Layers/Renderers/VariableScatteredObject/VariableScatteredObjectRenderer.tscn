@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b7kqsodkpfvqy"]
+
+[ext_resource type="Script" uid="uid://bwrp1p3y2mot8" path="res://Layers/Renderers/VariableScatteredObject/VariableScatteredObjectRenderer.gd" id="1_86o5d"]
+
+[node name="VariableScatteredObjectRenderer" type="Node3D" unique_id=321962077]
+script = ExtResource("1_86o5d")
+
+[node name="Chunks" type="Node3D" parent="." unique_id=64717303]
