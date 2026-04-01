@@ -53,12 +53,22 @@ static func non_trivial_deserialize(
 				absolute_path,
 				true
 			)
-		deserialized = Dictionary(
-			non_trivial_dict,
-			TYPE_STRING, "", null,
-			# hint string of format "String;Resource"
-			TYPE_OBJECT, StringName(attribute.hint_string.split(";")[1]), null
-		)
+		# FIXME: Is there a more general way to do this? We have to handle dictionaries separately
+		# because they don't work with the TYPE_OBJECT parameter and don't take a class name.
+		if attribute.hint_string.split(";")[1] == "Dictionary":
+			deserialized = Dictionary(
+				non_trivial_dict,
+				TYPE_STRING, "", null,
+				# hint string of format "String;Resource"
+				TYPE_DICTIONARY, "", null
+			)
+		else:
+			deserialized = Dictionary(
+				non_trivial_dict,
+				TYPE_STRING, "", null,
+				# hint string of format "String;Resource"
+				TYPE_OBJECT, StringName(attribute.hint_string.split(";")[1]), null
+			)
 	elif attribute.type == TYPE_ARRAY and not call_nested:
 		var non_trivial_array = []
 		for i in config_attribute.size():

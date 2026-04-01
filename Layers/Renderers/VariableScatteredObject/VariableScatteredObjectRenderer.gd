@@ -1,6 +1,7 @@
 extends ChunkedLayerCompositionRenderer
 
 var refine_load_distance
+var weather_manager: WeatherManager
 
 # TODO: Adapt, currently copypasta
 
@@ -27,3 +28,5 @@ func custom_chunk_setup(chunk):
 	chunk.meshes = layer_composition.render_info.meshes
 
 	chunk.scale_layer = layer_composition.render_info.scale_layer
+	
+	chunk.weather_manager = weather_manager
