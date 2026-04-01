@@ -55,6 +55,7 @@ We intend to make this tool more accessible (e.g. providing a more sophisticated
 Superficially, the process of setting up the LandscapeLab requires the following steps:
 
 * Get the [latest Geodot build for your platform](https://github.com/boku-ilen/geodot-plugin/actions) and copy the `addons/geodot` folder into this project
+* Get the [latest build of the variable Poisson-disk sampler addon](https://github.com/boku-ilen/godot-variable-density-poisson-disk-sampler) and also copy it to `addons/geodot`
 * Prepare sensible geodata
     * Look into section project structure and philosophy for more information
     * Most layer-compositions and renderers are based on a height-model for "placement on the ground" plus some additional data and meta-configurations for what to render (e.g. point-data for and 3D-asset configuration for what to render in the case of the most trivial `Object`-LayerComposition)
