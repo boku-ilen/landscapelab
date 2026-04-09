@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_mix, depth_prepass_alpha, cull_disabled, diffuse_burley, specular_schlick_ggx;
+render_mode blend_mix, cull_disabled, diffuse_burley, specular_schlick_ggx;
 
 #include "res://Layers/Renderers/Terrain/Materials/Hue.gdshaderinc"
 
