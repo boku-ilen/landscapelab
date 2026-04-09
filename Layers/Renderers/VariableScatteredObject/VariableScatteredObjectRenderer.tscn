@@ -4,5 +4,8 @@
 
 [node name="VariableScatteredObjectRenderer" type="Node3D" unique_id=321962077]
 script = ExtResource("1_86o5d")
+chunk_size = 250.0
+extent = 15
+detailed_load_distance = 500.0
 
 [node name="Chunks" type="Node3D" parent="." unique_id=64717303]

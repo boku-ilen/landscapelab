@@ -356,6 +356,8 @@ class VariableScatteredObjectInfo extends RenderInfo:
 
 	var placement_min_radius: float
 	var placement_max_radius: float
+	
+	var griddedness_layer: GeoRasterLayer
 
 	var probability_layer: GeoFeatureLayer
 	var meshes: Dictionary[String, Dictionary]
