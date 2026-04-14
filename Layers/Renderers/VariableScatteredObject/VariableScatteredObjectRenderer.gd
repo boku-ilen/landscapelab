@@ -33,8 +33,8 @@ func custom_chunk_setup(chunk):
 	chunk.placement_formula = layer_composition.render_info.placement_formula
 	chunk.placement_inputs = layer_composition.render_info.placement_inputs
 
-	chunk.placement_min_radius = 1.0
-	chunk.placement_max_radius = 10.0 # FIXME
+	chunk.placement_min_radius = layer_composition.render_info.placement_min_radius
+	chunk.placement_max_radius = layer_composition.render_info.placement_max_radius
 
 	chunk.probability_layer = layer_composition.render_info.probability_layer
 	chunk.meshes = layer_composition.render_info.meshes

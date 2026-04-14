@@ -34,6 +34,8 @@ var fresh_multimeshes = {}
 var is_detailed = true
 var is_refine_load = false
 
+var get_radius: Callable
+
 static var billboard_mesh = preload("res://Layers/Renderers/VectorVegetation/BillboardTree.tres")
 
 var weather_manager: WeatherManager :
@@ -88,6 +90,31 @@ func _ready():
 	#$LIDOverlayViewport.update_done.connect(func():
 		#build(get_parent().get_parent().center[0], get_parent().get_parent().center[1])
 	#)
+	
+	# This is our custom function for getting the radius of additional points around an existing
+	# point at the location x, y.
+	# A larger radius means that points are spaced further apart at this location.
+	# This renderer takes a custom formula with arbitrary raster layers for calculating this radius.
+	get_radius = func(x, y, center_x, center_y):
+		var formated_string = placement_formula
+		while formated_string.find("$") >= 0:
+			var begin_index = formated_string.find("$", 0)
+			var length = formated_string.find("$", begin_index + 1) - begin_index
+			var slice = formated_string.substr(begin_index + 1, length - 1)
+			
+			var layer: GeoRasterLayer = placement_inputs[slice]
+			var value = layer.get_value_at_position(center_x + (x - size / 2.0), center_y - (y - size / 2.0))
+			
+			var value_string = "(%f)" % [value]  # Surround with parentheses to avoid errors with negative values
+		
+			formated_string = formated_string.left(begin_index) + value_string + formated_string.right(-(begin_index + length + 1))
+	
+		var expression = Expression.new()
+		expression.parse(formated_string)
+		
+		var result = expression.execute()
+		
+		return result
 	
 	create_multimeshes()
 	
@@ -182,35 +209,10 @@ func override_build(center_x, center_y):
 		mesh_name_to_transforms[mesh_name] = []
 		mesh_name_to_custom_data[mesh_name] = []
 	
-	# This is our custom function for getting the radius of additional points around an existing
-	# point at the location x, y.
-	# A larger radius means that points are spaced further apart at this location.
-	# This renderer takes a custom formula with arbitrary raster layers for calculating this radius.
-	var get_radius = func(x, y):
-		var formated_string = placement_formula
-		while formated_string.find("$") >= 0:
-			var begin_index = formated_string.find("$", 0)
-			var length = formated_string.find("$", begin_index + 1) - begin_index
-			var slice = formated_string.substr(begin_index + 1, length - 1)
-			
-			var layer: GeoRasterLayer = placement_inputs[slice]
-			var value = layer.get_value_at_position(center_x + (x - size / 2.0), center_y - (y - size / 2.0))
-			
-			var value_string = "(%f)" % [value]  # Surround with parentheses to avoid errors with negative values
-		
-			formated_string = formated_string.left(begin_index) + value_string + formated_string.right(-(begin_index + length + 1))
-	
-		var expression = Expression.new()
-		expression.parse(formated_string)
-		
-		var result = expression.execute()
-		
-		return result
-	
 	# Generate points within a 2D rectangle from 0,0 to size,size
 	var sampler = VariablePoissonSampler2D.new()
 	sampler.set_min_max_radius(placement_min_radius, placement_max_radius)
-	sampler.set_radius_callable(get_radius)
+	sampler.set_radius_callable(get_radius.bind(center_x, center_y))
 	sampler.set_width_height(size, size)
 	sampler.set_rng(rng)
 	
@@ -223,24 +225,27 @@ func override_build(center_x, center_y):
 	
 	var object_locations = sampler.get_samples()
 	
+	# Choose a random mesh based on the probability distribution within this chunk of the
+	# probability layer.
+	# It would be more general to do this per object location, but we assume that the chunks
+	# of this renderer are generally similar to or smaller than the chunks of the
+	# probability_layer, so we save a lot of queries by doing it this way.
+	var probability_chunk = probability_layer.get_features_near_position(
+		center_x,
+		center_y,
+		1.0, 1)[0]
+	var attributes = probability_chunk.get_attributes()
+	
+	# First, calculate the sum of all probabilities
+	var probability_sum := 0.0
+	for attribute_value in attributes.values():
+		probability_sum += float(attribute_value)
+	
 	for location in object_locations:
 		# These MultiMeshes are assumed to have their 0,0 in the center, not in the top left.
 		# Therefore, we transform the locations.
 		# Note: This corresponds to the coordinates used in `get_value_at_position` in `get_radius`.
 		location -= Vector2(size / 2.0, size / 2.0)
-		
-		# Choose a random mesh based on the probability distribution within this chunk of the
-		# probability layer
-		var probability_chunk = probability_layer.get_features_near_position(
-			center_x + location.x,
-			center_y - location.y,
-			1.0, 0.0)[0]
-		var attributes = probability_chunk.get_attributes()
-		
-		# First, calculate the sum of all probabilities
-		var probability_sum := 0.0
-		for attribute_value in attributes.values():
-			probability_sum += float(attribute_value)
 		
 		# Generate a random value
 		var random_value = rng.randf_range(0.0, probability_sum)
