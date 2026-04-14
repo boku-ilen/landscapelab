@@ -81,20 +81,6 @@ static var species_to_mesh = {
 	"Oleaeuropaea": preload("res://Layers/Renderers/VectorVegetation/Oleaeuropaea.tres")
 }
 
-static var mesh_name_to_billboard_index = {
-	"PinusHigh": 0,
-	"Quercus2": 1,
-	"Betula": 2,
-	"Fagus": 3,
-	"Fraxinus": 4,
-	"Picea_abies": 5,
-	"Pinus_sylvestris": 6,
-	"Eucalyptus": 7,
-	"Castanea": 7,
-	"Oleaeuropaea": 7,
-	"Quercussuber": 7
-}
-
 var species_to_mesh_name = {}
 var mesh_name_to_mmi = {}
 
@@ -106,6 +92,10 @@ var fresh_multimeshes = {}
 
 var is_detailed = false
 var is_refine_load = false
+
+static var mesh_name_to_billboard_index = {}
+static var preloaded_spritesheets_albedo = []
+static var preloaded_spritesheets_normal = []
 
 
 func override_can_increase_quality(distance: float):
@@ -132,6 +122,29 @@ func override_decrease_quality(distance: float):
 func _ready():
 	super._ready()
 	create_multimeshes()
+	
+	# Create billboards
+	if mesh_name_to_billboard_index.size() == 0:
+		var i = 0
+		var done_meshes = []
+		
+		for mesh_name in species_to_mesh_name.values():
+			if not mesh_name in done_meshes:
+				var mesh = species_to_mesh[species_to_mesh_name.find_key(mesh_name)]
+				
+				var spritesheet = BillboardSpritesheetGenerator.create_billboard_sprites_for_mesh(mesh)
+				
+				preloaded_spritesheets_albedo.append(ImageTexture.create_from_image(spritesheet[0]))
+				preloaded_spritesheets_normal.append(ImageTexture.create_from_image(spritesheet[1]))
+				
+				mesh_name_to_billboard_index[mesh_name] = i
+				
+				i += 1
+				done_meshes.append(mesh_name)
+	
+	billboard_mesh.surface_get_material(0).set_shader_parameter("albedo_tex", preloaded_spritesheets_albedo)
+	billboard_mesh.surface_get_material(0).set_shader_parameter("normal_tex", preloaded_spritesheets_normal)
+	billboard_mesh.surface_get_material(0).set_shader_parameter("sprite_count", preloaded_spritesheets_albedo.size())
 
 
 func create_multimeshes():
@@ -164,7 +177,8 @@ func create_multimeshes():
 			mesh_name_to_mmi[mesh_name] = mmi
 			
 			# For debugging:
-			#mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
+			if OS.is_debug_build():
+				mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
 			
 			add_child(mmi)
 	
@@ -176,7 +190,8 @@ func create_multimeshes():
 	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	
 	# For debugging:
-	#mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
+	if OS.is_debug_build():
+		mmi.add_child(preload("res://addons/parentshaderupdater/PSUGatherer.tscn").instantiate())
 	
 	mesh_name_to_mmi["Billboard"] = mmi
 	add_child(mmi)
@@ -260,7 +275,7 @@ func override_build(center_x, center_y):
 			))
 		else:
 			mesh_name_to_custom_data[mesh_name].append(Color(
-				mesh_name_to_billboard_index[species_mesh_name], # Spritesheet index
+				float(mesh_name_to_billboard_index[species_mesh_name]), # Spritesheet index
 				rng.randf(), # Randomness for shading
 				0.0  # not is_detailed
 			))
