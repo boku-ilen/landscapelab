@@ -132,7 +132,14 @@ func _ready():
 			if not mesh_name in done_meshes:
 				var mesh = species_to_mesh[species_to_mesh_name.find_key(mesh_name)]
 				
+				# For spritesheet generation: disable AO (since AO is also applied in unshaded mode)
+				for material_id in range(mesh.get_surface_count()):
+					mesh.surface_get_material(material_id).set_shader_parameter("ao_enabled", false)
+				
 				var spritesheet = BillboardSpritesheetGenerator.create_billboard_sprites_for_mesh(mesh)
+				
+				for material_id in range(mesh.get_surface_count()):
+					mesh.surface_get_material(material_id).set_shader_parameter("ao_enabled", true)
 				
 				preloaded_spritesheets_albedo.append(ImageTexture.create_from_image(spritesheet[0]))
 				preloaded_spritesheets_normal.append(ImageTexture.create_from_image(spritesheet[1]))

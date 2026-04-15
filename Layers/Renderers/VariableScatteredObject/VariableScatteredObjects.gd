@@ -220,6 +220,8 @@ func override_build(center_x, center_y):
 		sampler.set_griddedness_callable(func(x, y):
 			return griddedness_layer.get_value_at_position(center_x + (x - size / 2.0), center_y - (y - size / 2.0))
 		)
+	else:
+		logger.info("No griddedness layer found in data!")
 	
 	sampler.generate()
 	
