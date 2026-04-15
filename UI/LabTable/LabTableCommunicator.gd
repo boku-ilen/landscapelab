@@ -1,4 +1,5 @@
 extends Node
+class_name LabTableCommunicator
 
 # The port we will listen to
 const PORT = 14541
@@ -10,12 +11,14 @@ var _server = WebSocketServer.new()
 var brick_id_to_position = {}
 
 @export var save_log := true
+@export var draw_layer_ui: DrawLayerUI
 
 var current_log_file
 
 
 func _ready():
 	_server.client_connected.connect(_connected)
+	
 	_server.client_disconnected.connect(_disconnected)
 	
 	_server.message_received.connect(_on_data)
@@ -48,10 +51,13 @@ func _on_data(id, message):
 		current_log_file.flush()
 	
 	var data_dict = JSON.parse_string(message)
-	logger.info("Got data from client %d: %s" % [id, data_dict])
-	
-	var shape = data_dict["data"]["shape"]
-	var color = data_dict["data"]["color"]
+	var shape = ""
+	var color = ""
+	if data_dict != null and data_dict["event"] != "drawing_processed":
+		logger.info("Got data from client %d: %s" % [id, data_dict])
+
+		shape = data_dict["data"]["shape"]
+		color = data_dict["data"]["color"]
 	
 	if shape in GameSystem.current_game_mode.token_to_game_object_collection \
 			and color in GameSystem.current_game_mode.token_to_game_object_collection[shape]:
@@ -111,6 +117,42 @@ func _on_data(id, message):
 			
 			# Remove this brick from brick_id_to_position
 			brick_id_to_position.erase(data_dict["data"]["id"])
+			
+	elif data_dict["event"] == "drawing_processed":
+		$TextureRect.visible = false
+		for n in get_tree().get_nodes_in_group("RegularUI"):
+			if n is CanvasItem:
+				n.visible = true
+		for n in get_tree().get_nodes_in_group("DrawingUI"):
+			if n is CanvasItem:
+				n.visible = false
+		var color_id = data_dict["data"]["id"]
+		var bounding_box = data_dict["data"]["bounds"]
+		var bitmap_resolution = data_dict["data"]["resolution"]
+		var bitmap: String = data_dict["data"]["bitmap"]
+		
+		var image = Image.create_from_data(bitmap_resolution[0], bitmap_resolution[1], false, Image.FORMAT_R8, bitmap.hex_decode())
+		var texture = ImageTexture.create_from_image(image)
+		var sprite_instance = Sprite2D.new()
+		add_child(sprite_instance)
+		var window = get_viewport()
+		var screen_size = Vector2(DisplayServer.screen_get_size(window.current_screen))
+		sprite_instance.position = screen_size * Vector2(bounding_box[0], bounding_box[1]) + 0.5 * screen_size * Vector2(bounding_box[2], bounding_box[3])
+		#var pixel_size = (Vector2(bitmap_resolution[0], bitmap_resolution[1]) / Vector2(bounding_box[3], bounding_box[2])) / screen_size
+		#sprite_instance.scale = pixel_size
+		var reference_image_size = Vector2(bitmap_resolution[0], bitmap_resolution[1]) / Vector2(bounding_box[2], bounding_box[3])
+		sprite_instance.scale = screen_size / reference_image_size
+		sprite_instance.texture = texture
+		var mat = ShaderMaterial.new()
+		mat.set_shader(preload("res://UI/LabTable/ColoredOverlay.gdshader"))
+		var col = Vector3.ZERO
+		col.x = 1 if color_id == 0 else 0
+		col.y = 1 if color_id == 1 else 0
+		col.z = 1 if color_id == 2 else 0
+		logger.info(str(color_id))
+		mat.set_shader_parameter("color", col)
+		sprite_instance.material = mat
+		
 
 
 func _on_game_object_creation_failed(event_position):
@@ -146,3 +188,16 @@ func clear_brick_memory():
 		$LabTableMarkers.create_invalid_marker(brick_id_to_position[brick_id], brick_id)
 	
 	brick_id_to_position.clear()
+
+func request_drawing_capture():
+	$TextureRect.visible = true
+	
+	await RenderingServer.frame_post_draw
+	
+	var samples = draw_layer_ui.get_sample_points()
+	_server.send(0,JSON.stringify({
+		"event": "start_drawing",
+		"data": {
+			"points": samples
+		}
+	}))

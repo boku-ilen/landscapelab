@@ -2,22 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6002eppndr4v"
-path.bptc="res://.godot/imported/nature_map.svg-91969af36848153ae4e5f5bb4c58e804.bptc.ctex"
+uid="uid://da2u5e75xclb3"
+path="res://.godot/imported/circle_plus.svg-c19f6d95a46daa0816e9690f1e20958c.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Icons/LabTable/buttons/layers/nature_map.svg"
-dest_files=["res://.godot/imported/nature_map.svg-91969af36848153ae4e5f5bb4c58e804.bptc.ctex"]
+source_file="res://Resources/Icons/LabTable/circle_plus.svg"
+dest_files=["res://.godot/imported/circle_plus.svg-c19f6d95a46daa0816e9690f1e20958c.ctex"]
 
 [params]
 
-compress/mode=2
-compress/high_quality=true
+compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
@@ -39,6 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=0.25
+svg/scale=1.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

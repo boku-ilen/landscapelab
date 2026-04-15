@@ -2,22 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmrmkbx7pdl86"
-path.bptc="res://.godot/imported/insect_map.svg-cae0d04189102ebdf079f12456c3f592.bptc.ctex"
+uid="uid://1jtw3dq4tqim"
+path="res://.godot/imported/drawing_swatch.svg-1cfc1dae365c44de3b3b5e958ac373a1.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Icons/LabTable/buttons/layers/insect_map.svg"
-dest_files=["res://.godot/imported/insect_map.svg-cae0d04189102ebdf079f12456c3f592.bptc.ctex"]
+source_file="res://Resources/Icons/LabTable/drawing_swatch.svg"
+dest_files=["res://.godot/imported/drawing_swatch.svg-1cfc1dae365c44de3b3b5e958ac373a1.ctex"]
 
 [params]
 
-compress/mode=2
-compress/high_quality=true
+compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
@@ -39,6 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=0.25
+svg/scale=1.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

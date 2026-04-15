@@ -26,7 +26,7 @@ extends Control
 
 @export var run_brick_detection := true
 
-@export var current_goc_name := "Acceptable Zones"
+@export var current_goc_name = "Acceptable Zones"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")

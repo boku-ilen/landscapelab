@@ -2,22 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpl0gfth78c1q"
-path.bptc="res://.godot/imported/breeding_bird_map.svg-618b445bd8a9fdc57a4e34c4fe935bad.bptc.ctex"
+uid="uid://c21phj8u0ktm4"
+path="res://.godot/imported/circle_camera.svg-a27a6b15a0967b6660a7f83e7360a07c.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Icons/LabTable/buttons/layers/breeding_bird_map.svg"
-dest_files=["res://.godot/imported/breeding_bird_map.svg-618b445bd8a9fdc57a4e34c4fe935bad.bptc.ctex"]
+source_file="res://Resources/Icons/LabTable/circle_camera.svg"
+dest_files=["res://.godot/imported/circle_camera.svg-a27a6b15a0967b6660a7f83e7360a07c.ctex"]
 
 [params]
 
-compress/mode=2
-compress/high_quality=true
+compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
@@ -39,6 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=0.25
+svg/scale=1.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false
