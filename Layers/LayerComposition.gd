@@ -30,6 +30,7 @@ const RENDER_INFOS := {
 	"Vector Vegetation": VectorVegetationRenderInfo,
 	"Object": ObjectRenderInfo,
 	"Wind Turbine": WindTurbineRenderInfo,
+	"LID Masks": LIDMaskRenderInfo,
 	"PolygonObject": PolygonObjectInfo,
 	"Building": BuildingRenderInfo,
 	"Road Network": RoadNetworkRenderInfo,
@@ -262,6 +263,16 @@ class BuildingRenderInfo extends RenderInfo:
 		return geo_feature_layer != null && ground_height_layer != null
 	
 	func get_class_name() -> String: return "Building"
+
+class LIDMaskRenderInfo extends ObjectRenderInfo:
+	var mask_feature_layer: GeoFeatureLayer :
+		get():
+			return geo_feature_layer
+	
+	func _init():
+		renderer = preload("res://Layers/Renderers/Objects/LIDMaskRenderer.tscn")
+	
+	func get_class_name() -> String: return "LID Mask"
 
 class ConnectedObjectInfo extends RenderInfo:
 	# The geodata-key-attribute that determines which connector/connection to use

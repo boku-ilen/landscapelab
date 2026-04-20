@@ -1,5 +1,5 @@
 extends Control
-
+class_name LabTable
 
 @export var geo_layers: Node2D
 @export var control_ui: Control
@@ -11,7 +11,7 @@ extends Control
 			geo_layers.player_node = new_player
 			
 		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton/AtmosphereConfiguration/LiveWeatherService").player = new_player
-		get_node("SubViewportContainer/PanelContainer/ControlContainer").player_sprite = $SubViewportContainer/SubViewport/GeoLayerRenderers/PlayerSprite
+		get_node("../PanelContainer/ControlContainer").player_sprite = $SubViewportContainer/SubViewport/GeoLayerRenderers/PlayerSprite
 
 @export var time_manager: TimeManager:
 	set(new_time_manager):
@@ -23,6 +23,10 @@ extends Control
 		weather_manager = new_weather_manager
 		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton").weather_manager = new_weather_manager
 		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton/AtmosphereConfiguration/LiveWeatherService").weather_manager = new_weather_manager
+
+@export var drawing_coordinator: DrawingCoordinator
+@export var geo_layer_renderers: GeoLayerRenderers
+@export var communicator: LabTableCommunicator
 
 @export var run_brick_detection := true
 

@@ -1,5 +1,5 @@
 extends Camera2D
-
+class_name Viewport2DCamera
 
 signal offset_changed(_offset, viewport_size, _zoom)
 

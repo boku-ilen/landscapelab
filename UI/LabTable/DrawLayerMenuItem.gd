@@ -21,7 +21,7 @@ func get_swatch_position():
 	var screen_pos = swatch_element.get_screen_position() - \
 		Vector2(DisplayServer.window_get_position(get_viewport().get_window().get_window_id())) \
 		+ swatch_element.size / 2
-	var screen_size = DisplayServer.screen_get_size(get_viewport().get_window().get_window_id())
+	var screen_size = DisplayServer.window_get_size(get_viewport().get_window().get_window_id())
 	screen_pos /= Vector2(screen_size)
 	logger.info("screen " + str(screen_pos))
 

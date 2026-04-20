@@ -4,6 +4,7 @@ extends Configurator
 @export var table_communicator: Node
 @export var renderers: Node2D
 @export var game_ui: Control
+@export var drawing_coordinator: DrawingCoordinator
 
 var has_loaded = false
 
@@ -30,6 +31,7 @@ func load_table_config() -> void:
 	
 	_load_layers(path, table_config)
 	_load_game_ui(path, table_config)
+	_load_drawing_config(table_config)
 	
 	logger.info("LabTable has been setup")
 
@@ -82,3 +84,12 @@ func _load_game_ui(path: String, table_config: Dictionary):
 				base_path,
 				AbstractLayerSerializer._lookup_deserialization.bind(AbstractLayerSerializer, null)
 			)
+
+func _load_drawing_config(table_config: Dictionary):
+	if not "DrawingSettings" in table_config:
+		return
+	var drawing_config = table_config["DrawingSettings"]
+	var lids = drawing_config["layer_lids"]
+	var int_lids: Array = lids.map(func (l): return floori(l))
+	drawing_coordinator.fixed_lids = int_lids
+	
