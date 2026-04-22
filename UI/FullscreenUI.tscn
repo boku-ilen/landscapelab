@@ -1,0 +1,135 @@
+[gd_scene format=3 uid="uid://xjqqlath1pcy"]
+
+[ext_resource type="PackedScene" uid="uid://dq360hhqtol4f" path="res://World/World.tscn" id="1_ndxhv"]
+[ext_resource type="Script" uid="uid://bkql7dme6fwg3" path="res://UI/MenuBar/Project.gd" id="1_qjpfm"]
+[ext_resource type="Theme" uid="uid://2acd0pfpr1ny" path="res://UI/Theme/LandscapeLab.tres" id="2_j84yl"]
+[ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="2_upp2j"]
+[ext_resource type="PackedScene" uid="uid://ch15mdq8mk72s" path="res://Util/FileChooser.tscn" id="3_j84yl"]
+[ext_resource type="Script" uid="uid://brxr716rbtt8h" path="res://UI/MenuBar/Util.gd" id="4_5mb8g"]
+
+[node name="FullscreenUI" type="Control" unique_id=1203756981]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=734441673]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=619490310]
+handle_input_locally = false
+scaling_3d_mode = 1
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="World" parent="SubViewportContainer/SubViewport" unique_id=1550443924 instance=ExtResource("1_ndxhv")]
+
+[node name="MenuBar" type="HBoxContainer" parent="." unique_id=2096875590]
+layout_mode = 0
+offset_right = 1140.0
+offset_bottom = 31.0
+theme = ExtResource("2_j84yl")
+
+[node name="ProjectButton" type="MenuButton" parent="MenuBar" unique_id=2093825065]
+layout_mode = 2
+text = "Project"
+switch_on_hover = true
+script = ExtResource("1_qjpfm")
+
+[node name="OpenCfg" type="FileDialog" parent="MenuBar/ProjectButton" unique_id=1891217404]
+title = "Open a File"
+size = Vector2i(625, 400)
+min_size = Vector2i(531, 400)
+theme = ExtResource("2_upp2j")
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.ll")
+
+[node name="SaveCfg" type="FileDialog" parent="MenuBar/ProjectButton" unique_id=649692726]
+size = Vector2i(737, 400)
+min_size = Vector2i(531, 400)
+theme = ExtResource("2_upp2j")
+access = 2
+filters = PackedStringArray("*.ll")
+
+[node name="VegetationDetails" type="ConfirmationDialog" parent="MenuBar/ProjectButton" unique_id=1613190632]
+size = Vector2i(290, 243)
+theme = ExtResource("2_upp2j")
+
+[node name="VBox" type="VBoxContainer" parent="MenuBar/ProjectButton/VegetationDetails" unique_id=2099792483]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 282.0
+offset_bottom = 194.0
+
+[node name="Config" type="GridContainer" parent="MenuBar/ProjectButton/VegetationDetails/VBox" unique_id=1881381929]
+layout_mode = 2
+columns = 2
+
+[node name="ExtentLabel" type="Label" parent="MenuBar/ProjectButton/VegetationDetails/VBox/Config" unique_id=1281395428]
+layout_mode = 2
+text = "Extent factor:"
+
+[node name="SpinBox" type="SpinBox" parent="MenuBar/ProjectButton/VegetationDetails/VBox/Config" unique_id=1000350243]
+layout_mode = 2
+min_value = 0.1
+max_value = 10.0
+step = 0.1
+value = 0.1
+
+[node name="Paths" type="GridContainer" parent="MenuBar/ProjectButton/VegetationDetails/VBox" unique_id=1662432499]
+layout_mode = 2
+columns = 2
+
+[node name="DensitiesLabel" type="Label" parent="MenuBar/ProjectButton/VegetationDetails/VBox/Paths" unique_id=737236092]
+layout_mode = 2
+text = "Densities: "
+
+[node name="Densities" parent="MenuBar/ProjectButton/VegetationDetails/VBox/Paths" unique_id=1278528339 instance=ExtResource("3_j84yl")]
+layout_mode = 2
+size_flags_horizontal = 3
+text_placeholder = "*.csv"
+
+[node name="GroupsLabel" type="Label" parent="MenuBar/ProjectButton/VegetationDetails/VBox/Paths" unique_id=1060396134]
+layout_mode = 2
+text = "Groups:"
+
+[node name="Groups" parent="MenuBar/ProjectButton/VegetationDetails/VBox/Paths" unique_id=2130345198 instance=ExtResource("3_j84yl")]
+layout_mode = 2
+text_placeholder = "*.csv"
+
+[node name="PlantsLabel" type="Label" parent="MenuBar/ProjectButton/VegetationDetails/VBox/Paths" unique_id=829838652]
+layout_mode = 2
+text = "Plants:"
+
+[node name="Plants" parent="MenuBar/ProjectButton/VegetationDetails/VBox/Paths" unique_id=1356973980 instance=ExtResource("3_j84yl")]
+layout_mode = 2
+text_placeholder = "*.csv"
+
+[node name="TexturesLabel" type="Label" parent="MenuBar/ProjectButton/VegetationDetails/VBox/Paths" unique_id=2117475020]
+layout_mode = 2
+text = "Textures:"
+
+[node name="Textures" parent="MenuBar/ProjectButton/VegetationDetails/VBox/Paths" unique_id=2062860747 instance=ExtResource("3_j84yl")]
+layout_mode = 2
+text_placeholder = "*.csv"
+
+[node name="UtilButton" type="MenuButton" parent="MenuBar" unique_id=1347097324 node_paths=PackedStringArray("position_manager", "player_node", "weather_manager", "time_manager")]
+layout_mode = 2
+text = "Util"
+script = ExtResource("4_5mb8g")
+position_manager = NodePath("../../SubViewportContainer/SubViewport/World/PositionManager")
+player_node = NodePath("../../SubViewportContainer/SubViewport/World/FirstPersonPC")
+weather_manager = NodePath("../../SubViewportContainer/SubViewport/World/WeatherManager")
+time_manager = NodePath("../../SubViewportContainer/SubViewport/World/TimeManager")
+
+[editable path="SubViewportContainer/SubViewport/World"]

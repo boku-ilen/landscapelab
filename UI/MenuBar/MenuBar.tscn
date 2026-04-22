@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://csad5ev7rwtoe"]
+[gd_scene format=3 uid="uid://csad5ev7rwtoe"]
 
 [ext_resource type="Script" uid="uid://bkql7dme6fwg3" path="res://UI/MenuBar/Project.gd" id="1_yv40a"]
 [ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="2_uetun"]
@@ -6,17 +6,17 @@
 [ext_resource type="Script" uid="uid://c4dua6833v7uu" path="res://UI/MenuBar/View.gd" id="5_gwh6b"]
 [ext_resource type="Script" uid="uid://brxr716rbtt8h" path="res://UI/MenuBar/Util.gd" id="6_svjrn"]
 
-[node name="MenuBar" type="HBoxContainer"]
+[node name="MenuBar" type="HBoxContainer" unique_id=1992545787]
 offset_right = 1140.0
 offset_bottom = 31.0
 
-[node name="ProjectButton" type="MenuButton" parent="."]
+[node name="ProjectButton" type="MenuButton" parent="." unique_id=1881551221]
 layout_mode = 2
 text = "Project"
 switch_on_hover = true
 script = ExtResource("1_yv40a")
 
-[node name="OpenCfg" type="FileDialog" parent="ProjectButton"]
+[node name="OpenCfg" type="FileDialog" parent="ProjectButton" unique_id=406775935]
 title = "Open a File"
 size = Vector2i(625, 400)
 min_size = Vector2i(531, 400)
@@ -26,81 +26,81 @@ file_mode = 0
 access = 2
 filters = PackedStringArray("*.ll")
 
-[node name="SaveCfg" type="FileDialog" parent="ProjectButton"]
+[node name="SaveCfg" type="FileDialog" parent="ProjectButton" unique_id=1714660209]
 size = Vector2i(737, 400)
 min_size = Vector2i(531, 400)
 theme = ExtResource("2_uetun")
 access = 2
 filters = PackedStringArray("*.ll")
 
-[node name="VegetationDetails" type="ConfirmationDialog" parent="ProjectButton"]
+[node name="VegetationDetails" type="ConfirmationDialog" parent="ProjectButton" unique_id=744073896]
 size = Vector2i(290, 243)
 theme = ExtResource("2_uetun")
 
-[node name="VBox" type="VBoxContainer" parent="ProjectButton/VegetationDetails"]
+[node name="VBox" type="VBoxContainer" parent="ProjectButton/VegetationDetails" unique_id=1798345047]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 282.0
 offset_bottom = 194.0
 
-[node name="Config" type="GridContainer" parent="ProjectButton/VegetationDetails/VBox"]
+[node name="Config" type="GridContainer" parent="ProjectButton/VegetationDetails/VBox" unique_id=1270872115]
 layout_mode = 2
 columns = 2
 
-[node name="ExtentLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Config"]
+[node name="ExtentLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Config" unique_id=1519784934]
 layout_mode = 2
 text = "Extent factor:"
 
-[node name="SpinBox" type="SpinBox" parent="ProjectButton/VegetationDetails/VBox/Config"]
+[node name="SpinBox" type="SpinBox" parent="ProjectButton/VegetationDetails/VBox/Config" unique_id=577311708]
 layout_mode = 2
 min_value = 0.1
 max_value = 10.0
 step = 0.1
 value = 0.1
 
-[node name="Paths" type="GridContainer" parent="ProjectButton/VegetationDetails/VBox"]
+[node name="Paths" type="GridContainer" parent="ProjectButton/VegetationDetails/VBox" unique_id=305918662]
 layout_mode = 2
 columns = 2
 
-[node name="DensitiesLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths"]
+[node name="DensitiesLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths" unique_id=174895700]
 layout_mode = 2
 text = "Densities: "
 
-[node name="Densities" parent="ProjectButton/VegetationDetails/VBox/Paths" instance=ExtResource("3_ckk4c")]
+[node name="Densities" parent="ProjectButton/VegetationDetails/VBox/Paths" unique_id=1897444674 instance=ExtResource("3_ckk4c")]
 layout_mode = 2
 size_flags_horizontal = 3
 text_placeholder = "*.csv"
 
-[node name="GroupsLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths"]
+[node name="GroupsLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths" unique_id=49668810]
 layout_mode = 2
 text = "Groups:"
 
-[node name="Groups" parent="ProjectButton/VegetationDetails/VBox/Paths" instance=ExtResource("3_ckk4c")]
+[node name="Groups" parent="ProjectButton/VegetationDetails/VBox/Paths" unique_id=423193258 instance=ExtResource("3_ckk4c")]
 layout_mode = 2
 text_placeholder = "*.csv"
 
-[node name="PlantsLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths"]
+[node name="PlantsLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths" unique_id=370340140]
 layout_mode = 2
 text = "Plants:"
 
-[node name="Plants" parent="ProjectButton/VegetationDetails/VBox/Paths" instance=ExtResource("3_ckk4c")]
+[node name="Plants" parent="ProjectButton/VegetationDetails/VBox/Paths" unique_id=1137131780 instance=ExtResource("3_ckk4c")]
 layout_mode = 2
 text_placeholder = "*.csv"
 
-[node name="TexturesLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths"]
+[node name="TexturesLabel" type="Label" parent="ProjectButton/VegetationDetails/VBox/Paths" unique_id=820207857]
 layout_mode = 2
 text = "Textures:"
 
-[node name="Textures" parent="ProjectButton/VegetationDetails/VBox/Paths" instance=ExtResource("3_ckk4c")]
+[node name="Textures" parent="ProjectButton/VegetationDetails/VBox/Paths" unique_id=353061435 instance=ExtResource("3_ckk4c")]
 layout_mode = 2
 text_placeholder = "*.csv"
 
-[node name="ViewButton" type="MenuButton" parent="."]
+[node name="ViewButton" type="MenuButton" parent="." unique_id=1761535387]
 layout_mode = 2
 text = "View"
 script = ExtResource("5_gwh6b")
 
-[node name="UtilButton" type="MenuButton" parent="."]
+[node name="UtilButton" type="MenuButton" parent="." unique_id=2130191227]
 layout_mode = 2
 text = "Util"
 script = ExtResource("6_svjrn")

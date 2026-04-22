@@ -17,13 +17,20 @@ var open_table_item = MenuItem.new(
 	"Open...", _open_labtable)
 var table_fullscreen_item = MenuItem.new(
 	"Set Fullscreen", _set_labtable_fullscreen, true, false)
+var open_weather_ui_item = MenuItem.new(
+	"Open Weather Menu", func():
+		var weather_menu = preload("res://UI/Weather/WeatherUIWindow.tscn").instantiate()
+		get_tree().get_root().add_child(weather_menu)
+		weather_menu.popup_centered()
+		weather_menu.weather_manager = weather_manager
+)
 
 var imaging_menu = Menu.new(
 	false, "ImagingMenu", [open_dolly_item])
 var labtable_menu = Menu.new(
 	false, "LabTableMenu", [open_table_item, table_fullscreen_item])
 var util_menu = Menu.new(
-	true, "UtilMenu", [imaging_menu, labtable_menu])
+	true, "UtilMenu", [imaging_menu, labtable_menu, open_weather_ui_item])
 
 var dolly_window: Window
 var labtable_window: Window
