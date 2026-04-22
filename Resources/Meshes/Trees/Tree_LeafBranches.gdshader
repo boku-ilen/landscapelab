@@ -41,6 +41,8 @@ uniform float ao_strength : hint_range(0.0, 10.0) = 0.6;
  */
 uniform float ao_light_affect : hint_range(0.0, 1.0) = 0.8;
 
+uniform bool ao_enabled = true;
+
 /**
 * [b]0[/b]: Uses darkish grey (so it has similar brightness to Albedo Tex and isn't unnaturally bright).
 * [b]1[/b]: Uses color from Albedo Tex.
@@ -132,7 +134,7 @@ void fragment() {
 
 	// To get fine detail up-close and good coverage at a distance, we lerp the threshold based on
 	//  the distance of this fragment to the camera, with min threshold at 20m and max at 5m
-	ALPHA_SCISSOR_THRESHOLD = mix(alpha_scissor_threshold_low, alpha_scissor_threshold, smoothstep(20.0, 5.0, depth));
+	ALPHA_SCISSOR_THRESHOLD = mix(alpha_scissor_threshold_low, alpha_scissor_threshold, smoothstep(6.0, 1.0, depth));
 	ALBEDO = albedo_w_alpha.rgb * albedo_multiply.rgb;
 
 	METALLIC = 0.0;
@@ -142,11 +144,13 @@ void fragment() {
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = mix(0.35, 1.0, smoothstep(300.0, 100.0, depth)) * normal_strength;
 
-	AO = rough_ao_trans.g * ao_strength * mix(0.0, 0.75, vertex_distance_from_zero * 1.25);
+	if (ao_enabled) {
+		AO = rough_ao_trans.g * ao_strength * mix(0.0, 0.75, vertex_distance_from_zero * 1.25);
 	
-	// With our settings, the sunlight has its first split at 75 units. This causes a lot of
-	// self-shadowing to be lost. Therefore, we make AO more drastic at that distance
-	AO *= mix(1.0, AO, mix(0.2, 0.8, smoothstep(55.0, 75.0, depth)));
+		// With our settings, the sunlight has its first split at 75 units. This causes a lot of
+		// self-shadowing to be lost. Therefore, we make AO more drastic at that distance
+		AO *= mix(1.0, AO, mix(0.2, 0.8, smoothstep(55.0, 75.0, depth)));
+	}
 	
 	AO_LIGHT_AFFECT = ao_light_affect;
 

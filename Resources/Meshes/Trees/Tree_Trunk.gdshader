@@ -19,6 +19,8 @@ uniform float normal_strength : hint_range(-16.0, 16.0) = 1.0;
 */
 uniform sampler2D rough_ao_transmission_tex : hint_default_white, filter_linear_mipmap, repeat_enable;
 
+uniform bool ao_enabled = true;
+
 /**
 * This is added to value coming from Red channel of "Rough AO Transmission Tex", to allow fast tweaking.
 */
@@ -45,11 +47,15 @@ uniform float rim_strength : hint_range(0.0, 1.0) = 0.0;
 */
 uniform float rim_color_from_albedo : hint_range(0.0, 1.0) = 0.5;
 
+varying float vertex_distance_from_zero;
+
 void vertex() {
 	// Concept for forest trees:
 	//if (VERTEX.y < 0.5 && abs(VERTEX.x) > 0.03 && abs(VERTEX.z) > 0.03) {
 		//VERTEX = vec3(1.0 / 0.0);
 	//}
+	
+	vertex_distance_from_zero = pow(length(VERTEX), 1.0);
 
 	VERTEX += get_vertex_offset(VERTEX, MODEL_MATRIX, TIME);
 
@@ -81,8 +87,10 @@ void fragment() {
 	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
 	NORMAL_MAP_DEPTH = normal_strength;
 
-	AO = mix(1.0, rough_ao_trans.g, ao_strength);
-	AO_LIGHT_AFFECT = ao_light_affect;
+	if (ao_enabled) {
+		AO = ao_strength * clamp(mix(1.0, 0.5, vertex_distance_from_zero * 3.0), 0.0, 1.0);
+		AO_LIGHT_AFFECT = ao_light_affect;
+	}
 
 	RIM = rim_strength;
 	RIM_TINT = rim_color_from_albedo;
