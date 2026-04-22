@@ -449,10 +449,14 @@ limits/message_queue/max_size_kb=1048576
 
 lights_and_shadows/use_physical_light_units=true
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=4
+lights_and_shadows/directional_shadow/16_bits=false
+lights_and_shadows/positional_shadow/atlas_16_bits=false
+environment/ssao/quality=3
+environment/ssao/half_size=false
+environment/screen_space_reflection/half_size=false
+limits/global_shader_variables/buffer_size=1048576
 environment/defaults/default_clear_color=Color(0.866667, 0.976471, 1, 1)
 vrs/mode=2
-quality/shadows/filter_mode=2
-quality/filters/msaa=2
 environment/default_environment="res://default_env.tres"
 quality/main_scene="res://UI/MainUI.tscn"
 limits/buffers/canvas_polygon_buffer_size_kb=1000
@@ -475,5 +479,7 @@ VEGETATION_CENTER={
 [xr]
 
 openxr/enabled=true
+openxr/submit_depth_buffer=true
 openxr/startup_alert=false
+openxr/extensions/frame_synthesis=true
 shaders/enabled=true
