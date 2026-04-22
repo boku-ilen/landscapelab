@@ -26,6 +26,11 @@ var target_overridden = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GameSystem.game_mode_changed.connect(on_game_mode_changed)
+	
+	var xr_interface = XRServer.find_interface("OpenXR")
+	
+	xr_interface.session_visible.connect(func(): is_vr_active = false)
+	xr_interface.session_focussed.connect(func(): is_vr_active = true)
 
 
 func on_game_mode_changed():
@@ -43,7 +48,9 @@ func on_game_object_changed(game_object):
 func _process(delta):
 	if Input.is_action_just_pressed("set_autolook_active"): active = not active
 	
-	if not active:
+	if not active: return
+	
+	if is_vr_active:
 		current_target_location = global_position + vr_camera.global_transform.basis.z 
 	
 	if current_target_location:
