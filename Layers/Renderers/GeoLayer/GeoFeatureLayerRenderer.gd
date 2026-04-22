@@ -65,8 +65,8 @@ var func_dict = {
 
 
 func set_feature_icon(feature, marker):
-	
 	var render_info: LayerDefinition.FeatureRenderInfo = layer_definition.render_info
+	
 	if "meters_per_pixel" in feature.get_attributes().keys():
 		var res_x = feature.get_attribute("width")
 		var res_y = feature.get_attribute("height")
@@ -90,9 +90,17 @@ func set_feature_icon(feature, marker):
 		#marker.set_scale(Vector2.ONE * float(feature.get_attribute("meters_per_pixel")) )
 		var mat = ShaderMaterial.new()
 		mat.set_shader(preload("res://UI/LabTable/ColoredOverlay.gdshader"))
-		# TODO dictionary of color/id in .ll config
-		mat.set_shader_parameter("color", Vector3((lid % 255), floor(lid / 255.0) * 30, 0))
+		
+		# Set color from config, if available; otherwise calculate a distinct fallback color
+		if str(lid) in layer_definition.render_info.lid_to_color:
+			mat.set_shader_parameter("color", Color(layer_definition.render_info.lid_to_color[str(lid)]))
+		else:
+			mat.set_shader_parameter("color", Vector3((lid % 255), floor(lid / 255.0) * 30, 0))
+		
 		marker.set_material(mat)
+		
+		marker.z_index = 1  # FIXME: Why is this needed? The z index should be set in the layer...
+		
 	elif render_info.attribute_icon.attribute != "":
 		var go = GameSystem.get_game_object_for_geo_feature(feature)
 		var attribute_value = go.get_attribute(render_info.attribute_icon.attribute)

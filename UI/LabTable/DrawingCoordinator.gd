@@ -65,7 +65,9 @@ func handle_returned_drawing(layer_index, position, scale, resolution, bounds, b
 	
 	#realPosition = viewport_camera.screen_to_global(realPosition)
 	logger.info(str(layer_index))
-	var feature = Layers.get_layer_composition("Masks Placeholder").render_info.get_geolayers()[1].create_feature()
+	
+	# FIXME: get this from the config
+	var feature = Layers.get_layer_composition("Land Cover Masks").render_info.get_geolayers()[1].create_feature()
 	
 	feature.set_vector3(local_position)
 	feature.set_attribute("lid", str(fixed_lids[layer_index]))
