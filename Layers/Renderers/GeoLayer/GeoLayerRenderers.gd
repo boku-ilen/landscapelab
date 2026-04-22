@@ -7,6 +7,7 @@ extends Node2D
 		player_node = new_player
 		$PlayerSprite.visible = new_player != null
 var geo_transform: GeoTransform = GeoTransform.new()
+
 var loading_threads = {}
 var raster_renderer = preload("res://Layers/Renderers/GeoLayer/GeoRasterLayerRenderer.tscn")
 var feature_renderer = preload("res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.tscn")
@@ -49,6 +50,7 @@ var offset := Vector2.ZERO :
 		offset = new_offset
 		camera_extent.center = offset
 		camera_extent_changed.emit(camera_extent)
+var viewport_size := Vector2.ZERO
 
 
 func _ready():
@@ -166,6 +168,14 @@ func instantiate_geolayer_renderer(layer_definition: LayerDefinition):
 
 
 func apply_offset(new_offset, new_viewport_size, new_zoom):
+	_load_all_renderers(new_offset, new_viewport_size, new_zoom)
+
+
+func reload():
+	_load_all_renderers(Vector2.ZERO, viewport_size, zoom)
+
+
+func _load_all_renderers(new_offset, new_viewport_size, new_zoom):
 	# Before setting any new metadata, we need to ensure data has been applied
 	if renderers_applied != renderers_count:
 		await loading_finished
@@ -175,6 +185,7 @@ func apply_offset(new_offset, new_viewport_size, new_zoom):
 	offset += new_offset
 	center.x += new_offset.x
 	center.y -= new_offset.y
+	viewport_size = new_viewport_size
 	
 	loading_started.emit()
 	
@@ -183,22 +194,51 @@ func apply_offset(new_offset, new_viewport_size, new_zoom):
 	renderers_applied = 0
 	
 	if load_data_threaded:
-		for renderer in get_children():
+		var renderers = get_children()
+		renderers.sort_custom(func(a, b):
+			return (a is GeoLayerRenderer and b is GeoLayerRenderer) and \
+				a.layer_definition.render_info.z_index > b.layer_definition.render_info.z_index
+		)
+		
+		for renderer in renderers:
 			if renderer is GeoLayerRenderer:
 				if loading_threads[renderer].is_started() and not loading_threads[renderer].is_alive():
 					loading_threads[renderer].wait_to_finish()
 				
 				loading_threads[renderer].start(update_renderer_with_new_data.bind(
-					renderer, center, new_offset, new_viewport_size, new_zoom),
+					renderer, center, new_offset, viewport_size, zoom),
 					Thread.PRIORITY_HIGH)
 	else:
-		for renderer in get_children():
-			if renderer is GeoLayerRenderer:
-				update_renderer_with_new_data(renderer, center, new_offset, new_viewport_size, new_zoom)
+		var renderers = get_children()
+		var feature_renderers = renderers.filter(func(renderer): return renderer is GeoFeatureLayerRenderer)
+		var raster_renderers = renderers.filter(func(renderer): return renderer is GeoRasterLayerRenderer)
+		raster_renderers.sort_custom(func(a, b):
+			return a.layer_definition.render_info.z_index > b.layer_definition.render_info.z_index
+		)
+		
+		# Update only the topmost raster renderer
+		if raster_renderers.size() > 0:
+			# Hacky way to make sure we don't wait for the others
+			renderers_finished += raster_renderers.size() - 1
+			renderers_applied += raster_renderers.size() - 1
+			
+			var renderer_to_update = raster_renderers.pop_front()
+			renderer_to_update.visible = true
+			update_renderer_with_new_data(renderer_to_update, center, new_offset, viewport_size, zoom)
+			
+			# Hide the others
+			for renderer in raster_renderers:
+				renderer.visible = false
+		
+		# Update all feature renderers
+		for renderer in feature_renderers:
+			update_renderer_with_new_data(renderer, center, new_offset, viewport_size, zoom)
 
 
 func update_renderer_with_new_data(renderer, new_center, new_offset, new_viewport_size, new_zoom):
 	if load_data_threaded: Thread.set_thread_safety_checks_enabled(false)
+	
+	last_loaded_renderers.append(renderer)
 	
 	renderer.set_metadata(
 		new_center,
@@ -208,7 +248,7 @@ func update_renderer_with_new_data(renderer, new_center, new_offset, new_viewpor
 	)
 	
 	renderer.load_new_data()
-	_on_renderer_finished.call_deferred(renderer.name)
+	_on_renderer_finished.call_deferred(renderer)
 
 
 func _on_feature_added(feature, renderer):
@@ -249,11 +289,11 @@ func update_renderer(renderer):
 			renderers_last_loaded_at_tick[renderer] = Engine.get_process_frames()
 
 
-func _on_renderer_finished(renderer_name):
+func _on_renderer_finished(renderer):
 	renderers_finished += 1
 	
 	logger.info(
-		"Renderer %s of %s (with name %s) finished!" % [renderers_finished, renderers_count, renderer_name]
+		"Renderer %s of %s (with name %s) finished!" % [renderers_finished, renderers_count, renderer.name]
 	)
 	
 	if renderers_finished == renderers_count:
@@ -262,13 +302,14 @@ func _on_renderer_finished(renderer_name):
 
 # Called when all renderers are done loading data in a thread and ready to display it.
 func _apply_renderers_data():
-	for renderer in get_children():
-		if renderer is GeoLayerRenderer:
-			renderer.apply_new_data()
-			# Only apply the position after the new data has
-			# been applied otherwise it will look clunky
-			renderer.position = offset
-			renderers_applied += 1
+	for renderer in last_loaded_renderers:
+		renderer.apply_new_data()
+		# Only apply the position after the new data has
+		# been applied otherwise it will look clunky
+		renderer.position = offset
+		renderers_applied += 1
+	
+	last_loaded_renderers = []
 	
 	loading_finished.emit()
 

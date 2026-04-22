@@ -33,7 +33,6 @@ func _on_attribute_changed(reference, option_name, value, is_manual_change := fa
 	# FIXME: We need to update the popup in order to refresh Attribute information
 	$UI/GameObjectConfiguration.call_deferred("reload_attribute_informations")
 
-
 # When the pop-up is opened, disable the interaction Area2D to prevent conflicts
 func _on_config_opened():
 	$Area2D.process_mode = Node.PROCESS_MODE_DISABLED
