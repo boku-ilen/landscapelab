@@ -42,8 +42,7 @@ func _transform_point(screen_position):
 	vector_local.z = -vector_local.z
 	return vector_local
 
-
-func handle_returned_drawing(layer_index, position, scale, resolution, bounds, binary_data):
+func handle_drawing_mode_end():
 	$TextureRect.visible = false
 	get_parent().geo_layer_renderers.set_layer_visibility("MASKS", true)
 	for n in get_tree().get_nodes_in_group("RegularUI"):
@@ -52,6 +51,9 @@ func handle_returned_drawing(layer_index, position, scale, resolution, bounds, b
 	for n in get_tree().get_nodes_in_group("DrawingUI"):
 		if n is CanvasItem:
 			n.visible = false
+
+func handle_returned_drawing(layer_index, position, scale, resolution, bounds, binary_data):
+
 			
 	var real_position = Vector2(DisplayServer.window_get_size(get_viewport().get_window().get_window_id())) * position
 	var local_position = _transform_point(real_position)

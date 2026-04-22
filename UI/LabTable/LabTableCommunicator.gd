@@ -54,7 +54,7 @@ func _on_data(id, message):
 	var shape = ""
 	var color = ""
 	logger.info(data_dict["event"])
-	if data_dict != null and data_dict["event"] != "drawing_processed":
+	if data_dict != null and data_dict["event"] != "drawing_processed" and data_dict["event"] != "drawing_done":
 		logger.info("Got data from client %d: %s" % [id, data_dict])
 
 		shape = data_dict["data"]["shape"]
@@ -134,7 +134,9 @@ func _on_data(id, message):
 		var reference_image_size = Vector2(bitmap_resolution[0], bitmap_resolution[1]) / Vector2(bounding_box[2], bounding_box[3])
 		get_parent().drawing_coordinator.handle_returned_drawing(color_id, screen_pos, (screen_size / reference_image_size).x, bitmap_resolution, bounding_box, bitmap.hex_decode())
 		
-		
+	elif data_dict["event"] == "drawing_done":
+		logger.info("received " + str(data_dict["data"]["number_of_results"]) + " drawings")
+		get_parent().drawing_coordinator.handle_drawing_mode_end()
 
 
 func _on_game_object_creation_failed(event_position):
