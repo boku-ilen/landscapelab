@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://cr2msju8rb1gs"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://cr2msju8rb1gs"]
 
 [ext_resource type="Material" uid="uid://bh0dmkle5q13h" path="res://Layers/Renderers/VectorVegetation/Materials/Bark.tres" id="1_wb7f1"]
 [ext_resource type="Material" uid="uid://bc7wd2h44722t" path="res://Layers/Renderers/VectorVegetation/Materials/Leaf.tres" id="2_lg7ku"]

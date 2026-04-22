@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://bw14x0t6mfa2h"]
+
+[ext_resource type="Script" uid="uid://q8j1wpv4o0y2" path="res://UI/Weather/WeatherUIWindow.gd" id="1_g06em"]
+[ext_resource type="PackedScene" uid="uid://dkvdbwaqhrbnn" path="res://UI/Weather/WeatherUI.tscn" id="1_ldpqy"]
+[ext_resource type="Theme" uid="uid://2acd0pfpr1ny" path="res://UI/Theme/LandscapeLab.tres" id="3_ebbup"]
+
+[node name="WeatherUIWindow" type="Window" unique_id=1443557130]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(800, 450)
+script = ExtResource("1_g06em")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=2072215166]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_ebbup")
+
+[node name="WeatherUI" parent="PanelContainer" unique_id=2014962298 instance=ExtResource("1_ldpqy")]
+layout_mode = 2
+
+[node name="Label" parent="PanelContainer/WeatherUI/Visibility" parent_id_path=PackedInt32Array(2014962298, 319798848) index="0" unique_id=2105826668]
+text = "Visibility"
+
+[node name="HSlider" parent="PanelContainer/WeatherUI/Visibility" parent_id_path=PackedInt32Array(2014962298, 319798848) index="1" unique_id=48491094]
+step = 1.0
+value = 0.0
+tick_count = 11
+
+[node name="SpinBox" parent="PanelContainer/WeatherUI/Visibility" parent_id_path=PackedInt32Array(2014962298, 319798848) index="2" unique_id=32210871]
+step = 1.0
+value = 0.0
+
+[node name="ValueLabel" parent="PanelContainer/WeatherUI/Visibility" parent_id_path=PackedInt32Array(2014962298, 319798848) index="3" unique_id=511860745]
+text = "0.00"
+
+[editable path="PanelContainer/WeatherUI"]
+[editable path="PanelContainer/WeatherUI/Visibility"]

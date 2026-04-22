@@ -87,3 +87,91 @@ var lightning_orientation := 0 :
 	set(new_orientation):
 		lightning_orientation = new_orientation
 		lightning_orientation_changed.emit(lightning_orientation)
+
+
+static var presets := {
+	"Clear": {
+		"visibility": 10,
+		"cloud_coverage": 8,
+		"cloud_density": 15,
+		"wind_speed": 5,
+		"rain_enabled": false,
+		"lightning_frequency": 0
+	},
+	"Few Clouds": {
+		"visibility": 20,
+		"cloud_coverage": 15,
+		"cloud_density": 50,
+		"wind_speed": 35,
+		"rain_enabled": false,
+		"lightning_frequency": 0
+	},
+	"Overcast": {
+		"visibility": 30,
+		"cloud_coverage": 45,
+		"cloud_density": 25,
+		"wind_speed": 20,
+		"rain_enabled": false,
+		"lightning_frequency": 0
+	},
+	"Drizzle Rain": {
+		"visibility": 35,
+		"cloud_coverage": 45,
+		"cloud_density": 50,
+		"wind_speed": 5,
+		"rain_enabled": true,
+		"rain_density": 3.5,
+		"rain_size": 0.015,
+		"lightning_frequency": 0
+	},
+	"Heavy Rain": {
+		"visibility": 45,
+		"cloud_coverage": 75,
+		"cloud_density": 35,
+		"wind_speed": 15,
+		"rain_enabled": true,
+		"rain_density": 7.5,
+		"rain_size": 0.05,
+		"lightning_frequency": 0
+	},
+	"Gusts": {
+		"visibility": 10,
+		"cloud_coverage": 15,
+		"cloud_density": 20,
+		"wind_speed": 80,
+		"rain_enabled": false,
+		"lightning_frequency": 0
+	},
+	"Thunderstorm": {
+		"visibility": 80,
+		"cloud_coverage": 80,
+		"cloud_density": 50,
+		"wind_speed": 50,
+		"rain_enabled": true,
+		"rain_density": 7.5,
+		"rain_size": 0.04,
+		"lightning_frequency": 75
+	},
+	"Foggy": {
+		"visibility": 100,
+		"cloud_coverage": 70,
+		"cloud_density": 40,
+		"wind_speed": 0,
+		"rain_enabled": false,
+		"lightning_frequency": 0
+	}
+}
+
+
+@export var default_preset: String = "Few Clouds"
+
+
+func activate_preset(preset_name: String):
+	for attribute_name in presets[preset_name].keys():
+		set(attribute_name,  presets[preset_name][attribute_name])
+
+
+func _ready():
+	# Wait for everything else to be ready
+	await get_tree().process_frame
+	activate_preset(default_preset)

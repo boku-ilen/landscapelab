@@ -21,7 +21,9 @@ vec3 get_vertex_offset(vec3 vertex, mat4 model_matrix, float time) {
 	// Direction and scale of the wind: transform from model space to world space
 	vec2 wind_vector = (inverse(model_matrix) * vec4(wind_speed.x, 0.0, wind_speed.y, 0.0)).xz;
 	// We don't want the wind offset to scale directly proportionally to wind speed, but level off a bit.
-	wind_vector = normalize(wind_vector) * sqrt(length(wind_speed) * 0.01);
+	if (abs(wind_vector.x) > 0.0 && abs(wind_vector.y) > 0.0) {
+		wind_vector = normalize(wind_vector) * sqrt(length(wind_speed) * 0.01);
+	}
 	
 	vec2 wind_offset_vector = wind_vector * 0.1 * wind_amount * distance_from_zero * distance_from_center * wind_factor;
 

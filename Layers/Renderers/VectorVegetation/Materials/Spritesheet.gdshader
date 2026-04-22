@@ -6,13 +6,13 @@ render_mode blend_mix, depth_prepass_alpha, cull_disabled, diffuse_burley, specu
 
 global uniform vec3 HCY_SHIFT;
 
-uniform float ao_max = 0.25;
+uniform float ao_max = 0.2;
 uniform float ao_light_affect = 0.95;
 
-uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
+uniform sampler2D[15] albedo_tex : source_color, repeat_disable, filter_linear_mipmap_anisotropic;
 uniform vec3 albedo_multiply : source_color = vec3(1.0);
 
-uniform sampler2D normal_tex : hint_normal, filter_linear_mipmap, repeat_enable;
+uniform sampler2D[15] normal_tex: filter_linear_mipmap, repeat_enable;
 
 /**
 * This is added to value coming from Red channel of "Rough AO Transmission Tex", to allow fast tweaking.
@@ -43,7 +43,7 @@ uniform float alpha_scissor_min = 0.4;
 uniform float alpha_scissor_max = 0.8;
 
 uniform int sprite_count = 8;
-varying flat float spritesheet_index;
+varying flat int spritesheet_index;
 varying flat float random_instance_factor;
 varying flat float is_detailed;
 varying float vertex_distance_from_zero;
@@ -64,7 +64,7 @@ void vertex() {
 	view_vertex.x *= 1.0 + normal_to_camera;
 	VERTEX = (inverse(MODELVIEW_MATRIX) * view_vertex).xyz;
 
-	spritesheet_index = INSTANCE_CUSTOM.r;
+	spritesheet_index = int(round(INSTANCE_CUSTOM.r));
 	random_instance_factor = INSTANCE_CUSTOM.g;
 	is_detailed = INSTANCE_CUSTOM.b;
 
@@ -73,14 +73,9 @@ void vertex() {
 
 void fragment() {
 	vec2 base_uv = UV;
+	base_uv.y *= 2.0;
 
-	base_uv.x -= floor(base_uv.x);
-	base_uv.y -= floor(base_uv.y);
-
-	base_uv.y /= float(sprite_count) / 2.0;  // / 2.0 because of how the mesh UVs are
-	base_uv.y += spritesheet_index / float(sprite_count);
-
-	vec4 albedo_w_alpha = texture(albedo_tex, base_uv);
+	vec4 albedo_w_alpha = texture(albedo_tex[spritesheet_index], base_uv);
 	vec3 rough_ao_trans = vec3(1.0);
 
 	// Randomised HYC Shifts of whole Albedo Tex depending on Node's Worldspace Position.
@@ -108,14 +103,14 @@ void fragment() {
 	SPECULAR = 0.15;
 	ROUGHNESS = 0.4 + roughness_offset;
 
-	NORMAL_MAP = texture(normal_tex, base_uv).rgb;
+	NORMAL_MAP = texture(normal_tex[spritesheet_index], base_uv).rgb;
 	NORMAL_MAP_DEPTH = 1.0;
 
 	// TODO: We have the problem that pine trees have much more self-shadowing than broadleave trees.
 	// Based on our spritesheets, we have no way to tell that (the normal map is too low-res).
 	// I guess the only proper solution would be to bake AO?
 
-	AO = mix(0.0, ao_max, pow(vertex_distance_from_zero, 3.0));
+	AO = mix(0.0, ao_max, pow(vertex_distance_from_zero, 2.0));
 	AO *= mix(1.0, 0.6, smoothstep(100.0, 300.0, depth));
 	AO_LIGHT_AFFECT = ao_light_affect;
 

@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://88rg1t88n3e7" path="res://UI/Screenshot/ScreenshotMenu.tscn" id="12_uackt"]
 [ext_resource type="Script" uid="uid://cetrkuf4xyl22" path="res://UI/WorkshopUI.gd" id="13_flqmn"]
 [ext_resource type="Script" uid="uid://cpbqfleeytn3v" path="res://UI/WorldViewPort.gd" id="14_dbua3"]
+[ext_resource type="Script" uid="uid://cdsdofhxc6ipy" path="res://UI/VRPerformanceManager.gd" id="15_4n8py"]
 [ext_resource type="PackedScene" uid="uid://dq360hhqtol4f" path="res://World/World.tscn" id="15_w6bxo"]
 [ext_resource type="PackedScene" uid="uid://cnhf1t4exg0ww" path="res://UI/PlayerCompass.tscn" id="16_gc550"]
 [ext_resource type="PackedScene" uid="uid://dl4m3ovxk1e8q" path="res://Util/Debug/Rendering/debugviewer.tscn" id="17_bf01u"]
@@ -172,6 +173,7 @@ script = ExtResource("14_dbua3")
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort" unique_id=1807035451]
 handle_input_locally = false
 msaa_3d = 1
+scaling_3d_mode = 1
 gui_disable_input = true
 positional_shadow_atlas_size = 4096
 positional_shadow_atlas_16_bits = false
@@ -179,9 +181,16 @@ positional_shadow_atlas_quad_0 = 1
 size = Vector2i(833, 574)
 render_target_update_mode = 4
 
+[node name="VRPerformanceManager" type="Node" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" unique_id=321793554 node_paths=PackedStringArray("main_viewport")]
+script = ExtResource("15_4n8py")
+main_viewport = NodePath("..")
+
+[node name="FPSTimer" type="Timer" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/VRPerformanceManager" unique_id=1285814658]
+wait_time = 0.2
+
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" unique_id=33073808 instance=ExtResource("15_w6bxo")]
 
-[node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC" index="5" unique_id=1821134723 node_paths=PackedStringArray("pc_player") instance=ExtResource("16_gc550")]
+[node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC" parent_id_path=PackedInt32Array(33073808, 1780470910) index="5" unique_id=1821134723 node_paths=PackedStringArray("pc_player") instance=ExtResource("16_gc550")]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0

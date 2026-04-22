@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=2 format=4 uid="uid://bg0kbvy7ijboa"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://bg0kbvy7ijboa"]
 
 [ext_resource type="Material" uid="uid://dev4ae0w02tgs" path="res://Layers/Renderers/VectorVegetation/Materials/Spritesheet.tres" id="1_2312i"]
 

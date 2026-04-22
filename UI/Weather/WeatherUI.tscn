@@ -1,56 +1,56 @@
-[gd_scene load_steps=5 format=3 uid="uid://dkvdbwaqhrbnn"]
+[gd_scene format=3 uid="uid://dkvdbwaqhrbnn"]
 
 [ext_resource type="Script" uid="uid://b7ud6oeykx5gs" path="res://UI/Weather/WeatherUI.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://evcqemueid18" path="res://UI/CustomElements/SlideAndSpin.tscn" id="2"]
 [ext_resource type="Script" uid="uid://dch0wishnyf4e" path="res://UI/Weather/LiveWeatherButton.gd" id="3_sk3p0"]
 [ext_resource type="PackedScene" uid="uid://byeo11my44w8v" path="res://World/LiveWeatherService.tscn" id="4_3u5su"]
 
-[node name="WeatherUI" type="GridContainer"]
+[node name="WeatherUI" type="GridContainer" unique_id=814104297]
 offset_right = 1077.0
 offset_bottom = 266.0
 script = ExtResource("1")
 
-[node name="Preconfigurations" type="HBoxContainer" parent="."]
+[node name="Preconfigurations" type="HBoxContainer" parent="." unique_id=198335633]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Preconfigurations"]
+[node name="Label" type="Label" parent="Preconfigurations" unique_id=619869862]
 layout_mode = 2
 text = "Preconfiguration"
 
-[node name="OptionButton" type="OptionButton" parent="Preconfigurations"]
+[node name="OptionButton" type="OptionButton" parent="Preconfigurations" unique_id=672405527]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 2
 
-[node name="Visibility" parent="." instance=ExtResource("2")]
+[node name="Visibility" parent="." unique_id=319798848 instance=ExtResource("2")]
 layout_mode = 2
 label = "Visibility"
 step = 1.0
 value = 0.0
 tick_count = 11
 
-[node name="CloudDensity" parent="." instance=ExtResource("2")]
+[node name="CloudDensity" parent="." unique_id=1639993221 instance=ExtResource("2")]
 layout_mode = 2
 label = "Cloud Density"
 step = 1.0
 value = 20.0
 tick_count = 11
 
-[node name="CloudCoverage" parent="." instance=ExtResource("2")]
+[node name="CloudCoverage" parent="." unique_id=929720471 instance=ExtResource("2")]
 layout_mode = 2
 label = "Cloud Coverage"
 step = 1.0
 value = 0.0
 tick_count = 11
 
-[node name="WindSpeed" parent="." instance=ExtResource("2")]
+[node name="WindSpeed" parent="." unique_id=1674047780 instance=ExtResource("2")]
 layout_mode = 2
 label = "Wind Speed (km/h)"
 step = 1.0
 value = 0.0
 tick_count = 11
 
-[node name="WindDirection" parent="." instance=ExtResource("2")]
+[node name="WindDirection" parent="." unique_id=1903795349 instance=ExtResource("2")]
 layout_mode = 2
 label = "Wind Direction (°)"
 max_value = 360.0
@@ -58,18 +58,18 @@ step = 1.0
 value = 0.0
 tick_count = 4
 
-[node name="Rain" type="HBoxContainer" parent="."]
+[node name="Rain" type="HBoxContainer" parent="." unique_id=747684692]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Rain"]
+[node name="Label" type="Label" parent="Rain" unique_id=1934948776]
 layout_mode = 2
 text = "Rain enabled"
 
-[node name="CheckBox" type="CheckButton" parent="Rain"]
+[node name="CheckBox" type="CheckButton" parent="Rain" unique_id=208024714]
 layout_mode = 2
 size_flags_horizontal = 2
 
-[node name="RainDensity" parent="." instance=ExtResource("2")]
+[node name="RainDensity" parent="." unique_id=915283762 instance=ExtResource("2")]
 layout_mode = 2
 label = "Rain Density"
 min_value = 0.01
@@ -78,7 +78,7 @@ step = 0.01
 value = 1.0
 tick_count = 11
 
-[node name="RainDropSize" parent="." instance=ExtResource("2")]
+[node name="RainDropSize" parent="." unique_id=1682566393 instance=ExtResource("2")]
 layout_mode = 2
 label = "Rain Drop Size"
 min_value = 0.001
@@ -87,14 +87,14 @@ step = 0.001
 value = 0.03
 tick_count = 6
 
-[node name="LightningFrequency" parent="." instance=ExtResource("2")]
+[node name="LightningFrequency" parent="." unique_id=165726237 instance=ExtResource("2")]
 layout_mode = 2
 label = "Lightning Frequency"
 step = 1.0
 value = 0.0
 tick_count = 11
 
-[node name="LightningOrientation" parent="." instance=ExtResource("2")]
+[node name="LightningOrientation" parent="." unique_id=1159021075 instance=ExtResource("2")]
 layout_mode = 2
 label = "Rotation Degrees"
 max_value = 360.0
@@ -102,18 +102,18 @@ step = 1.0
 value = 0.0
 tick_count = 4
 
-[node name="LiveWeather" type="HBoxContainer" parent="."]
+[node name="LiveWeather" type="HBoxContainer" parent="." unique_id=502362608]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="LiveWeather"]
+[node name="Label" type="Label" parent="LiveWeather" unique_id=2027492395]
 layout_mode = 2
 text = "Real Time Weather"
 
-[node name="LiveWeatherButton" type="Button" parent="LiveWeather"]
+[node name="LiveWeatherButton" type="Button" parent="LiveWeather" unique_id=1725312928]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Apply"
 script = ExtResource("3_sk3p0")
 
-[node name="LiveWeatherService" parent="LiveWeather/LiveWeatherButton" instance=ExtResource("4_3u5su")]
+[node name="LiveWeatherService" parent="LiveWeather/LiveWeatherButton" unique_id=1916891187 instance=ExtResource("4_3u5su")]

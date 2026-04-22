@@ -67,6 +67,9 @@ class RenderInfo extends RefCounted:
 	var renderer_instance: Node3D
 	var icon = preload("res://Resources/Icons/ModernLandscapeLab/file.svg")
 	
+	# Optional extra data, e.g. for specific object scenes
+	var extra: Dictionary = {}
+	
 	func get_geolayers() -> Array:
 		return []
 	
@@ -367,6 +370,8 @@ class VariableScatteredObjectInfo extends RenderInfo:
 
 	var placement_min_radius: float
 	var placement_max_radius: float
+	
+	var griddedness_layer: GeoRasterLayer
 
 	var probability_layer: GeoFeatureLayer
 	var meshes: Dictionary[String, Dictionary]

@@ -18,11 +18,11 @@ func teleport(pos: Vector3):
 
 
 func get_ground_height():
-	var space_state = get_world_3d().direct_space_state
-	var result = space_state.intersect_ray(
+	# We add a tiny offset to the position because sampling at exactly (0, 0, 0) is problematic
+	var result = get_world_3d().direct_space_state.intersect_ray(
 		PhysicsRayQueryParameters3D.create(
-			Vector3(position.x, 6000, position.z),
-			Vector3(position.x, 0.0, position.z), 4294967295, [get_rid()]))
+			Vector3(position.x + 0.0000001, 6000, position.z + 0.0000001),
+			Vector3(position.x + 0.0000001, 0.0, position.z + 0.0000001), 4294967295, [get_rid()]))
 
 	return result.position.y if result else 0.0
 
