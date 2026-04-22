@@ -306,7 +306,7 @@ func override_build(center_x, center_y):
 	is_refine_load = false
 	
 	var end = Time.get_ticks_msec()
-	print("Loading %d trees took %d msec" % [sum_trees, end - start])
+	logger.info("Loading %d trees took %d msec" % [sum_trees, end - start])
 
 
 func override_apply():
