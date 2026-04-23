@@ -52,6 +52,7 @@ class FeatureRenderInfo extends RenderInfo:
 	var marker_near_switch_zoom: float
 	var marker_near_scale_formula: String
 	var marker_near_scale: float
+	var lid_to_color: Dictionary
 	var config: Dictionary # FIXME: corresponds to the func set_feature_icon(feature, marker): in GeoFeatureLayerRenderer
 	var attribute_icon := AttributeIcon.new()
 
