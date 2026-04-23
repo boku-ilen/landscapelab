@@ -36,7 +36,6 @@ PSUManager="*uid://brbuovlpfmhdq"
 window/energy_saving/keep_screen_on=false
 window/subwindows/embed_subwindows=false
 window/stretch/aspect="expand"
-window/per_pixel_transparency/allowed=true
 window/vsync/vsync_mode=0
 window/size/width=1920
 window/size/height=1080
@@ -447,6 +446,7 @@ limits/message_queue/max_size_kb=1048576
 
 [rendering]
 
+driver/threads/thread_model=2
 lights_and_shadows/use_physical_light_units=true
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=4
 lights_and_shadows/directional_shadow/16_bits=false
