@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="LandscapeLab!"
-run/main_scene="res://UI/WorkshopUI.tscn"
+run/main_scene="uid://xjqqlath1pcy"
 config/features=PackedStringArray("4.6")
 run/max_fps=90
 boot_splash/image="uid://ftqy22gtpg7w"
