@@ -65,9 +65,8 @@ bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
 [node name="LabTableWindow" type="Window" unique_id=746909283]
 oversampling_override = 1.0
 mode = 3
-initial_position = 3
+initial_position = 1
 size = Vector2i(1600, 900)
-current_screen = 0
 
 [node name="LabTable" type="HBoxContainer" parent="." unique_id=686143228 node_paths=PackedStringArray("geo_layers", "control_ui", "extent_visualizer", "drawing_coordinator", "geo_layer_renderers", "communicator")]
 anchors_preset = 15
@@ -127,6 +126,7 @@ visibility_layer = 3
 camera = NodePath("../Camera2D")
 
 [node name="Cursor2D" type="Sprite2D" parent="LabTable/SubViewportContainer/SubViewport" unique_id=1509257619 node_paths=PackedStringArray("camera_2d")]
+visible = false
 z_index = 1000
 texture = ExtResource("4_yl3ng")
 script = ExtResource("4_12y64")
@@ -264,6 +264,7 @@ offset_top = -345.0
 offset_right = 90.0
 offset_bottom = 14.0
 grow_vertical = 0
+mouse_filter = 1
 theme_override_styles/panel = ExtResource("23_wb0c1")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton/LayersPanel" unique_id=473715093]
@@ -516,6 +517,7 @@ coordinator = NodePath("../../LabTable/DrawingCoordinator")
 metadata/_custom_type_script = "uid://3vvk84ipyk5y"
 
 [node name="DrawStartButton" type="MarginContainer" parent="." unique_id=667466255 groups=["RegularUI"]]
+visible = false
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5

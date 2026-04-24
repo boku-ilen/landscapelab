@@ -6,6 +6,7 @@
 [ext_resource type="Theme" uid="uid://ds53is5i10bt8" path="res://UI/Theme/DarkTheme.tres" id="2_upp2j"]
 [ext_resource type="PackedScene" uid="uid://ch15mdq8mk72s" path="res://Util/FileChooser.tscn" id="3_j84yl"]
 [ext_resource type="Script" uid="uid://brxr716rbtt8h" path="res://UI/MenuBar/Util.gd" id="4_5mb8g"]
+[ext_resource type="Script" uid="uid://cdsdofhxc6ipy" path="res://UI/VRPerformanceManager.gd" id="7_j84yl"]
 
 [node name="FullscreenUI" type="Control" unique_id=1203756981]
 layout_mode = 3
@@ -26,6 +27,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=619490310]
 handle_input_locally = false
+msaa_3d = 1
 scaling_3d_mode = 1
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
@@ -131,5 +133,11 @@ position_manager = NodePath("../../SubViewportContainer/SubViewport/World/Positi
 player_node = NodePath("../../SubViewportContainer/SubViewport/World/FirstPersonPC")
 weather_manager = NodePath("../../SubViewportContainer/SubViewport/World/WeatherManager")
 time_manager = NodePath("../../SubViewportContainer/SubViewport/World/TimeManager")
+
+[node name="VRPerformanceManager" type="Node" parent="." unique_id=351487070 node_paths=PackedStringArray("main_viewport")]
+script = ExtResource("7_j84yl")
+main_viewport = NodePath("../SubViewportContainer/SubViewport")
+
+[node name="FPSTimer" type="Timer" parent="VRPerformanceManager" unique_id=111612116]
 
 [editable path="SubViewportContainer/SubViewport/World"]
