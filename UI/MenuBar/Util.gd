@@ -12,11 +12,9 @@ const DOLLYSCENE = preload("res://UI/DollyCamera/DollyWindow.tscn")
 
 
 var open_dolly_item = MenuItem.new(
-	"Open...", _begin_dolly)
+	"Open Dolly", _begin_dolly)
 var open_table_item = MenuItem.new(
-	"Open...", _open_labtable)
-var table_fullscreen_item = MenuItem.new(
-	"Set Fullscreen", _set_labtable_fullscreen, true, false)
+	"Open LabTable", _open_labtable)
 var open_weather_ui_item = MenuItem.new(
 	"Open Weather Menu", func():
 		var weather_menu = preload("res://UI/Weather/WeatherUIWindow.tscn").instantiate()
@@ -24,13 +22,23 @@ var open_weather_ui_item = MenuItem.new(
 		weather_menu.popup_centered()
 		weather_menu.weather_manager = weather_manager
 )
+var open_datetime_ui_item = MenuItem.new(
+	"Open DateTime Menu", func():
+		var datetime_menu = preload("res://UI/Datetime/DatetimeWindow.tscn").instantiate()
+		get_tree().get_root().add_child(datetime_menu)
+		datetime_menu.popup_centered()
+		datetime_menu.time_manager = time_manager
+)
+var open_layer_ui_item = MenuItem.new(
+	"Open Layer Menu", func():
+		var menu = preload("res://UI/Layers/LayerConfiguration/LayerCompositionUIWindow.tscn").instantiate()
+		menu.position_manager = position_manager
+		get_tree().get_root().add_child(menu)
+		menu.popup_centered()
+)
 
-var imaging_menu = Menu.new(
-	false, "ImagingMenu", [open_dolly_item])
-var labtable_menu = Menu.new(
-	false, "LabTableMenu", [open_table_item, table_fullscreen_item])
-var util_menu = Menu.new(
-	true, "UtilMenu", [imaging_menu, labtable_menu, open_weather_ui_item])
+var window_menu = Menu.new(
+	true, "WindowMenu", [open_dolly_item, open_table_item, open_weather_ui_item, open_datetime_ui_item, open_layer_ui_item])
 
 var dolly_window: Window
 var labtable_window: Window
@@ -53,22 +61,6 @@ func _open_labtable():
 		labtable_window.get_node("LabTable").weather_manager = weather_manager
 	if not labtable_window.is_inside_tree():
 		get_tree().get_root().add_child(labtable_window)
-	
-	labtable_menu.popup.set_item_disabled(
-		labtable_menu.menu_items.find(open_table_item), true)
-	labtable_menu.popup.set_item_disabled(
-		labtable_menu.menu_items.find(table_fullscreen_item), false)
-
-
-func _set_labtable_fullscreen():
-	if labtable_window.mode == Window.MODE_FULLSCREEN:
-		labtable_window.mode = Window.MODE_WINDOWED
-		labtable_menu.popup.set_item_checked(
-			labtable_menu.menu_items.find(table_fullscreen_item), false)
-	else:
-		labtable_window.mode = Window.MODE_FULLSCREEN
-		labtable_menu.popup.set_item_checked(
-			labtable_menu.menu_items.find(table_fullscreen_item), true)
 
 
 func _begin_dolly():
@@ -77,10 +69,7 @@ func _begin_dolly():
 	
 	dolly_window.popup()
 	dolly_window.position_manager = position_manager
-	
-	imaging_menu.popup.set_item_disabled(imaging_menu.menu_items.find(open_dolly_item), true)
 
 
 func _cleanup_dolly():
 	dolly_window.hide()
-	imaging_menu.popup.set_item_disabled(imaging_menu.menu_items.find(open_dolly_item), false)

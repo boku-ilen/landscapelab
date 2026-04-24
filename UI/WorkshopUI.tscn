@@ -61,13 +61,13 @@ theme_override_constants/separation = -5
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="ViewButton" parent="MarginContainer/VBoxContainer/MenuBar" index="1" node_paths=PackedStringArray("world_ui", "viewport", "docks")]
+[node name="ViewButton" parent="MarginContainer/VBoxContainer/MenuBar" index="1" unique_id=1761535387 node_paths=PackedStringArray("world_ui", "viewport", "docks")]
 world_ui = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI")
 viewport = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport")
 docks = [NodePath("../../Left/Tabs"), NodePath("../../Left/Mid/Right"), NodePath("../../Left/Mid/MidVertical/HBoxContainer")]
 dock_names = Array[String](["Left dock", "Right dock", "Bottom dock"])
 
-[node name="UtilButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" node_paths=PackedStringArray("action_handler_3d_path", "position_manager", "player_node", "weather_manager", "time_manager")]
+[node name="UtilButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" unique_id=2130191227 node_paths=PackedStringArray("action_handler_3d_path", "position_manager", "player_node", "weather_manager", "time_manager")]
 action_handler_3d_path = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/ActionHandler")
 position_manager = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 player_node = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
@@ -94,7 +94,7 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="LiveWeatherService" parent="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI/LiveWeather/LiveWeatherButton" index="0" node_paths=PackedStringArray("weather_manager", "player")]
+[node name="LiveWeatherService" parent="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI/LiveWeather/LiveWeatherButton" parent_id_path=PackedInt32Array(364195188, 1725312928) index="0" unique_id=1916891187 node_paths=PackedStringArray("weather_manager", "player")]
 weather_manager = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/WeatherManager")
 player = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
 
@@ -104,12 +104,11 @@ metadata/_tab_index = 1
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs" unique_id=2059227139]
 layout_mode = 2
-current_tab = 3
+current_tab = 0
 drag_to_rearrange_enabled = true
 script = ExtResource("8_cvnpk")
 
 [node name="Datetime" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" unique_id=438268215 instance=ExtResource("11_mx3ou")]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -127,6 +126,7 @@ metadata/_tab_index = 2
 position_manager_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 
 [node name="Screenshot" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" unique_id=1244427465 node_paths=PackedStringArray("teleport_menu", "scenario_menu") instance=ExtResource("12_uackt")]
+visible = false
 layout_mode = 2
 teleport_menu = NodePath("../../Top/TeleportMenu")
 scenario_menu = NodePath("../Scenarios")
@@ -178,7 +178,7 @@ gui_disable_input = true
 positional_shadow_atlas_size = 4096
 positional_shadow_atlas_16_bits = false
 positional_shadow_atlas_quad_0 = 1
-size = Vector2i(833, 574)
+size = Vector2i(795, 574)
 render_target_update_mode = 4
 
 [node name="VRPerformanceManager" type="Node" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" unique_id=321793554 node_paths=PackedStringArray("main_viewport")]
