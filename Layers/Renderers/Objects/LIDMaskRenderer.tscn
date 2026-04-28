@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://4g7k5cfhyqjk"]
-
-[ext_resource type="Script" uid="uid://b1nfn35udwouf" path="res://Layers/Renderers/Objects/LIDMaskRenderer.gd" id="1_j4lqn"]
-
-[node name="LidMaskRenderer" type="Node3D" unique_id=260453698]
-script = ExtResource("1_j4lqn")
-metadata/_custom_type_script = "uid://b1nfn35udwouf"

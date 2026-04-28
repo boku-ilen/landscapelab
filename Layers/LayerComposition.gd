@@ -30,7 +30,6 @@ const RENDER_INFOS := {
 	"Vector Vegetation": VectorVegetationRenderInfo,
 	"Object": ObjectRenderInfo,
 	"Wind Turbine": WindTurbineRenderInfo,
-	"LID Masks": LIDMaskRenderInfo,
 	"PolygonObject": PolygonObjectInfo,
 	"Building": BuildingRenderInfo,
 	"Road Network": RoadNetworkRenderInfo,
@@ -81,6 +80,7 @@ class RenderInfo extends RefCounted:
 	
 	func get_class_name() -> String: return ""
 
+
 class BasicTerrainRenderInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
 	var texture_layer: GeoRasterLayer
@@ -107,6 +107,7 @@ class BasicTerrainRenderInfo extends RenderInfo:
 	
 	func get_class_name() -> String: return "Basic Terrain"
 
+
 class RealisticTerrainRenderInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
 	var surface_height_layer: GeoRasterLayer
@@ -131,6 +132,7 @@ class RealisticTerrainRenderInfo extends RenderInfo:
 	
 	func get_class_name() -> String: return "Realistic Terrain"
 
+
 class RoadNetworkRenderInfo extends RenderInfo:
 	var road_roads: GeoFeatureLayer
 	var road_intersections: GeoFeatureLayer
@@ -151,6 +153,7 @@ class RoadNetworkRenderInfo extends RenderInfo:
 	
 	func get_class_name() -> String: return "RoadNetwork"
 
+
 class VegetationRenderInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
 	var landuse_layer: GeoRasterLayer
@@ -170,6 +173,7 @@ class VegetationRenderInfo extends RenderInfo:
 	
 	func get_class_name() -> String: return "Vegetation"
 
+
 class VectorVegetationRenderInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
 	var plant_layer: GeoFeatureLayer
@@ -188,6 +192,7 @@ class VectorVegetationRenderInfo extends RenderInfo:
 		return height_layer != null and plant_layer != null
 	
 	func get_class_name() -> String: return "VectorVegetation"
+
 
 class ObjectRenderInfo extends RenderInfo:
 	# The geodata-key-attribute that determines which connector/connection to use
@@ -227,6 +232,7 @@ class ObjectRenderInfo extends RenderInfo:
 	
 	func get_class_name() -> String: return "Object"
 
+
 class WindTurbineRenderInfo extends ObjectRenderInfo:
 	var height_attribute_name: String
 	var diameter_attribute_name: String
@@ -236,6 +242,7 @@ class WindTurbineRenderInfo extends ObjectRenderInfo:
 		radius = 40000  # Higher detault radius since they're large
 	
 	func get_class_name() -> String: return "Wind Turbine"
+
 
 class BuildingRenderInfo extends RenderInfo:
 	var height_stdev_attribute_name: String
@@ -267,15 +274,6 @@ class BuildingRenderInfo extends RenderInfo:
 	
 	func get_class_name() -> String: return "Building"
 
-class LIDMaskRenderInfo extends ObjectRenderInfo:
-	var mask_feature_layer: GeoFeatureLayer :
-		get():
-			return geo_feature_layer
-	
-	func _init():
-		renderer = preload("res://Layers/Renderers/Objects/LIDMaskRenderer.tscn")
-	
-	func get_class_name() -> String: return "LID Mask"
 
 class ConnectedObjectInfo extends RenderInfo:
 	# The geodata-key-attribute that determines which connector/connection to use

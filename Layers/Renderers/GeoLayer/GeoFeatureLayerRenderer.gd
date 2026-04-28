@@ -73,21 +73,25 @@ func set_feature_icon(feature, marker):
 		var lid = int(feature.get_attribute("lid"))
 		var data = feature.get_binary_attribute("image")
 		var image = Image.create_from_data(int(res_x), int(res_y), false, Image.FORMAT_R8, data)
+		
+		if not image:
+			logger.error("Image creation failed for image of feature with ID %s" % [str(feature.get_id())])
+			return
+		
 		var texture = ImageTexture.create_from_image(image)
 		marker.set_texture(texture)
 		
-		var position_orig = feature.get_vector3()
-		position_orig.x = 0
-		var one_right_orig = position_orig# + Vector3(float(feature.get_attribute("meters_per_pixel")), 0, 0)
-		one_right_orig.x = float(feature.get_attribute("meters_per_pixel"))
+		# Calculate the marker scale in WebMercator units by comparing the difference between 1 
+		# projected unit and 1 unprojected unit; start from x=0 for good float accuracy
+		var position_orig = feature.get_vector3() * Vector3(0.0, 1.0, 1.0)
+		var one_right_orig = Vector3(float(feature.get_attribute("meters_per_pixel")), position_orig.y, position_orig.z)
 		
 		var position_3857 = global_vector3_to_local_vector2(position_orig)
 		var one_right_3857 = global_vector3_to_local_vector2(one_right_orig)
 		
 		var delta_3857 = (one_right_3857 - position_3857).length()
-		#logger.info("correctionFactor " + str(delta_3857 / float(feature.get_attribute("meters_per_pixel"))))
 		marker.set_scale(Vector2.ONE * delta_3857)
-		#marker.set_scale(Vector2.ONE * float(feature.get_attribute("meters_per_pixel")) )
+		
 		var mat = ShaderMaterial.new()
 		mat.set_shader(preload("res://UI/LabTable/ColoredOverlay.gdshader"))
 		
@@ -95,6 +99,7 @@ func set_feature_icon(feature, marker):
 		if str(lid) in layer_definition.render_info.lid_to_color:
 			mat.set_shader_parameter("color", Color(layer_definition.render_info.lid_to_color[str(lid)]))
 		else:
+			# TODO: better default logic for this?
 			mat.set_shader_parameter("color", Vector3((lid % 255), floor(lid / 255.0) * 30, 0))
 		
 		marker.set_material(mat)
