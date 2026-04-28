@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://jnqaoumole2t"]
+[gd_scene format=3 uid="uid://jnqaoumole2t"]
 
 [ext_resource type="Script" uid="uid://cmb66e0ofk5cq" path="res://Objects/Connection/Superclasses/Catenary.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://c4vh1wdmxgyrs" path="res://Resources/Textures/Cable/albedo.jpg" id="2"]
@@ -23,14 +23,14 @@ metallic_texture = ExtResource("3")
 roughness = 0.48
 roughness_texture = ExtResource("5")
 
-[node name="Catenary2" type="Node3D"]
+[node name="Catenary2" type="Node3D" unique_id=851764589]
 script = ExtResource("1")
 load_radius = 1200.0
 
-[node name="Line" type="Path3D" parent="."]
+[node name="Line" type="Path3D" parent="." unique_id=1038668409]
 curve = SubResource("3")
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Line"]
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Line" unique_id=241407214]
 layers = 4
 polygon = PackedVector2Array(0.08, 0, 0, 0.08, -0.08, 0, 0, -0.08)
 mode = 2
@@ -39,6 +39,7 @@ path_interval_type = 0
 path_interval = 1.0
 path_simplify_angle = 0.5
 path_rotation = 1
+path_rotation_accurate = false
 path_local = false
 path_continuous_u = true
 path_u_distance = 1.13

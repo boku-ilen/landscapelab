@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://brl0uh3shfchd"]
+[gd_scene format=3 uid="uid://brl0uh3shfchd"]
 
 [ext_resource type="PackedScene" uid="uid://cnvfal7al6up4" path="res://Objects/Nature/SwarmParticles.tscn" id="1_svn11"]
-[ext_resource type="Texture2D" uid="uid://pfcao2tjgxe" path="res://Resources/Meshes/_NEW assets/argynnis paphia/materials/argynnis base color.png" id="2_0aml0"]
+[ext_resource type="Texture2D" uid="uid://pfcao2tjgxe" path="res://Assets/Natural/Animals/Butterflies/ArgynnisPaphia/materials/argynnis base color.png" id="2_0aml0"]
 [ext_resource type="Shader" uid="uid://cgn6ilm6ym4wa" path="res://Objects/Nature/LarusSwarm.gdshader" id="2_frxu0"]
-[ext_resource type="ArrayMesh" uid="uid://bxdf4ypkb2gfi" path="res://Resources/Meshes/_NEW assets/argynnis paphia/argynnis paphia.obj" id="3_l0gow"]
+[ext_resource type="ArrayMesh" uid="uid://bxdf4ypkb2gfi" path="res://Assets/Natural/Animals/Butterflies/ArgynnisPaphia/argynnis paphia.obj" id="3_l0gow"]
 
 [sub_resource type="Shader" id="Shader_ih0b5"]
 code = "// NOTE: Shader automatically converted from Godot Engine 4.2.1.stable's StandardMaterial3D.

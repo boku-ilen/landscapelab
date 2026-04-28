@@ -1,8 +1,8 @@
-[gd_scene load_steps=16 format=4 uid="uid://cflix0bug33ka"]
+[gd_scene format=4 uid="uid://cflix0bug33ka"]
 
 [ext_resource type="Script" uid="uid://d18ir55h5h13j" path="res://Objects/Connection/Superclasses/Connector.gd" id="1_4jrbn"]
-[ext_resource type="Material" uid="uid://bdvofpjc3sd3" path="res://Resources/Meshes/Power/Metal_Seamed.material" id="1_5wwsk"]
-[ext_resource type="Texture2D" uid="uid://drgyh0cidsgf8" path="res://Resources/Meshes/Power/Wood062_1K_Color.jpg" id="2_yqg8n"]
+[ext_resource type="Material" uid="uid://bdvofpjc3sd3" path="res://Assets/Artificial/Infrastructure/Energy/PowerPoles/LowVoltage/Metal_Seamed.material" id="1_5wwsk"]
+[ext_resource type="Texture2D" uid="uid://drgyh0cidsgf8" path="res://Assets/Artificial/Infrastructure/Energy/PowerPoles/LowVoltage/Wood062_1K_Color.jpg" id="2_yqg8n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tfwnk"]
 resource_name = "Material.002"
@@ -183,53 +183,48 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_24yig")
 
-[node name="LowVoltagePowerPole" type="Node3D"]
+[node name="LowVoltagePowerPole" type="Node3D" unique_id=1899461848]
 script = ExtResource("1_4jrbn")
 
-[node name="Docks" type="Node3D" parent="."]
+[node name="Docks" type="Node3D" parent="." unique_id=1624278380]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 
-[node name="Node3D" type="Marker3D" parent="Docks"]
+[node name="Node3D" type="Marker3D" parent="Docks" unique_id=1259300215]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 7.34409, 0.521114)
 
-[node name="Spatial2" type="Marker3D" parent="Docks"]
+[node name="Spatial2" type="Marker3D" parent="Docks" unique_id=1380141223]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 7.34409, -0.530063)
 
-[node name="Spatial3" type="Marker3D" parent="Docks"]
+[node name="Spatial3" type="Marker3D" parent="Docks" unique_id=730038376]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 8.54249, -0.530063)
 
-[node name="Spatial4" type="Marker3D" parent="Docks"]
+[node name="Spatial4" type="Marker3D" parent="Docks" unique_id=969033895]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 8.54249, 0.515295)
 
-[node name="TelephonePole2" type="Node3D" parent="."]
+[node name="TelephonePole2" type="Node3D" parent="." unique_id=1286182094]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 
-[node name="Utility_Box_Holder" type="MeshInstance3D" parent="TelephonePole2"]
+[node name="Utility_Box_Holder" type="MeshInstance3D" parent="TelephonePole2" unique_id=1656762300]
 transform = Transform3D(0.0164952, 0, 0, 0, 0.0164952, 0, 0, 0, 0.0164952, -0.0781861, 7.95753, -0.000658154)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_w7wyn")
-skeleton = NodePath("")
 
-[node name="Utility_Box" type="MeshInstance3D" parent="TelephonePole2"]
+[node name="Utility_Box" type="MeshInstance3D" parent="TelephonePole2" unique_id=1918669489]
 transform = Transform3D(1, 0, 0, 0, 0.23797, 0, 0, 0, 1, -0.2524, 7.77803, 0.0140842)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_tw4kd")
-skeleton = NodePath("")
 
-[node name="Pole_01" type="MeshInstance3D" parent="TelephonePole2"]
+[node name="Pole_01" type="MeshInstance3D" parent="TelephonePole2" unique_id=1294132353]
 transform = Transform3D(0.408727, 0, 0, 0, 4.28594, 0, 0, 0, 0.408727, 0, 0.0417769, 0)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_5j2n1")
-skeleton = NodePath("")
 
-[node name="Utility_Knob_Bottom" type="MeshInstance3D" parent="TelephonePole2"]
+[node name="Utility_Knob_Bottom" type="MeshInstance3D" parent="TelephonePole2" unique_id=1087890497]
 transform = Transform3D(0.0227835, 0, 0, 0, 0.0363967, 0, 0, 0, 0.0227835, -0.0855823, 7.38083, -0.534979)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_n3xsx")
-skeleton = NodePath("")
 
-[node name="Utility_Knob_Top" type="MeshInstance3D" parent="TelephonePole2"]
+[node name="Utility_Knob_Top" type="MeshInstance3D" parent="TelephonePole2" unique_id=2122704961]
 transform = Transform3D(0.0227835, 0, 0, 0, 0.0363967, 0, 0, 0, 0.0227835, -0.0855823, 8.54417, -0.534979)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_sts0p")
-skeleton = NodePath("")

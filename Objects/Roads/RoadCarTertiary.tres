@@ -1,13 +1,13 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://bxejggbqsoewi"]
 
 [ext_resource type="Shader" uid="uid://bgkt7kb2x71rr" path="res://Objects/Roads/RoadCar.gdshader" id="1_kolgf"]
-[ext_resource type="Texture2D" uid="uid://cim2tnu0ohupx" path="res://Assets/Artificial/Infrastructure/Roads/Asphalt/DamageGround/Asphalt021_2K-JPG_NormalGL.jpg" id="2_omyva"]
-[ext_resource type="Texture2D" uid="uid://d220bdfgs5wsl" path="res://Assets/Artificial/Infrastructure/Roads/Asphalt/DamageOverlay/opacity.jpg" id="3_mflvr"]
-[ext_resource type="Texture2D" uid="uid://c0tmjkx7qxokr" path="res://Assets/Artificial/Infrastructure/Roads/Asphalt/DamageOverlay/color.jpg" id="4_i65nw"]
-[ext_resource type="Texture2D" uid="uid://bx0ctq7jg4ydm" path="res://Assets/Artificial/Infrastructure/Roads/Asphalt/DamageOverlay/normal.jpg" id="5_esdex"]
-[ext_resource type="Texture2D" uid="uid://du0g66s8nc5vb" path="res://Assets/Artificial/Infrastructure/Roads/Asphalt/DamageGround/Asphalt021_2K-JPG_Color.jpg" id="6_qt484"]
-[ext_resource type="Texture2D" uid="uid://bh42waplqru2h" path="res://Assets/Artificial/Infrastructure/Roads/Asphalt/Asphalt020S_2K-JPG_NormalGL.jpg" id="7_idojj"]
-[ext_resource type="Texture2D" uid="uid://dfnvovkj1rg0b" path="res://Assets/Artificial/Infrastructure/Roads/Asphalt/Asphalt020S_2K-JPG_Color.jpg" id="8_g1ckp"]
+[ext_resource type="Texture2D" uid="uid://cim2tnu0ohupx" path="res://Assets/Artificial/Infrastructure/Roads/Textures/Asphalt/DamageGround/Asphalt021_2K-JPG_NormalGL.jpg" id="2_omyva"]
+[ext_resource type="Texture2D" uid="uid://d220bdfgs5wsl" path="res://Assets/Artificial/Infrastructure/Roads/Textures/Asphalt/DamageOverlay/opacity.jpg" id="3_mflvr"]
+[ext_resource type="Texture2D" uid="uid://c0tmjkx7qxokr" path="res://Assets/Artificial/Infrastructure/Roads/Textures/Asphalt/DamageOverlay/color.jpg" id="4_i65nw"]
+[ext_resource type="Texture2D" uid="uid://bx0ctq7jg4ydm" path="res://Assets/Artificial/Infrastructure/Roads/Textures/Asphalt/DamageOverlay/normal.jpg" id="5_esdex"]
+[ext_resource type="Texture2D" uid="uid://du0g66s8nc5vb" path="res://Assets/Artificial/Infrastructure/Roads/Textures/Asphalt/DamageGround/Asphalt021_2K-JPG_Color.jpg" id="6_qt484"]
+[ext_resource type="Texture2D" uid="uid://bh42waplqru2h" path="res://Assets/Artificial/Infrastructure/Roads/Textures/Asphalt/Asphalt020S_2K-JPG_NormalGL.jpg" id="7_idojj"]
+[ext_resource type="Texture2D" uid="uid://dfnvovkj1rg0b" path="res://Assets/Artificial/Infrastructure/Roads/Textures/Asphalt/Asphalt020S_2K-JPG_Color.jpg" id="8_g1ckp"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_trv7s"]
 noise_type = 4

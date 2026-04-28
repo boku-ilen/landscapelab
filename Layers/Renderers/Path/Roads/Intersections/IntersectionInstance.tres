@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://dmufssdbye00e"]
 
 [ext_resource type="Shader" uid="uid://pscvy162yevb" path="res://Layers/Renderers/Path/Roads/Intersections/IntersectionInstance.gdshader" id="1_llnvl"]
-[ext_resource type="Texture2D" uid="uid://um3tl0vdyor" path="res://Assets/Artificial/Infrastructure/Roads/Asphalt/Asphalt15_col.jpg" id="2_un6es"]
+[ext_resource type="Texture2D" uid="uid://um3tl0vdyor" path="res://Assets/Artificial/Infrastructure/Roads/Textures/Asphalt/Asphalt15_col.jpg" id="2_un6es"]
 
 [resource]
 render_priority = 0

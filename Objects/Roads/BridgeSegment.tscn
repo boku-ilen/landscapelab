@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbeijkotqqad3"]
+[gd_scene format=3 uid="uid://bbeijkotqqad3"]
 
 [ext_resource type="Shader" uid="uid://drhvgh5tke5tr" path="res://Layers/Renderers/LineObject/BasicLineSegment.gdshader" id="1_iw4m0"]
-[ext_resource type="ArrayMesh" uid="uid://c4dmt58bjr8m3" path="res://Resources/Meshes/_NEW assets/brücken/brücke BS/bruecke_BS_mitte.obj" id="1_w2ym6"]
-[ext_resource type="Texture2D" uid="uid://da51jx3mr8y8m" path="res://Resources/Meshes/_NEW assets/brücken/brücke BS/materials/bruecke_BS_BaseColor.png" id="2_w8yd1"]
-[ext_resource type="Texture2D" uid="uid://bmwegwfhk4psv" path="res://Resources/Meshes/_NEW assets/brücken/brücke BS/materials/bruecke_BS_Normal.png" id="3_6spfw"]
-[ext_resource type="Texture2D" uid="uid://bf45c0jy3qbvg" path="res://Resources/Meshes/_NEW assets/brücken/brücke BS/materials/bruecke_BS_Roughness.png" id="4_gu0n2"]
+[ext_resource type="ArrayMesh" uid="uid://c4dmt58bjr8m3" path="res://Assets/Artificial/Infrastructure/Roads/Bridges/brücke BS/bruecke_BS_mitte.obj" id="1_w2ym6"]
+[ext_resource type="Texture2D" uid="uid://da51jx3mr8y8m" path="res://Assets/Artificial/Infrastructure/Roads/Bridges/brücke BS/materials/bruecke_BS_BaseColor.png" id="2_w8yd1"]
+[ext_resource type="Texture2D" uid="uid://bmwegwfhk4psv" path="res://Assets/Artificial/Infrastructure/Roads/Bridges/brücke BS/materials/bruecke_BS_Normal.png" id="3_6spfw"]
+[ext_resource type="Texture2D" uid="uid://bf45c0jy3qbvg" path="res://Assets/Artificial/Infrastructure/Roads/Bridges/brücke BS/materials/bruecke_BS_Roughness.png" id="4_gu0n2"]
 [ext_resource type="Script" uid="uid://b2u71kx6pcp0e" path="res://Objects/Roads/BridgeSegment.gd" id="6_gu0n2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gu0n2"]

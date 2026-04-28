@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dc08sk6rr8ab3"]
 
-[ext_resource type="ArrayMesh" uid="uid://7pwspfn3leuj" path="res://Resources/Meshes/RoadInfrastructure/road_segment.obj" id="1_mbg7l"]
+[ext_resource type="ArrayMesh" uid="uid://7pwspfn3leuj" path="res://Assets/Artificial/Infrastructure/Roads/RoadInfrastructure/road_segment.obj" id="1_mbg7l"]
 [ext_resource type="Material" uid="uid://0vgdtobwiq1e" path="res://Objects/Roads/Track.tres" id="1_uu33p"]
 [ext_resource type="Script" uid="uid://dna56b72jldwe" path="res://Objects/Roads/RoadSegmentTrack.gd" id="3_uu33p"]
 [ext_resource type="PackedScene" uid="uid://d0eukmxx38kvr" path="res://Layers/Renderers/Overlay/HeightOverlay.tscn" id="4_hbgfy"]

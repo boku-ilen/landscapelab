@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=4 uid="uid://dpi051bigbgmo"]
+[gd_scene format=4 uid="uid://dpi051bigbgmo"]
 
-[ext_resource type="PackedScene" uid="uid://daq7rvn2ijcb8" path="res://Resources/Meshes/Power/HighVoltage.glb" id="1"]
+[ext_resource type="PackedScene" uid="uid://daq7rvn2ijcb8" path="res://Assets/Artificial/Infrastructure/Energy/PowerPoles/HighVoltage/HighVoltage.glb" id="1"]
 [ext_resource type="Script" uid="uid://d18ir55h5h13j" path="res://Objects/Connection/Superclasses/Connector.gd" id="2_ldcx0"]
 [ext_resource type="Material" uid="uid://b7cdlfm1pn6mx" path="res://Objects/Power/PowerPoleMetal.tres" id="3_6a5fw"]
 [ext_resource type="Material" uid="uid://dqdfp4nltsigf" path="res://Objects/Power/PowerPoleIsolator.tres" id="4_fv6ue"]

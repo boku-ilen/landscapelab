@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cu4lb43fcy6rf"]
 
-[ext_resource type="PackedScene" uid="uid://bcohil54yyt7r" path="res://Resources/Meshes/Infrastructure/streetlamp.glb" id="1_qeday"]
+[ext_resource type="PackedScene" uid="uid://bcohil54yyt7r" path="res://Assets/Artificial/Infrastructure/StreetLamps/streetlamp.glb" id="1_qeday"]
 [ext_resource type="Material" path="res://Assets/Artificial/Infrastructure/Energy/PV/APV/Metal037_2K_Color.material" id="2_53pva"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qeday"]
