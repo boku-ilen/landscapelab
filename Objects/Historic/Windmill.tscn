@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c11iy7nln361u"]
 
-[ext_resource type="PackedScene" uid="uid://crwim6fvkjr3w" path="res://Resources/Meshes/Windmills/Dutch/Windmill_Dutch.glb" id="1_ov5r3"]
+[ext_resource type="PackedScene" uid="uid://crwim6fvkjr3w" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/Dutch/Windmill_Dutch.glb" id="1_ov5r3"]
 [ext_resource type="Script" uid="uid://ct5s2fao5jjcv" path="res://Objects/Historic/Windmill.gd" id="2_4f65o"]
 
 [node name="Windmill" unique_id=1535424021 instance=ExtResource("1_ov5r3")]

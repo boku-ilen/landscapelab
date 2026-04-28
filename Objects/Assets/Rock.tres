@@ -1,8 +1,8 @@
-[gd_resource type="ArrayMesh" load_steps=5 format=4 uid="uid://y1f63jjb2qgu"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://y1f63jjb2qgu"]
 
-[ext_resource type="Texture2D" uid="uid://oyjajvhvsuys" path="res://Resources/Textures/Rock039_2K-PNG/Rock039_2K-PNG_Color.png" id="1_yxuae"]
-[ext_resource type="Texture2D" uid="uid://bnpmceg2sw3nx" path="res://Resources/Textures/Rock039_2K-PNG/Rock039_2K-PNG_NormalGL.png" id="2_k2535"]
-[ext_resource type="Texture2D" uid="uid://2ccl2w8fysdf" path="res://Resources/Textures/Rock039_2K-PNG/Rock039_2K-PNG_Roughness.png" id="3_o8xmd"]
+[ext_resource type="Texture2D" uid="uid://oyjajvhvsuys" path="res://Assets/Natural/Rocks/Texture/Rock039_2K-PNG_Color.png" id="1_yxuae"]
+[ext_resource type="Texture2D" uid="uid://bnpmceg2sw3nx" path="res://Assets/Natural/Rocks/Texture/Rock039_2K-PNG_NormalGL.png" id="2_k2535"]
+[ext_resource type="Texture2D" uid="uid://2ccl2w8fysdf" path="res://Assets/Natural/Rocks/Texture/Rock039_2K-PNG_Roughness.png" id="3_o8xmd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sp73o"]
 albedo_texture = ExtResource("1_yxuae")

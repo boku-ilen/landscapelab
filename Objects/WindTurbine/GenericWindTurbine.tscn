@@ -1,10 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://3egxq5ke5lqo"]
+[gd_scene format=3 uid="uid://3egxq5ke5lqo"]
 
 [ext_resource type="Script" uid="uid://dww016r1dhraa" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="2"]
-[ext_resource type="ArrayMesh" uid="uid://bes40cnrujgaq" path="res://Resources/Meshes/Windmills/E/WKA_E_Hub.res" id="3_8oppf"]
+[ext_resource type="ArrayMesh" uid="uid://bes40cnrujgaq" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/E/WKA_E_Hub.res" id="3_8oppf"]
 [ext_resource type="Texture2D" uid="uid://bj0adoua3ekv" path="res://Resources/Textures/ShaderUtil/spotlight.png" id="4_2wm53"]
-[ext_resource type="ArrayMesh" uid="uid://diovhx0k8lirx" path="res://Resources/Meshes/Windmills/E/WKA_E_Rotor.res" id="4_qkf23"]
-[ext_resource type="ArrayMesh" uid="uid://befdf647yie1a" path="res://Resources/Meshes/Windmills/E/WKA_E_Mast.res" id="5_xr745"]
+[ext_resource type="ArrayMesh" uid="uid://diovhx0k8lirx" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/E/WKA_E_Rotor.res" id="4_qkf23"]
+[ext_resource type="ArrayMesh" uid="uid://befdf647yie1a" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/E/WKA_E_Mast.res" id="5_xr745"]
 
 [sub_resource type="Shader" id="Shader_dggax"]
 code = "// NOTE: Shader automatically converted from Godot Engine 4.3.stable's StandardMaterial3D.

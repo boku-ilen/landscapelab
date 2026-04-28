@@ -1,11 +1,11 @@
-[gd_scene load_steps=28 format=4 uid="uid://dx4vjpnu0bi7x"]
+[gd_scene format=4 uid="uid://dx4vjpnu0bi7x"]
 
-[ext_resource type="Material" path="res://Resources/Meshes/APV/pv-module-texture-10x6_trans.material" id="1"]
-[ext_resource type="Texture2D" uid="uid://bce0g7a5tiaiq" path="res://Resources/Meshes/APV/Metal039_2K-JPG/Metal039_2K_Color.jpg" id="2"]
-[ext_resource type="Material" path="res://Resources/Meshes/APV/Steel_Brushed_Stainless.material" id="3"]
-[ext_resource type="Texture2D" uid="uid://cofs5n4w3m6gp" path="res://Resources/Meshes/APV/Metal039_2K-JPG/Metal039_2K_NormalGL.jpg" id="4"]
-[ext_resource type="Texture2D" uid="uid://bkkejuklxvsl5" path="res://Resources/Meshes/APV/Metal039_2K-JPG/Metal039_2K_Roughness.jpg" id="5"]
-[ext_resource type="Texture2D" uid="uid://6ritjfgqgrev" path="res://Resources/Meshes/APV/Metal039_2K-JPG/Metal039_2K_Metalness.jpg" id="6"]
+[ext_resource type="Material" path="res://Assets/Artificial/Infrastructure/Energy/PV/APV/pv-module-texture-10x6_trans.material" id="1"]
+[ext_resource type="Texture2D" uid="uid://bce0g7a5tiaiq" path="res://Assets/Artificial/Infrastructure/Energy/PV/APV/Metal039_2K-JPG/Metal039_2K_Color.jpg" id="2"]
+[ext_resource type="Material" path="res://Assets/Artificial/Infrastructure/Energy/PV/APV/Steel_Brushed_Stainless.material" id="3"]
+[ext_resource type="Texture2D" uid="uid://cofs5n4w3m6gp" path="res://Assets/Artificial/Infrastructure/Energy/PV/APV/Metal039_2K-JPG/Metal039_2K_NormalGL.jpg" id="4"]
+[ext_resource type="Texture2D" uid="uid://bkkejuklxvsl5" path="res://Assets/Artificial/Infrastructure/Energy/PV/APV/Metal039_2K-JPG/Metal039_2K_Roughness.jpg" id="5"]
+[ext_resource type="Texture2D" uid="uid://6ritjfgqgrev" path="res://Assets/Artificial/Infrastructure/Energy/PV/APV/Metal039_2K-JPG/Metal039_2K_Metalness.jpg" id="6"]
 
 [sub_resource type="ArrayMesh" id="1"]
 resource_name = "instance_0"

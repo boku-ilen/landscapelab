@@ -1,7 +1,7 @@
-[gd_resource type="ArrayMesh" load_steps=4 format=4 uid="uid://bq21tnnmq48bm"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://bq21tnnmq48bm"]
 
-[ext_resource type="Material" uid="uid://cak41f10p0d4s" path="res://Resources/Meshes/Vehicles/Boats/M_Yacht_Opaque.tres" id="1_u72p8"]
-[ext_resource type="Material" uid="uid://chxlwki001glt" path="res://Resources/Meshes/Vehicles/Boats/M_Yacht_Glass_OLD.tres" id="2_v1mpi"]
+[ext_resource type="Material" uid="uid://cak41f10p0d4s" path="res://Assets/Artificial/Infrastructure/Vehicles/Boats/M_Yacht_Opaque.tres" id="1_u72p8"]
+[ext_resource type="Material" uid="uid://chxlwki001glt" path="res://Assets/Artificial/Infrastructure/Vehicles/Boats/M_Yacht_Glass_OLD.tres" id="2_v1mpi"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_3hpe6"]
 _surfaces = [{

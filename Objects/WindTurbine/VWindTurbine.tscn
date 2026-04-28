@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://bk1j0drxmtba3"]
 
 [ext_resource type="Script" uid="uid://dww016r1dhraa" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="1_euh7k"]
-[ext_resource type="ArrayMesh" uid="uid://fn60asgrp3gw" path="res://Resources/Meshes/Windmills/V/WKA_V_Mast.res" id="2_swtu4"]
-[ext_resource type="ArrayMesh" uid="uid://catnoohrdygps" path="res://Resources/Meshes/Windmills/V/WKA_V_Rotor_White.res" id="3_pjrm2"]
-[ext_resource type="ArrayMesh" uid="uid://cevopxp4utikl" path="res://Resources/Meshes/Windmills/V/WKA_V_Hub.res" id="4_2yhci"]
-[ext_resource type="ArrayMesh" uid="uid://dy7qok6e74xyq" path="res://Resources/Meshes/Windmills/V/WKA_V_Rotor_Black.res" id="4_6laur"]
+[ext_resource type="ArrayMesh" uid="uid://fn60asgrp3gw" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/V/WKA_V_Mast.res" id="2_swtu4"]
+[ext_resource type="ArrayMesh" uid="uid://catnoohrdygps" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/V/WKA_V_Rotor_White.res" id="3_pjrm2"]
+[ext_resource type="ArrayMesh" uid="uid://cevopxp4utikl" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/V/WKA_V_Hub.res" id="4_2yhci"]
+[ext_resource type="ArrayMesh" uid="uid://dy7qok6e74xyq" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/V/WKA_V_Rotor_Black.res" id="4_6laur"]
 [ext_resource type="Texture2D" uid="uid://bj0adoua3ekv" path="res://Resources/Textures/ShaderUtil/spotlight.png" id="5_4q6q7"]
-[ext_resource type="ArrayMesh" uid="uid://b666wxd5jp26s" path="res://Resources/Meshes/Windmills/V/WKA_V_Rotor.res" id="5_jgxyh"]
+[ext_resource type="ArrayMesh" uid="uid://b666wxd5jp26s" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/V/WKA_V_Rotor.res" id="5_jgxyh"]
 [ext_resource type="PackedScene" uid="uid://dhmlmgm0yc278" path="res://Layers/Renderers/Overlay/LIDOverlayMesh.tscn" id="7_7dm2n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rnf0k"]

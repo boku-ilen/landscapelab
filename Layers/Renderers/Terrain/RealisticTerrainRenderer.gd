@@ -44,10 +44,10 @@ func _setup_ground_textures():
 	var roughness_images = []
 	
 	for texture_folder in texture_folders:
-		var color_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/color.jpg")
-		var normal_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/normal.jpg")
-		var displacement_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/displacement.jpg")
-		var roughness_image = load("res://Resources/Textures/BaseGround/" + texture_folder + "/roughness.jpg")
+		var color_image = load("res://Assets/Ground/" + texture_folder + "/color.jpg")
+		var normal_image = load("res://Assets/Ground/" + texture_folder + "/normal.jpg")
+		var displacement_image = load("res://Assets/Ground/" + texture_folder + "/displacement.jpg")
+		var roughness_image = load("res://Assets/Ground/" + texture_folder + "/roughness.jpg")
 		
 		color_images.append(color_image)
 		normal_images.append(normal_image)

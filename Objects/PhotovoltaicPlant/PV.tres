@@ -1,9 +1,9 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://bhspna5brc8k6"]
 
-[ext_resource type="Texture2D" uid="uid://cr7ly4si0djhx" path="res://Resources/Meshes/_NEW assets/photovoltaik/materials/photovoltaik_DefaultMaterial_BaseColor.png" id="1_v178y"]
-[ext_resource type="Texture2D" uid="uid://clyfsx8as5wj2" path="res://Resources/Meshes/_NEW assets/photovoltaik/materials/photovoltaik_DefaultMaterial_Metallic.png" id="2_lidfa"]
-[ext_resource type="Texture2D" uid="uid://cxyunujlwms3v" path="res://Resources/Meshes/_NEW assets/photovoltaik/materials/photovoltaik_DefaultMaterial_Normal.png" id="3_0e257"]
-[ext_resource type="Texture2D" uid="uid://vol86xyr0h7j" path="res://Resources/Meshes/_NEW assets/photovoltaik/materials/photovoltaik_DefaultMaterial_Roughness.png" id="4_sgnls"]
+[ext_resource type="Texture2D" uid="uid://cr7ly4si0djhx" path="res://Assets/Artificial/Infrastructure/Energy/PV/GroundMounted/materials/photovoltaik_DefaultMaterial_BaseColor.png" id="1_v178y"]
+[ext_resource type="Texture2D" uid="uid://clyfsx8as5wj2" path="res://Assets/Artificial/Infrastructure/Energy/PV/GroundMounted/materials/photovoltaik_DefaultMaterial_Metallic.png" id="2_lidfa"]
+[ext_resource type="Texture2D" uid="uid://cxyunujlwms3v" path="res://Assets/Artificial/Infrastructure/Energy/PV/GroundMounted/materials/photovoltaik_DefaultMaterial_Normal.png" id="3_0e257"]
+[ext_resource type="Texture2D" uid="uid://vol86xyr0h7j" path="res://Assets/Artificial/Infrastructure/Energy/PV/GroundMounted/materials/photovoltaik_DefaultMaterial_Roughness.png" id="4_sgnls"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2k4i"]
 albedo_texture = ExtResource("1_v178y")

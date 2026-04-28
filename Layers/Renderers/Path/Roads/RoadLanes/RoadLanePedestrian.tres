@@ -1,7 +1,7 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://d4e7kkob5nuhm"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://d4e7kkob5nuhm"]
 
 [ext_resource type="Shader" uid="uid://0erlqvl82fsk" path="res://Layers/Renderers/Path/Roads/RoadLanes/RoadLanePedestrian.gdshader" id="1_uax8a"]
-[ext_resource type="Texture2D" uid="uid://um3tl0vdyor" path="res://Resources/Textures/Asphalt/Asphalt15_col.jpg" id="3_a73qq"]
+[ext_resource type="Texture2D" uid="uid://um3tl0vdyor" path="res://Assets/Artificial/Infrastructure/Roads/Asphalt/Asphalt15_col.jpg" id="3_a73qq"]
 
 [resource]
 resource_local_to_scene = true
