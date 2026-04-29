@@ -3,12 +3,18 @@ class_name DrawLayerUI
 
 var layers : Array[DrawLayerMenuItem]
 var id_counter = 0
+
+@export var drawing_coordinator: DrawingCoordinator
+
+
 func _ready() -> void:
-	add_layer()
+	for layer_name in drawing_coordinator.layers.keys():
+		add_layer(layer_name)
+	
 	$AddLayer.pressed.connect(add_layer)
 	
-func add_layer():
-	var new_layer = DrawLayerMenuItem.new()
+func add_layer(layer_name: String):
+	var new_layer = DrawLayerMenuItem.new(layer_name)
 	add_child(new_layer)
 	id_counter += 1
 	new_layer.layer_id = id_counter

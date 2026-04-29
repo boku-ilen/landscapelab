@@ -158,13 +158,14 @@ drawing_coordinator = NodePath("../DrawingCoordinator")
 [node name="CenterContainer" type="CenterContainer" parent="LabTable" unique_id=1474232626]
 layout_mode = 2
 
-[node name="DrawingCoordinator" type="Node" parent="LabTable" unique_id=2060403214 node_paths=PackedStringArray("viewport_camera")]
+[node name="DrawingCoordinator" type="Node" parent="LabTable" unique_id=2060403214 node_paths=PackedStringArray("viewport_camera", "accept_button_location")]
 script = ExtResource("15_0kxqy")
 viewport_camera = NodePath("../SubViewportContainer/SubViewport/Camera2D")
+accept_button_location = NodePath("../../AcceptButtonLocation")
 
 [node name="TextureRect" type="TextureRect" parent="LabTable/DrawingCoordinator" unique_id=1705342564]
 visible = false
-z_index = 4096
+z_index = 1000
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -172,6 +173,7 @@ offset_top = -62.0
 offset_bottom = 62.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 texture = ExtResource("13_slfp8")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=1408757121 groups=["RegularUI"]]
@@ -482,12 +484,14 @@ visible = false
 offset_right = 85.000015
 offset_bottom = 64.0
 
-[node name="LayerStack" type="VBoxContainer" parent="DrawControlContainer" unique_id=253621128]
+[node name="LayerStack" type="VBoxContainer" parent="DrawControlContainer" unique_id=253621128 node_paths=PackedStringArray("drawing_coordinator")]
 layout_mode = 2
 theme = ExtResource("1_hpyhd")
 script = ExtResource("42_ywe3r")
+drawing_coordinator = NodePath("../../LabTable/DrawingCoordinator")
 
 [node name="AddLayer" type="Button" parent="DrawControlContainer/LayerStack" unique_id=1543056879]
+visible = false
 layout_mode = 2
 theme = ExtResource("16_slfp8")
 theme_type_variation = &"FlatButton"
@@ -509,6 +513,7 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="TableButton" type="Button" parent="DrawSnapshotContainer" unique_id=584283530 node_paths=PackedStringArray("coordinator")]
+z_index = 2000
 layout_mode = 2
 icon = ExtResource("45_xtv11")
 flat = true
@@ -517,7 +522,6 @@ coordinator = NodePath("../../LabTable/DrawingCoordinator")
 metadata/_custom_type_script = "uid://3vvk84ipyk5y"
 
 [node name="DrawStartButton" type="MarginContainer" parent="." unique_id=667466255 groups=["RegularUI"]]
-visible = false
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
@@ -536,5 +540,30 @@ flat = true
 script = ExtResource("46_sid1k")
 lab_table = NodePath("../../LabTable")
 metadata/_custom_type_script = "uid://3vvk84ipyk5y"
+
+[node name="AcceptButtonLocation" type="Control" parent="." unique_id=55054833]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="InputBlocker" type="ColorRect" parent="." unique_id=2127865499 groups=["DrawingUI"]]
+visible = false
+z_index = 1000
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
 
 [editable path="PanelContainer/ControlContainer"]

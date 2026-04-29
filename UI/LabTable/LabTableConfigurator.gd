@@ -89,7 +89,6 @@ func _load_drawing_config(table_config: Dictionary):
 	if not "DrawingSettings" in table_config:
 		return
 	var drawing_config = table_config["DrawingSettings"]
-	var lids = drawing_config["layer_lids"]
-	var int_lids: Array = lids.map(func (l): return floori(l))
-	drawing_coordinator.fixed_lids = int_lids
+	var layers = drawing_config["layers"]
+	drawing_coordinator.layers = layers
 	

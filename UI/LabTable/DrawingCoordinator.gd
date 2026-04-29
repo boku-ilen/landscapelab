@@ -2,8 +2,9 @@ extends Node
 class_name DrawingCoordinator
 
 @export var viewport_camera: Viewport2DCamera
+@export var accept_button_location: Control
 
-var fixed_lids: Array
+var layers
 
 var last_camera_extent: GeoLayerRenderers.CameraExtent
 var fixed_last_extent: GeoLayerRenderers.CameraExtent
@@ -43,6 +44,16 @@ func _transform_point(screen_position):
 	return vector_local
 
 func handle_drawing_mode_end():
+	var accept_button = TableButton.new()
+	accept_button.icon = preload("res://Resources/Icons/LabTable/buttons/next.svg")
+	accept_button.z_index = 2000
+	accept_button.flat = true
+	accept_button_location.add_child(accept_button)
+	
+	await accept_button.pressed
+	
+	accept_button.queue_free()
+	
 	$TextureRect.visible = false
 	get_parent().geo_layer_renderers.set_layer_visibility("MASKS", true)
 	for n in get_tree().get_nodes_in_group("RegularUI"):
@@ -51,6 +62,7 @@ func handle_drawing_mode_end():
 	for n in get_tree().get_nodes_in_group("DrawingUI"):
 		if n is CanvasItem:
 			n.visible = false
+	
 
 func handle_returned_drawing(layer_index, position, scale, resolution, bounds, binary_data):
 
@@ -70,7 +82,7 @@ func handle_returned_drawing(layer_index, position, scale, resolution, bounds, b
 	var feature = Layers.get_layer_composition("Land Cover Masks").render_info.get_geolayers()[1].create_feature()
 	
 	feature.set_vector3(local_position)
-	feature.set_attribute("lid", str(fixed_lids[layer_index]))
+	feature.set_attribute("lid", str(layers.values()[layer_index]["lid"]))
 	feature.set_attribute("width", str(resolution[0]))
 	feature.set_attribute("height", str(resolution[1]))
 	feature.set_attribute("meters_per_pixel", str(((local_full_width - local_position).x * 0.1) / resolution[0]))
