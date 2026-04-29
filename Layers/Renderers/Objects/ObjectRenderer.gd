@@ -70,7 +70,7 @@ func set_instance_pos(feature, obj_instance):
 		# Object has custom method for getting the height
 		obj_instance.set_height(local_object_pos)
 		local_object_pos.y = 0.0
-	elif not obj_instance.transform.origin.y > 0.0:
+	elif not obj_instance.transform.origin.y > 0.0 and layer_composition.render_info.ground_height_layer:
 		local_object_pos.y = layer_composition.render_info.ground_height_layer.get_value_at_position(
 			center[0] + local_object_pos.x, center[1] - local_object_pos.z)
 		
