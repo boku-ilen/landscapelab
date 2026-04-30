@@ -3,6 +3,7 @@ class_name DrawingCoordinator
 
 @export var viewport_camera: Viewport2DCamera
 @export var accept_button_location: Control
+@export var layer_ui: DrawLayerUI
 
 var layers
 
@@ -10,7 +11,7 @@ var last_camera_extent: GeoLayerRenderers.CameraExtent
 var fixed_last_extent: GeoLayerRenderers.CameraExtent
 var freeze := false
 var last_round_drawing_features: Array[GeoFeature]
-
+var last_round_layer_names: Array
 
 func start_drawing():
 	last_round_drawing_features.clear()
@@ -27,6 +28,7 @@ func start_capture():
 	$TextureRect.visible = true
 	await RenderingServer.frame_post_draw
 	get_parent().communicator.request_drawing_capture()
+	last_round_layer_names = layer_ui.get_layer_names()
 
 func _transform_point(screen_position):
 	var global_position = viewport_camera.screen_to_global(screen_position)
@@ -82,7 +84,7 @@ func handle_returned_drawing(layer_index, position, scale, resolution, bounds, b
 	# FIXME: get this from the config
 	var feature = Layers.get_layer_composition("Land Cover Masks").render_info.get_geolayers()[1].create_feature()
 	feature.set_vector3(local_position)
-	feature.set_attribute("lid", str(layers.values()[layer_index]["lid"]))
+	feature.set_attribute("lid", str(layers[last_round_layer_names[int(layer_index)]]["lid"]))
 	feature.set_attribute("width", str(resolution[0]))
 	feature.set_attribute("height", str(resolution[1]))
 	feature.set_attribute("meters_per_pixel", str(((local_full_width - local_position).x * 0.1) / resolution[0]))

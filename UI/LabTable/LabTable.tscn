@@ -45,7 +45,10 @@
 [ext_resource type="Script" uid="uid://cs2ks1t2ppfj6" path="res://UI/LabTable/DrawLayerUI.gd" id="42_ywe3r"]
 [ext_resource type="Script" uid="uid://3vvk84ipyk5y" path="res://UI/LabTable/TableButton.gd" id="43_65qsu"]
 [ext_resource type="Texture2D" uid="uid://da2u5e75xclb3" path="res://Resources/Icons/LabTable/circle_plus.svg" id="43_ywe3r"]
+[ext_resource type="Script" uid="uid://c3ojpb4vetirk" path="res://UI/LabTable/DrawLayerDropdownMenu.gd" id="45_eneu6"]
+[ext_resource type="Script" uid="uid://ccrt4shlbo452" path="res://UI/LabTable/DrawLayerDropdownEntry.gd" id="45_xtej3"]
 [ext_resource type="Texture2D" uid="uid://c21phj8u0ktm4" path="res://Resources/Icons/LabTable/circle_camera.svg" id="45_xtv11"]
+[ext_resource type="Texture2D" uid="uid://bs6l1cbwkvg0f" path="res://Resources/Icons/ModernLandscapeLab/circle.svg" id="46_eneu6"]
 [ext_resource type="Texture2D" uid="uid://c01oxl4pm6or" path="res://Resources/Icons/LabTable/circle_pen.svg" id="46_m3r8i"]
 [ext_resource type="Script" uid="uid://dbojig1ilgs54" path="res://UI/LabTable/DrawModeStartButton.gd" id="46_sid1k"]
 [ext_resource type="Texture2D" uid="uid://bfc1x2f6wqvp8" path="res://Resources/Icons/LabTable/circle_cross.svg" id="49_t7nck"]
@@ -87,7 +90,6 @@ extent_visualizer = NodePath("../PanelContainer/ControlContainer/OverviewContain
 drawing_coordinator = NodePath("DrawingCoordinator")
 geo_layer_renderers = NodePath("SubViewportContainer/SubViewport/GeoLayerRenderers")
 communicator = NodePath("LabTableCommunicator")
-run_brick_detection = false
 current_goc_name = "Placed Wind Turbines"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LabTable" unique_id=290718925]
@@ -145,7 +147,7 @@ text = "test"
 category = "Not Set"
 
 [node name="LabTableCommunicator" parent="LabTable" unique_id=1623371683 node_paths=PackedStringArray("draw_layer_ui") instance=ExtResource("10_wqhkf")]
-draw_layer_ui = NodePath("../../DrawControlContainer/LayerStack")
+draw_layer_ui = NodePath("../../DrawControlContainer/HBoxContainer/LayerStack")
 
 [node name="LabTableMarkers" type="Node2D" parent="LabTable/LabTableCommunicator" unique_id=1244377713]
 script = ExtResource("15_j8x0r")
@@ -160,10 +162,11 @@ drawing_coordinator = NodePath("../DrawingCoordinator")
 [node name="CenterContainer" type="CenterContainer" parent="LabTable" unique_id=1474232626]
 layout_mode = 2
 
-[node name="DrawingCoordinator" type="Node" parent="LabTable" unique_id=2060403214 node_paths=PackedStringArray("viewport_camera", "accept_button_location")]
+[node name="DrawingCoordinator" type="Node" parent="LabTable" unique_id=2060403214 node_paths=PackedStringArray("viewport_camera", "accept_button_location", "layer_ui")]
 script = ExtResource("15_0kxqy")
 viewport_camera = NodePath("../SubViewportContainer/SubViewport/Camera2D")
 accept_button_location = NodePath("../../AcceptButtonLocation")
+layer_ui = NodePath("../../DrawControlContainer/HBoxContainer/LayerStack")
 
 [node name="TextureRect" type="TextureRect" parent="LabTable/DrawingCoordinator" unique_id=1705342564]
 visible = false
@@ -486,20 +489,43 @@ visible = false
 offset_right = 85.000015
 offset_bottom = 64.0
 
-[node name="LayerStack" type="VBoxContainer" parent="DrawControlContainer" unique_id=253621128 node_paths=PackedStringArray("drawing_coordinator")]
+[node name="HBoxContainer" type="HBoxContainer" parent="DrawControlContainer" unique_id=1211521379]
+layout_mode = 2
+
+[node name="LayerStack" type="VBoxContainer" parent="DrawControlContainer/HBoxContainer" unique_id=253621128 node_paths=PackedStringArray("drawing_coordinator", "dropdown_controller")]
 layout_mode = 2
 theme = ExtResource("1_hpyhd")
 script = ExtResource("42_ywe3r")
-drawing_coordinator = NodePath("../../LabTable/DrawingCoordinator")
+drawing_coordinator = NodePath("../../../LabTable/DrawingCoordinator")
+dropdown_controller = NodePath("../DropdownStack")
 
-[node name="AddLayer" type="Button" parent="DrawControlContainer/LayerStack" unique_id=1543056879]
-visible = false
+[node name="AddLayer" type="Button" parent="DrawControlContainer/HBoxContainer/LayerStack" unique_id=1543056879]
 layout_mode = 2
 theme = ExtResource("16_slfp8")
 theme_type_variation = &"FlatButton"
 icon = ExtResource("43_ywe3r")
 script = ExtResource("43_65qsu")
 metadata/_custom_type_script = "uid://3vvk84ipyk5y"
+
+[node name="DropdownStack" type="VBoxContainer" parent="DrawControlContainer/HBoxContainer" unique_id=1601713878]
+layout_mode = 2
+theme = ExtResource("1_hpyhd")
+script = ExtResource("45_eneu6")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DrawControlContainer/HBoxContainer/DropdownStack" unique_id=450180845]
+layout_mode = 2
+script = ExtResource("45_xtej3")
+
+[node name="TableButton" type="Button" parent="DrawControlContainer/HBoxContainer/DropdownStack/HBoxContainer" unique_id=649045213]
+layout_mode = 2
+theme_type_variation = &"FlatButton"
+icon = ExtResource("46_eneu6")
+script = ExtResource("43_65qsu")
+metadata/_custom_type_script = "uid://3vvk84ipyk5y"
+
+[node name="Label" type="Label" parent="DrawControlContainer/HBoxContainer/DropdownStack/HBoxContainer" unique_id=1576870156]
+layout_mode = 2
+text = "Name McNamington"
 
 [node name="DrawSnapshotContainer" type="MarginContainer" parent="." unique_id=1670576621 groups=["DrawingUI"]]
 visible = false
