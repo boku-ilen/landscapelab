@@ -9,17 +9,13 @@ var layers
 var last_camera_extent: GeoLayerRenderers.CameraExtent
 var fixed_last_extent: GeoLayerRenderers.CameraExtent
 var freeze := false
+var last_round_drawing_features: Array[GeoFeature]
 
-func _ready():
-	await RenderingServer.frame_post_draw
-	get_parent().geo_layer_renderers.camera_extent_changed.connect(
-		func (new_extent):
-			if not freeze:
-				last_camera_extent = new_extent
-	)
 
 func start_drawing():
-	fixed_last_extent = last_camera_extent
+	last_round_drawing_features.clear()
+
+	fixed_last_extent = get_parent().geo_layer_renderers.camera_extent
 	for n in get_tree().get_nodes_in_group("RegularUI"):
 		if n is CanvasItem:
 			n.visible = false
@@ -63,6 +59,11 @@ func handle_drawing_mode_end():
 		if n is CanvasItem:
 			n.visible = false
 	
+func handle_undo():
+	var layer = Layers.get_layer_composition("Land Cover Masks").render_info.get_geolayers()[1]
+	for feature in last_round_drawing_features:
+		layer.remove_feature(feature)
+	last_round_drawing_features.clear()
 
 func handle_returned_drawing(layer_index, position, scale, resolution, bounds, binary_data):
 
@@ -80,11 +81,11 @@ func handle_returned_drawing(layer_index, position, scale, resolution, bounds, b
 	
 	# FIXME: get this from the config
 	var feature = Layers.get_layer_composition("Land Cover Masks").render_info.get_geolayers()[1].create_feature()
-	
 	feature.set_vector3(local_position)
 	feature.set_attribute("lid", str(layers.values()[layer_index]["lid"]))
 	feature.set_attribute("width", str(resolution[0]))
 	feature.set_attribute("height", str(resolution[1]))
 	feature.set_attribute("meters_per_pixel", str(((local_full_width - local_position).x * 0.1) / resolution[0]))
 	feature.set_binary_attribute("image", binary_data)
+	last_round_drawing_features.append(feature)
 	logger.info(str(scale))

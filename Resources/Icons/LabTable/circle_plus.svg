@@ -23,13 +23,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="2.9682216"
-     inkscape:cx="-28.973578"
-     inkscape:cy="127.34898"
+     inkscape:zoom="16.790797"
+     inkscape:cx="28.587089"
+     inkscape:cy="28.22975"
      inkscape:window-width="2560"
      inkscape:window-height="1364"
      inkscape:window-x="0"
-     inkscape:window-y="157"
+     inkscape:window-y="251"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
@@ -52,7 +52,7 @@
      inkscape:groupmode="layer"
      id="layer1">
     <circle
-       style="fill:#dcdcdc;fill-opacity:1;stroke:none;stroke-width:0.832;stroke-linejoin:round;stroke-opacity:0.919399"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.832;stroke-linejoin:round;stroke-opacity:0.919399"
        id="path1"
        cx="8.4666662"
        cy="8.4666662"
@@ -60,7 +60,7 @@
     <path
        d="M 9.2563939,12.810086 H 7.6769699 V 9.1576679 H 4.2812083 v -1.381996 h 3.3957616 v -3.652418 h 1.579424 v 3.652418 h 3.3957611 v 1.381996 H 9.2563939 Z"
        id="text2"
-       style="font-size:96px;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono';text-align:center;white-space:pre;stroke-width:1.29339;stroke-linejoin:round;stroke-opacity:0.919399"
+       style="font-size:96px;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono';text-align:center;white-space:pre;stroke-width:1.29339;stroke-linejoin:round;stroke-opacity:0.919399;fill:#e3e3e3;fill-opacity:1"
        aria-label="+" />
   </g>
 </svg>

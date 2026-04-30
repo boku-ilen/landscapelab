@@ -48,6 +48,8 @@
 [ext_resource type="Texture2D" uid="uid://c21phj8u0ktm4" path="res://Resources/Icons/LabTable/circle_camera.svg" id="45_xtv11"]
 [ext_resource type="Texture2D" uid="uid://c01oxl4pm6or" path="res://Resources/Icons/LabTable/circle_pen.svg" id="46_m3r8i"]
 [ext_resource type="Script" uid="uid://dbojig1ilgs54" path="res://UI/LabTable/DrawModeStartButton.gd" id="46_sid1k"]
+[ext_resource type="Texture2D" uid="uid://bfc1x2f6wqvp8" path="res://Resources/Icons/LabTable/circle_cross.svg" id="49_t7nck"]
+[ext_resource type="Script" uid="uid://bjy1dk04r40e6" path="res://UI/LabTable/DrawingUndoButton.gd" id="50_fvalx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
@@ -533,12 +535,23 @@ offset_bottom = 36.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="TableButton" type="Button" parent="DrawStartButton" unique_id=1017853168 node_paths=PackedStringArray("lab_table")]
+[node name="VBoxContainer" type="VBoxContainer" parent="DrawStartButton" unique_id=455828700]
+layout_mode = 2
+
+[node name="StartDrawingButton" type="Button" parent="DrawStartButton/VBoxContainer" unique_id=1017853168 node_paths=PackedStringArray("lab_table")]
 layout_mode = 2
 icon = ExtResource("46_m3r8i")
 flat = true
 script = ExtResource("46_sid1k")
-lab_table = NodePath("../../LabTable")
+lab_table = NodePath("../../../LabTable")
+metadata/_custom_type_script = "uid://3vvk84ipyk5y"
+
+[node name="DeleteLastDrawingsButton" type="Button" parent="DrawStartButton/VBoxContainer" unique_id=1274392011 node_paths=PackedStringArray("lab_table")]
+layout_mode = 2
+icon = ExtResource("49_t7nck")
+flat = true
+script = ExtResource("50_fvalx")
+lab_table = NodePath("../../../LabTable")
 metadata/_custom_type_script = "uid://3vvk84ipyk5y"
 
 [node name="AcceptButtonLocation" type="Control" parent="." unique_id=55054833]

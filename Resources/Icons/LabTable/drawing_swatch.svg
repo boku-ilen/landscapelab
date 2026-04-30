@@ -24,12 +24,12 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="4.1976992"
-     inkscape:cx="19.296285"
-     inkscape:cy="75.51756"
+     inkscape:cx="19.534511"
+     inkscape:cy="75.755785"
      inkscape:window-width="2560"
      inkscape:window-height="1364"
      inkscape:window-x="0"
-     inkscape:window-y="157"
+     inkscape:window-y="251"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
@@ -54,7 +54,7 @@
        cy="16.933332"
        r="16.933332" />
     <circle
-       style="fill:none;stroke:#000000;stroke-width:1.586;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:none;stroke:#e3e3e3;stroke-width:1.586;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none"
        id="path1"
        cx="16.933332"
        cy="16.933332"
