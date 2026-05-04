@@ -4,6 +4,7 @@ class_name DrawingCoordinator
 @export var viewport_camera: Viewport2DCamera
 @export var accept_button_location: Control
 @export var layer_ui: DrawLayerUI
+@export var capture_container: Control
 
 var layers
 
@@ -12,11 +13,16 @@ var fixed_last_extent: GeoLayerRenderers.CameraExtent
 var freeze := false
 var last_round_drawing_features: Array[GeoFeature]
 var last_round_layer_names: Array
-
+var background_layer: String
+var current_layer_visibility: Dictionary[Node, bool]
 func start_drawing():
 	last_round_drawing_features.clear()
-
-	fixed_last_extent = get_parent().geo_layer_renderers.camera_extent
+	var geo_layer_renderers: GeoLayerRenderers = get_parent().geo_layer_renderers
+	current_layer_visibility = {}
+	for c in geo_layer_renderers.get_children():
+		current_layer_visibility[c] = c.visible
+		c.visible = (c.name == background_layer)
+	fixed_last_extent = geo_layer_renderers.camera_extent
 	for n in get_tree().get_nodes_in_group("RegularUI"):
 		if n is CanvasItem:
 			n.visible = false
@@ -47,8 +53,10 @@ func handle_drawing_mode_end():
 	accept_button.z_index = 2000
 	accept_button.flat = true
 	accept_button_location.add_child(accept_button)
-	
+	capture_container.visible = false
 	await accept_button.pressed
+	for c in current_layer_visibility.keys():
+		c.visible = current_layer_visibility[c]
 	
 	accept_button.queue_free()
 	

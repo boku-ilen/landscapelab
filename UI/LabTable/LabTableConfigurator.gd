@@ -91,4 +91,5 @@ func _load_drawing_config(table_config: Dictionary):
 	var drawing_config = table_config["DrawingSettings"]
 	var layers = drawing_config["layers"]
 	drawing_coordinator.layers = layers
+	drawing_coordinator.background_layer = drawing_config["background"]
 	

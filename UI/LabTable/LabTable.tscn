@@ -160,11 +160,12 @@ drawing_coordinator = NodePath("../DrawingCoordinator")
 [node name="CenterContainer" type="CenterContainer" parent="LabTable" unique_id=1474232626]
 layout_mode = 2
 
-[node name="DrawingCoordinator" type="Node" parent="LabTable" unique_id=2060403214 node_paths=PackedStringArray("viewport_camera", "accept_button_location", "layer_ui")]
+[node name="DrawingCoordinator" type="Node" parent="LabTable" unique_id=2060403214 node_paths=PackedStringArray("viewport_camera", "accept_button_location", "layer_ui", "capture_container")]
 script = ExtResource("15_0kxqy")
 viewport_camera = NodePath("../SubViewportContainer/SubViewport/Camera2D")
 accept_button_location = NodePath("../../AcceptButtonLocation")
 layer_ui = NodePath("../../DrawControlContainer/HBoxContainer/VBoxContainer/LayerStack")
+capture_container = NodePath("../../DrawSnapshotContainer")
 
 [node name="TextureRect" type="TextureRect" parent="LabTable/DrawingCoordinator" unique_id=1705342564]
 visible = false
