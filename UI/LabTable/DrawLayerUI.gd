@@ -6,6 +6,7 @@ var id_counter = 0
 
 @export var drawing_coordinator: DrawingCoordinator
 @export var dropdown_controller: DrawLayerDropdownMenu
+@export var add_layer_button: TableButton
 
 var layers_free: Dictionary[String, bool]
 
@@ -14,7 +15,7 @@ func _ready() -> void:
 	for layer_name in drawing_coordinator.layers.keys():
 		layers_free[layer_name] = true
 	add_layer()
-	$AddLayer.pressed.connect(func (): add_layer())
+	add_layer_button.pressed.connect(func (): add_layer())
 	
 func add_layer():
 	dropdown_controller.destroy_menu()
@@ -30,7 +31,7 @@ func add_layer():
 	layers.append(new_layer)
 	layers_free[next_free] = false
 	if len(free_layers) <= 1:
-		$AddLayer.visible = false
+		add_layer_button.visible = false
 
 func open_dropdown(calling_layer_id):
 	logger.info(str(calling_layer_id))
@@ -61,13 +62,16 @@ func drop_by_id(id):
 			removed_index = i
 			break
 	layers.remove_at(removed_index)
-	$AddLayer.visible = true
+	add_layer_button.visible = true
 
 func get_sample_points():
 	var pts = []
 	for l in layers:
 		pts.append(l.get_swatch_position())
+	dropdown_controller.destroy_menu()
 	return pts
+	
+	
 func get_layer_names():
 	var names = []
 	for l in layers:

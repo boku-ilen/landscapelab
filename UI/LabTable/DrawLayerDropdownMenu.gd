@@ -1,10 +1,10 @@
 extends VBoxContainer
 class_name DrawLayerDropdownMenu
 
-#func _init() -> void:
-	#visibility_changed.connect(destroy_menu)
+@export var own_panel: PanelContainer
 
 func create_menu(options, on_selected):
+	own_panel.visible = true
 	if len(get_children()) > 0:
 		return
 	for option in options:
@@ -14,3 +14,4 @@ func create_menu(options, on_selected):
 func destroy_menu():
 	for child in get_children():
 		child.queue_free()
+	own_panel.visible = false
