@@ -580,7 +580,7 @@ script = ExtResource("50_fvalx")
 lab_table = NodePath("../../../LabTable")
 metadata/_custom_type_script = "uid://3vvk84ipyk5y"
 
-[node name="AcceptButtonLocation" type="Control" parent="." unique_id=55054833]
+[node name="AcceptButtonLocation" type="Control" parent="." unique_id=55054833 groups=["DrawingUI"]]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5

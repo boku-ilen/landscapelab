@@ -43,6 +43,7 @@ anchor_right = 1.0
 offset_left = -38.0
 offset_top = 0.0
 offset_right = 0.0
+offset_bottom = 37.0
 grow_horizontal = 0
 pc_player = NodePath("../SubViewportContainer/SubViewport/World/FirstPersonPC")
 

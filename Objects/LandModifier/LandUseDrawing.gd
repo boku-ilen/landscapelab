@@ -46,6 +46,8 @@ func _apply_feature(geo_feature: GeoFeature):
 	# We can use the scale directly because 1 unit corresponds to 1 meter with the projections we use
 	var pixel_scale = float(string_attributes["meters_per_pixel"])
 	quad.scale = Vector3(width * pixel_scale, height * pixel_scale, 1.0)
-	
 	# Apply the start height plus a small offset to make sure newer drawings are on top of older ones
 	quad.position.y = start_height + height_step * float(geo_feature.get_id())
+	
+func set_height(v):
+	$OverlayQuad.position.y = start_height + height_step * float(feature.get_id()) - global_position.y

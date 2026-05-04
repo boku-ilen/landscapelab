@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=35 format=4 uid="uid://bjpxjd8f42e8p"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://bjpxjd8f42e8p"]
 
 [ext_resource type="Texture2D" uid="uid://7wwkv63ugp2x" path="res://Resources/Meshes/Cars/textures/10BACK1.jpg" id="1_fl7m4"]
 [ext_resource type="Texture2D" uid="uid://dnqid863py6bo" path="res://Resources/Meshes/Cars/textures/10BACK2.jpg" id="2_dde5k"]
