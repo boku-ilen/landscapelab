@@ -1,12 +1,10 @@
 extends Configurator
 
-@export var position_manager_path: NodePath
-
 var layer_widget_res = preload("res://UI/Layers/LayerConfiguration/LayerCompositionWidget.tscn")
 var group_widget_res = preload("res://UI/Layers/LayerConfiguration/LayersGroupWidget.tscn")
 
 @onready var layer_composition_container = get_parent().get_node("VBoxContainer/ScrollLayers/LayerContainer")
-@onready var position_manager = get_node(position_manager_path)
+@export var position_manager: PositionManager
 
 var layer_composition_widgets = {}
 var layer_group_widgets = {}

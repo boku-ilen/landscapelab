@@ -1,4 +1,5 @@
 extends Node
+class_name LabTableCommunicator
 
 # The port we will listen to
 const PORT = 14541
@@ -10,12 +11,14 @@ var _server = WebSocketServer.new()
 var brick_id_to_position = {}
 
 @export var save_log := true
+@export var draw_layer_ui: DrawLayerUI
 
 var current_log_file
 
 
 func _ready():
 	_server.client_connected.connect(_connected)
+	
 	_server.client_disconnected.connect(_disconnected)
 	
 	_server.message_received.connect(_on_data)
@@ -48,10 +51,14 @@ func _on_data(id, message):
 		current_log_file.flush()
 	
 	var data_dict = JSON.parse_string(message)
-	logger.info("Got data from client %d: %s" % [id, data_dict])
-	
-	var shape = data_dict["data"]["shape"]
-	var color = data_dict["data"]["color"]
+	var shape = ""
+	var color = ""
+	logger.info(data_dict["event"])
+	if data_dict != null and data_dict["event"] != "drawing_processed" and data_dict["event"] != "drawing_done":
+		logger.info("Got data from client %d: %s" % [id, data_dict])
+
+		shape = data_dict["data"]["shape"]
+		color = data_dict["data"]["color"]
 	
 	if shape in GameSystem.current_game_mode.token_to_game_object_collection \
 			and color in GameSystem.current_game_mode.token_to_game_object_collection[shape]:
@@ -111,6 +118,25 @@ func _on_data(id, message):
 			
 			# Remove this brick from brick_id_to_position
 			brick_id_to_position.erase(data_dict["data"]["id"])
+			
+	elif data_dict["event"] == "drawing_processed":
+		
+		var color_id = data_dict["data"]["id"]
+		var bounding_box = data_dict["data"]["bounds"]
+		var bitmap_resolution = data_dict["data"]["resolution"]
+		var bitmap: String = data_dict["data"]["bitmap"]
+
+		var window = get_viewport()
+		var screen_size = Vector2(DisplayServer.screen_get_size(window.current_screen))
+		var screen_pos = Vector2(bounding_box[0], bounding_box[1]) + 0.5 * Vector2(bounding_box[2], bounding_box[3])
+		#var pixel_size = (Vector2(bitmap_resolution[0], bitmap_resolution[1]) / Vector2(bounding_box[3], bounding_box[2])) / screen_size
+		#sprite_instance.scale = pixel_size
+		var reference_image_size = Vector2(bitmap_resolution[0], bitmap_resolution[1]) / Vector2(bounding_box[2], bounding_box[3])
+		get_parent().drawing_coordinator.handle_returned_drawing(color_id, screen_pos, (screen_size / reference_image_size).x, bitmap_resolution, bounding_box, bitmap.hex_decode())
+		
+	elif data_dict["event"] == "drawing_done":
+		logger.info("received " + str(data_dict["data"]["number_of_results"]) + " drawings")
+		get_parent().drawing_coordinator.handle_drawing_mode_end()
 
 
 func _on_game_object_creation_failed(event_position):
@@ -146,3 +172,13 @@ func clear_brick_memory():
 		$LabTableMarkers.create_invalid_marker(brick_id_to_position[brick_id], brick_id)
 	
 	brick_id_to_position.clear()
+
+func request_drawing_capture():
+	var samples = draw_layer_ui.get_sample_points()
+	_server.send(0,JSON.stringify({
+		"event": "start_drawing",
+		"data": {
+			"points": samples
+		}
+	}))
+	logger.info("sent")

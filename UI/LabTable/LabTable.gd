@@ -1,5 +1,5 @@
 extends Control
-
+class_name LabTable
 
 @export var geo_layers: Node2D
 @export var control_ui: Control
@@ -11,7 +11,7 @@ extends Control
 			geo_layers.player_node = new_player
 			
 		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton/AtmosphereConfiguration/LiveWeatherService").player = new_player
-		get_node("SubViewportContainer/PanelContainer/ControlContainer").player_sprite = $SubViewportContainer/SubViewport/GeoLayerRenderers/PlayerSprite
+		get_node("../PanelContainer/ControlContainer").player_sprite = $SubViewportContainer/SubViewport/GeoLayerRenderers/PlayerSprite
 
 @export var time_manager: TimeManager:
 	set(new_time_manager):
@@ -24,9 +24,13 @@ extends Control
 		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton").weather_manager = new_weather_manager
 		get_parent().get_node("MarginContainer/HBoxContainer/AtmosphereButton/AtmosphereConfiguration/LiveWeatherService").weather_manager = new_weather_manager
 
+@export var drawing_coordinator: DrawingCoordinator
+@export var geo_layer_renderers: GeoLayerRenderers
+@export var communicator: LabTableCommunicator
+
 @export var run_brick_detection := true
 
-@export var current_goc_name := "Acceptable Zones"
+@export var current_goc_name = "Acceptable Zones"
 
 var geo_transform
 var goc_configuration_popup = preload("res://GameSystem/GameObjectConfiguration.tscn")
@@ -61,17 +65,20 @@ func _ready():
 	$SubViewportContainer/SubViewport/Camera2D.do_zoom(0)
 	
 	$SubViewportContainer/SubViewport/Camera2D.offset_changed.connect(_on_camera_offset_changed)
+		
+	# Check which screen the window should be on
+	var config_json := JSON.new()
+	var config_file = FileAccess.open("res://table-config.json", FileAccess.READ)
+	var error = config_json.parse(config_file.get_as_text())
+	
+	if error != Error.OK:
+		logger.error(config_json.get_error_message())
+	
+	get_parent().current_screen = config_json.data.beamer_resolution.screen_id
+	get_parent().mode = Window.MODE_FULLSCREEN
 	
 	if run_brick_detection:
 		_table_detection_pid = OS.create_process("python3", ["-m", "LabTable"])
-		
-		# Check which screen the window should be on
-		var config_json := JSON.new()
-		var config_file = FileAccess.open("res://table-config.json", FileAccess.READ)
-		var error = config_json.parse(config_file.get_as_text())
-		
-		get_parent().current_screen = config_json.data.beamer_resolution.screen_id
-		get_parent().mode = Window.MODE_FULLSCREEN
 
 
 func _notification(what):

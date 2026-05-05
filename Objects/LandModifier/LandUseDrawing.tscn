@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cpqy514vnlkbv"]
+
+[ext_resource type="Script" uid="uid://m5lmy5qa6jvp" path="res://Objects/LandModifier/LandUseDrawing.gd" id="1_gpiqv"]
+[ext_resource type="Material" uid="uid://bu3lhdw8rm2fs" path="res://Objects/LandModifier/LandUseDrawing.tres" id="2_nhjlx"]
+[ext_resource type="PackedScene" uid="uid://bnj4pbg5at2rg" path="res://addons/parentshaderupdater/PSUGatherer.tscn" id="3_nhjlx"]
+[ext_resource type="PackedScene" uid="uid://cfav3tiv42xkt" path="res://Layers/Renderers/Overlay/LIDOverlay.tscn" id="4_kgl8p"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_hs2q6"]
+
+[node name="LandUseDrawing" type="Node3D" unique_id=281272505]
+script = ExtResource("1_gpiqv")
+lid_material = ExtResource("2_nhjlx")
+
+[node name="OverlayQuad" type="MeshInstance3D" parent="." unique_id=125511669]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.8445668, 0)
+layers = 65536
+mesh = SubResource("QuadMesh_hs2q6")
+
+[node name="PSUGatherer" parent="OverlayQuad" unique_id=330853985 instance=ExtResource("3_nhjlx")]
+
+[node name="LIDOverlay" parent="." unique_id=1103789890 instance=ExtResource("4_kgl8p")]

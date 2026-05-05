@@ -8,6 +8,9 @@ signal client_connected(peer_id: int)
 # Emitted when a client disconnects
 signal client_disconnected(peer_id: int)
 
+# we need to increase the standard buffer size so that we can send images encoded as hex strings.
+# 16 MB are enough for 4K R8 images.
+@export var buffer_size := 16000000
 @export var handshake_headers := PackedStringArray()
 @export var supported_protocols := PackedStringArray()
 @export_range(0.5, 10.0, 0.1) var handshake_timout := 3.0
@@ -92,6 +95,7 @@ func _create_peer() -> WebSocketPeer:
 	var ws = WebSocketPeer.new()
 	ws.supported_protocols = supported_protocols
 	ws.handshake_headers = handshake_headers
+	ws.inbound_buffer_size = buffer_size
 	return ws
 
 

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c1uajsnvsv1b3"]
+
+[ext_resource type="Theme" uid="uid://2acd0pfpr1ny" path="res://UI/Theme/LandscapeLab.tres" id="1_0tmfo"]
+[ext_resource type="Script" uid="uid://di2q7e4jvqe52" path="res://UI/Datetime/DatetimeWindow.gd" id="1_yh5be"]
+[ext_resource type="PackedScene" uid="uid://cckl23qaxw3h8" path="res://UI/Datetime/Datetime.tscn" id="2_biu8r"]
+
+[node name="DatetimeWindow" type="Window" unique_id=751414969]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(400, 220)
+theme = ExtResource("1_0tmfo")
+script = ExtResource("1_yh5be")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1579437981]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Datetime" parent="PanelContainer" unique_id=13408244 instance=ExtResource("2_biu8r")]
+layout_mode = 2
