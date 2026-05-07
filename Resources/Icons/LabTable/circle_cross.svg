@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="64"
-   height="64"
-   viewBox="0 0 16.933333 16.933333"
+   width="76"
+   height="76"
+   viewBox="0 0 20.108333 20.108333"
    version="1.1"
    id="svg1"
    inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="11.872886"
-     inkscape:cx="13.139181"
-     inkscape:cy="33.353306"
+     inkscape:zoom="9.1842105"
+     inkscape:cx="20.034384"
+     inkscape:cy="46.166189"
      inkscape:window-width="2560"
      inkscape:window-height="1364"
      inkscape:window-x="0"
@@ -52,26 +52,26 @@
      inkscape:groupmode="layer"
      id="layer1">
     <circle
-       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.832;stroke-linejoin:round;stroke-opacity:0.919399"
+       style="fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:0.988;stroke-linejoin:round;stroke-opacity:0.919399"
        id="path1"
-       cx="8.4666662"
-       cy="8.4666662"
-       r="8.4666662" />
+       cx="10.054167"
+       cy="10.054167"
+       r="10.054167" />
     <rect
-       style="fill:#e3e3e3;fill-opacity:1;stroke:none;stroke-width:1.664;stroke-linejoin:round;stroke-opacity:0.919399"
+       style="fill:#bdbdbd;fill-opacity:1;stroke:none;stroke-width:1.976;stroke-linejoin:round;stroke-opacity:0.919399"
        id="rect3"
-       width="1.579424"
-       height="8.6868324"
-       x="-0.78970367"
-       y="7.6302719"
+       width="1.8755661"
+       height="10.315614"
+       x="-0.93777317"
+       y="9.0609484"
        transform="rotate(-45)" />
     <rect
-       style="fill:#e3e3e3;fill-opacity:1;stroke:none;stroke-width:1.664;stroke-linejoin:round;stroke-opacity:0.919399"
+       style="fill:#bdbdbd;fill-opacity:1;stroke:none;stroke-width:1.976;stroke-linejoin:round;stroke-opacity:0.919399"
        id="rect4"
-       width="1.579424"
-       height="8.6868324"
-       x="11.183976"
-       y="-4.3434248"
+       width="1.8755661"
+       height="10.315614"
+       x="13.280972"
+       y="-5.1578174"
        transform="rotate(45)" />
   </g>
 </svg>

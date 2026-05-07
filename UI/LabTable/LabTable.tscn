@@ -160,12 +160,13 @@ drawing_coordinator = NodePath("../DrawingCoordinator")
 [node name="CenterContainer" type="CenterContainer" parent="LabTable" unique_id=1474232626]
 layout_mode = 2
 
-[node name="DrawingCoordinator" type="Node" parent="LabTable" unique_id=2060403214 node_paths=PackedStringArray("viewport_camera", "accept_button_location", "layer_ui", "capture_container")]
+[node name="DrawingCoordinator" type="Node" parent="LabTable" unique_id=2060403214 node_paths=PackedStringArray("viewport_camera", "accept_button_location", "layer_ui", "capture_container", "undo_button")]
 script = ExtResource("15_0kxqy")
 viewport_camera = NodePath("../SubViewportContainer/SubViewport/Camera2D")
 accept_button_location = NodePath("../../AcceptButtonLocation")
 layer_ui = NodePath("../../DrawControlContainer/HBoxContainer/VBoxContainer/LayerStack")
 capture_container = NodePath("../../DrawSnapshotContainer")
+undo_button = NodePath("../../DrawStartButton/VBoxContainer/DeleteLastDrawingsButton")
 
 [node name="TextureRect" type="TextureRect" parent="LabTable/DrawingCoordinator" unique_id=1705342564]
 visible = false
@@ -502,7 +503,7 @@ theme_override_constants/separation = 16
 [node name="LayerStack" type="VBoxContainer" parent="DrawControlContainer/HBoxContainer/VBoxContainer" unique_id=253621128 node_paths=PackedStringArray("drawing_coordinator", "dropdown_controller", "add_layer_button")]
 layout_mode = 2
 theme = ExtResource("1_hpyhd")
-theme_override_constants/separation = 12
+theme_override_constants/separation = 16
 script = ExtResource("42_ywe3r")
 drawing_coordinator = NodePath("../../../../LabTable/DrawingCoordinator")
 dropdown_controller = NodePath("../../DropdownPanel/DropdownStack")
@@ -513,6 +514,8 @@ layout_mode = 2
 theme = ExtResource("16_slfp8")
 theme_type_variation = &"FlatButton"
 icon = ExtResource("43_ywe3r")
+flat = true
+icon_alignment = 1
 script = ExtResource("43_65qsu")
 metadata/_custom_type_script = "uid://3vvk84ipyk5y"
 
@@ -520,6 +523,7 @@ metadata/_custom_type_script = "uid://3vvk84ipyk5y"
 layout_mode = 2
 theme = ExtResource("1_hpyhd")
 theme_type_variation = &"MenuPanel"
+theme_override_styles/panel = ExtResource("23_wb0c1")
 
 [node name="DropdownStack" type="VBoxContainer" parent="DrawControlContainer/HBoxContainer/DropdownPanel" unique_id=1601713878 node_paths=PackedStringArray("own_panel")]
 layout_mode = 2
@@ -562,6 +566,7 @@ offset_top = -36.0
 offset_bottom = 36.0
 grow_horizontal = 0
 grow_vertical = 2
+theme_override_constants/margin_right = 32
 
 [node name="VBoxContainer" type="VBoxContainer" parent="DrawStartButton" unique_id=455828700]
 layout_mode = 2
@@ -575,6 +580,7 @@ lab_table = NodePath("../../../LabTable")
 metadata/_custom_type_script = "uid://3vvk84ipyk5y"
 
 [node name="DeleteLastDrawingsButton" type="Button" parent="DrawStartButton/VBoxContainer" unique_id=1274392011 node_paths=PackedStringArray("lab_table")]
+visible = false
 layout_mode = 2
 icon = ExtResource("49_t7nck")
 flat = true

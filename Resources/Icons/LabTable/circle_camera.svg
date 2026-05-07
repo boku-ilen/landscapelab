@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="64"
-   height="64"
-   viewBox="0 0 16.933333 16.933333"
+   width="76"
+   height="76"
+   viewBox="0 0 20.108333 20.108333"
    version="1.1"
    id="svg1"
    inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
@@ -24,12 +24,12 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="11.872886"
-     inkscape:cx="13.139181"
-     inkscape:cy="40.091348"
+     inkscape:cx="39.249092"
+     inkscape:cy="46.324036"
      inkscape:window-width="2560"
      inkscape:window-height="1364"
      inkscape:window-x="0"
-     inkscape:window-y="157"
+     inkscape:window-y="251"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" /><defs
      id="defs1"><rect
@@ -45,15 +45,16 @@
        id="rect1" /></defs><g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1"><circle
-       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.832;stroke-linejoin:round;stroke-opacity:0.919399"
+     id="layer1"><ellipse
+       style="display:inline;fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:0.988;stroke-linejoin:round;stroke-opacity:0.919399"
        id="path1"
-       cx="8.4666662"
-       cy="8.4666662"
-       r="8.4666662" /><g
+       cx="10.054164"
+       cy="10.054167"
+       rx="10.054164"
+       ry="10.054167" /><g
        style="fill:#c8c8c8;fill-opacity:1"
        id="g4"
-       transform="matrix(0.02116666,0,0,0.02116666,-1.6933322,18.626665)"><path
+       transform="matrix(0.02513541,0,0,0.02513541,-2.0108323,22.119166)"><path
          d="M 456,-600 H 776 Q 749,-669 693.5,-718.5 638,-768 566,-788 Z m -92,80 160,-276 q -11,-2 -22,-3 -11,-1 -22,-1 -66,0 -123,25 -57,25 -101,67 z M 170,-400 H 388 L 228,-676 q -32,41 -50,90.5 -18,49.5 -18,105.5 0,21 2.5,40.5 2.5,19.5 7.5,39.5 z m 224,228 108,-188 H 184 q 27,69 82.5,118.5 Q 322,-192 394,-172 Z m 86,12 q 66,0 123,-25 57,-25 101,-67 L 596,-440 436,-164 q 11,2 21.5,3 10.5,1 22.5,1 z m 252,-124 q 32,-41 50,-90.5 18,-49.5 18,-105.5 0,-21 -2.5,-40.5 Q 795,-540 790,-560 H 572 Z M 480,-480 Z m 0,400 q -82,0 -155,-31.5 -73,-31.5 -127.5,-86 Q 143,-252 111.5,-325 80,-398 80,-480 q 0,-83 31.5,-155.5 31.5,-72.5 86,-127 54.5,-54.5 127.5,-86 73,-31.5 155,-31.5 83,0 155.5,31.5 72.5,31.5 127,86 54.5,54.5 86,127 31.5,72.5 31.5,155.5 0,82 -31.5,155 -31.5,73 -86,127.5 -54.5,54.5 -127,86 Q 563,-80 480,-80 Z"
          id="path1-5"
          style="fill:#c8c8c8;fill-opacity:1" /></g></g></svg>

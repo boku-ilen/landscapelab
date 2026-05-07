@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="64"
-   height="64"
-   viewBox="0 0 16.933333 16.933333"
+   width="76"
+   height="76"
+   viewBox="0 0 20.108333 20.108333"
    version="1.1"
    id="svg1"
    inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="16.790797"
-     inkscape:cx="28.587089"
-     inkscape:cy="28.22975"
+     inkscape:zoom="8.3953985"
+     inkscape:cx="21.559429"
+     inkscape:cy="49.312728"
      inkscape:window-width="2560"
      inkscape:window-height="1364"
      inkscape:window-x="0"
@@ -52,15 +52,15 @@
      inkscape:groupmode="layer"
      id="layer1">
     <circle
-       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.832;stroke-linejoin:round;stroke-opacity:0.919399"
+       style="fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:0.987999;stroke-linejoin:round;stroke-opacity:0.919399"
        id="path1"
-       cx="8.4666662"
-       cy="8.4666662"
-       r="8.4666662" />
+       cx="10.054167"
+       cy="10.054167"
+       r="10.054167" />
     <path
-       d="M 9.2563939,12.810086 H 7.6769699 V 9.1576679 H 4.2812083 v -1.381996 h 3.3957616 v -3.652418 h 1.579424 v 3.652418 h 3.3957611 v 1.381996 H 9.2563939 Z"
+       d="M 10.991968,15.211978 H 9.1164021 V 10.874731 H 5.0839352 V 9.2336107 H 9.1164021 V 4.8963643 h 1.8755659 v 4.3372464 h 4.032467 v 1.6411203 h -4.032467 z"
        id="text2"
-       style="font-size:96px;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono';text-align:center;white-space:pre;stroke-width:1.29339;stroke-linejoin:round;stroke-opacity:0.919399;fill:#e3e3e3;fill-opacity:1"
+       style="font-size:96px;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono';text-align:center;white-space:pre;fill:#000000;fill-opacity:0.17;stroke-width:1.5359;stroke-linejoin:round;stroke-opacity:0.919399"
        aria-label="+" />
   </g>
 </svg>

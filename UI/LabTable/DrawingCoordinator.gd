@@ -5,6 +5,7 @@ class_name DrawingCoordinator
 @export var accept_button_location: Control
 @export var layer_ui: DrawLayerUI
 @export var capture_container: Control
+@export var undo_button: Control
 
 var layers
 
@@ -21,7 +22,7 @@ func start_drawing():
 	current_layer_visibility = {}
 	for c in geo_layer_renderers.get_children():
 		current_layer_visibility[c] = c.visible
-		c.visible = (c.name == background_layer)
+		c.visible = (c.name == background_layer or c.name == "MASKS")
 	fixed_last_extent = geo_layer_renderers.camera_extent
 	for n in get_tree().get_nodes_in_group("RegularUI"):
 		if n is CanvasItem:
@@ -62,6 +63,7 @@ func handle_drawing_mode_end():
 	
 	$TextureRect.visible = false
 	get_parent().geo_layer_renderers.set_layer_visibility("MASKS", true)
+	undo_button.visible = true
 	for n in get_tree().get_nodes_in_group("RegularUI"):
 		if n is CanvasItem:
 			n.visible = true
@@ -74,6 +76,7 @@ func handle_undo():
 	for feature in last_round_drawing_features:
 		layer.remove_feature(feature)
 	last_round_drawing_features.clear()
+	undo_button.visible = false
 
 func handle_returned_drawing(layer_index, position, scale, resolution, bounds, binary_data):
 

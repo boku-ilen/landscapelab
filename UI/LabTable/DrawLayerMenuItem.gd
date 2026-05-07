@@ -17,8 +17,9 @@ func _init(init_layer_name: String):
 	layer_name = init_layer_name
 
 func _ready() -> void:
-	theme_type_variation = "MenuPanel"
+	add_theme_stylebox_override("panel", preload("res://UI/LabTable/Style/PopupPanel.tres"))
 	var own_hbox = HBoxContainer.new()
+	own_hbox.add_theme_constant_override("separation", 8)
 	add_child(own_hbox)
 	drop_button = TableButton.new()
 	drop_button.name = "DropLayerButton"

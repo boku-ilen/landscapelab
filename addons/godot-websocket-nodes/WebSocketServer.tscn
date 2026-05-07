@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://kjnwwo7e3v13"]
+[gd_scene format=3 uid="uid://kjnwwo7e3v13"]
 
 [ext_resource type="Script" uid="uid://b1pfpbweh5hg2" path="res://addons/godot-websocket-nodes/WebSocketServer.gd" id="1_xja1e"]
 
-[node name="WebSocketServer" type="Node"]
+[node name="WebSocketServer" type="Node" unique_id=452710291]
 script = ExtResource("1_xja1e")
+buffer_size = 128000000

@@ -54,12 +54,11 @@ func _on_data(id, message):
 	var shape = ""
 	var color = ""
 	logger.info(data_dict["event"])
-	if data_dict != null and data_dict["event"] != "drawing_processed" and data_dict["event"] != "drawing_done":
+	if data_dict != null and (data_dict["event"] == "brick_added" or data_dict["event"] == "brick_removed"):
 		logger.info("Got data from client %d: %s" % [id, data_dict])
 
 		shape = data_dict["data"]["shape"]
 		color = data_dict["data"]["color"]
-	
 	if shape in GameSystem.current_game_mode.token_to_game_object_collection \
 			and color in GameSystem.current_game_mode.token_to_game_object_collection[shape]:
 		get_parent().current_goc_name = GameSystem.current_game_mode.token_to_game_object_collection[shape][color]
@@ -137,7 +136,6 @@ func _on_data(id, message):
 	elif data_dict["event"] == "drawing_done":
 		logger.info("received " + str(data_dict["data"]["number_of_results"]) + " drawings")
 		get_parent().drawing_coordinator.handle_drawing_mode_end()
-
 
 func _on_game_object_creation_failed(event_position):
 	var id = null
