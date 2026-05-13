@@ -16,7 +16,7 @@ static func _create_density_classes(densities_data: Array) -> Dictionary:
 		elif line["Mesh"] == "res://Resources/Meshes/_NEW assets/shrub/small.obj" or line["Mesh"] == "Shrub":
 			mesh = load("res://Assets/Natural/Plants/Foliage/Meshes/Shrub/small.obj")
 		else:
-			mesh = load("res://Resources/Meshes/VegetationBillboard/1m_billboard.obj")
+			mesh = load("res://Assets/Natural/Plants/Foliage/Meshes/1m_billboard.obj")
 		
 		var density_class = DensityClass.new(
 			str_to_var(line["ID"]),
