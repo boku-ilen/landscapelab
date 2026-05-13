@@ -1,8 +1,8 @@
-[gd_resource type="ArrayMesh" load_steps=5 format=4 uid="uid://dgpxosfv4n7mw"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://dgpxosfv4n7mw"]
 
-[ext_resource type="Texture2D" uid="uid://b8pn7dmlhwe2v" path="res://Resources/Meshes/flora/feigenkaktus/materials/feigenkaktus_DefaultMaterial_BaseColor.png" id="1_ofyxj"]
-[ext_resource type="Texture2D" uid="uid://biwl8ersko0k5" path="res://Resources/Meshes/flora/feigenkaktus/materials/feigenkaktus_DefaultMaterial_Normal.png" id="2_xpnbw"]
-[ext_resource type="Texture2D" uid="uid://blgxrmleeivlw" path="res://Resources/Meshes/flora/feigenkaktus/materials/feigenkaktus_DefaultMaterial_Roughness.png" id="3_dwmog"]
+[ext_resource type="Texture2D" uid="uid://b8pn7dmlhwe2v" path="res://Assets/Natural/Plants/Others/Opuntia/materials/feigenkaktus_DefaultMaterial_BaseColor.png" id="1_ofyxj"]
+[ext_resource type="Texture2D" uid="uid://biwl8ersko0k5" path="res://Assets/Natural/Plants/Others/Opuntia/materials/feigenkaktus_DefaultMaterial_Normal.png" id="2_xpnbw"]
+[ext_resource type="Texture2D" uid="uid://blgxrmleeivlw" path="res://Assets/Natural/Plants/Others/Opuntia/materials/feigenkaktus_DefaultMaterial_Roughness.png" id="3_dwmog"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s3lbt"]
 albedo_color = Color(1, 0.858824, 0.831373, 1)

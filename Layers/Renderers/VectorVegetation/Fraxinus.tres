@@ -1,7 +1,7 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://clxd6rctgoum4"]
 
-[ext_resource type="Material" uid="uid://cgca3mvvhtcxo" path="res://Resources/Meshes/Trees/EZTree/Fraxinus/branches.tres" id="1_snek8"]
-[ext_resource type="Material" uid="uid://b6mmxam7l2hxv" path="res://Resources/Meshes/Trees/EZTree/Fraxinus/leaves.tres" id="2_ul8ls"]
+[ext_resource type="Material" uid="uid://cgca3mvvhtcxo" path="res://Assets/Natural/Plants/Trees/Fraxinus/branches.tres" id="1_snek8"]
+[ext_resource type="Material" uid="uid://b6mmxam7l2hxv" path="res://Assets/Natural/Plants/Trees/Fraxinus/leaves.tres" id="2_ul8ls"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_457ck"]
 _surfaces = [{

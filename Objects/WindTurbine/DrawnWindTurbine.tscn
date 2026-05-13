@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bt0nhfrixwki3"]
+[gd_scene format=3 uid="uid://bt0nhfrixwki3"]
 
 [ext_resource type="Script" uid="uid://dww016r1dhraa" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="2_wlnal"]
-[ext_resource type="Texture2D" uid="uid://diu7lbi0hqpus" path="res://Resources/Textures/DrawnObjects/wind_turbine_hub.png" id="10_dmx5y"]
-[ext_resource type="Texture2D" uid="uid://wbuid5547166" path="res://Resources/Textures/DrawnObjects/wind_turbine_rotor.png" id="11_eynyf"]
+[ext_resource type="Texture2D" uid="uid://diu7lbi0hqpus" path="res://Assets/Abstract/DrawnWindTurbine/wind_turbine_hub.png" id="10_dmx5y"]
+[ext_resource type="Texture2D" uid="uid://wbuid5547166" path="res://Assets/Abstract/DrawnWindTurbine/wind_turbine_rotor.png" id="11_eynyf"]
 
 [node name="Windmill" type="Node3D" groups=["SpatialShifting"]]
 transform = Transform3D(1.0253, 0, -1.02531, 0, 1.45, 0, 1.02531, 0, 1.0253, 0, 0, 0)

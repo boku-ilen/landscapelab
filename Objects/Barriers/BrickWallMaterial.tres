@@ -1,9 +1,9 @@
-[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://boubv733hsw1d"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://boubv733hsw1d"]
 
-[ext_resource type="Texture2D" uid="uid://7jbtvntmxr30" path="res://Resources/Textures/Barriers/Stone/stone_wall_diff_2k.jpg" id="1_yrgx4"]
-[ext_resource type="Texture2D" uid="uid://bkfyrswihhrq5" path="res://Resources/Textures/Barriers/Stone/stone_wall_arm_2k.jpg" id="2_3hr08"]
-[ext_resource type="Texture2D" uid="uid://c6ddav7lmho8" path="res://Resources/Textures/Barriers/Stone/stone_wall_disp_2k.jpg" id="3_m7cu5"]
-[ext_resource type="Texture2D" uid="uid://pn1pswtepkes" path="res://Resources/Textures/Barriers/Stone/stone_wall_nor_gl_2k.jpg" id="4_yew4b"]
+[ext_resource type="Texture2D" uid="uid://7jbtvntmxr30" path="res://Assets/Artificial/Barriers/StoneWall/materials/stone_wall_diff_2k.jpg" id="1_yrgx4"]
+[ext_resource type="Texture2D" uid="uid://bkfyrswihhrq5" path="res://Assets/Artificial/Barriers/StoneWall/materials/stone_wall_arm_2k.jpg" id="2_3hr08"]
+[ext_resource type="Texture2D" uid="uid://c6ddav7lmho8" path="res://Assets/Artificial/Barriers/StoneWall/materials/stone_wall_disp_2k.jpg" id="3_m7cu5"]
+[ext_resource type="Texture2D" uid="uid://pn1pswtepkes" path="res://Assets/Artificial/Barriers/StoneWall/materials/stone_wall_nor_gl_2k.jpg" id="4_yew4b"]
 
 [resource]
 albedo_texture = ExtResource("1_yrgx4")
