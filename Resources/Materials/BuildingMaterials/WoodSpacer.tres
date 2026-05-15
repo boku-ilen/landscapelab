@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dskbqm8qv4276"]
+
+[ext_resource type="Shader" uid="uid://buiadasgwsmui" path="res://addons/modular_buildings/Shader/standard_spacer.gdshader" id="1_6jcqj"]
+[ext_resource type="Texture2D" uid="uid://c1rikt7qqg635" path="res://Resources/Textures/Buildings/ModularBuildingResources/weathered_brown_planks_diff_2k.jpg" id="2_m11wt"]
+[ext_resource type="Texture2D" uid="uid://cjxpsjaco2kmr" path="res://Resources/Textures/Buildings/ModularBuildingResources/weathered_brown_planks_nor_gl_2k.jpg" id="3_q6g2v"]
+[ext_resource type="Texture2D" uid="uid://chahxaudj17pf" path="res://Resources/Textures/Buildings/ModularBuildingResources/weathered_brown_planks_rough_2k.jpg" id="4_y26dk"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_6jcqj")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_m11wt")
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 0.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/texture_roughness = ExtResource("4_y26dk")
+shader_parameter/stretch_dbg = 0.0
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/texture_normal = ExtResource("3_q6g2v")
+shader_parameter/normal_scale = 1.000000807500001
+shader_parameter/ao_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/ao_light_affect = 0.0
+shader_parameter/heightmap_scale = 0.0
+shader_parameter/heightmap_min_layers = 0
+shader_parameter/heightmap_max_layers = 0
+shader_parameter/heightmap_flip = Vector2(0, 0)
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(0, 0, 0)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)

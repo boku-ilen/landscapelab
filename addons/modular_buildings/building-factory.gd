@@ -22,7 +22,6 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 	var edges: Array[Edge] = _footprint_to_edges(metadata.footprint)
 	building_root.position = metadata.position
 	if edges.is_empty():
-		print("no edges @ build_building")
 		return building_root
 	
 	var module_indices := {}
@@ -56,9 +55,11 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		building_root.add_child(mesh_multi_map[mesh])
 
 	# Iterate floors and edges
-	for floor_num in metadata.floor_definitions.size():		
+	var floor_num = 0
+	while overall_floor_height < metadata.building_height:		
 		# Meta
-		var floor_assets = metadata.floor_definitions[floor_num]
+		
+		var floor_assets = metadata.floor_definitions[min(floor_num, len(metadata.floor_definitions) - 1)]
 		var floor_height = floor_assets.height
 		
 		var corner_mesh = mesh_multi_map[floor_assets.corner_90].multimesh
@@ -102,8 +103,6 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 				for point_i in metadata.feature_positions[k].size():
 					if point_edge_mapping[k][point_i][0] == i:
 						points_on_edge[k].append(point_edge_mapping[k][point_i][1])
-					#points_
-				print(points_on_edge[k])
 			module_indices = _compute_edges(
 				edge_current.p0,
 				edge_current.p1, 
@@ -115,6 +114,7 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 				points_on_edge)
 		
 		overall_floor_height += floor_height
+		floor_num += 1
 		if overall_floor_height >= metadata.building_height:
 			break
 	
@@ -261,10 +261,8 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 			# candidate for placement, check if close enough
 			var candidate_mesh: Mesh = potential_positioned_features[0].model
 			var candidate_width = candidate_mesh.get_aabb().size.x
-			print(used_width + candidate_width)
 
 			if feature_offsets[potential_positioned_features[0].facade_feature_id].any(func (off): return (off - (p1 + ((p2-p1).normalized()) * (used_width + candidate_width / 2))).length() < candidate_width / 2):
-				print("Found")
 				mesh = candidate_mesh
 				last_module_index = floor_assets.find(potential_positioned_features[0])
 				module_width = candidate_width

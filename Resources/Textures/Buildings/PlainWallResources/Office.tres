@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PlainWallResource" load_steps=4 format=3 uid="uid://bwgmy4i6uygof"]
+[gd_resource type="Resource" script_class="PlainWallResource" format=3 uid="uid://bwgmy4i6uygof"]
 
 [ext_resource type="Script" uid="uid://buajipufsmvon" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_1kv3i"]
 [ext_resource type="Resource" uid="uid://dpuuqa6sclduc" path="res://Resources/Textures/Buildings/basement/default_basement.tres" id="1_kd1yj"]
@@ -10,10 +10,6 @@ basement_texture = ExtResource("1_kd1yj")
 ground_texture = ExtResource("2_he1fs")
 middle_texture = ExtResource("2_he1fs")
 top_texture = ExtResource("2_he1fs")
-random_90_rotation_rate = 0.0
-ground_window_id = -1
-middle_window_id = -1
-top_window_id = -1
 random_colors = Array[Color]([Color(1, 1, 1, 1), Color(0.878431, 1, 1, 1), Color(0.941176, 0.941176, 0.941176, 1), Color(0.89537, 0.948642, 0.979618, 1)])
 random_color_weights = Array[float]([0.3, 0.3, 0.3, 0.1])
 apply_colors = 14

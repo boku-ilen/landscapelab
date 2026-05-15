@@ -68,8 +68,9 @@ func load_feature_instance(feature: GeoFeature):
 	var building = Node3D.new()
 	
 	var modular_metadata_instance = ModularBuildingMetadata.new()
-	modular_metadata_instance.floor_definitions = modular_metadata.floor_definitions
-	
+	#modular_metadata_instance.floor_definitions = modular_metadata.floor_definitions
+	var building_type = util.str_to_var_or_default(feature.get_attribute("render_type"), fallback_wall_id)
+	modular_metadata_instance.floor_definitions = layer_composition.render_info.modular_resources[building_type].floor_definitions
 	var building_metadata = BuildingMetadata.new(feature, center, layer_composition.render_info)
 	
 	if not Geometry2D.is_polygon_clockwise(building_metadata.footprint):
@@ -87,8 +88,7 @@ func load_feature_instance(feature: GeoFeature):
 	building.position = building_metadata.engine_center + Vector3.UP * (building_metadata.cellar_height - 1.0)
 	building.name = str(feature.get_id())
 		
-	var building_type = util.str_to_var_or_default(feature.get_attribute("render_type"), fallback_wall_id)
-
+	
 
 	# Add the roof
 	var roof_and_material = RoofFactory.prepare_roof(
@@ -111,13 +111,11 @@ func load_feature_instance(feature: GeoFeature):
 		actual_height += layer.height
 		if actual_height >= modular_metadata_instance.building_height:
 			break
-	var roof_component = preload("res://Buildings/Components/Roofs/FlatRoof.tscn").instantiate()
-	building.add_child(roof_component)
-	roof_component.set_color(Color.RED)
+	var roof_component = roof_and_material["roof"]
+	RoofFactory.set_surface_overrides(roof_component, roof_and_material["material"])
 	roof_component.build(PackedVector2Array(building_metadata.footprint))
 	roof_component.position.y = actual_height
 	roof_surface_material_callback.call()
-	#building.build([roof_surface_material_callback])
 	
 	if "can_refine" in building:
 		buildings_to_refine.append(building)

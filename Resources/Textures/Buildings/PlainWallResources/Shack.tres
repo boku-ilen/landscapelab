@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PlainWallResource" load_steps=3 format=3 uid="uid://dqc07nlbth3sq"]
+[gd_resource type="Resource" script_class="PlainWallResource" format=3 uid="uid://dqc07nlbth3sq"]
 
 [ext_resource type="Script" uid="uid://buajipufsmvon" path="res://Buildings/Components/Walls/PlainWallResource.gd" id="1_j6lt4"]
 [ext_resource type="Resource" uid="uid://ry4n6ovt6my7" path="res://Resources/Textures/Buildings/facade/Shack/Shack.tres" id="2_0pstj"]
@@ -9,11 +9,7 @@ basement_texture = ExtResource("2_0pstj")
 ground_texture = ExtResource("2_0pstj")
 middle_texture = ExtResource("2_0pstj")
 top_texture = ExtResource("2_0pstj")
-ground_window_id = -1
-middle_window_id = -1
-top_window_id = -1
 random_colors = Array[Color]([Color(0.431373, 0.235294, 0, 1)])
 random_color_weights = Array[float]([1.0])
 apply_colors = 15
 wind_counterclockwise = null
-prefer_pointed_roof = true

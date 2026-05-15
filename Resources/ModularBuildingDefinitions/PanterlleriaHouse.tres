@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ModularBuildingMetadata" format=3 uid="uid://cxlpypmqm37xk"]
+
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_ihmvq"]
+[ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="2_pxlwe"]
+[ext_resource type="Resource" uid="uid://5f7qdex0krmx" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows+Door.tres" id="3_g13nq"]
+[ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="4_2280c"]
+
+[resource]
+script = ExtResource("4_2280c")
+floor_definitions = Array[ExtResource("1_ihmvq")]([ExtResource("2_pxlwe"), ExtResource("3_g13nq")])
+metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

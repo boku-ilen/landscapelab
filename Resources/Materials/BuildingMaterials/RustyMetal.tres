@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cgl2l88gtfy3v"]
+
+[ext_resource type="Texture2D" uid="uid://u2mopskinsca" path="res://Resources/Textures/Buildings/ModularBuildingResources/rusty_metal_sheet_diff_2k.jpg" id="1_wgsa7"]
+[ext_resource type="Texture2D" uid="uid://l5bxx0r7f4lh" path="res://Resources/Textures/Buildings/ModularBuildingResources/rusty_metal_sheet_nor_gl_2k.jpg" id="2_hcvx1"]
+[ext_resource type="Texture2D" uid="uid://muojfbwg8qbh" path="res://Resources/Textures/Buildings/ModularBuildingResources/rusty_metal_sheet_rough_2k.jpg" id="3_l4m3u"]
+
+[resource]
+albedo_texture = ExtResource("1_wgsa7")
+metallic = 0.22
+roughness_texture = ExtResource("3_l4m3u")
+normal_enabled = true
+normal_texture = ExtResource("2_hcvx1")
