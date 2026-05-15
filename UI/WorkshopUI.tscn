@@ -61,13 +61,13 @@ theme_override_constants/separation = -5
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="ViewButton" parent="MarginContainer/VBoxContainer/MenuBar" index="1" node_paths=PackedStringArray("world_ui", "viewport", "docks")]
+[node name="ViewButton" parent="MarginContainer/VBoxContainer/MenuBar" index="1" unique_id=1761535387 node_paths=PackedStringArray("world_ui", "viewport", "docks")]
 world_ui = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI")
 viewport = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport")
 docks = [NodePath("../../Left/Tabs"), NodePath("../../Left/Mid/Right"), NodePath("../../Left/Mid/MidVertical/HBoxContainer")]
 dock_names = Array[String](["Left dock", "Right dock", "Bottom dock"])
 
-[node name="UtilButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" node_paths=PackedStringArray("action_handler_3d_path", "position_manager", "player_node", "weather_manager", "time_manager")]
+[node name="UtilButton" parent="MarginContainer/VBoxContainer/MenuBar" index="2" unique_id=2130191227 node_paths=PackedStringArray("action_handler_3d_path", "position_manager", "player_node", "weather_manager", "time_manager")]
 action_handler_3d_path = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC/ActionHandler")
 position_manager = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 player_node = NodePath("../../Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
@@ -94,7 +94,7 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="LiveWeatherService" parent="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI/LiveWeather/LiveWeatherButton" index="0" node_paths=PackedStringArray("weather_manager", "player")]
+[node name="LiveWeatherService" parent="MarginContainer/VBoxContainer/Left/Tabs/Top/WeatherUI/LiveWeather/LiveWeatherButton" parent_id_path=PackedInt32Array(364195188, 1725312928) index="0" unique_id=1916891187 node_paths=PackedStringArray("weather_manager", "player")]
 weather_manager = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/WeatherManager")
 player = NodePath("../../../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC")
 
@@ -190,7 +190,7 @@ wait_time = 0.2
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" unique_id=33073808 instance=ExtResource("15_w6bxo")]
 
-[node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC" parent_id_path=PackedInt32Array(33073808, 1780470910) index="5" unique_id=1821134723 node_paths=PackedStringArray("pc_player") instance=ExtResource("16_gc550")]
+[node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC" index="5" unique_id=1821134723 node_paths=PackedStringArray("pc_player") instance=ExtResource("16_gc550")]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0

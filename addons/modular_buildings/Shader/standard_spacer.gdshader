@@ -42,7 +42,7 @@ void vertex() {
 	//stretch_factor = stretch_dbg;
 
 	VERTEX.x *= stretch_factor;
-	UV.x *= stretch_factor * 2.0; // TODO adjust this by "front-ness"
+	UV.x *= stretch_factor; // TODO adjust this by "front-ness"
 }
 
 void fragment() {

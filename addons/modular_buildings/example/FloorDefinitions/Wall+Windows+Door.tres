@@ -5,7 +5,7 @@
 [ext_resource type="ArrayMesh" uid="uid://dft05s8yfxebt" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Spacer_2.0x3.0.res" id="3_kmehg"]
 [ext_resource type="ArrayMesh" uid="uid://dc771316vcmav" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Door01_2.0x3.0.res" id="4_6np5n"]
 [ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="4_kmehg"]
-[ext_resource type="ArrayMesh" uid="uid://dfb1hgb0uydug" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Window02_2.0x3.0.res" id="6_n6mcm"]
+[ext_resource type="ArrayMesh" uid="uid://cn0v31upneed2" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Window01_2.0x3.0.res" id="6_kmehg"]
 [ext_resource type="ArrayMesh" uid="uid://dvywygxt3ty7s" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Plain_2.0x3.0.res" id="7_6np5n"]
 
 [sub_resource type="Resource" id="Resource_bcelq"]
@@ -15,10 +15,11 @@ probability = 0.15
 facade_feature_id = "door"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
-[sub_resource type="Resource" id="Resource_n6mcm"]
+[sub_resource type="Resource" id="Resource_6np5n"]
 script = ExtResource("4_kmehg")
-model = ExtResource("6_n6mcm")
+model = ExtResource("6_kmehg")
 probability = 0.3
+facade_feature_id = "large_window"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
 [sub_resource type="Resource" id="Resource_8btcx"]
@@ -26,11 +27,12 @@ script = ExtResource("4_kmehg")
 model = ExtResource("7_6np5n")
 probability = 0.4
 may_repeat = true
+facade_feature_id = "plain_wall"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
 [resource]
 script = ExtResource("3_bcelq")
-walls = Array[ExtResource("4_kmehg")]([SubResource("Resource_bcelq"), SubResource("Resource_n6mcm"), SubResource("Resource_8btcx")])
+walls = Array[ExtResource("4_kmehg")]([SubResource("Resource_bcelq"), SubResource("Resource_6np5n"), SubResource("Resource_8btcx")])
 corner_90 = ExtResource("1_bi8iv")
 spacer_block = ExtResource("3_kmehg")
 metadata/_custom_type_script = "uid://1cryccueq7u4"

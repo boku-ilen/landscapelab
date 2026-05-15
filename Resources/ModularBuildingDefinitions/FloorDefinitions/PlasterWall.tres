@@ -2,10 +2,7 @@
 
 [ext_resource type="Material" uid="uid://cqe8ou1pviww6" path="res://Resources/Materials/BuildingMaterials/PlasterCorner.tres" id="1_j5ga8"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="2_iyuct"]
-[ext_resource type="Shader" uid="uid://buiadasgwsmui" path="res://addons/modular_buildings/Shader/standard_spacer.gdshader" id="3_2e0ho"]
-[ext_resource type="Texture2D" uid="uid://c72cxxcyrg6ln" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Color.jpg" id="4_jbxwq"]
-[ext_resource type="Texture2D" uid="uid://bi63buuda3f3j" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_NormalGL.jpg" id="5_ewilm"]
-[ext_resource type="Texture2D" uid="uid://bi73vhqd8cokg" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Roughness.jpg" id="6_0x2re"]
+[ext_resource type="Material" uid="uid://citfma2dd8ux4" path="res://Resources/Materials/BuildingMaterials/PlasterSpacer.tres" id="3_4b20t"]
 [ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="7_3wdmv"]
 [ext_resource type="Material" uid="uid://b84e5qnytwn8c" path="res://Resources/Materials/BuildingMaterials/PlasterWall.tres" id="8_wgyxl"]
 
@@ -41,32 +38,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_dt2k3")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ogvlm"]
-render_priority = 0
-shader = ExtResource("3_2e0ho")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/texture_albedo = ExtResource("4_jbxwq")
-shader_parameter/albedo_texture_size = Vector2i(0, 0)
-shader_parameter/point_size = 0.0
-shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
-shader_parameter/texture_roughness = ExtResource("6_0x2re")
-shader_parameter/stretch_dbg = 0.0
-shader_parameter/specular = 0.0
-shader_parameter/metallic = 0.0
-shader_parameter/texture_normal = ExtResource("5_ewilm")
-shader_parameter/normal_scale = 1.000000807500001
-shader_parameter/ao_texture_channel = Vector4(0, 0, 0, 0)
-shader_parameter/ao_light_affect = 0.0
-shader_parameter/heightmap_scale = 0.0
-shader_parameter/heightmap_min_layers = 0
-shader_parameter/heightmap_max_layers = 0
-shader_parameter/heightmap_flip = Vector2(0, 0)
-shader_parameter/uv1_scale = Vector3(1, 1, 1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(0, 0, 0)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
-
 [sub_resource type="ArrayMesh" id="ArrayMesh_ogvlm"]
 _surfaces = [{
 "aabb": AABB(-0.11, 0, 0, 0.22, 3, 1e-05),
@@ -89,7 +60,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 6,
 "index_data": PackedByteArray("AAABAAIAAgABAAMA"),
-"material": SubResource("ShaderMaterial_ogvlm"),
+"material": ExtResource("3_4b20t"),
 "name": "Wall_Default",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -136,6 +107,7 @@ script = ExtResource("7_3wdmv")
 model = SubResource("ArrayMesh_4jf55")
 probability = 0.6
 may_repeat = true
+facade_feature_id = "plain_wall"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uj307"]
@@ -286,6 +258,7 @@ shadow_mesh = SubResource("ArrayMesh_1rxkm")
 script = ExtResource("7_3wdmv")
 model = SubResource("ArrayMesh_5tf8r")
 probability = 0.35
+facade_feature_id = "window"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
 [resource]
