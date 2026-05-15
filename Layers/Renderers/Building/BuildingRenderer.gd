@@ -1,6 +1,7 @@
 extends FeatureLayerCompositionRenderer
 
 @export var check_roof_type := true
+@export var modular_metadata: ModularBuildingMetadata = preload("res://addons/modular_buildings/example/example_building_metadata.tres")
 
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 
@@ -63,24 +64,32 @@ func _create_and_set_texture_arrays():
 
 
 func load_feature_instance(feature: GeoFeature):
-	var building := building_base_scene.instantiate()
-	var building_metadata = BuildingMetadata.new(feature, center, layer_composition.render_info)
+	#var building := building_base_scene.instantiate()
+	var building = Node3D.new()
 	
-	var building_type = util.str_to_var_or_default(feature.get_attribute("render_type"), fallback_wall_id)
+	var modular_metadata_instance = ModularBuildingMetadata.new()
+	modular_metadata_instance.floor_definitions = modular_metadata.floor_definitions
+	
+	var building_metadata = BuildingMetadata.new(feature, center, layer_composition.render_info)
 	
 	if not Geometry2D.is_polygon_clockwise(building_metadata.footprint):
 		building_metadata.footprint.reverse()
+	var footprint: Array[Vector2]
+	footprint.assign(building_metadata.footprint)
+	footprint.remove_at(len(footprint)-1)
+	
+	modular_metadata_instance.footprint = footprint
+	modular_metadata_instance.building_height = building_metadata.height
+	modular_metadata_instance.roof_height = building_metadata.roof_height
+	
+	BuildingFactory.build_building(building, modular_metadata_instance)
+	
+	building.position = building_metadata.engine_center + Vector3.UP * (building_metadata.cellar_height - 1.0)
+	building.name = str(feature.get_id())
 		
-	if building_type != -1:
-		WallFactory.prepare_plain_walls(building_type, building_metadata, building, layer_composition.render_info)
-	else:
-		WallFactory.prepare_pillars(building_metadata, building)
-	
-	if building_type not in range(0, layer_composition.render_info.wall_resources.size()):
-		building_type = fallback_wall_id
-	
-	var walls_resource: PlainWallResource = layer_composition.render_info.wall_resources[building_type]
-	
+	var building_type = util.str_to_var_or_default(feature.get_attribute("render_type"), fallback_wall_id)
+
+
 	# Add the roof
 	var roof_and_material = RoofFactory.prepare_roof(
 		layer_composition, 
@@ -89,17 +98,26 @@ func load_feature_instance(feature: GeoFeature):
 		addon_objects,
 		building_metadata, 
 		check_roof_type,
-		walls_resource)
+		{"prefer_pointed_roof": true})
 	building.add_child(roof_and_material["roof"])
 
 	# Set parameters in the building base
-	building.set_metadata(building_metadata)
-	building.position = building_metadata.engine_center
 	building.name = str(feature.get_id())
 	
 	var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
 	# Build!
-	building.build([roof_surface_material_callback])
+	var actual_height = 0.0
+	for layer in modular_metadata_instance.floor_definitions:
+		actual_height += layer.height
+		if actual_height >= modular_metadata_instance.building_height:
+			break
+	var roof_component = preload("res://Buildings/Components/Roofs/FlatRoof.tscn").instantiate()
+	building.add_child(roof_component)
+	roof_component.set_color(Color.RED)
+	roof_component.build(PackedVector2Array(building_metadata.footprint))
+	roof_component.position.y = actual_height
+	roof_surface_material_callback.call()
+	#building.build([roof_surface_material_callback])
 	
 	if "can_refine" in building:
 		buildings_to_refine.append(building)

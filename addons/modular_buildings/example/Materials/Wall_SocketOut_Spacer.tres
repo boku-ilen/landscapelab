@@ -1,0 +1,34 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bduebsrraip24"]
+
+[ext_resource type="Shader" uid="uid://buiadasgwsmui" path="res://addons/modular_buildings/Shader/standard_spacer.gdshader" id="1_qdtmf"]
+[ext_resource type="Texture2D" uid="uid://dycdo5k6wtgry" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_diff_2k.jpg" id="2_qdtmf"]
+[ext_resource type="Texture2D" uid="uid://ccu03g6mnwnw0" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_disp_2k.jpg" id="3_6jgx2"]
+[ext_resource type="Texture2D" uid="uid://nl23iq76mek4" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_nor_gl_2k.png" id="4_qdtmf"]
+[ext_resource type="Texture2D" uid="uid://j4xlpd5mch8u" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_rough_2k.jpg" id="5_farp7"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_qdtmf")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_qdtmf")
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 0.10000000149012
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/texture_roughness = ExtResource("5_farp7")
+shader_parameter/stretch_dbg = 3.19
+shader_parameter/specular = 0.57999998703584
+shader_parameter/metallic = 0.0
+shader_parameter/texture_normal = ExtResource("4_qdtmf")
+shader_parameter/normal_scale = 1.000000807500001
+shader_parameter/ao_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/ao_light_affect = 0.499999988824
+shader_parameter/texture_heightmap = ExtResource("3_6jgx2")
+shader_parameter/heightmap_scale = 2.0000008549999997
+shader_parameter/heightmap_min_layers = 8
+shader_parameter/heightmap_max_layers = 32
+shader_parameter/heightmap_flip = Vector2(1, 1)
+shader_parameter/uv1_scale = Vector3(0.76, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)

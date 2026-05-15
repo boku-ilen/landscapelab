@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dhaemwoi7nne"]
+
+[ext_resource type="Texture2D" uid="uid://dycdo5k6wtgry" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_diff_2k.jpg" id="1_x5tsm"]
+[ext_resource type="Texture2D" uid="uid://nl23iq76mek4" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_nor_gl_2k.png" id="2_ypmnl"]
+[ext_resource type="Texture2D" uid="uid://j4xlpd5mch8u" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_rough_2k.jpg" id="3_sgm6p"]
+
+[resource]
+albedo_texture = ExtResource("1_x5tsm")
+roughness_texture = ExtResource("3_sgm6p")
+normal_enabled = true
+normal_texture = ExtResource("2_ypmnl")

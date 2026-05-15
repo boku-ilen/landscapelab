@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ModularBuildingMetadata" format=3 uid="uid://cls25iabvu4tj"]
+
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_8xnjq"]
+[ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="2_hwtas"]
+[ext_resource type="Resource" uid="uid://5f7qdex0krmx" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows+Door.tres" id="3_egmm3"]
+[ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="4_4gekq"]
+[ext_resource type="Resource" uid="uid://c6nev8recemc4" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows.tres" id="4_egmm3"]
+
+[resource]
+script = ExtResource("4_4gekq")
+name = "Building1"
+building_height = 10.0
+roof_height = 1.0
+footprint = Array[Vector2]([Vector2(-208.54703, 56.23016), Vector2(-51.202896, 51.73275), Vector2(-78.70046, 31.281904), Vector2(-19.394775, 71.235466), Vector2(-41.684776, 72.1956), Vector2(-166.48528, 154.11357), Vector2(-213.20407, 151.92735), Vector2(-207.50684, 86.62113)])
+floor_definitions = Array[ExtResource("1_8xnjq")]([ExtResource("2_hwtas"), ExtResource("3_egmm3"), ExtResource("4_egmm3")])
+feature_positions = null
+metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

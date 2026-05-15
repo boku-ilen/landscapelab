@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://bkfue38a76nnu"]
+[gd_scene format=4 uid="uid://bkfue38a76nnu"]
 
 [ext_resource type="PackedScene" uid="uid://cy06sfwu3vmub" path="res://Resources/Meshes/Windmills/Medieval/windmill1.glb" id="1"]
 [ext_resource type="Material" path="res://Resources/Meshes/Windmills/Medieval/wing.material" id="2"]

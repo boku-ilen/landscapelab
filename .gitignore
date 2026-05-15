@@ -17,6 +17,7 @@ settings.ini
 
 # IDE specific ignores
 *.iml
+.idea/
 
 # Geodot is added separately
 addons/geodot

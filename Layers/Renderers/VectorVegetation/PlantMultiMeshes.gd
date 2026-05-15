@@ -134,12 +134,16 @@ func _ready():
 				
 				# For spritesheet generation: disable AO (since AO is also applied in unshaded mode)
 				for material_id in range(mesh.get_surface_count()):
-					mesh.surface_get_material(material_id).set_shader_parameter("ao_enabled", false)
+					var mat = mesh.surface_get_material(material_id)
+					if mat.has_method("set_shader_parameter"):
+						mat.set_shader_parameter("ao_enabled", false)
 				
 				var spritesheet = BillboardSpritesheetGenerator.create_billboard_sprites_for_mesh(mesh)
 				
 				for material_id in range(mesh.get_surface_count()):
-					mesh.surface_get_material(material_id).set_shader_parameter("ao_enabled", true)
+					var mat = mesh.surface_get_material(material_id)
+					if mat.has_method("set_shader_parameter"):
+						mat.set_shader_parameter("ao_enabled", true)
 				
 				preloaded_spritesheets_albedo.append(ImageTexture.create_from_image(spritesheet[0]))
 				preloaded_spritesheets_normal.append(ImageTexture.create_from_image(spritesheet[1]))

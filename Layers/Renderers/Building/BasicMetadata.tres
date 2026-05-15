@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ModularBuildingMetadata" format=3 uid="uid://bukhpqels8is7"]
+
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_5jp0c"]
+[ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="2_jaih8"]
+[ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="2_q42ke"]
+[ext_resource type="Resource" uid="uid://5f7qdex0krmx" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows+Door.tres" id="3_cr6oq"]
+[ext_resource type="Resource" uid="uid://c6nev8recemc4" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows.tres" id="4_ilh5c"]
+
+[resource]
+script = ExtResource("2_q42ke")
+floor_definitions = Array[ExtResource("1_5jp0c")]([ExtResource("2_jaih8"), ExtResource("3_cr6oq"), ExtResource("4_ilh5c"), ExtResource("4_ilh5c"), ExtResource("4_ilh5c"), ExtResource("4_ilh5c"), ExtResource("4_ilh5c"), ExtResource("4_ilh5c")])
+metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

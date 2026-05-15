@@ -1,8 +1,8 @@
-[gd_resource type="ArrayMesh" load_steps=2 format=4 uid="uid://cx5tkk48pajs7"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://cx5tkk48pajs7"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_yaoyi"]
 _surfaces = [{
-"aabb": AABB(-0.038231, -0.226824, -0.076463, 0.076462, 2.90169, 0.076463),
+"aabb": AABB(-0.038231, -0.226824, -0.076463, 0.076462, 2.901691, 0.076463),
 "format": 34896613377,
 "index_count": 30,
 "index_data": PackedByteArray("AAABAAIAAgABAAMAAQAEAAMABQAAAAIAAgADAAUABgAAAAUAAwAEAAcABgAHAAQABQADAAcABQAHAAYA"),
@@ -17,7 +17,7 @@ blend_shape_mode = 0
 [resource]
 resource_name = "Mesh"
 _surfaces = [{
-"aabb": AABB(-0.038231, -0.226824, -0.076463, 0.076462, 2.90169, 0.076463),
+"aabb": AABB(-0.038231, -0.226824, -0.076463, 0.076462, 2.901691, 0.076463),
 "attribute_data": PackedByteArray("TJGNrWOPja1OkQNlZY8DZZKLGWN7jRljkosDZXuNA2WSiwNle40DZZCLja16jY2tNpONrUyRja03kwNlTpEDZWOPja16jY2tZY8DZXuNA2U="),
 "format": 34896613399,
 "index_count": 30,

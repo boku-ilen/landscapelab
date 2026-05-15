@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://c67vti800m3el"]
+[gd_scene format=3 uid="uid://c67vti800m3el"]
 
 [ext_resource type="PackedScene" uid="uid://kjnwwo7e3v13" path="res://addons/godot-websocket-nodes/WebSocketServer.tscn" id="1_kw0in"]
 [ext_resource type="PackedScene" uid="uid://dqj72j3uqnvgo" path="res://addons/godot-websocket-nodes/WebSocketClient.tscn" id="2_x4g24"]
