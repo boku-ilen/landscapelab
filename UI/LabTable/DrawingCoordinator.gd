@@ -44,13 +44,13 @@ func start_drawing():
 			n.visible = true
 
 func start_capture():
-	$TextureRect.visible = true
+	$CaptureWhiteScreen.visible = true
 	await RenderingServer.frame_post_draw
 	
 	lab_table_node.communicator.request_drawing_capture()
 	last_round_layer_names = layer_ui.get_layer_names()
 
-func _transform_point(screen_position):
+func _pixel_position_to_projected_meters(screen_position):
 	var global_position = viewport_camera.screen_to_global(screen_position)
 	var vector_3857 = Vector3(
 				global_position.x - lab_table_node.geo_layers.offset.x + lab_table_node.geo_layers.center.x,
@@ -74,7 +74,7 @@ func handle_drawing_mode_end():
 	
 	accept_button.queue_free()
 	
-	$TextureRect.visible = false
+	$CaptureWhiteScreen.visible = false
 	undo_button.visible = true
 	
 	for n in get_tree().get_nodes_in_group("RegularUI"):
@@ -92,19 +92,19 @@ func handle_undo():
 	undo_button.visible = false
 
 func handle_returned_drawing(layer_index, position, resolution, bounds, binary_data):
-	var real_position = Vector2(DisplayServer.window_get_size(get_viewport().get_window().get_window_id())) * position
-	var local_position = _transform_point(real_position)
+	var pixel_position = Vector2(DisplayServer.window_get_size(get_viewport().get_window().get_window_id())) * position
+	var projected_position = _pixel_position_to_projected_meters(pixel_position)
 	
 	var full_width_right = Vector2(DisplayServer.window_get_size(get_viewport().get_window().get_window_id())) * (position + Vector2((bounds[2]) * 10, 0))
-	var local_full_width = _transform_point(full_width_right)
+	var local_full_width = _pixel_position_to_projected_meters(full_width_right)
 	
 	var feature = geo_feature_layer.create_feature()
 	
-	feature.set_vector3(local_position)
+	feature.set_vector3(projected_position)
 	feature.set_attribute("lid", str(layers[last_round_layer_names[int(layer_index)]]["lid"]))
 	feature.set_attribute("width", str(resolution[0]))
 	feature.set_attribute("height", str(resolution[1]))
-	feature.set_attribute("meters_per_pixel", str(((local_full_width - local_position).x * 0.1) / resolution[0]))
+	feature.set_attribute("meters_per_pixel", str(((local_full_width - projected_position).x * 0.1) / resolution[0]))
 	feature.set_binary_attribute("image", binary_data)
 
 	last_round_drawing_features.append(feature)

@@ -170,7 +170,7 @@ layer_ui = NodePath("../../DrawControlContainer/HBoxContainer/VBoxContainer/Laye
 capture_container = NodePath("../../DrawSnapshotContainer")
 undo_button = NodePath("../../DrawStartButton/VBoxContainer/DeleteLastDrawingsButton")
 
-[node name="TextureRect" type="TextureRect" parent="LabTable/DrawingCoordinator" unique_id=1705342564]
+[node name="CaptureWhiteScreen" type="TextureRect" parent="LabTable/DrawingCoordinator" unique_id=1705342564]
 visible = false
 z_index = 1000
 anchors_preset = 15
