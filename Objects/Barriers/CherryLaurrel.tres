@@ -1,6 +1,6 @@
-[gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://b2wfwarkgite2"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://b2wfwarkgite2"]
 
-[ext_resource type="Material" uid="uid://b0botflwdpirb" path="res://Resources/Materials/Barriers/CherryLaurelHedge.tres" id="1_8h06r"]
+[ext_resource type="Material" uid="uid://b0botflwdpirb" path="res://Objects/Barriers/Materials/CherryLaurelHedge.tres" id="1_8h06r"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_8h06r"]
 _surfaces = [{

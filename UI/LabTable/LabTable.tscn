@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://vmfgu2mvoju5" path="res://UI/LabTable/LabTableCommunicator.tscn" id="10_wqhkf"]
 [ext_resource type="Script" uid="uid://byelbuqnbhq7u" path="res://UI/LabTable/ScoreUI.gd" id="13_a5rra"]
 [ext_resource type="PackedScene" uid="uid://codhp1gd8miem" path="res://Layers/LLConfigSetup.tscn" id="13_ibx33"]
-[ext_resource type="Texture2D" uid="uid://bqlcoeknmgg3j" path="res://Resources/Textures/Cable/metallic.jpg" id="13_slfp8"]
+[ext_resource type="Texture2D" uid="uid://bqlcoeknmgg3j" path="res://Assets/Artificial/Infrastructure/Energy/PowerPoles/Cable/metallic.jpg" id="13_slfp8"]
 [ext_resource type="Script" uid="uid://c8wstqvnwda0w" path="res://UI/LabTable/DrawingCoordinator.gd" id="15_0kxqy"]
 [ext_resource type="PackedScene" uid="uid://bjl2vfe4otxnj" path="res://UI/LabTable/LabTableConfigurator.tscn" id="15_esmpk"]
 [ext_resource type="Script" uid="uid://bv0dwwlphn6vk" path="res://UI/LabTable/LabTableMarkers.gd" id="15_j8x0r"]

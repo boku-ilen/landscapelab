@@ -1,10 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cnvfal7al6up4"]
+[gd_scene format=3 uid="uid://cnvfal7al6up4"]
 
-[ext_resource type="Texture2D" uid="uid://bfpnmf8scmtxl" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_BaseColor.png" id="1_na86u"]
-[ext_resource type="Texture2D" uid="uid://b8y7jy4pvbo66" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_Normal.png" id="2_rpxyv"]
-[ext_resource type="Texture2D" uid="uid://bwdho0nlh6k5x" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/materials/larus michahellis_Roughness.png" id="3_3cmc2"]
+[ext_resource type="Texture2D" uid="uid://bfpnmf8scmtxl" path="res://Assets/Natural/Animals/Birds/LarusMichahellis/materials/larus michahellis_BaseColor.png" id="1_na86u"]
+[ext_resource type="Texture2D" uid="uid://b8y7jy4pvbo66" path="res://Assets/Natural/Animals/Birds/LarusMichahellis/materials/larus michahellis_Normal.png" id="2_rpxyv"]
+[ext_resource type="Texture2D" uid="uid://bwdho0nlh6k5x" path="res://Assets/Natural/Animals/Birds/LarusMichahellis/materials/larus michahellis_Roughness.png" id="3_3cmc2"]
 [ext_resource type="Shader" uid="uid://cgn6ilm6ym4wa" path="res://Objects/Nature/LarusSwarm.gdshader" id="4_622f0"]
-[ext_resource type="ArrayMesh" uid="uid://e15r303680r7" path="res://Resources/Meshes/_NEW assets/fauna/larus michahellis/larus michahellis.obj" id="5_himec"]
+[ext_resource type="ArrayMesh" uid="uid://e15r303680r7" path="res://Assets/Natural/Animals/Birds/LarusMichahellis/larus michahellis.obj" id="5_himec"]
 
 [sub_resource type="Shader" id="Shader_eqgj6"]
 code = "// NOTE: Shader automatically converted from Godot Engine 4.2.1.stable's StandardMaterial3D.

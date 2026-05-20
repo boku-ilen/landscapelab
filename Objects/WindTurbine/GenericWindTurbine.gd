@@ -114,12 +114,19 @@ func _ready():
 	
 	if $Mesh/Rotor.has_node("BlackTip"):
 		var blacktip_attribute = feature.get_attribute("blacktip")
-		if blacktip_attribute and blacktip_attribute != "" and blacktip_attribute != "0":
-			$Mesh/Rotor/BlackTip.visible = true
-			$Mesh/Rotor/White.visible = false
+		if blacktip_attribute and blacktip_attribute != "":
+			if blacktip_attribute != "0":
+				$Mesh/Rotor/BlackTip.visible = true
+				$Mesh/Rotor/White.visible = false
+				$Mesh/Rotor/Striped.visible = false
+			else:
+				$Mesh/Rotor/BlackTip.visible = false
+				$Mesh/Rotor/White.visible = true
+				$Mesh/Rotor/Striped.visible = false
 		else:
 			$Mesh/Rotor/BlackTip.visible = false
-			$Mesh/Rotor/White.visible = true
+			$Mesh/Rotor/White.visible = false
+			$Mesh/Rotor/Striped.visible = true
 
 
 # Correctly orients the model depending checked the public wind_direction - automatically called when the wind direction is changed

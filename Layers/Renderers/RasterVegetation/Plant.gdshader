@@ -24,6 +24,7 @@ uniform vec2 scale = vec2(0.06, 0.11);
 
 uniform float max_distance;
 
+varying flat float size;
 varying flat float dist_id;
 varying float random_hue_shift;
 varying float stripe_sample;
@@ -56,7 +57,7 @@ void vertex() {
 	stripe_sample = 0.1 + texture(stripe_noise, stripe_position).r * 0.9;
 
 	// Read plant size
-	float size = (INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b);
+	size = (INSTANCE_CUSTOM.g * 255.0 + INSTANCE_CUSTOM.b);
 
 	// Safeguard against potential erroneous values
 	size = max(size, 0.1);
@@ -86,7 +87,7 @@ void vertex() {
 	NORMAL = basis * normalize(texture_normal + vec3(0.0, 4.0, 0.0));
 
 	// Also make normals follow a "half-dome" around the mesh to get some front- and back-lighting
-	NORMAL = normalize(VERTEX + NORMAL * mix(0.0, 1.0, smoothstep(5.0, 50.0, length(INV_VIEW_MATRIX[3].xyz - worldpos))));
+	NORMAL = normalize(VERTEX * smoothstep(0.5, 0.7, size) + NORMAL * mix(0.1, 1.0, smoothstep(5.0, 50.0, length(INV_VIEW_MATRIX[3].xyz - worldpos))));
 	
 	if (!is_billboard) NORMAL.y = (1.0 - UV.y) * 0.2;
 
@@ -157,7 +158,7 @@ void fragment() {
 	ALBEDO = HCYtoRGB(hcy);
 
 	// Other material parameters
-	AO_LIGHT_AFFECT = 1.0;
+	AO_LIGHT_AFFECT = smoothstep(0.5, 0.7, size);
 	AO = max(generate_darken_gradient(UV.y, 0.6, 0.6, 0.0) - wind_strength * 0.5, 0.0);
 	NORMAL_MAP = generate_normal_from_albedo(texture_map[texture_index], UV, vec4(1.0, 0.7, 0.5, 0.2), 0.03, 1.0);
 	NORMAL_MAP_DEPTH = 3.0;

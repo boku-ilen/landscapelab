@@ -1,7 +1,7 @@
-[gd_resource type="ArrayMesh" load_steps=7 format=4 uid="uid://ci1fdv236l0he"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://ci1fdv236l0he"]
 
-[ext_resource type="Texture2D" uid="uid://db5xvohk15rti" path="res://Resources/Textures/Plants/ilex-twig-01.png" id="1_mm8xx"]
-[ext_resource type="Texture2D" uid="uid://cdmanoc3kl3nb" path="res://Resources/Textures/Plants/prunus-twig-01.png" id="2_ugi11"]
+[ext_resource type="Texture2D" uid="uid://db5xvohk15rti" path="res://Assets/Natural/Plants/Foliage/Textures/ilex-twig-01.png" id="1_mm8xx"]
+[ext_resource type="Texture2D" uid="uid://cdmanoc3kl3nb" path="res://Assets/Natural/Plants/Foliage/Textures/prunus-twig-01.png" id="2_ugi11"]
 
 [sub_resource type="Shader" id="Shader_i5arm"]
 code = "// NOTE: Shader automatically converted from Godot Engine 4.4.beta3's StandardMaterial3D.

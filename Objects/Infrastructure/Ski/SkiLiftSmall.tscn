@@ -1,11 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://75574hgis1lb"]
+[gd_scene format=3 uid="uid://75574hgis1lb"]
 
 [ext_resource type="Script" uid="uid://d18ir55h5h13j" path="res://Objects/Connection/Superclasses/Connector.gd" id="1_kmqim"]
-[ext_resource type="Texture2D" uid="uid://c2smyebioyeo2" path="res://Resources/Meshes/Infrastructure/SkiLift/materials/SkiLift_initialShadingGroup_BaseColor new.png" id="2_vqw57"]
-[ext_resource type="Texture2D" uid="uid://c8jrvqxrv0k1c" path="res://Resources/Meshes/Infrastructure/SkiLift/materials/SkiLift_initialShadingGroup_Metallic.png" id="3_nfp27"]
-[ext_resource type="Texture2D" uid="uid://cea1800jk2j1e" path="res://Resources/Meshes/Infrastructure/SkiLift/materials/SkiLift_initialShadingGroup_Normal.png" id="4_g0xkr"]
-[ext_resource type="Texture2D" uid="uid://dasu7s3otavgm" path="res://Resources/Meshes/Infrastructure/SkiLift/materials/SkiLift_initialShadingGroup_Roughness.png" id="5_ls80x"]
-[ext_resource type="ArrayMesh" uid="uid://cxjio430pshax" path="res://Resources/Meshes/Infrastructure/SkiLift/skilift mast.obj" id="6_p8dtw"]
+[ext_resource type="Texture2D" uid="uid://c2smyebioyeo2" path="res://Assets/Artificial/Infrastructure/SkiLift/materials/SkiLift_initialShadingGroup_BaseColor new.png" id="2_vqw57"]
+[ext_resource type="Texture2D" uid="uid://c8jrvqxrv0k1c" path="res://Assets/Artificial/Infrastructure/SkiLift/materials/SkiLift_initialShadingGroup_Metallic.png" id="3_nfp27"]
+[ext_resource type="Texture2D" uid="uid://cea1800jk2j1e" path="res://Assets/Artificial/Infrastructure/SkiLift/materials/SkiLift_initialShadingGroup_Normal.png" id="4_g0xkr"]
+[ext_resource type="Texture2D" uid="uid://dasu7s3otavgm" path="res://Assets/Artificial/Infrastructure/SkiLift/materials/SkiLift_initialShadingGroup_Roughness.png" id="5_ls80x"]
+[ext_resource type="ArrayMesh" uid="uid://cxjio430pshax" path="res://Assets/Artificial/Infrastructure/SkiLift/skilift mast.obj" id="6_p8dtw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7er7y"]
 albedo_texture = ExtResource("2_vqw57")

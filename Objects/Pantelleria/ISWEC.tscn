@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=4 uid="uid://c8be2fchp85h4"]
+[gd_scene format=4 uid="uid://c8be2fchp85h4"]
 
-[ext_resource type="Texture2D" uid="uid://dievcwwo7s4lh" path="res://Resources/Meshes/_NEW assets/iswec/materials/iswec_initialShadingGroup_BaseColor.png" id="1_cl0f1"]
-[ext_resource type="Texture2D" uid="uid://q2k5dmbiinly" path="res://Resources/Meshes/_NEW assets/iswec/materials/iswec_initialShadingGroup_Metallic.png" id="2_o2ds0"]
-[ext_resource type="Texture2D" uid="uid://dl10mrcjweptp" path="res://Resources/Meshes/_NEW assets/iswec/materials/iswec_initialShadingGroup_Normal.png" id="3_1cyaa"]
-[ext_resource type="Texture2D" uid="uid://dvpofolbsuvv8" path="res://Resources/Meshes/_NEW assets/iswec/materials/iswec_initialShadingGroup_Roughness.png" id="4_6iw2y"]
+[ext_resource type="Texture2D" uid="uid://dievcwwo7s4lh" path="res://Assets/Artificial/Infrastructure/Energy/ISWEC/materials/iswec_initialShadingGroup_BaseColor.png" id="1_cl0f1"]
+[ext_resource type="Texture2D" uid="uid://q2k5dmbiinly" path="res://Assets/Artificial/Infrastructure/Energy/ISWEC/materials/iswec_initialShadingGroup_Metallic.png" id="2_o2ds0"]
+[ext_resource type="Texture2D" uid="uid://dl10mrcjweptp" path="res://Assets/Artificial/Infrastructure/Energy/ISWEC/materials/iswec_initialShadingGroup_Normal.png" id="3_1cyaa"]
+[ext_resource type="Texture2D" uid="uid://dvpofolbsuvv8" path="res://Assets/Artificial/Infrastructure/Energy/ISWEC/materials/iswec_initialShadingGroup_Roughness.png" id="4_6iw2y"]
 [ext_resource type="Script" uid="uid://033jbquoosyn" path="res://Objects/Pantelleria/ISWEC.gd" id="5_nf8pe"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sau0f"]

@@ -35,13 +35,16 @@ auto_exposure_enabled = true
 frustum_focal_length = 1.0
 auto_exposure_min_exposure_value = -2.0
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_d7nfd"]
+size = Vector2(10000, 10000)
+
 [node name="WorldEnvironment" type="WorldEnvironment" unique_id=152241178]
 environment = SubResource("2")
 camera_attributes = SubResource("CameraAttributesPhysical_d7nfd")
 script = ExtResource("1")
 
 [node name="WorldLight" type="DirectionalLight3D" parent="." unique_id=151497162]
-transform = Transform3D(0.51206535, -0.85348827, 0.096680045, -0.85627824, -0.4983661, 0.13571559, -0.06764958, -0.15228026, -0.98601955, 0, 0, 0)
+transform = Transform3D(0.5120654, -0.8534881, 0.096679986, -0.8325626, -0.5208653, -0.18851772, 0.21125475, 0.016041234, -0.9772994, 0, 0, 0)
 layers = 34679
 light_temperature = 6000.0
 light_bake_mode = 0
@@ -62,3 +65,6 @@ enabled = false
 
 [node name="Lightning" parent="." unique_id=899294589 instance=ExtResource("7_canqr")]
 visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=92759036]
+mesh = SubResource("PlaneMesh_d7nfd")
