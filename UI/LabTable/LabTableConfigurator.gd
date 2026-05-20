@@ -95,6 +95,7 @@ func _load_drawing_config(table_config: Dictionary):
 	var layers = drawing_config["layers"]
 	
 	drawing_coordinator.layers = layers
+	drawing_coordinator.background_layer = drawing_config["background"]
 	
 	var geo_feature_layer_splits = LLFileAccess.split_dataset_string(base_path, drawing_config["geo_feature_layer"])
 	var geo_feature_layer = LLFileAccess.get_layer_from_splits(geo_feature_layer_splits, false)
