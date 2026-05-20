@@ -142,8 +142,9 @@ text = "test"
 [node name="LLConfigSetup" parent="LabTable" unique_id=1208895963 instance=ExtResource("13_ibx33")]
 category = "Not Set"
 
-[node name="LabTableCommunicator" parent="LabTable" unique_id=1623371683 node_paths=PackedStringArray("draw_layer_ui") instance=ExtResource("10_wqhkf")]
+[node name="LabTableCommunicator" parent="LabTable" unique_id=1623371683 node_paths=PackedStringArray("draw_layer_ui", "lab_table_node") instance=ExtResource("10_wqhkf")]
 draw_layer_ui = NodePath("../../DrawControlContainer/LayerStack")
+lab_table_node = NodePath("..")
 
 [node name="LabTableMarkers" type="Node2D" parent="LabTable/LabTableCommunicator" unique_id=1244377713]
 script = ExtResource("15_j8x0r")
@@ -158,8 +159,9 @@ drawing_coordinator = NodePath("../DrawingCoordinator")
 [node name="CenterContainer" type="CenterContainer" parent="LabTable" unique_id=1474232626]
 layout_mode = 2
 
-[node name="DrawingCoordinator" type="Node" parent="LabTable" unique_id=2060403214 node_paths=PackedStringArray("viewport_camera", "accept_button_location")]
+[node name="DrawingCoordinator" type="Node" parent="LabTable" unique_id=2060403214 node_paths=PackedStringArray("lab_table_node", "viewport_camera", "accept_button_location")]
 script = ExtResource("15_0kxqy")
+lab_table_node = NodePath("..")
 viewport_camera = NodePath("../SubViewportContainer/SubViewport/Camera2D")
 accept_button_location = NodePath("../../AcceptButtonLocation")
 
