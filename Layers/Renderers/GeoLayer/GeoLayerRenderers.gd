@@ -1,4 +1,5 @@
 extends Node2D
+class_name GeoLayerRenderers
 
 @export var camera: Camera2D
 @export var load_data_threaded := false
@@ -111,7 +112,6 @@ func instantiate_geolayer_renderer(layer_definition: LayerDefinition):
 	elif geo_layer is GeoFeatureLayer: 
 		renderer = feature_renderer.instantiate()
 		renderer.geo_feature_layer = geo_layer
-		
 		# Note: CONNECT_DEFERRED is needed to consistently react to all changes that
 		#  happened within a given frame (e.g. when mass-deleting features).
 		geo_layer.feature_added.connect(_on_feature_added.bind(renderer), CONNECT_DEFERRED)

@@ -30,7 +30,7 @@ signal recenter(center)
 		)
 		overview_zoom_button.pressed.connect(func():
 			camera_2d.set_offset_and_emit(Vector2.ZERO)
-			camera_2d.set_zoom_level(11)
+			camera_2d.set_zoom_level(8)
 		)
 @export var overview_camera: Camera2D
 

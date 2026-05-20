@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://v0nrbo5s762y"]
+[gd_scene format=3 uid="uid://v0nrbo5s762y"]
 
 [ext_resource type="Script" uid="uid://ysqpby7p0nh7" path="res://Layers/Renderers/GeoLayer/GeoFeatureLayerRenderer.gd" id="1_7xgen"]
 
-[node name="GeoFeatureLayerRenderer" type="Node2D"]
+[node name="GeoFeatureLayerRenderer" type="Node2D" unique_id=311148633]
 script = ExtResource("1_7xgen")
