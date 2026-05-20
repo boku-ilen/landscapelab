@@ -29,8 +29,9 @@ func _ready():
 	
 	var xr_interface = XRServer.find_interface("OpenXR")
 	
-	xr_interface.session_visible.connect(func(): is_vr_active = false)
-	xr_interface.session_focussed.connect(func(): is_vr_active = true)
+	xr_interface.session_visible.connect(func(): is_vr_active = false; target_overridden = false)
+	xr_interface.session_focussed.connect(func(): is_vr_active = true; target_overridden = false)
+	xr_interface.session_stopping.connect(func(): is_vr_active = false; target_overridden = false)
 
 
 func on_game_mode_changed():
@@ -50,14 +51,13 @@ func _process(delta):
 	
 	if not active: return
 	
-	if is_vr_active:
-		current_target_location = global_position + vr_camera.global_transform.basis.z 
-	
 	if current_target_location:
-		var look_at_vector = current_target_location - global_position * Vector3(1.0, 0.0, 1.0)
-		current_target_basis = Basis.looking_at(look_at_vector)
-		
-		current_target_fov = lerp(max_fov, min_fov, clamp(look_at_vector.length() / 10000, 0.0, 1.0))
+		if is_vr_active:
+			current_target_basis = vr_camera.global_transform.basis
+		else:
+			var look_at_vector = current_target_location - global_position * Vector3(1.0, 0.0, 1.0)
+			current_target_basis = Basis.looking_at(look_at_vector)
+			current_target_fov = lerp(max_fov, min_fov, clamp(look_at_vector.length() / 10000, 0.0, 1.0))
 	
 	if get_parent().rotating:
 		target_overridden = true

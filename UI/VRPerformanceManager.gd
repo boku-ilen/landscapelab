@@ -17,9 +17,6 @@ func _ready():
 	xr_interface.session_stopping.connect(_on_openxr_visible_state)
 
 
-func _process(delta):
-	pass
-
 
 func _on_openxr_visible_state():
 	# User took off VR headset -> maximize framerate
