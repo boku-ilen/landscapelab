@@ -31,6 +31,17 @@ render_target_update_mode = 4
 
 [node name="World" parent="SubViewportContainer/SubViewport" unique_id=1550443924 instance=ExtResource("1_ndxhv")]
 
+[node name="SubViewportContainer" type="SubViewportContainer" parent="SubViewportContainer" unique_id=127523371]
+layout_mode = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer/SubViewportContainer" unique_id=2061338934]
+handle_input_locally = false
+size = Vector2i(2, 2)
+render_target_update_mode = 4
+
+[node name="World" parent="SubViewportContainer/SubViewportContainer/SubViewport" unique_id=1755361830 instance=ExtResource("1_ndxhv")]
+
 [node name="MenuBar" type="HBoxContainer" parent="." unique_id=2096875590]
 layout_mode = 0
 offset_right = 1140.0
@@ -132,3 +143,4 @@ weather_manager = NodePath("../../SubViewportContainer/SubViewport/World/Weather
 time_manager = NodePath("../../SubViewportContainer/SubViewport/World/TimeManager")
 
 [editable path="SubViewportContainer/SubViewport/World"]
+[editable path="SubViewportContainer/SubViewportContainer/SubViewport/World"]

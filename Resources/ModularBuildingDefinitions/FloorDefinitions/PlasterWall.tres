@@ -3,8 +3,10 @@
 [ext_resource type="Material" uid="uid://cqe8ou1pviww6" path="res://Resources/Materials/BuildingMaterials/PlasterCorner.tres" id="1_j5ga8"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="2_iyuct"]
 [ext_resource type="Material" uid="uid://citfma2dd8ux4" path="res://Resources/Materials/BuildingMaterials/PlasterSpacer.tres" id="3_4b20t"]
+[ext_resource type="JSON" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/PlasterWallSelection.json" id="3_lyxpr"]
+[ext_resource type="Material" uid="uid://lfl7mvgnp5sq" path="res://Resources/Materials/BuildingMaterials/PlasterSpacerTriplanar.tres" id="4_4bp0e"]
+[ext_resource type="Material" uid="uid://gd00fit3u8tp" path="res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres" id="5_4bp0e"]
 [ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="7_3wdmv"]
-[ext_resource type="Material" uid="uid://b84e5qnytwn8c" path="res://Resources/Materials/BuildingMaterials/PlasterWall.tres" id="8_wgyxl"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_dt2k3"]
 _surfaces = [{
@@ -44,6 +46,7 @@ _surfaces = [{
 "format": 34359742465,
 "index_count": 6,
 "index_data": PackedByteArray("AAABAAIAAgABAAMA"),
+"material": ExtResource("4_4bp0e"),
 "name": "Wall_Default",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -92,7 +95,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 6,
 "index_data": PackedByteArray("AAABAAIAAgABAAMA"),
-"material": ExtResource("8_wgyxl"),
+"material": ExtResource("5_4bp0e"),
 "name": "Wall_Default",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -218,7 +221,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 24,
 "index_data": PackedByteArray("AAABAAIAAgABAAMAAAAEAAEAAgADAAUABgAEAAAABQADAAcABgAHAAQABQAHAAYA"),
-"material": ExtResource("8_wgyxl"),
+"material": ExtResource("5_4bp0e"),
 "name": "Wall_Default",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -266,4 +269,5 @@ script = ExtResource("2_iyuct")
 walls = Array[ExtResource("7_3wdmv")]([SubResource("Resource_wnvvm"), SubResource("Resource_xmrfx")])
 corner_90 = SubResource("ArrayMesh_0yhv0")
 spacer_block = SubResource("ArrayMesh_wnvvm")
+selection_rules = ExtResource("3_lyxpr")
 metadata/_custom_type_script = "uid://1cryccueq7u4"

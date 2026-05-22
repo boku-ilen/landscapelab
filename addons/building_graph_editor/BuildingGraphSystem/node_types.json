@@ -1,0 +1,324 @@
+{
+	"available_nodes": {
+		"Chosen Module ID (end)": {
+			"tooltip": "Final choice",
+			"is_end": true,
+			"slots": [
+				{
+					"type": "text_input",
+					"label": "Module ID"
+				}
+			]
+		},
+		"Previous Module ID": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "text_output",
+					"label": "Previous ID",
+					"source_identifier": "prev_module_id"
+				}
+			]
+		},
+		"Last layer Module ID": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "text_output",
+					"label": "Lower ID",
+					"source_identifier": "below_module_id"
+				}
+			]
+		},
+		"Edge Proximity": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "scalar_output",
+					"label": "Distance in m",
+					"source_identifier": "edge_dist"
+				}
+			]
+		},
+		"Wall facing": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "vector_output",
+					"label": "Wall face dir.",
+					"source_identifier": "edge_normal"
+				}
+			]
+		},
+		"Scalar constant": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "scalar_constant",
+					"label": ""
+				}
+			]
+		},
+		"Vector constant": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "vector_constant",
+					"label": ""
+				}
+			]
+		},
+		"Text constant": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "text_constant",
+					"label": ""
+				}
+			]
+		},
+		"Scalar Comparison": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "scalar_input",
+					"label": "Operand 1"
+				},
+				{
+					"type": "dropdown",
+					"label": "Operation",
+					"options": [
+						">",
+						"<",
+						"<=",
+						">=",
+						"==",
+						"!="
+					],
+					"option_functions": [
+						"inputs[0] > inputs[2]",
+						"inputs[0] < inputs[2]",
+						"inputs[0] <= inputs[2]",
+						"inputs[0] >= inputs[2]",
+						"inputs[0] == inputs[2]",
+						"inputs[0] != inputs[2]"
+					]
+				},
+				{
+					"type": "scalar_input",
+					"label": "Operand 2"
+				},
+				{
+					"type": "boolean_output",
+					"label": "Result",
+					"function": null,
+					"function_source": 1.0
+				}
+			]
+		},
+		"Dot Product": {
+			"tooltip": "Dot product of two vectors",
+			"slots": [
+				{
+					"type": "vector_input",
+					"label": "Vector 1"
+				},
+				{
+					"type": "vector_input",
+					"label": "Vector 2"
+				},
+				{
+					"type": "scalar_output",
+					"label": "Result",
+					"function": "inputs[0].dot(inputs[1])"
+				}
+			]
+		},
+		"Compose Vector": {
+			"tooltip": "Get a vector from three scalar components",
+			"slots": [
+				{
+					"type": "scalar_input",
+					"label": "X"
+				},
+				{
+					"type": "scalar_input",
+					"label": "Y"
+				},
+				{
+					"type": "scalar_input",
+					"label": "Z"
+				},
+				{
+					"type": "vector_output",
+					"label": "Result",
+					"function": "Vector3(float(inputs[0]), float(inputs[1]), float(inputs[2]))"
+				}
+			]
+		},
+		"Weighted Choice": {
+			"tooltip": "Probability-weighted choice from array",
+			"slots": [
+				{
+					"type": "array_input",
+					"label": "Population"
+				},
+				{
+					"type": "text_output",
+					"label": "Chosen element",
+					"function": "weighted_choice(inputs[0], inputs.slice(3))"
+				},
+				{
+					"type": "dynamic_populate",
+					"iterable_slot": 0.0,
+					"element_type": "scalar_input",
+					"label": "Probabilities"
+				}
+			]
+		},
+		"Available module IDs": {
+			"tooltip": "Array of available module IDs",
+			"slots": [
+				{
+					"type": "array_output",
+					"label": "IDs",
+					"source_identifier": "all_module_ids"
+				}
+			]
+		},
+		"Text equality": {
+			"tooltip": "Check if two strings are equal",
+			"slots": [
+				{
+					"type": "text_input",
+					"label": "String 1"
+				},
+				{
+					"type": "text_input",
+					"label": "String 2"
+				},
+				{
+					"type": "boolean_output",
+					"label": "Result",
+					"function": "inputs[0] == inputs[1]"
+				}
+			]
+		},
+		"Condition": {
+			"tooltip": "Choose between two string values based on a boolean",
+			"slots": [
+				{
+					"type": "boolean_input",
+					"label": "Determining Boolean"
+				},
+				{
+					"type": "text_input",
+					"label": "Value if true"
+				},
+				{
+					"type": "text_input",
+					"label": "Value if false"
+				},
+				{
+					"type": "text_output",
+					"label": "Value",
+					"function": "{true: inputs[1], false: inputs[2]}[inputs[0]]"
+				}
+			]
+		},
+		"Boolean operation": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "boolean_input",
+					"label": "Operand 1"
+				},
+				{
+					"type": "dropdown",
+					"label": "Operation",
+					"options": [
+						"AND",
+						"OR",
+						"XOR",
+						"NAND"
+					],
+					"option_functions": [
+						"inputs[0] and inputs[2]",
+						"inputs[0] or inputs[2]",
+						"(inputs[0] and not inputs[2]) or (inputs[2] and not inputs[0])",
+						"not (inputs[0] and inputs[2])"
+					]
+				},
+				{
+					"type": "boolean_input",
+					"label": "Operand 2"
+				},
+				{
+					"type": "boolean_output",
+					"label": "Result",
+					"function": null,
+					"function_source": 1.0
+				}
+			]
+		},
+		"Scalar Math": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "scalar_input",
+					"label": "Operand 1"
+				},
+				{
+					"type": "dropdown",
+					"label": "Operation",
+					"options": [
+						"*",
+						"/",
+						"+",
+						"-"
+					],
+					"option_functions": [
+						"inputs[0] * inputs[2]",
+						"inputs[0] / inputs[2]",
+						"inputs[0] + inputs[2]",
+						"inputs[0] - inputs[2]"
+					]
+				},
+				{
+					"type": "scalar_input",
+					"label": "Operand 2"
+				},
+				{
+					"type": "scalar_output",
+					"label": "Result",
+					"function": null,
+					"function_source": 1.0
+				}
+			]
+		},
+		"Random Scalar": {
+			"tooltip": "Random number between 0 and 1",
+			"slots": [
+				{
+					"type": "scalar_output",
+					"label": "Random value",
+					"source_identifier": "rand"
+				}
+			]
+		},
+		"GeoFeature Attribute": {
+			"tooltip": "Queried text attribute of the underlying GeoFeature",
+			"slots": [
+				{
+					"type": "text_constant",
+					"label": "Attribute name"
+				},
+				{
+					"type": "text_output",
+					"label": "Value",
+					"function": "data_sources[\"geo_feature\"].get_value().get_attribute(inputs[0])"
+				}
+			]
+		}
+	}
+}

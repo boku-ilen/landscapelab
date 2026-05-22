@@ -1,0 +1,175 @@
+{
+	"connections": [
+		{
+			"from_node": 609062191.0,
+			"from_slot": 3.0,
+			"to_node": 609062260.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 609061371.0,
+			"from_slot": 2.0,
+			"to_node": 609062191.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 609062162.0,
+			"from_slot": 0.0,
+			"to_node": 609061371.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 609061340.0,
+			"from_slot": 1.0,
+			"to_node": 609061371.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 609062225.0,
+			"from_slot": 0.0,
+			"to_node": 609062191.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 609062231.0,
+			"from_slot": 0.0,
+			"to_node": 609062191.0,
+			"to_slot": 2.0
+		}
+	],
+	"nodes": [
+		{
+			"node_id": 609061340.0,
+			"node_type": "GeoFeature Attribute",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "foo"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 609061371.0,
+			"node_type": "Text equality",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 609062162.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "1"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		},
+		{
+			"node_id": 609062191.0,
+			"node_type": "Condition",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 609062225.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "x"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		},
+		{
+			"node_id": 609062231.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "y"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		},
+		{
+			"node_id": 609062260.0,
+			"node_type": "Chosen Module ID (end)",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				}
+			]
+		}
+	]
+}

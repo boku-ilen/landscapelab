@@ -4,6 +4,7 @@
 [ext_resource type="Material" uid="uid://x36btfxa6pgw" path="res://Resources/Materials/BuildingMaterials/MetalCorner.tres" id="1_kjxv5"]
 [ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="2_kjxv5"]
 [ext_resource type="ArrayMesh" uid="uid://dft05s8yfxebt" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Spacer_2.0x3.0.res" id="3_eibgf"]
+[ext_resource type="JSON" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/ShackWallSelection.json" id="3_ne1oi"]
 [ext_resource type="Material" uid="uid://dojaon0dc8y5u" path="res://Resources/Materials/BuildingMaterials/WoodBoards.tres" id="3_vcreo"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_dt2k3"]
@@ -75,6 +76,7 @@ script = ExtResource("2_kjxv5")
 model = SubResource("ArrayMesh_f4kqh")
 probability = 0.7
 may_repeat = true
+facade_feature_id = "plain_wall"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
 [resource]
@@ -82,4 +84,5 @@ script = ExtResource("1_05co2")
 walls = Array[ExtResource("2_kjxv5")]([SubResource("Resource_j2eq6")])
 corner_90 = SubResource("ArrayMesh_ne1oi")
 spacer_block = ExtResource("3_eibgf")
+selection_rules = ExtResource("3_ne1oi")
 metadata/_custom_type_script = "uid://1cryccueq7u4"

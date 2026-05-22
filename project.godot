@@ -43,7 +43,7 @@ window/size/height=1080
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/debugviewer_editor/plugin.cfg", "res://addons/geodot/plugin.cfg", "res://addons/parentshaderupdater/plugin.cfg")
+enabled=PackedStringArray("res://addons/building_graph_editor/plugin.cfg", "res://addons/debugviewer_editor/plugin.cfg", "res://addons/geodot/plugin.cfg", "res://addons/parentshaderupdater/plugin.cfg")
 
 [filesystem]
 
@@ -447,6 +447,7 @@ limits/message_queue/max_size_kb=1048576
 
 [rendering]
 
+textures/vram_compression/cache_gpu_compressor=false
 lights_and_shadows/use_physical_light_units=true
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=4
 lights_and_shadows/directional_shadow/16_bits=false

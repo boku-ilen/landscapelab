@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://c2tj24olhq0y6"]
+
+[ext_resource type="Script" uid="uid://b5c2e2an8gd76" path="res://addons/building_graph_editor/BuildingGraphSystem/BuildingGraphEditor.gd" id="1_mbadm"]
+[ext_resource type="JSON" path="res://addons/building_graph_editor/BuildingGraphSystem/node_types.json" id="2_iknpx"]
+[ext_resource type="JSON" path="res://addons/building_graph_editor/BuildingGraphSystem/serialized_example.json" id="3_45cj8"]
+[ext_resource type="Script" uid="uid://cmwcjjrnybukj" path="res://addons/building_graph_editor/BuildingGraphSystem/FloorDefinitionPicker.gd" id="4_0g4iq"]
+[ext_resource type="Script" uid="uid://cq22ry4n31r6i" path="res://addons/building_graph_editor/BuildingGraphSystem/BuildingGraphRunner.gd" id="4_45cj8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k4fue"]
+bg_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_0g4iq"]
+font_names = PackedStringArray("Sans-Serif")
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_30ae2"]
+font = SubResource("SystemFont_0g4iq")
+font_size = 24
+
+[node name="BuildingGraphEditorDock" type="Control" unique_id=733009336]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BuildingGraphEditor" type="GraphEdit" parent="." unique_id=930282785 node_paths=PackedStringArray("library_container", "floor_definition_picker", "load_button", "validate_button", "save_button", "validation_runner")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.05
+anchor_right = 0.7
+anchor_bottom = 1.0
+grow_vertical = 2
+size_flags_horizontal = 3
+right_disconnects = true
+type_names = {
+0: "String",
+1: "Scalar",
+2: "Boolean",
+3: "Vector",
+4: "Array"
+}
+script = ExtResource("1_mbadm")
+library_container = NodePath("../ScrollContainer/Outer/Library")
+floor_definition_picker = NodePath("../PanelContainer/ButtonBar/FloorDefinitionPicker")
+load_button = NodePath("../PanelContainer/ButtonBar/LoadButton")
+validate_button = NodePath("../PanelContainer/ButtonBar/ValidateButton")
+save_button = NodePath("../PanelContainer/ButtonBar/SaveButton")
+node_definitions = ExtResource("2_iknpx")
+sample_json_data = ExtResource("3_45cj8")
+validation_runner = NodePath("../BuildingGraphRunner")
+metadata/_custom_type_script = "uid://b5c2e2an8gd76"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1555578468]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_k4fue")
+
+[node name="Outer" type="VBoxContainer" parent="ScrollContainer" unique_id=1600327459]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/Outer" unique_id=1403269868]
+layout_mode = 2
+text = "Available Nodes"
+label_settings = SubResource("LabelSettings_30ae2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Library" type="VBoxContainer" parent="ScrollContainer/Outer" unique_id=1346339513]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1219822009]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.7
+anchor_bottom = 0.05
+
+[node name="ButtonBar" type="HBoxContainer" parent="PanelContainer" unique_id=47671025]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="LoadButton" type="Button" parent="PanelContainer/ButtonBar" unique_id=851508728]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+text = "Load Graph"
+
+[node name="ValidateButton" type="Button" parent="PanelContainer/ButtonBar" unique_id=1751035636]
+layout_mode = 2
+text = "Validate"
+
+[node name="SaveButton" type="Button" parent="PanelContainer/ButtonBar" unique_id=1242621549]
+visible = false
+layout_mode = 2
+text = "Save Graph"
+
+[node name="FloorDefinitionPicker" type="EditorResourcePicker" parent="PanelContainer/ButtonBar" unique_id=933417022]
+layout_mode = 2
+size_flags_horizontal = 3
+base_type = "FloorDefinition"
+script = ExtResource("4_0g4iq")
+metadata/_custom_type_script = "uid://cmwcjjrnybukj"
+
+[node name="BuildingGraphRunner" type="Node" parent="." unique_id=1752986610]
+script = ExtResource("4_45cj8")
+metadata/_custom_type_script = "uid://cq22ry4n31r6i"

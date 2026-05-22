@@ -112,7 +112,7 @@ func load_feature_instance(feature: GeoFeature):
 		if actual_height >= modular_metadata_instance.building_height:
 			break
 	var roof_component = roof_and_material["roof"]
-	RoofFactory.set_surface_overrides(roof_component, roof_and_material["material"])
+	#RoofFactory.set_surface_overrides(roof_component, roof_and_material["material"])
 	roof_component.build(PackedVector2Array(building_metadata.footprint))
 	roof_component.position.y = actual_height
 	roof_surface_material_callback.call()

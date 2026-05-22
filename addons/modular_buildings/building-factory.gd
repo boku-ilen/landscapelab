@@ -10,18 +10,29 @@ const MAX_SCALE := 1.1
 # How much deviation from 90 deg is allowed before using hinge-corner
 const TOLERATE_90_DEG_DEVIATION = 0.01
 
+
 ## Build a building from footprint, floors and asset pack definition
 ##  footprint: Array[Vector2]
 ##  asset_pack: Dictionary[int:Array[AssetEntry]] mapping floor index (0 = ground) to possible assets
 ##  floors: total number of floors (height)
 ##  floor_height: vertical distance between floors (in metres)
 static func build_building(building_root: Node3D, metadata: ModularBuildingMetadata) -> Node3D:
+	var source_set: Dictionary[String, NodeDataSource] = {
+		"prev_module_id": FixedInputDataSource.new("prev_id"),
+		"below_module_id": FixedInputDataSource.new("low_id"),
+		"edge_dist": FixedInputDataSource.new(4.2),
+		"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
+		"all_module_ids": FixedInputDataSource.new(["mod_a", "mod_b", "mod_c"]), # TODO get this at edit time
+		"rand": DynamicInputDataSource.new(func (): return randf()),
+		"geo_feature": FixedInputDataSource.new(MockGeoFeature.new())
+	}
 	# Long term it should probably be deterministic
 	randomize()
 	
 	var edges: Array[Edge] = _footprint_to_edges(metadata.footprint)
 	building_root.position = metadata.position
 	if edges.is_empty():
+		print("no edges")
 		return building_root
 	
 	var module_indices := {}
@@ -61,6 +72,11 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		
 		var floor_assets = metadata.floor_definitions[min(floor_num, len(metadata.floor_definitions) - 1)]
 		var floor_height = floor_assets.height
+		var floor_rules: JSON = floor_assets.selection_rules
+		var node_types: JSON = preload("res://addons/building_graph_editor/BuildingGraphSystem/node_types.json")
+		#print(floor_rules)
+
+		var node_graph = BuildingGraphRunner.setup_executable_graph(floor_rules.data, node_types.data, source_set)
 		
 		var corner_mesh = mesh_multi_map[floor_assets.corner_90].multimesh
 		for idx in corner_mesh.mesh.get_surface_count():
@@ -115,7 +131,9 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 				floor_assets.spacer_block,
 				module_indices,
 				mesh_multi_map,
-				points_on_edge)
+				points_on_edge,
+				node_graph, 
+				source_set)
 		
 		overall_floor_height += floor_height
 		floor_num += 1
@@ -213,10 +231,11 @@ static func _instance_module(multi_mesh: MultiMesh, module_width: float, scale_x
 # _populate_edge with balanced spacers
 # ------------------------------------------------
 static func _compute_edges(p1: Vector2, p2: Vector2,
-		overall_floor_height: float, floor_assets: Array[WallTileDefinition], spacer_block: Mesh, module_indices: Dictionary, multi_mesh_map: Dictionary, feature_offsets: Dictionary[String, Array]) -> Dictionary:
+		overall_floor_height: float, floor_assets: Array[WallTileDefinition], spacer_block: Mesh, module_indices: Dictionary, multi_mesh_map: Dictionary, feature_offsets: Dictionary[String, Array], executable_graph: BuildingGraphRunner.RunnableNode, source_dict: Dictionary[String, NodeDataSource]) -> Dictionary:
 	var edge_vec: Vector2 = p2 - p1
 	var edge_length: float = edge_vec.length()
 	if edge_length < 0.01:
+		print("edge short")
 		return module_indices
 	var dir: Vector2 = edge_vec.normalized()
 
@@ -243,28 +262,57 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 	while not floor_assets.is_empty():
 		var random_index: int = last_module_index
 		var valid_found = false
-		
-		# check if we have a type of module to repeat from below
-		for wall_def_i in len(floor_assets):
-			var wall_def = floor_assets[wall_def_i]
-			if len(modules) in module_indices.keys():
-				valid_found = wall_def.facade_feature_id == module_indices[len(modules)].facade_feature_id and wall_def.facade_feature_id != ""
-				if valid_found:
-					# this spot had a module type last layer for which we have an equivalent
-					random_index = wall_def_i
+		if false:
+			# check if we have a type of module to repeat from below
+			for wall_def_i in len(floor_assets):
+				var wall_def = floor_assets[wall_def_i]
+				if len(modules) in module_indices.keys():
+					valid_found = wall_def.facade_feature_id == module_indices[len(modules)].facade_feature_id and wall_def.facade_feature_id != ""
+					if valid_found:
+						# this spot had a module type last layer for which we have an equivalent
+						random_index = wall_def_i
+						break
+			
+			# randomly choose with a biased distribution
+			while not valid_found:
+				var biased_random = []
+				for wall_tile_i in range(len(floor_assets)):
+					biased_random.append({"bias": floor_assets[wall_tile_i].probability * randf(), "index": wall_tile_i})
+				biased_random.sort_custom(func (a,b): return a["bias"] > b["bias"])
+				random_index = biased_random[0]["index"]
+				if last_module_index < 0:
 					break
-		
-		# randomly choose with a biased distribution
-		while not valid_found:
-			var biased_random = []
-			for wall_tile_i in range(len(floor_assets)):
-				biased_random.append({"bias": floor_assets[wall_tile_i].probability * randf(), "index": wall_tile_i})
-			biased_random.sort_custom(func (a,b): return a["bias"] > b["bias"])
-			random_index = biased_random[0]["index"]
-			if last_module_index < 0:
-				break
-			valid_found = floor_assets[random_index].may_repeat or random_index != last_module_index
-		last_module_index = random_index
+				valid_found = floor_assets[random_index].may_repeat or random_index != last_module_index
+			last_module_index = random_index
+		else:
+#			var source_set = {
+#					"prev_module_id": FixedInputDataSource.new("prev_id"),
+#					"below_module_id": FixedInputDataSource.new("low_id"),
+#					"edge_dist": FixedInputDataSource.new(4.2),
+#					"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
+#					"all_module_ids": FixedInputDataSource.new(["mod_a", "mod_b", "mod_c"]), # TODO get this at edit time
+#					"rand": FixedInputDataSource.new(0.1),
+#					"geo_feature": FixedInputDataSource.new(MockGeoFeature.new())
+#				}
+			source_dict["prev_module_id"].held_data = floor_assets[last_module_index].facade_feature_id
+			#print(floor_assets[last_module_index].facade_feature_id)
+			if len(modules) in module_indices.keys():
+				source_dict["below_module_id"].held_data = module_indices[len(modules)].facade_feature_id
+			else:
+				source_dict["below_module_id"].held_data = ""
+			source_dict["edge_dist"].held_data = min(used_width, edge_length - used_width)
+			var normal = Vector2.from_angle(dir.angle() + PI/4)
+			source_dict["edge_normal"].held_data = Vector3(normal.x, 0, normal.y)
+			source_dict["all_module_ids"].held_data = floor_assets.map(func (def: WallTileDefinition): return def.facade_feature_id)
+			var next_id: String = str(executable_graph.get_slot_input(0))
+			var candidates = floor_assets.filter(func (wtd: WallTileDefinition): return wtd.facade_feature_id == next_id)
+			#print(next_id, next_id == "plain_wall", candidates)
+			var actual_id = randi_range(0,floor_assets.size() - 1)
+			if candidates.size() > 0:
+				actual_id = floor_assets.find(candidates[0])
+				#print(candidates[0])
+			last_module_index = actual_id
+			random_index = actual_id
 		var mesh: Mesh = floor_assets[random_index].model
 		
 		var module_width := mesh.get_aabb().size.x

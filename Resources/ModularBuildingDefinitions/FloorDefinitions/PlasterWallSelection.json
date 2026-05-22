@@ -1,0 +1,129 @@
+{
+	"connections": [
+		{
+			"from_node": 3808762907.0,
+			"from_slot": 1.0,
+			"to_node": 541433543.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 3808762942.0,
+			"from_slot": 0.0,
+			"to_node": 3808762907.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 3808763145.0,
+			"from_slot": 0.0,
+			"to_node": 3808762907.0,
+			"to_slot": 3.0
+		},
+		{
+			"from_node": 3808763145.0,
+			"from_slot": 0.0,
+			"to_node": 3808762907.0,
+			"to_slot": 4.0
+		}
+	],
+	"nodes": [
+		{
+			"node_id": 541433543.0,
+			"node_type": "Chosen Module ID (end)",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				}
+			]
+		},
+		{
+			"node_id": 541433571.0,
+			"node_type": "Previous Module ID",
+			"slots": [
+				{
+					"data_source_identifier": "prev_module_id",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 3808762907.0,
+			"node_type": "Weighted Choice",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "array_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_output"
+				},
+				{
+					"slot_data": {
+						"option_elements": [
+							"plain_wall",
+							"window"
+						]
+					},
+					"slot_input_type": "connection",
+					"type": "dynamic_populate"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				}
+			]
+		},
+		{
+			"node_id": 3808762942.0,
+			"node_type": "Available module IDs",
+			"slots": [
+				{
+					"data_source_identifier": "all_module_ids",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "array_output"
+				}
+			]
+		},
+		{
+			"node_id": 3808763145.0,
+			"node_type": "Random Scalar",
+			"slots": [
+				{
+					"data_source_identifier": "rand",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "scalar_output"
+				}
+			]
+		}
+	]
+}

@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="2_63ib6"]
 [ext_resource type="Material" uid="uid://dojaon0dc8y5u" path="res://Resources/Materials/BuildingMaterials/WoodBoards.tres" id="3_63ib6"]
 [ext_resource type="Material" uid="uid://dskbqm8qv4276" path="res://Resources/Materials/BuildingMaterials/WoodSpacer.tres" id="3_vthgn"]
+[ext_resource type="JSON" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/ShackDoorSelection.json" id="3_w55eo"]
 [ext_resource type="Material" uid="uid://cgl2l88gtfy3v" path="res://Resources/Materials/BuildingMaterials/RustyMetal.tres" id="4_f4kqh"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_dt2k3"]
@@ -108,6 +109,7 @@ script = ExtResource("2_63ib6")
 model = SubResource("ArrayMesh_f4kqh")
 probability = 0.7
 may_repeat = true
+facade_feature_id = "plain_wall"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rvrfq"]
@@ -197,6 +199,7 @@ shadow_mesh = SubResource("ArrayMesh_y2sqk")
 script = ExtResource("2_63ib6")
 model = SubResource("ArrayMesh_63ib6")
 probability = 0.15
+facade_feature_id = "door"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
 [resource]
@@ -204,4 +207,5 @@ script = ExtResource("1_c4fsr")
 walls = Array[ExtResource("2_63ib6")]([SubResource("Resource_j2eq6"), SubResource("Resource_f4kqh")])
 corner_90 = SubResource("ArrayMesh_vthgn")
 spacer_block = SubResource("ArrayMesh_4sxh3")
+selection_rules = ExtResource("3_w55eo")
 metadata/_custom_type_script = "uid://1cryccueq7u4"

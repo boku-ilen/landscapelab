@@ -8,7 +8,6 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_1oavv")
-shader_parameter/bend = 0.785
 shader_parameter/albedo = Color(1, 1, 1, 1)
 shader_parameter/albedo_texture = ExtResource("2_j58od")
 shader_parameter/albedo_texture_size = Vector2i(0, 0)

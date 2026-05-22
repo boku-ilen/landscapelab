@@ -8,6 +8,7 @@ class_name FloorDefinition
 # A minimal element to fill where other assets do not fit
 @export var spacer_block: Mesh
 @export var height := 3.
+@export var selection_rules: JSON
 
 
 func _init(_walls = walls, _door = door, _corner_90 = corner_90, _spacer_block = spacer_block, _height:=3.) -> void:

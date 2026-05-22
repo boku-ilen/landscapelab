@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="FloorDefinition" format=3 uid="uid://5f7qdex0krmx"]
 
 [ext_resource type="ArrayMesh" uid="uid://148s1odttvni" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_CornerOut_0.25x3.0.res" id="1_bi8iv"]
+[ext_resource type="JSON" path="res://addons/modular_buildings/example/FloorDefinitions/repeat_module.json" id="3_6np5n"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="3_bcelq"]
 [ext_resource type="ArrayMesh" uid="uid://dft05s8yfxebt" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Spacer_2.0x3.0.res" id="3_kmehg"]
 [ext_resource type="ArrayMesh" uid="uid://dc771316vcmav" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Door01_2.0x3.0.res" id="4_6np5n"]
@@ -35,4 +36,5 @@ script = ExtResource("3_bcelq")
 walls = Array[ExtResource("4_kmehg")]([SubResource("Resource_bcelq"), SubResource("Resource_6np5n"), SubResource("Resource_8btcx")])
 corner_90 = ExtResource("1_bi8iv")
 spacer_block = ExtResource("3_kmehg")
+selection_rules = ExtResource("3_6np5n")
 metadata/_custom_type_script = "uid://1cryccueq7u4"

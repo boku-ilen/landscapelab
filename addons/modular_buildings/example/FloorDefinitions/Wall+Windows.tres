@@ -2,6 +2,7 @@
 
 [ext_resource type="ArrayMesh" uid="uid://148s1odttvni" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_CornerOut_0.25x3.0.res" id="1_84h18"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="2_jlqqv"]
+[ext_resource type="JSON" path="res://addons/modular_buildings/example/FloorDefinitions/upper_floor1.json" id="3_3d2tw"]
 [ext_resource type="ArrayMesh" uid="uid://dft05s8yfxebt" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Spacer_2.0x3.0.res" id="3_oinub"]
 [ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="4_jlqqv"]
 [ext_resource type="Material" uid="uid://biwff110p2k6i" path="res://addons/modular_buildings/example/Materials/Window_Frame.tres" id="5_vfwpw"]
@@ -155,4 +156,5 @@ script = ExtResource("2_jlqqv")
 walls = Array[ExtResource("4_jlqqv")]([SubResource("Resource_tj74v"), SubResource("Resource_3d2tw")])
 corner_90 = ExtResource("1_84h18")
 spacer_block = ExtResource("3_oinub")
+selection_rules = ExtResource("3_3d2tw")
 metadata/_custom_type_script = "uid://1cryccueq7u4"

@@ -2,11 +2,11 @@
 
 [ext_resource type="ArrayMesh" uid="uid://cw8fgcb2ecah5" path="res://addons/modular_buildings/example/Meshes/Iteration01/SocketIn_CornerOut_0.25x1.0.res" id="2_fell6"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="3_xfjmc"]
+[ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="4_481se"]
 [ext_resource type="ArrayMesh" uid="uid://ctplosic3brts" path="res://addons/modular_buildings/example/Meshes/Iteration01/SocketIn_Spacer_2.0x1.0.res" id="4_oqx3q"]
 
 [resource]
 script = ExtResource("3_xfjmc")
-walls = Array[Mesh]([ExtResource("4_oqx3q")])
 corner_90 = ExtResource("2_fell6")
 spacer_block = ExtResource("4_oqx3q")
 height = 1.0

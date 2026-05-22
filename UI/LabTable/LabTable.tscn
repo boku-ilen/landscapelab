@@ -113,7 +113,6 @@ cursor_path = NodePath("../../Cursor2D")
 [node name="GeoLayerRenderers" parent="LabTable/SubViewportContainer/SubViewport" unique_id=347914928 node_paths=PackedStringArray("camera") instance=ExtResource("5_c4s8q")]
 visibility_layer = 3
 camera = NodePath("../Camera2D")
-load_data_threaded = false
 
 [node name="Cursor2D" type="Sprite2D" parent="LabTable/SubViewportContainer/SubViewport" unique_id=1509257619 node_paths=PackedStringArray("camera_2d")]
 visible = false
@@ -272,11 +271,10 @@ theme_override_constants/margin_bottom = 40
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="LayersButton" parent="GameModeMarginContainer/HBoxContainer" unique_id=745488032 node_paths=PackedStringArray("geo_layer_renderers") instance=ExtResource("28_x84ob")]
+[node name="LayersButton" parent="GameModeMarginContainer/HBoxContainer" unique_id=745488032 instance=ExtResource("28_x84ob")]
 layout_mode = 2
 icon = ExtResource("20_x84ob")
 script = ExtResource("20_55y0a")
-geo_layer_renderers = NodePath("../../../LabTable/SubViewportContainer/SubViewport/GeoLayerRenderers")
 
 [node name="LayersPanel" type="PanelContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton" unique_id=1903563869]
 show_behind_parent = true
