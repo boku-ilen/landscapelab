@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=2 format=3 uid="uid://bjts8jnjyl3m8"]
+[gd_resource type="ArrayMesh" format=3 uid="uid://bjts8jnjyl3m8"]
 
 [ext_resource type="Material" path="res://Resources/Materials/Barriers/IronFence.tres" id="1_jr0ge"]
 

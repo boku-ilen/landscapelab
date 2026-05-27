@@ -1,12 +1,36 @@
 [gd_resource type="Resource" script_class="FloorDefinition" format=4 uid="uid://5mc2s0ylbir"]
 
+[ext_resource type="Shader" uid="uid://2br3p1e1nvcn" path="res://addons/modular_buildings/Shader/hinge_corner.gdshader" id="1_4jf55"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_6qogq"]
-[ext_resource type="Material" uid="uid://cqe8ou1pviww6" path="res://Resources/Materials/BuildingMaterials/PlasterCorner.tres" id="1_qu5lo"]
 [ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="2_0ubay"]
+[ext_resource type="Texture2D" uid="uid://dycdo5k6wtgry" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_diff_2k.jpg" id="2_wnvvm"]
 [ext_resource type="Material" uid="uid://lfl7mvgnp5sq" path="res://Resources/Materials/BuildingMaterials/PlasterSpacerTriplanar.tres" id="3_0yhv0"]
 [ext_resource type="JSON" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/PlasterWallDoorSelection.json" id="3_5tf8r"]
+[ext_resource type="Texture2D" uid="uid://nl23iq76mek4" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_nor_gl_2k.png" id="3_126k3"]
+[ext_resource type="Texture2D" uid="uid://j4xlpd5mch8u" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_rough_2k.jpg" id="4_6m1o1"]
 [ext_resource type="Material" uid="uid://dojaon0dc8y5u" path="res://Resources/Materials/BuildingMaterials/WoodBoards.tres" id="4_lucf8"]
 [ext_resource type="Material" uid="uid://gd00fit3u8tp" path="res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres" id="5_5tf8r"]
+[ext_resource type="Material" uid="uid://dqj2reyawpgn3" path="res://Resources/Materials/BuildingMaterials/PlasterCornerTriplanar.tres" id="5_6m1o1"]
+[ext_resource type="ArrayMesh" uid="uid://dfb1hgb0uydug" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Window02_2.0x3.0.res" id="11_126k3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6m1o1"]
+render_priority = 0
+shader = ExtResource("1_4jf55")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/albedo_texture = ExtResource("2_wnvvm")
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/texture_roughness = ExtResource("4_6m1o1")
+shader_parameter/specular = 0.6499999854712
+shader_parameter/metallic = 0.0
+shader_parameter/normal_texture = ExtResource("3_126k3")
+shader_parameter/normal_scale = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_dt2k3"]
 _surfaces = [{
@@ -14,6 +38,7 @@ _surfaces = [{
 "format": 34359742465,
 "index_count": 18,
 "index_data": PackedByteArray("AAABAAIAAwABAAAABAABAAMAAgABAAUABQAGAAIAAgAGAAcA"),
+"material": ExtResource("5_6m1o1"),
 "name": "Wall_Default",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -30,7 +55,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 18,
 "index_data": PackedByteArray("AAABAAIAAwABAAAABAABAAMAAgABAAUABQAGAAIAAgAGAAcA"),
-"material": ExtResource("1_qu5lo"),
+"material": SubResource("ShaderMaterial_6m1o1"),
 "name": "Wall_Default",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -278,7 +303,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_5tf8r"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_6m1o1"]
 resource_name = "Wall_Window01_2.0x3.0"
 _surfaces = [{
 "aabb": AABB(-0.5, 1.22, -0.12239, 1, 1.1800001, 0.028666005),
@@ -346,16 +371,22 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_1rxkm")
 
-[sub_resource type="Resource" id="Resource_xmrfx"]
+[sub_resource type="Resource" id="Resource_vg67i"]
 script = ExtResource("2_0ubay")
-model = SubResource("ArrayMesh_5tf8r")
+model = SubResource("ArrayMesh_6m1o1")
 probability = 0.35
+facade_feature_id = "small_window"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_rhcyw"]
+script = ExtResource("2_0ubay")
+model = ExtResource("11_126k3")
 facade_feature_id = "large_window"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
 [resource]
 script = ExtResource("1_6qogq")
-walls = Array[ExtResource("2_0ubay")]([SubResource("Resource_wnvvm"), SubResource("Resource_0yhv0"), SubResource("Resource_xmrfx")])
+walls = Array[ExtResource("2_0ubay")]([SubResource("Resource_wnvvm"), SubResource("Resource_0yhv0"), SubResource("Resource_vg67i"), SubResource("Resource_rhcyw")])
 corner_90 = SubResource("ArrayMesh_0yhv0")
 spacer_block = SubResource("ArrayMesh_wnvvm")
 selection_rules = ExtResource("3_5tf8r")

@@ -1,9 +1,9 @@
 extends FeatureLayerCompositionRenderer
 
 @export var check_roof_type := true
-@export var modular_metadata: ModularBuildingMetadata = preload("res://addons/modular_buildings/example/example_building_metadata.tres")
 
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
+var node_types = preload("res://addons/building_graph_editor/BuildingGraphSystem/node_types.json")
 
 # Circle through distances loading new refinments (squared distances!)
 var refine_distances := [100, 2500, 10000]
@@ -33,6 +33,7 @@ enum flag {
 
 @onready var height_attribute = layer_composition.render_info.height_attribute_name
 
+var execution_graph_cache: Dictionary[FloorDefinition, BuildingGraphRunner.RunnableNode] = {}
 
 func _ready():
 	_create_and_set_texture_arrays()
@@ -66,13 +67,21 @@ func _create_and_set_texture_arrays():
 func load_feature_instance(feature: GeoFeature):
 	#var building := building_base_scene.instantiate()
 	var building = Node3D.new()
-	
 	var modular_metadata_instance = ModularBuildingMetadata.new()
 	#modular_metadata_instance.floor_definitions = modular_metadata.floor_definitions
 	var building_type = util.str_to_var_or_default(feature.get_attribute("render_type"), fallback_wall_id)
 	modular_metadata_instance.floor_definitions = layer_composition.render_info.modular_resources[building_type].floor_definitions
 	var building_metadata = BuildingMetadata.new(feature, center, layer_composition.render_info)
-	
+	var door_layer: GeoFeatureLayer = layer_composition.render_info.door_layer
+	#print(door_layer.get_all_features().size())
+	var door_features: Array = door_layer.get_features_by_attribute_filter("id='" + str(feature.get_attribute("id")) +"'")
+	if len(door_features) > 0:
+		modular_metadata_instance.feature_positions["door"] = []
+		for door_feature: GeoPoint in door_features: 
+			var feature_geo_position = door_feature.get_vector3() + Vector3(building_metadata.geo_offset[0], 0, -building_metadata.geo_offset[1])
+			var relative_position = feature_geo_position - building_metadata.engine_center
+			#print("relpos", relative_position, " from ", feature_geo_position, " and ", building_metadata.geo_center)
+			modular_metadata_instance.feature_positions["door"].append(Vector2(relative_position.x, relative_position.z))
 	if not Geometry2D.is_polygon_clockwise(building_metadata.footprint):
 		building_metadata.footprint.reverse()
 	var footprint: Array[Vector2]
@@ -82,14 +91,33 @@ func load_feature_instance(feature: GeoFeature):
 	modular_metadata_instance.footprint = footprint
 	modular_metadata_instance.building_height = building_metadata.height
 	modular_metadata_instance.roof_height = building_metadata.roof_height
-	
-	BuildingFactory.build_building(building, modular_metadata_instance)
+	var data_sources: Dictionary[String, NodeDataSource] = {
+		"prev_module_id": FixedInputDataSource.new("prev_id"),
+		"below_module_id": FixedInputDataSource.new("low_id"),
+		"edge_dist": FixedInputDataSource.new(4.2),
+		"edge_length": FixedInputDataSource.new(22.3),
+		"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
+		"floor_num": FixedInputDataSource.new(2.0),
+		"floor_amount": FixedInputDataSource.new(5.0),
+		"all_module_ids": FixedInputDataSource.new(["x"]),
+		"rand": FixedInputDataSource.new(0.1),
+		"geo_feature": FixedInputDataSource.new(MockGeoFeature.new()) 
+	}
+
+	var exec_graphs: Array[BuildingGraphRunner.RunnableNode] = []
+	for floor_def in modular_metadata_instance.floor_definitions:
+#		if floor_def in execution_graph_cache.keys():
+#			exec_graphs.append(execution_graph_cache[floor_def])
+#			continue
+		var node_graph := BuildingGraphRunner.setup_executable_graph(floor_def.selection_rules.data, node_types.data, data_sources)
+		exec_graphs.append(node_graph)
+#		execution_graph_cache[floor_def] = node_graph
+	BuildingFactory.build_building(building, modular_metadata_instance, exec_graphs, data_sources, {}, feature)
 	
 	building.position = building_metadata.engine_center + Vector3.UP * (building_metadata.cellar_height - 1.0)
 	building.name = str(feature.get_id())
 		
 	
-
 	# Add the roof
 	var roof_and_material = RoofFactory.prepare_roof(
 		layer_composition, 
@@ -122,7 +150,7 @@ func load_feature_instance(feature: GeoFeature):
 
 	return building
 
-
+	
 var buildings_to_refine = []
 
 

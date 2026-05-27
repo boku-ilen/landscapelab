@@ -11,6 +11,7 @@
 [ext_resource type="Material" uid="uid://dg4eeo60vjovp" path="res://addons/modular_buildings/example/Materials/Wall_Default.tres" id="7_pvis0"]
 [ext_resource type="Material" uid="uid://bb3svbftyu34v" path="res://addons/modular_buildings/example/Materials/Wall_Dressing.tres" id="8_7pfof"]
 [ext_resource type="Material" uid="uid://bh5tblqn1br50" path="res://addons/modular_buildings/example/Materials/Window_Sill.tres" id="9_jinv7"]
+[ext_resource type="ArrayMesh" uid="uid://dfb1hgb0uydug" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Window02_2.0x3.0.res" id="12_pvis0"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_m2k1h"]
 _surfaces = [{
@@ -151,9 +152,15 @@ may_repeat = true
 facade_feature_id = "plain_wall"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
+[sub_resource type="Resource" id="Resource_7pfof"]
+script = ExtResource("4_jlqqv")
+model = ExtResource("12_pvis0")
+facade_feature_id = "green_window"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
 [resource]
 script = ExtResource("2_jlqqv")
-walls = Array[ExtResource("4_jlqqv")]([SubResource("Resource_tj74v"), SubResource("Resource_3d2tw")])
+walls = Array[ExtResource("4_jlqqv")]([SubResource("Resource_tj74v"), SubResource("Resource_3d2tw"), SubResource("Resource_7pfof")])
 corner_90 = ExtResource("1_84h18")
 spacer_block = ExtResource("3_oinub")
 selection_rules = ExtResource("3_3d2tw")

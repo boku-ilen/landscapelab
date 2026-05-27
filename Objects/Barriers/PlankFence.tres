@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=2 format=3 uid="uid://dnvmd60w5c4rg"]
+[gd_resource type="ArrayMesh" format=3 uid="uid://dnvmd60w5c4rg"]
 
 [ext_resource type="Material" uid="uid://4tuscj5rxrxh" path="res://Resources/Materials/Barriers/PlankFence.tres" id="1_gptur"]
 

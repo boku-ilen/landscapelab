@@ -16,16 +16,22 @@ const TOLERATE_90_DEG_DEVIATION = 0.01
 ##  asset_pack: Dictionary[int:Array[AssetEntry]] mapping floor index (0 = ground) to possible assets
 ##  floors: total number of floors (height)
 ##  floor_height: vertical distance between floors (in metres)
-static func build_building(building_root: Node3D, metadata: ModularBuildingMetadata) -> Node3D:
-	var source_set: Dictionary[String, NodeDataSource] = {
-		"prev_module_id": FixedInputDataSource.new("prev_id"),
-		"below_module_id": FixedInputDataSource.new("low_id"),
-		"edge_dist": FixedInputDataSource.new(4.2),
-		"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
-		"all_module_ids": FixedInputDataSource.new(["mod_a", "mod_b", "mod_c"]), # TODO get this at edit time
-		"rand": DynamicInputDataSource.new(func (): return randf()),
-		"geo_feature": FixedInputDataSource.new(MockGeoFeature.new())
-	}
+static func build_building(building_root: Node3D, metadata: ModularBuildingMetadata, node_graphs_by_floor: Array[BuildingGraphRunner.RunnableNode] = [], sources: Dictionary[String, NodeDataSource] = {}, materials_by_name: Dictionary[String, Material] = {}, geo_feature = null) -> Node3D:
+	if sources == {}:
+		sources = {
+			"prev_module_id": FixedInputDataSource.new("prev_id"),
+			"below_module_id": FixedInputDataSource.new("low_id"),
+			"edge_dist": FixedInputDataSource.new(4.2),
+			"edge_length": FixedInputDataSource.new(99999.3),
+			"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
+			"floor_num": FixedInputDataSource.new(2.0),
+			"floor_amount": FixedInputDataSource.new(5.0),
+			"all_module_ids": FixedInputDataSource.new(["mod_a", "mod_b", "mod_c"]), # TODO get this at edit time
+			"rand": DynamicInputDataSource.new(func (): return randf()),
+			"geo_feature": FixedInputDataSource.new(MockGeoFeature.new())
+		}
+	if not geo_feature == null:
+		sources["geo_feature"] = FixedInputDataSource.new(geo_feature)
 	# Long term it should probably be deterministic
 	randomize()
 	
@@ -35,7 +41,9 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		print("no edges")
 		return building_root
 	
-	var module_indices := {}
+	var module_indices := []
+	for edge in edges:
+		module_indices.append({})
 	var overall_floor_height := 0.
 	
 	var corner_infos = _compute_corner_infos(edges)
@@ -48,23 +56,39 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 			all_meshes.append(wall_def.model)
 		all_meshes.append(floor_def.spacer_block)
 		all_meshes.append(floor_def.corner_90)
-		all_meshes.append(floor_def.door)
 	
-	for mesh in all_meshes:
+	for mesh: Mesh in all_meshes:
 		if mesh in mesh_multi_map.keys():
 			# skip already known meshes (e.g. for repeated layer definitions)
 			continue
 		mesh_multi_map[mesh] = MultiMeshInstance3D.new()
-		mesh_multi_map[mesh].multimesh = MultiMesh.new()
-		mesh_multi_map[mesh].multimesh.transform_format = MultiMesh.TRANSFORM_3D
-		mesh_multi_map[mesh].multimesh.mesh = mesh
+		var multi_mesh := MultiMesh.new()
+		multi_mesh.transform_format = MultiMesh.TRANSFORM_3D
+		multi_mesh.mesh = mesh
+#		multi_mesh.mesh = mesh.duplicate()
+#		for surf_i in multi_mesh.mesh.get_surface_count():
+#			if not multi_mesh.mesh is ArrayMesh:
+#				continue
+#			var array_mesh := multi_mesh.mesh as ArrayMesh
+#			var surf_name = array_mesh.surface_get_name(surf_i)
+#			if surf_name in materials_by_name:
+#				array_mesh.surface_set_material(surf_i, materials_by_name[surf_name])
 		# needs to be true so we can set instance parameters (angle,..) 
-		mesh_multi_map[mesh].multimesh.use_custom_data = true
+		multi_mesh.use_custom_data = true
 		# assumption: 2000 instances is enough for any single component mesh -> more instances means more memory!
-		mesh_multi_map[mesh].multimesh.instance_count = 2000
-		mesh_multi_map[mesh].multimesh.visible_instance_count = 0
+		multi_mesh.instance_count = 2000
+		multi_mesh.visible_instance_count = 0
+		mesh_multi_map[mesh].multimesh = multi_mesh
 		building_root.add_child(mesh_multi_map[mesh])
+	
+	var temp_height = 0
+	var temp_floor = 0
+	while temp_height < metadata.building_height:
+		temp_height += metadata.floor_definitions[min(temp_floor, len(metadata.floor_definitions) - 1)].height
+		temp_floor += 1
+	sources["floor_amount"].held_data = temp_floor
 
+	
 	# Iterate floors and edges
 	var floor_num = 0
 	while overall_floor_height < metadata.building_height:		
@@ -75,8 +99,14 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		var floor_rules: JSON = floor_assets.selection_rules
 		var node_types: JSON = preload("res://addons/building_graph_editor/BuildingGraphSystem/node_types.json")
 		#print(floor_rules)
+		sources["all_module_ids"].held_data = floor_assets.walls.map(func (def: WallTileDefinition): return def.facade_feature_id)
 
-		var node_graph = BuildingGraphRunner.setup_executable_graph(floor_rules.data, node_types.data, source_set)
+		var node_graph: BuildingGraphRunner.RunnableNode
+		if node_graphs_by_floor:
+			node_graph = node_graphs_by_floor[min(floor_num, len(metadata.floor_definitions) - 1)]
+		else:
+			node_graph = BuildingGraphRunner.setup_executable_graph(floor_rules.data, node_types.data, sources)
+		var node_graph_cache := {}
 		
 		var corner_mesh = mesh_multi_map[floor_assets.corner_90].multimesh
 		for idx in corner_mesh.mesh.get_surface_count():
@@ -102,7 +132,7 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 				# store which edge passes the closest
 				distances.sort_custom(func (l1, l2): return l1[1] < l2[1])
 				point_edge_mapping[feature_id].append([distances[0][0], distances[0][2]])
-		
+		sources["floor_num"].held_data = floor_num
 		# Create the corner pieces, the edges will be updated according to they
 		# mesh extent (to guarantee no overlap)
 		for i in edges.size():
@@ -123,25 +153,27 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 						points_on_edge[k].append(point_edge_mapping[k][point_i][1])
 			
 			# To ensure a uniform distribution along the floors, we also store the chosen modules
-			module_indices = _compute_edges(
+			module_indices[i] = _compute_edges(
 				edge_current.p0,
 				edge_current.p1, 
-				overall_floor_height, 
+				overall_floor_height,
 				floor_assets.walls, 
 				floor_assets.spacer_block,
-				module_indices,
+				module_indices[i],
 				mesh_multi_map,
 				points_on_edge,
 				node_graph, 
-				source_set)
+				node_graph_cache,
+				sources)
+			node_graph.prune_cache_by_class(node_graph_cache, BuildingGraphRunner.NodeCacheClass.EdgeStatic)
 		
 		overall_floor_height += floor_height
 		floor_num += 1
-		
+
+		node_graph.prune_cache_by_class(node_graph_cache, BuildingGraphRunner.NodeCacheClass.FloorStatic)
 		# repeat until we've reached or exceeded the knwon height of the building
 		if overall_floor_height >= metadata.building_height:
 			break
-	
 	return building_root
 
 # Returns the new edge with regard to the corner
@@ -231,7 +263,7 @@ static func _instance_module(multi_mesh: MultiMesh, module_width: float, scale_x
 # _populate_edge with balanced spacers
 # ------------------------------------------------
 static func _compute_edges(p1: Vector2, p2: Vector2,
-		overall_floor_height: float, floor_assets: Array[WallTileDefinition], spacer_block: Mesh, module_indices: Dictionary, multi_mesh_map: Dictionary, feature_offsets: Dictionary[String, Array], executable_graph: BuildingGraphRunner.RunnableNode, source_dict: Dictionary[String, NodeDataSource]) -> Dictionary:
+		overall_floor_height: float, floor_assets: Array[WallTileDefinition], spacer_block: Mesh, module_indices: Dictionary, multi_mesh_map: Dictionary, feature_offsets: Dictionary[String, Array], executable_graph: BuildingGraphRunner.RunnableNode, executable_graph_cache: Dictionary,source_dict: Dictionary[String, NodeDataSource]) -> Dictionary:
 	var edge_vec: Vector2 = p2 - p1
 	var edge_length: float = edge_vec.length()
 	if edge_length < 0.01:
@@ -254,7 +286,8 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 	
 	# Store how much width we processed altogether until now
 	var used_width := 0.0
-	
+	var assumed_model_width = 2.0
+	var populable_edge_length = floor(edge_length / assumed_model_width) * assumed_model_width
 	var use_fillers := false
 	var spacers := {"left": [], "right": [], "scale": 1.}
 	var module_scale := 1.0
@@ -285,34 +318,45 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 				valid_found = floor_assets[random_index].may_repeat or random_index != last_module_index
 			last_module_index = random_index
 		else:
-#			var source_set = {
-#					"prev_module_id": FixedInputDataSource.new("prev_id"),
-#					"below_module_id": FixedInputDataSource.new("low_id"),
-#					"edge_dist": FixedInputDataSource.new(4.2),
-#					"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
-#					"all_module_ids": FixedInputDataSource.new(["mod_a", "mod_b", "mod_c"]), # TODO get this at edit time
-#					"rand": FixedInputDataSource.new(0.1),
-#					"geo_feature": FixedInputDataSource.new(MockGeoFeature.new())
-#				}
+#			var source_set: Dictionary[String, NodeDataSource] = {
+#				"prev_module_id": FixedInputDataSource.new("prev_id"),
+#				"below_module_id": FixedInputDataSource.new("low_id"),
+#				"edge_dist": FixedInputDataSource.new(4.2),
+#				"edge_length": FixedInputDataSource.new(22.3),
+#				"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
+#				"floor_num": FixedInputDataSource.new(2.0),
+#				"floor_amount": FixedInputDataSource.new(5.0),
+#				"all_module_ids": FixedInputDataSource.new(["mod_a", "mod_b", "mod_c"]), # TODO get this at edit time
+#				"rand": DynamicInputDataSource.new(func (): return randf()),
+#				"geo_feature": FixedInputDataSource.new(MockGeoFeature.new())
+#			}
 			source_dict["prev_module_id"].held_data = floor_assets[last_module_index].facade_feature_id
 			#print(floor_assets[last_module_index].facade_feature_id)
 			if len(modules) in module_indices.keys():
 				source_dict["below_module_id"].held_data = module_indices[len(modules)].facade_feature_id
+				#print("below ", source_dict["below_module_id"].get_value())
 			else:
 				source_dict["below_module_id"].held_data = ""
-			source_dict["edge_dist"].held_data = min(used_width, edge_length - used_width)
-			var normal = Vector2.from_angle(dir.angle() + PI/4)
+			source_dict["edge_dist"].held_data = min(populable_edge_length - (used_width + assumed_model_width / 2), used_width + assumed_model_width / 2)
+			source_dict["edge_length"].held_data = populable_edge_length
+			
+			var normal = Vector2.from_angle(dir.angle() - PI/2)
 			source_dict["edge_normal"].held_data = Vector3(normal.x, 0, normal.y)
-			source_dict["all_module_ids"].held_data = floor_assets.map(func (def: WallTileDefinition): return def.facade_feature_id)
-			var next_id: String = str(executable_graph.get_slot_input(0))
+			var next_id: String = str(executable_graph.get_slot_input(0, executable_graph_cache))
+			#print(next_id)
 			var candidates = floor_assets.filter(func (wtd: WallTileDefinition): return wtd.facade_feature_id == next_id)
 			#print(next_id, next_id == "plain_wall", candidates)
 			var actual_id = randi_range(0,floor_assets.size() - 1)
 			if candidates.size() > 0:
 				actual_id = floor_assets.find(candidates[0])
 				#print(candidates[0])
+#			else:
+#				print("Invalid ID: ", next_id)
 			last_module_index = actual_id
 			random_index = actual_id
+			#print("mstat preclear ", executable_graph_cache)
+
+			executable_graph.prune_cache_by_class(executable_graph_cache, BuildingGraphRunner.NodeCacheClass.ModuleStatic)
 		var mesh: Mesh = floor_assets[random_index].model
 		
 		var module_width := mesh.get_aabb().size.x
@@ -320,6 +364,7 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 		# Module is overriden if we need a feature specified by geodata point at this spot
 		var potential_positioned_features = floor_assets.filter(func (w): return w.facade_feature_id in feature_offsets.keys())
 		if len(potential_positioned_features) > 0:
+			#print("ppf")
 			# candidate for placement, check if close enough
 			var candidate_mesh: Mesh = potential_positioned_features[0].model
 			var candidate_width = candidate_mesh.get_aabb().size.x

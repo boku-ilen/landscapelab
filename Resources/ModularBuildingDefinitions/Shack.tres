@@ -8,5 +8,10 @@
 
 [resource]
 script = ExtResource("5_kbmaj")
+building_height = 10.0
+footprint = Array[Vector2]([Vector2(-16, -16), Vector2(16, -16), Vector2(16, 16), Vector2(-16, 16)])
 floor_definitions = Array[ExtResource("1_jxylv")]([ExtResource("2_gw8k5"), ExtResource("3_u0egi"), ExtResource("4_jxylv")])
+feature_positions = Dictionary[String, Array]({
+"door": [Vector2(0, 16)]
+})
 metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

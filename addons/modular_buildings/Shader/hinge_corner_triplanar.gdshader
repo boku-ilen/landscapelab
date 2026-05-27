@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
 
-#include "res://Shader/Triplanar_WorldPosButObjAxis.gdshaderinc"
+#include "res://addons/modular_buildings/Shader/Triplanar_WorldPosButObjAxis.gdshaderinc"
 
 instance uniform float bend; // Input coming from hinge-corner.gd
 

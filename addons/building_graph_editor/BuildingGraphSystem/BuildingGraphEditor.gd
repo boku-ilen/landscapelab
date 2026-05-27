@@ -15,6 +15,8 @@ var source_data: Dictionary[String, NodeDataSource] = {
 	"all_module_ids": FixedInputDataSource.new(["a"])
 }
 
+@export var preview_building: PreviewBuilding
+
 var types_by_id = {}
 var node_objects: Dictionary[StringName, BuildingGraphNode] = {}
 
@@ -213,6 +215,8 @@ func deserialize_tree(data: Dictionary):
 		for slot in template["slots"].size():
 			if "constant_value" in node_element["slots"][slot]["slot_data"]:
 				(node_elem.elements_by_slot[slot] as ConstantValueElement).set_value(node_element["slots"][slot]["slot_data"]["constant_value"])
+			if "choice" in node_element["slots"][slot]["slot_data"]:
+				(node_elem.elements_by_slot[slot] as DropdownElement).dropdown_field.selected = template["slots"][slot]["options"].find(node_element["slots"][slot]["slot_data"]["choice"])
 			if node_elem.elements_by_slot[slot] is DynamicPopulateElement:
 				(node_elem.elements_by_slot[slot] as DynamicPopulateElement).set_array_data(template["slots"][slot]["element_type"],node_element["slots"][slot]["slot_data"]["option_elements"])
 				(node_elem.elements_by_slot[slot] as DynamicPopulateElement).create_ui("foo")
@@ -266,7 +270,10 @@ func validate_graph():
 			"prev_module_id": FixedInputDataSource.new("prev_id"),
 			"below_module_id": FixedInputDataSource.new("low_id"),
 			"edge_dist": FixedInputDataSource.new(4.2),
+			"edge_length": FixedInputDataSource.new(22.3),
 			"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
+			"floor_num": FixedInputDataSource.new(2.0),
+			"floor_amount": FixedInputDataSource.new(5.0),
 			"all_module_ids": source_data["all_module_ids"],
 			"rand": FixedInputDataSource.new(0.1),
 			"geo_feature": FixedInputDataSource.new(MockGeoFeature.new())
@@ -275,6 +282,12 @@ func validate_graph():
 	var calc_result = runnable_node.get_slot_input(0)
 	if calc_result != null:
 		validate_button.text = "Validate (last: OK)"
+		if preview_building != null:
+			preview_building.metadata.floor_definitions[1] = current_resource.duplicate()
+			preview_building.metadata.floor_definitions[1].selection_rules = JSON.new()
+			preview_building.metadata.floor_definitions[1].selection_rules.data = serialized_data
+			preview_building.build()
+
 	else: 
 		validate_button.text = "Validate (last: NOT OK)"
 	

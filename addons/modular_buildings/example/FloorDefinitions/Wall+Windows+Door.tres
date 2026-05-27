@@ -32,6 +32,7 @@ facade_feature_id = "plain_wall"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("3_bcelq")
 walls = Array[ExtResource("4_kmehg")]([SubResource("Resource_bcelq"), SubResource("Resource_6np5n"), SubResource("Resource_8btcx")])
 corner_90 = ExtResource("1_bi8iv")

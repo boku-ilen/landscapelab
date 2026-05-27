@@ -6,7 +6,8 @@
 			"slots": [
 				{
 					"type": "text_input",
-					"label": "Module ID"
+					"label": "Module ID",
+					"cache_class": "BuildingStatic"
 				}
 			]
 		},
@@ -16,7 +17,8 @@
 				{
 					"type": "text_output",
 					"label": "Previous ID",
-					"source_identifier": "prev_module_id"
+					"source_identifier": "prev_module_id",
+					"cache_class": "ModuleStatic"
 				}
 			]
 		},
@@ -26,7 +28,30 @@
 				{
 					"type": "text_output",
 					"label": "Lower ID",
-					"source_identifier": "below_module_id"
+					"source_identifier": "below_module_id",
+					"cache_class": "ModuleStatic"
+				}
+			]
+		},
+		"Floor Number": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "scalar_output",
+					"label": "Current floor",
+					"source_identifier": "floor_num",
+					"cache_class": "FloorStatic"
+				}
+			]
+		},
+		"Number of Floors": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "scalar_output",
+					"label": "Total number of floors",
+					"source_identifier": "floor_amount",
+					"cache_class": "BuildingStatic"
 				}
 			]
 		},
@@ -36,7 +61,19 @@
 				{
 					"type": "scalar_output",
 					"label": "Distance in m",
-					"source_identifier": "edge_dist"
+					"source_identifier": "edge_dist",
+					"cache_class": "ModuleStatic"
+				}
+			]
+		},
+		"Edge Length": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "scalar_output",
+					"label": "Length in m",
+					"source_identifier": "edge_length",
+					"cache_class": "EdgeStatic"
 				}
 			]
 		},
@@ -46,7 +83,8 @@
 				{
 					"type": "vector_output",
 					"label": "Wall face dir.",
-					"source_identifier": "edge_normal"
+					"source_identifier": "edge_normal",
+					"cache_class": "EdgeStatic"
 				}
 			]
 		},
@@ -55,7 +93,8 @@
 			"slots": [
 				{
 					"type": "scalar_constant",
-					"label": ""
+					"label": "",
+					"cache_class": "GraphStatic"
 				}
 			]
 		},
@@ -64,7 +103,8 @@
 			"slots": [
 				{
 					"type": "vector_constant",
-					"label": ""
+					"label": "",
+					"cache_class": "GraphStatic"
 				}
 			]
 		},
@@ -73,7 +113,8 @@
 			"slots": [
 				{
 					"type": "text_constant",
-					"label": ""
+					"label": "",
+					"cache_class": "GraphStatic"
 				}
 			]
 		},
@@ -112,7 +153,8 @@
 					"type": "boolean_output",
 					"label": "Result",
 					"function": null,
-					"function_source": 1.0
+					"function_source": 1.0,
+					"cache_class": "GraphStatic"
 				}
 			]
 		},
@@ -130,7 +172,27 @@
 				{
 					"type": "scalar_output",
 					"label": "Result",
-					"function": "inputs[0].dot(inputs[1])"
+					"function": "inputs[0].dot(inputs[1])",
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Vector Angle": {
+			"tooltip": "Angle between two 3D vectors in degrees",
+			"slots": [
+				{
+					"type": "vector_input",
+					"label": "Vector 1"
+				},
+				{
+					"type": "vector_input",
+					"label": "Vector 2"
+				},
+				{
+					"type": "scalar_output",
+					"label": "Result",
+					"function": "57.2957795131 * inputs[0].angle_to(inputs[1])",
+					"cache_class": "GraphStatic"
 				}
 			]
 		},
@@ -152,7 +214,8 @@
 				{
 					"type": "vector_output",
 					"label": "Result",
-					"function": "Vector3(float(inputs[0]), float(inputs[1]), float(inputs[2]))"
+					"function": "Vector3(float(inputs[0]), float(inputs[1]), float(inputs[2]))",
+					"cache_class": "GraphStatic"
 				}
 			]
 		},
@@ -166,7 +229,8 @@
 				{
 					"type": "text_output",
 					"label": "Chosen element",
-					"function": "weighted_choice(inputs[0], inputs.slice(3))"
+					"function": "weighted_choice(inputs[0], inputs.slice(3))",
+					"cache_class": "ModuleStatic"
 				},
 				{
 					"type": "dynamic_populate",
@@ -182,7 +246,8 @@
 				{
 					"type": "array_output",
 					"label": "IDs",
-					"source_identifier": "all_module_ids"
+					"source_identifier": "all_module_ids",
+					"cache_class": "ModuleStatic"
 				}
 			]
 		},
@@ -200,7 +265,8 @@
 				{
 					"type": "boolean_output",
 					"label": "Result",
-					"function": "inputs[0] == inputs[1]"
+					"function": "inputs[0] == inputs[1]",
+					"cache_class": "GraphStatic"
 				}
 			]
 		},
@@ -222,7 +288,8 @@
 				{
 					"type": "text_output",
 					"label": "Value",
-					"function": "{true: inputs[1], false: inputs[2]}[inputs[0]]"
+					"function": "{true: inputs[1], false: inputs[2]}[inputs[0]]",
+					"cache_class": "GraphStatic"
 				}
 			]
 		},
@@ -257,7 +324,8 @@
 					"type": "boolean_output",
 					"label": "Result",
 					"function": null,
-					"function_source": 1.0
+					"function_source": 1.0,
+					"cache_class": "GraphStatic"
 				}
 			]
 		},
@@ -292,7 +360,8 @@
 					"type": "scalar_output",
 					"label": "Result",
 					"function": null,
-					"function_source": 1.0
+					"function_source": 1.0,
+					"cache_class": "GraphStatic"
 				}
 			]
 		},
@@ -302,7 +371,8 @@
 				{
 					"type": "scalar_output",
 					"label": "Random value",
-					"source_identifier": "rand"
+					"source_identifier": "rand",
+					"cache_class": "NoCache"
 				}
 			]
 		},
@@ -316,7 +386,8 @@
 				{
 					"type": "text_output",
 					"label": "Value",
-					"function": "data_sources[\"geo_feature\"].get_value().get_attribute(inputs[0])"
+					"function": "data_sources[\"geo_feature\"].get_value().get_attribute(inputs[0])",
+					"cache_class": "BuildingStatic"
 				}
 			]
 		}

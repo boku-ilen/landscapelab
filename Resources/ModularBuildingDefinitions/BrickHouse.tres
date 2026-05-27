@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_6g2j6"]
 [ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="2_llvll"]
-[ext_resource type="Resource" uid="uid://5f7qdex0krmx" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows+Door.tres" id="3_nnh1e"]
-[ext_resource type="Resource" uid="uid://c6nev8recemc4" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows.tres" id="4_llvll"]
+[ext_resource type="Resource" uid="uid://5mc2s0ylbir" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/PlasterWallDoor.tres" id="3_llvll"]
 [ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="4_lmkf3"]
+[ext_resource type="Resource" uid="uid://gyxtgv2tsrg7" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/PlasterWall.tres" id="4_nnh1e"]
 
 [resource]
 script = ExtResource("4_lmkf3")
-floor_definitions = Array[ExtResource("1_6g2j6")]([ExtResource("2_llvll"), ExtResource("3_nnh1e"), ExtResource("4_llvll")])
+floor_definitions = Array[ExtResource("1_6g2j6")]([ExtResource("2_llvll"), ExtResource("3_llvll"), ExtResource("4_nnh1e")])
 metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

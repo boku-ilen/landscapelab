@@ -1,25 +1,25 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://cqe8ou1pviww6"]
 
-[ext_resource type="Shader" uid="uid://2br3p1e1nvcn" path="res://addons/modular_buildings/Shader/hinge_corner.gdshader" id="1_pj730"]
+[ext_resource type="Shader" uid="uid://duelq26f3abrp" path="res://addons/modular_buildings/Shader/hinge_corner_triplanar.gdshader" id="1_wx77q"]
 [ext_resource type="Texture2D" uid="uid://c72cxxcyrg6ln" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Color.jpg" id="2_1ofgh"]
 [ext_resource type="Texture2D" uid="uid://bi63buuda3f3j" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_NormalGL.jpg" id="3_wx77q"]
-[ext_resource type="Texture2D" uid="uid://bi73vhqd8cokg" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Roughness.jpg" id="4_so6mp"]
+[ext_resource type="Texture2D" uid="uid://dt20n6kluamu4" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Color_Top.jpg" id="4_so6mp"]
+[ext_resource type="Texture2D" uid="uid://b3ewbuosuywnt" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Displacement.jpg" id="5_prril"]
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_pj730")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/albedo_texture = ExtResource("2_1ofgh")
-shader_parameter/albedo_texture_size = Vector2i(0, 0)
-shader_parameter/point_size = 0.0
-shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
-shader_parameter/texture_roughness = ExtResource("4_so6mp")
+shader = ExtResource("1_wx77q")
 shader_parameter/specular = 0.0
-shader_parameter/metallic = 0.0
-shader_parameter/normal_texture = ExtResource("3_wx77q")
 shader_parameter/normal_scale = 1.000000807500001
-shader_parameter/uv1_scale = Vector3(1, 1, 1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(0, 0, 0)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/debug_mode = 0
+shader_parameter/triplanar_blend_sharpness = 50.0
+shader_parameter/base_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/base_albedo_tex = ExtResource("2_1ofgh")
+shader_parameter/base_normal_tex = ExtResource("3_wx77q")
+shader_parameter/base_uv_tiling = 1.0
+shader_parameter/dirt_albedo_tex = ExtResource("4_so6mp")
+shader_parameter/dirt_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/dirt_uv_tiling = 4.0
+shader_parameter/dirtmask_tex = ExtResource("5_prril")
+shader_parameter/dirtmask_amount = 1.0
+shader_parameter/dirtmask_uv_tiling = 2.0

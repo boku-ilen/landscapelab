@@ -1,86 +1,146 @@
 {
 	"connections": [
 		{
-			"from_node": 544843463.0,
+			"from_node": 541502149.0,
 			"from_slot": 3.0,
-			"to_node": 544844291.0,
+			"to_node": 541501055.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 3812072582.0,
+			"from_node": 541501160.0,
 			"from_slot": 3.0,
-			"to_node": 544843463.0,
+			"to_node": 541502149.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 3812071585.0,
-			"from_slot": 3.0,
-			"to_node": 3812072582.0,
-			"to_slot": 0.0
-		},
-		{
-			"from_node": 3812071460.0,
-			"from_slot": 0.0,
-			"to_node": 3812071585.0,
-			"to_slot": 0.0
-		},
-		{
-			"from_node": 3812071493.0,
-			"from_slot": 0.0,
-			"to_node": 3812071585.0,
-			"to_slot": 2.0
-		},
-		{
-			"from_node": 544843391.0,
-			"from_slot": 3.0,
-			"to_node": 3812072582.0,
-			"to_slot": 2.0
-		},
-		{
-			"from_node": 544843331.0,
+			"from_node": 541501321.0,
 			"from_slot": 2.0,
-			"to_node": 544843391.0,
+			"to_node": 541501160.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 544843297.0,
+			"from_node": 541501020.0,
 			"from_slot": 0.0,
-			"to_node": 544843331.0,
+			"to_node": 541501321.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 544843363.0,
+			"from_node": 541502112.0,
 			"from_slot": 0.0,
-			"to_node": 544843331.0,
+			"to_node": 541501321.0,
 			"to_slot": 1.0
 		},
 		{
-			"from_node": 544843457.0,
-			"from_slot": 0.0,
-			"to_node": 544843391.0,
+			"from_node": 541502117.0,
+			"from_slot": 2.0,
+			"to_node": 541501160.0,
 			"to_slot": 2.0
 		},
 		{
-			"from_node": 544844256.0,
+			"from_node": 541502112.0,
 			"from_slot": 0.0,
-			"to_node": 544843463.0,
+			"to_node": 541502117.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 541501283.0,
+			"from_slot": 0.0,
+			"to_node": 541502117.0,
 			"to_slot": 1.0
 		},
 		{
-			"from_node": 544844285.0,
+			"from_node": 541501026.0,
 			"from_slot": 0.0,
-			"to_node": 544843463.0,
+			"to_node": 541502149.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 541500227.0,
+			"from_slot": 3.0,
+			"to_node": 541502149.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 541501088.0,
+			"from_slot": 3.0,
+			"to_node": 541500227.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 541501060.0,
+			"from_slot": 0.0,
+			"to_node": 541501088.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 541501154.0,
+			"from_slot": 0.0,
+			"to_node": 541501088.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 541501226.0,
+			"from_slot": 3.0,
+			"to_node": 541500227.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 541500132.0,
+			"from_slot": 3.0,
+			"to_node": 541501226.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 541501289.0,
+			"from_slot": 2.0,
+			"to_node": 541500132.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 541500038.0,
+			"from_slot": 0.0,
+			"to_node": 541501289.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 541500104.0,
+			"from_slot": 0.0,
+			"to_node": 541501289.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 541500198.0,
+			"from_slot": 0.0,
+			"to_node": 541500132.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 541501283.0,
+			"from_slot": 0.0,
+			"to_node": 541501226.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 541501020.0,
+			"from_slot": 0.0,
+			"to_node": 541501226.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 541501026.0,
+			"from_slot": 0.0,
+			"to_node": 541500227.0,
 			"to_slot": 2.0
 		}
 	],
 	"nodes": [
 		{
-			"node_id": 544843297.0,
+			"node_id": 541500038.0,
 			"node_type": "Vector constant",
 			"slots": [
 				{
 					"slot_data": {
-						"constant_value": "(2.0, 0.0, 0.0)"
+						"constant_value": "(0.0, 0.0, 1.0)"
 					},
 					"slot_input_type": "constant",
 					"type": "vector_constant"
@@ -88,7 +148,7 @@
 			]
 		},
 		{
-			"node_id": 544843331.0,
+			"node_id": 541500095.0,
 			"node_type": "Dot Product",
 			"slots": [
 				{
@@ -115,7 +175,7 @@
 			]
 		},
 		{
-			"node_id": 544843363.0,
+			"node_id": 541500104.0,
 			"node_type": "Wall facing",
 			"slots": [
 				{
@@ -129,7 +189,7 @@
 			]
 		},
 		{
-			"node_id": 544843391.0,
+			"node_id": 541500132.0,
 			"node_type": "Scalar Comparison",
 			"slots": [
 				{
@@ -141,7 +201,7 @@
 				},
 				{
 					"slot_data": {
-						"choice": ">"
+						"choice": "<"
 					},
 					"slot_input_type": "connection",
 					"type": "dropdown"
@@ -163,12 +223,12 @@
 			]
 		},
 		{
-			"node_id": 544843457.0,
+			"node_id": 541500198.0,
 			"node_type": "Scalar constant",
 			"slots": [
 				{
 					"slot_data": {
-						"constant_value": 0.5
+						"constant_value": 40.0
 					},
 					"slot_input_type": "constant",
 					"type": "scalar_constant"
@@ -176,7 +236,7 @@
 			]
 		},
 		{
-			"node_id": 544843463.0,
+			"node_id": 541500227.0,
 			"node_type": "Condition",
 			"slots": [
 				{
@@ -210,7 +270,7 @@
 			]
 		},
 		{
-			"node_id": 544844256.0,
+			"node_id": 541501020.0,
 			"node_type": "Text constant",
 			"slots": [
 				{
@@ -223,7 +283,7 @@
 			]
 		},
 		{
-			"node_id": 544844285.0,
+			"node_id": 541501026.0,
 			"node_type": "Text constant",
 			"slots": [
 				{
@@ -236,7 +296,7 @@
 			]
 		},
 		{
-			"node_id": 544844291.0,
+			"node_id": 541501055.0,
 			"node_type": "Chosen Module ID (end)",
 			"slots": [
 				{
@@ -249,7 +309,7 @@
 			]
 		},
 		{
-			"node_id": 3812071460.0,
+			"node_id": 541501060.0,
 			"node_type": "Edge Proximity",
 			"slots": [
 				{
@@ -263,7 +323,7 @@
 			]
 		},
 		{
-			"node_id": 3812071585.0,
+			"node_id": 541501088.0,
 			"node_type": "Scalar Comparison",
 			"slots": [
 				{
@@ -297,7 +357,7 @@
 			]
 		},
 		{
-			"node_id": 3812071493.0,
+			"node_id": 541501154.0,
 			"node_type": "Scalar constant",
 			"slots": [
 				{
@@ -310,7 +370,7 @@
 			]
 		},
 		{
-			"node_id": 3812072582.0,
+			"node_id": 541501160.0,
 			"node_type": "Boolean operation",
 			"slots": [
 				{
@@ -322,7 +382,7 @@
 				},
 				{
 					"slot_data": {
-						"choice": "AND"
+						"choice": "OR"
 					},
 					"slot_input_type": "connection",
 					"type": "dropdown"
@@ -340,6 +400,182 @@
 					},
 					"slot_input_type": "connection",
 					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 541501226.0,
+			"node_type": "Condition",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 541501283.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "green_window"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		},
+		{
+			"node_id": 541501289.0,
+			"node_type": "Vector Angle",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "vector_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "vector_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_output"
+				}
+			]
+		},
+		{
+			"node_id": 541501321.0,
+			"node_type": "Text equality",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 541502112.0,
+			"node_type": "Previous Module ID",
+			"slots": [
+				{
+					"data_source_identifier": "prev_module_id",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 541502117.0,
+			"node_type": "Text equality",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 541502149.0,
+			"node_type": "Condition",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_output"
 				}
 			]
 		}

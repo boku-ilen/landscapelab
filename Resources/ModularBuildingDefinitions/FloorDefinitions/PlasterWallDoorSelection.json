@@ -1,1 +1,586 @@
-{"connections":[{"from_node":541218115,"from_slot":3,"to_node":541218015,"to_slot":0},{"from_node":541218083,"from_slot":2,"to_node":541218115,"to_slot":0},{"from_node":541218178,"from_slot":0,"to_node":541218083,"to_slot":0},{"from_node":541218183,"from_slot":0,"to_node":541218083,"to_slot":1},{"from_node":541218149,"from_slot":0,"to_node":541218115,"to_slot":1},{"from_node":541216997,"from_slot":1,"to_node":541218115,"to_slot":2},{"from_node":541217062,"from_slot":0,"to_node":541216997,"to_slot":0},{"from_node":541217090,"from_slot":3,"to_node":541216997,"to_slot":3},{"from_node":541217915,"from_slot":3,"to_node":541217090,"to_slot":0},{"from_node":541217986,"from_slot":0,"to_node":541217915,"to_slot":0},{"from_node":541217981,"from_slot":0,"to_node":541217915,"to_slot":2},{"from_node":541217915,"from_slot":3,"to_node":541217090,"to_slot":2},{"from_node":541217986,"from_slot":0,"to_node":541217915,"to_slot":0},{"from_node":541217981,"from_slot":0,"to_node":541217915,"to_slot":2},{"from_node":541218020,"from_slot":0,"to_node":541216997,"to_slot":4},{"from_node":541218077,"from_slot":0,"to_node":541216997,"to_slot":5}],"nodes":[{"node_id":541216997,"node_type":"Weighted Choice","slots":[{"slot_data":{},"slot_input_type":"connection","type":"array_input"},{"slot_data":{},"slot_input_type":"connection","type":"text_output"},{"slot_data":{"option_elements":["plain_wall","door","large_window"]},"slot_input_type":"connection","type":"dynamic_populate"},{"slot_data":{},"slot_input_type":"connection","type":"scalar_input"},{"slot_data":{},"slot_input_type":"connection","type":"scalar_input"},{"slot_data":{},"slot_input_type":"connection","type":"scalar_input"}]},{"node_id":541217062,"node_type":"Available module IDs","slots":[{"data_source_identifier":"all_module_ids","slot_data":{},"slot_input_type":"data_source","type":"array_output"}]},{"node_id":541217090,"node_type":"Scalar Math","slots":[{"slot_data":{},"slot_input_type":"connection","type":"scalar_input"},{"slot_data":{"choice":"*"},"slot_input_type":"connection","type":"dropdown"},{"slot_data":{},"slot_input_type":"connection","type":"scalar_input"},{"slot_data":{},"slot_input_type":"connection","type":"scalar_output"}]},{"node_id":541217915,"node_type":"Scalar Math","slots":[{"slot_data":{},"slot_input_type":"connection","type":"scalar_input"},{"slot_data":{"choice":"*"},"slot_input_type":"connection","type":"dropdown"},{"slot_data":{},"slot_input_type":"connection","type":"scalar_input"},{"slot_data":{},"slot_input_type":"connection","type":"scalar_output"}]},{"node_id":541217981,"node_type":"Edge Proximity","slots":[{"data_source_identifier":"edge_dist","slot_data":{},"slot_input_type":"data_source","type":"scalar_output"}]},{"node_id":541217986,"node_type":"Scalar constant","slots":[{"slot_data":{"constant_value":3.0},"slot_input_type":"constant","type":"scalar_constant"}]},{"node_id":541218015,"node_type":"Chosen Module ID (end)","slots":[{"slot_data":{},"slot_input_type":"connection","type":"text_input"}]},{"node_id":541218020,"node_type":"Scalar constant","slots":[{"slot_data":{"constant_value":0.4},"slot_input_type":"constant","type":"scalar_constant"}]},{"node_id":541218049,"node_type":"Random Scalar","slots":[{"data_source_identifier":"rand","slot_data":{},"slot_input_type":"data_source","type":"scalar_output"}]},{"node_id":541218077,"node_type":"Scalar constant","slots":[{"slot_data":{"constant_value":0.0},"slot_input_type":"constant","type":"scalar_constant"}]},{"node_id":541218083,"node_type":"Text equality","slots":[{"slot_data":{},"slot_input_type":"connection","type":"text_input"},{"slot_data":{},"slot_input_type":"connection","type":"text_input"},{"slot_data":{},"slot_input_type":"connection","type":"boolean_output"}]},{"node_id":541218115,"node_type":"Condition","slots":[{"slot_data":{},"slot_input_type":"connection","type":"boolean_input"},{"slot_data":{},"slot_input_type":"connection","type":"text_input"},{"slot_data":{},"slot_input_type":"connection","type":"text_input"},{"slot_data":{},"slot_input_type":"connection","type":"text_output"}]},{"node_id":541218149,"node_type":"Text constant","slots":[{"slot_data":{"constant_value":"plain_wall"},"slot_input_type":"constant","type":"text_constant"}]},{"node_id":541218178,"node_type":"Previous Module ID","slots":[{"data_source_identifier":"prev_module_id","slot_data":{},"slot_input_type":"data_source","type":"text_output"}]},{"node_id":541218183,"node_type":"Text constant","slots":[{"slot_data":{"constant_value":"large_window"},"slot_input_type":"constant","type":"text_constant"}]}]}
+{
+	"connections": [
+		{
+			"from_node": 542576990.0,
+			"from_slot": 3.0,
+			"to_node": 542550951.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 542577024.0,
+			"from_slot": 3.0,
+			"to_node": 542576990.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 542551112.0,
+			"from_slot": 3.0,
+			"to_node": 542577024.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 542551018.0,
+			"from_slot": 3.0,
+			"to_node": 542551112.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 542551013.0,
+			"from_slot": 0.0,
+			"to_node": 542551018.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 542551084.0,
+			"from_slot": 0.0,
+			"to_node": 542551018.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 542576984.0,
+			"from_slot": 0.0,
+			"to_node": 542551112.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 542577152.0,
+			"from_slot": 2.0,
+			"to_node": 542577024.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 542550984.0,
+			"from_slot": 0.0,
+			"to_node": 542577152.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 542577124.0,
+			"from_slot": 0.0,
+			"to_node": 542577152.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 542578115.0,
+			"from_slot": 3.0,
+			"to_node": 542576990.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 542578043.0,
+			"from_slot": 3.0,
+			"to_node": 542578115.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 542577190.0,
+			"from_slot": 2.0,
+			"to_node": 542578043.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 542577222.0,
+			"from_slot": 0.0,
+			"to_node": 542577190.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 542577256.0,
+			"from_slot": 0.0,
+			"to_node": 542577190.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 542578109.0,
+			"from_slot": 0.0,
+			"to_node": 542578043.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 542577184.0,
+			"from_slot": 0.0,
+			"to_node": 542578115.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 542578172.0,
+			"from_slot": 0.0,
+			"to_node": 542578115.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 542550984.0,
+			"from_slot": 0.0,
+			"to_node": 542576990.0,
+			"to_slot": 2.0
+		}
+	],
+	"nodes": [
+		{
+			"node_id": 542550951.0,
+			"node_type": "Chosen Module ID (end)",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				}
+			]
+		},
+		{
+			"node_id": 542550956.0,
+			"node_type": "Last layer Module ID",
+			"slots": [
+				{
+					"data_source_identifier": "below_module_id",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 542550984.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "plain_wall"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		},
+		{
+			"node_id": 542551013.0,
+			"node_type": "Edge Proximity",
+			"slots": [
+				{
+					"data_source_identifier": "edge_dist",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "scalar_output"
+				}
+			]
+		},
+		{
+			"node_id": 542551018.0,
+			"node_type": "Scalar Math",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				},
+				{
+					"slot_data": {
+						"choice": "/"
+					},
+					"slot_input_type": "connection",
+					"type": "dropdown"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_output"
+				}
+			]
+		},
+		{
+			"node_id": 542551084.0,
+			"node_type": "Edge Length",
+			"slots": [
+				{
+					"data_source_identifier": "edge_length",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "scalar_output"
+				}
+			]
+		},
+		{
+			"node_id": 542551112.0,
+			"node_type": "Scalar Comparison",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				},
+				{
+					"slot_data": {
+						"choice": ">"
+					},
+					"slot_input_type": "connection",
+					"type": "dropdown"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 542576984.0,
+			"node_type": "Scalar constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": 0.1
+					},
+					"slot_input_type": "constant",
+					"type": "scalar_constant"
+				}
+			]
+		},
+		{
+			"node_id": 542576990.0,
+			"node_type": "Condition",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 542577024.0,
+			"node_type": "Boolean operation",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+						"choice": "AND"
+					},
+					"slot_input_type": "connection",
+					"type": "dropdown"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 542577090.0,
+			"node_type": "Condition",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 542577124.0,
+			"node_type": "Previous Module ID",
+			"slots": [
+				{
+					"data_source_identifier": "prev_module_id",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 542577152.0,
+			"node_type": "Text equality",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 542577184.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "large_window"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		},
+		{
+			"node_id": 542577190.0,
+			"node_type": "Vector Angle",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "vector_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "vector_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_output"
+				}
+			]
+		},
+		{
+			"node_id": 542577222.0,
+			"node_type": "Vector constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "(0.0, 0.0, -1.0)"
+					},
+					"slot_input_type": "constant",
+					"type": "vector_constant"
+				}
+			]
+		},
+		{
+			"node_id": 542577256.0,
+			"node_type": "Wall facing",
+			"slots": [
+				{
+					"data_source_identifier": "edge_normal",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "vector_output"
+				}
+			]
+		},
+		{
+			"node_id": 542578043.0,
+			"node_type": "Scalar Comparison",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				},
+				{
+					"slot_data": {
+						"choice": ">"
+					},
+					"slot_input_type": "connection",
+					"type": "dropdown"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 542578109.0,
+			"node_type": "Scalar constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": 30.0
+					},
+					"slot_input_type": "constant",
+					"type": "scalar_constant"
+				}
+			]
+		},
+		{
+			"node_id": 542578115.0,
+			"node_type": "Condition",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 542578172.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "small_window"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		},
+		{
+			"node_id": 542578178.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "fubu"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		}
+	]
+}

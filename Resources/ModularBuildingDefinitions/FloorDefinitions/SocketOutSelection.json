@@ -1,0 +1,38 @@
+{
+	"connections": [
+		{
+			"from_node": 3807543259.0,
+			"from_slot": 0.0,
+			"to_node": 3807542343.0,
+			"to_slot": 0.0
+		}
+	],
+	"nodes": [
+		{
+			"node_id": 3807542343.0,
+			"node_type": "Chosen Module ID (end)",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				}
+			]
+		},
+		{
+			"node_id": 3807543259.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": ""
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		}
+	]
+}

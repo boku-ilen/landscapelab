@@ -237,6 +237,7 @@ class WindTurbineRenderInfo extends ObjectRenderInfo:
 	func get_class_name() -> String: return "Wind Turbine"
 
 class BuildingRenderInfo extends RenderInfo:
+	var door_layer: GeoFeatureLayer
 	var height_stdev_attribute_name: String
 	var slope_attribute_name: String
 	var red_attribute_name: String
