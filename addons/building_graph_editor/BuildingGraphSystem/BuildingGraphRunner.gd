@@ -16,7 +16,7 @@ enum NodeCacheClass {
 	GraphStatic
 }
 
-
+# Type describing every node in an executable tree
 class RunnableNode:
 	var is_slot_output: Array[bool] = []
 	var own_type: Dictionary
@@ -30,6 +30,8 @@ class RunnableNode:
 		own_type = type_data[own_node["node_type"]]
 		own_type_name = own_node["node_type"]
 		data_sources= data_source_dict
+		
+		# predetermine what the function to obtain input and output from every slot is
 		for slot_i in own_node["slots"].size():
 			var is_output = false
 
@@ -77,21 +79,23 @@ class RunnableNode:
 				is_output = true
 				output_callables.append(func (cache): return _run_by_embedded(own_node, type_data, slot_i))
 			is_slot_output.append(is_output)
+			
+		# determine cacheability (maximum scope our results are guaranteed to be valid)
 		cache_class = BuildingGraphRunner.NodeCacheClass.NoCache
 		var idx = is_slot_output.find(true)
 		if idx > 0:
 			cache_class = get_cache_class(idx)
-		#print(is_slot_output.find(true), " has ", cache_class)
-
-		#print(cache_class)
 		cache_id = root_node_id
 	var input_callables: Array[Callable] = []
 	var output_callables: Array[Callable] = []
 	var tree_children: Array[RunnableNode] = []
 	var data_sources: Dictionary[String, NodeDataSource]
+	
+	# get the value at the input of a given slot
 	func get_slot_input(slot_num, cache_dict = {}):
 		return input_callables[slot_num].call(cache_dict)
-		
+	
+	# get the value at the output of a given slot or cached results if possible
 	func get_slot_output(slot_num, cache_dict = {}):
 		if cache_class >= NodeCacheClass.ModuleStatic:
 			if cache_id not in cache_dict.keys():
@@ -103,20 +107,25 @@ class RunnableNode:
 			return cache_dict[cache_id]["value"]
 		return output_callables[slot_num].call(cache_dict)
 			
+	# helper function for Weighted Choice node
 	func weighted_choice(options, weights):
 		#print(options, weights)
 		var weighted = range(len(options)).map(func (i): return {"choice": options[i], "weight": weights[i] * randf()})
 		weighted.sort_custom(func (w1, w2): return w1["weight"] > w2["weight"])
 		return weighted[0]["choice"]
+		
+	# parse vector3 from str(Vector3) format
 	static func parse_vector(s: String)->Vector3:
 		var parts = s.remove_chars("()").split(", ")
 		return Vector3(float(parts[0]), float(parts[1]), float(parts[2]))
 	
+	# remove all cache entries of scopes up to max_discarded_class (inclusive)
 	func prune_cache_by_class(cache_dict: Dictionary, max_discarded_class: NodeCacheClass):
 		for k in cache_dict.keys():
 			if cache_dict[k]["scope"] <= max_discarded_class:
 				cache_dict.erase(k)
-				
+			
+	# run output calculations based on JSON-included logic	
 	func _run_by_embedded(node_data_dict, type_data: Dictionary, slot_i: int, cache_dict = {}):
 		var slot_data = type_data[node_data_dict["node_type"]]["slots"][slot_i]
 		if not "function" in slot_data.keys():
@@ -139,14 +148,15 @@ class RunnableNode:
 			return null
 		#print("Result at ", node_data_dict["node_type"], " was ", result)
 		return result
+		
+	# calculate maximum cache scope of (output) slot at index slot_num
 	func get_cache_class(slot_num: int)->NodeCacheClass:
 		if not is_slot_output[slot_num]:
-			#print("nonoutput")
 			slot_num = is_slot_output[is_slot_output.find(true)]
 			if slot_num < 0:
 				return NodeCacheClass.NoCache
 		if not "cache_class" in own_type["slots"][slot_num].keys():
-			print("weird at ", own_type_name)
+			print("cache class unknown for node type ", own_type_name)
 		var slot_selfclass = own_type["slots"][slot_num]["cache_class"]
 		var slot_enum_class = {
 			"NoCache" : BuildingGraphRunner.NodeCacheClass.NoCache,
@@ -156,16 +166,14 @@ class RunnableNode:
 			"BuildingStatic" : BuildingGraphRunner.NodeCacheClass.BuildingStatic,
 			"GraphStatic" : BuildingGraphRunner.NodeCacheClass.GraphStatic
 		}[slot_selfclass]
-
+		
+		# maximum possible scope class is our own, actual class is the lowest in the tree beyond us
 		var lowest_class = slot_enum_class
 		for tree_child in tree_children:
 			lowest_class = min(lowest_class, tree_child.get_cache_class(child_outputs[tree_child]))
 		return lowest_class
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
 
-
+# create a new ready-to-run RunnableNode tree
 static func setup_executable_graph(saved_data: Dictionary, node_definition_data: Dictionary, sources: Dictionary[String, NodeDataSource]) -> RunnableNode:
 	var node_data = saved_data["nodes"]
 	var edge_data = saved_data["connections"]
@@ -176,7 +184,3 @@ static func setup_executable_graph(saved_data: Dictionary, node_definition_data:
 	var end_node = nodes_by_id.keys().filter(func (node_id): return "is_end" in type_data[nodes_by_id[node_id]["node_type"]] and type_data[nodes_by_id[node_id]["node_type"]]["is_end"])[0]
 	
 	return RunnableNode.new(nodes_by_id, edge_data, end_node, sources, type_data)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

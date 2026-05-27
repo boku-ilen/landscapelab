@@ -1,13 +1,12 @@
 @abstract
 extends HBoxContainer
 class_name GraphNodeElement
+# Abstract superclass for slots within BuildingGraphNodes
+
 
 var slot_type: String
 
-enum GraphNodeElementType {
-	TextIn, TextOut, TextConstant,
-	ScalarIn, ScalarOut, ScalarConstant
-}
+# get new instance of the appropriate subclass by identifier
 static func element_type_to_class(e: String) -> GraphNodeElement:
 	return {
 		"text_input": TextInElement.new() as GraphNodeElement,
@@ -29,15 +28,19 @@ static func element_type_to_class(e: String) -> GraphNodeElement:
 
 signal input_connection_updated(new_source, source_slot)
 
-@abstract 
+@abstract
+# gets the type name accepted as input by this slot, or an empty string
 func get_input_type() -> String
 
 @abstract
+# gets the type name accepted as output by this slot, or an empty string
 func get_output_type() -> String
 
 @abstract
+# create all UI elements within the slot
 func create_ui(label: String) -> void
 
+# can provide additional data to save/load
 func get_additional_serialization_data()->Dictionary:
 	return {}
 	

@@ -21,6 +21,7 @@ const type_num_colors := [
 	Color.GRAY
 ]
 
+# create GraphNode UI for this node
 func build(type_names: Dictionary, graph_edit: BuildingGraphEditor) -> void:
 	graph_editor = graph_edit
 	title = node_title
@@ -74,6 +75,7 @@ func build(type_names: Dictionary, graph_edit: BuildingGraphEditor) -> void:
 	await get_tree().process_frame
 	reset_size()
 
+# output used for dynamic content
 func calculate_output(slot: int) -> Variant:
 	if elements_by_slot[slot] is ConstantValueElement:
 		return (elements_by_slot[slot] as ConstantValueElement).get_value()
@@ -86,6 +88,7 @@ func calculate_output(slot: int) -> Variant:
 func get_id()-> int:
 	return hash(name)
 
+# drag-start is possible when the node is still in the library only
 func _get_drag_data(at_position: Vector2) -> Variant:
 	if is_in_library: 
 		var clone: BuildingGraphNode = self.duplicate()
