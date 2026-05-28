@@ -1,12 +1,39 @@
 [gd_resource type="Resource" script_class="ModularBuildingMetadata" format=3 uid="uid://kgkf7jmpne3x"]
 
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_2qubg"]
+[ext_resource type="Material" uid="uid://gd00fit3u8tp" path="res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres" id="1_yhubf"]
+[ext_resource type="Material" uid="uid://lfl7mvgnp5sq" path="res://Resources/Materials/BuildingMaterials/PlasterSpacerTriplanar.tres" id="2_d6ddq"]
 [ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="2_ktjcu"]
+[ext_resource type="Material" uid="uid://dqj2reyawpgn3" path="res://Resources/Materials/BuildingMaterials/PlasterCornerTriplanar.tres" id="3_2e16o"]
 [ext_resource type="Resource" uid="uid://5mc2s0ylbir" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/PlasterWallDoor.tres" id="3_6k5a3"]
 [ext_resource type="Resource" uid="uid://gyxtgv2tsrg7" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/PlasterWall.tres" id="4_hgolv"]
+[ext_resource type="Script" uid="uid://jc3pyoidhtwr" path="res://addons/modular_buildings/Model/UniformTintMaterialSet.gd" id="5_wh4ug"]
 [ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="5_xb8tf"]
+[ext_resource type="Material" uid="uid://bmemvs3mm4wc7" path="res://addons/modular_buildings/example/Materials/Window_Glass.tres" id="9_vlph4"]
+[ext_resource type="Material" uid="uid://6gx3u4muuons" path="res://Buildings/Components/Roofs/Resources/RidgeCap.tres" id="10_niwcq"]
+[ext_resource type="Material" path="res://Resources/Meshes/Schloss/new/tontopf.material" id="11_fwhv5"]
+[ext_resource type="Material" uid="uid://bxeiu6u6dfdue" path="res://Resources/Materials/BuildingMaterials/Concrete.tres" id="12_6posh"]
+
+[sub_resource type="Resource" id="Resource_wrnyt"]
+script = ExtResource("5_wh4ug")
+tint_colors = Array[Color]([Color(1, 1, 1, 1), Color(0.5211406, 0.5211406, 0.5211405, 1), Color(0.9103723, 0.7430387, 0.8121227, 1), Color(0.76445943, 0.84571534, 0.7515114, 1), Color(0.6569968, 0.2664075, 0.28825274, 1)])
+untinted_types = Array[String](["Wall_Secondary", "Door_Step", "Door_Glass", "Door_Frame", "Door_Handle", "Window_Glass", "Window_Frame"])
+materials_by_type = Dictionary[String, Material]({
+"Door_Frame": ExtResource("10_niwcq"),
+"Door_Glass": ExtResource("9_vlph4"),
+"Door_Handle": ExtResource("11_fwhv5"),
+"Door_Step": ExtResource("12_6posh"),
+"Wall_Primary": ExtResource("1_yhubf"),
+"Wall_Primary_Corner": ExtResource("3_2e16o"),
+"Wall_Primary_Spacer": ExtResource("2_d6ddq"),
+"Wall_Secondary": ExtResource("1_yhubf"),
+"Window_Frame": ExtResource("10_niwcq"),
+"Window_Glass": ExtResource("9_vlph4")
+})
+metadata/_custom_type_script = "uid://jc3pyoidhtwr"
 
 [resource]
 script = ExtResource("5_xb8tf")
 floor_definitions = Array[ExtResource("1_2qubg")]([ExtResource("2_ktjcu"), ExtResource("3_6k5a3"), ExtResource("4_hgolv")])
+material_variation_set = SubResource("Resource_wrnyt")
 metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

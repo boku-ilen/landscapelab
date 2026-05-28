@@ -9,17 +9,17 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_inln2")
-shader_parameter/specular = 0.0
+shader_parameter/specular = 0.499999988824
 shader_parameter/normal_scale = 1.000000807500001
 shader_parameter/debug_mode = 0
 shader_parameter/triplanar_blend_sharpness = 50.0
-shader_parameter/base_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/base_albedo_tint = Color(0.7807918, 0.8551128, 0.95717126, 1)
 shader_parameter/base_albedo_tex = ExtResource("2_rvj7c")
 shader_parameter/base_normal_tex = ExtResource("3_hf1ls")
 shader_parameter/base_uv_tiling = 1.0
 shader_parameter/dirt_albedo_tex = ExtResource("4_nx4on")
 shader_parameter/dirt_albedo_tint = Color(1, 1, 1, 1)
-shader_parameter/dirt_uv_tiling = 4.0
+shader_parameter/dirt_uv_tiling = 0.20000000880148
 shader_parameter/dirtmask_tex = ExtResource("5_hnotq")
-shader_parameter/dirtmask_amount = 1.0
-shader_parameter/dirtmask_uv_tiling = 2.0
+shader_parameter/dirtmask_amount = 0.10000000475
+shader_parameter/dirtmask_uv_tiling = 0.20000000880148

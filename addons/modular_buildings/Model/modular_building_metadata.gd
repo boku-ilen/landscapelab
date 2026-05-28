@@ -13,3 +13,4 @@ class_name ModularBuildingMetadata
 @export var position := Vector3.ZERO
 @export var floor_definitions: Array[FloorDefinition]
 @export var feature_positions: Dictionary[String, Array]
+@export var material_variation_set: MaterialVariationSet

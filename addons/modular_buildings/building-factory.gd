@@ -64,15 +64,15 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		mesh_multi_map[mesh] = MultiMeshInstance3D.new()
 		var multi_mesh := MultiMesh.new()
 		multi_mesh.transform_format = MultiMesh.TRANSFORM_3D
-		multi_mesh.mesh = mesh
-#		multi_mesh.mesh = mesh.duplicate()
-#		for surf_i in multi_mesh.mesh.get_surface_count():
-#			if not multi_mesh.mesh is ArrayMesh:
-#				continue
-#			var array_mesh := multi_mesh.mesh as ArrayMesh
-#			var surf_name = array_mesh.surface_get_name(surf_i)
-#			if surf_name in materials_by_name:
-#				array_mesh.surface_set_material(surf_i, materials_by_name[surf_name])
+#		multi_mesh.mesh = mesh
+		multi_mesh.mesh = mesh.duplicate()
+		for surf_i in multi_mesh.mesh.get_surface_count():
+			if not multi_mesh.mesh is ArrayMesh:
+				continue
+			var array_mesh := multi_mesh.mesh as ArrayMesh
+			var surf_name = array_mesh.surface_get_name(surf_i)
+			if surf_name in materials_by_name:
+				array_mesh.surface_set_material(surf_i, materials_by_name[surf_name])
 		# needs to be true so we can set instance parameters (angle,..) 
 		multi_mesh.use_custom_data = true
 		# assumption: 2000 instances is enough for any single component mesh -> more instances means more memory!
@@ -109,15 +109,6 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		var node_graph_cache := {}
 		
 		var corner_mesh = mesh_multi_map[floor_assets.corner_90].multimesh
-		for idx in corner_mesh.mesh.get_surface_count():
-			var standard_mat = corner_mesh.mesh.surface_get_material(idx)
-			var shader_mat: ShaderMaterial = hinge_material.duplicate(false)
-			
-			if standard_mat != null:
-				standard_mat = standard_mat.duplicate()
-				BuildingUtility.copy_standard_to_shader(standard_mat, shader_mat)
-			
-			corner_mesh.mesh.surface_set_material(idx, shader_mat)
 		
 		# map point-specified special features to the what edges are affected
 		var point_edge_mapping = {}

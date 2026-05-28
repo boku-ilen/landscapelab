@@ -17,9 +17,15 @@ void vertex() {
 
 	// CORNER BENDING CALCULATIONS IN VERTEX SHADER
 	//
-	float angle = bend * sign(original_vertex.x + original_vertex.z);
-	if (abs(original_vertex.x + original_vertex.z) < 0.1) angle = 0.0;
-
+	// angle is halved since both sides are each rotated by this value
+	// and PI/4.0 is subtracted to match the look_at direction 
+	float angle = INSTANCE_CUSTOM.x * sign(VERTEX.x + VERTEX.z) * 0.5 - PI/4.0;
+	
+	// correction for the right angle initial state
+	angle -= PI/4.0 * sign(VERTEX.x + VERTEX.z);
+	if (abs(VERTEX.x + VERTEX.z) < 0.1) angle = -PI/4.0;
+	
+	
 	mat3 rotation = mat3(
 		vec3(cos(angle), 0.0, -sin(angle)),
 		vec3(0.0, 1.0, 0.0),
