@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="FloorDefinition" format=3 uid="uid://gyxtgv2tsrg7"]
 
-[ext_resource type="ArrayMesh" uid="uid://cx4wkh655niap" path="res://Resources/Meshes/BuildingComponents/Processed/Wall_CornerOut_0.25x3.0.res" id="1_lyxpr"]
+[ext_resource type="ArrayMesh" uid="uid://cx4wkh655niap" path="res://Resources/Meshes/BuildingComponents/FORDELETE/Processed/Wall_CornerOut_0.25x3.0.res" id="1_lyxpr"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="2_iyuct"]
 [ext_resource type="JSON" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/PlasterWallSelection.json" id="3_lyxpr"]
-[ext_resource type="ArrayMesh" uid="uid://b41sc2kqyn0hv" path="res://Resources/Meshes/BuildingComponents/Processed/PlainWall_2x3.res" id="6_lyxpr"]
+[ext_resource type="ArrayMesh" uid="uid://b41sc2kqyn0hv" path="res://Resources/Meshes/BuildingComponents/FORDELETE/Processed/PlainWall_2x3.res" id="6_lyxpr"]
 [ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="7_3wdmv"]
-[ext_resource type="ArrayMesh" uid="uid://viybj46rwufi" path="res://Resources/Meshes/BuildingComponents/Processed/Blank_Spacer_2.0x3.0.res" id="7_iyuct"]
+[ext_resource type="ArrayMesh" uid="uid://viybj46rwufi" path="res://Resources/Meshes/BuildingComponents/FORDELETE/Processed/Blank_Spacer_2.0x3.0.res" id="7_iyuct"]
 [ext_resource type="ArrayMesh" uid="uid://ttx83vj36y5m" path="res://Resources/Meshes/BuildingComponents/Multi_Default_Window02_2.0x3.0.obj" id="7_lyxpr"]
 
 [sub_resource type="Resource" id="Resource_wnvvm"]

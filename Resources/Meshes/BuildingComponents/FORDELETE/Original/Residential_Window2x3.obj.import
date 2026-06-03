@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://br4jwcwy1cijq"
-path="res://.godot/imported/Residential_Door_2x3.obj-0c58e25c7bb3b785e5aae71058d586ef.scn"
+uid="uid://vg3p7a8u15mu"
+path="res://.godot/imported/Residential_Window2x3.obj-b6828f87adb37b3c623de0c2e11c6df5.scn"
 
 [deps]
 
-source_file="res://Resources/Meshes/BuildingComponents/Original/Residential_Door_2x3.obj"
-dest_files=["res://.godot/imported/Residential_Door_2x3.obj-0c58e25c7bb3b785e5aae71058d586ef.scn"]
+source_file="res://Resources/Meshes/BuildingComponents/FORDELETE/Original/Residential_Window2x3.obj"
+dest_files=["res://.godot/imported/Residential_Window2x3.obj-b6828f87adb37b3c623de0c2e11c6df5.scn"]
 
 [params]
 
@@ -39,14 +39,14 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "meshes": {
-"ResidentialDoor_2x3": {
+"Wall_Window01_2.0x3.0": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://Resources/Meshes/BuildingComponents/Processed/ResidentialDoor_2x3.res",
-"save_to_file/path": "uid://8lkjx10g5fo0"
+"save_to_file/fallback_path": "res://Resources/Meshes/BuildingComponents/Processed/ResidentialWindow_2x3.res",
+"save_to_file/path": "uid://df3yv6lbxmrt6"
 }
 }
 }

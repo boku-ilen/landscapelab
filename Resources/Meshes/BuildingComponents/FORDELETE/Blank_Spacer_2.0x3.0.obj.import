@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://e1ul0wmrrasa"
-path="res://.godot/imported/Wall_CornerOut_0.25x3.0.obj-1f4912deeb45cae5a2cc95661cfd190d.scn"
+uid="uid://rhyg2mri4hdm"
+path="res://.godot/imported/Blank_Spacer_2.0x3.0.obj-7820a78fb74ff4d87b3db65bbee33d3c.scn"
 
 [deps]
 
-source_file="res://Resources/Meshes/BuildingComponents/Wall_CornerOut_0.25x3.0.obj"
-dest_files=["res://.godot/imported/Wall_CornerOut_0.25x3.0.obj-1f4912deeb45cae5a2cc95661cfd190d.scn"]
+source_file="res://Resources/Meshes/BuildingComponents/FORDELETE/Blank_Spacer_2.0x3.0.obj"
+dest_files=["res://.godot/imported/Blank_Spacer_2.0x3.0.obj-7820a78fb74ff4d87b3db65bbee33d3c.scn"]
 
 [params]
 
@@ -39,14 +39,14 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "meshes": {
-"Wall_CornerOut_0.25x3.0": {
+"Spacer": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://Resources/Meshes/BuildingComponents/Processed/Wall_CornerOut_0.25x3.0.res",
-"save_to_file/path": "uid://bmtxv6bta5i5g"
+"save_to_file/fallback_path": "res://Resources/Meshes/BuildingComponents/Processed/Blank_Spacer_2.0x3.0.res",
+"save_to_file/path": "uid://coptbiy6vnxls"
 }
 }
 }

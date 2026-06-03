@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cbrpn2dhmlyuq"
-path="res://.godot/imported/Corner_2x3.obj-fda6c96e3d841aabf4a807c92dd7501d.scn"
+uid="uid://br4jwcwy1cijq"
+path="res://.godot/imported/Residential_Door_2x3.obj-87c4488e6a49f9d41e838243dcd1debe.scn"
 
 [deps]
 
-source_file="res://Resources/Meshes/BuildingComponents/Original/Corner_2x3.obj"
-dest_files=["res://.godot/imported/Corner_2x3.obj-fda6c96e3d841aabf4a807c92dd7501d.scn"]
+source_file="res://Resources/Meshes/BuildingComponents/FORDELETE/Original/Residential_Door_2x3.obj"
+dest_files=["res://.godot/imported/Residential_Door_2x3.obj-87c4488e6a49f9d41e838243dcd1debe.scn"]
 
 [params]
 
@@ -39,14 +39,14 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "meshes": {
-"Wall_CornerOut_0.25x3.0": {
+"ResidentialDoor_2x3": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://Resources/Meshes/BuildingComponents/Processed/Corner_2x3.res",
-"save_to_file/path": "uid://cap4cu4bx4s3g"
+"save_to_file/fallback_path": "res://Resources/Meshes/BuildingComponents/Processed/ResidentialDoor_2x3.res",
+"save_to_file/path": "uid://8lkjx10g5fo0"
 }
 }
 }

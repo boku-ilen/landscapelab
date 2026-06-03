@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://c4smq2d4sm6vx"
-path="res://.godot/imported/Plain_Wall_2x3.obj-a4422eacb1e1cc64508d4d5e2ee6fbe8.scn"
+path="res://.godot/imported/Plain_Wall_2x3.obj-ea2a303918cb65b19e51ecce02cd86aa.scn"
 
 [deps]
 
-source_file="res://Resources/Meshes/BuildingComponents/Original/Plain_Wall_2x3.obj"
-dest_files=["res://.godot/imported/Plain_Wall_2x3.obj-a4422eacb1e1cc64508d4d5e2ee6fbe8.scn"]
+source_file="res://Resources/Meshes/BuildingComponents/FORDELETE/Original/Plain_Wall_2x3.obj"
+dest_files=["res://.godot/imported/Plain_Wall_2x3.obj-ea2a303918cb65b19e51ecce02cd86aa.scn"]
 
 [params]
 
