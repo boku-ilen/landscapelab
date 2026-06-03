@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bc3blbvtoqlqf"
+path="res://.godot/imported/Multi_Inner_CornerOut_0.25x1.0.obj-26334c4316819f0cb99360451ff71eee.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Multi_Inner_CornerOut_0.25x1.0.obj-26334c4316819f0cb99360451ff71eee.mesh"]
+
+source_file="res://Resources/Meshes/BuildingComponents/Multi_Inner_CornerOut_0.25x1.0.obj"
+dest_files=["res://.godot/imported/Multi_Inner_CornerOut_0.25x1.0.obj-26334c4316819f0cb99360451ff71eee.mesh", "res://.godot/imported/Multi_Inner_CornerOut_0.25x1.0.obj-26334c4316819f0cb99360451ff71eee.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
