@@ -195,8 +195,8 @@ static func get_geolayer_from_path(abs_path: String, attribute_name: String, cls
 static func get_virtual_layer(abs_path: String, sub_config: Dictionary) -> GeoFeatureLayer:
 	var splits = LLFileAccess.split_dataset_string(abs_path, sub_config["dataset"])
 	
-	var geo_ds = Geodot.get_dataset(
-		splits["file_name"], splits["write_access"])
+	var geo_ds = Geodot.get_dataset(splits["file_name"])
+	geo_ds.set_write_access(splits["write_access"])
 	
 	return geo_ds.get_sql_feature_layer(sub_config["sql_query"])
 
@@ -209,7 +209,8 @@ static func get_feature_layer_from_string(path_string, abs_path):
 	var layer_name = layer_access_split[0]
 	var write_access = true if layer_access_split.size() > 1 and layer_access_split[1] == "w" else false
 	
-	var db = Geodot.get_dataset(abs_file_name, write_access)
+	var db = Geodot.get_dataset(abs_file_name)
+	db.set_write_access(write_access)
 	
 	return db.get_feature_layer(layer_name)
 
