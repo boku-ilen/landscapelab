@@ -4,7 +4,7 @@ extends Node3D
 var height: float
 var building_metadata: BuildingMetadata
 
-var material = preload("res://Resources/Meshes/PV/Aluminum.material")
+var material = preload("res://Buildings/Components/Walls/Pillars.tres")
 
 func build(footprint: Array):
 	var ground_height_at_center = building_metadata.ground_height - building_metadata.cellar_height - 5.
