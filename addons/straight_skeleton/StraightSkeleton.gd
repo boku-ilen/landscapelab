@@ -26,8 +26,12 @@ class StraightSkeletonInfo:
 	var vertex_uvs: Array[Vector2]
 	var vertex_uv_addends_unscaled: Array[float]
 	var vertex_uv_scales: Array[float]
+	var probably_broken: bool = false
 	var max_t: float
-	
+
+class RoofMeshInfo:
+	var mesh: ArrayMesh
+	var broken: bool
 static func _offset_polygon_by(polygon: Array[Vector2], vertex_directions: Array[Vector2], edge_normals: Array[Vector2], offset: float) -> Array[Vector2]:
 	var new_poly: Array[Vector2] = []
 	for vert_i in polygon.size():
@@ -666,6 +670,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					result.vertex_uv_addends_unscaled.append_array(poly_result.vertex_uv_addends_unscaled)
 					result.vertex_uv_scales.append_array(poly_result.vertex_uv_scales)
 					result.max_t = max(result.max_t, poly_result.max_t)
+					result.probably_broken = result.probably_broken or poly_result.probably_broken
 				var new_before = verts[(split_events[0]["arc"] - 1 + verts.size()) % verts.size()]
 				var new_point = verts[(split_events[0]["arc"]) % verts.size()]
 				var new_after = verts[(split_events[0]["segment"] + 1) % verts.size()]
@@ -973,12 +978,15 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					
 
 	#verts = _offset_polygon_by(verts, vertex_directions, edge_normals, 10)
-	
+		var packed_verts: PackedVector2Array
+		packed_verts.append_array(vertices)
+		if verts.any(func (v): return not Geometry2D.is_point_in_polygon(v, packed_verts)):
+			result.probably_broken = true
 
 	return result
 
 
-static func get_mesh(footprint: Array[Vector2], max_height: float, material: Material, initial_offset: float)->ArrayMesh:
+static func get_mesh(footprint: Array[Vector2], max_height: float, material: Material, initial_offset: float)->RoofMeshInfo:
 	var mesh := ArrayMesh.new()
 	var scaled_footprint: Array[Vector2]
 	var offset_footprint = Geometry2D.offset_polygon(footprint, initial_offset)[0]
@@ -998,14 +1006,14 @@ static func get_mesh(footprint: Array[Vector2], max_height: float, material: Mat
 	var overall_length = 0.0
 	for vert_i in footprint.size():
 		overall_length += footprint[vert_i].distance_to(footprint[(vert_i + 1) % footprint.size()])
-	overall_length /= 4
+	overall_length /= 6
 	#print(res.max_t)
 	for p_i in tri_verts.size():
 		var p = tri_verts[p_i]
 		#st.set_normal(tri_norms[p_i])
 		
 		#print("uvx addn t=", tri_uvs[p_i].y," addend=",res.vertex_uv_addends_unscaled[p_i]," becomes=", Vector2(tri_uvs[p_i].x + res.vertex_uv_addends_unscaled[p_i] * (1 - (tri_uvs[p_i].y / res.vertex_uv_scales[p_i])), tri_uvs[p_i].y / res.vertex_uv_scales[p_i]))
-		st.set_uv(Vector2(tri_uvs[p_i].x * overall_length + skeleton_result.vertex_uv_addends_unscaled[p_i] * overall_length, tri_uvs[p_i].y / (skeleton_result.max_t)))# * (1 - (tri_uvs[p_i].y / (res.vertex_uv_scales[p_i] * 0.5))), tri_uvs[p_i].y / (res.max_t)))
+		st.set_uv(Vector2(tri_uvs[p_i].x * overall_length + skeleton_result.vertex_uv_addends_unscaled[p_i] * overall_length, skeleton_result.max_t - tri_uvs[p_i].y / (skeleton_result.max_t)))# * (1 - (tri_uvs[p_i].y / (res.vertex_uv_scales[p_i] * 0.5))), tri_uvs[p_i].y / (res.max_t)))
 		p.y = (p.y / skeleton_result.max_t) * max_height
 		p.x /= 200
 		p.z /= 200
@@ -1021,4 +1029,7 @@ static func get_mesh(footprint: Array[Vector2], max_height: float, material: Mat
 	st.generate_tangents()
 	st.commit(mesh)
 	mesh.surface_set_material(0, material)
-	return mesh
+	var rmi = RoofMeshInfo.new()
+	rmi.mesh = mesh
+	rmi.broken = skeleton_result.probably_broken
+	return rmi

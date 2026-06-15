@@ -149,27 +149,37 @@ func load_feature_instance(feature: GeoFeature):
 		
 	var randomized_footprint: Array[Vector2]
 	randomized_footprint.assign(modular_metadata_instance.footprint.map(func (x): return x + Vector2(randf() * 0.5, randf() * 0.5)))
-	var roof := StraightSkeleton.get_mesh(modular_metadata_instance.footprint, building_metadata.roof_height * 2, roof_and_material["material"].material0, 1)
-	var roof_node := MeshInstance3D.new()
-	roof_node.mesh = roof
-#	building.add_child(roof_and_material["roof"])
-	building.add_child(roof_node)
-	# Set parameters in the building base
-	building.name = str(feature.get_id())
+	var roof_mat: StandardMaterial3D = roof_and_material["material"].material0.duplicate()
+	roof_mat.albedo_color = roof_and_material["roof"].color
+	var roof := StraightSkeleton.get_mesh(modular_metadata_instance.footprint, building_metadata.roof_height * 2, roof_mat, 1)
 	
-#	var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
-#	# Build!
 	var actual_height = 0.0
 	var floor_num = 0
 	while actual_height < modular_metadata_instance.building_height:
 		actual_height += modular_metadata_instance.floor_definitions[min(floor_num, modular_metadata_instance.floor_definitions.size() - 1)].height
 		floor_num += 1
-#	var roof_component = roof_and_material["roof"]
-#	#RoofFactory.set_surface_overrides(roof_component, roof_and_material["material"])
-#	roof_component.build(PackedVector2Array(building_metadata.footprint))
-#	roof_component.position.y = actual_height
-#	roof_surface_material_callback.call()
-	roof_node.position.y = actual_height
+	
+	if not roof.broken:
+		var roof_node := MeshInstance3D.new()
+		roof_node.mesh = roof.mesh
+	#	building.add_child(roof_and_material["roof"])
+		building.add_child(roof_node)
+		roof_node.position.y = actual_height
+	else:
+		var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
+		var roof_component = roof_and_material["roof"]
+		building.add_child(roof_component)
+		#RoofFactory.set_surface_overrides(roof_component, roof_and_material["material"])
+		roof_component.build(PackedVector2Array(building_metadata.footprint))
+		roof_component.position.y = actual_height
+		roof_surface_material_callback.call()
+	# Set parameters in the building base
+	building.name = str(feature.get_id())
+	
+#	
+#	# Build!
+	
+
 	
 	if "can_refine" in building:
 		buildings_to_refine.append(building)
