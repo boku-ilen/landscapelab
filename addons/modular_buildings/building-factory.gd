@@ -54,6 +54,8 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 	for floor_def in metadata.floor_definitions:
 		for wall_def in floor_def.walls:
 			all_meshes.append(wall_def.model)
+			if wall_def.alternate_model != null:
+				all_meshes.append(wall_def.alternate_model)
 		all_meshes.append(floor_def.spacer_block)
 		all_meshes.append(floor_def.corner_90)
 	
@@ -364,6 +366,10 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 				mesh = candidate_mesh
 				last_module_index = floor_assets.find(potential_positioned_features[0])
 				module_width = candidate_width
+		
+		if floor_assets[last_module_index].alternate_model != null:
+			if randf() < floor_assets[last_module_index].probability:
+				mesh = floor_assets[last_module_index].alternate_model
 		
 		# save chosen module for future layers
 		module_indices[len(modules)] = floor_assets[last_module_index]

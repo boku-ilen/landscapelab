@@ -28,10 +28,10 @@ static func split_dataset_string(base_path: String, dataset_str: String):
 
 static func get_layer_from_splits(splits: Dictionary, is_raster:=true):
 	if splits["layer_name"] == "":
-		return Geodot.get_raster_layer(splits["file_name"], splits["write_access"])
+		return Geodot.get_raster_layer(splits["file_name"])
 	
 	var geo_ds = Geodot.get_dataset(
-		splits["file_name"], splits["write_access"])
+		splits["file_name"])
 	
 	if is_raster:
 		return geo_ds.get_raster_layer(splits["layer_name"])

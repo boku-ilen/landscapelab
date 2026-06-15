@@ -1,6 +1,5 @@
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
-
 #include "res://addons/modular_buildings/Shader/Triplanar_WorldPosButObjAxis.gdshaderinc"
 
 // VERTEX =====================================================
@@ -21,7 +20,8 @@ void vertex() {
 	vec3 tmp_out_v_blend_weight_mask;
 	vec3 tmp_out_tangent;
 	vec3 tmp_out_binormal;
-
+	
+	
 	trip_calc_vertex_data(
 		VERTEX,
 		NORMAL,
@@ -40,6 +40,7 @@ void vertex() {
 	// Set modified Tangent/Binormal, otherwise Normal Map lighting direction is wrong from some axis...
 	TANGENT = tmp_out_tangent;
 	BINORMAL = tmp_out_binormal;
+	
 }
 
 

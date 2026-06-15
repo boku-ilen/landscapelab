@@ -27,7 +27,6 @@ metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 script = ExtResource("4_kmehg")
 model = ExtResource("7_6np5n")
 probability = 0.4
-may_repeat = true
 facade_feature_id = "plain_wall"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 

@@ -13,11 +13,29 @@
 [ext_resource type="Material" uid="uid://6gx3u4muuons" path="res://Buildings/Components/Roofs/Resources/RidgeCap.tres" id="10_niwcq"]
 [ext_resource type="Material" path="res://Resources/Meshes/Schloss/new/tontopf.material" id="11_fwhv5"]
 [ext_resource type="Material" uid="uid://bxeiu6u6dfdue" path="res://Resources/Materials/BuildingMaterials/Concrete.tres" id="12_6posh"]
+[ext_resource type="Script" uid="uid://bjawqxdbnnh1u" path="res://addons/modular_buildings/Model/MaterialReplacementPair.gd" id="12_fwhv5"]
+[ext_resource type="Script" uid="uid://dfs3uuicclk5t" path="res://addons/modular_buildings/Model/TintColorSet.gd" id="13_niwcq"]
+
+[sub_resource type="Resource" id="Resource_8xbx2"]
+script = ExtResource("12_fwhv5")
+material_id_a = "Wall_Primary"
+material_id_b = "Wall_Secondary"
+action_probability = 0.8
+
+[sub_resource type="Resource" id="Resource_fwhv5"]
+script = ExtResource("13_niwcq")
+tint_colors = Array[Color]([Color(1, 0.71486765, 0.6690176, 1), Color(0.5400145, 0.7647173, 0.44638938, 1), Color(0.7162335, 0.81091446, 1, 1), Color(0.96035105, 0.96035105, 0.96035093, 1), Color(0.39308554, 0.3930855, 0.39308548, 1), Color(0.42960292, 0.20071912, 0.051727034, 1)])
+material_names = Array[String](["Wall_Primary", "Wall_Primary_Corner", "Wall_Primary_Spacer"])
+
+[sub_resource type="Resource" id="Resource_23llv"]
+script = ExtResource("13_niwcq")
+tint_colors = Array[Color]([Color(1, 1, 1, 1), Color(0.6449482, 0.99999994, 0.9955531, 1), Color(0.15127608, 0.15127608, 0.15127608, 1), Color(0, 0, 0, 1)])
+material_names = Array[String](["Window_Frame", "Door_Frame"])
 
 [sub_resource type="Resource" id="Resource_wrnyt"]
 script = ExtResource("5_wh4ug")
-tint_colors = Array[Color]([Color(1, 1, 1, 1), Color(0.5211406, 0.5211406, 0.5211405, 1), Color(0.9103723, 0.7430387, 0.8121227, 1), Color(0.76445943, 0.84571534, 0.7515114, 1), Color(0.6569968, 0.2664075, 0.28825274, 1)])
-untinted_types = Array[String](["Wall_Secondary", "Door_Step", "Door_Glass", "Door_Frame", "Door_Handle", "Window_Glass", "Window_Frame"])
+tint_colors = Array[ExtResource("13_niwcq")]([SubResource("Resource_fwhv5"), SubResource("Resource_23llv")])
+replacements = Array[ExtResource("12_fwhv5")]([SubResource("Resource_8xbx2")])
 materials_by_type = Dictionary[String, Material]({
 "Door_Frame": ExtResource("10_niwcq"),
 "Door_Glass": ExtResource("9_vlph4"),
