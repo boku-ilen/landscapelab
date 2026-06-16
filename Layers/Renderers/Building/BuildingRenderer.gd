@@ -71,37 +71,37 @@ func _create_and_set_texture_arrays():
 
 
 func load_feature_instance(feature: GeoFeature):
-	#var building := building_base_scene.instantiate()
 	var building = Node3D.new()
 	var modular_metadata_instance = ModularBuildingMetadata.new()
-	#modular_metadata_instance.floor_definitions = modular_metadata.floor_definitions
 	var building_type = util.str_to_var_or_default(feature.get_attribute("render_type"), fallback_wall_id)
-	
+		
 	var original_metadata: ModularBuildingMetadata = layer_composition.render_info.modular_resources[building_type]
 	
 	modular_metadata_instance.floor_definitions = original_metadata.floor_definitions
 	var building_metadata = BuildingMetadata.new(feature, center, layer_composition.render_info)
+	
+	# door locations from point features in door_layer
 	var door_layer: GeoFeatureLayer = layer_composition.render_info.door_layer
-	#print(door_layer.get_all_features().size())
 	var door_features: Array = door_layer.get_features_by_attribute_filter("id='" + str(feature.get_attribute("id")) +"'")
 	if len(door_features) > 0:
 		modular_metadata_instance.feature_positions["door"] = []
 		for door_feature: GeoPoint in door_features: 
 			var feature_geo_position = door_feature.get_vector3() + Vector3(building_metadata.geo_offset[0], 0, -building_metadata.geo_offset[1])
 			var relative_position = feature_geo_position - building_metadata.engine_center
-			#print("relpos", relative_position, " from ", feature_geo_position, " and ", building_metadata.geo_center)
 			modular_metadata_instance.feature_positions["door"].append(Vector2(relative_position.x, relative_position.z))
 	if not Geometry2D.is_polygon_clockwise(building_metadata.footprint):
 		building_metadata.footprint.reverse()
 	var footprint: Array[Vector2]
 	footprint.assign(building_metadata.footprint)
+	
+	# straight skeleton implementation expects a polygon without duplicate start/end vertices
 	footprint.remove_at(len(footprint)-1)
 	
 	modular_metadata_instance.footprint = footprint
 	modular_metadata_instance.building_height = building_metadata.height
 	modular_metadata_instance.roof_height = building_metadata.roof_height
 	
-	
+	# setup data sources for building graph
 	var data_sources: Dictionary[String, NodeDataSource] = {
 		"prev_module_id": FixedInputDataSource.new("prev_id"),
 		"below_module_id": FixedInputDataSource.new("low_id"),
@@ -114,16 +114,21 @@ func load_feature_instance(feature: GeoFeature):
 		"rand": FixedInputDataSource.new(0.1),
 		"geo_feature": FixedInputDataSource.new(MockGeoFeature.new()) 
 	}
-
+	
 	var exec_graphs: Array[BuildingGraphRunner.RunnableNode] = []
+	
+	# get materials for walls and details
 	var material_replacements: Dictionary[String, Material] = {}
 	if original_metadata.material_variation_set:
 		var available_replacements = original_metadata.material_variation_set.get_available()
+		
+		# seed unique per building, same variations for all elements in the building
 		var selection_seed := randi()
 		if available_replacements.size() > 0:
 			for type in available_replacements:
 				material_replacements[type] = original_metadata.material_variation_set.get_material(type, selection_seed)
 	
+	# precompute executable graphs for selection
 	for floor_def in modular_metadata_instance.floor_definitions:
 		if floor_def in execution_graph_cache.keys():
 			exec_graphs.append(execution_graph_cache[floor_def])
@@ -131,13 +136,15 @@ func load_feature_instance(feature: GeoFeature):
 		var node_graph := BuildingGraphRunner.setup_executable_graph(floor_def.selection_rules.data, node_types.data, data_sources)
 		exec_graphs.append(node_graph)
 #		execution_graph_cache[floor_def] = node_graph
+
+	# facade construction
 	BuildingFactory.build_building(building, modular_metadata_instance, exec_graphs, data_sources, material_replacements, feature)
 	
 	building.position = building_metadata.engine_center + Vector3.UP * (building_metadata.cellar_height - 1.0)
 	building.name = str(feature.get_id())
 		
 	
-	# Add the roof
+	# setup old roof
 	var roof_and_material = RoofFactory.prepare_roof(
 		layer_composition, 
 		feature, 
@@ -147,39 +154,39 @@ func load_feature_instance(feature: GeoFeature):
 		check_roof_type,
 		{"prefer_pointed_roof": true})
 		
+	# slightly randomize footprint for robustness (avoid precise 90° angles, ...)
 	var randomized_footprint: Array[Vector2]
 	randomized_footprint.assign(modular_metadata_instance.footprint.map(func (x): return x + Vector2(randf() * 0.5, randf() * 0.5)))
+	
 	var roof_mat: StandardMaterial3D = roof_and_material["material"].material0.duplicate()
 	roof_mat.albedo_color = roof_and_material["roof"].color
+	
+	# compute straight skeleton roof
 	var roof := StraightSkeleton.get_mesh(modular_metadata_instance.footprint, building_metadata.roof_height * 2, roof_mat, 1)
 	
+	# determine roof y position
 	var actual_height = 0.0
 	var floor_num = 0
 	while actual_height < modular_metadata_instance.building_height:
 		actual_height += modular_metadata_instance.floor_definitions[min(floor_num, modular_metadata_instance.floor_definitions.size() - 1)].height
 		floor_num += 1
 	
+	# if straight skeleton result is provably valid, use it
 	if not roof.broken:
 		var roof_node := MeshInstance3D.new()
 		roof_node.mesh = roof.mesh
-	#	building.add_child(roof_and_material["roof"])
 		building.add_child(roof_node)
 		roof_node.position.y = actual_height
 	else:
+		# fallback to old roofs otherwise
 		var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
 		var roof_component = roof_and_material["roof"]
 		building.add_child(roof_component)
-		#RoofFactory.set_surface_overrides(roof_component, roof_and_material["material"])
 		roof_component.build(PackedVector2Array(building_metadata.footprint))
 		roof_component.position.y = actual_height
 		roof_surface_material_callback.call()
-	# Set parameters in the building base
+		
 	building.name = str(feature.get_id())
-	
-#	
-#	# Build!
-	
-
 	
 	if "can_refine" in building:
 		buildings_to_refine.append(building)
