@@ -7,7 +7,14 @@ var node_types = preload("res://addons/building_graph_editor/BuildingGraphSystem
 var selector_node_types = preload("res://addons/building_graph_editor/BuildingGraphSystem/selector_node_types.json")
 var wall_normal_mat: ShaderMaterial = preload("res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres")
 
-var refine_ridge_mesh = preload("res://Buildings/Components/Roofs/Resources/RidgeCapMesh.tres")
+var refine_ridge_meshes = [
+	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Rect_Large.obj"),
+	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Pentagonal_Large.obj"),
+	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Round_Large.obj"),
+	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Rect_Small.obj"),
+	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Round_Large_Overhang.obj"),
+	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Round_Small.obj"),
+]
 var refine_gutter_mesh = load("res://Buildings/Components/Roofs/Resources/Gutters.res")
 # Circle through distances loading new refinments (squared distances!)
 var refine_distances := [100, 2500, 10000]
@@ -297,14 +304,14 @@ func refine_roof(roof: Dictionary)-> Dictionary:
 	var skeleton_data: StraightSkeleton.StraightSkeletonInfo = roof["roof"]
 	
 	var bisectors := skeleton_data.bisectors
-	
+	var refine_ridge_mesh = refine_ridge_meshes[randi_range(0, refine_ridge_meshes.size() - 1)]
 	var ridge_cap_multimesh = MultiMeshInstance3D.new()
 	ridge_cap_multimesh.multimesh = MultiMesh.new()
 	ridge_cap_multimesh.multimesh.transform_format = MultiMesh.TRANSFORM_3D
 	ridge_cap_multimesh.multimesh.mesh = refine_ridge_mesh
 	ridge_cap_multimesh.multimesh.instance_count = bisectors.size()
 	ridge_cap_multimesh.multimesh.visible_instance_count = bisectors.size()
-	var base_material = ridge_cap_multimesh.multimesh.mesh.surface_get_material(0).duplicate(true)
+	var base_material = StandardMaterial3D.new()#ridge_cap_multimesh.multimesh.mesh.surface_get_material(0).duplicate(true)
 	base_material.albedo_color = roof["color"]
 	ridge_cap_multimesh.material_overlay = base_material
 	
@@ -324,9 +331,9 @@ func refine_roof(roof: Dictionary)-> Dictionary:
 		if not origin.distance_squared_to(midpoint) < 0.001:
 			ridge_cap_multimesh.multimesh.set_instance_transform(
 				bisector_i, 
-				Transform3D().translated(midpoint + Vector3.UP * (roof["roof_node"].position.y + mesh_height * 0.5))\
-				.looking_at(origin + Vector3.UP * (roof["roof_node"].position.y + mesh_height * 0.5))\
-				.scaled_local(Vector3(0.25,0.25,scale_z))
+				Transform3D().translated(midpoint + Vector3.UP * (roof["roof_node"].position.y))\
+				.looking_at(origin + Vector3.UP * (roof["roof_node"].position.y))\
+				.scaled_local(Vector3(1,1,scale_z))
 			)
 	
 	# gutters offset outward from roof edge
