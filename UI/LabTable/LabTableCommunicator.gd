@@ -57,7 +57,7 @@ func _on_data(id, message):
 			and color in GameSystem.current_game_mode.token_to_game_object_collection[shape]:
 		get_parent().current_goc_name = GameSystem.current_game_mode.token_to_game_object_collection[shape][color]
 	else:
-		get_parent().current_goc_name = null
+		(get_parent() as LabTable).current_goc_name = ""
 	
 	if data_dict["event"] == "brick_added":
 		var viewport_position = data_dict["data"]["position"]

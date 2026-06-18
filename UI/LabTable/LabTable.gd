@@ -1,5 +1,5 @@
 extends Control
-
+class_name LabTable
 
 @export var geo_layers: Node2D
 @export var control_ui: Control

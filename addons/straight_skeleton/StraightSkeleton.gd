@@ -20,21 +20,32 @@ class StraightSkeletonInfo:
 	class EventState:
 		var base_poly: Array[Vector2]
 		var new_shrink_events: Array[EdgeEvent]
-	
+		
+	## finished bisectors
 	var bisectors: Array[BisectorArc]
-	var edge_events: Array[EventState]
+	
+	## array of 3-vertex sets representing mesh triangles
 	var triangles: Array[Array]
+	## array of normals per mesh triangle
 	var triangle_normals: Array[Vector3]
+	
+	## array of UV coordinate base components per vertex
 	var vertex_uvs: Array[Vector2]
+	
+	## array of UV coordinate addends (modulating x coordinates) per vertex
 	var vertex_uv_addends_unscaled: Array[float]
-	var vertex_uv_scales: Array[float]
+	
+	## did the algorithm likely fail?
 	var probably_broken: bool = false
+	
+	## maximum t value observed
 	var max_t: float
 
 ## roof-specific output struct
 class RoofMeshInfo:
 	var mesh: ArrayMesh
 	var broken: bool
+	var skeleton_info: StraightSkeletonInfo
 	
 ## offset polygon vertices
 static func _offset_polygon_by(polygon: Array[Vector2], vertex_directions: Array[Vector2], edge_normals: Array[Vector2], offset: float) -> Array[Vector2]:
@@ -55,12 +66,12 @@ static func _offset_polygon_by(polygon: Array[Vector2], vertex_directions: Array
 
 ## find position of the closest point to a vertex on a segment, adjusted by length and centered on the midpoint
 static func _centered_position_along_segment(point: Vector2, s1: Vector2, s2: Vector2):
-	var closest = Geometry2D.get_closest_point_to_segment(point, s1, s2)
+	var closest = Geometry2D.get_closest_point_to_segment_uncapped(point, s1, s2)
 	var midpoint = s1 + (s2 - s1) * 0.5
 	var side_len = s1.distance_to(s2)
 	if closest.distance_squared_to(s1) < closest.distance_squared_to(s2):
-		return clamp(-closest.distance_to(midpoint) / side_len, -0.5, 0.5)
-	return clamp(closest.distance_to(midpoint) / side_len, -0.5, 0.5)
+		return -closest.distance_to(midpoint) / side_len
+	return closest.distance_to(midpoint) / side_len
 
 ## calculate a list of all upcoming merge events, then return all that happen simulataneously with the first
 static func _next_edge_events(polygon: Array[Vector2], normals: Array[Vector2], inward_directions: Array[Vector2]) -> Array[EdgeEvent]:
@@ -114,6 +125,7 @@ static func _to_3d(v: Vector2, h: float)->Vector3:
 class SubPolyInfo:
 	var verts: Array[Vector2]
 	var bisectors: Array[BisectorArc]
+	var closed_bisectors: Array[BisectorArc]
 	var original_indices: Array[int]
 
 ## recursively split a polygon according to a list of split events
@@ -121,13 +133,15 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 	if events.size() == 0:
 		return [poly_info]
 	
+	#print("splitting ", poly_info.verts.size(), " verts, got ", poly_info.bisectors.size(), " bisectors")
+	
 	var all_polys: Array[SubPolyInfo] = []
 	
 	# in one step, always split a polygon into two
 	var poly_info_before := SubPolyInfo.new()
 	var poly_info_after := SubPolyInfo.new()
+	poly_info_before.closed_bisectors.append_array(poly_info.closed_bisectors)
 	var verts = poly_info.verts
-	var bisectors = poly_info.bisectors
 	var event = events[0]
 	var original_segment = event["segment"]
 	
@@ -148,11 +162,7 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 	var points_before: Array[Vector2] = []
 	var bisectors_before: Array[BisectorArc] = []
 	var before_point = new_point
-	
-	var before_split_bisector = BisectorArc.new()
-	before_split_bisector.origin = before_point
-	before_split_bisector.start_t = bisectors[poly_info.original_indices.find(event["arc"])].start_t + t
-	#bisectors_before.append(before_split_bisector)
+
 	
 	
 	
@@ -163,27 +173,22 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 	var after_point = old_verts[event["arc"]]#verts[event["segment"]]
 	var after_split_bisector = BisectorArc.new()
 	after_split_bisector.origin = old_verts[event["arc"]]
-	before_split_bisector.start_t = bisectors[poly_info.original_indices.find(event["arc"])].start_t + t
+	after_split_bisector.start_t = t
 	
-	var before_connect_bisector = bisectors[poly_info.original_indices.find(event["arc"])]
-	before_connect_bisector.endpoint = old_verts[event["arc"]]
-	before_connect_bisector.end_t = before_connect_bisector.start_t + t
-	bisectors[poly_info.original_indices.find(event["arc"])] = BisectorArc.new()
-	bisectors[poly_info.original_indices.find(event["arc"])].start_t = before_connect_bisector.end_t
-	bisectors[poly_info.original_indices.find(event["arc"])].origin = old_verts[event["arc"]]
+	var before_connect_bisector = poly_info.bisectors[poly_info.original_indices.find(event["arc"])]
+	before_connect_bisector.endpoint = old_verts[poly_info.original_indices.find(event["arc"])]
+	before_connect_bisector.end_t = t
+	poly_info_before.closed_bisectors.append(before_connect_bisector)
+	
+	poly_info.bisectors[poly_info.original_indices.find(event["arc"])] = BisectorArc.new()
+	poly_info.bisectors[poly_info.original_indices.find(event["arc"])].start_t = before_connect_bisector.end_t
+	poly_info.bisectors[poly_info.original_indices.find(event["arc"])].origin = old_verts[event["arc"]]
 	
 
-	var before_connect_seg1 = bisectors[event["segment"]]
-	before_connect_seg1.endpoint = verts[event["segment"]]
-	before_connect_seg1.end_t = before_connect_bisector.start_t + t
-	
-	var before_connect_seg2 = bisectors[(event["segment"] - 1 + verts.size()) % verts.size()]
-	before_connect_seg2.endpoint = verts[(event["segment"] - 1 + verts.size()) % verts.size()]
-	before_connect_seg2.end_t = before_connect_bisector.start_t + t
-	
+
 	var new_before_bisector = BisectorArc.new()
 	new_before_bisector.origin = old_verts[event["arc"]]
-	new_before_bisector.start_t = before_connect_bisector.start_t + t
+	new_before_bisector.start_t = t
 	
 
 
@@ -193,17 +198,20 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 		while vert_cursor != (poly_info.original_indices.find(event["arc"]) ) % verts.size():
 			#print("before_vc", vert_cursor)
 			points_before.append(verts[vert_cursor])
-			bisectors_before.append(bisectors[vert_cursor])
+			bisectors_before.append(poly_info.bisectors[vert_cursor])
 			poly_info_before.original_indices.append(poly_info.original_indices[vert_cursor])
 			vert_cursor = (vert_cursor + 1) % verts.size()
 	
 		points_before.append(before_point)
-		poly_info_before.original_indices.append(event["arc"])#event["arc"])
+		poly_info_before.original_indices.append(event["arc"])
 		bisectors_before.append(new_before_bisector)
 		
-		points_before.append(Geometry2D.get_closest_point_to_segment(old_verts[event["arc"]], verts[event["segment"]], verts[(event["segment"] + 1) % verts.size()]))
-		poly_info_before.original_indices.append(old_verts.size() + randi_range(0,100))
-		bisectors_before.append(new_before_bisector)	
+#		points_before.append(Geometry2D.get_closest_point_to_segment(verts[poly_info.original_indices.find(event["arc"])], verts[event["segment"]], verts[(event["segment"] + 1) % verts.size()]))
+#		poly_info_before.original_indices.append(old_verts.size() + randi_range(0,100))
+#		var insert_bisector_before = BisectorArc.new()
+#		insert_bisector_before.origin = points_before[-1]
+#		insert_bisector_before.start_t = t
+#		bisectors_before.append(insert_bisector_before)	
 
 		
 
@@ -218,22 +226,30 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 		poly_info_after.original_indices.append(event["arc"])#event["arc"])
 		bisectors_after.append(after_split_bisector)
 		
+		
 		vert_cursor = (poly_info.original_indices.find(event["arc"]) +1 ) % verts.size()
 		while vert_cursor != (event["segment"] + 1) % verts.size():
 			#print("after_vc", vert_cursor)
 	
 			points_after.append(verts[vert_cursor])
-			bisectors_after.append(bisectors[vert_cursor])
+			var copy_bisector = BisectorArc.new()
+			copy_bisector.start_t = poly_info.bisectors[vert_cursor].start_t
+			copy_bisector.origin = poly_info.bisectors[vert_cursor].origin
+			bisectors_after.append(copy_bisector)
 			poly_info_after.original_indices.append(poly_info.original_indices[poly_info.original_indices.find(vert_cursor)])
 			vert_cursor = (vert_cursor + 1) % verts.size()
 		
 	
-		points_after.append(Geometry2D.get_closest_point_to_segment(old_verts[event["arc"]], verts[event["segment"]], verts[(event["segment"] + 1) % verts.size()]))
-		poly_info_after.original_indices.append(99999)
-		bisectors_after.append(after_split_bisector)
+#		points_after.append(Geometry2D.get_closest_point_to_segment(verts[poly_info.original_indices.find(event["arc"])], verts[event["segment"]], verts[(event["segment"] + 1) % verts.size()]))
+#		poly_info_after.original_indices.append(99999)
+#		
+#		var insert_bisector_after = BisectorArc.new()
+#		insert_bisector_after.origin = points_after[-1]
+#		insert_bisector_after.start_t = t
+#		bisectors_after.append(insert_bisector_after)	
 		
-		
-		
+		#print("n before ", points_before.size(), ", n after ", points_after.size())
+
 		
 		poly_info_before.verts = points_before
 		poly_info_before.bisectors = bisectors_before
@@ -263,6 +279,7 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 		else:
 			all_polys.append(poly_info_before)
 			all_polys.append(poly_info_after)
+			#print("bisectors:", poly_info_after.bisectors.size()," verts: ", poly_info_after.verts.size())
 	return all_polys
 
 ## Calculate straight skeleton for a given polygon (vertices)
@@ -395,19 +412,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					centroid += v
 				centroid /= verts.size()
 				
-				# close open bisector arcs with endpoint in the triangle
-				for bisector_i in unfinished_bisectors.size():
-					var open_bisector = unfinished_bisectors[bisector_i]
-					open_bisector.endpoint = verts[bisector_i]
-					# might be nonsense (?)
-					open_bisector.end_t = open_bisector.start_t + open_bisector.endpoint.distance_to(open_bisector.origin)
-					result.bisectors.append(open_bisector)
-					var in_triangle_bisector = BisectorArc.new()
-					in_triangle_bisector.origin = verts[bisector_i]
-					in_triangle_bisector.start_t = open_bisector.end_t
-					in_triangle_bisector.endpoint = centroid
-					in_triangle_bisector.end_t = in_triangle_bisector.start_t + in_triangle_bisector.origin.distance_to(centroid)
-					result.bisectors.append(in_triangle_bisector)
+				
 				
 				# if exactly 3 vertices are left, triangulate
 				if verts.size() == 3:
@@ -438,11 +443,23 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 							side_lengths[vert_i] * 0.5,
 							_centered_position_along_segment(centroid, verts[vert_i], verts[(vert_i + 1) % verts.size()]) * side_lengths[vert_i]
 						])
-						result.vertex_uv_scales.append_array([
-							original_side_lengths[vert_i],
-							original_side_lengths[vert_i],
-							original_side_lengths[vert_i]
-						])
+
+					#print(unfinished_bisectors.size())
+					#print(unfinished_bisectors.map(func (b): return "from " + str(b.origin) + " at " + str(b.start_t) + " to " + str(b.endpoint) + " at " + str(b.end_t)))
+					# close open bisector arcs with endpoint in the triangle
+					for bisector_i in unfinished_bisectors.size():
+						
+						var open_bisector = unfinished_bisectors[bisector_i]
+						open_bisector.endpoint = verts[bisector_i]
+						# might be nonsense (?)
+						open_bisector.end_t = current_t
+						result.bisectors.append(open_bisector)
+						var in_triangle_bisector = BisectorArc.new()
+						in_triangle_bisector.origin = verts[bisector_i]
+						in_triangle_bisector.start_t = open_bisector.end_t
+						in_triangle_bisector.endpoint = centroid
+						in_triangle_bisector.end_t = centroid_t
+						result.bisectors.append(in_triangle_bisector)
 			break
 			
 		# speculatively apply all upcoming merge events
@@ -510,7 +527,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				var arc_dir = vertex_directions[arc]
 				for vert_i in verts.size():
 					# exclude the edges [arc, arc+1] and [arc-1, arc]
-					if vert_i == arc or (vert_i - 1 + verts.size()) % verts.size() == arc:# or (vert_i + 1) % verts.size() == arc:
+					if vert_i == arc or (vert_i - 1 + verts.size()) % verts.size() == arc or (vert_i + 1) % verts.size() == arc:
 						continue
 				
 					var potential_intersection_point = Geometry2D.line_intersects_line(
@@ -567,7 +584,8 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 						continue
 					
 					# event t (adjusted for whole polygon)
-					var t = (distance_along_normal * cos(arc_normal_angle) / ((distance_modifier  + 1) * (cos(arc_normal_angle) + 1)))
+					#var t = (distance_along_normal * cos(arc_normal_angle) / ((distance_modifier  + 1) * (cos(arc_normal_angle) + 1)))
+					var t = (distance_along_normal * cos(arc_normal_angle) / ((distance_modifier) * (cos(arc_normal_angle)) + 1))
 					
 					if t < 0:
 						# wrong direction
@@ -614,6 +632,8 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				# offset to the time of the first event
 				verts = _offset_polygon_by(verts, vertex_directions, edge_normals, t)
 				
+				#print("verts ", verts.size(), " open ", unfinished_bisectors.size())
+				
 				# create triangle strip from old t to split_events[0]["t"]
 				for vert_i in verts.size():
 					result.triangles.append([
@@ -630,11 +650,6 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 						- side_lengths[vert_i] * 0.5,
 						side_lengths[vert_i] * 0.5,
 						_centered_position_along_segment(verts[vert_i], old_verts[vert_i], old_verts[(vert_i + 1) % old_verts.size()]) * side_lengths[vert_i],
-					])
-					result.vertex_uv_scales.append_array([
-						original_side_lengths[vert_i],
-						original_side_lengths[vert_i],
-						original_side_lengths[vert_i]
 					])
 					
 					result.triangles.append([
@@ -653,18 +668,47 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 						_centered_position_along_segment(verts[vert_i], old_verts[vert_i], old_verts[(vert_i + 1) % verts.size()]) * side_lengths[vert_i],
 						side_lengths[vert_i] * 0.5,
 					])
-					result.vertex_uv_scales.append_array([
-						original_side_lengths[vert_i],
-						original_side_lengths[vert_i],
-						original_side_lengths[vert_i]
-					])
+
 					
 					var to_first = _to_3d(old_verts[vert_i], current_t) - _to_3d(verts[vert_i], current_t + t)
 					var to_second = _to_3d(old_verts[(vert_i + 1) % verts.size()], current_t) - _to_3d(verts[vert_i], current_t + t)
 					var normal = to_second.cross(to_first).normalized()
 					result.triangle_normals.append(normal)
 					result.triangle_normals.append(normal)
-
+				
+				var next_perimeter_length = 0.0
+				for vert_i in verts.size():
+					next_perimeter_length += verts[vert_i].distance_to(verts[(vert_i + 1) % verts.size()])
+				var ratio = (next_perimeter_length / perimeter_length)
+				for split_event in split_events:
+					result.triangles.append([
+						_to_3d(verts[split_event["arc"]], current_t + t),
+						_to_3d(verts[split_event["segment"]], current_t + t),
+						_to_3d(verts[(split_event["segment"] + 1) % verts.size()], current_t + t)
+					])
+					result.vertex_uvs.append_array([
+						Vector2(vertex_position_along_perimeter[split_event["segment"]], current_t + verts[split_event["arc"]].distance_to(Geometry2D.get_closest_point_to_segment(verts[split_event["arc"]], verts[split_event["segment"]], verts[(split_event["segment"] + 1) % verts.size()]))),
+						Vector2(vertex_position_along_perimeter[split_event["segment"]], current_t),
+						Vector2(vertex_position_along_perimeter[split_event["segment"]], current_t),
+					])
+					result.vertex_uv_addends_unscaled.append_array([
+						_centered_position_along_segment(verts[split_event["arc"]], verts[split_event["segment"]], verts[(split_event["segment"] + 1) % verts.size()]) * side_lengths[split_event["segment"]] * ratio,
+						-side_lengths[split_event["segment"]] * 0.5 * ratio,
+						side_lengths[split_event["segment"]] * 0.5 * ratio,
+					])
+					result.triangle_normals.append(Vector3.UP)
+				
+				for bisector_i in unfinished_bisectors.size():
+#					if bisector_i == split_events[0]["arc"] or bisector_i == split_events[0]["segment"] or bisector_i == (split_events[0]["segment"] - 1 + verts.size()) % verts.size():
+#						continue
+					
+					unfinished_bisectors[bisector_i].end_t = current_t + t
+					unfinished_bisectors[bisector_i].endpoint = verts[bisector_i]
+					result.bisectors.append(unfinished_bisectors[bisector_i])
+					unfinished_bisectors[bisector_i] = BisectorArc.new()
+					unfinished_bisectors[bisector_i].start_t = current_t + t
+					unfinished_bisectors[bisector_i].origin = verts[bisector_i]
+				
 				# initialize structs for splitting operation				
 				var poly_info_initial = SubPolyInfo.new()
 				poly_info_initial.original_indices.assign(range(verts.size()))
@@ -672,18 +716,19 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				poly_info_initial.bisectors = unfinished_bisectors
 
 				var computed_splits := _get_split_polygons(poly_info_initial, verts, t, same_time_events)
-				
+				#print("polys ", computed_splits.size())
 				for poly in computed_splits:
 					# recurse for every polygon resulting from the split
-					var poly_result = calculate(poly.verts, poly.bisectors, on_poly_callback, current_t + t, perimeter_length)
+					var poly_result := calculate(poly.verts, poly.bisectors, on_poly_callback, current_t + t, perimeter_length)
 					
 					# transfer all data from recursive call to our result
 					result.bisectors.append_array(poly_result.bisectors)
+					#print(poly_result.bisectors.map(func (b): return "from " + str(b.origin) + " at " + str(b.start_t) + " to " + str(b.endpoint) + " at " + str(b.end_t)))
+					#result.bisectors.append_array(poly.closed_bisectors)
 					result.triangles.append_array(poly_result.triangles)
 					result.triangle_normals.append_array(poly_result.triangle_normals)
 					result.vertex_uvs.append_array(poly_result.vertex_uvs)
 					result.vertex_uv_addends_unscaled.append_array(poly_result.vertex_uv_addends_unscaled)
-					result.vertex_uv_scales.append_array(poly_result.vertex_uv_scales)
 					result.max_t = max(result.max_t, poly_result.max_t)
 					result.probably_broken = result.probably_broken or poly_result.probably_broken
 					
@@ -691,22 +736,27 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				var new_point = verts[(split_events[0]["arc"]) % verts.size()]
 
 				unfinished_bisectors[split_events[0]["arc"]].endpoint = verts[split_events[0]["arc"]]
+				unfinished_bisectors[split_events[0]["arc"]].end_t = current_t + t
+				
 				result.bisectors.append(unfinished_bisectors[split_events[0]["arc"]])
 
 				var before_connect_arc = unfinished_bisectors[split_events[0]["arc"]]
 				before_connect_arc.endpoint = verts[split_events[0]["arc"]]
-				before_connect_arc.end_t = before_connect_arc.start_t + t
+				before_connect_arc.end_t = current_t + t
 				unfinished_bisectors[split_events[0]["arc"]] = BisectorArc.new()
-				unfinished_bisectors[split_events[0]["arc"]].start_t = before_connect_arc.end_t
+				unfinished_bisectors[split_events[0]["arc"]].start_t = current_t + t
 				unfinished_bisectors[split_events[0]["arc"]].origin = verts[split_events[0]["arc"]]
+				
+				
+				
 				
 				var before_connect_seg1 = unfinished_bisectors[split_events[0]["segment"]]
 				before_connect_seg1.endpoint = verts[split_events[0]["segment"]]
-				before_connect_seg1.end_t = before_connect_arc.start_t + t
+				before_connect_seg1.end_t = current_t + t
 				
 				var before_connect_seg2 = unfinished_bisectors[(split_events[0]["segment"] - 1 + verts.size()) % verts.size()]
 				before_connect_seg2.endpoint = verts[(split_events[0]["segment"] - 1 + verts.size()) % verts.size()]
-				before_connect_seg2.end_t = before_connect_arc.start_t + t
+				before_connect_seg2.end_t = current_t + t
 				
 				result.bisectors.append(before_connect_arc)
 				result.bisectors.append(before_connect_seg1)
@@ -724,7 +774,6 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 			var event_state := StraightSkeletonInfo.EventState.new()
 			event_state.base_poly = verts
 			event_state.new_shrink_events = next_events
-			result.edge_events.append(event_state)
 
 			next_events.sort_custom(func (ev1, ev2): return ev1.combined_vertices[1] > ev2.combined_vertices[1])
 			
@@ -755,11 +804,6 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					_centered_position_along_segment(candidate_verts[vert_i], verts[vert_i] ,verts[(vert_i + 1) % verts.size()]) * side_lengths[vert_i],
 				])
 				
-				result.vertex_uv_scales.append_array([
-					original_side_lengths[vert_i],
-					original_side_lengths[vert_i],
-					original_side_lengths[vert_i]
-				])
 				result.triangle_normals.append(normal)
 				result.triangle_normals.append(normal)
 				
@@ -780,16 +824,23 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					_centered_position_along_segment(candidate_verts[(vert_i + 1) % verts.size()], verts[vert_i], verts[(vert_i + 1) % verts.size()]) * side_lengths[vert_i],
 				])
 				
-				result.vertex_uv_scales.append_array([
-					original_side_lengths[vert_i],
-					original_side_lengths[vert_i],
-					original_side_lengths[vert_i]
-				])
 			
 			# buffer the remaining state before applying (keep indices consistent in the original lists (!))
 			var candidate_position_perimeter = vertex_position_along_perimeter.duplicate()
 			var candidate_lengths = side_lengths.duplicate()
 			var candidate_real_lengths = original_side_lengths.duplicate()
+			
+			for next_event in next_events:
+				# close bisectors for merged verts
+				for v in next_event.combined_vertices:
+					var bisector = unfinished_bisectors[v]
+					bisector.endpoint = next_event.new_point
+					bisector.end_t = current_t + next_events[0].t
+					result.bisectors.append(bisector)
+				var new_bisector = BisectorArc.new()
+				new_bisector.origin = next_event.new_point
+				new_bisector.start_t = current_t + next_events[0].t
+				candidate_bisectors[next_event.combined_vertices[0]] = new_bisector
 			
 			for next_event in next_events:
 				# triangle for all merged verts
@@ -808,11 +859,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					side_lengths[next_event.combined_vertices[0]] * 0.5,
 					_centered_position_along_segment(next_event.new_point, verts[next_event.combined_vertices[0]], verts[next_event.combined_vertices[1]]) * side_lengths[next_event.combined_vertices[0]],
 				])
-				result.vertex_uv_scales.append_array([
-					original_side_lengths[next_event.combined_vertices[0]],
-					original_side_lengths[next_event.combined_vertices[0]],
-					original_side_lengths[next_event.combined_vertices[0]]
-				])
+
 				var to_first = _to_3d(verts[next_event.combined_vertices[0]], current_t) - _to_3d(next_event.new_point, current_t  + next_event.t)
 				var to_second = _to_3d(verts[next_event.combined_vertices[1]], current_t) - _to_3d(next_event.new_point, current_t  + next_event.t)
 				
@@ -831,16 +878,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				candidate_lengths.remove_at(next_event.combined_vertices[1])
 				candidate_real_lengths.remove_at(next_event.combined_vertices[1])
 				
-				# close bisectors for merged verts
-				for v in next_event.combined_vertices:
-					var bisector = unfinished_bisectors[v]
-					bisector.endpoint = next_event.new_point
-					bisector.end_t = bisector.start_t + next_event.t
-					result.bisectors.append(bisector)
-				var new_bisector = BisectorArc.new()
-				new_bisector.origin = next_event.new_point
-				new_bisector.start_t = result.bisectors[-1].end_t
-				unfinished_bisectors[next_event.combined_vertices[0]] = new_bisector
+				
 				candidate_bisectors.remove_at(next_event.combined_vertices[1])
 				
 
@@ -901,7 +939,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 		packed_verts.append_array(vertices)
 		if verts.any(func (v): return not Geometry2D.is_point_in_polygon(v, packed_verts)):
 			result.probably_broken = true
-
+	#print("bisectors left: ", len(unfinished_bisectors))
 	return result
 
 ## create a roof mesh from footprint and height, offsetting outwards by initial_offset and applying material
@@ -950,6 +988,7 @@ static func get_mesh(footprint: Array[Vector2], max_height: float, material: Mat
 		p.y = (p.y / skeleton_result.max_t) * max_height
 		p.x /= 200
 		p.z /= 200
+		st.set_smooth_group(-1)
 		st.add_vertex(p)
 	
 	# for now, automatic normals are better since we scale the height after running the algorithm
@@ -970,6 +1009,7 @@ static func get_mesh(footprint: Array[Vector2], max_height: float, material: Mat
 	
 	var rmi = RoofMeshInfo.new()
 	rmi.mesh = mesh
+	rmi.skeleton_info = skeleton_result
 	# pass on whether it's likely broken, so the result can be discarded
 	rmi.broken = skeleton_result.probably_broken
 	

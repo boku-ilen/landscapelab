@@ -12,7 +12,6 @@
 script = ExtResource("7_3wdmv")
 model = ExtResource("6_lyxpr")
 probability = 0.6
-may_repeat = true
 facade_feature_id = "plain_wall"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
