@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://dy8s3wn5na6xc" path="res://addons/building_graph_editor/Editor/OrbitCam.gd" id="1_tjo2p"]
 [ext_resource type="JSON" path="res://addons/building_graph_editor/BuildingGraphSystem/node_types.json" id="2_iknpx"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="2_tjo2p"]
-[ext_resource type="JSON" path="res://addons/building_graph_editor/BuildingGraphSystem/serialized_example.json" id="3_45cj8"]
 [ext_resource type="Script" uid="uid://cmwcjjrnybukj" path="res://addons/building_graph_editor/BuildingGraphSystem/FloorDefinitionPicker.gd" id="4_0g4iq"]
 [ext_resource type="Script" uid="uid://cq22ry4n31r6i" path="res://addons/building_graph_editor/BuildingGraphSystem/BuildingGraphRunner.gd" id="4_45cj8"]
 [ext_resource type="Resource" uid="uid://5f7qdex0krmx" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows+Door.tres" id="5_tjo2p"]
@@ -574,7 +573,6 @@ shadow_mesh = SubResource("ArrayMesh_11jr5")
 script = ExtResource("8_vhosy")
 model = SubResource("ArrayMesh_4jf55")
 probability = 0.6
-may_repeat = true
 facade_feature_id = "plain_wall"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
@@ -844,27 +842,27 @@ feature_positions = Dictionary[String, Array]({
 })
 metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_tsw3j"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_7xnxb"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_vhosy"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_24fgp"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport3")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_q6jud"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ddanw"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport2")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_sd0rh"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_tsw3j"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport4")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k4fue"]
 bg_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 
-[sub_resource type="SystemFont" id="SystemFont_0g4iq"]
+[sub_resource type="SystemFont" id="SystemFont_vhosy"]
 font_names = PackedStringArray("Sans-Serif")
 subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_30ae2"]
-font = SubResource("SystemFont_0g4iq")
+font = SubResource("SystemFont_vhosy")
 font_size = 24
 
 [node name="BuildingGraphEditingWindow" type="Control" unique_id=294869313]
@@ -1064,25 +1062,25 @@ alignment = 1
 [node name="TextureRect" type="TextureRect" parent="PreviewSubwindow" unique_id=2032424525]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = SubResource("ViewportTexture_tsw3j")
+texture = SubResource("ViewportTexture_7xnxb")
 expand_mode = 1
 
 [node name="TextureRect2" type="TextureRect" parent="PreviewSubwindow" unique_id=1406242054]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = SubResource("ViewportTexture_vhosy")
+texture = SubResource("ViewportTexture_24fgp")
 expand_mode = 1
 
 [node name="TextureRect3" type="TextureRect" parent="PreviewSubwindow" unique_id=1217101261]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = SubResource("ViewportTexture_q6jud")
+texture = SubResource("ViewportTexture_ddanw")
 expand_mode = 1
 
 [node name="TextureRect4" type="TextureRect" parent="PreviewSubwindow" unique_id=20597783]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = SubResource("ViewportTexture_sd0rh")
+texture = SubResource("ViewportTexture_tsw3j")
 expand_mode = 1
 
 [node name="BuildingGraphEditorDock" type="Control" parent="." unique_id=733009336]
@@ -1093,7 +1091,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BuildingGraphEditor" type="GraphEdit" parent="BuildingGraphEditorDock" unique_id=930282785 node_paths=PackedStringArray("library_container", "floor_definition_picker", "load_button", "validate_button", "save_button", "validation_runner", "preview_building")]
+[node name="BuildingGraphEditor" type="GraphEdit" parent="BuildingGraphEditorDock" unique_id=930282785 node_paths=PackedStringArray("library_container", "floor_definition_picker", "validate_button", "save_button", "preview_building")]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.05
@@ -1112,12 +1110,9 @@ type_names = {
 script = ExtResource("1_mbadm")
 library_container = NodePath("../ScrollContainer/Outer/Library")
 floor_definition_picker = NodePath("../PanelContainer/ButtonBar/FloorDefinitionPicker")
-load_button = NodePath("../PanelContainer/ButtonBar/LoadButton")
 validate_button = NodePath("../PanelContainer/ButtonBar/ValidateButton")
 save_button = NodePath("../PanelContainer/ButtonBar/SaveButton")
 node_definitions = ExtResource("2_iknpx")
-sample_json_data = ExtResource("3_45cj8")
-validation_runner = NodePath("../BuildingGraphRunner")
 preview_building = NodePath("../../SubViewportContainer/SubViewport/Node3D/PreviewBuilding")
 metadata/_custom_type_script = "uid://b5c2e2an8gd76"
 

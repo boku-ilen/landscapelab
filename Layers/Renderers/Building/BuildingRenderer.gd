@@ -4,6 +4,7 @@ extends FeatureLayerCompositionRenderer
 
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 var node_types = preload("res://addons/building_graph_editor/BuildingGraphSystem/node_types.json")
+var selector_node_types = preload("res://addons/building_graph_editor/BuildingGraphSystem/selector_node_types.json")
 var wall_normal_mat: ShaderMaterial = preload("res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres")
 
 var refine_ridge_mesh = preload("res://Buildings/Components/Roofs/Resources/RidgeCapMesh.tres")
@@ -40,6 +41,8 @@ var execution_graph_cache: Dictionary[FloorDefinition, BuildingGraphRunner.Runna
 
 var material_variants: Dictionary[ModularBuildingMetadata, Dictionary]
 
+var selector_graph: BuildingGraphRunner.RunnableNode
+
 func _ready():
 	_create_and_set_texture_arrays()
 	_prepare_addons()
@@ -75,9 +78,28 @@ func _create_and_set_texture_arrays():
 func load_feature_instance(feature: GeoFeature):
 	var building = Node3D.new()
 	var modular_metadata_instance = ModularBuildingMetadata.new()
+	
+	var all_modular_definitions: Array[Resource] = layer_composition.render_info.modular_resources
+	var modular_definition_names: Array[String] = []
+	var modular_definition_by_name: Dictionary[String, Resource] = {}
+	
+	for modular_definition in all_modular_definitions:
+		modular_definition_by_name[modular_definition.resource_path.split("/")[-1].split(".")[0]] = modular_definition
+	modular_definition_names = modular_definition_by_name.keys()
+	var selector_data_sources: Dictionary[String, NodeDataSource] = {
+		"all_definitions": FixedInputDataSource.new(modular_definition_names),
+		"rand": DynamicInputDataSource.new(func (): return randf()),
+		"geo_feature": FixedInputDataSource.new(feature) 
+	} 
+	selector_graph = BuildingGraphRunner.setup_executable_graph(layer_composition.render_info.selector_graph.data, selector_node_types.data, selector_data_sources)
+	var selected_definition = selector_graph.get_slot_input(0)
+	
 	var building_type = util.str_to_var_or_default(feature.get_attribute("render_type"), fallback_wall_id)
-		
+	
 	var original_metadata: ModularBuildingMetadata = layer_composition.render_info.modular_resources[building_type]
+	
+	if selected_definition != null and selected_definition in modular_definition_names:
+		original_metadata = modular_definition_by_name[selected_definition] as ModularBuildingMetadata
 	
 	modular_metadata_instance.floor_definitions = original_metadata.floor_definitions
 	var building_metadata = BuildingMetadata.new(feature, center, layer_composition.render_info)
@@ -114,7 +136,7 @@ func load_feature_instance(feature: GeoFeature):
 		"floor_amount": FixedInputDataSource.new(5.0),
 		"all_module_ids": FixedInputDataSource.new(["x"]),
 		"rand": FixedInputDataSource.new(0.1),
-		"geo_feature": FixedInputDataSource.new(MockGeoFeature.new()) 
+		"geo_feature": FixedInputDataSource.new(feature) 
 	}
 	
 	var exec_graphs: Array[BuildingGraphRunner.RunnableNode] = []

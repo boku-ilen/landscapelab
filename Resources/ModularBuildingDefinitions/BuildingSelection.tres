@@ -1,0 +1,125 @@
+[gd_resource type="JSON" format=3 uid="uid://dqpperny577d"]
+
+[resource]
+data = {
+"connections": [{
+"from_node": 605464340.0,
+"from_slot": 3.0,
+"to_node": 605464298.0,
+"to_slot": 0.0
+}, {
+"from_node": 605464397.0,
+"from_slot": 2.0,
+"to_node": 605464340.0,
+"to_slot": 0.0
+}, {
+"from_node": 605464332.0,
+"from_slot": 1.0,
+"to_node": 605464397.0,
+"to_slot": 0.0
+}, {
+"from_node": 605464406.0,
+"from_slot": 0.0,
+"to_node": 605464397.0,
+"to_slot": 1.0
+}, {
+"from_node": 605465194.0,
+"from_slot": 0.0,
+"to_node": 605464340.0,
+"to_slot": 1.0
+}, {
+"from_node": 605464303.0,
+"from_slot": 0.0,
+"to_node": 605464340.0,
+"to_slot": 2.0
+}],
+"nodes": [{
+"node_id": 605464298.0,
+"node_type": "Chosen BuildingDefinition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}]
+}, {
+"node_id": 605464303.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "HouseAustria"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 605464332.0,
+"node_type": "GeoFeature Attribute",
+"slots": [{
+"slot_data": {
+"constant_value": "amenity"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 605464340.0,
+"node_type": "Condition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 605464397.0,
+"node_type": "Text equality",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 605464406.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "place_of_worship"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 605465194.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "Shack"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}]
+}

@@ -15,7 +15,7 @@ var current_resource: FloorDefinition
 # node types JSON doc
 @export var node_definitions: JSON
 
-@export var validation_runner: BuildingGraphRunner
+#@export var validation_runner: BuildingGraphRunner
 var source_data: Dictionary[String, NodeDataSource] = {
 	"all_module_ids": FixedInputDataSource.new(["a"])
 }

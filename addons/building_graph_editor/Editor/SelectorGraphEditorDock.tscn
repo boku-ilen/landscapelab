@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://dugrvxv4ywr66"]
+
+[ext_resource type="Script" uid="uid://b7at4ph57caen" path="res://addons/building_graph_editor/BuildingGraphSystem/SelectorGraphEditor.gd" id="1_qs2kc"]
+[ext_resource type="JSON" path="res://addons/building_graph_editor/BuildingGraphSystem/selector_node_types.json" id="2_qs2kc"]
+[ext_resource type="Script" uid="uid://0petgjxe6060" path="res://addons/building_graph_editor/BuildingGraphSystem/SelectorGraphPicker.gd" id="3_gi7i6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wdgxx"]
+bg_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_0g4iq"]
+font_names = PackedStringArray("Sans-Serif")
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_tmms5"]
+font = SubResource("SystemFont_0g4iq")
+font_size = 24
+
+[node name="SelectorGraphEditorDock" type="Control" unique_id=1535902368]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BuildingGraphEditor" type="GraphEdit" parent="." unique_id=1436892937 node_paths=PackedStringArray("graph_picker", "library_container", "validate_button", "save_button")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.05
+anchor_right = 0.7
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+right_disconnects = true
+type_names = {
+0: "String",
+1: "Scalar",
+2: "Boolean",
+3: "Vector",
+4: "Array"
+}
+script = ExtResource("1_qs2kc")
+graph_picker = NodePath("../Controls/HBoxContainer/SelectorGraphPicker")
+available_definitions = Array[String](["HouseAustria", "Shack", "Industrial", "Concrete", "Office", "BrickHouse"])
+library_container = NodePath("../ScrollContainer/Outer/Library")
+validate_button = NodePath("../Controls/HBoxContainer/ValidateButton")
+save_button = NodePath("../Controls/HBoxContainer/SaveButton")
+node_definitions = ExtResource("2_qs2kc")
+metadata/_custom_type_script = "uid://b7at4ph57caen"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=879194868]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wdgxx")
+
+[node name="Outer" type="VBoxContainer" parent="ScrollContainer" unique_id=1403159552]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/Outer" unique_id=1636623547]
+layout_mode = 2
+text = "Available Nodes"
+label_settings = SubResource("LabelSettings_tmms5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Library" type="VBoxContainer" parent="ScrollContainer/Outer" unique_id=1964381880]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Controls" type="PanelContainer" parent="." unique_id=1175999330]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.7
+anchor_bottom = 0.05
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls" unique_id=1799623175]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="Controls/HBoxContainer" unique_id=1437553544]
+layout_mode = 2
+text = "Save"
+
+[node name="ValidateButton" type="Button" parent="Controls/HBoxContainer" unique_id=1825034162]
+layout_mode = 2
+text = "Validate"
+
+[node name="SelectorGraphPicker" type="EditorResourcePicker" parent="Controls/HBoxContainer" unique_id=716895350]
+layout_mode = 2
+size_flags_horizontal = 3
+base_type = "JSON"
+script = ExtResource("3_gi7i6")

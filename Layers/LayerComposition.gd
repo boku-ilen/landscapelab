@@ -252,6 +252,7 @@ class BuildingRenderInfo extends RenderInfo:
 	var window_resources: Array[Resource]
 	var roof_resources: Dictionary[String, Resource]
 	var modular_resources: Array[Resource]
+	var selector_graph: Resource
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Building/BuildingRenderer.tscn")
