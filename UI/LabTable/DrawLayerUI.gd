@@ -12,10 +12,11 @@ var layers_free: Dictionary[String, bool]
 
 func _ready() -> void:
 	layers_free = {}
-	for layer_name in drawing_coordinator.layers.keys():
-		layers_free[layer_name] = true
-	add_layer()
-	add_layer_button.pressed.connect(func (): add_layer())
+	if drawing_coordinator.layers:
+		for layer_name in drawing_coordinator.layers.keys():
+			layers_free[layer_name] = true
+		add_layer()
+		add_layer_button.pressed.connect(func (): add_layer())
 	
 func add_layer():
 	dropdown_controller.destroy_menu()
