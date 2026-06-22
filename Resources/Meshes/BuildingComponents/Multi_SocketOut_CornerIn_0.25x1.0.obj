@@ -35,13 +35,13 @@ vn -1.0000 0.0001 -0.0000
 vn -1.0000 -0.0001 0.0001
 vt 0.000000 0.000000
 s 1
-g Multi_SocketOut_CornerIn_0.25x1.0_Wall_Primary
-usemtl Wall_Primary
+g Multi_SocketOut_CornerIn_0.25x1.0_Wall_Primary_Corner
+usemtl Wall_Primary_Corner
 f 3/1/1 1/1/1 8/1/2 7/1/2
 f 4/1/3 2/1/4 6/1/5 5/1/6
 f 2/1/4 3/1/1 7/1/2 6/1/5
-g Multi_SocketOut_CornerIn_0.25x1.0_Wall_Tertiary
-usemtl Wall_Tertiary
+g Multi_SocketOut_CornerIn_0.25x1.0_Wall_Tertiary_Corner
+usemtl Wall_Tertiary_Corner
 f 16/1/7 13/1/1 14/1/2 15/1/8
 f 13/1/1 11/1/3 12/1/9 14/1/2
 f 11/1/3 10/1/10 9/1/6 12/1/9

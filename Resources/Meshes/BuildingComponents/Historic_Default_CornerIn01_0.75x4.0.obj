@@ -1562,8 +1562,8 @@ vn -0.0084 -1.0000 0.0007
 vn -0.0093 -0.7311 0.6822
 vt 0.000000 0.000000
 s 0
-g Historic_Default_CornerIn01_0.75x4.0_Wall_Primary
-usemtl Wall_Primary
+g Historic_Default_CornerIn01_0.75x4.0_Wall_Primary_Corner
+usemtl Wall_Primary_Corner
 f 17/1/2 285/1/3 18/1/4 19/1/5
 f 36/1/6 301/1/7 35/1/8 34/1/9
 f 10/1/10 7/1/10 6/1/20 11/1/21
@@ -1864,8 +1864,8 @@ f 305/1/947 306/1/949 15/1/950 14/1/948
 f 306/1/949 307/1/476 16/1/31 15/1/22
 f 404/1/464 304/1/954 6/1/20 7/1/10
 f 304/1/474 400/1/489 2/1/35 6/1/20
-g Historic_Default_CornerIn01_0.75x4.0_Wall_Secondary
-usemtl Wall_Secondary
+g Historic_Default_CornerIn01_0.75x4.0_Wall_Secondary_Corner
+usemtl Wall_Secondary_Corner
 f 37/1/1 33/1/1 44/1/1 34/1/1
 f 24/1/10 25/1/11 26/1/12
 f 27/1/13 28/1/14 29/1/15
