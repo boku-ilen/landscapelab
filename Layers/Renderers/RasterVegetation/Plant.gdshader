@@ -118,6 +118,11 @@ void vertex() {
 	wind_offset_vector *= 4.0;
 
 	wind_strength = length(wind_offset_vector);
+	
+	if (speed.x < 0.1 && speed.y < 0.1) {
+		wind_offset_vector = vec2(0.0, 0.0);
+		wind_strength = 0.0;
+	}
 
 	VERTEX.xz += wind_offset_vector;
 	VERTEX.y -= length(wind_offset_vector) * 0.5;

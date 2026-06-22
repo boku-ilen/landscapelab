@@ -111,7 +111,7 @@ void fragment() {
 	// I guess the only proper solution would be to bake AO?
 
 	AO = mix(0.0, ao_max, pow(vertex_distance_from_zero, 2.0));
-	AO *= mix(1.0, 0.6, smoothstep(100.0, 300.0, depth));
+	AO *= mix(0.8, 0.6, smoothstep(300.0, 600.0, depth));
 	AO_LIGHT_AFFECT = ao_light_affect;
 
 	vec3 overall_backlight = backlight_strength
