@@ -11,13 +11,10 @@ const MAX_SCALE := 1.1
 const TOLERATE_90_DEG_DEVIATION = 0.01
 
 
-## Build a building from footprint, floors and asset pack definition
-##  footprint: Array[Vector2]
-##  asset_pack: Dictionary[int:Array[AssetEntry]] mapping floor index (0 = ground) to possible assets
-##  floors: total number of floors (height)
-##  floor_height: vertical distance between floors (in metres)
+## Build a building from metadata, logic, data sources and materials
 static func build_building(building_root: Node3D, metadata: ModularBuildingMetadata, node_graphs_by_floor: Array[BuildingGraphRunner.RunnableNode] = [], sources: Dictionary[String, NodeDataSource] = {}, materials_by_name: Dictionary[String, Material] = {}, geo_feature = null) -> Node3D:
 	if sources == {}:
+		# placeholder values
 		sources = {
 			"prev_module_id": FixedInputDataSource.new("prev_id"),
 			"below_module_id": FixedInputDataSource.new("low_id"),
@@ -26,13 +23,13 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 			"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
 			"floor_num": FixedInputDataSource.new(2.0),
 			"floor_amount": FixedInputDataSource.new(5.0),
-			"all_module_ids": FixedInputDataSource.new(["mod_a", "mod_b", "mod_c"]), # TODO get this at edit time
+			"all_module_ids": FixedInputDataSource.new(["mod_a", "mod_b", "mod_c"]), 
 			"rand": DynamicInputDataSource.new(func (): return randf()),
 			"geo_feature": FixedInputDataSource.new(MockGeoFeature.new())
 		}
 	if not geo_feature == null:
 		sources["geo_feature"] = FixedInputDataSource.new(geo_feature)
-	# Long term it should probably be deterministic
+	
 	randomize()
 	
 	var edges: Array[Edge] = _footprint_to_edges(metadata.footprint)
@@ -231,7 +228,7 @@ static func _compute_corner_infos(edges: Array[Edge]) -> Array[Dictionary]:
 	return corner_infos
 
 
-## Populate a single edge with facade modules
+## Add a single module to the given multimesh
 static func _instance_module(multi_mesh: MultiMesh, module_width: float, scale_x: float,
 		p1: Vector2, dir: Vector2, cursor: float, overall_floor_height: float, edge_vec: Vector2, index: int) -> void:
 	
@@ -272,9 +269,6 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 	# We need to store the modules until we know how many of them can fit
 	var modules: Array = []
 	
-	# To ensure a uniform distribution along the floors, store the indices
-	#var module_indices_set = floor_assets in module_indices
-	
 	var current_block_index := 0
 	
 	# Store how much width we processed altogether until now
@@ -286,71 +280,37 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 	var module_scale := 1.0
 	var last_module_index = -1
 	while not floor_assets.is_empty():
-		var random_index: int = last_module_index
 		var valid_found = false
-		if false:
-			# check if we have a type of module to repeat from below
-			for wall_def_i in len(floor_assets):
-				var wall_def = floor_assets[wall_def_i]
-				if len(modules) in module_indices.keys():
-					valid_found = wall_def.facade_feature_id == module_indices[len(modules)].facade_feature_id and wall_def.facade_feature_id != ""
-					if valid_found:
-						# this spot had a module type last layer for which we have an equivalent
-						random_index = wall_def_i
-						break
-			
-			# randomly choose with a biased distribution
-			while not valid_found:
-				var biased_random = []
-				for wall_tile_i in range(len(floor_assets)):
-					biased_random.append({"bias": floor_assets[wall_tile_i].probability * randf(), "index": wall_tile_i})
-				biased_random.sort_custom(func (a,b): return a["bias"] > b["bias"])
-				random_index = biased_random[0]["index"]
-				if last_module_index < 0:
-					break
-				valid_found = floor_assets[random_index].may_repeat or random_index != last_module_index
-			last_module_index = random_index
+		
+		# populate module-scope data sources	
+		source_dict["prev_module_id"].held_data = floor_assets[last_module_index].facade_feature_id
+		if len(modules) in module_indices.keys():
+			source_dict["below_module_id"].held_data = module_indices[len(modules)].facade_feature_id
 		else:
-#			var source_set: Dictionary[String, NodeDataSource] = {
-#				"prev_module_id": FixedInputDataSource.new("prev_id"),
-#				"below_module_id": FixedInputDataSource.new("low_id"),
-#				"edge_dist": FixedInputDataSource.new(4.2),
-#				"edge_length": FixedInputDataSource.new(22.3),
-#				"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
-#				"floor_num": FixedInputDataSource.new(2.0),
-#				"floor_amount": FixedInputDataSource.new(5.0),
-#				"all_module_ids": FixedInputDataSource.new(["mod_a", "mod_b", "mod_c"]), # TODO get this at edit time
-#				"rand": DynamicInputDataSource.new(func (): return randf()),
-#				"geo_feature": FixedInputDataSource.new(MockGeoFeature.new())
-#			}
-			source_dict["prev_module_id"].held_data = floor_assets[last_module_index].facade_feature_id
-			#print(floor_assets[last_module_index].facade_feature_id)
-			if len(modules) in module_indices.keys():
-				source_dict["below_module_id"].held_data = module_indices[len(modules)].facade_feature_id
-				#print("below ", source_dict["below_module_id"].get_value())
-			else:
-				source_dict["below_module_id"].held_data = ""
-			source_dict["edge_dist"].held_data = min(populable_edge_length - (used_width + assumed_model_width / 2), used_width + assumed_model_width / 2)
-			source_dict["edge_length"].held_data = populable_edge_length
-			
-			var normal = Vector2.from_angle(dir.angle() - PI/2)
-			source_dict["edge_normal"].held_data = Vector3(normal.x, 0, normal.y)
-			var next_id: String = str(executable_graph.get_slot_input(0, executable_graph_cache))
-			#print(next_id)
-			var candidates = floor_assets.filter(func (wtd: WallTileDefinition): return wtd.facade_feature_id == next_id)
-			#print(next_id, next_id == "plain_wall", candidates)
-			var actual_id = randi_range(0,floor_assets.size() - 1)
-			if candidates.size() > 0:
-				actual_id = floor_assets.find(candidates[0])
-				#print(candidates[0])
-#			else:
-#				print("Invalid ID: ", next_id)
-			last_module_index = actual_id
-			random_index = actual_id
-			#print("mstat preclear ", executable_graph_cache)
+			source_dict["below_module_id"].held_data = ""
+		source_dict["edge_dist"].held_data = min(populable_edge_length - (used_width + assumed_model_width / 2), used_width + assumed_model_width / 2)
+		source_dict["edge_length"].held_data = populable_edge_length
+		
+		var normal = Vector2.from_angle(dir.angle() - PI/2)
+		source_dict["edge_normal"].held_data = Vector3(normal.x, 0, normal.y)
+		
+		# run decision graph
+		var next_id: String = str(executable_graph.get_slot_input(0, executable_graph_cache))
 
-			executable_graph.prune_cache_by_class(executable_graph_cache, BuildingGraphRunner.NodeCacheClass.ModuleStatic)
-		var mesh: Mesh = floor_assets[random_index].model
+		var candidates = floor_assets.filter(func (wtd: WallTileDefinition): return wtd.facade_feature_id == next_id)
+		
+		# use graph-chosen module, otherwise pick randomly
+		var actual_id = randi_range(0,floor_assets.size() - 1)
+		if candidates.size() > 0:
+			actual_id = floor_assets.find(candidates[0])
+
+		last_module_index = actual_id
+		var next_module_index = actual_id
+		
+		# prune cache
+		executable_graph.prune_cache_by_class(executable_graph_cache, BuildingGraphRunner.NodeCacheClass.ModuleStatic)
+		
+		var mesh: Mesh = floor_assets[next_module_index].model
 		
 		var module_width := mesh.get_aabb().size.x
 		
@@ -389,7 +349,7 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 	# ------------------------
 	var cursor := 0.0
 
-	# 2a) Leading spacers
+	# 2a) Leading spacer
 	var spacer_stretch_factor = (edge_length - used_width) / spacer_width * 0.5
 	var spacer_current_index = multi_mesh_map[spacer_block].multimesh.visible_instance_count
 	multi_mesh_map[spacer_block].multimesh.visible_instance_count += 2
@@ -412,7 +372,7 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 		cursor += m.width * module_scale
 		index += 1
 	
-	# 2c) ending spacers
+	# 2c) ending spacer
 	spacer_current_offset = dir * (cursor + (edge_length - used_width) * 0.25)
 	cursor += (edge_length - used_width) * 0.5
 	spacer_current_index += 1
@@ -443,6 +403,6 @@ static func _footprint_to_edges(footprint: Array[Vector2]) -> Array[Edge]:
 	# Create edge list
 	var edges: Array[Edge] = []
 	for i in range(footprint.size()):
-		edges.push_back(Edge.new(footprint[i], footprint[(i+1)%footprint.size()]))
+		edges.push_back(Edge.new(footprint[i], footprint[(i+1) % footprint.size()]))
 	
 	return edges

@@ -3,38 +3,63 @@
 [resource]
 data = {
 "connections": [{
-"from_node": 605464340.0,
+"from_node": 541399742.0,
 "from_slot": 3.0,
-"to_node": 605464298.0,
+"to_node": 541398918.0,
 "to_slot": 0.0
 }, {
-"from_node": 605464397.0,
+"from_node": 541399776.0,
 "from_slot": 2.0,
-"to_node": 605464340.0,
+"to_node": 541399742.0,
 "to_slot": 0.0
 }, {
-"from_node": 605464332.0,
+"from_node": 541398952.0,
 "from_slot": 1.0,
-"to_node": 605464397.0,
+"to_node": 541399776.0,
 "to_slot": 0.0
 }, {
-"from_node": 605464406.0,
+"from_node": 541399800.0,
 "from_slot": 0.0,
-"to_node": 605464397.0,
+"to_node": 541399776.0,
 "to_slot": 1.0
 }, {
-"from_node": 605465194.0,
+"from_node": 541399814.0,
 "from_slot": 0.0,
-"to_node": 605464340.0,
+"to_node": 541399742.0,
 "to_slot": 1.0
 }, {
-"from_node": 605464303.0,
+"from_node": 3807571580.0,
+"from_slot": 3.0,
+"to_node": 541399742.0,
+"to_slot": 2.0
+}, {
+"from_node": 3807545508.0,
+"from_slot": 3.0,
+"to_node": 3807571580.0,
+"to_slot": 0.0
+}, {
+"from_node": 3807571746.0,
 "from_slot": 0.0,
-"to_node": 605464340.0,
+"to_node": 3807545508.0,
+"to_slot": 0.0
+}, {
+"from_node": 3807545439.0,
+"from_slot": 0.0,
+"to_node": 3807545508.0,
+"to_slot": 2.0
+}, {
+"from_node": 544841020.0,
+"from_slot": 0.0,
+"to_node": 3807571580.0,
+"to_slot": 1.0
+}, {
+"from_node": 541398923.0,
+"from_slot": 0.0,
+"to_node": 3807571580.0,
 "to_slot": 2.0
 }],
 "nodes": [{
-"node_id": 605464298.0,
+"node_id": 541398918.0,
 "node_type": "Chosen BuildingDefinition",
 "slots": [{
 "slot_data": {},
@@ -42,7 +67,7 @@ data = {
 "type": "text_input"
 }]
 }, {
-"node_id": 605464303.0,
+"node_id": 541398923.0,
 "node_type": "Text constant",
 "slots": [{
 "slot_data": {
@@ -52,7 +77,7 @@ data = {
 "type": "text_constant"
 }]
 }, {
-"node_id": 605464332.0,
+"node_id": 541398952.0,
 "node_type": "GeoFeature Attribute",
 "slots": [{
 "slot_data": {
@@ -66,7 +91,7 @@ data = {
 "type": "text_output"
 }]
 }, {
-"node_id": 605464340.0,
+"node_id": 541399742.0,
 "node_type": "Condition",
 "slots": [{
 "slot_data": {},
@@ -86,7 +111,7 @@ data = {
 "type": "text_output"
 }]
 }, {
-"node_id": 605464397.0,
+"node_id": 541399776.0,
 "node_type": "Text equality",
 "slots": [{
 "slot_data": {},
@@ -102,7 +127,7 @@ data = {
 "type": "boolean_output"
 }]
 }, {
-"node_id": 605464406.0,
+"node_id": 541399800.0,
 "node_type": "Text constant",
 "slots": [{
 "slot_data": {
@@ -112,14 +137,125 @@ data = {
 "type": "text_constant"
 }]
 }, {
-"node_id": 605465194.0,
+"node_id": 541399814.0,
 "node_type": "Text constant",
 "slots": [{
 "slot_data": {
-"constant_value": "Shack"
+"constant_value": "Chapel"
 },
 "slot_input_type": "constant",
 "type": "text_constant"
+}]
+}, {
+"node_id": 3807571580.0,
+"node_type": "Condition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 3807571548.0,
+"node_type": "Text equality",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 3807571774.0,
+"node_type": "GeoFeature Attribute",
+"slots": [{
+"slot_data": {
+"constant_value": "historic"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 3807545479.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": ""
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 544841020.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "Historic"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 3807571746.0,
+"node_type": "Random Scalar",
+"slots": [{
+"data_source_identifier": "rand",
+"slot_data": {},
+"slot_input_type": "data_source",
+"type": "scalar_output"
+}]
+}, {
+"node_id": 3807545508.0,
+"node_type": "Scalar Comparison",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {
+"choice": "<"
+},
+"slot_input_type": "connection",
+"type": "dropdown"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 3807545439.0,
+"node_type": "Scalar constant",
+"slots": [{
+"slot_data": {
+"constant_value": 0.0
+},
+"slot_input_type": "constant",
+"type": "scalar_constant"
 }]
 }]
 }

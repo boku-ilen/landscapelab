@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="FloorDefinition" format=3 uid="uid://hftjv3oxhhyt"]
+
+[ext_resource type="ArrayMesh" uid="uid://dlg6fwtnmg2ua" path="res://Resources/Meshes/BuildingComponents/Historic_Default_CornerOut02_0.75x4.0.obj" id="1_cf31m"]
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="2_nwygi"]
+[ext_resource type="JSON" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/ChapelDoorSelection.json" id="3_avb4y"]
+[ext_resource type="ArrayMesh" uid="uid://dojf36x046m6w" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Spacer_2.0x4.0.obj" id="4_cf31m"]
+[ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="5_6e2fl"]
+[ext_resource type="ArrayMesh" uid="uid://dd64e8bu8ywjo" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Blank_2.0x4.0.obj" id="6_2mokj"]
+[ext_resource type="ArrayMesh" uid="uid://d0mq1vxgkkx8m" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Door01_2.0x4.0.obj" id="7_nwygi"]
+[ext_resource type="ArrayMesh" uid="uid://b2oqaisry4b8q" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Window01_2.0x4.0.obj" id="8_rmbgb"]
+
+[sub_resource type="Resource" id="Resource_wnvvm"]
+script = ExtResource("5_6e2fl")
+model = ExtResource("6_2mokj")
+probability = 0.6
+facade_feature_id = "plain_wall"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_rmery"]
+script = ExtResource("5_6e2fl")
+model = ExtResource("7_nwygi")
+facade_feature_id = "door"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_6e2fl"]
+script = ExtResource("5_6e2fl")
+model = ExtResource("8_rmbgb")
+facade_feature_id = "large_window"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[resource]
+script = ExtResource("2_nwygi")
+walls = Array[ExtResource("5_6e2fl")]([SubResource("Resource_wnvvm"), SubResource("Resource_rmery"), SubResource("Resource_6e2fl")])
+corner_90 = ExtResource("1_cf31m")
+spacer_block = ExtResource("4_cf31m")
+height = 4.0
+selection_rules = ExtResource("3_avb4y")
+metadata/_custom_type_script = "uid://1cryccueq7u4"

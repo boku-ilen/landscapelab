@@ -161,12 +161,8 @@ func load_feature_instance(feature: GeoFeature):
 	
 	# precompute executable graphs for selection
 	for floor_def in modular_metadata_instance.floor_definitions:
-		if floor_def in execution_graph_cache.keys():
-			exec_graphs.append(execution_graph_cache[floor_def])
-			continue
 		var node_graph := BuildingGraphRunner.setup_executable_graph(floor_def.selection_rules.data, node_types.data, data_sources)
 		exec_graphs.append(node_graph)
-#		execution_graph_cache[floor_def] = node_graph
 
 	# facade construction
 	BuildingFactory.build_building(building, modular_metadata_instance, exec_graphs, data_sources, material_replacements, feature)
@@ -235,9 +231,6 @@ func load_feature_instance(feature: GeoFeature):
 		
 	building.name = str(feature.get_id())
 
-#	if "can_refine" in building:
-#		buildings_to_refine.append(building)
-
 	return building
 
 	
@@ -250,10 +243,12 @@ func refine_load():
 	
 	mutex.lock()
 
+	# only consider valid buildings
 	roofs_to_refine = roofs_to_refine.filter(
 		func (roof): return roof["building"] and is_instance_valid(roof["building"]) and roof["building"].get_parent() == self
 	)
-
+	
+	# consider closest buildings first
 	roofs_to_refine.sort_custom(
 		func (roof_a, roof_b): 
 			return roof_a["building"].position.distance_squared_to(position_manager.center_node.position) < \
@@ -261,7 +256,6 @@ func refine_load():
 	)
 			
 	if roofs_to_refine.size() > 0:
-		
 		var roof = roofs_to_refine.pop_front()
 		
 		for distance in refine_distances:
@@ -298,11 +292,13 @@ func refine_load():
 	
 	mutex.unlock()
 
+## Refine roof with detail meshes (ridge caps and gutters)
 func refine_roof(roof: Dictionary)-> Dictionary:
 	roof["is_refined"] = true
-	logger.info("refining " + roof["building"].name)
+	#logger.info("refining " + roof["building"].name)
 	var skeleton_data: StraightSkeleton.StraightSkeletonInfo = roof["roof"]
 	
+	# ridge caps along bisector lines
 	var bisectors := skeleton_data.bisectors
 	var refine_ridge_mesh = refine_ridge_meshes[randi_range(0, refine_ridge_meshes.size() - 1)]
 	var ridge_cap_multimesh = MultiMeshInstance3D.new()
@@ -311,7 +307,7 @@ func refine_roof(roof: Dictionary)-> Dictionary:
 	ridge_cap_multimesh.multimesh.mesh = refine_ridge_mesh
 	ridge_cap_multimesh.multimesh.instance_count = bisectors.size()
 	ridge_cap_multimesh.multimesh.visible_instance_count = bisectors.size()
-	var base_material = StandardMaterial3D.new()#ridge_cap_multimesh.multimesh.mesh.surface_get_material(0).duplicate(true)
+	var base_material = StandardMaterial3D.new()
 	base_material.albedo_color = roof["color"]
 	ridge_cap_multimesh.material_overlay = base_material
 	
@@ -319,15 +315,16 @@ func refine_roof(roof: Dictionary)-> Dictionary:
 	# ridge caps along bisectors
 	for bisector_i in bisectors.size():
 		var bisector := bisectors[bisector_i]
+		# downscale 2D coordinates (StraightSkeleton get_mesh() upscales by 200 to reduce float rounding error)
 		var origin := Vector3(bisector.origin.x / 200, (bisector.start_t / skeleton_data.max_t) * roof["height"], bisector.origin.y / 200)
 		var endpoint := Vector3(bisector.endpoint.x / 200, (bisector.end_t / skeleton_data.max_t) * roof["height"], bisector.endpoint.y / 200)
 		var midpoint := (origin + endpoint) * 0.5
 		var aabb: AABB = refine_ridge_mesh.get_aabb()
 		var mesh_length: float = aabb.size.z
-		var mesh_height: float = aabb.size.y / 4
-		#print(mesh_height)
+
 		var scale_z := origin.distance_to(endpoint) / mesh_length
 		
+		# skip if midpoint and origin are in the same place (i.e. line has near 0 length)
 		if not origin.distance_squared_to(midpoint) < 0.001:
 			ridge_cap_multimesh.multimesh.set_instance_transform(
 				bisector_i, 
@@ -346,7 +343,8 @@ func refine_roof(roof: Dictionary)-> Dictionary:
 	gutter_multimesh.multimesh.instance_count = offset_footprint.size() + 1
 	gutter_multimesh.multimesh.visible_instance_count = gutter_multimesh.multimesh.instance_count
 	gutter_multimesh.material_overlay = base_material
-
+	
+	# gutters around outside edge
 	for vert_i in offset_footprint.size():
 		var edge_start: Vector2 = offset_footprint[vert_i]
 		var edge_end: Vector2 = offset_footprint[(vert_i + 1) % offset_footprint.size()]
@@ -377,6 +375,7 @@ func refine_roof(roof: Dictionary)-> Dictionary:
 	roof["refine_meshes"].append(gutter_multimesh)
 	return roof
 
+## remove refinement details from roof
 func unrefine_roof(roof: Dictionary) -> Dictionary:
 	roof["is_refined"] = false
 	
