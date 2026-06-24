@@ -5,10 +5,12 @@
 [ext_resource type="Material" uid="uid://dqlwesucedq35" path="res://Assets/Natural/Plants/Trees/Pine/leaves_shader.tres" id="2_sxili"]
 [ext_resource type="Texture2D" uid="uid://cqv7pc0kmoeoq" path="res://Assets/Natural/Plants/Trees/Pine/pine_joined_Image_2.png" id="3_in1ox"]
 [ext_resource type="Texture2D" uid="uid://ba5x02tlm3f5p" path="res://Assets/Natural/Plants/Trees/Pine/pine_joined_Image_3-Image_0.png" id="4_dced6"]
+[ext_resource type="Texture2D" uid="uid://543il10phdwv" path="res://Resources/Shader/Wind/WindNoise.tres" id="5_in1ox"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3o58h"]
 render_priority = 0
 shader = ExtResource("1_rikhs")
+shader_parameter/wind_map = ExtResource("5_in1ox")
 shader_parameter/wind_speed = Vector2(0, 0)
 shader_parameter/wind_factor = 1.0
 shader_parameter/albedo_node_rand_hue_branch = 0.08
