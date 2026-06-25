@@ -112,14 +112,16 @@ func load_feature_instance(feature: GeoFeature):
 	var building_metadata = BuildingMetadata.new(feature, center, layer_composition.render_info)
 	
 	# door locations from point features in door_layer
-	var door_layer: GeoFeatureLayer = layer_composition.render_info.door_layer
-	var door_features: Array = door_layer.get_features_by_attribute_filter("id='" + str(feature.get_attribute("id")) +"'")
-	if len(door_features) > 0:
-		modular_metadata_instance.feature_positions["door"] = []
-		for door_feature: GeoPoint in door_features: 
-			var feature_geo_position = door_feature.get_vector3() + Vector3(building_metadata.geo_offset[0], 0, -building_metadata.geo_offset[1])
-			var relative_position = feature_geo_position - building_metadata.engine_center
-			modular_metadata_instance.feature_positions["door"].append(Vector2(relative_position.x, relative_position.z))
+	modular_metadata_instance.feature_positions["door"] = []
+	if layer_composition.render_info.door_layer:
+		var door_layer: GeoFeatureLayer = layer_composition.render_info.door_layer
+		var door_features: Array = door_layer.get_features_by_attribute_filter("id='" + str(feature.get_attribute("id")) +"'")
+		if len(door_features) > 0:
+			#modular_metadata_instance.feature_positions["door"] = []
+			for door_feature: GeoPoint in door_features: 
+				var feature_geo_position = door_feature.get_vector3() + Vector3(building_metadata.geo_offset[0], 0, -building_metadata.geo_offset[1])
+				var relative_position = feature_geo_position - building_metadata.engine_center
+				modular_metadata_instance.feature_positions["door"].append(Vector2(relative_position.x, relative_position.z))
 	if not Geometry2D.is_polygon_clockwise(building_metadata.footprint):
 		building_metadata.footprint.reverse()
 	var footprint: Array[Vector2]
@@ -133,6 +135,7 @@ func load_feature_instance(feature: GeoFeature):
 	modular_metadata_instance.roof_height = building_metadata.roof_height
 	
 	# setup data sources for building graph
+	# FIXME dummy data (necessary?)
 	var data_sources: Dictionary[String, NodeDataSource] = {
 		"prev_module_id": FixedInputDataSource.new("prev_id"),
 		"below_module_id": FixedInputDataSource.new("low_id"),

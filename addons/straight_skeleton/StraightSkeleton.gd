@@ -318,7 +318,8 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 	to_remove.sort_custom(func (a,b): return a > b)
 	for dup in to_remove:
 		verts.remove_at(dup)
-		unfinished_bisectors.remove_at(dup)
+		if unfinished_bisectors.size() != 0:
+			unfinished_bisectors.remove_at(dup)
 		last_untriangulated.remove_at(dup)
 	
 	if verts[0].distance_squared_to(verts[-1]) < 0.01:
