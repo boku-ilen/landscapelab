@@ -1,7 +1,7 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://o7qfa03e65ul"]
 
-[ext_resource type="Material" uid="uid://d2i1uqguv1lry" path="res://Resources/Meshes/Trees/Picea_abies/picea_abies_trunk.tres" id="1_b80ut"]
-[ext_resource type="Material" uid="uid://bebnxpaufnhed" path="res://Resources/Meshes/Trees/Picea_abies/picea_abies_branches.tres" id="2_u3i3s"]
+[ext_resource type="Material" uid="uid://d2i1uqguv1lry" path="res://Assets/Natural/Plants/Trees/Picea_abies/picea_abies_trunk.tres" id="1_b80ut"]
+[ext_resource type="Material" uid="uid://bebnxpaufnhed" path="res://Assets/Natural/Plants/Trees/Picea_abies/picea_abies_branches.tres" id="2_u3i3s"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_uekbl"]
 _surfaces = [{

@@ -66,7 +66,42 @@ var func_dict = {
 
 func set_feature_icon(feature, marker):
 	var render_info: LayerDefinition.FeatureRenderInfo = layer_definition.render_info
-	if render_info.attribute_icon.attribute != "":
+	
+	if "meters_per_pixel" in feature.get_attributes().keys():
+		var res_x = feature.get_attribute("width")
+		var res_y = feature.get_attribute("height")
+		var lid = int(feature.get_attribute("lid"))
+		var data = feature.get_binary_attribute("image")
+		var image = Image.create_from_data(int(res_x), int(res_y), false, Image.FORMAT_R8, data)
+		
+		if not image:
+			logger.error("Invalid image data in feature with ID %s" % [feature.get_id()])
+			return
+		
+		var texture = ImageTexture.create_from_image(image)
+		marker.set_texture(texture)
+		
+		var position_orig = feature.get_vector3()
+		var right_orig = position_orig + Vector3.RIGHT * float(feature.get_attribute("meters_per_pixel")) * 1000.0
+		
+		var position_3857 = global_vector3_to_local_vector2(position_orig)
+		var right_3857 = global_vector3_to_local_vector2(right_orig)
+		
+		var delta_3857 = (right_3857 - position_3857).length() / 1000.0
+		marker.set_scale(Vector2.ONE * delta_3857)
+		
+		var mat = ShaderMaterial.new()
+		mat.set_shader(preload("res://UI/LabTable/ColoredOverlay.gdshader"))
+		
+		# Set color from config, if available; otherwise calculate a distinct fallback color
+		if str(lid) in layer_definition.render_info.lid_to_color:
+			mat.set_shader_parameter("color", Color(layer_definition.render_info.lid_to_color[str(lid)]))
+		else:
+			mat.set_shader_parameter("color", Vector3((lid % 255), floor(lid / 255.0) * 30, 0))
+		
+		marker.set_material(mat)
+		
+	elif render_info.attribute_icon.attribute != "":
 		var go = GameSystem.get_game_object_for_geo_feature(feature)
 		var attribute_value = go.get_attribute(render_info.attribute_icon.attribute)
 		
@@ -77,7 +112,7 @@ func set_feature_icon(feature, marker):
 		
 		# Check if an earlier entry applies
 		for threshold in render_info.attribute_icon.thresholds.keys():
-			if attribute_value <= str_to_var(threshold):
+			if attribute_value and attribute_value <= str_to_var(threshold):
 				marker.set_texture(load(render_info.attribute_icon.thresholds[threshold]))
 				marker.set_scale(Vector2.ONE * render_info.marker_scale / zoom)
 				break

@@ -23,6 +23,7 @@ func _ready():
 			var chunk = chunk_scene.instantiate()
 
 			chunk.position = Vector3(x * chunk_size, 0.0, y * chunk_size)
+			chunk.load_position = chunk.position
 			chunk.size = chunk_size
 			
 			custom_chunk_setup(chunk)
@@ -43,7 +44,8 @@ func is_new_loading_required(position_diff: Vector3) -> bool:
 func full_load():
 	for chunk in chunks:
 		chunk.position_diff = Vector3.ZERO
-		
+		chunk.load_position = chunk.position
+		custom_chunk_setup(chunk)
 		chunk.build(center[0], center[1])
 
 
@@ -58,10 +60,17 @@ func adapt_load(_diff: Vector3):
 	var player_x = position_manager.center_node.position.x
 	var player_z = position_manager.center_node.position.z
 	
+	var task_ids = []
+	
 	for chunk in chunks:
 		var changed = false
 		chunk.position_diff.x = 0
 		chunk.position_diff.z = 0
+		chunk.load_position = chunk.position
+		
+		if not chunk.has_loaded:
+			changed = true
+			chunk.has_loaded = true
 
 		while chunk.position.x + chunk.position_diff.x - player_x >= chunk_size * extent + chunk_size / 2.0:
 			chunk.position_diff.x += -chunk_size * extent * 2 - chunk_size
@@ -79,7 +88,10 @@ func adapt_load(_diff: Vector3):
 		
 		if changed:
 			chunk.decrease_quality(INF)  # Definitely maximally decrease quality here
-			chunk.build(center[0], center[1])
+			task_ids.append(WorkerThreadPool.add_task(chunk.build.bind(center[0], center[1])))
+	
+	for task_id in task_ids:
+		WorkerThreadPool.wait_for_task_completion(task_id)
 	
 	waiting_to_apply = true
 	call_deferred("apply_new_data")
@@ -132,6 +144,7 @@ func apply_new_data():
 			chunk.apply()
 			
 			chunk.position += chunk.position_diff
+			chunk.load_position = chunk.position
 			chunk.position_diff = Vector3.ZERO
 	
 	logger.info("Applied new chunked data for %s" % [name])

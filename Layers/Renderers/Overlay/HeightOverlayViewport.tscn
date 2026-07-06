@@ -1,26 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://y2so1tovigxv"]
+[gd_scene format=3 uid="uid://y2so1tovigxv"]
 
 [ext_resource type="Script" uid="uid://csoa12n72eknr" path="res://Layers/Renderers/Overlay/HeightOverlayViewport.gd" id="1_g7xle"]
 
 [sub_resource type="Environment" id="Environment_t6cpk"]
 background_mode = 1
 
-[node name="HeightOverlayViewport" type="Node3D"]
+[node name="HeightOverlayViewport" type="Node3D" unique_id=1514493269]
 script = ExtResource("1_g7xle")
 
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=1612893071]
 remote_path = NodePath("../Viewport/CameraRoot")
 
-[node name="Viewport" type="SubViewport" parent="."]
+[node name="Viewport" type="SubViewport" parent="." unique_id=1213915805]
 debug_draw = 1
 use_hdr_2d = true
 positional_shadow_atlas_size = 0
 size = Vector2i(1000, 1000)
 render_target_update_mode = 1
 
-[node name="CameraRoot" type="Node3D" parent="Viewport"]
+[node name="CameraRoot" type="Node3D" parent="Viewport" unique_id=2087493931]
 
-[node name="Camera" type="Camera3D" parent="Viewport/CameraRoot"]
+[node name="Camera" type="Camera3D" parent="Viewport/CameraRoot" unique_id=518849022]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 9000, 0)
 cull_mask = 131072
 environment = SubResource("Environment_t6cpk")

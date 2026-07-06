@@ -9,17 +9,14 @@ var position_manager: PositionManager
 # Offset to use as the center position
 var center := [0, 0]
 
-var last_load_position := Vector3.ZERO
+var last_load_position := Vector3.INF  # inf to provoke a first load
 
-var loading_thread := Thread.new()
+var current_task_id := -1
 
-static var use_load_mutex := true
 static var load_mutex := Mutex.new()
 
 @export var load_refined_threaded := true
 @export var load_adapt_threaded := true
-
-@export var distance_thread_threshold := 1000.0
 
 # Time management
 var time_manager: TimeManager :
@@ -47,25 +44,19 @@ func _ready():
 # or refine the current data if the position has not changed much.
 # Do not override (remember to call call `super._process(delta)` if overloading)!
 func _process(_delta):
-	if loading_thread.is_started() and not loading_thread.is_alive():
-		loading_thread.wait_to_finish()
-	
-	if not loading_thread.is_started():
+	if current_task_id == -1 or WorkerThreadPool.is_task_completed(current_task_id):
 		var diff = position_manager.center_node.position - last_load_position
+		
 		# FIXME: Display loading screen if diff is too large
 		if is_new_loading_required(diff):
-			if diff.length() < distance_thread_threshold and load_adapt_threaded:
-				if use_load_mutex: load_mutex.lock()
-				loading_thread.start(adapt_load.bind(diff))
-				if use_load_mutex: load_mutex.unlock()
+			if load_adapt_threaded:
+				current_task_id = WorkerThreadPool.add_task(adapt_load.bind(diff))
 			else:
 				adapt_load(diff)
 			last_load_position = position_manager.center_node.position
 		else:
 			if load_refined_threaded:
-				if use_load_mutex: load_mutex.lock()
-				loading_thread.start(refine_load)
-				if use_load_mutex: load_mutex.unlock()
+				current_task_id = WorkerThreadPool.add_task(refine_load)
 			else:
 				refine_load()
 

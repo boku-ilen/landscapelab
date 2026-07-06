@@ -21,8 +21,12 @@ func _init(initial_name, initial_image_attribute_name, initial_width_attribute_n
 
 func get_value(game_object):
 	var image_data = game_object.geo_feature.get_binary_attribute(image_attribute_name)
-	var width = game_object.geo_feature.get_attribute(width_attribute_name)
-	var height = game_object.geo_feature.get_attribute(height_attribute_name)
+	
+	# Nothing set yet?
+	if not image_data or image_data.is_empty(): return 0.0
+	
+	var width = int(game_object.geo_feature.get_attribute(width_attribute_name))
+	var height = int(game_object.geo_feature.get_attribute(height_attribute_name))
 	
 	var image = Image.create_from_data(width, height, false, Image.FORMAT_R8, image_data)
 	

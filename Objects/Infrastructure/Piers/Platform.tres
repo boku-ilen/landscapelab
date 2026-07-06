@@ -1,6 +1,6 @@
-[gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://6f5lf5chovpi"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://6f5lf5chovpi"]
 
-[ext_resource type="Material" uid="uid://ce3s4ki6xwf5n" path="res://Resources/Meshes/Infrastructure/Dock/Dock_Platform.tres" id="1_eoh4q"]
+[ext_resource type="Material" uid="uid://ce3s4ki6xwf5n" path="res://Assets/Artificial/Infrastructure/Dock/Dock_Platform.tres" id="1_eoh4q"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_eoh4q"]
 _surfaces = [{

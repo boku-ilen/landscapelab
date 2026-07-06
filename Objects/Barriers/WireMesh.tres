@@ -1,9 +1,9 @@
-[gd_resource type="ArrayMesh" load_steps=7 format=4 uid="uid://b11fg0nuolvig"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://b11fg0nuolvig"]
 
-[ext_resource type="Texture2D" uid="uid://dxauxuv0terjw" path="res://Resources/Meshes/_NEW assets/zaun-vorher/materials/zaun base color.png" id="1_njrvu"]
-[ext_resource type="Texture2D" uid="uid://clooei0geou5o" path="res://Resources/Meshes/_NEW assets/zaun-vorher/materials/zaun metallic.png" id="2_elpfc"]
-[ext_resource type="Texture2D" uid="uid://c8irq03cvqkh" path="res://Resources/Meshes/_NEW assets/zaun-vorher/materials/zaun normals.png" id="3_h56xj"]
-[ext_resource type="Texture2D" uid="uid://dn0c8lcjbux24" path="res://Resources/Meshes/_NEW assets/zaun-vorher/materials/zaun roughness.png" id="4_7kk1b"]
+[ext_resource type="Texture2D" uid="uid://dxauxuv0terjw" path="res://Assets/Artificial/Barriers/ResidentialFences/materials/zaun base color.png" id="1_njrvu"]
+[ext_resource type="Texture2D" uid="uid://clooei0geou5o" path="res://Assets/Artificial/Barriers/ResidentialFences/materials/zaun metallic.png" id="2_elpfc"]
+[ext_resource type="Texture2D" uid="uid://c8irq03cvqkh" path="res://Assets/Artificial/Barriers/ResidentialFences/materials/zaun normals.png" id="3_h56xj"]
+[ext_resource type="Texture2D" uid="uid://dn0c8lcjbux24" path="res://Assets/Artificial/Barriers/ResidentialFences/materials/zaun roughness.png" id="4_7kk1b"]
 [ext_resource type="Material" uid="uid://u7375d0sud04" path="res://Objects/Barriers/StandardBarrierMaterial.tres" id="5_ojeue"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1nfbc"]

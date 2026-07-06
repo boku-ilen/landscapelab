@@ -1,0 +1,3 @@
+[submodule "Assets"]
+	path = Assets
+	url = https://github.com/boku-ilen/landscapelab-assets

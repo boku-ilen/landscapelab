@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://d330vxvjgnvr2"]
+
+[ext_resource type="Theme" uid="uid://2acd0pfpr1ny" path="res://UI/Theme/LandscapeLab.tres" id="1_qxkk2"]
+[ext_resource type="Script" uid="uid://dcnihpq84wnh5" path="res://UI/Layers/LayerConfiguration/LayerCompositionUIWindow.gd" id="1_ysqb7"]
+[ext_resource type="PackedScene" uid="uid://c1qrnycjr7pqq" path="res://UI/Layers/LayerConfiguration/LayerCompositionUI.tscn" id="2_mdlvn"]
+
+[node name="LayerCompositionUIWindow" type="Window" unique_id=739540009]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(800, 500)
+theme = ExtResource("1_qxkk2")
+script = ExtResource("1_ysqb7")
+
+[node name="LayerCompositionUI" parent="." unique_id=951454444 instance=ExtResource("2_mdlvn")]

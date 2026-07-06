@@ -38,10 +38,7 @@ func _ready():
 	material_override.set_shader_parameter("is_billboard", density_class.is_billboard)
 	
 	# Set static shader variables
-	process_material.set_shader_parameter("row_ids", Vegetation.row_ids[density_class.id])
-	process_material.set_shader_parameter("distribution_array", Vegetation.density_class_to_distribution_megatexture[density_class.id])
-	material_override.set_shader_parameter("texture_map", Vegetation.plant_megatexture)
-	
+	_on_vegetation_data_update()
 	set_rows_spacing_in_shader()
 
 

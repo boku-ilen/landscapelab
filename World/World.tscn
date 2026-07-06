@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dq360hhqtol4f"]
+[gd_scene format=3 uid="uid://dq360hhqtol4f"]
 
 [ext_resource type="Script" uid="uid://xfpokec7eppf" path="res://World/PositionManager.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://cejf5c8oyb02b" path="res://World/Environment/WorldEnvironment.tscn" id="2"]
@@ -10,27 +10,27 @@
 [ext_resource type="Script" uid="uid://dna34y2fmiur4" path="res://World/World.gd" id="8"]
 [ext_resource type="PackedScene" uid="uid://fdxy3e13umxv" path="res://GameSystem/GameModesConfigurator.tscn" id="14_lpgpe"]
 
-[node name="World" type="Node3D"]
+[node name="World" type="Node3D" unique_id=1550443924]
 script = ExtResource("8")
 
-[node name="WorldEnvironment" parent="." instance=ExtResource("2")]
+[node name="WorldEnvironment" parent="." unique_id=1867770897 instance=ExtResource("2")]
 
-[node name="Terrain" type="Node3D" parent="."]
+[node name="Terrain" type="Node3D" parent="." unique_id=152528163]
 
-[node name="LayerRenderers" parent="Terrain" instance=ExtResource("6")]
+[node name="LayerRenderers" parent="Terrain" unique_id=1809265532 instance=ExtResource("6")]
 
-[node name="FirstPersonPC" parent="." instance=ExtResource("3")]
+[node name="FirstPersonPC" parent="." unique_id=1780470910 instance=ExtResource("3")]
 
-[node name="LLConfigSetup" parent="." instance=ExtResource("7")]
+[node name="LLConfigSetup" parent="." unique_id=1484603831 instance=ExtResource("7")]
 
-[node name="PositionManager" type="Node" parent="."]
+[node name="PositionManager" type="Node" parent="." unique_id=1043736005]
 script = ExtResource("1")
 center_node_path = NodePath("../FirstPersonPC")
 
-[node name="TimeManager" type="Node" parent="."]
+[node name="TimeManager" type="Node" parent="." unique_id=96117372]
 script = ExtResource("4")
 
-[node name="WeatherManager" type="Node" parent="."]
+[node name="WeatherManager" type="Node" parent="." unique_id=1355892300]
 script = ExtResource("5")
 
-[node name="GameModesConfigurator" parent="." instance=ExtResource("14_lpgpe")]
+[node name="GameModesConfigurator" parent="." unique_id=1589185284 instance=ExtResource("14_lpgpe")]

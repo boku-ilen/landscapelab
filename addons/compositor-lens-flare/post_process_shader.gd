@@ -303,7 +303,7 @@ func _render_callback(p_effect_callback_type, p_render_data):
 				var downsample_uniform_set_2 := UniformSetCacheRD.get_cache(lens_shader, 1, [ downsampled_uniform ])
 				
 				var downsample_push_constant := PackedByteArray()
-				downsample_push_constant.resize(32)
+				downsample_push_constant.resize(20)
 				downsample_push_constant.encode_float(0, size.x)
 				downsample_push_constant.encode_float(4, size.y)
 				downsample_push_constant.encode_float(8, downsample_scale)
@@ -336,7 +336,7 @@ func _render_callback(p_effect_callback_type, p_render_data):
 					
 					# Iteration 1
 					var streak_push_constant: PackedByteArray = PackedByteArray()
-					streak_push_constant.resize(32)
+					streak_push_constant.resize(28)
 					streak_push_constant.encode_float(0, size.x)
 					streak_push_constant.encode_float(4, size.y)
 					streak_push_constant.encode_float(8, direction.x * 1.0) # Direction
@@ -358,7 +358,7 @@ func _render_callback(p_effect_callback_type, p_render_data):
 					
 					# Iteration 2
 					streak_push_constant = PackedByteArray()
-					streak_push_constant.resize(32)
+					streak_push_constant.resize(28)
 					streak_push_constant.encode_float(0, size.x)
 					streak_push_constant.encode_float(4, size.y)
 					streak_push_constant.encode_float(8, direction.x * 1.0) # Direction
@@ -380,7 +380,7 @@ func _render_callback(p_effect_callback_type, p_render_data):
 					
 					# Iteration 3
 					streak_push_constant = PackedByteArray()
-					streak_push_constant.resize(32)
+					streak_push_constant.resize(28)
 					streak_push_constant.encode_float(0, size.x)
 					streak_push_constant.encode_float(4, size.y)
 					streak_push_constant.encode_float(8, direction.x * 1.0) # Direction
@@ -402,7 +402,7 @@ func _render_callback(p_effect_callback_type, p_render_data):
 					
 					# Iteration 4
 					streak_push_constant = PackedByteArray()
-					streak_push_constant.resize(32)
+					streak_push_constant.resize(28)
 					streak_push_constant.encode_float(0, size.x)
 					streak_push_constant.encode_float(4, size.y)
 					streak_push_constant.encode_float(8, direction.x * 1.0) # Direction
@@ -455,7 +455,7 @@ func _render_callback(p_effect_callback_type, p_render_data):
 				var lens_flare_uniform_set_3 = UniformSetCacheRD.get_cache(lens_shader, 2, [color_ramp_uniform])
 				
 				var lens_flare_push_constant := PackedByteArray()
-				lens_flare_push_constant.resize(32)
+				lens_flare_push_constant.resize(28)
 				lens_flare_push_constant.encode_float(0, size.x)
 				lens_flare_push_constant.encode_float(4, size.y)
 				lens_flare_push_constant.encode_s32(8, flare_ghost_count)

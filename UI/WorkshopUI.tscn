@@ -104,12 +104,11 @@ metadata/_tab_index = 1
 
 [node name="Bot" type="TabContainer" parent="MarginContainer/VBoxContainer/Left/Tabs" unique_id=2059227139]
 layout_mode = 2
-current_tab = 3
+current_tab = 0
 drag_to_rearrange_enabled = true
 script = ExtResource("8_cvnpk")
 
 [node name="Datetime" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" unique_id=438268215 instance=ExtResource("11_mx3ou")]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -127,6 +126,7 @@ metadata/_tab_index = 2
 position_manager_path = NodePath("../../../../Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/PositionManager")
 
 [node name="Screenshot" parent="MarginContainer/VBoxContainer/Left/Tabs/Bot" unique_id=1244427465 node_paths=PackedStringArray("teleport_menu", "scenario_menu") instance=ExtResource("12_uackt")]
+visible = false
 layout_mode = 2
 teleport_menu = NodePath("../../Top/TeleportMenu")
 scenario_menu = NodePath("../Scenarios")
@@ -178,7 +178,7 @@ gui_disable_input = true
 positional_shadow_atlas_size = 4096
 positional_shadow_atlas_16_bits = false
 positional_shadow_atlas_quad_0 = 1
-size = Vector2i(833, 574)
+size = Vector2i(795, 574)
 render_target_update_mode = 4
 
 [node name="VRPerformanceManager" type="Node" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" unique_id=321793554 node_paths=PackedStringArray("main_viewport")]

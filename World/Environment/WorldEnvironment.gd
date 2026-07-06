@@ -88,13 +88,13 @@ func apply_light_energy():
 	environment.ssao_intensity = 3.0 + remap(sqrt_cloud_cov, 0, 1, 0, 5)
 	
 	var altitude = rad_to_deg(-light.rotation.x)
+	var altitude_factor = smoothstep(light_disabled_altitude, light_darken_begin_altitude, altitude)
 	
 	# Light is more intensely yellow in the morning and evening
 	#light.light_color.s = clamp(remap(abs(altitude), 5.0, 35.0, 0.4, 0.05), 0.05, 0.4)
 	
 	# Sunrise/sunset
 	if altitude < light_darken_begin_altitude:
-		var altitude_factor = inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude)
 		environment.ambient_light_energy = altitude_factor
 		new_light_intensity *= inverse_lerp(light_disabled_altitude, light_darken_begin_altitude, altitude)
 		
@@ -107,6 +107,9 @@ func apply_light_energy():
 	
 	light.light_intensity_lux = new_light_intensity
 	light.light_temperature = new_light_temperature
+	
+	environment.fog_light_energy = altitude_factor
+	environment.background_energy_multiplier = altitude_factor
 
 
 func _set_directional_light_energy(new_energy):

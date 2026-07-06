@@ -1,9 +1,9 @@
-[gd_scene load_steps=88 format=4 uid="uid://xgubocakqn7j"]
+[gd_scene format=4 uid="uid://xgubocakqn7j"]
 
 [ext_resource type="Script" uid="uid://dww016r1dhraa" path="res://Objects/WindTurbine/GenericWindTurbine.gd" id="1_lasof"]
-[ext_resource type="Texture2D" uid="uid://clwv2u0io0xb5" path="res://Resources/Meshes/Windmills/E/WKA_E_wind-turbine-plate-clean.jpg" id="2_ockbq"]
-[ext_resource type="Texture2D" uid="uid://bu4ttlt1ghjil" path="res://Resources/Meshes/Windmills/E/WKA_E_metal_plate_02_nor_gl_2k.jpg" id="3_t8o76"]
-[ext_resource type="Texture2D" uid="uid://k5c31mbj4oxk" path="res://Resources/Meshes/Windmills/E/WKA_E_metal_plate_02_rough_2k.png" id="4_ppx4f"]
+[ext_resource type="Texture2D" uid="uid://clwv2u0io0xb5" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/E/WKA_E_wind-turbine-plate-clean.jpg" id="2_ockbq"]
+[ext_resource type="Texture2D" uid="uid://bu4ttlt1ghjil" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/E/WKA_E_metal_plate_02_nor_gl_2k.jpg" id="3_t8o76"]
+[ext_resource type="Texture2D" uid="uid://k5c31mbj4oxk" path="res://Assets/Artificial/Infrastructure/Energy/WindTurbines/E/WKA_E_metal_plate_02_rough_2k.png" id="4_ppx4f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_viwo0"]
 resource_name = "default material"

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://i63g3b8q0scn"]
+
+[ext_resource type="Script" uid="uid://pvsfoan8jd1p" path="res://Objects/Nature/CirclingBird.gd" id="1_3oxoy"]
+[ext_resource type="Texture2D" uid="uid://bc5cu4f3oowc8" path="res://Assets/Natural/Animals/Birds/ButeoButeo/materials/buteo buteo_BaseColor.png" id="2_3m8ef"]
+[ext_resource type="Texture2D" uid="uid://buo3huxfjfxy8" path="res://Assets/Natural/Animals/Birds/ButeoButeo/materials/buteo buteo_Normal.png" id="3_ssvof"]
+[ext_resource type="Texture2D" uid="uid://cfhj8h1fk4pat" path="res://Assets/Natural/Animals/Birds/ButeoButeo/materials/buteo buteo_Roughness.png" id="4_rg5tk"]
+[ext_resource type="ArrayMesh" uid="uid://c1elc4bjcrjct" path="res://Assets/Natural/Animals/Birds/ButeoButeo/buteo buteo.obj" id="5_x6l8n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wdblc"]
+albedo_texture = ExtResource("2_3m8ef")
+roughness_texture = ExtResource("4_rg5tk")
+normal_enabled = true
+normal_texture = ExtResource("3_ssvof")
+
+[node name="ButeoButeo" type="Node3D" unique_id=1467952982]
+script = ExtResource("1_3oxoy")
+rotation_speed = 0.2
+
+[node name="Pivot" type="Node3D" parent="." unique_id=1438666874]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 40, 0)
+
+[node name="ButeoButeo" type="MeshInstance3D" parent="Pivot" unique_id=1216335474]
+transform = Transform3D(0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 0, 0, 1, -20, 0, 0)
+material_override = SubResource("StandardMaterial3D_wdblc")
+mesh = ExtResource("5_x6l8n")

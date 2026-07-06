@@ -36,5 +36,5 @@ func update():
 	if not has_updated_this_frame:
 		$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 		has_updated_this_frame = true
-		await get_tree().process_frame
+		await RenderingServer.frame_post_draw
 		update_done.emit()

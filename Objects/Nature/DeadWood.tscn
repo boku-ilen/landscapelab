@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bf4ttxhdl02yq"]
+[gd_scene format=3 uid="uid://bf4ttxhdl02yq"]
 
-[ext_resource type="PackedScene" uid="uid://b70d16ou7efhp" path="res://Resources/Meshes/Trees/DeadWood.glb" id="1_vhved"]
+[ext_resource type="PackedScene" uid="uid://b70d16ou7efhp" path="res://Assets/Natural/Other/DeadWood/DeadWood.glb" id="1_vhved"]
 [ext_resource type="Script" uid="uid://d1p5ce5k0s4xf" path="res://Objects/PhotovoltaicPlant/PVRemover.gd" id="1_w0e81"]
 [ext_resource type="PackedScene" uid="uid://brl0uh3shfchd" path="res://Objects/Nature/ArgynnisSwarm.tscn" id="3_o8644"]
 

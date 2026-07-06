@@ -1,10 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://f832opno8bp"]
+[gd_scene format=3 uid="uid://f832opno8bp"]
 
-[ext_resource type="Texture2D" uid="uid://djl2pcb6qa3b0" path="res://Resources/Meshes/Fauna/Passer Domesticus/passer domesticus_DefaultMaterial_BaseColor.png" id="1_j8rrb"]
+[ext_resource type="Texture2D" uid="uid://djl2pcb6qa3b0" path="res://Assets/Natural/Animals/Birds/PasserDomesticus/passer domesticus_DefaultMaterial_BaseColor.png" id="1_j8rrb"]
 [ext_resource type="Shader" uid="uid://6hnfmyykba1p" path="res://Objects/Nature/FlappyBird.gdshader" id="1_qwe8k"]
-[ext_resource type="Texture2D" uid="uid://b486x7p74dc3f" path="res://Resources/Meshes/Fauna/Passer Domesticus/passer domesticus_DefaultMaterial_Normal.png" id="2_wiyg4"]
-[ext_resource type="Texture2D" uid="uid://dlr1l2y4h7bop" path="res://Resources/Meshes/Fauna/Passer Domesticus/passer domesticus_DefaultMaterial_Roughness.png" id="3_qwe8k"]
-[ext_resource type="ArrayMesh" uid="uid://b0rxw8vspd6on" path="res://Resources/Meshes/Fauna/Passer Domesticus/passer domesticus.obj" id="4_23flt"]
+[ext_resource type="Texture2D" uid="uid://b486x7p74dc3f" path="res://Assets/Natural/Animals/Birds/PasserDomesticus/passer domesticus_DefaultMaterial_Normal.png" id="2_wiyg4"]
+[ext_resource type="Texture2D" uid="uid://dlr1l2y4h7bop" path="res://Assets/Natural/Animals/Birds/PasserDomesticus/passer domesticus_DefaultMaterial_Roughness.png" id="3_qwe8k"]
+[ext_resource type="ArrayMesh" uid="uid://b0rxw8vspd6on" path="res://Assets/Natural/Animals/Birds/PasserDomesticus/passer domesticus.obj" id="4_23flt"]
 [ext_resource type="Shader" uid="uid://cgn6ilm6ym4wa" path="res://Objects/Nature/LarusSwarm.gdshader" id="4_wiyg4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_23flt"]

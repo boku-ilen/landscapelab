@@ -1,8 +1,8 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://chap8r366u8nh"]
 
-[ext_resource type="Texture2D" uid="uid://dpku0ir6mikkm" path="res://Resources/Meshes/Assets/Rocks/RockMoss_rock_moss_set_02_diff_4k.jpg" id="1_lojcl"]
-[ext_resource type="Texture2D" uid="uid://euu31sxw48cj" path="res://Resources/Meshes/Assets/Rocks/RockMoss_rock_moss_set_02_rough_4k.png" id="2_ogu2t"]
-[ext_resource type="Texture2D" uid="uid://choifrxj4ck30" path="res://Resources/Meshes/Assets/Rocks/RockMoss_rock_moss_set_02_nor_gl.png" id="3_0qf7f"]
+[ext_resource type="Texture2D" uid="uid://dpku0ir6mikkm" path="res://Assets/Natural/Rocks/RockMoss/RockMoss_rock_moss_set_02_diff_4k.jpg" id="1_lojcl"]
+[ext_resource type="Texture2D" uid="uid://euu31sxw48cj" path="res://Assets/Natural/Rocks/RockMoss/RockMoss_rock_moss_set_02_rough_4k.png" id="2_ogu2t"]
+[ext_resource type="Texture2D" uid="uid://choifrxj4ck30" path="res://Assets/Natural/Rocks/RockMoss/RockMoss_rock_moss_set_02_nor_gl.png" id="3_0qf7f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3f6dh"]
 resource_name = "rock_moss_set_02"

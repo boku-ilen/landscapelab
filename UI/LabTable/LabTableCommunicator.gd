@@ -1,4 +1,5 @@
 extends Node
+class_name LabTableCommunicator
 
 # The port we will listen to
 const PORT = 14541
@@ -10,12 +11,15 @@ var _server = WebSocketServer.new()
 var brick_id_to_position = {}
 
 @export var save_log := true
+@export var draw_layer_ui: DrawLayerUI
+@export var lab_table_node: LabTable
 
 var current_log_file
 
 
 func _ready():
 	_server.client_connected.connect(_connected)
+	
 	_server.client_disconnected.connect(_disconnected)
 	
 	_server.message_received.connect(_on_data)
@@ -25,13 +29,12 @@ func _ready():
 		print("Unable to start server")
 		set_process(false)
 	
-	get_parent().game_object_failed.connect(_on_game_object_creation_failed)
+	lab_table_node.game_object_failed.connect(_on_game_object_creation_failed)
 	
 	if save_log:
 		DirAccess.make_dir_absolute("user://table-log")
 		var filename = "user://table-log/%s.log" % [Time.get_unix_time_from_system()]
 		current_log_file = FileAccess.open(filename, FileAccess.WRITE)
-		current_log_file.store_string("test")
 
 
 func _connected(id):
@@ -48,16 +51,22 @@ func _on_data(id, message):
 		current_log_file.flush()
 	
 	var data_dict = JSON.parse_string(message)
+	var shape = ""
+	var color = ""
+	
 	logger.info("Got data from client %d: %s" % [id, data_dict])
 	
-	var shape = data_dict["data"]["shape"]
-	var color = data_dict["data"]["color"]
-	
+
+	if data_dict != null and (data_dict["event"] == "brick_added" or data_dict["event"] == "brick_removed"):
+		logger.info("Got data from client %d: %s" % [id, data_dict])
+		
+		shape = data_dict["data"]["shape"]
+		color = data_dict["data"]["color"]
 	if shape in GameSystem.current_game_mode.token_to_game_object_collection \
 			and color in GameSystem.current_game_mode.token_to_game_object_collection[shape]:
-		get_parent().current_goc_name = GameSystem.current_game_mode.token_to_game_object_collection[shape][color]
+		lab_table_node.current_goc_name = GameSystem.current_game_mode.token_to_game_object_collection[shape][color]
 	else:
-		(get_parent() as LabTable).current_goc_name = ""
+		lab_table_node.current_goc_name = null
 	
 	if data_dict["event"] == "brick_added":
 		var viewport_position = data_dict["data"]["position"]
@@ -111,7 +120,20 @@ func _on_data(id, message):
 			
 			# Remove this brick from brick_id_to_position
 			brick_id_to_position.erase(data_dict["data"]["id"])
+			
+	elif data_dict["event"] == "drawing_processed":
+		var color_id = data_dict["data"]["id"]
+		var bounding_box = data_dict["data"]["bounds"]
+		var bitmap_resolution = data_dict["data"]["resolution"]
+		var bitmap: String = data_dict["data"]["bitmap"]
 
+		var screen_pos = Vector2(bounding_box[0], bounding_box[1]) + 0.5 * Vector2(bounding_box[2], bounding_box[3])
+		
+		lab_table_node.drawing_coordinator.handle_returned_drawing(color_id, screen_pos, bitmap_resolution, bounding_box, bitmap.hex_decode())
+		
+	elif data_dict["event"] == "drawing_done":
+		logger.info("received " + str(data_dict["data"]["number_of_results"]) + " drawings")
+		lab_table_node.drawing_coordinator.handle_drawing_mode_end()
 
 func _on_game_object_creation_failed(event_position):
 	var id = null
@@ -146,3 +168,15 @@ func clear_brick_memory():
 		$LabTableMarkers.create_invalid_marker(brick_id_to_position[brick_id], brick_id)
 	
 	brick_id_to_position.clear()
+
+func request_drawing_capture():
+	var samples = draw_layer_ui.get_sample_points()
+	var packet = JSON.stringify({
+		"event": "start_drawing",
+		"data": {
+			"points": samples
+		}
+	})
+	
+	_server.send(0, packet)
+	logger.info("Sent data: %s" % [packet])

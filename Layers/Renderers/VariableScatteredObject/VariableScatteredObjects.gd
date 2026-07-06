@@ -34,6 +34,9 @@ var fresh_multimeshes = {}
 var is_detailed = true
 var is_refine_load = false
 
+var object_points := []
+var previous_load_position := Vector2.ZERO
+
 var get_radius: Callable
 
 static var billboard_mesh = preload("res://Layers/Renderers/VectorVegetation/BillboardTree.tres")
@@ -97,13 +100,21 @@ func _ready():
 	# This renderer takes a custom formula with arbitrary raster layers for calculating this radius.
 	get_radius = func(x, y, center_x, center_y):
 		var formated_string = placement_formula
+		
+		var value_cache = {}
+		
 		while formated_string.find("$") >= 0:
 			var begin_index = formated_string.find("$", 0)
 			var length = formated_string.find("$", begin_index + 1) - begin_index
 			var slice = formated_string.substr(begin_index + 1, length - 1)
 			
-			var layer: GeoRasterLayer = placement_inputs[slice]
-			var value = layer.get_value_at_position(center_x + (x - size / 2.0), center_y - (y - size / 2.0))
+			var value
+			if value_cache.has(slice):
+				value = value_cache[slice]
+			else:
+				var layer: GeoRasterLayer = placement_inputs[slice]
+				value = layer.get_value_at_position(center_x + (x - size / 2.0), center_y - (y - size / 2.0))
+				value_cache[slice] = value
 			
 			var value_string = "(%f)" % [value]  # Surround with parentheses to avoid errors with negative values
 		
@@ -167,7 +178,7 @@ func create_multimeshes():
 
 
 func rebuild_aabb(node):
-	var aabb = AABB(global_transform.origin - position - Vector3(size / 2.0, 0.0, size / 2.0), Vector3(size, 100000, size))
+	var aabb = AABB(global_transform.origin - load_position - Vector3(size / 2.0, 0.0, size / 2.0), Vector3(size, 100000, size))
 	node.set_custom_aabb(aabb)
 
 
@@ -179,7 +190,7 @@ func override_build(center_x, center_y):
 	fresh_multimeshes = {}
 	
 	# Reset RNG to make results consistent as long as the underlying data does not change
-	rng.seed = hash(global_position)
+	rng.seed = hash(load_position)
 	rng.state = 0
 	
 	if is_detailed:
@@ -209,23 +220,35 @@ func override_build(center_x, center_y):
 		mesh_name_to_transforms[mesh_name] = []
 		mesh_name_to_custom_data[mesh_name] = []
 	
-	# Generate points within a 2D rectangle from 0,0 to size,size
-	var sampler = VariablePoissonSampler2D.new()
-	sampler.set_min_max_radius(placement_min_radius, placement_max_radius)
-	sampler.set_radius_callable(get_radius.bind(center_x, center_y))
-	sampler.set_width_height(size, size)
-	sampler.set_rng(rng)
+	var end = Time.get_ticks_msec()
+	#logger.info("Setup took %d msec" % [end - start])
+	start = Time.get_ticks_msec()
 	
-	if griddedness_layer:
-		sampler.set_griddedness_callable(func(x, y):
-			return griddedness_layer.get_value_at_position(center_x + (x - size / 2.0), center_y - (y - size / 2.0))
-		)
-	else:
-		logger.info("No griddedness layer found in data!")
+	if Vector2(center_x, center_y) != previous_load_position:
+		# Cache for upcoming refine loads
+		previous_load_position = Vector2(center_x, center_y)
+		
+		# Generate points within a 2D rectangle from 0,0 to size,size
+		var sampler = VariablePoissonSampler2D.new()
+		sampler.set_min_max_radius(placement_min_radius, placement_max_radius)
+		sampler.set_radius_callable(get_radius.bind(center_x, center_y))
+		sampler.set_width_height(size, size)
+		sampler.set_rng(rng)
+		
+		if griddedness_layer:
+			sampler.set_griddedness_callable(func(x, y):
+				return griddedness_layer.get_value_at_position(center_x + (x - size / 2.0), center_y - (y - size / 2.0))
+			)
+		else:
+			pass#logger.info("No griddedness layer found in data!")
+		
+		sampler.generate()
 	
-	sampler.generate()
-	
-	var object_locations = sampler.get_samples()
+		end = Time.get_ticks_msec()
+		logger.info("Generate took %d msec" % [end - start])
+		start = Time.get_ticks_msec()
+		
+		object_points = sampler.get_samples()
 	
 	# Choose a random mesh based on the probability distribution within this chunk of the
 	# probability layer.
@@ -240,10 +263,11 @@ func override_build(center_x, center_y):
 	
 	# First, calculate the sum of all probabilities
 	var probability_sum := 0.0
-	for attribute_value in attributes.values():
-		probability_sum += float(attribute_value)
+	for attribute_name in attributes.keys():
+		if attribute_name in meshes.keys():  # Only count entries which we have a mesh for
+			probability_sum += float(attributes[attribute_name])
 	
-	for location in object_locations:
+	for location in object_points:
 		# These MultiMeshes are assumed to have their 0,0 in the center, not in the top left.
 		# Therefore, we transform the locations.
 		# Note: This corresponds to the coordinates used in `get_value_at_position` in `get_radius`.
@@ -256,18 +280,20 @@ func override_build(center_x, center_y):
 		var mesh_name
 		var counting_probability_sum := 0.0
 		for attribute_name in attributes.keys():
-			counting_probability_sum += float(attributes[attribute_name])
-			if random_value <= counting_probability_sum:
-				mesh_name = attribute_name
-				break
+			if attribute_name in meshes.keys():  # Only count entries which we have a mesh for
+				counting_probability_sum += float(attributes[attribute_name])
+				if random_value <= counting_probability_sum:
+					mesh_name = attribute_name
+					break
 		
 		var height_here = height_layer.get_value_at_position(
 			center_x + location.x,
 			center_y - location.y
 		)
-		var scale_here = scale_layer.get_value_at_position(
+		var scale_here = scale_layer.get_value_at_position_with_resolution(
 			center_x + location.x,
-			center_y - location.y
+			center_y - location.y,
+			10.0
 		)
 		scale_here *= meshes[mesh_name]["scale"] if "scale" in meshes[mesh_name] else 1.0
 		
@@ -305,8 +331,8 @@ func override_build(center_x, center_y):
 	
 	is_refine_load = false
 	
-	var end = Time.get_ticks_msec()
-	logger.info("Loading %d trees took %d msec" % [sum_trees, end - start])
+	end = Time.get_ticks_msec()
+	#logger.info("Placing %d trees took %d msec" % [sum_trees, end - start])
 
 
 func override_apply():

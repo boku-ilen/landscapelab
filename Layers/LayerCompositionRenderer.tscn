@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bnakv4rclkeyq"]
+[gd_scene format=3 uid="uid://bnakv4rclkeyq"]
 
 [ext_resource type="Script" uid="uid://cl8n2kd862jv0" path="res://Layers/LayerCompositionRenderer.gd" id="1"]
 
-[node name="LayerRenderer" type="Node3D"]
+[node name="LayerRenderer" type="Node3D" unique_id=1985096592]
 script = ExtResource("1")

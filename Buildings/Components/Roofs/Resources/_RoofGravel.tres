@@ -1,10 +1,10 @@
-[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://c8u0xhxnxwovm"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c8u0xhxnxwovm"]
 
-[ext_resource type="Texture2D" uid="uid://bajrvmywu2m7s" path="res://Resources/Textures/Gravel/Gravel03_col.jpg" id="1_m5q68"]
-[ext_resource type="Texture2D" uid="uid://gjax4fh8fc1k" path="res://Resources/Textures/Gravel/Gravel03_AO.jpg" id="2_dv430"]
-[ext_resource type="Texture2D" uid="uid://btmycgxylrip0" path="res://Resources/Textures/Gravel/Gravel03_disp.jpg" id="3_l8cdc"]
-[ext_resource type="Texture2D" uid="uid://vbm5mqlno3p8" path="res://Resources/Textures/Gravel/Gravel03_nrm.jpg" id="4_vshck"]
-[ext_resource type="Texture2D" uid="uid://be0ehln0udjru" path="res://Resources/Textures/Gravel/Gravel03_rgh.jpg" id="5_tjs12"]
+[ext_resource type="Texture2D" uid="uid://bajrvmywu2m7s" path="res://Assets/Artificial/Buildings/Roofs/Flat/Gravel/Gravel03_col.jpg" id="1_m5q68"]
+[ext_resource type="Texture2D" uid="uid://gjax4fh8fc1k" path="res://Assets/Artificial/Buildings/Roofs/Flat/Gravel/Gravel03_AO.jpg" id="2_dv430"]
+[ext_resource type="Texture2D" uid="uid://btmycgxylrip0" path="res://Assets/Artificial/Buildings/Roofs/Flat/Gravel/Gravel03_disp.jpg" id="3_l8cdc"]
+[ext_resource type="Texture2D" uid="uid://vbm5mqlno3p8" path="res://Assets/Artificial/Buildings/Roofs/Flat/Gravel/Gravel03_nrm.jpg" id="4_vshck"]
+[ext_resource type="Texture2D" uid="uid://be0ehln0udjru" path="res://Assets/Artificial/Buildings/Roofs/Flat/Gravel/Gravel03_rgh.jpg" id="5_tjs12"]
 
 [resource]
 albedo_texture = ExtResource("1_m5q68")

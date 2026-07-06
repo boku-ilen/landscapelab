@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://d4f3qoqpxstrg"]
+[gd_scene format=3 uid="uid://d4f3qoqpxstrg"]
 
 [ext_resource type="Script" uid="uid://pkvlnqq7vrxa" path="res://Objects/Abstract/Beam.gd" id="1_1qshu"]
 [ext_resource type="Shader" uid="uid://dlygtxjri0q3d" path="res://Objects/Abstract/BeamMarker.gdshader" id="2_g8x56"]
-[ext_resource type="ArrayMesh" uid="uid://rr10d6wboibp" path="res://Resources/Meshes/Abstract/map_marker.obj" id="3_gxv74"]
+[ext_resource type="ArrayMesh" uid="uid://rr10d6wboibp" path="res://Assets/Abstract/Marker/map_marker.obj" id="3_gxv74"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gxv74"]
 resource_local_to_scene = true

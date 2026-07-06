@@ -93,10 +93,10 @@ func update_renderers(center_array):
 		if renderer is LayerCompositionRenderer:
 			renderer.center = center_array
 			
-			logger.debug("Child {0} beginning to load".format([renderer.name]))
+			#logger.debug("Child {0} beginning to load".format([renderer.name]))
 
-			renderer.full_load()
-			call_deferred("_on_renderer_finished", renderer.name)
+			#renderer.full_load()
+			#call_deferred("_on_renderer_finished", renderer.name)
 
 
 func get_debug_info():

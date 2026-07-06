@@ -1,9 +1,9 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://rxwqi8aw3yxj"]
 
 [ext_resource type="Shader" uid="uid://dysllp2r2xyg6" path="res://Resources/Meshes/Trees/Tree_LeafBranches.gdshader" id="1_qpgn3"]
-[ext_resource type="Texture2D" uid="uid://lp4fo2w2w6my" path="res://Resources/Meshes/flora/castanea/materials/castanea_base.png" id="2_0812g"]
-[ext_resource type="Texture2D" uid="uid://cjr5qnyv2qjtr" path="res://Resources/Meshes/flora/castanea/materials/castanea normal new.png" id="3_fxn3j"]
-[ext_resource type="Texture2D" uid="uid://uniof8t2jf1n" path="res://Resources/Meshes/flora/castanea/materials/castanea roughness new.png" id="4_4l5ah"]
+[ext_resource type="Texture2D" uid="uid://lp4fo2w2w6my" path="res://Assets/Natural/Plants/Trees/Castanea/materials/castanea_base.png" id="2_0812g"]
+[ext_resource type="Texture2D" uid="uid://cjr5qnyv2qjtr" path="res://Assets/Natural/Plants/Trees/Castanea/materials/castanea normal new.png" id="3_fxn3j"]
+[ext_resource type="Texture2D" uid="uid://uniof8t2jf1n" path="res://Assets/Natural/Plants/Trees/Castanea/materials/castanea roughness new.png" id="4_4l5ah"]
 
 [resource]
 render_priority = 0

@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bu3lhdw8rm2fs"]
+
+[ext_resource type="Shader" uid="uid://cfikmcxjuovij" path="res://Objects/LandModifier/LandUseDrawing.gdshader" id="1_kw557"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_kw557")
+shader_parameter/color = Vector3(1, 1, 0)

@@ -1,7 +1,7 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://m1smnl5m7mxj"]
 
-[ext_resource type="Material" uid="uid://b64xio24r8q06" path="res://Resources/Meshes/Trees/EZTree/Quercus/leaves.tres" id="1_dvvjn"]
-[ext_resource type="Material" uid="uid://cgbgrt8esgwki" path="res://Resources/Meshes/Trees/EZTree/Quercus/branches.tres" id="2_dwghr"]
+[ext_resource type="Material" uid="uid://b64xio24r8q06" path="res://Assets/Natural/Plants/Trees/Quercus/leaves.tres" id="1_dvvjn"]
+[ext_resource type="Material" uid="uid://cgbgrt8esgwki" path="res://Assets/Natural/Plants/Trees/Quercus/branches.tres" id="2_dwghr"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_8kunr"]
 _surfaces = [{

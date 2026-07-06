@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=4 uid="uid://b4i7xndf7etud"]
+[gd_scene format=4 uid="uid://b4i7xndf7etud"]
 
-[ext_resource type="Material" path="res://Resources/Meshes/APV/__Steel_Brushed_Stainless_1.material" id="1"]
-[ext_resource type="Material" path="res://Resources/Meshes/APV/Metal037_2K_Color.material" id="2"]
-[ext_resource type="Material" path="res://Resources/Meshes/APV/pv-module-texture-2000px1.material" id="3"]
+[ext_resource type="Material" path="res://Assets/Artificial/Infrastructure/Energy/PV/APV/__Steel_Brushed_Stainless_1.material" id="1"]
+[ext_resource type="Material" path="res://Assets/Artificial/Infrastructure/Energy/PV/APV/Metal037_2K_Color.material" id="2"]
+[ext_resource type="Material" path="res://Assets/Artificial/Infrastructure/Energy/PV/APV/pv-module-texture-2000px1.material" id="3"]
 
 [sub_resource type="ArrayMesh" id="1"]
 resource_name = "PV_row_module_ID6"

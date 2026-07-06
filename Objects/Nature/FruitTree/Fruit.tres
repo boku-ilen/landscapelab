@@ -1,7 +1,7 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://bv0dl5od84kw0"]
 
-[ext_resource type="Material" uid="uid://2vvn7ergkb6g" path="res://Resources/Meshes/Trees/EZTree/Fruit/branches.tres" id="1_8peir"]
-[ext_resource type="Material" uid="uid://bf7b5akfxl2pr" path="res://Resources/Meshes/Trees/EZTree/Fruit/leaves.tres" id="2_hrfgb"]
+[ext_resource type="Material" uid="uid://2vvn7ergkb6g" path="res://Assets/Natural/Plants/Trees/Fruit/branches.tres" id="1_8peir"]
+[ext_resource type="Material" uid="uid://bf7b5akfxl2pr" path="res://Assets/Natural/Plants/Trees/Fruit/leaves.tres" id="2_hrfgb"]
 
 [resource]
 resource_name = "fruit_Mesh_0"

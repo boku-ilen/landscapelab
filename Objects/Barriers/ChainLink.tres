@@ -1,11 +1,11 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://dohwnel2mgs4i"]
 
-[ext_resource type="Texture2D" uid="uid://bga3kottifcbr" path="res://Resources/Meshes/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_wire_diff-modular_chainlink_fence_wire_alpha.png" id="1_wvxf5"]
-[ext_resource type="Texture2D" uid="uid://1q5jkrswfa88" path="res://Resources/Meshes/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_wire_metal-modular_chainlink_fence_wire_rough.png" id="2_0hbl8"]
-[ext_resource type="Texture2D" uid="uid://cesgw3k1ovrv7" path="res://Resources/Meshes/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_wire_nor_gl_2k.png" id="3_yyik0"]
-[ext_resource type="Texture2D" uid="uid://dxoosgwnu5s0" path="res://Resources/Meshes/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_posts_diff_2k.png" id="4_ms72k"]
-[ext_resource type="Texture2D" uid="uid://cg0ue06ee83cw" path="res://Resources/Meshes/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_posts_metal-modular_chainlink_fence_posts_rough.png" id="5_60d3t"]
-[ext_resource type="Texture2D" uid="uid://cdrx2e1tr0bo7" path="res://Resources/Meshes/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_posts_nor_gl_2k.png" id="6_wurnu"]
+[ext_resource type="Texture2D" uid="uid://bga3kottifcbr" path="res://Assets/Artificial/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_wire_diff-modular_chainlink_fence_wire_alpha.png" id="1_wvxf5"]
+[ext_resource type="Texture2D" uid="uid://1q5jkrswfa88" path="res://Assets/Artificial/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_wire_metal-modular_chainlink_fence_wire_rough.png" id="2_0hbl8"]
+[ext_resource type="Texture2D" uid="uid://cesgw3k1ovrv7" path="res://Assets/Artificial/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_wire_nor_gl_2k.png" id="3_yyik0"]
+[ext_resource type="Texture2D" uid="uid://dxoosgwnu5s0" path="res://Assets/Artificial/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_posts_diff_2k.png" id="4_ms72k"]
+[ext_resource type="Texture2D" uid="uid://cg0ue06ee83cw" path="res://Assets/Artificial/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_posts_metal-modular_chainlink_fence_posts_rough.png" id="5_60d3t"]
+[ext_resource type="Texture2D" uid="uid://cdrx2e1tr0bo7" path="res://Assets/Artificial/Barriers/ChainLink/modular_chainlink_fence_2k_modular_chainlink_fence_posts_nor_gl_2k.png" id="6_wurnu"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u5lg2"]
 resource_name = "modular_chainlink_fence_wire"
