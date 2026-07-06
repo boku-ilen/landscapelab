@@ -56,7 +56,7 @@ func override_build(center_x, center_y):
 	
 	for key in objects_mapping:
 		var filtered = features.filter(filter_features_per_mesh.bind(key))
-		var object = instance_mapping[key].duplicate(5)
+		var object = instance_mapping[key]
 		fresh_multimesh_mapping[key] = MultiMesh.new()
 		
 		fresh_multimesh_mapping[key].transform_format = MultiMesh.TRANSFORM_3D
@@ -69,7 +69,9 @@ func override_build(center_x, center_y):
 		var i = 0
 		for feature in filtered:
 			var instance_scale = randf_range(0.9, 1.2) if randomize else 1.0
-			var instance_rotation = float(feature.get_attribute("LL_rot"))
+			var instance_rotation = -float(feature.get_attribute("LL_rot"))
+			
+			if float(feature.get_attribute("LL_scale")) > 0.0: instance_scale *= float(feature.get_attribute("LL_scale"))
 			
 			var pos = feature.get_offset_vector3(-int(center_x), 0, -int(center_y))
 			pos.y = height_layer.get_value_at_position(pos.x + center_x, center_y - pos.z)

@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c1mrg6plc4tkp"]
+[gd_scene format=3 uid="uid://c1mrg6plc4tkp"]
 
 [ext_resource type="Script" uid="uid://cua5qlgh162me" path="res://Layers/Renderers/RepeatingObject/RepeatingObjectRenderer.gd" id="1_n0jmc"]
 
-[node name="RepeatingObjectRenderer" type="Node3D"]
+[node name="RepeatingObjectRenderer" type="Node3D" unique_id=117270247]
 script = ExtResource("1_n0jmc")

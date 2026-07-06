@@ -48,8 +48,6 @@ var instances := {}
 
 signal feature_instance_removed(id: int)
 
-var is_first_load := true
-
 
 func _ready():
 	super._ready()
@@ -109,11 +107,7 @@ func adapt_load(_diff: Vector3):
 		instances[feature.get_id()] = load_feature_instance(feature)
 	mutex.unlock()
 	
-	# FIXME: Workaround for not calling apply here after first load
-	if not is_first_load:
-		call_deferred("apply_new_data")
-	else:
-		is_first_load = false
+	call_deferred("apply_new_data")
 
 
 func apply_new_data():

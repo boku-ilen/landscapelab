@@ -31,7 +31,6 @@ func _ready() -> void:
 
 func load_feature_instance(feature: GeoFeature):
 	rand_angle = 0.0
-	mutex.lock()
 	
 	# Get the configured properties
 	var property_dict
@@ -67,7 +66,6 @@ func load_feature_instance(feature: GeoFeature):
 		multimesh_instance.multimesh.set_instance_transform(index, t)
 	
 	build_aabb(intermediate_transforms, multimesh_instance)
-	mutex.unlock()
 	
 	return multimesh_instance
 

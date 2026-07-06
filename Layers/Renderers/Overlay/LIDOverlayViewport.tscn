@@ -1,25 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqv4mdm0thwg4"]
+[gd_scene format=3 uid="uid://cqv4mdm0thwg4"]
 
 [ext_resource type="Script" uid="uid://bhdfug0da4jso" path="res://Layers/Renderers/Overlay/LIDOverlayViewport.gd" id="1_s445j"]
 
 [sub_resource type="Environment" id="Environment_t6cpk"]
 background_mode = 1
 
-[node name="LIDOverlayViewport" type="Node3D"]
+[node name="LIDOverlayViewport" type="Node3D" unique_id=1766583896]
 script = ExtResource("1_s445j")
 
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=979974466]
 remote_path = NodePath("../Viewport/CameraRoot")
 
-[node name="Viewport" type="SubViewport" parent="."]
+[node name="Viewport" type="SubViewport" parent="." unique_id=1979140412]
 debug_draw = 1
 positional_shadow_atlas_size = 0
 size = Vector2i(1000, 1000)
 render_target_update_mode = 1
 
-[node name="CameraRoot" type="Node3D" parent="Viewport"]
+[node name="CameraRoot" type="Node3D" parent="Viewport" unique_id=1749604538]
 
-[node name="Camera" type="Camera3D" parent="Viewport/CameraRoot"]
+[node name="Camera" type="Camera3D" parent="Viewport/CameraRoot" unique_id=2103741593]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 9000, 0)
 cull_mask = 65536
 environment = SubResource("Environment_t6cpk")

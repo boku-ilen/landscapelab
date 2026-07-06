@@ -139,6 +139,8 @@ func _handle_standard(
 func refine_load():
 	super.refine_load()
 	
+	return
+	
 	var center = position_manager.center_node.position
 	
 	if center.distance_squared_to(last_update_pos) < pow(connection_radius / 4.0, 2.0):

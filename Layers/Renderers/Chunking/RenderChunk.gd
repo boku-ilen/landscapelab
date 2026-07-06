@@ -1,9 +1,11 @@
 extends Node3D
 class_name RenderChunk
 
+var load_position := Vector3.ZERO # should be the same as position, but position is not always accessible from threads
 var position_diff := Vector3.ZERO
 var changed := false
 var is_high_quality := false
+var has_loaded := false
 var size: float
 
 
@@ -36,8 +38,8 @@ func decrease_quality(distance: float) -> bool:
 
 
 func build(center_x, center_y):
-	center_x += position.x + position_diff.x
-	center_y -= position.z + position_diff.z
+	center_x += load_position.x + position_diff.x
+	center_y -= load_position.z + position_diff.z
 	
 	override_build(center_x, center_y)
 	
