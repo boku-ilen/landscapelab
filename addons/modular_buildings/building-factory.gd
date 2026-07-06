@@ -10,6 +10,8 @@ const MAX_SCALE := 1.1
 # How much deviation from 90 deg is allowed before using hinge-corner
 const TOLERATE_90_DEG_DEVIATION = 0.01
 
+static var mesh_plus_material_cache = {}
+
 
 ## Build a building from metadata, logic, data sources and materials
 static func build_building(building_root: Node3D, metadata: ModularBuildingMetadata, node_graphs_by_floor: Array[BuildingGraphRunner.RunnableNode] = [], sources: Dictionary[String, NodeDataSource] = {}, materials_by_name: Dictionary[String, Material] = {}, geo_feature = null) -> Node3D:
@@ -63,8 +65,19 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		mesh_multi_map[mesh] = MultiMeshInstance3D.new()
 		var multi_mesh := MultiMesh.new()
 		multi_mesh.transform_format = MultiMesh.TRANSFORM_3D
-#		multi_mesh.mesh = mesh
-		multi_mesh.mesh = mesh.duplicate()
+		
+		var combined_material_path = str(mesh.get_rid())
+		for surf_i in mesh.get_surface_count():
+			var surf_name = mesh.surface_get_name(surf_i)
+			if surf_name in materials_by_name and materials_by_name[surf_name]:
+				combined_material_path += str(materials_by_name[surf_name].get_rid())
+		
+		if not combined_material_path in mesh_plus_material_cache.keys():
+			multi_mesh.mesh = mesh.duplicate()
+			mesh_plus_material_cache[combined_material_path] = multi_mesh.mesh
+		else:
+			multi_mesh.mesh = mesh_plus_material_cache[combined_material_path]
+		
 		for surf_i in multi_mesh.mesh.get_surface_count():
 			if not multi_mesh.mesh is ArrayMesh:
 				continue
