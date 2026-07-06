@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://y6k0nqsjj8m6"]
+
+[ext_resource type="Script" uid="uid://c7511o7vsom6a" path="res://UI/TeleportMenu/TeleportMenuWindow.gd" id="1_b4r48"]
+[ext_resource type="Theme" uid="uid://2acd0pfpr1ny" path="res://UI/Theme/LandscapeLab.tres" id="1_gt0yc"]
+[ext_resource type="PackedScene" uid="uid://pmmpjdicjvjs" path="res://UI/TeleportMenu/TeleportMenu.tscn" id="2_b4r48"]
+
+[node name="TeleportMenuWindow" type="Window" unique_id=1631013895]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(320, 474)
+script = ExtResource("1_b4r48")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1599227719]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme = ExtResource("1_gt0yc")
+
+[node name="TeleportMenu" parent="PanelContainer" unique_id=147444656 instance=ExtResource("2_b4r48")]
+layout_mode = 2

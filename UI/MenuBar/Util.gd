@@ -36,9 +36,17 @@ var open_layer_ui_item = MenuItem.new(
 		get_tree().get_root().add_child(menu)
 		menu.popup_centered()
 )
+var open_teleport_ui_item = MenuItem.new(
+	"Open Teleport Menu", func():
+		var menu = preload("res://UI/TeleportMenu/TeleportMenuWindow.tscn").instantiate()
+		menu.pos_manager = position_manager
+		menu.pc_player = player_node
+		get_tree().get_root().add_child(menu)
+		menu.popup_centered()
+)
 
 var window_menu = Menu.new(
-	true, "WindowMenu", [open_dolly_item, open_table_item, open_weather_ui_item, open_datetime_ui_item, open_layer_ui_item])
+	true, "WindowMenu", [open_dolly_item, open_table_item, open_weather_ui_item, open_datetime_ui_item, open_layer_ui_item, open_teleport_ui_item])
 
 var dolly_window: Window
 var labtable_window: Window
