@@ -1,0 +1,261 @@
+[gd_resource type="JSON" format=3 uid="uid://dqpperny577d"]
+
+[resource]
+data = {
+"connections": [{
+"from_node": 541399742.0,
+"from_slot": 3.0,
+"to_node": 541398918.0,
+"to_slot": 0.0
+}, {
+"from_node": 541399776.0,
+"from_slot": 2.0,
+"to_node": 541399742.0,
+"to_slot": 0.0
+}, {
+"from_node": 541398952.0,
+"from_slot": 1.0,
+"to_node": 541399776.0,
+"to_slot": 0.0
+}, {
+"from_node": 541399800.0,
+"from_slot": 0.0,
+"to_node": 541399776.0,
+"to_slot": 1.0
+}, {
+"from_node": 541399814.0,
+"from_slot": 0.0,
+"to_node": 541399742.0,
+"to_slot": 1.0
+}, {
+"from_node": 3807571580.0,
+"from_slot": 3.0,
+"to_node": 541399742.0,
+"to_slot": 2.0
+}, {
+"from_node": 3807545508.0,
+"from_slot": 3.0,
+"to_node": 3807571580.0,
+"to_slot": 0.0
+}, {
+"from_node": 3807571746.0,
+"from_slot": 0.0,
+"to_node": 3807545508.0,
+"to_slot": 0.0
+}, {
+"from_node": 3807545439.0,
+"from_slot": 0.0,
+"to_node": 3807545508.0,
+"to_slot": 2.0
+}, {
+"from_node": 544841020.0,
+"from_slot": 0.0,
+"to_node": 3807571580.0,
+"to_slot": 1.0
+}, {
+"from_node": 541398923.0,
+"from_slot": 0.0,
+"to_node": 3807571580.0,
+"to_slot": 2.0
+}],
+"nodes": [{
+"node_id": 541398918.0,
+"node_type": "Chosen BuildingDefinition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}]
+}, {
+"node_id": 541398923.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "HouseAustria"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 541398952.0,
+"node_type": "GeoFeature Attribute",
+"slots": [{
+"slot_data": {
+"constant_value": "amenity"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 541399742.0,
+"node_type": "Condition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 541399776.0,
+"node_type": "Text equality",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 541399800.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "place_of_worship"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 541399814.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "Chapel"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 3807571580.0,
+"node_type": "Condition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 3807571548.0,
+"node_type": "Text equality",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 3807571774.0,
+"node_type": "GeoFeature Attribute",
+"slots": [{
+"slot_data": {
+"constant_value": "historic"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 3807545479.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": ""
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 544841020.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "Historic"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 3807571746.0,
+"node_type": "Random Scalar",
+"slots": [{
+"data_source_identifier": "rand",
+"slot_data": {},
+"slot_input_type": "data_source",
+"type": "scalar_output"
+}]
+}, {
+"node_id": 3807545508.0,
+"node_type": "Scalar Comparison",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {
+"choice": "<"
+},
+"slot_input_type": "connection",
+"type": "dropdown"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 3807545439.0,
+"node_type": "Scalar constant",
+"slots": [{
+"slot_data": {
+"constant_value": 0.0
+},
+"slot_input_type": "constant",
+"type": "scalar_constant"
+}]
+}]
+}

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="TextureBundleRME" load_steps=6 format=3 uid="uid://cicx2mvaelo6n"]
+[gd_resource type="Resource" script_class="TextureBundleRME" format=3 uid="uid://cicx2mvaelo6n"]
 
 [ext_resource type="Texture2D" uid="uid://b0n21sfy506tf" path="res://Resources/Textures/Buildings/facade/MetalSheet/albedo.jpg" id="1_68egq"]
 [ext_resource type="Texture2D" uid="uid://bo3vg72niw232" path="res://Resources/Textures/Buildings/facade/MetalSheet/metallic.jpg" id="2_xum5j"]
@@ -8,7 +8,6 @@
 
 [resource]
 script = ExtResource("5_y5j6w")
-texture_scale = Vector2(1, 1)
 albedo_texture = ExtResource("1_68egq")
 normal_texture = ExtResource("3_vrgpw")
 roughness_texture = ExtResource("4_idqx1")

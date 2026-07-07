@@ -1,5 +1,6 @@
 @tool
 extends RoofBase
+class_name FlatRoof
 
 
 #

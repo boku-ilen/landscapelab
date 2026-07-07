@@ -1,0 +1,107 @@
+[gd_resource type="Resource" script_class="ModularBuildingMetadata" format=3 uid="uid://djrkn7rksow0c"]
+
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_ryt67"]
+[ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="2_r3tn1"]
+[ext_resource type="Resource" uid="uid://btoevojpgvn6s" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/HistoricWallDoor.tres" id="3_me71l"]
+[ext_resource type="Resource" uid="uid://c46jr8s06lxn1" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/HistoricWall.tres" id="4_lebou"]
+[ext_resource type="Material" uid="uid://6gx3u4muuons" path="res://Buildings/Components/Roofs/Resources/RidgeCap.tres" id="5_25hch"]
+[ext_resource type="Material" uid="uid://bmemvs3mm4wc7" path="res://addons/modular_buildings/example/Materials/Window_Glass.tres" id="6_is3rv"]
+[ext_resource type="Material" path="res://Resources/Meshes/Schloss/new/tontopf.material" id="7_ejatd"]
+[ext_resource type="Material" uid="uid://bxeiu6u6dfdue" path="res://Resources/Materials/BuildingMaterials/Concrete.tres" id="8_0hfk7"]
+[ext_resource type="Shader" uid="uid://bn0ldekh748qn" path="res://addons/modular_buildings/Shader/Triplanar_Main.gdshader" id="9_vmnwh"]
+[ext_resource type="Texture2D" uid="uid://tckour56kbqp" path="res://Resources/Textures/Buildings/brick/red_brick_diff_2k.jpg" id="10_mou73"]
+[ext_resource type="Texture2D" uid="uid://bb6bnfy3y1up8" path="res://addons/modular_buildings/example/Textures/red_brick_nor_gl_2k.png" id="11_3ddny"]
+[ext_resource type="Shader" uid="uid://duelq26f3abrp" path="res://addons/modular_buildings/Shader/hinge_corner_triplanar.gdshader" id="12_k7q41"]
+[ext_resource type="Shader" uid="uid://cgh4hc3oncb6j" path="res://Resources/Materials/BuildingMaterials/Triplanar_Stretch.gdshader" id="13_4x5d3"]
+[ext_resource type="Material" uid="uid://gd00fit3u8tp" path="res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres" id="14_ch0r5"]
+[ext_resource type="Texture2D" uid="uid://c72cxxcyrg6ln" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Color.jpg" id="14_r3tn1"]
+[ext_resource type="Script" uid="uid://d01bhax7gxb8u" path="res://addons/modular_buildings/Model/MaterialVariationSet.gd" id="15_ff1if"]
+[ext_resource type="Texture2D" uid="uid://bi63buuda3f3j" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_NormalGL.jpg" id="15_lebou"]
+[ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="16_ukc2u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eo0d5"]
+render_priority = 0
+shader = ExtResource("9_vmnwh")
+shader_parameter/specular = 0.5
+shader_parameter/normal_scale = 1.0
+shader_parameter/debug_mode = 0
+shader_parameter/triplanar_blend_sharpness = 50.0
+shader_parameter/base_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/base_albedo_tex = ExtResource("10_mou73")
+shader_parameter/base_normal_tex = ExtResource("11_3ddny")
+shader_parameter/base_uv_tiling = 0.50000002305148
+shader_parameter/dirt_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/dirt_uv_tiling = 4.0
+shader_parameter/dirtmask_amount = 1.0
+shader_parameter/dirtmask_uv_tiling = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wx63c"]
+render_priority = 0
+shader = ExtResource("12_k7q41")
+shader_parameter/specular = 0.5
+shader_parameter/normal_scale = 1.0
+shader_parameter/debug_mode = 0
+shader_parameter/triplanar_blend_sharpness = 50.0
+shader_parameter/base_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/base_albedo_tex = ExtResource("10_mou73")
+shader_parameter/base_normal_tex = ExtResource("11_3ddny")
+shader_parameter/base_uv_tiling = 0.50000002305148
+shader_parameter/dirt_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/dirt_uv_tiling = 4.0
+shader_parameter/dirtmask_amount = 1.0
+shader_parameter/dirtmask_uv_tiling = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jctlw"]
+render_priority = 0
+shader = ExtResource("13_4x5d3")
+shader_parameter/specular = 0.5
+shader_parameter/normal_scale = 1.0
+shader_parameter/debug_mode = 0
+shader_parameter/triplanar_blend_sharpness = 50.0
+shader_parameter/base_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/base_albedo_tex = ExtResource("10_mou73")
+shader_parameter/base_normal_tex = ExtResource("11_3ddny")
+shader_parameter/base_uv_tiling = 0.50000002305148
+shader_parameter/dirt_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/dirt_uv_tiling = 4.0
+shader_parameter/dirtmask_amount = 1.0
+shader_parameter/dirtmask_uv_tiling = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3oo8l"]
+render_priority = 0
+shader = ExtResource("12_k7q41")
+shader_parameter/specular = 0.0
+shader_parameter/normal_scale = 0.0
+shader_parameter/debug_mode = 0
+shader_parameter/triplanar_blend_sharpness = 50.0
+shader_parameter/base_albedo_tint = Color(0.7807918, 0.8551128, 0.95717126, 1)
+shader_parameter/base_albedo_tex = ExtResource("14_r3tn1")
+shader_parameter/base_normal_tex = ExtResource("15_lebou")
+shader_parameter/base_uv_tiling = 1.0
+shader_parameter/dirt_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/dirt_uv_tiling = 4.0
+shader_parameter/dirtmask_amount = 1.0
+shader_parameter/dirtmask_uv_tiling = 2.0
+
+[sub_resource type="Resource" id="Resource_ha2fx"]
+script = ExtResource("15_ff1if")
+materials_by_type = Dictionary[String, Material]({
+"Door_Frame": ExtResource("5_25hch"),
+"Door_Glass": ExtResource("6_is3rv"),
+"Door_Handle": ExtResource("7_ejatd"),
+"Door_Step": ExtResource("8_0hfk7"),
+"Wall_Primary": SubResource("ShaderMaterial_eo0d5"),
+"Wall_Primary_Corner": SubResource("ShaderMaterial_wx63c"),
+"Wall_Primary_Spacer": SubResource("ShaderMaterial_jctlw"),
+"Wall_Secondary": ExtResource("14_ch0r5"),
+"Wall_Secondary_Corner": SubResource("ShaderMaterial_3oo8l"),
+"Window_Frame": ExtResource("5_25hch"),
+"Window_Glass": ExtResource("6_is3rv")
+})
+metadata/_custom_type_script = "uid://d01bhax7gxb8u"
+
+[resource]
+script = ExtResource("16_ukc2u")
+floor_definitions = Array[ExtResource("1_ryt67")]([ExtResource("2_r3tn1"), ExtResource("3_me71l"), ExtResource("4_lebou")])
+material_variation_set = SubResource("Resource_ha2fx")
+metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

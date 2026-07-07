@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://x36btfxa6pgw"]
+
+[ext_resource type="Shader" uid="uid://buiadasgwsmui" path="res://addons/modular_buildings/Shader/standard_spacer.gdshader" id="1_oiosd"]
+[ext_resource type="Texture2D" uid="uid://u2mopskinsca" path="res://Resources/Textures/Buildings/ModularBuildingResources/rusty_metal_sheet_diff_2k.jpg" id="2_apyfn"]
+[ext_resource type="Texture2D" uid="uid://l5bxx0r7f4lh" path="res://Resources/Textures/Buildings/ModularBuildingResources/rusty_metal_sheet_nor_gl_2k.jpg" id="3_plflu"]
+[ext_resource type="Texture2D" uid="uid://muojfbwg8qbh" path="res://Resources/Textures/Buildings/ModularBuildingResources/rusty_metal_sheet_rough_2k.jpg" id="4_g4yfn"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_oiosd")
+shader_parameter/albedo = Color(0, 0, 0, 1)
+shader_parameter/texture_albedo = ExtResource("2_apyfn")
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 0.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/texture_roughness = ExtResource("4_g4yfn")
+shader_parameter/stretch_dbg = 0.0
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.27999999374144
+shader_parameter/texture_normal = ExtResource("3_plflu")
+shader_parameter/normal_scale = 1.000000807500001
+shader_parameter/ao_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/ao_light_affect = 0.0
+shader_parameter/heightmap_scale = 0.0
+shader_parameter/heightmap_min_layers = 0
+shader_parameter/heightmap_max_layers = 0
+shader_parameter/heightmap_flip = Vector2(0, 0)
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(0, 0, 0)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)

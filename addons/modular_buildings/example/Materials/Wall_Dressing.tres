@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bb3svbftyu34v"]
+
+[ext_resource type="Texture2D" uid="uid://okwi2okyoh3j" path="res://addons/modular_buildings/example/Textures/beige_wall_001_diff_2k.jpg" id="1_jkutu"]
+[ext_resource type="Texture2D" uid="uid://ym7b4mlxs7h2" path="res://addons/modular_buildings/example/Textures/beige_wall_001_nor_gl_2k.png" id="2_nj0ul"]
+[ext_resource type="Texture2D" uid="uid://dqqerbpock3kq" path="res://addons/modular_buildings/example/Textures/beige_wall_001_rough_2k.jpg" id="3_b2373"]
+
+[resource]
+albedo_texture = ExtResource("1_jkutu")
+roughness_texture = ExtResource("3_b2373")
+normal_enabled = true
+normal_texture = ExtResource("2_nj0ul")

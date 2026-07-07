@@ -9,7 +9,7 @@ var filters = {
 	"Scored": true,
 	"Rendered": true
 }
-var layer_composition_config_window = preload("res://UI/Layers/LayerConfiguration/Misc/LayerCompositionConfigurationWindow.tscn")
+var layer_composition_config_window = preload("res://UI/Layers/LayerConfiguration/LayerCompositionConfigurationWindow.tscn")
 var current_config_window
 
 @onready var new_button = get_node("VBoxContainer/Menu/NewLayer")
@@ -84,4 +84,3 @@ func _setup_layer_composition_widgets():
 	for child in layer_composition_container.get_children():
 		if not child.is_connected("gui_input",Callable(self,"_on_layer_select")):
 			child.connect("gui_input",Callable(self,"_on_layer_select").bind(child))
-

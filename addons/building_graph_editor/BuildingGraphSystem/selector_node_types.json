@@ -1,0 +1,332 @@
+{
+	"available_nodes": {
+		"Chosen BuildingDefinition": {
+			"tooltip": "Final choice",
+			"is_end": true,
+			"slots": [
+				{
+					"type": "text_input",
+					"label": "BuildingDefinition",
+					"cache_class": "BuildingStatic"
+				}
+			]
+		},
+		"Scalar constant": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "scalar_constant",
+					"label": "",
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Vector constant": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "vector_constant",
+					"label": "",
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Text constant": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "text_constant",
+					"label": "",
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Scalar Comparison": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "scalar_input",
+					"label": "Operand 1"
+				},
+				{
+					"type": "dropdown",
+					"label": "Operation",
+					"options": [
+						">",
+						"<",
+						"<=",
+						">=",
+						"==",
+						"!="
+					],
+					"option_functions": [
+						"inputs[0] > inputs[2]",
+						"inputs[0] < inputs[2]",
+						"inputs[0] <= inputs[2]",
+						"inputs[0] >= inputs[2]",
+						"inputs[0] == inputs[2]",
+						"inputs[0] != inputs[2]"
+					]
+				},
+				{
+					"type": "scalar_input",
+					"label": "Operand 2"
+				},
+				{
+					"type": "boolean_output",
+					"label": "Result",
+					"function": null,
+					"function_source": 1.0,
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Dot Product": {
+			"tooltip": "Dot product of two vectors",
+			"slots": [
+				{
+					"type": "vector_input",
+					"label": "Vector 1"
+				},
+				{
+					"type": "vector_input",
+					"label": "Vector 2"
+				},
+				{
+					"type": "scalar_output",
+					"label": "Result",
+					"function": "inputs[0].dot(inputs[1])",
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Vector Angle": {
+			"tooltip": "Angle between two 3D vectors in degrees",
+			"slots": [
+				{
+					"type": "vector_input",
+					"label": "Vector 1"
+				},
+				{
+					"type": "vector_input",
+					"label": "Vector 2"
+				},
+				{
+					"type": "scalar_output",
+					"label": "Result",
+					"function": "57.2957795131 * inputs[0].angle_to(inputs[1])",
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Compose Vector": {
+			"tooltip": "Get a vector from three scalar components",
+			"slots": [
+				{
+					"type": "scalar_input",
+					"label": "X"
+				},
+				{
+					"type": "scalar_input",
+					"label": "Y"
+				},
+				{
+					"type": "scalar_input",
+					"label": "Z"
+				},
+				{
+					"type": "vector_output",
+					"label": "Result",
+					"function": "Vector3(float(inputs[0]), float(inputs[1]), float(inputs[2]))",
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Weighted Choice": {
+			"tooltip": "Probability-weighted choice from array",
+			"slots": [
+				{
+					"type": "array_input",
+					"label": "Population"
+				},
+				{
+					"type": "text_output",
+					"label": "Chosen element",
+					"function": "weighted_choice(inputs[0], inputs.slice(3))",
+					"cache_class": "ModuleStatic"
+				},
+				{
+					"type": "dynamic_populate",
+					"iterable_slot": 0.0,
+					"element_type": "scalar_input",
+					"label": "Probabilities"
+				}
+			]
+		},
+		"Sine of X": {
+			"tooltip": "Sine",
+			"slots": [
+				{
+					"type": "scalar_input",
+					"label": "X"
+				},
+				{
+					"type": "scalar_output",
+					"label": "sin(X)",
+					"function": "sin(inputs[0])"
+				}
+			]
+		},
+		"Available Building Definitions": {
+			"tooltip": "Array of available BuildingDefinitions",
+			"slots": [
+				{
+					"type": "array_output",
+					"label": "Definitions",
+					"source_identifier": "all_definitions",
+					"cache_class": "ModuleStatic"
+				}
+			]
+		},
+		"Text equality": {
+			"tooltip": "Check if two strings are equal",
+			"slots": [
+				{
+					"type": "text_input",
+					"label": "String 1"
+				},
+				{
+					"type": "text_input",
+					"label": "String 2"
+				},
+				{
+					"type": "boolean_output",
+					"label": "Result",
+					"function": "inputs[0] == inputs[1]",
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Condition": {
+			"tooltip": "Choose between two string values based on a boolean",
+			"slots": [
+				{
+					"type": "boolean_input",
+					"label": "Determining Boolean"
+				},
+				{
+					"type": "text_input",
+					"label": "Value if true"
+				},
+				{
+					"type": "text_input",
+					"label": "Value if false"
+				},
+				{
+					"type": "text_output",
+					"label": "Value",
+					"function": "{true: inputs[1], false: inputs[2]}[inputs[0]]",
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Boolean operation": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "boolean_input",
+					"label": "Operand 1"
+				},
+				{
+					"type": "dropdown",
+					"label": "Operation",
+					"options": [
+						"AND",
+						"OR",
+						"XOR",
+						"NAND"
+					],
+					"option_functions": [
+						"inputs[0] and inputs[2]",
+						"inputs[0] or inputs[2]",
+						"(inputs[0] and not inputs[2]) or (inputs[2] and not inputs[0])",
+						"not (inputs[0] and inputs[2])"
+					]
+				},
+				{
+					"type": "boolean_input",
+					"label": "Operand 2"
+				},
+				{
+					"type": "boolean_output",
+					"label": "Result",
+					"function": null,
+					"function_source": 1.0,
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Scalar Math": {
+			"tooltip": "",
+			"slots": [
+				{
+					"type": "scalar_input",
+					"label": "Operand 1"
+				},
+				{
+					"type": "dropdown",
+					"label": "Operation",
+					"options": [
+						"*",
+						"/",
+						"+",
+						"-"
+					],
+					"option_functions": [
+						"inputs[0] * inputs[2]",
+						"inputs[0] / inputs[2]",
+						"inputs[0] + inputs[2]",
+						"inputs[0] - inputs[2]"
+					]
+				},
+				{
+					"type": "scalar_input",
+					"label": "Operand 2"
+				},
+				{
+					"type": "scalar_output",
+					"label": "Result",
+					"function": null,
+					"function_source": 1.0,
+					"cache_class": "GraphStatic"
+				}
+			]
+		},
+		"Random Scalar": {
+			"tooltip": "Random number between 0 and 1",
+			"slots": [
+				{
+					"type": "scalar_output",
+					"label": "Random value",
+					"source_identifier": "rand",
+					"cache_class": "NoCache"
+				}
+			]
+		},
+		"GeoFeature Attribute": {
+			"tooltip": "Queried text attribute of the underlying GeoFeature",
+			"slots": [
+				{
+					"type": "text_constant",
+					"label": "Attribute name"
+				},
+				{
+					"type": "text_output",
+					"label": "Value",
+					"function": "data_sources[\"geo_feature\"].get_value().get_attribute(inputs[0])",
+					"cache_class": "BuildingStatic"
+				}
+			]
+		}
+	}
+}

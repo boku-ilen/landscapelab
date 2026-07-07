@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ModularBuildingMetadata" format=3 uid="uid://cx33dcx2erq8l"]
+
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_jxylv"]
+[ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="2_gw8k5"]
+[ext_resource type="Resource" uid="uid://dy6nm7i3xje8t" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/ShackDoor.tres" id="3_u0egi"]
+[ext_resource type="Resource" uid="uid://c744262psio3l" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/ShackWall.tres" id="4_jxylv"]
+[ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="5_kbmaj"]
+
+[resource]
+script = ExtResource("5_kbmaj")
+building_height = 10.0
+footprint = Array[Vector2]([Vector2(-16, -16), Vector2(16, -16), Vector2(16, 16), Vector2(-16, 16)])
+floor_definitions = Array[ExtResource("1_jxylv")]([ExtResource("2_gw8k5"), ExtResource("3_u0egi"), ExtResource("4_jxylv")])
+feature_positions = Dictionary[String, Array]({
+"door": [Vector2(0, 16)]
+})
+metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

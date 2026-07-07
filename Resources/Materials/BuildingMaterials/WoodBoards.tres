@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dojaon0dc8y5u"]
+
+[ext_resource type="Texture2D" uid="uid://c1rikt7qqg635" path="res://Resources/Textures/Buildings/ModularBuildingResources/weathered_brown_planks_diff_2k.jpg" id="1_mq4qq"]
+[ext_resource type="Texture2D" uid="uid://cjxpsjaco2kmr" path="res://Resources/Textures/Buildings/ModularBuildingResources/weathered_brown_planks_nor_gl_2k.jpg" id="2_mtu0h"]
+[ext_resource type="Texture2D" uid="uid://chahxaudj17pf" path="res://Resources/Textures/Buildings/ModularBuildingResources/weathered_brown_planks_rough_2k.jpg" id="3_tu7wt"]
+
+[resource]
+albedo_texture = ExtResource("1_mq4qq")
+roughness_texture = ExtResource("3_tu7wt")
+normal_enabled = true
+normal_texture = ExtResource("2_mtu0h")

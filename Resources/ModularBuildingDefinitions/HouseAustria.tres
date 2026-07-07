@@ -1,0 +1,57 @@
+[gd_resource type="Resource" script_class="ModularBuildingMetadata" format=3 uid="uid://kgkf7jmpne3x"]
+
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_2qubg"]
+[ext_resource type="Material" uid="uid://gd00fit3u8tp" path="res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres" id="1_yhubf"]
+[ext_resource type="Material" uid="uid://lfl7mvgnp5sq" path="res://Resources/Materials/BuildingMaterials/PlasterSpacerTriplanar.tres" id="2_d6ddq"]
+[ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="2_ktjcu"]
+[ext_resource type="Material" uid="uid://dqj2reyawpgn3" path="res://Resources/Materials/BuildingMaterials/PlasterCornerTriplanar.tres" id="3_2e16o"]
+[ext_resource type="Resource" uid="uid://5mc2s0ylbir" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/PlasterWallDoor.tres" id="3_6k5a3"]
+[ext_resource type="Resource" uid="uid://gyxtgv2tsrg7" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/PlasterWall.tres" id="4_hgolv"]
+[ext_resource type="Script" uid="uid://jc3pyoidhtwr" path="res://addons/modular_buildings/Model/UniformTintMaterialSet.gd" id="5_wh4ug"]
+[ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="5_xb8tf"]
+[ext_resource type="Material" uid="uid://bmemvs3mm4wc7" path="res://addons/modular_buildings/example/Materials/Window_Glass.tres" id="9_vlph4"]
+[ext_resource type="Material" uid="uid://6gx3u4muuons" path="res://Buildings/Components/Roofs/Resources/RidgeCap.tres" id="10_niwcq"]
+[ext_resource type="Material" path="res://Resources/Meshes/Schloss/new/tontopf.material" id="11_fwhv5"]
+[ext_resource type="Material" uid="uid://bxeiu6u6dfdue" path="res://Resources/Materials/BuildingMaterials/Concrete.tres" id="12_6posh"]
+[ext_resource type="Script" uid="uid://bjawqxdbnnh1u" path="res://addons/modular_buildings/Model/MaterialReplacementPair.gd" id="12_fwhv5"]
+[ext_resource type="Script" uid="uid://dfs3uuicclk5t" path="res://addons/modular_buildings/Model/TintColorSet.gd" id="13_niwcq"]
+
+[sub_resource type="Resource" id="Resource_8xbx2"]
+script = ExtResource("12_fwhv5")
+material_id_a = "Wall_Primary"
+material_id_b = "Wall_Secondary"
+action_probability = 0.8
+
+[sub_resource type="Resource" id="Resource_fwhv5"]
+script = ExtResource("13_niwcq")
+tint_colors = Array[Color]([Color(1, 0.71486765, 0.6690176, 1), Color(0.5400145, 0.7647173, 0.44638938, 1), Color(0.7162335, 0.81091446, 1, 1), Color(0.96035105, 0.96035105, 0.96035093, 1), Color(0.39308554, 0.3930855, 0.39308548, 1), Color(0.42960292, 0.20071912, 0.051727034, 1)])
+material_names = Array[String](["Wall_Primary", "Wall_Primary_Corner", "Wall_Primary_Spacer"])
+
+[sub_resource type="Resource" id="Resource_23llv"]
+script = ExtResource("13_niwcq")
+tint_colors = Array[Color]([Color(1, 1, 1, 1), Color(0.6449482, 0.99999994, 0.9955531, 1), Color(0.15127608, 0.15127608, 0.15127608, 1), Color(0, 0, 0, 1)])
+material_names = Array[String](["Window_Frame", "Door_Frame"])
+
+[sub_resource type="Resource" id="Resource_wrnyt"]
+script = ExtResource("5_wh4ug")
+tint_colors = Array[ExtResource("13_niwcq")]([SubResource("Resource_fwhv5"), SubResource("Resource_23llv")])
+replacements = Array[ExtResource("12_fwhv5")]([SubResource("Resource_8xbx2")])
+materials_by_type = Dictionary[String, Material]({
+"Door_Frame": ExtResource("10_niwcq"),
+"Door_Glass": ExtResource("9_vlph4"),
+"Door_Handle": ExtResource("11_fwhv5"),
+"Door_Step": ExtResource("12_6posh"),
+"Wall_Primary": ExtResource("1_yhubf"),
+"Wall_Primary_Corner": ExtResource("3_2e16o"),
+"Wall_Primary_Spacer": ExtResource("2_d6ddq"),
+"Wall_Secondary": ExtResource("1_yhubf"),
+"Window_Frame": ExtResource("10_niwcq"),
+"Window_Glass": ExtResource("9_vlph4")
+})
+metadata/_custom_type_script = "uid://jc3pyoidhtwr"
+
+[resource]
+script = ExtResource("5_xb8tf")
+floor_definitions = Array[ExtResource("1_2qubg")]([ExtResource("2_ktjcu"), ExtResource("3_6k5a3"), ExtResource("4_hgolv")])
+material_variation_set = SubResource("Resource_wrnyt")
+metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

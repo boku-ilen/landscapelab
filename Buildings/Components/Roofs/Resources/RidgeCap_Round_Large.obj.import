@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://djdfdgmb66kbq"
+path="res://.godot/imported/RidgeCap_Round_Large.obj-bbe9f1572837ea2e0379f4315b43808a.mesh"
+
+[deps]
+
+files=["res://.godot/imported/RidgeCap_Round_Large.obj-bbe9f1572837ea2e0379f4315b43808a.mesh"]
+
+source_file="res://Buildings/Components/Roofs/Resources/RidgeCap_Round_Large.obj"
+dest_files=["res://.godot/imported/RidgeCap_Round_Large.obj-bbe9f1572837ea2e0379f4315b43808a.mesh", "res://.godot/imported/RidgeCap_Round_Large.obj-bbe9f1572837ea2e0379f4315b43808a.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

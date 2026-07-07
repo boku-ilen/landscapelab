@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b84e5qnytwn8c"]
+
+[ext_resource type="Texture2D" uid="uid://c72cxxcyrg6ln" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Color.jpg" id="1_dtslh"]
+[ext_resource type="Texture2D" uid="uid://bi63buuda3f3j" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_NormalGL.jpg" id="2_lsq0q"]
+[ext_resource type="Texture2D" uid="uid://bi73vhqd8cokg" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Roughness.jpg" id="3_u1bcj"]
+
+[resource]
+albedo_texture = ExtResource("1_dtslh")
+roughness_texture = ExtResource("3_u1bcj")
+normal_enabled = true
+normal_texture = ExtResource("2_lsq0q")

@@ -1,0 +1,176 @@
+{
+	"connections": [
+		{
+			"from_node": 3808762979.0,
+			"from_slot": 3.0,
+			"to_node": 3808761853.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 3808762016.0,
+			"from_slot": 3.0,
+			"to_node": 3808762979.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 3808761891.0,
+			"from_slot": 0.0,
+			"to_node": 3808762016.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 3808761924.0,
+			"from_slot": 0.0,
+			"to_node": 3808762016.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 3808761987.0,
+			"from_slot": 0.0,
+			"to_node": 3808762979.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 542618634.0,
+			"from_slot": 0.0,
+			"to_node": 3808762979.0,
+			"to_slot": 2.0
+		}
+	],
+	"nodes": [
+		{
+			"node_id": 3808761853.0,
+			"node_type": "Chosen Module ID (end)",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				}
+			]
+		},
+		{
+			"node_id": 3808761891.0,
+			"node_type": "Edge Proximity",
+			"slots": [
+				{
+					"data_source_identifier": "edge_dist",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "scalar_output"
+				}
+			]
+		},
+		{
+			"node_id": 3808762016.0,
+			"node_type": "Scalar Comparison",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				},
+				{
+					"slot_data": {
+						"choice": ">"
+					},
+					"slot_input_type": "connection",
+					"type": "dropdown"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 3808762979.0,
+			"node_type": "Condition",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 3808761987.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "door"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		},
+		{
+			"node_id": 542618634.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "plain_wall"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		},
+		{
+			"node_id": 3808761924.0,
+			"node_type": "Scalar constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": 1.5
+					},
+					"slot_input_type": "constant",
+					"type": "scalar_constant"
+				}
+			]
+		}
+	]
+}

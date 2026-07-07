@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://de76ykjsff15p"]
+
+[ext_resource type="Shader" uid="uid://2br3p1e1nvcn" path="res://addons/modular_buildings/Shader/hinge_corner.gdshader" id="1_1oavv"]
+[ext_resource type="Texture2D" uid="uid://dycdo5k6wtgry" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_diff_2k.jpg" id="2_j58od"]
+[ext_resource type="Texture2D" uid="uid://j4xlpd5mch8u" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_rough_2k.jpg" id="3_gyiqd"]
+[ext_resource type="Texture2D" uid="uid://nl23iq76mek4" path="res://addons/modular_buildings/example/Textures/gravel_concrete_03_nor_gl_2k.png" id="3_l1akg"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_1oavv")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/albedo_texture = ExtResource("2_j58od")
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/texture_roughness = ExtResource("3_gyiqd")
+shader_parameter/specular = 0.6499999854712
+shader_parameter/metallic = 0.0
+shader_parameter/normal_texture = ExtResource("3_l1akg")
+shader_parameter/normal_scale = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)

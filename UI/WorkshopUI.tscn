@@ -190,7 +190,7 @@ wait_time = 0.2
 
 [node name="World" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport" unique_id=33073808 instance=ExtResource("15_w6bxo")]
 
-[node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC" parent_id_path=PackedInt32Array(33073808, 1780470910) index="5" unique_id=1821134723 node_paths=PackedStringArray("pc_player") instance=ExtResource("16_gc550")]
+[node name="PlayerCompass" parent="MarginContainer/VBoxContainer/Left/Mid/MidVertical/VBoxContainer/WorldUI/WorldViewPort/SubViewport/World/FirstPersonPC" index="5" unique_id=1821134723 node_paths=PackedStringArray("pc_player") instance=ExtResource("16_gc550")]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0

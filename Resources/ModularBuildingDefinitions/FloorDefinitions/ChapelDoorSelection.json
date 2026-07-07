@@ -1,0 +1,275 @@
+{
+	"connections": [
+		{
+			"from_node": 3807544355.0,
+			"from_slot": 3.0,
+			"to_node": 3807542370.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 3807544389.0,
+			"from_slot": 3.0,
+			"to_node": 3807544355.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 3807543330.0,
+			"from_slot": 3.0,
+			"to_node": 3807544389.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 3807542441.0,
+			"from_slot": 0.0,
+			"to_node": 3807543330.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 3807543261.0,
+			"from_slot": 0.0,
+			"to_node": 3807543330.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 3807544323.0,
+			"from_slot": 2.0,
+			"to_node": 3807544389.0,
+			"to_slot": 2.0
+		},
+		{
+			"from_node": 3807542375.0,
+			"from_slot": 0.0,
+			"to_node": 3807544323.0,
+			"to_slot": 0.0
+		},
+		{
+			"from_node": 3807543301.0,
+			"from_slot": 0.0,
+			"to_node": 3807544323.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 541398891.0,
+			"from_slot": 0.0,
+			"to_node": 3807544355.0,
+			"to_slot": 1.0
+		},
+		{
+			"from_node": 3807543301.0,
+			"from_slot": 0.0,
+			"to_node": 3807544355.0,
+			"to_slot": 2.0
+		}
+	],
+	"nodes": [
+		{
+			"node_id": 3807542370.0,
+			"node_type": "Chosen Module ID (end)",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				}
+			]
+		},
+		{
+			"node_id": 3807542441.0,
+			"node_type": "Edge Proximity",
+			"slots": [
+				{
+					"data_source_identifier": "edge_dist",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "scalar_output"
+				}
+			]
+		},
+		{
+			"node_id": 3807543261.0,
+			"node_type": "Scalar constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": 1.5
+					},
+					"slot_input_type": "constant",
+					"type": "scalar_constant"
+				}
+			]
+		},
+		{
+			"node_id": 3807543330.0,
+			"node_type": "Scalar Comparison",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				},
+				{
+					"slot_data": {
+						"choice": ">"
+					},
+					"slot_input_type": "connection",
+					"type": "dropdown"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "scalar_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 3807544355.0,
+			"node_type": "Condition",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 3807544389.0,
+			"node_type": "Boolean operation",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+						"choice": "AND"
+					},
+					"slot_input_type": "connection",
+					"type": "dropdown"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 3807543301.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "plain_wall"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		},
+		{
+			"node_id": 3807542375.0,
+			"node_type": "Previous Module ID",
+			"slots": [
+				{
+					"data_source_identifier": "prev_module_id",
+					"slot_data": {
+
+					},
+					"slot_input_type": "data_source",
+					"type": "text_output"
+				}
+			]
+		},
+		{
+			"node_id": 3807544323.0,
+			"node_type": "Text equality",
+			"slots": [
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "text_input"
+				},
+				{
+					"slot_data": {
+
+					},
+					"slot_input_type": "connection",
+					"type": "boolean_output"
+				}
+			]
+		},
+		{
+			"node_id": 541398891.0,
+			"node_type": "Text constant",
+			"slots": [
+				{
+					"slot_data": {
+						"constant_value": "window_large"
+					},
+					"slot_input_type": "constant",
+					"type": "text_constant"
+				}
+			]
+		}
+	]
+}

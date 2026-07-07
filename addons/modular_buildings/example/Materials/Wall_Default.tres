@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dg4eeo60vjovp"]
+
+[ext_resource type="Texture2D" uid="uid://fifpn82a6nyk" path="res://addons/modular_buildings/example/Textures/red_brick_diff_2k.jpg" id="1_ckwya"]
+[ext_resource type="Texture2D" uid="uid://ds06kdtwxenny" path="res://addons/modular_buildings/example/Textures/red_brick_ao_2k.jpg" id="2_qtnm4"]
+[ext_resource type="Texture2D" uid="uid://frqioisekom4" path="res://addons/modular_buildings/example/Textures/red_brick_disp_2k.jpg" id="2_runte"]
+[ext_resource type="Texture2D" uid="uid://bb6bnfy3y1up8" path="res://addons/modular_buildings/example/Textures/red_brick_nor_gl_2k.png" id="3_qtnm4"]
+[ext_resource type="Texture2D" uid="uid://dlku50e0uq3y" path="res://addons/modular_buildings/example/Textures/red_brick_rough_2k.jpg" id="4_bwvn8"]
+
+[resource]
+albedo_texture = ExtResource("1_ckwya")
+metallic_specular = 0.58
+roughness_texture = ExtResource("4_bwvn8")
+normal_enabled = true
+normal_texture = ExtResource("3_qtnm4")
+ao_enabled = true
+ao_light_affect = 0.5
+ao_texture = ExtResource("2_qtnm4")
+heightmap_enabled = true
+heightmap_scale = 2.0
+heightmap_texture = ExtResource("2_runte")

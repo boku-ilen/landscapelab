@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="FloorDefinition" format=3 uid="uid://ne8rn60aw4m"]
+
+[ext_resource type="ArrayMesh" uid="uid://cu2ufby6jgbsi" path="res://addons/modular_buildings/example/Meshes/Iteration01/SocketOut_CornerOut_0.35x1.0.res" id="2_swofq"]
+[ext_resource type="JSON" path="res://addons/modular_buildings/example/FloorDefinitions/repeat_module.json" id="3_c6x5y"]
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="3_toadx"]
+[ext_resource type="ArrayMesh" uid="uid://bdm6naxq2pcb8" path="res://addons/modular_buildings/example/Meshes/Iteration01/SocketOut_Spacer_2.0x1.0.res" id="4_c6x5y"]
+[ext_resource type="ArrayMesh" uid="uid://cht26xm4478ax" path="res://addons/modular_buildings/example/Meshes/Iteration01/SocketOut_Wall_2.0x1.0.res" id="4_ip015"]
+[ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="4_swofq"]
+
+[sub_resource type="Resource" id="Resource_toadx"]
+script = ExtResource("4_swofq")
+model = ExtResource("4_ip015")
+probability = 1.0
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[resource]
+script = ExtResource("3_toadx")
+walls = Array[ExtResource("4_swofq")]([SubResource("Resource_toadx")])
+corner_90 = ExtResource("2_swofq")
+spacer_block = ExtResource("4_c6x5y")
+height = 1.0
+selection_rules = ExtResource("3_c6x5y")
+metadata/_custom_type_script = "uid://1cryccueq7u4"

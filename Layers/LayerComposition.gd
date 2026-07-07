@@ -245,6 +245,7 @@ class WindTurbineRenderInfo extends ObjectRenderInfo:
 
 
 class BuildingRenderInfo extends RenderInfo:
+	var door_layer: GeoFeatureLayer
 	var height_stdev_attribute_name: String
 	var slope_attribute_name: String
 	var red_attribute_name: String
@@ -258,6 +259,8 @@ class BuildingRenderInfo extends RenderInfo:
 	var wall_resources: Array[Resource]
 	var window_resources: Array[Resource]
 	var roof_resources: Dictionary[String, Resource]
+	var modular_resources: Array[Resource]
+	var selector_graph: Resource
 	
 	func _init():
 		renderer = preload("res://Layers/Renderers/Building/BuildingRenderer.tscn")

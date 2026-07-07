@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dqj2reyawpgn3"]
+
+[ext_resource type="Shader" uid="uid://duelq26f3abrp" path="res://addons/modular_buildings/Shader/hinge_corner_triplanar.gdshader" id="1_inln2"]
+[ext_resource type="Texture2D" uid="uid://c72cxxcyrg6ln" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Color.jpg" id="2_rvj7c"]
+[ext_resource type="Texture2D" uid="uid://bi63buuda3f3j" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_NormalGL.jpg" id="3_hf1ls"]
+[ext_resource type="Texture2D" uid="uid://dt20n6kluamu4" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Color_Top.jpg" id="4_nx4on"]
+[ext_resource type="Texture2D" uid="uid://b3ewbuosuywnt" path="res://Resources/Textures/Buildings/facade/UncleanPlaster/Plaster001_2K-JPG_Displacement.jpg" id="5_hnotq"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_inln2")
+shader_parameter/specular = 0.499999988824
+shader_parameter/normal_scale = 1.000000807500001
+shader_parameter/debug_mode = 0
+shader_parameter/triplanar_blend_sharpness = 50.0
+shader_parameter/base_albedo_tint = Color(0.7807918, 0.8551128, 0.95717126, 1)
+shader_parameter/base_albedo_tex = ExtResource("2_rvj7c")
+shader_parameter/base_normal_tex = ExtResource("3_hf1ls")
+shader_parameter/base_uv_tiling = 1.0
+shader_parameter/dirt_albedo_tex = ExtResource("4_nx4on")
+shader_parameter/dirt_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/dirt_uv_tiling = 0.20000000880148
+shader_parameter/dirtmask_tex = ExtResource("5_hnotq")
+shader_parameter/dirtmask_amount = 0.10000000475
+shader_parameter/dirtmask_uv_tiling = 0.20000000880148

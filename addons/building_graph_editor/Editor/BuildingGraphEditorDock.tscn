@@ -1,0 +1,609 @@
+[gd_scene format=3 uid="uid://c2tj24olhq0y6"]
+
+[ext_resource type="Script" uid="uid://cv653c4dmvl6w" path="res://addons/building_graph_editor/Editor/PreviewMultiViewport.gd" id="1_7xnxb"]
+[ext_resource type="Script" uid="uid://c13yi0fb5kv8a" path="res://addons/building_graph_editor/Editor/PreviewBuilding.gd" id="1_k5ymc"]
+[ext_resource type="Script" uid="uid://b5c2e2an8gd76" path="res://addons/building_graph_editor/BuildingGraphSystem/BuildingGraphEditor.gd" id="1_mbadm"]
+[ext_resource type="Script" uid="uid://dy8s3wn5na6xc" path="res://addons/building_graph_editor/Editor/OrbitCam.gd" id="1_tjo2p"]
+[ext_resource type="JSON" path="res://addons/building_graph_editor/BuildingGraphSystem/node_types.json" id="2_iknpx"]
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="2_tjo2p"]
+[ext_resource type="Script" uid="uid://cmwcjjrnybukj" path="res://addons/building_graph_editor/BuildingGraphSystem/FloorDefinitionPicker.gd" id="4_0g4iq"]
+[ext_resource type="Script" uid="uid://cq22ry4n31r6i" path="res://addons/building_graph_editor/BuildingGraphSystem/BuildingGraphRunner.gd" id="4_45cj8"]
+[ext_resource type="Resource" uid="uid://5f7qdex0krmx" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows+Door.tres" id="5_tjo2p"]
+[ext_resource type="ArrayMesh" uid="uid://bgfke6ts8jkbv" path="res://Resources/Meshes/BuildingComponents/Historic_Default_CornerIn01_0.75x4.0.obj" id="6_4af7b"]
+[ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="6_in047"]
+[ext_resource type="ArrayMesh" uid="uid://dd64e8bu8ywjo" path="res://Resources/Meshes/BuildingComponents/Historic_Default_SpacerBlank_2.0x4.0.obj" id="7_in047"]
+[ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="8_vhosy"]
+[ext_resource type="ArrayMesh" uid="uid://d0mq1vxgkkx8m" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Door01_2.0x4.0.obj" id="9_jf8qy"]
+[ext_resource type="ArrayMesh" uid="uid://b2oqaisry4b8q" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Window01_2.0x4.0.obj" id="10_1dk6v"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_oi8lk"]
+use_debanding = false
+
+[sub_resource type="Sky" id="Sky_7xnxb"]
+sky_material = SubResource("ProceduralSkyMaterial_oi8lk")
+process_mode = 3
+
+[sub_resource type="Environment" id="Environment_24fgp"]
+background_mode = 1
+background_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+background_energy_multiplier = 1.12
+sky = SubResource("Sky_7xnxb")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.39
+reflected_light_source = 1
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_oi8lk"]
+auto_exposure_enabled = true
+auto_exposure_scale = 0.5
+auto_exposure_speed = 16.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_7xnxb"]
+auto_exposure_enabled = true
+auto_exposure_scale = 0.5
+auto_exposure_speed = 16.34
+auto_exposure_max_sensitivity = 7863.5
+
+[sub_resource type="JSON" id="JSON_oi8lk"]
+data = {
+"connections": [{
+"from_node": 3807544355.0,
+"from_slot": 3.0,
+"to_node": 3807542370.0,
+"to_slot": 0.0
+}, {
+"from_node": 3807544389.0,
+"from_slot": 3.0,
+"to_node": 3807544355.0,
+"to_slot": 0.0
+}, {
+"from_node": 3807543330.0,
+"from_slot": 3.0,
+"to_node": 3807544389.0,
+"to_slot": 0.0
+}, {
+"from_node": 3807542441.0,
+"from_slot": 0.0,
+"to_node": 3807543330.0,
+"to_slot": 0.0
+}, {
+"from_node": 3807543261.0,
+"from_slot": 0.0,
+"to_node": 3807543330.0,
+"to_slot": 2.0
+}, {
+"from_node": 3807544323.0,
+"from_slot": 2.0,
+"to_node": 3807544389.0,
+"to_slot": 2.0
+}, {
+"from_node": 3807542375.0,
+"from_slot": 0.0,
+"to_node": 3807544323.0,
+"to_slot": 0.0
+}, {
+"from_node": 3807543301.0,
+"from_slot": 0.0,
+"to_node": 3807544323.0,
+"to_slot": 1.0
+}, {
+"from_node": 541398891.0,
+"from_slot": 0.0,
+"to_node": 3807544355.0,
+"to_slot": 1.0
+}, {
+"from_node": 3807543301.0,
+"from_slot": 0.0,
+"to_node": 3807544355.0,
+"to_slot": 2.0
+}],
+"nodes": [{
+"node_id": 3807542370.0,
+"node_type": "Chosen Module ID (end)",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}]
+}, {
+"node_id": 3807542441.0,
+"node_type": "Edge Proximity",
+"slots": [{
+"data_source_identifier": "edge_dist",
+"slot_data": {},
+"slot_input_type": "data_source",
+"type": "scalar_output"
+}]
+}, {
+"node_id": 3807543261.0,
+"node_type": "Scalar constant",
+"slots": [{
+"slot_data": {
+"constant_value": 1.5
+},
+"slot_input_type": "constant",
+"type": "scalar_constant"
+}]
+}, {
+"node_id": 3807543330.0,
+"node_type": "Scalar Comparison",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {
+"choice": ">"
+},
+"slot_input_type": "connection",
+"type": "dropdown"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 3807544355.0,
+"node_type": "Condition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 3807544389.0,
+"node_type": "Boolean operation",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {
+"choice": "AND"
+},
+"slot_input_type": "connection",
+"type": "dropdown"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 3807543301.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "plain_wall"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 3807542375.0,
+"node_type": "Previous Module ID",
+"slots": [{
+"data_source_identifier": "prev_module_id",
+"slot_data": {},
+"slot_input_type": "data_source",
+"type": "text_output"
+}]
+}, {
+"node_id": 3807544323.0,
+"node_type": "Text equality",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 541398891.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "window_large"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}]
+}
+
+[sub_resource type="Resource" id="Resource_wnvvm"]
+script = ExtResource("8_vhosy")
+model = ExtResource("7_in047")
+probability = 0.6
+facade_feature_id = "plain_wall"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_rmery"]
+script = ExtResource("8_vhosy")
+model = ExtResource("9_jf8qy")
+facade_feature_id = "door"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_6e2fl"]
+script = ExtResource("8_vhosy")
+model = ExtResource("10_1dk6v")
+facade_feature_id = "large_window"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_7xnxb"]
+script = ExtResource("2_tjo2p")
+walls = Array[ExtResource("8_vhosy")]([SubResource("Resource_wnvvm"), SubResource("Resource_rmery"), SubResource("Resource_6e2fl")])
+corner_90 = ExtResource("6_4af7b")
+spacer_block = ExtResource("7_in047")
+selection_rules = SubResource("JSON_oi8lk")
+metadata/_custom_type_script = "uid://1cryccueq7u4"
+
+[sub_resource type="Resource" id="Resource_bj8d6"]
+script = ExtResource("6_in047")
+building_height = 10.0
+footprint = Array[Vector2]([Vector2(15, -15), Vector2(15, 15), Vector2(-15, 15), Vector2(-15, -15)])
+position = Vector3(0, -6, 0)
+floor_definitions = Array[ExtResource("2_tjo2p")]([ExtResource("5_tjo2p"), SubResource("Resource_7xnxb")])
+feature_positions = Dictionary[String, Array]({
+"door": [Vector2(0, 16)]
+})
+metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_7xnxb"]
+viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_24fgp"]
+viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport3")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ddanw"]
+viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport2")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_tsw3j"]
+viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport4")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k4fue"]
+bg_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_vhosy"]
+font_names = PackedStringArray("Sans-Serif")
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_30ae2"]
+font = SubResource("SystemFont_vhosy")
+font_size = 24
+
+[node name="BuildingGraphEditingWindow" type="Control" unique_id=294869313]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1160104407]
+visible = false
+layout_mode = 0
+offset_right = 382.0
+offset_bottom = 162.0
+size_flags_horizontal = 3
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=2123800129]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(382, 162)
+render_target_update_mode = 0
+
+[node name="PreviewMultiViewport" type="SubViewport" parent="SubViewportContainer/SubViewport" unique_id=1053475312 node_paths=PackedStringArray("cam", "tex")]
+handle_input_locally = false
+msaa_3d = 2
+screen_space_aa = 2
+oversampling_override = 1.2004
+size = Vector2i(288, 162)
+render_target_update_mode = 4
+script = ExtResource("1_7xnxb")
+cam = NodePath("OrbitCam")
+tex = NodePath("../../../PreviewSubwindow/TextureRect")
+metadata/_custom_type_script = "uid://cv653c4dmvl6w"
+
+[node name="OrbitCam" type="Camera3D" parent="SubViewportContainer/SubViewport/PreviewMultiViewport" unique_id=1521743376]
+transform = Transform3D(1, 0, -0.00020365318, 0, 1, 0, 0.00020365318, 0, 1, -0.005294983, 0, 26)
+environment = SubResource("Environment_24fgp")
+attributes = SubResource("CameraAttributesPractical_oi8lk")
+projection = 1
+current = true
+fov = 81.2
+size = 19.683
+script = ExtResource("1_tjo2p")
+orbit_speed = 0.0
+height = 0.0
+offset = 1.571
+metadata/_custom_type_script = "uid://dy8s3wn5na6xc"
+
+[node name="PreviewMultiViewport2" type="SubViewport" parent="SubViewportContainer/SubViewport" unique_id=2042365575 node_paths=PackedStringArray("cam", "tex")]
+handle_input_locally = false
+msaa_3d = 2
+screen_space_aa = 2
+oversampling_override = 1.2004
+size = Vector2i(288, 162)
+render_target_update_mode = 4
+script = ExtResource("1_7xnxb")
+cam = NodePath("OrbitCam")
+tex = NodePath("../../../PreviewSubwindow/TextureRect3")
+metadata/_custom_type_script = "uid://cv653c4dmvl6w"
+
+[node name="OrbitCam" type="Camera3D" parent="SubViewportContainer/SubViewport/PreviewMultiViewport2" unique_id=343854480]
+transform = Transform3D(-0.99999964, 0, -0.0003890117, 0, 1, 0, 0.00038901158, 0, -0.99999994, -0.010116267, 0, -25.999998)
+environment = SubResource("Environment_24fgp")
+attributes = SubResource("CameraAttributesPractical_7xnxb")
+projection = 1
+current = true
+fov = 81.2
+size = 19.683
+script = ExtResource("1_tjo2p")
+orbit_speed = 0.0
+height = 0.0
+offset = 4.712
+metadata/_custom_type_script = "uid://dy8s3wn5na6xc"
+
+[node name="PreviewMultiViewport3" type="SubViewport" parent="SubViewportContainer/SubViewport" unique_id=947579150 node_paths=PackedStringArray("cam", "tex")]
+handle_input_locally = false
+msaa_3d = 2
+screen_space_aa = 2
+oversampling_override = 1.2004
+size = Vector2i(288, 162)
+render_target_update_mode = 4
+script = ExtResource("1_7xnxb")
+cam = NodePath("OrbitCam3")
+tex = NodePath("../../../PreviewSubwindow/TextureRect2")
+metadata/_custom_type_script = "uid://cv653c4dmvl6w"
+
+[node name="OrbitCam3" type="Camera3D" parent="SubViewportContainer/SubViewport/PreviewMultiViewport3" unique_id=395657260]
+transform = Transform3D(-0.00040726262, 0, -0.99999994, 0, 1, 0, 0.9999999, 0, -0.00040726265, -25.999998, 0, -0.010589965)
+environment = SubResource("Environment_24fgp")
+attributes = SubResource("CameraAttributesPractical_7xnxb")
+projection = 1
+current = true
+fov = 81.2
+size = 19.683
+script = ExtResource("1_tjo2p")
+orbit_speed = 0.0
+height = 0.0
+offset = 3.142
+metadata/_custom_type_script = "uid://dy8s3wn5na6xc"
+
+[node name="PreviewMultiViewport4" type="SubViewport" parent="SubViewportContainer/SubViewport" unique_id=913655515 node_paths=PackedStringArray("cam", "tex")]
+handle_input_locally = false
+msaa_3d = 2
+screen_space_aa = 2
+oversampling_override = 1.2004
+size = Vector2i(288, 162)
+render_target_update_mode = 4
+script = ExtResource("1_7xnxb")
+cam = NodePath("OrbitCam3")
+tex = NodePath("../../../PreviewSubwindow/TextureRect4")
+metadata/_custom_type_script = "uid://cv653c4dmvl6w"
+
+[node name="OrbitCam3" type="Camera3D" parent="SubViewportContainer/SubViewport/PreviewMultiViewport4" unique_id=914160872]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 26, 0, 0)
+environment = SubResource("Environment_24fgp")
+attributes = SubResource("CameraAttributesPractical_7xnxb")
+projection = 1
+current = true
+fov = 81.2
+size = 19.683
+script = ExtResource("1_tjo2p")
+orbit_speed = 0.0
+height = 0.0
+metadata/_custom_type_script = "uid://dy8s3wn5na6xc"
+
+[node name="Node3D" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1970566090]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Node3D" unique_id=1347719345]
+transform = Transform3D(0.32815778, 0, 0.94462293, -0.47231147, 0.8660254, 0.16407892, -0.81806743, -0.5, 0.28419298, -2.9441638, 1.2437177, 15.225979)
+layers = 2
+spot_range = 36.736
+spot_angle = 67.42708
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Node3D" unique_id=1374098426]
+transform = Transform3D(-4.371139e-08, -0.5, 0.8660254, 0, 0.8660254, 0.5, -1, 2.1855694e-08, -3.7855173e-08, 15, 4, -20)
+layers = 2
+spot_range = 40.524307
+spot_angle = 67.42708
+
+[node name="PreviewBuilding" type="Node3D" parent="SubViewportContainer/SubViewport/Node3D" unique_id=747103508 node_paths=PackedStringArray("building_root_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6, 0)
+script = ExtResource("1_k5ymc")
+metadata = SubResource("Resource_bj8d6")
+building_root_node = NodePath(".")
+
+[node name="NorthLabel" type="Label3D" parent="SubViewportContainer/SubViewport/Node3D" unique_id=1272754589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6, 16)
+layers = 2
+pixel_size = 0.01
+double_sided = false
+text = "North"
+font_size = 300
+vertical_alignment = 0
+
+[node name="WestLabel" type="Label3D" parent="SubViewportContainer/SubViewport/Node3D" unique_id=387306201]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 16, -6, 0)
+layers = 2
+pixel_size = 0.01
+double_sided = false
+text = "West"
+font_size = 300
+vertical_alignment = 0
+
+[node name="SouthLabel" type="Label3D" parent="SubViewportContainer/SubViewport/Node3D" unique_id=426273987]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, -6, -16)
+layers = 2
+pixel_size = 0.01
+double_sided = false
+text = "South"
+font_size = 300
+vertical_alignment = 0
+
+[node name="EastLabel" type="Label3D" parent="SubViewportContainer/SubViewport/Node3D" unique_id=1553161294]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -16, -6, 0)
+layers = 2
+pixel_size = 0.01
+double_sided = false
+text = "East"
+font_size = 300
+vertical_alignment = 0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Node3D" unique_id=1985528769]
+visible = false
+shadow_enabled = true
+sky_mode = 1
+
+[node name="PreviewSubwindow" type="HBoxContainer" parent="." unique_id=576234579]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.25
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PreviewSubwindow" unique_id=2032424525]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("ViewportTexture_7xnxb")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="PreviewSubwindow" unique_id=1406242054]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("ViewportTexture_24fgp")
+expand_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="PreviewSubwindow" unique_id=1217101261]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("ViewportTexture_ddanw")
+expand_mode = 1
+
+[node name="TextureRect4" type="TextureRect" parent="PreviewSubwindow" unique_id=20597783]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("ViewportTexture_tsw3j")
+expand_mode = 1
+
+[node name="BuildingGraphEditorDock" type="Control" parent="." unique_id=733009336]
+layout_mode = 1
+anchor_top = 0.25
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BuildingGraphEditor" type="GraphEdit" parent="BuildingGraphEditorDock" unique_id=930282785 node_paths=PackedStringArray("library_container", "floor_definition_picker", "validate_button", "save_button", "preview_building")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.05
+anchor_right = 0.7
+anchor_bottom = 1.0
+grow_vertical = 2
+size_flags_horizontal = 3
+right_disconnects = true
+type_names = {
+0: "String",
+1: "Scalar",
+2: "Boolean",
+3: "Vector",
+4: "Array"
+}
+script = ExtResource("1_mbadm")
+library_container = NodePath("../ScrollContainer/Outer/Library")
+floor_definition_picker = NodePath("../PanelContainer/ButtonBar/FloorDefinitionPicker")
+validate_button = NodePath("../PanelContainer/ButtonBar/ValidateButton")
+save_button = NodePath("../PanelContainer/ButtonBar/SaveButton")
+node_definitions = ExtResource("2_iknpx")
+preview_building = NodePath("../../SubViewportContainer/SubViewport/Node3D/PreviewBuilding")
+metadata/_custom_type_script = "uid://b5c2e2an8gd76"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BuildingGraphEditorDock" unique_id=1555578468]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_k4fue")
+
+[node name="Outer" type="VBoxContainer" parent="BuildingGraphEditorDock/ScrollContainer" unique_id=1600327459]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="BuildingGraphEditorDock/ScrollContainer/Outer" unique_id=1403269868]
+layout_mode = 2
+text = "Available Nodes"
+label_settings = SubResource("LabelSettings_30ae2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Library" type="VBoxContainer" parent="BuildingGraphEditorDock/ScrollContainer/Outer" unique_id=1346339513]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="BuildingGraphEditorDock" unique_id=1219822009]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.7
+anchor_bottom = 0.05
+
+[node name="ButtonBar" type="HBoxContainer" parent="BuildingGraphEditorDock/PanelContainer" unique_id=47671025]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="LoadButton" type="Button" parent="BuildingGraphEditorDock/PanelContainer/ButtonBar" unique_id=851508728]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+text = "Load Graph"
+
+[node name="ValidateButton" type="Button" parent="BuildingGraphEditorDock/PanelContainer/ButtonBar" unique_id=1751035636]
+layout_mode = 2
+text = "Validate"
+
+[node name="SaveButton" type="Button" parent="BuildingGraphEditorDock/PanelContainer/ButtonBar" unique_id=1242621549]
+visible = false
+layout_mode = 2
+text = "Save Graph"
+
+[node name="FloorDefinitionPicker" type="EditorResourcePicker" parent="BuildingGraphEditorDock/PanelContainer/ButtonBar" unique_id=933417022]
+layout_mode = 2
+size_flags_horizontal = 3
+base_type = "FloorDefinition"
+script = ExtResource("4_0g4iq")
+metadata/_custom_type_script = "uid://cmwcjjrnybukj"
+
+[node name="BuildingGraphRunner" type="Node" parent="BuildingGraphEditorDock" unique_id=1752986610]
+script = ExtResource("4_45cj8")
+metadata/_custom_type_script = "uid://cq22ry4n31r6i"

@@ -16,6 +16,8 @@ signal ui_loaded
 var pos_manager: PositionManager
 
 func _ready():
+	logger.error(RenderingServer.get_rendering_device().get_device_name())
+
 	docks.append($MarginContainer/VBoxContainer/Left/Tabs/Top)
 	docks.append($MarginContainer/VBoxContainer/Left/Tabs/Bot)
 	docks.append($MarginContainer/VBoxContainer/Left/Mid/Right/Tabs/Top)
