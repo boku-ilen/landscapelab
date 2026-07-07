@@ -92,6 +92,6 @@ void fragment() {
 		AO_LIGHT_AFFECT = ao_light_affect;
 	}
 
-	RIM = rim_strength;
-	RIM_TINT = rim_color_from_albedo;
+	//RIM = rim_strength;
+	//RIM_TINT = rim_color_from_albedo;
 }
