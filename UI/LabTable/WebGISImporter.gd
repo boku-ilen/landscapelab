@@ -45,9 +45,9 @@ func _http_request_completed(result, response_code, headers, body):
 		var marker_icon
 		
 		if survey_entry["field_data"]["Schönheit des Ortes"][0] == "9":
-			marker_icon = preload("res://Resources/Icons/LabTable/symbol_yes.png")
+			marker_icon = preload("res://Resources/Icons/LabTable/indicators/symbol_yes.png")
 		else:
-			marker_icon = preload("res://Resources/Icons/LabTable/symbol_no.png")
+			marker_icon = preload("res://Resources/Icons/LabTable/indicators/symbol_no.png")
 		
 		parent_node.add_child(get_new_marker(
 			local_vector,
