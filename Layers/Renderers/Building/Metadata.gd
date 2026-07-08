@@ -61,11 +61,11 @@ func _init(feature: GeoPolygon, center: Array, render_info: LayerComposition.Ren
 		feature.get_attribute(render_info.height_attribute_name),
 		fallback_height
 	)
-	var height_stdev = util.str_to_var_or_default(
-		feature.get_attribute(render_info.height_stdev_attribute_name),
-		1.5
-	)
-	roof_height = height_stdev
+	#var height_stdev = util.str_to_var_or_default(
+		#feature.get_attribute(render_info.height_stdev_attribute_name),
+		#1.0
+	#)
+	roof_height = 0.5  # FIXME: include height stdev, or ignore because it's prone to errors?
 
 
 

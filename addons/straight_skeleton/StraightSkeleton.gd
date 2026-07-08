@@ -1,6 +1,8 @@
 extends Object
 class_name StraightSkeleton
 
+const MAX_ITERATIONS = 1000
+
 ## calculate travel direction for a vertex (shrinking arc)
 static func _travel_direction(point_before: Vector2, point: Vector2, point_after: Vector2) -> Vector2:
 	var to_before := (point_before - point).normalized()
@@ -133,8 +135,6 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 	if events.size() == 0:
 		return [poly_info]
 	
-	#print("splitting ", poly_info.verts.size(), " verts, got ", poly_info.bisectors.size(), " bisectors")
-	
 	var all_polys: Array[SubPolyInfo] = []
 	
 	# in one step, always split a polygon into two
@@ -148,23 +148,14 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 	# adjust segment index to potentially different polygon (recursion)
 	event["segment"] = poly_info.original_indices.find(event["segment"])
 	
-	
 	var new_before = old_verts[(event["arc"] - 1 + old_verts.size()) % old_verts.size()]
 	var new_point = old_verts[event["arc"]]
 	var new_after = verts[(event["segment"] + 1) % verts.size()]
 	var new_normal = -Vector2(new_after.y - new_point.y, -(new_after.x - new_point.x)).normalized()
-	#print(new_before, new_point, new_after, new_normal)
-
-
-
 	
-	#event["point"] -= vertex_directions[event["arc"]]*t * 0.5
 	var points_before: Array[Vector2] = []
 	var bisectors_before: Array[BisectorArc] = []
 	var before_point = new_point
-
-	
-	
 	
 	new_before = verts[event["segment"]]
 	new_after = old_verts[(event["arc"] + 1) % verts.size()]
@@ -184,14 +175,10 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 	poly_info.bisectors[poly_info.original_indices.find(event["arc"])].start_t = before_connect_bisector.end_t
 	poly_info.bisectors[poly_info.original_indices.find(event["arc"])].origin = old_verts[event["arc"]]
 	
-
-
 	var new_before_bisector = BisectorArc.new()
 	new_before_bisector.origin = old_verts[event["arc"]]
 	new_before_bisector.start_t = t
 	
-
-
 	# select vertices and add new ones for both sides of the split
 	var vert_cursor = (event["segment"] + 1) % verts.size()
 	if original_segment in poly_info.original_indices and event["arc"] in poly_info.original_indices:
@@ -201,23 +188,10 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 			bisectors_before.append(poly_info.bisectors[vert_cursor])
 			poly_info_before.original_indices.append(poly_info.original_indices[vert_cursor])
 			vert_cursor = (vert_cursor + 1) % verts.size()
-	
+		
 		points_before.append(before_point)
 		poly_info_before.original_indices.append(event["arc"])
 		bisectors_before.append(new_before_bisector)
-		
-#		points_before.append(Geometry2D.get_closest_point_to_segment(verts[poly_info.original_indices.find(event["arc"])], verts[event["segment"]], verts[(event["segment"] + 1) % verts.size()]))
-#		poly_info_before.original_indices.append(old_verts.size() + randi_range(0,100))
-#		var insert_bisector_before = BisectorArc.new()
-#		insert_bisector_before.origin = points_before[-1]
-#		insert_bisector_before.start_t = t
-#		bisectors_before.append(insert_bisector_before)	
-
-		
-
-	
-
-	
 	
 		var points_after: Array[Vector2] = []
 		var bisectors_after: Array[BisectorArc] = []
@@ -226,30 +200,17 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 		poly_info_after.original_indices.append(event["arc"])#event["arc"])
 		bisectors_after.append(after_split_bisector)
 		
-		
 		vert_cursor = (poly_info.original_indices.find(event["arc"]) +1 ) % verts.size()
 		while vert_cursor != (event["segment"] + 1) % verts.size():
-			#print("after_vc", vert_cursor)
-	
 			points_after.append(verts[vert_cursor])
+			
 			var copy_bisector = BisectorArc.new()
 			copy_bisector.start_t = poly_info.bisectors[vert_cursor].start_t
 			copy_bisector.origin = poly_info.bisectors[vert_cursor].origin
+			
 			bisectors_after.append(copy_bisector)
 			poly_info_after.original_indices.append(poly_info.original_indices[poly_info.original_indices.find(vert_cursor)])
 			vert_cursor = (vert_cursor + 1) % verts.size()
-		
-	
-#		points_after.append(Geometry2D.get_closest_point_to_segment(verts[poly_info.original_indices.find(event["arc"])], verts[event["segment"]], verts[(event["segment"] + 1) % verts.size()]))
-#		poly_info_after.original_indices.append(99999)
-#		
-#		var insert_bisector_after = BisectorArc.new()
-#		insert_bisector_after.origin = points_after[-1]
-#		insert_bisector_after.start_t = t
-#		bisectors_after.append(insert_bisector_after)	
-		
-		#print("n before ", points_before.size(), ", n after ", points_after.size())
-
 		
 		poly_info_before.verts = points_before
 		poly_info_before.bisectors = bisectors_before
@@ -258,12 +219,11 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 		
 		# more events to process, recurse
 		if events.size() > 1:
-			#print("recurse maybe ", events[1])
 			var did_rec = false
 			var next_events = events.duplicate()
 			next_events.remove_at(0)
+			
 			if poly_info_before.original_indices.find(next_events[0]["segment"]) >= 0:
-				#print("recurse before")
 				var before_splits = _get_split_polygons(poly_info_before, old_verts, t, next_events)
 				all_polys.append_array(before_splits)
 				did_rec = true
@@ -271,7 +231,6 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 				all_polys.append(poly_info_before)
 				
 			if poly_info_after.original_indices.find(next_events[0]["segment"]) >= 0:
-				#print("recurse after")
 				var after_splits = _get_split_polygons(poly_info_after, old_verts, t, next_events)
 				all_polys.append_array(after_splits)
 			else:
@@ -279,7 +238,7 @@ static func _get_split_polygons(poly_info: SubPolyInfo, old_verts: Array[Vector2
 		else:
 			all_polys.append(poly_info_before)
 			all_polys.append(poly_info_after)
-			#print("bisectors:", poly_info_after.bisectors.size()," verts: ", poly_info_after.verts.size())
+	
 	return all_polys
 
 ## Calculate straight skeleton for a given polygon (vertices)
@@ -296,13 +255,10 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 	# if we got bisectors (i.e. we are a deeper recursive step), adopt them
 	var unfinished_bisectors: Array[BisectorArc]
 	if partial_bisectors.size() > 0:
-		#print("got bisectors, ", partial_bisectors.size(), " for ", vertices.size(), " verts")
 		unfinished_bisectors = partial_bisectors.duplicate()
 	
 	var result := StraightSkeletonInfo.new()
-	
 	var current_t = overall_t
-	
 	var last_untriangulated = vertices.duplicate()
 	
 	var duplicates = {}
@@ -314,6 +270,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				continue
 			if verts[vert_i].distance_squared_to(verts[vert_j]) < 0.01:
 				duplicates[max(vert_i, vert_j)] = true
+	
 	var to_remove = duplicates.keys()
 	to_remove.sort_custom(func (a,b): return a > b)
 	for dup in to_remove:
@@ -332,6 +289,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 	# compute travel directions and other necessary info
 	to_remove = []
 	var distance_acc = 0.0
+	
 	for vert_i in verts.size():
 		# record position of edge midpoint for UV mapping
 		var l = verts[vert_i].distance_to(verts[(vert_i + 1) % verts.size()])
@@ -357,7 +315,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 		var prev = verts[(vert_i - 1 + verts.size()) % verts.size()]
 		var curr = verts[vert_i]
 		var next = verts[(vert_i + 1) % verts.size()]
-		#vertex_is_reflex.append(true)
+		
 		# store whether this is a reflex vertex (only reflex vertices i.e. inside angle > PI/2 can bisect polygons)
 		vertex_is_reflex.append((curr - prev).angle_to(next - curr) < 0)
 		if partial_bisectors.size() == 0:
@@ -375,12 +333,9 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 		distance_acc /= perimeter_length / full_perimeter_length
 		perimeter_length = full_perimeter_length
 	
-	#print("Dacc ", distance_acc, ", full ", perimeter_length)
-	
 	# scale relative edge locations to [0,1] and side lengths so that their sum is the perimeter length
 	original_side_lengths = side_lengths.duplicate()
 	for p_i in vertex_position_along_perimeter.size():
-		
 		vertex_position_along_perimeter[p_i] /= distance_acc
 		side_lengths[p_i] /= distance_acc
 	
@@ -392,9 +347,8 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 		original_side_lengths.remove_at(remove_i)
 		if partial_bisectors.size() != 0:
 			unfinished_bisectors.remove_at(remove_i)
-		
 	
-	while true:
+	for i in range(MAX_ITERATIONS):
 		# debug callback
 		on_poly_callback.call(verts)
 
@@ -405,15 +359,11 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 			if verts.size() <= 3:
 				# special case: either triangle or or unprocessable 2-gon/point
 				
-				#print("triangle verts ", verts.size(), ", open bisectors ", unfinished_bisectors.size())
-				
 				# mean location as approximation of combined vertices
 				var centroid = Vector2.ZERO
 				for v in verts:
 					centroid += v
 				centroid /= verts.size()
-				
-				
 				
 				# if exactly 3 vertices are left, triangulate
 				if verts.size() == 3:
@@ -421,7 +371,6 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					# approximate t as the minimal distance along normals to any of the edges
 					for vert_i in verts.size():
 						centroid_t = min(centroid_t, current_t + centroid.distance_to(Geometry2D.get_closest_point_to_segment(centroid, verts[vert_i], verts[(vert_i + 1) % verts.size()])))
-					
 					
 					for vert_i in verts.size():
 						# 3d vertices: edge start, edge end, centroid
@@ -444,17 +393,16 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 							side_lengths[vert_i] * 0.5,
 							_centered_position_along_segment(centroid, verts[vert_i], verts[(vert_i + 1) % verts.size()]) * side_lengths[vert_i]
 						])
-
-					#print(unfinished_bisectors.size())
-					#print(unfinished_bisectors.map(func (b): return "from " + str(b.origin) + " at " + str(b.start_t) + " to " + str(b.endpoint) + " at " + str(b.end_t)))
+					
 					# close open bisector arcs with endpoint in the triangle
 					for bisector_i in unfinished_bisectors.size():
-						
 						var open_bisector = unfinished_bisectors[bisector_i]
 						open_bisector.endpoint = verts[bisector_i]
+						
 						# might be nonsense (?)
 						open_bisector.end_t = current_t
 						result.bisectors.append(open_bisector)
+						
 						var in_triangle_bisector = BisectorArc.new()
 						in_triangle_bisector.origin = verts[bisector_i]
 						in_triangle_bisector.start_t = open_bisector.end_t
@@ -464,28 +412,19 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 			break
 			
 		# speculatively apply all upcoming merge events
-		
-		#print(next_events[0].t)
 		var candidate_verts := _offset_polygon_by(verts, vertex_directions, edge_normals, next_events[0].t)
-		#on_poly_callback.call(candidate_verts)
-		#print("@129 ", vertex_directions.size(), ",", verts.size())
 		
 		var candidate_directions = vertex_directions.duplicate()
 		var candidate_normals = edge_normals.duplicate()
 		var candidate_is_reflex = vertex_is_reflex.duplicate()
 		var candidate_bisectors = unfinished_bisectors.duplicate()
 		var candidate_untriangulated = last_untriangulated.duplicate()
-
-
 		
 		for next_event in next_events:			
 			candidate_verts[next_event.combined_vertices[0]] = next_event.new_point
-
-		#print(vertex_is_reflex)
+		
 		var is_valid = true
 		var intersecting_arcs = []
-#		var intersecting_arcs = range(0,verts.size() - 1)
-		#print("@145 ", vertex_directions.size(), ",", verts.size())
 		
 		# check for self-intersection (->split event)
 		for vert_i in candidate_is_reflex.size():
@@ -505,21 +444,14 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				var prev_intersect = Geometry2D.segment_intersects_segment(prev, curr, candidate_verts[vert_j], candidate_verts[(vert_j + 1) % candidate_verts.size()])
 				var next_intersect = Geometry2D.segment_intersects_segment(curr, next, candidate_verts[vert_j], candidate_verts[(vert_j + 1) % candidate_verts.size()])
 				if prev_intersect != null or next_intersect != null:
-					#print("vertex ", vert_i, " intersects edge ", vert_j)
-					
 					# any intersection found, this means a split event must happen before the next merge event
 					intersection_exists = true
-
-
+			
 			if intersection_exists:
 				is_valid = false
-		#print("@166 ", is_valid)
-
-		
 		
 		if not is_valid:
 			# there are probably intersections, we try to find them
-		
 			var split_events: Array[Dictionary] = []
 			
 			# iterate over all reflex verts
@@ -537,16 +469,12 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					
 					# lines parallel
 					if potential_intersection_point == null:
-						#print("split: parallel")
 						continue
-					
 					
 					var candidate_segment = vert_i
 					
 					# intersection point not on segment
 					if (potential_intersection_point as Vector2).distance_to(Geometry2D.get_closest_point_to_segment(potential_intersection_point, verts[vert_i], verts[(vert_i + 1) % verts.size()])) > 0.01:
-						#print("split: outside")
-						
 						# if verts[vert_i] is not a reflex vertex, don't bother checking if its travel arc intersects verts[arc]'s
 						if not vertex_is_reflex[vert_i]:
 							continue
@@ -561,18 +489,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 							continue
 						
 						var intersect_before = Geometry2D.line_intersects_line(arc_vert, arc_dir, verts[vert_i], (verts[(vert_i - 1 + verts.size()) % verts.size()] - verts[vert_i]).normalized())
-						
-						#FIXME does this work?
-						#print("arc/arc ", arc, "/", vert_i, "at", potential_intersection_point)
-
-#						if intersect_before != null:
-#							print("b4_maybe")
-#							if (intersect_before as Vector2).distance_squared_to(arc_vert) < (potential_intersection_point as Vector2).distance_squared_to(arc_vert):
-#								print("b4_def")
-#								potential_intersection_point = intersect_before
-#								candidate_segment = (vert_i - 1 + verts.size()) % verts.size()
-												
-											
+					
 					# scale factor distance((arc_dir * distance_modifier * t), closest_point(segment)) == t
 					var distance_modifier := 1 / cos(abs(arc_dir.angle_to(edge_normals[arc])))
 					
@@ -585,7 +502,6 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 						continue
 					
 					# event t (adjusted for whole polygon)
-					#var t = (distance_along_normal * cos(arc_normal_angle) / ((distance_modifier  + 1) * (cos(arc_normal_angle) + 1)))
 					var t = (distance_along_normal * cos(arc_normal_angle) / ((distance_modifier) * (cos(arc_normal_angle)) + 1))
 					
 					if t < 0:
@@ -617,7 +533,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				
 				# only consider splits happening simultaneously with the earliest split
 				split_events = split_events.filter(func (e): return e["t"] < split_events[0].t + 0.1)
-
+				
 				var same_time_events = split_events.duplicate()
 				var before_sets: Array[Array]
 				var before_bisector_sets: Array[Array]
@@ -625,15 +541,11 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				var after_bisector_sets: Array[Array]
 				
 				var t = split_events[0]["t"]
-				#print("split t ca ", t, split_events[0])
-				
 				
 				var old_verts = verts.duplicate_deep()
 				
 				# offset to the time of the first event
 				verts = _offset_polygon_by(verts, vertex_directions, edge_normals, t)
-				
-				#print("verts ", verts.size(), " open ", unfinished_bisectors.size())
 				
 				# create triangle strip from old t to split_events[0]["t"]
 				for vert_i in verts.size():
@@ -669,7 +581,6 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 						_centered_position_along_segment(verts[vert_i], old_verts[vert_i], old_verts[(vert_i + 1) % verts.size()]) * side_lengths[vert_i],
 						side_lengths[vert_i] * 0.5,
 					])
-
 					
 					var to_first = _to_3d(old_verts[vert_i], current_t) - _to_3d(verts[vert_i], current_t + t)
 					var to_second = _to_3d(old_verts[(vert_i + 1) % verts.size()], current_t) - _to_3d(verts[vert_i], current_t + t)
@@ -680,6 +591,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				var next_perimeter_length = 0.0
 				for vert_i in verts.size():
 					next_perimeter_length += verts[vert_i].distance_to(verts[(vert_i + 1) % verts.size()])
+				
 				var ratio = (next_perimeter_length / perimeter_length)
 				for split_event in split_events:
 					result.triangles.append([
@@ -700,9 +612,6 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					result.triangle_normals.append(Vector3.UP)
 				
 				for bisector_i in unfinished_bisectors.size():
-#					if bisector_i == split_events[0]["arc"] or bisector_i == split_events[0]["segment"] or bisector_i == (split_events[0]["segment"] - 1 + verts.size()) % verts.size():
-#						continue
-					
 					unfinished_bisectors[bisector_i].end_t = current_t + t
 					unfinished_bisectors[bisector_i].endpoint = verts[bisector_i]
 					result.bisectors.append(unfinished_bisectors[bisector_i])
@@ -715,17 +624,15 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				poly_info_initial.original_indices.assign(range(verts.size()))
 				poly_info_initial.verts = verts
 				poly_info_initial.bisectors = unfinished_bisectors
-
+				
 				var computed_splits := _get_split_polygons(poly_info_initial, verts, t, same_time_events)
-				#print("polys ", computed_splits.size())
+				
 				for poly in computed_splits:
 					# recurse for every polygon resulting from the split
 					var poly_result := calculate(poly.verts, poly.bisectors, on_poly_callback, current_t + t, perimeter_length)
 					
 					# transfer all data from recursive call to our result
 					result.bisectors.append_array(poly_result.bisectors)
-					#print(poly_result.bisectors.map(func (b): return "from " + str(b.origin) + " at " + str(b.start_t) + " to " + str(b.endpoint) + " at " + str(b.end_t)))
-					#result.bisectors.append_array(poly.closed_bisectors)
 					result.triangles.append_array(poly_result.triangles)
 					result.triangle_normals.append_array(poly_result.triangle_normals)
 					result.vertex_uvs.append_array(poly_result.vertex_uvs)
@@ -735,21 +642,18 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					
 				# finish bisectors for splitting arc, segment start, and segment end
 				var new_point = verts[(split_events[0]["arc"]) % verts.size()]
-
+				
 				unfinished_bisectors[split_events[0]["arc"]].endpoint = verts[split_events[0]["arc"]]
 				unfinished_bisectors[split_events[0]["arc"]].end_t = current_t + t
 				
 				result.bisectors.append(unfinished_bisectors[split_events[0]["arc"]])
-
+				
 				var before_connect_arc = unfinished_bisectors[split_events[0]["arc"]]
 				before_connect_arc.endpoint = verts[split_events[0]["arc"]]
 				before_connect_arc.end_t = current_t + t
 				unfinished_bisectors[split_events[0]["arc"]] = BisectorArc.new()
 				unfinished_bisectors[split_events[0]["arc"]].start_t = current_t + t
 				unfinished_bisectors[split_events[0]["arc"]].origin = verts[split_events[0]["arc"]]
-				
-				
-				
 				
 				var before_connect_seg1 = unfinished_bisectors[split_events[0]["segment"]]
 				before_connect_seg1.endpoint = verts[split_events[0]["segment"]]
@@ -767,15 +671,13 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 			else:
 				# no split events, OK to perform merge events
 				is_valid = true
-					
-					
+		
 		if is_valid:
 			# no splits to process, we can apply the merges
-		
 			var event_state := StraightSkeletonInfo.EventState.new()
 			event_state.base_poly = verts
 			event_state.new_shrink_events = next_events
-
+			
 			next_events.sort_custom(func (ev1, ev2): return ev1.combined_vertices[1] > ev2.combined_vertices[1])
 			
 			for vert_i in verts.size():
@@ -798,7 +700,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					Vector2(vertex_position_along_perimeter[vert_i], current_t),
 					Vector2(vertex_position_along_perimeter[vert_i], current_t + next_events[0].t),
 				])
-
+				
 				result.vertex_uv_addends_unscaled.append_array([
 					- side_lengths[vert_i] * 0.5,
 					side_lengths[vert_i] * 0.5,
@@ -818,13 +720,12 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 					Vector2(vertex_position_along_perimeter[vert_i], current_t),
 					Vector2(vertex_position_along_perimeter[vert_i], current_t + next_events[0].t),
 				])
-
+				
 				result.vertex_uv_addends_unscaled.append_array([
 					_centered_position_along_segment(candidate_verts[vert_i], verts[vert_i], verts[(vert_i + 1) % verts.size()]) * side_lengths[vert_i],
 					side_lengths[vert_i] * 0.5,
 					_centered_position_along_segment(candidate_verts[(vert_i + 1) % verts.size()], verts[vert_i], verts[(vert_i + 1) % verts.size()]) * side_lengths[vert_i],
 				])
-				
 			
 			# buffer the remaining state before applying (keep indices consistent in the original lists (!))
 			var candidate_position_perimeter = vertex_position_along_perimeter.duplicate()
@@ -879,14 +780,10 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				candidate_lengths.remove_at(next_event.combined_vertices[1])
 				candidate_real_lengths.remove_at(next_event.combined_vertices[1])
 				
-				
 				candidate_bisectors.remove_at(next_event.combined_vertices[1])
-				
-
+			
 			if Geometry2D.is_polygon_clockwise(candidate_verts):
 				# resulting polygon becomes clockwise (unsure why this happens), reverse it
-				
-				#print("reversing")
 				candidate_verts.reverse()
 				candidate_normals.reverse()
 				candidate_directions.reverse()
@@ -896,7 +793,7 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				candidate_position_perimeter.reverse()
 				candidate_lengths.reverse()
 				candidate_real_lengths.reverse()
-				
+			
 			# reapply buffers
 			verts = candidate_verts
 			edge_normals = candidate_normals
@@ -918,12 +815,11 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 				var edge_normal := Vector2(edge_dir.y, -edge_dir.x)
 				edge_normals[vert_i] = -edge_normal
 				vertex_directions[vert_i] = -_travel_direction(verts[(vert_i - 1 + verts.size()) % verts.size()], verts[vert_i], verts[(vert_i + 1) % verts.size()])
-
+				
 				var prev = verts[(vert_i - 1 + verts.size()) % verts.size()]
 				var curr = verts[vert_i]
 				var next = verts[(vert_i + 1) % verts.size()]
 				vertex_is_reflex[vert_i] = (curr - prev).angle_to(next - curr) < 0
-			
 			
 			# recalculate UV scaling
 			var new_perimeter = 0.0
@@ -940,11 +836,11 @@ static func calculate(vertices: Array[Vector2], partial_bisectors: Array[Bisecto
 		packed_verts.append_array(vertices)
 		if verts.any(func (v): return not Geometry2D.is_point_in_polygon(v, packed_verts)):
 			result.probably_broken = true
-	#print("bisectors left: ", len(unfinished_bisectors))
+	
 	return result
 
 ## create a roof mesh from footprint and height, offsetting outwards by initial_offset and applying material
-static func get_mesh(footprint: Array[Vector2], max_height: float, material: Material, initial_offset: float)->RoofMeshInfo:
+static func get_mesh(footprint: Array[Vector2], height_scale: float, material: Material, initial_offset: float)->RoofMeshInfo:
 	var mesh := ArrayMesh.new()
 	var scaled_footprint: Array[Vector2]
 	
@@ -966,7 +862,6 @@ static func get_mesh(footprint: Array[Vector2], max_height: float, material: Mat
 		tri_verts.append_array(t)
 		tri_norms.append_array([skeleton_result.triangle_normals[t_i], skeleton_result.triangle_normals[t_i], skeleton_result.triangle_normals[t_i]])
 	
-	
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
@@ -977,7 +872,6 @@ static func get_mesh(footprint: Array[Vector2], max_height: float, material: Mat
 	# arbitrary uv scale factor, FIXME
 	overall_length /= 6
 	
-	
 	for p_i in tri_verts.size():
 		var p = tri_verts[p_i]
 		
@@ -986,9 +880,12 @@ static func get_mesh(footprint: Array[Vector2], max_height: float, material: Mat
 		
 		# transfer UV and vertex coordinates at original scale
 		st.set_uv(Vector2(tri_uvs[p_i].x * overall_length + skeleton_result.vertex_uv_addends_unscaled[p_i] * overall_length, skeleton_result.max_t - tri_uvs[p_i].y / (skeleton_result.max_t)))# * (1 - (tri_uvs[p_i].y / (res.vertex_uv_scales[p_i] * 0.5))), tri_uvs[p_i].y / (res.max_t)))
-		p.y = (p.y / skeleton_result.max_t) * max_height
-		p.x /= 200
-		p.z /= 200
+		p.y /= 200.0
+		p.x /= 200.0
+		p.z /= 200.0
+		
+		p.y *= height_scale
+		
 		st.set_smooth_group(-1)
 		st.add_vertex(p)
 	
@@ -1011,6 +908,7 @@ static func get_mesh(footprint: Array[Vector2], max_height: float, material: Mat
 	var rmi = RoofMeshInfo.new()
 	rmi.mesh = mesh
 	rmi.skeleton_info = skeleton_result
+	
 	# pass on whether it's likely broken, so the result can be discarded
 	rmi.broken = skeleton_result.probably_broken
 	
