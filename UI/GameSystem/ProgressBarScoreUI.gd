@@ -15,7 +15,7 @@ var score: GameScore :
 			$ProgressFromCenter.visible = false
 			
 			$VBoxContainer/Name.text = score.name
-			$VBoxContainer/MaxValue.text = str(score.target)
+			$VBoxContainer/MaxValue.text = "%d" % [round(score.target)]
 			$VBoxContainer/Unit.text = score.unit
 			$ProgressBar.min_value = 0.0
 			$ProgressBar.max_value = score.target
@@ -52,5 +52,5 @@ var score: GameScore :
 
 
 func _update_data(new_value):
-	$VBoxContainer/CurrentValue.text = str(round(new_value))
+	$VBoxContainer/CurrentValue.text = "%d" % [round(new_value)]
 	current_progress_bar.value = new_value
