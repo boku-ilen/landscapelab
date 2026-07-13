@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="5_xb8tf"]
 [ext_resource type="Material" uid="uid://bmemvs3mm4wc7" path="res://addons/modular_buildings/example/Materials/Window_Glass.tres" id="9_vlph4"]
 [ext_resource type="Material" uid="uid://6gx3u4muuons" path="res://Buildings/Components/Roofs/Resources/RidgeCap.tres" id="10_niwcq"]
-[ext_resource type="Material" path="res://Resources/Meshes/Schloss/new/tontopf.material" id="11_fwhv5"]
+[ext_resource type="Material" path="res://Objects/Power/PowerPoleMetal.tres" id="11_fwhv5"]
 [ext_resource type="Material" uid="uid://bxeiu6u6dfdue" path="res://Resources/Materials/BuildingMaterials/Concrete.tres" id="12_6posh"]
 [ext_resource type="Script" uid="uid://bjawqxdbnnh1u" path="res://addons/modular_buildings/Model/MaterialReplacementPair.gd" id="12_fwhv5"]
 [ext_resource type="Script" uid="uid://dfs3uuicclk5t" path="res://addons/modular_buildings/Model/TintColorSet.gd" id="13_niwcq"]
