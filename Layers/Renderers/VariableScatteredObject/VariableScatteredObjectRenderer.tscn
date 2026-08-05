@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b7kqsodkpfvqy"]
+[gd_scene format=3 uid="uid://bk7ljuyh7ph63"]
 
 [ext_resource type="Script" uid="uid://bwrp1p3y2mot8" path="res://Layers/Renderers/VariableScatteredObject/VariableScatteredObjectRenderer.gd" id="1_86o5d"]
 

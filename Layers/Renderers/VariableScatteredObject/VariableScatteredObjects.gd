@@ -255,10 +255,14 @@ func override_build(center_x, center_y):
 	# It would be more general to do this per object location, but we assume that the chunks
 	# of this renderer are generally similar to or smaller than the chunks of the
 	# probability_layer, so we save a lot of queries by doing it this way.
-	var probability_chunk = probability_layer.get_features_near_position(
+	var probability_chunks = probability_layer.get_features_near_position(
 		center_x,
 		center_y,
-		1.0, 1)[0]
+		1.0, 1)
+	
+	if probability_chunks.size() == 0: return
+	
+	var probability_chunk = probability_chunks[0]
 	var attributes = probability_chunk.get_attributes()
 	
 	# First, calculate the sum of all probabilities
