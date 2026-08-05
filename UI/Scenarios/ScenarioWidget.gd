@@ -6,7 +6,7 @@ var scenario: Scenario :
 		return scenario
 	set(new_scenario):
 		scenario = new_scenario
-		$HBoxContainer/Label.text = scenario.name
+		$Label.text = scenario.name
 
 var selected := false
 
@@ -31,4 +31,3 @@ func _draw():
 	if has_focus():
 		emit_signal("focus_entered")
 	draw()
-

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://d0gw5yjpso5pb"]
+
+[ext_resource type="Script" uid="uid://sghy6m4mrvci" path="res://UI/Scenarios/ScenarioWindow.gd" id="1_jurrh"]
+[ext_resource type="PackedScene" uid="uid://dhe6mnba7w50y" path="res://UI/Scenarios/Scenarios.tscn" id="2_krox6"]
+[ext_resource type="Theme" uid="uid://2acd0pfpr1ny" path="res://UI/Theme/LandscapeLab.tres" id="3_krox6"]
+
+[node name="ScenarioWindow" type="Window" unique_id=2044209982]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(120, 240)
+script = ExtResource("1_jurrh")
+
+[node name="Scenarios" parent="." unique_id=1575310417 instance=ExtResource("2_krox6")]
+theme = ExtResource("3_krox6")
