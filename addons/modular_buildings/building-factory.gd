@@ -295,12 +295,17 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 	while not floor_assets.is_empty():
 		var valid_found = false
 		
-		# populate module-scope data sources	
-		source_dict["prev_module_id"].held_data = floor_assets[last_module_index].facade_feature_id
+		# populate module-scope data sources
+		if last_module_index >= 0:
+			source_dict["prev_module_id"].held_data = floor_assets[last_module_index].facade_feature_id
+		else:
+			source_dict["prev_module_id"].held_data = ""
+		
 		if len(modules) in module_indices.keys():
 			source_dict["below_module_id"].held_data = module_indices[len(modules)].facade_feature_id
 		else:
 			source_dict["below_module_id"].held_data = ""
+		
 		source_dict["edge_dist"].held_data = min(populable_edge_length - (used_width + assumed_model_width / 2), used_width + assumed_model_width / 2)
 		source_dict["edge_length"].held_data = populable_edge_length
 		
