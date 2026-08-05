@@ -25,11 +25,10 @@ func load_feature_instance(feature: GeoFeature):
 	)
 	var object_path = property_dict["path"]
 	
-	# Root node of all Nodes for this Feature
-	var instances = Node3D.new()
+	var line_root = Node3D.new()
 	
 	# If there's wrong geometry in this layer, skip it
-	if not feature is GeoLine: return instances
+	if not feature is GeoLine: return line_root
 	
 	var vertices: Curve3D = feature.get_offset_curve3d(-center[0], 0, -center[1])
 	
@@ -55,24 +54,33 @@ func load_feature_instance(feature: GeoFeature):
 		)
 	
 	var mesh_aabb = prototype_scene.get_mesh_aabb()
+	
+	var point = null
+	var next_point = null
+	var next_next_point = null
 		
 	# Iterate over the Curve and stretch the object between every Vertex
 	# Ignore the last vertex since we're really looking at segments (current vertex -> next vertex)
 	for i in range(vertices.point_count - 1):
 		# We require three points: the starting point of this segment, the end point of this
 		#  segment, and the point after that in order to line up the directions
-		var point = vertices.get_point_position(i)
-		var next_point = vertices.get_point_position(min(i + 1, vertices.point_count - 1))
-		var next_next_point = vertices.get_point_position(min(i + 2, vertices.point_count - 1))
+		if not next_point:
+			point = vertices.get_point_position(i)
+			point.y = height_getter.get_height(vertices.get_closest_offset(point))
+		else: point = next_point
+		
+		if not next_next_point:
+			next_point = vertices.get_point_position(min(i + 1, vertices.point_count - 1))
+			next_point.y = height_getter.get_height(vertices.get_closest_offset(next_point))
+		else: next_point = next_next_point
+		
+		next_next_point = vertices.get_point_position(min(i + 2, vertices.point_count - 1))
 		
 		if i + 2 > vertices.point_count - 1:
 			# This is the last point -> interpolate forward for the direction of the last vertex
 			var direction = next_point - point
 			next_next_point = next_point + direction
 		
-		# Set heights for all points
-		point.y = height_getter.get_height(vertices.get_closest_offset(point))
-		next_point.y = height_getter.get_height(vertices.get_closest_offset(next_point))
 		next_next_point.y = height_getter.get_height(vertices.get_closest_offset(next_next_point))
 		
 		# Duplicate our prototype instance to get the instance for this segment
@@ -103,6 +111,6 @@ func load_feature_instance(feature: GeoFeature):
 		custom_aabb = custom_aabb.grow(max(mesh_aabb.size.x, mesh_aabb.size.y, mesh_aabb.size.z))
 		instance.custom_aabb = custom_aabb
 		
-		instances.add_child(instance)
+		line_root.add_child(instance)
 	
-	return instances
+	return line_root
