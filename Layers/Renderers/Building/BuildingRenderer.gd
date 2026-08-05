@@ -132,7 +132,10 @@ func load_feature_instance(feature: GeoFeature):
 	
 	modular_metadata_instance.footprint = footprint
 	modular_metadata_instance.building_height = building_metadata.height
-	modular_metadata_instance.roof_height = building_metadata.roof_height
+	
+	# FIXME: this should be "original_metadata.roof_height", but that makes roofs flat somehow?
+	modular_metadata_instance.roof_height = 1.5 \
+			if original_metadata.roof_height > 0.0 else building_metadata.roof_height
 	
 	# setup data sources for building graph
 	# FIXME dummy data (necessary?)
@@ -192,7 +195,7 @@ func load_feature_instance(feature: GeoFeature):
 	roof_mat.albedo_color = roof_and_material["roof"].color
 	
 	# compute straight skeleton roof
-	var roof := StraightSkeleton.get_mesh(randomized_footprint, building_metadata.roof_height, roof_mat, 1)
+	var roof := StraightSkeleton.get_mesh(randomized_footprint, modular_metadata_instance.roof_height, roof_mat, 1)
 	
 	# determine roof y position
 	var actual_height = 0.0
@@ -202,7 +205,7 @@ func load_feature_instance(feature: GeoFeature):
 		floor_num += 1
 	
 	# if straight skeleton result is provably valid, use it
-	if not roof.broken:
+	if not roof.broken and not RoofFactory.requires_flat_roof(feature, layer_composition, building_metadata):
 	
 		var outer_footprint = Geometry2D.offset_polygon(randomized_footprint, 0.9)[0]
 		var saved_footprint: Array[Vector2] = []

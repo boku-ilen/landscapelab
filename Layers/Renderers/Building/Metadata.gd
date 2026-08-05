@@ -2,6 +2,7 @@ extends RefCounted
 class_name BuildingMetadata
 
 const fallback_floors := 1
+const min_height := 2.0
 const fallback_height := 3.
 const floor_height := 2.5
 
@@ -61,6 +62,7 @@ func _init(feature: GeoPolygon, center: Array, render_info: LayerComposition.Ren
 		feature.get_attribute(render_info.height_attribute_name),
 		fallback_height
 	)
+	height = max(min_height, height)
 	#var height_stdev = util.str_to_var_or_default(
 		#feature.get_attribute(render_info.height_stdev_attribute_name),
 		#1.0
