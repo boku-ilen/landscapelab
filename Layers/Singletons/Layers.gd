@@ -31,7 +31,7 @@ func get_layer_composition(lc_name: String):
 func get_layers_with_render_info(render_info_class: Variant):
 	var returned_layers = []
 	
-	for layer_composition in layer_compositions:
+	for layer_composition in layer_compositions.values():
 		if is_instance_of(layer_composition.render_info, render_info_class):
 			returned_layers.append(layer_composition)
 	
