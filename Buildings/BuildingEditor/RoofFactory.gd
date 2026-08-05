@@ -3,7 +3,7 @@ class_name RoofFactory
 
 const extent_threshold := 200.
 const height_threshold := 15.
-const vertex_count_threshold := 16
+const vertex_count_threshold := 64
 
 const roof_materials = {
 	RoofBase.TYPES.FLAT: [
@@ -20,6 +20,21 @@ const roof_materials = {
 		preload("res://Buildings/Components/Roofs/Resources/RoofFrench.tres")
 	]
 }
+
+
+static func requires_flat_roof(feature, layer_composition, building_metadata):
+	var is_tall = building_metadata.height > height_threshold
+	var is_big = building_metadata.extent > extent_threshold
+	var is_complex = building_metadata.footprint.size() > vertex_count_threshold
+	
+	if is_tall or is_big or is_complex:
+		return true
+	
+	var slope = feature.get_attribute(layer_composition.render_info.slope_attribute_name)
+	if util.str_to_var_or_default(slope, 20) < 15:
+		return true
+	
+	return false
 
 
 static func prepare_roof(
@@ -81,8 +96,8 @@ static func prepare_roof(
 		)
 
 		# Increase contrast and saturation
-		color.v *= 0.4
-		color.s *= 2.0
+		color.v *= 0.7
+		color.s *= 1.3
 		
 		var material_candidates = []
 		for material in roof_materials[roof.type]:
