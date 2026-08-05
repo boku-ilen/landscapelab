@@ -1,0 +1,54 @@
+[gd_resource type="Resource" script_class="ModularBuildingMetadata" format=3 uid="uid://djrkn7rksow0c"]
+
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_gydkg"]
+[ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="2_ga1pk"]
+[ext_resource type="Resource" uid="uid://diwc48r3tqa46" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/HistoricChurchWall.tres" id="3_r0q2s"]
+[ext_resource type="Material" uid="uid://6gx3u4muuons" path="res://Buildings/Components/Roofs/Resources/RidgeCap.tres" id="4_ch4wn"]
+[ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="5_1iuy2"]
+[ext_resource type="Material" uid="uid://bmemvs3mm4wc7" path="res://addons/modular_buildings/example/Materials/Window_Glass.tres" id="5_2ujil"]
+[ext_resource type="Material" uid="uid://b7cdlfm1pn6mx" path="res://Objects/Power/PowerPoleMetal.tres" id="6_fa8r3"]
+[ext_resource type="Material" uid="uid://bxeiu6u6dfdue" path="res://Resources/Materials/BuildingMaterials/Concrete.tres" id="7_j26p8"]
+[ext_resource type="Material" uid="uid://gd00fit3u8tp" path="res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres" id="8_3q173"]
+[ext_resource type="Material" uid="uid://dqj2reyawpgn3" path="res://Resources/Materials/BuildingMaterials/PlasterCornerTriplanar.tres" id="9_hlehu"]
+[ext_resource type="Material" uid="uid://lfl7mvgnp5sq" path="res://Resources/Materials/BuildingMaterials/PlasterSpacerTriplanar.tres" id="10_t1drw"]
+[ext_resource type="Script" uid="uid://bjawqxdbnnh1u" path="res://addons/modular_buildings/Model/MaterialReplacementPair.gd" id="11_g50kg"]
+[ext_resource type="Script" uid="uid://jc3pyoidhtwr" path="res://addons/modular_buildings/Model/UniformTintMaterialSet.gd" id="12_88bcu"]
+[ext_resource type="Script" uid="uid://dfs3uuicclk5t" path="res://addons/modular_buildings/Model/TintColorSet.gd" id="13_prumn"]
+
+[sub_resource type="Resource" id="Resource_8xbx2"]
+script = ExtResource("11_g50kg")
+material_id_a = "Wall_Primary"
+material_id_b = "Wall_Secondary"
+action_probability = 0.8
+
+[sub_resource type="Resource" id="Resource_fwhv5"]
+script = ExtResource("13_prumn")
+tint_colors = Array[Color]([Color(0.9691667, 1, 0.63, 1), Color(0.9, 0.9, 0.9, 1)])
+material_names = Array[String](["Wall_Primary", "Wall_Primary_Corner", "Wall_Primary_Spacer"])
+
+[sub_resource type="Resource" id="Resource_ougfp"]
+script = ExtResource("12_88bcu")
+tint_colors = Array[ExtResource("13_prumn")]([SubResource("Resource_fwhv5")])
+replacements = Array[ExtResource("11_g50kg")]([SubResource("Resource_8xbx2")])
+materials_by_type = Dictionary[String, Material]({
+"Door_Frame": ExtResource("4_ch4wn"),
+"Door_Glass": ExtResource("5_2ujil"),
+"Door_Handle": ExtResource("6_fa8r3"),
+"Door_Step": ExtResource("7_j26p8"),
+"Wall_Primary": ExtResource("8_3q173"),
+"Wall_Primary_Corner": ExtResource("9_hlehu"),
+"Wall_Primary_Spacer": ExtResource("10_t1drw"),
+"Wall_Secondary": ExtResource("8_3q173"),
+"Wall_Secondary_Corner": ExtResource("9_hlehu"),
+"Window_Frame": ExtResource("4_ch4wn"),
+"Window_Glass": ExtResource("5_2ujil")
+})
+metadata/_custom_type_script = "uid://jc3pyoidhtwr"
+
+[resource]
+script = ExtResource("5_1iuy2")
+name = "Historic"
+roof_height = 1.5
+floor_definitions = Array[ExtResource("1_gydkg")]([ExtResource("2_ga1pk"), ExtResource("3_r0q2s")])
+material_variation_set = SubResource("Resource_ougfp")
+metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

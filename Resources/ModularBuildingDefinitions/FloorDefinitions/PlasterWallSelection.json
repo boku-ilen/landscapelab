@@ -1,186 +1,182 @@
 {
 	"connections": [
 		{
-			"from_node": 542657842.0,
+			"from_node": 543730306.0,
 			"from_slot": 3.0,
-			"to_node": 542657704.0,
+			"to_node": 543729386.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 542658925.0,
+			"from_node": 543731393.0,
 			"from_slot": 3.0,
-			"to_node": 542657842.0,
+			"to_node": 543730306.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 542658635.0,
+			"from_node": 543730340.0,
 			"from_slot": 3.0,
-			"to_node": 542658925.0,
+			"to_node": 543731393.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 542657743.0,
+			"from_node": 543730207.0,
 			"from_slot": 2.0,
-			"to_node": 542658635.0,
+			"to_node": 543730340.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 542657709.0,
+			"from_node": 543729414.0,
 			"from_slot": 0.0,
-			"to_node": 542657743.0,
+			"to_node": 543730207.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 542657807.0,
+			"from_node": 543730271.0,
 			"from_slot": 0.0,
-			"to_node": 542657743.0,
+			"to_node": 543730207.0,
 			"to_slot": 1.0
 		},
 		{
-			"from_node": 542657775.0,
+			"from_node": 543730239.0,
 			"from_slot": 2.0,
-			"to_node": 542658635.0,
+			"to_node": 543730340.0,
 			"to_slot": 2.0
 		},
 		{
-			"from_node": 542657709.0,
+			"from_node": 543729414.0,
 			"from_slot": 0.0,
-			"to_node": 542657775.0,
+			"to_node": 543730239.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 542657836.0,
+			"from_node": 543730277.0,
 			"from_slot": 0.0,
-			"to_node": 542657775.0,
+			"to_node": 543730239.0,
 			"to_slot": 1.0
 		},
 		{
-			"from_node": 542658830.0,
+			"from_node": 543731296.0,
 			"from_slot": 3.0,
-			"to_node": 542658925.0,
+			"to_node": 543731393.0,
 			"to_slot": 2.0
 		},
 		{
-			"from_node": 542658759.0,
+			"from_node": 543730466.0,
 			"from_slot": 2.0,
-			"to_node": 542658830.0,
+			"to_node": 543731296.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 542658791.0,
+			"from_node": 543730475.0,
 			"from_slot": 0.0,
-			"to_node": 542658759.0,
+			"to_node": 543730466.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 542658825.0,
+			"from_node": 543731291.0,
 			"from_slot": 0.0,
-			"to_node": 542658759.0,
+			"to_node": 543730466.0,
 			"to_slot": 1.0
 		},
 		{
-			"from_node": 542658896.0,
+			"from_node": 543731364.0,
 			"from_slot": 0.0,
-			"to_node": 542658830.0,
+			"to_node": 543731296.0,
 			"to_slot": 2.0
 		},
 		{
-			"from_node": 542658701.0,
+			"from_node": 543730408.0,
 			"from_slot": 0.0,
-			"to_node": 542657842.0,
+			"to_node": 543730306.0,
 			"to_slot": 1.0
 		},
 		{
-			"from_node": 3807544348.0,
+			"from_node": 543731529.0,
 			"from_slot": 3.0,
-			"to_node": 542657842.0,
+			"to_node": 543730306.0,
 			"to_slot": 2.0
 		},
 		{
-			"from_node": 3807543330.0,
+			"from_node": 543732514.0,
 			"from_slot": 3.0,
-			"to_node": 3807544348.0,
+			"to_node": 543731529.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 543583451.0,
+			"from_node": 543732582.0,
 			"from_slot": 3.0,
-			"to_node": 3807543330.0,
+			"to_node": 543732514.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 3807544448.0,
+			"from_node": 543732413.0,
 			"from_slot": 3.0,
-			"to_node": 543583451.0,
+			"to_node": 543732582.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 3807542441.0,
+			"from_node": 543732481.0,
 			"from_slot": 0.0,
-			"to_node": 3807544448.0,
+			"to_node": 543732413.0,
 			"to_slot": 0.0
 		},
 		{
-			"from_node": 3807543228.0,
+			"from_node": 543732486.0,
 			"from_slot": 0.0,
-			"to_node": 3807544448.0,
+			"to_node": 543732413.0,
 			"to_slot": 2.0
 		},
 		{
-			"from_node": 3807543261.0,
+			"from_node": 543732650.0,
 			"from_slot": 0.0,
-			"to_node": 543583451.0,
+			"to_node": 543732582.0,
 			"to_slot": 2.0
 		},
 		{
-			"from_node": 543584284.0,
+			"from_node": 543732679.0,
 			"from_slot": 0.0,
-			"to_node": 3807543330.0,
+			"to_node": 543732514.0,
 			"to_slot": 2.0
 		},
 		{
-			"from_node": 542658701.0,
+			"from_node": 543730408.0,
 			"from_slot": 0.0,
-			"to_node": 3807544348.0,
+			"to_node": 543731529.0,
 			"to_slot": 1.0
 		},
 		{
-			"from_node": 542658730.0,
+			"from_node": 543730437.0,
 			"from_slot": 0.0,
-			"to_node": 3807544348.0,
+			"to_node": 543731529.0,
 			"to_slot": 2.0
 		}
 	],
 	"nodes": [
 		{
-			"node_id": 542657704.0,
+			"node_id": 543729386.0,
 			"node_type": "Chosen Module ID (end)",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "text_input"
 				}
 			]
 		},
 		{
-			"node_id": 542657709.0,
+			"node_id": 543729414.0,
 			"node_type": "Last layer Module ID",
 			"slots": [
 				{
 					"data_source_identifier": "below_module_id",
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "data_source",
 					"type": "text_output"
 				}
 			]
 		},
 		{
-			"node_id": 542657737.0,
+			"node_id": 543729419.0,
 			"node_type": "Text constant",
 			"slots": [
 				{
@@ -193,61 +189,49 @@
 			]
 		},
 		{
-			"node_id": 542657743.0,
+			"node_id": 543730207.0,
 			"node_type": "Text equality",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "text_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "text_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_output"
 				}
 			]
 		},
 		{
-			"node_id": 542657775.0,
+			"node_id": 543730239.0,
 			"node_type": "Text equality",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "text_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "text_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_output"
 				}
 			]
 		},
 		{
-			"node_id": 542657807.0,
+			"node_id": 543730271.0,
 			"node_type": "Text constant",
 			"slots": [
 				{
@@ -260,7 +244,7 @@
 			]
 		},
 		{
-			"node_id": 542657836.0,
+			"node_id": 543730277.0,
 			"node_type": "Text constant",
 			"slots": [
 				{
@@ -273,47 +257,37 @@
 			]
 		},
 		{
-			"node_id": 542657842.0,
+			"node_id": 543730306.0,
 			"node_type": "Condition",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "text_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "text_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "text_output"
 				}
 			]
 		},
 		{
-			"node_id": 542658635.0,
+			"node_id": 543730340.0,
 			"node_type": "Boolean operation",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_input"
 				},
@@ -325,23 +299,19 @@
 					"type": "dropdown"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_output"
 				}
 			]
 		},
 		{
-			"node_id": 542658701.0,
+			"node_id": 543730408.0,
 			"node_type": "Text constant",
 			"slots": [
 				{
@@ -354,7 +324,7 @@
 			]
 		},
 		{
-			"node_id": 542658730.0,
+			"node_id": 543730437.0,
 			"node_type": "Text constant",
 			"slots": [
 				{
@@ -367,34 +337,28 @@
 			]
 		},
 		{
-			"node_id": 542658759.0,
+			"node_id": 543730466.0,
 			"node_type": "Vector Angle",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "vector_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "vector_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "scalar_output"
 				}
 			]
 		},
 		{
-			"node_id": 542658791.0,
+			"node_id": 543730475.0,
 			"node_type": "Vector constant",
 			"slots": [
 				{
@@ -407,27 +371,23 @@
 			]
 		},
 		{
-			"node_id": 542658825.0,
+			"node_id": 543731291.0,
 			"node_type": "Wall facing",
 			"slots": [
 				{
 					"data_source_identifier": "edge_normal",
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "data_source",
 					"type": "vector_output"
 				}
 			]
 		},
 		{
-			"node_id": 542658830.0,
+			"node_id": 543731296.0,
 			"node_type": "Scalar Comparison",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "scalar_input"
 				},
@@ -439,23 +399,19 @@
 					"type": "dropdown"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "scalar_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_output"
 				}
 			]
 		},
 		{
-			"node_id": 542658896.0,
+			"node_id": 543731364.0,
 			"node_type": "Scalar constant",
 			"slots": [
 				{
@@ -468,13 +424,11 @@
 			]
 		},
 		{
-			"node_id": 542658925.0,
+			"node_id": 543731393.0,
 			"node_type": "Boolean operation",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_input"
 				},
@@ -486,29 +440,23 @@
 					"type": "dropdown"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_output"
 				}
 			]
 		},
 		{
-			"node_id": 3807544382.0,
+			"node_id": 543731461.0,
 			"node_type": "Boolean operation",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_input"
 				},
@@ -520,63 +468,49 @@
 					"type": "dropdown"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_output"
 				}
 			]
 		},
 		{
-			"node_id": 3807544348.0,
+			"node_id": 543731529.0,
 			"node_type": "Condition",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "text_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "text_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "text_output"
 				}
 			]
 		},
 		{
-			"node_id": 543557321.0,
+			"node_id": 543731563.0,
 			"node_type": "Boolean operation",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_input"
 				},
@@ -588,29 +522,23 @@
 					"type": "dropdown"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_output"
 				}
 			]
 		},
 		{
-			"node_id": 3807544448.0,
+			"node_id": 543732413.0,
 			"node_type": "Scalar Math",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "scalar_input"
 				},
@@ -622,57 +550,47 @@
 					"type": "dropdown"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "scalar_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "scalar_output"
 				}
 			]
 		},
 		{
-			"node_id": 3807542441.0,
+			"node_id": 543732481.0,
 			"node_type": "Edge Proximity",
 			"slots": [
 				{
 					"data_source_identifier": "edge_dist",
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "data_source",
 					"type": "scalar_output"
 				}
 			]
 		},
 		{
-			"node_id": 3807543228.0,
+			"node_id": 543732486.0,
 			"node_type": "Edge Length",
 			"slots": [
 				{
 					"data_source_identifier": "edge_length",
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "data_source",
 					"type": "scalar_output"
 				}
 			]
 		},
 		{
-			"node_id": 3807543330.0,
+			"node_id": 543732514.0,
 			"node_type": "Scalar Comparison",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "scalar_input"
 				},
@@ -684,29 +602,23 @@
 					"type": "dropdown"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "scalar_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "boolean_output"
 				}
 			]
 		},
 		{
-			"node_id": 543583451.0,
+			"node_id": 543732582.0,
 			"node_type": "Scalar Math",
 			"slots": [
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "scalar_input"
 				},
@@ -718,23 +630,19 @@
 					"type": "dropdown"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "scalar_input"
 				},
 				{
-					"slot_data": {
-
-					},
+					"slot_data": {},
 					"slot_input_type": "connection",
 					"type": "scalar_output"
 				}
 			]
 		},
 		{
-			"node_id": 3807543261.0,
+			"node_id": 543732650.0,
 			"node_type": "Scalar constant",
 			"slots": [
 				{
@@ -747,7 +655,7 @@
 			]
 		},
 		{
-			"node_id": 543584284.0,
+			"node_id": 543732679.0,
 			"node_type": "Scalar constant",
 			"slots": [
 				{

@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="UniformTintMaterialSet" format=3 uid="uid://dasuqfwh5rymx"]
+
+[ext_resource type="Material" uid="uid://6gx3u4muuons" path="res://Buildings/Components/Roofs/Resources/RidgeCap.tres" id="1_gjxn6"]
+[ext_resource type="Material" uid="uid://bmemvs3mm4wc7" path="res://addons/modular_buildings/example/Materials/Window_Glass.tres" id="2_v0dop"]
+[ext_resource type="Material" uid="uid://b7cdlfm1pn6mx" path="res://Objects/Power/PowerPoleMetal.tres" id="3_3gfp4"]
+[ext_resource type="Material" uid="uid://bxeiu6u6dfdue" path="res://Resources/Materials/BuildingMaterials/Concrete.tres" id="4_knyql"]
+[ext_resource type="Material" uid="uid://gd00fit3u8tp" path="res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres" id="5_uiipm"]
+[ext_resource type="Material" uid="uid://dqj2reyawpgn3" path="res://Resources/Materials/BuildingMaterials/PlasterCornerTriplanar.tres" id="6_qbir0"]
+[ext_resource type="Material" uid="uid://lfl7mvgnp5sq" path="res://Resources/Materials/BuildingMaterials/PlasterSpacerTriplanar.tres" id="7_6ajev"]
+[ext_resource type="Script" uid="uid://bjawqxdbnnh1u" path="res://addons/modular_buildings/Model/MaterialReplacementPair.gd" id="8_jboog"]
+[ext_resource type="Script" uid="uid://jc3pyoidhtwr" path="res://addons/modular_buildings/Model/UniformTintMaterialSet.gd" id="9_o2t6p"]
+[ext_resource type="Script" uid="uid://dfs3uuicclk5t" path="res://addons/modular_buildings/Model/TintColorSet.gd" id="10_0doen"]
+
+[sub_resource type="Resource" id="Resource_8xbx2"]
+script = ExtResource("8_jboog")
+material_id_a = "Wall_Primary"
+material_id_b = "Wall_Secondary"
+action_probability = 0.8
+
+[sub_resource type="Resource" id="Resource_fwhv5"]
+script = ExtResource("10_0doen")
+tint_colors = Array[Color]([Color(0.9691667, 1, 0.63, 1), Color(0.9, 0.9, 0.9, 1)])
+material_names = Array[String](["Wall_Primary", "Wall_Primary_Corner", "Wall_Primary_Spacer"])
+
+[sub_resource type="Resource" id="Resource_23llv"]
+script = ExtResource("10_0doen")
+tint_colors = Array[Color]([Color(1, 1, 1, 1), Color(0.6449482, 0.99999994, 0.9955531, 1), Color(0.15127608, 0.15127608, 0.15127608, 1), Color(0, 0, 0, 1)])
+material_names = Array[String](["Window_Frame", "Door_Frame"])
+
+[resource]
+script = ExtResource("9_o2t6p")
+tint_colors = Array[ExtResource("10_0doen")]([SubResource("Resource_fwhv5"), SubResource("Resource_23llv")])
+replacements = Array[ExtResource("8_jboog")]([SubResource("Resource_8xbx2")])
+materials_by_type = Dictionary[String, Material]({
+"Door_Frame": ExtResource("1_gjxn6"),
+"Door_Glass": ExtResource("2_v0dop"),
+"Door_Handle": ExtResource("3_3gfp4"),
+"Door_Step": ExtResource("4_knyql"),
+"Wall_Primary": ExtResource("5_uiipm"),
+"Wall_Primary_Corner": ExtResource("6_qbir0"),
+"Wall_Primary_Spacer": ExtResource("7_6ajev"),
+"Wall_Secondary": ExtResource("5_uiipm"),
+"Wall_Secondary_Corner": ExtResource("6_qbir0"),
+"Window_Frame": ExtResource("1_gjxn6"),
+"Window_Glass": ExtResource("2_v0dop")
+})
+metadata/_custom_type_script = "uid://jc3pyoidhtwr"

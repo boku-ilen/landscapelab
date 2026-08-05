@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="FloorDefinition" format=3 uid="uid://diwc48r3tqa46"]
+
+[ext_resource type="ArrayMesh" uid="uid://dlg6fwtnmg2ua" path="res://Resources/Meshes/BuildingComponents/Historic_Default_CornerOut02_0.75x4.0.obj" id="1_0qosn"]
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="2_hjumt"]
+[ext_resource type="JSON" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/HistoricChurchWallSelection.json" id="3_hjumt"]
+[ext_resource type="ArrayMesh" uid="uid://dojf36x046m6w" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Spacer_2.0x4.0.obj" id="4_bwsn4"]
+[ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="5_o1c81"]
+[ext_resource type="ArrayMesh" uid="uid://dd64e8bu8ywjo" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Blank_2.0x4.0.obj" id="6_qrlwb"]
+[ext_resource type="ArrayMesh" uid="uid://bx8t5p4ovnv7g" path="res://Resources/Meshes/BuildingComponents/Historic_Church_Window_4.0x4.0.obj" id="7_38eue"]
+[ext_resource type="ArrayMesh" uid="uid://cft3i8s70h2jg" path="res://Resources/Meshes/BuildingComponents/Historic_Beam_Lower_2.0x4.0.obj" id="8_38eue"]
+[ext_resource type="ArrayMesh" uid="uid://cxag86o5jxdaq" path="res://Resources/Meshes/BuildingComponents/Historic_Beam_Upper_2.0x4.0.obj" id="9_bwsn4"]
+
+[sub_resource type="Resource" id="Resource_wnvvm"]
+script = ExtResource("5_o1c81")
+model = ExtResource("6_qrlwb")
+probability = 0.6
+facade_feature_id = "plain_wall"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_vg67i"]
+script = ExtResource("5_o1c81")
+model = ExtResource("7_38eue")
+probability = 0.35
+facade_feature_id = "large_window"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_llqbs"]
+script = ExtResource("5_o1c81")
+model = ExtResource("8_38eue")
+facade_feature_id = "lower_beam"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_hjumt"]
+script = ExtResource("5_o1c81")
+model = ExtResource("9_bwsn4")
+probability = 0.6
+facade_feature_id = "upper_beam"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[resource]
+script = ExtResource("2_hjumt")
+walls = Array[ExtResource("5_o1c81")]([SubResource("Resource_wnvvm"), SubResource("Resource_vg67i"), SubResource("Resource_llqbs"), SubResource("Resource_hjumt")])
+corner_90 = ExtResource("1_0qosn")
+spacer_block = ExtResource("4_bwsn4")
+height = 4.0
+selection_rules = ExtResource("3_hjumt")
+metadata/_custom_type_script = "uid://1cryccueq7u4"
