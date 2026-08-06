@@ -13,6 +13,7 @@ var ground_height: float
 var cellar_height: float
 var footprint: Array
 var height: float
+var roof_height_stdev: float
 var roof_height: float
 var holes: Array
 var geo_offset: Array
@@ -63,11 +64,12 @@ func _init(feature: GeoPolygon, center: Array, render_info: LayerComposition.Ren
 		fallback_height
 	)
 	height = max(min_height, height)
-	#var height_stdev = util.str_to_var_or_default(
-		#feature.get_attribute(render_info.height_stdev_attribute_name),
-		#1.0
-	#)
-	roof_height = 0.5  # FIXME: include height stdev, or ignore because it's prone to errors?
+	
+	roof_height = 0.5 
+	roof_height_stdev = util.str_to_var_or_default(
+		feature.get_attribute(render_info.height_stdev_attribute_name),
+		1.0
+	)
 
 
 

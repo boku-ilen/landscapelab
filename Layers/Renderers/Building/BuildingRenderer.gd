@@ -85,6 +85,8 @@ func _create_and_set_texture_arrays():
 func load_feature_instance(feature: GeoFeature):
 	var building = Node3D.new()
 	var modular_metadata_instance = ModularBuildingMetadata.new()
+	var rng = RandomNumberGenerator.new()
+	rng.seed = feature.get_id()
 	
 	var all_modular_definitions: Array[Resource] = layer_composition.render_info.modular_resources
 	var modular_definition_names: Array[String] = []
@@ -95,7 +97,7 @@ func load_feature_instance(feature: GeoFeature):
 	modular_definition_names = modular_definition_by_name.keys()
 	var selector_data_sources: Dictionary[String, NodeDataSource] = {
 		"all_definitions": FixedInputDataSource.new(modular_definition_names),
-		"rand": DynamicInputDataSource.new(func (): return randf()),
+		"rand": DynamicInputDataSource.new(func (): return rng.randf()),
 		"geo_feature": FixedInputDataSource.new(feature) 
 	} 
 	selector_graph = BuildingGraphRunner.setup_executable_graph(layer_composition.render_info.selector_graph.data, selector_node_types.data, selector_data_sources)
@@ -133,9 +135,10 @@ func load_feature_instance(feature: GeoFeature):
 	modular_metadata_instance.footprint = footprint
 	modular_metadata_instance.building_height = building_metadata.height
 	
-	# FIXME: this should be "original_metadata.roof_height", but that makes roofs flat somehow?
-	modular_metadata_instance.roof_height = 1.5 \
-			if original_metadata.roof_height > 0.0 else building_metadata.roof_height
+	if original_metadata.roof_height > 0.0:
+		modular_metadata_instance.roof_height = original_metadata.roof_height
+	else:
+		modular_metadata_instance.roof_height = building_metadata.roof_height
 	
 	# setup data sources for building graph
 	# FIXME dummy data (necessary?)
@@ -145,6 +148,7 @@ func load_feature_instance(feature: GeoFeature):
 		"edge_dist": FixedInputDataSource.new(4.2),
 		"edge_length": FixedInputDataSource.new(22.3),
 		"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
+		"is_most_distant_edge": FixedInputDataSource.new(false),
 		"floor_num": FixedInputDataSource.new(2.0),
 		"floor_amount": FixedInputDataSource.new(5.0),
 		"all_module_ids": FixedInputDataSource.new(["x"]),
@@ -160,7 +164,7 @@ func load_feature_instance(feature: GeoFeature):
 		var available_replacements = original_metadata.material_variation_set.get_available()
 		
 		# seed unique per building, same variations for all elements in the building
-		var selection_seed := randi()
+		var selection_seed := feature.get_id()
 		if available_replacements.size() > 0:
 			for type in available_replacements:
 				material_replacements[type] = original_metadata.material_variation_set.get_material(type, selection_seed)
@@ -189,7 +193,9 @@ func load_feature_instance(feature: GeoFeature):
 		
 	# slightly randomize footprint for robustness (avoid precise 90° angles, ...)
 	var randomized_footprint: Array[Vector2]
-	randomized_footprint.assign(modular_metadata_instance.footprint.map(func (x): return x + Vector2(randf() * 0.2, randf() * 0.2)))
+	randomized_footprint.assign(modular_metadata_instance.footprint.map(
+		func (x): return x + Vector2(rng.randf_range(0.01, 0.02), rng.randf_range(0.01, 0.02))
+	))
 	
 	var roof_mat: StandardMaterial3D = roof_and_material["material"].material0.duplicate()
 	roof_mat.albedo_color = roof_and_material["roof"].color
@@ -206,7 +212,6 @@ func load_feature_instance(feature: GeoFeature):
 	
 	# if straight skeleton result is provably valid, use it
 	if not roof.broken and not RoofFactory.requires_flat_roof(feature, layer_composition, building_metadata):
-	
 		var outer_footprint = Geometry2D.offset_polygon(randomized_footprint, 0.9)[0]
 		var saved_footprint: Array[Vector2] = []
 		saved_footprint.append_array(outer_footprint)

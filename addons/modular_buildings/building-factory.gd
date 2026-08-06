@@ -23,6 +23,7 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 			"edge_dist": FixedInputDataSource.new(4.2),
 			"edge_length": FixedInputDataSource.new(99999.3),
 			"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
+			"is_most_distant_edge": FixedInputDataSource.new(false),
 			"floor_num": FixedInputDataSource.new(2.0),
 			"floor_amount": FixedInputDataSource.new(5.0),
 			"all_module_ids": FixedInputDataSource.new(["mod_a", "mod_b", "mod_c"]), 
@@ -32,7 +33,8 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 	if not geo_feature == null:
 		sources["geo_feature"] = FixedInputDataSource.new(geo_feature)
 	
-	randomize()
+	var rng = RandomNumberGenerator.new()
+	rng.seed = geo_feature.get_id()
 	
 	var edges: Array[Edge] = _footprint_to_edges(metadata.footprint)
 	building_root.position = metadata.position
@@ -44,6 +46,16 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 	for edge in edges:
 		module_indices.append({})
 	var overall_floor_height := 0.
+	
+	# Get some most extreme edges to pass to the graph later
+	var most_distant_edge = edges[0]
+	var most_distant_edge_distance = INF
+	for edge in edges:
+		var distance_here = ((edge.p1 - edge.p0) / 2.0).length()
+		# FIXME: Hardcoded requirement for most distant edge to be 6.0 or larger, this should be avoided
+		if (edge.length > 6.0) and (distance_here < most_distant_edge_distance):
+			most_distant_edge_distance = distance_here
+			most_distant_edge = edge
 	
 	var corner_infos = _compute_corner_infos(edges)
 
@@ -167,7 +179,9 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 				points_on_edge,
 				node_graph, 
 				node_graph_cache,
-				sources)
+				sources,
+				edges[i] == most_distant_edge,
+				rng)
 			node_graph.prune_cache_by_class(node_graph_cache, BuildingGraphRunner.NodeCacheClass.EdgeStatic)
 		
 		overall_floor_height += floor_height
@@ -266,7 +280,11 @@ static func _instance_module(multi_mesh: MultiMesh, module_width: float, scale_x
 # _populate_edge with balanced spacers
 # ------------------------------------------------
 static func _compute_edges(p1: Vector2, p2: Vector2,
-		overall_floor_height: float, floor_assets: Array[WallTileDefinition], spacer_block: Mesh, module_indices: Dictionary, multi_mesh_map: Dictionary, feature_offsets: Dictionary[String, Array], executable_graph: BuildingGraphRunner.RunnableNode, executable_graph_cache: Dictionary,source_dict: Dictionary[String, NodeDataSource]) -> Dictionary:
+		overall_floor_height: float, floor_assets: Array[WallTileDefinition],
+		spacer_block: Mesh, module_indices: Dictionary, multi_mesh_map: Dictionary,
+		feature_offsets: Dictionary[String, Array], executable_graph: BuildingGraphRunner.RunnableNode,
+		executable_graph_cache: Dictionary,source_dict: Dictionary[String, NodeDataSource],
+		is_most_distant: bool, rng: RandomNumberGenerator) -> Dictionary:
 	var edge_vec: Vector2 = p2 - p1
 	var edge_length: float = edge_vec.length()
 	if edge_length < 0.01:
@@ -308,6 +326,7 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 		
 		source_dict["edge_dist"].held_data = min(populable_edge_length - (used_width + assumed_model_width / 2), used_width + assumed_model_width / 2)
 		source_dict["edge_length"].held_data = populable_edge_length
+		source_dict["is_most_distant_edge"].held_data = is_most_distant
 		
 		var normal = Vector2.from_angle(dir.angle() - PI/2)
 		source_dict["edge_normal"].held_data = Vector3(normal.x, 0, normal.y)
@@ -318,7 +337,7 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 		var candidates = floor_assets.filter(func (wtd: WallTileDefinition): return wtd.facade_feature_id == next_id)
 		
 		# use graph-chosen module, otherwise pick randomly
-		var actual_id = randi_range(0,floor_assets.size() - 1)
+		var actual_id = rng.randi_range(0,floor_assets.size() - 1)
 		if candidates.size() > 0:
 			actual_id = floor_assets.find(candidates[0])
 
@@ -346,7 +365,7 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 				module_width = candidate_width
 		
 		if floor_assets[last_module_index].alternate_model != null:
-			if randf() < floor_assets[last_module_index].probability:
+			if rng.randf() < floor_assets[last_module_index].probability:
 				mesh = floor_assets[last_module_index].alternate_model
 		
 		# save chosen module for future layers
