@@ -48,7 +48,7 @@ metadata/_custom_type_script = "uid://jc3pyoidhtwr"
 [resource]
 script = ExtResource("5_1iuy2")
 name = "Historic"
-roof_height = 1.5
+roof_height = 1.2
 floor_definitions = Array[ExtResource("1_gydkg")]([ExtResource("2_ga1pk"), ExtResource("3_r0q2s")])
 material_variation_set = SubResource("Resource_ougfp")
 metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

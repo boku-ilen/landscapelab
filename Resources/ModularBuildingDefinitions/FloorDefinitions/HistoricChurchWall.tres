@@ -9,6 +9,7 @@
 [ext_resource type="ArrayMesh" uid="uid://bx8t5p4ovnv7g" path="res://Resources/Meshes/BuildingComponents/Historic_Church_Window_4.0x4.0.obj" id="7_38eue"]
 [ext_resource type="ArrayMesh" uid="uid://cft3i8s70h2jg" path="res://Resources/Meshes/BuildingComponents/Historic_Beam_Lower_2.0x4.0.obj" id="8_38eue"]
 [ext_resource type="ArrayMesh" uid="uid://cxag86o5jxdaq" path="res://Resources/Meshes/BuildingComponents/Historic_Beam_Upper_2.0x4.0.obj" id="9_bwsn4"]
+[ext_resource type="ArrayMesh" uid="uid://lay3h6y7nybl" path="res://Resources/Meshes/BuildingComponents/Historic_Church_Door01_4.0x4.0.obj" id="10_bwsn4"]
 
 [sub_resource type="Resource" id="Resource_wnvvm"]
 script = ExtResource("5_o1c81")
@@ -37,9 +38,15 @@ probability = 0.6
 facade_feature_id = "upper_beam"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
+[sub_resource type="Resource" id="Resource_jf8qy"]
+script = ExtResource("5_o1c81")
+model = ExtResource("10_bwsn4")
+facade_feature_id = "door"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
 [resource]
 script = ExtResource("2_hjumt")
-walls = Array[ExtResource("5_o1c81")]([SubResource("Resource_wnvvm"), SubResource("Resource_vg67i"), SubResource("Resource_llqbs"), SubResource("Resource_hjumt")])
+walls = Array[ExtResource("5_o1c81")]([SubResource("Resource_wnvvm"), SubResource("Resource_vg67i"), SubResource("Resource_llqbs"), SubResource("Resource_hjumt"), SubResource("Resource_jf8qy")])
 corner_90 = ExtResource("1_0qosn")
 spacer_block = ExtResource("4_bwsn4")
 height = 4.0
