@@ -28,6 +28,7 @@ void vertex() {
 	VERTEX.x += sign(VERTEX.x) * width / 2.0;
 
 	if (((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 16))) == int(pow(2, 16)))) {
+		VERTEX.y -= 0.5;  // Make sure this is sorted below other roads, if adjacent
 		VERTEX.x += sign(VERTEX.x) * 2.5;
 	} else if (((int(CAMERA_VISIBLE_LAYERS) & int(pow(2, 17))) == int(pow(2, 17)))) {
 		VERTEX.x += sign(VERTEX.x) * 2.7;

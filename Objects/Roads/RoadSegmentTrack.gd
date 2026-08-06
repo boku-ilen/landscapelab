@@ -31,9 +31,9 @@ func setup(new_feature):
 			lid_track = 7501
 			lid_outer_edge = 0
 		elif surface == "asphalt":
-			lid_center = 2001
-			lid_edge = 2001
-			lid_track = 2001
+			lid_center = 1001
+			lid_edge = 1001
+			lid_track = 1001
 			lid_outer_edge = 7502
 	
 	if not lid_center:
