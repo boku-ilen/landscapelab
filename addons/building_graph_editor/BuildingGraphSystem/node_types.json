@@ -77,6 +77,17 @@
 				}
 			]
 		},
+		"Is Most Distant Edge": {
+			"tooltip": "True if this is the edge which is furthest from the building center",
+			"slots": [
+				{
+					"type": "boolean_output",
+					"label": "True if most distant",
+					"source_identifier": "is_most_distant_edge",
+					"cache_class": "EdgeStatic"
+				}
+			]
+		},
 		"Wall facing": {
 			"tooltip": "",
 			"slots": [

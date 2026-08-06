@@ -9,12 +9,15 @@
 [ext_resource type="Script" uid="uid://cmwcjjrnybukj" path="res://addons/building_graph_editor/BuildingGraphSystem/FloorDefinitionPicker.gd" id="4_0g4iq"]
 [ext_resource type="Script" uid="uid://cq22ry4n31r6i" path="res://addons/building_graph_editor/BuildingGraphSystem/BuildingGraphRunner.gd" id="4_45cj8"]
 [ext_resource type="Resource" uid="uid://5f7qdex0krmx" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows+Door.tres" id="5_tjo2p"]
-[ext_resource type="ArrayMesh" uid="uid://bgfke6ts8jkbv" path="res://Resources/Meshes/BuildingComponents/Historic_Default_CornerIn01_0.75x4.0.obj" id="6_4af7b"]
 [ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="6_in047"]
-[ext_resource type="ArrayMesh" uid="uid://dd64e8bu8ywjo" path="res://Resources/Meshes/BuildingComponents/Historic_Default_SpacerBlank_2.0x4.0.obj" id="7_in047"]
+[ext_resource type="ArrayMesh" uid="uid://dlg6fwtnmg2ua" path="res://Resources/Meshes/BuildingComponents/Historic_Default_CornerOut02_0.75x4.0.obj" id="6_jf8qy"]
+[ext_resource type="ArrayMesh" uid="uid://dojf36x046m6w" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Spacer_2.0x4.0.obj" id="7_1dk6v"]
+[ext_resource type="ArrayMesh" uid="uid://dd64e8bu8ywjo" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Blank_2.0x4.0.obj" id="7_in047"]
 [ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="8_vhosy"]
-[ext_resource type="ArrayMesh" uid="uid://d0mq1vxgkkx8m" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Door01_2.0x4.0.obj" id="9_jf8qy"]
-[ext_resource type="ArrayMesh" uid="uid://b2oqaisry4b8q" path="res://Resources/Meshes/BuildingComponents/Historic_Default_Window01_2.0x4.0.obj" id="10_1dk6v"]
+[ext_resource type="ArrayMesh" uid="uid://bx8t5p4ovnv7g" path="res://Resources/Meshes/BuildingComponents/Historic_Church_Window_4.0x4.0.obj" id="10_oi8lk"]
+[ext_resource type="ArrayMesh" uid="uid://cft3i8s70h2jg" path="res://Resources/Meshes/BuildingComponents/Historic_Beam_Lower_2.0x4.0.obj" id="11_7xnxb"]
+[ext_resource type="ArrayMesh" uid="uid://cxag86o5jxdaq" path="res://Resources/Meshes/BuildingComponents/Historic_Beam_Upper_2.0x4.0.obj" id="12_24fgp"]
+[ext_resource type="ArrayMesh" uid="uid://lay3h6y7nybl" path="res://Resources/Meshes/BuildingComponents/Historic_Church_Door01_4.0x4.0.obj" id="13_1dk6v"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_oi8lk"]
 use_debanding = false
@@ -44,61 +47,246 @@ auto_exposure_scale = 0.5
 auto_exposure_speed = 16.34
 auto_exposure_max_sensitivity = 7863.5
 
-[sub_resource type="JSON" id="JSON_oi8lk"]
+[sub_resource type="JSON" id="JSON_1dk6v"]
 data = {
 "connections": [{
-"from_node": 3807544355.0,
+"from_node": 544812899.0,
 "from_slot": 3.0,
-"to_node": 3807542370.0,
+"to_node": 544810597.0,
 "to_slot": 0.0
 }, {
-"from_node": 3807544389.0,
+"from_node": 3811172870.0,
 "from_slot": 3.0,
-"to_node": 3807544355.0,
+"to_node": 544812899.0,
 "to_slot": 0.0
 }, {
-"from_node": 3807543330.0,
-"from_slot": 3.0,
-"to_node": 3807544389.0,
-"to_slot": 0.0
-}, {
-"from_node": 3807542441.0,
+"from_node": 544812871.0,
 "from_slot": 0.0,
-"to_node": 3807543330.0,
+"to_node": 3811172870.0,
 "to_slot": 0.0
 }, {
-"from_node": 3807543261.0,
-"from_slot": 0.0,
-"to_node": 3807543330.0,
+"from_node": 3811171816.0,
+"from_slot": 3.0,
+"to_node": 3811172870.0,
 "to_slot": 2.0
 }, {
-"from_node": 3807544323.0,
+"from_node": 544814023.0,
+"from_slot": 3.0,
+"to_node": 3811171816.0,
+"to_slot": 0.0
+}, {
+"from_node": 3811170922.0,
+"from_slot": 0.0,
+"to_node": 544814023.0,
+"to_slot": 0.0
+}, {
+"from_node": 544814982.0,
+"from_slot": 0.0,
+"to_node": 544814023.0,
+"to_slot": 2.0
+}, {
+"from_node": 3811172938.0,
+"from_slot": 3.0,
+"to_node": 3811171816.0,
+"to_slot": 2.0
+}, {
+"from_node": 3811170950.0,
+"from_slot": 0.0,
+"to_node": 3811172938.0,
+"to_slot": 0.0
+}, {
+"from_node": 3811170988.0,
+"from_slot": 0.0,
+"to_node": 3811172938.0,
+"to_slot": 2.0
+}, {
+"from_node": 544812968.0,
+"from_slot": 3.0,
+"to_node": 544812899.0,
+"to_slot": 1.0
+}, {
+"from_node": 544811784.0,
+"from_slot": 3.0,
+"to_node": 544812968.0,
+"to_slot": 0.0
+}, {
+"from_node": 544811779.0,
+"from_slot": 0.0,
+"to_node": 544811784.0,
+"to_slot": 0.0
+}, {
+"from_node": 544811852.0,
+"from_slot": 0.0,
+"to_node": 544811784.0,
+"to_slot": 2.0
+}, {
+"from_node": 544812933.0,
+"from_slot": 0.0,
+"to_node": 544812968.0,
+"to_slot": 1.0
+}, {
+"from_node": 544812939.0,
+"from_slot": 0.0,
+"to_node": 544812968.0,
+"to_slot": 2.0
+}, {
+"from_node": 544810756.0,
+"from_slot": 3.0,
+"to_node": 544812899.0,
+"to_slot": 2.0
+}, {
+"from_node": 544810659.0,
+"from_slot": 3.0,
+"to_node": 544810756.0,
+"to_slot": 0.0
+}, {
+"from_node": 544810631.0,
+"from_slot": 0.0,
+"to_node": 544810659.0,
+"to_slot": 0.0
+}, {
+"from_node": 544810727.0,
+"from_slot": 0.0,
+"to_node": 544810659.0,
+"to_slot": 2.0
+}, {
+"from_node": 544811621.0,
+"from_slot": 3.0,
+"to_node": 544810756.0,
+"to_slot": 1.0
+}, {
+"from_node": 544811583.0,
 "from_slot": 2.0,
-"to_node": 3807544389.0,
-"to_slot": 2.0
-}, {
-"from_node": 3807542375.0,
-"from_slot": 0.0,
-"to_node": 3807544323.0,
+"to_node": 544811621.0,
 "to_slot": 0.0
 }, {
-"from_node": 3807543301.0,
+"from_node": 544810796.0,
 "from_slot": 0.0,
-"to_node": 3807544323.0,
+"to_node": 544811583.0,
+"to_slot": 0.0
+}, {
+"from_node": 544812700.0,
+"from_slot": 3.0,
+"to_node": 544811583.0,
 "to_slot": 1.0
 }, {
-"from_node": 541398891.0,
+"from_node": 544811784.0,
+"from_slot": 3.0,
+"to_node": 544812700.0,
+"to_slot": 0.0
+}, {
+"from_node": 544811779.0,
 "from_slot": 0.0,
-"to_node": 3807544355.0,
+"to_node": 544811784.0,
+"to_slot": 0.0
+}, {
+"from_node": 544811852.0,
+"from_slot": 0.0,
+"to_node": 544811784.0,
+"to_slot": 2.0
+}, {
+"from_node": 544810625.0,
+"from_slot": 0.0,
+"to_node": 544812700.0,
 "to_slot": 1.0
 }, {
-"from_node": 3807543301.0,
+"from_node": 544812837.0,
+"from_slot": 3.0,
+"to_node": 544812700.0,
+"to_slot": 2.0
+}, {
+"from_node": 544812734.0,
+"from_slot": 3.0,
+"to_node": 544812837.0,
+"to_slot": 0.0
+}, {
+"from_node": 544812706.0,
 "from_slot": 0.0,
-"to_node": 3807544355.0,
+"to_node": 544812734.0,
+"to_slot": 0.0
+}, {
+"from_node": 544812802.0,
+"from_slot": 0.0,
+"to_node": 544812734.0,
+"to_slot": 2.0
+}, {
+"from_node": 544811745.0,
+"from_slot": 0.0,
+"to_node": 544812837.0,
+"to_slot": 1.0
+}, {
+"from_node": 544812808.0,
+"from_slot": 0.0,
+"to_node": 544812837.0,
+"to_slot": 2.0
+}, {
+"from_node": 544811678.0,
+"from_slot": 0.0,
+"to_node": 544811621.0,
+"to_slot": 1.0
+}, {
+"from_node": 544812700.0,
+"from_slot": 3.0,
+"to_node": 544811621.0,
+"to_slot": 2.0
+}, {
+"from_node": 544811784.0,
+"from_slot": 3.0,
+"to_node": 544812700.0,
+"to_slot": 0.0
+}, {
+"from_node": 544811779.0,
+"from_slot": 0.0,
+"to_node": 544811784.0,
+"to_slot": 0.0
+}, {
+"from_node": 544811852.0,
+"from_slot": 0.0,
+"to_node": 544811784.0,
+"to_slot": 2.0
+}, {
+"from_node": 544810625.0,
+"from_slot": 0.0,
+"to_node": 544812700.0,
+"to_slot": 1.0
+}, {
+"from_node": 544812837.0,
+"from_slot": 3.0,
+"to_node": 544812700.0,
+"to_slot": 2.0
+}, {
+"from_node": 544812734.0,
+"from_slot": 3.0,
+"to_node": 544812837.0,
+"to_slot": 0.0
+}, {
+"from_node": 544812706.0,
+"from_slot": 0.0,
+"to_node": 544812734.0,
+"to_slot": 0.0
+}, {
+"from_node": 544812802.0,
+"from_slot": 0.0,
+"to_node": 544812734.0,
+"to_slot": 2.0
+}, {
+"from_node": 544811745.0,
+"from_slot": 0.0,
+"to_node": 544812837.0,
+"to_slot": 1.0
+}, {
+"from_node": 544812808.0,
+"from_slot": 0.0,
+"to_node": 544812837.0,
+"to_slot": 2.0
+}, {
+"from_node": 544810790.0,
+"from_slot": 0.0,
+"to_node": 544810756.0,
 "to_slot": 2.0
 }],
 "nodes": [{
-"node_id": 3807542370.0,
+"node_id": 544810597.0,
 "node_type": "Chosen Module ID (end)",
 "slots": [{
 "slot_data": {},
@@ -106,26 +294,26 @@ data = {
 "type": "text_input"
 }]
 }, {
-"node_id": 3807542441.0,
-"node_type": "Edge Proximity",
+"node_id": 544810625.0,
+"node_type": "Text constant",
 "slots": [{
-"data_source_identifier": "edge_dist",
+"slot_data": {
+"constant_value": "lower_beam"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 544810631.0,
+"node_type": "Edge Length",
+"slots": [{
+"data_source_identifier": "edge_length",
 "slot_data": {},
 "slot_input_type": "data_source",
 "type": "scalar_output"
 }]
 }, {
-"node_id": 3807543261.0,
-"node_type": "Scalar constant",
-"slots": [{
-"slot_data": {
-"constant_value": 1.5
-},
-"slot_input_type": "constant",
-"type": "scalar_constant"
-}]
-}, {
-"node_id": 3807543330.0,
+"node_id": 544810659.0,
 "node_type": "Scalar Comparison",
 "slots": [{
 "slot_data": {},
@@ -147,7 +335,17 @@ data = {
 "type": "boolean_output"
 }]
 }, {
-"node_id": 3807544355.0,
+"node_id": 544810727.0,
+"node_type": "Scalar constant",
+"slots": [{
+"slot_data": {
+"constant_value": 6.0
+},
+"slot_input_type": "constant",
+"type": "scalar_constant"
+}]
+}, {
+"node_id": 544810756.0,
 "node_type": "Condition",
 "slots": [{
 "slot_data": {},
@@ -167,7 +365,448 @@ data = {
 "type": "text_output"
 }]
 }, {
-"node_id": 3807544389.0,
+"node_id": 544810790.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "plain_wall"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 544810796.0,
+"node_type": "Previous Module ID",
+"slots": [{
+"data_source_identifier": "prev_module_id",
+"slot_data": {},
+"slot_input_type": "data_source",
+"type": "text_output"
+}]
+}, {
+"node_id": 544811583.0,
+"node_type": "Text equality",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 544811615.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "beam"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 544811621.0,
+"node_type": "Condition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 544811678.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "large_window"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 544811684.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "beam"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 544811713.0,
+"node_type": "Text equality",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 544811745.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "upper_beam"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 544811751.0,
+"node_type": "Edge Proximity",
+"slots": [{
+"data_source_identifier": "edge_dist",
+"slot_data": {},
+"slot_input_type": "data_source",
+"type": "scalar_output"
+}]
+}, {
+"node_id": 544811779.0,
+"node_type": "Floor Number",
+"slots": [{
+"data_source_identifier": "floor_num",
+"slot_data": {},
+"slot_input_type": "data_source",
+"type": "scalar_output"
+}]
+}, {
+"node_id": 544811784.0,
+"node_type": "Scalar Comparison",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {
+"choice": "=="
+},
+"slot_input_type": "connection",
+"type": "dropdown"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 544811852.0,
+"node_type": "Scalar constant",
+"slots": [{
+"slot_data": {
+"constant_value": 1.0
+},
+"slot_input_type": "constant",
+"type": "scalar_constant"
+}]
+}, {
+"node_id": 544811881.0,
+"node_type": "Text equality",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 544812700.0,
+"node_type": "Condition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 544812706.0,
+"node_type": "Floor Number",
+"slots": [{
+"data_source_identifier": "floor_num",
+"slot_data": {},
+"slot_input_type": "data_source",
+"type": "scalar_output"
+}]
+}, {
+"node_id": 544812734.0,
+"node_type": "Scalar Comparison",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {
+"choice": "=="
+},
+"slot_input_type": "connection",
+"type": "dropdown"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 544812802.0,
+"node_type": "Scalar constant",
+"slots": [{
+"slot_data": {
+"constant_value": 2.0
+},
+"slot_input_type": "constant",
+"type": "scalar_constant"
+}]
+}, {
+"node_id": 544812808.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "plain_wall"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 544812837.0,
+"node_type": "Condition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 544812871.0,
+"node_type": "Is Most Distant Edge",
+"slots": [{
+"data_source_identifier": "is_most_distant_edge",
+"slot_data": {},
+"slot_input_type": "data_source",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 544812899.0,
+"node_type": "Condition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 544812933.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "door"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 544812939.0,
+"node_type": "Text constant",
+"slots": [{
+"slot_data": {
+"constant_value": "large_window"
+},
+"slot_input_type": "constant",
+"type": "text_constant"
+}]
+}, {
+"node_id": 544812968.0,
+"node_type": "Condition",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "text_output"
+}]
+}, {
+"node_id": 3811170922.0,
+"node_type": "Edge Proximity",
+"slots": [{
+"data_source_identifier": "edge_dist",
+"slot_data": {},
+"slot_input_type": "data_source",
+"type": "scalar_output"
+}]
+}, {
+"node_id": 3811170950.0,
+"node_type": "Edge Length",
+"slots": [{
+"data_source_identifier": "edge_length",
+"slot_data": {},
+"slot_input_type": "data_source",
+"type": "scalar_output"
+}]
+}, {
+"node_id": 3811172938.0,
+"node_type": "Scalar Math",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {
+"choice": "/"
+},
+"slot_input_type": "connection",
+"type": "dropdown"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_output"
+}]
+}, {
+"node_id": 544814023.0,
+"node_type": "Scalar Math",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {
+"choice": "+"
+},
+"slot_input_type": "connection",
+"type": "dropdown"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_output"
+}]
+}, {
+"node_id": 3811171816.0,
+"node_type": "Scalar Comparison",
+"slots": [{
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {
+"choice": ">"
+},
+"slot_input_type": "connection",
+"type": "dropdown"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "scalar_input"
+}, {
+"slot_data": {},
+"slot_input_type": "connection",
+"type": "boolean_output"
+}]
+}, {
+"node_id": 3811170988.0,
+"node_type": "Scalar constant",
+"slots": [{
+"slot_data": {
+"constant_value": 2.0
+},
+"slot_input_type": "constant",
+"type": "scalar_constant"
+}]
+}, {
+"node_id": 544814982.0,
+"node_type": "Scalar constant",
+"slots": [{
+"slot_data": {
+"constant_value": 2.0
+},
+"slot_input_type": "constant",
+"type": "scalar_constant"
+}]
+}, {
+"node_id": 3811172870.0,
 "node_type": "Boolean operation",
 "slots": [{
 "slot_data": {},
@@ -188,51 +827,6 @@ data = {
 "slot_input_type": "connection",
 "type": "boolean_output"
 }]
-}, {
-"node_id": 3807543301.0,
-"node_type": "Text constant",
-"slots": [{
-"slot_data": {
-"constant_value": "plain_wall"
-},
-"slot_input_type": "constant",
-"type": "text_constant"
-}]
-}, {
-"node_id": 3807542375.0,
-"node_type": "Previous Module ID",
-"slots": [{
-"data_source_identifier": "prev_module_id",
-"slot_data": {},
-"slot_input_type": "data_source",
-"type": "text_output"
-}]
-}, {
-"node_id": 3807544323.0,
-"node_type": "Text equality",
-"slots": [{
-"slot_data": {},
-"slot_input_type": "connection",
-"type": "text_input"
-}, {
-"slot_data": {},
-"slot_input_type": "connection",
-"type": "text_input"
-}, {
-"slot_data": {},
-"slot_input_type": "connection",
-"type": "boolean_output"
-}]
-}, {
-"node_id": 541398891.0,
-"node_type": "Text constant",
-"slots": [{
-"slot_data": {
-"constant_value": "window_large"
-},
-"slot_input_type": "constant",
-"type": "text_constant"
-}]
 }]
 }
 
@@ -243,24 +837,39 @@ probability = 0.6
 facade_feature_id = "plain_wall"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
-[sub_resource type="Resource" id="Resource_rmery"]
+[sub_resource type="Resource" id="Resource_vg67i"]
 script = ExtResource("8_vhosy")
-model = ExtResource("9_jf8qy")
-facade_feature_id = "door"
-metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
-
-[sub_resource type="Resource" id="Resource_6e2fl"]
-script = ExtResource("8_vhosy")
-model = ExtResource("10_1dk6v")
+model = ExtResource("10_oi8lk")
+probability = 0.35
 facade_feature_id = "large_window"
 metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
 
-[sub_resource type="Resource" id="Resource_7xnxb"]
+[sub_resource type="Resource" id="Resource_llqbs"]
+script = ExtResource("8_vhosy")
+model = ExtResource("11_7xnxb")
+facade_feature_id = "lower_beam"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_hjumt"]
+script = ExtResource("8_vhosy")
+model = ExtResource("12_24fgp")
+probability = 0.6
+facade_feature_id = "upper_beam"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_jf8qy"]
+script = ExtResource("8_vhosy")
+model = ExtResource("13_1dk6v")
+facade_feature_id = "door"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_oi8lk"]
 script = ExtResource("2_tjo2p")
-walls = Array[ExtResource("8_vhosy")]([SubResource("Resource_wnvvm"), SubResource("Resource_rmery"), SubResource("Resource_6e2fl")])
-corner_90 = ExtResource("6_4af7b")
-spacer_block = ExtResource("7_in047")
-selection_rules = SubResource("JSON_oi8lk")
+walls = Array[ExtResource("8_vhosy")]([SubResource("Resource_wnvvm"), SubResource("Resource_vg67i"), SubResource("Resource_llqbs"), SubResource("Resource_hjumt"), SubResource("Resource_jf8qy")])
+corner_90 = ExtResource("6_jf8qy")
+spacer_block = ExtResource("7_1dk6v")
+height = 4.0
+selection_rules = SubResource("JSON_1dk6v")
 metadata/_custom_type_script = "uid://1cryccueq7u4"
 
 [sub_resource type="Resource" id="Resource_bj8d6"]
@@ -268,22 +877,22 @@ script = ExtResource("6_in047")
 building_height = 10.0
 footprint = Array[Vector2]([Vector2(15, -15), Vector2(15, 15), Vector2(-15, 15), Vector2(-15, -15)])
 position = Vector3(0, -6, 0)
-floor_definitions = Array[ExtResource("2_tjo2p")]([ExtResource("5_tjo2p"), SubResource("Resource_7xnxb")])
+floor_definitions = Array[ExtResource("2_tjo2p")]([ExtResource("5_tjo2p"), SubResource("Resource_oi8lk")])
 feature_positions = Dictionary[String, Array]({
 "door": [Vector2(0, 16)]
 })
 metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_7xnxb"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_4af7b"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_24fgp"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_in047"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport3")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ddanw"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_jf8qy"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport2")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_tsw3j"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_1dk6v"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/PreviewMultiViewport4")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k4fue"]
@@ -494,25 +1103,25 @@ alignment = 1
 [node name="TextureRect" type="TextureRect" parent="PreviewSubwindow" unique_id=2032424525]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = SubResource("ViewportTexture_7xnxb")
+texture = SubResource("ViewportTexture_4af7b")
 expand_mode = 1
 
 [node name="TextureRect2" type="TextureRect" parent="PreviewSubwindow" unique_id=1406242054]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = SubResource("ViewportTexture_24fgp")
+texture = SubResource("ViewportTexture_in047")
 expand_mode = 1
 
 [node name="TextureRect3" type="TextureRect" parent="PreviewSubwindow" unique_id=1217101261]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = SubResource("ViewportTexture_ddanw")
+texture = SubResource("ViewportTexture_jf8qy")
 expand_mode = 1
 
 [node name="TextureRect4" type="TextureRect" parent="PreviewSubwindow" unique_id=20597783]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = SubResource("ViewportTexture_tsw3j")
+texture = SubResource("ViewportTexture_1dk6v")
 expand_mode = 1
 
 [node name="BuildingGraphEditorDock" type="Control" parent="." unique_id=733009336]

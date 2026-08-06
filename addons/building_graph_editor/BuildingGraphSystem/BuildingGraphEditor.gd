@@ -300,6 +300,7 @@ func validate_graph():
 			"edge_dist": FixedInputDataSource.new(4.2),
 			"edge_length": FixedInputDataSource.new(22.3),
 			"edge_normal": FixedInputDataSource.new(Vector3(1,0,1)),
+			"is_most_distant_edge": FixedInputDataSource.new(false),
 			"floor_num": FixedInputDataSource.new(2.0),
 			"floor_amount": FixedInputDataSource.new(5.0),
 			"all_module_ids": source_data["all_module_ids"],

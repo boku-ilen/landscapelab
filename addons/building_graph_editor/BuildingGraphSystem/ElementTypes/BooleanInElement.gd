@@ -17,5 +17,3 @@ func create_ui(label: String) -> void:
 	label_control.custom_minimum_size.y = label_control.get_line_height(-1)
 	label_control.update_minimum_size()
 	add_child(label_control)
-
-
