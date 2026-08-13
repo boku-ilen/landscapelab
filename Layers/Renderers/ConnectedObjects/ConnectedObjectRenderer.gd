@@ -333,6 +333,8 @@ func load_feature_instance(geo_line: GeoFeature) -> Node3D:
 	var line_root = Node3D.new()
 	line_root.name = str(geo_line.get_id())
 	
+	if not geo_line is GeoLine: return line_root
+	
 	var engine_line: Curve3D = geo_line.get_offset_curve3d(-center[0], 0, -center[1])
 	var previous_point := Vector3.INF
 	var next_point := Vector3.INF
