@@ -42,34 +42,11 @@ varying flat int should_render;
 varying vec3 world_pos;
 varying float vertex_height;
 
+varying float water_depth;
+
 uniform bool make_hole = false;
 uniform float hole_size = 50.0;
 
-
-float depth_proximity(float dist, vec3 vertex, sampler2D depthtex, vec2 screenuv,mat4 invproj){
-	float depth_tex = textureLod(depthtex, screenuv, 0.0).r;
-	vec4 depth_world_pos = invproj * vec4(screenuv * 2.0 - 1.0, depth_tex, 1.0);
-	depth_world_pos.xyz /= depth_world_pos.w;
-	return clamp(1.0 - smoothstep(depth_world_pos.z + dist, depth_world_pos.z, vertex.z), 0.0, 1.0);
-}
-float get_depth_linear(sampler2D depthtex, vec2 screenuv, mat4 invproj){
-	float depth_tex = textureLod(depthtex,screenuv,0.0).r;
-  	vec3 ndc = vec3(screenuv * 2.0 - 1.0, depth_tex);
-	vec4 depth_world_pos = invproj * vec4(ndc, 1.0);
-	depth_world_pos.xyz /= depth_world_pos.w;
-	return depth_world_pos.z;
-}
-float depth_proximity_z(float dist, float z, float base_z){
-	return clamp(1.0 - smoothstep(z + dist, z, base_z), 0.0, 1.0);
-}
-
-float fresnel(float power,vec3 normal,vec3 view){
-	return pow(1.0 - clamp(dot(normal,view), 0.0, 1.0), power);
-}
-// Function taken from stackoverflow : https://stackoverflow.com/a/51137756
-float linearize(float depth, float z_near, float z_far) {
-	return z_near * z_far / (z_far + depth * (z_near - z_far));
-}
 
 vec4 wave(vec4 parameter, vec2 position, float time, inout vec3 tangent, inout vec3 binormal, float scale)
 {
@@ -104,6 +81,8 @@ void vertex() {
 			VERTEX.y = -100.0;
 		}
 	}
+	
+	water_depth = VERTEX.y - texture(heightmap, UV).r;
 
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
@@ -141,7 +120,7 @@ void vertex() {
 }
 
 void fragment() {
-	float time = TIME;// + sin(TIME * 3.0) * 0.1;
+	float time = TIME;
 
 	vec2 uv_scale = world_pos.xz * _uv_scale;
  	vec3 n = texture(normal_map,uv_scale * 1.5 - time * 0.02 * wind_direction).rgb;
@@ -152,45 +131,16 @@ void fragment() {
 	float z_near = abs(PROJECTION_MATRIX[3][2] / PROJECTION_MATRIX[2][2]);
 	float z_far = abs((PROJECTION_MATRIX[3][2] * z_near) / (PROJECTION_MATRIX[3][2] + z_near));
 
-	// Get the depth difference between the object we want to overdraw and the other objects
-	float screen_depth = 0.5;//textureLod(DEPTH_TEXTURE, SCREEN_UV, 0.0).r;
-	float fragment_depth = FRAGCOORD.z;
+	float d = 1.0 - smoothstep(water_depth, 0.0, 5.0);
 
-	float l_screen_depth = linearize(screen_depth, z_near, z_far);
-	float l_fragment_depth = linearize(fragment_depth, z_near, z_far);
-	float l_depth_delta = l_fragment_depth - l_screen_depth;
-
-	float _depth_linear = l_depth_delta;
-
-	float d = depth_proximity_z(-10.0, l_screen_depth, l_fragment_depth);
-	d = exp(-d * beer_factor);
-
-	//float d2 = depth_proximity_z(-40.0, l_screen_depth, l_fragment_depth);
-	//d2 = 1.0-pow(d2,0.07);
-
-	//ALPHA = clamp(opacity+1.0-d-d2,0.0,1.0);
 	vec3 n_out = mix(n3,mix(n,n2, 0.5), 0.5);
 	NORMAL_MAP = n_out;
 	NORMAL_MAP_DEPTH = smoothstep(-2.0, 100.0, wind_speed);
 
-	vec2 n_distortion = n_out.xy - vec2(0.5, 0.5); //(mat3(TANGENT,BINORMAL,NORMAL) * n_out).rg * 2.0 - 1.0;
 	vec3 color_out = mix(depth_color, surface_color,d);
 
-	//vec3 _screen = texture(SCREEN_TEXTURE,SCREEN_UV).rgb;
-	// TODO: blur effect could be added like +n_distortion*_refraction*(1.0-d), but it's hard not to affect nearby objects above the water
-
-	vec3 _screen = color_out;
-	//_screen = mix(_screen, color_out, clamp(1.0 - d + (dullness * 0.3), 0.0, 1.0));
-
-	float depthfoam = depth_proximity_z(-abs(n_distortion.r+n_distortion.g) * _foam_size , l_screen_depth, l_fragment_depth);
-	depthfoam = pow(depthfoam,_foam_strength);
-	depthfoam += pow(max(vertex_height, 0.0), 1.0) * 2.0;  // Foam on the top of large waves
-	vec3 foam = vec3(1.0 - depthfoam);// * texture(_foam,uv_scale * 1.0 + n_distortion).rgb;
-
-	ALBEDO = mix(foam,soft_light(_screen,color_out),depthfoam);
+	ALBEDO = color_out;
 	ALBEDO = clamp(ALBEDO, vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0));
 	ROUGHNESS = _roughness;
 	SPECULAR = 0.25;
-//	ALBEDO = soft_light(_screen,color_out);
-
 }

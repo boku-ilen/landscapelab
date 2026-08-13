@@ -3,7 +3,7 @@
 [ext_resource type="Shader" uid="uid://wbeifpq1kise" path="res://addons/water/shaders/water.gdshader" id="1_ge2g2"]
 [ext_resource type="Shader" uid="uid://bxnew4mm7p0yn" path="res://Layers/Renderers/Terrain/FakeVegetation.gdshader" id="1_pvfx2"]
 [ext_resource type="Texture2D" uid="uid://do37bxcf1mu1i" path="res://addons/water/textures/foam.jpg" id="2_80hu0"]
-[ext_resource type="Texture2D" uid="uid://duhjv68uoyu3c" path="res://Resources/Textures/Plants/gr-triticum-01.png" id="2_vprah"]
+[ext_resource type="Texture2D" uid="uid://duhjv68uoyu3c" path="res://Assets/Natural/Plants/Foliage/Textures/gr-triticum-01.png" id="2_vprah"]
 [ext_resource type="Texture2D" uid="uid://bok1q0cfq8nab" path="res://Resources/Textures/ShaderUtil/distance_plant_uv.png" id="3_byttg"]
 [ext_resource type="Texture2D" uid="uid://0ef35wcbl7v7" path="res://addons/water/textures/water_normal.jpg" id="3_rjt5y"]
 
