@@ -99,6 +99,7 @@ func _setup_detail_noise():
 func _ready():
 	_setup_ground_textures()
 	_setup_detail_noise()
+	
 	$DetailMesh.material_override = shader_material.duplicate()
 	$FarMesh.material_override = shader_material.duplicate()
 	$FarMesh.material_override.next_pass = water_material.duplicate()
@@ -114,6 +115,13 @@ func _ready():
 	$FarMesh.material_override.next_pass.next_pass.next_pass = null
 	
 	super._ready()
+	
+	if  layer_composition.render_info.water_color != null \
+			and "surface_color" in layer_composition.render_info.water_color \
+			and "depth_color" in layer_composition.render_info.water_color:
+		var surface_color = _array_to_color(layer_composition.render_info.water_color["surface_color"])
+		var depth_color = _array_to_color(layer_composition.render_info.water_color["depth_color"])
+		_apply_water_color(surface_color, depth_color)
 
 
 func full_load():
