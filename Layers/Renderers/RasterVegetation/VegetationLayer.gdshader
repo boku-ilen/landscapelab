@@ -124,6 +124,10 @@ void process() {
 	int splatmap_value = overlay_value > 0 ? overlay_value : int(round(texture(splatmap, splatmap_uv).r));
 	splatmap_value = clamp(splatmap_value, 0, 10999);
 
+	if (splatmap_value < 1000) {
+		splatmap_value = 7203;
+	}
+
 	int distribution_id = int(round(texelFetch(row_ids, ivec2(splatmap_value, 0), 0).r * 255.0));
 
 	ACTIVE = !(distribution_id == 0) &&

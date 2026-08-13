@@ -128,8 +128,17 @@ vec3 get_normal(vec2 normal_uv_pos) {
 float get_landuse(vec2 uv) {
 	vec4 lu_sample = texture(landuse_overlay, uv);
 	float overlay = use_landuse_overlay ? round(lu_sample.r * 255.0) + round(lu_sample.g * 255.0 * 255.0) : 0.0;
-
-	return overlay > 0.0 ? overlay : texture(landuse, uv).r;
+	
+	if (overlay > 0.0) {
+		return overlay;
+	} else {
+		float lid = texture(landuse, uv).r;
+		if (lid < 1000.0) {
+			return 7203.0;
+		} else {
+			return lid;
+		}
+	}
 }
 
 vec3 blend_normals(vec3 n1, vec3 n2)
