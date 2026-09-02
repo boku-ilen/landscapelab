@@ -43,6 +43,7 @@ enum flag {
 }
 
 @onready var height_attribute = layer_composition.render_info.height_attribute_name
+@onready var stdev_attribute = layer_composition.render_info.height_stdev_attribute_name
 
 var execution_graph_cache: Dictionary[FloorDefinition, BuildingGraphRunner.RunnableNode] = {}
 
@@ -107,7 +108,8 @@ func load_feature_instance(feature: GeoFeature):
 	
 	var original_metadata: ModularBuildingMetadata = layer_composition.render_info.modular_resources[building_type]
 	
-	if selected_definition != null and selected_definition in modular_definition_names:
+	# FIXME: remove the special case for 13, couldn't work out why it's needed in time
+	if selected_definition != null and selected_definition in modular_definition_names and building_type != 13:
 		original_metadata = modular_definition_by_name[selected_definition] as ModularBuildingMetadata
 	
 	modular_metadata_instance.floor_definitions = original_metadata.floor_definitions
@@ -208,6 +210,7 @@ func load_feature_instance(feature: GeoFeature):
 	var floor_num = 0
 	while actual_height < modular_metadata_instance.building_height:
 		actual_height += modular_metadata_instance.floor_definitions[min(floor_num, modular_metadata_instance.floor_definitions.size() - 1)].height
+		
 		floor_num += 1
 	
 	# if straight skeleton result is provably valid, use it
@@ -231,6 +234,8 @@ func load_feature_instance(feature: GeoFeature):
 			"footprint": saved_footprint,
 			"original_footprint": footprint
 		})
+		# TODO: Should we do something like this? It would probably be "correct", but seems to make buildings too small
+		# actual_height += roof.mesh.get_aabb().size.y
 	else:
 		# fallback to old roofs otherwise
 		var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
@@ -239,7 +244,10 @@ func load_feature_instance(feature: GeoFeature):
 		roof_component.build(PackedVector2Array(building_metadata.footprint))
 		roof_component.position.y = actual_height
 		roof_surface_material_callback.call()
-		
+	
+	# Scale to exact nDOM height
+	building.scale.y = clamp((modular_metadata_instance.building_height + building_metadata.roof_height_stdev) / actual_height, 0.65, 1.35)
+	
 	building.name = str(feature.get_id())
 
 	return building
