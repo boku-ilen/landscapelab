@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="ModularBuildingMetadata" format=3 uid="uid://qmmsm0gp0mbv"]
+
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_lisxd"]
+[ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="2_gcvyv"]
+[ext_resource type="ArrayMesh" uid="uid://cc567vinh8fss" path="res://Resources/Meshes/BuildingComponents/FORDELETE/Processed/Frame_Vertical_Beam_2.0.res" id="3_6mcmj"]
+[ext_resource type="JSON" path="res://Resources/ModularBuildingDefinitions/FloorDefinitions/ShackWallSelection.json" id="4_6mcmj"]
+[ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="5_1pos6"]
+[ext_resource type="Script" uid="uid://c5qqrynj6o4lr" path="res://addons/modular_buildings/Model/WallTileDefinition.gd" id="5_cpn0d"]
+[ext_resource type="ArrayMesh" uid="uid://bk3bybtau45ha" path="res://Resources/Meshes/BuildingComponents/FORDELETE/Processed/Frame_Horizontal_Beam_Spacer_0.2x2.0.res" id="5_s84tk"]
+[ext_resource type="ArrayMesh" uid="uid://celfr0okid6t8" path="res://Resources/Meshes/BuildingComponents/FORDELETE/Processed/Frame_Horizontal_Beam_2.0x2.0.res" id="7_3u5mv"]
+
+[sub_resource type="Resource" id="Resource_12van"]
+script = ExtResource("5_cpn0d")
+model = ExtResource("7_3u5mv")
+probability = 1.0
+facade_feature_id = "plain_wall"
+metadata/_custom_type_script = "uid://c5qqrynj6o4lr"
+
+[sub_resource type="Resource" id="Resource_f81w6"]
+script = ExtResource("1_lisxd")
+walls = Array[ExtResource("5_cpn0d")]([SubResource("Resource_12van")])
+corner_90 = ExtResource("3_6mcmj")
+spacer_block = ExtResource("5_s84tk")
+height = 2.0
+selection_rules = ExtResource("4_6mcmj")
+metadata/_custom_type_script = "uid://1cryccueq7u4"
+
+[resource]
+script = ExtResource("5_1pos6")
+building_height = 10.0
+footprint = Array[Vector2]([Vector2(-16, -16), Vector2(16, -16), Vector2(16, 16), Vector2(-16, 16)])
+floor_definitions = Array[ExtResource("1_lisxd")]([ExtResource("2_gcvyv"), SubResource("Resource_f81w6")])
+feature_positions = Dictionary[String, Array]({
+"door": [Vector2(0, 16)]
+})
+metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"
