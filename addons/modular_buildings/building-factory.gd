@@ -12,9 +12,14 @@ const TOLERATE_90_DEG_DEVIATION = 0.01
 
 static var mesh_plus_material_cache = {}
 
+enum BuildingDetail {
+	Full,
+	SimpleMesh,
+	Billboard
+}
 
 ## Build a building from metadata, logic, data sources and materials
-static func build_building(building_root: Node3D, metadata: ModularBuildingMetadata, node_graphs_by_floor: Array[BuildingGraphRunner.RunnableNode] = [], sources: Dictionary[String, NodeDataSource] = {}, materials_by_name: Dictionary[String, Material] = {}, geo_feature = null) -> Node3D:
+static func build_building(building_root: Node3D, metadata: ModularBuildingMetadata, node_graphs_by_floor: Array[BuildingGraphRunner.RunnableNode] = [], sources: Dictionary[String, NodeDataSource] = {}, materials_by_name: Dictionary[String, Material] = {}, geo_feature = null, level_of_detail: BuildingDetail = BuildingDetail.Full) -> Node3D:
 	if sources == {}:
 		# placeholder values
 		sources = {
@@ -32,6 +37,9 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		}
 	if not geo_feature == null:
 		sources["geo_feature"] = FixedInputDataSource.new(geo_feature)
+	
+	if level_of_detail == BuildingDetail.SimpleMesh:
+		return _build_simplified_mesh(building_root, metadata, materials_by_name, geo_feature)
 	
 	var rng = RandomNumberGenerator.new()
 	rng.seed = geo_feature.get_id()
@@ -191,6 +199,41 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		# repeat until we've reached or exceeded the knwon height of the building
 		if overall_floor_height >= metadata.building_height:
 			break
+	return building_root
+
+# build a simplified variant of the building without modules or graph execution
+static func _build_simplified_mesh(building_root: Node3D, metadata: ModularBuildingMetadata, materials_by_name: Dictionary[String, Material] = {}, geo_feature = null):
+	var footprint_verts := metadata.footprint
+	var height := 0.5
+	var checked_floor = 0
+	
+	while height < metadata.building_height:
+		height += metadata.floor_definitions[max(checked_floor, len(metadata.floor_definitions) - 1)].height
+	
+	var generated_mesh := ArrayMesh.new()
+
+	var mesh_arrays = []
+	mesh_arrays.resize(generated_mesh.ARRAY_MAX)
+	var wall_triangle_verts: PackedVector3Array
+	
+	for vert_i in len(footprint_verts):
+		var bottom_start := Vector3(footprint_verts[vert_i].x, 0, footprint_verts[vert_i].y)
+		var bottom_end := Vector3(footprint_verts[(vert_i + 1) % len(footprint_verts)].x, 0, footprint_verts[(vert_i + 1) % len(footprint_verts)].y)
+		var top_start := bottom_start + Vector3(0,height,0)
+		var top_end := bottom_end + Vector3(0,height,0)
+		
+		var tri_verts := [bottom_start, top_start, bottom_end, bottom_start, top_end, top_start]
+		for vert in tri_verts:
+			wall_triangle_verts.push_back(vert)
+	mesh_arrays[generated_mesh.ARRAY_VERTEX] = wall_triangle_verts
+	generated_mesh.add_surface_from_arrays(generated_mesh.PRIMITIVE_TRIANGLE_STRIP,mesh_arrays)
+	generated_mesh.regen_normal_maps()
+	if materials_by_name.has("Wall_Primary"):
+		generated_mesh.surface_set_material(0, materials_by_name["Wall_Primary"])
+	var mesh_instance := MeshInstance3D.new()
+	mesh_instance.mesh = generated_mesh
+
+	building_root.add_child(mesh_instance)
 	return building_root
 
 # Returns the new edge with regard to the corner
