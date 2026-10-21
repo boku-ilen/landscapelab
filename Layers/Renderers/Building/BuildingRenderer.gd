@@ -176,6 +176,9 @@ func load_feature_instance(feature: GeoFeature):
 		var node_graph := BuildingGraphRunner.setup_executable_graph(floor_def.selection_rules.data, node_types.data, data_sources)
 		exec_graphs.append(node_graph)
 
+	# create building object with all necessary data
+	#var building_controller = ModularBuilding.new(modular_metadata_instance, exec_graphs, feature)
+
 	# facade construction
 	BuildingFactory.build_building(building, modular_metadata_instance, exec_graphs, data_sources, material_replacements, feature)
 	
