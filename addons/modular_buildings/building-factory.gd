@@ -38,7 +38,7 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 	if not geo_feature == null:
 		sources["geo_feature"] = FixedInputDataSource.new(geo_feature)
 	
-	if level_of_detail == BuildingDetail.SimpleMesh:
+	if level_of_detail == BuildingDetail.SimpleMesh or true:
 		return _build_simplified_mesh(building_root, metadata, materials_by_name, geo_feature)
 	
 	var rng = RandomNumberGenerator.new()
@@ -225,8 +225,22 @@ static func _build_simplified_mesh(building_root: Node3D, metadata: ModularBuild
 		var tri_verts := [bottom_start, top_start, bottom_end, bottom_start, top_end, top_start]
 		for vert in tri_verts:
 			wall_triangle_verts.push_back(vert)
+			
 	mesh_arrays[generated_mesh.ARRAY_VERTEX] = wall_triangle_verts
 	generated_mesh.add_surface_from_arrays(generated_mesh.PRIMITIVE_TRIANGLE_STRIP,mesh_arrays)
+	
+	# quick "roof": triangulated footprint
+	var roof_arrays = []
+	roof_arrays.resize(generated_mesh.ARRAY_MAX)
+	
+	var triangulated_footprint := Geometry2D.triangulate_polygon(footprint_verts)
+	var roof_tris: PackedVector3Array
+	for vert_ref in triangulated_footprint:
+		var tri_vert = footprint_verts[vert_ref]
+		roof_tris.push_back(Vector3(tri_vert.x, height, tri_vert.y))
+	roof_arrays[generated_mesh.ARRAY_VERTEX] = roof_tris	
+	
+	generated_mesh.add_surface_from_arrays(generated_mesh.PRIMITIVE_TRIANGLES, roof_arrays)
 	generated_mesh.regen_normal_maps()
 	if materials_by_name.has("Wall_Primary"):
 		generated_mesh.surface_set_material(0, materials_by_name["Wall_Primary"])
