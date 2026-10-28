@@ -20,7 +20,7 @@ var refine_gutter_mesh = load("res://Buildings/Components/Roofs/Resources/Gutter
 var refine_distances := [100, 2500, 10000]
 
 var lod_distances := { 
-	BuildingFactory.BuildingDetail.Full:500, 
+	BuildingFactory.BuildingDetail.Full:750, 
 	BuildingFactory.BuildingDetail.SimpleMesh: 2000, 
 	BuildingFactory.BuildingDetail.Billboard:10000
 }
