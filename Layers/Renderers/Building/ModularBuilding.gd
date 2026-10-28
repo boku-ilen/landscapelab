@@ -100,18 +100,18 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 			add_child(roof_node)
 			roof_node.position.y = actual_height
 			
-			# TODO roof "refinement"
-			# roofs_to_refine.append({
-			# 	"building": building,
-			# 	"roof": roof.skeleton_info,
-			# 	"roof_node": roof_node,
-			# 	"is_refined": false,
-			# 	"height": building_metadata.roof_height,
-			# 	"refine_meshes": [],
-			# 	"color": roof_and_material["roof"].color,
-			# 	"footprint": saved_footprint,
-			# 	"original_footprint": footprint
-			# })
+			var roof_data = {
+				"building": self,
+				"roof": roof.skeleton_info,
+				"roof_node": roof_node,
+				"is_refined": false,
+				"height": roof.mesh.get_aabb().size.y,
+				"refine_meshes": [],
+				"color": roof_and_material["roof"].color,
+				"footprint": saved_footprint,
+				"original_footprint": saved_footprint
+			}
+			refine_roof(roof_data)
 		# TODO: Should we do something like this? It would probably be "correct", but seems to make buildings too small
 		# actual_height += roof.mesh.get_aabb().size.y
 		else:
