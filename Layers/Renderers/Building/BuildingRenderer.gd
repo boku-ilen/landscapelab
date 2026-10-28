@@ -18,6 +18,15 @@ var refine_ridge_meshes = [
 var refine_gutter_mesh = load("res://Buildings/Components/Roofs/Resources/Gutters.res")
 # Circle through distances loading new refinments (squared distances!)
 var refine_distances := [100, 2500, 10000]
+
+var lod_distances := { 
+	BuildingFactory.BuildingDetail.Full:500, 
+	BuildingFactory.BuildingDetail.SimpleMesh: 2000, 
+	BuildingFactory.BuildingDetail.Billboard:10000
+}
+
+var loaded_buildings: Array[ModularBuilding]
+
 var refined_buildings: Array[Node3D] = []
 
 # It is important to reference a wall_resource and not loading another 
@@ -84,7 +93,7 @@ func _create_and_set_texture_arrays():
 
 
 func load_feature_instance(feature: GeoFeature):
-	var building = Node3D.new()
+	#var building = Node3D.new()
 	var modular_metadata_instance = ModularBuildingMetadata.new()
 	var rng = RandomNumberGenerator.new()
 	rng.seed = feature.get_id()
@@ -177,94 +186,60 @@ func load_feature_instance(feature: GeoFeature):
 		exec_graphs.append(node_graph)
 
 	# create building object with all necessary data
-	#var building_controller = ModularBuilding.new(modular_metadata_instance, exec_graphs, feature)
+	var building_controller := ModularBuilding.new(modular_metadata_instance, building_metadata, exec_graphs, material_replacements,feature, layer_composition, addon_layers, addon_objects)
 
+	building_controller.construct_with_lod(BuildingFactory.BuildingDetail.SimpleMesh)
 	# facade construction
-	BuildingFactory.build_building(building, modular_metadata_instance, exec_graphs, data_sources, material_replacements, feature)
-	
-	building.position = building_metadata.engine_center + Vector3.UP * (building_metadata.cellar_height - 1.0)
-	building.name = str(feature.get_id())
+	#BuildingFactory.build_building(building, modular_metadata_instance, exec_graphs, data_sources, material_replacements, feature)
+
+	building_controller.position = building_metadata.engine_center + Vector3.UP * (building_metadata.cellar_height - 1.0)
+	building_controller.name = str(feature.get_id())
 		
-	
-	# setup old roof
-	var roof_and_material = RoofFactory.prepare_roof(
-		layer_composition, 
-		feature, 
-		addon_layers, 
-		addon_objects,
-		building_metadata, 
-		check_roof_type,
-		{"prefer_pointed_roof": true})
-		
-	# slightly randomize footprint for robustness (avoid precise 90° angles, ...)
-	var randomized_footprint: Array[Vector2]
-	randomized_footprint.assign(modular_metadata_instance.footprint.map(
-		func (x): return x + Vector2(rng.randf_range(0.01, 0.02), rng.randf_range(0.01, 0.02))
-	))
-	
-	var roof_mat: StandardMaterial3D = roof_and_material["material"].material0.duplicate()
-	roof_mat.albedo_color = roof_and_material["roof"].color
-	
-	# compute straight skeleton roof
-	var roof := StraightSkeleton.get_mesh(randomized_footprint, modular_metadata_instance.roof_height, roof_mat, 1)
-	
-	# determine roof y position
-	var actual_height = 0.0
-	var floor_num = 0
-	while actual_height < modular_metadata_instance.building_height:
-		actual_height += modular_metadata_instance.floor_definitions[min(floor_num, modular_metadata_instance.floor_definitions.size() - 1)].height
-		
-		floor_num += 1
-	
-	# if straight skeleton result is provably valid, use it
-	if not roof.broken and not RoofFactory.requires_flat_roof(feature, layer_composition, building_metadata):
-		var outer_footprint = Geometry2D.offset_polygon(randomized_footprint, 0.9)[0]
-		var saved_footprint: Array[Vector2] = []
-		saved_footprint.append_array(outer_footprint)
-	
-		var roof_node := MeshInstance3D.new()
-		roof_node.mesh = roof.mesh
-		building.add_child(roof_node)
-		roof_node.position.y = actual_height
-		roofs_to_refine.append({
-			"building": building,
-			"roof": roof.skeleton_info,
-			"roof_node": roof_node,
-			"is_refined": false,
-			"height": building_metadata.roof_height,
-			"refine_meshes": [],
-			"color": roof_and_material["roof"].color,
-			"footprint": saved_footprint,
-			"original_footprint": footprint
-		})
-		# TODO: Should we do something like this? It would probably be "correct", but seems to make buildings too small
-		# actual_height += roof.mesh.get_aabb().size.y
-	else:
-		# fallback to old roofs otherwise
-		var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
-		var roof_component = roof_and_material["roof"]
-		building.add_child(roof_component)
-		roof_component.build(PackedVector2Array(building_metadata.footprint))
-		roof_component.position.y = actual_height
-		roof_surface_material_callback.call()
+	loaded_buildings.append(building_controller)
 	
 	# Scale to exact nDOM height
-	building.scale.y = clamp((modular_metadata_instance.building_height + building_metadata.roof_height_stdev) / actual_height, 0.65, 1.35)
 	
-	building.name = str(feature.get_id())
+	building_controller.name = str(feature.get_id())
 
-	return building
+	return building_controller
 
 	
-var buildings_to_refine = []
+var buildings_to_refine = {}
 var roofs_to_refine: Array[Dictionary] = []
 var refined_roofs: Array[Dictionary] = []
+
+func _process(_delta):
+	super._process(_delta)
+	var to_refine = buildings_to_refine.keys()
+	if to_refine.size() > 0:
+		for building in to_refine:
+			building.construct_with_lod(buildings_to_refine[building])
+	buildings_to_refine.clear()
 
 func refine_load():
 	super.refine_load()
 	
 	mutex.lock()
-
+	
+	# forget all deleted buildings
+	loaded_buildings = loaded_buildings.filter(
+		func(b): return is_instance_valid(b)
+	)
+	
+	
+	# check whether buildings have the correct LOD, otherwise update them
+	if loaded_buildings.size() > 0:
+		for building in loaded_buildings:
+			var correct_lod = BuildingFactory.BuildingDetail.Billboard
+			var distance = building.position.distance_to(position_manager.center_node.position)
+			for lod_level in [BuildingFactory.BuildingDetail.Full, BuildingFactory.BuildingDetail.SimpleMesh, BuildingFactory.BuildingDetail.Billboard]:
+				if distance < lod_distances[lod_level]:
+					if building.last_lod != lod_level:
+						buildings_to_refine[building] = lod_level
+						#building.construct_with_lod(lod_level)
+					break
+				
+	
 	# only consider valid buildings
 	roofs_to_refine = roofs_to_refine.filter(
 		func (roof): return roof["building"] and is_instance_valid(roof["building"]) and roof["building"].get_parent() == self

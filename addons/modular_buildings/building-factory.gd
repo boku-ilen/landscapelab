@@ -38,7 +38,7 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 	if not geo_feature == null:
 		sources["geo_feature"] = FixedInputDataSource.new(geo_feature)
 	
-	if level_of_detail == BuildingDetail.SimpleMesh or true:
+	if level_of_detail == BuildingDetail.SimpleMesh or level_of_detail == BuildingDetail.Billboard:
 		return _build_simplified_mesh(building_root, metadata, materials_by_name, geo_feature)
 	
 	var rng = RandomNumberGenerator.new()
