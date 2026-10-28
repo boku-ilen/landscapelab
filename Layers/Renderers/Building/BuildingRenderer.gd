@@ -210,6 +210,8 @@ var refined_roofs: Array[Dictionary] = []
 
 func _process(_delta):
 	super._process(_delta)
+	
+	# refine all queued buildings, since execution fails quietly if done in refine_load
 	var to_refine = buildings_to_refine.keys()
 	if to_refine.size() > 0:
 		for building in to_refine:
@@ -235,152 +237,13 @@ func refine_load():
 			for lod_level in [BuildingFactory.BuildingDetail.Full, BuildingFactory.BuildingDetail.SimpleMesh, BuildingFactory.BuildingDetail.Billboard]:
 				if distance < lod_distances[lod_level]:
 					if building.last_lod != lod_level:
+						# FIXME construct_with_lod does not execute if called from within refine_load -> why?
 						buildings_to_refine[building] = lod_level
 						#building.construct_with_lod(lod_level)
 					break
-				
-	
-	# only consider valid buildings
-	roofs_to_refine = roofs_to_refine.filter(
-		func (roof): return roof["building"] and is_instance_valid(roof["building"]) and roof["building"].get_parent() == self
-	)
-	
-	# consider closest buildings first
-	roofs_to_refine.sort_custom(
-		func (roof_a, roof_b): 
-			return roof_a["building"].position.distance_squared_to(position_manager.center_node.position) < \
-			roof_b["building"].position.distance_squared_to(position_manager.center_node.position)
-	)
-			
-	if roofs_to_refine.size() > 0:
-		var roof = roofs_to_refine.pop_front()
-		
-		for distance in refine_distances:
-			if roof["building"].position.distance_squared_to(position_manager.center_node.position) < distance:
-				roof = refine_roof(roof)
-				refined_roofs.append(roof)
-		
-		if not roof["is_refined"]:
-			roofs_to_refine.push_back(roof)
-		
-		# Start undoing refinments only after all necessary instances are loaded
-		mutex.unlock()
-		return 
-	
-	# Undo all refinments no longer in render distances
-
-	if refined_roofs.size() > 0:
-		var roof = refined_roofs.pop_back()
-		
-		if not roof["building"] or not is_instance_valid(roof["building"]) or roof["building"].get_parent() != self:
-			mutex.unlock()
-			return
-		
-		if not roof["is_refined"]:
-			mutex.unlock()
-			return
-		
-		if roof["building"].position.distance_squared_to(position_manager.center_node.position) > refine_distances.back():
-			roof = unrefine_roof(roof)
-			mutex.unlock()
-			return
-		
-		refined_roofs.push_back(roof)
 	
 	mutex.unlock()
-
-## Refine roof with detail meshes (ridge caps and gutters)
-func refine_roof(roof: Dictionary)-> Dictionary:
-	roof["is_refined"] = true
-	#logger.info("refining " + roof["building"].name)
-	var skeleton_data: StraightSkeleton.StraightSkeletonInfo = roof["roof"]
 	
-	# ridge caps along bisector lines
-	var bisectors := skeleton_data.bisectors
-	var refine_ridge_mesh = refine_ridge_meshes[randi_range(0, refine_ridge_meshes.size() - 1)]
-	var ridge_cap_multimesh = MultiMeshInstance3D.new()
-	ridge_cap_multimesh.multimesh = MultiMesh.new()
-	ridge_cap_multimesh.multimesh.transform_format = MultiMesh.TRANSFORM_3D
-	ridge_cap_multimesh.multimesh.mesh = refine_ridge_mesh
-	ridge_cap_multimesh.multimesh.instance_count = bisectors.size()
-	ridge_cap_multimesh.multimesh.visible_instance_count = bisectors.size()
-	var base_material = StandardMaterial3D.new()
-	base_material.albedo_color = roof["color"]
-	ridge_cap_multimesh.material_overlay = base_material
-	
-	
-	# ridge caps along bisectors
-	for bisector_i in bisectors.size():
-		var bisector := bisectors[bisector_i]
-		# downscale 2D coordinates (StraightSkeleton get_mesh() upscales by 200 to reduce float rounding error)
-		var origin := Vector3(bisector.origin.x / 200, (bisector.start_t / skeleton_data.max_t) * roof["height"], bisector.origin.y / 200)
-		var endpoint := Vector3(bisector.endpoint.x / 200, (bisector.end_t / skeleton_data.max_t) * roof["height"], bisector.endpoint.y / 200)
-		var midpoint := (origin + endpoint) * 0.5
-		var aabb: AABB = refine_ridge_mesh.get_aabb()
-		var mesh_length: float = aabb.size.z
-
-		var scale_z := origin.distance_to(endpoint) / mesh_length
-		
-		# skip if midpoint and origin are in the same place (i.e. line has near 0 length)
-		if not origin.distance_squared_to(midpoint) < 0.001:
-			ridge_cap_multimesh.multimesh.set_instance_transform(
-				bisector_i, 
-				Transform3D().translated(midpoint + Vector3.UP * (roof["roof_node"].position.y))\
-				.looking_at(origin + Vector3.UP * (roof["roof_node"].position.y))\
-				.scaled_local(Vector3(1,1,scale_z))
-			)
-	
-	# gutters offset outward from roof edge
-	var offset_footprint = Geometry2D.offset_polygon(roof["footprint"], refine_gutter_mesh.get_aabb().size.x / 8, Geometry2D.JOIN_SQUARE)[0]
-	
-	var gutter_multimesh := MultiMeshInstance3D.new()
-	gutter_multimesh.multimesh = MultiMesh.new()
-	gutter_multimesh.multimesh.transform_format = MultiMesh.TRANSFORM_3D
-	gutter_multimesh.multimesh.mesh = refine_gutter_mesh#.duplicate()
-	gutter_multimesh.multimesh.instance_count = offset_footprint.size() + 1
-	gutter_multimesh.multimesh.visible_instance_count = gutter_multimesh.multimesh.instance_count
-	gutter_multimesh.material_overlay = base_material
-	
-	# gutters around outside edge
-	for vert_i in offset_footprint.size():
-		var edge_start: Vector2 = offset_footprint[vert_i]
-		var edge_end: Vector2 = offset_footprint[(vert_i + 1) % offset_footprint.size()]
-		var from = Vector3(edge_start.x, roof["roof_node"].position.y - 0.25, edge_start.y)
-		var to = Vector3(edge_end.x, roof["roof_node"].position.y - 0.25, edge_end.y)
-		var mesh_length = refine_gutter_mesh.get_aabb().size.z
-		gutter_multimesh.multimesh.set_instance_transform(
-			vert_i, 
-			Transform3D().translated((from + to) * 0.5)\
-			.looking_at(to, Vector3.DOWN)\
-			.scaled_local(Vector3(0.25,0.25,from.distance_to(to) / mesh_length))
-		)
-	
-	# drain pipe - TODO model
-	gutter_multimesh.multimesh.set_instance_transform(
-		roof["footprint"].size(), 
-		Transform3D().translated(Vector3(roof["footprint"][0].x, roof["roof_node"].position.y * 0.5 - 0.2, roof["footprint"][0].y))\
-		.scaled_local(Vector3(0.3, roof["roof_node"].position.y / refine_gutter_mesh.get_aabb().size.z, 0.3))\
-		.rotated_local(Vector3.RIGHT, -PI/2)
-	)
-	
-	
-	gutter_multimesh.name = "gutter_ref"
-	ridge_cap_multimesh.name = "roof_ref"
-	(roof["building"] as Node3D).add_child.call_deferred(ridge_cap_multimesh)
-	(roof["building"] as Node3D).add_child.call_deferred(gutter_multimesh)
-	roof["refine_meshes"].append(ridge_cap_multimesh)
-	roof["refine_meshes"].append(gutter_multimesh)
-	return roof
-
-## remove refinement details from roof
-func unrefine_roof(roof: Dictionary) -> Dictionary:
-	roof["is_refined"] = false
-	
-	for mesh in roof["refine_meshes"]:
-		mesh.queue_free.call_deferred()
-		(roof["building"] as Node3D).remove_child.call_deferred(mesh)
-	roof["refine_meshes"] = []
-	return roof
 	
 func get_debug_info() -> String:
 	return "{0} of maximally {1} polygons loaded.".format([
