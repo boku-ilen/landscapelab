@@ -28,6 +28,8 @@ var refine_gutter_mesh = preload("res://Buildings/Components/Roofs/Resources/Gut
 
 func _init(modular_metadata: ModularBuildingMetadata, geo_metadata: BuildingMetadata, node_graphs: Array[BuildingGraphRunner.RunnableNode], materials: Dictionary[String, Material], geo_feature: GeoFeature, composition: LayerComposition, addon_ls, addon_objs) -> void:
 	metadata_instance = modular_metadata
+	graphs_by_floor = []
+
 	graphs_by_floor = node_graphs
 	feature = geo_feature
 	material_table = materials
@@ -36,6 +38,7 @@ func _init(modular_metadata: ModularBuildingMetadata, geo_metadata: BuildingMeta
 	addon_layers = addon_ls
 	addon_objects = addon_objs
 	building_metadata = geo_metadata
+	
 
 func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 	last_lod = lod_level
@@ -56,7 +59,11 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 	}
 	var root_node = Node3D.new()
 	add_child(root_node)
-	BuildingFactory.build_building(root_node, metadata_instance, graphs_by_floor, data_sources, material_table, feature, lod_level)
+	
+	# call build_building without passing node graphs for now
+	# FIXME build_building doesn't pick modules if graphs are passed by ModularBuilding
+	# (worked fine in old BuildingRenderer, why?)
+	BuildingFactory.build_building(root_node, metadata_instance, [], data_sources, material_table, feature, lod_level)
 	# roof construction: only at full detail
 	if lod_level == BuildingFactory.BuildingDetail.Full:
 		# setup old roof
