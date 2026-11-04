@@ -6,7 +6,7 @@ var graphs_by_floor: Array[BuildingGraphRunner.RunnableNode]
 var feature: GeoFeature
 var material_table: Dictionary[String, Material]
 var rng := RandomNumberGenerator.new()
-var last_lod := BuildingFactory.BuildingDetail.Billboard
+var last_lod := BuildingFactory.BuildingDetail.None
 var layer_composition: LayerComposition
 var building_metadata: BuildingMetadata
 
@@ -41,6 +41,10 @@ func _init(modular_metadata: ModularBuildingMetadata, geo_metadata: BuildingMeta
 	
 
 func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
+	if last_lod == lod_level:
+		return
+	if lod_level == BuildingFactory.BuildingDetail.None:
+		return
 	last_lod = lod_level
 
 

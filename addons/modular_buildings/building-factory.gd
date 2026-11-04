@@ -3,6 +3,7 @@ class_name BuildingFactory
 
 
 const hinge_material: ShaderMaterial = preload("res://addons/modular_buildings/Material/hinge_corner.tres")
+const billboard_template: PackedScene = preload("res://Layers/Renderers/Building/BuildingBillboardBase.tscn")
 
 # How much the building blocks may be scaled before using spacers
 const MIN_SCALE := 0.9
@@ -15,7 +16,8 @@ static var mesh_plus_material_cache = {}
 enum BuildingDetail {
 	Full,
 	SimpleMesh,
-	Billboard
+	Billboard,
+	None
 }
 
 ## Build a building from metadata, logic, data sources and materials
@@ -38,8 +40,10 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 	if not geo_feature == null:
 		sources["geo_feature"] = FixedInputDataSource.new(geo_feature)
 	
-	if level_of_detail == BuildingDetail.SimpleMesh or level_of_detail == BuildingDetail.Billboard:
+	if level_of_detail == BuildingDetail.SimpleMesh:
 		return _build_simplified_mesh(building_root, metadata, materials_by_name, geo_feature)
+	if level_of_detail == BuildingDetail.Billboard:
+		return _build_billboard_object(building_root, metadata, materials_by_name)
 	
 	var rng = RandomNumberGenerator.new()
 	rng.seed = geo_feature.get_id()
@@ -253,6 +257,38 @@ static func _build_simplified_mesh(building_root: Node3D, metadata: ModularBuild
 	building_root.add_child(mesh_instance)
 	return building_root
 
+# create and configure a y-billboard matching building dimensions and color approximately
+static func _build_billboard_object(root_node: Node3D, metadata: ModularBuildingMetadata, materials_by_name: Dictionary[String, Material] = {}):
+	var billboard_instance := billboard_template.instantiate() as BuildingBillboard
+
+	var height := 0.5
+	var num_floor = 0
+	
+	# determine proper number of floors to tile to
+	while height < metadata.building_height:
+		height += metadata.floor_definitions[min(num_floor, len(metadata.floor_definitions) - 1)].height
+		num_floor += 1
+		
+	# find longest wall as estimated billboard width
+	var longest_floor: float = 0.0
+	for footprint_point in metadata.footprint.size():
+		longest_floor = max(longest_floor, metadata.footprint[footprint_point].distance_to(metadata.footprint[(footprint_point + 1) % metadata.footprint.size()]))
+	
+	# get billboard tint from primary wall tint
+	var tint_color := Color.RED
+	#print(materials_by_name.keys())
+	if materials_by_name.has("Wall_Primary"):
+		tint_color = (materials_by_name["Wall_Primary"] as ShaderMaterial).get_shader_parameter("base_albedo_tint")
+		
+	# darkened to blend better without lighting
+	tint_color = tint_color.darkened(0.5)
+	root_node.add_child(billboard_instance)
+	billboard_instance.construct(num_floor, 
+			preload("res://Resources/Textures/Buildings/BillboardComponents/WindowBillboardTile.svg"),
+			longest_floor,
+			tint_color)
+	
+	return root_node
 # Returns the new edge with regard to the corner
 static func _populate_corner(
 	edge_i: Edge,

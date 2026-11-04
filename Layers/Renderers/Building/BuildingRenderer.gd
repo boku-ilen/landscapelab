@@ -20,9 +20,10 @@ var refine_gutter_mesh = load("res://Buildings/Components/Roofs/Resources/Gutter
 var refine_distances := [100, 2500, 10000]
 
 var lod_distances := { 
-	BuildingFactory.BuildingDetail.Full:750, 
-	BuildingFactory.BuildingDetail.SimpleMesh: 2000, 
-	BuildingFactory.BuildingDetail.Billboard:10000
+	BuildingFactory.BuildingDetail.Full:300, 
+	BuildingFactory.BuildingDetail.SimpleMesh: 600, 
+	BuildingFactory.BuildingDetail.Billboard:2000,
+	BuildingFactory.BuildingDetail.None: 100000,
 }
 
 var loaded_buildings: Array[ModularBuilding]
@@ -188,7 +189,7 @@ func load_feature_instance(feature: GeoFeature):
 	# create building object with all necessary data
 	var building_controller := ModularBuilding.new(modular_metadata_instance, building_metadata, exec_graphs, material_replacements,feature, layer_composition, addon_layers, addon_objects)
 
-	building_controller.construct_with_lod(BuildingFactory.BuildingDetail.SimpleMesh)
+	#building_controller.construct_with_lod(BuildingFactory.BuildingDetail.Billboard)
 	# facade construction
 	#BuildingFactory.build_building(building, modular_metadata_instance, exec_graphs, data_sources, material_replacements, feature)
 
@@ -210,14 +211,15 @@ var refined_roofs: Array[Dictionary] = []
 
 func _process(_delta):
 	super._process(_delta)
-	
+	mutex.lock()
 	# refine all queued buildings, since execution fails quietly if done in refine_load
 	var to_refine = buildings_to_refine.keys()
 	if to_refine.size() > 0:
 		for building in to_refine:
-			building.construct_with_lod(buildings_to_refine[building])
+			if buildings_to_refine.has(building):
+				building.construct_with_lod(buildings_to_refine[building])
 	buildings_to_refine.clear()
-
+	mutex.unlock()
 func refine_load():
 	super.refine_load()
 	
@@ -228,7 +230,7 @@ func refine_load():
 		func(b): return is_instance_valid(b)
 	)
 	
-	
+	buildings_to_refine.clear()
 	# check whether buildings have the correct LOD, otherwise update them
 	if loaded_buildings.size() > 0:
 		for building in loaded_buildings:

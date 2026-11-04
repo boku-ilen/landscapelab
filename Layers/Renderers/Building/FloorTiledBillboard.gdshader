@@ -3,7 +3,7 @@
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx, shadows_disabled, ambient_light_disabled, unshaded;
 
-uniform vec4 albedo : source_color;
+instance uniform vec4 albedo : source_color;
 uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
 uniform ivec2 albedo_texture_size;
 uniform float point_size : hint_range(0.1, 128.0, 0.1);
@@ -21,8 +21,8 @@ uniform vec3 uv1_offset;
 uniform vec3 uv2_scale;
 uniform vec3 uv2_offset;
 
-uniform float numFloors = 1;
-uniform float numHorizontalRepeat = 1;
+instance uniform float numFloors = 1;
+instance uniform float numHorizontalRepeat = 1;
 
 void vertex() {
 	UV.y = UV.y * numFloors;
