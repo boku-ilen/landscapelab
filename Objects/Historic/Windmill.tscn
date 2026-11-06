@@ -6,8 +6,8 @@
 [node name="Windmill" unique_id=1535424021 instance=ExtResource("1_ov5r3")]
 script = ExtResource("2_4f65o")
 
-[node name="Windmill_Dutch_Cap" parent="Windmill_Dutch_Tower" parent_id_path=PackedInt32Array(1934683197) index="0" unique_id=821586665]
+[node name="Windmill_Dutch_Cap" parent="Windmill_Dutch_Tower" parent_id_path=PackedInt32Array(1563485336) index="0" unique_id=943492886]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="Windmill_Dutch_Rotor" parent="Windmill_Dutch_Tower/Windmill_Dutch_Cap" index="0" unique_id=845119832]
-transform = Transform3D(-0.24961318, 0.96826607, 0, -0.96826607, -0.24961318, 0, 0, 0, 1, 0, 20.5, 0)
+[node name="Windmill_Dutch_Rotor" parent="Windmill_Dutch_Tower/Windmill_Dutch_Cap" index="0" unique_id=1908351026]
+transform = Transform3D(-0.99039865, 0.13758455, 0, -0.13758455, -0.99039865, 0, 0, 0, 1, 0, 20.5, 0)
