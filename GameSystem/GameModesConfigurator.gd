@@ -137,11 +137,21 @@ func _deserialize_events(game_mode: GameMode, events: Dictionary):
 		var event_config = events[event_name]
 
 		var event_object = GameEvent.new()
+		
+		for event_trigger in event_config["triggers"]:
+			var event_trigger_type = event_trigger["type"]
+			
+			if event_trigger_type == "Attribute":
+				var trigger = AttributeTrigger.new(event_trigger["data"]["goc"], event_trigger["data"]["trigger"])
+				event_object.add_trigger(trigger)
 
 		for event_action_name in event_config["actions"].keys():
 			var event_action_config = event_config["actions"][event_action_name]
 
-			if event_action_config["type"] == "ZonesToGameObjectsAction":
+			if event_action_config["type"] == "PersonaSpeakAction":
+				# TODO: Implement
+				pass
+			elif event_action_config["type"] == "ZonesToGameObjectsAction":
 				var activation_points_layer = LayerCompositionSerializer.get_feature_layer_from_string(
 					event_action_config["activation_points_layer"],
 					path

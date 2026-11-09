@@ -7,6 +7,7 @@ var game_object_collections = {}
 var game_scores = {}
 var game_views = {}
 var game_events = {}
+var game_personas = {}
 
 var token_to_game_object_collection = {}
 
