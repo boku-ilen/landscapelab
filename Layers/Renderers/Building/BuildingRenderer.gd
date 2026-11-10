@@ -2,27 +2,14 @@ extends FeatureLayerCompositionRenderer
 
 @export var check_roof_type := true
 
-var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 var node_types = preload("res://addons/building_graph_editor/BuildingGraphSystem/node_types.json")
 var selector_node_types = preload("res://addons/building_graph_editor/BuildingGraphSystem/selector_node_types.json")
 var wall_normal_mat: ShaderMaterial = preload("res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres")
 
-var refine_ridge_meshes = [
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Rect_Large.obj"),
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Pentagonal_Large.obj"),
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Round_Large.obj"),
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Rect_Small.obj"),
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Round_Large_Overhang.obj"),
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Round_Small.obj"),
-]
-var refine_gutter_mesh = load("res://Buildings/Components/Roofs/Resources/Gutters.res")
-# Circle through distances loading new refinments (squared distances!)
-var refine_distances := [100, 2500, 10000]
-
 var lod_distances := { 
-	BuildingFactory.BuildingDetail.Full:300, 
-	BuildingFactory.BuildingDetail.SimpleMesh: 600, 
-	BuildingFactory.BuildingDetail.Billboard:2000,
+	BuildingFactory.BuildingDetail.Full:400, 
+	BuildingFactory.BuildingDetail.SimpleMesh: 800, 
+	BuildingFactory.BuildingDetail.Billboard:2200,
 	BuildingFactory.BuildingDetail.None: 100000,
 }
 
@@ -33,10 +20,6 @@ var refined_buildings: Array[Node3D] = []
 # It is important to reference a wall_resource and not loading another 
 var fallback_wall_id := 1
 
-var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
-var fallback_num_floors = 1
-
-var slope_attribute_name: String
 
 # Roof addon logic (i.e. pantelleria domes, chimneys, ...)
 var roof_id_to_addon_ids = {}
@@ -94,23 +77,27 @@ func _create_and_set_texture_arrays():
 
 
 func load_feature_instance(feature: GeoFeature):
-	#var building = Node3D.new()
 	var modular_metadata_instance = ModularBuildingMetadata.new()
 	var rng = RandomNumberGenerator.new()
 	rng.seed = feature.get_id()
 	
+	# modular building definition selection
 	var all_modular_definitions: Array[Resource] = layer_composition.render_info.modular_resources
 	var modular_definition_names: Array[String] = []
 	var modular_definition_by_name: Dictionary[String, Resource] = {}
 	
+	# selector graph expects definitions to be represented by name
 	for modular_definition in all_modular_definitions:
 		modular_definition_by_name[modular_definition.resource_path.split("/")[-1].split(".")[0]] = modular_definition
 	modular_definition_names = modular_definition_by_name.keys()
+	
 	var selector_data_sources: Dictionary[String, NodeDataSource] = {
 		"all_definitions": FixedInputDataSource.new(modular_definition_names),
 		"rand": DynamicInputDataSource.new(func (): return rng.randf()),
 		"geo_feature": FixedInputDataSource.new(feature) 
-	} 
+	}
+	
+	# selector execution
 	selector_graph = BuildingGraphRunner.setup_executable_graph(layer_composition.render_info.selector_graph.data, selector_node_types.data, selector_data_sources)
 	var selected_definition = selector_graph.get_slot_input(0)
 	
@@ -186,21 +173,13 @@ func load_feature_instance(feature: GeoFeature):
 		var node_graph := BuildingGraphRunner.setup_executable_graph(floor_def.selection_rules.data, node_types.data, data_sources)
 		exec_graphs.append(node_graph)
 
-	# create building object with all necessary data
-	var building_controller := ModularBuilding.new(modular_metadata_instance, building_metadata, exec_graphs, material_replacements,feature, layer_composition, addon_layers, addon_objects)
-
-	#building_controller.construct_with_lod(BuildingFactory.BuildingDetail.Billboard)
-	# facade construction
-	#BuildingFactory.build_building(building, modular_metadata_instance, exec_graphs, data_sources, material_replacements, feature)
-
+	# create building object with all necessary data, it will be responsible for processing and LOD switching on command
+	var building_controller := ModularBuilding.new(modular_metadata_instance, building_metadata, exec_graphs, material_replacements.duplicate_deep(),feature, layer_composition, addon_layers, addon_objects)
+	
 	building_controller.position = building_metadata.engine_center + Vector3.UP * (building_metadata.cellar_height - 1.0)
 	building_controller.name = str(feature.get_id())
 		
 	loaded_buildings.append(building_controller)
-	
-	# Scale to exact nDOM height
-	
-	building_controller.name = str(feature.get_id())
 
 	return building_controller
 
@@ -212,7 +191,7 @@ var refined_roofs: Array[Dictionary] = []
 func _process(_delta):
 	super._process(_delta)
 	mutex.lock()
-	# refine all queued buildings, since execution fails quietly if done in refine_load
+	# refine all queued buildings, since execution fails quietly if done in refine_load (why?)
 	var to_refine = buildings_to_refine.keys()
 	if to_refine.size() > 0:
 		for building in to_refine:
@@ -220,6 +199,8 @@ func _process(_delta):
 				building.construct_with_lod(buildings_to_refine[building])
 	buildings_to_refine.clear()
 	mutex.unlock()
+	
+	
 func refine_load():
 	super.refine_load()
 	
@@ -234,14 +215,12 @@ func refine_load():
 	# check whether buildings have the correct LOD, otherwise update them
 	if loaded_buildings.size() > 0:
 		for building in loaded_buildings:
-			var correct_lod = BuildingFactory.BuildingDetail.Billboard
-			var distance = building.position.distance_to(position_manager.center_node.position)
+			var distance := building.position.distance_to(position_manager.center_node.position)
 			for lod_level in [BuildingFactory.BuildingDetail.Full, BuildingFactory.BuildingDetail.SimpleMesh, BuildingFactory.BuildingDetail.Billboard]:
 				if distance < lod_distances[lod_level]:
 					if building.last_lod != lod_level:
 						# FIXME construct_with_lod does not execute if called from within refine_load -> why?
 						buildings_to_refine[building] = lod_level
-						#building.construct_with_lod(lod_level)
 					break
 	
 	mutex.unlock()
