@@ -7,9 +7,9 @@ var selector_node_types = preload("res://addons/building_graph_editor/BuildingGr
 var wall_normal_mat: ShaderMaterial = preload("res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres")
 
 var lod_distances := { 
-	BuildingFactory.BuildingDetail.Full:400, 
-	BuildingFactory.BuildingDetail.SimpleMesh: 800, 
-	BuildingFactory.BuildingDetail.Billboard:2200,
+	BuildingFactory.BuildingDetail.Full:200, 
+	BuildingFactory.BuildingDetail.SimpleMesh: 400, 
+	BuildingFactory.BuildingDetail.Billboard:800,
 	BuildingFactory.BuildingDetail.None: 100000,
 }
 
@@ -174,7 +174,7 @@ func load_feature_instance(feature: GeoFeature):
 		exec_graphs.append(node_graph)
 
 	# create building object with all necessary data, it will be responsible for processing and LOD switching on command
-	var building_controller := ModularBuilding.new(modular_metadata_instance, building_metadata, exec_graphs, material_replacements.duplicate_deep(),feature, layer_composition, addon_layers, addon_objects)
+	var building_controller := ModularBuilding.new(modular_metadata_instance, building_metadata, exec_graphs, material_replacements,feature, layer_composition, addon_layers, addon_objects)
 	
 	building_controller.position = building_metadata.engine_center + Vector3.UP * (building_metadata.cellar_height - 1.0)
 	building_controller.name = str(feature.get_id())

@@ -30,7 +30,7 @@ func _init(modular_metadata: ModularBuildingMetadata, geo_metadata: BuildingMeta
 	metadata_instance = modular_metadata
 	graphs_by_floor = []
 
-	graphs_by_floor = node_graphs
+	#graphs_by_floor = node_graphs
 	feature = geo_feature
 	material_table = materials
 	rng.seed = feature.get_id()
@@ -108,11 +108,11 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 	
 			var roof_node := MeshInstance3D.new()
 			roof_node.mesh = roof.mesh
-			add_child(roof_node)
+			root_node.add_child(roof_node)
 			roof_node.position.y = actual_height
 			
 			var roof_data = {
-				"building": self,
+				"building": root_node,
 				"roof": roof.skeleton_info,
 				"roof_node": roof_node,
 				"is_refined": false,
