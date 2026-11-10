@@ -19,7 +19,7 @@ action_probability = 0.8
 
 [sub_resource type="Resource" id="Resource_fwhv5"]
 script = ExtResource("10_0doen")
-tint_colors = Array[Color]([Color(0.9691667, 1, 0.63, 1), Color(0.9, 0.9, 0.9, 1)])
+tint_colors = Array[Color]([Color(0.8803257, 0.909492, 0.8191773, 1), Color(0.9, 0.9, 0.9, 1)])
 material_names = Array[String](["Wall_Primary", "Wall_Primary_Corner", "Wall_Primary_Spacer"])
 
 [sub_resource type="Resource" id="Resource_23llv"]
