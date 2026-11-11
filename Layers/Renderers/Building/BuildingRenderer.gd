@@ -195,7 +195,7 @@ func _process(_delta):
 	var to_refine = buildings_to_refine.keys()
 	if to_refine.size() > 0:
 		for building in to_refine:
-			if buildings_to_refine.has(building):
+			if buildings_to_refine.has(building) and is_instance_valid(building):
 				building.construct_with_lod(buildings_to_refine[building])
 	buildings_to_refine.clear()
 	mutex.unlock()
