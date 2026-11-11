@@ -29,7 +29,8 @@ void vertex() {
 	UV.x = UV.x * numHorizontalRepeat;
 	//UV = UV * uv1_scale.xy + uv1_offset.xy;
 	
-
+	VERTEX.x *= numHorizontalRepeat;
+	VERTEX.y *= numFloors;
 	// Billboard Mode: Y-Billboard
 	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
 			vec4(normalize(cross(vec3(0.0, 1.0, 0.0), MAIN_CAM_INV_VIEW_MATRIX[2].xyz)), 0.0),

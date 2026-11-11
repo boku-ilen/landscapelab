@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bsfeavnyfxo32" path="res://Layers/Renderers/Building/BuildingBillboard.gd" id="1_ih56k"]
 [ext_resource type="Shader" uid="uid://bkjidupqkyomr" path="res://Layers/Renderers/Building/FloorTiledBillboard.gdshader" id="2_4faar"]
-[ext_resource type="Texture2D" uid="uid://2lpjyrgnfoa" path="res://Resources/Icons/Meta/icon.old.png" id="3_k2ni5"]
+[ext_resource type="Texture2D" uid="uid://b8otwpf8100d" path="res://Resources/Textures/Buildings/facade/plaster_white.jpg" id="3_k2ni5"]
+[ext_resource type="Shader" uid="uid://ckj0goci1fmiv" path="res://Layers/Renderers/Building/RoofStretchedBillboard.gdshader" id="4_5u80k"]
 [ext_resource type="Texture2D" uid="uid://dpdtcn387vhyd" path="res://Layers/Renderers/Building/simple_roof_billboard.svg" id="4_k2ni5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5u80k"]
 render_priority = 0
 shader = ExtResource("2_4faar")
-shader_parameter/albedo = Color(1, 1, 1, 1)
 shader_parameter/texture_albedo = ExtResource("3_k2ni5")
 shader_parameter/albedo_texture_size = Vector2i(84, 159)
 shader_parameter/point_size = 0.10000000149012
@@ -20,26 +20,28 @@ shader_parameter/uv1_scale = Vector3(1, 1, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(0, 0, 0)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/numFloors = 3.0
-shader_parameter/numHorizontalRepeat = 4.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_03twh"]
 material = SubResource("ShaderMaterial_5u80k")
-size = Vector2(11.2, 8.4)
+size = Vector2(2.8, 2.8)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lmfaq"]
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-shading_mode = 0
-specular_mode = 2
-disable_ambient_light = true
-albedo_texture = ExtResource("4_k2ni5")
-billboard_mode = 2
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mfwm4"]
+render_priority = 0
+shader = ExtResource("4_5u80k")
+shader_parameter/texture_albedo = ExtResource("4_k2ni5")
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 0.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(0, 0, 0)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(0, 0, 0)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
 
 [sub_resource type="QuadMesh" id="QuadMesh_5g23e"]
-material = SubResource("StandardMaterial3D_lmfaq")
-size = Vector2(11.2, 1.4)
+material = SubResource("ShaderMaterial_mfwm4")
 
 [node name="BuildingBillboardBase" type="Node3D" unique_id=842885628 node_paths=PackedStringArray("quad_node", "roof_quad_node")]
 script = ExtResource("1_ih56k")

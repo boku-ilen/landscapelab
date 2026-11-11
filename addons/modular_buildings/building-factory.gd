@@ -208,6 +208,8 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 # build a simplified variant of the building without modules or graph execution
 static func _build_simplified_mesh(building_root: Node3D, metadata: ModularBuildingMetadata, materials_by_name: Dictionary[String, Material] = {}, geo_feature = null):
 	var footprint_verts := metadata.footprint
+	if not Geometry2D.is_polygon_clockwise(footprint_verts):
+		footprint_verts.reverse()
 	var height := 0.5
 	var checked_floor = 0
 	
@@ -230,6 +232,7 @@ static func _build_simplified_mesh(building_root: Node3D, metadata: ModularBuild
 		var uvs := [Vector2(0,0), Vector2(0,1), Vector2(1,1), Vector2(0,1), Vector2(1,1), Vector2(1,0)]
 		for tri_vert_i in len(tri_verts):
 			surf_tool.set_uv(uvs[tri_vert_i])
+			surf_tool.set_normal(normal_direction)
 			surf_tool.add_vertex(tri_verts[tri_vert_i])
 	
 	surf_tool.generate_normals()
@@ -275,7 +278,7 @@ static func _build_billboard_object(root_node: Node3D, metadata: ModularBuilding
 		longest_floor = max(longest_floor, metadata.footprint[footprint_point].distance_to(metadata.footprint[(footprint_point + 1) % metadata.footprint.size()]))
 	
 	# get billboard tint from primary wall tint
-	var tint_color := Color.RED
+	var tint_color := Color.WHITE
 	#print(materials_by_name.keys())
 	if materials_by_name.has("Wall_Primary"):
 		tint_color = (materials_by_name["Wall_Primary"] as ShaderMaterial).get_shader_parameter("base_albedo_tint")
