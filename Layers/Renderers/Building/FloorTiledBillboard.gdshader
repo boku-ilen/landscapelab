@@ -1,9 +1,9 @@
 // NOTE: Shader automatically converted from Godot Engine 4.7.2.stable's StandardMaterial3D.
 
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx, shadows_disabled, ambient_light_disabled, unshaded;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_disabled;
 
-instance uniform vec4 albedo : source_color;
+instance uniform vec4 albedo : source_color = vec4(1,1,1,1);
 uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
 uniform ivec2 albedo_texture_size;
 uniform float point_size : hint_range(0.1, 128.0, 0.1);
@@ -38,6 +38,10 @@ void vertex() {
 			vec4(normalize(cross(MAIN_CAM_INV_VIEW_MATRIX[0].xyz, vec3(0.0, 1.0, 0.0))), 0.0),
 			MODEL_MATRIX[3]);
 	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
+}
+
+void light() {
+	DIFFUSE_LIGHT += ALBEDO * 0.25 * ATTENUATION * LIGHT_COLOR;//dot(LIGHT, NORMAL);
 }
 
 void fragment() {

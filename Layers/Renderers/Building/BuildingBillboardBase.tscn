@@ -9,6 +9,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5u80k"]
 render_priority = 0
 shader = ExtResource("2_4faar")
+shader_parameter/albedo = Color(1, 1, 1, 1)
 shader_parameter/texture_albedo = ExtResource("3_k2ni5")
 shader_parameter/albedo_texture_size = Vector2i(84, 159)
 shader_parameter/point_size = 0.10000000149012
@@ -28,6 +29,7 @@ size = Vector2(2.8, 2.8)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mfwm4"]
 render_priority = 0
 shader = ExtResource("4_5u80k")
+shader_parameter/albedo = Color(1, 1, 1, 1)
 shader_parameter/texture_albedo = ExtResource("4_k2ni5")
 shader_parameter/albedo_texture_size = Vector2i(0, 0)
 shader_parameter/point_size = 0.0
