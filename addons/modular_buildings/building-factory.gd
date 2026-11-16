@@ -272,10 +272,11 @@ static func _build_billboard_object(root_node: Node3D, metadata: ModularBuilding
 		height += metadata.floor_definitions[min(num_floor, len(metadata.floor_definitions) - 1)].height
 		num_floor += 1
 		
-	# find longest wall as estimated billboard width
-	var longest_floor: float = 0.0
+	# find average wall length as estimated billboard width
+	var avg_wall: float = 0.0
 	for footprint_point in metadata.footprint.size():
-		longest_floor = max(longest_floor, metadata.footprint[footprint_point].distance_to(metadata.footprint[(footprint_point + 1) % metadata.footprint.size()]))
+		avg_wall += metadata.footprint[footprint_point].distance_to(metadata.footprint[(footprint_point + 1) % metadata.footprint.size()])
+	avg_wall /= len(metadata.footprint)
 	
 	# get billboard tint from primary wall tint
 	var tint_color := Color.WHITE
@@ -283,12 +284,11 @@ static func _build_billboard_object(root_node: Node3D, metadata: ModularBuilding
 	if materials_by_name.has("Wall_Primary"):
 		tint_color = (materials_by_name["Wall_Primary"] as ShaderMaterial).get_shader_parameter("base_albedo_tint")
 		
-	# darkened to blend better without lighting
-	tint_color = tint_color.darkened(0.5)
+
 	root_node.add_child(billboard_instance)
 	billboard_instance.construct(num_floor, 
 			preload("res://Resources/Textures/Buildings/BillboardComponents/WindowBillboardTile.svg"),
-			longest_floor,
+			avg_wall,
 			tint_color)
 	
 	return root_node
