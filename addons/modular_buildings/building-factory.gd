@@ -235,7 +235,6 @@ static func _build_simplified_mesh(building_root: Node3D, metadata: ModularBuild
 			surf_tool.set_normal(normal_direction)
 			surf_tool.add_vertex(tri_verts[tri_vert_i])
 	
-	surf_tool.generate_normals()
 	var generated_mesh := surf_tool.commit()
 	
 	# quick "roof": triangulated footprint
