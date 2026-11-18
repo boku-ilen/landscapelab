@@ -7,9 +7,9 @@ var selector_node_types = preload("res://addons/building_graph_editor/BuildingGr
 var wall_normal_mat: ShaderMaterial = preload("res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres")
 
 var lod_distances := { 
-	BuildingFactory.BuildingDetail.Full:200, 
-	BuildingFactory.BuildingDetail.SimpleMesh: 400, 
-	BuildingFactory.BuildingDetail.Billboard:800,
+	BuildingFactory.BuildingDetail.Full:500, 
+	BuildingFactory.BuildingDetail.SimpleMesh: 1000, 
+	BuildingFactory.BuildingDetail.Billboard:radius,
 	BuildingFactory.BuildingDetail.None: 100000,
 }
 
