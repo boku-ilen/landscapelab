@@ -90,7 +90,7 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 		roof_mat.albedo_color = roof_and_material["roof"].color
 	
 		# compute straight skeleton roof
-		var roof := StraightSkeleton.get_mesh(randomized_footprint, metadata_instance.roof_height * 8, roof_mat, 1)
+		var roof := StraightSkeleton.get_mesh(randomized_footprint, metadata_instance.roof_height * 5, roof_mat, 1)
 	
 		# determine roof y position
 		var actual_height = 0.0

@@ -4,6 +4,7 @@ class_name BuildingFactory
 
 const hinge_material: ShaderMaterial = preload("res://addons/modular_buildings/Material/hinge_corner.tres")
 const billboard_template: PackedScene = preload("res://Layers/Renderers/Building/BuildingBillboardBase.tscn")
+const simple_mesh_material: ShaderMaterial = preload("res://Layers/Renderers/Building/SimpleBuildingMat.tres")
 
 # How much the building blocks may be scaled before using spacers
 const MIN_SCALE := 0.9
@@ -250,12 +251,14 @@ static func _build_simplified_mesh(building_root: Node3D, metadata: ModularBuild
 	
 	generated_mesh.add_surface_from_arrays(generated_mesh.PRIMITIVE_TRIANGLES, roof_arrays)
 	#generated_mesh.regen_normal_maps()
-	if materials_by_name.has("Wall_Primary"):
-		generated_mesh.surface_set_material(0, materials_by_name["Wall_Primary"])
+	generated_mesh.surface_set_material(0, simple_mesh_material)#materials_by_name["Wall_Primary"])
 	
 	var mesh_instance := MeshInstance3D.new()
 	mesh_instance.mesh = generated_mesh
-
+	if materials_by_name.has("Wall_Primary"):
+		mesh_instance.set_instance_shader_parameter("albedo_tint", (materials_by_name["Wall_Primary"] as ShaderMaterial).get_shader_parameter("base_albedo_tint"))
+	else:
+		mesh_instance.set_instance_shader_parameter("albedo_tint", Color.WHITE_SMOKE)
 	building_root.add_child(mesh_instance)
 	return building_root
 
