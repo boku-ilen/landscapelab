@@ -22,10 +22,15 @@ uniform vec3 uv2_scale;
 uniform vec3 uv2_offset;
 
 instance uniform float numFloors = 1;
-instance uniform float numHorizontalRepeat = 1;
+instance uniform vec2 polygonExtent = vec2(1,1);
 
 void vertex() {
 	UV.y = UV.y * numFloors;
+	
+	vec3 view_dir = normalize(NODE_POSITION_WORLD - CAMERA_POSITION_WORLD);
+	
+	float numHorizontalRepeat = length(view_dir.xz * polygonExtent.yx);
+	
 	UV.x = UV.x * numHorizontalRepeat;
 	//UV = UV * uv1_scale.xy + uv1_offset.xy;
 	

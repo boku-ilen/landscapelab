@@ -21,10 +21,16 @@ uniform vec3 uv1_offset;
 uniform vec3 uv2_scale;
 uniform vec3 uv2_offset;
 
-instance uniform vec2 scaling = vec2(1.0);
+instance uniform float height = 1.0;
+instance uniform vec2 polygonExtent = vec2(1,1);
 
 void vertex() {
-	
+
+	vec3 view_dir = normalize(NODE_POSITION_WORLD - CAMERA_POSITION_WORLD);
+
+	float width = length(view_dir.xz * polygonExtent.yx);
+	vec2 scaling = vec2(width, height);
+
 	VERTEX.xy *= scaling;
 	// Billboard Mode: Y-Billboard
 	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(

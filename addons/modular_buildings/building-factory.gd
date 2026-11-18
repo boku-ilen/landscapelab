@@ -274,11 +274,16 @@ static func _build_billboard_object(root_node: Node3D, metadata: ModularBuilding
 		height += metadata.floor_definitions[min(num_floor, len(metadata.floor_definitions) - 1)].height
 		num_floor += 1
 		
-	# find average wall length as estimated billboard width
-	var avg_wall: float = 0.0
-	for footprint_point in metadata.footprint.size():
-		avg_wall += metadata.footprint[footprint_point].distance_to(metadata.footprint[(footprint_point + 1) % metadata.footprint.size()])
-	avg_wall /= len(metadata.footprint)
+	# determine polygon extent to pass to billboard for interpolated scaling
+	var polygon_max = metadata.footprint[0]
+	var polygon_min = metadata.footprint[0]
+	for poly_vert in metadata.footprint:
+		polygon_max.x = max(polygon_max.x, poly_vert.x)
+		polygon_max.y = max(polygon_max.y, poly_vert.y)
+		polygon_min.x = min(polygon_min.x, poly_vert.x)
+		polygon_min.y = min(polygon_min.y, poly_vert.y)
+	var polygon_extent = polygon_max - polygon_min
+	
 	
 	# get billboard tint from primary wall tint
 	var tint_color := Color.WHITE
@@ -289,8 +294,7 @@ static func _build_billboard_object(root_node: Node3D, metadata: ModularBuilding
 
 	root_node.add_child.call_deferred(billboard_instance)
 	billboard_instance.construct(num_floor, 
-			preload("res://Resources/Textures/Buildings/BillboardComponents/WindowBillboardTile.svg"),
-			avg_wall,
+			polygon_extent,
 			tint_color)
 	
 	return root_node
