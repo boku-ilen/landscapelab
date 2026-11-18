@@ -116,7 +116,7 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		multi_mesh.instance_count = 2000
 		multi_mesh.visible_instance_count = 0
 		mesh_multi_map[mesh].multimesh = multi_mesh
-		building_root.add_child(mesh_multi_map[mesh])
+		building_root.add_child.call_deferred(mesh_multi_map[mesh])
 	
 	var temp_height = 0
 	var temp_floor = 0
@@ -259,7 +259,7 @@ static func _build_simplified_mesh(building_root: Node3D, metadata: ModularBuild
 		mesh_instance.set_instance_shader_parameter("albedo_tint", (materials_by_name["Wall_Primary"] as ShaderMaterial).get_shader_parameter("base_albedo_tint"))
 	else:
 		mesh_instance.set_instance_shader_parameter("albedo_tint", Color.WHITE_SMOKE)
-	building_root.add_child(mesh_instance)
+	building_root.add_child.call_deferred(mesh_instance)
 	return building_root
 
 # create and configure a y-billboard matching building dimensions and color approximately
@@ -287,7 +287,7 @@ static func _build_billboard_object(root_node: Node3D, metadata: ModularBuilding
 		tint_color = (materials_by_name["Wall_Primary"] as ShaderMaterial).get_shader_parameter("base_albedo_tint")
 		
 
-	root_node.add_child(billboard_instance)
+	root_node.add_child.call_deferred(billboard_instance)
 	billboard_instance.construct(num_floor, 
 			preload("res://Resources/Textures/Buildings/BillboardComponents/WindowBillboardTile.svg"),
 			avg_wall,

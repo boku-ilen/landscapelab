@@ -47,7 +47,6 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 		return
 	last_lod = lod_level
 
-
 	var data_sources: Dictionary[String, NodeDataSource] = {
 		"prev_module_id": FixedInputDataSource.new("prev_id"),
 		"below_module_id": FixedInputDataSource.new("low_id"),
@@ -62,7 +61,7 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 		"geo_feature": FixedInputDataSource.new(feature) 
 	}
 	var root_node = Node3D.new()
-	add_child(root_node)
+	add_child.call_deferred(root_node)
 	
 	# call build_building without passing node graphs for now
 	# FIXME build_building doesn't pick modules if graphs are passed by ModularBuilding
@@ -108,7 +107,7 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 	
 			var roof_node := MeshInstance3D.new()
 			roof_node.mesh = roof.mesh
-			root_node.add_child(roof_node)
+			root_node.add_child.call_deferred(roof_node)
 			roof_node.position.y = actual_height
 			
 			
@@ -130,7 +129,7 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 			# fallback to old roofs otherwise
 			var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
 			var roof_component = roof_and_material["roof"]
-			root_node.add_child(roof_component)
+			root_node.add_child.call_deferred(roof_component)
 			roof_component.build(PackedVector2Array(building_metadata.footprint))
 			roof_component.position.y = actual_height
 			roof_surface_material_callback.call()
@@ -140,7 +139,7 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 	
 	if current_instance != null:
 		current_instance.queue_free()
-		remove_child(current_instance)
+		remove_child.call_deferred(current_instance)
 	current_instance = root_node
 
 func refine_roof(roof: Dictionary)-> Dictionary:

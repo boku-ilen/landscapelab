@@ -187,19 +187,6 @@ func load_feature_instance(feature: GeoFeature):
 var buildings_to_refine = {}
 var roofs_to_refine: Array[Dictionary] = []
 var refined_roofs: Array[Dictionary] = []
-
-func _process(_delta):
-	super._process(_delta)
-	mutex.lock()
-	# refine all queued buildings, since execution fails quietly if done in refine_load (why?)
-	var to_refine = buildings_to_refine.keys()
-	if to_refine.size() > 0:
-		for building in to_refine:
-			if buildings_to_refine.has(building) and is_instance_valid(building):
-				building.construct_with_lod(buildings_to_refine[building])
-	buildings_to_refine.clear()
-	mutex.unlock()
-	
 	
 func refine_load():
 	super.refine_load()
@@ -211,7 +198,6 @@ func refine_load():
 		func(b): return is_instance_valid(b)
 	)
 	
-	buildings_to_refine.clear()
 	# check whether buildings have the correct LOD, otherwise update them
 	if loaded_buildings.size() > 0:
 		for building in loaded_buildings:
@@ -219,8 +205,7 @@ func refine_load():
 			for lod_level in [BuildingFactory.BuildingDetail.Full, BuildingFactory.BuildingDetail.SimpleMesh, BuildingFactory.BuildingDetail.Billboard]:
 				if distance < lod_distances[lod_level]:
 					if building.last_lod != lod_level:
-						# FIXME construct_with_lod does not execute if called from within refine_load -> why?
-						buildings_to_refine[building] = lod_level
+						building.construct_with_lod(lod_level)
 					break
 	
 	mutex.unlock()
