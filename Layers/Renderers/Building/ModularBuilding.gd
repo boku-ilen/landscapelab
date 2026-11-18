@@ -130,7 +130,7 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 			# fallback to old roofs otherwise
 			var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
 			var roof_component = roof_and_material["roof"]
-			add_child(roof_component)
+			root_node.add_child(roof_component)
 			roof_component.build(PackedVector2Array(building_metadata.footprint))
 			roof_component.position.y = actual_height
 			roof_surface_material_callback.call()
