@@ -13,4 +13,5 @@ func _init(initial_name,initial_raster_layer,initial_greater_than_comparator):
 
 
 func is_creation_allowed_at_position(position):
-	return raster_layer.get_value_at_position(position.x, -position.z) > greater_than_comparator
+	var value_here = raster_layer.get_value_at_position(position.x, -position.z)
+	return value_here > greater_than_comparator

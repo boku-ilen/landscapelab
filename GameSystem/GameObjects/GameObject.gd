@@ -28,30 +28,9 @@ func get_attribute(attribute_name: String):
 
 
 func parse_expression(formula: String):
-	# Insert attribute values into formula
-	var formated_string = formula
-	
-	while formated_string.find("$") >= 0:
-		var begin_index = formated_string.find("$", 0)
-		var length = formated_string.find("$", begin_index + 1) - begin_index
-		var slice = formated_string.substr(begin_index + 1, length - 1)
-		
-		var value = float(get_attribute(slice))
-		
-		var value_string = "(%f)" % [value]  # Surround with parentheses to avoid errors with negative values
-		
-		formated_string = formated_string.left(begin_index) + value_string + formated_string.right(-(begin_index + length + 1))
-	
-	var expression = Expression.new()
-	expression.parse(formated_string)
-	
-	var result = expression.execute()
-	
-	if expression.has_execute_failed():
-		logger.warn("Parse error with expression: %s" % [formated_string])
-		result = 0.0
-	
-	return result
+	return util.evaluate_formula(formula,
+		func(name): return "(%f)" % float(get_attribute(name))  # Parentheses avoid errors with negative values
+	)
 
 
 func set_attribute(attribute_name, value):

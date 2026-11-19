@@ -40,11 +40,16 @@ func _load_game_modes(path: String, game_modes: Dictionary) -> void:
 		
 		var game_object_collections = game_mode["GameObjectCollections"]
 		_deserialize_object_colletion(game_mode_object, game_object_collections)
-		
+
+		# Personas needs to be deserialized before Events, because event actions can reference personas
+		if "Personas" in game_mode:
+			var personas = game_mode["Personas"]
+			_deserialize_personas(game_mode_object, personas)
+
 		if "Events" in game_mode:
 			var events = game_mode["Events"]
 			_deserialize_events(game_mode_object, events)
-		
+
 		if "AttributeMappings" in game_mode:
 			var attribute_mappings = game_mode["AttributeMappings"]
 			_deserialize_mappings(game_mode_object, attribute_mappings)
@@ -60,10 +65,10 @@ func _load_game_modes(path: String, game_modes: Dictionary) -> void:
 		if "Tokens" in game_mode:
 			var tokens = game_mode["Tokens"]
 			_deserialize_tokens(game_mode_object, tokens)
-		
+
 		GameSystem.game_modes.append(game_mode_object)
 		GameSystem.game_mode_names_to_objects[game_mode_name] = game_mode_object
-	
+
 	GameSystem.activate_next_game_mode()
 
 
@@ -142,15 +147,30 @@ func _deserialize_events(game_mode: GameMode, events: Dictionary):
 			var event_trigger_type = event_trigger["type"]
 			
 			if event_trigger_type == "Attribute":
-				var trigger = AttributeTrigger.new(event_trigger["data"]["goc"], event_trigger["data"]["trigger"])
+				var trigger = AttributeTrigger.new(game_mode.game_object_collections[event_trigger["data"]["goc"]], event_trigger["data"]["condition"])
 				event_object.add_trigger(trigger)
 
 		for event_action_name in event_config["actions"].keys():
 			var event_action_config = event_config["actions"][event_action_name]
 
 			if event_action_config["type"] == "PersonaSpeakAction":
-				# TODO: Implement
-				pass
+				if not "persona" in event_action_config:
+					logger.error("PersonaSpeakAction %s in event %s has no \"persona\" specified!" % [
+						event_action_name, event_name
+					])
+				else:
+					var persona_name = event_action_config["persona"]
+					if not persona_name in game_mode.game_personas:
+						logger.error("PersonaSpeakAction %s in event %s references unknown persona \"%s\"!" % [
+							event_action_name, event_name, persona_name
+						])
+					else:
+						var persona = game_mode.game_personas[persona_name]
+						var text = event_action_config["text"] if "text" in event_action_config else ""
+						var event_action = PersonaSpeakAction.new(event_action_name, persona, text)
+						event_object.add_action(event_action)
+
+						game_mode.game_events[event_name] = event_object
 			elif event_action_config["type"] == "ZonesToGameObjectsAction":
 				var activation_points_layer = LayerCompositionSerializer.get_feature_layer_from_string(
 					event_action_config["activation_points_layer"],
@@ -188,7 +208,8 @@ var mapping_type_to_construction_func = {
 		return ImplicitVectorGameObjectAttribute.new(
 			_name,
 			layer,
-			data["attribute"]
+			data["attribute"],
+			data["default_value"] if "default_value" in data else 0
 		),
 	"ImplicitRasterGameObjectAttribute": func(_name, data):
 		var splits = LLFileAccess.split_dataset_string(path, data["layer_name"])
@@ -315,3 +336,13 @@ func _deserialize_creation_conditions(game_mode: GameMode, conditions: Dictionar
 
 func _deserialize_tokens(game_mode: GameMode, tokens: Dictionary):
 	game_mode.token_to_game_object_collection = tokens
+
+
+func _deserialize_personas(game_mode: GameMode, personas: Dictionary):
+	for persona_name in personas:
+		var persona_config = personas[persona_name]
+		var persona = GamePersona.new()
+		persona.name = persona_name
+		persona.icon = load(persona_config["icon"]) if "icon" in persona_config else null
+		persona.description = persona_config["description"] if "description" in persona_config else ""
+		game_mode.game_personas[persona_name] = persona
