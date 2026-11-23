@@ -45,12 +45,13 @@
 [ext_resource type="Script" uid="uid://cs2ks1t2ppfj6" path="res://UI/LabTable/DrawLayerUI.gd" id="42_ywe3r"]
 [ext_resource type="Script" uid="uid://3vvk84ipyk5y" path="res://UI/LabTable/TableButton.gd" id="43_65qsu"]
 [ext_resource type="Texture2D" uid="uid://da2u5e75xclb3" path="res://Resources/Icons/LabTable/circle_plus.svg" id="43_ywe3r"]
-[ext_resource type="Script" path="res://UI/LabTable/DrawLayerDropdownMenu.gd" id="45_eneu6"]
+[ext_resource type="Script" uid="uid://c3ojpb4vetirk" path="res://UI/LabTable/DrawLayerDropdownMenu.gd" id="45_eneu6"]
 [ext_resource type="Texture2D" uid="uid://c21phj8u0ktm4" path="res://Resources/Icons/LabTable/circle_camera.svg" id="45_xtv11"]
 [ext_resource type="Texture2D" uid="uid://c01oxl4pm6or" path="res://Resources/Icons/LabTable/circle_pen.svg" id="46_m3r8i"]
 [ext_resource type="Script" uid="uid://dbojig1ilgs54" path="res://UI/LabTable/DrawModeStartButton.gd" id="46_sid1k"]
+[ext_resource type="Script" uid="uid://27su6ijvfjo3" path="res://UI/LabTable/PersonaContainer.gd" id="48_xtej3"]
 [ext_resource type="Texture2D" uid="uid://bfc1x2f6wqvp8" path="res://Resources/Icons/LabTable/circle_cross.svg" id="49_t7nck"]
-[ext_resource type="Script" path="res://UI/LabTable/DrawingUndoButton.gd" id="50_fvalx"]
+[ext_resource type="Script" uid="uid://bjy1dk04r40e6" path="res://UI/LabTable/DrawingUndoButton.gd" id="50_fvalx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ha2ys"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 0.0784314)
@@ -191,10 +192,10 @@ size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_ha2ys")
 
 [node name="ControlContainer" parent="PanelContainer" unique_id=2069906925 node_paths=PackedStringArray("camera_2d", "grid_container") instance=ExtResource("4_d680t")]
-layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
+layout_direction = 2
 camera_2d = NodePath("../../LabTable/SubViewportContainer/SubViewport/Camera2D")
 grid_container = NodePath(".")
 
@@ -232,9 +233,9 @@ border_width = 250.0
 
 [node name="ScoresContainer" type="PanelContainer" parent="." unique_id=1260090841 groups=["RegularUI"]]
 top_level = true
-layout_direction = 3
 offset_right = 20.0
 offset_bottom = 60.0
+layout_direction = 3
 mouse_filter = 1
 theme_override_styles/panel = ExtResource("23_wb0c1")
 
@@ -556,6 +557,20 @@ flat = true
 script = ExtResource("28_6tf8m")
 coordinator = NodePath("../../LabTable/DrawingCoordinator")
 metadata/_custom_type_script = "uid://3vvk84ipyk5y"
+
+[node name="PersonaContainer" type="MarginContainer" parent="." unique_id=1199709876]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -42.0
+offset_right = 74.0
+offset_bottom = 116.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+
+[node name="PersonaContainer" type="HBoxContainer" parent="PersonaContainer" unique_id=497668508]
+layout_mode = 2
+script = ExtResource("48_xtej3")
 
 [node name="DrawStartButton" type="MarginContainer" parent="." unique_id=667466255 groups=["RegularUI"]]
 anchors_preset = 6

@@ -5,7 +5,6 @@ var persona: GamePersona
 
 func set_persona(initial_persona) -> void:
 	persona = initial_persona
-	persona.spoke.connect(_on_spoke)
 	
 	pressed.connect(switch_visibility)
 	
@@ -16,7 +15,7 @@ func _ready():
 	set_persona_info()
 
 
-func _on_spoke(message):
+func speak(message):
 	$PersonaContent/VBoxContainer/SpeakLabel.text = message
 	popup()
 
