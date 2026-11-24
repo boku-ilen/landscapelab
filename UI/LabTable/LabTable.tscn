@@ -259,10 +259,11 @@ theme_override_constants/margin_bottom = 40
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="LayersButton" parent="GameModeMarginContainer/HBoxContainer" unique_id=745488032 instance=ExtResource("28_x84ob")]
+[node name="LayersButton" parent="GameModeMarginContainer/HBoxContainer" unique_id=745488032 node_paths=PackedStringArray("geo_layer_renderers") instance=ExtResource("28_x84ob")]
 layout_mode = 2
 icon = ExtResource("20_x84ob")
 script = ExtResource("20_55y0a")
+geo_layer_renderers = NodePath("../../../LabTable/SubViewportContainer/SubViewport/GeoLayerRenderers")
 
 [node name="LayersPanel" type="PanelContainer" parent="GameModeMarginContainer/HBoxContainer/LayersButton" unique_id=1903563869]
 visible = false
@@ -570,6 +571,7 @@ size_flags_horizontal = 4
 
 [node name="PersonaContainer" type="HBoxContainer" parent="PersonaContainer" unique_id=497668508]
 layout_mode = 2
+theme_override_constants/separation = 160
 script = ExtResource("48_xtej3")
 
 [node name="DrawStartButton" type="MarginContainer" parent="." unique_id=667466255 groups=["RegularUI"]]
