@@ -11,6 +11,7 @@ var layer_composition: LayerComposition
 var building_metadata: BuildingMetadata
 
 var current_instance = null
+var last_instance = null
 var addon_layers: Dictionary
 var addon_objects = {}
 
@@ -46,6 +47,10 @@ func _process(delta: float) -> void:
 	if full_defer_flag and current_instance:
 		full_defer_flag = false
 		current_instance.visible = true
+		if last_instance:
+			remove_child(last_instance)
+			last_instance.queue_free()
+			last_instance = null
 		
 
 func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
@@ -58,6 +63,7 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 			current_instance.queue_free()
 			current_instance = null
 		return
+		
 
 	var data_sources: Dictionary[String, NodeDataSource] = {
 		"prev_module_id": FixedInputDataSource.new("prev_id"),
@@ -81,7 +87,6 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 	BuildingFactory.build_building(root_node, metadata_instance, [], data_sources, material_table, feature, lod_level)
 	# roof construction: only at full detail
 	if lod_level == BuildingFactory.BuildingDetail.Full:
-		full_defer_flag = true
 		root_node.visible = false
 
 		# setup old roof
@@ -153,9 +158,9 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 	
 	
 	if current_instance != null:
-		current_instance.queue_free()
-		remove_child.call_deferred(current_instance)
+		last_instance = current_instance
 	current_instance = root_node
+	full_defer_flag = true
 
 
 func refine_roof(roof: Dictionary)-> Dictionary:
