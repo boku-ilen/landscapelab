@@ -47,6 +47,7 @@ class StraightSkeletonInfo:
 class RoofMeshInfo:
 	var mesh: ArrayMesh
 	var broken: bool
+	var actual_height: float
 	var skeleton_info: StraightSkeletonInfo
 	
 ## offset polygon vertices
@@ -871,7 +872,7 @@ static func get_mesh(footprint: Array[Vector2], height_scale: float, material: M
 	
 	# arbitrary uv scale factor, FIXME
 	overall_length /= 6
-	
+	var max_height = 0.0
 	for p_i in tri_verts.size():
 		var p = tri_verts[p_i]
 		
@@ -880,11 +881,12 @@ static func get_mesh(footprint: Array[Vector2], height_scale: float, material: M
 		
 		# transfer UV and vertex coordinates at original scale
 		st.set_uv(Vector2(tri_uvs[p_i].x * overall_length + skeleton_result.vertex_uv_addends_unscaled[p_i] * overall_length, skeleton_result.max_t - tri_uvs[p_i].y / (skeleton_result.max_t)))# * (1 - (tri_uvs[p_i].y / (res.vertex_uv_scales[p_i] * 0.5))), tri_uvs[p_i].y / (res.max_t)))
-		p.y /= 200.0
+		p.y /= skeleton_result.max_t#200.0
 		p.x /= 200.0
 		p.z /= 200.0
 		
 		p.y *= height_scale
+		max_height = max(max_height, p.y)
 		
 		st.set_smooth_group(-1)
 		st.add_vertex(p)
@@ -909,7 +911,13 @@ static func get_mesh(footprint: Array[Vector2], height_scale: float, material: M
 	rmi.mesh = mesh
 	rmi.skeleton_info = skeleton_result
 	
+
 	# pass on whether it's likely broken, so the result can be discarded
 	rmi.broken = skeleton_result.probably_broken
+	
+	# mesh is also likely broken if the highest vert is above the given height
+	if max_height > height_scale * 1.2:
+		rmi.broken = true
+	rmi.actual_height = max_height
 	
 	return rmi

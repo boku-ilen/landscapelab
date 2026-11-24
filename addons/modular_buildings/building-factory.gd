@@ -3,6 +3,8 @@ class_name BuildingFactory
 
 
 const hinge_material: ShaderMaterial = preload("res://addons/modular_buildings/Material/hinge_corner.tres")
+const billboard_template: PackedScene = preload("res://Layers/Renderers/Building/BuildingBillboardBase.tscn")
+const simple_mesh_material: ShaderMaterial = preload("res://Layers/Renderers/Building/SimpleBuildingMat.tres")
 
 # How much the building blocks may be scaled before using spacers
 const MIN_SCALE := 0.9
@@ -12,9 +14,15 @@ const TOLERATE_90_DEG_DEVIATION = 0.01
 
 static var mesh_plus_material_cache = {}
 
+enum BuildingDetail {
+	Full,
+	SimpleMesh,
+	Billboard,
+	None
+}
 
 ## Build a building from metadata, logic, data sources and materials
-static func build_building(building_root: Node3D, metadata: ModularBuildingMetadata, node_graphs_by_floor: Array[BuildingGraphRunner.RunnableNode] = [], sources: Dictionary[String, NodeDataSource] = {}, materials_by_name: Dictionary[String, Material] = {}, geo_feature = null) -> Node3D:
+static func build_building(building_root: Node3D, metadata: ModularBuildingMetadata, node_graphs_by_floor: Array[BuildingGraphRunner.RunnableNode] = [], sources: Dictionary[String, NodeDataSource] = {}, materials_by_name: Dictionary[String, Material] = {}, geo_feature = null, level_of_detail: BuildingDetail = BuildingDetail.Full) -> Node3D:
 	if sources == {}:
 		# placeholder values
 		sources = {
@@ -32,6 +40,11 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		}
 	if not geo_feature == null:
 		sources["geo_feature"] = FixedInputDataSource.new(geo_feature)
+	
+	if level_of_detail == BuildingDetail.SimpleMesh:
+		return _build_simplified_mesh(building_root, metadata, materials_by_name, geo_feature)
+	if level_of_detail == BuildingDetail.Billboard:
+		return _build_billboard_object(building_root, metadata, materials_by_name)
 	
 	var rng = RandomNumberGenerator.new()
 	rng.seed = geo_feature.get_id()
@@ -103,7 +116,7 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		multi_mesh.instance_count = 2000
 		multi_mesh.visible_instance_count = 0
 		mesh_multi_map[mesh].multimesh = multi_mesh
-		building_root.add_child(mesh_multi_map[mesh])
+		building_root.add_child.call_deferred(mesh_multi_map[mesh])
 	
 	var temp_height = 0
 	var temp_floor = 0
@@ -193,6 +206,98 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 			break
 	return building_root
 
+# build a simplified variant of the building without modules or graph execution
+static func _build_simplified_mesh(building_root: Node3D, metadata: ModularBuildingMetadata, materials_by_name: Dictionary[String, Material] = {}, geo_feature = null):
+	var footprint_verts := metadata.footprint
+	if not Geometry2D.is_polygon_clockwise(footprint_verts):
+		footprint_verts.reverse()
+	var height := 0.5
+	var checked_floor = 0
+	
+	while height < metadata.building_height:
+		height += metadata.floor_definitions[max(checked_floor, len(metadata.floor_definitions) - 1)].height
+	
+	var surf_tool = SurfaceTool.new()
+	surf_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	
+	for vert_i in len(footprint_verts):
+		var bottom_start := Vector3(footprint_verts[vert_i].x, 0, footprint_verts[vert_i].y)
+		var bottom_end := Vector3(footprint_verts[(vert_i + 1) % len(footprint_verts)].x, 0, footprint_verts[(vert_i + 1) % len(footprint_verts)].y)
+		var top_start := bottom_start + Vector3(0,height,0)
+		var top_end := bottom_end + Vector3(0,height,0)
+		
+		var edge_direction := (bottom_end - bottom_start).normalized()
+		var normal_direction := -(Vector3.UP.cross(edge_direction).normalized())
+		
+		var tri_verts := [bottom_start, top_start, bottom_end, top_start, top_end, bottom_end]
+		var uvs := [Vector2(0,0), Vector2(0,1), Vector2(1,1), Vector2(0,1), Vector2(1,1), Vector2(1,0)]
+		for tri_vert_i in len(tri_verts):
+			surf_tool.set_uv(uvs[tri_vert_i])
+			surf_tool.set_normal(normal_direction)
+			surf_tool.add_vertex(tri_verts[tri_vert_i])
+	
+	var generated_mesh := surf_tool.commit()
+	
+	# quick "roof": triangulated footprint
+	var roof_arrays = []
+	roof_arrays.resize(generated_mesh.ARRAY_MAX)
+	
+	var triangulated_footprint := Geometry2D.triangulate_polygon(footprint_verts)
+	var roof_tris: PackedVector3Array
+	for vert_ref in triangulated_footprint:
+		var tri_vert = footprint_verts[vert_ref]
+		roof_tris.push_back(Vector3(tri_vert.x, height, tri_vert.y))
+	roof_arrays[generated_mesh.ARRAY_VERTEX] = roof_tris
+	
+	generated_mesh.add_surface_from_arrays(generated_mesh.PRIMITIVE_TRIANGLES, roof_arrays)
+	#generated_mesh.regen_normal_maps()
+	generated_mesh.surface_set_material(0, simple_mesh_material)#materials_by_name["Wall_Primary"])
+	
+	var mesh_instance := MeshInstance3D.new()
+	mesh_instance.mesh = generated_mesh
+	if materials_by_name.has("Wall_Primary"):
+		mesh_instance.set_instance_shader_parameter("albedo_tint", (materials_by_name["Wall_Primary"] as ShaderMaterial).get_shader_parameter("base_albedo_tint"))
+	else:
+		mesh_instance.set_instance_shader_parameter("albedo_tint", Color.WHITE_SMOKE)
+	building_root.add_child.call_deferred(mesh_instance)
+	return building_root
+
+# create and configure a y-billboard matching building dimensions and color approximately
+static func _build_billboard_object(root_node: Node3D, metadata: ModularBuildingMetadata, materials_by_name: Dictionary[String, Material] = {}):
+	var billboard_instance := billboard_template.instantiate() as BuildingBillboard
+
+	var height := 0.5
+	var num_floor = 0
+	
+	# determine proper number of floors to tile to
+	while height < metadata.building_height:
+		height += metadata.floor_definitions[min(num_floor, len(metadata.floor_definitions) - 1)].height
+		num_floor += 1
+		
+	# determine polygon extent to pass to billboard for interpolated scaling
+	var polygon_max = metadata.footprint[0]
+	var polygon_min = metadata.footprint[0]
+	for poly_vert in metadata.footprint:
+		polygon_max.x = max(polygon_max.x, poly_vert.x)
+		polygon_max.y = max(polygon_max.y, poly_vert.y)
+		polygon_min.x = min(polygon_min.x, poly_vert.x)
+		polygon_min.y = min(polygon_min.y, poly_vert.y)
+	var polygon_extent = polygon_max - polygon_min
+	
+	
+	# get billboard tint from primary wall tint
+	var tint_color := Color.WHITE
+	#print(materials_by_name.keys())
+	if materials_by_name.has("Wall_Primary"):
+		tint_color = (materials_by_name["Wall_Primary"] as ShaderMaterial).get_shader_parameter("base_albedo_tint")
+		
+
+	root_node.add_child.call_deferred(billboard_instance)
+	billboard_instance.construct(num_floor, 
+			polygon_extent,
+			tint_color)
+	
+	return root_node
 # Returns the new edge with regard to the corner
 static func _populate_corner(
 	edge_i: Edge,

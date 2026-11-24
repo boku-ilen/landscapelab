@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dlpmphko36rpf"]
+
+[ext_resource type="Shader" uid="uid://dd4pcyhmocbjm" path="res://Layers/Renderers/Building/Triplanar_Simple.gdshader" id="1_om3oe"]
+[ext_resource type="Texture2D" uid="uid://b8otwpf8100d" path="res://Resources/Textures/Buildings/facade/plaster_white.jpg" id="2_yx8md"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_om3oe")
+shader_parameter/specular = 0.5
+shader_parameter/normal_scale = 1.0
+shader_parameter/debug_mode = 0
+shader_parameter/triplanar_blend_sharpness = 50.0
+shader_parameter/base_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/base_albedo_tex = ExtResource("2_yx8md")
+shader_parameter/base_uv_tiling = 0.53200002457148
+shader_parameter/dirt_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/dirt_uv_tiling = 4.0
+shader_parameter/dirtmask_amount = 1.0
+shader_parameter/dirtmask_uv_tiling = 2.0

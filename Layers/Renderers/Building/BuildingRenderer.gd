@@ -2,31 +2,24 @@ extends FeatureLayerCompositionRenderer
 
 @export var check_roof_type := true
 
-var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 var node_types = preload("res://addons/building_graph_editor/BuildingGraphSystem/node_types.json")
 var selector_node_types = preload("res://addons/building_graph_editor/BuildingGraphSystem/selector_node_types.json")
 var wall_normal_mat: ShaderMaterial = preload("res://Resources/Materials/BuildingMaterials/PlasterWallTriplanar.tres")
 
-var refine_ridge_meshes = [
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Rect_Large.obj"),
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Pentagonal_Large.obj"),
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Round_Large.obj"),
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Rect_Small.obj"),
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Round_Large_Overhang.obj"),
-	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Round_Small.obj"),
-]
-var refine_gutter_mesh = load("res://Buildings/Components/Roofs/Resources/Gutters.res")
-# Circle through distances loading new refinments (squared distances!)
-var refine_distances := [100, 2500, 10000]
+var lod_distances := { 
+	BuildingFactory.BuildingDetail.Full:radius / 12, 
+	BuildingFactory.BuildingDetail.SimpleMesh: radius / 6, 
+	BuildingFactory.BuildingDetail.Billboard:radius,
+	BuildingFactory.BuildingDetail.None: 100000,
+}
+
+var loaded_buildings: Array[ModularBuilding]
+
 var refined_buildings: Array[Node3D] = []
 
 # It is important to reference a wall_resource and not loading another 
 var fallback_wall_id := 1
 
-var floor_height = 2.5 # Height of one building floor for calculating the number of floors from the height
-var fallback_num_floors = 1
-
-var slope_attribute_name: String
 
 # Roof addon logic (i.e. pantelleria domes, chimneys, ...)
 var roof_id_to_addon_ids = {}
@@ -84,23 +77,27 @@ func _create_and_set_texture_arrays():
 
 
 func load_feature_instance(feature: GeoFeature):
-	var building = Node3D.new()
 	var modular_metadata_instance = ModularBuildingMetadata.new()
 	var rng = RandomNumberGenerator.new()
 	rng.seed = feature.get_id()
 	
+	# modular building definition selection
 	var all_modular_definitions: Array[Resource] = layer_composition.render_info.modular_resources
 	var modular_definition_names: Array[String] = []
 	var modular_definition_by_name: Dictionary[String, Resource] = {}
 	
+	# selector graph expects definitions to be represented by name
 	for modular_definition in all_modular_definitions:
 		modular_definition_by_name[modular_definition.resource_path.split("/")[-1].split(".")[0]] = modular_definition
 	modular_definition_names = modular_definition_by_name.keys()
+	
 	var selector_data_sources: Dictionary[String, NodeDataSource] = {
 		"all_definitions": FixedInputDataSource.new(modular_definition_names),
 		"rand": DynamicInputDataSource.new(func (): return rng.randf()),
 		"geo_feature": FixedInputDataSource.new(feature) 
-	} 
+	}
+	
+	# selector execution
 	selector_graph = BuildingGraphRunner.setup_executable_graph(layer_composition.render_info.selector_graph.data, selector_node_types.data, selector_data_sources)
 	var selected_definition = selector_graph.get_slot_input(0)
 	
@@ -176,233 +173,43 @@ func load_feature_instance(feature: GeoFeature):
 		var node_graph := BuildingGraphRunner.setup_executable_graph(floor_def.selection_rules.data, node_types.data, data_sources)
 		exec_graphs.append(node_graph)
 
-	# facade construction
-	BuildingFactory.build_building(building, modular_metadata_instance, exec_graphs, data_sources, material_replacements, feature)
+	# create building object with all necessary data, it will be responsible for processing and LOD switching on command
+	var building_controller := ModularBuilding.new(modular_metadata_instance, building_metadata, exec_graphs, material_replacements,feature, layer_composition, addon_layers, addon_objects)
 	
-	building.position = building_metadata.engine_center + Vector3.UP * (building_metadata.cellar_height - 1.0)
-	building.name = str(feature.get_id())
+	building_controller.position = building_metadata.engine_center + Vector3.UP * (building_metadata.cellar_height - 1.0)
+	building_controller.name = str(feature.get_id())
 		
-	
-	# setup old roof
-	var roof_and_material = RoofFactory.prepare_roof(
-		layer_composition, 
-		feature, 
-		addon_layers, 
-		addon_objects,
-		building_metadata, 
-		check_roof_type,
-		{"prefer_pointed_roof": true})
-		
-	# slightly randomize footprint for robustness (avoid precise 90° angles, ...)
-	var randomized_footprint: Array[Vector2]
-	randomized_footprint.assign(modular_metadata_instance.footprint.map(
-		func (x): return x + Vector2(rng.randf_range(0.01, 0.02), rng.randf_range(0.01, 0.02))
-	))
-	
-	var roof_mat: StandardMaterial3D = roof_and_material["material"].material0.duplicate()
-	roof_mat.albedo_color = roof_and_material["roof"].color
-	
-	# compute straight skeleton roof
-	var roof := StraightSkeleton.get_mesh(randomized_footprint, modular_metadata_instance.roof_height, roof_mat, 1)
-	
-	# determine roof y position
-	var actual_height = 0.0
-	var floor_num = 0
-	while actual_height < modular_metadata_instance.building_height:
-		actual_height += modular_metadata_instance.floor_definitions[min(floor_num, modular_metadata_instance.floor_definitions.size() - 1)].height
-		
-		floor_num += 1
-	
-	# if straight skeleton result is provably valid, use it
-	if not roof.broken and not RoofFactory.requires_flat_roof(feature, layer_composition, building_metadata):
-		var outer_footprint = Geometry2D.offset_polygon(randomized_footprint, 0.9)[0]
-		var saved_footprint: Array[Vector2] = []
-		saved_footprint.append_array(outer_footprint)
-	
-		var roof_node := MeshInstance3D.new()
-		roof_node.mesh = roof.mesh
-		building.add_child(roof_node)
-		roof_node.position.y = actual_height
-		roofs_to_refine.append({
-			"building": building,
-			"roof": roof.skeleton_info,
-			"roof_node": roof_node,
-			"is_refined": false,
-			"height": building_metadata.roof_height,
-			"refine_meshes": [],
-			"color": roof_and_material["roof"].color,
-			"footprint": saved_footprint,
-			"original_footprint": footprint
-		})
-		# TODO: Should we do something like this? It would probably be "correct", but seems to make buildings too small
-		# actual_height += roof.mesh.get_aabb().size.y
-	else:
-		# fallback to old roofs otherwise
-		var roof_surface_material_callback: Callable = RoofFactory.set_surface_overrides.bind(roof_and_material["roof"], roof_and_material["material"])
-		var roof_component = roof_and_material["roof"]
-		building.add_child(roof_component)
-		roof_component.build(PackedVector2Array(building_metadata.footprint))
-		roof_component.position.y = actual_height
-		roof_surface_material_callback.call()
-	
-	# Scale to exact nDOM height
-	building.scale.y = clamp((modular_metadata_instance.building_height + building_metadata.roof_height_stdev) / actual_height, 0.65, 1.35)
-	
-	building.name = str(feature.get_id())
+	loaded_buildings.append(building_controller)
 
-	return building
+	return building_controller
 
 	
-var buildings_to_refine = []
+var buildings_to_refine = {}
 var roofs_to_refine: Array[Dictionary] = []
 var refined_roofs: Array[Dictionary] = []
-
+	
 func refine_load():
 	super.refine_load()
 	
 	mutex.lock()
-
-	# only consider valid buildings
-	roofs_to_refine = roofs_to_refine.filter(
-		func (roof): return roof["building"] and is_instance_valid(roof["building"]) and roof["building"].get_parent() == self
+	
+	# forget all deleted buildings
+	loaded_buildings = loaded_buildings.filter(
+		func(b): return is_instance_valid(b)
 	)
 	
-	# consider closest buildings first
-	roofs_to_refine.sort_custom(
-		func (roof_a, roof_b): 
-			return roof_a["building"].position.distance_squared_to(position_manager.center_node.position) < \
-			roof_b["building"].position.distance_squared_to(position_manager.center_node.position)
-	)
-			
-	if roofs_to_refine.size() > 0:
-		var roof = roofs_to_refine.pop_front()
-		
-		for distance in refine_distances:
-			if roof["building"].position.distance_squared_to(position_manager.center_node.position) < distance:
-				roof = refine_roof(roof)
-				refined_roofs.append(roof)
-		
-		if not roof["is_refined"]:
-			roofs_to_refine.push_back(roof)
-		
-		# Start undoing refinments only after all necessary instances are loaded
-		mutex.unlock()
-		return 
-	
-	# Undo all refinments no longer in render distances
-
-	if refined_roofs.size() > 0:
-		var roof = refined_roofs.pop_back()
-		
-		if not roof["building"] or not is_instance_valid(roof["building"]) or roof["building"].get_parent() != self:
-			mutex.unlock()
-			return
-		
-		if not roof["is_refined"]:
-			mutex.unlock()
-			return
-		
-		if roof["building"].position.distance_squared_to(position_manager.center_node.position) > refine_distances.back():
-			roof = unrefine_roof(roof)
-			mutex.unlock()
-			return
-		
-		refined_roofs.push_back(roof)
+	# check whether buildings have the correct LOD, otherwise update them
+	if loaded_buildings.size() > 0:
+		for building in loaded_buildings:
+			var distance := building.position.distance_to(position_manager.center_node.position)
+			for lod_level in [BuildingFactory.BuildingDetail.Full, BuildingFactory.BuildingDetail.SimpleMesh, BuildingFactory.BuildingDetail.Billboard]:
+				if distance < lod_distances[lod_level]:
+					if building.last_lod != lod_level:
+						building.construct_with_lod(lod_level)
+					break
 	
 	mutex.unlock()
-
-## Refine roof with detail meshes (ridge caps and gutters)
-func refine_roof(roof: Dictionary)-> Dictionary:
-	roof["is_refined"] = true
-	#logger.info("refining " + roof["building"].name)
-	var skeleton_data: StraightSkeleton.StraightSkeletonInfo = roof["roof"]
 	
-	# ridge caps along bisector lines
-	var bisectors := skeleton_data.bisectors
-	var refine_ridge_mesh = refine_ridge_meshes[randi_range(0, refine_ridge_meshes.size() - 1)]
-	var ridge_cap_multimesh = MultiMeshInstance3D.new()
-	ridge_cap_multimesh.multimesh = MultiMesh.new()
-	ridge_cap_multimesh.multimesh.transform_format = MultiMesh.TRANSFORM_3D
-	ridge_cap_multimesh.multimesh.mesh = refine_ridge_mesh
-	ridge_cap_multimesh.multimesh.instance_count = bisectors.size()
-	ridge_cap_multimesh.multimesh.visible_instance_count = bisectors.size()
-	var base_material = StandardMaterial3D.new()
-	base_material.albedo_color = roof["color"]
-	ridge_cap_multimesh.material_overlay = base_material
-	
-	
-	# ridge caps along bisectors
-	for bisector_i in bisectors.size():
-		var bisector := bisectors[bisector_i]
-		# downscale 2D coordinates (StraightSkeleton get_mesh() upscales by 200 to reduce float rounding error)
-		var origin := Vector3(bisector.origin.x / 200, (bisector.start_t / skeleton_data.max_t) * roof["height"], bisector.origin.y / 200)
-		var endpoint := Vector3(bisector.endpoint.x / 200, (bisector.end_t / skeleton_data.max_t) * roof["height"], bisector.endpoint.y / 200)
-		var midpoint := (origin + endpoint) * 0.5
-		var aabb: AABB = refine_ridge_mesh.get_aabb()
-		var mesh_length: float = aabb.size.z
-
-		var scale_z := origin.distance_to(endpoint) / mesh_length
-		
-		# skip if midpoint and origin are in the same place (i.e. line has near 0 length)
-		if not origin.distance_squared_to(midpoint) < 0.001:
-			ridge_cap_multimesh.multimesh.set_instance_transform(
-				bisector_i, 
-				Transform3D().translated(midpoint + Vector3.UP * (roof["roof_node"].position.y))\
-				.looking_at(origin + Vector3.UP * (roof["roof_node"].position.y))\
-				.scaled_local(Vector3(1,1,scale_z))
-			)
-	
-	# gutters offset outward from roof edge
-	var offset_footprint = Geometry2D.offset_polygon(roof["footprint"], refine_gutter_mesh.get_aabb().size.x / 8, Geometry2D.JOIN_SQUARE)[0]
-	
-	var gutter_multimesh := MultiMeshInstance3D.new()
-	gutter_multimesh.multimesh = MultiMesh.new()
-	gutter_multimesh.multimesh.transform_format = MultiMesh.TRANSFORM_3D
-	gutter_multimesh.multimesh.mesh = refine_gutter_mesh#.duplicate()
-	gutter_multimesh.multimesh.instance_count = offset_footprint.size() + 1
-	gutter_multimesh.multimesh.visible_instance_count = gutter_multimesh.multimesh.instance_count
-	gutter_multimesh.material_overlay = base_material
-	
-	# gutters around outside edge
-	for vert_i in offset_footprint.size():
-		var edge_start: Vector2 = offset_footprint[vert_i]
-		var edge_end: Vector2 = offset_footprint[(vert_i + 1) % offset_footprint.size()]
-		var from = Vector3(edge_start.x, roof["roof_node"].position.y - 0.25, edge_start.y)
-		var to = Vector3(edge_end.x, roof["roof_node"].position.y - 0.25, edge_end.y)
-		var mesh_length = refine_gutter_mesh.get_aabb().size.z
-		gutter_multimesh.multimesh.set_instance_transform(
-			vert_i, 
-			Transform3D().translated((from + to) * 0.5)\
-			.looking_at(to, Vector3.DOWN)\
-			.scaled_local(Vector3(0.25,0.25,from.distance_to(to) / mesh_length))
-		)
-	
-	# drain pipe - TODO model
-	gutter_multimesh.multimesh.set_instance_transform(
-		roof["footprint"].size(), 
-		Transform3D().translated(Vector3(roof["footprint"][0].x, roof["roof_node"].position.y * 0.5 - 0.2, roof["footprint"][0].y))\
-		.scaled_local(Vector3(0.3, roof["roof_node"].position.y / refine_gutter_mesh.get_aabb().size.z, 0.3))\
-		.rotated_local(Vector3.RIGHT, -PI/2)
-	)
-	
-	
-	gutter_multimesh.name = "gutter_ref"
-	ridge_cap_multimesh.name = "roof_ref"
-	(roof["building"] as Node3D).add_child.call_deferred(ridge_cap_multimesh)
-	(roof["building"] as Node3D).add_child.call_deferred(gutter_multimesh)
-	roof["refine_meshes"].append(ridge_cap_multimesh)
-	roof["refine_meshes"].append(gutter_multimesh)
-	return roof
-
-## remove refinement details from roof
-func unrefine_roof(roof: Dictionary) -> Dictionary:
-	roof["is_refined"] = false
-	
-	for mesh in roof["refine_meshes"]:
-		mesh.queue_free.call_deferred()
-		(roof["building"] as Node3D).remove_child.call_deferred(mesh)
-	roof["refine_meshes"] = []
-	return roof
 	
 func get_debug_info() -> String:
 	return "{0} of maximally {1} polygons loaded.".format([
