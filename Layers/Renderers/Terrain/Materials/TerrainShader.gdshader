@@ -156,6 +156,11 @@ void vertex() {
 	} else {
 		VERTEX.y = get_height(UV, true);
 	}
+	
+	float splat_id = get_landuse(UV);
+	if (int(splat_id / 1000.0) == 6) {
+		VERTEX.y -= 3.0;
+	}
 
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
@@ -171,7 +176,6 @@ void vertex() {
 
 	if (!make_hole) {
 		// This is the detail mesh
-		float splat_id = get_landuse(UV);
 		int texture_index = clamp(int(splat_id / 1000.0) - 1, 0, 9);
 
 		vec2 scaled_near_uv = world_pos.xz;
