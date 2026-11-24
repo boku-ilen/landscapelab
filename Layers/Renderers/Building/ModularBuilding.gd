@@ -14,6 +14,8 @@ var current_instance = null
 var addon_layers: Dictionary
 var addon_objects = {}
 
+var full_defer_flag := false
+
 var refine_ridge_meshes = [
 	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Rect_Large.obj"),
 	preload("res://Buildings/Components/Roofs/Resources/RidgeCap_Pentagonal_Large.obj"),
@@ -38,14 +40,24 @@ func _init(modular_metadata: ModularBuildingMetadata, geo_metadata: BuildingMeta
 	addon_layers = addon_ls
 	addon_objects = addon_objs
 	building_metadata = geo_metadata
+	construct_with_lod(BuildingFactory.BuildingDetail.Billboard)
 	
+func _process(delta: float) -> void:
+	if full_defer_flag and current_instance:
+		full_defer_flag = false
+		current_instance.visible = true
+		
 
 func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 	if last_lod == lod_level:
 		return
-	if lod_level == BuildingFactory.BuildingDetail.None:
-		return
 	last_lod = lod_level
+
+	if lod_level == BuildingFactory.BuildingDetail.None:
+		if current_instance:
+			current_instance.queue_free()
+			current_instance = null
+		return
 
 	var data_sources: Dictionary[String, NodeDataSource] = {
 		"prev_module_id": FixedInputDataSource.new("prev_id"),
@@ -69,6 +81,9 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 	BuildingFactory.build_building(root_node, metadata_instance, [], data_sources, material_table, feature, lod_level)
 	# roof construction: only at full detail
 	if lod_level == BuildingFactory.BuildingDetail.Full:
+		full_defer_flag = true
+		root_node.visible = false
+
 		# setup old roof
 		var roof_and_material = RoofFactory.prepare_roof(
 				layer_composition,
@@ -141,6 +156,7 @@ func construct_with_lod(lod_level: BuildingFactory.BuildingDetail):
 		current_instance.queue_free()
 		remove_child.call_deferred(current_instance)
 	current_instance = root_node
+
 
 func refine_roof(roof: Dictionary)-> Dictionary:
 	roof["is_refined"] = true
