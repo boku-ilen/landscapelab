@@ -18,6 +18,8 @@ var desired_shape
 
 signal changed # Emitted whenever there is any change in the collection
 signal game_object_changed
+signal game_object_added(new_game_object)
+signal game_object_removed(removed_game_object)
 
 
 func _init(initial_name):

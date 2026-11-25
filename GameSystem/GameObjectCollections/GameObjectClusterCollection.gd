@@ -18,9 +18,6 @@ var max_search_radius := 5000.0
 var current_new_game_objects = []
 var feature_id_to_game_object = {}
 
-signal game_object_added(new_game_object)
-signal game_object_removed(removed_game_object)
-
 
 func _init(initial_name, initial_feature_layer, initial_cluster_points_layer, initial_instance_goc):
 	super._init(initial_name)

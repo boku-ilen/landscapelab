@@ -27,6 +27,12 @@ func get_attribute(attribute_name: String):
 	return collection.attributes[attribute_name].get_value(self)
 
 
+func parse_expression(formula: String):
+	return util.evaluate_formula(formula,
+		func(name): return "(%f)" % float(get_attribute(name))  # Parentheses avoid errors with negative values
+	)
+
+
 func set_attribute(attribute_name, value):
 	if not collection.attributes.has(attribute_name):
 		logger.error("Invalid attribute with name {n}".format({"n": attribute_name}))

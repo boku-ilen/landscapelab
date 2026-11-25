@@ -16,3 +16,4 @@ script = ExtResource("3_cc2dw")
 [node name="HeightOverlay" parent="." unique_id=386538743 instance=ExtResource("4_vaujn")]
 
 [node name="LIDOverlay" parent="." unique_id=1886613830 instance=ExtResource("5_cc2dw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

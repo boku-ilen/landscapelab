@@ -16,10 +16,11 @@ var weather_manager: WeatherManager :
 		# FIXME: Seems like there's a condition where this is called once with a null
 		# weather manager. Not necessarily a problem since it's called again correctly
 		# later, but feels like it shouldn't be necessary.
-		if not new_weather_manager:
-			return
+		if not new_weather_manager: return
 		
 		weather_manager = new_weather_manager
+		
+		if not is_inside_tree(): return
 		
 		_apply_new_wind_speed(weather_manager.wind_speed)
 		weather_manager.wind_speed_changed.connect(_apply_new_wind_speed)

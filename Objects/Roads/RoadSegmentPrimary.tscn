@@ -15,6 +15,7 @@ mesh = ExtResource("2_y6cyi")
 script = ExtResource("3_s8jf3")
 
 [node name="LIDOverlay" parent="." unique_id=1856798612 instance=ExtResource("4_y6cyi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="HeightOverlay" parent="." unique_id=1506760020 instance=ExtResource("5_s8jf3")]
 

@@ -8,9 +8,6 @@ class_name GeoGameObjectCollection
 
 var feature_layer: GeoFeatureLayer
 
-signal game_object_added(new_game_object)
-signal game_object_removed(removed_game_object)
-
 
 func _init(initial_name, initial_feature_layer):
 	super._init(initial_name)

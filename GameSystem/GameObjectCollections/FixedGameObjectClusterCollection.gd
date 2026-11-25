@@ -20,9 +20,6 @@ var feature_id_to_cluster_id = {}
 
 var last_change_from_within = false
 
-signal game_object_added(new_game_object)
-signal game_object_removed(removed_game_object)
-
 
 func _init(initial_name, initial_feature_layer, initial_instance_goc,
 		initial_cluster_centroid_layer, initial_cluster_points_layer):

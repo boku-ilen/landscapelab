@@ -84,6 +84,8 @@ func _create_and_set_texture_arrays():
 
 
 func load_feature_instance(feature: GeoFeature):
+	if not feature is GeoPolygon: return
+	
 	var building = Node3D.new()
 	var modular_metadata_instance = ModularBuildingMetadata.new()
 	var rng = RandomNumberGenerator.new()
@@ -113,6 +115,7 @@ func load_feature_instance(feature: GeoFeature):
 		original_metadata = modular_definition_by_name[selected_definition] as ModularBuildingMetadata
 	
 	modular_metadata_instance.floor_definitions = original_metadata.floor_definitions
+	
 	var building_metadata = BuildingMetadata.new(feature, center, layer_composition.render_info)
 	
 	# door locations from point features in door_layer

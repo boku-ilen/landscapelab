@@ -86,7 +86,12 @@ var lightning_frequency := 0.0 :
 var lightning_orientation := 0 :
 	set(new_orientation):
 		lightning_orientation = new_orientation
-		lightning_orientation_changed.emit(lightning_orientation)
+		lightning_orientation_changed.emit(new_orientation)
+
+
+## The current wind as a 2D force vector (direction in radians from north, magnitude = wind_speed)
+func get_wind_force() -> Vector2:
+	return Vector2.UP.rotated(deg_to_rad(wind_direction)) * wind_speed
 
 
 static var presets := {

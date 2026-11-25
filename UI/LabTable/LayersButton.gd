@@ -1,7 +1,7 @@
 extends TableButton
 
 
-@export var rendering_subviewport: SubViewportContainer
+@export var geo_layer_renderers: GeoLayerRenderers
 
 signal new_active(layer_def: LayerDefinition)
 
@@ -36,6 +36,8 @@ func _setup_layer_def(layer_def: LayerDefinition):
 			button.set_pressed(false)
 		else:
 			_set_color_ramp(layer_def)
+		
+		geo_layer_renderers.reload()
 	)
 	
 	$LayersPanel/HBoxContainer/Content.add_child(button)

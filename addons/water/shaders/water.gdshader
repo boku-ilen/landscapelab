@@ -47,6 +47,36 @@ varying float water_depth;
 uniform bool make_hole = false;
 uniform float hole_size = 50.0;
 
+uniform bool use_height_overlay = false;
+uniform sampler2D height_overlay: repeat_disable, filter_linear, hint_default_black;
+
+float get_height(vec2 uv, bool local_use_height_overlay) {
+	// R: Integer part of the overlay height (divided by 10)
+	// G: Fractional part of the overlay height (divided by 10)
+	// B: Mixing factor from overlay height (1.0) to heightmap height (0.0)
+	vec4 overlay_height_sample = texture(height_overlay, uv );
+
+	// Height directly from the heightmap
+	float heightmap_height = texture(heightmap, uv).r;
+
+	// Interpolating from a valid value to an invalid value presents us with faulty results,
+	//  since the result will seem valid (> 0.0), but actually be far lower than anything sensible.
+	// 	Therefore, we check all 4 values surrounding the sample position and don't use the overlay
+	//  height if any of them is invalid.
+	vec4 near_values = textureGather(height_overlay, uv);
+	bool is_surrounded_by_valid = (near_values.x > 0.0 && near_values.y > 0.0
+			&& near_values.z > 0.0 && near_values.w > 0.0);
+
+	if (is_surrounded_by_valid && local_use_height_overlay && use_height_overlay && overlay_height_sample.b > 0.01) {
+		// Blend between heightmap height and overlay height by the blue channel of the overlay height
+		return mix(heightmap_height, (overlay_height_sample.r + overlay_height_sample.g) * 10.0, overlay_height_sample.b);
+	}
+
+	// Clamp to prevent weird behavior with extreme nodata values
+	// TODO: Might have to be generalized further to be more robust
+	return clamp(heightmap_height, -1000.0, 50000.0);
+}
+
 
 vec4 wave(vec4 parameter, vec2 position, float time, inout vec3 tangent, inout vec3 binormal, float scale)
 {
@@ -73,16 +103,24 @@ void vertex() {
 	if (UV.x < -0.1 || UV.x > 1.1 || UV.y < -0.1 || UV.y > 1.1) {
 		VERTEX.y = -1000.0;
 	} else {
-		float height_here = texture(surface_heightmap, UV).r;
+		float lid = texture(landuse, UV).r;
+		float height_here = get_height(UV, true);
 		
-		if (height_here != 0.0) {
-			VERTEX.y = max(-100.0, height_here - 0.25);
-		} else {
+		vec4 lids = textureGather(landuse, UV);
+		
+		int water_lid_count = int(int(texture(landuse, UV).r / 1000.0) == 6)
+				+ int(int(texture(landuse, UV + vec2(0.002, 0.002)).r / 1000.0) == 6)
+				+ int(int(texture(landuse, UV + vec2(-0.002, 0.002)).r / 1000.0) == 6)
+				+ int(int(texture(landuse, UV + vec2(-0.002, -0.002)).r / 1000.0) == 6)
+				+ int(int(texture(landuse, UV + vec2(0.002, -0.002)).r / 1000.0) == 6);
+		
+		if (water_lid_count == 0) {
 			VERTEX.y = -100.0;
+		} else {
+			VERTEX.y = max(-100.0, height_here) - 0.2;
+			VERTEX.y -= float(5 - water_lid_count) * 0.2;
 		}
 	}
-	
-	water_depth = VERTEX.y - texture(heightmap, UV).r;
 
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
@@ -109,7 +147,7 @@ void vertex() {
 			+ wave(wave_b, world_pos.xz, TIME, tang, bin, camera_distance_factor)
 			+ wave(wave_c, world_pos.xz, TIME, tang, bin, camera_distance_factor);
 
-	vertex += wave_sample;
+	vertex.y += wave_sample.y;
 	vertex_height = wave_sample.y;
 
 	TANGENT = tang;
@@ -137,7 +175,7 @@ void fragment() {
 	NORMAL_MAP = n_out;
 	NORMAL_MAP_DEPTH = smoothstep(-2.0, 100.0, wind_speed);
 
-	vec3 color_out = mix(depth_color, surface_color,d);
+	vec3 color_out = depth_color;
 
 	ALBEDO = color_out;
 	ALBEDO = clamp(ALBEDO, vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0));

@@ -329,6 +329,5 @@ func _apply_new_wind():
 			var material = mesh.surface_get_material(surface_id)
 			
 			if material is ShaderMaterial:
-				var force = Vector2.UP.rotated(deg_to_rad(weather_manager.wind_direction)) * weather_manager.wind_speed
-				material.set_shader_parameter("wind_speed", force)
+				material.set_shader_parameter("wind_speed", weather_manager.get_wind_force())
 	

@@ -99,33 +99,17 @@ func _ready():
 	# A larger radius means that points are spaced further apart at this location.
 	# This renderer takes a custom formula with arbitrary raster layers for calculating this radius.
 	get_radius = func(x, y, center_x, center_y):
-		var formated_string = placement_formula
-		
 		var value_cache = {}
-		
-		while formated_string.find("$") >= 0:
-			var begin_index = formated_string.find("$", 0)
-			var length = formated_string.find("$", begin_index + 1) - begin_index
-			var slice = formated_string.substr(begin_index + 1, length - 1)
-			
+		return util.evaluate_formula(placement_formula, func(name):
 			var value
-			if value_cache.has(slice):
-				value = value_cache[slice]
+			if value_cache.has(name):
+				value = value_cache[name]
 			else:
-				var layer: GeoRasterLayer = placement_inputs[slice]
+				var layer: GeoRasterLayer = placement_inputs[name]
 				value = layer.get_value_at_position(center_x + (x - size / 2.0), center_y - (y - size / 2.0))
-				value_cache[slice] = value
-			
-			var value_string = "(%f)" % [value]  # Surround with parentheses to avoid errors with negative values
-		
-			formated_string = formated_string.left(begin_index) + value_string + formated_string.right(-(begin_index + length + 1))
-	
-		var expression = Expression.new()
-		expression.parse(formated_string)
-		
-		var result = expression.execute()
-		
-		return result
+				value_cache[name] = value
+			return "(%f)" % value  # Parentheses avoid errors with negative values
+		)
 	
 	create_multimeshes()
 	
@@ -378,5 +362,4 @@ func _apply_new_wind():
 				var material = mesh.surface_get_material(surface_id)
 				
 				if material is ShaderMaterial:
-					var force = Vector2.UP.rotated(deg_to_rad(weather_manager.wind_direction)) * weather_manager.wind_speed
-					material.set_shader_parameter("wind_speed", force)
+					material.set_shader_parameter("wind_speed", weather_manager.get_wind_force())

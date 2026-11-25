@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://ekaeroa1iqhs"]
+
+[ext_resource type="Theme" uid="uid://ceieaf3h61atb" path="res://UI/Theme/LightThemeTable.tres" id="1_8dral"]
+[ext_resource type="Texture2D" uid="uid://culwy6sl2k8sy" path="res://Resources/Icons/LabTable/buttons/next.svg" id="1_vclev"]
+[ext_resource type="Script" uid="uid://cq2oc0b3s6l0s" path="res://UI/LabTable/PersonaUI.gd" id="2_gpdy3"]
+[ext_resource type="StyleBox" uid="uid://dg3l5xqfdgxff" path="res://UI/LabTable/Style/PopupPanel.tres" id="3_8dral"]
+[ext_resource type="FontFile" path="res://UI/Fonts/Text.tres" id="5_q8fpl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_snkyd"]
+font_size = 30
+font_color = Color(0.33333334, 0.33333334, 0.33333334, 1)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_jov0c"]
+font = ExtResource("5_q8fpl")
+font_size = 18
+font_color = Color(0.33333334, 0.33333334, 0.33333334, 1)
+
+[node name="PersonaUI" type="Button" unique_id=709250478]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_8dral")
+icon = ExtResource("1_vclev")
+flat = true
+script = ExtResource("2_gpdy3")
+
+[node name="PersonaContent" type="PanelContainer" parent="." unique_id=1689745283]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -123.0
+offset_right = 117.0
+offset_bottom = 277.0
+grow_horizontal = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 76)
+theme_override_styles/panel = ExtResource("3_8dral")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PersonaContent" unique_id=67872786]
+custom_maximum_size = Vector2(220, -1)
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="PersonaContent/VBoxContainer" unique_id=916233153]
+custom_minimum_size = Vector2(220, 0)
+custom_maximum_size = Vector2(220, -1)
+layout_mode = 2
+text = "Sabine"
+label_settings = SubResource("LabelSettings_snkyd")
+autowrap_mode = 3
+
+[node name="SpeakLabel" type="Label" parent="PersonaContent/VBoxContainer" unique_id=1634937995]
+custom_minimum_size = Vector2(220, 0)
+custom_maximum_size = Vector2(220, -1)
+layout_mode = 2
+text = "Hallo! Ich bin eine Persona blablabla,  askd jaskd jask djask djask jask d asd as das asd asd asd asd as dasd as dasd as dasd asd asdasd asd asd asd d ad asd asd asd as dasd "
+label_settings = SubResource("LabelSettings_jov0c")
+autowrap_mode = 3

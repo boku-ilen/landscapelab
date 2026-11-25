@@ -7,6 +7,7 @@ var game_object_collections = {}
 var game_scores = {}
 var game_views = {}
 var game_events = {}
+var game_personas = {}
 
 var token_to_game_object_collection = {}
 
@@ -21,8 +22,10 @@ signal score_changed(score)
 signal score_target_reached(score)
 
 func activate():
-	for game_event in game_events.values():
-		game_event.apply_event(self)
+	pass
+	# FIXME: this is specific to the "GameModeSwitch" action thing and should not be here, but in the event itself via a connection to the GameSystem
+	#for game_event in game_events.values():
+		#game_event.apply_event(self)
 
 
 func add_game_object_collection(collection):

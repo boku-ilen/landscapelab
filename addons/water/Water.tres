@@ -57,3 +57,4 @@ shader_parameter/wind_speed = 5.0
 shader_parameter/wind_direction = Vector2(1, 1)
 shader_parameter/make_hole = false
 shader_parameter/hole_size = 50.0
+shader_parameter/use_height_overlay = false

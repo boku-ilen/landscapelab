@@ -279,6 +279,29 @@ func add_attribute_information(attribute: GameObjectAttribute, attribute_value, 
 				var icon_node = preload("res://UI/CustomElements/MarginTexture.tscn").instantiate()
 				icon_node.texture = icon
 				$Entries/Attributes/Information/OutlinedIcons.add_child(icon_node)
+		elif attribute.icon_settings.type == "show_if_below":
+			# Icon which only shows up if the attribute value exceeds a certain threshold
+			if not $Entries/Attributes/Information.has_node("OutlinedIcons"):
+				var hbox = HBoxContainer.new()
+				hbox.name = "OutlinedIcons"
+				$Entries/Attributes/Information.add_child(hbox)
+			if float(attribute_value) < attribute.icon_settings.threshold:
+				var icon = load(attribute.icon_settings.icon)
+				var icon_node = preload("res://UI/CustomElements/MarginTexture.tscn").instantiate()
+				icon_node.texture = icon
+				$Entries/Attributes/Information/OutlinedIcons.add_child(icon_node)
+		elif attribute.icon_settings.type == "class_icons":
+			# Icon which only shows up if the attribute value exceeds a certain threshold
+			if not $Entries/Attributes/Information.has_node("OutlinedIcons"):
+				var hbox = HBoxContainer.new()
+				hbox.name = "OutlinedIcons"
+				$Entries/Attributes/Information.add_child(hbox)
+			for threshold in attribute.icon_settings.icon_thresholds.keys():
+				if float(attribute_value) <= float(threshold):
+					var icon_node = preload("res://UI/CustomElements/MarginTexture.tscn").instantiate()
+					icon_node.texture = load(attribute.icon_settings.icon_thresholds[threshold])
+					$Entries/Attributes/Information/OutlinedIcons.add_child(icon_node)
+					break
 		elif attribute.icon_settings.type == "text_if_exceeds":
 			if float(attribute_value) >= attribute.icon_settings.threshold:
 				var label = Label.new()

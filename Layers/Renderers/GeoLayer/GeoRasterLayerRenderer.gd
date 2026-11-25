@@ -1,4 +1,5 @@
 extends GeoLayerRenderer
+class_name GeoRasterLayerRenderer
 
 
 @export var size_buffer_factor: float = 1.5
