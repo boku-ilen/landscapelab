@@ -288,7 +288,6 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 	var edge_vec: Vector2 = p2 - p1
 	var edge_length: float = edge_vec.length()
 	if edge_length < 0.01:
-		print("edge short")
 		return module_indices
 	var dir: Vector2 = edge_vec.normalized()
 
