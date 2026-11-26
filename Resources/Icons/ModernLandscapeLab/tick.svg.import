@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://77y603g68g0f"
-path="res://.godot/imported/path1.svg-1ae6efdbe9de1bd0e9a21b739e26918b.ctex"
+uid="uid://drewqapnikq7k"
+path="res://.godot/imported/tick.svg-d098409ab70f1db2a4cc9988a49c4c4f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Icons/ModernLandscapeLab/path1.svg"
-dest_files=["res://.godot/imported/path1.svg-1ae6efdbe9de1bd0e9a21b739e26918b.ctex"]
+source_file="res://Resources/Icons/ModernLandscapeLab/tick.svg"
+dest_files=["res://.godot/imported/tick.svg-d098409ab70f1db2a4cc9988a49c4c4f.ctex"]
 
 [params]
 
@@ -38,6 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
+svg/scale=4.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false
