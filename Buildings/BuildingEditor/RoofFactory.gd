@@ -54,9 +54,7 @@ static func prepare_roof(
 		# In case it is a very tall/big building, a flat roof will be most sensible
 		var is_big = building_metadata.extent > extent_threshold
 		var is_complex = building_metadata.footprint.size() > vertex_count_threshold
-		if is_big or is_complex:
-			roof = null # Will result in a flatroof (line if roof == null or not can_build_roof)
-		elif check_roof_type and walls_resource.prefer_pointed_roof:
+		if (check_roof_type and walls_resource.prefer_pointed_roof) and not (is_big or is_complex):
 			if feature.get_outer_vertices().size() == 5:
 				roof = roof_resources["saddle_roof"].instantiate().with_data(
 					feature.get_id(),

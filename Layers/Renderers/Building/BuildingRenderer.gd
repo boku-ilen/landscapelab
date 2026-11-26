@@ -1,6 +1,6 @@
 extends FeatureLayerCompositionRenderer
 
-@export var check_roof_type := true
+@export var check_roof_type := false
 
 var building_base_scene = preload("res://Buildings/BuildingBase.tscn")
 var node_types = preload("res://addons/building_graph_editor/BuildingGraphSystem/node_types.json")

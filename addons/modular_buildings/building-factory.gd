@@ -111,7 +111,20 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		temp_height += metadata.floor_definitions[min(temp_floor, len(metadata.floor_definitions) - 1)].height
 		temp_floor += 1
 	sources["floor_amount"].held_data = temp_floor
-
+	
+	# map point-specified special features to the what edges are affected
+	var point_edge_mapping = {}
+	for feature_id in metadata.feature_positions:
+		point_edge_mapping[feature_id] = []
+		for point in metadata.feature_positions[feature_id]:
+			var distances = []
+			for i in edges.size():
+				# get closest in-segment point
+				var closest_p = Geometry2D.get_closest_point_to_segment(point, edges[i].p0, edges[i].p1)
+				distances.append([i, (point - closest_p).length(), closest_p])
+			# store which edge passes the closest
+			distances.sort_custom(func (l1, l2): return l1[1] < l2[1])
+			point_edge_mapping[feature_id].append([distances[0][0], distances[0][2]])
 	
 	# Iterate floors and edges
 	var floor_num = 0
@@ -134,19 +147,6 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		
 		var corner_mesh = mesh_multi_map[floor_assets.corner_90].multimesh
 		
-		# map point-specified special features to the what edges are affected
-		var point_edge_mapping = {}
-		for feature_id in metadata.feature_positions:
-			point_edge_mapping[feature_id] = []
-			for point in metadata.feature_positions[feature_id]:
-				var distances = []
-				for i in edges.size():
-					# get closest in-segment point
-					var closest_p = Geometry2D.get_closest_point_to_segment(point, edges[i].p0, edges[i].p1)
-					distances.append([i, (point - closest_p).length(), closest_p])
-				# store which edge passes the closest
-				distances.sort_custom(func (l1, l2): return l1[1] < l2[1])
-				point_edge_mapping[feature_id].append([distances[0][0], distances[0][2]])
 		sources["floor_num"].held_data = floor_num
 		# Create the corner pieces, the edges will be updated according to they
 		# mesh extent (to guarantee no overlap)
