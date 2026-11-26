@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2026 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="27.8038mm" height="27.8038mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 94.03 94.03"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str1 {stroke:#BD77A1;stroke-width:0.68;stroke-miterlimit:22.9256;stroke-dasharray:1.352758 2.029136;stroke-opacity:0.600000}
+    .str0 {stroke:#ECECEC;stroke-width:3.58;stroke-miterlimit:22.9256}
+    .str2 {stroke:#DADADB;stroke-width:0.68;stroke-miterlimit:22.9256}
+    .str3 {stroke:#D2CEE8;stroke-width:0.68;stroke-miterlimit:22.9256}
+    .fil1 {fill:none}
+    .fil2 {fill:#DADADB}
+    .fil3 {fill:#EAE7F5}
+    .fil0 {fill:url(#id0)}
+   ]]>
+  </style>
+  <radialGradient id="id0" gradientUnits="objectBoundingBox" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+   <stop offset="0" style="stop-opacity:1; stop-color:#ECECEC"/>
+   <stop offset="1" style="stop-opacity:1; stop-color:white"/>
+  </radialGradient>
+ </defs>
+ <g id="Ebene_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <circle class="fil0 str0" cx="47.01" cy="47.01" r="45.23"/>
+  <path class="fil1 str1" d="M79.66 15.71c-2.47,1.77 -4.07,4.66 -4.07,7.93 0,0.31 0.01,0.62 0.04,0.93 -1.84,-0.87 -3.64,-1.37 -5.68,-1.37 -7.62,0 -13.79,6.17 -13.79,13.79 0,5.63 3.43,10.7 8.66,12.8 -1.75,2.46 -2.82,5.35 -3.11,8.36 -3.67,3.8 -5.7,8.42 -5.7,13.7 0,1.18 0.1,2.37 0.31,3.53 -0.11,0.87 -0.22,1.36 -0.22,2.24 0,4.55 1.47,8.98 4.19,12.62m-21.96 -53.66c0.01,0.13 0.08,-0.03 0.08,0.1 0,4.44 -3.6,8.04 -8.04,8.04 -4.44,0 -8.04,-3.6 -8.04,-8.04 0,-2.95 1.62,-5.67 4.22,-7.08 0.63,-3.48 3.66,-6.01 7.19,-6.01 4.04,0 7.31,3.27 7.31,7.31 0,2.2 -1,4.29 -2.71,5.68z"/>
+  <polygon class="fil2 str2" points="68.57,73.8 68.58,70.17 65.89,70.16 65.87,73.79 "/>
+  <polygon class="fil2 str2" points="32.15,29.32 35.29,31.15 36.65,28.82 33.51,26.99 "/>
+  <polygon class="fil2 str2" points="69.14,41.2 72.9,35.93 68.99,33.14 65.23,38.41 "/>
+  <polygon class="fil2 str2" points="67.74,57.98 71.38,57.98 71.38,55.29 67.74,55.29 "/>
+  <polygon class="fil2 str2" points="27.87,39.33 31.51,39.33 31.51,36.63 27.87,36.63 "/>
+  <g>
+   <path class="fil3 str3" d="M50.45 41.94l0 5.93 6.14 0 0 -6.25 -5.83 0c-0.24,0 -0.31,0.07 -0.31,0.31z"/>
+   <path class="fil3 str3" d="M50.45 62.34c0,0.24 0.07,0.31 0.31,0.31l5.83 0 0 -6.25 -6.14 0 0 5.93z"/>
+   <path class="fil3 str3" d="M28.59 77.33c0,0.24 0.07,0.31 0.31,0.31l5.83 0 0 -6.25 -6.14 0 0 5.93z"/>
+   <path class="fil3 str3" d="M43.16 40.07c0,0.24 0.07,0.31 0.31,0.31l5.83 0 0 -6.25 -6.14 0 0 5.93z"/>
+   <path class="fil3 str3" d="M6.42 55.06l6.25 0 0 -5.83c0,-0.24 -0.07,-0.31 -0.31,-0.31l-5.93 0 0 6.14z"/>
+   <path class="fil3 str3" d="M43.16 62.34c0,0.24 0.07,0.31 0.31,0.31l5.83 0 0 -6.25 -6.14 0 0 5.93z"/>
+   <path class="fil3 str3" d="M43.16 41.94l0 5.93 6.14 0 0 -6.25 -5.83 0c-0.24,0 -0.31,0.07 -0.31,0.31z"/>
+   <polygon class="fil3 str3" points="28.59,55.06 34.73,55.06 34.73,48.92 28.59,48.92 "/>
+   <polygon class="fil3 str3" points="35.87,55.06 42.01,55.06 42.01,48.92 35.87,48.92 "/>
+   <polygon class="fil3 str3" points="50.45,55.06 56.59,55.06 56.59,48.92 50.45,48.92 "/>
+   <polygon class="fil3 str3" points="43.16,55.06 49.3,55.06 49.3,48.92 43.16,48.92 "/>
+   <polygon class="fil3 str3" points="43.16,70.05 49.3,70.05 49.3,63.91 43.16,63.91 "/>
+   <polygon class="fil3 str3" points="13.81,70.05 19.95,70.05 19.95,63.91 13.81,63.91 "/>
+   <polygon class="fil3 str3" points="21.3,55.06 27.44,55.06 27.44,48.92 21.3,48.92 "/>
+  </g>
+ </g>
+</svg>

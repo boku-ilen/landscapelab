@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2021.5 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="328px" height="328px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 41.82 41.82"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#EBECEC;stroke-width:1.59;stroke-miterlimit:22.9256}
+    .fil1 {fill:#A8DAF0}
+    .fil2 {fill:#A7D5E8;fill-rule:nonzero;fill-opacity:0.400000}
+    .fil3 {fill:#8BC9E3;fill-rule:nonzero;fill-opacity:0.701961}
+    .fil0 {fill:url(#id0)}
+   ]]>
+  </style>
+  <radialGradient id="id0" gradientUnits="objectBoundingBox" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+   <stop offset="0" style="stop-opacity:1; stop-color:#EBECEC"/>
+   <stop offset="1" style="stop-opacity:1; stop-color:#FEFEFE"/>
+  </radialGradient>
+ </defs>
+ <g id="Ebene_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <circle class="fil0 str0" cx="20.91" cy="20.91" r="20.11"/>
+  <g id="_1973106579600">
+   <path class="fil1" d="M9.93 11.35c0,-2.75 2.23,-4.97 4.97,-4.97 2.74,0 4.97,2.22 4.97,4.97 0,2.74 -2.23,4.96 -4.97,4.96l-9.93 0c-0.64,0 -1.15,-0.51 -1.15,-1.14 0,-0.64 0.51,-1.15 1.15,-1.15l9.93 0c1.48,0 2.67,-1.2 2.67,-2.67 0,-1.48 -1.19,-2.68 -2.67,-2.68 -1.48,0 -2.67,1.2 -2.67,2.68l0 0.54c0,0.63 -0.52,1.15 -1.15,1.15 -0.63,0 -1.15,-0.52 -1.15,-1.15l0 -0.54z"/>
+   <path class="fil2" d="M5.35 24.34c0,-0.64 0.51,-1.15 1.14,-1.15l22.16 0c3.59,0 6.5,2.91 6.5,6.49 0,3.59 -2.91,6.5 -6.5,6.5 -3.58,0 -6.49,-2.91 -6.49,-6.5l0 -0.76c0,-0.63 0.51,-1.15 1.15,-1.15 0.63,0 1.14,0.52 1.14,1.15l0 0.76c0,2.33 1.88,4.21 4.2,4.21 2.33,0 4.21,-1.88 4.21,-4.21 0,-2.32 -1.88,-4.2 -4.21,-4.2l-22.16 0c-0.63,0 -1.14,-0.51 -1.14,-1.14z"/>
+   <path class="fil3" d="M22.16 14.4c0,-3.59 2.91,-6.49 6.49,-6.49 3.59,0 6.5,2.9 6.5,6.49 0,3.59 -2.91,6.5 -6.5,6.5l-25.21 0c-0.64,0 -1.15,-0.52 -1.15,-1.15 0,-0.63 0.51,-1.15 1.15,-1.15l25.21 0c2.33,0 4.21,-1.88 4.21,-4.2 0,-2.32 -1.88,-4.2 -4.21,-4.2 -2.32,0 -4.2,1.88 -4.2,4.2l0 0.77c0,0.63 -0.51,1.14 -1.14,1.14 -0.64,0 -1.15,-0.51 -1.15,-1.14l0 -0.77z"/>
+  </g>
+ </g>
+</svg>

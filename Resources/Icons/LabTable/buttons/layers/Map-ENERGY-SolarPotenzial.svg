@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2021.5 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="328px" height="328px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 57.69 57.69"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#EBECEC;stroke-width:2.2;stroke-miterlimit:22.9256}
+    .fil1 {fill:#FEDF5F;fill-opacity:0.501961}
+    .fil0 {fill:url(#id0)}
+   ]]>
+  </style>
+  <radialGradient id="id0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 -0 -0 1 0 0)" cx="28.85" cy="28.85" r="48.97" fx="28.85" fy="28.85">
+   <stop offset="0" style="stop-opacity:1; stop-color:#EBECEC"/>
+   <stop offset="1" style="stop-opacity:1; stop-color:#FEFEFE"/>
+  </radialGradient>
+ </defs>
+ <g id="Ebene_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <circle class="fil0 str0" cx="28.85" cy="28.85" r="27.75"/>
+  <path class="fil1" d="M12.74 46.49l-6.3 -23.53 0.03 -0.01 0.02 0 0.02 0c0.11,-0.03 0.21,-0.06 0.31,-0.08l0.02 -0.01 0.01 0 0.03 -0.01 0 0 0.02 0c0.11,-0.03 0.22,-0.06 0.33,-0.09l0.01 -0.01 0 0 0.04 -0.01 0.02 0c0.1,-0.03 0.2,-0.06 0.31,-0.1l6.75 25.2c-0.56,-0.42 -1.1,-0.87 -1.62,-1.35zm10.24 -40.15c-0.09,0.4 -0.2,0.79 -0.31,1.17l25.08 6.72c-0.44,-0.56 -0.9,-1.1 -1.38,-1.62l-23.39 -6.27zm-2.1 5.49c-0.19,0.35 -0.4,0.7 -0.61,1.05l32.32 18.65c0.05,-0.44 0.08,-0.88 0.11,-1.33l-31.82 -18.37zm-3.45 4.75c-0.09,0.09 -0.17,0.17 -0.25,0.26l-0.02 0.01 -0.01 0.01 -0.01 0.02 -0.02 0.01c-0.08,0.08 -0.16,0.16 -0.24,0.24l-0.01 0.02 -0.01 0.01 -0.02 0.01 -0.01 0.02c-0.08,0.07 -0.16,0.15 -0.25,0.23l-0.01 0.02 28.73 28.73c0.3,-0.28 0.58,-0.57 0.86,-0.86l-28.73 -28.73zm12.76 36.12c0.44,-0.02 0.89,-0.06 1.33,-0.11l-18.65 -32.31c-0.22,0.14 -0.45,0.27 -0.67,0.39l-0.02 0.01 0 0 -0.01 0.01c-0.11,0.06 -0.22,0.12 -0.33,0.18l-0.02 0.02 18.37 31.81z"/>
+ </g>
+</svg>

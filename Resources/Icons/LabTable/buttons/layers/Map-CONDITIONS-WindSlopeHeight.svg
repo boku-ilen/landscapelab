@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2021.5 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="328px" height="328px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 111.31 111.31"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#EBECEC;stroke-width:4.24;stroke-miterlimit:22.9256}
+    .str1 {stroke:#6F7A82;stroke-width:0.71;stroke-linecap:round;stroke-miterlimit:22.9256}
+    .str2 {stroke:#6F7A82;stroke-width:0.71;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .fil1 {fill:none}
+    .fil5 {fill:none;fill-rule:nonzero}
+    .fil6 {fill:#6F7A82}
+    .fil2 {fill:#A2BDAD}
+    .fil3 {fill:#D7EAF1}
+    .fil4 {fill:#8BC9E3;fill-rule:nonzero;fill-opacity:0.701961}
+    .fil0 {fill:url(#id0)}
+   ]]>
+  </style>
+  <radialGradient id="id0" gradientUnits="objectBoundingBox" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+   <stop offset="0" style="stop-opacity:1; stop-color:#EBECEC"/>
+   <stop offset="1" style="stop-opacity:1; stop-color:#FEFEFE"/>
+  </radialGradient>
+ </defs>
+ <g id="Ebene_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <circle class="fil0 str0" cx="55.65" cy="55.65" r="53.54"/>
+  <line class="fil1 str1" x1="35.97" y1="74.34" x2="53.08" y2= "74.34" />
+  <path class="fil1 str1" d="M50.35 74.34c0,-2.89 -0.9,-5.72 -2.58,-8.07"/>
+  <path class="fil2" d="M106.37 71.96c0.32,-1.56 -3.24,-3.2 -4.64,-3.95 -2.01,-1.08 -4.01,-1.83 -6.41,-2.58 -5.45,-1.69 -8.26,-3.05 -11.88,-6.03 -2.61,-2.15 -6.69,-6.03 -11.88,-6 -5.55,0.04 -9.12,3.94 -11.91,6.11 -4.42,3.44 -5.74,3.82 -11.76,6.15 -4.65,1.8 -7.08,4.84 -10.58,7.29 -3.63,2.55 -7.63,4.13 -12.49,5.45 -3.73,1.02 -11.19,2.67 -13.21,4.95 -1.74,1.97 2.22,-0.84 4.96,-1.92 6.38,-2.51 12.21,-2.25 19.87,-7.09 3.69,-2.32 6.47,-5.67 10.39,-7.47 5.23,-2.4 7.73,-2.51 12.15,-5.92 9.71,-7.51 12.64,-10.29 23.68,-1.24 3.63,2.97 6.23,4.45 11.71,6.19 2.38,0.76 4.46,1.4 6.52,2.46 2.2,1.14 3.99,2.83 5.48,3.6z"/>
+  <path class="fil3" d="M51.83 49.2c0,3.02 2.46,5.48 5.48,5.48 3.03,0 5.48,-2.46 5.48,-5.48 0,-3.03 -2.45,-5.48 -5.48,-5.48l-10.95 0c-0.7,0 -1.27,0.57 -1.27,1.27 0,0.69 0.57,1.26 1.27,1.26l10.95 0c1.63,0 2.95,1.32 2.95,2.95 0,1.63 -1.32,2.95 -2.95,2.95 -1.63,0 -2.95,-1.32 -2.95,-2.95l0 -0.6c0,-0.7 -0.56,-1.27 -1.26,-1.27 -0.7,0 -1.27,0.57 -1.27,1.27l0 0.6z"/>
+  <path class="fil4" d="M65.32 34.03c0,-3.95 3.2,-7.16 7.16,-7.16 3.95,0 7.16,3.21 7.16,7.16 0,3.96 -3.21,7.16 -7.16,7.16l-27.81 0c-0.7,0 -1.26,-0.56 -1.26,-1.26 0,-0.7 0.56,-1.26 1.26,-1.26l27.81 0c2.56,0 4.63,-2.08 4.63,-4.64 0,-2.56 -2.07,-4.63 -4.63,-4.63 -2.56,0 -4.64,2.07 -4.64,4.63l0 0.84c0,0.7 -0.56,1.27 -1.26,1.27 -0.7,0 -1.26,-0.57 -1.26,-1.27l0 -0.84z"/>
+  <polyline class="fil5 str2" points="33.12,58.82 35.97,55.97 38.82,58.82 "/>
+  <line class="fil5 str2" x1="35.97" y1="55.97" x2="35.97" y2= "69.22" />
+  <circle class="fil6" cx="35.97" cy="74.34" r="1.19"/>
+ </g>
+</svg>

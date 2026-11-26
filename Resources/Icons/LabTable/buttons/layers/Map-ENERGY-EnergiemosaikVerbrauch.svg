@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2021.5 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="328px" height="328px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 27.19 27.19"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#EBECEC;stroke-width:1.04;stroke-miterlimit:22.9256}
+    .str1 {stroke:#E8CD6A;stroke-width:0.35;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str2 {stroke:#6F7A82;stroke-width:0.17;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .fil2 {fill:none;fill-rule:nonzero}
+    .fil1 {fill:#E7EDE4}
+    .fil3 {fill:#DAE2E8;fill-rule:nonzero}
+    .fil4 {fill:white;fill-rule:nonzero}
+    .fil0 {fill:url(#id0)}
+   ]]>
+  </style>
+  <radialGradient id="id0" gradientUnits="objectBoundingBox" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+   <stop offset="0" style="stop-opacity:1; stop-color:#EBECEC"/>
+   <stop offset="1" style="stop-opacity:1; stop-color:#FEFEFE"/>
+  </radialGradient>
+ </defs>
+ <g id="Ebene_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <circle class="fil0 str0" cx="13.6" cy="13.6" r="13.08"/>
+  <g id="_1973403095904">
+   <path class="fil1" d="M10.95 16.93c0,0.07 0.02,0.09 0.09,0.09l1.63 0c0.07,0 0.09,-0.02 0.09,-0.09l0 -1.63c0,-0.06 -0.02,-0.09 -0.09,-0.09l-1.72 0 0 1.72z"/>
+   <path class="fil1" d="M10.95 21.26c0,0.07 0.02,0.1 0.09,0.1l1.63 0c0.07,0 0.09,-0.03 0.09,-0.1l0 -1.62c0,-0.07 -0.02,-0.09 -0.09,-0.09l-1.72 0 0 1.71z"/>
+   <path class="fil1" d="M19.47 10.49c0,0.07 0.02,0.09 0.09,0.09l1.69 0 0 -1.81 -1.78 0 0 1.72z"/>
+   <path class="fil1" d="M17.36 11.03l0 1.72 1.78 0 0 -1.81 -1.69 0c-0.07,0 -0.09,0.02 -0.09,0.09z"/>
+   <path class="fil1" d="M19.47 11.03l0 1.72 1.78 0 0 -1.81 -1.69 0c-0.07,0 -0.09,0.02 -0.09,0.09z"/>
+   <path class="fil1" d="M23.69 11.03l0 1.72 1.77 0 0 -1.81 -1.68 0c-0.07,0 -0.09,0.02 -0.09,0.09z"/>
+   <path class="fil1" d="M8.84 16.93c0,0.07 0.03,0.09 0.09,0.09l1.69 0 0 -1.81 -1.78 0 0 1.72z"/>
+   <path class="fil1" d="M17.36 16.93c0,0.07 0.02,0.09 0.09,0.09l1.69 0 0 -1.81 -1.78 0 0 1.72z"/>
+   <path class="fil1" d="M23.69 16.93c0,0.07 0.02,0.09 0.09,0.09l1.68 0 0 -1.81 -1.77 0 0 1.72z"/>
+   <path class="fil1" d="M19.47 21.26c0,0.07 0.02,0.1 0.09,0.1l1.69 0 0 -1.81 -1.78 0 0 1.71z"/>
+   <path class="fil1" d="M17.36 21.26c0,0.07 0.02,0.1 0.09,0.1l1.69 0 0 -1.81 -1.78 0 0 1.71z"/>
+   <path class="fil1" d="M19.47 16.93c0,0.07 0.02,0.09 0.09,0.09l1.69 0 0 -1.81 -1.78 0 0 1.72z"/>
+   <path class="fil1" d="M6.74 16.93c0,0.07 0.02,0.09 0.09,0.09l1.68 0 0 -1.81 -1.77 0 0 1.72z"/>
+   <path class="fil1" d="M21.58 10.49c0,0.07 0.02,0.09 0.09,0.09l1.68 0 0 -1.81 -1.77 0 0 1.72z"/>
+   <path class="fil1" d="M15.26 21.26c0,0.07 0.02,0.1 0.09,0.1l1.68 0 0 -1.81 -1.77 0 0 1.71z"/>
+   <path class="fil1" d="M13.09 21.26c0,0.07 0.02,0.1 0.09,0.1l1.68 0 0 -1.81 -1.77 0 0 1.71z"/>
+   <path class="fil1" d="M10.95 14.82l1.81 0 0 -1.68c0,-0.07 -0.02,-0.09 -0.09,-0.09l-1.72 0 0 1.77z"/>
+   <path class="fil1" d="M10.95 19.16l1.81 0 0 -1.69c0,-0.07 -0.02,-0.09 -0.09,-0.09l-1.72 0 0 1.78z"/>
+   <path class="fil1" d="M21.58 16.93c0,0.07 0.02,0.09 0.09,0.09l1.68 0 0 -1.81 -1.77 0 0 1.72z"/>
+   <path class="fil1" d="M13.09 16.93c0,0.07 0.02,0.09 0.09,0.09l1.68 0 0 -1.81 -1.77 0 0 1.72z"/>
+   <path class="fil1" d="M15.26 16.93c0,0.07 0.02,0.09 0.09,0.09l1.68 0 0 -1.81 -1.77 0 0 1.72z"/>
+   <path class="fil1" d="M13.09 11.03l0 1.72 1.77 0 0 -1.81 -1.68 0c-0.07,0 -0.09,0.02 -0.09,0.09z"/>
+   <path class="fil1" d="M21.58 11.03l0 1.72 1.77 0 0 -1.81 -1.68 0c-0.07,0 -0.09,0.02 -0.09,0.09z"/>
+   <polygon class="fil1" points="8.84,14.82 10.62,14.82 10.62,13.05 8.84,13.05 "/>
+   <polygon class="fil1" points="17.36,14.82 19.14,14.82 19.14,13.05 17.36,13.05 "/>
+   <polygon class="fil1" points="19.47,14.82 21.25,14.82 21.25,13.05 19.47,13.05 "/>
+   <polygon class="fil1" points="23.69,14.82 25.46,14.82 25.46,13.05 23.69,13.05 "/>
+   <polygon class="fil1" points="8.84,19.16 10.62,19.16 10.62,17.38 8.84,17.38 "/>
+   <polygon class="fil1" points="17.36,19.16 19.14,19.16 19.14,17.38 17.36,17.38 "/>
+   <polygon class="fil1" points="19.47,19.16 21.25,19.16 21.25,17.38 19.47,17.38 "/>
+   <polygon class="fil1" points="21.58,14.82 23.35,14.82 23.35,13.05 21.58,13.05 "/>
+   <polygon class="fil1" points="13.09,14.82 14.86,14.82 14.86,13.05 13.09,13.05 "/>
+   <polygon class="fil1" points="21.58,19.16 23.35,19.16 23.35,17.38 21.58,17.38 "/>
+   <polygon class="fil1" points="15.26,19.16 17.03,19.16 17.03,17.38 15.26,17.38 "/>
+   <polygon class="fil1" points="13.09,19.16 14.86,19.16 14.86,17.38 13.09,17.38 "/>
+   <polygon class="fil1" points="15.26,14.82 17.03,14.82 17.03,13.05 15.26,13.05 "/>
+  </g>
+  <polyline class="fil2 str1" points="21.48,10.56 19.23,13.93 21.48,13.93 19.8,17.31 "/>
+  <g id="_1973403131088">
+   <path class="fil3" d="M3.23 11.91c0,-3.37 2.74,-6.11 6.11,-6.11 3.38,0 6.11,2.74 6.11,6.11l-12.22 0z"/>
+   <line class="fil2 str2" x1="9.34" y1="11.91" x2="11.84" y2= "8.58" />
+   <line class="fil2 str2" x1="13.79" y1="8.58" x2="12.95" y2= "9.41" />
+   <line class="fil2 str2" x1="4.9" y1="8.58" x2="5.73" y2= "9.41" />
+   <line class="fil2 str2" x1="9.34" y1="6.91" x2="9.34" y2= "8.02" />
+   <circle class="fil4 str2" cx="9.34" cy="11.91" r="0.83"/>
+  </g>
+ </g>
+</svg>
