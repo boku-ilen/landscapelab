@@ -267,4 +267,6 @@ func get_lat_lon():
 
 func set_world_position(world_position):
 	var new_pos = position_manager.to_engine_coordinates(world_position)
+	# Start high up to prevent weird looking terrain during a hanging loading frame
+	if new_pos.y == 0.0: new_pos.y = 1000.0
 	teleport(new_pos)
