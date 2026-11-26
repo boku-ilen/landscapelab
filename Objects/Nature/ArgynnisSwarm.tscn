@@ -68,7 +68,7 @@ shader_parameter/uv2_offset = Vector3(0, 0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_krruj"]
 shader = ExtResource("2_frxu0")
-shader_parameter/radius = 1.0
+shader_parameter/radius = 10.0
 shader_parameter/texture_weight = 4.0
 shader_parameter/random_weight = 1.0
 shader_parameter/total_weight = 2.0
@@ -80,14 +80,14 @@ shader_parameter/center_pull_weight = 1.0
 shader_parameter/y_center_pull_weight = 5.0
 shader_parameter/change_pitch = false
 
-[node name="ArgynnisSwarm" type="Node3D"]
+[node name="ArgynnisSwarm" type="Node3D" unique_id=837936536]
 
-[node name="SwarmParticles" parent="." instance=ExtResource("1_svn11")]
+[node name="SwarmParticles" parent="." unique_id=1015245034 instance=ExtResource("1_svn11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 layers = 4
 material_override = SubResource("ShaderMaterial_kf46k")
 extra_cull_margin = 0.0
 emitting = true
-amount = 10
+amount = 3
 process_material = SubResource("ShaderMaterial_krruj")
 draw_pass_1 = ExtResource("3_l0gow")

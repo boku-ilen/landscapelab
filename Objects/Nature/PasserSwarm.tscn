@@ -48,9 +48,9 @@ shader_parameter/center_pull_weight = 0.2
 shader_parameter/y_center_pull_weight = 10.0
 shader_parameter/change_pitch = true
 
-[node name="PasserSwarm" type="Node3D"]
+[node name="PasserSwarm" type="Node3D" unique_id=436705066]
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=1117933889]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 material_override = SubResource("ShaderMaterial_23flt")
 amount = 5
