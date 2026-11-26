@@ -354,8 +354,8 @@ class ScatteredObjectInfo extends RenderInfo:
 	var height_layer: GeoRasterLayer
 	var scatter_layer: GeoRasterLayer
 	var objects: Dictionary
-	var chunk_size := 100.0
-	var extent := 3
+	var chunk_size := 200.0
+	var extent := 2
 	var detail_distance := 100.0
 	
 	func _init():
