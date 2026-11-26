@@ -40,6 +40,8 @@ func load_feature_instance(feature: GeoFeature):
 	var height_getter
 	var height_type = property_dict.get("height_type", "Exact")
 	
+	var length = property_dict.get("length", 1.0)
+	
 	if height_type == "Lerped Line":
 		height_getter = CurveHeightGetters.LerpedLineCurveHeightGetter.new(
 			vertices,
@@ -74,17 +76,19 @@ func load_feature_instance(feature: GeoFeature):
 			next_point.y = height_getter.get_height(vertices.get_closest_offset(next_point))
 		else: next_point = next_next_point
 		
-		next_next_point = vertices.get_point_position(min(i + 2, vertices.point_count - 1))
+		# Skip if this is a duplicated vertex (seems to happen sometimes)
+		if point == next_point: continue
 		
 		if i + 2 > vertices.point_count - 1:
 			# This is the last point -> interpolate forward for the direction of the last vertex
-			var direction = next_point - point
-			next_next_point = next_point + direction
-		
-		next_next_point.y = height_getter.get_height(vertices.get_closest_offset(next_next_point))
+			next_next_point = next_point + (next_point - point)
+			next_next_point.y = next_point.y
+		else:
+			next_next_point = vertices.get_point_position(min(i + 2, vertices.point_count - 1))
+			next_next_point.y = height_getter.get_height(vertices.get_closest_offset(next_next_point))
 		
 		# Duplicate our prototype instance to get the instance for this segment
-		var instance = prototype_scene.duplicate()
+		var instance = prototype_scene.duplicate(5)
 		
 		# Setup the matrices for the start and end of this object
 		var start_transform = Transform3D(Basis.IDENTITY, point)
@@ -94,7 +98,7 @@ func load_feature_instance(feature: GeoFeature):
 		end_transform = end_transform.looking_at(next_next_point)
 		
 		instance.set_segment_start_end(start_transform, end_transform)
-		instance.set_mesh_length(property_dict.get("length", 1.0))
+		instance.set_mesh_length(length)
 		
 		# Since the object gets its position and size purely from the start and end matrices in the
 		#  custom shader, the default AABB is entirely wrong and we need to construct it ourselves.
