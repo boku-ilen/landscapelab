@@ -93,9 +93,12 @@ float get_height(vec2 uv, bool local_use_height_overlay) {
 		return mix(heightmap_height, (overlay_height_sample.r + overlay_height_sample.g) * 10.0, overlay_height_sample.b);
 	}
 
-	// Clamp to prevent weird behavior with extreme nodata values
+	// Prevent weird behavior with extreme nodata values
 	// TODO: Might have to be generalized further to be more robust
-	return clamp(heightmap_height, -1000.0, 50000.0);
+	if (heightmap_height < -1000.0 || heightmap_height > 10000.0) {
+		heightmap_height = 0.0;
+	}
+	return heightmap_height;
 }
 
 vec3 get_normal(vec2 normal_uv_pos) {
